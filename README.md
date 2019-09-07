@@ -1,4 +1,6 @@
-# startupjs
+# StartupJS
+
+> React Native + Web full-stack framework
 
 ## Install:
 
