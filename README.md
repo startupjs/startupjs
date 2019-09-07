@@ -2,7 +2,7 @@
 
 Installation:
 
-**Step 1: Initialize new React Native project**
+### Step 1: Initialize new React Native project
 
 Change *appname* to the name of your app in lowercase and without dashes or underscores.
 
@@ -19,13 +19,13 @@ npx react-native@next init appname --version next
 
 This will create a new React Native project in the *appname* folder.
 
-**Step 2: Install *startupjs* building blocks**
+### Step 2: Install *startupjs* building blocks
 
 ```bash
 yarn add dm-bundler@alpha dm-sharedb-server@alpha react-sharedb@experimental
 ```
 
-**Step 3: Configure Babel (for all targets)**
+### Step 3: Configure Babel (for all targets)
 
 Change `babel.config.js` to:
 
@@ -47,7 +47,7 @@ const config = require('dm-bundler/babel.config')
 module.exports = config
 ```
 
-**Step 4: Configure Metro builder**
+### Step 4: Configure Metro builder
 
 Change `metro.config.js` to:
 
@@ -59,4 +59,4 @@ const config = require('dm-bundler/metro.config')
 module.exports = config
 ```
 
-**Step 5: Configure Webpack builder for Web**
+### Step 5: Configure Webpack builder for Web
