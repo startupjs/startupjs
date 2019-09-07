@@ -19,6 +19,7 @@ npx react-native@next init appname --version next
 
 This will create a new React Native project in the *appname* folder.
 
+
 **Step 2: Install *startupjs* building blocks**
 
 ```bash
