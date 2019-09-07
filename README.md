@@ -25,28 +25,38 @@ This will create a new React Native project in the *appname* folder.
 yarn add dm-bundler@alpha dm-sharedb-server@alpha react-sharedb@experimental
 ```
 
-**Step 3: Configure Metro builder**
+**Step 3: Configure Babel (for all targets)**
 
-1. Change `babel.config.js` to:
+Change `babel.config.js` to:
 
 ```js
-const { babelConfig } = require('dm-bundler')
+const config = require('dm-bundler/babel.config')
 
-// Override default babelrc config here.
+// Override default babel config here.
 
 // Default plugins are used for all targets - native, web and server:
-// - babelrc.plugins
+// - config.plugins
 
 // There are also the following target-specific envs with their own presets and plugins:
-// - babelrc.env.development         // native-only (client) dev
-// - babelrc.env.production          // native-only (client) prod
-// - babelrc.env.web_development     // web-only (client) dev
-// - babelrc.env.web_production      // web-only (client) prod
-// - babelrc.server                  // node.js (server) dev/prod
+// - config.env.development         // native client dev
+// - config.env.production          // native client prod
+// - config.env.web_development     // web client dev
+// - config.env.web_production      // web client prod
+// - config.env.server              // server dev/prod
 
-module.exports = babelConfig
+module.exports = config
 ```
 
-2. 
+**Step 4: Configure Metro builder**
 
-**Step 4: Configure Webpack builder for Web**
+Change `metro.config.js` to:
+
+```js
+const config = require('dm-bundler/metro.config')
+
+// Override default metro config here.
+
+module.exports = config
+```
+
+**Step 5: Configure Webpack builder for Web**
