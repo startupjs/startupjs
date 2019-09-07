@@ -1,6 +1,6 @@
 # startupjs
 
-Installation:
+## Installation instructions:
 
 ### Step 1: Initialize new React Native project
 
