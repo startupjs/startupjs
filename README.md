@@ -61,4 +61,47 @@ const config = require('dm-bundler/metro.config')
 module.exports = config
 ```
 
-### Step 5: Configure Webpack builder for Web
+### Step 5: Configure Web
+
+1. Add `webpack.web.config.js` with:
+
+```js
+const getConfig = require('dm-bundler/webpack.web.config')
+
+module.exports = getConfig(undefined, {
+  forceCompileModules: [],
+  alias: {}
+})
+```
+
+2. Add `index.web.js` with:
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+const ROOT_CONTAINER_ID = 'app'
+
+ReactDOM.render(<App />, document.getElementById(ROOT_CONTAINER_ID))  
+```
+
+3. Install `react-dom` to be able to render app in browser
+
+```bash
+yarn add react-dom
+```
+
+### Step 6: Configure Server (Node.js)
+
+Add `webpack.server.config.js` with:
+
+```js
+const getConfig = require('dm-bundler/webpack.server.config')
+
+module.exports = getConfig(undefined, {
+  forceCompileModules: [],
+  alias: {}
+})
+```
+
