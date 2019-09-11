@@ -117,7 +117,20 @@ BASE_URL=http://127.0.0.1:3000
 BASE_URL=https://example.com
 ```
 
-4. Add `server.js` with:
+4. Add `config.json` for default development server config:
+
+```json
+{
+  "NODE_ENV": "development",
+  "BASE_URL": "http://localhost:3000",
+  "REDIS_URL": "redis://localhost:6379/1",
+  "MONGO_URL": "mongodb://localhost:27017/startupjs"
+}
+```
+
+Override this configuration with providing custom env vars when running the app server in production.
+
+5. Add `server.js` with:
 
 ```js
 import 'react-sharedb/init'
