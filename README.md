@@ -119,16 +119,17 @@ BASE_URL=https://example.com
 
 4. Add `config.json` for default development server config:
 
-  ```json
-  {
-    "NODE_ENV": "development",
-    "BASE_URL": "http://localhost:3000",
-    "REDIS_URL": "redis://localhost:6379/1",
-    "MONGO_URL": "mongodb://localhost:27017/startupjs"
-  }
-  ```
+```json
+{
+  "NODE_ENV": "development",
+  "BASE_URL": "http://localhost:3000",
+  "REDIS_URL": "redis://localhost:6379/1",
+  "MONGO_URL": "mongodb://localhost:27017/startupjs"
+}
+```
 
-  NOTE: You can override this configuration in producion by providing custom env vars when running the server
+    NOTE: You can override this configuration in producion by providing
+          custom env vars when running the server
 
 5. Add `server.js` with:
 
