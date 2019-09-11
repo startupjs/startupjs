@@ -128,7 +128,7 @@ BASE_URL=https://example.com
 }
 ```
 
-  - NOTE: You can override this configuration in producion by providing custom env vars when running the server
+  - NOTE: You can override this configuration in production by providing custom env vars when running the server
 
 5. Add `server.js` with:
 
