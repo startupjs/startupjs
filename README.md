@@ -94,7 +94,7 @@ yarn add react-dom
 
 ### Step 6: Configure Server (Node.js)
 
-Add `webpack.server.config.js` with:
+1. Add `webpack.server.config.js` with:
 
 ```js
 const getConfig = require('dm-bundler/webpack.server.config')
@@ -105,3 +105,33 @@ module.exports = getConfig(undefined, {
 })
 ```
 
+2. Add `.env` for default (development) client-side public env vars:
+
+```
+BASE_URL=http://127.0.0.1:3000
+```
+
+3. Add `.env.production` with overrides for release-build client env vars:
+
+```
+BASE_URL=https://example.com
+```
+
+4. Add `server.js` with:
+
+```js
+import 'react-sharedb/init'
+import shareDbServer from 'dm-sharedb-server'
+
+// Check 'dm-sharedb-server' readme for the full shareDbServer API
+shareDbServer({ getHead }, ee => {
+  ee.on('routes', expressApp => {
+    expressApp.get('/api', (req, res) => res.json({ text: 'Test API' }))
+  })
+})
+
+const getHead = appName => `
+  <title>StartupJs</title>
+  <!-- Put vendor JS and CSS here -->
+`
+```
