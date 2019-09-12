@@ -143,7 +143,13 @@ BASE_URL=https://example.com
 
   - NOTE: You can override this configuration in production by providing custom env vars when running the server
 
-5. Add `server.js` with:
+5. Install `nconf` to be able to get server configuration:
+
+```
+yarn add nconf
+```
+
+6. Add `server.js` with:
 
 ```js
 import 'react-sharedb/init'
