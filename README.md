@@ -74,7 +74,13 @@ $COLORS = {
 
 **Important:** This file will be compiled with each component separately. ONLY write abstact code here, like global variables, mixins and helpers. NEVER write real selectors or classes here.
 
-### Step 6: Configure Web
+### Step 6: Install webpack (it is used to compile web and server)
+
+```yarn
+yarn add -D webpack webpack-cli webpack-dev-server
+```
+
+### Step 7: Configure Web
 
 1. Add `webpack.web.config.js` with:
 
@@ -105,7 +111,7 @@ ReactDOM.render(<App />, document.getElementById(ROOT_CONTAINER_ID))
 yarn add react-dom
 ```
 
-### Step 7: Configure Server (Node.js)
+### Step 8: Configure Server (Node.js)
 
 1. Add `webpack.server.config.js` with:
 
