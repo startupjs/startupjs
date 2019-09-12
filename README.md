@@ -142,6 +142,7 @@ BASE_URL=https://example.com
 {
   "NODE_ENV": "development",
   "PORT": 3000,
+  "SESSION_SECRET": "!!!IMPORTANT!!!_PUT_RANDOM_STRING_HERE",
   "BASE_URL": "http://localhost:3000",
   "REDIS_URL": "redis://localhost:6379/1",
   "MONGO_URL": "mongodb://localhost:27017/startupjs"
