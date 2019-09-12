@@ -77,12 +77,18 @@ $COLORS = {
 ### Step 6: Install webpack (it is used to compile web and server)
 
 ```yarn
-yarn add -D webpack webpack-cli webpack-dev-server
+yarn add -D webpack webpack-cli webpack-dev-server react-hot-loader
 ```
 
 ### Step 7: Configure Web
 
-1. Add `webpack.web.config.js` with:
+1. Install `react-dom` to be able to render app in browser. `@hot-loader/react-dom` is required in order for [hooks hot-reloading](https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom) to work.
+
+```bash
+yarn add react-dom @hot-loader/react-dom
+```
+
+2. Create `webpack.web.config.js` with:
 
 ```js
 const getConfig = require('dm-bundler/webpack.web.config')
@@ -93,7 +99,7 @@ module.exports = getConfig(undefined, {
 })
 ```
 
-2. Add `index.web.js` with:
+3. Create `index.web.js` with:
 
 ```js
 import React from 'react'
@@ -105,10 +111,13 @@ const ROOT_CONTAINER_ID = 'app'
 ReactDOM.render(<App />, document.getElementById(ROOT_CONTAINER_ID))  
 ```
 
-3. Install `react-dom` to be able to render app in browser. `@hot-loader/react-dom` is required in order for [hooks hot-reloading](https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom) to work.
+4. Now you need to wrap your root component (by default it's `App.js`) into a web-only hot-reloading file. To do this, create `App.web.js` with:
 
-```bash
-yarn add react-dom @hot-loader/react-dom
+```js
+import { hot } from 'react-hot-loader/root'
+import App from './App.js'
+
+export default hot(App)
 ```
 
 ### Step 8: Configure Server (Node.js)
