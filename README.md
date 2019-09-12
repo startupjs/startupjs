@@ -141,6 +141,7 @@ BASE_URL=https://example.com
 ```json
 {
   "NODE_ENV": "development",
+  "PORT": 3000,
   "BASE_URL": "http://localhost:3000",
   "REDIS_URL": "redis://localhost:6379/1",
   "MONGO_URL": "mongodb://localhost:27017/startupjs"
