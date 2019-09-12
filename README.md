@@ -61,7 +61,20 @@ const config = require('dm-bundler/metro.config')
 module.exports = config
 ```
 
-### Step 5: Configure Web
+### Step 5: Setup global styles
+
+Create `styles/index.styl` with global variables and mixins:
+
+```styl
+$COLORS = {
+  primary: #ff0000
+  secondary: #00ff00
+}
+```
+
+**Important:** This file will be compiled with each component separately. ONLY write abstact code here, like global variables, mixins and helpers. NEVER write real selectors or classes here.
+
+### Step 6: Configure Web
 
 1. Add `webpack.web.config.js` with:
 
@@ -92,7 +105,7 @@ ReactDOM.render(<App />, document.getElementById(ROOT_CONTAINER_ID))
 yarn add react-dom
 ```
 
-### Step 6: Configure Server (Node.js)
+### Step 7: Configure Server (Node.js)
 
 1. Add `webpack.server.config.js` with:
 
