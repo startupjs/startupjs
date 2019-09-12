@@ -24,7 +24,7 @@ This will create a new React Native project in the *appname* folder.
 ### Step 2: Install *startupjs* building blocks
 
 ```bash
-yarn add dm-bundler@alpha dm-sharedb-server@alpha react-sharedb@experimental
+yarn add dm-bundler@alpha dm-sharedb-server@experimental react-sharedb@experimental
 ```
 
 ### Step 3: Configure Babel (for all targets)
