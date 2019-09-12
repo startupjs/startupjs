@@ -105,10 +105,10 @@ const ROOT_CONTAINER_ID = 'app'
 ReactDOM.render(<App />, document.getElementById(ROOT_CONTAINER_ID))  
 ```
 
-3. Install `react-dom` to be able to render app in browser
+3. Install `react-dom` to be able to render app in browser. `@hot-loader/react-dom` is required in order for [hooks hot-reloading](https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom) to work.
 
 ```bash
-yarn add react-dom
+yarn add react-dom @hot-loader/react-dom
 ```
 
 ### Step 8: Configure Server (Node.js)
