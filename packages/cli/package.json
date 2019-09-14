@@ -1,0 +1,19 @@
+{
+  "name": "@startupjs/cli",
+  "version": "0.1.2",
+  "description": "",
+  "main": "lib/index.js",
+  "bin": {
+    "react-native": "lib/bin.js"
+  },
+  "scripts": {},
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "commander": "^3.0.1",
+    "execa": "^2.0.4"
+  }
+}
