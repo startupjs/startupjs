@@ -2,7 +2,7 @@
   "name": "@startupjs/cli",
   "version": "0.1.8",
   "description": "",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {},
   "author": "",
   "license": "MIT",

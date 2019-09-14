@@ -21,6 +21,8 @@ const DEV_DEPENDENCIES = [
   'webpack-dev-server'
 ]
 
+let templatePath
+
 commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
@@ -49,8 +51,7 @@ commander
       stdio: 'inherit'
     })
 
-    let templatePath = require.resolve('startupjs/template')
-    console.log({ templatePath })
+    console.log({ projectPath, templatePath })
 
     // copy additional startupjs template files over react-native ones
     await execa(
@@ -60,6 +61,8 @@ commander
     )
   })
 
-exports.run = () => {
+exports.run = (options = {}) => {
+  if (!options.templatePath) throw Error('templatePath not found!')
+  templatePath = options.templatePath
   commander.parse(process.argv)
 }
