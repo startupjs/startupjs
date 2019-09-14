@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/react-sharedb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -23,12 +23,12 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.1.0",
+    "@startupjs/model": "^0.1.1",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
+    "racer": "^0.9.3",
     "rich-text": "^4.0.0",
-    "sharedb": "^1.0.0-beta.22",
-    "racer": "^0.9.3"
+    "sharedb": "^1.0.0-beta.22"
   },
   "devDependencies": {
     "@oskarer/enzyme-wait": "^1.3.0",

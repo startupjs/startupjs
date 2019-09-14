@@ -1,18 +1,13 @@
 {
   "name": "@startupjs/init",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "MIT",
   "dependencies": {
     "rich-text": "^4.0.0",
     "sharedb": "^1.0.0-beta.22"
-  },
-  "devDependencies": {
-  },
-  "peerDependencies": {
   }
 }
