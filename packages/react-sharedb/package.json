@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "",
   "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo '----- Test Hooks Syntax -----' && HOOKS=1 npm run _test && echo '----- Test Class Syntax -----' && npm run _test && echo '----- Test DEPRECATED Syntax -----' && DEPRECATED=1 npm run _test",
     "_test": "PORT=3333 mocha ./test/**/*.mocha.js --bail --reporter spec --require babel-polyfill --compilers js:babel-register --require ./test/_client",

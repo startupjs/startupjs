@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "",
   "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "format": "echo Run prettify twice && npm run -S _prettify && npm run -S _prettify",
     "prepublish": "babel --optional runtime src --out-dir lib",
