@@ -54,10 +54,9 @@ commander
     console.log({ projectPath, templatePath })
 
     // copy additional startupjs template files over react-native ones
-    await execa(
-      'cp',
-      ['-r', `${templatePath}/*`, `${templatePath}/.*`, projectPath],
-      { stdio: 'inherit' }
+    await execa.command(
+      `cp -r ${templatePath}/* ${templatePath}/.* ${projectPath}`,
+      { stdio: 'inherit', shell: true }
     )
   })
 
