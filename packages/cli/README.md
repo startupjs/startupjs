@@ -14,26 +14,6 @@ yarn add @startupjs/cli
 npx startupjs init myapp --version=next && cd myapp
 ```
 
-```sh
-npx startupjs server
-```
-
-```sh
-npx startupjs web
-```
-
-```sh
-npx startupjs metro
-```
-
-```sh
-npx startupjs android
-```
-
-```sh
-npx startupjs ios
-```
-
 ## Licence
 
 MIT

@@ -13,29 +13,29 @@ npx startupjs init myapp --version=next && cd myapp
 2. Start **server** (in a separate terminal tab)
 
 ```
-npx startupjs server
+yarn server
 ```
 
-3. Start **web** (in a separate terminal tab). Open `http://localhost`
+3. Start **web** (in a separate terminal tab). Open `http://localhost:3000`
 
 ```
-npx startupjs web
+yarn web
 ```
 
 4. Start **metro** (in a separate terminal tab)
 
 ```
-npx startupjs metro
+yarn metro
 ```
 
-5. Run **android** (proxies command to react-native)
+5. Run **android** (in a separate terminal tab)
 
 ```
-npx startupjs run-android
+yarn android
 ```
 
-6. Run **ios** (proxies command to react-native)
+6. Run **ios** (in a separate terminal tab)
 
 ```
-npx startupjs run-ios
+yarn ios
 ```
