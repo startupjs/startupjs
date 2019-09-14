@@ -3,9 +3,6 @@
   "version": "0.1.4",
   "description": "",
   "main": "lib/index.js",
-  "bin": {
-    "react-native": "lib/bin.js"
-  },
   "scripts": {},
   "author": "",
   "license": "MIT",
