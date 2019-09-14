@@ -11,7 +11,7 @@ yarn add @startupjs/cli
 ## Usage
 
 ```sh
-npx startupjs init myapp && cd myapp
+npx startupjs init myapp --version=next && cd myapp
 ```
 
 ```sh
