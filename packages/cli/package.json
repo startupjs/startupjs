@@ -11,6 +11,12 @@
   },
   "dependencies": {
     "commander": "^3.0.1",
-    "execa": "^2.0.4"
+    "concurrently": "^4.1.2",
+    "execa": "^2.0.4",
+    "just-wait": "^1.0.11",
+    "nodemon": "^1.19.2",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.0"
   }
 }

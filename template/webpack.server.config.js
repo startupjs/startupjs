@@ -1,6 +1,6 @@
-const getConfig = require('dm-bundler/webpack.server.config')
+const getConfig = require('startupjs/bundler').webpackServerConfig
 
 module.exports = getConfig(undefined, {
-  forceCompileModules: ['startupjs/init', '@startupjs/init'],
+  forceCompileModules: [],
   alias: {}
 })

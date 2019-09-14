@@ -1,4 +1,4 @@
-const config = require('dm-bundler/babel.config')
+const config = require('startupjs/bundler').babelConfig
 
 // Override default babel config here.
 

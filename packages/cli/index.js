@@ -6,29 +6,27 @@ const fs = require('fs')
 const DEPENDENCIES = [
   'startupjs',
   '@hot-loader/react-dom',
-  'dm-bundler@^1.0.0-alpha.14',
   'dm-sharedb-server@^9.0.0-alpha.1',
   'nconf@^0.10.0',
   'react-dom',
   'react-native-web@^0.11.7',
-  'concurrently',
-  'just-wait',
-  'moment',
-  'nodemon'
+  'moment'
 ]
 
 const DEV_DEPENDENCIES = [
-  'webpack',
-  'webpack-cli',
-  'webpack-dev-server'
+  // empty for now
 ]
 
+const SCRIPTS_ORIG = {}
+SCRIPTS_ORIG.web = 'webpack-dev-server --config webpack.web.config.js'
+SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
+SCRIPTS_ORIG.serverRun = 'just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js'
+SCRIPTS_ORIG.server = `concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue \"${SCRIPTS_ORIG.serverRun}\" \"${SCRIPTS_ORIG.serverBuild}\"`
+
 const SCRIPTS = {
-  "metro": "react-native start --reset-cache",
-  "web": "webpack-dev-server --config webpack.web.config.js",
-  "server": "concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue \"npm run server:run\" \"npm run server:build\"",
-  "server:build": "WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js",
-  "server:run": "just-wait -t 1000 --pattern \"./build/server.dev.js\" && nodemon \"./build/server.dev.js\" -r source-map-support/register --watch \"./build/server.dev.js\""
+  metro: 'react-native start --reset-cache',
+  web: 'startupjs web',
+  server: 'startupjs server'
 }
 
 const SUCCESS_INSTRUCTIONS = `
@@ -57,6 +55,8 @@ and go to http://localhost:3000
 
 let templatePath
 
+// ----- init
+
 commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
@@ -79,11 +79,13 @@ commander
       stdio: 'inherit'
     })
 
-    // install startupjs devDependencies
-    await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
-      cwd: projectPath,
-      stdio: 'inherit'
-    })
+    if (DEV_DEPENDENCIES.length) {
+      // install startupjs devDependencies
+      await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
 
     console.log('> Copy template', { projectPath, templatePath })
     files = fs
@@ -101,6 +103,30 @@ commander
     addScriptsToPackageJson(projectPath)
     console.log(SUCCESS_INSTRUCTIONS)
   })
+
+// ----- init
+
+commander
+  .command('server')
+  .description('Compile (with webpack) and run server')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.server,
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('web')
+  .description('Run web bundling (webpack)')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.web,
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+// ----- helpers
 
 function addScriptsToPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')

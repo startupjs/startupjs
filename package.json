@@ -8,6 +8,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@startupjs/bundler": "^0.1.14",
     "@startupjs/cli": "^0.1.12",
     "@startupjs/init": "^0.1.2",
     "@startupjs/react-sharedb": "^0.1.2"

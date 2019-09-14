@@ -1,0 +1,8 @@
+.DS_Store
+*.swp
+/node_modules/
+/.idea/
+/tmp/
+*.orig
+npm-debug.log
+.history
