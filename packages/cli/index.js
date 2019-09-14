@@ -1,6 +1,7 @@
 const commander = require('commander')
 const execa = require('execa')
 const path = require('path')
+const fs = require('fs')
 
 const DEPENDENCIES = [
   'startupjs',
@@ -52,11 +53,15 @@ commander
     })
 
     console.log({ projectPath, templatePath })
+    files = fs
+      .readdirSync(templatePath)
+      .map(name => path.join(templatePath, name))
 
     // copy additional startupjs template files over react-native ones
-    await execa.command(
-      `cp -r ${templatePath}/* ${templatePath}/.* ${projectPath}`,
-      { stdio: 'inherit', shell: true }
+    await execa(
+      'cp',
+      ['-r'].concat(files).concat([projectPath]),
+      { stdio: 'inherit' }
     )
   })
 
