@@ -9,8 +9,7 @@ const DEPENDENCIES = [
   'dm-sharedb-server@^9.0.0-alpha.1',
   'nconf@^0.10.0',
   'react-dom',
-  'react-native-web@^0.11.7',
-  'moment'
+  'react-native-web@^0.11.7'
 ]
 
 const DEV_DEPENDENCIES = [

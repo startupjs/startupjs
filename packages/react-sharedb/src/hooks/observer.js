@@ -11,6 +11,9 @@ function NullComponent () {
 }
 
 export function observer (baseComponent) {
+  // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
+  let random = Math.random()
+
   const baseComponentName = baseComponent.displayName || baseComponent.name
   // memo; we are not intested in deep updates
   // in props; we assume that if deep objects are changed,
@@ -36,7 +39,7 @@ export function observer (baseComponent) {
         scheduler: batchedUpdate,
         lazy: true
       })
-    }, [])
+    }, [random])
 
     // clean up observer on unmount
     useUnmount(() => unobserve(observedComponent))

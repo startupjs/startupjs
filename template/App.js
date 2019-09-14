@@ -1,5 +1,5 @@
 import 'startupjs/init'
-import React, { memo } from 'react'
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -14,23 +14,28 @@ import {
 import './App.styl'
 
 export default observer(function App () {
-  let [counter, $counter] = useDoc('service', 'counter')
+  let [dbCounter, $dbCounter] = useDoc('service', 'counter')
+  let [stateCounter, setStateCounter] = useState(0)
 
-  if (!counter) throw new Promise(resolve => {
+  if (!dbCounter) throw new Promise(resolve => {
     $root.add('service', { id: 'counter', value: 0 }, resolve)
   })
 
   async function increment () {
-    $counter.increment('value', 1)
+    $dbCounter.increment('value', 1)
+    setStateCounter(stateCounter + 1)
   }
 
   async function decrement () {
-    $counter.increment('value', -1)
+    $dbCounter.increment('value', -1)
+    setStateCounter(stateCounter - 1)
   }
 
   return pug`
     View.body
-      Text.greeting Hello World. Counter: #{counter && counter.value}
+      Text.greeting Hello World
+      Text DB Counter: #{dbCounter && dbCounter.value}.
+      Text State Counter: #{stateCounter}
       TouchableOpacity.increment(onPress=increment)
         Text.label +
       TouchableOpacity.decrement(onPress=decrement)

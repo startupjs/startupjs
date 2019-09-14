@@ -39,6 +39,7 @@
     "lodash": "4.x",
     "metro-react-native-babel-preset": "^0.53.1",
     "mini-css-extract-plugin": "^0.8.0",
+    "moment": "^2.0.0",
     "moment-locales-webpack-plugin": "^1.0.7",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
