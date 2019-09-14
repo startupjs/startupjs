@@ -34,7 +34,7 @@ export default observer(function App () {
   return pug`
     View.body
       Text.greeting Hello World
-      Text DB Counter: #{dbCounter && dbCounter.value}.
+      Text DB Counter: #{dbCounter && dbCounter.value}
       Text State Counter: #{stateCounter}
       TouchableOpacity.increment(onPress=increment)
         Text.label +
