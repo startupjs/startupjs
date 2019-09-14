@@ -9,7 +9,9 @@ const DEPENDENCIES = [
   'dm-sharedb-server@^9.0.0-alpha.1',
   'nconf@^0.10.0',
   'react-dom',
-  'react-native-web@^0.11.7'
+  'react-native-web@0.11.7',
+  'patch-package',
+  'postinstall-postinstall'
 ]
 
 const DEV_DEPENDENCIES = [
@@ -25,7 +27,8 @@ SCRIPTS_ORIG.server = `concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.b
 const SCRIPTS = {
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
-  server: 'startupjs server'
+  server: 'startupjs server',
+  postinstall: 'patch-package'
 }
 
 const SUCCESS_INSTRUCTIONS = `
@@ -100,6 +103,13 @@ commander
 
     console.log('> Patch package.json with additional scripts')
     addScriptsToPackageJson(projectPath)
+
+    console.log('> Apply module patches from /patches/ folder')
+    await execa('yarn', ['postinstall'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+
     console.log(SUCCESS_INSTRUCTIONS)
   })
 
