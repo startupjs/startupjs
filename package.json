@@ -1,0 +1,17 @@
+{
+  "name": "startupjs",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@startupjs/react-sharedb": "^0.1.0",
+    "@startupjs/init": "^0.1.0"
+  },
+  "devDependencies": {
+    "lerna": "^3.16.4"
+  }
+}
