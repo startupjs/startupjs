@@ -6,11 +6,20 @@ import destroyer from './destroyer'
 import $root from '@startupjs/model'
 import { ComponentMetaContext } from './helpers'
 
-function NullComponent () {
-  return null
+const DEFAULT_SUSPENSE_PROPS = {
+  fallback: React.createElement(NullComponent, null, null)
 }
 
-export function observer (baseComponent) {
+function observer (Component) {
+  return wrapObserverMeta(makeObserver(Component))
+}
+
+observer.__wrapObserverMeta = wrapObserverMeta
+observer.__makeObserver = makeObserver
+
+export { observer }
+
+function makeObserver (baseComponent) {
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
   let random = Math.random()
 
@@ -50,23 +59,32 @@ export function observer (baseComponent) {
   if (baseComponent.propTypes) {
     memoComponent.propTypes = baseComponent.propTypes
   }
-  const suspenseWrapper = props => {
-    let componentMeta = React.useMemo(() => ({
-      componentId: $root.id(),
-      createdAt: Date.now()
-    }), [])
+  return memoComponent
+}
+
+function wrapObserverMeta (Component, suspenseProps = DEFAULT_SUSPENSE_PROPS) {
+  if (!(suspenseProps && suspenseProps.fallback)) {
+    throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
+  }
+  function ObserverWrapper (props) {
+    var componentMeta = React.useMemo(function () {
+      return {
+        componentId: $root.id(),
+        createdAt: Date.now()
+      }
+    }, [])
     return React.createElement(
       ComponentMetaContext.Provider,
       { value: componentMeta },
       React.createElement(
         React.Suspense,
-        { fallback: React.createElement(NullComponent, null, null) },
-        React.createElement(memoComponent, props)
+        suspenseProps,
+        React.createElement(Component, props)
       )
     )
   }
-  suspenseWrapper.displayName = baseComponentName
-  return suspenseWrapper
+  ObserverWrapper.displayName = Component.displayName ? (Component.displayName + 'Observer') : 'ObserverWrapper'
+  return ObserverWrapper
 }
 
 function wrapBaseComponent (baseComponent, blockUpdate) {
@@ -102,4 +120,8 @@ function useForceUpdate () {
 // TODO: Might change to just `useEffect` in future. Don't know which one fits here better yet.
 function useUnmount (fn) {
   React.useLayoutEffect(() => fn, [])
+}
+
+function NullComponent () {
+  return null
 }

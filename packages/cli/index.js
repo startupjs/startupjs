@@ -28,7 +28,11 @@ const SCRIPTS = {
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
-  postinstall: 'patch-package'
+  postinstall: 'patch-package',
+  adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
+  'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
+  'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
+  android: 'react-native run-android && (npm run adb || true) && npm run log-android'
 }
 
 const SUCCESS_INSTRUCTIONS = `

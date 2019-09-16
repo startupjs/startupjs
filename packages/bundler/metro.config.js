@@ -6,9 +6,9 @@ module.exports = {
         inlineRequires: false,
       },
     }),
-    babelTransformerPath: require.resolve('react-native-stylus-transformer')
+    babelTransformerPath: require.resolve('./lib/rnTransformer')
   },
   resolver: {
-    sourceExts: ['js', 'jsx', 'styl']
+    sourceExts: ['js', 'jsx', 'css', 'styl']
   }
 }

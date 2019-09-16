@@ -44,6 +44,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "react-hot-loader": "~4.12.13",
+    "react-native-css-transformer": "^1.2.4",
     "react-native-stylus-transformer": "http://github.com/dmapper/react-native-stylus-transformer/tarball/next",
     "style-loader": "^0.21.0",
     "stylus": "^0.54.5",
