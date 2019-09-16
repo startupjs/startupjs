@@ -1,0 +1,10 @@
+.DS_Store
+*.swp
+/node_modules/
+/.idea/
+Gemfile.lock
+/tmp/
+*.orig
+npm-debug.log
+*.coffee
+.vscode/
