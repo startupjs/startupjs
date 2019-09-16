@@ -5,11 +5,10 @@ const fs = require('fs')
 
 const DEPENDENCIES = [
   'startupjs',
-  '@hot-loader/react-dom',
-  'dm-sharedb-server@^9.0.0-alpha.1',
+  'react-native-web@0.11.7',
   'nconf@^0.10.0',
   'react-dom',
-  'react-native-web@0.11.7',
+  '@hot-loader/react-dom',
   'patch-package',
   'postinstall-postinstall'
 ]
