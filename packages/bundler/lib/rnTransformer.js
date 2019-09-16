@@ -1,19 +1,27 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusTransformer = require('react-native-stylus-transformer')
-// TODO: Enable cssTransformer. Right now it has some bug which throws
-//       a compilation error in metro.
-//       Make sure to also enable css extension in metro.config.js.
-// const cssTransformer = require('react-native-css-transformer')
+const cssTransformer = require('react-native-css-transformer')
 const babel = require('@babel/core')
 const observerWrapperPlugin = require('./babel-plugin-observer-wrapper')
 
 module.exports.transform = function ({ src, filename, options }) {
   if (/\.styl$/.test(filename)) {
     return stylusTransformer.transform({ src, filename, options })
-  // } else if (/\.css$/.test(filename)) {
-  //   return cssTransformer.transform({ src, filename, options })
-  } else if (/\.jsx?$/.test(filename)) {
+  } else if (/\.css$/.test(filename)) {
+    return cssTransformer.transform({ src, filename, options })
+  } else if (/\.jsx?$/.test(filename) && !/node_modules\/react-native\//.test(filename)) {
     // Fix Fast Refresh to work with observer() decorator
+    // NOTE:
+    //
+    // Exclude node_modules/react-native since it has some
+    // non-standard stuff in it not supported by default babel
+    // and only working correctly when plugging in the whole
+    // preset 'module:metro-react-native-babel-preset'
+    // (it might be because of flow, but I'm not sure),
+    // which we don't want to do.
+    // We might have to exclude whole node_modules though,
+    // depending on whether other community modules would have
+    // such non-standard stuff.
     //
     // INFO:
     //

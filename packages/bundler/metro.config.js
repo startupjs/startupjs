@@ -12,7 +12,7 @@ module.exports = {
     sourceExts: [
       'js',
       'jsx',
-      // TODO: 'css',
+      'css',
       // TODO: 'sass',
       'styl'
     ]
