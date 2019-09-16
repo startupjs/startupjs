@@ -1,14 +1,17 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusTransformer = require('react-native-stylus-transformer')
-const cssTransformer = require('react-native-css-transformer')
+// TODO: Enable cssTransformer. Right now it has some bug which throws
+//       a compilation error in metro.
+//       Make sure to also enable css extension in metro.config.js.
+// const cssTransformer = require('react-native-css-transformer')
 const babel = require('@babel/core')
 const observerWrapperPlugin = require('./babel-plugin-observer-wrapper')
 
 module.exports.transform = function ({ src, filename, options }) {
   if (/\.styl$/.test(filename)) {
     return stylusTransformer.transform({ src, filename, options })
-  } else if (/\.css$/.test(filename)) {
-    return cssTransformer.transform({ src, filename, options })
+  // } else if (/\.css$/.test(filename)) {
+  //   return cssTransformer.transform({ src, filename, options })
   } else if (/\.jsx?$/.test(filename)) {
     // Fix Fast Refresh to work with observer() decorator
     //

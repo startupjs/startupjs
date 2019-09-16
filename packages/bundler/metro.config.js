@@ -9,6 +9,12 @@ module.exports = {
     babelTransformerPath: require.resolve('./lib/rnTransformer')
   },
   resolver: {
-    sourceExts: ['js', 'jsx', 'css', 'styl']
+    sourceExts: [
+      'js',
+      'jsx',
+      // TODO: 'css',
+      // TODO: 'sass',
+      'styl'
+    ]
   }
 }
