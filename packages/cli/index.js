@@ -5,6 +5,7 @@ const fs = require('fs')
 
 const DEPENDENCIES = [
   'startupjs',
+  'source-map-support',
   'react-native-web@0.11.7',
   'nconf@^0.10.0',
   'react-dom',
@@ -23,7 +24,9 @@ const SCRIPTS_ORIG = {}
 SCRIPTS_ORIG.web = 'webpack-dev-server --config webpack.web.config.js'
 SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
 SCRIPTS_ORIG.serverRun = 'just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js'
-SCRIPTS_ORIG.server = `concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue \"${SCRIPTS_ORIG.serverRun}\" \"${SCRIPTS_ORIG.serverBuild}\"`
+SCRIPTS_ORIG.server = `concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}"`
+SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.server.config.js && webpack --config webpack.web.config.js'
+SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node -r source-map-support/register build/server.js'
 
 const SCRIPTS = {
   metro: 'react-native start --reset-cache',
@@ -33,7 +36,9 @@ const SCRIPTS = {
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
-  android: 'react-native run-android && (npm run adb || true) && npm run log-android'
+  android: 'react-native run-android && (npm run adb || true) && npm run log-android',
+  build: 'startupjs build',
+  'start-production': 'startupjs start-production'
 }
 
 let templatePath
@@ -49,7 +54,7 @@ commander
 
     // init react-native application
     await execa('npx', [
-      `react-native${ version ? ('@' + version) : '' }`,
+      `react-native${version ? ('@' + version) : ''}`,
       'init',
       projectName
     ].concat(version ? ['--version', version] : []), { stdio: 'inherit' })
@@ -71,7 +76,7 @@ commander
     }
 
     console.log('> Copy template', { projectPath, templatePath })
-    files = fs
+    const files = fs
       .readdirSync(templatePath)
       .map(name => path.join(templatePath, name))
 
@@ -127,6 +132,26 @@ commander
   })
 
 commander
+  .command('build')
+  .description('Build server and web bundles')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.build,
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('start-production')
+  .description('Start production')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.startProduction,
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
   .command('web')
   .description('Run web bundling (webpack)')
   .action(async () => {
@@ -148,7 +173,7 @@ function addScriptsToPackageJson (projectPath) {
   }
   fs.writeFileSync(
     packageJSONPath,
-    `${JSON.stringify(packageJSON, null, 2)}\n`,
+    `${JSON.stringify(packageJSON, null, 2)}\n`
   )
 }
 
