@@ -35,30 +35,6 @@ const SCRIPTS = {
   android: 'react-native run-android && (npm run adb || true) && npm run log-android'
 }
 
-const SUCCESS_INSTRUCTIONS = `
-StartupJS installation successful!
-
-INSTRUCTIONS
-
-Run each command in a separate terminal tab:
-
-1. Start server:
-
-  $ yarn server
-
-2. Start web:
-
-  $ yarn web
-
-and go to http://localhost:3000
-
-3. Start native:
-
-  $ yarn metro
-  $ yarn android
-  $ yarn ios
-`
-
 let templatePath
 
 // ----- init
@@ -114,7 +90,7 @@ commander
       stdio: 'inherit'
     })
 
-    console.log(SUCCESS_INSTRUCTIONS)
+    console.log(getSuccessInstructions(projectName))
   })
 
 // ----- init
@@ -153,6 +129,34 @@ function addScriptsToPackageJson (projectPath) {
     packageJSONPath,
     `${JSON.stringify(packageJSON, null, 2)}\n`,
   )
+}
+
+function getSuccessInstructions (projectName) {
+  return `
+    StartupJS installation successful!
+
+    INSTRUCTIONS
+
+    $ cd ${projectName}
+
+    Run each command in a separate terminal tab:
+
+    1. Start server:
+
+      $ yarn server
+
+    2. Start web:
+
+      $ yarn web
+
+    and go to http://localhost:3000
+
+    3. Start native:
+
+      $ yarn metro
+      $ yarn android
+      $ yarn ios
+  `
 }
 
 exports.run = (options = {}) => {
