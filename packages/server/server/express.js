@@ -154,15 +154,15 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       let filters = matched.filters
       if (!filters) return next()
       filters = filters.slice()
-      const useFilter = (err) => {
+      const runFilter = (err) => {
         if (err) return next(err)
         const filter = filters.shift()
         if (typeof filter === 'function') {
-          return filter(model, useFilter, res.redirect.bind(res))
+          return filter(model, runFilter, res.redirect.bind(res))
         }
         next()
       }
-      useFilter()
+      runFilter()
     }, (req, res, next) => {
       // If client route found, render the client-side app
       const { appName, model } = req
