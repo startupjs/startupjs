@@ -1,4 +1,4 @@
-import React, { useMemo, useLayoutEffect, useContext } from 'react'
+import { useMemo, useLayoutEffect } from 'react'
 import $root from '@startupjs/model'
 import { useQuery, useLocal } from './types'
 
@@ -83,16 +83,4 @@ export function usePage (path) {
     )
   }
   return useLocal('_page' + '.' + path)
-}
-
-export const ComponentMetaContext = React.createContext({})
-
-export function useNow () {
-  let { createdAt } = useContext(ComponentMetaContext)
-  return createdAt
-}
-
-export function useComponentId () {
-  let { componentId } = useContext(ComponentMetaContext)
-  return componentId
 }

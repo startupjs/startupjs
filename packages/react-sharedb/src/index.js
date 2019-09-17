@@ -20,13 +20,15 @@ export {
   useModel,
   useOn,
   useEmit,
-  ComponentMetaContext,
-  useComponentId,
-  useNow,
   useQueryIds,
   useLocalDoc,
   useQueryDoc,
   useSession,
   usePage
 } from './hooks/helpers'
+export {
+  ComponentMetaContext,
+  useComponentId,
+  useNow
+} from './hooks/meta'
 export { raw } from '@nx-js/observer-util'

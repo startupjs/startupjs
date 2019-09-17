@@ -4,7 +4,7 @@ import { observe, unobserve } from '@nx-js/observer-util'
 import batching from '../batching'
 import destroyer from './destroyer'
 import $root from '@startupjs/model'
-import { ComponentMetaContext } from './helpers'
+import { ComponentMetaContext } from './meta'
 
 const DEFAULT_SUSPENSE_PROPS = {
   fallback: React.createElement(NullComponent, null, null)

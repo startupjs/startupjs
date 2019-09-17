@@ -7,12 +7,12 @@ export default class Local extends Base {
     let [path, fn, inputs, options] = this.params
     this.fn = fn
     this.path = path
+    this.inputs = inputs || []
+    this.options = options || {}
     if (!this.path) {
       let cacheKey = '_' + hashCode(this.fn.toString() + JSON.stringify(this.inputs))
       this.path = '_session._cache.' + cacheKey
     }
-    this.inputs = inputs || []
-    this.options = options || {}
     this.listeners = []
   }
 

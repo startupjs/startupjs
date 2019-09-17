@@ -1,5 +1,5 @@
 import richText from 'rich-text'
-import Racer, { Model } from 'racer'
+import Racer from 'racer'
 import Query from 'racer/lib/Model/Query'
 import { promisifyAll } from 'bluebird'
 import batch from './batch'
@@ -10,11 +10,11 @@ export default (ShareDB, { orm } = {}) => {
   ShareDB.types.register(richText.type)
 
   // Promisify the default model methods like subscribe, fetch, set, push, etc.
-  promisifyAll(Model.prototype)
+  promisifyAll(Racer.Model.prototype)
   promisifyAll(Query.prototype)
 
   // Add batching method
-  Model.prototype.batch = batch
+  Racer.Model.prototype.batch = batch
 
   if (orm) {
     Racer.use(ormPlugin)

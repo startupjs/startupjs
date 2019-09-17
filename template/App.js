@@ -1,7 +1,7 @@
 import { BASE_URL } from '@env'
 import init from 'startupjs/init'
 import orm from './model'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -52,11 +52,11 @@ export default observer(function App () {
       Text.greeting Hello World
       Text DB Counter: #{counter && counter.value}
       Text State Counter: #{stateCounter}
-      TouchableOpacity.increment(onPress=increment)
+      TouchableOpacity.button.increment(onPress=increment)
         Text.label +
-      TouchableOpacity.decrement(onPress=decrement)
+      TouchableOpacity.button.decrement(onPress=decrement)
         Text.label -
-      TouchableOpacity.clear(onPress=clear)
+      TouchableOpacity.button.clear(onPress=reset)
         Text.label RESET
       Text.api /api (updated each 3 sec): #{JSON.stringify(api)}
   `
@@ -74,7 +74,9 @@ async function getApi () {
   }
 }
 
-// Custom hook. A way to rerun something each `delay` ms
+// Custom hook. A way to rerun something each `delay` ms.
+// WARNING! This is for demo purposes only. Don't use this trick
+// in production since the useApi data is not getting cleaned up.
 function useForceTrigger (delay = 3000) {
   let [forceTrigger, setForceTrigger] = useState(0)
   useEffect(() => {
