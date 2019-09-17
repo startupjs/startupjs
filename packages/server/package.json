@@ -27,7 +27,7 @@
     "sharedb": "^1.0.0-beta.22",
     "sharedb-access": "~3.0.0",
     "sharedb-hooks": "~3.0.0",
-    "sharedb-mongo": "http://github.com/dmapper/sharedb-mongo/tarball/aggregationSecondary",
+    "sharedb-mongo": "1.0.0-beta.9",
     "sharedb-redis-pubsub": "^1.0.0-beta.1"
   },
   "optionalPeerDependencies": {
