@@ -9,6 +9,7 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react-dom',
   '@hot-loader/react-dom',
+  'axios', // For making AJAX requests
   'patch-package',
   'postinstall-postinstall'
 ]

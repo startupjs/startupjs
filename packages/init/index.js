@@ -1,3 +1,1 @@
-import init from './init'
-
-init()
+export { default } from './lib'

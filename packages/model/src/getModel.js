@@ -26,13 +26,6 @@ export default function getModel () {
 
   let model = racer.createModel()
 
-  // Try to establish connection
-  try {
-    model.createConnection()
-  } catch (err) {
-    console.error('Error establishing connection with server', err)
-  }
-
   // Try to unbundle server-side model
   let bundleElement =
     typeof document !== 'undefined' &&

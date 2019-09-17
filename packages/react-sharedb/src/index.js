@@ -1,11 +1,8 @@
 import './globalInit'
 import subscribe from './subscribe'
-import batching from './batching'
+import batching, { batch, batchModel } from './batching'
 export { default as model, default as $root } from '@startupjs/model'
-export { subscribe, batching }
-export const batch = batching.batch.bind(batching)
-// TODO: DEPRECATED. Add warning to use batch instead
-export const batchModel = batch
+export { subscribe, batching, batch, batchModel }
 export { default as _semaphore } from './semaphore'
 export { initLocalCollection, clone } from './util'
 export {

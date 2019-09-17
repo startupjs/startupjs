@@ -10,7 +10,12 @@
     "access": "public"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "racer": "^0.9.3",
     "rich-text": "^4.0.0",
     "sharedb": "^1.0.0-beta.22"
+  },
+  "peerDependencies": {
+    "axios": "*"
   }
 }

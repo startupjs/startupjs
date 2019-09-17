@@ -50,4 +50,11 @@ function getFirstItem (set) {
   }
 }
 
-export default new Batching()
+const batching = new Batching()
+
+export default batching
+
+export const batch = batching.batch.bind(batching)
+
+// TODO: DEPRECATED. Add warning to use batch instead
+export const batchModel = batch
