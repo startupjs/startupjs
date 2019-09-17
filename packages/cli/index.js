@@ -21,7 +21,7 @@ const DEV_DEPENDENCIES = [
 ]
 
 const SCRIPTS_ORIG = {}
-SCRIPTS_ORIG.web = 'webpack-dev-server --config webpack.web.config.js'
+SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.js'
 SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
 SCRIPTS_ORIG.serverRun = 'just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js'
 SCRIPTS_ORIG.server = `concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}"`

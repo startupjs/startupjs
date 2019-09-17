@@ -11,7 +11,7 @@ const { getJsxRule } = require('./helpers')
 
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
-const PROD = (process.env.NODE_ENV === 'production')
+const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)

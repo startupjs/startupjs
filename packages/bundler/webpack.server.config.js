@@ -51,7 +51,7 @@ module.exports = function getConfig (env, {
       alias: {
         ...DEFAULT_ALIAS,
         ...alias
-      },
+      }
     }
   }, Boolean)
 }
