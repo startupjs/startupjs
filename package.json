@@ -11,6 +11,7 @@
     "@startupjs/bundler": "^0.3.3",
     "@startupjs/cli": "^0.3.5",
     "@startupjs/init": "^0.3.5",
+    "@startupjs/orm": "^0.3.5",
     "@startupjs/react-sharedb": "^0.3.5",
     "@startupjs/server": "^0.3.4"
   },
