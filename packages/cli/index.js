@@ -107,6 +107,26 @@ commander
   })
 
 commander
+  .command('server:build')
+  .description('Build server')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.serverBuild,
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('server:run')
+  .description('Run server')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.serverRun,
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
   .command('web')
   .description('Run web bundling (webpack)')
   .action(async () => {
