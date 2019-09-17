@@ -439,7 +439,8 @@ RacerLocalDoc.prototype._updateCollectionData = function () {
   if (this.data) this.data = observable(this.data)
   if (
     !semaphore.ignoreCollectionObservableWarning &&
-    !isObservable(this.collectionData)
+    !isObservable(this.collectionData) &&
+    this.collectionName !== '$connection'
   ) {
     console.warn(
       `[react-sharedb] Local collection "${this
