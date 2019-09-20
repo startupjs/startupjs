@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "",
   "main": "index.js",
   "bin": "./cli.js",
@@ -8,7 +8,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/bundler": "^0.3.13",
+    "@startupjs/bundler": "^0.3.15",
     "@startupjs/cli": "^0.3.13",
     "@startupjs/init": "^0.3.7",
     "@startupjs/orm": "^0.3.5",
