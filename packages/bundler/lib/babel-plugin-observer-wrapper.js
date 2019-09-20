@@ -1,3 +1,5 @@
+// DEPRECATED. We might use it in future though for some other purposes, so leaving it
+//             in the code base for now.
 /**
  * Replaces function call with 2 function calls of subfunctions taken from the original function
  * Example:

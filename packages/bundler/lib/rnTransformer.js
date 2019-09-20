@@ -1,15 +1,13 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusTransformer = require('react-native-stylus-transformer')
 const cssTransformer = require('react-native-css-transformer')
-const babel = require('@babel/core')
-const observerWrapperPlugin = require('./babel-plugin-observer-wrapper')
 
 module.exports.transform = function ({ src, filename, options }) {
   if (/\.styl$/.test(filename)) {
     return stylusTransformer.transform({ src, filename, options })
   } else if (/\.css$/.test(filename)) {
     return cssTransformer.transform({ src, filename, options })
-  } else if (/\.jsx?$/.test(filename) && !/node_modules\/react-native\//.test(filename)) {
+  } else if (/\.jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
     // Fix Fast Refresh to work with observer() decorator
     // NOTE:
     //
@@ -52,16 +50,35 @@ module.exports.transform = function ({ src, filename, options }) {
     // will still not properly work.
     //
     // It makes sense to only do this in development
-    if (process.env.NODE_ENV !== 'production') {
-      src = babel.transformSync(src, {
-        configFile: false,
-        babelrc: false,
-        plugins: [[ observerWrapperPlugin ]]
-      }).code
-    }
+    src = replaceObserver(src)
 
     return upstreamTransformer.transform({ src, filename, options })
   } else {
     return upstreamTransformer.transform({ src, filename, options })
   }
+}
+
+const OBSERVER_REGEX = /(^|\W)observer\(/
+const OBSERVER_REPLACE = 'observer.__wrapObserverMeta(observer.__makeObserver('
+
+function replaceObserver (src) {
+  let match = src.match(OBSERVER_REGEX)
+  if (!match) return src
+  let matchIndex = match.index
+  let matchStr = match[0]
+  let matchLength = matchStr.length
+  let openBr = 1 // Count opened brackets, we start from one already opened
+  for (let i = matchIndex + matchLength; i < src.length; i++) {
+    if (src.charAt(i) === ')') {
+      --openBr
+    } else if (src.charAt(i) === '(') {
+      ++openBr
+    }
+    if (openBr <= 0) {
+      src = src.slice(0, i) + ')' + src.slice(i)
+      break
+    }
+  }
+  src = src.replace(OBSERVER_REGEX, '$1' + OBSERVER_REPLACE)
+  return replaceObserver(src)
 }
