@@ -4,7 +4,7 @@
 
 ## Quick start
 
-1. Initialize a new boilerplate project
+1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case)
 
 ```
 npx startupjs init myapp --version=next && cd myapp
