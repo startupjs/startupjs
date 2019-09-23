@@ -22,7 +22,7 @@ yarn server
 yarn web
 ```
 
-4. Start **metro**, if you want to develop on iOS or Android (in a separate terminal tab)
+4. Start **metro**, if you want to develop native iOS or Android apps (in a separate terminal tab)
 
 ```
 yarn metro
