@@ -147,36 +147,39 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       } else {
         matched = matchAppRoutes(req.url, appRoutes)
       }
-      if (!matched) return next(404)
+      if (!matched) return next()
       if (matched.redirect) return res.redirect(302, matched.redirect)
-      req.appName = matched.appName
       const model = req.model
-      let filters = matched.filters
-      if (!filters) return next()
-      filters = filters.slice()
-      const runFilter = (err) => {
-        if (err) return next(err)
-        const filter = filters.shift()
-        if (typeof filter === 'function') {
-          return filter(model, runFilter, res.redirect.bind(res))
+      function renderApp (route, done) {
+        let filters = route.filters
+        if (!filters) return done()
+        filters = filters.slice()
+        function runFilter (err) {
+          if (err) return done(err)
+          const filter = filters.shift()
+          if (typeof filter === 'function') {
+            return filter(model, runFilter, res.redirect.bind(res))
+          }
+          done()
         }
-        next()
+        runFilter()
       }
-      runFilter()
-    }, (req, res, next) => {
-      // If client route found, render the client-side app
-      const { appName, model } = req
-      model.bundle((err, bundle) => {
-        if (err) return next('500: ' + req.url + '. Error: ' + err)
-        let html = defaultClientLayout({
-          styles: process.env.NODE_ENV === 'production'
-            ? resourceManager.getProductionStyles(appName) : '',
-          head: getHead(appName),
-          modelBundle: bundle,
-          jsBundle: resourceManager.getResourcePath('bundle', appName),
-          env: model.get('_session.env') || {}
+
+      renderApp(matched, (err) => {
+        if (err) return next(err)
+        const appName = matched.appName
+        model.bundle((err, bundle) => {
+          if (err) return next('500: ' + req.url + '. Error: ' + err)
+          let html = defaultClientLayout({
+            styles: process.env.NODE_ENV === 'production'
+              ? resourceManager.getProductionStyles(appName) : '',
+            head: getHead(appName),
+            modelBundle: bundle,
+            jsBundle: resourceManager.getResourcePath('bundle', appName),
+            env: model.get('_session.env') || {}
+          })
+          res.status(200).send(html)
         })
-        res.status(200).send(html)
       })
     })
 
