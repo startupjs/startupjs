@@ -10,8 +10,10 @@ const DEFAULT_SUSPENSE_PROPS = {
   fallback: React.createElement(NullComponent, null, null)
 }
 
-function observer (Component) {
-  return wrapObserverMeta(makeObserver(Component))
+// TODO: Fix passing suspenseProps argument in react-native Fast Refresh patch.
+//       It has to properly put the closing bracket.
+function observer (Component, suspenseProps) {
+  return wrapObserverMeta(makeObserver(Component), suspenseProps)
 }
 
 observer.__wrapObserverMeta = wrapObserverMeta
@@ -102,8 +104,8 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
       // We have to manually do it since the unmount logic is not working
       // for components which were terminated by Suspense as a result of
       // a promise being thrown.
-      destroyer.run()
-      throw err
+      let destroy = destroyer.getDestructor()
+      throw err.then(destroy)
     }
     blockUpdate.value = false
     return res

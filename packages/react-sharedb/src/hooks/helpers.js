@@ -50,6 +50,10 @@ export function useQueryDoc (collection, query) {
 }
 
 export function useLocalDoc (collection, docId) {
+  console.warn(`
+    useLocalDoc() is DEPRECATED! Instead use useDoc() the same exact way.
+    useLocalDoc() will be removed in the next release!
+  `)
   if (typeof collection !== 'string') {
     throw new Error(
       `[react-sharedb] useLocalDoc(): \`collection\` must be a String. Got: ${collection}`
