@@ -37,6 +37,7 @@ export const useApi = generateUseItemOfType(subApi)
 
 function generateUseItemOfType (typeFn) {
   let isQuery = typeFn === subQuery
+  let takeOriginalModel = typeFn === subDoc || typeFn === subLocal
   let isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
     let hookId = useMemo(() => $root.id(), [])
@@ -161,7 +162,17 @@ function generateUseItemOfType (typeFn) {
     // But only after the initialization actually finished, otherwise
     // the ORM won't be able to properly resolve the path which was not referenced yet
     const $model = useMemo(
-      () => (!isQuery && initsCountRef.current ? $hooks.at(hookId) : undefined),
+      () => {
+        if (isQuery || !initsCountRef.current) return
+        // For Doc and Local return original path
+        // TODO: Maybe add Api here too
+        if (takeOriginalModel) {
+          return $root.scope(getPath(params))
+        // For Value, Api return hook's path since it's only stored there
+        } else {
+          return $hooks.at(hookId)
+        }
+      },
       [initsCountRef.current]
     )
 
@@ -201,6 +212,21 @@ function generateUseItemOfType (typeFn) {
 
 export function getCollectionName (params) {
   return params && params.params && params.params[0]
+}
+
+export function getPath (params) {
+  if (!params) {
+    // This should never happen
+    console.warn('[react-sharedb] Unknown Param')
+    return '__ERROR__.unknownParam'
+  }
+  let type = params.__subscriptionType
+  switch (type) {
+    case 'Local':
+      return params.params
+    case 'Doc':
+      return params.params && params.params.join('.')
+  }
 }
 
 // TODO: Maybe enable returning array of ids for Query in future.
