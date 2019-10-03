@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "",
   "main": "index.js",
   "bin": "./cli.js",
@@ -8,12 +8,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/bundler": "^0.4.1",
-    "@startupjs/cli": "^0.4.1",
-    "@startupjs/init": "^0.4.1",
-    "@startupjs/orm": "^0.4.1",
-    "@startupjs/react-sharedb": "^0.4.1",
-    "@startupjs/server": "^0.4.1"
+    "@startupjs/bundler": "^0.5.0",
+    "@startupjs/cli": "^0.5.0",
+    "@startupjs/init": "^0.5.0",
+    "@startupjs/orm": "^0.5.0",
+    "@startupjs/react-sharedb": "^0.5.0",
+    "@startupjs/server": "^0.5.0"
   },
   "devDependencies": {
     "lerna": "^3.16.4"
