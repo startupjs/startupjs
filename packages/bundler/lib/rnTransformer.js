@@ -50,6 +50,7 @@ module.exports.transform = function ({ src, filename, options }) {
     // will still not properly work.
     //
     // It makes sense to only do this in development
+    src = src.replace(/(?:\/\*(?:[\s\S]*?)\*\/)|(?:^\s*\/\/(?:.*)$)/gm, '')
     src = replaceObserver(src)
 
     return upstreamTransformer.transform({ src, filename, options })
