@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/offline",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
@@ -41,7 +41,7 @@
     "standard": "^10.0.3"
   },
   "dependencies": {
-    "@startupjs/model": "^0.5.1",
+    "@startupjs/model": "^0.5.2",
     "sharedb-offline": "0.0.9"
   },
   "gitHead": "50c6c593a861a88d0863bcf4eb1c1c45dda6c90a"

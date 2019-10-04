@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/react-sharedb",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "",
   "main": "lib/index.js",
   "publishConfig": {
@@ -26,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.5.1",
+    "@startupjs/model": "^0.5.2",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
     "racer": "^0.9.3",
