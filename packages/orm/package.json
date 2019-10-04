@@ -28,5 +28,6 @@
     "url": "https://github.com/dmapper/racer-orm/issues"
   },
   "homepage": "https://github.com/dmapper/racer-orm",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "gitHead": "1105b3c0b7671c5431ce31a996c9358104503a44"
 }

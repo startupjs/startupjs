@@ -55,5 +55,6 @@
   "peerDependencies": {
     "@babel/runtime": "^7.0.0",
     "@hot-loader/react-dom": "*"
-  }
+  },
+  "gitHead": "1105b3c0b7671c5431ce31a996c9358104503a44"
 }

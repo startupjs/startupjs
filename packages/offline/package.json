@@ -43,5 +43,6 @@
   "dependencies": {
     "@startupjs/model": "^0.5.1",
     "sharedb-offline": "0.0.9"
-  }
+  },
+  "gitHead": "1105b3c0b7671c5431ce31a996c9358104503a44"
 }
