@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/offline",
-  "version": "0.0.1",
+  "version": "0.5.1",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
@@ -36,12 +36,12 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier-standard": "^7.0.3",
-    "standard": "^10.0.3",
     "racer": "*",
-    "sharedb": "*"
+    "sharedb": "*",
+    "standard": "^10.0.3"
   },
   "dependencies": {
-    "@startupjs/model": "^0.5.0",
+    "@startupjs/model": "^0.5.1",
     "sharedb-offline": "0.0.9"
   }
 }
