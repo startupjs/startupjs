@@ -38,7 +38,7 @@ function getWebSocketURL (options) {
   return protocol + '//' + srvHost + (port || '') + options.base
 }
 
-export default function offlineInitPlugin () {
+export default function offlineInitPlugin (socketParams = {}) {
   racer.Model.prototype._createSocket = function () {
     let clientOptions =
       (typeof window !== 'undefined' && window.__racerHighwayClientOptions) ||
@@ -47,7 +47,7 @@ export default function offlineInitPlugin () {
     const url = getWebSocketURL(clientOptions)
     const worker = new Thread('worker.thread.js')
     const workerMessenger = new Messenger(worker, 'client')
-    const socket = new Socket({ workerMessenger, url })
+    const socket = new Socket({ workerMessenger, url, ...socketParams })
 
     this.set('$connection.offlineState', socket.getState())
     socket.ee.on('state', state => {
