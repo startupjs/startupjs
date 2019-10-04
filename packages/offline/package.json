@@ -1,0 +1,47 @@
+{
+  "name": "@startupjs/offline",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "format": "echo Run prettify twice && npm run -S _prettify && npm run -S _prettify",
+    "prepublish": "babel --optional runtime src --out-dir lib",
+    "postpublish": "rm -rf lib",
+    "precommit": "lint-staged",
+    "_prettify": "prettier-standard '{src,test}/**/*.{js,jsx}'"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.{js,jsx}": [
+      "prettier-standard",
+      "prettier-standard",
+      "git add"
+    ]
+  },
+  "author": "Artur Zayats <zag2art@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.3.13",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0",
+    "prettier-standard": "^7.0.3",
+    "standard": "^10.0.3",
+    "racer": "*",
+    "sharedb": "*"
+  },
+  "dependencies": {
+    "@startupjs/model": "^0.5.0",
+    "sharedb-offline": "0.0.9"
+  }
+}
