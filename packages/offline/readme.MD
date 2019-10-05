@@ -1,5 +1,36 @@
 # startupjs offline
+## description
 
+Startupjs offline creates an additional Thread (a la WebWorker) in background.
+
+This thread has (we will call it offline backend):
+  1. sharedb backend
+  2. mingo 
+  3. async-storage (to store data)
+  
+Client sharedb connection is also modified. It can communicate with regular web server (via websocket) and 
+with the thread offline-"backend". So, if web-server is available the client connects to the web-server otherwise it 
+connects to offline server. Moreover going offline the socket copy all the current client sharedb data 
+into the offline-server. Reconnecting it synchronizes data back from 'offline'-server to 'online'.
+
+Also the offline-backend allows to have "readonly collections". F.e. it could be metadata about games, stages, 
+exercises etc. To have the data prefetched on the client in case the user is offline. 
+
+### Possible scenarios
+
+#### Serverless app
+
+We can create mobile apps without server storing all the data in the "offline"-backend. Pros here is that we 
+can use our tech-stack without any changes: sharedb, mongo etc.
+
+#### App with offline mode
+
+We can design our app for full featured offline mode.
+The main task is to design it the way to have all the necessary data in offline. So, developer
+should decide which data should be read-only (usually it's necessary resources 
+like game/stage/exercise metadata) and provide sincronization/update code 
+(see example int the last section). 
+   
 ## installation
 ### step 0
 Create your app using
@@ -10,15 +41,17 @@ npx startupjs init myapp -v next
 ### step 1
 Install offline required packages
 ```
-yarn add @startupjs/offline
-yarn add @react-native-community/async-storage
-yarn add http://github.com/zag2art/react-native-threads/tarball/rn61-fixes
+yarn add @startupjs/offline @react-native-community/async-storage http://github.com/zag2art/react-native-threads/tarball/rn61-fixes
 npx rn-nodeify --hack --install "stream,buffer,process" --yarn
 ```
 
 ### step 2
 Modify project
 
+#### add to index.js in the root of your app
+```
+import './shim' // the first line in the file 
+```
 #### add to App.js 
 ```
 import offlineInitPlugin from '@startupjs/offline/lib/offlineInitPlugin'
@@ -62,9 +95,16 @@ Manually link react-native-threads for android
 
 Open up android/app/src/main/java/[...]/MainApplication.java:
 
-Add `import com.reactlibrary.RNThreadPackage;` to the imports at the top of the file
+Add the lines
 
-Add packages.add(new RNThreadPackage(mReactNativeHost, new AsyncStoragePackage()));``` to getPackages method before return.
+```
+import com.reactlibrary.RNThreadPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+``` 
+
+to the imports at the top of the file
+
+Add `packages.add(new RNThreadPackage(mReactNativeHost, new AsyncStoragePackage()));` to getPackages method before return.
 
 Append the following lines to android/settings.gradle:
 ```
@@ -74,7 +114,7 @@ project(':react-native-threads').projectDir = new File(rootProject.projectDir, '
 
 Insert the following lines inside the dependencies block in android/app/build.gradle:
 ```
-compile project(':react-native-threads')
+  implementation project(':react-native-threads')
 ```
 
 Just in case take a look here - https://github.com/joltup/react-native-threads#android-1 and here - https://github.com/joltup/react-native-threads/issues/79
@@ -84,7 +124,7 @@ Just in case take a look here - https://github.com/joltup/react-native-threads#a
 ```
   const collections = {
      'games': {
-       'id1': { /* */ }, /** doc as in mongo like in the next comment
+       'id1': { /* */ }, /** doc as in mongo like in the comment
        'id2': { /* */ }  /**
      }
   }
