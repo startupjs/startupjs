@@ -1,7 +1,8 @@
 const nconf = require('nconf')
 const path = require('path')
 const fs = require('fs')
-const _ = require('lodash')
+const isArray = require('lodash/isArray')
+const each = require('lodash/each')
 
 let app = process.env.APP
 let stage = process.env.STAGE
@@ -33,16 +34,16 @@ function initNconf (dirname) {
   }
 
   // Copy stuff required in Derby-part and vendor libs into ENV
-  if (_.isArray(nconf.get('COPY_TO_ENV'))) {
-    _.each(nconf.get('COPY_TO_ENV'), (option) => {
+  if (isArray(nconf.get('COPY_TO_ENV'))) {
+    each(nconf.get('COPY_TO_ENV'), (option) => {
       process.env[option] = nconf.get(option)
     })
   }
 
   // Copy public env vars into global.env
-  if (_.isArray(nconf.get('PUBLIC'))) {
+  if (isArray(nconf.get('PUBLIC'))) {
     global.env = global.env || {}
-    _.each(nconf.get('PUBLIC'), (option) => {
+    each(nconf.get('PUBLIC'), (option) => {
       global.env[option] = nconf.get(option)
     })
   }

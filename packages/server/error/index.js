@@ -1,11 +1,11 @@
 const path = require('path')
-const _ = require('lodash')
+const template = require('lodash/template')
 const fs = require('fs')
 
 let templates = {
-  '403': _.template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
-  '404': _.template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
-  '500': _.template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
+  '403': template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
+  '404': template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
+  '500': template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
 }
 let style = fs.readFileSync(path.join(__dirname, 'styles/index.css'))
 

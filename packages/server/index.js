@@ -1,7 +1,7 @@
 // Initialize nconf with proper config
 require('./nconf')
 
-const _ = require('lodash')
+const defaults = require('lodash/defaults')
 const path = require('path')
 const EventEmitter = require('events').EventEmitter
 const errorApp = require('./error')
@@ -14,7 +14,7 @@ module.exports = (options = {}, cb) => {
   // allow the customization of this parameter.
   options.dirname = ROOT_PATH
 
-  _.defaults(options, {
+  defaults(options, {
     appRoutes: {},
     publicPath: './public',
     loginUrl: '/login',

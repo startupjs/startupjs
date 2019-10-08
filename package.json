@@ -8,6 +8,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@startupjs/backend": "^0.6.0",
     "@startupjs/bundler": "^0.6.0",
     "@startupjs/cli": "^0.6.0",
     "@startupjs/init": "^0.6.0",

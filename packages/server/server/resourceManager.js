@@ -5,12 +5,12 @@
 
 const path = require('path')
 const fs = require('fs')
-const _ = require('lodash')
+const memoize = require('lodash/memoize')
 
 let PROJECT_PATH = process.env.PROJECT_PATH || process.cwd()
 let BUILD_CLIENT_PATH = process.env.BUILD_CLIENT_PATH || '/build/client/'
 
-exports.getResourcePath = _.memoize((type, appName) => {
+exports.getResourcePath = memoize((type, appName) => {
   let prefix = ''
   let url = 'ERROR_EMPTY'
   let postfix = ''
@@ -34,7 +34,7 @@ exports.getResourcePath = _.memoize((type, appName) => {
 }, (...args) => JSON.stringify(args))
 
 // Get assets hashes in production (used for long term caching)
-exports.getHash = _.memoize((appName, type) => {
+exports.getHash = memoize((appName, type) => {
   if (process.env.NODE_ENV !== 'production') return
   if (!appName) return ''
   let assetsMeta
@@ -51,7 +51,7 @@ exports.getHash = _.memoize((appName, type) => {
       if (!hash) {
         throw new Error('No hash found for \'' + appName + '\' ' + type + ' in ' + assetsMetaPath)
       }
-      hash = hash.match(/\.([^\.]+)\.js$/)
+      hash = hash.match(/\.([^.]+)\.js$/)
       hash && (hash = hash[1])
       if (!hash) {
         throw new Error('No hash in bundle filename. Filename should be in the following format: \'[name].[hash].js\'')
@@ -63,7 +63,7 @@ exports.getHash = _.memoize((appName, type) => {
   return hash
 })
 
-exports.getProductionStyles = _.memoize((appName) => {
+exports.getProductionStyles = memoize((appName) => {
   var styleRelPath = exports.getResourcePath('style', appName)
   var stylePath = path.join(PROJECT_PATH, styleRelPath)
   if (!fs.existsSync(stylePath)) {
@@ -71,6 +71,6 @@ exports.getProductionStyles = _.memoize((appName) => {
         '\' at path: ' + stylePath)
     return
   }
-  var style = fs.readFileSync(stylePath, {encoding: 'utf8'})
+  var style = fs.readFileSync(stylePath, { encoding: 'utf8' })
   return '<style>' + style + '</style>'
 })
