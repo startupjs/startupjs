@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "",
   "main": "index.js",
   "bin": "./cli.js",
@@ -14,7 +14,7 @@
     "@startupjs/init": "^0.6.0",
     "@startupjs/orm": "^0.6.0",
     "@startupjs/react-sharedb": "^0.6.0",
-    "@startupjs/server": "^0.6.0"
+    "@startupjs/server": "^0.6.1"
   },
   "devDependencies": {
     "lerna": "^3.16.4"
