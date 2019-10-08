@@ -1,7 +1,6 @@
 {
-  "name": "@startupjs/model",
-  "version": "0.5.2",
-  "description": "",
+  "name": "@startupjs/offline",
+  "version": "0.5.4",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
@@ -20,12 +19,8 @@
       "git add"
     ]
   },
-  "author": "",
+  "author": "Artur Zayats <zag2art@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "racer": "^0.9.3",
-    "racer-highway": "^8.1.0"
-  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -41,7 +36,15 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier-standard": "^7.0.3",
+    "racer": "*",
+    "sharedb": "*",
     "standard": "^10.0.3"
   },
-  "gitHead": "50c6c593a861a88d0863bcf4eb1c1c45dda6c90a"
+  "dependencies": {
+    "@js-code/native-store": "0.0.2",
+    "@startupjs/model": "^0.5.2",
+    "sharedb-mingo": "^3.0.7",
+    "sharedb-offline": "0.0.9"
+  },
+  "gitHead": "e3c5e39cd2c5e4dac7c5a3a6ca2eec6d8d7f528c"
 }

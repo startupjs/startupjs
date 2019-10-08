@@ -35,5 +35,8 @@ export default (options = {}) => {
   axios.defaults.baseURL = options.baseUrl
   patchRacerHighway(options.baseUrl)
   commonInit(ShareDB, options)
+  for (const plugin of options.plugins || []) {
+    plugin(options)
+  }
   connectModel()
 }

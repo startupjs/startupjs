@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/init",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -17,5 +17,6 @@
   },
   "peerDependencies": {
     "axios": "*"
-  }
+  },
+  "gitHead": "50c6c593a861a88d0863bcf4eb1c1c45dda6c90a"
 }

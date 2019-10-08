@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "description": "",
   "main": "index.js",
   "publishConfig": {
@@ -26,7 +26,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-dotenv-import": "http://github.com/dmapper/babel-plugin-dotenv-import/tarball/multiple-path",
     "babel-plugin-module-resolver": "^3.1.1",
-    "babel-plugin-react-css-modules": "http://github.com/dmapper/babel-plugin-react-css-modules/tarball/stylus-build",
+    "babel-plugin-react-css-modules": "http://github.com/dmapper/babel-plugin-react-css-modules/tarball/stylus2-build",
     "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
     "babel-plugin-react-native-stylename-to-style": "^0.13.0",
     "babel-plugin-react-native-web-pass-classname": "^0.2.1",
@@ -55,5 +55,6 @@
   "peerDependencies": {
     "@babel/runtime": "^7.0.0",
     "@hot-loader/react-dom": "*"
-  }
+  },
+  "gitHead": "50c6c593a861a88d0863bcf4eb1c1c45dda6c90a"
 }

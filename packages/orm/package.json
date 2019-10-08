@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/orm",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "description": "ORM system for Racer.js and ShareDB",
   "main": "lib/index.js",
   "publishConfig": {
@@ -28,5 +28,6 @@
     "url": "https://github.com/dmapper/racer-orm/issues"
   },
   "homepage": "https://github.com/dmapper/racer-orm",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "gitHead": "50c6c593a861a88d0863bcf4eb1c1c45dda6c90a"
 }
