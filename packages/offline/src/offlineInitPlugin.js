@@ -47,7 +47,7 @@ export default function offlineInitPlugin (options = {}) {
     const url = getWebSocketURL(clientOptions)
     const worker = new Thread('worker.thread.js')
     const workerMessenger = new Messenger(worker, 'client')
-    const socket = new Socket(Object.assign({}, { workerMessenger, url}, options.socketParams || {}))
+    const socket = new Socket(Object.assign({}, { workerMessenger, url }, options.socketParams || {}))
 
     this.set('$connection.offlineState', socket.getState())
     socket.ee.on('state', state => {
@@ -61,4 +61,3 @@ export default function offlineInitPlugin (options = {}) {
     return socket
   }
 }
-
