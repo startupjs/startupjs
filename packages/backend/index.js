@@ -133,7 +133,7 @@ module.exports = (options) => {
   })
 
   // ------------------------------------------------------->      backend       <#
-  options.ee.emit('backend', backend)
+  if (options.ee != null) options.ee.emit('backend', backend)
 
   return { backend, mongo, redis }
 }
