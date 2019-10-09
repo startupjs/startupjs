@@ -19,8 +19,8 @@ try {
 } catch (e) {}
 
 module.exports = (options) => {
-  // ------------------------------------------------------->     storeUse     <#
-  options.ee.emit('storeUse', racer)
+  // ------------------------------------------------------->     storeUse    <#
+  if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
   let mongoUrl = conf.get('MONGO_URL')
