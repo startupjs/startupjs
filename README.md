@@ -39,3 +39,25 @@ yarn android
 ```
 yarn ios
 ```
+
+## Packages
+
+### [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend/README.md)
+
+### [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler/README.md)
+
+### [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli/README.md)
+
+### [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron/README.md)
+
+### [Init](https://github.com/dmapper/startupjs/blob/master/packages/init/README.md)
+
+### [Model](https://github.com/dmapper/startupjs/blob/master/packages/model/README.md)
+
+### [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline/README.md)
+
+### [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm/README.md)
+
+### [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb/README.md)
+
+### [Server](https://github.com/dmapper/startupjs/blob/master/packages/server/README.md)
