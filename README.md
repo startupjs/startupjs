@@ -7,7 +7,7 @@
 1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case)
 
 ```
-npx startupjs init myapp --version=next && cd myapp
+npx startupjs init myapp --version=latest && cd myapp
 ```
 
 2. Start **server** (in a separate terminal tab)
