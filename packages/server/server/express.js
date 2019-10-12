@@ -30,17 +30,17 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
 }
 
 module.exports = (backend, appRoutes, error, options, cb) => {
-  let MongoStore = connectMongo(expressSession)
-  let mongoUrl = conf.get('MONGO_URL')
+  const MongoStore = connectMongo(expressSession)
+  const mongoUrl = conf.get('MONGO_URL')
 
-  let connectMongoOptions = { url: mongoUrl }
+  const connectMongoOptions = { url: mongoUrl }
   if (options.sessionMaxAge) {
     connectMongoOptions.touchAfter = options.sessionUpdateInterval ||
         getDefaultSessionUpdateInterval(options.sessionMaxAge)
   }
   if (process.env.MONGO_SSL_CERT_PATH && process.env.MONGO_SSL_KEY_PATH) {
-    let sslCert = fs.readFileSync(process.env.MONGO_SSL_CERT_PATH)
-    let sslKey = fs.readFileSync(process.env.MONGO_SSL_KEY_PATH)
+    const sslCert = fs.readFileSync(process.env.MONGO_SSL_CERT_PATH)
+    const sslKey = fs.readFileSync(process.env.MONGO_SSL_KEY_PATH)
     connectMongoOptions.mongoOptions = {
       server: {
         sslValidate: false,
@@ -49,9 +49,9 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       }
     }
   }
-  let sessionStore = new MongoStore(connectMongoOptions)
+  const sessionStore = new MongoStore(connectMongoOptions)
   sessionStore.on('connected', () => {
-    let session = expressSession({
+    const session = expressSession({
       secret: conf.get('SESSION_SECRET'),
       store: sessionStore,
       cookie: {
@@ -65,13 +65,13 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       rolling: !!options.sessionMaxAge
     })
 
-    let clientOptions = {
+    const clientOptions = {
       timeout: 5000,
       timeoutIncrement: 8000
     }
-    let hwHandlers = racerHighway(backend, { session }, clientOptions)
+    const hwHandlers = racerHighway(backend, { session }, clientOptions)
 
-    let expressApp = express()
+    const expressApp = express()
 
     // Required to be able to determine whether the protocol is 'http' or 'https'
     if (FORCE_HTTPS) expressApp.enable('trust proxy')
@@ -110,7 +110,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
 
     // userId
     expressApp.use((req, res, next) => {
-      let model = req.model
+      const model = req.model
       // Set anonymous userId unless it was set by some end-user auth middleware
       if (req.session.userId == null) req.session.userId = model.id()
       // Set userId into model
@@ -121,7 +121,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
     // Pipe env to client through the model
     expressApp.use((req, res, next) => {
       if (req.xhr) return next()
-      let model = req.model
+      const model = req.model
       model.set('_session.env', global.env)
       next()
     })
@@ -137,7 +137,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
 
     // Client Apps routes
     // Memoize getting the end-user <head> code
-    let getHead = _memoize(options.getHead || (() => ''))
+    const getHead = _memoize(options.getHead || (() => ''))
 
     expressApp.use((req, res, next) => {
       let matched
@@ -150,6 +150,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       if (!matched) return next()
       if (matched.redirect) return res.redirect(302, matched.redirect)
       const model = req.model
+      model.set('$render.match', matched.match)
       function renderApp (route, done) {
         let filters = route.filters
         if (!filters) return done()
@@ -170,7 +171,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
         const appName = matched.appName
         model.bundle((err, bundle) => {
           if (err) return next('500: ' + req.url + '. Error: ' + err)
-          let html = defaultClientLayout({
+          const html = defaultClientLayout({
             styles: process.env.NODE_ENV === 'production'
               ? resourceManager.getProductionStyles(appName) : '',
             head: getHead(appName),
@@ -211,10 +212,10 @@ function getBodyParserOptionsByType (type, options = {}) {
 }
 
 function matchUrl (location, routes, cb) {
-  let matched = matchRoutes(routes, location.replace(/\?.*/, ''))
+  const matched = matchRoutes(routes, location.replace(/\?.*/, ''))
   if (matched && matched.length) {
     // check if the last route has redirect
-    let lastRoute = matched[matched.length - 1]
+    const lastRoute = matched[matched.length - 1]
     if (lastRoute.route.redirect) {
       return { redirect: lastRoute.route.redirect }
     // explicitely check that path is present,
@@ -222,17 +223,21 @@ function matchUrl (location, routes, cb) {
     // which doesn't actually render anything real,
     // but just a side-effect of react-router config structure.
     } else if (lastRoute.route.path) {
-      return { render: true, filters: lastRoute.route.filters }
+      return {
+        render: true,
+        filters: lastRoute.route.filters,
+        match: lastRoute.match
+      }
     }
   }
   return false
 }
 
 function matchAppRoutes (location, appRoutes, cb) {
-  let appNames = _keys(appRoutes)
-  for (let appName of appNames) {
-    let routes = appRoutes[appName]
-    let result = matchUrl(location, routes)
+  const appNames = _keys(appRoutes)
+  for (const appName of appNames) {
+    const routes = appRoutes[appName]
+    const result = matchUrl(location, routes)
     if (result) return Object.assign({ appName }, result)
   }
   return false
