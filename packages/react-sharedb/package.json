@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/react-sharedb",
-  "version": "0.6.0",
+  "version": "0.6.5",
   "description": "",
   "main": "lib/index.js",
   "publishConfig": {
