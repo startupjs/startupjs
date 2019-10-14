@@ -1,8 +1,6 @@
 import {
   useMemo,
-  useEffect,
   useLayoutEffect,
-  useState,
   useRef,
   useCallback
 } from 'react'
@@ -184,7 +182,9 @@ function generateUseItemOfType (typeFn) {
     // ----- return -----
 
     return [
-      initsCountRef.current ? data : undefined,
+      initsCountRef.current
+        ? (typeFn === subQuery ? data.filter(Boolean) : data)
+        : undefined,
 
       // Query, QueryExtra: return scoped model to collection path.
       // Everything else: return the 'hooks.<randomHookId>' scoped model.
