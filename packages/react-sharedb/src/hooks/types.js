@@ -182,9 +182,10 @@ function generateUseItemOfType (typeFn) {
     // ----- return -----
 
     return [
-      initsCountRef.current
-        ? (typeFn === subQuery ? data.filter(Boolean) : data)
-        : undefined,
+      initsCountRef.current ? data : undefined,
+        // TODO: Need to take into account $count queries
+        // ? (typeFn === subQuery ? data.filter(Boolean) : data)
+        // : undefined,
 
       // Query, QueryExtra: return scoped model to collection path.
       // Everything else: return the 'hooks.<randomHookId>' scoped model.
