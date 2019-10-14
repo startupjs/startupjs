@@ -1,8 +1,6 @@
 import {
   useMemo,
-  useEffect,
   useLayoutEffect,
-  useState,
   useRef,
   useCallback
 } from 'react'
@@ -185,7 +183,7 @@ function generateUseItemOfType (typeFn) {
 
     return [
       initsCountRef.current
-        ? typeFn === subQuery ? data.filter(Boolean) : data
+        ? (typeFn === subQuery ? data.filter(Boolean) : data)
         : undefined,
 
       // Query, QueryExtra: return scoped model to collection path.
