@@ -169,6 +169,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       renderApp(matched, (err) => {
         if (err) return next(err)
         const appName = matched.appName
+        model.silent().destroy('$render')
         model.bundle((err, bundle) => {
           if (err) return next('500: ' + req.url + '. Error: ' + err)
           const html = defaultClientLayout({
