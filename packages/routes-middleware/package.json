@@ -1,0 +1,13 @@
+{
+  "name": "@startupjs/routes-middleware",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Server-side middleware for rendering client apps",
+  "version": "0.6.8",
+  "main": "index.js",
+  "dependencies": {
+    "lodash": "4.x",
+    "react-router-config": "^5.0.1"
+  }
+}
