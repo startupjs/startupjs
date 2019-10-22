@@ -60,4 +60,6 @@ yarn ios
 
 ### [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb/README.md)
 
+### [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware/README.md)
+
 ### [Server](https://github.com/dmapper/startupjs/blob/master/packages/server/README.md)
