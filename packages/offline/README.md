@@ -35,7 +35,7 @@ like game/stage/exercise metadata) and provide sincronization/update code
 ### step 0
 Create your app using
 ```
-npx startupjs init myapp -v next
+npx startupjs init myapp -v latest
 ```
 
 ### step 1

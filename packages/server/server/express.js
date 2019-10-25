@@ -1,10 +1,9 @@
-const _keys = require('lodash/keys')
-const _memoize = require('lodash/memoize')
 const _defaults = require('lodash/defaults')
 const _cloneDeep = require('lodash/cloneDeep')
 const conf = require('nconf')
 const express = require('express')
 const fs = require('fs')
+const routesMiddleware = require('@startupjs/routes-middleware')
 const expressSession = require('express-session')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
@@ -12,9 +11,6 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const connectMongo = require('connect-mongo')
 const racerHighway = require('racer-highway')
-const resourceManager = require('./resourceManager')
-const defaultClientLayout = require('./defaultClientLayout')
-const { matchRoutes } = require('react-router-config')
 const hsts = require('hsts')
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
@@ -23,7 +19,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
     extended: true
   }
 }
-const DEFAULT_APP_NAME = 'main'
+
 function getDefaultSessionUpdateInterval (sessionMaxAge) {
   // maxAge is in ms. Return in s. So it's 1/10nth of maxAge.
   return Math.floor(sessionMaxAge / 1000 / 10)
@@ -135,55 +131,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
     // ----------------------------------------------------->      routes      <#
     options.ee.emit('routes', expressApp)
 
-    // Client Apps routes
-    // Memoize getting the end-user <head> code
-    const getHead = _memoize(options.getHead || (() => ''))
-
-    expressApp.use((req, res, next) => {
-      let matched
-      // If no client-side routes provided, always render the page
-      if (Object.keys(appRoutes).length === 0) {
-        matched = { appName: DEFAULT_APP_NAME }
-      } else {
-        matched = matchAppRoutes(req.url, appRoutes)
-      }
-      if (!matched) return next()
-      if (matched.redirect) return res.redirect(302, matched.redirect)
-      const model = req.model
-      model.set('$render.match', matched.match)
-      function renderApp (route, done) {
-        let filters = route.filters
-        if (!filters) return done()
-        filters = filters.slice()
-        function runFilter (err) {
-          if (err) return done(err)
-          const filter = filters.shift()
-          if (typeof filter === 'function') {
-            return filter(model, runFilter, res.redirect.bind(res))
-          }
-          done()
-        }
-        runFilter()
-      }
-
-      renderApp(matched, (err) => {
-        if (err) return next(err)
-        const appName = matched.appName
-        model.silent().destroy('$render')
-        model.bundle((err, bundle) => {
-          if (err) return next('500: ' + req.url + '. Error: ' + err)
-          const html = defaultClientLayout({
-            styles: process.env.NODE_ENV === 'production'
-              ? resourceManager.getProductionStyles(appName) : '',
-            head: getHead(appName),
-            modelBundle: bundle,
-            jsBundle: resourceManager.getResourcePath('bundle', appName),
-            env: model.get('_session.env') || {}
-          })
-          res.status(200).send(html)
-        })
-      })
-    })
+    expressApp.use(routesMiddleware(appRoutes, options))
 
     expressApp
       .all('*', (req, res, next) => next('404: ' + req.url))
@@ -210,36 +158,4 @@ function getBodyParserOptionsByType (type, options = {}) {
     DEFAULT_BODY_PARSER_OPTIONS[type],
     DEFAULT_BODY_PARSER_OPTIONS.general
   )
-}
-
-function matchUrl (location, routes, cb) {
-  const matched = matchRoutes(routes, location.replace(/\?.*/, ''))
-  if (matched && matched.length) {
-    // check if the last route has redirect
-    const lastRoute = matched[matched.length - 1]
-    if (lastRoute.route.redirect) {
-      return { redirect: lastRoute.route.redirect }
-    // explicitely check that path is present,
-    // because it's possible that only the Root component was matched
-    // which doesn't actually render anything real,
-    // but just a side-effect of react-router config structure.
-    } else if (lastRoute.route.path) {
-      return {
-        render: true,
-        filters: lastRoute.route.filters,
-        match: lastRoute.match
-      }
-    }
-  }
-  return false
-}
-
-function matchAppRoutes (location, appRoutes, cb) {
-  const appNames = _keys(appRoutes)
-  for (const appName of appNames) {
-    const routes = appRoutes[appName]
-    const result = matchUrl(location, routes)
-    if (result) return Object.assign({ appName }, result)
-  }
-  return false
 }
