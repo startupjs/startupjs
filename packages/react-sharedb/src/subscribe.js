@@ -16,7 +16,7 @@ import RacerUtil from 'racer/lib/util'
 import RacerQuery from 'racer/lib/Model/Query'
 import SharedbDoc from 'sharedb/lib/client/doc'
 import semaphore from './semaphore'
-import { isExtraQuery } from './util'
+import { isExtraQuery } from './isExtraQuery'
 import {
   observe,
   unobserve,
@@ -293,9 +293,13 @@ const getSubscriptionsContainer = (DecoratedComponent, fns) =>
         })
       }
       if (item.init) {
-        return item
-          .init()
-          .then(finishInit)
+        const initRes = item.init()
+
+        if (!initRes){
+          finishInit()
+          return Promise.resolve()
+        }
+        return initRes.then(finishInit)
           .catch(err => {
             console.warn(
               "[react-sharedb] Warning. Item couldn't initialize. " +
