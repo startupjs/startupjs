@@ -7,20 +7,21 @@ const path = require('path')
 const fs = require('fs')
 const memoize = require('lodash/memoize')
 
-let PROJECT_PATH = process.env.PROJECT_PATH || process.cwd()
 let BUILD_CLIENT_PATH = process.env.BUILD_CLIENT_PATH || '/build/client/'
+let PROJECT_PATH = process.env.PROJECT_PATH || process.cwd()
 
-exports.getResourcePath = memoize((type, appName) => {
+exports.getResourcePath = memoize((type, appName, options = {}) => {
   let prefix = ''
   let url = 'ERROR_EMPTY'
   let postfix = ''
   switch (type) {
     case 'bundle':
       if (process.env.NODE_ENV === 'production') {
-        postfix = '.' + exports.getHash(appName, type)
+        prefix = options.BUILD_REFERENCE_URL || ''
+        postfix = '.' + exports.getHash(appName, type, options)
       } else {
         prefix = process.env.DEVSERVER_URL ||
-            ('http://localhost:' + (process.env.DEV_PORT || 3010))
+            ('http://localhost:' + (options.DEV_PORT || process.env.DEV_PORT || 3010))
       }
       url = prefix + BUILD_CLIENT_PATH + appName + postfix + '.js'
       break
@@ -34,11 +35,12 @@ exports.getResourcePath = memoize((type, appName) => {
 }, (...args) => JSON.stringify(args))
 
 // Get assets hashes in production (used for long term caching)
-exports.getHash = memoize((appName, type) => {
+exports.getHash = memoize((appName, type, options = {}) => {
   if (process.env.NODE_ENV !== 'production') return
   if (!appName) return ''
   let assetsMeta
   let hash = ''
+  PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
   let assetsMetaPath = path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')
   try {
     assetsMeta = require(assetsMetaPath)
@@ -63,8 +65,9 @@ exports.getHash = memoize((appName, type) => {
   return hash
 })
 
-exports.getProductionStyles = memoize((appName) => {
-  var styleRelPath = exports.getResourcePath('style', appName)
+exports.getProductionStyles = memoize((appName, options = {}) => {
+  PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
+  var styleRelPath = exports.getResourcePath('style', appName, options)
   var stylePath = path.join(PROJECT_PATH, styleRelPath)
   if (!fs.existsSync(stylePath)) {
     console.error('No stylesheets found for \'' + appName +
