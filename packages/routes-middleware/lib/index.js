@@ -45,10 +45,10 @@ module.exports = function (appRoutes, options = {}) {
         if (err) return next('500: ' + req.url + '. Error: ' + err)
         const html = (options.getClientLayout || defaultClientLayout)({
           styles: process.env.NODE_ENV === 'production'
-            ? resourceManager.getProductionStyles(appName) : '',
+            ? resourceManager.getProductionStyles(appName, options) : '',
           head: getHead(appName),
           modelBundle: bundle,
-          jsBundle: resourceManager.getResourcePath('bundle', appName),
+          jsBundle: resourceManager.getResourcePath('bundle', appName, options),
           env: model.get('_session.env') || {}
         })
         res.status(200).send(html)
