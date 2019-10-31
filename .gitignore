@@ -23,3 +23,6 @@ lerna-debug.log
 
 # Yarn lock file
 yarn.lock
+
+# NPM lock
+package-lock.json
