@@ -2,6 +2,11 @@
 
 > React Native + Web + Node.js full-stack framework
 
+## Requirements
+
+1. MongoDB 4.0
+2. Redis 5.0
+
 ## Quick start
 
 1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case)
@@ -38,6 +43,23 @@ yarn android
 
 ```
 yarn ios
+```
+
+## Docker development
+
+Alternatively you can run a docker development image which has mongo and redis already built in.
+You only need `docker` and `make` installed for this.
+
+Install dependencies using yarn within the docker container:
+
+```
+make yarn
+```
+
+Run the app in docker (also runs mongo and redis inside):
+
+```
+make
 ```
 
 ## Packages
