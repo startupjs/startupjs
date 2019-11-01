@@ -48,18 +48,47 @@ yarn ios
 ## Docker development
 
 Alternatively you can run a docker development image which has mongo and redis already built in.
-You only need `docker` and `make` installed for this.
+You only need `docker` for this. And it works everywhere -- Windows, MacOS, Linux.
+
+Keep in mind though that since the docker uses its own driver to mount folders, the
+performance (especially when installing modules) might be considerably slower compared
+to the native installation when working with large amount of files.
 
 Install dependencies using yarn within the docker container:
 
 ```
-make yarn
+./docker install
 ```
 
-Run the app in docker (also runs mongo and redis inside):
+Run the app (also runs mongo and redis inside):
 
 ```
-make
+./docker
+```
+
+Open `http://localhost:3000` and you should see your app.
+
+### Working with container's shell
+
+Use container's shell to install new modules with yarn or run any other commands.
+
+To enter shell on the running container:
+
+```
+./docker exec
+```
+
+If you don't have the container running, you can start it in shell-only mode using:
+
+```
+./docker sh
+```
+
+Note that `./docker sh` won't run usual initialization logic so the databases won't get started.
+If you want to also start databases when entering shell, do this instead:
+
+```
+./docker sh-init
 ```
 
 ## Packages
