@@ -11,7 +11,7 @@ RUN \
   apk upgrade --update && \
   apk add --no-cache yaml-cpp@v3.9 boost-filesystem@v3.9 boost-iostreams@v3.9 boost-program_options@v3.9 boost-system@v3.9 && \
   apk add --no-cache mongodb@v3.9.community && \
-  apk add --no-cache redis nodejs yarn make gcc g++ python git && \
+  apk add --no-cache redis nodejs yarn make gcc g++ python ffmpeg git && \
   yarn global add concurrently
 
 # Install node_modules and run DBs in background
