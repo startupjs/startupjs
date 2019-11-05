@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useLayoutEffect, useMemo } from 'react'
-import { observer, useDoc, useLocal, useQuery, useValue } from '../../src'
+import React, { useState, useLayoutEffect, useMemo } from 'react'
+import { observer, useDoc, useQuery } from '../../src'
 import { alias } from '../util'
-import _ from 'lodash'
+import isArray from 'lodash/isArray'
 
 const noObserver = fn => fn
 
@@ -67,7 +67,7 @@ function useRenderCount () {
 
 function getItemsNames (items) {
   items = items || []
-  if (!_.isArray(items)) items = [items]
+  if (!isArray(items)) items = [items]
   return items.map(i => i.name).join(',')
 }
 

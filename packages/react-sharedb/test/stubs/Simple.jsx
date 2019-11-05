@@ -1,5 +1,6 @@
 import React from 'react'
-import _ from 'lodash'
+import isArray from 'lodash/isArray'
+import pickBy from 'lodash/pickBy'
 import { isObservable } from '@nx-js/observer-util'
 
 const STORE = process.env.DEPRECATED ? 'scope' : 'store'
@@ -16,7 +17,7 @@ export default () =>
       this.renderCount++
       let { items = [] } = this.props[STORE]
       // Handle situation when subscribing to one doc instead of query
-      if (!_.isArray(items)) items = [items]
+      if (!isArray(items)) items = [items]
       let names = items.map(i => i.name).join(',')
       let colors = items
         .filter(i => i.showColor)
@@ -27,7 +28,7 @@ export default () =>
         console.log('  colors:', colors)
         console.log(
           '  props:',
-          _.pickBy(this.props, (value, key) => key && /^[^$]/.test(key))
+          pickBy(this.props, (value, key) => key && /^[^$]/.test(key))
         )
       }
       return (

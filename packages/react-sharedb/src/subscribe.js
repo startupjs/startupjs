@@ -1,4 +1,9 @@
-import _ from 'lodash'
+import isArray from 'lodash/isArray'
+import uniq from 'lodash/uniq'
+import union from 'lodash/union'
+import keys from 'lodash/keys'
+import isEqual from 'lodash/isEqual'
+// import debounce from 'lodash/debounce'
 import racer from 'racer'
 import React from 'react'
 import hoistStatics from 'hoist-non-react-statics'
@@ -60,7 +65,7 @@ const getAutorunComponent = (Component, isStateless) => {
       // (in case when the outer component is @subscribe)
       props[$STORE].__used = true
 
-      // let fn = _.debounce(() => {
+      // let fn = debounce(() => {
       //   if (this.unmounted) return
       //   this.setState(DUMMY_STATE)
       // })
@@ -233,12 +238,12 @@ const getSubscriptionsContainer = (DecoratedComponent, fns) =>
             scheduler: dataFn
           })
 
-          let keys = _.union(_.keys(prevSubscriptions), _.keys(subscriptions))
-          keys = _.uniq(keys)
+          let keys = union(keys(prevSubscriptions), keys(subscriptions))
+          keys = uniq(keys)
           let promises = []
           batching.batch(() => {
             for (let key of keys) {
-              if (!_.isEqual(subscriptions[key], prevSubscriptions[key])) {
+              if (!isEqual(subscriptions[key], prevSubscriptions[key])) {
                 if (subscriptions[key]) {
                   promises.push(this.initItem(key, subscriptions[key]))
                 } else {
@@ -363,7 +368,7 @@ function getItemConstructorFromParams (params) {
       - subValue(value)
   `)
   if (typeof params === 'string') return Local
-  if (_.isArray(params)) {
+  if (isArray(params)) {
     let [, queryOrId] = params
     return typeof queryOrId === 'string' || !queryOrId
       ? Doc

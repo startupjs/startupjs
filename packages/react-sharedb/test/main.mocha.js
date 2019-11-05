@@ -2,7 +2,7 @@ import { asyncImport, cleanup } from './_globals'
 import React from 'react'
 import { expect } from 'chai'
 import { alias } from './util'
-import _ from 'lodash'
+import range from 'lodash/range'
 import './_server'
 import waitForExpect from 'wait-for-expect'
 import {
@@ -83,7 +83,7 @@ describe(PREFIX + 'Docs', () => {
         .to.have.lengthOf(1)
         .and.include(newName)
     }
-    for (let i in _.range(50)) {
+    for (let i in range(50)) {
       await updateAndCheckName(`TestUpdate${i}_`)
     }
     await updateAndCheckName(alias(1))

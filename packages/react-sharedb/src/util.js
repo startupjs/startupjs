@@ -1,6 +1,6 @@
 import model from '@startupjs/model'
 import { observable, isObservable } from '@nx-js/observer-util'
-import _ from 'lodash'
+import get from 'lodash/get'
 import semaphore from './semaphore'
 
 export function observablePath (path) {
@@ -8,9 +8,9 @@ export function observablePath (path) {
   let originalSegments = model._dereference(segments, true)
   let parentSegments = originalSegments.slice(0, -1)
   let leafSegment = originalSegments[originalSegments.length - 1]
-  let result = _.get(model.data, originalSegments)
+  let result = get(model.data, originalSegments)
   if (typeof result === 'object' && result !== null && !isObservable(result)) {
-    _.get(model.data, parentSegments)[leafSegment] = observable(result)
+    get(model.data, parentSegments)[leafSegment] = observable(result)
   }
 }
 

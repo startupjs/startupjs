@@ -1,4 +1,4 @@
-const _ = require('lodash')
+const pickBy = require('lodash/pickBy')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
@@ -65,12 +65,12 @@ module.exports = function getConfig (env, {
   }
   // array must be non-empty to prevent matching all node_modules via regex
   forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
-  return _.pickBy({
+  return pickBy({
     mode: PROD ? 'production' : 'development',
     entry: {
       [BUNDLE_NAME]: DEFAULT_ENTRIES.concat(['./index.web.js'])
     },
-    optimization: (PROD || ASYNC) && _.pickBy({
+    optimization: (PROD || ASYNC) && pickBy({
       minimizer: PROD && [
         new TerserPlugin({
           cache: false,

@@ -1,5 +1,5 @@
 import React from 'react'
-import _ from 'lodash'
+import isArray from 'lodash/isArray'
 
 const ITEMS_AMOUNT = 4
 const STORE = process.env.DEPRECATED ? 'scope' : 'store'
@@ -20,7 +20,7 @@ export default () =>
       for (let i = 0; i < ITEMS_AMOUNT; i++) {
         let items = this.props[STORE][`items${i}`]
         items = items || []
-        if (!_.isArray(items)) items = [items]
+        if (!isArray(items)) items = [items]
         let names = items.map(i => i.name).join(',')
         if (typeof DEBUG !== 'undefined') console.log(`  ${i}: ${names}`)
         itemEls.push(

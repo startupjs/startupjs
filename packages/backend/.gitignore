@@ -1,23 +1,6 @@
+# OSX
 .DS_Store
-*.swp
-*.log
-.idea
-.history
-.vscode
-npm-*
-coverage
 
-# Deps
-/node_modules/
-/bower_components/
-
-# App
-/build/
-/public/js/minified/
-/public/img/sprites/
-
-# Temp
-/tmp/
-
-# Tests
-test/shots/*
+node_modules/
+npm-debug.log
+yarn-error.log

@@ -4,7 +4,7 @@ import { createWaitForElement } from '@oskarer/enzyme-wait'
 import Enzyme, { mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import TestRenderer from 'react-test-renderer'
-import _ from 'lodash'
+import isArray from 'lodash/isArray'
 
 const DEPRECATED = process.env.DEPRECATED
 
@@ -69,7 +69,7 @@ export function convertToHooksSubscribeParams (fn) {
       default:
         throw new Error('Unknown useFn type: ' + type)
     }
-    if (!_.isArray(params)) params = [params]
+    if (!isArray(params)) params = [params]
     return useFn(...params)
   }
 }

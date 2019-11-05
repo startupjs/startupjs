@@ -1,4 +1,4 @@
-const _ = require('lodash')
+const pickBy = require('lodash/pickBy')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
@@ -26,7 +26,7 @@ module.exports = function getConfig (env, {
     alias = JSON.parse(alias)
   }
   forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
-  return _.pickBy({
+  return pickBy({
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({ whitelist: forceCompileModules })], // in order to ignore all modules in node_modules folder
     mode: PROD ? 'production' : 'development',

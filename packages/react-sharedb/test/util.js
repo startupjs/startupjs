@@ -1,8 +1,8 @@
-import _ from 'lodash'
+import isArray from 'lodash/isArray'
 
 export function alias (number) {
   const name = n => `test${n}_`
-  if (_.isArray(number)) {
+  if (isArray(number)) {
     return number.map(n => name(n))
   } else {
     return name(number)

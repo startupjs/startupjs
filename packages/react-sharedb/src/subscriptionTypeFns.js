@@ -1,4 +1,7 @@
-import _ from 'lodash'
+import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
+import isBoolean from 'lodash/isBoolean'
+import isNumber from 'lodash/isNumber'
 
 export function subLocal (localPath) {
   if (typeof localPath !== 'string') {
@@ -53,10 +56,10 @@ export function subQuery (collection, query) {
     invalid = true
   }
   if (
-    _.isString(query) ||
-    _.isArray(query) ||
-    _.isBoolean(query) ||
-    _.isNumber(query)
+    isString(query) ||
+    isArray(query) ||
+    isBoolean(query) ||
+    isNumber(query)
   ) {
     throw new Error(`
       [react-sharedb] subQuery(): Query is not an Object. Got:
@@ -96,8 +99,8 @@ export function subApi (path, fn, inputs, options) {
       `[react-sharedb] subApi(): path must be a non-empty string. Got: ${path}`
     )
   }
-  if (inputs != null && !_.isArray(inputs)) {
-    if (_.isString(inputs) || _.isBoolean(inputs) || _.isNumber(inputs)) {
+  if (inputs != null && !isArray(inputs)) {
+    if (isString(inputs) || isBoolean(inputs) || isNumber(inputs)) {
       throw new Error(
         `[react-sharedb] subApi(): inputs must be an array and ` +
           `options must be an object. Got: inputs - ${inputs}; options - ${options}`
@@ -108,14 +111,14 @@ export function subApi (path, fn, inputs, options) {
   }
   if (
     options != null &&
-    (_.isArray(options) || _.isString(options) || _.isBoolean(options))
+    (isArray(options) || isString(options) || isBoolean(options))
   ) {
     throw new Error(
       `[react-sharedb] subApi(): options must be an object. Got: ${options}`
     )
   }
   if (options && options.debounce) {
-    if (!_.isNumber(options.debounce)) {
+    if (!isNumber(options.debounce)) {
       throw new Error(
         `[react-sharedb] subApi(): debounce must be a number (milliseconds). Got: ${options.debounce}`
       )
