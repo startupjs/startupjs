@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+@ 2>/dev/null # 2>nul & echo off
+:; alias ::=''
+::
+:: # Helper script to run StartupJS app using docker only
+:: # on both Unix and Windows.
+:: # version: 0.1.0
+::
+::
+:: # --- Bash script (Mac and Linux). Execute in bash console.
+::
+:: ROOT="${PWD}"
+:: DB_FOLDER="${ROOT}/data"
+:: APP_NAME="app"
+:: DEV_IMAGE="startupjs/dev"
+:: DEV_NAME="${APP_NAME}-dev"
+:: OS_NAME=$( uname -s | tr A-Z a-z )
+:: VOLUME_MODE=$( [ "$OS_NAME" = "darwin" ] && echo ":delegated" || echo "" )
+::
+:: if [ -z "$1" ] || [ "$1" = "run" ] || [ "$1" = "start" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE};
+:: elif [ "$1" = "exec" ]; then docker exec -it ${DEV_NAME} sh;
+:: elif [ "$1" = "sh" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE} sh;
+:: elif [ "$1" = "sh-init" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE} sh-init;
+:: elif [ "$1" = "install" ] || [ "$1" = "yarn" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE} install;
+:: else echo "Invalid command. Available:\n  - run (default; alias: start)\n  - exec\n  - sh\n  - sh-init\n  - install (alias: yarn)";
+:: fi
+:: exit
+
+
+:: # --- Batch script (Windows). Execute in cmd or in PowerShell.
+:: # TODO
+
+exit /B

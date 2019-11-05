@@ -93,6 +93,9 @@ commander
     console.log('> Patch package.json with additional scripts')
     addScriptsToPackageJson(projectPath)
 
+    console.log('> Add additional things to .gitignore')
+    appendGitignore(projectPath)
+
     console.log('> Apply module patches from /patches/ folder')
     await execa('yarn', ['postinstall'], {
       cwd: projectPath,
@@ -178,6 +181,18 @@ function addScriptsToPackageJson (projectPath) {
     packageJSONPath,
     `${JSON.stringify(packageJSON, null, 2)}\n`
   )
+}
+
+function appendGitignore (projectPath) {
+  const gitignorePath = path.join(projectPath, '.gitignore')
+  const gitignore = fs.readFileSync(gitignorePath).toString()
+
+  gitignore += `
+    # DB data
+    /data/
+  `.replace(/\n\s+/g, '\n')
+
+  fs.writeFileSync(gitignorePath, gitignore)
 }
 
 function getSuccessInstructions (projectName) {
