@@ -10,14 +10,14 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react',
   'react-dom',
+  'react-hot-loader', // To add hot-loading for web
   'axios', // For making AJAX requests
   'patch-package',
   'postinstall-postinstall'
 ]
 
 const DEV_DEPENDENCIES = [
-  '@hot-loader/react-dom',
-  'react-hot-loader' // To add hot-loading for web
+  '@hot-loader/react-dom'
 ]
 
 const SCRIPTS_ORIG = {}
