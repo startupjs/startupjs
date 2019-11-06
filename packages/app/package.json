@@ -1,0 +1,39 @@
+{
+  "name": "@startupjs/app",
+  "version": "0.7.2",
+  "description": "Router component for multi apps",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "license": "ISC",
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "peerDependencies": {
+    "lodash": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-code-push": "*",
+    "react-router": "*",
+    "react-router-native": "*",
+    "react-router-native-stack": "*",
+    "startupjs": "*"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-pug": "^0.8.4",
+    "eslint-plugin-standard": "^4.0.1",
+    "lint-staged": "^9.2.5"
+  }
+}

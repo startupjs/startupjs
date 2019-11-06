@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb",
   "version": "0.7.1",
-  "description": "",
+  "description": "Run ShareDB in React",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
@@ -22,7 +22,6 @@
       "git add"
     ]
   },
-  "author": "",
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",

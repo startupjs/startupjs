@@ -1,10 +1,9 @@
 {
   "name": "@startupjs/cli",
   "version": "0.7.1",
-  "description": "",
+  "description": "start, watch and build startupjs project",
   "main": "index.js",
   "scripts": {},
-  "author": "",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

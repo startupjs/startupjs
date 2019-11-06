@@ -93,24 +93,26 @@ If you want to also start databases when entering shell, do this instead:
 
 ## Packages
 
-### [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend/README.md)
+### [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
 
-### [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler/README.md)
+### [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
 
-### [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli/README.md)
+### [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
 
-### [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron/README.md)
+### [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
 
-### [Init](https://github.com/dmapper/startupjs/blob/master/packages/init/README.md)
+### [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
 
-### [Model](https://github.com/dmapper/startupjs/blob/master/packages/model/README.md)
+### [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
 
-### [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline/README.md)
+### [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
 
-### [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm/README.md)
+### [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
 
-### [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb/README.md)
+### [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
 
-### [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware/README.md)
+### [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
 
-### [Server](https://github.com/dmapper/startupjs/blob/master/packages/server/README.md)
+### [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
+
+### [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
