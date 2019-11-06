@@ -52,8 +52,7 @@
     "terser-webpack-plugin": "^1.1.0",
     "webpack-node-externals": "^1.7.2"
   },
-  "peerDependencies": {
-    "@babel/runtime": "^7.0.0",
+  "devDependencies": {
     "@hot-loader/react-dom": "*"
   },
   "gitHead": "50c6c593a861a88d0863bcf4eb1c1c45dda6c90a"

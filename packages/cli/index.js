@@ -8,16 +8,16 @@ const DEPENDENCIES = [
   'source-map-support',
   'react-native-web@0.11.7',
   'nconf@^0.10.0',
+  'react',
   'react-dom',
-  '@hot-loader/react-dom',
-  'react-hot-loader', // To add hot-loading for web
   'axios', // For making AJAX requests
   'patch-package',
   'postinstall-postinstall'
 ]
 
 const DEV_DEPENDENCIES = [
-  // empty for now
+  '@hot-loader/react-dom',
+  'react-hot-loader' // To add hot-loading for web
 ]
 
 const SCRIPTS_ORIG = {}

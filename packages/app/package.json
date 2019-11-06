@@ -13,15 +13,18 @@
       "git add"
     ]
   },
+  "dependencies": {
+    "lodash": "4.x",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-router-native": "^5.1.2",
+    "react-router-native-stack": "^0.0.16"
+  },
   "peerDependencies": {
-    "lodash": "*",
-    "react": "*",
+    "@startupjs/react-sharedb": "*",
+    "react": ">= 16.9.0",
     "react-native": "*",
-    "react-native-code-push": "*",
-    "react-router": "*",
-    "react-router-native": "*",
-    "react-router-native-stack": "*",
-    "startupjs": "*"
+    "react-native-code-push": "*"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
