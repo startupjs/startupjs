@@ -45,6 +45,7 @@ return (
 
 ### server
 ```js
+import startupjsServer from '@startupjs/server'
 import { initUpdateApp } from '@startupjs/app/server'
 
 // Object where key is Platform.OS and value is number
@@ -55,7 +56,7 @@ const CRITICAL_VERSION = {
   web: Number
 }
 
-shareDbServer({
+startupjsServer({
   // ...
 },
 (ee, options) => {
