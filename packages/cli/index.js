@@ -20,6 +20,12 @@ const DEV_DEPENDENCIES = [
   '@hot-loader/react-dom'
 ]
 
+const REMOVE_DEPENDENCIES = [
+  '@babel/core',
+  '@babel/runtime',
+  'metro-react-native-babel-preset'
+]
+
 const SCRIPTS_ORIG = {}
 SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.js'
 SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
@@ -73,6 +79,13 @@ commander
     if (DEV_DEPENDENCIES.length) {
       // install startupjs devDependencies
       await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
+
+    if (REMOVE_DEPENDENCIES.length) {
+      await execa('yarn', ['remove'].concat(REMOVE_DEPENDENCIES), {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -185,7 +198,7 @@ function addScriptsToPackageJson (projectPath) {
 
 function appendGitignore (projectPath) {
   const gitignorePath = path.join(projectPath, '.gitignore')
-  const gitignore = fs.readFileSync(gitignorePath).toString()
+  let gitignore = fs.readFileSync(gitignorePath).toString()
 
   gitignore += `
     # DB data

@@ -1,5 +1,5 @@
 const genericNames = require('generic-names')
-const {LOCAL_IDENT_NAME} = require('./buildOptions')
+const { LOCAL_IDENT_NAME } = require('./buildOptions')
 const ASYNC = process.env.ASYNC
 
 const DIRECTORY_ALIASES = {
@@ -27,11 +27,11 @@ const basePlugins = [
   ['react-pug-classnames', {
     classAttribute: 'styleName'
   }],
-  ['@babel/plugin-proposal-decorators', {legacy: true}],
+  ['@babel/plugin-proposal-decorators', { legacy: true }],
   ['module-resolver', { alias: DIRECTORY_ALIASES }]
 ]
 
-const dotenvPlugin = ({production} = {}) =>
+const dotenvPlugin = ({ production } = {}) =>
   ['dotenv-import', {
     moduleName: '@env',
     path: ['.env', production ? '.env.production' : '.env.local'],
@@ -39,7 +39,7 @@ const dotenvPlugin = ({production} = {}) =>
     allowUndefined: true
   }]
 
-const webReactCssModulesPlugin = ({production} = {}) =>
+const webReactCssModulesPlugin = ({ production } = {}) =>
   ['react-css-modules', {
     handleMissingStyleName: 'ignore',
     filetypes: {
@@ -77,7 +77,7 @@ module.exports = {
     production: {
       presets: clientPresets,
       plugins: [].concat([
-        dotenvPlugin({production: true})
+        dotenvPlugin({ production: true })
       ], nativeBasePlugins())
     },
     web_development: {
@@ -91,8 +91,8 @@ module.exports = {
     web_production: {
       presets: clientPresets,
       plugins: [].concat([
-        dotenvPlugin({production: true}),
-        webReactCssModulesPlugin({production: true})
+        dotenvPlugin({ production: true }),
+        webReactCssModulesPlugin({ production: true })
       ], webBasePlugins())
     },
     server: {
