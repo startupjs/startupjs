@@ -36,7 +36,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier-standard": "^7.0.3",
-    "racer": "*",
+    "racer": "0.9.9",
     "sharedb": "*",
     "standard": "^10.0.3"
   },
