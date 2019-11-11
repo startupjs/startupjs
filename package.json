@@ -1,11 +1,10 @@
 {
   "name": "startupjs",
   "version": "0.7.2",
-  "description": "",
+  "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
   "scripts": {},
-  "author": "",
   "license": "MIT",
   "dependencies": {
     "@startupjs/backend": "^0.7.1",

@@ -1,10 +1,9 @@
 {
   "name": "@startupjs/backend",
   "version": "0.7.1",
-  "description": "",
+  "description": "Create new ShareDB backend instance",
   "main": "index.js",
   "scripts": {},
-  "author": "",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

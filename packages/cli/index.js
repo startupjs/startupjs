@@ -8,8 +8,8 @@ const DEPENDENCIES = [
   'source-map-support',
   'react-native-web@0.11.7',
   'nconf@^0.10.0',
+  'react',
   'react-dom',
-  '@hot-loader/react-dom',
   'react-hot-loader', // To add hot-loading for web
   'axios', // For making AJAX requests
   'patch-package',
@@ -17,7 +17,13 @@ const DEPENDENCIES = [
 ]
 
 const DEV_DEPENDENCIES = [
-  // empty for now
+  '@hot-loader/react-dom'
+]
+
+const REMOVE_DEPENDENCIES = [
+  '@babel/core',
+  '@babel/runtime',
+  'metro-react-native-babel-preset'
 ]
 
 const SCRIPTS_ORIG = {}
@@ -73,6 +79,13 @@ commander
     if (DEV_DEPENDENCIES.length) {
       // install startupjs devDependencies
       await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
+
+    if (REMOVE_DEPENDENCIES.length) {
+      await execa('yarn', ['remove'].concat(REMOVE_DEPENDENCIES), {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -185,7 +198,7 @@ function addScriptsToPackageJson (projectPath) {
 
 function appendGitignore (projectPath) {
   const gitignorePath = path.join(projectPath, '.gitignore')
-  const gitignore = fs.readFileSync(gitignorePath).toString()
+  let gitignore = fs.readFileSync(gitignorePath).toString()
 
   gitignore += `
     # DB data
