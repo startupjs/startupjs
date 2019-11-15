@@ -57,16 +57,16 @@ let templatePath
 commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
-  .option('-v, --version <semver>', 'Use a particular semver of React Native as a template')
+  .option('-v, --version <semver>', 'Use a particular semver of React Native as a template', 'latest')
   .action(async (projectName, { version }) => {
     console.log('> run npx', projectName, { version })
 
     // init react-native application
     await execa('npx', [
-      `react-native${version ? ('@' + version) : ''}`,
+      `react-native${'@' + version}`,
       'init',
       projectName
-    ].concat(version ? ['--version', version] : []), { stdio: 'inherit' })
+    ].concat(['--version', version]), { stdio: 'inherit' })
 
     let projectPath = path.join(process.cwd(), projectName)
 
