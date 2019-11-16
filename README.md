@@ -54,19 +54,31 @@ Keep in mind though that since the docker uses its own driver to mount folders, 
 performance (especially when installing modules) might be considerably slower compared
 to the native installation when working with large amount of files.
 
-Install dependencies using yarn within the docker container:
+1. Initialize a new project (change `awesomeapp` at the end to your app name):
 
 ```
-./docker install
+docker run --rm -it --ulimit nofile=65535:65535 -v ${PWD}:/app startupjs/dev init awesomeapp
 ```
 
-Run the app (also runs mongo and redis inside):
+2. Go into the created project folder. Then run the development docker container with:
 
 ```
 ./docker
 ```
 
+3. While inside the running container, start your app with:
+
+```
+yarn start
+```
+
 Open `http://localhost:3000` and you should see your app.
+
+4. You can quickly exec into the running container from other terminal windows using:
+
+```
+./docker exec
+```
 
 ### Working with container's shell
 
