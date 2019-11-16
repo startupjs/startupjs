@@ -17,12 +17,9 @@
 :: OS_NAME=$( uname -s | tr A-Z a-z )
 :: VOLUME_MODE=$( [ "$OS_NAME" = "darwin" ] && echo ":delegated" || echo "" )
 ::
-:: if [ -z "$1" ] || [ "$1" = "run" ] || [ "$1" = "start" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE};
+:: if [ -z "$1" ] || [ "$1" = "run" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE};
 :: elif [ "$1" = "exec" ]; then docker exec -it ${DEV_NAME} sh;
-:: elif [ "$1" = "sh" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE} sh;
-:: elif [ "$1" = "sh-init" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE} sh-init;
-:: elif [ "$1" = "install" ] || [ "$1" = "yarn" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE} install;
-:: else echo "Invalid command. Available:\n  - run (default; alias: start)\n  - exec\n  - sh\n  - sh-init\n  - install (alias: yarn)";
+:: else echo "Invalid command. Available:\n  - run (default)\n  - exec";
 :: fi
 :: exit
 
