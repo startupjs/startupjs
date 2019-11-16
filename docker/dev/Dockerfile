@@ -13,7 +13,7 @@ RUN \
   apk add --no-cache redis make gcc g++ python ffmpeg git && \
   yarn global add concurrently
 
-# Install node_modules and run DBs in background
+# Run DBs in background
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
