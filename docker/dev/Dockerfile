@@ -1,4 +1,4 @@
-FROM node:13.1.0-apline
+FROM node:13.1.0-alpine
 
 EXPOSE 3000 3010 27017 28017 6379
 
