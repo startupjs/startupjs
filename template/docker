@@ -17,7 +17,7 @@
 :: OS_NAME=$( uname -s | tr A-Z a-z )
 :: VOLUME_MODE=$( [ "$OS_NAME" = "darwin" ] && echo ":delegated" || echo "" )
 ::
-:: if [ -z "$1" ] || [ "$1" = "run" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/app${VOLUME_MODE} ${DEV_IMAGE};
+:: if [ -z "$1" ] || [ "$1" = "run" ]; then docker run --rm -it --name ${DEV_NAME} --ulimit nofile=65535:65535 -p 3000:3000 -p 3010:3010 -v ${DB_FOLDER}:/data/db${VOLUME_MODE} -v ${ROOT}:/ws${VOLUME_MODE} ${DEV_IMAGE};
 :: elif [ "$1" = "exec" ]; then docker exec -it ${DEV_NAME} sh;
 :: else echo "Invalid command. Available:\n  - run (default)\n  - exec";
 :: fi
