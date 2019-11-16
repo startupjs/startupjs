@@ -2,7 +2,7 @@
 set -e
 
 if [ "$1" = "init" ]; then
-  yarn dlx startupjs "$@"
+  npx startupjs "$@"
   exit
 fi
 
