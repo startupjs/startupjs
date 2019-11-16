@@ -74,33 +74,10 @@ yarn start
 
 Open `http://localhost:3000` and you should see your app.
 
-4. You can quickly exec into the running container from other terminal windows using:
+4. You can quickly exec into the running container from another terminal window using:
 
 ```
 ./docker exec
-```
-
-### Working with container's shell
-
-Use container's shell to install new modules with yarn or run any other commands.
-
-To enter shell on the running container:
-
-```
-./docker exec
-```
-
-If you don't have the container running, you can start it in shell-only mode using:
-
-```
-./docker sh
-```
-
-Note that `./docker sh` won't run usual initialization logic so the databases won't get started.
-If you want to also start databases when entering shell, do this instead:
-
-```
-./docker sh-init
 ```
 
 ## Packages
