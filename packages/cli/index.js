@@ -31,10 +31,12 @@ SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config
 SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
 SCRIPTS_ORIG.serverRun = 'just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js'
 SCRIPTS_ORIG.server = `concurrently -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}"`
+SCRIPTS_ORIG.start = `concurrently -s first -k -n 'S,SB,W' -c black.bgWhite,black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}" "${SCRIPTS_ORIG.web}"`
 SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.server.config.js && webpack --config webpack.web.config.js'
 SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node -r source-map-support/register build/server.js'
 
 const SCRIPTS = {
+  start: 'startupjs start',
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
@@ -119,6 +121,16 @@ commander
   })
 
 // ----- init
+
+commander
+  .command('start')
+  .description('Run "startupjs web" and "startupjs server" at the same time.')
+  .action(async () => {
+    await execa.command(
+      SCRIPTS_ORIG.start,
+      { stdio: 'inherit', shell: true }
+    )
+  })
 
 commander
   .command('server')
