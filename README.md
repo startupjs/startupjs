@@ -57,7 +57,7 @@ to the native installation when working with large amount of files.
 1. Initialize a new project (change `awesomeapp` at the end to your app name):
 
 ```
-docker run --rm -it --ulimit nofile=65535:65535 -v ${PWD}:/app startupjs/dev init awesomeapp
+docker run --rm -it --ulimit nofile=65535:65535 -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
 ```
 
 2. Go into the created project folder. Then run the development docker container with:
