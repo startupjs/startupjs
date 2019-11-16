@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM node:13.1.0-apline
 
 EXPOSE 3000 3010 27017 28017 6379
 
@@ -10,7 +10,7 @@ RUN \
   apk upgrade --update && \
   apk add --no-cache yaml-cpp@v3.9 boost-filesystem@v3.9 boost-iostreams@v3.9 boost-program_options@v3.9 boost-system@v3.9 && \
   apk add --no-cache mongodb@v3.9.community && \
-  apk add --no-cache redis nodejs yarn make gcc g++ python ffmpeg git && \
+  apk add --no-cache redis make gcc g++ python ffmpeg git && \
   yarn global add concurrently
 
 # Install node_modules and run DBs in background
