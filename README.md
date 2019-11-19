@@ -56,9 +56,9 @@ yarn ios
 Alternatively you can run a docker development image which has node, yarn, mongo and redis already built in.
 You only need `docker` for this. And it works everywhere -- Windows, MacOS, Linux.
 
-Keep in mind though that since the docker uses its own driver to mount folders, the
+Keep in mind though that since docker uses its own driver to mount folders,
 performance (especially when installing modules) might be considerably slower compared
-to the native installation when working with large amount of files.
+to the native installation when working with the large amount of files.
 
 1. Initialize a new project (change `awesomeapp` at the end to your app name):
 
