@@ -13,6 +13,11 @@ function getOrientation () {
 }
 
 export default class Routes extends React.Component {
+  constructor (props) {
+    super(props)
+    this.update = this.update.bind(this)
+  }
+
   componentDidMount () {
     $root.on('updateRoutes', this.update)
   }
@@ -21,7 +26,7 @@ export default class Routes extends React.Component {
     $root.removeListener('updateRoutes', this.update)
   }
 
-  update = () => {
+  update () {
     this.forceUpdate()
   }
 
