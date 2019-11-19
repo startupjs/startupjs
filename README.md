@@ -53,7 +53,7 @@ yarn ios
 
 ## Docker development
 
-Alternatively you can run a docker development image which has mongo and redis already built in.
+Alternatively you can run a docker development image which has node, yarn, mongo and redis already built in.
 You only need `docker` for this. And it works everywhere -- Windows, MacOS, Linux.
 
 Keep in mind though that since the docker uses its own driver to mount folders, the
