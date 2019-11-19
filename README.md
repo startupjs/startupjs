@@ -7,6 +7,10 @@
 1. MongoDB 4.0
 2. Redis 5.0
 
+OR
+
+1. Docker (See [Docker development](#docker-development) section for details)
+
 ## Quick start
 
 1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case)
