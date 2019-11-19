@@ -7,7 +7,7 @@
 1. MongoDB 4.0
 2. Redis 5.0
 
-OR
+**OR**
 
 1. Docker (See [Docker development](#docker-development) section for details)
 
