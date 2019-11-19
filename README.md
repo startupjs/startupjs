@@ -4,12 +4,14 @@
 
 ## Requirements
 
-1. MongoDB 4.0
-2. Redis 5.0
+1. [Node](https://nodejs.org/) >= 12.0
+2. [Yarn](https://yarnpkg.com/)
+3. [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
+4. [Redis](https://redis.io/) 5.0
 
 **OR**
 
-1. Docker (See [Docker development](#docker-development) section for details)
+1. [Docker](https://docs.docker.com/install/) (See [Docker development](#docker-development) section for details)
 
 ## Quick start
 
