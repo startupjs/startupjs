@@ -17,7 +17,15 @@ const DEPENDENCIES = [
 ]
 
 const DEV_DEPENDENCIES = [
-  '@hot-loader/react-dom'
+  '@hot-loader/react-dom',
+  'eslint-config-standard',
+  'eslint-config-standard-react',
+  'eslint-plugin-import',
+  'eslint-plugin-node',
+  'eslint-plugin-promise',
+  'eslint-plugin-react',
+  'eslint-plugin-react-pug',
+  'eslint-plugin-standard'
 ]
 
 const REMOVE_DEPENDENCIES = [
