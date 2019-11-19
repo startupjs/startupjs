@@ -4,8 +4,14 @@
 
 ## Requirements
 
-1. MongoDB 4.0
-2. Redis 5.0
+1. [Node](https://nodejs.org/) >= 12.0
+2. [Yarn](https://yarnpkg.com/)
+3. [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
+4. [Redis](https://redis.io/) 5.0
+
+**OR**
+
+1. [Docker](https://docs.docker.com/install/) (See [Docker development](#docker-development) section for details)
 
 ## Quick start
 
@@ -47,17 +53,17 @@ yarn ios
 
 ## Docker development
 
-Alternatively you can run a docker development image which has mongo and redis already built in.
+Alternatively you can run a docker development image which has node, yarn, mongo and redis already built in.
 You only need `docker` for this. And it works everywhere -- Windows, MacOS, Linux.
 
-Keep in mind though that since the docker uses its own driver to mount folders, the
+Keep in mind though that since docker uses its own driver to mount folders,
 performance (especially when installing modules) might be considerably slower compared
-to the native installation when working with large amount of files.
+to the native installation when working with the large amount of files.
 
 1. Initialize a new project (change `awesomeapp` at the end to your app name):
 
 ```
-docker run --rm -it --ulimit nofile=65535:65535 -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
+docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
 ```
 
 2. Go into the created project folder. Then run the development docker container with:
