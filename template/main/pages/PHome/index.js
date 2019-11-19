@@ -1,8 +1,4 @@
-import { BASE_URL } from '@env'
-import init from 'startupjs/init'
-import orm from './model'
 import React, { useState, useEffect } from 'react'
-//import offlineInitPlugin from '@startupjs/offline/lib/offlineInitPlugin'
 import {
   View,
   Text,
@@ -15,22 +11,11 @@ import {
   $root
 } from 'startupjs'
 import axios from 'axios'
+import './index.styl'
 
-import './App.styl'
-
-// Init startupjs connection to server and the ORM.
-// baseUrl option is required for the native to work - it's used
-// to init the websocket connection and axios.
-// Initialization must start before doing any subscribes to data.
-init({ baseUrl: BASE_URL, orm })
-//init({ baseUrl: BASE_URL, orm, plugins: [offlineInitPlugin] })
-
-export default observer(function App () {
+export default observer(function PHome () {
   let [counter, $counter] = useDoc('counters', 'first')
   if (!counter) throw $counter.addSelf() // custom ORM method (see /model/)
-
-  let [state] = useDoc('$connection', 'state')
-  let [offlineState] = useDoc('$connection', 'offlineState')
 
   let [stateCounter, setStateCounter] = useState(0)
 
@@ -55,8 +40,6 @@ export default observer(function App () {
   return pug`
     View.body
       Text.greeting Hello World
-      Text Online status: #{state}
-      Text Online status (detailed): #{offlineState}         
       Text DB Counter: #{counter && counter.value}
       Text State Counter: #{stateCounter}
       TouchableOpacity.button.increment(onPress=increment)

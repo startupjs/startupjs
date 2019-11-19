@@ -1,12 +1,18 @@
 const _memoize = require('lodash/memoize')
 const _keys = require('lodash/keys')
+const _isArray = require('lodash/isArray')
 const defaultClientLayout = require('./defaultClientLayout')
 const resourceManager = require('./resourceManager')
 const { matchRoutes } = require('react-router-config')
 const DEFAULT_APP_NAME = 'main'
 
+// Client Apps routes
 module.exports = function (appRoutes, options = {}) {
-  // Client Apps routes
+  // When routes are specified as an array
+  // treat it as being just a single bundle with the default name.
+  if (_isArray(appRoutes)) {
+    appRoutes = { [DEFAULT_APP_NAME]: appRoutes }
+  }
   // Memoize getting the end-user <head> code
   const getHead = _memoize(options.getHead || (() => ''))
 
