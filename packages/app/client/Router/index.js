@@ -13,7 +13,6 @@ const getApp = (url, routes) => {
   return route ? route.app : ''
 }
 
-@withRouter
 class AppsFactory extends React.Component {
   constructor (props) {
     super(props)
@@ -88,9 +87,11 @@ class AppsFactory extends React.Component {
   }
 }
 
+const AppsFactoryWithRouter = withRouter(AppsFactory)
+
 export default function Router (props) {
   return pug`
     RouterComponent
-      AppsFactory(...props)
+      AppsFactoryWithRouter(...props)
   `
 }
