@@ -72,6 +72,14 @@ commander
 
     let projectPath = path.join(process.cwd(), projectName)
 
+    // remove extra dependencies which are covered by startupjs core
+    if (REMOVE_DEPENDENCIES.length) {
+      await execa('yarn', ['remove'].concat(REMOVE_DEPENDENCIES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
+
     // install startupjs dependencies
     await execa('yarn', ['add'].concat(DEPENDENCIES), {
       cwd: projectPath,
@@ -81,13 +89,6 @@ commander
     if (DEV_DEPENDENCIES.length) {
       // install startupjs devDependencies
       await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
-        cwd: projectPath,
-        stdio: 'inherit'
-      })
-    }
-
-    if (REMOVE_DEPENDENCIES.length) {
-      await execa('yarn', ['remove'].concat(REMOVE_DEPENDENCIES), {
         cwd: projectPath,
         stdio: 'inherit'
       })
