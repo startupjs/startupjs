@@ -64,7 +64,7 @@ class AppsFactory extends React.Component {
   }
 
   render () {
-    const { apps, routes, errorPages, history } = this.props
+    const { apps, routes, animate, errorPages, history } = this.props
     const { err } = this.state
     const app = this.state.app
     const Layout = app ? apps[app] : null
@@ -80,6 +80,7 @@ class AppsFactory extends React.Component {
       else
         Layout
           Routes(
+            animate=animate
             routes=routes
             onRouteError=(err) => this.setState({ err })
           )

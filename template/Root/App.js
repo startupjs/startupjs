@@ -1,7 +1,7 @@
 import { BASE_URL } from '@env'
 import init from 'startupjs/init'
 import orm from '../model'
-import React from 'react'
+import React, { useMemo } from 'react'
 import App from 'startupjs/app'
 import { observer, useModel, useSession, useDoc } from 'startupjs'
 
@@ -27,7 +27,7 @@ function useGlobalInit (session) {
   // Create an anonymous user data if it doesn't exist.
   // You would want to remove this logic after adding real authorization.
   if (!user) {
-    console.warning('Anonymous user detected. Creating DUMMY user data...')
+    console.warn('Anonymous user detected. Creating DUMMY user data...')
     throw $user.createAsync()
   }
 
