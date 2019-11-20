@@ -21,7 +21,6 @@ class AppsFactory extends React.Component {
       app: '',
       err: null
     }
-    this.goTo = this.goTo.bind(this)
   }
 
   componentDidMount () {
@@ -47,7 +46,7 @@ class AppsFactory extends React.Component {
     return nextApp !== app || nextErr !== err
   }
 
-  goTo (url) {
+  goTo = url => {
     const { routes } = this.props
     const app = getApp(url.replace(/\?.*$/, ''), routes)
 
