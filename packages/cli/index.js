@@ -31,7 +31,13 @@ const DEV_DEPENDENCIES = [
 const REMOVE_DEPENDENCIES = [
   '@babel/core',
   '@babel/runtime',
+  '@react-native-community/eslint-config',
   'metro-react-native-babel-preset'
+]
+
+const REMOVE_FILES = [
+  '.prettierrc.js',
+  'App.js'
 ]
 
 const SCRIPTS_ORIG = {}
@@ -79,6 +85,14 @@ commander
     ].concat(['--version', version]), { stdio: 'inherit' })
 
     let projectPath = path.join(process.cwd(), projectName)
+
+    // remove extra files which are covered by startupjs core
+    if (REMOVE_FILES.length) {
+      await execa('rm', ['-f'].concat(REMOVE_FILES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
 
     // remove extra dependencies which are covered by startupjs core
     if (REMOVE_DEPENDENCIES.length) {
