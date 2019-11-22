@@ -7,8 +7,7 @@ import {
 import {
   observer,
   useDoc,
-  useApi,
-  $root
+  useApi
 } from 'startupjs'
 import axios from 'axios'
 import './index.styl'

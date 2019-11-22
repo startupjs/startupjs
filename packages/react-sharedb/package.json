@@ -12,15 +12,7 @@
     "format": "echo Run prettify twice && npm run -S _prettify && npm run -S _prettify",
     "prepublish": "babel --optional runtime src --out-dir lib",
     "postpublish": "rm -rf lib",
-    "//precommit": "lint-staged && npm test",
     "_prettify": "prettier-standard '{src,test}/**/*.{js,jsx}'"
-  },
-  "lint-staged": {
-    "{src,test}/**/*.{js,jsx}": [
-      "prettier-standard",
-      "prettier-standard",
-      "git add"
-    ]
   },
   "license": "MIT",
   "dependencies": {
@@ -53,7 +45,6 @@
     "husky": "^0.14.3",
     "js-yaml": "^3.10.0",
     "jsdom": "^11.3.0",
-    "lint-staged": "^4.3.0",
     "mocha": "^3.5.3",
     "prettier-standard": "^7.0.3",
     "racer-highway": "^8.1.0",
