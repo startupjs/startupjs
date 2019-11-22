@@ -4,8 +4,16 @@
   "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
-  "scripts": {},
+  "scripts": {
+    "precommit": "lint-staged"
+  },
   "license": "MIT",
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@startupjs/app": "^0.9.4",
     "@startupjs/backend": "^0.9.0",
@@ -17,7 +25,18 @@
     "@startupjs/server": "^0.9.0"
   },
   "devDependencies": {
-    "lerna": "^3.16.4"
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-pug": "^0.8.4",
+    "eslint-plugin-standard": "^4.0.1",
+    "lerna": "^3.16.4",
+    "lint-staged": "^8.1.5"
   },
   "gitHead": "c2ec4d80eedf43a76c6ef1a5b53d7ec452984ec0"
 }
