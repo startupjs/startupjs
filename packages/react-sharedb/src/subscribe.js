@@ -1,7 +1,7 @@
 import isArray from 'lodash/isArray'
 import uniq from 'lodash/uniq'
 import union from 'lodash/union'
-import keys from 'lodash/keys'
+import _keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 // import debounce from 'lodash/debounce'
 import racer from 'racer'
@@ -238,7 +238,7 @@ const getSubscriptionsContainer = (DecoratedComponent, fns) =>
             scheduler: dataFn
           })
 
-          let keys = union(keys(prevSubscriptions), keys(subscriptions))
+          let keys = union(_keys(prevSubscriptions), _keys(subscriptions))
           keys = uniq(keys)
           let promises = []
           batching.batch(() => {

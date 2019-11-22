@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 let App = null
 
@@ -20,7 +20,7 @@ export default function Root () {
   if (session) {
     return <App session={session} />
   } else {
-    <NativeAuth onAuthorized={onAuthorized} />
+    return <NativeAuth onAuthorized={onAuthorized} />
   }
 }
 

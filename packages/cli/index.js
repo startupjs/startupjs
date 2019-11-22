@@ -18,6 +18,7 @@ const DEPENDENCIES = [
 
 const DEV_DEPENDENCIES = [
   '@hot-loader/react-dom',
+  'babel-eslint',
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
@@ -25,7 +26,8 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
-  'eslint-plugin-standard'
+  'eslint-plugin-standard',
+  'lint-staged'
 ]
 
 const REMOVE_DEPENDENCIES = [
@@ -48,6 +50,7 @@ const SCRIPTS = {
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
+  precommit: 'lint-staged',
   postinstall: 'patch-package',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
@@ -211,6 +214,14 @@ function addScriptsToPackageJson (projectPath) {
     ...packageJSON.scripts,
     ...SCRIPTS
   }
+
+  packageJSON['lint-staged'] = {
+    '*.{js,jsx}': [
+      'eslint --fix',
+      'git add'
+    ]
+  }
+
   fs.writeFileSync(
     packageJSONPath,
     `${JSON.stringify(packageJSON, null, 2)}\n`
