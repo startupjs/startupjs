@@ -32,6 +32,5 @@
     "husky": "^0.14.3",
     "prettier-standard": "^7.0.3",
     "standard": "^10.0.3"
-  },
-  "gitHead": "c2ec4d80eedf43a76c6ef1a5b53d7ec452984ec0"
+  }
 }

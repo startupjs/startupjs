@@ -37,6 +37,5 @@
     "eslint-plugin-standard": "^4.0.1",
     "lerna": "^3.16.4",
     "lint-staged": "^8.1.5"
-  },
-  "gitHead": "c2ec4d80eedf43a76c6ef1a5b53d7ec452984ec0"
+  }
 }

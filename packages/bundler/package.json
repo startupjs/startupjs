@@ -53,6 +53,5 @@
   },
   "devDependencies": {
     "@hot-loader/react-dom": "*"
-  },
-  "gitHead": "c2ec4d80eedf43a76c6ef1a5b53d7ec452984ec0"
+  }
 }
