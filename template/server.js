@@ -1,1 +1,2 @@
-import server from './server/index'
+console.log('Starting server...')
+require('./server/index')

@@ -18,6 +18,7 @@ const DEPENDENCIES = [
 
 const DEV_DEPENDENCIES = [
   '@hot-loader/react-dom',
+  'babel-eslint',
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
@@ -25,13 +26,20 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
-  'eslint-plugin-standard'
+  'eslint-plugin-standard',
+  'lint-staged'
 ]
 
 const REMOVE_DEPENDENCIES = [
   '@babel/core',
   '@babel/runtime',
+  '@react-native-community/eslint-config',
   'metro-react-native-babel-preset'
+]
+
+const REMOVE_FILES = [
+  '.prettierrc.js',
+  'App.js'
 ]
 
 const SCRIPTS_ORIG = {}
@@ -48,6 +56,7 @@ const SCRIPTS = {
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
+  precommit: 'lint-staged',
   postinstall: 'patch-package',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
@@ -79,6 +88,14 @@ commander
     ].concat(['--version', version]), { stdio: 'inherit' })
 
     let projectPath = path.join(process.cwd(), projectName)
+
+    // remove extra files which are covered by startupjs core
+    if (REMOVE_FILES.length) {
+      await execa('rm', ['-f'].concat(REMOVE_FILES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
 
     // remove extra dependencies which are covered by startupjs core
     if (REMOVE_DEPENDENCIES.length) {
@@ -211,6 +228,14 @@ function addScriptsToPackageJson (projectPath) {
     ...packageJSON.scripts,
     ...SCRIPTS
   }
+
+  packageJSON['lint-staged'] = {
+    '*.{js,jsx}': [
+      'eslint --fix',
+      'git add'
+    ]
+  }
+
   fs.writeFileSync(
     packageJSONPath,
     `${JSON.stringify(packageJSON, null, 2)}\n`
