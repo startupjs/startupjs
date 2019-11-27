@@ -6,10 +6,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "echo Run prettify twice && npm run -S _prettify && npm run -S _prettify",
     "prepublish": "babel --optional runtime src --out-dir lib",
-    "postpublish": "rm -rf lib",
-    "_prettify": "prettier-standard '{src,test}/**/*.{js,jsx}'"
+    "postpublish": "rm -rf lib"
   },
   "author": "Artur Zayats <zag2art@gmail.com>",
   "license": "MIT",
@@ -26,10 +24,8 @@
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "husky": "^0.14.3",
-    "prettier-standard": "^7.0.3",
     "racer": "0.9.9",
-    "sharedb": "*",
-    "standard": "^10.0.3"
+    "sharedb": "*"
   },
   "dependencies": {
     "@js-code/native-store": "0.0.2",

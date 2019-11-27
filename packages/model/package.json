@@ -7,10 +7,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "echo Run prettify twice && npm run -S _prettify && npm run -S _prettify",
     "prepublish": "babel --optional runtime src --out-dir lib",
-    "postpublish": "rm -rf lib",
-    "_prettify": "prettier-standard '{src,test}/**/*.{js,jsx}'"
+    "postpublish": "rm -rf lib"
   },
   "license": "MIT",
   "dependencies": {
@@ -29,8 +27,6 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
-    "husky": "^0.14.3",
-    "prettier-standard": "^7.0.3",
-    "standard": "^10.0.3"
+    "husky": "^0.14.3"
   }
 }

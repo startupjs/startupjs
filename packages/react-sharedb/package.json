@@ -9,10 +9,8 @@
   "scripts": {
     "test": "echo '----- Test Hooks Syntax -----' && HOOKS=1 npm run _test && echo '----- Test Class Syntax -----' && npm run _test && echo '----- Test DEPRECATED Syntax -----' && DEPRECATED=1 npm run _test",
     "_test": "PORT=3333 mocha ./test/**/*.mocha.js --bail --reporter spec --require babel-polyfill --compilers js:babel-register --require ./test/_client",
-    "format": "echo Run prettify twice && npm run -S _prettify && npm run -S _prettify",
     "prepublish": "babel --optional runtime src --out-dir lib",
-    "postpublish": "rm -rf lib",
-    "_prettify": "prettier-standard '{src,test}/**/*.{js,jsx}'"
+    "postpublish": "rm -rf lib"
   },
   "license": "MIT",
   "dependencies": {
@@ -46,14 +44,12 @@
     "js-yaml": "^3.10.0",
     "jsdom": "^11.3.0",
     "mocha": "^3.5.3",
-    "prettier-standard": "^7.0.3",
     "racer-highway": "^8.1.0",
     "racer-rpc": "dmapper/racer-rpc#v0.1.2",
     "raf": "^3.4.1",
     "react": "^16.9.0",
     "react-test-renderer": "^16.9.0",
     "sharedb-mongo": "^1.0.0-beta.8",
-    "standard": "^10.0.3",
     "wait-for-expect": "^0.6.2",
     "ws": "^3.1.0"
   },
