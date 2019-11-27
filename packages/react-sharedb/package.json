@@ -54,6 +54,6 @@
     "ws": "^3.1.0"
   },
   "peerDependencies": {
-    "react": ">= 16.9.0"
+    "react": ">= 16.9.0 < 17"
   }
 }

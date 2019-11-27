@@ -12,7 +12,7 @@ export default function Root () {
     //    until we have saved the session cookie. Otherwise the websocket
     //    connection will keep using the old cookies. React-native
     //    does not reestablish websocket connection when cookies change.
-    App = require('./App')
+    App = require('./App').default
     // TODO: Pass userId from server _session
     setSession(session)
   }
