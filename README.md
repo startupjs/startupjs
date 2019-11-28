@@ -13,7 +13,7 @@ The project is super helpful to kick-start your next project, as it provides a l
 - [Node.js](https://nodejs.org/) as engine
 - [Express](https://expressjs.com/) as web server
 - [MongoDB](https://docs.mongodb.com/manual/installation/) as database
-- [Redis](https://redis.io/) as pub/sub adapter
+- [Redis](https://redis.io/) as pub/sub adapter for [Racer](https://github.com/derbyjs/racer)
 - Code Quality
   - [Flow] (https://flow.org/en/docs/react/)
   - [ESLint] (https://eslint.org/)

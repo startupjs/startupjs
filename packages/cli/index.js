@@ -144,10 +144,12 @@ commander
       stdio: 'inherit'
     })
 
-    await execa('pod', ['install'], {
-      cwd: path.join(projectPath, 'ios'),
-      stdio: 'inherit'
-    })
+    if (process.platform === 'darwin') {
+      await execa('pod', ['install'], {
+        cwd: path.join(projectPath, 'ios'),
+        stdio: 'inherit'
+      })
+    }
 
     console.log(getSuccessInstructions(projectName))
   })
