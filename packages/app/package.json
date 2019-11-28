@@ -10,7 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "4.x",
-    "react-native-code-push": "^5.7.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-router-native": "^5.1.2",
@@ -18,7 +17,8 @@
   },
   "peerDependencies": {
     "@startupjs/react-sharedb": "*",
-    "react": ">= 16.9.0",
-    "react-native": "*"
+    "react": ">= 16.9.0 < 17",
+    "react-native": ">= 0.61.4 < 0.62",
+    "react-native-code-push": ">= 5.7.0 < 6"
   }
 }

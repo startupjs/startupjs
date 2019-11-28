@@ -7,6 +7,7 @@ const DEPENDENCIES = [
   'startupjs',
   'source-map-support',
   'react-native-web@0.11.7',
+  'react-native-code-push@^5.7.0',
   'nconf@^0.10.0',
   'react',
   'react-dom',
@@ -142,6 +143,13 @@ commander
       cwd: projectPath,
       stdio: 'inherit'
     })
+
+    if (process.platform === 'darwin') {
+      await execa('pod', ['install'], {
+        cwd: path.join(projectPath, 'ios'),
+        stdio: 'inherit'
+      })
+    }
 
     console.log(getSuccessInstructions(projectName))
   })
