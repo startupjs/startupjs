@@ -36,7 +36,7 @@ const NativeApp = observer(function (props) {
         break
       case codePush.SyncStatus.UNKNOWN_ERROR:
         setLoading(false)
-        // alert ??
+        // Do we need alert dialog in this case ??
     }
   }
 
