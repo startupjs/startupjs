@@ -32,7 +32,6 @@ export default class Routes extends React.Component {
         <Route
           key={route.path}
           {...omit(route, ['component'])}
-          component={route.component}
           render={(props) => {
             initRoute(props)
             return pug`
