@@ -3,12 +3,11 @@ import MessageStream from 'sharedb-offline/lib/MessageStream'
 import Messenger from 'sharedb-offline/lib/Messenger'
 import RPC from 'sharedb-offline/lib/RPC'
 import workerRpc from 'sharedb-offline/lib/workerRpc'
-const { EventEmitter } = require('events')
-
 import ShareDB from 'sharedb'
 import ShareDBMingo from 'sharedb-mingo'
 import NativeStore from '@js-code/native-store'
 
+const { EventEmitter } = require('events')
 const db = new ShareDBMingo({
   store: new NativeStore()
 })

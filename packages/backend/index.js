@@ -141,7 +141,7 @@ module.exports = (options) => {
 function pathQueryMongo (request, next) {
   let query = request.query
   if (isPlainObject(query)) return next()
-  if (!isArray(query)) query = [ query ]
+  if (!isArray(query)) query = [query]
   request.query = { _id: { $in: query } }
   next()
 }

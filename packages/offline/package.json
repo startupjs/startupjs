@@ -23,13 +23,13 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
-    "husky": "^0.14.3",
-    "racer": "0.9.9",
-    "sharedb": "*"
+    "husky": "^0.14.3"
   },
   "dependencies": {
     "@js-code/native-store": "0.0.2",
     "@startupjs/model": "^0.9.5",
+    "racer": "0.9.9",
+    "sharedb": "~1.0.0",
     "sharedb-mingo": "^3.0.7",
     "sharedb-offline": "0.0.9"
   }
