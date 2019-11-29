@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
@@ -15,7 +15,7 @@
     ]
   },
   "dependencies": {
-    "@startupjs/app": "^0.9.8",
+    "@startupjs/app": "^0.9.9",
     "@startupjs/backend": "^0.9.6",
     "@startupjs/bundler": "^0.9.6",
     "@startupjs/cli": "^0.9.6",

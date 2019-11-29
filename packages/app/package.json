@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/app",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "Router component for multi apps",
   "main": "index.js",
   "publishConfig": {
