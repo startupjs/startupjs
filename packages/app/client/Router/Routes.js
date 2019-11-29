@@ -3,6 +3,7 @@ import { $root, emit, initLocalCollection } from 'startupjs'
 import { Route } from 'react-router'
 import { Dimensions, Platform, View } from 'react-native'
 import Stack from 'react-router-native-stack'
+import omit from 'lodash/omit'
 const isWeb = Platform.OS === 'web'
 const DEFAULT_ANIMATE = false // !isWeb ?
 
@@ -30,6 +31,7 @@ export default class Routes extends React.Component {
       return (
         <Route
           key={route.path}
+          {...omit(route, ['component'])}
           component={route.component}
           render={(props) => {
             initRoute(props)
@@ -116,6 +118,7 @@ function RouteComponent ({ route, onError, ...props }) {
         RC(
           ...props
           key=props.match.url
+          params=route.params
         )
     `
   } else {
