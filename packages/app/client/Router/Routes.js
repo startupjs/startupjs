@@ -116,7 +116,6 @@ function RouteComponent ({ route, onError, ...props }) {
         RC(
           ...props
           key=props.match.url
-          route=route
         )
     `
   } else {
