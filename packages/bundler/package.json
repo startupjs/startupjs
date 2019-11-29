@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.9.0",
+  "version": "0.9.6",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {

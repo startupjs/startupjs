@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/offline",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@js-code/native-store": "0.0.2",
-    "@startupjs/model": "^0.9.5",
+    "@startupjs/model": "^0.9.6",
     "racer": "0.9.9",
     "sharedb": "~1.0.0",
     "sharedb-mingo": "^3.0.7",
