@@ -24,21 +24,24 @@ racer.Model.prototype._createSocket = function () {
 export default function getModel () {
   if (isServer) return
 
-  let model = racer.createModel()
-
   // Try to unbundle server-side model
   let bundleElement =
     typeof document !== 'undefined' &&
     document.getElementById &&
     document.getElementById('bundle')
   let serializedModel = bundleElement && bundleElement.innerHTML
+
+  let model
+
   if (serializedModel) {
+    model = racer.createModel(JSON.parse(serializedModel))
     try {
       model.unbundle(JSON.parse(serializedModel))
     } catch (err) {
       console.error('Error unbundling server-side model')
     }
   } else {
+    model = racer.createModel()
     console.warn('No model bundle received from the server')
   }
 
