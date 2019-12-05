@@ -2,7 +2,8 @@
   "version": "0.9.11",
   "packages": [
     ".",
-    "packages/*"
+    "packages/*",
+    "packages/styleguide/ui"
   ],
   "command": {
     "publish": {
