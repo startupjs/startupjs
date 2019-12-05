@@ -27,8 +27,7 @@ const basePlugins = [
   ['react-pug-classnames', {
     classAttribute: 'styleName'
   }],
-  ['@babel/plugin-proposal-decorators', { legacy: true }],
-  ['module-resolver', { alias: DIRECTORY_ALIASES }]
+  ['@babel/plugin-proposal-decorators', { legacy: true }]
 ]
 
 const dotenvPlugin = ({ production } = {}) =>
@@ -65,45 +64,54 @@ const webBasePlugins = () => [
   'react-native-web-pass-classname'
 ]
 
-module.exports = {
-  plugins: basePlugins,
-  env: {
-    development: {
-      presets: clientPresets,
-      plugins: [].concat([
-        dotenvPlugin()
-      ], nativeBasePlugins())
-    },
-    production: {
-      presets: clientPresets,
-      plugins: [].concat([
-        dotenvPlugin({ production: true })
-      ], nativeBasePlugins())
-    },
-    web_development: {
-      presets: clientPresets,
-      plugins: [].concat([
-        'react-hot-loader/babel',
-        dotenvPlugin(),
-        webReactCssModulesPlugin()
-      ], webBasePlugins())
-    },
-    web_production: {
-      presets: clientPresets,
-      plugins: [].concat([
-        dotenvPlugin({ production: true }),
-        webReactCssModulesPlugin({ production: true })
-      ], webBasePlugins())
-    },
-    server: {
-      presets: serverPresets,
-      plugins: [
-        ['@babel/plugin-transform-runtime', {
-          regenerator: true
-        }]
-      ]
-    }
+const config = {
+  development: {
+    presets: clientPresets,
+    plugins: [].concat([
+      dotenvPlugin()
+    ], nativeBasePlugins())
+  },
+  production: {
+    presets: clientPresets,
+    plugins: [].concat([
+      dotenvPlugin({ production: true })
+    ], nativeBasePlugins())
+  },
+  web_development: {
+    presets: clientPresets,
+    plugins: [].concat([
+      'react-hot-loader/babel',
+      dotenvPlugin(),
+      webReactCssModulesPlugin()
+    ], webBasePlugins())
+  },
+  web_production: {
+    presets: clientPresets,
+    plugins: [].concat([
+      dotenvPlugin({ production: true }),
+      webReactCssModulesPlugin({ production: true })
+    ], webBasePlugins())
+  },
+  server: {
+    presets: serverPresets,
+    plugins: [
+      ['@babel/plugin-transform-runtime', {
+        regenerator: true
+      }]
+    ]
   }
+}
+
+module.exports = function (api, { alias = {} } = {}) {
+  const env = api.env()
+  const { presets = [], plugins = [] } = config[env] || {}
+  const resolverPlugin = ['module-resolver', {
+    alias: {
+      ...DIRECTORY_ALIASES,
+      ...alias
+    }
+  }]
+  return { presets, plugins: [resolverPlugin].concat(basePlugins, plugins) }
 }
 
 function generateScopedName (name, filename/* , css */) {
