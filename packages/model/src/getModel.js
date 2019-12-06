@@ -35,11 +35,6 @@ export default function getModel () {
 
   if (serializedModel) {
     model = racer.createModel(JSON.parse(serializedModel))
-    try {
-      model.unbundle(JSON.parse(serializedModel))
-    } catch (err) {
-      console.error('Error unbundling server-side model')
-    }
   } else {
     model = racer.createModel()
     console.warn('No model bundle received from the server')
