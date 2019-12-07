@@ -16,3 +16,5 @@ global.navigator = {
   userAgent: 'node.js'
 }
 copyProps(window, global)
+
+console.log('◕◕◕ [client] Finish JS DOM setup ◕◕◕')

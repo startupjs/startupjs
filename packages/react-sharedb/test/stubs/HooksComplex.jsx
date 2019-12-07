@@ -14,45 +14,41 @@ const HooksComplex = () => {
     useLayoutEffect(() => {
       renderCount++
     })
-    let loading = <Container {...{ renderCount }} />
 
     if (typeof DEBUG !== 'undefined') {
       console.log(`\nRENDER ${renderCount}:`)
     }
     let [user] = useDoc('users', alias(1))
-    if (!user) return render()
 
+    // TODO: batch next 2 together
     let [game1] = useDoc('games', alias(1))
     let [game2] = useDoc('games', alias(2))
-    if (!(game1 && game2)) return render()
 
+    // TODO: batch next 2 together
     let [players1] = useQuery('players', { _id: { $in: game1.playerIds } })
     let [players2] = useQuery('players', { _id: { $in: game2.playerIds } })
-    if (!(players1 && players2)) return render()
 
+    // TODO: batch next 2 together
     let [users1] = useQuery('users', {
       _id: { $in: players1.map(i => i.userId) }
     })
     let [users2] = useQuery('users', {
       _id: { $in: players2.map(i => i.userId) }
     })
-    if (!(users1 && users2)) return render()
 
-    function render () {
-      return (
-        <Container {...{ renderCount }}>
-          <Items name='user' items={user} />
-          <Items name='game1' items={game1} />
-          <Items name='game2' items={game2} />
-          <Items name='players1' items={players1} />
-          <Items name='players2' items={players2} />
-          <Items name='usersInGame1' items={users1} />
-          <Items name='usersInGame2' items={users2} />
-        </Container>
-      )
-    }
-
-    return render()
+    return (
+      <Container {...{ renderCount }}>
+        <Items name='user' items={user} />
+        <Items name='game1' items={game1} />
+        <Items name='game2' items={game2} />
+        <Items name='players1' items={players1} />
+        <Items name='players2' items={players2} />
+        <Items name='usersInGame1' items={users1} />
+        <Items name='usersInGame2' items={users2} />
+      </Container>
+    )
+  }, {
+    fallback: <Container renderCount={9999} />
   })
 }
 

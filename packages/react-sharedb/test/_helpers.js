@@ -1,28 +1,28 @@
 import React from 'react'
-import ReactWrapper from 'enzyme/build/ReactWrapper'
-import { createWaitForElement } from '@oskarer/enzyme-wait'
-import Enzyme, { mount } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+// import ReactWrapper from 'enzyme/build/ReactWrapper'
+// import { createWaitForElement } from '@oskarer/enzyme-wait'
+// import Enzyme, { mount } from 'enzyme'
+// import Adapter from 'enzyme-adapter-react-16'
 import TestRenderer from 'react-test-renderer'
 import isArray from 'lodash/isArray'
 
 const DEPRECATED = process.env.DEPRECATED
 
-init()
+// init()
 
-function init () {
-  Enzyme.configure({ adapter: new Adapter() })
+// function init () {
+//   Enzyme.configure({ adapter: new Adapter() })
 
-  ReactWrapper.prototype.waitFor = function (selector) {
-    return createWaitForElement(selector)(this)
-  }
-}
+//   ReactWrapper.prototype.waitFor = function (selector) {
+//     return createWaitForElement(selector)(this)
+//   }
+// }
 
 export function unmount () {
-  if (globalEnzymeNode && globalEnzymeNode.unmount) {
-    globalEnzymeNode.unmount()
-    globalEnzymeNode = undefined
-  }
+  // if (globalEnzymeNode && globalEnzymeNode.unmount) {
+  //   globalEnzymeNode.unmount()
+  //   globalEnzymeNode = undefined
+  // }
   if (globalTestRenderer && globalTestRenderer.unmount) {
     globalTestRenderer.unmount()
     globalTestRenderer = undefined
@@ -74,29 +74,29 @@ export function convertToHooksSubscribeParams (fn) {
   }
 }
 
-export async function initSimple (initialProps, subscribeFn) {
-  if (typeof initialProps === 'function') {
-    subscribeFn = initialProps
-    initialProps = {}
-  }
-  if (DEPRECATED) subscribeFn = convertToOldSubscribeParams(subscribeFn)
-  let Subscribed = subscribe(subscribeFn)(Simple())
-  let w = mount(<Subscribed {...initialProps} />)
-  globalEnzymeNode = w
-  await w.waitFor('.Simple')
-  w.getItems = function () {
-    return getSimpleItems(this)
-  }
-  Object.defineProperty(w, 'items', {
-    get: function () {
-      return this.getItems()
-    }
-  })
-  w.nextRender = function (...args) {
-    return nextRender(this, ...args)
-  }
-  return w
-}
+// export async function initSimple (initialProps, subscribeFn) {
+//   if (typeof initialProps === 'function') {
+//     subscribeFn = initialProps
+//     initialProps = {}
+//   }
+//   if (DEPRECATED) subscribeFn = convertToOldSubscribeParams(subscribeFn)
+//   let Subscribed = subscribe(subscribeFn)(Simple())
+//   let w = mount(<Subscribed {...initialProps} />)
+//   globalEnzymeNode = w
+//   await w.waitFor('.Simple')
+//   w.getItems = function () {
+//     return getSimpleItems(this)
+//   }
+//   Object.defineProperty(w, 'items', {
+//     get: function () {
+//       return this.getItems()
+//     }
+//   })
+//   w.nextRender = function (...args) {
+//     return nextRender(this, ...args)
+//   }
+//   return w
+// }
 
 export function getSimpleItems (w) {
   let text = w.find('.Simple').text()
@@ -104,30 +104,30 @@ export function getSimpleItems (w) {
   return text.split(',')
 }
 
-export async function initComplex (initialProps, subscribeFn) {
-  if (typeof initialProps === 'function') {
-    subscribeFn = initialProps
-    initialProps = {}
-  }
-  if (DEPRECATED) subscribeFn = convertToOldSubscribeParams(subscribeFn)
-  let Subscribed = subscribe(subscribeFn)(Complex())
-  let w = mount(<Subscribed {...initialProps} />)
-  globalEnzymeNode = w
+// export async function initComplex (initialProps, subscribeFn) {
+//   if (typeof initialProps === 'function') {
+//     subscribeFn = initialProps
+//     initialProps = {}
+//   }
+//   if (DEPRECATED) subscribeFn = convertToOldSubscribeParams(subscribeFn)
+//   let Subscribed = subscribe(subscribeFn)(Complex())
+//   let w = mount(<Subscribed {...initialProps} />)
+//   globalEnzymeNode = w
 
-  await w.waitFor('.Complex')
-  w.getItems = function () {
-    return getComplexItems(this)
-  }
-  Object.defineProperty(w, 'items', {
-    get: function () {
-      return this.getItems()
-    }
-  })
-  w.nextRender = function (...args) {
-    return nextRender(this, ...args)
-  }
-  return w
-}
+//   await w.waitFor('.Complex')
+//   w.getItems = function () {
+//     return getComplexItems(this)
+//   }
+//   Object.defineProperty(w, 'items', {
+//     get: function () {
+//       return this.getItems()
+//     }
+//   })
+//   w.nextRender = function (...args) {
+//     return nextRender(this, ...args)
+//   }
+//   return w
+// }
 
 export function getComplexItems (w) {
   let res = []
