@@ -8,6 +8,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('./buildOptions')
 const { getJsxRule } = require('./helpers')
+const autoprefixer = require('autoprefixer')
+const rem2pixel = require('postcss-rem-to-pixel')
 
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
@@ -159,7 +161,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [require('autoprefixer')()]
+                plugins: [autoprefixer, rem2pixel]
               }
             },
             {
