@@ -6,6 +6,9 @@
     "packages/styleguide/ui"
   ],
   "command": {
+    "bootstrap": {
+      "ignore": ["styleguide"]
+    },
     "publish": {
       "ignoreChanges": [
         "*.md",
