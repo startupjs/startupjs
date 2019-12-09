@@ -446,7 +446,10 @@ for (let methodName of WARNING_SETTERS) {
 // Monkey patch racer's local documents to be observable
 let oldUpdateCollectionData = RacerLocalDoc.prototype._updateCollectionData
 RacerLocalDoc.prototype._updateCollectionData = function () {
-  if (this.data) this.data = observable(this.data)
+  // Only objects and arrays can be made observable (both are typeof 'object')
+  if (this.data && typeof this.data === 'object') {
+    this.data = observable(this.data)
+  }
   if (
     !semaphore.ignoreCollectionObservableWarning &&
     !isObservable(this.collectionData) &&

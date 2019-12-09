@@ -1,5 +1,6 @@
-typeof window !== 'undefined' &&
-  (window.__racerHighwayClientOptions = {
+if (typeof window !== 'undefined') {
+  console.log('◕◕◕ [client] setup racer highway connection ◕◕◕')
+  window.__racerHighwayClientOptions = {
     base: '/channel',
     reconnect: true,
     browserChannelOnly: false,
@@ -9,4 +10,5 @@ typeof window !== 'undefined' &&
     srvSecurePort: undefined,
     timeout: 10000,
     timeoutIncrement: 10000
-  })
+  }
+}

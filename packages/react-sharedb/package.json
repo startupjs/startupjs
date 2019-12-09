@@ -1,13 +1,14 @@
 {
   "name": "@startupjs/react-sharedb",
-  "version": "0.9.6",
+  "version": "0.9.14",
   "description": "Run ShareDB in React",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "echo '----- Test Hooks Syntax -----' && HOOKS=1 npm run _test && echo '----- Test Class Syntax -----' && npm run _test && echo '----- Test DEPRECATED Syntax -----' && DEPRECATED=1 npm run _test",
+    "test": "echo '----- Test Hooks Syntax ONLY -----' && HOOKS=1 npm run _test",
+    "test-full": "echo '----- Test Hooks Syntax -----' && HOOKS=1 npm run _test && echo '----- Test Class Syntax -----' && npm run _test && echo '----- Test DEPRECATED Syntax -----' && DEPRECATED=1 npm run _test",
     "_test": "PORT=3333 mocha ./test/**/*.mocha.js --bail --reporter spec --require babel-polyfill --compilers js:babel-register --require ./test/_client",
     "prepublish": "babel --optional runtime src --out-dir lib",
     "postpublish": "rm -rf lib"
@@ -15,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.9.6",
+    "@startupjs/model": "^0.9.13",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
     "racer": "0.9.9",
@@ -36,8 +37,8 @@
     "babel-runtime": "^6.26.0",
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.13.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "express": "^4.16.2",
     "husky": "^0.14.3",
     "js-yaml": "^3.10.0",

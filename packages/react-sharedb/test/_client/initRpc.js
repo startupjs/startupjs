@@ -2,6 +2,9 @@ import racer from 'racer'
 import racerRpc from 'racer-rpc'
 import { model } from '../../src'
 
+// Start WS connection to server
+model.createConnection()
+
 // RPC support
 racer.use(racerRpc)
 
