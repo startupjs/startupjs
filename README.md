@@ -212,6 +212,10 @@ protected List<ReactPackage> getPackages() {
 
 - [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
 
+- [Styleguide](https://github.com/dmapper/startupjs/blob/master/packages/styleguide)
+
+- [UI](https://github.com/dmapper/startupjs/blob/master/packages/ui)
+
 ## Troubleshooting
 
 If you have any problem, search for the issues in this repository. If you don't find anything, you can raise an issue [here](https://github.com/dmapper/startupjs/issues).
