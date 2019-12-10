@@ -3,7 +3,8 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    node: true
+    node: true,
+    mocha: true
   },
   extends: [
     'standard',
@@ -12,8 +13,7 @@ module.exports = {
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-    it: 'readonly'
+    SharedArrayBuffer: 'readonly'
   },
   parser: 'babel-eslint',
   parserOptions: {
