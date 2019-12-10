@@ -1,14 +1,6 @@
 {
-  "version": "0.9.14",
-  "packages": [
-    ".",
-    "packages/*",
-    "packages/styleguide/ui"
-  ],
+  "version": "0.10.1",
   "command": {
-    "bootstrap": {
-      "ignore": ["styleguide"]
-    },
     "publish": {
       "ignoreChanges": [
         "*.md",
@@ -18,7 +10,5 @@
     }
   },
   "npmClient": "yarn",
-  "npmClientArgs": [
-    "--no-lockfile"
-  ]
+  "useWorkspaces": true
 }

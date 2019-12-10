@@ -1,5 +1,5 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
-const stylusTransformer = require('react-native-stylus-transformer')
+const stylusTransformer = require('@startupjs/react-native-stylus-transformer')
 const cssTransformer = require('react-native-css-transformer')
 
 module.exports.transform = function ({ src, filename, options }) {

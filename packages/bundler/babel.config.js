@@ -31,7 +31,7 @@ const basePlugins = [
 ]
 
 const dotenvPlugin = ({ production } = {}) =>
-  ['dotenv-import', {
+  ['@startupjs/dotenv-import', {
     moduleName: '@env',
     path: ['.env', production ? '.env.production' : '.env.local'],
     safe: true,
@@ -39,7 +39,7 @@ const dotenvPlugin = ({ production } = {}) =>
   }]
 
 const webReactCssModulesPlugin = ({ production } = {}) =>
-  ['react-css-modules', {
+  ['@startupjs/react-css-modules', {
     handleMissingStyleName: 'ignore',
     filetypes: {
       '.styl': {}
