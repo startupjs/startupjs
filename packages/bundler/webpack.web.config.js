@@ -9,7 +9,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('./buildOptions')
 const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
-const rem2pixel = require('postcss-rem-to-pixel')
+const rem2pixel = require('@startupjs/postcss-rem-to-pixel')
 
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
