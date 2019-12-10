@@ -1,5 +1,6 @@
 {
   "name": "@startupjs/styleguide",
+  "version": "0.10.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",

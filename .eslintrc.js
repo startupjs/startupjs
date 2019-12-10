@@ -12,7 +12,8 @@ module.exports = {
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
+    it: 'readonly'
   },
   parser: 'babel-eslint',
   parserOptions: {

@@ -15,6 +15,7 @@ const DEFAULT_ALIAS = {
 
 module.exports = function getConfig (env, {
   forceCompileModules = [],
+  modulesDir = 'node_modules',
   alias = {}
 } = {}) {
   process.env.BABEL_ENV = 'server'
@@ -28,7 +29,10 @@ module.exports = function getConfig (env, {
   forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
   return pickBy({
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
-    externals: [nodeExternals({ whitelist: forceCompileModules })], // in order to ignore all modules in node_modules folder
+    externals: [nodeExternals({
+      modulesDir,
+      whitelist: forceCompileModules
+    })], // in order to ignore all modules in node_modules folder
     mode: PROD ? 'production' : 'development',
     devtool: 'source-map',
     entry: {

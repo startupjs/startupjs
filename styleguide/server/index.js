@@ -11,7 +11,7 @@ startupjsServer({
   getHead,
   appRoutes: [
     ...getMainRoutes()
-  ],
+  ]
 }, ee => {
   ee.on('routes', expressApp => {
     expressApp.get('/api', async (req, res) => {
@@ -23,7 +23,9 @@ startupjsServer({
   })
 })
 
-const getHead = appName => `
-  <title>HelloWorld</title>
-  <!-- Put vendor JS and CSS here -->
-`
+function getHead (appName) {
+  return `
+    <title>HelloWorld</title>
+    <!-- Put vendor JS and CSS here -->
+  `
+}
