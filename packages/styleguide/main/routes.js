@@ -1,12 +1,15 @@
 export default (components = {}) => [
   {
-    path: '/',
+    path: '/:section?/:component?',
     exact: true,
-    component: components.PHome
-  },
-  {
-    path: '/about',
-    exact: true,
-    component: components.PAbout
+    component: components.PComponent,
+    filters: [isLoggedIn]
   }
 ]
+
+async function isLoggedIn (model, next, redirect) {
+  const { section, component } = model.get('$render.match.params')
+  if (!section) console.log('no section')
+  if (!component) console.log('component')
+  next()
+}

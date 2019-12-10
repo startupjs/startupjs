@@ -9,8 +9,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "react": "^16.12.0",
-    "react-native": "^0.61.5"
+    "react-native-drawer-layout-polyfill": "^2.0.0"
   },
   "peerDependencies": {
     "react": ">= 16.9.0",
