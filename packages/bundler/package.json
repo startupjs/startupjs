@@ -21,7 +21,7 @@
     "@babel/polyfill": "^7.7.0",
     "@babel/runtime": "^7.7.2",
     "@startupjs/babel-plugin-dotenv-import": "1002.0.0",
-    "@startupjs/babel-plugin-react-css-modules": "1001.0.0",
+    "@startupjs/babel-plugin-react-css-modules": "1101.0.0",
     "@startupjs/postcss-rem-to-pixel": "1004.1.2",
     "@startupjs/react-native-stylus-transformer": "1001.2.1",
     "assets-webpack-plugin": "^3.9.10",
