@@ -1,9 +1,5 @@
 {
   "version": "0.9.14",
-  "packages": [
-    ".",
-    "packages/*"
-  ],
   "command": {
     "publish": {
       "ignoreChanges": [
@@ -14,7 +10,5 @@
     }
   },
   "npmClient": "yarn",
-  "npmClientArgs": [
-    "--no-lockfile"
-  ]
+  "useWorkspaces": true
 }

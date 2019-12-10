@@ -1,29 +1,7 @@
 {
-  "name": "startupjs",
-  "version": "0.9.14",
-  "description": "React Native + Web + Node.js full-stack framework",
-  "main": "index.js",
-  "bin": "./cli.js",
-  "scripts": {
-    "precommit": "lint-staged"
-  },
-  "license": "MIT",
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "dependencies": {
-    "@startupjs/app": "^0.9.11",
-    "@startupjs/backend": "^0.9.6",
-    "@startupjs/bundler": "^0.9.14",
-    "@startupjs/cli": "^0.9.6",
-    "@startupjs/init": "^0.9.6",
-    "@startupjs/orm": "^0.9.6",
-    "@startupjs/react-sharedb": "^0.9.14",
-    "@startupjs/server": "^0.9.6"
-  },
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {},
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.6.0",
@@ -35,7 +13,20 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-pug": "^0.8.4",
     "eslint-plugin-standard": "^4.0.1",
-    "lerna": "^3.16.4",
-    "lint-staged": "^8.1.5"
-  }
+    "husky": "^3.1.0",
+    "lerna": "^3.19.0",
+    "lint-staged": "^9.5.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "license": "MIT"
 }

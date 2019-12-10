@@ -45,7 +45,7 @@
     "jsdom": "^11.3.0",
     "mocha": "^3.5.3",
     "racer-highway": "^8.1.0",
-    "racer-rpc": "dmapper/racer-rpc#v0.1.2",
+    "racer-rpc": "0.1.9",
     "raf": "^3.4.1",
     "react": "^16.9.0",
     "react-test-renderer": "^16.9.0",
