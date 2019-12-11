@@ -1,5 +1,9 @@
+const path = require('path')
 const config = require('startupjs/bundler').metroConfig
 
-// Override default metro config here.
+config.watchFolders = [
+  path.resolve(__dirname, '../'),
+  path.resolve(__dirname, '../node_modules')
+]
 
 module.exports = config

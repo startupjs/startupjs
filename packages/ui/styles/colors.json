@@ -1,61 +1,61 @@
 {
-  $white = #fff
-  $whiteLight = rgba($white, 0.5)
-  $whiteLighter = rgba($white, 0.25)
-  $whiteLightest = rgba($white, 0.05)
+  "white": "$UI.pallete.white",
+  "whiteLight": "rgba($UI.pallete.white, 0.5)",
+  "whiteLighter": "rgba($UI.pallete.white, 0.25)",
+  "whiteLightest": "rgba($UI.pallete.white, 0.05)",
 
-  $black = #3E4657
-  $blackLight = rgba($black, 0.5)
-  $blackLighter = rgba($black, 0.25)
-  $blackLightest = rgba($black, 0.05)
+  "dark": "$UI.pallete.black",
+  "darkLight": "rgba($UI.pallete.black, 0.5)",
+  "darkLighter": "rgba($UI.pallete.black, 0.25)",
+  "darkLightest": "rgba($UI.pallete.black, 0.05)",
 
-  $blue = #2962FF // primary
-  $blueLight = rgba($blue, 0.5)
-  $blueLighter = rgba($blue, 0.25)
-  $blueLightest = rgba($blue, 0.05)
+  "primary": "$UI.pallete.blue",
+  "primaryLight": "rgba($UI.pallete.blue, 0.5)",
+  "primaryLighter": "rgba($UI.pallete.blue, 0.25)",
+  "primaryLightest": "rgba($UI.pallete.blue, 0.05)",
 
-  $violet = #6772E5 // secondary
-  $violetLight = rgba($violet, 0.5)
-  $violetLighter = rgba($violet, 0.25)
-  $violetLightest = rgba($violet, 0.05)
+  "secondary": "$UI.pallete.violet",
+  "secondaryLight": "rgba($UI.pallete.violet, 0.5)",
+  "secondaryLighter": "rgba($UI.pallete.violet, 0.25)",
+  "secondaryLightest": "rgba($UI.pallete.violet, 0.05)",
 
-  $green = #24B47E // success
-  $greenLight = rgba($green, 0.5)
-  $greenLighter = rgba($green, 0.25)
-  $greenLightest = rgba($green, 0.05)
+  "success": "$UI.pallete.green",
+  "successLight": "rgba($UI.pallete.green, 0.5)",
+  "successLighter": "rgba($UI.pallete.green, 0.25)",
+  "successLightest": "rgba($UI.pallete.green, 0.05)",
 
-  $yellow = #F5BE59 // warning
-  $yellowLight = rgba($yellow, 0.5)
-  $yellowLighter = rgba($yellow, 0.25)
-  $yellowLightest = rgba($yellow, 0.05)
+  "warning": "$UI.pallete.yellow",
+  "warningLight": "rgba($UI.pallete.yellow, 0.5)",
+  "warningLighter": "rgba($UI.pallete.yellow, 0.25)",
+  "warningLightest": "rgba($UI.pallete.yellow, 0.05)",
 
-  $red = #E25950 // error
-  $redLight = rgba($red, 0.5)
-  $redLighter = rgba($red, 0.25)
-  $redLightest =  rgba($red, 0.05)
+  "attention": "$UI.pallete.red",
+  "attentionLight": "rgba($UI.pallete.red, 0.5)",
+  "attentionLighter": "rgba($UI.pallete.red, 0.25)",
+  "attentionLightest": " rgba($UI.pallete.red, 0.05)",
 
-  $orange = #FF7900
-  $orangeLight = rgba($orange, 0.5)
-  $orangeLighter = rgba($orange, 0.25)
-  $orangeLightest = rgba($orange, 0.05)
+  "additional1": "$UI.pallete.orange",
+  "additional1Light": "rgba($UI.pallete.orange, 0.5)",
+  "additional1Lighter": "rgba($UI.pallete.orange, 0.25)",
+  "additional1Lightest": "rgba($UI.pallete.orange, 0.05)",
 
-  $cyan = #00AED6
-  $cyanLight = rgba($cyan, 0.5)
-  $cyanLighter = rgba($cyan, 0.25)
-  $cyanLightest = rgba($cyan, 0.05)
+  "additional2": "$UI.pallete.cyan",
+  "additional2Light": "rgba($UI.pallete.cyan, 0.5)",
+  "additional2Lighter": "rgba($UI.pallete.cyan, 0.25)",
+  "additional2Lightest": "rgba($UI.pallete.cyan, 0.05)",
 
-  $purple = #B200FF
-  $purpleLight = rgba($purple, 0.5)
-  $purpleLighter = rgba($purple, 0.25)
-  $purpleLightest = rgba($purple, 0.05)
+  "additional3": "$UI.pallete.purple",
+  "additional3Light": "rgba($UI.pallete.purple, 0.5)",
+  "additional3Lighter": "rgba($UI.pallete.purple, 0.25)",
+  "additional3Lightest": "rgba($UI.pallete.purple, 0.05)",
 
-  $lime = #A6D800
-  $limeLight = rgba($lime, 0.5)
-  $limeLighter = rgba($lime, 0.25)
-  $limeLightest = rgba($lime, 0.05)
+  "additional4": "$UI.pallete.lime",
+  "additional4Light": "rgba($UI.pallete.lime, 0.5)",
+  "additional4Lighter": "rgba($UI.pallete.lime, 0.25)",
+  "additional4Lightest": "rgba($UI.pallete.lime, 0.05)",
 
-  $ochre = #F5A623
-  $ochreLight = rgba($ochre, 0.5)
-  $ochreLighter = rgba($ochre, 0.25)
-  $ochreLightest = rgba($ochre, 0.05)
+  "additional5": "$UI.pallete.ochre",
+  "additional5Light": "rgba($UI.pallete.ochre, 0.5)",
+  "additional5Lighter": "rgba($UI.pallete.ochre, 0.25)",
+  "additional5Lightest": "rgba($UI.pallete.ochre, 0.05)"
 }

@@ -113,6 +113,7 @@ function RouteComponent ({ route, onError, ...props }) {
   if (render) {
     const RC = route.component
     return pug`
+      //- ???
       View(key=orientation style={flex: 1})
         RC(
           ...props

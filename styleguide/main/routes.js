@@ -1,15 +1,7 @@
 export default (components = {}) => [
   {
-    path: '/:section?/:component?',
+    path: '/',
     exact: true,
-    component: components.PComponent,
-    filters: [isLoggedIn]
+    component: components.PComponent
   }
 ]
-
-async function isLoggedIn (model, next, redirect) {
-  const { section, component } = model.get('$render.match.params')
-  if (!section) console.log('no section')
-  if (!component) console.log('component')
-  next()
-}

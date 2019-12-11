@@ -23,21 +23,7 @@
 //     +native()
 //       elevation 0
 
-_getHashValue(hashMap, key, defaultKey, type)
-  // Workaround global built-in function s()
-  // http://stylus-lang.com/docs/bifs.html#sfmt-
-  key = 's' if key is s
-
-  key = '' + key
-  if key in hashMap
-    return hashMap[key]
-  else
-    msg = 'There is no "%s()" for "%s". Using default %s ("%s").'
-    defaultKey = '' + defaultKey
-    warn('' + s(msg, type, key, type, defaultKey))
-    return hashMap[defaultKey]
-
-$gutters = {
+$ui-gutters = {
   xs : 0.5u
   s  : 1u
   m  : 2u
@@ -45,22 +31,27 @@ $gutters = {
   xl : 4u
   xxl: 5u
 }
-gutter(key = m)
-  _getHashValue($gutters, key, m, 'gutter')
 
 // -----------------------------------------------------------------------------
 //   Media
 // -----------------------------------------------------------------------------
 
-$mobile ?= 480px
-$tablet ?= 768px
-$desktop ?= 1024px
-$wide ?= 1280px
+$ui-media = {
+  mobile: 480px
+  tablet: 768px
+  desktop: 1024px
+  wide: 1280px
+}
 
 // -----------------------------------------------------------------------------
 //   Fonts
 // -----------------------------------------------------------------------------
 
-$fontNormal = "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", "Verdana", sans-serif
-$fontHeading = "Source Sans Pro", "Helvetica", "Roboto", "Arial", "Verdana", sans-serif
-$fontNative = system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif
+$ui-fonts = {
+  normal: "'Roboto', 'Helvetica Neue', 'Segoe UI', -apple-system, system-ui, BlinkMacSystemFont, 'Arial', sans-serif"
+  heading: 'Roboto, Helvetica Neue, Segoe UI, -apple-system, system-ui, BlinkMacSystemFont, Arial, sans-serif'
+}
+
+// $fontNormal = 'Roboto', 'Helvetica Neue', 'Segoe UI', -apple-system, system-ui, BlinkMacSystemFont, 'Arial', sans-serif
+// $fontHeading = $fontNormal
+// $fontNative = system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif

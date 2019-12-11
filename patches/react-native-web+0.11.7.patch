@@ -1,0 +1,56 @@
+diff --git a/node_modules/react-native-web/dist/cjs/exports/Text/index.js b/node_modules/react-native-web/dist/cjs/exports/Text/index.js
+index 3d353e8..ec8103d 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/Text/index.js
++++ b/node_modules/react-native-web/dist/cjs/exports/Text/index.js
+@@ -69,7 +69,8 @@ function (_Component) {
+     var isInAParentText = this.context.isInAParentText;
+ 
+     if (process.env.NODE_ENV !== 'production') {
+-      (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
++      // Ignore className warning. startupjs depends heavily on className functionality.
++      // (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
+     }
+ 
+     if (onPress) {
+diff --git a/node_modules/react-native-web/dist/cjs/exports/View/index.js b/node_modules/react-native-web/dist/cjs/exports/View/index.js
+index 61d92b6..2be4072 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/View/index.js
++++ b/node_modules/react-native-web/dist/cjs/exports/View/index.js
+@@ -60,7 +60,8 @@ function (_Component) {
+     var supportedProps = (0, _filterSupportedProps.default)(this.props);
+ 
+     if (process.env.NODE_ENV !== 'production') {
+-      (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
++      // Ignore className warning. startupjs depends heavily on className functionality.
++      // (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
+ 
+       _react.default.Children.toArray(this.props.children).forEach(function (item) {
+         (0, _invariant.default)(typeof item !== 'string', "Unexpected text node: " + item + ". A text node cannot be a child of a <View>.");
+diff --git a/node_modules/react-native-web/dist/exports/Text/index.js b/node_modules/react-native-web/dist/exports/Text/index.js
+index 88fdd34..5403484 100644
+--- a/node_modules/react-native-web/dist/exports/Text/index.js
++++ b/node_modules/react-native-web/dist/exports/Text/index.js
+@@ -63,7 +63,8 @@ function (_Component) {
+     var isInAParentText = this.context.isInAParentText;
+ 
+     if (process.env.NODE_ENV !== 'production') {
+-      warning(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
++      // Ignore className warning. startupjs depends heavily on className functionality.
++      // warning(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
+     }
+ 
+     if (onPress) {
+diff --git a/node_modules/react-native-web/dist/exports/View/index.js b/node_modules/react-native-web/dist/exports/View/index.js
+index d11a402..9d947c0 100644
+--- a/node_modules/react-native-web/dist/exports/View/index.js
++++ b/node_modules/react-native-web/dist/exports/View/index.js
+@@ -50,7 +50,8 @@ function (_Component) {
+     var supportedProps = filterSupportedProps(this.props);
+ 
+     if (process.env.NODE_ENV !== 'production') {
+-      warning(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
++      // Ignore className warning. startupjs depends heavily on className functionality.
++      // warning(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
+       React.Children.toArray(this.props.children).forEach(function (item) {
+         invariant(typeof item !== 'string', "Unexpected text node: " + item + ". A text node cannot be a child of a <View>.");
+       });

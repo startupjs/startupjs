@@ -1,7 +1,9 @@
 {
   "private": true,
   "workspaces": ["packages/*", "styleguide"],
-  "scripts": {},
+  "scripts": {
+    "postinstall": "patch-package"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.6.0",
@@ -15,7 +17,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.1.0",
     "lerna": "^3.19.0",
-    "lint-staged": "^9.5.0"
+    "lint-staged": "^9.5.0",
+    "patch-package": "^6.2.0"
   },
   "lint-staged": {
     "*.{js,jsx}": [
