@@ -9,7 +9,6 @@ export default observer(function PComponent () {
   return pug`
     View.root
       View.left
-        RenderText(value='Hello World')
         Text.text Syntax highlighter
       View.right
         Props(of=RenderText)
