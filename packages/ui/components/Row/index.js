@@ -2,7 +2,6 @@ import React from 'react'
 import './index.styl'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
-import c from '../../helpers/c'
 
 export default observer(function Row ({
   style,
@@ -17,8 +16,8 @@ export default observer(function Row ({
   ...props
 }) {
   return pug`
-    View(
-      styleName=c('root', { reverse, right, center, vCenter, wrap, around, between })
+    View.root(
+      styleName={ reverse, right, center, vCenter, wrap, around, between }
       style=style
       ...props
     )
