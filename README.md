@@ -1,7 +1,9 @@
 # StartupJS
-:fire: React (Native + Web) starter kit and realtime model synchronization engine for Node.js with ORM (full-stack framework).
 
-## Intro
+> :fire: React **Native + Web** framework with the isomorphic realtime DB engine
+
+## Introduction
+
 This boilerplate launches with a [React web app](https://reactjs.org/) and [React Native app](https://facebook.github.io/react-native/) and allows to use a single code for all platforms.
 
 The project is super helpful to kick-start your next project, as it provides a lot of the common tools you may reach for, all ready to go. Specifically:
@@ -39,19 +41,6 @@ The project is super helpful to kick-start your next project, as it provides a l
     npx startupjs init myapp
     ```
 
-    By default it creates a project using the `simple` template.
-    If you want to have a built-in routing, specify the `routing` template:
-
-    ```
-    npx startupjs init myapp --template=routing
-    ```
-
-    If you want to use an RC version of react-native, specify the `next` version:
-
-    ```
-    npx startupjs init myapp --version=next
-    ```    
-
 2. Go into the newly created folder and start the web application with:
 
     ```
@@ -60,7 +49,23 @@ The project is super helpful to kick-start your next project, as it provides a l
     
 3. Open `http://localhost:3000` and start developing!
 
-## Running on mobile and web at the same time
+## Boilerplate templates
+
+By default `npx startupjs init` creates a project using the `simple` template.
+
+If you want to have a built-in routing, specify the `routing` template:
+
+```
+npx startupjs init myapp --template=routing
+```
+
+If you want to use an RC version of `react-native`, specify the `next` version:
+
+```
+npx startupjs init myapp --version=next
+```
+
+## Running on mobile
 
 `yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
 
