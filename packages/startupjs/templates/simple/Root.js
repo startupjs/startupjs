@@ -1,6 +1,6 @@
 import { BASE_URL } from '@env'
 import init from 'startupjs/init'
-import orm from '../model'
+import orm from './model'
 import React, { useState, useEffect } from 'react'
 import {
   View,
