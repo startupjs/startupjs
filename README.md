@@ -49,33 +49,33 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 2. Start **server** (in a separate terminal tab)
 
-```
-yarn server
-```
+    ```
+    yarn server
+    ```
 
 3. Start **web** (in a separate terminal tab). Open `http://localhost:3000`
 
-```
-yarn web
-```
+    ```
+    yarn web
+    ```
 
 4. Start **metro**, if you want to develop native iOS or Android apps (in a separate terminal tab)
 
-```
-yarn metro
-```
+    ```
+    yarn metro
+    ```
 
 5. Run **android** (in a separate terminal tab)
 
-```
-yarn android
-```
+    ```
+    yarn android
+    ```
 
 6. Run **ios** (in a separate terminal tab)
 
-```
-yarn ios
-```
+    ```
+    yarn ios
+    ```
 
 ## Docker development
 
@@ -88,29 +88,29 @@ to the native installation when working with the large amount of files.
 
 1. Initialize a new project (change `awesomeapp` at the end to your app name):
 
-```
-docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
-```
+    ```
+    docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
+    ```
 
 2. Go into the created project folder. Then run the development docker container with:
 
-```
-./docker
-```
+    ```
+    ./docker
+    ```
 
 3. While inside the running container, start your app with:
 
-```
-yarn start
-```
+    ```
+    yarn start
+    ```
 
-Open `http://localhost:3000` and you should see your app.
+    Open `http://localhost:3000` and you should see your app.
 
 4. You can quickly exec into the running container from another terminal window using:
 
-```
-./docker exec
-```
+    ```
+    ./docker exec
+    ```
 
 ## Packages configuration
 To get this project running with all dependencies, follow steps given below:
