@@ -70,7 +70,8 @@ const SCRIPTS = {
   'start-production': 'startupjs start-production'
 }
 
-let templatePath
+let templatesPath
+let availableTemplates
 
 // ----- init
 
@@ -78,8 +79,14 @@ commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
   .option('-v, --version <semver>', 'Use a particular semver of React Native as a template', 'latest')
-  .action(async (projectName, { version }) => {
-    console.log('> run npx', projectName, { version })
+  .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', 'simple')
+  .action(async (projectName, { version, template }) => {
+    console.log('> run npx', projectName, { version, template })
+
+    // check if template exists
+    if (!availableTemplates.includes(template)) {
+      Error(`Template '${template}' doesn't exist. Templates available: ${availableTemplates.join(', ')}`)
+    }
 
     // init react-native application
     await execa('npx', [
@@ -120,6 +127,7 @@ commander
       })
     }
 
+    let templatePath = path.join(templatesPath, template)
     console.log('> Copy template', { projectPath, templatePath })
     const files = fs
       .readdirSync(templatePath)
@@ -291,7 +299,8 @@ function getSuccessInstructions (projectName) {
 }
 
 exports.run = (options = {}) => {
-  if (!options.templatePath) throw Error('templatePath not found!')
-  templatePath = options.templatePath
+  if (!options.templatesPath) throw Error('templatesPath not found!')
+  templatesPath = options.templatesPath
+  availableTemplates = fs.readdirSync(templatesPath)
   commander.parse(process.argv)
 }
