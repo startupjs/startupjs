@@ -31,7 +31,7 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 **OR**  
 
-- [Docker](https://docs.docker.com/install/) (See [Docker development](#docker-development) section for details)
+- [Docker](https://docs.docker.com/install/) (Skip *Quick start* and jump to [Docker development](#docker-development) section right away for instructions)
 
 ## Quick start
 
