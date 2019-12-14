@@ -31,7 +31,7 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 **OR**  
 
-- [Docker](https://docs.docker.com/install/) (Skip *Quick start* and jump to [Docker development](#docker-development) section right away for instructions)
+- [Docker](https://docs.docker.com/install/) (Instead of *Quick start*, follow the instructions in [Docker development Quick Start](#docker-development-quick-start) section)
 
 ## Quick start
 
@@ -104,7 +104,7 @@ Here is the list of commands to run all platforms at the same time:
     yarn ios
     ```
 
-## Docker development
+## Docker development Quick Start
 
 Alternatively you can run a docker development image which has node, yarn, mongo and redis already built in.
 You only need `docker` for this. And it works everywhere -- Windows, MacOS, Linux.
