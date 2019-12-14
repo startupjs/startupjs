@@ -35,17 +35,17 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case).
 
-```
-npx startupjs init myapp
-```
+    ```
+    npx startupjs init myapp
+    ```
 
-By default the project from `simple` template is going to be created. If you want to have a built-in routing (using `React Router`), specify the `routing` template:
+    By default the project from `simple` template is going to be created. If you want to have a built-in routing (using `React Router`), specify the `routing` template:
 
-```
-npx startupjs init myapp --template=routing
-```
+    ```
+    npx startupjs init myapp --template=routing
+    ```
 
-To use an RC version of react-native, add `--version=next` option.
+    To use an RC version of react-native, add `--version=next` option.
 
 2. Start **server** (in a separate terminal tab)
 
