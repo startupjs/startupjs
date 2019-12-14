@@ -41,7 +41,7 @@ The project is super helpful to kick-start your next project, as it provides a l
     npx startupjs init myapp
     ```
 
-2. Go into the newly created folder and start the web application with:
+2. Go into the created project folder and start the web application with:
 
     ```
     yarn start
@@ -113,10 +113,10 @@ Keep in mind though that since docker uses its own driver to mount folders,
 performance (especially when installing modules) might be considerably slower compared
 to the native installation when working with the large amount of files.
 
-1. Initialize a new project (change `awesomeapp` at the end to your app name):
+1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case).
 
     ```
-    docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
+    docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init myapp
     ```
 
 2. Go into the created project folder. Then run the development docker container with:
@@ -131,9 +131,9 @@ to the native installation when working with the large amount of files.
     yarn start
     ```
 
-    Open `http://localhost:3000` and you should see your app.
+4. Open `http://localhost:3000` and start developing!
 
-4. You can quickly exec into the running container from another terminal window using:
+5. When you want to open an additional terminal window, you can quickly exec into the running container using:
 
     ```
     ./docker exec
