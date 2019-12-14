@@ -56,13 +56,13 @@ By default `npx startupjs init` creates a project using the `simple` template.
 If you want to have a built-in routing, specify the `routing` template:
 
 ```
-npx startupjs init myapp --template=routing
+npx startupjs init myapp -t routing
 ```
 
 If you want to use an RC version of `react-native`, specify the `next` version:
 
 ```
-npx startupjs init myapp --version=next
+npx startupjs init myapp -v next
 ```
 
 ## Running on mobile
