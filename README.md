@@ -47,7 +47,7 @@ The project is super helpful to kick-start your next project, as it provides a l
     yarn start
     ```
     
-3. Open `http://localhost:3000` and start developing!
+3. Open http://localhost:3000 and start developing!
 
 ## Boilerplate templates
 
@@ -131,7 +131,7 @@ to the native installation when working with the large amount of files.
     yarn start
     ```
 
-4. Open `http://localhost:3000` and start developing!
+4. Open http://localhost:3000 and start developing!
 
 5. When you want to open an additional terminal window, you can quickly exec into the running container using:
 
