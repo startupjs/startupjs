@@ -39,39 +39,61 @@ The project is super helpful to kick-start your next project, as it provides a l
     npx startupjs init myapp
     ```
 
-    By default the project from `simple` template is going to be created. If you want to have a built-in routing (using `React Router`), specify the `routing` template:
+    By default it creates a project using the `simple` template.
+    If you want to have a built-in routing, specify the `routing` template:
 
     ```
     npx startupjs init myapp --template=routing
     ```
 
-    To use an RC version of react-native, add `--version=next` option.
+    If you want to use an RC version of react-native, specify the `next` version:
 
-2. Start **server** (in a separate terminal tab)
+    ```
+    npx startupjs init myapp --version=next
+    ```    
+
+2. Go into the newly created folder and start the web application with:
+
+    ```
+    yarn start
+    ```
+    
+3. Open `http://localhost:3000` and start developing!
+
+## Running on mobile and web at the same time
+
+`yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
+
+In order to develop your app on mobile, you'll have to open a bunch of tabs anyways, so it makes sense
+to also run `server` and `web` separately instead of using the `yarn start`.
+
+Here is the list of commands to run all platforms at the same time:
+
+1. Start **server** (required) *in a separate terminal tab*
 
     ```
     yarn server
     ```
 
-3. Start **web** (in a separate terminal tab). Open `http://localhost:3000`
+2. Start **web** (optional) *in a separate terminal tab*
 
     ```
     yarn web
     ```
 
-4. Start **metro**, if you want to develop native iOS or Android apps (in a separate terminal tab)
+3. Start **metro** (required for Android and/or iOS) *in a separate terminal tab*
 
     ```
     yarn metro
     ```
 
-5. Run **android** (in a separate terminal tab)
+5. Run **android** (optional) *in a separate terminal tab*
 
     ```
     yarn android
     ```
 
-6. Run **ios** (in a separate terminal tab)
+6. Run **ios** (optional) *in a separate terminal tab*
 
     ```
     yarn ios
