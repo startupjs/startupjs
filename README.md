@@ -56,7 +56,7 @@ Following templates are available:
 1. `simple` (default)
 2. `routing` - plugs in `@startupjs/app` which provides a `react-router` routing implementation
 
-By default `npx startupjs init` creates a project using the `simple` template.
+By default `init` creates a project using the `simple` template.
 
 To use a template with built-in routing, specify it using the `-t` option:
 
