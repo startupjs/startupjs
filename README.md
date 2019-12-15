@@ -54,7 +54,7 @@ The project is super helpful to kick-start your next project, as it provides a l
 Following templates are available:
 
 1. `simple` (default)
-2. `routing` - plugs in `@startupjs/app` which provides a `react-router` routing implementation
+2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
 
 By default `init` creates a project using the `simple` template.
 
