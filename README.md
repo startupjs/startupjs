@@ -165,7 +165,7 @@ to the native installation when working with the large amount of files.
 
 ## CodePush
 
-[CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to their user's devices.
+[CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to all the user devices.
 
 It is built in into [`@startupjs/app`](/packages/app), which is included into the [`routing` template](#boilerplate-templates).
 
