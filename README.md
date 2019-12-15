@@ -151,27 +151,16 @@ to the native installation when working with the large amount of files.
 ## Packages
 
 - [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
-
 - [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
-
 - [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
-
 - [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
-
 - [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
-
 - [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
-
 - [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
-
 - [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
-
 - [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
-
 - [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
-
 - [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
-
 - [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
 
 ## CodePush
