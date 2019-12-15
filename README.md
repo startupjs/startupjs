@@ -148,6 +148,32 @@ to the native installation when working with the large amount of files.
     ./docker exec
     ```
 
+## Packages
+
+- [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
+
+- [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
+
+- [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
+
+- [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
+
+- [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
+
+- [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
+
+- [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
+
+- [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
+
+- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
+
+- [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
+
+- [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
+
+- [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
+
 ## CodePush
 
 CodePush is built in into [`@startupjs/app`](/packages/app), which is included into the [`routing` template](#boilerplate-templates).
@@ -230,32 +256,6 @@ protected List<ReactPackage> getPackages() {
 2. Get keys using code-push deployment ls <App-Name-Ios> --displayKeys then open `/path_to_your_app/ios` using `Xcode` and copy both Debug and Release key in
 
 ![codepush ios](docs/codepush-ios.png)
-
-## Packages
-
-- [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
-
-- [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
-
-- [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
-
-- [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
-
-- [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
-
-- [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
-
-- [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
-
-- [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
-
-- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
-
-- [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
-
-- [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
-
-- [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
 
 ## Troubleshooting
 
