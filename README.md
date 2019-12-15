@@ -51,7 +51,7 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 ## Boilerplate templates
 
-Following templates are available
+Following templates are available:
 
 1. `simple` (default)
 2. `routing` - plugs in `@startupjs/app` which provides a `react-router` routing implementation
