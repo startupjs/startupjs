@@ -148,11 +148,12 @@ to the native installation when working with the large amount of files.
     ./docker exec
     ```
 
-## Packages configuration
-To get this project running with all dependencies, follow steps given below:
+### CodePush configuration
 
-### CodePush
+CodePush is built in into [`@startupjs/app`](/packages/app), which is included into the [`routing` template](#boilerplate-templates).
+
 [CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to their user's devices. Following steps will help in configuring CodePush for project.
+
 1. Install CodePush CLI
   ```
   npm install -g code-push-cli
