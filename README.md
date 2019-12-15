@@ -1,6 +1,6 @@
 # StartupJS
 
-> :fire: React **Native + Web** framework with the isomorphic realtime DB engine and observables
+> :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
 
 ## Introduction
 
