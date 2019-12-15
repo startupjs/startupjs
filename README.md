@@ -51,19 +51,28 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 ## Boilerplate templates
 
+Following templates are available
+
+1. `simple` (default)
+2. `routing` - plugs in `@startupjs/app` which provides a `react-router` routing implementation
+
 By default `npx startupjs init` creates a project using the `simple` template.
 
-If you want to have a built-in routing, specify the `routing` template:
+To use a template with built-in routing, specify it using the `-t` option:
 
 ```
 ... init myapp -t routing
 ```
 
-If you want to use an RC version of `react-native`, specify the `next` version:
+Each template initializes on top of a default `react-native init` application.
+
+If you want to use an RC version (`next`) of `react-native`, specify it using the `-v` option:
 
 ```
 ... init myapp -v next
 ```
+
+You can combine `-t` and `-v` options together. `react-native init` will run first and afterwards the boilerplate template will be  copied over.
 
 ## Running on mobile
 
