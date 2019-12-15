@@ -1,7 +1,9 @@
 # StartupJS
-:fire: React (Native + Web) starter kit and realtime model synchronization engine for Node.js with ORM (full-stack framework).
 
-## Intro
+> :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
+
+## Introduction
+
 This boilerplate launches with a [React web app](https://reactjs.org/) and [React Native app](https://facebook.github.io/react-native/) and allows to use a single code for all platforms.
 
 The project is super helpful to kick-start your next project, as it provides a lot of the common tools you may reach for, all ready to go. Specifically:
@@ -29,55 +31,89 @@ The project is super helpful to kick-start your next project, as it provides a l
 
 **OR**  
 
-- [Docker](https://docs.docker.com/install/) (See [Docker development](#docker-development) section for details)
+- [Docker](https://docs.docker.com/install/) (Instead of *Quick start*, follow the instructions in [Docker development Quick Start](#docker-development-quick-start) section)
 
 ## Quick start
 
-1. Initialize a new boilerplate project. Change `myapp` to your project name (use lower case).
+1. Initialize a new [`simple` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
 
     ```
     npx startupjs init myapp
     ```
 
-    By default the project from `simple` template is going to be created. If you want to have a built-in routing (using `React Router`), specify the `routing` template:
+2. Go into the created project folder and start the web application with:
 
     ```
-    npx startupjs init myapp --template=routing
+    yarn start
     ```
+    
+3. Open http://localhost:3000 and start developing!
 
-    To use an RC version of react-native, add `--version=next` option.
+## Boilerplate templates
 
-2. Start **server** (in a separate terminal tab)
+Following templates are available:
+
+1. `simple` (default)
+2. `routing` - plugs in `@startupjs/app` which provides a `react-router` routing implementation
+
+By default `init` creates a project using the `simple` template.
+
+To use a template with built-in routing, specify it using the `-t` option:
+
+```
+... init myapp -t routing
+```
+
+Each template initializes on top of a default `react-native init` application.
+
+If you want to use an RC version (`next`) of `react-native`, specify it using the `-v` option:
+
+```
+... init myapp -v next
+```
+
+You can combine `-t` and `-v` options together. `react-native init` will run first and afterwards the boilerplate template will be  copied over.
+
+## Running on mobile
+
+`yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
+
+In order to develop your app on mobile, you'll have to open a bunch of tabs anyways, so it makes sense
+to also run `server` and `web` separately instead of using the `yarn start`.
+
+Here is the list of commands to run all platforms at the same time:
+
+1. Start **server** (required) *in a separate terminal tab*
 
     ```
     yarn server
     ```
 
-3. Start **web** (in a separate terminal tab). Open `http://localhost:3000`
+2. Start **web** (optional) *in a separate terminal tab*
 
     ```
     yarn web
     ```
 
-4. Start **metro**, if you want to develop native iOS or Android apps (in a separate terminal tab)
+3. Start **metro** (required for Android and/or iOS) *in a separate terminal tab*
 
     ```
     yarn metro
     ```
 
-5. Run **android** (in a separate terminal tab)
+5. Run **android** (optional) *in a separate terminal tab*
 
     ```
     yarn android
     ```
 
-6. Run **ios** (in a separate terminal tab)
+6. Run **ios** (optional) *in a separate terminal tab*
 
     ```
     yarn ios
     ```
 
-## Docker development
+## Docker development Quick Start
 
 Alternatively you can run a docker development image which has node, yarn, mongo and redis already built in.
 You only need `docker` for this. And it works everywhere -- Windows, MacOS, Linux.
@@ -86,10 +122,10 @@ Keep in mind though that since docker uses its own driver to mount folders,
 performance (especially when installing modules) might be considerably slower compared
 to the native installation when working with the large amount of files.
 
-1. Initialize a new project (change `awesomeapp` at the end to your app name):
+1. Initialize a new [`simple` boilerplate](#boilerplate-templates) project. Change `myapp` at the end to your project name (use lower case).
 
     ```
-    docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init awesomeapp
+    docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init myapp
     ```
 
 2. Go into the created project folder. Then run the development docker container with:
@@ -104,19 +140,37 @@ to the native installation when working with the large amount of files.
     yarn start
     ```
 
-    Open `http://localhost:3000` and you should see your app.
+4. Open http://localhost:3000 and start developing!
 
-4. You can quickly exec into the running container from another terminal window using:
+5. When you want to open an additional terminal window, you can quickly exec into the running container using:
 
     ```
     ./docker exec
     ```
 
-## Packages configuration
-To get this project running with all dependencies, follow steps given below:
+## Packages
 
-### CodePush
-[CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to their user's devices. Following steps will help in configuring CodePush for project.
+- [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
+- [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
+- [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
+- [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
+- [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
+- [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
+- [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
+- [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
+- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
+- [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
+- [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
+- [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
+
+## CodePush
+
+[CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to their user's devices.
+
+It is built in into [`@startupjs/app`](/packages/app), which is included into the [`routing` template](#boilerplate-templates).
+
+Do the following steps to configure it for your project:
+
 1. Install CodePush CLI
   ```
   npm install -g code-push-cli
@@ -193,32 +247,6 @@ protected List<ReactPackage> getPackages() {
 2. Get keys using code-push deployment ls <App-Name-Ios> --displayKeys then open `/path_to_your_app/ios` using `Xcode` and copy both Debug and Release key in
 
 ![codepush ios](docs/codepush-ios.png)
-
-## Packages
-
-- [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
-
-- [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
-
-- [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
-
-- [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
-
-- [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
-
-- [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
-
-- [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
-
-- [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
-
-- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
-
-- [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
-
-- [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
-
-- [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
 
 ## Troubleshooting
 
