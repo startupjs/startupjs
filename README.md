@@ -148,7 +148,7 @@ to the native installation when working with the large amount of files.
     ./docker exec
     ```
 
-### CodePush configuration
+## CodePush
 
 CodePush is built in into [`@startupjs/app`](/packages/app), which is included into the [`routing` template](#boilerplate-templates).
 
