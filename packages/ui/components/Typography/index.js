@@ -1,32 +1,30 @@
 import React from 'react'
-import './index.styl'
 import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
+import './index.styl'
 
-export default observer(function P ({
-  style,
-  children,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  normal,
-  description,
-  small,
-  bold,
-  ...props
-}) {
-  const isNative = Platform.OS !== 'web'
+function generateTag (tag) {
+  return observer(
+    ({ bold, children, style, ...props }) => {
+      const isNative = Platform.OS !== 'web'
+      const Tag = isNative ? Text : tag
+      return pug`
+        Tag.root(
+          styleName=[tag, { bold }]
+          style=style
+          ...props
+        )= children
+      `
+    }
+  )
+}
 
-  const Tag = isNative ? Text : (h1 && 'h1') || (h2 && 'h2') || (h3 && 'h3') || (h4 && 'h4') || (h5 && 'h5') || (h6 && 'h6') || Text
-
-  return pug`
-    Tag.root(
-      styleName={ h1, h2, h3, h4, h5, h6, normal, description, small, bold }
-      style=style
-      ...props
-    )= children
-  `
-})
+export const H1 = generateTag('h1')
+export const H2 = generateTag('h2')
+export const H3 = generateTag('h3')
+export const H4 = generateTag('h4')
+export const H5 = generateTag('h5')
+export const H6 = generateTag('h6')
+export const Normal = generateTag('Text')
+export const Description = generateTag('Text')
+export const Small = generateTag('Text')
