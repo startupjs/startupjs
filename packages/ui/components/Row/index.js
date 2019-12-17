@@ -5,7 +5,7 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 
 const Row = observer(({
-  align = 'right',
+  align,
   style,
   children,
   ...props
