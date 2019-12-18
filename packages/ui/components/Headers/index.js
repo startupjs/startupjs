@@ -3,11 +3,11 @@ import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
 import './index.styl'
 
-function generateTag (tag, ariaLevelNumber) {
+function generateTag (tag) {
   return observer(
     ({ bold, children, style, ...props }) => {
       const isWeb = Platform.OS === 'web'
-      const role = isWeb && ariaLevelNumber ? { accessibilityRole: 'heading', 'aria-level': tag.match(/\d+/).join() } : {}
+      const role = isWeb ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') } : {}
 
       return pug`
         Text.root(
