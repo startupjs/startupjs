@@ -8,14 +8,14 @@ const Row = observer(({
   align,
   vAlign,
   wrap,
+  reverse,
   style,
   children,
   ...props
 }) => {
-  const alignSubClass = align && align === vAlign ? 'fullCenter' : vAlign === 'center' ? 'vCenter' : align === 'center' ? 'hCenter' : ''
   return pug`
     View.root(
-      styleName=[align, wrap, alignSubClass]
+      styleName=[align, 'v' + vAlign, { wrap, reverse }]
       style=style
       ...props
     )
@@ -25,7 +25,8 @@ const Row = observer(({
 
 Row.propTypes = {
   wrap: PropTypes.bool,
-  align: PropTypes.oneOf(['reverse', 'right', 'center', 'around', 'between']),
+  reverse: PropTypes.bool,
+  align: PropTypes.oneOf(['center', 'right', 'around', 'between']),
   vAlign: PropTypes.oneOf(['center'])
 }
 
