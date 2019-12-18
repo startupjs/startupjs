@@ -6,13 +6,16 @@ import { observer } from 'startupjs'
 
 const Row = observer(({
   align,
+  vAlign,
+  wrap,
   style,
   children,
   ...props
 }) => {
+  const alignSubClass = align && align === vAlign ? 'fullCenter' : vAlign === 'center' ? 'vCenter' : align === 'center' ? 'hCenter' : ''
   return pug`
     View.root(
-      styleName=[align]
+      styleName=[align, wrap, alignSubClass]
       style=style
       ...props
     )
@@ -21,7 +24,9 @@ const Row = observer(({
 })
 
 Row.propTypes = {
-  align: PropTypes.oneOf(['reverse', 'right', 'center', 'vCenter', 'wrap', 'around', 'between'])
+  wrap: PropTypes.bool,
+  align: PropTypes.oneOf(['reverse', 'right', 'center', 'around', 'between']),
+  vAlign: PropTypes.oneOf(['center'])
 }
 
 export default Row
