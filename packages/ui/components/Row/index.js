@@ -5,12 +5,12 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 
 const Row = observer(({
+  style,
+  children,
   align,
   vAlign,
   wrap,
   reverse,
-  style,
-  children,
   ...props
 }) => {
   return pug`
