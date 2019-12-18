@@ -1,0 +1,77 @@
+_height = 32px
+_height-s = 28px
+_height-xs = 24px
+_width = 88px
+_shadow = 5px 2px 8px 0px rgba(0,0,0,0.1)
+
+_largeWidth = 88px
+_largeHeight = 48px
+
+_bigWidth = 219px
+_bigHeight = 72px
+
+_borderRadius = 0.5u
+
+_primary = rgba(62, 94,255, 1)
+_hover = rgba(62, 94, 255, 0.8)
+_disabled = rgba(197, 201, 206, 0.7)
+_disabledHover = rgba(197, 201, 206, 1)
+_noBackground = rgba(0,0,0, 0)
+
+.root
+  padding-top 1u
+  padding-bottom @padding-top
+  padding-left 2u
+  padding-right @padding-left
+  align-items center
+  justify-content center
+  flex-direction row
+  cursor pointer
+  background-color _primary
+  border-radius _borderRadius
+  &-normal
+    min-width _width
+    min-height _height
+  &-large
+    min-width _largeWidth
+    min-height _largeHeight
+  &-big
+    min-width _bigWidth
+    min-height _bigHeight
+  &-flat
+    background-color _primary
+  &-outlined
+    border 1px solid _primary
+    background-color _noBackground
+  &-shadowed
+    +web()
+      box-shadow _shadow
+  &-ghost
+    background-color _noBackground
+    border-radius 0px
+  &-disabled
+    background-color _disabled
+  +web()
+    &:hover
+      background-color _hover
+    &-disabled
+      &:hover
+        background-color _disabledHover
+  &-icon
+    width 40px
+    height 40px
+    min-width 0px
+    min-height 0px
+    .icon
+      margin-right 0px
+  &-disabled
+    background-color _disabled
+    cursor default
+  &-squared
+    border-radius 0px
+
+.text
+  color white
+
+.icon
+  margin-right 1u
