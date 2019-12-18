@@ -15,7 +15,7 @@ const Row = observer(({
 }) => {
   return pug`
     View.root(
-      styleName=[align, 'v' + vAlign, { wrap, reverse }]
+      styleName=[align, 'v_' + vAlign, { wrap, reverse }]
       style=style
       ...props
     )
