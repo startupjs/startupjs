@@ -1,10 +1,11 @@
 import React from 'react'
 import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
+import propTypes from 'prop-types'
 import './index.styl'
 
 function generateTag (tag) {
-  return observer(
+  const header = observer(
     ({ bold, children, style, ...props }) => {
       const isWeb = Platform.OS === 'web'
       const role = isWeb ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') } : {}
@@ -19,6 +20,10 @@ function generateTag (tag) {
       `
     }
   )
+
+  header.propTypes = { bold: propTypes.bool }
+
+  return header
 }
 
 export const H1 = generateTag('h1')

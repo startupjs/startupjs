@@ -22,7 +22,7 @@ const Span = observer(({
 
 Span.propTypes = {
   variant: propTypes.oneOf(['normal', 'description', 'small']),
-  bord: propTypes.bool
+  bold: propTypes.bool
 }
 
 export default Span
