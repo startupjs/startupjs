@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.10.0",
+  "version": "0.10.5",
   "main": "index.js",
   "dependencies": {
     "@startupjs/backend": "^0.10.0",
@@ -17,7 +17,7 @@
     "express-session": "^1.11.3",
     "hsts": "^2.1.0",
     "lodash": "4.x",
-    "method-override": "~2.1.3",
+    "method-override": "~2.3.10",
     "racer-highway": "^8.1.0"
   },
   "peerDependencies": {
