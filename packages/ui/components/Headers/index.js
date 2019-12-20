@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
+import { Text, Platform } from 'react-native'
 import './index.styl'
 
 function generateTag (tag) {

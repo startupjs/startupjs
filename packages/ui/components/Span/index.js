@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Text } from 'react-native'
 import propTypes from 'prop-types'
+import { Text } from 'react-native'
 import './index.styl'
 
 const Span = observer(({
