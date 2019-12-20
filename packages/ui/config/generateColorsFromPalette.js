@@ -35,29 +35,29 @@ module.exports = function generateColorsFromPalette (pallete) {
     attentionLighter: `rgba(${pallete.red}, 0.25)`,
     attentionLightest: ` rgba(${pallete.red}, 0.05)`,
 
-    additional1: `${pallete.orange}`,
-    additional1Light: `rgba(${pallete.orange}, 0.5)`,
-    additional1Lighter: `rgba(${pallete.orange}, 0.25)`,
-    additional1Lightest: `rgba(${pallete.orange}, 0.05)`,
+    additional0: `${pallete.orange}`,
+    additional0Light: `rgba(${pallete.orange}, 0.5)`,
+    additional0Lighter: `rgba(${pallete.orange}, 0.25)`,
+    additional0Lightest: `rgba(${pallete.orange}, 0.05)`,
 
-    additional2: `${pallete.cyan}`,
-    additional2Light: `rgba(${pallete.cyan}, 0.5)`,
-    additional2Lighter: `rgba(${pallete.cyan}, 0.25)`,
-    additional2Lightest: `rgba(${pallete.cyan}, 0.05)`,
+    additional1: `${pallete.cyan}`,
+    additional1Light: `rgba(${pallete.cyan}, 0.5)`,
+    additional1Lighter: `rgba(${pallete.cyan}, 0.25)`,
+    additional1Lightest: `rgba(${pallete.cyan}, 0.05)`,
 
-    additional3: `${pallete.purple}`,
-    additional3Light: `rgba(${pallete.purple}, 0.5)`,
-    additional3Lighter: `rgba(${pallete.purple}, 0.25)`,
-    additional3Lightest: `rgba(${pallete.purple}, 0.05)`,
+    additional2: `${pallete.purple}`,
+    additional2Light: `rgba(${pallete.purple}, 0.5)`,
+    additional2Lighter: `rgba(${pallete.purple}, 0.25)`,
+    additional2Lightest: `rgba(${pallete.purple}, 0.05)`,
 
-    additional4: `${pallete.lime}`,
-    additional4Light: `rgba(${pallete.lime}, 0.5)`,
-    additional4Lighter: `rgba(${pallete.lime}, 0.25)`,
-    additional4Lightest: `rgba(${pallete.lime}, 0.05)`,
+    additional3: `${pallete.lime}`,
+    additional3Light: `rgba(${pallete.lime}, 0.5)`,
+    additional3Lighter: `rgba(${pallete.lime}, 0.25)`,
+    additional3Lightest: `rgba(${pallete.lime}, 0.05)`,
 
-    additional5: `${pallete.ochre}`,
-    additional5Light: `rgba(${pallete.ochre}, 0.5)`,
-    additional5Lighter: `rgba(${pallete.ochre}, 0.25)`,
-    additional5Lightest: `rgba(${pallete.ochre}, 0.05)`
+    additional4: `${pallete.ochre}`,
+    additional4Light: `rgba(${pallete.ochre}, 0.5)`,
+    additional4Lighter: `rgba(${pallete.ochre}, 0.25)`,
+    additional4Lightest: `rgba(${pallete.ochre}, 0.05)`
   }
 }
