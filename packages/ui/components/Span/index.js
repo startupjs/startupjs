@@ -7,7 +7,7 @@ import './index.styl'
 const Span = observer(({
   children,
   style,
-  variant = 'normal',
+  variant,
   bold,
   ...props
 }) => {
@@ -19,6 +19,11 @@ const Span = observer(({
     )= children
   `
 })
+
+Span.defaultProps = {
+  variant: 'normal',
+  bold: false
+}
 
 Span.propTypes = {
   variant: propTypes.oneOf(['normal', 'description', 'small']),

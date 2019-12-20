@@ -21,6 +21,10 @@ function generateTag (tag) {
     }
   )
 
+  header.defaultProps = {
+    bold: false
+  }
+
   header.propTypes = { bold: propTypes.bool }
 
   return header
