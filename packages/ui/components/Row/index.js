@@ -1,26 +1,33 @@
 import React from 'react'
 import './index.styl'
-import { View } from 'react-native'
+import PropTypes from 'prop-types'
+import Div from '../Div'
 import { observer } from 'startupjs'
 
-export default observer(function Row ({
+const Row = observer(({
   style,
   children,
-  reverse,
-  right,
-  center,
-  vCenter,
+  align,
+  vAlign,
   wrap,
-  around,
-  between,
+  reverse,
   ...props
-}) {
+}) => {
   return pug`
-    View.root(
-      styleName={ reverse, right, center, vCenter, wrap, around, between }
+    Div.root(
+      styleName=[align, 'v_' + vAlign, { wrap, reverse }]
       style=style
       ...props
     )
       = children
   `
 })
+
+Row.propTypes = {
+  wrap: PropTypes.bool,
+  reverse: PropTypes.bool,
+  align: PropTypes.oneOf(['center', 'right', 'around', 'between']),
+  vAlign: PropTypes.oneOf(['center'])
+}
+
+export default Row
