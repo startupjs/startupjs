@@ -3,10 +3,10 @@
 
 var cli = require('@startupjs/cli')
 var path = require('path')
-var templatePath = path.join(__dirname, 'template')
+var templatesPath = path.join(__dirname, 'templates')
 
 if (require.main === module) {
-  cli.run({ templatePath: templatePath })
+  cli.run({ templatesPath: templatesPath })
 }
 
 module.exports = cli
