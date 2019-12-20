@@ -21,7 +21,7 @@ const SHADOWS = {
       width: 0,
       height: 3
     },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.15,
     shadowRadius: 4.65,
 
     elevation: 6
@@ -32,10 +32,10 @@ const SHADOWS = {
       width: 0,
       height: 5
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.15,
+    shadowRadius: 8.27,
 
-    elevation: 10
+    elevation: 12
   },
   xl: {
     shadowColor: '#000',
@@ -44,9 +44,9 @@ const SHADOWS = {
       height: 8
     },
     shadowOpacity: 0.2,
-    shadowRadius: 10.32,
+    shadowRadius: 12,
 
-    elevation: 16
+    elevation: 18
   }
 }
 
