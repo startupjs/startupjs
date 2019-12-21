@@ -20,7 +20,7 @@ export default new Proxy(
             model.call('model', propKey, ...args.concat([resolve]))
           })
         } else {
-          model.call('model', propKey, ...args)
+          model.call('model', propKey, ...args.concat([() => {}]))
         }
       }
     }
