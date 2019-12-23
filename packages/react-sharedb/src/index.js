@@ -14,15 +14,32 @@ export {
 } from './subscriptionTypeFns'
 export { observer } from './hooks/observer'
 export { default as destroyer } from './hooks/destroyer'
-export { useDoc, useQuery, useLocal, useValue, useApi } from './hooks/types'
+export {
+  useDoc,
+  useBatchDoc,
+  useOptionalDoc,
+  useQuery,
+  useBatchQuery,
+  useOptionalQuery,
+  useApi,
+  useBatchApi,
+  useOptionalApi,
+  useLocal,
+  useValue,
+  useBatch
+} from './hooks/types'
 export {
   emit,
   useModel,
   useOn,
   useEmit,
   useQueryIds,
+  useBatchQueryIds,
+  useOptionalQueryIds,
   useLocalDoc,
   useQueryDoc,
+  useBatchQueryDoc,
+  useOptionalQueryDoc,
   useSession,
   usePage
 } from './hooks/helpers'
