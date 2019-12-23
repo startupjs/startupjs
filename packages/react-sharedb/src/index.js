@@ -17,13 +17,13 @@ export { default as destroyer } from './hooks/destroyer'
 export {
   useDoc,
   useBatchDoc,
-  useOptionalDoc,
+  useAsyncDoc,
   useQuery,
   useBatchQuery,
-  useOptionalQuery,
+  useAsyncQuery,
   useApi,
   useBatchApi,
-  useOptionalApi,
+  useAsyncApi,
   useLocal,
   useValue,
   useBatch
@@ -35,11 +35,11 @@ export {
   useEmit,
   useQueryIds,
   useBatchQueryIds,
-  useOptionalQueryIds,
+  useAsyncQueryIds,
   useLocalDoc,
   useQueryDoc,
   useBatchQueryDoc,
-  useOptionalQueryDoc,
+  useAsyncQueryDoc,
   useSession,
   usePage
 } from './hooks/helpers'

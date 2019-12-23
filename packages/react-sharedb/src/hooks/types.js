@@ -31,15 +31,15 @@ const WARNING_MESSAGE = "[react-sharedb] Warning. Item couldn't initialize. " +
 
 export const useDoc = generateUseItemOfType(subDoc)
 export const useBatchDoc = generateUseItemOfType(subDoc, { batch: true })
-export const useOptionalDoc = generateUseItemOfType(subDoc, { optional: true })
+export const useAsyncDoc = generateUseItemOfType(subDoc, { optional: true })
 
 export const useQuery = generateUseItemOfType(subQuery)
 export const useBatchQuery = generateUseItemOfType(subQuery, { batch: true })
-export const useOptionalQuery = generateUseItemOfType(subQuery, { optional: true })
+export const useAsyncQuery = generateUseItemOfType(subQuery, { optional: true })
 
 export const useApi = generateUseItemOfType(subApi)
 export const useBatchApi = generateUseItemOfType(subApi, { batch: true })
-export const useOptionalApi = generateUseItemOfType(subApi, { optional: true })
+export const useAsyncApi = generateUseItemOfType(subApi, { optional: true })
 
 export const useLocal = generateUseItemOfType(subLocal)
 export const useValue = generateUseItemOfType(subValue)

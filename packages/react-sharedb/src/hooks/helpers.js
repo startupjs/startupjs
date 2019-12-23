@@ -1,6 +1,6 @@
 import { useMemo, useLayoutEffect } from 'react'
 import $root from '@startupjs/model'
-import { useQuery, useLocal, useBatchQuery, useOptionalQuery } from './types'
+import { useQuery, useLocal, useBatchQuery, useAsyncQuery } from './types'
 
 export const emit = $root.emit.bind($root)
 
@@ -26,7 +26,7 @@ export function generateUseQueryIds ({ batch, optional } = {}) {
   let useFn = batch
     ? useBatchQuery
     : optional
-      ? useOptionalQuery
+      ? useAsyncQuery
       : useQuery
   return (collection, ids = [], options = {}) => {
     let [, $items, ready] = useFn(collection, { _id: { $in: ids } })
@@ -39,13 +39,13 @@ export function generateUseQueryIds ({ batch, optional } = {}) {
 
 export const useQueryIds = generateUseQueryIds()
 export const useBatchQueryIds = generateUseQueryIds({ batch: true })
-export const useOptionalQueryIds = generateUseQueryIds({ optional: true })
+export const useAsyncQueryIds = generateUseQueryIds({ optional: true })
 
 export function generateUseQueryDoc ({ batch, optional } = {}) {
   let useFn = batch
     ? useBatchQuery
     : optional
-      ? useOptionalQuery
+      ? useAsyncQuery
       : useQuery
   return (collection, query) => {
     query = {
@@ -69,7 +69,7 @@ export function generateUseQueryDoc ({ batch, optional } = {}) {
 
 export const useQueryDoc = generateUseQueryDoc()
 export const useBatchQueryDoc = generateUseQueryDoc({ batch: true })
-export const useOptionalQueryDoc = generateUseQueryDoc({ optional: true })
+export const useAsyncQueryDoc = generateUseQueryDoc({ optional: true })
 
 export function useLocalDoc (collection, docId) {
   console.warn(`
