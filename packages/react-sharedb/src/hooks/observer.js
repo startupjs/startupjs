@@ -3,6 +3,7 @@ import * as React from 'react'
 import { observe, unobserve } from '@nx-js/observer-util'
 import batching from '../batching'
 import destroyer from './destroyer'
+import promiseBatcher from './promiseBatcher'
 import $root from '@startupjs/model'
 import { ComponentMetaContext } from './meta'
 
@@ -95,6 +96,7 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
     let res
     try {
       destroyer.reset()
+      promiseBatcher.reset()
       res = baseComponent(...args)
     } catch (err) {
       if (!err.then) throw err
@@ -108,6 +110,9 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
       throw err.then(destroy)
     }
     blockUpdate.value = false
+    if (promiseBatcher.isActive()) {
+      throw Error('[react-sharedb] useBatch* hooks were used without a closing useBatch() call.')
+    }
     return res
   }
 }
