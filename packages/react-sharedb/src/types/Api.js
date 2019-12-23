@@ -1,5 +1,6 @@
 import Base from './Base'
 import { observablePath } from '../util'
+import promiseBatcher from '../hooks/promiseBatcher'
 
 export default class Local extends Base {
   constructor (...args) {
@@ -16,7 +17,7 @@ export default class Local extends Base {
     this.listeners = []
   }
 
-  init (firstItem) {
+  init (firstItem, { optional, batch } = {}) {
     if (this.options.debounce && !firstItem) {
       return new Promise(resolve => {
         setTimeout(resolve, this.options.debounce)
@@ -25,7 +26,7 @@ export default class Local extends Base {
         return this._fetch()
       })
     }
-    return this._fetch(firstItem)
+    return this._fetch(firstItem, { optional, batch })
   }
 
   refModel () {
@@ -50,22 +51,28 @@ export default class Local extends Base {
     }
   }
 
-  _fetch (firstItem) {
+  _fetch (firstItem, { optional, batch } = {}) {
     let promise = this.fn(...this.inputs)
     if (!(promise && typeof promise.then === 'function')) {
-      throw new Error(`[react-sharedb] Api: fn must return promise`)
+      throw new Error('[react-sharedb] Api: fn must return promise')
     }
     if (this.model.get(this.path)) {
       this.data = this.model.get(this.path)
       return
     }
 
-    if (firstItem) {
+    if (firstItem && !optional) {
       let model = this.model
       let path = this.path
-      throw promise.then(data => {
+      let newPromise = promise.then(data => {
         model.set(path, data)
       })
+      if (batch) {
+        promiseBatcher.add(newPromise)
+        return { type: 'batch' }
+      } else {
+        throw newPromise
+      }
     } else {
       return promise.then(data => {
         if (this.cancelled) return
@@ -88,7 +95,7 @@ export default class Local extends Base {
 
 function hashCode (source) {
   let hash = 0
-  if (source.length == 0) return hash
+  if (source.length === 0) return hash
   for (var i = 0; i < source.length; i++) {
     let char = source.charCodeAt(i)
     hash = ((hash << 5) - hash) + char

@@ -1,6 +1,6 @@
 import { useMemo, useLayoutEffect } from 'react'
 import $root from '@startupjs/model'
-import { useQuery, useLocal } from './types'
+import { useQuery, useLocal, useBatchQuery, useAsyncQuery } from './types'
 
 export const emit = $root.emit.bind($root)
 
@@ -22,32 +22,54 @@ export function useEmit () {
   return emit
 }
 
-export function useQueryIds (collection, ids = [], options = {}) {
-  let [, $items, ready] = useQuery(collection, { _id: { $in: ids } })
-  if (!ready) return [undefined, $items, ready]
-  if (options.reverse) ids = ids.slice().reverse()
-  let items = ids.map(id => $root.get(`${collection}.${id}`)).filter(Boolean)
-  return [items, $items, ready]
+export function generateUseQueryIds ({ batch, optional } = {}) {
+  let useFn = batch
+    ? useBatchQuery
+    : optional
+      ? useAsyncQuery
+      : useQuery
+  return (collection, ids = [], options = {}) => {
+    let [, $items, ready] = useFn(collection, { _id: { $in: ids } })
+    if (!ready) return [undefined, $items, ready]
+    if (options.reverse) ids = ids.slice().reverse()
+    let items = ids.map(id => $root.get(`${collection}.${id}`)).filter(Boolean)
+    return [items, $items, ready]
+  }
 }
 
-export function useQueryDoc (collection, query) {
-  query = {
-    ...query,
-    $limit: 1
+export const useQueryIds = generateUseQueryIds()
+export const useBatchQueryIds = generateUseQueryIds({ batch: true })
+export const useAsyncQueryIds = generateUseQueryIds({ optional: true })
+
+export function generateUseQueryDoc ({ batch, optional } = {}) {
+  let useFn = batch
+    ? useBatchQuery
+    : optional
+      ? useAsyncQuery
+      : useQuery
+  return (collection, query) => {
+    query = {
+      ...query,
+      $limit: 1
+    }
+    if (!query.$sort) query.$sort = { createdAt: -1 }
+    let [items = [], , ready] = useFn(collection, query)
+    let itemId = items[0] && items[0].id
+    let $item = useMemo(
+      () => {
+        if (!itemId) return
+        return $root.at(`${collection}.${itemId}`)
+      },
+      [itemId]
+    )
+    if (!ready || !itemId) return [undefined, undefined, ready]
+    return [$root.get(`${collection}.${itemId}`), $item, ready]
   }
-  if (!query.$sort) query.$sort = { createdAt: -1 }
-  let [items = [], , ready] = useQuery(collection, query)
-  let itemId = items[0] && items[0].id
-  let $item = useMemo(
-    () => {
-      if (!itemId) return
-      return $root.at(`${collection}.${itemId}`)
-    },
-    [itemId]
-  )
-  if (!ready || !itemId) return [undefined, undefined, ready]
-  return [$root.get(`${collection}.${itemId}`), $item, ready]
 }
+
+export const useQueryDoc = generateUseQueryDoc()
+export const useBatchQueryDoc = generateUseQueryDoc({ batch: true })
+export const useAsyncQueryDoc = generateUseQueryDoc({ optional: true })
 
 export function useLocalDoc (collection, docId) {
   console.warn(`
