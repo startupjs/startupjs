@@ -3,13 +3,28 @@ const template = require('lodash/template')
 const fs = require('fs')
 
 let templates = {
-  '403': template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
-  '404': template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
-  '500': template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
+  403: template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
+  404: template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
+  500: template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
 }
-let style = fs.readFileSync(path.join(__dirname, 'styles/index.css'))
+
+// Override/extend default error pages
+// each template should be named in that way: <error_code>.html
+const readFilesFromDir = dirPath => {
+  fs.readdirSync(dirPath).forEach(file => {
+    const fileName = file.split('.').shift()
+    // Check that file name starts with error_code
+    if (Number.isNaN(fileName)) return null
+    const fileContent = template(fs.readFileSync(path.join(dirPath, file)))
+    templates[fileName] = fileContent
+  })
+}
 
 module.exports = (options = {}) => {
+  if (options.errorPagesPath) {
+    readFilesFromDir(path.join(options.dirname, options.errorPagesPath))
+  }
+
   return (err, req, res, next) => {
     console.log(err.stack ? err.stack : err)
 
@@ -32,8 +47,7 @@ module.exports = (options = {}) => {
         res.redirect(options.loginUrl || '/')
       } else {
         res.status(status).send(templates[status]({
-          url: req.url,
-          style: style
+          url: req.url
         }))
       }
     } else {

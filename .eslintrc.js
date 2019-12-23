@@ -26,7 +26,8 @@ module.exports = {
   },
   plugins: [
     'react',
-    'react-pug'
+    'react-pug',
+    'exports-order'
   ],
   rules: {
     'prefer-const': 'off',
@@ -35,6 +36,22 @@ module.exports = {
     'react-pug/empty-lines': 'off',
     'react-pug/no-interpolation': 'off',
     'react-pug/prop-types': 'off',
-    'react-pug/quotes': 'off'
-  }
+    'react-pug/quotes': 'off',
+    'exports-order/need-order-export-line': 'error',
+    'exports-order/need-order-export-module': 'error'
+  },
+  "overrides": [
+    {
+      "excludedFiles": [
+        "./packages/ui/index.js",
+        "./styleguide/main/pages/index.js",
+        "./styleguide/components/index.js"
+      ],
+      "files": ["*.js"],
+      "rules": {
+          "exports-order/need-order-export-line": "off",
+          "exports-order/need-order-export-module": "off"
+        }
+    }
+   ]
 }

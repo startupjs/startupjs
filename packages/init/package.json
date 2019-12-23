@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/init",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Init sharedb connection on client web, native or server side",
   "main": "index.js",
   "scripts": {},

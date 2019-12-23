@@ -1,0 +1,22 @@
+diff --git a/node_modules/racer/lib/Model/events.js b/node_modules/racer/lib/Model/events.js
+index e5aaf3f..c68c10a 100644
+--- a/node_modules/racer/lib/Model/events.js
++++ b/node_modules/racer/lib/Model/events.js
+@@ -241,7 +241,7 @@ Model.prototype.removeContextListeners = function(value) {
+  * @param {string} eventType
+  */
+ function eventListener(model, eventType, arg2, arg3, arg4) {
+-  var subpattern, options, cb;
++  var subpattern, options, cb, useEventObjects;
+   if (arg4) {
+     // on(eventType, path, options, cb)
+     subpattern = arg2;
+@@ -262,7 +262,7 @@ function eventListener(model, eventType, arg2, arg3, arg4) {
+   }
+   if (options) {
+     if (options.useEventObjects) {
+-      var useEventObjects = true;
++      useEventObjects = true;
+     }
+   }
+ 

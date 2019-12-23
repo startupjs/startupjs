@@ -5,7 +5,7 @@ import {
   useCallback
 } from 'react'
 import Doc from '../types/Doc'
-import Query, { getIdsName } from '../types/Query'
+import Query from '../types/Query'
 import QueryExtra from '../types/QueryExtra'
 import Local from '../types/Local'
 import Value from '../types/Value'
@@ -21,6 +21,7 @@ import {
 import $root from '@startupjs/model'
 import destroyer from './destroyer'
 import isArray from 'lodash/isArray'
+import promiseBatcher from './promiseBatcher'
 
 const HOOKS_COLLECTION = '$hooks'
 const $hooks = $root.scope(HOOKS_COLLECTION)
@@ -29,12 +30,21 @@ const WARNING_MESSAGE = "[react-sharedb] Warning. Item couldn't initialize. " +
   'quickly one after another. Error:'
 
 export const useDoc = generateUseItemOfType(subDoc)
+export const useBatchDoc = generateUseItemOfType(subDoc, { batch: true })
+export const useAsyncDoc = generateUseItemOfType(subDoc, { optional: true })
+
 export const useQuery = generateUseItemOfType(subQuery)
+export const useBatchQuery = generateUseItemOfType(subQuery, { batch: true })
+export const useAsyncQuery = generateUseItemOfType(subQuery, { optional: true })
+
+export const useApi = generateUseItemOfType(subApi)
+export const useBatchApi = generateUseItemOfType(subApi, { batch: true })
+export const useAsyncApi = generateUseItemOfType(subApi, { optional: true })
+
 export const useLocal = generateUseItemOfType(subLocal)
 export const useValue = generateUseItemOfType(subValue)
-export const useApi = generateUseItemOfType(subApi)
 
-function generateUseItemOfType (typeFn) {
+function generateUseItemOfType (typeFn, { optional, batch } = {}) {
   let isQuery = typeFn === subQuery
   let takeOriginalModel = typeFn === subDoc || typeFn === subLocal
   let isSync = typeFn === subLocal || typeFn === subValue
@@ -64,7 +74,7 @@ function generateUseItemOfType (typeFn) {
 
     const params = useMemo(() => typeFn(...args), [hashedArgs])
 
-    const finishInit = useCallback(() => {
+    function finishInit () {
       // destroy the previous item and all unsuccessful item inits which happened until now.
       // Unsuccessful inits means the inits of those items which were cancelled, because
       // while the subscription was in process, another new item init started
@@ -82,9 +92,9 @@ function generateUseItemOfType (typeFn) {
 
       // Reference the new item data
       itemRef.current && itemRef.current.refModel()
-    }, [])
+    }
 
-    const initItem = useCallback(params => {
+    function initItem (params) {
       let item = getItemFromParams(params, $hooks, hookId)
       destructorsRef.current.push(() => {
         item.unrefModel()
@@ -114,9 +124,19 @@ function generateUseItemOfType (typeFn) {
         // It might or might NOT return the promise, depending on whether
         // we need to wait for the new data
         try {
-          let initPromise = item.init(firstItem)
+          let initPromise = item.init(firstItem, { optional, batch })
+          // Mark promiseBatching active whenever at least one useBatch* was
+          // executed. Later it has to be finalized with the useBatch() call
+          // which is what we are checking at the end of the rendering
+          // in observer()
+          if (batch) promiseBatcher.activate()
+          // Batch multiple hooks together
+          // Don't do any actual initialization in that case,
+          // since we only care about gathering subscription promises
+          if (initPromise && initPromise.type === 'batch') {
+            return
           // Async variant
-          if (initPromise) {
+          } else if (initPromise) {
             initPromise.then(() => {
               // Handle situation when a new item already started initializing
               // and it cancelled this (old) item.
@@ -139,7 +159,7 @@ function generateUseItemOfType (typeFn) {
           console.warn(WARNING_MESSAGE, err)
         }
       }
-    }, [])
+    }
 
     useSync(() => initItem(params), [hashedArgs])
 
@@ -193,22 +213,13 @@ function generateUseItemOfType (typeFn) {
 
       // explicit ready flag
       initsCountRef.current
-
-      // TODO: Maybe enable returning array of ids for Query in future.
-      //       The potential drawback is that the rendering might fire twice
-      //       when the subscribed data changes (items added or removed from query).
-      //       This needs to be tested before enabling.
-      // Return ids array as the third parameter for useQuery
-      // idsName ? res.push($hooks.get()[idsName]) : undefined
     ]
-
-    // TODO: Maybe enable returning array of ids for Query in future.
-    //       See below for more info.
-    // ----- ids -----
-    // const idsName = useMemo(() => (
-    //   hasIds(params) ? getIdsName(hookId) : undefined
-    // ), [])
   }
+}
+
+export function useBatch () {
+  let promise = promiseBatcher.getPromiseAll()
+  if (promise) throw promise
 }
 
 export function getCollectionName (params) {
@@ -228,12 +239,6 @@ export function getPath (params) {
     case 'Doc':
       return params.params && params.params.join('.')
   }
-}
-
-// TODO: Maybe enable returning array of ids for Query in future.
-function hasIds (params) {
-  let explicitType = params && params.__subscriptionType
-  return explicitType === 'Query'
 }
 
 export function getItemFromParams (params, model, key) {
@@ -270,26 +275,4 @@ function useSync (fn, inputs) {
   useMemo(() => {
     fn()
   }, inputs)
-}
-
-function useAsync (fn, inputs) {
-  useLayoutEffect(() => {
-    fn()
-  }, inputs)
-}
-
-// TODO: Might be useful in future as a sync alternative to useEffect
-function useSyncEffect (fn, inputs) {
-  let prevCleanup = useRef()
-  useMemo(() => {
-    batching.batch(() => {
-      prevCleanup.current && prevCleanup.current()
-      prevCleanup.current = fn()
-    })
-  }, inputs)
-  useUnmount(() => {
-    batching.batch(() => {
-      prevCleanup.current && prevCleanup.current()
-    })
-  })
 }
