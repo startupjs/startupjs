@@ -9,7 +9,12 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "react-native-drawer-layout-polyfill": "^2.0.0"
+    "@fortawesome/fontawesome-svg-core": "^1.2.26",
+    "@fortawesome/free-brands-svg-icons": "^5.12.0",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/react-native-fontawesome": "^0.2.0",
+    "react-native-drawer-layout-polyfill": "^2.0.0",
+    "react-native-svg": "^9.13.6"
   },
   "peerDependencies": {
     "react": ">= 16.9.0",

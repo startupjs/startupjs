@@ -1,6 +1,7 @@
 export { default as Button } from './components/Button'
 export { default as Card } from './components/Card'
 export { default as Div } from './components/Div'
+export { default as Icon } from './components/Icon'
 export { default as Layout } from './components/Layout'
 export { default as Row } from './components/Row'
 export { default as Sidebar } from './components/Sidebar'
