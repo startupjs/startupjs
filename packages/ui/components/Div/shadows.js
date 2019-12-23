@@ -1,9 +1,4 @@
-import React from 'react'
-import Div from '../Div'
-import { observer } from 'startupjs'
-import './index.styl'
-
-const SHADOWS = {
+export default {
   s: {
     shadowColor: '#000',
     shadowOffset: {
@@ -49,19 +44,3 @@ const SHADOWS = {
     elevation: 18
   }
 }
-
-export default observer(function Shadow ({
-  style,
-  children,
-  variant = 's' // s, m, l, xl
-}) {
-  return pug`
-    Div.root(
-      ...SHADOWS[variant]
-      style=[style]
-      styleName=[variant]
-    )
-      = children
-
-  `
-})
