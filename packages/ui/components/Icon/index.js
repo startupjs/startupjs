@@ -15,31 +15,36 @@ const SIZES = {
 const Icon = observer(({
   name,
   type,
-  size = 'm',
+  size,
   color,
   width,
   height,
   style
 }) => {
-  return (
-    <FontAwesomeIcon
-      icon={type ? [type, name] : name}
-      color={color}
-      width={width || SIZES[size]}
-      height={height || SIZES[size]}
-      style={style}
-    />
-  )
+  if (!name) return null
+  return pug`
+    FontAwesomeIcon(
+      icon=type ? [type, name] : name
+      color=color
+      width=width || SIZES[size]
+      height=height || SIZES[size]
+      style=style
+    )
+  `
 })
 
+Icon.defaultProps = {
+  size: 'm'
+}
+
 Icon.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   type: PropTypes.string,
   color: PropTypes.string,
   style: PropTypes.object,
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(Object.keys(SIZES))]),
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  size: PropTypes.oneOf(Object.keys(SIZES)),
+  width: PropTypes.number,
+  height: PropTypes.number
 }
 
 export default Icon
