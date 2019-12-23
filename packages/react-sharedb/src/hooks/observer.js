@@ -110,6 +110,9 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
       throw err.then(destroy)
     }
     blockUpdate.value = false
+    if (promiseBatcher.isActive()) {
+      throw Error('[react-sharedb] useBatch* hooks were used without a closing useBatch() call.')
+    }
     return res
   }
 }

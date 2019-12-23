@@ -125,6 +125,11 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
         // we need to wait for the new data
         try {
           let initPromise = item.init(firstItem, { optional, batch })
+          // Mark promiseBatching active whenever at least one useBatch* was
+          // executed. Later it has to be finalized with the useBatch() call
+          // which is what we are checking at the end of the rendering
+          // in observer()
+          if (batch) promiseBatcher.activate()
           // Batch multiple hooks together
           // Don't do any actual initialization in that case,
           // since we only care about gathering subscription promises
