@@ -7,16 +7,18 @@ import './index.styl'
 export default observer(function Div ({
   style,
   children,
-  onPress,
-  shadowSize // s, m, l, xl
+  shadowSize, // s, m, l, xl
+  onPress
 }) {
-  const Wrapper = typeof onPress === 'function' ? TouchableOpacity : View
+  let Wrapper = typeof onPress === 'function' ? TouchableOpacity : View
+
+  const shadow = shadowSize && SHADOWS[shadowSize] ? SHADOWS[shadowSize] : {}
 
   return pug`
     Wrapper.root(
-      shadowSize && ...SHADOWS[shadowSize]
       style=style
-      styleName=[shadowSize]
+      styleName=[shadowSize, shadowSize && 'with-shadow']
+      ...shadow
     )
       = children
   `
