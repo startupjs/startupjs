@@ -1,5 +1,6 @@
 import Base from './Base'
 import { observable } from '@nx-js/observer-util'
+import promiseBatcher from '../hooks/promiseBatcher'
 
 export default class Doc extends Base {
   constructor (...args) {
@@ -10,8 +11,8 @@ export default class Doc extends Base {
     this.listeners = []
   }
 
-  init (firstItem) {
-    return this._subscribe(firstItem)
+  init (firstItem, { optional, batch } = {}) {
+    return this._subscribe(firstItem, { optional, batch })
   }
 
   refModel () {
@@ -25,7 +26,7 @@ export default class Doc extends Base {
     this.model.removeRef(key)
   }
 
-  _subscribe (firstItem) {
+  _subscribe (firstItem, { optional, batch } = {}) {
     let { collection, docId } = this
     this.subscription = this.model.root.scope(`${collection}.${docId}`)
     let promise = this.model.root.subscribeSync(this.subscription)
@@ -33,13 +34,19 @@ export default class Doc extends Base {
     // if promise wasn't resolved synchronously it means that we have to wait
     // for the subscription to finish, in that case we unsubscribe from the data
     // and throw the promise out to be caught by the wrapping <Suspense>
-    if (firstItem && !promise.sync) {
-      throw promise.then(() => {
+    if (firstItem && !optional && !promise.sync) {
+      let newPromise = promise.then(() => {
         return new Promise(resolve => {
           this._unsubscribe() // unsubscribe the old hook to prevent memory leaks
           setTimeout(resolve, 0)
         })
       })
+      if (batch) {
+        promiseBatcher.add(newPromise)
+        return { type: 'batch' }
+      } else {
+        throw newPromise
+      }
     }
 
     const finish = () => {
@@ -72,7 +79,7 @@ export default class Doc extends Base {
 
   _clearListeners () {
     // remove query listeners
-    for (let listener of this.listeners) {
+    for (let listener of this.listeners || []) {
       listener.ee.removeListener(listener.eventName, listener.fn)
       delete listener.ee
       delete listener.fn

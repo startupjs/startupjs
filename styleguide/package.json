@@ -35,7 +35,7 @@
     "react-native-status-bar-height": "^2.4.0",
     "react-native-web": "0.11.7",
     "source-map-support": "^0.5.16",
-    "startupjs": "^0.10.1"
+    "startupjs": "^0.11.0"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.11.0",

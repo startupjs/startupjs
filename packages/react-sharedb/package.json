@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/react-sharedb",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Run ShareDB in React",
   "main": "lib/index.js",
   "publishConfig": {
@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.10.0",
+    "@startupjs/model": "^0.11.0",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
     "racer": "0.9.9",
