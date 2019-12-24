@@ -10,11 +10,13 @@ const { LOCAL_IDENT_NAME } = require('./buildOptions')
 const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
 const rem2pixel = require('@startupjs/postcss-rem-to-pixel')
-
+const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
+const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
+const { ui } = require(CONFIG_PATH)
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
@@ -67,6 +69,7 @@ module.exports = function getConfig (env, {
   }
   // array must be non-empty to prevent matching all node_modules via regex
   forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
+
   return pickBy({
     mode: PROD ? 'production' : 'development',
     entry: {
@@ -167,6 +170,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'stylus-loader',
               options: {
+                use: ui ? [stylusHashPlugin('$UI', ui)] : [],
                 import: [STYLES_PATH],
                 define: {
                   __WEB__: true
