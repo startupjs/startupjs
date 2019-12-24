@@ -22,7 +22,6 @@ export default observer(function ({
       backgroundColor
     })
       StatusBar(
-        translucent
         backgroundColor=backgroundColor
         barStyle='dark-content'
         ...props
