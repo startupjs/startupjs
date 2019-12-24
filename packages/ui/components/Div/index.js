@@ -20,7 +20,7 @@ export default observer(function Div ({
   return pug`
     Wrapper.root(
       style=style
-      styleName=[shadowSize ? shadowSize : '', shadowSize ? 'with-shadow' : '']
+      styleName={[shadowSize]: !!shadowSize, 'with-shadow': !!SHADOWS[shadowSize]}
       shadow=shadow
       ...shadow
       ...props
@@ -29,9 +29,14 @@ export default observer(function Div ({
   `
 })
 
-function TouchableOpacityWithShadow ({ style, children, shadow, ...props }) {
+const TouchableOpacityWithShadow = observer(({
+  style,
+  children,
+  shadow,
+  ...props
+}) => {
   return pug`
     View(...shadow style=style)
       TouchableOpacity(...props)= children
   `
-}
+})
