@@ -8,18 +8,30 @@ export default observer(function Div ({
   style,
   children,
   shadowSize, // s, m, l, xl
-  onPress
+  onPress,
+  ...props
 }) {
-  let Wrapper = typeof onPress === 'function' ? TouchableOpacity : View
+  let Wrapper = typeof onPress === 'function'
+    ? TouchableOpacityWithShadow
+    : View
 
   const shadow = shadowSize && SHADOWS[shadowSize] ? SHADOWS[shadowSize] : {}
 
   return pug`
     Wrapper.root(
       style=style
-      styleName=[shadowSize, shadowSize && 'with-shadow']
+      styleName=[shadowSize ? shadowSize : '', shadowSize ? 'with-shadow' : '']
+      shadow=shadow
       ...shadow
+      ...props
     )
       = children
   `
 })
+
+function TouchableOpacityWithShadow ({ style, children, shadow, ...props }) {
+  return pug`
+    View(...shadow style=style)
+      TouchableOpacity(...props)= children
+  `
+}
