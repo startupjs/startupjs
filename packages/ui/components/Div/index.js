@@ -1,13 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
 import SHADOWS from './shadows'
 import './index.styl'
 
-export default observer(function Div ({
+function Div ({
   style,
   children,
-  shadowSize, // s, m, l, xl
+  shadowSize,
   onPress,
   ...props
 }) {
@@ -20,14 +21,19 @@ export default observer(function Div ({
   return pug`
     Wrapper.root(
       style=style
-      styleName={[shadowSize]: !!shadowSize, 'with-shadow': !!SHADOWS[shadowSize]}
+      styleName=[shadowSize, { 'with-shadow': !!shadowSize }],
       shadow=shadow
       ...shadow
       ...props
     )
       = children
   `
-})
+}
+
+Div.propTypes = {
+  shadowSize: PropTypes.oneOf(Object.keys(SHADOWS)),
+  onPress: PropTypes.func
+}
 
 const TouchableOpacityWithShadow = observer(({
   style,
@@ -40,3 +46,5 @@ const TouchableOpacityWithShadow = observer(({
       TouchableOpacity(...props)= children
   `
 })
+
+export default observer(Div)
