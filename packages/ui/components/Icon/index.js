@@ -2,14 +2,15 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { u } from '../../config/helpers'
 
 const SIZES = {
-  xs: 8,
-  s: 16,
-  m: 24,
-  l: 32,
-  xl: 40,
-  xxl: 48
+  xs: u(1.5),
+  s: u(2),
+  m: u(3),
+  l: u(4),
+  xl: u(5),
+  xxl: u(6)
 }
 
 const Icon = observer(({
@@ -21,7 +22,6 @@ const Icon = observer(({
   height,
   style
 }) => {
-  if (!name) return null
   return pug`
     FontAwesomeIcon(
       icon=type ? [type, name] : name
