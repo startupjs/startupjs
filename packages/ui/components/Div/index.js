@@ -8,7 +8,7 @@ import './index.styl'
 function Div ({
   style,
   children,
-  shadowSize,
+  shadow,
   onPress,
   ...props
 }) {
@@ -16,14 +16,14 @@ function Div ({
     ? TouchableOpacityWithShadow
     : View
 
-  const shadow = shadowSize && SHADOWS[shadowSize] ? SHADOWS[shadowSize] : {}
+  const shadowProps = SHADOWS[shadow] ? SHADOWS[shadow] : {}
 
   return pug`
     Wrapper.root(
       style=style
-      styleName=[shadowSize, { 'with-shadow': !!shadowSize }],
-      shadow=shadow
-      ...shadow
+      styleName=[shadow, { 'with-shadow': !!shadow }]
+      ...shadowProps
+      onPress=onPress
       ...props
     )
       = children
@@ -31,19 +31,19 @@ function Div ({
 }
 
 Div.propTypes = {
-  shadowSize: PropTypes.oneOf(Object.keys(SHADOWS)),
+  shadow: PropTypes.oneOf(Object.keys(SHADOWS)),
   onPress: PropTypes.func
 }
 
 const TouchableOpacityWithShadow = observer(({
   style,
   children,
-  shadow,
+  onPress,
   ...props
 }) => {
   return pug`
-    View(...shadow style=style)
-      TouchableOpacity(...props)= children
+    View(style=style ...props)
+      TouchableOpacity(onPress=onPress)= children
   `
 })
 
