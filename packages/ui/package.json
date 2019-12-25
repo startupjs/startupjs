@@ -12,6 +12,7 @@
     "react-native-drawer-layout-polyfill": "^2.0.0"
   },
   "peerDependencies": {
+    "@fortawesome/react-native-fontawesome": ">=0.2.0",
     "react": ">= 16.9.0",
     "react-native": ">= 0.61.4",
     "startupjs": ">= 0.9.5"
