@@ -1,5 +1,8 @@
 import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import Icon from '../Icon'
+import { Text } from 'react-native'
+import Div from '../Div'
+import Row from '../Row'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import './index.styl'
@@ -7,20 +10,22 @@ import './index.styl'
 const Button = observer(({
   style,
   children,
-  variant = 'flat', // shadowed, outlined, ghost
-  size = 'normal', // large, big
-  squared, // bool
-  icon,
+  variant, // shadowed, outlined, ghost
+  size, // large, big
+  squared,
   disabled,
   onPress,
+  icon,
+  iconType,
+  iconSize,
+  iconColor,
   ...props
 }) => {
-  let PressContainer = onPress ? TouchableOpacity : View
-
   return pug`
-    PressContainer.root(
+    Div.root(
+      shadow=variant==='shadowed' && 'm'
       onPress=disabled ? undefined : onPress
-      activeOpacity=onPress && 1
+      activeOpacity=1
       styleName=[variant, size, {
         squared,
         icon,
@@ -29,18 +34,28 @@ const Button = observer(({
       style=style
       ...props
     )
-      if icon
-        View.icon(style={width: 15, height: 15, backgroundColor: '#ffae00'})
-      if children
-        Text.text= children
+      Row(align='center' vAlign='center')
+        if icon
+          Div.icon(style={width: 25, height: 25, backgroundColor: '#ffae00'})
+        if children
+          Text.text= children
   `
 })
+
+Button.defaultProps = {
+  variant: 'flat',
+  size: 'normal'
+}
 
 Button.propType = {
   variant: PropTypes.oneOf(['flat', 'shadowed', 'outlined', 'ghost']),
   size: PropTypes.oneOf(['normal', 'large', 'big']),
   squared: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  icon: PropTypes.string,
+  iconType: PropTypes.string,
+  iconSize: PropTypes.oneOf('xs', 's', 'm', 'l', 'xl', 'xxl'),
+  iconColor: PropTypes.string
 }
 
 export default Button
