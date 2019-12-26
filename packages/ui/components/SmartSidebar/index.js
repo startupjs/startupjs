@@ -1,33 +1,18 @@
-// const NS_PATH = '_session.LeftSidebar'
-// const BG = '#2F3135'
-// const SIDEBAR_WIDTH = 240
-// const MENU_WIDTH = 70
-// const WIDTH = SIDEBAR_WIDTH + MENU_WIDTH
-// const renderContent = () => {
-//   return pug`
-//     Text renderContent
-//   `
-// }
-
 import React, { useRef, useMemo, useLayoutEffect } from 'react'
 import { observer, useOn, useLocal, useValue, useSession } from 'startupjs'
 import { View, ScrollView, Dimensions } from 'react-native'
-import DrawerLayout from 'react-native-drawer-layout-polyfill'
+import Drawer from '../Drawer'
 import './index.styl'
 
-const WIDTH = 310
-const BG = '#F3F3F3'
-const NS_PATH = '_session.Sidebar'
 const DEFAULT_POSITION = 'left'
-// Should be equal to $fixedLayoutBreakpoint variable
-// TODO: get this value from css directly (like colors)
-const FIXED_LAYOUT_BREAKPOINT = 400 + WIDTH * 2
+const FIXED_LAYOUT_BREAKPOINT = 1024
 
-const Sidebar = observer(({
-  nsPath = NS_PATH,
-  position = DEFAULT_POSITION,
-  width = WIDTH,
-  backgroundColor = BG,
+const SmartSidebar = observer(({
+  fixedLayoutBreakpoint,
+  nsPath,
+  position,
+  width,
+  backgroundColor,
   renderContent = () => null,
   children,
   onClose,
@@ -45,7 +30,7 @@ const Sidebar = observer(({
   const [isOpen, $isOpen] = useLocal(ns(nsPath, 'isOpen'))
 
   const _defaultOpen = useMemo(() => {
-    return defaultOpen == null ? true : defaultOpen
+    return defaultOpen === undefined ? true : defaultOpen
   }, [])
 
   useMemo(() => {
@@ -101,28 +86,19 @@ const Sidebar = observer(({
         renderContent=_renderContent
       )= children
     else
-      DrawerLayout.root(
-        ...props
-        drawerPosition=position
-        drawerWidth=width
-        drawerBackgroundColor=backgroundColor
-        renderNavigationView=_renderContent
-        onDrawerClose=() => {
-          onClose && onClose()
-          $isOpen.del()
-        }
-        onDrawerOpen=() => {
-          onOpen && onOpen()
-          $isOpen.setDiff(true)
-        }
-        ref=drawerRef
-      )= children
+      Drawer= children
   `
 })
 
-Sidebar.positions = DrawerLayout.positions
+SmartSidebar.defaultProps = {
+  bgColor: '#fff',
+  width: 264,
+  fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
+  position: DEFAULT_POSITION,
+  nsPath: '_session.Sidebar'
+}
 
-export default Sidebar
+export default SmartSidebar
 
 function ns (path, subpath) {
   if (subpath) return path + '.' + subpath
