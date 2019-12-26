@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react'
 import { observer, useOn, useLocal, useValue, useSession } from 'startupjs'
-import { View, ScrollView, Dimensions } from 'react-native'
+import { Dimensions } from 'react-native'
+import Sidebar from '../Sidebar'
 import Drawer from '../Drawer'
 import './index.styl'
 
@@ -33,7 +34,7 @@ const SmartSidebar = observer(({
     return defaultOpen === undefined ? true : defaultOpen
   }, [])
 
-  useMemo(() => {
+  useLayoutEffect(() => {
     const isFixedLayout = !!fixedLayout
     if (isFixedLayout) {
       // when change dimensions from mobile
@@ -69,21 +70,14 @@ const SmartSidebar = observer(({
     $fixedLayout.setDiff(isFixedLayout())
   }
 
-  const _renderContent = () => {
-    return pug`
-      ScrollView(contentContainerStyle={flex: 1})
-        = renderContent()
-    `
-  }
-
   return pug`
     if fixedLayout
-      FixedLayout.root(
+      Sidebar(
+        nsPath=nsPath
         position=position
         width=width
         backgroundColor=backgroundColor
-        isOpen=isOpen
-        renderContent=_renderContent
+        renderContent=renderContent
       )= children
     else
       Drawer= children
@@ -104,26 +98,6 @@ function ns (path, subpath) {
   if (subpath) return path + '.' + subpath
   return path
 }
-
-const FixedLayout = observer(({
-  position,
-  width,
-  backgroundColor,
-  children,
-  isOpen,
-  renderContent,
-  ...props
-}) => {
-  let right = position !== DEFAULT_POSITION
-  return pug`
-    View.root(styleName={right})
-      View.sidebar(
-        styleName={isOpen}
-        style={width, backgroundColor}
-      )= renderContent()
-      View.main= children
-  `
-})
 
 function isFixedLayout () {
   let dim = Dimensions.get('window')
