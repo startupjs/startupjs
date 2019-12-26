@@ -67,7 +67,7 @@ library.add(faTrash, faSearch, ...)
 ```js
 import * as pages from './pages'
 import getRoutes from './routes'
-import './icons.js
+import './icons.js'
   
 export { Layout } from 'ui'
 export const routes = getRoutes(pages)
