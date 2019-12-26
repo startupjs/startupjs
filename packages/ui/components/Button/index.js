@@ -25,7 +25,6 @@ const Button = observer(({
     Div.root(
       shadow=variant==='shadowed' && 'm'
       onPress=disabled ? undefined : onPress
-      activeOpacity=1
       styleName=[variant, size, {
         squared,
         icon,
@@ -36,7 +35,7 @@ const Button = observer(({
     )
       Row(align='center' vAlign='center')
         if icon
-          Div.icon(style={width: 25, height: 25, backgroundColor: '#ffae00'})
+          Icon.icon(name=icon type=iconType size=iconSize color=iconColor)
         if children
           Text.text= children
   `
