@@ -1,17 +1,24 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Props } from 'components'
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
 import propTypes from 'prop-types'
+import { SmartSidebar } from '../../../../packages/ui/'
+import Layout from '../../../../packages/ui/components/Layout'
 import './index.styl'
 
 export default observer(function PComponent () {
+  // Remove
+  const [isOpen, $isOpen] = useSession('Sidebar.isOpen')
   return pug`
-    View.root
-      View.left
-        Text.text Syntax highlighter
-      View.right
-        Props(of=RenderText)
+    Layout
+      SmartSidebar
+        Button(title='test' onPress=() => $isOpen.set(!isOpen))
+        View.root
+          View.left
+            Text.text Syntax highlighter
+          View.right
+            Props(of=RenderText)
   `
 })
 
