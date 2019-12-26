@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Div from '../Div'
 import { observer } from 'startupjs'
 
-const Row = observer(({
+function Row ({
   style,
   children,
   align,
@@ -12,7 +12,7 @@ const Row = observer(({
   wrap,
   reverse,
   ...props
-}) => {
+}) {
   return pug`
     Div.root(
       styleName=[align, 'v_' + vAlign, { wrap, reverse }]
@@ -21,7 +21,7 @@ const Row = observer(({
     )
       = children
   `
-})
+}
 
 Row.propTypes = {
   wrap: PropTypes.bool,
@@ -30,4 +30,4 @@ Row.propTypes = {
   vAlign: PropTypes.oneOf(['center'])
 }
 
-export default Row
+export default observer(Row)
