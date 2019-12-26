@@ -62,6 +62,9 @@ function makeObserver (baseComponent) {
   if (baseComponent.propTypes) {
     memoComponent.propTypes = baseComponent.propTypes
   }
+  if (baseComponent.defaultProps) {
+    memoComponent.defaultProps = baseComponent.defaultProps
+  }
   return memoComponent
 }
 
