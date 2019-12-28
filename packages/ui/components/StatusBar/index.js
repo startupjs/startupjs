@@ -1,9 +1,8 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { StatusBar } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { ui } from 'config'
-import Div from './../Div'
 const height = getStatusBarHeight()
 
 export default observer(function ({
@@ -13,7 +12,7 @@ export default observer(function ({
   ...props
 }) {
   return pug`
-    Div(style={
+    View(style={
       position: 'absolute',
       top: -height,
       left: 0,
