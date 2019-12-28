@@ -10,8 +10,8 @@ import './index.styl'
 const Button = observer(({
   style,
   children,
-  variant, // shadowed, outlined, ghost
-  size, // large, big
+  variant,
+  size,
   squared,
   disabled,
   onPress,
@@ -23,8 +23,9 @@ const Button = observer(({
 }) => {
   return pug`
     Div.root(
-      shadow=variant==='shadowed' && 'm'
-      onPress=disabled ? undefined : onPress
+      shadow=variant === 'shadowed' && 'm'
+      disabled=disabled
+      onPress=onPress
       styleName=[variant, size, {
         squared,
         icon,
@@ -53,7 +54,7 @@ Button.propType = {
   disabled: PropTypes.bool,
   icon: PropTypes.string,
   iconType: PropTypes.string,
-  iconSize: PropTypes.oneOf('xs', 's', 'm', 'l', 'xl', 'xxl'),
+  iconSize: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   iconColor: PropTypes.string
 }
 

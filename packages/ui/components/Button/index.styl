@@ -2,7 +2,6 @@ _height = 32px
 _height-s = 28px
 _height-xs = 24px
 _width = 88px
-_shadow = 5px 2px 8px 0px rgba(0,0,0,0.1)
 
 _largeWidth = 88px
 _largeHeight = 48px
@@ -16,7 +15,7 @@ _primary = $UI.colors.primary
 _hover = rgba(62, 94, 255, 0.8)
 _disabled = rgba(197, 201, 206, 0.7)
 _disabledHover = rgba(197, 201, 206, 1)
-_noBackground = rgba(0,0,0, 0)
+_noBackground = rgba(0, 0, 0, 0)
 
 .root
   padding-top 1u
@@ -43,9 +42,6 @@ _noBackground = rgba(0,0,0, 0)
   &-outlined
     border 1px solid _primary
     background-color _noBackground
-  &-shadowed
-    +web()
-      box-shadow _shadow
   &-ghost
     background-color _noBackground
     border-radius 0px
