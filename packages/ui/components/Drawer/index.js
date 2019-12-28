@@ -15,7 +15,7 @@ function Drawer ({
   width,
   onClose,
   onOpen,
-  renderContent,
+  renderContent = () => null,
   ...props
 }) {
   let drawerRef = useRef()
@@ -73,8 +73,7 @@ Drawer.defaultProps = {
   defaultOpen: config.defaultOpen,
   nsPath: config.nsPath,
   position: config.position,
-  width: config.width,
-  renderContent: config.renderContent
+  width: config.width
 }
 
 export default observer(Drawer)

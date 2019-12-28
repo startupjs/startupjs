@@ -3,15 +3,17 @@ import { observer } from 'startupjs'
 import { Props } from 'components'
 import { View, Text } from 'react-native'
 import propTypes from 'prop-types'
+import { SmartSidebar } from '../../../../packages/ui/'
 import './index.styl'
 
 export default observer(function PComponent () {
   return pug`
-    View.root
-      View.left
-        Text.text Syntax highlighter
-      View.right
-        Props(of=RenderText)
+    SmartSidebar
+      View.root
+        View.left
+          Text.text Syntax highlighter
+        View.right
+          Props(of=RenderText)
   `
 })
 

@@ -13,7 +13,7 @@ function Sidebar ({
   width,
   children,
   nsPath,
-  renderContent,
+  renderContent = () => null,
   ...props
 }) {
   const [isOpen, $isOpen] = useLocal(ns(nsPath, 'isOpen'))
@@ -52,8 +52,7 @@ Sidebar.defaultProps = {
   defaultOpen: config.defaultOpen,
   nsPath: config.nsPath,
   position: config.position,
-  width: config.width,
-  renderContent: config.renderContent
+  width: config.width
 }
 
 export default observer(Sidebar)

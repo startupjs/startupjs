@@ -1,14 +1,12 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react'
 import { observer, useOn, useLocal, useValue, useSession } from 'startupjs'
 import { Dimensions } from 'react-native'
+import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import Drawer from '../Drawer'
-import './index.styl'
+import config from './config'
 
-const DEFAULT_POSITION = 'left'
-const FIXED_LAYOUT_BREAKPOINT = 1024
-
-const SmartSidebar = observer(({
+function SmartSidebar ({
   fixedLayoutBreakpoint,
   nsPath,
   position,
@@ -20,7 +18,7 @@ const SmartSidebar = observer(({
   onOpen,
   defaultOpen,
   ...props
-}) => {
+}) {
   let drawerRef = useRef()
 
   const [, $isFixedLayout] = useSession('isFixedLayout')
@@ -82,17 +80,28 @@ const SmartSidebar = observer(({
     else
       Drawer= children
   `
-})
-
-SmartSidebar.defaultProps = {
-  bgColor: '#fff',
-  width: 264,
-  fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
-  position: DEFAULT_POSITION,
-  nsPath: '_session.Sidebar'
 }
 
-export default SmartSidebar
+SmartSidebar.propTypes = {
+  backgroundColor: PropTypes.string,
+  defaultOpen: PropTypes.bool,
+  fixedLayoutBreakpoint: PropTypes.number,
+  nsPath: PropTypes.string,
+  position: PropTypes.oneOf(['left', 'right']),
+  width: PropTypes.number,
+  renderContent: PropTypes.func.isRequired
+}
+
+SmartSidebar.defaultProps = {
+  backgroundColor: config.backgroundColor,
+  defaultOpen: config.defaultOpen,
+  fixedLayoutBreakpoint: config.fixedLayoutBreakpoint,
+  nsPath: config.nsPath,
+  position: config.position,
+  width: config.width
+}
+
+export default observer(SmartSidebar)
 
 function ns (path, subpath) {
   if (subpath) return path + '.' + subpath
@@ -101,5 +110,5 @@ function ns (path, subpath) {
 
 function isFixedLayout () {
   let dim = Dimensions.get('window')
-  return dim.width > FIXED_LAYOUT_BREAKPOINT
+  return dim.width > config.fixedLayoutBreakpoint
 }

@@ -3,6 +3,5 @@ module.exports = {
   defaultOpen: false,
   nsPath: '_session.Sidebar',
   position: 'left',
-  width: 264,
-  renderContent: () => null
+  width: 264
 }
