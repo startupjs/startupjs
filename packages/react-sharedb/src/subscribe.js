@@ -112,7 +112,8 @@ const getSubscriptionsContainer = (DecoratedComponent, fns) =>
     // eslint-disable-next-line
     static __isSubscription = true
 
-    componentWillMount () {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount () {
       this.model = this.getOrCreateModel()
       this.models = {}
       // pipe the local model into props as $STORE
@@ -123,7 +124,8 @@ const getSubscriptionsContainer = (DecoratedComponent, fns) =>
     }
 
     // TODO: Implement queueing
-    async componentWillReceiveProps (...args) {
+    // eslint-disable-next-line camelcase
+    async UNSAFE_componentWillReceiveProps (...args) {
       let [nextProps] = args
       for (let dataFn of this.dataFns) {
         await dataFn(nextProps)
