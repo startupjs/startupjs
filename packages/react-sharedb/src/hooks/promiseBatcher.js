@@ -17,9 +17,9 @@ class PromiseBatcher {
   }
 
   getPromiseAll () {
-    if (this.promises.length === 0) return
-    let promises = [...this.promises]
+    const promises = [...this.promises]
     this.reset()
+    if (promises.length === 0) return
     return Promise.all(promises)
   }
 
