@@ -21,7 +21,7 @@ It's recommended to just use `startupjs` package, since it proxies the API of `@
 yarn add startupjs
 ```
 
-## *\[Hooks\]* `use*()`
+## Hooks Usage
 
 ### `observer(FunctionalComponent)` HOF
 
@@ -309,7 +309,7 @@ const Sidebar = observer(() => {
 render(<Main />, document.body.appendChild(document.createElement('div')))
 ```
 
-### *\[Hooks\]* Example
+### Hooks Example
 
 ```js
 import React from 'react'
@@ -352,7 +352,9 @@ export default observer(function Game ({gameId}) {
 })
 ```
 
-## *\[Classes\]* HOC `@subscribe(cb)`
+## Classes Usage
+
+### `@subscribe(cb)` HOC
 
 `@subscribe` decorator is used to specify what you want to subscribe to.
 
