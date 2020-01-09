@@ -44,11 +44,13 @@ export default observer(function User ({userId}) {
 Subscribe to the particular Mongo document by id.
 
 `collection` \[String\] -- collection name. Required
+
 `docId` \[String\] -- document id. Required
 
 Returns: `[doc, $doc]`, where:
 
 `doc` \[Object\] -- value of document
+
 `$doc` \[Model\] -- scoped model targeting path `collection.docId`
 
 Example:
@@ -82,11 +84,13 @@ But when it gets into the model, it gets replaced with the `id` field instead, a
 Subscribe to the Mongo query.
 
 `collection` \[String\] -- collection name. Required
+
 `query` \[Object\] -- query (regular, `$count`, `$aggregate` queries are supported). Required
 
 Returns: `[docs, $docs]`, where:
 
 `docs` \[Array\] -- array of documents
+
 `$docs` \[Model\] -- scoped model targeting the whole `collection`
 
 Example:
@@ -113,8 +117,11 @@ for (let user of users) {
 Subscribe to documents in collection by their ids
 
 `collection` \[String\] -- collection name. Required
+
 `ids` \[Array\] -- array of strings which should be document ids.
+
 `options` \[Object\] --
+
     ```js
     {
       reverse: false // reverse the order of resulting array
@@ -141,6 +148,7 @@ with `query` parameter instead of the particular `docId`.
 `$limit: 1` and `$sort: { createdAt: -1 }` are added to the query automatically (if they don't already exist).
 
 `collection` \[String\] -- collection name. Required
+
 `query` \[Object\] -- query object, same as in `useQuery()`.
 
 Example:
@@ -172,6 +180,7 @@ want to work with some nested value of a particular document you have already su
 Returns: `[value, $value]`, where:
 
 `value` \[any\] -- data, located on that `path`
+
 `$value` \[Model\] -- model, targeting that `path`
 
 Example:
