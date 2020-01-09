@@ -30,9 +30,9 @@ Higher Order Function which makes your functional component rendering reactive.
 
 ```js
 import {observer, useDoc} from 'startupjs'
+
 export default observer(function User ({userId}) {
   let [user, $user] = useDoc('users', userId)
-  if (!user) return null // <Loading />
   return (
     <input value={user.name} onChange={e => $user.set('name', e.target.value)} />
   )
@@ -41,22 +41,72 @@ export default observer(function User ({userId}) {
 
 ### `useDoc(collection, docId)`
 
-Refer to the documentation of [`subDoc()`](#subDoc) below
+Subscribe to the particular Mongo document by id.
 
-### `useLocalDoc(collection, docId)`
+`collection` \[String\] -- collection name. Required
+`docId` \[String\] -- document id. Required
 
-A convenience method to get the document you are already subscribed to
-using the same API as `useDoc()`
+Returns: `[doc, $doc]`, where:
+
+`doc` \[Object\] -- value of document
+`$doc` \[Model\] -- scoped model targeting path `collection.docId`
+
+Example:
 
 ```js
-let [game, $game] = useLocalDoc('games', gameId)
-// It's the same as doing:
-let [game, $game] = useLocal('games.' + gameId)
+import React from 'react'
+import { observer, useDoc } from 'startupjs'
+
+export default observer(function Room ({
+  roomId = 'DUMMY_ID'
+}) {
+  let [room, $room] = useDoc('rooms', roomId)
+
+  // If the document with an `_id` of `roomId` doesn't exist yet, we create it.
+  // We have to wait for the document to be created by throwing the promise.
+  if (!room) throw $room.createAsync({ title: 'New Room' })
+
+  function onChange (e) {
+    $room.set('title', e.target.value)
+  }
+
+  return <input onChange={onChange} value={room.title} />
+})
 ```
+
+**IMPORTANT:** The id of the document is stored internally in Mongo inside the `_id` field.
+But when it gets into the model, it gets replaced with the `id` field instead, and vice versa.
 
 ### `useQuery(collection, query)`
 
-Refer to the documentation of [`subQuery()`](#subQuery) below
+Subscribe to the Mongo query.
+
+`collection` \[String\] -- collection name. Required
+`query` \[Object\] -- query (regular, `$count`, `$aggregate` queries are supported). Required
+
+Returns: `[docs, $docs]`, where:
+
+`docs` \[Array\] -- array of documents
+`$docs` \[Model\] -- scoped model targeting the whole `collection`
+
+Example:
+
+```js
+let [users, $users] = subQuery('users', { roomId: props.roomId, anonymous: false })
+```
+
+**IMPORTANT:** The scoped model `$docs`, which you receive from the hook, targets the global collection path.
+You can use it to easily reach a document with a particular id using scoped models:
+
+```js
+let [users, $users] = subQuery('users', { roomId, anonymous: false })
+for (let user of users) {
+  $users.scope(user.id).setEach({
+    joinedRoom: true,
+    updatedAt: Date.now()
+  })
+}
+```
 
 ### `useQueryIds(collection, ids, options)`
 
@@ -76,9 +126,7 @@ Example:
 ```js
 observer(function Players ({ gameId }) {
   let [game] = useDoc('games', gameId)
-  if (!game) return null // <Loading />
   let [players, $players] = useQueryIds('players', game.playerIds)
-  if (!players) return null // <Loading />
 
   return (
     <div>{players.map(i => i.name).join(' ,')}</div>
@@ -113,7 +161,43 @@ observer(function NewPlayer ({ gameId }) {
 
 ### `useLocal(path)`
 
-Refer to the documentation of [`subLocal()`](#subLocal) below
+Subscribe to the data you already have in your local model by path.
+
+You will usually use it to subscribe to private collections like `_page` or `_session`.
+This is very useful when you want to share the state between multiple components.
+
+It's also possible to subscribe to the path from a public collection, for example when you
+want to work with some nested value of a particular document you have already subscribed to.
+
+Returns: `[value, $value]`, where:
+
+`value` \[any\] -- data, located on that `path`
+`$value` \[Model\] -- model, targeting that `path`
+
+Example:
+
+```js
+observer(function App () {
+  return <>
+    <Topbar />
+    <Sidebar />
+  </>
+})
+
+observer(function Topbar () {
+  let [sidebarOpened, $sidebarOpened] = subLocal('_page.Sidebar.opened')
+  return <>
+    <button
+      onClick={() => $sidebarOpened.set(!sidebarOpened)}
+    >Toggle Sidebar</button>
+  </>
+})
+
+observer(function Sidebar () {
+  let [sidebarOpened] = subLocal('_page.Sidebar.opened')
+  return sidebarOpened ? <p>Sidebar</p> : null
+})
+```
 
 ### `useSession(path)`
 
@@ -135,9 +219,37 @@ let [game, $game] = usePage('game')
 let [game, $game] = useLocal('_page.game')
 ```
 
-### `useValue(value)`
+### `useValue(defaultValue)`
 
-Refer to the documentation of [`subValue()`](#subValue) below
+An observable alternative to `useState`.
+
+Example:
+
+```js
+const DEFAULT_USER = {
+  first: 'John',
+  last: 'Smith',
+  address: 'Washington St.'
+}
+
+observer(function User () {
+  let [user, $user] = useValue(DEFAULT_USER)
+
+  return <>
+    <Field label='First' $value={$user.at('first')} />
+    <Field label='Last' $value={$user.at('last')} />
+    <Field label='Address' $value={$user.at('address')} />
+    <code>{user}</code>
+  </>
+})
+
+observer(function Field ({ label, $value }) {
+  return <div>
+    <span>{label}: </span>
+    <input value={$value.get()} onChange={e => $value.set(e.target.value)} />
+  </div>
+})
+```
 
 ### `useModel(path)`
 
@@ -195,13 +307,8 @@ export default observer(function Game ({gameId}) {
   let [userId, $userId] = useLocal('_session.userId')
   let [user, $user] = useDoc('users', userId)
   let [game, $game] = useDoc('games', gameId)
-  if (!(game && user)) return null // <Loading />
-
   let [players, $players] = useQuery('players', {_id: {$in: game.playerIds}})
-  if (!players) return null // <Loading />
-
   let [users, $users] = useQuery('users', {_id: {$in: players.map(i => i.userId)}})
-  if (!users) return null // <Loading />
 
   function updateSecret (event) {
     $secret.set(event.target.value)
@@ -231,11 +338,6 @@ export default observer(function Game ({gameId}) {
   )
 })
 ```
-
-### TODO:
-
-1. `useSubscribe(fns)`
-2. `<Suspense />` support
 
 ## *\[Classes\]* HOC `@subscribe(cb)`
 
