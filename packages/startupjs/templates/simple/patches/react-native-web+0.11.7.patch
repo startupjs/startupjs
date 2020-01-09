@@ -1,52 +1,105 @@
+diff --git a/node_modules/react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver.js b/node_modules/react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver.js
+index fc4a126..006e447 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver.js
++++ b/node_modules/react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver.js
+@@ -365,7 +365,7 @@ var createCacheKey = function createCacheKey(id) {
+ };
+
+ var classListToString = function classListToString(list) {
+-  return list.join(' ').trim();
++  return list.join(' ').trim().replace(/(^| )undefined( |$)/g, ' ')
+ };
+ /**
+  * Copies classList and style data from a DOM node
 diff --git a/node_modules/react-native-web/dist/cjs/exports/Text/index.js b/node_modules/react-native-web/dist/cjs/exports/Text/index.js
-index 3d353e8..ec8103d 100644
+index 3d353e8..2c95fe6 100644
 --- a/node_modules/react-native-web/dist/cjs/exports/Text/index.js
 +++ b/node_modules/react-native-web/dist/cjs/exports/Text/index.js
 @@ -69,7 +69,8 @@ function (_Component) {
      var isInAParentText = this.context.isInAParentText;
- 
+
      if (process.env.NODE_ENV !== 'production') {
 -      (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
 +      // Ignore className warning. startupjs depends heavily on className functionality.
 +      // (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
      }
- 
+
      if (onPress) {
+@@ -78,7 +79,7 @@ function (_Component) {
+       otherProps.onKeyDown = this._createEnterHandler(onPress);
+     }
+
+-    otherProps.classList = [this.props.className, classes.text, this.context.isInAParentText === true && classes.textHasAncestor, numberOfLines === 1 && classes.textOneLine, numberOfLines > 1 && classes.textMultiLine]; // allow browsers to automatically infer the language writing direction
++    otherProps.classList = [classes.text, this.context.isInAParentText === true && classes.textHasAncestor, numberOfLines === 1 && classes.textOneLine, numberOfLines > 1 && classes.textMultiLine]; // allow browsers to automatically infer the language writing direction
+
+     otherProps.dir = dir !== undefined ? dir : 'auto';
+     otherProps.style = [style, numberOfLines > 1 && {
 diff --git a/node_modules/react-native-web/dist/cjs/exports/View/index.js b/node_modules/react-native-web/dist/cjs/exports/View/index.js
-index 61d92b6..2be4072 100644
+index 61d92b6..d5fa17d 100644
 --- a/node_modules/react-native-web/dist/cjs/exports/View/index.js
 +++ b/node_modules/react-native-web/dist/cjs/exports/View/index.js
 @@ -60,7 +60,8 @@ function (_Component) {
      var supportedProps = (0, _filterSupportedProps.default)(this.props);
- 
+
      if (process.env.NODE_ENV !== 'production') {
 -      (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
 +      // Ignore className warning. startupjs depends heavily on className functionality.
 +      // (0, _warning.default)(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
- 
+
        _react.default.Children.toArray(this.props.children).forEach(function (item) {
          (0, _invariant.default)(typeof item !== 'string', "Unexpected text node: " + item + ". A text node cannot be a child of a <View>.");
+@@ -68,7 +69,7 @@ function (_Component) {
+     }
+
+     var isInAParentText = this.context.isInAParentText;
+-    supportedProps.classList = [this.props.className, classes.view];
++    supportedProps.classList = [classes.view];
+     supportedProps.style = _StyleSheet.default.compose(isInAParentText && styles.inline, this.props.style);
+
+     if (hitSlop) {
+diff --git a/node_modules/react-native-web/dist/exports/StyleSheet/createStyleResolver.js b/node_modules/react-native-web/dist/exports/StyleSheet/createStyleResolver.js
+index 3174560..a6f0204 100644
+--- a/node_modules/react-native-web/dist/exports/StyleSheet/createStyleResolver.js
++++ b/node_modules/react-native-web/dist/exports/StyleSheet/createStyleResolver.js
+@@ -356,7 +356,7 @@ var createCacheKey = function createCacheKey(id) {
+ };
+
+ var classListToString = function classListToString(list) {
+-  return list.join(' ').trim();
++  return list.join(' ').trim().replace(/(^| )undefined( |$)/g, ' ')
+ };
+ /**
+  * Copies classList and style data from a DOM node
 diff --git a/node_modules/react-native-web/dist/exports/Text/index.js b/node_modules/react-native-web/dist/exports/Text/index.js
-index 88fdd34..5403484 100644
+index 88fdd34..569d6e9 100644
 --- a/node_modules/react-native-web/dist/exports/Text/index.js
 +++ b/node_modules/react-native-web/dist/exports/Text/index.js
 @@ -63,7 +63,8 @@ function (_Component) {
      var isInAParentText = this.context.isInAParentText;
- 
+
      if (process.env.NODE_ENV !== 'production') {
 -      warning(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
 +      // Ignore className warning. startupjs depends heavily on className functionality.
 +      // warning(this.props.className == null, 'Using the "className" prop on <Text> is deprecated.');
      }
- 
+
      if (onPress) {
+@@ -72,7 +73,7 @@ function (_Component) {
+       otherProps.onKeyDown = this._createEnterHandler(onPress);
+     }
+
+-    otherProps.classList = [this.props.className, classes.text, this.context.isInAParentText === true && classes.textHasAncestor, numberOfLines === 1 && classes.textOneLine, numberOfLines > 1 && classes.textMultiLine]; // allow browsers to automatically infer the language writing direction
++    otherProps.classList = [classes.text, this.context.isInAParentText === true && classes.textHasAncestor, numberOfLines === 1 && classes.textOneLine, numberOfLines > 1 && classes.textMultiLine]; // allow browsers to automatically infer the language writing direction
+
+     otherProps.dir = dir !== undefined ? dir : 'auto';
+     otherProps.style = [style, numberOfLines > 1 && {
 diff --git a/node_modules/react-native-web/dist/exports/View/index.js b/node_modules/react-native-web/dist/exports/View/index.js
-index d11a402..9d947c0 100644
+index d11a402..08f26da 100644
 --- a/node_modules/react-native-web/dist/exports/View/index.js
 +++ b/node_modules/react-native-web/dist/exports/View/index.js
-@@ -50,7 +50,8 @@ function (_Component) {
+@@ -50,14 +50,15 @@ function (_Component) {
      var supportedProps = filterSupportedProps(this.props);
- 
+
      if (process.env.NODE_ENV !== 'production') {
 -      warning(this.props.className == null, 'Using the "className" prop on <View> is deprecated.');
 +      // Ignore className warning. startupjs depends heavily on className functionality.
@@ -54,3 +107,11 @@ index d11a402..9d947c0 100644
        React.Children.toArray(this.props.children).forEach(function (item) {
          invariant(typeof item !== 'string', "Unexpected text node: " + item + ". A text node cannot be a child of a <View>.");
        });
+     }
+
+     var isInAParentText = this.context.isInAParentText;
+-    supportedProps.classList = [this.props.className, classes.view];
++    supportedProps.classList = [classes.view];
+     supportedProps.style = StyleSheet.compose(isInAParentText && styles.inline, this.props.style);
+
+     if (hitSlop) {

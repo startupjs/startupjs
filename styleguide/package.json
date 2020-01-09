@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-brands-svg-icons": "^5.12.0",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-native-fontawesome": "^0.2.0",
+    "@gzaripov/babel-plugin-transform-imports": "^2.1.0",
     "@startupjs/ui": "0.9.11",
     "axios": "^0.19.0",
     "nconf": "^0.10.0",
