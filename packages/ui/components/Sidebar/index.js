@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react'
-import { observer, useLocal } from 'startupjs'
+import React from 'react'
+import { observer } from 'startupjs'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import Div from '../Div'
@@ -8,7 +8,7 @@ import './index.styl'
 
 function Sidebar ({
   backgroundColor,
-  defaultOpen,
+  isOpen,
   position,
   width,
   children,
@@ -16,12 +16,6 @@ function Sidebar ({
   renderContent = () => null,
   ...props
 }) {
-  const [isOpen, $isOpen] = useLocal(ns(nsPath, 'isOpen'))
-
-  useLayoutEffect(() => {
-    if (isOpen === undefined) $isOpen.set(defaultOpen)
-  }, [])
-
   const _renderContent = () => {
     return pug`
       ScrollView(contentContainerStyle={flex: 1})
@@ -31,6 +25,7 @@ function Sidebar ({
   return pug`
     Div.root(styleName=[position])
       Div.sidebar(
+        shadow='s'
         styleName={isOpen}
         style={width, backgroundColor}
       )= _renderContent()
@@ -40,8 +35,7 @@ function Sidebar ({
 
 Sidebar.propTypes = {
   backgroundColor: PropTypes.string,
-  defaultOpen: PropTypes.bool,
-  nsPath: PropTypes.string,
+  isOpen: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired
@@ -49,15 +43,9 @@ Sidebar.propTypes = {
 
 Sidebar.defaultProps = {
   backgroundColor: config.backgroundColor,
-  defaultOpen: config.defaultOpen,
-  nsPath: config.nsPath,
+  isOpen: config.isOpen,
   position: config.position,
   width: config.width
 }
 
 export default observer(Sidebar)
-
-function ns (path, subpath) {
-  if (subpath) return path + '.' + subpath
-  return path
-}

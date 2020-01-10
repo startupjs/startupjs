@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import { Props } from 'components'
 import { View, Text } from 'react-native'
 import propTypes from 'prop-types'
-import { SmartSidebar } from '../../../../packages/ui/'
+import { SmartSidebar } from 'ui'
 import './index.styl'
 
 export default observer(function PComponent () {

@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { observer, useOn, useLocal } from 'startupjs'
+import React, { useRef, useLayoutEffect } from 'react'
+import { observer } from 'startupjs'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
@@ -9,8 +9,7 @@ import './index.styl'
 function Drawer ({
   backgroundColor,
   children,
-  defaultOpen,
-  nsPath,
+  isOpen,
   position,
   width,
   onClose,
@@ -20,18 +19,14 @@ function Drawer ({
 }) {
   let drawerRef = useRef()
 
-  const [, $isOpen] = useLocal(ns(nsPath, 'isOpen'))
-
-  useOn('change', $isOpen, (value, prevValue) => {
-    let drawer = drawerRef.current
-    if (!drawer) return
-    if (!!value === !!prevValue) return
-    if (value) {
+  useLayoutEffect(() => {
+    const drawer = drawerRef.current
+    if (isOpen) {
       drawer.openDrawer()
     } else {
       drawer.closeDrawer()
     }
-  })
+  }, [isOpen])
 
   const _renderContent = () => {
     return pug`
@@ -41,28 +36,25 @@ function Drawer ({
   }
   return pug`
     DrawerLayout.root(
-      ...props
       drawerPosition=position
       drawerWidth=width
       drawerBackgroundColor=backgroundColor
       renderNavigationView=_renderContent
       onDrawerClose=() => {
         onClose && onClose()
-        $isOpen.del()
       }
       onDrawerOpen=() => {
         onOpen && onOpen()
-        $isOpen.setDiff(true)
       }
       ref=drawerRef
+      ...props
     )= children
   `
 }
 
 Drawer.propTypes = {
   backgroundColor: PropTypes.string,
-  defaultOpen: PropTypes.bool,
-  nsPath: PropTypes.string,
+  isOpen: PropTypes.bool,
   position: PropTypes.oneOf(Object.values(DrawerLayout.positions)),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired
@@ -70,15 +62,8 @@ Drawer.propTypes = {
 
 Drawer.defaultProps = {
   backgroundColor: config.backgroundColor,
-  defaultOpen: config.defaultOpen,
-  nsPath: config.nsPath,
   position: config.position,
   width: config.width
 }
 
 export default observer(Drawer)
-
-function ns (path, subpath) {
-  if (subpath) return path + '.' + subpath
-  return path
-}

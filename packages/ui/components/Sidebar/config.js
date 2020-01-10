@@ -1,7 +1,6 @@
 module.exports = {
   backgroundColor: '#fff',
-  defaultOpen: true,
-  nsPath: '_session.Sidebar',
+  isOpen: true,
   position: 'left',
   width: 264
 }
