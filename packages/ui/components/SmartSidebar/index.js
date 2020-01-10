@@ -43,6 +43,8 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         isOpen=isOpen
+        onClose=onClose
+        onOpen=onOpen
         position=position
         width=width
         backgroundColor=backgroundColor
@@ -51,6 +53,8 @@ function SmartSidebar ({
     else
       Drawer(
         isOpen=isOpen
+        onClose=onClose
+        onOpen=onOpen
         position=position
         width=width
         backgroundColor=backgroundColor
