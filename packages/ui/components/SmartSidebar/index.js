@@ -8,15 +8,12 @@ import config from './config'
 
 function SmartSidebar ({
   fixedLayoutBreakpoint,
-  isOpen,
+  open,
   position,
   width,
   backgroundColor,
-  renderContent = () => null,
   children,
-  onClose,
-  onOpen,
-  defaultOpen,
+  renderContent = () => null,
   ...props
 }) {
   const [, $isFixedLayout] = useSession('isFixedLayout')
@@ -42,9 +39,7 @@ function SmartSidebar ({
   return pug`
     if fixedLayout
       Sidebar(
-        isOpen=isOpen
-        onClose=onClose
-        onOpen=onOpen
+        open=open
         position=position
         width=width
         backgroundColor=backgroundColor
@@ -52,9 +47,7 @@ function SmartSidebar ({
       )= children
     else
       Drawer(
-        isOpen=isOpen
-        onClose=onClose
-        onOpen=onOpen
+        open=open
         position=position
         width=width
         backgroundColor=backgroundColor
@@ -66,7 +59,7 @@ function SmartSidebar ({
 SmartSidebar.propTypes = {
   backgroundColor: PropTypes.string,
   fixedLayoutBreakpoint: PropTypes.number,
-  isOpen: PropTypes.bool,
+  open: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired

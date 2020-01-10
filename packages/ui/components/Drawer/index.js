@@ -9,11 +9,9 @@ import './index.styl'
 function Drawer ({
   backgroundColor,
   children,
-  isOpen,
+  open,
   position,
   width,
-  onClose,
-  onOpen,
   renderContent = () => null,
   ...props
 }) {
@@ -21,12 +19,12 @@ function Drawer ({
 
   useLayoutEffect(() => {
     const drawer = drawerRef.current
-    if (isOpen) {
+    if (open) {
       drawer.openDrawer()
     } else {
       drawer.closeDrawer()
     }
-  }, [isOpen])
+  }, [!!open])
 
   const _renderContent = () => {
     return pug`
@@ -39,14 +37,8 @@ function Drawer ({
       drawerPosition=position
       drawerWidth=width
       drawerBackgroundColor=backgroundColor
-      renderNavigationView=_renderContent
-      onDrawerClose=() => {
-        onClose && onClose()
-      }
-      onDrawerOpen=() => {
-        onOpen && onOpen()
-      }
       ref=drawerRef
+      renderNavigationView=_renderContent
       ...props
     )= children
   `
@@ -54,7 +46,7 @@ function Drawer ({
 
 Drawer.propTypes = {
   backgroundColor: PropTypes.string,
-  isOpen: PropTypes.bool,
+  open: PropTypes.bool,
   position: PropTypes.oneOf(Object.values(DrawerLayout.positions)),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired

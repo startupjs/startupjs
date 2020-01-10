@@ -1,6 +1,6 @@
 module.exports = {
   backgroundColor: '#fff',
-  isOpen: true,
+  open: true,
   position: 'left',
   width: 264
 }

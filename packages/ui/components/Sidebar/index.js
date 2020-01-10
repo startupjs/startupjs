@@ -8,11 +8,10 @@ import './index.styl'
 
 function Sidebar ({
   backgroundColor,
-  isOpen,
+  children,
+  open,
   position,
   width,
-  children,
-  nsPath,
   renderContent = () => null,
   ...props
 }) {
@@ -26,7 +25,7 @@ function Sidebar ({
     Div.root(styleName=[position])
       Div.sidebar(
         shadow='s'
-        styleName={isOpen}
+        styleName={open}
         style={width, backgroundColor}
       )= _renderContent()
       Div.main= children
@@ -35,7 +34,7 @@ function Sidebar ({
 
 Sidebar.propTypes = {
   backgroundColor: PropTypes.string,
-  isOpen: PropTypes.bool,
+  open: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired
@@ -43,7 +42,7 @@ Sidebar.propTypes = {
 
 Sidebar.defaultProps = {
   backgroundColor: config.backgroundColor,
-  isOpen: config.isOpen,
+  open: config.open,
   position: config.position,
   width: config.width
 }
