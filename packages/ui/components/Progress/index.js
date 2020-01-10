@@ -1,9 +1,8 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Text } from 'react-native'
-import Div from '../Div'
+import { View, Text } from 'react-native'
 import PropTypes from 'prop-types'
-import { ui } from 'config'
+import config from './config'
 import './index.styl'
 
 function Progress ({
@@ -17,27 +16,27 @@ function Progress ({
   textColor,
   ...props
 }) {
-  let currentProgress = (100 / total * value).toFixed()
+  let currentProgress = 100 / total * value
 
   return pug`
-    Div.root
+    View.root
       if title
         Text.title(
           style={ color: textColor || '' }
         )= title
-      Div.progress(style={backgroundColor: unfilledColor})
-        Div.line(style={width: value <= total ? currentProgress + '%' : '100%', backgroundColor: color})
+      View.progress(style={backgroundColor: unfilledColor})
+        View.line(style={width: value <= total ? currentProgress + '%' : '100%', backgroundColor: color})
         if label && !disableLabel
-          Text.label= value < total ? label + ' - ' + currentProgress + '% ...' : 'Loading Complete!'
+          Text.label= value < total ? label + ' - ' + currentProgress.toFixed() + '% ...' : 'Loading Complete!'
   `
 }
 
 Progress.defaultProps = {
-  value: 1,
+  value: 0,
   total: 100,
   label: 'Loading',
-  unfilledColor: ui.colors.darkLighter,
-  color: ui.colors.primary
+  unfilledColor: config.unfilledColor,
+  color: config.color
 }
 
 Progress.PropTypes = {
@@ -46,8 +45,6 @@ Progress.PropTypes = {
   label: PropTypes.string,
   title: PropTypes.string,
   textColor: PropTypes.string,
-  unfilledColor: PropTypes.string,
-  color: PropTypes.string,
   disableLabel: PropTypes.bool
 }
 
