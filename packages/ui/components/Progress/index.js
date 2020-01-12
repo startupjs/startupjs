@@ -19,13 +19,13 @@ function Progress ({
   let currentProgress = 100 / total * value
 
   return pug`
-    View.root
+    View
       if title
         Text.title(
           style={ color: textColor || '' }
         )= title
       View.progress(style={backgroundColor: unfilledColor})
-        View.line(style={width: value <= total ? currentProgress + '%' : '100%', backgroundColor: color})
+        View.filler(style={width: value <= total ? currentProgress + '%' : '100%', backgroundColor: color})
         if label && !disableLabel
           Text.label= value < total ? label + ' - ' + currentProgress.toFixed() + '% ...' : 'Loading Complete!'
   `
@@ -35,8 +35,8 @@ Progress.defaultProps = {
   value: 0,
   total: 100,
   label: 'Loading',
-  unfilledColor: config.unfilledColor,
-  color: config.color
+  unfilledColor: config.bgColor,
+  color: config.fillerBg
 }
 
 Progress.PropTypes = {

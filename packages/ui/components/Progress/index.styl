@@ -1,16 +1,18 @@
-.progress
-  height 1u
-  background-color $UI.Progress.bgColor
-  border-radius 3u
-
-.line
-  height 1u
-  border-radius 3u
-
-.label
-  margin-top 0.5u
-  color $UI.Progress.textColor
+_size = 0.5u
 
 .title
-  margin-bottom 0.5u
+  margin-bottom _size
+  color $UI.Progress.textColor
+
+.progress
+  height _size
+  background-color $UI.Progress.bgColor
+  border-radius _size
+
+.filler
+  height _size
+  border-radius _size
+
+.label
+  margin-top _size
   color $UI.Progress.textColor
