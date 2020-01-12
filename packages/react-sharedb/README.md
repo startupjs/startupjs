@@ -21,7 +21,7 @@ It's recommended to just use `startupjs` package, since it proxies the API of `@
 yarn add startupjs
 ```
 
-## *\[Hooks\]* `use*()`
+## Hooks Usage
 
 ### `observer(FunctionalComponent)` HOF
 
@@ -47,13 +47,13 @@ Subscribe to the particular Mongo document by id.
 
 `docId` \[String\] -- document id. Required
 
-Returns: `[doc, $doc]`, where:
+**Returns:** `[doc, $doc]`, where:
 
 `doc` \[Object\] -- value of document
 
 `$doc` \[Model\] -- scoped model targeting path `collection.docId`
 
-Example:
+**Example:**
 
 ```js
 import React from 'react'
@@ -87,13 +87,13 @@ Subscribe to the Mongo query.
 
 `query` \[Object\] -- query (regular, `$count`, `$aggregate` queries are supported). Required
 
-Returns: `[docs, $docs]`, where:
+**Returns:** `[docs, $docs]`, where:
 
 `docs` \[Array\] -- array of documents
 
 `$docs` \[Model\] -- scoped model targeting the whole `collection`
 
-Example:
+**Example:**
 
 ```js
 let [users, $users] = subQuery('users', { roomId: props.roomId, anonymous: false })
@@ -128,7 +128,7 @@ Subscribe to documents in collection by their ids
     }
     ```
 
-Example:
+**Example:**
 
 ```js
 observer(function Players ({ gameId }) {
@@ -151,7 +151,7 @@ with `query` parameter instead of the particular `docId`.
 
 `query` \[Object\] -- query object, same as in `useQuery()`.
 
-Example:
+**Example:**
 
 ```js
 observer(function NewPlayer ({ gameId }) {
@@ -177,13 +177,13 @@ This is very useful when you want to share the state between multiple components
 It's also possible to subscribe to the path from a public collection, for example when you
 want to work with some nested value of a particular document you have already subscribed to.
 
-Returns: `[value, $value]`, where:
+**Returns:** `[value, $value]`, where:
 
 `value` \[any\] -- data, located on that `path`
 
 `$value` \[Model\] -- model, targeting that `path`
 
-Example:
+**Example:**
 
 ```js
 observer(function App () {
@@ -222,6 +222,8 @@ let [userId, $userId] = useLocal('_session.userId')
 
 A convenience method to access the `_page` local collection.
 
+**Example:**
+
 ```js
 let [game, $game] = usePage('game')
 // It's the same as doing:
@@ -232,7 +234,7 @@ let [game, $game] = useLocal('_page.game')
 
 An observable alternative to `useState`.
 
-Example:
+**Example:**
 
 ```js
 const DEFAULT_USER = {
@@ -264,6 +266,8 @@ observer(function Field ({ label, $value }) {
 
 Return a model scoped to `path` (memoized by the `path` argument).
 If `path` is not provided, returns the model scoped to the root path.
+
+**Example:**
 
 ```js
 import React from 'react'
@@ -305,7 +309,7 @@ const Sidebar = observer(() => {
 render(<Main />, document.body.appendChild(document.createElement('div')))
 ```
 
-### *\[Hooks\]* Example
+### Hooks Example
 
 ```js
 import React from 'react'
@@ -348,7 +352,9 @@ export default observer(function Game ({gameId}) {
 })
 ```
 
-## *\[Classes\]* HOC `@subscribe(cb)`
+## Classes Usage
+
+### `@subscribe(cb)` HOC
 
 `@subscribe` decorator is used to specify what you want to subscribe to.
 
