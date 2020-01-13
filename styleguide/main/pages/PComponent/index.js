@@ -3,13 +3,11 @@ import { observer } from 'startupjs'
 import { Props } from 'components'
 import { View, Text } from 'react-native'
 import propTypes from 'prop-types'
-import { Span } from 'ui'
 import './index.styl'
 
 export default observer(function PComponent () {
   return pug`
     View.root
-      Span WOW
       View.left
         Text.text Syntax highlighter
       View.right
