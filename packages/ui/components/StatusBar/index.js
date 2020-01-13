@@ -2,13 +2,13 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { View, StatusBar } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-import { ui } from 'config'
+import config from './../../config/rootConfig'
 const height = getStatusBarHeight()
 
 export default observer(function ({
   style,
   children,
-  backgroundColor = ui.colors.darkLighter,
+  backgroundColor = config.colors.darkLighter,
   ...props
 }) {
   return pug`

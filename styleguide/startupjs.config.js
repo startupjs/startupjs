@@ -1,5 +1,5 @@
-const ui = require('@startupjs/ui/config')
+const getConfig = require('@startupjs/ui/config')
 
 module.exports = {
-  ui
+  ui: getConfig()
 }
