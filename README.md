@@ -249,6 +249,37 @@ protected List<ReactPackage> getPackages() {
 
 ![codepush ios](docs/img/codepush-ios.png)
 
+## IDE configuration
+
+### Visual Studio Code
+
+#### Step 1: Add support for PUG syntax highlighting
+
+1. Install extension [`vscode-react-pug`](https://github.com/kaminaly/vscode-react-pug)
+2. Restart VS Code
+
+#### Step 2: Add support for ESLint errors highlighting
+
+1. Install extension `ESLint`
+2. Restart VS Code
+
+### Atom
+
+#### Step 1: Add support for PUG syntax highlighting
+
+1.  Install packages [language-babel](https://atom.io/packages/language-babel) and [language-pug](https://atom.io/packages/language-pug)
+2.  Open settings of `language-babel` in atom
+3.  Find the field under "JavaScript Tagged Template Literal Grammar Extensions"
+4.  Enter: `pug:source.pug`
+5.  Go to `Core` settings of atom.
+6.  Uncheck `Use Tree Sitter Parsers`
+7.  Restart Atom
+
+#### Step 2: Add support for ESLint errors highlighting
+
+1.  Install pagkage `linter-eslint`
+2.  Restart Atom
+
 ## Troubleshooting
 
 If you have any problem, search for the issues in this repository. If you don't find anything, you can raise an issue [here](https://github.com/dmapper/startupjs/issues).
