@@ -1,12 +1,9 @@
-const { generateColorsFromPalette } = require('./helpers')
-const components = require('./components')
-const pallete = require('./pallete')
-const colors = generateColorsFromPalette(pallete)
-const variables = require('./variables')
+const merge = require('lodash/merge')
+const baseConfig = require('./base')
+const getComponentsConfig = require('./components')
 
-module.exports = {
-  pallete,
-  colors,
-  ...components,
-  ...variables
+module.exports = function (config) {
+  const _config = merge({}, baseConfig, config)
+  const componentsConfig = getComponentsConfig(_config)
+  return merge({}, componentsConfig, _config)
 }
