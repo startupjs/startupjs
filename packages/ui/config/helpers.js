@@ -1,9 +1,5 @@
 const PALLETE = require('./pallete')
-const _generateColorsFromPalette = require('./generateColorsFromPalette')
-
-function generateColorsFromPalette (pallete = PALLETE) {
-  return _generateColorsFromPalette(pallete)
-}
+const generateColorsFromPalette = require('./generateColorsFromPalette')
 
 function u (value = 0) {
   return value * 8
