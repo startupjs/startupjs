@@ -11,21 +11,26 @@ yarn add @startupjs/ui
 Pass to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
 
 ```js
-const defaultConfig = require('@startupjs/ui/config')
+const config = require('@startupjs/ui/rootConfig')
 const { u } = require('@startupjs/ui/configHelpers')
 
 module.exports = {
-  ui: {
-    ...defaultConfig,
-    // override default
+  ui: getConfig({
+    // override defaults
+    blue: {
+      primary: '#4a76a8',
+    },
+    colors: {
+      dark: 'rgba(0, 0, 0, 0.5)'
+    },
     MyComponent1: {
       height: u(2)
     },
     MyComponent2: {
-      color: ui.colors.primary,
+      color: config.colors.primary,
       padding: u(1)
     }
-  }
+  })
 }
 ```
 
@@ -68,7 +73,7 @@ library.add(faTrash, faSearch, ...)
 import * as pages from './pages'
 import getRoutes from './routes'
 import './icons.js'
-  
+
 export { Layout } from 'ui'
 export const routes = getRoutes(pages)
 ```

@@ -9,11 +9,12 @@ const Span = observer(({
   style,
   variant,
   bold,
+  description,
   ...props
 }) => {
   return pug`
     Text.root(
-      styleName=[variant, { bold }]
+      styleName=[variant, { bold, description }]
       style=style
       ...props
     )= children
@@ -22,12 +23,14 @@ const Span = observer(({
 
 Span.defaultProps = {
   variant: 'normal',
-  bold: false
+  bold: false,
+  description: false
 }
 
 Span.propTypes = {
-  variant: propTypes.oneOf(['normal', 'description', 'small']),
-  bold: propTypes.bool
+  variant: propTypes.oneOf(['normal', 'caption', 'small']),
+  bold: propTypes.bool,
+  description: propTypes.bool
 }
 
 export default Span
