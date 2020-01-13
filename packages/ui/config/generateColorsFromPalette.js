@@ -3,7 +3,7 @@ module.exports = function generateColorsFromPalette (pallete) {
 
   return {
     mainText: `${pallete.black}`,
-    secondaryText: `lighten(${pallete.black}, 50%)`,
+    secondaryText: `rgba(${pallete.black}, 0.5)`,
 
     white: `${pallete.white}`,
     whiteLight: `rgba(${pallete.white}, 0.5)`,
