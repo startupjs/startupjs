@@ -1,5 +1,7 @@
-module.exports = {
-  bgColor: 'rgba(#3E4657, 0.25)',
-  textColor: 'rgba(#3E4657, 0.25)',
-  fillerBg: '#2962FF'
+module.exports = function ({ colors }) {
+  return {
+    bgColor: colors.darkLighter,
+    textColor: colors.mainText,
+    fillerBg: colors.primary
+  }
 }

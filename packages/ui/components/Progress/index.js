@@ -1,8 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import config from './config'
+import Span from '../Span'
 import './index.styl'
 
 function Progress ({
@@ -10,9 +11,7 @@ function Progress ({
   total,
   label,
   color,
-  unfilledColor,
   disableLabel,
-  title,
   textColor,
   ...props
 }) {
@@ -20,14 +19,10 @@ function Progress ({
 
   return pug`
     View
-      if title
-        Text.title(
-          style={ color: textColor || '' }
-        )= title
-      View.progress(style={backgroundColor: unfilledColor})
+      View.progress
         View.filler(style={width: value <= total ? currentProgress + '%' : '100%', backgroundColor: color})
         if label && !disableLabel
-          Text.label= value < total ? label + ' - ' + currentProgress.toFixed() + '% ...' : 'Loading Complete!'
+          Span(description variant='caption')= value < total ? label + ' - ' + currentProgress.toFixed() + '% ...' : 'Loading Complete!'
   `
 }
 
@@ -35,7 +30,6 @@ Progress.defaultProps = {
   value: 0,
   total: 100,
   label: 'Loading',
-  unfilledColor: config.bgColor,
   color: config.fillerBg
 }
 
@@ -43,7 +37,6 @@ Progress.PropTypes = {
   value: PropTypes.number,
   total: PropTypes.number,
   label: PropTypes.string,
-  title: PropTypes.string,
   textColor: PropTypes.string,
   disableLabel: PropTypes.bool
 }
