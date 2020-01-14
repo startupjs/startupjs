@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import Drawer from '../Drawer'
-import config from './config'
+import config from '../../config/rootConfig'
 
 function SmartSidebar ({
   fixedLayoutBreakpoint,
@@ -66,15 +66,15 @@ SmartSidebar.propTypes = {
 }
 
 SmartSidebar.defaultProps = {
-  backgroundColor: config.backgroundColor,
-  fixedLayoutBreakpoint: config.fixedLayoutBreakpoint,
-  position: config.position,
-  width: config.width
+  backgroundColor: config.SmartSidebar.backgroundColor,
+  fixedLayoutBreakpoint: config.SmartSidebar.fixedLayoutBreakpoint,
+  position: config.SmartSidebar.position,
+  width: config.SmartSidebar.width
 }
 
 export default observer(SmartSidebar)
 
 function isFixedLayout () {
   let dim = Dimensions.get('window')
-  return dim.width > config.fixedLayoutBreakpoint
+  return dim.width > config.SmartSidebar.fixedLayoutBreakpoint
 }

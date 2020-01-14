@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import Div from '../Div'
-import config from './config'
+import config from '../../config/rootConfig'
 import './index.styl'
 
 function Sidebar ({
@@ -41,10 +41,10 @@ Sidebar.propTypes = {
 }
 
 Sidebar.defaultProps = {
-  backgroundColor: config.backgroundColor,
-  open: config.open,
-  position: config.position,
-  width: config.width
+  backgroundColor: config.Sidebar.backgroundColor,
+  open: config.Sidebar.open,
+  position: config.Sidebar.position,
+  width: config.Sidebar.width
 }
 
 export default observer(Sidebar)

@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
-import config from './config'
+import config from '../../config/rootConfig'
 import './index.styl'
 
 function Drawer ({
@@ -53,9 +53,9 @@ Drawer.propTypes = {
 }
 
 Drawer.defaultProps = {
-  backgroundColor: config.backgroundColor,
-  position: config.position,
-  width: config.width
+  backgroundColor: config.Drawer.backgroundColor,
+  position: config.Drawer.position,
+  width: config.Drawer.width
 }
 
 export default observer(Drawer)
