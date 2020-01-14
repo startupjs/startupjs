@@ -7,6 +7,7 @@ import Drawer from '../Drawer'
 import config from '../../config/rootConfig'
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
+
 function SmartSidebar ({
   fixedLayoutBreakpoint,
   open,
