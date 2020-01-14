@@ -7,31 +7,29 @@ import './index.styl'
 
 function Progress ({
   value,
-  total,
   label,
   disableLabel,
   ...props
 }) {
-  let currentProgress = 100 / total * value
-
   return pug`
     View
       View.progress
-        View.filler(style={width: value <= total ? currentProgress + '%' : '100%'})
-        if label && !disableLabel
-          Span(description variant='caption')= value < total ? label + ' - ' + currentProgress.toFixed() + '% ...' : 'Loading Complete!'
+        View.filler(style={width: value + '%'})
+      if label && !disableLabel
+        Span(description variant='caption')
+          = label
+          = ' - '
+          = value <= 100 ? value + '% ...' : 'Complete'
   `
 }
 
 Progress.defaultProps = {
   value: 0,
-  total: 100,
   label: 'Loading'
 }
 
 Progress.PropTypes = {
   value: PropTypes.number,
-  total: PropTypes.number,
   label: PropTypes.string,
   disableLabel: PropTypes.bool
 }
