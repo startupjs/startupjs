@@ -9,29 +9,26 @@ function Progress ({
   value,
   label,
   disableLabel,
+  variant,
   ...props
 }) {
   return pug`
     View
       View.progress
         View.filler(style={width: value + '%'})
-      if label && !disableLabel
+      unless variant === 'compact'
         Span(description variant='caption')
-          = label
-          = ' - '
-          = value <= 100 ? value + '% ...' : 'Complete'
+          = label || (value < 100 && value + '% ...' || 'Loading Complete')
   `
 }
 
 Progress.defaultProps = {
-  value: 0,
-  label: 'Loading'
+  value: 0
 }
 
 Progress.PropTypes = {
   value: PropTypes.number,
-  label: PropTypes.string,
-  disableLabel: PropTypes.bool
+  label: PropTypes.string
 }
 
 export default observer(Progress)
