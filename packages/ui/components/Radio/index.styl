@@ -1,0 +1,28 @@
+_mainColor = $UI.colors.primary
+_disableColor = $UI.colors.darkLighter
+_textColor = $UI.colors.black
+
+.root
+  flex-direction row
+  align-items center
+  padding 0.5u
+
+.circle
+  border-width 0.25u
+  border-color _mainColor
+  justify-content center
+  align-items center
+  &-disable
+    border-color _disableColor
+
+.checked
+  background-color _mainColor
+  &-disable
+    background-color _disableColor
+
+.label
+  margin-left 1u
+  color _textColor
+  &-disable
+    color _disableColor
+
