@@ -1,19 +1,14 @@
 _size = 0.5u
 
-.title
-  margin-bottom _size
-  color $UI.Progress.textColor
+_backgroundColor = $UI.colors.darkLighter
+_fillerColor = #24B47E
 
 .progress
   height _size
-  background-color $UI.Progress.bgColor
+  background-color _backgroundColor
   border-radius _size
 
 .filler
   height _size
-  background-color $UI.Progress.fillerBg
+  background-color _fillerColor
   border-radius _size
-
-.label
-  margin-top _size
-  color $UI.Progress.textColor
