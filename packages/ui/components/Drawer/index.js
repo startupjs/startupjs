@@ -53,9 +53,9 @@ Drawer.propTypes = {
 }
 
 Drawer.defaultProps = {
-  backgroundColor: config.Drawer.backgroundColor,
-  position: config.Drawer.position,
-  width: config.Drawer.width
+  backgroundColor: config.colors.white,
+  position: 'left',
+  width: 264
 }
 
 export default observer(Drawer)

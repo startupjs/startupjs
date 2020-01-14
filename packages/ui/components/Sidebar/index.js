@@ -41,10 +41,10 @@ Sidebar.propTypes = {
 }
 
 Sidebar.defaultProps = {
-  backgroundColor: config.Sidebar.backgroundColor,
-  open: config.Sidebar.open,
-  position: config.Sidebar.position,
-  width: config.Sidebar.width
+  backgroundColor: config.colors.white,
+  open: true,
+  position: 'left',
+  width: 264
 }
 
 export default observer(Sidebar)

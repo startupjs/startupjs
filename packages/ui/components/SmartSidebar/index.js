@@ -6,6 +6,7 @@ import Sidebar from '../Sidebar'
 import Drawer from '../Drawer'
 import config from '../../config/rootConfig'
 
+const FIXED_LAYOUT_BREAKPOINT = 1024
 function SmartSidebar ({
   fixedLayoutBreakpoint,
   open,
@@ -66,15 +67,15 @@ SmartSidebar.propTypes = {
 }
 
 SmartSidebar.defaultProps = {
-  backgroundColor: config.SmartSidebar.backgroundColor,
-  fixedLayoutBreakpoint: config.SmartSidebar.fixedLayoutBreakpoint,
-  position: config.SmartSidebar.position,
-  width: config.SmartSidebar.width
+  backgroundColor: config.colors.white,
+  fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
+  position: 'left',
+  width: 264
 }
 
 export default observer(SmartSidebar)
 
 function isFixedLayout () {
   let dim = Dimensions.get('window')
-  return dim.width > config.SmartSidebar.fixedLayoutBreakpoint
+  return dim.width > FIXED_LAYOUT_BREAKPOINT
 }
