@@ -17,11 +17,9 @@ function Div ({
 
   const shadowProps = SHADOWS[level] ? SHADOWS[level] : {}
 
-  const styles = [style, shadowProps]
-
   return pug`
     Wrapper.root(
-      style=styles
+      style=[style, shadowProps]
       styleName=[{ 'with-shadow': !!level }]
       onPress=onPress
       ...props
