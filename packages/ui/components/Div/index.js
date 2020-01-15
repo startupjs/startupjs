@@ -1,32 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TouchableOpacity, View, Platform } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
 import SHADOWS from './shadows'
 import './index.styl'
-const { OS } = Platform
 function Div ({
   style,
   children,
-  shadow,
+  level = 0,
   onPress,
   ...props
 }) {
-  const isNative = OS !== 'web'
-
   let Wrapper = typeof onPress === 'function'
     ? TouchableOpacity
     : View
 
-  const shadowProps = SHADOWS[shadow] ? SHADOWS[shadow] : {}
+  const shadowProps = SHADOWS[level] ? SHADOWS[level] : {}
 
-  const styles = [style]
-  if (isNative) styles.push(shadowProps)
+  const styles = [style, shadowProps]
 
   return pug`
     Wrapper.root(
       style=styles
-      styleName=[shadow, { 'with-shadow': !!shadow }]
+      styleName=[{ 'with-shadow': !!level }]
       onPress=onPress
       ...props
     )
