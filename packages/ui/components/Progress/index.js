@@ -1,34 +1,56 @@
-import React from 'react'
-import { observer } from 'startupjs'
-import { View } from 'react-native'
+import React, { useState } from 'react'
+import { observer, useDidUpdate } from 'startupjs'
+import { View, Animated, Easing } from 'react-native'
 import PropTypes from 'prop-types'
 import Span from '../Span'
 import './index.styl'
+const AnimatedView = Animated.View
 
 function Progress ({
   value,
   label,
-  disableLabel,
-  variant,
-  ...props
+  variant
 }) {
+  const [progress] = useState(new Animated.Value(value))
+
+  // TODO: We can calculate duration using durationOfFullProgress / newValue - prevValue
+  useDidUpdate(() => {
+    Animated.timing(
+      progress,
+      {
+        toValue: value,
+        duration: 300,
+        easing: Easing.linear
+      }
+    ).start()
+  }, [value])
+
   return pug`
     View
       View.progress
-        View.filler(style={width: value + '%'})
-      unless variant === 'compact'
-        Span(description variant='caption')
-          = label || (value < 100 && value + '% ...' || 'Loading Complete')
+        AnimatedView.filler(
+          style={
+            width: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0%', '1%']
+            })
+          }
+        )
+      if variant === 'full'
+        Span(variant='caption' description)
+          = label || (value < 100 ? value + '% ...' : 'Loading Complete')
   `
 }
 
 Progress.defaultProps = {
-  value: 0
+  value: 0,
+  variant: 'full'
 }
 
 Progress.PropTypes = {
   value: PropTypes.number,
-  label: PropTypes.string
+  label: PropTypes.string,
+  variant: PropTypes.oneOf(['full', 'compact'])
 }
 
 export default observer(Progress)
