@@ -1,4 +1,5 @@
 export default {
+  0: {},
   1: {
     shadowColor: '#000',
     shadowOffset: {

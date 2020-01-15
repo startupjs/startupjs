@@ -28,13 +28,13 @@ function Div ({
   `
 }
 
+Div.defaultProps = {
+  level: 0
+}
+
 Div.propTypes = {
   level: PropTypes.oneOf(Object.keys(SHADOWS)),
   onPress: PropTypes.func
-}
-
-Div.defaultProps = {
-  level: 0
 }
 
 export default observer(Div)
