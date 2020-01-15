@@ -1,21 +1,17 @@
 import React from 'react'
-import { observer } from 'startupjs'
-import { Text, View } from 'react-native'
-import parsePropTypes from 'parse-prop-types'
+import { observer, useValue } from 'startupjs'
+import { View, ScrollView } from 'react-native'
 import './index.styl'
+import Constructor from './Constructor'
+import Renderer from './Renderer'
 
-export default observer(function PComponent ({ of }) {
-  const props = parsePropTypes(of)
-  const entries = Object.entries(props)
+export default observer(function PComponent ({ Component }) {
+  let [props, $props] = useValue({})
   return pug`
     View.root
-      Text.title Props
-      each entry, index in entries
-        View.entry(key=index)
-          Text.label= entry[0]
-          - const type = entry[1].type.name
-          case type
-            when 'string'
-              Text TYPE STRING
+      ScrollView.top
+        Constructor(Component=Component $props=$props)
+      ScrollView.bottom
+        Renderer(Component=Component props=props)
   `
 })

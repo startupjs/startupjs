@@ -9,12 +9,13 @@ const Span = observer(({
   style,
   variant,
   bold,
+  italic,
   description,
   ...props
 }) => {
   return pug`
     Text.root(
-      styleName=[variant, { bold, description }]
+      styleName=[variant, { bold, italic, description }]
       style=style
       ...props
     )= children
