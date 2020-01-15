@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect } from 'react'
-import { observer } from 'startupjs'
+import { observer, useSession, useComponentId } from 'startupjs'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
@@ -9,16 +9,19 @@ import './index.styl'
 function Drawer ({
   backgroundColor,
   children,
-  open,
+  path,
   position,
   width,
   renderContent = () => null,
   ...props
 }) {
+  const componentId = useComponentId()
+
+  const [open, $open] = useSession(path || `Drawer.${componentId}`)
   let drawerRef = useRef()
 
   useLayoutEffect(() => {
-    const drawer = drawerRef.current
+    let drawer = drawerRef.current
     if (!drawer) return
     if (open) {
       drawer.openDrawer()
@@ -40,6 +43,8 @@ function Drawer ({
       drawerBackgroundColor=backgroundColor
       ref=drawerRef
       renderNavigationView=_renderContent
+      onDrawerClose=() => $open.setDiff(false)
+      onDrawerOpen=() => $open.setDiff(true)
       ...props
     )= children
   `
@@ -47,7 +52,6 @@ function Drawer ({
 
 Drawer.propTypes = {
   backgroundColor: PropTypes.string,
-  open: PropTypes.bool,
   position: PropTypes.oneOf(Object.values(DrawerLayout.positions)),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired

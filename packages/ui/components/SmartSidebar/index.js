@@ -1,5 +1,5 @@
-import React, { useMemo, useLayoutEffect } from 'react'
-import { observer, useValue, useSession } from 'startupjs'
+import React, { useLayoutEffect } from 'react'
+import { observer, useValue, useComponentId } from 'startupjs'
 import { Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
@@ -10,7 +10,7 @@ const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
   fixedLayoutBreakpoint,
-  open,
+  path,
   position,
   width,
   backgroundColor,
@@ -18,16 +18,10 @@ function SmartSidebar ({
   renderContent = () => null,
   ...props
 }) {
-  const [, $isFixedLayout] = useSession('isFixedLayout')
+  const componentId = useComponentId()
+  const _path = path || `SmartSidebar.${componentId}`
 
-  let initialFixedLayout = useMemo(isFixedLayout, [])
-  let [fixedLayout, $fixedLayout] = useValue(initialFixedLayout)
-
-  useLayoutEffect(() => {
-    const isFixedLayout = !!fixedLayout
-
-    $isFixedLayout.setDiff(isFixedLayout)
-  }, [!!fixedLayout])
+  let [fixedLayout, $fixedLayout] = useValue(isFixedLayout())
 
   useLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
@@ -41,7 +35,7 @@ function SmartSidebar ({
   return pug`
     if fixedLayout
       Sidebar(
-        open=open
+        path=_path
         position=position
         width=width
         backgroundColor=backgroundColor
@@ -49,11 +43,12 @@ function SmartSidebar ({
       )= children
     else
       Drawer(
-        open=open
+        path=_path
         position=position
         width=width
         backgroundColor=backgroundColor
         renderContent=renderContent
+        ...props
       )= children
   `
 }
@@ -61,7 +56,6 @@ function SmartSidebar ({
 SmartSidebar.propTypes = {
   backgroundColor: PropTypes.string,
   fixedLayoutBreakpoint: PropTypes.number,
-  open: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func.isRequired
