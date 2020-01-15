@@ -7,7 +7,7 @@ import './index.styl'
 function Div ({
   style,
   children,
-  level = 0,
+  level,
   onPress,
   ...props
 }) {
@@ -29,8 +29,12 @@ function Div ({
 }
 
 Div.propTypes = {
-  shadow: PropTypes.oneOf(Object.keys(SHADOWS)),
+  level: PropTypes.oneOf(Object.keys(SHADOWS)),
   onPress: PropTypes.func
+}
+
+Div.defaultProps = {
+  level: 0
 }
 
 export default observer(Div)
