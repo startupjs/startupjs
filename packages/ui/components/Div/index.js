@@ -44,7 +44,7 @@ const TouchableOpacityWithShadow = observer(({
   return pug`
     View(style=style ...props)
       TouchableOpacity(
-        style={flexGrow: 1}
+        style={flex: 1}
         onPress=onPress
       )= children
   `

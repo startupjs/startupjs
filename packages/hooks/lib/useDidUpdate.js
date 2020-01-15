@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react'
 
 // Execute always when condition changed except first render
-export default function useOnce (fn, trigger = []) {
+export default function useDidUpdate (fn, trigger = []) {
   const firstUpdate = useRef(true)
   useLayoutEffect(
     () => {

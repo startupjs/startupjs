@@ -19,6 +19,7 @@ function Drawer ({
 
   useLayoutEffect(() => {
     const drawer = drawerRef.current
+    if (!drawer) return
     if (open) {
       drawer.openDrawer()
     } else {
