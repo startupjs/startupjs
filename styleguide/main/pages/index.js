@@ -1,1 +1,1 @@
-export { default as PComponent } from './PComponent'
+export { default as PStyleguide } from './PStyleguide'

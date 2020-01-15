@@ -25,7 +25,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, appRoutes, error, options, cb) => {
+module.exports = (backend, appRoutes, error, options, done) => {
   const MongoStore = connectMongo(expressSession)
   const mongoUrl = conf.get('MONGO_URL')
 
@@ -94,12 +94,12 @@ module.exports = (backend, appRoutes, error, options, cb) => {
     expressApp
       .use(express.static(options.publicPath, { maxAge: '1h' }))
       .use('/build/client', express.static(options.dirname + '/build/client', { maxAge: '1h' }))
-      .use(backend.modelMiddleware())
       .use(cookieParser())
       .use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
       .use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
       .use(methodOverride())
       .use(session)
+      .use(backend.modelMiddleware())
 
     // ----------------------------------------------------->    afterSession    <#
     options.ee.emit('afterSession', expressApp)
@@ -143,7 +143,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       })
       .use(error)
 
-    cb({
+    done({
       expressApp: expressApp,
       upgrade: hwHandlers.upgrade,
       wss: hwHandlers.wss
