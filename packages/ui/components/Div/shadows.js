@@ -1,5 +1,6 @@
 export default {
-  s: {
+  0: {},
+  1: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -10,7 +11,7 @@ export default {
 
     elevation: 3
   },
-  m: {
+  2: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -21,7 +22,7 @@ export default {
 
     elevation: 6
   },
-  l: {
+  3: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -32,7 +33,7 @@ export default {
 
     elevation: 12
   },
-  xl: {
+  4: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

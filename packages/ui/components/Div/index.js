@@ -4,25 +4,21 @@ import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
 import SHADOWS from './shadows'
 import './index.styl'
-
 function Div ({
   style,
   children,
-  shadow,
+  level,
   onPress,
   ...props
 }) {
   let Wrapper = typeof onPress === 'function'
-    ? TouchableOpacityWithShadow
+    ? TouchableOpacity
     : View
-
-  const shadowProps = SHADOWS[shadow] ? SHADOWS[shadow] : {}
 
   return pug`
     Wrapper.root(
-      style=style
-      styleName=[shadow, { 'with-shadow': !!shadow }]
-      ...shadowProps
+      style=[style, SHADOWS[level]]
+      styleName=[{ 'with-shadow': !!level }]
       onPress=onPress
       ...props
     )
@@ -30,24 +26,13 @@ function Div ({
   `
 }
 
-Div.propTypes = {
-  shadow: PropTypes.oneOf(Object.keys(SHADOWS)),
-  onPress: PropTypes.func
+Div.defaultProps = {
+  level: 0
 }
 
-const TouchableOpacityWithShadow = observer(({
-  style,
-  children,
-  onPress,
-  ...props
-}) => {
-  return pug`
-    View(style=style ...props)
-      TouchableOpacity(
-        style={flex: 1}
-        onPress=onPress
-      )= children
-  `
-})
+Div.propTypes = {
+  level: PropTypes.oneOf(Object.keys(SHADOWS)),
+  onPress: PropTypes.func
+}
 
 export default observer(Div)
