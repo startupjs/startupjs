@@ -15,11 +15,9 @@ function Div ({
     ? TouchableOpacity
     : View
 
-  const shadowProps = SHADOWS[level] ? SHADOWS[level] : {}
-
   return pug`
     Wrapper.root(
-      style=[style, shadowProps]
+      style=[style, SHADOWS[level]]
       styleName=[{ 'with-shadow': !!level }]
       onPress=onPress
       ...props
