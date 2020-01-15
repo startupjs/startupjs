@@ -12,7 +12,7 @@ const COMPONENTS = {
   Span
 }
 
-export default observer(function PComponent () {
+export default observer(function PStyleguide () {
   let [componentName, setComponentName] = useState(getComponentName)
 
   function goTo (aComponentName) {
