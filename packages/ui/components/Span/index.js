@@ -23,15 +23,15 @@ const Span = observer(({
 })
 
 Span.defaultProps = {
-  variant: 'normal',
-  bold: false,
-  description: false
+  variant: 'normal'
 }
 
 Span.propTypes = {
   variant: propTypes.oneOf(['normal', 'caption', 'small']),
   bold: propTypes.bool,
-  description: propTypes.bool
+  italic: propTypes.bool,
+  description: propTypes.bool,
+  children: propTypes.node
 }
 
 export default Span

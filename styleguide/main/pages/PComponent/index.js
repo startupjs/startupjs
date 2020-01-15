@@ -1,37 +1,49 @@
-import React from 'react'
-import { observer } from 'startupjs'
+import React, { useState } from 'react'
+import { View, Text, Platform } from 'react-native'
+import { observer, $root } from 'startupjs'
 import { Props } from 'components'
-import { Text } from 'react-native'
-import propTypes from 'prop-types'
 import './index.styl'
+import TestComponent from './TestComponent'
+import { Span } from '@startupjs/ui'
+
+// Just add a new component here to display it in the styleguide:
+const COMPONENTS = {
+  TestComponent,
+  Span
+}
 
 export default observer(function PComponent () {
+  let [componentName, setComponentName] = useState(getComponentName)
+
+  function goTo (aComponentName) {
+    if (Platform.OS === 'web') {
+      window.history.pushState(undefined, undefined, `?componentName=${aComponentName}`)
+    }
+    $root.set('_session.Props.activeComponent', aComponentName)
+    setComponentName(aComponentName)
+  }
+
   return pug`
-    Props(Component=RenderText)
+    View.root
+      View.left
+        each aComponentName in Object.keys(COMPONENTS)
+          Text.link(
+            key=aComponentName
+            styleName={ active: componentName === aComponentName }
+            onPress=() => goTo(aComponentName)
+          )= aComponentName
+      Props.right(
+        key=componentName
+        Component=COMPONENTS[componentName]
+        componentName=componentName
+      )
   `
 })
 
-function RenderText ({ value, age, children, variant, highlight }) {
-  return pug`
-    Text My Value: #{value}
-    Text My age: #{age}
-    Text Variant: #{variant}
-    Text Highlight: #{JSON.stringify(highlight)}
-    Text Children: #{children}
-  `
-}
-
-RenderText.propTypes = {
-  value: propTypes.string,
-  age: propTypes.number,
-  variant: propTypes.oneOf(['normal', 'compact', 'pure']),
-  highlight: propTypes.bool,
-  children: propTypes.node
-}
-
-RenderText.defaultProps = {
-  value: 'Hello',
-  age: 10,
-  variant: 'normal',
-  highlight: true
+function getComponentName () {
+  if (Platform.OS === 'web') {
+    let componentName = window.location.href.replace(/.*[?&]componentName=/, '').replace(/&.+/, '')
+    if (componentName && COMPONENTS[componentName]) return componentName
+  }
+  return $root.get('_session.Props.activeComponent') || Object.keys(COMPONENTS)[0]
 }

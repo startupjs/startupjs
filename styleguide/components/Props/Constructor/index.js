@@ -97,7 +97,6 @@ export default observer(function Constructor ({ Component, $props, style }) {
 function parseEntries (entries) {
   return entries.map(entry => {
     let meta = entry[1]
-    console.log(meta)
     return {
       name: entry[0],
       type: meta.type.name,
