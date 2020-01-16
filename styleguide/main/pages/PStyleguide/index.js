@@ -16,7 +16,8 @@ import {
   Row,
   Sidebar,
   Span,
-  StatusBar
+  StatusBar,
+  Tag
 } from '@startupjs/ui'
 
 // Just add a new component here to display it in the styleguide:
@@ -38,7 +39,8 @@ const COMPONENTS = {
   Row,
   Sidebar,
   Span,
-  StatusBar
+  StatusBar,
+  Tag
 }
 
 export default observer(function PStyleguide () {
