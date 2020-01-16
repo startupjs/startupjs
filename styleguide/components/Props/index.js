@@ -12,7 +12,9 @@ export default observer(function PComponent ({ Component, componentName, style }
     View(style=style)
       ScrollView.top
         Constructor(Component=Component $props=$props)
-      ScrollView.bottom
+      ScrollView.bottom(
+        contentContainerStyle={alignItems: 'center', justifyContent: 'center'}
+      )
         Renderer(Component=Component props=props)
   `
 })

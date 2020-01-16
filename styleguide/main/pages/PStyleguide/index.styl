@@ -17,9 +17,12 @@ $active = $UI.colors.primary
   padding-left 1u
   padding-top 0.5u
   padding-bottom 0.5u
-  font-family monospace
+
   &-active
     color $active
+
   +web()
+    font-family monospace
+
     &:hover
       text-decoration underline

@@ -9,8 +9,6 @@ $border = $UI.colors.darkLight
 .bottom
   flex 1
   padding 1u
-  align-items center
-  justify-content center
 
 .title
   font-size 3u
@@ -18,7 +16,8 @@ $border = $UI.colors.darkLight
   margin-bottom 2u
 
 .table
-  font-family Arial, Helvetica, sans-serif
+  +web()
+    font-family Arial, Helvetica, sans-serif
 
 .table tr:first-child td
   font-weight bold
