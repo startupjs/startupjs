@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import { Text } from 'react-native'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { u } from './../../config/helpers'
 import './index.styl'
 const LINE_HEIGHT = u(2)
@@ -19,8 +19,8 @@ Br.defaultProps = {
 }
 
 Br.propTypes = {
-  half: PropTypes.boolean,
-  lines: PropTypes.number
+  half: propTypes.bool,
+  lines: propTypes.number
 
 }
 

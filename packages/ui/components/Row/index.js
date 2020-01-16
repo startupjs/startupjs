@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.styl'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import Div from '../Div'
 import { observer } from 'startupjs'
 
@@ -24,10 +24,10 @@ function Row ({
 }
 
 Row.propTypes = {
-  wrap: PropTypes.bool,
-  reverse: PropTypes.bool,
-  align: PropTypes.oneOf(['center', 'right', 'around', 'between']),
-  vAlign: PropTypes.oneOf(['center'])
+  wrap: propTypes.bool,
+  reverse: propTypes.bool,
+  align: propTypes.oneOf(['center', 'right', 'around', 'between']),
+  vAlign: propTypes.oneOf(['center'])
 }
 
 export default observer(Row)
