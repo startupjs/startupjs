@@ -10,6 +10,9 @@ $active = $UI.colors.primary
   width 18u
   background-color $sidebar
 
+  &Main
+    flex 1
+
 .right
   flex 1
 
@@ -23,3 +26,12 @@ $active = $UI.colors.primary
   +web()
     &:hover
       text-decoration underline
+
+.line
+  flex-direction row
+  align-items center
+  padding 1u
+
+  &Label
+    flex 1
+    font-size 12px

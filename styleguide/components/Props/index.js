@@ -5,7 +5,9 @@ import './index.styl'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
 
-export default observer(function PComponent ({ Component, componentName, style }) {
+export default observer(function PComponent ({
+  Component, componentName, showGrid, style
+}) {
   $root.setNull(`_session.Props.${componentName}`, {})
   let [props, $props] = useLocal(`_session.Props.${componentName}`)
   return pug`
@@ -13,6 +15,6 @@ export default observer(function PComponent ({ Component, componentName, style }
       ScrollView.top
         Constructor(Component=Component $props=$props)
       ScrollView.bottom
-        Renderer(Component=Component props=props)
+        Renderer(Component=Component props=props showGrid=showGrid)
   `
 })
