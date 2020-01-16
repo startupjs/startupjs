@@ -13,19 +13,21 @@ export default observer(function Renderer ({
     children,
     ...props
   },
-  showGrid = true,
+  showSizes = true,
+  showGrid,
   validateWidth,
   validateHeight,
   allowHalfUnit,
   style
 }) {
-  let Wrapper = showGrid ? GridVisualizer : View
+  let Wrapper = showSizes ? GridVisualizer : View
   return pug`
     Wrapper(
       style=style
       validateWidth=validateWidth
       validateHeight=validateHeight
       allowHalfUnit=allowHalfUnit
+      showGrid=showGrid
     )
       Component(...props)
         if children

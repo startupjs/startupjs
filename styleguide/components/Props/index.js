@@ -6,7 +6,7 @@ import Constructor from './Constructor'
 import Renderer from './Renderer'
 
 export default observer(function PComponent ({
-  Component, componentName, showGrid, style, validateWidth
+  Component, componentName, showGrid, style, validateWidth, showSizes
 }) {
   $root.setNull(`_session.Props.${componentName}`, {})
   let [props, $props] = useLocal(`_session.Props.${componentName}`)
@@ -20,6 +20,7 @@ export default observer(function PComponent ({
           props=props
           showGrid=showGrid
           validateWidth=validateWidth
+          showSizes=showSizes
         )
   `
 })

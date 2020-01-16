@@ -12,6 +12,7 @@ export default observer(function GridVisualizer ({
   validateWidth = VALIDATE_WIDTH,
   validateHeight = VALIDATE_HEIGHT,
   allowHalfUnit = ALLOW_HALF_UNIT,
+  showGrid,
   style,
   children
 }) {
@@ -32,7 +33,8 @@ export default observer(function GridVisualizer ({
           TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
           View.content(onLayout=onLayout)
             | #{children}
-            View.gridVisualizer(pointerEvents='none')
+            if showGrid
+              View.gridVisualizer(pointerEvents='none')
 `
 })
 
