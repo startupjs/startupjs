@@ -2,6 +2,6 @@ export default (components = {}) => [
   {
     path: '/',
     exact: true,
-    component: components.PComponent
+    component: components.PStyleguide
   }
 ]

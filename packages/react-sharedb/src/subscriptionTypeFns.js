@@ -4,7 +4,7 @@ import isBoolean from 'lodash/isBoolean'
 import isNumber from 'lodash/isNumber'
 import { isExtraQuery } from './isExtraQuery'
 
-export function subLocal (localPath) {
+export function subLocal (localPath, defaultValue) {
   if (typeof localPath !== 'string') {
     throw new Error(
       `[react-sharedb] subLocal(): localPath must be a String. Got: ${localPath}`
@@ -103,7 +103,7 @@ export function subApi (path, fn, inputs, options) {
   if (inputs != null && !isArray(inputs)) {
     if (isString(inputs) || isBoolean(inputs) || isNumber(inputs)) {
       throw new Error(
-        `[react-sharedb] subApi(): inputs must be an array and ` +
+        '[react-sharedb] subApi(): inputs must be an array and ' +
           `options must be an object. Got: inputs - ${inputs}; options - ${options}`
       )
     }

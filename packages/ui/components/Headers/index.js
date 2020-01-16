@@ -25,7 +25,10 @@ function generateTag (tag) {
     bold: false
   }
 
-  header.propTypes = { bold: propTypes.bool }
+  header.propTypes = {
+    bold: propTypes.bool,
+    children: propTypes.string
+  }
 
   return header
 }
