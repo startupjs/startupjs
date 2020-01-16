@@ -3,6 +3,7 @@ const path = require('path')
 const defaultStyles = fs.readFileSync(path.join(__dirname, 'defaultStyles.css'), 'utf8')
 
 module.exports = ({ head, styles, env, modelBundle, jsBundle }) => `
+<!DOCTYPE html>
 <html>
   <head>
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
