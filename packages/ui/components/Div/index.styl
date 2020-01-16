@@ -2,3 +2,10 @@
   &-with-shadow
     // Shadow does not work without backgorund color
     background-color $UI.pallete.white
+
+  &-clickable
+    +web()
+      &:hover
+        opacity 0.5 !important
+      &:active
+        opacity 0.25 !important

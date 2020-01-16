@@ -1,11 +1,32 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Text } from 'react-native'
+import propTypes from 'prop-types'
+import Div from '../Div'
+import shadows from '../Div/shadows'
+import './index.styl'
 
-export default observer(function Card ({
-  style
+function Card ({
+  style,
+  level,
+  children,
+  onPress
 }) {
   return pug`
-    Text Card component
+    Div.root(
+      style=style
+      level=level
+      onPress=onPress
+    )
+      = children
   `
-})
+}
+
+Card.propTypes = {
+  level: propTypes.oneOf(Object.keys(shadows).map(k => +k))
+}
+
+Card.defaultProps = {
+  level: 0
+}
+
+export default observer(Card)

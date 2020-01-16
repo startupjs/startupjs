@@ -4,12 +4,13 @@ import { observer, $root } from 'startupjs'
 import { Props } from 'components'
 import './index.styl'
 import TestComponent from './TestComponent'
-import { Span } from '@startupjs/ui'
+import { Span, Card } from '@startupjs/ui'
 
 // Just add a new component here to display it in the styleguide:
 const COMPONENTS = {
   TestComponent,
-  Span
+  Span,
+  Card
 }
 
 export default observer(function PStyleguide () {

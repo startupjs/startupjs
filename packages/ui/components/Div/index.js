@@ -18,7 +18,11 @@ function Div ({
   return pug`
     Wrapper.root(
       style=[style, SHADOWS[level]]
-      styleName=[{ 'with-shadow': !!level }]
+      styleName=[{
+        'with-shadow': !!level,
+        clickable: typeof onPress === 'function'
+      }]
+      activeOpacity=0.25
       onPress=onPress
       ...props
     )
@@ -31,7 +35,7 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
-  level: PropTypes.oneOf(Object.keys(SHADOWS)),
+  level: PropTypes.oneOf(Object.keys(SHADOWS).map(k => +k)),
   onPress: PropTypes.func
 }
 
