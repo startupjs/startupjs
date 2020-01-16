@@ -17,6 +17,8 @@ export default observer(function PStyleguide () {
 
   $root.setNull('_session.Props.showGrid', true)
   let [showGrid, $showGrid] = useLocal('_session.Props.showGrid')
+  $root.setNull('_session.Props.validateWidth', false)
+  let [validateWidth, $validateWidth] = useLocal('_session.Props.validateWidth')
 
   function goTo (aComponentName) {
     if (Platform.OS === 'web') {
@@ -37,6 +39,13 @@ export default observer(function PStyleguide () {
               onPress=() => goTo(aComponentName)
             )= aComponentName
         View.leftFooter
+          if showGrid
+            View.line
+              Span.lineLabel(description) VALIDATE WIDTH
+              Switch(
+                value=validateWidth
+                onValueChange=value => $validateWidth.set(value)
+              )
           View.line
             Span.lineLabel(description) SHOW GRID
             Switch(
@@ -48,6 +57,7 @@ export default observer(function PStyleguide () {
         Component=COMPONENTS[componentName]
         componentName=componentName
         showGrid=showGrid
+        validateWidth=validateWidth
       )
   `
 })
