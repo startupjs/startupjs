@@ -1,0 +1,12 @@
+_active = $UI.colors.primary
+
+.link
+  padding-left 1u
+  padding-top 0.5u
+  padding-bottom 0.5u
+  font-family monospace
+  &-active
+    color _active
+  +web()
+    &:hover
+      text-decoration underline

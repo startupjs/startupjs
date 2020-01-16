@@ -53,7 +53,7 @@ function Sidebar ({
 
   return pug`
     Div.root(styleName=[position])
-      Div(shadow='s')
+      Div(level=1)
         Animated.View(
           style={flex: 1, width: animation, overflow: 'hidden'}
         )= _renderContent()
