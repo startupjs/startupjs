@@ -10,6 +10,8 @@
   flex-direction row
 
   &-invisible
+    // We using 'position relative' because 'display none'
+    // did not work with 'position absolute' on android
     position relative
     display none
 
