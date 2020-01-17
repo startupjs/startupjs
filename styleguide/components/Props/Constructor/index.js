@@ -71,9 +71,9 @@ export default observer(function Constructor ({ Component, $props, style }) {
                   onChangeText=value => $props.set(name, value)
                 )
               else if type === 'oneOf'
-                - const selectedValue = $props.get(name)
+                - const aValue = $props.get(name)
                 Picker(
-                  selectedValue=selectedValue == null ? selectedValue : JSON.stringify(selectedValue)
+                  selectedValue=aValue == null ? aValue : JSON.stringify(aValue)
                   onValueChange=(value) => {
                     if (value === PICKER_EMPTY_LABEL || value == null) {
                       $props.del(name)
