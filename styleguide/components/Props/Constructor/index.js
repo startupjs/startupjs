@@ -10,6 +10,8 @@ import Td from './Td'
 import { Span } from '@startupjs/ui'
 import './index.styl'
 
+// This hack is needed since when Picker receives undefined
+// as the value, it passes label into the onValueChange event
 const PICKER_EMPTY_LABEL = '-\u00A0\u00A0\u00A0\u00A0\u00A0'
 
 export default observer(function Constructor ({ Component, $props, style }) {
