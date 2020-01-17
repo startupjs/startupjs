@@ -19,7 +19,7 @@ function SmartSidebar ({
   ...props
 }) {
   const componentId = useComponentId()
-  const _path = path || `SmartSidebar.${componentId}`
+  if (!path) path = `_session.SmartSidebar.${componentId}`
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout())
 
@@ -35,7 +35,7 @@ function SmartSidebar ({
   return pug`
     if fixedLayout
       Sidebar(
-        path=_path
+        path=path
         position=position
         width=width
         backgroundColor=backgroundColor
@@ -43,7 +43,7 @@ function SmartSidebar ({
       )= children
     else
       Drawer(
-        path=_path
+        path=path
         position=position
         width=width
         backgroundColor=backgroundColor

@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect } from 'react'
-import { observer, useSession, useComponentId } from 'startupjs'
+import { observer, useLocal, useComponentId } from 'startupjs'
 import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
@@ -17,7 +17,7 @@ function Drawer ({
 }) {
   const componentId = useComponentId()
 
-  const [open, $open] = useSession(path || `Drawer.${componentId}`)
+  const [open, $open] = useLocal(path || `_session.Drawer.${componentId}`)
   let drawerRef = useRef()
 
   useLayoutEffect(() => {

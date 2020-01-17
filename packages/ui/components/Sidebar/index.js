@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { observer, useComponentId, useSession } from 'startupjs'
+import { observer, useComponentId, useLocal } from 'startupjs'
 import { ScrollView, Animated } from 'react-native'
 import { useDidUpdate } from '@startupjs/react-sharedb'
 import PropTypes from 'prop-types'
@@ -17,7 +17,7 @@ function Sidebar ({
   ...props
 }) {
   const componentId = useComponentId()
-  const [open] = useSession(path || `Sidebar.${componentId}`)
+  const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
   const [invisible, setInvisible] = useState(!open)
   const [animation] = useState(new Animated.Value(open ? 0 : -width))
   const [contentAnimation] = useState(new Animated.Value(open ? width : 0))
@@ -26,9 +26,7 @@ function Sidebar ({
   }, [])
   const _renderContent = () => {
     return pug`
-      ScrollView(
-        contentContainerStyle={ flex: 1 }
-      )
+      ScrollView(contentContainerStyle={ flex: 1 })
         = renderContent()
     `
   }
