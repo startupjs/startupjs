@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
 import SHADOWS from './shadows'
@@ -35,8 +35,8 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
-  level: PropTypes.oneOf(Object.keys(SHADOWS).map(k => +k)),
-  onPress: PropTypes.func
+  level: propTypes.oneOf(Object.keys(SHADOWS).map(k => +k)),
+  onPress: propTypes.func
 }
 
 export default observer(Div)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { View, Animated, Easing } from 'react-native'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import Span from '../Span'
 import './index.styl'
 const AnimatedView = Animated.View
@@ -47,10 +47,10 @@ Progress.defaultProps = {
   variant: 'full'
 }
 
-Progress.PropTypes = {
-  value: PropTypes.number,
-  label: PropTypes.string,
-  variant: PropTypes.oneOf(['full', 'compact'])
+Progress.propTypes = {
+  value: propTypes.number,
+  label: propTypes.string,
+  variant: propTypes.oneOf(['full', 'compact'])
 }
 
 export default observer(Progress)

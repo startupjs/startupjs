@@ -1,50 +1,30 @@
-import React, { useState } from 'react'
-import { View, Text, Platform } from 'react-native'
-import { observer, $root } from 'startupjs'
+import React from 'react'
+import { View } from 'react-native'
+import { observer } from 'startupjs'
 import { Props } from 'components'
+import * as COMPONENTS from 'ui'
+import {
+  useComponentName,
+  useShowGrid,
+  useShowSizes,
+  useValidateWidth
+} from 'clientHelpers'
 import './index.styl'
-import TestComponent from './TestComponent'
-import { Span, Card } from '@startupjs/ui'
-
-// Just add a new component here to display it in the styleguide:
-const COMPONENTS = {
-  TestComponent,
-  Span,
-  Card
-}
 
 export default observer(function PStyleguide () {
-  let [componentName, setComponentName] = useState(getComponentName)
-
-  function goTo (aComponentName) {
-    if (Platform.OS === 'web') {
-      window.history.pushState(undefined, undefined, `?componentName=${aComponentName}`)
-    }
-    $root.set('_session.Props.activeComponent', aComponentName)
-    setComponentName(aComponentName)
-  }
-
+  const [componentName] = useComponentName()
+  const [showGrid] = useShowGrid()
+  const [showSizes] = useShowSizes()
+  const [validateWidth] = useValidateWidth()
   return pug`
     View.root
-      View.left
-        each aComponentName in Object.keys(COMPONENTS)
-          Text.link(
-            key=aComponentName
-            styleName={ active: componentName === aComponentName }
-            onPress=() => goTo(aComponentName)
-          )= aComponentName
-      Props.right(
+      Props(
         key=componentName
         Component=COMPONENTS[componentName]
         componentName=componentName
+        showSizes=showSizes
+        showGrid=showGrid
+        validateWidth=validateWidth
       )
   `
 })
-
-function getComponentName () {
-  if (Platform.OS === 'web') {
-    let componentName = window.location.href.replace(/.*[?&]componentName=/, '').replace(/&.+/, '')
-    if (componentName && COMPONENTS[componentName]) return componentName
-  }
-  return $root.get('_session.Props.activeComponent') || Object.keys(COMPONENTS)[0]
-}

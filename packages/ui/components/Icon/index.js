@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { u } from '../../config/helpers'
 
 const SIZES = {
@@ -14,8 +14,7 @@ const SIZES = {
 }
 
 const Icon = observer(({
-  name,
-  type,
+  icon,
   size,
   color,
   width,
@@ -24,7 +23,7 @@ const Icon = observer(({
 }) => {
   return pug`
     FontAwesomeIcon(
-      icon=type ? [type, name] : name
+      icon=icon
       color=color
       width=width || SIZES[size]
       height=height || SIZES[size]
@@ -38,13 +37,11 @@ Icon.defaultProps = {
 }
 
 Icon.propTypes = {
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  color: PropTypes.string,
-  style: PropTypes.object,
-  size: PropTypes.oneOf(Object.keys(SIZES)),
-  width: PropTypes.number,
-  height: PropTypes.number
+  style: propTypes.object,
+  color: propTypes.string,
+  size: propTypes.oneOf(Object.keys(SIZES)),
+  width: propTypes.number,
+  height: propTypes.number
 }
 
 export default Icon

@@ -1,0 +1,100 @@
+$major = rgba(green, 0.15)
+$minor = rgba(black, 0.05)
+$size = 1u
+$double = $size * 2
+$bar = 2u
+$barMargin = 1u
+$valid = rgba(black, 0.2)
+$validLine = rgba(black, 0.1)
+$invalid = red
+$bg = $UI.Layout.bgColor
+
+grid(direction, color, size)
+  return linear-gradient(direction, color 0px, color 1px, transparent 1px, transparent size)
+
+.gridVisualizer
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  +web()
+    pointer-events none
+    background-image grid(to right, $major, $double), grid(to bottom, $major, $double), grid(to right, $minor, $double), grid(to bottom, $minor, $double)
+    background-size $double $double, $double $double, $double $double, $double $double
+    background-position 0 0, 0 0, $size $size, $size $size
+    background-repeat repeat, repeat, repeat, repeat
+
+.horizontal
+  flex-direction row
+
+.filler
+  height $bar + $barMargin
+  width $bar
+
+.leftBar
+  flex 1
+  width $bar
+  margin-right $barMargin
+  align-items center
+
+  &Center
+    justify-content center
+    align-items center
+    z-index 1
+
+  &TextWrapper
+    position absolute
+    left 0
+    top 0
+    transform translate(-50%, -50%)
+
+  &Text
+    font-size 10px
+    transform rotate(-90deg)
+    color $invalid
+    padding 0 1u
+    background-color $bg
+    &-valid
+      color $valid
+
+  &Line
+    flex 1
+    width 0.5u
+    background-color $invalid
+    &-valid
+      width 1px
+      background-color $validLine
+
+.topBar
+  flex-direction row
+  height $bar
+  margin-bottom $barMargin
+  align-items center
+
+  &Center
+    align-items center
+    justify-content center
+    z-index 1
+
+  &TextWrapper
+    position absolute
+    left 0
+    top 0
+    transform translate(-50%, -50%)
+
+  &Text
+    font-size 10px
+    color $invalid
+    background-color $bg
+    padding 0 1u
+    &-valid
+      color $valid
+
+  &Line
+    flex 1
+    height 0.5u
+    background-color $invalid
+    &-valid
+      height 1px
+      background-color $validLine
