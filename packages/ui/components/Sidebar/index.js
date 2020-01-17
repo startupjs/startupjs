@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer, useComponentId, useSession } from 'startupjs'
+import { observer, useComponentId, useLocal } from 'startupjs'
 import { ScrollView, Animated } from 'react-native'
 import { useDidUpdate } from '@startupjs/react-sharedb'
 import PropTypes from 'prop-types'
@@ -18,14 +18,14 @@ function Sidebar ({
 }) {
   const componentId = useComponentId()
 
-  const [open] = useSession(path || `Sidebar.${componentId}`)
+  const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
 
   const [animation] = useState(new Animated.Value(open ? width : 0))
   const _renderContent = () => {
     return pug`
       ScrollView(
         style={width}
-        contentContainerStyle={flexGrow: 1}
+        contentContainerStyle={flex: 1}
       )
         = renderContent()
     `

@@ -1,1 +1,5 @@
 export { default as useComponentName } from './useComponentName'
+export { default as useLocalWithDefault } from './useLocalWithDefault'
+export { default as useShowGrid } from './useShowGrid'
+export { default as useShowSizes } from './useShowSizes'
+export { default as useValidateWidth } from './useValidateWidth'
