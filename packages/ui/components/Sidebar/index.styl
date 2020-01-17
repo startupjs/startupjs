@@ -2,8 +2,18 @@
   height 100%
   flex-direction row
 
-  &-right
-    flex-direction row-reverse
+.sidebar
+  z-index 1
+  position absolute
+  height 100%
+  top 0
+  flex-direction row
+
+  &-invisible
+    // We using 'position relative' because 'display none'
+    // did not work with 'position absolute' on android
+    position relative
+    display none
 
 .main
   flex 1

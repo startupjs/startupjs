@@ -10,6 +10,8 @@ import Td from './Td'
 import { Span } from '@startupjs/ui'
 import './index.styl'
 
+// This hack is needed since when Picker receives undefined
+// as the value, it passes label into the onValueChange event
 const PICKER_EMPTY_LABEL = '-\u00A0\u00A0\u00A0\u00A0\u00A0'
 
 export default observer(function Constructor ({ Component, $props, style }) {
@@ -71,19 +73,24 @@ export default observer(function Constructor ({ Component, $props, style }) {
                   onChangeText=value => $props.set(name, value)
                 )
               else if type === 'oneOf'
+                - const aValue = $props.get(name)
                 Picker(
-                  selectedValue=$props.get(name)
-                  onValueChange=value => {
-                    if (value === PICKER_EMPTY_LABEL) {
+                  selectedValue=aValue == null ? aValue : JSON.stringify(aValue)
+                  onValueChange=(value) => {
+                    if (value === PICKER_EMPTY_LABEL || value == null) {
                       $props.del(name)
                     } else {
-                      $props.set(name, value)
+                      $props.set(name, JSON.parse(value))
                     }
                   }
                 )
                   Picker.Item(key=-1 label=PICKER_EMPTY_LABEL value=undefined)
                   each value, index in possibleValues
-                    Picker.Item(key=index label=value value=value)
+                    Picker.Item(
+                      key=index
+                      label='' + value
+                      value=JSON.stringify(value)
+                    )
               else if type === 'bool'
                 Switch(
                   value=$props.get(name)
