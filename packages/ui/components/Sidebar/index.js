@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { observer, useComponentId, useSession } from 'startupjs'
 import { ScrollView, Animated } from 'react-native'
 import { useDidUpdate } from '@startupjs/react-sharedb'
@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import Div from '../Div'
 import config from '../../config/rootConfig'
 import './index.styl'
+
 function Sidebar ({
   backgroundColor,
   children,
@@ -16,12 +17,13 @@ function Sidebar ({
   ...props
 }) {
   const componentId = useComponentId()
-
   const [open] = useSession(path || `Sidebar.${componentId}`)
   const [invisible, setInvisible] = useState(!open)
-
   const [animation] = useState(new Animated.Value(open ? 0 : -width))
   const [contentAnimation] = useState(new Animated.Value(open ? width : 0))
+  const animationPropName = useMemo(() => {
+    return 'padding' + position[0].toUpperCase() + position.slice(1)
+  }, [])
   const _renderContent = () => {
     return pug`
       ScrollView(
@@ -80,10 +82,9 @@ function Sidebar ({
       )
         Div(level=1 style={flex: 1})
           = _renderContent()
-      - const propName = 'padding' + position[0].toUpperCase() + position.slice(1)
       Animated.View.main(
         style={
-          [propName]: contentAnimation
+          [animationPropName]: contentAnimation
         }
       )= children
   `
