@@ -2,8 +2,11 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
-import SHADOWS from './shadows'
+import config from '../../config/rootConfig'
 import './index.styl'
+
+const SHADOWS = config.shadows
+
 function Div ({
   style,
   children,

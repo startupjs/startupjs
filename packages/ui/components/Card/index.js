@@ -2,8 +2,10 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
-import shadows from '../Div/shadows'
+import config from '../../config/rootConfig'
 import './index.styl'
+
+const SHADOWS = config.shadows
 
 function Card ({
   style,
@@ -22,7 +24,7 @@ function Card ({
 }
 
 Card.propTypes = {
-  level: propTypes.oneOf(Object.keys(shadows).map(k => +k))
+  level: propTypes.oneOf(Object.keys(SHADOWS).map(k => +k))
 }
 
 Card.defaultProps = {
