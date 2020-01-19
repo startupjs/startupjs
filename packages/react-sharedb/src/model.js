@@ -35,7 +35,7 @@ function generateMethodOfType (typeFn) {
       item.destroy()
       $subs.destroy(subId)
     }
-    if (!isSync) await item.init(true)
+    if (!isSync) await item.init(true, { optional: true })
     item.refModel()
 
     // For Query and QueryExtra return the scoped model targeting the actual collection path.
