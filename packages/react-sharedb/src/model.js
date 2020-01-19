@@ -25,6 +25,10 @@ export default function (racer) {
 function generateMethodOfType (typeFn) {
   let isQuery = typeFn === subQuery
   let isSync = typeFn === subLocal || typeFn === subValue
+
+  // IMPORTANT: subLocal, subValue can actually be made to be synchronous,
+  //            but for consistency of the sub* functions api, the decision was made
+  //            to always return a promise
   return async (...args) => {
     let $subs = this.scope(SUBS_COLLECTION)
     let subId = this.id()
