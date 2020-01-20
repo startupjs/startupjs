@@ -3,24 +3,22 @@ import Div from '../Div'
 import propTypes from 'prop-types'
 import Span from '../Span'
 import { observer } from 'startupjs'
-import SHADOWS from '../Div/shadows'
 import STATUSES from './statuses'
 import './index.styl'
 
 function Tag ({
   style,
   status,
+  type,
   children,
   label,
-  level,
   onPress,
   ...props
 }) {
   return pug`
     Div.root(
       style=style
-      styleName=[status]
-      level=level
+      styleName=[status, type]
       onPress=onPress
     )
       if label
@@ -31,13 +29,13 @@ function Tag ({
 
 Tag.propTypes = {
   label: propTypes.string,
-  level: propTypes.oneOf(Object.keys(SHADOWS).map(k => +k)),
-  status: propTypes.oneOf(STATUSES)
+  status: propTypes.oneOf(STATUSES),
+  type: propTypes.oneOf(['circle', 'rounded'])
 }
 
 Tag.defaultProps = {
-  level: 0,
-  status: STATUSES[0]
+  status: STATUSES[0],
+  type: 'circle'
 }
 
 export default observer(Tag)

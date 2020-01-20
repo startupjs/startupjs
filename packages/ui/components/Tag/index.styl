@@ -1,10 +1,15 @@
 .root
-  radius(circle)
   padding 0.5u
   min-width 2u
   min-height 2u
   justify-content center
   align-items center
+
+  &-circle
+    radius(circle)
+
+  &-rounded
+    radius()
 
   &-primary
     background-color $UI.colors.primary
