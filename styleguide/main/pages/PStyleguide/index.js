@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
 import { Props } from 'components'
 import * as COMPONENTS from 'ui'
@@ -17,14 +16,13 @@ export default observer(function PStyleguide () {
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
   return pug`
-    View.root
-      Props(
-        key=componentName
-        Component=COMPONENTS[componentName]
-        componentName=componentName
-        showSizes=showSizes
-        showGrid=showGrid
-        validateWidth=validateWidth
-      )
+    Props.root(
+      key=componentName
+      Component=COMPONENTS[componentName]
+      componentName=componentName
+      showSizes=showSizes
+      showGrid=showGrid
+      validateWidth=validateWidth
+    )
   `
 })
