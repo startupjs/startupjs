@@ -1,4 +1,7 @@
-import './globalInit'
+import dummyPreventTreeShakingGlobalInit from './globalInit'
+// TODO: Think how to prevent or error-out when applying the patch twice
+//       (for example when there are 2 instances of react-sharedb by mistake)
+import dummyPreventTreeShakingPatchRacer from './patchRacer'
 import subscribe from './subscribe'
 import batching, { batch, batchModel } from './batching'
 export { default as model, default as $root } from '@startupjs/model'
@@ -49,3 +52,7 @@ export {
   useNow
 } from './hooks/meta'
 export { raw } from '@nx-js/observer-util'
+export * from '@startupjs/hooks'
+
+dummyPreventTreeShakingGlobalInit()
+dummyPreventTreeShakingPatchRacer()

@@ -2,8 +2,9 @@ import { BASE_URL } from '@env'
 import init from 'startupjs/init'
 import orm from '../model'
 import React, { useMemo } from 'react'
+import { Platform } from 'react-native'
 import App from 'startupjs/app'
-import { observer, useModel, useSession, useDoc } from 'startupjs'
+import { observer, $root, useModel, useSession, useDoc } from 'startupjs'
 
 // Frontend micro-services
 import * as main from '../main'
@@ -13,6 +14,8 @@ import * as main from '../main'
 // to init the websocket connection and axios.
 // Initialization must start before doing any subscribes to data.
 init({ baseUrl: BASE_URL, orm })
+
+if (Platform.OS === 'web') window.model = $root
 
 // Global initialization logic
 function useGlobalInit (session) {

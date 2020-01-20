@@ -4,30 +4,34 @@ import propTypes from 'prop-types'
 import { Text } from 'react-native'
 import './index.styl'
 
-const Span = observer(({
+function Span ({
   children,
   style,
   variant,
   bold,
+  italic,
+  description,
   ...props
-}) => {
+}) {
   return pug`
     Text.root(
-      styleName=[variant, { bold }]
+      styleName=[variant, { bold, italic, description }]
       style=style
       ...props
     )= children
   `
-})
+}
 
 Span.defaultProps = {
-  variant: 'normal',
-  bold: false
+  variant: 'normal'
 }
 
 Span.propTypes = {
-  variant: propTypes.oneOf(['normal', 'description', 'small']),
-  bold: propTypes.bool
+  variant: propTypes.oneOf(['normal', 'caption', 'small']),
+  bold: propTypes.bool,
+  italic: propTypes.bool,
+  description: propTypes.bool,
+  children: propTypes.node
 }
 
-export default Span
+export default observer(Span)

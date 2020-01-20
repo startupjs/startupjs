@@ -1,19 +1,18 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { StatusBar } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-import { ui } from 'config'
-import Div from './../Div'
+import config from './../../config/rootConfig'
 const height = getStatusBarHeight()
 
 export default observer(function ({
   style,
   children,
-  backgroundColor = ui.colors.darkLighter,
+  backgroundColor = config.colors.darkLighter,
   ...props
 }) {
   return pug`
-    Div(style={
+    View(style={
       position: 'absolute',
       top: -height,
       left: 0,

@@ -62,6 +62,9 @@ function makeObserver (baseComponent) {
   if (baseComponent.propTypes) {
     memoComponent.propTypes = baseComponent.propTypes
   }
+  if (baseComponent.defaultProps) {
+    memoComponent.defaultProps = baseComponent.defaultProps
+  }
   return memoComponent
 }
 
@@ -87,6 +90,12 @@ function wrapObserverMeta (Component, suspenseProps = DEFAULT_SUSPENSE_PROPS) {
     )
   }
   ObserverWrapper.displayName = Component.displayName ? (Component.displayName + 'Observer') : 'ObserverWrapper'
+  if (Component.propTypes) {
+    ObserverWrapper.propTypes = Component.propTypes
+  }
+  if (Component.defaultProps) {
+    ObserverWrapper.defaultProps = Component.defaultProps
+  }
   return ObserverWrapper
 }
 

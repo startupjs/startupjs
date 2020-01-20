@@ -6,4 +6,9 @@ config.watchFolders = [
   path.resolve(__dirname, '../node_modules')
 ]
 
+config.resolver.sourceExts = config.resolver.sourceExts.concat([
+  'ts',
+  'tsx'
+])
+
 module.exports = config

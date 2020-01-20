@@ -1,0 +1,14 @@
+{
+  "name": "@startupjs/hooks",
+  "version": "0.11.0",
+  "description": "Helper hooks",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">= 16.9.0"
+  }
+}

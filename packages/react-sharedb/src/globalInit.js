@@ -11,6 +11,9 @@ const OBSERVABLE_COLLECTIONS = [
   '_session'
 ]
 
+// Export a dummy function to prevent tree shaking from getting rid of this module
+export default function dummyNoTreeShaking () {}
+
 if (model) {
   init()
 } else {
