@@ -14,19 +14,26 @@ function Div ({
   onPress,
   ...props
 }) {
-  let Wrapper = typeof onPress === 'function'
+  const isClickable = typeof onPress === 'function'
+  let Wrapper = isClickable
     ? TouchableOpacity
     : View
+
+  const extraProps = {}
+
+  if (isClickable) {
+    extraProps.activeOpacity = config.opacity.active
+  }
 
   return pug`
     Wrapper.root(
       style=[style, SHADOWS[level]]
       styleName=[{
         'with-shadow': !!level,
-        clickable: typeof onPress === 'function'
+        clickable: isClickable
       }]
-      activeOpacity=config.opacity.active
       onPress=onPress
+      ...extraProps
       ...props
     )
       = children
