@@ -24,12 +24,12 @@ function Card ({
 }
 
 Card.propTypes = {
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
   onPress: propTypes.func
 }
 
 Card.defaultProps = {
-  level: 0
+  level: 1
 }
 
 export default observer(Card)
