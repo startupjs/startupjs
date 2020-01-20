@@ -24,7 +24,8 @@ function Card ({
 }
 
 Card.propTypes = {
-  level: propTypes.oneOf(Object.keys(SHADOWS).map(k => +k))
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  onPress: propTypes.func
 }
 
 Card.defaultProps = {

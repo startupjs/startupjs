@@ -25,7 +25,7 @@ function Div ({
         'with-shadow': !!level,
         clickable: typeof onPress === 'function'
       }]
-      activeOpacity=0.25
+      activeOpacity=config.opacity.active
       onPress=onPress
       ...props
     )
@@ -38,7 +38,7 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
-  level: propTypes.oneOf(Object.keys(SHADOWS).map(k => +k)),
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
   onPress: propTypes.func
 }
 
