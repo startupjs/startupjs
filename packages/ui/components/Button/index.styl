@@ -1,74 +1,74 @@
-_height = 32px
-_height-s = 28px
-_height-xs = 24px
-_width = 88px
+_height = 4u
+_height-s = 3.5u
+_height-xs = 3u
+_width = 11u
 
-_largeWidth = 88px
-_largeHeight = 48px
+_largeHeight = 6u
 
-_bigWidth = 219px
-_bigHeight = 72px
+_bigWidth = 27u
+_bigHeight = 9u
 
 _borderRadius = 0.5u
 
 _primary = $UI.colors.primary
-_hover = rgba(62, 94, 255, 0.8)
-_disabled = rgba(197, 201, 206, 0.7)
-_disabledHover = rgba(197, 201, 206, 1)
+_white = $UI.colors.white
+_disabled = $UI.colors.darkLighter
 _noBackground = rgba(0, 0, 0, 0)
 
 .root
-  padding-top 1u
-  padding-bottom @padding-top
-  padding-left 2u
-  padding-right @padding-left
   align-items center
   justify-content center
-  flex-direction row
-  cursor pointer
-  background-color _primary
-  border-radius _borderRadius
+  radius()
+  padding 1u
+
   &-normal
-    min-width _width
-    min-height _height
+    min-width 10u
+    height 4.5u
+
   &-large
-    min-width _largeWidth
-    min-height _largeHeight
+    min-width 11u
+    height 6u
+
   &-big
+    padding 2u
     min-width _bigWidth
-    min-height _bigHeight
+    height _bigHeight
+
   &-flat
     background-color _primary
+
+    &-disabled
+      background-color rgba(_primary, 0.25)
+
   &-outlined
     border 1px solid _primary
-    background-color _noBackground
-  &-ghost
-    background-color _noBackground
-    border-radius 0px
-  &-disabled
-    background-color _disabled
-  +web()
-    &:hover
-      background-color _hover
+
     &-disabled
-      &:hover
-        background-color _disabledHover
-  &-icon
-    width 40px
-    height 40px
-    min-width 0px
-    min-height 0px
-    .icon
-      margin-right 0px
+      border 1px solid _disabled
+
+  &-squared
+    border-radius 0
+
   &-disabled
     background-color _disabled
-    cursor default
-  &-squared
-    border-radius 0px
 
-.text
-  color white
-  text-align center
 
-.icon
-  margin-right 1u
+.label
+  &-big
+    font-size 3.5u
+    line-height @font-size
+
+  &-flat
+    color _white
+
+  &-outlined
+    color _primary
+
+    &-disabled
+      color _disabled
+
+  &-ghost
+    color $UI.colors.dark
+
+    &-disabled
+      color _disabled

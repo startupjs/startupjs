@@ -1,61 +1,83 @@
 import React from 'react'
-import Icon from '../Icon'
-import { Text } from 'react-native'
 import Div from '../Div'
-import Row from '../Row'
+import Icon from '../Icon'
+import Span from '../Span'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
+import config from '../../config/rootConfig'
 import './index.styl'
 
-const Button = observer(({
+const SHADOWS = config.shadows
+
+function Button ({
   style,
   children,
   variant,
   size,
   squared,
   disabled,
-  onPress,
   icon,
   iconType,
   iconSize,
   iconColor,
+  label = 'Button',
+  level,
+  onPress,
   ...props
-}) => {
+}) {
   return pug`
     Div.root(
-      shadow=variant === 'shadowed' && 'm'
-      disabled=disabled
-      onPress=onPress
-      styleName=[variant, size, {
-        squared,
-        icon,
-        disabled
-      }]
       style=style
+      styleName=[
+        size,
+        variant,
+        disabled ? variant + '-disabled' : '',
+        {
+          squared,
+          icon
+        }
+      ]
+      level=level
+      disabled=disabled
+      onPress=!disabled && onPress
       ...props
     )
-      Row(align='center' vAlign='center')
-        if icon
-          Icon.icon(name=icon type=iconType size=iconSize color=iconColor)
-        if children
-          Text.text= children
+      if icon
+        Icon.icon(name=icon type=iconType size=iconSize color=iconColor)
+      if label
+        Span.label(
+          bold
+          styleName=[
+            size,
+            variant,
+            disabled ? variant + '-disabled' : ''
+          ]
+        )= label
   `
-})
+}
 
 Button.defaultProps = {
+  disabled: false,
   variant: 'flat',
-  size: 'normal'
+  level: 0,
+  size: 'normal',
+
+  // TODO. remove
+  onPress: () => null
 }
 
-Button.propType = {
-  variant: PropTypes.oneOf(['flat', 'shadowed', 'outlined', 'ghost']),
-  size: PropTypes.oneOf(['normal', 'large', 'big']),
-  squared: PropTypes.bool,
-  disabled: PropTypes.bool,
-  icon: PropTypes.string,
-  iconType: PropTypes.string,
-  iconSize: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  iconColor: PropTypes.string
+Button.propTypes = {
+  variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
+  size: propTypes.oneOf(['normal', 'large', 'big']),
+  squared: propTypes.bool,
+  disabled: propTypes.bool,
+  icon: propTypes.string,
+  iconType: propTypes.string,
+  iconSize: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+  iconColor: propTypes.string,
+  label: propTypes.string,
+  level: propTypes.oneOf(SHADOWS.map((item, index) => index)),
+  onPress: propTypes.func.isRequired
 }
 
-export default Button
+export default observer(Button)
