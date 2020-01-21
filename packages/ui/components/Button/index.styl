@@ -14,8 +14,10 @@ _primary = $UI.colors.primary
 _white = $UI.colors.white
 _disabled = $UI.colors.darkLighter
 _noBackground = rgba(0, 0, 0, 0)
+_disabledOpacity = 0.25
 
 .root
+  flex-direction row
   align-items center
   justify-content center
   radius()
@@ -23,7 +25,7 @@ _noBackground = rgba(0, 0, 0, 0)
 
   &-normal
     min-width 10u
-    height 4.5u
+    height 4u
 
   &-large
     min-width 11u
@@ -38,7 +40,7 @@ _noBackground = rgba(0, 0, 0, 0)
     background-color _primary
 
     &-disabled
-      background-color rgba(_primary, 0.25)
+      background-color rgba(_primary, _disabledOpacity)
 
   &-outlined
     border 1px solid _primary
@@ -49,8 +51,29 @@ _noBackground = rgba(0, 0, 0, 0)
   &-shadowed
     background-color _white
 
+    &-disabled
+      background-color _disabled
+      opacity _disabledOpacity
+
+  &-ghost
+    &-disabled
+      opacity _disabledOpacity
+
   &-squared
     border-radius 0
+
+  &-circle
+    radius(circle)
+
+  &-icon
+    min-width 0
+    height auto
+
+.leftIcon
+  margin-right 1u
+
+  &-single
+    margin-right 0
 
 
 .label
@@ -75,3 +98,6 @@ _noBackground = rgba(0, 0, 0, 0)
 
   &-shadowed
     color $UI.colors.dark
+
+.rightIcon
+  margin-left 1u
