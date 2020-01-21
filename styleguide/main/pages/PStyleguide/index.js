@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
 import { Props } from 'components'
 import * as COMPONENTS from 'ui'
@@ -7,7 +6,8 @@ import {
   useComponentName,
   useShowGrid,
   useShowSizes,
-  useValidateWidth
+  useValidateWidth,
+  useDarkTheme
 } from 'clientHelpers'
 import './index.styl'
 
@@ -16,15 +16,16 @@ export default observer(function PStyleguide () {
   const [showGrid] = useShowGrid()
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
+  const [darkTheme] = useDarkTheme()
   return pug`
-    View.root
-      Props(
-        key=componentName
-        Component=COMPONENTS[componentName]
-        componentName=componentName
-        showSizes=showSizes
-        showGrid=showGrid
-        validateWidth=validateWidth
-      )
+    Props.root(
+      theme=darkTheme ? 'dark' : undefined
+      key=componentName
+      Component=COMPONENTS[componentName]
+      componentName=componentName
+      showSizes=showSizes
+      showGrid=showGrid
+      validateWidth=validateWidth
+    )
   `
 })

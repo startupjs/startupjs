@@ -7,7 +7,8 @@ import {
   useLocalWithDefault,
   useShowGrid,
   useShowSizes,
-  useValidateWidth
+  useValidateWidth,
+  useDarkTheme
 } from 'clientHelpers'
 import './index.styl'
 const { Br, Row, SmartSidebar, Span } = COMPONENTS
@@ -18,6 +19,7 @@ export default observer(function Sidebar ({ children }) {
   const [showGrid, $showGrid] = useShowGrid()
   const [showSizes, $showSizes] = useShowSizes()
   const [validateWidth, $validateWidth] = useValidateWidth()
+  const [darkTheme, $darkTheme] = useDarkTheme()
   useLocalWithDefault(PATH, true)
 
   // if we will need to use hooks in renderContent method
@@ -34,23 +36,30 @@ export default observer(function Sidebar ({ children }) {
           )= COMPONENT_NAME
       Br(half)
       View
-        Row.line(vAlign='center')
-          Span.lineLabel(description) VALIDATE WIDTH
-          Switch(
-           value=validateWidth
-           onValueChange=value => $validateWidth.set(value)
-          )
-        Row.line(vAlign='center')
-          Span.lineLabel(description) SHOW GRID
-          Switch(
-            value=showGrid
-            onValueChange=value => $showGrid.set(value)
-          )
+        if showSizes
+          Row.line(vAlign='center')
+            Span.lineLabel(description) VALIDATE WIDTH
+            Switch(
+            value=validateWidth
+            onValueChange=value => $validateWidth.set(value)
+            )
+          Row.line(vAlign='center')
+            Span.lineLabel(description) SHOW GRID
+            Switch(
+              value=showGrid
+              onValueChange=value => $showGrid.set(value)
+            )
         Row.line(vAlign='center')
           Span.lineLabel(description) SHOW SIZES
           Switch(
            value=showSizes
            onValueChange=value => $showSizes.set(value)
+          )
+        Row.line(vAlign='center')
+          Span.lineLabel(description) DARK THEME
+          Switch(
+           value=darkTheme
+           onValueChange=value => $darkTheme.set(value)
           )
     `
   }

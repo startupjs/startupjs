@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import { observer } from 'startupjs'
 import './index.styl'
 import GridVisualizer from './GridVisualizer'
+import useTheme from '@startupjs/ui/config/useTheme'
 
 const DEFAULT_WRAP_CHILDREN = false
 
@@ -18,8 +19,10 @@ export default observer(function Renderer ({
   validateWidth,
   validateHeight,
   allowHalfUnit,
+  theme,
   style
 }) {
+  let [, Theme] = useTheme(theme)
   let Wrapper = showSizes ? GridVisualizer : View
   return pug`
     Wrapper(
@@ -29,11 +32,12 @@ export default observer(function Renderer ({
       allowHalfUnit=allowHalfUnit
       showGrid=showGrid
     )
-      Component(...props)
-        if children
-          if wrapChildren && typeof children === 'string'
-            Text= children
-          else
-            | #{children}
+      Theme
+        Component(...props)
+          if children
+            if wrapChildren && typeof children === 'string'
+              Text= children
+            else
+              | #{children}
   `
 })
