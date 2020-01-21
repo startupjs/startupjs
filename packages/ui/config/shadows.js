@@ -1,6 +1,6 @@
-export default {
-  0: {},
-  1: {
+module.exports = [
+  {},
+  {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -11,7 +11,7 @@ export default {
 
     elevation: 3
   },
-  2: {
+  {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -22,7 +22,7 @@ export default {
 
     elevation: 6
   },
-  3: {
+  {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -33,7 +33,7 @@ export default {
 
     elevation: 12
   },
-  4: {
+  {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -44,4 +44,4 @@ export default {
 
     elevation: 18
   }
-}
+]
