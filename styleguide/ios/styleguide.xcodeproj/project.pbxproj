@@ -12,14 +12,14 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		20C3F2175AB079F202820173 /* libPods-styleguideTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9402AAF26610C06AD2A74D85 /* libPods-styleguideTests.a */; };
+		14B38391ACCF00A931D38FD4 /* libPods-styleguide.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47776087955C9417CFC75E20 /* libPods-styleguide.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* styleguideTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* styleguideTests.m */; };
-		73D5CFAB43429E33F383E77D /* libPods-styleguide-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFF2E3A66B189698F56B780 /* libPods-styleguide-tvOSTests.a */; };
-		AB08C675DCBCCA48A1BFDE23 /* libPods-styleguide-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CCDC71E84276FE3994B60D /* libPods-styleguide-tvOS.a */; };
-		BB270E8C13F9C9907550FE13 /* libPods-styleguide.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5BEA9BFD14297AB88DE20F /* libPods-styleguide.a */; };
+		30BF8F58D60ADD5BEE60A015 /* libPods-styleguide-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A813AE028E33ECC9F87A8549 /* libPods-styleguide-tvOSTests.a */; };
+		9B149D020404C9EB53044845 /* libPods-styleguide-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B50297FC4BAA5423D46CF8EA /* libPods-styleguide-tvOS.a */; };
+		FC8D858B7ED8F702343A96E2 /* libPods-styleguideTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D86CF2EB0A3790CE7E9B22 /* libPods-styleguideTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,15 +53,15 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = styleguide/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* styleguide-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "styleguide-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* styleguide-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "styleguide-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4CFF2E3A66B189698F56B780 /* libPods-styleguide-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31D86CF2EB0A3790CE7E9B22 /* libPods-styleguideTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguideTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47776087955C9417CFC75E20 /* libPods-styleguide.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51A0832D17C9B313051FEF61 /* Pods-styleguide-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-styleguide-tvOS/Pods-styleguide-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		656D088C92446ACC1ADDD0D5 /* Pods-styleguideTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguideTests.debug.xcconfig"; path = "Target Support Files/Pods-styleguideTests/Pods-styleguideTests.debug.xcconfig"; sourceTree = "<group>"; };
 		71CD0BB457CEB1D5B0B0183B /* Pods-styleguide-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-styleguide-tvOSTests/Pods-styleguide-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D0413220B201F482096E804 /* Pods-styleguideTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguideTests.release.xcconfig"; path = "Target Support Files/Pods-styleguideTests/Pods-styleguideTests.release.xcconfig"; sourceTree = "<group>"; };
-		9402AAF26610C06AD2A74D85 /* libPods-styleguideTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguideTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A813AE028E33ECC9F87A8549 /* libPods-styleguide-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B46380EB90330666A0A486D9 /* Pods-styleguide.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide.release.xcconfig"; path = "Target Support Files/Pods-styleguide/Pods-styleguide.release.xcconfig"; sourceTree = "<group>"; };
-		B6CCDC71E84276FE3994B60D /* libPods-styleguide-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA5BEA9BFD14297AB88DE20F /* libPods-styleguide.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B50297FC4BAA5423D46CF8EA /* libPods-styleguide-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDDBB0FBBC9FA67F912EF81A /* Pods-styleguide.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide.debug.xcconfig"; path = "Target Support Files/Pods-styleguide/Pods-styleguide.debug.xcconfig"; sourceTree = "<group>"; };
 		E74252CE606CCDE70AC8FE98 /* Pods-styleguide-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-styleguide-tvOSTests/Pods-styleguide-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		E77F74FD48342384D9144139 /* Pods-styleguide-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-tvOS.release.xcconfig"; path = "Target Support Files/Pods-styleguide-tvOS/Pods-styleguide-tvOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20C3F2175AB079F202820173 /* libPods-styleguideTests.a in Frameworks */,
+				FC8D858B7ED8F702343A96E2 /* libPods-styleguideTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB270E8C13F9C9907550FE13 /* libPods-styleguide.a in Frameworks */,
+				14B38391ACCF00A931D38FD4 /* libPods-styleguide.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB08C675DCBCCA48A1BFDE23 /* libPods-styleguide-tvOS.a in Frameworks */,
+				9B149D020404C9EB53044845 /* libPods-styleguide-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73D5CFAB43429E33F383E77D /* libPods-styleguide-tvOSTests.a in Frameworks */,
+				30BF8F58D60ADD5BEE60A015 /* libPods-styleguide-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,10 +157,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				CA5BEA9BFD14297AB88DE20F /* libPods-styleguide.a */,
-				B6CCDC71E84276FE3994B60D /* libPods-styleguide-tvOS.a */,
-				4CFF2E3A66B189698F56B780 /* libPods-styleguide-tvOSTests.a */,
-				9402AAF26610C06AD2A74D85 /* libPods-styleguideTests.a */,
+				47776087955C9417CFC75E20 /* libPods-styleguide.a */,
+				B50297FC4BAA5423D46CF8EA /* libPods-styleguide-tvOS.a */,
+				A813AE028E33ECC9F87A8549 /* libPods-styleguide-tvOSTests.a */,
+				31D86CF2EB0A3790CE7E9B22 /* libPods-styleguideTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

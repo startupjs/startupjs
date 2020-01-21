@@ -10,6 +10,7 @@ import {
   useValidateWidth
 } from 'clientHelpers'
 import './index.styl'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 export default observer(function PStyleguide () {
   const [componentName] = useComponentName()
@@ -17,6 +18,9 @@ export default observer(function PStyleguide () {
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
   return pug`
+    COMPONENTS.Icon(
+      icon=faCoffee
+    )
     View.root
       Props(
         key=componentName
