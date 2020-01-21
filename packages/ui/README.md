@@ -102,3 +102,7 @@ Icon(
 
 ## Additional materials
 - [Material design](https://material.io/design/)
+
+## TODO
+
+- document `useTheme` and theming overall
