@@ -20,11 +20,13 @@ function Button ({
   iconType,
   iconSize,
   iconColor,
-  label = 'Button',
+  label,
   level,
   onPress,
   ...props
 }) {
+  let _level = variant === 'shadowed' ? level || 1 : level
+
   return pug`
     Div.root(
       style=style
@@ -37,9 +39,9 @@ function Button ({
           icon
         }
       ]
-      level=level
+      level=_level
       disabled=disabled
-      onPress=!disabled && onPress
+      onPress=onPress
       ...props
     )
       if icon
@@ -61,13 +63,14 @@ Button.defaultProps = {
   variant: 'flat',
   level: 0,
   size: 'normal',
+  type: 'primary',
 
   // TODO. remove
   onPress: () => null
 }
 
 Button.propTypes = {
-  variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
+  variant: propTypes.oneOf(['flat', 'outlined', 'ghost', 'shadowed']),
   size: propTypes.oneOf(['normal', 'large', 'big']),
   squared: propTypes.bool,
   disabled: propTypes.bool,

@@ -10,11 +10,12 @@ const SHADOWS = config.shadows
 function Div ({
   style,
   children,
+  disabled,
   level,
   onPress,
   ...props
 }) {
-  const isClickable = typeof onPress === 'function'
+  const isClickable = typeof onPress === 'function' && !disabled
   let Wrapper = isClickable
     ? TouchableOpacity
     : View
@@ -23,6 +24,7 @@ function Div ({
 
   if (isClickable) {
     extraProps.activeOpacity = config.opacity.active
+    extraProps.onPress = onPress
   }
 
   return pug`
@@ -32,7 +34,6 @@ function Div ({
         'with-shadow': !!level,
         clickable: isClickable
       }]
-      onPress=onPress
       ...extraProps
       ...props
     )
@@ -41,11 +42,13 @@ function Div ({
 }
 
 Div.defaultProps = {
-  level: 0
+  level: 0,
+  disabled: false
 }
 
 Div.propTypes = {
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  disabled: propTypes.bool,
   onPress: propTypes.func
 }
 
