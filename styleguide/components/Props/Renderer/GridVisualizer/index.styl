@@ -38,16 +38,12 @@ grid(direction, color, size)
   margin-right $barMargin
   align-items center
 
-  &Center
-    justify-content center
-    align-items center
-    z-index 1
-
-  &TextWrapper
+  &Units
     position absolute
-    left 0
     top 0
-    transform translate(-50%, -50%)
+    bottom 0
+    justify-content center
+    z-index 1
 
   &Text
     font-size 10px
@@ -72,16 +68,12 @@ grid(direction, color, size)
   margin-bottom $barMargin
   align-items center
 
-  &Center
-    align-items center
-    justify-content center
-    z-index 1
-
-  &TextWrapper
+  &Units
     position absolute
     left 0
-    top 0
-    transform translate(-50%, -50%)
+    right 0
+    align-items center
+    z-index 1
 
   &Text
     font-size 10px

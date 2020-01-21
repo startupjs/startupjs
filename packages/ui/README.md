@@ -39,66 +39,40 @@ module.exports = {
 import { Button } from '@startupjs/ui'
 ```
 
+## Dependences
+
 ### Icon component
-1. Install fontawesome node module
+
+1. Install library `react-native-svg`
 ```
-yarn add @fortawesome/react-native-fontawesome
+  yarn add react-native-svg
 ```
 
-2. Install support for fontawesome svg
+2. Link native code
 ```
-yarn add @fortawesome/fontawesome-svg-core
-yarn add react-native-svg
-```
-
-3. Install your preferred icon set
-```
-yarn add @fortawesome/free-brands-svg-icons
-#or
-yarn add @fortawesome/free-solid-svg-icons
-#or
-yarn add @fortawesome/free-regular-svg-icons
+  cd ios && pod install
 ```
 
-4. Create icons.js in the main folder (main/icons.js)
+3. Add `sourceExts` to `metro.config.js`
 ```js
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrash, faSearch, ... } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faTrash, faSearch, ...)
+  config.resolver.sourceExts = ['ts', 'tsx']
 ```
 
-5. Import this in main/index.js
+4. Usage example
 ```js
-import * as pages from './pages'
-import getRoutes from './routes'
-import './icons.js'
+  import { Icon } from '@startupjs/ui'
+  import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
-export { Layout } from 'ui'
-export const routes = getRoutes(pages)
+  export default observer(function Card ({
+    return pug`
+      Icon(icon=faCoffee size='l')
+    `
+  })
 ```
-
-6. Add in metro.config.js for react-native-svg transpile
-```js
-// ...
-config.resolver.sourceExts = config.resolver.sourceExts.concat([
-  'ts',
-  'tsx'
-])
-// ...
-```
-
-7. Example use Icon component
-```js
-import { Icon } from '@startupjs/ui'
-// ...
-Icon(
-  name='star'
-  type='fa'
-  size='l'
-)
-```
-[See more props](https://github.com/dmapper/startupjs/blob/ui/packages/ui/components/Icon/index.js#L40)
 
 ## Additional materials
 - [Material design](https://material.io/design/)
+
+## TODO
+
+- document `useTheme` and theming overall

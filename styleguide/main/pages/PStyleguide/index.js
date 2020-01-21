@@ -6,7 +6,8 @@ import {
   useComponentName,
   useShowGrid,
   useShowSizes,
-  useValidateWidth
+  useValidateWidth,
+  useDarkTheme
 } from 'clientHelpers'
 import './index.styl'
 
@@ -15,8 +16,10 @@ export default observer(function PStyleguide () {
   const [showGrid] = useShowGrid()
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
+  const [darkTheme] = useDarkTheme()
   return pug`
     Props.root(
+      theme=darkTheme ? 'dark' : undefined
       key=componentName
       Component=COMPONENTS[componentName]
       componentName=componentName

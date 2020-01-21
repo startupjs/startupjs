@@ -46,9 +46,8 @@ const LeftBar = observer(({ allowHalfUnit, validate }) => {
   return pug`
     View.leftBar
       View.leftBarLine(styleName={ valid })
-      View.leftBarCenter
-        View.leftBarTextWrapper
-          Text.leftBarText(styleName={ valid })= units
+      View.leftBarUnits
+        Text.leftBarText(styleName={ valid })= units
       View.leftBarLine(styleName={ valid })
   `
 })
@@ -61,9 +60,8 @@ const TopBar = observer(({ allowHalfUnit, validate }) => {
   return pug`
     View.topBar
       View.topBarLine(styleName={ valid })
-      View.topBarCenter
-        View.topBarTextWrapper
-          Text.topBarText(styleName={ valid })= units
+      View.topBarUnits
+        Text.topBarText(styleName={ valid })= units
       View.topBarLine(styleName={ valid })
   `
 })

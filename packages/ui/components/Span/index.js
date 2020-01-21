@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Text } from 'react-native'
+import useTheme from '../../config/useTheme'
 import './index.styl'
 
 function Span ({
@@ -11,14 +12,17 @@ function Span ({
   bold,
   italic,
   description,
+  theme,
   ...props
 }) {
+  let [themed, Theme] = useTheme(theme)
   return pug`
-    Text.root(
-      styleName=[variant, { bold, italic, description }]
-      style=style
-      ...props
-    )= children
+    Theme
+      Text.root(
+        styleName=[themed(variant, { bold, italic, description })]
+        style=style
+        ...props
+      )= children
   `
 }
 
