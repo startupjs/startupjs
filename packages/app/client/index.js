@@ -8,7 +8,6 @@ import App from './App'
 import './index.styl'
 
 const NativeApp = observer(function (props) {
-  console.log(codePush, 'codePush')
   const [progress, setProgress] = useState()
   const [loading, setLoading] = useState()
   let appStateStore = ''
