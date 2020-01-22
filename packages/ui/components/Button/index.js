@@ -73,7 +73,7 @@ function Button ({
         size,
         variant,
         disabled ? variant + '-disabled' : '',
-        isSingleIcon ? variant + '-' + size + '-icon' : '',
+        isSingleIcon ? 'icon-' + size : '',
         {
           icon: isSingleIcon,
           squared,

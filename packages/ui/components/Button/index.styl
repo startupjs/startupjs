@@ -38,7 +38,18 @@ _disabledOpacity = 0.25
 
   &-icon
     min-width 0
-    height auto
+
+    &-normal
+      height 4.5u
+      width @height
+
+    &-large
+      height 6u
+      width @height
+
+    &-big
+      height 9u
+      width @height
 
   &-flat
     background-color _primary
@@ -47,7 +58,6 @@ _disabledOpacity = 0.25
       opacity _disabledOpacity
 
   &-outlined
-    margin -1px
     border 1px solid _primary
 
     &-disabled
@@ -71,7 +81,7 @@ _disabledOpacity = 0.25
     radius(circle)
 
 .leftIcon
-  padding 1u 0 1u 1u
+  padding-left 1u
 
   &-single
     padding-right 1u
