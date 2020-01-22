@@ -6,7 +6,7 @@ import Constructor from './Constructor'
 import Renderer from './Renderer'
 
 export default observer(function PComponent ({
-  Component, componentName, showGrid, style, validateWidth, showSizes
+  Component, componentName, showGrid, style, validateWidth, showSizes, theme
 }) {
   $root.setNull(`_session.Props.${componentName}`, {})
   let [props, $props] = useLocal(`_session.Props.${componentName}`)
@@ -14,13 +14,18 @@ export default observer(function PComponent ({
     View(style=style)
       ScrollView.top
         Constructor(Component=Component $props=$props)
-      ScrollView.bottom
+      ScrollView.bottom(
+        contentContainerStyle={
+          alignItems: 'center'
+        }
+      )
         Renderer(
           Component=Component
           props=props
           showGrid=showGrid
           validateWidth=validateWidth
           showSizes=showSizes
+          theme=theme
         )
   `
 })

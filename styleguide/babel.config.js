@@ -10,16 +10,5 @@ module.exports = function (api) {
     }
   })
 
-  // config.plugins = [
-  //   ...config.plugins,
-  //   ['@gzaripov/babel-plugin-transform-imports', {
-  //     '@startupjs/ui': {
-  //       transform: importName => `@startupjs/ui/components/${isHeader(importName) ? 'Headers' : importName}`,
-  //       skipDefaultConversion: importName => isHeader(importName),
-  //       preventFullImport: true
-  //     }
-  //   }]
-  // ]
-
   return config
 }

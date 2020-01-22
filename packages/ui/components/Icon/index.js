@@ -23,11 +23,11 @@ const Icon = observer(({
 }) => {
   return pug`
     FontAwesomeIcon(
+      style=style
       icon=icon
       color=color
       width=width || SIZES[size]
       height=height || SIZES[size]
-      style=style
     )
   `
 })
