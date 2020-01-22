@@ -28,7 +28,7 @@ const VARIANTS = {
 
 const ICON_SIZES = {
   normal: 's',
-  large: 'm',
+  large: 'l',
   big: 'xxl'
 }
 
