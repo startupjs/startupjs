@@ -21,28 +21,33 @@ _disabledOpacity = 0.25
   align-items center
   justify-content center
   radius()
-  padding 1u
 
   &-normal
+    height 4.5u
     min-width 10u
-    height 4u
 
   &-large
     min-width 11u
     height 6u
 
   &-big
-    padding 2u
+    padding 0.5u
     min-width _bigWidth
     height _bigHeight
+
+
+  &-icon
+    min-width 0
+    height auto
 
   &-flat
     background-color _primary
 
     &-disabled
-      background-color rgba(_primary, _disabledOpacity)
+      opacity _disabledOpacity
 
   &-outlined
+    margin -1px
     border 1px solid _primary
 
     &-disabled
@@ -65,21 +70,19 @@ _disabledOpacity = 0.25
   &-circle
     radius(circle)
 
-  &-icon
-    min-width 0
-    height auto
-
 .leftIcon
-  margin-right 1u
+  padding 1u 0 1u 1u
 
   &-single
-    margin-right 0
+    padding-right 1u
 
 
 .label
+  padding 0 1u
+
   &-big
     font-size 3.5u
-    line-height @font-size
+    line-height @font-size * 1.5
 
   &-flat
     color _white
@@ -88,7 +91,7 @@ _disabledOpacity = 0.25
     color _primary
 
     &-disabled
-      color _disabled
+      color _disabled !important
 
   &-ghost
     color $UI.colors.dark
@@ -100,4 +103,4 @@ _disabledOpacity = 0.25
     color $UI.colors.dark
 
 .rightIcon
-  margin-left 1u
+  padding 1u 1u 1u 0

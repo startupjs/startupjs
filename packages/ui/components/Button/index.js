@@ -29,7 +29,7 @@ const VARIANTS = {
 const ICON_SIZES = {
   normal: 's',
   large: 'm',
-  big: 'l'
+  big: 'xxl'
 }
 
 const ICON_COLORS = {
@@ -51,14 +51,20 @@ function Button ({
   iconProps,
   rightIcon,
   rightIconProps,
-  iconColor,
+  textColor,
   label,
   level,
   onPress,
   ...props
 }) {
-  const _level = variant === 'shadowed' ? level || 1 : level
+  const _level = variant === 'shadowed' ? 2 : level
   const isSingleIcon = !!icon && !label
+
+  const labelExtraProps = {}
+
+  if (textColor) {
+    labelExtraProps.style = { color: textColor }
+  }
 
   return pug`
     Div.root(
@@ -67,6 +73,7 @@ function Button ({
         size,
         variant,
         disabled ? variant + '-disabled' : '',
+        isSingleIcon ? variant + '-' + size + '-icon' : '',
         {
           icon: isSingleIcon,
           squared,
@@ -79,12 +86,14 @@ function Button ({
       ...props
     )
       if !!icon
-        Icon.leftIcon(
+        Div.leftIcon(
           styleName={single: isSingleIcon}
-          icon=icon
-          size=iconProps.size || ICON_SIZES[size]
-          color=iconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
         )
+          Icon(
+            icon=icon
+            size=iconProps.size || ICON_SIZES[size]
+            color=iconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
+          )
       if label
         Span.label(
           bold
@@ -93,13 +102,16 @@ function Button ({
             variant,
             disabled ? variant + '-disabled' : ''
           ]
+
+          ...labelExtraProps
         )= label
       if !!rightIcon
-        Icon.rightIcon(
-          icon=rightIcon
-          size=rightIconProps.size || ICON_SIZES[size]
-          color=rightIconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
-        )
+        Div.rightIcon
+          Icon(
+            icon=rightIcon
+            size=rightIconProps.size || ICON_SIZES[size]
+            color=rightIconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
+          )
   `
 }
 
@@ -135,6 +147,7 @@ Button.propTypes = {
   disabled: propTypes.bool,
   label: propTypes.string,
   level: propTypes.oneOf(SHADOWS.map((item, index) => index)),
+  textColor: propTypes.string,
   onPress: propTypes.func.isRequired
 }
 
