@@ -3,5 +3,6 @@ export default [
   'secondary',
   'success',
   'warning',
-  'attention'
+  'attention',
+  'dark'
 ]

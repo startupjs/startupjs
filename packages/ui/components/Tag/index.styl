@@ -1,9 +1,9 @@
 .root
-  padding 0.5u
-  min-width 2u
-  min-height 2u
+  min-width 2.5u
+  height 2.5u
   justify-content center
   align-items center
+  flex-direction row
 
   &-circle
     radius(circle)
@@ -26,8 +26,19 @@
   &-attention
     background-color $UI.colors.attention
 
+  &-dark
+    background-color $UI.colors.dark
+
+
+.leftIcon
+  padding-left 1u
+
+  &-single
+    padding 0
+
 .label
+  padding 0 1u
   color $UI.colors.white
-  font-size 1u
-  line-height 1u
-  font-weight 600
+
+.rightIcon
+  padding-right 1u
