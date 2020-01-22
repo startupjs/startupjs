@@ -89,7 +89,6 @@ function RouteComponent ({ route, onError, ...props }) {
   }, [])
 
   function orientationChangeHandler () {
-    const { orientation } = this.state
     const newOrientation = getOrientation()
     if (orientation !== newOrientation) setOrientation(newOrientation)
   }
