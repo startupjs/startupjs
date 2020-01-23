@@ -11,8 +11,6 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
 
-const SHADOWS = config.shadows
-
 const SIZES = {
   normal: 'normal',
   large: 'large',
@@ -53,15 +51,17 @@ function Button ({
   rightIconProps,
   textColor,
   label,
-  level,
   onPress,
   ...props
 }) {
-  const _level = variant === 'shadowed' ? 2 : level
   const isSingleIcon = !!icon && !label
 
-  const labelExtraProps = {}
+  const extraProps = {}
+  if (variant === 'shadowed') {
+    extraProps.level = 2
+  }
 
+  const labelExtraProps = {}
   if (textColor) {
     labelExtraProps.style = { color: textColor }
   }
@@ -80,9 +80,9 @@ function Button ({
           circle
         }
       ]
-      level=_level
       disabled=disabled
       onPress=onPress
+      ...extraProps
       ...props
     )
       if !!icon
@@ -118,7 +118,6 @@ function Button ({
 Button.defaultProps = {
   disabled: false,
   variant: 'flat',
-  level: 0,
   size: 'normal',
   type: 'primary',
 
@@ -146,7 +145,6 @@ Button.propTypes = {
   rightIconProps: propTypes.shape(iconsPropTypes),
   disabled: propTypes.bool,
   label: propTypes.string,
-  level: propTypes.oneOf(SHADOWS.map((item, index) => index)),
   textColor: propTypes.string,
   onPress: propTypes.func.isRequired
 }

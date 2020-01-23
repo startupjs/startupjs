@@ -51,34 +51,40 @@ _disabledOpacity = 0.25
       height 9u
       width @height
 
-  &-flat
+  &-squared
+    border-radius 0
+
+  &-circle
+    radius(circle)
+
+
+-flat
+  .root&
     background-color _primary
 
     &-disabled
       opacity _disabledOpacity
 
-  &-outlined
+-outlined
+  .root&
     border 1px solid _primary
 
     &-disabled
       border 1px solid _disabled
 
-  &-shadowed
+-shadowed
+  .root&
     background-color _white
 
     &-disabled
       background-color _disabled
       opacity _disabledOpacity
 
-  &-ghost
+-ghost
+  .root&
     &-disabled
       opacity _disabledOpacity
 
-  &-squared
-    border-radius 0
-
-  &-circle
-    radius(circle)
 
 .leftIcon
   padding-left 1u
