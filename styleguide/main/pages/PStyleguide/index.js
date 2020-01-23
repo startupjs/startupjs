@@ -17,11 +17,19 @@ export default observer(function PStyleguide () {
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
   const [darkTheme] = useDarkTheme()
+  const COMPONENT = COMPONENTS[componentName]
+
+  if (!COMPONENT) {
+    return pug`
+      COMPONENTS.H1 Component not found
+    `
+  }
+
   return pug`
     Props.root(
       theme=darkTheme ? 'dark' : undefined
       key=componentName
-      Component=COMPONENTS[componentName]
+      Component=COMPONENT
       componentName=componentName
       showSizes=showSizes
       showGrid=showGrid
