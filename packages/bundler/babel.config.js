@@ -20,12 +20,13 @@ const clientPresets = [
 
 const serverPresets = ['module:metro-react-native-babel-preset']
 
-const basePlugins = [
+const basePlugins = ({ legacyClassnames } = {}) => [
   ['transform-react-pug', {
     classAttribute: 'styleName'
   }],
   ['react-pug-classnames', {
-    classAttribute: 'styleName'
+    classAttribute: 'styleName',
+    legacy: legacyClassnames
   }],
   ['@babel/plugin-proposal-decorators', { legacy: true }]
 ]
@@ -49,7 +50,7 @@ const webReactCssModulesPlugin = ({ production } = {}) =>
   }]
 
 const nativeBasePlugins = () => [
-  ['react-native-stylename-to-style', {
+  ['react-native-dynamic-stylename-to-style', {
     extensions: ['styl', 'css']
   }],
   [
@@ -102,7 +103,8 @@ const config = {
   }
 }
 
-module.exports = function (api, { alias = {} } = {}) {
+module.exports = function (api, opts = {}) {
+  const { alias = {} } = opts
   const env = api.env()
   const { presets = [], plugins = [] } = config[env] || {}
   const resolverPlugin = ['module-resolver', {
@@ -111,7 +113,7 @@ module.exports = function (api, { alias = {} } = {}) {
       ...alias
     }
   }]
-  return { presets, plugins: [resolverPlugin].concat(basePlugins, plugins) }
+  return { presets, plugins: [resolverPlugin].concat(basePlugins(opts), plugins) }
 }
 
 function generateScopedName (name, filename/* , css */) {
