@@ -4,13 +4,13 @@ import Div from '../Div'
 import Span from '../Span'
 import Icon from '../Icon'
 import propTypes from 'prop-types'
-import STATUSES from './statuses'
+import COLORS from './colors'
 import config from '../../config/rootConfig'
 import './index.styl'
 
 function Tag ({
   style,
-  status,
+  color,
   type,
   children,
   icon,
@@ -26,7 +26,7 @@ function Tag ({
   return pug`
     Div.root(
       style=style
-      styleName=[status, type]
+      styleName=[color, type]
       onPress=onPress
     )
       if !!icon
@@ -52,7 +52,7 @@ Tag.propTypes = {
   iconProps: propTypes.shape(iconsPropTypes),
   rightIconProps: propTypes.shape(iconsPropTypes),
   label: propTypes.string,
-  status: propTypes.oneOf(STATUSES),
+  color: propTypes.oneOf(COLORS),
   type: propTypes.oneOf(['circle', 'rounded'])
 }
 
@@ -62,7 +62,7 @@ const defaultIconProps = {
 }
 
 Tag.defaultProps = {
-  status: STATUSES[0],
+  color: COLORS[0],
   type: 'circle',
   iconProps: defaultIconProps,
   rightIconProps: defaultIconProps
