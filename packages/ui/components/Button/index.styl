@@ -1,5 +1,7 @@
 _borderRadius = 0.5u
 _primary = $UI.colors.primary
+_secondary = $UI.colors.secondary
+_success = $UI.colors.success
 _white = $UI.colors.white
 _disabled = $UI.colors.darkLighter
 _noBackground = rgba(0, 0, 0, 0)
@@ -9,94 +11,125 @@ _disabledOpacity = 0.25
   flex-direction row
   align-items center
   justify-content center
-  radius()
+  padding 0 1u
 
-  &-normal
+  &-m
     height 4.5u
     min-width 10u
-    padding-left 1u
-    padding-right 1u
 
-  &-large
+  &-l
     height 6u
     min-width 11u
-    padding-left 2u
-    padding-right 2u
 
-  &-biggest
+  &-xl
     height 9u
     min-width 22.5u
-    padding 0.5u
-
+    padding 0 2u
 
   &-icon
     min-width 0
 
-    &-normal
+    &-m
       height 4.5u
       width @height
 
-    &-large
+    &-l
       height 6u
       width @height
 
-    &-biggest
+    &-xl
       height 9u
       width @height
+
+  &-rounded
+    radius()
+
+  &-circle
+    radius(circle)
 
   &-squared
     border-radius 0
 
-  &-circle
-    radius(circle)
+  &-disabled
+    opacity _disabledOpacity
+
+.leftIcon
+  margin 0
+
+  &-with-label
+    margin-right 1u
+
+  &-xl
+    margin-right 2u
+
+.rightIcon
+  margin 0
+
+  &-with-label
+    margin-left 1u
+
+  &-xl
+    margin-left 2u
 
 
 -flat
   .root&
     background-color _primary
 
-    &-disabled
-      opacity _disabledOpacity
+    &-secondary
+      background-color _secondary
+
+    &-success
+      background-color _success
+
+  .label&
+    color _white
 
 -outlined
   .root&
     border 1px solid _primary
 
-    &-disabled
-      border 1px solid _disabled
+    &-secondary
+      border 1px solid _secondary
 
--shadowed
-  .root&
-    background-color _white
+    &-success
+      border 1px solid _success
 
-    &-disabled
-      background-color _disabled
-      opacity _disabledOpacity
+  .label&
+    color _primary
+
+    &-secondary
+      color _secondary
+
+    &-success
+      color _success
 
 -ghost
   .root&
-    &-disabled
-      opacity _disabledOpacity
+    +web()
+      &:hover
+        background-color $UI.colors.primaryLightest
 
-.label
-  &-biggest
-    font-size 3.5u
-    line-height @font-size * 1.5
+    &-secondary
+      +web()
+        &:hover
+          background-color $UI.colors.secondaryLightest
 
-  &-flat
-    color _white
+    &-success
+      +web()
+        &:hover
+          background-color $UI.colors.successLightest
 
-  &-outlined
+  .label&
     color _primary
 
-    &-disabled
-      color _disabled !important
+    &-secondary
+      color _secondary
 
-  &-ghost
-    color $UI.colors.dark
+    &-success
+      color _success
 
-    &-disabled
-      color _disabled
-
-  &-shadowed
-    color $UI.colors.dark
+.label
+  &-xl
+    font-size 3.5u
+    line-height @font-size * 1.5
