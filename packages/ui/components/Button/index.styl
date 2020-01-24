@@ -1,15 +1,4 @@
-_height = 4u
-_height-s = 3.5u
-_height-xs = 3u
-_width = 11u
-
-_largeHeight = 6u
-
-_bigWidth = 27u
-_bigHeight = 9u
-
 _borderRadius = 0.5u
-
 _primary = $UI.colors.primary
 _white = $UI.colors.white
 _disabled = $UI.colors.darkLighter
@@ -25,15 +14,19 @@ _disabledOpacity = 0.25
   &-normal
     height 4.5u
     min-width 10u
+    padding-left 1u
+    padding-right 1u
 
   &-large
-    min-width 11u
     height 6u
+    min-width 11u
+    padding-left 2u
+    padding-right 2u
 
-  &-big
+  &-biggest
+    height 9u
+    min-width 22.5u
     padding 0.5u
-    min-width _bigWidth
-    height _bigHeight
 
 
   &-icon
@@ -47,7 +40,7 @@ _disabledOpacity = 0.25
       height 6u
       width @height
 
-    &-big
+    &-biggest
       height 9u
       width @height
 
@@ -85,18 +78,8 @@ _disabledOpacity = 0.25
     &-disabled
       opacity _disabledOpacity
 
-
-.leftIcon
-  padding-left 1u
-
-  &-single
-    padding-right 1u
-
-
 .label
-  padding 0 1u
-
-  &-big
+  &-biggest
     font-size 3.5u
     line-height @font-size * 1.5
 
@@ -117,6 +100,3 @@ _disabledOpacity = 0.25
 
   &-shadowed
     color $UI.colors.dark
-
-.rightIcon
-  padding 1u 1u 1u 0

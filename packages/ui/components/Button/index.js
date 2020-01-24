@@ -11,12 +11,6 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
 
-const SIZES = {
-  normal: 'normal',
-  large: 'large',
-  big: 'big'
-}
-
 const VARIANTS = {
   flat: 'flat',
   outlined: 'outlined',
@@ -40,31 +34,27 @@ const ICON_COLORS = {
 function Button ({
   style,
   children,
+  label,
   variant,
-  circle,
   size,
+  circle,
   squared,
-  disabled,
   icon,
   iconProps,
-  rightIcon,
-  rightIconProps,
+  iconRight,
+  iconRightProps,
   textColor,
-  label,
+  disabled,
   onPress,
   ...props
 }) {
-  const isSingleIcon = !!icon && !label
+  const isSingleIcon = !!icon && !label // ?
 
   const extraProps = {}
-  if (variant === 'shadowed') {
-    extraProps.level = 2
-  }
+  if (variant === 'shadowed') extraProps.level = 2
 
   const labelExtraProps = {}
-  if (textColor) {
-    labelExtraProps.style = { color: textColor }
-  }
+  if (textColor) labelExtraProps.style = { color: textColor }
 
   return pug`
     Div.root(
@@ -85,15 +75,12 @@ function Button ({
       ...extraProps
       ...props
     )
-      if !!icon
-        Div.leftIcon(
-          styleName={single: isSingleIcon}
+      if icon
+        Icon(
+          icon=icon
+          size=iconProps.size || ICON_SIZES[size]
+          color=iconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
         )
-          Icon(
-            icon=icon
-            size=iconProps.size || ICON_SIZES[size]
-            color=iconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
-          )
       if label
         Span.label(
           bold
@@ -102,31 +89,27 @@ function Button ({
             variant,
             disabled ? variant + '-disabled' : ''
           ]
-
           ...labelExtraProps
         )= label
-      if !!rightIcon
-        Div.rightIcon
-          Icon(
-            icon=rightIcon
-            size=rightIconProps.size || ICON_SIZES[size]
-            color=rightIconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
-          )
+      if iconRight
+        Icon(
+          icon=iconRight
+          size=iconRightProps.size || ICON_SIZES[size]
+          color=iconRightProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
+        )
   `
 }
 
 Button.defaultProps = {
-  disabled: false,
   variant: 'flat',
   size: 'normal',
-  type: 'primary',
-
   // TODO. remove
-  onPress: () => null,
   icon: faStar,
-  // rightIcon: faStar,
   iconProps: {},
-  rightIconProps: {}
+  iconRight: faStar,
+  iconRightProps: {},
+  disabled: false,
+  onPress: () => null
 }
 
 const iconsPropTypes = {
@@ -137,15 +120,17 @@ const iconsPropTypes = {
 }
 
 Button.propTypes = {
+  label: propTypes.string,
   variant: propTypes.oneOf(Object.values(VARIANTS)),
-  size: propTypes.oneOf(Object.values(SIZES)),
+  size: propTypes.oneOf(['normal', 'large', 'biggest']),
   circle: propTypes.bool,
   squared: propTypes.bool,
+  icon: propTypes.object,
   iconProps: propTypes.shape(iconsPropTypes),
-  rightIconProps: propTypes.shape(iconsPropTypes),
-  disabled: propTypes.bool,
-  label: propTypes.string,
+  iconRight: propTypes.object,
+  iconRightProps: propTypes.shape(iconsPropTypes), // ?
   textColor: propTypes.string,
+  disabled: propTypes.bool,
   onPress: propTypes.func.isRequired
 }
 
