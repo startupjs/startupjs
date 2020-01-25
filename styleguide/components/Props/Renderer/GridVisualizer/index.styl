@@ -9,6 +9,11 @@ $validLine = rgba(black, 0.1)
 $invalid = red
 $bg = $UI.Layout.bgColor
 
+$darkBg = $UI.darkSecondaryBg
+$darkValid = rgba(white, 0.3)
+$darkInvalid = lighten(red, 40%)
+$darkValidLine = rgba(white, 0.2)
+
 grid(direction, color, size)
   return linear-gradient(direction, color 0px, color 1px, transparent 1px, transparent size)
 
@@ -53,6 +58,11 @@ grid(direction, color, size)
     background-color $bg
     &.valid
       color $valid
+    &.dark
+      background-color $darkBg
+      color $darkInvalid
+      &.valid
+        color $darkValid
 
   &Line
     flex 1
@@ -61,6 +71,10 @@ grid(direction, color, size)
     &.valid
       width 1px
       background-color $validLine
+    &.dark
+      background-color $darkInvalid
+      &.valid
+        background-color $darkValidLine
 
 .topBar
   flex-direction row
@@ -82,6 +96,11 @@ grid(direction, color, size)
     padding 0 1u
     &.valid
       color $valid
+    &.dark
+      background-color $darkBg
+      color $darkInvalid
+      &.valid
+        color $darkValid
 
   &Line
     flex 1
@@ -90,3 +109,7 @@ grid(direction, color, size)
     &.valid
       height 1px
       background-color $validLine
+    &.dark
+      background-color $darkInvalid
+      &.valid
+        background-color $darkValidLine
