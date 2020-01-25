@@ -37,7 +37,7 @@ export default observer(themed(function Constructor ({ Component, $props, style,
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues } = entry
           Tr(key=index)
-            Td: Span(bold).name= name
+            Td: Span.name= name
             Td
               if type === 'oneOf'
                 Span.possibleValue
