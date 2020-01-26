@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { TouchableOpacity } from 'react-native'
 import { observer } from 'startupjs'
+import Div from './../Div'
 import Row from './../Row'
 import { H6 } from './../Headers'
 import Star from './Star'
@@ -11,7 +11,8 @@ const ITEMS = Array(AMOUNT).fill(null)
 
 function Rating ({
   value,
-  readonly
+  readonly,
+  onChange
 }) {
   return pug`
     Row.root(vAlign='center' align='between' styleName={readonly})
@@ -20,8 +21,8 @@ function Rating ({
         H6(bold)= Number.isInteger(value) ? value : value.toFixed(1)
       else
         each ITEM, index in ITEMS
-          TouchableOpacity
-            Star(key=index active=index < Math.round(value))
+          Div(key=index onPress=onChange)
+            Star(active=index < Math.round(value))
   `
 }
 
