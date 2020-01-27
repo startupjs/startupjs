@@ -96,7 +96,7 @@ Subscribe to the Mongo query.
 **Example:**
 
 ```js
-let [users, $users] = subQuery('users', { roomId: props.roomId, anonymous: false })
+let [users, $users] = useQuery('users', { roomId: props.roomId, anonymous: false })
 ```
 
 **IMPORTANT:** The scoped model `$docs`, which you receive from the hook, targets the global collection path.
