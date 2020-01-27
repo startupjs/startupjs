@@ -28,7 +28,7 @@ export default observer(function Sidebar ({ children }) {
   function renderContent () {
     return pug`
       ScrollView.top
-        each COMPONENT_NAME in Object.keys(COMPONENTS)
+        each COMPONENT_NAME in Object.keys(COMPONENTS).filter(i => /^[A-Z]/.test(i))
           Text.link(
             key=COMPONENT_NAME
             styleName={ active: componentName === COMPONENT_NAME }

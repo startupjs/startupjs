@@ -1,0 +1,44 @@
+_iconMargin = 0.25u
+
+.root
+  padding 0 0.5u
+  height 2u
+  min-width @height
+  justify-content center
+  align-items center
+  flex-direction row
+
+  &.circle
+    radius(circle)
+
+  &.rounded
+    radius()
+
+  &.primary
+    background-color $UI.colors.primary
+
+  &.secondary
+    background-color $UI.colors.secondary
+
+  &.success
+    background-color $UI.colors.success
+
+  &.warning
+    background-color $UI.colors.warning
+
+  &.attention
+    background-color $UI.colors.attention
+
+  &.dark
+    background-color $UI.colors.dark
+
+.leftIconWrapper
+  &.with-label
+    margin-right _iconMargin
+
+.label
+  color $UI.colors.white
+
+.rightIconWrapper
+  &.with-label
+    margin-left _iconMargin
