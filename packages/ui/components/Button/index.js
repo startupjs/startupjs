@@ -7,15 +7,13 @@ import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
 import './index.styl'
-// TODO. Remove
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
 
 const ICON_SIZES = {
   m: 's',
-  l: 'l',
-  xl: 'xxl'
+  l: 'm',
+  xl: 'm'
 }
 
 function Button ({
@@ -32,25 +30,11 @@ function Button ({
   onPress,
   ...props
 }) {
-  const isLeftIconSingle = icon && !rightIcon && !label
-  const isRightIconSingle = rightIcon && !icon && !label
-  const isSingleIcon = isLeftIconSingle || isRightIconSingle
-  const iconWrapperStyle = [size, color, label ? 'with-label' : '']
-
-  const iconColor = getIconColor()
+  const extraCommonStyles = { 'with-label': !!label }
 
   const iconProps = {
     size: ICON_SIZES[size],
-    color: iconColor
-  }
-
-  function getIconColor () {
-    switch (variant) {
-      case 'flat':
-        return colors.white
-      default:
-        return colors[color] || colors.primary
-    }
+    color: variant === 'flat' ? colors.white : colors[color]
   }
 
   return pug`
@@ -60,38 +44,26 @@ function Button ({
         size,
         variant,
         shape,
-        isSingleIcon ? 'icon-' + size : '',
-        color ? variant + '-' + color : '',
-        {
-          disabled,
-          icon: isSingleIcon
-        }
+        color,
+        { disabled, 'with-icon': icon || rightIcon },
+        extraCommonStyles
       ]
       disabled=disabled
       onPress=onPress
       ...props
     )
       if icon
-        View.leftIconWrapper(styleName=[...iconWrapperStyle])
-          Icon(
-            icon=icon
-            ...iconProps
-          )
+        View.leftIconWrapper(styleName=[extraCommonStyles])
+          Icon(icon=icon ...iconProps)
       if label
         Span.label(
+          styleName=[variant, color]
+          size=size
           bold
-          styleName=[
-            size,
-            variant,
-            color ? variant + '-' + color : ''
-          ]
         )= label
       if rightIcon
-        View.rightIconWrapper(styleName=[...iconWrapperStyle])
-          Icon(
-            icon=rightIcon
-            ...iconProps
-          )
+        View.rightIconWrapper(styleName=[extraCommonStyles])
+          Icon(icon=rightIcon ...iconProps)
   `
 }
 
@@ -100,11 +72,6 @@ Button.defaultProps = {
   variant: 'flat',
   size: 'm',
   shape: 'rounded',
-
-  // TODO. remove
-  label: 'Button!',
-  icon: faStar,
-  rightIcon: faStar,
   disabled: false,
   onPress: () => null
 }
