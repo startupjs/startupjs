@@ -28,7 +28,6 @@ function Button ({
   size,
   icon,
   rightIcon,
-  textColor,
   variant,
   onPress,
   ...props
@@ -36,9 +35,14 @@ function Button ({
   const isLeftIconSingle = icon && !rightIcon && !label
   const isRightIconSingle = rightIcon && !icon && !label
   const isSingleIcon = isLeftIconSingle || isRightIconSingle
+  const iconWrapperStyle = [size, color, label ? 'with-label' : '']
 
-  const labelExtraProps = {}
-  if (textColor) labelExtraProps.style = { color: textColor }
+  const iconColor = getIconColor()
+
+  const iconProps = {
+    size: ICON_SIZES[size],
+    color: iconColor
+  }
 
   function getIconColor () {
     switch (variant) {
@@ -48,8 +52,6 @@ function Button ({
         return colors[color] || colors.primary
     }
   }
-
-  const iconColor = getIconColor()
 
   return pug`
     Div.root(
@@ -70,11 +72,10 @@ function Button ({
       ...props
     )
       if icon
-        View.leftIconWrapper(styleName=[size, color, label ? 'with-label' : ''])
+        View.leftIconWrapper(styleName=[...iconWrapperStyle])
           Icon(
             icon=icon
-            size=ICON_SIZES[size]
-            color=iconColor
+            ...iconProps
           )
       if label
         Span.label(
@@ -84,14 +85,12 @@ function Button ({
             variant,
             color ? variant + '-' + color : ''
           ]
-          ...labelExtraProps
         )= label
       if rightIcon
-        View.rightIconWrapper(styleName=[size, color, label ? 'with-label' : ''])
+        View.rightIconWrapper(styleName=[...iconWrapperStyle])
           Icon(
             icon=rightIcon
-            size=ICON_SIZES[size]
-            color=iconColor
+            ...iconProps
           )
   `
 }
@@ -118,7 +117,6 @@ Button.propTypes = {
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   rightIcon: propTypes.object,
-  textColor: propTypes.string,
   disabled: propTypes.bool,
   onPress: propTypes.func.isRequired
 }

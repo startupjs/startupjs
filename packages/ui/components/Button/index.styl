@@ -66,10 +66,10 @@ _disabledOpacity = 0.25
   .root&
     background-color _primary
 
-    &.secondary
+    &-secondary
       background-color _secondary
 
-    &.success
+    &-success
       background-color _success
 
   .label&
@@ -79,19 +79,19 @@ _disabledOpacity = 0.25
   .root&
     border 1px solid _primary
 
-    &.secondary
+    &-secondary
       border 1px solid _secondary
 
-    &.success
+    &-success
       border 1px solid _success
 
   .label&
     color _primary
 
-    &.secondary
+    &-secondary
       color _secondary
 
-    &.success
+    &-success
       color _success
 
 .ghost
@@ -100,12 +100,12 @@ _disabledOpacity = 0.25
       &:hover
         background-color $UI.colors.primaryLightest
 
-    &.secondary
+    &-secondary
       +web()
         &:hover
           background-color $UI.colors.secondaryLightest
 
-    &.success
+    &-success
       +web()
         &:hover
           background-color $UI.colors.successLightest
@@ -113,10 +113,10 @@ _disabledOpacity = 0.25
   .label&
     color _primary
 
-    &.secondary
+    &-secondary
       color _secondary
 
-    &.success
+    &-success
       color _success
 
 .label
