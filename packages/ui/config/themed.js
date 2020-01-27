@@ -1,15 +1,21 @@
 import React, { useContext } from 'react'
+import propTypes from 'prop-types'
 
 const ThemeContext = React.createContext()
 
-export const ThemeProvider = ThemeContext.Provider
+const ThemeProvider = ThemeContext.Provider
+ThemeProvider.propTypes = {
+  value: propTypes.string
+}
+
+export { ThemeProvider }
 
 export default function themed (Component) {
   function ThemeWrapper (props) {
     let contextTheme = useContext(ThemeContext)
     let theme = props.theme || contextTheme
     let res
-    if (theme && (!props.theme || props.theme !== theme)) {
+    if (theme && !props.theme) {
       res = Component({ theme, ...props })
     } else {
       res = Component(props)

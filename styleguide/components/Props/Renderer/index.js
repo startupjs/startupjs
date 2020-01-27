@@ -3,11 +3,11 @@ import { Text, View } from 'react-native'
 import { observer } from 'startupjs'
 import './index.styl'
 import GridVisualizer from './GridVisualizer'
-import { ThemeProvider } from '@startupjs/ui/config/themed'
+import { themed } from 'ui'
 
 const DEFAULT_WRAP_CHILDREN = false
 
-export default observer(function Renderer ({
+export default observer(themed(function Renderer ({
   Component,
   wrapChildren = DEFAULT_WRAP_CHILDREN,
   props: {
@@ -31,12 +31,11 @@ export default observer(function Renderer ({
       allowHalfUnit=allowHalfUnit
       showGrid=showGrid
     )
-      ThemeProvider(value=theme)
-        Component(...props)
-          if children
-            if wrapChildren && typeof children === 'string'
-              Text= children
-            else
-              | #{children}
+      Component(...props)
+        if children
+          if wrapChildren && typeof children === 'string'
+            Text= children
+          else
+            | #{children}
   `
-})
+}))

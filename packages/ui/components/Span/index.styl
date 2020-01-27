@@ -6,25 +6,26 @@ $description = $UI.Span.descriptionColor
 .root
   color $color
 
-  &.normal
-    font-size 14px
-    line-height 20px
-  &.caption
-    font-size 12px
-    line-height 16px
-  &.small
-    font-size 10px
-    line-height 14px
-  &.bold
-    font-weight 700
-  &.italic
-    font-style italic
-  &.description
-    color $description
+// Top level modifiers to keep specificity low on web
+// for easier overrides
+.normal
+  font-size 14px
+  line-height 20px
+.caption
+  font-size 12px
+  line-height 16px
+.small
+  font-size 10px
+  line-height 14px
+.bold
+  font-weight 700
+.italic
+  font-style italic
+.description
+  color $description
 
 // TODO: Use dark-mode $UI variables
 .dark
-  &.root
-    color white
-    &.description
-      color rgba(white, 0.5)
+  color rgba(white, 0.9)
+  &.description
+    color rgba(white, 0.5)
