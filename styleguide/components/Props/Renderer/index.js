@@ -5,7 +5,7 @@ import './index.styl'
 import GridVisualizer from './GridVisualizer'
 import { ThemeProvider } from '@startupjs/ui/config/themed'
 
-const DEFAULT_WRAP_CHILDREN = false
+const DEFAULT_WRAP_CHILDREN = true
 
 export default observer(function Renderer ({
   Component,

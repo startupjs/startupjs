@@ -37,7 +37,7 @@ function Progress ({
           }
         )
       if variant === 'full'
-        Span(variant='caption' description)
+        Span(size='s' description)
           = label || (value < 100 ? value + '% ...' : 'Loading Complete')
   `
 }
