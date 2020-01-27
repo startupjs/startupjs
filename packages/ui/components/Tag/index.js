@@ -12,7 +12,6 @@ const ICON_PROPS = {
   size: 'xs',
   color: config.colors.white
 }
-
 function Tag ({
   style,
   color,
@@ -23,6 +22,8 @@ function Tag ({
   onPress,
   ...props
 }) {
+  const iconWrapperStyle = { 'with-label': label }
+
   return pug`
     Div.root(
       style=style
@@ -30,12 +31,12 @@ function Tag ({
       onPress=onPress
     )
       if icon
-        Div.leftIconWrapper(styleName={'with-label': label})
+        Div.leftIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=icon ...ICON_PROPS)
       if label
         Span.label(bold variant='small')= label
       if rightIcon
-        Div.rightIconWrapper(styleName={'with-label': label})
+        Div.rightIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=rightIcon ...ICON_PROPS)
   `
 }
