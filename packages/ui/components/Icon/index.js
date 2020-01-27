@@ -1,8 +1,9 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { observer } from 'startupjs'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
 import { u } from '../../config/helpers'
+import './index.styl'
 
 const SIZES = {
   xs: u(1.5),
@@ -22,7 +23,7 @@ const Icon = observer(({
   height
 }) => {
   return pug`
-    FontAwesomeIcon(
+    FontAwesomeIcon.root(
       style=style
       icon=icon
       color=color

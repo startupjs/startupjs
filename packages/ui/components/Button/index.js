@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../Span'
@@ -14,47 +15,47 @@ const { colors } = config
 const VARIANTS = {
   flat: 'flat',
   outlined: 'outlined',
-  ghost: 'ghost',
-  shadowed: 'shadowed'
+  ghost: 'ghost'
 }
 
 const ICON_SIZES = {
-  normal: 's',
-  large: 'l',
-  big: 'xxl'
-}
-
-const ICON_COLORS = {
-  flat: colors.white,
-  outlined: colors.primary,
-  ghost: colors.dark,
-  shadowed: colors.dark
+  m: 's',
+  l: 'l',
+  xl: 'xxl'
 }
 
 function Button ({
   style,
   children,
-  label,
-  variant,
-  size,
-  circle,
-  squared,
-  icon,
-  iconProps,
-  iconRight,
-  iconRightProps,
-  textColor,
+  color,
   disabled,
+  label,
+  shape,
+  size,
+  icon,
+  rightIcon,
+  textColor,
+  variant,
   onPress,
   ...props
 }) {
-  const isSingleIcon = !!icon && !label // ?
-
-  const extraProps = {}
-  if (variant === 'shadowed') extraProps.level = 2
+  const isLeftIconSingle = icon && !rightIcon && !label
+  const isRightIconSingle = rightIcon && !icon && !label
+  const isSingleIcon = isLeftIconSingle || isRightIconSingle
 
   const labelExtraProps = {}
   if (textColor) labelExtraProps.style = { color: textColor }
+
+  function getIconColor () {
+    switch (variant) {
+      case 'flat':
+        return colors.white
+      default:
+        return colors[color] || colors.primary
+    }
+  }
+
+  const iconsColor = getIconColor()
 
   return pug`
     Div.root(
@@ -62,73 +63,67 @@ function Button ({
       styleName=[
         size,
         variant,
-        disabled ? variant + '-disabled' : '',
+        shape,
         isSingleIcon ? 'icon-' + size : '',
+        color ? variant + '-' + color : '',
         {
-          icon: isSingleIcon,
-          squared,
-          circle
+          disabled,
+          icon: isSingleIcon
         }
       ]
       disabled=disabled
       onPress=onPress
-      ...extraProps
       ...props
     )
       if icon
-        Icon(
-          icon=icon
-          size=iconProps.size || ICON_SIZES[size]
-          color=iconProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
-        )
+        View.leftIcon(styleName=[size, color, {['with-label']: !!label}])
+          Icon(
+            icon=icon
+            size=ICON_SIZES[size]
+            color=iconsColor
+          )
       if label
         Span.label(
           bold
           styleName=[
             size,
             variant,
-            disabled ? variant + '-disabled' : ''
+            color ? variant + '-' + color : ''
           ]
           ...labelExtraProps
         )= label
-      if iconRight
-        Icon(
-          icon=iconRight
-          size=iconRightProps.size || ICON_SIZES[size]
-          color=iconRightProps.color || variant === VARIANTS.outlined && disabled ? colors.darkLighter : ICON_COLORS[variant]
-        )
+      if rightIcon
+        View.rightIcon(styleName=[size, {['with-label']: !!label}])
+          Icon(
+            icon=rightIcon
+            size=ICON_SIZES[size]
+            color=iconsColor
+          )
   `
 }
 
 Button.defaultProps = {
+  color: 'primary',
   variant: 'flat',
-  size: 'normal',
+  size: 'm',
+  shape: 'rounded',
+
   // TODO. remove
+  label: 'Button!',
   icon: faStar,
-  iconProps: {},
-  iconRight: faStar,
-  iconRightProps: {},
+  rightIcon: faStar,
   disabled: false,
   onPress: () => null
 }
 
-const iconsPropTypes = {
-  height: propTypes.number,
-  width: propTypes.number,
-  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  color: propTypes.string
-}
-
 Button.propTypes = {
+  color: propTypes.oneOf(['primary', 'secondary', 'success']),
   label: propTypes.string,
   variant: propTypes.oneOf(Object.values(VARIANTS)),
-  size: propTypes.oneOf(['normal', 'large', 'biggest']),
-  circle: propTypes.bool,
-  squared: propTypes.bool,
+  size: propTypes.oneOf(['m', 'l', 'xl']),
+  shape: propTypes.oneOf(['rouneded', 'circle', 'squared']),
   icon: propTypes.object,
-  iconProps: propTypes.shape(iconsPropTypes),
-  iconRight: propTypes.object,
-  iconRightProps: propTypes.shape(iconsPropTypes), // ?
+  rightIcon: propTypes.object,
   textColor: propTypes.string,
   disabled: propTypes.bool,
   onPress: propTypes.func.isRequired
