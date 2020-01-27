@@ -7,14 +7,14 @@ import Tbody from './Tbody'
 import Thead from './Thead'
 import Tr from './Tr'
 import Td from './Td'
-import { Span } from '@startupjs/ui'
+import { Span, themed } from '@startupjs/ui'
 import './index.styl'
 
 // This hack is needed since when Picker receives undefined
 // as the value, it passes label into the onValueChange event
 const PICKER_EMPTY_LABEL = '-\u00A0\u00A0\u00A0\u00A0\u00A0'
 
-export default observer(function Constructor ({ Component, $props, style }) {
+export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
   let entries = useMemo(() => {
     let res = parseEntries(Object.entries(parsePropTypes(Component)))
     for (const prop of res) {
@@ -29,15 +29,15 @@ export default observer(function Constructor ({ Component, $props, style }) {
     Table.table(style=style)
       Thead.thead
         Tr
-          Td: Text.header PROP
-          Td: Text.header TYPE
-          Td: Text.header DEFAULT
-          Td: Text.header VALUE
+          Td: Text.header(styleName=[theme]) PROP
+          Td: Text.header(styleName=[theme]) TYPE
+          Td: Text.header(styleName=[theme]) DEFAULT
+          Td: Text.header(styleName=[theme]) VALUE
       Tbody
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues } = entry
           Tr(key=index)
-            Td: Span(bold).name= name
+            Td: Span.name= name
             Td
               if type === 'oneOf'
                 Span.possibleValue
@@ -46,11 +46,11 @@ export default observer(function Constructor ({ Component, $props, style }) {
                     React.Fragment(key=index)
                       if !first
                         Span(bold) #{' | '}
-                      Span.value= JSON.stringify(value)
+                      Span.value(styleName=[theme])= JSON.stringify(value)
                       - first = false
               else
-                Span.type= type
-            Td: Span.value= JSON.stringify(defaultValue)
+                Span.type(styleName=[theme])= type
+            Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
             Td
               if type === 'string'
                 TextInput.input(
@@ -99,7 +99,7 @@ export default observer(function Constructor ({ Component, $props, style }) {
               else
                 Span UNSUPPORTED: '#{type}'
   `
-})
+}))
 
 function parseEntries (entries) {
   return entries.map(entry => {
