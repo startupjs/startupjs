@@ -75,4 +75,4 @@ import { Button } from '@startupjs/ui'
 
 ## TODO
 
-- document `useTheme` and theming overall
+- document `themed()` HOF and theming overall
