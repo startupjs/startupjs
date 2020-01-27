@@ -103,7 +103,7 @@ let [users, $users] = useQuery('users', { roomId: props.roomId, anonymous: false
 You can use it to easily reach a document with a particular id using scoped models:
 
 ```js
-let [users, $users] = subQuery('users', { roomId, anonymous: false })
+let [users, $users] = useQuery('users', { roomId, anonymous: false })
 for (let user of users) {
   $users.scope(user.id).setEach({
     joinedRoom: true,
