@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Text } from 'react-native'
-import useTheme from '../../config/useTheme'
+import themed from '../../config/themed'
 import './index.styl'
 
 function Span ({
@@ -15,14 +15,12 @@ function Span ({
   theme,
   ...props
 }) {
-  let [themed, Theme] = useTheme(theme)
   return pug`
-    Theme
-      Text.root(
-        styleName=[themed(size, { bold, italic, description })]
-        style=style
-        ...props
-      )= children
+    Text.root(
+      styleName=[theme, size, { bold, italic, description }]
+      style=style
+      ...props
+    )= children
   `
 }
 
@@ -38,4 +36,4 @@ Span.propTypes = {
   children: propTypes.node
 }
 
-export default observer(Span)
+export default observer(themed(Span))

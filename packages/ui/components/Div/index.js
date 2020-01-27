@@ -31,7 +31,7 @@ function Div ({
     Wrapper.root(
       style=[style, SHADOWS[level]]
       styleName=[{
-        'with-shadow': !!level,
+        withShadow: !!level,
         clickable: isClickable
       }]
       ...extraProps

@@ -1,30 +1,29 @@
-_color = $UI.Span.color
-_descriptionColor = $UI.Span.descriptionColor
+$color = $UI.Span.color
+$description = $UI.Span.descriptionColor
 
 // Add font-family when we add fonts to app
 
 .root
-  color _color
-
-  &-m
+  color $color
+  &.m
     font-size 14px
     line-height 20px
-  &-s
+  &.s
     font-size 12px
     line-height 16px
-  &-xs
+  &.xs
     font-size 10px
     line-height 14px
-  &-bold
+  &.bold
     font-weight 700
-  &-italic
+  &.italic
     font-style italic
-  &-description
-    color _descriptionColor
+  &.description
+    color $description
 
 // TODO: Use dark-mode $UI variables
--dark
-  .root&
+.dark
+  &.root
     color white
-    &-description
+    &.description
       color rgba(white, 0.5)
