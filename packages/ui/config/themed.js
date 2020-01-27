@@ -9,7 +9,7 @@ export default function themed (Component) {
     let contextTheme = useContext(ThemeContext)
     let theme = props.theme || contextTheme
     let res
-    if (theme && (!props.theme || props.theme !== theme)) {
+    if (theme && !props.theme) {
       res = Component({ theme, ...props })
     } else {
       res = Component(props)
