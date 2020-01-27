@@ -194,7 +194,7 @@ observer(function App () {
 })
 
 observer(function Topbar () {
-  let [sidebarOpened, $sidebarOpened] = subLocal('_page.Sidebar.opened')
+  let [sidebarOpened, $sidebarOpened] = useLocal('_page.Sidebar.opened')
   return <>
     <button
       onClick={() => $sidebarOpened.set(!sidebarOpened)}
@@ -203,7 +203,7 @@ observer(function Topbar () {
 })
 
 observer(function Sidebar () {
-  let [sidebarOpened] = subLocal('_page.Sidebar.opened')
+  let [sidebarOpened] = useLocal('_page.Sidebar.opened')
   return sidebarOpened ? <p>Sidebar</p> : null
 })
 ```
