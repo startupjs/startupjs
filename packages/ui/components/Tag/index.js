@@ -8,64 +8,47 @@ import COLORS from './colors'
 import config from '../../config/rootConfig'
 import './index.styl'
 
-function Tag ({
-  style,
-  color,
-  type,
-  children,
-  icon,
-  iconProps,
-  rightIcon,
-  rightIconProps,
-  label,
-  onPress,
-  ...props
-}) {
-  const isSingleIcon = icon && !rightIcon && !label && !children
-
-  return pug`
-    Div.root(
-      style=style
-      styleName=[color, type]
-      onPress=onPress
-    )
-      if !!icon
-        Div.leftIcon(styleName={single: isSingleIcon})
-          Icon(icon=icon ...iconProps)
-      if label
-        Span.label(bold)= label
-      = children
-      if !!rightIcon
-        Div.rightIcon
-          Icon(icon=rightIcon ...iconProps)
-  `
-}
-
-const iconsPropTypes = {
-  height: propTypes.number,
-  width: propTypes.number,
-  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  color: propTypes.string
-}
-
-Tag.propTypes = {
-  iconProps: propTypes.shape(iconsPropTypes),
-  rightIconProps: propTypes.shape(iconsPropTypes),
-  label: propTypes.string,
-  color: propTypes.oneOf(COLORS),
-  type: propTypes.oneOf(['circle', 'rounded'])
-}
-
-const defaultIconProps = {
+const ICON_PROPS = {
   size: 'xs',
   color: config.colors.white
 }
 
+function Tag ({
+  style,
+  color,
+  variant,
+  icon,
+  rightIcon,
+  label,
+  onPress,
+  ...props
+}) {
+  return pug`
+    Div.root(
+      style=style
+      styleName=[color, variant]
+      onPress=onPress
+    )
+      if icon
+        Div.leftIconWrapper(styleName={'with-label': label})
+          Icon(icon=icon ...ICON_PROPS)
+      if label
+        Span.label(bold variant='small')= label
+      if rightIcon
+        Div.rightIconWrapper(styleName={'with-label': label})
+          Icon(icon=rightIcon ...ICON_PROPS)
+  `
+}
+
+Tag.propTypes = {
+  label: propTypes.string,
+  color: propTypes.oneOf(COLORS),
+  variant: propTypes.oneOf(['circle', 'rounded'])
+}
+
 Tag.defaultProps = {
   color: COLORS[0],
-  type: 'circle',
-  iconProps: defaultIconProps,
-  rightIconProps: defaultIconProps
+  variant: 'circle'
 }
 
 export default observer(Tag)

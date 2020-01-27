@@ -1,44 +1,44 @@
+_iconPadding = 0.25u
+
 .root
-  min-width 2.5u
-  height 2.5u
+  padding 0 0.5u
+  height 2u
+  min-width @height
   justify-content center
   align-items center
   flex-direction row
 
-  &-circle
+  &.circle
     radius(circle)
 
-  &-rounded
+  &.rounded
     radius()
 
-  &-primary
+  &.primary
     background-color $UI.colors.primary
 
-  &-secondary
+  &.secondary
     background-color $UI.colors.secondary
 
-  &-success
+  &.success
     background-color $UI.colors.success
 
-  &-warning
+  &.warning
     background-color $UI.colors.warning
 
-  &-attention
+  &.attention
     background-color $UI.colors.attention
 
-  &-dark
+  &.dark
     background-color $UI.colors.dark
 
-
-.leftIcon
-  padding-left 1u
-
-  &-single
-    padding 0
+.leftIconWrapper
+  &.with-label
+    padding-right _iconPadding
 
 .label
-  padding 0 1u
   color $UI.colors.white
 
-.rightIcon
-  padding-right 1u
+.rightIconWrapper
+  &.with-label
+    padding-left _iconPadding
