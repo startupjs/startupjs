@@ -105,7 +105,7 @@ You can use it to easily reach a document with a particular id using scoped mode
 ```js
 let [users, $users] = useQuery('users', { roomId, anonymous: false })
 for (let user of users) {
-  $users.scope(user.id).setEach({
+  $users.at(user.id).setEach({
     joinedRoom: true,
     updatedAt: Date.now()
   })
