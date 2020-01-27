@@ -8,7 +8,7 @@ import './index.styl'
 function Span ({
   children,
   style,
-  variant,
+  size,
   bold,
   italic,
   description,
@@ -19,7 +19,7 @@ function Span ({
   return pug`
     Theme
       Text.root(
-        styleName=[themed(variant, { bold, italic, description })]
+        styleName=[themed(size, { bold, italic, description })]
         style=style
         ...props
       )= children
@@ -27,11 +27,11 @@ function Span ({
 }
 
 Span.defaultProps = {
-  variant: 'normal'
+  size: 'm'
 }
 
 Span.propTypes = {
-  variant: propTypes.oneOf(['normal', 'caption', 'small']),
+  size: propTypes.oneOf(['m', 's', 'xs']),
   bold: propTypes.bool,
   italic: propTypes.bool,
   description: propTypes.bool,
