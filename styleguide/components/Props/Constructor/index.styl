@@ -1,6 +1,7 @@
 $input = lighten($UI.colors.dark, 75%)
 $thead = $UI.colors.darkLight
 $header = $UI.colors.white
+$darkHeader = $UI.colors.whiteLight
 $value = $UI.colors.success
 $type = $UI.colors.additional1
 
@@ -28,3 +29,11 @@ $type = $UI.colors.additional1
 .type
   color $type
   font-style italic
+
+.dark
+  &.header
+    color $darkHeader
+  &.value
+    color lighten($value, 30%)
+  &.type
+    color lighten($type, 30%)

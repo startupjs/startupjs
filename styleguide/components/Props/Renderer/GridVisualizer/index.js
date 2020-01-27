@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
+import { Span, themed } from 'ui'
 import './index.styl'
 
 const GRID_SIZE = 8
@@ -38,33 +39,33 @@ export default observer(function GridVisualizer ({
 `
 })
 
-const LeftBar = observer(({ allowHalfUnit, validate }) => {
+const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
   let [height = 0] = useLocal('_session.Renderer.componentSize.height')
   let units = toUnits(height)
   let valid = validate ? validateGrid(height, allowHalfUnit) : true
 
   return pug`
     View.leftBar
-      View.leftBarLine(styleName={ valid })
+      View.leftBarLine(styleName=[theme, { valid }])
       View.leftBarUnits
-        Text.leftBarText(styleName={ valid })= units
-      View.leftBarLine(styleName={ valid })
+        Span.leftBarText(styleName=[theme, { valid }])= units
+      View.leftBarLine(styleName=[theme, { valid }])
   `
-})
+}))
 
-const TopBar = observer(({ allowHalfUnit, validate }) => {
+const TopBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
   let [width = 0] = useLocal('_session.Renderer.componentSize.width')
   let units = toUnits(width)
   let valid = validate ? validateGrid(width, allowHalfUnit) : true
 
   return pug`
     View.topBar
-      View.topBarLine(styleName={ valid })
+      View.topBarLine(styleName=[theme, { valid }])
       View.topBarUnits
-        Text.topBarText(styleName={ valid })= units
-      View.topBarLine(styleName={ valid })
+        Span.topBarText(styleName=[theme, { valid }])= units
+      View.topBarLine(styleName=[theme, { valid }])
   `
-})
+}))
 
 function toUnits (pixels) {
   return Math.floor(pixels / GRID_SIZE * 10) / 10
