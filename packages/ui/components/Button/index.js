@@ -1,22 +1,16 @@
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'startupjs'
+import propTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../Span'
-import { observer } from 'startupjs'
-import propTypes from 'prop-types'
 import config from '../../config/rootConfig'
 import './index.styl'
 // TODO. Remove
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
-
-const VARIANTS = {
-  flat: 'flat',
-  outlined: 'outlined',
-  ghost: 'ghost'
-}
 
 const ICON_SIZES = {
   m: 's',
@@ -55,7 +49,7 @@ function Button ({
     }
   }
 
-  const iconsColor = getIconColor()
+  const iconColor = getIconColor()
 
   return pug`
     Div.root(
@@ -76,11 +70,11 @@ function Button ({
       ...props
     )
       if icon
-        View.leftIcon(styleName=[size, color, {['with-label']: !!label}])
+        View.leftIconWrapper(styleName=[size, color, label ? 'with-label' : ''])
           Icon(
             icon=icon
             size=ICON_SIZES[size]
-            color=iconsColor
+            color=iconColor
           )
       if label
         Span.label(
@@ -93,11 +87,11 @@ function Button ({
           ...labelExtraProps
         )= label
       if rightIcon
-        View.rightIcon(styleName=[size, {['with-label']: !!label}])
+        View.rightIconWrapper(styleName=[size, color, label ? 'with-label' : ''])
           Icon(
             icon=rightIcon
             size=ICON_SIZES[size]
-            color=iconsColor
+            color=iconColor
           )
   `
 }
@@ -119,9 +113,9 @@ Button.defaultProps = {
 Button.propTypes = {
   color: propTypes.oneOf(['primary', 'secondary', 'success']),
   label: propTypes.string,
-  variant: propTypes.oneOf(Object.values(VARIANTS)),
+  variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
   size: propTypes.oneOf(['m', 'l', 'xl']),
-  shape: propTypes.oneOf(['rouneded', 'circle', 'squared']),
+  shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   rightIcon: propTypes.object,
   textColor: propTypes.string,

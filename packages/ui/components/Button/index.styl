@@ -1,10 +1,7 @@
-_borderRadius = 0.5u
 _primary = $UI.colors.primary
 _secondary = $UI.colors.secondary
 _success = $UI.colors.success
 _white = $UI.colors.white
-_disabled = $UI.colors.darkLighter
-_noBackground = rgba(0, 0, 0, 0)
 _disabledOpacity = 0.25
 
 .root
@@ -13,109 +10,102 @@ _disabledOpacity = 0.25
   justify-content center
   padding 0 1u
 
-  &-m
+  &.m
     height 4.5u
     min-width 10u
 
-  &-l
+  &.l
     height 6u
     min-width 11u
 
-  &-xl
+  &.xl
     height 9u
     min-width 22.5u
     padding 0 2u
 
-  &-icon
+  &.icon
     min-width 0
 
-    &-m
+    &.m
       height 4.5u
       width @height
 
-    &-l
+    &.l
       height 6u
       width @height
 
-    &-xl
+    &.xl
       height 9u
       width @height
 
-  &-rounded
+  &.rounded
     radius()
 
-  &-circle
+  &.circle
     radius(circle)
 
-  &-squared
-    border-radius 0
-
-  &-disabled
+  &.disabled
     opacity _disabledOpacity
 
-.leftIcon
-  margin 0
+.leftIconWrapper
+  &.with-label
+    margin-right 0.5u
 
-  &-with-label
-    margin-right 1u
+  &.xl
+    margin-right 1.5u
 
-  &-xl
-    margin-right 2u
+.rightIconWrapper
+  &.with-label
+    margin-left 0.5u
 
-.rightIcon
-  margin 0
-
-  &-with-label
-    margin-left 1u
-
-  &-xl
-    margin-left 2u
+  &.xl
+    margin-left 1.5u
 
 
--flat
+.flat
   .root&
     background-color _primary
 
-    &-secondary
+    &.secondary
       background-color _secondary
 
-    &-success
+    &.success
       background-color _success
 
   .label&
     color _white
 
--outlined
+.outlined
   .root&
     border 1px solid _primary
 
-    &-secondary
+    &.secondary
       border 1px solid _secondary
 
-    &-success
+    &.success
       border 1px solid _success
 
   .label&
     color _primary
 
-    &-secondary
+    &.secondary
       color _secondary
 
-    &-success
+    &.success
       color _success
 
--ghost
+.ghost
   .root&
     +web()
       &:hover
         background-color $UI.colors.primaryLightest
 
-    &-secondary
+    &.secondary
       +web()
         &:hover
           background-color $UI.colors.secondaryLightest
 
-    &-success
+    &.success
       +web()
         &:hover
           background-color $UI.colors.successLightest
@@ -123,13 +113,16 @@ _disabledOpacity = 0.25
   .label&
     color _primary
 
-    &-secondary
+    &.secondary
       color _secondary
 
-    &-success
+    &.success
       color _success
 
 .label
-  &-xl
+  &.l
+    font-size 2u
+    line-height @font-size * 1.5
+  &.xl
     font-size 3.5u
     line-height @font-size * 1.5
