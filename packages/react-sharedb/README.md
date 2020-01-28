@@ -243,7 +243,14 @@ const DEFAULT_USER = {
   address: 'Washington St.'
 }
 
-observer(function User () {
+const Field = observer(({ label, $value }) => {
+  return <div>
+    <span>{label}: </span>
+    <input value={$value.get()} onChange={e => $value.set(e.target.value)} />
+  </div>
+})
+
+const User = observer(() => {
   let [user, $user] = useValue(DEFAULT_USER)
 
   return <>
@@ -252,13 +259,6 @@ observer(function User () {
     <Field label='Address' $value={$user.at('address')} />
     <code>{user}</code>
   </>
-})
-
-observer(function Field ({ label, $value }) {
-  return <div>
-    <span>{label}: </span>
-    <input value={$value.get()} onChange={e => $value.set(e.target.value)} />
-  </div>
 })
 ```
 
