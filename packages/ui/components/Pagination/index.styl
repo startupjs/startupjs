@@ -1,3 +1,29 @@
+_disabledOpacity = 0.25
+
 .root
   flex-direction row
   justify-content center
+
+.button
+  background-color white
+  height 4u
+  min-width @height
+  justify-content center
+  align-items center
+  padding 0 1u
+
+  &.active
+    background-color $UI.colors.primary
+
+  &.disabled
+    // important should be here because TouchableOpacity add 'opacity: 1' in to
+    // attributes after click.
+    opacity _disabledOpacity !important
+
+.label
+  &.active
+    color $UI.colors.white
+
+.back, .next
+  width 8u
+  background-color $UI.colors.darkLightest

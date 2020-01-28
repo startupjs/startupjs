@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
@@ -8,85 +8,91 @@ import './index.styl'
 
 function Pagination ({
   count,
-  currentPage,
+  value,
   total,
   limit,
-  onPageChange
+  onChange
 }) {
   const pagesCount = Math.ceil(total / limit)
-  const from = currentPage - count < 0
-    ? 0 : currentPage - count
-  const to = (currentPage + count) * limit > total
-    ? pagesCount : currentPage + count
+  const from = value - (count + 1) < 0
+    ? 0 : value - (count + 1)
+  const to = (value + count) * limit > total
+    ? pagesCount : value + count
 
   return pug`
-    Div.root
-      Button(
+    Div.root(level=1)
+      PaginationButton.back(
+        styleName={ disabled: value <= 1 }
+        bold
         label='back'
-        onPress=() => onPageChange(currentPage - 1)
-        disabled=currentPage <= 1
+        disabled=value <= 1
+        onPress=() => onChange(value - 1)
       )
       if from
-        Button(
+        PaginationButton(
           label=1
-          onPress=() => onPageChange(1)
+          onPress=() => onChange(1)
         )
-        Span ...
+        Div(style={justifyContent: 'flex-end'})
+          Span ...
       each item, index in Array(to - from).fill(from)
         - const page = from + index + 1
-        Button(key=index label=page onPress=() => onPageChange(page))
-      if to < pagesCount
-        Span ...
-        Button(
-          label=pagesCount
-          onPress=() => onPageChange(pagesCount)
-          disabled=currentPage >= pagesCount
+        PaginationButton(
+          key=index
+          active=page === value
+          label=page
+          onPress=() => onChange(page)
         )
-      Button(
+      if to < pagesCount
+        Div(style={justifyContent: 'flex-end'})
+          Span ...
+        PaginationButton(
+          label=pagesCount
+          disabled=value >= pagesCount
+          onPress=() => onChange(pagesCount)
+        )
+      PaginationButton.next(
+        styleName={ disabled: value >= pagesCount }
+        bold
         label='next'
-        onPress=() => onPageChange(currentPage + 1)
-        disabled=currentPage >= pagesCount
+        disabled=value >= pagesCount
+        onPress=() => onChange(value + 1)
       )
   `
 }
 
 Pagination.defaultProps = {
-  currentPage: 1,
-  count: 1,
+  count: 2,
   total: 1800,
-  limit: 1,
+  limit: 10,
 
   // TODO. remove
-  onPageChange: (page) => console.log(page)
+  onChange: (page) => console.log(page)
 }
 
 Pagination.propTypes = {
   count: propTypes.number,
-  currentPage: propTypes.number,
+  value: propTypes.number,
   limit: propTypes.number,
-  onPageChange: propTypes.func.isRequired
+  onChange: propTypes.func.isRequired
 }
 
-// export default observer(Pagination)
-
-// TODO. Replace with ui button when its merged
-function Button ({ onPress, label, disabled }) {
-  console.log(disabled)
+function PaginationButton ({
+  style,
+  active,
+  bold,
+  disabled,
+  label,
+  onPress
+}) {
   return pug`
-    TouchableOpacity(
-      style={
-        height: 32,
-        border: '1px solid rgba(0,0,0, .5)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft: 8,
-        paddingRight: 8,
-        minWidth: 32
-      }
+    TouchableOpacity.button(
+      style=style
+      styleName={ disabled, active }
       disabled=disabled
       onPress=onPress
     )
-      Text= label
+      Span.label(bold=bold styleName={ active })= label
   `
 }
 
@@ -95,11 +101,8 @@ export default observer(function Test () {
   return pug`
     Span= page
     Pagination(
-      count=2
-      currentPage=page
-      total=1800
-      limit=11
-      onPageChange=(page) => setPage(page)
+      value=page
+      onChange=(page) => setPage(page)
     )
   `
 })
