@@ -131,7 +131,7 @@ Subscribe to documents in collection by their ids
 **Example:**
 
 ```js
-observer(function Players ({ gameId }) {
+export default observer(function Players ({ gameId }) {
   let [game] = useDoc('games', gameId)
   let [players, $players] = useQueryIds('players', game.playerIds)
 
@@ -154,7 +154,7 @@ with `query` parameter instead of the particular `docId`.
 **Example:**
 
 ```js
-observer(function NewPlayer ({ gameId }) {
+export default observer(function NewPlayer ({ gameId }) {
   // { $sort: { createdAt: -1 }, $limit: 1 }
   // is added automatically to the query, so the newest player will be returned.
   // It's also reactive, so whenever a new player joins, you'll receive the new data and model.
@@ -186,15 +186,10 @@ want to work with some nested value of a particular document you have already su
 **Example:**
 
 ```js
-observer(function App () {
-  return <>
-    <Topbar />
-    <Sidebar />
-  </>
-})
+const SIDEBAR_OPENED = '_page.Sidebar.opened'
 
-observer(function Topbar () {
-  let [sidebarOpened, $sidebarOpened] = useLocal('_page.Sidebar.opened')
+const Topbar = observer(() => {
+  let [sidebarOpened, $sidebarOpened] = useLocal(SIDEBAR_OPENED)
   return <>
     <button
       onClick={() => $sidebarOpened.set(!sidebarOpened)}
@@ -202,9 +197,16 @@ observer(function Topbar () {
   </>
 })
 
-observer(function Sidebar () {
-  let [sidebarOpened] = useLocal('_page.Sidebar.opened')
+const Sidebar = observer(() => {
+  let [sidebarOpened] = useLocal(SIDEBAR_OPENED)
   return sidebarOpened ? <p>Sidebar</p> : null
+})
+
+const App = observer(() => {
+  return <>
+    <Topbar />
+    <Sidebar />
+  </>
 })
 ```
 
