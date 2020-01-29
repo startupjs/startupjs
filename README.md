@@ -19,6 +19,7 @@ StartupJS stack is built on top of the following libraries and technologies:
 - [CodePush](https://github.com/Microsoft/react-native-code-push) to be able to dynamically push JS-only updates to the React Native apps in production.
 - Code Quality control tools:
   - [ESLint] (https://eslint.org/)
+  - *optional* [TypeScript](https://www.typescriptlang.org/)
 
 ## Requirements
 
