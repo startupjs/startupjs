@@ -12,6 +12,7 @@
 - [List of Packages](#list-of-packages)
 - [CodePush setup](/docs/codepush.md)
 - [Contributing & Troubleshooting](#contributing--troubleshooting)
+- [Licence](#licence)
 
 ## Introduction
 
