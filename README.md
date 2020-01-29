@@ -2,9 +2,9 @@
 
 > :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
 
-[Introduction](#introduction)
-
-[Requirements](#requirements)
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+- 
 
 ## Introduction
 
