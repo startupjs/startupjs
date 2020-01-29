@@ -16,8 +16,8 @@ StartupJS stack is built on top of the following libraries and technologies:
     - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
     - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
     - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
-1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](https://github.com/dmapper/startupjs/blob/master/packages/app) (e.g. `main` and `admin`)
 1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm).
+1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](https://github.com/dmapper/startupjs/blob/master/packages/app) (e.g. `main` and `admin`)
 1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
