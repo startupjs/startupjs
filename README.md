@@ -4,7 +4,7 @@
 
 ## Introduction
 
-A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend. All data manipulations are done through React- and NodeJS- integrated collaborative real-time isomorphic Model.
+A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend. All data manipulations are done through the isomorphic *React-* and *NodeJS-* *integrated* collaborative real-time Model.
 
 StartupJS stack is built on top of the following libraries and technologies:
 
