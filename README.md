@@ -11,7 +11,7 @@
 - [IDE configuration](#ide-configuration)
 - [List of Packages](#list-of-packages)
 - [CodePush setup](/docs/codepush.md)
-- [Contributing & Troubleshooting](#troubleshooting)
+- [Contributing & Troubleshooting](#contributing--troubleshooting)
 
 ## Introduction
 
@@ -217,7 +217,9 @@ to the native installation when working with the large amount of files.
 
 ## Contributing & Troubleshooting
 
-If you have any problem, search for the issues in this repository. If you don't find anything, you can raise an issue [here](https://github.com/dmapper/startupjs/issues).
+If you have any questions or want to request a feature, please look wether a similar issue already existis in this repo, otherwise feel free to file a new one.
+
+If you want to contribute, feel free to send your PRs, we will review them and provide our feedback on a short notice.
 
 ## Licence
 
