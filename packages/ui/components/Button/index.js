@@ -20,17 +20,16 @@ function Button ({
   style,
   children,
   color,
+  variant,
   disabled,
-  label,
   shape,
   size,
   icon,
   rightIcon,
-  variant,
   onPress,
   ...props
 }) {
-  const extraCommonStyles = { 'with-label': !!label }
+  const extraCommonStyles = { 'with-label': React.Children.count(children) }
 
   const iconProps = {
     size: ICON_SIZES[size],
@@ -55,12 +54,12 @@ function Button ({
       if icon
         View.leftIconWrapper(styleName=[extraCommonStyles])
           Icon(icon=icon ...iconProps)
-      if label
+      if children
         Span.label(
           styleName=[variant, color]
           size=size
           bold
-        )= label
+        )= children
       if rightIcon
         View.rightIconWrapper(styleName=[extraCommonStyles])
           Icon(icon=rightIcon ...iconProps)
@@ -78,7 +77,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   color: propTypes.oneOf(['primary', 'secondary', 'success']),
-  label: propTypes.string,
+  children: propTypes.node,
   variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
   size: propTypes.oneOf(['m', 'l', 'xl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
