@@ -199,7 +199,7 @@ to the native installation when working with the large amount of files.
 - [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
 - [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
 - [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
-- [StartupJS](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
+- [StartupJS meta package](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
 
 ## CodePush
 
