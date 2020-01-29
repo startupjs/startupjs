@@ -27,7 +27,7 @@ Do the following steps to configure it for your project:
   code-push app add <App-Name-Ios> ios react-native
   ```
 
-**For Android**
+## Android
 
 1. Add empty `reactNativeCodePush_androidDeploymentKey` string item to `/path_to_your_app/android/app/src/main/res/values/strings.xml`. It may looks like this:
 
@@ -61,7 +61,7 @@ protected List<ReactPackage> getPackages() {
 }
 ```
 
-**For iOS**
+## iOS
 
 1. Add `CodePushDeploymentKey` string item with value `$(CODEPUSH_KEY)` to `/path_to_your_app/ios/your_app/Info.plist`. It may looks like this:
 
@@ -82,3 +82,9 @@ protected List<ReactPackage> getPackages() {
 2. Get keys using code-push deployment ls <App-Name-Ios> --displayKeys then open `/path_to_your_app/ios` using `Xcode` and copy both Debug and Release key in
 
 ![codepush ios](img/codepush-ios.png)
+
+## References
+
+- [Generating keystores](https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores)
+- [CodePush](http://microsoft.github.io/code-push/docs/cli.html)
+- [Checklist for deploying app](https://medium.com/the-react-native-log/checklist-to-deploy-react-native-to-production-47157f8f85ed)
