@@ -27,8 +27,8 @@ StartupJS stack is built on top of the following libraries and technologies:
 - [Yarn](https://yarnpkg.com/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
 - [Redis](https://redis.io/) 5.0
-- [Android SDK](https://developer.android.com/sdk/) *optional* for Android development
-- [Xcode](https://developer.apple.com/xcode/) *optional* for iOS Development
+- [Android SDK](https://developer.android.com/sdk/) (*optional*) for Android development
+- [Xcode](https://developer.apple.com/xcode/) (*optional*) for iOS Development
 
 **OR**
 
