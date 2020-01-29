@@ -4,7 +4,7 @@
 
 ## Introduction
 
-StartupJS is a full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend.
+A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend.
 
 StartupJS stack is built on top of the following libraries and technologies:
 
