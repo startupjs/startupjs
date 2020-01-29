@@ -40,7 +40,7 @@ Do the following steps to configure it for your project:
 
 2. Get keys using `code-push deployment ls <App-Name-Android> --displayKeys` and copy both Debug and Release key in `/path_to_your_app/android/app/build.gradle`
 
-![codepush android](docs/img/codepush-android.png)
+![codepush android](img/codepush-android.png)
 
 3. Go to `/path_to_your_app/android/app/src/main/java/com/lingua/MainApplication.java` and add code which set keys. It may looks like this:
 
@@ -81,4 +81,4 @@ protected List<ReactPackage> getPackages() {
 
 2. Get keys using code-push deployment ls <App-Name-Ios> --displayKeys then open `/path_to_your_app/ios` using `Xcode` and copy both Debug and Release key in
 
-![codepush ios](docs/img/codepush-ios.png)
+![codepush ios](img/codepush-ios.png)
