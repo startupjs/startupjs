@@ -21,6 +21,7 @@ StartupJS stack is built on top of the following libraries and technologies:
 1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
+1. [Offline support](https://github.com/dmapper/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations.
 1. [CodePush](https://github.com/Microsoft/react-native-code-push) to be able to dynamically push JS-only updates to the React Native apps in production.
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
