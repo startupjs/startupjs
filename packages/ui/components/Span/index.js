@@ -17,8 +17,8 @@ function Span ({
 }) {
   return pug`
     Text.root(
-      styleName=[theme, size, { bold, italic, description }]
       style=style
+      styleName=[theme, size, { bold, italic, description }]
       ...props
     )= children
   `

@@ -35,6 +35,7 @@
     "react-hot-loader": "^4.12.18",
     "react-native": "0.61.5",
     "react-native-code-push": "^5.7.0",
+    "react-native-collapsible": "^1.5.1",
     "react-native-status-bar-height": "^2.4.0",
     "react-native-svg": "^11.0.1",
     "react-native-web": "0.11.7",
