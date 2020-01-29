@@ -208,12 +208,6 @@ to the native installation when working with the large amount of files.
 
 If you have any problem, search for the issues in this repository. If you don't find anything, you can raise an issue [here](https://github.com/dmapper/startupjs/issues).
 
-## References
-
-- [Generating keystores](https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores)
-- [CodePush](http://microsoft.github.io/code-push/docs/cli.html)
-- [Checklist for deploying app](https://medium.com/the-react-native-log/checklist-to-deploy-react-native-to-production-47157f8f85ed)
-
 ## Licence
 
 (MIT)
