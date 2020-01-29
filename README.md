@@ -1,18 +1,18 @@
 # StartupJS
 
 > :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
-
-- [Introduction](#introduction)
-- [Requirements](#requirements)
-- [Quick start](#quick-start)
-- [Boilerplate templates](#boilerplate-templates)
-- [Running on mobile](#running-on-mobile)
-- [Docker development Quick Start](#docker-development-quick-start)
-- [IDE configuration](#ide-configuration)
-- [List of Packages](#list-of-packages)
-- [CodePush setup](/docs/codepush.md)
-- [Contributing & Troubleshooting](#contributing--troubleshooting)
-- [Licence](#licence)
+>
+> [Introduction](#introduction)<br/>
+> [Requirements](#requirements)<br/>
+> [Quick start](#quick-start)<br/>
+> [Boilerplate templates](#boilerplate-templates)<br/>
+> [Running on mobile](#running-on-mobile)<br/>
+> [Docker development Quick Start](#docker-development-quick-start)<br/>
+> [IDE configuration](#ide-configuration)<br/>
+> [List of Packages](#list-of-packages)<br/>
+> [CodePush setup](/docs/codepush.md)<br/>
+> [Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
+> [Licence](#licence)
 
 ## Introduction
 
