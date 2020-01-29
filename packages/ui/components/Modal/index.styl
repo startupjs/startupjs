@@ -1,0 +1,70 @@
+_overlayBg = $UI.colors.darkLighter
+_modalBg = $UI.colors.white
+_gutter = $UI.gutters.m
+
+// web modal open animation
+.layout
+  +web()
+    &-visible
+      animation ShowModal .3s forwards
+
+// layout styles
+.root
+  height 100%
+  padding 0 _gutter
+  // margin auto does not work for .modal class without row direction
+  flex-direction row
+
+  +web()
+    position fixed
+    top 0
+    right 0
+    left 0
+    z-index 1500
+
+.overlay
+  position absolute
+  top 0
+  right 0
+  left 0
+  height 100%
+  background-color _overlayBg
+
+  +web()
+    cursor pointer
+
+.modal
+  margin auto
+  // override flex-shrink to work .root class paddings
+  flex-shrink 1
+  background-color _modalBg
+  max-height 90vh
+  max-width 776px
+  min-width 280px
+  border-radius 4px
+  overflow hidden
+
+.title
+.actions
+  padding _gutter
+
+.titleText
+  flex-shrink 1
+
+.content
+  padding 0 _gutter
+  // without flex-grow 0 on mobile devices modal stretches to full height
+  flex-grow 0
+
+.actions
+  padding _gutter
+
+.action
+  margin-left 1u
+
+
+@keyframes ShowModal
+  0%
+    opacity 0
+  100%
+    opacity 1
