@@ -4,13 +4,13 @@
 
 ## Introduction
 
-A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend.
+A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend. All data manipulations are done through React- and NodeJS- integrated collaborative real-time isomorphic Model.
 
 StartupJS stack is built on top of the following libraries and technologies:
 
 - [React Router](https://reacttraining.com/react-router/) for routing and navigation with ability to separate project to [multi apps](https://github.com/dmapper/startupjs/blob/master/packages/app)
-- [React-ShareDB](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb) - a [ShareDB](https://derbyjs.com/docs/derby-0.10/models) real-time collaborative database integration into React. This allows to sync data between your local state (similar to Redux) and the DB. And also brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
-- [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm)
+- [React-ShareDB](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb) - a [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React. This allows to sync data between your local state (similar to Redux) and the DB. And also brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously. It uses WebSockets to send small patches to and from the server whenever there are any changes to the data you are subscribed to.
+- [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm).
 - [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 - [MongoDB](https://docs.mongodb.com/manual/installation/) as the database.
 - [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
