@@ -4,18 +4,17 @@
 
 ## Introduction
 
-This boilerplate launches with a [React web app](https://reactjs.org/) and [React Native app](https://facebook.github.io/react-native/) and allows to use a single code for all platforms.
+StartupJS is a full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB on the backend.
 
-The project is super helpful to kick-start your next project, as it provides a lot of the common tools you may reach for, all ready to go. Specifically:
+StartupJS stack is built on top of the following libraries and technologies:
 
 - [React Router](https://reacttraining.com/react-router/) for routing and navigation with ability to separate project to [multi apps](https://github.com/dmapper/startupjs/blob/master/packages/app)
-- [Model](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb) using [Racer and ShareDB](https://derbyjs.com/docs/derby-0.10/models) for working with local data stored in memory and remote data synced via ShareDB (in our case, [MongoDB](https://docs.mongodb.com/manual/installation/)).
-- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm) system for Racer and ShareDB
-- [CodePush](https://github.com/Microsoft/react-native-code-push) for dynamic updates React Native apps
-- [Node.js](https://nodejs.org/) as engine
-- [Express](https://expressjs.com/) as web server
-- [MongoDB](https://docs.mongodb.com/manual/installation/) as database
-- [Redis](https://redis.io/) as pub/sub adapter for [Racer](https://github.com/derbyjs/racer)
+- [React-ShareDB](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb) - a [ShareDB](https://derbyjs.com/docs/derby-0.10/models) real-time collaborative database integration into React. This allows to sync data between your local state (similar to Redux) and the DB. And also brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
+- [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm)
+- [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
+- [MongoDB](https://docs.mongodb.com/manual/installation/) as the database.
+- [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
+- [CodePush](https://github.com/Microsoft/react-native-code-push) to be able to dynamically push JS-only updates to the React Native apps in production.
 - Code Quality
   - [Flow] (https://flow.org/en/docs/react/)
   - [ESLint] (https://eslint.org/)
@@ -26,8 +25,8 @@ The project is super helpful to kick-start your next project, as it provides a l
 - [Yarn](https://yarnpkg.com/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
 - [Redis](https://redis.io/) 5.0
-- [Xcode](https://developer.apple.com/xcode/) for iOS Development
-- [Android SDK](https://developer.android.com/sdk/) for Android development
+- [Android SDK](https://developer.android.com/sdk/) *optional* for Android development
+- [Xcode](https://developer.apple.com/xcode/) *optional* for iOS Development
 
 **OR**
 
