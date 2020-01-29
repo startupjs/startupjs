@@ -224,4 +224,4 @@ If you want to contribute, feel free to send your PRs, we will review them and p
 
 ## Licence
 
-(MIT)
+MIT
