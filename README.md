@@ -4,7 +4,14 @@
 
 - [Introduction](#introduction)
 - [Requirements](#requirements)
-- 
+- [Quick start](#quick-start)
+- [Boilerplate templates](#boilerplate-templates)
+- [Running on mobile](#running-on-mobile)
+- [Docker development Quick Start](#docker-development-quick-start)
+- [IDE configuration](#ide-configuration)
+- [List of Packages](#list-of-packages)
+- [CodePush setup](/docs/codepush.md)
+- [Contributing & Troubleshooting](#troubleshooting)
 
 ## Introduction
 
@@ -190,7 +197,7 @@ to the native installation when working with the large amount of files.
 1.  Install pagkage `linter-eslint`
 2.  Restart Atom
 
-## Packages
+## List of Packages
 
 - [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
 - [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
@@ -208,7 +215,7 @@ to the native installation when working with the large amount of files.
 
 ## [CodePush setup](/docs/codepush.md)
 
-## Troubleshooting
+## Contributing & Troubleshooting
 
 If you have any problem, search for the issues in this repository. If you don't find anything, you can raise an issue [here](https://github.com/dmapper/startupjs/issues).
 
