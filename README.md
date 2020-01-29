@@ -8,8 +8,10 @@ A full-stack framework which uses isomorphic web/native React frontend and NodeJ
 
 StartupJS stack is built on top of the following libraries and technologies:
 
-- [React Router](https://reacttraining.com/react-router/) for routing and navigation with ability to separate project to [multi apps](https://github.com/dmapper/startupjs/blob/master/packages/app)
+- [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
+- [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
 - [React-ShareDB](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb) - a [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React. This allows to sync data between your local state (similar to Redux) and the DB. And also brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously. It uses WebSockets to send small patches to and from the server whenever there are any changes to the data you are subscribed to.
+- [React Router](https://reacttraining.com/react-router/) for routing and navigation with ability to separate project to [multi apps](https://github.com/dmapper/startupjs/blob/master/packages/app)
 - [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm).
 - [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 - [MongoDB](https://docs.mongodb.com/manual/installation/) as the database.
