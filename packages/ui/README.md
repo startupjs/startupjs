@@ -41,6 +41,22 @@ import { Button } from '@startupjs/ui'
 
 ## Dependences
 
+### Collapse
+
+1. Install library `react-native-collapsible`
+```
+  yarn add react-native-collapsible
+```
+
+2. Add library to `forceCompileModules` of your `webpack.web.config.js`.
+```js
+  const getConfig = require('startupjs/bundler').webpackWebConfig
+
+  module.exports = getConfig(undefined, {
+    forceCompileModules: ['react-native-collapsible']
+  })
+```
+
 ### Icon component
 
 1. Install library `react-native-svg`

@@ -1,6 +1,7 @@
 export { default as Br } from './components/Br'
 export { default as Button } from './components/Button'
 export { default as Card } from './components/Card'
+export { default as Collapse } from './components/Collapse'
 export { default as Div } from './components/Div'
 export { default as Drawer } from './components/Drawer'
 export { H1, H2, H3, H4, H5, H6 } from './components/Headers'
