@@ -18,7 +18,6 @@
   "peerDependencies": {
     "@startupjs/react-sharedb": "*",
     "react": ">= 16.9.0 < 17",
-    "react-native": ">= 0.61.4 < 0.62",
-    "react-native-code-push": ">= 5.7.0 < 6"
+    "react-native": ">= 0.61.4 < 0.62"
   }
 }

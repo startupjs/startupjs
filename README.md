@@ -10,7 +10,6 @@
 [Docker development Quick Start](#docker-development-quick-start)<br/>
 [IDE configuration](#ide-configuration)<br/>
 [List of Packages](#list-of-packages)<br/>
-[CodePush setup](/docs/codepush.md)<br/>
 [Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
 [Licence](#licence)
 
@@ -34,7 +33,6 @@ StartupJS stack is built on top of the following libraries and technologies:
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
 1. [Offline support](https://github.com/dmapper/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
-1. [CodePush](https://github.com/Microsoft/react-native-code-push) to be able to dynamically push JS-only updates to the React Native apps in production.
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
     - *optional* [TypeScript](https://www.typescriptlang.org/)
@@ -204,6 +202,7 @@ to the native installation when working with the large amount of files.
 - [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
 - [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
 - [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
+- [CodePush](https://github.com/dmapper/startupjs/blob/master/packages/codepush)
 - [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
 - [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
 - [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
