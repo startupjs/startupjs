@@ -17,6 +17,7 @@
   "peerDependencies": {
     "react": ">= 16.9.0",
     "react-native": ">= 0.61.4",
+    "react-native-collapsible": ">= 1.5.1",
     "startupjs": ">= 0.9.5",
     "react-native-svg": ">= 9.13.6"
   }

@@ -34,7 +34,7 @@ function Tag ({
         Div.leftIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=icon ...ICON_PROPS)
       if label
-        Span.label(bold variant='small')= label
+        Span.label(bold size='xs')= label
       if rightIcon
         Div.rightIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=rightIcon ...ICON_PROPS)

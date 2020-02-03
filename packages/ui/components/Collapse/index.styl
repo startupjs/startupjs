@@ -1,0 +1,16 @@
+_gutter = $UI.gutters.m
+_bgColor = $UI.colors.white
+
+.root
+  padding _gutter
+  background-color _bgColor
+  radius()
+  +web()
+    &:hover
+      cursor pointer
+
+.content
+  padding-top _gutter
+
+.titleText
+  margin-right 1u

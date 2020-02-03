@@ -96,16 +96,16 @@ Subscribe to the Mongo query.
 **Example:**
 
 ```js
-let [users, $users] = subQuery('users', { roomId: props.roomId, anonymous: false })
+let [users, $users] = useQuery('users', { roomId: props.roomId, anonymous: false })
 ```
 
 **IMPORTANT:** The scoped model `$docs`, which you receive from the hook, targets the global collection path.
 You can use it to easily reach a document with a particular id using scoped models:
 
 ```js
-let [users, $users] = subQuery('users', { roomId, anonymous: false })
+let [users, $users] = useQuery('users', { roomId, anonymous: false })
 for (let user of users) {
-  $users.scope(user.id).setEach({
+  $users.at(user.id).setEach({
     joinedRoom: true,
     updatedAt: Date.now()
   })
@@ -131,7 +131,7 @@ Subscribe to documents in collection by their ids
 **Example:**
 
 ```js
-observer(function Players ({ gameId }) {
+export default observer(function Players ({ gameId }) {
   let [game] = useDoc('games', gameId)
   let [players, $players] = useQueryIds('players', game.playerIds)
 
@@ -154,7 +154,7 @@ with `query` parameter instead of the particular `docId`.
 **Example:**
 
 ```js
-observer(function NewPlayer ({ gameId }) {
+export default observer(function NewPlayer ({ gameId }) {
   // { $sort: { createdAt: -1 }, $limit: 1 }
   // is added automatically to the query, so the newest player will be returned.
   // It's also reactive, so whenever a new player joins, you'll receive the new data and model.
@@ -186,15 +186,10 @@ want to work with some nested value of a particular document you have already su
 **Example:**
 
 ```js
-observer(function App () {
-  return <>
-    <Topbar />
-    <Sidebar />
-  </>
-})
+const SIDEBAR_OPENED = '_page.Sidebar.opened'
 
-observer(function Topbar () {
-  let [sidebarOpened, $sidebarOpened] = subLocal('_page.Sidebar.opened')
+const Topbar = observer(() => {
+  let [sidebarOpened, $sidebarOpened] = useLocal(SIDEBAR_OPENED)
   return <>
     <button
       onClick={() => $sidebarOpened.set(!sidebarOpened)}
@@ -202,9 +197,16 @@ observer(function Topbar () {
   </>
 })
 
-observer(function Sidebar () {
-  let [sidebarOpened] = subLocal('_page.Sidebar.opened')
+const Sidebar = observer(() => {
+  let [sidebarOpened] = useLocal(SIDEBAR_OPENED)
   return sidebarOpened ? <p>Sidebar</p> : null
+})
+
+const App = observer(() => {
+  return <>
+    <Topbar />
+    <Sidebar />
+  </>
 })
 ```
 
@@ -243,7 +245,14 @@ const DEFAULT_USER = {
   address: 'Washington St.'
 }
 
-observer(function User () {
+const Field = observer(({ label, $value }) => {
+  return <div>
+    <span>{label}: </span>
+    <input value={$value.get()} onChange={e => $value.set(e.target.value)} />
+  </div>
+})
+
+const User = observer(() => {
   let [user, $user] = useValue(DEFAULT_USER)
 
   return <>
@@ -252,13 +261,6 @@ observer(function User () {
     <Field label='Address' $value={$user.at('address')} />
     <code>{user}</code>
   </>
-})
-
-observer(function Field ({ label, $value }) {
-  return <div>
-    <span>{label}: </span>
-    <input value={$value.get()} onChange={e => $value.set(e.target.value)} />
-  </div>
 })
 ```
 

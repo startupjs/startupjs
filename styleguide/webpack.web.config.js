@@ -1,5 +1,5 @@
 const getConfig = require('startupjs/bundler').webpackWebConfig
 
 module.exports = getConfig(undefined, {
-  forceCompileModules: []
+  forceCompileModules: ['react-native-collapsible']
 })
