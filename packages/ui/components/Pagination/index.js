@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
@@ -93,14 +93,11 @@ function Pagination ({
 
 Pagination.defaultProps = {
   buttonsCount: 5,
-  total: 400,
-  limit: 10,
-  value: 1,
-  showLastPage: true,
-  showFirstPage: true,
-
-  // TODO. remove
-  onChange: (page) => console.log(page)
+  total: 0,
+  limit: 0,
+  value: 0,
+  showLastPage: false,
+  showFirstPage: false
 }
 
 Pagination.propTypes = {
@@ -134,13 +131,4 @@ function PaginationButton ({
   `
 }
 
-export default observer(function Test () {
-  const [page, setPage] = useState(0)
-  return pug`
-    Span= page
-    Pagination(
-      value=page
-      onChange=(page) => setPage(page)
-    )
-  `
-})
+export default observer(Pagination)
