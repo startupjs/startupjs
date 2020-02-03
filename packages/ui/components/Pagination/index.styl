@@ -7,8 +7,8 @@ _disabledOpacity = 0.25
 
 .button
   background-color white
-  height 4u
-  width 4u
+  min-width 4u
+  min-height @min-width
   flex-shrink 1
   justify-content center
   align-items center
@@ -27,5 +27,4 @@ _disabledOpacity = 0.25
     color $UI.colors.white
 
 .back, .next
-  width 8u
   background-color $UI.colors.darkLightest

@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import Span from '../Span'
+import Button from '../Button'
+import config from '../../config/rootConfig'
+import { faLongArrowAltLeft, faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
+
+const { colors } = config
 
 function Pagination ({
   buttonsCount,
@@ -34,19 +38,26 @@ function Pagination ({
 
   return pug`
     Div.root(level=1)
-      PaginationButton.back(
-        styleName={ disabled: value <= 1 }
-        bold
-        label='back'
-        disabled=page <= 1
+      - const isFirstPageSelected = value <= 0
+      - const isLastPageSelected = page >= pagesCount
+      Button.back(
+        styleName={disabled: isFirstPageSelected}
+        size='s'
+        shape='squared'
+        variant='ghost'
+        icon=faLongArrowAltLeft
+        iconColor=colors.dark
+        disabled=isFirstPageSelected
         onPress=() => onChange(value - 1)
+        textColor=colors.dark
       )
+        = 'Back'
       if from && showFirstPage
         PaginationButton(
           label=1
-          onPress=() => onChange(1)
+          onPress=() => onChange(0)
         )
-        Div(style={justifyContent: 'flex-end'})
+        Div(style={justifyContent: 'center'})
           Span ...
       each item, index in Array(to - from).fill(from)
         - const page = from + index + 1
@@ -58,20 +69,25 @@ function Pagination ({
           onPress=() => onChange(page - 1)
         )
       if to < pagesCount && showLastPage
-        Div(style={justifyContent: 'flex-end'})
+        Div(style={justifyContent: 'center'})
           Span ...
         PaginationButton(
           label=pagesCount
           disabled=value >= pagesCount
           onPress=() => onChange(pagesCount - 1)
         )
-      PaginationButton.next(
-        styleName={ disabled: value >= pagesCount }
-        bold
-        label='next'
-        disabled=page >= pagesCount
+      Button.next(
+        size='s'
+        styleName={ disabled: isLastPageSelected }
+        shape='squared'
+        variant='ghost'
+        rightIcon=faLongArrowAltRight
+        rightIconColor=colors.dark
+        disabled=isLastPageSelected
         onPress=() => onChange(value + 1)
+        textColor=colors.dark
       )
+        = 'Next'
   `
 }
 
@@ -80,8 +96,8 @@ Pagination.defaultProps = {
   total: 400,
   limit: 10,
   value: 1,
-  showLastPage: false,
-  showFirstPage: false,
+  showLastPage: true,
+  showFirstPage: true,
 
   // TODO. remove
   onChange: (page) => console.log(page)
@@ -105,12 +121,14 @@ function PaginationButton ({
   label,
   onPress
 }) {
+  const extraProps = {}
+  if (!active) extraProps.onPress = onPress
   return pug`
-    TouchableOpacity.button(
+    Div.button(
       style=style
       styleName={ disabled, active }
       disabled=disabled
-      onPress=onPress
+      ...extraProps
     )
       Span.label(bold=bold styleName={ active })= label
   `
