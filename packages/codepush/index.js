@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import codePush from 'react-native-code-push'
 import { AppState, View, Text } from 'react-native'
-import get from 'lodash/get'
+import './index.styl'
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.MANUAL
 }
 
-export default codePush(codePushOptions)(function CodePushApp (Component) {
+const CodePushComponent = codePush(codePushOptions)(function CodePush ({
+  children
+}) {
   const [appStateStore, setAppStateStore] = useState('')
   const [progress, setProgress] = useState()
-  const [loading, setLoading] = useState()
 
   useEffect(() => {
     checkForUpdate()
@@ -31,12 +32,26 @@ export default codePush(codePushOptions)(function CodePushApp (Component) {
 
   function codePushStatusDidChange (syncStatus) {
     switch (syncStatus) {
+      case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+        break
       case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-        setLoading(true)
+        break
+      case codePush.SyncStatus.AWAITING_USER_ACTION:
+        break
+      case codePush.SyncStatus.INSTALLING_UPDATE:
+        break
+      case codePush.SyncStatus.UP_TO_DATE:
+        setProgress()
+        break
+      case codePush.SyncStatus.UPDATE_IGNORED:
+        setProgress()
+        break
+      case codePush.SyncStatus.UPDATE_INSTALLED:
+        setProgress()
         break
       case codePush.SyncStatus.UNKNOWN_ERROR:
-        setLoading(false)
-        // Do we need alert dialog in this case ??
+        setProgress()
+        break
     }
   }
 
@@ -59,20 +74,26 @@ export default codePush(codePushOptions)(function CodePushApp (Component) {
   }
 
   return pug`
-    if loading
-      - const receivedBytes = get(progress, 'receivedBytes', 0)
-      - const totalBytes = get(progress, 'totalBytes', 1)
-      - const percent = (receivedBytes * 100 / totalBytes) ^ 0
+    if progress
+      - const percent = (progress.receivedBytes * 100 / progress.totalBytes) ^ 0
       View.root
-        Text.title
-          | Installing update.
-          = '\n'
-          Text.wait Please wait
+        Text.title Installing update.
+        Text.description Please wait
         View.progress
           Text.percent= percent + '%'
           View.bar
             View.filler(style={width: percent + '%'})
     else
-      = Component
+      = children
   `
 })
+
+export default function CodePushApp (NativeApp) {
+  return function CodePushAppComponent (props) {
+    return (
+      <CodePushComponent>
+        <NativeApp {...props} />
+      </CodePushComponent>
+    )
+  }
+}

@@ -213,8 +213,6 @@ to the native installation when working with the large amount of files.
 - [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
 - [StartupJS meta package](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
 
-## [CodePush setup](/docs/codepush.md)
-
 ## Contributing & Troubleshooting
 
 If you have any questions or want to request a feature, please look wether a similar issue already existis in this repo, otherwise feel free to file a new one.
