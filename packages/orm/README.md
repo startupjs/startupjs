@@ -1,4 +1,4 @@
-# racer-orm
+# startupjs racer-orm
 ORM system for Racer.js and ShareDB
 
 ## What it does
@@ -59,7 +59,7 @@ class GameModel extends Model.ChildModel {
       this.scope('players.' + playerId).alert(message)
     }
   }
-  
+
   async addPlayer (userId, params = {}) {
     if (!userId) throw new Error('userId required')
     var playerId = this.id()
@@ -96,7 +96,7 @@ async function main ($root) {
 ## Factory
 
 Sometimes you want to dynamically decide which ORM to use
-based on the document's data. Factory let you do that. 
+based on the document's data. Factory let you do that.
 
 Example:
 
@@ -124,11 +124,11 @@ function PlayerFactory ($player, $parent) {
   let playerTeamId = $player.get('teamId')
   let $root = $player.root
   let myTeamId = $root.get('_session.myTeamId')
-  
+
   // you have to always pass `$parent` when manually
   // instantiating the ORM Entity
   if (!playerTeamId || !myTeamId) return new BasePlayerModel($parent)
-   
+
   if (playerTeamId === myTeamId) {
     return new AlliedPlayerModel($parent)
   } else {

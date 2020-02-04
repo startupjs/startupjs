@@ -1,0 +1,15 @@
+{
+  "name": "@startupjs/codepush",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Dynamically push JS-only updates to the React Native apps",
+  "version": "0.12.0",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "react": ">= 16.9.0 < 17",
+    "react-native-code-push": ">= 5.7.0 < 6"
+  }
+}

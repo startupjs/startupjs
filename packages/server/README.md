@@ -1,4 +1,4 @@
-# dm-sharedb-server
+# startupjs dm-sharedb-server
 > Express.js server with ShareDB, configs system, and react-router support for rendering client apps.
 
 ## Usage

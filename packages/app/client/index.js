@@ -1,88 +1,60 @@
-import React, { useState, useEffect } from 'react'
-import { observer } from 'startupjs'
-import codePush from 'react-native-code-push'
-import { Layout } from './components'
-import { AppState, View, Text } from 'react-native'
-import get from 'lodash/get'
-import App from './App'
-import './index.styl'
+import React, { Suspense } from 'react'
+import { Platform } from 'react-native'
+import Router from './Router'
+import { useLocal, observer, useDoc } from 'startupjs'
+import { Blocked, UpdateApp } from './components'
+const OS = Platform.OS
 
-const NativeApp = observer(function (props) {
-  const [progress, setProgress] = useState()
-  const [loading, setLoading] = useState()
-  let appStateStore = ''
+export default observer(function App ({
+  apps,
+  animate,
+  supportEmail,
+  criticalVersion,
+  iosUpdateLink,
+  androidUpdateLink,
+  errorPages
+}) {
+  const [version] = useDoc('service', 'version')
+  const availableCriticalVersion =
+    version &&
+    version.criticalVersion &&
+    version.criticalVersion[OS]
+  const currentCriticalVersion =
+    criticalVersion &&
+    criticalVersion[OS]
 
-  useEffect(() => {
-    checkForUpdate()
-    AppState.addEventListener('change', handleAppStateChange)
-    return () => {
-      AppState.removeEventListener('change', handleAppStateChange)
-    }
-  }, [])
-
-  function handleAppStateChange (nextAppState) {
-    if (
-      appStateStore.match(/inactive|background/) && nextAppState === 'active'
-    ) {
-      checkForUpdate()
-    }
-    appStateStore = nextAppState
-  }
-
-  function codePushStatusDidChange (syncStatus) {
-    switch (syncStatus) {
-      case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-        setLoading(true)
-        break
-      case codePush.SyncStatus.UNKNOWN_ERROR:
-        setLoading(false)
-        // Do we need alert dialog in this case ??
-    }
-  }
-
-  function codePushDownloadDidProgress (progress) {
-    setProgress(progress)
-  }
-
-  async function checkForUpdate () {
-    const res = await codePush.checkForUpdate()
-    if (!res) return
-    if (res.isMandatory) {
-      codePush.sync(
-        { installMode: codePush.InstallMode.IMMEDIATE, updateDialog: true },
-        codePushStatusDidChange,
-        codePushDownloadDidProgress
+  if (
+    currentCriticalVersion && availableCriticalVersion &&
+    currentCriticalVersion < availableCriticalVersion
+  ) {
+    return pug`
+      UpdateApp(
+        iosLink=iosUpdateLink
+        androidLink=androidUpdateLink
       )
-    } else {
-      codePush.sync({ installMode: codePush.InstallMode.ON_NEXT_SUSPEND })
-    }
+    `
   }
+  const [user] = useLocal('_session.user')
+  const roots = {}
+  const routes = []
 
-  const title = pug`
-    Text Installing update.
-    Text= '\n'
-    Text.wait Please wait
-  `
+  Object.keys(apps).forEach(appName => {
+    const appRoutes = apps[appName].routes
+    roots[appName] = apps[appName].Layout
+    appRoutes.forEach(r => { r.app = appName })
+    routes.push(...appRoutes)
+  })
 
   return pug`
-    if loading
-      - const receivedBytes = get(progress, 'receivedBytes', 0)
-      - const totalBytes = get(progress, 'totalBytes', 1)
-      - const percent = (receivedBytes * 100 / totalBytes) ^ 0
-      Layout(
-        title=title
-      )
-        View.progress
-          Text.percent= percent + '%'
-          View.bar
-            View.filler(style={width: percent + '%'})
+    if user && user.blocked
+      Blocked(email=supportEmail)
     else
-      App(...props)
+      Suspense(fallback=null)
+        Router(
+          apps=roots
+          routes=routes
+          animate=animate
+          errorPages=errorPages
+        )
   `
 })
-
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.MANUAL
-}
-
-export default codePush(codePushOptions)(NativeApp)
