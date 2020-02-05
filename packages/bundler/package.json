@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -28,8 +28,8 @@
     "autoprefixer": "^9.6.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^3.2.0",
-    "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
     "babel-plugin-react-native-dynamic-stylename-to-style": "^0.13.2",
+    "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
     "babel-plugin-react-native-web-pass-classname": "^0.2.1",
     "babel-plugin-react-pug-classnames": "^0.3.1",
     "babel-plugin-transform-react-pug": "^7.0.1",
