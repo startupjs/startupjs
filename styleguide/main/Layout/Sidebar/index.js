@@ -27,7 +27,7 @@ export default observer(function Sidebar ({ children }) {
   // like in Modal component (Modal, Modal.Actions)
   function renderContent () {
     return pug`
-      ScrollView.top
+      ScrollView
         each COMPONENT_NAME in Object.keys(COMPONENTS).filter(i => /^[A-Z]/.test(i))
           Text.link(
             key=COMPONENT_NAME
