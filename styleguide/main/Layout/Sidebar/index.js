@@ -10,7 +10,6 @@ import {
   useValidateWidth,
   useDarkTheme
 } from 'clientHelpers'
-import { u } from 'ui/config/helpers'
 import './index.styl'
 const { Br, Row, SmartSidebar, Span } = COMPONENTS
 const PATH = '_session.Sidebar'
@@ -28,12 +27,7 @@ export default observer(function Sidebar ({ children }) {
   // like in Modal component (Modal, Modal.Actions)
   function renderContent () {
     return pug`
-      ScrollView(
-        contentContainerStyle={
-          paddingTop: u(1.5),
-          paddingBottom: u(1.5)
-        }
-      )
+      ScrollView
         each COMPONENT_NAME in Object.keys(COMPONENTS).filter(i => /^[A-Z]/.test(i))
           Text.link(
             key=COMPONENT_NAME
