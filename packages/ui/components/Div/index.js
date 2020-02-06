@@ -6,8 +6,7 @@ import config from '../../config/rootConfig'
 import alpha from 'color-alpha'
 import './index.styl'
 
-const { opacity } = config
-
+const { activeStateOpacity, hoverOpacity } = config.Div
 const SHADOWS = config.shadows
 
 function Div ({
@@ -22,11 +21,8 @@ function Div ({
   const [hover, setHover] = useState()
   const wrapperExtraStyles = useMemo(() => {
     if (!backgroundColor) return {}
-    if (hover) {
-      return { backgroundColor: alpha(backgroundColor, opacity.hover) }
-    } else {
-      return { backgroundColor }
-    }
+    if (!hover) return { backgroundColor }
+    return { backgroundColor: alpha(backgroundColor, hoverOpacity) }
   }, [hover, backgroundColor])
 
   const isClickable = typeof onPress === 'function' && !disabled
@@ -37,7 +33,7 @@ function Div ({
   const extraProps = {}
 
   if (isClickable) {
-    extraProps.activeOpacity = config.opacity.active
+    extraProps.activeOpacity = activeStateOpacity
     extraProps.onPress = onPress
 
     extraProps.onMouseEnter = () => setHover(true)
@@ -54,7 +50,6 @@ function Div ({
       ...extraProps
       ...props
     )
-      View.content
       = children
   `
 }
