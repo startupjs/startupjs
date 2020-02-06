@@ -1,4 +1,4 @@
-const hexToRGBA = require('./hexToRGBA')
+const hexToRGBA = require('color-alpha')
 
 module.exports = function generateColorsFromPalette (pallete) {
   if (!pallete) return {}
