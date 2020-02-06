@@ -1,7 +1,3 @@
-_primary = $UI.colors.primary
-_secondary = $UI.colors.secondary
-_success = $UI.colors.success
-_white = $UI.colors.white
 _disabledOpacity = 0.25
 _iconMargin = 1u
 
@@ -9,7 +5,11 @@ _iconMargin = 1u
   flex-direction row
   align-items center
   justify-content center
-  padding 0 1u
+  padding 0 2u
+
+  &.s
+    height 4u
+    min-width @height
 
   &.m
     height 4.5u
@@ -26,8 +26,6 @@ _iconMargin = 1u
   &.with-label
     &.m
       min-width 10u
-      &.with-icon
-        padding 0 2u
 
     &.l
       min-width 11u
@@ -35,76 +33,28 @@ _iconMargin = 1u
     &.xl
       min-width 22.5u
 
-    &.l
-    &.xl
-      padding 0 2u
-
-
   &.rounded
     radius()
 
   &.circle
     radius(circle)
 
+  &.squared
+    border-radius 0
+
   &.disabled
     opacity _disabledOpacity
 
 .leftIconWrapper
-  margin-right _iconMargin
-  &.with-label:not(.m)
+  &.with-label
+    margin-right _iconMargin
     margin-left (- _iconMargin)
 
 .rightIconWrapper
-  margin-left _iconMargin
-  &.with-label:not(.m)
+  &.with-label
+    margin-left _iconMargin
     margin-right (- _iconMargin)
 
-.flat
-  .root&
-    background-color _primary
-
-    &.secondary
-      background-color _secondary
-
-    &.success
-      background-color _success
-
-  .label&
-    color _white
-
 .outlined
   .root&
-    border 1px solid _primary
-
-    &.secondary
-      border 1px solid _secondary
-
-    &.success
-      border 1px solid _success
-
-.ghost
-  .root&
-    +web()
-      &:hover
-        background-color $UI.colors.primaryLightest
-
-    &.secondary
-      +web()
-        &:hover
-          background-color $UI.colors.secondaryLightest
-
-    &.success
-      +web()
-        &:hover
-          background-color $UI.colors.successLightest
-
-.outlined
-.ghost
-  .label&
-    color _primary
-
-    &.secondary
-      color _secondary
-
-    &.success
-      color _success
+    border-width 1px
