@@ -10,23 +10,17 @@ function Avatar ({
   style,
   url,
   size,
-  fallback,
-  onPress
+  fallback
 }) {
-  let _fallback
+  let initials
   if (fallback) {
-    const splitedFalback = fallback.split(' ')
-    _fallback = splitedFalback[0].charAt(0)
-
-    if (splitedFalback.length > 1) {
-      _fallback += splitedFalback[1].charAt(0)
-    }
-
-    _fallback = _fallback.toUpperCase()
+    const [firstName, lastName] = fallback.split(' ')
+    initials = firstName[0].toUpperCase() +
+      (lastName ? lastName[0].toUpperCase() : '')
   }
 
   return pug`
-    View.root(style=style styleName=[size] onPress=onPress)
+    View.root(style=style styleName=[size])
       if url
         Image.avatar(
           styleName=[size]
@@ -41,7 +35,7 @@ function Avatar ({
           })}
         )
           Span.fallback(size=size bold)
-            = _fallback
+            = initials
   `
 }
 
