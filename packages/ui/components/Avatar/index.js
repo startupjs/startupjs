@@ -1,8 +1,8 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { View, Image } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
-import Div from '../Div'
+import randomcolor from 'randomcolor'
 import Span from '../Span'
 import './index.styl'
 
@@ -10,46 +10,39 @@ function Avatar ({
   style,
   url,
   size,
-  fallback,
-  onPress
+  fallback
 }) {
-  let _fallback
-  if (fallback) {
-    const splitedFalback = fallback.split(' ')
-    _fallback = splitedFalback[0].charAt(0)
-
-    if (splitedFalback.length > 1) {
-      _fallback += splitedFalback[1].charAt(0)
-    }
-
-    _fallback = _fallback.toUpperCase()
-  }
-
   return pug`
-    Div.root(style=style styleName=[size] onPress=onPress)
+    View.root(style=style styleName=[size])
       if url
         Image.avatar(
           styleName=[size]
           source={ uri: url }
         )
       else
-        Div.avatar(
+        - const _fallback = fallback.trim()
+        - const [firstName, lastName] = _fallback.split(' ')
+        - const initials = (firstName ? firstName[0].toUpperCase() : '') + (lastName ? lastName[0].toUpperCase() : '')
+        View.avatar(
           styleName=[size]
+          style={backgroundColor: randomcolor({
+            luminosity: 'bright',
+            seed: _fallback
+          })}
         )
           Span.fallback(size=size bold)
-            = _fallback
+            = initials
   `
 }
 
 Avatar.propTypes = {
   url: propTypes.string,
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
-  fallback: propTypes.string,
-  onPress: propTypes.func
+  fallback: propTypes.string
 }
 
 Avatar.defaultProps = {
-  fallback: '',
+  fallback: '?',
   size: 'm'
 }
 
