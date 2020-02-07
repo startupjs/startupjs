@@ -1,8 +1,8 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { View, Image } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
-import Div from '../Div'
+import randomcolor from 'randomcolor'
 import Span from '../Span'
 import './index.styl'
 
@@ -26,15 +26,19 @@ function Avatar ({
   }
 
   return pug`
-    Div.root(style=style styleName=[size] onPress=onPress)
+    View.root(style=style styleName=[size] onPress=onPress)
       if url
         Image.avatar(
           styleName=[size]
           source={ uri: url }
         )
       else
-        Div.avatar(
+        View.avatar(
           styleName=[size]
+          style={backgroundColor: randomcolor({
+            luminosity: 'bright',
+            seed: fallback
+          })}
         )
           Span.fallback(size=size bold)
             = _fallback
@@ -44,12 +48,11 @@ function Avatar ({
 Avatar.propTypes = {
   url: propTypes.string,
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
-  fallback: propTypes.string,
-  onPress: propTypes.func
+  fallback: propTypes.string
 }
 
 Avatar.defaultProps = {
-  fallback: '',
+  fallback: '?',
   size: 'm'
 }
 
