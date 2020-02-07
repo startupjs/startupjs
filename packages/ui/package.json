@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-native-fontawesome": "^0.2.0",
     "randomcolor": "^0.5.4",
+    "color-alpha": "^1.0.4",
     "react-native-drawer-layout-polyfill": "^2.0.0"
   },
   "peerDependencies": {
