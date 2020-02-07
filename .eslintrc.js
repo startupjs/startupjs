@@ -37,7 +37,6 @@ module.exports = {
     'react-pug/no-interpolation': 'off',
     'react-pug/prop-types': 'off',
     'react-pug/quotes': 'off',
-    "react-pug/pug-lint" : "off",
     'exports-order/need-order-export-line': 'error',
     'exports-order/need-order-export-module': 'error'
   },
