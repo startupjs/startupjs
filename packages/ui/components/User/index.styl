@@ -1,0 +1,60 @@
+_white = $UI.colors.white
+
+.root
+  flex-direction row
+  align-items center
+  radius()
+
+  &.left
+    flex-direction row-reverse
+
+.avatar
+  margin-right 1u
+
+  &.left
+    margin-right 0
+    margin-left 1u
+
+.statusLabel
+  position absolute
+  right 0
+  bottom 0
+  border 2px solid _white
+  radius(circle)
+  background-color $UI.colors.success
+  width 1.5u
+  height @width
+
+  &.xxl
+    width 2.5u
+    height @width
+
+  &.xl
+    width 2u
+    height @width
+
+  &.s
+    width 1.25u
+    height @width
+
+  &.xs
+    width 1u
+    height @width
+
+
+.textWrapper
+  flex-grow 1
+  flex-shrink 1
+
+.nameWrapper
+  &.left
+    flex-direction row-reverse
+
+.descriptionWrapper
+  &.left
+    flex-direction row-reverse
+
+.name,
+.description
+  &.left
+    text-align right
