@@ -1,3 +1,4 @@
+export { default as Avatar } from './components/Avatar'
 export { default as Br } from './components/Br'
 export { default as Button } from './components/Button'
 export { default as Card } from './components/Card'
