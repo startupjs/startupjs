@@ -12,13 +12,6 @@ function Avatar ({
   size,
   fallback
 }) {
-  let initials
-  if (fallback) {
-    const [firstName, lastName] = fallback.split(' ')
-    initials = firstName[0].toUpperCase() +
-      (lastName ? lastName[0].toUpperCase() : '')
-  }
-
   return pug`
     View.root(style=style styleName=[size])
       if url
@@ -27,11 +20,14 @@ function Avatar ({
           source={ uri: url }
         )
       else
+        - const _fallback = fallback.trim() || '?'
+        - const [firstName, lastName] = _fallback.split(' ')
+        - const initials = firstName[0].toUpperCase() + (lastName ? lastName[0].toUpperCase() : '')
         View.avatar(
           styleName=[size]
           style={backgroundColor: randomcolor({
             luminosity: 'bright',
-            seed: fallback
+            seed: _fallback
           })}
         )
           Span.fallback(size=size bold)
@@ -46,7 +42,7 @@ Avatar.propTypes = {
 }
 
 Avatar.defaultProps = {
-  fallback: '?',
+  fallback: '',
   size: 'm'
 }
 
