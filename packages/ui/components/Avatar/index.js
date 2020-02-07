@@ -20,9 +20,9 @@ function Avatar ({
           source={ uri: url }
         )
       else
-        - const _fallback = fallback.trim() || '?'
+        - const _fallback = fallback.trim()
         - const [firstName, lastName] = _fallback.split(' ')
-        - const initials = firstName[0].toUpperCase() + (lastName ? lastName[0].toUpperCase() : '')
+        - const initials = (firstName ? firstName[0].toUpperCase() : '') + (lastName ? lastName[0].toUpperCase() : '')
         View.avatar(
           styleName=[size]
           style={backgroundColor: randomcolor({
@@ -42,7 +42,7 @@ Avatar.propTypes = {
 }
 
 Avatar.defaultProps = {
-  fallback: '',
+  fallback: '?',
   size: 'm'
 }
 
