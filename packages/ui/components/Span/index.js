@@ -29,7 +29,7 @@ Span.defaultProps = {
 }
 
 Span.propTypes = {
-  size: propTypes.oneOf(['xl', 'l', 'm', 's', 'xs']),
+  size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   bold: propTypes.bool,
   italic: propTypes.bool,
   description: propTypes.bool,
