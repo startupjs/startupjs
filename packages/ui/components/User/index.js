@@ -26,14 +26,20 @@ function User ({
   size,
   onPress
 }) {
+  const extraAvatarStyles = { 'without-label': !name && !description }
+
   return pug`
     Div.root(
       styleName=[position]
       backgroundColor=backgroundColor
       onPress=onPress
     )
-      View.avatar(styleName=[position])
-        Avatar(size=size url=avatarUrl fallback=name)
+      View.avatar(styleName=[position, extraAvatarStyles])
+        Avatar(
+          size=size
+          url=avatarUrl
+          fallback=name
+        )
         if online
           StatusLabel.statusLabel(styleName=[size])
       View.textWrapper
