@@ -1,0 +1,15 @@
+.button
+  width gutter(4)
+  height gutter(4)
+  margin gutter()
+  align-items center
+  justify-content center
+  &[variation='increment']
+    background-color green
+    &[size='small']
+      background-color lighten(green, 15%)
+    &[size='large']
+      background-color darken(green, 40%)
+.label
+  color white
+  font-size 24px

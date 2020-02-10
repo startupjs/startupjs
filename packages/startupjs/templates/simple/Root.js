@@ -14,6 +14,7 @@ import {
 } from 'startupjs'
 import axios from 'axios'
 import './Root.styl'
+import { Increment } from './components'
 
 // Init startupjs connection to server and the ORM.
 // baseUrl option is required for the native to work - it's used
@@ -30,11 +31,6 @@ export default observer(function Root () {
   let forceTrigger = useForceTrigger(3000)
   let [api] = useApi(getApi, [forceTrigger])
 
-  async function increment () {
-    $counter.increment('value', 1)
-    setStateCounter(stateCounter + 1)
-  }
-
   async function decrement () {
     $counter.increment('value', -1)
     setStateCounter(stateCounter - 1)
@@ -50,8 +46,7 @@ export default observer(function Root () {
       Text.greeting Hello World
       Text DB Counter: #{counter && counter.value}
       Text State Counter: #{stateCounter}
-      TouchableOpacity.button.increment(onPress=increment)
-        Text.label +
+      Increment(stateCounter=stateCounter setStateCounter=setStateCounter)
       TouchableOpacity.button.decrement(onPress=decrement)
         Text.label -
       TouchableOpacity.button.clear(onPress=reset)
