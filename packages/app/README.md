@@ -7,12 +7,6 @@
 yarn add @startupjs/app
 ```
 
-## Codepush setup
-
-You should setup codepush as described
-[here](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/react-native)
-and [here](https://paper.dropbox.com/doc/Setup-CodePush-for-RN-app.--AgoJbp6ktolYMqTE0ksiVBqTAg-nKoimxRHPVDhAV8xgUei5)
-
 ## Usage
 
 ### client

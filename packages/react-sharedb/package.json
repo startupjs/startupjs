@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/react-sharedb",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Run ShareDB in React",
   "main": "lib/index.js",
   "publishConfig": {

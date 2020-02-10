@@ -1,8 +1,15 @@
-# CodePush setup
+# startupjs codepush
+> Dynamically push JS-only updates to the React Native apps
+
+## Installation
+
+```sh
+yarn add @startupjs/codepush
+```
+
+## Setup
 
 [CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to all the devices of users.
-
-It's built-in into the [`@startupjs/app`](/packages/app), which is included to the [`routing` template](/README.md#boilerplate-templates).
 
 Do the following steps to configure it for your project:
 
@@ -27,7 +34,7 @@ Do the following steps to configure it for your project:
   code-push app add <App-Name-Ios> ios react-native
   ```
 
-## Android
+### Android
 
 1. Add empty `reactNativeCodePush_androidDeploymentKey` string item to `/path_to_your_app/android/app/src/main/res/values/strings.xml`. It should look similar to the following:
 
@@ -40,7 +47,7 @@ Do the following steps to configure it for your project:
 
 2. Get keys using `code-push deployment ls <App-Name-Android> --displayKeys` and copy both Debug and Release key in `/path_to_your_app/android/app/build.gradle`
 
-![codepush android](img/codepush-android.png)
+![codepush android](docs/img/codepush-android.png)
 
 3. Go to `/path_to_your_app/android/app/src/main/java/com/lingua/MainApplication.java` and add code which set keys. It should look similar to this:
 
@@ -61,7 +68,7 @@ protected List<ReactPackage> getPackages() {
 }
 ```
 
-## iOS
+### iOS
 
 1. Add `CodePushDeploymentKey` string item with value `$(CODEPUSH_KEY)` to `/path_to_your_app/ios/your_app/Info.plist`. It may looks like this:
 
@@ -81,7 +88,27 @@ protected List<ReactPackage> getPackages() {
 
 2. Get keys using code-push deployment ls <App-Name-Ios> --displayKeys then open `/path_to_your_app/ios` using `Xcode` and copy both Debug and Release key in
 
-![codepush ios](img/codepush-ios.png)
+![codepush ios](docs/img/codepush-ios.png)
+
+## Usage
+
+```js
+import App from './App'
+import codepush from '@startupjs/codepush'
+export default codepush(App)
+```
+
+## How to publish new version with CodePush
+
+By default the releases are non-critical. Which means that the update will be pushed to the application whenever the user opens it or goes back into it from the sleep mode.
+
+In case your change is critical and requires force update, you can specify the `--mandatory` or `-m` flag. This way the application will be blocked by a popup even if the user is currently actively using the app. And the only way for user to continue will be to accept the popup dialog asking to update and restart the app.
+
+```
+appcenter codepush release-react -a ownerName/appName -d Production --description "Some description" --mandatory (optional)
+```
+
+**IMPORTANT (iOS)**: By default codepush using default plist file located at `ios/%PROJECT%/Info.plist`. If your file have another location or name you can specify plist file in command above by adding `--plist-file path/to/Info.plist`.
 
 ## References
 
