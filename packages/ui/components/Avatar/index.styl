@@ -1,0 +1,42 @@
+_xxl = 8u
+_xl = 7u
+_l = 6u
+_m = 5u
+_s = 4u
+_xs = 3u
+
+.root
+  radius(circle)
+  overflow hidden
+
+.avatar
+  justify-content center
+  align-items center
+
+  &.xxl
+    width _xxl
+    height @width
+
+  &.xl
+    width _xl
+    height @width
+
+  &.l
+    width _l
+    height @width
+
+  &.m
+    width _m
+    height @width
+
+  &.s
+    width _s
+    height @width
+
+  &.xs
+    width _xs
+    height @width
+
+
+.fallback
+  color white
