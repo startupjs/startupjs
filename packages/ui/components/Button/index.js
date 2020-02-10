@@ -13,7 +13,7 @@ const { colors } = config
 const ICON_SIZES = {
   m: 's',
   l: 'm',
-  xl: 'm'
+  xl: 'l'
 }
 
 function Button ({
