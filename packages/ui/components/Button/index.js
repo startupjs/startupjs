@@ -44,7 +44,7 @@ function Button ({
         variant,
         shape,
         color,
-        { disabled, 'with-icon': icon || rightIcon },
+        { disabled },
         extraCommonStyles
       ]
       disabled=disabled
@@ -71,8 +71,7 @@ Button.defaultProps = {
   variant: 'flat',
   size: 'm',
   shape: 'rounded',
-  disabled: false,
-  onPress: () => null
+  disabled: false
 }
 
 Button.propTypes = {
