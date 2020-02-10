@@ -41,11 +41,12 @@ function User ({
       )
       View.userInfo
         Span.name(size=size styleName=[avatarPosition])= name
-        Span.description(
-          size=descriptionSizes[size]
-          styleName=[avatarPosition]
-          description
-        )= description
+        if description
+          Span.description(
+            size=descriptionSizes[size]
+            styleName=[avatarPosition]
+            description
+          )= description
   `
 }
 
