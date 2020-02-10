@@ -1,0 +1,72 @@
+_inputBg = $UI.colors.white
+_inputBorderColor = $UI.colors.darkLighter
+_inputBgDisabled = $UI.colors.darkLightest
+_inputCaretColor = $UI.TextInput.caretColor
+_inputTextColor = $UI.colors.mainText
+_focusedColor = $UI.colors.primary
+_inputFontSizeL = 2u
+_inputFontSizeM = 1.75u
+_inputFontSizeS = 1.75u
+
+.label
+  margin-bottom 0.5u
+  &.focused
+    color _focusedColor
+
+.input-wrapper
+  background-color _inputBg
+  border-style solid
+  border-color _inputBorderColor
+  padding 0 1u
+  min-width 15u
+  radius()
+
+  &.disabled
+    background-color _inputBgDisabled
+
+  &.focused
+    border-color _focusedColor
+
+  &.with-icon
+    &.l
+      padding-left 5.5u
+
+    &.m
+      padding-left 4.5u
+
+    &.s
+      padding-left 4u
+
+.input-icon
+  position absolute
+  left 0.5u
+  z-index 1
+
+  &.l
+  &.m
+    top 3px
+
+  &.s
+    top 1px
+
+.input
+  margin 0 // important for safari
+  flex 1 // important for multiline
+  // padding-top, padding-bottom is important
+  // for android because it has invisible paddings
+  padding-top 0
+  padding-bottom @padding-top
+  color _inputTextColor
+
+  +web()
+    outline 0
+    caret-color _inputCaretColor
+
+  &.l
+    font-size _inputFontSizeL
+
+  &.m
+    font-size _inputFontSizeM
+
+  &.s
+    font-size _inputFontSizeS

@@ -25,4 +25,9 @@ const opacity = {
   hover: 0.5
 }
 
-module.exports = { gutters, media, fonts, opacity }
+module.exports = {
+  gutters,
+  media,
+  fonts,
+  opacity
+}
