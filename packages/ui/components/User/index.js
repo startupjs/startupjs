@@ -40,7 +40,7 @@ function User ({
         fallback=name
       )
       View.userInfo
-        Span.name(size=size styleName=[avatarPosition])= name
+        Span.name(size=size styleName=[avatarPosition] numberOfLines=1)= name
         if description
           Span.description(
             size=descriptionSizes[size]
