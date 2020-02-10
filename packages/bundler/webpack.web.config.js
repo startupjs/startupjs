@@ -146,6 +146,10 @@ module.exports = function getConfig (env, {
           }
         },
         {
+          test: /\.attr\.(?:styl|css)$/,
+          use: 'raw-loader'
+        },
+        {
           test: /\.styl$/,
           use: [
             {
