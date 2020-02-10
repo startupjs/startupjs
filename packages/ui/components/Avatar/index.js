@@ -35,7 +35,7 @@ function Avatar ({
             Span.fallback(size=size bold)
               = initials
       if status
-        View.statusLabel(styleName=[size, status])
+        View.status(styleName=[size, status])
   `
 }
 

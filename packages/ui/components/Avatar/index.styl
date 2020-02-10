@@ -42,21 +42,19 @@ _xs = 3u
 .fallback
   color white
 
-.statusLabel
+.status
   position absolute
   z-index 1
   right 0
   bottom 0
   border 2px solid _white
   radius(circle)
-  width 1.5u
-  height @width
 
   &.online
     background-color $UI.colors.success
 
   &.away
-    background-color $UI.colors.additional0
+    background-color $UI.colors.warning
 
   &.xxl
     width 2.5u
@@ -64,6 +62,10 @@ _xs = 3u
 
   &.xl
     width 2u
+    height @width
+
+  &.m
+    width 1.5u
     height @width
 
   &.s
