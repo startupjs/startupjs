@@ -15,7 +15,7 @@ function Collapse ({ style, title, open, children }) {
     View.root
       Row.title(align='between' vAlign='center')
         Span.titleText(size='l' numberOfLines=1 bold)= title
-        Icon(icon=faCaretDown color=config.colors.dark size='s')
+        Icon(icon=faCaretDown color=config.colors.dark)
       Collapsible(collapsed=!open)
         View.content= children
   `
