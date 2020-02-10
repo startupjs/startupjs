@@ -26,8 +26,6 @@ function User ({
   status,
   onPress
 }) {
-  const extraAvatarStyles = { 'without-label': !name && !description }
-
   return pug`
     Div.root(
       styleName=[avatarPosition]
@@ -35,7 +33,7 @@ function User ({
       onPress=onPress
     )
       Avatar.avatar(
-        styleName=[avatarPosition, extraAvatarStyles]
+        styleName=[avatarPosition]
         size=size
         status=status
         url=avatarUrl
@@ -59,7 +57,7 @@ User.defaultProps = {
 User.propTypes = {
   avatarUrl: propTypes.string,
   description: propTypes.string,
-  name: propTypes.string,
+  name: propTypes.string.isRequired,
   avatarPosition: propTypes.oneOf(['left', 'right']),
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   status: propTypes.oneOf(['online', 'away']),
