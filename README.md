@@ -193,7 +193,7 @@ to the native installation when working with the large amount of files.
 
 #### Step 2: Add support for ESLint errors highlighting
 
-1.  Install pagkage `linter-eslint`
+1.  Install package `linter-eslint`
 2.  Restart Atom
 
 ## List of Packages
@@ -211,7 +211,9 @@ to the native installation when working with the large amount of files.
 - [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
 - [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
 - [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
+- [Styleguide](/packages/styleguide)
 - [StartupJS meta package](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
+- [UI](/packages/ui)
 
 ## Contributing & Troubleshooting
 

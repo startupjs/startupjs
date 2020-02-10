@@ -52,6 +52,7 @@ export {
   useNow
 } from './hooks/meta'
 export { raw } from '@nx-js/observer-util'
+export * from '@startupjs/hooks'
 
 dummyPreventTreeShakingGlobalInit()
 dummyPreventTreeShakingPatchRacer()

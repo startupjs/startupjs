@@ -36,12 +36,12 @@ Do the following steps to configure it for your project:
 
 ### Android
 
-1. Add empty `reactNativeCodePush_androidDeploymentKey` string item to `/path_to_your_app/android/app/src/main/res/values/strings.xml`. It may looks like this:
+1. Add empty `reactNativeCodePush_androidDeploymentKey` string item to `/path_to_your_app/android/app/src/main/res/values/strings.xml`. It should look similar to the following:
 
 ```xml
 <resources>
   <string name="reactNativeCodePush_androidDeploymentKey" moduleConfig="true"></string>
-  <string name="app_name">Lingua.Live</string>
+  <string name="app_name">MyCoolApp</string>
 </resources>
 ```
 
@@ -49,7 +49,7 @@ Do the following steps to configure it for your project:
 
 ![codepush android](docs/img/codepush-android.png)
 
-3. Go to `/path_to_your_app/android/app/src/main/java/com/lingua/MainApplication.java` and add code which set keys. It may looks like this:
+3. Go to `/path_to_your_app/android/app/src/main/java/com/lingua/MainApplication.java` and add code which set keys. It should look similar to this:
 
 ```java
 @Override

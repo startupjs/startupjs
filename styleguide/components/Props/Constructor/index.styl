@@ -1,0 +1,39 @@
+$input = lighten($UI.colors.dark, 75%)
+$thead = $UI.colors.darkLight
+$header = $UI.colors.white
+$darkHeader = $UI.colors.whiteLight
+$value = $UI.colors.success
+$type = $UI.colors.additional1
+
+.thead
+  background-color $thead
+
+.input
+  background-color white
+  border-color $input
+  border-width 1px
+
+.header
+  font-size 12px
+  letter-spacing 1px
+  font-weight bold
+  color $header
+
+.possibleValue
+  flex-direction row
+
+.value
+  color $value
+  font-style italic
+
+.type
+  color $type
+  font-style italic
+
+.dark
+  &.header
+    color $darkHeader
+  &.value
+    color lighten($value, 30%)
+  &.type
+    color lighten($type, 30%)

@@ -9,7 +9,8 @@ const DIRECTORY_ALIASES = {
   model: './model',
   main: './main',
   styles: './styles',
-  appConstants: './appConstants'
+  appConstants: './appConstants',
+  config: './startupjs.config'
 }
 
 const clientPresets = [

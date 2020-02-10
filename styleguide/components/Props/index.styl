@@ -1,0 +1,19 @@
+$border = $UI.colors.darkLight
+$darkTopBg = $UI.darkMainBg
+$darkBottomBg = $UI.darkSecondaryBg
+
+.top
+  flex 1
+  border-bottom-width 2px
+  border-style solid
+  border-color $border
+
+.bottom
+  flex 1
+  padding 1u
+
+.dark
+  &.top
+    background-color $darkTopBg
+  &.bottom
+    background-color $darkBottomBg

@@ -3,9 +3,9 @@ const template = require('lodash/template')
 const fs = require('fs')
 
 let templates = {
-  '403': template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
-  '404': template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
-  '500': template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
+  403: template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
+  404: template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
+  500: template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
 }
 
 // Override/extend default error pages

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { $root, emit, initLocalCollection } from 'startupjs'
 import { Route } from 'react-router'
 import { Dimensions, Platform, View } from 'react-native'
-import Stack from 'react-router-native-stack'
+import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
 const isWeb = Platform.OS === 'web'
-const DEFAULT_ANIMATE = false // !isWeb ?
 
 function getOrientation () {
   const dim = Dimensions.get('screen')
@@ -26,7 +25,7 @@ export default class Routes extends React.Component {
   }
 
   render () {
-    const { routes, animate = DEFAULT_ANIMATE, onRouteError } = this.props
+    const { routes, onRouteError } = this.props
     const routeComponents = routes.map(route => {
       return (
         <Route
@@ -42,15 +41,9 @@ export default class Routes extends React.Component {
       )
     })
 
-    if (animate) {
-      return (
-        <Stack gestureEnabled={false} animationType='slide-horizontal'>
-          {routeComponents}
-        </Stack>
-      )
-    } else {
-      return routeComponents
-    }
+    return pug`
+      RoutesWrapper(...this.props)= routeComponents
+    `
   }
 }
 

@@ -1,0 +1,11 @@
+$border = lighten($UI.colors.dark, 75%)
+$darkBorder = lighten($UI.colors.dark, 0%)
+
+.root
+  flex-direction row
+  border-color $border
+  border-bottom-width 1px
+
+.dark
+  &.root
+    border-color $darkBorder

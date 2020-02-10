@@ -25,7 +25,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, appRoutes, error, options, cb) => {
+module.exports = (backend, appRoutes, error, options, done) => {
   const MongoStore = connectMongo(expressSession)
   const mongoUrl = conf.get('MONGO_URL')
 
@@ -143,7 +143,7 @@ module.exports = (backend, appRoutes, error, options, cb) => {
       })
       .use(error)
 
-    cb({
+    done({
       expressApp: expressApp,
       upgrade: hwHandlers.upgrade,
       wss: hwHandlers.wss
