@@ -1,3 +1,4 @@
+_white = $UI.colors.white
 _xxl = 8u
 _xl = 7u
 _l = 6u
@@ -5,7 +6,7 @@ _m = 5u
 _s = 4u
 _xs = 3u
 
-.root
+.avatarWrapper
   radius(circle)
   overflow hidden
 
@@ -40,3 +41,35 @@ _xs = 3u
 
 .fallback
   color white
+
+.statusLabel
+  position absolute
+  z-index 1
+  right 0
+  bottom 0
+  border 2px solid _white
+  radius(circle)
+  width 1.5u
+  height @width
+
+  &.online
+    background-color $UI.colors.success
+
+  &.away
+    background-color $UI.colors.additional0
+
+  &.xxl
+    width 2.5u
+    height @width
+
+  &.xl
+    width 2u
+    height @width
+
+  &.s
+    width 1.25u
+    height @width
+
+  &.xs
+    width 1u
+    height @width

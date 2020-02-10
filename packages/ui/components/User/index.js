@@ -21,47 +21,40 @@ function User ({
   backgroundColor,
   description,
   name,
-  online,
-  position,
+  avatarPosition,
   size,
+  status,
   onPress
 }) {
   const extraAvatarStyles = { 'without-label': !name && !description }
 
   return pug`
     Div.root(
-      styleName=[position]
+      styleName=[avatarPosition]
       backgroundColor=backgroundColor
       onPress=onPress
     )
-      View.avatar(styleName=[position, extraAvatarStyles])
+      View.avatar(styleName=[avatarPosition, extraAvatarStyles])
         Avatar(
           size=size
+          status=status
           url=avatarUrl
           fallback=name
         )
-        if online
-          StatusLabel.statusLabel(styleName=[size])
-      View.textWrapper
-        View.nameWrapper(styleName=[position])
-          Span.name(size=size styleName=[position])= name
-        View.descriptionWrapper(styleName=[position])
+      View.userInfo
+        View.nameWrapper(styleName=[avatarPosition])
+          Span.name(size=size styleName=[avatarPosition])= name
+        View.descriptionWrapper(styleName=[avatarPosition])
           Span.description(
             size=descriptionSizes[size]
-            styleName=[position]
+            styleName=[avatarPosition]
             description
           )= description
   `
 }
 
-function StatusLabel ({ style }) {
-  return pug`
-    Div(style=style)
-  `
-}
-
 User.defaultProps = {
-  position: 'right',
+  avatarPosition: 'right',
   size: 'm'
 }
 
@@ -69,9 +62,9 @@ User.propTypes = {
   avatarUrl: propTypes.string,
   description: propTypes.string,
   name: propTypes.string,
-  online: propTypes.bool,
-  position: propTypes.oneOf(['left', 'right']),
+  avatarPosition: propTypes.oneOf(['left', 'right']),
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  status: propTypes.oneOf(['online', 'away']),
   onPress: propTypes.func
 }
 
