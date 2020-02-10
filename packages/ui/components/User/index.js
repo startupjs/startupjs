@@ -34,27 +34,25 @@ function User ({
       backgroundColor=backgroundColor
       onPress=onPress
     )
-      View.avatar(styleName=[avatarPosition, extraAvatarStyles])
-        Avatar(
-          size=size
-          status=status
-          url=avatarUrl
-          fallback=name
-        )
+      Avatar.avatar(
+        styleName=[avatarPosition, extraAvatarStyles]
+        size=size
+        status=status
+        url=avatarUrl
+        fallback=name
+      )
       View.userInfo
-        View.nameWrapper(styleName=[avatarPosition])
-          Span.name(size=size styleName=[avatarPosition])= name
-        View.descriptionWrapper(styleName=[avatarPosition])
-          Span.description(
-            size=descriptionSizes[size]
-            styleName=[avatarPosition]
-            description
-          )= description
+        Span.name(size=size styleName=[avatarPosition])= name
+        Span.description(
+          size=descriptionSizes[size]
+          styleName=[avatarPosition]
+          description
+        )= description
   `
 }
 
 User.defaultProps = {
-  avatarPosition: 'right',
+  avatarPosition: 'left',
   size: 'm'
 }
 

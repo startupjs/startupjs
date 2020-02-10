@@ -5,13 +5,13 @@ _white = $UI.colors.white
   align-items center
   radius()
 
-  &.left
+  &.right
     flex-direction row-reverse
 
 .avatar
   margin-right 1u
 
-  &.left
+  &.right
     margin-right 0
     margin-left 1u
 
@@ -22,10 +22,7 @@ _white = $UI.colors.white
   flex-grow 1
   flex-shrink 1
 
-.nameWrapper
-  &.left
-    flex-direction row-reverse
-
-.descriptionWrapper
-  &.left
-    flex-direction row-reverse
+.name,
+.description
+  &.right
+    text-align right
