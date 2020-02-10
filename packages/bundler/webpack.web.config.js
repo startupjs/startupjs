@@ -1,4 +1,5 @@
 const pickBy = require('lodash/pickBy')
+const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
@@ -181,7 +182,7 @@ module.exports = function getConfig (env, {
               loader: 'stylus-loader',
               options: {
                 use: ui ? [stylusHashPlugin('$UI', ui)] : [],
-                import: [STYLES_PATH],
+                import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
                 define: {
                   __WEB__: true
                 }
