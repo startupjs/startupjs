@@ -4,7 +4,6 @@ import { View, TextInput, Platform } from 'react-native'
 import config from './../../config/rootConfig'
 import Icon from './../Icon'
 import './index.styl'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
@@ -29,7 +28,7 @@ export default observer(function Input ({
   disabled,
   resize,
   numberOfLines,
-  icon = faStar,
+  icon,
   onBlur,
   onFocus,
   onChangeText,
@@ -65,12 +64,6 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  const wrapperStyles = {
-    paddingTop: verticalGutter,
-    paddingBottom: verticalGutter,
-    borderWidth,
-    height: fullHeight
-  }
   const inputStyles = { lineHeight: lH }
   if (IS_IOS) inputStyles.lineHeight -= IOS_LH_CORRECTION[size]
 
@@ -78,10 +71,7 @@ export default observer(function Input ({
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
   return pug`
-    View.input-wrapper(
-      style=[wrapperStyles]
-      styleName=[size, {disabled, focused, 'with-icon': icon}]
-    )
+    View.input-wrapper(style={ height: fullHeight })
       if icon
         View.input-icon(
           styleName=[size]
@@ -91,28 +81,36 @@ export default observer(function Input ({
             color=DARK_LIGHTER_COLOR
             size=size
           )
-      TextInput.input(
-        ref=inputRef
-        style=[style, inputStyles]
-        styleName=[size]
-        selectionColor=caretColor
-        placeholder=placeholder
-        placeholderTextColor=DARK_LIGHTER_COLOR
-        value=value
-        editable=!disabled
-        multiline=multiline
-        onBlur=onBlur
-        onFocus=onFocus
-        onChangeText=(value) => {
-          if (resize) {
-            const numberOfLinesInValue = value.split('\n').length
-            if (numberOfLinesInValue > numberOfLines) {
-              setCurrentNumberOfLines(numberOfLinesInValue)
-            }
-          }
-          onChangeText && onChangeText(value)
+      View.input(
+        style={
+          paddingTop: verticalGutter,
+          paddingBottom: verticalGutter,
+          borderWidth
         }
-        ...inputExtraProps
+        styleName=[size, {disabled, focused, 'with-icon': icon}]
       )
+        TextInput.input-input(
+          ref=inputRef
+          style=[style, inputStyles]
+          styleName=[size]
+          selectionColor=caretColor
+          placeholder=placeholder
+          placeholderTextColor=DARK_LIGHTER_COLOR
+          value=value
+          editable=!disabled
+          multiline=multiline
+          onBlur=onBlur
+          onFocus=onFocus
+          onChangeText=(value) => {
+            if (resize) {
+              const numberOfLinesInValue = value.split('\n').length
+              if (numberOfLinesInValue > numberOfLines) {
+                setCurrentNumberOfLines(numberOfLinesInValue)
+              }
+            }
+            onChangeText && onChangeText(value)
+          }
+          ...inputExtraProps
+        )
   `
 })

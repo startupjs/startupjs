@@ -6,7 +6,6 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 const { colors } = config
@@ -25,8 +24,8 @@ function Button ({
   disabled,
   shape,
   size,
-  icon = faStar,
-  rightIcon = faStar,
+  icon,
+  rightIcon,
   onPress,
   ...props
 }) {

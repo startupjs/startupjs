@@ -13,7 +13,8 @@ _inputFontSizeS = 1.75u
   &.focused
     color _focusedColor
 
-.input-wrapper
+.input
+  flex 1
   background-color _inputBg
   border-style solid
   border-color _inputBorderColor
@@ -44,12 +45,12 @@ _inputFontSizeS = 1.75u
 
   &.l
   &.m
-    top 3px
+    top 0.5u
 
   &.s
-    top 1px
+    top 0.25u
 
-.input
+.input-input
   margin 0 // important for safari
   flex 1 // important for multiline
   // padding-top, padding-bottom is important
