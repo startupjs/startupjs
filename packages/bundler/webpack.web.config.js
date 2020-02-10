@@ -16,10 +16,16 @@ const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
 const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
-const { ui } = require(CONFIG_PATH)
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
+
+// Get ui config if it exists
+let ui
+try {
+  const startupjsConfig = require(CONFIG_PATH)
+  ui = startupjsConfig && startupjsConfig.ui
+} catch (err) {}
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
