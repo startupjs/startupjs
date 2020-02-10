@@ -35,13 +35,7 @@ function Avatar ({
             Span.fallback(size=size bold)
               = initials
       if status
-        StatusLabel.statusLabel(styleName=[size, status])
-  `
-}
-
-function StatusLabel ({ style }) {
-  return pug`
-    View(style=style)
+        View.statusLabel(styleName=[size, status])
   `
 }
 
