@@ -16,7 +16,7 @@
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
     "@startupjs/hooks": "^0.14.1",
-    "@startupjs/model": "^0.12.0",
+    "@startupjs/model": "^0.14.1",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
     "racer": "0.9.9",
