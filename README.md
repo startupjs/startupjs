@@ -10,7 +10,6 @@
 [Docker development Quick Start](#docker-development-quick-start)<br/>
 [IDE configuration](#ide-configuration)<br/>
 [List of Packages](#list-of-packages)<br/>
-[CodePush setup](/docs/codepush.md)<br/>
 [Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
 [Licence](#licence)
 
@@ -34,7 +33,6 @@ StartupJS stack is built on top of the following libraries and technologies:
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
 1. [Offline support](https://github.com/dmapper/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
-1. [CodePush](https://github.com/Microsoft/react-native-code-push) to be able to dynamically push JS-only updates to the React Native apps in production.
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
     - *optional* [TypeScript](https://www.typescriptlang.org/)
@@ -200,23 +198,22 @@ to the native installation when working with the large amount of files.
 
 ## List of Packages
 
-- [App](/packages/app)
-- [Backend](/packages/backend)
-- [Bundler](/packages/bundler)
-- [CLI](/packages/cli)
-- [Cron](/packages/cron)
-- [Init](/packages/init)
-- [Model](/packages/model)
-- [Offline](/packages/offline)
-- [ORM](/packages/orm)
-- [React sharedb](/packages/react-sharedb)
-- [Routes middleware](/packages/routes-middleware)
-- [Server](/packages/server)
-- [UI](/packages/ui)
+- [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
+- [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
+- [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
+- [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
+- [CodePush](https://github.com/dmapper/startupjs/blob/master/packages/codepush)
+- [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
+- [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
+- [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
+- [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
+- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
+- [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
+- [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
+- [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
 - [Styleguide](/packages/styleguide)
-- [StartupJS meta package](/packages/startupjs)
-
-## [CodePush setup](/docs/codepush.md)
+- [StartupJS meta package](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
+- [UI](/packages/ui)
 
 ## Contributing & Troubleshooting
 

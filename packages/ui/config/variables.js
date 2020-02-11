@@ -20,9 +20,4 @@ const fonts = {
   heading: font
 }
 
-const opacity = {
-  active: 0.25,
-  hover: 0.5
-}
-
-module.exports = { gutters, media, fonts, opacity }
+module.exports = { gutters, media, fonts }

@@ -40,12 +40,23 @@ const dotenvPlugin = ({ production } = {}) =>
     allowUndefined: true
   }]
 
+const csstaPlugins = () => [
+  ['babel-plugin-cssta-stylename', {
+    classAttribute: 'styleName',
+    addCssHash: true,
+    extensions: ['attr.css', 'attr.styl'],
+    wrapInMemo: false
+  }],
+  'babel-plugin-cssta'
+]
+
 const webReactCssModulesPlugin = ({ production } = {}) =>
   ['@startupjs/react-css-modules', {
     handleMissingStyleName: 'ignore',
     filetypes: {
       '.styl': {}
     },
+    skipExtensions: ['attr.css', 'attr.styl'],
     generateScopedName,
     webpackHotModuleReloading: !production
   }]
@@ -69,30 +80,38 @@ const webBasePlugins = () => [
 const config = {
   development: {
     presets: clientPresets,
-    plugins: [].concat([
-      dotenvPlugin()
-    ], nativeBasePlugins())
+    plugins: [
+      dotenvPlugin(),
+      ...csstaPlugins(),
+      ...nativeBasePlugins()
+    ]
   },
   production: {
     presets: clientPresets,
-    plugins: [].concat([
-      dotenvPlugin({ production: true })
-    ], nativeBasePlugins())
+    plugins: [
+      dotenvPlugin({ production: true }),
+      ...csstaPlugins(),
+      ...nativeBasePlugins()
+    ]
   },
   web_development: {
     presets: clientPresets,
-    plugins: [].concat([
+    plugins: [
       'react-hot-loader/babel',
       dotenvPlugin(),
-      webReactCssModulesPlugin()
-    ], webBasePlugins())
+      ...csstaPlugins(),
+      webReactCssModulesPlugin(),
+      ...webBasePlugins()
+    ]
   },
   web_production: {
     presets: clientPresets,
-    plugins: [].concat([
+    plugins: [
       dotenvPlugin({ production: true }),
-      webReactCssModulesPlugin({ production: true })
-    ], webBasePlugins())
+      ...csstaPlugins(),
+      webReactCssModulesPlugin({ production: true }),
+      ...webBasePlugins()
+    ]
   },
   server: {
     presets: serverPresets,

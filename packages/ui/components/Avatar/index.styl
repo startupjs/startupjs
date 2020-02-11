@@ -1,0 +1,77 @@
+_white = $UI.colors.white
+_xxl = 8u
+_xl = 7u
+_l = 6u
+_m = 5u
+_s = 4u
+_xs = 3u
+
+.avatarWrapper
+  radius(circle)
+  overflow hidden
+
+.avatar
+  justify-content center
+  align-items center
+
+  &.xxl
+    width _xxl
+    height @width
+
+  &.xl
+    width _xl
+    height @width
+
+  &.l
+    width _l
+    height @width
+
+  &.m
+    width _m
+    height @width
+
+  &.s
+    width _s
+    height @width
+
+  &.xs
+    width _xs
+    height @width
+
+
+.fallback
+  color white
+
+.status
+  position absolute
+  z-index 1
+  right 0
+  bottom 0
+  border 2px solid _white
+  radius(circle)
+
+  &.online
+    background-color $UI.colors.success
+
+  &.away
+    background-color $UI.colors.warning
+
+  &.xxl
+    width 2.5u
+    height @width
+
+  &.xl
+    width 2u
+    height @width
+
+  &.m
+    width 1.5u
+    height @width
+
+  &.s
+    width 1.25u
+    height @width
+
+  &.xs
+    width 1u
+    height @width

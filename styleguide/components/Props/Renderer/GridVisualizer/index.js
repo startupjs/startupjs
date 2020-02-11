@@ -1,13 +1,14 @@
 import React from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
-import { View } from 'react-native'
-import { Span, themed } from 'ui'
+import { View, Text } from 'react-native'
+import { themed } from 'ui'
 import './index.styl'
 
 const GRID_SIZE = 8
 const VALIDATE_WIDTH = false
 const VALIDATE_HEIGHT = true
 const ALLOW_HALF_UNIT = true
+const NBSP = ' '
 
 export default observer(function GridVisualizer ({
   validateWidth = VALIDATE_WIDTH,
@@ -48,7 +49,7 @@ const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
     View.leftBar
       View.leftBarLine(styleName=[theme, { valid }])
       View.leftBarUnits
-        Span.leftBarText(styleName=[theme, { valid }])= units
+        Text.leftBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
       View.leftBarLine(styleName=[theme, { valid }])
   `
 }))
@@ -62,7 +63,7 @@ const TopBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
     View.topBar
       View.topBarLine(styleName=[theme, { valid }])
       View.topBarUnits
-        Span.topBarText(styleName=[theme, { valid }])= units
+        Text.topBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
       View.topBarLine(styleName=[theme, { valid }])
   `
 }))

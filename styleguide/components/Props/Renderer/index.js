@@ -5,7 +5,7 @@ import './index.styl'
 import GridVisualizer from './GridVisualizer'
 import { themed } from 'ui'
 
-const DEFAULT_WRAP_CHILDREN = true
+const DEFAULT_WRAP_CHILDREN = false
 
 export default observer(themed(function Renderer ({
   Component,

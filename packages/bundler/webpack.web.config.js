@@ -1,4 +1,5 @@
 const pickBy = require('lodash/pickBy')
+const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
@@ -16,10 +17,16 @@ const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
 const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
-const { ui } = require(CONFIG_PATH)
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
+
+// Get ui config if it exists
+let ui
+try {
+  const startupjsConfig = require(CONFIG_PATH)
+  ui = startupjsConfig && startupjsConfig.ui
+} catch (err) {}
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
@@ -149,6 +156,10 @@ module.exports = function getConfig (env, {
           }
         },
         {
+          test: /\.attr\.(?:styl|css)$/,
+          use: 'raw-loader'
+        },
+        {
           test: /\.styl$/,
           use: [
             {
@@ -171,7 +182,7 @@ module.exports = function getConfig (env, {
               loader: 'stylus-loader',
               options: {
                 use: ui ? [stylusHashPlugin('$UI', ui)] : [],
-                import: [STYLES_PATH],
+                import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
                 define: {
                   __WEB__: true
                 }

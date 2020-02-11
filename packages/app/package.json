@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/app",
-  "version": "0.12.0",
+  "version": "0.14.1",
   "description": "Router component for multi apps",
   "main": "index.js",
   "publishConfig": {
@@ -18,7 +18,6 @@
   "peerDependencies": {
     "@startupjs/react-sharedb": "*",
     "react": ">= 16.9.0 < 17",
-    "react-native": ">= 0.61.4 < 0.62",
-    "react-native-code-push": ">= 5.7.0 < 6"
+    "react-native": ">= 0.61.4 < 0.62"
   }
 }
