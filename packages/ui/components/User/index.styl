@@ -1,4 +1,5 @@
-_white = $UI.colors.white
+_main = $UI.colors.mainText
+_description = $UI.colors.secondaryText
 
 .root
   flex-direction row
@@ -22,3 +23,41 @@ _white = $UI.colors.white
 .description
   &.right
     text-align right
+
+.name
+  font-weight 700
+  color _main
+
+.description
+  color _description
+
+.xxl
+  .name&
+    font-size 2.5u
+    line-height 3.5u
+  .description&
+    font-size 2u
+    line-height 3u
+
+.xl, .l
+  .name&
+    font-size 2u
+    line-height 3u
+  .description&
+    font-size 1.75u
+    line-height 2.5u
+
+.m
+  .name&
+    font-size 1.75u
+    line-height 2.5u
+  .description&
+    font-size 1.5u
+    line-height 2u
+
+.s, .xs
+  .name&
+    font-size 1.75u
+    line-height 2.5u
+  .description&
+    display none

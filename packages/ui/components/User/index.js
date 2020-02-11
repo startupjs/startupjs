@@ -1,20 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Avatar from '../Avatar'
 import Div from '../Div'
-import Span from '../Span'
 import './index.styl'
-
-const descriptionSizes = {
-  xxl: 'l',
-  xl: 'm',
-  l: 's',
-  m: 'xs',
-  s: 'xs',
-  xs: 'xs'
-}
 
 function User ({
   avatarUrl,
@@ -40,11 +30,13 @@ function User ({
         fallback=name
       )
       View.userInfo
-        Span.name(size=size styleName=[avatarPosition] numberOfLines=1)= name
+        Text.name(
+          styleName=[avatarPosition, size]
+          numberOfLines=1
+        )= name
         if description
-          Span.description(
-            size=descriptionSizes[size]
-            styleName=[avatarPosition]
+          Text.description(
+            styleName=[avatarPosition, size]
             description
           )= description
   `
