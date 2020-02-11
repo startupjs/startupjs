@@ -1,7 +1,3 @@
-_primary = $UI.colors.primary
-_secondary = $UI.colors.secondary
-_success = $UI.colors.success
-_white = $UI.colors.white
 _disabledOpacity = 0.25
 _iconMargin = 1u
 
@@ -52,53 +48,3 @@ _iconMargin = 1u
   &.with-label
     margin-left _iconMargin
     margin-right (- _iconMargin)
-
-.flat
-  .root&
-    background-color _primary
-
-    &.secondary
-      background-color _secondary
-
-    &.success
-      background-color _success
-
-  .label&
-    color _white
-
-.outlined
-  .root&
-    border 1px solid _primary
-
-    &.secondary
-      border 1px solid _secondary
-
-    &.success
-      border 1px solid _success
-
-.ghost
-  .root&
-    +web()
-      &:hover
-        background-color $UI.colors.primaryLightest
-
-    &.secondary
-      +web()
-        &:hover
-          background-color $UI.colors.secondaryLightest
-
-    &.success
-      +web()
-        &:hover
-          background-color $UI.colors.successLightest
-
-.outlined
-.ghost
-  .label&
-    color _primary
-
-    &.secondary
-      color _secondary
-
-    &.success
-      color _success

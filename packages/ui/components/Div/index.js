@@ -15,6 +15,8 @@ function Div ({
   backgroundColor,
   disabled,
   level,
+  onMouseLeave,
+  onMouseEnter,
   onPress,
   ...props
 }) {
@@ -36,8 +38,14 @@ function Div ({
     extraProps.activeOpacity = activeStateOpacity
     extraProps.onPress = onPress
 
-    extraProps.onMouseEnter = () => setHover(true)
-    extraProps.onMouseLeave = () => setHover()
+    extraProps.onMouseEnter = () => {
+      setHover(true)
+      onMouseEnter && onMouseEnter()
+    }
+    extraProps.onMouseLeave = () => {
+      setHover()
+      onMouseLeave && onMouseLeave()
+    }
   }
 
   return pug`
