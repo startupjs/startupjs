@@ -115,9 +115,7 @@ Button.defaultProps = {
   variant: 'flat',
   size: 'm',
   shape: 'rounded',
-  disabled: false,
-
-  onPress: () => null
+  disabled: false
 }
 
 Button.propTypes = {
