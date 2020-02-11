@@ -20,7 +20,9 @@ const descriptionSizes = {
   xxl: 'l',
   xl: 'm',
   l: 'm',
-  m: 's'
+  m: 's',
+  s: 'xs',
+  xs: 'xs'
 }
 
 function User ({
@@ -53,9 +55,10 @@ function User ({
           size=nameSizes[size]
           numberOfLines=1
         )= name
-        if description && descriptionSizes[size]
+        if description
           Span.description(
-            styleName=[avatarPosition, size]
+            size=[descriptionSizes[size]]
+            styleName=[avatarPosition]
             description
           )= description
   `
