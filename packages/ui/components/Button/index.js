@@ -50,7 +50,8 @@ function Button ({
         break
       case 'outlined':
         labelStyles.color = _textColor || _color
-        rootStyles.border = `1px solid ${_color}`
+        rootStyles.borderWidth = 1
+        rootStyles.borderColor = _color
         break
       case 'ghost':
         labelStyles.color = _textColor || _color

@@ -38,13 +38,13 @@ function Div ({
     extraProps.activeOpacity = activeStateOpacity
     extraProps.onPress = onPress
 
-    extraProps.onMouseEnter = () => {
+    extraProps.onMouseEnter = (...args) => {
       setHover(true)
-      onMouseEnter && onMouseEnter()
+      onMouseEnter && onMouseEnter(...args)
     }
-    extraProps.onMouseLeave = () => {
+    extraProps.onMouseLeave = (...args) => {
       setHover()
-      onMouseLeave && onMouseLeave()
+      onMouseLeave && onMouseLeave(...args)
     }
   }
 
