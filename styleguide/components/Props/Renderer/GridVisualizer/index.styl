@@ -44,18 +44,17 @@ grid(direction, color, size)
   align-items center
 
   &Units
-    position absolute
-    top 0
-    bottom 0
-    justify-content center
     z-index 1
 
   &Text
     font-size 10px
+    line-height 10px
+    min-width 20px
+    height 10px
     transform rotate(-90deg)
     color $invalid
-    padding 0 1u
     background-color $bg
+    text-align center
     &.valid
       color $valid
     &.dark
@@ -83,17 +82,12 @@ grid(direction, color, size)
   align-items center
 
   &Units
-    position absolute
-    left 0
-    right 0
-    align-items center
     z-index 1
 
   &Text
     font-size 10px
     color $invalid
     background-color $bg
-    padding 0 1u
     &.valid
       color $valid
     &.dark
