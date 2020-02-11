@@ -11,10 +11,6 @@ _iconMargin = 1u
   justify-content center
   padding 0 2u
 
-  &.s
-    height 4u
-    min-width @height
-
   &.m
     height 4.5u
     min-width @height
@@ -37,9 +33,6 @@ _iconMargin = 1u
     &.xl
       min-width 22.5u
 
-    &.l
-    &.xl
-      padding 0 2u
 
   &.rounded
     radius()
@@ -60,12 +53,52 @@ _iconMargin = 1u
     margin-left _iconMargin
     margin-right (- _iconMargin)
 
+.flat
+  .root&
+    background-color _primary
+
+    &.secondary
+      background-color _secondary
+
+    &.success
+      background-color _success
+
+  .label&
+    color _white
+
 .outlined
   .root&
-    border-width 1px
+    border 1px solid _primary
+
+    &.secondary
+      border 1px solid _secondary
+
+    &.success
+      border 1px solid _success
 
 .ghost
   .root&
     +web()
       &:hover
-        background-color $UI.colors.darkLightest
+        background-color $UI.colors.primaryLightest
+
+    &.secondary
+      +web()
+        &:hover
+          background-color $UI.colors.secondaryLightest
+
+    &.success
+      +web()
+        &:hover
+          background-color $UI.colors.successLightest
+
+.outlined
+.ghost
+  .label&
+    color _primary
+
+    &.secondary
+      color _secondary
+
+    &.success
+      color _success

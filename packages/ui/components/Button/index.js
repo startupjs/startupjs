@@ -11,10 +11,9 @@ import './index.styl'
 const { colors } = config
 
 const ICON_SIZES = {
-  s: 's',
   m: 's',
   l: 'm',
-  xl: 'm'
+  xl: 'l'
 }
 
 function Button ({
@@ -25,52 +24,27 @@ function Button ({
   disabled,
   shape,
   size,
-  textColor,
   icon,
-  iconColor,
   rightIcon,
-  rightIconColor,
   onPress,
   ...props
 }) {
-  const _color = colors[color] || color
-  const _labelColor = textColor || _color
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
 
-  let wrapperStyles = {}
-  let labelStyles = {}
-  const iconProps = { size: ICON_SIZES[size] }
-  const rightIconProps = { size: ICON_SIZES[size] }
-
-  switch (variant) {
-    case 'flat':
-      wrapperStyles = {
-        backgroundColor: _color
-      }
-      iconProps.color = iconColor || colors.white
-      rightIconProps.color = rightIconColor || colors.white
-      labelStyles = { color: textColor || colors.white }
-      break
-    case 'outlined':
-      wrapperStyles = { borderColor: _color }
-      iconProps.color = iconColor || _color
-      rightIconProps.color = rightIconColor || _color
-      labelStyles = { color: _labelColor }
-      break
-    case 'ghost':
-      iconProps.color = iconColor || _color
-      rightIconProps.color = rightIconColor || _color
-      labelStyles = { color: _labelColor }
+  const iconProps = {
+    size: ICON_SIZES[size],
+    color: variant === 'flat' ? colors.white : colors[color]
   }
 
   return pug`
     Div.root(
-      style=[style, wrapperStyles]
+      style=style
       styleName=[
         size,
         variant,
         shape,
-        { disabled, 'with-icon': icon || rightIcon },
+        color,
+        { disabled },
         extraCommonStyles
       ]
       disabled=disabled
@@ -82,14 +56,13 @@ function Button ({
           Icon(icon=icon ...iconProps)
       if children
         Span.label(
-          style=labelStyles
-          styleName=[variant]
+          styleName=[variant, color]
           size=size
           bold
         )= children
       if rightIcon
         View.rightIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=rightIcon ...rightIconProps)
+          Icon(icon=rightIcon ...iconProps)
   `
 }
 
@@ -102,16 +75,13 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  color: propTypes.string,
+  color: propTypes.oneOf(['primary', 'secondary', 'success']),
   children: propTypes.node,
   variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
-  size: propTypes.oneOf(['s', 'm', 'l', 'xl']),
+  size: propTypes.oneOf(['m', 'l', 'xl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
-  textColor: propTypes.string,
   icon: propTypes.object,
-  iconColor: propTypes.string,
   rightIcon: propTypes.object,
-  rightIconColor: propTypes.string,
   disabled: propTypes.bool,
   onPress: propTypes.func.isRequired
 }
