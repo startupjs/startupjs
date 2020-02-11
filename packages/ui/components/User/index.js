@@ -7,11 +7,20 @@ import Div from '../Div'
 import Span from '../Span'
 import './index.styl'
 
+const nameSizes = {
+  xxl: 'xl',
+  xl: 'l',
+  l: 'l',
+  m: 'm',
+  s: 'm',
+  xs: 'm'
+}
+
 const descriptionSizes = {
   xxl: 'l',
   xl: 'm',
-  l: 's',
-  m: 'xs',
+  l: 'm',
+  m: 's',
   s: 'xs',
   xs: 'xs'
 }
@@ -40,10 +49,15 @@ function User ({
         fallback=name
       )
       View.userInfo
-        Span.name(size=size styleName=[avatarPosition] numberOfLines=1)= name
+        Span.name(
+          styleName=[avatarPosition]
+          bold
+          size=nameSizes[size]
+          numberOfLines=1
+        )= name
         if description
           Span.description(
-            size=descriptionSizes[size]
+            size=[descriptionSizes[size]]
             styleName=[avatarPosition]
             description
           )= description
