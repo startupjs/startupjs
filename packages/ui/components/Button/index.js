@@ -70,7 +70,7 @@ function Button ({
       case 'ghost':
         return hover ? _color : null
       case 'shadowed':
-        return hover ? colors.white : null
+        return colors.white
     }
   }, [variant, hover, _color])
 
