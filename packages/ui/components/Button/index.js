@@ -32,6 +32,7 @@ function Button ({
 }) {
   const [hover, setHover] = useState()
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
+  const rootExtraProps = {}
   const _textColor = colors[textColor] || textColor
   const _color = colors[color] || color
 
@@ -40,7 +41,7 @@ function Button ({
     color: variant === 'flat' ? colors.white : _color
   }
 
-  let { labelStyles, rootStyles } = useMemo(() => {
+  const [rootStyles, labelStyles] = useMemo(() => {
     let labelStyles = {}
     let rootStyles = {}
 
@@ -54,10 +55,11 @@ function Button ({
         rootStyles.borderColor = _color
         break
       case 'ghost':
+      case 'shadowed':
         labelStyles.color = _textColor || _color
     }
 
-    return { labelStyles, rootStyles }
+    return [rootStyles, labelStyles]
   }, [variant, _textColor, _color])
 
   const backgroundColor = useMemo(() => {
@@ -67,8 +69,14 @@ function Button ({
       case 'outlined':
       case 'ghost':
         return hover ? _color : null
+      case 'shadowed':
+        return hover ? colors.white : null
     }
   }, [variant, hover, _color])
+
+  if (variant === 'shadowed') {
+    rootExtraProps.level = 2
+  }
 
   return pug`
     Div.root(
@@ -84,6 +92,7 @@ function Button ({
       onMouseEnter=() => setHover(true)
       onMouseLeave=() => setHover()
       onPress=onPress
+      ...rootExtraProps
       ...props
     )
       if icon
@@ -106,14 +115,16 @@ Button.defaultProps = {
   variant: 'flat',
   size: 'm',
   shape: 'rounded',
-  disabled: false
+  disabled: false,
+
+  onPress: () => null
 }
 
 Button.propTypes = {
   color: propTypes.string,
   children: propTypes.node,
   disabled: propTypes.bool,
-  variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
+  variant: propTypes.oneOf(['flat', 'outlined', 'ghost', 'shadowed']),
   size: propTypes.oneOf(['m', 'l', 'xl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
