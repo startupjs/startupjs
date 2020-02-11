@@ -7,6 +7,7 @@ import alpha from 'color-alpha'
 import './index.styl'
 
 const { activeStateOpacity, hoverOpacity } = config.Div
+const { colors } = config
 const SHADOWS = config.shadows
 
 function Div ({
@@ -15,15 +16,20 @@ function Div ({
   backgroundColor,
   disabled,
   level,
+  onMouseLeave,
+  onMouseEnter,
   onPress,
   ...props
 }) {
+  // Shadow does not work without backgorund color
+  const _backgroundColor = backgroundColor || (level ? colors.white : null)
+
   const [hover, setHover] = useState()
   const wrapperExtraStyles = useMemo(() => {
-    if (!backgroundColor) return {}
-    if (!hover) return { backgroundColor }
-    return { backgroundColor: alpha(backgroundColor, hoverOpacity) }
-  }, [hover, backgroundColor])
+    if (!_backgroundColor) return {}
+    if (!hover) return { backgroundColor: _backgroundColor }
+    return { backgroundColor: alpha(_backgroundColor, hoverOpacity) }
+  }, [hover, _backgroundColor])
 
   const isClickable = typeof onPress === 'function' && !disabled
   let Wrapper = isClickable
@@ -36,15 +42,20 @@ function Div ({
     extraProps.activeOpacity = activeStateOpacity
     extraProps.onPress = onPress
 
-    extraProps.onMouseEnter = () => setHover(true)
-    extraProps.onMouseLeave = () => setHover()
+    extraProps.onMouseEnter = (...args) => {
+      setHover(true)
+      onMouseEnter && onMouseEnter(...args)
+    }
+    extraProps.onMouseLeave = (...args) => {
+      setHover()
+      onMouseLeave && onMouseLeave(...args)
+    }
   }
 
   return pug`
     Wrapper.root(
       style=[style, SHADOWS[level], wrapperExtraStyles]
       styleName=[{
-        withShadow: !!level,
         clickable: isClickable
       }]
       ...extraProps

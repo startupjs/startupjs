@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
@@ -26,29 +26,73 @@ function Button ({
   size,
   icon,
   rightIcon,
+  textColor,
   onPress,
   ...props
 }) {
+  const [hover, setHover] = useState()
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
+  const rootExtraProps = {}
+  const _textColor = colors[textColor] || textColor
+  const _color = colors[color] || color
 
   const iconProps = {
     size: ICON_SIZES[size],
-    color: variant === 'flat' ? colors.white : colors[color]
+    color: variant === 'flat' ? colors.white : _color
+  }
+
+  const [rootStyles, labelStyles] = useMemo(() => {
+    let labelStyles = {}
+    let rootStyles = {}
+
+    switch (variant) {
+      case 'flat':
+        labelStyles.color = _textColor || colors.white
+        break
+      case 'outlined':
+        labelStyles.color = _textColor || _color
+        rootStyles.borderWidth = 1
+        rootStyles.borderColor = _color
+        break
+      case 'ghost':
+      case 'shadowed':
+        labelStyles.color = _textColor || _color
+    }
+
+    return [rootStyles, labelStyles]
+  }, [variant, _textColor, _color])
+
+  const backgroundColor = useMemo(() => {
+    switch (variant) {
+      case 'flat':
+        return _color
+      case 'outlined':
+      case 'ghost':
+        return hover ? _color : null
+      case 'shadowed':
+        return colors.white
+    }
+  }, [variant, hover, _color])
+
+  if (variant === 'shadowed') {
+    rootExtraProps.level = 2
   }
 
   return pug`
     Div.root(
-      style=style
+      style=[style, rootStyles]
       styleName=[
         size,
-        variant,
         shape,
-        color,
         { disabled },
         extraCommonStyles
       ]
+      backgroundColor=backgroundColor
       disabled=disabled
+      onMouseEnter=() => setHover(true)
+      onMouseLeave=() => setHover()
       onPress=onPress
+      ...rootExtraProps
       ...props
     )
       if icon
@@ -56,7 +100,7 @@ function Button ({
           Icon(icon=icon ...iconProps)
       if children
         Span.label(
-          styleName=[variant, color]
+          style=labelStyles
           size=size
           bold
         )= children
@@ -75,14 +119,15 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  color: propTypes.oneOf(['primary', 'secondary', 'success']),
+  color: propTypes.string,
   children: propTypes.node,
-  variant: propTypes.oneOf(['flat', 'outlined', 'ghost']),
+  disabled: propTypes.bool,
+  variant: propTypes.oneOf(['flat', 'outlined', 'ghost', 'shadowed']),
   size: propTypes.oneOf(['m', 'l', 'xl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   rightIcon: propTypes.object,
-  disabled: propTypes.bool,
+  textColor: propTypes.string,
   onPress: propTypes.func.isRequired
 }
 
