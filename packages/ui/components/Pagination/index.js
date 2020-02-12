@@ -105,7 +105,6 @@ function Pagination ({
         PaginationButton(
           variant=variant
           label=pagesCount
-          disabled=value >= pagesCount
           onPress=() => onChange(pagesCount - 1)
         )
       Button.next(

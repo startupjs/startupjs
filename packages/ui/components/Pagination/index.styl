@@ -1,4 +1,6 @@
 _disabledOpacity = 0.25
+_hoverOpacity = 0.5
+_activeOpacity = 0.25
 _white = $UI.colors.white
 _primary = $UI.colors.primary
 
@@ -39,7 +41,11 @@ _primary = $UI.colors.primary
 
     +web()
       &:hover
-        opacity 0.5
+        // using important to prevent TouchableOpacity default behavior
+        opacity _hoverOpacity !important
+
+      &:active
+        opacity _activeOpacity !important
 
   .label&
     &.active
