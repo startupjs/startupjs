@@ -12,31 +12,30 @@ import './index.styl'
 const { colors } = config
 
 function Pagination ({
-  buttonsCount,
-  showLastPage,
-  showFirstPage,
+  visibleCount,
+  showLast,
+  showFirst,
   value,
   variant,
   total,
   limit,
   onChange
 }) {
-  const page = value + 1
-  const pagesCount = Math.ceil(total / limit)
+  const isFilled = variant === 'filled'
+  const activePage = value + 1
+  // If no limit provided we assume there is only one item per page
+  const pagesCount = Math.ceil(total / (limit || 1))
 
   const [
-    wrapperExtraProps,
     backButtonExtraProps,
     nextButtonExtraProps
   ] = useMemo(() => {
-    let wrapperExtraProps = {}
     let computedControllsProps = {}
     let backButtonExtraProps = {}
     let nextButtonExtraProps = {}
 
     switch (variant) {
-      case 'connected':
-        wrapperExtraProps.level = 1
+      case 'filled':
         computedControllsProps.variant = 'flat'
         computedControllsProps.color = colors.darkLightest
         computedControllsProps.shape = 'squared'
@@ -44,65 +43,76 @@ function Pagination ({
         break
       case 'floating':
         computedControllsProps.variant = 'shadowed'
-        computedControllsProps.color = colors.white
         computedControllsProps.shape = 'circle'
         computedControllsProps.iconsColor = colors.dark
         backButtonExtraProps.icon = faArrowLeft
         nextButtonExtraProps.icon = faArrowRight
     }
     return [
-      wrapperExtraProps,
       { ...computedControllsProps, ...backButtonExtraProps },
       { ...computedControllsProps, ...nextButtonExtraProps }
     ]
   }, [variant])
 
-  const from = page - buttonsCount < 0
-    ? 0
-    : page + Math.ceil(buttonsCount / 2) > pagesCount
-      ? pagesCount - buttonsCount
-      : page - Math.ceil(buttonsCount / 2)
+  const centerPageCeil = Math.ceil(visibleCount / 2)
+  const isMoreThanCenter = activePage + centerPageCeil > pagesCount
+  const isLessThanCenter = activePage - visibleCount < 0
+  const centerPageFloor = Math.floor(visibleCount / 2)
 
-  const to = pagesCount < buttonsCount
+  const from = isLessThanCenter
+    ? 0
+    : isMoreThanCenter
+      ? pagesCount - visibleCount
+      : activePage - centerPageCeil
+
+  const to = pagesCount < visibleCount
     ? pagesCount
-    : page - buttonsCount < 0
-      ? buttonsCount
-      : page + Math.floor(buttonsCount / 2) > pagesCount
+    : isLessThanCenter
+      ? visibleCount
+      : activePage + centerPageFloor > pagesCount
         ? pagesCount
-        : Math.floor(buttonsCount / 2) + page
+        : centerPageFloor + activePage
+
+  const items = useMemo(() => Array(to - from).fill(null), [to, from])
 
   return pug`
-    Div.root(...wrapperExtraProps)
+    Div.root(
+      styleName=[variant]
+    )
       - const isFirstPageSelected = value <= 0
-      - const isLastPageSelected = page >= pagesCount
+      - const isLastPageSelected = activePage >= pagesCount
       Button.back(
         disabled=isFirstPageSelected
         onPress=() => onChange(value - 1)
         ...backButtonExtraProps
       )
-        = variant === 'connected' ? 'Back' : null
-      if from && showFirstPage
+        = isFilled ? 'Back' : null
+      if from && showFirst
         PaginationButton(
+          bold=!isFilled
           variant=variant
           label=1
           onPress=() => onChange(0)
         )
         View.dots
           Span ...
-      each item, index in Array(to - from).fill(from)
+      each item, index in items
+        - const buttonValue = from + index
         - const page = from + index + 1
-        - const isActive = page === value + 1
+        - const isActive = buttonValue === value
         PaginationButton(
+          bold=!isFilled
           variant=variant
           key=index
           active=isActive
           label=page
-          onPress=() => onChange(page - 1)
+          onPress=() => onChange(buttonValue)
         )
-      if to < pagesCount && showLastPage
+      if to < pagesCount && showLast
         View.dots
           Span ...
         PaginationButton(
+          bold=!isFilled
           variant=variant
           label=pagesCount
           onPress=() => onChange(pagesCount - 1)
@@ -112,28 +122,28 @@ function Pagination ({
         onPress=() => onChange(value + 1)
         ...nextButtonExtraProps
       )
-        = variant === 'connected' ? 'Next' : null
+        = isFilled ? 'Next' : null
   `
 }
 
 Pagination.defaultProps = {
-  buttonsCount: 5,
+  visibleCount: 5,
   total: 0,
   limit: 0,
   value: 0,
-  variant: 'connected',
-  showLastPage: false,
-  showFirstPage: false
+  variant: 'filled',
+  showLast: true,
+  showFirst: true
 }
 
 Pagination.propTypes = {
-  buttonsCount: propTypes.number,
-  showLastPage: propTypes.bool,
-  showFirstPage: propTypes.bool,
-  total: propTypes.number.isRequired,
+  visibleCount: propTypes.number,
+  showLast: propTypes.bool,
+  showFirst: propTypes.bool,
+  total: propTypes.number,
   value: propTypes.number.isRequired,
-  variant: propTypes.oneOf(['connected', 'floating']),
-  limit: propTypes.number.isRequired,
+  variant: propTypes.oneOf(['filled', 'floating']),
+  limit: propTypes.number,
   onChange: propTypes.func.isRequired
 }
 
