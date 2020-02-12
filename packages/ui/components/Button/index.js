@@ -25,6 +25,7 @@ function Button ({
   shape,
   size,
   icon,
+  iconsColor,
   rightIcon,
   textColor,
   onPress,
@@ -35,10 +36,11 @@ function Button ({
   const rootExtraProps = {}
   const _textColor = colors[textColor] || textColor
   const _color = colors[color] || color
+  const _iconsColor = colors[iconsColor] || iconsColor || _color
 
   const iconProps = {
     size: ICON_SIZES[size],
-    color: variant === 'flat' ? colors.white : _color
+    color: variant === 'flat' ? _iconsColor || colors.white : _iconsColor
   }
 
   const [rootStyles, labelStyles] = useMemo(() => {
