@@ -3,7 +3,7 @@ import propTypes from 'prop-types'
 import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
 import config from '../../config/rootConfig'
-import alpha from 'color-alpha'
+import { colorToRGBA } from '../../config/helpers'
 import './index.styl'
 
 const { activeStateOpacity, hoverOpacity } = config.Div
@@ -28,7 +28,7 @@ function Div ({
   const wrapperExtraStyles = useMemo(() => {
     if (!_backgroundColor) return {}
     if (!hover) return { backgroundColor: _backgroundColor }
-    return { backgroundColor: alpha(_backgroundColor, hoverOpacity) }
+    return { backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity) }
   }, [hover, _backgroundColor])
 
   const isClickable = typeof onPress === 'function' && !disabled
