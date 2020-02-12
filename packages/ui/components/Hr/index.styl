@@ -1,0 +1,19 @@
+_hrBg = $UI.colors.darkLighter
+_hrWidth = 2u
+_hrHeight = 1px
+_labelHorizontalGutter = 2u
+
+.root
+  width 200
+
+.hr
+  width _hrWidth
+  height _hrHeight
+  background-color _hrBg
+
+  &.full
+    flex 1
+
+.label
+  padding-left _labelHorizontalGutter
+  padding-right @padding-left
