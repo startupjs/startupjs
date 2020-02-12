@@ -13,7 +13,8 @@ function Hr ({
     Row.root(vAlign='center')
       View.hr(styleName={full: ['right', 'center'].includes(align)})
       if children
-        = children
+        View.content
+          = children
       View.hr(styleName={full: ['left', 'center'].includes(align)})
   `
 }
