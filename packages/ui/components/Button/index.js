@@ -38,31 +38,32 @@ function Button ({
   const _color = colors[color] || color
   const _iconsColor = colors[iconsColor] || iconsColor
 
-  const iconProps = {
-    size: ICON_SIZES[size],
-    color: _iconsColor || (variant === 'flat' ? colors.white : _color)
-  }
-
-  const [rootStyles, labelStyles] = useMemo(() => {
+  const [rootStyles, labelStyles, iconsProps] = useMemo(() => {
     let labelStyles = {}
     let rootStyles = {}
+    const iconsProps = {
+      size: ICON_SIZES[size]
+    }
 
     switch (variant) {
       case 'flat':
         labelStyles.color = _textColor || colors.white
+        iconsProps.color = _iconsColor || colors.white
         break
       case 'outlined':
         labelStyles.color = _textColor || _color
         rootStyles.borderWidth = 1
         rootStyles.borderColor = _color
+        iconsProps.color = _iconsColor || _color
         break
       case 'ghost':
       case 'shadowed':
         labelStyles.color = _textColor || _color
+        iconsProps.color = _iconsColor || _color
     }
 
-    return [rootStyles, labelStyles]
-  }, [variant, _textColor, _color])
+    return [rootStyles, labelStyles, iconsProps]
+  }, [variant, _textColor, _color, _iconsColor])
 
   const backgroundColor = useMemo(() => {
     switch (variant) {
@@ -99,7 +100,7 @@ function Button ({
     )
       if icon
         View.leftIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=icon ...iconProps)
+          Icon(icon=icon ...iconsProps)
       if children
         Span.label(
           style=labelStyles
@@ -108,7 +109,7 @@ function Button ({
         )= children
       if rightIcon
         View.rightIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=rightIcon ...iconProps)
+          Icon(icon=rightIcon ...iconsProps)
   `
 }
 
@@ -129,6 +130,7 @@ Button.propTypes = {
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   rightIcon: propTypes.object,
+  iconsColor: propTypes.string,
   textColor: propTypes.string,
   onPress: propTypes.func.isRequired
 }

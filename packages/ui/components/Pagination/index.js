@@ -80,11 +80,14 @@ function Pagination ({
     Div.root(
       styleName=[variant]
     )
+      - const prevValue = value - 1
+      - const nextValue = value + 1
+      - const lastValue = pagesCount - 1
       - const isFirstPageSelected = value <= 0
       - const isLastPageSelected = activePage >= pagesCount
       Button.back(
         disabled=isFirstPageSelected || disabled
-        onPress=() => onChange(value - 1)
+        onPress=() => onChange(prevValue)
         ...backButtonExtraProps
       )
         = isFilled ? 'Back' : null
@@ -99,19 +102,19 @@ function Pagination ({
         View.dots
           Span ...
       each item, index in items
-        - const buttonValue = from + index
-        - const page = from + index + 1
-        - const isActive = buttonValue === value
+        - const _value = from + index
+        - const label = _value + 1
+        - const isActive = _value === value
         PaginationButton(
           disabled=disabled
           bold=!isFilled
           variant=variant
           key=index
           active=isActive
-          label=page
-          onPress=() => onChange(buttonValue)
+          label=label
+          onPress=() => onChange(_value)
         )
-      if to < pagesCount && showLast
+      if to <= lastValue && showLast
         View.dots
           Span ...
         PaginationButton(
@@ -119,11 +122,11 @@ function Pagination ({
           bold=!isFilled
           variant=variant
           label=pagesCount
-          onPress=() => onChange(pagesCount - 1)
+          onPress=() => onChange(lastValue)
         )
       Button.next(
         disabled=isLastPageSelected || disabled
-        onPress=() => onChange(value + 1)
+        onPress=() => onChange(nextValue)
         ...nextButtonExtraProps
       )
         = isFilled ? 'Next' : null
