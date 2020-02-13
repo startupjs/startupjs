@@ -40,7 +40,7 @@ module.exports = function getConfig (env, {
     },
     plugins: [
       new ProgressBarPlugin({
-        format: 'hello\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
+        format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
       })
     ],
     output: {
