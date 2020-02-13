@@ -12,6 +12,7 @@ import './index.styl'
 const { colors } = config
 
 function Pagination ({
+  disabled,
   visibleCount,
   showLast,
   showFirst,
@@ -82,13 +83,14 @@ function Pagination ({
       - const isFirstPageSelected = value <= 0
       - const isLastPageSelected = activePage >= pagesCount
       Button.back(
-        disabled=isFirstPageSelected
+        disabled=isFirstPageSelected || disabled
         onPress=() => onChange(value - 1)
         ...backButtonExtraProps
       )
         = isFilled ? 'Back' : null
       if from && showFirst
         PaginationButton(
+          disabled=disabled
           bold=!isFilled
           variant=variant
           label=1
@@ -101,6 +103,7 @@ function Pagination ({
         - const page = from + index + 1
         - const isActive = buttonValue === value
         PaginationButton(
+          disabled=disabled
           bold=!isFilled
           variant=variant
           key=index
@@ -112,13 +115,14 @@ function Pagination ({
         View.dots
           Span ...
         PaginationButton(
+          disabled=disabled
           bold=!isFilled
           variant=variant
           label=pagesCount
           onPress=() => onChange(pagesCount - 1)
         )
       Button.next(
-        disabled=isLastPageSelected
+        disabled=isLastPageSelected || disabled
         onPress=() => onChange(value + 1)
         ...nextButtonExtraProps
       )
@@ -137,6 +141,7 @@ Pagination.defaultProps = {
 }
 
 Pagination.propTypes = {
+  disabled: propTypes.bool,
   visibleCount: propTypes.number,
   showLast: propTypes.bool,
   showFirst: propTypes.bool,

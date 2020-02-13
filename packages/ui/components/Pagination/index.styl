@@ -1,13 +1,11 @@
-_disabledOpacity = 0.25
 _hoverOpacity = 0.5
 _activeOpacity = 0.25
 _white = $UI.colors.white
 _primary = $UI.colors.primary
+_buttonSize = 4.5u
 
 .root
   flex-direction row
-  justify-content center
-  max-width 100%
 
   &.filled
     background-color _white
@@ -17,7 +15,7 @@ _primary = $UI.colors.primary
   padding 0 0.5u
 
 .button
-  min-width 4.5u
+  min-width _buttonSize
   min-height @min-width
   justify-content center
   align-items center
@@ -31,7 +29,7 @@ _primary = $UI.colors.primary
       background-color _primary
 
     +web()
-      &:hover:not(.active)
+      &:hover:not(.active):not(.disabled)
         background-color $UI.colors.darkLightest
 
   .label&
@@ -43,11 +41,12 @@ _primary = $UI.colors.primary
     radius(circle)
 
     +web()
-      &:hover
+      &:hover:not(.active):not(.disabled)
         // using important to prevent TouchableOpacity default behavior
         opacity _hoverOpacity !important
 
-      &:active
+      &:active:not(.active):not(.disabled)
+        // using important to prevent TouchableOpacity default behavior
         opacity _activeOpacity !important
 
   .label&
