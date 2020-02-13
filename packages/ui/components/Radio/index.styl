@@ -1,6 +1,11 @@
-_mainColor = $UI.colors.primary
-_disableColor = $UI.colors.darkLighter
-_textColor = $UI.colors.black
+_primary = $UI.colors.primary
+_disabled = $UI.colors.darkLighter
+_xxl = 6u
+_xl = 5u
+_l = 4u
+_m = 3u
+_s = 2u
+_xs = 1u
 
 .root
   flex-direction row
@@ -8,21 +13,73 @@ _textColor = $UI.colors.black
   padding 0.5u
 
 .circle
+  radius(circle)
   border-width 0.25u
-  border-color _mainColor
+  border-color _primary
   justify-content center
   align-items center
-  &-disable
-    border-color _disableColor
+
+  &.with-label
+    margin-right 1u
+
+  &.xxl
+    width _xxl
+    height @width
+
+  &.xl
+    width _xl
+    height @width
+
+  &.l
+    width _l
+    height @width
+
+  &.m
+    width _m
+    height @width
+
+  &.s
+    width _s
+    height @width
+
+  &.xs
+    width _xs
+    height @width
+
+  &.disabled
+    border-color _disabled
 
 .checked
-  background-color _mainColor
-  &-disable
-    background-color _disableColor
+  radius(circle)
+  background-color _primary
+
+  &.xxl
+    width ( _xxl / 2 )
+    height @width
+
+  &.xl
+    width (_xl / 2)
+    height @width
+
+  &.l
+    width (_l / 2)
+    height @width
+
+  &.m
+    width (_m / 2)
+    height @width
+
+  &.s
+    width (_s / 2)
+    height @width
+
+  &.xs
+    width (_xs / 2)
+    height @width
+
+  &.disabled
+    background-color _disabled
 
 .label
-  margin-left 1u
-  color _textColor
-  &-disable
-    color _disableColor
-
+  &.disabled
+    color _disabled

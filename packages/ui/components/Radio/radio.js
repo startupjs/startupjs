@@ -1,82 +1,54 @@
 import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import Div from '../Div'
+import Span from '../Span'
 import './index.styl'
-
-const SIZES = {
-  xs: 8,
-  s: 16,
-  m: 24,
-  l: 32,
-  xl: 40,
-  xxl: 48
-}
 
 const Radio = function ({
   value,
   label,
-  activeOpacity,
   checked,
   size,
-  style,
-  disable,
+  disabled,
   onPress,
   children
 }) {
-  let wh = SIZES[size] || SIZES.s
-  let whh = wh / 2
-  let localChecked = checked
-
-  const CircleIcon = ({ checked, disable }) => pug`
+  const CircleIcon = ({ checked, disabled }) => pug`
     View.circle(
-      styleName={disable}
-      style={
-        borderRadius: whh,
-        width: wh,
-        height: wh
-      }
+      styleName=[size, { disabled, 'with-label': !!label }]
     )
       if checked
         View.checked(
-          styleName={disable}
-          style={
-            width: whh,
-            height: whh,
-            borderRadius: whh
-          }
+          styleName=[size, {disabled}]
         )
   `
 
   const setChecked = () => {
-    if (disable) return
-    localChecked = true
+    if (disabled) return
     onPress && onPress(value)
   }
 
   return pug`
-    TouchableOpacity.root(
-      activeOpacity=activeOpacity
-      style=style
-      styleName={disable}
+    Div.root(
+      styleName=[size, {disabled}]
+      disabled=disabled
       onPress=setChecked
     )
-      CircleIcon(checked=localChecked disable=disable)
-      Text.label(styleName={disable})= label || children
+      CircleIcon(checked=checked disabled=disabled)
+      Span.label(styleName={disabled} size=size)= label
   `
 }
 
 Radio.defaultProps = {
-  activeOpacity: 0,
   size: 's'
 }
 
 Radio.propType = {
-  label: PropTypes.string,
   checked: PropTypes.bool,
-  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  aciteOpacity: PropTypes.number,
-  disable: PropTypes.bool
+  size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  disabled: PropTypes.bool
 }
 
 export default observer(Radio)
