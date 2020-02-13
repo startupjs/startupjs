@@ -1,25 +1,2 @@
-$sidebar = $UI.colors.darkLightest
-$active = $UI.colors.primary
-
 .root
-  flex-direction row
   flex 1
-
-.left
-  padding-top 1u
-  width 18u
-  background-color $sidebar
-
-.right
-  flex 1
-
-.link
-  padding-left 1u
-  padding-top 0.5u
-  padding-bottom 0.5u
-  font-family monospace
-  &-active
-    color $active
-  +web()
-    &:hover
-      text-decoration underline

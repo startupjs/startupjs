@@ -7,7 +7,6 @@ const DEPENDENCIES = [
   'startupjs',
   'source-map-support',
   'react-native-web@0.11.7',
-  'react-native-code-push@^5.7.0',
   'nconf@^0.10.0',
   'react',
   'react-dom',

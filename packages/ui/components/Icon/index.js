@@ -1,35 +1,38 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
+import { View } from 'react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import propTypes from 'prop-types'
 import { u } from '../../config/helpers'
+import './index.styl'
 
 const SIZES = {
-  xs: u(1.5),
-  s: u(2),
-  m: u(3),
-  l: u(4),
-  xl: u(5),
-  xxl: u(6)
+  xss: u(0.5),
+  xs: u(1),
+  s: u(1.5),
+  m: u(2),
+  l: u(3),
+  xl: u(4),
+  xxl: u(5)
 }
 
 const Icon = observer(({
-  name,
-  type,
-  size,
+  style,
+  icon,
   color,
+  size,
   width,
-  height,
-  style
+  height
 }) => {
   return pug`
-    FontAwesomeIcon(
-      icon=type ? [type, name] : name
-      color=color
-      width=width || SIZES[size]
-      height=height || SIZES[size]
-      style=style
-    )
+    View.root
+      FontAwesomeIcon(
+        style=style
+        icon=icon
+        color=color
+        width=width || SIZES[size]
+        height=height || SIZES[size]
+      )
   `
 })
 
@@ -38,13 +41,12 @@ Icon.defaultProps = {
 }
 
 Icon.propTypes = {
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  color: PropTypes.string,
-  style: PropTypes.object,
-  size: PropTypes.oneOf(Object.keys(SIZES)),
-  width: PropTypes.number,
-  height: PropTypes.number
+  style: propTypes.object,
+  icon: propTypes.object,
+  color: propTypes.string,
+  size: propTypes.oneOf(Object.keys(SIZES)),
+  width: propTypes.number,
+  height: propTypes.number
 }
 
 export default Icon

@@ -1,4 +1,5 @@
 .root
-  &-with-shadow
-    // Shadow does not work without backgorund color
-    background-color $UI.pallete.white
+  &.clickable
+      +web()
+        &:active
+          opacity $UI.Div.activeStateOpacity !important

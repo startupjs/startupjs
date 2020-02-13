@@ -1,6 +1,5 @@
 import * as pages from './pages'
 import getRoutes from './routes'
-import './icons.js'
 
-export { default as Layout } from '@startupjs/ui/components/Layout'
+export { default as Layout } from './Layout'
 export const routes = getRoutes(pages)

@@ -21,12 +21,13 @@ const clientPresets = [
 
 const serverPresets = ['module:metro-react-native-babel-preset']
 
-const basePlugins = [
+const basePlugins = ({ legacyClassnames } = {}) => [
   ['transform-react-pug', {
     classAttribute: 'styleName'
   }],
   ['react-pug-classnames', {
-    classAttribute: 'styleName'
+    classAttribute: 'styleName',
+    legacy: legacyClassnames
   }],
   ['@babel/plugin-proposal-decorators', { legacy: true }]
 ]
@@ -39,18 +40,29 @@ const dotenvPlugin = ({ production } = {}) =>
     allowUndefined: true
   }]
 
+const csstaPlugins = () => [
+  ['babel-plugin-cssta-stylename', {
+    classAttribute: 'styleName',
+    addCssHash: true,
+    extensions: ['attr.css', 'attr.styl'],
+    wrapInMemo: false
+  }],
+  'babel-plugin-cssta'
+]
+
 const webReactCssModulesPlugin = ({ production } = {}) =>
   ['@startupjs/react-css-modules', {
     handleMissingStyleName: 'ignore',
     filetypes: {
       '.styl': {}
     },
+    skipExtensions: ['attr.css', 'attr.styl'],
     generateScopedName,
     webpackHotModuleReloading: !production
   }]
 
 const nativeBasePlugins = () => [
-  ['react-native-stylename-to-style', {
+  ['react-native-dynamic-stylename-to-style', {
     extensions: ['styl', 'css']
   }],
   [
@@ -68,30 +80,38 @@ const webBasePlugins = () => [
 const config = {
   development: {
     presets: clientPresets,
-    plugins: [].concat([
-      dotenvPlugin()
-    ], nativeBasePlugins())
+    plugins: [
+      dotenvPlugin(),
+      ...csstaPlugins(),
+      ...nativeBasePlugins()
+    ]
   },
   production: {
     presets: clientPresets,
-    plugins: [].concat([
-      dotenvPlugin({ production: true })
-    ], nativeBasePlugins())
+    plugins: [
+      dotenvPlugin({ production: true }),
+      ...csstaPlugins(),
+      ...nativeBasePlugins()
+    ]
   },
   web_development: {
     presets: clientPresets,
-    plugins: [].concat([
+    plugins: [
       'react-hot-loader/babel',
       dotenvPlugin(),
-      webReactCssModulesPlugin()
-    ], webBasePlugins())
+      ...csstaPlugins(),
+      webReactCssModulesPlugin(),
+      ...webBasePlugins()
+    ]
   },
   web_production: {
     presets: clientPresets,
-    plugins: [].concat([
+    plugins: [
       dotenvPlugin({ production: true }),
-      webReactCssModulesPlugin({ production: true })
-    ], webBasePlugins())
+      ...csstaPlugins(),
+      webReactCssModulesPlugin({ production: true }),
+      ...webBasePlugins()
+    ]
   },
   server: {
     presets: serverPresets,
@@ -103,7 +123,8 @@ const config = {
   }
 }
 
-module.exports = function (api, { alias = {} } = {}) {
+module.exports = function (api, opts = {}) {
+  const { alias = {} } = opts
   const env = api.env()
   const { presets = [], plugins = [] } = config[env] || {}
   const resolverPlugin = ['module-resolver', {
@@ -112,7 +133,7 @@ module.exports = function (api, { alias = {} } = {}) {
       ...alias
     }
   }]
-  return { presets, plugins: [resolverPlugin].concat(basePlugins, plugins) }
+  return { presets, plugins: [resolverPlugin].concat(basePlugins(opts), plugins) }
 }
 
 function generateScopedName (name, filename/* , css */) {

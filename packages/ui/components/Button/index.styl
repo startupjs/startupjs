@@ -1,0 +1,50 @@
+_disabledOpacity = 0.25
+_iconMargin = 1u
+
+.root
+  flex-direction row
+  align-items center
+  justify-content center
+  padding 0 2u
+
+  &.m
+    height 4.5u
+    min-width @height
+
+  &.l
+    height 6u
+    min-width @height
+
+  &.xl
+    height 9u
+    min-width @height
+
+  &.with-label
+    &.m
+      min-width 10u
+
+    &.l
+      min-width 11u
+
+    &.xl
+      min-width 22.5u
+
+
+  &.rounded
+    radius()
+
+  &.circle
+    radius(circle)
+
+  &.disabled
+    opacity _disabledOpacity
+
+.leftIconWrapper
+  &.with-label
+    margin-right _iconMargin
+    margin-left (- _iconMargin)
+
+.rightIconWrapper
+  &.with-label
+    margin-left _iconMargin
+    margin-right (- _iconMargin)

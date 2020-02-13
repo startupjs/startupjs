@@ -2,23 +2,40 @@
 
 > :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
 
+[Introduction](#introduction)<br/>
+[Requirements](#requirements)<br/>
+[Quick start](#quick-start)<br/>
+[Boilerplate templates](#boilerplate-templates)<br/>
+[Running on mobile](#running-on-mobile)<br/>
+[Docker development Quick Start](#docker-development-quick-start)<br/>
+[IDE configuration](#ide-configuration)<br/>
+[List of Packages](#list-of-packages)<br/>
+[Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
+[Licence](#licence)
+
 ## Introduction
 
-This boilerplate launches with a [React web app](https://reactjs.org/) and [React Native app](https://facebook.github.io/react-native/) and allows to use a single code for all platforms.
+A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB backend. All data manipulations are done through the isomorphic *React-* and *NodeJS-* *integrated* collaborative real-time observable Model.
 
-The project is super helpful to kick-start your next project, as it provides a lot of the common tools you may reach for, all ready to go. Specifically:
+StartupJS stack is built on top of the following libraries and technologies:
 
-- [React Router](https://reacttraining.com/react-router/) for routing and navigation with ability to separate project to [multi apps](https://github.com/dmapper/startupjs/blob/master/packages/app)
-- [Model](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb) using [Racer and ShareDB](https://derbyjs.com/docs/derby-0.10/models) for working with local data stored in memory and remote data synced via ShareDB (in our case, [MongoDB](https://docs.mongodb.com/manual/installation/)).
-- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm) system for Racer and ShareDB
-- [CodePush](https://github.com/Microsoft/react-native-code-push) for dynamic updates React Native apps
-- [Node.js](https://nodejs.org/) as engine
-- [Express](https://expressjs.com/) as web server
-- [MongoDB](https://docs.mongodb.com/manual/installation/) as database
-- [Redis](https://redis.io/) as pub/sub adapter for [Racer](https://github.com/derbyjs/racer)
-- Code Quality
-  - [Flow] (https://flow.org/en/docs/react/)
-  - [ESLint] (https://eslint.org/)
+1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
+1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
+1. [React-ShareDB](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb):
+    - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
+    - Allows to sync data between your local state (similar to Redux) and the DB.
+    - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
+    - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
+    - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
+1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm).
+1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](https://github.com/dmapper/startupjs/blob/master/packages/app) (e.g. `main` and `admin`)
+1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
+1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
+1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
+1. [Offline support](https://github.com/dmapper/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
+1. Code Quality control tools:
+    - [ESLint](https://eslint.org/)
+    - *optional* [TypeScript](https://www.typescriptlang.org/)
 
 ## Requirements
 
@@ -26,8 +43,8 @@ The project is super helpful to kick-start your next project, as it provides a l
 - [Yarn](https://yarnpkg.com/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
 - [Redis](https://redis.io/) 5.0
-- [Xcode](https://developer.apple.com/xcode/) for iOS Development
-- [Android SDK](https://developer.android.com/sdk/) for Android development
+- [Android SDK](https://developer.android.com/sdk/) (*optional*) for Android development
+- [Xcode](https://developer.apple.com/xcode/) (*optional*) for iOS Development
 
 **OR**
 
@@ -176,15 +193,16 @@ to the native installation when working with the large amount of files.
 
 #### Step 2: Add support for ESLint errors highlighting
 
-1.  Install pagkage `linter-eslint`
+1.  Install package `linter-eslint`
 2.  Restart Atom
 
-## Packages
+## List of Packages
 
 - [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
 - [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
 - [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
 - [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
+- [CodePush](https://github.com/dmapper/startupjs/blob/master/packages/codepush)
 - [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
 - [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
 - [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
@@ -193,107 +211,35 @@ to the native installation when working with the large amount of files.
 - [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
 - [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
 - [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
-- [StartupJS](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
+- [Styleguide](/packages/styleguide)
+- [StartupJS meta package](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
+- [UI](/packages/ui)
 
-## CodePush
+## Contributing & Troubleshooting
 
-[CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to all the devices of users.
+To initialize the monorepo, run:
 
-It's built-in into the [`@startupjs/app`](/packages/app), which is included to the [`routing` template](#boilerplate-templates).
-
-Do the following steps to configure it for your project:
-
-1. Install CodePush CLI
-  ```
-  npm install -g code-push-cli
-  ```
-2. Create/Login a CodePush account
-  ```
-  // Register
-  code-push register
-
-  // Login if registered already
-  code-push login
-  ```
-3. Register your app
-  ```
-  // For Android
-  code-push app add <App-Name-Android> android react-native
-
-  // For iOS
-  code-push app add <App-Name-Ios> ios react-native
-  ```
-
-**For Android**
-
-1. Add empty `reactNativeCodePush_androidDeploymentKey` string item to `/path_to_your_app/android/app/src/main/res/values/strings.xml`. It may looks like this:
-
-```xml
-<resources>
-  <string name="reactNativeCodePush_androidDeploymentKey" moduleConfig="true"></string>
-  <string name="app_name">Lingua.Live</string>
-</resources>
+```sh
+yarn bootstrap
 ```
 
-2. Get keys using `code-push deployment ls <App-Name-Android> --displayKeys` and copy both Debug and Release key in `/path_to_your_app/android/app/build.gradle`
+After that you can run the styleguide project to develop the UI components, etc.:
 
-![codepush android](docs/img/codepush-android.png)
-
-3. Go to `/path_to_your_app/android/app/src/main/java/com/lingua/MainApplication.java` and add code which set keys. It may looks like this:
-
-```java
-@Override
-protected List<ReactPackage> getPackages() {
-  @SuppressWarnings("UnnecessaryLocalVariable")
-  List<ReactPackage> packages = new PackageList(this).getPackages();
-  // Set CodePush deployment keys here, because
-  // we can't set different keys for debug and
-  // release on strings.xml (reactNativeCodePush_androidDeploymentKey)
-  for(ReactPackage reactPackage: packages) {
-    if (reactPackage instanceof CodePush) {
-      ((CodePush)reactPackage).setDeploymentKey(BuildConfig.CODEPUSH_KEY);
-    }
-  }
-  return packages;
-}
+```sh
+cd styleguide
+yarn start
 ```
 
-**For iOS**
+To cleanup all modules:
 
-1. Add `CodePushDeploymentKey` string item with value `$(CODEPUSH_KEY)` to `/path_to_your_app/ios/your_app/Info.plist`. It may looks like this:
-
-```xml
-<plist version="1.0">
-<dict>
-<!-- ...other configs... -->
-<key>CFBundleVersion</key>
-<string>1</string>
-<key>CodePushDeploymentKey</key>
-<string>$(CODEPUSH_KEY)</string>
-<key>LSRequiresIPhoneOS</key>
-<!-- ...other configs... -->
-</dict>
-</plist>
+```sh
+yarn clean
 ```
 
-2. Get keys using code-push deployment ls <App-Name-Ios> --displayKeys then open `/path_to_your_app/ios` using `Xcode` and copy both Debug and Release key in
+If you have any questions or want to request a feature, please look wether a similar issue already exists in this repo, otherwise feel free to file a new one.
 
-![codepush ios](docs/img/codepush-ios.png)
-
-- [Styleguide](https://github.com/dmapper/startupjs/blob/master/packages/styleguide)
-
-- [UI](https://github.com/dmapper/startupjs/blob/master/packages/ui)
-
-## Troubleshooting
-
-If you have any problem, search for the issues in this repository. If you don't find anything, you can raise an issue [here](https://github.com/dmapper/startupjs/issues).
-
-## References
-
-- [Generating keystores](https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores)
-- [CodePush](http://microsoft.github.io/code-push/docs/cli.html)
-- [Checklist for deploying app](https://medium.com/the-react-native-log/checklist-to-deploy-react-native-to-production-47157f8f85ed)
+If you want to contribute, feel free to send your PRs, we will review them and provide our feedback on a short notice.
 
 ## Licence
 
-(MIT)
+MIT

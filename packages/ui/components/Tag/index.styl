@@ -1,0 +1,23 @@
+_iconMargin = 0.25u
+
+.root
+  padding 0 0.5u
+  height 2u
+  min-width @height
+  justify-content center
+  align-items center
+  flex-direction row
+
+  &.circle
+    radius(circle)
+
+  &.rounded
+    radius()
+
+.leftIconWrapper
+  &.with-label
+    margin-right _iconMargin
+
+.rightIconWrapper
+  &.with-label
+    margin-left _iconMargin
