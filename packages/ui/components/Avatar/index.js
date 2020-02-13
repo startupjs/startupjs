@@ -39,16 +39,17 @@ function Avatar ({
   `
 }
 
+Avatar.defaultProps = {
+  fallback: '?',
+  size: 'm'
+}
+
 Avatar.propTypes = {
+  style: propTypes.object,
   url: propTypes.string,
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   status: propTypes.oneOf(['online', 'away']),
   fallback: propTypes.string
-}
-
-Avatar.defaultProps = {
-  fallback: '?',
-  size: 'm'
 }
 
 export default observer(Avatar)

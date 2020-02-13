@@ -10,12 +10,13 @@ const AMOUNT = 5
 const ITEMS = Array(AMOUNT).fill(null)
 
 function Rating ({
+  style,
   value,
   readonly,
   onChange
 }) {
   return pug`
-    Row.root(vAlign='center' align='between' styleName={readonly})
+    Row.root(style=style vAlign='center' align='between' styleName={readonly})
       if readonly
         Star.star(active)
         H6(bold)= Number.isInteger(value) ? value : value.toFixed(1)
@@ -32,6 +33,7 @@ Rating.defaultProps = {
 }
 
 Rating.propTypes = {
+  style: propTypes.object,
   value: propTypes.number,
   readonly: propTypes.bool,
   onChange: propTypes.func

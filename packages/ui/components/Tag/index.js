@@ -16,13 +16,13 @@ const ICON_PROPS = {
 
 function Tag ({
   style,
+  children,
   color,
   variant,
   icon,
   rightIcon,
   iconsColor,
   textColor,
-  label,
   onPress,
   ...props
 }) {
@@ -30,7 +30,7 @@ function Tag ({
   const _textColor = colors[textColor] || textColor || colors.white
   const _iconsColor = colors[iconsColor] || iconsColor || colors.white
 
-  const iconWrapperStyle = { 'with-label': label }
+  const iconWrapperStyle = { 'with-label': React.Children.count(children) }
 
   return pug`
     Div.root(
@@ -42,25 +42,26 @@ function Tag ({
       if icon
         View.leftIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=icon color=_iconsColor ...ICON_PROPS)
-      if label
-        Span.label(style={color: _textColor} bold size='xs')= label
+      if children
+        Span.label(style={color: _textColor} bold size='xs')= children
       if rightIcon
         View.rightIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=rightIcon color=_iconsColor ...ICON_PROPS)
   `
 }
 
+Tag.defaultProps = {
+  color: 'primary',
+  variant: 'circle'
+}
+
 Tag.propTypes = {
-  label: propTypes.string,
+  style: propTypes.object,
+  children: propTypes.string,
   color: propTypes.string,
   textColor: propTypes.string,
   iconsColor: propTypes.string,
   variant: propTypes.oneOf(['circle', 'rounded'])
-}
-
-Tag.defaultProps = {
-  color: 'primary',
-  variant: 'circle'
 }
 
 export default observer(Tag)

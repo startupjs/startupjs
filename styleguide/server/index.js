@@ -25,7 +25,7 @@ startupjsServer({
 
 function getHead (appName) {
   return `
-    <title>HelloWorld</title>
+    <title>Styleguide</title>
     <!-- Put vendor JS and CSS here -->
   `
 }

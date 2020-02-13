@@ -12,7 +12,7 @@ import './index.styl'
 
 function Collapse ({ style, title, open, children }) {
   return pug`
-    View.root
+    View.root(style=style)
       Row.title(align='between' vAlign='center')
         Span.titleText(size='l' numberOfLines=1 bold)= title
         Icon(icon=faCaretDown color=config.colors.dark)
@@ -26,9 +26,10 @@ Collapse.defaultProps = {
 }
 
 Collapse.propTypes = {
+  style: propTypes.object,
+  children: propTypes.node.isRequired,
   title: propTypes.string.isRequired,
-  open: propTypes.bool,
-  children: propTypes.node.isRequired
+  open: propTypes.bool
 }
 
 export default observer(Collapse)

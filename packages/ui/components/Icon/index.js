@@ -25,7 +25,7 @@ const Icon = observer(({
   height
 }) => {
   return pug`
-    View.root
+    View.root(style=style)
       FontAwesomeIcon(
         style=style
         icon=icon

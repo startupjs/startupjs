@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { observer, useValue, useComponentId } from 'startupjs'
 import { Dimensions } from 'react-native'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import Drawer from '../Drawer'
 import config from '../../config/rootConfig'
@@ -9,6 +9,7 @@ import config from '../../config/rootConfig'
 const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
+  style,
   fixedLayoutBreakpoint,
   path,
   position,
@@ -35,6 +36,7 @@ function SmartSidebar ({
   return pug`
     if fixedLayout
       Sidebar(
+        style=style
         path=path
         position=position
         width=width
@@ -43,6 +45,7 @@ function SmartSidebar ({
       )= children
     else
       Drawer(
+        style=style
         path=path
         position=position
         width=width
@@ -53,19 +56,21 @@ function SmartSidebar ({
   `
 }
 
-SmartSidebar.propTypes = {
-  backgroundColor: PropTypes.string,
-  fixedLayoutBreakpoint: PropTypes.number,
-  position: PropTypes.oneOf(['left', 'right']),
-  width: PropTypes.number,
-  renderContent: PropTypes.func.isRequired
-}
-
 SmartSidebar.defaultProps = {
   backgroundColor: config.colors.white,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
+}
+
+SmartSidebar.propTypes = {
+  style: propTypes.object,
+  children: propTypes.node,
+  backgroundColor: propTypes.string,
+  fixedLayoutBreakpoint: propTypes.number,
+  position: propTypes.oneOf(['left', 'right']),
+  width: propTypes.number,
+  renderContent: propTypes.func.isRequired
 }
 
 export default observer(SmartSidebar)
