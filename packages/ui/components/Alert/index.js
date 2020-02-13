@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { colorToRGBA } from '../../config/helpers'
-import { faStar, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../Span'
 import Row from '../Row'
@@ -50,9 +50,7 @@ function Alert ({
 
 Alert.defaultProps = {
   color: 'primary',
-  closeIcon: faTimes,
-  icon: faStar,
-  onClose: () => null
+  closeIcon: faTimes
 }
 
 Alert.propTypes = {
