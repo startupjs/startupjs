@@ -36,11 +36,11 @@ function Button ({
   const rootExtraProps = {}
   const _textColor = colors[textColor] || textColor
   const _color = colors[color] || color
-  const _iconsColor = colors[iconsColor] || iconsColor || _color
+  const _iconsColor = colors[iconsColor] || iconsColor
 
   const iconProps = {
     size: ICON_SIZES[size],
-    color: variant === 'flat' ? _iconsColor || colors.white : _iconsColor
+    color: _iconsColor || (variant === 'flat' ? colors.white : _color)
   }
 
   const [rootStyles, labelStyles] = useMemo(() => {
