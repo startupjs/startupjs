@@ -11,7 +11,7 @@ yarn add @startupjs/ui
 Pass to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
 
 ```js
-const config = require('@startupjs/ui/config')
+const getConfig = require('@startupjs/ui/config')
 const { u } = require('@startupjs/ui/config/helpers')
 
 module.exports = {
@@ -87,7 +87,8 @@ import { Button } from '@startupjs/ui'
 ```
 
 ### TextInput
-Set cursor color of the input on android for the same view as web and ios.
+Set cursor color of the input on android for the same view as web
+and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
 
 ```xml
   <resources>
