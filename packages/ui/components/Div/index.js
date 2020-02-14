@@ -71,6 +71,8 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
+  style: propTypes.object,
+  children: propTypes.node,
   backgroundColor: propTypes.string,
   disabled: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),

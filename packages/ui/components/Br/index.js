@@ -6,10 +6,10 @@ import { u } from './../../config/helpers'
 import './index.styl'
 const LINE_HEIGHT = u(2)
 
-function Br ({ half, lines }) {
+function Br ({ style, half, lines }) {
   const height = half ? LINE_HEIGHT / 2 : LINE_HEIGHT * lines
   return pug`
-    Text.root(style={height})
+    Text.root(style=[style, { height }])
   `
 }
 
@@ -19,6 +19,7 @@ Br.defaultProps = {
 }
 
 Br.propTypes = {
+  style: propTypes.object,
   half: propTypes.bool,
   lines: propTypes.number
 

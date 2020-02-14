@@ -71,7 +71,7 @@ export default observer(function Input ({
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
   return pug`
-    View.input-wrapper(style={ height: fullHeight })
+    View.input-wrapper(style=[style, { height: fullHeight }])
       if icon
         View.input-icon(
           styleName=[size]
@@ -91,7 +91,7 @@ export default observer(function Input ({
       )
         TextInput.input-input(
           ref=inputRef
-          style=[style, inputStyles]
+          style=inputStyles
           styleName=[size]
           selectionColor=caretColor
           placeholder=placeholder

@@ -26,6 +26,7 @@ const descriptionSizes = {
 }
 
 function User ({
+  style,
   avatarUrl,
   backgroundColor,
   description,
@@ -37,6 +38,7 @@ function User ({
 }) {
   return pug`
     Div.root(
+      style=style
       styleName=[avatarPosition]
       backgroundColor=backgroundColor
       onPress=onPress
@@ -70,6 +72,7 @@ User.defaultProps = {
 }
 
 User.propTypes = {
+  style: propTypes.object,
   avatarUrl: propTypes.string,
   description: propTypes.string,
   name: propTypes.string.isRequired,

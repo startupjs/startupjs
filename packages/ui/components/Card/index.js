@@ -23,13 +23,15 @@ function Card ({
   `
 }
 
-Card.propTypes = {
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
-  onPress: propTypes.func
-}
-
 Card.defaultProps = {
   level: 1
+}
+
+Card.propTypes = {
+  style: propTypes.object,
+  children: propTypes.node,
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
+  onPress: propTypes.func
 }
 
 export default observer(Card)

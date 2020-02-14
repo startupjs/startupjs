@@ -6,8 +6,8 @@ import themed from '../../config/themed'
 import './index.styl'
 
 function Span ({
-  children,
   style,
+  children,
   size,
   bold,
   italic,
@@ -29,11 +29,12 @@ Span.defaultProps = {
 }
 
 Span.propTypes = {
+  style: propTypes.object,
+  children: propTypes.node,
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   bold: propTypes.bool,
   italic: propTypes.bool,
-  description: propTypes.bool,
-  children: propTypes.node
+  description: propTypes.bool
 }
 
 export default observer(themed(Span))

@@ -86,6 +86,22 @@ import { Button } from '@startupjs/ui'
   })
 ```
 
+### Status bar
+
+1. Install library `react-native-status-bar-height`
+```
+  yarn add react-native-status-bar-height
+```
+
+2. Add library to `forceCompileModules` of your `webpack.web.config.js`.
+```js
+  const getConfig = require('startupjs/bundler').webpackWebConfig
+
+  module.exports = getConfig(undefined, {
+    forceCompileModules: ['react-native-status-bar-height']
+  })
+```
+
 ### TextInput
 Set cursor color of the input on android for the same view as web
 and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
