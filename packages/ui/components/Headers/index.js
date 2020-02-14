@@ -27,7 +27,7 @@ function generateTag (tag) {
 
   header.propTypes = {
     style: propTypes.object,
-    children: propTypes.string,
+    children: propTypes.node,
     bold: propTypes.bool
   }
 

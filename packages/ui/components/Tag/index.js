@@ -57,7 +57,7 @@ Tag.defaultProps = {
 
 Tag.propTypes = {
   style: propTypes.object,
-  children: propTypes.string,
+  children: propTypes.node,
   color: propTypes.string,
   textColor: propTypes.string,
   iconsColor: propTypes.string,

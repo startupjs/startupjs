@@ -121,7 +121,7 @@ Button.defaultProps = {
 Button.propTypes = {
   style: propTypes.object,
   color: propTypes.string,
-  children: propTypes.string,
+  children: propTypes.node,
   disabled: propTypes.bool,
   variant: propTypes.oneOf(['flat', 'outlined', 'ghost', 'shadowed']),
   size: propTypes.oneOf(['m', 'l', 'xl']),

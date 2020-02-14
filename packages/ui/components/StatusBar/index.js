@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { View, RNStatusBar } from 'react-native'
+import { View, StatusBar as RNStatusBar } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import config from './../../config/rootConfig'
 import propTypes from 'prop-types'
