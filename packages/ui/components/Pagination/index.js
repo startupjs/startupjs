@@ -12,20 +12,25 @@ import './index.styl'
 const { colors } = config
 
 function Pagination ({
+  style,
+  variant,
   disabled,
   visibleCount,
   showLast,
   showFirst,
   value,
-  variant,
   total,
   limit,
   onChange
 }) {
   const isFilled = variant === 'filled'
   const activePage = value + 1
-  // If no limit provided we assume there is only one item per page
   const pagesCount = Math.ceil(total / (limit || 1))
+  const prevValue = value - 1
+  const nextValue = value + 1
+  const lastValue = pagesCount - 1
+  const isFirstPageSelected = value <= 0
+  const isLastPageSelected = activePage >= pagesCount
 
   const [
     backButtonExtraProps,
@@ -77,21 +82,17 @@ function Pagination ({
   const items = useMemo(() => Array(to - from).fill(null), [to, from])
 
   return pug`
-    Div.root(
+    View.root(
+      style=style
       styleName=[variant]
     )
-      - const prevValue = value - 1
-      - const nextValue = value + 1
-      - const lastValue = pagesCount - 1
-      - const isFirstPageSelected = value <= 0
-      - const isLastPageSelected = activePage >= pagesCount
       Button.back(
         disabled=isFirstPageSelected || disabled
         onPress=() => onChange(prevValue)
         ...backButtonExtraProps
       )
         = isFilled ? 'Back' : null
-      if from && showFirst
+      if showFirst && from
         PaginationButton(
           disabled=disabled
           bold=!isFilled
@@ -106,15 +107,15 @@ function Pagination ({
         - const label = _value + 1
         - const isActive = _value === value
         PaginationButton(
+          key=index
           disabled=disabled
           bold=!isFilled
           variant=variant
-          key=index
           active=isActive
           label=label
           onPress=() => onChange(_value)
         )
-      if to <= lastValue && showLast
+      if showLast && to <= lastValue
         View.dots
           Span ...
         PaginationButton(
@@ -134,24 +135,24 @@ function Pagination ({
 }
 
 Pagination.defaultProps = {
-  visibleCount: 5,
-  total: 0,
-  limit: 0,
-  value: 0,
   variant: 'filled',
+  visibleCount: 5,
+  total: 0, // ?
+  value: 0,
   showLast: true,
   showFirst: true
 }
 
 Pagination.propTypes = {
-  disabled: propTypes.bool,
+  style: propTypes.object,
+  variant: propTypes.oneOf(['filled', 'floating']),
   visibleCount: propTypes.number,
+  total: propTypes.number,
+  limit: propTypes.number,
+  value: propTypes.number.isRequired,
   showLast: propTypes.bool,
   showFirst: propTypes.bool,
-  total: propTypes.number,
-  value: propTypes.number.isRequired,
-  variant: propTypes.oneOf(['filled', 'floating']),
-  limit: propTypes.number,
+  disabled: propTypes.bool,
   onChange: propTypes.func.isRequired
 }
 

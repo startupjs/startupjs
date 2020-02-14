@@ -33,37 +33,41 @@ function Button ({
 }) {
   const [hover, setHover] = useState()
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
-  const rootExtraProps = {}
-  const _textColor = colors[textColor] || textColor
-  const _color = colors[color] || color
-  const _iconsColor = colors[iconsColor] || iconsColor
+  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
+  const _color = useMemo(() => colors[color] || color, [color])
 
-  const [rootStyles, labelStyles, iconsProps] = useMemo(() => {
+  const _iconsColor = useMemo(() => {
+    return colors[iconsColor] || iconsColor ||
+      (variant === 'flat' ? colors.white : _color)
+  }, [variant, iconsColor, _color])
+
+  const iconsProps = useMemo(() => {
+    return {
+      size: ICON_SIZES[size],
+      color: _iconsColor
+    }
+  }, [size, _iconsColor])
+
+  const [rootStyles, labelStyles] = useMemo(() => {
     let labelStyles = {}
     let rootStyles = {}
-    const iconsProps = {
-      size: ICON_SIZES[size]
-    }
 
     switch (variant) {
       case 'flat':
         labelStyles.color = _textColor || colors.white
-        iconsProps.color = _iconsColor || colors.white
         break
       case 'outlined':
         labelStyles.color = _textColor || _color
         rootStyles.borderWidth = 1
         rootStyles.borderColor = _color
-        iconsProps.color = _iconsColor || _color
         break
       case 'ghost':
       case 'shadowed':
         labelStyles.color = _textColor || _color
-        iconsProps.color = _iconsColor || _color
     }
 
-    return [rootStyles, labelStyles, iconsProps]
-  }, [variant, _textColor, _color, _iconsColor])
+    return [rootStyles, labelStyles]
+  }, [variant, _textColor, _color])
 
   const backgroundColor = useMemo(() => {
     switch (variant) {
@@ -77,6 +81,7 @@ function Button ({
     }
   }, [variant, hover, _color])
 
+  const rootExtraProps = {}
   if (variant === 'shadowed') {
     rootExtraProps.level = 2
   }
