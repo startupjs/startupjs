@@ -72,7 +72,7 @@ User.defaultProps = {
 }
 
 User.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   avatarUrl: propTypes.string,
   description: propTypes.string,
   name: propTypes.string.isRequired,

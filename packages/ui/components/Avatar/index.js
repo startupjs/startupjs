@@ -45,7 +45,7 @@ Avatar.defaultProps = {
 }
 
 Avatar.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   url: propTypes.string,
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   status: propTypes.oneOf(['online', 'away']),

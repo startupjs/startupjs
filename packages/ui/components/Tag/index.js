@@ -56,7 +56,7 @@ Tag.defaultProps = {
 }
 
 Tag.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   color: propTypes.string,
   textColor: propTypes.string,

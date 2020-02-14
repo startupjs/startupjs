@@ -119,7 +119,7 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   color: propTypes.string,
   children: propTypes.node,
   disabled: propTypes.bool,

@@ -33,7 +33,7 @@ Rating.defaultProps = {
 }
 
 Rating.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   value: propTypes.number,
   readonly: propTypes.bool,
   onChange: propTypes.func

@@ -25,7 +25,7 @@ Hr.defaultProps = {
 }
 
 Hr.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   align: propTypes.oneOf(['left', 'center', 'right'])
 }
