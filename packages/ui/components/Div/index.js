@@ -25,16 +25,18 @@ function Div ({
   const _backgroundColor = backgroundColor || (level ? colors.white : null)
 
   const [hover, setHover] = useState()
-  const [active, setAtive] = useState()
+  const [active, setActive] = useState()
   const wrapperExtraStyles = useMemo(() => {
     if (!_backgroundColor) return {}
-    if (!hover && !active) return { backgroundColor: _backgroundColor }
     if (active) {
       return {
         backgroundColor: colorToRGBA(_backgroundColor, activeStateOpacity)
       }
     }
-    return { backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity) }
+    if (hover) {
+      return { backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity) }
+    }
+    return { backgroundColor: _backgroundColor }
   }, [hover, active, _backgroundColor])
 
   const isClickable = typeof onPress === 'function' && !disabled
@@ -54,9 +56,8 @@ function Div ({
       onMouseLeave && onMouseLeave(...args)
     }
 
-    extraProps.onStartShouldSetResponder = () => true
-    extraProps.onPressIn = () => setAtive(true)
-    extraProps.onPressOut = () => setAtive()
+    extraProps.onPressIn = () => setActive(true)
+    extraProps.onPressOut = () => setActive()
   }
 
   const Wrapper = isClickable ? TouchableOpacity : View
