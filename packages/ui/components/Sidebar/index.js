@@ -96,7 +96,7 @@ Sidebar.defaultProps = {
 }
 
 Sidebar.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   backgroundColor: propTypes.string,
   position: propTypes.oneOf(['left', 'right']),

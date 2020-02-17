@@ -71,7 +71,7 @@ TextInput.defaultProps = {
 }
 
 TextInput.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   label: propTypes.string,
   placeholder: propTypes.string.isRequired,
   value: propTypes.string,

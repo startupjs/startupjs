@@ -19,7 +19,7 @@ Br.defaultProps = {
 }
 
 Br.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   half: propTypes.bool,
   lines: propTypes.number
 

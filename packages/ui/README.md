@@ -8,7 +8,7 @@ yarn add @startupjs/ui
 ```
 
 ## Configuration
-Pass to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
+1. Add to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
 
 ```js
 const getConfig = require('@startupjs/ui/config')
@@ -32,6 +32,11 @@ module.exports = {
     }
   })
 }
+```
+
+2. Add to your root style file `styles/index.styl`.
+```css
+@require '../node_modules/@startupjs/ui/styles/index.styl'
 ```
 
 ## Usage

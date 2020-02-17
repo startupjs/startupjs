@@ -14,7 +14,7 @@ function Layout ({ style, children }) {
 }
 
 Layout.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node
 }
 
