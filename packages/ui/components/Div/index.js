@@ -34,7 +34,9 @@ function Div ({
       }
     }
     if (hover) {
-      return { backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity) }
+      return {
+        backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity)
+      }
     }
     return { backgroundColor: _backgroundColor }
   }, [hover, active, _backgroundColor])
@@ -44,7 +46,7 @@ function Div ({
   const extraProps = {}
 
   if (isClickable) {
-    extraProps.activeOpacity = 1
+    extraProps.activeOpacity = _backgroundColor ? 1 : activeStateOpacity
     extraProps.onPress = onPress
 
     extraProps.onMouseEnter = (...args) => {
@@ -66,7 +68,8 @@ function Div ({
     Wrapper.root(
       style=[style, SHADOWS[level], wrapperExtraStyles]
       styleName=[{
-        clickable: isClickable
+        clickable: isClickable,
+        ['without-bg']: !_backgroundColor
       }]
       ...extraProps
       ...props
