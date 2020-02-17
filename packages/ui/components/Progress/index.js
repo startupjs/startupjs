@@ -16,7 +16,6 @@ function Progress ({
 
   // TODO: We can calculate duration using durationOfFullProgress / newValue - prevValue
   useDidUpdate(() => {
-    console.log('didUpdate')
     Animated.timing(
       progress,
       {
