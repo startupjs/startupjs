@@ -7,6 +7,7 @@ import Span from '../Span'
 import Row from '../Row'
 import Icon from '../Icon'
 import config from '../../config/rootConfig'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 const { colors } = config
@@ -15,7 +16,6 @@ function Alert ({
   color,
   icon,
   iconColor,
-  closeIcon,
   label,
   onClose
 }) {
@@ -25,6 +25,7 @@ function Alert ({
 
   return pug`
     Row.root(
+      vAlign='center'
       style={ borderWidth: 1, borderColor: _color, backgroundColor }
     )
       Row.content(vAlign='center')
@@ -35,12 +36,12 @@ function Alert ({
             color=_iconColor
           )
         if label
-          Span(style={ color:_color })= label
+          Span(style={ color: _color })= label
       if onClose
         Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
             size='l'
-            icon=closeIcon
+            icon=faTimes
             color=colors.dark
           )
   `
