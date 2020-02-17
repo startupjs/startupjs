@@ -8,5 +8,6 @@ module.exports = function colorToRGBA (color, alpha) {
     return Color(color).fade(fadeRatio).toString()
   } catch (err) {
     console.error('ERROR:', err.message)
+    return color
   }
 }

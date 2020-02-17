@@ -1,9 +1,7 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { colorToRGBA } from '../../config/helpers'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../Span'
 import Row from '../Row'
@@ -18,28 +16,28 @@ function Alert ({
   icon,
   iconsColor,
   closeIcon,
-  hideCloseButton,
+  label,
   onClose
 }) {
-  const _color = colors[color] || color || colors.primary
+  const _color = colors[color] || color
   const _iconsColor = iconsColor || _color
   const backgroundColor = colorToRGBA(_color, 0.05)
 
   return pug`
-    Div.root(
+    Row.root(
       style={ borderWidth: 1, borderColor: _color, backgroundColor }
     )
       Row.content(vAlign='center')
         if icon
-          View.leftIconWrapper
-            Icon.leftIcon(
-              size='l'
-              icon=icon
-              color=_iconsColor
-            )
-        Span(style={ color:_color }) Hello Alert!
+          Icon.leftIcon(
+            size='l'
+            icon=icon
+            color=_iconsColor
+          )
+        if label
+          Span(style={ color:_color })= label
       if onClose
-        Div.rightIconWrapper( onPress=onClose )
+        Div.rightIconWrapper(onPress=onClose activeOpacity=0.25)
           Icon.rightIcon(
             size='l'
             icon=closeIcon
@@ -49,13 +47,13 @@ function Alert ({
 }
 
 Alert.defaultProps = {
-  color: 'primary',
-  closeIcon: faTimes
+  color: 'primary'
 }
 
 Alert.propTypes = {
   color: propTypes.string,
   iconsColor: propTypes.string,
+  label: propTypes.string,
   onClose: propTypes.func
 }
 
