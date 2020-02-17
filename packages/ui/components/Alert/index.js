@@ -14,13 +14,13 @@ const { colors } = config
 function Alert ({
   color,
   icon,
-  iconsColor,
+  iconColor,
   closeIcon,
   label,
   onClose
 }) {
   const _color = colors[color] || color
-  const _iconsColor = iconsColor || _color
+  const _iconColor = iconColor || _color
   const backgroundColor = colorToRGBA(_color, 0.05)
 
   return pug`
@@ -32,16 +32,16 @@ function Alert ({
           Icon.leftIcon(
             size='l'
             icon=icon
-            color=_iconsColor
+            color=_iconColor
           )
         if label
           Span(style={ color:_color })= label
       if onClose
-        Div.rightIconWrapper(onPress=onClose activeOpacity=0.25)
+        Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
             size='l'
             icon=closeIcon
-            color=_iconsColor
+            color=colors.dark
           )
   `
 }
@@ -52,7 +52,7 @@ Alert.defaultProps = {
 
 Alert.propTypes = {
   color: propTypes.string,
-  iconsColor: propTypes.string,
+  iconColor: propTypes.string,
   label: propTypes.string,
   onClose: propTypes.func
 }
