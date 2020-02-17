@@ -34,7 +34,7 @@ Collapse.defaultProps = {
 }
 
 Collapse.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node.isRequired,
   title: propTypes.string.isRequired,
   open: propTypes.bool
