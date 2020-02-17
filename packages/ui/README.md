@@ -8,10 +8,10 @@ yarn add @startupjs/ui
 ```
 
 ## Configuration
-Pass to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
+1. Add to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
 
 ```js
-const config = require('@startupjs/ui/config')
+const getConfig = require('@startupjs/ui/config')
 const { u } = require('@startupjs/ui/config/helpers')
 
 module.exports = {
@@ -32,6 +32,11 @@ module.exports = {
     }
   })
 }
+```
+
+2. Add to your root style file `styles/index.styl`.
+```css
+@require '../node_modules/@startupjs/ui/styles/index.styl'
 ```
 
 ## Usage
@@ -86,8 +91,25 @@ import { Button } from '@startupjs/ui'
   })
 ```
 
+### Status bar
+
+1. Install library `react-native-status-bar-height`
+```
+  yarn add react-native-status-bar-height
+```
+
+2. Add library to `forceCompileModules` of your `webpack.web.config.js`.
+```js
+  const getConfig = require('startupjs/bundler').webpackWebConfig
+
+  module.exports = getConfig(undefined, {
+    forceCompileModules: ['react-native-status-bar-height']
+  })
+```
+
 ### TextInput
-Set cursor color of the input on android for the same view as web and ios.
+Set cursor color of the input on android for the same view as web
+and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
 
 ```xml
   <resources>

@@ -7,6 +7,7 @@ import propTypes from 'prop-types'
 import './index.styl'
 
 function TextInput ({
+  style,
   label,
   placeholder,
   value,
@@ -27,9 +28,10 @@ function TextInput ({
     setFocused(true)
   }
 
-  function renderInput () {
+  function renderInput (style) {
     return pug`
       Input(
+        style=style
         value=value
         placeholder=placeholder
         disabled=disabled
@@ -47,10 +49,10 @@ function TextInput ({
     `
   }
 
-  if (pure) return renderInput()
+  if (pure) return renderInput(style)
 
   return pug`
-    View.root
+    View.root(style=style)
       Span.label(
         styleName={focused}
         size='s'
@@ -69,7 +71,7 @@ TextInput.defaultProps = {
 }
 
 TextInput.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   label: propTypes.string,
   placeholder: propTypes.string.isRequired,
   value: propTypes.string,

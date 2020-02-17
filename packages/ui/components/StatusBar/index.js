@@ -1,11 +1,12 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { View, StatusBar } from 'react-native'
+import { View, StatusBar as RNStatusBar } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import config from './../../config/rootConfig'
+import propTypes from 'prop-types'
 const height = getStatusBarHeight()
 
-export default observer(function ({
+function StatusBar ({
   style,
   children,
   backgroundColor = config.colors.darkLighter,
@@ -20,10 +21,19 @@ export default observer(function ({
       height,
       backgroundColor
     })
-      StatusBar(
+      RNStatusBar(
+        style=style
         backgroundColor=backgroundColor
         barStyle='dark-content'
         ...props
       )
   `
-})
+}
+
+StatusBar.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
+  backgroundColor: propTypes.string
+}
+
+export default observer(StatusBar)

@@ -2,12 +2,13 @@ import React, { useState, useMemo } from 'react'
 import { observer, useComponentId, useLocal } from 'startupjs'
 import { ScrollView, Animated } from 'react-native'
 import { useDidUpdate } from '@startupjs/react-sharedb'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import Div from '../Div'
 import config from '../../config/rootConfig'
 import './index.styl'
 
 function Sidebar ({
+  style,
   backgroundColor,
   children,
   position,
@@ -73,7 +74,7 @@ function Sidebar ({
   }, [!!open])
 
   return pug`
-    Div.root(styleName=[position])
+    Div.root(style=style styleName=[position])
       Animated.View.sidebar(
         style={[position]: animation, width}
         styleName={invisible}
@@ -88,17 +89,19 @@ function Sidebar ({
   `
 }
 
-Sidebar.propTypes = {
-  backgroundColor: PropTypes.string,
-  position: PropTypes.oneOf(['left', 'right']),
-  width: PropTypes.number,
-  renderContent: PropTypes.func.isRequired
-}
-
 Sidebar.defaultProps = {
   backgroundColor: config.colors.white,
   position: 'left',
   width: 264
+}
+
+Sidebar.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
+  backgroundColor: propTypes.string,
+  position: propTypes.oneOf(['left', 'right']),
+  width: propTypes.number,
+  renderContent: propTypes.func.isRequired
 }
 
 export default observer(Sidebar)

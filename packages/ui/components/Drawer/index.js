@@ -1,12 +1,13 @@
 import React, { useRef, useLayoutEffect } from 'react'
 import { observer, useLocal, useComponentId } from 'startupjs'
 import { ScrollView } from 'react-native'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
 import config from '../../config/rootConfig'
 import './index.styl'
 
 function Drawer ({
+  style,
   backgroundColor,
   children,
   path,
@@ -38,6 +39,7 @@ function Drawer ({
   }
   return pug`
     DrawerLayout.root(
+      style=style
       drawerPosition=position
       drawerWidth=width
       drawerBackgroundColor=backgroundColor
@@ -50,17 +52,19 @@ function Drawer ({
   `
 }
 
-Drawer.propTypes = {
-  backgroundColor: PropTypes.string,
-  position: PropTypes.oneOf(Object.values(DrawerLayout.positions)),
-  width: PropTypes.number,
-  renderContent: PropTypes.func.isRequired
-}
-
 Drawer.defaultProps = {
   backgroundColor: config.colors.white,
   position: 'left',
   width: 264
+}
+
+Drawer.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
+  backgroundColor: propTypes.string,
+  position: propTypes.oneOf(Object.values(DrawerLayout.positions)),
+  width: propTypes.number,
+  renderContent: propTypes.func.isRequired
 }
 
 export default observer(Drawer)

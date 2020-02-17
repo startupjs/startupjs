@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
+import { View, TouchableOpacity } from 'react-native'
 import propTypes from 'prop-types'
-import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'startupjs'
 import config from '../../config/rootConfig'
 import { colorToRGBA } from '../../config/helpers'
@@ -25,21 +25,26 @@ function Div ({
   const _backgroundColor = backgroundColor || (level ? colors.white : null)
 
   const [hover, setHover] = useState()
+  const [active, setActive] = useState()
   const wrapperExtraStyles = useMemo(() => {
     if (!_backgroundColor) return {}
-    if (!hover) return { backgroundColor: _backgroundColor }
-    return { backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity) }
-  }, [hover, _backgroundColor])
+    if (active) {
+      return {
+        backgroundColor: colorToRGBA(_backgroundColor, activeStateOpacity)
+      }
+    }
+    if (hover) {
+      return { backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity) }
+    }
+    return { backgroundColor: _backgroundColor }
+  }, [hover, active, _backgroundColor])
 
   const isClickable = typeof onPress === 'function' && !disabled
-  let Wrapper = isClickable
-    ? TouchableOpacity
-    : View
 
   const extraProps = {}
 
   if (isClickable) {
-    extraProps.activeOpacity = activeStateOpacity
+    extraProps.activeOpacity = 1
     extraProps.onPress = onPress
 
     extraProps.onMouseEnter = (...args) => {
@@ -50,7 +55,12 @@ function Div ({
       setHover()
       onMouseLeave && onMouseLeave(...args)
     }
+
+    extraProps.onPressIn = () => setActive(true)
+    extraProps.onPressOut = () => setActive()
   }
+
+  const Wrapper = isClickable ? TouchableOpacity : View
 
   return pug`
     Wrapper.root(
@@ -71,6 +81,8 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
   backgroundColor: propTypes.string,
   disabled: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),

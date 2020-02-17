@@ -12,8 +12,8 @@ function generateTag (tag) {
 
       return pug`
         Text.root(
-          styleName=[tag, { bold }]
           style=style
+          styleName=[tag, { bold }]
           ...role
           ...props
         )= children
@@ -26,8 +26,9 @@ function generateTag (tag) {
   }
 
   header.propTypes = {
-    bold: propTypes.bool,
-    children: propTypes.string
+    style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+    children: propTypes.node,
+    bold: propTypes.bool
   }
 
   return header
