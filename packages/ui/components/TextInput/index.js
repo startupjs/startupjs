@@ -28,10 +28,10 @@ function TextInput ({
     setFocused(true)
   }
 
-  function renderInput (style) {
+  function renderInput (standalone) {
     return pug`
       Input(
-        style=style
+        style=standalone ? style : {}
         value=value
         placeholder=placeholder
         disabled=disabled
@@ -49,7 +49,7 @@ function TextInput ({
     `
   }
 
-  if (pure) return renderInput(style)
+  if (pure) return renderInput(true)
 
   return pug`
     View.root(style=style)
@@ -82,7 +82,8 @@ TextInput.propTypes = {
   numberOfLines: propTypes.number,
   icon: propTypes.object,
   onBlur: propTypes.func,
-  onFocus: propTypes.func
+  onFocus: propTypes.func,
+  onChangeText: propTypes.func
 }
 
 export default observer(TextInput)
