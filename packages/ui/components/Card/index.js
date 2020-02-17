@@ -28,7 +28,7 @@ Card.defaultProps = {
 }
 
 Card.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
   onPress: propTypes.func

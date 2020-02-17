@@ -64,7 +64,7 @@ SmartSidebar.defaultProps = {
 }
 
 SmartSidebar.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   backgroundColor: propTypes.string,
   fixedLayoutBreakpoint: propTypes.number,

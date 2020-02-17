@@ -49,7 +49,7 @@ Progress.defaultProps = {
 }
 
 Progress.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   value: propTypes.number,
   label: propTypes.string,
   variant: propTypes.oneOf(['full', 'compact'])
