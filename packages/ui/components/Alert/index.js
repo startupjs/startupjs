@@ -28,15 +28,14 @@ function Alert ({
       vAlign='center'
       style={ borderWidth: 1, borderColor: _color, backgroundColor }
     )
-      Row.content(vAlign='center')
-        if icon
-          Icon.leftIcon(
-            size='l'
-            icon=icon
-            color=_iconColor
-          )
-        if label
-          Span(style={ color: _color })= label
+      if icon
+        Icon.leftIcon(
+          size='l'
+          icon=icon
+          color=_iconColor
+        )
+      if label
+        Span.label(style={ color: _color } numberOfLines=1)= label
       if onClose
         Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
