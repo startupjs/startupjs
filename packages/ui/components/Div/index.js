@@ -72,7 +72,7 @@ function Div ({
 
   const Wrapper = isClickable ? TouchableOpacity : View
 
-  // If component receive 'disabled' prop while hover or active
+  // If component become not clickable, for example received 'disabled' prop while hover or active,
   // state wouldn't update without this effect
   useEffect(() => {
     if (!isClickable) {
