@@ -22,6 +22,7 @@ function Button ({
   color,
   variant,
   disabled,
+  interactive,
   shape,
   size,
   icon,
@@ -97,6 +98,7 @@ function Button ({
       ]
       backgroundColor=backgroundColor
       disabled=disabled
+      interactive=interactive
       onMouseEnter=() => setHover(true)
       onMouseLeave=() => setHover()
       onPress=onPress
@@ -123,7 +125,8 @@ Button.defaultProps = {
   variant: 'flat',
   size: 'm',
   shape: 'rounded',
-  disabled: false
+  disabled: false,
+  interactive: true
 }
 
 Button.propTypes = {
@@ -131,6 +134,7 @@ Button.propTypes = {
   color: propTypes.string,
   children: propTypes.node,
   disabled: propTypes.bool,
+  interactive: propTypes.bool,
   variant: propTypes.oneOf(['flat', 'outlined', 'ghost', 'shadowed']),
   size: propTypes.oneOf(['m', 'l', 'xl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
