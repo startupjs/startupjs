@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { View, TextInput, Platform } from 'react-native'
-import config from './../../config/rootConfig'
-import Icon from './../Icon'
+import config from './../../../config/rootConfig'
+import Icon from './../../Icon'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -36,6 +36,15 @@ export default observer(function Input ({
 }) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+
+  useLayoutEffect(() => {
+    if (resize) {
+      const numberOfLinesInValue = value.split('\n').length
+      if (numberOfLinesInValue > numberOfLines) {
+        setCurrentNumberOfLines(numberOfLinesInValue)
+      }
+    }
+  }, [value])
 
   if (IS_WEB) {
     // repeat mobile behaviour on the web
@@ -102,12 +111,6 @@ export default observer(function Input ({
           onBlur=onBlur
           onFocus=onFocus
           onChangeText=(value) => {
-            if (resize) {
-              const numberOfLinesInValue = value.split('\n').length
-              if (numberOfLinesInValue > numberOfLines) {
-                setCurrentNumberOfLines(numberOfLinesInValue)
-              }
-            }
             onChangeText && onChangeText(value)
           }
           ...inputExtraProps
