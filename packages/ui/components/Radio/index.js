@@ -3,15 +3,23 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Input from './input'
+import config from '../../config/rootConfig'
 import './index.styl'
+
+const { colors } = config
 
 const Radio = function ({
   style,
   children,
+  color,
+  textColor,
   value,
   data,
   onChange
 }) {
+  const _color = colors[color] || color
+  const _textColor = colors[textColor] || textColor
+
   function handleRadioPress (value) {
     return onChange && onChange(value)
   }
@@ -36,10 +44,12 @@ const Radio = function ({
     View(style=style)
       if _children
         = _children
-      else
+      if data
         each el, index in data
           Input(
             checked=el.value === value
+            color=_color
+            textColor=_textColor
             value=el.value
             label=el.label
             key=index
@@ -49,20 +59,20 @@ const Radio = function ({
 }
 
 Radio.propTypes = {
+  color: propTypes.string,
+  textColor: propTypes.string,
   data: propTypes.arrayOf(propTypes.shape({
     value: propTypes.oneOfType([propTypes.string, propTypes.number]),
     label: propTypes.oneOfType([propTypes.string, propTypes.number])
   })),
-  value: propTypes.string, // propTypes.oneOfType(propTypes.string, propTypes.number)
+  value: propTypes.oneOfType(propTypes.string, propTypes.number),
   onChange: propTypes.func
 }
 
 Radio.defaultProps = {
   size: 's',
-  onChange: (q) => console.log(q),
-  // remove
-  data: [{ label: 'foo', value: 'foo' }, { label: 'bar', value: 'bar' }],
-  value: 'foo'
+  color: 'primary',
+  textColor: colors.dark
 }
 
 export default observer(Radio)

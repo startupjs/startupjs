@@ -1,41 +1,62 @@
-import React from 'react'
-import { View } from 'react-native'
-import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { View, Animated } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
+import propTypes from 'prop-types'
 import Div from '../Div'
 import Span from '../Span'
 import './index.styl'
 
 const Input = function ({
+  children,
+  color,
+  textColor,
   value,
   label,
   checked,
-  onPress,
-  children
+  onPress
 }) {
-  const CircleIcon = ({ checked }) => pug`
-    View.circle(
-      styleName={ 'with-label': !!label }
-    )
-      if checked
-        View.checked
-  `
+  const [checkedSize] = useState(new Animated.Value(checked ? 1 : 0))
 
   const setChecked = () => {
     onPress && onPress(value)
   }
 
+  useDidUpdate(() => {
+    checkedSize.setValue(0)
+    if (checked) {
+      Animated.timing(
+        checkedSize,
+        {
+          toValue: 1,
+          duration: 120
+        }
+      ).start()
+    }
+  }, [checked])
+
   return pug`
     Div.root(
       onPress=setChecked
     )
-      CircleIcon(checked=checked)
-      Span.label= label
+      View.circle(
+        style={borderColor: color}
+        styleName={ 'with-label': !!label }
+      )
+        if checked
+          Animated.View.checked(
+            style={
+              backgroundColor: color,
+              transform: [{
+                scale: checkedSize
+              }]
+            }
+          )
+      Span.label(style={color: textColor})= label
   `
 }
 
 Input.propType = {
-  checked: PropTypes.bool
+  checked: propTypes.bool
 }
 
 export default observer(Input)
