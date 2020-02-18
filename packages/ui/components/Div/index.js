@@ -16,6 +16,7 @@ function Div ({
   backgroundColor,
   disabled,
   level,
+  interactive,
   onMouseLeave,
   onMouseEnter,
   onPress,
@@ -28,14 +29,19 @@ function Div ({
   const [active, setActive] = useState()
   const wrapperExtraStyles = useMemo(() => {
     if (!_backgroundColor) return {}
-    if (active) {
-      return {
-        backgroundColor: colorToRGBA(_backgroundColor, activeStateOpacity)
+    // if (!interactive) {
+    //   return { backgroundColor: _backgroundColor }
+    // }
+    if (interactive) {
+      if (active) {
+        return {
+          backgroundColor: colorToRGBA(_backgroundColor, activeStateOpacity)
+        }
       }
-    }
-    if (hover) {
-      return {
-        backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity)
+      if (hover) {
+        return {
+          backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity)
+        }
       }
     }
     return { backgroundColor: _backgroundColor }
@@ -45,8 +51,13 @@ function Div ({
 
   const extraProps = {}
 
+  const isInteractiveWithoutBg = !_backgroundColor && interactive
+
   if (isClickable) {
-    extraProps.activeOpacity = _backgroundColor ? 1 : activeStateOpacity
+    extraProps.activeOpacity = isInteractiveWithoutBg
+      ? activeStateOpacity
+      : 1
+
     extraProps.onPress = onPress
 
     extraProps.onMouseEnter = (...args) => {
@@ -69,7 +80,7 @@ function Div ({
       style=[style, SHADOWS[level], wrapperExtraStyles]
       styleName=[{
         clickable: isClickable,
-        ['without-bg']: !_backgroundColor
+        ['interactive']: isInteractiveWithoutBg
       }]
       ...extraProps
       ...props
@@ -80,6 +91,7 @@ function Div ({
 
 Div.defaultProps = {
   disabled: false,
+  interactive: true,
   level: 0
 }
 
@@ -88,6 +100,7 @@ Div.propTypes = {
   children: propTypes.node,
   backgroundColor: propTypes.string,
   disabled: propTypes.bool,
+  interactive: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
   onPress: propTypes.func
 }

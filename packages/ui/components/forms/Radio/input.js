@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { View, Animated } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import propTypes from 'prop-types'
-import Div from '../Div'
-import Span from '../Span'
+import Div from '../../Div'
+import Span from '../../Span'
 import './index.styl'
 
 const Input = function ({
@@ -37,6 +37,7 @@ const Input = function ({
   return pug`
     Div.root(
       onPress=setChecked
+      interactive=false
     )
       View.circle(
         style={borderColor: color}

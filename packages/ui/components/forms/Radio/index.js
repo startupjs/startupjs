@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Input from './input'
-import config from '../../config/rootConfig'
+import config from '../../../config/rootConfig'
 import './index.styl'
 
 const { colors } = config
@@ -72,7 +72,10 @@ Radio.propTypes = {
 Radio.defaultProps = {
   size: 's',
   color: 'primary',
-  textColor: colors.dark
+  textColor: colors.dark,
+
+  data: [{ value: 'foo', label: 'foo' }, { value: 'bar', label: 'bar' }],
+  value: 'bar'
 }
 
 export default observer(Radio)
