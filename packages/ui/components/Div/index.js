@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
@@ -63,6 +63,15 @@ function Div ({
   }
 
   const Wrapper = isClickable ? TouchableOpacity : View
+
+  // If component receive 'disabled' prop while hover or active this
+  // state wouldn't update without this effect
+  useEffect(() => {
+    if (!isClickable) {
+      setHover()
+      setActive()
+    }
+  }, [isClickable])
 
   return pug`
     Wrapper.root(
