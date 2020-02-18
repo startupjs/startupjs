@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, Text } from 'react-native'
 import { observer, useModel } from 'startupjs'
-import './index.attr.styl' // @css_hash_-1679060978
+import './index.styl'
 
 export default observer(function Increment ({ stateCounter, setStateCounter }) {
   let $counter = useModel('counters.first')
@@ -13,8 +13,11 @@ export default observer(function Increment ({ stateCounter, setStateCounter }) {
 
   return pug`
     TouchableOpacity.button(
+      styleName=[
+        'increment'
+        (stateCounter < 5 ? 'small' : (stateCounter > 10 ? 'large' : undefined))
+      ]
       variation='increment'
-      size=(stateCounter < 5 ? 'small' : (stateCounter > 10 ? 'large' : undefined))
       onPress=increment
     )
       Text.label +
