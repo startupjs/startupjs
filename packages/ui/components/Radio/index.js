@@ -2,12 +2,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
-import Radio from './Radio'
+import Input from './input'
 import './index.styl'
 
-const RadioGroup = function ({
+const Radio = function ({
   style,
-  size,
+  children,
   value,
   data,
   onChange
@@ -16,35 +16,53 @@ const RadioGroup = function ({
     return onChange && onChange(value)
   }
 
+  let _children
+
+  if (Array.isArray(children)) {
+    _children = React.Children.map(children, (child) => {
+      const { value: _value } = child.props
+      const _child = React.cloneElement(
+        child,
+        {
+          onPress: () => handleRadioPress(_value),
+          checked: _value === value
+        }
+      )
+      return _child
+    })
+  }
+
   return pug`
     View(style=style)
-      each el, index in data
-        Radio(
-          checked=el.value === value
-          disabled=el.disabled
-          value=el.value
-          label=el.label
-          key=index
-          size=size
-          onPress=handleRadioPress
-        )
+      if _children
+        = _children
+      else
+        each el, index in data
+          Input(
+            checked=el.value === value
+            value=el.value
+            label=el.label
+            key=index
+            onPress=handleRadioPress
+          )
   `
 }
 
-RadioGroup.propTypes = {
+Radio.propTypes = {
   data: propTypes.arrayOf(propTypes.shape({
     value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-    label: propTypes.oneOfType([propTypes.string, propTypes.number]),
-    disabled: propTypes.bool
+    label: propTypes.oneOfType([propTypes.string, propTypes.number])
   })),
-  size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs'])
+  value: propTypes.string, // propTypes.oneOfType(propTypes.string, propTypes.number)
+  onChange: propTypes.func
 }
 
-RadioGroup.defaultProps = {
+Radio.defaultProps = {
   size: 's',
+  onChange: (q) => console.log(q),
   // remove
-  data: [{ label: 'foo', value: 'foo' }, { label: 'bar', value: 'bar', disabled: true }],
+  data: [{ label: 'foo', value: 'foo' }, { label: 'bar', value: 'bar' }],
   value: 'foo'
 }
 
-export default observer(RadioGroup)
+export default observer(Radio)
