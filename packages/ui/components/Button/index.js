@@ -25,6 +25,7 @@ function Button ({
   shape,
   size,
   icon,
+  iconsColor,
   rightIcon,
   textColor,
   onPress,
@@ -32,14 +33,20 @@ function Button ({
 }) {
   const [hover, setHover] = useState()
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
-  const rootExtraProps = {}
-  const _textColor = colors[textColor] || textColor
-  const _color = colors[color] || color
+  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
+  const _color = useMemo(() => colors[color] || color, [color])
 
-  const iconProps = {
-    size: ICON_SIZES[size],
-    color: variant === 'flat' ? colors.white : _color
-  }
+  const _iconsColor = useMemo(() => {
+    return colors[iconsColor] || iconsColor ||
+      (variant === 'flat' ? colors.white : _color)
+  }, [variant, iconsColor, _color])
+
+  const iconsProps = useMemo(() => {
+    return {
+      size: ICON_SIZES[size],
+      color: _iconsColor
+    }
+  }, [size, _iconsColor])
 
   const [rootStyles, labelStyles] = useMemo(() => {
     let labelStyles = {}
@@ -74,6 +81,7 @@ function Button ({
     }
   }, [variant, hover, _color])
 
+  const rootExtraProps = {}
   if (variant === 'shadowed') {
     rootExtraProps.level = 2
   }
@@ -97,7 +105,7 @@ function Button ({
     )
       if icon
         View.leftIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=icon ...iconProps)
+          Icon(icon=icon ...iconsProps)
       if children
         Span.label(
           style=labelStyles
@@ -106,7 +114,7 @@ function Button ({
         )= children
       if rightIcon
         View.rightIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=rightIcon ...iconProps)
+          Icon(icon=rightIcon ...iconsProps)
   `
 }
 
@@ -128,6 +136,7 @@ Button.propTypes = {
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   rightIcon: propTypes.object,
+  iconsColor: propTypes.string,
   textColor: propTypes.string,
   onPress: propTypes.func.isRequired
 }
