@@ -1,11 +1,3 @@
 .root
-  +web()
-    &.clickable
-      &.interactive
-        &:hover
-          // using important to prevent TouchableOpacity default behavior
-          opacity $UI.Div.hoverOpacity !important
-
-        &:active
-          // using important to prevent TouchableOpacity default behavior
-          opacity $UI.Div.activeStateOpacity !important
+  &.with-shadow
+    background-color $UI.colors.white
