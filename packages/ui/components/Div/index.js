@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useLayoutEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
@@ -60,7 +60,7 @@ function Div ({
 
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isClickable || !interactive) setHover()
   }, [isClickable, interactive])
 
