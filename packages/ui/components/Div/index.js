@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Platform } from 'react-native'
 import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
 import config from '../../config/rootConfig'
@@ -7,16 +7,15 @@ import './index.styl'
 
 const { hoverStateOpacity, activeStateOpacity } = config.Div
 const SHADOWS = config.shadows
+const isWeb = Platform.OS === 'web'
 
 function Div ({
   style,
   children,
   disabled,
   level,
-  interactive,
+  interactive, // This prop doesn't make any sense without onPress
   activeOpacity,
-  onMouseEnter,
-  onMouseLeave,
   onPress,
   ...props
 }) {
@@ -26,28 +25,30 @@ function Div ({
   const Wrapper = isClickable ? TouchableOpacity : View
 
   const extraProps = useMemo(() => {
-    let props = {}
+    let _props = {}
 
     if (isClickable) {
-      props.activeOpacity = 1
-      props.onPress = onPress
+      _props.activeOpacity = 1
+      _props.onPress = onPress
 
       if (interactive) {
-        props.activeOpacity = activeOpacity
+        _props.activeOpacity = activeOpacity
 
-        props.onMouseEnter = (...args) => {
-          setHover(true)
-          onMouseEnter && onMouseEnter(...args)
-        }
-
-        props.onMouseLeave = (...args) => {
-          setHover()
-          onMouseLeave && onMouseLeave(...args)
+        if (isWeb) {
+          const { onMouseEnter, onMouseLeave } = props
+          _props.onMouseEnter = (...args) => {
+            setHover(true)
+            onMouseEnter && onMouseEnter(...args)
+          }
+          _props.onMouseLeave = (...args) => {
+            setHover()
+            onMouseLeave && onMouseLeave(...args)
+          }
         }
       }
     }
 
-    return props
+    return _props
   }, [isClickable, interactive])
 
   const extraStyles = useMemo(() => {
@@ -68,8 +69,8 @@ function Div ({
     Wrapper.root(
       style=[style, SHADOWS[level], extraStyles]
       styleName=[{ ['with-shadow']: !!level }]
-      ...extraProps
       ...props
+      ...extraProps
     )
       = children
   `
