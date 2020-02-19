@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
@@ -16,6 +16,7 @@ function Div ({
   backgroundColor,
   disabled,
   level,
+  interactive,
   onMouseLeave,
   onMouseEnter,
   onPress,
@@ -28,14 +29,16 @@ function Div ({
   const [active, setActive] = useState()
   const wrapperExtraStyles = useMemo(() => {
     if (!_backgroundColor) return {}
-    if (active) {
-      return {
-        backgroundColor: colorToRGBA(_backgroundColor, activeStateOpacity)
+    if (interactive) {
+      if (active) {
+        return {
+          backgroundColor: colorToRGBA(_backgroundColor, activeStateOpacity)
+        }
       }
-    }
-    if (hover) {
-      return {
-        backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity)
+      if (hover) {
+        return {
+          backgroundColor: colorToRGBA(_backgroundColor, hoverOpacity)
+        }
       }
     }
     return { backgroundColor: _backgroundColor }
@@ -45,8 +48,13 @@ function Div ({
 
   const extraProps = {}
 
+  const isInteractiveWithoutBg = !_backgroundColor && interactive
+
   if (isClickable) {
-    extraProps.activeOpacity = _backgroundColor ? 1 : activeStateOpacity
+    extraProps.activeOpacity = isInteractiveWithoutBg
+      ? activeStateOpacity
+      : 1
+
     extraProps.onPress = onPress
 
     extraProps.onMouseEnter = (...args) => {
@@ -64,12 +72,21 @@ function Div ({
 
   const Wrapper = isClickable ? TouchableOpacity : View
 
+  // If component become not clickable, for example received 'disabled' prop while hover or active,
+  // state wouldn't update without this effect
+  useEffect(() => {
+    if (!isClickable) {
+      setHover()
+      setActive()
+    }
+  }, [isClickable])
+
   return pug`
     Wrapper.root(
       style=[style, SHADOWS[level], wrapperExtraStyles]
       styleName=[{
         clickable: isClickable,
-        ['without-bg']: !_backgroundColor
+        ['interactive']: isInteractiveWithoutBg
       }]
       ...extraProps
       ...props
@@ -80,7 +97,8 @@ function Div ({
 
 Div.defaultProps = {
   disabled: false,
-  level: 0
+  level: 0,
+  interactive: true
 }
 
 Div.propTypes = {
@@ -89,6 +107,7 @@ Div.propTypes = {
   backgroundColor: propTypes.string,
   disabled: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  interactive: propTypes.bool,
   onPress: propTypes.func
 }
 
