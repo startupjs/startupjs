@@ -1,20 +1,21 @@
 import React, { useState, useMemo } from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
+import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
 
 const { colors } = config
-
 const ICON_SIZES = {
   m: 's',
   l: 'm',
   xl: 'l'
 }
+const isWeb = Platform.OS === 'web'
 
 function Button ({
   style,
@@ -31,6 +32,8 @@ function Button ({
   onPress,
   ...props
 }) {
+  const [active, setActive] = useState()
+
   const [hover, setHover] = useState()
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
   const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
@@ -67,41 +70,56 @@ function Button ({
     }
 
     return [rootStyles, labelStyles]
-  }, [variant, _textColor, _color])
+  }, [variant, _textColor, _color, hover])
 
-  const backgroundColor = useMemo(() => {
+  const backgroundStyle = useMemo(() => {
+    let backgroundColor
     switch (variant) {
       case 'flat':
-        return _color
+        backgroundColor = _color
+        if (hover) backgroundColor = colorToRGBA(_color, 0.5)
+        if (active) backgroundColor = colorToRGBA(_color, 0.25)
+        break
       case 'outlined':
       case 'ghost':
-        return hover ? _color : null
+        if (hover) backgroundColor = colorToRGBA(_color, 0.05)
+        if (active) backgroundColor = colorToRGBA(_color, 0.25)
+        break
       case 'shadowed':
-        return colors.white
+        backgroundColor = colors.white
+        if (hover) backgroundColor = colorToRGBA(colors.white, 0.5)
+        if (active) backgroundColor = colorToRGBA(colors.white, 0.25)
     }
-  }, [variant, hover, _color])
+    if (!backgroundColor) return {}
+    return { backgroundColor }
+  }, [variant, hover, active, _color])
 
-  const rootExtraProps = {}
+  const rootExtraProps = {
+    onPressIn: () => !disabled && setActive(true),
+    onPressOut: () => active && setActive()
+  }
+  if (isWeb) {
+    rootExtraProps.onMouseEnter = () => !disabled && setHover(true)
+    rootExtraProps.onMouseLeave = () => hover && setHover()
+  }
   if (variant === 'shadowed') {
     rootExtraProps.level = 2
   }
 
   return pug`
     Div.root(
-      style=[style, rootStyles]
+      style=[style, rootStyles, backgroundStyle]
       styleName=[
         size,
         shape,
         { disabled },
         extraCommonStyles
       ]
-      backgroundColor=backgroundColor
       disabled=disabled
-      onMouseEnter=() => setHover(true)
-      onMouseLeave=() => setHover()
       onPress=onPress
-      ...rootExtraProps
+      interactive=false
       ...props
+      ...rootExtraProps
     )
       if icon
         View.leftIconWrapper(styleName=[extraCommonStyles])
