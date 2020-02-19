@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
 import config from '../../config/rootConfig'
 import './index.styl'
 
-const { activeStateOpacity } = config.Div
+const { hoverOpacity, activeStateOpacity } = config.Div
 const SHADOWS = config.shadows
 
 function Div ({
@@ -15,29 +15,60 @@ function Div ({
   level,
   interactive,
   activeOpacity,
+  onMouseEnter,
+  onMouseLeave,
   onPress,
   ...props
 }) {
+  const [hover, setHover] = useState()
   const isClickable = typeof onPress === 'function' && !disabled
 
   const Wrapper = isClickable ? TouchableOpacity : View
 
   const extraProps = useMemo(() => {
+    let props = {}
+
     if (isClickable) {
-      return { onPress }
+      props.activeOpacity = 1
+
+      if (interactive) {
+        props.activeOpacity = activeOpacity
+
+        props.onMouseEnter = (...args) => {
+          setHover(true)
+          onMouseEnter && onMouseEnter(...args)
+        }
+
+        props.onMouseLeave = (...args) => {
+          setHover()
+          onMouseLeave && onMouseLeave(...args)
+        }
+      }
+
+      props.onPress = onPress
     }
-    return {}
-  }, [isClickable])
+
+    return props
+  }, [isClickable, interactive])
+
+  const extraStyles = useMemo(() => {
+    const styles = {}
+
+    if (hover) styles.opacity = hoverOpacity
+
+    return styles
+  }, [hover])
+
+  // If component become not clickable, for example received 'disabled'
+  // prop while hover or active, state wouldn't update without this effect
+  useEffect(() => {
+    if (!isClickable || !interactive) setHover()
+  }, [isClickable, interactive])
 
   return pug`
     Wrapper.root(
-      style=[style, SHADOWS[level]]
-      styleName=[{
-        clickable: isClickable,
-        ['with-shadow']: !!level,
-        interactive
-      }]
-      activeOpacity=interactive ? activeOpacity : 1
+      style=[style, SHADOWS[level], extraStyles]
+      styleName=[{ ['with-shadow']: !!level }]
       ...extraProps
       ...props
     )
