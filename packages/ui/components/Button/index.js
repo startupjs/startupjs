@@ -71,26 +71,23 @@ function Button ({
     return [rootStyles, labelStyles]
   }, [variant, _textColor, _color])
 
-  const backgroundStyle = useMemo(() => {
-    let backgroundColor
+  const backgroundColor = useMemo(() => {
     switch (variant) {
       case 'flat':
-        backgroundColor = _color
-        if (hover) backgroundColor = colorToRGBA(_color, 0.5)
-        if (active) backgroundColor = colorToRGBA(_color, 0.25)
-        break
+        // Order is important because active has higher priority
+        if (active) return colorToRGBA(_color, 0.25)
+        if (hover) return colorToRGBA(_color, 0.5)
+        return _color
       case 'outlined':
       case 'ghost':
-        if (hover) backgroundColor = colorToRGBA(_color, 0.05)
-        if (active) backgroundColor = colorToRGBA(_color, 0.25)
+        if (active) return colorToRGBA(_color, 0.25)
+        if (hover) return colorToRGBA(_color, 0.05)
         break
       case 'shadowed':
-        backgroundColor = colors.white
-        if (hover) backgroundColor = colorToRGBA(colors.white, 0.5)
-        if (active) backgroundColor = colorToRGBA(colors.white, 0.25)
+        if (active) return colorToRGBA(colors.white, 0.25)
+        if (hover) return colorToRGBA(colors.white, 0.5)
+        return colors.white
     }
-    if (!backgroundColor) return {}
-    return { backgroundColor }
   }, [variant, hover, active, _color])
 
   const rootHandlers = useMemo(() => {
@@ -139,7 +136,7 @@ function Button ({
 
   return pug`
     Div.root(
-      style=[style, rootStyles, backgroundStyle]
+      style=[style, rootStyles, {backgroundColor}]
       styleName=[
         size,
         shape,
