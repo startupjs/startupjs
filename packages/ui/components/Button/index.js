@@ -69,7 +69,7 @@ function Button ({
     }
 
     return [rootStyles, labelStyles]
-  }, [variant, _textColor, _color, hover])
+  }, [variant, _textColor, _color])
 
   const backgroundStyle = useMemo(() => {
     let backgroundColor
@@ -99,7 +99,7 @@ function Button ({
     if (!disabled) {
       const { onPressIn, onPressOut } = props
       _props.onPressIn = (...args) => {
-        !disabled && setActive(true)
+        setActive(true)
         onPressIn && onPressIn(...args)
       }
       _props.onPressOut = (...args) => {
@@ -110,7 +110,7 @@ function Button ({
       if (isWeb) {
         const { onMouseEnter, onMouseLeave } = props
         _props.onMouseEnter = (...args) => {
-          !disabled && setHover(true)
+          setHover(true)
           onMouseEnter && onMouseEnter(...args)
         }
         _props.onMouseLeave = (...args) => {
