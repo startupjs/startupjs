@@ -6,7 +6,8 @@ import config from '../../../config/rootConfig'
 import './index.styl'
 
 // We can create this component using react-native-svg in future
-// for partial filling (icon + linear gradient)
+// for partial filling (icon + linear gradient) or using star-half
+// icon for 0.5 step
 
 export default observer(function Star ({
   style,

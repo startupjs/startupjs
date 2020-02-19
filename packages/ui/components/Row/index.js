@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.styl'
 import propTypes from 'prop-types'
-import Div from '../Div'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 
 function Row ({
@@ -14,7 +14,7 @@ function Row ({
   ...props
 }) {
   return pug`
-    Div.root(
+    View.root(
       style=style
       styleName=[align, 'v_' + vAlign, { wrap, reverse }]
       ...props
