@@ -5,7 +5,7 @@ import { observer } from 'startupjs'
 import config from '../../config/rootConfig'
 import './index.styl'
 
-const { hoverOpacity, activeStateOpacity } = config.Div
+const { hoverStateOpacity, activeStateOpacity } = config.Div
 const SHADOWS = config.shadows
 
 function Div ({
@@ -30,6 +30,7 @@ function Div ({
 
     if (isClickable) {
       props.activeOpacity = 1
+      props.onPress = onPress
 
       if (interactive) {
         props.activeOpacity = activeOpacity
@@ -44,8 +45,6 @@ function Div ({
           onMouseLeave && onMouseLeave(...args)
         }
       }
-
-      props.onPress = onPress
     }
 
     return props
@@ -54,7 +53,7 @@ function Div ({
   const extraStyles = useMemo(() => {
     const styles = {}
 
-    if (hover) styles.opacity = hoverOpacity
+    if (hover) styles.opacity = hoverStateOpacity
 
     return styles
   }, [hover])
