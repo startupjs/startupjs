@@ -93,39 +93,39 @@ function Button ({
     return { backgroundColor }
   }, [variant, hover, active, _color])
 
-  const rootExtraProps = useMemo(() => {
-    let _props = {}
+  const rootHandlers = useMemo(() => {
+    let handlers = {}
 
     if (!disabled) {
       const { onPressIn, onPressOut } = props
-      _props.onPressIn = (...args) => {
+      handlers.onPressIn = (...args) => {
         setActive(true)
         onPressIn && onPressIn(...args)
       }
-      _props.onPressOut = (...args) => {
+      handlers.onPressOut = (...args) => {
         setActive()
         onPressOut && onPressOut(...args)
       }
 
       if (isWeb) {
         const { onMouseEnter, onMouseLeave } = props
-        _props.onMouseEnter = (...args) => {
+        handlers.onMouseEnter = (...args) => {
           setHover(true)
           onMouseEnter && onMouseEnter(...args)
         }
-        _props.onMouseLeave = (...args) => {
+        handlers.onMouseLeave = (...args) => {
           setHover()
           onMouseLeave && onMouseLeave(...args)
         }
       }
     }
 
-    return _props
+    return handlers
   }, [disabled])
 
-  const shadow = {}
+  const rootExtraProps = {}
   if (variant === 'shadowed') {
-    shadow.level = 2
+    rootExtraProps.level = 2
   }
 
   // If component become not clickable
@@ -149,9 +149,9 @@ function Button ({
       disabled=disabled
       onPress=onPress
       interactive=false
-      ...shadow
-      ...props
       ...rootExtraProps
+      ...props
+      ...rootHandlers
     )
       if icon
         View.leftIconWrapper(styleName=[extraCommonStyles])
