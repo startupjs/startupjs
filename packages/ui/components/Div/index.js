@@ -14,7 +14,7 @@ function Div ({
   children,
   disabled,
   level,
-  interactive,
+  interactive, // This prop doesn't make any sense without onPress
   activeOpacity,
   onPress,
   ...props
@@ -31,18 +31,19 @@ function Div ({
       _props.activeOpacity = 1
       _props.onPress = onPress
 
-      if (interactive && isWeb) {
-        const { onMouseEnter, onMouseLeave } = props
+      if (interactive) {
         _props.activeOpacity = activeOpacity
 
-        _props.onMouseEnter = (...args) => {
-          setHover(true)
-          onMouseEnter && onMouseEnter(...args)
-        }
-
-        _props.onMouseLeave = (...args) => {
-          setHover()
-          onMouseLeave && onMouseLeave(...args)
+        if (isWeb) {
+          const { onMouseEnter, onMouseLeave } = props
+          _props.onMouseEnter = (...args) => {
+            setHover(true)
+            onMouseEnter && onMouseEnter(...args)
+          }
+          _props.onMouseLeave = (...args) => {
+            setHover()
+            onMouseLeave && onMouseLeave(...args)
+          }
         }
       }
     }

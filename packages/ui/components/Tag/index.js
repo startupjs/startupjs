@@ -29,11 +29,11 @@ function Tag ({
 }) {
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
-  const isClickabe = typeof onPress === 'function'
+  const isClickable = typeof onPress === 'function'
 
   const extraProps = useMemo(() => {
     let _props = {}
-    if (isClickabe) {
+    if (isClickable) {
       const {
         onMouseEnter,
         onMouseLeave,
@@ -64,7 +64,7 @@ function Tag ({
       }
     }
     return _props
-  }, [isClickabe])
+  }, [isClickable])
 
   const _backgroundColor = useMemo(() => {
     const backgroundColor = colors[color] || color
