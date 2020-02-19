@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { View, Platform } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useDidUpdate } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'
@@ -32,9 +32,8 @@ function Button ({
   onPress,
   ...props
 }) {
-  const [active, setActive] = useState()
-
   const [hover, setHover] = useState()
+  const [active, setActive] = useState()
   const extraCommonStyles = { 'with-label': React.Children.count(children) }
   const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
   const _color = useMemo(() => colors[color] || color, [color])
@@ -94,17 +93,49 @@ function Button ({
     return { backgroundColor }
   }, [variant, hover, active, _color])
 
-  const rootExtraProps = {
-    onPressIn: () => !disabled && setActive(true),
-    onPressOut: () => active && setActive()
-  }
-  if (isWeb) {
-    rootExtraProps.onMouseEnter = () => !disabled && setHover(true)
-    rootExtraProps.onMouseLeave = () => hover && setHover()
-  }
+  const rootExtraProps = useMemo(() => {
+    let _props = {}
+
+    if (!disabled) {
+      const { onPressIn, onPressOut } = props
+      _props.onPressIn = (...args) => {
+        !disabled && setActive(true)
+        onPressIn && onPressIn(...args)
+      }
+      _props.onPressOut = (...args) => {
+        setActive()
+        onPressOut && onPressOut(...args)
+      }
+
+      if (isWeb) {
+        const { onMouseEnter, onMouseLeave } = props
+        _props.onMouseEnter = (...args) => {
+          !disabled && setHover(true)
+          onMouseEnter && onMouseEnter(...args)
+        }
+        _props.onMouseLeave = (...args) => {
+          setHover()
+          onMouseLeave && onMouseLeave(...args)
+        }
+      }
+    }
+
+    return _props
+  }, [disabled])
+
+  const shadow = {}
   if (variant === 'shadowed') {
-    rootExtraProps.level = 2
+    shadow.level = 2
   }
+
+  // If component become not clickable
+  // while hover or active, state wouldn't update without this effect
+  useDidUpdate(() => {
+    if (disabled) {
+      setHover()
+      setActive()
+    }
+  }, [disabled])
 
   return pug`
     Div.root(
@@ -118,6 +149,7 @@ function Button ({
       disabled=disabled
       onPress=onPress
       interactive=false
+      ...shadow
       ...props
       ...rootExtraProps
     )
