@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { View, Platform } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useDidUpdate } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import Span from '../Span'
@@ -60,7 +60,7 @@ function Tag ({
 
       _props.onPressOut = (...args) => {
         setActive()
-        onPressOut && onPressOut()
+        onPressOut && onPressOut(...args)
       }
     }
     return _props
@@ -74,6 +74,15 @@ function Tag ({
 
     return backgroundColor
   }, [hover, active, color])
+
+  // If component become not clickable
+  // while hover or active, state wouldn't update without this effect
+  useDidUpdate(() => {
+    if (!isClickable) {
+      setHover()
+      setActive()
+    }
+  }, [isClickable])
 
   const _textColor = colors[textColor] || textColor || colors.white
   const _iconsColor = colors[iconsColor] || iconsColor || colors.white
