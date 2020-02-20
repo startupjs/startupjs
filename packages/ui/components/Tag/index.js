@@ -69,6 +69,7 @@ function Tag ({
   const _backgroundColor = useMemo(() => {
     const backgroundColor = colors[color] || color
 
+    // Order is important because active has higher priority
     if (active) return colorToRGBA(backgroundColor, 0.25)
     if (hover) return colorToRGBA(backgroundColor, 0.5)
 
