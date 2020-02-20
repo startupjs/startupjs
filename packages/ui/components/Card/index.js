@@ -7,6 +7,7 @@ import './index.styl'
 
 const SHADOWS = config.shadows
 
+// TODO: hover, active states
 function Card ({
   style,
   level,

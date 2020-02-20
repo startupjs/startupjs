@@ -11,6 +11,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import config from './../../config/rootConfig'
 import './index.styl'
 
+// TODO: hover, active states
 function Collapse ({ style, title, open, children, onChange }) {
   const collapsed = !open
 
