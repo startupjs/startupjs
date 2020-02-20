@@ -72,10 +72,7 @@ Radio.propTypes = {
 Radio.defaultProps = {
   size: 's',
   color: 'primary',
-  textColor: colors.dark,
-
-  data: [{ value: 'foo', label: 'foo' }, { value: 'bar', label: 'bar' }],
-  value: 'bar'
+  textColor: colors.dark
 }
 
 export default observer(Radio)
