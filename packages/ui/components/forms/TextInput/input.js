@@ -40,7 +40,7 @@ export default observer(function Input ({
   useLayoutEffect(() => {
     if (resize) {
       const numberOfLinesInValue = value.split('\n').length
-      if (numberOfLinesInValue > numberOfLines) {
+      if (numberOfLinesInValue >= numberOfLines) {
         setCurrentNumberOfLines(numberOfLinesInValue)
       }
     }
