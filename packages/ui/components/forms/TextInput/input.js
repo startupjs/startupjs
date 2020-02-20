@@ -73,7 +73,11 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  const inputStyles = { lineHeight: lH }
+  const inputStyles = {
+    paddingTop: verticalGutter,
+    paddingBottom: verticalGutter,
+    lineHeight: lH
+  }
   if (IS_IOS) inputStyles.lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
@@ -90,30 +94,22 @@ export default observer(function Input ({
             color=DARK_LIGHTER_COLOR
             size=size
           )
-      View.input(
-        style={
-          paddingTop: verticalGutter,
-          paddingBottom: verticalGutter,
-          borderWidth
-        }
+      TextInput.input-input(
+        ref=inputRef
+        style=inputStyles
         styleName=[size, {disabled, focused, 'with-icon': icon}]
+        selectionColor=caretColor
+        placeholder=placeholder
+        placeholderTextColor=DARK_LIGHTER_COLOR
+        value=value
+        editable=!disabled
+        multiline=multiline
+        onBlur=onBlur
+        onFocus=onFocus
+        onChangeText=(value) => {
+          onChangeText && onChangeText(value)
+        }
+        ...inputExtraProps
       )
-        TextInput.input-input(
-          ref=inputRef
-          style=inputStyles
-          styleName=[size]
-          selectionColor=caretColor
-          placeholder=placeholder
-          placeholderTextColor=DARK_LIGHTER_COLOR
-          value=value
-          editable=!disabled
-          multiline=multiline
-          onBlur=onBlur
-          onFocus=onFocus
-          onChangeText=(value) => {
-            onChangeText && onChangeText(value)
-          }
-          ...inputExtraProps
-        )
   `
 })
