@@ -29,7 +29,6 @@ function Div ({
 
     if (isClickable) {
       _props.activeOpacity = 1
-      _props.onPress = onPress
 
       if (interactive) {
         _props.activeOpacity = activeOpacity
@@ -69,6 +68,7 @@ function Div ({
     Wrapper.root(
       style=[style, SHADOWS[level], extraStyles]
       styleName=[{ ['with-shadow']: !!level }]
+      onPress=onPress
       ...props
       ...extraProps
     )
