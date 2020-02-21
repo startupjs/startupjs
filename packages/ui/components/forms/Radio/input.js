@@ -10,6 +10,10 @@ import './index.styl'
 const isWeb = Platform.OS === 'web'
 const ANIMATION_TIMING = 120
 
+// 0.01 because on android animations does not work with value 0
+const MIN_SCALE_RATIO = 0.01
+const MAX_SCALE_RATIO = 1
+
 const Input = function ({
   children,
   color,
@@ -51,7 +55,7 @@ const Input = function ({
     }
   }
 
-  const [checkedSize] = useState(new Animated.Value(checked ? 1 : 0))
+  const [checkedSize] = useState(new Animated.Value(checked ? 1 : MIN_SCALE_RATIO))
 
   const setChecked = () => {
     onPress && onPress(value)
@@ -62,18 +66,22 @@ const Input = function ({
       Animated.timing(
         checkedSize,
         {
-          toValue: 1,
-          duration: ANIMATION_TIMING
+          toValue: MAX_SCALE_RATIO,
+          duration: ANIMATION_TIMING,
+          useNativeDriver: true
         }
       ).start()
     } else {
       Animated.timing(
         checkedSize,
         {
-          toValue: 0,
-          duration: ANIMATION_TIMING
+          toValue: MIN_SCALE_RATIO,
+          duration: ANIMATION_TIMING,
+          useNativeDriver: true
         }
-      ).start()
+      ).start(() => {
+        checkedSize.setValue(MIN_SCALE_RATIO)
+      })
     }
   }, [checked])
 
