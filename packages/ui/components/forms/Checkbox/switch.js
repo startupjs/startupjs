@@ -20,13 +20,21 @@ export default observer(function Switch ({
       Animated.timing(
         position,
         {
-          toValue: 100,
+          toValue: 8,
           duration: 120,
           easing: Easing.linear
         }
       ).start()
     } else {
-      position.setValue(0)
+      position.setValue(8)
+      Animated.timing(
+        position,
+        {
+          toValue: 0.01,
+          duration: 120,
+          easing: Easing.linear
+        }
+      ).start()
     }
   }, [checked])
 
@@ -40,6 +48,6 @@ export default observer(function Switch ({
       onFocus=onFocus
       onPress=onChange
     )
-      AnimatedView.switchAnimated
+      AnimatedView.switchAnimated(style={left: position})
   `
 })

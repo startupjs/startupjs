@@ -1,24 +1,29 @@
 import React, { useRef, useState } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
 import { TouchableOpacity, Animated, Easing } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
 import config from '../../../config/rootConfig'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
+import InputWrapper from '../InputWrapper'
 import './index.styl'
 
 const AnimatedView = Animated.View
+const { colors } = config
 
 export default observer(function Checkbox ({
   style,
   checked,
   focused,
   disabled,
+  hover,
+  active,
   onBlur,
   onFocus,
-  onChange
+  onChange,
+  ...props
 }) {
   const inputRef = useRef()
-  const [position] = useState(new Animated.Value(checked ? 100 : 0))
+  const [position] = useState(new Animated.Value(checked ? 100 : 0.01))
 
   useDidUpdate(() => {
     if (checked) {
@@ -31,38 +36,42 @@ export default observer(function Checkbox ({
         }
       ).start()
     } else {
-      position.setValue(0)
+      position.setValue(0.01)
     }
   }, [checked])
 
   const checkedStyles = { checked }
 
+  const color = checked || active ? colors.primary : colors.dark
+
   return pug`
-    TouchableOpacity.input(
-      accessibilityRole='checkbox'
-      ref=inputRef
-      style=style
-      styleName=[checkedStyles, { focused }]
-      activeOpacity=1
-      disabled=disabled
-      onBlur=onBlur
-      onFocus=onFocus
-      onPress=onChange
-    )
-      Icon.icon(
-        styleName=[checkedStyles]
-        icon=faCheck
-        size='xs'
-        color=config.colors.white
+    InputWrapper(hover=hover active=active checked=checked color=color)
+      TouchableOpacity.input(
+        accessibilityRole='checkbox'
+        ref=inputRef
+        style=style
+        styleName=[checkedStyles, { focused }]
+        activeOpacity=1
+        disabled=disabled
+        onBlur=onBlur
+        onFocus=onFocus
+        onPress=onChange
+        ...props
       )
-      AnimatedView.animated(
-        styleName=[checkedStyles]
-        style={
-          left: position.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0%', '1%']
-          })
-        }
-      )
+        Icon.icon(
+          styleName=[checkedStyles]
+          icon=faCheck
+          size='xs'
+          color=config.colors.white
+        )
+        AnimatedView.animated(
+          styleName=[checkedStyles]
+          style={
+            left: position.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0%', '1%']
+            })
+          }
+        )
   `
 })

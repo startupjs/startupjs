@@ -8,10 +8,6 @@ _secondary = $UI.colors.secondary
 .label
   margin-left 1u
 
-
-
-
-
 .input
   width 2u
   height @width
@@ -31,17 +27,19 @@ _secondary = $UI.colors.secondary
       box-shadow 0 0 0 1px _secondary
 
 .icon
-.animated
   &:not(.checked)
     display none
 
 .animated
+  display none
   position absolute
   top 0
   bottom 0
   right 0
   background-color _primary
 
+  &.checked
+    display flex
 
 
 .switch
@@ -54,7 +52,6 @@ _secondary = $UI.colors.secondary
 
   &.checked
     background-color _primary
-
 
 .switchAnimated
   width 10px
