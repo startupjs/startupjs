@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { Props } from 'components'
 import * as COMPONENTS from 'ui'
@@ -18,6 +18,7 @@ export default observer(function PStyleguide () {
   const [validateWidth] = useValidateWidth()
   const [darkTheme] = useDarkTheme()
   const COMPONENT = COMPONENTS[componentName]
+  const [value, setValue] = useState()
 
   if (!COMPONENT) {
     return pug`
@@ -26,6 +27,9 @@ export default observer(function PStyleguide () {
   }
 
   return pug`
+    COMPONENTS.Span Hello
+    COMPONENTS.Checkbox(onChange=setValue value=value)
+    COMPONENTS.Checkbox(variant='switch' onChange=setValue value=value)
     Props.root(
       theme=darkTheme ? 'dark' : undefined
       key=componentName

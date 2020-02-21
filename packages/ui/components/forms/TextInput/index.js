@@ -59,6 +59,7 @@ function TextInput ({
       Span.label(
         styleName={focused}
         size='s'
+        description
       )= label || (value && placeholder) || ' '
       = renderInput()
   `
