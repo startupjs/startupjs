@@ -10,6 +10,7 @@ ThemeProvider.propTypes = {
 
 export { ThemeProvider }
 
+// TODO: Move themed inside react-sharedb's observer()
 export default function themed (Component) {
   function ThemeWrapper (props) {
     let contextTheme = useContext(ThemeContext)

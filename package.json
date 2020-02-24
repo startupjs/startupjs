@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "bootstrap": "npx lerna bootstrap && cd packages/react-sharedb && yarn prepublish && cd - && cd packages/model && yarn prepublish && cd -",
-    "clean": "npx lerna clean && rm -rf node_modules"
+    "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
