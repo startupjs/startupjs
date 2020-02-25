@@ -24,31 +24,27 @@ function Div ({
 
   const Wrapper = isClickable ? TouchableOpacity : View
 
-  const extraProps = useMemo(() => {
-    let _props = {}
+  const extraProps = {}
 
-    if (isClickable) {
-      _props.activeOpacity = 1
+  if (isClickable) {
+    extraProps.activeOpacity = 1
 
-      if (interactive) {
-        _props.activeOpacity = activeOpacity
+    if (interactive) {
+      extraProps.activeOpacity = activeOpacity
 
-        if (isWeb) {
-          const { onMouseEnter, onMouseLeave } = props
-          _props.onMouseEnter = (...args) => {
-            setHover(true)
-            onMouseEnter && onMouseEnter(...args)
-          }
-          _props.onMouseLeave = (...args) => {
-            setHover()
-            onMouseLeave && onMouseLeave(...args)
-          }
+      if (isWeb) {
+        const { onMouseEnter, onMouseLeave } = props
+        extraProps.onMouseEnter = (...args) => {
+          setHover(true)
+          onMouseEnter && onMouseEnter(...args)
+        }
+        extraProps.onMouseLeave = (...args) => {
+          setHover()
+          onMouseLeave && onMouseLeave(...args)
         }
       }
     }
-
-    return _props
-  }, [isClickable, interactive])
+  }
 
   const extraStyles = useMemo(() => {
     const styles = {}
