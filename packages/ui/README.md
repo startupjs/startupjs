@@ -39,12 +39,16 @@ module.exports = {
 @require '../node_modules/@startupjs/ui/styles/index.styl'
 ```
 
-## Usage
+3. Add `@startupjs/ui` to `forceCompileModules` of your `webpack.web.config.js`:
 ```js
-import { Button } from '@startupjs/ui'
+  const getConfig = require('startupjs/bundler').webpackWebConfig
+
+  module.exports = getConfig(undefined, {
+    forceCompileModules: ['@startupjs/ui']
+  })
 ```
 
-## Dependences
+4. Install and configure additional modules below:
 
 ### Collapse
 
@@ -121,6 +125,11 @@ and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
     </style>
     <!-- ...other configs... -->
   </resources>
+```
+
+## Usage
+```js
+import { Button } from '@startupjs/ui'
 ```
 
 ## Additional materials

@@ -28,7 +28,6 @@ const descriptionSizes = {
 function User ({
   style,
   avatarUrl,
-  backgroundColor,
   description,
   name,
   avatarPosition,
@@ -40,7 +39,6 @@ function User ({
     Div.root(
       style=style
       styleName=[avatarPosition]
-      backgroundColor=backgroundColor
       onPress=onPress
     )
       Avatar.avatar(

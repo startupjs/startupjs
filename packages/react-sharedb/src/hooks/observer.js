@@ -22,16 +22,28 @@ observer.__makeObserver = makeObserver
 
 export { observer }
 
+function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+  const displayName = SourceComponent.displayName || SourceComponent.name
+  if (!TargetComponent.displayName) {
+    TargetComponent.displayName = displayName ? (displayName + suffix) : defaultName
+  }
+  if (!TargetComponent.propTypes && SourceComponent.propTypes) {
+    TargetComponent.propTypes = SourceComponent.propTypes
+  }
+  if (!TargetComponent.defaultProps && SourceComponent.defaultProps) {
+    TargetComponent.defaultProps = SourceComponent.defaultProps
+  }
+  return TargetComponent
+}
+
 function makeObserver (baseComponent) {
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
   let random = Math.random()
 
-  const baseComponentName = baseComponent.displayName || baseComponent.name
   // memo; we are not intested in deep updates
   // in props; we assume that if deep objects are changed,
   // this is in observables, which would have been tracked anyway
-
-  const memoComponent = React.memo(props => {
+  const WrappedComponent = (props) => {
     // forceUpdate 2.0
     const forceUpdate = useForceUpdate()
 
@@ -57,14 +69,10 @@ function makeObserver (baseComponent) {
     useUnmount(() => unobserve(observedComponent))
 
     return observedComponent(props)
-  })
-  memoComponent.displayName = baseComponentName
-  if (baseComponent.propTypes) {
-    memoComponent.propTypes = baseComponent.propTypes
   }
-  if (baseComponent.defaultProps) {
-    memoComponent.defaultProps = baseComponent.defaultProps
-  }
+  pipeComponentMeta(baseComponent, WrappedComponent)
+  const memoComponent = React.memo(WrappedComponent)
+  pipeComponentMeta(baseComponent, memoComponent)
   return memoComponent
 }
 
@@ -89,13 +97,7 @@ function wrapObserverMeta (Component, suspenseProps = DEFAULT_SUSPENSE_PROPS) {
       )
     )
   }
-  ObserverWrapper.displayName = Component.displayName ? (Component.displayName + 'Observer') : 'ObserverWrapper'
-  if (Component.propTypes) {
-    ObserverWrapper.propTypes = Component.propTypes
-  }
-  if (Component.defaultProps) {
-    ObserverWrapper.defaultProps = Component.defaultProps
-  }
+  pipeComponentMeta(Component, ObserverWrapper, 'Observer', 'StartupjsWrapperObserver')
   return ObserverWrapper
 }
 

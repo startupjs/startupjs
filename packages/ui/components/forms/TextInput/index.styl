@@ -1,6 +1,7 @@
 _inputBg = $UI.colors.white
 _inputBorderColor = $UI.colors.darkLighter
 _inputBgDisabled = $UI.colors.darkLightest
+_inputBorderWidth = 1px//$UI.TextInput.borderWidth
 _inputCaretColor = $UI.TextInput.caretColor
 _inputTextColor = $UI.colors.mainText
 _focusedColor = $UI.colors.primary
@@ -12,31 +13,6 @@ _inputFontSizeS = 1.75u
   margin-bottom 0.5u
   &.focused
     color _focusedColor
-
-.input
-  flex 1
-  background-color _inputBg
-  border-style solid
-  border-color _inputBorderColor
-  padding 0 1u
-  min-width 15u
-  radius()
-
-  &.disabled
-    background-color _inputBgDisabled
-
-  &.focused
-    border-color _focusedColor
-
-  &.with-icon
-    &.l
-      padding-left 5.5u
-
-    &.m
-      padding-left 4.5u
-
-    &.s
-      padding-left 4u
 
 .input-icon
   position absolute
@@ -55,9 +31,15 @@ _inputFontSizeS = 1.75u
   flex 1 // important for multiline
   // padding-top, padding-bottom is important
   // for android because it has invisible paddings
-  padding-top 0
-  padding-bottom @padding-top
+  // on the web is important for textarea (override default paddings)
+  padding 0 1u
   color _inputTextColor
+  background-color _inputBg
+  border-width _inputBorderWidth
+  border-style solid
+  border-color _inputBorderColor
+  min-width 15u
+  radius()
 
   +web()
     outline 0
@@ -71,3 +53,19 @@ _inputFontSizeS = 1.75u
 
   &.s
     font-size _inputFontSizeS
+
+  &.disabled
+    background-color _inputBgDisabled
+
+  &.focused
+    border-color _focusedColor
+
+  &.with-icon
+    &.l
+      padding-left 5.5u
+
+    &.m
+      padding-left 4.5u
+
+    &.s
+      padding-left 4u

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { View } from 'react-native'
 import Input from './input'
-import Span from './../Span'
+import Span from './../../Span'
 import propTypes from 'prop-types'
+import { useLayout } from './../../../hooks'
 import './index.styl'
 
 function TextInput ({
@@ -11,12 +12,14 @@ function TextInput ({
   label,
   placeholder,
   value,
-  pure,
+  layout,
   disabled,
   onBlur,
   onFocus,
   ...props
 }) {
+  const _layout = useLayout(layout, label)
+  const pure = _layout === 'pure'
   const [focused, setFocused] = useState(false)
 
   function _onBlur () {
@@ -56,6 +59,7 @@ function TextInput ({
       Span.label(
         styleName={focused}
         size='s'
+        description
       )= label || (value && placeholder) || ' '
       = renderInput()
   `
@@ -64,7 +68,6 @@ function TextInput ({
 TextInput.defaultProps = {
   size: 'm',
   value: '', // default value is important to prevent error
-  pure: false,
   disabled: false,
   resize: false,
   numberOfLines: 1
@@ -73,10 +76,10 @@ TextInput.defaultProps = {
 TextInput.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   label: propTypes.string,
-  placeholder: propTypes.string.isRequired,
+  placeholder: propTypes.string,
   value: propTypes.string,
   size: propTypes.oneOf(['l', 'm', 's']),
-  pure: propTypes.bool,
+  layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,
   resize: propTypes.bool,
   numberOfLines: propTypes.number,
