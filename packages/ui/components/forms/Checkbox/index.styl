@@ -1,0 +1,60 @@
+_dark = $UI.colors.dark
+_primary = $UI.colors.primary
+_secondary = $UI.colors.secondary
+
+.root
+  cursor pointer
+
+.label
+  margin-left 1u
+
+.input
+  width 2u
+  height @width
+  border 2px solid _dark
+  justify-content center
+  align-items center
+  border-radius 2px
+  overflow hidden
+
+  &.checked
+    background-color _primary
+    border-color _primary
+
+  +web()
+    &.focused
+      outline 0
+      box-shadow 0 0 0 1px _secondary
+
+.icon
+  &:not(.checked)
+    display none
+
+.animated
+  display none
+  position absolute
+  top 0
+  bottom 0
+  right 0
+  background-color _primary
+
+  &.checked
+    display flex
+
+
+.switch
+  width 3u
+  height 2u
+  background-color _dark
+  radius(circle)
+  justify-content center
+  padding 0 3px
+
+  &.checked
+    background-color _primary
+
+.switchAnimated
+  width 10px
+  height @width
+  background-color white
+  radius(circle)

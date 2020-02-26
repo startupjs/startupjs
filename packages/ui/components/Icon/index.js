@@ -29,8 +29,7 @@ const Icon = observer(({
       FontAwesomeIcon(
         icon=icon
         color=color
-        width=width || SIZES[size]
-        height=height || SIZES[size]
+        size=SIZES[size]
       )
   `
 })

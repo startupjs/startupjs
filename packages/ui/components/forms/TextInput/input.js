@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { View, TextInput, Platform } from 'react-native'
-import config from './../../config/rootConfig'
-import Icon from './../Icon'
+import config from './../../../config/rootConfig'
+import Icon from './../../Icon'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -37,6 +37,15 @@ export default observer(function Input ({
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
 
+  useLayoutEffect(() => {
+    if (resize) {
+      const numberOfLinesInValue = value.split('\n').length
+      if (numberOfLinesInValue >= numberOfLines) {
+        setCurrentNumberOfLines(numberOfLinesInValue)
+      }
+    }
+  }, [value])
+
   if (IS_WEB) {
     // repeat mobile behaviour on the web
     useLayoutEffect(() => {
@@ -64,7 +73,11 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  const inputStyles = { lineHeight: lH }
+  const inputStyles = {
+    paddingTop: verticalGutter,
+    paddingBottom: verticalGutter,
+    lineHeight: lH
+  }
   if (IS_IOS) inputStyles.lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
@@ -81,36 +94,22 @@ export default observer(function Input ({
             color=DARK_LIGHTER_COLOR
             size=size
           )
-      View.input(
-        style={
-          paddingTop: verticalGutter,
-          paddingBottom: verticalGutter,
-          borderWidth
-        }
+      TextInput.input-input(
+        ref=inputRef
+        style=inputStyles
         styleName=[size, {disabled, focused, 'with-icon': icon}]
+        selectionColor=caretColor
+        placeholder=placeholder
+        placeholderTextColor=DARK_LIGHTER_COLOR
+        value=value
+        editable=!disabled
+        multiline=multiline
+        onBlur=onBlur
+        onFocus=onFocus
+        onChangeText=(value) => {
+          onChangeText && onChangeText(value)
+        }
+        ...inputExtraProps
       )
-        TextInput.input-input(
-          ref=inputRef
-          style=inputStyles
-          styleName=[size]
-          selectionColor=caretColor
-          placeholder=placeholder
-          placeholderTextColor=DARK_LIGHTER_COLOR
-          value=value
-          editable=!disabled
-          multiline=multiline
-          onBlur=onBlur
-          onFocus=onFocus
-          onChangeText=(value) => {
-            if (resize) {
-              const numberOfLinesInValue = value.split('\n').length
-              if (numberOfLinesInValue > numberOfLines) {
-                setCurrentNumberOfLines(numberOfLinesInValue)
-              }
-            }
-            onChangeText && onChangeText(value)
-          }
-          ...inputExtraProps
-        )
   `
 })
