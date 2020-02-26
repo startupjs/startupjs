@@ -90,35 +90,29 @@ function Button ({
     }
   }, [variant, hover, active, _color])
 
-  const rootHandlers = useMemo(() => {
-    let handlers = {}
+  if (!disabled) {
+    const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
 
-    if (!disabled) {
-      const { onPressIn, onPressOut } = props
-      handlers.onPressIn = (...args) => {
-        setActive(true)
-        onPressIn && onPressIn(...args)
-      }
-      handlers.onPressOut = (...args) => {
-        setActive()
-        onPressOut && onPressOut(...args)
-      }
-
-      if (isWeb) {
-        const { onMouseEnter, onMouseLeave } = props
-        handlers.onMouseEnter = (...args) => {
-          setHover(true)
-          onMouseEnter && onMouseEnter(...args)
-        }
-        handlers.onMouseLeave = (...args) => {
-          setHover()
-          onMouseLeave && onMouseLeave(...args)
-        }
-      }
+    props.onPressIn = (...args) => {
+      setActive(true)
+      onPressIn && onPressIn(...args)
+    }
+    props.onPressOut = (...args) => {
+      setActive()
+      onPressOut && onPressOut(...args)
     }
 
-    return handlers
-  }, [disabled])
+    if (isWeb) {
+      props.onMouseEnter = (...args) => {
+        setHover(true)
+        onMouseEnter && onMouseEnter(...args)
+      }
+      props.onMouseLeave = (...args) => {
+        setHover()
+        onMouseLeave && onMouseLeave(...args)
+      }
+    }
+  }
 
   const rootExtraProps = {}
   if (variant === 'shadowed') {
@@ -148,7 +142,6 @@ function Button ({
       interactive=false
       ...rootExtraProps
       ...props
-      ...rootHandlers
     )
       if icon
         View.leftIconWrapper(styleName=[extraCommonStyles])
@@ -185,7 +178,7 @@ Button.propTypes = {
   rightIcon: propTypes.object,
   iconsColor: propTypes.string,
   textColor: propTypes.string,
-  onPress: propTypes.func.isRequired
+  onPress: propTypes.func
 }
 
 export default observer(Button)

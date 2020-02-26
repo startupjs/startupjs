@@ -15,7 +15,6 @@ function Div ({
   disabled,
   level,
   interactive, // This prop doesn't make any sense without onPress
-  activeOpacity,
   onPress,
   ...props
 }) {
@@ -24,24 +23,18 @@ function Div ({
 
   const Wrapper = isClickable ? TouchableOpacity : View
 
-  const extraProps = {}
-
   if (isClickable) {
-    extraProps.activeOpacity = 1
+    props.activeOpacity = 1
 
-    if (interactive) {
-      extraProps.activeOpacity = activeOpacity
-
-      if (isWeb) {
-        const { onMouseEnter, onMouseLeave } = props
-        extraProps.onMouseEnter = (...args) => {
-          setHover(true)
-          onMouseEnter && onMouseEnter(...args)
-        }
-        extraProps.onMouseLeave = (...args) => {
-          setHover()
-          onMouseLeave && onMouseLeave(...args)
-        }
+    if (isWeb && interactive) {
+      const { onMouseEnter, onMouseLeave } = props
+      props.onMouseEnter = (...args) => {
+        setHover(true)
+        onMouseEnter && onMouseEnter(...args)
+      }
+      props.onMouseLeave = (...args) => {
+        setHover()
+        onMouseLeave && onMouseLeave(...args)
       }
     }
   }
@@ -66,7 +59,6 @@ function Div ({
       styleName=[{ ['with-shadow']: !!level }]
       onPress=onPress
       ...props
-      ...extraProps
     )
       = children
   `

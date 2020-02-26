@@ -39,7 +39,7 @@ function Progress ({
         )
       if variant === 'full'
         Span(size='s' description)
-          = label || (value < 100 ? value + '% ...' : 'Loading Complete')
+          = label || (value < 100 ? Math.round(value) + '% ...' : 'Loading Complete')
   `
 }
 

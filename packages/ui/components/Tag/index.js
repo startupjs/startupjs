@@ -31,40 +31,31 @@ function Tag ({
   const [active, setActive] = useState()
   const isClickable = typeof onPress === 'function'
 
-  const extraProps = useMemo(() => {
-    let _props = {}
-    if (isClickable) {
-      const {
-        onMouseEnter,
-        onMouseLeave,
-        onPressIn,
-        onPressOut
-      } = props
+  if (isClickable) {
+    const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
 
-      if (isWeb) {
-        _props.onMouseEnter = (...args) => {
-          setHover(true)
-          onMouseEnter && onMouseEnter(...args)
-        }
-
-        _props.onMouseLeave = (...args) => {
-          setHover()
-          onMouseLeave && onMouseLeave(...args)
-        }
+    if (isWeb) {
+      props.onMouseEnter = (...args) => {
+        setHover(true)
+        onMouseEnter && onMouseEnter(...args)
       }
 
-      _props.onPressIn = (...args) => {
-        setActive(true)
-        onPressIn && onPressIn(...args)
-      }
-
-      _props.onPressOut = (...args) => {
-        setActive()
-        onPressOut && onPressOut(...args)
+      props.onMouseLeave = (...args) => {
+        setHover()
+        onMouseLeave && onMouseLeave(...args)
       }
     }
-    return _props
-  }, [isClickable])
+
+    props.onPressIn = (...args) => {
+      setActive(true)
+      onPressIn && onPressIn(...args)
+    }
+
+    props.onPressOut = (...args) => {
+      setActive()
+      onPressOut && onPressOut(...args)
+    }
+  }
 
   const _backgroundColor = useMemo(() => {
     const backgroundColor = colors[color] || color
@@ -97,7 +88,6 @@ function Tag ({
       interactive=false
       onPress=onPress
       ...props
-      ...extraProps
     )
       if icon
         View.leftIconWrapper(styleName=[iconWrapperStyle])
