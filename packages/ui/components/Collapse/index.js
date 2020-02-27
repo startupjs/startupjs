@@ -3,42 +3,55 @@ import propTypes from 'prop-types'
 import { observer } from 'startupjs'
 import { View } from 'react-native'
 import Div from './../Div'
-import Span from './../Span'
-import Row from './../Row'
-import Icon from './../Icon'
 import Collapsible from 'react-native-collapsible'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-import config from './../../config/rootConfig'
+import CollapseTitle from './CollapseTitle'
+import config from '../../config/rootConfig'
 import './index.styl'
 
-// TODO: hover, active states
-function Collapse ({ style, title, open, children, onChange }) {
-  const collapsed = !open
+const { colors } = config
 
-  function toggle () {
+// TODO: hover, active states
+function Collapse ({ style, children, open, variant, onChange }) {
+  const childrenList = React.Children.toArray(children)
+  const content = childrenList.filter(child => child.type !== CollapseTitle)
+  const title =
+    childrenList
+      .filter(child => child.type === CollapseTitle)
+      .map(child => React.cloneElement(child, { variant, onPress }))
+
+  const collapsed = !open
+  function onPress () {
     onChange(collapsed)
   }
 
+  const extraProps = {}
+  const extraStyles = {}
+  if (variant === 'full') {
+    extraProps.level = 1
+    extraStyles.backgroundColor = colors.white
+  }
+
   return pug`
-    Div.root(style=style level=1)
-      Div(onPress=toggle)
-        Row.title(align='between' vAlign='center')
-          Span.titleText(size='l' numberOfLines=1 bold)= title
-          Icon(icon=faCaretDown color=config.colors.dark)
+    Div.root(style=style ...extraProps)
+      = title
       Collapsible(collapsed=collapsed)
-        View.content= children
+        View.content(styleName=[variant])= content
   `
 }
 
 Collapse.defaultProps = {
-  open: false
+  open: false,
+  variant: 'full'
 }
 
 Collapse.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node.isRequired,
-  title: propTypes.string.isRequired,
-  open: propTypes.bool
+  children: propTypes.node,
+  open: propTypes.bool,
+  variant: propTypes.oneOf(['full', 'compact'])
 }
 
-export default observer(Collapse)
+const ObserverCollapse = observer(Collapse)
+ObserverCollapse.Title = CollapseTitle
+
+export default ObserverCollapse

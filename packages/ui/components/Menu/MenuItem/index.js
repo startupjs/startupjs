@@ -2,12 +2,12 @@ import React, { useState, useMemo } from 'react'
 import { observer } from 'startupjs'
 import { Platform } from 'react-native'
 import propTypes from 'prop-types'
-import Div from './../Div'
-import Row from './../Row'
-import Span from './../Span'
-import Icon from './../Icon'
-import colorToRGBA from '../../config/colorToRGBA'
-import config from '../../config/rootConfig'
+import Div from './../../Div'
+import Row from './../../Row'
+import Span from './../../Span'
+import Icon from './../../Icon'
+import colorToRGBA from '../../../config/colorToRGBA'
+import config from '../../../config/rootConfig'
 import './index.styl'
 
 const { colors } = config
@@ -17,10 +17,11 @@ const interactiveBg = colors.primary
 
 function MenuItem ({
   style,
-  label,
+  children,
   active,
   icon,
   rightIcon,
+  activeBorder,
   onPress,
   ...props
 }) {
@@ -58,16 +59,28 @@ function MenuItem ({
     return bgInRest
   }, [hover, pressed])
 
+  const content = React.Children.toArray(children).map(child => {
+    return pug`
+      if typeof child === 'string'
+        Span(style={color})= child
+      else
+        = child
+    `
+  })
+
   return pug`
-    Div(
+    Div.root(
       style=[style, { backgroundColor }]
       interactive=false
+      onPress=onPress
       ...props
     )
-      Row.root(vAlign='center')
+      if activeBorder !== 'none' && active
+        Div.border(styleName=[activeBorder])
+      Row(vAlign='center')
         if icon
           Icon.icon.left(icon=icon color=color)
-        Span.label(style={color})= label
+        = content
         if rightIcon
           Icon.icon.right(icon=rightIcon color=color)
   `
@@ -78,9 +91,11 @@ MenuItem.defaultProps = {
 }
 
 MenuItem.propTypes = {
-  label: propTypes.string,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
   active: propTypes.bool,
   icon: propTypes.object,
+  rightIcon: propTypes.object,
   onPress: propTypes.func
 }
 

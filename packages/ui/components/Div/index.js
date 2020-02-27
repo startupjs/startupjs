@@ -24,8 +24,7 @@ function Div ({
   const Wrapper = isClickable ? TouchableOpacity : View
 
   if (isClickable) {
-    props.activeOpacity = 1
-
+    if (!interactive) props.activeOpacity = 1
     if (isWeb && interactive) {
       const { onMouseEnter, onMouseLeave } = props
       props.onMouseEnter = (...args) => {
