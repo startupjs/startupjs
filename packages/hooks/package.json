@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/hooks",
-  "version": "0.15.0",
+  "version": "0.15.5",
   "description": "Helper hooks",
   "main": "index.js",
   "publishConfig": {
