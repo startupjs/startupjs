@@ -1,0 +1,65 @@
+import React from 'react'
+import propTypes from 'prop-types'
+import { observer, $root } from 'startupjs'
+import TextInput from '../TextInput'
+import Checkbox from '../Checkbox'
+
+const INPUTS = {
+  text: {
+    Component: TextInput,
+    getProps: $value => ({
+      value: $value && $value.get(),
+      // TODO: Use stringInsert and stringRemove
+      onChangeText: value => $value && $value.setDiff(value)
+    })
+  },
+  checkbox: {
+    Component: Checkbox,
+    getProps: $value => ({
+      value: $value && $value.get(),
+      onChange: value => $value && $value.setDiff(value)
+    })
+  }
+}
+const INPUT_TYPES = Object.keys(INPUTS)
+
+function Input ({
+  type,
+  $value,
+  ...props
+}) {
+  if (!type || !INPUT_TYPES.includes(type)) {
+    if (type) {
+      console.error(`[ui -> Input] Wrong type provided: ${type}. Available types: ${INPUT_TYPES}`)
+    } else {
+      console.error(`[ui -> Input] type property must be specified. Available types: ${INPUT_TYPES}`)
+    }
+    return null
+  }
+  if ($value && typeof $value === 'string') {
+    if (/.+\..+/.test($value)) {
+      $value = $root.at($value)
+    } else {
+      console.error(`[ui -> Input] You can not specify the top-level absolute path in $value: ${$value}`)
+      $value = undefined
+    }
+  }
+  const { Component, getProps } = INPUTS[type]
+  const bindingProps = $value ? getProps($value) : {}
+  return pug`
+    Component(
+      ...props
+      ...bindingProps
+      $value=$value
+    )
+  `
+}
+
+Input.defaultProps = {}
+
+Input.propTypes = {
+  type: propTypes.oneOf(['text', 'checkbox']),
+  $value: propTypes.string
+}
+
+export default observer(Input)
