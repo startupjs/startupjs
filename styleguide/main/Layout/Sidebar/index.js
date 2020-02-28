@@ -68,19 +68,19 @@ export default observer(function Sidebar ({ children }) {
             if SUBCOMPONENTS.length
               Collapse(
                 key=COMPONENT_NAME
-                variant='compact'
+                variant='pure'
                 open=openedCollapses[COMPONENT_NAME]
                 onChange=toggleCollapse.bind(null, COMPONENT_NAME)
               )
-                Collapse.Title
+                Collapse.Header
                   MenuItem(name=COMPONENT_NAME)
-
-                each SUBCOMPONENT_NAME in SUBCOMPONENTS
-                  - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
-                  MenuItem.subMenuItem(
-                    key=SUBCOMPONENT_FULLNAME
-                    name=SUBCOMPONENT_FULLNAME
-                  )
+                Collapse.Content
+                  each SUBCOMPONENT_NAME in SUBCOMPONENTS
+                    - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
+                    MenuItem.subMenuItem(
+                      key=SUBCOMPONENT_FULLNAME
+                      name=SUBCOMPONENT_FULLNAME
+                    )
             else
               MenuItem(key=COMPONENT_NAME name=COMPONENT_NAME)
       Br(half)

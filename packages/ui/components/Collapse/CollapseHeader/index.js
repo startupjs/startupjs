@@ -12,12 +12,12 @@ import './index.styl'
 const CLOSED_ROTATION_DEGREE = 0
 const OPENED_ROTATION_DEGREE = 0.5
 
-function CollapseTitle ({
+function CollapseHeader ({
   style,
   children,
-  open,
-  variant,
-  onPress
+  open, // @private
+  variant, // @private
+  onPress // @private
 }) {
   const [degree] = useState(
     new Animated.Value(open ? OPENED_ROTATION_DEGREE : CLOSED_ROTATION_DEGREE)
@@ -53,7 +53,7 @@ function CollapseTitle ({
     if (typeof child === 'string') {
       return pug`
         Span(
-          key='__COLLAPSE_TITLE_KEY__'
+          key='__COLLAPSE_HEADER_KEY__'
           style=style
           numberOfLines=1
         )= child
@@ -65,7 +65,7 @@ function CollapseTitle ({
   const AnimatedView = Animated.View
 
   return pug`
-    Div.title(
+    Div.root(
       style=style
       styleName=[variant]
       onPress=onPress
@@ -89,9 +89,9 @@ function CollapseTitle ({
   `
 }
 
-CollapseTitle.propTypes = {
+CollapseHeader.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node
 }
 
-export default observer(CollapseTitle)
+export default observer(CollapseHeader)

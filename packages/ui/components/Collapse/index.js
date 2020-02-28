@@ -1,10 +1,9 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
-import { View } from 'react-native'
 import Div from './../Div'
-import Collapsible from 'react-native-collapsible'
-import CollapseTitle from './CollapseTitle'
+import CollapseHeader from './CollapseHeader'
+import CollapseContent from './CollapseContent'
 import config from '../../config/rootConfig'
 import './index.styl'
 
@@ -13,15 +12,19 @@ const { colors } = config
 // TODO: hover, active states
 function Collapse ({ style, children, open, variant, onChange }) {
   const childrenList = React.Children.toArray(children)
-  const content = childrenList.filter(child => child.type !== CollapseTitle)
-  const title =
+
+  const header =
     childrenList
-      .filter(child => child.type === CollapseTitle)
+      .filter(child => child.type === CollapseHeader)
       .map(child => React.cloneElement(child, { open, variant, onPress }))
 
-  const collapsed = !open
+  const content =
+    childrenList
+      .filter(child => child.type === CollapseContent)
+      .map(child => React.cloneElement(child, { open, variant }))
+
   function onPress () {
-    onChange && onChange(collapsed)
+    onChange && onChange(!open)
   }
 
   const extraProps = {}
@@ -33,9 +36,8 @@ function Collapse ({ style, children, open, variant, onChange }) {
 
   return pug`
     Div.root(style=style ...extraProps)
-      = title
-      Collapsible(collapsed=collapsed)
-        View.content(styleName=[variant])= content
+      = header
+      = content
   `
 }
 
@@ -48,10 +50,11 @@ Collapse.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   open: propTypes.bool,
-  variant: propTypes.oneOf(['full', 'compact'])
+  variant: propTypes.oneOf(['full', 'pure'])
 }
 
 const ObserverCollapse = observer(Collapse)
-ObserverCollapse.Title = CollapseTitle
+ObserverCollapse.Header = CollapseHeader
+ObserverCollapse.Content = CollapseContent
 
 export default ObserverCollapse
