@@ -22,8 +22,6 @@ const Icon = observer(({
   icon,
   color,
   size,
-  width,
-  height,
   ...props
 }) => {
   if (!icon) return null
@@ -47,9 +45,7 @@ Icon.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   icon: propTypes.object,
   color: propTypes.string,
-  size: propTypes.oneOf(Object.keys(SIZES)),
-  width: propTypes.number,
-  height: propTypes.number
+  size: propTypes.oneOf(Object.keys(SIZES))
 }
 
 export default Icon
