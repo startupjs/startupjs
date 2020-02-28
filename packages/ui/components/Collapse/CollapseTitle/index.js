@@ -66,7 +66,7 @@ function CollapseTitle ({
 
   return pug`
     Div.title(
-      stylу=style
+      style=style
       styleName=[variant]
       onPress=onPress
       interactive=variant === 'full'
