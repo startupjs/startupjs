@@ -2,6 +2,7 @@ const pickBy = require('lodash/pickBy')
 const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -20,7 +21,6 @@ const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
-
 // Get ui config if it exists
 let ui
 try {
@@ -130,6 +130,9 @@ module.exports = function getConfig (env, {
         filename: 'assets.json',
         fullPath: false,
         path: BUILD_PATH
+      }),
+      new ProgressBarPlugin({
+        format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
       })
     ].filter(Boolean),
     output: {
@@ -154,10 +157,6 @@ module.exports = function getConfig (env, {
               publicPath: '/build/client/'
             }
           }
-        },
-        {
-          test: /\.attr\.(?:styl|css)$/,
-          use: 'raw-loader'
         },
         {
           test: /\.styl$/,

@@ -217,7 +217,26 @@ to the native installation when working with the large amount of files.
 
 ## Contributing & Troubleshooting
 
-If you have any questions or want to request a feature, please look wether a similar issue already existis in this repo, otherwise feel free to file a new one.
+To initialize the monorepo, run:
+
+```sh
+yarn bootstrap
+```
+
+After that you can run the styleguide project to develop the UI components, etc.:
+
+```sh
+cd styleguide
+yarn start
+```
+
+To cleanup all modules:
+
+```sh
+yarn clean
+```
+
+If you have any questions or want to request a feature, please look wether a similar issue already exists in this repo, otherwise feel free to file a new one.
 
 If you want to contribute, feel free to send your PRs, we will review them and provide our feedback on a short notice.
 

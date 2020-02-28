@@ -7,6 +7,7 @@ import './index.styl'
 const AnimatedView = Animated.View
 
 function Progress ({
+  style,
   value,
   label,
   variant
@@ -26,7 +27,7 @@ function Progress ({
   }, [value])
 
   return pug`
-    View
+    View(style=style)
       View.progress
         AnimatedView.filler(
           style={
@@ -38,7 +39,7 @@ function Progress ({
         )
       if variant === 'full'
         Span(size='s' description)
-          = label || (value < 100 ? value + '% ...' : 'Loading Complete')
+          = label || (value < 100 ? Math.round(value) + '% ...' : 'Loading Complete')
   `
 }
 
@@ -48,6 +49,7 @@ Progress.defaultProps = {
 }
 
 Progress.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   value: propTypes.number,
   label: propTypes.string,
   variant: propTypes.oneOf(['full', 'compact'])

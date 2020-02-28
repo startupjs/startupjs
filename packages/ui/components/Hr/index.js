@@ -6,11 +6,12 @@ import { View } from 'react-native'
 import './index.styl'
 
 function Hr ({
+  style,
   children,
   align
 }) {
   return pug`
-    Row.root(vAlign='center')
+    Row.root(vAlign='center' style=style)
       View.hr(styleName={full: ['right', 'center'].includes(align)})
       if children
         View.content
@@ -24,6 +25,7 @@ Hr.defaultProps = {
 }
 
 Hr.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   align: propTypes.oneOf(['left', 'center', 'right'])
 }

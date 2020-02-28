@@ -7,6 +7,7 @@ import './index.styl'
 
 const SHADOWS = config.shadows
 
+// TODO: hover, active states
 function Card ({
   style,
   level,
@@ -23,13 +24,15 @@ function Card ({
   `
 }
 
-Card.propTypes = {
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
-  onPress: propTypes.func
-}
-
 Card.defaultProps = {
   level: 1
+}
+
+Card.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
+  onPress: propTypes.func
 }
 
 export default observer(Card)

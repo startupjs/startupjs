@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.14.1",
+  "version": "0.15.5",
   "private": true,
   "scripts": {
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",
@@ -14,7 +14,7 @@
     "adb": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010",
     "log-android-color": "react-native log-android | ccze -m ansi -C -o nolookups",
     "log-android": "hash ccze 2>/dev/null && npm run log-android-color || (echo \"WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze\" && react-native log-android)",
-    "android-release": "BABEL_ENV=production react-native run-android --simulator \"iPhone 8\" --configuration Release",
+    "android-release": "BABEL_ENV=production react-native run-android",
     "ios-release": "BABEL_ENV=production react-native run-ios --simulator \"iPhone 8\" --configuration Release",
     "build": "startupjs build",
     "start-production": "startupjs start-production"
@@ -23,7 +23,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-native-fontawesome": "^0.2.0",
-    "@startupjs/ui": "^0.14.1",
+    "@startupjs/ui": "^0.15.5",
     "axios": "^0.19.0",
     "nconf": "^0.10.0",
     "parse-prop-types": "^0.3.0",
@@ -40,7 +40,7 @@
     "react-native-svg": "^11.0.1",
     "react-native-web": "0.11.7",
     "source-map-support": "^0.5.16",
-    "startupjs": "^0.14.2"
+    "startupjs": "^0.15.5"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.11.0",

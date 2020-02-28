@@ -25,13 +25,11 @@ const Icon = observer(({
   height
 }) => {
   return pug`
-    View.root
+    View.root(style=style)
       FontAwesomeIcon(
-        style=style
         icon=icon
         color=color
-        width=width || SIZES[size]
-        height=height || SIZES[size]
+        size=SIZES[size]
       )
   `
 })
@@ -41,7 +39,7 @@ Icon.defaultProps = {
 }
 
 Icon.propTypes = {
-  style: propTypes.object,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   icon: propTypes.object,
   color: propTypes.string,
   size: propTypes.oneOf(Object.keys(SIZES)),

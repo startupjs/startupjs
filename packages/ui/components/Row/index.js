@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.styl'
 import propTypes from 'prop-types'
-import Div from '../Div'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 
 function Row ({
@@ -14,9 +14,9 @@ function Row ({
   ...props
 }) {
   return pug`
-    Div.root(
-      styleName=[align, 'v_' + vAlign, { wrap, reverse }]
+    View.root(
       style=style
+      styleName=[align, 'v_' + vAlign, { wrap, reverse }]
       ...props
     )
       = children
@@ -24,6 +24,8 @@ function Row ({
 }
 
 Row.propTypes = {
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
   wrap: propTypes.bool,
   reverse: propTypes.bool,
   align: propTypes.oneOf(['center', 'right', 'around', 'between']),

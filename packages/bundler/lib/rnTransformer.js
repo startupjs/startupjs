@@ -1,12 +1,9 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusTransformer = require('@startupjs/react-native-stylus-transformer')
 const cssTransformer = require('react-native-css-transformer')
-const dummyTransformer = require('babel-plugin-cssta-stylename/transformer')
 
 module.exports.transform = function ({ src, filename, options }) {
-  if (/\.attr\.(?:styl|css)$/.test(filename)) {
-    return dummyTransformer.transform({ src, filename, options })
-  } else if (/\.styl$/.test(filename)) {
+  if (/\.styl$/.test(filename)) {
     return stylusTransformer.transform({ src, filename, options })
   } else if (/\.css$/.test(filename)) {
     return cssTransformer.transform({ src, filename, options })

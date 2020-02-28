@@ -2,33 +2,56 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
 import { View } from 'react-native'
-import Span from './../Span'
-import Row from './../Row'
-import Icon from './../Icon'
+import Div from './../Div'
 import Collapsible from 'react-native-collapsible'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-import config from './../../config/rootConfig'
+import CollapseTitle from './CollapseTitle'
+import config from '../../config/rootConfig'
 import './index.styl'
 
-function Collapse ({ style, title, open, children }) {
+const { colors } = config
+
+// TODO: hover, active states
+function Collapse ({ style, children, open, variant, onChange }) {
+  const childrenList = React.Children.toArray(children)
+  const content = childrenList.filter(child => child.type !== CollapseTitle)
+  const title =
+    childrenList
+      .filter(child => child.type === CollapseTitle)
+      .map(child => React.cloneElement(child, { variant, onPress }))
+
+  const collapsed = !open
+  function onPress () {
+    onChange(collapsed)
+  }
+
+  const extraProps = {}
+  const extraStyles = {}
+  if (variant === 'full') {
+    extraProps.level = 1
+    extraStyles.backgroundColor = colors.white
+  }
+
   return pug`
-    View.root
-      Row.title(align='between' vAlign='center')
-        Span.titleText(size='l' numberOfLines=1 bold)= title
-        Icon(icon=faCaretDown color=config.colors.dark)
-      Collapsible(collapsed=!open)
-        View.content= children
+    Div.root(style=style ...extraProps)
+      = title
+      Collapsible(collapsed=collapsed)
+        View.content(styleName=[variant])= content
   `
 }
 
 Collapse.defaultProps = {
-  open: false
+  open: false,
+  variant: 'full'
 }
 
 Collapse.propTypes = {
-  title: propTypes.string.isRequired,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  children: propTypes.node,
   open: propTypes.bool,
-  children: propTypes.node.isRequired
+  variant: propTypes.oneOf(['full', 'compact'])
 }
 
-export default observer(Collapse)
+const ObserverCollapse = observer(Collapse)
+ObserverCollapse.Title = CollapseTitle
+
+export default ObserverCollapse
