@@ -20,17 +20,11 @@ function Pagination ({
   showFirst,
   value,
   total,
-  limit,
   onChange
 }) {
   const isFilled = variant === 'filled'
-  const activePage = value + 1
-  const pagesCount = Math.ceil(total / (limit || 1))
-  const prevValue = value - 1
-  const nextValue = value + 1
-  const lastValue = pagesCount - 1
-  const isFirstPageSelected = value <= 0
-  const isLastPageSelected = activePage >= pagesCount
+  const isFirstPageSelected = value <= 1
+  const isLastPageSelected = value >= total
 
   const [
     backButtonExtraProps,
@@ -60,26 +54,23 @@ function Pagination ({
     ]
   }, [variant])
 
-  const centerPageCeil = Math.ceil(visibleCount / 2)
-  const isMoreThanCenter = activePage + centerPageCeil > pagesCount
-  const isLessThanCenter = activePage - visibleCount < 0
-  const centerPageFloor = Math.floor(visibleCount / 2)
+  const halfVisibleCount = Math.floor(visibleCount / 2)
+  const firstVisibleButton = value + halfVisibleCount >= total
+    ? (total - visibleCount) + 1
+    : value - halfVisibleCount
+  const firstButton = firstVisibleButton < 1
+    ? 1
+    : firstVisibleButton
 
-  const from = isLessThanCenter
-    ? 0
-    : isMoreThanCenter
-      ? pagesCount - visibleCount
-      : activePage - centerPageCeil
+  const lastVisibleButton = value + halfVisibleCount
+  const lastButton = lastVisibleButton < visibleCount
+    ? visibleCount
+    : lastVisibleButton
 
-  const to = pagesCount < visibleCount
-    ? pagesCount
-    : isLessThanCenter
-      ? visibleCount
-      : activePage + centerPageFloor > pagesCount
-        ? pagesCount
-        : centerPageFloor + activePage
+  const from = firstButton
+  const to = lastButton >= total ? total : lastButton
 
-  const items = useMemo(() => Array(to - from).fill(null), [to, from])
+  const items = useMemo(() => Array((to - from) + 1).fill(null), [to, from])
 
   return pug`
     View.root(
@@ -88,23 +79,22 @@ function Pagination ({
     )
       Button.back(
         disabled=isFirstPageSelected || disabled
-        onPress=() => onChange(prevValue)
+        onPress=() => onChange(value - 1)
         ...backButtonExtraProps
       )
         = isFilled ? 'Back' : null
-      if showFirst && from
+      if showFirst && from > 1
         PaginationButton(
           disabled=disabled
           bold=!isFilled
           variant=variant
           label=1
-          onPress=() => onChange(0)
+          onPress=() => onChange(1)
         )
         View.dots
           Span ...
       each item, index in items
         - const _value = from + index
-        - const label = _value + 1
         - const isActive = _value === value
         PaginationButton(
           key=index
@@ -112,22 +102,22 @@ function Pagination ({
           bold=!isFilled
           variant=variant
           active=isActive
-          label=label
+          label=_value
           onPress=() => onChange(_value)
         )
-      if showLast && to <= lastValue
+      if showLast && to < total
         View.dots
           Span ...
         PaginationButton(
           disabled=disabled
           bold=!isFilled
           variant=variant
-          label=pagesCount
-          onPress=() => onChange(lastValue)
+          label=total
+          onPress=() => onChange(total)
         )
       Button.next(
         disabled=isLastPageSelected || disabled
-        onPress=() => onChange(nextValue)
+        onPress=() => onChange(value + 1)
         ...nextButtonExtraProps
       )
         = isFilled ? 'Next' : null
@@ -136,9 +126,9 @@ function Pagination ({
 
 Pagination.defaultProps = {
   variant: 'filled',
-  visibleCount: 5,
-  total: 0, // ?
-  value: 0,
+  visibleCount: 3,
+  total: 0,
+  value: 1,
   showLast: true,
   showFirst: true
 }
@@ -147,8 +137,7 @@ Pagination.propTypes = {
   style: propTypes.object,
   variant: propTypes.oneOf(['filled', 'floating']),
   visibleCount: propTypes.number,
-  total: propTypes.number,
-  limit: propTypes.number,
+  total: propTypes.number.isRequired,
   value: propTypes.number.isRequired,
   showLast: propTypes.bool,
   showFirst: propTypes.bool,
