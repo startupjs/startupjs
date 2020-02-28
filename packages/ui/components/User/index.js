@@ -73,7 +73,7 @@ User.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   avatarUrl: propTypes.string,
   description: propTypes.string,
-  name: propTypes.string.isRequired,
+  name: propTypes.string,
   avatarPosition: propTypes.oneOf(['left', 'right']),
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   status: propTypes.oneOf(['online', 'away']),

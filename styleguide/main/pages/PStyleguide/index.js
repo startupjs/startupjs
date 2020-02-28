@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import { Props } from 'components'
 import * as COMPONENTS from 'ui'
@@ -28,14 +28,7 @@ export default observer(function PStyleguide () {
     `
   }
 
-  const [open, setOpen] = useState()
-  const Collapse = COMPONENTS.Collapse
-
   return pug`
-    Collapse(open=open onChange=setOpen)
-      Collapse.Title Hello title!!!
-      COMPONENTS.Span Mega super content!!!
-
     Props.root(
       theme=darkTheme ? 'dark' : undefined
       key=componentName

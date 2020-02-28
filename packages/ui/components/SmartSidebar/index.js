@@ -70,7 +70,7 @@ SmartSidebar.propTypes = {
   fixedLayoutBreakpoint: propTypes.number,
   position: propTypes.oneOf(['left', 'right']),
   width: propTypes.number,
-  renderContent: propTypes.func.isRequired
+  renderContent: propTypes.func
 }
 
 export default observer(SmartSidebar)

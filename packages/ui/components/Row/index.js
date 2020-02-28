@@ -1,8 +1,11 @@
 import React from 'react'
 import './index.styl'
 import propTypes from 'prop-types'
-import { View } from 'react-native'
+import Div from './../Div'
 import { observer } from 'startupjs'
+import config from '../../config/rootConfig'
+
+const SHADOWS = config.shadows
 
 function Row ({
   style,
@@ -14,7 +17,7 @@ function Row ({
   ...props
 }) {
   return pug`
-    View.root(
+    Div.root(
       style=style
       styleName=[align, 'v_' + vAlign, { wrap, reverse }]
       ...props
@@ -29,7 +32,13 @@ Row.propTypes = {
   wrap: propTypes.bool,
   reverse: propTypes.bool,
   align: propTypes.oneOf(['center', 'right', 'around', 'between']),
-  vAlign: propTypes.oneOf(['center'])
+  vAlign: propTypes.oneOf(['center']),
+  // div props
+  activeOpacity: propTypes.number,
+  disabled: propTypes.bool,
+  interactive: propTypes.bool,
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  onPress: propTypes.func
 }
 
 export default observer(Row)

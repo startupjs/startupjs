@@ -64,7 +64,7 @@ Drawer.propTypes = {
   backgroundColor: propTypes.string,
   position: propTypes.oneOf(Object.values(DrawerLayout.positions)),
   width: propTypes.number,
-  renderContent: propTypes.func.isRequired
+  renderContent: propTypes.func
 }
 
 export default observer(Drawer)

@@ -17,11 +17,11 @@ function Collapse ({ style, children, open, variant, onChange }) {
   const title =
     childrenList
       .filter(child => child.type === CollapseTitle)
-      .map(child => React.cloneElement(child, { variant, onPress }))
+      .map(child => React.cloneElement(child, { open, variant, onPress }))
 
   const collapsed = !open
   function onPress () {
-    onChange(collapsed)
+    onChange && onChange(collapsed)
   }
 
   const extraProps = {}

@@ -101,7 +101,7 @@ Sidebar.propTypes = {
   backgroundColor: propTypes.string,
   position: propTypes.oneOf(['left', 'right']),
   width: propTypes.number,
-  renderContent: propTypes.func.isRequired
+  renderContent: propTypes.func
 }
 
 export default observer(Sidebar)

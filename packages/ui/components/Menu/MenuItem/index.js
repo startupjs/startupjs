@@ -62,27 +62,27 @@ function MenuItem ({
   const content = React.Children.toArray(children).map(child => {
     return pug`
       if typeof child === 'string'
-        Span(style={color})= child
+        Span(key='__MENU_ITEM_KEY__' style={color})= child
       else
         = child
     `
   })
 
   return pug`
-    Div.root(
+    Row.root(
       style=[style, { backgroundColor }]
+      vAlign='center'
       interactive=false
       onPress=onPress
       ...props
     )
       if activeBorder !== 'none' && active
         Div.border(styleName=[activeBorder])
-      Row(vAlign='center')
-        if icon
-          Icon.icon.left(icon=icon color=color)
-        = content
-        if rightIcon
-          Icon.icon.right(icon=rightIcon color=color)
+      if icon
+        Icon.icon.left(icon=icon color=color)
+      = content
+      if rightIcon
+        Icon.icon.right(icon=rightIcon color=color)
   `
 }
 

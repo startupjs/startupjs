@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { View, ScrollView, Switch } from 'react-native'
 import * as COMPONENTS from 'ui'
@@ -13,7 +13,14 @@ import {
 import './index.styl'
 
 const PATH = '_session.Sidebar'
-const { Br, Collapse, Row, SmartSidebar, Span, Menu } = COMPONENTS
+const {
+  Br,
+  Collapse,
+  Row,
+  SmartSidebar,
+  Span,
+  Menu
+} = COMPONENTS
 
 export default observer(function Sidebar ({ children }) {
   const [componentName, setComponentName] = useComponentName()
@@ -21,14 +28,35 @@ export default observer(function Sidebar ({ children }) {
   const [showSizes, $showSizes] = useShowSizes()
   const [validateWidth, $validateWidth] = useValidateWidth()
   const [darkTheme, $darkTheme] = useDarkTheme()
+  const [openedCollapses, setOpenedCollapses] = useState(() => {
+    const opened = {}
+    const chunks = componentName.split('.')
+    if (componentName.split('.').length > 1) opened[chunks[0]] = true
+    return opened
+  })
   useLocalWithDefault(PATH, true)
-
   // if we will need to use hooks in renderContent method
   // then we need to refactor architecture of SmartSidebar component
   // like in Modal component (Modal, Modal.Actions)
   function getAvailableComponents (components = []) {
     return components.filter(i => /^[A-Z]/.test(i))
   }
+
+  function toggleCollapse (collapseName, value) {
+    setOpenedCollapses({ ...openedCollapses, [collapseName]: value })
+  }
+
+  function MenuItem ({ style, name }) {
+    if (!name) return null
+    return pug`
+      Menu.Item(
+        style=style
+        active=componentName === name
+        onPress=() => setComponentName(name)
+      )= name
+    `
+  }
+
   function renderContent () {
     return pug`
       ScrollView
@@ -38,27 +66,23 @@ export default observer(function Sidebar ({ children }) {
             - const SUBCOMPONENTS = getAvailableComponents(Object.keys(COMPONENT))
 
             if SUBCOMPONENTS.length
-              Collapse(variant='compact')
+              Collapse(
+                key=COMPONENT_NAME
+                variant='compact'
+                open=openedCollapses[COMPONENT_NAME]
+                onChange=toggleCollapse.bind(null, COMPONENT_NAME)
+              )
                 Collapse.Title
-                  Menu.Item(
-                    key=COMPONENT_NAME
-                    active=componentName === COMPONENT_NAME
-                    onPress=() => setComponentName(COMPONENT_NAME)
-                  )= COMPONENT_NAME
+                  MenuItem(name=COMPONENT_NAME)
 
                 each SUBCOMPONENT_NAME in SUBCOMPONENTS
                   - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
-                  Menu.Item(
+                  MenuItem.subMenuItem(
                     key=SUBCOMPONENT_FULLNAME
-                    active=componentName === SUBCOMPONENT_FULLNAME
-                    onPress=() => setComponentName(SUBCOMPONENT_FULLNAME)
-                  )= SUBCOMPONENT_FULLNAME
+                    name=SUBCOMPONENT_FULLNAME
+                  )
             else
-              Menu.Item(
-                key=COMPONENT_NAME
-                active=componentName === COMPONENT_NAME
-                onPress=() => setComponentName(COMPONENT_NAME)
-              )= COMPONENT_NAME
+              MenuItem(key=COMPONENT_NAME name=COMPONENT_NAME)
       Br(half)
       View
         if showSizes
