@@ -1,20 +1,21 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { View } from 'react-native'
+import Div from './../Div'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
 import { u } from '../../config/helpers'
 import './index.styl'
 
 const SIZES = {
-  xss: u(0.5),
-  xs: u(1),
-  s: u(1.5),
-  m: u(2),
-  l: u(3),
-  xl: u(4),
-  xxl: u(5)
+  xss: u(1.5),
+  xs: u(2),
+  s: u(2.5),
+  m: u(3),
+  l: u(4),
+  xl: u(5),
+  xxl: u(6)
 }
+const BASE = u(0.5)
 
 const Icon = observer(({
   style,
@@ -22,14 +23,18 @@ const Icon = observer(({
   color,
   size,
   width,
-  height
+  height,
+  ...props
 }) => {
+  if (!icon) return null
+  const _size = SIZES[size] - 2 * BASE
+
   return pug`
-    View.root(style=style)
+    Div.root(style=[style, { padding: BASE }] ...props)
       FontAwesomeIcon(
         icon=icon
         color=color
-        size=SIZES[size]
+        size=_size
       )
   `
 })
