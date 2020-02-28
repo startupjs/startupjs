@@ -61,9 +61,9 @@ function Button ({
       case 'outlined':
         labelStyles.color = _textColor || _color
         rootStyles.borderWidth = 1
-        rootStyles.borderColor = _color
+        rootStyles.borderColor = colorToRGBA(_color, 0.5)
         break
-      case 'ghost':
+      case 'text':
       case 'shadowed':
         labelStyles.color = _textColor || _color
     }
@@ -79,7 +79,7 @@ function Button ({
         if (hover) return colorToRGBA(_color, 0.5)
         return _color
       case 'outlined':
-      case 'ghost':
+      case 'text':
         if (active) return colorToRGBA(_color, 0.25)
         if (hover) return colorToRGBA(_color, 0.05)
         break
@@ -159,8 +159,8 @@ function Button ({
 }
 
 Button.defaultProps = {
-  color: 'primary',
-  variant: 'flat',
+  color: 'dark',
+  variant: 'outlined',
   size: 'm',
   shape: 'rounded',
   disabled: false
@@ -171,7 +171,7 @@ Button.propTypes = {
   color: propTypes.string,
   children: propTypes.node,
   disabled: propTypes.bool,
-  variant: propTypes.oneOf(['flat', 'outlined', 'ghost', 'shadowed']),
+  variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['m', 'l', 'xl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
