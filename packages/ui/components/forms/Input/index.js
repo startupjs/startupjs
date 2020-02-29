@@ -3,6 +3,7 @@ import propTypes from 'prop-types'
 import { observer, $root } from 'startupjs'
 import TextInput from '../TextInput'
 import Checkbox from '../Checkbox'
+import ObjectInput from '../ObjectInput'
 
 const INPUTS = {
   text: {
@@ -18,6 +19,12 @@ const INPUTS = {
     getProps: $value => ({
       value: $value && $value.get(),
       onChange: value => $value && $value.setDiff(value)
+    })
+  },
+  object: {
+    Component: ObjectInput,
+    getProps: $value => ({
+      value: $value && $value.get()
     })
   }
 }
@@ -55,10 +62,12 @@ function Input ({
   `
 }
 
-Input.defaultProps = {}
+Input.defaultProps = {
+  type: 'text'
+}
 
 Input.propTypes = {
-  type: propTypes.oneOf(['text', 'checkbox']),
+  type: propTypes.oneOf(['text', 'checkbox', 'object']).isRequired,
   $value: propTypes.string
 }
 
