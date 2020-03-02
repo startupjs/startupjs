@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import { Props } from 'components'
 import * as COMPONENTS from 'ui'
@@ -21,7 +21,6 @@ export default observer(function PStyleguide () {
   const COMPONENT = segments.reduce((component, segment) => {
     return component[segment]
   }, COMPONENTS)
-  const [open, setOpen] = useState(true)
 
   if (!COMPONENT) {
     return pug`
@@ -29,15 +28,7 @@ export default observer(function PStyleguide () {
     `
   }
 
-  const Modal = COMPONENTS.Modal
-
   return pug`
-    Modal(visible=open title='bro' onDismiss=() => setOpen(false))
-      Modal.Content
-        COMPONENTS.Span content super
-      COMPONENTS.Span without content
-      Modal.Actions(onConfirm=() => {})
-
     Props.root(
       theme=darkTheme ? 'dark' : undefined
       key=componentName
