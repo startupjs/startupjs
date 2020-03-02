@@ -58,8 +58,7 @@ function Div ({
       styleName=[{ ['with-shadow']: !!level }]
       onPress=onPress
       ...props
-    )
-      = children
+    )= children
   `
 }
 

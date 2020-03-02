@@ -1,27 +1,66 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
-import { View } from 'react-native'
 import Div from './../Div'
-import Collapsible from 'react-native-collapsible'
-import CollapseTitle from './CollapseTitle'
+import CollapseHeader from './CollapseHeader'
+import CollapseContent from './CollapseContent'
 import config from '../../config/rootConfig'
 import './index.styl'
 
 const { colors } = config
 
 // TODO: hover, active states
-function Collapse ({ style, children, open, variant, onChange }) {
+function Collapse ({
+  style,
+  children,
+  title,
+  open,
+  variant,
+  onChange
+}, ref) {
   const childrenList = React.Children.toArray(children)
-  const content = childrenList.filter(child => child.type !== CollapseTitle)
-  const title =
-    childrenList
-      .filter(child => child.type === CollapseTitle)
-      .map(child => React.cloneElement(child, { open, variant, onPress }))
 
-  const collapsed = !open
+  const header = title
+    ? React.createElement(CollapseHeader, { open, variant, onPress }, title)
+    : childrenList
+      .filter(child => child.type === CollapseHeader)
+      .map(child =>
+        React.cloneElement(
+          child,
+          {
+            open,
+            variant: child.props.variant || variant,
+            onPress
+          }
+        )
+      )
+
+  const contentChilds =
+    useMemo(() => {
+      return childrenList.filter(child => child.type !== CollapseHeader)
+    }, [childrenList.length])
+
+  const areChildsHaveCollapseContent =
+    useMemo(() => {
+      return !!contentChilds.filter(child => child.type === CollapseContent).length
+    }, [contentChilds.length])
+
+  const content = areChildsHaveCollapseContent
+    ? contentChilds
+      .map(child => {
+        const props = child.type === CollapseContent
+          ? { open, variant: child.props.variant || variant }
+          : null
+
+        return React.cloneElement(
+          child,
+          props
+        )
+      })
+    : React.createElement(CollapseContent, { open, variant }, contentChilds)
+
   function onPress () {
-    onChange && onChange(collapsed)
+    onChange && onChange(!open)
   }
 
   const extraProps = {}
@@ -33,9 +72,8 @@ function Collapse ({ style, children, open, variant, onChange }) {
 
   return pug`
     Div.root(style=style ...extraProps)
-      = title
-      Collapsible(collapsed=collapsed)
-        View.content(styleName=[variant])= content
+      = header
+      = content
   `
 }
 
@@ -48,10 +86,11 @@ Collapse.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   open: propTypes.bool,
-  variant: propTypes.oneOf(['full', 'compact'])
+  variant: propTypes.oneOf(['full', 'pure'])
 }
 
 const ObserverCollapse = observer(Collapse)
-ObserverCollapse.Title = CollapseTitle
+ObserverCollapse.Header = CollapseHeader
+ObserverCollapse.Content = CollapseContent
 
 export default ObserverCollapse

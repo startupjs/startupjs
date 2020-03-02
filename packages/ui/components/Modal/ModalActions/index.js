@@ -1,8 +1,8 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
-import Row from './../Row'
-import Button from './../Button'
+import Row from './../../Row'
+import Button from './../../Button'
 import './index.styl'
 
 function ModalActions ({
@@ -14,11 +14,21 @@ function ModalActions ({
   onConfirm
 }) {
   return pug`
-    Row.actions(style=style align='right')
-      if onDismiss
-        Button.action(variant='outlined' onPress=onDismiss)= dismissLabel
-      if onConfirm
-        Button.action(onPress=onConfirm)= confirmLabel
+    Row.root(style=style align='right')
+      if children
+        = children
+      else
+        if onDismiss
+          Button.action(
+            color='primary'
+            onPress=onDismiss
+          )= dismissLabel
+        if onConfirm
+          Button.action(
+            color='primary'
+            variant='flat'
+            onPress=onConfirm
+          )= confirmLabel
 
   `
 }
