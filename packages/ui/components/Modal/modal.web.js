@@ -20,7 +20,7 @@ export default function Modal ({
     pug`
       Layout.layout(
         styleName={visible}
-        modalStyle={style}
+        modalStyle=style
         ...props
       )
     `,

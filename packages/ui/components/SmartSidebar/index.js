@@ -16,7 +16,7 @@ function SmartSidebar ({
   width,
   backgroundColor,
   children,
-  renderContent = () => null,
+  renderContent,
   ...props
 }) {
   const componentId = useComponentId()

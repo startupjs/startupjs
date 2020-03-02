@@ -14,7 +14,7 @@ function Sidebar ({
   position,
   path,
   width,
-  renderContent = () => null,
+  renderContent,
   ...props
 }) {
   const componentId = useComponentId()

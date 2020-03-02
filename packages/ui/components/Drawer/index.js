@@ -13,7 +13,7 @@ function Drawer ({
   path,
   position,
   width,
-  renderContent = () => null,
+  renderContent,
   ...props
 }) {
   const componentId = useComponentId()

@@ -18,7 +18,7 @@ function CollapseContent ({
         Span(key='__COLLAPSE_CONTENT_KEY__')= child
       `
     }
-    return React.cloneElement(child, { style })
+    return child
   })
 
   return pug`

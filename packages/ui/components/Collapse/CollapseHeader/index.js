@@ -15,8 +15,8 @@ const OPENED_ROTATION_DEGREE = 0.5
 function CollapseHeader ({
   style,
   children,
+  variant,
   open, // @private
-  variant, // @private
   onPress // @private
 }) {
   const [degree] = useState(
