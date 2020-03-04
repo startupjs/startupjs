@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
 import Div from './../Div'
@@ -35,15 +35,9 @@ function Collapse ({
         )
       )
 
-  const contentChilds =
-    useMemo(() => {
-      return childrenList.filter(child => child.type !== CollapseHeader)
-    }, [childrenList.length])
+  const contentChilds = childrenList.filter(child => child.type !== CollapseHeader)
 
-  const areChildsHaveCollapseContent =
-    useMemo(() => {
-      return !!contentChilds.filter(child => child.type === CollapseContent).length
-    }, [contentChilds.length])
+  const areChildsHaveCollapseContent = !!contentChilds.filter(child => child.type === CollapseContent).length
 
   const content = areChildsHaveCollapseContent
     ? contentChilds
