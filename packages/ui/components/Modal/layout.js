@@ -26,19 +26,13 @@ function Modal ({
       .filter(child => child.type === ModalHeader)
       .map(child => React.cloneElement(child, { onDismiss }))
 
-  const childsWithoutModalHeader =
-    useMemo(() => {
-      return childrenList.filter(child => child.type !== ModalHeader)
-    }, [childrenList.length])
+  const childsWithoutModalHeader = childrenList.filter(child => child.type !== ModalHeader)
 
-  const [contentChilds, actionsChilds] = useMemo(() => {
-    const content = []
-    const actions = []
-    childsWithoutModalHeader.forEach(child => {
-      child.type === ModalActions ? actions.push(child) : content.push(child)
-    })
-    return [content, actions]
-  }, [childsWithoutModalHeader.length])
+  const contentChilds = []
+  const actionsChilds = []
+  childsWithoutModalHeader.forEach(child => {
+    child.type === ModalActions ? actionsChilds.push(child) : contentChilds.push(child)
+  })
 
   const actions = actionsChilds.length
     ? actionsChilds
