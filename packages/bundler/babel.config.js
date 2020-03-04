@@ -109,8 +109,12 @@ const config = {
 }
 
 module.exports = function (api, opts = {}) {
+  api.cache(true)
   const { alias = {} } = opts
-  const env = api.env()
+  const { BABEL_ENV, NODE_ENV } = process.env
+  // by some reason BABEL_ENV set to "undefined"
+  // metro, babel or other packages break this variable
+  const env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
   const { presets = [], plugins = [] } = config[env] || {}
   const resolverPlugin = ['module-resolver', {
     alias: {
@@ -118,9 +122,12 @@ module.exports = function (api, opts = {}) {
       ...alias
     }
   }]
-  return { presets, plugins: [resolverPlugin].concat(basePlugins(opts), plugins) }
-}
 
+  return {
+    presets,
+    plugins: [resolverPlugin].concat(basePlugins(opts), plugins)
+  }
+}
 function generateScopedName (name, filename/* , css */) {
   let hashSize = LOCAL_IDENT_NAME.match(/base64:(\d+)]/)
   if (!hashSize) {
