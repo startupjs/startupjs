@@ -65,7 +65,7 @@ Radio.propTypes = {
     value: propTypes.oneOfType([propTypes.string, propTypes.number]),
     label: propTypes.oneOfType([propTypes.string, propTypes.number])
   })),
-  value: propTypes.oneOfType(propTypes.string, propTypes.number),
+  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   onChange: propTypes.func
 }
 
