@@ -45,8 +45,10 @@ const REMOVE_FILES = [
 const SCRIPTS_ORIG = {}
 SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.js'
 SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
-SCRIPTS_ORIG.serverRun = 'just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js'
-SCRIPTS_ORIG.server = `concurrently -r -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}"`
+SCRIPTS_ORIG.serverRun = inspect => `just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ${inspect ? '--inspect' : ''} ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js`
+SCRIPTS_ORIG.serverRun.toString = () => SCRIPTS_ORIG.serverRun(false)
+SCRIPTS_ORIG.server = inspect => `concurrently -r -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun(inspect)}" "${SCRIPTS_ORIG.serverBuild}"`
+SCRIPTS_ORIG.server.toString = () => SCRIPTS_ORIG.server(false)
 SCRIPTS_ORIG.start = `concurrently -r -s first -k -n 'S,SB,W' -c black.bgWhite,black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}" "${SCRIPTS_ORIG.web}"`
 SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.server.config.js && webpack --config webpack.web.config.js'
 SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node -r source-map-support/register build/server.js'
@@ -176,9 +178,10 @@ commander
 commander
   .command('server')
   .description('Compile (with webpack) and run server')
-  .action(async () => {
+  .option('-i, --inspect', 'Use node --inspect')
+  .action(async ({ inspect }) => {
     await execa.command(
-      SCRIPTS_ORIG.server,
+      SCRIPTS_ORIG.server(inspect),
       { stdio: 'inherit', shell: true }
     )
   })
