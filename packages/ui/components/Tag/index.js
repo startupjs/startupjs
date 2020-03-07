@@ -20,6 +20,7 @@ function Tag ({
   children,
   color,
   variant,
+  shape,
   icon,
   rightIcon,
   iconsColor,
@@ -29,7 +30,22 @@ function Tag ({
 }) {
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+
+  if (variant === 'circle') {
+    console.warn(`[UI] Property "variant" with type "circle" is DEPRECATED and will be removed in a future version.
+Please use property "shape" with type "circle" instead.`)
+  }
+  if (variant === 'rounded') {
+    console.warn(`[UI] Property "variant" with type "rounded" is DEPRECATED and will be removed in a future version.
+Please use property "shape" with type "rounded" instead.`)
+  }
+
   const isClickable = typeof onPress === 'function'
+
+  const _textColor = colors[textColor] || textColor
+  const _color = colors[color] || color
+  const _iconsColor = colors[iconsColor] || iconsColor ||
+    (variant === 'outlined' ? _color : colors.white)
 
   if (isClickable) {
     const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
@@ -57,15 +73,31 @@ function Tag ({
     }
   }
 
-  const _backgroundColor = useMemo(() => {
-    const backgroundColor = colors[color] || color
+  const [rootStyles, labelStyles] = useMemo(() => {
+    let labelStyles = {}
+    let rootStyles = {}
 
-    // Order is important because active has higher priority
-    if (active) return colorToRGBA(backgroundColor, 0.25)
-    if (hover) return colorToRGBA(backgroundColor, 0.5)
+    if (variant === 'outlined') {
+      labelStyles.color = _textColor || _color
+      rootStyles.borderWidth = 1
+      rootStyles.borderColor = colorToRGBA(_color, 0.5)
+    } else {
+      labelStyles.color = _textColor || colors.white
+    }
+    return [rootStyles, labelStyles]
+  }, [variant, _textColor, _color])
 
-    return backgroundColor
-  }, [hover, active, color])
+  const backgroundColor = useMemo(() => {
+    if (variant === 'outlined') {
+      // Order is important because active has higher priority
+      if (active) return colorToRGBA(_color, 0.25)
+      if (hover) return colorToRGBA(_color, 0.5)
+    } else {
+      if (active) return colorToRGBA(_color, 0.25)
+      if (hover) return colorToRGBA(_color, 0.05)
+      return _color
+    }
+  }, [variant, hover, active, _color])
 
   // If component become not clickable
   // while hover or active, state wouldn't update without this effect
@@ -76,15 +108,12 @@ function Tag ({
     }
   }, [isClickable])
 
-  const _textColor = colors[textColor] || textColor || colors.white
-  const _iconsColor = colors[iconsColor] || iconsColor || colors.white
-
   const iconWrapperStyle = { 'with-label': React.Children.count(children) }
 
   return pug`
     Div.root(
-      style=[style, { backgroundColor: _backgroundColor}]
-      styleName=[color, variant]
+      style=[style, rootStyles, { backgroundColor }]
+      styleName=[color, shape]
       interactive=false
       onPress=onPress
       ...props
@@ -93,7 +122,7 @@ function Tag ({
         View.leftIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=icon color=_iconsColor ...ICON_PROPS)
       if children
-        Span.label(style={color: _textColor} bold size='xs')= children
+        Span.label(style=labelStyles bold size='xs')= children
       if rightIcon
         View.rightIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=rightIcon color=_iconsColor ...ICON_PROPS)
@@ -102,7 +131,8 @@ function Tag ({
 
 Tag.defaultProps = {
   color: 'primary',
-  variant: 'circle'
+  variant: 'flat',
+  shape: 'circle'
 }
 
 Tag.propTypes = {
@@ -111,7 +141,8 @@ Tag.propTypes = {
   color: propTypes.string,
   textColor: propTypes.string,
   iconsColor: propTypes.string,
-  variant: propTypes.oneOf(['circle', 'rounded'])
+  variant: propTypes.oneOf(['flat', 'outlined', 'circle', 'rounded']),
+  shape: propTypes.oneOf(['circle', 'rounded'])
 }
 
 export default observer(Tag)
