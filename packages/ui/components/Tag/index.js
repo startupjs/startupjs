@@ -31,21 +31,14 @@ function Tag ({
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
 
-  if (variant === 'circle') {
-    console.warn(`[UI] Property "variant" with type "circle" is DEPRECATED and will be removed in a future version.
-Please use property "shape" with type "circle" instead.`)
-  }
-  if (variant === 'rounded') {
-    console.warn(`[UI] Property "variant" with type "rounded" is DEPRECATED and will be removed in a future version.
-Please use property "shape" with type "rounded" instead.`)
-  }
-
   const isClickable = typeof onPress === 'function'
 
-  const _textColor = colors[textColor] || textColor
-  const _color = colors[color] || color
-  const _iconsColor = colors[iconsColor] || iconsColor ||
-    (variant === 'outlined' ? _color : colors.white)
+  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
+  const _color = useMemo(() => colors[color] || color, [color])
+  const _iconsColor = useMemo(() => {
+    return colors[iconsColor] || iconsColor ||
+      (variant === 'flat' ? colors.white : _color)
+  }, [iconsColor, variant, _color])
 
   if (isClickable) {
     const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
@@ -74,28 +67,31 @@ Please use property "shape" with type "rounded" instead.`)
   }
 
   const [rootStyles, labelStyles] = useMemo(() => {
-    let labelStyles = {}
     let rootStyles = {}
+    let labelStyles = {}
 
-    if (variant === 'outlined') {
-      labelStyles.color = _textColor || _color
-      rootStyles.borderWidth = 1
-      rootStyles.borderColor = colorToRGBA(_color, 0.5)
-    } else {
-      labelStyles.color = _textColor || colors.white
+    switch (variant) {
+      case 'flat':
+        labelStyles.color = _textColor || colors.white
+        break
+      case 'outlined':
+        rootStyles.borderWidth = 1
+        rootStyles.borderColor = colorToRGBA(_color, 0.5)
+        labelStyles.color = _textColor || _color
     }
     return [rootStyles, labelStyles]
   }, [variant, _textColor, _color])
 
   const backgroundColor = useMemo(() => {
-    if (variant === 'outlined') {
-      // Order is important because active has higher priority
-      if (active) return colorToRGBA(_color, 0.25)
-      if (hover) return colorToRGBA(_color, 0.5)
-    } else {
-      if (active) return colorToRGBA(_color, 0.25)
-      if (hover) return colorToRGBA(_color, 0.05)
-      return _color
+    switch (variant) {
+      case 'flat':
+        // Order is important because active has higher priority
+        if (active) return colorToRGBA(_color, 0.25)
+        if (hover) return colorToRGBA(_color, 0.05)
+        return _color
+      case 'outlined':
+        if (active) return colorToRGBA(_color, 0.25)
+        if (hover) return colorToRGBA(_color, 0.5)
     }
   }, [variant, hover, active, _color])
 
@@ -141,7 +137,7 @@ Tag.propTypes = {
   color: propTypes.string,
   textColor: propTypes.string,
   iconsColor: propTypes.string,
-  variant: propTypes.oneOf(['flat', 'outlined', 'circle', 'rounded']),
+  variant: propTypes.oneOf(['flat', 'outlined']),
   shape: propTypes.oneOf(['circle', 'rounded'])
 }
 
