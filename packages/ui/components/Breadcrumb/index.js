@@ -44,7 +44,7 @@ function Breadcrumb ({
               = separator
           TouchableOpacity(onPress=()=> path && emit('url', path))
             Span(
-              style={color: lastRoute ? colors.primaryText : _textColor} 
+              style={color: lastRoute ? colors.mainText : _textColor} 
               size=size 
               bold=lastRoute
             )= name
