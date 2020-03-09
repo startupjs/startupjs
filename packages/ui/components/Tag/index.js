@@ -78,6 +78,7 @@ function Tag ({
         rootStyles.borderWidth = 1
         rootStyles.borderColor = colorToRGBA(_color, 0.5)
         labelStyles.color = _textColor || _color
+        break
     }
     return [rootStyles, labelStyles]
   }, [variant, _textColor, _color])
@@ -92,6 +93,7 @@ function Tag ({
       case 'outlined':
         if (active) return colorToRGBA(_color, 0.25)
         if (hover) return colorToRGBA(_color, 0.5)
+        break
     }
   }, [variant, hover, active, _color])
 
