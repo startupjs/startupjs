@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.15.8",
+  "version": "0.15.9",
   "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
@@ -9,7 +9,7 @@
     "@startupjs/app": "^0.15.5",
     "@startupjs/backend": "^0.15.5",
     "@startupjs/bundler": "^0.15.8",
-    "@startupjs/cli": "^0.15.8",
+    "@startupjs/cli": "^0.15.9",
     "@startupjs/init": "^0.15.5",
     "@startupjs/orm": "^0.15.5",
     "@startupjs/react-sharedb": "^0.15.5",
