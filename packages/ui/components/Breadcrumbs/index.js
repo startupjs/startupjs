@@ -11,61 +11,53 @@ const { colors } = config
 function Breadcrumbs ({
   style,
   routes,
-  home,
   separator,
   size,
+  color,
   textColor,
   separatorColor
 }) {
-  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
-  const _separatorColor = useMemo(() => colors[separatorColor] || separatorColor, [separatorColor])
+  const _textColor = useMemo(() => colors[textColor] || textColor || colors[color] || color, [textColor, color])
+  const _separatorColor = useMemo(() => colors[separatorColor] || separatorColor || colors[color] || color, [separatorColor, color])
 
   return pug`
     Row(style=style vAlign='center' wrap)
-      if home
-        TouchableOpacity(onPress=()=>emit('url', '/'))
-          if typeof home === 'string'
-            Span(size=size style={color: _textColor})
-              = home
-          else
-            = home
       each route, index in routes
-        - const { name, path } = route
+        - const { name, icon, path } = route
         - const lastRoute = index === routes.length - 1
         Row(key=index vAlign='center')
-          if index !== 0 || home
-            if typeof separator === 'string'
-              Span(size=size style={color: _separatorColor})
-                | &nbsp#{separator}&nbsp
-            else
-              = separator
+          if index !== 0
+            Span(size=size style={color: _separatorColor})
+              | &nbsp#{separator}&nbsp
           TouchableOpacity(onPress=()=> path && emit('url', path))
-            Span(
-              style={color: lastRoute ? colors.mainText : _textColor}
-              size=size
-              bold=lastRoute
-            )= name
+            if icon
+              = icon
+            if name
+              Span(
+                style={color: lastRoute ? colors.mainText : _textColor}
+                size=size
+                bold=lastRoute
+              )= name
   `
 }
 
 Breadcrumbs.defaultProps = {
   routes: [],
-  home: 'Home',
   separator: '/',
   size: 's',
-  textColor: 'mainText',
-  separatorColor: 'mainText'
+  color: 'mainText'
 }
 
 Breadcrumbs.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   routes: propTypes.arrayOf(propTypes.shape({
     name: propTypes.string,
+    icon: propTypes.object,
     path: propTypes.string
   })).isRequired,
-  home: propTypes.oneOfType([propTypes.string, propTypes.element, propTypes.bool]),
-  separator: propTypes.oneOfType([propTypes.string, propTypes.element]),
+  separator: propTypes.string,
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+  color: propTypes.string,
   textColor: propTypes.string,
   separatorColor: propTypes.string
 }
