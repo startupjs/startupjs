@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import propTypes from 'prop-types'
 import { observer, emit } from 'startupjs'
-import { TouchableOpacity } from 'react-native'
 import Row from '../Row'
 import Span from '../Span'
+import Icon from '../Icon'
 import config from '../../config/rootConfig'
 
 const { colors } = config
@@ -17,27 +17,28 @@ function Breadcrumbs ({
   textColor,
   separatorColor
 }) {
-  const _textColor = useMemo(() => colors[textColor] || textColor || colors[color] || color, [textColor, color])
-  const _separatorColor = useMemo(() => colors[separatorColor] || separatorColor || colors[color] || color, [separatorColor, color])
+  const _color = useMemo(() => colors[color] || color, [color])
+  const _textColor = useMemo(() => colors[textColor] || textColor || _color, [textColor, _color])
+  const _separatorColor = useMemo(() => colors[separatorColor] || separatorColor || _color, [separatorColor, _color])
 
   return pug`
     Row(style=style vAlign='center' wrap)
       each route, index in routes
         - const { name, icon, path } = route
-        - const lastRoute = index === routes.length - 1
+        - const isLastRoute = index === routes.length - 1
         Row(key=index vAlign='center')
-          if index !== 0
-            Span(size=size style={color: _separatorColor})
-              | &nbsp#{separator}&nbsp
-          TouchableOpacity(onPress=()=> path && emit('url', path))
+          Row(vAlign='center' onPress=()=> path && emit('url', path))
             if icon
-              = icon
+              Icon(icon=icon size=size color=_textColor)
             if name
               Span(
-                style={color: lastRoute ? colors.mainText : _textColor}
+                style={color: isLastRoute ? colors.mainText : _textColor}
                 size=size
-                bold=lastRoute
+                bold=isLastRoute
               )= name
+          if !isLastRoute
+            Span(size=size style={color: _separatorColor})
+              | &nbsp#{separator}&nbsp
   `
 }
 
