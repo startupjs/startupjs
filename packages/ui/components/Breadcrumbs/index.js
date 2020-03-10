@@ -15,11 +15,13 @@ function Breadcrumbs ({
   size,
   color,
   textColor,
-  separatorColor
+  separatorColor,
+  iconColor
 }) {
   const _color = useMemo(() => colors[color] || color, [color])
   const _textColor = useMemo(() => colors[textColor] || textColor || _color, [textColor, _color])
   const _separatorColor = useMemo(() => colors[separatorColor] || separatorColor || _color, [separatorColor, _color])
+  const _iconColor = useMemo(() => colors[iconColor] || iconColor || _textColor || _color, [iconColor, _color, _textColor])
 
   return pug`
     Row(style=style vAlign='center' wrap)
@@ -29,7 +31,7 @@ function Breadcrumbs ({
         Row(key=index vAlign='center')
           Row(vAlign='center' onPress=()=> path && emit('url', path))
             if icon
-              Icon(icon=icon size=size color=_textColor)
+              Icon(icon=icon size=size color=_iconColor)
             if name
               Span(
                 style={color: isLastRoute ? colors.mainText : _textColor}
@@ -60,7 +62,8 @@ Breadcrumbs.propTypes = {
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   color: propTypes.string,
   textColor: propTypes.string,
-  separatorColor: propTypes.string
+  separatorColor: propTypes.string,
+  iconColor: propTypes.string
 }
 
 export default observer(Breadcrumbs)
