@@ -5,11 +5,10 @@ import { TouchableOpacity } from 'react-native'
 import Row from '../Row'
 import Span from '../Span'
 import config from '../../config/rootConfig'
-import './index.styl'
 
 const { colors } = config
 
-function Breadcrumb ({
+function Breadcrumbs ({
   style,
   routes,
   home,
@@ -18,13 +17,11 @@ function Breadcrumb ({
   textColor,
   separatorColor
 }) {
-  if (!routes || !routes.length) return null
-
   const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
   const _separatorColor = useMemo(() => colors[separatorColor] || separatorColor, [separatorColor])
 
   return pug`
-    Row.root(style=style)
+    Row(style=style vAlign='center' wrap)
       if home
         TouchableOpacity(onPress=()=>emit('url', '/'))
           if typeof home === 'string'
@@ -32,11 +29,11 @@ function Breadcrumb ({
               = home
           else
             = home
-      each route, ind in routes
+      each route, index in routes
         - const { name, path } = route
-        - const lastRoute = ind === routes.length - 1
-        Row.item(key=ind)
-          if ind !== 0 || home
+        - const lastRoute = index === routes.length - 1
+        Row(key=index vAlign='center')
+          if index !== 0 || home
             if typeof separator === 'string'
               Span(size=size style={color: _separatorColor})
                 | &nbsp#{separator}&nbsp
@@ -51,7 +48,8 @@ function Breadcrumb ({
   `
 }
 
-Breadcrumb.defaultProps = {
+Breadcrumbs.defaultProps = {
+  routes: [],
   home: 'Home',
   separator: '/',
   size: 's',
@@ -59,7 +57,7 @@ Breadcrumb.defaultProps = {
   separatorColor: 'mainText'
 }
 
-Breadcrumb.propTypes = {
+Breadcrumbs.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   routes: propTypes.arrayOf(propTypes.shape({
     name: propTypes.string,
@@ -72,4 +70,4 @@ Breadcrumb.propTypes = {
   separatorColor: propTypes.string
 }
 
-export default observer(Breadcrumb)
+export default observer(Breadcrumbs)
