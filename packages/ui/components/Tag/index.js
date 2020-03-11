@@ -20,6 +20,7 @@ function Tag ({
   children,
   color,
   variant,
+  shape,
   icon,
   rightIcon,
   iconsColor,
@@ -29,7 +30,15 @@ function Tag ({
 }) {
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+
   const isClickable = typeof onPress === 'function'
+
+  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
+  const _color = useMemo(() => colors[color] || color, [color])
+  const _iconsColor = useMemo(() => {
+    return colors[iconsColor] || iconsColor ||
+      (variant === 'flat' ? colors.white : _color)
+  }, [iconsColor, variant, _color])
 
   if (isClickable) {
     const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
@@ -57,15 +66,36 @@ function Tag ({
     }
   }
 
-  const _backgroundColor = useMemo(() => {
-    const backgroundColor = colors[color] || color
+  const [rootStyles, labelStyles] = useMemo(() => {
+    let rootStyles = {}
+    let labelStyles = {}
 
-    // Order is important because active has higher priority
-    if (active) return colorToRGBA(backgroundColor, 0.25)
-    if (hover) return colorToRGBA(backgroundColor, 0.5)
+    switch (variant) {
+      case 'flat':
+        labelStyles.color = _textColor || colors.white
+        break
+      case 'outlined':
+        rootStyles.borderWidth = 1
+        rootStyles.borderColor = colorToRGBA(_color, 0.5)
+        labelStyles.color = _textColor || _color
+        break
+    }
+    return [rootStyles, labelStyles]
+  }, [variant, _textColor, _color])
 
-    return backgroundColor
-  }, [hover, active, color])
+  const backgroundColor = useMemo(() => {
+    switch (variant) {
+      case 'flat':
+        // Order is important because active has higher priority
+        if (active) return colorToRGBA(_color, 0.25)
+        if (hover) return colorToRGBA(_color, 0.05)
+        return _color
+      case 'outlined':
+        if (active) return colorToRGBA(_color, 0.25)
+        if (hover) return colorToRGBA(_color, 0.5)
+        break
+    }
+  }, [variant, hover, active, _color])
 
   // If component become not clickable
   // while hover or active, state wouldn't update without this effect
@@ -76,15 +106,12 @@ function Tag ({
     }
   }, [isClickable])
 
-  const _textColor = colors[textColor] || textColor || colors.white
-  const _iconsColor = colors[iconsColor] || iconsColor || colors.white
-
   const iconWrapperStyle = { 'with-label': React.Children.count(children) }
 
   return pug`
     Div.root(
-      style=[style, { backgroundColor: _backgroundColor}]
-      styleName=[color, variant]
+      style=[style, rootStyles, { backgroundColor }]
+      styleName=[color, shape]
       interactive=false
       onPress=onPress
       ...props
@@ -93,7 +120,7 @@ function Tag ({
         View.leftIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=icon color=_iconsColor ...ICON_PROPS)
       if children
-        Span.label(style={color: _textColor} bold size='xs')= children
+        Span.label(style=labelStyles bold size='xs')= children
       if rightIcon
         View.rightIconWrapper(styleName=[iconWrapperStyle])
           Icon(icon=rightIcon color=_iconsColor ...ICON_PROPS)
@@ -102,7 +129,8 @@ function Tag ({
 
 Tag.defaultProps = {
   color: 'primary',
-  variant: 'circle'
+  variant: 'flat',
+  shape: 'circle'
 }
 
 Tag.propTypes = {
@@ -111,7 +139,8 @@ Tag.propTypes = {
   color: propTypes.string,
   textColor: propTypes.string,
   iconsColor: propTypes.string,
-  variant: propTypes.oneOf(['circle', 'rounded'])
+  variant: propTypes.oneOf(['flat', 'outlined']),
+  shape: propTypes.oneOf(['circle', 'rounded'])
 }
 
 export default observer(Tag)

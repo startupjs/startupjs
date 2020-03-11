@@ -1,6 +1,7 @@
 export { default as Alert } from './components/Alert'
 export { default as Avatar } from './components/Avatar'
 export { default as Br } from './components/Br'
+export { default as Breadcrumbs } from './components/Breadcrumbs'
 export { default as Button } from './components/Button'
 export { default as Card } from './components/Card'
 export { default as Collapse } from './components/Collapse'
