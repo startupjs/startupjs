@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Image } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useDidUpdate } from 'startupjs'
 import propTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Span from '../Span'
@@ -13,13 +13,19 @@ function Avatar ({
   status,
   fallback
 }) {
+  const [error, setError] = useState()
+  useDidUpdate(setError, [url])
+
   return pug`
     View.root(style=style styleName=[size])
       View.avatarWrapper
-        if url
+        if url && !error
           Image.avatar(
             styleName=[size]
             source={ uri: url }
+            onError=() => {
+              setError(true)
+            }
           )
         else
           - const _fallback = fallback.trim()
