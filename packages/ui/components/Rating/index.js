@@ -22,7 +22,7 @@ function Rating ({
         H6(bold)= Number.isInteger(value) ? value : value.toFixed(1)
       else
         each ITEM, index in ITEMS
-          Div(key=index onPress=() => onChange(index + 1))
+          Div(key=index onPress=() => onChange && onChange(index + 1))
             Star(active=index < Math.round(value))
   `
 }
