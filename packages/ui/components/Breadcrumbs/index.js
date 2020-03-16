@@ -28,10 +28,10 @@ function Breadcrumbs ({
   return pug`
     Row(style=style vAlign='center' wrap)
       each route, index in routes
-        - const { name, icon, path, linkProps } = route
+        - const { name, icon, ...linkProps } = route
         - const isLastRoute = index === routes.length - 1
         Row(key=index vAlign='center')
-          Link.customLink(to=path ...linkProps)
+          Link.link(...linkProps)
             Row(vAlign='center')
               if icon
                 Icon(icon=icon size=size color=_iconColor)
@@ -58,9 +58,7 @@ Breadcrumbs.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   routes: propTypes.arrayOf(propTypes.shape({
     name: propTypes.string,
-    icon: propTypes.object,
-    path: propTypes.oneOfType([propTypes.string, propTypes.func, propTypes.object]),
-    linkProps: propTypes.object
+    icon: propTypes.object
   })).isRequired,
   separator: propTypes.string,
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
