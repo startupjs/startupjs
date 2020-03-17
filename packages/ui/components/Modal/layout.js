@@ -19,32 +19,21 @@ function Modal ({
   onBackdropPress
 }) {
   const childrenList = React.Children.toArray(children)
-
-  const header = title
-    ? React.createElement(ModalHeader, { onDismiss }, title)
-    : childrenList
-      .filter(child => child.type === ModalHeader)
-      .map(child => React.cloneElement(child, { onDismiss }))
-
-  const childsWithoutModalHeader = childrenList.filter(child => child.type !== ModalHeader)
-
+  const headerChilds = []
   const contentChilds = []
   const actionsChilds = []
-  childsWithoutModalHeader.forEach(child => {
-    child.type === ModalActions ? actionsChilds.push(child) : contentChilds.push(child)
+  childrenList.forEach(child => {
+    switch (child.type) {
+      case ModalHeader:
+        headerChilds.push(child)
+        break
+      case ModalActions:
+        actionsChilds.push(child)
+        break
+      default:
+        contentChilds.push(child)
+    }
   })
-
-  const actions = actionsChilds.length
-    ? actionsChilds
-      .filter(child => child.type === ModalActions)
-      .map(child => React.cloneElement(
-        child,
-        {
-          onDismiss: child.props.onDismiss || onDismiss,
-          onConfirm: child.props.onConfirm || onConfirm
-        }
-      ))
-    : React.createElement(ModalActions, { onDismiss, onConfirm })
 
   const areChildsHaveModalContent =
     useMemo(() => {
@@ -53,7 +42,32 @@ function Modal ({
 
   const content = areChildsHaveModalContent
     ? contentChilds
-    : React.createElement(ModalContent, null, contentChilds)
+    : contentChilds.length
+      ? React.createElement(ModalContent, null, contentChilds)
+      : null
+
+  const actionsProps = {
+    onDismiss,
+    onConfirm,
+    style: content ? { paddingTop: 0 } : null
+  }
+  const actions = actionsChilds.length
+    ? actionsChilds
+      .map(child => React.cloneElement(
+        child,
+        { ...actionsProps, ...child.props }
+      ))
+    : onDismiss || onConfirm
+      ? React.createElement(ModalActions, actionsProps)
+      : null
+
+  const headerProps = {
+    onDismiss,
+    style: content || actions ? { paddingBottom: 0 } : null
+  }
+  const header = title
+    ? React.createElement(ModalHeader, headerProps, title)
+    : headerChilds.map(child => React.cloneElement(child, headerProps))
 
   const isWindowLayout = variant === 'window'
 
