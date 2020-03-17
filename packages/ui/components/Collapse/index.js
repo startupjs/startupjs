@@ -19,38 +19,34 @@ function Collapse ({
   onChange
 }, ref) {
   const childrenList = React.Children.toArray(children)
+  const headerChilds = []
+  const contentChilds = []
+  childrenList.forEach(child => {
+    switch (child.type) {
+      case CollapseHeader:
+        headerChilds.push(child)
+        break
+      default:
+        contentChilds.push(child)
+    }
+  })
 
+  const headerProps = { open, variant, onPress }
   const header = title
-    ? React.createElement(CollapseHeader, { open, variant, onPress }, title)
-    : childrenList
-      .filter(child => child.type === CollapseHeader)
+    ? React.createElement(CollapseHeader, headerProps, title)
+    : headerChilds
       .map(child =>
         React.cloneElement(
           child,
-          {
-            open,
-            variant: child.props.variant || variant,
-            onPress
-          }
+          { ...headerProps, ...child.props }
         )
       )
 
-  const contentChilds = childrenList.filter(child => child.type !== CollapseHeader)
-
-  const areChildsHaveCollapseContent = !!contentChilds.filter(child => child.type === CollapseContent).length
+  const areChildsHaveCollapseContent =
+    !!contentChilds.filter(child => child.type === CollapseContent).length
 
   const content = areChildsHaveCollapseContent
     ? contentChilds
-      .map(child => {
-        const props = child.type === CollapseContent
-          ? { open, variant: child.props.variant || variant }
-          : null
-
-        return React.cloneElement(
-          child,
-          props
-        )
-      })
     : React.createElement(CollapseContent, { open, variant }, contentChilds)
 
   function onPress () {
