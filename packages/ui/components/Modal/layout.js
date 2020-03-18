@@ -19,31 +19,31 @@ function Modal ({
   onBackdropPress
 }) {
   const childrenList = React.Children.toArray(children)
-  const headerChilds = []
-  const contentChilds = []
-  const actionsChilds = []
+  const headerChildren = []
+  const contentChildren = []
+  const actionsChildren = []
   childrenList.forEach(child => {
     switch (child.type) {
       case ModalHeader:
-        headerChilds.push(child)
+        headerChildren.push(child)
         break
       case ModalActions:
-        actionsChilds.push(child)
+        actionsChildren.push(child)
         break
       default:
-        contentChilds.push(child)
+        contentChildren.push(child)
     }
   })
 
-  const areChildsHaveModalContent =
+  const areChildrenHaveModalContent =
     useMemo(() => {
-      return !!contentChilds.filter(child => child.type === ModalContent).length
-    }, [contentChilds.length])
+      return !!contentChildren.filter(child => child.type === ModalContent).length
+    }, [contentChildren.length])
 
-  const content = areChildsHaveModalContent
-    ? contentChilds
-    : contentChilds.length
-      ? React.createElement(ModalContent, null, contentChilds)
+  const content = areChildrenHaveModalContent
+    ? contentChildren
+    : contentChildren.length
+      ? React.createElement(ModalContent, null, contentChildren)
       : null
 
   const actionsProps = {
@@ -51,8 +51,8 @@ function Modal ({
     onConfirm,
     style: content ? { paddingTop: 0 } : null
   }
-  const actions = actionsChilds.length
-    ? actionsChilds
+  const actions = actionsChildren.length
+    ? actionsChildren
       .map(child => React.cloneElement(
         child,
         { ...actionsProps, ...child.props }
@@ -67,7 +67,7 @@ function Modal ({
   }
   const header = title
     ? React.createElement(ModalHeader, headerProps, title)
-    : headerChilds.map(child => React.cloneElement(child, headerProps))
+    : headerChildren.map(child => React.cloneElement(child, headerProps))
 
   const isWindowLayout = variant === 'window'
 
