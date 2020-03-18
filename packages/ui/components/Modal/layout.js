@@ -35,12 +35,12 @@ function Modal ({
     }
   })
 
-  const areChildrenHaveModalContent =
+  const doChildrenHaveModalContent =
     useMemo(() => {
       return !!contentChildren.filter(child => child.type === ModalContent).length
     }, [contentChildren.length])
 
-  const content = areChildrenHaveModalContent
+  const content = doChildrenHaveModalContent
     ? contentChildren
     : contentChildren.length
       ? React.createElement(ModalContent, null, contentChildren)

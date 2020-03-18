@@ -42,10 +42,10 @@ function Collapse ({
         )
       )
 
-  const areChildrenHaveCollapseContent =
+  const doChildrenHaveCollapseContent =
     !!contentChildren.filter(child => child.type === CollapseContent).length
 
-  const content = areChildrenHaveCollapseContent
+  const content = doChildrenHaveCollapseContent
     ? contentChildren
     : React.createElement(CollapseContent, { open, variant }, contentChildren)
 
