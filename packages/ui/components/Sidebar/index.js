@@ -7,6 +7,8 @@ import Div from '../Div'
 import config from '../../config/rootConfig'
 import './index.styl'
 
+const { colors } = config
+
 function Sidebar ({
   style,
   backgroundColor,
@@ -17,6 +19,7 @@ function Sidebar ({
   renderContent,
   ...props
 }) {
+  const _backgroundColor = colors[backgroundColor] || backgroundColor
   const componentId = useComponentId()
   const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
   const [invisible, setInvisible] = useState(!open)
@@ -79,7 +82,10 @@ function Sidebar ({
         style={[position]: animation, width}
         styleName={invisible}
       )
-        Div(level=1 style={flex: 1})
+        Div(level=1 style={
+          flex: 1,
+          backgroundColor: _backgroundColor
+        })
           = _renderContent()
       Animated.View.main(
         style={
