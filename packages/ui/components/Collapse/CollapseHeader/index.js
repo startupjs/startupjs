@@ -85,6 +85,7 @@ function CollapseHeader ({
       )
         Icon(
           icon=faCaretDown
+          size='s'
         )
   `
 }

@@ -1,21 +1,21 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
-import Div from './../Div'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
 import { u } from '../../config/helpers'
+import config from '../../config/rootConfig'
 import './index.styl'
 
+const { colors } = config
 const SIZES = {
-  xss: u(1.5),
-  xs: u(2),
-  s: u(2.5),
+  xss: u(1.25),
+  xs: u(1.5),
+  s: u(2),
   m: u(3),
   l: u(4),
   xl: u(5),
   xxl: u(6)
 }
-const BASE = u(0.5)
 
 const Icon = observer(({
   style,
@@ -25,15 +25,29 @@ const Icon = observer(({
   ...props
 }) => {
   if (!icon) return null
-  const _size = SIZES[size] - 2 * BASE
+
+  const _size = useMemo(() => SIZES[size] || size, [size])
+  const _color = useMemo(() => colors[color] || color, [color])
+
+  if (typeof icon === 'function') {
+    const CustomIcon = icon
+    return pug`
+      CustomIcon(
+        style=style
+        width=_size
+        height=_size
+        fill=_color
+      )
+    `
+  }
 
   return pug`
-    Div.root(style=[style, { padding: BASE }] ...props)
-      FontAwesomeIcon(
-        icon=icon
-        color=color
-        size=_size
-      )
+    FontAwesomeIcon(
+      style=style
+      icon=icon
+      color=_color
+      size=_size
+    )
   `
 })
 
@@ -43,9 +57,12 @@ Icon.defaultProps = {
 
 Icon.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  icon: propTypes.object,
+  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
   color: propTypes.string,
-  size: propTypes.oneOf(Object.keys(SIZES))
+  size: propTypes.oneOfType([
+    propTypes.oneOf(Object.keys(SIZES)),
+    propTypes.number
+  ])
 }
 
 export default Icon

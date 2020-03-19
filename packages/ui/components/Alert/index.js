@@ -30,7 +30,6 @@ function Alert ({
     )
       if icon
         Icon.leftIcon(
-          size='l'
           icon=icon
           color=_iconColor
         )
