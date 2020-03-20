@@ -50,7 +50,7 @@ function Breadcrumbs ({
 Breadcrumbs.defaultProps = {
   routes: [],
   separator: '/',
-  size: 's',
+  size: 'm',
   color: 'mainText'
 }
 

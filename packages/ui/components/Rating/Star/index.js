@@ -18,7 +18,6 @@ export default observer(function Star ({
   return pug`
     Icon(
       style=style
-      size='s'
       icon=faStar
       color=color
     )

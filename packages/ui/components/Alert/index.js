@@ -38,7 +38,6 @@ function Alert ({
       if onClose
         Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
-            size='l'
             icon=faTimes
             color=colors.dark
           )

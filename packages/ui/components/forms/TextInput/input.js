@@ -20,9 +20,9 @@ const IOS_LH_CORRECTION = {
 }
 
 const ICON_SIZES = {
-  s: 's',
-  m: 's',
-  l: 'm'
+  s: 'm',
+  m: 'm',
+  l: 'l'
 }
 
 export default observer(function Input ({

@@ -7,14 +7,14 @@ import config from '../../config/rootConfig'
 import './index.styl'
 
 const { colors } = config
+
 const SIZES = {
-  xss: u(1.25),
-  xs: u(1.5),
-  s: u(2),
-  m: u(3),
-  l: u(4),
+  xs: u(1.25),
+  s: u(1.5),
+  m: u(2),
+  l: u(3),
   xl: u(5),
-  xxl: u(6)
+  xxl: u(8)
 }
 
 const Icon = observer(({

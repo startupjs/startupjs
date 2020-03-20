@@ -10,11 +10,6 @@ import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
 
 const { colors } = config
-const ICON_SIZES = {
-  m: 's',
-  l: 'm',
-  xl: 'l'
-}
 const isWeb = Platform.OS === 'web'
 
 function Button ({
@@ -43,13 +38,7 @@ function Button ({
       (variant === 'flat' ? colors.white : _color)
   }, [variant, iconsColor, _color])
 
-  const iconsProps = useMemo(() => {
-    return {
-      size: ICON_SIZES[size],
-      color: _iconsColor
-    }
-  }, [size, _iconsColor])
-
+  const iconsProps = { size, color: _iconsColor }
   const [rootStyles, labelStyles] = useMemo(() => {
     let labelStyles = {}
     let rootStyles = {}

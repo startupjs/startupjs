@@ -8,11 +8,10 @@ import Icon from '../Icon'
 import colorToRGBA from '../../config/colorToRGBA'
 import config from '../../config/rootConfig'
 import './index.styl'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
 const ICON_PROPS = {
-  size: 'xss'
+  size: 'xs'
 }
 const isWeb = Platform.OS === 'web'
 
@@ -22,8 +21,8 @@ function Tag ({
   color,
   variant,
   shape,
-  icon = faStar,
-  rightIcon = faStar,
+  icon,
+  rightIcon,
   iconsColor,
   textColor,
   onPress,
