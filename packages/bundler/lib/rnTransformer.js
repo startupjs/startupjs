@@ -1,12 +1,15 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusTransformer = require('@startupjs/react-native-stylus-transformer')
 const cssTransformer = require('react-native-css-transformer')
+const svgTransformer = require('react-native-svg-transformer')
 
 module.exports.transform = function ({ src, filename, options }) {
   if (/\.styl$/.test(filename)) {
     return stylusTransformer.transform({ src, filename, options })
   } else if (/\.css$/.test(filename)) {
     return cssTransformer.transform({ src, filename, options })
+  } else if (/\.svg$/.test(filename)) {
+    return svgTransformer.transform({ src, filename, options })
   } else if (/\.jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
     // Fix Fast Refresh to work with observer() decorator
     // NOTE:

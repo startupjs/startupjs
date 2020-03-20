@@ -1,3 +1,5 @@
+const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -9,14 +11,15 @@ module.exports = {
     babelTransformerPath: require.resolve('./lib/rnTransformer')
   },
   resolver: {
+    assetExts: defaultAssetExts.filter(ext => ext !== 'svg'),
     sourceExts: [
       'js',
       'jsx',
       'ts',
       'tsx',
       'css',
-      // TODO: 'sass',
-      'styl'
+      'styl',
+      'svg'
     ]
   }
 }

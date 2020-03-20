@@ -149,7 +149,15 @@ module.exports = function getConfig (env, {
           include: new RegExp(`node_modules/(?:${forceCompileModules.join('|')})`)
         }),
         {
-          test: /\.(jpg|png|svg)$/,
+          test: /\.svg$/,
+          use: [
+            {
+              loader: '@svgr/webpack'
+            }
+          ]
+        },
+        {
+          test: /\.(jpg|png)$/,
           use: {
             loader: 'file-loader',
             options: {
