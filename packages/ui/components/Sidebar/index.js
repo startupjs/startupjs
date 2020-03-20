@@ -19,7 +19,9 @@ function Sidebar ({
   renderContent,
   ...props
 }) {
-  const _backgroundColor = colors[backgroundColor] || backgroundColor
+  const _backgroundColor = useMemo(() => {
+    return colors[backgroundColor] || backgroundColor
+  }, [backgroundColor])
   const componentId = useComponentId()
   const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
   const [invisible, setInvisible] = useState(!open)
