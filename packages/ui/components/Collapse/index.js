@@ -17,7 +17,7 @@ function Collapse ({
   open,
   variant,
   onChange
-}, ref) {
+}) {
   const childrenList = React.Children.toArray(children)
   const headerChildren = []
   const contentChildren = []
@@ -45,9 +45,20 @@ function Collapse ({
   const doChildrenHaveCollapseContent =
     !!contentChildren.filter(child => child.type === CollapseContent).length
 
+  const contentProps = { open, variant }
   const content = doChildrenHaveCollapseContent
     ? contentChildren
-    : React.createElement(CollapseContent, { open, variant }, contentChildren)
+      .map(child => {
+        const props = child.type === CollapseContent
+          ? { ...contentProps, ...child.props }
+          : null
+
+        return React.cloneElement(
+          child,
+          props
+        )
+      })
+    : React.createElement(CollapseContent, contentProps, contentChildren)
 
   function onPress () {
     onChange && onChange(!open)

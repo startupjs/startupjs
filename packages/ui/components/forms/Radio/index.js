@@ -70,7 +70,6 @@ Radio.propTypes = {
 }
 
 Radio.defaultProps = {
-  size: 's',
   color: 'primary',
   textColor: colors.dark
 }

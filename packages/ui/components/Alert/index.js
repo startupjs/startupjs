@@ -30,7 +30,6 @@ function Alert ({
     )
       if icon
         Icon.leftIcon(
-          size='l'
           icon=icon
           color=_iconColor
         )
@@ -39,7 +38,6 @@ function Alert ({
       if onClose
         Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
-            size='l'
             icon=faTimes
             color=colors.dark
           )

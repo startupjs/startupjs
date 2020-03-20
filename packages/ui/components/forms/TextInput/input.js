@@ -19,6 +19,12 @@ const IOS_LH_CORRECTION = {
   s: 2
 }
 
+const ICON_SIZES = {
+  s: 'm',
+  m: 'm',
+  l: 'l'
+}
+
 export default observer(function Input ({
   style,
   placeholder,
@@ -92,7 +98,7 @@ export default observer(function Input ({
           Icon(
             icon=icon
             color=DARK_LIGHTER_COLOR
-            size=size
+            size=ICON_SIZES[size]
           )
       TextInput.input-input(
         ref=inputRef
