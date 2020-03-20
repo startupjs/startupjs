@@ -3,9 +3,7 @@ import './index.styl'
 import propTypes from 'prop-types'
 import Div from './../Div'
 import { observer } from 'startupjs'
-import config from '../../config/rootConfig'
-
-const SHADOWS = config.shadows
+import _omit from 'lodash/omit'
 
 function Row ({
   style,
@@ -26,6 +24,13 @@ function Row ({
   `
 }
 
+Row.defaultProps = {
+  wrap: false,
+  reverse: false,
+  // div default props
+  ...Div.defaultProps
+}
+
 Row.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
@@ -34,11 +39,7 @@ Row.propTypes = {
   align: propTypes.oneOf(['center', 'right', 'around', 'between']),
   vAlign: propTypes.oneOf(['center']),
   // div props
-  activeOpacity: propTypes.number,
-  disabled: propTypes.bool,
-  interactive: propTypes.bool,
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
-  onPress: propTypes.func
+  ..._omit(Div.propTypes, ['style', 'children'])
 }
 
 export default observer(Row)

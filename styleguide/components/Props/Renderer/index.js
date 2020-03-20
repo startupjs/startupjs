@@ -1,15 +1,12 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import './index.styl'
 import GridVisualizer from './GridVisualizer'
 import { themed } from 'ui'
 
-const DEFAULT_WRAP_CHILDREN = true
-
 export default observer(themed(function Renderer ({
   Component,
-  wrapChildren = DEFAULT_WRAP_CHILDREN,
   props: {
     children,
     ...props
@@ -32,10 +29,6 @@ export default observer(themed(function Renderer ({
       showGrid=showGrid
     )
       Component(...props)
-        if children
-          if wrapChildren && typeof children === 'string'
-            Text= children
-          else
-            | #{children}
+        = children
   `
 }))
