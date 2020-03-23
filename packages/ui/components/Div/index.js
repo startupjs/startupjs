@@ -3,6 +3,8 @@ import { View, TouchableOpacity, Platform } from 'react-native'
 import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
 import config from '../../config/rootConfig'
+import Span from './../Span'
+import _omit from 'lodash/omit'
 import './index.styl'
 
 const { hoverStateOpacity, activeStateOpacity } = config.Div
@@ -15,6 +17,10 @@ function Div ({
   disabled,
   level,
   interactive, // This prop doesn't make any sense without onPress
+  size,
+  bold,
+  italic,
+  description,
   onPress,
   ...props
 }) {
@@ -58,7 +64,16 @@ function Div ({
       styleName=[{ ['with-shadow']: !!level }]
       onPress=onPress
       ...props
-    )= children
+    )
+      if typeof children === 'string'
+        Span(
+          size=size
+          bold=bold
+          italic=italic
+          description=description
+        )= children
+      else
+        = children
   `
 }
 
@@ -66,7 +81,9 @@ Div.defaultProps = {
   activeOpacity: activeStateOpacity,
   disabled: false,
   interactive: true,
-  level: 0
+  level: 0,
+  // span default props
+  ...Span.defaultProps
 }
 
 Div.propTypes = {
@@ -76,7 +93,9 @@ Div.propTypes = {
   interactive: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
   children: propTypes.node,
-  onPress: propTypes.func
+  onPress: propTypes.func,
+  // span props
+  ..._omit(Span.propTypes, ['style', 'children'])
 }
 
 export default observer(Div)
