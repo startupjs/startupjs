@@ -17,17 +17,16 @@ function Div ({
   disabled,
   level,
   interactive, // This prop doesn't make any sense without onPress
-  size,
-  bold,
-  italic,
-  description,
   onPress,
   ...props
 }) {
   const [hover, setHover] = useState()
   const isClickable = typeof onPress === 'function' && !disabled
 
-  const Wrapper = isClickable ? TouchableOpacity : View
+  const Wrapper =
+    typeof children === 'string'
+      ? Span
+      : isClickable ? TouchableOpacity : View
 
   if (isClickable) {
     if (!interactive) props.activeOpacity = 1
@@ -65,15 +64,7 @@ function Div ({
       onPress=onPress
       ...props
     )
-      if typeof children === 'string'
-        Span(
-          size=size
-          bold=bold
-          italic=italic
-          description=description
-        )= children
-      else
-        = children
+      = children
   `
 }
 
