@@ -39,7 +39,7 @@ function Alert ({
         Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
             icon=faTimes
-            color=colors.dark
+            color=_color
           )
   `
 }
