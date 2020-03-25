@@ -10,10 +10,6 @@ _buttonSize = 4.5u
   &.filled
     background-color _white
 
-.dots
-  justify-content center
-  padding 0 0.5u
-
 .button
   min-width _buttonSize
   min-height @min-width
@@ -24,6 +20,10 @@ _buttonSize = 4.5u
 .filled
   .button&
     background-color _white
+
+    &.previous, &.next
+      background-color: $UI.colors.darkLightest
+      radius()
 
     &.active
       background-color _primary
