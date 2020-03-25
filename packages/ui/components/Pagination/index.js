@@ -20,6 +20,7 @@ const { colors } = config
 
 function Pagination ({
   style,
+  boundaryCount,
   variant,
   disabled,
   siblingCount,
@@ -33,6 +34,7 @@ function Pagination ({
   ...props
 }) {
   const items = usePagination({
+    boundaryCount,
     count,
     disabled,
     page: value,
@@ -67,6 +69,7 @@ function Pagination ({
 }
 
 Pagination.defaultProps = {
+  boundaryCount: 1,
   variant: 'filled',
   count: 0,
   value: 1,
@@ -79,6 +82,7 @@ Pagination.defaultProps = {
 
 Pagination.propTypes = {
   style: propTypes.object,
+  boundaryCount: propTypes.number,
   variant: propTypes.oneOf(['filled', 'floating']),
   count: propTypes.number.isRequired,
   value: propTypes.number.isRequired,
