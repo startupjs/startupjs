@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Server-side middleware for rendering client apps",
-  "version": "0.15.5",
+  "version": "0.16.0",
   "main": "index.js",
   "dependencies": {
     "lodash": "4.x",
