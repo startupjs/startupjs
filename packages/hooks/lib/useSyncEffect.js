@@ -6,7 +6,7 @@ export default function useSyncEffect (fn, inputs) {
   const destroyFn = () => {
     if (destroy.current) {
       typeof destroy.current === 'function' && destroy.current()
-      delete destroy.current
+      destroy.current = undefined
     }
   }
 
