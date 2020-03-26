@@ -20,30 +20,18 @@ const { colors } = config
 
 function Pagination ({
   style,
-  boundaryCount,
+  children,
   variant,
   disabled,
-  siblingCount,
-  hideNextButton,
-  hidePrevButton,
-  showFirstButton,
-  showLastButton,
-  value,
-  count,
+  page,
   onChange,
   ...props
 }) {
   const items = usePagination({
-    boundaryCount,
-    count,
     disabled,
-    page: value,
-    siblingCount,
-    hideNextButton,
-    hidePrevButton,
-    showFirstButton,
-    showLastButton,
-    onChange
+    page,
+    onChange,
+    ...props
   })
 
   const isFloating = variant === 'floating'
@@ -51,10 +39,9 @@ function Pagination ({
   return pug`
     View.root(
       style=style
-      styleName=[variant]
     )
       each item, index in items
-        - const isActive = item.page === value
+        - const isActive = item.page === page
         PaginationButton(
           key=index
           bold=isFloating
@@ -70,9 +57,9 @@ function Pagination ({
 
 Pagination.defaultProps = {
   boundaryCount: 1,
-  variant: 'filled',
+  variant: 'flat',
   count: 1,
-  value: 1,
+  page: 1,
   siblingCount: 1,
   hideNextButton: false,
   hidePrevButton: false,
@@ -83,9 +70,9 @@ Pagination.defaultProps = {
 Pagination.propTypes = {
   style: propTypes.object,
   boundaryCount: propTypes.number,
-  variant: propTypes.oneOf(['filled', 'floating']),
+  variant: propTypes.oneOf(['flat', 'floating']),
   count: propTypes.number.isRequired,
-  value: propTypes.number.isRequired,
+  page: propTypes.number.isRequired,
   siblingCount: propTypes.number,
   hideNextButton: propTypes.bool,
   hidePrevButton: propTypes.bool,
@@ -129,7 +116,7 @@ function PaginationButton ({
     let _label
 
     switch (variant) {
-      case 'filled':
+      case 'flat':
         _label = isControls ? CONTROLS_MAP[type].label : label
         break
       case 'floating':
@@ -150,7 +137,7 @@ function PaginationButton ({
     let _icon
 
     switch (variant) {
-      case 'filled':
+      case 'flat':
         _icon = isControls && !CONTROLS_MAP[type].label ? CONTROLS_MAP[type].icon : null
         break
       case 'floating':
