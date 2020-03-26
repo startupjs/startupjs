@@ -18,21 +18,15 @@ import usePagination from './usePagination'
 
 const { colors } = config
 
-function Pagination ({
-  style,
-  children,
-  variant,
-  disabled,
-  page,
-  onChange,
-  ...props
-}) {
-  const items = usePagination({
-    disabled,
+function Pagination (props) {
+  const {
+    style,
+    variant,
     page,
-    onChange,
-    ...props
-  })
+    onChange
+  } = props
+
+  const items = usePagination(props)
 
   const isFloating = variant === 'floating'
 
@@ -45,12 +39,10 @@ function Pagination ({
         PaginationButton(
           key=index
           bold=isFloating
-          disabled=disabled || item.disabled
           variant=variant
           active=isActive
-          label=item.page
-          type=item.type
-          onPress=() => item.page && onChange(item.page)
+          onPress=item.page ? () => onChange(item.page) : null
+          ...item
         )
   `
 }
@@ -96,7 +88,7 @@ function PaginationButton ({
   active,
   bold,
   disabled,
-  label,
+  page,
   variant,
   type,
   onPress
@@ -117,10 +109,10 @@ function PaginationButton ({
 
     switch (variant) {
       case 'flat':
-        _label = isControls ? CONTROLS_MAP[type].label : label
+        _label = isControls ? CONTROLS_MAP[type].label : page
         break
       case 'floating':
-        _label = label
+        _label = page
         if (isControls) {
           if (CONTROLS_MAP[type].icon) {
             _label = null
@@ -131,7 +123,7 @@ function PaginationButton ({
     }
 
     return _label
-  }, [isControls, type, variant, label])
+  }, [isControls, type, variant, page])
 
   const _icon = useMemo(() => {
     let _icon
@@ -150,7 +142,11 @@ function PaginationButton ({
   return pug`
     Div.button(
       style=style
-      styleName=[variant, type, { disabled, active: !isControls && active }]
+      styleName=[variant, type, {
+        disabled,
+        active: !isControls && active,
+        withHandler: !!onPress
+      }]
       disabled=disabled
       ...extraProps
     )

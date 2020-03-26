@@ -39,11 +39,12 @@ _radius = 0.5u
       background-color _primary
 
     +web()
-      &:hover:not(.active):not(.disabled)
-        background-color $UI.colors.darkLightest
+      &.withHandler
+        &:hover:not(.active):not(.disabled)
+          background-color $UI.colors.darkLightest
 
-      &.first:hover, &.last:hover
-        background-color transparent !important
+        &.first:hover, &.last:hover
+          background-color transparent !important
 
   .label&
     &.active
@@ -60,13 +61,14 @@ _radius = 0.5u
       margin-left _xsGutter
 
     +web()
-      &:hover:not(.active):not(.disabled)
-        // using important to prevent TouchableOpacity default behavior
-        opacity _hoverOpacity !important
+      &.withHandler
+        &:hover:not(.active):not(.disabled)
+          // using important to prevent TouchableOpacity default behavior
+          opacity _hoverOpacity !important
 
-      &:active:not(.active):not(.disabled)
-        // using important to prevent TouchableOpacity default behavior
-        opacity _activeOpacity !important
+        &:active:not(.active):not(.disabled)
+          // using important to prevent TouchableOpacity default behavior
+          opacity _activeOpacity !important
 
   .label&
     &.active
