@@ -20,6 +20,7 @@ const { colors } = config
 
 function Pagination ({
   style,
+  boundaryCount,
   variant,
   disabled,
   siblingCount,
@@ -33,6 +34,7 @@ function Pagination ({
   ...props
 }) {
   const items = usePagination({
+    boundaryCount,
     count,
     disabled,
     page: value,
@@ -67,8 +69,9 @@ function Pagination ({
 }
 
 Pagination.defaultProps = {
+  boundaryCount: 1,
   variant: 'filled',
-  count: 0,
+  count: 1,
   value: 1,
   siblingCount: 1,
   hideNextButton: false,
@@ -79,6 +82,7 @@ Pagination.defaultProps = {
 
 Pagination.propTypes = {
   style: propTypes.object,
+  boundaryCount: propTypes.number,
   variant: propTypes.oneOf(['filled', 'floating']),
   count: propTypes.number.isRequired,
   value: propTypes.number.isRequired,
@@ -96,8 +100,8 @@ const CONTROLS_MAP = {
   next: { label: 'Next', icon: faArrowRight },
   first: { label: null, icon: faAngleDoubleLeft },
   last: { label: null, icon: faAngleDoubleRight },
-  'start-ellipsis': { label: '...', icon: null },
-  'end-ellipsis': { label: '...', icon: null }
+  'start-ellipsis': { label: '...', icon: null, isDots: true },
+  'end-ellipsis': { label: '...', icon: null, isDots: true }
 }
 
 function PaginationButton ({
@@ -115,7 +119,9 @@ function PaginationButton ({
   const extraProps = useMemo(() => {
     let _extraProps = {}
     if (onPress && !active) _extraProps.onPress = onPress
-    if (isControls && variant === 'floating') _extraProps.level = 1
+    if (isControls && variant === 'floating' && !CONTROLS_MAP[type].isDots) {
+      _extraProps.level = 1
+    }
     return _extraProps
   }, [onPress, active, variant, isControls])
 
