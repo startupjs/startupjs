@@ -7,12 +7,11 @@ const OS = Platform.OS
 
 export default observer(function App ({
   apps,
-  animate,
   supportEmail,
   criticalVersion,
   iosUpdateLink,
   androidUpdateLink,
-  errorPages
+  ...props
 }) {
   const [version] = useDoc('service', 'version')
   const availableCriticalVersion =
@@ -53,8 +52,7 @@ export default observer(function App ({
         Router(
           apps=roots
           routes=routes
-          animate=animate
-          errorPages=errorPages
+          ...props
         )
   `
 })

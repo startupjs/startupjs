@@ -46,7 +46,14 @@ class AppsFactory extends React.Component {
     return nextApp !== app || nextErr !== err
   }
 
-  goTo = url => {
+  goTo = (url) => {
+    const { goToHandler } = this.props
+    typeof goToHandler === 'function'
+      ? goToHandler(url, this._goTo)
+      : this._goTo(url)
+  }
+
+  _goTo = url => {
     const { routes } = this.props
     const app = getApp(url.replace(/\?.*$/, ''), routes)
 
