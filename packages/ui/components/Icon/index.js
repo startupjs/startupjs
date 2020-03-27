@@ -13,8 +13,8 @@ const SIZES = {
   s: u(1.5),
   m: u(2),
   l: u(3),
-  xl: u(5),
-  xxl: u(8)
+  xl: u(4),
+  xxl: u(5)
 }
 
 const Icon = observer(({
