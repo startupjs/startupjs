@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { $root, emit, initLocalCollection } from 'startupjs'
 import { Route } from 'react-router'
 import { Dimensions, Platform, View } from 'react-native'
@@ -105,18 +105,20 @@ function RouteComponent ({ route, onError, ...props }) {
     runFilter()
   }
 
-  if (render) {
-    const RC = route.component
-    return pug`
-      View(key=orientation style={flex: 1})
-        RC(
-          ...props
-          key=props.match.url
-          params=route.params
-        )
-    `
-  } else {
+  useMemo(() => {
     runFilters(route.filters)
-    return null
-  }
+  }, [])
+
+  if (!render) return null
+
+  const RC = route.component
+
+  return pug`
+    View(key=orientation style={flex: 1})
+      RC(
+        ...props
+        key=props.match.url
+        params=route.params
+      )
+  `
 }
