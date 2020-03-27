@@ -3,6 +3,7 @@ import { $root, emit, initLocalCollection } from 'startupjs'
 import { Route } from 'react-router'
 import { Dimensions, Platform, View } from 'react-native'
 import RoutesWrapper from './RoutesWrapper'
+import qs from 'qs'
 import omit from 'lodash/omit'
 const isWeb = Platform.OS === 'web'
 
@@ -49,24 +50,26 @@ export default class Routes extends React.Component {
 
 function initRoute ({ location, match }) {
   // Check if url or search changed between page rerenderings
-  const prevUrl = $root.get('$render.prevUrl')
-  const prevQuery = $root.get('$render.prevQuery')
+  const prevUrl = $root.get('$render.url')
+  const prevSearch = $root.get('$render.search')
   const url = location.pathname
-  const query = location.search
+  const search = location.search
 
-  if (url === prevUrl && query === prevQuery) return
-  $root.batch(() => {
-    if (!$root.get('$render')) initLocalCollection('$render')
-    $root.setDiffDeep('$render.location', location)
-    $root.setDiffDeep('$render.match', match)
-    $root.setDiff('$render.prevUrl', url)
-    $root.setDiff('$render.prevQuery', query)
-    if (url !== prevUrl) {
-      $root.setDiff('_session.url', location.pathname)
-      $root.silent().destroy('_page')
-      initLocalCollection('_page')
-    }
-  })
+  if (url === prevUrl && search === prevSearch) return
+  if (!$root.get('$render')) initLocalCollection('$render')
+  $root.setDiffDeep('$render.location', location)
+  $root.setDiffDeep('$render.match', match)
+  $root.setDiff('$render.url', url)
+  $root.setDiff('$render.search', search)
+  $root.setDiffDeep(
+    '$render.query',
+    qs.parse(search, { ignoreQueryPrefix: true })
+  )
+  if (url !== prevUrl) {
+    $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
+    $root.silent().destroy('_page')
+    initLocalCollection('_page')
+  }
 }
 
 function RouteComponent ({ route, onError, ...props }) {
