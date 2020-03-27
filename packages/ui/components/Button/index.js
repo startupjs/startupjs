@@ -29,7 +29,11 @@ function Button ({
 }) {
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
-  const extraCommonStyles = { 'with-label': React.Children.count(children) }
+  const extraCommonStyles = {
+    'with-label': typeof children === 'string'
+      ? children.length
+      : React.Children.count(children)
+  }
   const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
   const _color = useMemo(() => colors[color] || color, [color])
 
@@ -161,7 +165,7 @@ Button.propTypes = {
   children: propTypes.node,
   disabled: propTypes.bool,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
-  size: propTypes.oneOf(['m', 'l', 'xl']),
+  size: propTypes.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   rightIcon: propTypes.object,

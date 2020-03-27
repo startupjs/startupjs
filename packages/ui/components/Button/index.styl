@@ -6,30 +6,43 @@ _iconMargin = 1u
   align-items center
   justify-content center
 
+  &.s
+    height 3u
+    min-width @height
+
   &.m
-    height 4.5u
+    height 4u
     min-width @height
 
   &.l
-    height 6u
+    height 5u
     min-width @height
 
   &.xl
+    height 6u
+    min-width @height
+
+  &.xxl
     height 9u
     min-width @height
 
   &.with-label
     padding 0 2u
 
+    &.s
+      min-width 8u
+
     &.m
       min-width 10u
 
     &.l
-      min-width 11u
+      min-width 12u
 
     &.xl
-      min-width 22.5u
+      min-width 14u
 
+    &.xxl
+      min-width 22.5u
 
   &.rounded
     radius()
