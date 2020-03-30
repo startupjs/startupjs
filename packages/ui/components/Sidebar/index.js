@@ -33,7 +33,7 @@ function Sidebar ({
   const _renderContent = () => {
     return pug`
       ScrollView(contentContainerStyle={ flex: 1 })
-        = renderContent()
+        = renderContent && renderContent()
     `
   }
 
