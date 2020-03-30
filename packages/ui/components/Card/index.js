@@ -13,7 +13,8 @@ function Card ({
   level,
   children,
   variant,
-  onPress
+  onPress,
+  ...props
 }) {
   const extraProps = useMemo(() => {
     let props = {}
@@ -26,6 +27,7 @@ function Card ({
       style=style
       styleName=[variant]
       onPress=onPress
+      ...props
       ...extraProps
     )
       = children
