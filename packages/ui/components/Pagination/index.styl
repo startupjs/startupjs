@@ -3,16 +3,11 @@ _activeOpacity = 0.25
 _white = $UI.colors.white
 _primary = $UI.colors.primary
 _buttonSize = 4.5u
+_xsGutter = $UI.gutters.xs
+_radius = 0.5u
 
 .root
   flex-direction row
-
-  &.filled
-    background-color _white
-
-.dots
-  justify-content center
-  padding 0 0.5u
 
 .button
   min-width _buttonSize
@@ -21,16 +16,35 @@ _buttonSize = 4.5u
   align-items center
   padding 0 1u
 
-.filled
+.flat
   .button&
     background-color _white
+
+    &.first
+      background-color transparent
+
+    &.last
+      background-color transparent
+
+    &.previous, &.next
+      background-color: $UI.colors.darkLightest
+
+    &.previous
+      border-radius _radius 0 0 _radius
+
+    &.next
+      border-radius 0 _radius _radius 0
 
     &.active
       background-color _primary
 
     +web()
-      &:hover:not(.active):not(.disabled)
-        background-color $UI.colors.darkLightest
+      &.withHandler
+        &:hover:not(.active):not(.disabled)
+          background-color $UI.colors.darkLightest
+
+        &.first:hover, &.last:hover
+          background-color transparent !important
 
   .label&
     &.active
@@ -40,14 +54,21 @@ _buttonSize = 4.5u
   .button&
     radius(circle)
 
-    +web()
-      &:hover:not(.active):not(.disabled)
-        // using important to prevent TouchableOpacity default behavior
-        opacity _hoverOpacity !important
+    &.first
+      margin-right _xsGutter
 
-      &:active:not(.active):not(.disabled)
-        // using important to prevent TouchableOpacity default behavior
-        opacity _activeOpacity !important
+    &.last
+      margin-left _xsGutter
+
+    +web()
+      &.withHandler
+        &:hover:not(.active):not(.disabled)
+          // using important to prevent TouchableOpacity default behavior
+          opacity _hoverOpacity !important
+
+        &:active:not(.active):not(.disabled)
+          // using important to prevent TouchableOpacity default behavior
+          opacity _activeOpacity !important
 
   .label&
     &.active
