@@ -10,6 +10,7 @@ const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
   style,
+  forceClosed,
   fixedLayoutBreakpoint,
   path,
   position,
@@ -40,6 +41,7 @@ function SmartSidebar ({
         path=path
         position=position
         width=width
+        forceClosed=forceClosed
         backgroundColor=backgroundColor
         renderContent=renderContent
       )= children
@@ -49,6 +51,7 @@ function SmartSidebar ({
         path=path
         position=position
         width=width
+        forceClosed=forceClosed
         backgroundColor=backgroundColor
         renderContent=renderContent
         ...props
@@ -57,6 +60,7 @@ function SmartSidebar ({
 }
 
 SmartSidebar.defaultProps = {
+  forceClosed: false,
   backgroundColor: config.colors.white,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
@@ -66,6 +70,7 @@ SmartSidebar.defaultProps = {
 SmartSidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  forceClosed: propTypes.bool,
   backgroundColor: propTypes.string,
   fixedLayoutBreakpoint: propTypes.number,
   position: propTypes.oneOf(['left', 'right']),
