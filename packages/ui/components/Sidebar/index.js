@@ -11,6 +11,7 @@ const { colors } = config
 
 function Sidebar ({
   style,
+  forceClosed,
   backgroundColor,
   children,
   position,
@@ -24,9 +25,16 @@ function Sidebar ({
   }, [backgroundColor])
   const componentId = useComponentId()
   const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
-  const [invisible, setInvisible] = useState(!open)
-  const [animation] = useState(new Animated.Value(open ? 0 : -width))
-  const [contentAnimation] = useState(new Animated.Value(open ? width : 0))
+  const _open = useMemo(() => {
+    if (forceClosed) {
+      return false
+    } else {
+      return open
+    }
+  }, [!!forceClosed, !!open])
+  const [invisible, setInvisible] = useState(!_open)
+  const [animation] = useState(new Animated.Value(_open ? 0 : -width))
+  const [contentAnimation] = useState(new Animated.Value(_open ? width : 0))
   const animationPropName = useMemo(() => {
     return 'padding' + position[0].toUpperCase() + position.slice(1)
   }, [])
@@ -38,7 +46,7 @@ function Sidebar ({
   }
 
   useDidUpdate(() => {
-    if (open) {
+    if (_open) {
       setInvisible(false)
       Animated.parallel([
         Animated.timing(
@@ -76,7 +84,7 @@ function Sidebar ({
         setInvisible(true)
       })
     }
-  }, [!!open])
+  }, [!!_open])
 
   return pug`
     Div.root(style=style styleName=[position])
@@ -98,6 +106,7 @@ function Sidebar ({
 }
 
 Sidebar.defaultProps = {
+  forceClosed: false,
   backgroundColor: config.colors.white,
   position: 'left',
   width: 264
@@ -106,6 +115,7 @@ Sidebar.defaultProps = {
 Sidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  forceClosed: propTypes.bool,
   backgroundColor: propTypes.string,
   position: propTypes.oneOf(['left', 'right']),
   width: propTypes.number,
