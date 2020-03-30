@@ -16,7 +16,6 @@ export default observer(function Routes ({
   onRouteError,
   ...props
 }) {
-  console.log('routes.js')
   function render (route, props) {
     return pug`
       //- TODO: We can remove passing props because
