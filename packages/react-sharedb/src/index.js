@@ -54,6 +54,7 @@ export {
 export { raw } from '@nx-js/observer-util'
 export {
   useDidUpdate,
+  useForceUpdate,
   useOnce,
   useSyncEffect
 } from '@startupjs/hooks'
