@@ -26,7 +26,6 @@ function Sidebar ({
   const componentId = useComponentId()
   const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
   const _open = useMemo(() => {
-    console.log(forceClosed)
     if (forceClosed) {
       return false
     } else {
@@ -42,7 +41,7 @@ function Sidebar ({
   const _renderContent = () => {
     return pug`
       ScrollView(contentContainerStyle={ flex: 1 })
-        = renderContent()
+        = renderContent && renderContent()
     `
   }
 
