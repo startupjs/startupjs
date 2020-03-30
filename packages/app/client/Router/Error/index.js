@@ -1,12 +1,14 @@
 import React from 'react'
 import { Platform, WebView, View, Text } from 'react-native'
+import { useHistory } from 'react-router-native'
 import { observer } from 'startupjs'
 import './index.styl'
 const isWeb = Platform.OS === 'web'
 const isIos = Platform.OS === 'ios'
 
-export default observer(function Error ({ value, pages = {}, history }) {
+export default observer(function Error ({ value, pages = {} }) {
   // TODO: Need to make the default layout better
+  const history = useHistory()
   const status = parseInt(value)
   const html = pages[status]
   return pug`

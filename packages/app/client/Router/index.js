@@ -1,64 +1,69 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import RouterComponent from './RouterComponent'
-import { withRouter } from 'react-router-native'
-import { $root, emit } from 'startupjs'
+import { withRouter, useHistory } from 'react-router-native'
+import { $root, observer, useSyncEffect, initLocalCollection } from 'startupjs'
 import { Linking, Platform } from 'react-native'
 import { matchPath } from 'react-router'
 import Routes from './Routes'
 import Error from './Error'
+import qs from 'qs'
 const isWeb = Platform.OS === 'web'
 
-const getApp = (url, routes) => {
-  const route = routes.find(route => matchPath(url, route))
-  return route ? route.app : ''
-}
+export default observer(function Router (props) {
+  return pug`
+    RouterComponent
+      AppsFactoryWithRouter(...props)
+  `
+})
 
-class AppsFactory extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      routes: props.routes,
-      app: '',
-      err: null
+const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
+  location,
+  apps,
+  animate,
+  routes,
+  errorPages,
+  goToHandler
+}) {
+  const history = useHistory()
+  const [err, setErr] = useState()
+
+  const app = useMemo(() => {
+    return getApp(location.pathname, routes)
+  }, [location.pathname])
+
+  useSyncEffect(() => {
+    initRoute(location)
+    history.listen(initRoute)
+    $root.on('url', goTo)
+
+    return () => {
+      history.unlisten(initRoute)
+      $root.removeListener('url', goTo)
     }
-  }
+  }, [])
 
-  componentDidMount () {
-    $root.on('url', this.goTo)
-  }
+  useSyncEffect(() => {
+    if (err) setErr()
+  }, [location.pathname])
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    if (!nextProps.location) return null
-    const app = getApp(nextProps.location.pathname, prevState.routes)
-    if (prevState.app !== app) {
-      return { app }
-    }
+  const Layout = app ? apps[app] : null
+
+  if (!Layout) {
+    console.error('App not found')
     return null
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (this.props.location.pathname !== nextProps.location.pathname) {
-      if (this.state.err) this.setState({ err: null })
-      emit('updateRoutes')
-    }
-    const { nextApp, nextErr } = nextState
-    const { app, err } = this.state
-    return nextApp !== app || nextErr !== err
-  }
-
-  goTo = (url) => {
-    const { goToHandler } = this.props
+  function goTo (url) {
     typeof goToHandler === 'function'
-      ? goToHandler(url, this._goTo)
-      : this._goTo(url)
+      ? goToHandler(url, _goTo)
+      : _goTo(url)
   }
 
-  _goTo = url => {
-    const { routes } = this.props
+  function _goTo (url) {
     const app = getApp(url.replace(/\?.*$/, ''), routes)
 
     if (app) {
-      this.props.history.push(url)
+      history.push(url)
     } else {
       isWeb
         ? window.open(url, '_blank')
@@ -66,40 +71,43 @@ class AppsFactory extends React.Component {
     }
   }
 
-  componentWillUnmount () {
-    $root.removeListener('url', this.goTo)
-  }
+  return pug`
+    if err
+      Error(value=err pages=errorPages)
+    else
+      Layout
+        Routes(
+          animate=animate
+          routes=routes
+          onRouteError=setErr
+        )
+  `
+}))
 
-  render () {
-    const { apps, routes, animate, errorPages, history } = this.props
-    const { err } = this.state
-    const app = this.state.app
-    const Layout = app ? apps[app] : null
-
-    if (!Layout) {
-      console.error('App not found')
-      return null
-    }
-
-    return pug`
-      if err
-        Error(value=err pages=errorPages history=history)
-      else
-        Layout
-          Routes(
-            animate=animate
-            routes=routes
-            onRouteError=(err) => this.setState({ err })
-          )
-    `
-  }
+function getApp (url, routes) {
+  const route = routes.find(route => matchPath(url, route))
+  return route ? route.app : null
 }
 
-const AppsFactoryWithRouter = withRouter(AppsFactory)
+function initRoute (location) {
+  // Check if url or search changed between page rerenderings
+  const prevUrl = $root.get('$render.url')
+  const prevSearch = $root.get('$render.search')
+  const url = location.pathname
+  const search = location.search
 
-export default function Router (props) {
-  return pug`
-    RouterComponent
-      AppsFactoryWithRouter(...props)
-  `
+  if (url === prevUrl && search === prevSearch) return
+  if (!$root.get('$render')) initLocalCollection('$render')
+  $root.setDiffDeep('$render.location', location)
+  $root.setDiff('$render.url', url)
+  $root.setDiff('$render.search', search)
+  $root.setDiffDeep(
+    '$render.query',
+    qs.parse(search, { ignoreQueryPrefix: true })
+  )
+  if (url !== prevUrl) {
+    $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
+    $root.silent().destroy('_page')
+    initLocalCollection('_page')
+  }
 }
