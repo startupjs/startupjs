@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",
@@ -40,7 +40,7 @@
     "react-native-svg": "^9.13.6",
     "react-native-web": "0.11.7",
     "source-map-support": "^0.5.16",
-    "startupjs": "^0.17.0"
+    "startupjs": "^0.17.1"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.11.0",
