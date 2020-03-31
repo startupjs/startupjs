@@ -7,7 +7,6 @@ import { matchPath } from 'react-router'
 import Routes from './Routes'
 import Error from './Error'
 import qs from 'qs'
-import isEqual from 'lodash/isEqual'
 const isWeb = Platform.OS === 'web'
 
 export default observer(function Router (props) {
@@ -93,13 +92,15 @@ function getApp (url, routes) {
 function initRoute (location) {
   // Check if url or search changed between page rerenderings
   const prevUrl = $root.get('$render.url')
-  const prevQuery = $root.get('$render.query')
+  const prevSearch = $root.get('$render.search')
   const url = location.pathname
+  const search = location.search
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
 
-  if (url === prevUrl && isEqual(query, prevQuery)) return
+  if (url === prevUrl && search === prevSearch) return
   if (!$root.get('$render')) initLocalCollection('$render')
   $root.setDiff('$render.url', url)
+  $root.setDiff('$render.search', search)
   $root.setDiffDeep('$render.query', query)
   if (url !== prevUrl) {
     $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
