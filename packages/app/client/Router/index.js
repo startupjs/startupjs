@@ -33,11 +33,11 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
 
   useSyncEffect(() => {
     initRoute(location)
-    history.listen(initRoute)
+    const unlisten = history.listen(initRoute)
     $root.on('url', goTo)
 
     return () => {
-      history.unlisten(initRoute)
+      unlisten()
       $root.removeListener('url', goTo)
     }
   }, [])
