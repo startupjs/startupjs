@@ -20,7 +20,7 @@ module.exports = function (appRoutes, options = {}) {
     let matched
     // If no client-side routes provided, always render the page
     if (Object.keys(appRoutes).length === 0) {
-      matched = { appName: DEFAULT_APP_NAME }
+      matched = { appName: DEFAULT_APP_NAME, match: {} }
     } else {
       matched = matchAppRoutes(req.url, appRoutes)
     }
