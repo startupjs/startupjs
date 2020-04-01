@@ -1,4 +1,5 @@
 const pickBy = require('lodash/pickBy')
+const pick = require('lodash/pick')
 const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
@@ -148,6 +149,19 @@ module.exports = function getConfig (env, {
         Object.assign(getJsxRule(), {
           include: new RegExp(`node_modules/(?:${forceCompileModules.join('|')})`)
         }),
+        {
+          test: /\.mdx$/,
+          exclude: /node_modules/,
+          use: [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: '@mdx-js/loader'
+            },
+            {
+              loader: require.resolve('./lib/mdxExamples.js')
+            }
+          ]
+        },
         {
           test: /\.svg$/,
           use: [

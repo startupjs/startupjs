@@ -1,11 +1,11 @@
-import { emit, useLocal } from 'startupjs'
-import * as COMPONENTS from 'ui'
+import { useParams } from 'startupjs/app'
+import { emit } from 'startupjs'
 
 export default function useComponentName () {
-  const [url] = useLocal('$render.url')
-  const componentName = url.replace(/\//g, '') || Object.keys(COMPONENTS)[0]
-  const setComponentName = (name) => {
-    emit('url', `/${name}`)
-  }
+  const { componentName } = useParams()
   return [componentName, setComponentName]
+}
+
+function setComponentName (name) {
+  emit('url', `/sandbox/${name}`)
 }
