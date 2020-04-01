@@ -1,13 +1,11 @@
-import { useLocation } from 'react-router-dom'
-import { emit } from 'startupjs'
-import * as COMPONENTS from 'ui'
+import { emit, useLocal } from 'startupjs'
 
 export default function useComponentName () {
-  const location = useLocation()
-  const path = location.pathname
-  const componentName = path.replace(/\//g, '') || Object.keys(COMPONENTS)[0]
-  const setComponentName = (name) => {
-    emit('url', `/${name}`)
-  }
+  const [componentName] = useLocal('$render.match.params.componentName')
+  console.log('>> componentName', componentName)
   return [componentName, setComponentName]
+}
+
+function setComponentName (name) {
+  emit('url', `/sandbox/${name}`)
 }

@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { View, ScrollView, Switch } from 'react-native'
 import * as COMPONENTS from 'ui'
+import docs from '@startupjs/ui/docs'
 import {
   useComponentName,
+  useDocName,
   useLocalWithDefault,
   useShowGrid,
   useShowSizes,
@@ -24,14 +26,15 @@ const {
 
 export default observer(function Sidebar ({ children }) {
   const [componentName, setComponentName] = useComponentName()
+  const [docName, setDocName] = useDocName()
   const [showGrid, $showGrid] = useShowGrid()
   const [showSizes, $showSizes] = useShowSizes()
   const [validateWidth, $validateWidth] = useValidateWidth()
   const [darkTheme, $darkTheme] = useDarkTheme()
   const [openedCollapses, setOpenedCollapses] = useState(() => {
-    const opened = {}
-    const chunks = componentName.split('.')
-    if (componentName.split('.').length > 1) opened[chunks[0]] = true
+    const opened = { docs: true }
+    const chunks = (componentName || '').split('.')
+    if ((componentName || '').split('.').length > 1) opened[chunks[0]] = true
     return opened
   })
   useLocalWithDefault(PATH, true)
@@ -61,28 +64,47 @@ export default observer(function Sidebar ({ children }) {
     return pug`
       ScrollView
         Menu
-          each COMPONENT_NAME in getAvailableComponents(Object.keys(COMPONENTS))
-            - const COMPONENT = COMPONENTS[COMPONENT_NAME]
-            - const SUBCOMPONENTS = getAvailableComponents(Object.keys(COMPONENT))
+          Collapse(
+            key='docs'
+            open=openedCollapses.docs
+            onChange=toggleCollapse.bind(null, 'docs')
+          )
+            Collapse.Header Documentation
+            Collapse.Content
+              each aDocName in Object.keys(docs)
+                Menu.Item(
+                  active=aDocName === docName
+                  onPress=() => setDocName(docName)
+                )= aDocName
+          Collapse(
+            key='sandbox'
+            open=openedCollapses.sandbox
+            onChange=toggleCollapse.bind(null, 'sandbox')
+          )
+            Collapse.Header Sandbox
+            Collapse.Content
+              each COMPONENT_NAME in getAvailableComponents(Object.keys(COMPONENTS))
+                - const COMPONENT = COMPONENTS[COMPONENT_NAME]
+                - const SUBCOMPONENTS = getAvailableComponents(Object.keys(COMPONENT))
 
-            if SUBCOMPONENTS.length
-              Collapse(
-                key=COMPONENT_NAME
-                variant='pure'
-                open=openedCollapses[COMPONENT_NAME]
-                onChange=toggleCollapse.bind(null, COMPONENT_NAME)
-              )
-                Collapse.Header
-                  MenuItem(name=COMPONENT_NAME)
-                Collapse.Content
-                  each SUBCOMPONENT_NAME in SUBCOMPONENTS
-                    - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
-                    MenuItem.subMenuItem(
-                      key=SUBCOMPONENT_FULLNAME
-                      name=SUBCOMPONENT_FULLNAME
-                    )
-            else
-              MenuItem(key=COMPONENT_NAME name=COMPONENT_NAME)
+                if SUBCOMPONENTS.length
+                  Collapse(
+                    key=COMPONENT_NAME
+                    variant='pure'
+                    open=openedCollapses[COMPONENT_NAME]
+                    onChange=toggleCollapse.bind(null, COMPONENT_NAME)
+                  )
+                    Collapse.Header
+                      MenuItem(name=COMPONENT_NAME)
+                    Collapse.Content
+                      each SUBCOMPONENT_NAME in SUBCOMPONENTS
+                        - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
+                        MenuItem.subMenuItem(
+                          key=SUBCOMPONENT_FULLNAME
+                          name=SUBCOMPONENT_FULLNAME
+                        )
+                else
+                  MenuItem(key=COMPONENT_NAME name=COMPONENT_NAME)
       Br(half)
       View
         if showSizes

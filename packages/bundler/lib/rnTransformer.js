@@ -2,6 +2,13 @@ const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusTransformer = require('@startupjs/react-native-stylus-transformer')
 const cssTransformer = require('react-native-css-transformer')
 const svgTransformer = require('react-native-svg-transformer')
+const mdx = require('@mdx-js/mdx')
+const mdxExamples = require('./mdxExamples')
+
+const DEFAULT_MDX_RENDERER = `
+import React from 'react'
+import { mdx } from '@mdx-js/react'
+`
 
 module.exports.transform = function ({ src, filename, options }) {
   if (/\.styl$/.test(filename)) {
@@ -56,6 +63,11 @@ module.exports.transform = function ({ src, filename, options }) {
     src = src.replace(/(?:\/\*(?:[\s\S]*?)\*\/)|(?:^\s*\/\/(?:.*)$)/gm, '')
     src = replaceObserver(src)
 
+    return upstreamTransformer.transform({ src, filename, options })
+  } else if (/\.mdx?$/.test(filename)) {
+    src = mdxExamples(src)
+    src = mdx.sync(src)
+    src = DEFAULT_MDX_RENDERER + '\n' + src
     return upstreamTransformer.transform({ src, filename, options })
   } else {
     return upstreamTransformer.transform({ src, filename, options })

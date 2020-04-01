@@ -21,6 +21,8 @@
     "@babel/polyfill": "^7.7.0",
     "@babel/runtime": "^7.7.2",
     "@dmapper/stylus-hash-plugin": "0.0.1",
+    "@mdx-js/loader": "^1.5.8",
+    "@mdx-js/mdx": "^1.5.8",
     "@startupjs/babel-plugin-dotenv-import": "1002.0.0",
     "@startupjs/babel-plugin-react-css-modules": "1701.0.0",
     "@startupjs/postcss-rem-to-pixel": "1004.1.2",

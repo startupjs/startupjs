@@ -17,6 +17,8 @@ module.exports = {
       'jsx',
       'ts',
       'tsx',
+      'md',
+      'mdx',
       'css',
       'styl',
       'svg'
