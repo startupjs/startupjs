@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react'
-import { observer, useComponentId, useLocal } from 'startupjs'
+import { observer, useComponentId, useLocal, useDidUpdate } from 'startupjs'
 import { ScrollView, Animated } from 'react-native'
-import { useDidUpdate } from '@startupjs/react-sharedb'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import config from '../../config/rootConfig'

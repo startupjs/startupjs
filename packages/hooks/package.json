@@ -2,11 +2,14 @@
   "name": "@startupjs/hooks",
   "version": "0.17.3",
   "description": "Helper hooks",
-  "main": "index.js",
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
+  "scripts": {
+    "prepublish": "babel --optional runtime src --out-dir lib",
+    "postpublish": "rm -rf lib"
+  },
   "license": "MIT",
   "peerDependencies": {
     "react": ">= 16.9.0"
