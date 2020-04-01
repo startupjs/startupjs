@@ -38,8 +38,9 @@ const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.json']
 const ASYNC_EXTENSIONS = EXTENSIONS.map(i => '.async' + i)
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
-  'startupjs/init',
-  '@startupjs/init'
+  '@startupjs/init/src',
+  '@startupjs/hooks/src',
+  '@startupjs/react-sharedb/src'
 ]
 const DEFAULT_ALIAS = {
   // fix warning requiring './locale': https://github.com/moment/moment/issues/1435
