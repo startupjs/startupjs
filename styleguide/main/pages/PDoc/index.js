@@ -12,6 +12,6 @@ export default observer(function PDoc ({
   if (!Component) return pug`Text 404. Not found`
 
   return pug`
-    Text Hello
+    Component
   `
 })

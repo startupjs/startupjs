@@ -1,9 +1,11 @@
-import { emit, useLocal } from 'startupjs'
+import { useParams } from 'startupjs/app'
+import { emit } from 'startupjs'
 
 export default function useDocName () {
-  let [docName] = useLocal('$render.match.params.docName')
-  const setDocName = (name) => {
-    emit('url', `/docs/${name}`)
-  }
+  const { docName } = useParams()
   return [docName, setDocName]
+}
+
+function setDocName (name) {
+  emit('url', `/docs/${name}`)
 }

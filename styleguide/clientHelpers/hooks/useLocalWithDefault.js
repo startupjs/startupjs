@@ -1,4 +1,4 @@
-import { useLocal, useSyncEffect, useComponentId } from 'startupjs'
+import { useLocal, useComponentId } from 'startupjs'
 
 export default function useLocalWithDefault (path, defaultValue) {
   if (defaultValue == null) {
@@ -9,10 +9,9 @@ export default function useLocalWithDefault (path, defaultValue) {
   if (!path) path = `_session.${componentId}`
   const [value, $value] = useLocal(path)
 
-  useSyncEffect(() => {
-    if (!(value == null)) return
-    throw $value.setAsync('', defaultValue)
-  }, [])
+  if (value == null) {
+    $value.set('', defaultValue)
+  }
 
   return [value, $value]
 }

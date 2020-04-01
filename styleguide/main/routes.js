@@ -12,6 +12,6 @@ export default (components = {}) => [
   {
     path: '/docs/:docName',
     exact: true,
-    component: components.PDocs
+    component: components.PDoc
   }
 ]

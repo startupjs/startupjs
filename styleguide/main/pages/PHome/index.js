@@ -6,7 +6,7 @@ export default observer(function PHome ({
   style
 }) {
   useEffect(() => {
-    emit('url', '/docs/' + Object.keys(docs)[0])
+    emit('url', '/sandbox/' + Object.keys(docs)[0])
   }, [])
   return null
 })

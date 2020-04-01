@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
-import { observer } from 'startupjs'
+import React, { useState, useEffect } from 'react'
+import { observer, useModel } from 'startupjs'
 import { View, ScrollView, Switch } from 'react-native'
 import * as COMPONENTS from 'ui'
 import docs from '@startupjs/ui/docs'
 import {
   useComponentName,
   useDocName,
-  useLocalWithDefault,
   useShowGrid,
   useShowSizes,
   useValidateWidth,
@@ -24,7 +23,7 @@ const {
   Menu
 } = COMPONENTS
 
-export default observer(function Sidebar ({ children }) {
+const SidebarContent = observer(() => {
   const [componentName, setComponentName] = useComponentName()
   const [docName, setDocName] = useDocName()
   const [showGrid, $showGrid] = useShowGrid()
@@ -37,7 +36,6 @@ export default observer(function Sidebar ({ children }) {
     if ((componentName || '').split('.').length > 1) opened[chunks[0]] = true
     return opened
   })
-  useLocalWithDefault(PATH, true)
   // if we will need to use hooks in renderContent method
   // then we need to refactor architecture of SmartSidebar component
   // like in Modal component (Modal, Modal.Actions)
@@ -60,81 +58,90 @@ export default observer(function Sidebar ({ children }) {
     `
   }
 
-  function renderContent () {
-    return pug`
-      ScrollView
-        Menu
-          Collapse(
-            key='docs'
-            open=openedCollapses.docs
-            onChange=toggleCollapse.bind(null, 'docs')
-          )
-            Collapse.Header Documentation
-            Collapse.Content
-              each aDocName in Object.keys(docs)
-                Menu.Item(
-                  active=aDocName === docName
-                  onPress=() => setDocName(docName)
-                )= aDocName
-          Collapse(
-            key='sandbox'
-            open=openedCollapses.sandbox
-            onChange=toggleCollapse.bind(null, 'sandbox')
-          )
-            Collapse.Header Sandbox
-            Collapse.Content
-              each COMPONENT_NAME in getAvailableComponents(Object.keys(COMPONENTS))
-                - const COMPONENT = COMPONENTS[COMPONENT_NAME]
-                - const SUBCOMPONENTS = getAvailableComponents(Object.keys(COMPONENT))
+  return pug`
+    ScrollView
+      Menu
+        Collapse(
+          key='docs'
+          open=openedCollapses.docs
+          onChange=toggleCollapse.bind(null, 'docs')
+        )
+          Collapse.Header Documentation
+          Collapse.Content
+            each aDocName in Object.keys(docs)
+              Menu.Item(
+                key=aDocName
+                active=aDocName === docName
+                onPress=() => setDocName(aDocName)
+              )= aDocName
+        Collapse(
+          key='sandbox'
+          open=openedCollapses.sandbox
+          onChange=toggleCollapse.bind(null, 'sandbox')
+        )
+          Collapse.Header Sandbox
+          Collapse.Content
+            each COMPONENT_NAME in getAvailableComponents(Object.keys(COMPONENTS))
+              - const COMPONENT = COMPONENTS[COMPONENT_NAME]
+              - const SUBCOMPONENTS = getAvailableComponents(Object.keys(COMPONENT))
 
-                if SUBCOMPONENTS.length
-                  Collapse(
-                    key=COMPONENT_NAME
-                    variant='pure'
-                    open=openedCollapses[COMPONENT_NAME]
-                    onChange=toggleCollapse.bind(null, COMPONENT_NAME)
-                  )
-                    Collapse.Header
-                      MenuItem(name=COMPONENT_NAME)
-                    Collapse.Content
-                      each SUBCOMPONENT_NAME in SUBCOMPONENTS
-                        - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
-                        MenuItem.subMenuItem(
-                          key=SUBCOMPONENT_FULLNAME
-                          name=SUBCOMPONENT_FULLNAME
-                        )
-                else
-                  MenuItem(key=COMPONENT_NAME name=COMPONENT_NAME)
-      Br(half)
-      View
-        if showSizes
-          Row.line(vAlign='center')
-            Span.lineLabel(description) VALIDATE WIDTH
-            Switch(
-            value=validateWidth
-            onValueChange=value => $validateWidth.set(value)
-            )
-          Row.line(vAlign='center')
-            Span.lineLabel(description) SHOW GRID
-            Switch(
-              value=showGrid
-              onValueChange=value => $showGrid.set(value)
-            )
+              if SUBCOMPONENTS.length
+                Collapse(
+                  key=COMPONENT_NAME
+                  variant='pure'
+                  open=openedCollapses[COMPONENT_NAME]
+                  onChange=toggleCollapse.bind(null, COMPONENT_NAME)
+                )
+                  Collapse.Header
+                    MenuItem(name=COMPONENT_NAME)
+                  Collapse.Content
+                    each SUBCOMPONENT_NAME in SUBCOMPONENTS
+                      - const SUBCOMPONENT_FULLNAME = COMPONENT_NAME + '.' + SUBCOMPONENT_NAME
+                      MenuItem.subMenuItem(
+                        key=SUBCOMPONENT_FULLNAME
+                        name=SUBCOMPONENT_FULLNAME
+                      )
+              else
+                MenuItem(key=COMPONENT_NAME name=COMPONENT_NAME)
+    Br(half)
+    View
+      if showSizes
         Row.line(vAlign='center')
-          Span.lineLabel(description) SHOW SIZES
+          Span.lineLabel(description) VALIDATE WIDTH
           Switch(
-           value=showSizes
-           onValueChange=value => $showSizes.set(value)
+          value=validateWidth
+          onValueChange=value => $validateWidth.set(value)
           )
         Row.line(vAlign='center')
-          Span.lineLabel(description) DARK THEME
+          Span.lineLabel(description) SHOW GRID
           Switch(
-           value=darkTheme
-           onValueChange=value => $darkTheme.set(value)
+            value=showGrid
+            onValueChange=value => $showGrid.set(value)
           )
-    `
-  }
+      Row.line(vAlign='center')
+        Span.lineLabel(description) SHOW SIZES
+        Switch(
+         value=showSizes
+         onValueChange=value => $showSizes.set(value)
+        )
+      Row.line(vAlign='center')
+        Span.lineLabel(description) DARK THEME
+        Switch(
+         value=darkTheme
+         onValueChange=value => $darkTheme.set(value)
+        )
+  `
+})
 
+function renderContent () {
+  return pug`SidebarContent`
+}
+
+export default observer(function Sidebar ({ children }) {
+  const $opened = useModel(PATH)
+  useEffect(() => {
+    if ($opened.get() == null) $opened.set(true)
+  }, [])
   return pug`
     SmartSidebar(path=PATH width=200 renderContent=renderContent)
       = children

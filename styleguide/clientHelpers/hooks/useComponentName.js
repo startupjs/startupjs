@@ -1,8 +1,8 @@
-import { emit, useLocal } from 'startupjs'
+import { useParams } from 'startupjs/app'
+import { emit } from 'startupjs'
 
 export default function useComponentName () {
-  const [componentName] = useLocal('$render.match.params.componentName')
-  console.log('>> componentName', componentName)
+  const { componentName } = useParams()
   return [componentName, setComponentName]
 }
 
