@@ -20,14 +20,18 @@ module.exports = function (appRoutes, options = {}) {
     let matched
     // If no client-side routes provided, always render the page
     if (Object.keys(appRoutes).length === 0) {
-      matched = { appName: DEFAULT_APP_NAME }
+      matched = { appName: DEFAULT_APP_NAME, match: {} }
     } else {
       matched = matchAppRoutes(req.url, appRoutes)
     }
     if (!matched) return next()
     if (matched.redirect) return res.redirect(302, matched.redirect)
     const model = req.model
-    model.set('$render.match', matched.match)
+    const [url, search] = req.url.split('?')
+    model.set('$render.url', url)
+    model.set('$render.search', search ? '?' + search : '')
+    model.set('$render.query', req.query)
+    model.set('$render.params', matched.match.params)
     function renderApp (route, done) {
       let filters = route.filters
       if (!filters) return done()

@@ -6,6 +6,7 @@ import destroyer from './destroyer'
 import promiseBatcher from './promiseBatcher'
 import $root from '@startupjs/model'
 import { ComponentMetaContext } from './meta'
+import { useForceUpdate } from '@startupjs/hooks'
 
 const DEFAULT_SUSPENSE_PROPS = {
   fallback: React.createElement(NullComponent, null, null)
@@ -125,13 +126,6 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
       throw Error('[react-sharedb] useBatch* hooks were used without a closing useBatch() call.')
     }
     return res
-  }
-}
-
-function useForceUpdate () {
-  const [, setTick] = React.useState()
-  return () => {
-    setTick(Math.random())
   }
 }
 

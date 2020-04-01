@@ -8,6 +8,7 @@ import './index.styl'
 
 function Drawer ({
   style,
+  forceClosed,
   backgroundColor,
   children,
   path,
@@ -17,6 +18,10 @@ function Drawer ({
   ...props
 }) {
   const componentId = useComponentId()
+  let drawerExtraProps = {}
+  if (forceClosed) {
+    drawerExtraProps.drawerLockMode = 'locked-closed'
+  }
 
   const [open, $open] = useLocal(path || `_session.Drawer.${componentId}`)
   let drawerRef = useRef()
@@ -24,7 +29,7 @@ function Drawer ({
   useLayoutEffect(() => {
     let drawer = drawerRef.current
     if (!drawer) return
-    if (open) {
+    if (open && !forceClosed) {
       drawer.openDrawer()
     } else {
       drawer.closeDrawer()
@@ -34,7 +39,7 @@ function Drawer ({
   const _renderContent = () => {
     return pug`
       ScrollView(contentContainerStyle={flex: 1})
-        = renderContent()
+        = renderContent && renderContent()
     `
   }
   return pug`
@@ -48,11 +53,13 @@ function Drawer ({
       onDrawerClose=() => $open.setDiff(false)
       onDrawerOpen=() => $open.setDiff(true)
       ...props
+      ...drawerExtraProps
     )= children
   `
 }
 
 Drawer.defaultProps = {
+  forceClosed: false,
   backgroundColor: config.colors.white,
   position: 'left',
   width: 264
@@ -61,6 +68,7 @@ Drawer.defaultProps = {
 Drawer.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  forceClosed: propTypes.bool,
   backgroundColor: propTypes.string,
   position: propTypes.oneOf(Object.values(DrawerLayout.positions)),
   width: propTypes.number,
