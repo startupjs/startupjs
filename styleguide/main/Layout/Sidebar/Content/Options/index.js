@@ -14,6 +14,8 @@ export default observer(function Options ({
 }) {
   const $open = useModel('_session.sidebarOptions')
   const [, $showGrid] = useShowGrid()
+  // TODO: figure out why getting showSizes here leads to a bug of being non-reactive
+  //       initially. While $showSizes.get() works fine for some reason.
   const [, $showSizes] = useShowSizes()
   const [, $validateWidth] = useValidateWidth()
   const [, $darkTheme] = useDarkTheme()
