@@ -88,11 +88,11 @@ function Tag ({
       case 'flat':
         // Order is important because active has higher priority
         if (active) return colorToRGBA(_color, 0.25)
-        if (hover) return colorToRGBA(_color, 0.05)
+        if (hover) return colorToRGBA(_color, 0.5)
         return _color
       case 'outlined':
         if (active) return colorToRGBA(_color, 0.25)
-        if (hover) return colorToRGBA(_color, 0.5)
+        if (hover) return colorToRGBA(_color, 0.05)
         break
     }
   }, [variant, hover, active, _color])
