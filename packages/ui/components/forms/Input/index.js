@@ -68,7 +68,7 @@ Input.defaultProps = {
 
 Input.propTypes = {
   type: propTypes.oneOf(['text', 'checkbox', 'object']).isRequired,
-  $value: propTypes.string
+  $value: propTypes.any
 }
 
 export default observer(Input)

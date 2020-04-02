@@ -5,6 +5,7 @@ import Div from './../Div'
 import CollapseHeader from './CollapseHeader'
 import CollapseContent from './CollapseContent'
 import config from '../../config/rootConfig'
+import { useBindingProps } from '../../hooks'
 import './index.styl'
 
 const { colors } = config
@@ -15,9 +16,11 @@ function Collapse ({
   children,
   title,
   open,
+  $open,
   variant,
   onChange
 }) {
+  ({ open, onChange } = useBindingProps($open, { open }, { onChange }))
   const childrenList = React.Children.toArray(children)
   const headerChildren = []
   const contentChildren = []
