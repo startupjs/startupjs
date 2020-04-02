@@ -11,7 +11,7 @@ export default function useLocalWithDefault (path, defaultValue) {
 
   useSyncEffect(() => {
     if (!(value == null)) return
-    throw $value.setAsync('', defaultValue)
+    $value.set(defaultValue)
   }, [])
 
   return [value, $value]
