@@ -1,15 +1,48 @@
-import { Button } from 'ui'
+import { Button, Row } from 'ui'
 
-# The button. Hello World
+# Button
 
-```js example
-<Button color='primary' variant='flat'>
-  Flat Primary
+Buttons allow users to perform an action or to navigate to another page. They have multiple styles for various needs, and are ideal for calling attention to where a user needs to do something in order to move forward in a flow.
+
+## Example
+
+```js
+import { Button } from '@startupjs/ui'
+```
+
+```html example
+<Button>
+  Simple button
 </Button>
 ```
 
-# Default button
+## Call to Action
 
-```js example
-<Button>Default</Button>
+Try to keep the variety of button combinations you use in your app to the minimum.
+
+Use regular Button without any options by default. Whenever you want to emphasize a particular Call-to-Action, use a primary flat button.
+
+```html example
+<Button color='primary' variant='flat'>
+  Destroy the Death Star!
+</Button>
+```
+
+## Buttons order
+
+Whenever specifiying several buttons on one line, stick to the order of buttons which people are used to from various OS'es. 'Cancel' should be first, and then 'OK'.
+
+Never put multiple Call-to-Action buttons in one component. And try to keep the amount of them visible at the same time on one page to the minimum.
+
+It's a much better UX decision to use regular buttons by default and decide which of them to make a Call-to-Action later.
+
+```html example
+<Row>
+  <Button>
+    Cancel
+  </Button>
+  <Button color='primary' variant='flat'>
+    OK
+  </Button>
+</Row>
 ```

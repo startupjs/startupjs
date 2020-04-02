@@ -1,17 +1,45 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import SyntaxHighlighter from 'react-native-syntax-highlighter'
+import { Div, H2, H5, H6, Hr, Span, Br } from '@startupjs/ui'
+import './index.styl'
 
 export default {
   wrapper: ({ children }) => pug`
-    View= children
+    Div= children
   `,
   h1: ({ children }) => pug`
-    Text= children
+    H2(bold)= children
   `,
-  pre: ({ children }) => pug`
-    Text(style={ color: 'blue' })= children
+  h2: ({ children }) => pug`
+    H5.h2= children
+    Hr(size='l')
   `,
-  code: ({ children }) => pug`
-    Text= children
-  `
+  h3: ({ children }) => pug`
+    H6.h6(bold)= children
+  `,
+  h4: ({ children }) => pug`
+    H6.h6(bold)= children
+  `,
+  h5: ({ children }) => pug`
+    H6.h6(bold)= children
+  `,
+  h6: ({ children }) => pug`
+    H6.h6(bold)= children
+  `,
+  p: ({ children }) => pug`
+    Span.p(size='l')= children
+  `,
+  pre: ({ children }) => children,
+  code: ({ children, className }) => {
+    const language = (className || '').replace(/language-/, '')
+    return pug`
+      Br
+      SyntaxHighlighter(
+        language=language
+        highlighter='prism'
+        fontSize=14
+        customStyle={ margin: 0, overflow: 'hidden', backgroundColor: '#fafafa' }
+      )= children.replace(/\n$/, '')
+    `
+  }
 }

@@ -4,6 +4,9 @@ module.exports = {
   ui: {
     ...getConfig(),
     darkMainBg: '#212121',
-    darkSecondaryBg: '#333333'
+    darkSecondaryBg: '#333333',
+    Layout: {
+      bgColor: '#ffffff'
+    }
   }
 }

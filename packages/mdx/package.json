@@ -8,7 +8,8 @@
   "main": "index.js",
   "dependencies": {
     "@mdx-js/react": "~1.5.8",
-    "react-native-syntax-highlighter": "^2.1.0"
+    "@startupjs/ui": "^0.17.3",
+    "react-native-syntax-highlighter": "~2.1.0"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17"
