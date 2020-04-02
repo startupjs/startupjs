@@ -24,8 +24,8 @@ export default observer(function Options ({
         Row.line(vAlign='center')
           Span.label(description) VALIDATE WIDTH
           Switch(
-          value=validateWidth
-          onValueChange=value => $validateWidth.set(value)
+            value=validateWidth
+            onValueChange=value => $validateWidth.set(value)
           )
         Row.line(vAlign='center')
           Span.label(description) SHOW GRID
@@ -36,14 +36,14 @@ export default observer(function Options ({
       Row.line(vAlign='center')
         Span.label(description) SHOW SIZES
         Switch(
-        value=showSizes
-        onValueChange=value => $showSizes.set(value)
+          value=showSizes
+          onValueChange=value => $showSizes.set(value)
         )
       Row.line(vAlign='center')
         Span.label(description) DARK THEME
         Switch(
-        value=darkTheme
-        onValueChange=value => $darkTheme.set(value)
+          value=darkTheme
+          onValueChange=value => $darkTheme.set(value)
         )
   `
 })
