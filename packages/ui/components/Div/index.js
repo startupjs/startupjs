@@ -3,8 +3,6 @@ import { View, TouchableOpacity, Platform } from 'react-native'
 import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
 import config from '../../config/rootConfig'
-import Span from './../Span'
-import _omit from 'lodash/omit'
 import './index.styl'
 
 const { hoverStateOpacity, activeStateOpacity } = config.Div
@@ -21,12 +19,10 @@ function Div ({
   ...props
 }) {
   const [hover, setHover] = useState()
+
   const isClickable = typeof onPress === 'function' && !disabled
 
-  const Wrapper =
-    typeof children === 'string'
-      ? Span
-      : isClickable ? TouchableOpacity : View
+  const Wrapper = isClickable ? TouchableOpacity : View
 
   if (isClickable) {
     if (!interactive) props.activeOpacity = 1
@@ -72,9 +68,7 @@ Div.defaultProps = {
   activeOpacity: activeStateOpacity,
   disabled: false,
   interactive: true,
-  level: 0,
-  // span default props
-  ...Span.defaultProps
+  level: 0
 }
 
 Div.propTypes = {
@@ -84,9 +78,7 @@ Div.propTypes = {
   interactive: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
   children: propTypes.node,
-  onPress: propTypes.func,
-  // span props
-  ..._omit(Span.propTypes, ['style', 'children'])
+  onPress: propTypes.func
 }
 
 export default observer(Div)
