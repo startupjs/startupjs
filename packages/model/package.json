@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/model",
-  "version": "0.17.3",
+  "version": "0.18.0",
   "description": "Initializes model connection and retrieves the singleton client-side model",
   "main": "lib/index.js",
   "publishConfig": {
@@ -26,7 +26,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
-    "babel-runtime": "^6.26.0",
-    "husky": "^0.14.3"
+    "babel-runtime": "^6.26.0"
   }
 }
