@@ -1,47 +1,45 @@
 // Synchronous batching of functions execution
 // Requires ES6 Set
 
-class Batching {
-  constructor () {
-    this.active = false
-    this.queue = new Set()
-    this.flushActive = false
-  }
+function Batching () {
+  this.active = false
+  this.queue = new Set()
+  this.flushActive = false
+}
 
-  batch (fn) {
-    if (this.active) return fn()
-    this.active = true
+Batching.prototype.batch = function (fn) {
+  if (this.active) return fn()
+  this.active = true
+  fn()
+  this.flush()
+  this.active = false
+}
+
+Batching.prototype.flush = function () {
+  if (this.flushActive) return
+  this.flushActive = true
+  while (true) {
+    if (this.queue.size === 0) break
+    var fn = getFirstItem(this.queue)
+    this.queue.delete(fn)
     fn()
-    this.flush()
-    this.active = false
   }
+  this.flushActive = false
+}
 
-  flush () {
-    if (this.flushActive) return
-    this.flushActive = true
-    while (true) {
-      if (this.queue.size === 0) break
-      let fn = getFirstItem(this.queue)
-      this.queue.delete(fn)
-      fn()
-    }
-    this.flushActive = false
-  }
-
-  add (fn) {
-    if (!this.active) return fn()
-    this.queue.add(fn)
-  }
+Batching.prototype.add = function (fn) {
+  if (!this.active) return fn()
+  this.queue.add(fn)
 }
 
 function getFirstItem (set) {
+  var first
   if (set.values) {
-    let it = set.values()
-    let first = it.next()
+    var it = set.values()
+    first = it.next()
     return first.value
     // Shim for IE
   } else {
-    let first
     set.forEach(item => {
       if (first) return
       first = item
@@ -50,6 +48,4 @@ function getFirstItem (set) {
   }
 }
 
-const batching = new Batching()
-
-module.exports = batching
+module.exports = new Batching()
