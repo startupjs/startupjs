@@ -1,7 +1,7 @@
 // Synchronous batching of functions execution
 // Requires ES6 Set
 
-export class Batching {
+class Batching {
   constructor () {
     this.active = false
     this.queue = new Set()
@@ -52,9 +52,4 @@ function getFirstItem (set) {
 
 const batching = new Batching()
 
-export default batching
-
-export const batch = batching.batch.bind(batching)
-
-// TODO: DEPRECATED. Add warning to use batch instead
-export const batchModel = batch
+module.exports = batching

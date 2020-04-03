@@ -5,7 +5,7 @@ import RacerUtil from 'racer/lib/util'
 import RacerQuery from 'racer/lib/Model/Query'
 import SharedbDoc from 'sharedb/lib/client/doc'
 import { observable, isObservable } from '@nx-js/observer-util'
-import batching from './batching'
+import batching from '../batching'
 import semaphore from './semaphore'
 
 const STORE = 'store'
