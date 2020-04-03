@@ -57,7 +57,7 @@ function User ({
         )= name
         if description
           Span.description(
-            size=[descriptionSizes[size]]
+            size=descriptionSizes[size]
             styleName=[avatarPosition]
             description
           )= description
