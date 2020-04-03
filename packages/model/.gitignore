@@ -13,7 +13,6 @@ coverage
 
 # App
 /build/
-/lib/
 /public/js/minified/
 /public/img/sprites/
 

@@ -13,7 +13,7 @@ import QueryExtra from './types/QueryExtra'
 import Local from './types/Local'
 import Value from './types/Value'
 import Api from './types/Api'
-import batching from './batching'
+import batching from '../batching'
 import semaphore from './semaphore'
 import { isExtraQuery } from './isExtraQuery'
 import {

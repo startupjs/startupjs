@@ -1,7 +1,7 @@
 // ref: https://github.com/mobxjs/mobx-react-lite/blob/master/src/observer.ts
 import * as React from 'react'
 import { observe, unobserve } from '@nx-js/observer-util'
-import batching from '../batching'
+import batching from '../../batching'
 import destroyer from './destroyer'
 import promiseBatcher from './promiseBatcher'
 import $root from '@startupjs/model'

@@ -1,8 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import docs from '@startupjs/ui/docs'
-import { Div, Span } from '@startupjs/ui'
+import { Span, Br } from '@startupjs/ui'
 import { useDocName } from 'clientHelpers'
+import { ScrollView } from 'react-native'
 import './index.styl'
 
 export default observer(function PDoc ({
@@ -13,7 +14,9 @@ export default observer(function PDoc ({
   if (!Component) return pug`Span 404. Not found`
 
   return pug`
-    Div.root
+    ScrollView.root
+      Br
       Component
+      Br(lines=4)
   `
 })

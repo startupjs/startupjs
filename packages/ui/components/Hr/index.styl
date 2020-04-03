@@ -1,16 +1,17 @@
 _hrBg = $UI.colors.darkLighter
-_hrWidth = 2u
-_hrHeight = 1px
-_contentHorizontalGutter = 2u
 
 .hr
-  width _hrWidth
-  height _hrHeight
-  background-color _hrBg
+  border-bottom-color _hrBg
 
-  &.full
-    flex-grow 1
-
-.content
-  padding-left _contentHorizontalGutter
-  padding-right @padding-left
+  &.m
+    margin-top 3px
+    border-bottom-width 1px
+    margin-bottom 4px
+  &.l
+    margin-top 3px
+    border-bottom-width 2px
+    margin-bottom 3px
+  &.xl
+    margin-top 2px
+    border-bottom-width 4px
+    margin-bottom 2px

@@ -3,7 +3,9 @@ import dummyPreventTreeShakingGlobalInit from './globalInit'
 //       (for example when there are 2 instances of react-sharedb by mistake)
 import dummyPreventTreeShakingPatchRacer from './patchRacer'
 import subscribe from './subscribe'
-import batching, { batch, batchModel } from './batching'
+import batching from '../batching'
+const batch = batching.batch.bind(batching)
+const batchModel = batch
 export { default as model, default as $root } from '@startupjs/model'
 export { subscribe, batching, batch, batchModel }
 export { default as _semaphore } from './semaphore'
