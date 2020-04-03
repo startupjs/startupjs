@@ -1,7 +1,7 @@
-import racer from 'racer'
-import Socket from 'racer-highway/lib/browser/socket'
-let isServer = typeof window === 'undefined'
-const DEFAULT_CLIENT_OPTIONS = {
+var racer = require('racer')
+var Socket = require('racer-highway/lib/browser/socket')
+var isServer = typeof window === 'undefined'
+var DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',
   reconnect: true,
   browserChannelOnly: false,
@@ -12,26 +12,26 @@ const DEFAULT_CLIENT_OPTIONS = {
   timeout: 10000,
   timeoutIncrement: 10000
 }
-const DEFAULT_UNLOAD_DELAY = 3000 // short delay, like 100, might be better
+var DEFAULT_UNLOAD_DELAY = 3000 // short delay, like 100, might be better
 
 racer.Model.prototype._createSocket = function () {
-  let clientOptions =
+  var clientOptions =
     (typeof window !== 'undefined' && window.__racerHighwayClientOptions) ||
     DEFAULT_CLIENT_OPTIONS
   return new Socket(clientOptions)
 }
 
-export default function getModel () {
+module.exports = function getModel () {
   if (isServer) return
 
   // Try to unbundle server-side model
-  let bundleElement =
+  var bundleElement =
     typeof document !== 'undefined' &&
     document.getElementById &&
     document.getElementById('bundle')
-  let serializedModel = bundleElement && bundleElement.innerHTML
+  var serializedModel = bundleElement && bundleElement.innerHTML
 
-  let model
+  var model
 
   if (serializedModel) {
     model = racer.createModel(JSON.parse(serializedModel))
@@ -41,7 +41,7 @@ export default function getModel () {
   }
 
   // Specify the time it takes before unsubscribe actually fires
-  let unloadDelay =
+  var unloadDelay =
     (typeof window !== 'undefined' && window.__racerUnloadDelay) ||
     DEFAULT_UNLOAD_DELAY
   model.root.unloadDelay = unloadDelay
