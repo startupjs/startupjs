@@ -4,11 +4,8 @@ import { observer } from 'startupjs'
 import Div from './../Div'
 import CollapseHeader from './CollapseHeader'
 import CollapseContent from './CollapseContent'
-import config from '../../config/rootConfig'
 import { useBindingProps } from '../../hooks'
 import './index.styl'
-
-const { colors } = config
 
 // TODO: hover, active states
 function Collapse ({
@@ -68,10 +65,8 @@ function Collapse ({
   }
 
   const extraProps = {}
-  const extraStyles = {}
   if (variant === 'full') {
     extraProps.level = 1
-    extraStyles.backgroundColor = colors.white
   }
 
   return pug`

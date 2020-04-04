@@ -21,14 +21,13 @@ export default observer(function Options ({
   const [, $darkTheme] = useDarkTheme()
 
   return pug`
-    Collapse(
-      title='Options'
-      $open=$open
-    )
-      Input(type='checkbox' label='Dark theme' $value=$darkTheme)
-      Input(type='checkbox' label='Show sizes' $value=$showSizes)
-      if $showSizes.get()
-        Input(type='checkbox' label='Validate width' $value=$validateWidth)
-        Input(type='checkbox' label='Show grid' $value=$showGrid)
+    Collapse($open=$open variant='pure')
+      Collapse.Header.header Options
+      Collapse.Content.content
+        Input(type='checkbox' label='Dark theme' $value=$darkTheme)
+        Input(type='checkbox' label='Show sizes' $value=$showSizes)
+        if $showSizes.get()
+          Input(type='checkbox' label='Validate width' $value=$validateWidth)
+          Input(type='checkbox' label='Show grid' $value=$showGrid)
   `
 })

@@ -5,7 +5,7 @@ import { ScrollView, Image } from 'react-native'
 import docs from '@startupjs/ui/docs'
 import Options from './Options'
 import './index.styl'
-import { Menu, Br, Collapse, Span } from '@startupjs/ui'
+import { Menu, Br, Collapse, Span, Div, Hr } from '@startupjs/ui'
 import * as COMPONENTS from 'ui'
 import {
   useComponentName,
@@ -64,49 +64,51 @@ export default observer(function Content ({
   }
 
   return pug`
-    ScrollView
-      Image.logo(source={ uri: baseUrl + '/img/startupjs_ui.png' })
-      Menu
-        Br(half)
-        each aDocName in Object.keys(docs)
-          Menu.Item(
-            key=aDocName
-            active=aDocName === docName
-            onPress=() => setDocName(aDocName)
-          )= aDocName
-        Br(half)
-        Collapse(
-          key='sandbox'
-          variant='pure'
-          open=openedCollapses.sandbox
-          onChange=toggleCollapse.bind(null, 'sandbox')
-        )
-          Collapse.Header.sandbox
-            Span Sandbox
-          Collapse.Content
-            each componentName in getAvailableComponents(Object.keys(COMPONENTS))
-              - const component = COMPONENTS[componentName]
-              - const sub = getAvailableComponents(Object.keys(component))
+    Div.root
+      ScrollView.main
+        Image.logo(source={ uri: baseUrl + '/img/startupjs_ui.png' })
+        Menu
+          Br(half)
+          each aDocName in Object.keys(docs)
+            Menu.Item(
+              key=aDocName
+              active=aDocName === docName
+              onPress=() => setDocName(aDocName)
+            )= aDocName
+          Br(half)
+          Hr.hr
+          Br(half)
+          Collapse(
+            key='sandbox'
+            variant='pure'
+            open=openedCollapses.sandbox
+            onChange=toggleCollapse.bind(null, 'sandbox')
+          )
+            Collapse.Header.sandbox
+              Span Sandbox
+            Collapse.Content
+              each componentName in getAvailableComponents(Object.keys(COMPONENTS))
+                - const component = COMPONENTS[componentName]
+                - const sub = getAvailableComponents(Object.keys(component))
 
-              if sub.length
-                Collapse(
-                  key=componentName
-                  variant='pure'
-                  open=openedCollapses[componentName]
-                  onChange=toggleCollapse.bind(null, componentName)
-                )
-                  Collapse.Header
-                    MenuItem(name=componentName)
-                  Collapse.Content
-                    each subName in sub
-                      - const subFullName = componentName + '.' + subName
-                      MenuItem.subMenuItem(
-                        key=subFullName
-                        name=subFullName
-                      )
-              else
-                MenuItem(key=componentName name=componentName)
-    Br(half)
-    Options
+                if sub.length
+                  Collapse(
+                    key=componentName
+                    variant='pure'
+                    open=openedCollapses[componentName]
+                    onChange=toggleCollapse.bind(null, componentName)
+                  )
+                    Collapse.Header
+                      MenuItem(name=componentName)
+                    Collapse.Content
+                      each subName in sub
+                        - const subFullName = componentName + '.' + subName
+                        MenuItem.subMenuItem(
+                          key=subFullName
+                          name=subFullName
+                        )
+                else
+                  MenuItem(key=componentName name=componentName)
+      Options
   `
 })
