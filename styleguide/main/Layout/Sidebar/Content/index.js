@@ -1,6 +1,7 @@
+import { BASE_URL } from '@env'
 import React, { useState } from 'react'
 import { observer, useLocal } from 'startupjs'
-import { ScrollView } from 'react-native'
+import { ScrollView, Image } from 'react-native'
 import docs from '@startupjs/ui/docs'
 import Options from './Options'
 import './index.styl'
@@ -14,6 +15,7 @@ import {
 export default observer(function Content ({
   style
 }) {
+  const baseUrl = BASE_URL
   // TODO: fix this. It doesn't work with the useParams() hooks properly
   //       because it's located above the current route and because of this
   //       the params are always undefined.
@@ -63,6 +65,7 @@ export default observer(function Content ({
 
   return pug`
     ScrollView
+      Image.logo(source={ uri: baseUrl + '/img/startupjs_ui.png' })
       Menu
         Br(half)
         each aDocName in Object.keys(docs)
