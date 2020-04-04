@@ -1,4 +1,4 @@
-import Button from '../components/Button/Button.mdx'
+import Button from '../components/Button/Button.en.mdx'
 
 export default {
   Button
