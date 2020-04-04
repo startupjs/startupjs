@@ -78,8 +78,8 @@ export default observer(function Content ({
           open=openedCollapses.sandbox
           onChange=toggleCollapse.bind(null, 'sandbox')
         )
-          Collapse.Header
-            Span.sandbox Sandbox
+          Collapse.Header.sandbox
+            Span Sandbox
           Collapse.Content
             each componentName in getAvailableComponents(Object.keys(COMPONENTS))
               - const component = COMPONENTS[componentName]
