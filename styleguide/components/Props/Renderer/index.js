@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 import './index.styl'
 import GridVisualizer from './GridVisualizer'
-import { themed } from 'ui'
+import { themed, Row } from 'ui'
 
 export default observer(themed(function Renderer ({
   Component,
@@ -17,11 +17,20 @@ export default observer(themed(function Renderer ({
   validateHeight,
   allowHalfUnit,
   theme,
+  block,
   style
 }) {
-  let Wrapper = showSizes ? GridVisualizer : View
+  let Wrapper
+  let extraProps = {}
+  if (showSizes) {
+    Wrapper = GridVisualizer
+    extraProps.block = block
+  } else {
+    Wrapper = block ? View : Row
+  }
   return pug`
     Wrapper(
+      ...extraProps
       style=style
       validateWidth=validateWidth
       validateHeight=validateHeight

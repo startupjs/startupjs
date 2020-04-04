@@ -7,7 +7,7 @@ $barMargin = 1u
 $valid = rgba(black, 0.2)
 $validLine = rgba(black, 0.1)
 $invalid = red
-$bg = $UI.Layout.bgColor
+$bg = #f5f5f5
 
 $darkBg = $UI.darkSecondaryBg
 $darkValid = rgba(white, 0.3)
@@ -33,6 +33,10 @@ grid(direction, color, size)
 .horizontal
   flex-direction row
 
+.vertical
+  &.block
+    flex 1
+
 .filler
   height $bar + $barMargin
   width $bar
@@ -40,7 +44,6 @@ grid(direction, color, size)
 .leftBar
   flex 1
   width $bar
-  margin-right $barMargin
   align-items center
 
   &Units

@@ -4,7 +4,7 @@ import { Input, Collapse } from '@startupjs/ui'
 import {
   useShowGrid,
   useShowSizes,
-  useValidateWidth,
+  // useValidateWidth,
   useDarkTheme
 } from 'clientHelpers'
 import './index.styl'
@@ -17,7 +17,7 @@ export default observer(function Options ({
   // TODO: figure out why getting showSizes here leads to a bug of being non-reactive
   //       initially. While $showSizes.get() works fine for some reason.
   const [, $showSizes] = useShowSizes()
-  const [, $validateWidth] = useValidateWidth()
+  // const [, $validateWidth] = useValidateWidth()
   const [, $darkTheme] = useDarkTheme()
 
   return pug`
@@ -25,9 +25,10 @@ export default observer(function Options ({
       Collapse.Header.header Options
       Collapse.Content.content
         Input(type='checkbox' label='Dark theme' $value=$darkTheme)
-        Input(type='checkbox' label='Show sizes' $value=$showSizes)
         if $showSizes.get()
-          Input(type='checkbox' label='Validate width' $value=$validateWidth)
+          //- TODO: Maybe bring width check back in future
+          // Input(type='checkbox' label='Validate width' $value=$validateWidth)
           Input(type='checkbox' label='Show grid' $value=$showGrid)
+        Input(type='checkbox' label='Show sizes' $value=$showSizes)
   `
 })

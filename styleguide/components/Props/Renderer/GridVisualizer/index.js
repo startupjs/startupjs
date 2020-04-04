@@ -15,6 +15,7 @@ export default observer(function GridVisualizer ({
   validateHeight = VALIDATE_HEIGHT,
   allowHalfUnit = ALLOW_HALF_UNIT,
   showGrid,
+  block,
   style,
   children
 }) {
@@ -25,14 +26,15 @@ export default observer(function GridVisualizer ({
     $componentSize.setDiffDeep({ width, height })
   }
 
+  // TODO: Bring back width check as an option. For now it's commented out.
   return pug`
     View(style=style)
       View.horizontal
         View.leftBarWrapper
-          View.filler
+          // View.filler
           LeftBar(allowHalfUnit=allowHalfUnit validate=validateHeight)
-        View.vertical
-          TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
+        View.vertical(styleName={ block })
+          // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
           View.content(onLayout=onLayout)
             | #{children}
             if showGrid
@@ -54,19 +56,20 @@ const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
   `
 }))
 
-const TopBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
-  let [width = 0] = useLocal('_session.Renderer.componentSize.width')
-  let units = toUnits(width)
-  let valid = validate ? validateGrid(width, allowHalfUnit) : true
+// TODO: Bring back width check as an option. For now it's commented out.
+// const TopBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
+//   let [width = 0] = useLocal('_session.Renderer.componentSize.width')
+//   let units = toUnits(width)
+//   let valid = validate ? validateGrid(width, allowHalfUnit) : true
 
-  return pug`
-    View.topBar
-      View.topBarLine(styleName=[theme, { valid }])
-      View.topBarUnits
-        Text.topBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
-      View.topBarLine(styleName=[theme, { valid }])
-  `
-}))
+//   return pug`
+//     View.topBar
+//       View.topBarLine(styleName=[theme, { valid }])
+//       View.topBarUnits
+//         Text.topBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
+//       View.topBarLine(styleName=[theme, { valid }])
+//   `
+// }))
 
 function toUnits (pixels) {
   return Math.floor(pixels / GRID_SIZE * 10) / 10

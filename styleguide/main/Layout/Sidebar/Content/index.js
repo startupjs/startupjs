@@ -1,11 +1,11 @@
 import { BASE_URL } from '@env'
 import React, { useState } from 'react'
-import { observer, useLocal, $root } from 'startupjs'
+import { observer, useLocal, $root, emit } from 'startupjs'
 import { ScrollView, Image } from 'react-native'
 import docs from '@startupjs/ui/docs'
 import Options from './Options'
 import './index.styl'
-import { Menu, Br, Collapse, Span, Div, Hr } from '@startupjs/ui'
+import { Menu, Br, Collapse, Span, Div, Hr, Button, Row } from '@startupjs/ui'
 import * as COMPONENTS from 'ui'
 import {
   useComponentName,
@@ -41,6 +41,8 @@ export default observer(function Content ({
     if ((componentName || '').split('.').length > 1) opened[chunks[0]] = true
     return opened
   })
+  const lang = $root.get('$render.params.lang')
+
   // if we will need to use hooks in renderContent method
   // then we need to refactor architecture of SmartSidebar component
   // like in Modal component (Modal, Modal.Actions)
@@ -69,7 +71,7 @@ export default observer(function Content ({
         Image.logo(source={ uri: baseUrl + '/img/startupjs_ui.png' })
         Menu
           Br(half)
-          each aDocName in Object.keys(docs[$root.get('$render.params.lang')] || {})
+          each aDocName in Object.keys(docs[lang] || {})
             Menu.Item(
               key=aDocName
               active=aDocName === docName
@@ -109,6 +111,19 @@ export default observer(function Content ({
                         )
                 else
                   MenuItem(key=componentName name=componentName)
+      Row(align='center').lang
+        Button(
+          size='s'
+          variant='text'
+          color=lang === 'en' ? 'primary' : undefined
+          onPress=() => emit('url', '/en')
+        ) English
+        Button(
+          size='s'
+          variant='text'
+          color=lang === 'ru' ? 'primary' : undefined
+          onPress=() => emit('url', '/ru')
+        ) Русский
       Options
   `
 })
