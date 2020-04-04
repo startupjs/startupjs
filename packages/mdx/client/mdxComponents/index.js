@@ -13,6 +13,9 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
+  example: ({ children }) => pug`
+    Div.example= children
+  `,
   h1: ({ children }) => pug`
     H2(bold)= children
   `,
@@ -39,7 +42,14 @@ export default {
         language=language
         highlighter='prism'
         fontSize=14
-        customStyle={ margin: 0, overflow: 'hidden', backgroundColor: '#fafafa' }
+        customStyle={
+          margin: 0,
+          overflow: 'hidden',
+          padding: 16,
+          backgroundColor: '#fafafa',
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8
+        }
       )= children.replace(/\n$/, '')
     `
   },

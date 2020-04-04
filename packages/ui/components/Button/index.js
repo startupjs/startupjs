@@ -25,6 +25,7 @@ function Button ({
   rightIcon,
   textColor,
   onPress,
+  push,
   ...props
 }) {
   const [hover, setHover] = useState()
@@ -127,7 +128,7 @@ function Button ({
       styleName=[
         size,
         shape,
-        { disabled },
+        { disabled, push },
         extraCommonStyles
       ]
       disabled=disabled
@@ -164,6 +165,7 @@ Button.propTypes = {
   color: propTypes.string,
   children: propTypes.node,
   disabled: propTypes.bool,
+  push: propTypes.bool,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
