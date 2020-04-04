@@ -33,6 +33,7 @@ const INPUT_TYPES = Object.keys(INPUTS)
 function Input ({
   type,
   $value,
+  style,
   ...props
 }) {
   if (!type || !INPUT_TYPES.includes(type)) {
@@ -57,6 +58,7 @@ function Input ({
     Component(
       ...props
       ...bindingProps
+      style=style
       $value=$value
     )
   `
