@@ -5,12 +5,12 @@ export default (components = {}) => [
     component: components.PHome
   },
   {
-    path: '/sandbox/:componentName',
+    path: '/:lang/sandbox/:componentName',
     exact: true,
     component: components.PSandbox
   },
   {
-    path: '/docs/:docName',
+    path: '/:lang/docs/:docName',
     exact: true,
     component: components.PDoc
   }

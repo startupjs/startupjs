@@ -1,5 +1,5 @@
 import { useParams } from 'startupjs/app'
-import { emit } from 'startupjs'
+import { emit, $root } from 'startupjs'
 
 export default function useDocName () {
   const { docName } = useParams()
@@ -7,5 +7,6 @@ export default function useDocName () {
 }
 
 function setDocName (name) {
-  emit('url', `/docs/${name}`)
+  const lang = $root.get('$render.params.lang')
+  emit('url', `/${lang}/docs/${name}`)
 }

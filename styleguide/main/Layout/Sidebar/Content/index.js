@@ -1,6 +1,6 @@
 import { BASE_URL } from '@env'
 import React, { useState } from 'react'
-import { observer, useLocal } from 'startupjs'
+import { observer, useLocal, $root } from 'startupjs'
 import { ScrollView, Image } from 'react-native'
 import docs from '@startupjs/ui/docs'
 import Options from './Options'
@@ -69,7 +69,7 @@ export default observer(function Content ({
         Image.logo(source={ uri: baseUrl + '/img/startupjs_ui.png' })
         Menu
           Br(half)
-          each aDocName in Object.keys(docs)
+          each aDocName in Object.keys(docs[$root.get('$render.params.lang')] || {})
             Menu.Item(
               key=aDocName
               active=aDocName === docName

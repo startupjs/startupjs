@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import { useParams } from 'startupjs/app'
 import docs from '@startupjs/ui/docs'
 import { Span, Br } from '@startupjs/ui'
 import { useDocName } from 'clientHelpers'
@@ -9,8 +10,9 @@ import './index.styl'
 export default observer(function PDoc ({
   style
 }) {
+  const { lang } = useParams()
   const [docName] = useDocName()
-  const Component = docs[docName]
+  const Component = docs[lang] && docs[lang][docName]
   if (!Component) return pug`Span 404. Not found`
 
   return pug`
