@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
 import parsePropTypes from 'parse-prop-types'
-import { TextInput, Text, Picker, Switch } from 'react-native'
+import { TextInput, Text, Picker, Switch, Platform } from 'react-native'
 import Table from './Table'
 import Tbody from './Tbody'
 import Thead from './Thead'
@@ -37,7 +37,11 @@ export default observer(themed(function Constructor ({ Component, $props, style,
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues } = entry
           Tr(key=index)
-            Td: Span.name= name
+            Td: Span.name(
+              style={
+                fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+              }
+            )= name
             Td
               if type === 'oneOf'
                 Span.possibleValue
