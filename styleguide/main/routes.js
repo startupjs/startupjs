@@ -1,6 +1,6 @@
 export default (components = {}) => [
   {
-    path: '/',
+    path: '/:lang?',
     exact: true,
     component: components.PHome
   },
