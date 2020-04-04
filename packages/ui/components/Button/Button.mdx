@@ -6,13 +6,13 @@ Buttons allow users to perform an action or to navigate to another page. They ha
 
 ## Example
 
-```js
+```jsx
 import { Button } from '@startupjs/ui'
 ```
 
-```html example
-<Button>
-  Simple button
+```jsx example
+<Button onPress={() => console.log('Clicked!')}>
+  Click me
 </Button>
 ```
 
@@ -22,7 +22,7 @@ Try to keep the variety of button combinations you use in your app to the minimu
 
 Use regular Button without any options by default. Whenever you want to emphasize a particular Call-to-Action, use a primary flat button.
 
-```html example
+```jsx example
 <Button color='primary' variant='flat'>
   Destroy the Death Star!
 </Button>
@@ -36,7 +36,7 @@ Never put multiple Call-to-Action buttons in one component. And try to keep the 
 
 It's a much better UX decision to use regular buttons by default and decide which of them to make a Call-to-Action later.
 
-```html example
+```jsx example
 <Row>
   <Button>
     Cancel
