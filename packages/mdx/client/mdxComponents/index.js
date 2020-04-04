@@ -1,6 +1,7 @@
 import React from 'react'
 import SyntaxHighlighter from 'react-native-syntax-highlighter'
 import { Div, H2, H5, H6, Hr, Span, Br } from '@startupjs/ui'
+import { Platform } from 'react-native'
 import './index.styl'
 
 function P ({ children }) {
@@ -28,10 +29,10 @@ export default {
   `,
   p: P,
   strong: ({ children }) => pug`
-    Span.p(bold)= children
+    Span.p(size='l' bold)= children
   `,
   em: ({ children }) => pug`
-    Span.p(italic)= children
+    Span.p(size='l' italic)= children
   `,
   pre: ({ children }) => children,
   code: ({ children, className }) => {
@@ -53,6 +54,17 @@ export default {
       )= children.replace(/\n$/, '')
     `
   },
+  inlineCode: ({ children }) => pug`
+    Span(size='l').inlineCode
+      Span(size='l')= ' '
+      Span(
+        size='l'
+        style={
+          fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+        }
+      )= children
+      Span(size='l')= ' '
+  `,
   hr: ({ children }) => pug`
     Hr(size='l')
   `,
@@ -73,7 +85,6 @@ export default {
   td: P,
   th: P,
   delete: P,
-  inlineCode: P,
   a: P,
   img: P
 }
