@@ -37,6 +37,11 @@ module.exports = function generateColorsFromPalette (pallete) {
     warningLighter: colorToRGBA(pallete.yellow, 0.25),
     warningLightest: colorToRGBA(pallete.yellow, 0.05),
 
+    error: pallete.red,
+    errorLight: colorToRGBA(pallete.red, 0.5),
+    errorLighter: colorToRGBA(pallete.red, 0.25),
+    errorLightest: colorToRGBA(pallete.red, 0.05),
+
     attention: pallete.red,
     attentionLight: colorToRGBA(pallete.red, 0.5),
     attentionLighter: colorToRGBA(pallete.red, 0.25),

@@ -12,7 +12,7 @@ import './index.styl'
 
 const { colors } = config
 const isWeb = Platform.OS === 'web'
-const bgInRest = colors.white
+const bgInRest = 'transparent'
 const interactiveBg = colors.primary
 
 function MenuItem ({

@@ -1,32 +1,60 @@
-import React from 'react'
-import { observer, useLocal, $root } from 'startupjs'
+import React, { useMemo, useState } from 'react'
+import { observer, $root, useComponentId } from 'startupjs'
 import { View, ScrollView } from 'react-native'
 import './index.styl'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
-import { themed } from 'ui'
+import { themed, Button, Row } from 'ui'
 
 export default observer(themed(function PComponent ({
-  Component, componentName, showGrid, style, validateWidth, showSizes, theme
+  Component,
+  $props,
+  componentName,
+  showGrid,
+  style,
+  validateWidth,
+  showSizes,
+  theme,
+  block: defaultBlock
 }) {
-  $root.setNull(`_session.Props.${componentName}`, {})
-  let [props, $props] = useLocal(`_session.Props.${componentName}`)
+  const [block, setBlock] = useState(!!defaultBlock)
+  const componentId = useComponentId()
+  const $theProps = useMemo(() => {
+    if (!$props) {
+      return $root.scope(`_session.Props.${componentId}`)
+    } else {
+      return $props
+    }
+  }, [$props])
+  $theProps.setNull('', {})
+
   return pug`
-    View(style=style)
+    View.root(style=style)
       ScrollView.top(styleName=[theme])
-        Constructor(Component=Component $props=$props)
+        Constructor(Component=Component $props=$theProps)
       ScrollView.bottom(
-        styleName=[theme]
-        contentContainerStyle={
-          alignItems: 'center'
-        }
+        styleName=[theme, { showSizes }]
       )
         Renderer(
           Component=Component
-          props=props
+          props=$theProps.get()
           showGrid=showGrid
           validateWidth=validateWidth
           showSizes=showSizes
+          block=block
         )
+        Row(align='right').display
+          Button(
+            size='s'
+            variant='text'
+            color=block ? undefined : 'primary'
+            onPress=() => setBlock(false)
+          ) inline
+          Button(
+            size='s'
+            variant='text'
+            color=block ? 'primary' : undefined
+            onPress=() => setBlock(true)
+          ) block
   `
 }))

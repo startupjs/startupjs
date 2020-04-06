@@ -12,20 +12,11 @@ startupjsServer({
   appRoutes: [
     ...getMainRoutes()
   ]
-}, ee => {
-  ee.on('routes', expressApp => {
-    expressApp.get('/api', async (req, res) => {
-      let { model } = req
-      let $counter = model.at('counters.first')
-      await $counter.subscribeAsync()
-      res.json({ name: 'Test API', counter: $counter.get() })
-    })
-  })
 })
 
 function getHead (appName) {
   return `
-    <title>Styleguide</title>
+    <title>StartupJS UI</title>
     <!-- Put vendor JS and CSS here -->
   `
 }

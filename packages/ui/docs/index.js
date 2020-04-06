@@ -1,5 +1,7 @@
-import Button from '../components/Button/Button.mdx'
+import en from './en'
+import ru from './ru'
 
 export default {
-  Button
+  en,
+  ru
 }

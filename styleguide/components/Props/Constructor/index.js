@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
 import parsePropTypes from 'parse-prop-types'
-import { TextInput, Text, Picker, Switch } from 'react-native'
+import { Text, Picker, Platform } from 'react-native'
 import Table from './Table'
 import Tbody from './Tbody'
 import Thead from './Thead'
 import Tr from './Tr'
 import Td from './Td'
-import { Span, themed } from '@startupjs/ui'
+import { Span, themed, Input } from '@startupjs/ui'
 import './index.styl'
 
 // This hack is needed since when Picker receives undefined
@@ -37,7 +37,11 @@ export default observer(themed(function Constructor ({ Component, $props, style,
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues } = entry
           Tr(key=index)
-            Td: Span.name= name
+            Td: Span.name(
+              style={
+                fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+              }
+            )= name
             Td
               if type === 'oneOf'
                 Span.possibleValue
@@ -53,13 +57,17 @@ export default observer(themed(function Constructor ({ Component, $props, style,
             Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
             Td
               if type === 'string'
-                TextInput.input(
+                Input(
+                  type='text'
+                  size='s'
                   value=$props.get(name) || ''
                   onChangeText=value => $props.set(name, value)
                 )
               else if type === 'number'
                 - const aValue = parseFloat($props.get(name))
-                TextInput.input(
+                Input(
+                  type='text'
+                  size='s'
                   value='' + (isNaN(aValue) ? '' : aValue)
                   onChangeText=value => {
                     value = parseFloat(value)
@@ -68,7 +76,9 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                   }
                 )
               else if type === 'node'
-                TextInput.input(
+                Input(
+                  type='text'
+                  size='s'
                   value=$props.get(name) || ''
                   onChangeText=value => $props.set(name, value)
                 )
@@ -92,9 +102,10 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                       value=JSON.stringify(value)
                     )
               else if type === 'bool'
-                Switch(
+                Input.checkbox(
+                  type='checkbox'
                   value=$props.get(name)
-                  onValueChange=value => $props.set(name, value)
+                  onChange=value => $props.set(name, value)
                 )
               else
                 Span UNSUPPORTED: '#{type}'

@@ -12,6 +12,7 @@ const { colors } = config
 
 export default observer(function Checkbox ({
   style,
+  className,
   checked,
   focused,
   disabled,
@@ -45,11 +46,10 @@ export default observer(function Checkbox ({
   const color = checked || active ? colors.primary : colors.dark
 
   return pug`
-    InputWrapper(hover=hover active=active checked=checked color=color)
+    InputWrapper(style=style className=className hover=hover active=active checked=checked color=color)
       TouchableOpacity.input(
         accessibilityRole='checkbox'
         ref=inputRef
-        style=style
         styleName=[checkedStyles, { focused }]
         activeOpacity=1
         disabled=disabled

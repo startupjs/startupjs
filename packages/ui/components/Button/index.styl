@@ -1,10 +1,12 @@
 _disabledOpacity = 0.25
 _iconMargin = 1u
+_maxWidth = 50u
 
 .root
   flex-direction row
   align-items center
   justify-content center
+  max-width _maxWidth
 
   &.s
     height 3u
@@ -52,6 +54,9 @@ _iconMargin = 1u
 
   &.disabled
     opacity _disabledOpacity
+
+  &.push
+    margin-left 2u
 
 .leftIconWrapper
   &.with-label

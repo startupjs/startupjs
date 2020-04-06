@@ -1,10 +1,11 @@
+import { BASE_URL } from '@env'
 import React, { useState } from 'react'
-import { observer, useLocal } from 'startupjs'
-import { ScrollView } from 'react-native'
+import { observer, useLocal, $root, emit } from 'startupjs'
+import { ScrollView, Image } from 'react-native'
 import docs from '@startupjs/ui/docs'
 import Options from './Options'
 import './index.styl'
-import { Menu, Br, Collapse, Span } from '@startupjs/ui'
+import { Menu, Br, Collapse, Span, Div, Hr, Button, Row } from '@startupjs/ui'
 import * as COMPONENTS from 'ui'
 import {
   useComponentName,
@@ -14,6 +15,7 @@ import {
 export default observer(function Content ({
   style
 }) {
+  const baseUrl = BASE_URL
   // TODO: fix this. It doesn't work with the useParams() hooks properly
   //       because it's located above the current route and because of this
   //       the params are always undefined.
@@ -39,6 +41,8 @@ export default observer(function Content ({
     if ((componentName || '').split('.').length > 1) opened[chunks[0]] = true
     return opened
   })
+  const lang = $root.get('$render.params.lang')
+
   // if we will need to use hooks in renderContent method
   // then we need to refactor architecture of SmartSidebar component
   // like in Modal component (Modal, Modal.Actions)
@@ -62,48 +66,64 @@ export default observer(function Content ({
   }
 
   return pug`
-    ScrollView
-      Menu
-        Br(half)
-        each aDocName in Object.keys(docs)
-          Menu.Item(
-            key=aDocName
-            active=aDocName === docName
-            onPress=() => setDocName(aDocName)
-          )= aDocName
-        Br(half)
-        Collapse(
-          key='sandbox'
-          variant='pure'
-          open=openedCollapses.sandbox
-          onChange=toggleCollapse.bind(null, 'sandbox')
-        )
-          Collapse.Header
-            Span.sandbox Sandbox
-          Collapse.Content
-            each componentName in getAvailableComponents(Object.keys(COMPONENTS))
-              - const component = COMPONENTS[componentName]
-              - const sub = getAvailableComponents(Object.keys(component))
+    Div.root
+      ScrollView.main
+        Image.logo(source={ uri: baseUrl + '/img/startupjs_ui.png' })
+        Menu
+          Br(half)
+          each aDocName in Object.keys(docs[lang] || {})
+            Menu.Item(
+              key=aDocName
+              active=aDocName === docName
+              onPress=() => setDocName(aDocName)
+            )= aDocName
+          Br(half)
+          Hr.hr
+          Br(half)
+          Collapse(
+            key='sandbox'
+            variant='pure'
+            open=openedCollapses.sandbox
+            onChange=toggleCollapse.bind(null, 'sandbox')
+          )
+            Collapse.Header.sandbox
+              Span Sandbox
+            Collapse.Content
+              each componentName in getAvailableComponents(Object.keys(COMPONENTS))
+                - const component = COMPONENTS[componentName]
+                - const sub = getAvailableComponents(Object.keys(component))
 
-              if sub.length
-                Collapse(
-                  key=componentName
-                  variant='pure'
-                  open=openedCollapses[componentName]
-                  onChange=toggleCollapse.bind(null, componentName)
-                )
-                  Collapse.Header
-                    MenuItem(name=componentName)
-                  Collapse.Content
-                    each subName in sub
-                      - const subFullName = componentName + '.' + subName
-                      MenuItem.subMenuItem(
-                        key=subFullName
-                        name=subFullName
-                      )
-              else
-                MenuItem(key=componentName name=componentName)
-    Br(half)
-    Options
+                if sub.length
+                  Collapse(
+                    key=componentName
+                    variant='pure'
+                    open=openedCollapses[componentName]
+                    onChange=toggleCollapse.bind(null, componentName)
+                  )
+                    Collapse.Header
+                      MenuItem(name=componentName)
+                    Collapse.Content
+                      each subName in sub
+                        - const subFullName = componentName + '.' + subName
+                        MenuItem.subMenuItem(
+                          key=subFullName
+                          name=subFullName
+                        )
+                else
+                  MenuItem(key=componentName name=componentName)
+      Row.lang(align='center')
+        Button(
+          size='s'
+          variant='text'
+          color=lang === 'en' ? 'primary' : undefined
+          onPress=() => emit('url', '/en')
+        ) English
+        Button(
+          size='s'
+          variant='text'
+          color=lang === 'ru' ? 'primary' : undefined
+          onPress=() => emit('url', '/ru')
+        ) Русский
+      Options
   `
 })

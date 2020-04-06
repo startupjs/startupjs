@@ -13,6 +13,7 @@ const MAX_SCALE_RATIO = 1
 
 function InputWrapper ({
   style,
+  className,
   children,
   hover,
   active,
@@ -81,6 +82,7 @@ function InputWrapper ({
   return pug`
     View.root(
       style=[style]
+      className=className
       styleName=[shape]
       activeOpacity=1
       ...props

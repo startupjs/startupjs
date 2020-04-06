@@ -18,6 +18,7 @@ const INPUT_COMPONENTS = {
 
 function CheckboxInput ({
   style,
+  className,
   variant,
   label,
   value,
@@ -86,6 +87,7 @@ function CheckboxInput ({
     return pug`
       Input(
         style=standalone ? [style, extraStyles] : {}
+        className=standalone ? className : undefined
         checked=value
         focused=focused
         hover=hover

@@ -1,12 +1,9 @@
 $input = lighten($UI.colors.dark, 75%)
 $thead = $UI.colors.darkLight
-$header = $UI.colors.white
+$header = $UI.colors.secondaryText
 $darkHeader = $UI.colors.whiteLight
 $value = $UI.colors.success
 $type = $UI.colors.additional1
-
-.thead
-  background-color $thead
 
 .input
   background-color white
@@ -38,3 +35,6 @@ $type = $UI.colors.additional1
     color lighten($value, 30%)
   &.type
     color lighten($type, 30%)
+
+.checkbox
+  align-self flex-end
