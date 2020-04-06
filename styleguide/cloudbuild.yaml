@@ -7,6 +7,9 @@
 substitutions:
   _APP: startupjs-ui
   _ZONE: us-east1-d
+  # We are in a monorepo, so we have to specify the path to the
+  # styleguide folder. In a regular project your code will be in the root: '.'
+  _PATH: ./styleguide
 
 steps:
 
@@ -17,7 +20,7 @@ steps:
   - 'build'
   - '--tag=gcr.io/$PROJECT_ID/${_APP}:$COMMIT_SHA'
   - '--tag=gcr.io/$PROJECT_ID/${_APP}:latest'
-  - '.'
+  - ${_PATH}
 
 # Push image to registry
 - id: push to registry with sha tag
