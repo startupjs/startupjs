@@ -111,7 +111,7 @@ export default observer(function Content ({
                         )
                 else
                   MenuItem(key=componentName name=componentName)
-      Row(align='center').lang
+      Row.lang(align='center')
         Button(
           size='s'
           variant='text'
