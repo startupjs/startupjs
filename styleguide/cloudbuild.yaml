@@ -14,7 +14,8 @@ substitutions:
   _APP: startupjs-ui
   _ZONE: us-east1-d
   # We are in a monorepo, so we have to specify the path to the
-  # styleguide folder. In a regular project your code will be in the root: '.'
+  # styleguide. In a regular project you won't need it
+  # since everything is gonna be in the root (current) folder: '.'
   _PATH: ./styleguide
 
 steps:
@@ -26,7 +27,9 @@ steps:
   - 'build'
   - '--tag=gcr.io/$PROJECT_ID/${_APP}:$COMMIT_SHA'
   - '--tag=gcr.io/$PROJECT_ID/${_APP}:latest'
-  - ${_PATH}
+  - '-f'
+  - '${_PATH}/Dockerfile'
+  - '.'
 
 # Push image to registry
 - id: push to registry with sha tag
@@ -47,7 +50,7 @@ steps:
 # Compiled files will become available under the same name in
 # ./deploy/compiled folder
 - name: 'ubuntu'
-  args: [bash, ./deploy/compile.sh]
+  args: [bash, '${_PATH}/deploy/compile.sh']
   env:
   # pipe all user defined substitutions
   # you MUST specify each env variable from the `substitutions` section above
@@ -68,9 +71,9 @@ steps:
   args:
   - apply
   - -f
-  - deploy/compiled/deployment.yaml
+  - '${_PATH}/deploy/compiled/deployment.yaml'
   - -f
-  - deploy/compiled/service.yaml
+  - '${_PATH}/deploy/compiled/service.yaml'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=$_ZONE'
   - 'CLOUDSDK_CONTAINER_CLUSTER=$PROJECT_ID'

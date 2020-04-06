@@ -12,12 +12,13 @@ WORKDIR /app
 
 RUN \
   apk add --no-cache make gcc g++ python git && \
-  npx lerna bootstrap && \
+  yarn bootstrap && \
   cd styleguide && \
   yarn build && \
   yarn cache clean && \
   apk del make gcc g++ python git
 
+WORKDIR /app/styleguide
 CMD yarn start-production
 
 EXPOSE 3000
