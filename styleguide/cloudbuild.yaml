@@ -1,10 +1,16 @@
-# IMPORTANT: When copying to another project,
-#            you MUST change the variables below (substitutions).
-#            Also note that the kube cluster name `CLOUDSDK_CONTAINER_CLUSTER`
-#            in this config is the same as the name of the google cloud project,
-#            which is a good practice overall -- create a separate google
-#            project for each of your kube clusters and name it the same.
+# PREREQUISITES:
+#   - project PROJECT_ID on google cloud
+#   - kube cluster in this project with exactly the same name: PROJECT_ID
+#   - ConfigMap in the cluster named _APP with the required private
+#     environment variables from './config.json' specified
+#   - Ingress configuration which proxies port 80 to the serviceName _APP
+
+# IMPORTANT:
+#   - When copying to another project, you MUST change the variables below
+#     (substitutions)
 substitutions:
+  # The kube cluster must have a ConfigMap with the _APP name
+  # which has the required private env vars specified from ./config.json
   _APP: startupjs-ui
   _ZONE: us-east1-d
   # We are in a monorepo, so we have to specify the path to the
@@ -32,17 +38,41 @@ steps:
   name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/${_APP}:latest']
 
-# Update the deployment's image to new version
-- id: update kube deployment image version
-  name: 'gcr.io/cloud-builders/kubectl'
+# Compile resources configuration:
+#
+# ./deploy folder:
+# - deployment.yaml
+# - service.yaml
+#
+# Compiled files will become available under the same name in
+# ./deploy/compiled folder
+- name: 'ubuntu'
+  args: [bash, ./deploy/compile.sh]
+  env:
+  # pipe all user defined substitutions
+  # you MUST specify each env variable from the `substitutions` section above
+  - _APP=$_APP
+  # pipe all default substitutions
+  # https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
+  - PROJECT_ID=$PROJECT_ID
+  - BUILD_ID=$BUILD_ID
+  - COMMIT_SHA=$COMMIT_SHA
+  - SHORT_SHA=$SHORT_SHA
+  - REPO_NAME=$REPO_NAME
+  - BRANCH_NAME=$BRANCH_NAME
+  - TAG_NAME=$TAG_NAME
+  - REVISION_ID=$REVISION_ID
+
+# Create deployment and service
+- name: 'gcr.io/cloud-builders/kubectl'
   args:
-  - set
-  - image
-  - deployment
-  - ${_APP}
-  - ${_APP}=gcr.io/$PROJECT_ID/${_APP}:$COMMIT_SHA
+  - apply
+  - -f
+  - deploy/compiled/deployment.yaml
+  - -f
+  - deploy/compiled/service.yaml
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=$_ZONE'
   - 'CLOUDSDK_CONTAINER_CLUSTER=$PROJECT_ID'
 
-timeout: 1200s
+timeout: 2000s
