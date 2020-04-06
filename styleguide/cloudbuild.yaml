@@ -1,0 +1,45 @@
+# IMPORTANT: When copying to another project,
+#            you MUST change the variables below (substitutions).
+#            Also note that the kube cluster name `CLOUDSDK_CONTAINER_CLUSTER`
+#            in this config is the same as the name of the google cloud project,
+#            which is a good practice overall -- create a separate google
+#            project for each of your kube clusters and name it the same.
+substitutions:
+  _APP: startupjs-ui
+  _ZONE: us-east1-d
+
+steps:
+
+# Build the app
+- id: build
+  name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--tag=gcr.io/$PROJECT_ID/${_APP}:$COMMIT_SHA'
+  - '--tag=gcr.io/$PROJECT_ID/${_APP}:latest'
+  - '.'
+
+# Push image to registry
+- id: push to registry with sha tag
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/${_APP}:$COMMIT_SHA']
+
+# Make that image to be 'latest'
+- id: push to registry as latest
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/${_APP}:latest']
+
+# Update the deployment's image to new version
+- id: update kube deployment image version
+  name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - set
+  - image
+  - deployment
+  - ${_APP}
+  - ${_APP}=gcr.io/$PROJECT_ID/${_APP}:$COMMIT_SHA
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=$_ZONE'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=$PROJECT_ID'
+
+timeout: 1200s
