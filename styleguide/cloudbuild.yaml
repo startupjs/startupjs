@@ -50,7 +50,7 @@ steps:
 # Compiled files will become available under the same name in
 # ./deploy/compiled folder
 - name: 'ubuntu'
-  args: [bash, '${_PATH}/deploy/compile.sh']
+  args: [bash, 'cd ${_PATH} && ./deploy/compile.sh']
   env:
   # pipe all user defined substitutions
   # you MUST specify each env variable from the `substitutions` section above
