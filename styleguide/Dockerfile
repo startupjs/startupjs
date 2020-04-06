@@ -12,7 +12,7 @@ WORKDIR /app
 
 RUN \
   apk add --no-cache make gcc g++ python git && \
-  yarn bootstrap && \
+  npx lerna bootstrap && \
   cd styleguide && \
   yarn build && \
   yarn cache clean && \
