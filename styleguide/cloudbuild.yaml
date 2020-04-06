@@ -49,12 +49,17 @@ steps:
 #
 # Compiled files will become available under the same name in
 # ./deploy/compiled folder
-- name: 'ubuntu'
-  args: [bash, 'cd ${_PATH} && ./deploy/compile.sh']
+- id: compile kube resources
+  name: gcr.io/cloud-builders/kubectl
+  entrypoint: bash
+  args:
+    - -c
+    - 'cd $$_PATH && ./deploy/compile.sh'
   env:
   # pipe all user defined substitutions
   # you MUST specify each env variable from the `substitutions` section above
   - _APP=$_APP
+  - _PATH=$_PATH
   # pipe all default substitutions
   # https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
   - PROJECT_ID=$PROJECT_ID
@@ -67,7 +72,8 @@ steps:
   - REVISION_ID=$REVISION_ID
 
 # Create deployment and service
-- name: 'gcr.io/cloud-builders/kubectl'
+- id: apply kube resources
+  name: 'gcr.io/cloud-builders/kubectl'
   args:
   - apply
   - -f
