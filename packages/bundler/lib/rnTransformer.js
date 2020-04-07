@@ -76,7 +76,6 @@ module.exports.transform = function ({ src, filename, options }) {
 
 const OBSERVER_REGEX = /(^|\W)observer\(/
 const OBSERVER_REPLACE = 'observer.__wrapObserverMeta(observer.__makeObserver('
-const OPTIONS_AHCNORS = ['forwardRef:', 'suspenseProps:']
 
 function replaceObserver (src) {
   let match = src.match(OBSERVER_REGEX)
@@ -85,41 +84,17 @@ function replaceObserver (src) {
   let matchStr = match[0]
   let matchLength = matchStr.length
   let openBr = 1 // Count opened brackets, we start from one already opened
-  let lastCloseCurclyBrIndex
-  let prevCloseCurclyBrIndex
-
   for (let i = matchIndex + matchLength; i < src.length; i++) {
     if (src.charAt(i) === ')') {
       --openBr
     } else if (src.charAt(i) === '(') {
       ++openBr
-    } else if (src.charAt(i) === '}') {
-      prevCloseCurclyBrIndex = lastCloseCurclyBrIndex
-      lastCloseCurclyBrIndex = i
     }
-
     if (openBr <= 0) {
-      let index = i
-      let hasOptions = false
-
-      if (prevCloseCurclyBrIndex) {
-        for (const anchor of OPTIONS_AHCNORS) {
-          if (src.slice(prevCloseCurclyBrIndex, i).includes(anchor)) {
-            hasOptions = true
-            break
-          }
-        }
-      }
-
-      if (hasOptions) {
-        index = prevCloseCurclyBrIndex + 1
-      }
-
-      src = src.slice(0, index) + ')' + src.slice(index)
+      src = src.slice(0, i) + ')' + src.slice(i)
       break
     }
   }
-
   src = src.replace(OBSERVER_REGEX, '$1' + OBSERVER_REPLACE)
   return replaceObserver(src)
 }
