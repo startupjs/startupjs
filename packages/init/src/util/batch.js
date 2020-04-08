@@ -1,1 +1,2 @@
-export { batch as default } from '@startupjs/react-sharedb/batching'
+import batching from '@startupjs/react-sharedb/batching'
+export default batching.batch.bind(batching)
