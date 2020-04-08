@@ -7,14 +7,18 @@ import promiseBatcher from './promiseBatcher'
 import $root from '@startupjs/model'
 import { ComponentMetaContext } from './meta'
 
-const DEFAULT_SUSPENSE_PROPS = {
-  fallback: React.createElement(NullComponent, null, null)
+const DEFAULT_OPTIONS = {
+  forwardRef: false,
+  suspenseProps: {
+    fallback: React.createElement(NullComponent, null, null)
+  }
 }
 
-// TODO: Fix passing suspenseProps argument in react-native Fast Refresh patch.
+// TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
-function observer (Component, suspenseProps) {
-  return wrapObserverMeta(makeObserver(Component), suspenseProps)
+function observer (Component, options) {
+  const _options = { ...DEFAULT_OPTIONS, ...options }
+  return wrapObserverMeta(makeObserver(Component, _options), _options)
 }
 
 observer.__wrapObserverMeta = wrapObserverMeta
@@ -36,14 +40,15 @@ function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defau
   return TargetComponent
 }
 
-function makeObserver (baseComponent) {
+function makeObserver (baseComponent, options = {}) {
+  const { forwardRef } = { ...DEFAULT_OPTIONS, ...options }
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
   let random = Math.random()
 
   // memo; we are not intested in deep updates
   // in props; we assume that if deep objects are changed,
   // this is in observables, which would have been tracked anyway
-  const WrappedComponent = (props) => {
+  const WrappedComponent = (...args) => {
     // forceUpdate 2.0
     const forceUpdate = useForceUpdate()
 
@@ -68,19 +73,25 @@ function makeObserver (baseComponent) {
     // clean up observer on unmount
     useUnmount(() => unobserve(observedComponent))
 
-    return observedComponent(props)
+    return observedComponent(...args)
   }
+
   pipeComponentMeta(baseComponent, WrappedComponent)
-  const memoComponent = React.memo(WrappedComponent)
-  pipeComponentMeta(baseComponent, memoComponent)
-  return memoComponent
+  return forwardRef
+    ? React.forwardRef(WrappedComponent)
+    : WrappedComponent
 }
 
-function wrapObserverMeta (Component, suspenseProps = DEFAULT_SUSPENSE_PROPS) {
+function wrapObserverMeta (
+  Component,
+  options = {}
+) {
+  const { forwardRef, suspenseProps } = { ...DEFAULT_OPTIONS, ...options }
   if (!(suspenseProps && suspenseProps.fallback)) {
     throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
   }
-  function ObserverWrapper (props) {
+
+  function ObserverWrapper (props, ref) {
     var componentMeta = React.useMemo(function () {
       return {
         componentId: $root.id(),
@@ -93,12 +104,24 @@ function wrapObserverMeta (Component, suspenseProps = DEFAULT_SUSPENSE_PROPS) {
       React.createElement(
         React.Suspense,
         suspenseProps,
-        React.createElement(Component, props)
+        forwardRef
+          ? React.createElement(Component, { ...props, ref })
+          : React.createElement(Component, props)
       )
     )
   }
+
+  let memoComponent
   pipeComponentMeta(Component, ObserverWrapper, 'Observer', 'StartupjsWrapperObserver')
-  return ObserverWrapper
+
+  if (forwardRef) {
+    memoComponent = React.memo(React.forwardRef(ObserverWrapper))
+  } else {
+    memoComponent = React.memo(ObserverWrapper)
+  }
+
+  pipeComponentMeta(Component, memoComponent)
+  return memoComponent
 }
 
 function wrapBaseComponent (baseComponent, blockUpdate) {
