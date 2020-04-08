@@ -17,7 +17,8 @@ const DEFAULT_OPTIONS = {
 // TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
 function observer (Component, options) {
-  return wrapObserverMeta(makeObserver(Component), options)
+  const _options = { ...DEFAULT_OPTIONS, ...options }
+  return wrapObserverMeta(makeObserver(Component, _options), _options)
 }
 
 observer.__wrapObserverMeta = wrapObserverMeta
@@ -39,7 +40,8 @@ function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defau
   return TargetComponent
 }
 
-function makeObserver (baseComponent) {
+function makeObserver (baseComponent, options = {}) {
+  const { forwardRef } = { ...DEFAULT_OPTIONS, ...options }
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
   let random = Math.random()
 
@@ -73,8 +75,11 @@ function makeObserver (baseComponent) {
 
     return observedComponent(...args)
   }
+
   pipeComponentMeta(baseComponent, WrappedComponent)
-  return WrappedComponent
+  return forwardRef
+    ? React.forwardRef(WrappedComponent)
+    : WrappedComponent
 }
 
 function wrapObserverMeta (
@@ -86,21 +91,22 @@ function wrapObserverMeta (
     throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
   }
 
-  function ObserverWrapper (...args) {
+  function ObserverWrapper (props, ref) {
     var componentMeta = React.useMemo(function () {
       return {
         componentId: $root.id(),
         createdAt: Date.now()
       }
     }, [])
-
     return React.createElement(
       ComponentMetaContext.Provider,
       { value: componentMeta },
       React.createElement(
         React.Suspense,
         suspenseProps,
-        React.createElement(() => Component(...args))
+        forwardRef
+          ? React.createElement(Component, { ...props, ref })
+          : React.createElement(Component, props)
       )
     )
   }

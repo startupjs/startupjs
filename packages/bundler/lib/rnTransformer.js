@@ -99,7 +99,7 @@ function replaceObserver (src) {
     }
 
     if (openBr <= 0) {
-      let index = i
+      let options = ''
       let hasOptions = false
 
       if (prevCloseCurclyBrIndex) {
@@ -112,10 +112,10 @@ function replaceObserver (src) {
       }
 
       if (hasOptions) {
-        index = prevCloseCurclyBrIndex + 1
+        options = src.slice(prevCloseCurclyBrIndex + 1, lastCloseCurclyBrIndex + 1)
       }
 
-      src = src.slice(0, index) + ')' + src.slice(index)
+      src = src.slice(0, i) + ')' + options + src.slice(i)
       break
     }
   }
