@@ -23,10 +23,15 @@ yarn add startupjs
 
 ## Hooks Usage
 
-### `observer(FunctionalComponent)` HOF
+### `observer(FunctionalComponent, options)` HOF
 
 Higher Order Function which makes your functional component rendering reactive.
 **You have to** wrap your functional components in it to be able to use `react-sharedb` hooks.
+
+`options` object have the following properties:
+* `forwardRef` - pass `true` to use `React.forwardRef` over the inner component
+* `suspenseProps`
+  * `fallback` - A React element (ie. `<MyComponent />`)
 
 ```js
 import {observer, useDoc} from 'startupjs'
@@ -309,6 +314,62 @@ const Sidebar = observer(() => {
 })
 
 render(<Main />, document.body.appendChild(document.createElement('div')))
+```
+
+### Batching
+React batch updates during a synchronous lifecycle method or during event handlers. For other cases see examples below:
+
+```js
+import React from 'react'
+import { observer, batch, useDoc } from 'startupjs'
+import axios from 'axios'
+
+export default observer(function Game ({gameId}) {
+  const [userId, $userId] = useLocal('_session.userId')
+  const [user, $user] = useDoc('users', userId)
+  const [game, $game] = useDoc('games', gameId)
+
+  function startGame () {
+    await axios.post('/api/start-game', { gameId })
+    batch(() => {
+      $user.set('activeGameId', gameId)
+      $game.set('startAt', +new Date())
+    })
+  }
+
+  return (
+    <button onClick={startGame}>Start game</button>
+  )
+```
+
+```js
+import React from 'react'
+import { observer, batch, useDoc, useQuery } from 'startupjs'
+
+export default observer(function Game ({ gameId }) {
+  const [game, $game] = useDoc('games', gameId)
+
+  function startGame () {
+    const $$players = $root.query('players', { gameId })
+    await $root.subscribeAsync($$players)
+    const playerIds = $$players.getIds()
+    const promises = []
+    const startAt = +new Date()
+
+    batch(() => {
+      playerIds.forEach(playerId => {
+        const $player = $root.scope(`players.${playerId}`)
+        promises.push($player.setAsync('startAt', startAt))
+      })
+    })
+
+    await Promise.all(promises)
+  }
+
+  return (
+    <button onClick={startGame}>Start game</button>
+  )
+})
 ```
 
 ### Hooks Example
