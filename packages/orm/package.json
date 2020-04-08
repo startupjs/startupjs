@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/orm",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "description": "ORM system for Racer.js and ShareDB",
   "main": "lib/index.js",
   "publishConfig": {
