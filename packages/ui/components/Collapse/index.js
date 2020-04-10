@@ -85,7 +85,8 @@ Collapse.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   open: propTypes.bool,
-  variant: propTypes.oneOf(['full', 'pure'])
+  variant: propTypes.oneOf(['full', 'pure']),
+  onChange: propTypes.func
 }
 
 const ObserverCollapse = observer(Collapse)
