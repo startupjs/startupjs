@@ -115,6 +115,7 @@ export default observer(function Input ({
         onChangeText=(value) => {
           onChangeText && onChangeText(value)
         }
+        ...props
         ...inputExtraProps
       )
   `
