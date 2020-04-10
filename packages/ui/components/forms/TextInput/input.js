@@ -86,7 +86,7 @@ export default observer(function Input ({
   }
   if (IS_IOS) inputStyles.lineHeight -= IOS_LH_CORRECTION[size]
 
-  const inputExtraProps = {...props}
+  const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
   return pug`
@@ -115,6 +115,7 @@ export default observer(function Input ({
         onChangeText=(value) => {
           onChangeText && onChangeText(value)
         }
+        ...props
         ...inputExtraProps
       )
   `
