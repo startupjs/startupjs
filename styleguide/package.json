@@ -26,6 +26,7 @@
     "@startupjs/mdx": "^0.18.3",
     "@startupjs/ui": "^0.18.3",
     "axios": "^0.19.0",
+    "modal-react-native-web": "^0.2.0",
     "nconf": "^0.10.0",
     "parse-prop-types": "^0.3.0",
     "patch-package": "^6.2.0",

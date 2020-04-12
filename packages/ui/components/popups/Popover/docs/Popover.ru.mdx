@@ -1,0 +1,50 @@
+import {
+  Example,
+  ExamplePosition,
+  ExampleAnimate
+} from './examples'
+
+# Popover
+Всплывающие компоненты можно использовать для отображения скрытого контента.
+```jsx
+import { Popover } from '@startupjs/ui'
+```
+
+## Простой пример
+```jsx
+const [visible, setVisible] = useState(false)
+
+return (
+  <View>
+    <Popover
+      width={400}
+      height={200}
+      visible={visible}
+      hasWidthCaption={false}
+      positionHorizontal="right"
+      onDismiss={()=> setVisible(false)}
+    >
+      <Popover.Caption style={{ width: 32 }}>
+        <TouchableWithoutFeedback onPress={()=> setVisible(true)}>
+          <Icon icon={faUserCircle} size="xl" />
+        </TouchableWithoutFeedback>
+      </Popover.Caption>
+    </Popover>
+  </View>
+);
+```
+<Example />
+
+## Позиция
+Можно задать позиции по вертикали (top, center, bottom) и горизонатли (left, center, right) относительно Caption.
+```jsx
+positionHorizontal="right" // left, center, right
+positionVertical="center" // bottom, center, top
+```
+<ExamplePosition />
+
+## Анимации
+```jsx
+animateType="default" // default, slide, scale
+```
+<ExampleAnimate />
