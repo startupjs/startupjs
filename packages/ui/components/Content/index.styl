@@ -1,0 +1,23 @@
+_gutter = 2u
+
+.root
+  padding-left _gutter
+  padding-right @padding-left
+
+  &.padding
+    padding-top _gutter
+    padding-bottom @padding-top
+
+  &.full
+    flex 1
+
+  &.width
+    &-mobile
+      max-width: $UI.media.mobile
+    &-tablet
+      max-width $UI.media.tablet
+    &-desktop
+      max-width $UI.media.desktop
+    &-wide
+      max-width $UI.media.wide
+    // &-full is without max-width
