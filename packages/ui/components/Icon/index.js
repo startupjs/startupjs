@@ -52,7 +52,8 @@ const Icon = observer(({
 })
 
 Icon.defaultProps = {
-  size: 'm'
+  size: 'm',
+  color: config.colors.dark
 }
 
 Icon.propTypes = {
