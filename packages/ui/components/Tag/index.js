@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { View, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
@@ -26,6 +26,8 @@ function Tag ({
   iconsColor,
   textColor,
   onPress,
+  onIconPress,
+  onRightIconPress,
   ...props
 }) {
   const [hover, setHover] = useState()
@@ -117,12 +119,18 @@ function Tag ({
       ...props
     )
       if icon
-        View.leftIconWrapper(styleName=[iconWrapperStyle])
+        Div.leftIconWrapper(
+          styleName=[iconWrapperStyle]
+          onPress=onIconPress
+        )
           Icon(icon=icon color=_iconsColor ...ICON_PROPS)
       if children
         Span.label(style=labelStyles bold size='xs')= children
       if rightIcon
-        View.rightIconWrapper(styleName=[iconWrapperStyle])
+        Div.rightIconWrapper(
+          styleName=[iconWrapperStyle]
+          onPress=onRightIconPress
+        )
           Icon(icon=rightIcon color=_iconsColor ...ICON_PROPS)
   `
 }
