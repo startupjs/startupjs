@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/init",
-  "version": "0.18.4",
+  "version": "0.19.0",
   "description": "Init sharedb connection on client web, native or server side",
   "main": "lib/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/react-sharedb": "^0.18.4",
+    "@startupjs/react-sharedb": "^0.19.0",
     "bluebird": "^3.5.0",
     "racer": "0.9.9",
     "rich-text": "^4.0.0",
