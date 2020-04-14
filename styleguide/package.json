@@ -27,7 +27,6 @@
     "@startupjs/ui": "^0.18.4",
     "axios": "^0.19.0",
     "nconf": "^0.10.0",
-    "parse-prop-types": "^0.3.0",
     "patch-package": "^6.2.0",
     "postinstall-postinstall": "^2.0.0",
     "prop-types": "^15.7.2",

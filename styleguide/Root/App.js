@@ -11,6 +11,7 @@ import { observer, useModel, useSession, useDoc } from 'startupjs'
 
 // Frontend micro-services
 import * as main from '../main'
+import docs from '../docs'
 
 // Init startupjs connection to server and the ORM.
 // baseUrl option is required for the native to work - it's used
@@ -45,7 +46,7 @@ export default observer(({ session }) => {
   useGlobalInit(session)
 
   return pug`
-    App(apps={main})
+    App(apps={main, docs})
   `
 })
 
