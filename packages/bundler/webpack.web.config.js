@@ -148,7 +148,7 @@ module.exports = function getConfig (env, {
           exclude: /node_modules/
         }),
         Object.assign(getJsxRule(), {
-          include: new RegExp(`node_modules/(?:${forceCompileModules.join('|')})`)
+          include: new RegExp(`node_modules/(?:react-native-|${forceCompileModules.join('|')})`)
         }),
         {
           test: /\.mdx$/,
