@@ -78,12 +78,7 @@ module.exports = {
   cd ios && pod install
 ```
 
-3. Add `sourceExts` to `metro.config.js`
-```js
-  config.resolver.sourceExts = ['ts', 'tsx']
-```
-
-4. Usage example
+3. Usage example
 ```js
   import { Icon } from '@startupjs/ui'
   import { faCoffee } from '@fortawesome/free-solid-svg-icons'
