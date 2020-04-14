@@ -3,7 +3,7 @@ import { observer, useValue, useComponentId } from 'startupjs'
 import { Dimensions } from 'react-native'
 import propTypes from 'prop-types'
 import Sidebar from '../Sidebar'
-import Drawer from '../Drawer'
+import DrawerSidebar from '../DrawerSidebar'
 import config from '../../config/rootConfig'
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
@@ -46,7 +46,7 @@ function SmartSidebar ({
         renderContent=renderContent
       )= children
     else
-      Drawer(
+      DrawerSidebar(
         style=style
         path=path
         position=position

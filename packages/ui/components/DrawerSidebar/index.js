@@ -6,7 +6,7 @@ import DrawerLayout from 'react-native-drawer-layout-polyfill'
 import config from '../../config/rootConfig'
 import './index.styl'
 
-function Drawer ({
+function DrawerSidebar ({
   style,
   forceClosed,
   backgroundColor,
@@ -23,7 +23,7 @@ function Drawer ({
     drawerExtraProps.drawerLockMode = 'locked-closed'
   }
 
-  const [open, $open] = useLocal(path || `_session.Drawer.${componentId}`)
+  const [open, $open] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
   let drawerRef = useRef()
 
   useLayoutEffect(() => {
@@ -58,14 +58,14 @@ function Drawer ({
   `
 }
 
-Drawer.defaultProps = {
+DrawerSidebar.defaultProps = {
   forceClosed: false,
   backgroundColor: config.colors.white,
   position: 'left',
   width: 264
 }
 
-Drawer.propTypes = {
+DrawerSidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   forceClosed: propTypes.bool,
@@ -75,4 +75,4 @@ Drawer.propTypes = {
   renderContent: propTypes.func
 }
 
-export default observer(Drawer)
+export default observer(DrawerSidebar)
