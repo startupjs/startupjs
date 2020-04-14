@@ -53,17 +53,17 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
     return null
   }
 
-  function goTo (url) {
+  function goTo (url, replace) {
     typeof goToHandler === 'function'
-      ? goToHandler(url, _goTo)
-      : _goTo(url)
+      ? goToHandler(url, _goTo, replace)
+      : _goTo(url, replace)
   }
 
-  function _goTo (url) {
+  function _goTo (url, replace) {
     const app = getApp(url.replace(/\?.*$/, ''), routes)
 
     if (app) {
-      history.push(url)
+      history[replace ? 'replace' : 'push'](url)
     } else {
       isWeb
         ? window.open(url, '_blank')

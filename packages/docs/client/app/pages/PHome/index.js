@@ -16,7 +16,7 @@ export default observer(function PHome ({
   }
   if (!docs[lang]) lang = 'en'
   useEffect(() => {
-    emit('url', `/docs/${lang}/docs/` + Object.keys(docs[lang])[0])
+    emit('url', `/docs/${lang}/docs/` + Object.keys(docs[lang])[0], true)
   }, [])
   return null
 })
