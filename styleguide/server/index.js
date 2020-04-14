@@ -2,6 +2,7 @@ import init from 'startupjs/init'
 import orm from '../model'
 import startupjsServer from 'startupjs/server'
 import getMainRoutes from '../main/routes'
+import getDocsRoutes from '@startupjs/docs/routes'
 
 // Init startupjs ORM.
 init({ orm })
@@ -10,7 +11,8 @@ init({ orm })
 startupjsServer({
   getHead,
   appRoutes: [
-    ...getMainRoutes()
+    ...getMainRoutes(),
+    ...getDocsRoutes()
   ]
 })
 

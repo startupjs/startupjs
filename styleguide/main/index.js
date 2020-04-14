@@ -1,5 +1,11 @@
-import * as pages from './pages'
+import { useEffect } from 'react'
+import { emit } from 'startupjs'
 import getRoutes from './routes'
 
-export { default as Layout } from './Layout'
-export const routes = getRoutes(pages)
+export const Layout = ({ children }) => children
+export const routes = getRoutes({
+  PHome: () => {
+    useEffect(() => { emit('url', '/docs') }, [])
+    return null
+  }
+})

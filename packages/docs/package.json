@@ -1,0 +1,19 @@
+{
+  "name": "@startupjs/docs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "MDX documentation generator",
+  "version": "0.18.3",
+  "main": "index.js",
+  "dependencies": {
+    "@startupjs/mdx": "^0.18.3",
+    "@startupjs/ui": "^0.18.3",
+    "parse-prop-types": "^0.3.0",
+    "startupjs": "^0.18.3"
+  },
+  "peerDependencies": {
+    "react": ">= 16.9.0 < 17",
+    "react-native": "*"
+  }
+}
