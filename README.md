@@ -21,18 +21,18 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
 1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
-1. [React-ShareDB](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb):
+1. [React-ShareDB](https://github.com/startupjs/startupjs/blob/master/packages/react-sharedb):
     - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
     - Allows to sync data between your local state (similar to Redux) and the DB.
     - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
     - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
     - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
-1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/dmapper/startupjs/blob/master/packages/orm).
-1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](https://github.com/dmapper/startupjs/blob/master/packages/app) (e.g. `main` and `admin`)
+1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/startupjs/startupjs/blob/master/packages/orm).
+1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](https://github.com/startupjs/startupjs/blob/master/packages/app) (e.g. `main` and `admin`)
 1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
-1. [Offline support](https://github.com/dmapper/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
+1. [Offline support](https://github.com/startupjs/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
     - *optional* [TypeScript](https://www.typescriptlang.org/)
@@ -198,21 +198,21 @@ to the native installation when working with the large amount of files.
 
 ## List of Packages
 
-- [App](https://github.com/dmapper/startupjs/blob/master/packages/app)
-- [Backend](https://github.com/dmapper/startupjs/blob/master/packages/backend)
-- [Bundler](https://github.com/dmapper/startupjs/blob/master/packages/bundler)
-- [CLI](https://github.com/dmapper/startupjs/blob/master/packages/cli)
-- [CodePush](https://github.com/dmapper/startupjs/blob/master/packages/codepush)
-- [Cron](https://github.com/dmapper/startupjs/blob/master/packages/cron)
-- [Init](https://github.com/dmapper/startupjs/blob/master/packages/init)
-- [Model](https://github.com/dmapper/startupjs/blob/master/packages/model)
-- [Offline](https://github.com/dmapper/startupjs/blob/master/packages/offline)
-- [ORM](https://github.com/dmapper/startupjs/blob/master/packages/orm)
-- [React sharedb](https://github.com/dmapper/startupjs/blob/master/packages/react-sharedb)
-- [Routes middleware](https://github.com/dmapper/startupjs/blob/master/packages/routes-middleware)
-- [Server](https://github.com/dmapper/startupjs/blob/master/packages/server)
+- [App](https://github.com/startupjs/startupjs/blob/master/packages/app)
+- [Backend](https://github.com/startupjs/startupjs/blob/master/packages/backend)
+- [Bundler](https://github.com/startupjs/startupjs/blob/master/packages/bundler)
+- [CLI](https://github.com/startupjs/startupjs/blob/master/packages/cli)
+- [CodePush](https://github.com/startupjs/startupjs/blob/master/packages/codepush)
+- [Cron](https://github.com/startupjs/startupjs/blob/master/packages/cron)
+- [Init](https://github.com/startupjs/startupjs/blob/master/packages/init)
+- [Model](https://github.com/startupjs/startupjs/blob/master/packages/model)
+- [Offline](https://github.com/startupjs/startupjs/blob/master/packages/offline)
+- [ORM](https://github.com/startupjs/startupjs/blob/master/packages/orm)
+- [React sharedb](https://github.com/startupjs/startupjs/blob/master/packages/react-sharedb)
+- [Routes middleware](https://github.com/startupjs/startupjs/blob/master/packages/routes-middleware)
+- [Server](https://github.com/startupjs/startupjs/blob/master/packages/server)
 - [Styleguide](/packages/styleguide)
-- [StartupJS meta package](https://github.com/dmapper/startupjs/blob/master/packages/startupjs)
+- [StartupJS meta package](https://github.com/startupjs/startupjs/blob/master/packages/startupjs)
 - [UI](/packages/ui)
 
 ## Contributing & Troubleshooting
