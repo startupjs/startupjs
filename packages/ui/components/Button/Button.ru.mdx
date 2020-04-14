@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Button from '../Button'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
@@ -13,9 +14,12 @@ import { Button } from '@startupjs/ui'
 ```
 
 ```jsx example
-<Button onPress={() => console.log('Clicked!')}>
-  Нажми меня
-</Button>
+const [counter, setCounter] = useState(0)
+return (
+  <Button onPress={() => setCounter(counter + 1)}>
+    Нажато {counter} раз
+  </Button>
+)
 ```
 
 ## Призыв к Действию
