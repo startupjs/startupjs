@@ -1,3 +1,4 @@
+export { default as useBackPress } from './useBackPress'
 export { default as useDidUpdate } from './useDidUpdate'
 export { default as useForceUpdate } from './useForceUpdate'
 export { default as useOnce } from './useOnce'
