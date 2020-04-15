@@ -53,14 +53,15 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
     return null
   }
 
-  function goTo (url, replace) {
+  function goTo (url, options) {
     typeof goToHandler === 'function'
-      ? goToHandler(url, _goTo, replace)
-      : _goTo(url, replace)
+      ? goToHandler(url, options, _goTo)
+      : _goTo(url, options)
   }
 
-  function _goTo (url, replace) {
+  function _goTo (url, options = {}) {
     const app = getApp(url.replace(/\?.*$/, ''), routes)
+    const { replace } = options
 
     if (app) {
       history[replace ? 'replace' : 'push'](url)
