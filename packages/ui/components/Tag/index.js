@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import { Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import React, { useMemo } from 'react'
+import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import Span from '../Span'
@@ -13,7 +12,16 @@ const { colors } = config
 const ICON_PROPS = {
   size: 'xs'
 }
-const isWeb = Platform.OS === 'web'
+const STATES_OPACITIES = {
+  flat: {
+    hoverOpacity: 0.5,
+    activeOpacity: 0.25
+  },
+  outlined: {
+    hoverOpacity: 0.05,
+    activeOpacity: 0.25
+  }
+}
 
 function Tag ({
   style,
@@ -30,43 +38,12 @@ function Tag ({
   onRightIconPress,
   ...props
 }) {
-  const [hover, setHover] = useState()
-  const [active, setActive] = useState()
-
-  const isClickable = typeof onPress === 'function'
-
   const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
   const _color = useMemo(() => colors[color] || color, [color])
   const _iconsColor = useMemo(() => {
     return colors[iconsColor] || iconsColor ||
       (variant === 'flat' ? colors.white : _color)
   }, [iconsColor, variant, _color])
-
-  if (isClickable) {
-    const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
-
-    if (isWeb) {
-      props.onMouseEnter = (...args) => {
-        setHover(true)
-        onMouseEnter && onMouseEnter(...args)
-      }
-
-      props.onMouseLeave = (...args) => {
-        setHover()
-        onMouseLeave && onMouseLeave(...args)
-      }
-    }
-
-    props.onPressIn = (...args) => {
-      setActive(true)
-      onPressIn && onPressIn(...args)
-    }
-
-    props.onPressOut = (...args) => {
-      setActive()
-      onPressOut && onPressOut(...args)
-    }
-  }
 
   const [rootStyles, labelStyles] = useMemo(() => {
     let rootStyles = {}
@@ -75,6 +52,7 @@ function Tag ({
     switch (variant) {
       case 'flat':
         labelStyles.color = _textColor || colors.white
+        rootStyles.backgroundColor = _color
         break
       case 'outlined':
         rootStyles.borderWidth = 1
@@ -85,36 +63,15 @@ function Tag ({
     return [rootStyles, labelStyles]
   }, [variant, _textColor, _color])
 
-  const backgroundColor = useMemo(() => {
-    switch (variant) {
-      case 'flat':
-        // Order is important because active has higher priority
-        if (active) return colorToRGBA(_color, 0.25)
-        if (hover) return colorToRGBA(_color, 0.5)
-        return _color
-      case 'outlined':
-        if (active) return colorToRGBA(_color, 0.25)
-        if (hover) return colorToRGBA(_color, 0.05)
-        break
-    }
-  }, [variant, hover, active, _color])
-
-  // If component become not clickable
-  // while hover or active, state wouldn't update without this effect
-  useDidUpdate(() => {
-    if (!isClickable) {
-      setHover()
-      setActive()
-    }
-  }, [isClickable])
-
   const iconWrapperStyle = { 'with-label': React.Children.count(children) }
 
   return pug`
     Div.root(
-      style=[style, rootStyles, { backgroundColor }]
+      style=[style, rootStyles]
       styleName=[color, shape]
-      interactive=false
+      hoverOpacity=STATES_OPACITIES[variant].hoverOpacity
+      activeOpacity=STATES_OPACITIES[variant].activeOpacity
+      underlayColor=_color
       onPress=onPress
       ...props
     )

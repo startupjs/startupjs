@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react'
-import { View, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import React, { useMemo } from 'react'
+import { View } from 'react-native'
+import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'
@@ -10,7 +10,6 @@ import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
 
 const { colors } = config
-const isWeb = Platform.OS === 'web'
 
 function Button ({
   style,
@@ -28,8 +27,6 @@ function Button ({
   pushed, // By some reason prop 'push' was ignored
   ...props
 }) {
-  const [hover, setHover] = useState()
-  const [active, setActive] = useState()
   const extraCommonStyles = {
     'with-label': typeof children === 'string'
       ? children.length
@@ -51,6 +48,7 @@ function Button ({
     switch (variant) {
       case 'flat':
         labelStyles.color = _textColor || colors.white
+        rootStyles.backgroundColor = _color
         break
       case 'outlined':
         labelStyles.color = _textColor || _color
@@ -58,82 +56,47 @@ function Button ({
         rootStyles.borderColor = colorToRGBA(_color, 0.5)
         break
       case 'text':
+        labelStyles.color = _textColor || _color
+        break
       case 'shadowed':
         labelStyles.color = _textColor || _color
+        rootStyles.backgroundColor = colors.white
+        break
     }
 
     return [rootStyles, labelStyles]
   }, [variant, _textColor, _color])
-
-  const backgroundColor = useMemo(() => {
-    switch (variant) {
-      case 'flat':
-        // Order is important because active has higher priority
-        if (active) return colorToRGBA(_color, 0.25)
-        if (hover) return colorToRGBA(_color, 0.5)
-        return _color
-      case 'outlined':
-      case 'text':
-        if (active) return colorToRGBA(_color, 0.25)
-        if (hover) return colorToRGBA(_color, 0.05)
-        break
-      case 'shadowed':
-        if (active) return colorToRGBA(colors.white, 0.25)
-        if (hover) return colorToRGBA(colors.white, 0.5)
-        return colors.white
-    }
-  }, [variant, hover, active, _color])
-
-  if (!disabled) {
-    const { onMouseEnter, onMouseLeave, onPressIn, onPressOut } = props
-
-    props.onPressIn = (...args) => {
-      setActive(true)
-      onPressIn && onPressIn(...args)
-    }
-    props.onPressOut = (...args) => {
-      setActive()
-      onPressOut && onPressOut(...args)
-    }
-
-    if (isWeb) {
-      props.onMouseEnter = (...args) => {
-        setHover(true)
-        onMouseEnter && onMouseEnter(...args)
-      }
-      props.onMouseLeave = (...args) => {
-        setHover()
-        onMouseLeave && onMouseLeave(...args)
-      }
-    }
-  }
 
   const rootExtraProps = {}
   if (variant === 'shadowed') {
     rootExtraProps.level = 2
   }
 
-  // If component become not clickable
-  // while hover or active, state wouldn't update without this effect
-  useDidUpdate(() => {
-    if (disabled) {
-      setHover()
-      setActive()
+  const [hoverOpacity, activeOpacity] = useMemo(() => {
+    switch (variant) {
+      case 'flat':
+      case 'shadowed':
+        return [0.5, 0.25]
+      case 'outlined':
+      case 'text':
+        return [0.05, 0.25]
     }
-  }, [disabled])
+  }, [variant])
 
   return pug`
     Div.root(
-      style=[style, rootStyles, {backgroundColor}]
+      style=[style, rootStyles]
       styleName=[
         size,
         shape,
         { disabled, pushed },
         extraCommonStyles
       ]
+      underlayColor=_color
+      hoverOpacity=hoverOpacity
+      activeOpacity=activeOpacity
       disabled=disabled
       onPress=onPress
-      interactive=false
       ...rootExtraProps
       ...props
     )

@@ -9,18 +9,23 @@ const LINE_SIZE = 8
 function Hr ({
   style,
   children,
-  size = 'm'
+  size
 }) {
   const extraStyles = {}
   if (typeof size === 'number') {
     size = undefined
+    const margin = (LINE_SIZE - size) / 2
     extraStyles.borderBottomWidth = size
-    extraStyles.marginTop = (LINE_SIZE - size) / 2
-    extraStyles.marginBottom = (LINE_SIZE - size) / 2
+    extraStyles.marginTop = margin
+    extraStyles.marginBottom = margin
   }
   return pug`
     View.hr(style=style styleName=[size])
   `
+}
+
+Hr.defaultProps = {
+  size: 'm'
 }
 
 Hr.propTypes = {

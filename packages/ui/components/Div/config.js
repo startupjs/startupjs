@@ -1,6 +1,6 @@
 module.exports = function ({ colors }) {
   return {
-    activeStateOpacity: 0.25,
-    hoverStateOpacity: 0.5
+    hoverStateOpacity: 0.5,
+    activeStateOpacity: 0.25
   }
 }

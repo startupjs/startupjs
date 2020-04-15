@@ -86,8 +86,9 @@ const Input = function ({
   }, [checked])
 
   return pug`
+    // TODO: Implement better hover / active states
     Div.root(
-      interactive=false
+      activeOpacity=1
       onPress=setChecked
       accessible=false
       ...handlers

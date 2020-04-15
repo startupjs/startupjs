@@ -30,7 +30,7 @@ function InputWrapper ({
   const backgroundColor = useMemo(() => {
     if (!hover && !active && !checked) return
     if (_active) return colorToRGBA(color, 0.25)
-    if (hover) return colorToRGBA(color, 0.05)
+    if (hover) return colorToRGBA(color, 0.05) // TODO: Remove later
     if (checked) return colorToRGBA(color, 0.25)
   }, [color, hover, active, checked, _active])
 
