@@ -17,7 +17,17 @@ yarn add @startupjs/docs
 
 1. Create the `docs/` folder in your project root.
 
-2. Create `docs/index.js` file with the following content:
+1. Add `@startupjs/docs` to `forceCompileModules` of your `webpack.web.config.js`:
+
+    ```js
+    const getConfig = require('startupjs/bundler').webpackWebConfig
+
+    module.exports = getConfig(undefined, {
+      forceCompileModules: ['@startupjs/docs']
+    })
+    ```
+
+1. Create `docs/index.js` file with the following content:
 
     ```js
     import docs from '@startupjs/docs'
@@ -38,7 +48,7 @@ yarn add @startupjs/docs
     })
     ```
 
-3. Add client-side `docs` app to your `Root/App.js` file:
+1. Add client-side `docs` app to your `Root/App.js` file:
 
     ```js
     import docs from '../docs'
@@ -49,7 +59,7 @@ yarn add @startupjs/docs
     />
     ```
 
-4. Add server-side `docs` routes to your `server/index.js` file:
+1. Add server-side `docs` routes to your `server/index.js` file:
 
     ```js
     import getDocsRoutes from '@startupjs/docs/routes'
