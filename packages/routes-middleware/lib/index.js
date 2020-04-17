@@ -1,4 +1,3 @@
-const _memoize = require('lodash/memoize')
 const _keys = require('lodash/keys')
 const _isArray = require('lodash/isArray')
 const defaultClientLayout = require('./defaultClientLayout')
@@ -13,8 +12,8 @@ module.exports = function (appRoutes, options = {}) {
   if (_isArray(appRoutes)) {
     appRoutes = { [DEFAULT_APP_NAME]: appRoutes }
   }
-  // Memoize getting the end-user <head> code
-  const getHead = _memoize(options.getHead || (() => ''))
+
+  const getHead = options.getHead || (() => '')
 
   return function (req, res, next) {
     let matched
@@ -56,7 +55,7 @@ module.exports = function (appRoutes, options = {}) {
         const html = (options.getClientLayout || defaultClientLayout)({
           styles: process.env.NODE_ENV === 'production'
             ? resourceManager.getProductionStyles(appName, options) : '',
-          head: getHead(appName),
+          head: getHead(appName, req),
           modelBundle: bundle,
           jsBundle: resourceManager.getResourcePath('bundle', appName, options),
           env: model.get('_session.env') || {}
