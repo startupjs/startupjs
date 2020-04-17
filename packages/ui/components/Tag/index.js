@@ -68,6 +68,7 @@ function Tag ({
   return pug`
     Div.root(
       style=[style, rootStyles]
+      variant='highlight'
       styleName=[color, shape]
       hoverOpacity=STATES_OPACITIES[variant].hoverOpacity
       activeOpacity=STATES_OPACITIES[variant].activeOpacity

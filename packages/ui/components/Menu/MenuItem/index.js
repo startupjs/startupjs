@@ -34,6 +34,7 @@ function MenuItem ({
   return pug`
     Row.root(
       style=[style]
+      variant='highlight'
       vAlign='center'
       hoverOpacity=0.05
       activeOpacity=0.25

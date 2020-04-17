@@ -92,6 +92,7 @@ function Button ({
         { disabled, pushed },
         extraCommonStyles
       ]
+      variant='highlight'
       underlayColor=_color
       hoverOpacity=hoverOpacity
       activeOpacity=activeOpacity

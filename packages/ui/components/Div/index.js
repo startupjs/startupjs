@@ -15,8 +15,10 @@ const isWeb = Platform.OS === 'web'
 const { hoverStateOpacity, activeStateOpacity } = config.Div
 
 function Div ({
-  style,
+  style = [],
   children,
+  variant,
+  hoverColor,
   underlayColor,
   hoverOpacity,
   activeOpacity,
@@ -26,7 +28,7 @@ function Div ({
   ...props
 }) {
   const isClickable = typeof onPress === 'function' && !disabled
-  const isUnderlay = !!underlayColor
+  const isOpacity = variant === 'opacity'
   const Wrapper = isClickable ? TouchableOpacity : View
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
@@ -67,22 +69,33 @@ function Div ({
     }
 
     extraProps.onPress = onPress
-    extraProps.activeOpacity = isUnderlay ? 1 : activeOpacity
+    extraProps.activeOpacity = isOpacity ? activeOpacity : 1
 
     // setup hover and active states styles and props
     if (isInteractive) {
-      if (isUnderlay) {
+      if (isOpacity) {
+        if (hover) extraStyles.opacity = hoverStateOpacity
+      } else {
+        let backgroundColor
+        for (let i = style.length - 1; i >= 0; i--) {
+          const bg = (style[i] || {}).backgroundColor
+          if (bg) {
+            backgroundColor = bg
+            break
+          }
+        }
+
         if (hover) {
+          const color = hoverColor || backgroundColor || underlayColor
           extraStyles.backgroundColor =
-            colorToRGBA(underlayColor, hoverOpacity)
+            colorToRGBA(color || 'transparent', hoverOpacity)
         }
         // Order is important because active has higher priority
         if (active) {
+          const color = underlayColor || backgroundColor
           extraStyles.backgroundColor =
-            colorToRGBA(underlayColor, activeOpacity)
+            colorToRGBA(color || 'transparent', activeOpacity)
         }
-      } else {
-        if (hover) extraStyles.opacity = hoverStateOpacity
       }
     }
   }
@@ -99,6 +112,7 @@ function Div ({
 }
 
 Div.defaultProps = {
+  variant: 'opacity',
   hoverOpacity: hoverStateOpacity,
   activeOpacity: activeStateOpacity,
   disabled: false,
@@ -108,6 +122,8 @@ Div.defaultProps = {
 Div.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  variant: propTypes.oneOf(['opacity', 'highlight']),
+  hoverColor: propTypes.string,
   underlayColor: propTypes.string,
   hoverOpacity: propTypes.number,
   activeOpacity: propTypes.number,
