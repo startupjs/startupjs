@@ -9,6 +9,7 @@ import './index.styl'
 
 function TextInput ({
   style,
+  className,
   label,
   placeholder,
   value,
@@ -35,6 +36,7 @@ function TextInput ({
     return pug`
       Input(
         style=standalone ? style : {}
+        className=standalone ? className : undefined
         value=value
         placeholder=placeholder
         disabled=disabled
