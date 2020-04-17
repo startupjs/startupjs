@@ -69,7 +69,7 @@ function CollapseHeader ({
       style=style
       styleName=[variant]
       onPress=onPress
-      interactive=variant === 'full'
+      activeOpacity=variant === 'pure' ? 1 : null
     )
       = content
       AnimatedView.icon(

@@ -58,6 +58,11 @@ const Radio = function ({
   `
 }
 
+Radio.defaultProps = {
+  color: 'primary',
+  textColor: colors.dark
+}
+
 Radio.propTypes = {
   color: propTypes.string,
   textColor: propTypes.string,
@@ -67,11 +72,6 @@ Radio.propTypes = {
   })),
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   onChange: propTypes.func
-}
-
-Radio.defaultProps = {
-  color: 'primary',
-  textColor: colors.dark
 }
 
 export default observer(Radio)

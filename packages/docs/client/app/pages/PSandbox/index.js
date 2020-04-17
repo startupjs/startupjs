@@ -31,6 +31,8 @@ export default observer(function PStyleguide () {
   }
 
   return pug`
+    COMPONENTS.Div
+      COMPONENTS.Span Hello
     Props.root(
       theme=darkTheme ? 'dark' : undefined
       key=componentName

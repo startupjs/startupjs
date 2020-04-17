@@ -4,7 +4,7 @@ import { observer, useLocal, $root, emit } from 'startupjs'
 import { ScrollView, Image } from 'react-native'
 import Options from './Options'
 import './index.styl'
-import { Menu, Br, Collapse, Span, Div, Hr, Button, Row } from '@startupjs/ui'
+import { Menu, Br, Collapse, Div, Hr, Button, Row } from '@startupjs/ui'
 import {
   useComponentName,
   useDocName
@@ -79,17 +79,17 @@ export default observer(function Content ({
               active=aDocName === docName
               onPress=() => setDocName(aDocName)
             )= aDocName
-          Br(half)
           Hr.hr
-          Br(half)
           Collapse(
             key='sandbox'
             variant='pure'
             open=openedCollapses.sandbox
             onChange=toggleCollapse.bind(null, 'sandbox')
           )
-            Collapse.Header.sandbox
-              Span Sandbox
+            Collapse.Header(variant='pure')
+              Menu.Item(onPress=() => {
+                toggleCollapse('sandbox', !openedCollapses.sandbox)
+              }) Sandbox
             Collapse.Content
               each componentName in getAvailableComponents(Object.keys(COMPONENTS))
                 - const component = COMPONENTS[componentName]
