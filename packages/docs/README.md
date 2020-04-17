@@ -37,11 +37,11 @@ yarn add @startupjs/docs
     export default docs({
       en: {
         // path to mdx documentation for Button component in English
-        Button: require('../components/Button.en.mdx')
+        Button: require('../components/Button.en.mdx').default
       },
       ru: {
         // path to mdx documentation for Button component in Russian
-        Button: require('../components/Button.ru.mdx')
+        Button: require('../components/Button.ru.mdx').default
       },
       // if you want to provide a list of components to automatically
       // generate documentation to play with, specify them in
