@@ -17,13 +17,16 @@ yarn add @startupjs/docs
 
 1. Create the `docs/` folder in your project root.
 
-1. Add `@startupjs/docs` to `forceCompileModules` of your `webpack.web.config.js`:
+1. Add the following entries to the `forceCompileModules` list:
 
     ```js
     const getConfig = require('startupjs/bundler').webpackWebConfig
 
     module.exports = getConfig(undefined, {
-      forceCompileModules: ['@startupjs/docs']
+      forceCompileModules: [
+        '@startupjs/docs',
+        '@startupjs/mdx'
+      ]
     })
     ```
 
