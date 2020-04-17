@@ -27,6 +27,7 @@ const ICON_SIZES = {
 
 export default observer(function Input ({
   style,
+  className,
   placeholder,
   value,
   size,
@@ -90,7 +91,7 @@ export default observer(function Input ({
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
   return pug`
-    View.input-wrapper(style=[style, { height: fullHeight }])
+    View.input-wrapper(style=[style, { height: fullHeight }] className=className)
       if icon
         View.input-icon(
           styleName=[size]
