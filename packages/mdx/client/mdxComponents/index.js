@@ -1,6 +1,6 @@
 import React from 'react'
 import SyntaxHighlighter from 'react-native-syntax-highlighter'
-import { Div, H2, H5, H6, Hr, Span, Br } from '@startupjs/ui'
+import { Div, H2, H5, H6, Hr, Span, Br, Row } from '@startupjs/ui'
 import { Platform } from 'react-native'
 import './index.styl'
 
@@ -75,9 +75,26 @@ export default {
   h6: P,
   thematicBreak: P,
   blockquote: P,
-  ul: P,
-  ol: P,
-  li: P,
+  ul: ({ children }) => children,
+  ol: ({ children }) => React.Children.map(children, (child, index) => React.cloneElement(child, { index })),
+  li: ({ children, index }) => {
+    let hasTextChild = false
+    children = React.Children.map(children, child => {
+      if (typeof child === 'string') {
+        hasTextChild = true
+      }
+      return child
+    })
+    return pug`
+      Row
+        Span.listIndex(size='l')= index == null ? '-' : index + 1 + '.'
+        Div.listContent
+          if hasTextChild
+            P(size='l')= children
+          else
+            = children
+    `
+  },
   table: P,
   thead: P,
   tbody: P,
