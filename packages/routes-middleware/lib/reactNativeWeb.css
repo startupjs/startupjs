@@ -1,0 +1,16 @@
+/* Polyfill root dom elements to work nicely with react-native-web */
+
+/* These styles make the body full-height */
+html, body {
+  height: 100%;
+}
+/* These styles disable body scrolling if you are using <ScrollView> */
+body {
+  overflow: hidden;
+}
+/* These styles make the root element full-height */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

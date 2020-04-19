@@ -4,6 +4,10 @@ const defaultClientLayout = require('./defaultClientLayout')
 const resourceManager = require('./resourceManager')
 const { matchRoutes } = require('react-router-config')
 const DEFAULT_APP_NAME = 'main'
+// `react-native` mode makes all root DOM elements fullscreen
+// with flex-direction column and removes scroll (ScrollView has to be used).
+// If you don't want this -- specify { mode: 'web' } in options.
+const DEFAULT_MODE = 'react-native'
 
 // Client Apps routes
 module.exports = function (appRoutes, options = {}) {
@@ -58,7 +62,8 @@ module.exports = function (appRoutes, options = {}) {
           head: getHead(appName, req),
           modelBundle: bundle,
           jsBundle: resourceManager.getResourcePath('bundle', appName, options),
-          env: model.get('_session.env') || {}
+          env: model.get('_session.env') || {},
+          mode: options.mode || DEFAULT_MODE
         })
         res.status(200).send(html)
       })
