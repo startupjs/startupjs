@@ -22,7 +22,9 @@
     "babel-plugin-react-native-web-pass-classname": "^0.2.1",
     "babel-plugin-react-pug-classnames": "^0.3.1",
     "babel-plugin-transform-react-pug": "^7.0.1",
-    "metro-react-native-babel-preset": "^0.57.0",
-    "react-hot-loader": "^4.12.13"
+    "metro-react-native-babel-preset": "^0.57.0"
+  },
+  "peerDependencies": {
+    "react-hot-loader": "*"
   }
 }
