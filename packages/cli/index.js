@@ -11,7 +11,8 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react',
   'react-dom',
-  'react-hot-loader', // To add hot-loading for web
+  // Add hot-loading for web. It has to match the same version in 'bundler' and 'babel-preset-startupjs'
+  'react-hot-loader@^4.12.13',
   'axios', // For making AJAX requests
   'patch-package',
   'postinstall-postinstall'

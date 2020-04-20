@@ -1,0 +1,28 @@
+{
+  "name": "babel-preset-startupjs",
+  "version": "0.19.2",
+  "description": "Babel preset for compiling StartupJS app on server, web, native",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-decorators": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/runtime": "^7.7.2",
+    "@startupjs/babel-plugin-dotenv-import": "1002.0.0",
+    "@startupjs/babel-plugin-react-css-modules": "1701.0.0",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-react-native-dynamic-stylename-to-style": "^0.13.2",
+    "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
+    "babel-plugin-react-native-web-pass-classname": "^0.2.1",
+    "babel-plugin-react-pug-classnames": "^0.3.1",
+    "babel-plugin-transform-react-pug": "^7.0.1",
+    "metro-react-native-babel-preset": "^0.57.0",
+    "react-hot-loader": "^4.12.13"
+  }
+}
