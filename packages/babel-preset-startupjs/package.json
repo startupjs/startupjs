@@ -1,13 +1,12 @@
 {
   "name": "babel-preset-startupjs",
-  "version": "0.19.2",
+  "version": "0.20.0",
   "description": "Babel preset for compiling StartupJS app on server, web, native",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.7.2",
