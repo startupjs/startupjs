@@ -4,9 +4,6 @@ _iconMargin = 0.5u
   padding 0 1u
   height 2u
   min-width @height
-  justify-content center
-  align-items center
-  flex-direction row
 
   &.circle
     radius(circle)
@@ -14,10 +11,9 @@ _iconMargin = 0.5u
   &.rounded
     radius()
 
-.leftIconWrapper
+.iconWrapper
   &.with-label
-    margin-right _iconMargin
-
-.rightIconWrapper
-  &.with-label
-    margin-left _iconMargin
+    &.left
+      margin-right _iconMargin
+    &.right
+      margin-left _iconMargin
