@@ -38,7 +38,8 @@ export default observer(function Content ({
   const [, setDocName] = useDocName()
   const [docName] = useLocal('$render.params.docName')
   const [openedCollapses, setOpenedCollapses] = useState(() => {
-    const opened = { docs: true }
+    const opened = {}
+    if (componentName) opened.sandbox = true
     const chunks = (componentName || '').split('.')
     if ((componentName || '').split('.').length > 1) opened[chunks[0]] = true
     return opened

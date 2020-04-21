@@ -29,10 +29,11 @@ function Alert ({
       style={ borderWidth: 1, borderColor: _color, backgroundColor }
     )
       if icon
-        Icon.leftIcon(
-          icon=icon
-          color=_iconColor
-        )
+        Div.leftIconWrapper
+          Icon(
+            icon=icon
+            color=_iconColor
+          )
       if label
         Span.label(style={ color: _color } numberOfLines=1)= label
       if onClose

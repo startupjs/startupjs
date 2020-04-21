@@ -12,10 +12,11 @@ function CollapseContent ({
   open, // @private
   variant // @private
 }) {
-  const content = React.Children.toArray(children).map(child => {
+  const content = React.Children.toArray(children).map((child, index) => {
+    const key = `__COLLAPSE_CONTENT_KEY_${index}__`
     if (typeof child === 'string') {
       return pug`
-        Span(key='__COLLAPSE_CONTENT_KEY__')= child
+        Span(key=key)= child
       `
     }
     return child
