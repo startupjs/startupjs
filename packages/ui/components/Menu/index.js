@@ -11,8 +11,9 @@ function Menu ({
   variant,
   activeBorder
 }) {
-  const content = React.Children.toArray(children).map(child => {
-    return React.cloneElement(child, { activeBorder })
+  const content = React.Children.toArray(children).map((child, index) => {
+    const key = `__MENUITEM_CONTENT_KEY_${index}__`
+    return React.cloneElement(child, { key, activeBorder })
   })
 
   return pug`
