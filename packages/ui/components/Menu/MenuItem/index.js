@@ -15,21 +15,28 @@ function MenuItem ({
   children,
   active,
   icon,
-  rightIcon,
+  iconPosition,
   activeBorder,
   onPress,
   ...props
 }) {
   const color = active ? colors.primary : null
 
-  const content = React.Children.toArray(children).map(child => {
+  const content = React.Children.toArray(children).map((child, index) => {
+    const key = `__MENU_ITEM_KEY_${index}__`
     return pug`
       if typeof child === 'string'
-        Span(key='__MENU_ITEM_KEY__' style={color})= child
+        Span(key=key style={color})= child
       else
         = child
     `
   })
+
+  const extraProps = {}
+  if (iconPosition === 'right') {
+    extraProps.reverse = true
+    extraProps.align = 'between'
+  }
 
   return pug`
     Row.root(
@@ -40,6 +47,7 @@ function MenuItem ({
       activeOpacity=0.25
       underlayColor=colors.primary
       onPress=onPress
+      ...extraProps
       ...props
     )
       if activeBorder !== 'none' && active
@@ -47,13 +55,12 @@ function MenuItem ({
       if icon
         Icon.icon.left(icon=icon color=color)
       = content
-      if rightIcon
-        Icon.icon.right(icon=rightIcon color=color)
   `
 }
 
 MenuItem.defaultProps = {
-  active: false
+  active: false,
+  iconPosition: 'left'
 }
 
 MenuItem.propTypes = {
@@ -61,7 +68,7 @@ MenuItem.propTypes = {
   children: propTypes.node,
   active: propTypes.bool,
   icon: propTypes.object,
-  rightIcon: propTypes.object,
+  iconPosition: propTypes.oneOf(['left', 'right']),
   onPress: propTypes.func
 }
 
