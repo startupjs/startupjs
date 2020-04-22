@@ -1,0 +1,142 @@
+import { useState } from 'react'
+import Tag from '../Tag'
+import Row from '../Row'
+import Span from '../Span'
+import { u } from '../../config/helpers'
+import { Sandbox } from '@startupjs/docs'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+# Tag
+
+Tags allows developers to display any markup in separate blocks.
+
+## Example
+
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+```jsx example
+return (
+  <Row>
+    <Tag
+      color='blue'
+      textColor='white'
+      style={{ marginRight: u(1) }}
+    >
+      TAG-1
+    </Tag>
+    <Tag
+      color='blue'
+      textColor='white'
+    >
+      TAG-2
+    </Tag>
+  </Row>
+)
+```
+
+## Variant
+
+`variant` prop can be either `flat` or `outlined`. Default variant is `flat`.
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+```jsx example
+return (
+  <Row>
+    <Tag
+      color='blue'
+      style={{ marginRight: u(1) }}
+    >
+      FLAT
+    </Tag>
+    <Tag
+      color='blue'
+      variant='outlined'
+    >
+      OUTLINED
+    </Tag>
+  </Row>
+)
+```
+
+
+## Shape
+
+`shape` prop can be either `circle` or `rounded`. Default shape is `circle`.
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+```jsx example
+return (
+  <Row>
+    <Tag
+      color='blue'
+      style={{ marginRight: u(1) }}
+    >
+      CIRCLE
+    </Tag>
+    <Tag
+      color='blue'
+      shape='rounded'
+    >
+      ROUNDED
+    </Tag>
+  </Row>
+)
+```
+
+## Icon
+
+Custom icon can be included in a Tag using `icon` prop, `iconPosition` can be either `left` (default) or `right`.
+
+Tag can be made interactive using `onPress` prop.
+
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+```jsx example
+const [showTags, setShowTags] = useState([true, true])
+return (
+  <Row>
+    <Tag
+      color='blue'
+      style={{ marginRight: u(1) }}
+      icon={faCoffee}
+    >
+       Non Interactive
+    </Tag>
+    {showTags[0] &&
+      <Tag
+        color='blue'
+        style={{ marginRight: u(1) }}
+        icon={faTimesCircle}
+        onPress={() => setShowTags([false, showTags[1]])}
+      >
+        Interactive Left
+      </Tag>
+    }
+    {showTags[1] &&
+      <Tag
+        color='blue'
+        style={{ marginRight: u(1) }}
+        icon={faTimesCircle}
+        iconPosition='right'
+        onPress={() => setShowTags([showTags[0], false])}
+      >
+        Interactive Right
+      </Tag>
+    }
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Tag} />
