@@ -4,7 +4,7 @@ import propTypes from 'prop-types'
 import Div from '../Div'
 import Row from '../Row'
 import Span from '../Span'
-import Icon from '../Icon'
+import Icon, { SIZES } from '../Icon'
 import colorToRGBA from '../../config/colorToRGBA'
 import config from '../../config/rootConfig'
 import './index.styl'
@@ -30,6 +30,7 @@ function Tag ({
   icon,
   iconColor,
   iconPosition,
+  iconSize,
   textColor,
   onPress,
   onIconPress,
@@ -70,7 +71,7 @@ function Tag ({
           ]
           onPress=onIconPress
         )
-          Icon(icon=icon color=_iconsColor size='xs')
+          Icon(icon=icon color=_iconsColor size=iconSize)
       if children
         Span.label(style=labelStyles bold size='xs')= children
   `
@@ -80,7 +81,8 @@ Tag.defaultProps = {
   color: 'primary',
   variant: 'flat',
   shape: 'circle',
-  iconPosition: 'left'
+  iconPosition: 'left',
+  iconSize: 'm'
 }
 
 Tag.propTypes = {
@@ -92,7 +94,11 @@ Tag.propTypes = {
   textColor: propTypes.string,
   icon: propTypes.object,
   iconPosition: propTypes.oneOf(['left', 'right']),
-  iconColor: propTypes.string
+  iconColor: propTypes.string,
+  iconSize: propTypes.oneOfType([
+    propTypes.oneOf(Object.keys(SIZES)),
+    propTypes.number
+  ])
 }
 
 export default observer(Tag)

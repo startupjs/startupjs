@@ -5,6 +5,7 @@ import Span from '../Span'
 import { Sandbox } from '@startupjs/docs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import './TagDoc.styl'
 
 # Tag
 
@@ -22,7 +23,7 @@ return (
     <Tag
       color='blue'
       textColor='white'
-      style={{ marginRight: 10 }}
+      styleName='tagRoot'
     >
       TAG-1
     </Tag>
@@ -48,7 +49,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      style={{ marginRight: 10 }}
+      styleName='tagRoot'
     >
       FLAT
     </Tag>
@@ -75,7 +76,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      style={{ marginRight: 10 }}
+      styleName='tagRoot'
     >
       CIRCLE
     </Tag>
@@ -101,29 +102,20 @@ import { Tag, Row } from '@startupjs/ui'
 ```
 ```jsx example
 const [showTags, setShowTags] = useState([true, true])
-const style = {
-  marginRight: 10,
-  paddingTop: 15,
-  paddingBottom: 15 
-}
 return (
   <Row>
     <Tag
       color='blue'
-      style={style}
-      icon={() => (
-        <FontAwesomeIcon icon={faTimesCircle} color='white' />
-      )}
+      styleName='tagRoot tagPadding'
+      icon={faTimesCircle}
     >
       <Span style={{ color: 'inherit' }} size='l'> Not Interactive </Span>
     </Tag>
     {showTags[0] &&
       <Tag
         color='blue'
-        style={{ marginRight: 10, paddingTop: 15, paddingBottom: 15 }}
-        icon={() => (
-          <FontAwesomeIcon icon={faTimesCircle} color='white' />
-        )}
+        styleName='tagRoot tagPadding'
+        icon={faTimesCircle}
         onIconPress={() => setShowTags(arrTags => [!arrTags[0], arrTags[1]])}
       >
         <Span style={{ color: 'inherit' }} size='l'> Interactive Left </Span>
@@ -132,10 +124,8 @@ return (
     {showTags[1] &&
       <Tag
         color='blue'
-        style={{ marginRight: 10, paddingTop: 15, paddingBottom: 15 }}
-        icon={() => (
-          <FontAwesomeIcon icon={faTimesCircle} color='white' />
-        )}
+        styleName='tagRoot tagPadding'
+        icon={faTimesCircle}
         iconPosition='right'
         onIconPress={() => setShowTags(arrTags => [arrTags[0], !arrTags[1]])}
       >

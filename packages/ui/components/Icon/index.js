@@ -8,7 +8,7 @@ import './index.styl'
 
 const { colors } = config
 
-const SIZES = {
+export const SIZES = {
   xs: u(1.25),
   s: u(1.5),
   m: u(2),
