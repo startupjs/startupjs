@@ -2,10 +2,6 @@ _disabledOpacity = 0.25
 _iconMargin = 1u
 
 .root
-  flex-direction row
-  align-items center
-  justify-content center
-
   &.s
     height 3u
     min-width @height
@@ -53,15 +49,11 @@ _iconMargin = 1u
   &.disabled
     opacity _disabledOpacity
 
-  &.pushed
-    margin-left: $UI.gutters.m
-
-.leftIconWrapper
+.iconWrapper
   &.with-label
-    margin-right _iconMargin
-    margin-left (- _iconMargin)
-
-.rightIconWrapper
-  &.with-label
-    margin-left _iconMargin
-    margin-right (- _iconMargin)
+    &.left
+      margin-right _iconMargin
+      margin-left (- _iconMargin)
+    &.right
+      margin-left _iconMargin
+      margin-right (- _iconMargin)

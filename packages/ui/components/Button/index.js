@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
-import Div from '../Div'
+import Row from '../Row'
 import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
@@ -16,103 +16,80 @@ function Button ({
   children,
   color,
   variant,
-  disabled,
   shape,
   size,
   icon,
-  iconsColor,
-  rightIcon,
+  iconColor,
+  iconPosition,
   textColor,
+  disabled,
   onPress,
-  pushed, // By some reason prop 'push' was ignored
   ...props
 }) {
-  const extraCommonStyles = {
-    'with-label': typeof children === 'string'
-      ? children.length
-      : React.Children.count(children)
-  }
-  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
-  const _color = useMemo(() => colors[color] || color, [color])
+  const isFlat = variant === 'flat'
+  const _color = colors[color] || color
+  const _textColor = colors[textColor] || textColor ||
+    (isFlat ? colors.white : _color)
+  const _iconColor = colors[iconColor] || iconColor ||
+    (isFlat ? colors.white : _color)
 
-  const _iconsColor = useMemo(() => {
-    return colors[iconsColor] || iconsColor ||
-      (variant === 'flat' ? colors.white : _color)
-  }, [variant, iconsColor, _color])
-
-  const iconsProps = { size, color: _iconsColor }
-  const [rootStyles, labelStyles] = useMemo(() => {
-    let labelStyles = {}
-    let rootStyles = {}
-
-    switch (variant) {
-      case 'flat':
-        labelStyles.color = _textColor || colors.white
-        rootStyles.backgroundColor = _color
-        break
-      case 'outlined':
-        labelStyles.color = _textColor || _color
-        rootStyles.borderWidth = 1
-        rootStyles.borderColor = colorToRGBA(_color, 0.5)
-        break
-      case 'text':
-        labelStyles.color = _textColor || _color
-        break
-      case 'shadowed':
-        labelStyles.color = _textColor || _color
-        rootStyles.backgroundColor = colors.white
-        break
-    }
-
-    return [rootStyles, labelStyles]
-  }, [variant, _textColor, _color])
-
+  const rootStyle = {}
   const rootExtraProps = {}
-  if (variant === 'shadowed') {
-    rootExtraProps.level = 2
-  }
+  const labelStyle = { color: _textColor }
+  const extraCommonStyle = { 'with-label': React.Children.count(children) }
 
-  const [hoverOpacity, activeOpacity] = useMemo(() => {
-    switch (variant) {
-      case 'flat':
-      case 'shadowed':
-        return [0.5, 0.25]
-      case 'outlined':
-      case 'text':
-        return [0.05, 0.25]
-    }
-  }, [variant])
+  switch (variant) {
+    case 'flat':
+      rootStyle.backgroundColor = _color
+      rootExtraProps.hoverOpacity = 0.5
+      rootExtraProps.activeOpacity = 0.25
+      break
+    case 'outlined':
+      rootStyle.borderWidth = 1
+      rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      rootExtraProps.hoverOpacity = 0.05
+      rootExtraProps.activeOpacity = 0.25
+      break
+    case 'text':
+      rootExtraProps.hoverOpacity = 0.05
+      rootExtraProps.activeOpacity = 0.25
+      break
+    case 'shadowed':
+      rootStyle.backgroundColor = colors.white
+      rootExtraProps.level = 2
+      rootExtraProps.hoverOpacity = 0.5
+      rootExtraProps.activeOpacity = 0.25
+      break
+  }
 
   return pug`
-    Div.root(
-      style=[style, rootStyles]
+    Row.root(
+      style=[style, rootStyle]
       styleName=[
         size,
         shape,
-        { disabled, pushed },
-        extraCommonStyles
+        { disabled },
+        extraCommonStyle
       ]
+      align='center'
+      vAlign='center'
+      reverse=iconPosition === 'right'
       variant='highlight'
       underlayColor=_color
-      hoverOpacity=hoverOpacity
-      activeOpacity=activeOpacity
       disabled=disabled
       onPress=onPress
       ...rootExtraProps
       ...props
     )
       if icon
-        View.leftIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=icon ...iconsProps)
+        View.iconWrapper(styleName=[extraCommonStyle, iconPosition])
+          Icon(icon=icon size=size color=_iconColor)
       if children
         Span.label(
-          style=labelStyles
+          style=labelStyle
           size=size
           bold
         )= children
-      if rightIcon
-        View.rightIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=rightIcon ...iconsProps)
   `
 }
 
@@ -121,23 +98,20 @@ Button.defaultProps = {
   variant: 'outlined',
   size: 'm',
   shape: 'rounded',
-  disabled: false
+  iconPosition: 'left'
 }
 
 Button.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   color: propTypes.string,
   children: propTypes.string,
-  disabled: Div.propTypes.disabled,
-  pushed: Div.propTypes.pushed,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
-  rightIcon: propTypes.object,
-  iconsColor: propTypes.string,
-  textColor: propTypes.string,
-  onPress: Div.propTypes.onPress
+  iconPosition: propTypes.oneOf(['left', 'right']),
+  iconColor: propTypes.string,
+  textColor: propTypes.string
 }
 
 export default observer(Button)
