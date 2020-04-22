@@ -32,14 +32,11 @@ Row.defaultProps = {
 }
 
 Row.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
+  ..._omit(Div.propTypes, ['style', 'children']),
   wrap: propTypes.bool,
   reverse: propTypes.bool,
   align: propTypes.oneOf(['center', 'right', 'around', 'between']),
-  vAlign: propTypes.oneOf(['center']),
-  // div props
-  ..._omit(Div.propTypes, ['style', 'children'])
+  vAlign: propTypes.oneOf(['center'])
 }
 
 export default observer(Row)

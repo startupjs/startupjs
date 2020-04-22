@@ -1,0 +1,16 @@
+_iconMargin = 0.5u
+
+.link
+  +web()
+    text-decoration none
+
+    &:not(.disabled):hover
+      text-decoration: underline
+    &.disabled
+      cursor default
+
+.iconWrapper
+  &.left
+    margin-right _iconMargin
+  &.right
+    margin-left _iconMargin
