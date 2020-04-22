@@ -72,7 +72,8 @@ TextInput.defaultProps = {
   value: '', // default value is important to prevent error
   disabled: false,
   resize: false,
-  numberOfLines: 1
+  numberOfLines: 1,
+  iconPosition: 'left'
 }
 
 TextInput.propTypes = {
@@ -86,9 +87,11 @@ TextInput.propTypes = {
   resize: propTypes.bool,
   numberOfLines: propTypes.number,
   icon: propTypes.object,
+  iconPosition: propTypes.oneOf(['left', 'right']),
   onBlur: propTypes.func,
   onFocus: propTypes.func,
-  onChangeText: propTypes.func
+  onChangeText: propTypes.func,
+  onIconPress: propTypes.func
 }
 
 export default observer(TextInput)
