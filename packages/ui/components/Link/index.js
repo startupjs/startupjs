@@ -9,7 +9,6 @@ import Span from './../Span'
 import _omit from 'lodash/omit'
 import config from '../../config/rootConfig'
 import './index.styl'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const isMobile = Platform.OS !== 'web'
 const { colors } = config
@@ -22,7 +21,7 @@ function Link ({
   size,
   bold,
   italic,
-  icon = faStar,
+  icon,
   iconPosition,
   iconColor,
   disabled,
