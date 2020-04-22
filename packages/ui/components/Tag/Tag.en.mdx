@@ -115,29 +115,33 @@ return (
         <FontAwesomeIcon icon={faTimesCircle} color='white' />
       )}
     >
-      <Span style={{ color: 'inherit' }} size='l'> Not Interative </Span>
+      <Span style={{ color: 'inherit' }} size='l'> Not Interactive </Span>
     </Tag>
-    {showTags[0] && <Tag
-      color='blue'
-      style={{ marginRight: 10, paddingTop: 15, paddingBottom: 15 }}
-      icon={() => (
-        <FontAwesomeIcon icon={faTimesCircle} color='white' />
-      )}
-      onIconPress={() => setShowTags(arrTags => [!arrTags[0], arrTags[1]])}
-    >
-      <Span style={{ color: 'inherit' }} size='l'> Interactive Left </Span>
-    </Tag>}
-    {showTags[1] && <Tag
-      color='blue'
-      style={{ marginRight: 10, paddingTop: 15, paddingBottom: 15 }}
-      icon={() => (
-        <FontAwesomeIcon icon={faTimesCircle} color='white' />
-      )}
-      iconPosition='right'
-      onIconPress={() => setShowTags(arrTags => [arrTags[0], !arrTags[1]])}
-    >
-      <Span style={{ color: 'inherit' }} size='l'> Interactive Right </Span>
-    </Tag>}
+    {showTags[0] &&
+      <Tag
+        color='blue'
+        style={{ marginRight: 10, paddingTop: 15, paddingBottom: 15 }}
+        icon={() => (
+          <FontAwesomeIcon icon={faTimesCircle} color='white' />
+        )}
+        onIconPress={() => setShowTags(arrTags => [!arrTags[0], arrTags[1]])}
+      >
+        <Span style={{ color: 'inherit' }} size='l'> Interactive Left </Span>
+      </Tag>
+    }
+    {showTags[1] &&
+      <Tag
+        color='blue'
+        style={{ marginRight: 10, paddingTop: 15, paddingBottom: 15 }}
+        icon={() => (
+          <FontAwesomeIcon icon={faTimesCircle} color='white' />
+        )}
+        iconPosition='right'
+        onIconPress={() => setShowTags(arrTags => [arrTags[0], !arrTags[1]])}
+      >
+        <Span style={{ color: 'inherit' }} size='l'> Interactive Right </Span>
+      </Tag>
+    }
   </Row>
 )
 ```
