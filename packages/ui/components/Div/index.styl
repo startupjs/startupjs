@@ -1,4 +1,10 @@
+_pushedSizes = (xs s m l xl xxl)
+
 .root
   // Shadow does not work without backgorund color
   &.with-shadow
     background-color $UI.colors.white
+
+  for size in _pushedSizes
+    &.pushed-{size}
+      margin-left: $UI.gutters[size]
