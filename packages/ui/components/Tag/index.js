@@ -68,7 +68,6 @@ function Tag ({
             {'with-label': React.Children.count(children) },
             iconPosition
           ]
-          onPress=onIconPress
         )
           Icon(icon=icon color=_iconsColor size='xs')
       if children

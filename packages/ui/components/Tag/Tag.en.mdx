@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import Tag from '../Tag'
 import Row from '../Row'
+import Span from '../Span'
+import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 # Tag
 
@@ -19,7 +24,7 @@ return (
     <Tag
       color='blue'
       textColor='white'
-      style={{ marginRight: 10 }}
+      style={{ marginRight: u(1) }}
     >
       TAG-1
     </Tag>
@@ -45,7 +50,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      style={{ marginRight: 10 }}
+      style={{ marginRight: u(1) }}
     >
       FLAT
     </Tag>
@@ -72,7 +77,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      style={{ marginRight: 10 }}
+      style={{ marginRight: u(1) }}
     >
       CIRCLE
     </Tag>
@@ -86,6 +91,51 @@ return (
 )
 ```
 
+## Icon
+
+Custom icon can be included in a Tag using `icon` prop, `iconPosition` can be either `left` (default) or `right`.
+
+Tag can be made interactive using `onPress` prop.
+
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+```jsx example
+const [showTags, setShowTags] = useState([true, true])
+return (
+  <Row>
+    <Tag
+      color='blue'
+      style={{ marginRight: u(1) }}
+      icon={faCoffee}
+    >
+       Non Interactive
+    </Tag>
+    {showTags[0] &&
+      <Tag
+        color='blue'
+        style={{ marginRight: u(1) }}
+        icon={faTimesCircle}
+        onPress={() => setShowTags([false, showTags[1]])}
+      >
+        Interactive Left
+      </Tag>
+    }
+    {showTags[1] &&
+      <Tag
+        color='blue'
+        style={{ marginRight: u(1) }}
+        icon={faTimesCircle}
+        iconPosition='right'
+        onPress={() => setShowTags([showTags[0], false])}
+      >
+        Interactive Right
+      </Tag>
+    }
+  </Row>
+)
+```
 
 ## Sandbox
 
