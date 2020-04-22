@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
-import { View, TextInput, Platform } from 'react-native'
+import { TextInput, Platform } from 'react-native'
+import Div from './../../Div'
 import config from './../../../config/rootConfig'
 import Icon from './../../Icon'
 import './index.styl'
@@ -36,9 +37,11 @@ export default observer(function Input ({
   resize,
   numberOfLines,
   icon,
+  iconPosition,
   onBlur,
   onFocus,
   onChangeText,
+  onIconPress,
   ...props
 }) {
   const inputRef = useRef()
@@ -80,21 +83,27 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  const inputStyles = {
+  const inputStyle = {
     paddingTop: verticalGutter,
     paddingBottom: verticalGutter,
     lineHeight: lH
   }
-  if (IS_IOS) inputStyles.lineHeight -= IOS_LH_CORRECTION[size]
+  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
+  const inputStyleName = [
+    size,
+    { disabled, focused, [`icon-${iconPosition}`]: !!icon }
+  ]
+
   return pug`
-    View.input-wrapper(style=[style, { height: fullHeight }] className=className)
+    Div.input-wrapper(style=[style, { height: fullHeight }] className=className)
       if icon
-        View.input-icon(
-          styleName=[size]
+        Div.input-icon(
+          styleName=[size, iconPosition]
+          onPress=onIconPress
         )
           Icon(
             icon=icon
@@ -103,8 +112,8 @@ export default observer(function Input ({
           )
       TextInput.input-input(
         ref=inputRef
-        style=inputStyles
-        styleName=[size, {disabled, focused, 'with-icon': icon}]
+        style=inputStyle
+        styleName=[inputStyleName]
         selectionColor=caretColor
         placeholder=placeholder
         placeholderTextColor=DARK_LIGHTER_COLOR
