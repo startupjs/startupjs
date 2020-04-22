@@ -1,6 +1,6 @@
 import React from 'react'
 import SyntaxHighlighter from 'react-native-syntax-highlighter'
-import { Div, H2, H5, H6, Hr, Span, Br, Row } from '@startupjs/ui'
+import { Div, H2, H5, H6, Hr, Span, Br, Row, Link } from '@startupjs/ui'
 import { Platform } from 'react-native'
 import './index.styl'
 
@@ -102,6 +102,10 @@ export default {
   td: P,
   th: P,
   delete: P,
-  a: P,
+  a: ({ children, href }) => {
+    return pug`
+      Link(to=href)= children
+    `
+  },
   img: P
 }
