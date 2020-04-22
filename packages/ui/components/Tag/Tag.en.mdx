@@ -2,11 +2,11 @@ import { useState } from 'react'
 import Tag from '../Tag'
 import Row from '../Row'
 import Span from '../Span'
+import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-import './TagDoc.styl'
 
 # Tag
 
@@ -24,7 +24,7 @@ return (
     <Tag
       color='blue'
       textColor='white'
-      styleName='tagRoot'
+      style={{ marginRight: u(1) }}
     >
       TAG-1
     </Tag>
@@ -50,7 +50,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      styleName='tagRoot'
+      style={{ marginRight: u(1) }}
     >
       FLAT
     </Tag>
@@ -77,7 +77,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      styleName='tagRoot'
+      style={{ marginRight: u(1) }}
     >
       CIRCLE
     </Tag>
@@ -107,7 +107,7 @@ return (
   <Row>
     <Tag
       color='blue'
-      styleName='tagRoot'
+      style={{ marginRight: u(1) }}
       icon={faCoffee}
     >
        Non Interactive
@@ -115,7 +115,7 @@ return (
     {showTags[0] &&
       <Tag
         color='blue'
-        styleName='tagRoot'
+        style={{ marginRight: u(1) }}
         icon={faTimesCircle}
         onPress={() => setShowTags([false, showTags[1]])}
       >
@@ -125,7 +125,7 @@ return (
     {showTags[1] &&
       <Tag
         color='blue'
-        styleName='tagRoot'
+        style={{ marginRight: u(1) }}
         icon={faTimesCircle}
         iconPosition='right'
         onPress={() => setShowTags([showTags[0], false])}
