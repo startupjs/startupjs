@@ -5,6 +5,7 @@ import Span from '../Span'
 import { Sandbox } from '@startupjs/docs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import './TagDoc.styl'
 
 # Tag
@@ -106,30 +107,30 @@ return (
   <Row>
     <Tag
       color='blue'
-      styleName='tagRoot tagPadding'
-      icon={faTimesCircle}
+      styleName='tagRoot'
+      icon={faCoffee}
     >
-      <Span style={{ color: 'inherit' }} size='l'> Not Interactive </Span>
+       Non Interactive
     </Tag>
     {showTags[0] &&
       <Tag
         color='blue'
-        styleName='tagRoot tagPadding'
+        styleName='tagRoot'
         icon={faTimesCircle}
-        onIconPress={() => setShowTags(arrTags => [!arrTags[0], arrTags[1]])}
+        onPress={() => setShowTags([false, showTags[1]])}
       >
-        <Span style={{ color: 'inherit' }} size='l'> Interactive Left </Span>
+        Interactive Left
       </Tag>
     }
     {showTags[1] &&
       <Tag
         color='blue'
-        styleName='tagRoot tagPadding'
+        styleName='tagRoot'
         icon={faTimesCircle}
         iconPosition='right'
-        onIconPress={() => setShowTags(arrTags => [arrTags[0], !arrTags[1]])}
+        onPress={() => setShowTags([showTags[0], false])}
       >
-        <Span style={{ color: 'inherit' }} size='l'> Interactive Right </Span>
+        Interactive Right
       </Tag>
     }
   </Row>
