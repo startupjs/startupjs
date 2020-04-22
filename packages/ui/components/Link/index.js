@@ -1,126 +1,87 @@
-import React, { useState, useMemo } from 'react'
-import { observer, emit, useDidUpdate } from 'startupjs'
+import React from 'react'
+import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Link as RNLink } from 'react-router-native'
-import { View, Platform, TouchableOpacity } from 'react-native'
+import { Platform, View } from 'react-native'
+import Row from './../Row'
 import Icon from './../Icon'
 import Span from './../Span'
 import _omit from 'lodash/omit'
 import config from '../../config/rootConfig'
-import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
+const isMobile = Platform.OS !== 'web'
 const { colors } = config
-const isWeb = Platform.OS === 'web'
 
 function Link ({
   style,
   children,
+  to,
+  color,
   size,
   bold,
   italic,
-  icon,
-  rightIcon,
-  replace,
+  icon = faStar,
+  iconPosition,
+  iconColor,
   disabled,
   ...props
 }) {
-  const [hover, setHover] = useState()
-  const [active, setActive] = useState()
-  const iconWrapperStyle = { 'with-label': !!children }
+  const _color = colors[color] || color
+  const _iconColor = colors[iconColor] || iconColor || _color
+  const colorStyles = { color: _color }
+  const linkStyleNames = {}
+  const linkExtraProps = {}
 
-  useDidUpdate(() => {
-    if (!disabled) return
-    if (hover) setHover()
-    if (active) setActive()
-  }, [disabled])
-
-  if (!disabled) {
-    const { onPressIn, onPressOut } = props
-
-    props.onPressIn = (...args) => {
-      setActive(true)
-      onPressIn && onPressIn(...args)
-    }
-    props.onPressOut = (...args) => {
-      setActive()
-      onPressOut && onPressOut(...args)
-    }
-
-    if (isWeb) {
-      const { onMouseEnter, onMouseLeave } = props
-
-      props.onMouseEnter = (...args) => {
-        setHover(true)
-        onMouseEnter && onMouseEnter(...args)
-      }
-      props.onMouseLeave = (...args) => {
-        setHover()
-        onMouseLeave && onMouseLeave(...args)
-      }
-    }
+  if (isMobile) {
+    linkExtraProps.underlayColor = 'transparent'
+    linkExtraProps.activeOpacity = 0.8
+    linkExtraProps.disabled = disabled
+  } else {
+    linkStyleNames.disabled = disabled
   }
 
-  // React router native link is inconsitent with react router link
-  // For web it returns href in props, for native in returns onPress
-  const extraProps = useMemo(() => {
-    if (!isWeb) return {}
-    return {
-      component: ({ style, href, children, ...props }) => {
-        return pug`
-          TouchableOpacity(
-            style=style
-            activeOpacity=1
-            onPress=() => emit('url', href, { replace })
-            ...props
-          )= children
-        `
-      }
-    }
-  }, [])
-
-  const color = useMemo(() => {
-    return disabled
-      ? colorToRGBA(colors.dark, 0.8)
-      : active
-        ? colors.secondary
-        : hover
-          ? colorToRGBA(colors.primary, 0.8)
-          : colors.primary
-  }, [disabled, hover, active])
-
   return pug`
-    RNLink.root(style=style ...props ...extraProps)
-      if icon
-        View.leftIconWrapper(styleName=[iconWrapperStyle])
-          Icon(icon=icon color=color size=size)
-      if children
-        Span.label(
-          style={color}
-          styleName={disabled}
-          bold=bold
-          italic=italic
-          size=size
-        )= children
-      if rightIcon
-        View.rightIconWrapper(styleName=[iconWrapperStyle])
-          Icon(icon=rightIcon color=color size=size)
+    View.root(style=[style])
+      RNLink.link(
+        style=colorStyles
+        styleName=[linkStyleNames]
+        to=isMobile || !disabled ? to : null /* pass empty url to href on web */
+        ...props
+        ...linkExtraProps
+      )
+        Row(vAlign='center' reverse=iconPosition === 'right')
+          if icon
+            View.iconWrapper(styleName=[iconPosition])
+              Icon(icon=icon color=_iconColor size=size)
+          if children
+            Span.label(
+              style=[colorStyles]
+              bold=bold
+              italic=italic
+              size=size
+            )= children
   `
 }
 
 Link.defaultProps = {
   ...Span.defaultProps,
-  replace: false,
-  disabled: false
+  color: colors.primary,
+  iconPosition: 'left',
+  disabled: false,
+  replace: false
 }
 
 Link.propTypes = {
   ..._omit(Span.propTypes, ['description']),
   to: propTypes.string,
+  color: propTypes.string,
   icon: propTypes.object,
-  rightIcon: propTypes.object,
-  replace: propTypes.bool,
-  disabled: propTypes.bool
+  iconPosition: propTypes.oneOf(['left', 'right']),
+  iconColor: propTypes.string,
+  disabled: propTypes.bool,
+  replace: propTypes.bool
 }
 
 export default observer(Link)

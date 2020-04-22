@@ -4,7 +4,12 @@ import { observer } from 'startupjs'
 import Link from './../Link'
 import Row from '../Row'
 import Span from '../Span'
+import config from '../../config/rootConfig'
+import { colorToRGBA } from '../../config/helpers'
 import './index.styl'
+
+const { colors } = config
+const mainTextColor = colors.mainText
 
 function Breadcrumbs ({
   style,
@@ -12,24 +17,30 @@ function Breadcrumbs ({
   separator,
   size,
   replace,
-  disabled
+  disabled,
+  iconPosition
 }) {
+  const color = disabled
+    ? colorToRGBA(mainTextColor, 0.8)
+    : undefined
+
   return pug`
     Row(style=style wrap)
       each route, index in routes
-        - const { name, icon, ...linkProps } = route
+        - const { name, ...linkProps } = route
         - const isLastRoute = index === routes.length - 1
         Row(key=index)
           Link(
-            icon=icon
+            color=isLastRoute ? mainTextColor: color
+            iconPosition=iconPosition
             size=size
             bold=isLastRoute
             replace=replace
-            disabled=disabled
+            disabled=disabled || isLastRoute
             ...linkProps
           )= name
           if !isLastRoute
-            Span.separator(size=size)
+            Span.separator(size=size styleName=[size])
               | &nbsp#{separator}&nbsp
   `
 }
@@ -39,7 +50,8 @@ Breadcrumbs.defaultProps = {
   separator: '/',
   size: 'm',
   replace: false,
-  disabled: false
+  disabled: false,
+  iconPosition: 'left'
 }
 
 Breadcrumbs.propTypes = {
@@ -47,8 +59,10 @@ Breadcrumbs.propTypes = {
   routes: propTypes.arrayOf(propTypes.shape({
     to: propTypes.string,
     name: propTypes.string,
-    icon: propTypes.object
+    icon: propTypes.object,
+    iconPosition: propTypes.oneOf(['left', 'right'])
   })).isRequired,
+  iconPosition: propTypes.oneOf(['left', 'right']),
   separator: propTypes.string,
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   replace: propTypes.bool,

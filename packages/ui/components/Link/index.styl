@@ -1,13 +1,16 @@
 _iconMargin = 0.5u
 
-.root
-  flex-direction row
-  align-items center
+.link
+  +web()
+    text-decoration none
 
-.leftIconWrapper
-  &.with-label
+    &:not(.disabled):hover
+      text-decoration: underline
+    &.disabled
+      cursor default
+
+.iconWrapper
+  &.left
     margin-right _iconMargin
-
-.rightIconWrapper
-  &.with-label
+  &.right
     margin-left _iconMargin
