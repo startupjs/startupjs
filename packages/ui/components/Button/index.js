@@ -127,9 +127,9 @@ Button.defaultProps = {
 Button.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   color: propTypes.string,
-  children: propTypes.node,
-  disabled: propTypes.bool,
-  pushed: propTypes.bool,
+  children: propTypes.string,
+  disabled: Div.propTypes.disabled,
+  pushed: Div.propTypes.pushed,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
@@ -137,7 +137,7 @@ Button.propTypes = {
   rightIcon: propTypes.object,
   iconsColor: propTypes.string,
   textColor: propTypes.string,
-  onPress: propTypes.func
+  onPress: Div.propTypes.onPress
 }
 
 export default observer(Button)
