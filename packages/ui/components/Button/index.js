@@ -8,8 +8,10 @@ import Span from '../Span'
 import config from '../../config/rootConfig'
 import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
+const { heights, outlinedBorderWidth, iconMargin } = config.Button
 
 function Button ({
   style,
@@ -18,7 +20,7 @@ function Button ({
   variant,
   shape,
   size,
-  icon,
+  icon = faStar,
   iconColor,
   iconPosition,
   textColor,
@@ -32,11 +34,12 @@ function Button ({
     (isFlat ? colors.white : _color)
   const _iconColor = colors[iconColor] || iconColor ||
     (isFlat ? colors.white : _color)
-
-  const rootStyle = {}
+  const haveChildren = React.Children.count(children)
+  const height = heights[size]
+  const rootStyle = { height }
   const rootExtraProps = {}
   const labelStyle = { color: _textColor }
-  const extraCommonStyle = { 'with-label': React.Children.count(children) }
+  const iconStyle = {}
 
   switch (variant) {
     case 'flat':
@@ -45,7 +48,7 @@ function Button ({
       rootExtraProps.activeOpacity = 0.25
       break
     case 'outlined':
-      rootStyle.borderWidth = 1
+      rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
       rootExtraProps.hoverOpacity = 0.05
       rootExtraProps.activeOpacity = 0.25
@@ -62,14 +65,38 @@ function Button ({
       break
   }
 
+  let padding
+  const quarterOfHeight = height / 4
+
+  if (haveChildren) {
+    padding = height / 2
+
+    switch (iconPosition) {
+      case 'left':
+        iconStyle.marginRight = iconMargin
+        iconStyle.marginLeft = -quarterOfHeight
+        break
+      case 'right':
+        iconStyle.marginLeft = iconMargin
+        iconStyle.marginRight = -quarterOfHeight
+        break
+    }
+  } else {
+    padding = quarterOfHeight
+  }
+
+  if (variant === 'outlined') padding -= outlinedBorderWidth
+
+  rootStyle.paddingLeft = padding
+  rootStyle.paddingRight = padding
+
   return pug`
     Row.root(
       style=[style, rootStyle]
       styleName=[
         size,
         shape,
-        { disabled },
-        extraCommonStyle
+        { disabled }
       ]
       align='center'
       vAlign='center'
@@ -82,7 +109,13 @@ function Button ({
       ...props
     )
       if icon
-        View.iconWrapper(styleName=[extraCommonStyle, iconPosition])
+        View.iconWrapper(
+          style=iconStyle
+          styleName=[
+            {'with-label': haveChildren},
+            iconPosition
+          ]
+        )
           Icon(icon=icon size=size color=_iconColor)
       if children
         Span.label(
@@ -104,9 +137,9 @@ Button.defaultProps = {
 Button.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   color: propTypes.string,
-  children: propTypes.string,
+  children: propTypes.node,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
-  size: propTypes.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
+  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
   icon: propTypes.object,
   iconPosition: propTypes.oneOf(['left', 'right']),

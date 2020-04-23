@@ -32,7 +32,6 @@ function Tag ({
   iconPosition,
   textColor,
   onPress,
-  onIconPress,
   ...props
 }) {
   const isFlat = variant === 'flat'
