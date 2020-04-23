@@ -36,7 +36,7 @@ function ModalHeader ({
         = childs
         if onDismiss
           Div(onPress=onDismiss)
-            Icon(icon=faTimes size='l' color=colors.dark)
+            Icon(icon=faTimes size='xl' color=colors.dark)
   `
 }
 

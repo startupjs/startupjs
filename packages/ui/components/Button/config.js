@@ -11,6 +11,13 @@ module.exports = function ({ colors }) {
       xxl: u(7)
     },
     outlinedBorderWidth: 1,
-    iconMargin: u(1)
+    iconMargins: {
+      xs: u(0.5),
+      s: u(0.5),
+      m: u(1),
+      l: u(1),
+      xl: u(1.5),
+      xxl: u(1.5)
+    }
   }
 }

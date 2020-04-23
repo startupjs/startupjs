@@ -8,10 +8,9 @@ import Span from '../Span'
 import config from '../../config/rootConfig'
 import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 const { colors } = config
-const { heights, outlinedBorderWidth, iconMargin } = config.Button
+const { heights, outlinedBorderWidth, iconMargins } = config.Button
 
 function Button ({
   style,
@@ -20,7 +19,7 @@ function Button ({
   variant,
   shape,
   size,
-  icon = faStar,
+  icon,
   iconColor,
   iconPosition,
   textColor,
@@ -73,11 +72,11 @@ function Button ({
 
     switch (iconPosition) {
       case 'left':
-        iconStyle.marginRight = iconMargin
+        iconStyle.marginRight = iconMargins[size]
         iconStyle.marginLeft = -quarterOfHeight
         break
       case 'right':
-        iconStyle.marginLeft = iconMargin
+        iconStyle.marginLeft = iconMargins[size]
         iconStyle.marginRight = -quarterOfHeight
         break
     }
@@ -141,10 +140,10 @@ Button.propTypes = {
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
+  textColor: propTypes.string,
   icon: propTypes.object,
   iconPosition: propTypes.oneOf(['left', 'right']),
-  iconColor: propTypes.string,
-  textColor: propTypes.string
+  iconColor: propTypes.string
 }
 
 export default observer(Button)
