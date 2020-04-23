@@ -1,0 +1,113 @@
+import { useState } from 'react'
+import Avatar from '../Avatar'
+import Row from '../Row'
+import { View } from 'react-native'
+import { Sandbox } from '@startupjs/docs'
+
+# Avatar
+
+Avatars can be used to display image, icons, letters.
+
+## Basic Example
+
+```jsx
+import { Avatar, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Avatar
+      url='/img/avatar1.jpeg'
+    />
+  </Row>
+)
+```
+
+## Avatar Status Example
+
+```jsx
+import { Avatar, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Avatar
+      status='online'
+      url='/img/avatar1.jpeg'
+    />
+    <Avatar
+      status='away'
+      url='/img/avatar2.jpeg'
+    />
+  </Row>
+)
+```
+
+## Avatar Size
+
+Avatars can come in many sizes.
+
+```jsx
+import { Avatar, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Avatar
+      size='xs'
+      url='/img/avatar1.jpeg'
+    />
+    <Avatar
+      size='s'
+      url='/img/avatar2.jpeg'
+    />
+    <Avatar
+      size='m'
+      url='/img/avatar3.jpeg'
+    />
+    <Avatar
+      size='l'
+      url='/img/avatar1.jpeg'
+    />
+    <Avatar
+      size='xl'
+      url='/img/avatar2.jpeg'
+    />
+    <Avatar
+      size='xxl'
+      url='/img/avatar3.jpeg'
+    />
+  </Row>
+)
+```
+
+## Avatar Fallback
+
+When `url` prop is not loaded intials of the fallback string are displayed.
+In the example below fallback is 'John Doe' therefore 'JD' will be displayed. 
+Default `fallback` is `?`.
+
+```jsx
+import { Avatar, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Avatar
+      url='/img/non-existen-image.jpeg'
+    />
+    <Avatar
+      fallback='John Doe'
+      url='/img/non-existen-image.jpeg'
+    />
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Avatar} />
