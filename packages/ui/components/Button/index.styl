@@ -1,45 +1,6 @@
 _disabledOpacity = 0.25
-_iconMargin = 1u
 
 .root
-  &.s
-    height 3u
-    min-width @height
-
-  &.m
-    height 4u
-    min-width @height
-
-  &.l
-    height 5u
-    min-width @height
-
-  &.xl
-    height 6u
-    min-width @height
-
-  &.xxl
-    height 9u
-    min-width @height
-
-  &.with-label
-    padding 0 2u
-
-    &.s
-      min-width 8u
-
-    &.m
-      min-width 10u
-
-    &.l
-      min-width 12u
-
-    &.xl
-      min-width 14u
-
-    &.xxl
-      min-width 22.5u
-
   &.rounded
     radius()
 
@@ -48,12 +9,3 @@ _iconMargin = 1u
 
   &.disabled
     opacity _disabledOpacity
-
-.iconWrapper
-  &.with-label
-    &.left
-      margin-right _iconMargin
-      margin-left (- _iconMargin)
-    &.right
-      margin-left _iconMargin
-      margin-right (- _iconMargin)

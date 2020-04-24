@@ -3,7 +3,6 @@ import './index.styl'
 import propTypes from 'prop-types'
 import Div from './../Div'
 import { observer } from 'startupjs'
-import _omit from 'lodash/omit'
 
 function Row ({
   style,
@@ -27,12 +26,11 @@ function Row ({
 Row.defaultProps = {
   wrap: false,
   reverse: false,
-  // div default props
   ...Div.defaultProps
 }
 
 Row.propTypes = {
-  ..._omit(Div.propTypes, ['style', 'children']),
+  ...Div.propTypes,
   wrap: propTypes.bool,
   reverse: propTypes.bool,
   align: propTypes.oneOf(['center', 'right', 'around', 'between']),
