@@ -1,0 +1,183 @@
+import { useState } from 'react'
+import { View } from 'react-native'
+import Breadcrumbs from '../Breadcrumbs'
+import Br from '../Br'
+import { Sandbox } from '@startupjs/docs'
+import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
+
+# Breadcrumbs
+
+Breadcrumbs allow the user to navigate to parent hierarchy and it shows the current state within the hierarchy.
+
+## Basic Example
+
+Each route object accepts any prop given to the [`Link`](/docs/en/docs/Link) component apart from the ones mentioned below.
+
+```jsx
+import { Breadcrumbs } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Breadcrumbs
+    routes={[
+      {
+        to: '#',
+        name: 'StartupJs'
+      },
+      {
+        to: '#',
+        name: 'Docs'
+      },
+      {
+        to: '#',
+        name: 'Component'
+      }
+    ]}
+  />
+)
+```
+
+## Custom Separator Example
+
+Default separator is `/`. Separator can be customized to any string value using `separator` prop.
+
+```jsx
+import { Breadcrumbs } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Breadcrumbs
+    separator='>'
+    routes={[
+      {
+        to: '#',
+        name: 'StartupJs'
+      },
+      {
+        to: '#',
+        name: 'Docs'
+      },
+      {
+        to: '#',
+        name: 'Component'
+      }
+    ]}
+  />
+)
+```
+
+## Icon Example
+
+Each route object can be customized using `icon` prop. Icon postion can customized using `iconPosition` prop. Default icon position is `left`.
+
+
+```jsx
+import { Breadcrumbs } from '@startupjs/ui'
+import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+return (
+  <Breadcrumbs
+    routes={[
+      {
+        to: '#',
+        name: 'House',
+        icon: faHouseUser
+      },
+      {
+        to: '#',
+        name: 'Table',
+        icon: faTable,
+        iconPosition: 'right'
+      }
+    ]}
+  />
+)
+```
+
+## Custom Size Example
+
+Default size is `m`, `size` prop is used to customize breadcrumbs. Possible values of `size` prop can be found in the Sandbox section at the bottom.
+
+```jsx
+import { Breadcrumbs } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <View>
+    <Breadcrumbs
+      size='l'
+      routes={[
+        {
+          to: '#',
+          name: 'StartupJs'
+        },
+        {
+          to: '#',
+          name: 'Docs'
+        },
+        {
+          to: '#',
+          name: 'Component'
+        }
+      ]}
+    />
+    <Br />
+    <Breadcrumbs
+      size='s'
+      routes={[
+        {
+          to: '#',
+          name: 'StartupJs'
+        },
+        {
+          to: '#',
+          name: 'Docs'
+        },
+        {
+          to: '#',
+          name: 'Component'
+        }
+      ]}
+    />
+  </View>
+)
+```
+
+## Disabled Breadcrumbs Example
+
+
+```jsx
+import { Breadcrumbs } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Breadcrumbs
+    disabled
+    routes={[
+      {
+        to: '#',
+        name: 'StartupJs'
+      },
+      {
+        to: '#',
+        name: 'Docs'
+      },
+      {
+        to: '#',
+        name: 'Component'
+      }
+    ]}
+  />
+)
+```
+
+
+## Sandbox
+
+<Sandbox Component={Breadcrumbs} />
