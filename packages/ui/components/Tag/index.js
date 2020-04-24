@@ -10,22 +10,16 @@ function Tag (props) {
 }
 
 Tag.defaultProps = {
+  ...Button.defaultProps,
   color: 'primary',
   variant: 'flat',
-  shape: 'circle',
-  iconPosition: Button.defaultProps.iconPosition
+  shape: 'circle'
 }
 
 Tag.propTypes = {
-  style: Button.propTypes.style,
-  children: Button.propTypes.children,
+  ...Button.propTypes,
   variant: propTypes.oneOf(['flat', 'outlined']),
-  shape: propTypes.oneOf(['circle', 'rounded']),
-  color: Button.propTypes.color,
-  textColor: Button.propTypes.textColor,
-  icon: Button.propTypes.icon,
-  iconColor: Button.propTypes.iconColor,
-  iconPosition: Button.propTypes.iconPosition
+  shape: propTypes.oneOf(['circle', 'rounded'])
 }
 
 export default observer(Tag)
