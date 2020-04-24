@@ -1,8 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Row from '../Row'
+import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
@@ -108,7 +108,7 @@ function Button ({
       ...props
     )
       if icon
-        View.iconWrapper(
+        Div.iconWrapper(
           style=iconStyle
           styleName=[
             {'with-label': hasChildren},
@@ -126,6 +126,7 @@ function Button ({
 }
 
 Button.defaultProps = {
+  ...Div.defaultProps,
   color: 'dark',
   variant: 'outlined',
   size: 'm',
@@ -134,9 +135,8 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  color: propTypes.string,
-  children: propTypes.node,
+  ...Div.propTypes,
+  children: propTypes.string,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),

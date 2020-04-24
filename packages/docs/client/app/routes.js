@@ -6,14 +6,14 @@ module.exports = function (components = {}) {
       component: components.PHome
     },
     {
+      path: '/docs/:lang/:docName',
+      exact: true,
+      component: components.PDoc
+    },
+    {
       path: '/docs/:lang/sandbox/:componentName',
       exact: true,
       component: components.PSandbox
-    },
-    {
-      path: '/docs/:lang/docs/:docName',
-      exact: true,
-      component: components.PDoc
     }
   ]
 }
