@@ -61,7 +61,7 @@ export default observer(function Checkbox ({
         Icon.icon(
           styleName=[checkedStyles]
           icon=faCheck
-          size='xs'
+          size='s'
           color=config.colors.white
         )
         AnimatedView.animated(

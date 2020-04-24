@@ -8,5 +8,5 @@ export default function useDocName () {
 
 function setDocName (name) {
   const lang = $root.get('$render.params.lang')
-  emit('url', `/docs/${lang}/docs/${name}`)
+  emit('url', `/docs/${lang}/${name}`)
 }
