@@ -18,10 +18,9 @@ function Avatar ({
 
   return pug`
     View.root(style=style styleName=[size])
-      View.avatarWrapper
+      View.avatarWrapper(styleName=[size])
         if url && !error
           Image.avatar(
-            styleName=[size]
             source={ uri: url }
             onError=() => {
               setError(true)

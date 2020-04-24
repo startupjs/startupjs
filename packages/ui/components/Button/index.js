@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
-import { View } from 'react-native'
+import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
+import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../Span'
@@ -10,134 +10,140 @@ import colorToRGBA from '../../config/colorToRGBA'
 import './index.styl'
 
 const { colors } = config
+const { heights, outlinedBorderWidth, iconMargins } = config.Button
 
 function Button ({
   style,
   children,
   color,
   variant,
-  disabled,
   shape,
   size,
   icon,
-  iconsColor,
-  rightIcon,
+  iconColor,
+  iconPosition,
   textColor,
+  disabled,
   onPress,
-  pushed, // By some reason prop 'push' was ignored
   ...props
 }) {
-  const extraCommonStyles = {
-    'with-label': typeof children === 'string'
-      ? children.length
-      : React.Children.count(children)
-  }
-  const _textColor = useMemo(() => colors[textColor] || textColor, [textColor])
-  const _color = useMemo(() => colors[color] || color, [color])
-
-  const _iconsColor = useMemo(() => {
-    return colors[iconsColor] || iconsColor ||
-      (variant === 'flat' ? colors.white : _color)
-  }, [variant, iconsColor, _color])
-
-  const iconsProps = { size, color: _iconsColor }
-  const [rootStyles, labelStyles] = useMemo(() => {
-    let labelStyles = {}
-    let rootStyles = {}
-
-    switch (variant) {
-      case 'flat':
-        labelStyles.color = _textColor || colors.white
-        rootStyles.backgroundColor = _color
-        break
-      case 'outlined':
-        labelStyles.color = _textColor || _color
-        rootStyles.borderWidth = 1
-        rootStyles.borderColor = colorToRGBA(_color, 0.5)
-        break
-      case 'text':
-        labelStyles.color = _textColor || _color
-        break
-      case 'shadowed':
-        labelStyles.color = _textColor || _color
-        rootStyles.backgroundColor = colors.white
-        break
-    }
-
-    return [rootStyles, labelStyles]
-  }, [variant, _textColor, _color])
-
+  const isFlat = variant === 'flat'
+  const _color = colors[color] || color
+  const _textColor = colors[textColor] || textColor ||
+    (isFlat ? colors.white : _color)
+  const _iconColor = colors[iconColor] || iconColor ||
+    (isFlat ? colors.white : _color)
+  const hasChildren = React.Children.count(children)
+  const height = heights[size]
+  const rootStyle = { height }
   const rootExtraProps = {}
-  if (variant === 'shadowed') {
-    rootExtraProps.level = 2
+  const labelStyle = { color: _textColor }
+  const iconStyle = {}
+
+  switch (variant) {
+    case 'flat':
+      rootStyle.backgroundColor = _color
+      rootExtraProps.hoverOpacity = 0.5
+      rootExtraProps.activeOpacity = 0.25
+      break
+    case 'outlined':
+      rootStyle.borderWidth = outlinedBorderWidth
+      rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      rootExtraProps.hoverOpacity = 0.05
+      rootExtraProps.activeOpacity = 0.25
+      break
+    case 'text':
+      rootExtraProps.hoverOpacity = 0.05
+      rootExtraProps.activeOpacity = 0.25
+      break
+    case 'shadowed':
+      rootStyle.backgroundColor = colors.white
+      rootExtraProps.level = 2
+      rootExtraProps.hoverOpacity = 0.5
+      rootExtraProps.activeOpacity = 0.25
+      break
   }
 
-  const [hoverOpacity, activeOpacity] = useMemo(() => {
-    switch (variant) {
-      case 'flat':
-      case 'shadowed':
-        return [0.5, 0.25]
-      case 'outlined':
-      case 'text':
-        return [0.05, 0.25]
+  let padding
+  const quarterOfHeight = height / 4
+
+  if (hasChildren) {
+    padding = height / 2
+
+    switch (iconPosition) {
+      case 'left':
+        iconStyle.marginRight = iconMargins[size]
+        iconStyle.marginLeft = -quarterOfHeight
+        break
+      case 'right':
+        iconStyle.marginLeft = iconMargins[size]
+        iconStyle.marginRight = -quarterOfHeight
+        break
     }
-  }, [variant])
+  } else {
+    padding = quarterOfHeight
+  }
+
+  if (variant === 'outlined') padding -= outlinedBorderWidth
+
+  rootStyle.paddingLeft = padding
+  rootStyle.paddingRight = padding
 
   return pug`
-    Div.root(
-      style=[style, rootStyles]
+    Row.root(
+      style=[style, rootStyle]
       styleName=[
         size,
         shape,
-        { disabled, pushed },
-        extraCommonStyles
+        { disabled }
       ]
+      align='center'
+      vAlign='center'
+      reverse=iconPosition === 'right'
       variant='highlight'
       underlayColor=_color
-      hoverOpacity=hoverOpacity
-      activeOpacity=activeOpacity
       disabled=disabled
       onPress=onPress
       ...rootExtraProps
       ...props
     )
       if icon
-        View.leftIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=icon ...iconsProps)
+        Div.iconWrapper(
+          style=iconStyle
+          styleName=[
+            {'with-label': hasChildren},
+            iconPosition
+          ]
+        )
+          Icon(icon=icon size=size color=_iconColor)
       if children
         Span.label(
-          style=labelStyles
+          style=labelStyle
           size=size
           bold
         )= children
-      if rightIcon
-        View.rightIconWrapper(styleName=[extraCommonStyles])
-          Icon(icon=rightIcon ...iconsProps)
   `
 }
 
 Button.defaultProps = {
+  ...Div.defaultProps,
   color: 'dark',
   variant: 'outlined',
   size: 'm',
   shape: 'rounded',
-  disabled: false
+  iconPosition: 'left'
 }
 
 Button.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  color: propTypes.string,
-  children: propTypes.node,
-  disabled: propTypes.bool,
-  pushed: propTypes.bool,
+  ...Div.propTypes,
+  children: propTypes.string,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
-  size: propTypes.oneOf(['s', 'm', 'l', 'xl', 'xxl']),
+  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
-  icon: propTypes.object,
-  rightIcon: propTypes.object,
-  iconsColor: propTypes.string,
   textColor: propTypes.string,
-  onPress: propTypes.func
+  icon: propTypes.object,
+  iconPosition: propTypes.oneOf(['left', 'right']),
+  iconColor: propTypes.string
 }
 
 export default observer(Button)

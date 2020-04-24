@@ -25,6 +25,7 @@ function Div ({
   disabled,
   level,
   onPress,
+  pushed, // By some reason prop 'push' was ignored
   ...props
 }) {
   const isClickable = typeof onPress === 'function' && !disabled
@@ -33,7 +34,7 @@ function Div ({
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   const isInteractive = useMemo(() => activeOpacity !== 1, [activeOpacity])
-  const extraStyles = {}
+  const extraStyle = {}
   const extraProps = {}
 
   // If component become not clickable, for example received 'disabled'
@@ -74,7 +75,7 @@ function Div ({
     // setup hover and active states styles and props
     if (isInteractive) {
       if (isOpacity) {
-        if (hover) extraStyles.opacity = hoverStateOpacity
+        if (hover) extraStyle.opacity = hoverStateOpacity
       } else {
         let backgroundColor
         for (let i = style.length - 1; i >= 0; i--) {
@@ -87,23 +88,27 @@ function Div ({
 
         if (hover) {
           const color = hoverColor || backgroundColor || underlayColor
-          extraStyles.backgroundColor =
+          extraStyle.backgroundColor =
             colorToRGBA(color || 'transparent', hoverOpacity)
         }
         // Order is important because active has higher priority
         if (active) {
           const color = underlayColor || backgroundColor
-          extraStyles.backgroundColor =
+          extraStyle.backgroundColor =
             colorToRGBA(color || 'transparent', activeOpacity)
         }
       }
     }
   }
 
+  let pushedModifier
+  const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
+  if (pushedSize) pushedModifier = `pushed-${pushedSize}`
+
   return pug`
     Wrapper.root(
-      style=[style, SHADOWS[level], extraStyles]
-      styleName=[{ ['with-shadow']: !!level }]
+      style=[style, SHADOWS[level], extraStyle]
+      styleName=[{ ['with-shadow']: !!level }, pushedModifier]
       ...extraProps
       ...props
     )
@@ -129,6 +134,7 @@ Div.propTypes = {
   activeOpacity: propTypes.number,
   disabled: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   onPress: propTypes.func
 }
 

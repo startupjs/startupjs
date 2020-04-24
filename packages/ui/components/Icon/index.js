@@ -9,12 +9,12 @@ import './index.styl'
 const { colors } = config
 
 const SIZES = {
-  xs: u(1.25),
+  xs: u(1),
   s: u(1.5),
   m: u(2),
-  l: u(3),
-  xl: u(4),
-  xxl: u(5)
+  l: u(2.5),
+  xl: u(3),
+  xxl: u(3.5)
 }
 
 const Icon = observer(({

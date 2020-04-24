@@ -18,7 +18,7 @@ export default observer(function PHome ({
   useEffect(() => {
     emit(
       'url',
-      `/docs/${lang}/docs/` + Object.keys(docs[lang])[0],
+      `/docs/${lang}/` + Object.keys(docs[lang])[0],
       { replace: true }
     )
   }, [])

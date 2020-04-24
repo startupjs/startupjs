@@ -199,11 +199,14 @@ to the native installation when working with the large amount of files.
 ## List of Packages
 
 - [App](https://github.com/startupjs/startupjs/blob/master/packages/app)
+- [Babel preset startupjs](https://github.com/startupjs/startupjs/blob/master/packages/babel-preset-startupjs)
 - [Backend](https://github.com/startupjs/startupjs/blob/master/packages/backend)
 - [Bundler](https://github.com/startupjs/startupjs/blob/master/packages/bundler)
 - [CLI](https://github.com/startupjs/startupjs/blob/master/packages/cli)
 - [CodePush](https://github.com/startupjs/startupjs/blob/master/packages/codepush)
 - [Cron](https://github.com/startupjs/startupjs/blob/master/packages/cron)
+- [Docs](https://github.com/startupjs/startupjs/blob/master/packages/docs)
+- [Hooks](https://github.com/startupjs/startupjs/blob/master/packages/hooks)
 - [Init](https://github.com/startupjs/startupjs/blob/master/packages/init)
 - [Model](https://github.com/startupjs/startupjs/blob/master/packages/model)
 - [Offline](https://github.com/startupjs/startupjs/blob/master/packages/offline)
@@ -211,7 +214,6 @@ to the native installation when working with the large amount of files.
 - [React sharedb](https://github.com/startupjs/startupjs/blob/master/packages/react-sharedb)
 - [Routes middleware](https://github.com/startupjs/startupjs/blob/master/packages/routes-middleware)
 - [Server](https://github.com/startupjs/startupjs/blob/master/packages/server)
-- [Styleguide](/packages/styleguide)
 - [StartupJS meta package](https://github.com/startupjs/startupjs/blob/master/packages/startupjs)
 - [UI](/packages/ui)
 
