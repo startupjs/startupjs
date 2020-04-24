@@ -33,7 +33,7 @@ function Button ({
     (isFlat ? colors.white : _color)
   const _iconColor = colors[iconColor] || iconColor ||
     (isFlat ? colors.white : _color)
-  const haveChildren = React.Children.count(children)
+  const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
   const rootExtraProps = {}
@@ -67,7 +67,7 @@ function Button ({
   let padding
   const quarterOfHeight = height / 4
 
-  if (haveChildren) {
+  if (hasChildren) {
     padding = height / 2
 
     switch (iconPosition) {
@@ -111,7 +111,7 @@ function Button ({
         View.iconWrapper(
           style=iconStyle
           styleName=[
-            {'with-label': haveChildren},
+            {'with-label': hasChildren},
             iconPosition
           ]
         )
