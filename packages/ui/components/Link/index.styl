@@ -1,16 +1,24 @@
-_iconMargin = 0.5u
+@require '../Span/index.styl'
 
-.link
+polyfillReactNativeWeb()
+  display inline-flex
+  flex-direction column
+  box-sizing border-box
+  white-space pre-wrap
+  overflow-wrap break-word
+  font-family system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif
+
+.root
+  color: $UI.colors.mainText
+  text-decoration underline
   +web()
-    text-decoration none
-
-    &:not(.disabled):hover
-      text-decoration: underline
+    polyfillReactNativeWeb()
+    cursor pointer
+    &:hover
+      text-decoration none
     &.disabled
       cursor default
-
-.iconWrapper
-  &.left
-    margin-right _iconMargin
-  &.right
-    margin-left _iconMargin
+  &.primary
+    color: $UI.colors.primary
+  &.disabled
+    text-decoration none
