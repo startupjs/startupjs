@@ -1,0 +1,135 @@
+import { useState } from 'react'
+import Collapse from '../Collapse'
+import Row from '../Row'
+import Div from '../Div'
+import Br from '../Br'
+import LineSeparator from '../LineSeparator'
+import { Sandbox } from '@startupjs/docs'
+
+# Collapse
+
+Collapse дает пользователю возможность скрывать и раскрывать область контента. Он может быть использован для отображения или скрытия дополнительной информации.
+
+## Базовый пример
+
+```jsx
+import { Collapse, Div, LineSeparator } from '@startupjs/ui'
+```
+
+```jsx example
+const [open1, setOpen1] = useState(false)
+const [open2, setOpen2] = useState(false)
+return (
+  <Div>
+    <Collapse open={open1} onChange={() => setOpen1(!open1)}>
+      <Collapse.Header>Collapse Header - 1</Collapse.Header>
+      <Collapse.Content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+      </Collapse.Content>
+    </Collapse>
+    <LineSeparator />
+    <Collapse open={open2} onChange={() => setOpen2(!open2)}>
+      <Collapse.Header>Collapse Header - 2</Collapse.Header>
+      <Collapse.Content>
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+      </Collapse.Content>
+    </Collapse>
+  </Div>
+)
+```
+
+## Collapse Variant пример
+
+По умолчанию `variant` - `full`.
+Variant `pure` удаляет любые тени и отступы из стилей. Это полезно когда `Collapse` используется в качестве дочерних элементов других компонент, например `Card`.
+
+```jsx
+import { Collapse, Div, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [open1, setOpen1] = useState(false)
+const [open2, setOpen2] = useState(false)
+return (
+  <Div>
+    <Collapse open={open1} onChange={() => setOpen1(!open1)}>
+      <Collapse.Header>Collapse Variant - Full</Collapse.Header>
+      <Collapse.Content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+      </Collapse.Content>
+    </Collapse>
+    <Br lines={2} />
+    <Collapse
+      variant='pure'
+      open={open2}
+      onChange={() => setOpen2(!open2)}
+    >
+      <Collapse.Header>Collapse Variant Pure</Collapse.Header>
+      <Collapse.Content>
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+      </Collapse.Content>
+    </Collapse>
+  </Div>
+)
+```
+
+## Accordion
+С помощью Collapse можно сделать Accordion
+
+```jsx
+import { Collapse, Div, LineSeparator } from '@startupjs/ui'
+```
+
+```jsx example
+const [expand, setExpand] = useState(false)
+const handleChange = (panel) => (shouldExpand) => {
+  setExpand(shouldExpand ? panel : null)
+}
+return (
+  <Div>
+    <Collapse
+      open={expand === 'open1'}
+      onChange={handleChange('open1')}
+    >
+      <Collapse.Header>Accordion Header - 1</Collapse.Header>
+      <Collapse.Content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+      </Collapse.Content>
+    </Collapse>
+    <LineSeparator />
+    <Collapse
+      open={expand === 'open2'}
+      onChange={handleChange('open2')}
+    >
+      <Collapse.Header>Accordion Header - 2</Collapse.Header>
+      <Collapse.Content>
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.
+      </Collapse.Content>
+    </Collapse>
+    <LineSeparator />
+    <Collapse
+      open={expand === 'open3'}
+      onChange={handleChange('open3')}
+    >
+      <Collapse.Header>Accordion Header - 3</Collapse.Header>
+      <Collapse.Content>
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </Collapse.Content>
+    </Collapse>
+  </Div>
+)
+```
+
+## Sandbox
+
+### Collapse
+
+<Sandbox Component={Collapse} />
+
+### Collapse.Header
+
+<Sandbox Component={Collapse.Header} />
+
+### Collapse.Content
+
+<Sandbox Component={Collapse.Content} />
