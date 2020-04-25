@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Link as RNLink } from 'react-router-native'
-import { Platform, Text, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import Span from './../Span'
 import './index.styl'
 
@@ -25,6 +25,8 @@ function Link ({
   const extraProps = {}
   if (isNative) {
     extraProps.component = block ? TouchableOpacity : Text
+  } else {
+    extraProps.component = A
   }
   return pug`
     RNLink.root(
@@ -56,3 +58,13 @@ Link.propTypes = {
 }
 
 export default observer(Link)
+
+// Patch <a> on web to support handling an array in the style prop
+function A ({ style, navigate, ...props }) {
+  return pug`
+    a(
+      style=StyleSheet.flatten(style)
+      ...props
+    )
+  `
+}

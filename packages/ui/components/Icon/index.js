@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
 import { u } from '../../config/helpers'
 import config from '../../config/rootConfig'
@@ -40,15 +40,16 @@ const Icon = observer(({
       )
     `
   }
-
-  return pug`
-    FontAwesomeIcon(
-      style=style
-      icon=icon
-      color=_color
-      size=_size
-    )
-  `
+  return null
+  // TODO: FIXME FontAwesomeIcon doesn't work on react-native-web 0.12
+  // return pug`
+  //   FontAwesomeIcon(
+  //     style=style
+  //     icon=icon
+  //     color=_color
+  //     size=_size
+  //   )
+  // `
 })
 
 Icon.defaultProps = {

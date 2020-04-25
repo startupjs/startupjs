@@ -5,5 +5,6 @@ module.exports = getConfig(undefined, {
     'react-native-collapsible',
     '@startupjs/ui',
     'react-native-status-bar-height'
-  ]
+  ],
+  mode: 'react-native'
 })
