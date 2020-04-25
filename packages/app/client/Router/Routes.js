@@ -2,8 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react'
 import {
   $root,
   observer,
-  emit,
-  initLocalCollection
+  emit
 } from 'startupjs'
 import { Route } from 'react-router'
 import { Dimensions, Platform, View } from 'react-native'
@@ -18,7 +17,6 @@ export default observer(function Routes ({
   ...props
 }) {
   function render (route, props) {
-    setRenderParams(props)
     return pug`
       //- TODO: We can remove passing props because
       //- in pages we can use react-router hooks for this
@@ -100,9 +98,4 @@ const RouteComponent = observer(function RCComponent ({
 function getOrientation () {
   const dim = Dimensions.get('screen')
   return dim.width >= dim.height ? 'landscape' : 'portrait'
-}
-
-function setRenderParams ({ location, match }) {
-  if (!$root.get('$render')) initLocalCollection('$render')
-  $root.setDiffDeep('$render.params', match.params)
 }

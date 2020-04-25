@@ -6,10 +6,14 @@ import './index.styl'
 
 function ModalContent ({
   style,
+  variant,
   children
 }) {
   return pug`
-    ScrollView.root= children
+    ScrollView.root(
+      styleName=variant
+      contentContainerStyle=variant === 'pure' ? { flex: 1 } : {}
+    )= children
   `
 }
 

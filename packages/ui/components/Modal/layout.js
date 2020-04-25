@@ -43,7 +43,7 @@ function Modal ({
   const content = doChildrenHaveModalContent
     ? contentChildren
     : contentChildren.length
-      ? React.createElement(ModalContent, null, contentChildren)
+      ? React.createElement(ModalContent, { variant }, contentChildren)
       : null
 
   const actionsProps = {

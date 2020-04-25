@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import RouterComponent from './RouterComponent'
 import { withRouter, useHistory } from 'react-router-native'
+import { matchRoutes } from 'react-router-config'
 import { $root, observer, useSyncEffect, initLocalCollection } from 'startupjs'
 import { Linking, Platform } from 'react-native'
 import { matchPath } from 'react-router'
@@ -32,8 +33,12 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
   }, [location.pathname])
 
   useSyncEffect(() => {
-    initRoute(location)
-    const unlisten = history.listen(initRoute)
+    initRoute(location, routes)
+
+    const unlisten = history.listen((location) => {
+      initRoute(location, routes)
+    })
+
     $root.on('url', goTo)
 
     return () => {
@@ -90,7 +95,7 @@ function getApp (url, routes) {
   return route ? route.app : null
 }
 
-function initRoute (location) {
+function initRoute (location, routes, goTo) {
   // Check if url or search changed between page rerenderings
   const prevUrl = $root.get('$render.url')
   const prevSearch = $root.get('$render.search')
@@ -103,7 +108,20 @@ function initRoute (location) {
   $root.setDiff('$render.url', url)
   $root.setDiff('$render.search', search)
   $root.setDiffDeep('$render.query', query)
+
   if (url !== prevUrl) {
+    const matched = matchRoutes(routes, url)
+    if (matched.length) {
+      const lastRoute = matched[matched.length - 1]
+      const redirect = lastRoute.route.redirect
+
+      if (redirect) {
+        setTimeout(() => $root.emit('url', redirect, { replace: true }))
+        return
+      }
+
+      $root.setDiffDeep('$render.params', lastRoute.match.params)
+    }
     $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
     $root.silent().destroy('_page')
     initLocalCollection('_page')

@@ -83,7 +83,7 @@ function matchAppRoutes (location, appRoutes, cb) {
 
 function matchUrl (location, routes, cb) {
   const matched = matchRoutes(routes, location.replace(/\?.*/, ''))
-  if (matched && matched.length) {
+  if (matched.length) {
     // check if the last route has redirect
     const lastRoute = matched[matched.length - 1]
     if (lastRoute.route.redirect) {

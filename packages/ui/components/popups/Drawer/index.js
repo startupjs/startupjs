@@ -3,18 +3,15 @@ import PropTypes from 'prop-types'
 import {
   SafeAreaView,
   Animated,
-  Modal as ModalNative,
   View,
   TouchableWithoutFeedback,
   Platform,
   PanResponder,
   Dimensions
 } from 'react-native'
-import ModalWeb from 'modal-react-native-web'
 import { useRefCallback } from '../../../hooks'
+import Modal from '../../Modal'
 import './index.styl'
-
-const Modal = Platform.OS === 'web' ? ModalWeb : ModalNative
 
 const POSITION_STYLES = {
   left: { alignItems: 'flex-start' },
@@ -207,8 +204,9 @@ const Drawer = ({
     Wrapper(
       transparent=true
       visible=isShow
+      variant='pure'
       ariaHideApp=false
-      style=SHTAMP_RENDER_STYLE
+      style=(contentWidth || (!contentWidth && visible)) ? {} : SHTAMP_RENDER_STYLE
     )
       SafeAreaView.areaCase
         View.case(style=_styleCase)

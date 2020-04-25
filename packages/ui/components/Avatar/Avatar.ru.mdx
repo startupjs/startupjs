@@ -1,0 +1,131 @@
+import { useState } from 'react'
+import Avatar from '../Avatar'
+import Row from '../Row'
+import Div from '../Div'
+import { View } from 'react-native'
+import { Sandbox } from '@startupjs/docs'
+
+# Avatar
+
+Avatar можно использовать для отображения изображений, значков, букв.
+
+## Базовый пример
+
+```jsx
+import { Avatar } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Avatar
+    url='/img/avatar1.jpeg'
+  />
+)
+```
+
+## Пример со статусом
+
+```jsx
+import { Avatar, Row, Div } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Div>
+      <Avatar
+        status='online'
+        url='/img/avatar1.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        status='away'
+        url='/img/avatar2.jpeg'
+      />
+    </Div>
+  </Row>
+)
+```
+
+## Размеры
+
+Avatar может быть разных размеров.
+
+```jsx
+import { Avatar, Row, Div } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Div>
+      <Avatar
+        size='xs'
+        url='/img/avatar1.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        size='s'
+        url='/img/avatar2.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        size='m'
+        url='/img/avatar3.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        size='l'
+        url='/img/avatar1.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        size='xl'
+        url='/img/avatar2.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        size='xxl'
+        url='/img/avatar3.jpeg'
+      />
+    </Div>
+  </Row>
+)
+```
+
+## Резервная строка
+
+Когда свойство `url` отсутствует или он не может быть загружен, то отображаются инициалы `резервной строки`.
+В приведенном ниже примере `резервная строка` 'John Doe', поэтому будет отображаться 'JD'. По умолчанию `резервная строка` - `?`
+
+```jsx
+import { Avatar, Row, Div } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Div>
+      <Avatar
+        url='/img/non-existen-image.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        fallback='John Doe'
+        url='/img/non-existen-image.jpeg'
+      />
+    </Div>
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Avatar} />
