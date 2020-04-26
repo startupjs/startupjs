@@ -7,11 +7,11 @@ import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
 
 # Breadcrumbs
 
-Breadcrumbs allow the user to navigate to parent hierarchy and it shows the current state within the hierarchy.
+Breadcrumbs позволяют пользоватлю передвигаться по иерархии родителей и отображают текущее состояние внутри иерархии.
 
-## Basic Example
+## Базовый пример
 
-Each route object accepts any prop given to the [`Link`](/docs/en/docs/Link) component apart from the ones mentioned below.
+Каждый объект маршрута принимает любые свойства компонента [`Link`](/docs/en/docs/Link) кроме тех что упомянуты ниже.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -38,9 +38,9 @@ return (
 )
 ```
 
-## Custom Separator Example
+## Пример с кастомным разделителем
 
-Default separator is `/`. It can be customized to any string value using `separator` prop.
+Разделитель по умолчанию - `/`. Он может быть задан любым строковым значением используя `separator` свойство.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -68,10 +68,9 @@ return (
 )
 ```
 
-## Icon Example
+## Пример с иконкой
 
-Each route object can be customized using `icon` prop. Icon postion can customized using `iconPosition` prop. Default `iconPosition` is `left`.
-
+Каждому объекту маршрута можно задать иконку. Расположение иконки задается используя `iconPosition` свойство. По умолчанию `iconPosition` - `left`.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -98,9 +97,9 @@ return (
 )
 ```
 
-## Custom Size Example
+## Пример с заданным размером
 
-Default size is `m`, `size` prop is used to customize breadcrumbs. Possible values of `size` prop can be found in the `Sandbox` section at the bottom.
+Размер по умолчанию - `m`, свойство `size` используется для задания размера. Возможные значения свойства `size` можно найти в разделе `Песочница` внизу страницы.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -148,7 +147,7 @@ return (
 )
 ```
 
-## Disabled Breadcrumbs Example
+## Breadcrumbs не реагируйющий на действия пользователя
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'

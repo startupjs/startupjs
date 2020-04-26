@@ -1,0 +1,86 @@
+import { useState } from 'react'
+import Card from '../Card'
+import { H4 } from '../Headers'
+import Br from '../Br'
+import Row from '../Row'
+import Button from '../Button'
+import Collapse from '../Collapse'
+import Span from '../Span'
+import Icon from '../Icon'
+import Div from '../Div'
+import { u } from '../../config/helpers'
+import { Image } from 'react-native'
+import { Sandbox } from '@startupjs/docs'
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
+
+# Card
+Наследует [Div Props](/docs/en/Div).
+
+Карточки содержат контент и действия, относящиеся к одной теме.
+
+## Базовый пример
+
+```jsx
+import { Card, Span, Br, H4 } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Card onPress={() => console.log('You clicked the card')}>
+    <H4>Card header</H4>
+    <Br />
+    <Span size='xl'>Card body or description</Span>
+  </Card>
+)
+```
+
+## Card Level Example
+
+Card `level` свойство определяет насколько высоко будет она приподнята.
+Это имеет смысл когда `variant` - `elevated`.
+
+```jsx
+import { Card, Span, Br, H4 } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Div>
+    <Card>
+      <H4>Card Level - 1</H4>
+      <Br />
+      <Span size='xl'>Card body or description</Span>
+    </Card>
+    <Br />
+    <Card level={2}>
+      <H4>Card Level - 2</H4>
+      <Br />
+      <Span size='xl'>Card body or description</Span>
+    </Card>
+    <Br />
+    <Card level={3}>
+      <H4>Card Level - 3</H4>
+      <Br />
+      <Span size='xl'>Card body or description</Span>
+    </Card>
+    <Br />
+    <Card level={4}>
+      <H4>Card Level - 4</H4>
+      <Br />
+      <Span size='xl'>Card body or description</Span>
+    </Card>
+  </Div>
+)
+```
+
+## Card Variant пример
+
+`variant` может быть `elevated` (по умолчанию) либо `outlined`.
+
+```jsx
+import { Card, Span, Br, H4, Icon } from '@startupjs/ui'
+```
+
+## Sandbox
+
+<Sandbox Component={Card} />
