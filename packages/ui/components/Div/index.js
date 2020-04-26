@@ -19,10 +19,8 @@ function Div ({
   style = [],
   children,
   variant,
-  hoverColor,
-  activeColor,
-  hoverOpacity,
-  activeOpacity,
+  hoverStyle,
+  activeStyle,
   disabled,
   level,
   onPress,
@@ -31,10 +29,9 @@ function Div ({
   ...props
 }) {
   const isClickable = typeof onPress === 'function' && !disabled
-  const isOpacity = variant === 'opacity'
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
-  const extraStyle = {}
+  let extraStyle = {}
   const extraProps = {}
   const wrapperProps = {}
 
@@ -73,37 +70,10 @@ function Div ({
         }
       }
 
-      if (isOpacity) {
-        if (hover) extraStyle.opacity = hoverOpacity
-        if (active) extraStyle.opacity = activeOpacity
-      } else {
-        style = StyleSheet.flatten(style)
-        let backgroundColor = style.backgroundColor
-        if (backgroundColor === 'transparent') backgroundColor = undefined
-
-        if (hover) {
-          if (!hoverColor) {
-            if (backgroundColor) {
-              hoverColor = colorToRGBA(backgroundColor, hoverOpacity)
-            } else {
-              // If no color exists, we treat it as a light background and just dim it a bit
-              hoverColor = 'rgba(0,0,0,0.05)'
-            }
-          }
-          extraStyle.backgroundColor = hoverColor
-        }
-
-        if (active) {
-          if (!activeColor) {
-            if (backgroundColor) {
-              activeColor = colorToRGBA(backgroundColor, activeOpacity)
-            } else {
-              // If no color exists, we treat it as a light background and just dim it a bit
-              activeColor = 'rgba(0,0,0,0.2)'
-            }
-          }
-          extraStyle.backgroundColor = activeColor
-        }
+      if (active) {
+        extraStyle = activeStyle || getDefaultStyle(style, 'active', variant)
+      } else if (hover) {
+        extraStyle = hoverStyle || getDefaultStyle(style, 'hover', variant)
       }
     }
   }
@@ -128,7 +98,7 @@ function Div ({
   return maybeWrapToClickable(pug`
     View.root(
       style=[style, SHADOWS[level], extraStyle]
-      styleName=[{ ['with-shadow']: !!level }, pushedModifier]
+      styleName=[{ ['with-shadow']: !!level, hoverable: isWeb && isClickable }, pushedModifier]
       ...extraProps
       ...props
     )
@@ -139,8 +109,6 @@ function Div ({
 Div.defaultProps = {
   variant: 'opacity',
   feedback: true,
-  hoverOpacity: defaultHoverOpacity,
-  activeOpacity: defaultActiveOpacity,
   disabled: false,
   level: 0
 }
@@ -150,10 +118,8 @@ Div.propTypes = {
   children: propTypes.node,
   variant: propTypes.oneOf(['opacity', 'highlight']),
   feedback: propTypes.bool,
-  hoverColor: propTypes.string,
-  activeColor: propTypes.string,
-  hoverOpacity: propTypes.number,
-  activeOpacity: propTypes.number,
+  hoverStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   disabled: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
   pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
@@ -161,3 +127,32 @@ Div.propTypes = {
 }
 
 export default observer(Div)
+
+function getDefaultStyle (style, type, variant) {
+  if (variant === 'opacity') {
+    if (type === 'hover') return { opacity: defaultHoverOpacity }
+    if (type === 'active') return { opacity: defaultActiveOpacity }
+  } else {
+    style = StyleSheet.flatten(style)
+    let backgroundColor = style.backgroundColor
+    if (backgroundColor === 'transparent') backgroundColor = undefined
+
+    if (type === 'hover') {
+      if (backgroundColor) {
+        return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
+      } else {
+        // If no color exists, we treat it as a light background and just dim it a bit
+        return { backgroundColor: 'rgba(0,0,0,0.05)' }
+      }
+    }
+
+    if (type === 'active') {
+      if (backgroundColor) {
+        return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
+      } else {
+        // If no color exists, we treat it as a light background and just dim it a bit
+        return { backgroundColor: 'rgba(0,0,0,0.2)' }
+      }
+    }
+  }
+}
