@@ -21,7 +21,6 @@ function CollapseContent ({
     }
     return child
   })
-
   return pug`
     Collapsible(collapsed=!open)
       View.root(style=style styleName=[variant])
