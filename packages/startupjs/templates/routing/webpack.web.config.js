@@ -4,5 +4,6 @@ module.exports = getConfig(undefined, {
   forceCompileModules: [
     '@startupjs/app'
   ],
-  alias: {}
+  alias: {},
+  mode: 'react-native'
 })
