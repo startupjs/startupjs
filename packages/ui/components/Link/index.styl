@@ -6,18 +6,13 @@ polyfillReactNativeWeb()
   box-sizing border-box
   white-space pre-wrap
   overflow-wrap break-word
-  font-family system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif
 
 .root
   color: $UI.colors.mainText
   text-decoration underline
-  +web()
+  &.web
     polyfillReactNativeWeb()
     cursor pointer
-    &:hover
-      text-decoration none
-    &.disabled
-      cursor default
   &.primary
     color: $UI.colors.primary
   &.disabled
