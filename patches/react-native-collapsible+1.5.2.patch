@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-collapsible/Collapsible.js b/node_modules/react-native-collapsible/Collapsible.js
+index 99e614f..192ea43 100644
+--- a/node_modules/react-native-collapsible/Collapsible.js
++++ b/node_modules/react-native-collapsible/Collapsible.js
+@@ -1,7 +1,6 @@
+ import React, { Component } from 'react';
+ import PropTypes from 'prop-types';
+ import { Animated, Easing } from 'react-native';
+-import { ViewPropTypes } from './config';
+ 
+ const ANIMATED_EASING_PREFIXES = ['easeInOut', 'easeOut', 'easeIn'];
+ 
+@@ -13,7 +12,7 @@ export default class Collapsible extends Component {
+     enablePointerEvents: PropTypes.bool,
+     duration: PropTypes.number,
+     easing: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+-    style: ViewPropTypes.style,
++    style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+     onAnimationEnd: PropTypes.func,
+     children: PropTypes.node,
+   };

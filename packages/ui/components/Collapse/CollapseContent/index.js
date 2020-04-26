@@ -1,8 +1,8 @@
-// import React from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
-// import { View } from 'react-native'
-// import Collapsible from 'react-native-collapsible'
-// import Span from './../../Span'
+import { View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
+import Span from './../../Span'
 import propTypes from 'prop-types'
 import './index.styl'
 
@@ -12,22 +12,20 @@ function CollapseContent ({
   open, // @private
   variant // @private
 }) {
-  // TODO: FIXME collapsible doesn't work of react-native-web 0.12
-  return null
-  // const content = React.Children.toArray(children).map((child, index) => {
-  //   const key = `__COLLAPSE_CONTENT_KEY_${index}__`
-  //   if (typeof child === 'string') {
-  //     return pug`
-  //       Span(key=key)= child
-  //     `
-  //   }
-  //   return child
-  // })
-  // return pug`
-  //   Collapsible(collapsed=!open)
-  //     View.root(style=style styleName=[variant])
-  //       = content
-  // `
+  const content = React.Children.toArray(children).map((child, index) => {
+    const key = `__COLLAPSE_CONTENT_KEY_${index}__`
+    if (typeof child === 'string') {
+      return pug`
+        Span(key=key)= child
+      `
+    }
+    return child
+  })
+  return pug`
+    Collapsible(collapsed=!open)
+      View.root(style=style styleName=[variant])
+        = content
+  `
 }
 
 CollapseContent.propTypes = {

@@ -43,24 +43,16 @@ function Button ({
   switch (variant) {
     case 'flat':
       rootStyle.backgroundColor = _color
-      rootExtraProps.hoverOpacity = 0.5
-      rootExtraProps.activeOpacity = 0.25
       break
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
-      rootExtraProps.hoverOpacity = 0.05
-      rootExtraProps.activeOpacity = 0.25
       break
     case 'text':
-      rootExtraProps.hoverOpacity = 0.05
-      rootExtraProps.activeOpacity = 0.25
       break
     case 'shadowed':
       rootStyle.backgroundColor = colors.white
       rootExtraProps.level = 2
-      rootExtraProps.hoverOpacity = 0.5
-      rootExtraProps.activeOpacity = 0.25
       break
   }
 

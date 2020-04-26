@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import {
   View,
-  TouchableOpacity,
-  Platform
+  TouchableWithoutFeedback,
+  Platform,
+  StyleSheet
 } from 'react-native'
 import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
@@ -12,30 +13,30 @@ import './index.styl'
 
 const SHADOWS = config.shadows
 const isWeb = Platform.OS === 'web'
-const { hoverStateOpacity, activeStateOpacity } = config.Div
+const { defaultHoverOpacity, defaultActiveOpacity } = config.Div
 
 function Div ({
   style = [],
   children,
   variant,
   hoverColor,
-  underlayColor,
+  activeColor,
   hoverOpacity,
   activeOpacity,
   disabled,
   level,
   onPress,
+  feedback,
   pushed, // By some reason prop 'push' was ignored
   ...props
 }) {
   const isClickable = typeof onPress === 'function' && !disabled
   const isOpacity = variant === 'opacity'
-  const Wrapper = isClickable ? TouchableOpacity : View
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
-  const isInteractive = useMemo(() => activeOpacity !== 1, [activeOpacity])
   const extraStyle = {}
   const extraProps = {}
+  const wrapperProps = {}
 
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
@@ -46,56 +47,62 @@ function Div ({
   }, [isClickable])
 
   if (isClickable) {
-    const { onPressIn, onPressOut } = props
-
-    props.onPressIn = (...args) => {
-      setActive(true)
-      onPressIn && onPressIn(...args)
-    }
-    props.onPressOut = (...args) => {
-      setActive()
-      onPressOut && onPressOut(...args)
-    }
-
-    if (isWeb) {
-      const { onMouseEnter, onMouseLeave } = props
-      props.onMouseEnter = (...args) => {
-        setHover(true)
-        onMouseEnter && onMouseEnter(...args)
-      }
-      props.onMouseLeave = (...args) => {
-        setHover()
-        onMouseLeave && onMouseLeave(...args)
-      }
-    }
-
-    extraProps.onPress = onPress
-    extraProps.activeOpacity = isOpacity ? activeOpacity : 1
+    wrapperProps.onPress = onPress
 
     // setup hover and active states styles and props
-    if (isInteractive) {
-      if (isOpacity) {
-        if (hover) extraStyle.opacity = hoverStateOpacity
-      } else {
-        let backgroundColor
-        for (let i = style.length - 1; i >= 0; i--) {
-          const bg = (style[i] || {}).backgroundColor
-          if (bg) {
-            backgroundColor = bg
-            break
-          }
+    if (feedback) {
+      const { onPressIn, onPressOut } = props
+      wrapperProps.onPressIn = (...args) => {
+        setActive(true)
+        onPressIn && onPressIn(...args)
+      }
+      wrapperProps.onPressOut = (...args) => {
+        setActive()
+        onPressOut && onPressOut(...args)
+      }
+
+      if (isWeb) {
+        const { onMouseEnter, onMouseLeave } = props
+        props.onMouseEnter = (...args) => {
+          setHover(true)
+          onMouseEnter && onMouseEnter(...args)
         }
+        props.onMouseLeave = (...args) => {
+          setHover()
+          onMouseLeave && onMouseLeave(...args)
+        }
+      }
+
+      if (isOpacity) {
+        if (hover) extraStyle.opacity = hoverOpacity
+        if (active) extraStyle.opacity = activeOpacity
+      } else {
+        style = StyleSheet.flatten(style)
+        let backgroundColor = style.backgroundColor
+        if (backgroundColor === 'transparent') backgroundColor = undefined
 
         if (hover) {
-          const color = hoverColor || backgroundColor || underlayColor
-          extraStyle.backgroundColor =
-            colorToRGBA(color || 'transparent', hoverOpacity)
+          if (!hoverColor) {
+            if (backgroundColor) {
+              hoverColor = colorToRGBA(backgroundColor, hoverOpacity)
+            } else {
+              // If no color exists, we treat it as a light background and just dim it a bit
+              hoverColor = 'rgba(0,0,0,0.05)'
+            }
+          }
+          extraStyle.backgroundColor = hoverColor
         }
-        // Order is important because active has higher priority
+
         if (active) {
-          const color = underlayColor || backgroundColor
-          extraStyle.backgroundColor =
-            colorToRGBA(color || 'transparent', activeOpacity)
+          if (!activeColor) {
+            if (backgroundColor) {
+              activeColor = colorToRGBA(backgroundColor, activeOpacity)
+            } else {
+              // If no color exists, we treat it as a light background and just dim it a bit
+              activeColor = 'rgba(0,0,0,0.2)'
+            }
+          }
+          extraStyle.backgroundColor = activeColor
         }
       }
     }
@@ -105,21 +112,35 @@ function Div ({
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
   if (pushedSize) pushedModifier = `pushed-${pushedSize}`
 
-  return pug`
-    Wrapper.root(
+  function maybeWrapToClickable (children) {
+    if (isClickable) {
+      return pug`
+        TouchableWithoutFeedback(
+          ...wrapperProps
+        )
+          = children
+      `
+    } else {
+      return children
+    }
+  }
+
+  return maybeWrapToClickable(pug`
+    View.root(
       style=[style, SHADOWS[level], extraStyle]
       styleName=[{ ['with-shadow']: !!level }, pushedModifier]
       ...extraProps
       ...props
     )
       = children
-  `
+  `)
 }
 
 Div.defaultProps = {
   variant: 'opacity',
-  hoverOpacity: hoverStateOpacity,
-  activeOpacity: activeStateOpacity,
+  feedback: true,
+  hoverOpacity: defaultHoverOpacity,
+  activeOpacity: defaultActiveOpacity,
   disabled: false,
   level: 0
 }
@@ -128,8 +149,9 @@ Div.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   variant: propTypes.oneOf(['opacity', 'highlight']),
+  feedback: propTypes.bool,
   hoverColor: propTypes.string,
-  underlayColor: propTypes.string,
+  activeColor: propTypes.string,
   hoverOpacity: propTypes.number,
   activeOpacity: propTypes.number,
   disabled: propTypes.bool,
