@@ -6,8 +6,8 @@ const fs = require('fs')
 const DEPENDENCIES = [
   'startupjs',
   'source-map-support',
-  'react-native-web@0.11.7',
-  'react-native-svg@^9.13.6',
+  'react-native-web@^0.12.0',
+  'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
   'react',
   'react-dom',
