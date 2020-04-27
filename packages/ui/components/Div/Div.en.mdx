@@ -1,0 +1,139 @@
+import { useState } from 'react'
+import Div from '../Div'
+import Span from '../Span'
+import Row from '../Row'
+import { Sandbox } from '@startupjs/docs'
+
+# Div
+
+Div component can serve as clickable a wrapper for a group of components.
+
+## Basic Example
+
+```jsx
+import { View } from 'react-native'
+import { Div, Row, Span } from '@startupjs/ui'
+```
+
+```jsx example
+const style = {
+  width: 150,
+  height: 100,
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+const [clickedTimes, setClickedTimes] = useState(0)
+return (
+  <Div
+    level='1'
+    style={style}
+    onPress={() => setClickedTimes(clickedTimes + 1)}
+  >
+    <Span>
+      {clickedTimes ? `Clicked ${clickedTimes} time` : 'Clickable Div'}
+    </Span>
+  </Div>
+)
+``` 
+
+## Multiple Div in a Row
+
+When multiple Div(s) are used in a [`Row`](/docs/en/Row) spacing between them can be adjusted using `pushed` prop to specify gutter between successive Div.
+
+Div(s) can also have different levels of elevation as shown by the `level` prop.
+
+
+```jsx
+import { View } from 'react-native'
+import { Div, Row, Span } from '@startupjs/ui'
+```
+
+```jsx example
+const style = {
+  width: 100,
+  height: 80,
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Row>
+    <Div style={style}>
+      <Span>
+        Div 1
+      </Span>
+    </Div>
+    <Div level='1' pushed='m' style={style}>
+      <Span>
+        Div 2
+      </Span>
+    </Div>
+    <Div level='2' pushed='l' style={style}>
+      <Span>
+        Div 3
+      </Span>
+    </Div>
+    <Div level='3' pushed='xl' style={style}>
+      <Span>
+        Div 4
+      </Span>
+    </Div>
+    <Div level='4' pushed='xxl' style={style}>
+      <Span>
+        Div 5
+      </Span>
+    </Div>
+  </Row>
+)
+```
+
+## Div Variant Example
+
+Divs have a default `variant` of opacity. It can be set to `highlight`.
+
+When variant is set to `highlight`, `hoverColor` prop determines the color that will be show on hovering over the Div and `underlayColor` can be set to determine the color of the Div when the user clicks on it.
+
+Caution: `hoverColor` works only for web.
+
+```jsx
+import { View } from 'react-native'
+import { Div, Row, Span } from '@startupjs/ui'
+```
+
+```jsx example
+const style = {
+  width: 150,
+  height: 80,
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Row>
+    <Div
+      level='1'
+      style={style}
+      onPress={() => null}
+    >
+      <Span>
+        Div opacity
+      </Span>
+    </Div>
+    <Div
+      level='1'
+      pushed='m'
+      variant='highlight'
+      underlayColor='#F5A623'
+      hoverColor='#6772E5'
+      style={style}
+      onPress={() => null}
+    >
+      <Span>
+        Div highlight violet
+      </Span>
+    </Div>
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Div} />

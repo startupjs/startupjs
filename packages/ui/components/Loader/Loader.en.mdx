@@ -1,0 +1,64 @@
+import { useState } from 'react'
+import Loader from '../Loader'
+import Row from '../Row'
+import { Sandbox } from '@startupjs/docs'
+
+# Loader
+
+Loaders are used to show a wait time or a loading state in a page.
+
+## Basic Example
+
+```jsx
+import { Loader } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Loader />
+    <Loader duration={2000} />
+    <Loader duration={8000} />
+  </Row>
+)
+```
+
+## Loader Size Example
+
+```jsx
+import { Loader } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Loader size='xs' />
+    <Loader size='s' />
+    <Loader size='m' />
+    <Loader size='l' />
+    <Loader size='xl' />
+    <Loader size='xxl' />
+  </Row>
+)
+```
+
+## Loader Color Example
+
+```jsx
+import { Loader } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Loader color='#2962FF' />
+    <Loader color='#F5BE59' />
+    <Loader color='#00AED6' />
+    <Loader color='#A6D800' />
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Loader} />
