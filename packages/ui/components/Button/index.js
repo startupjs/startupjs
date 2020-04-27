@@ -14,6 +14,7 @@ const { heights, outlinedBorderWidth, iconMargins } = config.Button
 
 function Button ({
   style,
+  textStyle,
   children,
   color,
   variant,
@@ -110,7 +111,7 @@ function Button ({
           Icon(icon=icon size=size color=_iconColor)
       if children
         Span.label(
-          style=labelStyle
+          style=[labelStyle, textStyle]
           size=size
           bold
         )= children
@@ -128,6 +129,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   ...Div.propTypes,
+  textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.string,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
