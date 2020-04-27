@@ -12,11 +12,7 @@ Inherits [Button Props](/docs/en/Button).
 
 Tags are compact elements that represent an input, attribute, or action. They allow users to enter information, make selections, filter content, or trigger actions. While buttons are expected to appear consistently and with familiar calls to action, tags should appear dynamically as a group of multiple interactive elements.
 
-## Examples
-
-### Variant
-
-`variant` prop can be either `flat` (default) or `outlined`.
+## Example
 
 ```jsx
 import { Tag, Row } from '@startupjs/ui'
@@ -25,19 +21,17 @@ import { Tag, Row } from '@startupjs/ui'
 ```jsx example
 return (
   <Row>
-    <Tag>TAG-1</Tag>
-    <Tag variant='outlined' pushed>TAG-1</Tag>
-    <Tag color='error' pushed>TAG-2</Tag>
-    <Tag color='error' variant='outlined' pushed>TAG-2</Tag>
-    <Tag color='#6F00AC' pushed>TAG-3</Tag>
-    <Tag color='#6F00AC' variant='outlined' pushed>TAG-3</Tag>
+    <Tag>Primary</Tag>
+    <Tag color='success' pushed>Success</Tag>
+    <Tag color='warning' pushed>Warning</Tag>
+    <Tag color='error' pushed>Error</Tag>
   </Row>
 )
 ```
 
-### Shape
+## Outlined tags
 
-`shape` prop can be either `circle` (default) or `rounded`.
+Outlined tags offer an alternative style by passing `outlined` string on `variant` property to component.
 
 ```jsx
 import { Tag, Row } from '@startupjs/ui'
@@ -46,16 +40,47 @@ import { Tag, Row } from '@startupjs/ui'
 ```jsx example
 return (
   <Row>
-    <Tag>CIRCLE</Tag>
-    <Tag shape='rounded' pushed>ROUNDED</Tag>
+    <Tag variant='outlined'>Outlined primary</Tag>
+    <Tag color='error' variant='outlined' pushed>Outlined error</Tag>
   </Row>
 )
 ```
 
-### Icon
+## Shapes
 
-Custom icon can be included using `icon` prop, `iconPosition` can be either `left` (default) or `right`.
+Tags can have different corner shapes. It can be changed by changing `shape` prop (`circle` by default) to `rounded`.
 
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Tag>Circle shape</Tag>
+    <Tag shape='rounded' pushed>Rounded shape</Tag>
+  </Row>
+)
+```
+
+## Icons
+
+Icon can be added using `icon` prop. Position of icon can be changes by passing `iconPosition` to component (`left` by default).
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Tag icon={faCoffee}>Icon on the left</Tag>
+    <Tag icon={faCoffee} iconPosition='right' pushed>Icon on the right</Tag>
+  </Row>
+)
+```
+
+## Actions
 Tag can be made interactive using `onPress` prop.
 
 ```jsx
@@ -63,38 +88,11 @@ import { Tag, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [showTags, setShowTags] = useState([true, true])
+const [counter, setCounter] = useState(0)
 return (
-  <Row>
-    <Tag
-      color='blue'
-      style={{ marginRight: u(1) }}
-      icon={faCoffee}
-    >
-       Non Interactive
-    </Tag>
-    {showTags[0] &&
-      <Tag
-        color='blue'
-        style={{ marginRight: u(1) }}
-        icon={faTimesCircle}
-        onPress={() => setShowTags([false, showTags[1]])}
-      >
-        Interactive Left
-      </Tag>
-    }
-    {showTags[1] &&
-      <Tag
-        color='blue'
-        style={{ marginRight: u(1) }}
-        icon={faTimesCircle}
-        iconPosition='right'
-        onPress={() => setShowTags([showTags[0], false])}
-      >
-        Interactive Right
-      </Tag>
-    }
-  </Row>
+  <Tag onPress={() => setCounter(counter + 1)}>
+    Clicked {counter} times
+  </Tag>
 )
 ```
 

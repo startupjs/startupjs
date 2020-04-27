@@ -1,60 +1,70 @@
 import React, { useState } from 'react'
-import { View, Image } from 'react-native'
+import { Image, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
+import Div from './../Div'
 import propTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Span from '../Span'
 import './index.styl'
 
+const isWeb = Platform.OS === 'web'
+
 function Avatar ({
   style,
-  url,
+  src,
   size,
   status,
-  fallback
+  shape,
+  children,
+  ...props
 }) {
   const [error, setError] = useState()
-  useDidUpdate(setError, [url])
+  useDidUpdate(setError, [src])
 
   return pug`
-    View.root(style=style styleName=[size])
-      View.avatarWrapper(styleName=[size])
-        if url && !error
+    Div.root(style=style ...props)
+      Div.avatarWrapper(styleName=[size] shape=shape)
+        if src && !error
           Image.avatar(
-            source={ uri: url }
+            source={ uri: src }
             onError=() => {
               setError(true)
             }
           )
         else
-          - const _fallback = fallback.trim()
+          - const _fallback = children.trim()
           - const [firstName, lastName] = _fallback.split(' ')
           - const initials = (firstName ? firstName[0].toUpperCase() : '') + (lastName ? lastName[0].toUpperCase() : '')
-          View.avatar(
+          Div.avatar(
             styleName=[size]
             style={backgroundColor: randomcolor({
               luminosity: 'bright',
               seed: _fallback
             })}
           )
-            Span.fallback(size=size bold)
+            Span.fallback(styleName={web: isWeb} size=size bold)
               = initials
       if status
-        View.status(styleName=[size, status])
+        Div.status(styleName=[size, status])
   `
 }
 
 Avatar.defaultProps = {
-  fallback: '?',
-  size: 'm'
+  children: '?',
+  size: 'm',
+  shape: 'circle',
+  disabled: Div.defaultProps.disabled
 }
 
 Avatar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  url: propTypes.string,
+  src: propTypes.string,
   size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  shape: Div.propTypes.shape,
   status: propTypes.oneOf(['online', 'away']),
-  fallback: propTypes.string
+  children: propTypes.string,
+  disabled: Div.propTypes.disabled,
+  onPress: Div.propTypes.onPress
 }
 
 export default observer(Avatar)

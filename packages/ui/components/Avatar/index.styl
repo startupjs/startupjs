@@ -7,7 +7,6 @@ _s = 4u
 _xs = 3u
 
 .avatarWrapper
-  radius(circle)
   overflow hidden
 
   &.xxl
@@ -42,6 +41,9 @@ _xs = 3u
 .fallback
   color white
 
+  &.web
+    user-select none
+
 .status
   position absolute
   z-index 1
@@ -57,11 +59,15 @@ _xs = 3u
     background-color $UI.colors.warning
 
   &.xxl
-    width 2.5u
+    width 2.25u
     height @width
 
   &.xl
     width 2u
+    height @width
+
+  &.l
+    width 1.75u
     height @width
 
   &.m

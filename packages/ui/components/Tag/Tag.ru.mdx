@@ -7,16 +7,12 @@ import { Sandbox } from '@startupjs/docs'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
-# Tag
+# Tag (тег)
 Наследует [Button Props](/docs/ru/Button).
 
-Tags - это компактные элементы, представляющие входные данные, атрибут или действие. Они позволяют пользователям вводить информацию, делать выбор, фильтровать контент или инициировать действия. В то время как предполагается, что кнопки будут появляться с призывами к действию, теги должны появляться динамически как группа из нескольких интерактивных элементов.
+Теги - это компактные элементы, представляющие входные данные, атрибут или действие. Они позволяют пользователям вводить информацию, делать выбор, фильтровать контент или инициировать действия. В то время как предполагается, что кнопки будут появляться с призывами к действию, теги должны появляться динамически как группа из нескольких интерактивных элементов.
 
-## Примеры
-
-### Variant
-
-`variant` свойство может быть `flat` (по умолчанию) либо `outlined`.
+## Пример
 
 ```jsx
 import { Tag, Row } from '@startupjs/ui'
@@ -25,76 +21,74 @@ import { Tag, Row } from '@startupjs/ui'
 ```jsx example
 return (
   <Row>
-    <Tag>TAG-1</Tag>
-    <Tag variant='outlined' pushed>TAG-1</Tag>
-    <Tag color='error' pushed>TAG-2</Tag>
-    <Tag color='error' variant='outlined' pushed>TAG-2</Tag>
-    <Tag color='#6F00AC' pushed>TAG-3</Tag>
-    <Tag color='#6F00AC' variant='outlined' pushed>TAG-3</Tag>
+    <Tag>Primary</Tag>
+    <Tag color='success' pushed>Success</Tag>
+    <Tag color='warning' pushed>Warning</Tag>
+    <Tag color='error' pushed>Error</Tag>
   </Row>
 )
 ```
 
-### Shape
+## Контурные теги
 
-`shape` свойство может быть `circle` (по умолчанию) либо `rounded`.
-
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
+Контурные теги предлагают альтернативный стиль, передвая `outlined` строку в свойство `variant` компонента.
 
 ```jsx example
 return (
   <Row>
-    <Tag>CIRCLE</Tag>
-    <Tag shape='rounded' pushed>ROUNDED</Tag>
+    <Tag variant='outlined'>Outlined primary</Tag>
+    <Tag color='error' variant='outlined' pushed>Outlined error</Tag>
   </Row>
 )
 ```
 
-### Tag с иконкой
+## Shapes
 
-Иконка может быть добавлена используя `icon` свойство, `iconPosition` может быть `left` (по умолчанию) либо `right`.
-
-Tag можно сделать интерактивным используя `onPress` свойство.
+Теги могут иметь различную угловую форму. Её можно изменить, изменив свойство `shape` (`circle` по умолчанию) на `rounded`.
 
 ```jsx
 import { Tag, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [showTags, setShowTags] = useState([true, true])
 return (
   <Row>
-    <Tag
-      color='blue'
-      style={{ marginRight: u(1) }}
-      icon={faCoffee}
-    >
-       Non Interactive
-    </Tag>
-    {showTags[0] &&
-      <Tag
-        color='blue'
-        style={{ marginRight: u(1) }}
-        icon={faTimesCircle}
-        onPress={() => setShowTags([false, showTags[1]])}
-      >
-        Interactive Left
-      </Tag>
-    }
-    {showTags[1] &&
-      <Tag
-        color='blue'
-        style={{ marginRight: u(1) }}
-        icon={faTimesCircle}
-        iconPosition='right'
-        onPress={() => setShowTags([showTags[0], false])}
-      >
-        Interactive Right
-      </Tag>
-    }
+    <Tag>Circle shape</Tag>
+    <Tag shape='rounded' pushed>Rounded shape</Tag>
   </Row>
+)
+```
+
+## Иконки
+
+Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию).
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Tag icon={faCoffee}>Icon on the left</Tag>
+    <Tag icon={faCoffee} iconPosition='right' pushed>Icon on the right</Tag>
+  </Row>
+)
+```
+
+## Действия
+Тег можно сделать интерактивным используя `onPress` свойство.
+
+```jsx
+import { Tag, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const [counter, setCounter] = useState(0)
+return (
+  <Tag onPress={() => setCounter(counter + 1)}>
+    Нажато {counter} раз
+  </Tag>
 )
 ```
 
