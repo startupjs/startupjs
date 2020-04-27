@@ -1,0 +1,13 @@
+diff --git a/node_modules/@fortawesome/react-native-fontawesome/dist/components/FontAwesomeIcon.js b/node_modules/@fortawesome/react-native-fontawesome/dist/components/FontAwesomeIcon.js
+index b527daa..bff5a5f 100644
+--- a/node_modules/@fortawesome/react-native-fontawesome/dist/components/FontAwesomeIcon.js
++++ b/node_modules/@fortawesome/react-native-fontawesome/dist/components/FontAwesomeIcon.js
+@@ -135,7 +135,7 @@ FontAwesomeIcon.propTypes = {
+   width: _propTypes["default"].number,
+   size: _propTypes["default"].number,
+   color: _propTypes["default"].string,
+-  style: _propTypes["default"].oneOfType([_propTypes["default"].shape(_objectSpread({}, _reactNative.ViewPropTypes.style)), _propTypes["default"].array]),
++  style: _propTypes["default"].oneOfType([_propTypes["default"].object, _propTypes["default"].array]),
+   icon: _propTypes["default"].oneOfType([_propTypes["default"].object, _propTypes["default"].array, _propTypes["default"].string]),
+   mask: _propTypes["default"].oneOfType([_propTypes["default"].object, _propTypes["default"].array, _propTypes["default"].string]),
+   transform: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].object])

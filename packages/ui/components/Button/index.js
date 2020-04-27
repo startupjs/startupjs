@@ -14,6 +14,7 @@ const { heights, outlinedBorderWidth, iconMargins } = config.Button
 
 function Button ({
   style,
+  textStyle,
   children,
   color,
   variant,
@@ -43,24 +44,16 @@ function Button ({
   switch (variant) {
     case 'flat':
       rootStyle.backgroundColor = _color
-      rootExtraProps.hoverOpacity = 0.5
-      rootExtraProps.activeOpacity = 0.25
       break
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
-      rootExtraProps.hoverOpacity = 0.05
-      rootExtraProps.activeOpacity = 0.25
       break
     case 'text':
-      rootExtraProps.hoverOpacity = 0.05
-      rootExtraProps.activeOpacity = 0.25
       break
     case 'shadowed':
       rootStyle.backgroundColor = colors.white
       rootExtraProps.level = 2
-      rootExtraProps.hoverOpacity = 0.5
-      rootExtraProps.activeOpacity = 0.25
       break
   }
 
@@ -118,7 +111,7 @@ function Button ({
           Icon(icon=icon size=size color=_iconColor)
       if children
         Span.label(
-          style=labelStyle
+          style=[labelStyle, textStyle]
           size=size
           bold
         )= children
@@ -136,6 +129,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   ...Div.propTypes,
+  textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.string,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),

@@ -40,7 +40,6 @@ const Icon = observer(({
       )
     `
   }
-
   return pug`
     FontAwesomeIcon(
       style=style

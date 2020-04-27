@@ -10,6 +10,7 @@
     "@startupjs/backend": "^0.21.1",
     "@startupjs/bundler": "^0.21.1",
     "@startupjs/cli": "^0.21.1",
+    "@startupjs/isomorphic-helpers": "^0.21.1",
     "@startupjs/hooks": "^0.21.1",
     "@startupjs/init": "^0.21.1",
     "@startupjs/orm": "^0.21.1",

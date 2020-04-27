@@ -12,7 +12,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
-const rem2pixel = require('@startupjs/postcss-rem-to-pixel')
 const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
@@ -22,6 +21,11 @@ const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
+
+// TODO: 'web' mode by default is deprecated. The default is going to become 'react-native'
+//       in future versions.
+const DEFAULT_MODE = 'web'
+
 // Get ui config if it exists
 let ui
 try {
@@ -35,7 +39,7 @@ try {
 const ASYNC = process.env.ASYNC
 if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 
-const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.json']
+const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 const ASYNC_EXTENSIONS = EXTENSIONS.map(i => '.async' + i)
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
@@ -66,9 +70,11 @@ if (!PROD) {
 
 module.exports = function getConfig (env, {
   forceCompileModules = [],
-  alias = {}
+  alias = {},
+  mode = DEFAULT_MODE
 } = {}) {
   process.env.BABEL_ENV = PROD ? 'web_production' : 'web_development'
+  process.env.MODE = mode
 
   if (typeof forceCompileModules === 'string') {
     forceCompileModules = JSON.parse(forceCompileModules)
@@ -159,7 +165,7 @@ module.exports = function getConfig (env, {
               loader: '@mdx-js/loader'
             },
             {
-              loader: require.resolve('./lib/mdxExamples.js')
+              loader: require.resolve('./lib/mdxExamplesLoader.js')
             }
           ]
         },
@@ -183,7 +189,7 @@ module.exports = function getConfig (env, {
         },
         {
           test: /\.styl$/,
-          use: [
+          use: mode === 'web' ? [
             {
               loader: PROD ? MiniCssExtractPlugin.loader : 'style-loader'
             },
@@ -197,7 +203,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [autoprefixer, rem2pixel]
+                plugins: [autoprefixer]
               }
             },
             {
@@ -210,12 +216,20 @@ module.exports = function getConfig (env, {
                 }
               }
             }
+          ] : [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/cssToReactNativeLoader.js')
+            },
+            {
+              loader: require.resolve('./lib/stylusToCssLoader.js')
+            }
           ]
         },
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          use: [
+          use: mode === 'web' ? [
             {
               loader: PROD ? MiniCssExtractPlugin.loader : 'style-loader'
             },
@@ -225,6 +239,11 @@ module.exports = function getConfig (env, {
                 modules: true,
                 localIdentName: LOCAL_IDENT_NAME
               }
+            }
+          ] : [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/cssToReactNativeLoader.js')
             }
           ]
         },
