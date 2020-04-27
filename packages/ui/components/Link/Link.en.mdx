@@ -1,0 +1,50 @@
+import Link from '../Link'
+import Div from '../Div'
+import Br from '../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Link
+
+Link component allows the user to navigate to different parts of the app and customize anchors.
+
+## Basic Example
+
+```jsx
+import { Link } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Div>
+    <Link to='#'>
+      Link-1
+    </Link>
+    <Br />
+    <Link disabled to='#'>
+      Link-disabled
+    </Link>
+  </Div>
+)
+```
+
+## Variant Example
+
+Link comes in `default` or `primary` variant.
+
+```jsx
+import { Link } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Div>
+    <Link to='#'>
+      Link-1
+    </Link>
+    <Br />
+    <Link variant='primary' to='#'>
+      Link-2
+    </Link>
+  </Div>
+)
+```
