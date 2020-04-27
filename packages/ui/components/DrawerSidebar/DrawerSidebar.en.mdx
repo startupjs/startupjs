@@ -1,0 +1,162 @@
+import { useEffect, useState } from 'react'
+import DrawerSidebar from '../DrawerSidebar'
+import Span from '../Span'
+import Row from '../Row'
+import Div from '../Div'
+import Menu from '../Menu'
+import Button from '../Button'
+import Content from '../Content'
+import { observer, useModel } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+
+# DrawerSidebar
+
+Drawer is a swipeable component which provides access to navigation links of a page. 
+
+## Basic Example
+
+```jsx
+import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+  <DrawerSidebar
+    path={PATH}
+    renderContent={() => (
+      <Menu>
+        <Menu.Item>
+          <Span>Nav-1</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-2</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-3</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-4</Span>
+        </Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='full'
+      style={{ height: 200, backgroundColor: 'white' }}
+    >
+      <Row>
+        <Button onPress={() => $opened.set(true)}>Open</Button>
+      </Row>
+    </Content>
+  </DrawerSidebar>
+)
+```
+
+## Position Example
+
+```jsx
+import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleSidebar_1'
+const $opened = useModel(PATH)
+const [position, setPosition] = useState('left')
+return (
+  <DrawerSidebar
+    path={PATH}
+    position={position}
+    renderContent={() => (
+      <Menu>
+        <Menu.Item>
+          <Span>Nav-1</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-2</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-3</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-4</Span>
+        </Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='tablet'
+      style={{ height: 200, backgroundColor: 'white' }}
+    >
+      <Row align='around'>
+        <Button onPress={() => {
+          setPosition('left')
+          $opened.set(true)
+        }}>
+          Open Left Drawer
+        </Button>
+        <Button onPress={() => {
+          setPosition('right')
+          $opened.set(true)
+        }}>
+          Open Right Drawer
+        </Button>
+      </Row>
+    </Content>
+  </DrawerSidebar>
+)
+```
+## Drawer Gesture Control
+
+Specifying `forceClosed` will keep the drawer closed and it won't respond to gestures.
+
+```jsx
+import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleSidebar_3'
+const $opened = useModel(PATH)
+return (
+  <DrawerSidebar
+    forceClosed
+    path={PATH}
+    renderContent={() => (
+      <Menu>
+        <Menu.Item>
+          <Span>Nav-1</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-2</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-3</Span>
+        </Menu.Item>
+        <Menu.Item>
+          <Span>Nav-4</Span>
+        </Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='full'
+      style={{ height: 200, backgroundColor: 'white' }}
+    >
+      <Row>
+        <Button onPress={() => $opened.set(true)}>Open</Button>
+      </Row>
+    </Content>
+  </DrawerSidebar>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={DrawerSidebar} />
