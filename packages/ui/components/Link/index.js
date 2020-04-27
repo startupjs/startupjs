@@ -2,85 +2,84 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Link as RNLink } from 'react-router-native'
-import { Platform, View } from 'react-native'
-import Row from './../Row'
-import Icon from './../Icon'
+import {
+  Platform,
+  Text,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native'
 import Span from './../Span'
-import _omit from 'lodash/omit'
-import config from '../../config/rootConfig'
 import './index.styl'
 
-const isMobile = Platform.OS !== 'web'
-const { colors } = config
+// css-to-react-native fails to parse a complex fontFamily value.
+const WEB_FONT = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif"
+
+const isNative = Platform.OS !== 'web'
 
 function Link ({
   style,
   children,
   to,
-  color,
+  disabled,
+  variant,
+  theme,
   size,
   bold,
   italic,
-  icon,
-  iconPosition,
-  iconColor,
-  disabled,
+  description,
+  block,
   ...props
 }) {
-  const _color = colors[color] || color
-  const _iconColor = colors[iconColor] || iconColor || _color
-  const colorStyles = { color: _color }
-  const linkStyleNames = {}
-  const linkExtraProps = {}
-
-  if (isMobile) {
-    linkExtraProps.underlayColor = 'transparent'
-    linkExtraProps.activeOpacity = 0.8
-    linkExtraProps.disabled = disabled
-  } else {
-    linkStyleNames.disabled = disabled
+  const extraProps = {}
+  if (isNative) {
+    extraProps.component = block ? TouchableOpacity : Text
   }
-
   return pug`
-    View.root(style=[style])
-      RNLink.link(
-        style=colorStyles
-        styleName=[linkStyleNames]
-        to=isMobile || !disabled ? to : null /* pass empty url to href on web */
-        ...props
-        ...linkExtraProps
-      )
-        Row(vAlign='center' reverse=iconPosition === 'right')
-          if icon
-            View.iconWrapper(styleName=[iconPosition])
-              Icon(icon=icon color=_iconColor size=size)
-          if children
-            Span.label(
-              style=[colorStyles]
-              bold=bold
-              italic=italic
-              size=size
-            )= children
+    InternalLink.root(
+      style=[style, isNative ? {} : { fontFamily: WEB_FONT }]
+      styleName=[theme, size, { bold, italic, description, disabled, web: !isNative}, variant]
+      disabled=disabled
+      to=disabled ? null : to /* pass empty url to href on web */
+      ...props
+      ...extraProps
+    )= children
   `
 }
 
 Link.defaultProps = {
   ...Span.defaultProps,
-  color: colors.primary,
-  iconPosition: 'left',
   disabled: false,
-  replace: false
+  replace: false,
+  block: false,
+  variant: 'default'
 }
 
 Link.propTypes = {
-  ..._omit(Span.propTypes, ['description']),
+  ...Span.propTypes,
   to: propTypes.string,
-  color: propTypes.string,
-  icon: propTypes.object,
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  iconColor: propTypes.string,
   disabled: propTypes.bool,
-  replace: propTypes.bool
+  replace: propTypes.bool,
+  block: propTypes.bool,
+  variant: propTypes.oneOf(['default', 'primary'])
 }
 
 export default observer(Link)
+
+// This is needed to get styleName and style together and then flatten it manually
+// to be able to pass it to pure web react.
+function InternalLink ({ style, ...props }) {
+  return pug`
+    RNLink(
+      style=isNative ? style : fixWebStyles(style)
+      ...props
+    )
+  `
+}
+
+function fixWebStyles (style) {
+  style = StyleSheet.flatten(style)
+  for (let key in style) {
+    if (key === 'lineHeight' && typeof style[key] === 'number') style[key] += 'px'
+  }
+  return style
+}

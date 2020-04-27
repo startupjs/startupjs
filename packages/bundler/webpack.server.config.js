@@ -50,13 +50,13 @@ module.exports = function getConfig (env, {
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.[jt]sx?$/,
           loader: 'babel-loader'
         }
       ]
     },
     resolve: {
-      extensions: ['.server.js', '.server.jsx', '.js', '.jsx', '.json'],
+      extensions: ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
         ...DEFAULT_ALIAS,
         ...alias

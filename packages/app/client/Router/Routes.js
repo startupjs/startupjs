@@ -83,7 +83,11 @@ const RouteComponent = observer(function RCComponent ({
 
   if (!render) return null
 
+  // Don't render anything if the route is just a redirect
+  if (route.redirect) return null
+
   const RC = route.component
+  if (!RC) throw new Error('No route.component specified for route "' + route.path + '"')
 
   return pug`
     View(key=orientation style={flex: 1})
