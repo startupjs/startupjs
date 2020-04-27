@@ -3,8 +3,6 @@ const fs = require('fs')
 const path = require('path')
 const stylus = require('stylus')
 const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
-const poststylus = require('poststylus')
-const rem2pixel = require('@startupjs/postcss-rem-to-pixel')
 
 const STYLES_PATH = path.join(process.cwd(), 'styles/index.styl')
 const CONFIG_PATH = path.join(process.cwd(), 'startupjs.config.js')
@@ -24,7 +22,7 @@ function renderToCSS (src, filename) {
     if (ui) compiler.use(stylusHashPlugin('$UI', ui))
   }
 
-  compiler.use(poststylus([rem2pixel])).render(function (err, res) {
+  compiler.render(function (err, res) {
     if (err) {
       throw new Error(err)
     }
