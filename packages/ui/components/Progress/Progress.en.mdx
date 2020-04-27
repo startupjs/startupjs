@@ -1,0 +1,62 @@
+import { useState, useEffect } from 'react'
+import Progress from '../Progress'
+import Div from '../Div'
+import Br from '../Br'
+import { Sandbox } from '@startupjs/docs'
+
+
+# Progress
+
+Progress is used to express the length of process like upload/download.
+
+## Basic Example
+
+```jsx
+import { Progress } from '@startupjs/ui'
+```
+
+```jsx example
+const [value, setValue] = useState(0)
+useEffect(() => {
+  const interval = setInterval(() => {
+    setValue(v => v > 100 ? v : v + 1)
+  }, 1000)
+  return () => clearInterval(interval)
+}, [])
+return (
+  <Div>
+    <Progress value={value} />
+    <Br />
+    <Progress value={value} label='Example Label' />    
+  </Div>
+)
+```
+
+## Variant Example
+
+Default `variant` is `full`. Variant `compact` is used to hide the label.
+
+```jsx
+import { Progress } from '@startupjs/ui'
+```
+
+```jsx example
+const [value, setValue] = useState(0)
+useEffect(() => {
+  const interval = setInterval(() => {
+    setValue(v => v > 100 ? v : v + 1)
+  }, 1000)
+  return () => clearInterval(interval)
+}, [])
+return (
+  <Div>
+    <Progress value={value} variant='compact' />
+    <Br />
+    <Progress value={value} />    
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Progress} />
