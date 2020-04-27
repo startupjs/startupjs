@@ -15,12 +15,12 @@ const DIRECTORY_ALIASES = {
 }
 
 const clientPresets = [
-  [require.resolve('metro-react-native-babel-preset'), {
+  [require.resolve('./metroWithTypescript'), {
     disableImportExportTransform: !!ASYNC
   }]
 ]
 
-const serverPresets = [require.resolve('metro-react-native-babel-preset')]
+const serverPresets = [require.resolve('./metroWithTypescript')]
 
 const basePlugins = ({ legacyClassnames, alias } = {}) => [
   [require.resolve('babel-plugin-module-resolver'), {

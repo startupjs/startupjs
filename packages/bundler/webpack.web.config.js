@@ -40,7 +40,7 @@ try {
 const ASYNC = process.env.ASYNC
 if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 
-const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.json']
+const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 const ASYNC_EXTENSIONS = EXTENSIONS.map(i => '.async' + i)
 
 const DEFAULT_FORCE_COMPILE_MODULES = [

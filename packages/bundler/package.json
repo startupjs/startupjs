@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.7.0",
+    "@babel/polyfill": "^7.8.0",
     "@dmapper/stylus-hash-plugin": "0.0.1",
     "@mdx-js/loader": "^1.5.8",
     "@mdx-js/mdx": "^1.5.8",
@@ -31,7 +31,6 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "generic-names": "^1.0.3",
     "lodash": "4.x",
-    "metro-config": "^0.57.0",
     "mini-css-extract-plugin": "^0.8.0",
     "moment": "^2.0.0",
     "moment-locales-webpack-plugin": "^1.0.7",
@@ -51,6 +50,7 @@
   },
   "peerDependencies": {
     "react-hot-loader": "*",
-    "react-native-svg": ">= 9.13.6"
+    "react-native-svg": ">= 9.13.6",
+    "metro-config": "*"
   }
 }
