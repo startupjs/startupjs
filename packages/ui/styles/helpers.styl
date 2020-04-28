@@ -9,12 +9,19 @@ to(num)
     {block}
 
 mobile()
-  +to($tablet)
+  +to($UI.media.mobile)
+    {block}
+
+tablet()
+  +from($UI.media.tablet)
     {block}
 
 desktop()
-  +from($tablet)
+  +from($UI.media.desktop)
     {block}
+
+wide()
+  +from($UI.media.wide)
 
 between(num1, num2)
   condition = 'screen and (min-width: %s) and (max-width: %s)' % (num1 (num2 - 1))
