@@ -8,7 +8,8 @@ const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
   'startupjs/init',
-  '@startupjs/init/src'
+  '@startupjs/init/src',
+  '@startupjs/app/server'
 ]
 const DEFAULT_ALIAS = {
 }

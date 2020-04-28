@@ -78,8 +78,12 @@ const SCRIPTS = {
   'start-production': 'startupjs start-production'
 }
 
+const TEMPLATES = {
+  simple: ['simple'],
+  routing: ['simple', 'routing']
+}
+
 let templatesPath
-let availableTemplates
 
 // ----- init
 
@@ -92,8 +96,8 @@ commander
     console.log('> run npx', projectName, { version, template })
 
     // check if template exists
-    if (!availableTemplates.includes(template)) {
-      Error(`Template '${template}' doesn't exist. Templates available: ${availableTemplates.join(', ')}`)
+    if (!TEMPLATES[template]) {
+      Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
 
     // init react-native application
@@ -135,18 +139,12 @@ commander
       })
     }
 
-    let templatePath = path.join(templatesPath, template)
-    console.log('> Copy template', { projectPath, templatePath })
-    const files = fs
-      .readdirSync(templatePath)
-      .map(name => path.join(templatePath, name))
-
     // copy additional startupjs template files over react-native ones
-    await execa(
-      'cp',
-      ['-r'].concat(files).concat([projectPath]),
-      { stdio: 'inherit' }
-    )
+    console.log(`> Copy template '${template}'`)
+    for (let subTemplate of TEMPLATES[template]) {
+      const subTemplatePath = path.join(templatesPath, subTemplate)
+      await recursivelyCopyFiles(subTemplatePath, projectPath)
+    }
 
     console.log('> Patch package.json with additional scripts')
     addScriptsToPackageJson(projectPath)
@@ -245,6 +243,31 @@ commander
 
 // ----- helpers
 
+async function recursivelyCopyFiles (sourcePath, targetPath) {
+  const fileNames = fs.readdirSync(sourcePath)
+
+  if (fileNames.length === 0) return
+
+  for (let fileName of fileNames) {
+    let filePath = path.join(sourcePath, fileName)
+    if (fs.lstatSync(filePath).isDirectory()) {
+      let subTargetPath = path.join(targetPath, fileName)
+      await execa(
+        'mkdir',
+        ['-p', subTargetPath],
+        { stdio: 'inherit' }
+      )
+      await recursivelyCopyFiles(filePath, subTargetPath)
+    } else {
+      await execa(
+        'cp',
+        [filePath, targetPath],
+        { stdio: 'inherit' }
+      )
+    }
+  }
+}
+
 function addScriptsToPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
@@ -310,6 +333,5 @@ function getSuccessInstructions (projectName) {
 exports.run = (options = {}) => {
   if (!options.templatesPath) throw Error('templatesPath not found!')
   templatesPath = options.templatesPath
-  availableTemplates = fs.readdirSync(templatesPath)
   commander.parse(process.argv)
 }
