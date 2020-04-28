@@ -14,7 +14,7 @@ function renderToCSS (src, filename, platform) {
 
   if (platform) {
     compiler.define('$PLATFORM', platform)
-    compiler.define(`__${platform.toUpperCase}__`, true)
+    compiler.define(`__${platform.toUpperCase()}__`, true)
   }
 
   // TODO: Make this a setting

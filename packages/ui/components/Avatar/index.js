@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { Image, Platform } from 'react-native'
+import { Image } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import Div from './../Div'
 import propTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Span from '../Span'
 import './index.styl'
-
-const isWeb = Platform.OS === 'web'
 
 function Avatar ({
   style,
@@ -22,7 +20,7 @@ function Avatar ({
   useDidUpdate(setError, [src])
 
   return pug`
-    Div.root(style=style styleName=[size, {web: isWeb}] ...props)
+    Div.root(style=style styleName=[size] ...props log=true)
       Div.avatarWrapper(shape=shape)
         if src && !error
           Image.avatar(

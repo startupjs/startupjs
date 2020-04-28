@@ -1,6 +1,5 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Platform } from 'react-native'
 import propTypes from 'prop-types'
 import Row from '../Row'
 import Div from '../Div'
@@ -12,7 +11,6 @@ import './index.styl'
 
 const { colors } = config
 const { heights, outlinedBorderWidth, iconMargins } = config.Button
-const isWeb = Platform.OS === 'web'
 
 function Button ({
   style,
@@ -88,7 +86,7 @@ function Button ({
       style=[style, rootStyle]
       styleName=[
         size,
-        { disabled, web: isWeb }
+        { disabled }
       ]
       align='center'
       vAlign='center'
