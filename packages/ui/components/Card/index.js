@@ -42,7 +42,7 @@ Card.defaultProps = {
 Card.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index).slice(1)),
+  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
   variant: propTypes.oneOf(['elevated', 'outlined']),
   onPress: propTypes.func
 }
