@@ -5,7 +5,7 @@ const fs = require('fs')
 const version = require('./package.json').version
 
 const IS_ALPHA = /alpha/.test(version)
-const STARTUPJS_VERSION = IS_ALPHA ? `^${version}` : 'latest'
+const STARTUPJS_VERSION = IS_ALPHA ? `^${version.replace(/\.\d+$/, '.0')}` : 'latest'
 
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
