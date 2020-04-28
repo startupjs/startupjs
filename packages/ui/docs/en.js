@@ -11,6 +11,7 @@ import Link from '../components/Link/Link.en.mdx'
 import Loader from '../components/Loader/Loader.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
+import TextInput from '../components/forms/TextInput/TextInput.en.mdx'
 
 export default {
   Alert,
@@ -25,5 +26,6 @@ export default {
   Link,
   Loader,
   Progress,
-  Tag
+  Tag,
+  TextInput
 }
