@@ -12,7 +12,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
-const rem2pixel = require('@startupjs/postcss-rem-to-pixel')
 const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
@@ -204,7 +203,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [autoprefixer, rem2pixel]
+                plugins: [autoprefixer]
               }
             },
             {

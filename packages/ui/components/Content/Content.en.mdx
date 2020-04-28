@@ -1,0 +1,113 @@
+import { View } from 'react-native'
+import Content from '../Content'
+import Div from '../Div'
+import Span from '../Span'
+import Br from '../Br'
+import pallete from '../../config/pallete'
+import { u } from '../../config/helpers'
+import { Sandbox } from '@startupjs/docs'
+
+
+# Content
+
+Content provides a responsive flexbox layout and its used as a parent to contain other elements.
+
+## Basic Example
+
+Default `Content` has left and right padding of `2u` (16px).
+Top and bottom padding can be added using the boolean `padding` prop.
+Content accepts a boolean prop `full` which gives it a `flex: 1` value.
+
+```jsx
+import { View } from 'react-native'
+import { Content, u } from '@startupjs/ui'
+```
+
+```jsx example
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <View>
+    <Content style={{ height: u(50), backgroundColor: '#2962FF' }} />
+    <Br />
+    <Content
+      padding
+      full
+      style={{ backgroundColor: '#2962FF' }}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Layout with full</Span>
+      </Div>
+    </Content>
+  </View>
+)
+```
+
+## Content Width Example
+
+Content `max-width` can be adjusted by specifying the `width` prop.
+
+```jsx
+import { View } from 'react-native'
+import { Content, u } from '@startupjs/ui'
+```
+
+```jsx example
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <View>
+    <Content
+      padding
+      width='wide'
+      style={{ backgroundColor: '#2962FF' }}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Full Width</Span>
+      </Div>
+    </Content>
+    <Br />
+    <Content
+      padding
+      width='desktop'
+      style={{ backgroundColor: '#2962FF' }}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Desktop</Span>
+      </Div>
+    </Content>
+    <Br />
+    <Content
+      padding
+      width='tablet'
+      style={{ backgroundColor: '#2962FF' }}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Tablet</Span>
+      </Div>
+    </Content>
+    <Br />
+    <Content
+      padding
+      width='mobile'
+      style={{ backgroundColor: '#2962FF' }}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Mobile</Span>
+      </Div>
+    </Content>
+  </View>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Content} />
