@@ -2,9 +2,14 @@ const commander = require('commander')
 const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
+const version = require('./package.json').version
+
+const IS_ALPHA = /alpha/.test(version)
+const STARTUPJS_VERSION = IS_ALPHA ? `^${version}` : 'latest'
 
 const DEPENDENCIES = [
-  'startupjs',
+  // Install alpha version of startupjs when running the alpha of cli
+  `startupjs@${STARTUPJS_VERSION}`,
   'source-map-support',
   'react-native-web@^0.12.0',
   'react-native-svg@^12.1.0',

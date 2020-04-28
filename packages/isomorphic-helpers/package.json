@@ -1,13 +1,11 @@
 {
   "name": "@startupjs/isomorphic-helpers",
-  "version": "0.21.1",
+  "version": "0.22.0-alpha.0",
   "description": "Helpers which can be used isomorphically on client and server",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {},
-  "license": "MIT",
-  "dependencies": {
-  }
+  "license": "MIT"
 }

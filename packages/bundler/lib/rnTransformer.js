@@ -11,9 +11,10 @@ import React from 'react'
 import { mdx } from '@mdx-js/react'
 `
 
-module.exports.transform = function ({ src, filename, options }) {
+module.exports.transform = function ({ src, filename, options = {} }) {
+  const { platform } = options
   if (/\.styl$/.test(filename)) {
-    src = callLoader(stylusToCssLoader, src, filename)
+    src = callLoader(stylusToCssLoader, src, filename, { platform })
     src = callLoader(cssToReactNativeLoader, src, filename)
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.css$/.test(filename)) {
@@ -38,6 +39,6 @@ module.exports.transform = function ({ src, filename, options }) {
 }
 
 // Simple mock to be able to call simple webpack loaders with filename substitution.
-function callLoader (loader, source, filename) {
-  return loader.call({ resourcePath: filename }, source)
+function callLoader (loader, source, filename, options = {}) {
+  return loader.call({ resourcePath: filename, query: options }, source)
 }
