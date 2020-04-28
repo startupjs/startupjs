@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import { Platform } from 'react-native'
 import propTypes from 'prop-types'
 import Row from '../Row'
 import Div from '../Div'
@@ -11,6 +12,7 @@ import './index.styl'
 
 const { colors } = config
 const { heights, outlinedBorderWidth, iconMargins } = config.Button
+const isWeb = Platform.OS === 'web'
 
 function Button ({
   style,
@@ -86,7 +88,7 @@ function Button ({
       style=[style, rootStyle]
       styleName=[
         size,
-        { disabled }
+        { disabled, web: isWeb }
       ]
       align='center'
       vAlign='center'
@@ -128,7 +130,7 @@ Button.defaultProps = {
 Button.propTypes = {
   ...Div.propTypes,
   textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.string,
+  children: propTypes.node,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,

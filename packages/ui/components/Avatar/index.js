@@ -22,7 +22,7 @@ function Avatar ({
   useDidUpdate(setError, [src])
 
   return pug`
-    Div.root(style=style ...props)
+    Div.root(style=style styleName={web: isWeb} ...props)
       Div.avatarWrapper(styleName=[size] shape=shape)
         if src && !error
           Image.avatar(
@@ -42,7 +42,7 @@ function Avatar ({
               seed: _fallback
             })}
           )
-            Span.fallback(styleName={web: isWeb} size=size bold)
+            Span.fallback(size=size bold)
               = initials
       if status
         Div.status(styleName=[size, status])
