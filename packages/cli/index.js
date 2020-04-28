@@ -88,7 +88,7 @@ const TEMPLATES = {
   ui: {
     subTemplates: ['simple', 'routing', 'ui'],
     packages: [
-      '@startupjs/ui',
+      `@startupjs/ui@${STARTUPJS_VERSION}`,
       'react-native-collapsible',
       'react-native-svg',
       'react-native-status-bar-height'
