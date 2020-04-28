@@ -78,6 +78,7 @@ const SCRIPTS = {
   'start-production': 'startupjs start-production'
 }
 
+const DEFAULT_TEMPLATE = 'ui'
 const TEMPLATES = {
   simple: {
     subTemplates: ['simple']
@@ -104,7 +105,7 @@ commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
   .option('-v, --version <semver>', 'Use a particular semver of React Native as a template', 'latest')
-  .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', 'simple')
+  .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', DEFAULT_TEMPLATE)
   .action(async (projectName, { version, template }) => {
     console.log('> run npx', projectName, { version, template })
 
