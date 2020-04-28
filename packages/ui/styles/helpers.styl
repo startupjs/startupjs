@@ -46,6 +46,22 @@ web()
   if __WEB__ is defined
     {block}
 
+android()
+  if __ANDROID__ is defined
+    {block}
+
+ios()
+  if __IOS__ is defined
+    {block}
+
+windows()
+  if __WINDOWS__ is defined
+    {block}
+
+macos()
+  if __MACOS__ is defined
+    {block}
+
 native()
   unless __WEB__ is defined
     {block}

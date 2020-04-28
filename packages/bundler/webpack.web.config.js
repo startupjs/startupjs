@@ -224,7 +224,7 @@ module.exports = function getConfig (env, {
             {
               loader: require.resolve('./lib/stylusToCssLoader.js'),
               options: {
-                web: true
+                platform: 'web'
               }
             }
           ]
