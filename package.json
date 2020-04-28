@@ -5,6 +5,8 @@
     "postinstall": "patch-package",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
+    "publish-patch": "npx lerna publish patch",
+    "publish-minor": "npx lerna publish minor",
     "publish-minor-alpha": "npx lerna publish preminor --dist-tag next"
   },
   "devDependencies": {
