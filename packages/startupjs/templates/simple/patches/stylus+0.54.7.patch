@@ -1,0 +1,26 @@
+diff --git a/node_modules/stylus/lib/nodes/unit.js b/node_modules/stylus/lib/nodes/unit.js
+index 2d38d84..0ddee73 100644
+--- a/node_modules/stylus/lib/nodes/unit.js
++++ b/node_modules/stylus/lib/nodes/unit.js
+@@ -38,6 +38,11 @@ var FACTOR_TABLE = {
+ 
+ var Unit = module.exports = function Unit(val, type){
+   Node.call(this);
++  // monkey patch auto-convertion of 'u' into 'px'
++  if (type === 'u') {
++    type = 'px'
++    val = val * 8
++  }
+   this.val = val;
+   this.type = type;
+ };
+diff --git a/node_modules/stylus/lib/units.js b/node_modules/stylus/lib/units.js
+index b26bb98..000cc86 100644
+--- a/node_modules/stylus/lib/units.js
++++ b/node_modules/stylus/lib/units.js
+@@ -17,4 +17,5 @@ module.exports = [
+   , 'dpi', 'dpcm', 'dppx', 'x' // resolutions
+   , '%' // percentage type
+   , 'fr' // grid-layout (http://www.w3.org/TR/css3-grid-layout/)
++  , 'u' // 8px-grid unit, treated as px.
+ ];
