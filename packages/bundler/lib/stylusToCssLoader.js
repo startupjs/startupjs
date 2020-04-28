@@ -7,10 +7,14 @@ const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const STYLES_PATH = path.join(process.cwd(), 'styles/index.styl')
 const CONFIG_PATH = path.join(process.cwd(), 'startupjs.config.js')
 
-function renderToCSS (src, filename) {
+function renderToCSS (src, filename, isWeb) {
   let compiled
   const compiler = stylus(src)
   compiler.set('filename', filename)
+
+  if (isWeb) {
+    compiler.define('__WEB__', true)
+  }
 
   // TODO: Make this a setting
   if (fs.existsSync(STYLES_PATH)) {
@@ -33,5 +37,5 @@ function renderToCSS (src, filename) {
 }
 
 module.exports = function stylusToReactNative (source) {
-  return renderToCSS(source, this.resourcePath)
+  return renderToCSS(source, this.resourcePath, this.query && this.query.web)
 }

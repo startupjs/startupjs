@@ -222,7 +222,10 @@ module.exports = function getConfig (env, {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             },
             {
-              loader: require.resolve('./lib/stylusToCssLoader.js')
+              loader: require.resolve('./lib/stylusToCssLoader.js'),
+              options: {
+                web: true
+              }
             }
           ]
         },
