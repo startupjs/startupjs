@@ -79,8 +79,21 @@ const SCRIPTS = {
 }
 
 const TEMPLATES = {
-  simple: ['simple'],
-  routing: ['simple', 'routing']
+  simple: {
+    subTemplates: ['simple']
+  },
+  routing: {
+    subTemplates: ['simple', 'routing']
+  },
+  ui: {
+    subTemplates: ['simple', 'routing', 'ui'],
+    packages: [
+      '@startupjs/ui',
+      'react-native-collapsible',
+      'react-native-svg',
+      'react-native-status-bar-height'
+    ]
+  }
 }
 
 let templatesPath
@@ -125,8 +138,15 @@ commander
       })
     }
 
+    // copy additional startupjs template files over react-native ones
+    console.log(`> Copy template '${template}'`)
+    for (let subTemplate of TEMPLATES[template].subTemplates) {
+      const subTemplatePath = path.join(templatesPath, subTemplate)
+      await recursivelyCopyFiles(subTemplatePath, projectPath)
+    }
+
     // install startupjs dependencies
-    await execa('yarn', ['add'].concat(DEPENDENCIES), {
+    await execa('yarn', ['add'].concat(DEPENDENCIES).concat(TEMPLATES[template].packages || []), {
       cwd: projectPath,
       stdio: 'inherit'
     })
@@ -137,13 +157,6 @@ commander
         cwd: projectPath,
         stdio: 'inherit'
       })
-    }
-
-    // copy additional startupjs template files over react-native ones
-    console.log(`> Copy template '${template}'`)
-    for (let subTemplate of TEMPLATES[template]) {
-      const subTemplatePath = path.join(templatesPath, subTemplate)
-      await recursivelyCopyFiles(subTemplatePath, projectPath)
     }
 
     console.log('> Patch package.json with additional scripts')
