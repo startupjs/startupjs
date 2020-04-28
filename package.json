@@ -4,7 +4,8 @@
   "scripts": {
     "postinstall": "patch-package",
     "bootstrap": "npx lerna bootstrap",
-    "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes"
+    "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
+    "publish-minor-alpha": "npx lerna publish preminor --dist-tag next"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
