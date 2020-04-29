@@ -7,13 +7,17 @@ polyfillReactNativeWeb()
   white-space pre-wrap
   overflow-wrap break-word
 
+  &.block
+    display flex
+
 .root
   color: $UI.colors.mainText
   text-decoration underline
-  &.web
+  +web()
     polyfillReactNativeWeb()
     cursor pointer
   &.primary
     color: $UI.colors.primary
+    text-decoration-color @color
   &.disabled
     text-decoration none

@@ -1,11 +1,8 @@
 _disabledOpacity = 0.25
 
 .root
-  &.rounded
-    radius()
-
-  &.circle
-    radius(circle)
-
   &.disabled
     opacity _disabledOpacity
+
+  +web()
+    user-select none

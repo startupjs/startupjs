@@ -6,10 +6,9 @@ import { Sandbox } from '@startupjs/docs'
 import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
 
 # Breadcrumbs
+Breadcrumbs indicate the current page’s location within a navigational hierarchy and allow users to navigate through the hierarchy.
 
-Breadcrumbs allow the user to navigate to parent hierarchy and it shows the current state within the hierarchy.
-
-## Basic Example
+## Example
 
 Each route object accepts any prop given to the [`Link`](/docs/en/docs/Link) component apart from the ones mentioned below.
 
@@ -38,9 +37,9 @@ return (
 )
 ```
 
-## Custom Separator Example
+## Custom Separator
 
-Default separator is `/`. It can be customized to any string value using `separator` prop.
+Separator is `/` by default. It can be changed by passing string to `separator` prop.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -68,10 +67,9 @@ return (
 )
 ```
 
-## Icon Example
+## Breadcrumbs with icons
 
-Each route object can be customized using `icon` prop. Icon postion can customized using `iconPosition` prop. Default `iconPosition` is `left`.
-
+Each route object accepts its own icon in `icon` property. Position of icon can be changes by passing `iconPosition` to component (`left` by default).
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -98,9 +96,9 @@ return (
 )
 ```
 
-## Custom Size Example
+## Sizes
 
-Default size is `m`, `size` prop is used to customize breadcrumbs. Possible values of `size` prop can be found in the `Sandbox` section at the bottom.
+Size is `m` by default. It can be changed by changing `size` prop. Possible values of `size` prop can be found in the `Sandbox` section at the bottom of page.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -148,7 +146,7 @@ return (
 )
 ```
 
-## Disabled Breadcrumbs Example
+## Disabled Breadcrumbs
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
