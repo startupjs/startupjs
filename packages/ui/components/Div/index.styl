@@ -1,6 +1,12 @@
 _pushedSizes = (xs s m l xl xxl)
 
 .root
+  &.rounded
+    radius()
+
+  &.circle
+    radius(circle)
+
   // Shadow does not work without backgorund color
   &.with-shadow
     background-color $UI.colors.white
@@ -8,6 +14,9 @@ _pushedSizes = (xs s m l xl xxl)
   for size in _pushedSizes
     &.pushed-{size}
       margin-left: $UI.gutters[size]
+
+  &.bleed
+    bleed()
 
   &.hoverable
     cursor pointer

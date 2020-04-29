@@ -15,7 +15,8 @@ export default {
     Div= children
   `,
   example: ({ children }) => pug`
-    Div.example= children
+    Div.example
+      Div.exampleContent= children
   `,
   h1: ({ children }) => pug`
     H2(bold)= children

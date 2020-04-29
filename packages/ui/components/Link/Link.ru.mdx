@@ -1,15 +1,13 @@
 import Link from '../Link'
-import Span from '../Span'
 import Div from '../Div'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
-# Link
-Inherits [Span props](/docs/en/Span).
+# Link (ссылка)
 
-Link allows to navigate of the app and customize anchors.
+Ссылка позволяет перемещаться по приложению и настраивать якоря.
 
-## Example
+## Пример
 
 ```jsx
 import { Link, Span } from '@startupjs/ui'
@@ -18,7 +16,7 @@ import { Link, Span } from '@startupjs/ui'
 ```jsx example
 return (
   <Span>
-    Inherits&nbsp;
+    Наследует&nbsp;
     <Link to='/docs/en/span'>
       Span props
     </Link>
@@ -26,9 +24,9 @@ return (
 )
 ```
 
-## Stand out Link
+## Выделяющаяся ссылка
 
-If a link needs to stand out pass the `primary` string to `variant` property.
+Если ссылка должна выделиться, передайте строку `primary` в свойство `variant`.
 
 ```jsx
 import { Link, Span } from '@startupjs/ui'
@@ -38,7 +36,7 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Span>
     Inherits&nbsp;
-    <Link block to='/docs/en/span' variant='primary'>
+    <Link to='/docs/en/span' variant='primary'>
       Span props
     </Link>
   </Span>
