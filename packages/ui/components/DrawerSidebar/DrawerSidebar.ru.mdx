@@ -9,11 +9,12 @@ import Content from '../Content'
 import { observer, useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
-# DrawerSidebar
+# DrawerSidebar (дровер)
 
-Drawer is typically used for nagivation. It is initially not visible on the screen, but it can be pulled in from the edge of the window.
+Дровер обычно используется для навигации. Изначально он не виден на экране, но может быть вытянут c края окна.
 
-## Example
+## Пример
+
 
 ```jsx
 import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
@@ -43,7 +44,7 @@ return (
       style={{ height: 200, backgroundColor: 'white' }}
     >
       <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
+        <Button onPress={() => $opened.set(true)}>Открыть</Button>
       </Row>
     </Content>
   </DrawerSidebar>
@@ -52,7 +53,7 @@ return (
 
 ## Position
 
-The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
+Свойство `position` указывает сторону окна, из которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx
 import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
@@ -83,7 +84,7 @@ return (
       style={{ height: 200, backgroundColor: 'white' }}
     >
       <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
+        <Button onPress={() => $opened.set(true)}>Открыть</Button>
       </Row>
     </Content>
   </DrawerSidebar>
@@ -92,7 +93,7 @@ return (
 
 ## Locked Drawer
 
-Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures.
+Указание свойства `forceClosed` будеи держать дровер закрытым и он не будет реагировать на жесты.
 
 ```jsx example
 const PATH = '_session.ExampleLockedDrawerSidebar'
@@ -119,7 +120,7 @@ return (
       style={{ height: 200, backgroundColor: 'white' }}
     >
       <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
+        <Button onPress={() => $opened.set(true)}>Открыть</Button>
       </Row>
     </Content>
   </DrawerSidebar>
