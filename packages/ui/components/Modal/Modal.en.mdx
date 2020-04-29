@@ -1,0 +1,113 @@
+import { useState } from 'react'
+import Modal from '../Modal'
+import Button from '../Button'
+import Span from '../Span'
+
+# Modal
+
+The modal component provides a solid foundation for creating dialogs, popovers, lightboxes.
+
+## Basic Example
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+console.log(visible)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open Modal
+    </Button>
+    <Modal
+      title='Basic example title'
+      visible={visible}
+      dismissLabel='Close'
+      confirmLabel='Accept'
+      onDismiss={() => setVisible(false)}
+      onConfirm={() => setVisible(false)}
+    >
+      <Modal.Content>
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+        </Span>
+      </Modal.Content>
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Fullscreen Modal
+
+Modal can have `window` or `fullscreen` variant. Default variant is `window`.
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+console.log(visible)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open Modal
+    </Button>
+    <Modal
+      variant='fullscreen'
+      title='Basic example title'
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      onConfirm={() => setVisible(false)}
+    >
+      <Modal.Content>
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+        </Span>
+      </Modal.Content>
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Modal Header & Actions
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+console.log(visible)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open Modal
+    </Button>
+    <Modal visible={visible}>
+      <Modal.Header>
+        <Span italic size='xxl'>Custom modal header</Span>
+      </Modal.Header>
+      <Modal.Content>
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+        </Span>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button
+          variant='shadowed'
+          style={{ marginRight: 8 }}
+          onPress={() => setVisible(false)}
+        >
+          Custom close
+        </Button>
+        <Button onPress={() => setVisible(false)}>
+          Custom confirm
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  </React.Fragment>
+)
+```
