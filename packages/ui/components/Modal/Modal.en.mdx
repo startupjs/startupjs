@@ -2,10 +2,12 @@ import { useState } from 'react'
 import Modal from '../Modal'
 import Button from '../Button'
 import Span from '../Span'
+import { Sandbox } from '@startupjs/docs'
 
 # Modal
 
-The modal component provides a solid foundation for creating dialogs, popovers, lightboxes.
+Modal component is used for creating dialogs. Modal can be used when the user needs to interact with a complex sub-application without navigating to a new page or interrupting the workflow.
+
 
 ## Basic Example
 
@@ -19,7 +21,7 @@ console.log(visible)
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
-      Open Modal
+      Open modal
     </Button>
     <Modal
       title='Basic example title'
@@ -28,12 +30,11 @@ return (
       confirmLabel='Accept'
       onDismiss={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
+      onShow={() => console.log('modal shown!')}
     >
-      <Modal.Content>
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-        </Span>
-      </Modal.Content>
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      </Span>
     </Modal>
   </React.Fragment>
 )
@@ -53,26 +54,26 @@ console.log(visible)
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
-      Open Modal
+      Open fullscreen modal
     </Button>
     <Modal
       variant='fullscreen'
-      title='Basic example title'
+      title='Fullscreen example title'
       visible={visible}
       onDismiss={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
     >
-      <Modal.Content>
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-        </Span>
-      </Modal.Content>
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      </Span>
     </Modal>
   </React.Fragment>
 )
 ```
 
-## Modal Header & Actions
+## Modal Customization
+
+Modals can be customized using `Modal.Header`, `Modal.Actions` & `Modal.Content` sub-components. Modal backdrop action can be customized using `onBackdropPress` prop. If `onBackdropPress` is not provided then the modal is closed on clicking the backdrop.
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -84,26 +85,29 @@ console.log(visible)
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
-      Open Modal
+      Open customized Modal
     </Button>
-    <Modal visible={visible}>
+    <Modal visible={visible} onBackdropPress={() => null}>
       <Modal.Header>
-        <Span italic size='xxl'>Custom modal header</Span>
+        <Span bold size='xxl'>Custom modal header</Span>
       </Modal.Header>
       <Modal.Content>
-        <Span>
+        <Span italic size='l'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
         </Span>
       </Modal.Content>
       <Modal.Actions>
         <Button
-          variant='shadowed'
+          shape='circle'
           style={{ marginRight: 8 }}
           onPress={() => setVisible(false)}
         >
           Custom close
         </Button>
-        <Button onPress={() => setVisible(false)}>
+        <Button
+          shape='circle'
+          onPress={() => setVisible(false)}
+        >
           Custom confirm
         </Button>
       </Modal.Actions>
@@ -111,3 +115,21 @@ return (
   </React.Fragment>
 )
 ```
+
+## Sandbox
+
+### Modal
+
+<Sandbox Component={Modal} />
+
+### Modal.Header
+
+<Sandbox Component={Modal.Header} />
+
+### Modal.Content
+
+<Sandbox Component={Modal.Content} />
+
+### Modal.Actions
+
+<Sandbox Component={Modal.Actions} />
