@@ -31,7 +31,7 @@ export default observer(function ({ children }) {
   return pug`
     Layout
       SmartSidebar(
-        backgroundColor='darkLightest'
+        backgroundColor='#eeeeee'
         path=$opened.path()
         renderContent=renderSidebar
       )
