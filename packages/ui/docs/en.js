@@ -7,8 +7,10 @@ import Collapse from '../components/Collapse/Collapse.en.mdx'
 import Content from '../components/Content/Content.en.mdx'
 import Div from '../components/Div/Div.en.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
+import Input from '../components/forms/Input/Input.en.mdx'
 import Link from '../components/Link/Link.en.mdx'
 import Loader from '../components/Loader/Loader.en.mdx'
+import ObjectInput from '../components/forms/ObjectInput/ObjectInput.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
 
@@ -22,8 +24,10 @@ export default {
   Content,
   Div,
   DrawerSidebar,
+  Input,
   Link,
   Loader,
+  ObjectInput,
   Progress,
   Tag
 }

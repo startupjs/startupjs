@@ -14,6 +14,7 @@ export default observer(function ObjectInput ({
     return null
   }
   if (!properties) {
+    console.log('here')
     console.error('[ui -> Object] properties is required')
     return null
   }
