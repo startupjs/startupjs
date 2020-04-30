@@ -8,7 +8,6 @@ import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
 import { colorToRGBA } from '../../config/helpers'
-import { faStar, faTable } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 const { colors } = config
@@ -25,7 +24,7 @@ function Breadcrumbs ({
 }) {
   const color = disabled
     ? colorToRGBA(mainTextColor, 0.8)
-    : colors.primary
+    : undefined
 
   return pug`
     Row(style=style wrap)
@@ -56,7 +55,7 @@ function Breadcrumbs ({
 }
 
 Breadcrumbs.defaultProps = {
-  routes: [{ name: 'Home', icon: faStar }, { name: 'Home1', icon: faTable }],
+  routes: [],
   separator: '/',
   size: 'm',
   replace: false,
