@@ -5,6 +5,7 @@ import Button from '../components/Button/Button.ru.mdx'
 import Card from '../components/Card/Card.ru.mdx'
 import Collapse from '../components/Collapse/Collapse.ru.mdx'
 import Content from '../components/Content/Content.ru.mdx'
+import Div from '../components/Div/Div.ru.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
 import Link from '../components/Link/Link.ru.mdx'
 import Progress from '../components/Progress/Progress.ru.mdx'
@@ -18,6 +19,7 @@ export default {
   Card,
   Collapse,
   Content,
+  Div,
   DrawerSidebar,
   Link,
   Progress,
