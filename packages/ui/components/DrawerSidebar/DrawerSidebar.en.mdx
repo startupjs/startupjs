@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import DrawerSidebar from '../DrawerSidebar'
-import Span from '../Span'
 import Row from '../Row'
 import Div from '../Div'
 import Menu from '../Menu'
@@ -16,7 +15,7 @@ Drawer is typically used for nagivation. It is initially not visible on the scre
 ## Example
 
 ```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+import { DrawerSidebar, Menu, Content, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -26,27 +25,29 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>Nav-1</Menu.Item>
-        <Menu.Item>Nav-2</Menu.Item>
-        <Menu.Item>Nav-3</Menu.Item>
-        <Menu.Item>Nav-4</Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Open</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 
@@ -55,7 +56,7 @@ return (
 The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+import { DrawerSidebar, Menu, Content, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -65,28 +66,30 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    position='right'
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>Nav-1</Menu.Item>
-        <Menu.Item>Nav-2</Menu.Item>
-        <Menu.Item>Nav-3</Menu.Item>
-        <Menu.Item>Nav-4</Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      position='right'
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Open</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 
@@ -101,28 +104,30 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>Nav-1</Menu.Item>
-        <Menu.Item>Nav-2</Menu.Item>
-        <Menu.Item>Nav-3</Menu.Item>
-        <Menu.Item>Nav-4</Menu.Item>
-      </Menu>
-    )}
-    forceClosed
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+      forceClosed
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Open</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 
