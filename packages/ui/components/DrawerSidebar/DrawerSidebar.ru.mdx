@@ -27,27 +27,29 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>Nav-1</Menu.Item>
-        <Menu.Item>Nav-2</Menu.Item>
-        <Menu.Item>Nav-3</Menu.Item>
-        <Menu.Item>Nav-4</Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Открыть</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 
@@ -66,28 +68,30 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    position='right'
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>Nav-1</Menu.Item>
-        <Menu.Item>Nav-2</Menu.Item>
-        <Menu.Item>Nav-3</Menu.Item>
-        <Menu.Item>Nav-4</Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      position='right'
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Открыть</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 
@@ -102,28 +106,30 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>Nav-1</Menu.Item>
-        <Menu.Item>Nav-2</Menu.Item>
-        <Menu.Item>Nav-3</Menu.Item>
-        <Menu.Item>Nav-4</Menu.Item>
-      </Menu>
-    )}
-    forceClosed
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+      forceClosed
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Открыть</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 

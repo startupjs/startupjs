@@ -15,8 +15,7 @@ export default {
     Div= children
   `,
   example: ({ children }) => pug`
-    Div.example
-      Div.exampleContent= children
+    Div.example= children
   `,
   h1: ({ children }) => pug`
     H2(bold)= children
@@ -105,7 +104,7 @@ export default {
   delete: P,
   a: ({ children, href }) => {
     return pug`
-      Link(size='l' to=href)= children
+      Link(to=href size='l' variant='primary')= children
     `
   },
   img: P
