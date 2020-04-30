@@ -26,7 +26,6 @@ function Link ({
   size,
   bold,
   italic,
-  description,
   block,
   ...props
 }) {
@@ -37,7 +36,7 @@ function Link ({
   return pug`
     InternalLink.root(
       style=[style, isNative ? {} : { fontFamily: WEB_FONT }]
-      styleName=[theme, size, { bold, italic, description, disabled, block }, variant]
+      styleName=[theme, size, { bold, italic, disabled, block }, variant]
       disabled=disabled
       to=disabled ? null : to /* pass empty url to href on web */
       ...props

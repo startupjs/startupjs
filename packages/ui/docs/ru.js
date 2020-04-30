@@ -7,7 +7,9 @@ import Collapse from '../components/Collapse/Collapse.ru.mdx'
 import Content from '../components/Content/Content.ru.mdx'
 import Div from '../components/Div/Div.ru.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
+import Hr from '../components/Hr/Hr.ru.mdx'
 import Link from '../components/Link/Link.ru.mdx'
+import Loader from '../components/Loader/Loader.ru.mdx'
 import Progress from '../components/Progress/Progress.ru.mdx'
 import Tag from '../components/Tag/Tag.ru.mdx'
 
@@ -21,7 +23,9 @@ export default {
   Content,
   Div,
   DrawerSidebar,
+  Hr,
   Link,
+  Loader,
   Progress,
   Tag
 }
