@@ -3,9 +3,12 @@ import propTypes from 'prop-types'
 import { observer } from 'startupjs'
 import Link from './../Link'
 import Row from '../Row'
+import Div from '../Div'
+import Icon from '../Icon'
 import Span from '../Span'
 import config from '../../config/rootConfig'
 import { colorToRGBA } from '../../config/helpers'
+import { faStar, faTable } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 const { colors } = config
@@ -22,31 +25,38 @@ function Breadcrumbs ({
 }) {
   const color = disabled
     ? colorToRGBA(mainTextColor, 0.8)
-    : undefined
+    : colors.primary
 
   return pug`
     Row(style=style wrap)
       each route, index in routes
-        - const { name, ...linkProps } = route
+        - const { name, icon, ...linkProps } = route
         - const isLastRoute = index === routes.length - 1
+        - const _color = isLastRoute ? mainTextColor: color
         Row(key=index)
-          Link(
-            color=isLastRoute ? mainTextColor: color
-            iconPosition=iconPosition
-            size=size
-            bold=isLastRoute
+          Link.link(
             replace=replace
             disabled=disabled || isLastRoute
+            block
             ...linkProps
-          )= name
+          )
+            Row(vAlign='center' reverse=iconPosition === 'right')
+              if icon
+                Div.iconWrapper(styleName=[size, iconPosition])
+                  Icon(icon=icon size=size color=_color)
+              Span.content(
+                style={ color: _color }
+                size=size
+                bold=isLastRoute
+              )= name
           if !isLastRoute
-            Span.separator(size=size styleName=[size])
+            Span.separator(size=size)
               | &nbsp#{separator}&nbsp
   `
 }
 
 Breadcrumbs.defaultProps = {
-  routes: [],
+  routes: [{ name: 'Home', icon: faStar }, { name: 'Home1', icon: faTable }],
   separator: '/',
   size: 'm',
   replace: false,
@@ -59,8 +69,7 @@ Breadcrumbs.propTypes = {
   routes: propTypes.arrayOf(propTypes.shape({
     to: propTypes.string,
     name: propTypes.string,
-    icon: propTypes.object,
-    iconPosition: propTypes.oneOf(['left', 'right'])
+    icon: propTypes.object
   })).isRequired,
   iconPosition: propTypes.oneOf(['left', 'right']),
   separator: propTypes.string,
