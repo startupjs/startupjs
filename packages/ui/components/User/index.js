@@ -45,7 +45,7 @@ function User ({
         styleName=[avatarPosition]
         size=size
         status=status
-        url=avatarUrl
+        src=avatarUrl
         fallback=name
       )
       View.userInfo
