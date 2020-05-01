@@ -8,6 +8,7 @@ import Content from '../components/Content/Content.en.mdx'
 import Div from '../components/Div/Div.en.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import Hr from '../components/Hr/Hr.en.mdx'
+import Layout from '../components/Layout/Layout.en.mdx'
 import Link from '../components/Link/Link.en.mdx'
 import Loader from '../components/Loader/Loader.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
@@ -25,6 +26,7 @@ export default {
   Div,
   DrawerSidebar,
   Hr,
+  Layout,
   Link,
   Loader,
   Progress,

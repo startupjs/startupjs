@@ -1,0 +1,27 @@
+import Layout from '../Layout'
+import Content from '../Content'
+import Span from '../Span'
+import { u } from '../../config/helpers'
+import { Sandbox } from '@startupjs/docs'
+
+# Layout
+
+`Layout` serves as the root element of the application. It uses `SafeAreaView` to provide padding when the view intersects with a safe area of a device like a notch. It also displays a `StatusBar` for `android` & `ios` RN apps.
+
+## Example
+
+```jsx
+import { Layout } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Layout style={{ background: '#cfe8fc', height: u(25) }}>
+    <Span size='xl'>Layout area</Span>
+  </Layout>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Layout} />
