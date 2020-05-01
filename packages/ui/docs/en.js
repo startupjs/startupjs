@@ -13,6 +13,7 @@ import Loader from '../components/Loader/Loader.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
+import User from '../components/User/User.en.mdx'
 
 export default {
   Alert,
@@ -29,5 +30,6 @@ export default {
   Loader,
   Progress,
   Rating,
-  Tag
+  Tag,
+  User
 }
