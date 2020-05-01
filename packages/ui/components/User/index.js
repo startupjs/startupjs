@@ -46,8 +46,7 @@ function User ({
         size=size
         status=status
         src=avatarUrl
-        fallback=name
-      )
+      )= name
       View.userInfo
         Span.name(
           styleName=[avatarPosition]
