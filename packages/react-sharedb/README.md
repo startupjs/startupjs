@@ -741,6 +741,30 @@ export default class Room extends React.Component {
 }
 ```
 
+## Contributing
+
+This packages has a hard dependency on native browser ES6 Proxy support and so the source code is written to use ES6 features which are supported in the lowest versions of [browsers which support ES6 Proxy](https://caniuse.com/#feat=proxy).
+
+That said here is the list of supported browsers:
+
+- Edge 13+
+- Chrome 49+
+- Firefox 45+
+- Opera 36+
+- Safari 10+
+- iOS Safari 10+
+- Samsung internet 5+
+
+[List of features supported without compilation](https://caniuse.com/#compare=edge+12,firefox+45,chrome+49,safari+10,opera+36,ios_saf+10.0-10.2,android+81,samsung+5.0-5.4)
+
+Most of the ES6 features are supported with the exception of the following:
+
+- no `import`, `export`. Use `require()` and `exports`, `module.exports`.
+- no [class fields support](https://caniuse.com/#search=class%20fields) in ES6 classes. So no `static` or arrow functions for method definition.
+- `const` should be used whenever possible. `let` is scoped the same as `var`.
+- no `async/await`. Use [`co`](https://github.com/tj/co) for the similar effect.
+- no [spread in object literals](https://caniuse.com/#feat=mdn-javascript_operators_spread_spread_in_object_literals)
+
 ## Licence
 
 MIT

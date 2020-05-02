@@ -1,0 +1,6 @@
+test1_:
+  name: test1_
+  playerIds: [test1_, test2_]
+test2_:
+  name: test2_
+  playerIds: [test1_, test3_, test5_]
