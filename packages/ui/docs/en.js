@@ -13,6 +13,7 @@ import Layout from '../components/Layout/Layout.en.mdx'
 import Link from '../components/Link/Link.en.mdx'
 import LineSeparator from '../components/LineSeparator/LineSeparator.en.mdx'
 import Loader from '../components/Loader/Loader.en.mdx'
+import Menu from '../components/Menu/Menu.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Radio from '../components/forms/Radio/Radio.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
@@ -36,6 +37,7 @@ export default {
   Link,
   LineSeparator,
   Loader,
+  Menu,
   Progress,
   Radio,
   Tag,
