@@ -1,0 +1,135 @@
+import { useState } from 'react'
+import Modal from '../Modal'
+import Button from '../Button'
+import Span from '../Span'
+import { Sandbox } from '@startupjs/docs'
+
+# Modal
+
+Modal component is used for creating dialogs. Modal can be used when the user needs to interact with a complex sub-application without navigating to a new page or interrupting the workflow.
+
+
+## Basic Example
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+console.log(visible)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open modal
+    </Button>
+    <Modal
+      title='Basic example title'
+      visible={visible}
+      dismissLabel='Close'
+      confirmLabel='Accept'
+      onDismiss={() => setVisible(false)}
+      onConfirm={() => setVisible(false)}
+      onShow={() => console.log('modal shown!')}
+    >
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      </Span>
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Fullscreen Modal
+
+Modal can have `window` or `fullscreen` variant. Default variant is `window`.
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+console.log(visible)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open fullscreen modal
+    </Button>
+    <Modal
+      variant='fullscreen'
+      title='Fullscreen example title'
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      onConfirm={() => setVisible(false)}
+    >
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      </Span>
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Modal Customization
+
+Modals can be customized using `Modal.Header`, `Modal.Actions` & `Modal.Content` sub-components. Modal backdrop action can be customized using `onBackdropPress` prop. If `onBackdropPress` is not provided then the modal is closed on clicking the backdrop.
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+console.log(visible)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open customized Modal
+    </Button>
+    <Modal visible={visible} onBackdropPress={() => null}>
+      <Modal.Header>
+        <Span bold size='xxl'>Custom modal header</Span>
+      </Modal.Header>
+      <Modal.Content>
+        <Span italic size='l'>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+        </Span>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button
+          shape='circle'
+          style={{ marginRight: 8 }}
+          onPress={() => setVisible(false)}
+        >
+          Custom close
+        </Button>
+        <Button
+          shape='circle'
+          onPress={() => setVisible(false)}
+        >
+          Custom confirm
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Sandbox
+
+### Modal
+
+<Sandbox Component={Modal} />
+
+### Modal.Header
+
+<Sandbox Component={Modal.Header} />
+
+### Modal.Content
+
+<Sandbox Component={Modal.Content} />
+
+### Modal.Actions
+
+<Sandbox Component={Modal.Actions} />
