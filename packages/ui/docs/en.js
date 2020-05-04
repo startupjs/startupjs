@@ -21,6 +21,7 @@ import Rating from '../components/Rating/Rating.en.mdx'
 import Sidebar from '../components/Sidebar/Sidebar.en.mdx'
 import Row from '../components/Row/Row.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
+import TextInput from '../components/forms/TextInput/TextInput.en.mdx'
 import User from '../components/User/User.en.mdx'
 
 export default {
@@ -42,8 +43,9 @@ export default {
   Modal,
   Menu,
   Progress,
-  Radio,
   Tag,
+  TextInput,
+  Radio,
   Rating,
   Sidebar,
   User,
