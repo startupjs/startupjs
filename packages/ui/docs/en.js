@@ -36,6 +36,6 @@ export default {
   Progress,
   Rating,
   Tag,
-  User
+  User,
   Row
 }
