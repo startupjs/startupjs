@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@startupjs/react-sharedb": "^0.22.0-alpha.0",
-    "bluebird": "^3.5.0",
     "racer": "0.9.9",
     "rich-text": "^4.0.0",
     "sharedb": "^1.0.0"
