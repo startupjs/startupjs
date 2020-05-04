@@ -22,6 +22,8 @@ return (
       label='Example Checbkbox'
       value={checked}
       onChange={(newState) => setChecked(newState)}
+      onFocus={(e) => console.log('focused checkbox', e)}
+      onBlur={(e) => console.log('blur checkbox', e)}
     />
     <Br />
     <Checkbox
@@ -64,7 +66,6 @@ return (
 ## Checkbox Layout
 
 Checkbox can have `pure` or `rows` layout. Default layout is `rows`.
-In pure layout additional props `onFocus` & `onBlur` are available.
 
 ```jsx
 import { Checkbox, Content, Br } from '@startupjs/ui'
@@ -86,8 +87,6 @@ return (
       layout='pure'
       value={pureLayoutChecked}
       onChange={(newState) => setPureLayoutChecked(newState)}
-      onFocus={(e) => console.log('focused checkbox', e)}
-      onBlur={(e) => console.log('blur checkbox', e)}
     />
     <Br />
     <Checkbox
@@ -95,8 +94,6 @@ return (
       variant='switch'
       value={switched}
       onChange={(newState) => setSwitched(newState)}
-      onFocus={(e) => console.log('focused switch', e)}
-      onBlur={(e) => console.log('blur switch', e)}
     />
   </Content>
 )
