@@ -9,6 +9,7 @@ import Content from '../components/Content/Content.en.mdx'
 import Checkbox from '../components/forms/Checkbox/Checkbox.en.mdx'
 import Div from '../components/Div/Div.en.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
+import Icon from '../components/Icon/Icon.en.mdx'
 import Input from '../components/forms/Input/Input.en.mdx'
 import Hr from '../components/Hr/Hr.en.mdx'
 import Layout from '../components/Layout/Layout.en.mdx'
@@ -39,6 +40,7 @@ export default {
   Content,
   Div,
   DrawerSidebar,
+  Icon,
   Input,
   Hr,
   Layout,
