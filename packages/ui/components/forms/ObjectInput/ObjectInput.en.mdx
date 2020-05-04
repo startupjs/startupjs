@@ -1,0 +1,161 @@
+import { useState } from 'react'
+import Content from '../../Content'
+import Br from '../../Br'
+import Span from '../../Span'
+import ObjectInput from '../ObjectInput'
+import { u } from '../../../config/helpers'
+import { useValue } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+
+# ObjectInput
+
+ObjectInput let's the developer build dynamic forms using its declarative api.
+
+## Basic Example
+
+ObjectInput accepts a `properties` object with a required `input` key to specify what type of input to display. It can of type `checkbox`, `text`, `object`. The `properties` object can also inherit any of the props supplied to the components ([`Checkbox`](/docs/en/Checkbox), [`TextInput`](/docs/en/TextInput) & [ObjectInput](/docs/en/ObjectInput)) for input key values `checkbox`, `text`, `object` respectively.
+
+Example with `useValue` hook.
+
+
+```jsx
+import { useValue } from 'startupjs'
+import { Input } from from '@startupjs/ui'
+```
+
+```jsx example
+const [value, $value] = useValue({})
+return (
+  <Content>
+    <ObjectInput
+      type='text'
+      value={value}
+      $value={$value}
+      properties={{
+        firstName: {
+          input: 'text',
+          label: 'First Name',
+          style: { marginTop: u(1) }
+        },
+        lastName: {
+          input: 'text',
+          label: 'Last Name',
+          style: { marginTop: u(1) }
+        },
+        termsAndCondition: {
+          input: 'checkbox',
+          label: 'I agree to T&C',
+          style: { marginTop: u(1) }
+        }
+      }}
+    />
+  </Content>
+)
+```
+
+## Order Example
+
+ObjectInput accepts an `order` array prop to specify in what order should the inputs be displayed.
+
+```jsx
+import { useValue } from 'startupjs'
+import { Input } from from '@startupjs/ui'
+```
+
+```jsx example
+const [value, $value] = useValue({})
+return (
+  <Content>
+    <ObjectInput
+      type='text'
+      value={value}
+      $value={$value}
+      order={['lastName', 'termsAndCondition', 'firstName']}
+      properties={{
+        firstName: {
+          input: 'text',
+          label: 'First Name',
+          style: { marginTop: u(1) }
+        },
+        lastName: {
+          input: 'text',
+          label: 'Last Name',
+          style: { marginTop: u(1) }
+        },
+        termsAndCondition: {
+          input: 'checkbox',
+          label: 'I agree to T&C',
+          style: { marginTop: u(1) }
+        }
+      }}
+    />
+  </Content>
+)
+```
+
+## Complex Example
+
+`ObjectInput` supports `dependsOn` & `dependsValue` keys for each object to dynamically display inputs which are dependent on other input values. The `dependsOn` key is used to specify the object key which the current input depends on and the `dependsValue` key is used to specify at what value of the `dependsOn` key should the current input be shown.
+
+In the Example-1 below the "dependent" textbox will only be shown when the default textbox is non-empty. Similarly, Example-2 only shows dependent textbox when the checkbox is ticked.
+
+Caution: When the dependent field is removed its previous value is preserved.
+
+```jsx
+import { useValue } from 'startupjs'
+import { Input } from from '@startupjs/ui'
+```
+
+```jsx example
+const [value, $value] = useValue({})
+const [value2, $value2] = useValue({})
+return (
+  <Content>
+    <Span>Example-1</Span>
+    <Br lines={0.5} />
+    <ObjectInput
+      type='text'
+      value={value}
+      $value={$value}
+      properties={{
+        defaultInput: {
+          input: 'text',
+          label: 'Default Input',
+          placeholder: 'Type anything',
+          style: { marginTop: u(1) }
+        },
+        dependent: {
+          dependsOn: 'defaultInput',
+          dependsValue: value.defaultInput || undefined,
+          input: 'text',
+          label: 'Dependent on default input',
+          style: { marginTop: u(1) }
+        }
+      }}
+    />
+    <Br />
+    <Span>Example-2</Span>
+    <Br lines={0.5}/>
+    <ObjectInput
+      type='text'
+      value={value2}
+      $value={$value2}
+      properties={{
+        defaultInput: {
+          input: 'checkbox',
+          label: 'Click to display next input',
+          placeholder: 'Type abcd to display the next input',
+          style: { marginTop: u(1) }
+        },
+        dependent: {
+          dependsOn: 'defaultInput',
+          dependsValue: value2.defaultInput || 'not-shown',
+          input: 'text',
+          label: 'Dependent on checkbox',
+          style: { marginTop: u(1) }
+        }
+      }}
+    />
+  </Content>
+)
+```

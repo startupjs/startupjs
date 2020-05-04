@@ -8,11 +8,13 @@ import Collapse from '../components/Collapse/Collapse.en.mdx'
 import Content from '../components/Content/Content.en.mdx'
 import Div from '../components/Div/Div.en.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
+import Input from '../components/forms/Input/Input.en.mdx'
 import Hr from '../components/Hr/Hr.en.mdx'
 import Layout from '../components/Layout/Layout.en.mdx'
 import Link from '../components/Link/Link.en.mdx'
 import LineSeparator from '../components/LineSeparator/LineSeparator.en.mdx'
 import Loader from '../components/Loader/Loader.en.mdx'
+import ObjectInput from '../components/forms/ObjectInput/ObjectInput.en.mdx'
 import Modal from '../components/Modal/Modal.en.mdx'
 import Menu from '../components/Menu/Menu.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
@@ -35,11 +37,13 @@ export default {
   Content,
   Div,
   DrawerSidebar,
+  Input,
   Hr,
   Layout,
   Link,
   LineSeparator,
   Loader,
+  ObjectInput,
   Modal,
   Menu,
   Progress,
