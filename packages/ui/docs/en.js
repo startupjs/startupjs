@@ -17,6 +17,7 @@ import Menu from '../components/Menu/Menu.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Radio from '../components/forms/Radio/Radio.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
+import Sidebar from '../components/Sidebar/Sidebar.en.mdx'
 import Row from '../components/Row/Row.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
 import User from '../components/User/User.en.mdx'
@@ -42,6 +43,7 @@ export default {
   Radio,
   Tag,
   Rating,
+  Sidebar,
   User,
   Row
 }
