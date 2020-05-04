@@ -1,0 +1,58 @@
+import { useState } from 'react'
+import Loader from '../Loader'
+import Row from '../Row'
+import { Sandbox } from '@startupjs/docs'
+
+# Loader (лоадер)
+
+Лоадеры используются для отображения времени ожидания.
+
+## Пример
+
+```jsx
+import { Loader } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Loader />
+)
+```
+
+## Размеры
+
+Лоадеры могут быть двух размеров - `s` и `m`.
+
+```jsx
+import { Loader } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Loader size='s' />
+    <Loader size='m' />
+  </Row>
+)
+```
+
+## Цвета
+
+```jsx
+import { Loader } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Loader color='#2962FF' />
+    <Loader color='#F5BE59' />
+    <Loader color='#00AED6' />
+    <Loader color='#A6D800' />
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Loader} />

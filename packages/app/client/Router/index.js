@@ -33,10 +33,10 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
   }, [location.pathname])
 
   useSyncEffect(() => {
-    initRoute(location, routes)
+    initRoute(location, routes, goTo)
 
     const unlisten = history.listen((location) => {
-      initRoute(location, routes)
+      initRoute(location, routes, goTo)
     })
 
     $root.on('url', goTo)
@@ -113,10 +113,10 @@ function initRoute (location, routes, goTo) {
     const matched = matchRoutes(routes, url)
     if (matched.length) {
       const lastRoute = matched[matched.length - 1]
-      const redirect = lastRoute.route.redirect
+      const redirectUrl = lastRoute.route.redirect
 
-      if (redirect) {
-        setTimeout(() => $root.emit('url', redirect, { replace: true }))
+      if (redirectUrl) {
+        goTo(redirectUrl, { replace: true })
         return
       }
 

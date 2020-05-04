@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import DrawerSidebar from '../DrawerSidebar'
-import Span from '../Span'
 import Row from '../Row'
 import Div from '../Div'
 import Menu from '../Menu'
@@ -11,149 +10,124 @@ import { Sandbox } from '@startupjs/docs'
 
 # DrawerSidebar
 
-Drawer is a swipeable component which provides access to navigation links of a page. 
+Drawer is typically used for nagivation. It is initially not visible on the screen, but it can be pulled in from the edge of the window.
 
-## Basic Example
+## Example
 
 ```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+import { DrawerSidebar, Menu, Content, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.ExampleSidebar'
+const PATH = '_session.ExampleLeftDrawerSidebar'
 const $opened = useModel(PATH)
 useEffect(() => {
   $opened.set(true)
 }, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>
-          <Span>Nav-1</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-2</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-3</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-4</Span>
-        </Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Open</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 
-## Position Example
+## Position
+
+The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+import { DrawerSidebar, Menu, Content, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.ExampleSidebar_1'
+const PATH = '_session.ExampleRightDrawerSidebar'
 const $opened = useModel(PATH)
-const [position, setPosition] = useState('left')
+useEffect(() => {
+  $opened.set(true)
+}, [])
 return (
-  <DrawerSidebar
-    path={PATH}
-    position={position}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>
-          <Span>Nav-1</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-2</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-3</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-4</Span>
-        </Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='tablet'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      position='right'
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
     >
-      <Row align='around'>
-        <Button onPress={() => {
-          setPosition('left')
-          $opened.set(true)
-        }}>
-          Open Left Drawer
-        </Button>
-        <Button onPress={() => {
-          setPosition('right')
-          $opened.set(true)
-        }}>
-          Open Right Drawer
-        </Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Open</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
-## Drawer Gesture Control
 
-Specifying `forceClosed` will keep the drawer closed and it won't respond to gestures.
+## Locked Drawer
 
-```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
-```
+Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures.
 
 ```jsx example
-const PATH = '_session.ExampleSidebar_3'
+const PATH = '_session.ExampleLockedDrawerSidebar'
 const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
 return (
-  <DrawerSidebar
-    forceClosed
-    path={PATH}
-    renderContent={() => (
-      <Menu>
-        <Menu.Item>
-          <Span>Nav-1</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-2</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-3</Span>
-        </Menu.Item>
-        <Menu.Item>
-          <Span>Nav-4</Span>
-        </Menu.Item>
-      </Menu>
-    )}
-  >
-    <Content
-      padding
-      width='full'
-      style={{ height: 200, backgroundColor: 'white' }}
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+      forceClosed
     >
-      <Row>
-        <Button onPress={() => $opened.set(true)}>Open</Button>
-      </Row>
-    </Content>
-  </DrawerSidebar>
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Open</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
 )
 ```
 

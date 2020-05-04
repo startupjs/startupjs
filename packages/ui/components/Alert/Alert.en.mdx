@@ -11,9 +11,9 @@ import {
 
 # Alert
 
-An alert displays a short, important message in a way that attracts the user's attention
+An alert displays a short, important message in a way that attracts the user's attention without interrupting the user's task.
 
-## Basic Example
+## Example
 
 ```jsx
 import { Alert, Div, Br } from '@startupjs/ui'
@@ -44,7 +44,9 @@ return (
 )
 ```
 
-## Alert with Icon
+## Icons
+
+The `icon` prop allows you to add an icon to the beginning of the alert component.
 
 ```jsx
 import { Alert, Div, Br } from '@startupjs/ui'
@@ -68,7 +70,9 @@ return (
 )
 ```
 
-## Alert Action Example
+## Actions
+
+An alert can have an action (`onClose` prop). It is rendered after the message, at the end of the alert.
 
 ```jsx
 import { Alert, Div, Br, Button } from '@startupjs/ui'

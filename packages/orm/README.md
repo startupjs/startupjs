@@ -22,11 +22,6 @@ Each ORM Entity must be inherited from `Model.ChildModel`.
 ```js
 
 import { Model } from 'racer'
-import { promisifyAll } from 'bluebird'
-
-// Promisify the default model methods like subscribe, fetch, set, push, etc.
-promisifyAll(Model.prototype)
-
 
 class PlayerModel extends Model.ChildModel {
   alert (message) {
@@ -38,15 +33,15 @@ class PlayerModel extends Model.ChildModel {
 class GamesModel extends Model.ChildModel {
   async addNew (userId = 'system', params = {}) {
     let gameId = this.id()
-    await this.addAsync('games', {      
+    await this.addAsync('games', {
       name: 'Dummy Game',
       ...params,
-      id: gameId,      
+      id: gameId,
       userId,
       playerIds: [],
-      createdAt: Date.now()      
+      createdAt: Date.now()
     })
-    return gameId    
+    return gameId
   }
 }
 
@@ -63,9 +58,9 @@ class GameModel extends Model.ChildModel {
   async addPlayer (userId, params = {}) {
     if (!userId) throw new Error('userId required')
     var playerId = this.id()
-    await this.root.addAsync('players', {      
+    await this.root.addAsync('players', {
       ...params,
-      id: playerId,      
+      id: playerId,
       userId,
       createdAt: Date.now()
     })
@@ -101,10 +96,10 @@ based on the document's data. Factory let you do that.
 Example:
 
 ```js
-class BasePlayerModel extends Model.ChildModel {  
+class BasePlayerModel extends Model.ChildModel {
   getColor () {
     throw new Error('Player color is unknown')
-  }     
+  }
 }
 
 class AlliedPlayerModel extends BasePlayerModel {
@@ -120,7 +115,7 @@ class RivalPlayerModel extends BasePlayerModel {
 }
 
 function PlayerFactory ($player, $parent) {
-  // $player here is going to be just a pure scoped model  
+  // $player here is going to be just a pure scoped model
   let playerTeamId = $player.get('teamId')
   let $root = $player.root
   let myTeamId = $root.get('_session.myTeamId')

@@ -1,0 +1,177 @@
+import { useState } from 'react'
+import Row from '../Row'
+import Div from '../Div'
+import Span from '../Span'
+import Content from '../Content'
+import { u } from '../../config/helpers'
+import Radio from '../forms/Radio'
+import Checkbox from '../forms/Checkbox'
+import Layout from '../Layout'
+import Br from '../Br'
+import Hr from '../Hr'
+import { Sandbox } from '@startupjs/docs'
+
+# Row
+
+Inherits props from [`Div`](/docs/en/Div).
+
+`Row` is used to group elements horizontally. It uses css flexbox module internally. It can be used to create a responsive grid.
+
+## Example
+
+```jsx
+import { Row } from '@startupjs/ui'
+```
+
+```jsx example
+const itemStyle = {
+  width: u(18),
+  height: u(18),
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Content>
+    <Row style={{ background: 'white' }}>
+      <Div level='2' style={itemStyle}>
+        <Span size='l'>Item - 1</Span>
+      </Div>
+      <Div level='2' style={itemStyle}>
+        <Span size='l'>Item - 2</Span>
+      </Div>
+      <Div level='2' style={itemStyle}>
+        <Span size='l'>Item - 3</Span>
+      </Div>
+      <Div level='2' style={itemStyle}>
+        <Span size='l'>Item - 4</Span>
+      </Div>
+      <Div level='2' style={itemStyle}>
+        <Span size='l'>Item - 5</Span>
+      </Div>
+    </Row>
+  </Content>
+)
+```
+
+## Configuration
+
+Below is an interactive example of different possible configuration provided by the component using `align`, `reverse`, `vAlign` & `wrap` props.
+
+```jsx
+import { Row } from '@startupjs/ui'
+```
+
+```jsx example
+const itemStyle = {
+  width: u(18),
+  height: u(18),
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+const alignOptions = [
+  { value: 'center', label: 'center' },
+  { value: 'right', label: 'right' },
+  { value: 'around', label: 'around' },
+  { value: 'between', label: 'between' }
+]
+const [align, setAlign] = useState('center')
+const [wrap, setWrap] = useState(false)
+const [reverse, setReverse] = useState(false)
+const [vAlign, setVAlign] = useState(null) 
+return (
+  <Layout>
+    <Span size='l'>
+      align
+    </Span>
+    <Hr />
+    <Radio
+      style={{ flexDirection: 'row' }}
+      value={align}
+      onChange={(newState) => {console.log(newState);setAlign(newState)}}
+      data={alignOptions}
+    />
+    <Br />
+    <Span size='l'>
+      reverse
+    </Span>
+    <Hr />
+    <Checkbox
+      label='reverse'
+      value={reverse}
+      onChange={(newState) => setReverse(newState)}
+    />
+    <Br />
+    <Span size='l'>
+      vAlign
+    </Span>
+    <Hr />
+    <Checkbox
+      label='vAlign'
+      value={vAlign}
+      onChange={(newState) => setVAlign(newState)}
+    />
+    <Br />
+    <Content
+      padding
+      width='desktop'
+      style={{ background: 'white' }}
+    >
+      <Row
+        vAlign={vAlign ? 'center' : null}
+        reverse={reverse}
+        align={align}
+        style={{ height: u(32) }}
+      >
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 1</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 2</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 3</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 4</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 5</Span>
+        </Div>
+      </Row>
+    </Content>
+    <Br />
+    <Span size='l'>
+      wrap
+    </Span>
+    <Hr />
+    <Checkbox
+      label='wrap'
+      value={wrap}
+      onChange={(newState) => setWrap(newState)}
+    />
+    <Content padding>
+      <Row wrap={wrap}>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 1</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 2</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 3</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 4</Span>
+        </Div>
+        <Div level='2' style={itemStyle}>
+          <Span size='l'>Item - 5</Span>
+        </Div>
+      </Row>
+    </Content>
+  </Layout>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Row} />

@@ -1,0 +1,237 @@
+import { useState } from 'react'
+import Menu from '../Menu'
+import Content from '../Content'
+import Br from '../Br'
+import Span from '../Span'
+import Button from '../Button'
+import Collapse from '../Collapse'
+import { u } from '../../config/helpers'
+import {
+  faShareAlt,
+  faHouseUser,
+  faTable
+} from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
+
+# Menu
+
+Menu displays a list of options to the user. It can be used for navigating to different parts of the application.
+
+## Example
+
+Border position of the active element can be customized using `activeBorder` prop.
+
+```jsx
+import { Menu } from '@startupjs/ui'
+```
+
+```jsx example
+const [active, setActive] = useState('option-1')
+return (
+  <Content>
+    <Menu activeBorder='left'>
+      <Menu.Item
+        active={active === 'option-1'}
+        onPress={() => setActive('option-1')}
+      >
+        Option-1
+      </Menu.Item>
+      <Menu.Item
+        active={active === 'option-2'}
+        onPress={() => setActive('option-2')}
+      >
+        Option-2
+      </Menu.Item>
+      <Menu.Item
+        active={active === 'option-3'}
+        onPress={() => setActive('option-3')}
+      >
+        Option-3
+      </Menu.Item>
+    </Menu>
+  </Content>
+)
+```
+
+## Horizontal variant
+
+Default `variant` is vertical. For horizontal menus set `variant` prop to `horizontal`.
+
+```jsx
+import { Menu } from '@startupjs/ui'
+```
+
+```jsx example
+const [active, setActive] = useState('')
+return (
+  <Content>
+    <Menu variant='horizontal' activeBorder='bottom'>
+      <Menu.Item
+        active={active === 'option-1'}
+        onPress={() => setActive('option-1')}
+      >
+        Option-1
+      </Menu.Item>
+      <Menu.Item
+        active={active === 'option-2'}
+        onPress={() => setActive('option-2')}
+      >
+        Option-2
+      </Menu.Item>
+      <Menu.Item
+        active={active === 'option-3'}
+        onPress={() => setActive('option-3')}
+      >
+        Option-3
+      </Menu.Item>
+    </Menu>
+  </Content>
+)
+```
+
+## Menu item customization
+
+`Menu.Item` can be customized using `icon` & `iconPosition`.
+
+```jsx
+import { Menu } from '@startupjs/ui'
+```
+
+```jsx example
+const [active, setActive] = useState('')
+const [active2, setActive2] = useState('')
+return (
+  <Content>
+    <Span>Example-1</Span>
+    <Br lines={0.5} />
+    <Menu activeBorder='right'>
+      <Menu.Item
+        icon={faHouseUser}
+        active={active === 'option-1'}
+        onPress={() => setActive('option-1')}
+      >
+        Option-1
+      </Menu.Item>
+      <Menu.Item
+        icon={faTable}
+        active={active === 'option-2'}
+        onPress={() => setActive('option-2')}
+      >
+        Option-2
+      </Menu.Item>
+      <Menu.Item
+        icon={faShareAlt}
+        active={active === 'option-3'}
+        onPress={() => setActive('option-3')}
+      >
+        Option-3
+      </Menu.Item>
+    </Menu>
+    <Br />
+    <Span>Example-2</Span>
+    <Br lines={0.5} />
+    <Menu activeBorder='left'>
+      <Menu.Item
+        icon={faHouseUser}
+        iconPosition='right'
+        active={active2 === 'option-1'}
+        onPress={() => setActive2('option-1')}
+      >
+        Option-1
+      </Menu.Item>
+      <Menu.Item
+        icon={faTable}
+        iconPosition='right'
+        active={active2 === 'option-2'}
+        onPress={() => setActive2('option-2')}
+      >
+        Option-2
+      </Menu.Item>
+      <Menu.Item
+        icon={faShareAlt}
+        iconPosition='right'
+        active={active2 === 'option-3'}
+        onPress={() => setActive2('option-3')}
+      >
+        Option-3
+      </Menu.Item>
+    </Menu>
+  </Content>
+)
+```
+
+## Integration with other components
+
+An example of a collapsible menu with submenus nested in.
+
+```jsx
+import { Menu, Collapse, Content } from '@startupjs/ui'
+```
+
+```jsx example
+const [showMenu, setShowMenu] = useState(true)
+const [showSubMenu, setShowSubMenu] = useState(false)
+const [active, setActive] = useState('option-1')
+return (
+  <Content>
+    <Collapse open={showMenu} onChange={() => setShowMenu(!showMenu)}>
+      <Collapse.Header>Main menu</Collapse.Header>
+      <Collapse.Content>
+        <Menu activeBorder='left'>
+          <Menu.Item
+            active={active === 'option-1'}
+            onPress={() => setActive('option-1')}
+          >
+            Option-1
+          </Menu.Item>
+          <Menu.Item
+            active={active === 'option-2'}
+            onPress={() => setActive('option-2')}
+          >
+            Option-2
+          </Menu.Item>
+          <Collapse
+            variant='pure'
+            open={showSubMenu}
+            onChange={() => setShowSubMenu(!showSubMenu)}
+          >
+            <Collapse.Header>
+              <Menu.Item
+                active={showSubMenu}
+              >
+                Option-3
+              </Menu.Item>
+            </Collapse.Header>
+            <Collapse.Content style={{ marginLeft: u(2) }}>
+              <Menu activeBorder='left'>
+                <Menu.Item
+                  active={active === 'option-4'}
+                  onPress={() => setActive('option-4')}
+                >
+                  Option-4
+                </Menu.Item>
+                <Menu.Item
+                  active={active === 'option-5'}
+                  onPress={() => setActive('option-5')}
+                >
+                  Option-5
+                </Menu.Item>
+              </Menu>
+            </Collapse.Content>
+          </Collapse>
+        </Menu>
+      </Collapse.Content>
+    </Collapse>
+  </Content>
+)
+```
+
+## Sandbox
+
+### Menu
+
+<Sandbox Component={Menu} />
+
+### Menu.Item
+
+<Sandbox Component={Menu.Item} />

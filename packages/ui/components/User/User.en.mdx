@@ -1,0 +1,162 @@
+import { useState } from 'react'
+import User from '../User'
+import Content from '../Content'
+import Row from '../Row'
+import Br from '../Br'
+import Span from '../Span'
+import { u } from '../../config/helpers'
+import { Sandbox } from '@startupjs/docs'
+
+# User
+
+User is used to display information about other users in an application concisely.
+
+## Example
+
+```jsx
+import { User } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <User
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+    />
+    <Br />
+    <User
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+    />
+  </Content>
+)
+```
+
+## Sizes
+
+User avatars can come in many sizes as illustrated below. Default value of `size` prop is `m`.
+
+```jsx
+import { User } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row wrap align='between'>
+    <User
+      size='xs'
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='xs size description'
+      />
+    <User
+      size='s'
+      avatarUrl='/img/avatar2.jpeg'
+      name='John Doe'
+      description='s size description'
+      />
+    <User
+      avatarUrl='/img/avatar3.jpeg'
+      name='John Doe'
+      description='This is the default size'
+      />
+    <User
+      size='l'
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='l size description'
+      />
+    <User
+      size='xl'
+      avatarUrl='/img/avatar2.jpeg'
+      name='John Doe'
+      description='xl size description'
+      />
+    <User
+      size='xxl'
+      avatarUrl='/img/avatar3.jpeg'
+      name='John Doe'
+      description='xxl size description'
+      />
+  </Row>
+)
+```
+
+## User status
+
+Avatar `status` prop can be modified to either `online` or `away`.
+
+```jsx
+import { User } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <User
+      status='online'
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='Online description'
+        style={{ marginRight: u(2) }}
+    />
+    <User
+      status='away'
+      avatarUrl='/img/avatar2.jpeg'
+      name='John Doe'
+      description='Offline description'
+      />
+  </Row>
+)
+```
+
+## User avatar position
+
+Avatar position can be modified using `avatarPosition` prop to either `left` or `right`. Default `avatarPosition` is on the `left`.
+
+```jsx
+import { User } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <User
+    avatarPosition='right'
+    avatarUrl='/img/avatar1.jpeg'
+    name='John Doe'
+    description='The cat is a domestic species of small carnivorous mammal'
+  />
+)
+```
+
+## Actions
+
+User component can respond to clicks by passing an `onPress` handler.
+
+```jsx
+import { User } from '@startupjs/ui'
+```
+
+```jsx example
+const [clicked, setClicked] = useState(0)
+return (
+  <Content>
+    <User
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+      onPress={() => setClicked(clicked + 1)}
+    />
+    <Br />
+    <Span>
+      {clicked ? `User clicked ${clicked} ${clicked === 1 ? 'time' : 'times'}` : 'Click on user'}
+    </Span>
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={User} />  
