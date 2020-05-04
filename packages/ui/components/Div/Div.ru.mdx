@@ -1,0 +1,106 @@
+import { useState } from 'react'
+import Div from '../Div'
+import Span from '../Span'
+import Row from '../Row'
+import { Sandbox } from '@startupjs/docs'
+
+# Div (див)
+
+Див - это обертка для группы компонент, которая может быть кликабельной при получении свойства `onPress`.
+
+## Пример
+
+```jsx
+import { View } from 'react-native'
+import { Div, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const divStyle = {
+  width: 150,
+  height: 100,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#00AED6'
+}
+const [counter, setCounter] = useState(0)
+return (
+  <Div>
+    <Div style={divStyle}>Not clickable</Div>
+    <Br />
+    <Div
+      style={divStyle}
+      onPress={() => setCounter(counter + 1)}
+    >
+      Clicked {counter} times
+    </Div>
+  </Div>
+)
+```
+
+## Несколько дивов подряд
+
+При использовании нескольких дивов в [`Row`](/docs/ru/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
+
+```jsx
+import { View } from 'react-native'
+import { Div, Row, Span } from '@startupjs/ui'
+```
+
+```jsx example
+const divStyle = {
+  width: 100,
+  height: 80,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#00AED6'
+}
+return (
+  <Row>
+    <Div style={divStyle}>
+      <Span>Div 1</Span>
+    </Div>
+    <Div pushed='xs' style={divStyle}>
+      <Span>Div 2</Span>
+    </Div>
+    <Div pushed='s' style={divStyle}>
+      <Span>Div 3</Span>
+    </Div>
+    <Div pushed style={divStyle}>
+      <Span>Div 4</Span>
+    </Div>
+  </Row>
+)
+```
+
+### Различные кликабельные состояния
+
+Существует два кликабельных варианта компонента, управляемых свойством `variant`.
+
+`opacity` вариант - при нажатии, прозрачность компонента уменьшается.
+
+`highlight` вариант - при нажатии, прозрачность фона компонента уменьшается.
+
+```jsx example
+const divStyle = {
+  width: 100,
+  height: 80,
+  textAlign: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#00AED6'
+}
+return (
+  <Row>
+    <Div style={divStyle} onPress={() => {}}>
+      <Span>Div opacity variant</Span>
+    </Div>
+    <Div style={divStyle} variant='highlight' pushed onPress={() => {}}>
+      <Span>Div highlight variant</Span>
+    </Div>
+  </Row>
+)
+```
+
+## Уровни акцента
+
+Свойство `level` дива определяет различные уровни акцента, добавляя тень компоненту. Возможные значения `level` свойства можно найти в разделе `Sandbox` в нижней части страницы.

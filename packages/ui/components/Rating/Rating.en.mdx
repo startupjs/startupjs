@@ -1,0 +1,48 @@
+import { useState }  from 'react'
+import Rating from '../Rating'
+import Content from '../Content'
+import Row from '../Row'
+import Span from '../Span'
+import Br from '../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Rating
+
+Rating provides the user an idea of other users opinion of a service or a product.
+
+## Example
+
+Rating component provides five star rating system. The `value` prop gets rounded to the nearest integer. It accepts a `readonly` boolean prop. By default `readonly` is set to false.
+
+```jsx
+import { Rating } from '@startupjs/ui'
+```
+
+```jsx example
+const [rated, setRated] = useState(0)
+return (
+  <Content>
+    <Span size='l'>Interactive rating</Span>
+    <Br lines={0.5} />
+    <Row>
+      <Rating
+        value={rated}
+        onChange={(value) => setRated(value)}
+      />
+    </Row>
+    <Br />
+    <Span size='l'>Readonly rating</Span>
+    <Br lines={0.5} />
+    <Row>
+      <Rating
+        readonly
+        value={rated}
+      />
+    </Row>
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Rating} />

@@ -101,7 +101,7 @@ function Div ({
     View.root(
       style=[style, SHADOWS[level], extraStyle]
       styleName=[
-        { ['with-shadow']: !!level, hoverable: isWeb && isClickable, bleed },
+        { ['with-shadow']: !!level, clickable: isWeb && isClickable, bleed },
         shape,
         pushedModifier
       ]
@@ -117,7 +117,8 @@ Div.defaultProps = {
   level: 0,
   feedback: true,
   disabled: false,
-  bleed: false
+  bleed: false,
+  pushed: false
 }
 
 Div.propTypes = {
