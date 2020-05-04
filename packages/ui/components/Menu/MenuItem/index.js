@@ -20,7 +20,7 @@ function MenuItem ({
   onPress,
   ...props
 }) {
-  const color = active ? colors.primary : null
+  const color = active ? colors.primary : colors.mainText
 
   const content = React.Children.toArray(children).map((child, index) => {
     const key = `__MENU_ITEM_KEY_${index}__`

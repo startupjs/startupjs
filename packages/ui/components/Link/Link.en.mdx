@@ -1,51 +1,47 @@
 import Link from '../Link'
+import Span from '../Span'
 import Div from '../Div'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
 # Link
+Inherits [Span props](/docs/en/Span).
 
-Link component allows the user to navigate to different parts of the app and customize anchors.
+Link allows to navigate of the app and customize anchors.
 
-## Basic Example
+## Example
 
 ```jsx
-import { Link } from '@startupjs/ui'
+import { Link, Span } from '@startupjs/ui'
 ```
 
 ```jsx example
 return (
-  <Div>
-    <Link to='#'>
-      Link-1
+  <Span>
+    Inherits&nbsp;
+    <Link to='/docs/en/span'>
+      Span props
     </Link>
-    <Br />
-    <Link disabled to='#'>
-      Link-disabled
-    </Link>
-  </Div>
+  </Span>
 )
 ```
 
-## Variant Example
+## Stand out Link
 
-Link comes in `default` or `primary` variant.
+If a link needs to stand out pass the `primary` string to `variant` property.
 
 ```jsx
-import { Link } from '@startupjs/ui'
+import { Link, Span } from '@startupjs/ui'
 ```
 
 ```jsx example
 return (
-  <Div>
-    <Link to='#'>
-      Link-1
+  <Span>
+    Inherits&nbsp;
+    <Link block to='/docs/en/span' variant='primary'>
+      Span props
     </Link>
-    <Br />
-    <Link variant='primary' to='#'>
-      Link-2
-    </Link>
-  </Div>
+  </Span>
 )
 ```
 

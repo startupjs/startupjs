@@ -23,9 +23,11 @@ function Div ({
   activeStyle,
   disabled,
   level,
-  onPress,
   feedback,
+  shape,
   pushed, // By some reason prop 'push' was ignored
+  bleed,
+  onPress,
   ...props
 }) {
   const isClickable = typeof onPress === 'function' && !disabled
@@ -98,7 +100,11 @@ function Div ({
   return maybeWrapToClickable(pug`
     View.root(
       style=[style, SHADOWS[level], extraStyle]
-      styleName=[{ ['with-shadow']: !!level, hoverable: isWeb && isClickable }, pushedModifier]
+      styleName=[
+        { ['with-shadow']: !!level, clickable: isWeb && isClickable, bleed },
+        shape,
+        pushedModifier
+      ]
       ...extraProps
       ...props
     )
@@ -108,9 +114,11 @@ function Div ({
 
 Div.defaultProps = {
   variant: 'opacity',
+  level: 0,
   feedback: true,
   disabled: false,
-  level: 0
+  bleed: false,
+  pushed: false
 }
 
 Div.propTypes = {
@@ -122,7 +130,9 @@ Div.propTypes = {
   activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   disabled: propTypes.bool,
   level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  shape: propTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
+  bleed: propTypes.bool,
   onPress: propTypes.func
 }
 

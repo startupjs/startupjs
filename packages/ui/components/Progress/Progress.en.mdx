@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react'
 import Progress from '../Progress'
-import Div from '../Div'
-import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
-
 
 # Progress
 
-Progress is used to express the length of process like upload/download.
+Progress is used to display the length of process, for example upload or download files.
 
-## Basic Example
+## Example
 
 ```jsx
 import { Progress } from '@startupjs/ui'
@@ -19,44 +16,33 @@ import { Progress } from '@startupjs/ui'
 const [value, setValue] = useState(0)
 useEffect(() => {
   const interval = setInterval(() => {
-    setValue(v => v > 100 ? v : v + 1)
+    setValue(v => {
+      if (v > 100) {
+        clearInterval(interval)
+        return v
+      }
+      return v + 1
+    })
   }, 1000)
   return () => clearInterval(interval)
 }, [])
 return (
-  <Div>
-    <Progress value={value} />
-    <Br />
-    <Progress value={value} label='Example Label' />    
-  </Div>
+  <Progress value={value} />
 )
 ```
 
-## Variant Example
-
-Default `variant` is `full`. Variant `compact` is used to hide the label.
+## Caption
 
 ```jsx
 import { Progress } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [value, setValue] = useState(0)
-useEffect(() => {
-  const interval = setInterval(() => {
-    setValue(v => v > 100 ? v : v + 1)
-  }, 1000)
-  return () => clearInterval(interval)
-}, [])
 return (
-  <Div>
-    <Progress value={value} variant='compact' />
-    <Br />
-    <Progress value={value} />    
-  </Div>
+  <Progress value={50}>50 of 100</Progress>
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Progress} />
+<Sandbox Component={Progress} block />

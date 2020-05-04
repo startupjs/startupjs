@@ -68,17 +68,18 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 ## Boilerplate templates
 
-Following templates are available:
+The following templates are available:
 
-1. `simple` (default)
+1. `simple`
 2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
+3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
 
-By default `init` creates a project using the `simple` template.
+By default `init` creates a project using the feature-rich `ui` template.
 
-To use a template with built-in routing, specify it using the `-t` option:
+To use another template specify the `-t` option:
 
 ```
-... init myapp -t routing
+npx startupjs init myapp -t simple
 ```
 
 Each template initializes on top of a default `react-native init` application.
@@ -86,10 +87,10 @@ Each template initializes on top of a default `react-native init` application.
 If you want to use an RC version (`next`) of `react-native`, specify it using the `-v` option:
 
 ```
-... init myapp -v next
+npx startupjs init myapp -v next
 ```
 
-You can combine `-t` and `-v` options together. `react-native init` will run first and afterwards the boilerplate template will be  copied over.
+You can combine `-t` and `-v` options together. `react-native init` will run first and afterwards the boilerplate template will be copied over.
 
 ## Running on mobile
 

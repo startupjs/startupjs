@@ -5,9 +5,9 @@ import { Sandbox } from '@startupjs/docs'
 
 # Loader
 
-Loaders are used to show a wait time or a loading state in a page.
+Loaders are used to show a wait time.
 
-## Basic Example
+## Example
 
 ```jsx
 import { Loader } from '@startupjs/ui'
@@ -15,15 +15,13 @@ import { Loader } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Row align='around'>
-    <Loader />
-    <Loader duration={2000} />
-    <Loader duration={8000} />
-  </Row>
+  <Loader />
 )
 ```
 
-## Loader Size Example
+## Sizes
+
+Loaders can be of two sizes - `s` and `m`.
 
 ```jsx
 import { Loader } from '@startupjs/ui'
@@ -32,17 +30,13 @@ import { Loader } from '@startupjs/ui'
 ```jsx example
 return (
   <Row align='around'>
-    <Loader size='xs' />
     <Loader size='s' />
     <Loader size='m' />
-    <Loader size='l' />
-    <Loader size='xl' />
-    <Loader size='xxl' />
   </Row>
 )
 ```
 
-## Loader Color Example
+## Colors
 
 ```jsx
 import { Loader } from '@startupjs/ui'

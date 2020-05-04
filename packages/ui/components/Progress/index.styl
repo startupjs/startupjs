@@ -1,6 +1,7 @@
 _size = 0.5u
 _backgroundColor = $UI.colors.darkLighter
 _fillerColor = $UI.colors.success
+_duration = $UI.Progress.duration
 
 .progress
   height _size
@@ -12,3 +13,9 @@ _fillerColor = $UI.colors.success
   height _size
   background-color _fillerColor
   radius()
+
+  +web()
+    transition width (_duration/1000)s
+
+.label
+  margin-top 2px

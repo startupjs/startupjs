@@ -6,11 +6,11 @@ import Br from '../Br'
 import LineSeparator from '../LineSeparator'
 import { Sandbox } from '@startupjs/docs'
 
-# Collapse
+# Collapse (коллапс)
 
-Collapse дает пользователю возможность скрывать и раскрывать область контента. Он может быть использован для отображения или скрытия дополнительной информации.
+Collapse позволяет переключать видимость содержимого.
 
-## Базовый пример
+## Пример
 
 ```jsx
 import { Collapse, Div, LineSeparator } from '@startupjs/ui'
@@ -20,68 +20,67 @@ import { Collapse, Div, LineSeparator } from '@startupjs/ui'
 const [open1, setOpen1] = useState(false)
 const [open2, setOpen2] = useState(false)
 return (
-  <Div>
-    <Collapse open={open1} onChange={() => setOpen1(!open1)}>
-      <Collapse.Header>Collapse Header - 1</Collapse.Header>
-      <Collapse.Content>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      </Collapse.Content>
-    </Collapse>
-    <LineSeparator />
-    <Collapse open={open2} onChange={() => setOpen2(!open2)}>
-      <Collapse.Header>Collapse Header - 2</Collapse.Header>
-      <Collapse.Content>
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-      </Collapse.Content>
-    </Collapse>
-  </Div>
+  <Collapse title='Simple collapse' open={open1} onChange={() => setOpen1(!open1)}>
+    <Div>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    </Div>
+  </Collapse>
 )
 ```
 
-## Collapse Variant пример
+## Чистый коллапс
 
-По умолчанию `variant` - `full`.
-Variant `pure` удаляет любые тени и отступы из стилей. Это полезно когда `Collapse` используется в качестве дочерних элементов других компонент, например `Card`.
+Чистый коллапс не содержит никаких стилей (фон, тень, отступы и т.д.). Это полезно когда `Collapse` используется в качестве дочерних элементов других компонент, например `Card`. Чтобы сделать его чистым, передайте строку `pure` в свойство `variant`.
 
 ```jsx
-import { Collapse, Div, Br } from '@startupjs/ui'
+import { Collapse } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [open1, setOpen1] = useState(false)
-const [open2, setOpen2] = useState(false)
+const [open, setOpen] = useState(false)
 return (
-  <Div>
-    <Collapse open={open1} onChange={() => setOpen1(!open1)}>
-      <Collapse.Header>Collapse Variant - Full</Collapse.Header>
-      <Collapse.Content>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      </Collapse.Content>
-    </Collapse>
-    <Br lines={2} />
-    <Collapse
-      variant='pure'
-      open={open2}
-      onChange={() => setOpen2(!open2)}
-    >
-      <Collapse.Header>Collapse Variant Pure</Collapse.Header>
-      <Collapse.Content>
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-      </Collapse.Content>
-    </Collapse>
-  </Div>
+  <Collapse
+    variant='pure'
+    open={open}
+    onChange={() => setOpen(!open)}
+    title='Pure collapse'
+  >
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+  </Collapse>
 )
 ```
 
-## Accordion
-С помощью Collapse можно сделать Accordion
+## Продвинутое использование
+
+Коллапс состоит из двух частей - `Header` и `Content`. Например, части можно использовать для добавления пользовательской разметки. Вместо `title` используется `Header` и вместо `children` используется `Content`. Их можно использовать по отдельности. Каждая из частей принимает значение свойства `variant` от родителя `Collapse`, который может быть переопределен путем передачи `variant` в себя.
 
 ```jsx
 import { Collapse, Div, LineSeparator } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [expand, setExpand] = useState(false)
+const [open1, setOpen1] = useState(false)
+const [open2, setOpen2] = useState(false)
+return (
+  <Collapse open={open1} onChange={() => setOpen1(!open1)}>
+    <Collapse.Header>Advanced collapse</Collapse.Header>
+    <Collapse.Content>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    </Collapse.Content>
+  </Collapse>
+)
+```
+
+## Accordion (аккордеон)
+
+Используя `Collapse` компонент, можно создать поведение, подобное аккордеону.
+
+```jsx
+import { Collapse, Div, LineSeparator } from '@startupjs/ui'
+```
+
+```jsx example
+const [expand, setExpand] = useState()
 const handleChange = (panel) => (shouldExpand) => {
   setExpand(shouldExpand ? panel : null)
 }
@@ -89,32 +88,26 @@ return (
   <Div>
     <Collapse
       open={expand === 'open1'}
+      title='Accordion Header - 1'
       onChange={handleChange('open1')}
     >
-      <Collapse.Header>Accordion Header - 1</Collapse.Header>
-      <Collapse.Content>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-      </Collapse.Content>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
     </Collapse>
     <LineSeparator />
     <Collapse
       open={expand === 'open2'}
+      title='Accordion Header - 2'
       onChange={handleChange('open2')}
     >
-      <Collapse.Header>Accordion Header - 2</Collapse.Header>
-      <Collapse.Content>
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.
-      </Collapse.Content>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
     </Collapse>
     <LineSeparator />
     <Collapse
       open={expand === 'open3'}
+      title='Accordion Header - 3'
       onChange={handleChange('open3')}
     >
-      <Collapse.Header>Accordion Header - 3</Collapse.Header>
-      <Collapse.Content>
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </Collapse.Content>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
     </Collapse>
   </Div>
 )

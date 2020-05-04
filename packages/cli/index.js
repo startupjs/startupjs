@@ -5,7 +5,7 @@ const fs = require('fs')
 const version = require('./package.json').version
 
 const IS_ALPHA = /alpha/.test(version)
-const STARTUPJS_VERSION = IS_ALPHA ? `^${version}` : 'latest'
+const STARTUPJS_VERSION = IS_ALPHA ? `^${version.replace(/\.\d+$/, '.0')}` : 'latest'
 
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
@@ -78,8 +78,27 @@ const SCRIPTS = {
   'start-production': 'startupjs start-production'
 }
 
+const DEFAULT_TEMPLATE = 'ui'
+const TEMPLATES = {
+  simple: {
+    subTemplates: ['simple']
+  },
+  routing: {
+    subTemplates: ['simple', 'routing']
+  },
+  ui: {
+    subTemplates: ['simple', 'routing', 'ui'],
+    packages: [
+      `@startupjs/ui@${STARTUPJS_VERSION}`,
+      '@fortawesome/free-solid-svg-icons@^5.12.0',
+      'react-native-collapsible',
+      'react-native-svg',
+      'react-native-status-bar-height'
+    ]
+  }
+}
+
 let templatesPath
-let availableTemplates
 
 // ----- init
 
@@ -87,13 +106,13 @@ commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
   .option('-v, --version <semver>', 'Use a particular semver of React Native as a template', 'latest')
-  .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', 'simple')
+  .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', DEFAULT_TEMPLATE)
   .action(async (projectName, { version, template }) => {
     console.log('> run npx', projectName, { version, template })
 
     // check if template exists
-    if (!availableTemplates.includes(template)) {
-      Error(`Template '${template}' doesn't exist. Templates available: ${availableTemplates.join(', ')}`)
+    if (!TEMPLATES[template]) {
+      Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
 
     // init react-native application
@@ -121,8 +140,15 @@ commander
       })
     }
 
+    // copy additional startupjs template files over react-native ones
+    console.log(`> Copy template '${template}'`)
+    for (let subTemplate of TEMPLATES[template].subTemplates) {
+      const subTemplatePath = path.join(templatesPath, subTemplate)
+      await recursivelyCopyFiles(subTemplatePath, projectPath)
+    }
+
     // install startupjs dependencies
-    await execa('yarn', ['add'].concat(DEPENDENCIES), {
+    await execa('yarn', ['add'].concat(DEPENDENCIES).concat(TEMPLATES[template].packages || []), {
       cwd: projectPath,
       stdio: 'inherit'
     })
@@ -134,19 +160,6 @@ commander
         stdio: 'inherit'
       })
     }
-
-    let templatePath = path.join(templatesPath, template)
-    console.log('> Copy template', { projectPath, templatePath })
-    const files = fs
-      .readdirSync(templatePath)
-      .map(name => path.join(templatePath, name))
-
-    // copy additional startupjs template files over react-native ones
-    await execa(
-      'cp',
-      ['-r'].concat(files).concat([projectPath]),
-      { stdio: 'inherit' }
-    )
 
     console.log('> Patch package.json with additional scripts')
     addScriptsToPackageJson(projectPath)
@@ -245,6 +258,31 @@ commander
 
 // ----- helpers
 
+async function recursivelyCopyFiles (sourcePath, targetPath) {
+  const fileNames = fs.readdirSync(sourcePath)
+
+  if (fileNames.length === 0) return
+
+  for (let fileName of fileNames) {
+    let filePath = path.join(sourcePath, fileName)
+    if (fs.lstatSync(filePath).isDirectory()) {
+      let subTargetPath = path.join(targetPath, fileName)
+      await execa(
+        'mkdir',
+        ['-p', subTargetPath],
+        { stdio: 'inherit' }
+      )
+      await recursivelyCopyFiles(filePath, subTargetPath)
+    } else {
+      await execa(
+        'cp',
+        [filePath, targetPath],
+        { stdio: 'inherit' }
+      )
+    }
+  }
+}
+
 function addScriptsToPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
@@ -310,6 +348,5 @@ function getSuccessInstructions (projectName) {
 exports.run = (options = {}) => {
   if (!options.templatesPath) throw Error('templatesPath not found!')
   templatesPath = options.templatesPath
-  availableTemplates = fs.readdirSync(templatesPath)
   commander.parse(process.argv)
 }

@@ -18,7 +18,6 @@ function Button ({
   children,
   color,
   variant,
-  shape,
   size,
   icon,
   iconColor,
@@ -87,7 +86,6 @@ function Button ({
       style=[style, rootStyle]
       styleName=[
         size,
-        shape,
         { disabled }
       ]
       align='center'
@@ -130,10 +128,10 @@ Button.defaultProps = {
 Button.propTypes = {
   ...Div.propTypes,
   textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.string,
+  children: propTypes.node,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  shape: propTypes.oneOf(['rounded', 'circle', 'squared']),
+  shape: Div.propTypes.shape,
   textColor: propTypes.string,
   icon: propTypes.object,
   iconPosition: propTypes.oneOf(['left', 'right']),

@@ -1,0 +1,48 @@
+import Link from '../Link'
+import Div from '../Div'
+import Br from '../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Link (ссылка)
+
+Ссылка позволяет перемещаться по приложению и настраивать якоря.
+
+## Пример
+
+```jsx
+import { Link, Span } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Span>
+    Наследует&nbsp;
+    <Link to='/docs/en/span'>
+      Span props
+    </Link>
+  </Span>
+)
+```
+
+## Выделяющаяся ссылка
+
+Если ссылка должна выделиться, передайте строку `primary` в свойство `variant`.
+
+```jsx
+import { Link, Span } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Span>
+    Inherits&nbsp;
+    <Link to='/docs/en/span' variant='primary'>
+      Span props
+    </Link>
+  </Span>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Link} />

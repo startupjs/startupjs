@@ -1,0 +1,48 @@
+import { useState, useEffect } from 'react'
+import Progress from '../Progress'
+import { Sandbox } from '@startupjs/docs'
+
+# Progress (прогресс)
+
+Прогресс используется для отображения длительности процесса, например загрузки или выгрузки файлов.
+
+## Пример
+
+```jsx
+import { Progress } from '@startupjs/ui'
+```
+
+```jsx example
+const [value, setValue] = useState(0)
+useEffect(() => {
+  const interval = setInterval(() => {
+    setValue(v => {
+      if (v > 100) {
+        clearInterval(interval)
+        return v
+      }
+      return v + 1
+    })
+  }, 1000)
+  return () => clearInterval(interval)
+}, [])
+return (
+  <Progress value={value} />
+)
+```
+
+## Подпись
+
+```jsx
+import { Progress } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Progress value={50}>50 of 100</Progress>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Progress} />

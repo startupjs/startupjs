@@ -1,1 +1,1 @@
-export { default as Increment } from './Increment'
+export { default as TestComponent } from './TestComponent'

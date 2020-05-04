@@ -1,0 +1,164 @@
+import { View } from 'react-native'
+import Content from '../Content'
+import Div from '../Div'
+import Span from '../Span'
+import Br from '../Br'
+import pallete from '../../config/pallete'
+import { u } from '../../config/helpers'
+import { Sandbox } from '@startupjs/docs'
+
+# Content (контент)
+
+Контент используется в качестве родительского контейра для элементов.
+
+## Пример
+
+По умолчанию контент имеет левый и правый отступ равный `16px'.
+
+```jsx
+import { Content, Div, u } from '@startupjs/ui'
+```
+
+```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Content style={contentStyle}>
+    <Div style={divStyle}>
+      <Span size='xl'>content</Span>
+    </Div>
+  </Content>
+)
+```
+
+## Вертикальные отступы
+
+Верхний и нижний отступы могут быть добавлены путём передачи свойства `padding` в компонент.
+
+```jsx
+import { Content, Div, u } from '@startupjs/ui'
+```
+
+```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Content style={contentStyle} padding>
+    <Div style={divStyle}>
+      <Span size='xl'>content</Span>
+    </Div>
+  </Content>
+)
+```
+
+## Полное пространство
+
+Контент принимает свойство `full`, которое дает ему все пустое пространство по главной `flexbox` оси родителя.
+
+```jsx
+import { Content, Div, Br, u } from '@startupjs/ui'
+```
+
+```jsx example
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#2962FF'
+}
+const contentStyle = {
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Div>
+    <Div style={divStyle}>
+      <Content style={contentStyle}>
+        <Span size='xl'>Content without full</Span>
+      </Content>
+    </Div>
+    <Br />
+    <Div style={divStyle}>
+      <Content style={contentStyle} full>
+        <Span size='xl'>Content with full</Span>
+      </Content>
+    </Div>
+  </Div>
+)
+```
+
+## Максимальная ширина
+
+Контент имеет ограниченную ширину по умолчанию `480px`, как в приведенном выше примере. Её можно изменить, изменив свойство `width`. Возможные значения свойства `width` можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx
+import { Content, Div, Br, u } from '@startupjs/ui'
+```
+
+```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Div>
+    <Content
+      padding
+      width='mobile'
+      style={contentStyle}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Mobile (default)</Span>
+      </Div>
+    </Content>
+    <Br />
+    <Content
+      padding
+      width='tablet'
+      style={contentStyle}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Tablet</Span>
+      </Div>
+    </Content>
+    <Br />
+    <Content
+      padding
+      width='desktop'
+      style={contentStyle}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Desktop</Span>
+      </Div>
+    </Content>
+    <Br />
+    <Content
+      padding
+      width='wide'
+      style={contentStyle}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Full Width</Span>
+      </Div>
+    </Content>
+  </Div>
+)
+```

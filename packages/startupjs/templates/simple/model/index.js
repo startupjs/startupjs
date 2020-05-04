@@ -1,5 +1,5 @@
-import Counter from './CounterModel'
+import TestThing from './TestThingModel'
 
 export default function (racer) {
-  racer.orm('counters.*', Counter)
+  racer.orm('testThings.*', TestThing)
 }

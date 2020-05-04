@@ -7,23 +7,22 @@ import pallete from '../../config/pallete'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 
-
 # Content
 
-Content provides a responsive flexbox layout and its used as a parent to contain other elements.
+Content used as a parent container for elements.
 
-## Basic Example
+## Example
 
-Default `Content` has left and right padding of `2u` (16px).
-Top and bottom padding can be added using the boolean `padding` prop.
-Content accepts a boolean prop `full` which gives it a `flex: 1` value.
+By default content has left and right paddings of `16px`.
 
 ```jsx
-import { View } from 'react-native'
-import { Content, u } from '@startupjs/ui'
+import { Content, Div, u } from '@startupjs/ui'
 ```
 
 ```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
 const divStyle = {
   height: u(25),
   backgroundColor: '#00AED6',
@@ -31,32 +30,25 @@ const divStyle = {
   justifyContent: 'center'
 }
 return (
-  <View>
-    <Content style={{ height: u(50), backgroundColor: '#2962FF' }} />
-    <Br />
-    <Content
-      padding
-      full
-      style={{ backgroundColor: '#2962FF' }}
-    >
-      <Div style={divStyle}>
-        <Span size='xl'>Layout with full</Span>
-      </Div>
-    </Content>
-  </View>
+  <Content style={contentStyle}>
+    <Div style={divStyle}>
+      <Span size='xl'>content</Span>
+    </Div>
+  </Content>
 )
 ```
 
-## Content Width Example
-
-Content `max-width` can be adjusted by specifying the `width` prop.
+## Vertical paddings
+Top and bottom paddings can be added by passing the `padding` property to component.
 
 ```jsx
-import { View } from 'react-native'
-import { Content, u } from '@startupjs/ui'
+import { Content, Div, u } from '@startupjs/ui'
 ```
 
 ```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
 const divStyle = {
   height: u(25),
   backgroundColor: '#00AED6',
@@ -64,31 +56,83 @@ const divStyle = {
   justifyContent: 'center'
 }
 return (
-  <View>
-    <Content
-      padding
-      width='wide'
-      style={{ backgroundColor: '#2962FF' }}
-    >
-      <Div style={divStyle}>
-        <Span size='xl'>Full Width</Span>
-      </Div>
-    </Content>
+  <Content style={contentStyle} padding>
+    <Div style={divStyle}>
+      <Span size='xl'>content</Span>
+    </Div>
+  </Content>
+)
+```
+
+## Full space
+
+Content takes the `full` property, which gives it all the empty space on the main `flexbox` axis of the parent.
+
+```jsx
+import { Content, Div, Br, u } from '@startupjs/ui'
+```
+
+```jsx example
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#2962FF'
+}
+const contentStyle = {
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Div>
+    <Div style={divStyle}>
+      <Content style={contentStyle}>
+        <Span size='xl'>Content without full</Span>
+      </Content>
+    </Div>
     <Br />
+    <Div style={divStyle}>
+      <Content style={contentStyle} full>
+        <Span size='xl'>Content with full</Span>
+      </Content>
+    </Div>
+  </Div>
+)
+```
+
+## Max width
+
+Content has limited width by default of `480px` like in the example above. It can be changed by changing `width` prop.
+
+```jsx
+import { Content, Div, Br, u } from '@startupjs/ui'
+```
+
+```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Div>
     <Content
       padding
-      width='desktop'
-      style={{ backgroundColor: '#2962FF' }}
+      width='mobile'
+      style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Desktop</Span>
+        <Span size='xl'>Mobile (default)</Span>
       </Div>
     </Content>
     <Br />
     <Content
       padding
       width='tablet'
-      style={{ backgroundColor: '#2962FF' }}
+      style={contentStyle}
     >
       <Div style={divStyle}>
         <Span size='xl'>Tablet</Span>
@@ -97,14 +141,24 @@ return (
     <Br />
     <Content
       padding
-      width='mobile'
-      style={{ backgroundColor: '#2962FF' }}
+      width='desktop'
+      style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Mobile</Span>
+        <Span size='xl'>Desktop</Span>
       </Div>
     </Content>
-  </View>
+    <Br />
+    <Content
+      padding
+      width='wide'
+      style={contentStyle}
+    >
+      <Div style={divStyle}>
+        <Span size='xl'>Full Width</Span>
+      </Div>
+    </Content>
+  </Div>
 )
 ```
 

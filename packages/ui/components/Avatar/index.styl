@@ -6,9 +6,9 @@ _m = 5u
 _s = 4u
 _xs = 3u
 
-.avatarWrapper
-  radius(circle)
-  overflow hidden
+.root
+  +web()
+    user-select none
 
   &.xxl
     width _xxl
@@ -34,6 +34,10 @@ _xs = 3u
     width _xs
     height @width
 
+.avatarWrapper
+  height 100%
+  overflow hidden
+
 .avatar
   justify-content center
   align-items center
@@ -45,10 +49,22 @@ _xs = 3u
 .status
   position absolute
   z-index 1
-  right 0
-  bottom 0
   border 2px solid _white
   radius(circle)
+
+  &.circle
+    right 0
+    bottom 0
+
+  &.squared
+  &.rounded
+    bottom -0.25u
+    right @bottom
+
+    &.xxl
+    &.xl
+      bottom -0.5u
+      right @bottom
 
   &.online
     background-color $UI.colors.success
@@ -57,11 +73,15 @@ _xs = 3u
     background-color $UI.colors.warning
 
   &.xxl
-    width 2.5u
+    width 2.25u
     height @width
 
   &.xl
     width 2u
+    height @width
+
+  &.l
+    width 1.75u
     height @width
 
   &.m

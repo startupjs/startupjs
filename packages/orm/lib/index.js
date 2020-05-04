@@ -1,9 +1,8 @@
-var RacerModel = require('racer').Model
+const Model = require('racer').Model
+const promisifyRacer = require('./promisifyRacer')
 
 module.exports = exports = function (racer) {
   if (racer.orm) return
-
-  var Model = racer.Model
 
   racer._orm = {}
 
@@ -31,7 +30,21 @@ module.exports = exports = function (racer) {
 
   Model.prototype.scope = function (path, alias) {
     if (alias) {
-      return this.__createScopedModel(path, racer._orm[alias].OrmEntity)
+      if (racer._orm[alias]) {
+        return this.__createScopedModel(path, racer._orm[alias].OrmEntity)
+      } else {
+        throw new Error(
+          'Non-existent alias of the OrmEntity specified: ' + alias + '\n\n' +
+          'Most likely you have specified the path incorrectly in ' +
+          '".scope()" or ".at()"\n\n' +
+          'The path must be passed as a single string separated by dots, ' +
+          'for example:\n\n' +
+          'CORRECT:\n' +
+          '$root.at(\'users.\' + userId)\n\n' +
+          'INCORRECT:\n' +
+          '$root.at(\'users\', userId)'
+        )
+      }
     }
 
     var segments = this._dereference(this.__splitPath(path), true)
@@ -63,6 +76,8 @@ module.exports = exports = function (racer) {
   Model.prototype.__splitPath = function (path) {
     return (path && path.split('.')) || []
   }
+
+  promisifyRacer()
 }
 
 function patternToRegExp (pattern) {
@@ -82,12 +97,12 @@ function alreadyDefinedError (pattern, alias) {
   return new Error(msg)
 }
 
-exports.ChildModel = RacerModel.ChildModel
+exports.ChildModel = Model.ChildModel
 
 function BaseModel () {
-  RacerModel.ChildModel.apply(this, arguments)
+  Model.ChildModel.apply(this, arguments)
 }
-BaseModel.prototype = Object.create(RacerModel.ChildModel.prototype)
+BaseModel.prototype = Object.create(Model.ChildModel.prototype)
 BaseModel.prototype.constructor = BaseModel
 
 BaseModel.prototype.getId = function () {

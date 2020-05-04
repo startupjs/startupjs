@@ -1,47 +1,49 @@
 import { useState } from 'react'
 import Div from '../Div'
 import Span from '../Span'
+import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Div
 
-Div component can serve as clickable a wrapper for a group of components.
+Div is a wrapper for a group of components, which can be clickable when getting the property `onPress`.
 
-## Basic Example
+## Example
 
 ```jsx
 import { View } from 'react-native'
-import { Div, Row, Span } from '@startupjs/ui'
+import { Div, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
-const style = {
+const divStyle = {
   width: 150,
   height: 100,
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  backgroundColor: '#00AED6'
 }
-const [clickedTimes, setClickedTimes] = useState(0)
+const [counter, setCounter] = useState(0)
 return (
-  <Div
-    level='1'
-    style={style}
-    onPress={() => setClickedTimes(clickedTimes + 1)}
-  >
-    <Span>
-      {clickedTimes ? `Clicked ${clickedTimes} time` : 'Clickable Div'}
-    </Span>
+  <Div>
+    <Div style={divStyle}>
+      <Span>Not clickable</Span>
+    </Div>
+    <Br />
+    <Div
+      style={divStyle}
+      onPress={() => setCounter(counter + 1)}
+    >
+      <Span>Clicked {counter} times</Span>
+    </Div>
   </Div>
 )
-``` 
+```
 
 ## Multiple Div in a Row
 
-When multiple Div(s) are used in a [`Row`](/docs/en/Row) spacing between them can be adjusted using `pushed` prop to specify gutter between successive Div.
-
-Div(s) can also have different levels of elevation as shown by the `level` prop.
-
+When multiple Div(s) are used in a [`Row`](/docs/en/Row) spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of page. The `true` value of prop is equivalent to `m` value.
 
 ```jsx
 import { View } from 'react-native'
@@ -49,86 +51,77 @@ import { Div, Row, Span } from '@startupjs/ui'
 ```
 
 ```jsx example
-const style = {
+const divStyle = {
   width: 100,
   height: 80,
-  alignItems: 'center',
-  justifyContent: 'center'
+  textAlign: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#00AED6'
 }
 return (
   <Row>
-    <Div style={style}>
-      <Span>
-        Div 1
-      </Span>
+    <Div style={divStyle}>
+      <Span>Div 1</Span>
     </Div>
-    <Div level='1' pushed='m' style={style}>
-      <Span>
-        Div 2
-      </Span>
+    <Div pushed='xs' style={divStyle}>
+      <Span>Div 2</Span>
     </Div>
-    <Div level='2' pushed='l' style={style}>
-      <Span>
-        Div 3
-      </Span>
+    <Div pushed='s' style={divStyle}>
+      <Span>Div 3</Span>
     </Div>
-    <Div level='3' pushed='xl' style={style}>
-      <Span>
-        Div 4
-      </Span>
-    </Div>
-    <Div level='4' pushed='xxl' style={style}>
-      <Span>
-        Div 5
-      </Span>
+    <Div pushed style={divStyle}>
+      <Span>Div 4</Span>
     </Div>
   </Row>
 )
 ```
 
-## Div Variant Example
+### Different clickable states
 
-Divs have a default `variant` of opacity. It can be set to `highlight`.
+There are two clickable variants of component, controlled by `variant` property.
 
-When variant is set to `highlight`, `hoverColor` prop determines the color that will be show on hovering over the Div and `underlayColor` can be set to determine the color of the Div when the user clicks on it.
+`opacity` variant - on press down, opacity of the component is decreased.
 
-Caution: `hoverColor` works only for web.
-
-```jsx
-import { View } from 'react-native'
-import { Div, Row, Span } from '@startupjs/ui'
-```
+`highlight` variant - on press down, the opacity of the component background  is decreased.
 
 ```jsx example
-const style = {
-  width: 150,
+const divStyle = {
+  width: 100,
   height: 80,
-  alignItems: 'center',
+  textAlign: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#00AED6'
+}
+return (
+  <Row>
+    <Div style={divStyle} onPress={() => {}}>
+      <Span>Div opacity variant</Span>
+    </Div>
+    <Div style={divStyle} variant='highlight' pushed onPress={() => {}}>
+      <Span>Div highlight variant</Span>
+    </Div>
+  </Row>
+)
+```
+
+## Levels of emphasis
+
+Div `level` property determines different levels of emphasis by adding shadow to component. Possible values of `level` prop can be found in the `Sandbox` section at the bottom of page.
+
+```jsx example
+const divStyle = {
+  width: 100,
+  height: 80,
+  textAlign: 'center',
   justifyContent: 'center'
 }
 return (
   <Row>
-    <Div
-      level='1'
-      style={style}
-      onPress={() => null}
-    >
-      <Span>
-        Div opacity
-      </Span>
+    <Div style={divStyle} level={1}>
+      <Span>Div level 1</Span>
     </Div>
-    <Div
-      level='1'
-      pushed='m'
-      variant='highlight'
-      underlayColor='#F5A623'
-      hoverColor='#6772E5'
-      style={style}
-      onPress={() => null}
-    >
-      <Span>
-        Div highlight violet
-      </Span>
+    <Div style={divStyle} level={4} pushed>
+      <Span>Div level 4</Span>
     </Div>
   </Row>
 )

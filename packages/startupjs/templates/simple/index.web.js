@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Root from './RootHmr'
+import Root from './Root'
 
 const ROOT_CONTAINER_ID = 'app'
 

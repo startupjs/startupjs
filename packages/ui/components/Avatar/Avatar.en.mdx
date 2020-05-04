@@ -2,14 +2,15 @@ import { useState } from 'react'
 import Avatar from '../Avatar'
 import Row from '../Row'
 import Div from '../Div'
+import Br from '../Br'
 import { View } from 'react-native'
 import { Sandbox } from '@startupjs/docs'
 
 # Avatar
 
-Avatars can be used to display image, icons, letters.
+Avatars can be used to represent people. When used with a specific logo, avatars can also be used to represent a brand. They also can be a placeholder when there is no image or image can't be loaded by some reason to be shown, showing an alternative in this case.
 
-## Basic Example
+## Example
 
 ```jsx
 import { Avatar } from '@startupjs/ui'
@@ -18,37 +19,12 @@ import { Avatar } from '@startupjs/ui'
 ```jsx example
 return (
   <Avatar
-    url='/img/avatar1.jpeg'
+    src='/img/avatar1.jpeg'
   />
 )
 ```
 
-## Avatar Status Example
-
-```jsx
-import { Avatar, Row, Div } from '@startupjs/ui'
-```
-
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
-        status='online'
-        url='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
-        status='away'
-        url='/img/avatar2.jpeg'
-      />
-    </Div>
-  </Row>
-)
-```
-
-## Avatar Size
+## Sizes
 
 Avatars can come in many sizes.
 
@@ -62,48 +38,46 @@ return (
     <Div>
       <Avatar
         size='xs'
-        url='/img/avatar1.jpeg'
+        src='/img/avatar1.jpeg'
       />
     </Div>
     <Div pushed>
       <Avatar
         size='s'
-        url='/img/avatar2.jpeg'
+        src='/img/avatar2.jpeg'
       />
     </Div>
     <Div pushed>
       <Avatar
         size='m'
-        url='/img/avatar3.jpeg'
+        src='/img/avatar3.jpeg'
       />
     </Div>
     <Div pushed>
       <Avatar
         size='l'
-        url='/img/avatar1.jpeg'
+        src='/img/avatar1.jpeg'
       />
     </Div>
     <Div pushed>
       <Avatar
         size='xl'
-        url='/img/avatar2.jpeg'
+        src='/img/avatar2.jpeg'
       />
     </Div>
     <Div pushed>
       <Avatar
         size='xxl'
-        url='/img/avatar3.jpeg'
+        src='/img/avatar3.jpeg'
       />
     </Div>
   </Row>
 )
 ```
 
-## Avatar Fallback
+## User status
 
-When `url` prop is not provided or can't loaded intials of the `fallback` string are displayed.
-In the example below `fallback` is 'John Doe' therefore 'JD' will be displayed.
-Default `fallback` is `?`.
+Avatars can be used to display user online status. It can be set by passing string `online` or `away` to property `status`.
 
 ```jsx
 import { Avatar, Row, Div } from '@startupjs/ui'
@@ -114,16 +88,65 @@ return (
   <Row>
     <Div>
       <Avatar
-        url='/img/non-existen-image.jpeg'
+        status='online'
+        src='/img/avatar1.jpeg'
       />
     </Div>
     <Div pushed>
       <Avatar
-        fallback='John Doe'
-        url='/img/non-existen-image.jpeg'
+        status='away'
+        src='/img/avatar2.jpeg'
       />
     </Div>
   </Row>
+)
+```
+
+## Fallback string
+If `url` prop is not provided or if there is an error loading the avatar image, the component using an alternative. The alternative is initials of two first words of `children` string if provided and `?` if not. In the example below alternative is 'John Doe' therefore 'JD' will be displayed.
+
+```jsx
+import { Avatar, Row, Div } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <Div>
+      <Avatar
+        src='/img/non-existen-image.jpeg'
+      />
+    </Div>
+    <Div pushed>
+      <Avatar
+        src='/img/non-existen-image.jpeg'
+      >
+        John Doe
+      </Avatar>
+    </Div>
+  </Row>
+)
+```
+
+## Actions
+
+Use `onPress` prop to pass action in Avatar.
+
+```jsx
+import { Span, Div, Br, Avatar } from '@startupjs/ui'
+```
+
+```jsx example
+const [counter, setCounter] = useState(0)
+return (
+  <Div>
+    <Avatar
+      src='/img/avatar1.jpeg'
+      onPress={() => setCounter(counter + 1)}
+    />
+    <Br />
+    <Span>Clicked {counter} times</Span>
+  </Div>
 )
 ```
 
