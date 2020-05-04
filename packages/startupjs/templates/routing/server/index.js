@@ -1,6 +1,7 @@
 import init from 'startupjs/init'
 import orm from '../model'
 import startupjsServer from 'startupjs/server'
+import api from './api'
 import getMainRoutes from '../main/routes'
 
 // Init startupjs ORM.
@@ -14,12 +15,7 @@ startupjsServer({
   ]
 }, ee => {
   ee.on('routes', expressApp => {
-    expressApp.get('/api', async (req, res) => {
-      let { model } = req
-      let $counter = model.at('counters.first')
-      await $counter.subscribeAsync()
-      res.json({ name: 'Test API', counter: $counter.get() })
-    })
+    expressApp.use('/api', api)
   })
 })
 

@@ -1,0 +1,138 @@
+import { useEffect, useState } from 'react'
+import DrawerSidebar from '../DrawerSidebar'
+import Span from '../Span'
+import Row from '../Row'
+import Div from '../Div'
+import Menu from '../Menu'
+import Button from '../Button'
+import Content from '../Content'
+import { observer, useModel } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+
+# DrawerSidebar (дровер)
+
+Дровер обычно используется для навигации. Изначально он не виден на экране, но может быть вытянут c края окна.
+
+## Пример
+
+
+```jsx
+import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleLeftDrawerSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Position
+
+Свойство `position` указывает сторону окна, из которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
+
+```jsx
+import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleRightDrawerSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      position='right'
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Locked Drawer
+
+Указание свойства `forceClosed` будеи держать дровер закрытым и он не будет реагировать на жесты.
+
+```jsx example
+const PATH = '_session.ExampleLockedDrawerSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+      forceClosed
+    >
+      <Content
+        padding
+        width='full'
+        style={{ height: 200, backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+        </Row>
+      </Content>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={DrawerSidebar} />
