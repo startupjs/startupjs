@@ -6,6 +6,7 @@ import Button from '../components/Button/Button.en.mdx'
 import Card from '../components/Card/Card.en.mdx'
 import Collapse from '../components/Collapse/Collapse.en.mdx'
 import Content from '../components/Content/Content.en.mdx'
+import Checkbox from '../components/forms/Checkbox/Checkbox.en.mdx'
 import Div from '../components/Div/Div.en.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import Input from '../components/forms/Input/Input.en.mdx'
@@ -33,6 +34,7 @@ export default {
   Breadcrumbs,
   Button,
   Card,
+  Checkbox,
   Collapse,
   Content,
   Div,
