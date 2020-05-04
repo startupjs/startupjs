@@ -11,6 +11,7 @@ import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import Hr from '../components/Hr/Hr.en.mdx'
 import Layout from '../components/Layout/Layout.en.mdx'
 import Link from '../components/Link/Link.en.mdx'
+import LineSeparator from '../components/LineSeparator/LineSeparator.en.mdx'
 import Loader from '../components/Loader/Loader.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
@@ -32,6 +33,7 @@ export default {
   Hr,
   Layout,
   Link,
+  LineSeparator,
   Loader,
   Progress,
   Rating,
