@@ -26,6 +26,7 @@ import Row from '../components/Row/Row.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
 import TextInput from '../components/forms/TextInput/TextInput.en.mdx'
 import User from '../components/User/User.en.mdx'
+import SmartSidebar from '../components/SmartSidebar/SmartSidebar.en.mdx'
 
 export default {
   Alert,
@@ -55,5 +56,6 @@ export default {
   Radio,
   Rating,
   Sidebar,
+  SmartSidebar,
   User
 }
