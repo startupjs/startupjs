@@ -12,6 +12,7 @@ import {
   faShareAlt
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import CustomIconExample from './CustomIconExample.svg'
 
 
 # Icon
@@ -109,17 +110,20 @@ For custom icon the `icon` prop can be supplied with a function which returns a 
 
 ```jsx
 import { Icon } from '@startupjs/ui'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
+/*
+ * Attribution:
+ * Icon made by Good Ware from www.flaticon.com
+*/
+import CustomIconExample from './CustomIconExample.svg'
 ```
 
 ```jsx example
 return (
   <Content>
     <Icon
-      size={40}
+      size={50}
       color='#F5BE59'
-      icon={(props) => (<FontAwesomeIcon {...props} icon={faShareAlt} />)} 
+      icon={(props) => (<CustomIconExample {...props} />)} 
     />
   </Content>
 )
