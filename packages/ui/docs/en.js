@@ -21,10 +21,11 @@ import Menu from '../components/Menu/Menu.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Radio from '../components/forms/Radio/Radio.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
-import Sidebar from '../components/Sidebar/Sidebar.en.mdx'
 import Row from '../components/Row/Row.en.mdx'
+import Sidebar from '../components/Sidebar/Sidebar.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
 import TextInput from '../components/forms/TextInput/TextInput.en.mdx'
+import Typography from '../components/TypographyDoc/Typography.en.mdx'
 import User from '../components/User/User.en.mdx'
 import SmartSidebar from '../components/SmartSidebar/SmartSidebar.en.mdx'
 
@@ -56,6 +57,7 @@ export default {
   Radio,
   Rating,
   Sidebar,
+  Typography,
   SmartSidebar,
   User
 }
