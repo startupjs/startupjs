@@ -56,6 +56,6 @@ export default {
   Radio,
   Rating,
   Sidebar,
-  User,
-  SmartSidebar
+  SmartSidebar,
+  User
 }
