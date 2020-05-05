@@ -19,12 +19,12 @@ function Collapse ({
 }) {
   ({ open, onChange } = useBindingProps($open, { open }, { onChange }))
   const childrenList = React.Children.toArray(children)
-  const headerChildren = []
+  let header
   const contentChildren = []
   childrenList.forEach(child => {
     switch (child.type) {
       case CollapseHeader:
-        headerChildren.push(child)
+        header = child
         break
       default:
         contentChildren.push(child)
@@ -32,15 +32,9 @@ function Collapse ({
   })
 
   const headerProps = { open, variant, onPress }
-  const header = title
-    ? React.createElement(CollapseHeader, headerProps, title)
-    : headerChildren
-      .map(child =>
-        React.cloneElement(
-          child,
-          { ...headerProps, ...child.props }
-        )
-      )
+  header = header
+    ? React.cloneElement(header, { ...headerProps, ...header.props })
+    : React.createElement(CollapseHeader, headerProps, title || '')
 
   const doChildrenHaveCollapseContent =
     !!contentChildren.filter(child => child.type === CollapseContent).length
