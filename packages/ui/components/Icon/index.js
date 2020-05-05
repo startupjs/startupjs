@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
@@ -27,7 +28,13 @@ const Icon = observer(({
   if (!icon) return null
 
   const _size = useMemo(() => SIZES[size] || size, [size])
-  const _color = useMemo(() => colors[color] || color, [color])
+  const _color = useMemo(() => {
+    if (!color) return config.colors.dark
+    return colors[color] || color
+  }, [color])
+
+  // Pass color as part of style to allow color override from the outside
+  style = StyleSheet.flatten([{ color: _color }, style])
 
   if (typeof icon === 'function') {
     const CustomIcon = icon
@@ -36,7 +43,7 @@ const Icon = observer(({
         style=style
         width=_size
         height=_size
-        fill=_color
+        fill=style.color
       )
     `
   }
@@ -44,15 +51,14 @@ const Icon = observer(({
     FontAwesomeIcon(
       style=style
       icon=icon
-      color=_color
+      color=style.color
       size=_size
     )
   `
 })
 
 Icon.defaultProps = {
-  size: 'm',
-  color: config.colors.dark
+  size: 'm'
 }
 
 Icon.propTypes = {

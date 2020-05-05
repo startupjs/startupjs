@@ -1,0 +1,158 @@
+import { H1, H2, H3, H4, H5, H6 } from '../Headers'
+import Span from '../Span'
+import Br from '../Br'
+import Content from '../Content'
+import { Sandbox } from '@startupjs/docs'
+
+
+# Typography
+
+A set of components to make text clear & easy to read to the end user.
+
+## Header Example
+
+H* components are used for heading or subheadings of a section or a page.
+
+```jsx
+import { H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <H1>H1 Heading</H1>
+    <Br half />
+    <H2>H2 Heading</H2>
+    <Br half />
+    <H3>H3 Heading</H3>
+    <Br half />
+    <H4>H4 Heading</H4>
+    <Br half />
+    <H5>H5 Heading</H5>
+    <Br half />
+    <H6>H6 Heading</H6>
+  </Content>
+)
+```
+
+## Bold Header
+
+```jsx
+import { H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <H1 bold>H1 Heading</H1>
+    <Br half />
+    <H2 bold>H2 Heading</H2>
+    <Br half />
+    <H3 bold>H3 Heading</H3>
+    <Br half />
+    <H4 bold>H4 Heading</H4>
+    <Br half />
+    <H5 bold>H5 Heading</H5>
+    <Br half />
+    <H6 bold>H6 Heading</H6>
+  </Content>
+)
+```
+
+## Span Example
+
+Span component acts as generic text holder for non heading texts like title, subtitles, descriptions etc. It comes in pre-defined sizes and can be modified using the `size` prop.
+
+```jsx
+import { Span } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <Span size='xxl'>
+      xxl:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span size='xl'>
+      xl:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span size='l'>
+      l:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span>
+      m:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span size='s'>
+      s:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span size='xs'>
+      xs:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+  </Content>
+)
+```
+
+## Bold & italic texts
+
+Further customization can be made by specifying the boolean `bold` & `italic` props to make text bold & italic respectively.
+
+```jsx
+import { Span } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <Span bold size='xl'>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span italic size='xl'>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br half />
+    <Span bold italic size='xl'>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+  </Content>
+)
+```
+
+## Description text
+
+The boolean `description` prop changes the text color. Use it for presenting more descriptive texts.
+
+```jsx
+import { Span } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <Span description>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
+    </Span>
+  </Content>
+)
+```
+
+## Sandbox
+
+### Header
+
+<Sandbox Component={H1} />
+
+### Span
+
+<Sandbox Component={Span} />
