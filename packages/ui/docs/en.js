@@ -27,6 +27,7 @@ import Tag from '../components/Tag/Tag.en.mdx'
 import TextInput from '../components/forms/TextInput/TextInput.en.mdx'
 import Typography from '../components/TypographyDoc/Typography.en.mdx'
 import User from '../components/User/User.en.mdx'
+import SmartSidebar from '../components/SmartSidebar/SmartSidebar.en.mdx'
 
 export default {
   Alert,
@@ -57,5 +58,6 @@ export default {
   Rating,
   Sidebar,
   Typography,
+  SmartSidebar,
   User
 }
