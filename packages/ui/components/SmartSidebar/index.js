@@ -21,9 +21,10 @@ function SmartSidebar ({
   ...props
 }) {
   const componentId = useComponentId()
+
   if (!path) path = `_session.SmartSidebar.${componentId}`
 
-  let [fixedLayout, $fixedLayout] = useValue(isFixedLayout())
+  let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
   useLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
@@ -31,7 +32,7 @@ function SmartSidebar ({
   }, [])
 
   function handleWidthChange () {
-    $fixedLayout.setDiff(isFixedLayout())
+    $fixedLayout.setDiff(isFixedLayout(fixedLayoutBreakpoint))
   }
 
   return pug`
@@ -80,7 +81,7 @@ SmartSidebar.propTypes = {
 
 export default observer(SmartSidebar)
 
-function isFixedLayout () {
+function isFixedLayout (fixedLayoutBreakpoint) {
   let dim = Dimensions.get('window')
-  return dim.width > FIXED_LAYOUT_BREAKPOINT
+  return dim.width > fixedLayoutBreakpoint
 }
