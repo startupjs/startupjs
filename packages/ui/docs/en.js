@@ -49,11 +49,11 @@ export default {
   Modal,
   Menu,
   Progress,
+  Row,
   Tag,
   TextInput,
   Radio,
   Rating,
   Sidebar,
-  User,
-  Row
+  User
 }
