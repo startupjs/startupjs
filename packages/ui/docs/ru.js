@@ -11,6 +11,7 @@ import Hr from '../components/Hr/Hr.ru.mdx'
 import Link from '../components/Link/Link.ru.mdx'
 import Loader from '../components/Loader/Loader.ru.mdx'
 import Progress from '../components/Progress/Progress.ru.mdx'
+import Rating from '../components/Rating/Rating.ru.mdx'
 import Tag from '../components/Tag/Tag.ru.mdx'
 
 export default {
@@ -27,5 +28,6 @@ export default {
   Link,
   Loader,
   Progress,
+  Rating,
   Tag
 }
