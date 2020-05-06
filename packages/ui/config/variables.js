@@ -15,12 +15,12 @@ const media = {
 }
 
 const fontFamily = 'Cochin'
-const fonts = {
+const fontFamilies = {
   normal: fontFamily,
   heading: fontFamily
 }
 
-const font = {
+const fontSizes = {
   xs: '1.25u',
   s: '1.5u',
   m: '1.75u',
@@ -32,7 +32,7 @@ const font = {
   xxxxxl: '9u'
 }
 
-const line = {
+const lineHeights = {
   xs: '1.75u',
   s: '2u',
   m: '2.5u',
@@ -44,4 +44,4 @@ const line = {
   xxxxxl: '12u'
 }
 
-module.exports = { gutters, media, fonts, font, line }
+module.exports = { gutters, media, fontFamilies, fontSizes, lineHeights }
