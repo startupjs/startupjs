@@ -5,6 +5,7 @@ import Div from '../Div'
 import Br from '../Br'
 import LineSeparator from '../LineSeparator'
 import { Sandbox } from '@startupjs/docs'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 # Collapse
 
@@ -66,6 +67,31 @@ return (
   </Collapse>
 )
 ```
+
+## Icon configuration
+
+You can provide a custom icon by specifying the `icon` option. It must be an arrow-like icon pointing right.
+
+```jsx
+import { Collapse } from '@startupjs/ui'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+const [open, setOpen] = useState(false)
+return (
+  <Collapse open={open} onChange={() => setOpen(!open)}>
+    <Collapse.Header icon={faAngleRight}>Collapse with custom icon</Collapse.Header>
+    <Collapse.Content>
+      Collapse content
+    </Collapse.Content>
+  </Collapse>
+)
+```
+
+### No Icon
+
+You can remove an icon completely by specifying `icon={false}`
 
 ## Accordion
 

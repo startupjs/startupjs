@@ -18,17 +18,17 @@ function Modal ({
   onConfirm,
   onBackdropPress
 }) {
-  const childrenList = React.Children.toArray(children)
-  const headerChildren = []
+  let header, actions
   const contentChildren = []
-  const actionsChildren = []
-  childrenList.forEach(child => {
+  React.Children.forEach(children, child => {
     switch (child.type) {
       case ModalHeader:
-        headerChildren.push(child)
+        if (header) throw Error('[ui -> Modal] You must specify a single <Modal.Header>')
+        header = child
         break
       case ModalActions:
-        actionsChildren.push(child)
+        if (actions) throw Error('[ui -> Modal] You must specify a single <Modal.Actions>')
+        actions = child
         break
       default:
         contentChildren.push(child)
@@ -51,12 +51,8 @@ function Modal ({
     onConfirm,
     style: content ? { paddingTop: 0 } : null
   }
-  const actions = actionsChildren.length
-    ? actionsChildren
-      .map(child => React.cloneElement(
-        child,
-        { ...actionsProps, ...child.props }
-      ))
+  actions = actions
+    ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
     : onDismiss || onConfirm
       ? React.createElement(ModalActions, actionsProps)
       : null
@@ -65,9 +61,11 @@ function Modal ({
     onDismiss,
     style: content || actions ? { paddingBottom: 0 } : null
   }
-  const header = title
-    ? React.createElement(ModalHeader, headerProps, title)
-    : headerChildren.map(child => React.cloneElement(child, headerProps))
+  header = header
+    ? React.cloneElement(header, { ...headerProps, ...header.props })
+    : title
+      ? React.createElement(ModalHeader, headerProps, title)
+      : null
 
   const isWindowLayout = variant === 'window'
 
