@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import { View, TouchableOpacity } from 'react-native'
 import ModalHeader from './ModalHeader'
@@ -18,7 +18,8 @@ function Modal ({
   onConfirm,
   onBackdropPress
 }) {
-  let header, actions
+  // Deconstruct template variables
+  let header, actions, content
   const contentChildren = []
   React.Children.forEach(children, child => {
     switch (child.type) {
@@ -30,22 +31,25 @@ function Modal ({
         if (actions) throw Error('[ui -> Modal] You must specify a single <Modal.Actions>')
         actions = child
         break
+      case ModalContent:
+        if (content) throw Error('[ui -> Modal] You must specify a single <Modal.Content>')
+        content = child
+        break
       default:
         contentChildren.push(child)
     }
   })
+  if (content && contentChildren.length > 0) {
+    throw Error('[ui -> Modal] React elements found directly within <Modal>. ' +
+      'If <Modal.Content> is specified, you have to put all your content inside it')
+  }
 
-  const doChildrenHaveModalContent =
-    useMemo(() => {
-      return !!contentChildren.filter(child => child.type === ModalContent).length
-    }, [contentChildren.length])
+  // Handle <Modal.Content>
+  content = content || (contentChildren.length > 0
+    ? React.createElement(ModalContent, null, contentChildren)
+    : null)
 
-  const content = doChildrenHaveModalContent
-    ? contentChildren
-    : contentChildren.length
-      ? React.createElement(ModalContent, null, contentChildren)
-      : null
-
+  // Handle <Modal.Actions>
   const actionsProps = {
     onDismiss,
     onConfirm,
@@ -57,6 +61,7 @@ function Modal ({
       ? React.createElement(ModalActions, actionsProps)
       : null
 
+  // Handle <Modal.Header>
   const headerProps = {
     onDismiss,
     style: content || actions ? { paddingBottom: 0 } : null
