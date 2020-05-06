@@ -4,7 +4,7 @@ import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Avatar from '../Avatar'
 import Div from '../Div'
-import Span from '../Span'
+import Span from '../Typography/Span'
 import './index.styl'
 
 const nameSizes = {

@@ -1,19 +1,18 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
-import { Text, Platform } from 'react-native'
-import './index.styl'
+import { Platform } from 'react-native'
+import Span from './../Span'
 
 function generateTag (tag) {
   const header = observer(
-    ({ bold, children, style, ...props }) => {
+    ({ children, style, ...props }) => {
       const isWeb = Platform.OS === 'web'
       const role = isWeb ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') } : {}
 
       return pug`
-        Text.root(
+        Span(
           style=style
-          styleName=[tag, { bold }]
+          size=tag
           ...role
           ...props
         )= children
@@ -22,13 +21,15 @@ function generateTag (tag) {
   )
 
   header.defaultProps = {
-    bold: false
+    bold: Span.defaultProps.bold,
+    italic: Span.defaultProps.italic
   }
 
   header.propTypes = {
-    style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-    children: propTypes.node,
-    bold: propTypes.bool
+    style: Span.propTypes.style,
+    children: Span.propTypes.children,
+    bold: Span.propTypes.bold,
+    italic: Span.propTypes.italic
   }
 
   return header
