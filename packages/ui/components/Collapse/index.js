@@ -18,12 +18,12 @@ function Collapse ({
   onChange
 }) {
   ({ open, onChange } = useBindingProps($open, { open }, { onChange }))
-  const childrenList = React.Children.toArray(children)
   let header
   const contentChildren = []
-  childrenList.forEach(child => {
+  React.Children.forEach(children, child => {
     switch (child.type) {
       case CollapseHeader:
+        if (header) throw Error('[ui -> Modal] You must specify a single <Collapse.Header>')
         header = child
         break
       default:
