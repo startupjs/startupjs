@@ -6,7 +6,7 @@ import Div from './../../Div'
 import Row from './../../Row'
 import Icon from './../../Icon'
 import Span from './../../Span'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 function CollapseHeader ({
@@ -20,6 +20,7 @@ function CollapseHeader ({
   open, // @private
   onPress // @private
 }) {
+  if (icon === true) icon = faCaretRight
   const reverse = iconPosition === 'right'
   const animationProgress = useRef(new Animated.Value(0)).current
 
@@ -46,7 +47,7 @@ function CollapseHeader ({
           transform: [{
             rotate: animationProgress.interpolate({
               inputRange: [0, 1],
-              outputRange: [reverse ? '90deg' : '-90deg', '0deg']
+              outputRange: [reverse ? '180deg' : '0deg', '90deg']
             })
           }]
         }
@@ -61,13 +62,13 @@ function CollapseHeader ({
 }
 
 CollapseHeader.defaultProps = {
-  icon: faCaretDown,
+  icon: true,
   iconPosition: 'left'
 }
 
 CollapseHeader.propTypes = {
   iconPosition: propTypes.oneOf(['left', 'right']),
-  icon: propTypes.object,
+  icon: propTypes.oneOfType([propTypes.bool, propTypes.object]),
   iconStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
