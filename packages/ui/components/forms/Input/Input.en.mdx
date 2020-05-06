@@ -1,0 +1,77 @@
+import Input from '../Input'
+import Content from '../../Content'
+import Br from '../../Br'
+import { u } from '../../../config/helpers'
+import { useValue } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+
+# Input
+
+Input provides a wrapper api around [`Checkbox`](/docs/en/Checkbox), [`TextInput`](/docs/en/TextInput) & [ObjectInput](/docs/en/ObjectInput) components with bindings. The developer can use any of the above components as input by specifying the `type` prop.
+
+## Basic Example
+
+Example with `useValue` hook.
+
+```jsx
+import { useValue } from 'startupjs'
+import { Input } from from '@startupjs/ui'
+```
+
+```jsx example
+const [value, $value] = useValue('')
+const [checkbox, $checkbox] = useValue(false)
+return (
+  <Content>
+    <Input
+      type='text'
+      label='Text Input'
+      $value={$value}
+    />
+    <Br />
+    <Input
+      type='checkbox'
+      label='Checkbox component'
+      $value={$checkbox}
+    />    
+  </Content>
+)
+```
+
+## Object Example
+
+Refer to [ObjectInput](/docs/en/ObjectInput) for details on `properties` prop used below.
+
+```jsx
+import { useValue } from 'startupjs'
+import { Input } from from '@startupjs/ui'
+```
+
+```jsx example
+const [value, $value] = useValue({})
+console.log(value)
+return (
+  <Input
+    type='object'
+    $value={$value}
+    properties={{
+      defaultInput: {
+        input: 'checkbox',
+        label: 'Click to display next input',
+        placeholder: 'Type abcd to display the next input'
+      },
+      dependent: {
+        dependsOn: 'defaultInput',
+        dependsValue: value.defaultInput || 'not-shown',
+        input: 'text',
+        label: 'Dependent on checkbox',
+        style: { marginTop: u(1) }
+      }
+    }}
+  />    
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Input} />

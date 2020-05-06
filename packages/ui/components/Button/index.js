@@ -111,7 +111,6 @@ function Button ({
         Span.label(
           style=[labelStyle, textStyle]
           size=size
-          bold
         )= children
   `
 }

@@ -1,0 +1,165 @@
+import { useState } from 'react'
+import TextInput from '../TextInput'
+import Content from '../../Content'
+import Br from '../../Br'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
+
+# TextInput
+
+TextInput lets user enter or edit data.
+
+## Basic Example
+
+```jsx
+import { TextInput, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [value, setValue] = useState('')
+const [value1, setValue1] = useState('')
+return (
+  <Content width='desktop'>
+    <TextInput
+      label='Basic Example'
+      placeholder='Basic Placeholder'
+      value={value}
+      onChangeText={(newValue) => setValue(newValue)}
+      onFocus={(e) => console.log('focused', e)}
+      onBlur={(e) => console.log('blurred', e)}
+    />
+    <Br />
+    <TextInput
+      numberOfLines={3}
+      label='Number of Lines Example'
+      placeholder='Example placeholder'
+      value={value1}
+      onChangeText={(newValue) => setValue1(newValue)}
+    />
+    <Br />
+    <TextInput
+      disabled
+      label='Disabled Input Example'
+      value='Disabled Value'
+    />
+  </Content>
+)
+```
+
+## TextInput Sizes
+
+TextInput size can be modified using the `size` prop. Default size is `m`.
+
+```jsx
+import { TextInput, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [valueL, setValueL] = useState('')
+const [valueM, setValueM] = useState('')
+const [valueS, setValueS] = useState('')
+return (
+  <Content width='desktop'>
+    <TextInput
+      size='m'
+      label='Size Default Example'
+      value={valueM}
+      onChangeText={(newValue) => setValueM(newValue)}
+    />
+    <Br />
+    <TextInput
+      size='l'
+      label='Size l Example'
+      value={valueL}
+      onChangeText={(newValue) => setValueL(newValue)}
+    />
+    <Br />
+    <TextInput
+      size='s'
+      label='Size s Example'
+      value={valueS}
+      onChangeText={(newValue) => setValueS(newValue)}
+    />
+  </Content>
+)
+```
+
+## Input Icon Example
+
+TextInput accepts an `icon` & a `iconPosition` prop.
+
+```jsx
+import { TextInput, Content, Br } from '@startupjs/ui'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+const [valueLeft, setLeftValue] = useState('')
+const [valueRight, setRightValue] = useState('')
+return (
+  <Content width='desktop'>
+    <TextInput
+      icon={faTimesCircle}
+      label='Example Icon Left'
+      value={valueLeft}
+      onChangeText={(newValue) => setLeftValue(newValue)}
+      onIconPress={() => setLeftValue('')}
+    />
+    <Br />
+    <TextInput
+      icon={faTimesCircle}
+      iconPosition='right'
+      label='Example Icon Right'
+      value={valueRight}
+      onChangeText={(newValue) => setRightValue(newValue)}
+      onIconPress={() => setRightValue('')}
+    />
+  </Content>
+)
+```
+
+## Pure Layout Example
+
+TextInput can have a `pure` layout in which the label is hidden.
+
+```jsx
+import { TextInput, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [value, setValue] = useState('')
+return (
+  <TextInput
+    layout='pure'
+    label='Pure Layout Example'
+    placeholder='Pure Layout Placeholder'
+    value={value}
+    onChangeText={(newValue) => setValue(newValue)}
+  />
+)
+```
+
+## Input Resize Example
+
+TextInput can grow in height if the user enters newline character by specifying the `resize` prop.
+
+```jsx
+import { TextInput, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [value, setValue] = useState('')
+return (
+  <TextInput
+    resize
+    label='Resize Example'
+    placeholder='Resize Placeholder'
+    value={value}
+    onChangeText={(newValue) => setValue(newValue)}
+  />
+)
+```
+
+## Sandbox
+
+<Sandbox Component={TextInput} />

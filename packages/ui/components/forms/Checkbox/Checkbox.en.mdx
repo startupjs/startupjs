@@ -1,0 +1,104 @@
+import { useState } from 'react'
+import Content from '../../Content'
+import Br from '../../Br'
+import Checkbox from '../Checkbox'
+import { Sandbox } from '@startupjs/docs'
+
+# Checkbox
+
+Checkbox allows user to select one or more items.
+
+## Basic Example
+
+```jsx
+import { Checkbox, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [checked, setChecked] = useState(false)
+return (
+  <Content>
+    <Checkbox
+      label='Example Checbkbox'
+      value={checked}
+      onChange={(newState) => setChecked(newState)}
+      onFocus={(e) => console.log('focused checkbox', e)}
+      onBlur={(e) => console.log('blur checkbox', e)}
+    />
+    <Br />
+    <Checkbox
+      label='Disabled Checbkbox'
+      value={true}
+    />
+  </Content>
+)
+```
+
+## Variant Example.
+
+Checkbox can have `switch` or `checkbox` variants. Default variant is `checkbox`.
+
+```jsx
+import { Checkbox, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [checked, setChecked] = useState(false)
+const [switched, setSwitch] = useState(false)
+return (
+  <Content>
+    <Checkbox
+      label='Example Checbkbox'
+      value={checked}
+      onChange={(newState) => setChecked(newState)}
+    />
+    <Br />
+    <Checkbox
+      variant='switch'
+      label='Example Switch'
+      value={switched}
+      onChange={(newState) => setSwitch(newState)}
+    />
+  </Content>
+)
+```
+
+## Checkbox Layout
+
+Checkbox can have `pure` or `rows` layout. Default layout is `rows`.
+
+```jsx
+import { Checkbox, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const [checked, setChecked] = useState(false)
+const [pureLayoutChecked, setPureLayoutChecked] = useState(false)
+const [switched, setSwitched] = useState(false)
+return (
+  <Content>
+    <Checkbox
+      label='Default layout example'
+      value={checked}
+      onChange={(newState) => setChecked(newState)}
+    />
+    <Br />
+    <Checkbox
+      layout='pure'
+      value={pureLayoutChecked}
+      onChange={(newState) => setPureLayoutChecked(newState)}
+    />
+    <Br />
+    <Checkbox
+      layout='pure'
+      variant='switch'
+      value={switched}
+      onChange={(newState) => setSwitched(newState)}
+    />
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Checkbox} />

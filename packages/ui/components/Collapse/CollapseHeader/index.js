@@ -1,93 +1,75 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { Animated } from 'react-native'
 import propTypes from 'prop-types'
 import Div from './../../Div'
+import Row from './../../Row'
 import Icon from './../../Icon'
 import Span from './../../Span'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-import { u } from './../../../config/helpers'
 import './index.styl'
-
-const CLOSED_ROTATION_DEGREE = 0
-const OPENED_ROTATION_DEGREE = 0.5
 
 function CollapseHeader ({
   style,
+  iconStyle,
+  containerStyle,
   children,
   variant,
+  iconPosition,
+  icon,
   open, // @private
   onPress // @private
 }) {
-  const [degree] = useState(
-    new Animated.Value(open ? OPENED_ROTATION_DEGREE : CLOSED_ROTATION_DEGREE)
-  )
+  const reverse = iconPosition === 'right'
+  const animationProgress = useRef(new Animated.Value(0)).current
 
   useDidUpdate(() => {
-    if (open) {
-      Animated.timing(
-        degree,
-        {
-
-          toValue: OPENED_ROTATION_DEGREE,
-          duration: 250,
-          useNativeDriver: true
-        }
-      ).start()
-    } else {
-      Animated.timing(
-        degree,
-        {
-
-          toValue: CLOSED_ROTATION_DEGREE,
-          duration: 300,
-          useNativeDriver: true
-        }
-      ).start()
-    }
+    Animated.timing(
+      animationProgress,
+      {
+        toValue: open ? 1 : 0,
+        duration: 250,
+        useNativeDriver: true
+      }
+    ).start()
   }, [open])
 
-  const content = React.Children.toArray(children).map(child => {
-    const style = { paddingRight: u(5) }
-
-    if (typeof child === 'string') {
-      return pug`
-        Span(
-          key='__COLLAPSE_HEADER_KEY__'
-          style=style
-          numberOfLines=1
-        )= child
-      `
-    }
-    return React.cloneElement(child, { style })
-  })
-
-  const AnimatedView = Animated.View
-
   return pug`
-    Div.root(
+    Row.root(
       style=style
       styleName=[variant]
       onPress=onPress
-      activeOpacity=variant === 'pure' ? 1 : null
+      reverse=reverse
     )
-      = content
-      AnimatedView.icon(
+      Animated.View(
         style={
           transform: [{
-            rotate: degree.interpolate({
+            rotate: animationProgress.interpolate({
               inputRange: [0, 1],
-              outputRange: ['0deg', '360deg']
+              outputRange: [reverse ? '90deg' : '-90deg', '0deg']
             })
           }]
-
         }
       )
-        Icon(icon=faCaretDown)
+        Icon(icon=icon style=iconStyle)
+      Div.container(style=containerStyle styleName={reverse})
+        if typeof children === 'string'
+          Span= children
+        else
+          = children
   `
 }
 
+CollapseHeader.defaultProps = {
+  icon: faCaretDown,
+  iconPosition: 'left'
+}
+
 CollapseHeader.propTypes = {
+  iconPosition: propTypes.oneOf(['left', 'right']),
+  icon: propTypes.object,
+  iconStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node
 }

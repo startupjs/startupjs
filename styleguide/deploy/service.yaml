@@ -4,6 +4,8 @@ metadata:
   name: ${_APP}
   labels:
     app: ${_APP}
+  annotations:
+    beta.cloud.google.com/backend-config: '{"ports": {"80":"${_APP}"}}'
 spec:
   type: NodePort
   selector:
