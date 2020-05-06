@@ -2,17 +2,16 @@ import { useState } from 'react'
 import User from '../User'
 import Content from '../Content'
 import Row from '../Row'
-import Div from '../Div'
 import Br from '../Br'
 import Span from '../Span'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 
-# User
+# User (пользователь)
 
-Inherits [Div props](/docs/en/Div).
+Наследует [Div props](/docs/ru/Div).
 
-User is used to display information about users. It uses [Avatar](/docs/en/Avatar) component to display user avatar.
+Пользователь используется для краткого отображения информации о пользователях. Он использует [Avatar](/docs/ru/Avatar) компонент для отображения аватара пользователя.
 
 ## Example
 
@@ -37,9 +36,9 @@ return (
 )
 ```
 
-## Sizes
+## Размеры
 
-Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of page.
+Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Песочница` внизу страницы.
 
 ```jsx
 import { User, Div, Br } from '@startupjs/ui'
@@ -52,41 +51,41 @@ return (
       size='xs'
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
-      description='xs size'
+      description='xs размер'
     />
     <Br />
     <User
       size='s'
       avatarUrl='/img/avatar2.jpeg'
       name='John Doe'
-      description='s size'
+      description='s размер'
     />
     <Br />
     <User
       avatarUrl='/img/avatar3.jpeg'
       name='John Doe'
-      description='m size, this is the default size'
+      description='m размер, это размер по умолчанию'
     />
     <Br />
     <User
       size='l'
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
-      description='l size'
+      description='l размер'
     />
     <Br />
     <User
       size='xl'
       avatarUrl='/img/avatar2.jpeg'
       name='John Doe'
-      description='xl size'
+      description='xl размер'
     />
     <Br />
     <User
       size='xxl'
       avatarUrl='/img/avatar3.jpeg'
       name='John Doe'
-      description='xxl size'
+      description='xxl размер'
     />
   </Div>
 )
@@ -94,7 +93,7 @@ return (
 
 ## User status
 
-To display user online status on avatar you can pass string `online` or `away` to property `status`.
+Для отображения онлайн-статуса пользователя на аватаре можно передать строку `online` или `away` в свойство `status`.
 
 ```jsx
 import { User, Row } from '@startupjs/ui'
@@ -120,9 +119,9 @@ return (
 )
 ```
 
-## User avatar position
+## Положение аватара пользователя
 
-Avatar position can be modified by passing string `left` (default) or `right` to `avatarPosition` property.
+Положение аватара можно изменить, передав строку `left` (по умолчанию) или `right` в свойство `avatarPosition`.
 
 ```jsx
 import { User } from '@startupjs/ui'
@@ -139,9 +138,9 @@ return (
 )
 ```
 
-## Actions
+## Действия
 
-Passed handler to `onPress` property will be called when the user taps the component.
+Переданный обработчик в `onPress` свойство будет вызван когда пользователь нажмет на компонент.
 
 ```jsx
 import { User, Content } from '@startupjs/ui'
