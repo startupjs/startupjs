@@ -1,0 +1,156 @@
+import { H1, H2, H3, H4, H5, H6 } from './Headers'
+import Span from './Span'
+import Br from '../Br'
+import Content from '../Content'
+import { Sandbox } from '@startupjs/docs'
+
+# Typography
+
+A set of components to make text clear and easy to read to the end user. The base component of typography is `Span`, which means that all other components use it in different variations for example headers.
+
+## Sizes
+
+```jsx
+import { Span, Br, Content } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content width='full'>
+    <Span size='xxxxxl'>
+      xxl or h1:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='xxxxl'>
+      xxl or h2:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='xxxl'>
+      xxl or h3:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='xxl'>
+      xxl or h4:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='xl'>
+      xl or h5:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='l'>
+      l or h6:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span>
+      m:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='s'>
+      s:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <Br />
+    <Span size='xs'>
+      xs:
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+  </Content>
+)
+```
+
+## Headers
+
+H* components are used for heading or subheadings of a section or a page.
+
+```jsx
+import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <H1>H1 Heading</H1>
+    <Br half />
+    <H2>H2 Heading</H2>
+    <Br half />
+    <H3>H3 Heading</H3>
+    <Br half />
+    <H4>H4 Heading</H4>
+    <Br half />
+    <H5>H5 Heading</H5>
+    <Br half />
+    <H6>H6 Heading</H6>
+  </Content>
+)
+```
+
+## Bold text
+
+To make text bold pass the property `bold` to component.
+
+```jsx
+import { Span, H4, Content } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content width='full'>
+    <Span bold size='xxl'>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <H4 bold>H4 Heading</H4>
+  </Content>
+)
+```
+
+## Italic text
+
+To make text italic pass the property `italic` to component.
+
+```jsx
+import { Span, H4, Content } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content width='full'>
+    <Span italic size='xxl'>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </Span>
+    <H4 italic>H4 Heading</H4>
+  </Content>
+)
+```
+
+## Insignificant text (Span only)
+
+To reduce the significance of the text pass the property `description` to component.
+
+```jsx
+import { Span } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Span description>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
+  </Span>
+)
+```
+
+## Sandbox
+
+### Span
+
+<Sandbox Component={Span} />
+
+### Header
+
+<Sandbox Component={H1} />

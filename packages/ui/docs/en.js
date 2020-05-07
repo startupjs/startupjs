@@ -9,6 +9,7 @@ import Content from '../components/Content/Content.en.mdx'
 import Checkbox from '../components/forms/Checkbox/Checkbox.en.mdx'
 import Div from '../components/Div/Div.en.mdx'
 import DrawerSidebar from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
+import Icon from '../components/Icon/Icon.en.mdx'
 import Input from '../components/forms/Input/Input.en.mdx'
 import Hr from '../components/Hr/Hr.en.mdx'
 import Layout from '../components/Layout/Layout.en.mdx'
@@ -21,10 +22,12 @@ import Menu from '../components/Menu/Menu.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Radio from '../components/forms/Radio/Radio.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
-import Sidebar from '../components/Sidebar/Sidebar.en.mdx'
 import Row from '../components/Row/Row.en.mdx'
+import Sidebar from '../components/Sidebar/Sidebar.en.mdx'
+import SmartSidebar from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import Tag from '../components/Tag/Tag.en.mdx'
 import TextInput from '../components/forms/TextInput/TextInput.en.mdx'
+import Typography from '../components/Typography/Typography.en.mdx'
 import User from '../components/User/User.en.mdx'
 
 export default {
@@ -39,6 +42,7 @@ export default {
   Content,
   Div,
   DrawerSidebar,
+  Icon,
   Input,
   Hr,
   Layout,
@@ -55,5 +59,7 @@ export default {
   Radio,
   Rating,
   Sidebar,
+  Typography,
+  SmartSidebar,
   User
 }

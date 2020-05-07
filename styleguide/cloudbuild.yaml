@@ -71,11 +71,13 @@ steps:
   - TAG_NAME=$TAG_NAME
   - REVISION_ID=$REVISION_ID
 
-# Create deployment and service
+# Create deployment, service and backendConfig
 - id: apply kube resources
   name: 'gcr.io/cloud-builders/kubectl'
   args:
   - apply
+  - -f
+  - '${_PATH}/deploy/compiled/backendConfig.yaml'
   - -f
   - '${_PATH}/deploy/compiled/deployment.yaml'
   - -f

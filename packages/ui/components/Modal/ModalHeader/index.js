@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import Span from './../../Span'
+import Span from './../../Typography/Span'
 import Icon from './../../Icon'
 import Row from './../../Row'
 import Div from './../../Div'
