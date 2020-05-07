@@ -1,0 +1,14 @@
+# BackendConfig is used to prevent default websocket timeout of 30 seconds
+# on GKE. It also enables CDN caching for JS bundle and /public files.
+apiVersion: cloud.google.com/v1beta1
+kind: BackendConfig
+metadata:
+  name: ${_APP}
+spec:
+  timeoutSec: 86400
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeProtocol: false
+      includeQueryString: true

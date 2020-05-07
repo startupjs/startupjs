@@ -2,19 +2,22 @@ import { useState } from 'react'
 import User from '../User'
 import Content from '../Content'
 import Row from '../Row'
+import Div from '../Div'
 import Br from '../Br'
-import Span from '../Span'
+import Span from '../Typography/Span'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 
 # User
 
-User is used to display information about other users in an application concisely.
+Inherits [Div props](/docs/en/Div).
+
+User is used to display information about users. It uses [Avatar](/docs/en/Avatar) component to display user avatar.
 
 ## Example
 
 ```jsx
-import { User } from '@startupjs/ui'
+import { User, Content, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -36,60 +39,65 @@ return (
 
 ## Sizes
 
-User avatars can come in many sizes as illustrated below. Default value of `size` prop is `m`.
+Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of page.
 
 ```jsx
-import { User } from '@startupjs/ui'
+import { User, Div, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
 return (
-  <Row wrap align='between'>
+  <Div>
     <User
       size='xs'
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
-      description='xs size description'
-      />
+      description='xs size'
+    />
+    <Br />
     <User
       size='s'
       avatarUrl='/img/avatar2.jpeg'
       name='John Doe'
-      description='s size description'
-      />
+      description='s size'
+    />
+    <Br />
     <User
       avatarUrl='/img/avatar3.jpeg'
       name='John Doe'
-      description='This is the default size'
-      />
+      description='m size, this is the default size'
+    />
+    <Br />
     <User
       size='l'
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
-      description='l size description'
-      />
+      description='l size'
+    />
+    <Br />
     <User
       size='xl'
       avatarUrl='/img/avatar2.jpeg'
       name='John Doe'
-      description='xl size description'
-      />
+      description='xl size'
+    />
+    <Br />
     <User
       size='xxl'
       avatarUrl='/img/avatar3.jpeg'
       name='John Doe'
-      description='xxl size description'
-      />
-  </Row>
+      description='xxl size'
+    />
+  </Div>
 )
 ```
 
 ## User status
 
-Avatar `status` prop can be modified to either `online` or `away`.
+To display user online status on avatar you can pass string `online` or `away` to property `status`.
 
 ```jsx
-import { User } from '@startupjs/ui'
+import { User, Row } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -114,7 +122,7 @@ return (
 
 ## User avatar position
 
-Avatar position can be modified using `avatarPosition` prop to either `left` or `right`. Default `avatarPosition` is on the `left`.
+Avatar position can be modified by passing string `left` (default) or `right` to `avatarPosition` property.
 
 ```jsx
 import { User } from '@startupjs/ui'
@@ -133,10 +141,10 @@ return (
 
 ## Actions
 
-User component can respond to clicks by passing an `onPress` handler.
+Passed handler to `onPress` property will be called when the user taps the component.
 
 ```jsx
-import { User } from '@startupjs/ui'
+import { User, Content } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -159,4 +167,4 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={User} />  
+<Sandbox Component={User} />

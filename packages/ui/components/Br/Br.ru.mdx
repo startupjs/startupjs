@@ -1,0 +1,77 @@
+import { useState } from 'react'
+import Br from '../Br'
+import Content from '../Content'
+import Div from '../Div'
+import Span from '../Typography/Span'
+import { u } from '../../config/helpers'
+import TextInput from '../forms/TextInput'
+import { Sandbox } from '@startupjs/docs'
+
+# Br
+
+`Br` используется для вставки разрыва строки. Он также позволяет разработчику настроить необходимое количество разрывов строк.
+
+## Example
+
+Количество разрывов строк можно настроить, передав число в свойство `lines`. Значение по умолчанию - `1`.
+
+```jsx
+import { Br, Content, Div, Span } from 'startupjs/ui'
+```
+
+```jsx example
+const itemStyle = {
+  height: u(5),
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+const [value, setValue] = useState('1')
+return (
+  <Content>
+    <TextInput
+      label='Enter number of lines of space'
+      value={value}
+      onChangeText={(text) => setValue(text)}
+    />
+    <Br />
+    <Div style={itemStyle} level={1}>
+      <Span size='xl'>Item 1</Span>
+    </Div>
+    <Br lines={Number(value)} />
+    <Div style={itemStyle} level={1}>
+      <Span size='xl'>Item 2</Span>
+    </Div>
+  </Content>
+)
+```
+
+## Половина разрыва строки
+
+Устанавливая свойство `half` в `true` создает разрыв строки, равный значению `lines` в `0.5`.
+
+```jsx
+import { Br, Content, Div, Span } from 'startupjs/ui'
+```
+
+```jsx example
+const itemStyle = {
+  height: u(5),
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+return (
+  <Content>
+    <Div style={itemStyle} level={1}>
+      <Span size='xl'>Item 1</Span>
+    </Div>
+    <Br half />
+    <Div style={itemStyle} level={1}>
+      <Span size='xl'>Item 2</Span>
+    </Div>
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Br} />

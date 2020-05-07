@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import { View, TouchableOpacity } from 'react-native'
 import ModalHeader from './ModalHeader'
@@ -18,56 +18,59 @@ function Modal ({
   onConfirm,
   onBackdropPress
 }) {
-  const childrenList = React.Children.toArray(children)
-  const headerChildren = []
+  // Deconstruct template variables
+  let header, actions, content
   const contentChildren = []
-  const actionsChildren = []
-  childrenList.forEach(child => {
-    switch (child.type) {
+  React.Children.forEach(children, child => {
+    switch (child && child.type) {
       case ModalHeader:
-        headerChildren.push(child)
+        if (header) throw Error('[ui -> Modal] You must specify a single <Modal.Header>')
+        header = child
         break
       case ModalActions:
-        actionsChildren.push(child)
+        if (actions) throw Error('[ui -> Modal] You must specify a single <Modal.Actions>')
+        actions = child
+        break
+      case ModalContent:
+        if (content) throw Error('[ui -> Modal] You must specify a single <Modal.Content>')
+        content = child
         break
       default:
         contentChildren.push(child)
     }
   })
+  if (content && contentChildren.length > 0) {
+    throw Error('[ui -> Modal] React elements found directly within <Modal>. ' +
+      'If <Modal.Content> is specified, you have to put all your content inside it')
+  }
 
-  const doChildrenHaveModalContent =
-    useMemo(() => {
-      return !!contentChildren.filter(child => child.type === ModalContent).length
-    }, [contentChildren.length])
+  // Handle <Modal.Content>
+  content = content || (contentChildren.length > 0
+    ? React.createElement(ModalContent, null, contentChildren)
+    : null)
 
-  const content = doChildrenHaveModalContent
-    ? contentChildren
-    : contentChildren.length
-      ? React.createElement(ModalContent, null, contentChildren)
-      : null
-
+  // Handle <Modal.Actions>
   const actionsProps = {
     onDismiss,
     onConfirm,
     style: content ? { paddingTop: 0 } : null
   }
-  const actions = actionsChildren.length
-    ? actionsChildren
-      .map(child => React.cloneElement(
-        child,
-        { ...actionsProps, ...child.props }
-      ))
+  actions = actions
+    ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
     : onDismiss || onConfirm
       ? React.createElement(ModalActions, actionsProps)
       : null
 
+  // Handle <Modal.Header>
   const headerProps = {
     onDismiss,
     style: content || actions ? { paddingBottom: 0 } : null
   }
-  const header = title
-    ? React.createElement(ModalHeader, headerProps, title)
-    : headerChildren.map(child => React.cloneElement(child, headerProps))
+  header = header
+    ? React.cloneElement(header, { ...headerProps, ...header.props })
+    : title
+      ? React.createElement(ModalHeader, headerProps, title)
+      : null
 
   const isWindowLayout = variant === 'window'
 

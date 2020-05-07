@@ -1,0 +1,169 @@
+import { useState } from 'react'
+import User from '../User'
+import Content from '../Content'
+import Row from '../Row'
+import Br from '../Br'
+import Span from '../Typography/Span'
+import { u } from '../../config/helpers'
+import { Sandbox } from '@startupjs/docs'
+
+# User (пользователь)
+
+Наследует [Div props](/docs/ru/Div).
+
+Пользователь используется для краткого отображения информации о пользователях. Он использует [Avatar](/docs/ru/Avatar) компонент для отображения аватара пользователя.
+
+## Example
+
+```jsx
+import { User, Content, Br } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content>
+    <User
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+    />
+    <Br />
+    <User
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+    />
+  </Content>
+)
+```
+
+## Размеры
+
+Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Песочница` внизу страницы.
+
+```jsx
+import { User, Div, Br } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Div>
+    <User
+      size='xs'
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='xs размер'
+    />
+    <Br />
+    <User
+      size='s'
+      avatarUrl='/img/avatar2.jpeg'
+      name='John Doe'
+      description='s размер'
+    />
+    <Br />
+    <User
+      avatarUrl='/img/avatar3.jpeg'
+      name='John Doe'
+      description='m размер, это размер по умолчанию'
+    />
+    <Br />
+    <User
+      size='l'
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='l размер'
+    />
+    <Br />
+    <User
+      size='xl'
+      avatarUrl='/img/avatar2.jpeg'
+      name='John Doe'
+      description='xl размер'
+    />
+    <Br />
+    <User
+      size='xxl'
+      avatarUrl='/img/avatar3.jpeg'
+      name='John Doe'
+      description='xxl размер'
+    />
+  </Div>
+)
+```
+
+## User status
+
+Для отображения онлайн-статуса пользователя на аватаре можно передать строку `online` или `away` в свойство `status`.
+
+```jsx
+import { User, Row } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Row>
+    <User
+      status='online'
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='Online description'
+        style={{ marginRight: u(2) }}
+    />
+    <User
+      status='away'
+      avatarUrl='/img/avatar2.jpeg'
+      name='John Doe'
+      description='Offline description'
+      />
+  </Row>
+)
+```
+
+## Положение аватара пользователя
+
+Положение аватара можно изменить, передав строку `left` (по умолчанию) или `right` в свойство `avatarPosition`.
+
+```jsx
+import { User } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <User
+    avatarPosition='right'
+    avatarUrl='/img/avatar1.jpeg'
+    name='John Doe'
+    description='The cat is a domestic species of small carnivorous mammal'
+  />
+)
+```
+
+## Действия
+
+Переданный обработчик в `onPress` свойство будет вызван когда пользователь нажмет на компонент.
+
+```jsx
+import { User, Content } from '@startupjs/ui'
+```
+
+```jsx example
+const [clicked, setClicked] = useState(0)
+return (
+  <Content>
+    <User
+      avatarUrl='/img/avatar1.jpeg'
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+      onPress={() => setClicked(clicked + 1)}
+    />
+    <Br />
+    <Span>
+      {clicked ? `User clicked ${clicked} ${clicked === 1 ? 'time' : 'times'}` : 'Click on user'}
+    </Span>
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={User} />

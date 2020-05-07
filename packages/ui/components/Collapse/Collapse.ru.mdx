@@ -71,6 +71,31 @@ return (
 )
 ```
 
+## Кастомная иконка
+
+При помощи опции `icon`, вы можете указать свою иконку. Она должна быть в виде стрелки, указывающей вправо.
+
+```jsx
+import { Collapse } from '@startupjs/ui'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+const [open, setOpen] = useState(false)
+return (
+  <Collapse open={open} onChange={() => setOpen(!open)}>
+    <Collapse.Header icon={faAngleRight}>Collapse with custom icon</Collapse.Header>
+    <Collapse.Content>
+      Collapse content
+    </Collapse.Content>
+  </Collapse>
+)
+```
+
+### БЕЗ иконки
+
+Вы можете убрать иконку вообще, указан `icon={false}`.
+
 ## Accordion (аккордеон)
 
 Используя `Collapse` компонент, можно создать поведение, подобное аккордеону.

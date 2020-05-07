@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { View } from 'react-native'
 import propTypes from 'prop-types'
-import Span from '../Span'
+import Span from '../Typography/Span'
 import Filler from './filler'
 import './index.styl'
 

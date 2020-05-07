@@ -33,7 +33,7 @@ class PlayerModel extends Model.ChildModel {
 class GamesModel extends Model.ChildModel {
   async addNew (userId = 'system', params = {}) {
     let gameId = this.id()
-    await this.addAsync('games', {
+    await this.add('games', {
       name: 'Dummy Game',
       ...params,
       id: gameId,
@@ -49,7 +49,7 @@ class GameModel extends Model.ChildModel {
   async alertPlayers (message) {
     let playerIds = this.get('playerIds')
     let playersQuery = this.root.query('players', { _id: { $in: playerIds } })
-    await this.subscribeAsync(playersQuery)
+    await this.subscribe(playersQuery)
     for (let playerId of playersQuery.getIds()) {
       this.scope('players.' + playerId).alert(message)
     }
@@ -58,13 +58,13 @@ class GameModel extends Model.ChildModel {
   async addPlayer (userId, params = {}) {
     if (!userId) throw new Error('userId required')
     var playerId = this.id()
-    await this.root.addAsync('players', {
+    await this.root.add('players', {
       ...params,
       id: playerId,
       userId,
       createdAt: Date.now()
     })
-    await this.pushAsync('playerIds', playerId)
+    await this.push('playerIds', playerId)
     return playerId
   }
 }

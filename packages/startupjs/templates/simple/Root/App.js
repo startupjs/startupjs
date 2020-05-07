@@ -25,7 +25,7 @@ function useGlobalInit (session) {
   // You would want to remove this logic after adding real authorization.
   if (!user) {
     console.warn('Anonymous user detected. Creating DUMMY user data...')
-    throw $user.createAsync()
+    throw $user.create()
   }
 
   useMemo(() => {

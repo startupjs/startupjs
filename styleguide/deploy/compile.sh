@@ -18,6 +18,7 @@ cd deploy
 
 compile deployment.yaml
 compile service.yaml
+compile backendConfig.yaml
 
 printf "\n\nCompiled files:\n\n"
 ls compiled
