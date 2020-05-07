@@ -10,7 +10,8 @@ function Progress ({
   style,
   value,
   label,
-  variant
+  variant,
+  shape
 }) {
   const [progress] = useState(new Animated.Value(value))
 
@@ -28,9 +29,10 @@ function Progress ({
 
   return pug`
     View(style=style)
-      View.progress
+      View.progress(style={ borderRadius: shape === 'round' ? 4 : 0 })
         AnimatedView.filler(
           style={
+            borderRadius: shape === 'round' ? 4 : 0,
             width: progress.interpolate({
               inputRange: [0, 1],
               outputRange: ['0%', '1%']
@@ -45,14 +47,16 @@ function Progress ({
 
 Progress.defaultProps = {
   value: 0,
-  variant: 'full'
+  variant: 'full',
+  shape: 'round'
 }
 
 Progress.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   value: propTypes.number,
   label: propTypes.string,
-  variant: propTypes.oneOf(['full', 'compact'])
+  variant: propTypes.oneOf(['full', 'compact']),
+  shape: propTypes.oneOf(['round', 'square'])
 }
 
 export default observer(Progress)
