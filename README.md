@@ -93,13 +93,13 @@ Here is the list of commands to run all platforms at the same time:
     yarn metro
     ```
 
-5. Run **android** (optional) *in a separate terminal tab*
+4. Run **android** (optional) *in a separate terminal tab*
 
     ```
     yarn android
     ```
 
-6. Run **ios** (optional) *in a separate terminal tab*
+5. Run **ios** (optional) *in a separate terminal tab*
 
     ```
     yarn ios
