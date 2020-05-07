@@ -19,6 +19,7 @@ import Loader from '../components/Loader/Loader.en.mdx'
 import ObjectInput from '../components/forms/ObjectInput/ObjectInput.en.mdx'
 import Modal from '../components/Modal/Modal.en.mdx'
 import Menu from '../components/Menu/Menu.en.mdx'
+import Pagination from '../components/Pagination/Pagination.en.mdx'
 import Progress from '../components/Progress/Progress.en.mdx'
 import Radio from '../components/forms/Radio/Radio.en.mdx'
 import Rating from '../components/Rating/Rating.en.mdx'
@@ -52,6 +53,7 @@ export default {
   ObjectInput,
   Modal,
   Menu,
+  Pagination,
   Progress,
   Row,
   Tag,
