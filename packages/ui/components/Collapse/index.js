@@ -23,7 +23,7 @@ function Collapse ({
   let header, content
   const contentChildren = []
   React.Children.forEach(children, child => {
-    switch (child.type) {
+    switch (child && child.type) {
       case CollapseHeader:
         if (header) throw Error('[ui -> Collapse] You must specify a single <Collapse.Header>')
         header = child
