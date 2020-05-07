@@ -52,7 +52,7 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 ## Quick start
 
-1. Initialize a new [`simple` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
+1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
 
     ```
     npx startupjs init myapp
@@ -65,36 +65,6 @@ StartupJS stack is built on top of the following libraries and technologies:
     ```
 
 3. Open http://localhost:3000 and start developing!
-
-## Boilerplate templates
-
-The following templates are available:
-
-1. `simple`
-2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
-3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
-
-By default `init` creates a project using the feature-rich `ui` template.
-
-To use another template specify the `-t` option:
-
-```
-npx startupjs init myapp -t simple
-```
-
-To create a new project using an alpha version of startupjs, append `@next` to the startupjs itself:
-
-```
-npx startupjs@next init myapp
-```
-
-Each template initializes on top of a default `react-native init` application.
-
-If you want to use an RC version (`next`) of `react-native`, specify it using the `-rn` option:
-
-```
-npx startupjs init myapp -rn next
-```
 
 ## Running on mobile
 
@@ -134,6 +104,36 @@ Here is the list of commands to run all platforms at the same time:
     ```
     yarn ios
     ```
+
+## Boilerplate templates
+
+The following templates are available:
+
+1. `simple`
+2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
+3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
+
+By default `init` creates a project using the feature-rich `ui` template.
+
+To use another template specify the `-t` option:
+
+```
+npx startupjs init myapp -t simple
+```
+
+To create a new project using an alpha version of startupjs, append `@next` to the startupjs itself:
+
+```
+npx startupjs@next init myapp
+```
+
+Each template initializes on top of a default `react-native init` application.
+
+If you want to use an RC version (`next`) of `react-native`, specify it using the `-rn` option:
+
+```
+npx startupjs init myapp -rn next
+```
 
 ## Docker development Quick Start
 
