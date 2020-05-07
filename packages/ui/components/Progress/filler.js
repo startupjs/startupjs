@@ -8,7 +8,7 @@ const { duration } = config.Progress
 
 const AnimatedView = Animated.View
 
-export default observer(function ProgressFiller ({ value }) {
+export default observer(function ProgressFiller ({ value, shape }) {
   const [progress] = useState(new Animated.Value(value))
 
   useDidUpdate(() => {
@@ -26,6 +26,7 @@ export default observer(function ProgressFiller ({ value }) {
   return pug`
     AnimatedView.filler(
       style={
+        borderRadius: shape === 'round' ? 4 : 0,
         width: progress.interpolate({
           inputRange: [0, 1],
           outputRange: ['0%', '1%']
