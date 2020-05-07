@@ -112,8 +112,16 @@ commander
 
     // check if template exists
     if (!TEMPLATES[template]) {
-      Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
+      throw Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
+
+    let projectPath = path.join(process.cwd(), projectName)
+
+    if (fs.existsSync(projectPath)) {
+      throw Error(`Folder '${projectPath}' already exists in the current directory.`)
+    }
+
+    // check if the folder already exists and throw an error
 
     // init react-native application
     await execa('npx', [
@@ -121,8 +129,6 @@ commander
       'init',
       projectName
     ].concat(['--version', version]), { stdio: 'inherit' })
-
-    let projectPath = path.join(process.cwd(), projectName)
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
