@@ -71,7 +71,7 @@ export default observer(function Room ({
 
   // If the document with an `_id` of `roomId` doesn't exist yet, we create it.
   // We have to wait for the document to be created by throwing the promise.
-  if (!room) throw $room.createAsync({ title: 'New Room' })
+  if (!room) throw $room.create({ title: 'New Room' })
 
   function onChange (e) {
     $room.set('title', e.target.value)
@@ -351,7 +351,7 @@ export default observer(function Game ({ gameId }) {
 
   function startGame () {
     const $$players = $root.query('players', { gameId })
-    await $root.subscribeAsync($$players)
+    await $root.subscribe($$players)
     const playerIds = $$players.getIds()
     const promises = []
     const startAt = +new Date()
@@ -359,7 +359,7 @@ export default observer(function Game ({ gameId }) {
     batch(() => {
       playerIds.forEach(playerId => {
         const $player = $root.scope(`players.${playerId}`)
-        promises.push($player.setAsync('startAt', startAt))
+        promises.push($player.set('startAt', startAt))
       })
     })
 

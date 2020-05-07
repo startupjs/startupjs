@@ -40,7 +40,7 @@ async function populateDbWithFixtures () {
     let items = yaml.safeLoad(fs.readFileSync(`${FIXTURES_PATH}/${file}`))
     let promises = []
     for (let id in items) {
-      promises.push(model.addAsync(collection, { id, ...items[id] }))
+      promises.push(model.add(collection, { id, ...items[id] }))
     }
     await Promise.all(promises)
   }

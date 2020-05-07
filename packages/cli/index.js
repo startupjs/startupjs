@@ -105,15 +105,25 @@ let templatesPath
 commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
-  .option('-v, --version <semver>', 'Use a particular semver of React Native as a template', 'latest')
+  .option('-rn, --react-native <semver>', 'Use a particular semver of React Native as a template', 'latest')
   .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', DEFAULT_TEMPLATE)
   .action(async (projectName, { version, template }) => {
     console.log('> run npx', projectName, { version, template })
 
     // check if template exists
     if (!TEMPLATES[template]) {
-      Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
+      throw Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
+
+    let projectPath = path.join(process.cwd(), projectName)
+
+    if (fs.existsSync(projectPath)) {
+      const err = `Folder '${projectName}' already exists in the current directory. Delete it to create a new app`
+      console.log('!!! ERROR !!! ' + err + '\n\n')
+      throw Error(err)
+    }
+
+    // check if the folder already exists and throw an error
 
     // init react-native application
     await execa('npx', [
@@ -121,8 +131,6 @@ commander
       'init',
       projectName
     ].concat(['--version', version]), { stdio: 'inherit' })
-
-    let projectPath = path.join(process.cwd(), projectName)
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {

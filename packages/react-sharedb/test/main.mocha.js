@@ -47,19 +47,19 @@ afterEach(cleanup)
 describe(PREFIX + 'Helpers', () => {
   it('test RPC', async () => {
     let w
-    await serverModel.setAsync(`users.${alias(1)}.name`, alias(1))
+    await serverModel.set(`users.${alias(1)}.name`, alias(1))
     w = await initSimple(() => ({ items: subDoc('users', alias(1)) }))
     expect(w.items).to.include(alias(1))
     unmount()
 
-    await serverModel.setAsync(`users.${alias(1)}.name`, 'Abrakadabra')
+    await serverModel.set(`users.${alias(1)}.name`, 'Abrakadabra')
     w = await initSimple(() => ({ items: subDoc('users', alias(1)) }), {
       renderCount: 1
     })
     expect(w.items).to.include('Abrakadabra')
     unmount()
 
-    await serverModel.setAsync(`users.${alias(1)}.name`, alias(1))
+    await serverModel.set(`users.${alias(1)}.name`, alias(1))
     w = await initSimple(() => ({ items: subDoc('users', alias(1)) }), {
       renderCount: 1
     })
@@ -391,7 +391,7 @@ describe(PREFIX + 'Edge cases', () => {
     let userId = alias(777)
     let w = await initSimple(() => ({ items: subDoc('users', userId) }))
     expect(w.items).to.have.lengthOf(0)
-    serverModel.add(`users`, {
+    serverModel.add('users', {
       id: userId,
       name: userId
     })
@@ -412,7 +412,7 @@ describe(PREFIX + 'Edge cases', () => {
     serverModel.del(`users.${userId}`)
     await w.nextRender()
     expect(w.items).to.have.lengthOf(0)
-    serverModel.add(`users`, {
+    serverModel.add('users', {
       id: userId,
       name: userId
     })

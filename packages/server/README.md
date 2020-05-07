@@ -11,7 +11,7 @@ startupjsServer({ getHead }, ee => {
     expressApp.get('/api', async (req, res) => {
       let { model } = req
       let $counter = model.at('counters.first')
-      await $counter.subscribeAsync()
+      await $counter.subscribe()
       res.json({ name: 'Test API', counter: $counter.get() })
     })
   })
