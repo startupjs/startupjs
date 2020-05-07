@@ -3,7 +3,7 @@ import propTypes from 'prop-types'
 import { observer } from 'startupjs'
 import Div from './../Div'
 import Row from './../Row'
-import { H6 } from './../Headers'
+import { H6 } from './../Typography/Headers'
 import Star from './Star'
 import './index.styl'
 const AMOUNT = 5
@@ -18,7 +18,7 @@ function Rating ({
   return pug`
     Row.root(style=style vAlign='center' align='between' styleName={readonly})
       if readonly
-        Star.star(active)
+        Star(active)
         H6(bold)= Number.isInteger(value) ? value : value.toFixed(1)
       else
         each ITEM, index in ITEMS

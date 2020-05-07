@@ -1,0 +1,13 @@
+_headerSizes = {
+  h1: xxxxxl,
+  h2: xxxxl,
+  h3: xxxl,
+  h4: xxl,
+  h5: xl,
+  h6: l
+}
+
+font(key = m)
+  size = _headerSizes[key] || key
+  font-size: $UI.fontSizes[size]
+  line-height $UI.lineHeights[size]

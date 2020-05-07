@@ -1,0 +1,47 @@
+import { useState }  from 'react'
+import Rating from '../Rating'
+import Content from '../Content'
+import Row from '../Row'
+import Span from '../Typography/Span'
+import Br from '../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Rating (рейтинг)
+
+Рейтинг предоставляет пользователю возможность оставить свое мнение и просмотреть мнение других пользователей о сервисе или продукте.
+
+## Example
+
+Рейтинг предоставляет пятизвездочную систему оценки. Свойство `value` округляется до ближайщего целого числа.
+
+```jsx
+import { Rating, Row } from '@startupjs/ui'
+```
+
+```jsx example
+const [rated, setRated] = useState(0)
+return (
+  <Rating
+    value={rated}
+    onChange={(value) => setRated(value)}
+  />
+)
+```
+
+## Read only
+
+Свойство `readonly` не позволяет пользователю изменять значение рейтинга и отображает его в компактном виде (по умолчанию `false`).
+
+```jsx
+import { Rating } from '@startupjs/ui'
+```
+
+```jsx example
+return(
+  <Rating value={4.5} readonly />
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Rating} />

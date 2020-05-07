@@ -11,6 +11,11 @@ import {
 } from '../../../../clientHelpers'
 import { useDocsContext } from '../../../../../docsContext'
 
+const LANGUAGES = [
+  { value: 'en', label: 'English' },
+  { value: 'ru', label: 'Русский' }
+]
+
 export default observer(function Content ({
   style
 }) {
@@ -68,6 +73,12 @@ export default observer(function Content ({
     `
   }
 
+  function switchLanguage (language) {
+    const url = $root.get('$render.url')
+    if (lang === language) return
+    emit('url', url.replace(`/${lang}`, `/${language}`))
+  }
+
   return pug`
     Div.root
       ScrollView.main
@@ -115,18 +126,15 @@ export default observer(function Content ({
                 else
                   MenuItem(key=componentName name=componentName)
       Row.lang(align='center')
-        Button(
-          size='s'
-          variant='text'
-          color=lang === 'en' ? 'primary' : undefined
-          onPress=() => emit('url', '/docs/en')
-        ) English
-        Button(
-          size='s'
-          variant='text'
-          color=lang === 'ru' ? 'primary' : undefined
-          onPress=() => emit('url', '/docs/ru')
-        ) Русский
+        each LANGUAGE in LANGUAGES
+          - const { value, label } = LANGUAGE
+          Button(
+            key=value
+            size='s'
+            variant='text'
+            color=lang === value ? 'primary' : undefined
+            onPress=switchLanguage.bind(null, value)
+          )= label
       Options
   `
 })
