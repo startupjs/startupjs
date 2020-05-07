@@ -8,7 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-import Span from './../Span'
+import Span from './../Typography/Span'
 import './index.styl'
 
 // css-to-react-native fails to parse a complex fontFamily value.

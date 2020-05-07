@@ -14,6 +14,7 @@ import Loader from '../components/Loader/Loader.ru.mdx'
 import Progress from '../components/Progress/Progress.ru.mdx'
 import Rating from '../components/Rating/Rating.ru.mdx'
 import Tag from '../components/Tag/Tag.ru.mdx'
+import Typography from '../components/Typography/Typography.ru.mdx'
 import User from '../components/User/User.ru.mdx'
 
 export default {
@@ -33,5 +34,6 @@ export default {
   Progress,
   Rating,
   Tag,
+  Typography,
   User
 }

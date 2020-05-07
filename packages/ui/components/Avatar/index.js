@@ -4,7 +4,7 @@ import { observer, useDidUpdate } from 'startupjs'
 import Div from './../Div'
 import propTypes from 'prop-types'
 import randomcolor from 'randomcolor'
-import Span from '../Span'
+import Span from '../Typography/Span'
 import './index.styl'
 
 function Avatar ({
