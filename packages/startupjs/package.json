@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.22.0-alpha.15",
+  "version": "0.22.0-alpha.16",
   "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
@@ -9,7 +9,7 @@
     "@startupjs/app": "^0.22.0-alpha.13",
     "@startupjs/backend": "^0.22.0-alpha.0",
     "@startupjs/bundler": "^0.22.0-alpha.9",
-    "@startupjs/cli": "^0.22.0-alpha.15",
+    "@startupjs/cli": "^0.22.0-alpha.16",
     "@startupjs/hooks": "^0.22.0-alpha.0",
     "@startupjs/init": "^0.22.0-alpha.13",
     "@startupjs/isomorphic-helpers": "^0.22.0-alpha.0",
