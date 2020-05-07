@@ -105,7 +105,7 @@ let templatesPath
 commander
   .command('init <projectName>')
   .description('bootstrap a new startupjs application')
-  .option('-v, --version <semver>', 'Use a particular semver of React Native as a template', 'latest')
+  .option('-rn, --react-native <semver>', 'Use a particular semver of React Native as a template', 'latest')
   .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', DEFAULT_TEMPLATE)
   .action(async (projectName, { version, template }) => {
     console.log('> run npx', projectName, { version, template })

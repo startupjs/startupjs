@@ -84,13 +84,19 @@ npx startupjs init myapp -t simple
 
 Each template initializes on top of a default `react-native init` application.
 
-If you want to use an RC version (`next`) of `react-native`, specify it using the `-v` option:
+If you want to use an RC version (`next`) of `react-native`, specify it using the `-rn` option:
 
 ```
-npx startupjs init myapp -v next
+npx startupjs init myapp -rn next
 ```
 
-You can combine `-t` and `-v` options together. `react-native init` will run first and afterwards the boilerplate template will be copied over.
+You can combine `-t` and `-rn` options together. `react-native init` will run first and afterwards the boilerplate template will be copied over.
+
+To create a new project using an alpha version of startupjs, append `@next` to the startupjs itself:
+
+```
+npx startupjs@next init myapp
+```
 
 ## Running on mobile
 
