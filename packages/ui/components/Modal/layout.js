@@ -22,7 +22,7 @@ function Modal ({
   let header, actions, content
   const contentChildren = []
   React.Children.forEach(children, child => {
-    switch (child.type) {
+    switch (child && child.type) {
       case ModalHeader:
         if (header) throw Error('[ui -> Modal] You must specify a single <Modal.Header>')
         header = child

@@ -2,10 +2,10 @@ const commander = require('commander')
 const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
-const version = require('./package.json').version
+const CLI_VERSION = require('./package.json').version
 
-const IS_ALPHA = /alpha/.test(version)
-const STARTUPJS_VERSION = IS_ALPHA ? `^${version.replace(/\.\d+$/, '.0')}` : 'latest'
+const IS_ALPHA = /alpha/.test(CLI_VERSION)
+const STARTUPJS_VERSION = IS_ALPHA ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
 
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
@@ -107,8 +107,8 @@ commander
   .description('bootstrap a new startupjs application')
   .option('-rn, --react-native <semver>', 'Use a particular semver of React Native as a template', 'latest')
   .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', DEFAULT_TEMPLATE)
-  .action(async (projectName, { version, template }) => {
-    console.log('> run npx', projectName, { version, template })
+  .action(async (projectName, { reactNative, template }) => {
+    console.log('> run npx', projectName, { reactNative, template })
 
     // check if template exists
     if (!TEMPLATES[template]) {
@@ -127,10 +127,10 @@ commander
 
     // init react-native application
     await execa('npx', [
-      `react-native${'@' + version}`,
+      `react-native${'@' + reactNative}`,
       'init',
       projectName
-    ].concat(['--version', version]), { stdio: 'inherit' })
+    ].concat(['--version', reactNative]), { stdio: 'inherit' })
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
