@@ -118,7 +118,9 @@ commander
     let projectPath = path.join(process.cwd(), projectName)
 
     if (fs.existsSync(projectPath)) {
-      throw Error(`Folder '${projectPath}' already exists in the current directory.`)
+      const err = `Folder '${projectName}' already exists in the current directory. Delete it to create a new app`
+      console.log('!!! ERROR !!! ' + err + '\n\n')
+      throw Error(err)
     }
 
     // check if the folder already exists and throw an error
