@@ -1,6 +1,6 @@
 import racer from 'racer'
 import racerRpc from 'racer-rpc'
-import { model } from '../../src'
+import { model } from '../..'
 
 // Start WS connection to server
 model.createConnection()

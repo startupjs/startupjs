@@ -45,7 +45,6 @@ const ASYNC_EXTENSIONS = EXTENSIONS.map(i => '.async' + i)
 const DEFAULT_FORCE_COMPILE_MODULES = [
   '@startupjs/init/src',
   '@startupjs/hooks/src',
-  '@startupjs/react-sharedb/src',
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible', // used by ui
