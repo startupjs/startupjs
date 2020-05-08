@@ -202,11 +202,6 @@ export default {
       title: 'Tag',
       component: require('./../components/Tag').default
     },
-    Typography: {
-      type: 'sandbox',
-      title: 'Typography',
-      component: require('./../components/Typography').default
-    },
     ThemeProvider: {
       type: 'sandbox',
       title: 'ThemeProvider',

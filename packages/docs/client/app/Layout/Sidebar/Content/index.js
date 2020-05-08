@@ -17,10 +17,11 @@ const LANGUAGES = [
 export default observer(function Content ({
   style
 }) {
+  const [lang, setLang] = useLang()
+  if (!lang) return null
   // TODO: Change logo image to base64 and pass it through context
   const baseUrl = BASE_URL
   const docs = useDocsContext()
-  const [lang, setLang] = useLang()
 
   function switchLanguage (language) {
     const url = $root.get('$render.url')
@@ -33,7 +34,7 @@ export default observer(function Content ({
     Div.root
       ScrollView.main
         Image.logo(source={ uri: baseUrl + '/img/docs.png' })
-        Docs(docs=docs)
+        Docs(docs=docs lang=lang)
       Row.lang(align='center')
         each LANGUAGE in LANGUAGES
           - const { value, label } = LANGUAGE

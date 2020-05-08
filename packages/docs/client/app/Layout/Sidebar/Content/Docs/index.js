@@ -1,5 +1,5 @@
-import React from 'react'
-import { observer, useLocal, useSyncEffect, useSession } from 'startupjs'
+import React, { useEffect } from 'react'
+import { observer, useLocal, useSession } from 'startupjs'
 import { Menu, Collapse } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
@@ -7,26 +7,29 @@ import { pathFor } from 'startupjs/app'
 
 const Docs = observer(function DocsComponent ({
   docs,
+  lang,
   subpath = '',
   children
 }) {
   if (!docs) return null
   const [url] = useLocal('$render.url')
-  const [lang] = useLocal('$render.params.lang')
   const [, $openedCollapses] = useSession('SidebarCollapses')
 
-  useSyncEffect(() => {
+  // HACK: open parent collapse
+  useEffect(() => {
     if (subpath && url.includes(subpath)) $openedCollapses.setDiff(subpath, true)
   }, [])
 
   function getTitle (item, lang) {
-    if (!item.title) throw Error('No title specified')
-    if (typeof item.title === 'string') return item.title
-    if (item.title[lang]) return item.title[lang]
-    return item.title[DEFAULT_LANGUAGE]
+    const title = item.title
+      ? typeof item.title === 'string'
+        ? item.title
+        : item.title[lang] || item.title[DEFAULT_LANGUAGE]
+      : null
+    if (!title) throw Error('No title specified')
+    return title
   }
 
-  console.log('x')
   return pug`
     Menu
       each aDocName in Object.keys(docs)
@@ -49,7 +52,7 @@ const Docs = observer(function DocsComponent ({
                   active=isActive
                 )= title
               Collapse.Content
-                Docs(docs=doc.items subpath=docPath)
+                Docs(docs=doc.items lang=lang subpath=docPath)
   `
 })
 

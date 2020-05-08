@@ -15,7 +15,8 @@ function Collapse ({
   open,
   $open,
   variant,
-  onChange
+  onChange,
+  ...props
 }) {
   ({ open, onChange } = useBindingProps($open, { open }, { onChange }))
   let header
@@ -63,7 +64,7 @@ function Collapse ({
   }
 
   return pug`
-    Div.root(style=style ...extraProps)
+    Div.root(style=style ...extraProps ...props)
       = header
       = content
   `
