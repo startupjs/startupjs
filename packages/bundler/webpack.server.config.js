@@ -28,6 +28,9 @@ module.exports = function getConfig (env, {
     alias = JSON.parse(alias)
   }
   forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
+  forceCompileModules = forceCompileModules.map(moduleName => {
+    return new RegExp('^' + moduleName + '($|/)')
+  })
   return pickBy({
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
