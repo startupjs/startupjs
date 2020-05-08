@@ -1,4 +1,4 @@
-FROM node:13.1.0-alpine
+FROM node:14-alpine
 
 # !!! REQUIRED !!! env vars:
 # - MONGO_URL
