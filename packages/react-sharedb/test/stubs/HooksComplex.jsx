@@ -1,9 +1,7 @@
-import React, { useState, useLayoutEffect, useMemo } from 'react'
-import { observer, useDoc, useQuery } from '../../src'
+import React, { useLayoutEffect, useMemo } from 'react'
+import { observer, useDoc, useQuery } from '../..'
 import { alias } from '../util'
 import isArray from 'lodash/isArray'
-
-const noObserver = fn => fn
 
 const HooksComplex = () => {
   let renderCount = 0
@@ -55,11 +53,11 @@ const HooksComplex = () => {
 HooksComplex.displayName = 'HooksComplex'
 export default HooksComplex
 
-function useRenderCount () {
-  let [renderCount, setRenderCount] = useState(0)
-  useLayoutEffect(() => setRenderCount(renderCount + 1))
-  return renderCount
-}
+// function useRenderCount () {
+//   let [renderCount, setRenderCount] = useState(0)
+//   useLayoutEffect(() => setRenderCount(renderCount + 1))
+//   return renderCount
+// }
 
 function getItemsNames (items) {
   items = items || []

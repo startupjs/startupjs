@@ -1,8 +1,9 @@
 import { fork } from 'child_process'
+import path from 'path'
 
 before(function (done) {
   this.timeout(10000)
-  const server = fork(__dirname + '/_init.js', [], { silent: true })
+  const server = fork(path.join(__dirname, '_init.js'), [], { silent: true })
   server.stdout.pipe(process.stdout)
   server.stderr.pipe(process.stderr)
   process.on('exit', () => server.kill())

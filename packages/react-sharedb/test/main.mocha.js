@@ -1,5 +1,5 @@
+/* global model, serverModel, subDoc, subQuery, subLocal, subValue, subApi */
 import { asyncImport, cleanup } from './_globals'
-import React from 'react'
 import { expect } from 'chai'
 import { alias } from './util'
 import range from 'lodash/range'
