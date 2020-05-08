@@ -10,8 +10,8 @@ export function useModel (...args) {
 
 export function useOn (...args) {
   useLayoutEffect(() => {
-    let [eventName] = args
-    let listener = $root.on(...args)
+    const [eventName] = args
+    const listener = $root.on(...args)
     return () => {
       $root.removeListener(eventName, listener)
     }
@@ -23,16 +23,16 @@ export function useEmit () {
 }
 
 export function generateUseQueryIds ({ batch, optional } = {}) {
-  let useFn = batch
+  const useFn = batch
     ? useBatchQuery
     : optional
       ? useAsyncQuery
       : useQuery
   return (collection, ids = [], options = {}) => {
-    let [, $items, ready] = useFn(collection, { _id: { $in: ids } })
+    const [, $items, ready] = useFn(collection, { _id: { $in: ids } })
     if (!ready) return [undefined, $items, ready]
     if (options.reverse) ids = ids.slice().reverse()
-    let items = ids.map(id => $root.get(`${collection}.${id}`)).filter(Boolean)
+    const items = ids.map(id => $root.get(`${collection}.${id}`)).filter(Boolean)
     return [items, $items, ready]
   }
 }
@@ -42,20 +42,17 @@ export const useBatchQueryIds = generateUseQueryIds({ batch: true })
 export const useAsyncQueryIds = generateUseQueryIds({ optional: true })
 
 export function generateUseQueryDoc ({ batch, optional } = {}) {
-  let useFn = batch
+  const useFn = batch
     ? useBatchQuery
     : optional
       ? useAsyncQuery
       : useQuery
   return (collection, query) => {
-    query = {
-      ...query,
-      $limit: 1
-    }
+    query = Object.assign({}, query, { $limit: 1 })
     if (!query.$sort) query.$sort = { createdAt: -1 }
-    let [items = [], , ready] = useFn(collection, query)
-    let itemId = items[0] && items[0].id
-    let $item = useMemo(
+    const [items = [], , ready] = useFn(collection, query)
+    const itemId = items[0] && items[0].id
+    const $item = useMemo(
       () => {
         if (!itemId) return
         return $root.at(`${collection}.${itemId}`)

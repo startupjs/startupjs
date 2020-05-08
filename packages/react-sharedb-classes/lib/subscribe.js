@@ -1,28 +1,28 @@
-const isArray = require('lodash/isArray')
-const uniq = require('lodash/uniq')
-const union = require('lodash/union')
-const _keys = require('lodash/keys')
-const isEqual = require('lodash/isEqual')
-const React = require('react')
-const hoistStatics = require('hoist-non-react-statics')
-const model = require('@startupjs/model')
-const Doc = require('./types/Doc')
-const Query = require('./types/Query')
-const QueryExtra = require('./types/QueryExtra')
-const Local = require('./types/Local')
-const Value = require('./types/Value')
-const Api = require('./types/Api')
-const co = require('co')
-const {
-  _semaphore: semaphore,
+import isArray from 'lodash/isArray'
+import uniq from 'lodash/uniq'
+import union from 'lodash/union'
+import _keys from 'lodash/keys'
+import isEqual from 'lodash/isEqual'
+import React from 'react'
+import hoistStatics from 'hoist-non-react-statics'
+import model from '@startupjs/model'
+import Doc from './types/Doc'
+import Query from './types/Query'
+import QueryExtra from './types/QueryExtra'
+import Local from './types/Local'
+import Value from './types/Value'
+import Api from './types/Api'
+import co from 'co'
+import {
+  _semaphore as semaphore,
   batching,
-  _isExtraQuery: isExtraQuery
-} = require('@startupjs/react-sharedb-util')
-const {
+  _isExtraQuery as isExtraQuery
+} from '@startupjs/react-sharedb-util'
+import {
   observe,
   unobserve,
   observable
-} = require('@nx-js/observer-util')
+} from '@nx-js/observer-util'
 
 const STORE = 'store'
 const STORE_DEPRECATED = 'scope'
@@ -33,7 +33,7 @@ const SUBSCRIBE_COMPUTATION_NAME = '__subscribeComputation'
 const HELPER_METHODS_TO_BIND = ['get', 'at']
 const DUMMY_STATE = {}
 
-module.exports = function subscribe (fn) {
+export default function subscribe (fn) {
   return function decorateTarget (Component) {
     const isStateless = !(
       Component.prototype && Component.prototype.isReactComponent

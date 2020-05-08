@@ -1,6 +1,6 @@
-const Query = require('./Query')
+import Query from './Query'
 
-module.exports = class QueryExtra extends Query {
+export default class QueryExtra extends Query {
   refModel () {
     if (this.cancelled) return
     const { key } = this

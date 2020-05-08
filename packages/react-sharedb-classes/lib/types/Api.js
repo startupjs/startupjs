@@ -1,7 +1,7 @@
-const Base = require('./Base')
-const { _observablePath: observablePath } = require('@startupjs/react-sharedb-util')
+import Base from './Base'
+import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
 
-module.exports = class Local extends Base {
+export default class Local extends Base {
   constructor (...args) {
     super(...args)
     const [path, fn, inputs, options] = this.params

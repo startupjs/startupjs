@@ -1,4 +1,4 @@
-module.exports = class Base {
+export default class Base {
   constructor (model, key, params) {
     this.key = key
     this.params = params

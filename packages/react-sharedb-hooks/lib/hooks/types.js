@@ -46,19 +46,19 @@ export const useLocal = generateUseItemOfType(subLocal)
 export const useValue = generateUseItemOfType(subValue)
 
 function generateUseItemOfType (typeFn, { optional, batch } = {}) {
-  let isQuery = typeFn === subQuery
-  let takeOriginalModel = typeFn === subDoc || typeFn === subLocal
-  let isSync = typeFn === subLocal || typeFn === subValue
+  const isQuery = typeFn === subQuery
+  const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
+  const isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
-    let hookId = useMemo(() => $root.id(), [])
-    let hashedArgs = useMemo(() => JSON.stringify(args), args)
+    const hookId = useMemo(() => $root.id(), [])
+    const hashedArgs = useMemo(() => JSON.stringify(args), args)
 
     const initsCountRef = useRef(0)
     const cancelInitRef = useRef()
     const itemRef = useRef()
     const destructorsRef = useRef([])
 
-    let destroy = useCallback(() => {
+    const destroy = useCallback(() => {
       if (cancelInitRef.current) cancelInitRef.current.value = true
       itemRef.current = undefined
       destructorsRef.current.forEach(destroy => destroy())
@@ -96,7 +96,7 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
     }
 
     function initItem (params) {
-      let item = getItemFromParams(params, $hooks, hookId)
+      const item = getItemFromParams(params, $hooks, hookId)
       destructorsRef.current.push(() => {
         item.unrefModel()
         item.destroy()
@@ -112,11 +112,11 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
         // Cancel initialization of the previous item
         if (cancelInitRef.current) cancelInitRef.current.value = true
         // and init new
-        let cancelInit = {}
+        const cancelInit = {}
         cancelInitRef.current = cancelInit
 
         // If there is no previous item, it means we are the first
-        let firstItem = !itemRef.current
+        const firstItem = !itemRef.current
         // Cancel previous item
         if (itemRef.current) itemRef.current.cancel()
         // and init new
@@ -125,7 +125,7 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
         // It might or might NOT return the promise, depending on whether
         // we need to wait for the new data
         try {
-          let initPromise = item.init(firstItem, { optional, batch })
+          const initPromise = item.init(firstItem, { optional, batch })
           // Mark promiseBatching active whenever at least one useBatch* was
           // executed. Later it has to be finalized with the useBatch() call
           // which is what we are checking at the end of the rendering
@@ -199,7 +199,7 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
     // ----- data -----
 
     // In any situation force access data through the object key to let observer know that the data was accessed
-    let data = $hooks.get()[hookId]
+    const data = $hooks.get()[hookId]
 
     // ----- return -----
 
@@ -219,7 +219,7 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
 }
 
 export function useBatch () {
-  let promise = promiseBatcher.getPromiseAll()
+  const promise = promiseBatcher.getPromiseAll()
   if (promise) throw promise
 }
 
@@ -233,7 +233,7 @@ export function getPath (params) {
     console.warn('[react-sharedb] Unknown Param')
     return '__ERROR__.unknownParam'
   }
-  let type = params.__subscriptionType
+  const type = params.__subscriptionType
   switch (type) {
     case 'Local':
       return params.params
@@ -243,9 +243,9 @@ export function getPath (params) {
 }
 
 export function getItemFromParams (params, model, key) {
-  let explicitType = params && params.__subscriptionType
-  let subscriptionParams = params.params
-  let constructor = getItemConstructor(explicitType)
+  const explicitType = params && params.__subscriptionType
+  const subscriptionParams = params.params
+  const constructor = getItemConstructor(explicitType)
   return new constructor(model, key, subscriptionParams)
 }
 

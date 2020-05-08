@@ -759,11 +759,25 @@ That said here is the list of supported browsers:
 
 Most of the ES6 features are supported with the exception of the following:
 
-- no `import`, `export`. Use `require()` and `exports`, `module.exports`.
-- no [class fields support](https://caniuse.com/#search=class%20fields) in ES6 classes. So no `static` or arrow functions for method definition.
-- `const` should be used whenever possible. `let` is scoped the same as `var`.
-- no `async/await`. Use [`co`](https://github.com/tj/co) for the similar effect.
-- no [spread in object literals](https://caniuse.com/#feat=mdn-javascript_operators_spread_spread_in_object_literals)
+- no [class fields support](https://caniuse.com/#search=class%20fields) in ES6 classes. So no arrow functions for method definitions. Bind methods in constructor.
+- no `async/await`. Use [`co`](https://github.com/tj/co) for the same effect:
+    ```js
+    // before
+    async function DoSomething (id) {
+      await requestData(id)
+    }
+    // after
+    co.wrap(function * DoSomething (id) {
+      yield requestData(id)
+    })
+    ```
+- no [spread in object literals](https://caniuse.com/#feat=mdn-javascript_operators_spread_spread_in_object_literals). Instead use `Object.assign`:
+    ```js
+    // before
+    const x = { ...y, ...z, a, b }
+    // after
+    const x = Object.assign({}, y, z, { a, b })
+    ```
 
 ## Licence
 

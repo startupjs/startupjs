@@ -13,7 +13,7 @@ class Destroyer {
   }
 
   getDestructor () {
-    let fns = [...this.fns]
+    const fns = [...this.fns]
     this.fns.length = 0
     return () => {
       fns.forEach(fn => fn())

@@ -1,10 +1,10 @@
-const Base = require('./Base')
-const { observable } = require('@nx-js/observer-util')
-const { _observablePath: observablePath } = require('@startupjs/react-sharedb-util')
+import Base from './Base'
+import { observable } from '@nx-js/observer-util'
+import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
 
 const MAX_LISTENERS = 100
 
-module.exports = exports = class Query extends Base {
+export default class Query extends Base {
   constructor (...args) {
     super(...args)
     const [collection, query] = this.params
@@ -22,12 +22,12 @@ module.exports = exports = class Query extends Base {
     const { key } = this
     this.subscription.ref(this.model.at(key))
     observablePath(this.model.path(key))
-    this.subscription.refIds(this.model.at(exports.getIdsName(key)))
+    this.subscription.refIds(this.model.at(getIdsName(key)))
   }
 
   unrefModel () {
     const { key } = this
-    this.model.removeRef(exports.getIdsName(key))
+    this.model.removeRef(getIdsName(key))
     this.model.removeRef(key)
   }
 
@@ -68,7 +68,7 @@ module.exports = exports = class Query extends Base {
       // [insert]
       const insertFn = shareDocs => {
         // observe new docs
-        const ids = exports.getShareResultsIds(shareDocs)
+        const ids = getShareResultsIds(shareDocs)
         ids.forEach(docId => {
           const shareDoc = this.model.root.connection.get(collection, docId)
           shareDoc.data = observable(shareDoc.data)
@@ -122,12 +122,12 @@ module.exports = exports = class Query extends Base {
   }
 }
 
-exports.getIdsName = function getIdsName (plural) {
+export function getIdsName (plural) {
   if (/ies$/i.test(plural)) return plural.replace(/ies$/i, 'y') + 'Ids'
   return plural.replace(/s$/i, '') + 'Ids'
 }
 
-exports.getShareResultsIds = function getShareResultsIds (results) {
+export function getShareResultsIds (results) {
   const ids = []
   for (let i = 0; i < results.length; i++) {
     const shareDoc = results[i]

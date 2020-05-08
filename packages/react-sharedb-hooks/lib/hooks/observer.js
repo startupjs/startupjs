@@ -17,7 +17,7 @@ const DEFAULT_OPTIONS = {
 // TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
 function observer (Component, options) {
-  const _options = { ...DEFAULT_OPTIONS, ...options }
+  const _options = Object.assign({}, DEFAULT_OPTIONS, options)
   return wrapObserverMeta(makeObserver(Component, _options), _options)
 }
 
@@ -41,9 +41,9 @@ function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defau
 }
 
 function makeObserver (baseComponent, options = {}) {
-  const { forwardRef } = { ...DEFAULT_OPTIONS, ...options }
+  const { forwardRef } = Object.assign({}, DEFAULT_OPTIONS, options)
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
-  let random = Math.random()
+  const random = Math.random()
 
   // memo; we are not intested in deep updates
   // in props; we assume that if deep objects are changed,
@@ -55,15 +55,15 @@ function makeObserver (baseComponent, options = {}) {
     // wrap the baseComponent into an observe decorator once.
     // This way it will track any observable changes and will trigger rerender
     const observedComponent = React.useMemo(() => {
-      let blockUpdate = { value: false }
-      let update = () => {
+      const blockUpdate = { value: false }
+      const update = () => {
         // TODO: Decide whether the check for unmount is needed here
         // Force update unless update is blocked. It's important to block
         // updates caused by rendering
         // (when the sync rendening is in progress)
         if (!blockUpdate.value) forceUpdate()
       }
-      let batchedUpdate = () => batching.add(update)
+      const batchedUpdate = () => batching.add(update)
       return observe(wrapBaseComponent(baseComponent, blockUpdate), {
         scheduler: batchedUpdate,
         lazy: true
@@ -86,7 +86,7 @@ function wrapObserverMeta (
   Component,
   options = {}
 ) {
-  const { forwardRef, suspenseProps } = { ...DEFAULT_OPTIONS, ...options }
+  const { forwardRef, suspenseProps } = Object.assign({}, DEFAULT_OPTIONS, options)
   if (!(suspenseProps && suspenseProps.fallback)) {
     throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
   }
@@ -105,7 +105,7 @@ function wrapObserverMeta (
         React.Suspense,
         suspenseProps,
         forwardRef
-          ? React.createElement(Component, { ...props, ref })
+          ? React.createElement(Component, Object.assign({}, props, { ref }))
           : React.createElement(Component, props)
       )
     )
@@ -140,7 +140,7 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
       // We have to manually do it since the unmount logic is not working
       // for components which were terminated by Suspense as a result of
       // a promise being thrown.
-      let destroy = destroyer.getDestructor()
+      const destroy = destroyer.getDestructor()
       throw err.then(destroy)
     }
     blockUpdate.value = false

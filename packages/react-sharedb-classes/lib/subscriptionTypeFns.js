@@ -1,10 +1,10 @@
-const isString = require('lodash/isString')
-const isArray = require('lodash/isArray')
-const isBoolean = require('lodash/isBoolean')
-const isNumber = require('lodash/isNumber')
-const { _isExtraQuery: isExtraQuery } = require('@startupjs/react-sharedb-util')
+import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
+import isBoolean from 'lodash/isBoolean'
+import isNumber from 'lodash/isNumber'
+import { _isExtraQuery as isExtraQuery } from '@startupjs/react-sharedb-util'
 
-exports.subLocal = function subLocal (localPath, defaultValue) {
+export function subLocal (localPath, defaultValue) {
   if (typeof localPath !== 'string') {
     throw new Error(
       `[react-sharedb] subLocal(): localPath must be a String. Got: ${localPath}`
@@ -16,7 +16,7 @@ exports.subLocal = function subLocal (localPath, defaultValue) {
   }
 }
 
-exports.subDoc = function subDoc (collection, docId) {
+export function subDoc (collection, docId) {
   let invalid
   if (typeof collection !== 'string') {
     throw new Error(
@@ -40,7 +40,7 @@ exports.subDoc = function subDoc (collection, docId) {
   }
 }
 
-exports.subQuery = function subQuery (collection, query) {
+export function subQuery (collection, query) {
   let invalid
   if (typeof collection !== 'string') {
     throw new Error(
@@ -76,14 +76,14 @@ exports.subQuery = function subQuery (collection, query) {
   }
 }
 
-exports.subValue = function subValue (value) {
+export function subValue (value) {
   return {
     __subscriptionType: 'Value',
     params: value
   }
 }
 
-exports.subApi = function subApi (path, fn, inputs, options) {
+export function subApi (path, fn, inputs, options) {
   if (typeof path === 'function') {
     options = inputs
     inputs = fn

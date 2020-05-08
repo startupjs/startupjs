@@ -1,7 +1,7 @@
-const Base = require('./Base')
-const { observable } = require('@nx-js/observer-util')
+import Base from './Base'
+import { observable } from '@nx-js/observer-util'
 
-module.exports = class Doc extends Base {
+export default class Doc extends Base {
   constructor (...args) {
     super(...args)
     const [collection, docId] = this.params

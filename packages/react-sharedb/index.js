@@ -1,11 +1,9 @@
-module.exports = Object.assign({},
-  require('@startupjs/react-sharedb-util'),
-  require('@startupjs/react-sharedb-hooks'),
-  require('@startupjs/react-sharedb-classes'),
-  {
-    $root: require('@startupjs/model'),
+export * from '@startupjs/react-sharedb-util'
+export * from '@startupjs/react-sharedb-hooks'
+export * from '@startupjs/react-sharedb-classes'
+export {
+  default as $root,
 
-    // DEPRECATED! Use $root instead.
-    model: require('@startupjs/model')
-  }
-)
+  // DEPRECATED! Use $root instead.
+  default as model
+} from '@startupjs/model'

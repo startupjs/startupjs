@@ -1,6 +1,10 @@
 {
   "name": "@startupjs/react-sharedb-classes",
+  "type": "module",
   "version": "0.22.0-alpha.0",
+  "engines": {
+    "node": ">= 14"
+  },
   "description": "Run ShareDB in React. Classes syntax",
   "main": "lib/index.js",
   "publishConfig": {

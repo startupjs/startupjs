@@ -11,6 +11,7 @@ import {
   subQuery,
   subApi
 } from './subscriptionTypeFns'
+import co from 'co'
 
 const SUBS_COLLECTION = '$subs'
 
@@ -23,23 +24,23 @@ export default function (racer) {
 }
 
 function generateMethodOfType (typeFn) {
-  let isQuery = typeFn === subQuery
-  let isSync = typeFn === subLocal || typeFn === subValue
+  const isQuery = typeFn === subQuery
+  const isSync = typeFn === subLocal || typeFn === subValue
 
   // IMPORTANT: subLocal, subValue can actually be made to be synchronous,
   //            but for consistency of the sub* functions api, the decision was made
   //            to always return a promise
-  return async (...args) => {
-    let $subs = this.scope(SUBS_COLLECTION)
-    let subId = this.id()
-    let params = typeFn(...args)
-    let item = getItemFromParams(params, $subs, subId)
+  return co.wrap(function * (...args) {
+    const $subs = this.scope(SUBS_COLLECTION)
+    const subId = this.id()
+    const params = typeFn(...args)
+    const item = getItemFromParams(params, $subs, subId)
     const unsubscribe = () => {
       item.unrefModel()
       item.destroy()
       $subs.destroy(subId)
     }
-    if (!isSync) await item.init(true, { optional: true })
+    if (!isSync) yield item.init(true, { optional: true })
     item.refModel()
 
     // For Query and QueryExtra return the scoped model targeting the actual collection path.
@@ -54,7 +55,7 @@ function generateMethodOfType (typeFn) {
     const $model = !isQuery ? $subs.at(subId) : undefined
 
     // In any situation force access data through the object key to let observer know that the data was accessed
-    let data = $subs.get()[subId]
+    const data = $subs.get()[subId]
 
     return [
       unsubscribe,
@@ -65,7 +66,7 @@ function generateMethodOfType (typeFn) {
       // Everything else: return the 'hooks.<randomHookId>' scoped model.
       $queryCollection || $model
     ]
-  }
+  })
 }
 
 export function getCollectionName (params) {
@@ -73,9 +74,9 @@ export function getCollectionName (params) {
 }
 
 export function getItemFromParams (params, model, key) {
-  let explicitType = params && params.__subscriptionType
-  let subscriptionParams = params.params
-  let constructor = getItemConstructor(explicitType)
+  const explicitType = params && params.__subscriptionType
+  const subscriptionParams = params.params
+  const constructor = getItemConstructor(explicitType)
   return new constructor(model, key, subscriptionParams)
 }
 

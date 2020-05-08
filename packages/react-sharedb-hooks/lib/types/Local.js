@@ -9,13 +9,13 @@ export default class Local extends Base {
 
   refModel () {
     if (this.cancelled) return
-    let { key } = this
+    const { key } = this
     observablePath(this.path)
     this.model.ref(key, this.model.root.scope(this.path))
   }
 
   unrefModel () {
-    let { key } = this
+    const { key } = this
     this.model.removeRef(key)
   }
 

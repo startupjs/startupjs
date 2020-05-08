@@ -1,9 +1,9 @@
-const model = require('@startupjs/model')
-const { observable, isObservable } = require('@nx-js/observer-util')
-const get = require('lodash/get')
-const semaphore = require('./semaphore')
+import model from '@startupjs/model'
+import { observable, isObservable } from '@nx-js/observer-util'
+import get from 'lodash/get'
+import semaphore from './semaphore'
 
-exports.observablePath = function observablePath (path) {
+export function observablePath (path) {
   const segments = model._splitPath(path)
   const originalSegments = model._dereference(segments, true)
   const parentSegments = originalSegments.slice(0, -1)
@@ -14,7 +14,7 @@ exports.observablePath = function observablePath (path) {
   }
 }
 
-exports.initLocalCollection = function initLocalCollection (collection) {
+export function initLocalCollection (collection) {
   semaphore.ignoreCollectionObservableWarning = true
   semaphore.allowComponentSetter = true
   model.set(`${collection}.__OBSERVABLE`, true)
@@ -23,7 +23,7 @@ exports.initLocalCollection = function initLocalCollection (collection) {
   model.data[collection] = observable(model.data[collection])
 }
 
-exports.clone = function clone (data) {
+export function clone (data) {
   const stringified = JSON.stringify(data)
   if (!stringified) return undefined
   return JSON.parse(stringified)

@@ -8,12 +8,12 @@ export default class Value extends Base {
 
   refModel () {
     if (this.cancelled) return
-    let { key } = this
+    const { key } = this
     this.model.setDiff(key, this.value)
   }
 
   unrefModel () {
-    let { key } = this
+    const { key } = this
     this.model.del(key)
   }
 

@@ -5,13 +5,13 @@ import promiseBatcher from '../hooks/promiseBatcher'
 export default class Local extends Base {
   constructor (...args) {
     super(...args)
-    let [path, fn, inputs, options] = this.params
+    const [path, fn, inputs, options] = this.params
     this.fn = fn
     this.path = path
     this.inputs = inputs || []
     this.options = options || {}
     if (!this.path) {
-      let cacheKey = '_' + hashCode(this.fn.toString() + JSON.stringify(this.inputs))
+      const cacheKey = '_' + hashCode(this.fn.toString() + JSON.stringify(this.inputs))
       this.path = '_session._cache.' + cacheKey
     }
     this.listeners = []
@@ -31,7 +31,7 @@ export default class Local extends Base {
 
   refModel () {
     if (this.cancelled) return
-    let { key } = this
+    const { key } = this
     if (this.path) {
       this.model.root.setDiff(this.path, this.data)
       observablePath(this.path)
@@ -42,7 +42,7 @@ export default class Local extends Base {
   }
 
   unrefModel () {
-    let { key } = this
+    const { key } = this
     if (this.path) {
       this.model.removeRef(key)
       this.model.root.del(this.path)
@@ -52,7 +52,7 @@ export default class Local extends Base {
   }
 
   _fetch (firstItem, { optional, batch } = {}) {
-    let promise = this.fn(...this.inputs)
+    const promise = this.fn(...this.inputs)
     if (!(promise && typeof promise.then === 'function')) {
       throw new Error('[react-sharedb] Api: fn must return promise')
     }
@@ -62,9 +62,9 @@ export default class Local extends Base {
     }
 
     if (firstItem && !optional) {
-      let model = this.model
-      let path = this.path
-      let newPromise = promise.then(data => {
+      const model = this.model
+      const path = this.path
+      const newPromise = promise.then(data => {
         model.set(path, data)
       })
       if (batch) {
@@ -97,7 +97,7 @@ function hashCode (source) {
   let hash = 0
   if (source.length === 0) return hash
   for (var i = 0; i < source.length; i++) {
-    let char = source.charCodeAt(i)
+    const char = source.charCodeAt(i)
     hash = ((hash << 5) - hash) + char
     hash = hash & hash // Convert to 32bit integer
   }

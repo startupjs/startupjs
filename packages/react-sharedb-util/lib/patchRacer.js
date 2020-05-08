@@ -1,12 +1,12 @@
-const racer = require('racer')
-const RacerLocalDoc = require('racer/lib/Model/LocalDoc')
-const RacerRemoteDoc = require('racer/lib/Model/RemoteDoc')
-const RacerUtil = require('racer/lib/util')
-const RacerQuery = require('racer/lib/Model/Query')
-const SharedbDoc = require('sharedb/lib/client/doc')
-const { observable, isObservable } = require('@nx-js/observer-util')
-const batching = require('../batching')
-const semaphore = require('./semaphore')
+import racer from 'racer'
+import RacerLocalDoc from 'racer/lib/Model/LocalDoc'
+import RacerRemoteDoc from 'racer/lib/Model/RemoteDoc'
+import RacerUtil from 'racer/lib/util'
+import RacerQuery from 'racer/lib/Model/Query'
+import SharedbDoc from 'sharedb/lib/client/doc'
+import { observable, isObservable } from '@nx-js/observer-util'
+import batching from '../batching'
+import semaphore from './semaphore'
 
 const STORE = 'store'
 const $STORE = '$' + STORE
@@ -16,7 +16,7 @@ const BATCH_SETTERS = ['_mutate', '_setEach', '_setDiff', '_setDiffDeep']
 const WARNING_SETTERS = ['_set', '_setDiff', '_setNull', '_del']
 
 // Export a dummy function to prevent tree shaking from getting rid of this module
-module.exports = function dummyNoTreeShaking () {}
+export default function dummyNoTreeShaking () {}
 
 // ----------------------------------------------
 //   Monkey patches of ShareDB and Racer

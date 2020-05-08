@@ -5,7 +5,7 @@ import promiseBatcher from '../hooks/promiseBatcher'
 export default class Doc extends Base {
   constructor (...args) {
     super(...args)
-    let [collection, docId] = this.params
+    const [collection, docId] = this.params
     this.collection = collection
     this.docId = docId
     this.listeners = []
@@ -17,25 +17,25 @@ export default class Doc extends Base {
 
   refModel () {
     if (this.cancelled) return
-    let { key } = this
+    const { key } = this
     this.model.ref(key, this.subscription)
   }
 
   unrefModel () {
-    let { key } = this
+    const { key } = this
     this.model.removeRef(key)
   }
 
   _subscribe (firstItem, { optional, batch } = {}) {
-    let { collection, docId } = this
+    const { collection, docId } = this
     this.subscription = this.model.root.scope(`${collection}.${docId}`)
-    let promise = this.model.root.subscribeSync(this.subscription)
+    const promise = this.model.root.subscribeSync(this.subscription)
 
     // if promise wasn't resolved synchronously it means that we have to wait
     // for the subscription to finish, in that case we unsubscribe from the data
     // and throw the promise out to be caught by the wrapping <Suspense>
     if (firstItem && !optional && !promise.sync) {
-      let newPromise = promise.then(() => {
+      const newPromise = promise.then(() => {
         return new Promise(resolve => {
           this._unsubscribe() // unsubscribe the old hook to prevent memory leaks
           setTimeout(resolve, 0)
@@ -52,12 +52,12 @@ export default class Doc extends Base {
     const finish = () => {
       if (this.cancelled) return
       // TODO: if (err) return reject(err)
-      let shareDoc = this.model.root.connection.get(collection, docId)
+      const shareDoc = this.model.root.connection.get(collection, docId)
       shareDoc.data = observable(shareDoc.data)
 
       // Listen for doc creation, intercept it and make observable
-      let createFn = () => {
-        let shareDoc = this.model.root.connection.get(collection, docId)
+      const createFn = () => {
+        const shareDoc = this.model.root.connection.get(collection, docId)
         shareDoc.data = observable(shareDoc.data)
       }
       // Add listener to the top of the queue, since we want
@@ -79,7 +79,7 @@ export default class Doc extends Base {
 
   _clearListeners () {
     // remove query listeners
-    for (let listener of this.listeners || []) {
+    for (const listener of this.listeners || []) {
       listener.ee.removeListener(listener.eventName, listener.fn)
       delete listener.ee
       delete listener.fn
@@ -111,9 +111,9 @@ export default class Doc extends Base {
 // like react-native and webpack v1.
 // TODO: Replace this with EventEmitter.prependListener in future
 function prependListener (emitter, event, listener) {
-  let old = emitter.listeners(event) || []
+  const old = emitter.listeners(event) || []
   emitter.removeAllListeners(event)
-  let rv = emitter.on(event, listener)
+  const rv = emitter.on(event, listener)
   for (let i = 0, len = old.length; i < len; i++) {
     emitter.on(event, old[i])
   }

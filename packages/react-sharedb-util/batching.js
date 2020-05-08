@@ -50,4 +50,4 @@ function getFirstItem (set) {
   }
 }
 
-module.exports = new Batching()
+export default new Batching()

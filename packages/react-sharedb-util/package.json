@@ -1,6 +1,10 @@
 {
   "name": "@startupjs/react-sharedb-util",
+  "type": "module",
   "version": "0.22.0-alpha.0",
+  "engines": {
+    "node": ">= 14"
+  },
   "description": "Utilities for react-sharedb hooks and classes syntaxes.",
   "main": "lib/index.js",
   "publishConfig": {

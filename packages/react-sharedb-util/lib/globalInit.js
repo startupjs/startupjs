@@ -1,5 +1,5 @@
-const model = require('@startupjs/model')
-const { initLocalCollection } = require('./util')
+import model from '@startupjs/model'
+import { initLocalCollection } from './util'
 
 const OBSERVABLE_COLLECTIONS = [
   '$connection',
@@ -12,7 +12,7 @@ const OBSERVABLE_COLLECTIONS = [
 ]
 
 // Export a dummy function to prevent tree shaking from getting rid of this module
-module.exports = function dummyNoTreeShaking () {}
+export default function dummyNoTreeShaking () {}
 
 if (model) {
   init()

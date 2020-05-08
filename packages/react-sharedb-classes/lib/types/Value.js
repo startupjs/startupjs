@@ -1,6 +1,6 @@
-const Base = require('./Base')
+import Base from './Base'
 
-module.exports = class Value extends Base {
+export default class Value extends Base {
   constructor (...args) {
     super(...args)
     this.value = this.params

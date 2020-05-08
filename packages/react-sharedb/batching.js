@@ -1,1 +1,1 @@
-module.exports = require('@startupjs/react-sharedb-util/batching')
+export { default } from '@startupjs/react-sharedb-util/batching'

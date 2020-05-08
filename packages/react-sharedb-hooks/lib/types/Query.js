@@ -8,7 +8,7 @@ const MAX_LISTENERS = 100
 export default class Query extends Base {
   constructor (...args) {
     super(...args)
-    let [collection, query] = this.params
+    const [collection, query] = this.params
     this.collection = collection
     this.query = query
     this.listeners = []
@@ -20,28 +20,28 @@ export default class Query extends Base {
 
   refModel () {
     if (this.cancelled) return
-    let { key } = this
+    const { key } = this
     this.subscription.ref(this.model.at(key))
     observablePath(this.model.path(key))
     this.subscription.refIds(this.model.at(getIdsName(key)))
   }
 
   unrefModel () {
-    let { key } = this
+    const { key } = this
     this.model.removeRef(getIdsName(key))
     this.model.removeRef(key)
   }
 
   _subscribe (firstItem, { optional, batch } = {}) {
-    let { collection, query } = this
+    const { collection, query } = this
     this.subscription = this.model.root.query(collection, query)
-    let promise = this.model.root.subscribeSync(this.subscription)
+    const promise = this.model.root.subscribeSync(this.subscription)
 
     // if promise wasn't resolved synchronously it means that we have to wait
     // for the subscription to finish, in that case we unsubscribe from the data
     // and throw the promise out to be caught by the wrapping <Suspense>
     if (firstItem && !optional && !promise.sync) {
-      let newPromise = promise.then(() => {
+      const newPromise = promise.then(() => {
         return new Promise(resolve => {
           this._unsubscribe() // unsubscribe the old hook to prevent memory leaks
           setTimeout(resolve, 0)
@@ -59,24 +59,24 @@ export default class Query extends Base {
       if (this.cancelled) return
       // TODO: if (err) return reject(err)
       // observe ids and extra
-      let path = `$queries.${this.subscription.hash}`
+      const path = `$queries.${this.subscription.hash}`
       observablePath(path)
 
       // observe initial docs
-      let docIds = this.subscription.getIds()
-      for (let docId of docIds) {
-        let shareDoc = this.model.root.connection.get(collection, docId)
+      const docIds = this.subscription.getIds()
+      for (const docId of docIds) {
+        const shareDoc = this.model.root.connection.get(collection, docId)
         shareDoc.data = observable(shareDoc.data)
       }
       // Increase the listeners cap
       this.subscription.shareQuery.setMaxListeners(MAX_LISTENERS)
 
       // [insert]
-      let insertFn = shareDocs => {
+      const insertFn = shareDocs => {
         // observe new docs
-        let ids = getShareResultsIds(shareDocs)
+        const ids = getShareResultsIds(shareDocs)
         ids.forEach(docId => {
-          let shareDoc = this.model.root.connection.get(collection, docId)
+          const shareDoc = this.model.root.connection.get(collection, docId)
           shareDoc.data = observable(shareDoc.data)
         })
       }
@@ -97,7 +97,7 @@ export default class Query extends Base {
 
   _clearListeners () {
     // remove query listeners
-    for (let listener of this.listeners || []) {
+    for (const listener of this.listeners || []) {
       listener.ee.removeListener(listener.eventName, listener.fn)
       delete listener.ee
       delete listener.fn
@@ -134,9 +134,9 @@ export function getIdsName (plural) {
 }
 
 export function getShareResultsIds (results) {
-  let ids = []
+  const ids = []
   for (let i = 0; i < results.length; i++) {
-    let shareDoc = results[i]
+    const shareDoc = results[i]
     ids.push(shareDoc.id)
   }
   return ids

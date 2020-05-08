@@ -1,31 +1,21 @@
-const dummyPreventTreeShakingGlobalInit = require('./globalInit')
+import dummyPreventTreeShakingGlobalInit from './globalInit'
 // TODO: Think how to prevent or error-out when applying the patch twice
 //       (for example when there are 2 instances of react-sharedb by mistake)
-const dummyPreventTreeShakingPatchRacer = require('./patchRacer')
-const batching = require('../batching')
-const semaphore = require('./semaphore')
-const {
-  initLocalCollection,
-  clone,
-  observablePath
-} = require('./util')
-const isExtraQuery = require('./isExtraQuery')
-const { raw } = require('@nx-js/observer-util')
+import dummyPreventTreeShakingPatchRacer from './patchRacer'
+import batching from '../batching'
 
 const batch = batching.batch.bind(batching)
 const batchModel = batch
 
-module.exports = {
-  batching,
-  batch,
-  batchModel,
-  _semaphore: semaphore,
+export { batching, batch, batchModel }
+export { semaphore as _semaphore } from './semaphore'
+export {
   initLocalCollection,
   clone,
-  _observablePath: observablePath,
-  _isExtraQuery: isExtraQuery,
-  raw
-}
+  observablePath as _observablePath
+} from './util'
+export { default as _isExtraQuery } from './isExtraQuery'
+export { raw } from '@nx-js/observer-util'
 
 dummyPreventTreeShakingGlobalInit()
 dummyPreventTreeShakingPatchRacer()
