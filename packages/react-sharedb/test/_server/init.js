@@ -9,11 +9,12 @@ import yaml from 'js-yaml'
 import fs from 'fs'
 import { promisifyAll } from 'bluebird'
 import initRpc from './initRpc'
+import path from 'path'
 
 const MONGO_DB = process.env.MONGO_DB || 'test_react-sharedb'
 const MONGO_URL = 'mongodb://localhost:27017/' + MONGO_DB
 const PORT = process.env.PORT || 3000
-const FIXTURES_PATH = __dirname + '/../fixtures'
+const FIXTURES_PATH = path.join(__dirname, '../fixtures')
 
 let mongo, backend
 

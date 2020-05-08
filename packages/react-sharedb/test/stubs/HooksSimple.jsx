@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { observer } from '../../src'
+import { observer } from '../..'
 import isArray from 'lodash/isArray'
 
 export default useFn => {

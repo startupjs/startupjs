@@ -22,9 +22,11 @@ function Pagination ({
   total,
   onChange
 }) {
+  // numeration value for starting `value` prop count from 0
+  const numerationValue = value + 1
   const isFilled = variant === 'filled'
-  const isFirstPageSelected = value <= 1
-  const isLastPageSelected = value >= total
+  const isFirstPageSelected = numerationValue <= 1
+  const isLastPageSelected = numerationValue >= total
 
   const [
     backButtonExtraProps,
@@ -55,14 +57,14 @@ function Pagination ({
   }, [variant])
 
   const halfVisibleCount = Math.floor(visibleCount / 2)
-  const firstVisibleButton = value + halfVisibleCount >= total
+  const firstVisibleButton = numerationValue + halfVisibleCount >= total
     ? (total - visibleCount) + 1
-    : value - halfVisibleCount
+    : numerationValue - halfVisibleCount
   const firstButton = firstVisibleButton < 1
     ? 1
     : firstVisibleButton
 
-  const lastVisibleButton = value + halfVisibleCount
+  const lastVisibleButton = numerationValue + halfVisibleCount
   const lastButton = lastVisibleButton < visibleCount
     ? visibleCount
     : lastVisibleButton
@@ -89,13 +91,13 @@ function Pagination ({
           bold=!isFilled
           variant=variant
           label=1
-          onPress=() => onChange(1)
+          onPress=() => onChange(0)
         )
         View.dots
           Span ...
       each item, index in items
         - const _value = from + index
-        - const isActive = _value === value
+        - const isActive = _value === numerationValue
         PaginationButton(
           key=index
           disabled=disabled
@@ -103,7 +105,7 @@ function Pagination ({
           variant=variant
           active=isActive
           label=_value
-          onPress=() => onChange(_value)
+          onPress=() => onChange(_value - 1)
         )
       if showLast && to < total
         View.dots
@@ -113,7 +115,7 @@ function Pagination ({
           bold=!isFilled
           variant=variant
           label=total
-          onPress=() => onChange(total)
+          onPress=() => onChange(total - 1)
         )
       Button.next(
         disabled=isLastPageSelected || disabled
@@ -127,8 +129,8 @@ function Pagination ({
 Pagination.defaultProps = {
   variant: 'filled',
   visibleCount: 3,
-  total: 0,
-  value: 1,
+  total: 1,
+  value: 0,
   showLast: true,
   showFirst: true
 }

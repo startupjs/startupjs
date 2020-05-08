@@ -1,7 +1,6 @@
 import React from 'react'
 import isArray from 'lodash/isArray'
 import pickBy from 'lodash/pickBy'
-import { isObservable } from '@nx-js/observer-util'
 
 const STORE = process.env.DEPRECATED ? 'scope' : 'store'
 
