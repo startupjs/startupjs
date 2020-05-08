@@ -19,40 +19,40 @@ function Collapse ({
   ...props
 }) {
   ({ open, onChange } = useBindingProps($open, { open }, { onChange }))
-  let header
+
+  // Deconstruct template variables
+  let header, content
   const contentChildren = []
   React.Children.forEach(children, child => {
-    switch (child.type) {
+    switch (child && child.type) {
       case CollapseHeader:
-        if (header) throw Error('[ui -> Modal] You must specify a single <Collapse.Header>')
+        if (header) throw Error('[ui -> Collapse] You must specify a single <Collapse.Header>')
         header = child
+        break
+      case CollapseContent:
+        if (content) throw Error('[ui -> Collapse] You must specify a single <Collapse.Content>')
+        content = child
         break
       default:
         contentChildren.push(child)
     }
   })
+  if (content && contentChildren.length > 0) {
+    throw Error('[ui -> Collapse] React elements found directly within <Collapse>. ' +
+      'If <Collapse.Content> is specified, you have to put all your content inside it')
+  }
 
+  // Handle <Collapse.Content>
+  const contentProps = { open, variant }
+  content = content
+    ? React.cloneElement(content, { ...contentProps, ...content.props })
+    : React.createElement(CollapseContent, contentProps, contentChildren)
+
+  // Handle <Collapse.Header>
   const headerProps = { open, variant, onPress }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
     : React.createElement(CollapseHeader, headerProps, title || '')
-
-  const doChildrenHaveCollapseContent =
-    !!contentChildren.filter(child => child.type === CollapseContent).length
-
-  const contentProps = { open, variant }
-  const content = doChildrenHaveCollapseContent
-    ? contentChildren
-      .map((child, index) => {
-        const props = child.type === CollapseContent ? { ...contentProps } : {}
-        props.key = `__COLLAPSE_CONTENT_${index}__`
-
-        return React.cloneElement(
-          child,
-          props
-        )
-      })
-    : React.createElement(CollapseContent, contentProps, contentChildren)
 
   function onPress () {
     onChange && onChange(!open)

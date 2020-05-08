@@ -21,18 +21,18 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
 1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
-1. [React-ShareDB](https://github.com/startupjs/startupjs/blob/master/packages/react-sharedb):
+1. [React-ShareDB](/packages/react-sharedb):
     - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
     - Allows to sync data between your local state (similar to Redux) and the DB.
     - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
     - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
     - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
-1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](https://github.com/startupjs/startupjs/blob/master/packages/orm).
-1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](https://github.com/startupjs/startupjs/blob/master/packages/app) (e.g. `main` and `admin`)
+1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](/packages/orm).
+1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](/packages/app) (e.g. `main` and `admin`)
 1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
-1. [Offline support](https://github.com/startupjs/startupjs/tree/master/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
+1. [Offline support](/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
     - *optional* [TypeScript](https://www.typescriptlang.org/)
@@ -52,7 +52,7 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 ## Quick start
 
-1. Initialize a new [`simple` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
+1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
 
     ```
     npx startupjs init myapp
@@ -65,32 +65,6 @@ StartupJS stack is built on top of the following libraries and technologies:
     ```
 
 3. Open http://localhost:3000 and start developing!
-
-## Boilerplate templates
-
-The following templates are available:
-
-1. `simple`
-2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
-3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
-
-By default `init` creates a project using the feature-rich `ui` template.
-
-To use another template specify the `-t` option:
-
-```
-npx startupjs init myapp -t simple
-```
-
-Each template initializes on top of a default `react-native init` application.
-
-If you want to use an RC version (`next`) of `react-native`, specify it using the `-v` option:
-
-```
-npx startupjs init myapp -v next
-```
-
-You can combine `-t` and `-v` options together. `react-native init` will run first and afterwards the boilerplate template will be copied over.
 
 ## Running on mobile
 
@@ -119,17 +93,47 @@ Here is the list of commands to run all platforms at the same time:
     yarn metro
     ```
 
-5. Run **android** (optional) *in a separate terminal tab*
+4. Run **android** (optional) *in a separate terminal tab*
 
     ```
     yarn android
     ```
 
-6. Run **ios** (optional) *in a separate terminal tab*
+5. Run **ios** (optional) *in a separate terminal tab*
 
     ```
     yarn ios
     ```
+
+## Boilerplate templates
+
+The following templates are available:
+
+1. `simple`
+2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
+3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
+
+By default `init` creates a project using the feature-rich `ui` template.
+
+To use another template specify the `-t` option:
+
+```
+npx startupjs init myapp -t simple
+```
+
+To create a new project using an alpha version of startupjs, append `@next` to the startupjs itself:
+
+```
+npx startupjs@next init myapp
+```
+
+Each template initializes on top of a default `react-native init` application.
+
+If you want to use an RC version (`next`) of `react-native`, specify it using the `-rn` option:
+
+```
+npx startupjs init myapp -rn next
+```
 
 ## Docker development Quick Start
 
@@ -199,23 +203,23 @@ to the native installation when working with the large amount of files.
 
 ## List of Packages
 
-- [App](https://github.com/startupjs/startupjs/blob/master/packages/app)
-- [Babel preset startupjs](https://github.com/startupjs/startupjs/blob/master/packages/babel-preset-startupjs)
-- [Backend](https://github.com/startupjs/startupjs/blob/master/packages/backend)
-- [Bundler](https://github.com/startupjs/startupjs/blob/master/packages/bundler)
-- [CLI](https://github.com/startupjs/startupjs/blob/master/packages/cli)
-- [CodePush](https://github.com/startupjs/startupjs/blob/master/packages/codepush)
-- [Cron](https://github.com/startupjs/startupjs/blob/master/packages/cron)
-- [Docs](https://github.com/startupjs/startupjs/blob/master/packages/docs)
-- [Hooks](https://github.com/startupjs/startupjs/blob/master/packages/hooks)
-- [Init](https://github.com/startupjs/startupjs/blob/master/packages/init)
-- [Model](https://github.com/startupjs/startupjs/blob/master/packages/model)
-- [Offline](https://github.com/startupjs/startupjs/blob/master/packages/offline)
-- [ORM](https://github.com/startupjs/startupjs/blob/master/packages/orm)
-- [React sharedb](https://github.com/startupjs/startupjs/blob/master/packages/react-sharedb)
-- [Routes middleware](https://github.com/startupjs/startupjs/blob/master/packages/routes-middleware)
-- [Server](https://github.com/startupjs/startupjs/blob/master/packages/server)
-- [StartupJS meta package](https://github.com/startupjs/startupjs/blob/master/packages/startupjs)
+- [App](/packages/app)
+- [Babel preset startupjs](/packages/babel-preset-startupjs)
+- [Backend](/packages/backend)
+- [Bundler](/packages/bundler)
+- [CLI](/packages/cli)
+- [CodePush](/packages/codepush)
+- [Cron](/packages/cron)
+- [Docs](/packages/docs)
+- [Hooks](/packages/hooks)
+- [Init](/packages/init)
+- [Model](/packages/model)
+- [Offline](/packages/offline)
+- [ORM](/packages/orm)
+- [React sharedb](/packages/react-sharedb)
+- [Routes middleware](/packages/routes-middleware)
+- [Server](/packages/server)
+- [StartupJS meta package](/packages/startupjs)
 - [UI](/packages/ui)
 
 ## Contributing & Troubleshooting

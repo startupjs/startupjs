@@ -24,22 +24,22 @@ global.globalEnzymeNode = null
 
 export function asyncImport () {
   global.serverModel = require('./_client/initRpc')
-  global.subscribe = require('../src').subscribe
-  global.model = require('../src').model
+  global.subscribe = require('..').subscribe
+  global.model = require('..').model
   global.Simple = require('./stubs/Simple')
   global.Complex = require('./stubs/Complex')
-  global.subValue = require('../src').subValue
-  global.subDoc = require('../src').subDoc
-  global.subQuery = require('../src').subQuery
-  global.subLocal = require('../src').subLocal
-  global.subApi = require('../src').subApi
+  global.subValue = require('..').subValue
+  global.subDoc = require('..').subDoc
+  global.subQuery = require('..').subQuery
+  global.subLocal = require('..').subLocal
+  global.subApi = require('..').subApi
   global.HooksComplex = require('./stubs/HooksComplex')
   global.HooksSimple = require('./stubs/HooksSimple')
-  global.useValue = require('../src').useValue
-  global.useDoc = require('../src').useDoc
-  global.useQuery = require('../src').useQuery
-  global.useLocal = require('../src').useLocal
-  global.useApi = require('../src').useApi
+  global.useValue = require('..').useValue
+  global.useDoc = require('..').useDoc
+  global.useQuery = require('..').useQuery
+  global.useLocal = require('..').useLocal
+  global.useApi = require('..').useApi
 }
 
 export function cleanup () {

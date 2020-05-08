@@ -93,6 +93,11 @@ export default {
         ru: require('../components/Hr/Hr.ru.mdx').default
       }
     },
+    Icon: {
+      type: 'mdx',
+      title: 'Icon',
+      component: require('../components/Hr/Hr.en.mdx').default
+    },
     Layout: {
       type: 'mdx',
       title: 'Layout',

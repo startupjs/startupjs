@@ -4,13 +4,13 @@
     "access": "public"
   },
   "description": "MDX documentation generator",
-  "version": "0.22.0-alpha.12",
+  "version": "0.22.0-alpha.18",
   "main": "index.js",
   "dependencies": {
-    "@startupjs/mdx": "^0.22.0-alpha.12",
-    "@startupjs/ui": "^0.22.0-alpha.12",
+    "@startupjs/mdx": "^0.22.0-alpha.18",
+    "@startupjs/ui": "^0.22.0-alpha.18",
     "parse-prop-types": "^0.3.0",
-    "startupjs": "^0.22.0-alpha.11"
+    "startupjs": "^0.22.0-alpha.18"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17",
