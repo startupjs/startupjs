@@ -18,7 +18,32 @@ import { Pagination, Div } from '@startupjs/ui'
 const PATH = '_session.ExamplePagination'
 const $page = useModel(PATH)
 useEffect(() => {
-  $page.set(1)
+  $page.set(0)
+}, [])
+return (
+  <Div style={{alignItems: 'center'}}>
+    <Pagination
+      value={$page.get()}
+      total={10}
+      onChange={(value)=>{$page.set(value)}}
+    />
+  </Div>
+)
+```
+
+## Value
+
+The `value` property specifies the selected page position in the component, starting from index `0` to `total - 1`.
+
+```jsx
+import { Pagination, Div } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExamplePagination'
+const $page = useModel(PATH)
+useEffect(() => {
+  $page.set(0)
 }, [])
 return (
   <Div style={{alignItems: 'center'}}>
@@ -43,7 +68,7 @@ import { Pagination, Div } from '@startupjs/ui'
 const PATH = '_session.ExamplePagination'
 const $page = useModel(PATH)
 useEffect(() => {
-  $page.set(1)
+  $page.set(0)
 }, [])
 return (
   <Div style={{alignItems: 'center'}}>
@@ -69,12 +94,12 @@ import { Pagination, Div } from '@startupjs/ui'
 const PATH = '_session.ExamplePagination'
 const $page = useModel(PATH)
 useEffect(() => {
-  $page.set(1)
+  $page.set(0)
 }, [])
 return (
   <Div style={{alignItems: 'center'}}>
     <Pagination
-      visibleCount={5}
+      visibleCount={10}
       value={$page.get()}
       total={10}
       onChange={(value)=>{$page.set(value)}}
@@ -95,7 +120,7 @@ import { Pagination, Div } from '@startupjs/ui'
 const PATH = '_session.ExamplePagination'
 const $page = useModel(PATH)
 useEffect(() => {
-  $page.set(1)
+  $page.set(0)
 }, [])
 return (
   <Div style={{alignItems: 'center'}}>
@@ -121,7 +146,7 @@ import { Pagination, Div } from '@startupjs/ui'
 const PATH = '_session.ExamplePagination'
 const $page = useModel(PATH)
 useEffect(() => {
-  $page.set(1)
+  $page.set(0)
 }, [])
 return (
   <Div style={{alignItems: 'center'}}>
