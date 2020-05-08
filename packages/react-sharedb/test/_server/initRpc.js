@@ -1,7 +1,8 @@
 import racer from 'racer'
 import racerRpc from 'racer-rpc'
 import fs from 'fs'
-const FIXTURES_PATH = __dirname + '/../fixtures'
+import path from 'path'
+const FIXTURES_PATH = path.join(__dirname, '../fixtures')
 
 // RPC support
 racer.use(racerRpc)
