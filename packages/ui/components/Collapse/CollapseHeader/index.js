@@ -22,7 +22,7 @@ function CollapseHeader ({
 }) {
   if (icon === true) icon = faCaretRight
   const reverse = iconPosition === 'right'
-  const animationProgress = useRef(new Animated.Value(0)).current
+  const animationProgress = useRef(new Animated.Value(open ? 1 : 0)).current
 
   useDidUpdate(() => {
     Animated.timing(

@@ -14,11 +14,28 @@ export default observer(function PHome ({
     lang = paramsLang
     setLang(lang)
   }
-  if (!docs[lang]) lang = 'en'
+
+  function getDocPath (docs) {
+    let path = '/'
+    const docName = Object.keys(docs)[0]
+    const doc = docs[docName]
+    switch (doc.type) {
+      case 'mdx':
+      case 'sandbox':
+        path += docName
+        break
+      case 'collapse':
+        path += docName
+        if (!doc.component) path += getDocPath(doc.items)
+        break
+    }
+    return path
+  }
+
   useEffect(() => {
     emit(
       'url',
-      `/docs/${lang}/` + Object.keys(docs[lang])[0],
+      `/docs/${lang}` + getDocPath(docs),
       { replace: true }
     )
   }, [])

@@ -9,6 +9,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
+    "decode-uri-component": "0.2.0",
     "lodash": "4.x",
     "qs": "6.9.3",
     "react-router": "^5.1.2",

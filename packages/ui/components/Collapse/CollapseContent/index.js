@@ -12,8 +12,8 @@ function CollapseContent ({
   open, // @private
   variant // @private
 }) {
-  const content = React.Children.toArray(children).map((child, index) => {
-    const key = `__COLLAPSE_CONTENT_KEY_${index}__`
+  const content = React.Children.map(children, (child, index) => {
+    const key = `__COLLAPSE_CONTENT_CHILDREN_KEY_${index}__`
     if (typeof child === 'string') {
       return pug`
         Span(key=key)= child
@@ -21,6 +21,7 @@ function CollapseContent ({
     }
     return child
   })
+
   return pug`
     Collapsible(collapsed=!open)
       View.root(style=style styleName=[variant])

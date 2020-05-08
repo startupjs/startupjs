@@ -42,10 +42,9 @@ function Collapse ({
   const contentProps = { open, variant }
   const content = doChildrenHaveCollapseContent
     ? contentChildren
-      .map(child => {
-        const props = child.type === CollapseContent
-          ? { ...contentProps, ...child.props }
-          : null
+      .map((child, index) => {
+        const props = child.type === CollapseContent ? { ...contentProps } : {}
+        props.key = `__COLLAPSE_CONTENT_${index}__`
 
         return React.cloneElement(
           child,
