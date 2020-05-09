@@ -5,6 +5,7 @@ import Div from '../Div'
 import Br from '../Br'
 import LineSeparator from '../LineSeparator'
 import { Sandbox } from '@startupjs/docs'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 # Collapse (коллапс)
 
@@ -13,17 +14,14 @@ Collapse позволяет переключать видимость содер
 ## Пример
 
 ```jsx
-import { Collapse, Div, LineSeparator } from '@startupjs/ui'
+import { Collapse } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [open1, setOpen1] = useState(false)
-const [open2, setOpen2] = useState(false)
+const [open, setOpen] = useState(false)
 return (
-  <Collapse title='Simple collapse' open={open1} onChange={() => setOpen1(!open1)}>
-    <Div>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-    </Div>
+  <Collapse title='Simple collapse' open={open} onChange={() => setOpen(!open)}>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
   </Collapse>
 )
 ```
@@ -55,7 +53,7 @@ return (
 Коллапс состоит из двух частей - `Header` и `Content`. Например, части можно использовать для добавления пользовательской разметки. Вместо `title` используется `Header` и вместо `children` используется `Content`. Их можно использовать по отдельности. Каждая из частей принимает значение свойства `variant` от родителя `Collapse`, который может быть переопределен путем передачи `variant` в себя.
 
 ```jsx
-import { Collapse, Div, LineSeparator } from '@startupjs/ui'
+import { Collapse } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -84,7 +82,9 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 const [open, setOpen] = useState(false)
 return (
   <Collapse open={open} onChange={() => setOpen(!open)}>
-    <Collapse.Header icon={faAngleRight}>Collapse with custom icon</Collapse.Header>
+    <Collapse.Header icon={faAngleRight}>
+      Collapse with custom icon
+    </Collapse.Header>
     <Collapse.Content>
       Collapse content
     </Collapse.Content>

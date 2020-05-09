@@ -24,17 +24,15 @@ function MenuItem ({
 }) {
   const color = active ? colors.primary : colors.mainText
 
-  function getContent () {
-    return React.Children.map(children, (child, index) => {
-      const key = `__MENU_ITEM_KEY_${index}__`
-      return pug`
-        if typeof child === 'string'
-          Span(key=key style={color})= child
-        else
-          = child
-      `
-    })
-  }
+  const content = React.Children.map(children, (child, index) => {
+    const key = `__MENU_ITEM_KEY_${index}__`
+    return pug`
+      if typeof child === 'string'
+        Span(key=key style={color})= child
+      else
+        = child
+    `
+  })
 
   const extraProps = {}
   if (iconPosition === 'right') {
@@ -60,9 +58,9 @@ function MenuItem ({
         Icon.icon.left(icon=icon color=color)
 
       if to
-        Link.link(style={color} to=to block)= children
+        Link.link(style={color} to=to block)= content
       else
-        = getContent()
+        = content
   `
 }
 

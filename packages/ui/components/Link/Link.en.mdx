@@ -1,7 +1,7 @@
 import Link from '../Link'
 import Span from '../Typography/Span'
 import Div from '../Div'
-import Br from '../Br'
+import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Link
@@ -36,12 +36,12 @@ import { Link, Span } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Span>
-    Inherits&nbsp;
+  <Row>
+    <Span>Inherits&nbsp;</Span>
     <Link block to='/docs/en/span' variant='primary'>
-      Span props
+      <Span>Span props</Span>
     </Link>
-  </Span>
+  </Row>
 )
 ```
 

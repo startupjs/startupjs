@@ -3,13 +3,14 @@ import { useParams } from 'startupjs/app'
 import { observer, emit } from 'startupjs'
 import { useDocsContext } from '../../../../docsContext'
 import { useLang } from '../../../clientHelpers'
+import { DEFAULT_LANGUAGE } from '../../../const'
 
 export default observer(function PHome ({
   style
 }) {
   const docs = useDocsContext()
   let { lang: paramsLang } = useParams()
-  let [lang, setLang] = useLang()
+  let [lang = DEFAULT_LANGUAGE, setLang] = useLang()
   if (paramsLang && paramsLang !== lang) {
     lang = paramsLang
     setLang(lang)
@@ -21,7 +22,6 @@ export default observer(function PHome ({
     const doc = docs[docName]
     switch (doc.type) {
       case 'mdx':
-      case 'sandbox':
         path += docName
         break
       case 'collapse':
