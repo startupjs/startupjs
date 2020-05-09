@@ -3,7 +3,19 @@ import { Platform } from 'react-native'
 import Router from './Router'
 import { useLocal, observer, useDoc } from 'startupjs'
 import { Blocked, UpdateApp } from './components'
+import _find from 'lodash/find'
+import { generatePath } from 'react-router-native'
+import decodeUriComponent from 'decode-uri-component'
 const OS = Platform.OS
+
+// FIXME: instead of global variable use singleton
+const routes = []
+export function pathFor (name, options) {
+  if (!name) throw Error('[pathFor]: No name specified')
+  const route = _find(routes, { name })
+  if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
+  return decodeUriComponent(generatePath(route.path, options))
+}
 
 export default observer(function App ({
   apps,
@@ -35,7 +47,6 @@ export default observer(function App ({
   }
   const [user] = useLocal('_session.user')
   const roots = {}
-  const routes = []
 
   Object.keys(apps).forEach(appName => {
     const appRoutes = apps[appName].routes

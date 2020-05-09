@@ -1,9 +1,5 @@
-import en from './en'
-import ru from './ru'
-import * as COMPONENTS from '../index.js'
+import typography from './typography'
+import forms from './forms'
+import components from './components'
 
-export default {
-  en,
-  ru,
-  sandbox: COMPONENTS
-}
+export default { typography, components, forms }

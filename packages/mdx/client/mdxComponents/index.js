@@ -1,7 +1,7 @@
 import React from 'react'
 import SyntaxHighlighter from 'react-native-syntax-highlighter'
 import { Div, H2, H5, H6, Hr, Span, Br, Row, Link } from '@startupjs/ui'
-import { Platform } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
 import './index.styl'
 
 function P ({ children }) {
@@ -15,7 +15,8 @@ export default {
     Div= children
   `,
   example: ({ children }) => pug`
-    Div.example= children
+    ScrollView.exampleWrapper(horizontal)
+      Div.example= children
   `,
   h1: ({ children }) => pug`
     H2(bold)= children
@@ -39,19 +40,19 @@ export default {
     const language = (className || '').replace(/language-/, '')
     return pug`
       Br
-      SyntaxHighlighter(
-        language=language
-        highlighter='prism'
-        fontSize=14
-        customStyle={
-          margin: 0,
-          overflow: 'hidden',
-          padding: 16,
-          backgroundColor: '#fafafa',
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8
-        }
-      )= children.replace(/\n$/, '')
+      //- parent scroll view needed because browsers ignore end-side padding of scroll containers
+      //- https://webplatform.news/issues/2019-08-07
+      ScrollView.code(horizontal)
+        SyntaxHighlighter(
+          language=language
+          highlighter='prism'
+          fontSize=14
+          customStyle={
+            margin: 0,
+            padding: 16,
+            backgroundColor: 'transparent'
+          }
+        )= children.replace(/\n$/, '')
     `
   },
   inlineCode: ({ children }) => pug`

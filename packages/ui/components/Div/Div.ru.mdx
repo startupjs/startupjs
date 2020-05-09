@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Div from '../Div'
 import Span from '../Typography/Span'
+import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
@@ -26,13 +27,15 @@ const divStyle = {
 const [counter, setCounter] = useState(0)
 return (
   <Div>
-    <Div style={divStyle}>Not clickable</Div>
+    <Div style={divStyle}>
+      <Span>Not clickable</Span>
+    </Div>
     <Br />
     <Div
       style={divStyle}
       onPress={() => setCounter(counter + 1)}
     >
-      Clicked {counter} times
+      <Span>Clicked {counter} times</Span>
     </Div>
   </Div>
 )

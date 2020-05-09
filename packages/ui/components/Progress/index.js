@@ -3,19 +3,26 @@ import { observer } from 'startupjs'
 import { View } from 'react-native'
 import propTypes from 'prop-types'
 import Span from '../Typography/Span'
+import Div from '../Div'
 import Filler from './filler'
+import { u } from '../../config/helpers'
 import './index.styl'
 
 function Progress ({
   style,
   value,
   children,
-  variant
+  variant,
+  shape,
+  width
 }) {
+  const extraStyle = { height: width }
+
   return pug`
     View(style=style)
-      View.progress
-        Filler(value=value)
+      Div.progress(style=extraStyle shape=shape)
+        //- To normalize value pass value=Math.min(value, 100)
+        Filler(style=extraStyle value=value)
       if typeof children === 'string'
         Span.label(size='s' description)= children
       else
@@ -25,13 +32,17 @@ function Progress ({
 
 Progress.defaultProps = {
   value: 0,
-  variant: 'linear'
+  width: u(0.5),
+  variant: 'linear',
+  shape: 'rounded'
 }
 
 Progress.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   value: propTypes.number,
   children: propTypes.node,
+  shape: Div.propTypes.shape,
+  width: propTypes.number,
   variant: propTypes.oneOf(['linear', 'circular']) // TODO: Add circular progress
 }
 

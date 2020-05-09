@@ -3,22 +3,39 @@ import { useParams } from 'startupjs/app'
 import { observer, emit } from 'startupjs'
 import { useDocsContext } from '../../../../docsContext'
 import { useLang } from '../../../clientHelpers'
+import { DEFAULT_LANGUAGE } from '../../../const'
 
 export default observer(function PHome ({
   style
 }) {
   const docs = useDocsContext()
   let { lang: paramsLang } = useParams()
-  let [lang, setLang] = useLang()
+  let [lang = DEFAULT_LANGUAGE, setLang] = useLang()
   if (paramsLang && paramsLang !== lang) {
     lang = paramsLang
     setLang(lang)
   }
-  if (!docs[lang]) lang = 'en'
+
+  function getDocPath (docs) {
+    let path = '/'
+    const docName = Object.keys(docs)[0]
+    const doc = docs[docName]
+    switch (doc.type) {
+      case 'mdx':
+        path += docName
+        break
+      case 'collapse':
+        path += docName
+        if (!doc.component) path += getDocPath(doc.items)
+        break
+    }
+    return path
+  }
+
   useEffect(() => {
     emit(
       'url',
-      `/docs/${lang}/` + Object.keys(docs[lang])[0],
+      `/docs/${lang}` + getDocPath(docs),
       { replace: true }
     )
   }, [])

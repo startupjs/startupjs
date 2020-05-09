@@ -81,7 +81,9 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 const [open, setOpen] = useState(false)
 return (
   <Collapse open={open} onChange={() => setOpen(!open)}>
-    <Collapse.Header icon={faAngleRight}>Collapse with custom icon</Collapse.Header>
+    <Collapse.Header icon={faAngleRight}>
+      Collapse with custom icon
+    </Collapse.Header>
     <Collapse.Content>
       Collapse content
     </Collapse.Content>

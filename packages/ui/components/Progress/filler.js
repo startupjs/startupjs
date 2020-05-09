@@ -8,8 +8,9 @@ const { duration } = config.Progress
 
 const AnimatedView = Animated.View
 
-export default observer(function ProgressFiller ({ value }) {
+export default observer(function ProgressFiller ({ style, value }) {
   const [progress] = useState(new Animated.Value(value))
+  const [width, setWidth] = useState(0)
 
   useDidUpdate(() => {
     Animated.timing(
@@ -25,12 +26,18 @@ export default observer(function ProgressFiller ({ value }) {
 
   return pug`
     AnimatedView.filler(
-      style={
-        width: progress.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['0%', '1%']
-        })
-      }
+      style=[
+        style,
+        {
+          transform: [{
+            translateX: progress.interpolate({
+              inputRange: [0, 100],
+              outputRange: [-width, 0]
+            })
+          }]
+        }
+      ]
+      onLayout=(event) => setWidth(event.nativeEvent.layout.width)
     )
   `
 })

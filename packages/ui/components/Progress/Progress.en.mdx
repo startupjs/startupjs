@@ -17,11 +17,12 @@ const [value, setValue] = useState(0)
 useEffect(() => {
   const interval = setInterval(() => {
     setValue(v => {
-      if (v > 100) {
+      const nextValue = v + 1
+      if (nextValue > 100) {
         clearInterval(interval)
-        return v
+        return 100
       }
-      return v + 1
+      return nextValue
     })
   }, 1000)
   return () => clearInterval(interval)

@@ -1,5 +1,3 @@
-export { default as useComponentName } from './useComponentName'
-export { default as useDocName } from './useDocName'
 export { default as useLocalWithDefault } from './useLocalWithDefault'
 export { default as useShowGrid } from './useShowGrid'
 export { default as useShowSizes } from './useShowSizes'
