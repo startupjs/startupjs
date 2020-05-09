@@ -134,6 +134,12 @@ export default {
       title: 'Modal',
       component: require('../components/Modal/Modal.en.mdx').default
     },
+    Pagination: {
+      type: 'mdx',
+      title: 'Pagination',
+      component: require('../components/Pagination/Pagination.en.mdx').default
+    },
+
     Progress: {
       type: 'mdx',
       title: 'Progress',
