@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { observer, useLocal, useSession } from 'startupjs'
-import { Menu, Collapse } from '@startupjs/ui'
+import { Menu, Collapse, Span } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
 import { pathFor } from 'startupjs/app'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 const Docs = observer(function DocsComponent ({
   docs,
@@ -46,11 +47,16 @@ const Docs = observer(function DocsComponent ({
               variant='pure'
               $open=$openedCollapses.at(docPath)
             )
-              Collapse.Header
+              Collapse.Header.collapse(
+                iconPosition='right'
+                icon=faAngleRight
+                iconStyleName='collapse-icon'
+              )
                 Menu.Item(
                   to=doc.component ? rootPath : null
                   active=isActive
-                )= title
+                )
+                  Span.collapse-content= title
               Collapse.Content
                 Docs(docs=doc.items lang=lang subpath=docPath)
   `
