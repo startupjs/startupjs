@@ -96,7 +96,10 @@ export default {
     Icon: {
       type: 'mdx',
       title: 'Icon',
-      component: require('../components/Hr/Hr.en.mdx').default
+      component: {
+        en: require('../components/Icon/Icon.en.mdx').default,
+        ru: require('../components/Icon/Icon.ru.mdx').default
+      }
     },
     Layout: {
       type: 'mdx',
