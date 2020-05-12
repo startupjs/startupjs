@@ -104,7 +104,10 @@ export default {
     Layout: {
       type: 'mdx',
       title: 'Layout',
-      component: require('../components/Layout/Layout.en.mdx').default
+      component: {
+        en: require('../components/Layout/Layout.en.mdx').default,
+        ru: require('../components/Layout/Layout.ru.mdx').default
+      }
     },
     LineSeparator: {
       type: 'mdx',
