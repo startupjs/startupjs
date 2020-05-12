@@ -6,7 +6,7 @@
     "node": ">= 14"
   },
   "description": "Run ShareDB in React. Hooks syntax",
-  "main": "lib/index.js",
+  "main": "lib2/index.js",
   "publishConfig": {
     "access": "public"
   },
