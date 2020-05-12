@@ -5,17 +5,20 @@ import Div from '../Div'
 import Menu from '../Menu'
 import Button from '../Button'
 import Content from '../Content'
-import { observer, useModel } from 'startupjs'
+import Span from '../Typography/Span'
+import Br from '../Br'
+import { useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DrawerSidebar
 
-Drawer is typically used for nagivation. It is initially not visible on the screen, but it can be pulled in from the edge of the window.
+Drawer is typically used for nagivation. It initially not visible on the screen, but it can be pulled in from the edge of the window.
 
 ## Example
 
 ```jsx
-import { DrawerSidebar, Menu, Content, Row } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -40,11 +43,15 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(true)}>Open</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </DrawerSidebar>
   </Div>
@@ -56,7 +63,8 @@ return (
 The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx
-import { DrawerSidebar, Menu, Content, Row } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -82,11 +90,15 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(true)}>Open</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </DrawerSidebar>
   </Div>
@@ -95,7 +107,12 @@ return (
 
 ## Locked Drawer
 
-Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures.
+Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures or react to `open` property.
+
+```jsx
+import { useEffect } from 'React'
+import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
+```
 
 ```jsx example
 const PATH = '_session.ExampleLockedDrawerSidebar'
@@ -120,11 +137,15 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(true)}>Open</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </DrawerSidebar>
   </Div>

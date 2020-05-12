@@ -167,12 +167,18 @@ export default {
     Sidebar: {
       type: 'mdx',
       title: 'Sidebar',
-      component: require('../components/Sidebar/Sidebar.en.mdx').default
+      component: {
+        en: require('../components/Sidebar/Sidebar.en.mdx').default,
+        ru: require('../components/Sidebar/Sidebar.ru.mdx').default
+      }
     },
     SmartSidebar: {
       type: 'mdx',
       title: 'Smart Sidebar',
-      component: require('../components/SmartSidebar/SmartSidebar.en.mdx').default
+      component: {
+        en: require('../components/SmartSidebar/SmartSidebar.en.mdx').default,
+        ru: require('../components/SmartSidebar/SmartSidebar.ru.mdx').default
+      }
     },
     Tag: {
       type: 'mdx',

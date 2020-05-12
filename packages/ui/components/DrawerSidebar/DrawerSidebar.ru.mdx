@@ -6,7 +6,8 @@ import Div from '../Div'
 import Menu from '../Menu'
 import Button from '../Button'
 import Content from '../Content'
-import { observer, useModel } from 'startupjs'
+import Br from '../Br'
+import { useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DrawerSidebar (дровер)
@@ -15,9 +16,9 @@ import { Sandbox } from '@startupjs/docs'
 
 ## Пример
 
-
 ```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -42,23 +43,28 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(true)}>Открыть</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </DrawerSidebar>
   </Div>
 )
 ```
 
-## Position
+## Расположение
 
-Свойство `position` указывает сторону окна, из которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
+Свойство `position` указывает сторону окна, с которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx
-import { DrawerSidebar, Span, Menu, Content, Row } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -84,20 +90,29 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(true)}>Открыть</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </DrawerSidebar>
   </Div>
 )
 ```
 
-## Locked Drawer
+## Закрытый дровер
 
-Указание свойства `forceClosed` будеи держать дровер закрытым и он не будет реагировать на жесты.
+Указание свойства `forceClosed` будет держать дровер закрытым, и он не будет реагировать на жесты или свойство `open`.
+
+```jsx
+import { useEffect } from 'React'
+import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
+```
 
 ```jsx example
 const PATH = '_session.ExampleLockedDrawerSidebar'
@@ -122,11 +137,15 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(true)}>Открыть</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </DrawerSidebar>
   </Div>
