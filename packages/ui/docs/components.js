@@ -165,7 +165,11 @@ export default {
     Row: {
       type: 'mdx',
       title: 'Row',
-      component: require('../components/Row/Row.en.mdx').default
+      component: {
+        en: require('../components/Row/Row.en.mdx').default,
+        ru: require('../components/Row/Row.ru.mdx').default
+
+      }
     },
     Sidebar: {
       type: 'mdx',

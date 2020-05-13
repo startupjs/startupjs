@@ -26,6 +26,8 @@ function Row ({
 Row.defaultProps = {
   wrap: false,
   reverse: false,
+  align: 'left',
+  vAlign: 'stretch',
   ...Div.defaultProps
 }
 
@@ -33,8 +35,9 @@ Row.propTypes = {
   ...Div.propTypes,
   wrap: propTypes.bool,
   reverse: propTypes.bool,
-  align: propTypes.oneOf(['center', 'right', 'around', 'between']),
-  vAlign: propTypes.oneOf(['center'])
+  align: propTypes.oneOf(['left', 'center', 'right', 'around', 'between']),
+  vAlign: propTypes.oneOf(['stretch', 'start', 'center', 'end'])
+  // TODO: may be we need add align-content
 }
 
 export default observer(Row)
