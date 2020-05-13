@@ -14,14 +14,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import CustomIconExample from './CustomIconExample.svg'
 
+# Icon (иконка)
 
-# Icon
+Иконки - это визуальные символы, используемые для представления идей, объектов или действий. Они передают посыл с первого взгляда, обеспечивают интерактивность и привлекают внимание к важной информации.
 
-Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-
-## Fontawesome icons
-
-Component uses `@fortawesome/react-native-fontawesome` library to implement icons.
+## Fontawesome иконки
 
 ```jsx
 import { Icon } from '@startupjs/ui'
@@ -42,9 +39,9 @@ return (
 )
 ```
 
-## Sizes
+## Размеры
 
-Size can be modified using the `size` prop. Default value is `m`. Pre defined icon size values are `xs`, `s`, `m`, `l`, `xl`, `xxl`. Size can also be arbitarily increased or decreased by providing a number to `size` prop.
+Размер можно изменить с помощью свойства `size`. Значение по умолчанию `m`. Предопределенные значения размеров иконок - `xs`,` s`, `m`,` l`, `xl`, ` xxl`. Размер также может быть сколь угодно увеличен или уменьшен путем передачи числа в свойство `size`.
 
 ```jsx
 import { Icon, Content } from '@startupjs/ui'
@@ -79,9 +76,9 @@ return (
 )
 ```
 
-## Colors
+## Цвета
 
-Color can be changed by providing hex color or name of the color from `ui` config colors to `color` property.
+Цвет можно изменить, передав шестнадцатеричный цвет или имя цвета из цветов `ui` конфига в свойство `color`.
 
 ```jsx
 import { Icon } from '@startupjs/ui'
@@ -102,9 +99,9 @@ return (
 )
 ```
 
-## Custom Icon
+## Кастомная иконка
 
-To use your custom icon you must provide a valid `svg` icon to `icon` property
+Чтобы использовать свою собственную иконку необходимо передать валидную `svg` иконку в свойство `icon`
 
 ```jsx
 import { Icon } from '@startupjs/ui'
@@ -113,13 +110,16 @@ import CustomIconExample from './CustomIconExample.svg'
 
 ```jsx example
 return (
-  <Icon
-    size={50}
-    color='#F5BE59'
-    icon={CustomIconExample}
-  />
+  <Content>
+    <Icon
+      size={50}
+      color='#F5BE59'
+      icon={CustomIconExample}
+    />
+  </Content>
 )
 ```
+
 
 ## Sandbox
 

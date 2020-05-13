@@ -6,15 +6,14 @@ import Menu from '../Menu'
 import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
-import Span from '../Typography/Span'
 import { observer, useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
-# SmartSidebar
+# SmartSidebar (умный сайдбар)
 
-SmartSidebar is typically used for nagivation. It provides a desktop-mobile friendly interface. Based on a fixed layout breakpoint, it decides to stay as a [visible sidebar](/docs/en/components/Sidebar) or to turn into an [invisible drawer sidebar](/docs/en/components/DrawerSidebar). Though in both cases the sidebar is controllable. By defualt it not visible on the screen.
+Умный сайдбар обычно используется для навигации. Он предоставляет удобный десктоп-мобильный интерфейс. Основываясь на фиксированной точке останова макета, он решает остаться в качестве [видимой боковой панели](/docs/ru/components/Sidebar) или превратиться в [невидимую боковую панель](/docs/ru/components/DrawerSidebar). По умолчанию он не виден на экране.
 
-## Example
+## Пример
 
 ```jsx
 import { useEffect } from 'React'
@@ -57,9 +56,9 @@ return (
 )
 ```
 
-## Fixed Layout Breakpoint
+## Фиксированная точка останова
 
-The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/en/components/Sidebar) switches to a [drawer sidebar](/docs/en/components/Drawer). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
+Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/ru/components/Sidebar) переключается на [дровер](/docs/ru/components/Drawer). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
 
 ```jsx
 import { useEffect } from 'React'
@@ -103,9 +102,9 @@ return (
 )
 ```
 
-## Position
+## Расположение
 
-The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
+Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx
 import { useEffect } from 'React'
@@ -154,7 +153,7 @@ return (
 
 ## Locked SmartSidebar
 
-Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
+Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
 ```jsx
 import { useEffect } from 'React'
