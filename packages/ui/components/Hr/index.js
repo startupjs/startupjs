@@ -11,6 +11,8 @@ function Hr ({
   children,
   size
 }) {
+  console.warn('Hr component is deprecated. Use Divider instead.')
+
   const extraStyles = {}
   if (typeof size === 'number') {
     size = undefined
