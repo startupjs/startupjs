@@ -16,24 +16,13 @@ function ModalHeader ({
   children,
   onDismiss // @private
 }) {
-  const childs = React.Children.toArray(children).map(child => {
-    if (typeof child === 'string') {
-      return pug`
-        Span.title(
-          key='__MODAL_HEADER_KEY__'
-          size='xl'
-          numberOfLines=1
-          bold
-        )= child
-      `
-    }
-    return child
-  })
-
   return pug`
-    if childs.length || onDismiss
+    if children || onDismiss
       Row.root(style=style align='between' vAlign='center')
-        = childs
+        if typeof children === 'string'
+          Span(size='xl' numberOfLines=1 bold)= children
+        else
+          = children
         if onDismiss
           Div(onPress=onDismiss)
             Icon(icon=faTimes size='xl' color=colors.dark)

@@ -138,7 +138,10 @@ export default {
     Modal: {
       type: 'mdx',
       title: 'Modal',
-      component: require('../components/Modal/Modal.en.mdx').default
+      component: {
+        en: require('../components/Modal/Modal.en.mdx').default,
+        ru: require('../components/Modal/Modal.ru.mdx').default
+      }
     },
     Pagination: {
       type: 'mdx',
