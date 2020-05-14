@@ -77,6 +77,14 @@ export default {
         ru: require('../components/Div/Div.ru.mdx').default
       }
     },
+    Divider: {
+      type: 'mdx',
+      title: 'Divider',
+      component: {
+        en: require('../components/Divider/Divider.en.mdx').default,
+        ru: require('../components/Divider/Divider.ru.mdx').default
+      }
+    },
     DrawerSidebar: {
       type: 'mdx',
       title: 'Drawer Sidebar',
@@ -108,11 +116,6 @@ export default {
         en: require('../components/Layout/Layout.en.mdx').default,
         ru: require('../components/Layout/Layout.ru.mdx').default
       }
-    },
-    LineSeparator: {
-      type: 'mdx',
-      title: 'Line Separator',
-      component: require('../components/LineSeparator/LineSeparator.en.mdx').default
     },
     Link: {
       type: 'mdx',

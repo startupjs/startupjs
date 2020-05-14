@@ -7,7 +7,7 @@ import { u } from '../../config/helpers'
 import Radio from '../forms/Radio'
 import Checkbox from '../forms/Checkbox'
 import Br from '../Br'
-import Hr from '../Hr'
+import Divider from '../Divider'
 import { Sandbox } from '@startupjs/docs'
 
 # Row (строка)
@@ -70,7 +70,7 @@ const [align, setAlign] = useState(null)
 return (
   <Div>
     <Span>Please select a value for `align` prop</Span>
-    <Hr />
+    <Divider />
     <Radio
       value={align}
       onChange={(newState) => setAlign(newState)}
@@ -122,7 +122,7 @@ const [vAlign, setVAlign] = useState(null)
 return (
   <Div>
     <Span>Please select a value for `vAlign` prop</Span>
-    <Hr />
+    <Divider />
     <Radio
       value={vAlign}
       onChange={(newState) => setVAlign(newState)}
