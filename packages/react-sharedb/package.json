@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb",
   "type": "module",
-  "version": "0.22.0-alpha.22",
+  "version": "0.22.0-alpha.23",
   "engines": {
     "node": ">= 14"
   },
@@ -17,10 +17,10 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.22.0-alpha.22",
-    "@startupjs/react-sharedb-classes": "^0.22.0-alpha.22",
-    "@startupjs/react-sharedb-hooks": "^0.22.0-alpha.22",
-    "@startupjs/react-sharedb-util": "^0.22.0-alpha.22",
+    "@startupjs/model": "^0.22.0-alpha.23",
+    "@startupjs/react-sharedb-classes": "^0.22.0-alpha.23",
+    "@startupjs/react-sharedb-hooks": "^0.22.0-alpha.23",
+    "@startupjs/react-sharedb-util": "^0.22.0-alpha.23",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
     "racer": "0.9.9",
