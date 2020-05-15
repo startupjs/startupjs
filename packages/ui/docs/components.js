@@ -136,7 +136,10 @@ export default {
     Menu: {
       type: 'mdx',
       title: 'Menu',
-      component: require('../components/Menu/Menu.en.mdx').default
+      component: {
+        en: require('../components/Menu/Menu.en.mdx').default,
+        ru: require('../components/Menu/Menu.ru.mdx').default
+      }
     },
     Modal: {
       type: 'mdx',

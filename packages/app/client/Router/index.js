@@ -23,7 +23,7 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
   animate,
   routes,
   errorPages,
-  goToHandler
+  pathForHandler
 }) {
   const history = useHistory()
   const [err, setErr] = useState()
@@ -58,14 +58,9 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
     return null
   }
 
-  function goTo (url, options) {
-    typeof goToHandler === 'function'
-      ? goToHandler(url, options, _goTo)
-      : _goTo(url, options)
-  }
-
-  function _goTo (url, options = {}) {
-    const app = getApp(url.replace(/\?.*$/, ''), routes)
+  function goTo (url, options = {}) {
+    if (pathForHandler) url = pathForHandler(url)
+    const app = getApp(url.replace(/[?#].*$/, ''), routes)
     const { replace } = options
 
     if (app) {

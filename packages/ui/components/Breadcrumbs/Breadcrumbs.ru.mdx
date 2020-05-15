@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import Breadcrumbs from '../Breadcrumbs'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
-import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
+import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
 
 # Breadcrumbs (хлебные крошки)
 
@@ -22,15 +22,15 @@ return (
   <Breadcrumbs
     routes={[
       {
-        to: '#',
+        to: '#startupjs',
         name: 'StartupJs'
       },
       {
-        to: '#',
+        to: '#docs',
         name: 'Docs'
       },
       {
-        to: '#',
+        to: '#component',
         name: 'Component'
       }
     ]}
@@ -53,15 +53,15 @@ return (
     separator='>'
     routes={[
       {
-        to: '#',
+        to: '#startupjs',
         name: 'StartupJs'
       },
       {
-        to: '#',
+        to: '#docs',
         name: 'Docs'
       },
       {
-        to: '#',
+        to: '#component',
         name: 'Component'
       }
     ]}
@@ -80,17 +80,22 @@ import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
 ```jsx example
 return (
   <Breadcrumbs
+    separator='>'
     routes={[
       {
-        to: '#',
-        name: 'House',
-        icon: faHouseUser
+        to: '#startupjs',
+        name: 'StartupJs',
+        icon: faRocket
       },
       {
-        to: '#',
-        name: 'Table',
-        icon: faTable,
-        iconPosition: 'right'
+        to: '#docs',
+        name: 'Docs',
+        icon: faBook
+      },
+      {
+        to: '#component',
+        name: 'Component',
+        icon: faGift
       }
     ]}
   />
@@ -112,15 +117,15 @@ return (
       size='l'
       routes={[
         {
-          to: '#',
+          to: '#startupjs',
           name: 'StartupJs'
         },
         {
-          to: '#',
+          to: '#docs',
           name: 'Docs'
         },
         {
-          to: '#',
+          to: '#component',
           name: 'Component'
         }
       ]}
@@ -146,35 +151,6 @@ return (
   </View>
 )
 ```
-
-## Отключенные хлебные крошки
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
-
-```jsx example
-return (
-  <Breadcrumbs
-    disabled
-    routes={[
-      {
-        to: '#',
-        name: 'StartupJs'
-      },
-      {
-        to: '#',
-        name: 'Docs'
-      },
-      {
-        to: '#',
-        name: 'Component'
-      }
-    ]}
-  />
-)
-```
-
 
 ## Sandbox
 

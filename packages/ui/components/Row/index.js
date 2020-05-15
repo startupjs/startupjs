@@ -3,6 +3,9 @@ import './index.styl'
 import propTypes from 'prop-types'
 import Div from './../Div'
 import { observer } from 'startupjs'
+import { Platform, StyleSheet } from 'react-native'
+
+const isNative = Platform.OS !== 'web'
 
 function Row ({
   style,
@@ -13,6 +16,16 @@ function Row ({
   reverse,
   ...props
 }) {
+  // FIXME: for native apps row-reverse switches margins and paddings
+  if (isNative && reverse) {
+    style = StyleSheet.flatten(style)
+    const { paddingLeft, paddingRight, marginLeft, marginRight } = style
+    style.marginLeft = marginRight
+    style.marginRight = marginLeft
+    style.paddingLeft = paddingRight
+    style.paddingRight = paddingLeft
+  }
+
   return pug`
     Div.root(
       style=style

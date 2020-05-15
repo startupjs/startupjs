@@ -19,38 +19,40 @@ function Breadcrumbs ({
   separator,
   size,
   replace,
-  disabled,
   iconPosition
 }) {
-  const color = disabled
-    ? colorToRGBA(mainTextColor, 0.8)
-    : undefined
+  function Item ({ icon, color, bold, children }) {
+    return pug`
+      Row(vAlign='center' reverse=iconPosition === 'right')
+        if icon
+          Div.iconWrapper(styleName=[size, iconPosition])
+            Icon(icon=icon size=size color=color)
+        Span.content(
+          style={ color }
+          size=size
+          bold=bold
+        )= children
+    `
+  }
 
   return pug`
     Row(style=style wrap)
       each route, index in routes
         - const { name, icon, ...linkProps } = route
         - const isLastRoute = index === routes.length - 1
-        - const _color = isLastRoute ? mainTextColor: color
-        Row(key=index)
-          Link.link(
-            replace=replace
-            disabled=disabled || isLastRoute
-            block
-            ...linkProps
-          )
-            Row(vAlign='center' reverse=iconPosition === 'right')
-              if icon
-                Div.iconWrapper(styleName=[size, iconPosition])
-                  Icon(icon=icon size=size color=_color)
-              Span.content(
-                style={ color: _color }
-                size=size
-                bold=isLastRoute
-              )= name
-          if !isLastRoute
-            Span.separator(size=size)
-              | &nbsp#{separator}&nbsp
+        React.Fragment(key=index)
+          if isLastRoute
+            Item(icon=icon color=mainTextColor bold)= name
+          else
+            Row
+              Link(
+                block
+                replace=replace
+                ...linkProps
+              )
+                Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name
+              Span.separator(size=size)
+                | &nbsp#{separator}&nbsp
   `
 }
 
@@ -59,7 +61,6 @@ Breadcrumbs.defaultProps = {
   separator: '/',
   size: 'm',
   replace: false,
-  disabled: false,
   iconPosition: 'left'
 }
 
@@ -73,8 +74,7 @@ Breadcrumbs.propTypes = {
   iconPosition: propTypes.oneOf(['left', 'right']),
   separator: propTypes.string,
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  replace: propTypes.bool,
-  disabled: propTypes.bool
+  replace: propTypes.bool
 }
 
 export default observer(Breadcrumbs)

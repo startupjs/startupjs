@@ -12,7 +12,10 @@ function Menu ({
   activeBorder
 }) {
   const content = React.Children.map(children, (child, index) => {
-    return React.cloneElement(child, { activeBorder })
+    if (child.type === MenuItem) {
+      return React.cloneElement(child, { activeBorder })
+    }
+    return child
   })
 
   return pug`
