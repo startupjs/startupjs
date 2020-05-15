@@ -6,7 +6,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # Link (ссылка)
 
-Наследует [Span props](/docs/en/components/Span).
+Наследует [Span props](/docs/ru/typography).
 
 Ссылка позволяет перемещаться по приложению и настраивать якоря.
 
@@ -20,7 +20,7 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Span>
     Наследует&nbsp;
-    <Link to='/docs/ru/components/Span'>
+    <Link to='/docs/ru/typography'>
       Span props
     </Link>
   </Span>
@@ -29,7 +29,7 @@ return (
 
 ## Выделяющаяся ссылка
 
-Если ссылка должна выделиться, передайте строку `primary` в свойство `variant`.
+Чтобы выделить ссылку, передайте строку `primary` в свойство `variant`.
 
 ```jsx
 import { Link, Span } from '@startupjs/ui'
@@ -39,7 +39,7 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Row>
     <Span>Inherits&nbsp;</Span>
-    <Link block to='/docs/ru/components/Span' variant='primary'>
+    <Link block to='/docs/ru/typography' variant='primary'>
       <Span>Span props</Span>
     </Link>
   </Row>

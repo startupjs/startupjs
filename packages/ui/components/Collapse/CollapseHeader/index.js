@@ -18,7 +18,8 @@ function CollapseHeader ({
   iconPosition,
   icon,
   open, // @private
-  onPress // @private
+  onPress, // @private,
+  ...props
 }) {
   if (icon === true) icon = faCaretRight
   const reverse = iconPosition === 'right'
@@ -41,6 +42,7 @@ function CollapseHeader ({
       styleName=[variant]
       onPress=onPress
       reverse=reverse
+      ...props
     )
       Animated.View(
         style={

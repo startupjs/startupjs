@@ -6,18 +6,21 @@ import { Blocked, UpdateApp } from './components'
 import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
-const OS = Platform.OS
 
-// FIXME: instead of global variable use singleton
+const OS = Platform.OS
+let pathForHandler
+
 const routes = []
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
   const route = _find(routes, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
-  return decodeUriComponent(generatePath(route.path, options))
+  let url = decodeUriComponent(generatePath(route.path, options))
+  if (pathForHandler) url = pathForHandler(url)
+  return url
 }
 
-export default observer(function App ({
+const App = observer(function AppComponent ({
   apps,
   supportEmail,
   criticalVersion,
@@ -25,6 +28,8 @@ export default observer(function App ({
   androidUpdateLink,
   ...props
 }) {
+  pathForHandler = props.pathForHandler
+
   const [version] = useDoc('service', 'version')
   const availableCriticalVersion =
     version &&
@@ -67,3 +72,5 @@ export default observer(function App ({
         )
   `
 })
+
+export default App

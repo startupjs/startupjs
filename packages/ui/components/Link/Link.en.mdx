@@ -5,7 +5,7 @@ import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Link
-Inherits [Span props](/docs/en/components/Span).
+Inherits [Span props](/docs/en/typography).
 
 Link allows to navigate of the app and customize anchors.
 
@@ -19,16 +19,16 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Span>
     Inherits&nbsp;
-    <Link to='/docs/en/components/Span'>
+    <Link to='/docs/en/typography'>
       Span props
     </Link>
   </Span>
 )
 ```
 
-## Stand out Link
+## Highlighted link
 
-If a link needs to stand out pass the `primary` string to `variant` property.
+To highlight a link pass the `primary` string to `variant` property.
 
 ```jsx
 import { Link, Span } from '@startupjs/ui'
@@ -38,7 +38,7 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Row>
     <Span>Inherits&nbsp;</Span>
-    <Link block to='/docs/en/components/Span' variant='primary'>
+    <Link block to='/docs/en/typography' variant='primary'>
       <Span>Span props</Span>
     </Link>
   </Row>

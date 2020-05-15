@@ -1,53 +1,64 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, emit } from 'startupjs'
 import propTypes from 'prop-types'
-import { Link as RNLink } from 'react-router-native'
-import {
-  Platform,
-  Text,
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native'
+import { Platform } from 'react-native'
+import Div from './../Div'
 import Span from './../Typography/Span'
 import './index.styl'
 
-// css-to-react-native fails to parse a complex fontFamily value.
-const WEB_FONT = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif"
-
-const isNative = Platform.OS !== 'web'
+const isWeb = Platform.OS === 'web'
 
 function Link ({
   style,
-  children,
   to,
-  disabled,
   variant,
   theme,
   size,
   bold,
   italic,
   block,
+  replace,
+  onPress,
   ...props
 }) {
-  const extraProps = {}
-  if (isNative) {
-    extraProps.component = block ? TouchableOpacity : Text
+  const Component = block ? Div : Span
+  const extraProps = { accessibilityRole: 'link' }
+
+  function handlePress (event) {
+    try {
+      if (onPress) onPress(event)
+    } catch (err) {
+      event.preventDefault()
+      throw err
+    }
+
+    if (!event.defaultPrevented) {
+      if (isWeb) event.preventDefault()
+      emit('url', to, { replace })
+    }
   }
+
+  if (isWeb) {
+    extraProps.href = to
+    // makes preventDefault work on web,
+    // because react-native onPress does not prevent ctrl + click on web
+    extraProps.onClick = handlePress
+  } else {
+    extraProps.onPress = handlePress
+  }
+
   return pug`
-    InternalLink.root(
-      style=[style, isNative ? {} : { fontFamily: WEB_FONT }]
-      styleName=[theme, size, { bold, italic, disabled, block }, variant]
-      disabled=disabled
-      to=disabled ? null : to /* pass empty url to href on web */
+    Component.root(
+      style=style
+      styleName=[theme, size, { bold, italic, block }, variant]
       ...props
       ...extraProps
-    )= children
+    )
   `
 }
 
 Link.defaultProps = {
   ...Span.defaultProps,
-  disabled: false,
   replace: false,
   block: false,
   variant: 'default'
@@ -56,29 +67,9 @@ Link.defaultProps = {
 Link.propTypes = {
   ...Span.propTypes,
   to: propTypes.string,
-  disabled: propTypes.bool,
   replace: propTypes.bool,
   block: propTypes.bool,
   variant: propTypes.oneOf(['default', 'primary'])
 }
 
 export default observer(Link)
-
-// This is needed to get styleName and style together and then flatten it manually
-// to be able to pass it to pure web react.
-function InternalLink ({ style, ...props }) {
-  return pug`
-    RNLink(
-      style=isNative ? style : fixWebStyles(style)
-      ...props
-    )
-  `
-}
-
-function fixWebStyles (style) {
-  style = StyleSheet.flatten(style)
-  for (let key in style) {
-    if (key === 'lineHeight' && typeof style[key] === 'number') style[key] += 'px'
-  }
-  return style
-}

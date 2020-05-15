@@ -1,14 +1,9 @@
 _borderColor = $UI.colors.primary
 _borderSize = 2px
-_rightGutter = 1u
-_leftGutter = 2u
-
-padding()
-  padding-left _leftGutter
-  padding-right _rightGutter
 
 .root
-  padding()
+  padding-left 2u
+  padding-right @padding-left
   height 4u
 
 .border
@@ -38,15 +33,3 @@ padding()
 
   &.right
     right 0
-
-.icon
-  &.left
-    margin-right 1u
-  &.right
-    margin-left 1u
-
-.link
-  padding()
-  margin-left - _leftGutter
-  margin-right - _rightGutter
-  text-decoration none

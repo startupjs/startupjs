@@ -8,11 +8,13 @@ import Collapse from '../Collapse'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 
-# Menu
+# Menu (меню)
 
-Menu displays a list of choices and also can be used for navigation.
+Меню отображает список вариантов, а также может быть использовано для навигации.
 
-## Example
+## Пример
+
+Border position of the active element can be customized using `activeBorder` prop.
 
 ```jsx
 import { Menu } from '@startupjs/ui'
@@ -44,9 +46,9 @@ return (
 )
 ```
 
-## Highlighted active item
+## Подсвеченный активный элемент
 
-By default the active menu item is not highlighted. To highlight it use the `activeBorder` property.
+По умолчанию активный пункт меню не подсвечивается. Чтобы подсветить его, используйте свойство `activeBorder`.
 
 ```jsx
 import { Menu } from '@startupjs/ui'
@@ -78,9 +80,9 @@ return (
 )
 ```
 
-## Horizontal menu
+## Горизонтальное меню
 
-By default the menu shows vertically. To make it horizontal, you need pass the string `horizontal` to the `variant` property.
+По умолчанию меню отображается вертикально. Чтобы сделать его горизонтальным, нужно передать строку `horizontal` в свойство `variant`.
 
 ```jsx
 import { Menu } from '@startupjs/ui'
@@ -112,9 +114,9 @@ return (
 )
 ```
 
-## ## Complex interaction (intergration with other components)
+## Сложное взаимодействие (интеграция с другими компонентами)
 
-An example of a collapsible menu with submenus nested in.
+Пример раскрывающегося меню с вложенным в него подменю.
 
 ```jsx
 import { Menu, Collapse, Content } from '@startupjs/ui'
