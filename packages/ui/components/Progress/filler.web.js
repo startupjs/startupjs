@@ -5,6 +5,6 @@ import './index.styl'
 
 export default observer(function ProgressFiller ({ style, value }) {
   return pug`
-    View.filler(style=[style, {width: value + '%'}])
+    View.filler(style=[{width: value + '%'}, style])
   `
 })

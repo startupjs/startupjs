@@ -99,7 +99,7 @@ function Div ({
 
   return maybeWrapToClickable(pug`
     View.root(
-      style=[style, SHADOWS[level], extraStyle]
+      style=[SHADOWS[level], extraStyle, style]
       styleName=[
         { ['with-shadow']: !!level, clickable: isWeb && isClickable, bleed },
         shape,

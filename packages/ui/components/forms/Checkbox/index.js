@@ -115,7 +115,7 @@ function CheckboxInput ({
       onPress=_onChange
       ...handlers
     )
-      Row.root(style=[style, extraStyles] vAlign='center')
+      Row.root(style=[extraStyles, style] vAlign='center')
         = renderInput()
         if label
           Span.label= label
