@@ -8,7 +8,6 @@ import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
 
 const OS = Platform.OS
-let pathForHandler
 
 const routes = []
 export function pathFor (name, options) {
@@ -16,7 +15,6 @@ export function pathFor (name, options) {
   const route = _find(routes, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
   let url = decodeUriComponent(generatePath(route.path, options))
-  if (pathForHandler) url = pathForHandler(url)
   return url
 }
 
@@ -28,8 +26,6 @@ const App = observer(function AppComponent ({
   androidUpdateLink,
   ...props
 }) {
-  pathForHandler = props.pathForHandler
-
   const [version] = useDoc('service', 'version')
   const availableCriticalVersion =
     version &&

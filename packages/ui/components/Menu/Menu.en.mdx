@@ -7,6 +7,11 @@ import Button from '../Button'
 import Collapse from '../Collapse'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
+import {
+  faShareAlt,
+  faHouseUser,
+  faTable
+} from '@fortawesome/free-solid-svg-icons'
 
 # Menu
 
@@ -104,6 +109,43 @@ return (
     </Menu.Item>
     <Menu.Item
       active={active === 'option-3'}
+      onPress={() => setActive('option-3')}
+    >
+      Option-3
+    </Menu.Item>
+  </Menu>
+)
+```
+
+## Menu item icon
+
+To display icon in menu item pass the `icon` property to it. Position of icon can be changed by passing `iconPosition` to `Menu` component (`left` by default) and can be override in menu item.
+
+```jsx
+import { Menu } from '@startupjs/ui'
+```
+
+```jsx example
+const [active, setActive] = useState('option-1')
+return (
+  <Menu style={{ width: u(15) }} variant='horizontal'>
+    <Menu.Item
+      active={active === 'option-1'}
+      icon={faShareAlt}
+      onPress={() => setActive('option-1')}
+    >
+      Option-1
+    </Menu.Item>
+    <Menu.Item
+      active={active === 'option-2'}
+      icon={faHouseUser}
+      onPress={() => setActive('option-2')}
+    >
+      Option-2
+    </Menu.Item>
+    <Menu.Item
+      active={active === 'option-3'}
+      icon={faTable}
       onPress={() => setActive('option-3')}
     >
       Option-3
