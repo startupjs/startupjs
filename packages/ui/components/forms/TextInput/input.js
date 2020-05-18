@@ -99,7 +99,7 @@ export default observer(function Input ({
   ]
 
   return pug`
-    Div.input-wrapper(style=[style, { height: fullHeight }] className=className)
+    Div.input-wrapper(style=[{ height: fullHeight }, style] className=className)
       if icon
         Div.input-icon(
           styleName=[size, iconPosition]

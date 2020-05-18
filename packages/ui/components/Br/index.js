@@ -9,7 +9,7 @@ const LINE_HEIGHT = u(2)
 function Br ({ style, half, lines }) {
   const height = half ? LINE_HEIGHT / 2 : LINE_HEIGHT * lines
   return pug`
-    Text.root(style=[style, { height }])
+    Text.root(style=[{ height }, style])
   `
 }
 

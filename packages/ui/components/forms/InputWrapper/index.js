@@ -81,7 +81,7 @@ function InputWrapper ({
 
   return pug`
     View.root(
-      style=[style]
+      style=style
       className=className
       styleName=[shape]
       activeOpacity=1

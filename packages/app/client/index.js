@@ -8,8 +8,8 @@ import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
 
 const OS = Platform.OS
-
 const routes = []
+
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
   const route = _find(routes, { name })

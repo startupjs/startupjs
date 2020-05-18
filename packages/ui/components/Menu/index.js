@@ -15,7 +15,7 @@ function Menu ({
 }) {
   const content = React.Children.map(children, (child, index) => {
     if (child.type === MenuItem) {
-      return React.cloneElement(child, { activeBorder, iconPosition })
+      return React.cloneElement(child, { activeBorder })
     }
     return child
   })

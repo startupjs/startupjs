@@ -87,7 +87,7 @@ function Button ({
 
   return pug`
     Row.root(
-      style=[style, rootStyle]
+      style=[rootStyle, style]
       styleName=[
         size,
         { disabled }
