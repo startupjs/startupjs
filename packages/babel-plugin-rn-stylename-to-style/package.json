@@ -1,6 +1,9 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-to-style",
   "version": "0.22.0-alpha.21",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "Dynamically resolve styleName in RN with support for multi-class selectors (for easier modifiers)",
   "keywords": [
     "babel",
