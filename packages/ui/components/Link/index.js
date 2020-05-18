@@ -1,9 +1,10 @@
 import React from 'react'
-import { observer, emit } from 'startupjs'
+import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Platform } from 'react-native'
 import Div from './../Div'
 import Span from './../Typography/Span'
+import { useHistory } from 'react-router-native'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -11,7 +12,7 @@ const isWeb = Platform.OS === 'web'
 function Link ({
   style,
   to,
-  variant,
+  color,
   theme,
   size,
   bold,
@@ -23,6 +24,7 @@ function Link ({
 }) {
   const Component = block ? Div : Span
   const extraProps = { accessibilityRole: 'link' }
+  const history = useHistory()
 
   function handlePress (event) {
     try {
@@ -33,8 +35,14 @@ function Link ({
     }
 
     if (!event.defaultPrevented) {
-      if (isWeb) event.preventDefault()
-      emit('url', to, { replace })
+      if (isWeb) {
+        // ignore clicks with modifier keys
+        // let browser handle these clicks
+        if (isModifiedEvent(event)) return
+        event.preventDefault()
+      }
+      const method = replace ? history.replace : history.push
+      method(to)
     }
   }
 
@@ -50,18 +58,22 @@ function Link ({
   return pug`
     Component.root(
       style=style
-      styleName=[theme, size, { bold, italic, block }, variant]
-      ...props
+      styleName=[theme, size, { bold, italic, block }, color]
       ...extraProps
+      ...props
     )
   `
+}
+
+function isModifiedEvent (event) {
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 }
 
 Link.defaultProps = {
   ...Span.defaultProps,
   replace: false,
   block: false,
-  variant: 'default'
+  color: 'default'
 }
 
 Link.propTypes = {
@@ -69,7 +81,7 @@ Link.propTypes = {
   to: propTypes.string,
   replace: propTypes.bool,
   block: propTypes.bool,
-  variant: propTypes.oneOf(['default', 'primary'])
+  color: propTypes.oneOf(['default', 'primary'])
 }
 
 export default observer(Link)

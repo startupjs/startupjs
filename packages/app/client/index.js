@@ -9,15 +9,13 @@ import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
 
 const OS = Platform.OS
-let pathForHandler
-
 const routes = []
+
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
   const route = _find(routes, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
   let url = decodeUriComponent(generatePath(route.path, options))
-  if (pathForHandler) url = pathForHandler(url)
   return url
 }
 
@@ -31,8 +29,6 @@ const App = observer(function AppComponent ({
 }) {
   // Dynamically update @media queries in CSS whenever window width changes
   useMediaUpdate()
-
-  pathForHandler = props.pathForHandler
 
   const [version] = useDoc('service', 'version')
   const availableCriticalVersion =

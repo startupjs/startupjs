@@ -6,10 +6,7 @@ import Row from './../../Row'
 import Div from './../../Div'
 import propTypes from 'prop-types'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import config from './../../../config/rootConfig'
 import './index.styl'
-
-const { colors } = config
 
 function ModalHeader ({
   style,
@@ -25,7 +22,7 @@ function ModalHeader ({
           = children
         if onDismiss
           Div(onPress=onDismiss)
-            Icon(icon=faTimes size='xl' color=colors.dark)
+            Icon(icon=faTimes size='xl' color='dark')
   `
 }
 

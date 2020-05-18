@@ -22,13 +22,14 @@ function Breadcrumbs ({
   iconPosition
 }) {
   function Item ({ icon, color, bold, children }) {
+    const extraStyle = { color }
     return pug`
       Row(vAlign='center' reverse=iconPosition === 'right')
         if icon
           Div.iconWrapper(styleName=[size, iconPosition])
-            Icon(icon=icon size=size color=color)
+            Icon(style=extraStyle icon=icon size=size)
         Span.content(
-          style={ color }
+          style=extraStyle
           size=size
           bold=bold
         )= children

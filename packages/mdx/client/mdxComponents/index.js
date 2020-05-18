@@ -1,6 +1,6 @@
 import React from 'react'
 import SyntaxHighlighter from 'react-native-syntax-highlighter'
-import { Div, H2, H5, H6, Hr, Span, Br, Row, Link } from '@startupjs/ui'
+import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
 import { Platform, StyleSheet } from 'react-native'
 import './index.styl'
 
@@ -34,7 +34,7 @@ export default {
   `,
   h2: ({ children }) => pug`
     H5.h2= children
-    Hr(size='l')
+    Divider(size='l')
   `,
   h3: ({ children }) => pug`
     H6.h6(bold)= children
@@ -66,7 +66,7 @@ export default {
       Span(size='l')= ' '
   `,
   hr: ({ children }) => pug`
-    Hr(size='l')
+    Divider(size='l')
   `,
   // TODO: https://mdxjs.com/getting-started#table-of-components
   //       Mock everything as P for now.
@@ -104,7 +104,7 @@ export default {
   delete: P,
   a: ({ children, href }) => {
     return pug`
-      Link(to=href size='l' variant='primary')= children
+      Link(to=href size='l' color='primary')= children
     `
   },
   img: P

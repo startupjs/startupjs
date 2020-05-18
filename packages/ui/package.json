@@ -22,6 +22,8 @@
     "react-native-collapsible": ">= 1.5.2",
     "react-native-status-bar-height": ">= 2.4.0",
     "react-native-svg": ">= 9.13.6",
+    "react-router-native": ">= 5.1.2",
+    "react-router-dom": ">= 5.1.2",
     "startupjs": ">= 0.9.5"
   }
 }
