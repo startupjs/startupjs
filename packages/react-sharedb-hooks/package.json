@@ -12,9 +12,7 @@
   },
   "scripts": {
     "test": "echo '----- Test Hooks Syntax -----' && HOOKS=1 npm run _test && echo '----- Test Class Syntax -----' && npm run _test && echo '----- Test DEPRECATED Syntax -----' && DEPRECATED=1 npm run _test",
-    "_test": "PORT=3333 mocha ./test/**/*.mocha.js --bail --reporter spec --require babel-polyfill --compilers js:babel-register --require ./test/_client",
-    "prepublish": "babel --optional runtime src --out-dir lib",
-    "postpublish": "rm -rf lib"
+    "_test": "PORT=3333 mocha ./test/**/*.mocha.js --bail --reporter spec --require babel-polyfill --compilers js:babel-register --require ./test/_client"
   },
   "license": "MIT",
   "dependencies": {
