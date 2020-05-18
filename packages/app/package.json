@@ -9,6 +9,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.22.0-alpha.20",
     "decode-uri-component": "0.2.0",
     "lodash": "4.x",
     "qs": "6.9.3",

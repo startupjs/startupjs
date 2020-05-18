@@ -63,7 +63,7 @@ const nativeReactCssModulesPlatformExtensionsPlugin = () =>
   }]
 
 const nativeReactCssModulesPlugin = () =>
-  [require.resolve('babel-plugin-react-native-dynamic-stylename-to-style'), {
+  [require.resolve('@startupjs/babel-plugin-rn-stylename-to-style'), {
     extensions: ['styl', 'css']
   }]
 

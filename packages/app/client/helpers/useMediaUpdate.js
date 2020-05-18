@@ -1,0 +1,19 @@
+import { useEffect } from 'react'
+import { Dimensions } from 'react-native'
+import debounce from 'lodash/debounce'
+import dimensions from '@startupjs/babel-plugin-rn-stylename-to-style/dimensions'
+
+const DIMENSIONS_UPDATE_DELAY = 200
+
+const debouncedChangeDimensions = debounce(({ window }) => {
+  if (dimensions.width !== window.width) dimensions.width = window.width
+}, DIMENSIONS_UPDATE_DELAY, { leading: false, trailing: true })
+
+export default function useMediaUpdate () {
+  useEffect(() => {
+    Dimensions.addEventListener('change', debouncedChangeDimensions)
+    return () => {
+      Dimensions.removeEventListener('change', debouncedChangeDimensions)
+    }
+  }, [])
+}

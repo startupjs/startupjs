@@ -3,6 +3,7 @@ import { Platform } from 'react-native'
 import Router from './Router'
 import { useLocal, observer, useDoc } from 'startupjs'
 import { Blocked, UpdateApp } from './components'
+import useMediaUpdate from './helpers/useMediaUpdate'
 import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
@@ -28,6 +29,9 @@ const App = observer(function AppComponent ({
   androidUpdateLink,
   ...props
 }) {
+  // Dynamically update @media queries in CSS whenever window width changes
+  useMediaUpdate()
+
   pathForHandler = props.pathForHandler
 
   const [version] = useDoc('service', 'version')
