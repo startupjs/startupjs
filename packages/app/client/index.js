@@ -54,6 +54,9 @@ const App = observer(function AppComponent ({
   const roots = {}
   const routes = []
 
+  // reset global routes variable
+  routesGlobal.length = 0
+
   Object.keys(apps).forEach(appName => {
     const appRoutes = apps[appName].routes
     roots[appName] = apps[appName].Layout
