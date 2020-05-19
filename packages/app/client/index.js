@@ -9,11 +9,11 @@ import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
 
 const OS = Platform.OS
-const routes = []
+const routesGlobal = []
 
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
-  const route = _find(routes, { name })
+  const route = _find(routesGlobal, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
   let url = decodeUriComponent(generatePath(route.path, options))
   return url
@@ -52,11 +52,13 @@ const App = observer(function AppComponent ({
   }
   const [user] = useLocal('_session.user')
   const roots = {}
+  const routes = []
 
   Object.keys(apps).forEach(appName => {
     const appRoutes = apps[appName].routes
     roots[appName] = apps[appName].Layout
     appRoutes.forEach(r => { r.app = appName })
+    routesGlobal.push(...appRoutes)
     routes.push(...appRoutes)
   })
 
