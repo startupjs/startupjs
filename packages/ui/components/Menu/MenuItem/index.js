@@ -17,8 +17,6 @@ function MenuItem ({
   children,
   to,
   active,
-  icon,
-  iconPosition,
   activeBorder,
   bold,
   icon,
