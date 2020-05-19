@@ -57,13 +57,15 @@ const App = observer(function AppComponent ({
   // reset global routes variable
   routesGlobal.length = 0
 
-  Object.keys(apps).forEach(appName => {
+  for (const appName in apps) {
     const appRoutes = apps[appName].routes
     roots[appName] = apps[appName].Layout
-    appRoutes.forEach(r => { r.app = appName })
+    for (const route of appRoutes) {
+      route.app = appName
+    }
     routesGlobal.push(...appRoutes)
     routes.push(...appRoutes)
-  })
+  }
 
   return pug`
     if user && user.blocked
