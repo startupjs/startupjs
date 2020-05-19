@@ -21,6 +21,8 @@ function MenuItem ({
   iconPosition,
   activeBorder,
   bold,
+  icon,
+  iconPosition,
   onPress,
   ...props
 }) {

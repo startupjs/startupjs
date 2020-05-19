@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/model",
-  "version": "0.22.0-alpha.22",
+  "version": "0.22.0-alpha.23",
   "description": "Initializes model connection and retrieves the singleton client-side model",
   "main": "lib/index.js",
   "publishConfig": {
