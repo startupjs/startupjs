@@ -1,0 +1,126 @@
+import { useState } from 'react'
+import Icon from '../Icon'
+import Row from '../Row'
+import Content from '../Content'
+import Br from '../Br'
+import TextInput from '../forms/TextInput'
+import Span from '../Typography/Span'
+import { Sandbox } from '@startupjs/docs'
+import {
+  faHouseUser,
+  faTable,
+  faShareAlt
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import CustomIconExample from './CustomIconExample.svg'
+
+# Icon (иконка)
+
+Иконки - это визуальные символы, используемые для представления идей, объектов или действий. Они передают посыл с первого взгляда, обеспечивают интерактивность и привлекают внимание к важной информации.
+
+## Fontawesome иконки
+
+```jsx
+import { Icon } from '@startupjs/ui'
+import {
+  faHouseUser,
+  faTable,
+  faShareAlt
+} from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Icon icon={faShareAlt} />
+    <Icon icon={faHouseUser} />
+    <Icon icon={faTable} />
+  </Row>
+)
+```
+
+## Размеры
+
+Размер можно изменить с помощью свойства `size`. Значение по умолчанию `m`. Предопределенные значения размеров иконок - `xs`,` s`, `m`,` l`, `xl`, ` xxl`. Размер также может быть сколь угодно увеличен или уменьшен путем передачи числа в свойство `size`.
+
+```jsx
+import { Icon, Content } from '@startupjs/ui'
+import {
+  faHouseUser,
+  faTable,
+  faShareAlt
+} from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+const [numSize, setNumSize] = useState(80)
+return (
+  <Content>
+    <Row align='around'>
+      <Icon size='xs' icon={faShareAlt} />
+      <Icon size='s' icon={faHouseUser} />
+      <Icon icon={faTable} />
+      <Icon size='l' icon={faShareAlt} />
+      <Icon size='xl' icon={faHouseUser} />
+      <Icon size='xxl' icon={faTable} />
+    </Row>
+    <Br />
+    <TextInput
+      label='Type in number to change icon size'
+      value={numSize}
+      onChangeText={newVal => setNumSize(Number(newVal))}
+    />
+    <Br />
+    <Icon size={numSize} icon={faTable} />
+  </Content>
+)
+```
+
+## Цвета
+
+Цвет можно изменить, передав шестнадцатеричный цвет или имя цвета из цветов `ui` конфига в свойство `color`.
+
+```jsx
+import { Icon } from '@startupjs/ui'
+import {
+  faHouseUser,
+  faTable,
+  faShareAlt
+} from '@fortawesome/free-solid-svg-icons'
+```
+
+```jsx example
+return (
+  <Row align='around'>
+    <Icon color='#24B47E' icon={faShareAlt} />
+    <Icon color='#6772E5' icon={faHouseUser} />
+    <Icon color='primary' icon={faTable} />
+  </Row>
+)
+```
+
+## Кастомная иконка
+
+Чтобы использовать свою собственную иконку необходимо передать валидную `svg` иконку в свойство `icon`
+
+```jsx
+import { Icon } from '@startupjs/ui'
+import CustomIconExample from './CustomIconExample.svg'
+```
+
+```jsx example
+return (
+  <Content>
+    <Icon
+      size={50}
+      color='#F5BE59'
+      icon={CustomIconExample}
+    />
+  </Content>
+)
+```
+
+
+## Sandbox
+
+<Sandbox Component={Icon} />

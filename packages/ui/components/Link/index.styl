@@ -1,26 +1,11 @@
 @require '../Typography/Span/index.styl'
 
-polyfillReactNativeWeb()
-  display inline-flex
-  flex-direction column
-  box-sizing border-box
-  white-space pre-wrap
-  overflow-wrap break-word
-
-  &.block
-    display flex
-    width 100%
-
 .root
   color: $UI.colors.mainText
   text-decoration underline
-  +web()
-    polyfillReactNativeWeb()
-    cursor pointer
   &.primary
     color: $UI.colors.primary
     text-decoration-color @color
-  &.disabled
+  &.block
+    display flex
     text-decoration none
-    +web()
-      cursor default

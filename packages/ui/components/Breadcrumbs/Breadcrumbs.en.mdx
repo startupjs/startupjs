@@ -3,14 +3,14 @@ import { View } from 'react-native'
 import Breadcrumbs from '../Breadcrumbs'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
-import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
+import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
 
 # Breadcrumbs
 Breadcrumbs indicate the current page’s location within a navigational hierarchy and allow users to navigate through the hierarchy.
 
 ## Example
 
-Each route object accepts any prop given to the [`Link`](/docs/en/docs/Link) component apart from the ones mentioned below.
+Each route object accepts any prop given to the [`Link`](/docs/en/components/Link) component apart from the ones mentioned below.
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -21,15 +21,15 @@ return (
   <Breadcrumbs
     routes={[
       {
-        to: '#',
+        to: '#startupjs',
         name: 'StartupJs'
       },
       {
-        to: '#',
+        to: '#docs',
         name: 'Docs'
       },
       {
-        to: '#',
+        to: '#component',
         name: 'Component'
       }
     ]}
@@ -51,15 +51,15 @@ return (
     separator='>'
     routes={[
       {
-        to: '#',
+        to: '#startupjs',
         name: 'StartupJs'
       },
       {
-        to: '#',
+        to: '#docs',
         name: 'Docs'
       },
       {
-        to: '#',
+        to: '#component',
         name: 'Component'
       }
     ]}
@@ -67,9 +67,9 @@ return (
 )
 ```
 
-## Breadcrumbs with icons
+## Icons
 
-Each route object accepts its own icon in `icon` property. Position of icon can be changes by passing `iconPosition` to component (`left` by default).
+Each route object accepts its own icon in `icon` property. Position of icon can be changed by passing `iconPosition` to component (`left` by default).
 
 ```jsx
 import { Breadcrumbs } from '@startupjs/ui'
@@ -79,17 +79,22 @@ import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
 ```jsx example
 return (
   <Breadcrumbs
+    separator='>'
     routes={[
       {
-        to: '#',
-        name: 'House',
-        icon: faHouseUser
+        to: '#startupjs',
+        name: 'StartupJs',
+        icon: faRocket
       },
       {
-        to: '#',
-        name: 'Table',
-        icon: faTable,
-        iconPosition: 'right'
+        to: '#docs',
+        name: 'Docs',
+        icon: faBook
+      },
+      {
+        to: '#component',
+        name: 'Component',
+        icon: faGift
       }
     ]}
   />
@@ -111,15 +116,15 @@ return (
       size='l'
       routes={[
         {
-          to: '#',
+          to: '#startupjs',
           name: 'StartupJs'
         },
         {
-          to: '#',
+          to: '#docs',
           name: 'Docs'
         },
         {
-          to: '#',
+          to: '#component',
           name: 'Component'
         }
       ]}
@@ -129,15 +134,15 @@ return (
       size='s'
       routes={[
         {
-          to: '#',
+          to: '#startupjs',
           name: 'StartupJs'
         },
         {
-          to: '#',
+          to: '#docs',
           name: 'Docs'
         },
         {
-          to: '#',
+          to: '#component',
           name: 'Component'
         }
       ]}
@@ -145,35 +150,6 @@ return (
   </View>
 )
 ```
-
-## Disabled Breadcrumbs
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
-
-```jsx example
-return (
-  <Breadcrumbs
-    disabled
-    routes={[
-      {
-        to: '#',
-        name: 'StartupJs'
-      },
-      {
-        to: '#',
-        name: 'Docs'
-      },
-      {
-        to: '#',
-        name: 'Component'
-      }
-    ]}
-  />
-)
-```
-
 
 ## Sandbox
 

@@ -1,15 +1,12 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   $root,
   observer,
   emit
 } from 'startupjs'
 import { Route } from 'react-router'
-import { Dimensions, Platform, View } from 'react-native'
 import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
-
-const isWeb = Platform.OS === 'web'
 
 export default observer(function Routes ({
   routes,
@@ -46,20 +43,6 @@ const RouteComponent = observer(function RCComponent ({
   ...props
 }) {
   const [render, setRender] = useState()
-  const [orientation, setOrientation] = useState(getOrientation())
-  useEffect(() => {
-    // For android/iOS do force rerender when the screen orientation change
-    if (isWeb) return
-    Dimensions.addEventListener('change', orientationChangeHandler)
-    return () => {
-      Dimensions.removeEventListener('change', orientationChangeHandler)
-    }
-  }, [])
-
-  function orientationChangeHandler () {
-    const newOrientation = getOrientation()
-    if (orientation !== newOrientation) setOrientation(newOrientation)
-  }
 
   function runFilters (filters) {
     if (!filters) return setRender(true)
@@ -90,16 +73,10 @@ const RouteComponent = observer(function RCComponent ({
   if (!RC) throw new Error('No route.component specified for route "' + route.path + '"')
 
   return pug`
-    View(key=orientation style={flex: 1})
-      RC(
-        key=props.match.url
-        params=route.params
-        ...props
-      )
+    RC(
+      key=props.match.url
+      params=route.params
+      ...props
+    )
   `
 })
-
-function getOrientation () {
-  const dim = Dimensions.get('screen')
-  return dim.width >= dim.height ? 'landscape' : 'portrait'
-}

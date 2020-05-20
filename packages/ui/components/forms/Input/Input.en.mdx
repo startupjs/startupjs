@@ -7,7 +7,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # Input
 
-Input provides a wrapper api around [`Checkbox`](/docs/en/Checkbox), [`TextInput`](/docs/en/TextInput) & [ObjectInput](/docs/en/ObjectInput) components with bindings. The developer can use any of the above components as input by specifying the `type` prop.
+Input provides a wrapper api around [`Checkbox`](/docs/en/components/Checkbox), [`TextInput`](/docs/en/components/TextInput) & [ObjectInput](/docs/en/components/ObjectInput) components with bindings. The developer can use any of the above components as input by specifying the `type` prop.
 
 ## Basic Example
 
@@ -33,14 +33,14 @@ return (
       type='checkbox'
       label='Checkbox component'
       $value={$checkbox}
-    />    
+    />
   </Content>
 )
 ```
 
 ## Object Example
 
-Refer to [ObjectInput](/docs/en/ObjectInput) for details on `properties` prop used below.
+Refer to [ObjectInput](/docs/en/components/ObjectInput) for details on `properties` prop used below.
 
 ```jsx
 import { useValue } from 'startupjs'
@@ -68,7 +68,7 @@ return (
         style: { marginTop: u(1) }
       }
     }}
-  />    
+  />
 )
 ```
 

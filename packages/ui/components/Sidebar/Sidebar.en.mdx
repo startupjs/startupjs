@@ -10,16 +10,15 @@ import Span from '../Typography/Span'
 import { observer, useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
-
 # Sidebar
 
-Sidebar provide access to navigation links. They can either be permanently on-screen or controlled.
-
+Sidebar is typically used for nagivation. It initially not visible on the screen.
 
 ## Example
 
 ```jsx
-import { Sidebar } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -29,25 +28,23 @@ useEffect(() => {
   $opened.set(true)
 }, [])
 return (
+  <Div style={{overflow: 'hidden'}}>
     <Sidebar
       path={PATH}
       renderContent={() => (
-        <Div>
-          <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-          </Menu>
-        </Div>
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
       )}
     >
       <Content
         padding
-        width='desktop'
+        width='full'
         style={{
           backgroundColor: 'white'
         }}
@@ -58,24 +55,26 @@ return (
           </Button>
         </Row>
         <Br />
-        <Span size='l' description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
         </Span>
       </Content>
     </Sidebar>
+  </Div>
 )
 ```
 
 ## Position
 
-The `position` property specifies the side of the window from which the sidebar will slide in. Possible values of `position` property are `left` (default) and `right`.
+The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx
-import { Sidebar } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.PositionExampleSidebar'
+const PATH = '_session.ExampleRightSidebar'
 const $opened = useModel(PATH)
 useEffect(() => {
   $opened.set(true)
@@ -85,22 +84,19 @@ return (
       path={PATH}
       position='right'
       renderContent={() => (
-        <Div>
-          <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-          </Menu>
-        </Div>
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
       )}
     >
       <Content
         padding
-        width='desktop'
+        width='full'
         style={{
           backgroundColor: 'white'
         }}
@@ -114,8 +110,8 @@ return (
           </Button>
         </Row>
         <Br />
-        <Span size='l' description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
         </Span>
       </Content>
     </Sidebar>
@@ -124,15 +120,15 @@ return (
 
 ## Locked Sidebar
 
-Specifying `forceClosed` property will keep the drawer closed.
-
+Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
 
 ```jsx
-import { Sidebar } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.ExampleSidebar'
+const PATH = '_session.ExampleLockedSidebar'
 const $opened = useModel(PATH)
 useEffect(() => {
   $opened.set(true)
@@ -142,22 +138,19 @@ return (
       forceClosed
       path={PATH}
       renderContent={() => (
-        <Div>
-          <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-          </Menu>
-        </Div>
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
       )}
     >
       <Content
         padding
-        width='desktop'
+        width='full'
         style={{
           backgroundColor: 'white'
         }}
@@ -168,14 +161,13 @@ return (
           </Button>
         </Row>
         <Br />
-        <Span size='l' description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
         </Span>
       </Content>
     </Sidebar>
 )
 ```
-
 
 ## Sandbox
 

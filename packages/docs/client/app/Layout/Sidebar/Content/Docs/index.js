@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { observer, useLocal, useSession } from 'startupjs'
-import { Menu, Collapse, Span } from '@startupjs/ui'
+import { Menu, Collapse } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
 import { pathFor } from 'startupjs/app'
@@ -41,7 +41,7 @@ const Docs = observer(function DocsComponent ({
           - const rootPath = pathFor('docs:doc', { lang, path: docPath })
           - const isActive = rootPath === url
           if ['mdx', 'sandbox'].includes(doc.type)
-            Menu.Item(to=rootPath active=isActive)= title
+            Menu.Item(active=isActive to=rootPath)= title
           if doc.type === 'collapse'
             Collapse(
               variant='pure'
@@ -53,10 +53,10 @@ const Docs = observer(function DocsComponent ({
                 iconStyleName='collapse-icon'
               )
                 Menu.Item(
-                  to=doc.component ? rootPath : null
                   active=isActive
-                )
-                  Span.collapse-content= title
+                  to=doc.component ? rootPath : null
+                  bold
+                )= title
               Collapse.Content
                 Docs(docs=doc.items lang=lang subpath=docPath)
   `

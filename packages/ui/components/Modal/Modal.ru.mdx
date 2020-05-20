@@ -1,0 +1,124 @@
+import { useState } from 'react'
+import Modal from '../Modal'
+import Button from '../Button'
+import Span from '../Typography/Span'
+import { Sandbox } from '@startupjs/docs'
+
+# Modal (модалка)
+
+Модалка может быть использована, когда пользователю необходимо сообщить о критической информации, требовать принятия решений или взаимодействовать со сложным подприложением без перехода на новую страницу или прерывания рабочего процесса.
+
+## Пример
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Открыть модалку
+    </Button>
+    <Modal
+      title='Пример'
+      visible={visible}
+      dismissLabel='Закрыть'
+      confirmLabel='Принять'
+      onDismiss={() => setVisible(false)}
+      onConfirm={() => setVisible(false)}
+      onShow={() => console.log('Modal shown!')}
+      onBackdropPress={() => console.log('Have clicked to backdrop')}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Полноэкранная модалка
+
+По умолчанию модалка отображается как окно в центре страницы. Чтобы сделать её полноэкранной, нужно передать строку `fullscreen` в свойство `variant`.
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Открыть полноэкранную модалку
+    </Button>
+    <Modal
+      variant='fullscreen'
+      title='Полноэкранный пример'
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      onConfirm={() => setVisible(false)}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Продвинутое использование
+
+Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onDismiss`, `onConfirm`. Их можно использовать по отдельности.
+
+```jsx
+import { Modal } from '@startupjs/ui'
+```
+
+```jsx example
+const [visible, setVisible] = useState(false)
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open advanced modal
+    </Button>
+    <Modal visible={visible}>
+      <Modal.Header>Advanced modal</Modal.Header>
+      <Modal.Content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      </Modal.Content>
+      <Modal.Actions>
+        <Button
+          shape='circle'
+          onPress={() => setVisible(false)}
+        >
+          Custom close
+        </Button>
+        <Button
+          pushed
+          shape='circle'
+          onPress={() => setVisible(false)}
+        >
+          Custom confirm
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Sandbox
+
+### Modal
+
+<Sandbox Component={Modal} />
+
+### Modal.Header
+
+<Sandbox Component={Modal.Header} />
+
+### Modal.Content
+
+<Sandbox Component={Modal.Content} />
+
+### Modal.Actions
+
+<Sandbox Component={Modal.Actions} />

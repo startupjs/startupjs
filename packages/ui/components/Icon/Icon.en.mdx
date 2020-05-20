@@ -17,9 +17,11 @@ import CustomIconExample from './CustomIconExample.svg'
 
 # Icon
 
-StartupJs uses `@fortawesome/react-native-fontawesome` library to implement icons. Icons are used to often compliment or substitute the meaning conveyed by words depending on the context.
+Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
 
-## Example
+## Fontawesome icons
+
+Component uses `@fortawesome/react-native-fontawesome` library to implement icons.
 
 ```jsx
 import { Icon } from '@startupjs/ui'
@@ -32,22 +34,20 @@ import {
 
 ```jsx example
 return (
-  <Content>
-    <Row align='around'>
-      <Icon icon={faShareAlt} />
-      <Icon icon={faHouseUser} />
-      <Icon icon={faTable} />
-    </Row>
-  </Content>
+  <Row align='around'>
+    <Icon icon={faShareAlt} />
+    <Icon icon={faHouseUser} />
+    <Icon icon={faTable} />
+  </Row>
 )
 ```
 
-## Size
+## Sizes
 
-Size of a icon can be modified using the `size` prop. Default `size` value is `m`. Pre defined icon size values are `xs`, `s`, `m`, `l`, `xl`, `xxl`. Size can also be arbitarily increased or decreased by supplying a number to `size` prop.
+Size can be modified using the `size` prop. Default value is `m`. Pre defined icon size values are `xs`, `s`, `m`, `l`, `xl`, `xxl`. Size can also be arbitarily increased or decreased by providing a number to `size` prop.
 
 ```jsx
-import { Icon } from '@startupjs/ui'
+import { Icon, Content } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -79,9 +79,9 @@ return (
 )
 ```
 
-## Color
+## Colors
 
-Icon color can be customized by providing hex string to the `color` prop.
+Color can be changed by providing hex color or name of the color from `ui` config colors to `color` property.
 
 ```jsx
 import { Icon } from '@startupjs/ui'
@@ -94,38 +94,32 @@ import {
 
 ```jsx example
 return (
-  <Content>
-    <Row align='around'>
-      <Icon color='#24B47E' icon={faShareAlt} />
-      <Icon color='#6772E5' icon={faHouseUser} />
-      <Icon color='#F5BE59' icon={faTable} />
-    </Row>
-  </Content>
+  <Row align='around'>
+    <Icon color='#24B47E' icon={faShareAlt} />
+    <Icon color='#6772E5' icon={faHouseUser} />
+    <Icon color='primary' icon={faTable} />
+  </Row>
 )
 ```
 
 ## Custom Icon
 
-For custom icon the `icon` prop can be supplied with a function which returns a custom icon. The `Icon` component invokes the function with the appropriate props.
+To use your custom icon you must provide a valid `svg` icon to `icon` property
 
 ```jsx
 import { Icon } from '@startupjs/ui'
 import CustomIconExample from './CustomIconExample.svg'
-// Attribution: Icon made by Good Ware from www.flaticon.com
 ```
 
 ```jsx example
 return (
-  <Content>
-    <Icon
-      size={50}
-      color='#F5BE59'
-      icon={CustomIconExample}
-    />
-  </Content>
+  <Icon
+    size={50}
+    color='#F5BE59'
+    icon={CustomIconExample}
+  />
 )
 ```
-
 
 ## Sandbox
 

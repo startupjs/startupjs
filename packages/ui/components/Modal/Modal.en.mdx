@@ -6,10 +6,9 @@ import { Sandbox } from '@startupjs/docs'
 
 # Modal
 
-Modal component is used for creating dialogs. Modal can be used when the user needs to interact with a complex sub-application without navigating to a new page or interrupting the workflow.
+Modal can be used when the user needs to inform about ciritcal information, require decisions or interact a complex sub-application without navigating to a new page or interrupting the workflow.
 
-
-## Basic Example
+## Example
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -23,25 +22,24 @@ return (
       Open modal
     </Button>
     <Modal
-      title='Basic example title'
+      title='Example'
       visible={visible}
       dismissLabel='Close'
       confirmLabel='Accept'
       onDismiss={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
-      onShow={() => console.log('modal shown!')}
+      onShow={() => console.log('Modal shown!')}
+      onBackdropPress={() => console.log('Have clicked to backdrop')}
     >
-      <Span>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-      </Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
   </React.Fragment>
 )
 ```
 
-## Fullscreen Modal
+## Fullscreen modal
 
-Modal can have `window` or `fullscreen` variant. Default variant is `window`.
+By default the modal shows like window in center of the page. To make it fullscreen, you need pass the string `fullscreen` to the `variant` property.
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -56,22 +54,20 @@ return (
     </Button>
     <Modal
       variant='fullscreen'
-      title='Fullscreen example title'
+      title='Fullscreen example'
       visible={visible}
       onDismiss={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
     >
-      <Span>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-      </Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
   </React.Fragment>
 )
 ```
 
-## Modal Customization
+## Advanced usage
 
-Modals can be customized using `Modal.Header`, `Modal.Actions` & `Modal.Content` sub-components. Modal backdrop action can be customized using `onBackdropPress` prop. If `onBackdropPress` is not provided then the modal is closed on clicking the backdrop.
+Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onDismiss`, `onConfirm`. They can be used separately.
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -82,26 +78,22 @@ const [visible, setVisible] = useState(false)
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
-      Open customized Modal
+      Open advanced modal
     </Button>
-    <Modal visible={visible} onBackdropPress={() => null}>
-      <Modal.Header>
-        <Span bold size='xxl'>Custom modal header</Span>
-      </Modal.Header>
+    <Modal visible={visible}>
+      <Modal.Header>Advanced modal</Modal.Header>
       <Modal.Content>
-        <Span italic size='l'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-        </Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
       </Modal.Content>
       <Modal.Actions>
         <Button
           shape='circle'
-          style={{ marginRight: 8 }}
           onPress={() => setVisible(false)}
         >
           Custom close
         </Button>
         <Button
+          pushed
           shape='circle'
           onPress={() => setVisible(false)}
         >

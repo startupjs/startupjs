@@ -8,7 +8,7 @@ const batch = batching.batch.bind(batching)
 const batchModel = batch
 
 export { batching, batch, batchModel }
-export { semaphore as _semaphore } from './semaphore'
+export { default as _semaphore } from './semaphore'
 export {
   initLocalCollection,
   clone,

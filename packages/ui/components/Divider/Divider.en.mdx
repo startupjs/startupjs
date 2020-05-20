@@ -1,0 +1,102 @@
+import Divider from '../Divider'
+import Span from '../Typography/Span'
+import Div from '../Div'
+import Row from '../Row'
+import Content from '../Content'
+import { Sandbox } from '@startupjs/docs'
+
+# Divider
+
+A divider is a thin line that is used to divide content into thematic blocks. For example a thematic break between paragraphs.
+
+## Example
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+    <Divider />
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+  </Content>
+)
+```
+
+## Sizes
+
+Size of the divider thin line can be modified using `size` prop. The default size is `m`.
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+    <Divider size='l' />
+    <Span>
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </Span>
+  </Content>
+)
+```
+
+## Divider width
+
+The divider width can be changed by passing a number to `lines` property. The default value of `lines` is `1` and the width of a one line is `16px`.
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+    <Divider lines={4} />
+    <Span>
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </Span>
+  </Content>
+)
+```
+
+## Vertical divider
+
+By default the divider shows horizontally. To make it vertical, you need pass the string `vertical` to the `variant` property.
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Row>
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </Span>
+      <Divider variant='vertical' />
+      <Span>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </Span>
+    </Row>
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Divider} />

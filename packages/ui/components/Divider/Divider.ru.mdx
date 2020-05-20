@@ -1,0 +1,101 @@
+import Divider from '../Divider'
+import Span from '../Typography/Span'
+import Div from '../Div'
+import Content from '../Content'
+import { Sandbox } from '@startupjs/docs'
+
+# Divider (разделитель)
+
+Разделитель - это тонкая линия, которая используется для разделения контента на тематические блоки. Например, тематический разрыва между параграфами.
+
+## Пример
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+    <Divider />
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+  </Content>
+)
+```
+
+## Размеры
+
+Размер тонкой линии разделителя может быть изменен с помощью свойства `size`. Размер по умолчанию - `m`.
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+    <Divider size='l' />
+    <Span>
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </Span>
+  </Content>
+)
+```
+
+### Ширина разделителя
+
+Ширина делителя может быть изменена путем передачи числа в свойство `lines`. Значение по умолчанию для `lines` равно `1`, а ширина одной строки - `16px'.
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Span>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </Span>
+    <Divider lines={4} />
+    <Span>
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </Span>
+  </Content>
+)
+```
+
+## Вертикальный разделитель
+
+По умолчанию разделитель отображается горизонтально. Чтобы сделать его вертикальным, нужно передать строку `vertical` в свойство `variant`.
+
+```jsx
+import { Divider } from '@startupjs/ui'
+```
+
+```jsx example
+return (
+  <Content padding style={{ backgroundColor: 'white' }}>
+    <Row>
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </Span>
+      <Divider variant='vertical' />
+      <Span>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </Span>
+    </Row>
+  </Content>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Divider} />

@@ -77,6 +77,14 @@ export default {
         ru: require('../components/Div/Div.ru.mdx').default
       }
     },
+    Divider: {
+      type: 'mdx',
+      title: 'Divider',
+      component: {
+        en: require('../components/Divider/Divider.en.mdx').default,
+        ru: require('../components/Divider/Divider.ru.mdx').default
+      }
+    },
     DrawerSidebar: {
       type: 'mdx',
       title: 'Drawer Sidebar',
@@ -96,17 +104,18 @@ export default {
     Icon: {
       type: 'mdx',
       title: 'Icon',
-      component: require('../components/Hr/Hr.en.mdx').default
+      component: {
+        en: require('../components/Icon/Icon.en.mdx').default,
+        ru: require('../components/Icon/Icon.ru.mdx').default
+      }
     },
     Layout: {
       type: 'mdx',
       title: 'Layout',
-      component: require('../components/Layout/Layout.en.mdx').default
-    },
-    LineSeparator: {
-      type: 'mdx',
-      title: 'Line Separator',
-      component: require('../components/LineSeparator/LineSeparator.en.mdx').default
+      component: {
+        en: require('../components/Layout/Layout.en.mdx').default,
+        ru: require('../components/Layout/Layout.ru.mdx').default
+      }
     },
     Link: {
       type: 'mdx',
@@ -127,12 +136,18 @@ export default {
     Menu: {
       type: 'mdx',
       title: 'Menu',
-      component: require('../components/Menu/Menu.en.mdx').default
+      component: {
+        en: require('../components/Menu/Menu.en.mdx').default,
+        ru: require('../components/Menu/Menu.ru.mdx').default
+      }
     },
     Modal: {
       type: 'mdx',
       title: 'Modal',
-      component: require('../components/Modal/Modal.en.mdx').default
+      component: {
+        en: require('../components/Modal/Modal.en.mdx').default,
+        ru: require('../components/Modal/Modal.ru.mdx').default
+      }
     },
     Pagination: {
       type: 'mdx',
@@ -159,17 +174,27 @@ export default {
     Row: {
       type: 'mdx',
       title: 'Row',
-      component: require('../components/Row/Row.en.mdx').default
+      component: {
+        en: require('../components/Row/Row.en.mdx').default,
+        ru: require('../components/Row/Row.ru.mdx').default
+
+      }
     },
     Sidebar: {
       type: 'mdx',
       title: 'Sidebar',
-      component: require('../components/Sidebar/Sidebar.en.mdx').default
+      component: {
+        en: require('../components/Sidebar/Sidebar.en.mdx').default,
+        ru: require('../components/Sidebar/Sidebar.ru.mdx').default
+      }
     },
     SmartSidebar: {
       type: 'mdx',
       title: 'Smart Sidebar',
-      component: require('../components/SmartSidebar/SmartSidebar.en.mdx').default
+      component: {
+        en: require('../components/SmartSidebar/SmartSidebar.en.mdx').default,
+        ru: require('../components/SmartSidebar/SmartSidebar.ru.mdx').default
+      }
     },
     Tag: {
       type: 'mdx',

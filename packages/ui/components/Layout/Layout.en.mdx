@@ -6,18 +6,23 @@ import { Sandbox } from '@startupjs/docs'
 
 # Layout
 
-`Layout` serves as the root element of the application. It uses `SafeAreaView` to provide padding when the view intersects with a safe area of a device like a notch. It also displays a `StatusBar` for `android` & `ios` RN apps.
+`Layout` serves as the root element of the application. It purpose is to render content within the safe area boundaries of a device. Also it displays a [StatusBar](https://reactnative.dev/docs/statusbar) for `android` & `ios` native apps.
 
 ## Example
 
 ```jsx
-import { Layout } from '@startupjs/ui'
+import { Layout, Span } from '@startupjs/ui'
 ```
 
 ```jsx example
 return (
-  <Layout style={{ background: '#cfe8fc', height: u(25) }}>
-    <Span size='xl'>Layout area</Span>
+  <Layout style={{
+    backgroundColor: '#fff',
+    height: u(25),
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}>
+    <Span size='xxl'>Layout area</Span>
   </Layout>
 )
 ```

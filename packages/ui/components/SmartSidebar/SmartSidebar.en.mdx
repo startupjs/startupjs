@@ -12,12 +12,13 @@ import { Sandbox } from '@startupjs/docs'
 
 # SmartSidebar
 
-SmartSidebar provides the functionality of a mobile friendly Sidebar for navigation. Based on a screen breakpoint limit passable via props, it decides to stay as a visible sidebar or to turn into an invisible drawer sidebar. Though in both cases the sidebar is controllable.
+SmartSidebar is typically used for nagivation. It provides a desktop-mobile friendly interface. Based on a fixed layout breakpoint, it decides to stay as a [visible sidebar](/docs/en/components/Sidebar) or to turn into an [invisible drawer sidebar](/docs/en/components/DrawerSidebar). Though in both cases the sidebar is controllable. By defualt it not visible on the screen.
 
 ## Example
 
 ```jsx
-import { SmartSidebar, Menu, Content, Row, Div, Br } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
 ```
 
 ```jsx example
@@ -31,24 +32,25 @@ return (
     <SmartSidebar
       path={PATH}
       renderContent={() => (
-        <Div>
-          <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          </Menu>
-        </Div>
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        </Menu>
       )}
     >
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </SmartSidebar>
   </Div>
@@ -57,14 +59,15 @@ return (
 
 ## Fixed Layout Breakpoint
 
-The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the sidebar switches to a drawer style sidebar which can be pulled from the side. `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
+The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/en/components/Sidebar) switches to a [drawer sidebar](/docs/en/components/Drawer). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
 
 ```jsx
-import { SmartSidebar, Menu, Content, Row, Div, Br } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.ExampleSmartSidebar'
+const PATH = '_session.ExampleSmartSidebarFixedLayoutBreakpoint'
 const $opened = useModel(PATH)
 useEffect(() => {
   $opened.set(true)
@@ -74,25 +77,26 @@ return (
     <SmartSidebar
       path={PATH}
       renderContent={() => (
-        <Div>
-          <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          </Menu>
-        </Div>
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        </Menu>
       )}
       fixedLayoutBreakpoint={10000}
     >
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </SmartSidebar>
   </Div>
@@ -101,14 +105,15 @@ return (
 
 ## Position
 
-The `position` property specifies the side of the window from which the sidebar will slide in. Possible values of `position` property are `left` (default) and `right`.
+The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx
-import { SmartSidebar, Menu, Content, Row, Div, Br } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.ExampleSmartSidebar'
+const PATH = '_session.ExampleRightSidebar'
 const $opened = useModel(PATH)
 useEffect(() => {
   $opened.set(true)
@@ -132,11 +137,15 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>
+          <Button onPress={() => $opened.set(!$opened.get())}>Toggle right sidebar</Button>
         </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </SmartSidebar>
   </Div>
@@ -145,14 +154,15 @@ return (
 
 ## Locked SmartSidebar
 
-Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures.
+Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
 
 ```jsx
-import { SmartSidebar, Menu, Content, Row, Div, Br } from '@startupjs/ui'
+import { useEffect } from 'React'
+import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
 ```
 
 ```jsx example
-const PATH = '_session.ExampleSmartSidebar'
+const PATH = '_session.ExampleLockerSmartSidebar'
 const $opened = useModel(PATH)
 useEffect(() => {
   $opened.set(true)
@@ -176,7 +186,7 @@ return (
       <Content
         padding
         width='full'
-        style={{ height: 200, backgroundColor: 'white' }}
+        style={{ backgroundColor: 'white' }}
       >
         <Row>
           <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>

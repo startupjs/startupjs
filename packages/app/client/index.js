@@ -3,21 +3,23 @@ import { Platform } from 'react-native'
 import Router from './Router'
 import { useLocal, observer, useDoc } from 'startupjs'
 import { Blocked, UpdateApp } from './components'
+import useMediaUpdate from './helpers/useMediaUpdate'
 import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
-const OS = Platform.OS
 
-// FIXME: instead of global variable use singleton
-const routes = []
+const OS = Platform.OS
+const routesGlobal = []
+
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
-  const route = _find(routes, { name })
+  const route = _find(routesGlobal, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
-  return decodeUriComponent(generatePath(route.path, options))
+  let url = decodeUriComponent(generatePath(route.path, options))
+  return url
 }
 
-export default observer(function App ({
+const App = observer(function AppComponent ({
   apps,
   supportEmail,
   criticalVersion,
@@ -25,6 +27,9 @@ export default observer(function App ({
   androidUpdateLink,
   ...props
 }) {
+  // Dynamically update @media queries in CSS whenever window width changes
+  useMediaUpdate()
+
   const [version] = useDoc('service', 'version')
   const availableCriticalVersion =
     version &&
@@ -47,13 +52,20 @@ export default observer(function App ({
   }
   const [user] = useLocal('_session.user')
   const roots = {}
+  const routes = []
 
-  Object.keys(apps).forEach(appName => {
+  // reset global routes variable
+  routesGlobal.length = 0
+
+  for (const appName in apps) {
     const appRoutes = apps[appName].routes
     roots[appName] = apps[appName].Layout
-    appRoutes.forEach(r => { r.app = appName })
+    for (const route of appRoutes) {
+      route.app = appName
+    }
+    routesGlobal.push(...appRoutes)
     routes.push(...appRoutes)
-  })
+  }
 
   return pug`
     if user && user.blocked
@@ -67,3 +79,5 @@ export default observer(function App ({
         )
   `
 })
+
+export default App

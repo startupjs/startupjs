@@ -7,6 +7,7 @@ import Icon from '../Icon'
 import Span from '../Typography/Span'
 import config from '../../config/rootConfig'
 import colorToRGBA from '../../config/colorToRGBA'
+import { StyleSheet } from 'react-native'
 import './index.styl'
 
 const { colors } = config
@@ -27,8 +28,11 @@ function Button ({
   onPress,
   ...props
 }) {
+  if (/^#|rgb/.test(color)) console.warn('Button component: Hex color for color property is deprecated. Use style instead')
+  if (/^#|rgb/.test(iconColor)) console.warn('Button component: Hex color for iconColor property is deprecated. Use style instead')
   const isFlat = variant === 'flat'
-  const _color = colors[color] || color
+  style = StyleSheet.flatten([{ color: colors[color] || color }, style])
+  const _color = style.color
   const _textColor = colors[textColor] || textColor ||
     (isFlat ? colors.white : _color)
   const _iconColor = colors[iconColor] || iconColor ||
@@ -83,7 +87,7 @@ function Button ({
 
   return pug`
     Row.root(
-      style=[style, rootStyle]
+      style=[rootStyle, style]
       styleName=[
         size,
         { disabled }

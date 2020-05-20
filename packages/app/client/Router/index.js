@@ -65,7 +65,7 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
   }
 
   function _goTo (url, options = {}) {
-    const app = getApp(url.replace(/\?.*$/, ''), routes)
+    const app = getApp(url.replace(/[?#].*$/, ''), routes)
     const { replace } = options
 
     if (app) {

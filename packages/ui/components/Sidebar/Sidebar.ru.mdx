@@ -1,0 +1,175 @@
+import { useEffect, useState } from 'react'
+import Sidebar from '../Sidebar'
+import Row from '../Row'
+import Div from '../Div'
+import Menu from '../Menu'
+import Button from '../Button'
+import Br from '../Br'
+import Content from '../Content'
+import Span from '../Typography/Span'
+import { observer, useModel } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+
+
+# Sidebar (сайдбар)
+
+Сайдбар обычно используется для навигации. Изначально он не виден на экране.
+
+## Пример
+
+```jsx
+import { useEffect } from 'React'
+import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs
+```
+
+```jsx example
+const PATH = '_session.ExampleSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <Sidebar
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{
+          backgroundColor: 'white'
+        }}
+      >
+        <Row>
+          <Button variant='flat' onPress={() => $opened.set(!$opened.get())}>
+            Toggle sidebar
+          </Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </Sidebar>
+  </Div>
+)
+```
+
+## Расположение
+
+Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
+
+```jsx
+import { useEffect } from 'React'
+import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleRightSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+    <Sidebar
+      path={PATH}
+      position='right'
+      renderContent={() => (
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{
+          backgroundColor: 'white'
+        }}
+      >
+        <Row>
+          <Button
+            variant='flat'
+            onPress={() => { $opened.set(!$opened.get()) }}
+          >
+            Toggle right sidebar
+          </Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </Sidebar>
+)
+```
+
+## Locked Sidebar
+
+Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
+
+```jsx
+import { useEffect } from 'React'
+import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
+```
+
+```jsx example
+const PATH = '_session.ExampleLockedSidebar'
+const $opened = useModel(PATH)
+useEffect(() => {
+  $opened.set(true)
+}, [])
+return (
+    <Sidebar
+      forceClosed
+      path={PATH}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{
+          backgroundColor: 'white'
+        }}
+      >
+        <Row>
+          <Button variant='flat' onPress={() => $opened.set(!$opened.get())}>
+            Toggle sidebar
+          </Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </Sidebar>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Sidebar} />

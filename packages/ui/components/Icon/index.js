@@ -26,6 +26,7 @@ const Icon = observer(({
   ...props
 }) => {
   if (!icon) return null
+  if (/^#|rgb/.test(color)) console.warn('Icon component: Hex color for color property is deprecated. Use style instead')
 
   const _size = useMemo(() => SIZES[size] || size, [size])
   const _color = useMemo(() => {

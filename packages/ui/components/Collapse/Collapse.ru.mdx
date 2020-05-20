@@ -3,7 +3,6 @@ import Collapse from '../Collapse'
 import Row from '../Row'
 import Div from '../Div'
 import Br from '../Br'
-import LineSeparator from '../LineSeparator'
 import { Sandbox } from '@startupjs/docs'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -50,7 +49,7 @@ return (
 
 ## Продвинутое использование
 
-Коллапс состоит из двух частей - `Header` и `Content`. Например, части можно использовать для добавления пользовательской разметки. Вместо `title` используется `Header` и вместо `children` используется `Content`. Их можно использовать по отдельности. Каждая из частей принимает значение свойства `variant` от родителя `Collapse`, который может быть переопределен путем передачи `variant` в себя.
+Коллапс состоит из двух частей - `Header` и `Content`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title` и `Content` используется вместо `children`. Их можно использовать по отдельности. Каждая из частей принимает значение свойства `variant` от родителя `Collapse`, который может быть переопределен путем передачи `variant` в себя.
 
 ```jsx
 import { Collapse } from '@startupjs/ui'
@@ -101,13 +100,18 @@ return (
 Используя `Collapse` компонент, можно создать поведение, подобное аккордеону.
 
 ```jsx
-import { Collapse, Div, LineSeparator } from '@startupjs/ui'
+import { Collapse, Div } from '@startupjs/ui'
 ```
 
 ```jsx example
 const [expand, setExpand] = useState()
 const handleChange = (panel) => (shouldExpand) => {
   setExpand(shouldExpand ? panel : null)
+}
+const collapseStyle = {
+  borderTopWidth: 1,
+  borderStyle: 'solid',
+  borderColor: '#ddd'
 }
 return (
   <Div>
@@ -118,16 +122,16 @@ return (
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
     </Collapse>
-    <LineSeparator />
     <Collapse
+      style={collapseStyle}
       open={expand === 'open2'}
       title='Accordion Header - 2'
       onChange={handleChange('open2')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
     </Collapse>
-    <LineSeparator />
     <Collapse
+      style={collapseStyle}
       open={expand === 'open3'}
       title='Accordion Header - 3'
       onChange={handleChange('open3')}

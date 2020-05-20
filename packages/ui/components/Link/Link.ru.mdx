@@ -6,6 +6,8 @@ import { Sandbox } from '@startupjs/docs'
 
 # Link (ссылка)
 
+Наследует [Span props](/docs/ru/typography).
+
 Ссылка позволяет перемещаться по приложению и настраивать якоря.
 
 ## Пример
@@ -18,16 +20,16 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Span>
     Наследует&nbsp;
-    <Link to='/docs/en/span'>
+    <Link to='/docs/ru/typography'>
       Span props
     </Link>
   </Span>
 )
 ```
 
-## Выделяющаяся ссылка
+## Цвета
 
-Если ссылка должна выделиться, передайте строку `primary` в свойство `variant`.
+Чтобы изменить цвет ссылки передайте свойство `color`.
 
 ```jsx
 import { Link, Span } from '@startupjs/ui'
@@ -37,7 +39,7 @@ import { Link, Span } from '@startupjs/ui'
 return (
   <Row>
     <Span>Inherits&nbsp;</Span>
-    <Link block to='/docs/en/span' variant='primary'>
+    <Link block to='/docs/ru/typography' color='primary'>
       <Span>Span props</Span>
     </Link>
   </Row>
