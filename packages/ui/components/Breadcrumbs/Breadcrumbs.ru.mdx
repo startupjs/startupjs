@@ -1,21 +1,20 @@
-import { useState } from 'react'
-import { View } from 'react-native'
 import Breadcrumbs from '../Breadcrumbs'
+import Div from '../Div'
 import Br from '../Br'
-import { Sandbox } from '@startupjs/docs'
 import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs (хлебные крошки)
 
 Хлебные крошки указывают местоположение текущей страницы в навигационной иерархии и позволяют пользователям перемещаться по ней.
 
+```jsx
+import { Breadcrumbs } from 'startupjs/ui'
+```
+
 ## Пример
 
 Каждый объект маршрута принимает любые свойства компонента [`Link`](/docs/ru/components/Link) кроме тех что упомянуты ниже.
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -43,10 +42,6 @@ return (
 
 Разделитель по умолчанию - `/`. Его можно изменить, передав строку в свойство `separator`.
 
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Breadcrumbs
@@ -71,11 +66,6 @@ return (
 
 ## Хлебные крошки с иконками
 Каждый элемент маршрута принимает свою собственную иконку в свойстве `icon`. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию).
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
-```
 
 ```jsx example
 return (
@@ -105,10 +95,6 @@ return (
 ## Размеры
 
 Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Песочница` внизу страницы.
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
 
 ```jsx example
 return (

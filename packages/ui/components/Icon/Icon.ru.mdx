@@ -4,24 +4,25 @@ import Row from '../Row'
 import Content from '../Content'
 import Br from '../Br'
 import TextInput from '../forms/TextInput'
-import Span from '../Typography/Span'
-import { Sandbox } from '@startupjs/docs'
 import {
   faHouseUser,
   faTable,
   faShareAlt
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import CustomIconExample from './CustomIconExample.svg'
+import { Sandbox } from '@startupjs/docs'
 
 # Icon (иконка)
 
 Иконки - это визуальные символы, используемые для представления идей, объектов или действий. Они передают посыл с первого взгляда, обеспечивают интерактивность и привлекают внимание к важной информации.
 
+```jsx
+import { Icon } from '@startupjs/ui'
+```
+
 ## Fontawesome иконки
 
 ```jsx
-import { Icon } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -44,7 +45,6 @@ return (
 Размер можно изменить с помощью свойства `size`. Значение по умолчанию `m`. Предопределенные значения размеров иконок - `xs`,` s`, `m`,` l`, `xl`, ` xxl`. Размер также может быть сколь угодно увеличен или уменьшен путем передачи числа в свойство `size`.
 
 ```jsx
-import { Icon, Content } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -81,7 +81,6 @@ return (
 Цвет можно изменить, передав шестнадцатеричный цвет или имя цвета из цветов `ui` конфига в свойство `color`.
 
 ```jsx
-import { Icon } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -104,7 +103,6 @@ return (
 Чтобы использовать свою собственную иконку необходимо передать валидную `svg` иконку в свойство `icon`
 
 ```jsx
-import { Icon } from '@startupjs/ui'
 import CustomIconExample from './CustomIconExample.svg'
 ```
 

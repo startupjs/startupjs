@@ -35,7 +35,6 @@
     "react-native": "0.61.5",
     "react-native-code-push": "^5.7.0",
     "react-native-collapsible": "1.5.2",
-    "react-native-status-bar-height": "^2.4.0",
     "react-native-svg": "^12.1.0",
     "react-native-web": "^0.12.0",
     "source-map-support": "^0.5.16",

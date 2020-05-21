@@ -13,11 +13,11 @@ import {
 
 Оповещение отображает короткое, важное сообщение таким образом, чтобы привлечь внимание пользователя, не прерывая его работу.
 
-## Пример
-
 ```jsx
-import { Alert, Div, Br } from '@startupjs/ui'
+import { Alert } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 return (
@@ -44,11 +44,8 @@ return (
 )
 ```
 
-## Alert с иконкой
-
-```jsx
-import { Alert, Div, Br } from '@startupjs/ui'
-```
+## Иконки
+Свойство `icon`позволяет добавить иконку в начало компонента оповещения.
 
 ```jsx example
 return (
@@ -68,39 +65,9 @@ return (
 )
 ```
 
-## Иконки
-Свойство `icon`позволяет добавить иконку в начало компонента оповещения.
-
-```jsx
-import { Alert, Div, Br, Button } from '@startupjs/ui'
-```
-
-```jsx example
-const [showAlert, setShowAlert] = useState(true)
-return (
-  <Div>
-    {showAlert &&
-      <Alert
-        color='primary'
-        label='Alert with actions'
-        onClose={() => setShowAlert(false)}
-      />
-    }
-    <Br />
-    <Button disabled={showAlert} onPress={() => setShowAlert(true)}>
-      Re-Open
-    </Button>
-  </Div>
-)
-```
-
 ## Действия
 
 Оповещение может иметь действие (`onClose' свойство). Оно отображается после сообщения, в конце оповещения.
-
-```jsx
-import { Alert, Div, Br, Button } from '@startupjs/ui'
-```
 
 ```jsx example
 const [showAlert, setShowAlert] = useState(true)

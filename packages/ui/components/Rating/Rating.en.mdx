@@ -1,22 +1,18 @@
 import { useState }  from 'react'
 import Rating from '../Rating'
-import Content from '../Content'
-import Row from '../Row'
-import Span from '../Typography/Span'
-import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
 # Rating
 
 Rating provides an ability for user to leave his opinion and view opinion of other users of a service or a product.
 
+```jsx
+import { Rating } from '@startupjs/ui'
+```
+
 ## Example
 
 Rating component provides five-star rating system. The `value` prop gets rounded to the nearest integer.
-
-```jsx
-import { Rating, Row } from '@startupjs/ui'
-```
 
 ```jsx example
 const [rated, setRated] = useState(0)
@@ -31,10 +27,6 @@ return (
 ## Read only
 
 The `readonly` prop prevents the user from changing the value of the rating and display the it in compact view (`false` by default).
-
-```jsx
-import { Rating } from '@startupjs/ui'
-```
 
 ```jsx example
 return(

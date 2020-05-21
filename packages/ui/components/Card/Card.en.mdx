@@ -6,25 +6,24 @@ import Row from '../Row'
 import Button from '../Button'
 import Collapse from '../Collapse'
 import Span from '../Typography/Span'
-import Icon from '../Icon'
 import Div from '../Div'
 import { u } from '../../config/helpers'
 import { Image } from 'react-native'
-import { Sandbox } from '@startupjs/docs'
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
 
 # Card
 Inherits [Div props](/docs/en/components/Div).
 
 Cards contain content and actions about a single subject.
 
+```jsx
+import { Card } from '@startupjs/ui'
+```
+
 ## Simple card
 
 Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.
-
-```jsx
-import { Card, Span, Br, H4 } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -40,10 +39,6 @@ return (
 
 Outlined cards offer an alternative style by passing `outlined` string on `variant` property to component.
 
-```jsx
-import { Card, Span, Br, H4 } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Card variant='outlined'>
@@ -57,10 +52,6 @@ return (
 ## Levels of emphasis
 
 Card `level` prop determines different levels of emphasis, depending on its level of hierarchy. It only make sense when the `variant` is `elevated` (default).
-
-```jsx
-import { Card, Span, Br, H4 } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -93,12 +84,6 @@ return (
 ```
 
 ## Complex interaction (intergration with other components)
-
-```jsx
-import { Image } from 'react-native'
-import { Card, Span, Br, H4, Collapse, Row, Button } from '@startupjs/ui'
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
-```
 
 ```jsx example
 const style = {

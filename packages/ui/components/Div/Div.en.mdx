@@ -9,12 +9,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Div is a wrapper for a group of components, which can be clickable when getting the property `onPress`.
 
-## Example
-
 ```jsx
-import { View } from 'react-native'
-import { Div, Row } from '@startupjs/ui'
+import { Div } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const divStyle = {
@@ -45,11 +44,6 @@ return (
 
 When multiple Div(s) are used in a [`Row`](/docs/en/components/Row) spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of page. The `true` value of prop is equivalent to `m` value.
 
-```jsx
-import { View } from 'react-native'
-import { Div, Row, Span } from '@startupjs/ui'
-```
-
 ```jsx example
 const divStyle = {
   width: 100,
@@ -76,7 +70,7 @@ return (
 )
 ```
 
-### Different clickable states
+## Different clickable states
 
 There are two clickable variants of component, controlled by `variant` property.
 

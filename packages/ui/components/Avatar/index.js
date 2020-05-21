@@ -20,7 +20,7 @@ function Avatar ({
   useDidUpdate(setError, [src])
 
   return pug`
-    Div.root(style=style styleName=[size] ...props log=true)
+    Div.root(style=style styleName=[size] ...props)
       Div.avatarWrapper(shape=shape)
         if src && !error
           Image.avatar(

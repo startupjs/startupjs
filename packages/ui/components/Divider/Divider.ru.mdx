@@ -1,6 +1,6 @@
 import Divider from '../Divider'
 import Span from '../Typography/Span'
-import Div from '../Div'
+import Row from '../Row'
 import Content from '../Content'
 import { Sandbox } from '@startupjs/docs'
 
@@ -8,11 +8,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Разделитель - это тонкая линия, которая используется для разделения контента на тематические блоки. Например, тематический разрыва между параграфами.
 
-## Пример
-
 ```jsx
 import { Divider } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 return (
@@ -32,10 +32,6 @@ return (
 
 Размер тонкой линии разделителя может быть изменен с помощью свойства `size`. Размер по умолчанию - `m`.
 
-```jsx
-import { Divider } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Content padding style={{ backgroundColor: 'white' }}>
@@ -50,13 +46,9 @@ return (
 )
 ```
 
-### Ширина разделителя
+## Ширина разделителя
 
 Ширина делителя может быть изменена путем передачи числа в свойство `lines`. Значение по умолчанию для `lines` равно `1`, а ширина одной строки - `16px'.
-
-```jsx
-import { Divider } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -75,10 +67,6 @@ return (
 ## Вертикальный разделитель
 
 По умолчанию разделитель отображается горизонтально. Чтобы сделать его вертикальным, нужно передать строку `vertical` в свойство `variant`.
-
-```jsx
-import { Divider } from '@startupjs/ui'
-```
 
 ```jsx example
 return (

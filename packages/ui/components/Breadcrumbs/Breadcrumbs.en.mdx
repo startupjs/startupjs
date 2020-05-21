@@ -1,20 +1,19 @@
-import { useState } from 'react'
-import { View } from 'react-native'
 import Breadcrumbs from '../Breadcrumbs'
+import Div from '../Div'
 import Br from '../Br'
-import { Sandbox } from '@startupjs/docs'
 import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs
 Breadcrumbs indicate the current page’s location within a navigational hierarchy and allow users to navigate through the hierarchy.
 
+```jsx
+import { Breadcrumbs } from 'startupjs/ui'
+```
+
 ## Example
 
 Each route object accepts any prop given to the [`Link`](/docs/en/components/Link) component apart from the ones mentioned below.
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -41,10 +40,6 @@ return (
 
 Separator is `/` by default. It can be changed by passing string to `separator` prop.
 
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Breadcrumbs
@@ -70,11 +65,6 @@ return (
 ## Icons
 
 Each route object accepts its own icon in `icon` property. Position of icon can be changed by passing `iconPosition` to component (`left` by default).
-
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-import { faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
-```
 
 ```jsx example
 return (
@@ -105,13 +95,9 @@ return (
 
 Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of page.
 
-```jsx
-import { Breadcrumbs } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
-  <View>
+  <Div>
     <Breadcrumbs
       size='l'
       routes={[
@@ -147,7 +133,7 @@ return (
         }
       ]}
     />
-  </View>
+  </Div>
 )
 ```
 

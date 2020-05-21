@@ -1,22 +1,20 @@
 import { useState } from 'react'
 import Tag from '../Tag'
 import Row from '../Row'
-import Span from '../Typography/Span'
 import { u } from '../../config/helpers'
+import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 # Tag
 Inherits [Button props](/docs/en/components/Button).
 
 Tags are compact elements that represent an input, attribute, or action. They allow users to enter information, make selections, filter content, or trigger actions. While buttons are expected to appear consistently and with familiar calls to action, tags should appear dynamically as a group of multiple interactive elements.
 
-## Example
-
 ```jsx
-import { Tag, Row } from '@startupjs/ui'
+import { Tag } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 return (
@@ -33,10 +31,6 @@ return (
 
 Outlined tags offer an alternative style by passing `outlined` string on `variant` property to component.
 
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Row>
@@ -49,10 +43,6 @@ return (
 ## Shapes
 
 Tags can have different corner shapes. It can be changed by changing `shape` prop (`circle` by default) to `rounded`.
-
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -67,10 +57,6 @@ return (
 
 Icon can be added using `icon` prop. Position of icon can be changed by passing `iconPosition` to component (`left` by default).
 
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Row>
@@ -82,10 +68,6 @@ return (
 
 ## Actions
 Tag can be made interactive using `onPress` prop.
-
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
 
 ```jsx example
 const [counter, setCounter] = useState(0)

@@ -1,9 +1,7 @@
-import { View } from 'react-native'
 import Content from '../Content'
 import Div from '../Div'
 import Span from '../Typography/Span'
 import Br from '../Br'
-import pallete from '../../config/pallete'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 
@@ -11,13 +9,13 @@ import { Sandbox } from '@startupjs/docs'
 
 Контент используется в качестве родительского контейра для элементов.
 
+```jsx
+import { Content } from '@startupjs/ui'
+```
+
 ## Пример
 
 По умолчанию контент имеет левый и правый отступ равный `16px'.
-
-```jsx
-import { Content, Div, u } from '@startupjs/ui'
-```
 
 ```jsx example
 const contentStyle = {
@@ -42,10 +40,6 @@ return (
 
 Верхний и нижний отступы могут быть добавлены путём передачи свойства `padding` в компонент.
 
-```jsx
-import { Content, Div, u } from '@startupjs/ui'
-```
-
 ```jsx example
 const contentStyle = {
   backgroundColor: '#2962FF'
@@ -68,10 +62,6 @@ return (
 ## Полное пространство
 
 Контент принимает свойство `full`, которое дает ему все пустое пространство по главной `flexbox` оси родителя.
-
-```jsx
-import { Content, Div, Br, u } from '@startupjs/ui'
-```
 
 ```jsx example
 const divStyle = {
@@ -103,10 +93,6 @@ return (
 ## Максимальная ширина
 
 Контент имеет ограниченную ширину по умолчанию `480px`, как в приведенном выше примере. Её можно изменить, изменив свойство `width`. Возможные значения свойства `width` можно найти в разделе `Sandbox` внизу страницы.
-
-```jsx
-import { Content, Div, Br, u } from '@startupjs/ui'
-```
 
 ```jsx example
 const contentStyle = {

@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import Modal from '../Modal'
 import Button from '../Button'
-import Span from '../Typography/Span'
 import { Sandbox } from '@startupjs/docs'
 
 # Modal (модалка)
 
 Модалка может быть использована, когда пользователю необходимо сообщить о критической информации, требовать принятия решений или взаимодействовать со сложным подприложением без перехода на новую страницу или прерывания рабочего процесса.
 
-## Пример
-
 ```jsx
 import { Modal } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 const [visible, setVisible] = useState(false)
@@ -41,10 +40,6 @@ return (
 
 По умолчанию модалка отображается как окно в центре страницы. Чтобы сделать её полноэкранной, нужно передать строку `fullscreen` в свойство `variant`.
 
-```jsx
-import { Modal } from '@startupjs/ui'
-```
-
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
@@ -68,10 +63,6 @@ return (
 ## Продвинутое использование
 
 Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onDismiss`, `onConfirm`. Их можно использовать по отдельности.
-
-```jsx
-import { Modal } from '@startupjs/ui'
-```
 
 ```jsx example
 const [visible, setVisible] = useState(false)

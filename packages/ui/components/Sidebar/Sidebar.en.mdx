@@ -14,12 +14,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Sidebar is typically used for nagivation. It initially not visible on the screen.
 
-## Example
-
 ```jsx
-import { useEffect } from 'React'
-import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
+import { Sidebar } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const PATH = '_session.ExampleSidebar'
@@ -67,11 +66,6 @@ return (
 ## Position
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
-
-```jsx
-import { useEffect } from 'React'
-import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleRightSidebar'
@@ -121,11 +115,6 @@ return (
 ## Locked Sidebar
 
 Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
-
-```jsx
-import { useEffect } from 'React'
-import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleLockedSidebar'

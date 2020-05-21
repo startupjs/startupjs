@@ -92,8 +92,7 @@ const TEMPLATES = {
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@fortawesome/free-solid-svg-icons@^5.12.0',
       'react-native-collapsible',
-      'react-native-svg',
-      'react-native-status-bar-height'
+      'react-native-svg'
     ]
   }
 }

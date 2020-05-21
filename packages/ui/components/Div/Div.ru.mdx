@@ -9,12 +9,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Див - это обертка для группы компонент, которая может быть кликабельной при получении свойства `onPress`.
 
-## Пример
-
 ```jsx
-import { View } from 'react-native'
-import { Div, Row } from '@startupjs/ui'
+import { Div } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 const divStyle = {
@@ -45,11 +44,6 @@ return (
 
 При использовании нескольких дивов в [`Row`](/docs/ru/components/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
 
-```jsx
-import { View } from 'react-native'
-import { Div, Row, Span } from '@startupjs/ui'
-```
-
 ```jsx example
 const divStyle = {
   width: 100,
@@ -76,7 +70,7 @@ return (
 )
 ```
 
-### Различные кликабельные состояния
+## Различные кликабельные состояния
 
 Существует два кликабельных варианта компонента, управляемых свойством `variant`.
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer, useBackPress } from 'startupjs'
-import { SafeAreaView } from 'react-native'
-import StatusBar from './../StatusBar'
+import { SafeAreaView, StatusBar } from 'react-native'
 import propTypes from 'prop-types'
 import { useHistory } from 'react-router-native'
+import config from './../../config/rootConfig'
 import './index.styl'
 
 function Layout ({ style, children }) {
@@ -17,7 +17,10 @@ function Layout ({ style, children }) {
 
   return pug`
     SafeAreaView.root(style=style)
-      StatusBar
+      StatusBar(
+        backgroundColor=config.colors.darkLighter
+        barStyle='dark-content'
+      )
       = children
   `
 }

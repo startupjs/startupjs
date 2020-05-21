@@ -8,11 +8,12 @@ import { Sandbox } from '@startupjs/docs'
 
 A set of components to make text clear and easy to read to the end user. The base component of typography is `Span`, which means that all other components use it in different variations for example headers.
 
-## Sizes
-
 ```jsx
-import { Span, Br, Content } from '@startupjs/ui'
+import { Span } from '@startupjs/ui'
+import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
 ```
+
+## Sizes
 
 ```jsx example
 return (
@@ -69,10 +70,6 @@ return (
 
 H* components are used for heading or subheadings of a section or a page.
 
-```jsx
-import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Content>
@@ -95,10 +92,6 @@ return (
 
 To make text bold pass the property `bold` to component.
 
-```jsx
-import { Span, H4, Content } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Content width='full'>
@@ -114,10 +107,6 @@ return (
 
 To make text italic pass the property `italic` to component.
 
-```jsx
-import { Span, H4, Content } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Content width='full'>
@@ -132,10 +121,6 @@ return (
 ## Insignificant text (Span only)
 
 To reduce the significance of the text pass the property `description` to component.
-
-```jsx
-import { Span } from '@startupjs/ui'
-```
 
 ```jsx example
 return (

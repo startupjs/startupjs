@@ -1,22 +1,20 @@
 import { useState } from 'react'
 import Tag from '../Tag'
 import Row from '../Row'
-import Span from '../Typography/Span'
 import { u } from '../../config/helpers'
+import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 # Tag (тег)
 Наследует [Button props](/docs/ru/components/Button).
 
 Теги - это компактные элементы, представляющие входные данные, атрибут или действие. Они позволяют пользователям вводить информацию, делать выбор, фильтровать контент или инициировать действия. В то время как предполагается, что кнопки будут появляться с призывами к действию, теги должны появляться динамически как группа из нескольких интерактивных элементов.
 
-## Пример
-
 ```jsx
-import { Tag, Row } from '@startupjs/ui'
+import { Tag } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 return (
@@ -46,10 +44,6 @@ return (
 
 Теги могут иметь различную угловую форму. Её можно изменить, изменив свойство `shape` (`circle` по умолчанию) на `rounded`.
 
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Row>
@@ -63,10 +57,6 @@ return (
 
 Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию).
 
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Row>
@@ -78,10 +68,6 @@ return (
 
 ## Действия
 Тег можно сделать интерактивным используя `onPress` свойство.
-
-```jsx
-import { Tag, Row } from '@startupjs/ui'
-```
 
 ```jsx example
 const [counter, setCounter] = useState(0)
