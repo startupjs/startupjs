@@ -40,6 +40,7 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
     })
 
     $root.on('url', goTo)
+    $root.on('error', setErr)
 
     return () => {
       unlisten()
