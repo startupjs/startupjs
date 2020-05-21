@@ -47,8 +47,7 @@ const DEFAULT_FORCE_COMPILE_MODULES = [
   '@startupjs/hooks/src',
   '@startupjs/app',
   '@startupjs/ui',
-  'react-native-collapsible', // used by ui
-  'react-native-status-bar-height' // used by ui
+  'react-native-collapsible' // used by ui
 ]
 const DEFAULT_ALIAS = {
   // fix warning requiring './locale': https://github.com/moment/moment/issues/1435

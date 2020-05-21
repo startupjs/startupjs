@@ -1,27 +1,24 @@
 import { useState } from 'react'
 import Menu from '../Menu'
 import Content from '../Content'
-import Br from '../Br'
-import Span from '../Typography/Span'
-import Button from '../Button'
 import Collapse from '../Collapse'
 import { u } from '../../config/helpers'
-import { Sandbox } from '@startupjs/docs'
 import {
   faShareAlt,
   faHouseUser,
   faTable
 } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
 
 # Menu
 
 Menu displays a list of choices and also can be used for navigation.
 
-## Example
-
 ```jsx
 import { Menu } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const [active, setActive] = useState('option-1')
@@ -53,10 +50,6 @@ return (
 
 By default the active menu item is not highlighted. To highlight it use the `activeBorder` property.
 
-```jsx
-import { Menu } from '@startupjs/ui'
-```
-
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
@@ -86,10 +79,6 @@ return (
 ## Horizontal menu
 
 By default the menu shows vertically. To make it horizontal, you need pass the string `horizontal` to the `variant` property.
-
-```jsx
-import { Menu } from '@startupjs/ui'
-```
 
 ```jsx example
 const [active, setActive] = useState('option-1')
@@ -121,10 +110,6 @@ return (
 
 To display icon in menu item pass the `icon` property to it. Position of icon can be changed by passing `iconPosition` to `Menu` component (`left` by default) and can be override in menu item.
 
-```jsx
-import { Menu } from '@startupjs/ui'
-```
-
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
@@ -154,13 +139,9 @@ return (
 )
 ```
 
-## ## Complex interaction (intergration with other components)
+## Complex interaction (intergration with other components)
 
 An example of a collapsible menu with submenus nested in.
-
-```jsx
-import { Menu, Collapse, Content } from '@startupjs/ui'
-```
 
 ```jsx example
 const [showMenu, setShowMenu] = useState(true)

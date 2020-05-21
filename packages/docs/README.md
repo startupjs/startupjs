@@ -31,25 +31,58 @@ yarn add @startupjs/docs
     ```
 
 1. Create `docs/index.js` file with the following content:
-
-    ```js
-    import docs from '@startupjs/docs'
-    export default docs({
-      en: {
-        // path to mdx documentation for Button component in English
-        Button: require('../components/Button.en.mdx').default
+  ```js
+  import docs from '@startupjs/docs'
+  export default docs({
+    typography: {
+      type: 'mdx',
+      // different titles for mdx documentation in English and Russian
+      title: {
+        en: 'Typography',
+        ru: 'Типографика'
       },
-      ru: {
-        // path to mdx documentation for Button component in Russian
-        Button: require('../components/Button.ru.mdx').default
+      // different components to display for English and Russian documentation
+      component: {
+        en: require('../components/Typography/Typography.en.mdx').default,
+        ru: require('../components/Typography/Typography.ru.mdx').default
+      }
+    },
+    cssGuide: {
+      type: 'mdx',
+      // the same title for both English and Russian mdx documentation
+      title: 'Typography',
+      // the same component to display for English and Russian documentation
+      component: require('../components/Typography/Typography.en.mdx').default
+    },
+    // docs in collapse
+    // items have the same api as mdx docs
+    components: {
+      type: 'collapse',
+      title: {
+        en: 'Components',
+        ru: 'Компоненты'
       },
-      // if you want to provide a list of components to automatically
-      // generate documentation to play with, specify them in
-      // the `sandbox` option. It must be an object where the key
-      // is component's name and value is the component itself.
-      sandbox: require('../components')
-    })
-    ```
+      items: {
+        Button: {
+          type: 'mdx',
+          title: {
+            en: 'Button',
+            ru: 'Кнопка'
+          }
+          component: {
+            en: require('../components/Button/Button.en.mdx').default,
+            ru: require('../components/Button/Button.ru.mdx').default
+          }
+        },
+        Card: {
+          type: 'mdx',
+          title: 'Card',
+          component: require('../components/Card/Card.en.mdx').default
+        }
+      }
+    }
+  })
+  ```
 
 1. Add client-side `docs` app to your `Root/App.js` file:
 

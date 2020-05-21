@@ -14,11 +14,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Пользователь используется для краткого отображения информации о пользователях. Он использует [Avatar](/docs/ru/components/Avatar) компонент для отображения аватара пользователя.
 
-## Example
-
 ```jsx
-import { User, Content, Br } from '@startupjs/ui'
+import { User } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 return (
@@ -40,10 +40,6 @@ return (
 ## Размеры
 
 Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Песочница` внизу страницы.
-
-```jsx
-import { User, Div, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -96,10 +92,6 @@ return (
 
 Для отображения онлайн-статуса пользователя на аватаре можно передать строку `online` или `away` в свойство `status`.
 
-```jsx
-import { User, Row } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Row>
@@ -124,10 +116,6 @@ return (
 
 Положение аватара можно изменить, передав строку `left` (по умолчанию) или `right` в свойство `avatarPosition`.
 
-```jsx
-import { User } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <User
@@ -142,10 +130,6 @@ return (
 ## Действия
 
 Переданный обработчик в `onPress` свойство будет вызван когда пользователь нажмет на компонент.
-
-```jsx
-import { User, Content } from '@startupjs/ui'
-```
 
 ```jsx example
 const [clicked, setClicked] = useState(0)

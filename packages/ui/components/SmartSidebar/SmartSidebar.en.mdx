@@ -7,19 +7,18 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../Typography/Span'
-import { observer, useModel } from 'startupjs'
+import { useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # SmartSidebar
 
 SmartSidebar is typically used for nagivation. It provides a desktop-mobile friendly interface. Based on a fixed layout breakpoint, it decides to stay as a [visible sidebar](/docs/en/components/Sidebar) or to turn into an [invisible drawer sidebar](/docs/en/components/DrawerSidebar). Though in both cases the sidebar is controllable. By defualt it not visible on the screen.
 
-## Example
-
 ```jsx
-import { useEffect } from 'React'
-import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
+import { SmartSidebar } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const PATH = '_session.ExampleSmartSidebar'
@@ -61,11 +60,6 @@ return (
 
 The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/en/components/Sidebar) switches to a [drawer sidebar](/docs/en/components/Drawer). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
 
-```jsx
-import { useEffect } from 'React'
-import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
-```
-
 ```jsx example
 const PATH = '_session.ExampleSmartSidebarFixedLayoutBreakpoint'
 const $opened = useModel(PATH)
@@ -106,11 +100,6 @@ return (
 ## Position
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
-
-```jsx
-import { useEffect } from 'React'
-import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleRightSidebar'
@@ -155,11 +144,6 @@ return (
 ## Locked SmartSidebar
 
 Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
-
-```jsx
-import { useEffect } from 'React'
-import { SmartSidebar, Menu, Content, Row, Div, Br, Span, Button } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleLockerSmartSidebar'

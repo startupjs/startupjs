@@ -28,7 +28,10 @@ export default {
     TextInput: {
       type: 'mdx',
       title: 'TextInput',
-      component: require('../components/forms/TextInput/TextInput.en.mdx').default
+      component: {
+        en: require('../components/forms/TextInput/TextInput.en.mdx').default,
+        ru: require('../components/forms/TextInput/TextInput.ru.mdx').default
+      }
     }
   }
 }

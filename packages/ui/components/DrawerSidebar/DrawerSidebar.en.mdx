@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import DrawerSidebar from '../DrawerSidebar'
 import Row from '../Row'
 import Div from '../Div'
@@ -14,12 +14,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Drawer is typically used for nagivation. It initially not visible on the screen, but it can be pulled in from the edge of the window.
 
-## Example
-
 ```jsx
-import { useEffect } from 'React'
-import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
+import { DrawerSidebar } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const PATH = '_session.ExampleLeftDrawerSidebar'
@@ -62,11 +61,6 @@ return (
 
 The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
-```jsx
-import { useEffect } from 'React'
-import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
-```
-
 ```jsx example
 const PATH = '_session.ExampleRightDrawerSidebar'
 const $opened = useModel(PATH)
@@ -108,11 +102,6 @@ return (
 ## Locked Drawer
 
 Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures or react to `open` property.
-
-```jsx
-import { useEffect } from 'React'
-import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleLockedDrawerSidebar'

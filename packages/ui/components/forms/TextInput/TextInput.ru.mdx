@@ -1,19 +1,18 @@
 import { useState } from 'react'
 import TextInput from '../TextInput'
-import Div from '../../Div'
 import Br from '../../Br'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
-# TextInput
+# TextInput (текстовое поле)
 
-TextInput lets user enter or edit text.
+Текстовое поле позволяет пользователю вводить или редактировать текст.
 
 ```jsx
 import { TextInput } from '@startupjs/ui'
 ```
 
-## Example
+## Пример
 
 ```jsx example
 const [value, setValue] = useState()
@@ -38,9 +37,9 @@ return (
 )
 ```
 
-## Sizes
+## Размеры
 
-Size can be modified using the `size` prop. Default size is `m`.
+Размер может быть изменен с помощью свойства `size`. Размер по умолчанию - `m`.
 
 ```jsx example
 const [valueL, setValueL] = useState()
@@ -72,9 +71,9 @@ return (
 )
 ```
 
-## Icons
+## Иконки
 
-To display icon pass the `icon` property. Position of icon can be changed by passing `iconPosition` to component. To handle clicks on the icon, use the property `onIconPress`.
+Для отображения иконки передайте свойство `icon`. Положение иконки может быть изменено путем передачи `iconPosition` в компонент. Для обработки нажатий на иконке используйте свойство `onIconPress`.
 
 ```jsx example
 const [valueLeft, setLeftValue] = useState()
@@ -101,13 +100,13 @@ return (
 )
 ```
 
-## Multiline mode (textarea)
+## Многострочный режим (textarea)
 
-The `multiline` property activates multiline mode.
+Свойство `multiline` активирует многострочный режим.
 
-Properties that only work in multiline mode:
-- `numberOfLines` sets the number of visible lines
-- `resize` the textinput height will grow with content
+Свойства которые работают только в многострочном режиме:
+- `numberOfLines` задает количество видимых линий
+- `resize` высота текстового поля будет расти вместе с содержимым
 
 ```jsx example
 const [value, setValue] = useState()
@@ -124,12 +123,12 @@ return (
 )
 ```
 
-## Layout
+## Компоновка
 
-There are two layouts. The default behavior is `rows` if `label` property provided and `pure` if not. To change the layout pass the property `layout`.
+Сущесвтует две компоновки. Поведение по умолчанию - `rows` если `label` свойтсво задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
 
-- `pure` displays text input without `label`
-- `rows` displays text input with `label` and if `label` not set it using placeholder instead
+- `pure` отображает текстовое поле без `label`
+- `rows` отображает текстовое поле с `label` и если `label` не задан, то вместо нее используется `placeholder`
 
 ```jsx example
 const [pureValue, setPureValue] = useState()

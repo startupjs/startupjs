@@ -6,25 +6,24 @@ import Row from '../Row'
 import Button from '../Button'
 import Collapse from '../Collapse'
 import Span from '../Typography/Span'
-import Icon from '../Icon'
 import Div from '../Div'
 import { u } from '../../config/helpers'
 import { Image } from 'react-native'
-import { Sandbox } from '@startupjs/docs'
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
 
 # Card (карточка)
 Наследует [Div props](/docs/ru/components/Div).
 
 Карточки содержат контент и действия, относящиеся к одной теме.
 
+```jsx
+import { Card } from '@startupjs/ui'
+```
+
 ## Простая карточка
 
 Несмотря на то, что в карточках можно располагать несколько действий, элементы управления и выпадающие меню, будьте сдержаны и помните, что карточки - это входные точки для более сложной и детальной информации.
-
-```jsx
-import { Card, Span, Br, H4 } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -40,10 +39,6 @@ return (
 
 Контурные карточки предлагают альтернативный стиль, передвая `outlined` строку в свойство `variant` компонента.
 
-```jsx
-import { Card, Span, Br, H4 } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Card variant='outlined'>
@@ -57,10 +52,6 @@ return (
 ## Уровни акцента
 
 Свойство `level` карточки определяет различные уровни акцента, в зависимости от её уровня в иерархии. Это имеет смысл только тогда, когда `variant` - `elevated` (по умолчанию).
-
-```jsx
-import { Card, Span, Br, H4 } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -93,12 +84,6 @@ return (
 ```
 
 ## Сложное взаимодействие (интеграция с другими компонентами)
-
-```jsx
-import { Image } from 'react-native'
-import { Card, Span, Br, H4, Collapse, Row, Button } from '@startupjs/ui'
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
-```
 
 ```jsx example
 const style = {

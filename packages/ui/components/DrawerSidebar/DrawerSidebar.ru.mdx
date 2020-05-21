@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import DrawerSidebar from '../DrawerSidebar'
-import Span from '../Typography/Span'
 import Row from '../Row'
 import Div from '../Div'
 import Menu from '../Menu'
 import Button from '../Button'
 import Content from '../Content'
+import Span from '../Typography/Span'
 import Br from '../Br'
 import { useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
@@ -14,12 +14,11 @@ import { Sandbox } from '@startupjs/docs'
 
 Дровер обычно используется для навигации. Изначально он не виден на экране, но может быть вытянут c края окна.
 
-## Пример
-
 ```jsx
-import { useEffect } from 'React'
-import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
+import { DrawerSidebar } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 const PATH = '_session.ExampleLeftDrawerSidebar'
@@ -62,11 +61,6 @@ return (
 
 Свойство `position` указывает сторону окна, с которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
-```jsx
-import { useEffect } from 'React'
-import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
-```
-
 ```jsx example
 const PATH = '_session.ExampleRightDrawerSidebar'
 const $opened = useModel(PATH)
@@ -108,11 +102,6 @@ return (
 ## Закрытый дровер
 
 Указание свойства `forceClosed` будет держать дровер закрытым, и он не будет реагировать на жесты или свойство `open`.
-
-```jsx
-import { useEffect } from 'React'
-import { DrawerSidebar, Div, Menu, Content, Span, Button, Row, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleLockedDrawerSidebar'

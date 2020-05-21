@@ -87,7 +87,7 @@ export default {
     },
     DrawerSidebar: {
       type: 'mdx',
-      title: 'Drawer Sidebar',
+      title: 'DrawerSidebar',
       component: {
         en: require('../components/DrawerSidebar/DrawerSidebar.en.mdx').default,
         ru: require('../components/DrawerSidebar/DrawerSidebar.ru.mdx').default
@@ -190,7 +190,7 @@ export default {
     },
     SmartSidebar: {
       type: 'mdx',
-      title: 'Smart Sidebar',
+      title: 'SmartSidebar',
       component: {
         en: require('../components/SmartSidebar/SmartSidebar.en.mdx').default,
         ru: require('../components/SmartSidebar/SmartSidebar.ru.mdx').default

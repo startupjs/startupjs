@@ -8,15 +8,14 @@ import { Sandbox } from '@startupjs/docs'
 
 # ObjectInput
 
-ObjectInput lets build dynamic forms using its declarative api.
+ObjectInput позволяет создавать динамические формы, используя его декларативный апи.
 
 ```jsx
 import { ObjectInput } from from '@startupjs/ui'
 ```
 
-## Example
-
-ObjectInput accepts an object in the `properties` property with a required `input` key to specify what type of input to display. Possible types are ([сheckbox](/docs/en/components/Checkbox), [text](/docs/en/components/TextInput) & [object](/docs/en/components/ObjectInput)). The `properties` object also inherit any of the props passed to the these components.
+## Пример
+ObjectInput принимает объект в свойство `properties` с обязательным ключом `input` для указания типа отображаемого поля. Возможные типы ([сheckbox](/docs/ru/components/Checkbox), [text](/docs/ru/components/TextInput) и [object](/docs/ru/components/ObjectInput)). Объект `properties` также наследует любые свойства передаваемые в этим компонентам.
 
 ```jsx example
 const [value, $value] = useValue()
@@ -43,9 +42,9 @@ return (
 )
 ```
 
-## Inputs order
+## Порядок полей
 
-ObjectInput accepts an array in the `order` property to specify in what order should the inputs be displayed.
+ObjectInput принимает массив в свойстве `order`, чтобы указать, в каком порядке должны отображаться поля.
 
 ```jsx example
 const [value, $value] = useValue()
@@ -73,16 +72,17 @@ return (
 )
 ```
 
-## Advanced usage
+## Продвинутое использование
 
-ObjectInput supports `dependsOn` and `dependsValue` properties for each object from `properties` array to dynamically display inputs.
+ObjectInput поддерживает `dependsOn` и `dependsValue` свойства для каждого объекта из массива `properties` для динамического отображения полей.
 
-- `dependsOn` is used to specify the object key which the current input depends on
-- `dependsValue` is used to specify at what value of the input with key `dependsOn` should the current input be shown
+- `dependsOn` используется для указания ключа объекта, от которого зависит текущее поле
 
-In the `example-1` below the dependent textbox will only be shown when the default textbox is non-empty. Similarly, `example-2` only shows dependent textbox when the checkbox is checked.
+- `dependsValue` используется для указания при каком значении поля с ключом `dependsOn` должно быть показано текущее поле
 
-Caution: When the dependsOn field changes and dependent field is no longer visible its previous value is preserved.
+В приведенном ниже `примере-1` зависимое текстовое поле будет отображаться только в том случае, если текстовое поле по умолчанию непусто. Аналогично, `пример-2` показывает зависимое текстовое поле только тогда, когда чекбокс включен.
+
+Внимание: Когда поле `dependsOn` изменяется и зависимое поле больше не видно, его предыдущее значение сохраняется.
 
 ```jsx example
 const [value, $value] = useValue({})
