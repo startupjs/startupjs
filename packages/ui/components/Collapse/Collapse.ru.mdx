@@ -1,20 +1,18 @@
 import { useState } from 'react'
 import Collapse from '../Collapse'
-import Row from '../Row'
 import Div from '../Div'
-import Br from '../Br'
-import { Sandbox } from '@startupjs/docs'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
 
 # Collapse (коллапс)
 
 Collapse позволяет переключать видимость содержимого.
 
-## Пример
-
 ```jsx
 import { Collapse } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 const [open, setOpen] = useState(false)
@@ -28,10 +26,6 @@ return (
 ## Чистый коллапс
 
 Чистый коллапс не содержит никаких стилей (фон, тень, отступы и т.д.). Это полезно когда `Collapse` используется в качестве дочерних элементов других компонент, например `Card`. Чтобы сделать его чистым, передайте строку `pure` в свойство `variant`.
-
-```jsx
-import { Collapse } from '@startupjs/ui'
-```
 
 ```jsx example
 const [open, setOpen] = useState(false)
@@ -51,10 +45,6 @@ return (
 
 Коллапс состоит из двух частей - `Header` и `Content`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title` и `Content` используется вместо `children`. Их можно использовать по отдельности. Каждая из частей принимает значение свойства `variant` от родителя `Collapse`, который может быть переопределен путем передачи `variant` в себя.
 
-```jsx
-import { Collapse } from '@startupjs/ui'
-```
-
 ```jsx example
 const [open1, setOpen1] = useState(false)
 const [open2, setOpen2] = useState(false)
@@ -71,11 +61,6 @@ return (
 ## Кастомная иконка
 
 При помощи опции `icon`, вы можете указать свою иконку. Она должна быть в виде стрелки, указывающей вправо.
-
-```jsx
-import { Collapse } from '@startupjs/ui'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-```
 
 ```jsx example
 const [open, setOpen] = useState(false)
@@ -98,10 +83,6 @@ return (
 ## Accordion (аккордеон)
 
 Используя `Collapse` компонент, можно создать поведение, подобное аккордеону.
-
-```jsx
-import { Collapse, Div } from '@startupjs/ui'
-```
 
 ```jsx example
 const [expand, setExpand] = useState()

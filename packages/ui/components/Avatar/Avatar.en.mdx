@@ -4,18 +4,17 @@ import Row from '../Row'
 import Div from '../Div'
 import Span from '../Typography/Span'
 import Br from '../Br'
-import { View } from 'react-native'
 import { Sandbox } from '@startupjs/docs'
 
 # Avatar
 
 Avatars can be used to represent people. When used with a specific logo, avatars can also be used to represent a brand. They also can be a placeholder when there is no image or image can't be loaded by some reason to be shown, showing an alternative in this case.
 
-## Example
-
 ```jsx
 import { Avatar } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 return (
@@ -28,10 +27,6 @@ return (
 ## Sizes
 
 Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of page.
-
-```jsx
-import { Avatar, Row, Div } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -80,9 +75,6 @@ return (
 
 Avatars can be used to display user online status. It can be set by passing string `online` or `away` to property `status`.
 
-```jsx
-import { Avatar, Row, Div } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -106,10 +98,6 @@ return (
 ## Fallback string
 If `url` prop is not provided or if there is an error loading the avatar image, the component using an alternative. The alternative is initials of two first words of `children` string if provided and `?` if not. In the example below alternative is 'John Doe' therefore 'JD' will be displayed.
 
-```jsx
-import { Avatar, Row, Div } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Row>
@@ -132,10 +120,6 @@ return (
 ## Actions
 
 Passed handler to `onPress` property will be called when the user taps the component.
-
-```jsx
-import { Span, Div, Br, Avatar } from '@startupjs/ui'
-```
 
 ```jsx example
 const [counter, setCounter] = useState(0)

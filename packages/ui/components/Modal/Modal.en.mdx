@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import Modal from '../Modal'
 import Button from '../Button'
-import Span from '../Typography/Span'
 import { Sandbox } from '@startupjs/docs'
 
 # Modal
 
 Modal can be used when the user needs to inform about ciritcal information, require decisions or interact a complex sub-application without navigating to a new page or interrupting the workflow.
 
-## Example
-
 ```jsx
 import { Modal } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const [visible, setVisible] = useState(false)
@@ -41,10 +40,6 @@ return (
 
 By default the modal shows like window in center of the page. To make it fullscreen, you need pass the string `fullscreen` to the `variant` property.
 
-```jsx
-import { Modal } from '@startupjs/ui'
-```
-
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
@@ -68,10 +63,6 @@ return (
 ## Advanced usage
 
 Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onDismiss`, `onConfirm`. They can be used separately.
-
-```jsx
-import { Modal } from '@startupjs/ui'
-```
 
 ```jsx example
 const [visible, setVisible] = useState(false)

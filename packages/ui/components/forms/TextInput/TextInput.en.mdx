@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import TextInput from '../TextInput'
-import Content from '../../Content'
 import Div from '../../Div'
 import Br from '../../Br'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -10,11 +9,11 @@ import { Sandbox } from '@startupjs/docs'
 
 TextInput lets user enter or edit text.
 
-## Example
-
 ```jsx
-import { TextInput, Div, Br } from '@startupjs/ui'
+import { TextInput } from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
 const [value, setValue] = useState()
@@ -42,10 +41,6 @@ return (
 ## Sizes
 
 Size can be modified using the `size` prop. Default size is `m`.
-
-```jsx
-import { TextInput, Div, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const [valueL, setValueL] = useState()
@@ -81,11 +76,6 @@ return (
 
 To display icon pass the `icon` property. Position of icon can be changed by passing `iconPosition` to component. To handle clicks on the icon, use the property `onIconPress`.
 
-```jsx
-import { TextInput, Div, Br } from '@startupjs/ui'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-```
-
 ```jsx example
 const [valueLeft, setLeftValue] = useState()
 const [valueRight, setRightValue] = useState()
@@ -119,10 +109,6 @@ Properties that only work in multiline mode:
 - `numberOfLines` sets the number of visible lines
 - `resize` the textinput height will grow with content
 
-```jsx
-import { TextInput } from '@startupjs/ui'
-```
-
 ```jsx example
 const [value, setValue] = useState()
 return (
@@ -144,10 +130,6 @@ There are two layouts. The default behavior is `rows` if `label` property provid
 
 - `pure` displays text input without `label`
 - `rows` displays text input with `label` and if `label` not set it using placeholder instead
-
-```jsx
-import { TextInput, Div, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const [pureValue, setPureValue] = useState()

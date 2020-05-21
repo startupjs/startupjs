@@ -1,9 +1,7 @@
-import { View } from 'react-native'
 import Content from '../Content'
 import Div from '../Div'
 import Span from '../Typography/Span'
 import Br from '../Br'
-import pallete from '../../config/pallete'
 import { u } from '../../config/helpers'
 import { Sandbox } from '@startupjs/docs'
 
@@ -11,13 +9,13 @@ import { Sandbox } from '@startupjs/docs'
 
 Content used as a parent container for elements.
 
+```jsx
+import { Content } from '@startupjs/ui'
+```
+
 ## Example
 
 By default content has left and right paddings of `16px`.
-
-```jsx
-import { Content, Div, u } from '@startupjs/ui'
-```
 
 ```jsx example
 const contentStyle = {
@@ -41,10 +39,6 @@ return (
 ## Vertical paddings
 Top and bottom paddings can be added by passing the `padding` property to component.
 
-```jsx
-import { Content, Div, u } from '@startupjs/ui'
-```
-
 ```jsx example
 const contentStyle = {
   backgroundColor: '#2962FF'
@@ -67,10 +61,6 @@ return (
 ## Full space
 
 Content takes the `full` property, which gives it all the empty space on the main `flexbox` axis of the parent.
-
-```jsx
-import { Content, Div, Br, u } from '@startupjs/ui'
-```
 
 ```jsx example
 const divStyle = {
@@ -102,10 +92,6 @@ return (
 ## Max width
 
 Content has limited width by default of `480px` like in the example above. It can be changed by changing `width` prop.
-
-```jsx
-import { Content, Div, Br, u } from '@startupjs/ui'
-```
 
 ```jsx example
 const contentStyle = {

@@ -10,17 +10,15 @@ import Span from '../Typography/Span'
 import { observer, useModel } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
-
 # Sidebar (сайдбар)
 
 Сайдбар обычно используется для навигации. Изначально он не виден на экране.
 
-## Пример
-
 ```jsx
-import { useEffect } from 'React'
-import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs
+import { Sidebar } from '@startupjs/ui'
 ```
+
+## Пример
 
 ```jsx example
 const PATH = '_session.ExampleSidebar'
@@ -68,11 +66,6 @@ return (
 ## Расположение
 
 Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
-
-```jsx
-import { useEffect } from 'React'
-import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleRightSidebar'
@@ -122,11 +115,6 @@ return (
 ## Locked Sidebar
 
 Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
-
-```jsx
-import { useEffect } from 'React'
-import { Sidebar, Div, Menu, Content, Row, Span, Button, Br } from '@startupjs/ui'
-```
 
 ```jsx example
 const PATH = '_session.ExampleLockedSidebar'

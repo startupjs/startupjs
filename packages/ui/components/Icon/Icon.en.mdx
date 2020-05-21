@@ -4,27 +4,27 @@ import Row from '../Row'
 import Content from '../Content'
 import Br from '../Br'
 import TextInput from '../forms/TextInput'
-import Span from '../Typography/Span'
-import { Sandbox } from '@startupjs/docs'
 import {
   faHouseUser,
   faTable,
   faShareAlt
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import CustomIconExample from './CustomIconExample.svg'
-
+import { Sandbox } from '@startupjs/docs'
 
 # Icon
 
 Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+
+```jsx
+import { Icon } from '@startupjs/ui'
+```
 
 ## Fontawesome icons
 
 Component uses `@fortawesome/react-native-fontawesome` library to implement icons.
 
 ```jsx
-import { Icon } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -47,7 +47,6 @@ return (
 Size can be modified using the `size` prop. Default value is `m`. Pre defined icon size values are `xs`, `s`, `m`, `l`, `xl`, `xxl`. Size can also be arbitarily increased or decreased by providing a number to `size` prop.
 
 ```jsx
-import { Icon, Content } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -84,7 +83,6 @@ return (
 Color can be changed by providing hex color or name of the color from `ui` config colors to `color` property.
 
 ```jsx
-import { Icon } from '@startupjs/ui'
 import {
   faHouseUser,
   faTable,
@@ -107,7 +105,6 @@ return (
 To use your custom icon you must provide a valid `svg` icon to `icon` property
 
 ```jsx
-import { Icon } from '@startupjs/ui'
 import CustomIconExample from './CustomIconExample.svg'
 ```
 

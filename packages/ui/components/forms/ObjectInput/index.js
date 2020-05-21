@@ -1,13 +1,14 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import Input from '../Input'
+import './index.styl'
 
 export default observer(function ObjectInput ({
+  style,
   $value,
   value,
   properties,
-  order,
-  style
+  order
 }) {
   if (!$value) {
     console.error('[ui -> Object] $value is required')
@@ -21,12 +22,13 @@ export default observer(function ObjectInput ({
   order = getOrder(order, properties)
 
   return pug`
-    each key in order
+    each key, index in order
       - const { input, dependsOn, dependsValue, ...inputProps } = properties[key] || {}
       if resolvesDeps(value, dependsOn, dependsValue)
-        Input(
+        Input.input(
           ...inputProps
           key=key
+          styleName={ pushTop: index !== 0 }
           type=input
           $value=$value.at(key)
         )

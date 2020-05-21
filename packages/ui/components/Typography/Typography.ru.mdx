@@ -8,11 +8,12 @@ import { Sandbox } from '@startupjs/docs'
 
 Набор компонентов, чтобы сделать текст понятным и легко читаемым для конечного пользователя. Базовый компонент типографики - это `Span`, что означает, что все остальные компоненты используют его в различных вариациях, например заголовки.
 
-## Размеры
-
 ```jsx
-import { Span, Br, Content } from '@startupjs/ui'
+import { Span } from '@startupjs/ui'
+import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
 ```
+
+## Размеры
 
 ```jsx example
 return (
@@ -69,10 +70,6 @@ return (
 
 H* комопненты используются для заголовок или подзаголовков раздела или страницы.
 
-```jsx
-import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Content>
@@ -95,10 +92,6 @@ return (
 
 Чтобы сделать текст жирным, передайте компоненту свойство `bold`.
 
-```jsx
-import { Span, H4, Content } from '@startupjs/ui'
-```
-
 ```jsx example
 return (
   <Content>
@@ -111,10 +104,6 @@ return (
 ## Курсив
 
 Чтобы сделать текст курсивом, передайте компоненту свойство `italic`.
-
-```jsx
-import { Span, H4, Content } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
@@ -130,10 +119,6 @@ return (
 ## Малозначимый текст (только для Span)
 
 Чтобы уменьшить значимость текста, передайте компоненту свойство `description`.
-
-```jsx
-import { Span } from '@startupjs/ui'
-```
 
 ```jsx example
 return (
