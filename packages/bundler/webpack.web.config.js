@@ -22,9 +22,7 @@ const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 
-// TODO: 'web' mode by default is deprecated. The default is going to become 'react-native'
-//       in future versions.
-const DEFAULT_MODE = 'web'
+const DEFAULT_MODE = 'react-native'
 
 // Get ui config if it exists
 let ui
