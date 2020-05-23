@@ -19,7 +19,7 @@ const DIRECTORY_ALIASES = {
 // We use this on Web in development for faster compilation.
 // We also always use it on Node for faster runtime.
 const esNextPlugins = (debugJsx) => [
-  require('@babel/plugin-proposal-class-properties'),
+  [require('@babel/plugin-proposal-class-properties'), { loose: true }],
   require('@babel/plugin-transform-react-jsx'),
   require('@babel/plugin-transform-react-display-name'),
   ...(debugJsx ? [
