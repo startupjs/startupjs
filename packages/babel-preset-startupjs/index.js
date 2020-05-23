@@ -115,7 +115,7 @@ const CONFIG_NATIVE_PRODUCTION = {
 const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   presets: [],
   plugins: [
-    require.resolve('react-hot-loader/babel'),
+    [require.resolve('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin(),
     nativeReactCssModulesPlugin(),
     ...esNextPlugins(true)
@@ -136,7 +136,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
 const CONFIG_WEB_PURE_DEVELOPMENT = {
   presets: [],
   plugins: [
-    require.resolve('react-hot-loader/babel'),
+    [require.resolve('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin(),
     webReactCssModulesPlugin(),
     webPassClassnamePlugin(),

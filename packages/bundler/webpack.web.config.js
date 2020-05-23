@@ -21,6 +21,7 @@ const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const DEFAULT_MODE = 'react-native'
 
@@ -54,19 +55,9 @@ const DEFAULT_ALIAS = {
   'react-router-native': 'react-router-dom'
 }
 
-// Enable hooks hot reloading in development:
-// https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom
-if (!PROD) {
-  DEFAULT_ALIAS['react-dom'] = '@hot-loader/react-dom'
-}
-
 let DEFAULT_ENTRIES = [
   '@babel/polyfill'
 ]
-// Enable hot reloading in development:
-if (!PROD) {
-  DEFAULT_ENTRIES.push('react-hot-loader/patch')
-}
 
 module.exports = function getConfig (env, {
   forceCompileModules = [],
@@ -130,6 +121,7 @@ module.exports = function getConfig (env, {
     plugins: [
       !VERBOSE && !PROD && new FriendlyErrorsWebpackPlugin(),
       new MomentLocalesPlugin(), // strip all locales except 'en'
+      !PROD && new ReactRefreshWebpackPlugin({ forceEnable: true, overlay: { sockPort: DEV_PORT } }),
       PROD && new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[name].[chunkhash].css'
@@ -275,7 +267,7 @@ module.exports = function getConfig (env, {
     },
     devServer: {
       host: '0.0.0.0',
-      port: 3010,
+      port: DEV_PORT,
       hot: true,
       headers: {
         'Access-Control-Allow-Origin': '*'
