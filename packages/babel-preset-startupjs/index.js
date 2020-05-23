@@ -14,52 +14,25 @@ const DIRECTORY_ALIASES = {
   config: './startupjs.config'
 }
 
-// Minimal amount of plugins to support the latest JS engines with
-// the best new features support, like Google Chrome, Node 14+.
-// We use this on Web in development for faster compilation.
-// We also always use it on Node for faster runtime.
-const esNextPlugins = (debugJsx) => [
-  [require('@babel/plugin-proposal-class-properties'), { loose: true }],
-  require('@babel/plugin-transform-react-jsx'),
-  require('@babel/plugin-transform-react-display-name'),
-  ...(debugJsx ? [
-    require('@babel/plugin-transform-react-jsx-source'),
-    require('@babel/plugin-transform-react-jsx-self')
-  ] : []),
-  [
-    require('@babel/plugin-transform-runtime'),
-    {
-      helpers: true,
-      regenerator: true
-    }
-  ]
-]
-
-const clientPresets = [
-  [require.resolve('./metroWithTypescript'), {
-    disableImportExportTransform: !!ASYNC
-  }]
-]
-
 const basePlugins = ({ legacyClassnames, alias } = {}) => [
-  [require.resolve('babel-plugin-module-resolver'), {
+  [require('babel-plugin-module-resolver'), {
     alias: {
       ...DIRECTORY_ALIASES,
       ...alias
     }
   }],
-  [require.resolve('babel-plugin-transform-react-pug'), {
+  [require('babel-plugin-transform-react-pug'), {
     classAttribute: 'styleName'
   }],
-  [require.resolve('babel-plugin-react-pug-classnames'), {
+  [require('babel-plugin-react-pug-classnames'), {
     classAttribute: 'styleName',
     legacy: legacyClassnames
   }],
-  [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }]
+  [require('@babel/plugin-proposal-decorators'), { legacy: true }]
 ]
 
 const dotenvPlugin = ({ production } = {}) =>
-  [require.resolve('@startupjs/babel-plugin-dotenv-import'), {
+  [require('@startupjs/babel-plugin-dotenv-import'), {
     moduleName: '@env',
     path: ['.env', production ? '.env.production' : '.env.local'],
     safe: true,
@@ -67,7 +40,7 @@ const dotenvPlugin = ({ production } = {}) =>
   }]
 
 const webReactCssModulesPlugin = ({ production } = {}) =>
-  [require.resolve('@startupjs/babel-plugin-react-css-modules'), {
+  [require('@startupjs/babel-plugin-react-css-modules'), {
     handleMissingStyleName: 'ignore',
     filetypes: {
       '.styl': {}
@@ -77,22 +50,24 @@ const webReactCssModulesPlugin = ({ production } = {}) =>
   }]
 
 const nativeReactCssModulesPlatformExtensionsPlugin = () =>
-  [require.resolve('babel-plugin-react-native-platform-specific-extensions'), {
+  [require('babel-plugin-react-native-platform-specific-extensions'), {
     extensions: ['styl', 'css']
   }]
 
 const nativeReactCssModulesPlugin = () =>
-  [require.resolve('@startupjs/babel-plugin-rn-stylename-to-style'), {
+  [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
     extensions: ['styl', 'css']
   }]
 
 const webPassClassnamePlugin = () =>
-  require.resolve('babel-plugin-react-native-web-pass-classname')
+  require('babel-plugin-react-native-web-pass-classname')
 
 // react-native config
 
 const CONFIG_NATIVE_DEVELOPMENT = {
-  presets: clientPresets,
+  presets: [
+    [require('./metroWithTypescript')]
+  ],
   plugins: [
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
@@ -101,7 +76,9 @@ const CONFIG_NATIVE_DEVELOPMENT = {
 }
 
 const CONFIG_NATIVE_PRODUCTION = {
-  presets: clientPresets,
+  presets: [
+    [require('./metroWithTypescript')]
+  ],
   plugins: [
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlatformExtensionsPlugin(),
@@ -113,17 +90,27 @@ const CONFIG_NATIVE_PRODUCTION = {
 // therefore only the react-native rules can be used.
 
 const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
-  presets: [],
+  presets: [
+    [require('./esNextPreset'), { debugJsx: true }]
+    // NOTE: If we start to face unknown errors in development or
+    //       want to sync the whole presets/plugins stack with RN,
+    //       just replace the optimized esNext preset above with the
+    //       regular metro preset below:
+    // [require('./metroWithTypescript')]
+  ],
   plugins: [
-    [require.resolve('react-refresh/babel'), { skipEnvCheck: true }],
+    [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin(),
-    nativeReactCssModulesPlugin(),
-    ...esNextPlugins(true)
+    nativeReactCssModulesPlugin()
   ]
 }
 
 const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
-  presets: clientPresets,
+  presets: [
+    [require('./metroWithTypescript'), {
+      disableImportExportTransform: !!ASYNC
+    }]
+  ],
   plugins: [
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlugin()
@@ -134,18 +121,23 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
 // to use the full browser CSS engine.
 
 const CONFIG_WEB_PURE_DEVELOPMENT = {
-  presets: [],
+  presets: [
+    [require('./metroWithTypescript')]
+  ],
   plugins: [
-    [require.resolve('react-refresh/babel'), { skipEnvCheck: true }],
+    [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin(),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin(),
-    ...esNextPlugins(true)
+    webPassClassnamePlugin()
   ]
 }
 
 const CONFIG_WEB_PURE_PRODUCTION = {
-  presets: clientPresets,
+  presets: [
+    [require('./metroWithTypescript'), {
+      disableImportExportTransform: !!ASYNC
+    }]
+  ],
   plugins: [
     dotenvPlugin({ production: true }),
     webReactCssModulesPlugin({ production: true }),
@@ -157,14 +149,14 @@ const CONFIG_WEB_PURE_PRODUCTION = {
 
 const CONFIG_SERVER = {
   presets: [
-    // require.resolve('./metroWithTypescript')
+    require('./esNextPreset')
+    // NOTE: If we start to face unknown errors or
+    //       want to sync the whole presets/plugins stack with RN,
+    //       just replace the optimized esNext preset above with the
+    //       regular metro preset below:
+    // [require('./metroWithTypescript')]
   ],
-  plugins: [
-    ...esNextPlugins()
-    // [require.resolve('@babel/plugin-transform-runtime'), {
-    //   regenerator: true
-    // }]
-  ]
+  plugins: []
 }
 
 module.exports = options => {
