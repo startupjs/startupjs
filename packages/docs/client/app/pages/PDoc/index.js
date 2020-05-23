@@ -5,18 +5,11 @@ import { Span, Br } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from '../../../const'
 import { ScrollView } from 'react-native'
 import './index.styl'
+import useRestoreScroll from './useRestoreScroll'
 
 export default observer(function PDoc ({
   style
 }) {
-  function getComponent (item, lang) {
-    if (!item) return
-    if (!item.component) return
-    if (typeof item.component === 'function') return item.component
-    if (item.component[lang]) return item.component[lang]
-    return item.component[DEFAULT_LANGUAGE]
-  }
-
   const [params] = useLocal('$render.params')
   const lang = params.lang
   const docs = useDocsContext()
@@ -32,10 +25,20 @@ export default observer(function PDoc ({
 
   if (!Component) return pug`Span 404. Not found`
 
+  const scrollViewProps = useRestoreScroll('PDoc', lang, docPath)
+
   return pug`
-    ScrollView.root
+    ScrollView.root(...scrollViewProps)
       Br
       Component
       Br(lines=4)
   `
 })
+
+function getComponent (item, lang) {
+  if (!item) return
+  if (!item.component) return
+  if (typeof item.component === 'function') return item.component
+  if (item.component[lang]) return item.component[lang]
+  return item.component[DEFAULT_LANGUAGE]
+}
