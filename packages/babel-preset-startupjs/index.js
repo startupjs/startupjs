@@ -66,7 +66,7 @@ const webPassClassnamePlugin = () =>
 
 const CONFIG_NATIVE_DEVELOPMENT = {
   presets: [
-    [require('./metroWithTypescript')]
+    [require('./metroPresetWithTypescript')]
   ],
   plugins: [
     dotenvPlugin(),
@@ -77,7 +77,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
 
 const CONFIG_NATIVE_PRODUCTION = {
   presets: [
-    [require('./metroWithTypescript')]
+    [require('./metroPresetWithTypescript')]
   ],
   plugins: [
     dotenvPlugin({ production: true }),
@@ -96,7 +96,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
     //       want to sync the whole presets/plugins stack with RN,
     //       just replace the optimized esNext preset above with the
     //       regular metro preset below:
-    // [require('./metroWithTypescript')]
+    // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
@@ -107,7 +107,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
 
 const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
   presets: [
-    [require('./metroWithTypescript'), {
+    [require('./metroPresetWithTypescript'), {
       disableImportExportTransform: !!ASYNC
     }]
   ],
@@ -122,7 +122,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
 
 const CONFIG_WEB_PURE_DEVELOPMENT = {
   presets: [
-    [require('./metroWithTypescript')]
+    [require('./metroPresetWithTypescript')]
   ],
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
@@ -134,7 +134,7 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
 
 const CONFIG_WEB_PURE_PRODUCTION = {
   presets: [
-    [require('./metroWithTypescript'), {
+    [require('./metroPresetWithTypescript'), {
       disableImportExportTransform: !!ASYNC
     }]
   ],
@@ -154,7 +154,7 @@ const CONFIG_SERVER = {
     //       want to sync the whole presets/plugins stack with RN,
     //       just replace the optimized esNext preset above with the
     //       regular metro preset below:
-    // [require('./metroWithTypescript')]
+    // [require('./metroPresetWithTypescript')]
   ],
   plugins: []
 }
