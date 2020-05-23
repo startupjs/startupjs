@@ -14,13 +14,32 @@ const DIRECTORY_ALIASES = {
   config: './startupjs.config'
 }
 
+// Minimal amount of plugins to support the latest JS engines with
+// the best new features support, like Google Chrome, Node 14+.
+// We use this on Web in development for faster compilation.
+// We also always use it on Node for faster runtime.
+const esNextPlugins = (debugJsx) => [
+  require('@babel/plugin-proposal-class-properties'),
+  require('@babel/plugin-transform-react-jsx'),
+  require('@babel/plugin-transform-react-display-name'),
+  ...(debugJsx ? [
+    require('@babel/plugin-transform-react-jsx-source'),
+    require('@babel/plugin-transform-react-jsx-self')
+  ] : []),
+  [
+    require('@babel/plugin-transform-runtime'),
+    {
+      helpers: true,
+      regenerator: true
+    }
+  ]
+]
+
 const clientPresets = [
   [require.resolve('./metroWithTypescript'), {
     disableImportExportTransform: !!ASYNC
   }]
 ]
-
-const serverPresets = [require.resolve('./metroWithTypescript')]
 
 const basePlugins = ({ legacyClassnames, alias } = {}) => [
   [require.resolve('babel-plugin-module-resolver'), {
@@ -94,11 +113,12 @@ const CONFIG_NATIVE_PRODUCTION = {
 // therefore only the react-native rules can be used.
 
 const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
-  presets: clientPresets,
+  presets: [],
   plugins: [
     require.resolve('react-hot-loader/babel'),
     dotenvPlugin(),
-    nativeReactCssModulesPlugin()
+    nativeReactCssModulesPlugin(),
+    ...esNextPlugins(true)
   ]
 }
 
@@ -114,12 +134,13 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
 // to use the full browser CSS engine.
 
 const CONFIG_WEB_PURE_DEVELOPMENT = {
-  presets: clientPresets,
+  presets: [],
   plugins: [
     require.resolve('react-hot-loader/babel'),
     dotenvPlugin(),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin()
+    webPassClassnamePlugin(),
+    ...esNextPlugins(true)
   ]
 }
 
@@ -135,11 +156,14 @@ const CONFIG_WEB_PURE_PRODUCTION = {
 // node.js server config
 
 const CONFIG_SERVER = {
-  presets: serverPresets,
+  presets: [
+    // require.resolve('./metroWithTypescript')
+  ],
   plugins: [
-    [require.resolve('@babel/plugin-transform-runtime'), {
-      regenerator: true
-    }]
+    ...esNextPlugins()
+    // [require.resolve('@babel/plugin-transform-runtime'), {
+    //   regenerator: true
+    // }]
   ]
 }
 
