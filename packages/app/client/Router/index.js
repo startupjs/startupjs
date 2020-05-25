@@ -104,7 +104,6 @@ function initRoute (location, routes, goTo) {
   const search = location.search
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
   if (url === prevUrl && search === prevSearch) return
-  if (!$root.get('$render')) initLocalCollection('$render')
   $root.setDiff('$render.url', url)
   $root.setDiff('$render.search', search)
   $root.setDiffDeep('$render.query', query)

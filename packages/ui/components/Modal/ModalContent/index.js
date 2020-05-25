@@ -11,10 +11,9 @@ function ModalContent ({
   variant // @private
 }) {
   const content = React.Children.map(children, (child, index) => {
-    const key = `__MODAL_CONTENT_CHILDREN_KEY_${index}__`
     if (typeof child === 'string') {
       return pug`
-        Span(key=key)= child
+        Span= child
       `
     }
     return child
