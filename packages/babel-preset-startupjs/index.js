@@ -148,7 +148,6 @@ module.exports = (api, options) => {
 
   const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE } = process.env
 
-  console.log(BABEL_ENV, typeof BABEL_ENV, '!!!!BABEL_ENV')
   // There is a bug in metro when BABEL_ENV is a string "undefined".
   // We have to workaround it and use NODE_ENV.
   const env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
