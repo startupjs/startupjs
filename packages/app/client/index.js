@@ -1,15 +1,40 @@
 import React, { Suspense } from 'react'
 import { Platform } from 'react-native'
 import Router from './Router'
-import { useLocal, observer, useDoc } from 'startupjs'
+import { useLocal, observer, useDoc, useModel, useSession, useApi } from 'startupjs'
 import { Blocked, UpdateApp } from './components'
 import useMediaUpdate from './helpers/useMediaUpdate'
 import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
+import axios from 'axios'
 
 const OS = Platform.OS
 const routesGlobal = []
+
+function useGlobalInit_base (serverSession, cb) {
+  const $session = useModel('_session')
+
+  // Initialize _session on mobile
+  useMemo(() => serverSession && $session.setEach(serverSession), [])
+
+  const [userId] = useSession('userId')
+  const [, $user] = useDoc('users', userId || '_DUMMY_')
+
+  useMemo(() => {
+    // reference self to '_session.user' for easier access
+    $session.ref('user', $user)
+  }, [])
+
+  cb && cb(serverSession)
+}
+
+async function getServerSession() {
+  // Should be moved to @startupjs
+  // Now that endpoint is in core/auth
+  const res = await axios.get('/api/serverSession')
+  return res.data || null
+}
 
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
@@ -25,11 +50,13 @@ const App = observer(function AppComponent ({
   criticalVersion,
   iosUpdateLink,
   androidUpdateLink,
+  useGlobalInit,
   ...props
 }) {
   // Dynamically update @media queries in CSS whenever window width changes
   useMediaUpdate()
 
+  const [serverSession] = useApi(getServerSession)
   const [version] = useDoc('service', 'version')
   const availableCriticalVersion =
     version &&
@@ -66,6 +93,8 @@ const App = observer(function AppComponent ({
     routesGlobal.push(...appRoutes)
     routes.push(...appRoutes)
   }
+
+  useGlobalInit_base(serverSession, useGlobalInit)
 
   return pug`
     if user && user.blocked
