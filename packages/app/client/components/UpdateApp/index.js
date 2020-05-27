@@ -1,11 +1,13 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import Layout from './../Layout'
 import { Platform, Linking, Button, Text } from 'react-native'
 const isIos = Platform.OS === 'ios'
 
-export default observer(function UpdateApp ({ iosLink, androidLink }) {
-  const link = isIos ? iosLink : androidLink
+export default observer(function UpdateApp () {
+  const [{ iosUpdateLink, androidUpdateLink } = {}] = useSession('criticalVersion.meta')
+
+  const link = isIos ? iosUpdateLink : androidUpdateLink
 
   const description = pug`
     Text Sorry, your version of the app is too old.

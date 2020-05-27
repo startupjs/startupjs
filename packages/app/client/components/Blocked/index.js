@@ -1,16 +1,18 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import Layout from './../Layout'
 import { Text } from 'react-native'
 import mailTo from './mailTo'
 import './index.styl'
 
-export default observer(function Blocked ({ email }) {
+export default observer(function Blocked () {
+  const [{ supportEmail } = {}] = useSession('criticalVersion.meta')
+
   const description = pug`
     Text If you think it's a mistake, please contact support
-    if email
+    if supportEmail
       Text &nbsp;at&nbsp;
-      Text.email(onPress=() => mailTo(email))= email
+      Text.email(onPress=() => mailTo(supportEmail))= supportEmail
       Text .
   `
 
