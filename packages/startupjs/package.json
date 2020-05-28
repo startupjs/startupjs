@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.22.0-alpha.30",
+  "version": "0.22.0-alpha.31",
   "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
