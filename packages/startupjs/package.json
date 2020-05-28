@@ -1,21 +1,21 @@
 {
   "name": "startupjs",
-  "version": "0.22.0-alpha.29",
+  "version": "0.22.0-alpha.30",
   "description": "React Native + Web + Node.js full-stack framework",
   "main": "index.js",
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/app": "^0.22.0-alpha.29",
+    "@startupjs/app": "^0.22.0-alpha.30",
     "@startupjs/backend": "^0.22.0-alpha.24",
-    "@startupjs/bundler": "^0.22.0-alpha.29",
-    "@startupjs/cli": "^0.22.0-alpha.29",
+    "@startupjs/bundler": "^0.22.0-alpha.30",
+    "@startupjs/cli": "^0.22.0-alpha.30",
     "@startupjs/hooks": "^0.22.0-alpha.24",
-    "@startupjs/init": "^0.22.0-alpha.29",
+    "@startupjs/init": "^0.22.0-alpha.30",
     "@startupjs/isomorphic-helpers": "^0.22.0-alpha.24",
     "@startupjs/orm": "^0.22.0-alpha.24",
-    "@startupjs/react-sharedb": "^0.22.0-alpha.29",
+    "@startupjs/react-sharedb": "^0.22.0-alpha.30",
     "@startupjs/server": "^0.22.0-alpha.24",
-    "babel-preset-startupjs": "^0.22.0-alpha.29"
+    "babel-preset-startupjs": "^0.22.0-alpha.30"
   }
 }
