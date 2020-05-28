@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import { BASE_URL } from '@env'
+import init from 'startupjs/init'
+import orm from '../model'
+import React from 'react'
+import App from 'startupjs/app'
+import { observer, model } from 'startupjs'
+import { Platform } from 'react-native'
 
-let App = null
+// Frontend micro-services
+import * as main from '../main'
 
-export default function Root () {
-  let [session, setSession] = useState()
+if (Platform.OS === 'web') window.model = model
 
-  function onAuthorized (session) {
-    // require application only after authentication completes because:
-    // 1. we want the auth to load as fast as possible
-    // 2. we don't want to initialize StartupJS connection to server
-    //    until we have saved the session cookie. Otherwise the websocket
-    //    connection will keep using the old cookies. React-native
-    //    does not reestablish websocket connection when cookies change.
-    App = require('./App').default
-    // TODO: Pass userId from server _session
-    setSession(session)
-  }
+// Init startupjs connection to server and the ORM.
+// baseUrl option is required for the native to work - it's used
+// to init the websocket connection and axios.
+// Initialization must start before doing any subscribes to data.
+init({ baseUrl: BASE_URL, orm })
 
-  if (session) {
-    return <App session={session} />
-  } else {
-    return <NativeAuth onAuthorized={onAuthorized} />
-  }
-}
-
-function NativeAuth ({ onAuthorized }) {
-  // Here is the place to handle any kind of native-only
-  // authorization logic before letting the user into the App
-  useEffect(() => {
-    onAuthorized({ userId: 'dummy-native-user' })
-  }, [])
-  return null
-}
+export default observer(() => {
+  return pug`
+    App(
+      apps={main}
+    )
+  `
+})
