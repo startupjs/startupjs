@@ -2,12 +2,9 @@ import { BASE_URL } from '@env'
 import init from 'startupjs/init'
 import orm from '../model'
 import React from 'react'
-import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { Platform } from 'react-native'
-
-// Frontend micro-services
-import * as main from '../main'
+import { TestComponent } from 'components'
 
 if (Platform.OS === 'web') window.model = model
 
@@ -19,8 +16,6 @@ init({ baseUrl: BASE_URL, orm })
 
 export default observer(() => {
   return pug`
-    App(
-      apps={main}
-    )
+    TestComponent
   `
 })
