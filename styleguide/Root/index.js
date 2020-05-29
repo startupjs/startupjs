@@ -12,6 +12,7 @@ import { Platform } from 'react-native'
 
 // Frontend micro-services
 import * as main from '../main'
+import docs from '../docs'
 
 if (Platform.OS === 'web') window.model = model
 
@@ -23,9 +24,7 @@ init({ baseUrl: BASE_URL, orm })
 
 export default observer(() => {
   return pug`
-    App(
-      apps={main}
-    )
+    App(apps={main, docs})
   `
 })
 
