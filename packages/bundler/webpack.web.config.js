@@ -94,6 +94,27 @@ module.exports = function getConfig (env, {
         maxAsyncRequests: Infinity,
         minSize: 0,
         cacheGroups: {
+          config: {
+            chunks: 'async',
+            test: /[\\/](startupjs|ui)[.\\/].*config/,
+            name (module) {
+              return 'startupjs.config'
+            }
+          },
+          components: {
+            chunks: 'async',
+            test: /[\\/]components[\\/][^\\/]+[\\/].*\.(jsx?|styl)$/,
+            name (module) {
+              const match = module.context.match(/[\\/]components[\\/]([^\\/]+)(?:[\\/]|$)([^\\/]+)?/)
+              const [, first, second] = match
+              // support components within grouping folders, for example 'components/forms/Input'
+              if (/^[a-z]/.test(first) && second) {
+                return `component.${first}.${second}`
+              } else {
+                return `component.${first}`
+              }
+            }
+          },
           vendor: {
             chunks: 'async',
             test: /[\\/]node_modules[\\/]/,
@@ -119,34 +140,6 @@ module.exports = function getConfig (env, {
             name (module) {
               const docName = module.resource.match(/[\\/]([^\\/]+)\.mdx$/)[1]
               return `mdx.${docName}`
-            }
-          },
-          ui: {
-            chunks: 'async',
-            test: /[\\/]ui[\\/]config[\\/]/,
-            name (module) {
-              return 'startupjs.ui.config'
-            }
-          },
-          config: {
-            chunks: 'async',
-            test: /startupjs\.config\.js$/,
-            name (module) {
-              return 'startupjs.config'
-            }
-          },
-          components: {
-            chunks: 'async',
-            test: /[\\/]components[\\/][^\\/]+[\\/].*\.(jsx?|styl)$/,
-            name (module) {
-              const match = module.context.match(/[\\/]components[\\/]([^\\/]+)(?:[\\/]|$)([^\\/]+)?/)
-              const [, first, second] = match
-              // support components within grouping folders, for example 'components/forms/Input'
-              if (/^[a-z]/.test(first) && second) {
-                return `component.${first}.${second}`
-              } else {
-                return `component.${first}`
-              }
             }
           },
           packages: {
