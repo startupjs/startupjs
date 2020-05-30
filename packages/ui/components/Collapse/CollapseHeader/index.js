@@ -5,7 +5,7 @@ import propTypes from 'prop-types'
 import Div from './../../Div'
 import Row from './../../Row'
 import Icon from './../../Icon'
-import Span from './../../Typography/Span'
+import Span from './../../typography/Span'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 

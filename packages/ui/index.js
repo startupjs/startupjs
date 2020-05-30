@@ -1,3 +1,7 @@
+// IMPORTANT: This file exports should match the logic of the script
+//            '/scripts/babel/createModuleMap.js', which auto-generates
+//            full module import paths for tree-shaking to be used by
+//            the 'babel-plugin-startupjs'
 export { default as Alert } from './components/Alert'
 export { default as Avatar } from './components/Avatar'
 export { default as Br } from './components/Br'
@@ -23,7 +27,9 @@ export { default as Row } from './components/Row'
 export { default as Sidebar } from './components/Sidebar'
 export { default as SmartSidebar } from './components/SmartSidebar'
 export { default as Tag } from './components/Tag'
-export * from './components/Typography'
+export * from './components/typography'
 export { default as User } from './components/User'
 export * from './components/forms'
-export { ThemeProvider, default as themed } from './config/themed'
+export { default as themed } from './theming/themed'
+export { default as ThemeProvider } from './theming/ThemeProvider'
+export { default as ThemeContext } from './theming/ThemeContext'

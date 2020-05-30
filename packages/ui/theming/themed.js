@@ -1,14 +1,5 @@
 import React, { useContext } from 'react'
-import propTypes from 'prop-types'
-
-const ThemeContext = React.createContext()
-
-const ThemeProvider = ThemeContext.Provider
-ThemeProvider.propTypes = {
-  value: propTypes.string
-}
-
-export { ThemeProvider }
+import ThemeContext from './ThemeContext'
 
 // TODO: Move themed inside react-sharedb's observer()
 export default function themed (Component) {

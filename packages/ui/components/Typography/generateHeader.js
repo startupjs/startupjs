@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import { Platform } from 'react-native'
-import Span from './../Span'
+import Span from './Span'
 
-function generateTag (tag) {
+export default function generateHeader (tag) {
   const header = observer(
     ({ children, style, ...props }) => {
       const isWeb = Platform.OS === 'web'
@@ -34,10 +34,3 @@ function generateTag (tag) {
 
   return header
 }
-
-export const H1 = generateTag('h1')
-export const H2 = generateTag('h2')
-export const H3 = generateTag('h3')
-export const H4 = generateTag('h4')
-export const H5 = generateTag('h5')
-export const H6 = generateTag('h6')

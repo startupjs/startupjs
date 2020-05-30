@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { ScrollView } from 'react-native'
-import Span from './../../Typography/Span'
+import Span from './../../typography/Span'
 import './index.styl'
 
 function ModalContent ({
