@@ -22,7 +22,6 @@ const DEPENDENCIES = [
 ]
 
 const DEV_DEPENDENCIES = [
-  '@hot-loader/react-dom',
   'babel-eslint',
   'eslint-config-standard',
   'eslint-config-standard-react',

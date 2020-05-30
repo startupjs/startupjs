@@ -41,7 +41,6 @@
     "startupjs": "^0.22.0-alpha.27"
   },
   "devDependencies": {
-    "@hot-loader/react-dom": "^16.11.0",
     "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
     "react-test-renderer": "16.9.0"

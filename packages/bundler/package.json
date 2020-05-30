@@ -44,9 +44,6 @@
     "terser-webpack-plugin": "^1.1.0",
     "webpack-node-externals": "^1.7.2"
   },
-  "devDependencies": {
-    "@hot-loader/react-dom": "*"
-  },
   "peerDependencies": {
     "metro-config": "*",
     "react-native-svg": ">= 9.13.6"
