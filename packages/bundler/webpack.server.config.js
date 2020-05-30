@@ -10,6 +10,7 @@ const EXTENSIONS = ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
   'startupjs/init',
+  'startupjs/app',
   '@startupjs/init/src',
   '@startupjs/app/server'
 ]

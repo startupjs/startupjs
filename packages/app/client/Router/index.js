@@ -55,7 +55,7 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
   const Layout = app ? apps[app] : null
 
   if (!Layout) {
-    console.error('App not found')
+    console.error(`[@startupjs/app] Layout not found in '${app}' app`)
     return null
   }
 
@@ -104,7 +104,6 @@ function initRoute (location, routes, goTo) {
   const search = location.search
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
   if (url === prevUrl && search === prevSearch) return
-  if (!$root.get('$render')) initLocalCollection('$render')
   $root.setDiff('$render.url', url)
   $root.setDiff('$render.search', search)
   $root.setDiffDeep('$render.query', query)

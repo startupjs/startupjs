@@ -13,7 +13,7 @@ function Menu ({
   activeBorder,
   iconPosition
 }) {
-  const content = React.Children.map(children, (child, index) => {
+  const content = React.Children.toArray(children).map((child, index) => {
     if (child.type === MenuItem) {
       return React.cloneElement(child, { activeBorder, iconPosition })
     }

@@ -3,6 +3,7 @@ import orm from '../model'
 import startupjsServer from 'startupjs/server'
 import api from './api'
 import getMainRoutes from '../main/routes'
+import { initApp } from 'startupjs/app/server'
 
 // Init startupjs ORM.
 init({ orm })
@@ -13,10 +14,8 @@ startupjsServer({
   appRoutes: [
     ...getMainRoutes()
   ]
-}, ee => {
-  ee.on('routes', expressApp => {
-    expressApp.use('/api', api)
-  })
+}, (ee, options) => {
+  initApp(ee)
 })
 
 function getHead (appName) {
