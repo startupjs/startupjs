@@ -4,14 +4,14 @@
     "access": "public"
   },
   "description": "MDX documentation generator",
-  "version": "0.22.0-alpha.32",
+  "version": "0.22.0-alpha.33",
   "main": "index.js",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@startupjs/mdx": "^0.22.0-alpha.30",
-    "@startupjs/ui": "^0.22.0-alpha.30",
+    "@startupjs/mdx": "^0.22.0-alpha.33",
+    "@startupjs/ui": "^0.22.0-alpha.33",
     "parse-prop-types": "^0.3.0",
-    "startupjs": "^0.22.0-alpha.32"
+    "startupjs": "^0.22.0-alpha.33"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17",

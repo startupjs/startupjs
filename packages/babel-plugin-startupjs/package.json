@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-startupjs",
-  "version": "0.22.0-alpha.24",
+  "version": "0.22.0-alpha.33",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,6 @@
     "moduleMap.json",
     "README.md"
   ],
-  "dependencies": {},
   "devDependencies": {
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1"
