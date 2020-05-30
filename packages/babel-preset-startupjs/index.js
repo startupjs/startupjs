@@ -164,7 +164,9 @@ const CONFIG_SERVER = {
   plugins: []
 }
 
-module.exports = options => {
+module.exports = (api, options) => {
+  api.cache(true)
+
   const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE } = process.env
 
   // There is a bug in metro when BABEL_ENV is a string "undefined".

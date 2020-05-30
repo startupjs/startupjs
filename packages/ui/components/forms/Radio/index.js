@@ -27,7 +27,7 @@ const Radio = function ({
   let _children
 
   if (Array.isArray(children)) {
-    _children = React.Children.map(children, (child) => {
+    _children = React.Children.toArray(children).map((child) => {
       const { value: _value } = child.props
       const _child = React.cloneElement(
         child,

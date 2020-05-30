@@ -8,6 +8,9 @@ _headerSizes = {
 }
 
 font(key = m)
+  // Workaround global built-in function s()
+  // http://stylus-lang.com/docs/bifs.html#sfmt-
+  key = 's' if key is s
   size = _headerSizes[key] || key
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]

@@ -69,7 +69,7 @@ const SCRIPTS = {
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
   android: 'react-native run-android && (npm run adb || true) && npm run log-android',
-  'android-release': 'react-native run-android --configuration Release',
+  'android-release': 'react-native run-android --variant Release',
   ios: 'react-native run-ios',
   'ios-release': 'react-native run-ios --configuration Release',
   build: 'startupjs build',

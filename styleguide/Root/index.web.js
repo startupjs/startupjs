@@ -1,4 +1,4 @@
 /* @asyncImports */
-import App from './App'
+import Root from './index.js'
 
-export default App
+export default Root

@@ -1,15 +1,34 @@
-import React, { Suspense } from 'react'
+import React, { useMemo, Suspense } from 'react'
 import { Platform } from 'react-native'
 import Router from './Router'
-import { useLocal, observer, useDoc } from 'startupjs'
+import { useLocal, observer, useDoc, useModel, useSession, useApi } from 'startupjs'
 import { Blocked, UpdateApp } from './components'
 import useMediaUpdate from './helpers/useMediaUpdate'
 import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
 import decodeUriComponent from 'decode-uri-component'
+import axios from 'axios'
 
 const OS = Platform.OS
 const routesGlobal = []
+
+function useGlobalInitBase (cb) {
+  const [serverSession] = useApi(getServerSession, [])
+  const $session = useModel('_session')
+
+  // Initialize _session on mobile
+  useMemo(() => serverSession && $session.setEach(serverSession), [])
+
+  const [userId] = useSession('userId')
+  const [, $user] = useDoc('users', userId || '_DUMMY_')
+
+  useMemo(() => {
+    // reference self to '_session.user' for easier access
+    $session.ref('user', $user)
+  }, [])
+
+  cb && cb()
+}
 
 export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
@@ -21,35 +40,17 @@ export function pathFor (name, options) {
 
 const App = observer(function AppComponent ({
   apps,
-  supportEmail,
   criticalVersion,
-  iosUpdateLink,
-  androidUpdateLink,
+  useGlobalInit,
   ...props
 }) {
   // Dynamically update @media queries in CSS whenever window width changes
   useMediaUpdate()
 
-  const [version] = useDoc('service', 'version')
-  const availableCriticalVersion =
-    version &&
-    version.criticalVersion &&
-    version.criticalVersion[OS]
-  const currentCriticalVersion =
-    criticalVersion &&
-    criticalVersion[OS]
+  useGlobalInitBase(useGlobalInit)
 
-  if (
-    currentCriticalVersion && availableCriticalVersion &&
-    currentCriticalVersion < availableCriticalVersion
-  ) {
-    return pug`
-      UpdateApp(
-        iosLink=iosUpdateLink
-        androidLink=androidUpdateLink
-      )
-    `
-  }
+  if (useCheckCriticalVersion(criticalVersion)) return pug`UpdateApp`
+
   const [user] = useLocal('_session.user')
   const roots = {}
   const routes = []
@@ -69,7 +70,7 @@ const App = observer(function AppComponent ({
 
   return pug`
     if user && user.blocked
-      Blocked(email=supportEmail)
+      Blocked
     else
       Suspense(fallback=null)
         Router(
@@ -81,3 +82,21 @@ const App = observer(function AppComponent ({
 })
 
 export default App
+
+function useCheckCriticalVersion (currentVersion) {
+  const [newVersion] = useSession('criticalVersion')
+  const newOsVersion = newVersion && newVersion[OS]
+  const currentOsVersion = currentVersion && currentVersion[OS]
+
+  return (currentOsVersion && newOsVersion && currentOsVersion < newOsVersion)
+}
+
+async function getServerSession () {
+  let res
+  try {
+    res = await axios.get('/api/serverSession')
+  } catch {
+    throw Error('[@dmapper/app] Error retrieving _session from server')
+  }
+  return res.data
+}
