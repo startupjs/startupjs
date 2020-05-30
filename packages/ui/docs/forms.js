@@ -1,3 +1,11 @@
+/* @asyncImports */
+import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'
+import InputEn from '../components/forms/Input/Input.en.mdx'
+import ObjectInputEn from '../components/forms/ObjectInput/ObjectInput.en.mdx'
+import RadioEn from '../components/forms/Radio/Radio.en.mdx'
+import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
+import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
+
 export default {
   type: 'collapse',
   title: {
@@ -8,29 +16,29 @@ export default {
     Checkbox: {
       type: 'mdx',
       title: 'Checkbox',
-      component: require('../components/forms/Checkbox/Checkbox.en.mdx').default
+      component: CheckboxEn
     },
     Input: {
       type: 'mdx',
       title: 'Input',
-      component: require('../components/forms/Input/Input.en.mdx').default
+      component: InputEn
     },
     ObjectInput: {
       type: 'mdx',
       title: 'ObjectInput',
-      component: require('../components/forms/ObjectInput/ObjectInput.en.mdx').default
+      component: ObjectInputEn
     },
     Radio: {
       type: 'mdx',
       title: 'Radio',
-      component: require('../components/forms/Radio/Radio.en.mdx').default
+      component: RadioEn
     },
     TextInput: {
       type: 'mdx',
       title: 'TextInput',
       component: {
-        en: require('../components/forms/TextInput/TextInput.en.mdx').default,
-        ru: require('../components/forms/TextInput/TextInput.ru.mdx').default
+        en: TextInputEn,
+        ru: TextInputRu
       }
     }
   }

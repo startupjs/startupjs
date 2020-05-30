@@ -1,7 +1,4 @@
-import { hot } from 'react-hot-loader/root'
+/* @asyncImports */
 import Root from './index.js'
 
-// Connect hot-reloading for web.
-// It will detect production usage and won't have any effect,
-// so it's fine to have it in the main source code.
-export default hot(Root)
+export default Root

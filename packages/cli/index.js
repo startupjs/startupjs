@@ -16,15 +16,12 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react',
   'react-dom',
-  // Add hot-loading for web. It has to match the same version in 'bundler' and 'babel-preset-startupjs'
-  'react-hot-loader@^4.12.13',
   'axios', // For making AJAX requests
   'patch-package',
   'postinstall-postinstall'
 ]
 
 const DEV_DEPENDENCIES = [
-  '@hot-loader/react-dom',
   'babel-eslint',
   'eslint-config-standard',
   'eslint-config-standard-react',

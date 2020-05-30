@@ -1,6 +1,7 @@
 {
   "name": "@startupjs/styleguide",
   "version": "0.22.0-alpha.32",
+  "sideEffects": [],
   "private": true,
   "scripts": {
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",
@@ -31,7 +32,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-hot-loader": "^4.12.18",
     "react-native": "0.61.5",
     "react-native-code-push": "^5.7.0",
     "react-native-collapsible": "1.5.2",
@@ -41,7 +41,6 @@
     "startupjs": "^0.22.0-alpha.32"
   },
   "devDependencies": {
-    "@hot-loader/react-dom": "^16.11.0",
     "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
     "react-test-renderer": "16.9.0"
