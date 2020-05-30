@@ -1,6 +1,7 @@
 {
   "name": "@startupjs/styleguide",
   "version": "0.22.0-alpha.27",
+  "sideEffects": [],
   "private": true,
   "scripts": {
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",

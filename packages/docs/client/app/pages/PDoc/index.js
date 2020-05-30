@@ -38,7 +38,7 @@ export default observer(function PDoc ({
 function getComponent (item, lang) {
   if (!item) return
   if (!item.component) return
-  if (typeof item.component === 'function') return item.component
   if (item.component[lang]) return item.component[lang]
-  return item.component[DEFAULT_LANGUAGE]
+  if (item.component[DEFAULT_LANGUAGE]) return item.component[DEFAULT_LANGUAGE]
+  return item.component
 }

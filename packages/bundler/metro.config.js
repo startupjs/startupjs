@@ -1,5 +1,7 @@
 const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
 
+const EXTENSIONS = ['js', 'jsx', 'mjs', 'cjs', 'ts', 'tsx', 'md', 'mdx', 'css', 'styl', 'svg']
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -12,16 +14,6 @@ module.exports = {
   },
   resolver: {
     assetExts: defaultAssetExts.filter(ext => ext !== 'svg'),
-    sourceExts: [
-      'js',
-      'jsx',
-      'ts',
-      'tsx',
-      'md',
-      'mdx',
-      'css',
-      'styl',
-      'svg'
-    ]
+    sourceExts: EXTENSIONS
   }
 }

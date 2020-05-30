@@ -112,9 +112,14 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     }]
   ],
   plugins: [
+    ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlugin()
-  ]
+  ].filter(Boolean)
+}
+
+if (ASYNC) {
+  CONFIG_WEB_UNIVERSAL_PRODUCTION.sourceType = 'unambiguous'
 }
 
 // web config for a pure web project. Uses babel-plugin-react-css-modules for CSS which allows
@@ -166,11 +171,12 @@ module.exports = options => {
   // We have to workaround it and use NODE_ENV.
   const env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
 
-  const { presets = [], plugins = [] } = getConfig(env, MODE)
+  const { presets = [], plugins = [], ...extra } = getConfig(env, MODE)
 
   return {
     presets,
-    plugins: basePlugins(options).concat(plugins)
+    plugins: basePlugins(options).concat(plugins),
+    ...extra
   }
 }
 

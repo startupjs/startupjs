@@ -38,8 +38,7 @@ try {
 const ASYNC = process.env.ASYNC
 if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 
-const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
-const ASYNC_EXTENSIONS = EXTENSIONS.map(i => '.async' + i)
+const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
   '@startupjs/init/src',
@@ -106,13 +105,51 @@ module.exports = function getConfig (env, {
               return `npm.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
           },
-          components: {
+          root: {
+            chunks: 'async',
+            test: /[\\/]Root[\\/]/,
+            name (module) {
+              return 'root'
+            }
+          },
+          mdx: {
             chunks: 'async',
             minChunks: 1,
-            test: /[\\/]components[\\/][^\\/]+[\\/]/,
+            test: /\.mdx$/,
+            name (module) {
+              const docName = module.resource.match(/[\\/]([^\\/]+)\.mdx$/)[1]
+              return `mdx.${docName}`
+            }
+          },
+          ui: {
+            chunks: 'async',
+            test: /[\\/]ui[\\/]config[\\/]/,
+            name (module) {
+              return 'startupjs.ui.config'
+            }
+          },
+          config: {
+            chunks: 'async',
+            test: /startupjs\.config\.js$/,
+            name (module) {
+              return 'startupjs.config'
+            }
+          },
+          components: {
+            chunks: 'async',
+            test: /[\\/]components[\\/][^\\/]+[\\/].*\.(jsx?|styl)$/,
             name (module) {
               const componentName = module.context.match(/[\\/]components[\\/](.*?)([\\/]|$)/)[1]
               return `component.${componentName}`
+            }
+          },
+          packages: {
+            chunks: 'async',
+            test: /[\\/]packages[\\/](?!ui\/(?:components|config)\/)/,
+            name (module) {
+              const packageName = module.context.match(/[\\/]packages[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              // npm package names are URL-safe, but some servers don't like @ symbols
+              return `package.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
           }
         }
@@ -146,7 +183,7 @@ module.exports = function getConfig (env, {
           exclude: /node_modules/
         }),
         Object.assign(getJsxRule(), {
-          include: new RegExp(`node_modules/(?:react-native-|${forceCompileModules.join('|')})`)
+          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`)
         }),
         {
           test: /\.mdx$/,
@@ -262,7 +299,7 @@ module.exports = function getConfig (env, {
         ...DEFAULT_ALIAS,
         ...alias
       },
-      extensions: ASYNC ? ASYNC_EXTENSIONS.concat(EXTENSIONS) : EXTENSIONS,
+      extensions: EXTENSIONS,
       mainFields: ['jsnext:main', 'browser', 'main']
     },
     devServer: {

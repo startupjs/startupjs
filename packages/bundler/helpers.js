@@ -1,5 +1,5 @@
 exports.getJsxRule = () => ({
-  test: /\.[jt]sx?$/,
+  test: /\.[jtmc]sx?$/,
   loader: 'babel-loader',
   options: {
     babelrc: false,

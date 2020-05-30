@@ -6,6 +6,8 @@ const PROD = !process.env.WEBPACK_DEV
 const BUILD_DIR = '/build/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 
+const EXTENSIONS = ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.js', '.jsx', '.mjs', '.cjs', '.ts', '.tsx', '.json']
+
 const DEFAULT_FORCE_COMPILE_MODULES = [
   'startupjs/init',
   '@startupjs/init/src',
@@ -60,7 +62,7 @@ module.exports = function getConfig (env, {
       ]
     },
     resolve: {
-      extensions: ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      extensions: EXTENSIONS,
       alias: {
         ...DEFAULT_ALIAS,
         ...alias

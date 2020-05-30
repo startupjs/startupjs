@@ -1,3 +1,7 @@
+/* @asyncImports */
+import TypographyEn from '../components/Typography/Typography.en.mdx'
+import TypographyRu from '../components/Typography/Typography.ru.mdx'
+
 export default {
   type: 'mdx',
   title: {
@@ -5,7 +9,7 @@ export default {
     ru: 'Типографика'
   },
   component: {
-    en: require('../components/Typography/Typography.en.mdx').default,
-    ru: require('../components/Typography/Typography.ru.mdx').default
+    en: TypographyEn,
+    ru: TypographyRu
   }
 }
