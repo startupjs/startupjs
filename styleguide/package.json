@@ -17,7 +17,7 @@
     "log-android": "hash ccze 2>/dev/null && npm run log-android-color || (echo \"WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze\" && react-native log-android)",
     "android-release": "react-native run-android --variant=release",
     "ios-release": "react-native run-ios --simulator \"iPhone 8\" --configuration Release",
-    "build": "startupjs build",
+    "build": "ASYNC=1 startupjs build",
     "start-production": "startupjs start-production"
   },
   "dependencies": {
