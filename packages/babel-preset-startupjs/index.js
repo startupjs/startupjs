@@ -112,6 +112,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     }]
   ],
   plugins: [
+    ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlugin()

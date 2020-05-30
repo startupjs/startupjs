@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Platform } from 'react-native'
 import Div from './../Div'
-import Span from './../Typography/Span'
+import Span from './../typography/Span'
 import { useHistory } from 'react-router-native'
 import './index.styl'
 

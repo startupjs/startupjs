@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { Text } from 'react-native'
-import themed from '../../../config/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function Span ({

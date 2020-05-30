@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import Span from './../../Typography/Span'
+import Span from './../../typography/Span'
 import propTypes from 'prop-types'
 import './index.styl'
 

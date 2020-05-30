@@ -1,7 +1,7 @@
 import React, { useMemo, Suspense } from 'react'
 import { Platform } from 'react-native'
 import Router from './Router'
-import { useLocal, observer, useDoc, useModel, useSession, useApi } from 'startupjs'
+import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
 import { Blocked, UpdateApp } from './components'
 import useMediaUpdate from './helpers/useMediaUpdate'
 import _find from 'lodash/find'
@@ -12,12 +12,13 @@ import axios from 'axios'
 const OS = Platform.OS
 const routesGlobal = []
 
-function useGlobalInitBase (cb) {
-  const [serverSession] = useApi(getServerSession, [])
-  const $session = useModel('_session')
+// Guarantee that we don't send duplicate init session requests to the server
+let sessionInitialized = false
 
-  // Initialize _session on mobile
-  useMemo(() => serverSession && $session.setEach(serverSession), [])
+function useGlobalInitBase (cb) {
+  useApi('_session.__initialized', initServerSession, [])
+
+  const $session = useModel('_session')
 
   const [userId] = useSession('userId')
   const [, $user] = useDoc('users', userId || '_DUMMY_')
@@ -91,12 +92,14 @@ function useCheckCriticalVersion (currentVersion) {
   return (currentOsVersion && newOsVersion && currentOsVersion < newOsVersion)
 }
 
-async function getServerSession () {
-  let res
+async function initServerSession () {
+  if (sessionInitialized) return true
   try {
-    res = await axios.get('/api/serverSession')
+    const res = await axios.get('/api/serverSession')
+    sessionInitialized = true
+    $root.setEach('_session', res.data)
   } catch {
     throw Error('[@dmapper/app] Error retrieving _session from server')
   }
-  return res.data
+  return true
 }

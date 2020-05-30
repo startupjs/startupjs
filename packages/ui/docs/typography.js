@@ -1,6 +1,6 @@
 /* @asyncImports */
-import TypographyEn from '../components/Typography/Typography.en.mdx'
-import TypographyRu from '../components/Typography/Typography.ru.mdx'
+import TypographyEn from '../components/typography/Typography.en.mdx'
+import TypographyRu from '../components/typography/Typography.ru.mdx'
 
 export default {
   type: 'mdx',

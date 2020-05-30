@@ -4,7 +4,7 @@ import { observer, useDidUpdate } from 'startupjs'
 import config from '../../../config/rootConfig'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
-import InputWrapper from '../InputWrapper'
+import InputWrapper from '../_helpers/InputWrapper'
 import './index.styl'
 
 const AnimatedView = Animated.View

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-startupjs Doesn't touch grep imports: Doesn't touch grep imports 1`] = `
+
+import * as UI from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import * as UI from "@startupjs/ui/index";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Doesn't touch unknown imports: Doesn't touch unknown imports 1`] = `
+
+import { Button, UnknownComponent } from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import Button from "@startupjs/ui/components/Button";
+import { UnknownComponent } from "@startupjs/ui/index";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Ignores imports of other libs: Ignores imports of other libs 1`] = `
+
+import { observer } from 'startupjs'
+import App from 'startupjs/app'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+import App from "startupjs/app";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms export: Transforms export 1`] = `
+
+export { observer } from 'startupjs'
+export { Button, UnknownComponent, Span, TextInput } from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export { observer } from "startupjs";
+export { default as Button } from "@startupjs/ui/components/Button";
+export { UnknownComponent } from "@startupjs/ui/index";
+export { default as Span } from "@startupjs/ui/components/typography/Span";
+export { default as TextInput } from "@startupjs/ui/components/forms/TextInput";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms known import from moduleMap.json: Transforms known import from moduleMap.json 1`] = `
+
+import { Button } from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import Button from "@startupjs/ui/components/Button";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms multiple imports: Transforms multiple imports 1`] = `
+
+import { Button, Span, TextInput, Collapse } from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import Button from "@startupjs/ui/components/Button";
+import Span from "@startupjs/ui/components/typography/Span";
+import TextInput from "@startupjs/ui/components/forms/TextInput";
+import Collapse from "@startupjs/ui/components/Collapse";
+
+
+`;

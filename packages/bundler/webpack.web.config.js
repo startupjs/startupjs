@@ -139,8 +139,14 @@ module.exports = function getConfig (env, {
             chunks: 'async',
             test: /[\\/]components[\\/][^\\/]+[\\/].*\.(jsx?|styl)$/,
             name (module) {
-              const componentName = module.context.match(/[\\/]components[\\/](.*?)([\\/]|$)/)[1]
-              return `component.${componentName}`
+              const match = module.context.match(/[\\/]components[\\/]([^\\/]+)(?:[\\/]|$)([^\\/]+)?/)
+              const [, first, second] = match
+              // support components within grouping folders, for example 'components/forms/Input'
+              if (/^[a-z]/.test(first) && second) {
+                return `component.${first}.${second}`
+              } else {
+                return `component.${first}`
+              }
             }
           },
           packages: {
