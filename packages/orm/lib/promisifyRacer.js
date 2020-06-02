@@ -78,7 +78,7 @@ module.exports = function () {
 
 function optionalPromisify (originalFn) {
   return function optionalPromisifier (...args) {
-    if (args[args.length - 1] === 'function') {
+    if (typeof args[args.length - 1] === 'function') {
       return originalFn.apply(this, args)
     } else {
       return new Promise((resolve, reject) => {
