@@ -86,7 +86,7 @@ module.exports = function (babel) {
       if (expressions.length > 1) {
         styleName.node.value = t.arrayExpression(expressions)
       } else {
-        styleName.node.value = expressions[0]
+        styleName.node.value = t.jsxExpressionContainer(expressions[0])
       }
       styleName.node.name.name = convertedName
     }
