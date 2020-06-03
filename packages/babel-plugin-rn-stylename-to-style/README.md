@@ -93,11 +93,14 @@ You must give one or more file extensions inside an array in the plugin options.
   ],
   "plugins": [
     ["react-native-dynamic-stylename-to-style", {
-      "extensions": ["css"]
+      "extensions": ["css"],
+      "modules": false
     }]
   ]
 }
 ```
+
+If you want the plugin to generate `import` instead of `require`, set `"module": true`
 
 ## Syntax
 

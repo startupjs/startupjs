@@ -38,6 +38,13 @@ module.exports = function (babel) {
     return t.variableDeclaration('var', [d])
   }
 
+  function generateImport (name) {
+    return t.importDeclaration(
+      [t.importSpecifier(name, t.identifier('process'))],
+      t.stringLiteral(PROCESS_PATH)
+    )
+  }
+
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
     const obj = specifier.local.name
@@ -114,8 +121,12 @@ module.exports = function (babel) {
             .filter(p => p.isImportDeclaration() || isRequire(p.node))
             .pop()
 
+          const modulesMode = state.opts && state.opts.modules
+
           if (lastImportOrRequire) {
-            lastImportOrRequire.insertAfter(generateRequire(state.reqName))
+            lastImportOrRequire.insertAfter(
+              modulesMode ? generateImport(state.reqName) : generateRequire(state.reqName)
+            )
           }
         }
       },

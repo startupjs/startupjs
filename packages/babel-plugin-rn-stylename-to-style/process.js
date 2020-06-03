@@ -1,4 +1,4 @@
-var rnProcess = require('react-native-dynamic-style-processor').process
+const { process } = require('react-native-dynamic-style-processor/src')
 var dimensions = require('./dimensions')
 
 var isArray = Array.isArray || function (arg) {
@@ -14,7 +14,7 @@ exports.process = function processStyleName (styleName, cssStyles) {
   // eslint-disable-next-line no-unused-expressions
   if (hasMedia(cssStyles)) dimensions.width
 
-  cssStyles = rnProcess(cssStyles)
+  cssStyles = process(cssStyles)
 
   // Process styleName through the `classnames`-like function.
   // This allows to specify styleName as an array or an object,
