@@ -1,12 +1,15 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import {
   $root,
   observer,
-  emit
+  emit,
+  initLocalCollection
 } from 'startupjs'
 import { Route } from 'react-router'
+import { matchRoutes } from 'react-router-config'
 import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
+import qs from 'qs'
 
 export default observer(function Routes ({
   routes,
@@ -14,10 +17,14 @@ export default observer(function Routes ({
   ...props
 }) {
   function render (route, props) {
+    if (route.redirect) {
+      emit('url', route.redirect, { replace: true })
+      return null
+    }
     return pug`
       //- TODO: We can remove passing props because
       //- in pages we can use react-router hooks for this
-      RouteComponent(...props route=route onError=onRouteError)
+      RouteComponent(...props route=route routes=routes onError=onRouteError)
     `
   }
 
@@ -39,6 +46,7 @@ export default observer(function Routes ({
 
 const RouteComponent = observer(function RCComponent ({
   route,
+  location,
   onError,
   ...props
 }) {
@@ -60,9 +68,10 @@ const RouteComponent = observer(function RCComponent ({
     runFilter()
   }
 
-  useMemo(() => {
+  useLayoutEffect(() => {
+    initRoute(location, props.routes, route)
     runFilters(route.filters)
-  }, [])
+  }, [location.pathname])
 
   if (!render) return null
 
@@ -80,3 +89,28 @@ const RouteComponent = observer(function RCComponent ({
     )
   `
 })
+
+function initRoute (location, routes, route) {
+  // Check if url or search changed between page rerenderings
+  const prevUrl = $root.get('$render.url')
+  const prevSearch = $root.get('$render.search')
+  const url = location.pathname
+  const search = location.search
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true })
+  if (url === prevUrl && search === prevSearch) return
+  $root.setDiff('$render.url', url)
+  $root.setDiff('$render.search', search)
+  $root.setDiffDeep('$render.query', query)
+
+  if (url !== prevUrl) {
+    const matched = matchRoutes(routes, url)
+    if (matched.length) {
+      const lastRoute = matched[matched.length - 1]
+
+      $root.setDiffDeep('$render.params', lastRoute.match.params)
+    }
+    $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
+    $root.silent().destroy('_page')
+    initLocalCollection('_page')
+  }
+}

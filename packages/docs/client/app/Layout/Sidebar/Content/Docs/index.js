@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { observer, useLocal, useSession } from 'startupjs'
+import { observer, useLocal, useSession, $root } from 'startupjs'
 import { Menu, Collapse } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
@@ -13,7 +13,7 @@ const Docs = observer(function DocsComponent ({
   children
 }) {
   if (!docs) return null
-  const [url] = useLocal('$render.url')
+  const [url = ''] = useLocal('$render.url')
   const [, $openedCollapses] = useSession('SidebarCollapses')
 
   // HACK: open parent collapse
