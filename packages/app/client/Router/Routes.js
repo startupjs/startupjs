@@ -24,7 +24,7 @@ export default observer(function Routes ({
     return pug`
       //- TODO: We can remove passing props because
       //- in pages we can use react-router hooks for this
-      RouteComponent(...props route=route routes=routes onError=onRouteError)
+      RouteComponent(...props route=route onError=onRouteError)
     `
   }
 
@@ -47,6 +47,7 @@ export default observer(function Routes ({
 const RouteComponent = observer(function RCComponent ({
   route,
   location,
+  match,
   onError,
   ...props
 }) {
@@ -69,7 +70,7 @@ const RouteComponent = observer(function RCComponent ({
   }
 
   useLayoutEffect(() => {
-    initRoute(location, props.routes, route)
+    initRoute(location, match.params)
     runFilters(route.filters)
   }, [location.pathname])
 
@@ -83,14 +84,14 @@ const RouteComponent = observer(function RCComponent ({
 
   return pug`
     RC(
-      key=props.match.url
+      key=match.url
       params=route.params
       ...props
     )
   `
 })
 
-function initRoute (location, routes, route) {
+function initRoute (location, routeParams) {
   // Check if url or search changed between page rerenderings
   const prevUrl = $root.get('$render.url')
   const prevSearch = $root.get('$render.search')
@@ -103,12 +104,7 @@ function initRoute (location, routes, route) {
   $root.setDiffDeep('$render.query', query)
 
   if (url !== prevUrl) {
-    const matched = matchRoutes(routes, url)
-    if (matched.length) {
-      const lastRoute = matched[matched.length - 1]
-
-      $root.setDiffDeep('$render.params', lastRoute.match.params)
-    }
+    $root.setDiffDeep('$render.params', routeParams)
     $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
     $root.silent().destroy('_page')
     initLocalCollection('_page')
