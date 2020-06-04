@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { observer, useLocal, useSession, $root } from 'startupjs'
+import { observer, useLocal, useSession } from 'startupjs'
 import { Menu, Collapse } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
