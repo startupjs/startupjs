@@ -1,11 +1,11 @@
-const { process } = require('react-native-dynamic-style-processor/src')
-var dimensions = require('./dimensions')
+import { process as dynamicProcess } from 'react-native-dynamic-style-processor/src'
+import dimensions from './dimensions'
 
-var isArray = Array.isArray || function (arg) {
+const isArray = Array.isArray || function (arg) {
   return Object.prototype.toString.call(arg) === '[object Array]'
 }
 
-exports.process = function processStyleName (styleName, cssStyles) {
+export function process (styleName, cssStyles) {
   // If @media is used, force trigger access to the observable value.
   // Whenever that value changes the according components will
   // automatically rerender.
@@ -14,27 +14,27 @@ exports.process = function processStyleName (styleName, cssStyles) {
   // eslint-disable-next-line no-unused-expressions
   if (hasMedia(cssStyles)) dimensions.width
 
-  cssStyles = process(cssStyles)
+  cssStyles = dynamicProcess(cssStyles)
 
   // Process styleName through the `classnames`-like function.
   // This allows to specify styleName as an array or an object,
   // not just the string.
   styleName = cc(styleName)
 
-  var htmlClasses = (styleName || '').split(' ').filter(Boolean)
+  let htmlClasses = (styleName || '').split(' ').filter(Boolean)
   if (htmlClasses.length > 1) {
     htmlClasses = addMultiClasses(htmlClasses, cssStyles)
   }
-  var res = []
-  for (var i = 0; i < htmlClasses.length; i++) {
-    var htmlClass = htmlClasses[i]
+  const res = []
+  for (let i = 0; i < htmlClasses.length; i++) {
+    const htmlClass = htmlClasses[i]
     if (cssStyles[htmlClass]) res.push(cssStyles[htmlClass])
   }
   return res
 }
 
 function hasMedia (cssStyles) {
-  for (var selector in cssStyles) {
+  for (const selector in cssStyles) {
     if (/^@media/.test(selector)) {
       return true
     }
@@ -42,24 +42,24 @@ function hasMedia (cssStyles) {
 }
 
 function addMultiClasses (htmlClasses, cssStyles) {
-  var resByAmount = {}
-  var maxAmount = 0
-  for (var selector in cssStyles) {
+  const resByAmount = {}
+  let maxAmount = 0
+  for (const selector in cssStyles) {
     if (!/\./.test(selector)) continue
-    var cssClasses = selector.split('.')
+    const cssClasses = selector.split('.')
     if (arrayContainedInArray(cssClasses, htmlClasses)) {
-      var amount = cssClasses.length
+      const amount = cssClasses.length
       if (amount > maxAmount) maxAmount = amount
       if (!resByAmount[amount]) resByAmount[amount] = []
       resByAmount[amount].push(selector)
     }
   }
-  for (var j = 0; j <= maxAmount; j++) {
+  for (let j = 0; j <= maxAmount; j++) {
     if (!resByAmount[j]) continue
     htmlClasses = htmlClasses.concat(resByAmount[j])
   }
   return htmlClasses
-};
+}
 
 function arrayContainedInArray (cssClasses, htmlClasses) {
   for (var i = 0; i < cssClasses.length; i++) {
@@ -72,10 +72,10 @@ function arrayContainedInArray (cssClasses, htmlClasses) {
 // https://github.com/jorgebucaran/classcat
 
 function cc (names) {
-  var i
-  var len
-  var tmp = typeof names
-  var out = ''
+  let i
+  let len
+  let tmp = typeof names
+  let out = ''
 
   if (tmp === 'string' || tmp === 'number') return names || ''
 

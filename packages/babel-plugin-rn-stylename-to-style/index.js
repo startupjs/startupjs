@@ -29,15 +29,6 @@ module.exports = function (babel) {
     )
   }
 
-  function generateRequire (name) {
-    const require = t.callExpression(t.identifier('require'), [
-      t.stringLiteral(PROCESS_PATH)
-    ])
-    const processFn = t.memberExpression(require, t.identifier('process'))
-    const d = t.variableDeclarator(name, processFn)
-    return t.variableDeclaration('var', [d])
-  }
-
   function generateImport (name) {
     return t.importDeclaration(
       [t.importSpecifier(name, t.identifier('process'))],
@@ -121,12 +112,8 @@ module.exports = function (babel) {
             .filter(p => p.isImportDeclaration() || isRequire(p.node))
             .pop()
 
-          const modulesMode = state.opts && state.opts.modules
-
           if (lastImportOrRequire) {
-            lastImportOrRequire.insertAfter(
-              modulesMode ? generateImport(state.reqName) : generateRequire(state.reqName)
-            )
+            lastImportOrRequire.insertAfter(generateImport(state.reqName))
           }
         }
       },
