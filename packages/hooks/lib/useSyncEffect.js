@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from 'react'
 
 export default function useSyncEffect (fn, inputs) {
-  let destroy = useRef()
+  const destroy = useRef()
 
   const destroyFn = () => {
     if (destroy.current) {

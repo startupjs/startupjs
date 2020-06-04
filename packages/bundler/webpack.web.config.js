@@ -42,7 +42,6 @@ const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
   '@startupjs/init/src',
-  '@startupjs/hooks/src',
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui
