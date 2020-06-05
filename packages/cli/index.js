@@ -10,7 +10,6 @@ const STARTUPJS_VERSION = IS_ALPHA ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` :
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'source-map-support',
   'react-native-web@^0.12.0',
   'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
