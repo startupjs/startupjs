@@ -1,1 +1,1 @@
-module.exports = require('@startupjs/hooks')
+export * from '@startupjs/hooks'

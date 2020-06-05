@@ -1,1 +1,1 @@
-module.exports = require('@startupjs/init/src')
+export { default } from '@startupjs/init'

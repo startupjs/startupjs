@@ -47,15 +47,11 @@ const REMOVE_FILES = [
 ]
 
 const SCRIPTS_ORIG = {}
-SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.js'
-SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
-SCRIPTS_ORIG.serverRun = inspect => `just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ${inspect ? '--inspect' : ''} ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js`
-SCRIPTS_ORIG.serverRun.toString = () => SCRIPTS_ORIG.serverRun(false)
-SCRIPTS_ORIG.server = inspect => `concurrently -r -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun(inspect)}" "${SCRIPTS_ORIG.serverBuild}"`
-SCRIPTS_ORIG.server.toString = () => SCRIPTS_ORIG.server(false)
-SCRIPTS_ORIG.start = `concurrently -r -s first -k -n 'S,SB,W' -c black.bgWhite,black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}" "${SCRIPTS_ORIG.web}"`
-SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.server.config.js && webpack --config webpack.web.config.js'
-SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node -r source-map-support/register build/server.js'
+SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.cjs'
+SCRIPTS_ORIG.server = inspect => `nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
+SCRIPTS_ORIG.start = `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server()}" "${SCRIPTS_ORIG.web}"`
+SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.web.config.cjs'
+SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node --experimental-specifier-resolution=node server.js'
 
 const SCRIPTS = {
   start: 'startupjs start',
@@ -211,28 +207,8 @@ commander
   })
 
 commander
-  .command('server:build')
-  .description('Build server')
-  .action(async () => {
-    await execa.command(
-      SCRIPTS_ORIG.serverBuild,
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
-commander
-  .command('server:run')
-  .description('Run server')
-  .action(async () => {
-    await execa.command(
-      SCRIPTS_ORIG.serverRun,
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
-commander
   .command('build')
-  .description('Build server and web bundles')
+  .description('Build web bundles')
   .action(async () => {
     await execa.command(
       SCRIPTS_ORIG.build,

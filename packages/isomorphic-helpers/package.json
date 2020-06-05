@@ -1,5 +1,6 @@
 {
   "name": "@startupjs/isomorphic-helpers",
+  "type": "module",
   "version": "0.22.0-alpha.24",
   "description": "Helpers which can be used isomorphically on client and server",
   "main": "lib/index.js",

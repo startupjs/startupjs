@@ -23,7 +23,7 @@ function getProtocol (baseUrl) {
 function getPort (baseUrl) {
   let port = ~~(baseUrl.match(/:(\d+)/) || [])[1]
   if (!port) {
-    let protocol = getProtocol(baseUrl)
+    const protocol = getProtocol(baseUrl)
     port = protocol === 'https:' ? 443 : 80
   }
   return port

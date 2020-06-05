@@ -1,7 +1,9 @@
-const Model = require('racer').Model
-const promisifyRacer = require('./promisifyRacer')
+import racer from 'racer'
+import promisifyRacer from './promisifyRacer'
 
-module.exports = exports = function (racer) {
+const Model = racer.Model
+
+export default function (racer) {
   if (racer.orm) return
 
   racer._orm = {}
@@ -97,7 +99,7 @@ function alreadyDefinedError (pattern, alias) {
   return new Error(msg)
 }
 
-exports.ChildModel = Model.ChildModel
+export const ChildModel = Model.ChildModel
 
 function BaseModel () {
   Model.ChildModel.apply(this, arguments)
@@ -122,4 +124,4 @@ BaseModel.prototype.dereferenceSelf = function () {
   return model.scope(model._dereference(segments, true).join('.'))
 }
 
-exports.BaseModel = BaseModel
+export { BaseModel }

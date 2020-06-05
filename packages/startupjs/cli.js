@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 'use strict'
 
-var cli = require('@startupjs/cli')
-var path = require('path')
-var templatesPath = path.join(__dirname, 'templates')
+import cli from '@startupjs/cli'
+import { fileURLToPath } from 'url'
+import path, { dirname } from 'path'
 
-if (require.main === module) {
-  cli.run({ templatesPath: templatesPath })
-}
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
-module.exports = cli
+const templatesPath = path.join(__dirname, 'templates')
+
+cli.run({ templatesPath: templatesPath })

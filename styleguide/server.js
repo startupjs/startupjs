@@ -1,2 +1,1 @@
-console.log('Starting server...')
-require('./server/index')
+import './server/index.js'

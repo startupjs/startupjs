@@ -9,7 +9,7 @@ export default (ShareDB, { orm } = {}) => {
   ShareDB.types.register(richText.type)
 
   // Mokney patch rich-text to properly work with racer
-  let oldRemoteDocOnOp = RacerRemoteDoc.prototype._onOp
+  const oldRemoteDocOnOp = RacerRemoteDoc.prototype._onOp
   RacerRemoteDoc.prototype._onOp = function () {
     if (this.shareDoc.type === richText.type) return
     return oldRemoteDocOnOp.apply(this, arguments)

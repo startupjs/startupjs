@@ -1,4 +1,4 @@
-const getConfig = require('startupjs/bundler').webpackWebConfig
+const getConfig = require('startupjs/bundler.cjs').webpackWebConfig
 
 module.exports = getConfig(undefined, {
   forceCompileModules: [

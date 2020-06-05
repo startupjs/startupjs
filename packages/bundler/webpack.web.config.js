@@ -41,7 +41,6 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
-  '@startupjs/init/src',
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui

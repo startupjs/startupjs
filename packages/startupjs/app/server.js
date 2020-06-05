@@ -1,1 +1,1 @@
-module.exports = require('@startupjs/app/server')
+export * from '@startupjs/app/server'
