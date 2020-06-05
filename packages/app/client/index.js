@@ -28,7 +28,7 @@ function useGlobalInitBase (cb) {
     $session.ref('user', $user)
   }, [])
 
-  cb && cb()
+  return cb ? cb() : true
 }
 
 export function pathFor (name, options) {
@@ -48,11 +48,13 @@ const App = observer(function AppComponent ({
   // Dynamically update @media queries in CSS whenever window width changes
   useMediaUpdate()
 
-  useGlobalInitBase(useGlobalInit)
+  const isGlobalInitSuccessful = useGlobalInitBase(useGlobalInit)
 
   if (useCheckCriticalVersion(criticalVersion)) return pug`UpdateApp`
 
   const [user] = useLocal('_session.user')
+  if (!isGlobalInitSuccessful) return null
+
   const roots = {}
   const routes = []
 
@@ -99,7 +101,7 @@ async function initServerSession () {
     sessionInitialized = true
     $root.setEach('_session', res.data)
   } catch {
-    throw Error('[@dmapper/app] Error retrieving _session from server')
+    throw Error('[@startupjs/app] Error retrieving _session from server')
   }
   return true
 }
