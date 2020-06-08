@@ -1,15 +1,13 @@
 const isPlainObject = require('lodash/isPlainObject')
 const isArray = require('lodash/isArray')
 const conf = require('nconf')
-const shareDbMongo = require('sharedb-mongo')
 const shareDbAccess = require('sharedb-access')
 const racerSchema = require('racer-schema')
 const shareDbHooks = require('sharedb-hooks')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
 const redis = require('redis-url')
-const MongoClient = require('mongodb').MongoClient
-const fs = require('fs')
+const getShareMongo = require('./getShareMongo')
 
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
@@ -18,34 +16,12 @@ try {
   wsbusPubSub = require('sharedb-wsbus-pubsub')
 } catch (e) {}
 
-module.exports = (options) => {
+module.exports = async (options) => {
   // ------------------------------------------------------->     storeUse    <#
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
-  let mongoUrl = conf.get('MONGO_URL')
-  let mongo
-  if (process.env.MONGO_SSL_CERT_PATH && process.env.MONGO_SSL_KEY_PATH) {
-    let sslCert = fs.readFileSync(process.env.MONGO_SSL_CERT_PATH)
-    let sslKey = fs.readFileSync(process.env.MONGO_SSL_KEY_PATH)
-
-    mongo = shareDbMongo({
-      mongo: (callback) => {
-        MongoClient.connect(mongoUrl, {
-          server: {
-            sslKey: sslKey,
-            sslValidate: false,
-            sslCert: sslCert
-          },
-          allowAllQueries: true
-        }, callback)
-      }
-    })
-  } else {
-    mongo = shareDbMongo(mongoUrl, {
-      allowAllQueries: true
-    })
-  }
+  const shareMongo = await getShareMongo()
 
   let backend = (() => {
     // For horizontal scaling, in production, redis is required.
@@ -79,7 +55,7 @@ module.exports = (options) => {
       })
 
       return racer.createBackend({
-        db: mongo,
+        db: shareMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
@@ -90,14 +66,14 @@ module.exports = (options) => {
       let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
 
       return racer.createBackend({
-        db: mongo,
+        db: shareMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
     // For development
     } else {
       return racer.createBackend({
-        db: mongo,
+        db: shareMongo,
         extraDbs: options.extraDbs
       })
     }
@@ -133,9 +109,13 @@ module.exports = (options) => {
   })
 
   // ------------------------------------------------------->      backend       <#
-  if (options.ee != null) options.ee.emit('backend', backend)
+  if (options.ee != null) {
+    options.ee.emit('backend', backend, {
+      mongo: shareMongo.mongo
+    })
+  }
 
-  return { backend, mongo, redis }
+  return { backend, shareMongo, redis }
 }
 
 function pathQueryMongo (request, next) {

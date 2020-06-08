@@ -2,19 +2,19 @@ const http = require('http')
 const https = require('https')
 const conf = require('nconf')
 const getBackend = require('@startupjs/backend')
-let start = Date.now()
+const start = Date.now()
 let server = null
 let wsServer = null
 
-module.exports = (options) => {
+module.exports = async (options) => {
   // React apps routes
-  let appRoutes = options.appRoutes
+  const appRoutes = options.appRoutes
 
   // Init backend and all apps
-  let { backend } = getBackend(options)
+  const { backend } = await getBackend(options)
 
   // Init error handling route
-  let error = options.error(options)
+  const error = options.error(options)
 
   require('./express')(backend, appRoutes, error, options
     , ({ expressApp, upgrade, wss }) => {
@@ -32,13 +32,13 @@ module.exports = (options) => {
 
       if (options.websockets) server.on('upgrade', upgrade)
 
-      let listenServer = () => {
+      const listenServer = () => {
         server.listen(conf.get('PORT'), (err) => {
           if (err) {
             console.error('Server failed to start. Exiting...')
             return process.exit()
           }
-          let time = (Date.now() - start) / 1000
+          const time = (Date.now() - start) / 1000
           console.log('%d listening. Go to: http://localhost:%d/ in %d sec',
             process.pid, conf.get('PORT'), time)
           // ----------------------------------------------->       done       <#
