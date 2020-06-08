@@ -86,6 +86,8 @@ const RouteComponent = observer(function RCComponent ({
     RC(
       key=match.url
       params=route.params
+      match=match
+      location=location
       ...props
     )
   `
