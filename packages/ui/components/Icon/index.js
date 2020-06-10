@@ -30,13 +30,13 @@ const Icon = observer(({
 
   const _size = useMemo(() => SIZES[size] || size, [size])
   const _color = useMemo(() => {
-    if (!color) return config.colors.dark
     return colors[color] || color
   }, [color])
 
   // Pass color as part of style to allow color override from the outside
   style = StyleSheet.flatten([{ color: _color }, style])
 
+  console.log(style.color, 'color')
   if (typeof icon === 'function') {
     const CustomIcon = icon
     return pug`
@@ -59,7 +59,8 @@ const Icon = observer(({
 })
 
 Icon.defaultProps = {
-  size: 'm'
+  size: 'm',
+  color: 'dark'
 }
 
 Icon.propTypes = {
