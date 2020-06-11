@@ -36,7 +36,6 @@ const Icon = observer(({
   // Pass color as part of style to allow color override from the outside
   style = StyleSheet.flatten([{ color: _color }, style])
 
-  console.log(style.color, 'color')
   if (typeof icon === 'function') {
     const CustomIcon = icon
     return pug`

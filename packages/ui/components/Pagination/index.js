@@ -36,7 +36,7 @@ function Pagination (props) {
               disabled=disabled
               ...itemProps
             )
-              Span.page(styleName={ selected })= item.value
+              Span.page(styleName={ selected })= item.value + 1
           else if ['first', 'last', 'previous', 'next'].includes(type)
             Div.item(
               variant='highlight'
@@ -44,29 +44,26 @@ function Pagination (props) {
               disabled=disabled
               ...itemProps
             )
-              Icon(icon=ICONS[type] color=disabled ? 'darkLight' : 'dark')
+              Icon(icon=ICONS[type] color=disabled ? 'darkLighter' : 'dark')
           else if ~type.indexOf('ellipsis')
             Div.item
               Span ...
           else if type === 'status'
             Row.status(vAlign='center')
-              Span
-                = props.page
-                | &nbsp;of&nbsp;
-                = props.count
+              Span= item.value
     `
 }
 
 Pagination.defaultProps = {
   variant: 'full',
-  page: 1,
+  page: 0,
   boundaryCount: 1,
   count: 1,
   siblingCount: 1,
-  showFirstButton: true,
-  showLastButton: true,
-  hidePrevButton: false,
-  hideNextButton: false,
+  showFirstButton: false,
+  showLastButton: false,
+  showPrevButton: true,
+  showNextButton: true,
   disabled: false
 }
 
@@ -74,13 +71,13 @@ Pagination.propTypes = {
   style: propTypes.object,
   variant: propTypes.oneOf(['full', 'compact']),
   page: propTypes.number,
-  boundaryCount: propTypes.number,
+  boundaryCount: propTypes.number, // min 1
   count: propTypes.number,
-  siblingCount: propTypes.number,
+  siblingCount: propTypes.number, // min 0
   showFirstButton: propTypes.bool,
   showLastButton: propTypes.bool,
-  hidePrevButton: propTypes.bool,
-  hideNextButton: propTypes.bool,
+  showPrevButton: propTypes.bool,
+  showNextButton: propTypes.bool,
   disabled: propTypes.bool,
   onChange: propTypes.func
 }

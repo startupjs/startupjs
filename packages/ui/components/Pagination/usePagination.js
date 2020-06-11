@@ -1,15 +1,14 @@
 export default function usePagination (props = {}) {
-  console.log('usepagination')
   const {
     variant,
-    page = 1,
-    boundaryCount = 0,
-    count = 10,
+    page = 0,
+    boundaryCount = 1,
+    count = 1,
     siblingCount = 1,
     showFirstButton = false,
     showLastButton = false,
-    hidePrevButton = false,
-    hideNextButton = false,
+    showPrevButton = true,
+    showNextButton = true,
     disabled,
     onChange
   } = props
@@ -17,7 +16,7 @@ export default function usePagination (props = {}) {
   // Basic list of items to render
   let itemList = [
     ...(showFirstButton ? ['first'] : []),
-    ...(hidePrevButton ? [] : ['previous'])
+    ...(showPrevButton ? ['previous'] : [])
   ]
 
   if (variant === 'compact') {
@@ -30,18 +29,18 @@ export default function usePagination (props = {}) {
       return Array.from({ length }, (_, i) => start + i)
     }
 
-    const startPages = range(1, Math.min(boundaryCount, count))
-    const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count)
+    const startPages = range(0, Math.min(boundaryCount, count) - 1)
+    const endPages = range(Math.max(count - boundaryCount, boundaryCount), count - 1)
 
     const siblingsStart = Math.max(
       Math.min(
         // Natural start
         page - siblingCount,
         // Lower boundary when page is high
-        count - boundaryCount - siblingCount * 2 - 1
+        count - boundaryCount - siblingCount * 2 - 2
       ),
       // Greater than startPages
-      boundaryCount + 2
+      boundaryCount + 1
     )
 
     const siblingsEnd = Math.min(
@@ -49,7 +48,7 @@ export default function usePagination (props = {}) {
         // Natural end
         page + siblingCount,
         // Upper boundary when page is low
-        boundaryCount + siblingCount * 2 + 2
+        boundaryCount + siblingCount * 2 + 1
       ),
       // Less than endPages
       endPages[0] - 2
@@ -59,10 +58,10 @@ export default function usePagination (props = {}) {
 
     // Start ellipsis
     itemList.push(
-      ...(siblingsStart > boundaryCount + 2
+      ...(siblingsStart > boundaryCount + 1
         ? ['start-ellipsis']
         : boundaryCount + 1 < count - boundaryCount
-          ? [boundaryCount + 1]
+          ? [boundaryCount]
           : [])
     )
 
@@ -71,10 +70,10 @@ export default function usePagination (props = {}) {
 
     // End ellipsis
     itemList.push(
-      ...(siblingsEnd < count - boundaryCount - 1
+      ...(siblingsEnd < count - boundaryCount - 2
         ? ['end-ellipsis']
         : count - boundaryCount > boundaryCount
-          ? [count - boundaryCount]
+          ? [count - boundaryCount - 1]
           : [])
     )
 
@@ -82,7 +81,7 @@ export default function usePagination (props = {}) {
   }
 
   itemList.push(
-    ...(hideNextButton ? [] : ['next']),
+    ...(showNextButton ? ['next'] : []),
     ...(showLastButton ? ['last'] : [])
   )
 
@@ -90,13 +89,13 @@ export default function usePagination (props = {}) {
   const buttonPage = (type) => {
     switch (type) {
       case 'first':
-        return 1
+        return 0
       case 'previous':
         return page - 1
       case 'next':
         return page + 1
       case 'last':
-        return count
+        return count - 1
       default:
         return null
     }
@@ -106,7 +105,7 @@ export default function usePagination (props = {}) {
   const items = itemList.map((item) => {
     if (typeof item === 'number') {
       return {
-        onPress: (event) => { onChange(event, item) },
+        onPress: () => { onChange(item) },
         type: 'page',
         value: item,
         selected: item === page,
@@ -114,16 +113,27 @@ export default function usePagination (props = {}) {
       }
     }
 
+    if (item === 'status') {
+      return {
+        type: item,
+        value: `${page + 1} of ${count}`,
+        selected: false,
+        disabled
+      }
+    }
+
     const value = buttonPage(item)
+
+    // ???
     return {
-      onPress: (event) => { onChange(event, value) },
+      onPress: () => { value !== null && onChange(value) },
       type: item,
       value,
       selected: false,
       disabled:
         disabled ||
-        (item.indexOf('ellipsis') === -1 && item !== 'status' &&
-          (item === 'next' || item === 'last' ? page >= count : page <= 1))
+        (item.indexOf('ellipsis') === -1 &&
+          (item === 'next' || item === 'last' ? page >= count - 1 : page <= 0))
     }
   })
 

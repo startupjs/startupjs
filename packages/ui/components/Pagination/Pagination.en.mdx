@@ -1,0 +1,94 @@
+import { useState } from 'react'
+import Pagination from '../Pagination'
+import Row from '../Row'
+import { Sandbox } from '@startupjs/docs'
+
+# Pagination
+
+The Pagination component enables the user to select a specific page from a range of pages.
+
+```jsx
+import { Pagination } from '@startupjs/ui'
+```
+
+## Example
+
+- `count` specifies the total number of pages
+- `page` specifies the current page, starting from `0` to `count - 1`
+
+```jsx example
+const [page, setPage] = useState()
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      count={10}
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Buttons
+
+- `showPrevButton` displays the previous-page button, (default `true`)
+- `showNextButton` displays the next-page button (default `true`)
+- `showFirstButton` displays the first-page button (default `false`)
+- `showLastButton` displays the last-page button (default `false`)
+
+```jsx example
+const [page, setPage] = useState()
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      count={10}
+      showPrevButton={false}
+      showNextButton={false}
+      showFirstButton
+      showLastButton
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Compact view
+
+To display the component in a compact view pass `variant='compact'`.
+
+```jsx example
+const [page, setPage] = useState()
+return (
+  <Row align='center'>
+    <Pagination
+      variant='compact'
+      page={page}
+      count={10}
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Visible pages
+
+You can control the visibility of pages when component has default view (`variant='full'`).
+
+- `boundaryCount` controls the number of visible pages at the beginning and end
+- `siblingCount` controls the number of visible pages before and after the current page
+
+```jsx example
+const [page, setPage] = useState(5)
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      boundaryCount={2}
+      siblingCount={0}
+      count={10}
+      onChange={setPage}
+    />
+  </Row>
+)
+```

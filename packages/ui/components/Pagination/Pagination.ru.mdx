@@ -1,0 +1,100 @@
+import { useState } from 'react'
+import Pagination from '../Pagination'
+import Row from '../Row'
+import { Sandbox } from '@startupjs/docs'
+
+# Pagination (пагинация)
+
+Пагинация позволяет пользователю выбрать определенную страницу из диапазона страниц.
+
+```jsx
+import { Pagination } from '@startupjs/ui'
+```
+
+## Пример
+
+- `count` указывает общее количество страниц
+- `page` указывает текущую страницу, начиная с `0` и заканчивая `count - 1`
+
+```jsx example
+const [page, setPage] = useState()
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      count={10}
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+
+## Кнопки
+
+отображает кнопку для перехода на предыдущую страницу
+- `showPrevButton` отображает кнопку для перехода на предыдущую страницу (по умолчанию `true`)
+- `showNextButton` отображает кнопку для перехода на следующую страницу (по умолчанию `true`)
+- `showFirstButton` отображает кнопку для перехода на первую страницу (по умолчанию `false`)
+- `showLastButton` отображает кнопку для перехода на последнюю страницу (по умолчанию `false`)
+
+```jsx example
+const [page, setPage] = useState()
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      count={10}
+      showPrevButton={false}
+      showNextButton={false}
+      showFirstButton
+      showLastButton
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Компактный вид
+
+Для отображения компонента в компактном виде передайте `variant='compact`.
+
+```jsx example
+const [page, setPage] = useState()
+return (
+  <Row align='center'>
+    <Pagination
+      variant='compact'
+      page={page}
+      count={10}
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Видимые страницы
+
+Вы можете управлять видимостью страниц, когда компонент имеет вид по умолчанию (`variant='full'`).
+
+- `boundaryCount` управляет количеством видимых страниц в начале и конце
+- `siblingCount` управляет количеством видимых страниц до и после текущей страницы
+
+```jsx example
+const [page, setPage] = useState(5)
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      boundaryCount={2}
+      siblingCount={0}
+      count={10}
+      onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Pagination} />
