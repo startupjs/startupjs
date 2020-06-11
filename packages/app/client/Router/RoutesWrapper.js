@@ -8,7 +8,6 @@ export default function RoutesWrapper ({
   children
 }) {
   return pug`
-    // TODO VITE restore animation router
     if animate
       Stack(gestureEnabled=false animationType='slide-horizontal')= children
     else
