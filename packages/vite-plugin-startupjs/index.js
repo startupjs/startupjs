@@ -20,6 +20,7 @@ applyPatches()
 // TODO VITE replace react patch for server-only stuff with a babel plugin
 // TODO VITE move webpack-loaders out into a separate library and use them
 // TODO VITE properly host /public folder at root
+// TODO VITE fix vite compilation when .styl is empty (it doesn't show up in transform)
 module.exports = {
   alias: {
     'react-native': 'react-native-web'
