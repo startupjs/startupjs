@@ -9,37 +9,42 @@ function Span ({
   style,
   children,
   size,
+  variant,
   bold,
   italic,
   description,
   theme,
   ...props
 }) {
+  if (size) {
+    console.warn('[@startupjs/ui] Span: size is deprecated. Use font() mixin instead or variant property.')
+  } else {
+    size = 'm'
+  }
+
   return pug`
     Text.root(
       style=style
-      styleName=[theme, size, { bold, italic, description }]
+      styleName=[theme, size, variant, { bold, italic }]
       ...props
     )= children
   `
 }
 
 Span.defaultProps = {
-  size: 'm',
   bold: false,
-  italic: false
+  italic: false,
+  variant: 'default'
 }
 
 Span.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  size: propTypes.oneOf([
-    'xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl', 'xxxxxl',
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+  variant: propTypes.oneOf([
+    'default', 'description', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
   ]),
   bold: propTypes.bool,
-  italic: propTypes.bool,
-  description: propTypes.bool
+  italic: propTypes.bool
 }
 
 export default observer(themed(Span))
