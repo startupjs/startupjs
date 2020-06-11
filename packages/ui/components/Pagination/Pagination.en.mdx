@@ -1,165 +1,94 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Pagination from '../Pagination'
-import Div from '../Div'
-import { observer, useModel } from 'startupjs'
+import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Pagination
 
 The Pagination component enables the user to select a specific page from a range of pages.
 
+```jsx
+import { Pagination } from '@startupjs/ui'
+```
+
 ## Example
 
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+- `count` specifies the total number of pages
+- `page` specifies the current page, starting from `0` to `count - 1`
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState()
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      page={page}
+      count={10}
+      onChange={setPage}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Value
+## Buttons
 
-The `value` property specifies the selected page position in the component, starting from index `0` to `total - 1`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+- `showPrevButton` displays the previous-page button, (default `true`)
+- `showNextButton` displays the next-page button (default `true`)
+- `showFirstButton` displays the first-page button (default `false`)
+- `showLastButton` displays the last-page button (default `false`)
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState()
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      page={page}
+      count={10}
+      showPrevButton={false}
+      showNextButton={false}
+      showFirstButton
+      showLastButton
+      onChange={setPage}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Variant
+## Compact view
 
-The `variant` property specifies the type of component style, with two variants of type `filled` (default) and `floating`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+To display the component in a compact view pass `variant='compact'`.
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState()
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      variant={'floating'}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      variant='compact'
+      page={page}
+      count={10}
+      onChange={setPage}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Visible Count
+## Visible pages
 
-The `visibleCount` property specifies the number of visible page buttons in the total range, with a default value of `3`.
+You can control the visibility of pages when component has default view (`variant='full'`).
 
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
-
-```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
-return (
-  <Div style={{alignItems: 'center'}}>
-    <Pagination
-      visibleCount={10}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
-    />
-  </Div>
-)
-```
-
-## Show First
-
-The `showFirst` property specifies if the first page button will be shown when the selected page is in the upper range, with a default value of `true`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+- `boundaryCount` controls the number of visible pages at the beginning and end
+- `siblingCount` controls the number of visible pages before and after the current page
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState(5)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      showFirst={false}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      page={page}
+      boundaryCount={2}
+      siblingCount={0}
+      count={10}
+      onChange={setPage}
     />
-  </Div>
+  </Row>
 )
 ```
-
-## Show Last
-
-The `showLast` property specifies if the last page button will be shown when the selected page is in the lower range, with a default value of `true`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
-
-```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
-return (
-  <Div style={{alignItems: 'center'}}>
-    <Pagination
-      showLast={false}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
-    />
-  </Div>
-)
-```
-
-## Sandbox
-
-<Sandbox Component={Pagination} />
