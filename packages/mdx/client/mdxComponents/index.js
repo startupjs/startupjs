@@ -23,7 +23,6 @@ function Code ({ children, style, ...props }) {
   `
 }
 
-// TODO VITE fix mdx createElement
 export default {
   wrapper: ({ children }) => pug`
     Div= children

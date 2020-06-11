@@ -7,7 +7,7 @@ if (!transformReactHmr) {
 }
 
 module.exports = {
-  test: (path) => /\.mdx$/.test(path),
+  test: (path) => /\.mdx?$/.test(path),
   transform: (code, ...args) => {
     code = transformReactHmr.transform(code, ...args)
     return code

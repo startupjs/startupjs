@@ -22,6 +22,7 @@ exports.include = [
   'startupjs/app',
   'startupjs/init',
   'qs',
+  '@mdx-js/react',
   '@fortawesome/fontawesome-svg-core',
   '@fortawesome/react-native-fontawesome',
   '@fortawesome/free-solid-svg-icons',
