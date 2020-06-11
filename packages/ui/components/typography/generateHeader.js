@@ -7,12 +7,14 @@ export default function generateHeader (tag) {
   const header = observer(
     ({ children, style, ...props }) => {
       const isWeb = Platform.OS === 'web'
-      const role = isWeb ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') } : {}
+      const role = isWeb
+        ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') }
+        : {}
 
       return pug`
         Span(
           style=style
-          size=tag
+          variant=tag
           ...role
           ...props
         )= children

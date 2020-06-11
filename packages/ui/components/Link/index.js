@@ -19,6 +19,7 @@ function Link ({
   italic,
   block,
   replace,
+  variant,
   onPress,
   ...props
 }) {
@@ -46,6 +47,10 @@ function Link ({
     }
   }
 
+  if (block) {
+    extraProps.variant = variant
+  }
+
   if (isWeb) {
     extraProps.href = to
     // makes preventDefault work on web,
@@ -70,14 +75,18 @@ function isModifiedEvent (event) {
 }
 
 Link.defaultProps = {
-  ...Span.defaultProps,
+  bold: Span.defaultProps.bold,
+  italic: Span.defaultProps.italic,
   replace: false,
   block: false,
   color: 'default'
 }
 
 Link.propTypes = {
-  ...Span.propTypes,
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  bold: Span.propTypes.bold,
+  italic: Span.propTypes.italic,
+  children: propTypes.node,
   to: propTypes.string,
   replace: propTypes.bool,
   block: propTypes.bool,

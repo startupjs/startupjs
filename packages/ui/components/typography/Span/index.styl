@@ -1,30 +1,24 @@
-_color = $UI.Span.color
-_description = $UI.Span.descriptionColor
 _fontSizes = (
   'xs' 's' 'm' 'l' 'xl' 'xxl' 'xxxl' 'xxxxl' 'xxxxxl' \
   'h1' 'h2' 'h3' 'h4' 'h5' 'h6'
 )
 
+_variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
+
 // Add font-family when we add fonts to app
 
 .root
-  color _color
-
+  // DEPRECATED
   for size in _fontSizes
     &.{size}
       font(size)
+
+  for variant in _variants
+    &.{variant}
+      text(variant)
 
   &.bold
     font-weight 700
 
   &.italic
     font-style italic
-
-  &.description
-    color _description
-
-// TODO: Use dark-mode $UI variables
-.dark
-  color rgba(white, 0.9)
-  &.description
-    color rgba(white, 0.5)
