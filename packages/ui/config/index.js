@@ -1,8 +1,8 @@
-const merge = require('lodash/merge')
-const getBaseConfig = require('./base')
-const getComponentsConfig = require('./components')
+import merge from 'lodash/merge'
+import getBaseConfig from './base'
+import getComponentsConfig from './components'
 
-module.exports = function (config = {}) {
+export default function (config = {}) {
   const baseConfig = getBaseConfig(config.pallete)
   const _config = merge({}, baseConfig, config)
   const componentsConfig = getComponentsConfig(_config)

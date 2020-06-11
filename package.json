@@ -3,7 +3,10 @@
   "engines": {
     "node": ">= 14"
   },
-  "workspaces": ["packages/*", "styleguide"],
+  "workspaces": [
+    "packages/*",
+    "styleguide"
+  ],
   "scripts": {
     "postinstall": "patch-package",
     "bootstrap": "npx lerna bootstrap",

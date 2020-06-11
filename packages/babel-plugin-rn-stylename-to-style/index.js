@@ -76,13 +76,15 @@ module.exports = function (babel) {
       styleName.parentPath.node === style.parentPath.node
 
     if (hasStyleNameAndStyle) {
-      style.node.value = t.arrayExpression(
-        expressions.concat([style.node.value.expression])
+      style.node.value = t.jsxExpressionContainer(
+        t.arrayExpression(
+          expressions.concat([style.node.value.expression])
+        )
       )
       styleName.remove()
     } else {
       if (expressions.length > 1) {
-        styleName.node.value = t.arrayExpression(expressions)
+        styleName.node.value = t.jsxExpressionContainer(t.arrayExpression(expressions))
       } else {
         styleName.node.value = t.jsxExpressionContainer(expressions[0])
       }

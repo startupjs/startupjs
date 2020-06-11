@@ -1,8 +1,9 @@
-const { PALLETE, generateColorsFromPalette } = require('./helpers')
-const variables = require('./variables')
-const shadows = require('./shadows')
+import variables from './variables'
+import shadows from './shadows'
+import PALLETE from './pallete.json'
+import generateColorsFromPalette from './generateColorsFromPalette'
 
-module.exports = function (pallete = PALLETE) {
+export default function (pallete = PALLETE) {
   return {
     pallete,
     shadows,

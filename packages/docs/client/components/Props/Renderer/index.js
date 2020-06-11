@@ -1,7 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
-import './index.styl'
 import GridVisualizer from './GridVisualizer'
 import { themed, Row } from '@startupjs/ui'
 

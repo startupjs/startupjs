@@ -1,1 +1,2 @@
-export { default } from './web'
+// TODO VITE remove web-specific init completely
+export { default } from './native'

@@ -44,4 +44,4 @@ const lineHeights = {
   xxxxxl: '12u'
 }
 
-module.exports = { gutters, media, fontFamilies, fontSizes, lineHeights }
+export default { gutters, media, fontFamilies, fontSizes, lineHeights }

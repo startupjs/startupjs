@@ -1,12 +1,12 @@
-const Button = require('./../components/Button/config')
-const Div = require('./../components/Div/config')
-const Divider = require('./../components/Divider/config')
-const Layout = require('./../components/Layout/config')
-const Progress = require('./../components/Progress/config')
-const Span = require('./../components/typography/Span/config')
-const TextInput = require('./../components/forms/TextInput/config')
+import Button from './../components/Button/config.cjs'
+import Div from './../components/Div/config.cjs'
+import Divider from './../components/Divider/config.cjs'
+import Layout from './../components/Layout/config.cjs'
+import Progress from './../components/Progress/config.cjs'
+import Span from './../components/typography/Span/config.cjs'
+import TextInput from './../components/forms/TextInput/config.cjs'
 
-module.exports = function (config) {
+export default function (config) {
   return {
     Button: Button(config),
     Div: Div(config),

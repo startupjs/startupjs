@@ -1,4 +1,4 @@
-import { BASE_URL } from '@env'
+import env from '@env'
 import React from 'react'
 import { observer, $root, emit } from 'startupjs'
 import { ScrollView, Image } from 'react-native'
@@ -8,6 +8,8 @@ import { Div, Button, Row } from '@startupjs/ui'
 import { useDocsContext } from '../../../../../docsContext'
 import Docs from './Docs'
 import { useLang } from '../../../../clientHelpers'
+
+const { BASE_URL } = env
 
 const LANGUAGES = [
   { value: 'en', label: 'English' },

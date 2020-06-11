@@ -1,4 +1,4 @@
-const { u } = require('./../../../config/helpers')
+const u = require('./../../../config-cjs/u.cjs')
 
 module.exports = function TextInputConfig ({ colors }) {
   return {

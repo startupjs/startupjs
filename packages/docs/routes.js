@@ -1,1 +1,1 @@
-module.exports = require('./client/app/routes')
+export { default } from './client/app/routes'

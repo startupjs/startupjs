@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { StyleSheet, Text } from 'react-native'
+import { observer, u } from 'startupjs'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
-import { u } from '../../config/helpers'
 import config from '../../config/rootConfig'
-import './index.styl'
 
 const { colors } = config
 
@@ -49,12 +47,13 @@ const Icon = observer(({
     `
   }
   return pug`
-    FontAwesomeIcon(
-      style=style
-      icon=icon
-      color=style.color
-      size=_size
-    )
+    Text(style=style) *
+    // FontAwesomeIcon(
+    //   style=style
+    //   icon=icon
+    //   color=style.color
+    //   size=_size
+    // )
   `
 })
 

@@ -1,11 +1,10 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, u } from 'startupjs'
 import { View } from 'react-native'
 import propTypes from 'prop-types'
 import Span from '../typography/Span'
 import Div from '../Div'
 import Filler from './filler'
-import { u } from '../../config/helpers'
 import './index.styl'
 
 function Progress ({

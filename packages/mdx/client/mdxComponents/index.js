@@ -1,7 +1,7 @@
 import React from 'react'
-import SyntaxHighlighter from 'react-native-syntax-highlighter'
+// import SyntaxHighlighter from 'react-native-syntax-highlighter'
 import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform/*, StyleSheet */ } from 'react-native'
 import './index.styl'
 
 function P ({ children }) {
@@ -11,22 +11,24 @@ function P ({ children }) {
 }
 
 function Code ({ children, style, ...props }) {
+  // TODO VITE bring back syntax highlight
   return pug`
-    Div.codeWrapper
-      SyntaxHighlighter(
-        ...props
-        highlighter='prism'
-        fontSize=14
-        customStyle=StyleSheet.flatten(style)
-      )= children.replace(/\n$/, '')
+    Div.codeWrapper= children
+      // SyntaxHighlighter(
+      //   ...props
+      //   highlighter='prism'
+      //   fontSize=14
+      //   customStyle=StyleSheet.flatten(style)
+      // )= children.replace(/\n$/, '')
   `
 }
 
+// TODO VITE fix mdx createElement
 export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  example: ({ children }) => pug`
+  section: ({ children }) => pug`
     Div.example= children
   `,
   h1: ({ children }) => pug`

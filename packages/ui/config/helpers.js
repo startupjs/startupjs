@@ -1,9 +1,6 @@
-const colorToRGBA = require('./colorToRGBA')
-const PALLETE = require('./pallete')
-const generateColorsFromPalette = require('./generateColorsFromPalette')
+import colorToRGBA from './colorToRGBA'
+import PALLETE from './pallete'
+import generateColorsFromPalette from './generateColorsFromPalette'
+import u from './u'
 
-function u (value = 0) {
-  return value * 8
-}
-
-module.exports = { PALLETE, generateColorsFromPalette, u, colorToRGBA }
+export { PALLETE, generateColorsFromPalette, u, colorToRGBA }

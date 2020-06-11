@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "mongodb": "^2.2.31",
-    "racer": "0.9.9",
+    "racer": "dmapper/racer#es6",
     "racer-schema": "^0.1.2",
     "redis": "^2.2.0",
     "redis-url": "^1.2.0",

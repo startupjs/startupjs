@@ -1,0 +1,111 @@
+diff --git a/node_modules/prop-types/index.js b/node_modules/prop-types/index.js
+index e9ef51d..9ded1a6 100644
+--- a/node_modules/prop-types/index.js
++++ b/node_modules/prop-types/index.js
+@@ -1,19 +1,77 @@
+-/**
+- * Copyright (c) 2013-present, Facebook, Inc.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- */
+-
+-if (process.env.NODE_ENV !== 'production') {
+-  var ReactIs = require('react-is');
+-
+-  // By explicitly using `prop-types` you are opting into new development behavior.
+-  // http://fb.me/prop-types-in-prod
+-  var throwOnDirectAccess = true;
+-  module.exports = require('./factoryWithTypeCheckers')(ReactIs.isElement, throwOnDirectAccess);
+-} else {
+-  // By explicitly using `prop-types` you are opting into new production behavior.
+-  // http://fb.me/prop-types-in-prod
+-  module.exports = require('./factoryWithThrowingShims')();
+-}
++import ReactPropTypesSecret from './lib/ReactPropTypesSecret'
++
++function emptyFunction() {}
++function emptyFunctionWithReset() {}
++emptyFunctionWithReset.resetWarningCache = emptyFunction;
++
++function shim(props, propName, componentName, location, propFullName, secret) {
++  if (secret === ReactPropTypesSecret) {
++    // It is still safe when called from React.
++    return;
++  }
++  var err = new Error(
++    'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
++    'Use PropTypes.checkPropTypes() to call them. ' +
++    'Read more at http://fb.me/use-check-prop-types'
++  );
++  err.name = 'Invariant Violation';
++  throw err;
++};
++shim.isRequired = shim;
++function getShim() {
++  return shim;
++};
++
++var ReactPropTypes = {
++  array: shim,
++  bool: shim,
++  func: shim,
++  number: shim,
++  object: shim,
++  string: shim,
++  symbol: shim,
++
++  any: shim,
++  arrayOf: getShim,
++  element: shim,
++  elementType: shim,
++  instanceOf: getShim,
++  node: shim,
++  objectOf: getShim,
++  oneOf: getShim,
++  oneOfType: getShim,
++  shape: getShim,
++  exact: getShim,
++
++  checkPropTypes: emptyFunctionWithReset,
++  resetWarningCache: emptyFunction
++};
++
++ReactPropTypes.PropTypes = ReactPropTypes;
++
++export default ReactPropTypes;
++
++export const array = ReactPropTypes.array
++export const bool = ReactPropTypes.bool
++export const func = ReactPropTypes.func
++export const number = ReactPropTypes.number
++export const object = ReactPropTypes.object
++export const string = ReactPropTypes.string
++export const symbol = ReactPropTypes.symbol
++
++export const any = ReactPropTypes.any
++export const arrayOf = ReactPropTypes.arrayOf
++export const element = ReactPropTypes.element
++export const elementType = ReactPropTypes.elementType
++export const instanceOf = ReactPropTypes.instanceOf
++export const node = ReactPropTypes.node
++export const objectOf = ReactPropTypes.objectOf
++export const oneOf = ReactPropTypes.oneOf
++export const oneOfType = ReactPropTypes.oneOfType
++export const shape = ReactPropTypes.shape
++export const exact = ReactPropTypes.exact
++
++export const checkPropTypes = ReactPropTypes.checkPropTypes
++export const resetWarningCache = ReactPropTypes.resetWarningCache
++
++export const PropTypes = ReactPropTypes.PropTypes
+diff --git a/node_modules/prop-types/lib/ReactPropTypesSecret.js b/node_modules/prop-types/lib/ReactPropTypesSecret.js
+index f54525e..b127604 100644
+--- a/node_modules/prop-types/lib/ReactPropTypesSecret.js
++++ b/node_modules/prop-types/lib/ReactPropTypesSecret.js
+@@ -9,4 +9,4 @@
+ 
+ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+ 
+-module.exports = ReactPropTypesSecret;
++export default ReactPropTypesSecret;

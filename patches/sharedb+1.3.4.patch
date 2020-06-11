@@ -1,0 +1,10 @@
+diff --git a/node_modules/sharedb/lib/emitter.js b/node_modules/sharedb/lib/emitter.js
+index 2b7827c..ad93ad1 100644
+--- a/node_modules/sharedb/lib/emitter.js
++++ b/node_modules/sharedb/lib/emitter.js
+@@ -1,4 +1,4 @@
+-var EventEmitter = require('events').EventEmitter;
++var EventEmitter = require('eventemitter3');
+ 
+ exports.EventEmitter = EventEmitter;
+ exports.mixin = mixin;

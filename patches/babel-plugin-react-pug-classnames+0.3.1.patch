@@ -1,0 +1,30 @@
+diff --git a/node_modules/babel-plugin-react-pug-classnames/index.js b/node_modules/babel-plugin-react-pug-classnames/index.js
+index 33ea3f2..e7d46cc 100644
+--- a/node_modules/babel-plugin-react-pug-classnames/index.js
++++ b/node_modules/babel-plugin-react-pug-classnames/index.js
+@@ -43,6 +43,13 @@ module.exports = (babel) => {
+     return callExpression
+   }
+ 
++  function generateImport (name) {
++    return t.importDeclaration(
++      [t.importSpecifier(name, t.identifier('c'))],
++      t.stringLiteral(DEFAULT_CLASSNAMES_FUNCTION)
++    )
++  }
++
+   function generateRequire(name, opts) {
+     var legacy = opts.legacy == null ? DEFAULT_SUPPORT_LEGACY : opts.legacy
+     var classnamesFn = opts.classnamesFunction || (
+@@ -169,7 +176,10 @@ module.exports = (babel) => {
+             .pop();
+ 
+           if (lastImportOrRequire) {
+-            lastImportOrRequire.insertAfter(generateRequire(reqName, state.opts));
++            const modulesMode = state.opts && state.opts.modules
++            lastImportOrRequire.insertAfter(
++              modulesMode ? generateImport(reqName) : generateRequire(reqName, state.opts)
++            );
+           }
+         }
+       },

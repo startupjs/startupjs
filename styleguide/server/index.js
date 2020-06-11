@@ -1,4 +1,4 @@
-import init from 'startupjs/init'
+import init from 'startupjs/init/server'
 import orm from '../model'
 import startupjsServer from 'startupjs/server'
 import getMainRoutes from '../main/routes'

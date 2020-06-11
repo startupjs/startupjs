@@ -1,8 +1,7 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, u } from 'startupjs'
 import propTypes from 'prop-types'
 import { View } from 'react-native'
-import { u } from './../../config/helpers'
 import config from '../../config/rootConfig'
 import './index.styl'
 

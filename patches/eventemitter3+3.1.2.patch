@@ -1,0 +1,27 @@
+diff --git a/node_modules/eventemitter3/index.js b/node_modules/eventemitter3/index.js
+index 6ea485c..d795238 100644
+--- a/node_modules/eventemitter3/index.js
++++ b/node_modules/eventemitter3/index.js
+@@ -312,6 +312,14 @@ EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
+   return this;
+ };
+ 
++EventEmitter.prototype.setMaxListeners = function setMaxListeners () {
++  return this;
++}
++
++EventEmitter.prototype.getMaxListeners = function getMaxListeners () {
++  return 1000000;
++}
++
+ //
+ // Alias methods names because people roll like that.
+ //
+@@ -331,6 +339,4 @@ EventEmitter.EventEmitter = EventEmitter;
+ //
+ // Expose the module.
+ //
+-if ('undefined' !== typeof module) {
+-  module.exports = EventEmitter;
+-}
++export default EventEmitter;

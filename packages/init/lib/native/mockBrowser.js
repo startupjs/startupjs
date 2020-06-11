@@ -2,6 +2,6 @@
 process.title = 'browser'
 
 // Polyfill process.nextTick
-process.nextTick = process.nextTick || setImmediate
+process.nextTick = process.nextTick || (typeof setImmediate !== 'undefined' && setImmediate) || (fn => setTimeout(fn, 0))
 
 export default () => {}

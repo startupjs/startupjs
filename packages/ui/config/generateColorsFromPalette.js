@@ -1,6 +1,6 @@
-const colorToRGBA = require('./colorToRGBA')
+import colorToRGBA from './colorToRGBA'
 
-module.exports = function generateColorsFromPalette (pallete) {
+export default function generateColorsFromPalette (pallete) {
   if (!pallete) return {}
 
   return {
