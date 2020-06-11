@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { observer, u } from 'startupjs'
+// TODO VITE Fix icons
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
 import config from '../../config/rootConfig'
