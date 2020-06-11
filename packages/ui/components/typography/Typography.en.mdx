@@ -41,11 +41,15 @@ In `.styl` file
 
 ## Variants
 
-The `variant` property means **"make text as"** and it uses `text(key)` global mixin under the hood. Possible values of `key` (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `description`). **We do not recommend using mixin unnecessarily instead of `variant` property**.
+The `variant` property means **"make text as"** and it uses `text(key)` global mixin under the hood. Possible values of `key` (`default`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `description`). **We do not recommend using mixin unnecessarily instead of `variant` property**.
 
 ```jsx example
 return (
   <Content width='full'>
+    <Span>
+      Text size - m (default).
+    </Span>
+    <Br />
     <Span variant='h1'>
       Text size - xxxxxl.
     </Span>
