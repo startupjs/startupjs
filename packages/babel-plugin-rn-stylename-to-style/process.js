@@ -6,6 +6,7 @@ const isArray = Array.isArray || function (arg) {
 }
 
 export function process (styleName, cssStyles) {
+  if (/magic/.test(JSON.stringify(styleName))) console.log('>>>>> MAGIC', JSON.stringify(styleName))
   // If @media is used, force trigger access to the observable value.
   // Whenever that value changes the according components will
   // automatically rerender.

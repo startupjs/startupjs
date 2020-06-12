@@ -16,6 +16,7 @@
     "babel-plugin-react-pug-classnames": "^0.3.1",
     "babel-plugin-transform-react-pug": "^7.0.1",
     "css-to-react-native-transform": "^1.8.1",
+    "events": "^3.0.0",
     "stylus": "^0.54.7",
     "vite-plugin-react": "^2.0.3"
   },

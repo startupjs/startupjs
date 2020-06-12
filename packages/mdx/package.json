@@ -9,7 +9,7 @@
   "dependencies": {
     "@mdx-js/react": "~1.5.8",
     "@startupjs/ui": "^0.22.0-alpha.33",
-    "react-native-syntax-highlighter": "~2.1.0"
+    "refractor": "^3.0.0"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17"
