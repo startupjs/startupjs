@@ -4,10 +4,8 @@ const pugPlugins = [
   [require('babel-plugin-transform-react-pug'), {
     classAttribute: 'styleName'
   }],
-  [require('babel-plugin-react-pug-classnames'), {
-    classAttribute: 'styleName',
-    legacy: false,
-    modules: true
+  [require('@startupjs/babel-plugin-react-pug-classnames'), {
+    classAttribute: 'styleName'
   }]
 ]
 

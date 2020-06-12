@@ -4,7 +4,6 @@ exports.include = [
   'react-native-dynamic-style-processor',
   '@startupjs/babel-plugin-rn-stylename-to-style/process',
   '@startupjs/babel-plugin-rn-stylename-to-style/dimensions',
-  'babel-plugin-react-pug-classnames/classcat',
   'uuid',
   'arraydiff',
   'sharedb/lib/client',

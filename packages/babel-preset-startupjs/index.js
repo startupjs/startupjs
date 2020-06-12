@@ -24,9 +24,8 @@ const basePlugins = ({ legacyClassnames, alias } = {}) => [
   [require('babel-plugin-transform-react-pug'), {
     classAttribute: 'styleName'
   }],
-  [require('babel-plugin-react-pug-classnames'), {
-    classAttribute: 'styleName',
-    legacy: legacyClassnames
+  [require('@startupjs/babel-plugin-react-pug-classnames'), {
+    classAttribute: 'styleName'
   }],
   [require('@babel/plugin-proposal-decorators'), { legacy: true }]
 ]
