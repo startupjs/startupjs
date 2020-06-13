@@ -92,6 +92,20 @@ module.exports = (backend, appRoutes, error, options, done) => {
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
     }
 
+    // TODO VITE do this only when vite is used for development
+    if (process.env.NODE_ENV !== 'production') {
+      // Enable cors requests from localhost in dev
+      expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
+      // Redirect to https 3010 port in dev
+      const VITE_PORT = 3010
+      expressApp.use((req, res, next) => {
+        if (req.method === 'GET' && (req.path === '/' || req.path === '')) {
+          return res.redirect(301, 'https://' + req.get('host').replace(/:?\d+$/, ':' + VITE_PORT) + req.originalUrl)
+        }
+        next()
+      })
+    }
+
     expressApp
       .use(express.static(options.publicPath, { maxAge: '1h' }))
       .use('/build/client', express.static(options.dirname + '/build/client', { maxAge: '1h' }))
@@ -124,11 +138,6 @@ module.exports = (backend, appRoutes, error, options, done) => {
     })
 
     expressApp.use(hwHandlers.middleware)
-
-    // Enable cors requests from localhost in dev
-    if (process.env.NODE_ENV !== 'production') {
-      expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
-    }
 
     // ----------------------------------------------------->    middleware    <#
     options.ee.emit('middleware', expressApp)

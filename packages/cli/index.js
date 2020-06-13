@@ -47,7 +47,7 @@ const REMOVE_FILES = [
 
 const SCRIPTS_ORIG = {}
 // TODO VITE add webpack option and make it default
-SCRIPTS_ORIG.web = 'vite --port=3001 -c vite.config.cjs'
+SCRIPTS_ORIG.web = 'vite --port=3010 -c vite.config.cjs'
 SCRIPTS_ORIG.server = inspect => `nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
 SCRIPTS_ORIG.start = `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server()}" "${SCRIPTS_ORIG.web}"`
 SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.web.config.cjs'
