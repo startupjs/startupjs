@@ -12,6 +12,7 @@ const methodOverride = require('method-override')
 const connectMongo = require('connect-mongo')
 const racerHighway = require('racer-highway')
 const hsts = require('hsts')
+const cors = require('cors')
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
@@ -123,6 +124,11 @@ module.exports = (backend, appRoutes, error, options, done) => {
     })
 
     expressApp.use(hwHandlers.middleware)
+
+    // Enable cors requests from localhost in dev
+    if (process.env.NODE_ENV !== 'production') {
+      expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
+    }
 
     // ----------------------------------------------------->    middleware    <#
     options.ee.emit('middleware', expressApp)

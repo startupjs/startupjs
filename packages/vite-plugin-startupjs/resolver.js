@@ -12,6 +12,10 @@ module.exports = {
       return 'react-native-web-svg'
     } else if (/^racer(?:$|\/)/.test(id)) {
       return id.replace('racer', '@startupjs/racer')
+    } else if (id === 'react-is') {
+      return '@startupjs/react-is'
+    } else if (id === 'prop-types') {
+      return '@startupjs/prop-types'
     }
   }
 }
