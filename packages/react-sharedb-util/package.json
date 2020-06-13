@@ -20,7 +20,7 @@
     "@startupjs/model": "^0.22.0-alpha.24",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
-    "racer": "dmapper/racer#es6",
+    "racer": "0.9.15",
     "rich-text": "^4.0.0"
   },
   "devDependencies": {

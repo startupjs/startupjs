@@ -10,7 +10,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "racer": "dmapper/racer#es6",
+    "racer": "0.9.15",
     "racer-highway": "^8.1.0"
   }
 }

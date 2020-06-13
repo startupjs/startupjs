@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@startupjs/react-sharedb": "^0.22.0-alpha.30",
-    "racer": "dmapper/racer#es6",
+    "racer": "0.9.15",
     "rich-text": "^4.0.0",
     "sharedb": "^1.0.0"
   },
