@@ -25,6 +25,8 @@ exports.include = [
   '@fortawesome/react-native-fontawesome',
   '@fortawesome/free-solid-svg-icons',
   'parse-prop-types',
+  '@startupjs/prop-types',
+  '@startupjs/react-is',
   '@startupjs/ui/config/rootConfig',
   '@startupjs/ui/config/colorToRGBA',
   '@startupjs/ui/config/helpers',
