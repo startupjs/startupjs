@@ -1,5 +1,6 @@
 exports.include = [
-  'react-native-web',
+  'react-native-web/dist/cjs',
+  'vite-plugin-startupjs/vendor/react-native-web',
   '@nx-js/observer-util',
   'react-native-dynamic-style-processor',
   '@startupjs/babel-plugin-rn-stylename-to-style/process',
@@ -22,8 +23,8 @@ exports.include = [
   'fast-deep-equal',
   '@mdx-js/react',
   '@fortawesome/fontawesome-svg-core',
-  '@fortawesome/react-native-fontawesome',
-  '@fortawesome/free-solid-svg-icons',
+  '@startupjs/react-native-fontawesome',
+  'react-native-svg/src/ReactNativeSVG.web.ts',
   'parse-prop-types',
   '@startupjs/prop-types',
   '@startupjs/react-is',
@@ -42,14 +43,6 @@ exports.exclude = [
   'postinstall-postinstall',
   'nconf',
   'react-native-code-push',
-  'react-native-svg',
   'react-native-collapsible',
   'sharedb'
-  // 'events',
-  // 'path',
-  // 'startupjs',
-  // '@startupjs/ui',
-  // 'sharedb',
-  // 'racer',
-  // '@startupjs/docs'
 ]

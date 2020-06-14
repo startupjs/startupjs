@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { observer, u } from 'startupjs'
-// TODO VITE Fix icons
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
 import config from '../../config/rootConfig'
 
@@ -17,13 +16,13 @@ const SIZES = {
   xxl: u(3.5)
 }
 
-const Icon = observer(({
+function Icon ({
   style,
   icon,
   color,
   size,
   ...props
-}) => {
+}) {
   if (!icon) return null
   if (/^#|rgb/.test(color)) console.warn('Icon component: Hex color for color property is deprecated. Use style instead')
 
@@ -36,6 +35,7 @@ const Icon = observer(({
   // Pass color as part of style to allow color override from the outside
   style = StyleSheet.flatten([{ color: _color }, style])
 
+  // TODO VITE fix custom svg
   if (typeof icon === 'function') {
     const CustomIcon = icon
     return pug`
@@ -48,15 +48,14 @@ const Icon = observer(({
     `
   }
   return pug`
-    Text(style=style) *
-    // FontAwesomeIcon(
-    //   style=style
-    //   icon=icon
-    //   color=style.color
-    //   size=_size
-    // )
+    FontAwesomeIcon(
+      style=style
+      icon=icon
+      color=style.color
+      size=_size
+    )
   `
-})
+}
 
 Icon.defaultProps = {
   size: 'm'
@@ -72,4 +71,4 @@ Icon.propTypes = {
   ])
 }
 
-export default Icon
+export default observer(Icon)

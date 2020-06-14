@@ -15,6 +15,7 @@
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.22.0-alpha.24",
     "@startupjs/babel-plugin-react-pug-classnames": "0.22.0-alpha.33",
     "@startupjs/babel-plugin-dotenv": "0.22.0-alpha.33",
+    "@startupjs/react-native-fontawesome": "^0.2.5-3",
     "@startupjs/racer": "0.9.15",
     "@startupjs/react-is": "^16.13.1-1",
     "@startupjs/prop-types": "^15.7.2-2",

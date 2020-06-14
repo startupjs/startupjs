@@ -42,7 +42,6 @@
     "react-native-collapsible": "1.5.2",
     "react-native-svg": "^12.1.0",
     "react-native-web": "0.12.3",
-    "react-native-web-svg": "^1.0.0",
     "startupjs": "^0.22.0-alpha.34"
   },
   "devDependencies": {
