@@ -48,8 +48,8 @@ const REMOVE_FILES = [
 
 const SCRIPTS_ORIG = {}
 
-SCRIPTS_ORIG.web = ({ reset, vite } = {}) => {
-  if (vite) {
+SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
+  if (vite && !webpack) {
     return SCRIPTS_ORIG.webVite({ reset })
   } else {
     return SCRIPTS_ORIG.webWebpack
@@ -59,8 +59,8 @@ SCRIPTS_ORIG.webVite = ({ reset } = {}) =>
   `${reset ? 'rm -rf node_modules/.vite_opt_cache && ' : ''}vite --port=3010 -c vite.config.cjs`
 SCRIPTS_ORIG.webWebpack =
   'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.cjs'
-SCRIPTS_ORIG.server = ({ inspect, vite } = {}) =>
-  `${vite ? 'VITE=1 ' : ''}nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
+SCRIPTS_ORIG.server = ({ inspect, vite, webpack } = {}) =>
+  `${(vite && !webpack) ? 'VITE=1 ' : ''}nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
 SCRIPTS_ORIG.start = (...args) =>
   `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server(...args)}" "${SCRIPTS_ORIG.web(...args)}"`
 SCRIPTS_ORIG.build = ({ async } = {}) =>
@@ -203,10 +203,11 @@ commander
   .command('start')
   .description('Run "startupjs web" and "startupjs server" at the same time.')
   .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
+  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite option.')
   .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
-  .action(async ({ vite, reset }) => {
+  .action(async ({ vite, reset, webpack }) => {
     await execa.command(
-      SCRIPTS_ORIG.start({ vite, reset }),
+      SCRIPTS_ORIG.start({ vite, reset, webpack }),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -215,10 +216,11 @@ commander
   .command('server')
   .description('Compile (with webpack) and run server')
   .option('-i, --inspect', 'Use node --inspect')
+  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite option.')
   .option('-v, --vite', 'Use this flag when using Vite for web dev to automatically redirect to the bundle served by Vite')
-  .action(async ({ inspect, vite }) => {
+  .action(async ({ inspect, vite, webpack }) => {
     await execa.command(
-      SCRIPTS_ORIG.server({ inspect, vite }),
+      SCRIPTS_ORIG.server({ inspect, vite, webpack }),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -248,10 +250,11 @@ commander
   .command('web')
   .description('Run web bundling (Webpack). Insead of bundling you can also use Vite and ES Modules by specifying --vite')
   .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
+  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite option.')
   .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
-  .action(async ({ vite, reset }) => {
+  .action(async ({ vite, reset, webpack }) => {
     await execa.command(
-      SCRIPTS_ORIG.web({ vite, reset }),
+      SCRIPTS_ORIG.web({ vite, reset, webpack }),
       { stdio: 'inherit', shell: true }
     )
   })
