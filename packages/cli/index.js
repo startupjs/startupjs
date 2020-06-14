@@ -47,9 +47,21 @@ const REMOVE_FILES = [
 
 const SCRIPTS_ORIG = {}
 // TODO VITE add webpack option and make it default
-SCRIPTS_ORIG.web = 'vite --port=3010 -c vite.config.cjs'
-SCRIPTS_ORIG.server = inspect => `nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
-SCRIPTS_ORIG.start = `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server()}" "${SCRIPTS_ORIG.web}"`
+SCRIPTS_ORIG.web = ({ reset, vite } = {}) => {
+  if (vite) {
+    return SCRIPTS_ORIG.webVite({ reset })
+  } else {
+    return SCRIPTS_ORIG.webWebpack
+  }
+}
+SCRIPTS_ORIG.webVite = ({ reset } = {}) =>
+  `${reset ? 'rm -rf node_modules/.vite_opt_cache && ' : ''}vite --port=3010 -c vite.config.cjs`
+SCRIPTS_ORIG.webWebpack =
+  'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.cjs'
+SCRIPTS_ORIG.server = inspect =>
+  `nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
+SCRIPTS_ORIG.start = (...args) =>
+  `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server()}" "${SCRIPTS_ORIG.web(...args)}"`
 SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.web.config.cjs'
 SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node --experimental-specifier-resolution=node server.js'
 
@@ -188,9 +200,11 @@ commander
 commander
   .command('start')
   .description('Run "startupjs web" and "startupjs server" at the same time.')
-  .action(async () => {
+  .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
+  .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
+  .action(async ({ vite, reset }) => {
     await execa.command(
-      SCRIPTS_ORIG.start,
+      SCRIPTS_ORIG.start({ vite, reset }),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -228,10 +242,12 @@ commander
 
 commander
   .command('web')
-  .description('Run web bundling (webpack)')
-  .action(async () => {
+  .description('Run web bundling (Webpack). Insead of bundling you can also use Vite and ES Modules by specifying --vite')
+  .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
+  .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
+  .action(async ({ vite, reset }) => {
     await execa.command(
-      SCRIPTS_ORIG.web,
+      SCRIPTS_ORIG.web({ vite, reset }),
       { stdio: 'inherit', shell: true }
     )
   })
