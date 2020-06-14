@@ -59,10 +59,10 @@ SCRIPTS_ORIG.webVite = ({ reset } = {}) =>
   `${reset ? 'rm -rf node_modules/.vite_opt_cache && ' : ''}vite --port=3010 -c vite.config.cjs`
 SCRIPTS_ORIG.webWebpack =
   'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.cjs'
-SCRIPTS_ORIG.server = inspect =>
-  `nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
+SCRIPTS_ORIG.server = ({ inspect, vite } = {}) =>
+  `${vite ? 'VITE=1 ' : ''}nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
 SCRIPTS_ORIG.start = (...args) =>
-  `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server()}" "${SCRIPTS_ORIG.web(...args)}"`
+  `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server(...args)}" "${SCRIPTS_ORIG.web(...args)}"`
 SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.web.config.cjs'
 SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node --experimental-specifier-resolution=node server.js'
 
@@ -214,9 +214,10 @@ commander
   .command('server')
   .description('Compile (with webpack) and run server')
   .option('-i, --inspect', 'Use node --inspect')
-  .action(async ({ inspect }) => {
+  .option('-v, --vite', 'Use this flag when using Vite for web dev to automatically redirect to the bundle served by Vite')
+  .action(async ({ inspect, vite }) => {
     await execa.command(
-      SCRIPTS_ORIG.server(inspect),
+      SCRIPTS_ORIG.server({ inspect, vite }),
       { stdio: 'inherit', shell: true }
     )
   })

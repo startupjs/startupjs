@@ -92,8 +92,7 @@ module.exports = (backend, appRoutes, error, options, done) => {
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
     }
 
-    // TODO VITE do this only when vite is used for development
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && process.env.VITE) {
       // Enable cors requests from localhost in dev
       expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
       // Redirect to https 3010 port in dev

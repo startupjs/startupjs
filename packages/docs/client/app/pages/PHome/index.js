@@ -8,7 +8,7 @@ export default observer(function PHome ({
   style
 }) {
   const docs = useDocsContext()
-  const [params] = useLocal('$render.params')
+  const [params = {}] = useLocal('$render.params')
   const paramsLang = params.lang
   let [lang = DEFAULT_LANGUAGE, setLang] = useLang()
   if (paramsLang && paramsLang !== lang) {
