@@ -42,6 +42,7 @@ const REMOVE_DEPENDENCIES = [
 
 const REMOVE_FILES = [
   '.prettierrc.js',
+  '.eslintrc.js',
   'App.js'
 ]
 
