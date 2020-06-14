@@ -47,7 +47,7 @@ const REMOVE_FILES = [
 ]
 
 const SCRIPTS_ORIG = {}
-// TODO VITE add webpack option and make it default
+
 SCRIPTS_ORIG.web = ({ reset, vite } = {}) => {
   if (vite) {
     return SCRIPTS_ORIG.webVite({ reset })
@@ -63,7 +63,8 @@ SCRIPTS_ORIG.server = ({ inspect, vite } = {}) =>
   `${vite ? 'VITE=1 ' : ''}nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
 SCRIPTS_ORIG.start = (...args) =>
   `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server(...args)}" "${SCRIPTS_ORIG.web(...args)}"`
-SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.web.config.cjs'
+SCRIPTS_ORIG.build = ({ async } = {}) =>
+  `${async ? 'ASYNC=1 ' : ''}rm -rf ./build && webpack --config webpack.web.config.cjs`
 SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node --experimental-specifier-resolution=node server.js'
 
 const SCRIPTS = {
@@ -225,9 +226,10 @@ commander
 commander
   .command('build')
   .description('Build web bundles')
-  .action(async () => {
+  .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
+  .action(async ({ async }) => {
     await execa.command(
-      SCRIPTS_ORIG.build,
+      SCRIPTS_ORIG.build({ async }),
       { stdio: 'inherit', shell: true }
     )
   })
