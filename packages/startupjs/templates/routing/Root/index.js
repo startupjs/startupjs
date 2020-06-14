@@ -1,4 +1,4 @@
-import env from '@env'
+import { BASE_URL } from '@env'
 import init from 'startupjs/init'
 import orm from '../model'
 import React from 'react'
@@ -8,8 +8,6 @@ import { Platform } from 'react-native'
 
 // Frontend micro-services
 import * as main from '../main'
-
-const { BASE_URL } = env
 
 if (Platform.OS === 'web') window.model = model
 

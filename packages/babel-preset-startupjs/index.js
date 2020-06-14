@@ -30,13 +30,18 @@ const basePlugins = ({ legacyClassnames, alias } = {}) => [
   [require('@babel/plugin-proposal-decorators'), { legacy: true }]
 ]
 
-const dotenvPlugin = ({ production } = {}) =>
-  [require('@startupjs/babel-plugin-dotenv-import'), {
+const dotenvPlugin = ({ production, mockBaseUrl } = {}) => {
+  const options = {
     moduleName: '@env',
-    path: ['.env', production ? '.env.production' : '.env.local'],
-    safe: true,
-    allowUndefined: true
-  }]
+    path: ['.env', production ? '.env.production' : '.env.local']
+  }
+  if (mockBaseUrl) {
+    options.override = {
+      BASE_URL: "typeof window !== 'undefined' && window.location && window.location.origin"
+    }
+  }
+  return [require('@startupjs/babel-plugin-dotenv'), options]
+}
 
 const webReactCssModulesPlugin = ({ production } = {}) =>
   [require('@startupjs/babel-plugin-react-css-modules'), {
@@ -99,7 +104,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   ],
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
-    dotenvPlugin(),
+    dotenvPlugin({ mockBaseUrl: true }),
     nativeReactCssModulesPlugin()
   ]
 }
@@ -113,7 +118,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
   plugins: [
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
-    dotenvPlugin({ production: true }),
+    dotenvPlugin({ production: true, mockBaseUrl: true }),
     nativeReactCssModulesPlugin()
   ].filter(Boolean)
 }
@@ -131,7 +136,7 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
   ],
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
-    dotenvPlugin(),
+    dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),
     webPassClassnamePlugin()
   ]
@@ -144,7 +149,7 @@ const CONFIG_WEB_PURE_PRODUCTION = {
     }]
   ],
   plugins: [
-    dotenvPlugin({ production: true }),
+    dotenvPlugin({ production: true, mockBaseUrl: true }),
     webReactCssModulesPlugin({ production: true }),
     webPassClassnamePlugin()
   ]

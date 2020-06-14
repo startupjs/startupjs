@@ -1,5 +1,11 @@
 const { exclude } = require('./includeExclude')
 
+const dotenvPlugin =
+  [require('@startupjs/babel-plugin-dotenv'), {
+    moduleName: '@env',
+    path: ['.env', '.env.local']
+  }]
+
 const pugPlugins = [
   [require('babel-plugin-transform-react-pug'), {
     classAttribute: 'styleName'
@@ -23,6 +29,9 @@ module.exports = {
     if (/react-native-web/.test(path)) return code
     for (const pkg of exclude) {
       if (path.indexOf(pkg) !== -1) return code
+    }
+    if (/['"]@env['"]/.test(code)) {
+      plugins.push(dotenvPlugin)
     }
     if (/pug`/.test(code)) {
       plugins = plugins.concat(pugPlugins, [stylePlugin])
