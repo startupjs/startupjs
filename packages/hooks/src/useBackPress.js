@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { emit } from 'startupjs'
+import { emit } from '@startupjs/react-sharedb'
 import { BackHandler } from 'react-native'
 
 export default function useBackPress (back) {
