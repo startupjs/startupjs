@@ -56,6 +56,22 @@ return (
 )
 ```
 
+## Двусторонняя привязка данных
+
+Вы можете использовать двухстороннюю привязку данных `$page`, `$limit`, `$skip` вместо `page`, `limit`, `skip` соответственно.
+
+```jsx example
+const [, $page] = useValue(0)
+return (
+  <Row align='center'>
+    <Pagination
+      $page={$page}
+      pages={10}
+    />
+  </Row>
+)
+```
+
 ## Кнопки
 
 отображает кнопку для перехода на предыдущую страницу

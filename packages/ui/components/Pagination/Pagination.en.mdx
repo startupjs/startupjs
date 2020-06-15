@@ -57,12 +57,11 @@ return (
 )
 ```
 
-## Two-way data bindings двустороннию привязку данных
+## Two-way data bindings
 
-Properties `page`, `limit` and `skip` have two-way data bindings `$page`, `$limit` and `$skip` respectively.
+You can use have two-way data bindings `$page`, `$limit`, `$skip` instead of `page`, `limit`, `skip` respectively.
 
 ```jsx example
-const [userId] = useSession('userId')
 const [, $page] = useValue(0)
 return (
   <Row align='center'>
