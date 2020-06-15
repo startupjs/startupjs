@@ -16,6 +16,10 @@ startupjsServer({
   ]
 }, (ee, options) => {
   initApp(ee)
+
+  ee.on('routes', expressApp => {
+    expressApp.use('/api', api)
+  })
 })
 
 function getHead (appName) {
