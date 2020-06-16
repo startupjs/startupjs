@@ -1,10 +1,9 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { observer } from 'startupjs'
+import { observer, useBind } from 'startupjs'
 import Div from './../Div'
 import CollapseHeader from './CollapseHeader'
 import CollapseContent from './CollapseContent'
-import { useBindingProps } from '../../hooks'
 import './index.styl'
 
 // TODO: hover, active states
@@ -18,7 +17,7 @@ function Collapse ({
   onChange,
   ...props
 }) {
-  ({ open, onChange } = useBindingProps($open, { open }, { onChange }))
+  ({ open, onChange } = useBind({ $open, open, onChange }))
 
   // Deconstruct template variables
   let header, content

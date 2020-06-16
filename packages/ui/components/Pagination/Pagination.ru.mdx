@@ -13,8 +13,8 @@ import { Pagination } from '@startupjs/ui'
 
 ## Пример
 
-- `count` указывает общее количество страниц
-- `page` указывает текущую страницу, начиная с `0` и заканчивая `count - 1`
+- `pages` указывает общее количество страниц
+- `page` указывает текущую страницу, начиная с `0` и заканчивая `pages - 1`
 
 ```jsx example
 const [page, setPage] = useState()
@@ -22,13 +22,55 @@ return (
   <Row align='center'>
     <Pagination
       page={page}
-      count={10}
+      pages={10}
       onChange={setPage}
     />
   </Row>
 )
 ```
 
+## Альтернативы
+
+- `count` - общее количество элементов
+- `limit` - количество элементов для отображения на странице
+- `skip` - количество элементов, которые нужно пропустить
+
+Вы можете использовать их вместо свойств `pages` или `page`:
+
+- `count` и `limit` вместо `pages`
+- `limit` и `skip` вместо of `page`
+
+```jsx example
+const COUNT = 100
+const LIMIT = 10
+const [skip, setSkip] = useState(0)
+return (
+  <Row align='center'>
+    <Pagination
+      count={COUNT}
+      limit={LIMIT}
+      skip={skip}
+      onChangePage={(val) => setSkip(val * LIMIT)}
+    />
+  </Row>
+)
+```
+
+## Двусторонняя привязка данных
+
+Вы можете использовать двухстороннюю привязку данных `$page`, `$limit`, `$skip` вместо `page`, `limit`, `skip` соответственно.
+
+```jsx example
+const [, $page] = useValue(0)
+return (
+  <Row align='center'>
+    <Pagination
+      $page={$page}
+      pages={10}
+    />
+  </Row>
+)
+```
 
 ## Кнопки
 
@@ -44,7 +86,7 @@ return (
   <Row align='center'>
     <Pagination
       page={page}
-      count={10}
+      pages={10}
       showPrevButton={false}
       showNextButton={false}
       showFirstButton
@@ -66,7 +108,7 @@ return (
     <Pagination
       variant='compact'
       page={page}
-      count={10}
+      pages={10}
       onChange={setPage}
     />
   </Row>
@@ -88,7 +130,7 @@ return (
       page={page}
       boundaryCount={2}
       siblingCount={0}
-      count={10}
+      pages={10}
       onChange={setPage}
     />
   </Row>

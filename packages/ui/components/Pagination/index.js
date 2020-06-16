@@ -56,10 +56,8 @@ function Pagination (props) {
 
 Pagination.defaultProps = {
   variant: 'full',
-  page: 0,
-  boundaryCount: 1,
-  count: 1,
-  siblingCount: 1,
+  boundaryCount: 1, // min 1
+  siblingCount: 1, // min 0
   showFirstButton: false,
   showLastButton: false,
   showPrevButton: true,
@@ -71,9 +69,12 @@ Pagination.propTypes = {
   style: propTypes.object,
   variant: propTypes.oneOf(['full', 'compact']),
   page: propTypes.number,
-  boundaryCount: propTypes.number, // min 1
+  pages: propTypes.number,
+  skip: propTypes.number,
+  limit: propTypes.number,
   count: propTypes.number,
-  siblingCount: propTypes.number, // min 0
+  boundaryCount: propTypes.number,
+  siblingCount: propTypes.number,
   showFirstButton: propTypes.bool,
   showLastButton: propTypes.bool,
   showPrevButton: propTypes.bool,

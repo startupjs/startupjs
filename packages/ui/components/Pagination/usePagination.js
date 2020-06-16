@@ -1,17 +1,53 @@
-export default function usePagination (props = {}) {
-  const {
-    variant,
-    page = 0,
-    boundaryCount = 1,
-    count = 1,
-    siblingCount = 1,
-    showFirstButton = false,
-    showLastButton = false,
-    showPrevButton = true,
-    showNextButton = true,
-    disabled,
-    onChange
-  } = props
+import { useBind } from 'startupjs'
+
+export default function usePagination ({
+  variant,
+  page,
+  $page,
+  pages,
+  skip,
+  $skip,
+  limit,
+  $limit,
+  count,
+  boundaryCount = 1, // min 1
+  siblingCount = 1, // min 0
+  showFirstButton = false,
+  showLastButton = false,
+  showPrevButton = true,
+  showNextButton = true,
+  disabled,
+  onChangePage,
+  onChangeLimit
+}
+) {
+  ({ page, onChangePage } = useBind({ $page, page, onChangePage }))
+  ;({ skip } = useBind({ $skip, skip }))
+  // TODO: Add selectbox to component to change limit
+  ;({ limit, onChangeLimit } = useBind({ $limit, limit, onChangeLimit }))
+
+  if (page == null) {
+    if (skip != null && limit != null) {
+      page = Math.ceil(skip / limit)
+    } else {
+      throw new Error(
+        '[@startupjs/ui] usePagination: page cannot be calculated'
+      )
+    }
+  }
+
+  if (pages == null) {
+    if (count != null && limit != null) {
+      pages = Math.ceil(count / limit)
+    } else {
+      throw new Error(
+        '[@startupjs/ui] usePagination: pages cannot be calculated'
+      )
+    }
+  }
+
+  // min 1
+  pages = pages || 1
 
   // Basic list of items to render
   let itemList = [
@@ -29,15 +65,15 @@ export default function usePagination (props = {}) {
       return Array.from({ length }, (_, i) => start + i)
     }
 
-    const startPages = range(0, Math.min(boundaryCount, count) - 1)
-    const endPages = range(Math.max(count - boundaryCount, boundaryCount), count - 1)
+    const startPages = range(0, Math.min(boundaryCount, pages) - 1)
+    const endPages = range(Math.max(pages - boundaryCount, boundaryCount), pages - 1)
 
     const siblingsStart = Math.max(
       Math.min(
         // Natural start
         page - siblingCount,
         // Lower boundary when page is high
-        count - boundaryCount - siblingCount * 2 - 2
+        pages - boundaryCount - siblingCount * 2 - 2
       ),
       // Greater than startPages
       boundaryCount + 1
@@ -60,7 +96,7 @@ export default function usePagination (props = {}) {
     itemList.push(
       ...(siblingsStart > boundaryCount + 1
         ? ['start-ellipsis']
-        : boundaryCount + 1 < count - boundaryCount
+        : boundaryCount + 1 < pages - boundaryCount
           ? [boundaryCount]
           : [])
     )
@@ -70,10 +106,10 @@ export default function usePagination (props = {}) {
 
     // End ellipsis
     itemList.push(
-      ...(siblingsEnd < count - boundaryCount - 2
+      ...(siblingsEnd < pages - boundaryCount - 2
         ? ['end-ellipsis']
-        : count - boundaryCount > boundaryCount
-          ? [count - boundaryCount - 1]
+        : pages - boundaryCount > boundaryCount
+          ? [pages - boundaryCount - 1]
           : [])
     )
 
@@ -95,7 +131,7 @@ export default function usePagination (props = {}) {
       case 'next':
         return page + 1
       case 'last':
-        return count - 1
+        return pages - 1
       default:
         return null
     }
@@ -105,7 +141,7 @@ export default function usePagination (props = {}) {
   const items = itemList.map((item) => {
     if (typeof item === 'number') {
       return {
-        onPress: () => { onChange(item) },
+        onPress: () => { onChangePage(item) },
         type: 'page',
         value: item,
         selected: item === page,
@@ -116,7 +152,7 @@ export default function usePagination (props = {}) {
     if (item === 'status') {
       return {
         type: item,
-        value: `${page + 1} of ${count}`,
+        value: `${page + 1} of ${pages}`,
         selected: false,
         disabled
       }
@@ -124,16 +160,15 @@ export default function usePagination (props = {}) {
 
     const value = buttonPage(item)
 
-    // ???
     return {
-      onPress: () => { value !== null && onChange(value) },
+      onPress: () => { value !== null && onChangePage(value) },
       type: item,
       value,
       selected: false,
       disabled:
         disabled ||
         (item.indexOf('ellipsis') === -1 &&
-          (item === 'next' || item === 'last' ? page >= count - 1 : page <= 0))
+          (item === 'next' || item === 'last' ? page >= pages - 1 : page <= 0))
     }
   })
 

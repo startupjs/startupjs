@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useValue, useSession } from 'startupjs'
 import Pagination from '../Pagination'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
@@ -13,17 +14,60 @@ import { Pagination } from '@startupjs/ui'
 
 ## Example
 
-- `count` specifies the total number of pages
-- `page` specifies the current page, starting from `0` to `count - 1`
+- `pages` specifies the total number of pages
+- `page` specifies the current page, starting from `0` to `pages - 1`
 
 ```jsx example
-const [page, setPage] = useState()
+const [page, setPage] = useState(0)
 return (
   <Row align='center'>
     <Pagination
       page={page}
-      count={10}
+      pages={10}
       onChange={setPage}
+    />
+  </Row>
+)
+```
+
+## Alternatives
+
+- `count` - total count of items
+- `limit` - count of items to display per page
+- `skip` - count of items to skip
+
+You can use them instead of `pages` or `page` properties:
+
+- `count` and `limit` instead of `pages`
+- `limit` and `skip` instead of `page`
+
+```jsx example
+const COUNT = 100
+const LIMIT = 10
+const [skip, setSkip] = useState(0)
+return (
+  <Row align='center'>
+    <Pagination
+      count={COUNT}
+      limit={LIMIT}
+      skip={skip}
+      onChangePage={(val) => setSkip(val * LIMIT)}
+    />
+  </Row>
+)
+```
+
+## Two-way data bindings
+
+You can use two-way data bindings `$page`, `$limit`, `$skip` instead of `page`, `limit`, `skip` respectively.
+
+```jsx example
+const [, $page] = useValue(0)
+return (
+  <Row align='center'>
+    <Pagination
+      $page={$page}
+      pages={10}
     />
   </Row>
 )
@@ -37,12 +81,12 @@ return (
 - `showLastButton` displays the last-page button (default `false`)
 
 ```jsx example
-const [page, setPage] = useState()
+const [page, setPage] = useState(0)
 return (
   <Row align='center'>
     <Pagination
       page={page}
-      count={10}
+      pages={10}
       showPrevButton={false}
       showNextButton={false}
       showFirstButton
@@ -58,13 +102,13 @@ return (
 To display the component in a compact view pass `variant='compact'`.
 
 ```jsx example
-const [page, setPage] = useState()
+const [page, setPage] = useState(0)
 return (
   <Row align='center'>
     <Pagination
       variant='compact'
       page={page}
-      count={10}
+      pages={10}
       onChange={setPage}
     />
   </Row>
@@ -86,7 +130,7 @@ return (
       page={page}
       boundaryCount={2}
       siblingCount={0}
-      count={10}
+      pages={10}
       onChange={setPage}
     />
   </Row>
