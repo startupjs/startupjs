@@ -13,7 +13,6 @@ export default function useBind (props) {
   const $aValue = useMemo(() => {
     if ($value && typeof $value === 'string') {
       if (/.+\..+/.test($value)) {
-        console.log($value, $root, 'value')
         return $root.at($value)
       } else {
         console.error(`[getBindingProps] You can not specify the top-level absolute path in $value: ${$value}`)
