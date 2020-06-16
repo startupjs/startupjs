@@ -80,7 +80,8 @@ Pagination.propTypes = {
   showPrevButton: propTypes.bool,
   showNextButton: propTypes.bool,
   disabled: propTypes.bool,
-  onChange: propTypes.func
+  onChangePage: propTypes.func
+  // onChangeLimit: propTypes.func TODO: Add selectbox to component to change limit
 }
 
 export default observer(Pagination)

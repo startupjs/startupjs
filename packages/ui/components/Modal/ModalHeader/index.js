@@ -17,7 +17,7 @@ function ModalHeader ({
     if children || onDismiss
       Row.root(style=style align='between' vAlign='center')
         if typeof children === 'string'
-          Span(size='xl' numberOfLines=1 bold)= children
+          Span.title(size='xl' numberOfLines=1 bold)= children
         else
           = children
         if onDismiss
