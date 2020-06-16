@@ -99,9 +99,11 @@ function Div ({
     }
   }
 
+  // backgroundColor in style can override extraStyle backgroundColor
+  // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], extraStyle, style]
+      style=[SHADOWS[level], style, extraStyle]
       styleName=[
         { ['with-shadow']: !!level, clickable: isWeb && isClickable, bleed },
         shape,
