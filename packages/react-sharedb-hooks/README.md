@@ -317,45 +317,42 @@ render(<Main />, document.body.appendChild(document.createElement('div')))
 ```
 
 ### Batching
-React batch updates during a synchronous lifecycle method or during event handlers. For other cases see examples below:
+
+By default, React batches updates made in a known method like the lifecycle methods or event handlers, but doesn’t do the same when the updates are within callbacks like in SetTimeout, Promises, etc. This means that if you have multiple calls to update the state, React re-renders the component each time the call is made.
+
+For model methods you can use `batch` and for React `useState` methods you can use `ReactDOM.unstable_batchedUpdates`.
 
 ```js
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { observer, batch, useDoc } from 'startupjs'
-import axios from 'axios'
-
-export default observer(function Game ({gameId}) {
-  const [userId, $userId] = useLocal('_session.userId')
-  const [user, $user] = useDoc('users', userId)
-  const [game, $game] = useDoc('games', gameId)
-
-  function startGame () {
-    await axios.post('/api/start-game', { gameId })
-    batch(() => {
-      $user.set('activeGameId', gameId)
-      $game.set('startAt', +new Date())
-    })
-  }
-
-  return (
-    <button onClick={startGame}>Start game</button>
-  )
-```
-
-```js
-import React from 'react'
-import { observer, batch, useDoc, useQuery } from 'startupjs'
 
 export default observer(function Game ({ gameId }) {
-  const [game, $game] = useDoc('games', gameId)
+  const [isStarted, setIsStarted] = useState(false)
+  const [startAt, setStartAt] = useState()
 
   function startGame () {
-    const $$players = $root.query('players', { gameId })
-    await $root.subscribeAsync($$players)
-    const playerIds = $$players.getIds()
-    const promises = []
     const startAt = +new Date()
 
+    Promise.resolve().then(() => {
+      ReactDOM.unstable_batchedUpdates(() => {
+        setIsStarted(true)
+        setStartAt(startAt)
+      })
+    })
+
+    // then all mutation will be batched
+    // until setTimeout, Promise, etc comes up
+
+    const $$players = $root.query('players', { gameId })
+    // waiting for promise
+    // it is the same as Promise.resolve().then(...)
+    // it means all next mutation will be not batched
+    await $root.subscribe($$players)
+    const playerIds = $$players.getIds()
+    const promises = []
+
+    // batch all next mutation
     batch(() => {
       playerIds.forEach(playerId => {
         const $player = $root.scope(`players.${playerId}`)
@@ -369,7 +366,6 @@ export default observer(function Game ({ gameId }) {
   return (
     <button onClick={startGame}>Start game</button>
   )
-})
 ```
 
 ### Hooks Example
