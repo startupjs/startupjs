@@ -65,3 +65,16 @@ index c21e1fa..8b1268e 100644
      }
      else {
          return require('http').createServer(requestListener);
+diff --git a/node_modules/vite/dist/transform.js b/node_modules/vite/dist/transform.js
+index 9d59fad..bd53157 100644
+--- a/node_modules/vite/dist/transform.js
++++ b/node_modules/vite/dist/transform.js
+@@ -12,7 +12,7 @@ function createServerTransformPlugin(transforms, customBlockTransforms) {
+                     ctx.type = 'js';
+                     if (ctx.body) {
+                         code = code || (await utils_1.readBody(ctx.body));
+-                        if (code) {
++                        if (code != null) {
+                             ctx.body = await t.transform(code, utils_1.isImportRequest(ctx), false, path, query);
+                             code = ctx.body;
+                         }
