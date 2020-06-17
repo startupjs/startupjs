@@ -23,14 +23,14 @@ index 1922cf0..fb53777 100644
          nodeResolve({
              rootDir: root,
 diff --git a/node_modules/vite/dist/optimizer/pluginBuiltInBail.js b/node_modules/vite/dist/optimizer/pluginBuiltInBail.js
-index a79151e..f3c6306 100644
+index a79151e..000d831 100644
 --- a/node_modules/vite/dist/optimizer/pluginBuiltInBail.js
 +++ b/node_modules/vite/dist/optimizer/pluginBuiltInBail.js
 @@ -9,6 +9,7 @@ exports.createBuiltInBailPlugin = () => {
      return {
          name: 'vite:node-built-in-bail',
          resolveId(id, importer) {
-+            if (id === 'events') return null
++            if (id === 'events' || id === 'config') return null
              if (isbuiltin(id)) {
                  let importingDep;
                  if (importer) {

@@ -1,2 +1,2 @@
-import config from '../config-cjs'
-export default config()
+import config from 'config'
+export default config.ui

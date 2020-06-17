@@ -1,3 +1,14 @@
+const DIRECTORY_ALIASES = {
+  components: './components',
+  helpers: './helpers',
+  clientHelpers: './clientHelpers',
+  model: './model',
+  main: './main',
+  styles: './styles',
+  appConstants: './appConstants',
+  config: './startupjs.config.cjs'
+}
+
 module.exports = {
   alias (id) {
     if (id === 'react-dom/unstable-native-dependencies') {
@@ -16,6 +27,12 @@ module.exports = {
       return '@startupjs/react-native-fontawesome'
     } else if (id === 'react-native-svg') {
       return 'react-native-svg/src/ReactNativeSVG.web.ts'
+    } else {
+      for (const alias in DIRECTORY_ALIASES) {
+        if (new RegExp('^' + alias + '(?:$|/)').test(id)) {
+          return id.replace(alias, DIRECTORY_ALIASES[alias].replace(/^\./, process.cwd()))
+        }
+      }
     }
   }
 }
