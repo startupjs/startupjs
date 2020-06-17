@@ -2,7 +2,7 @@ const esbuildService = require('vite/dist/esbuildService')
 
 // HACK: Monkey patch extensions processed by esbuild
 // TODO: implement PR
-esbuildService.tjsxRE = /\.(tsx?|jsx?|mdx?)$/
+esbuildService.tjsxRE = /\.(tsx?|jsx?|mdx?|cjs|mjs)$/
 
 // HACK: Monkey patch esbuild transform to custom handle .mdx extension
 // TODO: implement PR
@@ -15,7 +15,7 @@ esbuildService.transform = async function (src, file, options = {}, ...args) {
       jsxFactory: 'mdx'
     }
   }
-  if (/\.js$/.test(file)) {
+  if (/\.[cm]?js$/.test(file)) {
     options = {
       ...options,
       loader: 'jsx'
