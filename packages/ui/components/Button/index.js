@@ -6,7 +6,7 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
 import config from '../../config/rootConfig'
-import colorToRGBA from '../../config/colorToRGBA'
+import { colorToRGBA } from '../../config/helpers'
 import { StyleSheet } from 'react-native'
 import './index.styl'
 

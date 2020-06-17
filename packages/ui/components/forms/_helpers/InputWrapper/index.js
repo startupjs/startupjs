@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { View, Animated } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import propTypes from 'prop-types'
-import colorToRGBA from '../../../../config/colorToRGBA'
+import { colorToRGBA } from '../../../../config/helpers'
 import './index.styl'
 
 const SCALE_TIMING = 280
