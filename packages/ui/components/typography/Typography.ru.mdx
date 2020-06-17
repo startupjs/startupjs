@@ -18,58 +18,70 @@ import { Span } from '@startupjs/ui'
 import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
 ```
 
+## Span (спан)
+
+```jsx example
+  <Span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</Span>
+```
+
 ## Размеры
+
+Для изменения размера текста используйте глобальный миксин `font(size)`. Возможные значения `size` (`xs`, `s`, `m`, `l`, `xl`, `xxl`, `xxxl`, `xxxxl`, `xxxxxl`). `m` - это стандартный размер `Span`.
+
+В `.styl` файле
+```stylus
+.text
+  font(xxl)
+```
+
+```jsx example
+  <Span styleName='text'>Text size - xxl.</Span>
+```
+
+## Разновидности
+
+Свойство `variant` означает **"сделать текст как"** и использует `text(key)` глобальный миксин под капотом. Возможные значения `key` (`default`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `description`). **Мы не рекомендуем использовать миксин без необходимости вместо свойства `variant`**.
 
 ```jsx example
 return (
   <Content width='full'>
-    <Span size='xxxxxl'>
-      xxl or h1:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
-    <Br />
-    <Span size='xxxxl'>
-      xxl or h2:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
-    <Br />
-    <Span size='xxxl'>
-      xxl or h3:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
-    <Br />
-    <Span size='xxl'>
-      xxl or h4:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
-    <Br />
-    <Span size='xl'>
-      xl or h5:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
-    <Br />
-    <Span size='l'>
-      l or h6:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
-    <Br />
     <Span>
-      m:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      Размер текста - m (стандартный).
     </Span>
     <Br />
-    <Span size='s'>
-      s:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    <Span variant='h1'>
+      Размер текста - xxxxxl.
     </Span>
     <Br />
-    <Span size='xs'>
-      xs:
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    <Span variant='h2'>
+      Размер текста - xxxxl.
+    </Span>
+    <Br />
+    <Span variant='h3'>
+      Размер текста - xxxl.
+    </Span>
+    <Br />
+    <Span variant='h4'>
+      Размер текста - xxl.
+    </Span>
+    <Br />
+    <Span variant='h5'>
+      Размер текста - xl.
+    </Span>
+    <Br />
+    <Span variant='h6'>
+      Размер текста - l.
+    </Span>
+    <Br />
+    <Span variant='description'>
+      Размер текста - m.
     </Span>
   </Content>
 )
 ```
+
+
+
 
 ## Заголовки
 

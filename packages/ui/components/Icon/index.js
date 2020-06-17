@@ -28,7 +28,6 @@ function Icon ({
 
   const _size = useMemo(() => SIZES[size] || size, [size])
   const _color = useMemo(() => {
-    if (!color) return config.colors.dark
     return colors[color] || color
   }, [color])
 
@@ -58,7 +57,8 @@ function Icon ({
 }
 
 Icon.defaultProps = {
-  size: 'm'
+  size: 'm',
+  color: 'dark'
 }
 
 Icon.propTypes = {

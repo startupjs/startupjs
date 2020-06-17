@@ -13,7 +13,7 @@ const Docs = observer(function DocsComponent ({
   children
 }) {
   if (!docs) return null
-  const [url] = useLocal('$render.url')
+  const [url = ''] = useLocal('$render.url')
   const [, $openedCollapses] = useSession('SidebarCollapses')
 
   // HACK: open parent collapse

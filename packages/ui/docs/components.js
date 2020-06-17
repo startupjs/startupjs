@@ -36,6 +36,7 @@ import MenuRu from '../components/Menu/Menu.ru.mdx'
 import ModalEn from '../components/Modal/Modal.en.mdx'
 import ModalRu from '../components/Modal/Modal.ru.mdx'
 import PaginationEn from '../components/Pagination/Pagination.en.mdx'
+import PaginationRu from '../components/Pagination/Pagination.ru.mdx'
 import ProgressEn from '../components/Progress/Progress.en.mdx'
 import ProgressRu from '../components/Progress/Progress.ru.mdx'
 import RatingEn from '../components/Rating/Rating.en.mdx'
@@ -205,7 +206,10 @@ export default {
     Pagination: {
       type: 'mdx',
       title: 'Pagination',
-      component: PaginationEn
+      component: {
+        en: PaginationEn,
+        ru: PaginationRu
+      }
     },
 
     Progress: {

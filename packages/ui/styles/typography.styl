@@ -1,3 +1,4 @@
+// DEPRECATED: Span
 _headerSizes = {
   h1: xxxxxl,
   h2: xxxxl,
@@ -7,10 +8,35 @@ _headerSizes = {
   h6: l
 }
 
-font(key = m)
+font(size = m)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
-  key = 's' if key is s
-  size = _headerSizes[key] || key
+  size = _headerSizes[size] || size // DEPRECATED: Span
+  size = 's' if size is s
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
+
+text(key = default)
+  // color
+  if key is description
+    color: $UI.colors.secondaryText
+  else
+    color: $UI.colors.mainText
+
+  // font, line
+  if key is default
+    font()
+  else if key is description
+    font()
+  else if key is h1
+    font(xxxxxl)
+  else if key is h2
+    font(xxxxl)
+  else if key is h3
+    font(xxxl)
+  else if key is h4
+    font(xxl)
+  else if key is h5
+    font(xl)
+  else if key is h6
+    font(l)
