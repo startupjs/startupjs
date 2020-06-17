@@ -21,7 +21,6 @@ const stylePlugin =
     modules: true
   }]
 
-// TODO VITE add babel-alias plugin.
 module.exports = {
   test: (path) => /\.([jt]sx?|mdx?)$/.test(path),
   transform: (code, _, isBuild, path) => {
