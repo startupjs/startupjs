@@ -20,11 +20,11 @@ import { Sidebar } from '@startupjs/ui'
 ## Пример
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleSidebar')
+const [open, $open] = useSession('ExampleSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -44,7 +44,7 @@ return (
         }}
       >
         <Row>
-          <Button variant='flat' onPress={() => $isOpen.set(!isOpen)}>
+          <Button variant='flat' onPress={() => $open.set(!open)}>
             Toggle sidebar
           </Button>
         </Row>
@@ -63,11 +63,11 @@ return (
 Для управления видимостью по умолчанию используйте свойство `defaultOpen` (значение по умолчанию равно `true`).
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleDefaultCloseSidebar')
+const [open, $open] = useSession('ExampleDefaultCloseSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
-      $path={$isOpen}
+      $open={$open}
       defaultOpen={false}
       renderContent={() => (
         <Menu>
@@ -88,7 +88,7 @@ return (
         }}
       >
         <Row>
-          <Button variant='flat' onPress={() => $isOpen.set(!isOpen)}>
+          <Button variant='flat' onPress={() => $open.set(!open)}>
             Toggle sidebar
           </Button>
         </Row>
@@ -107,10 +107,10 @@ return (
 Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleRightSidebar')
+const [open, $open] = useSession('ExampleRightSidebar')
 return (
     <Sidebar
-      $path={$isOpen}
+      $open={$open}
       position='right'
       renderContent={() => (
         <Menu>
@@ -133,7 +133,7 @@ return (
         <Row>
           <Button
             variant='flat'
-            onPress={() => { $isOpen.set(!isOpen) }}
+            onPress={() => { $open.set(!open) }}
           >
             Toggle right sidebar
           </Button>
@@ -152,11 +152,11 @@ return (
 Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleLockedSidebar')
+const [open, $open] = useSession('ExampleLockedSidebar')
 return (
     <Sidebar
       forceClosed
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -176,7 +176,7 @@ return (
         }}
       >
         <Row>
-          <Button variant='flat' onPress={() => $isOpen.set(!isOpen)}>
+          <Button variant='flat' onPress={() => $open.set(!open)}>
             Toggle sidebar
           </Button>
         </Row>

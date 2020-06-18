@@ -19,7 +19,7 @@ function SmartSidebar ({
   forceClosed,
   fixedLayoutBreakpoint,
   path,
-  $path,
+  $open,
   position,
   width,
   backgroundColor,
@@ -28,7 +28,7 @@ function SmartSidebar ({
   ...props
 }) {
   if (path) {
-    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $path instead.')
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
   if (/^#|rgb/.test(backgroundColor)) {
@@ -36,8 +36,8 @@ function SmartSidebar ({
   }
 
   const componentId = useComponentId()
-  if (!$path) {
-    [, $path] = useLocal(path || `_session.SmartSidebar.${componentId}`)
+  if (!$open) {
+    [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
 
   ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
@@ -45,9 +45,9 @@ function SmartSidebar ({
     style
   ]))
 
-  let isOpen
+  let open
   let onChange
-  ;({ isOpen, onChange } = useBind({ $path: $path, isOpen, onChange }))
+  ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
@@ -64,7 +64,7 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         style=style
-        $path=$path
+        $open=$open
         position=position
         width=width
         forceClosed=forceClosed
@@ -74,7 +74,7 @@ function SmartSidebar ({
     else
       DrawerSidebar(
         style=style
-        $path=$path
+        $open=$open
         position=position
         width=width
         forceClosed=forceClosed
@@ -95,7 +95,7 @@ SmartSidebar.defaultProps = {
 SmartSidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  $path: propTypes.object,
+  $open: propTypes.object,
   forceClosed: propTypes.bool,
   fixedLayoutBreakpoint: propTypes.number,
   position: propTypes.oneOf(['left', 'right']),

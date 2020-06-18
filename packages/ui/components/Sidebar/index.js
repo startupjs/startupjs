@@ -19,14 +19,14 @@ function Sidebar ({
   children,
   position,
   path,
-  $path,
+  $open,
   width,
   defaultOpen,
   renderContent,
   ...props
 }) {
   if (path) {
-    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $path instead.')
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
   if (/^#|rgb/.test(backgroundColor)) {
@@ -34,8 +34,8 @@ function Sidebar ({
   }
 
   const componentId = useComponentId()
-  if (!$path) {
-    [, $path] = useLocal(path || `_session.Sidebar.${componentId}`)
+  if (!$open) {
+    [, $open] = useLocal(path || `_session.Sidebar.${componentId}`)
   }
 
   // DEPRECATED: Remove backgroundColor
@@ -44,17 +44,17 @@ function Sidebar ({
     style
   ]))
 
-  let isOpen
+  let open
   let onChange
-  ;({ isOpen, onChange } = useBind({
-    $path,
-    isOpen,
+  ;({ open, onChange } = useBind({
+    $open,
+    open,
     onChange,
     default: forceClosed ? false : defaultOpen
   }))
 
-  const [invisible, setInvisible] = useState(!isOpen)
-  const animation = useRef(new Animated.Value(isOpen ? 1 : 0)).current
+  const [invisible, setInvisible] = useState(!open)
+  const animation = useRef(new Animated.Value(open ? 1 : 0)).current
   const animationPropName = useMemo(() => {
     return 'padding' + position[0].toUpperCase() + position.slice(1)
   }, [])
@@ -72,7 +72,7 @@ function Sidebar ({
 
   useDidUpdate(() => {
     if (forceClosed && invisible) return
-    if (isOpen) {
+    if (open) {
       setInvisible(false)
       Animated.timing(
         animation,
@@ -94,7 +94,7 @@ function Sidebar ({
         if (finished) setInvisible(true)
       })
     }
-  }, [!!isOpen])
+  }, [!!open])
 
   return pug`
     Div.root(style=style styleName=[position])
@@ -137,7 +137,7 @@ Sidebar.defaultProps = {
 Sidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  $path: propTypes.object,
+  $open: propTypes.object,
   defaultOpen: propTypes.bool,
   forceClosed: propTypes.bool,
   position: propTypes.oneOf(['left', 'right']),

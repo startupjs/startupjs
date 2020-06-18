@@ -13,14 +13,14 @@ function DrawerSidebar ({
   backgroundColor,
   children,
   path,
-  $path,
+  $open,
   position,
   width,
   renderContent,
   ...props
 }) {
   if (path) {
-    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $path instead.')
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
   if (/^#|rgb/.test(backgroundColor)) {
@@ -28,8 +28,8 @@ function DrawerSidebar ({
   }
 
   const componentId = useComponentId()
-  if (!$path) {
-    [, $path] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
+  if (!$open) {
+    [, $open] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
   }
 
   ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
@@ -37,11 +37,11 @@ function DrawerSidebar ({
     style
   ]))
 
-  let isOpen
+  let open
   let onChange
-  ;({ isOpen, onChange } = useBind({
-    $path,
-    isOpen,
+  ;({ open, onChange } = useBind({
+    $open,
+    open,
     onChange,
     default: defaultOpen
   }))
@@ -56,12 +56,13 @@ function DrawerSidebar ({
   useDidUpdate(() => {
     let drawer = drawerRef.current
     if (!drawer) return
-    if (isOpen && !forceClosed) {
+    if (forceClosed && !open) return
+    if (open && !forceClosed) {
       drawer.openDrawer()
     } else {
       drawer.closeDrawer()
     }
-  }, [!!forceClosed, !!isOpen])
+  }, [!!forceClosed, !!open])
 
   const _renderContent = () => {
     return pug`
@@ -95,7 +96,7 @@ DrawerSidebar.defaultProps = {
 DrawerSidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  $path: propTypes.object,
+  $open: propTypes.object,
   defaultOpen: propTypes.bool,
   forceClosed: propTypes.bool,
   position: propTypes.oneOf(Object.values(DrawerLayout.positions)),

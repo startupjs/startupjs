@@ -20,11 +20,11 @@ import { DrawerSidebar } from '@startupjs/ui'
 ## Пример
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleDrawerSidebar')
+const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -40,7 +40,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Открыть</Button>
+          <Button onPress={() => $open.set(true)}>Открыть</Button>
         </Row>
         <Br />
         <Span>
@@ -57,11 +57,11 @@ return (
 Для управления видимостью по умолчанию используйте свойство `defaultOpen` (значение по умолчанию равно `false`).
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleDefaultOpenDrawerSidebar')
+const [open, $open] = useSession('ExampleDefaultOpenDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       defaultOpen={true}
       renderContent={() => (
         <Menu>
@@ -78,7 +78,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Open</Button>
+          <Button onPress={() => $open.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -95,11 +95,11 @@ return (
 Свойство `position` указывает сторону окна, с которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleRightDrawerSidebar')
+const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       position='right'
       renderContent={() => (
         <Menu>
@@ -116,7 +116,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Открыть</Button>
+          <Button onPress={() => $open.set(true)}>Открыть</Button>
         </Row>
         <Br />
         <Span>
@@ -133,11 +133,11 @@ return (
 Указание свойства `forceClosed` будет держать дровер закрытым, и он не будет реагировать на жесты или свойство `open`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleLockedDrawerSidebar')
+const [open, $open] = useSession('ExampleLockedDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -154,7 +154,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Открыть</Button>
+          <Button onPress={() => $open.set(true)}>Открыть</Button>
         </Row>
         <Br />
         <Span>

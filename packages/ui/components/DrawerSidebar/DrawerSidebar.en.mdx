@@ -20,11 +20,11 @@ import { DrawerSidebar } from '@startupjs/ui'
 ## Example
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleDrawerSidebar')
+const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -40,7 +40,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Open</Button>
+          <Button onPress={() => $open.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -57,11 +57,11 @@ return (
 To control default visibility use `defaultOpen` (default value is `false`) property.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleDefaultOpenDrawerSidebar')
+const [open, $open] = useSession('ExampleDefaultOpenDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       defaultOpen={true}
       renderContent={() => (
         <Menu>
@@ -78,7 +78,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Open</Button>
+          <Button onPress={() => $open.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -95,11 +95,11 @@ return (
 The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleRightDrawerSidebar')
+const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       position='right'
       renderContent={() => (
         <Menu>
@@ -116,7 +116,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Open</Button>
+          <Button onPress={() => $open.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -133,11 +133,11 @@ return (
 Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures or react to `open` property.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleLockedDrawerSidebar')
+const [open, $open] = useSession('ExampleLockedDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -154,7 +154,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(true)}>Open</Button>
+          <Button onPress={() => $open.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>

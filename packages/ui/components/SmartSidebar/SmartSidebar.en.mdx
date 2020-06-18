@@ -20,11 +20,11 @@ import { SmartSidebar } from '@startupjs/ui'
 ## Example
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleSmartSidebar')
+const [open, $open] = useSession('ExampleSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -39,7 +39,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle</Button>
+          <Button onPress={() => $open.set(!open)}>Toggle</Button>
         </Row>
         <Br />
         <Span>
@@ -56,11 +56,11 @@ return (
 The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/en/components/Sidebar) switches to a [drawer sidebar](/docs/en/components/Drawer). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
+const [open, $open] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -76,7 +76,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle</Button>
+          <Button onPress={() => $open.set(!open)}>Toggle</Button>
         </Row>
         <Br />
         <Span>
@@ -93,11 +93,11 @@ return (
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleRightSidebar')
+const [open, $open] = useSession('ExampleRightSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Div>
           <Br />
@@ -116,7 +116,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle right sidebar</Button>
+          <Button onPress={() => $open.set(!open)}>Toggle right sidebar</Button>
         </Row>
         <Br />
         <Span>
@@ -133,11 +133,11 @@ return (
 Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
 
 ```jsx example
-const [isOpen, $isOpen] = useSession('ExampleLockerSmartSidebar')
+const [open, $open] = useSession('ExampleLockerSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      $path={$isOpen}
+      $open={$open}
       renderContent={() => (
         <Div>
           <Br />
@@ -156,7 +156,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle</Button>
+          <Button onPress={() => $open.set(!open)}>Toggle</Button>
         </Row>
       </Content>
     </SmartSidebar>
