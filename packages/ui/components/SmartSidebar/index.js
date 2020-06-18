@@ -87,7 +87,6 @@ function SmartSidebar ({
 
 SmartSidebar.defaultProps = {
   forceClosed: false,
-  backgroundColor: config.colors.white,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
@@ -98,7 +97,6 @@ SmartSidebar.propTypes = {
   children: propTypes.node,
   $path: propTypes.object,
   forceClosed: propTypes.bool,
-  backgroundColor: propTypes.string,
   fixedLayoutBreakpoint: propTypes.number,
   position: propTypes.oneOf(['left', 'right']),
   width: propTypes.number,
