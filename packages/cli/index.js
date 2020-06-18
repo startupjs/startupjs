@@ -4,8 +4,8 @@ const path = require('path')
 const fs = require('fs')
 const CLI_VERSION = require('./package.json').version
 
-const IS_ALPHA = /alpha/.test(CLI_VERSION)
-const STARTUPJS_VERSION = IS_ALPHA ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
+const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
+const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
 
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli

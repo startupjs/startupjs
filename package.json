@@ -14,7 +14,8 @@
     "publish-patch": "npx lerna publish patch",
     "publish-minor": "npx lerna publish minor",
     "publish-alpha-minor": "npx lerna publish preminor --dist-tag next",
-    "publish-alpha": "npx lerna publish prerelease --dist-tag next"
+    "publish-alpha": "npx lerna publish prerelease --dist-tag next",
+    "publish-canary": "npx lerna publish prerelease --preid canary --dist-tag canary"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
