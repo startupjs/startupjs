@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.22.0-alpha.44",
+  "version": "0.22.0-alpha.45",
   "engines": {
     "node": ">= 14"
   },
@@ -13,7 +13,7 @@
     "@startupjs/backend": "^0.22.0-alpha.39",
     "@startupjs/bundler": "^0.22.0-alpha.36",
     "@startupjs/cli": "^0.22.0-alpha.33",
-    "@startupjs/hooks": "^0.22.0-alpha.44",
+    "@startupjs/hooks": "^0.22.0-alpha.45",
     "@startupjs/init": "^0.22.0-alpha.39",
     "@startupjs/isomorphic-helpers": "^0.22.0-alpha.24",
     "@startupjs/orm": "^0.22.0-alpha.34",
