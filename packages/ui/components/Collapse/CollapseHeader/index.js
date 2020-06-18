@@ -23,11 +23,11 @@ function CollapseHeader ({
 }) {
   if (icon === true) icon = faCaretRight
   const reverse = iconPosition === 'right'
-  const animationProgress = useRef(new Animated.Value(open ? 1 : 0)).current
+  const animation = useRef(new Animated.Value(open ? 1 : 0)).current
 
   useDidUpdate(() => {
     Animated.timing(
-      animationProgress,
+      animation,
       {
         toValue: open ? 1 : 0,
         duration: 250,
@@ -47,7 +47,7 @@ function CollapseHeader ({
       Animated.View(
         style={
           transform: [{
-            rotate: animationProgress.interpolate({
+            rotate: animation.interpolate({
               inputRange: [0, 1],
               outputRange: [reverse ? '180deg' : '0deg', '90deg']
             })
