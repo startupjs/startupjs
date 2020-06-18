@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import SmartSidebar from '../SmartSidebar'
 import Row from '../Row'
 import Div from '../Div'
@@ -7,7 +6,7 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { observer, useModel } from 'startupjs'
+import { useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # SmartSidebar (умный сайдбар)
@@ -21,15 +20,11 @@ import { SmartSidebar } from '@startupjs/ui'
 ## Пример
 
 ```jsx example
-const PATH = '_session.ExampleSmartSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -44,7 +39,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>
+          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle</Button>
         </Row>
         <Br />
         <Span>
@@ -61,15 +56,11 @@ return (
 Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/ru/components/Sidebar) переключается на [дровер](/docs/ru/components/Drawer). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
 
 ```jsx example
-const PATH = '_session.ExampleSmartSidebarFixedLayoutBreakpoint'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -85,7 +76,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>
+          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle</Button>
         </Row>
         <Br />
         <Span>
@@ -102,15 +93,11 @@ return (
 Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx example
-const PATH = '_session.ExampleRightSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleRightSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Div>
           <Br />
@@ -129,7 +116,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(!$opened.get())}>Toggle right sidebar</Button>
+          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle right sidebar</Button>
         </Row>
         <Br />
         <Span>
@@ -141,20 +128,16 @@ return (
 )
 ```
 
-## Locked SmartSidebar
+## Заблокированный сайдбар умный сайдбар
 
 Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
 ```jsx example
-const PATH = '_session.ExampleLockerSmartSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleLockerSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <SmartSidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Div>
           <Br />
@@ -173,7 +156,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(!$opened.get())}>Toggle</Button>
+          <Button onPress={() => $isOpen.set(!isOpen)}>Toggle</Button>
         </Row>
       </Content>
     </SmartSidebar>

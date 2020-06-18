@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import DrawerSidebar from '../DrawerSidebar'
 import Row from '../Row'
 import Div from '../Div'
@@ -7,7 +6,7 @@ import Button from '../Button'
 import Content from '../Content'
 import Span from '../typography/Span'
 import Br from '../Br'
-import { useModel } from 'startupjs'
+import { useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DrawerSidebar
@@ -21,15 +20,11 @@ import { DrawerSidebar } from '@startupjs/ui'
 ## Example
 
 ```jsx example
-const PATH = '_session.ExampleLeftDrawerSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -45,7 +40,45 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(true)}>Open</Button>
+          <Button onPress={() => $isOpen.set(true)}>Open</Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Default visibility
+
+To control default visibility use `defaultOpen` (default value is `false`) property.
+
+```jsx example
+const [isOpen, $isOpen] = useSession('ExampleDefaultOpenDrawerSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      $path={$isOpen}
+      defaultOpen={true}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{ backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $isOpen.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -62,15 +95,11 @@ return (
 The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx example
-const PATH = '_session.ExampleRightDrawerSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleRightDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      path={PATH}
+      $path={$isOpen}
       position='right'
       renderContent={() => (
         <Menu>
@@ -87,7 +116,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(true)}>Open</Button>
+          <Button onPress={() => $isOpen.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -104,15 +133,11 @@ return (
 Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures or react to `open` property.
 
 ```jsx example
-const PATH = '_session.ExampleLockedDrawerSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleLockedDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -129,7 +154,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(true)}>Open</Button>
+          <Button onPress={() => $isOpen.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>

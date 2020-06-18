@@ -1,12 +1,16 @@
-import React, { useState, useMemo } from 'react'
-import { observer, useComponentId, useLocal, useDidUpdate } from 'startupjs'
-import { ScrollView, Animated } from 'react-native'
+import React, { useRef, useState, useMemo } from 'react'
+import {
+  observer,
+  useComponentId,
+  useDidUpdate,
+  useLocal,
+  useBind
+} from 'startupjs'
+import { ScrollView, Animated, StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import Div from '../Div'
 import config from '../../config/rootConfig'
 import './index.styl'
-
-const { colors } = config
 
 function Sidebar ({
   style,
@@ -15,28 +19,46 @@ function Sidebar ({
   children,
   position,
   path,
+  $path,
   width,
+  defaultOpen,
   renderContent,
   ...props
 }) {
-  const _backgroundColor = useMemo(() => {
-    return colors[backgroundColor] || backgroundColor
-  }, [backgroundColor])
+  if (path) {
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $path instead.')
+  }
+
+  if (/^#|rgb/.test(backgroundColor)) {
+    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
+  }
+
   const componentId = useComponentId()
-  const [open] = useLocal(path || `_session.Sidebar.${componentId}`)
-  const _open = useMemo(() => {
-    if (forceClosed) {
-      return false
-    } else {
-      return open
-    }
-  }, [!!forceClosed, !!open])
-  const [invisible, setInvisible] = useState(!_open)
-  const [animation] = useState(new Animated.Value(_open ? 0 : -width))
-  const [contentAnimation] = useState(new Animated.Value(_open ? width : 0))
+  if (!$path) {
+    [, $path] = useLocal(path || `_session.Sidebar.${componentId}`)
+  }
+
+  // DEPRECATED: Remove backgroundColor
+  ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: config.colors[backgroundColor] || backgroundColor },
+    style
+  ]))
+
+  let isOpen
+  let onChange
+  ;({ isOpen, onChange } = useBind({
+    $path,
+    isOpen,
+    onChange,
+    default: forceClosed ? false : defaultOpen
+  }))
+
+  const [invisible, setInvisible] = useState(!isOpen)
+  const animation = useRef(new Animated.Value(isOpen ? 1 : 0)).current
   const animationPropName = useMemo(() => {
     return 'padding' + position[0].toUpperCase() + position.slice(1)
   }, [])
+
   const _renderContent = () => {
     return pug`
       ScrollView(contentContainerStyle={ flex: 1 })
@@ -45,68 +67,69 @@ function Sidebar ({
   }
 
   useDidUpdate(() => {
-    if (_open) {
+    if (forceClosed) onChange(false)
+  }, [!!forceClosed])
+
+  useDidUpdate(() => {
+    if (forceClosed && invisible) return
+    if (isOpen) {
       setInvisible(false)
-      Animated.parallel([
-        Animated.timing(
-          contentAnimation,
-          {
-            toValue: width,
-            duration: 250
-          }
-        ),
-        Animated.timing(
-          animation,
-          {
-            toValue: 0,
-            duration: 250
-          }
-        )
-      ]).start()
+      Animated.timing(
+        animation,
+        {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: true
+        }
+      ).start()
     } else {
-      Animated.parallel([
-        Animated.timing(
-          contentAnimation,
-          {
-            toValue: 0,
-            duration: 200
-          }
-        ),
-        Animated.timing(
-          animation,
-          {
-            toValue: -width,
-            duration: 200
-          }
-        )
-      ]).start(() => {
-        setInvisible(true)
+      Animated.timing(
+        animation,
+        {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true
+        }
+      ).start(({ finished }) => {
+        if (finished) setInvisible(true)
       })
     }
-  }, [!!_open])
+  }, [!!isOpen])
 
   return pug`
     Div.root(style=style styleName=[position])
       Animated.View.sidebar(
-        style={[position]: animation, width}
-        styleName={invisible}
+        style={
+          [position]: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [-width, 0]
+          }),
+          width
+        }
       )
-        Div(level=1 style={
-          flex: 1,
-          backgroundColor: _backgroundColor
-        })
+        Div.sidebarContentWrapper(
+          style={
+            flex: 1,
+            backgroundColor
+          }
+          styleName={invisible}
+          level=1
+        )
           = _renderContent()
       Animated.View.main(
         style={
-          [animationPropName]: contentAnimation
+          [animationPropName]: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, width]
+          })
         }
       )= children
   `
 }
 
 Sidebar.defaultProps = {
+  defaultOpen: true,
   forceClosed: false,
-  backgroundColor: config.colors.white,
   position: 'left',
   width: 264
 }
@@ -114,8 +137,9 @@ Sidebar.defaultProps = {
 Sidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  $path: propTypes.object,
+  defaultOpen: propTypes.bool,
   forceClosed: propTypes.bool,
-  backgroundColor: propTypes.string,
   position: propTypes.oneOf(['left', 'right']),
   width: propTypes.number,
   renderContent: propTypes.func

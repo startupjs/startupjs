@@ -1,6 +1,12 @@
 import React, { useLayoutEffect } from 'react'
-import { observer, useValue, useComponentId } from 'startupjs'
-import { Dimensions } from 'react-native'
+import {
+  observer,
+  useValue,
+  useComponentId,
+  useLocal,
+  useBind
+} from 'startupjs'
+import { Dimensions, StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
@@ -13,6 +19,7 @@ function SmartSidebar ({
   forceClosed,
   fixedLayoutBreakpoint,
   path,
+  $path,
   position,
   width,
   backgroundColor,
@@ -20,9 +27,27 @@ function SmartSidebar ({
   renderContent,
   ...props
 }) {
-  const componentId = useComponentId()
+  if (path) {
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $path instead.')
+  }
 
-  if (!path) path = `_session.SmartSidebar.${componentId}`
+  if (/^#|rgb/.test(backgroundColor)) {
+    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
+  }
+
+  const componentId = useComponentId()
+  if (!$path) {
+    [, $path] = useLocal(path || `_session.SmartSidebar.${componentId}`)
+  }
+
+  ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: config.colors[backgroundColor] || backgroundColor },
+    style
+  ]))
+
+  let isOpen
+  let onChange
+  ;({ isOpen, onChange } = useBind({ $path: $path, isOpen, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
@@ -39,7 +64,7 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         style=style
-        path=path
+        $path=$path
         position=position
         width=width
         forceClosed=forceClosed
@@ -49,7 +74,7 @@ function SmartSidebar ({
     else
       DrawerSidebar(
         style=style
-        path=path
+        $path=$path
         position=position
         width=width
         forceClosed=forceClosed
@@ -71,6 +96,7 @@ SmartSidebar.defaultProps = {
 SmartSidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  $path: propTypes.object,
   forceClosed: propTypes.bool,
   backgroundColor: propTypes.string,
   fixedLayoutBreakpoint: propTypes.number,

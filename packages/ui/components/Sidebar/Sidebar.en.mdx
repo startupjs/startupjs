@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import Sidebar from '../Sidebar'
 import Row from '../Row'
 import Div from '../Div'
@@ -7,7 +6,7 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { observer, useModel } from 'startupjs'
+import { useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Sidebar
@@ -21,15 +20,11 @@ import { Sidebar } from '@startupjs/ui'
 ## Example
 
 ```jsx example
-const PATH = '_session.ExampleSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -49,7 +44,51 @@ return (
         }}
       >
         <Row>
-          <Button variant='flat' onPress={() => $opened.set(!$opened.get())}>
+          <Button variant='flat' onPress={() => $isOpen.set(!isOpen)}>
+            Toggle sidebar
+          </Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </Sidebar>
+  </Div>
+)
+```
+
+## Default visibility
+
+To control default visibility use `defaultOpen` (default value is `true`) property.
+
+```jsx example
+const [isOpen, $isOpen] = useSession('ExampleDefaultCloseSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <Sidebar
+      $path={$isOpen}
+      defaultOpen={false}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{
+          backgroundColor: 'white'
+        }}
+      >
+        <Row>
+          <Button variant='flat' onPress={() => $isOpen.set(!isOpen)}>
             Toggle sidebar
           </Button>
         </Row>
@@ -68,14 +107,10 @@ return (
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx example
-const PATH = '_session.ExampleRightSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleRightSidebar')
 return (
     <Sidebar
-      path={PATH}
+      $path={$isOpen}
       position='right'
       renderContent={() => (
         <Menu>
@@ -98,7 +133,7 @@ return (
         <Row>
           <Button
             variant='flat'
-            onPress={() => { $opened.set(!$opened.get()) }}
+            onPress={() => { $isOpen.set(!isOpen) }}
           >
             Toggle right sidebar
           </Button>
@@ -117,15 +152,11 @@ return (
 Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
 
 ```jsx example
-const PATH = '_session.ExampleLockedSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [isOpen, $isOpen] = useSession('ExampleLockedSidebar')
 return (
     <Sidebar
       forceClosed
-      path={PATH}
+      $path={$isOpen}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -145,7 +176,7 @@ return (
         }}
       >
         <Row>
-          <Button variant='flat' onPress={() => $opened.set(!$opened.get())}>
+          <Button variant='flat' onPress={() => $isOpen.set(!isOpen)}>
             Toggle sidebar
           </Button>
         </Row>
