@@ -19,7 +19,7 @@ function Span ({
   if (size) {
     console.warn('[@startupjs/ui] Span: size is deprecated. Use font() mixin instead or variant property.')
   } else {
-    size = 'm'
+    if (!variant) size = 'm'
   }
 
   return pug`
