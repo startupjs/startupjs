@@ -24,18 +24,20 @@ export default function useBind (props) {
     }
   }, [$value])
 
-  useLayoutEffect(() => {
-    $aValue.setNull(props.default)
-  }, [])
-
   try {
     const res = {}
 
     if (getterName) {
       if ($aValue != null) {
+        useLayoutEffect(() => {
+          if ($aValue) $aValue.setNull(props.default)
+        }, [])
         res[getterName] = $aValue.get()
       } else {
         res[getterName] = props[getterName]
+        useMemo(() => {
+          if (res[getterName] == null) res[getterName] = props.default
+        }, [])
       }
     }
 
