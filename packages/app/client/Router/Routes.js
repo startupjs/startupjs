@@ -6,7 +6,6 @@ import {
   initLocalCollection
 } from 'startupjs'
 import { Route } from 'react-router'
-import { matchRoutes } from 'react-router-config'
 import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
 import qs from 'qs'
@@ -72,7 +71,7 @@ const RouteComponent = observer(function RCComponent ({
   useLayoutEffect(() => {
     initRoute(location, match.params)
     runFilters(route.filters)
-  }, [location.pathname])
+  }, [location.pathname, location.search])
 
   if (!render) return null
 
