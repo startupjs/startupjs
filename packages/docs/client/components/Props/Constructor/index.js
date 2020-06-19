@@ -19,6 +19,8 @@ export default observer(themed(function Constructor ({ Component, $props, style,
     let res = parseEntries(Object.entries(parsePropTypes(Component)))
     for (const prop of res) {
       if (prop.defaultValue) {
+        // FIXME: All logic is broken when default value is function
+        // this is due to a racer patch
         $props.set(prop.name, prop.defaultValue)
       }
     }

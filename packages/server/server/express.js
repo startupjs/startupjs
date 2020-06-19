@@ -92,6 +92,9 @@ module.exports = (backend, appRoutes, error, options, done) => {
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
     }
 
+    // ----------------------------------------------------->    static    <#
+    options.ee.emit('static', expressApp)
+
     if (process.env.NODE_ENV !== 'production' && process.env.VITE) {
       // Enable cors requests from localhost in dev
       expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
