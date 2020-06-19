@@ -20,7 +20,7 @@ applyPatches()
 module.exports = {
   configureServer: startupjsServerPlugin,
   resolvers: [resolver],
-  transforms: [transformStyl, transformMdxHmr, transformBabel, transformMdx],
+  transforms: [transformMdx, transformBabel, transformStyl, transformMdxHmr],
   optimizeDeps: {
     include,
     exclude
