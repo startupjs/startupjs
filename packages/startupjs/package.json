@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.22.0-alpha.45",
+  "version": "0.22.0",
   "engines": {
     "node": ">= 14"
   },
@@ -9,16 +9,16 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/app": "^0.22.0-alpha.39",
-    "@startupjs/backend": "^0.22.0-alpha.39",
-    "@startupjs/bundler": "^0.22.0-alpha.36",
-    "@startupjs/cli": "^0.22.0-alpha.33",
-    "@startupjs/hooks": "^0.22.0-alpha.45",
-    "@startupjs/init": "^0.22.0-alpha.39",
-    "@startupjs/isomorphic-helpers": "^0.22.0-alpha.24",
-    "@startupjs/orm": "^0.22.0-alpha.34",
-    "@startupjs/react-sharedb": "^0.22.0-alpha.39",
-    "@startupjs/server": "^0.22.0-alpha.39",
-    "babel-preset-startupjs": "^0.22.0-alpha.36"
+    "@startupjs/app": "^0.22.0",
+    "@startupjs/backend": "^0.22.0",
+    "@startupjs/bundler": "^0.22.0",
+    "@startupjs/cli": "^0.22.0",
+    "@startupjs/hooks": "^0.22.0",
+    "@startupjs/init": "^0.22.0",
+    "@startupjs/isomorphic-helpers": "^0.22.0",
+    "@startupjs/orm": "^0.22.0",
+    "@startupjs/react-sharedb": "^0.22.0",
+    "@startupjs/server": "^0.22.0",
+    "babel-preset-startupjs": "^0.22.0"
   }
 }

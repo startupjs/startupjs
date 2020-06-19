@@ -90,6 +90,9 @@ module.exports = (backend, appRoutes, error, options, done) => {
         })
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
     }
+    
+    // ----------------------------------------------------->    static    <#
+    options.ee.emit('static', expressApp)
 
     expressApp
       .use(express.static(options.publicPath, { maxAge: '1h' }))
