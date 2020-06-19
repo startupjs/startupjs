@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Server-side middleware for rendering client apps",
-  "version": "0.22.0-alpha.24",
+  "version": "0.22.0-canary.0",
   "main": "index.js",
   "dependencies": {
     "lodash": "4.x",

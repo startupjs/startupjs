@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-react-pug-classnames",
-  "version": "0.22.0-alpha.33",
+  "version": "0.22.0-canary.0",
   "publishConfig": {
     "access": "public"
   },
@@ -31,7 +31,6 @@
     "index.js",
     "README.md"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "babel-plugin-tester": "^9.1.0",
