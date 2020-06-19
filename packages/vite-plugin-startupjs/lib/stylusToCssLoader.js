@@ -29,7 +29,7 @@ function renderToCSS (src, filename, platform) {
 
   compiler.render(function (err, res) {
     if (err) {
-      throw new Error(err + '\nPATH ' + filename)
+      throw new Error(err + '\nPATH ' + filename + '\n\n' + 'CODE' + '\n' + src + '\nEND')
     }
     compiled = res
   })

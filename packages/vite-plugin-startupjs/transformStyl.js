@@ -4,7 +4,11 @@ const cssToReactNativeLoader = require('./lib/cssToReactNativeLoader')
 const nodePath = require('path')
 
 module.exports = {
-  test: (path) => /\.styl$/.test(path),
+  // TODO VITE figure out what this proxy is about
+  test: (path, query) => {
+    if (query && query['commonjs-proxy'] != null) return false
+    return /\.styl$/.test(path)
+  },
   transform: (code, _, isBuild, path) => {
     let filename
     if (/^\/@modules\//.test(path)) {

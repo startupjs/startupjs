@@ -1,4 +1,5 @@
 const { exclude } = require('./includeExclude')
+const nodePath = require('path')
 
 const dotenvPlugin =
   [require('@startupjs/babel-plugin-dotenv'), {
@@ -22,8 +23,19 @@ const stylePlugin =
   }]
 
 module.exports = {
-  test: (path) => /\.([jt]sx?|mdx?)$/.test(path),
+  // TODO VITE figure out what this proxy is about
+  test: (path, query) => {
+    if (query && query['commonjs-proxy'] != null) return false
+    return /\.([jt]sx?|mdx?)$/.test(path)
+  },
   transform: (code, _, isBuild, path) => {
+    let filename
+    if (/^\/@modules\//.test(path)) {
+      filename = path.replace('/@modules/', '')
+      filename = nodePath.join(process.cwd(), '../node_modules', filename)
+    } else {
+      filename = path
+    }
     let plugins = []
     if (/react-native-web/.test(path)) return code
     for (const pkg of exclude) {
@@ -45,7 +57,7 @@ module.exports = {
     }
     if (plugins.length === 0) return code
     plugins.unshift(require('@babel/plugin-syntax-jsx'))
-    code = require('@babel/core').transformSync(code, { plugins }).code
+    code = require('@babel/core').transformSync(code, { plugins, filename }).code
     return code
   },
   before: true

@@ -7,7 +7,11 @@ if (!transformReactHmr) {
 }
 
 module.exports = {
-  test: (path) => /\.mdx?$/.test(path),
+  // TODO VITE figure out what this proxy is about
+  test: (path, query) => {
+    if (query && query['commonjs-proxy'] != null) return false
+    return /\.mdx?$/.test(path)
+  },
   transform: (code, ...args) => {
     code = transformReactHmr.transform(code, ...args)
     return code

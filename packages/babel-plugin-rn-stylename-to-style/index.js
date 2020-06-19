@@ -51,6 +51,7 @@ module.exports = function (babel) {
 
     if (
       styleName == null ||
+      styleName.node == null ||
       specifier == null ||
       !(
         t.isStringLiteral(styleName.node.value) ||

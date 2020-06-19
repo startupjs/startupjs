@@ -22,7 +22,7 @@ exports.include = [
   'qs',
   'fast-deep-equal',
   '@mdx-js/react',
-  '@fortawesome/fontawesome-svg-core',
+  // '@fortawesome/fontawesome-svg-core',
   '@startupjs/react-native-fontawesome',
   'react-native-svg/src/ReactNativeSVG.web.ts',
   'parse-prop-types',
