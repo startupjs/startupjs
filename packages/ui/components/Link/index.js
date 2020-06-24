@@ -87,7 +87,7 @@ Link.propTypes = {
   bold: Span.propTypes.bold,
   italic: Span.propTypes.italic,
   children: propTypes.node,
-  to: propTypes.string,
+  to: propTypes.string.isRequired,
   replace: propTypes.bool,
   block: propTypes.bool,
   color: propTypes.oneOf(['default', 'primary'])

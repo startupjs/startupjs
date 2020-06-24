@@ -25,18 +25,52 @@ return (
 )
 ```
 
+## Custom layout
+
+Property `block` is used to add custom content to component.
+
+```jsx example
+return (
+  <Span>
+    Inherits&nbsp;
+    <Link block to='/docs/en/typography'>
+      <Span>Span props</Span>
+    </Link>
+  </Span>
+)
+```
+
 ## Colors
 
-To change link color pass the property `color`.
+To change link color pass the property `color` (doesn't work with the property `block`).
 
 ```jsx example
 return (
   <Row>
     <Span>Inherits&nbsp;</Span>
-    <Link block to='/docs/en/typography' color='primary'>
-      <Span>Span props</Span>
+    <Link to='/docs/en/typography' color='primary'>
+      Span props
     </Link>
   </Row>
+)
+```
+
+## Actions
+
+By passing `onPress` handler to component you can run some logic before redirecting.
+
+```jsx example
+function onPress (event) {
+  console.log('Go to alert docs')
+}
+return (
+  <Link
+    color='primary'
+    to='/docs/en/components/Alert'
+    onPress={onPress}
+  >
+    Alert docs
+  </Link>
 )
 ```
 
