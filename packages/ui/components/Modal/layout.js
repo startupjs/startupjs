@@ -14,6 +14,7 @@ function Modal ({
   variant,
   title,
   ModalElement,
+  onCrossPress,
   onDismiss,
   onConfirm,
   onBackdropPress
@@ -63,7 +64,7 @@ function Modal ({
 
   // Handle <Modal.Header>
   const headerProps = {
-    onDismiss,
+    onDismiss: onCrossPress || onDismiss,
     style: content || actions ? { paddingBottom: 0 } : null
   }
   header = header
