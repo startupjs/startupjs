@@ -13,6 +13,10 @@ import { Modal } from '@startupjs/ui'
 
 ## Пример
 
+- `onCrossPress` отображает крестик в заголовке который использует этот обработчик (он имеет более высокий приоритет чем `onDismiss`)
+- `onDismiss` отображает кнопку отмены и крестик в заголовке которые используют этот обработчик
+- `onConirm` отображает кнопку подтверждения которая использует этот обработчик
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
@@ -25,6 +29,7 @@ return (
       visible={visible}
       dismissLabel='Закрыть'
       confirmLabel='Принять'
+      onCrossPress={() => setVisible(false)}
       onDismiss={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
       onShow={() => console.log('Modal shown!')}

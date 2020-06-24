@@ -13,6 +13,10 @@ import { Modal } from '@startupjs/ui'
 
 ## Example
 
+- `onCrossPress` displays cross in title that uses this handler (it has a higher priority than `onDismiss`)
+- `onDismiss` displays cancel button and cross in title that uses this handler
+- `onConirm` displays confirm button that uses this handler
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
@@ -25,6 +29,7 @@ return (
       visible={visible}
       dismissLabel='Close'
       confirmLabel='Accept'
+      onCrossPress={() => setVisible(false)}
       onDismiss={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
       onShow={() => console.log('Modal shown!')}

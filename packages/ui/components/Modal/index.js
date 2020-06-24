@@ -20,6 +20,7 @@ Modal.propTypes = {
   title: propTypes.string,
   ModalElement: propTypes.func,
   onShow: propTypes.func,
+  onCrossPress: propTypes.func,
   onDismiss: propTypes.func,
   onConfirm: propTypes.func,
   onBackdropPress: propTypes.func
