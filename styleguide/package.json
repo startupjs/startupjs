@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.22.3",
+  "version": "0.22.4",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -38,7 +38,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-web": "^0.12.0",
     "source-map-support": "^0.5.16",
-    "startupjs": "^0.22.2"
+    "startupjs": "^0.22.4"
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",

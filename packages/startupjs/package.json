@@ -1,6 +1,6 @@
 {
   "name": "startupjs",
-  "version": "0.22.2",
+  "version": "0.22.4",
   "engines": {
     "node": ">= 14"
   },
@@ -18,7 +18,7 @@
     "@startupjs/isomorphic-helpers": "^0.22.0",
     "@startupjs/orm": "^0.22.0",
     "@startupjs/react-sharedb": "^0.22.0",
-    "@startupjs/server": "^0.22.0",
+    "@startupjs/server": "^0.22.4",
     "babel-preset-startupjs": "^0.22.2"
   }
 }
