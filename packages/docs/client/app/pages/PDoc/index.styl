@@ -1,4 +1,10 @@
+$page = $UI.media.tablet
+
 .root
+  flex 1
+
+.content
   padding 0 2u
-  +from($UI.media.tablet)
+  max-width $page
+  +tablet()
     padding 0 4u
