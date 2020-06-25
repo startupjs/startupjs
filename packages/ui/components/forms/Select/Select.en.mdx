@@ -1,0 +1,57 @@
+import { useState } from 'react'
+import Select from '../Select'
+import Div from '../../Div'
+import Br from '../../Br'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
+
+# Select
+
+Inherits [`TextInput` props](/docs/en/forms/TextInput).
+
+Select lets user pick one of multiple options. Works similar to HTML's `<select>` tag
+
+```jsx
+import { Select } from '@startupjs/ui'
+```
+
+## Example
+
+```jsx example
+const [color, setColor] = useState()
+const [city, setCity] = useState('la')
+return (
+  <Div>
+    <Select
+      label='Example'
+      placeholder='placeholder'
+      value={color}
+      onChange={setColor}
+      onFocus={(e) => console.log('focused', e)}
+      onBlur={(e) => console.log('blurred', e)}
+      options={[
+        'red',
+        'yellow',
+        'blue'
+      ]}
+    />
+    <Br />
+    <Select
+      label='Custom labels example'
+      value={city}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+      onChange={setCity}
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+Inherits [`TextInput` props](/docs/en/forms/TextInput).
+
+<Sandbox Component={Select} />

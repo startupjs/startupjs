@@ -5,6 +5,7 @@ import ObjectInputEn from '../components/forms/ObjectInput/ObjectInput.en.mdx'
 import RadioEn from '../components/forms/Radio/Radio.en.mdx'
 import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
 import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
+import SelectEn from '../components/forms/Select/Select.en.mdx'
 
 export default {
   type: 'collapse',
@@ -40,6 +41,11 @@ export default {
         en: TextInputEn,
         ru: TextInputRu
       }
+    },
+    Select: {
+      type: 'mdx',
+      title: 'Select',
+      component: SelectEn
     }
   }
 }

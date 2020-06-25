@@ -17,6 +17,7 @@ function TextInput ({
   disabled,
   onBlur,
   onFocus,
+  renderWrapper, // @private - used by Select
   ...props
 }) {
   const _layout = useLayout(layout, label)
@@ -41,6 +42,7 @@ function TextInput ({
         placeholder=placeholder
         disabled=disabled
         focused=focused
+        renderWrapper=renderWrapper
         onBlur=(...args) => {
           _onBlur()
           onBlur && onBlur(...args)
