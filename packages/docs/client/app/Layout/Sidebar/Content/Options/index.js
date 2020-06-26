@@ -33,6 +33,7 @@ export default observer(function Options ({
       title='Settings'
       visible=open
       onDismiss=() => $open.set(false)
+      dismissLabel='Close'
     )
       Input.input(type='checkbox' label='Dark theme' $value=$darkTheme)
       if $showSizes.get()
