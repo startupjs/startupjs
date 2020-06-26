@@ -35,6 +35,7 @@
     "TextInput": "/components/forms/TextInput",
     "_helpers": "/components/forms/_helpers",
     "Drawer": "/components/popups/Drawer",
+    "Dropdown": "/components/popups/Dropdown",
     "Popover": "/components/popups/Popover",
     "H1": "/components/typography/H1",
     "H2": "/components/typography/H2",
