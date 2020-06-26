@@ -12,6 +12,7 @@ function Select ({
   options,
   style,
   value,
+  showEmptyValue,
   disabled,
   onChange,
   ...props
@@ -24,6 +25,7 @@ function Select ({
         disabled=disabled
         value=value
         onChange=onChange
+        showEmptyValue=showEmptyValue
       )= children
     `
   }
@@ -43,12 +45,14 @@ function Select ({
 
 Select.defaultProps = {
   disabled: false,
-  options: []
+  options: [],
+  showEmptyValue: true
 }
 
 Select.propTypes = {
   onChange: propTypes.func,
-  options: propTypes.array
+  options: propTypes.array,
+  showEmptyValue: propTypes.bool
 }
 
 export default observer(Select)

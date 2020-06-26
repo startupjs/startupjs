@@ -10,7 +10,8 @@ const Docs = observer(function DocsComponent ({
   docs,
   lang,
   subpath = '',
-  children
+  children,
+  level = 0
 }) {
   if (!docs) return null
   const [url = ''] = useLocal('$render.url')
@@ -41,24 +42,29 @@ const Docs = observer(function DocsComponent ({
           - const rootPath = pathFor('docs:doc', { lang, path: docPath })
           - const isActive = rootPath === url
           if ['mdx', 'sandbox'].includes(doc.type)
-            Menu.Item(active=isActive to=rootPath)= title
+            Menu.Item.item(
+              active=isActive
+              to=rootPath
+              styleName={ nested: level > 0 }
+            )= title
           if doc.type === 'collapse'
             Collapse(
               variant='pure'
               $open=$openedCollapses.at(docPath)
             )
-              Collapse.Header.collapse(
+              Collapse.Header.header(
                 iconPosition='right'
                 icon=faAngleRight
                 iconStyleName='collapse-icon'
               )
-                Menu.Item(
+                Menu.Item.item(
                   active=isActive
                   to=doc.component ? rootPath : null
                   bold
+                  icon=doc.icon
                 )= title
               Collapse.Content
-                Docs(docs=doc.items lang=lang subpath=docPath)
+                Docs(docs=doc.items lang=lang subpath=docPath level=level + 1)
   `
 })
 

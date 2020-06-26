@@ -12,12 +12,24 @@
   width 60px
   height 60px
   align-self center
-  margin-top 2u
-  margin-bottom 1u
+  margin-top 4u
+  margin-bottom 4u
 
 .hr
   border-bottom-color #eaeaea
 
+.footer
+  padding-top 1u
+  padding-bottom 1u
+  padding-left 2u
+  padding-right 0.5u
+  background-color $UI.colors.darkLightest
+
 .lang
-  margin-top 1u
-  margin-bottom 1u
+  // TODO: flex-grow 1 for some reason gets removed. Research.
+  flex-grow 2
+  flex-shrink 1
+
+.options
+  margin-left 0.5u
+  flex-shrink 0

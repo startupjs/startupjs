@@ -1,4 +1,5 @@
 /* @asyncImports */
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons'
 import AlertEn from '../components/Alert/Alert.en.mdx'
 import AlertRu from '../components/Alert/Alert.ru.mdx'
 import AvatarEn from '../components/Avatar/Avatar.en.mdx'
@@ -58,6 +59,7 @@ export default {
     en: 'Components',
     ru: 'Компоненты'
   },
+  icon: faWindowRestore,
   items: {
     Alert: {
       type: 'mdx',

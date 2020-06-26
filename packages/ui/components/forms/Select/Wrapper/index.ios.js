@@ -16,6 +16,7 @@ export default observer(function SelectWrapper ({
   value,
   onChange,
   disabled,
+  showEmptyValue,
   style,
   children
 }) {
@@ -52,11 +53,12 @@ export default observer(function SelectWrapper ({
               selectedValue=stringifyValue(value)
               onValueChange=onValueChange
             )
-              Picker.Item(
-                key=-1
-                value=stringifyValue(NULL_OPTION)
-                label=getLabel(NULL_OPTION)
-              )
+              if showEmptyValue
+                Picker.Item(
+                  key=-1
+                  value=stringifyValue(NULL_OPTION)
+                  label=getLabel(NULL_OPTION)
+                )
               each item, index in options
                 Picker.Item(
                   key=index

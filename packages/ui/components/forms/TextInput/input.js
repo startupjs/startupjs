@@ -68,6 +68,11 @@ export default observer(function Input ({
     useLayoutEffect(() => {
       if (focused && disabled) inputRef.current.blur()
     }, [disabled])
+    // fix minWidth on web
+    // ref: https://stackoverflow.com/a/29990524/1930491
+    useLayoutEffect(() => {
+      inputRef.current.setNativeProps({ size: '1' })
+    })
   }
 
   useDidUpdate(() => {

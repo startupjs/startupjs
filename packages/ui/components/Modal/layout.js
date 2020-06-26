@@ -15,6 +15,8 @@ function Modal ({
   title,
   ModalElement,
   onCrossPress,
+  dismissLabel,
+  confirmLabel,
   onDismiss,
   onConfirm,
   onBackdropPress
@@ -53,6 +55,8 @@ function Modal ({
   // Handle <Modal.Actions>
   const actionsProps = {
     onDismiss,
+    dismissLabel,
+    confirmLabel,
     onConfirm,
     style: content ? { paddingTop: 0 } : null
   }

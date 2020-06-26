@@ -17,6 +17,7 @@ export default observer(function SelectWrapper ({
   value,
   onChange,
   disabled,
+  showEmptyValue,
   style,
   children
 }) {
@@ -30,8 +31,9 @@ export default observer(function SelectWrapper ({
       = children
       if !disabled
         select.overlay(value=stringifyValue(value) onChange=onSelectChange)
-          option(key=-1 value=stringifyValue(NULL_OPTION))
-            = getLabel(NULL_OPTION)
+          if showEmptyValue
+            option(key=-1 value=stringifyValue(NULL_OPTION))
+              = getLabel(NULL_OPTION)
           each item, index in options
             option(key=index value=stringifyValue(item))
               = getLabel(item)

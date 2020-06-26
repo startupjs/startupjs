@@ -1,5 +1,5 @@
-import typography from './typography'
+import foundation from './foundation'
 import forms from './forms'
 import components from './components'
 
-export default { typography, components, forms }
+export default { foundation, components, forms }

@@ -1,4 +1,5 @@
 /* @asyncImports */
+import { faSpellCheck } from '@fortawesome/free-solid-svg-icons'
 import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import ObjectInputEn from '../components/forms/ObjectInput/ObjectInput.en.mdx'
@@ -13,6 +14,7 @@ export default {
     en: 'Forms',
     ru: 'Формы'
   },
+  icon: faSpellCheck,
   items: {
     Checkbox: {
       type: 'mdx',

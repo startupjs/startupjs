@@ -16,7 +16,7 @@ export default observer(function Sidebar ({ children }) {
     if ($opened.get() == null) $opened.set(true)
   }, [])
   return pug`
-    SmartSidebar(path=PATH width=200 renderContent=renderContent)
+    SmartSidebar(path=PATH width=240 renderContent=renderContent)
       = children
   `
 })
