@@ -1,5 +1,5 @@
 {
-  "version": "0.22.7",
+  "version": "0.22.8",
   "command": {
     "publish": {
       "ignoreChanges": [
