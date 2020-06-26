@@ -129,7 +129,7 @@ const Popover = ({
       onDismiss()
       setIsShow(false)
 
-      refCaption.current.measure((ex, ey, width, height) => {
+      refCaption.current && refCaption.current.measure((ex, ey, width, height) => {
         setCaptionSize({ width, height })
         setCoords(null)
       })
