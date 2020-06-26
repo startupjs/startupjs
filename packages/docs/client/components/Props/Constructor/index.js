@@ -62,7 +62,7 @@ export default observer(themed(function Constructor ({ Component, $props, style,
               else
                 Span.type(styleName=[theme])= type
             Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
-            Td
+            Td.vCenter
               if type === 'string'
                 Input(
                   type='text'

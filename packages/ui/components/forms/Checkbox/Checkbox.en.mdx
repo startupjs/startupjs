@@ -19,7 +19,7 @@ const [checked, setChecked] = useState(false)
 return (
   <Content>
     <Checkbox
-      label='Example Checbkbox'
+      label='Example Checkbox'
       value={checked}
       onChange={(newState) => setChecked(newState)}
       onFocus={(e) => console.log('focused checkbox', e)}
@@ -27,8 +27,9 @@ return (
     />
     <Br />
     <Checkbox
-      label='Disabled Checbkbox'
+      label='Disabled Checkbox'
       value={true}
+      disabled
     />
   </Content>
 )
