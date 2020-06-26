@@ -15,7 +15,7 @@ Modal.defaultProps = {
 Modal.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  variant: propTypes.oneOf(['window', 'fullscreen']),
+  variant: propTypes.oneOf(['window', 'fullscreen', 'pure']),
   visible: propTypes.bool,
   title: propTypes.string,
   ModalElement: propTypes.func,

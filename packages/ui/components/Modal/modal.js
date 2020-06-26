@@ -9,6 +9,18 @@ export default function Modal ({
 }) {
   if (!visible) return null
 
+  if (props.variant === 'pure') {
+    return pug`
+      RNModal(
+        visible
+        transparent
+        animationType='fade'
+        style=style
+        onRequestClose=()=> {}
+      )= props.children
+    `
+  }
+
   return pug`
     RNModal(
       visible
