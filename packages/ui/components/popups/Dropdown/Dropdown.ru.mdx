@@ -1,0 +1,208 @@
+import { useState } from 'react'
+import { View, Text } from 'react-native'
+import { faSort } from '@fortawesome/free-solid-svg-icons'
+import Dropdown from './index.js'
+import Icon from '../../Icon'
+import Row from '../../Row'
+import Br from '../../Br'
+
+# Dropdown
+Всплывающие меню. Адаптируемое в зависимости от расширения.
+```jsx
+import { Dropdown } from '@startupjs/ui'
+```
+
+## Простой пример
+В функцию onChange приходит значение нажатого чилдрена.
+titleDefault - используется для заголовка в мобильном расширении для variant - 'default'
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      titleDefault="Sort"
+      activeValue={sort}
+      variant="buttons"
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Caption>
+        <Row>
+          <Text>{'Sort by: ' + sort}</Text>
+          <Icon icon={faSort} />
+        </Row>
+      </Dropdown.Caption>
+      <Dropdown.Item value="popular" label="Popular" />
+      <Dropdown.Item value="brand" label="Brand" />
+      <Dropdown.Item value="name" label="Name" />
+    </Dropdown>
+  </View>
+)
+```
+
+## Ограниченная высота (only Number)
+```jsx
+popoverHeight={140}
+```
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      titleDefault="Sort"
+      activeValue={sort}
+      variant="buttons"
+      popoverHeight={140}
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Caption>
+        <Row>
+          <Text>{'Sort by: ' + sort}</Text>
+          <Icon icon={faSort} />
+        </Row>
+      </Dropdown.Caption>
+      <Dropdown.Item value='popular' label='Popular' />
+      <Dropdown.Item value='brand' label='Brand' />
+      <Dropdown.Item value='name' label='Name' />
+      <Dropdown.Item value='popular2' label='Popular2' />
+      <Dropdown.Item value='brand2' label='Brand2' />
+      <Dropdown.Item value='name2' label='Name2' />
+    </Dropdown>
+  </View>
+)
+```
+
+## Задать ширину списка из ширины Caption
+```jsx
+hasPopoverWidthCaption={true}
+```
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ alignSelf: 'start' }}>
+    <Dropdown
+      titleDefault='Sort'
+      activeValue={sort}
+      variant='buttons'
+      hasPopoverWidthCaption={true}
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Caption>
+        <Row>
+          <Text>{'Sort by: ' + sort}</Text>
+          <Icon icon={faSort} />
+        </Row>
+      </Dropdown.Caption>
+      <Dropdown.Item value='popular' label='Popular' />
+      <Dropdown.Item value='brand' label='Brand' />
+      <Dropdown.Item value='name' label='Name' />
+    </Dropdown>
+  </View>
+)
+```
+
+## Использование Dropdown в виде меню
+```jsx example
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown>
+      <Dropdown.Caption>
+        <Row>
+          <Text>Show menu </Text>
+          <Icon icon={faSort} />
+        </Row>
+      </Dropdown.Caption>
+      <Dropdown.Item label="Popular" onPress={()=> alert("Menu 1")} />
+      <Dropdown.Item label="Brand" onPress={()=> alert("Menu 2")} />
+      <Dropdown.Item label="Name" onPress={()=> alert("Menu 3")} />
+    </Dropdown>
+  </View>
+)
+```
+
+## Варианты дизайна для моб. устройств
+```jsx
+variant='default' // 'default', 'buttons', 'system'
+```
+```jsx example
+return (
+  <Row>
+    <View style={{ width: 100 }}>
+      <Dropdown
+        titleDefault="Default style"
+        variant="default"
+      >
+        <Dropdown.Caption>
+          <Row>
+            <Text>{'default '}</Text>
+            <Icon icon={faSort} />
+          </Row>
+        </Dropdown.Caption>
+        <Dropdown.Item label='Popular' onPress={()=> console.log('Menu 1')} />
+        <Dropdown.Item label='Brand' onPress={()=> console.log('Menu 2')} />
+        <Dropdown.Item label='Name' onPress={()=> console.log('Menu 3')} />
+      </Dropdown>
+    </View>
+    <View style={{ width: 100 }}>
+      <Dropdown variant="buttons">
+        <Dropdown.Caption>
+          <Row>
+            <Text>{'buttons '}</Text>
+            <Icon icon={faSort} />
+          </Row>
+        </Dropdown.Caption>
+        <Dropdown.Item label='Popular' onPress={()=> console.log('Menu 1')} />
+        <Dropdown.Item label='Brand' onPress={()=> console.log('Menu 2')} />
+        <Dropdown.Item label='Name' onPress={()=> console.log('Menu 3')} />
+      </Dropdown>
+    </View>
+  </Row>
+)
+```
+
+## Кастомизация
+```jsx example
+const [active, setActive] = useState()
+const styleItem = { backgroundColor: '#000', alignItems: 'center', padding: 8 }
+const styleActiveItem = { backgroundColor: '#eee', alignItems: 'center', padding: 8 }
+const styleText = { color: '#ffffff' }
+const styleActiveText = { color: '#6563d8' }
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      variant="custom"
+      activeValue={active}
+      customStylePopover={{ backgroundColor: '#000' }}
+      onChange={value=> setActive(value)}
+    >
+      <Dropdown.Caption>
+        <Row>
+          <Text>{'Show menu '}</Text>
+          <Icon icon={faSort} />
+        </Row>
+      </Dropdown.Caption>
+      <Dropdown.Item value={1}>
+        <View style={active === 1 ? styleActiveItem : styleItem}>
+          <Text style={active === 1 ? styleActiveText : styleText}>
+            Menu 1
+          </Text>
+        </View>
+      </Dropdown.Item>
+      <Dropdown.Item value={2}>
+        <View style={active === 2 ? styleActiveItem : styleItem}>
+          <Text style={active === 2 ? styleActiveText : styleText}>
+            Menu 2
+          </Text>
+        </View>
+      </Dropdown.Item>
+      <Dropdown.Item value={3}>
+        <View style={active === 3 ? styleActiveItem : styleItem}>
+          <Text style={active === 3 ? styleActiveText : styleText}>
+            Menu 3
+          </Text>
+        </View>
+      </Dropdown.Item>
+    </Dropdown>
+  </View>
+)
+```
+<Br lines={10} />
