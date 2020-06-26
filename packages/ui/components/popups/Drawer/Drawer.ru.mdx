@@ -1,0 +1,201 @@
+import { useState } from 'react'
+import { useDrawerDismiss } from '@startupjs/ui/hooks'
+import { View, TouchableWithoutFeedback, Text } from 'react-native'
+import { useHistory } from 'react-router-dom'
+import Row from '../../Row'
+import Button from '../../Button'
+import Drawer from './index.js'
+
+# Drawer
+Навигационные панели предназначены для предоставления ссылок на различные части вашего приложения. 
+Боковые панели содержат дополнительную информацию и закрепляются по левую или правую сторону окна браузера.
+```jsx
+import { Drawer } from '@startupjs/ui'
+```
+
+## Простой пример
+```jsx example
+const [visible, setVisible] = useState(false)
+return (
+  <View>
+    <Drawer
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      styleContent={{ width: 250 }}
+    >
+      <View>
+        <Text>Контент</Text>
+      </View>
+    </Drawer>
+    <Button
+      style={{ width: 160 }}
+      onPress={()=> setVisible(true)}
+    >Развернуть</Button>
+  </View>
+)
+```
+
+## Позиция
+Компонент можно разворачивать из разных направлений (left, right, top, buttom).
+```jsx example
+const positions = ['left', 'right', 'top', 'bottom']
+const names = ['Слева', 'Справа', 'Сверху', 'Снизу']
+const [visible, setVisible] = useState('')
+return (
+  <Row>
+    {
+      positions.map((item, index) => (
+        <View>
+          <Drawer
+            position={item}
+            visible={visible === item}
+            onDismiss={() => setVisible('')}
+          >
+            <View>
+              <Text>{names[index]}</Text>
+            </View>
+          </Drawer>
+          <Button
+            onPress={() => setVisible(item)}
+            style={{ width: 120, marginRight: 16 }}
+          >{names[index]}</Button>
+        </View>
+      ))
+    }
+  </Row>
+)
+```
+
+## Свайп
+В компоненте есть поддержка закрытия с помощью свайпа.
+```jsx example
+const [visible, setVisible] = useState('')
+return (
+  <Row>
+    <Drawer
+      visible={visible === 'zone'}
+      onDismiss={() => setVisible('')}
+      styleContent={{ width: 250 }}
+      styleSwipe={{ backgroundColor: '#eeeeee' }}
+    />
+    <Button
+      style={{ width: 280, marginRight: 24 }}
+      onPress={() => setVisible('zone')}
+    >Отображение зоны свайпа</Button>
+    <Drawer
+      visible={visible === 'custom'}
+      onDismiss={() => setVisible('')}
+      styleContent={{ width: 250 }}
+      styleSwipe={{ backgroundColor: '#eeeeee', width: '30%',
+        height: 100, top: 30 }}
+    />
+    <Button
+      style={{ width: 280 }}
+      onPress={() => setVisible('custom')}
+    >Кастомная зона свайпа</Button>
+  </Row>
+)
+```
+
+## Кастомизация
+Можно передавать стили для контента и всей обертки.
+```jsx example
+const [visible, setVisible] = useState()
+return (
+  <Row>
+    <Drawer
+      visible={visible === 1}
+      position="bottom"
+      onDismiss={() => setVisible()}
+      styleCase={{ alignItems: 'center' }}
+      styleContent={{ width: 500, borderTopLeftRadius: 40, 
+        borderTopRightRadius: 40 }}
+    />
+    <Button
+      style={{ width: 280, marginRight: 24 }}
+      onPress={() => setVisible(1)}
+    >Пример 1</Button>
+    <Drawer
+      visible={visible === 2}
+      position="top"
+      onDismiss={() => setVisible()}
+      isShowOverlay={false}
+      hasDefaultStyleContent={false}
+      styleCase={{ alignItems: 'center' }}
+      styleContent={{ width: '60%', height: 60, paddingTop: 20 }}
+      styleSwipe={{ height: '100%' }}
+    >
+      <View style={{ width: '100%', height: '100%',
+        backgroundColor: '#6464f9', borderRadius: 20 }} />
+    </Drawer>
+    <Button
+      style={{ width: 280, marginRight: 24 }}
+      onPress={() => setVisible(2)}
+    >Пример 2</Button>
+  </Row>
+)
+```
+
+## Хук для плавного закрытия
+Если в контенте компонента есть события при которых должна быть скрыта панель, например переход на другую страницу, и нужно чтобы она закрывалась плавно с анимацией.
+Есть хук - useDrawerDismiss, в котором задается дефолная функция, которая отрабатывает на каждое событие onDismiss, и дополнительные которые должны вызываться после нее.
+```jsx
+import { useDrawerDismiss } from '@startupjs/ui/hooks'
+```
+
+```jsx example
+const history = useHistory()
+const [leftDrawer, setLeftDrawer] = useState(false)
+const [rightDrawer, setRightDrawer] = useState(false)
+const [leftVisible, setLeftVisible] = useState(false)
+const [onDismiss, setOnDismiss] = useDrawerDismiss({
+  rightDrawer: () => setRightDrawer(true),
+  goToPage: path => history.push(path),
+  default: () => setLeftDrawer(false)
+})
+return (
+  <Row>
+    <Drawer
+      visible={rightDrawer}
+      position="right"
+      onDismiss={()=> setRightDrawer(false)}
+      styleContent={{ width: 240 }}
+    />
+    <Drawer
+      visible={leftVisible}
+      onDismiss={()=> setLeftVisible(false)}
+      styleContent={{ width: 240 }}
+    >
+      <TouchableWithoutFeedback onPress={()=> history.push('/docs/ru/docs/Button')}>
+        <View>
+          <Text>Открыть другую страницу</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    </Drawer>
+    <Button
+      onPress={() => setLeftVisible(true)}
+      style={{ width: 280, marginRight: 24 }}
+    >Без хука</Button>
+    <Drawer
+      visible={leftDrawer}
+      onDismiss={onDismiss}
+      styleContent={{ width: 240 }}
+    >
+      <TouchableWithoutFeedback onPress={()=> setOnDismiss('rightDrawer')}>
+        <View>
+          <Text>Открыть правый Drawer</Text>
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={()=> setOnDismiss('goToPage', '/docs/ru/docs/Button')}>
+        <View>
+          <Text>Открыть другую страницу</Text>
+         </View>
+      </TouchableWithoutFeedback>
+    </Drawer>
+    <Button
+      onPress={()=> setLeftDrawer(true)}
+      style={{ width: 280, marginRight: 24 }}
+    >С хуком</Button>
+  </Row>
+)
+```
