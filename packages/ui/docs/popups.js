@@ -1,6 +1,7 @@
 /* @asyncImports */
 import { faWindowRestore } from '@fortawesome/free-solid-svg-icons'
 import DrawerRu from '../components/popups/Drawer/Drawer.ru.mdx'
+import PopoverRu from '../components/popups/Popover/Popover.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -14,6 +15,11 @@ export default {
       type: 'mdx',
       title: 'Drawer',
       component: DrawerRu
+    },
+    Popover: {
+      type: 'mdx',
+      title: 'Popover',
+      component: PopoverRu
     }
   }
 }
