@@ -1,0 +1,31 @@
+import { useState } from 'react'
+import AutoSuggest from '../AutoSuggest'
+import Br from '../Br'
+
+```jsx
+import { AutoSuggest } from '@startupjs/ui'
+```
+
+## Пример
+```jsx example
+const [value, setValue] = useState('')
+const users = [
+  'Harry',
+  'Alfie',
+  'Jacob',
+  'Oscar',
+  'Charlie',
+  'James',
+  'William'
+]
+return (
+  <AutoSuggest
+    data={users}
+    value={value}
+    popoverHeight={200}
+    placeholder="Select value"
+    onChange={v=> setValue(v)}
+  />
+)
+```
+<Br lines={16} />
