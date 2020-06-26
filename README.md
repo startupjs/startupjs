@@ -115,7 +115,7 @@ The main things you'll need to know to get started with StartupJS are:
 1. [React hooks for Model](/packages/react-sharedb-hooks)
 1. [StartupJS UI Components](https://startupjs-ui.dmapper.co)
 
-For additional documentation on each StartupJS package see the according readme:
+**Optional**. For additional documentation on each StartupJS package see the according readme:
 
 1. [List of StartupJS Packages](#list-of-packages)
 
