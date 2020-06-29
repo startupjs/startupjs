@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { ScrollView } from 'react-native'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
@@ -14,7 +14,6 @@ const AutoSuggest = ({
   onChange
 }) => {
   const [isFind, setIsFind] = useState(false)
-  const [isShowPopover, setIsShowPopover] = useState(false)
   const onFocus = () => setIsFind(true)
   const onBlur = () => setIsFind(false)
 
@@ -27,23 +26,19 @@ const AutoSuggest = ({
     if (renderItem) return renderItem(item, index, item === value)
     return pug`
       Menu.Item(
+        key=index
         onPress=()=> onChange(item)
         active=item === value
       )= item
     `
   })
 
-  useEffect(() => {
-    if (!!_data.length && isFind) setIsShowPopover(true)
-    else setIsShowPopover(false)
-  }, [!!_data.length, isFind])
-
   return pug`
     Popover(
       height=popoverHeight
-      visible=isShowPopover
+      visible=(!!_data.length && isFind)
       positionHorizontal="right"
-      onDismiss=()=> setIsShowPopover(false)
+      onDismiss=()=> {}
     )
       Popover.Caption
         TextInput(
