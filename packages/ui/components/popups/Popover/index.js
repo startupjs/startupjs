@@ -66,26 +66,30 @@ const Popover = ({
   }, [])
 
   useEffect(() => {
-    if (visible) {
-      setParams()
-    } else {
-      hide()
-    }
+    animateOpacityOverlay.stopAnimation()
+    animateOpacity.stopAnimation()
+    animateTop.stopAnimation()
+    animateWidth.stopAnimation()
+    heightAnimate.stopAnimation()
+
+    if (visible) setParams()
+    else hide()
   }, [visible])
 
   const setParams = () => {
-    if (coords === null) {
-      setTimeout(() => {
-        setIsShow(true)
-        refContent.current.getNode().measure((ex, ey, width, height, lx, ly) => {
-          animateTop.setValue(getTopPosition(ly, animateType === 'slide' ? 20 : 0))
-          setCoords({ x: lx, y: ly })
-          setContentHeight(height)
-          setContentWidth(width)
-          show(height)
-        })
-      }, 100)
-    }
+    // if (coords !== null) return
+    if (!refContent.current && !refContent.current.getNode) return
+
+    setTimeout(() => {
+      setIsShow(true)
+      refContent.current.getNode().measure((ex, ey, width, height, lx, ly) => {
+        animateTop.setValue(getTopPosition(ly, animateType === 'slide' ? 20 : 0))
+        setCoords({ x: lx, y: ly })
+        setContentHeight(height)
+        setContentWidth(width)
+        show(height)
+      })
+    }, 100)
   }
 
   const show = contentHeight => {

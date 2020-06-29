@@ -1,10 +1,3 @@
-import { useState } from 'react'
-import { useDrawerDismiss } from '@startupjs/ui/hooks'
-import { View, TouchableWithoutFeedback, Text } from 'react-native'
-import { useHistory } from 'react-router-dom'
-import Row from '../../Row'
-import Button from '../../Button'
-import Drawer from './index.js'
 
 # Drawer
 Навигационные панели предназначены для предоставления ссылок на различные части вашего приложения. 
@@ -45,7 +38,7 @@ return (
   <Row>
     {
       positions.map((item, index) => (
-        <View>
+        <View key={index}>
           <Drawer
             position={item}
             visible={visible === item}
@@ -166,7 +159,7 @@ return (
       onDismiss={()=> setLeftVisible(false)}
       styleContent={{ width: 240 }}
     >
-      <TouchableWithoutFeedback onPress={()=> history.push('/docs/ru/docs/Button')}>
+      <TouchableWithoutFeedback onPress={()=> history.push('/docs/en/components/Button')}>
         <View>
           <Text>Открыть другую страницу</Text>
         </View>
@@ -186,7 +179,7 @@ return (
           <Text>Открыть правый Drawer</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={()=> setOnDismiss('goToPage', '/docs/ru/docs/Button')}>
+      <TouchableWithoutFeedback onPress={()=> setOnDismiss('goToPage', '/docs/en/components/Button')}>
         <View>
           <Text>Открыть другую страницу</Text>
          </View>
