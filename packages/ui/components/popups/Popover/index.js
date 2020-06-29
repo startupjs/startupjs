@@ -78,7 +78,9 @@ const Popover = ({
 
   const setParams = () => {
     // if (coords !== null) return
-    if (!refContent.current && !refContent.current.getNode) return
+    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
+      return
+    }
 
     setTimeout(() => {
       setIsShow(true)
@@ -149,7 +151,7 @@ const Popover = ({
     })
   }
   React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type === Popover.Caption) {
+    if (child.type.toString() === Popover.Caption.toString()) {
       caption = child
       return
     }
