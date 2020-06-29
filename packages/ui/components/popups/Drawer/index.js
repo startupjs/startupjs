@@ -69,7 +69,7 @@ const Drawer = ({
     if (contentSize.width !== null) return
 
     setTimeout(() => {
-      if (!refContent.current || !refContent.current.getNode) return
+      if (!refContent.current && !refContent.current.getNode) return
       refContent.current.getNode().measure((x, y, width, height) => {
         setContentSize({ height, width })
 
