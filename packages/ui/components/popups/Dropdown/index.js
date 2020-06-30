@@ -45,7 +45,7 @@ const Dropdown = ({
   let caption = null
   let renderContent = []
   React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type === Dropdown.Caption) {
+    if (child.type.toString() === Dropdown.Caption.toString()) {
       if (index !== 0) Error('Caption need use first child')
       caption = child.props.children
       return
