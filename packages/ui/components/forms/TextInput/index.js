@@ -9,6 +9,7 @@ import './index.styl'
 
 function TextInput ({
   style,
+  inputStyle,
   className,
   label,
   placeholder,
@@ -36,7 +37,7 @@ function TextInput ({
   function renderInput (standalone) {
     return pug`
       Input(
-        style=standalone ? style : {}
+        style=standalone ? [style, inputStyle] : inputStyle
         className=standalone ? className : undefined
         value=value
         placeholder=placeholder
@@ -80,6 +81,7 @@ TextInput.defaultProps = {
 
 TextInput.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  inputStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   label: propTypes.string,
   placeholder: propTypes.string,
   value: propTypes.string,

@@ -54,6 +54,57 @@ return (
 )
 ```
 
+## Complex example
+
+```jsx example
+const schema = {
+  name: {
+    type: 'string',
+    label: 'Name'
+  },
+  number: {
+    type: 'string',
+    label: 'Number'
+  },
+  abilities: {
+    type: 'object',
+    label: 'Abilities',
+    properties: {
+      ability0: {
+        type: 'string',
+        label: 'Ability 1'
+      },
+      ability1: {
+        type: 'string',
+        label: 'Ability 2'
+      },
+      ability2: {
+        type: 'string',
+        label: 'Ability 3'
+      }
+    }
+  },
+  url: {
+    type: 'string',
+    label: 'Image URL'
+  },
+  dangerous: {
+    type: 'boolean',
+    label: 'Is Dangerous'
+  }
+}
+
+const [, $value] = useValue()
+
+return (
+  <Input
+    type='object'
+    $value={$value}
+    properties={schema}
+  />
+)
+```
+
 ## Sandbox
 
 <Sandbox Component={Input} />
