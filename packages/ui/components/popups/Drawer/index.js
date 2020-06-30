@@ -125,7 +125,8 @@ const Drawer = ({
     })
   }
 
-  const Wrapper = ((contentSize.width) || (!contentSize.width && visible)) ? Modal : View
+  const isSizeDefined = ((contentSize.width) || (!contentSize.width && visible))
+  const Wrapper = isSizeDefined ? Modal : View
   const _styleCase = {
     ...POSITION_STYLES[position],
     ...styleCase,
@@ -142,7 +143,7 @@ const Drawer = ({
       ariaHideApp=false
       visible=isRender
       variant='pure'
-      style=SHTAMP_RENDER_STYLE
+      style=isSizeDefined ? {} : SHTAMP_RENDER_STYLE
     )
       SafeAreaView.areaCase
         View.case(style=_styleCase)

@@ -220,7 +220,7 @@ const Popover = ({
         visible=isShow
         ariaHideApp=false
         variant='pure'
-        style=SHTAMP_RENDER_STYLE
+        style=coords === null ? SHTAMP_RENDER_STYLE : {}
       )
         View.case
           TouchableWithoutFeedback(onPress=onDismiss)
