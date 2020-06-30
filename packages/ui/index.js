@@ -3,6 +3,7 @@
 //            full module import paths for tree-shaking to be used by
 //            the 'babel-plugin-startupjs'
 export { default as Alert } from './components/Alert'
+export { default as AutoSuggest } from './components/AutoSuggest'
 export { default as Avatar } from './components/Avatar'
 export { default as Br } from './components/Br'
 export { default as Breadcrumbs } from './components/Breadcrumbs'
