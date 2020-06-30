@@ -1,22 +1,30 @@
+$uncheckedColor = $UI.colors.dark
+$checkedColor = $UI.colors.primary
+$size = 2u
+
 _size = 2u
 
 .root
-  flex-direction row
-  align-items center
   padding 0.5u
 
-.circle
+.radio
+  width 16px
+  height @width
+
+  border-color $uncheckedColor
   radius(circle)
   border-width 0.25u
   justify-content center
   align-items center
-  width _size
-  height @width
 
-.checked
+  &.checked
+    border-color $checkedColor
+
+.circle
   radius(circle)
   width (_size / 2)
   height @width
+  background-color $checkedColor
 
-.label
+.container
   margin-left 1u
