@@ -22,10 +22,10 @@ module.exports = function generateColorsFromPalette (pallete) {
     primaryLighter: colorToRGBA(pallete.blue, 0.25),
     primaryLightest: colorToRGBA(pallete.blue, 0.05),
 
-    secondary: pallete.violet,
-    secondaryLight: colorToRGBA(pallete.violet, 0.5),
-    secondaryLighter: colorToRGBA(pallete.violet, 0.25),
-    secondaryLightest: colorToRGBA(pallete.violet, 0.05),
+    secondary: pallete.black,
+    secondaryLight: colorToRGBA(pallete.black, 0.5),
+    secondaryLighter: colorToRGBA(pallete.black, 0.25),
+    secondaryLightest: colorToRGBA(pallete.black, 0.05),
 
     success: pallete.green,
     successLight: colorToRGBA(pallete.green, 0.5),
@@ -70,6 +70,11 @@ module.exports = function generateColorsFromPalette (pallete) {
     additional4: pallete.ochre,
     additional4Light: colorToRGBA(pallete.ochre, 0.5),
     additional4Lighter: colorToRGBA(pallete.ochre, 0.25),
-    additional4Lightest: colorToRGBA(pallete.ochre, 0.05)
+    additional4Lightest: colorToRGBA(pallete.ochre, 0.05),
+
+    additional5: pallete.violet,
+    additional5Light: colorToRGBA(pallete.violet, 0.5),
+    additional5Lighter: colorToRGBA(pallete.violet, 0.25),
+    additional5Lightest: colorToRGBA(pallete.violet, 0.05)
   }
 }

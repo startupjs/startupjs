@@ -1,9 +1,11 @@
 /* @asyncImports */
 import { faSpellCheck } from '@fortawesome/free-solid-svg-icons'
 import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'
+import CheckboxRu from '../components/forms/Checkbox/Checkbox.ru.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import ObjectInputEn from '../components/forms/ObjectInput/ObjectInput.en.mdx'
 import RadioEn from '../components/forms/Radio/Radio.en.mdx'
+import RadioRu from '../components/forms/Radio/Radio.ru.mdx'
 import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
 import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
 import SelectEn from '../components/forms/Select/Select.en.mdx'
@@ -19,7 +21,10 @@ export default {
     Checkbox: {
       type: 'mdx',
       title: 'Checkbox',
-      component: CheckboxEn
+      component: {
+        en: CheckboxEn,
+        ru: CheckboxRu
+      }
     },
     Input: {
       type: 'mdx',
@@ -34,7 +39,10 @@ export default {
     Radio: {
       type: 'mdx',
       title: 'Radio',
-      component: RadioEn
+      component: {
+        en: RadioEn,
+        ru: RadioRu
+      }
     },
     TextInput: {
       type: 'mdx',

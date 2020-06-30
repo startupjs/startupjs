@@ -1,5 +1,5 @@
 const colorToRGBA = require('./colorToRGBA')
-const PALLETE = require('./pallete')
+const PALLETE = require('./palette')
 const generateColorsFromPalette = require('./generateColorsFromPalette')
 
 function u (value = 0) {

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { observer, useLocal, useSession } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Menu, Collapse } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
-import { pathFor } from 'startupjs/app'
+import { pathFor, useLocation } from 'startupjs/app'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 const Docs = observer(function DocsComponent ({
@@ -14,12 +14,16 @@ const Docs = observer(function DocsComponent ({
   level = 0
 }) {
   if (!docs) return null
-  const [url = ''] = useLocal('$render.url')
+
+  const { pathname } = useLocation()
   const [, $openedCollapses] = useSession('SidebarCollapses')
 
-  // HACK: open parent collapse
+  // HACK: open parent collapse on initial render
   useEffect(() => {
-    if (subpath && url.includes(subpath)) $openedCollapses.setDiff(subpath, true)
+    if (subpath) {
+      const docPath = pathFor('docs:doc', { lang, path: subpath })
+      if (pathname.startsWith(docPath)) $openedCollapses.setDiff(subpath, true)
+    }
   }, [])
 
   function getTitle (item, lang) {
@@ -40,7 +44,7 @@ const Docs = observer(function DocsComponent ({
           - const title = getTitle(doc, lang)
           - const docPath = subpath ? subpath + '/' + aDocName : aDocName
           - const rootPath = pathFor('docs:doc', { lang, path: docPath })
-          - const isActive = rootPath === url
+          - const isActive = rootPath === pathname
           if ['mdx', 'sandbox'].includes(doc.type)
             Menu.Item.item(
               active=isActive

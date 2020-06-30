@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useLayoutEffect } from 'react'
 import { observer } from 'startupjs'
 import parsePropTypes from 'parse-prop-types'
 import { Text, Platform } from 'react-native'
@@ -11,17 +11,19 @@ import { Span, themed, Input } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
-  let entries = useMemo(() => {
-    let res = parseEntries(Object.entries(parsePropTypes(Component)))
-    for (const prop of res) {
+  const entries = useMemo(() => {
+    return parseEntries(Object.entries(parsePropTypes(Component)))
+  }, [Component])
+
+  useLayoutEffect(() => {
+    for (const prop of entries) {
       if (prop.defaultValue) {
         // FIXME: All logic is broken when default value is function
         // this is due to a racer patch
         $props.set(prop.name, prop.defaultValue)
       }
     }
-    return res
-  }, [Component])
+  }, entries)
 
   return pug`
     Table.table(style=style)

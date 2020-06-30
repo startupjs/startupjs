@@ -20,7 +20,9 @@ export default function Modal ({
   if (props.variant === 'pure') {
     return ReactDOM.createPortal(
       pug`
-        View.pure
+        View.pure(
+          style=style
+        )
           = props.children
       `,
       document.getElementById(ROOT_CONTAINER_ID)

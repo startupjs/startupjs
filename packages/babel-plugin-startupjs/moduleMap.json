@@ -33,7 +33,6 @@
     "Radio": "/components/forms/Radio",
     "Select": "/components/forms/Select",
     "TextInput": "/components/forms/TextInput",
-    "_helpers": "/components/forms/_helpers",
     "Drawer": "/components/popups/Drawer",
     "Dropdown": "/components/popups/Dropdown",
     "Popover": "/components/popups/Popover",

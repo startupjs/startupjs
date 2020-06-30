@@ -44,6 +44,7 @@ const Icon = observer(({
         width=_size
         height=_size
         fill=style.color
+        ...props
       )
     `
   }
@@ -53,6 +54,7 @@ const Icon = observer(({
       icon=icon
       color=style.color
       size=_size
+      ...props
     )
   `
 })
