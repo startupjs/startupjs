@@ -19,6 +19,7 @@ exports.include = [
   'events',
   'startupjs/app',
   'startupjs/init',
+  'startupjs/orm',
   'qs',
   'fast-deep-equal',
   '@mdx-js/react',
