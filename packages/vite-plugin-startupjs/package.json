@@ -8,6 +8,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@pika/react": "16.13.1",
+    "@pika/react-dom": "16.13.1",
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@dmapper/stylus-hash-plugin": "^0.0.1",
