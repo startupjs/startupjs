@@ -48,6 +48,8 @@ const REMOVE_FILES = [
 
 const SCRIPTS_ORIG = {}
 
+// Web
+
 SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
   if (vite && !webpack) {
     return SCRIPTS_ORIG.webVite({ reset })
@@ -55,21 +57,105 @@ SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
     return SCRIPTS_ORIG.webWebpack
   }
 }
-SCRIPTS_ORIG.webVite = ({ reset } = {}) =>
-  `${reset ? 'rm -rf node_modules/.vite_opt_cache && ' : ''}vite --port=3010 -c vite.config.cjs`
-SCRIPTS_ORIG.webWebpack =
-  'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.cjs'
-SCRIPTS_ORIG.server = ({ inspect, vite, webpack } = {}) =>
-  `${(vite && !webpack) ? 'VITE=1 ' : ''}nodemon --experimental-specifier-resolution=node ${inspect ? '--inspect' : ''} -e js,mjs,cjs,json,yaml server.js`
-SCRIPTS_ORIG.start = (...args) =>
-  `concurrently -r -s first -k -n 'S,W' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.server(...args)}" "${SCRIPTS_ORIG.web(...args)}"`
-SCRIPTS_ORIG.build = ({ async } = {}) =>
-  `${async ? 'ASYNC=1 ' : ''}rm -rf ./build && webpack --config webpack.web.config.cjs`
-SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node --experimental-specifier-resolution=node server.js'
+
+SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
+  ${reset ? 'rm -rf node_modules/.vite_opt_cache &&' : ''}
+  vite --port=3010 -c vite.config.cjs
+`)
+
+SCRIPTS_ORIG.webWebpack = oneLine(`
+  WEBPACK_DEV=1
+  webpack-dev-server --config webpack.web.config.cjs
+`)
+
+// Server
+
+SCRIPTS_ORIG.server = ({ inspect, vite, webpack, pure } = {}) => {
+  if (pure && !webpack) {
+    return SCRIPTS_ORIG.serverPure({ inspect, vite })
+  } else {
+    return SCRIPTS_ORIG.serverWebpack({ inspect, vite })
+  }
+}
+
+SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
+  ${vite ? 'VITE=1' : ''}
+  nodemon
+    --experimental-specifier-resolution=node
+    ${inspect ? '--inspect' : ''}
+    -e js,mjs,cjs,json,yaml server.js
+`)
+
+SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
+  concurrently
+    -r -s first -k -n 'S,B'
+    -c black.bgWhite,black.bgWhite
+    "${SCRIPTS_ORIG.serverWebpackRun(options)}"
+    "${SCRIPTS_ORIG.serverWebpackBuild}"
+`)
+
+SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
+  WEBPACK_DEV=1
+  webpack --watch --config webpack.server.config.cjs
+`)
+
+SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
+  just-wait -t 1000 --pattern ./build/server.dev.cjs &&
+  ${vite ? 'VITE=1' : ''}
+  nodemon
+    --experimental-specifier-resolution=node
+    ${inspect ? '--inspect' : ''}
+    ./build/server.dev.cjs
+    -r source-map-support/register
+    -e js,mjs,cjs,json,yaml
+    --watch ./build/server.dev.cjs
+`)
+
+// Start (web and server)
+
+SCRIPTS_ORIG.start = (options = {}) => {
+  if (options.pure && !options.webpack) {
+    return SCRIPTS_ORIG.startPure(options)
+  } else {
+    return SCRIPTS_ORIG.startWebpack(options)
+  }
+}
+
+SCRIPTS_ORIG.startPure = (...args) => oneLine(`
+  concurrently
+    -r -s first -k -n 'S,W'
+    -c black.bgWhite,cyan.bgBlue
+    "${SCRIPTS_ORIG.server(...args)}"
+    "${SCRIPTS_ORIG.web(...args)}"
+`)
+
+SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
+  concurrently
+    -r -s first -k -n 'S,B,W'
+    -c black.bgWhite,black.bgWhite,cyan.bgBlue
+    "${SCRIPTS_ORIG.serverWebpackRun(options)}"
+    "${SCRIPTS_ORIG.serverWebpackBuild}"
+    "${SCRIPTS_ORIG.web(options)}"
+`)
+
+// Production build
+
+SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
+  rm -rf ./build &&
+  ${async ? 'ASYNC=1' : ''}
+  webpack --config webpack.web.config.cjs
+`)
+
+SCRIPTS_ORIG.startProduction = oneLine(`
+  NODE_ENV=production
+  node
+    --experimental-specifier-resolution=node
+    server.cjs
+`)
 
 const SCRIPTS = {
   start: 'startupjs start',
-  metro: 'react-native start --reset-cache',
+  metro: 'react-native start --config metro.config.cjs --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
@@ -202,12 +288,14 @@ commander
 commander
   .command('start')
   .description('Run "startupjs web" and "startupjs server" at the same time.')
+  .option('-i, --inspect', 'Use node --inspect')
+  .option('-p, --pure', 'Don\'t use any build system for node')
   .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
-  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite option.')
+  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite and --pure option.')
   .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
-  .action(async ({ vite, reset, webpack }) => {
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.start({ vite, reset, webpack }),
+      SCRIPTS_ORIG.start(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -216,11 +304,12 @@ commander
   .command('server')
   .description('Compile (with webpack) and run server')
   .option('-i, --inspect', 'Use node --inspect')
-  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite option.')
-  .option('-v, --vite', 'Use this flag when using Vite for web dev to automatically redirect to the bundle served by Vite')
-  .action(async ({ inspect, vite, webpack }) => {
+  .option('-p, --pure', 'Don\'t use any build system')
+  .option('-w, --webpack', 'Force use Webpack for server build. This takes priority over --pure option')
+  .option('-v, --vite', 'Automatically redirect to the web bundle served by Vite. Use this when running Vite for web client')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.server({ inspect, vite, webpack }),
+      SCRIPTS_ORIG.server(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -229,9 +318,9 @@ commander
   .command('build')
   .description('Build web bundles')
   .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
-  .action(async ({ async }) => {
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.build({ async }),
+      SCRIPTS_ORIG.build(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -250,11 +339,11 @@ commander
   .command('web')
   .description('Run web bundling (Webpack). Insead of bundling you can also use Vite and ES Modules by specifying --vite')
   .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
-  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite option.')
+  .option('-w, --webpack', 'Force use Webpack. This takes priority over --vite option.')
   .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
-  .action(async ({ vite, reset, webpack }) => {
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.web({ vite, reset, webpack }),
+      SCRIPTS_ORIG.web(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -346,6 +435,11 @@ function getSuccessInstructions (projectName) {
       $ yarn android
       $ yarn ios
   `
+}
+
+// Replace all new lines with spaces to properly handle cli-commands
+function oneLine (str) {
+  return str.replace(/\s+/g, ' ')
 }
 
 exports.run = (options = {}) => {
