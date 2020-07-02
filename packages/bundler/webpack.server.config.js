@@ -61,7 +61,7 @@ module.exports = function getConfig (env, {
     module: {
       rules: [
         {
-          test: /\.[jt]sx?$/,
+          test: /\.[cm]?[jt]sx?$/,
           loader: 'babel-loader'
         }
       ]

@@ -42,7 +42,7 @@ function getIndexLayoutFn (html) {
   const [beforeHeadEnd, afterHeadEnd] = html.split(headEnd)
   if (!(beforeHeadEnd && afterHeadEnd)) throw new Error('</head> wasn\'t found in index.html')
 
-  return ({ head, styles, jsBundle }) => {
+  return ({ head = '', styles = '', jsBundle }) => {
     let _beforeHeadEnd = beforeHeadEnd
     let _afterHeadEnd = afterHeadEnd
     // If dynamic head already specifies <title>, remove the static one

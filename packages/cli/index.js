@@ -140,17 +140,34 @@ SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
 
 // Production build
 
-SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
+SCRIPTS_ORIG.build = ({ async, pure } = {}) => oneLine(`
   rm -rf ./build &&
+  ${pure ? '' : 'webpack --config webpack.server.config.cjs &&'}
   ${async ? 'ASYNC=1' : ''}
   webpack --config webpack.web.config.cjs
 `)
 
-SCRIPTS_ORIG.startProduction = oneLine(`
+SCRIPTS_ORIG.startProduction = ({ pure }) => {
+  if (pure) {
+    return SCRIPTS_ORIG.startProductionPure
+  } else {
+    return SCRIPTS_ORIG.startProductionWebpack
+  }
+}
+
+SCRIPTS_ORIG.startProductionPure = oneLine(`
   NODE_ENV=production
   node
     --experimental-specifier-resolution=node
-    server.cjs
+    server.js
+`)
+
+SCRIPTS_ORIG.startProductionWebpack = oneLine(`
+  NODE_ENV=production
+  node
+    --experimental-specifier-resolution=node
+    -r source-map-support/register
+    build/server.cjs
 `)
 
 const SCRIPTS = {
@@ -317,6 +334,7 @@ commander
 commander
   .command('build')
   .description('Build web bundles')
+  .option('-p, --pure', 'Don\'t use any build system for node')
   .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
   .action(async (options) => {
     await execa.command(
@@ -328,9 +346,10 @@ commander
 commander
   .command('start-production')
   .description('Start production')
-  .action(async () => {
+  .option('-p, --pure', 'Don\'t use any build system for node')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.startProduction,
+      SCRIPTS_ORIG.startProduction(options),
       { stdio: 'inherit', shell: true }
     )
   })

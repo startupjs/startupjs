@@ -1,1 +1,3 @@
-import './server/index.js'
+import run from './server/index.js'
+
+run()
