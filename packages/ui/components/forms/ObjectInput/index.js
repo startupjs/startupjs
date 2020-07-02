@@ -1,12 +1,22 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import Input from '../Input'
+import Div from '../../Div'
+import Card from '../../Card'
+import Span from '../../typography/Span'
 import './index.styl'
+
+const TYPE_TO_INPUT = {
+  string: 'text',
+  boolean: 'checkbox'
+}
 
 export default observer(function ObjectInput ({
   style,
+  inputStyle,
   $value,
   value,
+  label,
   properties,
   order
 }) {
@@ -21,21 +31,53 @@ export default observer(function ObjectInput ({
 
   order = getOrder(order, properties)
 
-  return pug`
-    each key, index in order
-      - const { input, dependsOn, dependsValue, ...inputProps } = properties[key] || {}
-      if resolvesDeps(value, dependsOn, dependsValue)
-        Input.input(
-          ...inputProps
-          key=key
-          styleName={ pushTop: index !== 0 }
-          type=input
-          $value=$value.at(key)
-        )
-      //- TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
-      else
-        - console.log('TODO: clear') // TODO
-  `
+  function getInputs () {
+    return order.map((key, index) => {
+      const { input, type, dependsOn, dependsValue, ...inputProps } = properties[key] || {}
+      if (resolvesDeps(value, dependsOn, dependsValue)) {
+        return {
+          ...inputProps,
+          key,
+          type: input || TYPE_TO_INPUT[type] || type,
+          $value: $value.at(key)
+        }
+      }
+      // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
+    }).filter(Boolean)
+  }
+
+  const inputs = getInputs()
+
+  if (inputs.length === 0) return null
+
+  function renderContainer (children) {
+    if (label) {
+      return pug`
+        Div(style=style)
+          Span(size='s')= label
+          Card(
+            style=inputStyle
+            variant='outlined'
+          )
+            = children
+      `
+    } else {
+      return pug`
+        Div(style=[style, inputStyle])= children
+      `
+    }
+  }
+
+  return renderContainer(pug`
+    each input, index in inputs
+      - const { key, style, ...inputProps } = input
+      Input.input(
+        ...inputProps
+        key=key
+        style=style
+        styleName={ pushTop: index !== 0 }
+      )
+  `)
 })
 
 function getOrder (order, properties) {

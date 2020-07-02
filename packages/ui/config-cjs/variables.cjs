@@ -1,3 +1,9 @@
+const MEDIA = require('./../const/media')
+const media = {}
+for (const [resolution, value] of Object.entries(MEDIA)) {
+  media[resolution] = value + 'px'
+}
+
 const gutters = {
   xs: '0.5u',
   s: '1u',
@@ -5,13 +11,6 @@ const gutters = {
   l: '3u',
   xl: '4u',
   xxl: '5u'
-}
-
-const media = {
-  mobile: '480px',
-  tablet: '768px',
-  desktop: '1024px',
-  wide: '1280px'
 }
 
 const fontFamily = 'Cochin'

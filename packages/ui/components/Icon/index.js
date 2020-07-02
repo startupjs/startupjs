@@ -43,6 +43,7 @@ function Icon ({
         width=_size
         height=_size
         fill=style.color
+        ...props
       )
     `
   }
@@ -52,6 +53,7 @@ function Icon ({
       icon=icon
       color=style.color
       size=_size
+      ...props
     )
   `
 }

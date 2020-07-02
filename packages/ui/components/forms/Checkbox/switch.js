@@ -1,53 +1,62 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
-import { TouchableOpacity, Animated, Easing } from 'react-native'
+import { Animated, Easing } from 'react-native'
+import Div from './../../Div'
 import './index.styl'
+
 const AnimatedView = Animated.View
 
 export default observer(function Switch ({
   style,
-  checked,
-  focused,
+  className,
+  value,
   disabled,
-  onBlur,
-  onFocus,
-  onChange
+  onPress,
+  ...props
 }) {
-  const [position] = useState(new Animated.Value(checked ? 100 : 0))
+  const animation = useRef(new Animated.Value(value ? 1 : 0)).current
 
   useDidUpdate(() => {
-    if (checked) {
+    if (value) {
       Animated.timing(
-        position,
+        animation,
         {
-          toValue: 8,
+          toValue: 1,
           duration: 120,
-          easing: Easing.linear
+          easing: Easing.linear,
+          useNativeDriver: true
         }
       ).start()
     } else {
-      position.setValue(8)
       Animated.timing(
-        position,
+        animation,
         {
-          toValue: 0.01,
+          toValue: 0,
           duration: 120,
-          easing: Easing.linear
+          easing: Easing.linear,
+          useNativeDriver: true
         }
       ).start()
     }
-  }, [checked])
+  }, [value])
 
   return pug`
-    TouchableOpacity.switch(
+    Div.switch(
       style=style
-      styleName=[{ checked, focused }]
-      activeOpacity=1
+      styleName=[{ checked: value }]
       disabled=disabled
-      onBlur=onBlur
-      onFocus=onFocus
-      onPress=onChange
+      onPress=onPress
+      ...props
     )
-      AnimatedView.switchAnimated(style={left: position})
+      AnimatedView.switch-animation(
+        style={
+          transform: [{
+            translateX: animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 8]
+            })
+          }]
+        }
+      )
   `
 })

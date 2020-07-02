@@ -1,24 +1,29 @@
 import React, { useEffect } from 'react'
-import { observer, useLocal, useSession } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Menu, Collapse } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from './../../../../../const'
 import './index.styl'
-import { pathFor } from 'startupjs/app'
+import { pathFor, useLocation } from 'startupjs/app'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 const Docs = observer(function DocsComponent ({
   docs,
   lang,
   subpath = '',
-  children
+  children,
+  level = 0
 }) {
   if (!docs) return null
-  const [url = ''] = useLocal('$render.url')
+
+  const { pathname } = useLocation()
   const [, $openedCollapses] = useSession('SidebarCollapses')
 
-  // HACK: open parent collapse
+  // HACK: open parent collapse on initial render
   useEffect(() => {
-    if (subpath && url.includes(subpath)) $openedCollapses.setDiff(subpath, true)
+    if (subpath) {
+      const docPath = pathFor('docs:doc', { lang, path: subpath })
+      if (pathname.startsWith(docPath)) $openedCollapses.setDiff(subpath, true)
+    }
   }, [])
 
   function getTitle (item, lang) {
@@ -39,26 +44,31 @@ const Docs = observer(function DocsComponent ({
           - const title = getTitle(doc, lang)
           - const docPath = subpath ? subpath + '/' + aDocName : aDocName
           - const rootPath = pathFor('docs:doc', { lang, path: docPath })
-          - const isActive = rootPath === url
+          - const isActive = rootPath === pathname
           if ['mdx', 'sandbox'].includes(doc.type)
-            Menu.Item(active=isActive to=rootPath)= title
+            Menu.Item.item(
+              active=isActive
+              to=rootPath
+              styleName={ nested: level > 0 }
+            )= title
           if doc.type === 'collapse'
             Collapse(
               variant='pure'
               $open=$openedCollapses.at(docPath)
             )
-              Collapse.Header.collapse(
+              Collapse.Header.header(
                 iconPosition='right'
                 icon=faAngleRight
                 iconStyleName='collapse-icon'
               )
-                Menu.Item(
+                Menu.Item.item(
                   active=isActive
                   to=doc.component ? rootPath : null
                   bold
+                  icon=doc.icon
                 )= title
               Collapse.Content
-                Docs(docs=doc.items lang=lang subpath=docPath)
+                Docs(docs=doc.items lang=lang subpath=docPath level=level + 1)
   `
 })
 

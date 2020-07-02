@@ -26,18 +26,52 @@ return (
 )
 ```
 
+## Кастомная разметка
+
+Свойство `block` используется для добавления пользовательского контента в компонент.
+
+```jsx example
+return (
+  <Span>
+    Inherits&nbsp;
+    <Link block to='/docs/en/typography'>
+      <Span>Span props</Span>
+    </Link>
+  </Span>
+)
+```
+
 ## Цвета
 
-Чтобы изменить цвет ссылки передайте свойство `color`.
+Чтобы изменить цвет ссылки передайте свойство `color` (не работает со свойством `block`).
 
 ```jsx example
 return (
   <Row>
     <Span>Inherits&nbsp;</Span>
-    <Link block to='/docs/ru/typography' color='primary'>
-      <Span>Span props</Span>
+    <Link to='/docs/en/typography' color='primary'>
+      Span props
     </Link>
   </Row>
+)
+```
+
+## Действия
+
+Передавая `onPress` обработчик в компонент, вы можете выполнить некоторую логику перед перенаправлением.
+
+```jsx example
+function onPress (event) {
+  console.log('Go to alert docs')
+}
+return (
+  <Link
+    color='primary'
+    to='/docs/en/components/Alert'
+    onPress={onPress}
+  >
+    Alert docs
+  </Link>
 )
 ```
 

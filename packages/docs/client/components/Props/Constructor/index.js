@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useLayoutEffect } from 'react'
 import { observer } from 'startupjs'
 import parsePropTypes from 'parse-prop-types'
-import { Text, Picker, Platform } from 'react-native'
+import { Text, Platform } from 'react-native'
 import Table from './Table'
 import Tbody from './Tbody'
 import Thead from './Thead'
@@ -10,20 +10,20 @@ import Td from './Td'
 import { Span, themed, Input } from '@startupjs/ui'
 import './index.styl'
 
-// This hack is needed since when Picker receives undefined
-// as the value, it passes label into the onValueChange event
-const PICKER_EMPTY_LABEL = '-\u00A0\u00A0\u00A0\u00A0\u00A0'
-
 export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
-  let entries = useMemo(() => {
-    let res = parseEntries(Object.entries(parsePropTypes(Component)))
-    for (const prop of res) {
+  const entries = useMemo(() => {
+    return parseEntries(Object.entries(parsePropTypes(Component)))
+  }, [Component])
+
+  useLayoutEffect(() => {
+    for (const prop of entries) {
       if (prop.defaultValue) {
+        // FIXME: All logic is broken when default value is function
+        // this is due to a racer patch
         $props.set(prop.name, prop.defaultValue)
       }
     }
-    return res
-  }, [Component])
+  }, entries)
 
   return pug`
     Table.table(style=style)
@@ -32,10 +32,10 @@ export default observer(themed(function Constructor ({ Component, $props, style,
           Td: Text.header(styleName=[theme]) PROP
           Td: Text.header(styleName=[theme]) TYPE
           Td: Text.header(styleName=[theme]) DEFAULT
-          Td: Text.header(styleName=[theme]) VALUE
+          Td: Text.header.right(styleName=[theme]) VALUE
       Tbody
         each entry, index in entries
-          - const { name, type, defaultValue, possibleValues } = entry
+          - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
           Tr(key=index)
             Td: Span.name(
               style={
@@ -49,13 +49,22 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                   each value, index in possibleValues
                     React.Fragment(key=index)
                       if !first
-                        Span(bold) #{' | '}
+                        Span.separator #{' | '}
                       Span.value(styleName=[theme])= JSON.stringify(value)
+                      - first = false
+              else if type === 'oneOfType'
+                Span.possibleType
+                  - let first = true
+                  each value, index in possibleTypes
+                    React.Fragment(key=index)
+                      if !first
+                        Span.separator #{' | '}
+                      Span.type(styleName=[theme])= value && value.name
                       - first = false
               else
                 Span.type(styleName=[theme])= type
             Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
-            Td
+            Td.vCenter
               if type === 'string'
                 Input(
                   type='text'
@@ -83,24 +92,13 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                   onChangeText=value => $props.set(name, value)
                 )
               else if type === 'oneOf'
-                - const aValue = $props.get(name)
-                Picker(
-                  selectedValue=aValue == null ? aValue : JSON.stringify(aValue)
-                  onValueChange=(value) => {
-                    if (value === PICKER_EMPTY_LABEL || value == null) {
-                      $props.del(name)
-                    } else {
-                      $props.set(name, JSON.parse(value))
-                    }
-                  }
+                Input(
+                  type='select'
+                  size='s'
+                  value=$props.get(name)
+                  onChange=value => $props.set(name, value)
+                  options=possibleValues
                 )
-                  Picker.Item(key=-1 label=PICKER_EMPTY_LABEL value=undefined)
-                  each value, index in possibleValues
-                    Picker.Item(
-                      key=index
-                      label='' + value
-                      value=JSON.stringify(value)
-                    )
               else if type === 'bool'
                 Input.checkbox(
                   type='checkbox'
@@ -108,7 +106,7 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                   onChange=value => $props.set(name, value)
                 )
               else
-                Span UNSUPPORTED: '#{type}'
+                Span.unsupported -
   `
 }))
 
@@ -119,7 +117,8 @@ function parseEntries (entries) {
       name: entry[0],
       type: meta.type.name,
       defaultValue: meta.defaultValue && meta.defaultValue.value,
-      possibleValues: meta.type.value
+      possibleValues: meta.type.value,
+      possibleTypes: meta.type.value
     }
   })
 }

@@ -1,77 +1,69 @@
-import React, { useRef, useState } from 'react'
-import { TouchableOpacity, Animated, Easing } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { Animated, Easing } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import config from '../../../config/rootConfig'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
-import InputWrapper from '../_helpers/InputWrapper'
+import Div from './../../Div'
 import './index.styl'
 
 const AnimatedView = Animated.View
-const { colors } = config
 
 export default observer(function Checkbox ({
   style,
   className,
-  checked,
-  focused,
+  value,
   disabled,
-  hover,
-  active,
-  onBlur,
-  onFocus,
-  onChange,
+  onPress,
   ...props
 }) {
-  const inputRef = useRef()
-  const [position] = useState(new Animated.Value(checked ? 100 : 0.01))
+  const animation = useRef(new Animated.Value(value ? 1 : 0)).current
+  const [width, setWidth] = useState(0)
 
   useDidUpdate(() => {
-    if (checked) {
+    if (value) {
       Animated.timing(
-        position,
+        animation,
         {
-          toValue: 100,
+          toValue: 1,
           duration: 120,
-          easing: Easing.linear
+          easing: Easing.linear,
+          useNativeDriver: true
         }
       ).start()
     } else {
-      position.setValue(0.01)
+      animation.setValue(0)
     }
-  }, [checked])
+  }, [value])
 
-  const checkedStyles = { checked }
-
-  const color = checked || active ? colors.primary : colors.dark
+  const checkedStyleName = { checked: value }
 
   return pug`
-    InputWrapper(style=style className=className hover=hover active=active checked=checked color=color)
-      TouchableOpacity.input(
-        accessibilityRole='checkbox'
-        ref=inputRef
-        styleName=[checkedStyles, { focused }]
-        activeOpacity=1
-        disabled=disabled
-        onBlur=onBlur
-        onFocus=onFocus
-        onPress=onChange
-        ...props
+    Div.checkbox(
+      style=style
+      styleName=[checkedStyleName]
+      accessibilityRole='checkbox'
+      disabled=disabled
+      onPress=onPress
+      onLayout=(event) => setWidth(event.nativeEvent.layout.width)
+      ...props
+    )
+      Icon.checkbox-icon(
+        styleName=[checkedStyleName]
+        icon=faCheck
+        size='s'
+        color=config.colors.white
       )
-        Icon.icon(
-          styleName=[checkedStyles]
-          icon=faCheck
-          size='s'
-          color=config.colors.white
-        )
-        AnimatedView.animated(
-          styleName=[checkedStyles]
-          style={
-            left: position.interpolate({
+      AnimatedView.checkbox-animation(
+        styleName=[checkedStyleName]
+        style={
+          transform: [{
+            translateX: animation.interpolate({
               inputRange: [0, 1],
-              outputRange: ['0%', '1%']
+              outputRange: [0, width]
             })
-          }
-        )
+          }]
+        }
+      )
   `
 })

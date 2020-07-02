@@ -25,7 +25,7 @@ function Content ({
 Content.defaultProps = {
   padding: false,
   full: false,
-  width: config.defaultWidth
+  width: config.Content.defaultWidth
 }
 
 Content.propTypes = {

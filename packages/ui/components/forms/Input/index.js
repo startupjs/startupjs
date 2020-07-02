@@ -4,6 +4,7 @@ import { observer, $root } from 'startupjs'
 import TextInput from '../TextInput'
 import Checkbox from '../Checkbox'
 import ObjectInput from '../ObjectInput'
+import Select from '../Select'
 
 const INPUTS = {
   text: {
@@ -25,6 +26,13 @@ const INPUTS = {
     Component: ObjectInput,
     getProps: $value => ({
       value: $value && $value.get()
+    })
+  },
+  select: {
+    Component: Select,
+    getProps: $value => ({
+      value: $value && $value.get(),
+      onChange: value => $value && $value.setDiff(value)
     })
   }
 }
@@ -69,7 +77,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: propTypes.oneOf(['text', 'checkbox', 'object']).isRequired,
+  type: propTypes.oneOf(['text', 'checkbox', 'object', 'select']).isRequired,
   $value: propTypes.any
 }
 

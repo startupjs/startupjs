@@ -105,7 +105,12 @@ function Div ({
     View.root(
       style=[SHADOWS[level], style, extraStyle]
       styleName=[
-        { ['with-shadow']: !!level, clickable: isWeb && isClickable, bleed },
+        {
+          ['with-shadow']: !!level,
+          clickable: isWeb && isClickable,
+          bleed,
+          disabled
+        },
         shape,
         pushedModifier
       ]

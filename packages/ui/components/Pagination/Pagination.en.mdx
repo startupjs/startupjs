@@ -24,7 +24,7 @@ return (
     <Pagination
       page={page}
       pages={10}
-      onChange={setPage}
+      onChangePage={setPage}
     />
   </Row>
 )
@@ -91,7 +91,7 @@ return (
       showNextButton={false}
       showFirstButton
       showLastButton
-      onChange={setPage}
+      onChangePage={setPage}
     />
   </Row>
 )
@@ -109,7 +109,7 @@ return (
       variant='compact'
       page={page}
       pages={10}
-      onChange={setPage}
+      onChangePage={setPage}
     />
   </Row>
 )
@@ -131,8 +131,12 @@ return (
       boundaryCount={2}
       siblingCount={0}
       pages={10}
-      onChange={setPage}
+      onChangePage={setPage}
     />
   </Row>
 )
 ```
+
+## Sandbox
+
+<Sandbox Component={Pagination} />

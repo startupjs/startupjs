@@ -91,7 +91,7 @@ return (
 
 ## Max width
 
-Content has limited max-width by default of `480px`, because we are making layout mobile first and can only go from less to more by changing `width` property (possible values of property can be found in the `Sandbox` section at the bottom of the page). Also you can change the default width value for component by passing `defaultWidth` property in your `startupjs.config.js`. **We don't recommend to change the `defaultWidth` unnecessarily, because it is more advanced setting that will change all your entire app.**
+Content has limited max-width by default of `480px`, because we are making mobile first layout and can only go from smaller to larger screens by changing `width` property (possible values of property can be found in the `Sandbox` section at the bottom of the page). Also you can change the default width value for component by passing `defaultWidth` property in your `startupjs.config.js`. **We don't recommend to change the `defaultWidth` unnecessarily, because it is a more advanced setting that will change all your entire app.**
 
 ```jsx example
 const contentStyle = {
@@ -107,7 +107,6 @@ return (
   <Div>
     <Content
       padding
-      width='mobile'
       style={contentStyle}
     >
       <Div style={divStyle}>

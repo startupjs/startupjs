@@ -1,6 +1,12 @@
 import React, { useLayoutEffect } from 'react'
-import { observer, useValue, useComponentId } from 'startupjs'
-import { Dimensions } from 'react-native'
+import {
+  observer,
+  useValue,
+  useComponentId,
+  useLocal,
+  useBind
+} from 'startupjs'
+import { Dimensions, StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
@@ -13,6 +19,7 @@ function SmartSidebar ({
   forceClosed,
   fixedLayoutBreakpoint,
   path,
+  $open,
   position,
   width,
   backgroundColor,
@@ -20,9 +27,27 @@ function SmartSidebar ({
   renderContent,
   ...props
 }) {
-  const componentId = useComponentId()
+  if (path) {
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
+  }
 
-  if (!path) path = `_session.SmartSidebar.${componentId}`
+  if (/^#|rgb/.test(backgroundColor)) {
+    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
+  }
+
+  const componentId = useComponentId()
+  if (!$open) {
+    [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
+  }
+
+  ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: config.colors[backgroundColor] || backgroundColor },
+    style
+  ]))
+
+  let open
+  let onChange
+  ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
@@ -39,7 +64,7 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         style=style
-        path=path
+        $open=$open
         position=position
         width=width
         forceClosed=forceClosed
@@ -49,7 +74,7 @@ function SmartSidebar ({
     else
       DrawerSidebar(
         style=style
-        path=path
+        $open=$open
         position=position
         width=width
         forceClosed=forceClosed
@@ -62,7 +87,6 @@ function SmartSidebar ({
 
 SmartSidebar.defaultProps = {
   forceClosed: false,
-  backgroundColor: config.colors.white,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
@@ -71,8 +95,8 @@ SmartSidebar.defaultProps = {
 SmartSidebar.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
+  $open: propTypes.object,
   forceClosed: propTypes.bool,
-  backgroundColor: propTypes.string,
   fixedLayoutBreakpoint: propTypes.number,
   position: propTypes.oneOf(['left', 'right']),
   width: propTypes.number,

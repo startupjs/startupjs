@@ -6,7 +6,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # Input
 
-Input provides a wrapper api around [Checkbox](/docs/en/components/Checkbox), [TextInput](/docs/en/components/TextInput) & [ObjectInput](/docs/en/components/ObjectInput) components by adding two-way data bindings. You can use any of the above components by specifying the `type` prop.
+Input provides a wrapper api around [Checkbox](/docs/en/forms/Checkbox), [TextInput](/docs/en/forms/TextInput), [Select](/docs/en/forms/Select) & [ObjectInput](/docs/en/forms/ObjectInput) components by adding two-way data bindings. You can use any of the above components by specifying the `type` prop.
 
 ```jsx
 import { Input } from from '@startupjs/ui'
@@ -50,6 +50,57 @@ return (
       }}
     />
   </Div>
+)
+```
+
+## Complex example
+
+```jsx example
+const schema = {
+  name: {
+    type: 'string',
+    label: 'Name'
+  },
+  number: {
+    type: 'string',
+    label: 'Number'
+  },
+  abilities: {
+    type: 'object',
+    label: 'Abilities',
+    properties: {
+      ability0: {
+        type: 'string',
+        label: 'Ability 1'
+      },
+      ability1: {
+        type: 'string',
+        label: 'Ability 2'
+      },
+      ability2: {
+        type: 'string',
+        label: 'Ability 3'
+      }
+    }
+  },
+  url: {
+    type: 'string',
+    label: 'Image URL'
+  },
+  dangerous: {
+    type: 'boolean',
+    label: 'Is Dangerous'
+  }
+}
+
+const [, $value] = useValue()
+
+return (
+  <Input
+    type='object'
+    $value={$value}
+    properties={schema}
+  />
 )
 ```
 

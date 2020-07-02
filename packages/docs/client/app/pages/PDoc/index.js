@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer, useLocal } from 'startupjs'
 import { useDocsContext } from '../../../../docsContext'
-import { Span, Br } from '@startupjs/ui'
+import { Span, Br, Div } from '@startupjs/ui'
 import { DEFAULT_LANGUAGE } from '../../../const'
 import { ScrollView } from 'react-native'
 import './index.styl'
@@ -29,9 +29,10 @@ export default observer(function PDoc ({
 
   return pug`
     ScrollView.root(...scrollViewProps)
-      Br
-      Component
-      Br(lines=4)
+      Div.content
+        Br
+        Component
+        Br(lines=4)
   `
 })
 

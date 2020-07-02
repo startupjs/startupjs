@@ -42,10 +42,17 @@ export default observer(function Input ({
   onFocus,
   onChangeText,
   onIconPress,
+  renderWrapper,
   ...props
 }) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+
+  if (!renderWrapper) {
+    renderWrapper = ({ style }, children) => pug`
+      Div(style=style)= children
+    `
+  }
 
   useLayoutEffect(() => {
     if (resize) {
@@ -61,6 +68,11 @@ export default observer(function Input ({
     useLayoutEffect(() => {
       if (focused && disabled) inputRef.current.blur()
     }, [disabled])
+    // fix minWidth on web
+    // ref: https://stackoverflow.com/a/29990524/1930491
+    useLayoutEffect(() => {
+      inputRef.current.setNativeProps({ size: '1' })
+    })
   }
 
   useDidUpdate(() => {
@@ -101,8 +113,10 @@ export default observer(function Input ({
     { disabled, focused, [`icon-${iconPosition}`]: !!icon }
   ]
 
-  return pug`
-    Div.input-wrapper(style=[{ height: fullHeight }, style] className=className)
+  return renderWrapper({
+    style: [{ height: fullHeight }, style]
+  }, pug`
+    React.Fragment
       if icon
         Div.input-icon(
           styleName=[size, iconPosition]
@@ -131,5 +145,5 @@ export default observer(function Input ({
         ...props
         ...inputExtraProps
       )
-  `
+  `)
 })

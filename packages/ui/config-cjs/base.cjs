@@ -1,6 +1,6 @@
 const variables = require('./variables.cjs')
 const shadows = require('./shadows.cjs')
-const PALLETE = require('./pallete.json')
+const PALLETE = require('./palette.json')
 const generateColorsFromPalette = require('./generateColorsFromPalette.cjs')
 
 module.exports = function (pallete = PALLETE) {
