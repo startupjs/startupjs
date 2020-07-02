@@ -55,7 +55,9 @@ const REMOVE_DEPENDENCIES = [
 const REMOVE_FILES = [
   '.prettierrc.js',
   '.eslintrc.js',
-  'App.js'
+  'App.js',
+  'babel.config.js',
+  'metro.config.js'
 ]
 
 const SCRIPTS_ORIG = {}
@@ -435,6 +437,9 @@ function addScriptsToPackageJson (projectPath) {
       'git add'
     ]
   }
+
+  packageJSON.type = 'module'
+  packageJSON.sideEffects = []
 
   fs.writeFileSync(
     packageJSONPath,

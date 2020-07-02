@@ -28,7 +28,6 @@
     "@startupjs/ui": "^0.23.0",
     "axios": "^0.19.0",
     "events": "^3.1.0",
-    "lodash-es": "^4.17.15",
     "nconf": "^0.10.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",

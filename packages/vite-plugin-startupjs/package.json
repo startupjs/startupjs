@@ -25,6 +25,7 @@
     "css-to-react-native-transform": "^1.8.1",
     "events": "^3.0.0",
     "stylus": "^0.54.7",
+    "lodash-es": "^4.17.15",
     "vite-plugin-react": "2.0.3"
   },
   "peerDependencies": {
