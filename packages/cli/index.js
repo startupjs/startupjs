@@ -7,6 +7,20 @@ const CLI_VERSION = require('./package.json').version
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
 const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
 
+let PATCHES_DIR
+try {
+  PATCHES_DIR = path.join(
+    path.dirname(require.resolve('@startupjs/patches')),
+    'patches'
+  )
+  // patch-package requires the path to be relative
+  PATCHES_DIR = path.relative(process.cwd(), PATCHES_DIR)
+} catch (err) {
+  console.error(err)
+  console.error('ERROR!!! Patches packages not found. Falling back to local patches folder')
+  PATCHES_DIR = './patches'
+}
+
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
@@ -15,9 +29,7 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react',
   'react-dom',
-  'axios', // For making AJAX requests
-  'patch-package',
-  'postinstall-postinstall'
+  'axios' // For making AJAX requests
 ]
 
 const DEV_DEPENDENCIES = [
@@ -170,13 +182,17 @@ SCRIPTS_ORIG.startProductionWebpack = oneLine(`
     build/server.cjs
 `)
 
+SCRIPTS_ORIG.patchPackage = () => oneLine(`
+  npx patch-package --patch-dir ${PATCHES_DIR}
+`)
+
 const SCRIPTS = {
   start: 'startupjs start',
   metro: 'react-native start --config metro.config.cjs --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
-  postinstall: 'patch-package',
+  postinstall: 'startupjs patch-package',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
@@ -363,6 +379,16 @@ commander
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.web(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('patch-package')
+  .description('Apply required patches to libraries used by startupjs')
+  .action(async (options) => {
+    await execa.command(
+      SCRIPTS_ORIG.patchPackage(options),
       { stdio: 'inherit', shell: true }
     )
   })

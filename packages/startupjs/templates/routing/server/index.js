@@ -28,3 +28,5 @@ function getHead (appName) {
     <!-- Put vendor JS and CSS here -->
   `
 }
+
+export default function run () {}

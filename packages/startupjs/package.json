@@ -18,6 +18,7 @@
     "@startupjs/init": "^0.23.0",
     "@startupjs/isomorphic-helpers": "^0.23.0",
     "@startupjs/orm": "^0.23.0",
+    "@startupjs/patches": "^0.23.0",
     "@startupjs/react-sharedb": "^0.23.0",
     "@startupjs/server": "^0.23.0",
     "babel-preset-startupjs": "^0.23.0"
