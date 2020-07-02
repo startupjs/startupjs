@@ -1,4 +1,4 @@
-const MEDIA = require('./../const/media')
+const MEDIA = require('./media.cjs')
 const media = {}
 for (const [resolution, value] of Object.entries(MEDIA)) {
   media[resolution] = value + 'px'

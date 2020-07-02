@@ -1,1 +1,1 @@
-export { PALLETE, generateColorsFromPalette, u, colorToRGBA } from '../config-cjs/helpers.cjs'
+export { PALLETE, generateColorsFromPalette, u, media, colorToRGBA } from '../config-cjs/helpers.cjs'
