@@ -3,6 +3,6 @@ exports.getJsxRule = () => ({
   loader: 'babel-loader',
   options: {
     babelrc: false,
-    configFile: './babel.config.js'
+    configFile: './babel.config.cjs'
   }
 })

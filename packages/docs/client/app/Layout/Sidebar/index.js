@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { observer, useModel } from 'startupjs'
-import './index.styl'
 import { SmartSidebar } from '@startupjs/ui'
 import Content from './Content'
 

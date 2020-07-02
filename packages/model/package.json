@@ -3,13 +3,14 @@
   "version": "0.22.0",
   "description": "Initializes model connection and retrieves the singleton client-side model",
   "main": "lib/index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "racer": "0.9.9",
+    "racer": "0.9.15",
     "racer-highway": "^8.1.0"
   }
 }

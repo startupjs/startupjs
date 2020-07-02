@@ -5,7 +5,7 @@ const stylus = require('stylus')
 const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 
 const STYLES_PATH = path.join(process.cwd(), 'styles/index.styl')
-const CONFIG_PATH = path.join(process.cwd(), 'startupjs.config.js')
+const CONFIG_PATH = path.join(process.cwd(), 'startupjs.config.cjs')
 
 function renderToCSS (src, filename, platform) {
   let compiled

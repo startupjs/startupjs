@@ -1,5 +1,6 @@
-var racer = require('racer')
-var Socket = require('racer-highway/lib/browser/socket')
+import racer from 'racer'
+import Socket from 'racer-highway/lib/browser/socket'
+
 var isServer = typeof window === 'undefined'
 var DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',
@@ -21,7 +22,7 @@ racer.Model.prototype._createSocket = function () {
   return new Socket(clientOptions)
 }
 
-module.exports = function getModel () {
+export default function getModel () {
   if (isServer) return
 
   // Try to unbundle server-side model

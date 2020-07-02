@@ -4,13 +4,12 @@ const path = require('path')
 const fs = require('fs')
 const CLI_VERSION = require('./package.json').version
 
-const IS_ALPHA = /alpha/.test(CLI_VERSION)
-const STARTUPJS_VERSION = IS_ALPHA ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
+const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
+const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
 
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'source-map-support',
   'react-native-web@^0.12.0',
   'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
@@ -43,23 +42,137 @@ const REMOVE_DEPENDENCIES = [
 
 const REMOVE_FILES = [
   '.prettierrc.js',
+  '.eslintrc.js',
   'App.js'
 ]
 
 const SCRIPTS_ORIG = {}
-SCRIPTS_ORIG.web = 'WEBPACK_DEV=1 webpack-dev-server --config webpack.web.config.js'
-SCRIPTS_ORIG.serverBuild = 'WEBPACK_DEV=1 webpack --watch --config webpack.server.config.js'
-SCRIPTS_ORIG.serverRun = inspect => `just-wait -t 1000 --pattern ./build/server.dev.js && nodemon ${inspect ? '--inspect' : ''} ./build/server.dev.js -r source-map-support/register --watch ./build/server.dev.js`
-SCRIPTS_ORIG.serverRun.toString = () => SCRIPTS_ORIG.serverRun(false)
-SCRIPTS_ORIG.server = inspect => `concurrently -r -s first -k -n 'S,B' -c black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun(inspect)}" "${SCRIPTS_ORIG.serverBuild}"`
-SCRIPTS_ORIG.server.toString = () => SCRIPTS_ORIG.server(false)
-SCRIPTS_ORIG.start = `concurrently -r -s first -k -n 'S,SB,W' -c black.bgWhite,black.bgWhite,cyan.bgBlue "${SCRIPTS_ORIG.serverRun}" "${SCRIPTS_ORIG.serverBuild}" "${SCRIPTS_ORIG.web}"`
-SCRIPTS_ORIG.build = 'rm -rf ./build && webpack --config webpack.server.config.js && webpack --config webpack.web.config.js'
-SCRIPTS_ORIG.startProduction = 'NODE_ENV=production node -r source-map-support/register build/server.js'
+
+// Web
+
+SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
+  if (vite && !webpack) {
+    return SCRIPTS_ORIG.webVite({ reset })
+  } else {
+    return SCRIPTS_ORIG.webWebpack
+  }
+}
+
+SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
+  ${reset ? 'rm -rf node_modules/.vite_opt_cache &&' : ''}
+  vite --port=3010 -c vite.config.cjs
+`)
+
+SCRIPTS_ORIG.webWebpack = oneLine(`
+  WEBPACK_DEV=1
+  webpack-dev-server --config webpack.web.config.cjs
+`)
+
+// Server
+
+SCRIPTS_ORIG.server = ({ inspect, vite, webpack, pure } = {}) => {
+  if (pure && !webpack) {
+    return SCRIPTS_ORIG.serverPure({ inspect, vite })
+  } else {
+    return SCRIPTS_ORIG.serverWebpack({ inspect, vite })
+  }
+}
+
+SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
+  ${vite ? 'VITE=1' : ''}
+  nodemon
+    --experimental-specifier-resolution=node
+    ${inspect ? '--inspect' : ''}
+    -e js,mjs,cjs,json,yaml server.js
+`)
+
+SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
+  concurrently
+    -r -s first -k -n 'S,B'
+    -c black.bgWhite,black.bgWhite
+    "${SCRIPTS_ORIG.serverWebpackRun(options)}"
+    "${SCRIPTS_ORIG.serverWebpackBuild}"
+`)
+
+SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
+  WEBPACK_DEV=1
+  webpack --watch --config webpack.server.config.cjs
+`)
+
+SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
+  just-wait -t 1000 --pattern ./build/server.dev.cjs &&
+  ${vite ? 'VITE=1' : ''}
+  nodemon
+    --experimental-specifier-resolution=node
+    ${inspect ? '--inspect' : ''}
+    ./build/server.dev.cjs
+    -r source-map-support/register
+    -e js,mjs,cjs,json,yaml
+    --watch ./build/server.dev.cjs
+`)
+
+// Start (web and server)
+
+SCRIPTS_ORIG.start = (options = {}) => {
+  if (options.pure && !options.webpack) {
+    return SCRIPTS_ORIG.startPure(options)
+  } else {
+    return SCRIPTS_ORIG.startWebpack(options)
+  }
+}
+
+SCRIPTS_ORIG.startPure = (...args) => oneLine(`
+  concurrently
+    -r -s first -k -n 'S,W'
+    -c black.bgWhite,cyan.bgBlue
+    "${SCRIPTS_ORIG.server(...args)}"
+    "${SCRIPTS_ORIG.web(...args)}"
+`)
+
+SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
+  concurrently
+    -r -s first -k -n 'S,B,W'
+    -c black.bgWhite,black.bgWhite,cyan.bgBlue
+    "${SCRIPTS_ORIG.serverWebpackRun(options)}"
+    "${SCRIPTS_ORIG.serverWebpackBuild}"
+    "${SCRIPTS_ORIG.web(options)}"
+`)
+
+// Production build
+
+SCRIPTS_ORIG.build = ({ async, pure } = {}) => oneLine(`
+  rm -rf ./build &&
+  ${pure ? '' : 'webpack --config webpack.server.config.cjs &&'}
+  ${async ? 'ASYNC=1' : ''}
+  webpack --config webpack.web.config.cjs
+`)
+
+SCRIPTS_ORIG.startProduction = ({ pure }) => {
+  if (pure) {
+    return SCRIPTS_ORIG.startProductionPure
+  } else {
+    return SCRIPTS_ORIG.startProductionWebpack
+  }
+}
+
+SCRIPTS_ORIG.startProductionPure = oneLine(`
+  NODE_ENV=production
+  node
+    --experimental-specifier-resolution=node
+    server.js
+`)
+
+SCRIPTS_ORIG.startProductionWebpack = oneLine(`
+  NODE_ENV=production
+  node
+    --experimental-specifier-resolution=node
+    -r source-map-support/register
+    build/server.cjs
+`)
 
 const SCRIPTS = {
   start: 'startupjs start',
-  metro: 'react-native start --reset-cache',
+  metro: 'react-native start --config metro.config.cjs --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
@@ -192,9 +305,14 @@ commander
 commander
   .command('start')
   .description('Run "startupjs web" and "startupjs server" at the same time.')
-  .action(async () => {
+  .option('-i, --inspect', 'Use node --inspect')
+  .option('-p, --pure', 'Don\'t use any build system for node')
+  .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
+  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite and --pure option.')
+  .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.start,
+      SCRIPTS_ORIG.start(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -203,39 +321,24 @@ commander
   .command('server')
   .description('Compile (with webpack) and run server')
   .option('-i, --inspect', 'Use node --inspect')
-  .action(async ({ inspect }) => {
+  .option('-p, --pure', 'Don\'t use any build system')
+  .option('-w, --webpack', 'Force use Webpack for server build. This takes priority over --pure option')
+  .option('-v, --vite', 'Automatically redirect to the web bundle served by Vite. Use this when running Vite for web client')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.server(inspect),
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
-commander
-  .command('server:build')
-  .description('Build server')
-  .action(async () => {
-    await execa.command(
-      SCRIPTS_ORIG.serverBuild,
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
-commander
-  .command('server:run')
-  .description('Run server')
-  .action(async () => {
-    await execa.command(
-      SCRIPTS_ORIG.serverRun,
+      SCRIPTS_ORIG.server(options),
       { stdio: 'inherit', shell: true }
     )
   })
 
 commander
   .command('build')
-  .description('Build server and web bundles')
-  .action(async () => {
+  .description('Build web bundles')
+  .option('-p, --pure', 'Don\'t use any build system for node')
+  .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.build,
+      SCRIPTS_ORIG.build(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -243,19 +346,23 @@ commander
 commander
   .command('start-production')
   .description('Start production')
-  .action(async () => {
+  .option('-p, --pure', 'Don\'t use any build system for node')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.startProduction,
+      SCRIPTS_ORIG.startProduction(options),
       { stdio: 'inherit', shell: true }
     )
   })
 
 commander
   .command('web')
-  .description('Run web bundling (webpack)')
-  .action(async () => {
+  .description('Run web bundling (Webpack). Insead of bundling you can also use Vite and ES Modules by specifying --vite')
+  .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
+  .option('-w, --webpack', 'Force use Webpack. This takes priority over --vite option.')
+  .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
+  .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.web,
+      SCRIPTS_ORIG.web(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -347,6 +454,11 @@ function getSuccessInstructions (projectName) {
       $ yarn android
       $ yarn ios
   `
+}
+
+// Replace all new lines with spaces to properly handle cli-commands
+function oneLine (str) {
+  return str.replace(/\s+/g, ' ')
 }
 
 exports.run = (options = {}) => {

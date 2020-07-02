@@ -1,19 +1,20 @@
 {
   "name": "@startupjs/init",
+  "type": "module",
   "version": "0.22.0",
-  "description": "Init sharedb connection on client web, native or server side",
-  "main": "lib/index.js",
-  "scripts": {
-    "prepublish": "babel --optional runtime src --out-dir lib",
-    "postpublish": "rm -rf lib"
+  "engines": {
+    "node": ">= 14"
   },
+  "description": "Init sharedb connection on client web, native or server side",
+  "main": "index.js",
+  "scripts": {},
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@startupjs/react-sharedb": "^0.22.0",
-    "racer": "0.9.9",
+    "racer": "0.9.15",
     "rich-text": "^4.0.0",
     "sharedb": "^1.0.0"
   },

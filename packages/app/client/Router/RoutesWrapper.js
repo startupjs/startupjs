@@ -1,3 +1,4 @@
+import React from 'react'
 import Stack from 'react-router-native-stack'
 const DEFAULT_ANIMATE = false
 // Support for web https://github.com/Traviskn/react-router-native-stack/pull/47

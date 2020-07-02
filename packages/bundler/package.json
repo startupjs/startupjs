@@ -42,7 +42,9 @@
     "stylus": "0.54.7",
     "stylus-loader": "^3.0.2",
     "terser-webpack-plugin": "^1.1.0",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "vite-plugin-react": "2.0.3",
+    "vite-plugin-startupjs": "^0.22.0"
   },
   "peerDependencies": {
     "metro-config": "*",

@@ -1,8 +1,8 @@
 import React from 'react'
-import SyntaxHighlighter from 'react-native-syntax-highlighter'
 import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform } from 'react-native'
 import './index.styl'
+import Code from '../Code'
 
 function P ({ children }) {
   return pug`
@@ -10,23 +10,11 @@ function P ({ children }) {
   `
 }
 
-function Code ({ children, style, ...props }) {
-  return pug`
-    Div.codeWrapper
-      SyntaxHighlighter(
-        ...props
-        highlighter='prism'
-        fontSize=14
-        customStyle=StyleSheet.flatten(style)
-      )= children.replace(/\n$/, '')
-  `
-}
-
 export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  example: ({ children }) => pug`
+  section: ({ children }) => pug`
     Div.example= children
   `,
   h1: ({ children }) => pug`
@@ -51,7 +39,7 @@ export default {
     const language = (className || '').replace(/language-/, '')
     return pug`
       Br
-      Code.code(language=language)= children
+      Code(language=language)= children
     `
   },
   inlineCode: ({ children }) => pug`

@@ -5,6 +5,7 @@
   },
   "description": "MDX documentation generator",
   "version": "0.22.12",
+  "type": "module",
   "main": "index.js",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",

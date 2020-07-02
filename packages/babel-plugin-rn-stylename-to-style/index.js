@@ -29,13 +29,11 @@ module.exports = function (babel) {
     )
   }
 
-  function generateRequire (name) {
-    const require = t.callExpression(t.identifier('require'), [
+  function generateImport (name) {
+    return t.importDeclaration(
+      [t.importSpecifier(name, t.identifier('process'))],
       t.stringLiteral(PROCESS_PATH)
-    ])
-    const processFn = t.memberExpression(require, t.identifier('process'))
-    const d = t.variableDeclarator(name, processFn)
-    return t.variableDeclaration('var', [d])
+    )
   }
 
   function getStyleFromExpression (expression, state) {
@@ -78,13 +76,15 @@ module.exports = function (babel) {
       styleName.parentPath.node === style.parentPath.node
 
     if (hasStyleNameAndStyle) {
-      style.node.value = t.arrayExpression(
-        expressions.concat([style.node.value.expression])
+      style.node.value = t.jsxExpressionContainer(
+        t.arrayExpression(
+          expressions.concat([style.node.value.expression])
+        )
       )
       styleName.remove()
     } else {
       if (expressions.length > 1) {
-        styleName.node.value = t.arrayExpression(expressions)
+        styleName.node.value = t.jsxExpressionContainer(t.arrayExpression(expressions))
       } else {
         styleName.node.value = t.jsxExpressionContainer(expressions[0])
       }
@@ -115,7 +115,7 @@ module.exports = function (babel) {
             .pop()
 
           if (lastImportOrRequire) {
-            lastImportOrRequire.insertAfter(generateRequire(state.reqName))
+            lastImportOrRequire.insertAfter(generateImport(state.reqName))
           }
         }
       },

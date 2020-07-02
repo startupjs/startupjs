@@ -17,7 +17,7 @@ const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
-const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
+const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config.cjs')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
@@ -41,8 +41,6 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
-  '@startupjs/init/src',
-  '@startupjs/hooks/src',
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui

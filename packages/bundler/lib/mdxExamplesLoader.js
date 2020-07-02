@@ -1,7 +1,8 @@
 const REGEX = /(```jsx) +example([\s\S]*?)(```)/g
 
 module.exports = function mdxExamplesLoader (source) {
-  return source.replace(REGEX, replacer)
+  const observer = "import { observer as __observer } from 'startupjs'"
+  return observer + '\n' + source.replace(REGEX, replacer)
 }
 
 function replacer (match, p1, p2, p3) {
@@ -10,12 +11,12 @@ function replacer (match, p1, p2, p3) {
   if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
 
   return (
-    code + `<example>
+    code + `<section>
       <React.Fragment>
-        {React.createElement(require('startupjs').observer(function Example () {
+        {React.createElement(__observer(function Example () {
           ${p2}
         }))}
       </React.Fragment>
-    </example>`
+    </section>`
   )
 }

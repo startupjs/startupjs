@@ -1,4 +1,4 @@
-module.exports = function (components = {}) {
+export default function (components = {}) {
   return [
     {
       path: '/docs/:lang?',

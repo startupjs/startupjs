@@ -1,1 +1,1 @@
-module.exports = require('@startupjs/server/nconf')
+export { default } from '@startupjs/server/nconf'

@@ -8,7 +8,7 @@ import {
 import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
 import config from '../../config/rootConfig'
-import colorToRGBA from '../../config/colorToRGBA'
+import { colorToRGBA } from '../../config/helpers'
 import './index.styl'
 
 const SHADOWS = config.shadows

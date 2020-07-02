@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { Text } from 'react-native'
 import propTypes from 'prop-types'
-import { u } from './../../config/helpers'
+import { u } from 'startupjs'
 import './index.styl'
 const LINE_HEIGHT = u(2)
 

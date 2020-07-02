@@ -3,6 +3,7 @@
   "version": "0.22.12",
   "description": "UI components for react-native",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },

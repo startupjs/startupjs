@@ -1,0 +1,33 @@
+{
+  "name": "vite-plugin-startupjs",
+  "version": "0.22.0",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "Vite plugin for startupjs",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@pika/react": "16.13.1",
+    "@pika/react-dom": "16.13.1",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
+    "@dmapper/stylus-hash-plugin": "^0.0.1",
+    "@mdx-js/mdx": "^1.5.8",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.22.0",
+    "@startupjs/babel-plugin-react-pug-classnames": "^0.22.0",
+    "@startupjs/babel-plugin-dotenv": "^0.22.0",
+    "@startupjs/react-native-fontawesome": "^0.2.5-3",
+    "@startupjs/racer": "0.9.15",
+    "@startupjs/react-is": "^16.13.1-1",
+    "@startupjs/prop-types": "^15.7.2-2",
+    "babel-plugin-transform-react-pug": "^7.0.1",
+    "css-to-react-native-transform": "^1.8.1",
+    "events": "^3.0.0",
+    "stylus": "^0.54.7",
+    "vite-plugin-react": "2.0.3"
+  },
+  "peerDependencies": {
+    "vite": "*"
+  }
+}

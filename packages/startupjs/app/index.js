@@ -1,1 +1,2 @@
-module.exports = require('@startupjs/app')
+export { default } from '@startupjs/app'
+export * from '@startupjs/app'

@@ -2,7 +2,7 @@ import { observable } from '@nx-js/observer-util'
 import { Dimensions } from 'react-native'
 import { batch } from 'startupjs'
 import debounce from 'lodash/debounce'
-import media from './../const/media'
+import { media } from '../config/helpers'
 
 const { mobile, ...MEDIA } = media // mobile is DEPRECATED
 const DIMENSIONS_UPDATE_DELAY = 200

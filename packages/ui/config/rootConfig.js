@@ -1,1 +1,2 @@
-module.exports = require('config').ui
+import config from 'config'
+export default config.ui

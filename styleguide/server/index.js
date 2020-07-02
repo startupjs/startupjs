@@ -1,4 +1,4 @@
-import init from 'startupjs/init'
+import init from 'startupjs/init/server'
 import orm from '../model'
 import startupjsServer from 'startupjs/server'
 import getMainRoutes from '../main/routes'
@@ -25,3 +25,5 @@ function getHead (appName) {
     <!-- Put vendor JS and CSS here -->
   `
 }
+
+export default function run () {}
