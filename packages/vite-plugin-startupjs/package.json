@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-startupjs",
-  "version": "0.23.0",
+  "version": "0.23.3",
   "engines": {
     "node": ">= 14"
   },
@@ -24,8 +24,8 @@
     "babel-plugin-transform-react-pug": "^7.0.1",
     "css-to-react-native-transform": "^1.8.1",
     "events": "^3.0.0",
-    "stylus": "^0.54.7",
     "lodash-es": "^4.17.15",
+    "stylus": "^0.54.7",
     "vite-plugin-react": "2.0.3"
   },
   "peerDependencies": {
