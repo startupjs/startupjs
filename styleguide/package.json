@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.22.11",
+  "version": "0.22.12",
   "sideEffects": [],
   "type": "module",
   "private": true,
@@ -24,8 +24,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@startupjs/mdx": "^0.22.11",
-    "@startupjs/ui": "^0.22.11",
+    "@startupjs/mdx": "^0.22.12",
+    "@startupjs/ui": "^0.22.12",
     "axios": "^0.19.0",
     "events": "^3.1.0",
     "lodash-es": "^4.17.15",

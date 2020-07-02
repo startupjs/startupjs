@@ -1,7 +1,15 @@
-const MEDIA = require('./media.cjs')
-const media = {}
-for (const [resolution, value] of Object.entries(MEDIA)) {
-  media[resolution] = value + 'px'
+// FIXME: Does not work on mobile devices
+// const MEDIA = require('./../const/media')
+// const media = {}
+// for (const [resolution, value] of Object.entries(MEDIA)) {
+//   media[resolution] = value + 'px'
+// }
+
+const media = {
+  mobile: '480px', // DEPRECATED
+  tablet: '768px',
+  desktop: '1024px',
+  wide: '1280px'
 }
 
 const gutters = {
