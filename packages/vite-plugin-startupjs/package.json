@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-startupjs",
-  "version": "0.23.11",
+  "version": "0.23.12",
   "engines": {
     "node": ">= 14"
   },
