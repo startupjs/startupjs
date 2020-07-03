@@ -32,7 +32,7 @@ module.exports = {
     } else {
       for (const alias in DIRECTORY_ALIASES) {
         if (new RegExp('^' + alias + '(?:$|/)').test(id)) {
-          return id.replace(alias, DIRECTORY_ALIASES[alias].replace(/^\./, process.cwd()))
+          return id.replace(alias, DIRECTORY_ALIASES[alias].replace(/^\./, ''))
         }
       }
     }

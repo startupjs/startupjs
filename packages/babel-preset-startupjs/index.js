@@ -11,7 +11,7 @@ const DIRECTORY_ALIASES = {
   main: './main',
   styles: './styles',
   appConstants: './appConstants',
-  config: './startupjs.config'
+  config: './startupjs.config.cjs'
 }
 
 const basePlugins = ({ legacyClassnames, alias } = {}) => [
@@ -172,7 +172,10 @@ const CONFIG_SERVER = {
 module.exports = (api, options) => {
   api.cache(true)
 
-  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE } = process.env
+  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE, VITE_WEB } = process.env
+
+  // Ignore babel config when using Vite
+  if (VITE_WEB) return {}
 
   // There is a bug in metro when BABEL_ENV is a string "undefined".
   // We have to workaround it and use NODE_ENV.
