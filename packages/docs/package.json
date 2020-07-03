@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "MDX documentation generator",
-  "version": "0.23.6",
+  "version": "0.23.7",
   "type": "module",
   "main": "index.js",
   "dependencies": {
@@ -12,7 +12,7 @@
     "@startupjs/mdx": "^0.23.0",
     "@startupjs/ui": "^0.23.0",
     "parse-prop-types": "^0.3.0",
-    "startupjs": "^0.23.6"
+    "startupjs": "^0.23.7"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17",
