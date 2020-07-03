@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.23.3",
+  "version": "0.23.4",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -43,7 +43,7 @@
     "stylus-loader": "^3.0.2",
     "terser-webpack-plugin": "^1.1.0",
     "vite-plugin-react": "2.0.3",
-    "vite-plugin-startupjs": "^0.23.3",
+    "vite-plugin-startupjs": "^0.23.4",
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
