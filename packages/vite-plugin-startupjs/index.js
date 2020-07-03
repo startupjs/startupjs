@@ -3,6 +3,7 @@ const transformMdx = require('./transformMdx')
 const transformMdxHmr = require('./transformMdxHmr')
 const transformStyl = require('./transformStyl')
 const transformBabel = require('./transformBabel')
+const transformObserver = require('./transformObserver')
 const { startupjsServerPlugin } = require('./serverPlugin')
 // const { addBeforeTransforms } = require('./patches/patchBeforeTransforms')
 const applyPatches = require('./patches')
@@ -20,7 +21,7 @@ applyPatches()
 module.exports = {
   configureServer: startupjsServerPlugin,
   resolvers: [resolver],
-  transforms: [transformMdx, transformBabel, transformStyl, transformMdxHmr],
+  transforms: [transformMdx, transformObserver, transformBabel, transformStyl, transformMdxHmr],
   optimizeDeps: {
     include,
     exclude

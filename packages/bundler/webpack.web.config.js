@@ -176,17 +176,34 @@ module.exports = function getConfig (env, {
     },
     module: {
       rules: [
-        Object.assign(getJsxRule(), {
-          exclude: /node_modules/
-        }),
-        Object.assign(getJsxRule(), {
-          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`)
-        }),
+        {
+          test: getJsxRule().test,
+          exclude: /node_modules/,
+          use: [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/replaceObserverLoader.js')
+            }
+          ]
+        },
+        {
+          test: getJsxRule().test,
+          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
+          use: [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/replaceObserverLoader.js')
+            }
+          ]
+        },
         {
           test: /\.mdx$/,
           exclude: /node_modules/,
           use: [
             pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/replaceObserverLoader.js')
+            },
             {
               loader: '@mdx-js/loader'
             },
