@@ -81,18 +81,19 @@ module.exports = async (options) => {
 
   backend.use('query', pathQueryMongo)
 
+  shareDbHooks(backend)
+
   if (options.accessControl != null) {
     shareDbAccess(backend, { dontUseOldDocs: true })
+    options.accessControl(backend)
   }
+
   if (options.schema != null) {
     racerSchema(backend, options.schema)
   }
+
   if (options.hooks != null) {
-    shareDbHooks(backend)
     options.hooks(backend)
-  }
-  if (options.accessControl != null) {
-    options.accessControl(backend)
   }
 
   backend.on('client', (client, reject) => {
