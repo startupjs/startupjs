@@ -11,11 +11,11 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@startupjs/mdx": "^0.23.0",
     "@startupjs/ui": "^0.23.0",
-    "parse-prop-types": "^0.3.0",
-    "startupjs": "^0.23.9"
+    "parse-prop-types": "^0.3.0"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17",
-    "react-native": "*"
+    "react-native": "*",
+    "startupjs": ">= 0.23.0"
   }
 }
