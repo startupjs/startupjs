@@ -17,6 +17,7 @@ exports.include = [
   '@startupjs/docs',
   'startupjs',
   'events',
+  'eventemitter3',
   'startupjs/app',
   'startupjs/init',
   'startupjs/orm',
