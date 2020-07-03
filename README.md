@@ -6,11 +6,12 @@
 [Requirements](#requirements)<br/>
 [Quick start](#quick-start)<br/>
 [Running on mobile](#running-on-mobile)<br/>
+[IDE configuration](#ide-configuration)<br/>
 [Documentation](#documentation)<br/>
 [Boilerplate templates](#boilerplate-templates)<br/>
 [Docker development Quick Start](#docker-development-quick-start)<br/>
-[IDE configuration](#ide-configuration)<br/>
 [List of Packages](#list-of-packages)<br/>
+[Version migration guides](#version-migration-guides)<br/>
 [Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
 [Licence](#licence)
 
@@ -106,6 +107,37 @@ Here is the list of commands to run all platforms at the same time:
     yarn ios
     ```
 
+## IDE configuration
+
+### Visual Studio Code
+
+#### Step 1: Add support for PUG syntax highlighting
+
+1. Install extension [`vscode-react-pug`](https://github.com/kaminaly/vscode-react-pug)
+2. Restart VS Code
+
+#### Step 2: Add support for ESLint errors highlighting
+
+1. Install extension `ESLint`
+2. Restart VS Code
+
+### Atom
+
+#### Step 1: Add support for PUG syntax highlighting
+
+1.  Install packages [language-babel](https://atom.io/packages/language-babel) and [language-pug](https://atom.io/packages/language-pug)
+2.  Open settings of `language-babel` in atom
+3.  Find the field under "JavaScript Tagged Template Literal Grammar Extensions"
+4.  Enter: `pug:source.pug`
+5.  Go to `Core` settings of atom.
+6.  Uncheck `Use Tree Sitter Parsers`
+7.  Restart Atom
+
+#### Step 2: Add support for ESLint errors highlighting
+
+1.  Install package `linter-eslint`
+2.  Restart Atom
+
 ## Documentation
 
 The main things you'll need to know to get started with StartupJS are:
@@ -184,37 +216,6 @@ to the native installation when working with the large amount of files.
     ./docker exec
     ```
 
-## IDE configuration
-
-### Visual Studio Code
-
-#### Step 1: Add support for PUG syntax highlighting
-
-1. Install extension [`vscode-react-pug`](https://github.com/kaminaly/vscode-react-pug)
-2. Restart VS Code
-
-#### Step 2: Add support for ESLint errors highlighting
-
-1. Install extension `ESLint`
-2. Restart VS Code
-
-### Atom
-
-#### Step 1: Add support for PUG syntax highlighting
-
-1.  Install packages [language-babel](https://atom.io/packages/language-babel) and [language-pug](https://atom.io/packages/language-pug)
-2.  Open settings of `language-babel` in atom
-3.  Find the field under "JavaScript Tagged Template Literal Grammar Extensions"
-4.  Enter: `pug:source.pug`
-5.  Go to `Core` settings of atom.
-6.  Uncheck `Use Tree Sitter Parsers`
-7.  Restart Atom
-
-#### Step 2: Add support for ESLint errors highlighting
-
-1.  Install package `linter-eslint`
-2.  Restart Atom
-
 ## List of Packages
 
 - [App](/packages/app)
@@ -235,6 +236,12 @@ to the native installation when working with the large amount of files.
 - [Server](/packages/server)
 - [StartupJS meta package](/packages/startupjs)
 - [UI](/packages/ui)
+
+## Version migration guides
+
+The following guides are available to assist with migration to new major versions of StartupJS:
+
+- [0.22 -> 0.23](/docs/migration-guides/0.22--0.23.md)
 
 ## Contributing & Troubleshooting
 
