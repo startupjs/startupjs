@@ -99,6 +99,16 @@ SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
     --experimental-specifier-resolution=node
     ${inspect ? '--inspect' : ''}
     -e js,mjs,cjs,json,yaml server.js
+    --delay 3
+    --watch model/
+    --watch hooks/
+    --watch cron/
+    --watch helpers/
+    --watch serverHelpers/
+    --watch isomorphicHelpers/
+    --watch '**/routes.js'
+    --watch server/
+    --watch config.json
 `)
 
 SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
