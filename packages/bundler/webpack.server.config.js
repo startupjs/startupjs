@@ -19,7 +19,6 @@ const DEFAULT_FORCE_COMPILE_MODULES = [
   'startupjs/app/server',
   '@startupjs/orm',
   'startupjs/orm',
-  '@startupjs/server',
   'startupjs/server',
   '@startupjs/docs'
 ]
