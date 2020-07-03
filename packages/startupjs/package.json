@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.23.7",
+  "version": "0.23.8",
   "engines": {
     "node": ">= 14"
   },
@@ -12,7 +12,7 @@
   "dependencies": {
     "@startupjs/app": "^0.23.0",
     "@startupjs/backend": "^0.23.0",
-    "@startupjs/bundler": "^0.23.7",
+    "@startupjs/bundler": "^0.23.8",
     "@startupjs/cli": "^0.23.5",
     "@startupjs/hooks": "^0.23.0",
     "@startupjs/init": "^0.23.0",
