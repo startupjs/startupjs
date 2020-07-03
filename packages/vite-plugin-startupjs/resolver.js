@@ -17,6 +17,8 @@ module.exports = {
       return id.replace('lodash', 'lodash-es')
     } else if (id === 'react-native') {
       return 'vite-plugin-startupjs/vendor/react-native-web'
+    } else if (id === 'events') {
+      return 'vite-plugin-startupjs/vendor/events'
     } else if (/^racer(?:$|\/)/.test(id)) {
       return id.replace('racer', '@startupjs/racer')
     } else if (id === 'react-is') {
