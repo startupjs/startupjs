@@ -41,7 +41,7 @@ module.exports = ({ types: t }) => {
       this.opts = {
         moduleName: '@env',
         path: '.env',
-        allowUndefined: false,
+        allowUndefined: true,
         override: {},
         ...this.opts
       }
