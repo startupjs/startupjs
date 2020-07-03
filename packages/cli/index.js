@@ -213,7 +213,7 @@ const SCRIPTS = {
   'android-release': 'react-native run-android --variant Release',
   ios: 'react-native run-ios',
   'ios-release': 'react-native run-ios --configuration Release',
-  build: 'startupjs build',
+  build: 'startupjs build --async',
   'start-production': 'startupjs start-production'
 }
 
