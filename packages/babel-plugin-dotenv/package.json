@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-dotenv",
-  "version": "0.23.0",
+  "version": "0.23.13",
   "publishConfig": {
     "access": "public"
   },
