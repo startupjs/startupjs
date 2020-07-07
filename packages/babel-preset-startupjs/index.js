@@ -14,7 +14,7 @@ const DIRECTORY_ALIASES = {
   config: './startupjs.config.cjs'
 }
 
-const basePlugins = ({ legacyClassnames, alias } = {}) => [
+const basePlugins = ({ alias } = {}) => [
   [require('babel-plugin-module-resolver'), {
     alias: {
       ...DIRECTORY_ALIASES,
