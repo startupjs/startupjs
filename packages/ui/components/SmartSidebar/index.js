@@ -82,6 +82,7 @@ function SmartSidebar ({
         forceClosed=forceClosed
         backgroundColor=backgroundColor
         renderContent=renderContent
+        defaultOpen=defaultOpen
         ...props
       )= children
   `
