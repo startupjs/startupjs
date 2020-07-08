@@ -9,6 +9,8 @@ import ModalActions from './ModalActions'
 Modal.defaultProps = {
   visible: false,
   variant: 'window',
+  dismissLabel: 'Cancel',
+  confirmLabel: 'Confirm',
   ModalElement: View
 }
 
@@ -18,6 +20,8 @@ Modal.propTypes = {
   variant: propTypes.oneOf(['window', 'fullscreen', 'pure']),
   visible: propTypes.bool,
   title: propTypes.string,
+  dismissLabel: propTypes.string,
+  confirmLabel: propTypes.string,
   ModalElement: propTypes.func,
   onShow: propTypes.func,
   onCrossPress: propTypes.func,
