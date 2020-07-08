@@ -25,6 +25,7 @@ function SmartSidebar ({
   backgroundColor,
   children,
   renderContent,
+  defaultOpen,
   ...props
 }) {
   if (path) {
@@ -70,6 +71,7 @@ function SmartSidebar ({
         forceClosed=forceClosed
         backgroundColor=backgroundColor
         renderContent=renderContent
+        defaultOpen=defaultOpen
       )= children
     else
       DrawerSidebar(
