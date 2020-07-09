@@ -76,7 +76,8 @@ TextInput.defaultProps = {
   disabled: false,
   resize: false,
   numberOfLines: 1,
-  iconPosition: 'left'
+  iconPosition: 'left',
+  iconColor: 'dark'
 }
 
 TextInput.propTypes = {
@@ -85,6 +86,7 @@ TextInput.propTypes = {
   label: propTypes.string,
   placeholder: propTypes.string,
   value: propTypes.string,
+  iconColor: propTypes.string,
   size: propTypes.oneOf(['l', 'm', 's']),
   layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,

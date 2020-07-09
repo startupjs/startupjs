@@ -9,8 +9,9 @@ import './index.styl'
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
 const IS_IOS = Platform.OS === 'ios'
-const DARK_LIGHTER_COLOR = config.colors.darkLighter
 const { caretColor, height, lineHeight, borderWidth } = config.TextInput
+const { colors } = config
+const DARK_LIGHTER_COLOR = colors.darkLighter
 
 // TODO: Remove correction when issue will be fixed
 // https://github.com/facebook/react-native/issues/28012
@@ -38,6 +39,7 @@ export default observer(function Input ({
   numberOfLines,
   icon,
   iconPosition,
+  iconColor,
   onBlur,
   onFocus,
   onChangeText,
@@ -47,6 +49,7 @@ export default observer(function Input ({
 }) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  const _iconColor = colors[iconColor] || iconColor
 
   if (!renderWrapper) {
     renderWrapper = ({ style }, children) => pug`
@@ -124,7 +127,7 @@ export default observer(function Input ({
         )
           Icon(
             icon=icon
-            color=DARK_LIGHTER_COLOR
+            color=_iconColor
             size=ICON_SIZES[size]
           )
       TextInput.input-input(
