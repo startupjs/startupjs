@@ -74,7 +74,7 @@ return (
 
 ## Icons
 
-To display icon pass the `icon` property. Position of icon can be changed by passing `iconPosition` to component. To handle clicks on the icon, use the property `onIconPress`.
+To display icon pass the `icon` property. Position of icon can be changed by passing `iconPosition` to component. Color of icon can be changed by passing `iconColor` to component. To handle clicks on the icon, use the property `onIconPress`.
 
 ```jsx example
 const [valueLeft, setLeftValue] = useState()
@@ -83,6 +83,7 @@ return (
   <Div>
     <TextInput
       icon={faTimesCircle}
+      iconColor='primary'
       label='Example icon left'
       value={valueLeft}
       onChangeText={setLeftValue}
