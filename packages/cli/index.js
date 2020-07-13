@@ -201,7 +201,7 @@ SCRIPTS_ORIG.patchPackage = () => oneLine(`
 
 const SCRIPTS = {
   start: 'startupjs start',
-  metro: 'react-native start --config metro.config.cjs --reset-cache',
+  metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
@@ -449,7 +449,9 @@ function addScriptsToPackageJson (projectPath) {
     ]
   }
 
-  packageJSON.type = 'module'
+  // FIXME: We can't use type=module now, because metro does not support ESM
+  // and does not provide ability to pass .cjs config.
+  // packageJSON.type = 'module'
   packageJSON.sideEffects = []
 
   fs.writeFileSync(

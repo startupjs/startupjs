@@ -22,7 +22,7 @@ module.exports.transform = function ({ src, filename, options = {} }) {
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.svg$/.test(filename)) {
     return svgTransformer.transform({ src, filename, options })
-  } else if (/\.jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
+  } else if (/\.[cm]?jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
     // Fix Fast Refresh to work with observer() decorator.
     // For details view ./replaceObserverLoader.js
     src = src.replace(/(?:\/\*(?:[\s\S]*?)\*\/)|(?:^\s*\/\/(?:.*)$)/gm, '')
