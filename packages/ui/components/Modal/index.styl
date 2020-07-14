@@ -3,9 +3,10 @@ _modalBg = $UI.colors.white
 _gutter = $UI.gutters.m
 
 // web modal open animation
+// TODO: animation not working on mount
 .layout
   +web()
-    &-visible
+    &.visible
       animation ShowModal .3s forwards
 
 // layout styles

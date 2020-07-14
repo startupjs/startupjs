@@ -12,10 +12,10 @@ export default function Modal ({
   if (props.variant === 'pure') {
     return pug`
       RNModal(
+        style=style
         visible
         transparent
         animationType='fade'
-        style=style
         onRequestClose=()=> {}
       )= props.children
     `
