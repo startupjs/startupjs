@@ -72,6 +72,21 @@ return (
 )
 ```
 
+```jsx example
+const LIMIT = 10
+const [, $skip] = useValue(0)
+return (
+  <Row align='center'>
+    <Pagination
+      pages={10}
+      limit={LIMIT}
+      $skip={$skip}
+      onChangePage={(val) => $skip.set(val * LIMIT)}
+    />
+  </Row>
+)
+```
+
 ## Кнопки
 
 отображает кнопку для перехода на предыдущую страницу

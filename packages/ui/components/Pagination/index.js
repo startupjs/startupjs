@@ -58,6 +58,10 @@ Pagination.defaultProps = {
   variant: 'full',
   boundaryCount: 1, // min 1
   siblingCount: 1, // min 0
+  // Skip, limit, count are necessary for the sandbox
+  skip: 0,
+  limit: 1,
+  count: 0,
   showFirstButton: false,
   showLastButton: false,
   showPrevButton: true,

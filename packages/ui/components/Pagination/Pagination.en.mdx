@@ -73,6 +73,21 @@ return (
 )
 ```
 
+```jsx example
+const LIMIT = 10
+const [, $skip] = useValue(0)
+return (
+  <Row align='center'>
+    <Pagination
+      pages={10}
+      limit={LIMIT}
+      $skip={$skip}
+      onChangePage={(val) => $skip.set(val * LIMIT)}
+    />
+  </Row>
+)
+```
+
 ## Buttons
 
 - `showPrevButton` displays the previous-page button, (default `true`)
