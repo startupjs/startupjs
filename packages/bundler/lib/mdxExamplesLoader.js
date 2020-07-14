@@ -2,7 +2,9 @@ const REGEX = /(```jsx) +example([\s\S]*?)(```)/g
 
 module.exports = function mdxExamplesLoader (source) {
   const observer = "import { observer as __observer } from 'startupjs'"
-  return observer + '\n' + source.replace(REGEX, replacer)
+  // NOTE: Two line breaks prevent crashing docs without imports
+  // when the text starts from the first line
+  return observer + '\n\n' + source.replace(REGEX, replacer)
 }
 
 function replacer (match, p1, p2, p3) {
