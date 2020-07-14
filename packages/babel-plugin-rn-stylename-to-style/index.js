@@ -36,6 +36,15 @@ module.exports = function (babel) {
     )
   }
 
+  function generateRequire (name) {
+    const require = t.callExpression(t.identifier('require'), [
+      t.stringLiteral(PROCESS_PATH)
+    ])
+    const processFn = t.memberExpression(require, t.identifier('process'))
+    const d = t.variableDeclarator(name, processFn)
+    return t.variableDeclaration('var', [d])
+  }
+
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
     const obj = specifier.local.name
@@ -115,13 +124,16 @@ module.exports = function (babel) {
             .pop()
 
           if (lastImportOrRequire) {
-            lastImportOrRequire.insertAfter(generateImport(state.reqName))
+            lastImportOrRequire.insertAfter(
+              state.opts.useImport
+                ? generateImport(state.reqName)
+                : generateRequire(state.reqName)
+            )
           }
         }
       },
       ImportDeclaration: function importResolver (path, state) {
         const extensions =
-          state.opts != null &&
           Array.isArray(state.opts.extensions) &&
           state.opts.extensions
 
