@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Row from './../../Row'
+import Div from './../../Div'
 import Span from './../../typography/Span'
 import Checkbox from './checkbox'
 import Switch from './switch'
@@ -56,8 +57,11 @@ function CheckboxInput ({
       onPress=onPress
     )
       = renderInput()
-      if label
-        Span.label= label
+      Div.label
+        if typeof label === 'string'
+          Span= label
+        else
+          = label
   `
 }
 
@@ -70,7 +74,7 @@ CheckboxInput.defaultProps = {
 CheckboxInput.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   variant: propTypes.oneOf(['checkbox', 'switch']),
-  label: propTypes.string,
+  label: propTypes.node,
   value: propTypes.bool,
   layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,

@@ -19,9 +19,11 @@ export default observer(function Checkbox ({
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
   const [width, setWidth] = useState(0)
+  const [animated, setAnimated] = useState(false)
 
   useDidUpdate(() => {
     if (value) {
+      setAnimated(true)
       Animated.timing(
         animation,
         {
@@ -30,7 +32,7 @@ export default observer(function Checkbox ({
           easing: Easing.linear,
           useNativeDriver: true
         }
-      ).start()
+      ).start(() => setAnimated(false))
     } else {
       animation.setValue(0)
     }
@@ -55,7 +57,7 @@ export default observer(function Checkbox ({
         color=config.colors.white
       )
       AnimatedView.checkbox-animation(
-        styleName=[checkedStyleName]
+        styleName=[checkedStyleName, { animated }]
         style={
           transform: [{
             translateX: animation.interpolate({
