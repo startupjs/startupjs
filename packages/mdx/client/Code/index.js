@@ -12,6 +12,9 @@ refractor.register(languageJsx)
 refractor.register(languageStyl)
 refractor.register(languagePug)
 
+// Register aliases
+refractor.alias({ stylus: ['styl'] })
+
 export default memo(function Code ({
   children = '',
   language = 'jsx',
