@@ -8,9 +8,10 @@
     "styleguide"
   ],
   "scripts": {
-    "postinstall": "startupjs patch-package",
+    "postinstall": "patch-package && startupjs patch-package",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
+    "publish-stable": "npx lerna publish --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
     "publish-patch": "npx lerna publish patch",
     "publish-minor": "npx lerna publish minor",
     "publish-alpha-minor": "npx lerna publish preminor --dist-tag next",
@@ -29,7 +30,7 @@
     "eslint-plugin-react-pug": "^0.8.4",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.1.0",
-    "lerna": "^3.19.0",
+    "lerna": "3.22.1",
     "lint-staged": "^9.5.0"
   },
   "lint-staged": {
