@@ -81,6 +81,12 @@ module.exports = async (options) => {
 
   backend.use('query', pathQueryMongo)
 
+  // Monkey patch racer's model creation
+  const oldCreateModel = backend.createModel
+  backend.createModel = function (options = {}, req) {
+    return oldCreateModel.call(backend, { fetchOnly: true, ...options }, req)
+  }
+
   shareDbHooks(backend)
 
   if (options.accessControl != null) {
