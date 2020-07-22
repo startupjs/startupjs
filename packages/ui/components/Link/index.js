@@ -1,13 +1,14 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
-import { Platform } from 'react-native'
+import { Platform, Linking } from 'react-native'
 import Div from './../Div'
 import Span from './../typography/Span'
 import { useHistory } from 'react-router-native'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
+const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/i
 
 function Link ({
   style,
@@ -42,8 +43,15 @@ function Link ({
         if (isModifiedEvent(event)) return
         event.preventDefault()
       }
-      const method = replace ? history.replace : history.push
-      method(to)
+
+      if (EXTERNAL_LINK_REGEXP.test(to)) {
+        isWeb
+          ? window.open(to, '_blank')
+          : Linking.openURL(to)
+      } else {
+        const method = replace ? history.replace : history.push
+        method(to)
+      }
     }
   }
 
