@@ -25,9 +25,11 @@ export default memo(function Code ({
   ...props
 }) {
   if (typeof children !== 'string') throw Error('[Code] Code must be a string')
-  const code = useMemo(() => {
-    return renderer(refractor.highlight(children, language), textStyle)
-  }, [children])
+  const code = language
+    ? useMemo(() => {
+      return renderer(refractor.highlight(children, language), textStyle)
+    }, [children])
+    : children
   return pug`
     Span.root(...props style=[textStyle, style])= code
   `
