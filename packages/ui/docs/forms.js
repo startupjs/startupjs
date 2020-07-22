@@ -9,6 +9,7 @@ import RadioRu from '../components/forms/Radio/Radio.ru.mdx'
 import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
 import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
 import SelectEn from '../components/forms/Select/Select.en.mdx'
+import SelectRu from '../components/forms/Select/Select.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -55,7 +56,10 @@ export default {
     Select: {
       type: 'mdx',
       title: 'Select',
-      component: SelectEn
+      component: {
+        en: SelectEn,
+        ru: SelectRu
+      }
     }
   }
 }

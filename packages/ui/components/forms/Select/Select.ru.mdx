@@ -4,17 +4,17 @@ import Div from '../../Div'
 import Br from '../../Br'
 import { Sandbox } from '@startupjs/docs'
 
-# Select
+# Select (список)
 
-Inherits [TextInput props](/docs/en/forms/TextInput).
+Наследует [TextInput props](/docs/en/forms/TextInput).
 
-Select lets user pick one of multiple options. Works similar to HTML's `<select>` tag.
+Список позволяет пользователю выбрать один из нескольких вариантов. Работает аналогично тегу HTML `<select>`.
 
 ```jsx
 import { Select } from '@startupjs/ui'
 ```
 
-## Example
+## Пример
 
 ```jsx example
 const [color, setColor] = useState()
@@ -50,9 +50,9 @@ return (
 )
 ```
 
-## Showing Empty value
+## Отображение пустого значения
 
-By default the empty value is shown. If you want to prevent users from being able to remove the value, pass `showEmptyValue={false}`.
+Пустое значение по умолчанию показывается. Если вы хотите, чтобы у пользователей не было возможности удалить значение, передайте `showEmptyValue={false}`.
 
 ```jsx example
 const [color, setColor] = useState('red')
