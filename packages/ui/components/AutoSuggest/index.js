@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ScrollView } from 'react-native'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
@@ -13,25 +13,30 @@ const AutoSuggest = ({
   value,
   onChange
 }) => {
+  const [firstItem, setFirstItem] = useState({})
   const [isFind, setIsFind] = useState(false)
   const onFocus = () => setIsFind(true)
   const onBlur = () => setIsFind(false)
 
   let _data = data.filter((item, index) => {
-    if (item === value) return
-    return value ? !!item.match(new RegExp('^' + value, 'gi')) : true
+    if (item.label === value) return
+    return value ? !!item.label.match(new RegExp('^' + value, 'gi')) : true
   }).splice(0, 30)
 
   const renderItems = _data.map((item, index) => {
-    if (renderItem) return renderItem(item, index, item === value)
+    if (renderItem) return renderItem(item, index, item.label === value)
     return pug`
       Menu.Item(
         key=index
-        onPress=()=> onChange(item)
-        active=item === value
-      )= item
+        onPress=()=> onChange(item.label, item)
+        active=item.label === value
+      )= item.label
     `
   })
+
+  useEffect(() => {
+    setFirstItem(_data[0])
+  }, [JSON.stringify(_data)])
 
   return pug`
     Popover(
@@ -45,7 +50,7 @@ const AutoSuggest = ({
           placeholder=placeholder
           onFocus=onFocus
           onBlur=onBlur
-          onChangeText=t=> onChange(t)
+          onChangeText=t=> onChange(t, firstItem)
           value=value
         )
       ScrollView
