@@ -12,11 +12,11 @@
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
     "publish-stable": "npx lerna publish --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
-    "publish-patch": "npx lerna publish patch",
-    "publish-minor": "npx lerna publish minor",
-    "publish-alpha-minor": "npx lerna publish preminor --dist-tag next",
-    "publish-alpha": "npx lerna publish prerelease --dist-tag next",
-    "publish-canary": "npx lerna publish prerelease --preid canary --dist-tag canary"
+    "publish-patch": "npx lerna publish patch --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-minor": "npx lerna publish minor --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-alpha-minor": "npx lerna publish preminor --dist-tag next --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-alpha": "npx lerna publish prerelease --dist-tag next --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-canary": "npx lerna publish prerelease --preid canary --dist-tag canary --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
