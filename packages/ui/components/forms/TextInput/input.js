@@ -29,6 +29,7 @@ const ICON_SIZES = {
 
 export default observer(function Input ({
   style,
+  inputStyle,
   className,
   placeholder,
   value,
@@ -98,11 +99,11 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  const inputStyle = {
+  inputStyle = [{
     paddingTop: verticalGutter,
     paddingBottom: verticalGutter,
     lineHeight: lH
-  }
+  }, inputStyle]
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
