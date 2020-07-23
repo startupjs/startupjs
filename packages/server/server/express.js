@@ -20,6 +20,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
     extended: true
   }
 }
+const WWW_REGEXP = /www\./
 
 function getDefaultSessionUpdateInterval (sessionMaxAge) {
   // maxAge is in ms. Return in s. So it's 1/10nth of maxAge.
@@ -91,6 +92,18 @@ module.exports = (backend, appRoutes, error, options, done) => {
         })
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
     }
+
+    // get rid of 'www.' from url
+    expressApp.use((req, res, next) => {
+      if (WWW_REGEXP.test(req.hostname)) {
+        const newHostname = req.hostname.replace(WWW_REGEXP, '')
+        return res.redirect(
+          301,
+          req.protocol + '://' + newHostname + req.originalUrl
+        )
+      }
+      next()
+    })
 
     // ----------------------------------------------------->    static    <#
     options.ee.emit('static', expressApp)
