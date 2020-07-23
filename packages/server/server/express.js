@@ -92,6 +92,19 @@ module.exports = (backend, appRoutes, error, options, done) => {
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
     }
 
+    // get rid of 'www.' from url
+    expressApp.use((req, res, next) => {
+      const wwwRegExp = new RegExp(/www\./)
+      if (wwwRegExp.test(req.hostname)) {
+        const newHostname = req.hostname.replace(wwwRegExp, '')
+        return res.redirect(
+          301,
+          req.protocol + '://' + newHostname + req.originalUrl
+        )
+      }
+      next()
+    })
+
     // ----------------------------------------------------->    static    <#
     options.ee.emit('static', expressApp)
 
