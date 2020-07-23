@@ -10,38 +10,48 @@ const AutoSuggest = ({
   placeholder,
   popoverHeight,
   renderItem,
-  value,
   onChange
 }) => {
-  const [firstItem, setFirstItem] = useState({})
-  const [isFind, setIsFind] = useState(false)
-  const onFocus = () => setIsFind(true)
-  const onBlur = () => setIsFind(false)
+  const [inputValue, setInputValue] = useState()
+  const [selectedItem, setSelectedItem] = useState({})
+  const [focused, setFocused] = useState(false)
+
+  function onFocus () {
+    setFocused(true)
+  }
+  function onBlur () {
+    setFocused(false)
+    setInputValue()
+  }
+
+  function onChangeText (text) {
+    setInputValue(text)
+  }
+
+  function _onChange (item) {
+    onChange && onChange(item)
+    setSelectedItem(item)
+  }
 
   let _data = data.filter((item, index) => {
-    if (item.label === value) return
-    return value ? !!item.label.match(new RegExp('^' + value, 'gi')) : true
+    return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
   }).splice(0, 30)
 
   const renderItems = _data.map((item, index) => {
-    if (renderItem) return renderItem(item, index, item.label === value)
+    if (renderItem) return renderItem(item, index, _onChange)
     return pug`
       Menu.Item(
         key=index
-        onPress=()=> onChange(item.label, item)
-        active=item.label === value
+        onPress=()=> _onChange(item)
+        active=item.label === inputValue
       )= item.label
     `
   })
 
-  useEffect(() => {
-    setFirstItem(_data[0])
-  }, [JSON.stringify(_data)])
-
   return pug`
     Popover(
       height=popoverHeight
-      visible=(!!_data.length && isFind)
+      visible=(!!_data.length && focused)
       positionHorizontal="right"
       onDismiss=()=> {}
     )
@@ -50,8 +60,8 @@ const AutoSuggest = ({
           placeholder=placeholder
           onFocus=onFocus
           onBlur=onBlur
-          onChangeText=t=> onChange(t, firstItem)
-          value=value
+          onChangeText=onChangeText
+          value=(!focused && selectedItem.label) || inputValue
         )
       ScrollView
         Menu= renderItems
@@ -62,13 +72,11 @@ AutoSuggest.defaultProps = {
   data: [],
   placeholder: 'Select value',
   popoverHeight: 300,
-  value: ''
 }
 
 AutoSuggest.propTypes = {
   placeholder: propTypes.string,
   popoverHeight: propTypes.number,
-  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
   data: propTypes.array,
   renderItem: propTypes.func,
   onChange: propTypes.func
