@@ -8,19 +8,19 @@ import { AutoSuggest } from '@startupjs/ui'
 
 ## Пример
 ```jsx example
-const [value, setValue] = useState('')
-const users = [
-  'Harry',
-  'Alfie',
-  'Jacob',
-  'Oscar',
-  'Charlie',
-  'James',
-  'William'
+const [value, setValue] = useState({})
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+  { value: '4', label: 'Oscar' },
+  { value: '5', label: 'Charlie' },
+  { value: '6', label: 'James' },
+  { value: '7', label: 'William' },
 ]
 return (
   <AutoSuggest
-    data={users}
+    options={options}
     value={value}
     popoverHeight={200}
     placeholder="Select value"

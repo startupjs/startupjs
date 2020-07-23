@@ -13,63 +13,52 @@ const AutoSuggest = ({
   renderItem,
   onChange
 }) => {
-  const [selectedItem, setSelectedItem] = useState({})
-  const [inputValue, setInputValue] = useState()
-  const [focused, setFocused] = useState(false)
-
-  function onFocus () {
-    setFocused(true)
-  }
-  function onBlur () {
-    setFocused(false)
-    setInputValue()
-  }
-
-  function onChangeText (text) {
-    setInputValue(text)
-  }
-
-  function _onChange (item) {
-    onChange && onChange(item)
-    setSelectedItem(item)
-  }
+  const [inputValue, setInputValue] = useState('')
+  const [isFocus, setIsFocus] = useState(false)
 
   let _data = options.filter((item, index) => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
   }).splice(0, 30)
+
+  function onFocus () {
+    setIsFocus(true)
+  }
+
+  function onBlur () {
+    if (!_data.length) return
+    setIsFocus(false)
+    setInputValue('')
+  }
+
+  useEffect(() => {
+    setIsFocus(false)
+    setInputValue('')
+  }, [value])
 
   const renderItems = _data.map((item, index) => {
     if (renderItem) return renderItem(item, index)
     return pug`
       Menu.Item(
         key=index
-        onPress=()=> _onChange(item)
-        active=item.value === selectedItem.value
+        onPress=()=> onChange(item)
+        active=item.value === value.value
       )= item.label
     `
   })
 
-  useEffect(() => {
-    if (value && (value.value !== selectedItem.value)) {
-      const item = options.find((option) => option.value === value.value)
-      item && setSelectedItem(item)
-    }
-  }, [JSON.stringify(value)])
-
   return pug`
     Popover(
       height=popoverHeight
-      visible=(!!_data.length && focused)
+      visible=(!!_data.length && isFocus)
       positionHorizontal="right"
-      onDismiss=()=> {}
+      onDismiss=onBlur
     )
       Popover.Caption
         TextInput(
           placeholder=placeholder
           onFocus=onFocus
-          onBlur=onBlur
-          onChangeText=onChangeText
-          value=(!focused && selectedItem.label) || inputValue
+          onChangeText=t=> setInputValue(t)
+          value=(!isFocus && value.label) || inputValue
         )
       ScrollView
         Menu= renderItems
@@ -80,17 +69,18 @@ AutoSuggest.defaultProps = {
   options: [],
   placeholder: 'Select value',
   popoverHeight: 300,
-  value: null
+  value: {},
+  renderItem: null
 }
 
 AutoSuggest.propTypes = {
+  options: propTypes.array.isRequired,
+  value: propTypes.shape({
+    value: propTypes.string,
+    label: propTypes.string
+  }).isRequired,
   placeholder: propTypes.string,
   popoverHeight: propTypes.number,
-  options: propTypes.array,
-  value: propTypes.oneOfType([
-    propTypes.shape({value: propTypes.string, label: propTypes.string}),
-    propTypes.instanceOf(null)
-  ]),
   renderItem: propTypes.func,
   onChange: propTypes.func
 }
