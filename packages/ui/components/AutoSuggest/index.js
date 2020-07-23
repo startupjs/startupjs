@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ScrollView } from 'react-native'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
@@ -6,37 +6,60 @@ import Menu from '../Menu'
 import propTypes from 'prop-types'
 
 const AutoSuggest = ({
-  data,
+  options,
+  value,
   placeholder,
   popoverHeight,
   renderItem,
-  value,
   onChange
 }) => {
-  const [isFind, setIsFind] = useState(false)
-  const onFocus = () => setIsFind(true)
-  const onBlur = () => setIsFind(false)
+  const [selectedItem, setSelectedItem] = useState({})
+  const [inputValue, setInputValue] = useState()
+  const [focused, setFocused] = useState(false)
 
-  let _data = data.filter((item, index) => {
-    if (item === value) return
-    return value ? !!item.match(new RegExp('^' + value, 'gi')) : true
+  function onFocus () {
+    setFocused(true)
+  }
+  function onBlur () {
+    setFocused(false)
+    setInputValue()
+  }
+
+  function onChangeText (text) {
+    setInputValue(text)
+  }
+
+  function _onChange (item) {
+    onChange && onChange(item)
+    setSelectedItem(item)
+  }
+
+  let _data = options.filter((item, index) => {
+    return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
   }).splice(0, 30)
 
   const renderItems = _data.map((item, index) => {
-    if (renderItem) return renderItem(item, index, item === value)
+    if (renderItem) return renderItem(item, index)
     return pug`
       Menu.Item(
         key=index
-        onPress=()=> onChange(item)
-        active=item === value
-      )= item
+        onPress=()=> _onChange(item)
+        active=item.value === selectedItem.value
+      )= item.label
     `
   })
+
+  useEffect(() => {
+    if (value && (value.value !== selectedItem.value)) {
+      const item = options.find((option) => option.value === value.value)
+      item && setSelectedItem(item)
+    }
+  }, [JSON.stringify(value)])
 
   return pug`
     Popover(
       height=popoverHeight
-      visible=(!!_data.length && isFind)
+      visible=(!!_data.length && focused)
       positionHorizontal="right"
       onDismiss=()=> {}
     )
@@ -45,8 +68,8 @@ const AutoSuggest = ({
           placeholder=placeholder
           onFocus=onFocus
           onBlur=onBlur
-          onChangeText=t=> onChange(t)
-          value=value
+          onChangeText=onChangeText
+          value=(!focused && selectedItem.label) || inputValue
         )
       ScrollView
         Menu= renderItems
@@ -54,17 +77,20 @@ const AutoSuggest = ({
 }
 
 AutoSuggest.defaultProps = {
-  data: [],
+  options: [],
   placeholder: 'Select value',
   popoverHeight: 300,
-  value: ''
+  value: null
 }
 
 AutoSuggest.propTypes = {
   placeholder: propTypes.string,
   popoverHeight: propTypes.number,
-  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  data: propTypes.array,
+  options: propTypes.array,
+  value: propTypes.oneOfType([
+    propTypes.shape({value: propTypes.string, label: propTypes.string}),
+    propTypes.instanceOf(null)
+  ]),
   renderItem: propTypes.func,
   onChange: propTypes.func
 }
