@@ -6,14 +6,15 @@ import Menu from '../Menu'
 import propTypes from 'prop-types'
 
 const AutoSuggest = ({
-  data,
+  options,
+  value,
   placeholder,
   popoverHeight,
   renderItem,
   onChange
 }) => {
-  const [inputValue, setInputValue] = useState()
   const [selectedItem, setSelectedItem] = useState({})
+  const [inputValue, setInputValue] = useState()
   const [focused, setFocused] = useState(false)
 
   function onFocus () {
@@ -33,20 +34,27 @@ const AutoSuggest = ({
     setSelectedItem(item)
   }
 
-  let _data = data.filter((item, index) => {
+  let _data = options.filter((item, index) => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
   }).splice(0, 30)
 
   const renderItems = _data.map((item, index) => {
-    if (renderItem) return renderItem(item, index, _onChange)
+    if (renderItem) return renderItem(item, index)
     return pug`
       Menu.Item(
         key=index
         onPress=()=> _onChange(item)
-        active=item.label === inputValue
+        active=item.value === selectedItem.value
       )= item.label
     `
   })
+
+  useEffect(() => {
+    if (value && (value.value !== selectedItem.value)) {
+      const item = options.find((option) => option.value === value.value)
+      item && setSelectedItem(item)
+    }
+  }, [JSON.stringify(value)])
 
   return pug`
     Popover(
@@ -69,15 +77,20 @@ const AutoSuggest = ({
 }
 
 AutoSuggest.defaultProps = {
-  data: [],
+  options: [],
   placeholder: 'Select value',
   popoverHeight: 300,
+  value: null
 }
 
 AutoSuggest.propTypes = {
   placeholder: propTypes.string,
   popoverHeight: propTypes.number,
-  data: propTypes.array,
+  options: propTypes.array,
+  value: propTypes.oneOfType([
+    propTypes.shape({value: propTypes.string, label: propTypes.string}),
+    propTypes.instanceOf(null)
+  ]),
   renderItem: propTypes.func,
   onChange: propTypes.func
 }
