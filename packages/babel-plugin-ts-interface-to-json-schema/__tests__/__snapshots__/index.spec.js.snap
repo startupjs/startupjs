@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-ts-interface-to-json-schema It is convert typescript interface to JSON-Schema and add that JSON to ORM model as static field: It is convert typescript interface to JSON-Schema and add that JSON to ORM model as static field 1`] = `
+
+import { BaseModel } from 'startupjs/orm'
+    
+interface IEventModel {
+  name: string;
+  /**
+  * @default [1.23, 65.21, -123.40, 0, 1000000.0001]
+  */
+  amount: number[];
+}
+
+export default class EventModel extends BaseModel {
+  methodOne() {
+    return 1
+  }
+  methodTwo() {
+    return 2
+  }
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { BaseModel } from 'startupjs/orm'
+interface IEventModel {
+  name: string;
+  /**
+   * @default [1.23, 65.21, -123.40, 0, 1000000.0001]
+   */
+
+  amount: number[];
+}
+export default class EventModel extends BaseModel {
+  static schema = {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string'
+      },
+      amount: {
+        default: [1.23, 65.21, -123.4, 0, 1000000.0001],
+        type: 'array',
+        items: {
+          type: 'number'
+        }
+      }
+    },
+    $schema: 'http://json-schema.org/draft-07/schema#'
+  }
+
+  methodOne() {
+    return 1
+  }
+
+  methodTwo() {
+    return 2
+  }
+}
+
+
+`;
