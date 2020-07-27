@@ -1,0 +1,40 @@
+# PREREQUISITES:
+#   - project PROJECT_ID on google cloud
+#   - kube cluster in this project with exactly the same name: PROJECT_ID
+#   - ConfigMap in the cluster named _APP with the required private
+#     environment variables from './config.json' specified
+#   - Ingress configuration which proxies port 80 to the serviceName _APP
+
+# IMPORTANT:
+#   - When copying to another project, you MUST change the variables below
+#     (substitutions)
+substitutions:
+  # The kube cluster must have a ConfigMap with the _APP name
+  # which has the required private env vars specified from ./config.json
+  _APP: startupjs-ui
+  _ZONE: us-east1-d
+  # We are in a monorepo, so we have to specify the path to the
+  # styleguide. In a regular project you won't need it
+  # since everything is gonna be in the root (current) folder: '.'
+  _PATH: ./styleguide
+
+timeout: 2000s
+steps:
+
+- id: main deploy
+  name: startupjs/deploy
+  args: [batch]
+  env:
+  # pipe all user defined substitutions
+  # you MUST specify each env variable from the `substitutions` section above
+  - _APP=$_APP
+  # pipe all default substitutions
+  # https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
+  - PROJECT_ID=$PROJECT_ID
+  - BUILD_ID=$BUILD_ID
+  - COMMIT_SHA=$COMMIT_SHA
+  - SHORT_SHA=$SHORT_SHA
+  - REPO_NAME=$REPO_NAME
+  - BRANCH_NAME=$BRANCH_NAME
+  - TAG_NAME=$TAG_NAME
+  - REVISION_ID=$REVISION_ID
