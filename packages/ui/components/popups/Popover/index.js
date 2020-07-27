@@ -19,9 +19,7 @@ const SHTAMP_RENDER_STYLE = {
   width: 0
 }
 
-// TODO
-// positionVertical: top
-// animateType: scale
+// TODO - positionVertical: top
 const Popover = ({
   positionHorizontal,
   positionVertical,
@@ -77,7 +75,6 @@ const Popover = ({
   }, [visible])
 
   const setParams = () => {
-    // if (coords !== null) return
     if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
       return
     }
