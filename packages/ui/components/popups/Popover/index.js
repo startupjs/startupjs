@@ -8,6 +8,7 @@ import {
   Dimensions
 } from 'react-native'
 import Modal from '../../Modal'
+import { StyleSheet } from 'react-native'
 import './index.styl'
 
 const SHTAMP_RENDER_STYLE = {
@@ -33,7 +34,7 @@ const Popover = ({
   onDismiss,
   styleWrapper,
   styleOverlay,
-  styleBackdrop,
+  backdropStyle,
   children
 }) => {
   const [coords, setCoords] = useState(null)
@@ -189,14 +190,10 @@ const Popover = ({
   }
 
   function getBackdropStyle () {
-    let style = {}
-    if (coords === null) {
-      style = SHTAMP_RENDER_STYLE
-    }
-    if (styleBackdrop) {
-      style = { ...style, ...styleBackdrop }
-    }
-    return style
+    return StyleSheet.flatten([
+      backdropStyle,
+      coords === null ? SHTAMP_RENDER_STYLE : {}
+    ])
   }
 
   const Wrapper = coords === null ? View : Modal
@@ -249,8 +246,7 @@ Popover.defaultProps = {
   positionHorizontal: 'right',
   positionVertical: 'bottom',
   animateType: 'default',
-  hasWidthCaption: true,
-  styleBackdrop: {}
+  hasWidthCaption: true
 }
 
 Popover.propTypes = {
@@ -262,7 +258,7 @@ Popover.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
-  styleBackdrop: PropTypes.object
+  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
 Popover.Caption = ({ children, style }) => {
