@@ -29,6 +29,7 @@ const Popover = ({
   height,
   width,
   onDismiss,
+  onRequestOpen,
   styleWrapper,
   styleOverlay,
   children
@@ -105,7 +106,9 @@ const Popover = ({
         }),
         Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 }),
         Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
-      ]).start()
+      ]).start(() => {
+        onRequestOpen()
+      })
     }
 
     if (Platform.OS === 'android') {

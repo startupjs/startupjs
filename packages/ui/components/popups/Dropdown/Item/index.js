@@ -12,7 +12,6 @@ const DropdownItem = ({
   icon,
   onPress,
   children,
-  _isPure,
   _activeValue,
   _variant,
   _onChange,
@@ -20,6 +19,8 @@ const DropdownItem = ({
   _index,
   _childenLength
 }) => {
+  const isPure = _variant === 'pure'
+
   const handlePress = () => {
     if (onPress) {
       onPress()
@@ -29,7 +30,7 @@ const DropdownItem = ({
     }
   }
 
-  if (_variant === 'popover' && _variant !== 'pure') {
+  if (_variant === 'popover' && !isPure) {
     return pug`
       Menu.Item(
         active=_activeValue === value
@@ -42,12 +43,12 @@ const DropdownItem = ({
 
   return pug`
     TouchableOpacity(onPress=handlePress)
-      View.item(styleName=[!_isPure && _variant, {
-        active: !_isPure && (_activeValue === value),
-        itemUp: !_isPure && (_index === 0),
-        itemDown: !_isPure && (_index === _childenLength - 1)
+      View.item(styleName=[!isPure && _variant, {
+        active: !isPure && (_activeValue === value),
+        itemUp: !isPure && (_index === 0),
+        itemDown: !isPure && (_index === _childenLength - 1)
       }])
-        if _isPure
+        if isPure
           = children
         else
           Text.itemText(styleName=[_variant, { active: _activeValue && _activeValue === value }])

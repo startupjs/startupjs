@@ -25,9 +25,9 @@ return (
   <View style={{ width: 150 }}>
     <Dropdown
       activeValue={sort}
-      variant="buttons"
       onChange={value=> setSort(value)}
     >
+      <Dropdown.Caption placeholder="Sort by" />
       <Dropdown.Item value="popular" label="Popular" />
       <Dropdown.Item value="brand" label="Brand" />
       <Dropdown.Item value="name" label="Name" />
@@ -44,7 +44,6 @@ return (
   <View style={{ width: 150 }}>
     <Dropdown
       activeValue={sort}
-      variant="buttons"
       onChange={value=> setSort(value)}
     >
       <Dropdown.Item value="popular" label="Popular" />
@@ -62,7 +61,6 @@ return (
   <View style={{ width: 150 }}>
     <Dropdown
       activeValue={sort}
-      variant="buttons"
       onChange={value=> setSort(value)}
     >
       <Dropdown.Caption variant="button" placeholder="Menu" />
@@ -83,7 +81,6 @@ return (
   <View>
     <Dropdown
       activeValue={sort}
-      variant="buttons"
       onChange={value=> setSort(value)}
       popoverWidth={160}
     >
@@ -92,7 +89,7 @@ return (
           <Icon icon={faEllipsisV} />
         </View>
       </Dropdown.Caption>
-      <Dropdown.Item value="popular" label="Popular" />
+      <Dropdown.Item value="popular" label="popular" />
       <Dropdown.Item value="brand" label="Brand" />
       <Dropdown.Item value="name" label="Name" />
     </Dropdown>
@@ -107,7 +104,6 @@ return (
   <View style={{ width: 150 }}>
     <Dropdown
       activeValue={sort}
-      variant="buttons"
       onChange={value=> setSort(value)}
     >
       <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />

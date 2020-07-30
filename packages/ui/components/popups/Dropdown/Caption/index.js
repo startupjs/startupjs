@@ -14,9 +14,7 @@ const DropdownCaption = ({
   _activeLabel
 }) => {
   if (variant === 'custom') {
-    return pug`
-      = children
-    `
+    return children
   }
 
   if (variant === 'button') {
