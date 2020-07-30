@@ -33,6 +33,7 @@ const Popover = ({
   onDismiss,
   styleWrapper,
   styleOverlay,
+  styleBackdrop,
   children
 }) => {
   const [coords, setCoords] = useState(null)
@@ -187,6 +188,17 @@ const Popover = ({
     }
   }
 
+  function getBackdropStyle () {
+    let style = {}
+    if (coords === null) {
+      style = SHTAMP_RENDER_STYLE
+    }
+    if (styleBackdrop) {
+      style = { ...style, ...styleBackdrop }
+    }
+    return style
+  }
+
   const Wrapper = coords === null ? View : Modal
   const _styleWrapper = coords === null ? {
     position: 'absolute',
@@ -220,7 +232,7 @@ const Popover = ({
         visible=isShow
         ariaHideApp=false
         variant='pure'
-        style=coords === null ? SHTAMP_RENDER_STYLE : {}
+        style=getBackdropStyle()
       )
         View.case
           TouchableWithoutFeedback(onPress=onDismiss)
@@ -237,7 +249,8 @@ Popover.defaultProps = {
   positionHorizontal: 'right',
   positionVertical: 'bottom',
   animateType: 'default',
-  hasWidthCaption: true
+  hasWidthCaption: true,
+  styleBackdrop: {}
 }
 
 Popover.propTypes = {
@@ -248,7 +261,8 @@ Popover.propTypes = {
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  hasWidthCaption: PropTypes.bool
+  hasWidthCaption: PropTypes.bool,
+  styleBackdrop: PropTypes.object
 }
 
 Popover.Caption = ({ children, style }) => {
