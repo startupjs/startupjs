@@ -34,7 +34,11 @@ const Popover = ({
   onDismiss,
   styleWrapper,
   styleOverlay,
+<<<<<<< HEAD
   backdropStyle,
+=======
+  styleBackdrop,
+>>>>>>> master
   children
 }) => {
   const [coords, setCoords] = useState(null)
@@ -190,10 +194,21 @@ const Popover = ({
   }
 
   function getBackdropStyle () {
+<<<<<<< HEAD
     return StyleSheet.flatten([
       backdropStyle,
       coords === null ? SHTAMP_RENDER_STYLE : {}
     ])
+=======
+    let style = {}
+    if (coords === null) {
+      style = SHTAMP_RENDER_STYLE
+    }
+    if (styleBackdrop) {
+      style = { ...style, ...styleBackdrop }
+    }
+    return style
+>>>>>>> master
   }
 
   const Wrapper = coords === null ? View : Modal

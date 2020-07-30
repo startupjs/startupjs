@@ -28,6 +28,9 @@ function Link ({
   const extraProps = { accessibilityRole: 'link' }
   const history = useHistory()
 
+  // TODO:
+  // For block=true modifier keys does not work
+  // may be it is related issue https://github.com/necolas/react-native-web/issues/1591
   function handlePress (event) {
     try {
       if (onPress) onPress(event)
