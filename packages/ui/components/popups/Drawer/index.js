@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
+import config from '../../../config/rootConfig'
 import './index.styl'
 
 const POSITION_STYLES = {
@@ -35,7 +36,6 @@ const SHTAMP_RENDER_STYLE = {
 }
 
 // TODO: more test for work responder with ScrollView
-// Fix performance native Modal. Replace with Portal ?
 // https://material-ui.com/ru/components/drawers/#%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%B0%D1%8F-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C
 const Drawer = ({
   visible,
@@ -134,6 +134,7 @@ const Drawer = ({
   }
   const _styleContent = {
     transform: [{ [POSITION_NAMES[position]]: animatePosition }],
+    ...config.shadows[2],
     ...styleContent
   }
 
