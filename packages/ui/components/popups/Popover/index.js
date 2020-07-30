@@ -34,11 +34,7 @@ const Popover = ({
   onDismiss,
   styleWrapper,
   styleOverlay,
-<<<<<<< HEAD
   backdropStyle,
-=======
-  styleBackdrop,
->>>>>>> master
   children
 }) => {
   const [coords, setCoords] = useState(null)
@@ -194,21 +190,10 @@ const Popover = ({
   }
 
   function getBackdropStyle () {
-<<<<<<< HEAD
     return StyleSheet.flatten([
       backdropStyle,
       coords === null ? SHTAMP_RENDER_STYLE : {}
     ])
-=======
-    let style = {}
-    if (coords === null) {
-      style = SHTAMP_RENDER_STYLE
-    }
-    if (styleBackdrop) {
-      style = { ...style, ...styleBackdrop }
-    }
-    return style
->>>>>>> master
   }
 
   const Wrapper = coords === null ? View : Modal
@@ -261,8 +246,7 @@ Popover.defaultProps = {
   positionHorizontal: 'right',
   positionVertical: 'bottom',
   animateType: 'default',
-  hasWidthCaption: true,
-  styleBackdrop: {}
+  hasWidthCaption: true
 }
 
 Popover.propTypes = {
@@ -274,7 +258,7 @@ Popover.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
-  styleBackdrop: PropTypes.object
+  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
 Popover.Caption = ({ children, style }) => {
