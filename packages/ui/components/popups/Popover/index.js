@@ -20,9 +20,7 @@ const SHTAMP_RENDER_STYLE = {
   width: 0
 }
 
-// TODO
-// positionVertical: top
-// animateType: scale
+// TODO - positionVertical: top
 const Popover = ({
   positionHorizontal,
   positionVertical,
@@ -32,6 +30,7 @@ const Popover = ({
   height,
   width,
   onDismiss,
+  onRequestOpen,
   styleWrapper,
   styleOverlay,
   backdropStyle,
@@ -79,7 +78,6 @@ const Popover = ({
   }, [visible])
 
   const setParams = () => {
-    // if (coords !== null) return
     if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
       return
     }
@@ -110,7 +108,9 @@ const Popover = ({
         }),
         Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 }),
         Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
-      ]).start()
+      ]).start(() => {
+        onRequestOpen()
+      })
     }
 
     if (Platform.OS === 'android') {

@@ -1,30 +1,38 @@
-import React, { useLayoutEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useLayoutEffect, useState, useRef } from 'react'
+import propTypes from 'prop-types'
 import {
-  Picker,
   Text,
   View,
   TouchableOpacity,
-  Platform,
   ScrollView,
-  Dimensions
+  Dimensions,
+  NativeModules
 } from 'react-native'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import Icon from '../../Icon'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
+import DropdownCaption from './Caption'
+import DropdownItem from './Item'
+import config from '../../../config/rootConfig'
+import { u } from 'startupjs'
 import './index.styl'
 
-// TODO: add system variant
-// scroll to active element
+const { UIManager } = NativeModules
+
+const DEFAULT_STYLE_WRAPPER = {
+  transform: [{ translateY: 3 }],
+  borderRadius: u(0.5),
+  ...config.shadows[2]
+}
+
 const Dropdown = ({
-  titleDefault,
-  hasPopoverWidthCaption,
-  styleWrapper,
-  styleActiveItem,
+  drawerListTitle,
+  drawerVariant,
+  hasMobileDrawer,
+  popoverWidth,
   popoverHeight,
+  popoverStyleWrapper,
+  styleActiveItem,
   activeValue,
-  variant,
   onChange,
   onDismiss,
   children
@@ -39,81 +47,94 @@ const Dropdown = ({
     setLayoutWidth(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
   }
 
+  const refScroll = useRef()
+  const [activePosition, setActivePosition] = useState(null)
   const [isShow, setIsShow] = useState(false)
-  const isPopover = (variant === 'system' && Platform.OS === 'web') || layoutWidth > 780
+  const isPopover = layoutWidth > 780
+
+  const onLayoutActive = ({ nativeEvent }) => {
+    setActivePosition(nativeEvent.layout.y)
+  }
 
   let caption = null
   let renderContent = []
+  let activeLabel = ''
   React.Children.toArray(children).forEach((child, index, arr) => {
     if (child.type.toString() === Dropdown.Caption.toString()) {
       if (index !== 0) Error('Caption need use first child')
-      caption = child.props.children
+      if (child.props.children) {
+        caption = React.cloneElement(child, { variant: 'custom' })
+      } else {
+        caption = child
+      }
       return
     }
 
-    renderContent.push(
-      React.cloneElement(child, {
-        _variant: isPopover ? 'popover' : variant,
-        _isCustom: variant === 'custom',
-        _styleActiveItem: styleActiveItem,
-        _active: activeValue,
-        _index: caption ? index - 1 : index,
-        _childenLength: caption ? arr.length - 1 : arr.length,
-        _onDismiss: () => setIsShow(false),
-        _onChange: value => {
-          onChange(value)
-          setIsShow(false)
-        }
-      })
-    )
+    const _child = React.cloneElement(child, {
+      _variant: child.props.children
+        ? 'pure'
+        : (isPopover ? 'popover' : drawerVariant),
+      _styleActiveItem: styleActiveItem,
+      _activeValue: activeValue,
+      _index: caption ? index - 1 : index,
+      _childenLength: caption ? arr.length - 1 : arr.length,
+      _onDismissDropdown: () => setIsShow(false),
+      _onChange: value => {
+        onChange(value)
+        setIsShow(false)
+      }
+    })
+
+    if (activeValue === child.props.value) {
+      activeLabel = child.props.label
+      renderContent.push(<View onLayout={onLayoutActive}>{_child}</View>)
+    } else {
+      renderContent.push(_child)
+    }
   })
+
+  const onCancel = () => {
+    onDismiss && onDismiss()
+    setIsShow(false)
+  }
+
+  const onRequestOpen = () => {
+    UIManager.measure(refScroll.current.getInnerViewNode(), (x, y) => {
+      if (activePosition >= popoverHeight) {
+        refScroll.current.scrollTo({ y: activePosition })
+      }
+    })
+  }
+
+  const _popoverStyleWrapper = {
+    ...DEFAULT_STYLE_WRAPPER,
+    ...popoverStyleWrapper
+  }
+
+  if (!caption) {
+    caption = <DropdownCaption _activeLabel={activeLabel} />
+  } else {
+    caption = React.cloneElement(caption, { _activeLabel: activeLabel })
+  }
 
   if (isPopover) {
     return pug`
       Popover(
         visible=isShow
         onDismiss=()=> setIsShow(false)
-        height=popoverHeight || 0
-        hasWidthCaption=hasPopoverWidthCaption
-        styleWrapper=styleWrapper
+        onRequestOpen=onRequestOpen
+        height=popoverHeight
+        width=popoverWidth
+        hasWidthCaption=!popoverWidth
+        styleWrapper=_popoverStyleWrapper
       )
         if caption
           Popover.Caption
             TouchableOpacity(onPress=()=> setIsShow(true))
               = caption
-        ScrollView
+        ScrollView(ref=refScroll)
           = renderContent
     `
-  }
-
-  // TODO: variant system
-  if (variant === 'system') {
-    const Wrapper = Platform.OS === 'ios' ? Drawer : View
-    const wrapperProps = Platform.OS === 'ios' ? {
-      visible: isShow,
-      onDismiss,
-      position: 'bottom',
-      hasDefaultStyleContent: false
-    } : {}
-
-    return pug`
-      Wrapper(...wrapperProps)
-        View.dropdown(styleName=variant)
-          if Platform.OS === 'ios'
-            View.systemMenu
-              Text Cancel
-          Picker(selectedValue='java' mode='dropdown')
-            Picker.Item(label='Java' value='java')
-            Picker.Item(label='JavaScript' value='js')
-            Picker.Item(label='JavaScript' value='js2')
-            Picker.Item(label='JavaScript' value='js3')
-    `
-  }
-  // TODO ---------------------
-
-  const onCancel = () => {
-    onDismiss && onDismiss()
-    setIsShow(false)
   }
 
   return pug`
@@ -124,73 +145,40 @@ const Dropdown = ({
       visible=isShow
       onDismiss=()=> setIsShow(false)
       position='bottom'
-      isSwipe=false
-      hasDefaultStyleContent=variant === 'default'
+      hasDefaultStyleContent=drawerVariant === 'list'
     )
-      View.dropdown(styleName=variant)
-        if variant === 'default'
-          View.caption(styleName=variant)
-            Text.captionText(styleName=variant)= titleDefault
-        View.case(styleName=variant)
+      View.dropdown(styleName=drawerVariant)
+        if drawerVariant === 'list'
+          View.caption(styleName=drawerVariant)
+            Text.captionText(styleName=drawerVariant)= drawerListTitle
+        View.case(styleName=drawerVariant)
           = renderContent
-        if variant === 'buttons'
+        if drawerVariant === 'buttons'
           TouchableOpacity(onPress=onCancel)
-            View.button(styleName=variant)
+            View.button(styleName=drawerVariant)
               Text Отмена
   `
 }
 
 Dropdown.defaultProps = {
-  titleDefault: '',
+  drawerVariant: 'buttons',
+  drawerListTitle: '',
   activeValue: '',
-  variant: 'default',
-  hasPopoverWidthCaption: true
+  hasMobileDrawer: true,
+  popoverHeight: 96,
+  popoverStyleWrapper: {}
 }
 
 Dropdown.propTypes = {
-  variant: PropTypes.oneOf(['default', 'buttons', 'system', 'custom']),
-  activeValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  popoverHeight: PropTypes.number
+  activeValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
+  onChange: propTypes.func.isRequired,
+  drawerVariant: propTypes.oneOf(['list', 'buttons', 'pure']),
+  popoverHeight: propTypes.number,
+  hasMobileDrawer: propTypes.bool,
+  hasPopoverWidthCaption: propTypes.bool
 }
 
-Dropdown.Caption = ({ children }) => pug`= children`
-Dropdown.Item = ({
-  label,
-  value,
-  onPress,
-  children,
-  _isCustom,
-  _active,
-  _variant,
-  _onChange,
-  _onDismiss,
-  _index,
-  _childenLength
-}) => {
-  const handlePress = () => {
-    if (onPress) {
-      onPress()
-      _onDismiss()
-    } else {
-      _onChange(value)
-    }
-  }
-
-  return pug`
-    TouchableOpacity(onPress=handlePress)
-      View.item(styleName=[!_isCustom && _variant, {
-        active: !_isCustom && (_active === value),
-        itemUp: !_isCustom && (_index === 0),
-        itemDown: !_isCustom && (_index === _childenLength - 1)
-      }])
-        if _isCustom
-          = children
-        else
-          Text.itemText(styleName=[_variant, { active: _active && _active === value }])
-            = label
-          if _active === value && _variant !== 'popover'
-            Icon.iconActive(styleName=_variant icon=faCheck)
-  `
-}
+Dropdown.Caption = DropdownCaption
+Dropdown.Item = DropdownItem
 
 export default Dropdown
