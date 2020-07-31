@@ -3,6 +3,7 @@ import { faLandmark } from '@fortawesome/free-solid-svg-icons'
 import TypographyEn from '../../components/typography/Typography.en.mdx'
 import TypographyRu from '../../components/typography/Typography.ru.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
+import Colors from './colors.mdx'
 
 export default {
   type: 'collapse',
@@ -30,6 +31,14 @@ export default {
         ru: 'Типы коллекций'
       },
       component: CollectionTypesRu
+    },
+    Colors: {
+      type: 'mdx',
+      title: {
+        en: 'Colors',
+        ru: 'Цвета'
+      },
+      component: Colors
     }
   }
 }
