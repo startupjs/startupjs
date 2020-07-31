@@ -2,6 +2,29 @@ import Base from './Base'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
 import promiseBatcher from '../hooks/promiseBatcher'
 
+const CLEAR_CACHE_TIMEOUT = 3000
+const references = {}
+
+function retainReference (path) {
+  if (references[path] == null) references[path] = 0
+  console.log('>>> retain', path)
+  ++references[path]
+}
+
+function releaseReference ($root, path) {
+  if (!references[path]) return
+  console.log('>>> release', references[path], path)
+  --references[path]
+  setTimeout(() => {
+    console.log('>>> try to destroy after release', references[path], path)
+    if (references[path] === 0) {
+      console.log('>>> destroy after release', path)
+      delete references[path]
+      $root.del(path)
+    }
+  }, CLEAR_CACHE_TIMEOUT)
+}
+
 export default class Local extends Base {
   constructor (...args) {
     super(...args)
@@ -11,8 +34,8 @@ export default class Local extends Base {
     this.inputs = inputs || []
     this.options = options || {}
     if (!this.path) {
-      const cacheKey = '_' + hashCode(this.fn.toString() + JSON.stringify(this.inputs))
-      this.path = '_session._cache.' + cacheKey
+      this.cacheKey = '_' + hashCode(this.fn.toString() + JSON.stringify(this.inputs))
+      this.path = '_session._cache.useApi.' + this.cacheKey
     }
     this.listeners = []
   }
@@ -32,22 +55,20 @@ export default class Local extends Base {
   refModel () {
     if (this.cancelled) return
     const { key } = this
-    if (this.path) {
-      this.model.root.setDiff(this.path, this.data)
-      observablePath(this.path)
-      this.model.ref(key, this.model.root.scope(this.path))
-    } else {
-      this.model.setDiff(key, this.data)
-    }
+    retainReference(this.path)
+    this.retained = true
+    this.model.root.setDiffDeep(this.path, this.data)
+    observablePath(this.path)
+    this.model.ref(key, this.model.root.scope(this.path))
   }
 
   unrefModel () {
+    console.log('> unref')
     const { key } = this
-    if (this.path) {
-      this.model.removeRef(key)
-      this.model.root.del(this.path)
-    } else {
-      this.model.del(key)
+    this.model.removeRef(key)
+    if (this.retained) {
+      releaseReference(this.model.root, this.path)
+      delete this.retained
     }
   }
 
@@ -65,7 +86,7 @@ export default class Local extends Base {
       const model = this.model
       const path = this.path
       const newPromise = promise.then(data => {
-        model.set(path, data)
+        model.setDiffDeep(path, data)
       })
       if (batch) {
         promiseBatcher.add(newPromise)
@@ -77,12 +98,13 @@ export default class Local extends Base {
       return promise.then(data => {
         if (this.cancelled) return
         this.data = data
-        this.model.set(this.path, data)
+        this.model.setDiffDeep(this.path, data)
       })
     }
   }
 
   destroy () {
+    console.log('> destroy')
     // this.unrefModel() // TODO: Maybe enable unref in future
     delete this.path
     delete this.fn
