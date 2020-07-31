@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-startupjs",
-  "version": "0.23.20",
+  "version": "0.23.27",
   "engines": {
     "node": ">= 14"
   },
@@ -28,7 +28,7 @@
     "vite-plugin-react": "2.0.3"
   },
   "peerDependencies": {
-    "vite": "*",
-    "stylus": ">= 0.54.7"
+    "stylus": ">= 0.54.7",
+    "vite": "*"
   }
 }
