@@ -177,7 +177,7 @@ function apply {
 
   _initKubectl
   # TODO: remove --dry-run in real deploy
-  kubectl apply -f "$COMPILED_PATH" --dry-run
+  kubectl apply -f "$COMPILED_PATH"
 }
 
 function batch {
@@ -188,7 +188,7 @@ function batch {
   init
   build
   push
-  # pushLatest
+  pushLatest
   compile
   apply
 }

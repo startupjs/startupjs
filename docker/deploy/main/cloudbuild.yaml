@@ -1,9 +1,17 @@
 # PREREQUISITES:
-#   - project PROJECT_ID on google cloud
-#   - kube cluster in this project with exactly the same name: PROJECT_ID
-#   - ConfigMap in the cluster named _APP with the required private
-#     environment variables from './config.json' specified
-#   - Ingress configuration which proxies port 80 to the serviceName _APP
+#   1. you have to provide the following env vars in the cloud build trigger:
+#      - $_APP - name of your app. This name is used for all kube resources (deployment, service, etc.)
+#      - $_ZONE - zone where your cluster is located.
+#                 Example: 'us-east1-d' for the New York data center.
+#   2. You have to have a kube cluster with the same name as the google project your are in,
+#      OR provide the cluster name explicitly by specifying the $_CLUSTER_NAME env var.
+#   3. ConfigMap in the cluster named $_APP with the required private
+#      environment variables from './config.json' specified.
+#      You have to at least have the following vars specified there:
+#      - MONGO_URL
+#      - REDIS_URL
+#      - STAGE ('dev', 'qa', 'production', etc.)
+#   4. Ingress configuration which proxies port 80 to the serviceName $_APP
 
 timeout: 2000s
 steps:
@@ -13,10 +21,10 @@ steps:
   args: [batch]
   env:
   # pipe all user defined substitutions
-  # you MUST specify each env variable from the `substitutions` section above
   - _APP=$_APP
   - _ZONE=$_ZONE
   - _PATH=$_PATH
+  - _CLUSTER_NAME=$_CLUSTER_NAME
   # pipe all default substitutions
   # https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
   - PROJECT_ID=$PROJECT_ID
