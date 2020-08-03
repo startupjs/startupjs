@@ -65,6 +65,21 @@ function _validateVars {
   done
 }
 
+function _writeEnv {
+  local envVar
+
+  echo "#!/bin/sh" >> ${VARIABLES_FILE}
+
+  for envVar in "${REQUIRED_VARS[@]}"; do
+    echo "export $(printenv | grep "${envVar}=")" >> ${VARIABLES_FILE}
+  done
+  for envVar in "${OPTIONAL_VARS[@]}"; do
+    if printenv | grep "${envVar}="; then
+      echo "export $(printenv | grep "${envVar}=")" >> ${VARIABLES_FILE}
+    fi
+  done
+}
+
 # https://pempek.net/articles/2013/07/08/bash-sh-as-template-engine/
 # Improved to properly handle "
 # since the original script was stripping them
@@ -94,25 +109,21 @@ function _compileFile {
 # to be able to only specify them once in the first step
 # and then just reuse
 function init {
+  _log "Init deployment configuration"
+
+  local skipWriteEnv
+  # simplified arg parsing.
+  # In future we might need to replace it with full getopts as in [1]
+  if [ "$1" == "--skipWriteEnv" ]; then
+    printf "> Skipping writing the env file\n"
+    skipWriteEnv='true'
+  fi
+
   _validateVars
-  local envVar
 
-  echo "#!/bin/sh" >> ${VARIABLES_FILE}
-
-  for envVar in "${REQUIRED_VARS[@]}"; do
-    echo "export $(printenv | grep "${envVar}=")" >> ${VARIABLES_FILE}
-  done
-  for envVar in "${OPTIONAL_VARS[@]}"; do
-    if printenv | grep "${envVar}="; then
-      echo "export $(printenv | grep "${envVar}=")" >> ${VARIABLES_FILE}
-    fi
-  done
-}
-
-function testEnv {
-  _sourceEnv
-  printenv
-  echo "Hello World"
+  if [ -z "$skipWriteEnv" ]; then
+    _writeEnv
+  fi
 }
 
 function build {
@@ -169,13 +180,12 @@ function apply {
   _sourceEnv
 
   _initKubectl
+  # TODO: remove --dry-run in real deploy
   kubectl apply -f "$COMPILED_PATH" --dry-run
 }
 
 function batch {
-  _validateVars
-  # "init" is not needed when running batch, since it is the only command
-  testEnv
+  init --skipWriteEnv
   build
   push
   # pushLatest
@@ -196,3 +206,6 @@ else
   printf "ERROR! Invalid or no command provided.\n%s\n" "$HELP_MESSAGE"
   exit 1
 fi
+
+# ----- Refs -----
+# [1] args parsing: https://stackoverflow.com/a/21128172/1930491
