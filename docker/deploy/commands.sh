@@ -74,11 +74,16 @@ function _renderTemplate {
 
 function _compileFile {
   local template=$1
-  local compiledDir=${2:-$COMPILED_PATH}
+  local compiledPath=${2:-$COMPILED_PATH}
   printf "> Compile %s\n" "$template"
-  render_template "$template"
-  outputFilename="$compiledDir/$(basename "$template")"
-  render_template "$template" > "$outputFilename"
+
+  # validate syntax by just trying to compile the template
+  _renderTemplate "$template"
+
+  # write compiled file into the compilation output folder
+  mkdir -p "$compiledPath"
+  outputFilename="$compiledPath/$(basename "$template")"
+  _renderTemplate "$template" > "$outputFilename"
   printf "> success! Compiled file: %s" "$outputFilename"
 }
 
@@ -160,7 +165,12 @@ function compile {
 
   for filename in "$SRC_PATH"/main/resources/*.yaml; do
     _compileFile "$filename" "$COMPILED_PATH"
+    # TODO: remove
+    cat "$COMPILED_PATH/$(basename "$filename")"
   done
+
+  echo "$COMPILED_PATH"
+  ls "$COMPILED_PATH"
 }
 
 # ----- Entry point -----
