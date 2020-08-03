@@ -1,6 +1,4 @@
-FROM gcr.io/cloud-builders/docker
-
-RUN apt-get -y install kubectl
+FROM google/cloud-sdk
 
 COPY . /src
 WORKDIR /src
