@@ -34,6 +34,10 @@ Available commands:\n\
   clear-branches\n\
 "
 
+# ----- Global vars -----
+
+SKIP_WRITE_ENV=""
+
 # ----- Errors -----
 
 # ----- Helpers -----
@@ -111,17 +115,9 @@ function _compileFile {
 function init {
   _log "Init deployment configuration"
 
-  local skipWriteEnv
-  # simplified arg parsing.
-  # In future we might need to replace it with full getopts as in [1]
-  if [ "$1" == "--skipWriteEnv" ]; then
-    printf "> Skipping writing the env file\n"
-    skipWriteEnv='true'
-  fi
-
   _validateVars
 
-  if [ -z "$skipWriteEnv" ]; then
+  if [ -z "$SKIP_WRITE_ENV" ]; then
     _writeEnv
   fi
 }
@@ -185,7 +181,11 @@ function apply {
 }
 
 function batch {
-  init --skipWriteEnv
+  # We don't need to persist env vars into file since 'batch'
+  # executes everything in one CI step.
+  SKIP_WRITE_ENV="true"
+
+  init
   build
   push
   # pushLatest
@@ -208,4 +208,5 @@ else
 fi
 
 # ----- Refs -----
-# [1] args parsing: https://stackoverflow.com/a/21128172/1930491
+# [1] args parsing for the whole script or a function:
+#     https://stackoverflow.com/a/21128172/1930491
