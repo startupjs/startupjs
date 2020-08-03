@@ -44,7 +44,8 @@ function _log {
 }
 
 function _initKubectl {
-  gcloud container clusters get-credentials --zone "$_ZONE" "$_CLUSTER_NAME"
+  local clusterName=${_CLUSTER_NAME:-$PROJECT_ID}
+  gcloud container clusters get-credentials --zone "$_ZONE" "$clusterName"
 }
 
 function _sourceEnv {
@@ -84,7 +85,7 @@ function _compileFile {
   mkdir -p "$compiledPath"
   outputFilename="$compiledPath/$(basename "$template")"
   _renderTemplate "$template" > "$outputFilename"
-  printf "> success! Compiled file: %s" "$outputFilename"
+  printf "> success! Compiled file: %s\n" "$outputFilename"
 }
 
 # ----- Commands -----
@@ -112,16 +113,6 @@ function testEnv {
   _sourceEnv
   printenv
   echo "Hello World"
-}
-
-function batch {
-  _validateVars
-  # "init" is not needed when running batch, since it is the only command
-  testEnv
-  build
-  push
-  # pushLatest
-  compile
 }
 
 function build {
@@ -171,6 +162,25 @@ function compile {
 
   echo "$COMPILED_PATH"
   ls "$COMPILED_PATH"
+}
+
+function apply {
+  _log "Apply Kubernetes resources"
+  _sourceEnv
+
+  _initKubectl
+  kubectl apply -f "$COMPILED_PATH" --dry-run
+}
+
+function batch {
+  _validateVars
+  # "init" is not needed when running batch, since it is the only command
+  testEnv
+  build
+  push
+  # pushLatest
+  compile
+  apply
 }
 
 # ----- Entry point -----
