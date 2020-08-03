@@ -5,28 +5,34 @@ import {
   Animated,
   Platform,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
+  StyleSheet
 } from 'react-native'
 import Modal from '../../Modal'
-import { StyleSheet } from 'react-native'
+import config from '../../../config/rootConfig'
 import './index.styl'
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
-  height: 0,
   position: 'relative',
+  height: 0,
   left: 0,
   top: 0,
   width: 0
 }
 
-// TODO - positionVertical: top
+const MARGIN = 5
+const ARROW_MARGIN = 16
+const WITH_ARROW_MARGIN = 8
+const ARROW_WIDTH = 10
+
 const Popover = ({
   positionHorizontal,
   positionVertical,
   animateType,
   visible,
   hasWidthCaption,
+  hasArrow,
   height,
   width,
   onDismiss,
@@ -37,29 +43,26 @@ const Popover = ({
   children
 }) => {
   const [coords, setCoords] = useState(null)
-  const [contentHeight, setContentHeight] = useState(null)
-  const [contentWidth, setContentWidth] = useState(null)
+  const [contentSize, setContentSize] = useState({})
   const [captionSize, setCaptionSize] = useState({})
 
   const refCaption = useRef()
   const refContent = useRef()
-  const [isShow, setIsShow] = useState(true)
+  const [isRender, setIsRender] = useState(true)
 
   const [animateOpacityOverlay] = useState(new Animated.Value(visible ? 1 : 0))
   const [animateOpacity] = useState(new Animated.Value(visible ? 1 : 0))
   const [animateTop] = useState(new Animated.Value(0))
   const [animateWidth] = useState(new Animated.Value(
-    (visible || animateType !== 'scale') ? (width || contentWidth) : 0
+    (visible || animateType !== 'scale') ? width : 0
   ))
-  const [heightAnimate] = useState(new Animated.Value(
-    (visible || animateType === 'slide') ? (height || contentHeight) : 0
-  ))
+  const [animateHeight] = useState(new Animated.Value(0))
 
   useLayoutEffect(() => {
     const handleDimensions = () => {
       setCoords(null)
       animateOpacity.setValue(0)
-      if (animateType !== 'slide') heightAnimate.setValue(0)
+      if (animateType !== 'slide') animateHeight.setValue(0)
       onDismiss()
     }
     Dimensions.addEventListener('change', handleDimensions)
@@ -71,7 +74,7 @@ const Popover = ({
     animateOpacity.stopAnimation()
     animateTop.stopAnimation()
     animateWidth.stopAnimation()
-    heightAnimate.stopAnimation()
+    animateHeight.stopAnimation()
 
     if (visible) setParams()
     else hide()
@@ -83,33 +86,41 @@ const Popover = ({
     }
 
     setTimeout(() => {
-      setIsShow(true)
-      refContent.current.getNode().measure((ex, ey, width, height, lx, ly) => {
-        animateTop.setValue(getTopPosition(ly, animateType === 'slide' ? 20 : 0))
-        setCoords({ x: lx, y: ly })
-        setContentHeight(height)
-        setContentWidth(width)
-        show(height)
+      setIsRender(true)
+      refContent.current.getNode().measure((ex, ey, _width, _height, cx, cy) => {
+        animateTop.setValue(getTopPosition({
+          cy,
+          offset: animateType === 'slide' ? 20 : 0,
+          curHeight: height || _height
+        }))
+        setContentSize({
+          height: height || _height,
+          width: width || _width
+        })
+        setCoords({ x: cx, y: cy })
+        show(height || _height, width || _width)
       })
     }, 100)
   }
 
-  const show = contentHeight => {
+  const show = (curHeight, curWidth) => {
+    if (animateType === 'slide') animateHeight.setValue(curHeight)
+
     const animated = () => {
       Animated.parallel([
         animateType === 'slide' && Animated.timing(animateTop, {
           toValue: animateTop._value + 20, duration: 300
         }),
-        animateType !== 'slide' && Animated.timing(heightAnimate, {
-          toValue: height || contentHeight, duration: 300
+        animateType !== 'slide' && Animated.timing(animateHeight, {
+          toValue: curHeight, duration: 300
         }),
         animateType === 'scale' && Animated.timing(animateWidth, {
-          toValue: width || contentWidth, duration: 300
+          toValue: curWidth, duration: 300
         }),
         Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 }),
         Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
       ]).start(() => {
-        onRequestOpen()
+        onRequestOpen && onRequestOpen()
       })
     }
 
@@ -125,7 +136,7 @@ const Popover = ({
       animateType === 'slide' && Animated.timing(animateTop, {
         toValue: animateTop._value - 20, duration: 300
       }),
-      animateType !== 'slide' && Animated.timing(heightAnimate, {
+      animateType !== 'slide' && Animated.timing(animateHeight, {
         toValue: 0, duration: 300
       }),
       animateType === 'scale' && Animated.timing(animateWidth, {
@@ -135,7 +146,7 @@ const Popover = ({
       Animated.timing(animateOpacity, { toValue: 0, duration: 400 })
     ]).start(() => {
       onDismiss()
-      setIsShow(false)
+      setIsRender(false)
 
       refCaption.current && refCaption.current.measure((ex, ey, width, height) => {
         setCaptionSize({ width, height })
@@ -164,29 +175,71 @@ const Popover = ({
     if (!coords) return
     if (hasWidthCaption) return coords.x
     if (positionVertical === 'center' && positionHorizontal === 'left') {
-      return coords.x - width
+      const position = coords.x - width
+      return position - (hasArrow ? ARROW_WIDTH + MARGIN : MARGIN)
     }
     if (positionVertical === 'center' && positionHorizontal === 'right') {
-      return coords.x + (captionSize ? captionSize.width : 0)
+      const position = coords.x + (captionSize ? captionSize.width : 0)
+      return position + (hasArrow ? ARROW_WIDTH + MARGIN : MARGIN)
     }
     if (positionHorizontal === 'right') {
-      return coords.x
+      return coords.x - (hasArrow ? WITH_ARROW_MARGIN : 0)
     }
     if (positionHorizontal === 'center') {
       return coords.x - (width / 2) + (captionSize ? (captionSize.width / 2) : 0)
     }
     if (positionHorizontal === 'left') {
-      return coords.x - width + (captionSize ? captionSize.width : 0)
+      const position = coords.x - width + (captionSize ? captionSize.width : 0)
+      return position + (hasArrow ? WITH_ARROW_MARGIN : 0)
     }
   }
 
-  const getTopPosition = (cy, offset = 0) => {
+  const getTopPosition = ({ cy, offset = 0, curHeight }) => {
+    const _height = height || curHeight
+    let position = null
+
     if (positionVertical === 'center') {
-      return (cy - offset) - (height / 2) - (captionSize ? (captionSize.height / 2) : 0)
+      position = (cy - offset) - (_height / 2) - (captionSize ? (captionSize.height / 2) : 0)
+      return position
     }
     if (positionVertical === 'bottom') {
-      return cy - offset
+      position = cy - offset
+      return position + (hasArrow ? ARROW_MARGIN : MARGIN)
     }
+    if (positionVertical === 'top') {
+      position = cy - _height - (captionSize && captionSize.height)
+      return position - (hasArrow ? ARROW_MARGIN : MARGIN)
+    }
+  }
+
+  const getLeftPositionArrow = () => {
+    if (!coords) return
+    if (positionVertical === 'center' && positionHorizontal === 'left') {
+      return coords.x - ARROW_MARGIN
+    }
+    if (positionVertical === 'center' && positionHorizontal === 'right') {
+      return coords.x + (captionSize ? captionSize.width : 0) - ARROW_WIDTH / 2
+    }
+    if (positionHorizontal === 'left') {
+      return coords.x + (captionSize ? captionSize.width : 0) - (ARROW_WIDTH * 2) - 2
+    }
+    if (positionHorizontal === 'right') return coords.x + 2
+    if (positionHorizontal === 'center') {
+      let position = coords.x + (width / 2) - (captionSize ? (captionSize.height / 2) : 0)
+      position -= ARROW_MARGIN / 2
+      return position - ARROW_WIDTH
+    }
+  }
+
+  const getTopPositionArrow = () => {
+    const curTop = animateType === 'slide' ? animateTop._value + 20 : animateTop._value
+    if (positionVertical === 'center') {
+      return curTop + (contentSize.height / 2) - ARROW_WIDTH
+    }
+    if (positionVertical === 'top') {
+      return curTop + contentSize.height
+    }
+    return curTop - 20
   }
 
   function getBackdropStyle () {
@@ -206,14 +259,15 @@ const Popover = ({
   } : {
     left: getLeftPosition(),
     top: animateTop,
-    height: heightAnimate,
+    height: animateHeight,
     opacity: animateOpacity,
     width: animateWidth,
+    ...config.shadows[3],
     ...styleWrapper
   }
 
   if (hasWidthCaption) _styleWrapper.width = captionSize.width
-  if (!isShow) _styleWrapper.height = 0
+  if (!isRender) _styleWrapper.height = 0
   const _styleOverlay = { ...styleOverlay, opacity: animateOpacityOverlay }
 
   return pug`
@@ -226,7 +280,7 @@ const Popover = ({
         )= caption.props.children
       Wrapper(
         transparent=true
-        visible=isShow
+        visible=isRender
         ariaHideApp=false
         variant='pure'
         style=getBackdropStyle()
@@ -234,11 +288,26 @@ const Popover = ({
         View.case
           TouchableWithoutFeedback(onPress=onDismiss)
             Animated.View.overlay(style=_styleOverlay)
+          if hasArrow && !(positionVertical === 'center' && positionHorizontal === 'center')
+            Animated.View.arrow(
+              style={
+                left: getLeftPositionArrow(),
+                top: getTopPositionArrow(),
+                opacity: animateOpacity
+              }
+              styleName={
+                arrowBottom: positionVertical === 'bottom',
+                arrowTop: positionVertical === 'top',
+                arrowCenterLeft: positionVertical === 'center' && positionHorizontal === 'left',
+                arrowCenterRight: positionVertical === 'center' && positionHorizontal === 'right'
+              }
+            )
           Animated.View.popover(
             pointerEvents='box-none'
             ref=refContent
             style=_styleWrapper
-          )= renderContent
+          )
+            View.popoverCase= renderContent
   `
 }
 
@@ -246,7 +315,9 @@ Popover.defaultProps = {
   positionHorizontal: 'right',
   positionVertical: 'bottom',
   animateType: 'default',
-  hasWidthCaption: true
+  hasWidthCaption: false,
+  hasArrow: true,
+  width: 200
 }
 
 Popover.propTypes = {
