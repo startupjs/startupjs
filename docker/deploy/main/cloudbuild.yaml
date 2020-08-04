@@ -19,8 +19,7 @@ substitutions:
 timeout: 2000s
 steps:
 
-- id: main deploy
-  name: 'startupjs/deploy:$_VERSION'
+- name: 'startupjs/deploy:$_VERSION'
   args: [init]
   env:
   # pipe all user defined substitutions

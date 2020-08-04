@@ -21,7 +21,7 @@ REQUIRED_VARS=(\
 )
 OPTIONAL_VARS=("_CLUSTER_NAME" "_DOMAIN" "_PATH")
 
-COMMANDS=("batch" "init" "testEnv" "build" "apply")
+COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply")
 
 # TODO: just print joined array
 #       https://stackoverflow.com/questions/1527049/how-can-i-join-elements-of-an-array-in-bash
@@ -30,8 +30,10 @@ Available commands:\n\
 \n\
   init\n\
   build\n\
+  push\n\
+  pushLatest\n\
+  compile\n\
   apply\n\
-  clear-branches\n\
 "
 
 # ----- Global vars -----
