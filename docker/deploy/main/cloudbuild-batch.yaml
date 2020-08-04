@@ -21,7 +21,7 @@ steps:
 
 - id: main deploy
   name: 'startupjs/deploy:$_VERSION'
-  args: [init]
+  args: [batch]
   env:
   # pipe all user defined substitutions
   - _APP=$_APP
@@ -38,18 +38,3 @@ steps:
   - BRANCH_NAME=$BRANCH_NAME
   - TAG_NAME=$TAG_NAME
   - REVISION_ID=$REVISION_ID
-
-- name: 'startupjs/deploy:$_VERSION'
-  args: [build]
-
-- name: 'startupjs/deploy:$_VERSION'
-  args: [push]
-
-- name: 'startupjs/deploy:$_VERSION'
-  args: [pushLatest]
-
-- name: 'startupjs/deploy:$_VERSION'
-  args: [compile]
-
-- name: 'startupjs/deploy:$_VERSION'
-  args: [apply]
