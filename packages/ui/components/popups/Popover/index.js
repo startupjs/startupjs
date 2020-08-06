@@ -5,10 +5,10 @@ import {
   Animated,
   Platform,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
+  StyleSheet
 } from 'react-native'
 import Modal from '../../Modal'
-import { StyleSheet } from 'react-native'
 import './index.styl'
 
 const SHTAMP_RENDER_STYLE = {
@@ -246,7 +246,8 @@ Popover.defaultProps = {
   positionHorizontal: 'right',
   positionVertical: 'bottom',
   animateType: 'default',
-  hasWidthCaption: true
+  hasWidthCaption: true,
+  backdropStyle: { zIndex: 99999 }
 }
 
 Popover.propTypes = {
