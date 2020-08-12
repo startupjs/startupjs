@@ -467,6 +467,8 @@ function appendGitignore (projectPath) {
   gitignore += `
     # DB data
     /data/
+    # Protection from accidentally commiting private npm keys to a public repo
+    .npmrc
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
