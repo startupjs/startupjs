@@ -3,6 +3,7 @@ const nodePath = require('path')
 const PROCESS_PATH = '@startupjs/babel-plugin-rn-stylename-to-style/process'
 const STYLE_NAME_REGEX = /(?:^s|S)tyleName$/
 const STYLE_REGEX = /(?:^s|S)tyle$/
+const ROOT_STYLE_PROP_NAME = 'style'
 
 function getExt (node) {
   return nodePath.extname(node.source.value).replace(/^\./, '')
@@ -53,6 +54,74 @@ module.exports = function (babel) {
       [expression, t.identifier(obj)]
     )
     return processCall
+  }
+
+  function handleStyleNames (jsxOpeningElementPath, state) {
+    let styleName
+    const inlineStyles = []
+
+    // Find root styleName
+    for (const key in styleHash) {
+      if (key === ROOT_STYLE_PROP_NAME) {
+        styleName = styleHash[key].styleName
+      }
+    }
+
+    // Check if styleName exists and if it can be processed
+    if (
+      styleName == null ||
+      specifier == null ||
+      !(
+        t.isStringLiteral(styleName.node.value) ||
+        t.isJSXExpressionContainer(styleName.node.value)
+      )
+    ) {
+      return
+    }
+
+    // Gather all inline styles
+    for (const key in styleHash) {
+      if (styleHash[key].style) {
+        inlineStyles.push(t.objectProperty(
+          t.identifier(key),
+          styleHash[key].style.node.value.expression
+        ))
+      }
+    }
+
+    // Create a `process` function call
+    state.hasTransformedClassName = true
+    const obj = specifier.local.name
+    const processCall = t.callExpression(
+      state.reqName,
+      [
+        t.isStringLiteral(styleName.node.value)
+          ? styleName.node.value
+          : styleName.node.value.expression,
+        t.identifier(obj),
+        t.objectExpression(inlineStyles)
+      ]
+    )
+
+    jsxOpeningElementPath.node.attributes.push(
+      t.jsxSpreadAttribute(processCall)
+    )
+
+    // Remove old attributes
+    for (const key in styleHash) {
+      // TODO: Instead of removing, handle it by merging with resulting *style,
+      //       if exists
+      if (styleHash[key].style) styleHash[key].style.remove()
+      if (styleHash[key].styleName) styleHash[key].styleName.remove()
+    }
+
+    // Clear hash since we handled everything
+    for (const key in styleHash) {
+      delete styleHash[key].styleName
+      delete styleHash[key].style
+      delete styleHash[key]
+    }
+    styleHash = {}
   }
 
   function handleStyleName (state, convertedName, styleName, style) {
@@ -174,12 +243,20 @@ module.exports = function (babel) {
       },
       JSXOpeningElement: {
         exit (path, state) {
+          // TODO: Don't handle *StyleName separately, instead merge it into handleStyleNames()
           for (const key in styleHash) {
-            handleStyleName(state, key, styleHash[key].styleName, styleHash[key].style)
-            delete styleHash[key].styleName
-            delete styleHash[key].style
-            delete styleHash[key]
+            // root styleName can only be handled by new logic in handleStyleNames()
+            if (key === ROOT_STYLE_PROP_NAME) continue
+            if (styleHash[key].styleName) {
+              handleStyleName(state, key, styleHash[key].styleName, styleHash[key].style)
+              delete styleHash[key].styleName
+              delete styleHash[key].style
+              delete styleHash[key]
+            }
           }
+          // New logic with support for ::part(name) pseudo-class
+          handleStyleNames(path, state)
+          styleHash = {}
         }
       },
       JSXAttribute: function JSXAttribute (path, state) {

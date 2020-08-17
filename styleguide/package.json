@@ -7,7 +7,6 @@
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",
     "ios": "react-native run-ios --simulator \"iPhone 8\"",
     "start": "startupjs start",
-    "test": "jest",
     "metro": "react-native start --reset-cache",
     "web": "startupjs web",
     "server": "startupjs server",
@@ -41,10 +40,6 @@
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
-    "jest": "^24.9.0",
     "react-test-renderer": "16.9.0"
-  },
-  "jest": {
-    "preset": "react-native"
   }
 }
