@@ -11,11 +11,12 @@ function Menu ({
   children,
   variant,
   activeBorder,
-  iconPosition
+  iconPosition,
+  activeColor
 }) {
   const content = React.Children.toArray(children).map((child, index) => {
     if (child.type === MenuItem) {
-      return React.cloneElement(child, { activeBorder, iconPosition })
+      return React.cloneElement(child, { activeBorder, iconPosition, activeColor })
     }
     return child
   })
@@ -38,7 +39,8 @@ Menu.propTypes = {
   children: propTypes.node,
   variant: propTypes.oneOf(['vertical', 'horizontal']),
   activeBorder: propTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
-  iconPosition: MenuItem.propTypes.iconPosition
+  iconPosition: MenuItem.propTypes.iconPosition,
+  activeColor: propTypes.string
 }
 
 const ObservedMenu = observer(Menu)
