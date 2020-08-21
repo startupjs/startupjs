@@ -165,7 +165,6 @@ Dropdown.defaultProps = {
   drawerListTitle: '',
   activeValue: '',
   hasMobileDrawer: true,
-  popoverHeight: 96,
   popoverStyleWrapper: {}
 }
 
