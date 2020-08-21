@@ -60,7 +60,7 @@ module.exports = async (options) => {
         extraDbs: options.extraDbs
       })
 
-    // redis alternative
+      // redis alternative
     } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
       if (!wsbusPubSub) throw new Error("Please install the 'sharedb-wsbus-pubsub' package to use it")
       let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
@@ -70,7 +70,7 @@ module.exports = async (options) => {
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
-    // For development
+      // For development
     } else {
       return racer.createBackend({
         db: shareMongo,
@@ -94,8 +94,18 @@ module.exports = async (options) => {
     options.accessControl(backend)
   }
 
-  if (options.schema != null) {
-    racerSchema(backend, options.schema)
+  if (global.STARTUP_JS_ORM && Object.keys(global.STARTUP_JS_ORM).length > 0) {
+    const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
+
+    for (const path in global.STARTUP_JS_ORM) {
+      const { schema } = global.STARTUP_JS_ORM[path].OrmEntity
+
+      if (schema) {
+        schemaPerCollection.schemas[path.replace('.*', '')] = schema
+      }
+    }
+
+    racerSchema(backend, schemaPerCollection)
   }
 
   if (options.hooks != null) {
