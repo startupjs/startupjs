@@ -88,6 +88,7 @@ return (
   <Menu style={{ width: u(15) }} variant='horizontal'>
     <Menu.Item
       active={active === 'option-1'}
+      icon={faShareAlt}
       onPress={() => setActive('option-1')}
     >
       Option-1
@@ -108,6 +109,8 @@ return (
 )
 ```
 
+
+
 ## Иконка пункта меню
 
 Для отображения иконки в пункте меню передайте ему свойство `icon`. Положение иконки может быть изменено путем передачи `iconPosition` в компонент `Menu` (`left` по умолчанию) и может быть переопределено в пункте меню.
@@ -116,6 +119,45 @@ return (
 const [active, setActive] = useState('option-1')
 return (
   <Menu style={{ width: u(15) }} variant='horizontal'>
+    <Menu.Item
+      active={active === 'option-1'}
+      icon={faShareAlt}
+      onPress={() => setActive('option-1')}
+    >
+      Option-1
+    </Menu.Item>
+    <Menu.Item
+      active={active === 'option-2'}
+      icon={faHouseUser}
+      onPress={() => setActive('option-2')}
+    >
+      Option-2
+    </Menu.Item>
+    <Menu.Item
+      active={active === 'option-3'}
+      icon={faTable}
+      onPress={() => setActive('option-3')}
+    >
+      Option-3
+    </Menu.Item>
+  </Menu>
+)
+```
+
+## Изменение цвета активного пункта меню
+
+По умолчанию активный пункт меню имеет `primary` цвет. Используйте свойство `activeColor`, чтобы установить желаемый цвет для активного пункта меню. Это свойство также изменит цвет бордера и иконки (если вы передали свойство `activeBorder` для Menu или `icon` для Menu.Item). `activeColor` принимает цвет как строку, которая будет совместима со свойством цвета в CSS. (напр. `red`, `#fff`, `rgb(123, 23, 122)`)
+
+
+```jsx example
+const [active, setActive] = useState('option-1')
+return (
+  <Menu
+    style={{ width: u(15) }}
+    activeBorder='bottom'
+    variant='horizontal'
+    activeColor='rgb(123, 23, 122)'
+  >
     <Menu.Item
       active={active === 'option-1'}
       icon={faShareAlt}
