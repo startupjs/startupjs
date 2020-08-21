@@ -1,0 +1,45 @@
+import borderRadius from './borderRadius.styl'
+import { Div, Span } from '@startupjs/ui'
+
+# Border Radius
+
+The keep of the design language consistent, a uniform border radius should be applied equally to all content.
+
+## Medium border radius - 4px
+
+Used for small-medium content (input-fields, buttons, toasts, cards).
+
+<Div styleName='borderRadius medium'>
+  <Span>4 px</Span>
+</Div>
+
+```styl
+  .element
+    radius(m)
+```
+
+## Large border radius - 8px
+
+Used for large content (large cards, tables, modal dialogs).
+
+<Div styleName='borderRadius large'>
+  <Span>8 px</Span>
+</Div>
+
+```styl
+  .element
+    radius(l)
+```
+
+## Circle border radius
+
+Used for avatars, badges, notifications.
+
+<Div styleName='borderRadius circle'>
+  <Span>Circle</Span>
+</Div>
+
+```styl
+  .element
+    radius(circle)
+```

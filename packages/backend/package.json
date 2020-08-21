@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/backend",
-  "version": "0.23.21",
+  "version": "0.23.28",
   "description": "Create new ShareDB backend instance",
   "main": "index.js",
   "scripts": {},
@@ -15,7 +15,7 @@
     "redis": "^2.2.0",
     "redis-url": "^1.2.0",
     "sharedb": "^1.0.0",
-    "sharedb-access": "~3.0.0",
+    "sharedb-access": "^5.0.0",
     "sharedb-hooks": "~4.0.0",
     "sharedb-mongo": "1.0.0-beta.9",
     "sharedb-redis-pubsub": "1.0.0-beta.1"

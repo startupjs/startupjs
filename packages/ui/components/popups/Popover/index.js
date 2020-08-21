@@ -316,8 +316,9 @@ Popover.defaultProps = {
   positionVertical: 'bottom',
   animateType: 'default',
   hasWidthCaption: false,
-  hasArrow: true,
-  width: 200
+  hasArrow: false,
+  width: 200,
+  backdropStyle: { zIndex: 99999 }
 }
 
 Popover.propTypes = {
