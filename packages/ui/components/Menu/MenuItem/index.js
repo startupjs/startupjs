@@ -29,7 +29,7 @@ function MenuItem ({
   const _iconPosition = iconPosition || parentProps.iconPosition
   const activeItemColor = activeColor || colors.primary
   const color = active ? activeItemColor : colors.mainText
-  const borderStyle = activeColor && { backgroundColor: activeColor }
+  const borderStyle = { backgroundColor: activeItemColor }
   const extraProps = {}
   const reverse = _iconPosition === 'right'
   let Wrapper
