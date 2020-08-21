@@ -94,7 +94,7 @@ module.exports = async (options) => {
     options.accessControl(backend)
   }
 
-  if (global.STARTUP_JS_ORM && Object.keys(global.STARTUP_JS_ORM).length > 0) {
+  if (options.validateSchema && global.STARTUP_JS_ORM && Object.keys(global.STARTUP_JS_ORM).length > 0) {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
     for (const path in global.STARTUP_JS_ORM) {
