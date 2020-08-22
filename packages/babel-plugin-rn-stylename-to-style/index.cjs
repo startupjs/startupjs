@@ -14,6 +14,7 @@ function convertStyleName (name) {
 }
 
 function convertPartName (partName) {
+  if (partName === 'root') return 'style'
   return partName + 'Style'
 }
 

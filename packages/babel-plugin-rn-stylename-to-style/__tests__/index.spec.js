@@ -146,6 +146,34 @@ pluginTester({
         }
         return render()
       }
+    `,
+    'magic \'root\' part': /* js */`
+      import './index.styl'
+      function Test ({ title }) {
+        return (
+          <Card
+            part='root'
+            style={{ color: 'blue' }}
+            titleStyle={{ color: 'red' }}
+          >
+            <Content part='content active' />
+          </Card>
+        )
+      }
+    `,
+    'magic \'root\' part with existing style prop': /* js */`
+      import './index.styl'
+      function Test ({ title, style }) {
+        return (
+          <Card
+            part='root'
+            style={{ color: 'blue' }}
+            titleStyle={{ color: 'red' }}
+          >
+            <Content part='content active' />
+          </Card>
+        )
+      }
     `
   }
 })

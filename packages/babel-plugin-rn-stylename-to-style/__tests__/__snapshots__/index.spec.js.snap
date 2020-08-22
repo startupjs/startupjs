@@ -353,6 +353,102 @@ function Test({ style, active, submit, disabled, titleStyle }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part with existing style prop: magic 'root' part with existing style prop 1`] = `
+
+import './index.styl'
+function Test ({ title, style }) {
+  return (
+    <Card
+      part='root'
+      style={{ color: 'blue' }}
+      titleStyle={{ color: 'red' }}
+    >
+      <Content part='content active' />
+    </Card>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+function Test({ title, style, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
+  return (
+    <Card
+      {..._processStyleName('', _css, {
+        style: [
+          {
+            color: 'blue'
+          },
+          style
+        ],
+        titleStyle: {
+          color: 'red'
+        }
+      })}
+    >
+      <Content
+        {..._processStyleName('', _css, {
+          style: [_contentStyle, _activeStyle]
+        })}
+      />
+    </Card>
+  )
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part: magic 'root' part 1`] = `
+
+import './index.styl'
+function Test ({ title }) {
+  return (
+    <Card
+      part='root'
+      style={{ color: 'blue' }}
+      titleStyle={{ color: 'red' }}
+    >
+      <Content part='content active' />
+    </Card>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+function Test({ title, style: _style, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
+  return (
+    <Card
+      {..._processStyleName('', _css, {
+        style: [
+          {
+            color: 'blue'
+          },
+          _style
+        ],
+        titleStyle: {
+          color: 'red'
+        }
+      })}
+    >
+      <Content
+        {..._processStyleName('', _css, {
+          style: [_contentStyle, _activeStyle]
+        })}
+      />
+    </Card>
+  )
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. No props: part attribute. No props 1`] = `
 
 import './index.styl'
