@@ -16,7 +16,7 @@ function Test ({ style, active, submit, disabled }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _temp from './index.styl'
+import _css from './index.styl'
 
 var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
@@ -34,21 +34,21 @@ function Test({ style, active, submit, disabled }) {
             active
           }
         ],
-        _temp,
+        _css,
         {
           style: style
         }
       )}
     >
       <span
-        {..._processStyleName(['title'], _temp, {
+        {..._processStyleName(['title'], _css, {
           style: titleStyle
         })}
       >
         Title
       </span>
       <span
-        {..._processStyleName(['description'], _temp, {
+        {..._processStyleName(['description'], _css, {
           style: {
             color: 'green'
           }
@@ -62,7 +62,7 @@ function Test({ style, active, submit, disabled }) {
             submit,
             disabled
           },
-          _temp,
+          _css,
           {
             style: {
               color: 'pink'
@@ -92,7 +92,7 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _temp from './index.styl'
+import _css from './index.styl'
 
 var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
@@ -107,7 +107,7 @@ function Test({ style, active, submit, disabled, titleStyle }) {
               active
             }
           ],
-          _temp
+          _css
         ),
         [
           titleStyle,
@@ -124,7 +124,7 @@ function Test({ style, active, submit, disabled, titleStyle }) {
             active
           }
         ],
-        _temp,
+        _css,
         {
           style: style
         }
@@ -132,14 +132,14 @@ function Test({ style, active, submit, disabled, titleStyle }) {
     >
       <Content
         footerStyle={[
-          _processStyleName('footer', _temp),
+          _processStyleName('footer', _css),
           {
             color: 'blue'
           }
         ]}
         center
         title="text"
-        {..._processStyleName('text', _temp, {
+        {..._processStyleName('text', _css, {
           style: {
             color: 'red'
           }
@@ -165,7 +165,7 @@ function Test ({ style, active, submit, disabled }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _temp from './index.styl'
+import _css from './index.styl'
 
 var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
@@ -180,7 +180,7 @@ function Test({ style, active, submit, disabled }) {
             active
           }
         ],
-        _temp,
+        _css,
         {
           style: style
         }
@@ -189,7 +189,7 @@ function Test({ style, active, submit, disabled }) {
       <span
         center
         title="text"
-        {..._processStyleName('text', _temp, {
+        {..._processStyleName('text', _css, {
           style: {
             color: 'red'
           }
@@ -218,7 +218,7 @@ function Test ({ style }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _temp from './index.styl'
+import _css from './index.styl'
 
 var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
@@ -229,7 +229,7 @@ function Test({ style }) {
   }
   return (
     <div
-      {..._processStyleName('root active', _temp, {
+      {..._processStyleName('root active', _css, {
         style: [
           style,
           {
@@ -239,14 +239,14 @@ function Test({ style }) {
       })}
     >
       <span
-        {..._processStyleName('title', _temp, {
+        {..._processStyleName('title', _css, {
           style: titleStyle
         })}
       >
         Title
       </span>
       <span
-        {..._processStyleName('description', _temp, {
+        {..._processStyleName('description', _css, {
           style: {
             color: 'green'
           }
@@ -254,7 +254,7 @@ function Test({ style }) {
       >
         Description
       </span>
-      <button {..._processStyleName('submit disabled', _temp, {})}>Submit</button>
+      <button {..._processStyleName('submit disabled', _css, {})}>Submit</button>
     </div>
   )
 }
@@ -277,16 +277,16 @@ function Test () {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _temp from './index.styl'
+import _css from './index.styl'
 
 var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test() {
   return (
-    <div {..._processStyleName('root active', _temp, {})}>
-      <span {..._processStyleName('title', _temp, {})}>Title</span>
-      <span {..._processStyleName('description', _temp, {})}>Description</span>
-      <button {..._processStyleName('submit disabled', _temp, {})}>Submit</button>
+    <div {..._processStyleName('root active', _css, {})}>
+      <span {..._processStyleName('title', _css, {})}>Title</span>
+      <span {..._processStyleName('description', _css, {})}>Description</span>
+      <button {..._processStyleName('submit disabled', _css, {})}>Submit</button>
     </div>
   )
 }
@@ -307,7 +307,7 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _temp from './index.styl'
+import _css from './index.styl'
 
 var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
@@ -322,7 +322,7 @@ function Test({ style, active, submit, disabled, titleStyle }) {
             active
           }
         ],
-        _temp,
+        _css,
         {
           style: style,
           titleStyle: [
@@ -337,13 +337,226 @@ function Test({ style, active, submit, disabled, titleStyle }) {
       <Content
         center
         title="text"
-        {..._processStyleName('text', _temp, {
+        {..._processStyleName('text', _css, {
           style: {
             color: 'red'
           },
           footerStyle: {
             color: 'blue'
           }
+        })}
+      />
+    </Card>
+  )
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. No props: part attribute. No props 1`] = `
+
+import './index.styl'
+function Test () {
+  return (
+    <Card
+      part='card'
+      style={{ color: 'blue' }}
+      titleStyle={{ color: 'red' }}
+    >
+      <Content
+        styleName='content'
+        part='content active'
+        style={{ fontWeight: 'bold' }}
+        bodyStyle={{ color: 'blue' }}
+      />
+    </Card>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+function Test(_props) {
+  return (
+    <Card
+      {..._processStyleName('', _css, {
+        style: [
+          {
+            color: 'blue'
+          },
+          _props.cardStyle
+        ],
+        titleStyle: {
+          color: 'red'
+        }
+      })}
+    >
+      <Content
+        {..._processStyleName('content', _css, {
+          style: [
+            {
+              fontWeight: 'bold'
+            },
+            _props.contentStyle,
+            _props.activeStyle
+          ],
+          bodyStyle: {
+            color: 'blue'
+          }
+        })}
+      />
+    </Card>
+  )
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With anon function within named fn: part attribute. With anon function within named fn 1`] = `
+
+import './index.styl'
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
+  function render () {
+    return (
+      <Card
+        part='card'
+        style={{ color: 'blue' }}
+        titleStyle={{ color: 'red' }}
+      >
+        <Content part='content active' />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, activeStyle: _activeStyle }) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName('', _css, {
+          style: [
+            {
+              color: 'blue'
+            },
+            myCardStyle
+          ],
+          titleStyle: {
+            color: 'red'
+          }
+        })}
+      >
+        <Content
+          {..._processStyleName('', _css, {
+            style: [contentStyle, _activeStyle]
+          })}
+        />
+      </Card>
+    )
+  }
+
+  return render()
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With destructed props: part attribute. With destructed props 1`] = `
+
+import './index.styl'
+function Test ({ style, cardStyle, title }) {
+  return (
+    <Card
+      part='card'
+      style={{ color: 'blue' }}
+      titleStyle={{ color: 'red' }}
+    >
+      <Content part='content active' />
+    </Card>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+function Test({ style, cardStyle, title, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
+  return (
+    <Card
+      {..._processStyleName('', _css, {
+        style: [
+          {
+            color: 'blue'
+          },
+          cardStyle
+        ],
+        titleStyle: {
+          color: 'red'
+        }
+      })}
+    >
+      <Content
+        {..._processStyleName('', _css, {
+          style: [_contentStyle, _activeStyle]
+        })}
+      />
+    </Card>
+  )
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With named props: part attribute. With named props 1`] = `
+
+import './index.styl'
+function Test (props) {
+  return (
+    <Card
+      part='card'
+      style={{ color: 'blue' }}
+      titleStyle={{ color: 'red' }}
+    >
+      <Content part='content active' />
+    </Card>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+function Test(props) {
+  return (
+    <Card
+      {..._processStyleName('', _css, {
+        style: [
+          {
+            color: 'blue'
+          },
+          props.cardStyle
+        ],
+        titleStyle: {
+          color: 'red'
+        }
+      })}
+    >
+      <Content
+        {..._processStyleName('', _css, {
+          style: [props.contentStyle, props.activeStyle]
         })}
       />
     </Card>

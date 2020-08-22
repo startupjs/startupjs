@@ -82,6 +82,70 @@ pluginTester({
           </Card>
         )
       }
+    `,
+    'part attribute. No props': /* js */`
+      import './index.styl'
+      function Test () {
+        return (
+          <Card
+            part='card'
+            style={{ color: 'blue' }}
+            titleStyle={{ color: 'red' }}
+          >
+            <Content
+              styleName='content'
+              part='content active'
+              style={{ fontWeight: 'bold' }}
+              bodyStyle={{ color: 'blue' }}
+            />
+          </Card>
+        )
+      }
+    `,
+    'part attribute. With destructed props': /* js */`
+      import './index.styl'
+      function Test ({ style, cardStyle, title }) {
+        return (
+          <Card
+            part='card'
+            style={{ color: 'blue' }}
+            titleStyle={{ color: 'red' }}
+          >
+            <Content part='content active' />
+          </Card>
+        )
+      }
+    `,
+    'part attribute. With named props': /* js */`
+      import './index.styl'
+      function Test (props) {
+        return (
+          <Card
+            part='card'
+            style={{ color: 'blue' }}
+            titleStyle={{ color: 'red' }}
+          >
+            <Content part='content active' />
+          </Card>
+        )
+      }
+    `,
+    'part attribute. With anon function within named fn': /* js */`
+      import './index.styl'
+      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
+        function render () {
+          return (
+            <Card
+              part='card'
+              style={{ color: 'blue' }}
+              titleStyle={{ color: 'red' }}
+            >
+              <Content part='content active' />
+            </Card>
+          )
+        }
+        return render()
+      }
     `
   }
 })

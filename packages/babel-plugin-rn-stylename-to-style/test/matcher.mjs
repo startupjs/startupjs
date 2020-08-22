@@ -99,6 +99,49 @@ describe('Root styles only', () => {
       ]
     })
   })
+  it('empty root. Pipe inline styles only', () => {
+    assert.deepStrictEqual(p(
+      '',
+      /* css */`
+        .root {
+          color: red;
+          font-weight: bold;
+          padding-left: 10px;
+        }
+        .dummy {
+          color: green;
+        }
+        .root.dummy {
+          color: red;
+        }
+      `,
+      {
+        style: [
+          {
+            marginLeft: 10
+          }, {
+            marginRight: 20
+          }
+        ],
+        cardStyle: {
+          marginRight: 10
+        }
+      }
+    ), {
+      style: [
+        [ // inline styles
+          {
+            marginLeft: 10
+          }, {
+            marginRight: 20
+          }
+        ]
+      ],
+      cardStyle: {
+        marginRight: 10
+      }
+    })
+  })
   it('multiple classes', () => {
     assert.deepStrictEqual(p(
       'root active card',

@@ -13,6 +13,10 @@ function convertStyleName (name) {
   return name.replace(/Name$/, '')
 }
 
+function convertPartName (partName) {
+  return partName + 'Style'
+}
+
 module.exports = function (babel) {
   const t = babel.types
 
@@ -56,49 +60,147 @@ module.exports = function (babel) {
     return processCall
   }
 
-  function handleStyleNames (jsxOpeningElementPath, state) {
-    let styleName
-    const inlineStyles = []
-
-    // Find root styleName
-    for (const key in styleHash) {
-      if (key === ROOT_STYLE_PROP_NAME) {
-        styleName = styleHash[key].styleName
+  function addPartStyleToProps (partAttrPath) {
+    const partNames = partAttrPath.node.value.value.split(' ').filter(Boolean)
+    let closestFnPath = partAttrPath
+    // find react functional component declaration.
+    // While searching, skip named functions which start from lowercase
+    while (true) {
+      closestFnPath = closestFnPath.getFunctionParent()
+      if (!(
+        (
+          t.isFunctionDeclaration(closestFnPath.node) ||
+          t.isFunctionExpression(closestFnPath.node)
+        ) && (
+          closestFnPath.node.id &&
+          closestFnPath.node.id.name &&
+          /^[a-z]/.test(closestFnPath.node.id.name)
+        )
+      )) {
+        break
       }
     }
+    if (t.isProgram(closestFnPath.node)) {
+      throw partAttrPath.buildCodeFrameError(`
+        Closest react functional component not found for 'part' attribute.
+        Or your component is named lowercase.'
+      `)
+    }
+    let props = closestFnPath.node.params[0]
+    if (!props) {
+      props = partAttrPath.scope.generateUidIdentifier('props')
+      closestFnPath.node.params[0] = props
+    }
+    if (t.isAssignmentPattern(props)) {
+      props = props.left
+    }
+    const styleProps = []
+    if (t.isIdentifier(props)) {
+      for (const partName of partNames) {
+        const partStyleAttr = convertPartName(partName)
+        styleProps.push(
+          t.memberExpression(props, t.identifier(partStyleAttr))
+        )
+      }
+    } else if (t.isObjectPattern(props)) {
+      // TODO: optimize to be more efficient than O(n^2)
+      for (const partName of partNames) {
+        const partStyleAttr = convertPartName(partName)
+        let exists
+        // Check whether the part style property already exists
+        for (const property of props.properties) {
+          if (!t.isObjectProperty(property)) continue
+          if (property.key.name === partStyleAttr) {
+            styleProps.push(property.value)
+            exists = true
+            break
+          }
+        }
+        if (exists) continue
+        // If part style property doesn't exist, inject it
+        const key = t.identifier(partStyleAttr)
+        const value = partAttrPath.scope.generateUidIdentifier(partStyleAttr)
+        props.properties.push(t.objectProperty(key, value))
+        styleProps.push(value)
+      }
+    } else {
+      throw partAttrPath.buildCodeFrameError(`
+        Can't find props attribute and embed part style props into it.
+        Supported props formats:
+          - function Hello ({ one, two }) {}
+          - function Hello (props) {}
+      `)
+    }
+    return styleProps
+  }
+
+  function handleStyleNames (jsxOpeningElementPath, state) {
+    if (!styleHash[ROOT_STYLE_PROP_NAME]) return
+    const styleName = styleHash[ROOT_STYLE_PROP_NAME].styleName
+    const partStyle = styleHash[ROOT_STYLE_PROP_NAME].partStyle
+    const inlineStyles = []
+
+    // Don't process this element if neither styleName or part found.
+    if (!styleName && !partStyle) return
 
     // Check if styleName exists and if it can be processed
-    if (
-      styleName == null ||
-      specifier == null ||
-      !(
+    if (styleName != null) {
+      if (specifier == null) {
+        throw jsxOpeningElementPath.buildCodeFrameError(`
+          styleName attribute can't be processed. No styles file found.
+
+          Most likely you've forgot to import your styles file:
+
+            import './index.styl'
+        `)
+      }
+      if (!(
         t.isStringLiteral(styleName.node.value) ||
         t.isJSXExpressionContainer(styleName.node.value)
-      )
-    ) {
-      return
+      )) {
+        throw jsxOpeningElementPath.buildCodeFrameError(`
+          styleName attribute has an unsupported type. It must be either a string or an expression.
+
+          Most likely you wrote styleName=[] instead of styleName={[]}
+        `)
+      }
     }
 
     // Gather all inline styles
     for (const key in styleHash) {
-      if (styleHash[key].style) {
+      if (styleHash[key].style || styleHash[key].partStyle) {
+        let style = []
+        if (styleHash[key].style) {
+          style.push(styleHash[key].style.node.value.expression)
+        }
+        // Part style has higher priority, so must be last
+        if (styleHash[key].partStyle) {
+          style = style.concat(styleHash[key].partStyle)
+        }
+        if (style.length > 1) {
+          style = t.arrayExpression(style)
+        } else {
+          style = style[0]
+        }
         inlineStyles.push(t.objectProperty(
           t.identifier(key),
-          styleHash[key].style.node.value.expression
+          style
         ))
       }
     }
 
     // Create a `process` function call
     state.hasTransformedClassName = true
-    const obj = specifier.local.name
+    const cssStyles = specifier.local.name
     const processCall = t.callExpression(
       state.reqName,
       [
-        t.isStringLiteral(styleName.node.value)
-          ? styleName.node.value
-          : styleName.node.value.expression,
-        t.identifier(obj),
+        styleName ? (
+          t.isStringLiteral(styleName.node.value)
+            ? styleName.node.value
+            : styleName.node.value.expression
+        ) : t.stringLiteral(''),
+        t.identifier(cssStyles),
         t.objectExpression(inlineStyles)
       ]
     )
@@ -109,8 +211,6 @@ module.exports = function (babel) {
 
     // Remove old attributes
     for (const key in styleHash) {
-      // TODO: Instead of removing, handle it by merging with resulting *style,
-      //       if exists
       if (styleHash[key].style) styleHash[key].style.remove()
       if (styleHash[key].styleName) styleHash[key].styleName.remove()
     }
@@ -119,6 +219,7 @@ module.exports = function (babel) {
     for (const key in styleHash) {
       delete styleHash[key].styleName
       delete styleHash[key].style
+      delete styleHash[key].partStyle
       delete styleHash[key]
     }
     styleHash = {}
@@ -236,7 +337,7 @@ module.exports = function (babel) {
 
         if (!specifier) {
           specifier = t.ImportDefaultSpecifier(
-            path.scope.generateUidIdentifier()
+            path.scope.generateUidIdentifier('css')
           )
           node.specifiers = [specifier]
         }
@@ -268,6 +369,14 @@ module.exports = function (babel) {
         } else if (STYLE_REGEX.test(name)) {
           if (!styleHash[name]) styleHash[name] = {}
           styleHash[name].style = path
+        } else if (name === 'part') {
+          if (!t.isStringLiteral(path.node.value)) {
+            throw path.buildCodeFrameError('\'part\' attribute supports only static string values')
+          }
+          const styleProps = addPartStyleToProps(path)
+          if (!styleHash[ROOT_STYLE_PROP_NAME]) styleHash[ROOT_STYLE_PROP_NAME] = {}
+          styleHash[ROOT_STYLE_PROP_NAME].partStyle = styleProps
+          path.remove()
         }
       }
     }
