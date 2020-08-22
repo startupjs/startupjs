@@ -22,11 +22,14 @@ function MenuItem ({
   icon,
   iconPosition,
   onPress,
+  activeColor,
   ...props
 }) {
   const parentProps = useMenuContext()
   const _iconPosition = iconPosition || parentProps.iconPosition
-  const color = active ? colors.primary : colors.mainText
+  const activeItemColor = activeColor || colors.primary
+  const color = active ? activeItemColor : colors.mainText
+  const borderStyle = { backgroundColor: activeItemColor }
   const extraProps = {}
   const reverse = _iconPosition === 'right'
   let Wrapper
@@ -52,7 +55,7 @@ function MenuItem ({
       ...props
     )
       if activeBorder !== 'none' && active
-        Div.border(styleName=[activeBorder])
+        Div.border(styleName=[activeBorder] style=borderStyle)
       if icon
         Icon.icon(styleName=[_iconPosition] icon=icon color=color)
 
@@ -77,7 +80,8 @@ MenuItem.propTypes = {
   bold: propTypes.bool,
   icon: propTypes.object,
   iconPosition: propTypes.oneOf(['left', 'right']),
-  onPress: propTypes.func
+  onPress: propTypes.func,
+  activeColor: propTypes.string
 }
 
 export default observer(MenuItem)
