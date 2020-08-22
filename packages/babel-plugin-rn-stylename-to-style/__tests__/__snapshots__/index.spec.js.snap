@@ -79,6 +79,79 @@ function Test({ style, active, submit, disabled }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style DEPRECATED! With ::part() styles and deprecated *StyleName props: DEPRECATED! With ::part() styles and deprecated *StyleName props 1`] = `
+
+import './index.styl'
+function Test ({ style, active, submit, disabled, titleStyle }) {
+  return (
+    <Card style={style} styleName={['root', {active}]} titleStyleName={['title', {active}]} titleStyle={[titleStyle, { color: 'green' }]} title='container'>
+      <Content styleName='text' style={{ color: 'red' }} footerStyleName='footer' footerStyle={{ color: 'blue' }} center title='text' />
+    </Card>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _temp from './index.styl'
+
+var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+
+function Test({ style, active, submit, disabled, titleStyle }) {
+  return (
+    <Card
+      titleStyle={[
+        _processStyleName(
+          [
+            'title',
+            {
+              active
+            }
+          ],
+          _temp
+        ),
+        [
+          titleStyle,
+          {
+            color: 'green'
+          }
+        ]
+      ]}
+      title="container"
+      {..._processStyleName(
+        [
+          'root',
+          {
+            active
+          }
+        ],
+        _temp,
+        {
+          style: style
+        }
+      )}
+    >
+      <Content
+        footerStyle={[
+          _processStyleName('footer', _temp),
+          {
+            color: 'blue'
+          }
+        ]}
+        center
+        title="text"
+        {..._processStyleName('text', _temp, {
+          style: {
+            color: 'red'
+          }
+        })}
+      />
+    </Card>
+  )
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style Puts compiled attribute to the end of attributes list: Puts compiled attribute to the end of attributes list 1`] = `
 
 import './index.styl'

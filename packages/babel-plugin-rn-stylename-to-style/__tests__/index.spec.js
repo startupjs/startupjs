@@ -72,6 +72,16 @@ pluginTester({
           </Card>
         )
       }
+    `,
+    'DEPRECATED! With ::part() styles and deprecated *StyleName props': /* js */`
+      import './index.styl'
+      function Test ({ style, active, submit, disabled, titleStyle }) {
+        return (
+          <Card style={style} styleName={['root', {active}]} titleStyleName={['title', {active}]} titleStyle={[titleStyle, { color: 'green' }]} title='container'>
+            <Content styleName='text' style={{ color: 'red' }} footerStyleName='footer' footerStyle={{ color: 'blue' }} center title='text' />
+          </Card>
+        )
+      }
     `
   }
 })

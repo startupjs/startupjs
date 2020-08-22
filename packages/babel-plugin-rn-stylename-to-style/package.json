@@ -15,7 +15,7 @@
   "main": "index.cjs",
   "type": "module",
   "scripts": {
-    "test": "jest && mocha"
+    "test": "mocha && jest"
   },
   "author": "Pavel Zhukov",
   "license": "MIT",
