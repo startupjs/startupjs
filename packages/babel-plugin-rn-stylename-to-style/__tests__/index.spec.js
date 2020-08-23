@@ -174,6 +174,17 @@ pluginTester({
           </Card>
         )
       }
+    `,
+    tags: /* js */`
+      import './index.styl'
+      function Test () {
+        return (
+          <Card>
+            <StatusBar barStyle='dark-content' />
+            <Content />
+          </Card>
+        )
+      }
     `
   }
 })

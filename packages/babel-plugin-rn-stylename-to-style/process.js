@@ -2,7 +2,7 @@ import { process as dynamicProcess } from 'react-native-dynamic-style-processor/
 import dimensions from './dimensions'
 import matcher from './matcher'
 
-export function process (styleName, cssStyles, inlineStyles) {
+export function process (tagName, styleName, cssStyles, inlineStyles) {
   // If @media is used, force trigger access to the observable value.
   // Whenever that value changes the according components will
   // automatically rerender.
@@ -13,7 +13,7 @@ export function process (styleName, cssStyles, inlineStyles) {
 
   cssStyles = dynamicProcess(cssStyles)
 
-  return matcher(styleName, cssStyles, inlineStyles)
+  return matcher(tagName, styleName, cssStyles, inlineStyles)
 }
 
 function hasMedia (cssStyles) {

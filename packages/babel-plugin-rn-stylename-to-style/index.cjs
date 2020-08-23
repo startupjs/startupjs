@@ -5,6 +5,15 @@ const STYLE_NAME_REGEX = /(?:^s|S)tyleName$/
 const STYLE_REGEX = /(?:^s|S)tyle$/
 const ROOT_STYLE_PROP_NAME = 'style'
 
+// TODO: Make this an option
+// TODO: Enable this by default after figuring out how to make
+//       global styles working.
+//       One idea is to force add import of a dummy .styl file
+//       in all .js files w/o an existing .styl import.
+//       But this needs to only happen to code which is
+//       built for startupjs.
+const DEFAULT_SUPPORT_TAGS = false
+
 function getExt (node) {
   return nodePath.extname(node.source.value).replace(/^\./, '')
 }
@@ -51,12 +60,12 @@ module.exports = function (babel) {
     return t.variableDeclaration('var', [d])
   }
 
-  function getStyleFromExpression (expression, state) {
+  function getStyleFromExpression (tagName, expression, state) {
     state.hasTransformedClassName = true
     const obj = specifier.local.name
     const processCall = t.callExpression(
       state.reqName,
-      [expression, t.identifier(obj)]
+      [t.stringLiteral(tagName), expression, t.identifier(obj)]
     )
     return processCall
   }
@@ -135,19 +144,29 @@ module.exports = function (babel) {
     return styleProps
   }
 
-  function handleStyleNames (jsxOpeningElementPath, state) {
-    if (!styleHash[ROOT_STYLE_PROP_NAME]) return
-    const styleName = styleHash[ROOT_STYLE_PROP_NAME].styleName
-    const partStyle = styleHash[ROOT_STYLE_PROP_NAME].partStyle
-    const inlineStyles = []
+  function validate (path, tagName, styleName, specifier, partStyle) {
+    if (DEFAULT_SUPPORT_TAGS) {
+      // TODO: This should also be under the supportTags option.
+      // TODO: FIXME: To properly support global styles we have to process
+      //       ALL js files. No matter whether there is CSS import or not.
+      //       Most likely instead of the global styles the better solution
+      //       would be to have scoped overrides for specific libraries.
+      if (!specifier && !partStyle) return
+    } else {
+      // TODO: Make this an option whether to supportTags.
+      //       All elements must always be processed
+      //       in order to support the global styling of tags, which
+      //       might be bad from performance perspective.
+      if (!styleName && !partStyle) return
+    }
 
-    // Don't process this element if neither styleName or part found.
-    if (!styleName && !partStyle) return
+    // Things like React.Fragment don't have tag name, return in this case
+    if (!tagName) return
 
     // Check if styleName exists and if it can be processed
     if (styleName != null) {
       if (specifier == null) {
-        throw jsxOpeningElementPath.buildCodeFrameError(`
+        throw path.buildCodeFrameError(`
           styleName attribute can't be processed. No styles file found.
 
           Most likely you've forgot to import your styles file:
@@ -159,7 +178,7 @@ module.exports = function (babel) {
         t.isStringLiteral(styleName.node.value) ||
         t.isJSXExpressionContainer(styleName.node.value)
       )) {
-        throw jsxOpeningElementPath.buildCodeFrameError(`
+        throw path.buildCodeFrameError(`
           styleName attribute has an unsupported type. It must be either a string or an expression.
 
           Most likely you wrote styleName=[] instead of styleName={[]}
@@ -167,12 +186,27 @@ module.exports = function (babel) {
       }
     }
 
+    return true
+  }
+
+  function handleStyleNames (jsxOpeningElementPath, state) {
+    const tagName = jsxOpeningElementPath.node.name && jsxOpeningElementPath.node.name.name
+    const styleName = styleHash[ROOT_STYLE_PROP_NAME]?.styleName
+    const partStyle = styleHash[ROOT_STYLE_PROP_NAME]?.partStyle
+    const inlineStyles = []
+
+    if (!validate(jsxOpeningElementPath, tagName, styleName, specifier, partStyle)) return
+
     // Gather all inline styles
     for (const key in styleHash) {
       if (styleHash[key].style || styleHash[key].partStyle) {
         let style = []
         if (styleHash[key].style) {
-          style.push(styleHash[key].style.node.value.expression)
+          if (t.isStringLiteral(styleHash[key].style.node.value)) {
+            style.push(styleHash[key].style.node.value)
+          } else {
+            style.push(styleHash[key].style.node.value.expression)
+          }
         }
         // Part style has higher priority, so must be last
         if (styleHash[key].partStyle) {
@@ -196,6 +230,7 @@ module.exports = function (babel) {
     const processCall = t.callExpression(
       state.reqName,
       [
+        t.stringLiteral(tagName),
         styleName ? (
           t.isStringLiteral(styleName.node.value)
             ? styleName.node.value
@@ -226,27 +261,19 @@ module.exports = function (babel) {
     styleHash = {}
   }
 
-  function handleStyleName (state, convertedName, styleName, style) {
+  function handleStyleName (jsxOpeningElementPath, state, convertedName, styleName, style) {
     let expressions
+    const tagName = jsxOpeningElementPath.node.name && jsxOpeningElementPath.node.name.name
 
-    if (
-      styleName == null ||
-      specifier == null ||
-      !(
-        t.isStringLiteral(styleName.node.value) ||
-        t.isJSXExpressionContainer(styleName.node.value)
-      )
-    ) {
-      return
-    }
+    if (!validate(jsxOpeningElementPath, tagName, styleName, specifier)) return
 
     if (t.isStringLiteral(styleName.node.value)) {
       expressions = [
-        getStyleFromExpression(styleName.node.value, state)
+        getStyleFromExpression(tagName, styleName.node.value, state)
       ]
     } else if (t.isJSXExpressionContainer(styleName.node.value)) {
       expressions = [
-        getStyleFromExpression(styleName.node.value.expression, state)
+        getStyleFromExpression(tagName, styleName.node.value.expression, state)
       ]
     }
 
@@ -258,7 +285,11 @@ module.exports = function (babel) {
     if (hasStyleNameAndStyle) {
       style.node.value = t.jsxExpressionContainer(
         t.arrayExpression(
-          expressions.concat([style.node.value.expression])
+          expressions.concat([
+            t.isStringLiteral(style.node.value)
+              ? style.node.value
+              : style.node.value.expression
+          ])
         )
       )
       styleName.remove()
@@ -350,7 +381,7 @@ module.exports = function (babel) {
             // root styleName can only be handled by new logic in handleStyleNames()
             if (key === ROOT_STYLE_PROP_NAME) continue
             if (styleHash[key].styleName) {
-              handleStyleName(state, key, styleHash[key].styleName, styleHash[key].style)
+              handleStyleName(path, state, key, styleHash[key].styleName, styleHash[key].style)
               delete styleHash[key].styleName
               delete styleHash[key].style
               delete styleHash[key]

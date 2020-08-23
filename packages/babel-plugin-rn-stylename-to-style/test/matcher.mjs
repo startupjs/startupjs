@@ -2,8 +2,9 @@ import assert from 'assert'
 import matcher from '../matcher.js'
 import css2rn from '@startupjs/css-to-react-native-transform'
 
-function p (styleName, cssStyles, inlineStyles) {
+function p (tagName, styleName, cssStyles, inlineStyles) {
   return matcher(
+    tagName,
     styleName,
     css2rn.default(cssStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     inlineStyles
@@ -13,6 +14,7 @@ function p (styleName, cssStyles, inlineStyles) {
 describe('Pure usage without attributes', () => {
   it('simple', () => {
     assert.deepStrictEqual(p(
+      'Card',
       'root',
       /* css */`
         .root {
@@ -40,6 +42,7 @@ describe('Pure usage without attributes', () => {
 describe('Root styles only', () => {
   it('simple', () => {
     assert.deepStrictEqual(p(
+      'Card',
       'root',
       /* css */`
         .root {
@@ -67,6 +70,7 @@ describe('Root styles only', () => {
   })
   it('with inline styles', () => {
     assert.deepStrictEqual(p(
+      'Card',
       'root',
       /* css */`
         .root {
@@ -101,6 +105,7 @@ describe('Root styles only', () => {
   })
   it('empty root. Pipe inline styles only', () => {
     assert.deepStrictEqual(p(
+      'Card',
       '',
       /* css */`
         .root {
@@ -125,7 +130,8 @@ describe('Root styles only', () => {
         ],
         cardStyle: {
           marginRight: 10
-        }
+        },
+        barStyle: 'dark-content'
       }
     ), {
       style: [
@@ -139,11 +145,13 @@ describe('Root styles only', () => {
       ],
       cardStyle: {
         marginRight: 10
-      }
+      },
+      barStyle: 'dark-content'
     })
   })
   it('multiple classes', () => {
     assert.deepStrictEqual(p(
+      'Card',
       'root active card',
       /* css */`
         .active {
@@ -211,6 +219,7 @@ describe('Root styles only', () => {
 describe('Parts', () => {
   it('simple', () => {
     assert.deepStrictEqual(p(
+      'Card',
       'root',
       /* css */`
         .root {
@@ -242,6 +251,7 @@ describe('Parts', () => {
   })
   it('multiple classes', () => {
     assert.deepStrictEqual(p(
+      'Card',
       'root active card',
       /* css */`
         .active {
@@ -367,6 +377,81 @@ describe('Parts', () => {
       dummyStyle: {
         marginLeft: 16
       }
+    })
+  })
+})
+
+describe('Tags with parts', () => {
+  it('simple', () => {
+    assert.deepStrictEqual(p(
+      'Card',
+      'root active',
+      /* css */`
+        .root.active {
+          color: violet;
+        }
+        Card.root.active {
+          color: black;
+        }
+        Card.root {
+          color: green;
+        }
+        Card.root::part(input) {
+          color: pink;
+        }
+        .root {
+          color: red;
+          font-weight: bold;
+          padding-left: 10px;
+        }
+        .root::part(input) {
+          background-color: black;
+          color: blue;
+        }
+        Card {
+          color: yellow;
+          margin-left: 20px;
+        }
+        Card::part(input) {
+          color: orange;
+          margin-right: 30px;
+        }
+      `,
+      {}
+    ), {
+      style: [
+        [{ // tag styles. specificity 1
+          color: 'yellow',
+          marginLeft: 20
+        }],
+        [{ // specificity 10 (1 class)
+          color: 'red',
+          fontWeight: 'bold',
+          paddingLeft: 10
+        }],
+        [{ // specificity 11 (1 tag, 1 class)
+          color: 'green'
+        }],
+        [{ // specificity 20 (2 classes)
+          color: 'violet'
+        }],
+        [{ // specificity 21 (1 tag, 2 classes)
+          color: 'black'
+        }]
+      ],
+      inputStyle: [
+        [{ // tag styles. specificity 1
+          color: 'orange',
+          marginRight: 30
+        }],
+        [{ // specificity 10 (1 class)
+          backgroundColor: 'black',
+          color: 'blue'
+        }],
+        [{ // specificity 11 (1 tag, 1 class)
+          color: 'pink'
+        }]
+      ]
     })
   })
 })

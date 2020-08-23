@@ -5,7 +5,7 @@ const isArray = Array.isArray || function (arg) {
   return Object.prototype.toString.call(arg) === '[object Array]'
 }
 
-export default function matcher (styleName, cssStyles, inlineStyles) {
+export default function matcher (tagName, styleName, cssStyles, inlineStyles) {
   // inlineStyles is used as an implicit indication of:
   // w/ inlineStyles -- process all styles and return an object with style props
   // w/o inlineStyles -- default inline styles addition is done externally,
@@ -18,7 +18,7 @@ export default function matcher (styleName, cssStyles, inlineStyles) {
   styleName = cc(styleName)
 
   const htmlClasses = (styleName || '').split(' ').filter(Boolean)
-  const styleProps = getStyleProps(htmlClasses, cssStyles, pure)
+  const styleProps = getStyleProps(tagName, htmlClasses, cssStyles, pure)
 
   // If inline styles exist, add them to the end to give them priority over
   // styles from CSS file.
@@ -37,11 +37,14 @@ export default function matcher (styleName, cssStyles, inlineStyles) {
 }
 
 // Process all styles, including the ::part() ones.
-function getStyleProps (htmlClasses, cssStyles, rootOnly) {
-  const res = {
-    [ROOT_STYLE_PROP_NAME]: []
+function getStyleProps (htmlTag, htmlClasses, cssStyles, rootOnly) {
+  const bySpecificity = {
+    // We are using ES6 Object keys traversal for automatic sorting by specificity.
+    // ref: https://2ality.com/2015/10/property-traversal-order-es6.html#traversing-the-own-keys-of-an-object
+    [ROOT_STYLE_PROP_NAME]: {}
   }
   for (const selector in cssStyles) {
+    let specificity = 0
     // Find out which part (or root) this selector is targeting
     const match = selector.match(PART_REGEX)
     const attr = match ? getPropName(match[1]) : ROOT_STYLE_PROP_NAME
@@ -52,9 +55,16 @@ function getStyleProps (htmlClasses, cssStyles, rootOnly) {
     // Strip ::part() if it exists
     const pureSelector = selector.replace(PART_REGEX, '')
 
-    // Check if the selector is matching our list of existing classes
-    const cssClasses = pureSelector.split('.')
-    if (!arrayContainedInArray(cssClasses, htmlClasses)) continue
+    // If tag exists in selector, check if it matches our element
+    const cssTagMatch = pureSelector.match(/^[^.]+/)
+    const cssTag = cssTagMatch && cssTagMatch[0]
+    if (cssTag && cssTag !== htmlTag) continue
+    if (cssTag) specificity += 1
+
+    // If classes exist in selector, check if they match our element
+    const cssClasses = pureSelector.replace(/^[^.]+/, '').split('.').filter(Boolean)
+    if (cssClasses.length > 0 && !arrayContainedInArray(cssClasses, htmlClasses)) continue
+    specificity += cssClasses.length * 10
 
     // Push selector's style to the according part's array of styles.
     // We have a nested array structure here to account for the selector specificity.
@@ -66,12 +76,19 @@ function getStyleProps (htmlClasses, cssStyles, rootOnly) {
     //       In future this might change when we add support for tags, but for now
     //       it is a single digit increment starting from 0 and equalling the amount
     //       of classes in the selector.
-    const specificity = cssClasses.length - 1
-    if (!res[attr]) res[attr] = []
-    if (!res[attr][specificity]) res[attr][specificity] = []
-    res[attr][specificity].push(cssStyles[selector])
+    if (!bySpecificity[attr]) bySpecificity[attr] = {}
+    if (!bySpecificity[attr][specificity]) bySpecificity[attr][specificity] = []
+    bySpecificity[attr][specificity].push(cssStyles[selector])
   }
-  return res
+  // Convert from objects to arrays
+  for (const attr in bySpecificity) {
+    // Since keys are integers, Object.values() is going to return
+    // everything in an order sorted by integer keys.
+    // ref: https://2ality.com/2015/10/property-traversal-order-es6.html#traversing-the-own-keys-of-an-object
+    // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Object/values
+    bySpecificity[attr] = Object.values(bySpecificity[attr])
+  }
+  return bySpecificity
 }
 
 function getPropName (name) {

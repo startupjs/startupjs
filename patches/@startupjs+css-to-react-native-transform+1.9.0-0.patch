@@ -1,0 +1,19 @@
+diff --git a/node_modules/@startupjs/css-to-react-native-transform/dist/index.js b/node_modules/@startupjs/css-to-react-native-transform/dist/index.js
+index b83b7d3..9c7c9b4 100644
+--- a/node_modules/@startupjs/css-to-react-native-transform/dist/index.js
++++ b/node_modules/@startupjs/css-to-react-native-transform/dist/index.js
+@@ -102,11 +102,12 @@ var transform = function transform(css, options) {
+         continue;
+       }
+ 
+-      if (rule.selectors[s].indexOf(".") !== 0 || rule.selectors[s].indexOf(":") !== -1 && (options != null && options.parsePartSelectors ? !cssPartRe.test(rule.selectors[s]) : true) || rule.selectors[s].indexOf("[") !== -1 || rule.selectors[s].indexOf("~") !== -1 || rule.selectors[s].indexOf(">") !== -1 || rule.selectors[s].indexOf("+") !== -1 || rule.selectors[s].indexOf(" ") !== -1) {
++      if (/*rule.selectors[s].indexOf(".") !== 0 || */rule.selectors[s].indexOf(":") !== -1 && (options != null && options.parsePartSelectors ? !cssPartRe.test(rule.selectors[s]) : true) || rule.selectors[s].indexOf("[") !== -1 || rule.selectors[s].indexOf("~") !== -1 || rule.selectors[s].indexOf(">") !== -1 || rule.selectors[s].indexOf("+") !== -1 || rule.selectors[s].indexOf(" ") !== -1) {
+         continue;
+       }
+ 
+-      var selector = rule.selectors[s].replace(/^\./, "");
++      // var selector = rule.selectors[s].replace(/^\./, "");
++      var selector = rule.selectors[s]
+       var styles = result[selector] = result[selector] || {};
+       transformDecls(styles, rule.declarations, result);
+     }
