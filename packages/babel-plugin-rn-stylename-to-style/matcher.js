@@ -5,12 +5,18 @@ const isArray = Array.isArray || function (arg) {
   return Object.prototype.toString.call(arg) === '[object Array]'
 }
 
-export default function matcher (styleName, cssStyles, inlineStyles) {
-  // inlineStyles is used as an implicit indication of:
-  // w/ inlineStyles -- process all styles and return an object with style props
-  // w/o inlineStyles -- default inline styles addition is done externally,
+export default function matcher (
+  styleName,
+  cssStyles,
+  globalStyles,
+  localStyles,
+  inlineStyleProps
+) {
+  // inlineStyleProps is used as an implicit indication of:
+  // w/ inlineStyleProps -- process all styles and return an object with style props
+  // w/o inlineStyleProps -- default inline styles addition is done externally,
   //                     return styles object directly
-  const pure = !inlineStyles
+  const legacy = !inlineStyleProps
 
   // Process styleName through the `classnames`-like function.
   // This allows to specify styleName as an array or an object,
@@ -18,26 +24,38 @@ export default function matcher (styleName, cssStyles, inlineStyles) {
   styleName = cc(styleName)
 
   const htmlClasses = (styleName || '').split(' ').filter(Boolean)
-  const styleProps = getStyleProps(htmlClasses, cssStyles, pure)
+  const resProps = getStyleProps(htmlClasses, cssStyles, legacy)
 
-  // If inline styles exist, add them to the end to give them priority over
-  // styles from CSS file.
-  if (inlineStyles) {
-    for (const propName in inlineStyles) {
-      if (styleProps[propName]) {
-        styleProps[propName].push(inlineStyles[propName])
+  // In the legacy mode, return root styles right away
+  if (legacy) return resProps[ROOT_STYLE_PROP_NAME]
+
+  // 1. Add global styles
+  appendStyleProps(resProps, getStyleProps(htmlClasses, globalStyles))
+
+  // 2. Add local styles
+  appendStyleProps(resProps, getStyleProps(htmlClasses, localStyles))
+
+  // 3. Add inline styles
+  appendStyleProps(resProps, inlineStyleProps)
+  return resProps
+}
+
+function appendStyleProps (target, appendProps) {
+  for (const propName in appendProps) {
+    if (target[propName]) {
+      if (isArray(target[propName])) {
+        target[propName] = target[propName].concat(appendProps[propName])
       } else {
-        styleProps[propName] = inlineStyles[propName]
+        target[propName].push(appendProps[propName])
       }
+    } else {
+      target[propName] = appendProps[propName]
     }
-    return styleProps
-  } else {
-    return styleProps[ROOT_STYLE_PROP_NAME]
   }
 }
 
 // Process all styles, including the ::part() ones.
-function getStyleProps (htmlClasses, cssStyles, rootOnly) {
+function getStyleProps (htmlClasses, cssStyles, legacyRootOnly) {
   const res = {
     [ROOT_STYLE_PROP_NAME]: []
   }
@@ -46,8 +64,8 @@ function getStyleProps (htmlClasses, cssStyles, rootOnly) {
     const match = selector.match(PART_REGEX)
     const attr = match ? getPropName(match[1]) : ROOT_STYLE_PROP_NAME
 
-    // Don't process part if rootOnly is specified
-    if (rootOnly && attr !== ROOT_STYLE_PROP_NAME) continue
+    // Don't process part if legacyRootOnly is specified
+    if (legacyRootOnly && attr !== ROOT_STYLE_PROP_NAME) continue
 
     // Strip ::part() if it exists
     const pureSelector = selector.replace(PART_REGEX, '')

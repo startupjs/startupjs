@@ -1,9 +1,17 @@
 const nodePath = require('path')
+const t = require('@babel/types')
+const template = require('@babel/template').default
 
 const PROCESS_PATH = '@startupjs/babel-plugin-rn-stylename-to-style/process'
 const STYLE_NAME_REGEX = /(?:^s|S)tyleName$/
 const STYLE_REGEX = /(?:^s|S)tyle$/
 const ROOT_STYLE_PROP_NAME = 'style'
+
+const { GLOBAL_NAME, LOCAL_NAME } = require('./constants.cjs')
+
+const buildSafeVar = template(`
+  typeof %%variable%% !== 'undefined' && %%variable%%
+`)
 
 function getExt (node) {
   return nodePath.extname(node.source.value).replace(/^\./, '')
@@ -19,8 +27,6 @@ function convertPartName (partName) {
 }
 
 module.exports = function (babel) {
-  const t = babel.types
-
   let styleHash = {}
   let specifier
 
@@ -53,10 +59,10 @@ module.exports = function (babel) {
 
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
-    const obj = specifier.local.name
+    const cssStyles = specifier.local.name
     const processCall = t.callExpression(
       state.reqName,
-      [expression, t.identifier(obj)]
+      [expression, t.identifier(cssStyles)]
     )
     return processCall
   }
@@ -146,7 +152,7 @@ module.exports = function (babel) {
 
     // Check if styleName exists and if it can be processed
     if (styleName != null) {
-      if (specifier == null) {
+      if (!specifier) {
         throw jsxOpeningElementPath.buildCodeFrameError(`
           styleName attribute can't be processed. No styles file found.
 
@@ -192,7 +198,6 @@ module.exports = function (babel) {
 
     // Create a `process` function call
     state.hasTransformedClassName = true
-    const cssStyles = specifier.local.name
     const processCall = t.callExpression(
       state.reqName,
       [
@@ -201,7 +206,11 @@ module.exports = function (babel) {
             ? styleName.node.value
             : styleName.node.value.expression
         ) : t.stringLiteral(''),
-        t.identifier(cssStyles),
+        specifier
+          ? t.identifier(specifier.local.name)
+          : t.objectExpression([]),
+        buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }).expression,
+        buildSafeVar({ variable: t.identifier(LOCAL_NAME) }).expression,
         t.objectExpression(inlineStyles)
       ]
     )

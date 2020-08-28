@@ -2,10 +2,12 @@ import assert from 'assert'
 import matcher from '../matcher.js'
 import css2rn from '@startupjs/css-to-react-native-transform'
 
-function p (styleName, cssStyles, inlineStyles) {
+function p (styleName, cssStyles, globalStyles, localStyles, inlineStyles) {
   return matcher(
     styleName,
     css2rn.default(cssStyles, { parseMediaQueries: true, parsePartSelectors: true }),
+    globalStyles && css2rn.default(globalStyles, { parseMediaQueries: true, parsePartSelectors: true }),
+    localStyles && css2rn.default(localStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     inlineStyles
   )
 }
@@ -54,6 +56,8 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
+      '',
+      '',
       {}
     ), {
       style: [
@@ -81,6 +85,8 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
+      '',
+      '',
       {
         style: {
           marginLeft: 10
@@ -115,6 +121,8 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
+      '',
+      '',
       {
         style: [
           {
@@ -129,13 +137,12 @@ describe('Root styles only', () => {
       }
     ), {
       style: [
-        [ // inline styles
-          {
-            marginLeft: 10
-          }, {
-            marginRight: 20
-          }
-        ]
+        // inline styles
+        {
+          marginLeft: 10
+        }, {
+          marginRight: 20
+        }
       ],
       cardStyle: {
         marginRight: 10
@@ -176,6 +183,8 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
+      '',
+      '',
       {
         style: {
           marginLeft: 10
@@ -223,6 +232,8 @@ describe('Parts', () => {
           color: blue;
         }
       `,
+      '',
+      '',
       {}
     ), {
       style: [
@@ -298,6 +309,8 @@ describe('Parts', () => {
           color: red;
         }
       `,
+      '',
+      '',
       {
         style: {
           marginLeft: 10
@@ -367,6 +380,91 @@ describe('Parts', () => {
       dummyStyle: {
         marginLeft: 16
       }
+    })
+  })
+})
+
+describe('External and global and local styles', () => {
+  it('inline > local > global > external. No matter the specificity', () => {
+    assert.deepStrictEqual(p(
+      'root active',
+      /* css */`
+        .root {
+          color: red;
+          font-weight: bold;
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+        .root.active {
+          color: yellow;
+          padding-right: 20px;
+        }
+        .dummy {
+          color: green;
+        }
+        .root.dummy {
+          color: red;
+        }
+      `,
+      /* css */`
+        .root {
+          color: blue;
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+        .root.active {
+          color: white;
+        }
+        .dummy {
+          padding-left: 50px;
+        }
+      `,
+      /* css */`
+        .root {
+          color: violet;
+        }
+        .root.active {
+          padding-right: 20px;
+        }
+        .dummy {
+          padding-top: 10px;
+        }
+      `,
+      {
+        style: {
+          marginLeft: 10
+        }
+      }
+    ), {
+      style: [
+        [{ // external specificity 0
+          color: 'red',
+          fontWeight: 'bold',
+          paddingLeft: 10,
+          paddingRight: 10
+        }],
+        [{ // external specificity 1
+          color: 'yellow',
+          paddingRight: 20
+        }],
+        [{ // global specificity 0
+          color: 'blue',
+          paddingLeft: 15,
+          paddingRight: 15
+        }],
+        [{ // global specificity 1
+          color: 'white'
+        }],
+        [{ // local specificity 0
+          color: 'violet'
+        }],
+        [{ // local specificity 1
+          paddingRight: 20
+        }],
+        { // inline styles
+          marginLeft: 10
+        }
+      ]
     })
   })
 })
