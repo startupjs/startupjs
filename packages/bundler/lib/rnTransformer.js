@@ -5,6 +5,7 @@ const svgTransformer = require('react-native-svg-transformer')
 const mdx = require('@mdx-js/mdx')
 const mdxExamplesLoader = require('./mdxExamplesLoader')
 const replaceObserverLoader = require('./replaceObserverLoader')
+const callLoader = require('./callLoader')
 
 const DEFAULT_MDX_RENDERER = `
 import React from 'react'
@@ -36,9 +37,4 @@ module.exports.transform = function ({ src, filename, options = {} }) {
   } else {
     return upstreamTransformer.transform({ src, filename, options })
   }
-}
-
-// Simple mock to be able to call simple webpack loaders with filename substitution.
-function callLoader (loader, source, filename, options = {}) {
-  return loader.call({ resourcePath: filename, query: options }, source)
 }

@@ -74,6 +74,7 @@ module.exports = function (babel) {
     // While searching, skip named functions which start from lowercase
     while (true) {
       closestFnPath = closestFnPath.getFunctionParent()
+      if (!closestFnPath) break // if we reached Program
       if (!(
         (
           t.isFunctionDeclaration(closestFnPath.node) ||
@@ -87,7 +88,7 @@ module.exports = function (babel) {
         break
       }
     }
-    if (t.isProgram(closestFnPath.node)) {
+    if (!closestFnPath) {
       throw partAttrPath.buildCodeFrameError(`
         Closest react functional component not found for 'part' attribute.
         Or your component is named lowercase.'
@@ -152,15 +153,6 @@ module.exports = function (babel) {
 
     // Check if styleName exists and if it can be processed
     if (styleName != null) {
-      if (!specifier) {
-        throw jsxOpeningElementPath.buildCodeFrameError(`
-          styleName attribute can't be processed. No styles file found.
-
-          Most likely you've forgot to import your styles file:
-
-            import './index.styl'
-        `)
-      }
       if (!(
         t.isStringLiteral(styleName.node.value) ||
         t.isJSXExpressionContainer(styleName.node.value)

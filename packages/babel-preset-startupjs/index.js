@@ -58,10 +58,14 @@ const nativeReactCssModulesPlatformExtensionsPlugin = () =>
     extensions: ['styl', 'css']
   }]
 
-const nativeReactCssModulesPlugin = () =>
+const nativeReactCssModulesPlugins = ({ platform } = {}) => [
   [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
     extensions: ['styl', 'css']
+  }],
+  [require('@startupjs/babel-plugin-rn-stylename-inline'), {
+    platform
   }]
+]
 
 const webPassClassnamePlugin = () =>
   require('babel-plugin-react-native-web-pass-classname')
@@ -75,7 +79,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
   plugins: [
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
-    nativeReactCssModulesPlugin()
+    ...nativeReactCssModulesPlugins()
   ]
 }
 
@@ -86,7 +90,7 @@ const CONFIG_NATIVE_PRODUCTION = {
   plugins: [
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlatformExtensionsPlugin(),
-    nativeReactCssModulesPlugin()
+    ...nativeReactCssModulesPlugins()
   ]
 }
 
@@ -105,7 +109,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    nativeReactCssModulesPlugin()
+    ...nativeReactCssModulesPlugins({ platform: 'web' })
   ]
 }
 
@@ -119,7 +123,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    nativeReactCssModulesPlugin()
+    ...nativeReactCssModulesPlugins({ platform: 'web' })
   ].filter(Boolean)
 }
 
