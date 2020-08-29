@@ -9,7 +9,7 @@ const ROOT_STYLE_PROP_NAME = 'style'
 
 const { GLOBAL_NAME, LOCAL_NAME } = require('./constants.cjs')
 
-const buildSafeVar = template(`
+const buildSafeVar = template.expression(`
   typeof %%variable%% !== 'undefined' && %%variable%%
 `)
 
@@ -169,8 +169,8 @@ module.exports = function (babel) {
         specifier
           ? t.identifier(specifier.local.name)
           : t.objectExpression([]),
-        buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }).expression,
-        buildSafeVar({ variable: t.identifier(LOCAL_NAME) }).expression,
+        buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }),
+        buildSafeVar({ variable: t.identifier(LOCAL_NAME) }),
         t.objectExpression(inlineStyles)
       ]
     )
