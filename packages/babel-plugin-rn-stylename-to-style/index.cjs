@@ -21,33 +21,9 @@ const buildRequire = template(`
   const %%name%% = require('${PROCESS_PATH}').process
 `)
 
-function getExt (node) {
-  return nodePath.extname(node.source.value).replace(/^\./, '')
-}
-
-function convertStyleName (name) {
-  return name.replace(/Name$/, '')
-}
-
-function convertPartName (partName) {
-  if (partName === 'root') return 'style'
-  return partName + 'Style'
-}
-
 module.exports = function (babel) {
   let styleHash = {}
   let specifier
-
-  function isRequire (node) {
-    return (
-      node &&
-      node.declarations &&
-      node.declarations[0] &&
-      node.declarations[0].init &&
-      node.declarations[0].init.callee &&
-      node.declarations[0].init.callee.name === 'require'
-    )
-  }
 
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
@@ -375,4 +351,21 @@ module.exports = function (babel) {
       }
     }
   }
+}
+
+function isRequire (node) {
+  return node?.declarations?.[0]?.init?.callee?.name === 'require'
+}
+
+function getExt (node) {
+  return nodePath.extname(node.source.value).replace(/^\./, '')
+}
+
+function convertStyleName (name) {
+  return name.replace(/Name$/, '')
+}
+
+function convertPartName (partName) {
+  if (partName === 'root') return 'style'
+  return partName + 'Style'
 }

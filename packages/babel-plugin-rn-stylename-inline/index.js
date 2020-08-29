@@ -93,6 +93,7 @@ function insertAfterImports ($program, expressionStatement) {
 }
 
 function validateTemplate ($template, usedCompilers = {}) {
+  if (!$template.get('tag').isIdentifier()) return
   const { node: { tag, quasi } } = $template
   if (!usedCompilers[tag.name]) return
   if (quasi.expressions.length > 0) {
