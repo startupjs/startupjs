@@ -6,8 +6,8 @@ import useMediaRu from '../hooks/useMedia.ru.mdx'
 export default {
   type: 'collapse',
   title: {
-    en: 'Hooks / Helpers',
-    ru: 'Хуки и хелперы'
+    en: 'Helpers',
+    ru: 'Хелперы'
   },
   icon: faCode,
   items: {

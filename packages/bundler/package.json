@@ -26,7 +26,7 @@
     "babel-loader": "^8.0.6",
     "babel-preset-startupjs": "^0.23.27",
     "css-loader": "^1.0.0",
-    "css-to-react-native-transform": "^1.8.1",
+    "@startupjs/css-to-react-native-transform": "^1.9.0-0",
     "file-loader": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "generic-names": "^1.0.3",
