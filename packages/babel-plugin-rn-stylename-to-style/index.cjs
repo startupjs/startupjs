@@ -13,6 +13,14 @@ const buildSafeVar = template(`
   typeof %%variable%% !== 'undefined' && %%variable%%
 `)
 
+const buildImport = template(`
+  import { process as %%name%% } from '${PROCESS_PATH}'
+`)
+
+const buildRequire = template(`
+  const %%name%% = require('${PROCESS_PATH}').process
+`)
+
 function getExt (node) {
   return nodePath.extname(node.source.value).replace(/^\./, '')
 }
@@ -39,22 +47,6 @@ module.exports = function (babel) {
       node.declarations[0].init.callee &&
       node.declarations[0].init.callee.name === 'require'
     )
-  }
-
-  function generateImport (name) {
-    return t.importDeclaration(
-      [t.importSpecifier(name, t.identifier('process'))],
-      t.stringLiteral(PROCESS_PATH)
-    )
-  }
-
-  function generateRequire (name) {
-    const require = t.callExpression(t.identifier('require'), [
-      t.stringLiteral(PROCESS_PATH)
-    ])
-    const processFn = t.memberExpression(require, t.identifier('process'))
-    const d = t.variableDeclarator(name, processFn)
-    return t.variableDeclaration('var', [d])
   }
 
   function getStyleFromExpression (expression, state) {
@@ -298,8 +290,8 @@ module.exports = function (babel) {
           if (lastImportOrRequire) {
             lastImportOrRequire.insertAfter(
               state.opts.useImport
-                ? generateImport(state.reqName)
-                : generateRequire(state.reqName)
+                ? buildImport({ name: state.reqName })
+                : buildRequire({ name: state.reqName })
             )
           }
         }

@@ -18,7 +18,7 @@ function Test ({ style, active, submit, disabled }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ style, active, submit, disabled }) {
   const titleStyle = {
@@ -110,7 +110,7 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
@@ -191,7 +191,7 @@ function Test ({ style, active, submit, disabled }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ style, active, submit, disabled }) {
   return (
@@ -252,7 +252,7 @@ function Test ({ style }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ style }) {
   const titleStyle = {
@@ -339,7 +339,7 @@ function Test () {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test() {
   return (
@@ -407,7 +407,7 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
@@ -478,7 +478,7 @@ function Test ({ title, style }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ title, style, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
   return (
@@ -538,7 +538,7 @@ function Test ({ title }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ title, style: _style, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
   return (
@@ -603,7 +603,7 @@ function Test () {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test(_props) {
   return (
@@ -675,7 +675,7 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, activeStyle: _activeStyle }) => {
   function render() {
@@ -739,7 +739,7 @@ function Test ({ style, cardStyle, title }) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test({ style, cardStyle, title, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
   return (
@@ -799,7 +799,7 @@ function Test (props) {
 
 import _css from './index.styl'
 
-var _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
 
 function Test(props) {
   return (
