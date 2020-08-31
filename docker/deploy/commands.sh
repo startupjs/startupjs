@@ -21,7 +21,7 @@ REQUIRED_VARS=(\
 )
 OPTIONAL_VARS=("_CLUSTER_NAME" "_DOMAIN" "_PATH")
 
-COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply")
+COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply" "batch")
 
 # TODO: just print joined array
 #       https://stackoverflow.com/questions/1527049/how-can-i-join-elements-of-an-array-in-bash
@@ -34,6 +34,7 @@ Available commands:\n\
   pushLatest\n\
   compile\n\
   apply\n\
+  batch\n\
 "
 
 # ----- Global vars -----
