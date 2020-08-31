@@ -27,6 +27,7 @@
     "README.md"
   ],
   "dependencies": {
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.23.33",
     "@babel/parser": "^7.0.0",
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
