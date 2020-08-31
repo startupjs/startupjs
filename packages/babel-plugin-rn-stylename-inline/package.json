@@ -22,10 +22,6 @@
     "type": "git",
     "url": "https://github.com/startupjs/startupjs"
   },
-  "files": [
-    "index.js",
-    "README.md"
-  ],
   "dependencies": {
     "@babel/parser": "^7.0.0",
     "@babel/template": "^7.4.0",

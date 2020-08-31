@@ -23,12 +23,6 @@
     "type": "git",
     "url": "https://github.com/startupjs/startupjs"
   },
-  "files": [
-    "dimensions.js",
-    "process.js",
-    "index.js",
-    "README.md"
-  ],
   "dependencies": {
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
