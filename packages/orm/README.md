@@ -165,6 +165,35 @@ racer.orm('players.*', PlayerModel)
 racer.orm('_session.myPlayer', PlayerModel)
 racer.orm('_session.rivalPlayer', PlayerModel)
 ```
+## [JSON Schema](https://json-schema.org/understanding-json-schema/) validation of documents.
+
+### Installation
+
+1. in `server/index.js` add `validateSchema: true` to `startupjsServer()` options
+2. Go to one of your ORM document entities (for example, `UserModel`, which targets `users.*`) and add a static method `schema`:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class UserModel extends BaseModel {
+  static schema = {
+    firstName: { type: 'string' },
+    lastName: { type: 'string' },
+    age: {
+      type: 'number',
+      multipleOf: 1,
+      minimum: 0,
+      maximum: 130
+    }
+  }
+}
+```
+
+### Notes
+
+1. Schema is checked on both client-side and server-side.
+2. Schema validation only works in development. So there won't be any performance overheads when `NODE_ENV` is `production`
+3. Only ORMs targeting documents path `<collection>.*` are gonna be parsed for `schema` definitions.
 
 ## Licence
 
