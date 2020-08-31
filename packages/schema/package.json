@@ -1,0 +1,28 @@
+{
+  "name": "@startupjs/racer-schema",
+  "version": "0.2.1",
+  "description": "Schema plugin for Racer",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha \"test/**/*.mocha.js\""
+  },
+  "dependencies": {
+    "dotty": "^0.1.0",
+    "z-schema": "^4.2.3"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.1",
+    "racer": "^0.9.15"
+  },
+  "keywords": [
+    "racer",
+    "validation",
+    "schema"
+  ],
+  "author": "Vladimir Makhaev",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/startupjs/startupjs/issues"
+  }
+}
