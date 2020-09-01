@@ -17,8 +17,13 @@ function parseStylValue (value) {
   if (typeof value !== 'string') return value
   // strip single quotes (stylus adds it for the topmost value)
   // and parens (stylus adds them for values in a hash)
+  // Instead of doing a simple regex replace for both beginning and end,
+  // we only find beginning chars and then cut string from both sides.
+  // This is needed to prevent false-replacing the paren at the end of
+  // values like 'rgba(...)'
   if (/^['"(]/.test(value)) {
-    value = value.replace(/(?:^['"(]+|['")]+$)/g, '')
+    const wrapsLength = value.match(/^['"(]+/)[0].length
+    value = value.slice(wrapsLength).slice(0, -wrapsLength)
   }
   // hash
   if (value.charAt(0) === '{') {
