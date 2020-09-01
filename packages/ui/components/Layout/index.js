@@ -3,8 +3,13 @@ import { observer, useBackPress } from 'startupjs'
 import { SafeAreaView, StatusBar } from 'react-native'
 import propTypes from 'prop-types'
 import { useHistory } from 'react-router-native'
-import config from './../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const {
+  config: {
+    bgColor
+  }
+} = STYLES
 
 function Layout ({ style, children }) {
   const history = useHistory()
@@ -18,7 +23,7 @@ function Layout ({ style, children }) {
   return pug`
     SafeAreaView.root(style=style)
       StatusBar(
-        backgroundColor=config.colors.darkLighter
+        backgroundColor=bgColor
         barStyle='dark-content'
       )
       = children

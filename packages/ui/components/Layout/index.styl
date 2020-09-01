@@ -1,5 +1,18 @@
+// ----- CONFIG: $UI.Layout
+
+$this = merge({
+  bgColor: #F4F6F7
+}, $UI.Layout, true)
+
+// ----- COMPONENT
+
 .root
   height 100%
-  background-color $UI.Layout.bgColor
+  background-color $this.bgColor
   +web()
     overflow-x hidden
+
+// ----- JS EXPORTS
+
+:export
+  config: '' + $this

@@ -1,3 +1,27 @@
+// ----- CONFIG: $UI.Button
+
+$this = merge({
+  heights: {
+    xs: 2u,
+    s: 3u,
+    m: 4u,
+    l: 5u,
+    xl: 6u,
+    xxl: 7u
+  },
+  outlinedBorderWidth: 1px,
+  iconMargins: {
+    xs: .5u,
+    s: .5u,
+    m: 1u,
+    l: 1u,
+    xl: 1.5u,
+    xxl: 1.5u
+  }
+}, $UI.Button, true)
+
+// ----- COMPONENT
+
 _disabledOpacity = 0.25
 
 .root
@@ -6,3 +30,9 @@ _disabledOpacity = 0.25
 
 .label
   font-weight 500
+
+// ----- JS EXPORTS
+
+:export
+  config: '' + $this
+  colors: '' + $UI.colors

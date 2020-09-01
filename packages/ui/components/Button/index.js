@@ -5,13 +5,16 @@ import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
-import config from '../../config/rootConfig'
 import { colorToRGBA } from '../../config/helpers'
 import { StyleSheet } from 'react-native'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { colors } = config
-const { heights, outlinedBorderWidth, iconMargins } = config.Button
+const {
+  config: {
+    heights, outlinedBorderWidth, iconMargins
+  },
+  colors
+} = STYLES
 
 function Button ({
   style,

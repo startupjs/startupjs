@@ -1,3 +1,18 @@
+$UI ?= {}
+
+// -----------------------------------------
+//   CONFIGURATION. $UI.Div
+// -----------------------------------------
+
+$this = merge({
+  defaultHoverOpacity: 0.8,
+  defaultActiveOpacity: 0.5
+}, $UI.Div, true)
+
+// -----------------------------------------
+//   COMPONENT
+// -----------------------------------------
+
 _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
 
 .root
@@ -24,3 +39,11 @@ _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
 
   &.disabled
     opacity 0.5
+
+// -----------------------------------------
+//   JS EXPORTS
+// -----------------------------------------
+
+:export
+  config: '' + $this
+  shadows: '' + $UI.shadows
