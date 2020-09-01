@@ -55,6 +55,7 @@ function CheckboxInput ({
       vAlign='center'
       disabled=disabled
       onPress=onPress
+      ...props
     )
       = renderInput()
       Div.label
