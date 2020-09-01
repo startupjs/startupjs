@@ -1,16 +1,16 @@
-var dotty = require('dotty')
-var ZSchema = require('z-schema')
+let dotty = require('dotty')
+let ZSchema = require('z-schema')
 
 class Schema {
   constructor (backend, options) {
     this.backend = backend
 
-    var _options = (this.options = options || {})
+    let _options = (this.options = options || {})
 
     this.ZSchema = ZSchema
 
     if (_options.formats) {
-      for (var format in _options.formats) {
+      for (let format in _options.formats) {
         ZSchema.registerFormat(format, _options.formats[format])
       }
     }
@@ -35,7 +35,7 @@ class Schema {
     const collection = shareRequest.index || shareRequest.collection
     const docId = shareRequest.id
 
-    var rootSchema = this.schemas[collection]
+    let rootSchema = this.schemas[collection]
 
     const formatError = (err) => {
       if (!err) {
@@ -59,7 +59,7 @@ class Schema {
     const newDoc = shareRequest.snapshot.data
 
     // Root paths as we want to validate whole doc
-    var paths = []
+    let paths = []
 
     // Custom validator contexts
     try {
@@ -68,14 +68,14 @@ class Schema {
       return done(formatError(this._getError(err)))
     }
 
-    var validateCreate = (err) => {
+    let validateCreate = (err) => {
       // If there was no error from async custom validators,
       //   run sync schema validation and sync custom validators
 
       done(formatError(err || this.validate(newDoc, rootSchema, paths, contexts)))
     }
 
-    var counter = this._getCounter()
+    let counter = this._getCounter()
 
     this.runAsyncs(contexts, counter, validateCreate)
 
@@ -86,8 +86,8 @@ class Schema {
   };
 
   runAsyncs = (contexts, counter, done) => {
-    var self = this
-    var error = this._getError()
+    let self = this
+    let error = this._getError()
 
     const formatError = (err) => {
       if (!err) {
@@ -100,9 +100,9 @@ class Schema {
       return err
     }
 
-    for (var k = 0; k < contexts.length; k++) {
-      var context = contexts[k]
-      var customValidator = context.customValidator
+    for (let k = 0; k < contexts.length; k++) {
+      let context = contexts[k]
+      let customValidator = context.customValidator
 
       if (customValidator.async) {
         counter.count++
@@ -135,12 +135,12 @@ class Schema {
   };
 
   validate = (doc, rootSchema, paths, contexts) => {
-    var error = this._getError()
+    let error = this._getError()
 
     // Schema validation is here
     //   everytime we validate the whole doc, because it`s only case
     //   when z-schema returns full paths with errors
-    var valid = this.validator.validate(doc, rootSchema)
+    let valid = this.validator.validate(doc, rootSchema)
 
     // console.log({ valid, doc });
 
@@ -149,10 +149,10 @@ class Schema {
 
       // Parse path to array for each error
       for (let i = 0; i < error.errors.length; i++) {
-        var parsedError = error.errors[i]
+        let parsedError = error.errors[i]
 
-        var path = parsedError.path
-        var _paths = []
+        let path = parsedError.path
+        let _paths = []
 
         // Avoiding '#/'
         if (path.length > 2) {
@@ -164,8 +164,8 @@ class Schema {
           _paths.push(parsedError.params.property)
         }
 
-        for (var k = 0; k < paths.length; k++) {
-          var part = paths[k]
+        for (let k = 0; k < paths.length; k++) {
+          let part = paths[k]
 
           if (part[0] === '[') {
             _paths[k] = +part.slice(1, part.length - 1)
@@ -179,11 +179,11 @@ class Schema {
     // Custom validators
     if (contexts) {
       for (let i = 0; i < contexts.length; i++) {
-        var context = contexts[i]
+        let context = contexts[i]
 
         if (!context.customValidator.sync) continue
 
-        var value
+        let value
 
         if (context.paths.length) {
           value = dotty.get(doc, context.paths)
@@ -193,7 +193,7 @@ class Schema {
 
         if (!value) continue
 
-        var err = context.customValidator.sync(value, context)
+        let err = context.customValidator.sync(value, context)
 
         if (err) {
           err.paths = context.paths
@@ -209,7 +209,7 @@ class Schema {
   };
 
   getContexts = (schema, value, defaultPaths, paths) => {
-    var results = []
+    let results = []
 
     paths = paths || []
 
@@ -219,8 +219,8 @@ class Schema {
 
     if (schema.validators) {
       for (let i = 0; i < schema.validators.length; i++) {
-        var validatorName = schema.validators[i]
-        var customValidator = this.customValidators[validatorName]
+        let validatorName = schema.validators[i]
+        let customValidator = this.customValidators[validatorName]
         if (!customValidator) throw Error('Unknown validator: ' + validatorName)
         results.push({
           name: validatorName,
@@ -234,7 +234,7 @@ class Schema {
 
     if (schema.type === 'object') {
       if (value) {
-        for (var key in value) {
+        for (let key in value) {
           try {
             results = results.concat(
               this.getContexts(
@@ -257,7 +257,7 @@ class Schema {
     } else if (schema.type === 'array') {
       if (value) {
         for (let i = 0; i < value.length; i++) {
-          var passValue = value[i]
+          let passValue = value[i]
           results = results.concat(
             this.getContexts(schema.items, passValue, defaultPaths, paths.concat([i]))
           )
@@ -271,7 +271,7 @@ class Schema {
   _getSchemaForPaths = (schema, paths) => {
     if (!paths.length) return schema
 
-    var property = paths[0]
+    let property = paths[0]
 
     paths = paths.slice(1)
 
@@ -299,8 +299,8 @@ class Schema {
     }
 
     if (schema.patternProperties) {
-      for (var patternProperty in schema.patternProperties) {
-        var pattern = new RegExp(patternProperty)
+      for (let patternProperty in schema.patternProperties) {
+        let pattern = new RegExp(patternProperty)
 
         if (pattern.test(property)) {
           return schema.patternProperties[patternProperty]
@@ -330,7 +330,7 @@ class Schema {
   };
 
   _getError = (err) => {
-    var error = Error('Not valid')
+    let error = Error('Not valid')
 
     error.errors = []
 
