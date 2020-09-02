@@ -23,6 +23,8 @@ function CheckboxInput ({
   layout,
   disabled,
   onChange,
+  hoverStyle,
+  activeStyle,
   ...props
 }) {
   const _layout = useLayout(layout, label)
@@ -41,6 +43,8 @@ function CheckboxInput ({
         value=value
         disabled=disabled
         onPress=standalone ? onPress : null /* fix double opacity on input element for rows variant */
+        hoverStyle=standalone ? hoverStyle : null
+        activeStyle=standalone ? activeStyle : null
         ...props
       )
     `
@@ -55,7 +59,8 @@ function CheckboxInput ({
       vAlign='center'
       disabled=disabled
       onPress=onPress
-      ...props
+      hoverStyle=hoverStyle
+      activeStyle=activeStyle
     )
       = renderInput()
       Div.label
