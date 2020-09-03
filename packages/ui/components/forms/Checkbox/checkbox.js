@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react'
 import { Animated, Easing } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
-import config from '../../../config/rootConfig'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
 import Div from './../../Div'
-import './index.styl'
+import STYLES from './index.styl'
 
+const { colors } = STYLES
 const AnimatedView = Animated.View
 
 export default observer(function Checkbox ({
@@ -54,7 +54,7 @@ export default observer(function Checkbox ({
         styleName=[checkedStyleName]
         icon=faCheck
         size='s'
-        color=config.colors.white
+        color=colors.white
       )
       AnimatedView.checkbox-animation(
         styleName=[checkedStyleName, { animated }]

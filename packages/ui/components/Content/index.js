@@ -2,8 +2,13 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { View } from 'react-native'
-import './index.styl'
-import config from '../../config/rootConfig'
+import STYLES from './index.styl'
+
+const {
+  config: {
+    defaultWidth
+  }
+} = STYLES
 
 function Content ({
   style,
@@ -25,7 +30,7 @@ function Content ({
 Content.defaultProps = {
   padding: false,
   full: false,
-  width: config.Content.defaultWidth
+  width: defaultWidth
 }
 
 Content.propTypes = {

@@ -1,17 +1,22 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { TextInput, Platform } from 'react-native'
+import { colorToRGBA } from '../../../config/helpers'
 import Div from './../../Div'
-import config from './../../../config/rootConfig'
 import Icon from './../../Icon'
-import './index.styl'
+import STYLES from './index.styl'
+
+const {
+  config: {
+    caretColor, height, lineHeight, borderWidth
+  },
+  colors
+} = STYLES
 
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
 const IS_IOS = Platform.OS === 'ios'
-const { caretColor, height, lineHeight, borderWidth } = config.TextInput
-const { colors } = config
-const DARK_LIGHTER_COLOR = colors.darkLighter
+const DARK_LIGHTER_COLOR = colorToRGBA(colors.dark, 0.25)
 
 // TODO: Remove correction when issue will be fixed
 // https://github.com/facebook/react-native/issues/28012

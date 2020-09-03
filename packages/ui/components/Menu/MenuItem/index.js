@@ -5,11 +5,10 @@ import Div from './../../Div'
 import Link from './../../Link'
 import Icon from './../../Icon'
 import Span from './../../typography/Span'
-import config from '../../../config/rootConfig'
 import { useMenuContext } from './../menuContext'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { colors } = config
+const { colors } = STYLES
 
 function MenuItem ({
   style,

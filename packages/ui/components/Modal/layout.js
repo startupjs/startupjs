@@ -4,8 +4,9 @@ import { View, TouchableOpacity } from 'react-native'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
-import config from './../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { shadows } = STYLES
 
 function Modal ({
   style,
@@ -87,7 +88,7 @@ function Modal ({
           onPress=onBackdropPress || onDismiss
         )
       ModalElement.modal(
-        style=[isWindowLayout ? config.shadows[4] : {}, modalStyle]
+        style=[isWindowLayout ? shadows[4] : {}, modalStyle]
         styleName=[variant]
       )
         = header

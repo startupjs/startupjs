@@ -6,11 +6,10 @@ import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
-import config from '../../config/rootConfig'
 import { colorToRGBA } from '../../config/helpers'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { colors } = config
+const { colors } = STYLES
 const mainTextColor = colors.mainText
 
 function Breadcrumbs ({

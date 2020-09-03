@@ -8,47 +8,24 @@ yarn add @startupjs/ui
 ```
 
 ## Configuration
-1. Add to your `startupjs.config.js` config file `ui` configuration (pallete, colors, variables and etc).
-
-```js
-const getConfig = require('@startupjs/ui/config')
-const { u } = require('@startupjs/ui/config/helpers')
-
-module.exports = {
-  ui: getConfig({
-    // override defaults
-    blue: {
-      primary: '#4a76a8',
+1. Import UI styles in your root style file `styles/index.styl`. You can also override any default configuration here (palette, colors, variables, etc.):
+```styl
+@require('../node_modules/@startupjs/ui/styles/index.styl')
+$UI = merge($UI, {
+  colors: {
+    primary: '#4a76a8',
+    warning: '#880000'
+  },
+  Button: {
+    heights: {
+      xxl: 10u
     },
-    colors: {
-      dark: 'rgba(0, 0, 0, 0.5)'
-    },
-    MyComponent1: {
-      height: u(2)
-    },
-    MyComponent2: {
-      color: config.colors.primary,
-      padding: u(1)
-    }
-  })
-}
+    outlinedBorderWidth: 2px
+  }
+}, true)
 ```
 
-2. Add to your root style file `styles/index.styl`.
-```css
-@require '../node_modules/@startupjs/ui/styles/index.styl'
-```
-
-3. Add `@startupjs/ui` to `forceCompileModules` of your `webpack.web.config.js`:
-```js
-  const getConfig = require('startupjs/bundler').webpackWebConfig
-
-  module.exports = getConfig(undefined, {
-    forceCompileModules: ['@startupjs/ui']
-  })
-```
-
-4. Install and configure additional modules below:
+2. Install and configure additional modules below:
 
 ### Collapse
 

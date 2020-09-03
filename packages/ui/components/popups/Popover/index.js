@@ -9,8 +9,9 @@ import {
   StyleSheet
 } from 'react-native'
 import Modal from '../../Modal'
-import config from '../../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { shadows } = STYLES
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
@@ -262,7 +263,7 @@ const Popover = ({
     height: animateHeight,
     opacity: animateOpacity,
     width: animateWidth,
-    ...config.shadows[3],
+    ...shadows[3],
     ...styleWrapper
   }
 
