@@ -2,10 +2,9 @@ import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../Div'
-import config from '../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
 
-const SHADOWS = config.shadows
+const { shadows: SHADOWS } = STYLES
 
 // TODO: hover, active states
 function Card ({
@@ -42,7 +41,7 @@ Card.defaultProps = {
 Card.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  level: propTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
   variant: propTypes.oneOf(['elevated', 'outlined']),
   onPress: propTypes.func
 }

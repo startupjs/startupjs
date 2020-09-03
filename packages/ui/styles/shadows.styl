@@ -1,6 +1,6 @@
-module.exports = [
-  {},
-  {
+$UI.shadows = merge({
+  '0': {},
+  '1': {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -11,7 +11,7 @@ module.exports = [
 
     elevation: 3
   },
-  {
+  '2': {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -22,7 +22,7 @@ module.exports = [
 
     elevation: 6
   },
-  {
+  '3': {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -33,7 +33,7 @@ module.exports = [
 
     elevation: 12
   },
-  {
+  '4': {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -44,4 +44,4 @@ module.exports = [
 
     elevation: 18
   }
-]
+}, $UI.shadows, true)

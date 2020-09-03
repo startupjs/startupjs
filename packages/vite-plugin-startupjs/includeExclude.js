@@ -31,7 +31,6 @@ exports.include = [
   'parse-prop-types',
   '@startupjs/prop-types',
   '@startupjs/react-is',
-  '@startupjs/ui/config/rootConfig',
   '@startupjs/ui/config/colorToRGBA',
   '@startupjs/ui/config/helpers',
   'randomcolor',

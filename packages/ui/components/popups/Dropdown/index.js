@@ -12,16 +12,16 @@ import Drawer from '../Drawer'
 import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
-import config from '../../../config/rootConfig'
 import { u } from 'startupjs'
-import './index.styl'
+import STYLES from './index.styl'
 
+const { shadows } = STYLES
 const { UIManager } = NativeModules
 
 const DEFAULT_STYLE_WRAPPER = {
   transform: [{ translateY: 3 }],
   borderRadius: u(0.5),
-  ...config.shadows[2]
+  ...shadows[2]
 }
 
 const Dropdown = ({

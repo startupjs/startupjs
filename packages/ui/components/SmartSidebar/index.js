@@ -10,7 +10,9 @@ import { Dimensions, StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
-import config from '../../config/rootConfig'
+import STYLES from './index.styl'
+
+const { colors } = STYLES
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
 
@@ -41,8 +43,8 @@ function SmartSidebar ({
     [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
 
-  ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: config.colors[backgroundColor] || backgroundColor },
+  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: colors[backgroundColor] || backgroundColor },
     style
   ]))
 

@@ -10,8 +10,9 @@ import {
 } from 'react-native'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
-import config from '../../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { shadows } = STYLES
 
 const POSITION_STYLES = {
   left: { alignItems: 'flex-start' },
@@ -134,7 +135,7 @@ const Drawer = ({
   }
   const _styleContent = {
     transform: [{ [POSITION_NAMES[position]]: animatePosition }],
-    ...config.shadows[2],
+    ...shadows[2],
     ...styleContent
   }
 

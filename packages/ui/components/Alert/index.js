@@ -6,11 +6,10 @@ import Div from '../Div'
 import Span from '../typography/Span'
 import Row from '../Row'
 import Icon from '../Icon'
-import config from '../../config/rootConfig'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { colors } = config
+const { colors } = STYLES
 
 function Alert ({
   color,
