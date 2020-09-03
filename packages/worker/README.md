@@ -6,7 +6,7 @@
 1. In project root create folder `worker` and create `index.mjs`:
 
     ```js
-      import TaskDispatcher from '@startupjs/worker'
+      import { TaskDispatcher }  from '@startupjs/worker'
       import path from 'path'
 
       // full path to workerActions.mjs and workerInit.mjs
