@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.23.37",
+  "version": "0.23.38",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -22,9 +22,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@startupjs/docs": "^0.23.34",
-    "@startupjs/mdx": "^0.23.34",
-    "@startupjs/ui": "^0.23.34",
+    "@startupjs/docs": "^0.23.38",
+    "@startupjs/mdx": "^0.23.38",
+    "@startupjs/ui": "^0.23.38",
     "axios": "^0.19.0",
     "events": "^3.1.0",
     "nconf": "^0.10.0",
