@@ -1,18 +1,16 @@
 {
-  "name": "dm-worker",
-  "version": "4.6.3",
-  "description": "",
+  "name": "@startupjs/worker",
+  "version": "0.0.1",
+  "description": "Worker to perform specified actions",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "access": "public"
   },
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "node_modules/.bin/mocha test/*.mocha.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bluebird": "^3.7.2",
     "lodash": "^4.17.11",
