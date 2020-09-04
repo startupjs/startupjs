@@ -3,7 +3,6 @@ const css2rn = require('@startupjs/css-to-react-native-transform').default
 
 const EXPORT_REGEX = /:export\s*\{/
 
-// TODO: Fix parsing rgba() colors from stylus. For some reason they are (null)
 module.exports = function cssToReactNative (source) {
   source = escapeExport(source)
   const cssObject = css2rn(source, { parseMediaQueries: true, parsePartSelectors: true })
