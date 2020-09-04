@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ScrollView } from 'react-native'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
+import Slicer from '../Slicer'
 import propTypes from 'prop-types'
 
 const AutoSuggest = ({
@@ -11,14 +11,15 @@ const AutoSuggest = ({
   placeholder,
   popoverHeight,
   renderItem,
-  onChange
+  onChange,
+  onScrollEnd
 }) => {
   const [inputValue, setInputValue] = useState('')
   const [isFocus, setIsFocus] = useState(false)
 
   let _data = options.filter((item, index) => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
-  }).splice(0, 30)
+  })
 
   function onFocus () {
     setIsFocus(true)
@@ -60,8 +61,11 @@ const AutoSuggest = ({
           onChangeText=t=> setInputValue(t)
           value=(!isFocus && value.label) || inputValue
         )
-      ScrollView
-        Menu= renderItems
+      Slicer(
+        countVisibleElements=10
+        countNearElements=10
+        onScrollEnd=onScrollEnd
+      )= renderItems
   `
 }
 
