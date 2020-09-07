@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { View } from 'react-native'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
 import Slicer from '../Slicer'
+import Loader from '../Loader'
 import propTypes from 'prop-types'
+import './index.styl'
 
 const AutoSuggest = ({
   options,
@@ -11,7 +14,10 @@ const AutoSuggest = ({
   placeholder,
   popoverHeight,
   renderItem,
+  isLoading,
   onChange,
+  onDismiss,
+  onChangeText,
   onScrollEnd
 }) => {
   const [inputValue, setInputValue] = useState('')
@@ -29,6 +35,7 @@ const AutoSuggest = ({
     if (!_data.length) return
     setIsFocus(false)
     setInputValue('')
+    onDismiss()
   }
 
   useEffect(() => {
@@ -47,25 +54,35 @@ const AutoSuggest = ({
     `
   })
 
+  const _onChangeText = t => {
+    setInputValue(t)
+    onChangeText(t)
+  }
+
   return pug`
     Popover(
       height=popoverHeight
-      visible=(!!_data.length && isFocus)
+      visible=(isFocus && (isLoading || !!_data.length))
       positionHorizontal="right"
+      hasWidthCaption=true
       onDismiss=onBlur
     )
       Popover.Caption
         TextInput(
           placeholder=placeholder
           onFocus=onFocus
-          onChangeText=t=> setInputValue(t)
+          onChangeText=_onChangeText
           value=(!isFocus && value.label) || inputValue
         )
-      Slicer(
-        countVisibleElements=10
-        countNearElements=10
-        onScrollEnd=onScrollEnd
-      )= renderItems
+      if isLoading
+        View.loaderCase
+          Loader(size='s')
+      else
+        Slicer(
+          countVisibleElements=10
+          countNearElements=10
+          onScrollEnd=onScrollEnd
+        )= renderItems
   `
 }
 
