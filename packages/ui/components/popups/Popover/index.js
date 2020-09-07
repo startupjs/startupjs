@@ -86,8 +86,8 @@ const Popover = ({
       return
     }
 
+    setIsRender(true)
     setTimeout(() => {
-      setIsRender(true)
       refContent.current.getNode().measure((ex, ey, _width, _height, cx, cy) => {
         animateTop.setValue(getTopPosition({
           cy,
