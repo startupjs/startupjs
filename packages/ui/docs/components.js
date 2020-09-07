@@ -47,6 +47,7 @@ import RowEn from '../components/Row/Row.en.mdx'
 import RowRu from '../components/Row/Row.ru.mdx'
 import SidebarEn from '../components/Sidebar/Sidebar.en.mdx'
 import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
+import SlicerRu from '../components/Slicer/Slicer.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
@@ -219,7 +220,6 @@ export default {
         ru: PaginationRu
       }
     },
-
     Progress: {
       type: 'mdx',
       title: 'Progress',
@@ -242,8 +242,12 @@ export default {
       component: {
         en: RowEn,
         ru: RowRu
-
       }
+    },
+    Slicer: {
+      type: 'mdx',
+      title: 'Slicer',
+      component: SlicerRu
     },
     Sidebar: {
       type: 'mdx',
