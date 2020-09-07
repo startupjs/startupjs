@@ -25,6 +25,7 @@
     "Rating": "/components/Rating",
     "Row": "/components/Row",
     "Sidebar": "/components/Sidebar",
+    "Slicer": "/components/Slicer",
     "SmartSidebar": "/components/SmartSidebar",
     "Tag": "/components/Tag",
     "User": "/components/User",
