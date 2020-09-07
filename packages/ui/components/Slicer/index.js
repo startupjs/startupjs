@@ -48,11 +48,11 @@ function Slicer ({
 
     const sliceInfo = getSliceInfo()
     let paddingTop = 0
-    for (let i = 0; i < sliceInfo.start; i++) {
-      paddingTop += itemsInfo[i].size
-    }
+    let paddingBottom = 0
+    for (let i = 0; i < sliceInfo.start; i++) paddingTop += itemsInfo[i].size
+    for (let i = sliceInfo.end; i < itemsInfo.length; i++) paddingBottom += itemsInfo[i].size
 
-    setStyleView({ paddingTop })
+    setStyleView({ paddingTop, paddingBottom })
     onScroll && onScroll(e)
 
     const curPosition = e.nativeEvent.contentOffset.y + scrollHeight + 200

@@ -23,7 +23,7 @@ function Item ({
       View(onLayout=onLayout)
         = children
     `
-  })
+  }, [])
 }
 
 export default Item
