@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { ScrollView } from 'react-native'
+import { View } from 'react-native'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
+import Slicer from '../Slicer'
+import Loader from '../Loader'
 import propTypes from 'prop-types'
+import './index.styl'
 
 const AutoSuggest = ({
   options,
@@ -11,14 +14,18 @@ const AutoSuggest = ({
   placeholder,
   popoverHeight,
   renderItem,
-  onChange
+  isLoading,
+  onChange,
+  onDismiss,
+  onChangeText,
+  onScrollEnd
 }) => {
   const [inputValue, setInputValue] = useState('')
   const [isFocus, setIsFocus] = useState(false)
 
   let _data = options.filter((item, index) => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
-  }).splice(0, 30)
+  })
 
   function onFocus () {
     setIsFocus(true)
@@ -28,6 +35,7 @@ const AutoSuggest = ({
     if (!_data.length) return
     setIsFocus(false)
     setInputValue('')
+    onDismiss && onDismiss()
   }
 
   useEffect(() => {
@@ -40,28 +48,41 @@ const AutoSuggest = ({
     return pug`
       Menu.Item(
         key=index
-        onPress=()=> onChange(item)
+        onPress=()=> onChange && onChange(item)
         active=item.value === value.value
       )= item.label
     `
   })
 
+  const _onChangeText = t => {
+    setInputValue(t)
+    onChangeText && onChangeText(t)
+  }
+
   return pug`
     Popover(
       height=popoverHeight
-      visible=(!!_data.length && isFocus)
+      visible=(isFocus && (isLoading || !!_data.length))
       positionHorizontal="right"
+      hasWidthCaption=true
       onDismiss=onBlur
     )
       Popover.Caption
         TextInput(
           placeholder=placeholder
           onFocus=onFocus
-          onChangeText=t=> setInputValue(t)
+          onChangeText=_onChangeText
           value=(!isFocus && value.label) || inputValue
         )
-      ScrollView
-        Menu= renderItems
+      if isLoading
+        View.loaderCase
+          Loader(size='s')
+      else
+        Slicer(
+          countVisibleElements=10
+          countNearElements=10
+          onScrollEnd=onScrollEnd
+        )= renderItems
   `
 }
 
@@ -70,7 +91,8 @@ AutoSuggest.defaultProps = {
   placeholder: 'Select value',
   popoverHeight: 300,
   value: {},
-  renderItem: null
+  renderItem: null,
+  isLoading: false
 }
 
 AutoSuggest.propTypes = {
@@ -82,7 +104,11 @@ AutoSuggest.propTypes = {
   placeholder: propTypes.string,
   popoverHeight: propTypes.number,
   renderItem: propTypes.func,
-  onChange: propTypes.func
+  isLoading: propTypes.bool,
+  onChange: propTypes.func,
+  onDismiss: propTypes.func,
+  onChangeText: propTypes.func,
+  onScrollEnd: propTypes.func
 }
 
 export default AutoSuggest
