@@ -307,8 +307,7 @@ const Popover = ({
             pointerEvents='box-none'
             ref=refContent
             style=_styleWrapper
-          )
-            View.popoverCase= renderContent
+          )= renderContent
   `
 }
 
