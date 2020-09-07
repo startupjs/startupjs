@@ -35,7 +35,7 @@ const AutoSuggest = ({
     if (!_data.length) return
     setIsFocus(false)
     setInputValue('')
-    onDismiss()
+    onDismiss && onDismiss()
   }
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const AutoSuggest = ({
     return pug`
       Menu.Item(
         key=index
-        onPress=()=> onChange(item)
+        onPress=()=> onChange && onChange(item)
         active=item.value === value.value
       )= item.label
     `
@@ -56,7 +56,7 @@ const AutoSuggest = ({
 
   const _onChangeText = t => {
     setInputValue(t)
-    onChangeText(t)
+    onChangeText && onChangeText(t)
   }
 
   return pug`
@@ -91,7 +91,8 @@ AutoSuggest.defaultProps = {
   placeholder: 'Select value',
   popoverHeight: 300,
   value: {},
-  renderItem: null
+  renderItem: null,
+  isLoading: false
 }
 
 AutoSuggest.propTypes = {
@@ -103,7 +104,11 @@ AutoSuggest.propTypes = {
   placeholder: propTypes.string,
   popoverHeight: propTypes.number,
   renderItem: propTypes.func,
-  onChange: propTypes.func
+  isLoading: propTypes.bool,
+  onChange: propTypes.func,
+  onDismiss: propTypes.func,
+  onChangeText: propTypes.func,
+  onScrollEnd: propTypes.func
 }
 
 export default AutoSuggest
