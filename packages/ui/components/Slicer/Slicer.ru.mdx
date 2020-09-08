@@ -15,14 +15,14 @@ import { Slicer } from '@startupjs/ui'
 ```jsx example
 const data = new Array(50).fill(true).map((item, index) => index + 1)
 return (
-  <View style={{ height: '60px' }}>
+  <View style={{ height: 60 }}>
     <Slicer
       countVisibleElements={5}
       countNearElements={3}
     >
     {
       data.map((item, index)=> (
-        <View>
+        <View key={index}>
           <Text>{item}</Text>
         </View>
       ))

@@ -49,8 +49,12 @@ function Slicer ({
     const sliceInfo = getSliceInfo()
     let paddingTop = 0
     let paddingBottom = 0
-    for (let i = 0; i < sliceInfo.start; i++) paddingTop += itemsInfo[i].size
-    for (let i = sliceInfo.end; i < itemsInfo.length; i++) paddingBottom += itemsInfo[i].size
+    for (let i = 0; i < sliceInfo.start; i++) {
+      if (itemsInfo[i]) paddingTop += itemsInfo[i].size
+    }
+    for (let i = sliceInfo.end; i < itemsInfo.length; i++) {
+      if (itemsInfo[i]) paddingBottom += itemsInfo[i].size
+    }
 
     setStyleView({ paddingTop, paddingBottom })
     onScroll && onScroll(e)
@@ -74,7 +78,8 @@ function Slicer ({
     if (start === 0 && end === 0) return 0
     if (start >= end) return start
 
-    const mid = Math.floor((start + end) / 2)
+    let mid = Math.floor((start + end) / 2)
+    if (!itemsInfo[mid]) mid += 1
 
     if (itemsInfo[mid].position <= scrollPosition &&
       (!itemsInfo[mid + 1] || itemsInfo[mid + 1].position > scrollPosition)) {
