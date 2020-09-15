@@ -351,6 +351,8 @@ export default observer(function Game ({ gameId }) {
     const promises = []
 
     // batch all next mutation
+    // it will increase performance in places
+    // where player.startAt is used in markup
     batch(() => {
       playerIds.forEach(playerId => {
         const $player = $root.scope(`players.${playerId}`)
@@ -359,6 +361,7 @@ export default observer(function Game ({ gameId }) {
     })
 
     await Promise.all(promises)
+    $$players.unsubscribe()
   }
 
   return (
