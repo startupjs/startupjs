@@ -6,7 +6,7 @@ import H5 from './H5'
 import H6 from './H6'
 import Span from './Span'
 import Br from '../Br'
-import Content from '../Content'
+import Div from '../Div'
 import { Sandbox } from '@startupjs/docs'
 import './index.styl'
 
@@ -15,8 +15,7 @@ import './index.styl'
 Набор компонентов, чтобы сделать текст понятным и легко читаемым для конечного пользователя. Базовый компонент типографики - это `Span`, что означает, что все остальные компоненты используют его в различных вариациях, например заголовки.
 
 ```jsx
-import { Span } from '@startupjs/ui'
-import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
+import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
 ```
 
 ## Span (спан)
@@ -45,52 +44,56 @@ import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Content width='full'>
+  <Div>
     <Span>
-      Размер текста - m (стандартный).
+      Default (размер - m, цвет - $UI.colors.mainText)
     </Span>
     <Br />
-    <Span variant='h1'>
-      Размер текста - xxxxxl.
-    </Span>
-    <Br />
-    <Span variant='h2'>
-      Размер текста - xxxxl.
-    </Span>
-    <Br />
-    <Span variant='h3'>
-      Размер текста - xxxl.
-    </Span>
-    <Br />
-    <Span variant='h4'>
-      Размер текста - xxl.
-    </Span>
-    <Br />
-    <Span variant='h5'>
-      Размер текста - xl.
-    </Span>
-    <Br />
-    <Span variant='h6'>
-      Размер текста - l.
-    </Span>
     <Br />
     <Span variant='description'>
-      Размер текста - m.
+      Description (используйте для уменьшения значимости текста, размер - m, цвет - $UI.colors.secondaryText)
     </Span>
-  </Content>
+    <Br />
+    <Br />
+    <Span variant='h1'>
+      H1 (размер - xxxxxl, цвет - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h2'>
+      H2 (размер - xxxxl, цвет - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h3'>
+      H3 (размер - xxxl, цвет - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h4'>
+      H4 (размер - xxl, цвет - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h5'>
+      H5 (размер - xl, цвет - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h6'>
+      H6 (размер - l, цвет - $UI.colors.mainText)
+    </Span>
+  </Div>
 )
 ```
 
-
-
-
 ## Заголовки
 
-H* комопненты используются для заголовок или подзаголовков раздела или страницы.
+`H*` комопненты используются для заголовок или подзаголовков раздела или страницы. Основное отличие от компонента `Span` с свойством `variant` заключается в том, что `H*` вставляют семантические теги в DOM на вебе.
 
 ```jsx example
 return (
-  <Content>
+  <Div>
     <H1>H1 Heading</H1>
     <Br half />
     <H2>H2 Heading</H2>
@@ -102,7 +105,7 @@ return (
     <H5>H5 Heading</H5>
     <Br half />
     <H6>H6 Heading</H6>
-  </Content>
+  </Div>
 )
 ```
 
@@ -112,10 +115,10 @@ return (
 
 ```jsx example
 return (
-  <Content>
-    <Span bold size='xxl'>H4 Heading using Span</Span>
+  <Div>
+    <Span bold>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Span>
     <H4 bold>H4 Heading</H4>
-  </Content>
+  </Div>
 )
 ```
 
@@ -125,24 +128,10 @@ return (
 
 ```jsx example
 return (
-  <Content width='full'>
-    <Span italic size='xxl'>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
+  <Div>
+    <Span italic>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Span>
     <H4 italic>H4 Heading</H4>
-  </Content>
-)
-```
-
-## Малозначимый текст (только для Span)
-
-Чтобы уменьшить значимость текста, передайте компоненту свойство `description`.
-
-```jsx example
-return (
-  <Span description>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-  </Span>
+  </Div>
 )
 ```
 

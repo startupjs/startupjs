@@ -6,7 +6,7 @@ import H5 from './H5'
 import H6 from './H6'
 import Span from './Span'
 import Br from '../Br'
-import Content from '../Content'
+import Div from '../Div'
 import { Sandbox } from '@startupjs/docs'
 import './index.styl'
 
@@ -15,8 +15,7 @@ import './index.styl'
 A set of components to make text clear and easy to read to the end user. The base component of typography is `Span`, which means that all other components use it in different variations for example headers.
 
 ```jsx
-import { Span } from '@startupjs/ui'
-import { H1, H2, H3, H4, H5, H6, Content } from '@startupjs/ui'
+import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
 ```
 
 ## Span
@@ -45,49 +44,56 @@ The `variant` property means **"make text as"** and it uses `text(key)` global m
 
 ```jsx example
 return (
-  <Content width='full'>
+  <Div>
     <Span>
-      Text size - m (default).
+      Default (size - m, color - $UI.colors.mainText)
     </Span>
     <Br />
-    <Span variant='h1'>
-      Text size - xxxxxl.
-    </Span>
-    <Br />
-    <Span variant='h2'>
-      Text size - xxxxl.
-    </Span>
-    <Br />
-    <Span variant='h3'>
-      Text size - xxxl.
-    </Span>
-    <Br />
-    <Span variant='h4'>
-      Text size - xxl.
-    </Span>
-    <Br />
-    <Span variant='h5'>
-      Text size - xl.
-    </Span>
-    <Br />
-    <Span variant='h6'>
-      Text size - l.
-    </Span>
     <Br />
     <Span variant='description'>
-      Text size - m.
+      Description (use to reduce the significance of the text, size - m, color - $UI.colors.secondaryText)
     </Span>
-  </Content>
+    <Br />
+    <Br />
+    <Span variant='h1'>
+      H1 (size - xxxxxl, color - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h2'>
+      H2 (size - xxxxl, color - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h3'>
+      H3 (size - xxxl, color - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h4'>
+      H4 (size - xxl, color - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h5'>
+      H5 (size - xl, color - $UI.colors.mainText)
+    </Span>
+    <Br />
+    <Br />
+    <Span variant='h6'>
+      H6 (size - l, color - $UI.colors.mainText)
+    </Span>
+  </Div>
 )
 ```
 
 ## Headers
 
-H* components are used for heading or subheadings of a section or a page.
+`H*` components are used for heading or subheadings of a section or a page. The main difference from the `Span` component with `variant` property is that the `H*` paste semantic tags to DOM on web.
 
 ```jsx example
 return (
-  <Content>
+  <Div>
     <H1>H1 Heading</H1>
     <Br half />
     <H2>H2 Heading</H2>
@@ -99,7 +105,7 @@ return (
     <H5>H5 Heading</H5>
     <Br half />
     <H6>H6 Heading</H6>
-  </Content>
+  </Div>
 )
 ```
 
@@ -109,12 +115,10 @@ To make text bold pass the property `bold` to component.
 
 ```jsx example
 return (
-  <Content width='full'>
-    <Span bold size='xxl'>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
+  <Div>
+    <Span bold>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Span>
     <H4 bold>H4 Heading</H4>
-  </Content>
+  </Div>
 )
 ```
 
@@ -124,24 +128,10 @@ To make text italic pass the property `italic` to component.
 
 ```jsx example
 return (
-  <Content width='full'>
-    <Span italic size='xxl'>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </Span>
+  <Div>
+    <Span italic>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Span>
     <H4 italic>H4 Heading</H4>
-  </Content>
-)
-```
-
-## Insignificant text (Span only)
-
-To reduce the significance of the text pass the property `description` to component.
-
-```jsx example
-return (
-  <Span description>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-  </Span>
+  </Div>
 )
 ```
 
