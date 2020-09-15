@@ -1,0 +1,10 @@
+.DS_Store
+*.swp
+/node_modules/
+/.idea/
+Gemfile.lock
+/tmp/
+/temp/
+*.orig
+npm-debug.log
+package-lock.json
