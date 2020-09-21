@@ -20,7 +20,7 @@ function ModalContent ({
   })
 
   return pug`
-    ScrollView.root(styleName=[variant])= content
+    ScrollView.root(styleName=[variant] style=style)= content
   `
 }
 
