@@ -22,9 +22,9 @@ function ModalContent ({
 
   return pug`
     ScrollView.root(
-      styleName=[variant]
       style=style
       contentContainerStyle=contentContainerStyle
+      styleName=[variant]
     )= content
   `
 }
