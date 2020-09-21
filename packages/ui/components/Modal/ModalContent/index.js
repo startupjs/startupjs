@@ -7,6 +7,7 @@ import './index.styl'
 
 function ModalContent ({
   style,
+  contentContainerStyle,
   children,
   variant // @private
 }) {
@@ -20,7 +21,11 @@ function ModalContent ({
   })
 
   return pug`
-    ScrollView.root(styleName=[variant] style=style)= content
+    ScrollView.root(
+      styleName=[variant]
+      style=style
+      contentContainerStyle=contentContainerStyle
+    )= content
   `
 }
 
