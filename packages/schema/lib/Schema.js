@@ -28,7 +28,9 @@ class Schema {
     try {
       this.validator.compileSchema(this.schemas)
     } catch (err) {
-      err.message = 'Cannnot validate schema: ' + JSON.stringify(this.schemas, null, 2)
+      err.message =
+        'Cannnot validate schema: ' +
+        JSON.stringify(this.schemas, null, 2)
       done(err)
     }
 
@@ -47,7 +49,14 @@ class Schema {
 
     const asyncErrors = this.runAsyncs(contexts)
 
-    if (asyncErrors) done(Error('async validators throw errors:' + JSON.stringify(asyncErrors, null, 2)))
+    if (asyncErrors) {
+      done(
+        Error(
+          'async validators throw errors:' +
+          JSON.stringify(asyncErrors, null, 2)
+        )
+      )
+    }
 
     this.validate(newDoc, shareRequest, rootSchema, contexts, done)
   }
@@ -60,9 +69,10 @@ class Schema {
       const customValidator = context.customValidator
 
       if (customValidator.async) {
-        await customValidator.async.call(self, context, function (err, data) {
-          if (err) errors.push(err)
-        })
+        await customValidator.async
+          .call(self, context, function (err, data) {
+            if (err) errors.push(err)
+          })
       }
     })
     if (errors.length) return errors
@@ -77,24 +87,21 @@ class Schema {
       snapshot: { data: snapshotData }
     } = shareRequest
 
-    let _paths = {}
-
-    function flatten (deepObject = {}, prefix = '') {
-      if (prefix) prefix += '.'
-      Object.keys(deepObject).forEach(key => {
-        _paths[prefix + key] = deepObject[key]
-        if (typeof deepObject[key] === 'object' && deepObject[key] !== null && !Array.isArray(deepObject[key])) { flatten(deepObject[key], `${prefix}${key}`) }
-      })
-    }
-
-    flatten(this.schemas[collectionName].properties)
-
     this.validator.validate(snapshotData, this.schemas[collectionName])
     const _errors = this.validator.getLastErrors()
 
     if (_errors) {
-      _errors.forEach(err => { err.path = scopePath })
-      if (_errors.length) done(Error('VALIDATION_ERRORS ' + JSON.stringify(_errors, null, 2)))
+      _errors.forEach(err => {
+        err.path = err.path.split('/').join('.').replace('#', scopePath)
+      })
+      if (_errors.length) {
+        done(
+          Error(
+            'VALIDATION_ERRORS ' +
+            JSON.stringify(_errors, null, 2)
+          )
+        )
+      }
     }
 
     // Custom validators
@@ -123,7 +130,9 @@ class Schema {
       schema.validators.forEach(validatorName => {
         const customValidator = this.customValidators[validatorName]
 
-        if (!customValidator) { throw Error('Unknown validator: ' + validatorName) }
+        if (!customValidator) {
+          throw Error('Unknown validator: ' + validatorName)
+        }
 
         results.push({
           name: validatorName,
