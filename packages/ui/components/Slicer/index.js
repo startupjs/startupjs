@@ -74,16 +74,31 @@ function Slicer ({
   }
 
   const binarySeacrh = ({ start, end, scrollPosition }) => {
+    scrollPosition = parseInt(scrollPosition)
     if (!children || !children[0]) return null
     if (start === 0 && end === 0) return 0
     if (start >= end) return start
 
     let mid = Math.floor((start + end) / 2)
-    if (!itemsInfo[mid]) mid += 1
+    if (!itemsInfo[mid]) {
+      return binarySeacrh({
+        start: mid + 1,
+        end,
+        scrollPosition
+      })
+    }
 
-    if (itemsInfo[mid].position <= scrollPosition &&
-      (!itemsInfo[mid + 1] || itemsInfo[mid + 1].position > scrollPosition)) {
-      return mid
+    if (itemsInfo[mid].position <= scrollPosition) {
+      let findNextItem
+      for (let i = mid + 1; i < itemsInfo.length; i++) {
+        if (itemsInfo[i]) {
+          findNextItem = itemsInfo[i]
+          break
+        }
+      }
+      if (findNextItem.position > scrollPosition) {
+        return mid
+      }
     }
 
     if (itemsInfo[mid].position < scrollPosition) {
