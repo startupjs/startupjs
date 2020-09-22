@@ -8,6 +8,7 @@ import {
   faCheck,
   faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons'
+import './index.mdx.styl'
 
 # Alert (оповещение)
 
@@ -52,13 +53,13 @@ return (
   <Div>
     <Alert
       icon={faCheck}
-      color='success'
+      iconStyleName='icon success'
       label='Success alert icon'
     />
     <Br />
     <Alert
       icon={faExclamationTriangle}
-      color='warning'
+      iconStyleName='icon warning'
       label='Warning alert icon'
     />
   </Div>
@@ -75,7 +76,7 @@ return (
   <Div>
     {showAlert &&
       <Alert
-        color='primary'
+        iconStyleName='icon'
         label='Alert with actions'
         onClose={() => setShowAlert(false)}
       />

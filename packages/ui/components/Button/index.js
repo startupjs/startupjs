@@ -18,13 +18,13 @@ const {
 
 function Button ({
   style,
+  iconStyle,
   textStyle,
   children,
   color,
   variant,
   size,
   icon,
-  iconColor,
   iconPosition,
   textColor,
   disabled,
@@ -32,20 +32,18 @@ function Button ({
   ...props
 }) {
   if (/^#|rgb/.test(color)) console.warn('Button component: Hex color for color property is deprecated. Use style instead')
-  if (/^#|rgb/.test(iconColor)) console.warn('Button component: Hex color for iconColor property is deprecated. Use style instead')
+
   const isFlat = variant === 'flat'
   style = StyleSheet.flatten([{ color: colors[color] || color }, style])
   const _color = style.color
   const _textColor = colors[textColor] || textColor ||
-    (isFlat ? colors.white : _color)
-  const _iconColor = colors[iconColor] || iconColor ||
     (isFlat ? colors.white : _color)
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
   const rootExtraProps = {}
   const labelStyle = { color: _textColor }
-  const iconStyle = {}
+  const iconWrapperStyle = {}
 
   switch (variant) {
     case 'flat':
@@ -71,12 +69,12 @@ function Button ({
 
     switch (iconPosition) {
       case 'left':
-        iconStyle.marginRight = iconMargins[size]
-        iconStyle.marginLeft = -quarterOfHeight
+        iconWrapperStyle.marginRight = iconMargins[size]
+        iconWrapperStyle.marginLeft = -quarterOfHeight
         break
       case 'right':
-        iconStyle.marginLeft = iconMargins[size]
-        iconStyle.marginRight = -quarterOfHeight
+        iconWrapperStyle.marginLeft = iconMargins[size]
+        iconWrapperStyle.marginRight = -quarterOfHeight
         break
     }
   } else {
@@ -107,17 +105,21 @@ function Button ({
     )
       if icon
         Div.iconWrapper(
-          style=iconStyle
+          style=iconWrapperStyle
           styleName=[
             {'with-label': hasChildren},
             iconPosition
           ]
         )
-          Icon(icon=icon size=size color=_iconColor)
+          Icon.icon(
+            style=iconStyle
+            styleName=[variant]
+            icon=icon
+            size=size
+          )
       if children
         Span.label(
           style=[labelStyle, textStyle]
-          size=size
         )= children
   `
 }
@@ -140,8 +142,7 @@ Button.propTypes = {
   shape: Div.propTypes.shape,
   textColor: propTypes.string,
   icon: propTypes.object,
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  iconColor: propTypes.string
+  iconPosition: propTypes.oneOf(['left', 'right'])
 }
 
 export default observer(Button)

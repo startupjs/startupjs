@@ -14,14 +14,15 @@ const { colors } = STYLES
 function Alert ({
   color,
   icon,
-  iconColor,
+  iconStyle,
+  rootStyle,
   label,
   onClose
 }) {
   if (/^#|rgb/.test(color)) console.warn('Alert component: Hex color for color property is deprecated. Use style instead')
-  if (/^#|rgb/.test(iconColor)) console.warn('Alert component: Hex color for iconColor property is deprecated. Use style instead')
+  // if (/^#|rgb/.test(iconColor)) console.warn('Alert component: Hex color for iconColor property is deprecated. Use style instead')
   const _color = colors[color] || color
-  const _iconColor = iconColor || _color
+  // const _iconColor = iconColor || _color
   const backgroundColor = colorToRGBA(_color, 0.05)
 
   return pug`
@@ -33,7 +34,7 @@ function Alert ({
         Div.leftIconWrapper
           Icon(
             icon=icon
-            color=_iconColor
+            style=iconStyle
           )
       if label
         Span.label(style={ color: _color } numberOfLines=1)= label
@@ -41,7 +42,7 @@ function Alert ({
         Div.rightIconWrapper(onPress=onClose)
           Icon.rightIcon(
             icon=faTimes
-            color=_color
+            style=iconStyle
           )
   `
 }

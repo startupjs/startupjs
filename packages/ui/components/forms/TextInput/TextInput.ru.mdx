@@ -4,6 +4,7 @@ import Div from '../../Div'
 import Br from '../../Br'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # TextInput (текстовое поле)
 
@@ -83,7 +84,7 @@ return (
   <Div>
     <TextInput
       icon={faTimesCircle}
-      iconColor='primary'
+      iconStyleName='icon'
       label='Example icon left'
       value={valueLeft}
       onChangeText={setLeftValue}

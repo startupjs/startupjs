@@ -2,6 +2,12 @@ import { useState } from 'react'
 import Button from '../Button'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
+import {
+  faHouseUser,
+  faTable,
+  faShareAlt
+} from '@fortawesome/free-solid-svg-icons'
+import './index.mdx.styl'
 
 # Button (кнопки)
 
@@ -16,7 +22,7 @@ import { Button } from '@startupjs/ui'
 ```jsx example
 const [counter, setCounter] = useState(0)
 return (
-  <Button onPress={() => setCounter(counter + 1)}>
+  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} iconStyleName='icon'>
     Нажато {counter} раз
   </Button>
 )
