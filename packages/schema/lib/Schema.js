@@ -22,7 +22,6 @@ class Schema {
   commitHandler = (shareRequest, done) => {
     const { snapshot: { data: newDoc }, collection, opData } = shareRequest
 
-    // ???
     if (opData && opData.del) return done()
 
     try {
@@ -90,18 +89,18 @@ class Schema {
     this.validator.validate(snapshotData, this.schemas[collectionName])
     const _errors = this.validator.getLastErrors()
 
-    if (_errors) {
+    if (_errors && _errors.length) {
       _errors.forEach(err => {
         err.path = err.path.split('/').join('.').replace('#', scopePath)
+        delete err.params
       })
-      if (_errors.length) {
-        done(
-          Error(
-            'VALIDATION_ERRORS ' +
-            JSON.stringify(_errors, null, 2)
-          )
+
+      done(
+        Error(
+          'VALIDATION_ERRORS ' +
+          JSON.stringify(_errors, null, 2)
         )
-      }
+      )
     }
 
     // Custom validators
