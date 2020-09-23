@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import CustomIconExample from './CustomIconExample.svg'
 import { Sandbox } from '@startupjs/docs'
-import './index.styl'
+import './index.mdx.styl'
 
 # Icon (иконка)
 
@@ -90,6 +90,9 @@ return (
 
   &.success
     color $UI.colors.success
+
+  &.orange
+    color $UI.colors.additional0
 ```
 
 ```jsx
@@ -103,7 +106,7 @@ import {
 ```jsx example
 return (
   <Row align='around'>
-    <Icon icon={faShareAlt}/>
+    <Icon icon={faShareAlt} styleName='icon orange'/>
     <Icon icon={faHouseUser} styleName='icon primary'/>
     <Icon icon={faTable} styleName='icon success'/>
   </Row>

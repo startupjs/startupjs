@@ -6,7 +6,7 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
 import { colorToRGBA } from '../../config/helpers'
-import { StyleSheet } from 'react-native'
+// import { StyleSheet } from 'react-native'
 import STYLES from './index.styl'
 
 const {
@@ -31,13 +31,13 @@ function Button ({
   onPress,
   ...props
 }) {
-  if (/^#|rgb/.test(color)) console.warn('Button component: Hex color for color property is deprecated. Use style instead')
+  if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const isFlat = variant === 'flat'
-  style = StyleSheet.flatten([{ color: colors[color] || color }, style])
-  const _color = style.color
-  const _textColor = colors[textColor] || textColor ||
-    (isFlat ? colors.white : _color)
+
+  const _color = colors[color]
+  const _textColor = colors[textColor] || (isFlat ? colors.white : _color)
+
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
@@ -97,7 +97,7 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
-      underlayColor=_color
+      underlayColor=color
       disabled=disabled
       onPress=onPress
       ...rootExtraProps
