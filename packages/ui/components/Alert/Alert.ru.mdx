@@ -8,7 +8,6 @@ import {
   faCheck,
   faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons'
-import './index.mdx.styl'
 
 # Alert (оповещение)
 
@@ -19,27 +18,29 @@ import { Alert } from '@startupjs/ui'
 ```
 
 ## Пример
+Свойство `variant` определяет соответствующий цвет.
 
 ```jsx example
 return (
   <Div>
     <Alert
-      label='Primary color alert'
+      variant='info'
+      label='This is an info alert — check it out!'
     />
     <Br />
     <Alert
-      color='success'
-      label='Success alert'
+      variant='success'
+      label='This is an success alert — check it out!'
     />
     <Br />
     <Alert
-      color='warning'
-      label='Warning alert'
+      variant='warning'
+      label='This is an warning alert — check it out!'
     />
     <Br />
     <Alert
-      color='error'
-      label='Error alert'
+      variant='error'
+      label='This is an error alert — check it out!'
     />
   </Div>
 )
@@ -47,19 +48,20 @@ return (
 
 ## Иконки
 Свойство `icon`позволяет добавить иконку в начало компонента оповещения.
+Свойство `variant` определяет соответствующий цвет и для иконки.
 
 ```jsx example
 return (
   <Div>
     <Alert
       icon={faCheck}
-      iconStyleName='icon success'
+      variant='success'
       label='Success alert icon'
     />
     <Br />
     <Alert
       icon={faExclamationTriangle}
-      iconStyleName='icon warning'
+      variant='warning'
       label='Warning alert icon'
     />
   </Div>
@@ -76,8 +78,9 @@ return (
   <Div>
     {showAlert &&
       <Alert
-        iconStyleName='icon'
-        label='Alert with actions'
+        variant='warning'
+        icon={faExclamationTriangle}
+        label='Warning alert with actions'
         onClose={() => setShowAlert(false)}
       />
     }

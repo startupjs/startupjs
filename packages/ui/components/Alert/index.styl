@@ -2,15 +2,42 @@
   radius()
   padding 0 1u
   height 4u
+  border-color: $UI.colors.primary
+  border-width 1px
+  background-color: $UI.colors.primaryLightest
 
-.leftIconWrapper
+  &.error
+    border-color: $UI.colors.error
+    background-color: $UI.colors.errorLightest
+
+  &.warning
+    border-color: $UI.colors.warning
+    background-color: $UI.colors.warningLightest
+
+  &.success
+    border-color: $UI.colors.success
+    background-color: $UI.colors.successLightest
+
+.iconWrapper
   margin-right 1u
+
+.cancelIconWrapper
+  margin-left 1u
+
+.icon, .cancelIcon, .label
+  color: $UI.colors.primary
+
+  &.error
+    color: $UI.colors.error
+
+  &.warning
+    color: $UI.colors.warning
+
+  &.success
+    color: $UI.colors.success
 
 .label
   flex-grow 1
-
-.rightIconWrapper
-  margin-left 1u
 
 :export
   colors: $UI.colors

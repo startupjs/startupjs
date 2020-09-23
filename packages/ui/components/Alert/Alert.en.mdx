@@ -18,27 +18,29 @@ import { Alert } from '@startupjs/ui'
 ```
 
 ## Example
+The `variant` prop defines the corresponding color.
 
 ```jsx example
 return (
   <Div>
     <Alert
-      label='Primary color alert'
+      variant='info'
+      label='This is an info alert — check it out!'
     />
     <Br />
     <Alert
-      color='success'
-      label='Success alert'
+      variant='success'
+      label='This is an success alert — check it out!'
     />
     <Br />
     <Alert
-      color='warning'
-      label='Warning alert'
+      variant='warning'
+      label='This is an warning alert — check it out!'
     />
     <Br />
     <Alert
-      color='error'
-      label='Error alert'
+      variant='error'
+      label='This is an error alert — check it out!'
     />
   </Div>
 )
@@ -47,19 +49,20 @@ return (
 ## Icons
 
 The `icon` prop allows you to add an icon to the beginning of the alert component.
+The `variant` prop defines the corresponding color for the icon.
 
 ```jsx example
 return (
   <Div>
     <Alert
       icon={faCheck}
-      color='success'
+      variant='success'
       label='Success alert icon'
     />
     <Br />
     <Alert
       icon={faExclamationTriangle}
-      color='warning'
+      variant='warning'
       label='Warning alert icon'
     />
   </Div>
@@ -76,8 +79,9 @@ return (
   <Div>
     {showAlert &&
       <Alert
-        color='primary'
-        label='Alert with actions'
+        variant='warning'
+        icon={faExclamationTriangle}
+        label='Warning alert with actions'
         onClose={() => setShowAlert(false)}
       />
     }
