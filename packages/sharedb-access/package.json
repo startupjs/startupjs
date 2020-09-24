@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Sharedb access-control midleware",
   "main": "lib/index.js",
-  "type": "module",
   "scripts": {
     "test": "node_modules/.bin/mocha test/*.mocha.js"
   },

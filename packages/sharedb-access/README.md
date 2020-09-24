@@ -7,10 +7,18 @@
 
 
 ### Usage
+Add `accessControl: true` in options of your `startupjsServer`. For example:
 
 ```js
-import shareDbAccess from '@startupjs/sharedb-access'
-new shareDbAccess(backend)
+// server/index.js
+startupjsServer(
+{
+  getHead,
+  appRoutes: [
+    ...getMainRoutes()
+  ],
+  accessControl: true
+}
 ```
 
 Using `@startupjs/sharedb-access` you can control `create`, `read`, `update`, and `delete` 
@@ -25,44 +33,87 @@ rules and denied for `deny`-rules. Otherwise they should return `false`, or
 nothing at all (`undefined`).
 
 #### Create
+You can describe access rules in the model. Create `static accessControl` object in your orm model. Template of `accessControl`:
 
+```js
+static accessControl = {
+  Allow: {
+    all: bool, // it will provide access for all operations
+    Create: [asyncFunc1, asyncFunc2, asyncFunc3...],
+    Read: [asyncFunc1, asyncFunc2, asyncFunc3...],
+    Update: [asyncFunc1, asyncFunc2, asyncFunc3...],
+    Delete: [asyncFunc1, asyncFunc2, asyncFunc3...]
+  }
+  Deny: {
+    Create: [asyncFunc1, asyncFunc2, asyncFunc3...],
+    Read: [asyncFunc1, asyncFunc2, asyncFunc3...],
+    Update: [asyncFunc1, asyncFunc2, asyncFunc3...],
+    Delete: [asyncFunc1, asyncFunc2, asyncFunc3...]
+  }
+}
+```
+You can describe only those fields that are necessary.
+
+#### Operations
 ```js
 // Allow create-operation for collection 'items'
 
 // docId - id of your doc for access-control
 // doc   - document object
 // session - your connect session
-
-backend.allowCreate('items', async (docId, doc, session) => {
-  return true
-})
-
-// Deny creation if user is not admin
-backend.denyCreate('items', async (docId, doc, session) => {
-  return !session.isAdmin
-})
+static accessControl = {
+  Allow: {
+    Create: [
+      async (docId, doc, session) => {
+        return true
+      }
+    ]
+  },
+  Deny: {
+     Create: [
+      async (docId, doc, session) => {
+        return !session.isAdmin
+      }
+    ]
+  }
+}
 
 // So, finally, only admins can create docs in 'items' collection
 // the same results is if you just write:
 
-backend.allowCreate('items', async (docId, doc, session) => {
-  return session.isAdmin
-})
+static accessControl = {
+  Allow: {
+    Create: [
+      async (docId, doc, session) => {
+        return session.isAdmin
+      }
+    ]
+  }
+}
 ```
 #### Read
 
 Interface is like `create`-operation
 
 ```js
-backend.allowRead('items', async (docId, doc, session) => {
-  // Allow all operations
-  return true
-})
-
-backend.denyRead('items', async (docId, doc, session) => {
-  // But only if the reader is owner of the doc
-  return doc.ownerId !== session.userId
-})
+static accessControl = {
+  Allow: {
+    Read: [
+      async (docId, doc, session) => {
+        // Allow all operations
+        return true
+      }
+    ]
+  },
+  Deny: {
+     Read: [
+      async (docId, doc, session) => {
+        // But only if the reader is owner of the doc
+        return doc.ownerId !== session.userId
+      }
+    ]
+  }
+}
 ```
 
 #### Delete
@@ -70,15 +121,24 @@ backend.denyRead('items', async (docId, doc, session) => {
 Interface is like `create`-operation
 
 ```js
-backend.allowDelete('items', async (docId, doc, session) => {
-  // Only owners can delete docs
-  return doc.ownerId === session.userId
-})
-
-backend.denyDelete('items', async (docId, doc, session) => {
-  // But deny deletion if it's a special type of docs
-  return doc.type === 'liveForever'
-})
+static accessControl = {
+  Allow: {
+    Delete: [
+      async (docId, doc, session) => {
+        // Only owners can delete docs
+        return doc.ownerId === session.userId
+      }
+    ]
+  },
+  Deny: {
+     Delete: [
+      async (docId, doc, session) => {
+        // But deny deletion if it's a special type of docs
+        return doc.type === 'liveForever'
+      }
+    ]
+  }
+}
 ```
 
 #### Update
@@ -94,7 +154,22 @@ const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
   return true
 }
 
-backend.allowUpdate('items', allowUpdateAll);
+static accessControl = {
+  Allow: {
+    Update: [
+     allowUpdateAll
+    ]
+  }
+}
+```
+
+#### Allow Create, Read, Update, Delete
+```js
+static accessControl = {
+  Allow: {
+    all: true
+  }
+}
 ```
 
 ## MIT License 2020

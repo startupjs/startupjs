@@ -1,5 +1,5 @@
 
-export const relevantPath = (pattern, op) => {
+module.exports.relevantPath = (pattern, op) => {
   var segments = segmentsFor(op);
   var patternSegments = pattern.split('.');
 
@@ -17,7 +17,7 @@ export const relevantPath = (pattern, op) => {
   return regExp.test(segments.join('.'));
 }
 
-export const lookup = (segments, doc) => {
+module.exports.lookup = (segments, doc) => {
 
   var part, curr = doc;
   for (var i = 0; i < segments.length; i++) {
@@ -30,7 +30,7 @@ export const lookup = (segments, doc) => {
   return curr;
 }
 
-export const patternToRegExp = (pattern) => {
+module.exports.patternToRegExp = (pattern) => {
   var regExpString = pattern
     // точка нужно экранировать для регулярок
     .replace(/\./g, "\\.")
@@ -42,7 +42,7 @@ export const patternToRegExp = (pattern) => {
   return new RegExp('^'+regExpString+'$');
 }
 
-export const segmentsFor = (item) => {
+module.exports.segmentsFor = (item) => {
 
   var relativeSegments = item.p;
 
@@ -51,6 +51,6 @@ export const segmentsFor = (item) => {
   return relativeSegments.slice(0, -1);
 }
 
-export const normalPath = (item) => {
+module.exports.normalPath = (item) => {
   return 'oi' in item || 'od' in item || 'li' in item || 'ld' in item || 'na' in item;
 }

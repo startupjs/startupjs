@@ -1,7 +1,7 @@
-import { strict as assert } from 'assert'
-import { getDbs } from './db.js'
-import chai from 'chai'
-import shareDbAccess from '../lib/index.js'
+const assert = require('assert')
+const path = require('path')
+const { getDbs } = require('./db.js')
+const shareDbAccess = require('../lib/index.js')
 
 let { backend } = getDbs()
 const model = backend.createModel()

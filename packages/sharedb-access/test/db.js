@@ -1,15 +1,14 @@
-import mongoPkg from 'mongodb'
-import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
-import racer from 'racer'
-import shareDbMongo from 'sharedb-mongo'
+const MongoClient = require('mongodb').MongoClient
+const promisifyRacer = require('@startupjs/orm/lib/promisifyRacer')
+const racer = require('racer')
+const shareDbMongo = require('sharedb-mongo')
 
-const { MongoClient } = mongoPkg
 const { Model } = racer
 
 promisifyRacer()
 
 
-export const getDbs = () => {
+const getDbs = () => {
   let mongoUrl = 'mongodb://localhost:27017/accessTest'
   let mongoOpts = []
 
@@ -21,4 +20,8 @@ export const getDbs = () => {
   let backend = racer.createBackend({ db: shareMongo })
 
   return { backend, shareMongo }
+}
+
+module.exports = {
+  getDbs
 }

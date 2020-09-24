@@ -1,9 +1,6 @@
-import isFunction from 'lodash/isFunction.js'
-import cloneDeep from 'lodash/cloneDeep.js'
-import * as util from './util.js'
-import Debug from 'debug'
-
-const debug = Debug('access')
+const _ = require('lodash')
+const util = require('./util')
+const debug = require('debug')('access')
 
 // there are local extensions of error codes for error classification
 // code 403.1: Permission denied (create)
@@ -22,11 +19,31 @@ function getOrigin(agent) {
   return (agent.stream.isServer) ? 'server' : 'browser'
 }
 
+function registrationOrmRules (backend, collectionName, accessControl) {
+  operations.map( op => {
+    // Allow
+    // all - provide access for all operations
+    if (accessControl.Allow.all) {
+      backend['allow'+op](collectionName, async () => true)
+    } else if(accessControl.Allow && accessControl.Allow[op]  ) {
+      accessControl.Allow[op].map(fn => {
+        backend['allow'+op](collectionName, fn)
+      })
+    }
+    // Deny
+    if(accessControl.Deny && accessControl.Deny[op]) {
+      accessControl.Deny[op].map(fn => {
+        backend['deny'+op](collectionName, fn)
+      })
+    }
+  })
+}
+
 // Possible options:
 // dontUseOldDocs: false - if true don't save unupdated docs for update action
 // opCreatorUserIdPath - path to 'userId' for op's meta
 
-export default class ShareDBAccess {
+class ShareDBAccess {
   constructor(backend, options) {
    if (!(this instanceof ShareDBAccess)) return new ShareDBAccess(backend, options)
 
@@ -85,7 +102,10 @@ export default class ShareDBAccess {
   // ++++++++++++++++++++++++++++++++ UPDATE ++++++++++++++++++++++++++++++++++
   commitHandler (shareRequest, done){
     this.commitHandlerAsync(shareRequest)
-      .then((res) => done(res))
+      .then((res) => {
+        res && console.error(res)
+        done(res)
+      })
       .catch((err) => done(err))
   }
 
@@ -122,7 +142,10 @@ export default class ShareDBAccess {
 
   applyHandler (shareRequest, done) {
     this.applyHandlerAsync(shareRequest)
-      .then((res) => done(res))
+      .then((res) => {
+        res && console.error(res)
+        done(res)
+      })
       .catch((err) => done(err))
   }
 
@@ -168,7 +191,7 @@ export default class ShareDBAccess {
 
     // For Update
     if (!this.options.dontUseOldDocs) {
-      shareRequest.originalSnapshot = cloneDeep(snapshot)
+      shareRequest.originalSnapshot = _.cloneDeep(snapshot)
     }
 
     return
@@ -185,7 +208,9 @@ export default class ShareDBAccess {
       })
     }))
     .then(reasons => {
-      done(reasons.find(reason => reason))
+      const reason = reasons.find(reason => reason)
+      reason && console.error(reason)
+      done(reason)
     })
     .catch(err => done(err))
   }
@@ -267,8 +292,12 @@ export default class ShareDBAccess {
     return isAllowed && !isDenied
 
     async function apply(validator) {
-      if (isFunction(validator)) return await validator.apply(this, args)
+      if (_.isFunction(validator)) return await validator.apply(this, args)
       return await validator.fn.apply(this, args)
     }
   }
 }
+
+module.exports = ShareDBAccess
+module.exports.lookup = util.lookup
+module.exports.registrationOrmRules = registrationOrmRules
