@@ -120,6 +120,7 @@ function Button ({
       if children
         Span.label(
           style=[labelStyle, textStyle]
+          styleName=[size]
         )= children
   `
 }

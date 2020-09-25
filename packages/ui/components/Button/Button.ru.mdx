@@ -45,7 +45,7 @@ __Никогда__ не ставьте несколько кнопок `Приз
 </Button>
 ```
 
-## Цвета
+## Цвета и размер
 
 Цвет кнопки можно задать указав свойство `color` c именем цвета из $UI.colors.
 Default `color` = 'dark'.
@@ -53,6 +53,8 @@ Default `color` = 'dark'.
 Цвет иконки можно задать указав имя цвета из $UI.colors.
 
 Свойство `variant` отвечает за внешнее отображение кнопки(влияет на цвет иконки и текста кнопки). Default `variant` = 'outlined'.
+
+Свойство `size` применяется к размеру кнопки, иконки и тексту кнопки.
 
 В `.styl` файле
 ```stylus
@@ -67,11 +69,11 @@ return (
       Default
     </Button>
     <Br />
-    <Button color='primary' variant='flat'>
+    <Button color='primary' variant='flat' size='s'>
       Color and Variant
     </Button>
     <Br />
-    <Button color='success' iconStyleName='icon' icon={faCheck}>
+    <Button color='success' iconStyleName='icon' icon={faCheck} size='xl'>
       Button with Icon
     </Button>
   </Div>
