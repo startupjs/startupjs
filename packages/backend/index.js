@@ -3,7 +3,6 @@ const isArray = require('lodash/isArray')
 const conf = require('nconf')
 const shareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
-const allowAll = require('@startupjs/sharedb-access').allowAll
 const racerSchema = require('racer-schema')
 const shareDbHooks = require('sharedb-hooks')
 const redisPubSub = require('sharedb-redis-pubsub')
