@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import RouterComponent from './RouterComponent'
-import { withRouter, useHistory } from 'react-router-native'
+import { useLocation, useHistory } from 'react-router-native'
 import { $root, observer, useSyncEffect } from 'startupjs'
 import { Linking, Platform } from 'react-native'
 import { matchPath } from 'react-router'
@@ -11,21 +11,20 @@ const isWeb = Platform.OS === 'web'
 export default observer(function Router (props) {
   return pug`
     RouterComponent
-      AppsFactoryWithRouter(...props)
+      AppsFactory(...props)
   `
 })
 
-const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
-  location,
-  apps,
-  animate,
+const AppsFactory = observer(function AppsFactoryComponent ({
   routes,
   errorPages,
-  goToHandler
+  goToHandler,
+  ...props
 }) {
+  const location = useLocation()
   const history = useHistory()
-  const [err, setErr] = useState()
 
+  const [err, setErr] = useState()
   const app = useMemo(() => {
     return getApp(location.pathname, routes)
   }, [location.pathname])
@@ -36,19 +35,13 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
 
     return () => {
       $root.removeListener('url', goTo)
+      $root.removeListener('error', setErr)
     }
   }, [])
 
   useSyncEffect(() => {
     if (err) setErr()
   }, [location.pathname])
-
-  const Layout = app ? apps[app] : null
-
-  if (!Layout) {
-    console.error(`[@startupjs/app] Layout not found in '${app}' app`)
-    return null
-  }
 
   function goTo (url, options) {
     typeof goToHandler === 'function'
@@ -73,14 +66,28 @@ const AppsFactoryWithRouter = withRouter(observer(function AppsFactory ({
     if err
       Error(value=err pages=errorPages)
     else
-      Layout
-        Routes(
-          animate=animate
-          routes=routes
-          onRouteError=setErr
-        )
+      RenderApp(app=app routes=routes ...props)
+
   `
-}))
+})
+
+const RenderApp = observer(function RenderAppComponent ({
+  apps,
+  app,
+  ...props
+}) {
+  const Layout = app ? apps[app] : null
+
+  if (!Layout) {
+    console.error(`[@startupjs/app] Layout not found in '${app}' app`)
+    return null
+  }
+
+  return pug`
+    Layout
+      Routes(...props)
+  `
+})
 
 function getApp (url, routes) {
   const route = routes.find(route => matchPath(url, route))
