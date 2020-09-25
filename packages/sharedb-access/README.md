@@ -34,10 +34,10 @@ Template of `access`:
 
 ```js
 static access = {
-  Create: async (docId, doc, session) => { your code }
-  Read: async (docId, doc, session) => { your code },
-  Update: async (docId, doc, session) => { your code },
-  Delete: async (docId, oldDoc, newDoc, ops, session) => { your code }
+  create: async (docId, doc, session) => { your code }
+  read: async (docId, doc, session) => { your code },
+  update: async (docId, doc, session) => { your code },
+  delete: async (docId, oldDoc, newDoc, ops, session) => { your code }
 }
 ```
 You can describe only those fields that are necessary. But keep in mind that without describing
@@ -52,7 +52,7 @@ the permission rule for the operation, it is considered prohibited by default.
 // session - your connect session
 class ItemsModel {
   static access = {
-    Create: async (docId, doc, session) => {
+    create: async (docId, doc, session) => {
       return true
     }
   }
@@ -63,7 +63,7 @@ class ItemsModel {
 
 class ItemsModel {
   static access = {
-    Create: async (docId, doc, session) => { 
+    create: async (docId, doc, session) => { 
       return  session.isAdmin
     }
   }
@@ -77,7 +77,7 @@ Interface is like `create`-operation
 class ItemsModel {
   static access = {
     // Only if the reader is owner of the doc
-    Read: async (docId, doc, session) => {
+    read: async (docId, doc, session) => {
       return doc.ownerId === session.userId
     }
   }
@@ -92,7 +92,7 @@ Interface is like `create`-operation
 class ItemsModel {
   static access = {
     // Only owners can delete docs, but nobody can delete doc with special typ
-    Delete: async (docId, doc, session) => { 
+    delete: async (docId, doc, session) => { 
       return doc.ownerId === session.userId && doc.type !== 'liveForever'
     }
   }
@@ -114,7 +114,7 @@ const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
 
 class ItemsModel {
   static access = {
-    Update: allowUpdateAll
+    update: allowUpdateAll
   }
 }
 ```
@@ -123,16 +123,16 @@ class ItemsModel {
 ```js
 class ItemsModel {
   static access = {
-    Create: async (docId, doc, session) => { 
+    create: async (docId, doc, session) => { 
       return true
     },
-    Read: async (docId, doc, session) => { 
+    read: async (docId, doc, session) => { 
       return true
     },
-    Update: async (docId, doc, session) => { 
+    update: async (docId, doc, session) => { 
       return true
     },
-    Delete: async (docId, oldDoc, newDoc, ops, session) => { 
+    delete: async (docId, oldDoc, newDoc, ops, session) => { 
       return true
     }
   }

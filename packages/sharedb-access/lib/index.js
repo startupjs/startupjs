@@ -14,15 +14,27 @@ const operations = [
   'Delete',
   'Update'
 ]
+const validKeys = operations.map(el => el.charAt(0).toLowerCase() + el.slice(1))
 
 function getOrigin(agent) {
   return (agent.stream.isServer) ? 'server' : 'browser'
 }
 
+function validateKeys (obj, collectionName) {
+  Object.keys(obj).map(key => {
+    if (!validKeys.includes(key)) {
+      throw new Error(`Invalid access property ${key} in collection ${collectionName}. You need to use only 'create', 'read', 'update', 'delete' keys.`)
+    }
+  })
+}
+
 function registerOrmRules (backend, collectionName, access) {
+  // if there are extra fields, an exception is thrown
+  validateKeys(access, collectionName)
+
   operations.map(op => {
     // the user can write the first letter of the rules in any case
-    const fn = access[op] || access[op[0].toLowerCase() + op.slice(1)]
+    const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if(fn) {
       backend['allow'+op](collectionName, fn)
     }
