@@ -2,7 +2,7 @@ const isPlainObject = require('lodash/isPlainObject')
 const isArray = require('lodash/isArray')
 const conf = require('nconf')
 const shareDbAccess = require('@startupjs/sharedb-access')
-const registrationOrmRules = require('@startupjs/sharedb-access').registrationOrmRules
+const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const allowAll = require('@startupjs/sharedb-access').allowAll
 const racerSchema = require('racer-schema')
 const shareDbHooks = require('sharedb-hooks')
@@ -97,9 +97,9 @@ module.exports = async (options) => {
   ) {
     new shareDbAccess(backend, { dontUseOldDocs: true })
     for (const path in global.STARTUP_JS_ORM) {
-      const { accessControl } = global.STARTUP_JS_ORM[path].OrmEntity
-      if (accessControl) {
-        registrationOrmRules(backend, path, accessControl)
+      const { access } = global.STARTUP_JS_ORM[path].OrmEntity
+      if (access) {
+        registerOrmRules(backend, path, access)
       }
     }
     console.log('Sharedb-access is working')

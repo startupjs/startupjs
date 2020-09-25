@@ -22,72 +22,50 @@ startupjsServer(
 ```
 
 Using `@startupjs/sharedb-access` you can control `create`, `read`, `update`, and `delete` 
-database operation for every collection. You can use two types of rules: 
-`allow` and `deny`. By default all the operations are denied. So, you should
-add some rules to allow them. If at least one `allow`-rule allows the write, and
-no `deny`-rules deny the write, then the write is allowed to proceed. 
+database operation for every collection. You can define `allow` rules for each CRUD operations
+in your orm model. By default all the operations are denied.
 
-You can call `allow` and `deny`-rules as many times as you like. The functions 
-should return `true` if they think the operation should be allowed for `allow` 
-rules and denied for `deny`-rules. Otherwise they should return `false`, or 
-nothing at all (`undefined`).
+The functions should return `true` if they think the operation should be allowed for
+`allow` rules. Otherwise they should return `false`, or nothing at all (`undefined`).
 
-#### Create
-You can describe access rules in the model. Create `static accessControl` object in your orm model. Template of `accessControl`:
+#### Initialize
+You can describe access rules in the model. Create `static access` object in your orm model.
+Template of `access`:
 
 ```js
-static accessControl = {
-  Allow: {
-    all: bool, // it will provide access for all operations
-    Create: [asyncFunc1, asyncFunc2, asyncFunc3...],
-    Read: [asyncFunc1, asyncFunc2, asyncFunc3...],
-    Update: [asyncFunc1, asyncFunc2, asyncFunc3...],
-    Delete: [asyncFunc1, asyncFunc2, asyncFunc3...]
-  }
-  Deny: {
-    Create: [asyncFunc1, asyncFunc2, asyncFunc3...],
-    Read: [asyncFunc1, asyncFunc2, asyncFunc3...],
-    Update: [asyncFunc1, asyncFunc2, asyncFunc3...],
-    Delete: [asyncFunc1, asyncFunc2, asyncFunc3...]
-  }
+static access = {
+  Create: async (docId, doc, session) => { your code }
+  Read: async (docId, doc, session) => { your code },
+  Update: async (docId, doc, session) => { your code },
+  Delete: async (docId, oldDoc, newDoc, ops, session) => { your code }
 }
 ```
-You can describe only those fields that are necessary.
+You can describe only those fields that are necessary. But keep in mind that without describing
+the permission rule for the operation, it is considered prohibited by default.
 
-#### Operations
+#### Create
 ```js
 // Allow create-operation for collection 'items'
 
 // docId - id of your doc for access-control
 // doc   - document object
 // session - your connect session
-static accessControl = {
-  Allow: {
-    Create: [
-      async (docId, doc, session) => {
-        return true
-      }
-    ]
-  },
-  Deny: {
-     Create: [
-      async (docId, doc, session) => {
-        return !session.isAdmin
-      }
-    ]
+class ItemsModel {
+  static access = {
+    Create: async (docId, doc, session) => {
+      return true
+    }
   }
 }
 
-// So, finally, only admins can create docs in 'items' collection
-// the same results is if you just write:
+// For example, let only admins can create docs in 'items' collection
+// access will be:
 
-static accessControl = {
-  Allow: {
-    Create: [
-      async (docId, doc, session) => {
-        return session.isAdmin
-      }
-    ]
+class ItemsModel {
+  static access = {
+    Create: async (docId, doc, session) => { 
+      return  session.isAdmin
+    }
   }
 }
 ```
@@ -96,22 +74,12 @@ static accessControl = {
 Interface is like `create`-operation
 
 ```js
-static accessControl = {
-  Allow: {
-    Read: [
-      async (docId, doc, session) => {
-        // Allow all operations
-        return true
-      }
-    ]
-  },
-  Deny: {
-     Read: [
-      async (docId, doc, session) => {
-        // But only if the reader is owner of the doc
-        return doc.ownerId !== session.userId
-      }
-    ]
+class ItemsModel {
+  static access = {
+    // Only if the reader is owner of the doc
+    Read: async (docId, doc, session) => {
+      return doc.ownerId === session.userId
+    }
   }
 }
 ```
@@ -121,22 +89,12 @@ static accessControl = {
 Interface is like `create`-operation
 
 ```js
-static accessControl = {
-  Allow: {
-    Delete: [
-      async (docId, doc, session) => {
-        // Only owners can delete docs
-        return doc.ownerId === session.userId
-      }
-    ]
-  },
-  Deny: {
-     Delete: [
-      async (docId, doc, session) => {
-        // But deny deletion if it's a special type of docs
-        return doc.type === 'liveForever'
-      }
-    ]
+class ItemsModel {
+  static access = {
+    // Only owners can delete docs, but nobody can delete doc with special typ
+    Delete: async (docId, doc, session) => { 
+      return doc.ownerId === session.userId && doc.type !== 'liveForever'
+    }
   }
 }
 ```
@@ -154,20 +112,29 @@ const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
   return true
 }
 
-static accessControl = {
-  Allow: {
-    Update: [
-     allowUpdateAll
-    ]
+class ItemsModel {
+  static access = {
+    Update: allowUpdateAll
   }
 }
 ```
 
 #### Allow Create, Read, Update, Delete
 ```js
-static accessControl = {
-  Allow: {
-    all: true
+class ItemsModel {
+  static access = {
+    Create: async (docId, doc, session) => { 
+      return true
+    },
+    Read: async (docId, doc, session) => { 
+      return true
+    },
+    Update: async (docId, doc, session) => { 
+      return true
+    },
+    Delete: async (docId, oldDoc, newDoc, ops, session) => { 
+      return true
+    }
   }
 }
 ```

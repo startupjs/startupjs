@@ -19,22 +19,12 @@ function getOrigin(agent) {
   return (agent.stream.isServer) ? 'server' : 'browser'
 }
 
-function registrationOrmRules (backend, collectionName, accessControl) {
-  operations.map( op => {
-    // Allow
-    // all - provide access for all operations
-    if (accessControl.Allow.all) {
-      backend['allow'+op](collectionName, async () => true)
-    } else if(accessControl.Allow && accessControl.Allow[op]  ) {
-      accessControl.Allow[op].map(fn => {
-        backend['allow'+op](collectionName, fn)
-      })
-    }
-    // Deny
-    if(accessControl.Deny && accessControl.Deny[op]) {
-      accessControl.Deny[op].map(fn => {
-        backend['deny'+op](collectionName, fn)
-      })
+function registerOrmRules (backend, collectionName, access) {
+  operations.map(op => {
+    // the user can write the first letter of the rules in any case
+    const fn = access[op] || access[op[0].toLowerCase() + op.slice(1)]
+    if(fn) {
+      backend['allow'+op](collectionName, fn)
     }
   })
 }
@@ -300,4 +290,4 @@ class ShareDBAccess {
 
 module.exports = ShareDBAccess
 module.exports.lookup = util.lookup
-module.exports.registrationOrmRules = registrationOrmRules
+module.exports.registerOrmRules = registerOrmRules
