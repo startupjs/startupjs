@@ -23,7 +23,7 @@ function Progress ({
         //- To normalize value pass value=Math.min(value, 100)
         Filler(style=extraStyle value=value)
       if typeof children === 'string'
-        Span.label(size='s' description)= children
+        Span.label(description)= children
       else
         = children
   `

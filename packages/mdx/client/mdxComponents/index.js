@@ -6,7 +6,7 @@ import Code from '../Code'
 
 function P ({ children }) {
   return pug`
-    Span.p(size='l')= children
+    Span.paragraph= children
   `
 }
 
@@ -29,10 +29,10 @@ export default {
   `,
   p: P,
   strong: ({ children }) => pug`
-    Span.p(size='l' bold)= children
+    Span.p(bold)= children
   `,
   em: ({ children }) => pug`
-    Span.p(size='l' italic)= children
+    Span.p(italic)= children
   `,
   pre: ({ children }) => children,
   code: ({ children, className }) => {
@@ -43,15 +43,14 @@ export default {
     `
   },
   inlineCode: ({ children }) => pug`
-    Span(size='l').inlineCode
-      Span(size='l')= ' '
-      Span(
-        size='l'
+    Span.inlineCode
+      Span.space= ' '
+      Span.t(
         style={
           fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
         }
       )= children
-      Span(size='l')= ' '
+      Span.space= ' '
   `,
   hr: ({ children }) => pug`
     Divider(size='l')
@@ -75,7 +74,7 @@ export default {
     })
     return pug`
       Row
-        Span.listIndex(size='l')= index == null ? '-' : index + 1 + '.'
+        Span.listIndex= index == null ? '-' : index + 1 + '.'
         Div.listContent
           if hasTextChild
             P(size='l')= children

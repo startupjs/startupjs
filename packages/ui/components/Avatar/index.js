@@ -40,7 +40,7 @@ function Avatar ({
               seed: _fallback
             })}
           )
-            Span.fallback(size=size bold)
+            Span.fallback(styleName=[size] bold)
               = initials
       if status
         Div.status(styleName=[size, status, shape])

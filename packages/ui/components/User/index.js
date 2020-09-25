@@ -49,15 +49,13 @@ function User ({
       )= name
       View.userInfo
         Span.name(
-          styleName=[avatarPosition]
+          styleName=[nameSizes[size], avatarPosition]
           bold
-          size=nameSizes[size]
           numberOfLines=1
         )= name
         if description
           Span.description(
-            size=descriptionSizes[size]
-            styleName=[avatarPosition]
+            styleName=[descriptionSizes[size], avatarPosition]
             description
           )= description
   `

@@ -44,7 +44,10 @@ function Pagination (props) {
               disabled=disabled
               ...itemProps
             )
-              Icon(icon=ICONS[type] color=disabled ? 'darkLighter' : 'dark')
+              Icon.icon(
+                styleName={disabled}
+                icon=ICONS[type]
+              )
           else if ~type.indexOf('ellipsis')
             Div.item
               Span ...
