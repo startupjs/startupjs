@@ -32,11 +32,8 @@ module.exports.lookup = (segments, doc) => {
 
 module.exports.patternToRegExp = (pattern) => {
   var regExpString = pattern
-    // точка нужно экранировать для регулярок
     .replace(/\./g, "\\.")
-    // ** включает роуты с . например collection/name.index
     .replace(/\*\*/g, "(.+)")
-    // * исключает пути после точки collection/name
     .replace(/\*/g, "([^.]+)");
 
   return new RegExp('^'+regExpString+'$');
