@@ -52,7 +52,7 @@ describe('CREATE', function () {
       return true
     })
 
-    const res = await checkPromise(() => model.add('tasksCreate', { type: 'testCreate' }))
+    const res = await checkPromise()
     assert.equal(res, true)
   })
 
@@ -64,7 +64,7 @@ describe('CREATE', function () {
       return false
     })
 
-    const res = await checkPromise(() => model.add('tasksCreate', { type: 'testCreate' }))
+    const res = await checkPromise()
     assert.equal(res.code, 403.1)
   })
 
@@ -76,7 +76,7 @@ describe('CREATE', function () {
       return true
     })
     
-    const res = await checkPromise(() => model.add('tasksCreate', { type: 'testCreate' }))
+    const res = await checkPromise()
     assert.equal(res.code, 403.1)
   })
 })
