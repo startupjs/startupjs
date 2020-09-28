@@ -14,6 +14,9 @@ let shareDBAccess = new shareDbAccess(backend)
 let id
 
 // we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
+// because eventHandler emit event 'error' from sharedb
+// here trigger got error: https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L196
+// and than appear emit('error') https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L91
 const checkPromise = (number) => {
   return new Promise((resolve, reject) => {
     model.on('error', (error) => {
