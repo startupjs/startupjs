@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.23.44",
+  "version": "0.23.45",
   "description": "Worker to perform specified actions",
   "publishConfig": {
     "access": "public"

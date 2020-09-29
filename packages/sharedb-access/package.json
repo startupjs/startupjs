@@ -1,7 +1,10 @@
 {
   "name": "@startupjs/sharedb-access",
-  "version": "0.0.1",
+  "version": "0.23.45",
   "description": "Sharedb access-control midleware",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha test/*.mocha.js"
@@ -14,7 +17,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@startupjs/orm": "^0.23.32",
+    "@startupjs/orm": "^0.23.45",
     "chai": "^4.2.0",
     "debug": "*",
     "lodash": "*",
