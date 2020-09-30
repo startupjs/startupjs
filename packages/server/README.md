@@ -25,10 +25,6 @@ const getHead = appName => `
 
 ## @startupjs/sharedb-access connection
 
-### Installation
-`yarn add @startupjs/sharedb-access`
-
-
 ### Usage
 Add `accessControl: true` in options of your `startupjsServer`. For example:
 
