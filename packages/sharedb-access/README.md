@@ -5,83 +5,71 @@
 - Install npm: `npm install @startupjs/sharedb-access`
 - Install yarn: `yarn add @startupjs/sharedb-access`
 
-
 ### Usage
-Add `accessControl: true` in options of your `startupjsServer`. For example:
 
 ```js
-// server/index.js
-startupjsServer(
-{
-  getHead,
-  appRoutes: [
-    ...getMainRoutes()
-  ],
-  accessControl: true
-}
+const shareDbAccess = require('sharedb-access')
+new shareDbAccess(backend[, options])
 ```
 
-Using `@startupjs/sharedb-access` you can control `create`, `read`, `update`, and `delete` 
-database operation for every collection. You can define `allow` rules for each CRUD operations
-in your orm model. By default all the operations are denied.
+## Parameters
 
-The functions should return `true` if they think the operation should be allowed for
-`allow` rules. Otherwise they should return `false`, or nothing at all (`undefined`).
+* `backend` - your ShareDB backend instance
+* `options`(optional) - object with options:
+  * `options.dontUseOldDocs`: false - if true don't save unupdated docs for update action
+  * `options.opCreatorUserIdPath` - path to 'userId' for op's meta
 
-#### Initialize
-You can describe access rules in the model. Create `static access` object in your orm model.
-Template of `access`:
 
-```js
-static access = {
-  create: async (docId, doc, session) => { your code }
-  read: async (docId, doc, session) => { your code },
-  update: async (docId, doc, session) => { your code },
-  delete: async (docId, oldDoc, newDoc, ops, session) => { your code }
-}
-```
-You can describe only those fields that are necessary. But keep in mind that without describing
-the permission rule for the operation, it is considered prohibited by default.
+Using `sharedb-access` you can control `create`, `read`, `update`, and `delete` 
+database operation for every collection. You can use two types of rules: 
+`allow` and `deny`. By default all the operations are denied. So, you should
+add some rules to allow them. If at least one `allow`-rule allows the write, and
+no `deny`-rules deny the write, then the write is allowed to proceed. 
+
+You can call `allow` and `deny`-rules as many times as you like. The functions 
+should return `true` if they think the operation should be allowed for `allow` 
+rules and denied for `deny`-rules. Otherwise they should return `false`, or 
+nothing at all (`undefined`).
 
 #### Create
+
 ```js
 // Allow create-operation for collection 'items'
 
 // docId - id of your doc for access-control
 // doc   - document object
 // session - your connect session
-class ItemsModel {
-  static access = {
-    create: async (docId, doc, session) => {
-      return true
-    }
-  }
-}
 
-// For example, let only admins can create docs in 'items' collection
-// access will be:
+backend.allowCreate('items', async (docId, doc, session) => {
+  return true
+})
 
-class ItemsModel {
-  static access = {
-    create: async (docId, doc, session) => { 
-      return  session.isAdmin
-    }
-  }
-}
+// Deny creation if user is not admin
+backend.denyCreate('items', async (docId, doc, session) => {
+  return !session.isAdmin
+})
+
+// So, finally, only admins can create docs in 'items' collection
+// the same results is if you just write:
+
+backend.allowCreate('items', async (docId, doc, session) => {
+  return session.isAdmin
+})
 ```
 #### Read
 
 Interface is like `create`-operation
 
 ```js
-class ItemsModel {
-  static access = {
-    // Only if the reader is owner of the doc
-    read: async (docId, doc, session) => {
-      return doc.ownerId === session.userId
-    }
-  }
-}
+backend.allowRead('items', async (docId, doc, session) => {
+  // Allow all operations
+  return true
+})
+
+backend.denyRead('items', async (docId, doc, session) => {
+  // But only if the reader is owner of the doc
+  return doc.ownerId !== session.userId
+})
 ```
 
 #### Delete
@@ -89,14 +77,15 @@ class ItemsModel {
 Interface is like `create`-operation
 
 ```js
-class ItemsModel {
-  static access = {
-    // Only owners can delete docs, but nobody can delete doc with special typ
-    delete: async (docId, doc, session) => { 
-      return doc.ownerId === session.userId && doc.type !== 'liveForever'
-    }
-  }
-}
+backend.allowDelete('items', async (docId, doc, session) => {
+  // Only owners can delete docs
+  return doc.ownerId === session.userId
+})
+
+backend.denyDelete('items', async (docId, doc, session) => {
+  // But deny deletion if it's a special type of docs
+  return doc.type === 'liveForever'
+})
 ```
 
 #### Update
@@ -112,31 +101,7 @@ const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
   return true
 }
 
-class ItemsModel {
-  static access = {
-    update: allowUpdateAll
-  }
-}
-```
-
-#### Allow Create, Read, Update, Delete
-```js
-class ItemsModel {
-  static access = {
-    create: async (docId, doc, session) => { 
-      return true
-    },
-    read: async (docId, doc, session) => { 
-      return true
-    },
-    update: async (docId, doc, session) => { 
-      return true
-    },
-    delete: async (docId, oldDoc, newDoc, ops, session) => { 
-      return true
-    }
-  }
-}
+backend.allowUpdate('items', allowUpdateAll);
 ```
 
 ## MIT License 2020
