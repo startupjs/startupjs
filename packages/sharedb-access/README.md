@@ -12,7 +12,7 @@ const shareDbAccess = require('sharedb-access')
 new shareDbAccess(backend[, options])
 ```
 
-## Parameters
+### Parameters
 
 * `backend` - your ShareDB backend instance
 * `options`(optional) - object with options:
