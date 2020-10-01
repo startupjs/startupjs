@@ -167,6 +167,94 @@ class ItemsModel {
 }
 ```
 
+
+## @startupjs/sharedb-schema connection
+
+## Usage
+
+1. in `server/index.js` add `validateSchema: true` to `startupjsServer()` options
+2. Go to one of your ORM document entities (for example, `UserModel`, which targets `users.*`) and add a static method `schema`:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class UserModel extends BaseModel {
+  static schema = {
+    title: 'Example Schema',
+    type: 'object',
+    properties: {
+      nickname: {
+        type: 'string',
+        format: 'xstring', // custom format
+        minLength: 1,
+        maxLength: 10,
+      },
+      email: {
+        type: 'string',
+        format: 'email',
+      },
+      age: {
+        description: 'Age in years',
+        type: 'integer',
+        minimum: 0,
+      },
+      roleId: {
+        type: 'string',
+        collection: 'roles', // additional field for 'join' custom validator
+        validators: ['join'], // custom validators
+      },
+      hobbies: {
+        type: 'array',
+        maxItems: 3,
+        items: {
+          type: 'string',
+        },
+        uniqueItems: true,
+      },
+    },
+    required: ['email'],
+    // Custom validators
+    validators: {
+      // join - is working example of custom validator. It ensures that value is id of doc of specific collection
+      join: {
+        async: function (context, done) {
+          var id = context.value // here is value for this op
+          if (!id) return done()
+          var collection = context.schema.collection // context.schema - is schema of current property
+          var model = this.store.createModel()
+          var $entity = model.at(collection + '.' + id)
+          model.fetch($entity, function (err) {
+            if (err) return done(err)
+            if (!$entity.get()) {
+              return done(Error('No ' + collection + ' with id ' + id))
+            }
+            done()
+          })
+        },
+      },
+      // this is example of custom validator, that preloads data and uses it later
+      preload: {
+        async: function (context, done) {
+          var model = this.store.createModel() // that`s how to get model
+          var $someData = model.at('some.path')
+          model.fetch($someData, function (err) {
+            if (err) return done(err)
+            var data = $someData.get()
+            done(null, data) // pass data as second parameter
+          })
+        },
+        sync: function (value, context) {
+          var data = context.data // preloaded data is here
+
+          return true || false
+        },
+      },
+    },
+  }
+}
+
+```
+
 ## MIT Licence
 
 Copyright (c) 2016 Pavel Zhukov
