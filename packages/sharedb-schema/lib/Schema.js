@@ -1,26 +1,19 @@
-import ZSchema from 'z-schema'
+const ZSchema = require('z-schema')
 
 class Schema {
   constructor (backend, options = {}) {
-    if (!options.schemas) throw new Error('Schemas are required in options')
+    if (!options) throw new Error('Schemas are required in options')
 
-    const { schemas, validators = {} } = options
-
-    this.options = options
-    this.schemas = schemas
-    this.customValidators = validators
+    this.schemas = options
     this.validator = new ZSchema()
-
-    // register formats
-    if (options.formats) {
-      for (let format in options.formats) {
-        ZSchema.registerFormat(format, options.formats[format])
-      }
-    }
   }
 
   commitHandler = (shareRequest, done) => {
-    const { snapshot: { data: newDoc }, collection, opData } = shareRequest
+    const {
+      snapshot: { data: newDoc },
+      collection,
+      opData
+    } = shareRequest
 
     if (opData && opData.del) return done()
 
@@ -28,19 +21,14 @@ class Schema {
       this.validator.compileSchema(this.schemas)
     } catch (err) {
       err.message =
-        'Cannnot validate schema: ' +
-        JSON.stringify(this.schemas, null, 2)
+        'Cannnot validate schema: ' + JSON.stringify(this.schemas, null, 2)
       done(err)
     }
 
     const rootSchema = this.schemas[collection]
 
     if (!rootSchema) {
-      // throw error if current collenction have no schema
-      // error can be skiped if you add skipNonExisting flag to your options
-      if (this.options.skipNonExisting) return done()
-
-      return done(Error(`No schema for collection: ${collection}`))
+      return done(/* Error(`No schema for collection: ${collection}` ) */)
     }
 
     // Custom validator and complex objects contexts
@@ -52,7 +40,7 @@ class Schema {
       done(
         Error(
           'async validators throw errors:' +
-          JSON.stringify(asyncErrors, null, 2)
+            JSON.stringify(asyncErrors, null, 2)
         )
       )
     }
@@ -60,7 +48,7 @@ class Schema {
     this.validate(newDoc, shareRequest, rootSchema, contexts, done)
   }
 
-  runAsyncs = (contexts) => {
+  runAsyncs = contexts => {
     const self = this
     const errors = []
 
@@ -68,10 +56,9 @@ class Schema {
       const customValidator = context.customValidator
 
       if (customValidator.async) {
-        await customValidator.async
-          .call(self, context, function (err, data) {
-            if (err) errors.push(err)
-          })
+        await customValidator.async.call(self, context, function (err, data) {
+          if (err) errors.push(err)
+        })
       }
     })
     if (errors.length) return errors
@@ -95,12 +82,7 @@ class Schema {
         delete err.params
       })
 
-      done(
-        Error(
-          'VALIDATION_ERRORS ' +
-          JSON.stringify(_errors, null, 2)
-        )
-      )
+      done(Error('VALIDATION_ERRORS ' + JSON.stringify(_errors, null, 2)))
     }
 
     // Custom validators
@@ -125,9 +107,13 @@ class Schema {
       return results
     }
 
-    if (schema.validators) {
-      schema.validators.forEach(validatorName => {
-        const customValidator = this.customValidators[validatorName]
+    console.log(schema)
+
+    const validatorNames = schema.validators && Object.keys(schema.validators)
+
+    if (validatorNames && validatorNames.length) {
+      validatorNames.forEach(validatorName => {
+        const customValidator = schema.validators[validatorName]
 
         if (!customValidator) {
           throw Error('Unknown validator: ' + validatorName)
@@ -146,4 +132,4 @@ class Schema {
   }
 }
 
-export default Schema
+module.exports = Schema
