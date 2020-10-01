@@ -2,7 +2,7 @@ const isPlainObject = require('lodash/isPlainObject')
 const isArray = require('lodash/isArray')
 const conf = require('nconf')
 const shareDbAccess = require('sharedb-access')
-const racerSchema = require('racer-schema')
+const sharedbSchema = require('@startupjs/sharedb-schema')
 const shareDbHooks = require('sharedb-hooks')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
@@ -100,17 +100,17 @@ module.exports = async (options) => {
     global.STARTUP_JS_ORM &&
     Object.keys(global.STARTUP_JS_ORM).length > 0
   ) {
-    const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
+    const schemaPerCollection = {}
 
     for (const path in global.STARTUP_JS_ORM) {
       const { schema } = global.STARTUP_JS_ORM[path].OrmEntity
 
       if (schema) {
-        schemaPerCollection.schemas[path.replace('.*', '')] = schema
+        schemaPerCollection[path.replace('.*', '')] = schema
       }
     }
 
-    racerSchema(backend, schemaPerCollection)
+    sharedbSchema(backend, schemaPerCollection)
   }
 
   if (options.hooks != null) {
