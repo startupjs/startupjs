@@ -107,8 +107,6 @@ class Schema {
       return results
     }
 
-    console.log(schema)
-
     const validatorNames = schema.validators && Object.keys(schema.validators)
 
     if (validatorNames && validatorNames.length) {
