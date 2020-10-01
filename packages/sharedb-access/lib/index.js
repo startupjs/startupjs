@@ -16,7 +16,7 @@ const operations = [
 ]
 const validKeys = operations.map(el => el.charAt(0).toLowerCase() + el.slice(1))
 
-function getOrigin(agent) {
+function getOrigin (agent) {
   return (agent.stream.isServer) ? 'server' : 'browser'
 }
 
@@ -35,8 +35,8 @@ function registerOrmRules (backend, collectionName, access) {
   operations.map(op => {
     // the user can write the first letter of the rules in any case
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
-    if(fn) {
-      backend['allow'+op](collectionName, fn)
+    if (fn) {
+      backend['allow' + op](collectionName, fn)
     }
   })
 }
@@ -46,8 +46,8 @@ function registerOrmRules (backend, collectionName, access) {
 // opCreatorUserIdPath - path to 'userId' for op's meta
 
 class ShareDBAccess {
-  constructor(backend, options) {
-   if (!(this instanceof ShareDBAccess)) return new ShareDBAccess(backend, options)
+  constructor (backend, options) {
+    if (!(this instanceof ShareDBAccess)) return new ShareDBAccess(backend, options)
 
     this.options = options || {}
     this.allow = {}
@@ -60,17 +60,17 @@ class ShareDBAccess {
     this.initBackend(backend)
   }
 
-  initBackend(backend) {
+  initBackend (backend) {
     const allow = this.allow
     const deny = this.deny
 
-    function registerAllowHandler(op){
+    function registerAllowHandler (op) {
       if (backend['allow' + op]) return
 
       backend['allow' + op] = function (collection, fn) {
-        if(collection.indexOf('*') > -1) {
+        if (collection.indexOf('*') > -1) {
           allow[op]['**'] = allow[op]['**'] || []
-          allow[op]['**'].push({fn: fn, pattern: collection})
+          allow[op]['**'].push({ fn: fn, pattern: collection })
         } else {
           allow[op][collection] = allow[op][collection] || []
           allow[op][collection].push(fn)
@@ -78,13 +78,13 @@ class ShareDBAccess {
       }
     }
 
-    function registerDenyHandler(op){
+    function registerDenyHandler (op) {
       if (backend['deny' + op]) return
 
       backend['deny' + op] = function (collection, fn) {
-        if(collection.indexOf('*') > -1) {
+        if (collection.indexOf('*') > -1) {
           deny[op]['**'] = deny[op]['**'] || []
-          deny[op]['**'].push({fn: fn, pattern: collection})
+          deny[op]['**'].push({ fn: fn, pattern: collection })
         } else {
           deny[op][collection] = deny[op][collection] || []
           deny[op][collection].push(fn)
@@ -93,7 +93,7 @@ class ShareDBAccess {
     }
 
     // Export functions
-    operations.forEach(function(op){
+    operations.forEach(function (op) {
       allow[op] = allow[op] || {}
       deny[op] = deny[op] || {}
       registerAllowHandler(op)
@@ -102,7 +102,7 @@ class ShareDBAccess {
   }
 
   // ++++++++++++++++++++++++++++++++ UPDATE ++++++++++++++++++++++++++++++++++
-  commitHandler (shareRequest, done){
+  commitHandler (shareRequest, done) {
     this.commitHandlerAsync(shareRequest)
       .then((res) => {
         res && console.error(res)
@@ -139,7 +139,7 @@ class ShareDBAccess {
 
     if (ok) return
 
-    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: '+ docId, code: 403.3 }
+    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId, code: 403.3 }
   }
 
   applyHandler (shareRequest, done) {
@@ -168,8 +168,7 @@ class ShareDBAccess {
     const snapshot = shareRequest.snapshot
 
     // ++++++++++++++++++++++++++++++++ CREATE ++++++++++++++++++++++++++++++++++
-    if (opData.create){
-
+    if (opData.create) {
       const doc = opData.create.data
 
       const ok = await this.check('Create', collection, [docId, doc, session, shareRequest])
@@ -177,7 +176,7 @@ class ShareDBAccess {
 
       if (ok) return
 
-      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: '+ docId, code: 403.1 }
+      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId, code: 403.1 }
     }
 
     // ++++++++++++++++++++++++++++++++ DELETE ++++++++++++++++++++++++++++++++++
@@ -188,18 +187,16 @@ class ShareDBAccess {
       debug('delete', ok, collection, docId, doc)
       if (ok) return
 
-      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: '+ docId, code: 403.4 }
+      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId, code: 403.4 }
     }
 
     // For Update
     if (!this.options.dontUseOldDocs) {
       shareRequest.originalSnapshot = _.cloneDeep(snapshot)
     }
-
-    return
   }
 
-  readSnapshotsHandler (shareRequest, done){
+  readSnapshotsHandler (shareRequest, done) {
     Promise.all(shareRequest.snapshots.map(snapshot => {
       return this.docHandlerAsync({
         index: shareRequest.index,
@@ -209,19 +206,19 @@ class ShareDBAccess {
         agent: shareRequest.agent
       })
     }))
-    .then(reasons => {
-      const reason = reasons.find(reason => reason)
-      reason && console.error(reason)
-      done(reason)
-    })
-    .catch(err => done(err))
+      .then(reasons => {
+        const reason = reasons.find(reason => reason)
+        reason && console.error(reason)
+        done(reason)
+      })
+      .catch(err => done(err))
   }
 
-  async docHandlerAsync (shareRequest){
+  async docHandlerAsync (shareRequest) {
     // ++++++++++++++++++++++++++++++++ READ ++++++++++++++++++++++++++++++++++
 
     const stream = shareRequest.agent.stream || {}
-  
+
     if (stream.isServer && !stream.checkServerAccess) return
 
     const collection = shareRequest.index || shareRequest.collection
@@ -237,10 +234,10 @@ class ShareDBAccess {
 
     if (ok) return
 
-    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: '+ docId, code: 403.2 }
+    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403.2 }
   }
 
-  async check (operation, collection, args){
+  async check (operation, collection, args) {
     const allow = this.allow
     const deny = this.deny
 
@@ -259,13 +256,13 @@ class ShareDBAccess {
 
     let isAllowed = false
 
-    for(let i = 0, len = allowPatterns.length; i < len; i++) {
+    for (let i = 0, len = allowPatterns.length; i < len; i++) {
       const pattern = allowPatterns[i].pattern
 
       const regExp = util.patternToRegExp(pattern)
 
-      if(regExp.test(collection)) isAllowed = await apply(allowPatterns[i])
-      
+      if (regExp.test(collection)) isAllowed = await apply(allowPatterns[i])
+
       if (isAllowed) break
     }
 
@@ -276,12 +273,12 @@ class ShareDBAccess {
 
     let isDenied = false
 
-    for(let i = 0, len = denyPatterns.length; i < len; i++) {
+    for (let i = 0, len = denyPatterns.length; i < len; i++) {
       const pattern = denyPatterns[i].pattern
 
       const regExp = util.patternToRegExp(pattern)
 
-      if(regExp.test(collection)) isDenied = await apply(denyPatterns[i])
+      if (regExp.test(collection)) isDenied = await apply(denyPatterns[i])
 
       if (isDenied) break
     }
@@ -293,7 +290,7 @@ class ShareDBAccess {
 
     return isAllowed && !isDenied
 
-    async function apply(validator) {
+    async function apply (validator) {
       if (_.isFunction(validator)) return await validator.apply(this, args)
       return await validator.fn.apply(this, args)
     }

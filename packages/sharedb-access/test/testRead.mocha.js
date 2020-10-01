@@ -30,7 +30,6 @@ const checkPromise = () => {
 }
 
 describe('READ', function () {
-
   before(async () => {
     backend.allowCreate('tasksRead', async (docId, doc, session) => {
       return true
@@ -52,10 +51,9 @@ describe('READ', function () {
     backend.allowRead('tasksRead', async (docId, doc, session) => {
       return false
     })
-    
+
     const res = await checkPromise()
     assert.equal(res.code, 403.2)
-    
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -65,7 +63,7 @@ describe('READ', function () {
     backend.allowRead('tasksRead', async (docId, doc, session) => {
       return true
     })
-    
+
     const res = await checkPromise()
     assert.equal(res, true)
   })
