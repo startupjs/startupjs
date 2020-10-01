@@ -3,8 +3,9 @@ import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'start
 import { ScrollView, StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
-import config from '../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { colors } = STYLES
 
 function DrawerSidebar ({
   style,
@@ -32,8 +33,8 @@ function DrawerSidebar ({
     [, $open] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
   }
 
-  ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: config.colors[backgroundColor] || backgroundColor },
+  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: colors[backgroundColor] || backgroundColor },
     style
   ]))
 

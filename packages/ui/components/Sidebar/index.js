@@ -9,8 +9,9 @@ import {
 import { ScrollView, Animated, StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import Div from '../Div'
-import config from '../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { colors } = STYLES
 
 function Sidebar ({
   style,
@@ -39,8 +40,8 @@ function Sidebar ({
   }
 
   // DEPRECATED: Remove backgroundColor
-  ;({ backgroundColor = config.colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: config.colors[backgroundColor] || backgroundColor },
+  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: colors[backgroundColor] || backgroundColor },
     style
   ]))
 

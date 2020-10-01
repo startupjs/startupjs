@@ -25,6 +25,7 @@
     "Rating": "/components/Rating",
     "Row": "/components/Row",
     "Sidebar": "/components/Sidebar",
+    "Slicer": "/components/Slicer",
     "SmartSidebar": "/components/SmartSidebar",
     "Tag": "/components/Tag",
     "User": "/components/User",
@@ -44,6 +45,9 @@
     "H5": "/components/typography/H5",
     "H6": "/components/typography/H6",
     "Span": "/components/typography/Span",
+    "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
+    "useLayout": "/hooks/useLayout.js",
+    "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js"

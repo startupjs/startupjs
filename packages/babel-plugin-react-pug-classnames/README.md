@@ -1,18 +1,13 @@
-# @startupjs/babel-plugin-import-to-react-lazy
+# @startupjs/babel-plugin-react-pug-classnames
 
-Transforms exported default import to React.lazy dynamic import.
+Allows to properly parse sub-components in pug:
 
-## Example
-
-```jsx
-export { default as PHome } from './PHome'
-```
-
-↓ ↓ ↓ ↓ ↓ ↓
-
-```jsx
-import { lazy } from 'react'
-export const PHome = lazy(() => import('./PHome'))
+```pug
+Card
+  Card.Header.top(styleName={ active } title='Title')
+    | Hello world
+  Card.Content.middle
+  Card.Footer(buttons=['Confirm', 'Cancel'])
 ```
 
 ## Licence

@@ -2,10 +2,13 @@ import React from 'react'
 import { observer, u } from 'startupjs'
 import propTypes from 'prop-types'
 import { View } from 'react-native'
-import config from '../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { heights } = config.Divider
+const {
+  config: {
+    heights
+  }
+} = STYLES
 const LINE_HEIGHT = u(2)
 
 function Divider ({

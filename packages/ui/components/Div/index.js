@@ -7,13 +7,17 @@ import {
 } from 'react-native'
 import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
-import config from '../../config/rootConfig'
 import { colorToRGBA } from '../../config/helpers'
-import './index.styl'
+import STYLES from './index.styl'
 
-const SHADOWS = config.shadows
 const isWeb = Platform.OS === 'web'
-const { defaultHoverOpacity, defaultActiveOpacity } = config.Div
+const {
+  config: {
+    defaultHoverOpacity,
+    defaultActiveOpacity
+  },
+  shadows: SHADOWS
+} = STYLES
 
 function Div ({
   style = [],
@@ -138,7 +142,7 @@ Div.propTypes = {
   hoverStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   disabled: propTypes.bool,
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
+  level: propTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
   shape: propTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   bleed: propTypes.bool,

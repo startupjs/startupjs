@@ -1,6 +1,6 @@
 const callLoader = require('./lib/callLoader')
 const stylusToCssLoader = require('./lib/stylusToCssLoader')
-const cssToReactNativeLoader = require('./lib/cssToReactNativeLoader')
+const cssToReactNativeLoader = require('@startupjs/bundler/lib/cssToReactNativeLoader')
 const nodePath = require('path')
 
 module.exports = {

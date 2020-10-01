@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native'
 import { observer, u } from 'startupjs'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import propTypes from 'prop-types'
-import config from '../../config/rootConfig'
+import STYLES from './index.styl'
 
-const { colors } = config
+const { colors } = STYLES
 
 const SIZES = {
   xs: u(1),

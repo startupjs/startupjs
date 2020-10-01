@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-to-style",
-  "version": "0.23.33",
+  "version": "0.23.45",
   "publishConfig": {
     "access": "public"
   },
@@ -23,12 +23,6 @@
     "type": "git",
     "url": "https://github.com/startupjs/startupjs"
   },
-  "files": [
-    "dimensions.js",
-    "process.js",
-    "index.js",
-    "README.md"
-  ],
   "dependencies": {
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
@@ -37,7 +31,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
-    "@startupjs/css-to-react-native-transform": "^1.9.0-0",
+    "@startupjs/css-to-react-native-transform": "^1.9.0-1",
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1",
     "mocha": "^8.1.1"

@@ -1,6 +1,14 @@
+// ----- CONFIG: $UI.Progress
+
+$this = merge({
+  duration: 300
+}, $UI.Progress, true)
+
+// ----- COMPONENT
+
 _backgroundColor = $UI.colors.darkLighter
 _fillerColor = $UI.colors.success
-_duration = $UI.Progress.duration
+_duration = $this.duration
 
 .progress
   background-color _backgroundColor
@@ -15,3 +23,8 @@ _duration = $UI.Progress.duration
 
 .label
   margin-top 2px
+
+// ----- JS EXPORTS
+
+:export
+  config: $this

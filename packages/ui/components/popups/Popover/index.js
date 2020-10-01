@@ -9,8 +9,9 @@ import {
   StyleSheet
 } from 'react-native'
 import Modal from '../../Modal'
-import config from '../../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { shadows } = STYLES
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
@@ -85,8 +86,8 @@ const Popover = ({
       return
     }
 
+    setIsRender(true)
     setTimeout(() => {
-      setIsRender(true)
       refContent.current.getNode().measure((ex, ey, _width, _height, cx, cy) => {
         animateTop.setValue(getTopPosition({
           cy,
@@ -262,7 +263,7 @@ const Popover = ({
     height: animateHeight,
     opacity: animateOpacity,
     width: animateWidth,
-    ...config.shadows[3],
+    ...shadows[3],
     ...styleWrapper
   }
 
@@ -306,8 +307,7 @@ const Popover = ({
             pointerEvents='box-none'
             ref=refContent
             style=_styleWrapper
-          )
-            View.popoverCase= renderContent
+          )= renderContent
   `
 }
 

@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { Animated, Easing } from 'react-native'
-import './index.styl'
-import config from '../../config/rootConfig'
+import STYLES from './index.styl'
 
-const { duration } = config.Progress
+const {
+  config: {
+    duration
+  }
+} = STYLES
 
 const AnimatedView = Animated.View
 

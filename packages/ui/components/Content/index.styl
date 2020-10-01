@@ -1,8 +1,18 @@
+// ----- CONFIG: $UI.Content
+
+$this = merge({
+  defaultWidth: 'mobile'
+}, $UI.Content, true)
+
+// ----- COMPONENT
+
 _gutter = 2u
 
 .root
   padding-left _gutter
   padding-right @padding-left
+  align-self center
+  width 100%
 
   &.padding
     padding-top _gutter
@@ -22,3 +32,8 @@ _gutter = 2u
     &-wide
       max-width: $UI.media.wide
     // &-full is without max-width
+
+// ----- JS EXPORTS
+
+:export
+  config: $this

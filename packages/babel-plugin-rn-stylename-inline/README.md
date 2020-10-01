@@ -11,20 +11,19 @@ Must be used together with `@startupjs/babel-plugin-rn-stylename` library.
 
 ## Example
 
-### Global file usage
+### File-level scope (global to file)
 
 ```jsx
 import React from 'react'
 import { View } from 'react-native'
+import { css } from 'startupjs'
 
 export default function Card () {
   return <View styleName='card active'><Line /></View>
 }
-
 function Line () {
   return <View styleName='line' />
 }
-
 css`
   .card {
     padding: 8px 16px;
@@ -39,32 +38,23 @@ css`
 `
 ```
 
-↓ ↓ ↓ ↓ ↓ ↓
-
-```jsx
-TBD
-```
-
-### Local component usage
+### Local component scope (inside particular react component function)
 
 ```jsx
 import React from 'react'
 import { View } from 'react-native'
+import { css, styl } from 'startupjs'
 
 export default function Card () {
   return <View styleName='root active'><Line /></View>
-
   // .root will be scoped only to this specific component
-  css`
-    .root {
-      padding: 8px 16px;
-    }
+  styl`
+    .root
+      padding: 8px 16px
   `
 }
-
 function Line () {
   return <View styleName='root' />
-
   // .root will be scoped only to this specific component
   css`
     .root {
@@ -73,19 +63,11 @@ function Line () {
     }
   `
 }
-
 // you can use global- and local- scoped styles together
-css`
-  .active {
-    background-color: red;
-  }
+styl`
+  .active
+    background-color red
 `
-```
-
-↓ ↓ ↓ ↓ ↓ ↓
-
-```jsx
-TBD
 ```
 
 ## Licence
