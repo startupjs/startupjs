@@ -110,13 +110,13 @@ module.exports = async (options) => {
     global.STARTUP_JS_ORM &&
     Object.keys(global.STARTUP_JS_ORM).length > 0
   ) {
-    const schemaPerCollection = {}
+    const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
     for (const path in global.STARTUP_JS_ORM) {
       const { schema } = global.STARTUP_JS_ORM[path].OrmEntity
 
       if (schema) {
-        schemaPerCollection[path.replace('.*', '')] = schema
+        schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }
 

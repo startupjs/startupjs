@@ -2,10 +2,19 @@ const ZSchema = require('z-schema')
 
 class Schema {
   constructor (backend, options = {}) {
-    if (!options) throw new Error('Schemas are required in options')
+    if (!options.schemas) throw new Error('Schemas are required in options')
 
-    this.schemas = options
+    const { schemas, validators = {}, formats = {} } = options
+
+    this.options = options
+    this.schemas = schemas
+    this.customValidators = validators
     this.validator = new ZSchema()
+
+    // register formats
+    for (let format in formats) {
+      ZSchema.registerFormat(format, options.formats[format])
+    }
   }
 
   commitHandler = (shareRequest, done) => {
@@ -28,7 +37,11 @@ class Schema {
     const rootSchema = this.schemas[collection]
 
     if (!rootSchema) {
-      return done(/* Error(`No schema for collection: ${collection}` ) */)
+      // throw error if current collenction have no schema
+      // error can be skiped if you add skipNonExisting flag to your options
+      if (this.options.skipNonExisting) return done()
+
+      return done(Error(`No schema for collection: ${collection}`))
     }
 
     // Custom validator and complex objects contexts
@@ -107,11 +120,9 @@ class Schema {
       return results
     }
 
-    const validatorNames = schema.validators && Object.keys(schema.validators)
-
-    if (validatorNames && validatorNames.length) {
-      validatorNames.forEach(validatorName => {
-        const customValidator = schema.validators[validatorName]
+    if (schema.validators) {
+      schema.validators.forEach(validatorName => {
+        const customValidator = this.customValidators[validatorName]
 
         if (!customValidator) {
           throw Error('Unknown validator: ' + validatorName)
