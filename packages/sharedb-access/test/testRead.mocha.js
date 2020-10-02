@@ -12,22 +12,6 @@ let shareDBAccess = new ShareDbAccess(backend)
 
 let taskId
 
-// we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
-// because eventHandler emit event 'error' from sharedb
-// here trigger got error: https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L196
-// and than appear emit('error') https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L91
-const checkPromise = () => {
-  return new Promise((resolve, reject) => {
-    model.on('error', (error) => {
-      resolve(error)
-    })
-    const $task = model.at('tasksRead' + '.' + taskId)
-    $task.subscribe()
-    $task.unsubscribe()
-    setTimeout(() => resolve(true), 1000)
-  })
-}
-
 describe('READ', function () {
   before(async () => {
     backend.allowCreate('tasksRead', async (docId, doc, session) => {
@@ -51,8 +35,15 @@ describe('READ', function () {
       return false
     })
 
-    const res = await checkPromise()
-    assert.strictEqual(res.code, 403.2)
+    try {
+      const $task = model.at('tasksRead' + '.' + taskId)
+      await $task.subscribe()
+      $task.unsubscribe()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.2)
+      return
+    }
+    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -63,8 +54,15 @@ describe('READ', function () {
       return true
     })
 
-    const res = await checkPromise()
-    assert.strictEqual(res, true)
+    try {
+      const $task = model.at('tasksRead' + '.' + taskId)
+      await $task.subscribe()
+      $task.unsubscribe()
+    } catch (e) {
+      assert(false)
+      return
+    }
+    assert(true)
   })
 
   it('deny = true && allow = false => err{ code: 403.2 }', async () => {
@@ -75,8 +73,15 @@ describe('READ', function () {
       return false
     })
 
-    const res = await checkPromise()
-    assert.strictEqual(res.code, 403.2)
+    try {
+      const $task = model.at('tasksRead' + '.' + taskId)
+      await $task.subscribe()
+      $task.unsubscribe()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.2)
+      return
+    }
+    assert(false)
   })
 
   it('deny = true && allow = true => err{ code: 403.2 }', async () => {
@@ -86,7 +91,14 @@ describe('READ', function () {
     backend.allowRead('tasksRead', async (docId, doc, session) => {
       return true
     })
-    const res = await checkPromise()
-    assert.strictEqual(res.code, 403.2)
+    try {
+      const $task = model.at('tasksRead' + '.' + taskId)
+      await $task.subscribe()
+      $task.unsubscribe()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.2)
+      return
+    }
+    assert(false)
   })
 })
