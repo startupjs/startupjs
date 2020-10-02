@@ -1,4 +1,4 @@
-const promisifyRacer = require('@startupjs/orm/lib/promisifyRacer')
+const { default: promisifyRacer } = require('../temp/promisifyRacer.js')
 const racer = require('racer')
 const shareDbMongo = require('sharedb-mongo')
 
