@@ -6,7 +6,6 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
 import { colorToRGBA } from '../../config/helpers'
-// import { StyleSheet } from 'react-native'
 import STYLES from './index.styl'
 
 const {
@@ -26,7 +25,6 @@ function Button ({
   size,
   icon,
   iconPosition,
-  textColor,
   disabled,
   onPress,
   ...props
@@ -36,7 +34,7 @@ function Button ({
   const isFlat = variant === 'flat'
 
   const _color = colors[color]
-  const _textColor = colors[textColor] || (isFlat ? colors.white : _color)
+  const _textColor = isFlat ? colors.white : _color
 
   const hasChildren = React.Children.count(children)
   const height = heights[size]
@@ -97,7 +95,7 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
-      underlayColor=color
+      underlayColor=_color
       disabled=disabled
       onPress=onPress
       ...rootExtraProps
@@ -141,7 +139,6 @@ Button.propTypes = {
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,
-  textColor: propTypes.string,
   icon: propTypes.object,
   iconPosition: propTypes.oneOf(['left', 'right'])
 }

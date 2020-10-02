@@ -32,8 +32,8 @@ function Alert ({
         )
           = label
       if onClose
-        Div.cancelIconWrapper(onPress=onClose)
-          Icon.cancelIcon(
+        Div.closeIconWrapper(onPress=onClose)
+          Icon.closeIcon(
             icon=faTimes
             styleName=[variant]
           )

@@ -7,7 +7,7 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    defaultColor
+    color
   }
 } = STYLES
 
@@ -31,7 +31,7 @@ function Icon ({
   const _size = useMemo(() => SIZES[size] || size, [size])
 
   // Pass color as part of style to allow color override from the outside
-  style = StyleSheet.flatten([{ color: defaultColor }, style])
+  style = StyleSheet.flatten([{ color: color }, style])
 
   // TODO VITE fix custom svg
   if (typeof icon === 'function') {

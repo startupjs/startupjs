@@ -45,16 +45,13 @@ __Никогда__ не ставьте несколько кнопок `Приз
 </Button>
 ```
 
-## Цвета и размер
+## Цвета
 
-Цвет кнопки можно задать указав свойство `color` c именем цвета из $UI.colors.
-Default `color` = 'dark'.
+Цвет по умолчанию `dark`. Его можно изменить, изменив свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
 
 Цвет иконки можно задать указав имя цвета из $UI.colors.
 
-Свойство `variant` отвечает за внешнее отображение кнопки(влияет на цвет иконки и текста кнопки). Default `variant` = 'outlined'.
-
-Свойство `size` применяется к размеру кнопки, иконки и тексту кнопки.
+Свойство `variant` отвечает за внешнее отображение кнопки(влияет на цвет иконки и текста кнопки). По умолчанию `variant` = `outlined`.
 
 В `.styl` файле
 ```stylus
@@ -75,6 +72,29 @@ return (
     <Br />
     <Button color='success' iconStyleName='icon' icon={faCheck} size='xl'>
       Button with Icon
+    </Button>
+  </Div>
+)
+```
+
+## Размер
+
+Свойство `size` применяется к размеру кнопки, иконки и тексту кнопки.
+Размер по умолчанию равен `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat' size='s' icon={faCheck}>
+      Small
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCheck}>
+      Default
+    </Button>
+    <Br />
+    <Button variant='flat' size='l' icon={faCheck}>
+      Large
     </Button>
   </Div>
 )
