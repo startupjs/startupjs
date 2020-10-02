@@ -31,6 +31,7 @@
     "User": "/components/User",
     "Checkbox": "/components/forms/Checkbox",
     "Input": "/components/forms/Input",
+    "Multiselect": "/components/forms/Multiselect",
     "ObjectInput": "/components/forms/ObjectInput",
     "Radio": "/components/forms/Radio",
     "Select": "/components/forms/Select",

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import _Multiselect from './multiselect'
+import MultiselectComponent from './multiselect'
+import { observer, u } from 'startupjs'
 
 import './index.styl'
 
@@ -14,7 +15,8 @@ const Multiselect = ({
   label,
   tagVariant,
   activeColor,
-  disabled
+  disabled,
+  popoverWidth
 }) => {
   const [showOpts, setShowOpts] = useState(false)
 
@@ -36,7 +38,7 @@ const Multiselect = ({
     setShowOpts(false)
   }
   return pug`
-    _Multiselect(
+    MultiselectComponent(
       options=options
       value=value
       onSelect=selectOpt
@@ -49,6 +51,7 @@ const Multiselect = ({
       tagVariant=tagVariant
       activeColor=activeColor
       disabled=disabled
+      popoverWidth=popoverWidth
     )
   `
 }
@@ -63,15 +66,18 @@ Multiselect.propTypes = {
   label: PropTypes.string,
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 Multiselect.defaultProps = {
+  value: [],
   options: [],
   placeholder: 'Select',
   tagVariant: 'flat',
   activeColor: 'primary',
-  disabled: false
+  disabled: false,
+  popoverWidth: u(30)
 }
 
-export default Multiselect
+export default observer(Multiselect)

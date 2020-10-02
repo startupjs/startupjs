@@ -1,9 +1,10 @@
 import React from 'react'
-import { Div, Row, Span, Checkbox, Drawer, Br } from '@startupjs/ui'
+import { Div, Span, Checkbox, Drawer, Br } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectInput from './input'
 import { ScrollView } from 'react-native'
 import styles from './index.styl'
+import { observer } from 'startupjs'
 
 const Multiselect = ({
   options,
@@ -39,6 +40,7 @@ const Multiselect = ({
     MultiselectInput(
       label=label
       showOptsMenu=showOptsMenu
+      showOpts=showOpts
       value=value
       placeholder=placeholder
       options=options
@@ -77,9 +79,7 @@ Multiselect.propTypes = {
   showOpts: PropTypes.bool.isRequired,
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
-  tagVariant: PropTypes.string,
-  activeColor: PropTypes.string,
   disabled: PropTypes.bool
 }
 
-export default Multiselect
+export default observer(Multiselect)

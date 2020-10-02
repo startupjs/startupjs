@@ -1,7 +1,8 @@
 import React from 'react'
 import { Div, Row, Span, Tag } from '@startupjs/ui'
-import styles from './index.styl'
+import './index.styl'
 import PropTypes from 'prop-types'
+import { observer } from 'startupjs'
 
 function MultiselectInput ({
   label,
@@ -11,7 +12,8 @@ function MultiselectInput ({
   options,
   tagVariant,
   activeColor,
-  disabled
+  disabled,
+  showOpts
 }) {
   function renderTag (_value, index) {
     const record = options.find(r => r.value === _value)
@@ -28,11 +30,12 @@ function MultiselectInput ({
     Div.inputRoot
       if label
         Span.label(
+          styleName={ focused: showOpts }
           size='s'
           variant='description'
         )= label
       Row.input(
-        styleName={ disabled }
+        styleName={ disabled, focused: showOpts }
         onPress=disabled ? void 0 : showOptsMenu
       )
         if !value || !value.length
@@ -50,7 +53,8 @@ MultiselectInput.propTypes = {
   label: PropTypes.string,
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  showOpts: PropTypes.bool
 }
 
-export default MultiselectInput
+export default observer(MultiselectInput)

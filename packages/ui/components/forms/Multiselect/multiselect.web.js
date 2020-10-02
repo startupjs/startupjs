@@ -1,7 +1,8 @@
 import React from 'react'
-import { Div, Row, Span, Checkbox, Popover } from '@startupjs/ui'
+import { Div, Span, Checkbox, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectInput from './input'
+import { u, observer } from 'startupjs'
 import './index.styl'
 
 const Multiselect = ({
@@ -16,9 +17,9 @@ const Multiselect = ({
   showOpts,
   tagVariant,
   activeColor,
-  disabled
+  disabled,
+  popoverWidth
 }) => {
-
   function renderOpt (opt) {
     const selected = value.some(_value => _value === opt.value)
     const selectCb = () => {
@@ -38,12 +39,14 @@ const Multiselect = ({
     Popover.root(
       visible=showOpts
       onDismiss=hideOptsMenu
-      width='100%'
+      width=popoverWidth
+      styleWrapper={ height: 'auto', maxHeight: u(20) }
     )
       Popover.Caption
         MultiselectInput(
           label=label
           showOptsMenu=showOptsMenu
+          showOpts=showOpts
           value=value
           placeholder=placeholder
           options=options
@@ -69,7 +72,8 @@ Multiselect.propTypes = {
   showOpts: PropTypes.bool.isRequired,
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
-export default Multiselect
+export default observer(Multiselect)
