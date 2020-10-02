@@ -1,6 +1,5 @@
 import React from 'react'
-import { Div, Row, Span, Tag, Icon } from '@startupjs/ui'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { Div, Row, Span, Tag } from '@startupjs/ui'
 import styles from './index.styl'
 import PropTypes from 'prop-types'
 
