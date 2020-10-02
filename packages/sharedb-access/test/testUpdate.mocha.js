@@ -1,7 +1,6 @@
 const assert = require('assert')
-const path = require('path')
 const { getDbs } = require('./db.js')
-const shareDbAccess = require('../lib/index.js')
+const ShareDbAccess = require('../lib/index.js')
 
 let { backend } = getDbs()
 const model = backend.createModel()
@@ -9,7 +8,7 @@ const model = backend.createModel()
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
 
-let shareDBAccess = new shareDbAccess(backend)
+let shareDBAccess = new ShareDbAccess(backend)
 
 let id
 
@@ -29,7 +28,6 @@ const checkPromise = (number) => {
 }
 
 describe('UPDATE', function () {
-
   before(async () => {
     backend.allowCreate('tasksUpdate', async (docId, doc, session) => {
       return true
@@ -54,9 +52,9 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return false
     })
-    
+
     const res = await checkPromise(1)
-    assert.equal(res.code, 403.3)
+    assert.strictEqual(res.code, 403.3)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -66,10 +64,9 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return true
     })
-      
+
     const res = await checkPromise(2)
-    assert.equal(res, true)
-   
+    assert.strictEqual(res, true)
   })
 
   it('deny = true && allow = false => err{ code: 403.3 }', async () => {
@@ -79,9 +76,9 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return false
     })
-    
+
     const res = await checkPromise(3)
-    assert.equal(res.code, 403.3)
+    assert.strictEqual(res.code, 403.3)
   })
 
   it('deny = true && allow = true => err{ code: 403.3 }', async () => {
@@ -91,9 +88,8 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return true
     })
-    
-    const res = await checkPromise(4)
-    assert.equal(res.code, 403.3)
-  })
 
+    const res = await checkPromise(4)
+    assert.strictEqual(res.code, 403.3)
+  })
 })

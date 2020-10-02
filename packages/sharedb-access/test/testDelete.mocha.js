@@ -1,14 +1,12 @@
 const assert = require('assert')
-const path = require('path')
 const { getDbs } = require('./db.js')
-const shareDbAccess = require('../lib/index.js')
+const ShareDbAccess = require('../lib/index.js')
 
 let { backend } = getDbs()
 const model = backend.createModel()
 
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
-
 
 let taskId
 
@@ -28,10 +26,9 @@ const checkPromise = () => {
   })
 }
 
-let shareDBAccess = new shareDbAccess(backend)
+let shareDBAccess = new ShareDbAccess(backend)
 
 describe('DELETE', function () {
-
   before(async () => {
     backend.allowCreate('tasksDelete', async (docId, doc, session) => {
       return true
@@ -60,7 +57,7 @@ describe('DELETE', function () {
     })
 
     const res = await checkPromise()
-    assert.equal(res.code, 403.4)
+    assert.strictEqual(res.code, 403.4)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -72,7 +69,7 @@ describe('DELETE', function () {
     })
 
     const res = await checkPromise()
-    assert.equal(res, true)
+    assert.strictEqual(res, true)
   })
 
   it('deny = true && allow = false => err{ code: 403.4 }', async () => {
@@ -84,7 +81,7 @@ describe('DELETE', function () {
     })
 
     const res = await checkPromise()
-    assert.equal(res.code, 403.4)
+    assert.strictEqual(res.code, 403.4)
   })
 
   it('deny = true && allow = true => err{ code: 403.4 }', async () => {
@@ -94,8 +91,8 @@ describe('DELETE', function () {
     backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-    
+
     const res = await checkPromise()
-    assert.equal(res.code, 403.4)
+    assert.strictEqual(res.code, 403.4)
   })
 })
