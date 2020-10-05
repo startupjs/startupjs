@@ -27,25 +27,6 @@ describe('READ', function () {
     shareDBAccess.deny.Read.tasksRead = []
   })
 
-  it('deny = false && allow = false => err{ code: 403.2 }', async () => {
-    backend.denyRead('tasksRead', async (docId, doc, session) => {
-      return false
-    })
-    backend.allowRead('tasksRead', async (docId, doc, session) => {
-      return false
-    })
-
-    try {
-      const $task = model.at('tasksRead' + '.' + taskId)
-      await $task.subscribe()
-      $task.unsubscribe()
-    } catch (e) {
-      assert.strictEqual(e.code, 403.2)
-      return
-    }
-    assert(false)
-  })
-
   it('deny = false && allow = true => not err', async () => {
     backend.denyRead('tasksRead', async (docId, doc, session) => {
       return false
@@ -63,6 +44,25 @@ describe('READ', function () {
       return
     }
     assert(true)
+  })
+
+  it('deny = false && allow = false => err{ code: 403.2 }', async () => {
+    backend.denyRead('tasksRead', async (docId, doc, session) => {
+      return false
+    })
+    backend.allowRead('tasksRead', async (docId, doc, session) => {
+      return false
+    })
+
+    try {
+      const $task = model.at('tasksRead' + '.' + taskId)
+      await $task.subscribe()
+      $task.unsubscribe()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.2)
+      return
+    }
+    assert(false)
   })
 
   it('deny = true && allow = false => err{ code: 403.2 }', async () => {
