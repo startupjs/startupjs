@@ -78,7 +78,8 @@ _primaryColor = $UI.colors.primary
     color _errorColor
 
 .backdropStyle
-  z-index 100000
+  // Greater value than @startup/ui's Modal has
+  z-index 1501
 
 .error
   color _errorColor
