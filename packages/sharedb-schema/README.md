@@ -30,8 +30,9 @@ yarn add @startupjs/sharedb-schema
 #### Step 1. Options
 ``` js
 var options = {
-  users: {
-    title: 'Example Schema',
+  schemas: {
+    users: {
+      title: 'Example Schema',
     type: 'object',
     properties: {
       nickname: {
@@ -64,46 +65,52 @@ var options = {
       },
     },
     required: ['email'],
-    // Custom validators
-    validators: {
-      // join - is working example of custom validator. It ensures that value is id of doc of specific collection
-      join: {
-        async: function (context, done) {
-          var id = context.value // here is value for this op
-          if (!id) return done()
-          var collection = context.schema.collection // context.schema - is schema of current property
-          var model = this.store.createModel()
-          var $entity = model.at(collection + '.' + id)
-          model.fetch($entity, function (err) {
-            if (err) return done(err)
-            if (!$entity.get()) {
-              return done(Error('No ' + collection + ' with id ' + id))
-            }
-            done()
-          })
-        },
+    }
+  },
+  // JSON-Schema formats can be added here. They should be sync
+  formats: {
+    xstring: function(str) {
+      return str !== 'xxx';
+    }
+  },
+  // Custom validators
+  validators: {
+    // join - is working example of custom validator. It ensures that value is id of doc of specific collection
+    join: {
+      async: function (context, done) {
+        var id = context.value // here is value for this op
+        if (!id) return done()
+        var collection = context.schema.collection // context.schema - is schema of current property
+        var model = this.store.createModel()
+        var $entity = model.at(collection + '.' + id)
+        model.fetch($entity, function (err) {
+          if (err) return done(err)
+          if (!$entity.get()) {
+            return done(Error('No ' + collection + ' with id ' + id))
+          }
+          done()
+        })
       },
-      // this is example of custom validator, that preloads data and uses it later
-      preload: {
-        async: function (context, done) {
-          var model = this.store.createModel() // that`s how to get model
-          var $someData = model.at('some.path')
-          model.fetch($someData, function (err) {
-            if (err) return done(err)
-            var data = $someData.get()
-            done(null, data) // pass data as second parameter
-          })
-        },
-        sync: function (value, context) {
-          var data = context.data // preloaded data is here
+    },
+    // this is example of custom validator, that preloads data and uses it later
+    preload: {
+      async: function (context, done) {
+        var model = this.store.createModel() // that`s how to get model
+        var $someData = model.at('some.path')
+        model.fetch($someData, function (err) {
+          if (err) return done(err)
+          var data = $someData.get()
+          done(null, data) // pass data as second parameter
+        })
+      },
+      sync: function (value, context) {
+        var data = context.data // preloaded data is here
 
-          return true || false
-        },
+        return true || false
       },
     },
   },
 }
-
 
 ```
 
