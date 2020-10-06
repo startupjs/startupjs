@@ -21,7 +21,7 @@ class Schema {
     const {
       snapshot: { data: newDoc },
       collection,
-      opData
+      op: opData
     } = shareRequest
 
     if (opData && opData.del) return done()
@@ -31,7 +31,7 @@ class Schema {
     } catch (err) {
       err.message =
         'Cannnot validate schema: ' + JSON.stringify(this.schemas, null, 2)
-      done(err)
+      return done(err)
     }
 
     const rootSchema = this.schemas[collection]
@@ -50,7 +50,7 @@ class Schema {
     const asyncErrors = this.runAsyncs(contexts)
 
     if (asyncErrors) {
-      done(
+      return done(
         Error(
           'async validators throw errors:' +
             JSON.stringify(asyncErrors, null, 2)
@@ -95,7 +95,7 @@ class Schema {
         delete err.params
       })
 
-      done(Error('VALIDATION_ERRORS ' + JSON.stringify(_errors, null, 2)))
+      return done(Error('VALIDATION_ERRORS ' + JSON.stringify(_errors, null, 2)))
     }
 
     // Custom validators
@@ -111,6 +111,8 @@ class Schema {
     if (errors.length) {
       return errors
     }
+
+    return done()
   }
 
   getContexts = (schema, value) => {

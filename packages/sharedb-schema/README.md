@@ -1,6 +1,6 @@
-# Racer-Schema
+# ShareDB-Schema
 
-- Schema validation module for Racer
+- Schema validation module for ShareDB
 - Uses [z-schema](https://github.com/zaggino/z-schema), which supports [JSON-Schema](http://json-schema.org/) v4
 - Schema validation executes in sync 'validate' hook, so you validate the actual result of operation
 - Supports custom validators with async and sync logic
@@ -118,7 +118,7 @@ var options = {
 
 add the sharedbSchemaInit function to your server/index.js
 ``` js
-const sharedbSchemaInit = require('@startupjs/sharedb-schema)
+const sharedbSchemaInit = require('@startupjs/sharedb-schema')
 ```
 
 and then call this function in the backend event
