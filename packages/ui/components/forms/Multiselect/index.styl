@@ -1,0 +1,74 @@
+_height = 4u
+_inputBorderWidth = 1px
+_swipeZoneColor = #f5f5f5
+
+.root
+  width 100%
+
+.input
+  background-color $UI.colors.white
+  height _height
+  width 100%
+  border _inputBorderWidth solid $UI.colors.darkLighter
+  flex-direction row
+  align-items center
+  overflow auto
+  padding 0 1u
+  radius()
+  &.disabled
+    background-color $UI.colors.darkLightest
+  &.focused
+    border-color $UI.colors.primary
+
+.placeholder
+  opacity .5
+
+.tag
+  background-color $UI.colors.primary
+  margin-right 1u
+  flex-direction row
+  justify-content space-between
+  align-items center
+  radius(l)
+
+.tagLabel
+  color $UI.colors.white
+  padding 0 1u
+
+.suggestions-web
+  background-color $UI.colors.white
+  width 100%
+  padding 0 .5u
+  max-height 20u
+  overflow-y auto
+  radius()
+
+.suggestions-native
+  padding-top 8u
+
+.swipeZone
+  background-color _swipeZoneColor
+
+.suggestion
+  cursor pointer
+  padding 1u
+  flex-direction row
+  align-items center
+  +mobile()
+    padding 1u 2u
+
+.sugText
+  color $UI.colors.mainText
+  +mobile()
+    font(xl)
+
+.checkbox
+  margin-right 1u
+
+.label
+  margin-bottom 0.5u
+  &.focused
+    color $UI.colors.primary
+
+.backdropStyle
+  z-index 100000
