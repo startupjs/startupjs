@@ -1,6 +1,8 @@
 _height = 4u
 _inputBorderWidth = 1px
 _swipeZoneColor = #f5f5f5
+_errorColor = $UI.colors.error
+_primaryColor = $UI.colors.primary
 
 .root
   width 100%
@@ -18,13 +20,15 @@ _swipeZoneColor = #f5f5f5
   &.disabled
     background-color $UI.colors.darkLightest
   &.focused
-    border-color $UI.colors.primary
+    border-color _primaryColor
+  &.error
+    border-color _errorColor
 
 .placeholder
   opacity .5
 
 .tag
-  background-color $UI.colors.primary
+  background-color _primaryColor
   margin-right 1u
   flex-direction row
   justify-content space-between
@@ -51,16 +55,17 @@ _swipeZoneColor = #f5f5f5
 
 .suggestion
   cursor pointer
-  padding 1u
+  padding 1u 2u
   flex-direction row
   align-items center
-  +mobile()
-    padding 1u 2u
+  +desktop()
+    padding 1u
 
 .sugText
   color $UI.colors.mainText
-  +mobile()
-    font(xl)
+  font(xl)
+  +desktop()
+    font(m)
 
 .checkbox
   margin-right 1u
@@ -68,7 +73,12 @@ _swipeZoneColor = #f5f5f5
 .label
   margin-bottom 0.5u
   &.focused
-    color $UI.colors.primary
+    color _primaryColor
+  &.error
+    color _errorColor
 
 .backdropStyle
   z-index 100000
+
+.error
+  color _errorColor

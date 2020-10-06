@@ -18,7 +18,8 @@ const Multiselect = ({
   showOpts,
   tagVariant,
   activeColor,
-  disabled
+  disabled,
+  error
 }) => {
   function renderOpt (opt) {
     const selected = value.some(_value => _value === opt.value)
@@ -47,6 +48,7 @@ const Multiselect = ({
       tagVariant=tagVariant
       activeColor=activeColor
       disabled=disabled
+      error=error
     )
     Drawer(
       visible=showOpts
@@ -79,7 +81,8 @@ Multiselect.propTypes = {
   showOpts: PropTypes.bool.isRequired,
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  error: PropTypes.string
 }
 
 export default observer(Multiselect)

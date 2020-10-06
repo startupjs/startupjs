@@ -16,9 +16,13 @@ const Multiselect = ({
   tagVariant,
   activeColor,
   disabled,
-  popoverWidth
+  popoverWidth,
+  error
 }) => {
   const [showOpts, setShowOpts] = useState(false)
+  // Map array if user pass options pass an array of primitives
+  // Convert it into { label, value } items for consistency
+  const _options = options.map(opt => typeof opt === 'object' && opt !== null ? opt : { label: opt, value: opt })
 
   function removeOpt (_value) {
     onRemove && onRemove(_value)
@@ -39,7 +43,7 @@ const Multiselect = ({
   }
   return pug`
     MultiselectComponent(
-      options=options
+      options=_options
       value=value
       onSelect=selectOpt
       onRemove=removeOpt
@@ -52,6 +56,7 @@ const Multiselect = ({
       activeColor=activeColor
       disabled=disabled
       popoverWidth=popoverWidth
+      error=error
     )
   `
 }
@@ -67,7 +72,8 @@ Multiselect.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
-  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.string
 }
 
 Multiselect.defaultProps = {

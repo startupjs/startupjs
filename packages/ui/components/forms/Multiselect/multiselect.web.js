@@ -18,7 +18,8 @@ const Multiselect = ({
   tagVariant,
   activeColor,
   disabled,
-  popoverWidth
+  popoverWidth,
+  error
 }) => {
   function renderOpt (opt) {
     const selected = value.some(_value => _value === opt.value)
@@ -53,6 +54,7 @@ const Multiselect = ({
           tagVariant=tagVariant
           activeColor=activeColor
           disabled=disabled
+          error=error
         )
       Div.suggestions-web
         each opt in options
@@ -73,7 +75,8 @@ Multiselect.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
-  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.string
 }
 
 export default observer(Multiselect)
