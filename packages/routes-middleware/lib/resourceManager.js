@@ -65,6 +65,7 @@ exports.getHash = memoize((appName, type, options = {}) => {
   return hash
 })
 
+// DEPRECATED
 exports.getProductionStyles = memoize((appName, options = {}) => {
   PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
   var styleRelPath = exports.getResourcePath('style', appName, options)

@@ -31,6 +31,7 @@
     "User": "/components/User",
     "Checkbox": "/components/forms/Checkbox",
     "Input": "/components/forms/Input",
+    "Multiselect": "/components/forms/Multiselect",
     "ObjectInput": "/components/forms/ObjectInput",
     "Radio": "/components/forms/Radio",
     "Select": "/components/forms/Select",
@@ -45,6 +46,9 @@
     "H5": "/components/typography/H5",
     "H6": "/components/typography/H6",
     "Span": "/components/typography/Span",
+    "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
+    "useLayout": "/hooks/useLayout.js",
+    "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js"
