@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import { StyleSheet } from 'react-native'
 import propTypes from 'prop-types'
 import Row from '../Row'
 import Div from '../Div'
@@ -34,13 +35,14 @@ function Button ({
   const isFlat = variant === 'flat'
 
   const _color = colors[color]
-  const _textColor = isFlat ? colors.white : _color
+
+  textStyle = StyleSheet.flatten([{ color: isFlat ? colors.white : _color }, textStyle])
+  iconStyle = StyleSheet.flatten([{ color: isFlat ? colors.white : _color }, iconStyle])
 
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
   const rootExtraProps = {}
-  const labelStyle = { color: _textColor }
   const iconWrapperStyle = {}
 
   switch (variant) {
@@ -117,7 +119,7 @@ function Button ({
           )
       if children
         Span.label(
-          style=[labelStyle, textStyle]
+          style=[textStyle]
           styleName=[size]
         )= children
   `
@@ -135,6 +137,7 @@ Button.defaultProps = {
 Button.propTypes = {
   ...Div.propTypes,
   textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  color: propTypes.oneOf(Object.keys(colors)),
   children: propTypes.node,
   variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),

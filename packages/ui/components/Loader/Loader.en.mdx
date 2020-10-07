@@ -34,15 +34,15 @@ return (
 
 ## Colors
 
-Color can be changed by providing hex color or name of the color from `ui` config colors to `color` property.
+The `color` property is `dark` by default. It can be changed by changing `color` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
 ```jsx example
 return (
   <Row align='around'>
-    <Loader color='#2962FF' />
-    <Loader color='#F5BE59' />
-    <Loader color='#00AED6' />
-    <Loader color='#A6D800' />
+    <Loader />
+    <Loader color='success' />
+    <Loader color='error' />
+    <Loader color='warning' />
   </Row>
 )
 ```

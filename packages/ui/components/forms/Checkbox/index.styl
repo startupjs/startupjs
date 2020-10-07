@@ -13,7 +13,7 @@ $switchBg = $UI.colors.dark
 .checkbox
   width 2u
   height @width
-  border: 2px solid $checkboxBorderColor
+  border 2px solid $checkboxBorderColor
   justify-content center
   align-items center
   // due to border-radius on emulator
@@ -22,12 +22,12 @@ $switchBg = $UI.colors.dark
   overflow hidden
 
   &.checked
-    background-color: $checkedColor
-    border-color: $checkedColor
+    background-color $checkedColor
+    border-color $checkedColor
 
 .checkbox-icon
   display none
-  color: $checkedIconColor
+  color $checkedIconColor
 
   &.checked
     display flex
@@ -39,7 +39,7 @@ $switchBg = $UI.colors.dark
   top 0
   bottom 0
   right 0
-  background-color: $checkedColor
+  background-color $checkedColor
 
   &.animated
     display flex
@@ -52,11 +52,11 @@ $switchBg = $UI.colors.dark
   height 2u
   radius(circle)
   justify-content center
-  background-color: $switchBg
+  background-color $switchBg
   padding 0 3px
 
   &.checked
-    background-color: $checkedColor
+    background-color $checkedColor
 
 .switch-animation
   width 10px
