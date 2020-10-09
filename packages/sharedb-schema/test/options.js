@@ -92,7 +92,7 @@ module.exports = {
   validators: {
     notVasya: {
       sync: function (value, context) {
-        var name = 'Vasya'
+        let name = 'Vasya'
         if (Array.isArray(value) && value.some(v => v === name)) {
           return Error('Can not be ' + name)
         } else if (value === name) return Error('Can not be ' + name)
@@ -107,15 +107,15 @@ module.exports = {
     },
     join: {
       async: function (context, done) {
-        var id = Array.isArray(context.value) ? context.value.pop() : context.value
+        let id = Array.isArray(context.value) ? context.value.pop() : context.value
 
         if (!id) return done()
 
-        var collection = context.collection
+        let collection = context.collection
 
-        var model = this.backend.createModel()
+        let model = this.backend.createModel()
 
-        var $entity = model.at(collection + '.' + id)
+        let $entity = model.at(collection + '.' + id)
 
         model.fetch($entity, function (err) {
           if (err) return done(err)
@@ -131,11 +131,11 @@ module.exports = {
       async: function (context, done) {
         const id = Object.keys(context.value)
 
-        var collection = context.collection
+        let collection = context.collection
 
-        var model = this.backend.createModel()
+        let model = this.backend.createModel()
 
-        var $entity = model.at(collection + '.' + id)
+        let $entity = model.at(collection + '.' + id)
 
         model.fetch($entity, function (err) {
           if (err) return done(err)

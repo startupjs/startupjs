@@ -5,7 +5,7 @@ let id
 
 describe('sync creation', function () {
   it('should create user', async function () {
-    var user = {
+    let user = {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       age: 18
@@ -18,7 +18,7 @@ describe('sync creation', function () {
   })
 
   it('should not create user', async function () {
-    var user = {
+    let user = {
       firstName: true,
       lastName: 'Ivanov',
       age: 18

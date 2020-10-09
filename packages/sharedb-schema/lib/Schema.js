@@ -6,6 +6,10 @@ class Schema {
 
     const { schemas, validators = {}, formats = {} } = options
 
+    Object.keys(schemas).forEach(name => {
+      schemas[name].type = 'object'
+    })
+
     this.backend = backend
     this.options = options
     this.schemas = schemas
@@ -155,7 +159,7 @@ class Schema {
     }
 
     Object.keys(value).forEach(key => {
-      flatten(schema.properties[key], key)
+      schema.properties[key] && flatten(schema.properties[key], key)
       if (partialSchema[key]) {
         partialSchema[key].schema = schema.properties[key]
         partialSchema[key].value = value[key]
