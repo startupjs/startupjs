@@ -16,7 +16,7 @@ function Rating ({
   onChange
 }) {
   return pug`
-    Row.root(style=style vAlign='center' align='between')
+    Row.root(style=style vAlign='center' align='between' styleName={readonly})
       if readonly
         Star(active)
         H6.value(bold)= value.toFixed(1)
