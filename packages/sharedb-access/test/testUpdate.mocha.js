@@ -29,6 +29,7 @@ const checkPromise = (number) => {
 }
 
 describe('UPDATE', function () {
+
   before(async () => {
     backend.allowCreate('tasksUpdate', async (docId, doc, session) => {
       return true
@@ -53,7 +54,7 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return false
     })
-
+    
     const res = await checkPromise(1)
     assert.equal(res.code, 403.3)
   })
@@ -65,9 +66,10 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return true
     })
-
+      
     const res = await checkPromise(2)
     assert.equal(res, true)
+   
   })
 
   it('deny = true && allow = false => err{ code: 403.3 }', async () => {
@@ -77,7 +79,7 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return false
     })
-
+    
     const res = await checkPromise(3)
     assert.equal(res.code, 403.3)
   })
@@ -89,8 +91,9 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return true
     })
-
+    
     const res = await checkPromise(4)
     assert.equal(res.code, 403.3)
   })
+
 })

@@ -12,6 +12,7 @@ model.root.connection.agent.stream.checkServerAccess = true
 let shareDBAccess = new shareDbAccess(backend)
 let id
 
+
 // we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
 // because eventHandler emit event 'error' from sharedb
 // here trigger got error: https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L196
@@ -23,7 +24,7 @@ const checkPromise = () => {
     })
     id = model.id()
     model.add('tasksCreate', { id, type: 'testCreate' })
-
+    
     setTimeout(() => resolve(true), 1000)
   })
 }
@@ -43,7 +44,7 @@ describe('CREATE', function () {
     })
 
     const res = await checkPromise()
-    assert.equal(res.code, 403.1)
+    assert.equal(res.code, 403.1)    
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -77,7 +78,7 @@ describe('CREATE', function () {
     backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-
+    
     const res = await checkPromise()
     assert.equal(res.code, 403.1)
   })

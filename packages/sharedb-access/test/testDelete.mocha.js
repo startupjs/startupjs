@@ -9,6 +9,7 @@ const model = backend.createModel()
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
 
+
 let taskId
 
 // we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
@@ -30,6 +31,7 @@ const checkPromise = () => {
 let shareDBAccess = new shareDbAccess(backend)
 
 describe('DELETE', function () {
+
   before(async () => {
     backend.allowCreate('tasksDelete', async (docId, doc, session) => {
       return true
@@ -92,7 +94,7 @@ describe('DELETE', function () {
     backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-
+    
     const res = await checkPromise()
     assert.equal(res.code, 403.4)
   })
