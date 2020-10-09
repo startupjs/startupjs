@@ -93,14 +93,13 @@ module.exports = {
     notVasya: {
       sync: function (value, context) {
         var name = 'Vasya'
-        if (value === name) {
+        if (Array.isArray(value) && value.some(v => v === name)) {
           return Error('Can not be ' + name)
-        }
+        } else if (value === name) return Error('Can not be ' + name)
       }
     },
     notKey: {
-      sync: function (value, context) {
-        var key = context.paths[context.paths.length - 1]
+      sync: function (value, context, key) {
         if (value === key) {
           return Error('Can not be same as key: ' + key)
         }
@@ -108,11 +107,11 @@ module.exports = {
     },
     join: {
       async: function (context, done) {
-        var id = context.value
+        var id = Array.isArray(context.value) ? context.value.pop() : context.value
 
         if (!id) return done()
 
-        var collection = context.schema.collection
+        var collection = context.collection
 
         var model = this.backend.createModel()
 
@@ -130,8 +129,9 @@ module.exports = {
     },
     hash: {
       async: function (context, done) {
-        var id = context.paths[context.paths.length - 1]
-        var collection = context.schema.collection
+        const id = Object.keys(context.value)
+
+        var collection = context.collection
 
         var model = this.backend.createModel()
 

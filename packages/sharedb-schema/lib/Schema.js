@@ -6,6 +6,7 @@ class Schema {
 
     const { schemas, validators = {}, formats = {} } = options
 
+    this.backend = backend
     this.options = options
     this.schemas = schemas
     this.customValidators = validators
@@ -17,7 +18,7 @@ class Schema {
     }
   }
 
-  commitHandler = (shareRequest, done) => {
+  commitHandler = async (shareRequest, done) => {
     const {
       snapshot: { data: newDoc },
       collection,
@@ -47,34 +48,42 @@ class Schema {
     // Custom validator and complex objects contexts
     const contexts = this.getContexts(rootSchema, newDoc)
 
-    const asyncErrors = this.runAsyncs(contexts)
+    const asyncErrors = await this.runAsyncs(contexts)
 
-    if (asyncErrors) {
-      return done(
-        Error(
-          'async validators throw errors:' +
-            JSON.stringify(asyncErrors, null, 2)
-        )
-      )
+    if (asyncErrors && asyncErrors.length) {
+      return done(asyncErrors[0])
     }
 
-    this.validate(newDoc, shareRequest, rootSchema, contexts, done)
+    const errors = this.validate(
+      newDoc,
+      shareRequest,
+      rootSchema,
+      contexts,
+      done
+    )
+
+    if (errors && errors.length) {
+      done(errors[0])
+    }
   }
 
-  runAsyncs = contexts => {
+  runAsyncs = async contexts => {
     const self = this
     const errors = []
 
-    contexts.forEach(async context => {
-      const customValidator = context.customValidator
-
-      if (customValidator.async) {
-        await customValidator.async.call(self, context, function (err, data) {
-          if (err) errors.push(err)
-        })
-      }
+    Object.keys(contexts).forEach(key => {
+      contexts[key].validators.forEach(async name => {
+        const customValidator = this.customValidators[name]
+        if (customValidator.async) {
+          await customValidator.async.call(self, contexts[key], function (
+            error
+          ) {
+            if (error) errors.push(error)
+          })
+        }
+      })
     })
-    if (errors.length) return errors
+    return errors
   }
 
   validate = (doc, shareRequest, schema, contexts, done) => {
@@ -83,7 +92,8 @@ class Schema {
     const {
       collection: collectionName,
       channels: [, scopePath],
-      snapshot: { data: snapshotData }
+      snapshot: { data: snapshotData },
+      op: opData
     } = shareRequest
 
     this.validator.validate(snapshotData, this.schemas[collectionName])
@@ -91,22 +101,44 @@ class Schema {
 
     if (_errors && _errors.length) {
       _errors.forEach(err => {
-        err.path = err.path.split('/').join('.').replace('#', scopePath)
+        if (opData.constructor.name !== 'EditOp') {
+          err.relativePath = err.path.replace('#/', '').split('/').join('.')
+        } else {
+          // err.relativePath = err.params[0]
+          // err.path = err.path.concat(err.params[0])
+        }
+
+        err.path = err.path
+          .split('/')
+          .filter(Boolean)
+          .join('.')
+          .replace('#', scopePath)
+
+        err.collection = collectionName
         delete err.params
       })
 
-      return done(Error('VALIDATION_ERRORS ' + JSON.stringify(_errors, null, 2)))
+      return done(
+        Error(
+          JSON.stringify(_errors, null, 2)
+        ) /* JSON.stringify(_error, null, 2) */
+      )
     }
 
     // Custom validators
-    if (contexts) {
-      contexts.forEach(context => {
-        if (context.customValidator.sync && doc) {
-          const err = context.customValidator.sync(doc, context)
-          if (err) errors.push(err)
+    Object.keys(contexts).forEach(key => {
+      contexts[key].validators.forEach(name => {
+        const customValidator = this.customValidators[name]
+        if (customValidator.sync) {
+          const error = customValidator.sync(
+            contexts[key].value,
+            contexts[key],
+            key
+          )
+          if (error) errors.push(error)
         }
       })
-    }
+    })
 
     if (errors.length) {
       return errors
@@ -116,30 +148,39 @@ class Schema {
   }
 
   getContexts = (schema, value) => {
-    let results = []
+    let partialSchema = {}
 
     if (!schema) {
-      return results
+      return partialSchema
     }
 
-    if (schema.validators) {
-      schema.validators.forEach(validatorName => {
-        const customValidator = this.customValidators[validatorName]
+    Object.keys(value).forEach(key => {
+      flatten(schema.properties[key], key)
+      if (partialSchema[key]) {
+        partialSchema[key].schema = schema.properties[key]
+        partialSchema[key].value = value[key]
+      }
+    })
 
-        if (!customValidator) {
-          throw Error('Unknown validator: ' + validatorName)
+    function flatten (schema, partialKey) {
+      if (Object.keys(schema).includes('validators')) {
+        partialSchema[partialKey] = { ...schema }
+      }
+      Object.keys(schema).forEach(key => {
+        if (
+          schema[key] !== null &&
+          !Array.isArray(schema[key]) &&
+          typeof schema[key] === 'object'
+        ) {
+          if (Object.keys(schema[key]).includes('validators')) {
+            partialSchema[partialKey] = { ...schema[key] }
+          }
+          flatten(schema[key], partialKey)
         }
-
-        results.push({
-          name: validatorName,
-          customValidator,
-          schema,
-          value
-        })
       })
     }
 
-    return results
+    return partialSchema
   }
 }
 

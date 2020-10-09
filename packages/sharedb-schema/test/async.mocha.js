@@ -1,160 +1,220 @@
-var assert = require('assert')
-var model = require('./model')
+const assert = require('assert')
+const model = require('./model')
 
 describe('async', function () {
-  var $category
-  var $product
-  beforeEach(function (done) {
-    var category = {
+  let id
+  let $category
+  let $product
+  beforeEach(async function () {
+    let category = {
       name: 'Planes'
     }
-    var product = {
+    let product = {
       name: 'T-50'
     }
-    var categoryId = model.add('categories', category, function (err) {
-      if (err) return done(err)
 
-      $category = model.at('categories.' + categoryId)
+    try {
+      id = model.id()
+      await model.add('categories', { id, ...category })
+    } catch (err) {
+      assert(!err)
+    }
 
-      product.categories = [categoryId]
+    $category = model.at(`categories.${id}`)
+    product.categories = [id]
 
-      var productId = model.add('products', product, function (err) {
-        if (err) return done(err)
+    try {
+      id = model.id()
+      await model.add('products', { id, ...product })
+    } catch (err) {
+      assert(!err)
+    }
 
-        $product = model.at('products.' + productId)
+    $product = model.at(`products.${id}`)
 
-        model.fetch($category, $product, done)
-      })
-    })
+    try {
+      await model.fetch($category, $product)
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should create product', function (done) {
-    var product = {
+  it('should create product', async function () {
+    let product = {
       name: 'A-10'
     }
-    model.add('products', product, done)
+    try {
+      await model.add('products', product)
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should create product with real categoryId', function (done) {
-    var product = {
+  it('should create product with real categoryId', async function () {
+    let product = {
       name: 'A-10',
       categoryId: $category.get('id')
     }
-    model.add('products', product, done)
+
+    try {
+      await model.add('products', product)
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should not create product with wrong categoryId', function (done) {
-    var product = {
+  it('should not create product with wrong categoryId', async function () {
+    let product = {
       name: 'A-10',
       categoryId: model.id()
     }
 
-    model.add('products', product, function (err) {
+    try {
+      await model.add('products', product)
+    } catch (err) {
       assert(err)
-
-      done()
-    })
+    }
   })
 
-  it('should create product with right hash', function (done) {
-    var product = {
+  it('should create product with right hash', async function () {
+    let product = {
       name: 'A-10',
       categoryHash: {}
     }
     product.categoryHash[$category.get('id')] = 'Some value'
-    model.add('products', product, done)
+
+    try {
+      await model.add('products', product)
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should not create product with wrong hash', function (done) {
-    var product = {
+  it('should not create product with wrong hash', async function () {
+    let product = {
       name: 'A-10',
       categoryHash: {}
     }
     product.categoryHash[model.id()] = 'Some value'
-    model.add('products', product, function (err) {
-      assert(err)
 
-      done()
-    })
+    try {
+      await model.add('products', product)
+    } catch (err) {
+      assert(err)
+    }
   })
 
-  it('should create product with right array', function (done) {
-    var product = {
+  it('should create product with right array', async function () {
+    let product = {
       name: 'A-10',
       categories: [$category.get('id')]
     }
-    model.add('products', product, done)
+
+    try {
+      await model.add('products', product)
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should not create product with wrong array', function (done) {
-    var product = {
+  it('should not create product with wrong array', async function () {
+    let product = {
       name: 'A-10',
       categories: [model.id()]
     }
-    model.add('products', product, function (err) {
+
+    try {
+      await model.add('products', product)
+    } catch (err) {
       assert(err)
-
-      done()
-    })
+    }
   })
 
-  it('should set categoryId', function (done) {
-    $product.set('categoryId', $category.get('id'), done)
+  it('should set categoryId', async function () {
+    try {
+      await $product.set('categoryId', $category.get('id'))
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should not set categoryId', function (done) {
-    $product.set('categoryId', model.id(), function (err) {
+  it('should not set categoryId', async function () {
+    try {
+      await $product.set('categoryId', model.id())
+    } catch (err) {
       assert(err)
-
-      done()
-    })
+    }
   })
 
-  it('should set array', function (done) {
-    $product.set('categories', [$category.get('id')], done)
+  it('should set array', async function () {
+    try {
+      await $product.set('categories', [$category.get('id')])
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should not set array', function (done) {
-    $product.set('categories', [model.id()], function (err) {
+  it('should not set array', async function () {
+    try {
+      await $product.set('categories', [model.id()])
+    } catch (err) {
       assert(err)
-
-      done()
-    })
+    }
   })
 
-  it('should push categoryId', function (done) {
-    $product.push('categories', $category.get('id'), done)
+  it('should push categoryId', async function () {
+    try {
+      await $product.push('categories', $category.get('id'))
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should not push categoryId', function (done) {
-    $product.push('categories', model.id(), function (err) {
+  it('should not push categoryId', async function () {
+    try {
+      await $product.push('categories', model.id())
+    } catch (err) {
       assert(err)
-
-      done()
-    })
+    }
   })
 
-  xit('should not insert categoryId', function (done) {
-    $product.insert('categories', 0, model.id(), function (err) {
+  xit('should not insert categoryId', async function () {
+    try {
+      await $product.insert('categories', 0, model.id())
+    } catch (err) {
       assert(err)
-
-      done()
-    })
+    }
   })
 
-  it('should remove categoryId', function (done) {
-    $product.pop('categories', done)
+  it('should remove categoryId', async function () {
+    try {
+      await $product.pop('categories')
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should remove categoryId', function (done) {
-    $product.shift('categories', done)
+  it('should remove categoryId', async function () {
+    try {
+      await $product.shift('categories')
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should move categoryId', function (done) {
-    $product.move('categories', 0, 1, done)
+  it('should move categoryId', async function () {
+    try {
+      await $product.move('categories', 0, 1)
+    } catch (err) {
+      assert(!err)
+    }
   })
 
-  it('should remove categoryId', function (done) {
-    $product.remove('categories', 0, model.id(), done)
+  it('should remove categoryId', async function () {
+    try {
+      await $product.remove('categories', 0, model.id())
+    } catch (err) {
+      assert(!err)
+    }
   })
 })

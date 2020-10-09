@@ -1,172 +1,170 @@
-var assert = require('assert')
-var model = require('./model')
+const assert = require('assert')
+const model = require('./model')
+
+let id
 
 describe('errors', function () {
-  it('should return firstName error', function (done) {
-    var user = {
+  it('should return firstName error', async function () {
+    const user = {
       firstName: true,
       lastName: 'Ivanov',
       age: 18
     }
-    var userId = model.add('users', user, function (err) {
-      assert(err)
-      assert(err.code === 'ERR_VALIDATION_FAILED')
 
-      const errorData = JSON.parse(err.message, null, 2)
+    try {
+      await model.add('users', user)
+    } catch (err) {
+      const [errorData] = JSON.parse(err.message, null, 2)
 
+      assert.strictEqual(errorData.code, 'INVALID_TYPE')
       assert.strictEqual(errorData.collection, 'users')
-      assert.strictEqual(errorData.docId, userId)
-      assert.strictEqual(errorData.errors.length, 1)
-      assert.strictEqual(errorData.errors[0].paths.length, 1)
-      assert.strictEqual(errorData.errors[0].paths[0], 'firstName')
-
-      done()
-    })
+      assert.strictEqual(errorData.relativePath, 'firstName')
+    }
+    assert(true)
   })
 
-  it('should return hobbies.1 error', function (done) {
-    var user = {
+  it('should return hobbies.1 error', async function () {
+    let user = {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       age: 18,
       hobbies: ['jazz', 4]
     }
-    model.add('users', user, function (err) {
-      assert(err)
-      assert(err.code === 'ERR_VALIDATION_FAILED')
 
-      const errorData = JSON.parse(err.message, null, 2)
+    try {
+      await model.add('users', user)
+    } catch (err) {
+      const [errorData] = JSON.parse(err.message, null, 2)
 
-      assert.strictEqual(errorData.errors.length, 1)
-      assert.strictEqual(errorData.errors[0].paths.length, 2)
-      assert.strictEqual(errorData.errors[0].paths[0], 'hobbies')
-      assert.strictEqual(errorData.errors[0].paths[1], '1')
-
-      done()
-    })
+      assert.strictEqual(errorData.code, 'INVALID_TYPE')
+      assert.strictEqual(errorData.collection, 'users')
+      assert.strictEqual(errorData.relativePath, 'hobbies.1')
+    }
+    assert(true)
   })
 
-  it('should return hobbies.2 error', function (done) {
-    var user = {
+  it('should return hobbies.2 error', async function () {
+    let user = {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       age: 18,
       hobbies: ['jazz', 'r`n`r', 'Vasya']
     }
-    model.add('users', user, function (err) {
-      assert(err)
-      assert(err.code === 'ERR_VALIDATION_FAILED')
 
-      const errorData = JSON.parse(err.message, null, 2)
-
-      assert.strictEqual(errorData.errors.length, 1)
-      assert.strictEqual(errorData.errors[0].paths.length, 2)
-      assert.strictEqual(errorData.errors[0].paths[0], 'hobbies')
-      assert.strictEqual(errorData.errors[0].paths[1], 2)
-      done()
-    })
+    try {
+      await model.add('users', user)
+    } catch (err) {
+      assert.strictEqual(err.message, 'Can not be Vasya')
+    }
+    assert(true)
   })
 
-  it('should return categoryHash error', function (done) {
-    var product = {
+  it('should return categoryHash error', async function () {
+    let product = {
       categoryHash: {
         wrong: 'asdf'
       }
     }
-    model.add('products', product, function (err) {
-      assert(err)
-      assert(err.code === 'ERR_VALIDATION_FAILED')
 
-      const errorData = JSON.parse(err.message, null, 2)
-
-      assert.strictEqual(errorData.errors.length, 1)
-      assert.strictEqual(errorData.errors[0].paths.length, 2)
-      assert.strictEqual(errorData.errors[0].paths[0], 'categoryHash')
-      done()
-    })
+    try {
+      await model.add('products', product)
+    } catch (err) {
+      assert.strictEqual(err.message, 'No categories with id wrong')
+    }
+    assert(true)
   })
 
-  it('should return wrong error', function (done) {
-    var product = {
+  it('should return wrong error', async function () {
+    const product = {
       name: 'B-737'
     }
-    var productId = model.add('products', product, function (err) {
+
+    try {
+      id = model.id()
+      await model.add('products', { id, ...product })
+    } catch (err) {
       assert(!err)
+    }
 
-      var $product = model.at('products.' + productId)
+    const $product = model.at(`products.${id}`)
 
-      model.fetch($product, function (err) {
-        assert(!err)
+    try {
+      await $product.fetch()
+    } catch (err) {
+      assert(!err)
+    }
 
-        $product.set('wrong', 'value', function (err) {
-          assert(err)
-          assert(err.code === 'ERR_VALIDATION_FAILED')
+    try {
+      $product.set('wrong', { value: 23 })
+    } catch (err) {
+      const [errorData] = JSON.parse(err.message, null, 2)
 
-          const errorData = JSON.parse(err.message, null, 2)
-
-          assert.strictEqual(errorData.errors.length, 1)
-          assert.strictEqual(errorData.errors[0].paths.length, 1)
-          assert.strictEqual(errorData.errors[0].paths[0], 'wrong')
-          done()
-        })
-      })
-    })
+      assert.strictEqual(errorData.code, 'OBJECT_ADDITIONAL_PROPERTIES')
+      assert.strictEqual(errorData.collection, 'products')
+      assert.strictEqual(errorData.relativePath, 'wrong')
+    }
+    assert(true)
   })
 
-  it('should return categories.0 error', function (done) {
-    var product = {
+  it('should return categories.0 error', async function () {
+    let product = {
       name: 'B-2'
     }
-    var productId = model.add('products', product, function (err) {
+
+    try {
+      id = model.id()
+      await model.add('products', { id, ...product })
+    } catch (err) {
       assert(!err)
+    }
 
-      var $product = model.at('products.' + productId)
+    const $product = model.at(`products.${id}`)
 
-      model.fetch($product, function (err) {
-        assert(!err)
+    try {
+      await $product.fetch()
+    } catch (err) {
+      assert(!err)
+    }
 
-        $product.push('categories', model.id(), function (err) {
-          assert(err)
-          assert(err.code === 'ERR_VALIDATION_FAILED')
-
-          const errorData = JSON.parse(err.message, null, 2)
-
-          assert.strictEqual(errorData.errors.length, 1)
-          assert.strictEqual(errorData.errors[0].paths.length, 2)
-          assert.strictEqual(errorData.errors[0].paths[0], 'categories')
-          assert.strictEqual(errorData.errors[0].paths[1], 0)
-          done()
-        })
-      })
-    })
+    try {
+      id = model.id()
+      await $product.push('categories', id)
+    } catch (err) {
+      assert.strictEqual(err.message, `No categories with id ${id}`)
+    }
+    assert(true)
   })
 
-  it('should return values.value.0 error', function (done) {
-    var product = {
+  it('should return values.value.0 error', async function () {
+    const product = {
       name: 'B-2'
     }
-    var productId = model.add('products', product, function (err) {
+
+    try {
+      id = model.id()
+      await model.add('products', { id, ...product })
+    } catch (err) {
       assert(!err)
+    }
 
-      var $product = model.at('products.' + productId)
+    const $product = model.at(`products.${id}`)
 
-      model.fetch($product, function (err) {
-        assert(!err)
+    try {
+      await $product.fetch()
+    } catch (err) {
+      assert(!err)
+    }
 
-        $product.push('values.value', 'wrong', function (err) {
-          assert(err)
-          assert(err.code === 'ERR_VALIDATION_FAILED')
+    try {
+      $product.set('values.value', ['wrong'])
+    } catch (err) {
+      const errorData = JSON.parse(err.message, null, 2)
 
-          const errorData = JSON.parse(err.message, null, 2)
+      assert.strictEqual(errorData.code, 'INVALID_TYPE')
 
-          assert.strictEqual(errorData.errors.length, 1)
-          assert.strictEqual(errorData.errors[0].paths.length, 3)
-          assert.strictEqual(errorData.errors[0].paths[0], 'values')
-          assert.strictEqual(errorData.errors[0].paths[1], 'value')
-          assert.strictEqual(errorData.errors[0].paths[2], 0)
-          done()
-        })
-      })
-    })
+      assert.strictEqual(errorData.collection, 'products')
+      assert.strictEqual(errorData.path, `products.${id}.values.value.0`)
+    }
+    assert(true)
   })
 })
