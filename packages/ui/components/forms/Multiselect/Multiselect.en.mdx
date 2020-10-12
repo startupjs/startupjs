@@ -14,6 +14,7 @@ import { Multiselect } from '@startupjs/ui'
 
 ```jsx example
 const [cities, setCities] = useState(['la'])
+// options also can be an array of primitives ['apple', 'banana', 'cherry']
 return (
   <Div>
     <Multiselect
@@ -27,7 +28,7 @@ return (
         { label: 'Tokyo', value: 'tk' }
       ]}
     />
-  </Div>
+  </Div>  
 )
 ```
 

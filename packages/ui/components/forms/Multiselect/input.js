@@ -13,7 +13,8 @@ function MultiselectInput ({
   tagVariant,
   activeColor,
   disabled,
-  showOpts
+  showOpts,
+  error
 }) {
   function renderTag (_value, index) {
     const record = options.find(r => r.value === _value)
@@ -30,18 +31,23 @@ function MultiselectInput ({
     Div.inputRoot
       if label
         Span.label(
-          styleName={ focused: showOpts }
+          styleName={ focused: showOpts, error }
           size='s'
           variant='description'
         )= label
       Row.input(
-        styleName={ disabled, focused: showOpts }
+        styleName={ disabled, focused: showOpts, error }
         onPress=disabled ? void 0 : showOptsMenu
       )
         if !value || !value.length
           Span.placeholder= placeholder
         each _value, index in value
           =renderTag(_value, index)
+      if error
+        Span.error(
+          size='s'
+          variant='description'
+        )= error
   `
 }
 
@@ -54,7 +60,8 @@ MultiselectInput.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
-  showOpts: PropTypes.bool
+  showOpts: PropTypes.bool,
+  error: PropTypes.string
 }
 
 export default observer(MultiselectInput)
