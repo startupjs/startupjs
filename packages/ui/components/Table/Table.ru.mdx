@@ -1,0 +1,56 @@
+import Table from '../Table'
+import Thead from '../Thead'
+import Tbody from '../Tbody'
+import Tr from '../Tr'
+import Td from '../Td'
+import Span from '../typography/Span'
+
+# Table (таблица)
+
+Компонент Table позволяет расположить данные в строках и столбцах. Таблица может содержать шапку и тело, которые задаются с помощью компонентов Thead и Tbody. Любая таблица состоит из строк и ячеек, которые задаются с помощью компонентов Tr и Td.
+
+```jsx
+import { Table, Thead, Tbody, Tr, Td } from '@startupjs/ui'
+```
+
+## Пример
+
+```jsx example
+const tableStyle = {
+  backgroundColor: '#fff',
+}
+
+return (
+  <Table style={tableStyle}>
+    <Thead>
+      <Tr>
+        <Td>
+          <Span bold>First</Span>
+        </Td>
+        <Td>
+          <Span bold>Second</Span>
+        </Td>
+        <Td>
+          <Span bold>Third</Span>
+        </Td>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr>
+        <Td>
+          <Span italic>First 1</Span>
+        </Td>
+        <Td>Second 1</Td>
+        <Td>Third 1</Td>
+      </Tr>
+      <Tr>
+        <Td>
+          <Span italic>First 2</Span>
+        </Td>
+        <Td>Second 2</Td>
+        <Td>Third 2</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
