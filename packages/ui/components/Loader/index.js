@@ -19,7 +19,7 @@ function Loader ({ color, size }) {
 }
 
 Loader.defaultProps = {
-  color: 'dark',
+  color: 'darkLight',
   size: 'm'
 }
 

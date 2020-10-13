@@ -8,7 +8,8 @@ import {
   faHouseUser,
   faCheck,
   faTable,
-  faShareAlt
+  faShareAlt,
+  faCoffee
 } from '@fortawesome/free-solid-svg-icons'
 import './index.mdx.styl'
 
@@ -45,15 +46,13 @@ __Никогда__ не ставьте несколько кнопок `Приз
 </Button>
 ```
 
-## Цвета
+## Иконки
 
-Цвет по умолчанию `dark`. Его можно изменить, изменив свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию).
 
 Цвет иконки можно задать указав имя цвета из $UI.colors.
 
-Свойство `variant` отвечает за внешнее отображение кнопки(влияет на цвет иконки и текста кнопки). По умолчанию `variant` = `outlined`.
-
-В `.styl` файле
+In `.styl` file
 ```stylus
 .icon
   color $UI.colors.success
@@ -61,17 +60,56 @@ __Никогда__ не ставьте несколько кнопок `Приз
 
 ```jsx example
 return (
+  <Row>
+    <Button icon={faCoffee} iconStyleName='icon'>
+      Icon on the left
+    </Button>
+    <Button icon={faCoffee} iconPosition='right' pushed>
+      Icon on the right
+    </Button>
+  </Row>
+)
+```
+
+## Цвета
+
+Цвет по умолчанию `dark`. Его можно изменить, изменив свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
   <Div>
-    <Button>
-      Default
+    <Button variant='flat'>
+      Default dark
     </Button>
     <Br />
-    <Button color='primary' variant='flat' size='s'>
-      Color and Variant
+    <Button color='primary' variant='flat'>
+      Primary
     </Button>
     <Br />
-    <Button color='success' iconStyleName='icon' icon={faCheck} size='xl'>
-      Button with Icon
+    <Button color='success' variant='flat'>
+      Success
+    </Button>
+  </Div>
+)
+```
+
+## Variant
+
+Свойство `variant` отвечает за внешнее отображение кнопки(влияет на цвет иконки и текста кнопки). По умолчанию `variant` = `outlined`.
+
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee}>
+      Default outlined
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCoffee}>
+      Flat
+    </Button>
+    <Br />
+    <Button variant='text' icon={faCoffee}>
+      Text
     </Button>
   </Div>
 )
