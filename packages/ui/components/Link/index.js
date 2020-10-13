@@ -15,7 +15,6 @@ function Link ({
   to,
   color,
   theme,
-  size,
   bold,
   italic,
   block,
@@ -74,7 +73,7 @@ function Link ({
   return pug`
     Component.root(
       style=style
-      styleName=[theme, size, { bold, italic, block }, color]
+      styleName=[theme, { bold, italic, block }, color]
       ...extraProps
       ...props
     )

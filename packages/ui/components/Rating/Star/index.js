@@ -12,8 +12,6 @@ export default observer(function Star ({
   style,
   active
 }) {
-  // const color = active ? colors.warning : colorToRGBA(colors.dark, 0.25)
-
   return pug`
     Icon.icon(
       styleName={active}

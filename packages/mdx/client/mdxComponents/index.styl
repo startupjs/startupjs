@@ -4,12 +4,10 @@ $exampleBg = #f5f5f5
 .space,
 .listIndex,
 .p,
-.t,
-.paragraph
+.t
   font(l)
 
-.p,
-.paragraph
+.p
   margin-top 2u
 
 .h2
@@ -26,7 +24,11 @@ $exampleBg = #f5f5f5
 
 .inlineCode
   background-color $codeBg
-  font(l)
+
+  &-space,
+  &-code
+    font(l)
+
 
 .li
   padding-left 2u

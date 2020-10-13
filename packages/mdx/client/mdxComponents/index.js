@@ -6,7 +6,7 @@ import Code from '../Code'
 
 function P ({ children }) {
   return pug`
-    Span.paragraph= children
+    Span.p= children
   `
 }
 
@@ -44,13 +44,13 @@ export default {
   },
   inlineCode: ({ children }) => pug`
     Span.inlineCode
-      Span.space= ' '
-      Span.t(
+      Span.inlineCode-space= ' '
+      Span.inlineCode-code(
         style={
           fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
         }
       )= children
-      Span.space= ' '
+      Span.inlineCode-space= ' '
   `,
   hr: ({ children }) => pug`
     Divider(size='l')
