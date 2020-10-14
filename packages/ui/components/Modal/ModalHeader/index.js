@@ -17,12 +17,12 @@ function ModalHeader ({
     if children || onDismiss
       Row.root(style=style align='between' vAlign='center')
         if typeof children === 'string'
-          Span.title(size='xl' numberOfLines=1)= children
+          Span.title(numberOfLines=1)= children
         else
           = children
         if onDismiss
           Div.close(onPress=onDismiss)
-            Icon(icon=faTimes size='xl' color='darkLight')
+            Icon.icon(icon=faTimes size='xl')
   `
 }
 

@@ -29,7 +29,7 @@ function Breadcrumbs ({
             Icon(style=extraStyle icon=icon size=size)
         Span.content(
           style=extraStyle
-          size=size
+          styleName=[size]
           bold=bold
         )= children
     `
@@ -51,7 +51,7 @@ function Breadcrumbs ({
                 ...linkProps
               )
                 Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name
-              Span.separator(size=size)
+              Span.separator(styleName=[size])
                 | &nbsp#{separator}&nbsp
   `
 }
