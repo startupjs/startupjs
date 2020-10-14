@@ -121,7 +121,7 @@ module.exports = async options => {
       const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
 
       if (properties) {
-        const schema = { type: 'object', properties: { ...properties } }
+        const schema = { type: 'object', properties }
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }

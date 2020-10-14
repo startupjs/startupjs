@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/sharedb-schema",
   "version": "0.23.45",
-  "description": "Schema validation module for ShareDB",
+  "description": "Racer plugin for schema validation module for ShareDB",
   "main": "lib/index.js",
   "scripts": {
     "test": "yarn createTemp && mocha test/*.mocha.js",

@@ -1,6 +1,6 @@
 # ShareDB-Schema
 
-- Schema validation module for ShareDB
+- Racer plugin for schema validation module for ShareDB
 - Uses [z-schema](https://github.com/zaggino/z-schema), which supports [JSON-Schema](http://json-schema.org/) v4
 - Schema validation executes in sync ``validate`` hook, so you validate the actual result of operation
 - Supports custom validators with async and sync logic
