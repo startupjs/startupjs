@@ -21,7 +21,7 @@ REQUIRED_VARS=(\
 )
 OPTIONAL_VARS=("_CLUSTER_NAME" "_DOMAIN" "_PATH")
 
-COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply" "batch")
+COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply" "applyVersion" "batch")
 
 # TODO: just print joined array
 #       https://stackoverflow.com/questions/1527049/how-can-i-join-elements-of-an-array-in-bash
@@ -34,6 +34,7 @@ Available commands:\n\
   pushLatest\n\
   compile\n\
   apply\n\
+  applyVersion\n\
   batch\n\
 "
 
@@ -183,6 +184,14 @@ function apply {
   kubectl apply -f "$COMPILED_PATH"
 }
 
+function applyVersion {
+  _log "Update server deployment version in Kubernetes"
+  _sourceEnv
+
+  _initKubectl
+  kubectl set image deployment/"$_APP"-server "$_APP"-server=gcr.io/"$PROJECT_ID"/"$_APP":"$COMMIT_SHA" --record
+}
+
 function batch {
   # We don't need to persist env vars into file since 'batch'
   # executes everything in one CI step.
@@ -192,8 +201,12 @@ function batch {
   build
   push
   pushLatest
-  compile
-  apply
+  if [ "$1" = "--version-only" ]; then
+    applyVersion
+  else
+    compile
+    apply
+  fi
 }
 
 # ----- Entry point -----
