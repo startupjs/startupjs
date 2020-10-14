@@ -2,7 +2,7 @@
 
 - Schema validation module for ShareDB
 - Uses [z-schema](https://github.com/zaggino/z-schema), which supports [JSON-Schema](http://json-schema.org/) v4
-- Schema validation executes in sync 'validate' hook, so you validate the actual result of operation
+- Schema validation executes in sync ``validate`` hook, so you validate the actual result of operation
 - Supports custom validators with async and sync logic
 - Custom validators can preload data in async hook to use it later in sync
 
@@ -13,13 +13,13 @@
 
 ## How it works
 Current 0.7 version of ShareJS has 4 hooks which are executed while operation is applied.
-- async 'submit' hook - executes once before op is applied to data snapshot in db. This is convinient place to preload data and execute async validation logic. Be aware that you can not have result of operation here. It\`s ok for some ops (``model.set``, ``model.add``) because they ovewrites previous data (or add new), but for array mutators (``model.push``, ``model.pop``, etc), string mutators (``model.stringInsert``, ``model.stringRemove``) and increment (``model.increment``) it\`s impossible to predict what will be the result data and we can not use some kinds of validators here because of this, like max, min, etc. That\`s why we should use sync hook.
-- sync 'preValidate' hook - executes before op actually applied to snapshot. In high concurent cases it can be executed more than one time. We still does not have result data here, so it\`s useless for us.
-- sync 'validate' hook - executes after op is applied to snapshot, but before these changes are saved to db. Can be executed more than one time. It\`s best place for schema validation logic as we have result data here which is not saved to db yet
-- async 'after submit' hook - executes once after changes are saved to db. It\`s useless for validation, but good to trigger
+- async ``submit`` hook - executes once before op is applied to data snapshot in db. This is convinient place to preload data and execute async validation logic. Be aware that you can not have result of operation here. It\`s ok for some ops (``model.set``, ``model.add``) because they ovewrites previous data (or add new), but for array mutators (``model.push``, ``model.pop``, etc), string mutators (``model.stringInsert``, ``model.stringRemove``) and increment (``model.increment``) it\`s impossible to predict what will be the result data and we can not use some kinds of validators here because of this, like max, min, etc. That\`s why we should use sync hook.
+- sync ``preValidate`` hook - executes before op actually applied to snapshot. In high concurent cases it can be executed more than one time. We still does not have result data here, so it\`s useless for us.
+- sync ``validate`` hook - executes after op is applied to snapshot, but before these changes are saved to db. Can be executed more than one time. It\`s best place for schema validation logic as we have result data here which is not saved to db yet
+- async ``after submit`` hook - executes once after changes are saved to db. It\`s useless for validation, but good to trigger
 some stuff
 
-All schema validation logic executes in 'validate' hook. Custom validators have two methods: '.sync' - sync and executes in 'validate' hook and '.async' - async and executes in 'submit' hook. There can be one of them or both, also you can preload data in '.async' method to use it later in '.sync'
+All schema validation logic executes in ``validate`` hook. Custom validators have two methods: ``.sync`` - sync and executes in ``validate`` hook and ``.async`` - async and executes in ``submit`` hook. There can be one of them or both, also you can preload data in ``.async`` method to use it later in ``.sync``
 
 ### Installation
 ```

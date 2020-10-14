@@ -6,10 +6,6 @@ class Schema {
 
     const { schemas, validators = {}, formats = {} } = options
 
-    Object.keys(schemas).forEach(name => {
-      schemas[name].type = 'object'
-    })
-
     this.backend = backend
     this.options = options
     this.schemas = schemas

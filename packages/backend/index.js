@@ -17,7 +17,7 @@ try {
   wsbusPubSub = require('sharedb-wsbus-pubsub')
 } catch (e) {}
 
-module.exports = async (options) => {
+module.exports = async options => {
   // ------------------------------------------------------->     storeUse    <#
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
@@ -63,7 +63,11 @@ module.exports = async (options) => {
 
       // redis alternative
     } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
-      if (!wsbusPubSub) throw new Error("Please install the 'sharedb-wsbus-pubsub' package to use it")
+      if (!wsbusPubSub) {
+        throw new Error(
+          "Please install the 'sharedb-wsbus-pubsub' package to use it"
+        )
+      }
       let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
 
       return racer.createBackend({
@@ -90,7 +94,8 @@ module.exports = async (options) => {
 
   shareDbHooks(backend)
 
-  if (options.accessControl &&
+  if (
+    options.accessControl &&
     global.STARTUP_JS_ORM &&
     Object.keys(global.STARTUP_JS_ORM).length > 0
   ) {
@@ -113,9 +118,10 @@ module.exports = async (options) => {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
     for (const path in global.STARTUP_JS_ORM) {
-      const { schema } = global.STARTUP_JS_ORM[path].OrmEntity
+      const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
 
-      if (schema) {
+      if (properties) {
+        const schema = { type: 'object', properties: { ...properties } }
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }
