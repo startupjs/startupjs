@@ -172,7 +172,7 @@ class ItemsModel {
 
 ## Usage
 
-1. in `server/index.js` add `validateSchema: true` to `startupjsServer()` options
+1. In `server/index.js` add `validateSchema: true` to `startupjsServer()` options
 2. Go to one of your ORM document entities (for example, `UserModel`, which targets `users.*`) and add a static method `schema`:
 
 ```js
