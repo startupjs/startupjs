@@ -8,7 +8,6 @@ import './index.styl'
 function Span ({
   style,
   children,
-  size,
   variant,
   bold,
   italic,
@@ -16,16 +15,10 @@ function Span ({
   theme,
   ...props
 }) {
-  if (size) {
-    console.warn('[@startupjs/ui] Span: size is deprecated. Use font() mixin instead or variant property.')
-  } else {
-    if (!variant) size = 'm'
-  }
-
   return pug`
     Text.root(
       style=style
-      styleName=[theme, size, variant, { bold, italic }]
+      styleName=[theme, variant, { bold, italic }]
       ...props
     )= children
   `

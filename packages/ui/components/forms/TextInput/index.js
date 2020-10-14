@@ -11,6 +11,7 @@ function TextInput ({
   style,
   wrapperStyle,
   inputStyle,
+  iconStyle,
   className,
   label,
   placeholder,
@@ -40,6 +41,7 @@ function TextInput ({
       Input(
         style=standalone ? [style, wrapperStyle] : wrapperStyle
         inputStyle=inputStyle
+        iconStyle=iconStyle
         className=standalone ? className : undefined
         value=value
         placeholder=placeholder
@@ -65,7 +67,6 @@ function TextInput ({
     View.root(style=style)
       Span.label(
         styleName={focused}
-        size='s'
         variant='description'
       )= label || (value && placeholder) || ' '
       = renderInput()
@@ -78,8 +79,7 @@ TextInput.defaultProps = {
   disabled: false,
   resize: false,
   numberOfLines: 1,
-  iconPosition: 'left',
-  iconColor: 'dark'
+  iconPosition: 'left'
 }
 
 TextInput.propTypes = {
@@ -89,7 +89,6 @@ TextInput.propTypes = {
   label: propTypes.string,
   placeholder: propTypes.string,
   value: propTypes.string,
-  iconColor: propTypes.string,
   size: propTypes.oneOf(['l', 'm', 's']),
   layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,

@@ -19,7 +19,20 @@ import { Tag } from '@startupjs/ui'
 ```jsx example
 return (
   <Row>
-    <Tag>Primary</Tag>
+    <Tag>Some tag</Tag>
+    <Tag pushed>Other tag</Tag>
+  </Row>
+)
+```
+
+## Colors
+
+The `color` property is `primary` by default. It can be changed by changing `color` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+
+```jsx example
+return (
+  <Row>
+    <Tag>Default primary</Tag>
     <Tag color='success' pushed>Success</Tag>
     <Tag color='warning' pushed>Warning</Tag>
     <Tag color='error' pushed>Error</Tag>

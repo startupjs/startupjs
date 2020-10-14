@@ -56,7 +56,7 @@ function MenuItem ({
       if activeBorder !== 'none' && active
         Div.border(styleName=[activeBorder] style=borderStyle)
       if icon
-        Icon.icon(styleName=[_iconPosition] icon=icon color=color)
+        Icon.icon(styleName=[_iconPosition] icon=icon style={color})
 
       Div.container(style=containerStyle)
         if typeof children === 'string'

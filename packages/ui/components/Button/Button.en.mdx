@@ -1,7 +1,14 @@
 import { useState } from 'react'
 import Button from '../Button'
+import Div from '../Div'
+import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
+import {
+  faCheck,
+  faCoffee
+} from '@fortawesome/free-solid-svg-icons'
+import './index.mdx.styl'
 
 # Button
 
@@ -32,6 +39,98 @@ Use regular Button without any options by default. Whenever you want to emphasiz
 <Button color='primary' variant='flat'>
   Destroy the Death Star!
 </Button>
+```
+
+## Icons
+
+Icon can be added using `icon` prop. Position of icon can be changed by passing `iconPosition` to component (`left` by default).
+
+The icon color can be set by specifying the color name from $ UI.colors.
+
+In `.styl` file
+```stylus
+.icon
+  color $UI.colors.success
+```
+
+```jsx example
+return (
+  <Row>
+    <Button icon={faCoffee} iconStyleName='icon'>
+      Icon on the left
+    </Button>
+    <Button icon={faCoffee} iconPosition='right' pushed>
+      Icon on the right
+    </Button>
+  </Row>
+)
+```
+
+## Colors
+
+The `color` property is `dark` by default. It can be changed by changing `color` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat'>
+      Default dark
+    </Button>
+    <Br />
+    <Button color='primary' variant='flat'>
+      Primary
+    </Button>
+    <Br />
+    <Button color='success' variant='flat'>
+      Success
+    </Button>
+  </Div>
+)
+```
+
+## Variant
+
+The `variant` property is responsible for the external display of the button (affects the color of the icon and button text). The `variant` property is `outlined` by default.
+
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee}>
+      Default outlined
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCoffee}>
+      Flat
+    </Button>
+    <Br />
+    <Button variant='text' icon={faCoffee}>
+      Text
+    </Button>
+  </Div>
+)
+```
+
+## Size
+
+The `size` property applies to the button size, icon and button text. It can be changed by changing `size` property and its default value is `m`. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat' size='s' icon={faCheck}>
+      Small
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCheck}>
+      Default
+    </Button>
+    <Br />
+    <Button variant='flat' size='l' icon={faCheck}>
+      Large
+    </Button>
+  </Div>
+)
 ```
 
 ## Buttons order

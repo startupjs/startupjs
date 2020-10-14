@@ -1,7 +1,17 @@
 import { useState } from 'react'
 import Button from '../Button'
 import Row from '../Row'
+import Div from '../Div'
+import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
+import {
+  faHouseUser,
+  faCheck,
+  faTable,
+  faShareAlt,
+  faCoffee
+} from '@fortawesome/free-solid-svg-icons'
+import './index.mdx.styl'
 
 # Button (кнопки)
 
@@ -16,7 +26,7 @@ import { Button } from '@startupjs/ui'
 ```jsx example
 const [counter, setCounter] = useState(0)
 return (
-  <Button onPress={() => setCounter(counter + 1)}>
+  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} color='primary' variant='flat'>
     Нажато {counter} раз
   </Button>
 )
@@ -34,6 +44,98 @@ __Никогда__ не ставьте несколько кнопок `Приз
 <Button color='primary' variant='flat'>
   Уничтожить Звезду Смерти!
 </Button>
+```
+
+## Иконки
+
+Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию).
+
+Цвет иконки можно задать указав имя цвета из $UI.colors.
+
+In `.styl` file
+```stylus
+.icon
+  color $UI.colors.success
+```
+
+```jsx example
+return (
+  <Row>
+    <Button icon={faCoffee} iconStyleName='icon'>
+      Icon on the left
+    </Button>
+    <Button icon={faCoffee} iconPosition='right' pushed>
+      Icon on the right
+    </Button>
+  </Row>
+)
+```
+
+## Цвета
+
+Цвет по умолчанию `dark`. Его можно изменить, изменив свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat'>
+      Default dark
+    </Button>
+    <Br />
+    <Button color='primary' variant='flat'>
+      Primary
+    </Button>
+    <Br />
+    <Button color='success' variant='flat'>
+      Success
+    </Button>
+  </Div>
+)
+```
+
+## Variant
+
+Свойство `variant` отвечает за внешнее отображение кнопки(влияет на цвет иконки и текста кнопки). По умолчанию `variant` = `outlined`.
+
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee}>
+      Default outlined
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCoffee}>
+      Flat
+    </Button>
+    <Br />
+    <Button variant='text' icon={faCoffee}>
+      Text
+    </Button>
+  </Div>
+)
+```
+
+## Размер
+
+Свойство `size` применяется к размеру кнопки, иконки и тексту кнопки.
+Размер по умолчанию равен `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat' size='s' icon={faCheck}>
+      Small
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCheck}>
+      Default
+    </Button>
+    <Br />
+    <Button variant='flat' size='l' icon={faCheck}>
+      Large
+    </Button>
+  </Div>
+)
 ```
 
 ## Порядок кнопок

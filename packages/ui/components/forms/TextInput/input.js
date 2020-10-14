@@ -45,7 +45,7 @@ export default observer(function Input ({
   numberOfLines,
   icon,
   iconPosition,
-  iconColor,
+  iconStyle,
   onBlur,
   onFocus,
   onChangeText,
@@ -55,7 +55,6 @@ export default observer(function Input ({
 }) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
-  const _iconColor = colors[iconColor] || iconColor
 
   if (!renderWrapper) {
     renderWrapper = ({ style }, children) => pug`
@@ -133,7 +132,7 @@ export default observer(function Input ({
         )
           Icon(
             icon=icon
-            color=_iconColor
+            style=iconStyle
             size=ICON_SIZES[size]
           )
       TextInput.input-input(

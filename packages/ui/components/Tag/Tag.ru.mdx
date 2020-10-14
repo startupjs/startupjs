@@ -19,7 +19,20 @@ import { Tag } from '@startupjs/ui'
 ```jsx example
 return (
   <Row>
-    <Tag>Primary</Tag>
+    <Tag>Some tag</Tag>
+    <Tag pushed>Other Tag</Tag>
+  </Row>
+)
+```
+
+## Цвета
+
+Цвет по умолчанию `primary`. Его можно изменить, изменив свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
+  <Row>
+    <Tag>Defautl primary</Tag>
     <Tag color='success' pushed>Success</Tag>
     <Tag color='warning' pushed>Warning</Tag>
     <Tag color='error' pushed>Error</Tag>
