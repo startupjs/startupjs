@@ -16,10 +16,10 @@ COMPILED_PATH="${DEFAULT_PERSISTENT_PATH}/compiled"
 DEFAULT_DOCKERFILE_PATH="$SRC_PATH/helpers/Dockerfile"
 
 REQUIRED_VARS=(\
-  "_APP" "_ZONE" \
+  "_APP" \
   "PROJECT_ID" "BUILD_ID" "COMMIT_SHA" "REPO_NAME" "BRANCH_NAME" \
 )
-OPTIONAL_VARS=("_CLUSTER_NAME" "_DOMAIN" "_PATH")
+OPTIONAL_VARS=("_ZONE" "_CLUSTER_NAME" "_DOMAIN" "_PATH")
 
 COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply" "applyVersion" "batch")
 
@@ -53,7 +53,8 @@ function _log {
 
 function _initKubectl {
   local clusterName=${_CLUSTER_NAME:-$PROJECT_ID}
-  gcloud container clusters get-credentials --zone "$_ZONE" "$clusterName"
+  local zone=${_ZONE:-"us-east1-d"}
+  gcloud container clusters get-credentials --zone "$zone" "$clusterName"
 }
 
 function _sourceEnv {
