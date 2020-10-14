@@ -69,7 +69,7 @@ Breadcrumbs.propTypes = {
   routes: propTypes.arrayOf(propTypes.shape({
     to: propTypes.string,
     name: propTypes.string,
-    icon: propTypes.object
+    icon: propTypes.oneOfType([propTypes.object, propTypes.func])
   })).isRequired,
   iconPosition: propTypes.oneOf(['left', 'right']),
   separator: propTypes.string,

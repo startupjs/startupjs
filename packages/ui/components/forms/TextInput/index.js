@@ -95,7 +95,7 @@ TextInput.propTypes = {
   disabled: propTypes.bool,
   resize: propTypes.bool,
   numberOfLines: propTypes.number,
-  icon: propTypes.object,
+  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
   iconPosition: propTypes.oneOf(['left', 'right']),
   onBlur: propTypes.func,
   onFocus: propTypes.func,
