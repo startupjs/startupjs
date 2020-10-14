@@ -55,7 +55,7 @@ import {
 ```
 
 ```jsx example
-const [numSize, setNumSize] = useState(80)
+const [numSize, setNumSize] = useState('80')
 return (
   <Content>
     <Row align='around'>
@@ -70,10 +70,10 @@ return (
     <TextInput
       label='Type in number to change icon size'
       value={numSize}
-      onChangeText={newVal => setNumSize(Number(newVal))}
+      onChangeText={value => setNumSize(value)}
     />
     <Br />
-    <Icon size={numSize} icon={faTable} />
+    <Icon size={+numSize} icon={faTable} />
   </Content>
 )
 ```

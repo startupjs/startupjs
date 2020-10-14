@@ -139,7 +139,7 @@ Button.propTypes = {
   size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,
   textColor: propTypes.string,
-  icon: propTypes.object,
+  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
   iconPosition: propTypes.oneOf(['left', 'right']),
   iconColor: propTypes.string
 }

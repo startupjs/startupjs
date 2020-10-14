@@ -56,7 +56,7 @@ const RouteComponent = observer(function RCComponent ({
     if (!filters) return setRender(true)
     filters = filters.slice()
     function runFilter (err) {
-      if (err) return onError(err)
+      if (err) return emit('error', err)
       const filter = filters.shift()
       if (typeof filter === 'function') {
         return filter($root, runFilter, (url) => {

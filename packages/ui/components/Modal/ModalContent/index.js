@@ -8,6 +8,7 @@ import './index.styl'
 function ModalContent ({
   style,
   children,
+  ContentComponent = ScrollView,
   variant // @private
 }) {
   const content = React.Children.map(children, (child, index) => {
@@ -20,7 +21,7 @@ function ModalContent ({
   })
 
   return pug`
-    ScrollView.root(styleName=[variant])= content
+    ContentComponent.root(styleName=[variant])= content
   `
 }
 

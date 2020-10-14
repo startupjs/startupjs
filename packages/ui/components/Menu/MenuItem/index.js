@@ -77,7 +77,7 @@ MenuItem.propTypes = {
   children: propTypes.node,
   active: propTypes.bool,
   bold: propTypes.bool,
-  icon: propTypes.object,
+  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
   iconPosition: propTypes.oneOf(['left', 'right']),
   onPress: propTypes.func,
   activeColor: propTypes.string

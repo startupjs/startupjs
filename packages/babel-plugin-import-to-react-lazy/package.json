@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-import-to-react-lazy",
-  "version": "0.23.0",
+  "version": "0.23.45",
   "publishConfig": {
     "access": "public"
   },
