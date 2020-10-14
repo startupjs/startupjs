@@ -1,7 +1,6 @@
 const assert = require('assert')
-const path = require('path')
 const { getDbs } = require('./db.js')
-const shareDbAccess = require('../lib/index.js')
+const ShareDbAccess = require('../lib/index.js')
 
 let { backend } = getDbs()
 const model = backend.createModel()
@@ -9,29 +8,11 @@ const model = backend.createModel()
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
 
-
 let taskId
 
-// we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
-// because eventHandler emit event 'error' from sharedb
-// here trigger got error: https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L196
-// and than appear emit('error') https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L91
-const checkPromise = () => {
-  return new Promise((resolve, reject) => {
-    model.on('error', (error) => {
-      resolve(error)
-    })
-    const $task = model.at('tasksDelete' + '.' + taskId)
-    $task.subscribe()
-    $task.del()
-    setTimeout(() => resolve(true), 1000)
-  })
-}
-
-let shareDBAccess = new shareDbAccess(backend)
+let shareDBAccess = new ShareDbAccess(backend)
 
 describe('DELETE', function () {
-
   before(async () => {
     backend.allowCreate('tasksDelete', async (docId, doc, session) => {
       return true
@@ -59,8 +40,15 @@ describe('DELETE', function () {
       return false
     })
 
-    const res = await checkPromise()
-    assert.equal(res.code, 403.4)
+    try {
+      const $task = model.at('tasksDelete' + '.' + taskId)
+      await $task.subscribe()
+      await $task.del()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.4)
+      return
+    }
+    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -71,8 +59,15 @@ describe('DELETE', function () {
       return true
     })
 
-    const res = await checkPromise()
-    assert.equal(res, true)
+    try {
+      const $task = model.at('tasksDelete' + '.' + taskId)
+      await $task.subscribe()
+      await $task.del()
+    } catch (e) {
+      assert(false)
+      return
+    }
+    assert(true)
   })
 
   it('deny = true && allow = false => err{ code: 403.4 }', async () => {
@@ -83,8 +78,15 @@ describe('DELETE', function () {
       return false
     })
 
-    const res = await checkPromise()
-    assert.equal(res.code, 403.4)
+    try {
+      const $task = model.at('tasksDelete' + '.' + taskId)
+      await $task.subscribe()
+      await $task.del()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.4)
+      return
+    }
+    assert(false)
   })
 
   it('deny = true && allow = true => err{ code: 403.4 }', async () => {
@@ -94,8 +96,15 @@ describe('DELETE', function () {
     backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-    
-    const res = await checkPromise()
-    assert.equal(res.code, 403.4)
+
+    try {
+      const $task = model.at('tasksDelete' + '.' + taskId)
+      await $task.subscribe()
+      await $task.del()
+    } catch (e) {
+      assert.strictEqual(e.code, 403.4)
+      return
+    }
+    assert(false)
   })
 })

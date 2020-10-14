@@ -1,7 +1,6 @@
 const assert = require('assert')
-const path = require('path')
 const { getDbs } = require('./db.js')
-const shareDbAccess = require('../lib/index.js')
+const ShareDbAccess = require('../lib/index.js')
 
 let { backend } = getDbs()
 const model = backend.createModel()
@@ -9,27 +8,18 @@ const model = backend.createModel()
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
 
-let shareDBAccess = new shareDbAccess(backend)
+let shareDBAccess = new ShareDbAccess(backend)
 
 let id
 
-// we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
-// because eventHandler emit event 'error' from sharedb
-// here trigger got error: https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L196
-// and than appear emit('error') https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L91
-const checkPromise = (number) => {
-  return new Promise((resolve, reject) => {
-    model.on('error', (error) => {
-      resolve(error)
-    })
-    const $task = model.at('tasksUpdate' + '.' + id)
-    $task.set('newField' + number, 'testInfo')
-    setTimeout(() => resolve(true), 1000)
-  })
+// test number so that each change is unique
+let number = 1
+
+const getTestNumber = () => {
+  return number++
 }
 
 describe('UPDATE', function () {
-
   before(async () => {
     backend.allowCreate('tasksUpdate', async (docId, doc, session) => {
       return true
@@ -54,9 +44,15 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return false
     })
-    
-    const res = await checkPromise(1)
-    assert.equal(res.code, 403.3)
+
+    try {
+      const $task = model.at('tasksUpdate' + '.' + id)
+      await $task.set('newField' + getTestNumber(), 'testInfo')
+    } catch (e) {
+      assert.strictEqual(e.code, 403.3)
+      return
+    }
+    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -66,10 +62,15 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return true
     })
-      
-    const res = await checkPromise(2)
-    assert.equal(res, true)
-   
+
+    try {
+      const $task = model.at('tasksUpdate' + '.' + id)
+      await $task.set('newField' + getTestNumber(), 'testInfo')
+    } catch (e) {
+      assert(false)
+      return
+    }
+    assert(true)
   })
 
   it('deny = true && allow = false => err{ code: 403.3 }', async () => {
@@ -79,9 +80,15 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return false
     })
-    
-    const res = await checkPromise(3)
-    assert.equal(res.code, 403.3)
+
+    try {
+      const $task = model.at('tasksUpdate' + '.' + id)
+      await $task.set('newField' + getTestNumber(), 'testInfo')
+    } catch (e) {
+      assert.strictEqual(e.code, 403.3)
+      return
+    }
+    assert(false)
   })
 
   it('deny = true && allow = true => err{ code: 403.3 }', async () => {
@@ -91,9 +98,14 @@ describe('UPDATE', function () {
     backend.allowUpdate('tasksUpdate', async (docId, oldDoc, newDoc, ops, session) => {
       return true
     })
-    
-    const res = await checkPromise(4)
-    assert.equal(res.code, 403.3)
-  })
 
+    try {
+      const $task = model.at('tasksUpdate' + '.' + id)
+      await $task.set('newField' + getTestNumber(), 'testInfo')
+    } catch (e) {
+      assert.strictEqual(e.code, 403.3)
+      return
+    }
+    assert(false)
+  })
 })

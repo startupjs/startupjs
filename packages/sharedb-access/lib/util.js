@@ -1,53 +1,59 @@
 
-module.exports.relevantPath = (pattern, op) => {
-  var segments = segmentsFor(op);
-  var patternSegments = pattern.split('.');
+const relevantPath = (pattern, op) => {
+  let segments = segmentsFor(op)
+  let patternSegments = pattern.split('.')
 
   if (segments.length !== patternSegments.length) {
-    return false;
+    return false
   }
 
-  if (-1 === patternSegments.indexOf('*')) {
-    return segments.join('.') === patternSegments.join('.');
+  if (patternSegments.indexOf('*') === -1) {
+    return segments.join('.') === patternSegments.join('.')
   }
 
-  var regExp = patternToRegExp(patternSegments.join('.'));
+  let regExp = patternToRegExp(patternSegments.join('.'))
 
-
-  return regExp.test(segments.join('.'));
+  return regExp.test(segments.join('.'))
 }
 
-module.exports.lookup = (segments, doc) => {
+const lookup = (segments, doc) => {
+  let curr = doc
+  let part
 
-  var part, curr = doc;
-  for (var i = 0; i < segments.length; i++) {
-    part = segments[i];
-    if (curr !== void 0) {
-      curr = curr[part];
+  for (let i = 0; i < segments.length; i++) {
+    part = segments[i]
+    if (curr !== 0) {
+      curr = curr[part]
     }
   }
-
-  return curr;
+  return curr
 }
 
-module.exports.patternToRegExp = (pattern) => {
-  var regExpString = pattern
-    .replace(/\./g, "\\.")
-    .replace(/\*\*/g, "(.+)")
-    .replace(/\*/g, "([^.]+)");
+const patternToRegExp = (pattern) => {
+  let regExpString = pattern
+    .replace(/\./g, '\\.')
+    .replace(/\*\*/g, '(.+)')
+    .replace(/\*/g, '([^.]+)')
 
-  return new RegExp('^'+regExpString+'$');
+  return new RegExp('^' + regExpString + '$')
 }
 
-module.exports.segmentsFor = (item) => {
+const segmentsFor = (item) => {
+  let relativeSegments = item.p
 
-  var relativeSegments = item.p;
+  if (normalPath(item)) return relativeSegments
 
-  if (normalPath(item)) return relativeSegments;
-
-  return relativeSegments.slice(0, -1);
+  return relativeSegments.slice(0, -1)
 }
 
-module.exports.normalPath = (item) => {
-  return 'oi' in item || 'od' in item || 'li' in item || 'ld' in item || 'na' in item;
+const normalPath = (item) => {
+  return 'oi' in item || 'od' in item || 'li' in item || 'ld' in item || 'na' in item
+}
+
+module.exports = {
+  relevantPath,
+  lookup,
+  patternToRegExp,
+  segmentsFor,
+  normalPath
 }
