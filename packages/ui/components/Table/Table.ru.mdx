@@ -2,15 +2,16 @@ import Table from '../Table'
 import Thead from '../Thead'
 import Tbody from '../Tbody'
 import Tr from '../Tr'
+import Th from '../Th'
 import Td from '../Td'
 import Span from '../typography/Span'
 
 # Table (таблица)
 
-Компонент Table позволяет расположить данные в строках и столбцах. Таблица может содержать шапку и тело, которые задаются с помощью компонентов Thead и Tbody. Любая таблица состоит из строк и ячеек, которые задаются с помощью компонентов Tr и Td.
+Компонент Table позволяет расположить данные в строках и столбцах. Таблица может содержать шапку и тело, которые задаются с помощью компонентов Thead и Tbody. Любая таблица состоит из строк и ячеек, которые задаются с помощью компонентов Tr и Th или Td.
 
 ```jsx
-import { Table, Thead, Tbody, Tr, Td } from '@startupjs/ui'
+import { Table, Thead, Tbody, Tr, Th, Td } from '@startupjs/ui'
 ```
 
 ## Пример
@@ -24,15 +25,13 @@ return (
   <Table style={tableStyle}>
     <Thead>
       <Tr>
-        <Td>
-          <Span bold>First</Span>
-        </Td>
-        <Td>
-          <Span bold>Second</Span>
-        </Td>
-        <Td>
-          <Span bold>Third</Span>
-        </Td>
+        <Th>
+          <Span bold italic>
+            First
+          </Span>
+        </Th>
+        <Th>Second</Th>
+        <Th>Third</Th>
       </Tr>
     </Thead>
     <Tbody>

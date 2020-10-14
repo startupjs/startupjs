@@ -2,15 +2,16 @@ import Table from '../Table'
 import Thead from '../Thead'
 import Tbody from '../Tbody'
 import Tr from '../Tr'
+import Th from '../Th'
 import Td from '../Td'
 import Span from '../typography/Span'
 
 # Table
 
-The Table component allows to arrange data in rows and columns. The table can contain a header and a body, which are specified using the Thead and Tbody components. Any table consists of rows and cells, which are specified using the Tr and Td components.
+The Table component allows to arrange data in rows and columns. The table can contain a header and a body, which are specified using the Thead and Tbody components. Any table consists of rows and cells, which are specified using the Tr and Th or Td components.
 
 ```jsx
-import { Table, Thead, Tbody, Tr, Td } from '@startupjs/ui'
+import { Table, Thead, Tbody, Tr, Th, Td } from '@startupjs/ui'
 ```
 
 ## Example
@@ -24,15 +25,13 @@ return (
   <Table style={tableStyle}>
     <Thead>
       <Tr>
-        <Td>
-          <Span bold>First</Span>
-        </Td>
-        <Td>
-          <Span bold>Second</Span>
-        </Td>
-        <Td>
-          <Span bold>Third</Span>
-        </Td>
+        <Th>
+          <Span bold italic>
+            First
+          </Span>
+        </Th>
+        <Th>Second</Th>
+        <Th>Third</Th>
       </Tr>
     </Thead>
     <Tbody>
