@@ -1,0 +1,63 @@
+import { useState } from 'react'
+import Div from '../../Div'
+import Br from '../../Br'
+import Checkbox from '../Checkbox'
+import { Sandbox } from '@startupjs/docs'
+
+# DatePicker
+
+DatePicker allow the user to pick a date.
+
+```jsx
+import { DatePicker } from from '@startupjs/ui'
+```
+
+## Example
+
+```jsx example
+const [checked, setChecked] = useState(false)
+return (
+  <Div>
+    <Checkbox
+      label='Example'
+      value={checked}
+      onChange={setChecked}
+    />
+    <Br />
+    <Checkbox
+      label='Disabled example'
+      value={true}
+      disabled
+    />
+  </Div>
+)
+```
+
+## Switch
+
+To display component as the switch pass `variant='switch'` to it.
+
+```jsx example
+const [checked, setChecked] = useState(false)
+return (
+  <Div>
+    <Checkbox
+      variant='switch'
+      label='Switch example'
+      value={checked}
+      onChange={setChecked}
+    />
+    <Br />
+    <Checkbox
+      variant='switch'
+      label='Switch disbabled example'
+      value={true}
+      disabled
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Checkbox} />

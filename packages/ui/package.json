@@ -16,7 +16,9 @@
     "@nx-js/observer-util": "^4.1.3",
     "color": "^3.1.2",
     "randomcolor": "^0.5.4",
-    "react-native-drawer-layout-polyfill": "^2.0.0"
+    "react-native-drawer-layout-polyfill": "^2.0.0",
+    "react-native-calendars": "^1.403.0",
+    "moment-timezone": "^0.5.31",
   },
   "peerDependencies": {
     "react": ">= 16.9.0",
