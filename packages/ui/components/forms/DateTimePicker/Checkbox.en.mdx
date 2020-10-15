@@ -1,0 +1,57 @@
+import { useState } from 'react'
+import Div from '../../Div'
+import Br from '../../Br'
+import DateTimePicker from '../DateTimePicker'
+import { Sandbox } from '@startupjs/docs'
+
+# DateTimePicker
+
+DateTimePicker allow the user to select a date or a time or a date and a time.
+
+Keep in mind that the return value is a timestamp rather than Date object.
+
+```jsx
+import { DateTimePicker } from from '@startupjs/ui'
+```
+
+## Example (Default is DateTime mode)
+
+```jsx example
+const [dateTime, setDateTime] = useState()
+return (
+  <Div>
+    <DateTimePicker
+      date={dateTime}
+      onDateChange={setDateTime}
+    />
+  </Div>
+)
+```
+
+## Date and Time Mode
+
+Using mode paramter to let DateTimePicker only ask user to select date or time
+
+```jsx example
+const [date, setDate] = useState()
+const [time, setTime] = useState()
+return (
+  <Div>
+    <DateTimePicker
+      date={date}
+      onDateChange={setDate}
+      mode='date'
+    />
+    <Br />
+    <DateTimePicker
+      date={time}
+      onDateChange={setTime}
+      mode='time'
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={DateTimePicker} />
