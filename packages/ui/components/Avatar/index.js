@@ -58,11 +58,11 @@ Avatar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   src: PropTypes.string,
   size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
-  shape: Div.PropTypes.shape,
+  shape: Div.propTypes.shape,
   status: PropTypes.oneOf(['online', 'away']),
   children: PropTypes.string,
-  disabled: Div.PropTypes.disabled,
-  onPress: Div.PropTypes.onPress
+  disabled: Div.propTypes.disabled,
+  onPress: Div.propTypes.onPress
 }
 
 export default observer(Avatar)

@@ -141,7 +141,7 @@ Button.propTypes = {
   children: PropTypes.node,
   variant: PropTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  shape: Div.PropTypes.shape,
+  shape: Div.propTypes.shape,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   iconPosition: PropTypes.oneOf(['left', 'right'])
 }
