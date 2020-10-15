@@ -1,18 +1,6 @@
-import React from 'react'
-import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
-import { View } from 'react-native'
-import './index.styl'
-
-function Table ({ style, children }) {
-  return pug`
-    View.root(style=style)= children
-  `
-}
-
-Table.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  children: PropTypes.node
-}
-
-export default observer(Table)
+export { default as Table } from './Table'
+export { default as Tbody } from './Tbody'
+export { default as Td } from './Td'
+export { default as Th } from './Th'
+export { default as Thead } from './Thead'
+export { default as Tr } from './Tr'

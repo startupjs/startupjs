@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
-import Span from './../typography/Span'
+import Span from './../../typography/Span'
 import './index.styl'
 
 function Td ({ style, children, ellipsis }) {
