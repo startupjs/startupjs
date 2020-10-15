@@ -18,7 +18,7 @@ const Multiselect = ({
   tagVariant,
   activeColor,
   disabled,
-  readOnly,
+  readonly,
   popoverWidth,
   error
 }) => {
@@ -56,7 +56,7 @@ const Multiselect = ({
           activeColor=activeColor
           disabled=disabled
           error=error
-          readOnly=readOnly
+          readonly=readonly
         )
       Div.suggestions-web
         each opt in options
@@ -77,7 +77,7 @@ Multiselect.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
+  readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string
 }

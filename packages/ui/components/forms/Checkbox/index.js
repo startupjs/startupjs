@@ -27,7 +27,7 @@ function CheckboxInput ({
   value,
   layout,
   disabled,
-  readOnly,
+  readonly,
   onChange,
   hoverStyle,
   activeStyle,
@@ -43,13 +43,13 @@ function CheckboxInput ({
   function renderInput (standalone) {
     const Input = INPUT_COMPONENTS[variant]
 
-    if (readOnly) {
+    if (readonly) {
       return pug`
         Row.checkbox-icon-wrap(
           styleName=[variant]
         )
           Span.checkbox-icon(
-            styleName={readOnly}
+            styleName={readonly}
           )=value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
       `
     }
@@ -76,7 +76,7 @@ function CheckboxInput ({
       className=className
       vAlign='center'
       disabled=disabled
-      onPress=!readOnly && onPress
+      onPress=!readonly && onPress
       hoverStyle=hoverStyle
       activeStyle=activeStyle
     )
@@ -93,7 +93,7 @@ CheckboxInput.defaultProps = {
   variant: 'checkbox',
   value: false,
   disabled: false,
-  readOnly: false
+  readonly: false
 }
 
 CheckboxInput.propTypes = {
@@ -103,7 +103,7 @@ CheckboxInput.propTypes = {
   value: propTypes.bool,
   layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,
-  readOnly: propTypes.bool,
+  readonly: propTypes.bool,
   onChange: propTypes.func
 }
 
