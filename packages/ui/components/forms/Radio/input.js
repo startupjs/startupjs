@@ -19,6 +19,7 @@ const Input = function ({
   children,
   checked,
   disabled,
+  readOnly,
   onPress,
   ...props
 }) {
@@ -53,6 +54,17 @@ const Input = function ({
       ).start()
     }
   }, [checked])
+
+  if (readOnly && checked) {
+    return pug`
+      if typeof children === 'string'
+        Span= children
+      else
+        = children
+    `
+  } else if (readOnly && !checked) {
+    return null
+  }
 
   return pug`
     Row.root(

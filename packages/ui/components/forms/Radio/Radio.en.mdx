@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Radio from '../Radio'
 import Span from '../../typography/Span'
+import Div from '../../Div'
+import Br from '../../Br'
 import { Sandbox } from '@startupjs/docs'
 
 # Radio
@@ -16,30 +18,55 @@ import { Radio } from from '@startupjs/ui'
 ```jsx example
 const [checked, setChecked] = useState()
 return (
-  <Radio
-    value={checked}
-    onChange={(value) => setChecked(value)}
-    disabled={checked === 'item2'}
-    options={[
-      {
-        value: 'item1',
-        label: 'Item-1 label'
-      },
-      {
-        value: 'item2',
-        label: 'Disable items'
-      },
-      {
-        value: 'item3',
-        label: 'Item-3 label',
-      },
-      {
-        value: 'item4',
-        label: 'Item-4 disabled item',
-        disabled: true
-      }
-    ]}
-  />
+  <Div>
+    <Radio
+      value={checked}
+      onChange={(value) => setChecked(value)}
+      disabled={checked === 'item2'}
+      options={[
+        {
+          value: 'item1',
+          label: 'Item-1 label'
+        },
+        {
+          value: 'item2',
+          label: 'Disable items'
+        },
+        {
+          value: 'item3',
+          label: 'Item-3 label',
+        },
+        {
+          value: 'item4',
+          label: 'Item-4 disabled item',
+          disabled: true
+        }
+      ]}
+    />
+    <Br />
+    <Radio
+      readOnly
+      value={checked}
+      options={[
+        {
+          value: 'item1',
+          label: 'Item-1 label'
+        },
+        {
+          value: 'item2',
+          label: 'Disable items'
+        },
+        {
+          value: 'item3',
+          label: 'Item-3 label'
+        },
+        {
+          value: 'item4',
+          label: 'Item-4 disabled item'
+        }
+      ]}
+    />
+  </Div>
 )
 ```
 

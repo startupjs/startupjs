@@ -20,6 +20,8 @@ function TextInput ({
   onBlur,
   onFocus,
   renderWrapper, // @private - used by Select
+  readOnly,
+  size,
   ...props
 }) {
   const _layout = useLayout(layout, label)
@@ -36,6 +38,14 @@ function TextInput ({
   }
 
   function renderInput (standalone) {
+    if (readOnly) {
+      return pug`
+        Span.readonlySpan(
+          styleName=[size]
+        )= value
+      `
+    }
+
     return pug`
       Input(
         style=standalone ? [style, wrapperStyle] : wrapperStyle
@@ -46,6 +56,7 @@ function TextInput ({
         disabled=disabled
         focused=focused
         renderWrapper=renderWrapper
+        size=size
         onBlur=(...args) => {
           _onBlur()
           onBlur && onBlur(...args)
@@ -76,6 +87,7 @@ TextInput.defaultProps = {
   size: 'm',
   value: '', // default value is important to prevent error
   disabled: false,
+  readOnly: false,
   resize: false,
   numberOfLines: 1,
   iconPosition: 'left',
@@ -93,6 +105,7 @@ TextInput.propTypes = {
   size: propTypes.oneOf(['l', 'm', 's']),
   layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,
+  readOnly: propTypes.bool,
   resize: propTypes.bool,
   numberOfLines: propTypes.number,
   icon: propTypes.oneOfType([propTypes.object, propTypes.func]),

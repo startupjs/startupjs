@@ -46,6 +46,18 @@ return (
       ]}
       onChange={setCity}
     />
+    <Br />
+    <Select
+      label='Readonly Select example'
+      value={city}
+      readOnly
+      showEmptyValue={false}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+    />
   </Div>
 )
 ```

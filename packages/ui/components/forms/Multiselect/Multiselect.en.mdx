@@ -13,7 +13,7 @@ import { Multiselect } from '@startupjs/ui'
 ```
 
 ```jsx example
-const [cities, setCities] = useState(['la'])
+const [cities, setCities] = useState(['la', 'tk'])
 // options also can be an array of primitives ['apple', 'banana', 'cherry']
 return (
   <Div>
@@ -22,6 +22,17 @@ return (
       placeholder='Select cities'
       value={cities}
       onChange={setCities}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+    />
+    <Br />
+    <Multiselect
+      label='Example readonly Multiselect'
+      readOnly
+      value={cities}
       options={[
         { label: 'New York', value: 'ny' },
         { label: 'Los Angeles', value: 'la' },
