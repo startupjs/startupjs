@@ -167,6 +167,49 @@ class ItemsModel {
 }
 ```
 
+
+## @startupjs/sharedb-schema connection
+
+## Usage
+
+1. In `server/index.js` add `validateSchema: true` to `startupjsServer()` options
+2. Go to one of your ORM document entities (for example, `UserModel`, which targets `users.*`) and add a static method `schema`:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class UserModel extends BaseModel {
+  static schema = {
+    nickname: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 10,
+    },
+    email: {
+      type: 'string',
+      format: 'email',
+    },
+    age: {
+      description: 'Age in years',
+      type: 'integer',
+      minimum: 0,
+    },
+    roleId: {
+      type: 'string'
+    },
+    hobbies: {
+      type: 'array',
+      maxItems: 3,
+      items: {
+        type: 'string',
+      },
+      uniqueItems: true,
+    },
+  }
+}
+
+```
+
 ## MIT Licence
 
 Copyright (c) 2016 Pavel Zhukov

@@ -16,13 +16,17 @@ function Rating ({
   onChange
 }) {
   return pug`
-    Row.root(style=style vAlign='center' align='between' styleName={readonly})
+    Row(style=style vAlign='center')
       if readonly
         Star(active)
-        H6(bold)= Number.isInteger(value) ? value : value.toFixed(1)
+        H6.value(bold)= value.toFixed(1)
       else
         each ITEM, index in ITEMS
-          Div(key=index onPress=() => onChange && onChange(index + 1))
+          Div.star(
+            key=index
+            onPress=() => onChange && onChange(index + 1)
+            styleName={first: index === 0}
+          )
             Star(active=index < Math.round(value))
   `
 }

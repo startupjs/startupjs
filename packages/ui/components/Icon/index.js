@@ -47,6 +47,7 @@ function Icon ({
       )
     `
   }
+
   return pug`
     FontAwesomeIcon(
       style=style

@@ -11,8 +11,8 @@ function Item ({
   const onLayout = e => {
     if (!sizeItem && !itemsInfo[index]) {
       itemsInfo[index] = ({
-        position: e.nativeEvent.layout.y,
-        size: e.nativeEvent.layout.height
+        position: parseInt(e.nativeEvent.layout.y),
+        size: parseInt(e.nativeEvent.layout.height)
       })
       onChangeInfoItems([...itemsInfo])
     }
