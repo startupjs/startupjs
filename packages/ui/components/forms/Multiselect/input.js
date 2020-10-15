@@ -13,6 +13,7 @@ function MultiselectInput ({
   tagVariant,
   activeColor,
   disabled,
+  readOnly,
   showOpts,
   error
 }) {
@@ -27,6 +28,7 @@ function MultiselectInput ({
       )= record.label
     `
   }
+
   return pug`
     Div.inputRoot
       if label
@@ -36,14 +38,16 @@ function MultiselectInput ({
           variant='description'
         )= label
       Row.input(
-        styleName={ disabled, focused: showOpts, error }
-        onPress=disabled ? void 0 : showOptsMenu
+        styleName={ disabled, focused: showOpts, error, readOnly }
+        onPress=disabled || readOnly ? void 0 : showOptsMenu
       )
-        if !value || !value.length
+        if !value || !value.length && !readOnly
           Span.placeholder= placeholder
+        if !value || !value.length && readOnly
+          Span.placeholder='-'
         each _value, index in value
           =renderTag(_value, index)
-      if error
+      if error && !readOnly
         Span.error(
           size='s'
           variant='description'
@@ -60,6 +64,7 @@ MultiselectInput.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
   showOpts: PropTypes.bool,
   error: PropTypes.string
 }
