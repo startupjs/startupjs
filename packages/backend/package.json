@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@startupjs/sharedb-access": "^0.23.45",
+    "@startupjs/sharedb-schema": "^0.23.45",
     "mongodb": "^2.2.31",
     "racer": "0.9.15",
     "racer-schema": "^0.2.1",
