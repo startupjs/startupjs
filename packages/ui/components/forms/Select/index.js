@@ -15,7 +15,7 @@ function Select ({
   showEmptyValue,
   disabled,
   onChange,
-  readOnly,
+  readonly,
   ...props
 }) {
   function renderWrapper ({ style }, children) {
@@ -34,7 +34,7 @@ function Select ({
   return pug`
     TextInput(
       style=style
-      readOnly=readOnly
+      readonly=readonly
       value=getLabelFromValue(value, options)
       disabled=disabled,
       icon=faAngleDown
@@ -47,14 +47,14 @@ function Select ({
 
 Select.defaultProps = {
   disabled: false,
-  readOnly: false,
+  readonly: false,
   options: [],
   showEmptyValue: true
 }
 
 Select.propTypes = {
   disabled: propTypes.bool,
-  readOnly: propTypes.bool,
+  readonly: propTypes.bool,
   onChange: propTypes.func,
   options: propTypes.array,
   showEmptyValue: propTypes.bool

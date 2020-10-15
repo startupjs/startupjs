@@ -20,7 +20,7 @@ function TextInput ({
   onBlur,
   onFocus,
   renderWrapper, // @private - used by Select
-  readOnly,
+  readonly,
   size,
   ...props
 }) {
@@ -38,7 +38,7 @@ function TextInput ({
   }
 
   function renderInput (standalone) {
-    if (readOnly) {
+    if (readonly) {
       return pug`
         Span.readonlySpan(
           styleName=[size]
@@ -87,7 +87,7 @@ TextInput.defaultProps = {
   size: 'm',
   value: '', // default value is important to prevent error
   disabled: false,
-  readOnly: false,
+  readonly: false,
   resize: false,
   numberOfLines: 1,
   iconPosition: 'left',
@@ -105,7 +105,7 @@ TextInput.propTypes = {
   size: propTypes.oneOf(['l', 'm', 's']),
   layout: propTypes.oneOf(['pure', 'rows']),
   disabled: propTypes.bool,
-  readOnly: propTypes.bool,
+  readonly: propTypes.bool,
   resize: propTypes.bool,
   numberOfLines: propTypes.number,
   icon: propTypes.oneOfType([propTypes.object, propTypes.func]),

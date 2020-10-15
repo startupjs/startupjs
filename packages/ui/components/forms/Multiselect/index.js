@@ -17,7 +17,7 @@ const Multiselect = ({
   activeColor,
   disabled,
   popoverWidth,
-  readOnly,
+  readonly,
   error
 }) => {
   const [showOpts, setShowOpts] = useState(false)
@@ -57,7 +57,7 @@ const Multiselect = ({
       tagVariant=tagVariant
       activeColor=activeColor
       disabled=disabled
-      readOnly=readOnly
+      readonly=readonly
       popoverWidth=popoverWidth
       error=error
     )
@@ -75,7 +75,7 @@ Multiselect.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
+  readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string
 }
@@ -87,7 +87,7 @@ Multiselect.defaultProps = {
   tagVariant: 'flat',
   activeColor: 'primary',
   disabled: false,
-  readOnly: false,
+  readonly: false,
   popoverWidth: u(30)
 }
 

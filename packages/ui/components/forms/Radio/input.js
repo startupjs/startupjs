@@ -19,7 +19,7 @@ const Input = function ({
   children,
   checked,
   disabled,
-  readOnly,
+  readonly,
   onPress,
   ...props
 }) {
@@ -55,14 +55,14 @@ const Input = function ({
     }
   }, [checked])
 
-  if (readOnly && checked) {
+  if (readonly && checked) {
     return pug`
       if typeof children === 'string'
         Span= children
       else
         = children
     `
-  } else if (readOnly && !checked) {
+  } else if (readonly && !checked) {
     return null
   }
 
