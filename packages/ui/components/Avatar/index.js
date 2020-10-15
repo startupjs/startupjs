@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import Div from './../Div'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Span from '../typography/Span'
 import './index.styl'
@@ -55,14 +55,14 @@ Avatar.defaultProps = {
 }
 
 Avatar.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  src: propTypes.string,
-  size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
-  shape: Div.propTypes.shape,
-  status: propTypes.oneOf(['online', 'away']),
-  children: propTypes.string,
-  disabled: Div.propTypes.disabled,
-  onPress: Div.propTypes.onPress
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  src: PropTypes.string,
+  size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  shape: Div.PropTypes.shape,
+  status: PropTypes.oneOf(['online', 'away']),
+  children: PropTypes.string,
+  disabled: Div.PropTypes.disabled,
+  onPress: Div.PropTypes.onPress
 }
 
 export default observer(Avatar)

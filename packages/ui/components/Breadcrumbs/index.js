@@ -1,6 +1,6 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Link from './../Link'
 import Row from '../Row'
 import Div from '../Div'
@@ -65,16 +65,16 @@ Breadcrumbs.defaultProps = {
 }
 
 Breadcrumbs.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  routes: propTypes.arrayOf(propTypes.shape({
-    to: propTypes.string,
-    name: propTypes.string,
-    icon: propTypes.oneOfType([propTypes.object, propTypes.func])
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    to: PropTypes.string,
+    name: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
   })).isRequired,
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  separator: propTypes.string,
-  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  replace: propTypes.bool
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  separator: PropTypes.string,
+  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+  replace: PropTypes.bool
 }
 
 export default observer(Breadcrumbs)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Div from './../../Div'
 import Link from './../../Link'
 import Icon from './../../Icon'
@@ -71,16 +71,16 @@ MenuItem.defaultProps = {
 }
 
 MenuItem.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  to: propTypes.string,
-  children: propTypes.node,
-  active: propTypes.bool,
-  bold: propTypes.bool,
-  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  onPress: propTypes.func,
-  activeColor: propTypes.string
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  to: PropTypes.string,
+  children: PropTypes.node,
+  active: PropTypes.bool,
+  bold: PropTypes.bool,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  onPress: PropTypes.func,
+  activeColor: PropTypes.string
 }
 
 export default observer(MenuItem)

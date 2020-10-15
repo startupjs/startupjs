@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import STYLES from './index.styl'
 
@@ -34,11 +34,11 @@ Content.defaultProps = {
 }
 
 Content.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  padding: propTypes.bool,
-  full: propTypes.bool,
-  width: propTypes.oneOf(['mobile', 'tablet', 'desktop', 'wide', 'full']),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  padding: PropTypes.bool,
+  full: PropTypes.bool,
+  width: PropTypes.oneOf(['mobile', 'tablet', 'desktop', 'wide', 'full']),
+  children: PropTypes.node
 }
 
 export default observer(Content)

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Div from '../Div'
 import STYLES from './index.styl'
 
@@ -39,11 +39,11 @@ Card.defaultProps = {
 }
 
 Card.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  level: propTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
-  variant: propTypes.oneOf(['elevated', 'outlined']),
-  onPress: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
+  variant: PropTypes.oneOf(['elevated', 'outlined']),
+  onPress: PropTypes.func
 }
 
 export default observer(Card)

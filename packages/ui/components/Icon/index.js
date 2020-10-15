@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
 import { observer, u } from 'startupjs'
+import PropTypes from 'prop-types'
+import { StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import propTypes from 'prop-types'
 import STYLES from './index.styl'
 
 const {
@@ -60,11 +60,11 @@ Icon.defaultProps = {
 }
 
 Icon.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
-  size: propTypes.oneOfType([
-    propTypes.oneOf(Object.keys(SIZES)),
-    propTypes.number
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(Object.keys(SIZES)),
+    PropTypes.number
   ])
 }
 

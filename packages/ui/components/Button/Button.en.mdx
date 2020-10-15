@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Button from '../Button'
 import Div from '../Div'
-import Br from '../Br'
 import Row from '../Row'
+import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 import {
   faCheck,
@@ -29,47 +29,31 @@ return (
 )
 ```
 
-## Call to Action
+## Variants
 
-Try to keep the variety of button combinations you use in your app to the minimum.
-
-Use regular Button without any options by default. Whenever you want to emphasize a particular `Call-to-Action`, use a primary flat button.
-
-```jsx example
-<Button color='primary' variant='flat'>
-  Destroy the Death Star!
-</Button>
-```
-
-## Icons
-
-Icon can be added using `icon` prop. Position of icon can be changed by passing `iconPosition` to component (`left` by default).
-
-The icon color can be set by specifying the color name from $ UI.colors.
-
-In `.styl` file
-```stylus
-.icon
-  color $UI.colors.success
-```
+The `variant` property is responsible for the external display of the button (affects the color of the icon and button text). Default value is `outlined`.
 
 ```jsx example
 return (
-  <Row>
-    <Button icon={faCoffee} iconStyleName='icon'>
-      Icon on the left
+  <Div>
+    <Button icon={faCoffee}>
+      Outlined
     </Button>
-    <Button icon={faCoffee} iconPosition='right' pushed>
-      Icon on the right
+    <Br />
+    <Button variant='flat' icon={faCoffee}>
+      Flat
     </Button>
-  </Row>
+    <Br />
+    <Button variant='text' icon={faCoffee}>
+      Text
+    </Button>
+  </Div>
 )
 ```
 
 ## Colors
 
-The `color` property is `dark` by default. It can be changed by changing `color` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
-
+Color is `dark` by default. It can be changed by passing color name from the config colors to `color` property. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
 ```jsx example
 return (
@@ -89,31 +73,9 @@ return (
 )
 ```
 
-## Variant
+## Sizes
 
-The `variant` property is responsible for the external display of the button (affects the color of the icon and button text). The `variant` property is `outlined` by default.
-
-```jsx example
-return (
-  <Div>
-    <Button icon={faCoffee}>
-      Default outlined
-    </Button>
-    <Br />
-    <Button variant='flat' icon={faCoffee}>
-      Flat
-    </Button>
-    <Br />
-    <Button variant='text' icon={faCoffee}>
-      Text
-    </Button>
-  </Div>
-)
-```
-
-## Size
-
-The `size` property applies to the button size, icon and button text. It can be changed by changing `size` property and its default value is `m`. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+The `size` property applies to the button size, icon and button text. Default value is `m`. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
 ```jsx example
 return (
@@ -131,6 +93,42 @@ return (
     </Button>
   </Div>
 )
+```
+
+## Icons
+
+Icon can be added using `icon` property. Position of icon can be changed by passing `iconPosition` to component (`left` by default). To change icon color use the `iconStyleName` property.
+
+In `.styl` file
+```stylus
+.icon
+  color $UI.colors.success
+```
+
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee} iconStyleName='icon'>
+      Icon on the left (default) with the changed color
+    </Button>
+    <Br />
+    <Button icon={faCoffee} iconPosition='right'>
+      Icon on the right
+    </Button>
+  </Div>
+)
+```
+
+## Call to Action
+
+Try to keep the variety of button combinations you use in your app to the minimum.
+
+Use regular Button without any options by default. Whenever you want to emphasize a particular `Call-to-Action`, use a primary flat button.
+
+```jsx example
+<Button color='primary' variant='flat'>
+  Destroy the Death Star!
+</Button>
 ```
 
 ## Buttons order

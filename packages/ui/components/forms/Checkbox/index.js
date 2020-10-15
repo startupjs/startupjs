@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Row from './../../Row'
 import Div from './../../Div'
 import Span from './../../typography/Span'
@@ -78,13 +78,13 @@ CheckboxInput.defaultProps = {
 }
 
 CheckboxInput.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  variant: propTypes.oneOf(['checkbox', 'switch']),
-  label: propTypes.node,
-  value: propTypes.bool,
-  layout: propTypes.oneOf(['pure', 'rows']),
-  disabled: propTypes.bool,
-  onChange: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  variant: PropTypes.oneOf(['checkbox', 'switch']),
+  label: PropTypes.node,
+  value: PropTypes.bool,
+  layout: PropTypes.oneOf(['pure', 'rows']),
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(CheckboxInput)

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import Tag from '../Tag'
-import Row from '../Row'
-import { u } from 'startupjs'
+import Div from '../Div'
+import Br from '../Br'
 import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Tag (тег)
 Наследует [Button props](/docs/ru/components/Button).
@@ -18,10 +19,7 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Row>
-    <Tag>Some tag</Tag>
-    <Tag pushed>Other Tag</Tag>
-  </Row>
+  <Tag>Тег</Tag>
 )
 ```
 
@@ -31,12 +29,15 @@ return (
 
 ```jsx example
 return (
-  <Row>
-    <Tag>Defautl primary</Tag>
-    <Tag color='success' pushed>Success</Tag>
-    <Tag color='warning' pushed>Warning</Tag>
-    <Tag color='error' pushed>Error</Tag>
-  </Row>
+  <Div>
+    <Tag>Основной (по умолчанию)</Tag>
+    <Br />
+    <Tag color='success'>Успех</Tag>
+    <Br />
+    <Tag color='warning'>Предупреждение</Tag>
+    <Br />
+    <Tag color='error'>Ошибка</Tag>
+  </Div>
 )
 ```
 
@@ -46,36 +47,45 @@ return (
 
 ```jsx example
 return (
-  <Row>
-    <Tag variant='outlined'>Outlined primary</Tag>
-    <Tag color='error' variant='outlined' pushed>Outlined error</Tag>
-  </Row>
+  <Tag variant='outlined'>Контурный тег</Tag>
 )
 ```
 
-## Shapes
+## Формы
 
 Теги могут иметь различную угловую форму. Её можно изменить, изменив свойство `shape` (`circle` по умолчанию) на `rounded`.
 
 ```jsx example
 return (
-  <Row>
-    <Tag>Circle shape</Tag>
-    <Tag shape='rounded' pushed>Rounded shape</Tag>
-  </Row>
+  <Div>
+    <Tag>Форма круга</Tag>
+    <Br />
+    <Tag shape='rounded'>Округлая форма</Tag>
+  </Div>
 )
 ```
 
 ## Иконки
 
-Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию).
+Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию). Чтобы изменить цвет иконки используйте `iconStyleName` свойство.
+
+В `.styl` файле
+```stylus
+.icon
+  color $UI.colors.primary
+```
 
 ```jsx example
 return (
-  <Row>
-    <Tag icon={faCoffee}>Icon on the left</Tag>
-    <Tag icon={faCoffee} iconPosition='right' pushed>Icon on the right</Tag>
-  </Row>
+  <Div>
+    <Tag variant='outlined' icon={faCoffee} iconStyleName='icon'>
+      Иконка слева (по умолчанию) с измененным цветом
+    </Tag>
+    <Br />
+    <Tag icon={faCoffee} iconPosition='right'>
+      Иконка справа
+    </Tag>
+  </Div>
 )
 ```
 

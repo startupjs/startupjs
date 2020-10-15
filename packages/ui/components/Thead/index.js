@@ -1,6 +1,6 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import './index.styl'
 
@@ -15,9 +15,9 @@ Thead.defaultProps = {
 }
 
 Thead.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  bordered: propTypes.bool
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  bordered: PropTypes.bool
 }
 
 export default observer(Thead)

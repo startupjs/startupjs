@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { ActivityIndicator } from 'react-native'
-import propTypes from 'prop-types'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -24,8 +24,8 @@ Loader.defaultProps = {
 }
 
 Loader.propTypes = {
-  size: propTypes.oneOf(['s', 'm']),
-  color: propTypes.oneOf(Object.keys(colors))
+  size: PropTypes.oneOf(['s', 'm']),
+  color: PropTypes.oneOf(Object.keys(colors))
 }
 
 export default observer(Loader)

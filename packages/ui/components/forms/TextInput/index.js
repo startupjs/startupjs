@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import Input from './input'
 import Span from './../../typography/Span'
-import propTypes from 'prop-types'
 import { useLayout } from './../../../hooks'
 import './index.styl'
 
@@ -83,23 +83,23 @@ TextInput.defaultProps = {
 }
 
 TextInput.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  inputStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  wrapperStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  label: propTypes.string,
-  placeholder: propTypes.string,
-  value: propTypes.string,
-  size: propTypes.oneOf(['l', 'm', 's']),
-  layout: propTypes.oneOf(['pure', 'rows']),
-  disabled: propTypes.bool,
-  resize: propTypes.bool,
-  numberOfLines: propTypes.number,
-  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  onBlur: propTypes.func,
-  onFocus: propTypes.func,
-  onChangeText: propTypes.func,
-  onIconPress: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+  size: PropTypes.oneOf(['l', 'm', 's']),
+  layout: PropTypes.oneOf(['pure', 'rows']),
+  disabled: PropTypes.bool,
+  resize: PropTypes.bool,
+  numberOfLines: PropTypes.number,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
+  onChangeText: PropTypes.func,
+  onIconPress: PropTypes.func
 }
 
 export default observer(TextInput)

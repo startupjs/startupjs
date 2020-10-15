@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer, u } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
-import propTypes from 'prop-types'
 import Span from '../typography/Span'
 import Div from '../Div'
 import Filler from './filler'
@@ -37,12 +37,12 @@ Progress.defaultProps = {
 }
 
 Progress.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  value: propTypes.number,
-  children: propTypes.node,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  value: PropTypes.number,
+  children: PropTypes.node,
   shape: Div.propTypes.shape,
-  width: propTypes.number,
-  variant: propTypes.oneOf(['linear', 'circular']) // TODO: Add circular progress
+  width: PropTypes.number,
+  variant: PropTypes.oneOf(['linear', 'circular']) // TODO: Add circular progress
 }
 
 export default observer(Progress)

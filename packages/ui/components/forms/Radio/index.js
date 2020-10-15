@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Input from './input'
 import Div from './../../Div'
 import './index.styl'
@@ -56,16 +56,16 @@ Radio.defaultProps = {
 }
 
 Radio.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   // TODO: Also support pure values like in Select. Api should be the same.
-  data: propTypes.arrayOf(propTypes.shape({
-    value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-    label: propTypes.oneOfType([propTypes.string, propTypes.number])
+  data: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })),
-  options: propTypes.array,
-  disabled: propTypes.bool,
-  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  onChange: propTypes.func
+  options: PropTypes.array,
+  disabled: PropTypes.bool,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func
 }
 
 const ObservedRadio = observer(Radio)

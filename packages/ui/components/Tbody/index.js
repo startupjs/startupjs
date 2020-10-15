@@ -1,6 +1,6 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 
 function Tbody ({ style, children }) {
@@ -10,8 +10,8 @@ function Tbody ({ style, children }) {
 }
 
 Tbody.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(Tbody)

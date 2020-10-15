@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Row from '../Row'
@@ -45,10 +45,10 @@ Alert.defaultProps = {
 }
 
 Alert.propTypes = {
-  variant: propTypes.oneOf(['info', 'error', 'warning', 'success']),
-  label: propTypes.string,
-  icon: propTypes.object,
-  onClose: propTypes.func
+  variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
+  label: PropTypes.string,
+  icon: PropTypes.object,
+  onClose: PropTypes.func
 }
 
 export default observer(Alert)

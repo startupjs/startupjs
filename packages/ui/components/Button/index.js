@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import { StyleSheet } from 'react-native'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
@@ -27,7 +27,7 @@ function Button ({
   icon,
   iconPosition,
   disabled,
-  onPress,
+  onPress = () => {},
   ...props
 }) {
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
@@ -136,14 +136,14 @@ Button.defaultProps = {
 
 Button.propTypes = {
   ...Div.propTypes,
-  textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  color: propTypes.oneOf(Object.keys(colors)),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
-  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  shape: Div.propTypes.shape,
-  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
-  iconPosition: propTypes.oneOf(['left', 'right'])
+  textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  color: PropTypes.oneOf(Object.keys(colors)),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
+  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+  shape: Div.PropTypes.shape,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
 export default observer(Button)

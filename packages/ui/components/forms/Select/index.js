@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Wrapper from './Wrapper'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
@@ -50,9 +50,9 @@ Select.defaultProps = {
 }
 
 Select.propTypes = {
-  onChange: propTypes.func,
-  options: propTypes.array,
-  showEmptyValue: propTypes.bool
+  onChange: PropTypes.func,
+  options: PropTypes.array,
+  showEmptyValue: PropTypes.bool
 }
 
 export default observer(Select)

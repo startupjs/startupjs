@@ -1,10 +1,10 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
 import Icon from './../../Icon'
 import Row from './../../Row'
 import Div from './../../Div'
-import propTypes from 'prop-types'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
@@ -27,8 +27,8 @@ function ModalHeader ({
 }
 
 ModalHeader.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(ModalHeader)
