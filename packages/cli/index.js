@@ -230,7 +230,8 @@ const TEMPLATES = {
     packages: [
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@fortawesome/free-solid-svg-icons@^5.12.0',
-      'react-native-collapsible@1.5.2'
+      'react-native-collapsible@1.5.2',
+      'react-native-datepicker@~1.7.2'
     ]
   }
 }
