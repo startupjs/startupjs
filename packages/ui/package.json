@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/ui",
-  "version": "0.23.50",
+  "version": "0.23.52",
   "description": "UI components for react-native",
   "main": "index.js",
   "type": "module",
