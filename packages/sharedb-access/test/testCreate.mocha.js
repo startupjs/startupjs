@@ -1,7 +1,6 @@
 const assert = require('assert')
-const path = require('path')
 const { getDbs } = require('./db.js')
-const shareDbAccess = require('../lib/index.js')
+const ShareDbAccess = require('../lib/index.js')
 
 let { backend } = getDbs()
 const model = backend.createModel()
@@ -9,25 +8,8 @@ const model = backend.createModel()
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
 
-let shareDBAccess = new shareDbAccess(backend)
+let shareDBAccess = new ShareDbAccess(backend)
 let id
-
-
-// we have to use promise for test becouse error appears in eventHendler in shareDb lib and we can't catch it with standart try...catch
-// because eventHandler emit event 'error' from sharedb
-// here trigger got error: https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L196
-// and than appear emit('error') https://github.com/share/sharedb/blob/116475ec89cb07988e002a9b8def138f632915b3/lib/backend.js#L91
-const checkPromise = () => {
-  return new Promise((resolve, reject) => {
-    model.on('error', (error) => {
-      resolve(error)
-    })
-    id = model.id()
-    model.add('tasksCreate', { id, type: 'testCreate' })
-    
-    setTimeout(() => resolve(true), 1000)
-  })
-}
 
 describe('CREATE', function () {
   afterEach(function () {
@@ -42,9 +24,14 @@ describe('CREATE', function () {
     backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return false
     })
-
-    const res = await checkPromise()
-    assert.equal(res.code, 403.1)    
+    try {
+      id = model.id()
+      await model.add('tasksCreate', { id, type: 'testCreate' })
+    } catch (e) {
+      assert.strictEqual(e.code, 403.1)
+      return
+    }
+    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -55,8 +42,13 @@ describe('CREATE', function () {
       return true
     })
 
-    const res = await checkPromise()
-    assert.equal(res, true)
+    try {
+      id = model.id()
+      await model.add('tasksCreate', { id, type: 'testCreate' })
+    } catch (e) {
+      assert(false)
+    }
+    assert(true)
   })
 
   it('deny = true && allow = false => err{ code: 403.1 }', async () => {
@@ -67,8 +59,14 @@ describe('CREATE', function () {
       return false
     })
 
-    const res = await checkPromise()
-    assert.equal(res.code, 403.1)
+    try {
+      id = model.id()
+      await model.add('tasksCreate', { id, type: 'testCreate' })
+    } catch (e) {
+      assert.strictEqual(e.code, 403.1)
+      return
+    }
+    assert(false)
   })
 
   it('deny = true && allow = true => err{ code: 403.1 }', async () => {
@@ -78,8 +76,14 @@ describe('CREATE', function () {
     backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-    
-    const res = await checkPromise()
-    assert.equal(res.code, 403.1)
+
+    try {
+      id = model.id()
+      await model.add('tasksCreate', { id, type: 'testCreate' })
+    } catch (e) {
+      assert.strictEqual(e.code, 403.1)
+      return
+    }
+    assert(false)
   })
 })

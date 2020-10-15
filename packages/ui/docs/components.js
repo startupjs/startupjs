@@ -50,6 +50,8 @@ import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
 import SlicerRu from '../components/Slicer/Slicer.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
+import TableEn from '../components/Table/Table.en.mdx'
+import TableRu from '../components/Table/Table.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
 import TagRu from '../components/Tag/Tag.ru.mdx'
 import UserEn from '../components/User/User.en.mdx'
@@ -263,6 +265,14 @@ export default {
       component: {
         en: SmartSidebarEn,
         ru: SmartSidebarRu
+      }
+    },
+    Table: {
+      type: 'mdx',
+      title: 'Table',
+      component: {
+        en: TableEn,
+        ru: TableRu
       }
     },
     Tag: {

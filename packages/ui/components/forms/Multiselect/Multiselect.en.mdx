@@ -1,0 +1,37 @@
+import { useState } from 'react'
+import Multiselect from '../Multiselect'
+import Div from '../../Div'
+import Br from '../../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Select
+
+Multiselect lets user pick multiple options.
+
+```jsx
+import { Multiselect } from '@startupjs/ui'
+```
+
+```jsx example
+const [cities, setCities] = useState(['la'])
+// options also can be an array of primitives ['apple', 'banana', 'cherry']
+return (
+  <Div>
+    <Multiselect
+      label='Example'
+      placeholder='Select cities'
+      value={cities}
+      onChange={setCities}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+    />
+  </Div>  
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Multiselect} />

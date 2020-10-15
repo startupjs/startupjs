@@ -70,7 +70,7 @@ CollapseHeader.defaultProps = {
 
 CollapseHeader.propTypes = {
   iconPosition: propTypes.oneOf(['left', 'right']),
-  icon: propTypes.oneOfType([propTypes.bool, propTypes.object]),
+  icon: propTypes.oneOfType([propTypes.bool, propTypes.object, propTypes.func]),
   iconStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
