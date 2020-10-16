@@ -8,6 +8,7 @@
     "styleguide"
   ],
   "scripts": {
+    "start": "cd styleguide && yarn start",
     "postinstall": "patch-package && startupjs patch-package",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
