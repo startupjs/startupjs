@@ -1,7 +1,7 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
-import Row from '../Row'
+import PropTypes from 'prop-types'
+import Row from '../../Row'
 import './index.styl'
 
 function Tr ({ style, children, ...props }) {
@@ -14,8 +14,8 @@ function Tr ({ style, children, ...props }) {
 }
 
 Tr.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(Tr)

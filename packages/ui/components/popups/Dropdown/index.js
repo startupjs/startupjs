@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useRef } from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import {
   Text,
   View,
@@ -169,12 +169,12 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  activeValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
-  onChange: propTypes.func.isRequired,
-  drawerVariant: propTypes.oneOf(['list', 'buttons', 'pure']),
-  popoverHeight: propTypes.number,
-  hasMobileDrawer: propTypes.bool,
-  hasPopoverWidthCaption: propTypes.bool
+  activeValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onChange: PropTypes.func.isRequired,
+  drawerVariant: PropTypes.oneOf(['list', 'buttons', 'pure']),
+  popoverHeight: PropTypes.number,
+  hasMobileDrawer: PropTypes.bool,
+  hasPopoverWidthCaption: PropTypes.bool
 }
 
 Dropdown.Caption = DropdownCaption

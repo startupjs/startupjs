@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import CustomIconExample from './CustomIconExample.svg'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Icon (иконка)
 
@@ -78,7 +79,20 @@ return (
 
 ## Цвета
 
-Цвет можно изменить, передав шестнадцатеричный цвет или имя цвета из цветов `ui` конфига в свойство `color`.
+Цвет можно установить, указав цвет в StyleSheet.
+
+В `.styl` файле
+```stylus
+.icon
+  &.primary
+    color: $UI.colors.primary
+
+  &.success
+    color $UI.colors.success
+
+  &.orange
+    color $UI.colors.additional0
+```
 
 ```jsx
 import {
@@ -91,9 +105,9 @@ import {
 ```jsx example
 return (
   <Row align='around'>
-    <Icon color='#24B47E' icon={faShareAlt} />
-    <Icon color='#6772E5' icon={faHouseUser} />
-    <Icon color='primary' icon={faTable} />
+    <Icon icon={faShareAlt} styleName='icon orange'/>
+    <Icon icon={faHouseUser} styleName='icon primary'/>
+    <Icon icon={faTable} styleName='icon success'/>
   </Row>
 )
 ```
@@ -110,8 +124,8 @@ import CustomIconExample from './CustomIconExample.svg'
 return (
   <Content>
     <Icon
+      styleName='icon orange'
       size={50}
-      color='#F5BE59'
       icon={CustomIconExample}
     />
   </Content>

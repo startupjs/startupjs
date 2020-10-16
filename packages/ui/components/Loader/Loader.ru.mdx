@@ -34,15 +34,15 @@ return (
 
 ## Цвета
 
-Цвет можно изменить, передав шестнадцатеричный цвет или имя цвета из цветов `ui` конфига в свойство `color`.
+Цвет по умолчанию `darkLighter`. Его можно изменить, передав имя цвета из списка цветов конфига в свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
 
 ```jsx example
 return (
   <Row align='around'>
-    <Loader color='#2962FF' />
-    <Loader color='#F5BE59' />
-    <Loader color='#00AED6' />
-    <Loader color='#A6D800' />
+    <Loader />
+    <Loader color='success' />
+    <Loader color='error' />
+    <Loader color='warning' />
   </Row>
 )
 ```

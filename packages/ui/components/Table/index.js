@@ -1,21 +1,6 @@
-import React from 'react'
-import propTypes from 'prop-types'
-import { observer } from 'startupjs'
-import Div from '../Div'
-import './index.styl'
-
-function Table ({ style, children, ...props }) {
-  return pug`
-    Div.root(
-      ...props
-      style=style
-    )= children
-  `
-}
-
-Table.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
-}
-
-export default observer(Table)
+export { default as Table } from './Table'
+export { default as Tbody } from './Tbody'
+export { default as Td } from './Td'
+export { default as Th } from './Th'
+export { default as Thead } from './Thead'
+export { default as Tr } from './Tr'

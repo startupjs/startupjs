@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Div from './../Div'
-import propTypes from 'prop-types'
 import MenuItem from './MenuItem'
 import { MenuProvider } from './menuContext'
 import './index.styl'
@@ -35,12 +35,12 @@ Menu.defaultProps = {
 }
 
 Menu.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['vertical', 'horizontal']),
-  activeBorder: propTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['vertical', 'horizontal']),
+  activeBorder: PropTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
   iconPosition: MenuItem.propTypes.iconPosition,
-  activeColor: propTypes.string
+  activeColor: PropTypes.string
 }
 
 const ObservedMenu = observer(Menu)

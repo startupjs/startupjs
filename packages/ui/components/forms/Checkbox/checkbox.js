@@ -4,9 +4,8 @@ import { observer, useDidUpdate } from 'startupjs'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
 import Div from './../../Div'
-import STYLES from './index.styl'
+import './index.styl'
 
-const { colors } = STYLES
 const AnimatedView = Animated.View
 
 export default observer(function Checkbox ({
@@ -54,7 +53,6 @@ export default observer(function Checkbox ({
         styleName=[checkedStyleName]
         icon=faCheck
         size='s'
-        color=colors.white
       )
       AnimatedView.checkbox-animation(
         styleName=[checkedStyleName, { animated }]

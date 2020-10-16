@@ -1,7 +1,7 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
-import Div from '../Div'
+import PropTypes from 'prop-types'
+import Div from '../../Div'
 
 function Tbody ({ style, children, ...props }) {
   return pug`
@@ -13,8 +13,8 @@ function Tbody ({ style, children, ...props }) {
 }
 
 Tbody.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(Tbody)
