@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import propTypes from 'prop-types'
 import { observer, useValue } from 'startupjs'
-import { View } from 'react-native'
+import Div from '../Div'
 import Span from './../typography/Span'
 import './index.styl'
 
-function Td ({ style, children, ellipsis }) {
+function Td ({ style, children, ellipsis, ...props }) {
   const [open, $open] = useValue()
 
   useEffect(() => () => $open.del(), [])
@@ -21,9 +21,14 @@ function Td ({ style, children, ellipsis }) {
   }
 
   return pug`
-    View.root(style=style)
+    Div.root(
+      ...props
+      style=style
+    )
       if typeof children === 'string'
-        Span(...options)= children
+        Span(
+          ...options
+        )= children
       else
         = children
 
