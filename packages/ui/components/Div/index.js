@@ -37,7 +37,7 @@ function Div ({
   ...props
 }) {
   const handlePress = onClick || onPress
-  const isClickable = (typeof handlePress === 'function' && !disabled) || onLongPress
+  const isClickable = (typeof handlePress === 'function' || onLongPress) && !disabled
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   let extraStyle = {}
