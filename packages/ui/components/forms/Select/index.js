@@ -9,11 +9,12 @@ import { getLabelFromValue } from './Wrapper/helpers'
 // TODO: Refactor and move InputLayout into a separate component
 
 function Select ({
-  options,
   style,
+  options,
   value,
-  showEmptyValue,
   disabled,
+  readonly,
+  showEmptyValue,
   onChange,
   ...props
 }) {
@@ -33,6 +34,7 @@ function Select ({
   return pug`
     TextInput(
       style=style
+      readonly=readonly
       value=getLabelFromValue(value, options)
       disabled=disabled,
       icon=faAngleDown
@@ -44,15 +46,18 @@ function Select ({
 }
 
 Select.defaultProps = {
-  disabled: false,
   options: [],
+  disabled: false,
+  readonly: false,
   showEmptyValue: true
 }
 
 Select.propTypes = {
-  onChange: PropTypes.func,
   options: PropTypes.array,
-  showEmptyValue: PropTypes.bool
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  showEmptyValue: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(Select)

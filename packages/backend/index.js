@@ -1,7 +1,7 @@
 const isPlainObject = require('lodash/isPlainObject')
 const isArray = require('lodash/isArray')
 const conf = require('nconf')
-const shareDbAccess = require('@startupjs/sharedb-access')
+const ShareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const shareDbHooks = require('sharedb-hooks')
@@ -99,7 +99,8 @@ module.exports = async options => {
     global.STARTUP_JS_ORM &&
     Object.keys(global.STARTUP_JS_ORM).length > 0
   ) {
-    new shareDbAccess(backend, { dontUseOldDocs: true })
+    // eslint-disable-next-line
+    new ShareDbAccess(backend, { dontUseOldDocs: true })
     for (const path in global.STARTUP_JS_ORM) {
       const { access } = global.STARTUP_JS_ORM[path].OrmEntity
       if (access) {

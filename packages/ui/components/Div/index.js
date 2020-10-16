@@ -32,11 +32,12 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   onPress,
+  onLongPress,
   onClick,
   ...props
 }) {
   const handlePress = onClick || onPress
-  const isClickable = typeof handlePress === 'function' && !disabled
+  const isClickable = (typeof handlePress === 'function' || onLongPress) && !disabled
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   let extraStyle = {}
@@ -53,6 +54,7 @@ function Div ({
 
   if (isClickable) {
     wrapperProps.onPress = handlePress
+    wrapperProps.onLongPress = onLongPress
 
     // setup hover and active states styles and props
     if (feedback) {
@@ -147,7 +149,8 @@ Div.propTypes = {
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   bleed: PropTypes.bool,
   onPress: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onLongPress: PropTypes.func
 }
 
 export default observer(Div)

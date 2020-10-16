@@ -1,12 +1,16 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import Div from '../../Div'
 import './index.styl'
 
-function Thead ({ style, children, bordered }) {
+function Thead ({ style, children, bordered, ...props }) {
   return pug`
-    View(style=[style] styleName=[{ bordered }])= children
+    Div(
+      ...props
+      style=[style]
+      styleName=[{ bordered }]
+    )= children
   `
 }
 

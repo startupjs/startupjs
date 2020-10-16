@@ -12,6 +12,7 @@ const Radio = function ({
   options,
   data, // DEPRECATED
   disabled,
+  readonly,
   onChange
 }) {
   // TODO: DEPRECATED! Remove!
@@ -28,6 +29,7 @@ const Radio = function ({
     ? options.map((o) => {
       return pug`
         Input(
+          readonly=readonly
           key=o.value
           checked=o.value === value
           value=o.value
@@ -40,6 +42,7 @@ const Radio = function ({
       return React.cloneElement(child, {
         checked: child.props.value === value,
         disabled,
+        readonly,
         onPress: value => handleRadioPress(value)
       })
     })
@@ -52,7 +55,8 @@ const Radio = function ({
 
 Radio.defaultProps = {
   options: [],
-  disabled: false
+  disabled: false,
+  readonly: false
 }
 
 Radio.propTypes = {
@@ -62,9 +66,10 @@ Radio.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   options: PropTypes.array,
   disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  readonly: PropTypes.bool,
   onChange: PropTypes.func
 }
 

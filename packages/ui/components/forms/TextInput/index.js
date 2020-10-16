@@ -16,8 +16,10 @@ function TextInput ({
   label,
   placeholder,
   value,
+  size,
   layout,
   disabled,
+  readonly,
   onBlur,
   onFocus,
   renderWrapper, // @private - used by Select
@@ -37,6 +39,14 @@ function TextInput ({
   }
 
   function renderInput (standalone) {
+    if (readonly) {
+      return pug`
+        Span.readonlySpan(
+          styleName=[size]
+        )= value
+      `
+    }
+
     return pug`
       Input(
         style=standalone ? [style, wrapperStyle] : wrapperStyle
@@ -48,6 +58,7 @@ function TextInput ({
         disabled=disabled
         focused=focused
         renderWrapper=renderWrapper
+        size=size
         onBlur=(...args) => {
           _onBlur()
           onBlur && onBlur(...args)
@@ -77,6 +88,7 @@ TextInput.defaultProps = {
   size: 'm',
   value: '', // default value is important to prevent error
   disabled: false,
+  readonly: false,
   resize: false,
   numberOfLines: 1,
   iconPosition: 'left'
@@ -86,12 +98,14 @@ TextInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   label: PropTypes.string,
   placeholder: PropTypes.string,
   value: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
   layout: PropTypes.oneOf(['pure', 'rows']),
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   resize: PropTypes.bool,
   numberOfLines: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

@@ -1,11 +1,14 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import Div from '../../Div'
 
-function Tbody ({ style, children }) {
+function Tbody ({ style, children, ...props }) {
   return pug`
-    View(style=style)= children
+    Div(
+      ...props
+      style=style
+    )= children
   `
 }
 

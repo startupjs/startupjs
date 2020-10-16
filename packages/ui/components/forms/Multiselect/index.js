@@ -14,6 +14,7 @@ const Multiselect = ({
   activeColor,
   disabled,
   popoverWidth,
+  readonly,
   error,
   onChange,
   onSelect,
@@ -41,6 +42,7 @@ const Multiselect = ({
   function hideOptsMenu () {
     setShowOpts(false)
   }
+
   return pug`
     MultiselectComponent(
       options=_options
@@ -55,6 +57,7 @@ const Multiselect = ({
       tagVariant=tagVariant
       activeColor=activeColor
       disabled=disabled
+      readonly=readonly
       popoverWidth=popoverWidth
       error=error
     )
@@ -69,6 +72,7 @@ Multiselect.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
   onChange: PropTypes.func,
@@ -83,6 +87,7 @@ Multiselect.defaultProps = {
   tagVariant: 'flat',
   activeColor: 'primary',
   disabled: false,
+  readonly: false,
   popoverWidth: u(30)
 }
 
