@@ -1,12 +1,15 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { observer } from 'startupjs'
-import { View } from 'react-native'
+import Row from '../Row'
 import './index.styl'
 
-function Tr ({ style, children }) {
+function Tr ({ style, children, ...props }) {
   return pug`
-    View.root(style=style)= children
+    Row.root(
+      ...props
+      style=style
+    )= children
   `
 }
 
