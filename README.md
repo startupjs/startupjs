@@ -1,7 +1,13 @@
 ![StartupJS](https://i.imgur.com/ZqbdTmB.png)
 
-> :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
-
+<div align="center">
+  <h1>
+    StartupJS &middot;
+    <a href="https://www.npmjs.com/package/startupjs"><img src="https://img.shields.io/npm/v/startupjs.svg?style=flat" /></a>
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
+    <img src="https://img.shields.io/badge/license-MIT-blue" />
+  </h1>
+</div>
 [Introduction](#introduction)<br/>
 [Requirements](#requirements)<br/>
 [Quick start](#quick-start)<br/>
@@ -15,31 +21,17 @@
 [Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
 [Licence](#licence)
 
-## Introduction
+## What is StartupJS?
 
-A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB backend. All data manipulations are done through the isomorphic *React-* and *NodeJS-* *integrated* collaborative real-time observable Model.
+StartupJS is a **full-stack framework** that consists of:
 
-StartupJS stack is built on top of the following libraries and technologies:
+- **Frontend**: Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://github.com/necolas/react-native-web)
+- **Backend**: ExpressJS (on NodeJS)
+- **Collaborative Database**: MongoDB which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server [ORM](https://derbyjs.com/docs/derby-0.10/models)
 
-1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
-1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
-1. [React-ShareDB](/packages/react-sharedb):
-    - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
-    - Allows to sync data between your local state (similar to Redux) and the DB.
-    - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
-    - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
-    - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
-1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](/packages/orm).
-1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](/packages/app) (e.g. `main` and `admin`)
-1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
-1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
-1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
-1. [Offline support](/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
-1. Code Quality control tools:
-    - [ESLint](https://eslint.org/)
-    - *optional* [TypeScript](https://www.typescriptlang.org/)
+## Quickstart
 
-## Requirements
+### Requirements
 
 - [Node](https://nodejs.org/) >= 12.0
 - [Yarn](https://yarnpkg.com/)
@@ -52,7 +44,7 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 - [Docker](https://docs.docker.com/install/) (Instead of *Quick start*, follow the instructions in [Docker development Quick Start](#docker-development-quick-start) section)
 
-## Quick start
+### Installation
 
 1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
 
@@ -68,7 +60,7 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 3. Open http://localhost:3000 and start developing!
 
-## Running on mobile
+## Native Development (iOS and Android)
 
 `yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
 
@@ -140,6 +132,8 @@ Here is the list of commands to run all platforms at the same time:
 
 ## Documentation
 
+### Basic
+
 The main things you'll need to know to get started with StartupJS are:
 
 1. [React Native](https://reactnative.dev/)
@@ -150,6 +144,28 @@ The main things you'll need to know to get started with StartupJS are:
 **Optional**. For additional documentation on each StartupJS package see the according readme:
 
 1. [List of StartupJS Packages](#list-of-packages)
+
+### Advanced
+
+To gain further deep knowledge of StartupJS stack you'll need get familiar with the following technologies it's built on:
+
+1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
+1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
+1. [React-ShareDB](/packages/react-sharedb):
+    - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
+    - Allows to sync data between your local state (similar to Redux) and the DB.
+    - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
+    - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
+    - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
+1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](/packages/orm).
+1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](/packages/app) (e.g. `main` and `admin`)
+1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
+1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
+1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
+1. [Offline support](/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
+1. Code Quality control tools:
+    - [ESLint](https://eslint.org/)
+    - *optional* [TypeScript](https://www.typescriptlang.org/)
 
 ## Boilerplate templates
 
