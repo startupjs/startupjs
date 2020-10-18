@@ -38,7 +38,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 ### Installation
 
-1. Initialize a new [`ui` template](#official-app-templates) project. Change `myapp` to your project name (use lower case).
+1. Initialize a new [`ui` template](#official-app-templates) project. Change `myapp` to your project name (use lower case):
 
     ```
     npx startupjs init myapp
