@@ -9,15 +9,15 @@
   </h1>
   <a href="#quickstart">Quickstart</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="#quickstart">Native&nbsp;development</a>
+  <a href="#native-development-ios-and-android">Native&nbsp;development</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="#quickstart">IDE&nbsp;support</a>
+  <a href="#ide-configuration">IDE&nbsp;support</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="#quickstart">Docs</a>
+  <a href="#documentation">Docs</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="#quickstart">Packages</a>
+  <a href="#sub-packages-documentation">Packages</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="#quickstart">Migration</a>  
+  <a href="#version-migration-guides">Migration</a>
 </div>
 
 ## What is StartupJS?
@@ -252,6 +252,7 @@ to the native installation when working with the large amount of files.
 The following guides are available to assist with migration to new major versions of StartupJS:
 
 - [0.22 -> 0.23](/docs/migration-guides/0.22--0.23.md)
+- [0.23 -> 0.24](/docs/migration-guides/0.23--0.24.md)
 
 ## Contributing & Troubleshooting
 
