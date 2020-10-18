@@ -128,8 +128,6 @@ Here is the list of commands to run all platforms at the same time:
 
 ## Documentation
 
-### Basic
-
 The main things you'll need to know to get started with StartupJS are:
 
 1. [React Native](https://reactnative.dev/)
