@@ -1,4 +1,4 @@
-![StartupJS](https://i.imgur.com/k1od4UC.png)
+![StartupJS](https://i.imgur.com/ZqbdTmB.png)
 
 > :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
 
