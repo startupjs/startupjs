@@ -4,7 +4,7 @@
   <h1>
     StartupJS &middot;
     <a href="https://www.npmjs.com/package/startupjs"><img src="https://img.shields.io/npm/v/startupjs.svg?style=flat" /></a>
-    <a href="#contributing--troubleshooting"<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" /></a>
+    <a href="#contributing--troubleshooting"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" /></a>
     <img src="https://img.shields.io/badge/license-MIT-blue" />
   </h1>
   <a href="#quickstart">Quickstart</a>
