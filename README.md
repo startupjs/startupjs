@@ -32,10 +32,7 @@ StartupJS is a **full-stack framework** that consists of:
 
 ### Requirements
 
-- [Node](https://nodejs.org/) >= 12.0
-- [Yarn](https://yarnpkg.com/)
-- [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
-- [Redis](https://redis.io/) 5.0
+- [Node 14.x](https://nodejs.org/), [Yarn](https://yarnpkg.com/), [MongoDB 4.x](https://docs.mongodb.com/manual/installation/), [Redis 5.x](https://redis.io/)
 - [Android SDK](https://developer.android.com/sdk/) (*optional*) for Android development
 - [Xcode](https://developer.apple.com/xcode/) (*optional*) for iOS Development
 
