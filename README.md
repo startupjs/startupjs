@@ -25,8 +25,8 @@
 StartupJS is a **full-stack framework** that consists of:
 
 - **Frontend**: Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://github.com/necolas/react-native-web)
-- **Backend**: ExpressJS (on NodeJS)
-- **Collaborative Database**: MongoDB which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server [ORM](https://derbyjs.com/docs/derby-0.10/models)
+- **Backend**: [ExpressJS](https://expressjs.com/)
+- **Collaborative Database**: [MongoDB](https://www.mongodb.com/) which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server [ORM](https://derbyjs.com/docs/derby-0.10/models)
 
 ## Quickstart
 
