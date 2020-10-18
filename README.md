@@ -4,22 +4,21 @@
   <h1>
     StartupJS &middot;
     <a href="https://www.npmjs.com/package/startupjs"><img src="https://img.shields.io/npm/v/startupjs.svg?style=flat" /></a>
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
+    <a href="#contributing--troubleshooting"<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" /></a>
     <img src="https://img.shields.io/badge/license-MIT-blue" />
   </h1>
+  <a href="#quickstart">Quickstart</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#quickstart">Native&nbsp;development</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#quickstart">IDE&nbsp;support</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#quickstart">Docs</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#quickstart">Packages</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#quickstart">Migration</a>  
 </div>
-[Introduction](#introduction)<br/>
-[Requirements](#requirements)<br/>
-[Quick start](#quick-start)<br/>
-[Running on mobile](#running-on-mobile)<br/>
-[IDE configuration](#ide-configuration)<br/>
-[Documentation](#documentation)<br/>
-[Boilerplate templates](#boilerplate-templates)<br/>
-[Docker development Quick Start](#docker-development-quick-start)<br/>
-[List of Packages](#list-of-packages)<br/>
-[Version migration guides](#version-migration-guides)<br/>
-[Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
-[Licence](#licence)
 
 ## What is StartupJS?
 
@@ -141,9 +140,7 @@ The main things you'll need to know to get started with StartupJS are:
 1. [React hooks for Model](/packages/react-sharedb-hooks)
 1. [StartupJS UI Components](https://startupjs-ui.dmapper.co)
 
-**Optional**. For additional documentation on each StartupJS package see the according readme:
-
-1. [List of StartupJS Packages](#list-of-packages)
+For additional documentation on each StartupJS package see the [according readme](#sub-packages-documentation):
 
 ### Advanced
 
@@ -166,6 +163,27 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
     - *optional* [TypeScript](https://www.typescriptlang.org/)
+
+### Sub-Packages Documentation
+
+- [App](/packages/app)
+- [Babel preset startupjs](/packages/babel-preset-startupjs)
+- [Backend](/packages/backend)
+- [Bundler](/packages/bundler)
+- [CLI](/packages/cli)
+- [CodePush](/packages/codepush)
+- [Cron](/packages/cron)
+- [Docs](/packages/docs)
+- [Hooks](/packages/hooks)
+- [Init](/packages/init)
+- [Model](/packages/model)
+- [Offline](/packages/offline)
+- [ORM](/packages/orm)
+- [React sharedb](/packages/react-sharedb)
+- [Routes middleware](/packages/routes-middleware)
+- [Server](/packages/server)
+- [StartupJS meta package](/packages/startupjs)
+- [UI](/packages/ui)
 
 ## Boilerplate templates
 
@@ -231,27 +249,6 @@ to the native installation when working with the large amount of files.
     ```
     ./docker exec
     ```
-
-## List of Packages
-
-- [App](/packages/app)
-- [Babel preset startupjs](/packages/babel-preset-startupjs)
-- [Backend](/packages/backend)
-- [Bundler](/packages/bundler)
-- [CLI](/packages/cli)
-- [CodePush](/packages/codepush)
-- [Cron](/packages/cron)
-- [Docs](/packages/docs)
-- [Hooks](/packages/hooks)
-- [Init](/packages/init)
-- [Model](/packages/model)
-- [Offline](/packages/offline)
-- [ORM](/packages/orm)
-- [React sharedb](/packages/react-sharedb)
-- [Routes middleware](/packages/routes-middleware)
-- [Server](/packages/server)
-- [StartupJS meta package](/packages/startupjs)
-- [UI](/packages/ui)
 
 ## Version migration guides
 
