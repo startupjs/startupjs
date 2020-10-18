@@ -154,7 +154,6 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
 1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
-1. [Offline support](/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
 1. Code Quality control tools:
     - [ESLint](https://eslint.org/)
     - *optional* [TypeScript](https://www.typescriptlang.org/)
