@@ -95,7 +95,7 @@ Here is the list of commands to run all platforms at the same time:
 
 ## IDE configuration
 
-### Visual Studio Code
+### [Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-grey?style=for-the-badge&logo=visual-studio-code)
 
 #### Step 1: Add support for PUG syntax highlighting
 
@@ -107,7 +107,7 @@ Here is the list of commands to run all platforms at the same time:
 1. Install extension `ESLint`
 2. Restart VS Code
 
-### Atom
+### [Atom](https://img.shields.io/badge/Atom-grey?style=for-the-badge&logo=atom)
 
 #### Step 1: Add support for PUG syntax highlighting
 
