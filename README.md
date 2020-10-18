@@ -32,11 +32,9 @@ StartupJS is a **full-stack framework** that consists of:
 
 ### Requirements
 
-- [Node 14.x](https://nodejs.org/), [Yarn](https://yarnpkg.com/), [MongoDB 4.x](https://docs.mongodb.com/manual/installation/), [Redis 5.x](https://redis.io/)
+To run StartupJS app on your host machine, you have to have the following installed: [Node 14.x](https://nodejs.org/), [Yarn](https://yarnpkg.com/), [MongoDB 4.x](https://docs.mongodb.com/manual/installation/), [Redis 5.x](https://redis.io/)
 
-**OR**
-
-- [Docker](https://docs.docker.com/install/) (Instead of *Quick start*, follow the instructions in [Docker development Quick Start](#docker-development-quick-start) section)
+Alternatively, you can run everything in [Docker](https://docs.docker.com/install/), in which case follow [Docker development Quick Start](#docker-development-quick-start). **Important** to note is that Docker won't allow you to test Android or iOS.
 
 ### Installation
 
