@@ -133,7 +133,7 @@ Here is the list of commands to run all platforms at the same time:
 The main things you'll need to know to get started with StartupJS are:
 
 1. [React Native](https://reactnative.dev/)
-1. [`Racer`'s Model](https://derbyjs.com/docs/derby-0.10/models). You only need to read the `MODELS` section, ignore everything else.
+1. [Racer's Model](https://derbyjs.com/docs/derby-0.10/models). You only need to read the `MODELS` section, ignore everything else.
 1. [React hooks for Model](/packages/react-sharedb-hooks)
 1. [StartupJS UI Components](https://startupjs-ui.dmapper.co)
 
