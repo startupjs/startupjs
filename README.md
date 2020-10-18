@@ -33,8 +33,6 @@ StartupJS is a **full-stack framework** that consists of:
 ### Requirements
 
 - [Node 14.x](https://nodejs.org/), [Yarn](https://yarnpkg.com/), [MongoDB 4.x](https://docs.mongodb.com/manual/installation/), [Redis 5.x](https://redis.io/)
-- (*optional*) for Android development: [Android SDK](https://developer.android.com/sdk/)
-- (*optional*) for iOS development: [Xcode](https://developer.apple.com/xcode/)
 
 **OR**
 
@@ -57,6 +55,8 @@ StartupJS is a **full-stack framework** that consists of:
 3. Open http://localhost:3000 and start developing!
 
 ## Native Development (iOS and Android)
+
+Follow the [React Native guide](https://reactnative.dev/docs/environment-setup) to setup Android SDK and/or Xcode.
 
 `yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
 
