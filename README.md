@@ -40,7 +40,7 @@ StartupJS is a **full-stack framework** that consists of:
 
 ### Installation
 
-1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
+1. Initialize a new [`ui` template](#official-app-templates) project. Change `myapp` to your project name (use lower case).
 
     ```
     npx startupjs init myapp
@@ -182,7 +182,7 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
 - [StartupJS meta package](/packages/startupjs)
 - [UI](/packages/ui)
 
-## Boilerplate templates
+## Official App Templates
 
 The following templates are available:
 
