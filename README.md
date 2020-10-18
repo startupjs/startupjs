@@ -141,6 +141,8 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
 
 1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
 1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
+1. [Pug](https://pugjs.org/) which is used besides JSX for templating.
+1. [Stylus](https://stylus-lang.com/) which is used besides CSS for stylesheets.
 1. [React-ShareDB](/packages/react-sharedb):
     - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
     - Allows to sync data between your local state (similar to Redux) and the DB.
@@ -149,8 +151,6 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
     - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
 1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](/packages/orm).
 1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](/packages/app) (e.g. `main` and `admin`)
-1. [Pug](https://pugjs.org/) which is used besides JSX for templating.
-1. [Stylus](https://stylus-lang.com/) which is used besides CSS for stylesheets.
 1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
 1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
 1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
