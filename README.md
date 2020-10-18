@@ -217,7 +217,7 @@ Keep in mind though that since docker uses its own driver to mount folders,
 performance (especially when installing modules) might be considerably slower compared
 to the native installation when working with the large amount of files.
 
-1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` at the end to your project name (use lower case).
+1. Initialize a new [`ui` boilerplate](#official-app-templates) project. Change `myapp` at the end to your project name (use lower case).
 
     ```
     docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init myapp
