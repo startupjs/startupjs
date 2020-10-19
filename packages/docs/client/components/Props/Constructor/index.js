@@ -18,9 +18,10 @@ export default observer(themed(function Constructor ({ Component, $props, style,
   useLayoutEffect(() => {
     for (const prop of entries) {
       if (prop.defaultValue) {
-        // FIXME: All logic is broken when default value is function
-        // this is due to a racer patch
-        $props.set(prop.name, prop.defaultValue)
+        // NOTE: Due to a racer patch, last argument cannot be a function
+        // because it will be used as a callback of `$props.set`,
+        // so we use object to avoid this behavior
+        $props.set(prop.name, { value: prop.defaultValue })
       }
     }
   }, entries)
@@ -36,6 +37,9 @@ export default observer(themed(function Constructor ({ Component, $props, style,
       Tbody
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
+          - const $value = $props.at(name + '.value')
+          - let value = $value.get()
+
           Tr(key=index)
             Td: Span.name(
               style={
@@ -69,11 +73,11 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                 Input(
                   type='text'
                   size='s'
-                  value=$props.get(name) || ''
-                  onChangeText=value => $props.set(name, value)
+                  value=value || ''
+                  onChangeText=value => $value.set(value)
                 )
               else if type === 'number'
-                - const aValue = parseFloat($props.get(name))
+                - const aValue = parseFloat(value)
                 Input(
                   type='text'
                   size='s'
@@ -81,29 +85,29 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                   onChangeText=value => {
                     value = parseFloat(value)
                     if (isNaN(value)) value = undefined
-                    $props.set(name, value)
+                    $value.set(value)
                   }
                 )
               else if type === 'node'
                 Input(
                   type='text'
                   size='s'
-                  value=$props.get(name) || ''
-                  onChangeText=value => $props.set(name, value)
+                  value=value || ''
+                  onChangeText=value => $value.set(value)
                 )
               else if type === 'oneOf'
                 Input(
                   type='select'
                   size='s'
-                  value=$props.get(name)
-                  onChange=value => $props.set(name, value)
+                  value=value
+                  onChange=value => $value.set(value)
                   options=possibleValues
                 )
               else if type === 'bool'
                 Input.checkbox(
                   type='checkbox'
-                  value=$props.get(name)
-                  onChange=value => $props.set(name, value)
+                  value=value
+                  onChange=value => $value.set(value)
                 )
               else
                 Span.unsupported -
