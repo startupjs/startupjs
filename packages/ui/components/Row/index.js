@@ -1,9 +1,9 @@
 import React from 'react'
-import './index.styl'
-import propTypes from 'prop-types'
-import Div from './../Div'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { Platform, StyleSheet } from 'react-native'
+import Div from './../Div'
+import './index.styl'
 
 const isNative = Platform.OS !== 'web'
 
@@ -46,10 +46,10 @@ Row.defaultProps = {
 
 Row.propTypes = {
   ...Div.propTypes,
-  wrap: propTypes.bool,
-  reverse: propTypes.bool,
-  align: propTypes.oneOf(['left', 'center', 'right', 'around', 'between']),
-  vAlign: propTypes.oneOf(['stretch', 'start', 'center', 'end'])
+  wrap: PropTypes.bool,
+  reverse: PropTypes.bool,
+  align: PropTypes.oneOf(['left', 'center', 'right', 'around', 'between']),
+  vAlign: PropTypes.oneOf(['stretch', 'start', 'center', 'end'])
   // TODO: may be we need add align-content
 }
 

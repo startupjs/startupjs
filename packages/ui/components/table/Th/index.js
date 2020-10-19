@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { observer, useValue } from 'startupjs'
-import Div from '../Div'
-import Span from './../typography/Span'
+import Div from '../../Div'
+import Span from './../../typography/Span'
 import './index.styl'
 
-function Td ({ style, children, ellipsis, ...props }) {
+function Th ({ style, children, ellipsis, ...props }) {
   const [open, $open] = useValue()
 
   useEffect(() => () => $open.del(), [])
@@ -28,6 +28,7 @@ function Td ({ style, children, ellipsis, ...props }) {
       if typeof children === 'string'
         Span(
           ...options
+          bold
         )= children
       else
         = children
@@ -35,14 +36,14 @@ function Td ({ style, children, ellipsis, ...props }) {
   `
 }
 
-Td.defaultProps = {
+Th.defaultProps = {
   ellipsis: false
 }
 
-Td.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  ellipsis: propTypes.bool
+Th.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  ellipsis: PropTypes.bool
 }
 
-export default observer(Td)
+export default observer(Th)

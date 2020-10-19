@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import Tag from '../Tag'
-import Row from '../Row'
-import { u } from 'startupjs'
+import Div from '../Div'
+import Br from '../Br'
 import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Tag
 Inherits [Button props](/docs/en/components/Button).
@@ -18,12 +19,25 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Row>
-    <Tag>Primary</Tag>
-    <Tag color='success' pushed>Success</Tag>
-    <Tag color='warning' pushed>Warning</Tag>
-    <Tag color='error' pushed>Error</Tag>
-  </Row>
+  <Tag>Tag</Tag>
+)
+```
+
+## Colors
+
+Color is `primary` by default. It can be changed by passing color name from the config colors to `color` property. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+
+```jsx example
+return (
+  <Div>
+    <Tag>Primary (default)</Tag>
+    <Br />
+    <Tag color='success'>Success</Tag>
+    <Br />
+    <Tag color='warning'>Warning</Tag>
+    <Br />
+    <Tag color='error'>Error</Tag>
+  </Div>
 )
 ```
 
@@ -33,10 +47,7 @@ Outlined tags offer an alternative style by passing `outlined` string on `varian
 
 ```jsx example
 return (
-  <Row>
-    <Tag variant='outlined'>Outlined primary</Tag>
-    <Tag color='error' variant='outlined' pushed>Outlined error</Tag>
-  </Row>
+  <Tag variant='outlined'>Outlined tag</Tag>
 )
 ```
 
@@ -46,23 +57,35 @@ Tags can have different corner shapes. It can be changed by changing `shape` pro
 
 ```jsx example
 return (
-  <Row>
+  <Div>
     <Tag>Circle shape</Tag>
-    <Tag shape='rounded' pushed>Rounded shape</Tag>
-  </Row>
+    <Br />
+    <Tag shape='rounded'>Rounded shape</Tag>
+  </Div>
 )
 ```
 
 ## Icons
 
-Icon can be added using `icon` prop. Position of icon can be changed by passing `iconPosition` to component (`left` by default).
+Icon can be added using `icon` property. Position of icon can be changed by passing `iconPosition` to component (`left` by default). To change icon color use the `iconStyleName` property.
+
+In `.styl` file
+```stylus
+.icon
+  color $UI.colors.primary
+```
 
 ```jsx example
 return (
-  <Row>
-    <Tag icon={faCoffee}>Icon on the left</Tag>
-    <Tag icon={faCoffee} iconPosition='right' pushed>Icon on the right</Tag>
-  </Row>
+  <Div>
+    <Tag variant='outlined' icon={faCoffee} iconStyleName='icon'>
+      Icon on the left (default) with the changed color
+    </Tag>
+    <Br />
+    <Tag icon={faCoffee} iconPosition='right'>
+      Icon on the right
+    </Tag>
+  </Div>
 )
 ```
 

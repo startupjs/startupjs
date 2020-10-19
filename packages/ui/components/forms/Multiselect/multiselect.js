@@ -1,16 +1,14 @@
 import React from 'react'
-import { Div, Span, Checkbox, Drawer, Br } from '@startupjs/ui'
-import PropTypes from 'prop-types'
-import MultiselectInput from './input'
-import { ScrollView } from 'react-native'
-import styles from './index.styl'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import { ScrollView } from 'react-native'
+import { Div, Span, Checkbox, Drawer, Br } from '@startupjs/ui'
+import MultiselectInput from './input'
+import styles from './index.styl'
 
 const Multiselect = ({
   options,
   value,
-  onSelect,
-  onRemove,
   placeholder,
   label,
   showOptsMenu,
@@ -18,7 +16,9 @@ const Multiselect = ({
   showOpts,
   disabled,
   error,
-  TagComponent
+  TagComponent,
+  onSelect,
+  onRemove
 }) => {
   function renderOpt (opt) {
     const selected = value.some(_value => _value === opt.value)
@@ -57,7 +57,8 @@ const Multiselect = ({
     )
       ScrollView.suggestions-native
         each opt in options
-          =renderOpt(opt)
+          = renderOpt(opt)
+        //- ???
         Br
         Br
         Br

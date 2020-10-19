@@ -1,6 +1,6 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Div from './../Div'
 import Row from './../Row'
 import H6 from './../typography/H6'
@@ -37,10 +37,10 @@ Rating.defaultProps = {
 }
 
 Rating.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  value: propTypes.number,
-  readonly: propTypes.bool,
-  onChange: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  value: PropTypes.number,
+  readonly: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(Rating)

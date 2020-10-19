@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
+import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
   StyleSheet
 } from 'react-native'
-import propTypes from 'prop-types'
-import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../config/helpers'
 import STYLES from './index.styl'
 
@@ -137,20 +137,20 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['opacity', 'highlight']),
-  feedback: propTypes.bool,
-  hoverStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  disabled: propTypes.bool,
-  level: propTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
-  shape: propTypes.oneOf(['squared', 'rounded', 'circle']),
-  pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
-  bleed: propTypes.bool,
-  onPress: propTypes.func,
-  onClick: propTypes.func,
-  onLongPress: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['opacity', 'highlight']),
+  feedback: PropTypes.bool,
+  hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  disabled: PropTypes.bool,
+  level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
+  shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
+  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
+  bleed: PropTypes.bool,
+  onPress: PropTypes.func,
+  onClick: PropTypes.func,
+  onLongPress: PropTypes.func
 }
 
 export default observer(Div)

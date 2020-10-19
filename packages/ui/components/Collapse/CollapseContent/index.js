@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import Span from './../../typography/Span'
-import propTypes from 'prop-types'
 import './index.styl'
 
 function CollapseContent ({
@@ -29,8 +29,8 @@ function CollapseContent ({
 }
 
 CollapseContent.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(CollapseContent)

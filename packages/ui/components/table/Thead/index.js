@@ -1,7 +1,7 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
-import Div from '../Div'
+import PropTypes from 'prop-types'
+import Div from '../../Div'
 import './index.styl'
 
 function Thead ({ style, children, bordered, ...props }) {
@@ -19,9 +19,9 @@ Thead.defaultProps = {
 }
 
 Thead.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  bordered: propTypes.bool
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  bordered: PropTypes.bool
 }
 
 export default observer(Thead)

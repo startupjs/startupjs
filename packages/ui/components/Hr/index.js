@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import './index.styl'
 
@@ -31,9 +31,9 @@ Hr.defaultProps = {
 }
 
 Hr.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  size: propTypes.oneOfType([propTypes.number, propTypes.oneOf(['m', 'l', 'xl'])])
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['m', 'l', 'xl'])])
 }
 
 export default observer(Hr)
