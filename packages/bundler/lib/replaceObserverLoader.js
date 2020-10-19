@@ -42,12 +42,48 @@ module.exports = function replaceObserverLoader (source) {
   let lastCloseCurlyBrIndex
   let prevCloseCurlyBrIndex
 
+  // Track when we are inside a comment
+  let inBlockComment = false
+  let inLineComment = false
+
   for (let i = matchIndex + matchLength; i < source.length; i++) {
-    if (source.charAt(i) === ')') {
+    const prevChar = (i > 0 ? source.charAt(i - 1) : '')
+    const char = source.charAt(i)
+    const lastTwoChars = `${prevChar}${char}`
+
+    // Handle comments (ignore any chars inside them)
+
+    // - exit comment
+
+    if (inBlockComment) {
+      if (lastTwoChars === '*/') inBlockComment = false
+      continue
+    }
+
+    if (inLineComment) {
+      if (char === '\n') inLineComment = false
+      continue
+    }
+
+    // // - enter comment
+
+    if (lastTwoChars === '/*') {
+      inBlockComment = true
+      continue
+    }
+
+    if (lastTwoChars === '//') {
+      inLineComment = true
+      continue
+    }
+
+    // Brackets counting logic
+
+    if (char === ')') {
       --openBr
-    } else if (source.charAt(i) === '(') {
+    } else if (char === '(') {
       ++openBr
-    } else if (source.charAt(i) === '}') {
+    } else if (char === '}') {
       prevCloseCurlyBrIndex = lastCloseCurlyBrIndex
       lastCloseCurlyBrIndex = i
     }
