@@ -1,8 +1,7 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, u } from 'startupjs'
 import { Text } from 'react-native'
-import propTypes from 'prop-types'
-import { u } from 'startupjs'
+import PropTypes from 'prop-types'
 import './index.styl'
 const LINE_HEIGHT = u(2)
 
@@ -19,9 +18,9 @@ Br.defaultProps = {
 }
 
 Br.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  half: propTypes.bool,
-  lines: propTypes.number
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  half: PropTypes.bool,
+  lines: PropTypes.number
 
 }
 

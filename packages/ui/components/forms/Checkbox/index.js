@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Row from './../../Row'
 import Div from './../../Div'
 import Span from './../../typography/Span'
@@ -14,6 +14,11 @@ const INPUT_COMPONENTS = {
   switch: Switch
 }
 
+const READONLY_ICONS = {
+  TRUE: '✔',
+  FALSE: '✘'
+}
+
 function CheckboxInput ({
   style,
   className,
@@ -22,6 +27,7 @@ function CheckboxInput ({
   value,
   layout,
   disabled,
+  readonly,
   onChange,
   hoverStyle,
   activeStyle,
@@ -36,6 +42,18 @@ function CheckboxInput ({
 
   function renderInput (standalone) {
     const Input = INPUT_COMPONENTS[variant]
+
+    if (readonly) {
+      return pug`
+        Row.checkbox-icon-wrap(
+          styleName=[variant]
+        )
+          Span.checkbox-icon(
+            styleName={readonly}
+          )=value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
+      `
+    }
+
     return pug`
       Input(
         style=standalone ? style : {}
@@ -58,7 +76,7 @@ function CheckboxInput ({
       className=className
       vAlign='center'
       disabled=disabled
-      onPress=onPress
+      onPress=!readonly && onPress
       hoverStyle=hoverStyle
       activeStyle=activeStyle
     )
@@ -74,17 +92,19 @@ function CheckboxInput ({
 CheckboxInput.defaultProps = {
   variant: 'checkbox',
   value: false,
-  disabled: false
+  disabled: false,
+  readonly: false
 }
 
 CheckboxInput.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  variant: propTypes.oneOf(['checkbox', 'switch']),
-  label: propTypes.node,
-  value: propTypes.bool,
-  layout: propTypes.oneOf(['pure', 'rows']),
-  disabled: propTypes.bool,
-  onChange: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  variant: PropTypes.oneOf(['checkbox', 'switch']),
+  label: PropTypes.node,
+  value: PropTypes.bool,
+  layout: PropTypes.oneOf(['pure', 'rows']),
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(CheckboxInput)

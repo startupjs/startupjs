@@ -1,7 +1,7 @@
 import React from 'react'
 import usePagination from './usePagination'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Span from './../typography/Span'
 import Row from './../Row'
 import Div from './../Div'
@@ -44,7 +44,10 @@ function Pagination (props) {
               disabled=disabled
               ...itemProps
             )
-              Icon(icon=ICONS[type] color=disabled ? 'darkLighter' : 'dark')
+              Icon.icon(
+                styleName={disabled}
+                icon=ICONS[type]
+              )
           else if ~type.indexOf('ellipsis')
             Div.item
               Span ...
@@ -70,21 +73,21 @@ Pagination.defaultProps = {
 }
 
 Pagination.propTypes = {
-  style: propTypes.object,
-  variant: propTypes.oneOf(['full', 'compact']),
-  page: propTypes.number,
-  pages: propTypes.number,
-  skip: propTypes.number,
-  limit: propTypes.number,
-  count: propTypes.number,
-  boundaryCount: propTypes.number,
-  siblingCount: propTypes.number,
-  showFirstButton: propTypes.bool,
-  showLastButton: propTypes.bool,
-  showPrevButton: propTypes.bool,
-  showNextButton: propTypes.bool,
-  disabled: propTypes.bool,
-  onChangePage: propTypes.func
+  style: PropTypes.object,
+  variant: PropTypes.oneOf(['full', 'compact']),
+  page: PropTypes.number,
+  pages: PropTypes.number,
+  skip: PropTypes.number,
+  limit: PropTypes.number,
+  count: PropTypes.number,
+  boundaryCount: PropTypes.number,
+  siblingCount: PropTypes.number,
+  showFirstButton: PropTypes.bool,
+  showLastButton: PropTypes.bool,
+  showPrevButton: PropTypes.bool,
+  showNextButton: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onChangePage: PropTypes.func
   // onChangeLimit: propTypes.func TODO: Add selectbox to component to change limit
 }
 

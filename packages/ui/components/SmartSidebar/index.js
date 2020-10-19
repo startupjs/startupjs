@@ -6,8 +6,8 @@ import {
   useLocal,
   useBind
 } from 'startupjs'
+import PropTypes from 'prop-types'
 import { Dimensions, StyleSheet } from 'react-native'
-import propTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
 import STYLES from './index.styl'
@@ -98,14 +98,14 @@ SmartSidebar.defaultProps = {
 }
 
 SmartSidebar.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  $open: propTypes.object,
-  forceClosed: propTypes.bool,
-  fixedLayoutBreakpoint: propTypes.number,
-  position: propTypes.oneOf(['left', 'right']),
-  width: propTypes.number,
-  renderContent: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  $open: PropTypes.object,
+  forceClosed: PropTypes.bool,
+  fixedLayoutBreakpoint: PropTypes.number,
+  position: PropTypes.oneOf(['left', 'right']),
+  width: PropTypes.number,
+  renderContent: PropTypes.func
 }
 
 export default observer(SmartSidebar)

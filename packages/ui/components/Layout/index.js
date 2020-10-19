@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer, useBackPress } from 'startupjs'
+import PropTypes from 'prop-types'
 import { SafeAreaView, StatusBar } from 'react-native'
-import propTypes from 'prop-types'
 import { useHistory } from 'react-router-native'
 import STYLES from './index.styl'
 
@@ -31,8 +31,8 @@ function Layout ({ style, children }) {
 }
 
 Layout.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(Layout)

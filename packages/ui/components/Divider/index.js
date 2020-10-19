@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer, u } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import STYLES from './index.styl'
 
@@ -49,10 +49,10 @@ Divider.defaultProps = {
 }
 
 Divider.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  variant: propTypes.oneOf(['horizontal', 'vertical']),
-  size: propTypes.oneOf(['m', 'l']),
-  lines: propTypes.number
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  variant: PropTypes.oneOf(['horizontal', 'vertical']),
+  size: PropTypes.oneOf(['m', 'l']),
+  lines: PropTypes.number
 }
 
 export default observer(Divider)

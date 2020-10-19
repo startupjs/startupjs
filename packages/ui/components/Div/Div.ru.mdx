@@ -32,6 +32,7 @@ return (
     <Br />
     <Div
       style={divStyle}
+      onLongPress={() => setCounter(counter + 10)}
       onPress={() => setCounter(counter + 1)}
     >
       <Span>Clicked {counter} times</Span>

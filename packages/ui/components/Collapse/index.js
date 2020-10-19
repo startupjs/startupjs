@@ -1,6 +1,6 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer, useBind } from 'startupjs'
+import PropTypes from 'prop-types'
 import Div from './../Div'
 import CollapseHeader from './CollapseHeader'
 import CollapseContent from './CollapseContent'
@@ -75,11 +75,11 @@ Collapse.defaultProps = {
 }
 
 Collapse.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  open: propTypes.bool,
-  variant: propTypes.oneOf(['full', 'pure']),
-  onChange: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  open: PropTypes.bool,
+  variant: PropTypes.oneOf(['full', 'pure']),
+  onChange: PropTypes.func
 }
 
 const ObserverCollapse = observer(Collapse)

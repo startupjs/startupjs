@@ -16,12 +16,12 @@ COMPILED_PATH="${DEFAULT_PERSISTENT_PATH}/compiled"
 DEFAULT_DOCKERFILE_PATH="$SRC_PATH/helpers/Dockerfile"
 
 REQUIRED_VARS=(\
-  "_APP" "_ZONE" \
+  "_APP" \
   "PROJECT_ID" "BUILD_ID" "COMMIT_SHA" "REPO_NAME" "BRANCH_NAME" \
 )
-OPTIONAL_VARS=("_CLUSTER_NAME" "_DOMAIN" "_PATH")
+OPTIONAL_VARS=("_ZONE" "_CLUSTER_NAME" "_DOMAIN" "_PATH")
 
-COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply" "batch")
+COMMANDS=("init" "build" "push" "pushLatest" "compile" "apply" "applyVersion" "batch")
 
 # TODO: just print joined array
 #       https://stackoverflow.com/questions/1527049/how-can-i-join-elements-of-an-array-in-bash
@@ -34,6 +34,7 @@ Available commands:\n\
   pushLatest\n\
   compile\n\
   apply\n\
+  applyVersion\n\
   batch\n\
 "
 
@@ -52,7 +53,8 @@ function _log {
 
 function _initKubectl {
   local clusterName=${_CLUSTER_NAME:-$PROJECT_ID}
-  gcloud container clusters get-credentials --zone "$_ZONE" "$clusterName"
+  local zone=${_ZONE:-"us-east1-d"}
+  gcloud container clusters get-credentials --zone "$zone" "$clusterName"
 }
 
 function _sourceEnv {
@@ -183,6 +185,14 @@ function apply {
   kubectl apply -f "$COMPILED_PATH"
 }
 
+function applyVersion {
+  _log "Update server deployment version in Kubernetes"
+  _sourceEnv
+
+  _initKubectl
+  kubectl set image deployment/"$_APP"-server "$_APP"-server=gcr.io/"$PROJECT_ID"/"$_APP":"$COMMIT_SHA" --record
+}
+
 function batch {
   # We don't need to persist env vars into file since 'batch'
   # executes everything in one CI step.
@@ -192,8 +202,12 @@ function batch {
   build
   push
   pushLatest
-  compile
-  apply
+  if [ "$1" = "--version-only" ]; then
+    applyVersion
+  else
+    compile
+    apply
+  fi
 }
 
 # ----- Entry point -----
