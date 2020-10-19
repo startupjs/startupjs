@@ -23,7 +23,7 @@ const DEFAULT_STYLE_WRAPPER = {
   ...shadows[2]
 }
 
-const Dropdown = ({
+function Dropdown ({
   drawerListTitle,
   drawerVariant,
   hasMobileDrawer,
@@ -36,7 +36,7 @@ const Dropdown = ({
   onChange,
   onDismiss,
   children
-}) => {
+}) {
   const [layoutWidth, setLayoutWidth] = useState(null)
   useLayoutEffect(() => {
     if (!layoutWidth) handleWidthChange()
@@ -60,7 +60,7 @@ const Dropdown = ({
   let renderContent = []
   let activeLabel = ''
   React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type.toString() === Dropdown.Caption.toString()) {
+    if (child.type === DropdownCaption) {
       if (index !== 0) Error('Caption need use first child')
       if (child.props.children) {
         caption = React.cloneElement(child, { variant: 'custom' })
@@ -178,7 +178,7 @@ Dropdown.propTypes = {
   hasPopoverWidthCaption: PropTypes.bool
 }
 
-Dropdown.Caption = DropdownCaption
-Dropdown.Item = DropdownItem
-
-export default observer(Dropdown)
+const ObservedDropdown = observer(Dropdown)
+ObservedDropdown.Caption = DropdownCaption
+ObservedDropdown.Item = DropdownItem
+export default ObservedDropdown

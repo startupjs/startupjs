@@ -9,7 +9,7 @@ import Slicer from '../Slicer'
 import Loader from '../Loader'
 import './index.styl'
 
-const AutoSuggest = ({
+function AutoSuggest ({
   options,
   value,
   placeholder,
@@ -20,7 +20,7 @@ const AutoSuggest = ({
   onDismiss,
   onChangeText,
   onScrollEnd
-}) => {
+}) {
   const [inputValue, setInputValue] = useState('')
   const [isFocus, setIsFocus] = useState(false)
 

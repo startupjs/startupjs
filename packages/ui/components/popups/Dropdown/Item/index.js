@@ -7,7 +7,7 @@ import Icon from '../../../Icon'
 import Menu from '../../../Menu'
 import './index.styl'
 
-const DropdownItem = ({
+function DropdownItem ({
   label,
   value,
   icon,
@@ -19,7 +19,7 @@ const DropdownItem = ({
   _onDismissDropdown,
   _index,
   _childenLength
-}) => {
+}) {
   const isPure = _variant === 'pure'
 
   const handlePress = () => {

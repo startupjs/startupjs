@@ -28,7 +28,7 @@ const ARROW_MARGIN = 16
 const WITH_ARROW_MARGIN = 8
 const ARROW_WIDTH = 10
 
-const Popover = ({
+function Popover ({
   positionHorizontal,
   positionVertical,
   animateType,
@@ -44,7 +44,7 @@ const Popover = ({
   styleOverlay,
   backdropStyle,
   children
-}) => {
+}) {
   const [coords, setCoords] = useState(null)
   const [contentSize, setContentSize] = useState({})
   const [captionSize, setCaptionSize] = useState({})
@@ -209,7 +209,7 @@ const Popover = ({
     })
   }
   React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type.toString() === Popover.Caption.toString()) {
+    if (child.type === PopoverCaption) {
       caption = child
       return
     }
@@ -394,11 +394,13 @@ Popover.propTypes = {
   styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
-Popover.Caption = ({ children, style }) => {
+function PopoverCaption ({ children, style }) {
   return pug`
     View(style=style)
       = children
   `
 }
 
-export default observer(Popover)
+const ObservedPopover = observer(Popover)
+ObservedPopover.Caption = PopoverCaption
+export default ObservedPopover

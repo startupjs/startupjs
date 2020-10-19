@@ -43,7 +43,7 @@ return (
 ## Размеры
 - maxHeight: максимально возможная высота Popover
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -55,8 +55,8 @@ return (
       <Button onPress={()=> setVisible(true)}>Открыть</Button>
     </Popover.Caption>
     <ScrollView>
-      {content.map(item=>(
-        <View style={{ padding: 20 }}>
+      {content.map((item, index)=>(
+        <View style={{ padding: 20 }} key={index}>
           <Text>Контент {item}</Text>
         </View>
       ))}
@@ -76,7 +76,7 @@ return (
 
 - height: фиксированная, постоянная высота (по дефолту отсутствует)
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -88,8 +88,8 @@ return (
       <Button onPress={()=> setVisible(true)}>Открыть</Button>
     </Popover.Caption>
     <ScrollView>
-      {content.map(item=>(
-        <View style={{ padding: 20 }}>
+      {content.map((item, index)=>(
+        <View style={{ padding: 20 }} key={index}>
           <Text>Контент {item}</Text>
         </View>
       ))}
@@ -109,7 +109,7 @@ return (
 
 - width: фиксированная, постоянная ширина (по дефолту 200px)
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -129,7 +129,7 @@ return (
 
 - hasWidthCaption: задать ширину по Caption (boolean)
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -149,7 +149,7 @@ return (
 
 Если не задано ни maxHeight ни height, высота подстраивается под контент
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2,3])
 return (
   <Popover
@@ -160,8 +160,8 @@ return (
       <Button onPress={()=> setVisible(true)}>Открыть</Button>
     </Popover.Caption>
     <ScrollView>
-      {content.map(item=>(
-        <View style={{ padding: 20 }}>
+      {content.map((item, index)=>(
+        <View style={{ padding: 20 }} key={index}>
           <Text>Контент {item}</Text>
         </View>
       ))}
@@ -184,7 +184,7 @@ return (
 - positionHorizontal: проп отвечает за отображение по горизонатли
 - positionVertical: проп отвечает за отображение по вертикали
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 return (
   <Row style={{ flexWrap: 'wrap' }}>
     <View style={{ marginBottom: 16 }}>
@@ -403,13 +403,13 @@ return (
 ## Стилизация
 - hasArrow: нужно ли использовать стрелку (по дефолту false)
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
       visible={visible}
       hasArrow={true}
-      onDismiss={()=> setVisible('')}
+      onDismiss={()=> setVisible(false)}
     >
       <Popover.Caption style={{ width: 150, marginRight: 16 }}>
         <Button onPress={()=> setVisible('default')}>
@@ -426,7 +426,7 @@ return (
 
 - styleWrapper: стили для wrapper
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
@@ -449,7 +449,7 @@ return (
 
 - styleOverlay: стили для overlay
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
