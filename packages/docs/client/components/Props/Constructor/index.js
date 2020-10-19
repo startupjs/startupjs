@@ -20,8 +20,8 @@ export default observer(themed(function Constructor ({ Component, $props, style,
       if (prop.defaultValue) {
         // NOTE: Due to a racer patch, last argument cannot be a function
         // because it will be used as a callback of `$props.set`,
-        // so we use object to avoid this behavior
-        $props.set(prop.name, { value: prop.defaultValue })
+        // so we use null to avoid this behavior when defaultValue is function
+        $props.set(prop.name, prop.defaultValue, null)
       }
     }
   }, entries)
@@ -37,7 +37,7 @@ export default observer(themed(function Constructor ({ Component, $props, style,
       Tbody
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
-          - const $value = $props.at(name + '.value')
+          - const $value = $props.at(name)
           - let value = $value.get()
 
           Tr(key=index)
