@@ -12,7 +12,7 @@ import Drawer from '../Drawer'
 import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
-import { u } from 'startupjs'
+import { u, observer } from 'startupjs'
 import STYLES from './index.styl'
 
 const { shadows } = STYLES
@@ -181,4 +181,4 @@ Dropdown.propTypes = {
 Dropdown.Caption = DropdownCaption
 Dropdown.Item = DropdownItem
 
-export default Dropdown
+export default observer(Dropdown)

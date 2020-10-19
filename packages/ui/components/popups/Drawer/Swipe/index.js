@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { PanResponder, View } from 'react-native'
+import { observer } from 'startupjs'
 import './index.styl'
 
 const RESPONDER_STYLES = {
@@ -9,7 +10,7 @@ const RESPONDER_STYLES = {
   top: { bottom: 0, width: '100%', height: '10%' }
 }
 
-export default function Swipe ({
+function Swipe ({
   position,
   contentSize,
   styleSwipe,
@@ -88,3 +89,5 @@ export default function Swipe ({
     View.responder(..._responder.panHandlers style=_responderStyle)
   `
 }
+
+export default observer(Swipe)

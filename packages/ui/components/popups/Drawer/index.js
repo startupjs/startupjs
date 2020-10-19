@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
+import { observer } from 'startupjs'
 import STYLES from './index.styl'
 
 const { shadows } = STYLES
@@ -196,4 +197,4 @@ Drawer.propTypes = {
   styleContent: PropTypes.object
 }
 
-export default Drawer
+export default observer(Drawer)

@@ -8,6 +8,7 @@ import {
   Dimensions,
   StyleSheet
 } from 'react-native'
+import { observer } from 'startupjs'
 import Modal from '../../Modal'
 import STYLES from './index.styl'
 
@@ -400,4 +401,4 @@ Popover.Caption = ({ children, style }) => {
   `
 }
 
-export default Popover
+export default observer(Popover)

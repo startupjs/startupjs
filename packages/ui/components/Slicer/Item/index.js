@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'startupjs'
 
 function Item ({
   index,
@@ -24,4 +25,4 @@ function Item ({
   `
 }
 
-export default Item
+export default observer(Item)

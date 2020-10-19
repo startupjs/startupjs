@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
+import { observer } from 'startupjs'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
 import Slicer from '../Slicer'
@@ -116,4 +117,4 @@ AutoSuggest.propTypes = {
   onScrollEnd: propTypes.func
 }
 
-export default AutoSuggest
+export default observer(AutoSuggest)
