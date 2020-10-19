@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Multiselect from '../Multiselect'
 import Div from '../../Div'
+import Span from '../../typography/Span'
 import Br from '../../Br'
 import { Sandbox } from '@startupjs/docs'
 
@@ -42,6 +43,28 @@ return (
   </Div>  
 )
 ```
+
+## Custom tag
+
+```jsx example
+const [cities, setCities] = useState(['la', 'tk'])
+return (
+  <Div>
+    <Multiselect
+      label='Example Multiselect with custom tag'
+      value={cities}
+      TagComponent={({ record }) => <Span>✔ {record.label} </Span>}
+      onChange={setCities}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+    />  
+  </Div>  
+)
+```
+
 
 ## Sandbox
 

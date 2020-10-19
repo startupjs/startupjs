@@ -1,5 +1,5 @@
 import React from 'react'
-import { Div, Row, Span, Tag } from '@startupjs/ui'
+import { Div, Row, Span } from '@startupjs/ui'
 import './index.styl'
 import PropTypes from 'prop-types'
 import { observer } from 'startupjs'
@@ -10,22 +10,20 @@ function MultiselectInput ({
   value,
   placeholder,
   options,
-  tagVariant,
-  activeColor,
   disabled,
   readonly,
   showOpts,
-  error
+  error,
+  TagComponent
 }) {
   function renderTag (_value, index) {
     const record = options.find(r => r.value === _value)
     return pug`
-      Tag(
-        key=_value
-        pushed=index !== 0
-        variant=tagVariant
-        color=activeColor
-      )= record.label
+      TagComponent(
+        key=record.value
+        index=index
+        record=record
+      )
     `
   }
 
@@ -61,12 +59,11 @@ MultiselectInput.propTypes = {
   showOptsMenu: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string,
-  tagVariant: PropTypes.string,
-  activeColor: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   showOpts: PropTypes.bool,
-  error: PropTypes.string
+  error: PropTypes.string,
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 }
 
 export default observer(MultiselectInput)
