@@ -10,9 +10,7 @@ import {
 } from 'react-native'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
-import STYLES from './index.styl'
-
-const { shadows } = STYLES
+import './index.styl'
 
 const POSITION_STYLES = {
   left: { alignItems: 'flex-start' },
@@ -135,7 +133,6 @@ const Drawer = ({
   }
   const _styleContent = {
     transform: [{ [POSITION_NAMES[position]]: animatePosition }],
-    ...shadows[2],
     ...styleContent
   }
 
@@ -152,7 +149,7 @@ const Drawer = ({
           if isShowOverlay
             TouchableWithoutFeedback(onPress=onDismiss style={ cursor: 'default' })
               Animated.View.overlay(style={ opacity: animateOpacity })
-          Animated.View.s(
+          Animated.View.shadow(
             ref=refContent
             styleName={
               content: hasDefaultStyleContent,

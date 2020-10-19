@@ -1,7 +1,13 @@
+_shadowLevels = ('0' '1' '2' '3' '4')
+
 .popover
   border-radius 1u
   background-color $UI.colors.white
   overflow hidden
+  for level in _shadowLevels
+    &.shadow-{level}
+      shadow(level)
+
 
 .overlay
   position absolute
@@ -31,6 +37,3 @@
 
 .arrowCenterRight
   border-right-color $UI.colors.white
-
-:export
-  shadows: $UI.shadows

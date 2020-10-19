@@ -15,8 +15,7 @@ const {
   config: {
     defaultHoverOpacity,
     defaultActiveOpacity
-  },
-  shadows: SHADOWS
+  }
 } = STYLES
 
 function Div ({
@@ -109,10 +108,11 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], style, extraStyle]
+      style=[style, extraStyle]
       styleName=[
         {
           ['with-shadow']: !!level,
+          ['shadow-'+level]: true,
           clickable: isWeb && isClickable,
           bleed,
           disabled
@@ -144,7 +144,7 @@ Div.propTypes = {
   hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   disabled: PropTypes.bool,
-  level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
+  level: PropTypes.oneOf([0, 1, 2, 3, 4]),
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   bleed: PropTypes.bool,

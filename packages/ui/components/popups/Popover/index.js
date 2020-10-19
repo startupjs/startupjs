@@ -9,9 +9,7 @@ import {
   StyleSheet
 } from 'react-native'
 import Modal from '../../Modal'
-import STYLES from './index.styl'
-
-const { shadows } = STYLES
+import './index.styl'
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
@@ -41,6 +39,7 @@ const Popover = ({
   styleWrapper,
   styleOverlay,
   backdropStyle,
+  shadowLevel,
   children
 }) => {
   const [coords, setCoords] = useState(null)
@@ -263,7 +262,6 @@ const Popover = ({
     height: animateHeight,
     opacity: animateOpacity,
     width: animateWidth,
-    ...shadows[3],
     ...styleWrapper
   }
 
@@ -307,6 +305,7 @@ const Popover = ({
             pointerEvents='box-none'
             ref=refContent
             style=_styleWrapper
+            styleName={['shadow-'+shadowLevel]: shadowLevel}
           )= renderContent
   `
 }
@@ -318,7 +317,8 @@ Popover.defaultProps = {
   hasWidthCaption: false,
   hasArrow: false,
   width: 200,
-  backdropStyle: { zIndex: 99999 }
+  backdropStyle: { zIndex: 99999 },
+  shadowLevel: 3
 }
 
 Popover.propTypes = {
@@ -330,7 +330,8 @@ Popover.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
-  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  shadowLevel: PropTypes.oneOf([0, 1, 2, 3, 4])
 }
 
 Popover.Caption = ({ children, style }) => {
