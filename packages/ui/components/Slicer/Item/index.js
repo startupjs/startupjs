@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 
 function Item ({
@@ -18,12 +18,10 @@ function Item ({
     }
   }
 
-  return useMemo(() => {
-    return pug`
-      View(onLayout=onLayout)
-        = children
-    `
-  }, [])
+  return pug`
+    View(onLayout=onLayout)
+      = children
+  `
 }
 
 export default Item

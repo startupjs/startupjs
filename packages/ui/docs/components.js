@@ -3,6 +3,7 @@ import { faShapes } from '@fortawesome/free-solid-svg-icons'
 import AlertEn from '../components/Alert/Alert.en.mdx'
 import AlertRu from '../components/Alert/Alert.ru.mdx'
 import AutoSuggestRu from '../components/AutoSuggest/AutoSuggest.ru.mdx'
+import AutoSuggestEn from '../components/AutoSuggest/AutoSuggest.en.mdx'
 import AvatarEn from '../components/Avatar/Avatar.en.mdx'
 import AvatarRu from '../components/Avatar/Avatar.ru.mdx'
 import BrEn from '../components/Br/Br.en.mdx'
@@ -76,7 +77,10 @@ export default {
     AutoSuggest: {
       type: 'mdx',
       title: 'AutoSuggest',
-      component: AutoSuggestRu
+      component: {
+        en: AutoSuggestEn,
+        ru: AutoSuggestRu
+      }
     },
     Avatar: {
       type: 'mdx',

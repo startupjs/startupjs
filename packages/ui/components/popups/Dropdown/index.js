@@ -19,7 +19,6 @@ const { shadows } = STYLES
 const { UIManager } = NativeModules
 
 const DEFAULT_STYLE_WRAPPER = {
-  transform: [{ translateY: 3 }],
   borderRadius: u(0.5),
   ...shadows[2]
 }
@@ -30,6 +29,7 @@ const Dropdown = ({
   hasMobileDrawer,
   popoverWidth,
   popoverHeight,
+  popoverMaxHeight,
   popoverStyleWrapper,
   styleActiveItem,
   activeValue,
@@ -123,6 +123,7 @@ const Dropdown = ({
         visible=isShow
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
+        maxHeight=popoverMaxHeight
         height=popoverHeight
         width=popoverWidth
         hasWidthCaption=!popoverWidth

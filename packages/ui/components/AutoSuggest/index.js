@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
-import TextInput from '../forms/TextInput'
+import { View, TouchableWithoutFeedback } from 'react-native'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
 import Slicer from '../Slicer'
 import Loader from '../Loader'
+import TextInput from '../forms/TextInput'
 import propTypes from 'prop-types'
 import './index.styl'
 
@@ -12,7 +12,7 @@ const AutoSuggest = ({
   options,
   value,
   placeholder,
-  popoverHeight,
+  maxHeight,
   renderItem,
   isLoading,
   onChange,
@@ -61,19 +61,24 @@ const AutoSuggest = ({
 
   return pug`
     Popover(
-      height=popoverHeight
-      visible=(isFocus && (isLoading || !!_data.length))
+      maxHeight=maxHeight
+      visible=(isFocus || isLoading)
       positionHorizontal="right"
       hasWidthCaption=true
       onDismiss=onBlur
     )
       Popover.Caption
-        TextInput(
-          placeholder=placeholder
-          onFocus=onFocus
-          onChangeText=_onChangeText
-          value=(!isFocus && value.label) || inputValue
-        )
+        View.captionCase
+          TextInput(
+            placeholder=placeholder
+            onChangeText=_onChangeText
+            onFocus=onFocus
+            autoFocus=isFocus
+            value=(!isFocus && value.label) || inputValue
+          )
+          if !isFocus
+            TouchableWithoutFeedback(onPress=onFocus)
+              View.click
       if isLoading
         View.loaderCase
           Loader(size='s')
@@ -89,7 +94,7 @@ const AutoSuggest = ({
 AutoSuggest.defaultProps = {
   options: [],
   placeholder: 'Select value',
-  popoverHeight: 300,
+  maxHeight: 200,
   value: {},
   renderItem: null,
   isLoading: false

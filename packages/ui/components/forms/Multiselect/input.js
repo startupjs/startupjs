@@ -1,8 +1,8 @@
 import React from 'react'
 import { Div, Row, Span, Tag } from '@startupjs/ui'
-import './index.styl'
 import PropTypes from 'prop-types'
 import { observer } from 'startupjs'
+import './index.styl'
 
 function MultiselectInput ({
   label,
@@ -27,6 +27,7 @@ function MultiselectInput ({
       )= record.label
     `
   }
+
   return pug`
     Div.inputRoot
       if label

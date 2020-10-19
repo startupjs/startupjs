@@ -36,12 +36,13 @@ const Multiselect = ({
         Span.sugText= opt.label
     `
   }
+
   return pug`
     Popover.root(
       visible=showOpts
       onDismiss=hideOptsMenu
       width=popoverWidth
-      styleWrapper={ height: 'auto', maxHeight: u(20) }
+      maxHeight=u(20)
     )
       Popover.Caption
         MultiselectInput(

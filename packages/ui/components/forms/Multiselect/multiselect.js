@@ -3,8 +3,8 @@ import { Div, Span, Checkbox, Drawer, Br } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectInput from './input'
 import { ScrollView } from 'react-native'
-import styles from './index.styl'
 import { observer } from 'startupjs'
+import styles from './index.styl'
 
 const Multiselect = ({
   options,
@@ -65,7 +65,6 @@ const Multiselect = ({
         Br
         Br
         Br
-
   `
 }
 

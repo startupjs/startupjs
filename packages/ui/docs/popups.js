@@ -2,6 +2,7 @@
 import { faWindowRestore } from '@fortawesome/free-solid-svg-icons'
 import DrawerRu from '../components/popups/Drawer/Drawer.ru.mdx'
 import PopoverRu from '../components/popups/Popover/Popover.ru.mdx'
+import PopoverEn from '../components/popups/Popover/Popover.en.mdx'
 import DropdownRu from '../components/popups/Dropdown/Dropdown.ru.mdx'
 
 export default {
@@ -20,7 +21,10 @@ export default {
     Popover: {
       type: 'mdx',
       title: 'Popover',
-      component: PopoverRu
+      component: {
+        en: PopoverEn,
+        ru: PopoverRu
+      }
     },
     Dropdown: {
       type: 'mdx',
