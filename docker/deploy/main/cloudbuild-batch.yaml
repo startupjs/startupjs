@@ -1,8 +1,7 @@
 # PREREQUISITES:
 #   1. you have to provide the following env vars in the cloud build trigger:
 #      - $_APP - name of your app. This name is used for all kube resources (deployment, service, etc.)
-#      - $_ZONE - zone where your cluster is located.
-#                 Example: 'us-east1-d' for the New York data center.
+#      - $_ZONE - zone where your cluster is located. By default 'us-east1-d' is used (New York).
 #   2. You have to have a kube cluster with the same name as the google project your are in,
 #      OR provide the cluster name explicitly by specifying the $_CLUSTER_NAME env var.
 #   3. ConfigMap in the cluster named $_APP with the required private

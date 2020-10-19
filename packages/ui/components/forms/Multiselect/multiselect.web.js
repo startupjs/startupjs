@@ -1,15 +1,13 @@
 import React from 'react'
+import { observer, u } from 'startupjs'
 import { Div, Span, Checkbox, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectInput from './input'
-import { u, observer } from 'startupjs'
 import './index.styl'
 
 const Multiselect = ({
   options,
   value,
-  onSelect,
-  onRemove,
   placeholder,
   label,
   showOptsMenu,
@@ -18,8 +16,11 @@ const Multiselect = ({
   tagVariant,
   activeColor,
   disabled,
+  readonly,
   popoverWidth,
-  error
+  error,
+  onSelect,
+  onRemove
 }) => {
   function renderOpt (opt) {
     const selected = value.some(_value => _value === opt.value)
@@ -30,6 +31,7 @@ const Multiselect = ({
         onSelect(opt.value)
       }
     }
+
     return pug`
       Div.suggestion(key=opt.value onPress=selectCb)
         Checkbox.checkbox(value=selected onChange=selectCb)
@@ -56,10 +58,11 @@ const Multiselect = ({
           activeColor=activeColor
           disabled=disabled
           error=error
+          readonly=readonly
         )
       Div.suggestions-web
         each opt in options
-          =renderOpt(opt)
+          = renderOpt(opt)
   `
 }
 
@@ -76,6 +79,7 @@ Multiselect.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string
 }

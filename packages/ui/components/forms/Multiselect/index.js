@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
+import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
-import { observer, u } from 'startupjs'
 import './index.styl'
 
 const Multiselect = ({
   options,
   value,
-  onSelect,
-  onRemove,
-  onChange,
   placeholder,
   label,
   tagVariant,
   activeColor,
   disabled,
   popoverWidth,
-  error
+  readonly,
+  error,
+  onChange,
+  onSelect,
+  onRemove
 }) => {
   const [showOpts, setShowOpts] = useState(false)
   // Map array if user pass options pass an array of primitives
@@ -40,6 +41,7 @@ const Multiselect = ({
   function hideOptsMenu () {
     setShowOpts(false)
   }
+
   return pug`
     MultiselectComponent(
       options=_options
@@ -54,6 +56,7 @@ const Multiselect = ({
       tagVariant=tagVariant
       activeColor=activeColor
       disabled=disabled
+      readonly=readonly
       popoverWidth=popoverWidth
       error=error
     )
@@ -61,18 +64,19 @@ const Multiselect = ({
 }
 
 Multiselect.propTypes = {
-  options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
-  onSelect: PropTypes.func,
-  onChange: PropTypes.func,
-  onRemove: PropTypes.func,
+  options: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string,
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  error: PropTypes.string
+  error: PropTypes.string,
+  onChange: PropTypes.func,
+  onSelect: PropTypes.func,
+  onRemove: PropTypes.func
 }
 
 Multiselect.defaultProps = {
@@ -82,6 +86,7 @@ Multiselect.defaultProps = {
   tagVariant: 'flat',
   activeColor: 'primary',
   disabled: false,
+  readonly: false,
   popoverWidth: u(30)
 }
 

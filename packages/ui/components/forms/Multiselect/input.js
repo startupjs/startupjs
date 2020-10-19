@@ -1,7 +1,7 @@
 import React from 'react'
-import { Div, Row, Span, Tag } from '@startupjs/ui'
-import PropTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import { Div, Row, Span, Tag } from '@startupjs/ui'
 import './index.styl'
 
 function MultiselectInput ({
@@ -13,11 +13,13 @@ function MultiselectInput ({
   tagVariant,
   activeColor,
   disabled,
+  readonly,
   showOpts,
   error
 }) {
   function renderTag (_value, index) {
     const record = options.find(r => r.value === _value)
+
     return pug`
       Tag(
         key=_value
@@ -33,22 +35,20 @@ function MultiselectInput ({
       if label
         Span.label(
           styleName={ focused: showOpts, error }
-          size='s'
           variant='description'
         )= label
       Row.input(
-        styleName={ disabled, focused: showOpts, error }
-        onPress=disabled ? void 0 : showOptsMenu
+        styleName={ disabled, focused: showOpts, error, readonly }
+        onPress=disabled || readonly ? void 0 : showOptsMenu
       )
-        if !value || !value.length
+        if !value || !value.length && !readonly
           Span.placeholder= placeholder
+        if !value || !value.length && readonly
+          Span.placeholder='-'
         each _value, index in value
-          =renderTag(_value, index)
-      if error
-        Span.error(
-          size='s'
-          variant='description'
-        )= error
+          = renderTag(_value, index)
+      if error && !readonly
+        Span.error(variant='description')= error
   `
 }
 
@@ -61,6 +61,7 @@ MultiselectInput.propTypes = {
   tagVariant: PropTypes.string,
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   showOpts: PropTypes.bool,
   error: PropTypes.string
 }

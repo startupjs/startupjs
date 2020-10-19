@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
 import Slicer from '../Slicer'
 import Loader from '../Loader'
-import TextInput from '../forms/TextInput'
-import propTypes from 'prop-types'
 import './index.styl'
 
 const AutoSuggest = ({
@@ -102,19 +102,19 @@ AutoSuggest.defaultProps = {
 }
 
 AutoSuggest.propTypes = {
-  options: propTypes.array.isRequired,
-  value: propTypes.shape({
-    value: propTypes.string,
-    label: propTypes.string
+  options: PropTypes.array.isRequired,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string
   }).isRequired,
-  placeholder: propTypes.string,
-  popoverHeight: propTypes.number,
-  renderItem: propTypes.func,
-  isLoading: propTypes.bool,
-  onChange: propTypes.func,
-  onDismiss: propTypes.func,
-  onChangeText: propTypes.func,
-  onScrollEnd: propTypes.func
+  placeholder: PropTypes.string,
+  popoverHeight: PropTypes.number,
+  renderItem: PropTypes.func,
+  isLoading: PropTypes.bool,
+  onChange: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onChangeText: PropTypes.func,
+  onScrollEnd: PropTypes.func
 }
 
 export default observer(AutoSuggest)

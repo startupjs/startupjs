@@ -1,11 +1,16 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Button from '../Button'
 
 function Tag (props) {
   return pug`
-    Button(...props size='xs')
+    //- button is clickable by default, override this behavior
+    Button(
+      onPress=null
+      ...props
+      size='xs'
+    )
   `
 }
 
@@ -18,8 +23,8 @@ Tag.defaultProps = {
 
 Tag.propTypes = {
   ...Button.propTypes,
-  variant: propTypes.oneOf(['flat', 'outlined']),
-  shape: propTypes.oneOf(['circle', 'rounded'])
+  variant: PropTypes.oneOf(['flat', 'outlined']),
+  shape: PropTypes.oneOf(['circle', 'rounded'])
 }
 
 export default observer(Tag)

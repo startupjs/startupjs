@@ -1,9 +1,8 @@
 $checkboxBorderColor = $UI.colors.darkLight
 $checkedColor = $UI.colors.primary
+$checkedIconColor = $UI.colors.white
 $switchBg = $UI.colors.dark
-
-.root
-  cursor pointer
+$readonlyColor = $UI.colors.mainText
 
 .label
   margin-left 1u
@@ -24,11 +23,24 @@ $switchBg = $UI.colors.dark
     background-color $checkedColor
     border-color $checkedColor
 
+.checkbox-icon-wrap
+  justify-content center
+  border none
+  &.switch
+    background-color none
+
 .checkbox-icon
   display none
+  color $checkedIconColor
 
   &.checked
     display flex
+
+  &.readonly
+    display flex
+    font(l)
+    line-height 2u
+    color $readonlyColor
 
 .checkbox-animation
   display none

@@ -1,0 +1,42 @@
+import { View } from 'react-native'
+
+# Export CSS to JS
+
+We can export variables directly from stylus into js.
+
+```styl
+// override from global config
+$this = merge({
+  bgColor: $UI.colors.primary,
+  height: 10u
+}, $UI.ShoppingCart, true)
+
+.root
+  height: $this.height
+  background-color: $this.bgColor
+
+:export
+  config: $this
+  colors: $UI.colors
+  foobar: 42
+```
+
+Then import variables `colors`, `config` and `foobar` in the `ShoppingCart/index.js` file:
+
+```jsx
+import { View } from 'react-native'
+import STYLES from './index.styl'
+
+const {
+  config: { bgColor },
+  colors,
+  foobar
+} = STYLES
+
+export default function Button ({ text }) {
+  console.log('Background color is:', bgColor)
+  console.log('Available colors:', colors)
+  console.log('Magic number FooBar:', foobar)
+  return <View styleName='root' />
+}
+```

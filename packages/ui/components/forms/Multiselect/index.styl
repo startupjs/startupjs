@@ -18,12 +18,17 @@ _primaryColor = $UI.colors.primary
   radius()
   +web()
     overflow auto
+
   &.disabled
     background-color $UI.colors.darkLightest
   &.focused
     border-color _primaryColor
   &.error
     border-color _errorColor
+  &.readonly
+    border none
+    background-color none
+    padding 0
 
 .placeholder
   opacity .5
@@ -63,6 +68,7 @@ _primaryColor = $UI.colors.primary
 .sugText
   color $UI.colors.mainText
   font(xl)
+
   +desktop()
     font(m)
 
@@ -71,6 +77,8 @@ _primaryColor = $UI.colors.primary
 
 .label
   margin-bottom 0.5u
+  font(s)
+
   &.focused
     color _primaryColor
   &.error
@@ -82,3 +90,4 @@ _primaryColor = $UI.colors.primary
 
 .error
   color _errorColor
+  font(s)

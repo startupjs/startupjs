@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import { Animated } from 'react-native'
-import propTypes from 'prop-types'
 import Div from './../../Div'
 import Row from './../../Row'
 import Icon from './../../Icon'
@@ -69,12 +69,12 @@ CollapseHeader.defaultProps = {
 }
 
 CollapseHeader.propTypes = {
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  icon: propTypes.oneOfType([propTypes.bool, propTypes.object, propTypes.func]),
-  iconStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  icon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.func]),
+  iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(CollapseHeader)
