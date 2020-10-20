@@ -13,12 +13,11 @@ const Multiselect = ({
   showOptsMenu,
   hideOptsMenu,
   showOpts,
-  tagVariant,
-  activeColor,
   disabled,
   readonly,
   popoverWidth,
   error,
+  TagComponent,
   onSelect,
   onRemove
 }) => {
@@ -54,11 +53,10 @@ const Multiselect = ({
           value=value
           placeholder=placeholder
           options=options
-          tagVariant=tagVariant
-          activeColor=activeColor
           disabled=disabled
           error=error
           readonly=readonly
+          TagComponent=TagComponent
         )
       Div.suggestions-web
         each opt in options
@@ -76,12 +74,11 @@ Multiselect.propTypes = {
   showOptsMenu: PropTypes.func.isRequired,
   hideOptsMenu: PropTypes.func.isRequired,
   showOpts: PropTypes.bool.isRequired,
-  tagVariant: PropTypes.string,
-  activeColor: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  error: PropTypes.string
+  error: PropTypes.string,
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 }
 
 export default observer(Multiselect)

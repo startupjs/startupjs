@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
+import DefaultTag from './defaultTag'
 
 import './index.styl'
 
@@ -10,12 +11,11 @@ const Multiselect = ({
   value,
   placeholder,
   label,
-  tagVariant,
-  activeColor,
   disabled,
   popoverWidth,
   readonly,
   error,
+  TagComponent,
   onChange,
   onSelect,
   onRemove
@@ -54,12 +54,11 @@ const Multiselect = ({
       showOptsMenu=showOptsMenu
       hideOptsMenu=hideOptsMenu
       showOpts=showOpts
-      tagVariant=tagVariant
-      activeColor=activeColor
       disabled=disabled
       readonly=readonly
       popoverWidth=popoverWidth
       error=error
+      TagComponent=TagComponent
     )
   `
 }
@@ -69,12 +68,11 @@ Multiselect.propTypes = {
   options: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string,
-  tagVariant: PropTypes.string,
-  activeColor: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onRemove: PropTypes.func
@@ -84,11 +82,10 @@ Multiselect.defaultProps = {
   value: [],
   options: [],
   placeholder: 'Select',
-  tagVariant: 'flat',
-  activeColor: 'primary',
   disabled: false,
   readonly: false,
-  popoverWidth: u(30)
+  popoverWidth: u(30),
+  TagComponent: DefaultTag
 }
 
 export default observer(Multiselect)
