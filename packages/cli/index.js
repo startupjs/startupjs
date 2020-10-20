@@ -2,6 +2,7 @@ const commander = require('commander')
 const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
+const Font = require('fonteditor-core').Font
 const CLI_VERSION = require('./package.json').version
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
@@ -199,6 +200,10 @@ SCRIPTS_ORIG.patchPackage = () => oneLine(`
   npx patch-package --patch-dir ${PATCHES_DIR}
 `)
 
+SCRIPTS_ORIG.fonts = () => oneLine(`
+  react-native-asset
+`)
+
 const SCRIPTS = {
   start: 'startupjs start',
   metro: 'react-native start --reset-cache',
@@ -214,7 +219,8 @@ const SCRIPTS = {
   ios: 'react-native run-ios',
   'ios-release': 'react-native run-ios --configuration Release',
   build: 'startupjs build --async',
-  'start-production': 'startupjs start-production'
+  'start-production': 'startupjs start-production',
+  fonts: 'startupjs fonts'
 }
 
 const DEFAULT_TEMPLATE = 'ui'
@@ -405,6 +411,18 @@ commander
     )
   })
 
+commander
+  .command('fonts')
+  .description('Overides names fonts')
+  .action(async (options) => {
+    fontsRenames()
+
+    await execa.command(
+      SCRIPTS_ORIG.fonts(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
 // ----- helpers
 
 async function recursivelyCopyFiles (sourcePath, targetPath) {
@@ -429,6 +447,32 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
         { stdio: 'inherit' }
       )
     }
+  }
+}
+
+function fontsRenames () {
+  const FONTS_PATH_DIR = process.cwd() + '/public/fonts'
+
+  if (fs.existsSync(FONTS_PATH_DIR)) {
+    const files = fs.readdirSync(FONTS_PATH_DIR)
+
+    files.forEach(file => {
+      if (file === '.DS_Store') return
+      const [fileName, fileExt] = file.split('.')
+      const buffer = fs.readFileSync(`${FONTS_PATH_DIR}/${file}`)
+
+      const font = Font.create(buffer, { type: fileExt })
+      if (font.get().name.fontFamily === fileName) return
+      font.get().name.fontFamily = fileName
+      font.get().name.fontSubFamily = fileName
+      font.get().name.preferredFamily = fileName
+
+      const bufferUpdate = font.write({ type: fileExt })
+      fs.writeFile(`${FONTS_PATH_DIR}/${file}`, bufferUpdate, (err) => {
+        if (err) return console.log(err)
+        console.log(`${file} rename font-family`)
+      })
+    })
   }
 }
 

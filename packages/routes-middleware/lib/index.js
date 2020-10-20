@@ -1,3 +1,4 @@
+const fs = require('fs')
 const _keys = require('lodash/keys')
 const _isArray = require('lodash/isArray')
 const defaultClientLayout = require('./defaultClientLayout')
@@ -61,7 +62,8 @@ module.exports = function (appRoutes, options = {}) {
           modelBundle: bundle,
           jsBundle: resourceManager.getResourcePath('bundle', appName, options),
           env: model.get('_session.env') || {},
-          mode: options.mode || DEFAULT_MODE
+          mode: options.mode || DEFAULT_MODE,
+          styleFonts: getStyleFonts() || ''
         })
         res.status(200).send(html)
       })
@@ -99,4 +101,47 @@ function matchUrl (location, routes, cb) {
     }
   }
   return false
+}
+
+function getStyleFonts () {
+  const FONTS_PATH_DIR = process.cwd() + '/public/fonts'
+  const FONTS_FORMAT = {
+    'eot?#iefix': 'embedded-opentype',
+    otf: 'opentype',
+    ttf: 'truetype',
+    woff: 'woff',
+    woff2: 'woff2'
+  }
+
+  if (fs.existsSync(FONTS_PATH_DIR)) {
+    let files = fs.readdirSync(FONTS_PATH_DIR)
+    files = files.filter(file => file !== '.DS_Store')
+
+    // parse files to format:
+    // { fontName: ['ttf', 'otf'] }
+    const data = files.reduce((acc, item) => {
+      const [fileName, fileExt] = item.split('.')
+      if (!acc[fileName]) acc[fileName] = []
+      acc[fileName].push(fileExt)
+      return acc
+    }, {})
+
+    return Object.keys(data).reduce((css, fileName) => {
+      const srcs = data[fileName].reduce((acc, fileExt, index, arr) => {
+        if (fileExt === 'eot') fileExt = 'eot?#iefix'
+        acc += `url('/fonts/${fileName}.${fileExt}') format('${FONTS_FORMAT[fileExt]}')`
+
+        if (index !== arr.length - 1) acc += ',\n'
+        return acc
+      }, '')
+
+      css += `@font-face {
+        font-family: ${fileName};
+        src: url('/fonts/${fileName}.${data[fileName][0]}');
+        src: ${srcs};
+      }\n`
+
+      return css
+    }, '')
+  }
 }
