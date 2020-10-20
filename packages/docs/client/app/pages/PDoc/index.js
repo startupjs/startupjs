@@ -2,7 +2,8 @@ import React from 'react'
 import { observer, useLocal } from 'startupjs'
 import { useDocsContext } from '../../../../docsContext'
 import { Span, Br, Div } from '@startupjs/ui'
-import { DEFAULT_LANGUAGE } from '../../../const'
+import { DEFAULT_LANGUAGE, LANGUAGES } from '../../../const'
+import { useLang } from '../../../clientHelpers'
 import { ScrollView } from 'react-native'
 import './index.styl'
 import useRestoreScroll from './useRestoreScroll'
@@ -10,11 +11,17 @@ import useRestoreScroll from './useRestoreScroll'
 export default observer(function PDoc ({
   style
 }) {
-  const [params] = useLocal('$render.params')
-  const lang = params.lang
   const docs = useDocsContext()
   const [docPath] = useLocal('$render.params.path')
-  const segments = docPath.split('/')
+  let segments = docPath.split('/')
+  const [currentLanguage = DEFAULT_LANGUAGE] = useLang()
+  let lang
+  if (LANGUAGES.includes(segments[0])) {
+    lang = segments[0]
+    segments = segments.slice(1)
+  } else {
+    lang = currentLanguage
+  }
   const Component = segments.reduce((docs, segment) => {
     const doc = docs[segment]
     const Component = getComponent(doc, lang)

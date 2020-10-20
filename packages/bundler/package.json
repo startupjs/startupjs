@@ -16,7 +16,6 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.8.0",
-    "@dmapper/stylus-hash-plugin": "0.0.1",
     "@mdx-js/loader": "^1.5.8",
     "@mdx-js/mdx": "^1.5.8",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.3.2",

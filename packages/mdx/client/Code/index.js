@@ -6,6 +6,7 @@ import languageJsx from 'refractor/lang/jsx.js'
 import languageStyl from 'refractor/lang/stylus.js'
 import languagePug from 'refractor/lang/pug.js'
 import languageMarkdown from 'refractor/lang/markdown.js'
+import languageJson from 'refractor/lang/json.js'
 import './index.styl'
 
 // Register all supported languages
@@ -13,6 +14,7 @@ refractor.register(languageJsx)
 refractor.register(languageStyl)
 refractor.register(languagePug)
 refractor.register(languageMarkdown)
+refractor.register(languageJson)
 
 // Register aliases
 refractor.alias({ stylus: ['styl'] })

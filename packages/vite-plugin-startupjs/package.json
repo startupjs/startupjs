@@ -10,7 +10,6 @@
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "@dmapper/stylus-hash-plugin": "^0.0.1",
     "@mdx-js/mdx": "^1.5.8",
     "@pika/react": "16.13.1",
     "@pika/react-dom": "16.13.1",

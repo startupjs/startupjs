@@ -6,7 +6,7 @@ export default function (components = {}) {
       component: components.PHome
     },
     {
-      path: '/docs/:lang/:path+',
+      path: '/docs/:path+',
       exact: true,
       component: components.PDoc,
       name: 'docs:doc'
