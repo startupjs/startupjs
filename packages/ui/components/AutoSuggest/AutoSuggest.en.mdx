@@ -7,19 +7,18 @@ import Span from '../typography/Span'
 import Avatar from '../Avatar'
 
 # AutoSuggest
-Текстовое поле, со всплывающим списком опций.
-Используется если в всплывающим списке слишком много опций, а с помощью ввода текста можно искать нужное.
+A text field with a pop-up list of options.
 
 ```jsx
 import { AutoSuggest } from '@startupjs/ui'
 ```
 
-## Пример
-- options: массив объектов для опций, каждая опция имеет значение (value) и метку (label)
-- value: активное значение
-- maxHeight: максимальная высота всплывающего списка
-- placeholder: заголовок поля
-- onChange: калбэк функция, вызывается после выбора значения, принимает выбранное значение первым параметром
+## Example
+- options: array of objects for options, each option has a value and a label
+- value: active value
+- maxHeight: maximum height of the popup list
+- placeholder: the title of the field
+- onChange: callback function, called after selecting a value, takes the selected value as the first parameter
 ```jsx example
 const [value, setValue] = useState({})
 const options = [
@@ -42,8 +41,8 @@ return (
 )
 ```
 
-## Кастомизация
-- renderItem: функция которая вызывается при рендеренге каждого элемента массива. Получает 2 аргумента - текущий элемент (item) и его индекс.
+## Customization
+- renderItem: a function that is called when rendering each element of the array. Gets 2 arguments - the current element (item) and its index.
 ```jsx example
 const [value, setValue] = useState({})
 const options = [
@@ -78,9 +77,9 @@ return (
 )
 ```
 
-## Также
-- onDismiss: калбэк, вызывается при закрытии списка
-- onChangeText: калбэк, вызывается при вводе текста, принимает 1 аргумент text
-- onScrollEnd: калбэк, вызывается в конце сколла, удобно использовать для подгрузки
+## Also
+- onDismiss: callback, called when the list is closed
+- onChangeText: callback, called when entering text, accepts 1 argument text
+- onScrollEnd: callback, called at the end of the scroll
 
 <Br lines={16} />

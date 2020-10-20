@@ -25,6 +25,8 @@ export default observer(function PDoc ({
 
   if (!Component) return pug`Span 404. Not found`
 
+  // NOTE: The main purpose of this hook is to save the scroll position
+  // while writing documentation (otherwise it would jump to top on every save)
   const scrollViewProps = useRestoreScroll('PDoc', lang, docPath)
 
   return pug`

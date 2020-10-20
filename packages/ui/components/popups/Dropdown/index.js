@@ -12,31 +12,31 @@ import Drawer from '../Drawer'
 import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
-import { u } from 'startupjs'
+import { u, observer } from 'startupjs'
 import STYLES from './index.styl'
 
 const { shadows } = STYLES
 const { UIManager } = NativeModules
 
 const DEFAULT_STYLE_WRAPPER = {
-  transform: [{ translateY: 3 }],
   borderRadius: u(0.5),
   ...shadows[2]
 }
 
-const Dropdown = ({
+function Dropdown ({
   drawerListTitle,
   drawerVariant,
   hasMobileDrawer,
   popoverWidth,
   popoverHeight,
+  popoverMaxHeight,
   popoverStyleWrapper,
   styleActiveItem,
   activeValue,
   onChange,
   onDismiss,
   children
-}) => {
+}) {
   const [layoutWidth, setLayoutWidth] = useState(null)
   useLayoutEffect(() => {
     if (!layoutWidth) handleWidthChange()
@@ -60,7 +60,7 @@ const Dropdown = ({
   let renderContent = []
   let activeLabel = ''
   React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type.toString() === Dropdown.Caption.toString()) {
+    if (child.type === DropdownCaption) {
       if (index !== 0) Error('Caption need use first child')
       if (child.props.children) {
         caption = React.cloneElement(child, { variant: 'custom' })
@@ -123,6 +123,7 @@ const Dropdown = ({
         visible=isShow
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
+        maxHeight=popoverMaxHeight
         height=popoverHeight
         width=popoverWidth
         hasWidthCaption=!popoverWidth
@@ -177,7 +178,7 @@ Dropdown.propTypes = {
   hasPopoverWidthCaption: PropTypes.bool
 }
 
-Dropdown.Caption = DropdownCaption
-Dropdown.Item = DropdownItem
-
-export default Dropdown
+const ObservedDropdown = observer(Dropdown)
+ObservedDropdown.Caption = DropdownCaption
+ObservedDropdown.Item = DropdownItem
+export default ObservedDropdown

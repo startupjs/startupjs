@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'startupjs'
 
 function Item ({
   index,
@@ -18,12 +19,10 @@ function Item ({
     }
   }
 
-  return useMemo(() => {
-    return pug`
-      View(onLayout=onLayout)
-        = children
-    `
-  }, [])
+  return pug`
+    View(onLayout=onLayout)
+      = children
+  `
 }
 
-export default Item
+export default observer(Item)

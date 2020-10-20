@@ -2,15 +2,10 @@ const upstreamTransformer = require('metro-react-native-babel-transformer')
 const stylusToCssLoader = require('./stylusToCssLoader')
 const cssToReactNativeLoader = require('./cssToReactNativeLoader')
 const svgTransformer = require('react-native-svg-transformer')
-const mdx = require('@mdx-js/mdx')
 const mdxExamplesLoader = require('./mdxExamplesLoader')
+const mdxLoader = require('./mdxLoader')
 const replaceObserverLoader = require('./replaceObserverLoader')
 const callLoader = require('./callLoader')
-
-const DEFAULT_MDX_RENDERER = `
-import React from 'react'
-import { mdx } from '@mdx-js/react'
-`
 
 module.exports.transform = function ({ src, filename, options = {} }) {
   const { platform } = options
@@ -31,8 +26,7 @@ module.exports.transform = function ({ src, filename, options = {} }) {
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.mdx?$/.test(filename)) {
     src = callLoader(mdxExamplesLoader, src, filename)
-    src = mdx.sync(src)
-    src = DEFAULT_MDX_RENDERER + '\n' + src
+    src = callLoader(mdxLoader, src, filename)
     return upstreamTransformer.transform({ src, filename, options })
   } else {
     return upstreamTransformer.transform({ src, filename, options })
