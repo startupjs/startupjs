@@ -63,7 +63,7 @@ module.exports = function (appRoutes, options = {}) {
           jsBundle: resourceManager.getResourcePath('bundle', appName, options),
           env: model.get('_session.env') || {},
           mode: options.mode || DEFAULT_MODE,
-          styleFonts: getStyleFonts() || ''
+          fontsStyles: getFontsStyles() || ''
         })
         res.status(200).send(html)
       })
@@ -103,8 +103,9 @@ function matchUrl (location, routes, cb) {
   return false
 }
 
-function getStyleFonts () {
-  const FONTS_PATH_DIR = process.cwd() + '/public/fonts'
+function getFontsStyles () {
+  const FONTS_PATH = process.cwd() + '/public/fonts'
+  const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
   const FONTS_FORMAT = {
     'eot?#iefix': 'embedded-opentype',
     otf: 'opentype',
@@ -113,9 +114,9 @@ function getStyleFonts () {
     woff2: 'woff2'
   }
 
-  if (fs.existsSync(FONTS_PATH_DIR)) {
-    let files = fs.readdirSync(FONTS_PATH_DIR)
-    files = files.filter(file => file !== '.DS_Store')
+  if (fs.existsSync(FONTS_PATH)) {
+    let files = fs.readdirSync(FONTS_PATH)
+    files = files.filter(file => EXT_WISHLIST.indexOf(file.split('.')[1]) !== -1)
 
     // parse files to format:
     // { fontName: ['ttf', 'otf'] }

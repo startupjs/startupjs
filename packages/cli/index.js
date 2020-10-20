@@ -210,7 +210,7 @@ const SCRIPTS = {
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
-  postinstall: 'startupjs patch-package',
+  postinstall: 'startupjs patch-package && startupjs fonts',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
@@ -413,9 +413,9 @@ commander
 
 commander
   .command('fonts')
-  .description('Overides names fonts')
+  .description('Rename fonts and react-native smart linking for assets')
   .action(async (options) => {
-    fontsRenames()
+    renameFonts()
 
     await execa.command(
       SCRIPTS_ORIG.fonts(options),
@@ -450,25 +450,29 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
   }
 }
 
-function fontsRenames () {
-  const FONTS_PATH_DIR = process.cwd() + '/public/fonts'
+function renameFonts () {
+  const FONTS_PATH = process.cwd() + '/public/fonts'
+  const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
 
-  if (fs.existsSync(FONTS_PATH_DIR)) {
-    const files = fs.readdirSync(FONTS_PATH_DIR)
+  if (fs.existsSync(FONTS_PATH)) {
+    const files = fs.readdirSync(FONTS_PATH)
 
     files.forEach(file => {
-      if (file === '.DS_Store') return
       const [fileName, fileExt] = file.split('.')
-      const buffer = fs.readFileSync(`${FONTS_PATH_DIR}/${file}`)
+      if (EXT_WISHLIST.indexOf(fileExt) === -1) {
+        return console.error(`Font format error: ${fileExt} don\`t support`)
+      }
 
+      const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
       const font = Font.create(buffer, { type: fileExt })
+
       if (font.get().name.fontFamily === fileName) return
       font.get().name.fontFamily = fileName
       font.get().name.fontSubFamily = fileName
       font.get().name.preferredFamily = fileName
 
       const bufferUpdate = font.write({ type: fileExt })
-      fs.writeFile(`${FONTS_PATH_DIR}/${file}`, bufferUpdate, (err) => {
+      fs.writeFile(`${FONTS_PATH}/${file}`, bufferUpdate, (err) => {
         if (err) return console.log(err)
         console.log(`${file} rename font-family`)
       })
