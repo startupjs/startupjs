@@ -2,11 +2,12 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { Text, View, TouchableOpacity } from 'react-native'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { observer } from 'startupjs'
 import Icon from '../../../Icon'
 import Menu from '../../../Menu'
 import './index.styl'
 
-const DropdownItem = ({
+function DropdownItem ({
   label,
   value,
   icon,
@@ -18,7 +19,7 @@ const DropdownItem = ({
   _onDismissDropdown,
   _index,
   _childenLength
-}) => {
+}) {
   const isPure = _variant === 'pure'
 
   const handlePress = () => {
@@ -65,4 +66,4 @@ DropdownItem.propTypes = {
   value: propTypes.string.isRequired
 }
 
-export default DropdownItem
+export default observer(DropdownItem)

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
-
 import './index.styl'
 
 const Multiselect = ({

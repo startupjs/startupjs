@@ -66,7 +66,6 @@ const Multiselect = ({
         Br
         Br
         Br
-
   `
 }
 
