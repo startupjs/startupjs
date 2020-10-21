@@ -15,17 +15,17 @@ export default docs({
     },
     icon: faSortNumericUpAlt,
     items: {
-      '022to023': {
+      '0.22--0.23.md': {
         type: 'mdx',
         title: '0.22 -> 0.23',
         component: Upgrade022to023
       },
-      '023to024': {
+      '0.23--0.24.md': {
         type: 'mdx',
         title: '0.23 -> 0.24',
         component: Upgrade023to024
       },
-      '024to025': {
+      '0.24--0.25.md': {
         type: 'mdx',
         title: '0.24 -> 0.25',
         component: Upgrade024to025
