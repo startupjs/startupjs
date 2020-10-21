@@ -5,22 +5,26 @@ import Span from '../../../typography/Span'
 import Icon from '../../../Icon'
 import Button from '../../../Button'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { observer } from 'startupjs'
 import './index.styl'
 
-const DropdownCaption = ({
+function DropdownCaption ({
   children,
   placeholder,
   variant,
   _activeLabel
-}) => {
+}) {
   if (variant === 'custom') {
     return children
   }
 
   if (variant === 'button') {
     return pug`
-      Button(variant='flat' color='primary')
-        = placeholder
+      Button(
+        variant='flat'
+        color='primary'
+        pointerEvents='box-none'
+      )= placeholder
     `
   }
 
@@ -42,4 +46,4 @@ DropdownCaption.propTypes = {
   variant: propTypes.oneOf(['select', 'button', 'custom'])
 }
 
-export default DropdownCaption
+export default observer(DropdownCaption)

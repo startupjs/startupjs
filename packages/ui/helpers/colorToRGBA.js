@@ -1,8 +1,8 @@
-const Color = require('color')
+import Color from 'color'
 
 const DEFAULT_OPACITY = 1
 
-module.exports = function colorToRGBA (color, alpha) {
+export default function colorToRGBA (color, alpha) {
   try {
     const fadeRatio = (DEFAULT_OPACITY * 100 - alpha * 100) / 100
     return Color(color).fade(fadeRatio).toString()

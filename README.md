@@ -250,6 +250,7 @@ The following guides are available to assist with migration to new major version
 
 - [0.22 -> 0.23](/docs/migration-guides/0.22--0.23.md)
 - [0.23 -> 0.24](/docs/migration-guides/0.23--0.24.md)
+- [0.24 -> 0.25](/docs/migration-guides/0.24--0.25.md)
 
 ## Contributing & Troubleshooting
 

@@ -7,7 +7,7 @@ import {
   Platform,
   StyleSheet
 } from 'react-native'
-import { colorToRGBA } from '../../config/helpers'
+import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'

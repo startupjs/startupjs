@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { TextInput, Platform } from 'react-native'
-import { colorToRGBA } from '../../../config/helpers'
+import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import STYLES from './index.styl'

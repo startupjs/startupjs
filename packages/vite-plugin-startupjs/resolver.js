@@ -5,8 +5,7 @@ const DIRECTORY_ALIASES = {
   model: './model',
   main: './main',
   styles: './styles',
-  appConstants: './appConstants',
-  config: './startupjs.config.cjs'
+  appConstants: './appConstants'
 }
 
 module.exports = {
