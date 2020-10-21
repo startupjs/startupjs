@@ -16,18 +16,6 @@ function MultiselectInput ({
   error,
   TagComponent
 }) {
-  function renderTag (_value, index) {
-    const record = options.find(r => r.value === _value)
-
-    return pug`
-      TagComponent(
-        key=record.value
-        index=index
-        record=record
-      )
-    `
-  }
-
   return pug`
     Div.inputRoot
       if label
@@ -44,7 +32,12 @@ function MultiselectInput ({
         if !value || !value.length && readonly
           Span.placeholder='-'
         each _value, index in value
-          = renderTag(_value, index)
+          - const record = options.find(r => r.value === _value)
+          TagComponent(
+            key=record.value
+            index=index
+            record=record
+          )
       if error && !readonly
         Span.error(variant='description')= error
   `

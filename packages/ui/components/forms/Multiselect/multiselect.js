@@ -1,8 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ScrollView } from 'react-native'
-import { Div, Span, Checkbox, Drawer, Br } from '@startupjs/ui'
+import { FlatList } from 'react-native'
+import { Div, Span, Checkbox, Drawer } from '@startupjs/ui'
+
 import MultiselectInput from './input'
 import styles from './index.styl'
 
@@ -20,19 +21,21 @@ const Multiselect = ({
   onSelect,
   onRemove
 }) => {
-  function renderOpt (opt) {
-    const selected = value.some(_value => _value === opt.value)
-    const selectCb = () => {
-      if (selected) {
-        onRemove(opt.value)
-      } else {
-        onSelect(opt.value)
-      }
+  const selectCb = (selected, value) => () => {
+    if (selected) {
+      onRemove(value)
+    } else {
+      onSelect(value)
     }
+  }
+
+  function renderListItem ({ item }) {
+    const selected = value.some(_value => _value === item.value)
+
     return pug`
-      Div.suggestion(key=opt.value onPress=selectCb)
-        Checkbox.checkbox(value=selected onChange=selectCb)
-        Span.sugText= opt.label
+      Div.suggestion(onPress=selectCb(selected, item.value))
+        Checkbox.checkbox(value=selected)
+        Span.sugText= item.label
     `
   }
 
@@ -53,17 +56,13 @@ const Multiselect = ({
       position='bottom'
       onDismiss=hideOptsMenu
       styleSwipe=styles.swipeZone
-      styleContent=styles.nativeContent
+      styleContent=styles.nativeListContent
     )
-      ScrollView.suggestions-native
-        each opt in options
-          = renderOpt(opt)
-        //- ???
-        Br
-        Br
-        Br
-        Br
-        Br
+      FlatList(
+        data=options
+        renderItem=renderListItem
+        keyExtractor=item => item.value
+      )
   `
 }
 

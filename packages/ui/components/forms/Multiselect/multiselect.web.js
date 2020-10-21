@@ -21,21 +21,12 @@ const Multiselect = ({
   onSelect,
   onRemove
 }) => {
-  function renderOpt (opt) {
-    const selected = value.some(_value => _value === opt.value)
-    const selectCb = () => {
-      if (selected) {
-        onRemove(opt.value)
-      } else {
-        onSelect(opt.value)
-      }
+  const selectCb = (selected, value) => () => {
+    if (selected) {
+      onRemove(value)
+    } else {
+      onSelect(value)
     }
-
-    return pug`
-      Div.suggestion(key=opt.value onPress=selectCb)
-        Checkbox.checkbox(value=selected onChange=selectCb)
-        Span.sugText= opt.label
-    `
   }
 
   return pug`
@@ -60,7 +51,10 @@ const Multiselect = ({
         )
       Div.suggestions-web
         each opt in options
-          = renderOpt(opt)
+          - const selected = value.some(_value => _value === opt.value)
+          Div.suggestion(key=opt.value onPress=selectCb(selected, opt.value))
+            Checkbox.checkbox(value=selected)
+            Span.sugText= opt.label
   `
 }
 
