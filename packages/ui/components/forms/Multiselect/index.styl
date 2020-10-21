@@ -14,9 +14,10 @@ _primaryColor = $UI.colors.primary
   border _inputBorderWidth solid $UI.colors.darkLighter
   flex-direction row
   align-items center
-  overflow auto
   padding 0 1u
   radius()
+  +web()
+    overflow auto
 
   &.disabled
     background-color $UI.colors.darkLightest
@@ -48,8 +49,6 @@ _primaryColor = $UI.colors.primary
   background-color $UI.colors.white
   width 100%
   padding 0 .5u
-  max-height 20u
-  overflow-y auto
   radius()
 
 .suggestions-native

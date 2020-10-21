@@ -8,6 +8,7 @@ import {
   Dimensions,
   StyleSheet
 } from 'react-native'
+import { observer } from 'startupjs'
 import Modal from '../../Modal'
 import STYLES from './index.styl'
 
@@ -27,13 +28,14 @@ const ARROW_MARGIN = 16
 const WITH_ARROW_MARGIN = 8
 const ARROW_WIDTH = 10
 
-const Popover = ({
+function Popover ({
   positionHorizontal,
   positionVertical,
   animateType,
   visible,
   hasWidthCaption,
   hasArrow,
+  maxHeight,
   height,
   width,
   onDismiss,
@@ -42,7 +44,7 @@ const Popover = ({
   styleOverlay,
   backdropStyle,
   children
-}) => {
+}) {
   const [coords, setCoords] = useState(null)
   const [contentSize, setContentSize] = useState({})
   const [captionSize, setCaptionSize] = useState({})
@@ -50,7 +52,9 @@ const Popover = ({
   const refCaption = useRef()
   const refContent = useRef()
   const [isRender, setIsRender] = useState(true)
+  const [isAfterAnimate, setIsAfterAnimate] = useState(false)
 
+  // animate states
   const [animateOpacityOverlay] = useState(new Animated.Value(visible ? 1 : 0))
   const [animateOpacity] = useState(new Animated.Value(visible ? 1 : 0))
   const [animateTop] = useState(new Animated.Value(0))
@@ -59,6 +63,7 @@ const Popover = ({
   ))
   const [animateHeight] = useState(new Animated.Value(0))
 
+  // reset state with change dimensions
   useLayoutEffect(() => {
     const handleDimensions = () => {
       setCoords(null)
@@ -70,6 +75,7 @@ const Popover = ({
     return () => Dimensions.removeEventListener('change', handleDimensions)
   }, [])
 
+  // main
   useEffect(() => {
     animateOpacityOverlay.stopAnimation()
     animateOpacity.stopAnimation()
@@ -77,29 +83,50 @@ const Popover = ({
     animateWidth.stopAnimation()
     animateHeight.stopAnimation()
 
-    if (visible) setParams()
-    else hide()
+    if (visible) {
+      // if animation hide closed ahead of time
+      // and isRender and coords dont reset
+      if (isRender || coords) {
+        setIsRender(false)
+        setIsAfterAnimate(false)
+        setCoords(null)
+      }
+      showInit()
+    } else {
+      hideInit()
+    }
   }, [visible])
 
-  const setParams = () => {
+  // if children change - stop animation
+  // and use maxHeight
+  useEffect(() => {
+    // dont play animation if only popover open
+    if (isRender && visible) setIsAfterAnimate(true)
+  }, [children])
+
+  const showInit = () => {
     if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
       return
     }
 
     setIsRender(true)
     setTimeout(() => {
-      refContent.current.getNode().measure((ex, ey, _width, _height, cx, cy) => {
+      refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
+        let curHeight = height || refHeight
+        curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
+
+        // set correct positon
         animateTop.setValue(getTopPosition({
           cy,
-          offset: animateType === 'slide' ? 20 : 0,
-          curHeight: height || _height
+          curHeight,
+          offset: animateType === 'slide' ? 20 : 0
         }))
         setContentSize({
-          height: height || _height,
-          width: width || _width
+          height: curHeight,
+          width: width || refWidth
         })
         setCoords({ x: cx, y: cy })
-        show(height || _height, width || _width)
+        show(curHeight, width || refWidth)
       })
     }, 100)
   }
@@ -108,6 +135,7 @@ const Popover = ({
     if (animateType === 'slide') animateHeight.setValue(curHeight)
 
     const animated = () => {
+      Animated.timing(animateOpacity, { toValue: 1, duration: 300 }).start()
       Animated.parallel([
         animateType === 'slide' && Animated.timing(animateTop, {
           toValue: animateTop._value + 20, duration: 300
@@ -118,9 +146,9 @@ const Popover = ({
         animateType === 'scale' && Animated.timing(animateWidth, {
           toValue: curWidth, duration: 300
         }),
-        Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 }),
-        Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
+        Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 })
       ]).start(() => {
+        setIsAfterAnimate(true)
         onRequestOpen && onRequestOpen()
       })
     }
@@ -132,7 +160,20 @@ const Popover = ({
     }
   }
 
+  const hideInit = () => {
+    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
+      return
+    }
+
+    refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
+      animateHeight.setValue(refHeight)
+      setIsAfterAnimate(false)
+      hide()
+    })
+  }
+
   const hide = () => {
+    Animated.timing(animateOpacity, { toValue: 0, duration: 400 }).start()
     Animated.parallel([
       animateType === 'slide' && Animated.timing(animateTop, {
         toValue: animateTop._value - 20, duration: 300
@@ -143,11 +184,11 @@ const Popover = ({
       animateType === 'scale' && Animated.timing(animateWidth, {
         toValue: 0, duration: 300
       }),
-      Animated.timing(animateOpacityOverlay, { toValue: 0, duration: 400 }),
-      Animated.timing(animateOpacity, { toValue: 0, duration: 400 })
+      Animated.timing(animateOpacityOverlay, { toValue: 0, duration: 400 })
     ]).start(() => {
       onDismiss()
       setIsRender(false)
+      setIsAfterAnimate(false)
 
       refCaption.current && refCaption.current.measure((ex, ey, width, height) => {
         setCaptionSize({ width, height })
@@ -156,16 +197,19 @@ const Popover = ({
     })
   }
 
+  // parse children
   let caption = null
   let renderContent = []
   const onLayoutCaption = e => {
     setCaptionSize({
+      x: e.nativeEvent.layout.x,
+      y: e.nativeEvent.layout.y,
       width: e.nativeEvent.layout.width,
       height: e.nativeEvent.layout.height
     })
   }
   React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type.toString() === Popover.Caption.toString()) {
+    if (child.type === PopoverCaption) {
       caption = child
       return
     }
@@ -256,11 +300,11 @@ const Popover = ({
     opacity: 0,
     left: 0,
     top: 0,
+    width,
     ...styleWrapper
   } : {
     left: getLeftPosition(),
     top: animateTop,
-    height: animateHeight,
     opacity: animateOpacity,
     width: animateWidth,
     ...shadows[3],
@@ -268,17 +312,27 @@ const Popover = ({
   }
 
   if (hasWidthCaption) _styleWrapper.width = captionSize.width
+  if ((!isAfterAnimate && coords) || height) _styleWrapper.height = animateHeight
+  else if (maxHeight) _styleWrapper.maxHeight = maxHeight
+  else if (!height) _styleWrapper.height = 'auto'
+
   if (!isRender) _styleWrapper.height = 0
   const _styleOverlay = { ...styleOverlay, opacity: animateOpacityOverlay }
 
   return pug`
     View
       if caption
-        View(
-          style=caption.props.style
-          ref=refCaption
-          onLayout=onLayoutCaption
-        )= caption.props.children
+        if !isAfterAnimate
+          View(
+            ref=refCaption
+            style=caption.props.style
+            onLayout=onLayoutCaption
+          )= caption.props.children
+        else
+          View(style=Object.assign({
+            width: captionSize.width,
+            height: captionSize.height
+          }, caption.props.style))
       Wrapper(
         transparent=true
         visible=isRender
@@ -289,6 +343,13 @@ const Popover = ({
         View.case
           TouchableWithoutFeedback(onPress=onDismiss)
             Animated.View.overlay(style=_styleOverlay)
+          if caption && coords
+            View(style={
+              position: 'absolute',
+              left: coords.x,
+              top: coords.y - captionSize.height,
+              width: captionSize.width
+            })= caption.props.children
           if hasArrow && !(positionVertical === 'center' && positionHorizontal === 'center')
             Animated.View.arrow(
               style={
@@ -333,11 +394,13 @@ Popover.propTypes = {
   styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
-Popover.Caption = ({ children, style }) => {
+function PopoverCaption ({ children, style }) {
   return pug`
     View(style=style)
       = children
   `
 }
 
-export default Popover
+const ObservedPopover = observer(Popover)
+ObservedPopover.Caption = PopoverCaption
+export default ObservedPopover

@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
+import { observer } from 'startupjs'
 import STYLES from './index.styl'
 
 const { shadows } = STYLES
@@ -38,7 +39,7 @@ const SHTAMP_RENDER_STYLE = {
 
 // TODO: more test for work responder with ScrollView
 // https://material-ui.com/ru/components/drawers/#%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%B0%D1%8F-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C
-const Drawer = ({
+function Drawer ({
   visible,
   position,
   onDismiss,
@@ -49,7 +50,7 @@ const Drawer = ({
   styleContent,
   styleCase,
   children
-}) => {
+}) {
   const isHorizontal = position === 'left' || position === 'right'
   const isInvertPosition = position === 'left' || position === 'top'
 
@@ -196,4 +197,4 @@ Drawer.propTypes = {
   styleContent: PropTypes.object
 }
 
-export default Drawer
+export default observer(Drawer)
