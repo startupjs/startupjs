@@ -14,7 +14,7 @@ function Tabs ({
   iconPosition,
   activeColor
 }) {
-  const [tabWidth, setTabWidth] = useState(0)
+  const [tabWidth, setTabWidth] = useState()
   const [actualTab, setActualTab] = useState(0)
 
   const contentWrapper = useRef()
@@ -101,7 +101,7 @@ function Tabs ({
           getItemLayout=getItemLayout
           onLayout=item => setTabWidth(item.nativeEvent.layout.width)
           onViewableItemsChanged=onChange.current
-          viewabilityConfig={ itemVisiblePercentThreshold: 50, minimumViewTime: 250 }
+          viewabilityConfig={ itemVisiblePercentThreshold: 50, minimumViewTime: 300 }
         )
   `
 }

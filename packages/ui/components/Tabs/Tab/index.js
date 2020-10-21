@@ -2,7 +2,6 @@ import React from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import Div from '../../Div'
-import Link from '../../Link'
 import Icon from '../../Icon'
 import Span from '../../typography/Span'
 import { useTabsContext } from '../tabsContext'
@@ -14,7 +13,6 @@ function Tab ({
   style,
   containerStyle,
   children,
-  to,
   activeBorder,
   bold,
   icon,
@@ -34,18 +32,9 @@ function Tab ({
   const borderStyle = { backgroundColor: activeItemColor }
   const extraProps = {}
   const reverse = _iconPosition === 'right'
-  let Wrapper
-
-  if (to) {
-    Wrapper = Link
-    extraProps.to = to
-    extraProps.block = true
-  } else {
-    Wrapper = Div
-  }
 
   return pug`
-    Wrapper.root(
+    Div.root(
       style=style
       styleName={reverse}
       variant='highlight'
@@ -73,7 +62,6 @@ Tab.defaultProps = {
 Tab.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  to: propTypes.string,
   children: propTypes.node,
   active: propTypes.bool,
   bold: propTypes.bool,
