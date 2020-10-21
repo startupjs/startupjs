@@ -9,7 +9,9 @@ import {
   StyleSheet
 } from 'react-native'
 import Modal from '../../Modal'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { shadows: SHADOWS } = STYLES
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
@@ -331,7 +333,7 @@ Popover.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
   styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  shadowLevel: PropTypes.oneOf([0, 1, 2, 3, 4])
+  shadowLevel: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i))
 }
 
 Popover.Caption = ({ children, style }) => {

@@ -15,7 +15,8 @@ const {
   config: {
     defaultHoverOpacity,
     defaultActiveOpacity
-  }
+  },
+  shadows: SHADOWS
 } = STYLES
 
 function Div ({
@@ -144,7 +145,7 @@ Div.propTypes = {
   hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   disabled: PropTypes.bool,
-  level: PropTypes.oneOf([0, 1, 2, 3, 4]),
+  level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   bleed: PropTypes.bool,

@@ -1,16 +1,55 @@
+$UI.shadows = merge({
+  '0': {},
+  '1': {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 2.22,
+
+    elevation: 3
+  },
+  '2': {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4.65,
+
+    elevation: 6
+  },
+  '3': {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8.27,
+
+    elevation: 12
+  },
+  '4': {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 8
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+
+    elevation: 18
+  }
+}, $UI.shadows, true)
+
 shadow(level=1)
-  if level is 0
+  if level < 1 || level > 4
     box-shadow none
     elevation 0
-  if level is 1
-    box-shadow 0px 1px 6.22px #000
-    elevation 6
-  if level is 2
-    box-shadow 0px 3px 8.65px #000
-    elevation 9
-  if level is 3
-    box-shadow 0px 5px 10.27px #000
-    elevation 12
-  if level is 4
-    box-shadow 0px 8px 12px #000
-    elevation 20
+  else
+    box-shadow: unit($UI.shadows[''+level]['shadowOffset']['width'], px) unit($UI.shadows[''+level]['shadowOffset']['height'], px) unit($UI.shadows[''+level]['shadowRadius'], px) $UI.shadows[''+level]['shadowColor']
+    elevation: $UI.shadows[''+level]['elevation']
