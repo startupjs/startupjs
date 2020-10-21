@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { View, ScrollView } from 'react-native'
+import { observer } from 'startupjs'
 import Item from './Item'
 
 // TODO: mode = horizontal
@@ -147,4 +148,4 @@ function Slicer ({
   `
 }
 
-export default Slicer
+export default observer(Slicer)

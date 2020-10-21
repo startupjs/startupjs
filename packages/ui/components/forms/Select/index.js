@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Wrapper from './Wrapper'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
@@ -9,13 +9,13 @@ import { getLabelFromValue } from './Wrapper/helpers'
 // TODO: Refactor and move InputLayout into a separate component
 
 function Select ({
-  options,
   style,
+  options,
   value,
-  showEmptyValue,
   disabled,
-  onChange,
   readonly,
+  showEmptyValue,
+  onChange,
   ...props
 }) {
   function renderWrapper ({ style }, children) {
@@ -46,18 +46,18 @@ function Select ({
 }
 
 Select.defaultProps = {
+  options: [],
   disabled: false,
   readonly: false,
-  options: [],
   showEmptyValue: true
 }
 
 Select.propTypes = {
-  disabled: propTypes.bool,
-  readonly: propTypes.bool,
-  onChange: propTypes.func,
-  options: propTypes.array,
-  showEmptyValue: propTypes.bool
+  options: PropTypes.array,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  showEmptyValue: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(Select)

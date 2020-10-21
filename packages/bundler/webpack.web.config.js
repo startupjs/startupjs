@@ -12,25 +12,16 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
-const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
-const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config.cjs')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const DEFAULT_MODE = 'react-native'
-
-// Get ui config if it exists
-let ui
-try {
-  const startupjsConfig = require(CONFIG_PATH)
-  ui = startupjsConfig && startupjsConfig.ui
-} catch (err) {}
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
@@ -197,7 +188,7 @@ module.exports = function getConfig (env, {
           ]
         },
         {
-          test: /\.mdx$/,
+          test: /\.mdx?$/,
           exclude: /node_modules/,
           use: [
             pick(getJsxRule(), ['loader', 'options']),
@@ -252,7 +243,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'stylus-loader',
               options: {
-                use: ui ? [stylusHashPlugin('$UI', ui)] : [],
+                use: [],
                 import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
                 define: {
                   __WEB__: true

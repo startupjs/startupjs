@@ -1,60 +1,54 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
-import { colorToRGBA } from '../../config/helpers'
+import PropTypes from 'prop-types'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Row from '../Row'
 import Icon from '../Icon'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
+import './index.styl'
 
 function Alert ({
-  color,
+  variant,
   icon,
-  iconColor,
   label,
   onClose
 }) {
-  if (/^#|rgb/.test(color)) console.warn('Alert component: Hex color for color property is deprecated. Use style instead')
-  if (/^#|rgb/.test(iconColor)) console.warn('Alert component: Hex color for iconColor property is deprecated. Use style instead')
-  const _color = colors[color] || color
-  const _iconColor = iconColor || _color
-  const backgroundColor = colorToRGBA(_color, 0.05)
-
   return pug`
     Row.root(
       vAlign='center'
-      style={ borderWidth: 1, borderColor: _color, backgroundColor }
+      styleName=[variant]
     )
       if icon
-        Div.leftIconWrapper
-          Icon(
+        Div.iconWrapper
+          Icon.icon(
             icon=icon
-            color=_iconColor
+            styleName=[variant]
           )
       if label
-        Span.label(style={ color: _color } numberOfLines=1)= label
+        Span.label(
+          styleName=[variant]
+          numberOfLines=1
+        )
+          = label
       if onClose
-        Div.rightIconWrapper(onPress=onClose)
-          Icon.rightIcon(
+        Div.closeIconWrapper(onPress=onClose)
+          Icon.closeIcon(
             icon=faTimes
-            color=_color
+            styleName=[variant]
           )
   `
 }
 
 Alert.defaultProps = {
-  color: 'primary'
+  variant: 'info'
 }
 
 Alert.propTypes = {
-  color: propTypes.string,
-  iconColor: propTypes.string,
-  label: propTypes.string,
-  onClose: propTypes.func
+  variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
+  label: PropTypes.string,
+  icon: PropTypes.object,
+  onClose: PropTypes.func
 }
 
 export default observer(Alert)

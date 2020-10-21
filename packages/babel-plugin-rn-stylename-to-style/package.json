@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-to-style",
-  "version": "0.23.45",
+  "version": "0.25.0",
   "publishConfig": {
     "access": "public"
   },

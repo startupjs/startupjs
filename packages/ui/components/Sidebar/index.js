@@ -6,8 +6,8 @@ import {
   useLocal,
   useBind
 } from 'startupjs'
+import PropTypes from 'prop-types'
 import { ScrollView, Animated, StyleSheet } from 'react-native'
-import propTypes from 'prop-types'
 import Div from '../Div'
 import STYLES from './index.styl'
 
@@ -136,14 +136,14 @@ Sidebar.defaultProps = {
 }
 
 Sidebar.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  $open: propTypes.object,
-  defaultOpen: propTypes.bool,
-  forceClosed: propTypes.bool,
-  position: propTypes.oneOf(['left', 'right']),
-  width: propTypes.number,
-  renderContent: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  $open: PropTypes.object,
+  defaultOpen: PropTypes.bool,
+  forceClosed: PropTypes.bool,
+  position: PropTypes.oneOf(['left', 'right']),
+  width: PropTypes.number,
+  renderContent: PropTypes.func
 }
 
 export default observer(Sidebar)

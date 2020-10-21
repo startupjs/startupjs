@@ -3,6 +3,7 @@ import { faShapes } from '@fortawesome/free-solid-svg-icons'
 import AlertEn from '../components/Alert/Alert.en.mdx'
 import AlertRu from '../components/Alert/Alert.ru.mdx'
 import AutoSuggestRu from '../components/AutoSuggest/AutoSuggest.ru.mdx'
+import AutoSuggestEn from '../components/AutoSuggest/AutoSuggest.en.mdx'
 import AvatarEn from '../components/Avatar/Avatar.en.mdx'
 import AvatarRu from '../components/Avatar/Avatar.ru.mdx'
 import BrEn from '../components/Br/Br.en.mdx'
@@ -50,8 +51,8 @@ import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
 import SlicerRu from '../components/Slicer/Slicer.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
-import TableEn from '../components/Table/Table.en.mdx'
-import TableRu from '../components/Table/Table.ru.mdx'
+import TableEn from '../components/table/Table/Table.en.mdx'
+import TableRu from '../components/table/Table/Table.ru.mdx'
 import TabsEn from '../components/Tabs/Tabs.en.mdx'
 import TabsRu from '../components/Tabs/Tabs.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
@@ -78,7 +79,10 @@ export default {
     AutoSuggest: {
       type: 'mdx',
       title: 'AutoSuggest',
-      component: AutoSuggestRu
+      component: {
+        en: AutoSuggestEn,
+        ru: AutoSuggestRu
+      }
     },
     Avatar: {
       type: 'mdx',

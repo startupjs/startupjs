@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-startupjs",
-  "version": "0.23.52",
+  "version": "0.25.0",
   "engines": {
     "node": ">= 14"
   },
@@ -10,14 +10,13 @@
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "@dmapper/stylus-hash-plugin": "^0.0.1",
     "@mdx-js/mdx": "^1.5.8",
     "@pika/react": "16.13.1",
     "@pika/react-dom": "16.13.1",
-    "@startupjs/babel-plugin-dotenv": "^0.23.45",
-    "@startupjs/babel-plugin-react-pug-classnames": "^0.23.45",
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.23.45",
-    "@startupjs/bundler": "^0.23.52",
+    "@startupjs/babel-plugin-dotenv": "^0.25.0",
+    "@startupjs/babel-plugin-react-pug-classnames": "^0.25.0",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.25.0",
+    "@startupjs/bundler": "^0.25.0",
     "@startupjs/prop-types": "^15.7.2-2",
     "@startupjs/racer": "0.9.15",
     "@startupjs/react-is": "^16.13.1-1",

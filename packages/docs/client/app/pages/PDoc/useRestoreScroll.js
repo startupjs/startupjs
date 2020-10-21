@@ -17,7 +17,7 @@ export default function useRestoreScroll (Component, ...inputs) {
 
   useLayoutEffect(() => {
     view.current.scrollTo({ x: 0, y: offsetY, animated: false })
-  }, [])
+  }, inputs)
 
   const handleScroll = useCallback((event) => {
     const offsetY = (
@@ -44,6 +44,7 @@ function getOffsetY (componentKey, inputs) {
     state.prevOffsetY = 0
     state.prevInputs = inputs
   }
+
   return state.prevOffsetY
 }
 

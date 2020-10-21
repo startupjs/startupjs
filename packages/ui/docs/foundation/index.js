@@ -5,6 +5,8 @@ import TypographyRu from '../../components/typography/Typography.ru.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
 import Colors from './colors.mdx'
 import BorderRadius from './borderRadius.mdx'
+import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
+import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -48,6 +50,17 @@ export default {
         ru: 'Border Radius'
       },
       component: BorderRadius
+    },
+    exportingCSStoJS: {
+      type: 'mdx',
+      title: {
+        en: 'Export CSS to JS',
+        ru: 'Экспорт CSS в JS'
+      },
+      component: {
+        en: ExportCSStoJSEn,
+        ru: ExportCSStoJSRu
+      }
     }
   }
 }

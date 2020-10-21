@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
+import { View, TouchableWithoutFeedback } from 'react-native'
+import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import TextInput from '../forms/TextInput'
 import Popover from '../popups/Popover'
 import Menu from '../Menu'
 import Slicer from '../Slicer'
 import Loader from '../Loader'
-import propTypes from 'prop-types'
 import './index.styl'
 
-const AutoSuggest = ({
+function AutoSuggest ({
   options,
   value,
   placeholder,
-  popoverHeight,
+  maxHeight,
   renderItem,
   isLoading,
   onChange,
   onDismiss,
   onChangeText,
   onScrollEnd
-}) => {
+}) {
   const [inputValue, setInputValue] = useState('')
   const [isFocus, setIsFocus] = useState(false)
 
@@ -61,19 +62,24 @@ const AutoSuggest = ({
 
   return pug`
     Popover(
-      height=popoverHeight
-      visible=(isFocus && (isLoading || !!_data.length))
+      maxHeight=maxHeight
+      visible=(isFocus || isLoading)
       positionHorizontal="right"
       hasWidthCaption=true
       onDismiss=onBlur
     )
       Popover.Caption
-        TextInput(
-          placeholder=placeholder
-          onFocus=onFocus
-          onChangeText=_onChangeText
-          value=(!isFocus && value.label) || inputValue
-        )
+        View.captionCase
+          TextInput(
+            placeholder=placeholder
+            onChangeText=_onChangeText
+            onFocus=onFocus
+            autoFocus=isFocus
+            value=(!isFocus && value.label) || inputValue
+          )
+          if !isFocus
+            TouchableWithoutFeedback(onPress=onFocus)
+              View.click
       if isLoading
         View.loaderCase
           Loader(size='s')
@@ -89,26 +95,26 @@ const AutoSuggest = ({
 AutoSuggest.defaultProps = {
   options: [],
   placeholder: 'Select value',
-  popoverHeight: 300,
+  maxHeight: 200,
   value: {},
   renderItem: null,
   isLoading: false
 }
 
 AutoSuggest.propTypes = {
-  options: propTypes.array.isRequired,
-  value: propTypes.shape({
-    value: propTypes.string,
-    label: propTypes.string
+  options: PropTypes.array.isRequired,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string
   }).isRequired,
-  placeholder: propTypes.string,
-  popoverHeight: propTypes.number,
-  renderItem: propTypes.func,
-  isLoading: propTypes.bool,
-  onChange: propTypes.func,
-  onDismiss: propTypes.func,
-  onChangeText: propTypes.func,
-  onScrollEnd: propTypes.func
+  placeholder: PropTypes.string,
+  popoverHeight: PropTypes.number,
+  renderItem: PropTypes.func,
+  isLoading: PropTypes.bool,
+  onChange: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onChangeText: PropTypes.func,
+  onScrollEnd: PropTypes.func
 }
 
-export default AutoSuggest
+export default observer(AutoSuggest)

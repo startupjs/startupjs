@@ -99,6 +99,7 @@ module.exports = async options => {
     global.STARTUP_JS_ORM &&
     Object.keys(global.STARTUP_JS_ORM).length > 0
   ) {
+    // eslint-disable-next-line
     new ShareDbAccess(backend, { dontUseOldDocs: true })
     for (const path in global.STARTUP_JS_ORM) {
       const { access } = global.STARTUP_JS_ORM[path].OrmEntity
