@@ -28,6 +28,7 @@
     "Slicer": "/components/Slicer",
     "SmartSidebar": "/components/SmartSidebar",
     "Table": "/components/Table",
+    "Tabs": "/components/Tabs",
     "Tag": "/components/Tag",
     "Tbody": "/components/Tbody",
     "Td": "/components/Td",

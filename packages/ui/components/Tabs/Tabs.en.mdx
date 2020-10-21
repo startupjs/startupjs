@@ -1,0 +1,50 @@
+import Tabs from '../Tabs'
+import Div from '../Div'
+import ExampleTab from './tabExample/'
+import { Sandbox } from '@startupjs/docs'
+
+# Tabs
+
+Tabs display a list of cards and components for navigating through them.
+
+```jsx
+import { Tabs } from '@startupjs/ui'
+```
+
+## Example
+
+```jsx example
+return (
+  <Div>
+  <Tabs
+    activeColor='red'
+  >
+    <Tabs.Item
+      title='1 tab'
+    >
+      <ExampleTab bgColor='blue' />
+    </Tabs.Item>
+    <Tabs.Item
+      title='2 tab'
+    >
+      <ExampleTab bgColor='pink' />
+    </Tabs.Item>
+    <Tabs.Item
+      title='3 tab'
+    >
+      <ExampleTab bgColor='aqua' />
+    </Tabs.Item>
+  </Tabs>
+  </Div>
+)
+```
+
+## Sandbox
+
+### Tabs
+
+<Sandbox Component={Tabs} />
+
+### Tabs.Item
+
+<Sandbox Component={Tabs.Item} />
