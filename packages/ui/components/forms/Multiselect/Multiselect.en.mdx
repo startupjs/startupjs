@@ -13,9 +13,13 @@ Multiselect lets user pick multiple options.
 import { Multiselect } from '@startupjs/ui'
 ```
 
+- `options` - array of objects ```{ label, value }``` or primitives
+- `onChange` - the callback triggered when the value is changed. Returns an array with selected values | ```function(value: Array)```
+
 ```jsx example
 const [cities, setCities] = useState(['la', 'tk'])
 // options also can be an array of primitives ['apple', 'banana', 'cherry']
+
 return (
   <Div>
     <Multiselect
@@ -45,6 +49,8 @@ return (
 ```
 
 ## Custom tag
+
+You can pass custom component to TagComponent property that displays instead of default tag.
 
 ```jsx example
 const [cities, setCities] = useState(['la', 'tk'])
