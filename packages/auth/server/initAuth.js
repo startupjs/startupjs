@@ -1,32 +1,40 @@
-import auth from './auth'
-
 /**
  * @example
 *   initAuth(ee, {
 *     strategies: {
 *       local: {
-*         init: LocalInit // like initLocal func in auth.js, fn for passport initialisation
-*         config: {},
-*         hooks: {}
-*       },
-*       google: {
-*         init: GoogleInit // like initGoogle func in auth.js, fn for passport initialisation
-*         config: { clientId: '1234' },
-*         hooks: {}
+*         init: (model, router, config) => {} // like initLocal func in auth.js, fn for passport initialisation
+*         config: {}
 *       }
-*     },
-*     // ...other options
+*     }
 *   })
  */
-export default function initAuth (ee, opts) {
-  if (!opts) throw new Error('[@startupjs/auth] Provide options for auth module')
 
-  // TODO: validate options init auth from './auth'
-  // Something like this:
-  ee.on('backend', async backend => {
-    auth.init(backend, opts)
+import passport from 'passport'
+import express from 'express'
+import routes from './routes'
+import { passportMiddleware } from './middlewares'
+
+export default function initAuth (ee, opts) {
+  const { strategies } = opts
+  const router = express.Router()
+
+  ee.on('backend', backend => {
+    const model = backend.createModel()
+
+    // Init each strategy
+    for (const strategyKey of Object.keys(strategies)) {
+      const { config, init } = strategies[strategyKey]
+      init(model, router, config)
+    }
+
+    // Init default routes
+    for (const initRoute of routes) {
+      initRoute(router)
+    }
   })
+
   ee.on('afterSession', expressApp => {
-    expressApp.use(auth.middleware())
+    expressApp.use(passportMiddleware(passport, router))
   })
 }

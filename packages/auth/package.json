@@ -1,5 +1,5 @@
 {
-  "name": "@startupjs/app",
+  "name": "@startupjs/auth",
   "type": "module",
   "version": "0.0.1",
   "description": "Auth module for StartupJS apps",
