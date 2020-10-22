@@ -39,6 +39,8 @@ function Button ({
   const rootStyle = { height }
   const rootExtraProps = {}
   const iconWrapperStyle = {}
+  const hoverStyle = {}
+  const activeStyle = {}
 
   textStyle = StyleSheet.flatten([
     { color: isFlat ? colors.white : _color },
@@ -56,8 +58,12 @@ function Button ({
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      hoverStyle.backgroundColor = colorToRGBA(_color, 0.05)
+      activeStyle.backgroundColor = colorToRGBA(_color, 0.25)
       break
     case 'text':
+      hoverStyle.backgroundColor = colorToRGBA(_color, 0.05)
+      activeStyle.backgroundColor = colorToRGBA(_color, 0.25)
       break
     case 'shadowed':
       rootStyle.backgroundColor = colors.white
@@ -101,7 +107,8 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
-      underlayColor=_color
+      hoverStyle=hoverStyle
+      activeStyle=activeStyle
       disabled=disabled
       onPress=onPress
       ...rootExtraProps
