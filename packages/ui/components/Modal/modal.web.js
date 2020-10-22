@@ -31,8 +31,7 @@ export default function Modal ({
 
   return ReactDOM.createPortal(
     pug`
-      Layout.layout(
-        styleName={visible}
+      Layout(
         modalStyle=style
         ...props
       )

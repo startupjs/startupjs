@@ -10,9 +10,7 @@ import {
 } from 'react-native'
 import { observer } from 'startupjs'
 import Modal from '../../Modal'
-import STYLES from './index.styl'
-
-const { shadows } = STYLES
+import './index.styl'
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
@@ -40,7 +38,7 @@ function Popover ({
   width,
   onDismiss,
   onRequestOpen,
-  styleWrapper,
+  wrapperStyle,
   styleOverlay,
   backdropStyle,
   children
@@ -105,13 +103,13 @@ function Popover ({
   }, [children])
 
   const showInit = () => {
-    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
+    if (!refContent.current) {
       return
     }
 
     setIsRender(true)
     setTimeout(() => {
-      refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
+      refContent.current.measure((ex, ey, refWidth, refHeight, cx, cy) => {
         let curHeight = height || refHeight
         curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
@@ -161,11 +159,11 @@ function Popover ({
   }
 
   const hideInit = () => {
-    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
+    if (!refContent.current) {
       return
     }
 
-    refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
+    refContent.current.measure((ex, ey, refWidth, refHeight, cx, cy) => {
       animateHeight.setValue(refHeight)
       setIsAfterAnimate(false)
       hide()
@@ -295,28 +293,25 @@ function Popover ({
   }
 
   const Wrapper = coords === null ? View : Modal
-  const _styleWrapper = coords === null ? {
+  const _wrapperStyle = coords === null ? {
     position: 'absolute',
     opacity: 0,
     left: 0,
     top: 0,
-    width,
-    ...styleWrapper
+    width
   } : {
     left: getLeftPosition(),
     top: animateTop,
     opacity: animateOpacity,
-    width: animateWidth,
-    ...shadows[3],
-    ...styleWrapper
+    width: animateWidth
   }
 
-  if (hasWidthCaption) _styleWrapper.width = captionSize.width
-  if ((!isAfterAnimate && coords) || height) _styleWrapper.height = animateHeight
-  else if (maxHeight) _styleWrapper.maxHeight = maxHeight
-  else if (!height) _styleWrapper.height = 'auto'
+  if (hasWidthCaption) _wrapperStyle.width = captionSize.width
+  if ((!isAfterAnimate && coords) || height) _wrapperStyle.height = animateHeight
+  else if (maxHeight) _wrapperStyle.maxHeight = maxHeight
+  else if (!height) _wrapperStyle.height = 'auto'
 
-  if (!isRender) _styleWrapper.height = 0
+  if (!isRender) _wrapperStyle.height = 0
   const _styleOverlay = { ...styleOverlay, opacity: animateOpacityOverlay }
 
   return pug`
@@ -367,7 +362,7 @@ function Popover ({
           Animated.View.popover(
             pointerEvents='box-none'
             ref=refContent
-            style=_styleWrapper
+            style=[_wrapperStyle, wrapperStyle]
           )= renderContent
   `
 }
@@ -383,7 +378,7 @@ Popover.defaultProps = {
 }
 
 Popover.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  visible: PropTypes.bool,
   onDismiss: PropTypes.func,
   positionHorizontal: PropTypes.oneOf(['left', 'center', 'right']),
   positionVertical: PropTypes.oneOf(['bottom', 'center', 'top']),
