@@ -113,11 +113,11 @@ function Div ({
       styleName=[
         {
           ['with-shadow']: !!level,
-          ['shadow-'+level]: true,
           clickable: isWeb && isClickable,
           bleed,
           disabled
         },
+        'shadow-'+level,
         shape,
         pushedModifier
       ]

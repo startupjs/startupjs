@@ -13,12 +13,16 @@ import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
 import { u, observer } from 'startupjs'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { shadows } = STYLES
 
 const { UIManager } = NativeModules
 
+// DEPERCATED: move _popoverStyleWrapper to styleName
 const DEFAULT_STYLE_WRAPPER = {
-  borderRadius: u(0.5)
+  borderRadius: u(0.5),
+  ...shadows[2]
 }
 
 function Dropdown ({
@@ -126,7 +130,6 @@ function Dropdown ({
         width=popoverWidth
         hasWidthCaption=!popoverWidth
         styleWrapper=_popoverStyleWrapper
-        shadowLevel=2
       )
         if caption
           Popover.Caption

@@ -1,13 +1,8 @@
-_shadowLevels = ('0' '1' '2' '3' '4')
-
 .popover
   border-radius 1u
   background-color $UI.colors.white
   overflow hidden
-  for level in _shadowLevels
-    &.shadow-{level}
-      shadow(level)
-
+  shadow(3)
 
 .overlay
   position absolute

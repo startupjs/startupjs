@@ -12,7 +12,7 @@ import { observer } from 'startupjs'
 import Modal from '../../Modal'
 import STYLES from './index.styl'
 
-const { shadows: SHADOWS } = STYLES
+const { shadows } = STYLES
 
 const SHTAMP_RENDER_STYLE = {
   overflow: 'hidden',
@@ -43,7 +43,6 @@ function Popover ({
   styleWrapper,
   styleOverlay,
   backdropStyle,
-  shadowLevel,
   children
 }) {
   const [coords, setCoords] = useState(null)
@@ -308,6 +307,7 @@ function Popover ({
     top: animateTop,
     opacity: animateOpacity,
     width: animateWidth,
+    ...shadows[3],
     ...styleWrapper
   }
 
@@ -368,7 +368,6 @@ function Popover ({
             pointerEvents='box-none'
             ref=refContent
             style=_styleWrapper
-            styleName={['shadow-'+shadowLevel]: shadowLevel}
           )= renderContent
   `
 }
@@ -380,8 +379,7 @@ Popover.defaultProps = {
   hasWidthCaption: false,
   hasArrow: false,
   width: 200,
-  backdropStyle: { zIndex: 99999 },
-  shadowLevel: 3
+  backdropStyle: { zIndex: 99999 }
 }
 
 Popover.propTypes = {
@@ -393,8 +391,7 @@ Popover.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
-  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  shadowLevel: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i))
+  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
 function PopoverCaption ({ children, style }) {

@@ -47,9 +47,12 @@ $UI.shadows = merge({
 }, $UI.shadows, true)
 
 shadow(level=1)
-  if level < 1 || level > 4
+  _shadow = $UI.shadows[''+level]
+  if (_shadow) {
+    box-shadow: unit($UI.shadows[''+level].shadowOffset.width, px) unit($UI.shadows[''+level].shadowOffset.height, px) unit($UI.shadows[''+level].shadowRadius, px) convert($UI.shadows[''+level].shadowColor)
+    elevation: $UI.shadows[''+level].elevation
+  }
+  else {
     box-shadow none
     elevation 0
-  else
-    box-shadow: unit($UI.shadows[''+level].shadowOffset.width, px) unit($UI.shadows[''+level].shadowOffset.height, px) unit($UI.shadows[''+level].shadowRadius, px) $UI.shadows[''+level].shadowColor
-    elevation: $UI.shadows[''+level].elevation
+  }
