@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "engines": {
     "node": ">= 14"
   },
@@ -12,15 +12,15 @@
   "dependencies": {
     "@startupjs/app": "^0.25.0",
     "@startupjs/backend": "^0.25.0",
-    "@startupjs/bundler": "^0.25.0",
-    "@startupjs/cli": "^0.25.0",
+    "@startupjs/bundler": "^0.25.1",
+    "@startupjs/cli": "^0.25.1",
     "@startupjs/hooks": "^0.25.0",
     "@startupjs/init": "^0.25.0",
     "@startupjs/isomorphic-helpers": "^0.25.0",
     "@startupjs/orm": "^0.25.0",
     "@startupjs/patches": "^0.25.0",
     "@startupjs/react-sharedb": "^0.25.0",
-    "@startupjs/server": "^0.25.0",
-    "babel-preset-startupjs": "^0.25.0"
+    "@startupjs/server": "^0.25.1",
+    "babel-preset-startupjs": "^0.25.1"
   }
 }
