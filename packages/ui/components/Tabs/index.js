@@ -12,8 +12,8 @@ function Tabs ({
   children,
   iconPosition,
   activeColor,
-  activeTabStyle,
-  tabStyle
+  activeStyle,
+  style
 }) {
   const [tabWidth, setTabWidth] = useState()
   const [actualTab, setActualTab] = useState(0)
@@ -30,11 +30,12 @@ function Tabs ({
 
   const onTabPress = index => {
     setActualTab(index)
+    contentWrapper.current.scrollToIndex({ animated: false, index, viewPosition: 0.5 })
   }
 
   const tabs = children && React.Children.toArray(children).map((child, index) => {
     if (child.type === Tab) {
-      return React.cloneElement(child, { activeTabStyle, tabStyle, iconPosition, activeColor, onPress: () => onTabPress(index), index, key: index })
+      return React.cloneElement(child, { activeStyle, style, iconPosition, activeColor, onPress: () => onTabPress(index), index, key: index })
     }
   })
 
@@ -113,8 +114,8 @@ Tabs.defaultProps = {
 
 Tabs.propTypes = {
   containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  activeTabStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  tabStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   iconPosition: Tab.propTypes.iconPosition,
   activeColor: propTypes.string
