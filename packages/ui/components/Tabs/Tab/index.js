@@ -10,8 +10,8 @@ import STYLES from './index.styl'
 const { colors } = STYLES
 
 function Tab ({
-  style,
-  containerStyle,
+  activeTabStyle,
+  tabStyle,
   children,
   activeBorder,
   bold,
@@ -30,12 +30,13 @@ function Tab ({
   const activeItemColor = activeColor || colors.primary
   const color = active ? activeItemColor : colors.mainText
   const borderStyle = { backgroundColor: activeItemColor }
+  const _style = active ? activeTabStyle : tabStyle
   const extraProps = {}
   const reverse = _iconPosition === 'right'
 
   return pug`
     Div.root(
-      style=style
+      style=_style
       styleName={reverse}
       variant='highlight'
       hoverOpacity=0.05
@@ -50,18 +51,14 @@ function Tab ({
       if icon
         Icon.icon(styleName=[_iconPosition] icon=icon color=color)
 
-      Div.container(style=containerStyle)
+      Div.container
         Span(style={color} bold=bold)= title
   `
 }
 
-Tab.defaultProps = {
-  active: false
-}
-
 Tab.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  tabStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  activeTabStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   active: propTypes.bool,
   bold: propTypes.bool,

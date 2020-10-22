@@ -8,11 +8,13 @@ import Tab from './Tab'
 import './index.styl'
 
 function Tabs ({
-  style,
+  containerStyle,
   children,
-  activeBorder,
   iconPosition,
-  activeColor
+  activeBorder,
+  activeColor,
+  activeTabStyle,
+  tabStyle
 }) {
   const [tabWidth, setTabWidth] = useState()
   const [actualTab, setActualTab] = useState(0)
@@ -33,7 +35,7 @@ function Tabs ({
 
   const tabs = children && React.Children.toArray(children).map((child, index) => {
     if (child.type === Tab) {
-      return React.cloneElement(child, { activeBorder, iconPosition, activeColor, onPress: () => onTabPress(index), index, key: index })
+      return React.cloneElement(child, { activeTabStyle, tabStyle, activeBorder, iconPosition, activeColor, onPress: () => onTabPress(index), index, key: index })
     }
   })
 
@@ -72,7 +74,7 @@ function Tabs ({
 
   return pug`
     TabsProvider(value={iconPosition, active: actualTab})
-      Div(style=style)
+      Div(style=containerStyle)
         FlatList.menu(
           data=tabs
           renderItem=renderTab
@@ -94,7 +96,7 @@ function Tabs ({
           windowSize=content ? content.length : 1
           removeClippedSubviews
           initialNumToRender=1
-          maxToRenderPerBatch=1
+          maxToRenderPerBatch=0
           decelerationRate=0
           snapToInterval=tabWidth
           snapToAlignment='center'
@@ -112,7 +114,9 @@ Tabs.defaultProps = {
 }
 
 Tabs.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  activeTabStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  tabStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   activeBorder: propTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
   iconPosition: Tab.propTypes.iconPosition,
