@@ -51,5 +51,5 @@ shadow(level=1)
     box-shadow none
     elevation 0
   else
-    box-shadow: unit($UI.shadows[''+level]['shadowOffset']['width'], px) unit($UI.shadows[''+level]['shadowOffset']['height'], px) unit($UI.shadows[''+level]['shadowRadius'], px) $UI.shadows[''+level]['shadowColor']
-    elevation: $UI.shadows[''+level]['elevation']
+    box-shadow: unit($UI.shadows[''+level].shadowOffset.width, px) unit($UI.shadows[''+level].shadowOffset.height, px) unit($UI.shadows[''+level].shadowRadius, px) $UI.shadows[''+level].shadowColor
+    elevation: $UI.shadows[''+level].elevation
