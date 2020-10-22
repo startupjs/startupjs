@@ -1,3 +1,9 @@
+// TODO:
+// - Remove .getNode(), it's not longer needed on RN 0.62+ and gonna be removed.
+//   (ref: https://reactnative.dev/blog/2020/03/26/version-0.62#deprecations)
+//   This requires a breaking change asking people to upgrade their projects
+//   to RN 0.62+
+
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -103,13 +109,13 @@ function Popover ({
   }, [children])
 
   const showInit = () => {
-    if (!refContent.current) {
+    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
       return
     }
 
     setIsRender(true)
     setTimeout(() => {
-      refContent.current.measure((ex, ey, refWidth, refHeight, cx, cy) => {
+      refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
         let curHeight = height || refHeight
         curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
@@ -159,11 +165,11 @@ function Popover ({
   }
 
   const hideInit = () => {
-    if (!refContent.current) {
+    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
       return
     }
 
-    refContent.current.measure((ex, ey, refWidth, refHeight, cx, cy) => {
+    refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
       animateHeight.setValue(refHeight)
       setIsAfterAnimate(false)
       hide()
