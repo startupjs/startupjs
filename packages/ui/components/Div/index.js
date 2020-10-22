@@ -109,7 +109,7 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], style, extraStyle]
+      style=[style, extraStyle]
       styleName=[
         {
           ['with-shadow']: !!level,
@@ -117,6 +117,7 @@ function Div ({
           bleed,
           disabled
         },
+        'shadow-'+level,
         shape,
         pushedModifier
       ]

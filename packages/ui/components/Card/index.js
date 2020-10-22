@@ -5,7 +5,6 @@ import Div from '../Div'
 import STYLES from './index.styl'
 
 const { shadows: SHADOWS } = STYLES
-
 // TODO: hover, active states
 function Card ({
   style,

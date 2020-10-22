@@ -16,8 +16,10 @@ import { u, observer } from 'startupjs'
 import STYLES from './index.styl'
 
 const { shadows } = STYLES
+
 const { UIManager } = NativeModules
 
+// DEPERCATED: move _popoverStyleWrapper to styleName
 const DEFAULT_STYLE_WRAPPER = {
   borderRadius: u(0.5),
   ...shadows[2]
