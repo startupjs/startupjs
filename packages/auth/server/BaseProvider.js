@@ -1,7 +1,7 @@
-// TODO: review each method + refactor
 export default class BaseProvider {
   constructor ($root, profile, options) {
     this.$root = $root
+    this.profile = profile
     this.options = options || {}
   }
 

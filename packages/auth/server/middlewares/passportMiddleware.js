@@ -1,6 +1,7 @@
 import ensureAuthenticated from './ensureAuthenticated'
+import passport from 'passport'
 
-export default function (passport, router) {
+export default function (router) {
   return (req, res, next) => {
     passport.initialize()(req, res, err => {
       if (err) return next(err)

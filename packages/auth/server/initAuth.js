@@ -1,40 +1,40 @@
-/**
- * @example
-*   initAuth(ee, {
-*     strategies: {
-*       local: {
-*         init: (model, router, config) => {} // like initLocal func in auth.js, fn for passport initialisation
-*         config: {}
-*       }
-*     }
-*   })
- */
-
 import passport from 'passport'
 import express from 'express'
-import routes from './routes'
+import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
 
-export default function initAuth (ee, opts) {
+const router = express.Router()
+
+// Init default routes
+initDefaultRoutes(router)
+
+function serializeUser (userId, done) {
+  done(null, userId)
+}
+
+function deserializeUser (userId, done) {
+  done(null, userId)
+}
+
+export default function init (ee, opts) {
+  console.log('++++++++++ Initialization of auth module ++++++++++')
+
   const { strategies } = opts
-  const router = express.Router()
+
+  passport.serializeUser(serializeUser)
+  passport.deserializeUser(deserializeUser)
 
   ee.on('backend', backend => {
     const model = backend.createModel()
 
     // Init each strategy
-    for (const strategyKey of Object.keys(strategies)) {
-      const { config, init } = strategies[strategyKey]
-      init(model, router, config)
-    }
-
-    // Init default routes
-    for (const initRoute of routes) {
-      initRoute(router)
+    for (const strategy of strategies) {
+      const { config, init } = strategy
+      init({ model, router, config })
     }
   })
 
   ee.on('afterSession', expressApp => {
-    expressApp.use(passportMiddleware(passport, router))
+    expressApp.use(passportMiddleware(router))
   })
 }
