@@ -33,17 +33,21 @@ function Button ({
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const isFlat = variant === 'flat'
-
   const _color = colors[color]
-
-  textStyle = StyleSheet.flatten([{ color: isFlat ? colors.white : _color }, textStyle])
-  iconStyle = StyleSheet.flatten([{ color: isFlat ? colors.white : _color }, iconStyle])
-
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
   const rootExtraProps = {}
   const iconWrapperStyle = {}
+
+  textStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    textStyle
+  ])
+  iconStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    iconStyle
+  ])
 
   switch (variant) {
     case 'flat':

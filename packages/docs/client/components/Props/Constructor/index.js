@@ -50,20 +50,20 @@ export default observer(themed(function Constructor ({ Component, $props, style,
               if type === 'oneOf'
                 Span.possibleValue
                   - let first = true
-                  each value, index in possibleValues
+                  each possibleValue, index in possibleValues
                     React.Fragment(key=index)
                       if !first
                         Span.separator #{' | '}
-                      Span.value(styleName=[theme])= JSON.stringify(value)
+                      Span.value(styleName=[theme])= JSON.stringify(possibleValue)
                       - first = false
               else if type === 'oneOfType'
                 Span.possibleType
                   - let first = true
-                  each value, index in possibleTypes
+                  each possibleValue, index in possibleTypes
                     React.Fragment(key=index)
                       if !first
                         Span.separator #{' | '}
-                      Span.type(styleName=[theme])= value && value.name
+                      Span.type(styleName=[theme])= possibleValue && possibleValue.name
                       - first = false
               else
                 Span.type(styleName=[theme])= type
