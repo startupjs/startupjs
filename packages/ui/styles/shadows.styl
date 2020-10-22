@@ -49,7 +49,7 @@ $UI.shadows = merge({
 shadow(level=1)
   _shadow = $UI.shadows[''+level]
   if (_shadow) {
-    box-shadow: unit($UI.shadows[''+level].shadowOffset.width, px) unit($UI.shadows[''+level].shadowOffset.height, px) unit($UI.shadows[''+level].shadowRadius, px) convert($UI.shadows[''+level].shadowColor)
+    box-shadow: unit($UI.shadows[''+level].shadowOffset.width, px) unit($UI.shadows[''+level].shadowOffset.height, px) unit($UI.shadows[''+level].shadowRadius, px) rgba(convert($UI.shadows[''+level].shadowColor), $UI.shadows[''+level].shadowOpacity)
     elevation: $UI.shadows[''+level].elevation
   }
   else {
