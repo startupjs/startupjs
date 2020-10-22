@@ -13,7 +13,6 @@ function Tab ({
   activeTabStyle,
   tabStyle,
   children,
-  activeBorder,
   bold,
   icon,
   iconPosition,
@@ -46,8 +45,8 @@ function Tab ({
       ...extraProps
       ...props
     )
-      if activeBorder !== 'none' && active
-        Div.border(styleName=[activeBorder] style=borderStyle)
+      if active
+        Div.border(style=borderStyle)
       if icon
         Icon.icon(styleName=[_iconPosition] icon=icon color=color)
 
