@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
 import { Platform } from 'react-native'
 import './index.styl'
 import Code from '../Code'
+
+const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
+const ListLevelContext = React.createContext()
+
+function getOrderedListMark (index, level) {
+  switch (level) {
+    case 1:
+      return ALPHABET.charAt(index % ALPHABET.length) + ')'
+    default:
+      return '' + (index + 1) + '.'
+  }
+}
 
 function P ({ children }) {
   return pug`
@@ -63,8 +75,16 @@ export default {
   thematicBreak: P,
   blockquote: P,
   ul: ({ children }) => children,
-  ol: ({ children }) => React.Children.map(children, (child, index) => React.cloneElement(child, { index })),
+  ol: ({ children }) => {
+    const currentLevel = useContext(ListLevelContext)
+    const nextLevel = currentLevel == null ? 0 : currentLevel + 1
+    return pug`
+      ListLevelContext.Provider(value=nextLevel)
+        = React.Children.map(children, (child, index) => React.cloneElement(child, { index }))
+    `
+  },
   li: ({ children, index }) => {
+    const level = useContext(ListLevelContext)
     let hasTextChild = false
     children = React.Children.map(children, child => {
       if (typeof child === 'string') {
@@ -74,7 +94,7 @@ export default {
     })
     return pug`
       Row
-        Span.listIndex= index == null ? '-' : index + 1 + '.'
+        Span.listIndex= index == null ? '•' : getOrderedListMark(index, level)
         Div.listContent
           if hasTextChild
             P(size='l')= children
