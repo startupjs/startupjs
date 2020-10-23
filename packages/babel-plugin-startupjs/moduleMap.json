@@ -28,6 +28,7 @@
     "Slicer": "/components/Slicer",
     "SmartSidebar": "/components/SmartSidebar",
     "Tag": "/components/Tag",
+    "Tooltip": "/components/Tooltip",
     "User": "/components/User",
     "Checkbox": "/components/forms/Checkbox",
     "Input": "/components/forms/Input",
