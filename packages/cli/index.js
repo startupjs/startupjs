@@ -453,14 +453,17 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
 function renameFonts () {
   const FONTS_PATH = process.cwd() + '/public/fonts'
   const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
+  const IGNORE = ['.gitignore', '.DS_Store']
 
   if (fs.existsSync(FONTS_PATH)) {
     const files = fs.readdirSync(FONTS_PATH)
 
     files.forEach(file => {
+      if (IGNORE.includes(file)) return
+
       const [fileName, fileExt] = file.split('.')
       if (EXT_WISHLIST.indexOf(fileExt) === -1) {
-        return console.error(`Font format error: ${fileExt} don\`t support`)
+        return console.error(`Font format error: ${fileExt} is not supported`)
       }
 
       const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
