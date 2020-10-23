@@ -17,7 +17,6 @@ function Tab ({
   icon,
   iconPosition,
   onPress,
-  activeColor,
   title,
   index,
   ...props
@@ -26,7 +25,7 @@ function Tab ({
   let active = parentProps.active === index
 
   const _iconPosition = iconPosition || parentProps.iconPosition
-  const activeItemColor = activeColor || colors.primary
+  const activeItemColor = activeStyle && activeStyle.color ? activeStyle.color : colors.primary
   const color = active ? activeItemColor : colors.mainText
   const borderStyle = { backgroundColor: activeItemColor }
   if (active && activeStyle) style = { style, ...activeStyle }
@@ -45,10 +44,9 @@ function Tab ({
       if active
         Div.border(style=borderStyle)
       if icon
-        Icon.icon(styleName=[_iconPosition] icon=icon color=color)
+        Icon.icon(styleName=[_iconPosition] icon=icon color={color})
 
-      Div.container
-        Span(style={color} bold=bold)= title
+      Span(style={color} bold=bold)= title
   `
 }
 
@@ -60,8 +58,7 @@ Tab.propTypes = {
   bold: propTypes.bool,
   icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
   iconPosition: propTypes.oneOf(['left', 'right']),
-  onPress: propTypes.func,
-  activeColor: propTypes.string
+  onPress: propTypes.func
 }
 
 export default observer(Tab)

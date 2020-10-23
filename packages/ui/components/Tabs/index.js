@@ -11,7 +11,6 @@ function Tabs ({
   containerStyle,
   children,
   iconPosition,
-  activeColor,
   activeStyle,
   style,
   onChange,
@@ -53,7 +52,11 @@ function Tabs ({
 
   const tabs = children && React.Children.toArray(children).map((child, index) => {
     if (child.type === Tab) {
-      return React.cloneElement(child, { activeStyle, style, iconPosition, activeColor, onPress: () => onTabPress(index, child.props.value), index, key: index })
+      return React.cloneElement(child, { activeStyle, style, iconPosition, onPress: () => onTabPress(index, child.props.value), index, key: index })
+    } else {
+      return pug`
+        Tab=child
+      `
     }
   })
 
@@ -132,7 +135,6 @@ Tabs.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   iconPosition: Tab.propTypes.iconPosition,
-  activeColor: propTypes.string,
   onChange: propTypes.func,
   value: propTypes.oneOfType([propTypes.string, propTypes.number])
 }
