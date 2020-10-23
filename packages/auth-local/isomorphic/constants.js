@@ -1,6 +1,7 @@
 export const LOCAL_LOGIN_URL = '/auth/local-login'
 export const REGISTER_URL = '/auth/local-register'
 export const CREATE_PASS_RESET_SECRET_URL = '/auth/recoverpassword'
+export const RESET_PASSWORD_URL = '/auth/resetpassword'
 
 export const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 

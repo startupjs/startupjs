@@ -1,5 +1,10 @@
 import axios from 'axios'
-import { LOCAL_LOGIN_URL, CREATE_PASS_RESET_SECRET_URL } from '../../isomorphic'
+import {
+  LOCAL_LOGIN_URL,
+  CREATE_PASS_RESET_SECRET_URL,
+  RESET_PASSWORD_URL,
+  REGISTER_URL
+} from '../../isomorphic'
 import { $root } from 'startupjs'
 
 export default function AuthHelper () {
@@ -18,5 +23,14 @@ export default function AuthHelper () {
   // request for change password for email
   this.createPassResetSecret = function (data) {
     return this._axios.post(CREATE_PASS_RESET_SECRET_URL, data)
+  }
+
+  // submit secret and new password { password, confirm, secret }
+  this.resetPassword = function (data) {
+    return this._axios.post(RESET_PASSWORD_URL, data)
+  }
+
+  this.register = function (data) {
+    return this._axios.post(REGISTER_URL, data)
   }
 }

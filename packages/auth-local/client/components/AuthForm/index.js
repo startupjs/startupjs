@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import LoginForm from '../LoginForm'
 import RecoverForm from '../RecoverForm'
+import RegisterForm from '../RegisterForm'
 
 const sections = {
   login: LoginForm,
-  register: null,
+  register: RegisterForm,
   recover: RecoverForm
 }
 

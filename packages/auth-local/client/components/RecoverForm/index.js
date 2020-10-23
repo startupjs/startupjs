@@ -40,11 +40,15 @@ function RecoverForm ({
     try {
       setLoading(true)
       await authHelper.createPassResetSecret(form)
+
+      onSuccess && onSuccess(null, 'reset')
+
       setFeedback('Check your email for instructions')
       setLoading(false)
     } catch (err) {
       setFormErrors({ globalError: err.response.data.message })
       setLoading(false)
+      onError && onError(err)
     }
   }
 
@@ -80,9 +84,6 @@ function RecoverForm ({
   return pug`
     Div.root
       if !feedBack
-        Span.text.center-text.header-text Forgot your password?
-        Span.text.center-text.sub-header-text Enter email to reset your password
-        Br
         TextInput(
           onChangeText=onFormChange('email')
           error=formErrors.email
