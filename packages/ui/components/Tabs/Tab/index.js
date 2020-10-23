@@ -38,9 +38,6 @@ function Tab ({
       style=style
       styleName={reverse}
       variant='highlight'
-      hoverOpacity=0.05
-      activeOpacity=0.25
-      underlayColor=colors.primary
       onPress=onPress
       ...extraProps
       ...props

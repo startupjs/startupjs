@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { FlatList } from 'react-native'
@@ -13,29 +13,47 @@ function Tabs ({
   iconPosition,
   activeColor,
   activeStyle,
-  style
+  style,
+  onChange,
+  value
 }) {
-  const [tabWidth, setTabWidth] = useState()
-  const [actualTab, setActualTab] = useState(0)
+  const values = []
+
+  React.Children.toArray(children).forEach((child, index) => {
+    const childValue = child.props.value === undefined ? index : child.props.value
+    values.push({ [childValue]: index })
+  })
+
+  const indexOfValue = key => {
+    return value && values.find(obj => Object.keys(obj)[0] === key)[key]
+  }
+
+  const [tabWidth, setTabWidth] = useState(0)
+  const [actualTab, setActualTab] = useState(value ? indexOfValue(value) : 0)
+
+  useEffect(() => {
+    setActualTab(indexOfValue(value))
+  }, [value])
 
   const contentWrapper = useRef()
   const tabsWrapper = useRef()
 
   useEffect(() => {
-    if (children) {
+    if (children && actualTab) {
       contentWrapper.current.scrollToIndex({ animated: true, index: actualTab, viewPosition: 0.5 })
       tabsWrapper.current.scrollToIndex({ animated: true, index: actualTab, viewPosition: 0.5 })
     }
   }, [actualTab])
 
-  const onTabPress = index => {
+  const onTabPress = (index, value) => {
     setActualTab(index)
     contentWrapper.current.scrollToIndex({ animated: false, index, viewPosition: 0.5 })
+    onChange && onChange(value || index)
   }
 
   const tabs = children && React.Children.toArray(children).map((child, index) => {
     if (child.type === Tab) {
-      return React.cloneElement(child, { activeStyle, style, iconPosition, activeColor, onPress: () => onTabPress(index), index, key: index })
+      return React.cloneElement(child, { activeStyle, style, iconPosition, activeColor, onPress: () => onTabPress(index, child.props.value), index, key: index })
     }
   })
 
@@ -47,22 +65,22 @@ function Tabs ({
     }
   })
 
-  const renderContent = item => {
+  const renderContent = ({ item }) => {
     return pug`
-      Div(style={ width: tabWidth })=item.item
+      Div(style={ width: tabWidth })=item
     `
   }
-  const renderTab = item => {
+  const renderTab = ({ item }) => {
     return pug`
-      Div.tab=item.item
+      Div.tab=item
     `
   }
 
-  const getItemLayout = (data, index) => (
+  const getItemLayout = useCallback((data, index) => (
     { length: tabWidth, offset: tabWidth * index, index }
-  )
+  ), [tabWidth])
 
-  const onChange = useRef(item => {
+  const onViewableItemsChanged = useRef(item => {
     item.viewableItems[0] && setActualTab(item.viewableItems[0].index)
   })
 
@@ -86,6 +104,7 @@ function Tabs ({
           onScrollToIndexFailed=() => null
           removeClippedSubviews
           windowSize=tabs ? tabs.length : 1
+          initialScrollIndex=value ? indexOfValue(value) : 0
         )
         FlatList.content(
           data=content
@@ -99,10 +118,11 @@ function Tabs ({
           maxToRenderPerBatch=0
           decelerationRate=0
           snapToInterval=tabWidth
+          initialScrollIndex=value ? indexOfValue(value) : 0
           snapToAlignment='center'
           getItemLayout=getItemLayout
           onLayout=item => setTabWidth(item.nativeEvent.layout.width)
-          onViewableItemsChanged=onChange.current
+          onViewableItemsChanged=onViewableItemsChanged.current
           viewabilityConfig={ itemVisiblePercentThreshold: 50, minimumViewTime: 300 }
         )
   `
@@ -118,7 +138,9 @@ Tabs.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   iconPosition: Tab.propTypes.iconPosition,
-  activeColor: propTypes.string
+  activeColor: propTypes.string,
+  onChange: propTypes.func,
+  value: propTypes.oneOfType([propTypes.string, propTypes.number])
 }
 
 const ObservedTabs = observer(Tabs)
