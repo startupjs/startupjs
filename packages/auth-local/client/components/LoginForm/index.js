@@ -5,7 +5,7 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import TextInput from '../TextInput'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
-import { useAuthHelper } from '@startupjs/auth-local'
+import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import './index.styl'
 
@@ -71,7 +71,7 @@ function LoginForm ({
         onSuccess ? onSuccess(res.data, 'login') : finishAuth()
       }
     } catch (error) {
-      if (handleError) {
+      if (onHandleError) {
         onHandleError({ form, setFormErrors }, error)
       } else {
         onError && onError(error)

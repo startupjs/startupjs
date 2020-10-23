@@ -1,4 +1,4 @@
-import LocalProvider from '../LocalProvider'
+import Provider from '../Provider'
 import bcrypt from 'bcrypt'
 import { EMAIL_REGEXP } from '../../isomorphic'
 
@@ -29,7 +29,7 @@ async function register (req, done) {
     profile.hash = hash
     profile.salt = salt
 
-    const provider = new LocalProvider(model, profile)
+    const provider = new Provider(model, profile)
     const authData = await provider.loadAuthData()
     if (authData) return done('User already exists')
 

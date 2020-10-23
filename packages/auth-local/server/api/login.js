@@ -10,8 +10,12 @@ export default function localLogin (req, res, done) {
       return res.status(403).json(info || { message: 'auth error' })
     }
 
-    req.login(userId, function () {
-      res.json({ ...req.model.get('_session'), userId })
+    req.login(userId, function (err) {
+      if (err) {
+        done(err)
+      } else {
+        res.send('[@startupjs/auth-local] Logged in with local strategy')
+      }
     })
   })(req, res, done)
 }

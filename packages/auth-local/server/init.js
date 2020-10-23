@@ -1,4 +1,4 @@
-import Provider from './LocalProvider'
+import Provider from './Provider'
 import { Strategy } from 'passport-local'
 import _get from 'lodash/get'
 import initRoutes from './initRoutes'

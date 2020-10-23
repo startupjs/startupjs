@@ -5,7 +5,7 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import { observer, useValue } from 'startupjs'
 import TextInput from '../TextInput'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { useAuthHelper } from '@startupjs/auth-local'
+import { useAuthHelper } from '@startupjs/auth-local/client'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'

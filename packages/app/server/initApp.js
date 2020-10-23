@@ -9,7 +9,15 @@ export default function initApp (ee, { criticalVersion } = {}) {
   }
   ee.on('routes', expressApp => {
     expressApp.get('/api/serverSession', function (req, res) {
-      return res.json(req.model.get('_session'))
+      // Prepare and send important session info from server session
+      // Mobile devices can't update session info on app run
+      // That info passes to client app right after app initialisation
+      // Check app/client/index.js for background and usage
+      const session = {
+        userId: req.session.userId,
+        loggedIn: req.session.loggedIn
+      }
+      return res.json(session)
     })
   })
 }
