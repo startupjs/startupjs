@@ -69,7 +69,6 @@ function LoginForm ({
 
       if (res.data) {
         onSuccess ? onSuccess(res.data) : finishAuth()
-
       }
     } catch (error) {
       if (handleError) {
