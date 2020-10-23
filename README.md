@@ -248,9 +248,7 @@ to the native installation when working with the large amount of files.
 
 The following guides are available to assist with migration to new major versions of StartupJS:
 
-- [0.22 -> 0.23](/docs/migration-guides/0.22--0.23.md)
-- [0.23 -> 0.24](/docs/migration-guides/0.23--0.24.md)
-- [0.24 -> 0.25](/docs/migration-guides/0.24--0.25.md)
+- [Migration Guides](/docs/migration-guides)
 
 ## Contributing & Troubleshooting
 

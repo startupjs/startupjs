@@ -42,6 +42,7 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
+  'husky@^4.3.0',
   'lint-staged'
 ]
 
@@ -493,6 +494,12 @@ function addScriptsToPackageJson (projectPath) {
       'eslint --fix',
       'git add'
     ]
+  }
+
+  packageJSON.husky = {
+    hooks: {
+      'pre-commit': 'lint-staged'
+    }
   }
 
   // FIXME: We can't use type=module now, because metro does not support ESM
