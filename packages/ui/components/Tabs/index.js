@@ -57,13 +57,7 @@ function Tabs ({
     }
   })
 
-  const content = children && React.Children.toArray(children).map((child, index) => {
-    if (child?.props?.children?.length === 1) {
-      return React.cloneElement(child.props.children, { key: index })
-    } else {
-      return child.props.children
-    }
-  })
+  const content = children && React.Children.toArray(children).map(child => child.props.children)
 
   const renderContent = ({ item }) => {
     return pug`
