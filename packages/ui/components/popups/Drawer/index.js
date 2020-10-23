@@ -11,9 +11,7 @@ import {
 import Modal from '../../Modal'
 import Swipe from './Swipe'
 import { observer } from 'startupjs'
-import STYLES from './index.styl'
-
-const { shadows } = STYLES
+import './index.styl'
 
 const POSITION_STYLES = {
   left: { alignItems: 'flex-start' },
@@ -136,7 +134,6 @@ function Drawer ({
   }
   const _styleContent = {
     transform: [{ [POSITION_NAMES[position]]: animatePosition }],
-    ...shadows[2],
     ...styleContent
   }
 
@@ -153,7 +150,7 @@ function Drawer ({
           if isShowOverlay
             TouchableWithoutFeedback(onPress=onDismiss style={ cursor: 'default' })
               Animated.View.overlay(style={ opacity: animateOpacity })
-          Animated.View.s(
+          Animated.View.content(
             ref=refContent
             styleName={
               content: hasDefaultStyleContent,

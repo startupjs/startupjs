@@ -33,17 +33,23 @@ function Button ({
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const isFlat = variant === 'flat'
-
   const _color = colors[color]
-
-  textStyle = StyleSheet.flatten([{ color: isFlat ? colors.white : _color }, textStyle])
-  iconStyle = StyleSheet.flatten([{ color: isFlat ? colors.white : _color }, iconStyle])
-
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
   const rootExtraProps = {}
   const iconWrapperStyle = {}
+  const hoverStyle = {}
+  const activeStyle = {}
+
+  textStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    textStyle
+  ])
+  iconStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    iconStyle
+  ])
 
   switch (variant) {
     case 'flat':
@@ -52,8 +58,12 @@ function Button ({
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      hoverStyle.backgroundColor = colorToRGBA(_color, 0.05)
+      activeStyle.backgroundColor = colorToRGBA(_color, 0.25)
       break
     case 'text':
+      hoverStyle.backgroundColor = colorToRGBA(_color, 0.05)
+      activeStyle.backgroundColor = colorToRGBA(_color, 0.25)
       break
     case 'shadowed':
       rootStyle.backgroundColor = colors.white
@@ -97,7 +107,8 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
-      underlayColor=_color
+      hoverStyle=hoverStyle
+      activeStyle=activeStyle
       disabled=disabled
       onPress=onPress
       ...rootExtraProps
