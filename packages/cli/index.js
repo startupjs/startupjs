@@ -25,7 +25,6 @@ try {
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'react-native-web@^0.14.3',
   'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
   'react',
