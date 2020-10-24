@@ -26,12 +26,12 @@ const Multiselect = ({
   // Convert it into { label, value } items for consistency
   const _options = options.map(opt => typeof opt === 'object' && opt !== null ? opt : { label: opt, value: opt })
 
-  function removeOpt (_value) {
+  function _onRemove (_value) {
     onRemove && onRemove(_value)
     onChange && onChange(value.filter(v => v !== _value))
   }
 
-  function selectOpt (_value) {
+  function _onSelect (_value) {
     onSelect && onSelect(_value)
     onChange && onChange([...value, _value])
   }
@@ -44,11 +44,11 @@ const Multiselect = ({
     setShowOpts(false)
   }
 
-  const selectCb = (selected, value) => () => {
+  const onItemPress = (selected, value) => () => {
     if (selected) {
-      removeOpt(value)
+      _onRemove(value)
     } else {
-      selectOpt(value)
+      _onSelect(value)
     }
   }
 
@@ -56,7 +56,7 @@ const Multiselect = ({
     const selected = value.includes(item.value)
 
     return pug`
-      Div.suggestion(key=item.value onPress=selectCb(selected, item.value))
+      Div.suggestion(key=item.value onPress=onItemPress(selected, item.value))
         Checkbox.checkbox(value=selected)
         Span.sugText= item.label
     `
