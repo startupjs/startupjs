@@ -25,7 +25,6 @@ try {
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'react-native-web@^0.12.0',
   'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
   'react',
@@ -43,6 +42,7 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
+  'husky@^4.3.0',
   'lint-staged'
 ]
 
@@ -453,14 +453,17 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
 function renameFonts () {
   const FONTS_PATH = process.cwd() + '/public/fonts'
   const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
+  const IGNORE = ['.gitignore', '.DS_Store']
 
   if (fs.existsSync(FONTS_PATH)) {
     const files = fs.readdirSync(FONTS_PATH)
 
     files.forEach(file => {
+      if (IGNORE.includes(file)) return
+
       const [fileName, fileExt] = file.split('.')
       if (EXT_WISHLIST.indexOf(fileExt) === -1) {
-        return console.error(`Font format error: ${fileExt} don\`t support`)
+        return console.error(`Font format error: ${fileExt} is not supported`)
       }
 
       const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
@@ -494,6 +497,12 @@ function addScriptsToPackageJson (projectPath) {
       'eslint --fix',
       'git add'
     ]
+  }
+
+  packageJSON.husky = {
+    hooks: {
+      'pre-commit': 'lint-staged'
+    }
   }
 
   // FIXME: We can't use type=module now, because metro does not support ESM

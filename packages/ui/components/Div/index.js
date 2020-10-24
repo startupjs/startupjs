@@ -109,7 +109,7 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], style, extraStyle]
+      style=[style, extraStyle]
       styleName=[
         {
           ['with-shadow']: !!level,
@@ -117,6 +117,7 @@ function Div ({
           bleed,
           disabled
         },
+        'shadow-'+level,
         shape,
         pushedModifier
       ]
@@ -169,7 +170,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.05)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
       }
     }
 
@@ -178,7 +179,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.2)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.2)' }
       }
     }
   }

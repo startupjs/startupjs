@@ -12,16 +12,10 @@ import Drawer from '../Drawer'
 import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
-import { u, observer } from 'startupjs'
-import STYLES from './index.styl'
+import { observer } from 'startupjs'
+import './index.styl'
 
-const { shadows } = STYLES
 const { UIManager } = NativeModules
-
-const DEFAULT_STYLE_WRAPPER = {
-  borderRadius: u(0.5),
-  ...shadows[2]
-}
 
 function Dropdown ({
   drawerListTitle,
@@ -30,7 +24,7 @@ function Dropdown ({
   popoverWidth,
   popoverHeight,
   popoverMaxHeight,
-  popoverStyleWrapper,
+  popoverWrapperStyle,
   styleActiveItem,
   activeValue,
   onChange,
@@ -106,11 +100,6 @@ function Dropdown ({
     })
   }
 
-  const _popoverStyleWrapper = {
-    ...DEFAULT_STYLE_WRAPPER,
-    ...popoverStyleWrapper
-  }
-
   if (!caption) {
     caption = <DropdownCaption _activeLabel={activeLabel} />
   } else {
@@ -127,7 +116,8 @@ function Dropdown ({
         height=popoverHeight
         width=popoverWidth
         hasWidthCaption=!popoverWidth
-        styleWrapper=_popoverStyleWrapper
+        wrapperStyle=popoverWrapperStyle
+        wrapperStyleName='popoverWrapper'
       )
         if caption
           Popover.Caption
@@ -165,8 +155,7 @@ Dropdown.defaultProps = {
   drawerVariant: 'buttons',
   drawerListTitle: '',
   activeValue: '',
-  hasMobileDrawer: true,
-  popoverStyleWrapper: {}
+  hasMobileDrawer: true
 }
 
 Dropdown.propTypes = {

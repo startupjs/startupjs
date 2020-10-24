@@ -1,47 +1,30 @@
 $UI.shadows = merge({
-  '0': {},
+  '0': {
+    box-shadow: none
+    elevation: 0
+  },
   '1': {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 2.22,
-
+    box-shadow: 0 1px 2px rgba(black, 0.2)
     elevation: 3
   },
   '2': {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 4.65,
-
+    box-shadow: 0 3px 5px rgba(black, 0.15)
     elevation: 6
   },
   '3': {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 5
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 8.27,
-
+    box-shadow: 0 5px 8px rgba(black, 0.15)
     elevation: 12
   },
   '4': {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 8
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-
+    box-shadow: 0 8px 12px rgba(black, 0.2)
     elevation: 18
   }
 }, $UI.shadows, true)
+
+shadow(level = 1)
+  _shadow = $UI.shadows['' + level]
+  if (_shadow) {
+    {_shadow}
+  } else {
+    error('ERROR! Wrong shadow level ' + level + ' passed to shadow() mixin. Such level does not exist in $UI.shadows')
+  }
