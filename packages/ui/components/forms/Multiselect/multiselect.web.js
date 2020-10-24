@@ -10,7 +10,6 @@ const Multiselect = ({
   value,
   placeholder,
   label,
-  showOptsMenu,
   hideOptsMenu,
   showOpts,
   disabled,
@@ -20,7 +19,8 @@ const Multiselect = ({
   TagComponent,
   renderListItem,
   onSelect,
-  onRemove
+  onRemove,
+  onOpen
 }) => {
   return pug`
     Popover.root(
@@ -32,7 +32,7 @@ const Multiselect = ({
       Popover.Caption
         MultiselectInput(
           label=label
-          showOptsMenu=showOptsMenu
+          onOpen=onOpen
           showOpts=showOpts
           value=value
           placeholder=placeholder
@@ -55,7 +55,7 @@ Multiselect.propTypes = {
   onRemove: PropTypes.func,
   placeholder: PropTypes.string,
   label: PropTypes.string,
-  showOptsMenu: PropTypes.func.isRequired,
+  onOpen: PropTypes.func.isRequired,
   hideOptsMenu: PropTypes.func.isRequired,
   showOpts: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,

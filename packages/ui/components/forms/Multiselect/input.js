@@ -6,7 +6,6 @@ import './index.styl'
 
 function MultiselectInput ({
   label,
-  showOptsMenu,
   value,
   placeholder,
   options,
@@ -14,7 +13,8 @@ function MultiselectInput ({
   readonly,
   showOpts,
   error,
-  TagComponent
+  TagComponent,
+  onOpen
 }) {
   return pug`
     Div.inputRoot
@@ -25,7 +25,7 @@ function MultiselectInput ({
         )= label
       Row.input(
         styleName={ disabled, focused: showOpts, error, readonly }
-        onPress=disabled || readonly ? void 0 : showOptsMenu
+        onPress=disabled || readonly ? void 0 : onOpen
       )
         if !value || !value.length && !readonly
           Span.placeholder= placeholder
@@ -46,7 +46,7 @@ function MultiselectInput ({
 MultiselectInput.propTypes = {
   options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
-  showOptsMenu: PropTypes.func.isRequired,
+  onOpen: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
