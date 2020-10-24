@@ -14,6 +14,7 @@ export default function localLogin (req, res, done) {
       if (err) {
         done(err)
       } else {
+        // TODO: maybe redirect to '/'?
         res.send('[@startupjs/auth-local] Logged in with local strategy')
       }
     })
