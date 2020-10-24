@@ -1,43 +1,33 @@
 import React, { useLayoutEffect, useState, useRef } from 'react'
-import PropTypes from 'prop-types'
+import { observer } from 'startupjs'
 import {
   Text,
   View,
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  NativeModules
+  NativeModules,
+  StyleSheet
 } from 'react-native'
+import PropTypes from 'prop-types'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
-import { u, observer } from 'startupjs'
-import STYLES from './index.styl'
-
-const { shadows } = STYLES
+import './index.styl'
 
 const { UIManager } = NativeModules
 
-// DEPERCATED: move _popoverStyleWrapper to styleName
-const DEFAULT_STYLE_WRAPPER = {
-  borderRadius: u(0.5),
-  ...shadows[2]
-}
-
 function Dropdown ({
-  drawerListTitle,
+  children,
+  popoverWrapperStyle,
+  activeItemStyle,
+  value,
   drawerVariant,
-  hasMobileDrawer,
-  popoverWidth,
-  popoverHeight,
-  popoverMaxHeight,
-  popoverStyleWrapper,
-  styleActiveItem,
-  activeValue,
+  drawerListTitle,
+  drawerCancelLabel,
   onChange,
-  onDismiss,
-  children
+  onDismiss
 }) {
   const [layoutWidth, setLayoutWidth] = useState(null)
   useLayoutEffect(() => {
@@ -58,6 +48,21 @@ function Dropdown ({
     setActivePosition(nativeEvent.layout.y)
   }
 
+  const _popoverWrapperStyle = StyleSheet.flatten(popoverWrapperStyle)
+
+  const onCancel = () => {
+    onDismiss && onDismiss()
+    setIsShow(false)
+  }
+
+  const onRequestOpen = () => {
+    UIManager.measure(refScroll.current.getInnerViewNode(), (x, y) => {
+      if (activePosition >= _popoverWrapperStyle.height) {
+        refScroll.current.scrollTo({ y: activePosition })
+      }
+    })
+  }
+
   let caption = null
   let renderContent = []
   let activeLabel = ''
@@ -76,42 +81,24 @@ function Dropdown ({
       _variant: child.props.children
         ? 'pure'
         : (isPopover ? 'popover' : drawerVariant),
-      _styleActiveItem: styleActiveItem,
-      _activeValue: activeValue,
+      _styleActiveItem: activeItemStyle,
+      _activeValue: value,
       _index: caption ? index - 1 : index,
       _childenLength: caption ? arr.length - 1 : arr.length,
       _onDismissDropdown: () => setIsShow(false),
-      _onChange: value => {
-        onChange(value)
+      _onChange: v => {
+        onChange(v)
         setIsShow(false)
       }
     })
 
-    if (activeValue === child.props.value) {
+    if (value === child.props.value) {
       activeLabel = child.props.label
       renderContent.push(<View onLayout={onLayoutActive}>{_child}</View>)
     } else {
       renderContent.push(_child)
     }
   })
-
-  const onCancel = () => {
-    onDismiss && onDismiss()
-    setIsShow(false)
-  }
-
-  const onRequestOpen = () => {
-    UIManager.measure(refScroll.current.getInnerViewNode(), (x, y) => {
-      if (activePosition >= popoverHeight) {
-        refScroll.current.scrollTo({ y: activePosition })
-      }
-    })
-  }
-
-  const _popoverStyleWrapper = {
-    ...DEFAULT_STYLE_WRAPPER,
-    ...popoverStyleWrapper
-  }
 
   if (!caption) {
     caption = <DropdownCaption _activeLabel={activeLabel} />
@@ -122,14 +109,12 @@ function Dropdown ({
   if (isPopover) {
     return pug`
       Popover(
+        wrapperStyleName='popoverWrapper'
+        wrapperStyle=_popoverWrapperStyle
         visible=isShow
+        hasWidthCaption=!_popoverWrapperStyle.width
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
-        maxHeight=popoverMaxHeight
-        height=popoverHeight
-        width=popoverWidth
-        hasWidthCaption=!popoverWidth
-        styleWrapper=_popoverStyleWrapper
       )
         if caption
           Popover.Caption
@@ -146,9 +131,9 @@ function Dropdown ({
         = caption
     Drawer(
       visible=isShow
-      onDismiss=()=> setIsShow(false)
       position='bottom'
       hasDefaultStyleContent=drawerVariant === 'list'
+      onDismiss=()=> setIsShow(false)
     )
       View.dropdown(styleName=drawerVariant)
         if drawerVariant === 'list'
@@ -159,25 +144,28 @@ function Dropdown ({
         if drawerVariant === 'buttons'
           TouchableOpacity(onPress=onCancel)
             View.button(styleName=drawerVariant)
-              Text Отмена
+              Text= drawerCancelLabel
   `
 }
 
 Dropdown.defaultProps = {
+  popoverWrapperStyle: [],
+  value: '',
   drawerVariant: 'buttons',
   drawerListTitle: '',
-  activeValue: '',
-  hasMobileDrawer: true,
-  popoverStyleWrapper: {}
+  drawerCancelLabel: 'Cancel'
 }
 
 Dropdown.propTypes = {
-  activeValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onChange: PropTypes.func.isRequired,
+  popoverWrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   drawerVariant: PropTypes.oneOf(['list', 'buttons', 'pure']),
-  popoverHeight: PropTypes.number,
-  hasMobileDrawer: PropTypes.bool,
-  hasPopoverWidthCaption: PropTypes.bool
+  drawerListTitle: PropTypes.string,
+  drawerCancelLabel: PropTypes.string,
+  hasPopoverWidthCaption: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+  onDismiss: PropTypes.func
 }
 
 const ObservedDropdown = observer(Dropdown)

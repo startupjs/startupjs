@@ -4,6 +4,23 @@
   overflow hidden
   shadow(3)
 
+.wrapperArrow
+  border-radius .5u
+
+.wrapper
+  position absolute
+  opacity 0
+  left 0
+  top 0
+
+.shtamp
+  overflow hidden
+  position relative
+  height 0
+  left 0
+  top 0
+  width 0
+
 .overlay
   position absolute
   width 100%
@@ -17,21 +34,21 @@
 .arrow
   position absolute
   z-index 999
-  border-width 10px
+  border-width 1u
   border-style solid
   border-color transparent
 
 .arrowBottom
-  border-bottom-color $UI.colors.white
+  border-bottom-color #222222
 
 .arrowTop
-  border-top-color $UI.colors.white
+  border-top-color #222222
 
 .arrowCenterLeft
-  border-left-color $UI.colors.white
+  border-left-color #222222
 
 .arrowCenterRight
-  border-right-color $UI.colors.white
+  border-right-color #222222
 
 :export
   shadows: $UI.shadows

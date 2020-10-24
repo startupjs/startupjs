@@ -43,7 +43,7 @@ return (
 ## Dimensions
 - maxHeight: maximum possible height Popover
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -76,7 +76,7 @@ return (
 
 - height: fixed, constant height
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -109,7 +109,7 @@ return (
 
 - width: fixed, constant width (default 200px)
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -129,7 +129,7 @@ return (
 
 - hasWidthCaption: set the width by Caption (boolean)
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
@@ -149,7 +149,7 @@ return (
 
 If maxHeight and height are not set, the height is adjusted to the content
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2,3])
 return (
   <Popover
@@ -426,7 +426,7 @@ return (
 
 - styleWrapper: styles for wrapper
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
@@ -449,7 +449,7 @@ return (
 
 - styleOverlay: styles for overlay
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover

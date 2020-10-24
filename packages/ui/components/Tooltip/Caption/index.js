@@ -1,11 +1,15 @@
 import React from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
 export default function TooltipCaption ({
   children,
-  onChange
+  style,
+  _onChange
 }) {
   return pug`
-    View= children
+    TouchableOpacity(
+      style=style
+      onPress=()=> _onChange(true)
+    )= children
   `
 }

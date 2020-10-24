@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {
   View,
   Animated,
-  Platform,
   TouchableWithoutFeedback,
   Dimensions,
   StyleSheet
@@ -12,61 +11,80 @@ import { observer } from 'startupjs'
 import Modal from '../../Modal'
 import STYLES from './index.styl'
 
-const { shadows } = STYLES
+const POPOVER_MARGIN = 8
+const ARROW_MARGIN = 10
+const ARROW_SIZE = 8
 
-const SHTAMP_RENDER_STYLE = {
-  overflow: 'hidden',
-  position: 'relative',
-  height: 0,
-  left: 0,
-  top: 0,
-  width: 0
+const SHTAMP_STATUSES = {
+  CLOSE: 'close',
+  RENDER: 'render',
+  ANIMATE: 'animate',
+  OPEN: 'open'
 }
 
-const MARGIN = 5
-const ARROW_MARGIN = 16
-const WITH_ARROW_MARGIN = 8
-const ARROW_WIDTH = 10
+function isShtampInit (shtampStatus) {
+  return ['close', 'render'].indexOf(shtampStatus) === -1
+}
 
+// scale from transform style, with arrow
+// default if top, reverse
+
+// placement: top-left = popoverPosition='top', arrowPosition='left'
+// placement: top-center +
+// placement: top-right +
+
+// placement: bottom-left +
+// placement: bottom-center +
+// placement: bottom-right +
+
+// placement: left-top -
+// placement: left-center +
+// placement: left-bottom -
+
+// placement: right-top -
+// placement: right-center +
+// placement: right-bottom -
+
+// positionHorizontal deprecated
+// positionVertical deprecated
 function Popover ({
+  children,
+  wrapperStyle,
+  overlayStyle,
+  backdropStyle,
+  arrowStyle,
+  visible,
+  placement,
   positionHorizontal,
   positionVertical,
   animateType,
-  visible,
   hasWidthCaption,
   hasArrow,
-  maxHeight,
-  height,
-  width,
   onDismiss,
-  onRequestOpen,
-  styleWrapper,
-  styleOverlay,
-  backdropStyle,
-  children
+  onRequestOpen
 }) {
-  const [coords, setCoords] = useState(null)
-  const [contentSize, setContentSize] = useState({})
-  const [captionSize, setCaptionSize] = useState({})
-
   const refCaption = useRef()
   const refContent = useRef()
-  const [isRender, setIsRender] = useState(true)
-  const [isAfterAnimate, setIsAfterAnimate] = useState(false)
+
+  const [contentInfo, setContentInfo] = useState({})
+  const [captionSize, setCaptionSize] = useState({})
+  const [shtampStatus, setShtampStatus] = useState(SHTAMP_STATUSES.CLOSE)
+  wrapperStyle = StyleSheet.flatten(wrapperStyle)
 
   // animate states
   const [animateOpacityOverlay] = useState(new Animated.Value(visible ? 1 : 0))
   const [animateOpacity] = useState(new Animated.Value(visible ? 1 : 0))
   const [animateTop] = useState(new Animated.Value(0))
   const [animateWidth] = useState(new Animated.Value(
-    (visible || animateType !== 'scale') ? width : 0
+    (visible || animateType !== 'scale') ? wrapperStyle.width : 0
   ))
   const [animateHeight] = useState(new Animated.Value(0))
 
-  // reset state with change dimensions
+  // reset state after change dimensions
   useLayoutEffect(() => {
     const handleDimensions = () => {
-      setCoords(null)
+      setContentInfo({})
+      setShtampStatus(SHTAMP_STATUSES.CLOSE)
       animateOpacity.setValue(0)
       if (animateType !== 'slide') animateHeight.setValue(0)
       onDismiss()
@@ -75,99 +93,75 @@ function Popover ({
     return () => Dimensions.removeEventListener('change', handleDimensions)
   }, [])
 
-  // main
+  // -main
   useEffect(() => {
-    animateOpacityOverlay.stopAnimation()
-    animateOpacity.stopAnimation()
-    animateTop.stopAnimation()
-    animateWidth.stopAnimation()
-    animateHeight.stopAnimation()
-
-    if (visible) {
-      // if animation hide closed ahead of time
-      // and isRender and coords dont reset
-      if (isRender || coords) {
-        setIsRender(false)
-        setIsAfterAnimate(false)
-        setCoords(null)
-      }
-      showInit()
-    } else {
-      hideInit()
-    }
-  }, [visible])
-
-  // if children change - stop animation
-  // and use maxHeight
-  useEffect(() => {
-    // dont play animation if only popover open
-    if (isRender && visible) setIsAfterAnimate(true)
-  }, [children])
-
-  const showInit = () => {
     if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
       return
     }
 
-    setIsRender(true)
-    setTimeout(() => {
-      refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
-        let curHeight = height || refHeight
-        curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
+    if (shtampStatus === SHTAMP_STATUSES.CLOSE && visible) {
+      setShtampStatus(SHTAMP_STATUSES.RENDER)
+      setTimeout(runShow, 0)
+    }
+    if (shtampStatus === SHTAMP_STATUSES.OPEN && !visible) runHide()
+  }, [visible])
 
-        // set correct positon
-        animateTop.setValue(getTopPosition({
-          cy,
-          curHeight,
-          offset: animateType === 'slide' ? 20 : 0
-        }))
-        setContentSize({
-          height: curHeight,
-          width: width || refWidth
-        })
-        setCoords({ x: cx, y: cy })
-        show(curHeight, width || refWidth)
+  useEffect(() => {
+    if (shtampStatus === SHTAMP_STATUSES.ANIMATE && visible) {
+      animateOpacity.setValue(1)
+      setShtampStatus(SHTAMP_STATUSES.OPEN)
+    }
+  }, [children])
+  // -
+
+  const runShow = () => {
+    refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
+      const { width, height, maxHeight } = wrapperStyle
+      let curHeight = height || refHeight
+      curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
+
+      // set valid begin positon for animate
+      animateTop.setValue(getTopPosition({
+        cy,
+        curHeight,
+        offset: animateType === 'slide' ? 20 : 0
+      }))
+      setContentInfo({
+        x: cx,
+        y: cy,
+        height: curHeight,
+        width: width || refWidth
       })
-    }, 100)
+      setShtampStatus(SHTAMP_STATUSES.ANIMATE)
+      show(curHeight, width || refWidth)
+    })
   }
 
   const show = (curHeight, curWidth) => {
     if (animateType === 'slide') animateHeight.setValue(curHeight)
 
-    const animated = () => {
-      Animated.timing(animateOpacity, { toValue: 1, duration: 300 }).start()
-      Animated.parallel([
-        animateType === 'slide' && Animated.timing(animateTop, {
-          toValue: animateTop._value + 20, duration: 300
-        }),
-        animateType !== 'slide' && Animated.timing(animateHeight, {
-          toValue: curHeight, duration: 300
-        }),
-        animateType === 'scale' && Animated.timing(animateWidth, {
-          toValue: curWidth, duration: 300
-        }),
-        Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 })
-      ]).start(() => {
-        setIsAfterAnimate(true)
-        onRequestOpen && onRequestOpen()
-      })
-    }
-
-    if (Platform.OS === 'android') {
-      setTimeout(animated, 0)
-    } else {
-      animated()
-    }
+    Animated.parallel([
+      Animated.timing(animateOpacity, { toValue: 1, duration: 300 }),
+      animateType === 'slide' && Animated.timing(animateTop, {
+        toValue: animateTop._value + 20, duration: 300
+      }),
+      animateType !== 'slide' && Animated.timing(animateHeight, {
+        toValue: curHeight, duration: 300
+      }),
+      animateType === 'scale' && Animated.timing(animateWidth, {
+        toValue: curWidth, duration: 300
+      }),
+      Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 })
+    ]).start(() => {
+      setShtampStatus(SHTAMP_STATUSES.OPEN)
+      onRequestOpen && onRequestOpen()
+    })
   }
 
-  const hideInit = () => {
-    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
-      return
-    }
-
-    refContent.current.getNode().measure((ex, ey, refWidth, refHeight, cx, cy) => {
+  const runHide = () => {
+    refContent.current.getNode().measure((x, y, refWidth, refHeight) => {
+      setShtampStatus(SHTAMP_STATUSES.ANIMATE)
       animateHeight.setValue(refHeight)
-      setIsAfterAnimate(false)
       hide()
     })
   }
@@ -186,14 +180,8 @@ function Popover ({
       }),
       Animated.timing(animateOpacityOverlay, { toValue: 0, duration: 400 })
     ]).start(() => {
+      setShtampStatus(SHTAMP_STATUSES.CLOSE)
       onDismiss()
-      setIsRender(false)
-      setIsAfterAnimate(false)
-
-      refCaption.current && refCaption.current.measure((ex, ey, width, height) => {
-        setCaptionSize({ width, height })
-        setCoords(null)
-      })
     })
   }
 
@@ -202,8 +190,6 @@ function Popover ({
   let renderContent = []
   const onLayoutCaption = e => {
     setCaptionSize({
-      x: e.nativeEvent.layout.x,
-      y: e.nativeEvent.layout.y,
       width: e.nativeEvent.layout.width,
       height: e.nativeEvent.layout.height
     })
@@ -216,113 +202,110 @@ function Popover ({
     renderContent.push(child)
   })
 
+  // in helper
   const getLeftPosition = () => {
-    if (!coords) return
-    if (hasWidthCaption) return coords.x
+    if (!isShtampInit(shtampStatus)) return
+    if (hasWidthCaption) return contentInfo.x
     if (positionVertical === 'center' && positionHorizontal === 'left') {
-      const position = coords.x - width
-      return position - (hasArrow ? ARROW_WIDTH + MARGIN : MARGIN)
+      const position = contentInfo.x - wrapperStyle.width
+      return position - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
     }
     if (positionVertical === 'center' && positionHorizontal === 'right') {
-      const position = coords.x + (captionSize ? captionSize.width : 0)
-      return position + (hasArrow ? ARROW_WIDTH + MARGIN : MARGIN)
+      const position = contentInfo.x + captionSize.width
+      return position + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
     }
+
     if (positionHorizontal === 'right') {
-      return coords.x - (hasArrow ? WITH_ARROW_MARGIN : 0)
+      return contentInfo.x
     }
     if (positionHorizontal === 'center') {
-      return coords.x - (width / 2) + (captionSize ? (captionSize.width / 2) : 0)
+      return contentInfo.x - (wrapperStyle.width / 2) + (captionSize.width / 2)
     }
     if (positionHorizontal === 'left') {
-      const position = coords.x - width + (captionSize ? captionSize.width : 0)
-      return position + (hasArrow ? WITH_ARROW_MARGIN : 0)
+      return contentInfo.x - wrapperStyle.width + captionSize.width
     }
   }
 
-  const getTopPosition = ({ cy, offset = 0, curHeight }) => {
-    const _height = height || curHeight
-    let position = null
+  // in helper
+  const getLeftPositionArrow = () => {
+    if (!isShtampInit(shtampStatus)) return
+    if (positionVertical === 'center' && positionHorizontal === 'left') {
+      return contentInfo.x - ARROW_SIZE - POPOVER_MARGIN
+    }
+    if (positionVertical === 'center' && positionHorizontal === 'right') {
+      return contentInfo.x + captionSize.width
+    }
 
+    if (positionHorizontal === 'right') {
+      return contentInfo.x + ARROW_MARGIN
+    }
+    if (positionHorizontal === 'left') {
+      return (contentInfo.x + captionSize.width) - (ARROW_SIZE * 2) - ARROW_MARGIN
+    }
+    if (positionHorizontal === 'center') {
+      return contentInfo.x + (captionSize.width / 2) - ARROW_SIZE
+    }
+  }
+
+  // in helper
+  const getTopPosition = ({ cy, offset = 0, curHeight }) => {
     if (positionVertical === 'center') {
-      position = (cy - offset) - (_height / 2) - (captionSize ? (captionSize.height / 2) : 0)
+      const position = (cy - offset) - (curHeight / 2) - (captionSize.height / 2)
       return position
     }
+
     if (positionVertical === 'bottom') {
-      position = cy - offset
-      return position + (hasArrow ? ARROW_MARGIN : MARGIN)
+      const position = cy - offset
+      return position + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
     }
     if (positionVertical === 'top') {
-      position = cy - _height - (captionSize && captionSize.height)
-      return position - (hasArrow ? ARROW_MARGIN : MARGIN)
+      const position = cy - curHeight - captionSize.height
+      return position - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
     }
   }
 
-  const getLeftPositionArrow = () => {
-    if (!coords) return
-    if (positionVertical === 'center' && positionHorizontal === 'left') {
-      return coords.x - ARROW_MARGIN
-    }
-    if (positionVertical === 'center' && positionHorizontal === 'right') {
-      return coords.x + (captionSize ? captionSize.width : 0) - ARROW_WIDTH / 2
-    }
-    if (positionHorizontal === 'left') {
-      return coords.x + (captionSize ? captionSize.width : 0) - (ARROW_WIDTH * 2) - 2
-    }
-    if (positionHorizontal === 'right') return coords.x + 2
-    if (positionHorizontal === 'center') {
-      let position = coords.x + (width / 2) - (captionSize ? (captionSize.height / 2) : 0)
-      position -= ARROW_MARGIN / 2
-      return position - ARROW_WIDTH
-    }
-  }
-
+  // in helper
   const getTopPositionArrow = () => {
     const curTop = animateType === 'slide' ? animateTop._value + 20 : animateTop._value
     if (positionVertical === 'center') {
-      return curTop + (contentSize.height / 2) - ARROW_WIDTH
+      return curTop + (contentInfo.height / 2) - ARROW_SIZE
     }
-    if (positionVertical === 'top') {
-      return curTop + contentSize.height
-    }
-    return curTop - 20
+
+    if (positionVertical === 'top') return curTop + contentInfo.height
+    return curTop - (ARROW_SIZE * 2)
   }
 
-  function getBackdropStyle () {
-    return StyleSheet.flatten([
-      backdropStyle,
-      coords === null ? SHTAMP_RENDER_STYLE : {}
-    ])
-  }
+  const _backdropStyle = StyleSheet.flatten([
+    backdropStyle,
+    isShtampInit(shtampStatus) ? {} : STYLES.shtamp
+  ])
 
-  const Wrapper = coords === null ? View : Modal
-  const _styleWrapper = coords === null ? {
-    position: 'absolute',
-    opacity: 0,
-    left: 0,
-    top: 0,
-    width,
-    ...styleWrapper
-  } : {
-    left: getLeftPosition(),
-    top: animateTop,
-    opacity: animateOpacity,
-    width: animateWidth,
-    ...shadows[3],
-    ...styleWrapper
-  }
+  const _wrapperStyle = StyleSheet.flatten([
+    wrapperStyle,
+    isShtampInit(shtampStatus) ? {
+      left: getLeftPosition(),
+      top: animateTop,
+      opacity: animateOpacity,
+      width: animateWidth
+    } : STYLES.wrapper
+  ])
 
-  if (hasWidthCaption) _styleWrapper.width = captionSize.width
-  if ((!isAfterAnimate && coords) || height) _styleWrapper.height = animateHeight
-  else if (maxHeight) _styleWrapper.maxHeight = maxHeight
-  else if (!height) _styleWrapper.height = 'auto'
+  const _overlayStyle = StyleSheet.flatten([
+    overlayStyle,
+    { opacity: animateOpacityOverlay }
+  ])
 
-  if (!isRender) _styleWrapper.height = 0
-  const _styleOverlay = { ...styleOverlay, opacity: animateOpacityOverlay }
+  if (hasWidthCaption) _wrapperStyle.width = captionSize.width
+  if (shtampStatus === SHTAMP_STATUSES.ANIMATE) _wrapperStyle.height = animateHeight
+  else if (wrapperStyle.maxHeight) _wrapperStyle.maxHeight = wrapperStyle.maxHeight
+  else if (!wrapperStyle.height) _wrapperStyle.height = 'auto'
+  if (shtampStatus === SHTAMP_STATUSES.CLOSE) _wrapperStyle.height = 0
 
+  const Wrapper = isShtampInit(shtampStatus) ? Modal : View
   return pug`
     View
       if caption
-        if !isAfterAnimate
+        if shtampStatus !== SHTAMP_STATUSES.OPEN
           View(
             ref=refCaption
             style=caption.props.style
@@ -335,19 +318,19 @@ function Popover ({
           }, caption.props.style))
       Wrapper(
         transparent=true
-        visible=isRender
+        visible=shtampStatus !== SHTAMP_STATUSES.CLOSE
         ariaHideApp=false
         variant='pure'
-        style=getBackdropStyle()
+        style=_backdropStyle
       )
         View.case
           TouchableWithoutFeedback(onPress=onDismiss)
-            Animated.View.overlay(style=_styleOverlay)
-          if caption && coords
+            Animated.View.overlay(style=_overlayStyle)
+          if caption && contentInfo.x
             View(style={
               position: 'absolute',
-              left: coords.x,
-              top: coords.y - captionSize.height,
+              left: contentInfo.x,
+              top: contentInfo.y - captionSize.height,
               width: captionSize.width
             })= caption.props.children
           if hasArrow && !(positionVertical === 'center' && positionHorizontal === 'center')
@@ -367,31 +350,35 @@ function Popover ({
           Animated.View.popover(
             pointerEvents='box-none'
             ref=refContent
-            style=_styleWrapper
+            style=_wrapperStyle
+            styleName={ wrapperArrow: hasArrow }
           )= renderContent
   `
 }
 
 Popover.defaultProps = {
+  wrapperStyle: { width: 200 },
+  backdropStyle: { zIndex: 99999 },
   positionHorizontal: 'right',
   positionVertical: 'bottom',
   animateType: 'default',
   hasWidthCaption: false,
-  hasArrow: false,
-  width: 200,
-  backdropStyle: { zIndex: 99999 }
+  hasArrow: false
 }
 
 Popover.propTypes = {
+  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  overlayStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  backdropStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
-  onDismiss: PropTypes.func,
+  placement: PropTypes.oneOf(['left', 'center', 'right']),
   positionHorizontal: PropTypes.oneOf(['left', 'center', 'right']),
   positionVertical: PropTypes.oneOf(['bottom', 'center', 'top']),
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
-  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  hasArrow: PropTypes.bool,
+  onDismiss: PropTypes.func,
+  onRequestOpen: PropTypes.func
 }
 
 function PopoverCaption ({ children, style }) {

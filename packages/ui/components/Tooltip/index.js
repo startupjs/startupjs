@@ -1,23 +1,41 @@
 import React, { useState } from 'react'
-import Popover from '../popups'
+import { observer } from 'startupjs'
+import { Text, View } from 'react-native'
+import { Popover } from '../popups'
 import TooltipCaption from './Caption'
+import './index.styl'
 
 function Tooltip ({
   children,
   style,
-  width
+  wrapperStyle
 }) {
   const [isVisible, setIsVisible] = useState(false)
 
-  // parse children
-  const caption = null
-  const content = null
+  let caption = null
+  let content = null
+  React.Children.toArray(children).forEach((child, index) => {
+    if (child.type === TooltipCaption) {
+      if (index !== 0) Error('Caption need use first child')
+      caption = React.cloneElement(child, {
+        _onChange: value => {
+          setIsVisible(value)
+        }
+      })
+    }
+    if (child.type === TooltipContent) {
+      content = child
+    }
+  })
 
   return pug`
     Popover(
       visible=isVisible
       hasArrow=true
-      styleWrapper=''
+      positionVertical='top'
+      positionHorizontal='center'
+      placement='top-left'
+      wrapperStyleName='wrapper'
       onDismiss=()=> setIsVisible(false)
     )
       Popover.Caption= caption
@@ -25,8 +43,19 @@ function Tooltip ({
   `
 }
 
-const TooltipContent = ({ children }) => children
-Tooltip.TooltipCaption = TooltipCaption
-Tooltip.TooltipContent = TooltipContent
+const TooltipContent = ({ children, style }) => {
+  if (typeof children === 'string') {
+    return pug`
+      View(style=style)
+        Text.text= children
+    `
+  } else {
+    return children
+  }
+}
 
-export default Tooltip
+const ObservedTooltip = observer(Tooltip)
+ObservedTooltip.Caption = TooltipCaption
+ObservedTooltip.Content = TooltipContent
+
+export default ObservedTooltip
