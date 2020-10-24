@@ -3,6 +3,7 @@ import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
+import { Div, Span, Checkbox } from '@startupjs/ui'
 
 import './index.styl'
 
@@ -43,12 +44,28 @@ const Multiselect = ({
     setShowOpts(false)
   }
 
+  const selectCb = (selected, value) => () => {
+    if (selected) {
+      removeOpt(value)
+    } else {
+      selectOpt(value)
+    }
+  }
+
+  function renderListItem ({ item }) {
+    const selected = value.some(_value => _value === item.value)
+
+    return pug`
+      Div.suggestion(key=item.value onPress=selectCb(selected, item.value))
+        Checkbox.checkbox(value=selected)
+        Span.sugText= item.label
+    `
+  }
+
   return pug`
     MultiselectComponent(
       options=_options
       value=value
-      onSelect=selectOpt
-      onRemove=removeOpt
       placeholder=placeholder
       label=label
       showOptsMenu=showOptsMenu
@@ -59,6 +76,7 @@ const Multiselect = ({
       popoverWidth=popoverWidth
       error=error
       TagComponent=TagComponent
+      renderListItem=renderListItem
     )
   `
 }

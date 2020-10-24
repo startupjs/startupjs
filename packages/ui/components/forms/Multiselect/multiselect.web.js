@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer, u } from 'startupjs'
-import { Div, Span, Checkbox, Popover } from '@startupjs/ui'
+import { Div, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectInput from './input'
 import './index.styl'
@@ -18,17 +18,10 @@ const Multiselect = ({
   popoverWidth,
   error,
   TagComponent,
+  renderListItem,
   onSelect,
   onRemove
 }) => {
-  const selectCb = (selected, value) => () => {
-    if (selected) {
-      onRemove(value)
-    } else {
-      onSelect(value)
-    }
-  }
-
   return pug`
     Popover.root(
       visible=showOpts
@@ -51,10 +44,7 @@ const Multiselect = ({
         )
       Div.suggestions-web
         each opt in options
-          - const selected = value.some(_value => _value === opt.value)
-          Div.suggestion(key=opt.value onPress=selectCb(selected, opt.value))
-            Checkbox.checkbox(value=selected)
-            Span.sugText= opt.label
+          = renderListItem({ item: opt })
   `
 }
 
@@ -72,7 +62,8 @@ Multiselect.propTypes = {
   readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
-  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  renderListItem: PropTypes.func
 }
 
 export default observer(Multiselect)

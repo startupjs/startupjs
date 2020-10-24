@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { FlatList } from 'react-native'
-import { Div, Span, Checkbox, Drawer } from '@startupjs/ui'
+import { Drawer } from '@startupjs/ui'
 
 import MultiselectInput from './input'
 import styles from './index.styl'
@@ -18,27 +18,10 @@ const Multiselect = ({
   disabled,
   error,
   TagComponent,
+  renderListItem,
   onSelect,
   onRemove
 }) => {
-  const selectCb = (selected, value) => () => {
-    if (selected) {
-      onRemove(value)
-    } else {
-      onSelect(value)
-    }
-  }
-
-  function renderListItem ({ item }) {
-    const selected = value.some(_value => _value === item.value)
-
-    return pug`
-      Div.suggestion(onPress=selectCb(selected, item.value))
-        Checkbox.checkbox(value=selected)
-        Span.sugText= item.label
-    `
-  }
-
   return pug`
     MultiselectInput(
       label=label
@@ -78,7 +61,8 @@ Multiselect.propTypes = {
   showOpts: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   error: PropTypes.string,
-  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  renderListItem: PropTypes.func
 }
 
 export default observer(Multiselect)
