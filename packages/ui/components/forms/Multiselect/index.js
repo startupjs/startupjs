@@ -53,7 +53,7 @@ const Multiselect = ({
   }
 
   function renderListItem ({ item }) {
-    const selected = value.some(_value => _value === item.value)
+    const selected = value.includes(item.value)
 
     return pug`
       Div.suggestion(key=item.value onPress=selectCb(selected, item.value))
