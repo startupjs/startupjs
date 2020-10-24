@@ -14,7 +14,7 @@ import { Multiselect } from '@startupjs/ui'
 ```
 
 - `options` - массив объектов ```{ label, value }``` или примитивоов
-- `onChange` - коллбек, который вызывается при смене щначения поля. Возвращает массив с выбранными значениями | ```function(value: Array)```
+- `onChange` ```function(value: Array)``` - коллбек, который вызывается при смене значения поля. Возвращает массив с выбранными значениями
 
 ```jsx example
 const [cities, setCities] = useState(['la', 'tk'])

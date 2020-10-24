@@ -14,7 +14,7 @@ import { Multiselect } from '@startupjs/ui'
 ```
 
 - `options` - array of objects ```{ label, value }``` or primitives
-- `onChange` - the callback triggered when the value is changed. Returns an array with selected values | ```function(value: Array)```
+- `onChange` ```function(value: Array)``` - the callback triggered when the value is changed. Returns an array with selected values
 
 ```jsx example
 const [cities, setCities] = useState(['la', 'tk'])
