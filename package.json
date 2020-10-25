@@ -3,15 +3,30 @@
   "engines": {
     "node": ">= 14"
   },
-  "workspaces": ["packages/*", "styleguide"],
+  "workspaces": [
+    "packages/*",
+    "styleguide"
+  ],
   "scripts": {
-    "postinstall": "patch-package",
+    "android": "cd styleguide && yarn android",
+    "ios": "cd styleguide && yarn ios",
+    "start": "cd styleguide && yarn start",
+    "metro": "cd styleguide && yarn metro",
+    "web": "cd styleguide && yarn web",
+    "server": "cd styleguide && yarn server",
+    "android-release": "cd styleguide && yarn android-release",
+    "ios-release": "cd styleguide && yarn ios-release",
+    "build": "cd styleguide && yarn build",
+    "start-production": "cd styleguide && yarn start-production",
+    "postinstall": "patch-package && startupjs patch-package",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
-    "publish-patch": "npx lerna publish patch",
-    "publish-minor": "npx lerna publish minor",
-    "publish-alpha-minor": "npx lerna publish preminor --dist-tag next",
-    "publish-alpha": "npx lerna publish prerelease --dist-tag next"
+    "publish-stable": "npx lerna publish --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-patch": "npx lerna publish patch --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-minor": "npx lerna publish minor --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-alpha-minor": "npx lerna publish preminor --dist-tag next --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-alpha": "npx lerna publish prerelease --dist-tag next --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
+    "publish-canary": "npx lerna publish prerelease --preid canary --dist-tag canary --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
@@ -25,9 +40,8 @@
     "eslint-plugin-react-pug": "^0.8.4",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.1.0",
-    "lerna": "^3.19.0",
-    "lint-staged": "^9.5.0",
-    "patch-package": "^6.2.0"
+    "lerna": "3.22.1",
+    "lint-staged": "^9.5.0"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -37,7 +51,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'"
     }
   },
   "license": "MIT"

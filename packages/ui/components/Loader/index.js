@@ -1,32 +1,31 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { ActivityIndicator } from 'react-native'
-import config from '../../config/rootConfig'
-import propTypes from 'prop-types'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { colors } = config
+const { colors } = STYLES
 const SIZES = { s: 'small', m: 'large' }
 
 function Loader ({ color, size }) {
-  const _color = colors[color] || color
+  if (!colors[color]) console.error('Loader component: Color for color property is incorrect. Use colors from $UI.colors')
 
   return pug`
     ActivityIndicator(
-      color=_color
+      color=colors[color]
       size=SIZES[size]
     )
   `
 }
 
 Loader.defaultProps = {
-  color: colors.darkLight,
+  color: 'darkLight',
   size: 'm'
 }
 
 Loader.propTypes = {
-  size: propTypes.oneOf(['s', 'm']),
-  color: propTypes.string
+  size: PropTypes.oneOf(['s', 'm']),
+  color: PropTypes.oneOf(Object.keys(colors))
 }
 
 export default observer(Loader)

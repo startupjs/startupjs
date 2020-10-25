@@ -1,11 +1,11 @@
 import Link from '../Link'
-import Span from '../Typography/Span'
+import Span from '../typography/Span'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Link (ссылка)
 
-Наследует [Span props](/docs/ru/typography).
+Наследует [Span props](/docs/ru/foundation/Typography).
 
 Ссылка позволяет перемещаться по приложению и настраивать якоря.
 
@@ -19,8 +19,23 @@ import { Link } from '@startupjs/ui'
 return (
   <Span>
     Наследует&nbsp;
-    <Link to='/docs/ru/typography'>
+    <Link to='/docs/ru/foundation/Typography' size='xl'>
       Span props
+    </Link>
+  </Span>
+)
+```
+
+## Кастомная разметка
+
+Свойство `block` используется для добавления пользовательского контента в компонент.
+
+```jsx example
+return (
+  <Span>
+    Inherits&nbsp;
+    <Link block to='/docs/ru/foundation/Typography'>
+      <Span>Span props</Span>
     </Link>
   </Span>
 )
@@ -28,16 +43,35 @@ return (
 
 ## Цвета
 
-Чтобы изменить цвет ссылки передайте свойство `color`.
+Чтобы изменить цвет ссылки передайте свойство `color` (не работает со свойством `block`).
 
 ```jsx example
 return (
   <Row>
     <Span>Inherits&nbsp;</Span>
-    <Link block to='/docs/ru/typography' color='primary'>
-      <Span>Span props</Span>
+    <Link to='/docs/ru/foundation/Typography' color='primary'>
+      Span props
     </Link>
   </Row>
+)
+```
+
+## Действия
+
+Передавая `onPress` обработчик в компонент, вы можете выполнить некоторую логику перед перенаправлением.
+
+```jsx example
+function onPress (event) {
+  console.log('Go to alert docs')
+}
+return (
+  <Link
+    color='primary'
+    to='/docs/en/components/Alert'
+    onPress={onPress}
+  >
+    Alert docs
+  </Link>
 )
 ```
 

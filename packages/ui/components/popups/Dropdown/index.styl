@@ -1,0 +1,43 @@
+.dropdown
+  &.list
+    padding 2u
+    padding-bottom 1u
+
+  &.system
+    background-color rgba(255, 255, 255, .9)
+
+.systemMenu
+  position absolute
+  width 100%
+  height 5u
+  background-color $UI.colors.white
+
+.case
+  &.buttons
+    margin 1.5u 1.5u 2u
+    border-radius 1u
+    background-color $UI.colors.white
+
+.captionText
+  &.list
+    padding 1u 2u 2u
+    font-size 21px
+
+    +web()
+      font-weight 600
+
+    +native()
+      font-weight bold
+
+.button
+  &.buttons
+    justify-content center
+    align-items center
+    margin -1u 1.5u 1.5u
+    padding 2u
+    border-radius 1u
+    background-color $UI.colors.white
+
+.popoverWrapper
+  border-radius 0.5u
+  shadow(2)

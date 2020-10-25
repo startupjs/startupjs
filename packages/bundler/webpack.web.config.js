@@ -12,26 +12,16 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
-const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
-const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
-// TODO: 'web' mode by default is deprecated. The default is going to become 'react-native'
-//       in future versions.
-const DEFAULT_MODE = 'web'
-
-// Get ui config if it exists
-let ui
-try {
-  const startupjsConfig = require(CONFIG_PATH)
-  ui = startupjsConfig && startupjsConfig.ui
-} catch (err) {}
+const DEFAULT_MODE = 'react-native'
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
@@ -39,12 +29,9 @@ try {
 const ASYNC = process.env.ASYNC
 if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 
-const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
-const ASYNC_EXTENSIONS = EXTENSIONS.map(i => '.async' + i)
+const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
-  '@startupjs/init/src',
-  '@startupjs/hooks/src',
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui
@@ -56,19 +43,9 @@ const DEFAULT_ALIAS = {
   'react-router-native': 'react-router-dom'
 }
 
-// Enable hooks hot reloading in development:
-// https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom
-if (!PROD) {
-  DEFAULT_ALIAS['react-dom'] = '@hot-loader/react-dom'
-}
-
 let DEFAULT_ENTRIES = [
   '@babel/polyfill'
 ]
-// Enable hot reloading in development:
-if (!PROD) {
-  DEFAULT_ENTRIES.push('react-hot-loader/patch')
-}
 
 module.exports = function getConfig (env, {
   forceCompileModules = [],
@@ -106,6 +83,27 @@ module.exports = function getConfig (env, {
         maxAsyncRequests: Infinity,
         minSize: 0,
         cacheGroups: {
+          config: {
+            chunks: 'async',
+            test: /[\\/](startupjs|ui)[.\\/].*config/,
+            name (module) {
+              return 'startupjs.config'
+            }
+          },
+          components: {
+            chunks: 'async',
+            test: /[\\/]components[\\/][^\\/]+[\\/].*\.(jsx?|styl)$/,
+            name (module) {
+              const match = module.context.match(/[\\/]components[\\/]([^\\/]+)(?:[\\/]|$)([^\\/]+)?/)
+              const [, first, second] = match
+              // support components within grouping folders, for example 'components/forms/Input'
+              if (/^[a-z]/.test(first) && second) {
+                return `component.${first}.${second}`
+              } else {
+                return `component.${first}`
+              }
+            }
+          },
           vendor: {
             chunks: 'async',
             test: /[\\/]node_modules[\\/]/,
@@ -117,13 +115,29 @@ module.exports = function getConfig (env, {
               return `npm.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
           },
-          components: {
+          root: {
+            chunks: 'async',
+            test: /[\\/]Root[\\/]/,
+            name (module) {
+              return 'root'
+            }
+          },
+          mdx: {
             chunks: 'async',
             minChunks: 1,
-            test: /[\\/]components[\\/][^\\/]+[\\/]/,
+            test: /\.mdx$/,
             name (module) {
-              const componentName = module.context.match(/[\\/]components[\\/](.*?)([\\/]|$)/)[1]
-              return `component.${componentName}`
+              const docName = module.resource.match(/[\\/]([^\\/]+)\.mdx$/)[1]
+              return `mdx.${docName}`
+            }
+          },
+          packages: {
+            chunks: 'async',
+            test: /[\\/]packages[\\/](?!ui\/(?:components|config)\/)/,
+            name (module) {
+              const packageName = module.context.match(/[\\/]packages[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              // npm package names are URL-safe, but some servers don't like @ symbols
+              return `package.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
           }
         }
@@ -132,6 +146,7 @@ module.exports = function getConfig (env, {
     plugins: [
       !VERBOSE && !PROD && new FriendlyErrorsWebpackPlugin(),
       new MomentLocalesPlugin(), // strip all locales except 'en'
+      !PROD && new ReactRefreshWebpackPlugin({ forceEnable: true, overlay: { sockPort: DEV_PORT } }),
       PROD && new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[name].[chunkhash].css'
@@ -152,17 +167,34 @@ module.exports = function getConfig (env, {
     },
     module: {
       rules: [
-        Object.assign(getJsxRule(), {
-          exclude: /node_modules/
-        }),
-        Object.assign(getJsxRule(), {
-          include: new RegExp(`node_modules/(?:react-native-|${forceCompileModules.join('|')})`)
-        }),
         {
-          test: /\.mdx$/,
+          test: getJsxRule().test,
           exclude: /node_modules/,
           use: [
             pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/replaceObserverLoader.js')
+            }
+          ]
+        },
+        {
+          test: getJsxRule().test,
+          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
+          use: [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/replaceObserverLoader.js')
+            }
+          ]
+        },
+        {
+          test: /\.mdx?$/,
+          exclude: /node_modules/,
+          use: [
+            pick(getJsxRule(), ['loader', 'options']),
+            {
+              loader: require.resolve('./lib/replaceObserverLoader.js')
+            },
             {
               loader: '@mdx-js/loader'
             },
@@ -211,7 +243,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'stylus-loader',
               options: {
-                use: ui ? [stylusHashPlugin('$UI', ui)] : [],
+                use: [],
                 import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
                 define: {
                   __WEB__: true
@@ -272,12 +304,12 @@ module.exports = function getConfig (env, {
         ...DEFAULT_ALIAS,
         ...alias
       },
-      extensions: ASYNC ? ASYNC_EXTENSIONS.concat(EXTENSIONS) : EXTENSIONS,
+      extensions: EXTENSIONS,
       mainFields: ['jsnext:main', 'browser', 'main']
     },
     devServer: {
       host: '0.0.0.0',
-      port: 3010,
+      port: DEV_PORT,
       hot: true,
       headers: {
         'Access-Control-Allow-Origin': '*'

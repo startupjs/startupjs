@@ -1,5 +1,7 @@
-const Model = require('racer').Model
-const Query = require('racer/lib/Model/Query')
+import racer from 'racer'
+import Query from 'racer/lib/Model/Query'
+
+const Model = racer.Model
 
 // Methods to fix to properly handle (value, ..., cb) pair
 const FIX_VALUE_CB = {
@@ -53,7 +55,7 @@ const SUBSCRIPTIONS = [
 ]
 const ASYNC_METHODS = MUTATORS.concat(SUBSCRIPTIONS)
 
-module.exports = function () {
+export default function () {
   for (const method in FIX_VALUE_CB) {
     const { minArgs, onlyValidate } = FIX_VALUE_CB[method]
     Model.prototype[method] = fixValueCbApi(
@@ -78,7 +80,7 @@ module.exports = function () {
 
 function optionalPromisify (originalFn) {
   return function optionalPromisifier (...args) {
-    if (args[args.length - 1] === 'function') {
+    if (typeof args[args.length - 1] === 'function') {
       return originalFn.apply(this, args)
     } else {
       return new Promise((resolve, reject) => {

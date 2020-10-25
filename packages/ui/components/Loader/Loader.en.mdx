@@ -21,7 +21,7 @@ return (
 
 ## Sizes
 
-Loaders can be of two sizes - `s` and `m`.
+Loaders can be of two sizes - `s` and `m` (default).
 
 ```jsx example
 return (
@@ -34,15 +34,15 @@ return (
 
 ## Colors
 
-Color can be changed by providing hex color or name of the color from `ui` config colors to `color` property.
+Color is `darkLighter` by default. It can be changed by passing color name from the config colors to `color` property. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
 ```jsx example
 return (
   <Row align='around'>
-    <Loader color='#2962FF' />
-    <Loader color='#F5BE59' />
-    <Loader color='#00AED6' />
-    <Loader color='#A6D800' />
+    <Loader />
+    <Loader color='success' />
+    <Loader color='error' />
+    <Loader color='warning' />
   </Row>
 )
 ```

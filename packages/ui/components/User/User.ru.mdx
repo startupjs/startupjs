@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import User from '../User'
-import Content from '../Content'
-import Row from '../Row'
 import Div from '../Div'
 import Br from '../Br'
-import Span from '../Typography/Span'
-import { u } from '../../config/helpers'
+import Span from '../typography/Span'
 import { Sandbox } from '@startupjs/docs'
 
 # User (пользователь)
@@ -22,7 +19,7 @@ import { User } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Content>
+  <Div>
     <User
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
@@ -33,7 +30,7 @@ return (
       name='John Doe'
       description='The cat is a domestic species of small carnivorous mammal'
     />
-  </Content>
+  </Div>
 )
 ```
 
@@ -94,21 +91,21 @@ return (
 
 ```jsx example
 return (
-  <Row>
+  <Div>
     <User
       status='online'
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
       description='Online description'
-        style={{ marginRight: u(2) }}
     />
+    <Br />
     <User
       status='away'
       avatarUrl='/img/avatar2.jpeg'
       name='John Doe'
       description='Offline description'
-      />
-  </Row>
+    />
+  </Div>
 )
 ```
 
@@ -134,7 +131,7 @@ return (
 ```jsx example
 const [clicked, setClicked] = useState(0)
 return (
-  <Content>
+  <Div>
     <User
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
@@ -145,7 +142,7 @@ return (
     <Span>
       {clicked ? `User clicked ${clicked} ${clicked === 1 ? 'time' : 'times'}` : 'Click on user'}
     </Span>
-  </Content>
+  </Div>
 )
 ```
 

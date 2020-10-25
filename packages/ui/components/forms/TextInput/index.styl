@@ -1,8 +1,27 @@
+// ----- CONFIG: $UI.TextInput
+
+$this = merge({
+  caretColor: $UI.colors.primary,
+  borderWidth: 1,
+  height: {
+    l: 5u,
+    m: 4u,
+    s: 3u
+  },
+  lineHeight: {
+    l: 3u,
+    m: 2.5u,
+    s: 2.5u
+  }
+}, $UI.TextInput, true)
+
+// ----- COMPONENT
+
 _inputBg = $UI.colors.white
 _inputBorderColor = $UI.colors.darkLighter
 _inputBgDisabled = $UI.colors.darkLightest
 _inputBorderWidth = 1px//$UI.TextInput.borderWidth
-_inputCaretColor = $UI.TextInput.caretColor
+_inputCaretColor = $this.caretColor
 _inputTextColor = $UI.colors.mainText
 _focusedColor = $UI.colors.primary
 _inputFontSizeL = 2u
@@ -11,8 +30,17 @@ _inputFontSizeS = 1.75u
 
 .label
   margin-bottom 0.5u
+  font(s)
   &.focused
     color _focusedColor
+
+.readonlySpan
+  &.s
+    font(s)
+  &.m
+    font(m)
+  &.l
+    font(l)
 
 .input-icon
   position absolute
@@ -39,7 +67,7 @@ _inputFontSizeS = 1.75u
   border-width _inputBorderWidth
   border-style solid
   border-color _inputBorderColor
-  min-width 15u
+  min-width 8u
   radius()
 
   +web()
@@ -71,3 +99,9 @@ _inputFontSizeS = 1.75u
 
       &.s
         padding-{side} 4u
+
+// ----- JS EXPORTS
+
+:export
+  config: $this
+  colors: $UI.colors

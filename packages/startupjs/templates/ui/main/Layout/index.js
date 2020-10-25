@@ -1,9 +1,11 @@
 import React from 'react'
 import { observer, emit, useValue, useLocal } from 'startupjs'
 import './index.styl'
-import { Row, Div, Layout, SmartSidebar, Menu, Button, H1, Span } from '@startupjs/ui'
+import { Row, Div, Layout, SmartSidebar, Menu, Button, H1 } from '@startupjs/ui'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { displayName } from '../../app.json'
+import APP from '../../app.json'
+
+const { displayName } = APP
 
 const APP_NAME = displayName.charAt(0).toUpperCase() + displayName.slice(1)
 
@@ -37,8 +39,7 @@ export default observer(function ({ children }) {
       )
         Row.menu
           Button(color='secondaryText' icon=faBars onPress=() => $opened.set(!opened))
-          H1.logo
-            Span.logoText(size='xl')= APP_NAME
+          H1.logo= APP_NAME
 
         Div.body= children
   `

@@ -1,12 +1,14 @@
 import React from 'react'
-import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import { observer, u } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
-import { u } from './../../config/helpers'
-import config from '../../config/rootConfig'
-import './index.styl'
+import STYLES from './index.styl'
 
-const { heights } = config.Divider
+const {
+  config: {
+    heights
+  }
+} = STYLES
 const LINE_HEIGHT = u(2)
 
 function Divider ({
@@ -47,10 +49,10 @@ Divider.defaultProps = {
 }
 
 Divider.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  variant: propTypes.oneOf(['horizontal', 'vertical']),
-  size: propTypes.oneOf(['m', 'l']),
-  lines: propTypes.number
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  variant: PropTypes.oneOf(['horizontal', 'vertical']),
+  size: PropTypes.oneOf(['m', 'l']),
+  lines: PropTypes.number
 }
 
 export default observer(Divider)

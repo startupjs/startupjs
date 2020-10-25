@@ -1,16 +1,22 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
 import { TextInput, Platform } from 'react-native'
+import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
-import config from './../../../config/rootConfig'
 import Icon from './../../Icon'
-import './index.styl'
+import STYLES from './index.styl'
+
+const {
+  config: {
+    caretColor, height, lineHeight, borderWidth
+  },
+  colors
+} = STYLES
 
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
 const IS_IOS = Platform.OS === 'ios'
-const DARK_LIGHTER_COLOR = config.colors.darkLighter
-const { caretColor, height, lineHeight, borderWidth } = config.TextInput
+const DARK_LIGHTER_COLOR = colorToRGBA(colors.dark, 0.25)
 
 // TODO: Remove correction when issue will be fixed
 // https://github.com/facebook/react-native/issues/28012
@@ -28,6 +34,7 @@ const ICON_SIZES = {
 
 export default observer(function Input ({
   style,
+  inputStyle,
   className,
   placeholder,
   value,
@@ -38,14 +45,22 @@ export default observer(function Input ({
   numberOfLines,
   icon,
   iconPosition,
+  iconStyle,
   onBlur,
   onFocus,
   onChangeText,
   onIconPress,
+  renderWrapper,
   ...props
 }) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+
+  if (!renderWrapper) {
+    renderWrapper = ({ style }, children) => pug`
+      Div(style=style)= children
+    `
+  }
 
   useLayoutEffect(() => {
     if (resize) {
@@ -61,6 +76,11 @@ export default observer(function Input ({
     useLayoutEffect(() => {
       if (focused && disabled) inputRef.current.blur()
     }, [disabled])
+    // fix minWidth on web
+    // ref: https://stackoverflow.com/a/29990524/1930491
+    useLayoutEffect(() => {
+      inputRef.current.setNativeProps({ size: '1' })
+    })
   }
 
   useDidUpdate(() => {
@@ -83,11 +103,11 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  const inputStyle = {
+  inputStyle = [{
     paddingTop: verticalGutter,
     paddingBottom: verticalGutter,
     lineHeight: lH
-  }
+  }, inputStyle]
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
@@ -101,8 +121,10 @@ export default observer(function Input ({
     { disabled, focused, [`icon-${iconPosition}`]: !!icon }
   ]
 
-  return pug`
-    Div.input-wrapper(style=[{ height: fullHeight }, style] className=className)
+  return renderWrapper({
+    style: [{ height: fullHeight }, style]
+  }, pug`
+    React.Fragment
       if icon
         Div.input-icon(
           styleName=[size, iconPosition]
@@ -110,7 +132,7 @@ export default observer(function Input ({
         )
           Icon(
             icon=icon
-            color=DARK_LIGHTER_COLOR
+            style=iconStyle
             size=ICON_SIZES[size]
           )
       TextInput.input-input(
@@ -131,5 +153,5 @@ export default observer(function Input ({
         ...props
         ...inputExtraProps
       )
-  `
+  `)
 })

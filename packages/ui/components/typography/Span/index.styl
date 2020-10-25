@@ -1,0 +1,14 @@
+_variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
+
+// Add font-family when we add fonts to app
+
+.root
+  for variant in _variants
+    &.{variant}
+      text(variant)
+
+  &.bold
+    font-weight 700
+
+  &.italic
+    font-style italic

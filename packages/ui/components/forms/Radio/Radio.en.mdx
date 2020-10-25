@@ -1,129 +1,78 @@
 import { useState } from 'react'
 import Radio from '../Radio'
-import Row from '../../Row'
-import CustomRadioExample from './CustomRadioExample'
-import  { Sandbox } from '@startupjs/docs'
+import Span from '../../typography/Span'
+import Div from '../../Div'
+import Br from '../../Br'
+import { Sandbox } from '@startupjs/docs'
 
 # Radio
 
-Radio button allows the user to select only one item from a list.
-
-## Basic Example
-
+Radio button allows the user to select one option from a list.
 
 ```jsx
-import { Radio } from '@startupjs/ui'
+import { Radio } from from '@startupjs/ui'
 ```
+
+## Example
 
 ```jsx example
-const [selectedItem, setSelectedItem] = useState('')
+const [checked, setChecked] = useState()
 return (
-  <Radio
-    value={selectedItem}
-    onChange={(value) => setSelectedItem(value)}
-    data={[
-      {
-        value: 'Item-1',
-        label: 'Item-1 label'
-      },
-      {
-        value: 'Item-2',
-        label: 'Item-2 label'
-      },
-      {
-        value: 'Item-3',
-        label: 'Item-3 label'
-      },
-      {
-        value: 'Item-4',
-        label: 'Item-4 label'
-      }
-    ]}
-  />
-)
-```
-
-## Radio Color Example
-
-```jsx
-import { Radio, Row } from '@startupjs/ui'
-```
-
-```jsx example
-const [selectedItem, setSelectedItem] = useState('')
-const [selectedItem1, setSelectedItem1] = useState('')
-return (
-  <Row>
+  <Div>
     <Radio
-      color='dark'
-      value={selectedItem}
-      onChange={(value) => setSelectedItem(value)}
-      data={[
+      value={checked}
+      onChange={(value) => setChecked(value)}
+      disabled={checked === 'item2'}
+      options={[
         {
-          value: 'Dark-1',
-          label: 'Dark-1 label'
+          value: 'item1',
+          label: 'Item-1 label'
         },
         {
-          value: 'Dark-2',
-          label: 'Dark-2 label'
+          value: 'item2',
+          label: 'Disable items'
         },
         {
-          value: 'Dark-3',
-          label: 'Dark-3 label'
+          value: 'item3',
+          label: 'Item-3 label',
         },
         {
-          value: 'Dark-4',
-          label: 'Dark-4 label'
+          value: 'item4',
+          label: 'Item-4 disabled item',
+          disabled: true
         }
       ]}
     />
+    <Br />
     <Radio
-      color='#F5A623'
-      textColor='#F5A623'
-      value={selectedItem1}
-      onChange={(value) => setSelectedItem1(value)}
-      data={[
+      readonly
+      value={checked}
+      options={[
         {
-          value: 'Ochre-1',
-          label: 'Ochre-1 label'
+          value: 'item1',
+          label: 'Item-1 label'
         },
         {
-          value: 'Ochre-2',
-          label: 'Ochre-2 label'
+          value: 'item2',
+          label: 'Disable items'
         },
         {
-          value: 'Ochre-3',
-          label: 'Ochre-3 label'
+          value: 'item3',
+          label: 'Item-3 label'
         },
         {
-          value: 'Ochre-4',
-          label: 'Ochre-4 label'
+          value: 'item4',
+          label: 'Item-4 disabled item'
         }
       ]}
     />
-  </Row>
+  </Div>
 )
 ```
 
-## Radio Customization Example
+## Radio.Item
 
-Radio can be customized by directly passing children. Each child must have a unique `value` prop.
-
-```jsx
-import { Radio } from '@startupjs/ui'
-```
-
-```jsx
-const CustomRadio = ({ value, onPress, label, checked }) => {
-  return <Checkbox
-    variant='switch'
-    onChange={onPress}
-    value={checked}
-    label={label}
-  />
-}
-```
-
+A component used to add custom markup in `Radio` component.
 
 ```jsx example
 const [selectedItem, setSelectedItem] = useState('')
@@ -132,10 +81,15 @@ return (
     value={selectedItem}
     onChange={(value) => setSelectedItem(value)}
   >
-    <CustomRadioExample label='Item-1' value='Item-1' />
-    <CustomRadioExample label='Item-2' value='Item-2' />
-    <CustomRadioExample label='Item-3' value='Item-3' />
-    <CustomRadioExample label='Item-4' value='Item-4' />
+    <Radio.Item value='item1'>
+      <Span>Item-1</Span>
+    </Radio.Item>
+    <Radio.Item value='item2'>
+      <Span>Item-2</Span>
+    </Radio.Item>
+    <Radio.Item value='item3'>
+      <Span>Item-3</Span>
+    </Radio.Item>
   </Radio>
 )
 ```

@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import CustomIconExample from './CustomIconExample.svg'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Icon
 
@@ -55,7 +56,7 @@ import {
 ```
 
 ```jsx example
-const [numSize, setNumSize] = useState(80)
+const [numSize, setNumSize] = useState('80')
 return (
   <Content>
     <Row align='around'>
@@ -70,17 +71,30 @@ return (
     <TextInput
       label='Type in number to change icon size'
       value={numSize}
-      onChangeText={newVal => setNumSize(Number(newVal))}
+      onChangeText={value => setNumSize(value)}
     />
     <Br />
-    <Icon size={numSize} icon={faTable} />
+    <Icon size={+numSize} icon={faTable} />
   </Content>
 )
 ```
 
 ## Colors
 
-Color can be changed by providing hex color or name of the color from `ui` config colors to `color` property.
+Color can be set by specifying the `color` in StyleSheet.
+
+In `.styl` file
+```stylus
+.icon
+  &.primary
+    color: $UI.colors.primary
+
+  &.success
+    color $UI.colors.success
+
+  &.orange
+    color $UI.colors.additional0
+```
 
 ```jsx
 import {
@@ -93,9 +107,9 @@ import {
 ```jsx example
 return (
   <Row align='around'>
-    <Icon color='#24B47E' icon={faShareAlt} />
-    <Icon color='#6772E5' icon={faHouseUser} />
-    <Icon color='primary' icon={faTable} />
+    <Icon icon={faShareAlt} styleName='icon orange'/>
+    <Icon icon={faHouseUser} styleName='icon primary'/>
+    <Icon icon={faTable} styleName='icon success'/>
   </Row>
 )
 ```
@@ -112,7 +126,7 @@ import CustomIconExample from './CustomIconExample.svg'
 return (
   <Icon
     size={50}
-    color='#F5BE59'
+    styleName='icon orange'
     icon={CustomIconExample}
   />
 )

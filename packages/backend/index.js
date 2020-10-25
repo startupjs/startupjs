@@ -1,15 +1,14 @@
 const isPlainObject = require('lodash/isPlainObject')
 const isArray = require('lodash/isArray')
 const conf = require('nconf')
-const shareDbMongo = require('sharedb-mongo')
-const shareDbAccess = require('sharedb-access')
-const racerSchema = require('racer-schema')
+const ShareDbAccess = require('@startupjs/sharedb-access')
+const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
+const sharedbSchema = require('@startupjs/sharedb-schema')
 const shareDbHooks = require('sharedb-hooks')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
 const redis = require('redis-url')
-const MongoClient = require('mongodb').MongoClient
-const fs = require('fs')
+const getShareMongo = require('./getShareMongo')
 
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
@@ -18,34 +17,12 @@ try {
   wsbusPubSub = require('sharedb-wsbus-pubsub')
 } catch (e) {}
 
-module.exports = (options) => {
+module.exports = async options => {
   // ------------------------------------------------------->     storeUse    <#
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
-  let mongoUrl = conf.get('MONGO_URL')
-  let mongo
-  if (process.env.MONGO_SSL_CERT_PATH && process.env.MONGO_SSL_KEY_PATH) {
-    let sslCert = fs.readFileSync(process.env.MONGO_SSL_CERT_PATH)
-    let sslKey = fs.readFileSync(process.env.MONGO_SSL_KEY_PATH)
-
-    mongo = shareDbMongo({
-      mongo: (callback) => {
-        MongoClient.connect(mongoUrl, {
-          server: {
-            sslKey: sslKey,
-            sslValidate: false,
-            sslCert: sslCert
-          },
-          allowAllQueries: true
-        }, callback)
-      }
-    })
-  } else {
-    mongo = shareDbMongo(mongoUrl, {
-      allowAllQueries: true
-    })
-  }
+  const shareMongo = await getShareMongo()
 
   let backend = (() => {
     // For horizontal scaling, in production, redis is required.
@@ -79,25 +56,29 @@ module.exports = (options) => {
       })
 
       return racer.createBackend({
-        db: mongo,
+        db: shareMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
 
-    // redis alternative
+      // redis alternative
     } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
-      if (!wsbusPubSub) throw new Error("Please install the 'sharedb-wsbus-pubsub' package to use it")
+      if (!wsbusPubSub) {
+        throw new Error(
+          "Please install the 'sharedb-wsbus-pubsub' package to use it"
+        )
+      }
       let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
 
       return racer.createBackend({
-        db: mongo,
+        db: shareMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
-    // For development
+      // For development
     } else {
       return racer.createBackend({
-        db: mongo,
+        db: shareMongo,
         extraDbs: options.extraDbs
       })
     }
@@ -105,18 +86,52 @@ module.exports = (options) => {
 
   backend.use('query', pathQueryMongo)
 
-  if (options.accessControl != null) {
-    shareDbAccess(backend, { dontUseOldDocs: true })
+  // Monkey patch racer's model creation
+  const oldCreateModel = backend.createModel
+  backend.createModel = function (options = {}, req) {
+    return oldCreateModel.call(backend, { fetchOnly: true, ...options }, req)
   }
-  if (options.schema != null) {
-    racerSchema(backend, options.schema)
+
+  shareDbHooks(backend)
+
+  if (
+    options.accessControl &&
+    global.STARTUP_JS_ORM &&
+    Object.keys(global.STARTUP_JS_ORM).length > 0
+  ) {
+    // eslint-disable-next-line
+    new ShareDbAccess(backend, { dontUseOldDocs: true })
+    for (const path in global.STARTUP_JS_ORM) {
+      const { access } = global.STARTUP_JS_ORM[path].OrmEntity
+      if (access) {
+        registerOrmRules(backend, path, access)
+      }
+    }
+    console.log('Sharedb-access is working')
   }
+
+  if (
+    options.validateSchema &&
+    process.env.NODE_ENV !== 'production' &&
+    global.STARTUP_JS_ORM &&
+    Object.keys(global.STARTUP_JS_ORM).length > 0
+  ) {
+    const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
+
+    for (const path in global.STARTUP_JS_ORM) {
+      const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
+
+      if (properties) {
+        const schema = { type: 'object', properties }
+        schemaPerCollection.schemas[path.replace('.*', '')] = schema
+      }
+    }
+
+    sharedbSchema(backend, schemaPerCollection)
+  }
+
   if (options.hooks != null) {
-    shareDbHooks(backend)
     options.hooks(backend)
-  }
-  if (options.accessControl != null) {
-    options.accessControl(backend)
   }
 
   backend.on('client', (client, reject) => {
@@ -133,9 +148,13 @@ module.exports = (options) => {
   })
 
   // ------------------------------------------------------->      backend       <#
-  if (options.ee != null) options.ee.emit('backend', backend)
+  if (options.ee != null) {
+    options.ee.emit('backend', backend, {
+      mongo: shareMongo.mongo
+    })
+  }
 
-  return { backend, mongo, redis }
+  return { backend, shareMongo, redis }
 }
 
 function pathQueryMongo (request, next) {

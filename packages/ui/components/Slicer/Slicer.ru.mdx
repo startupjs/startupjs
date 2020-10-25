@@ -1,0 +1,36 @@
+import { useState } from 'react'
+import { View, Text } from 'react-native'
+import Slicer from '../Slicer'
+import Br from '../Br'
+
+# Slicer
+Компонент оптимизирующий скроллинг, т.е. рендерится только видимая часть.
+Принцип работы похож на FlatList, только без строгих параметров, например можно использовать компоненты разных размеров в чилдренах.
+
+```jsx
+import { Slicer } from '@startupjs/ui'
+```
+
+## Пример
+- countVisibleElements: количество видимых элементов
+- countNearElements: количество ближних элементов
+```jsx example
+const data = new Array(50).fill(true).map((item, index) => index + 1)
+return (
+  <View style={{ height: 60 }}>
+    <Slicer
+      countVisibleElements={5}
+      countNearElements={3}
+    >
+    {
+      data.map((item, index)=> (
+        <View key={index}>
+          <Text>{item}</Text>
+        </View>
+      ))
+    }
+    </Slicer>
+  </View>
+)
+```
+<Br lines={16} />

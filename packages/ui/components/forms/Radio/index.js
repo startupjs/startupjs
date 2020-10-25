@@ -1,77 +1,78 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Input from './input'
-import config from '../../../config/rootConfig'
+import Div from './../../Div'
 import './index.styl'
-
-const { colors } = config
 
 const Radio = function ({
   style,
   children,
-  color,
-  textColor,
   value,
-  data,
+  options,
+  data, // DEPRECATED
+  disabled,
+  readonly,
   onChange
 }) {
-  const _color = colors[color] || color
-  const _textColor = colors[textColor] || textColor
+  // TODO: DEPRECATED! Remove!
+  if (data) {
+    options = data
+    console.warn('DEPRECATION ERROR! [@startupjs/ui -> Radio] Use "options" instead of "data"')
+  }
 
   function handleRadioPress (value) {
     return onChange && onChange(value)
   }
 
-  let _children
-
-  if (Array.isArray(children)) {
-    _children = React.Children.map(children, (child) => {
-      const { value: _value } = child.props
-      const _child = React.cloneElement(
-        child,
-        {
-          onPress: () => handleRadioPress(_value),
-          checked: _value === value
-        }
-      )
-      return _child
+  const _children = options.length
+    ? options.map((o) => {
+      return pug`
+        Input(
+          readonly=readonly
+          key=o.value
+          checked=o.value === value
+          value=o.value
+          disabled=disabled || o.disabled
+          onPress=handleRadioPress
+        )= o.label
+      `
     })
-  }
+    : React.Children.toArray(children).map((child) => {
+      return React.cloneElement(child, {
+        checked: child.props.value === value,
+        disabled,
+        readonly,
+        onPress: value => handleRadioPress(value)
+      })
+    })
 
   return pug`
-    View(style=style)
-      if _children
-        = _children
-      if data
-        each el, index in data
-          Input(
-            checked=el.value === value
-            color=_color
-            textColor=_textColor
-            value=el.value
-            label=el.label
-            key=index
-            onPress=handleRadioPress
-          )
+    Div(style=style)
+      = _children
   `
 }
 
 Radio.defaultProps = {
-  color: 'primary',
-  textColor: colors.dark
+  options: [],
+  disabled: false,
+  readonly: false
 }
 
 Radio.propTypes = {
-  color: propTypes.string,
-  textColor: propTypes.string,
-  data: propTypes.arrayOf(propTypes.shape({
-    value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-    label: propTypes.oneOfType([propTypes.string, propTypes.number])
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  // TODO: Also support pure values like in Select. Api should be the same.
+  data: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })),
-  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  onChange: propTypes.func
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  options: PropTypes.array,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
-export default observer(Radio)
+const ObservedRadio = observer(Radio)
+ObservedRadio.Item = Input
+export default ObservedRadio

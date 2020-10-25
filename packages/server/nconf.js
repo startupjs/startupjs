@@ -33,6 +33,11 @@ function initNconf (dirname) {
     process.env.REDIS_URL = nconf.get('REDIS_URL')
   }
 
+  // Copy MONGO_URL into env if present
+  if (!process.env.MONGO_URL && nconf.get('MONGO_URL')) {
+    process.env.MONGO_URL = nconf.get('MONGO_URL')
+  }
+
   // Copy stuff required in Derby-part and vendor libs into ENV
   if (isArray(nconf.get('COPY_TO_ENV'))) {
     each(nconf.get('COPY_TO_ENV'), (option) => {

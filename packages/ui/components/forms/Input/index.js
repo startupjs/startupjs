@@ -1,9 +1,10 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer, $root } from 'startupjs'
+import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Checkbox from '../Checkbox'
 import ObjectInput from '../ObjectInput'
+import Select from '../Select'
 
 const INPUTS = {
   text: {
@@ -25,6 +26,13 @@ const INPUTS = {
     Component: ObjectInput,
     getProps: $value => ({
       value: $value && $value.get()
+    })
+  },
+  select: {
+    Component: Select,
+    getProps: $value => ({
+      value: $value && $value.get(),
+      onChange: value => $value && $value.setDiff(value)
     })
   }
 }
@@ -69,8 +77,8 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: propTypes.oneOf(['text', 'checkbox', 'object']).isRequired,
-  $value: propTypes.any
+  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select']).isRequired,
+  $value: PropTypes.any
 }
 
 export default observer(Input)

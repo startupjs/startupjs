@@ -1,0 +1,76 @@
+import { useState } from 'react'
+import Div from '../../Div'
+import Br from '../../Br'
+import Checkbox from '../Checkbox'
+import { Sandbox } from '@startupjs/docs'
+
+# Checkbox (чекбокс)
+
+Чекбоксы позволяют пользователю выбрать один или несколько элементов из набора.
+
+```jsx
+import { Checkbox } from from '@startupjs/ui'
+```
+
+## Пример
+
+```jsx example
+const [checked, setChecked] = useState(false)
+return (
+  <Div>
+    <Checkbox
+      label='Example'
+      value={checked}
+      onChange={setChecked}
+    />
+    <Br />
+    <Checkbox
+      label='Disabled example'
+      value={true}
+      disabled
+    />
+    <Br />
+    <Checkbox
+      label='Readonly example'
+      value={true}
+      readonly
+    />
+  </Div>
+)
+```
+
+## Переключатель
+
+Для отображения компонента в виде переключателя, передайте `variant='switch'` в него.
+
+```jsx example
+const [checked, setChecked] = useState(false)
+return (
+  <Div>
+    <Checkbox
+      variant='switch'
+      label='Switch example'
+      value={checked}
+      onChange={setChecked}
+    />
+    <Br />
+    <Checkbox
+      variant='switch'
+      label='Switch disbabled example'
+      value={true}
+      disabled
+    />
+    <Br />
+    <Checkbox
+      variant='switch'
+      label='Switch readonly example'
+      value={true}
+      readonly
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Checkbox} />

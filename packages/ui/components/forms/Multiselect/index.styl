@@ -1,0 +1,93 @@
+_height = 4u
+_inputBorderWidth = 1px
+_swipeZoneColor = #f5f5f5
+_errorColor = $UI.colors.error
+_primaryColor = $UI.colors.primary
+
+.root
+  width 100%
+
+.input
+  background-color $UI.colors.white
+  height _height
+  width 100%
+  border _inputBorderWidth solid $UI.colors.darkLighter
+  flex-direction row
+  align-items center
+  padding 0 1u
+  radius()
+  +web()
+    overflow auto
+
+  &.disabled
+    background-color $UI.colors.darkLightest
+  &.focused
+    border-color _primaryColor
+  &.error
+    border-color _errorColor
+  &.readonly
+    border none
+    background-color none
+    padding 0
+
+.placeholder
+  opacity .5
+
+.tag
+  background-color _primaryColor
+  margin-right 1u
+  flex-direction row
+  justify-content space-between
+  align-items center
+  radius(l)
+
+.tagLabel
+  color $UI.colors.white
+  padding 0 1u
+
+.suggestions-web
+  background-color $UI.colors.white
+  width 100%
+  padding 0 .5u
+  radius()
+
+.suggestions-native
+  padding-top 8u
+
+.swipeZone
+  background-color _swipeZoneColor
+
+.suggestion
+  cursor pointer
+  padding 1u 2u
+  flex-direction row
+  align-items center
+  +desktop()
+    padding 1u
+
+.sugText
+  color $UI.colors.mainText
+  font(xl)
+
+  +desktop()
+    font(m)
+
+.checkbox
+  margin-right 1u
+
+.label
+  margin-bottom 0.5u
+  font(s)
+
+  &.focused
+    color _primaryColor
+  &.error
+    color _errorColor
+
+.backdropStyle
+  // Greater value than @startup/ui's Modal has
+  z-index 1501
+
+.error
+  color _errorColor
+  font(s)

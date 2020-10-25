@@ -4,7 +4,7 @@ import { observer, $root, emit } from 'startupjs'
 import { ScrollView, Image } from 'react-native'
 import Options from './Options'
 import './index.styl'
-import { Div, Button, Row } from '@startupjs/ui'
+import { Div, Row, Select } from '@startupjs/ui'
 import { useDocsContext } from '../../../../../docsContext'
 import Docs from './Docs'
 import { useLang } from '../../../../clientHelpers'
@@ -35,16 +35,13 @@ export default observer(function Content ({
       ScrollView.main
         Image.logo(source={ uri: baseUrl + '/img/docs.png' })
         Docs(docs=docs lang=lang)
-      Row.lang(align='center')
-        each LANGUAGE in LANGUAGES
-          - const { value, label } = LANGUAGE
-          Button(
-            key=value
-            size='s'
-            variant='text'
-            color=lang === value ? 'primary' : undefined
-            onPress=switchLanguage.bind(null, value)
-          )= label
-      Options
+      Row.footer
+        Select.lang(
+          options=LANGUAGES
+          value=lang
+          onChange=switchLanguage
+          showEmptyValue=false
+        )
+        Options.options
   `
 })

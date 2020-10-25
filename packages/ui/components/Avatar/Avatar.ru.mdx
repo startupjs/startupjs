@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Avatar from '../Avatar'
 import Row from '../Row'
 import Div from '../Div'
-import Span from '../Typography/Span'
+import Span from '../typography/Span'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
@@ -95,7 +95,7 @@ return (
 
 ## Резервная строка
 
-Если свойство `url` не указано или произошла ошибка при загрузке изображени аватара, то компонент использует альтернативу. Альтернативой являются инициалы двух первых слов дочерней строки если она указана и `?` если нет. В приведенном ниже примере `резервная строка` - 'John Doe', поэтому будет отображаться 'JD'.
+Если свойство `url` не указано или произошла ошибка при загрузке изображения аватара, то компонент использует альтернативу. Альтернативой является инициалы двух первых слов `children` строки если она указана и `?` если нет. В приведенном ниже примере `резервная строка` - 'John Doe', поэтому будет отображаться 'JD'.
 
 ```jsx example
 return (
@@ -107,9 +107,10 @@ return (
     </Div>
     <Div pushed>
       <Avatar
-        fallback='John Doe'
         src='/img/non-existen-image.jpeg'
-      />
+      >
+        John Doe
+      </Avatar>
     </Div>
   </Row>
 )

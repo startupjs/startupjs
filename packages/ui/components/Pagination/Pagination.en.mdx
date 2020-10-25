@@ -1,162 +1,154 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useValue, useSession } from 'startupjs'
 import Pagination from '../Pagination'
-import Div from '../Div'
-import { observer, useModel } from 'startupjs'
+import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Pagination
 
 The Pagination component enables the user to select a specific page from a range of pages.
 
+```jsx
+import { Pagination } from '@startupjs/ui'
+```
+
 ## Example
 
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+- `pages` specifies the total number of pages
+- `page` specifies the current page, starting from `0` to `pages - 1`
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState(0)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      page={page}
+      pages={10}
+      onChangePage={setPage}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Value
+## Alternatives
 
-The `value` property specifies the selected page position in the component, starting from index `0` to `total - 1`.
+- `count` - total count of items
+- `limit` - count of items to display per page
+- `skip` - count of items to skip
 
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+You can use them instead of `pages` or `page` properties:
+
+- `count` and `limit` instead of `pages`
+- `limit` and `skip` instead of `page`
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const COUNT = 100
+const LIMIT = 10
+const [skip, setSkip] = useState(0)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      count={COUNT}
+      limit={LIMIT}
+      skip={skip}
+      onChangePage={(val) => setSkip(val * LIMIT)}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Variant
+## Two-way data bindings
 
-The `variant` property specifies the type of component style, with two variants of type `filled` (default) and `floating`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+You can use two-way data bindings `$page`, `$limit`, `$skip` instead of `page`, `limit`, `skip` respectively.
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [, $page] = useValue(0)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      variant={'floating'}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      $page={$page}
+      pages={10}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Visible Count
-
-The `visibleCount` property specifies the number of visible page buttons in the total range, with a default value of `3`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
-
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const LIMIT = 10
+const [, $skip] = useValue(0)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      visibleCount={10}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      pages={10}
+      limit={LIMIT}
+      $skip={$skip}
+      onChangePage={(val) => $skip.set(val * LIMIT)}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Show First
+## Buttons
 
-The `showFirst` property specifies if the first page button will be shown when the selected page is in the upper range, with a default value of `true`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+- `showPrevButton` displays the previous-page button, (default `true`)
+- `showNextButton` displays the next-page button (default `true`)
+- `showFirstButton` displays the first-page button (default `false`)
+- `showLastButton` displays the last-page button (default `false`)
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState(0)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      showFirst={false}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      page={page}
+      pages={10}
+      showPrevButton={false}
+      showNextButton={false}
+      showFirstButton
+      showLastButton
+      onChangePage={setPage}
     />
-  </Div>
+  </Row>
 )
 ```
 
-## Show Last
+## Compact view
 
-The `showLast` property specifies if the last page button will be shown when the selected page is in the lower range, with a default value of `true`.
-
-```jsx
-import { Pagination, Div } from '@startupjs/ui'
-```
+To display the component in a compact view pass `variant='compact'`.
 
 ```jsx example
-const PATH = '_session.ExamplePagination'
-const $page = useModel(PATH)
-useEffect(() => {
-  $page.set(0)
-}, [])
+const [page, setPage] = useState(0)
 return (
-  <Div style={{alignItems: 'center'}}>
+  <Row align='center'>
     <Pagination
-      showLast={false}
-      value={$page.get()}
-      total={10}
-      onChange={(value)=>{$page.set(value)}}
+      variant='compact'
+      page={page}
+      pages={10}
+      onChangePage={setPage}
     />
-  </Div>
+  </Row>
+)
+```
+
+## Visible pages
+
+You can control the visibility of pages when component has default view (`variant='full'`).
+
+- `boundaryCount` controls the number of visible pages at the beginning and end
+- `siblingCount` controls the number of visible pages before and after the current page
+
+```jsx example
+const [page, setPage] = useState(5)
+return (
+  <Row align='center'>
+    <Pagination
+      page={page}
+      boundaryCount={2}
+      siblingCount={0}
+      pages={10}
+      onChangePage={setPage}
+    />
+  </Row>
 )
 ```
 

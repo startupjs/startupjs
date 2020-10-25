@@ -1,4 +1,20 @@
+$UI ?= {}
+
+// -----------------------------------------
+//   CONFIGURATION. $UI.Div
+// -----------------------------------------
+
+$this = merge({
+  defaultHoverOpacity: 0.8,
+  defaultActiveOpacity: 0.5
+}, $UI.Div, true)
+
+// -----------------------------------------
+//   COMPONENT
+// -----------------------------------------
+
 _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
+_shadowLevels = ('0' '1' '2' '3' '4')
 
 .root
   &.rounded
@@ -15,9 +31,24 @@ _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
     &.pushed-{size}
       margin-left: $UI.gutters[size]
 
+  for level in _shadowLevels
+    &.shadow-{level}
+      shadow(level)
+
   &.bleed
     bleed()
 
   &.clickable
     cursor pointer
     user-select none
+
+  &.disabled
+    opacity 0.5
+
+// -----------------------------------------
+//   JS EXPORTS
+// -----------------------------------------
+
+:export
+  config: $this
+  shadows: $UI.shadows

@@ -1,10 +1,18 @@
 import React, { useLayoutEffect } from 'react'
-import { observer, useValue, useComponentId } from 'startupjs'
-import { Dimensions } from 'react-native'
-import propTypes from 'prop-types'
+import {
+  observer,
+  useValue,
+  useComponentId,
+  useLocal,
+  useBind
+} from 'startupjs'
+import PropTypes from 'prop-types'
+import { Dimensions, StyleSheet } from 'react-native'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
-import config from '../../config/rootConfig'
+import STYLES from './index.styl'
+
+const { colors } = STYLES
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
 
@@ -13,16 +21,36 @@ function SmartSidebar ({
   forceClosed,
   fixedLayoutBreakpoint,
   path,
+  $open,
   position,
   width,
   backgroundColor,
   children,
   renderContent,
+  defaultOpen,
   ...props
 }) {
-  const componentId = useComponentId()
+  if (path) {
+    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
+  }
 
-  if (!path) path = `_session.SmartSidebar.${componentId}`
+  if (/^#|rgb/.test(backgroundColor)) {
+    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
+  }
+
+  const componentId = useComponentId()
+  if (!$open) {
+    [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
+  }
+
+  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
+    { backgroundColor: colors[backgroundColor] || backgroundColor },
+    style
+  ]))
+
+  let open
+  let onChange
+  ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
@@ -39,22 +67,24 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         style=style
-        path=path
+        $open=$open
         position=position
         width=width
         forceClosed=forceClosed
         backgroundColor=backgroundColor
         renderContent=renderContent
+        defaultOpen=defaultOpen
       )= children
     else
       DrawerSidebar(
         style=style
-        path=path
+        $open=$open
         position=position
         width=width
         forceClosed=forceClosed
         backgroundColor=backgroundColor
         renderContent=renderContent
+        defaultOpen=defaultOpen
         ...props
       )= children
   `
@@ -62,21 +92,20 @@ function SmartSidebar ({
 
 SmartSidebar.defaultProps = {
   forceClosed: false,
-  backgroundColor: config.colors.white,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
 }
 
 SmartSidebar.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  forceClosed: propTypes.bool,
-  backgroundColor: propTypes.string,
-  fixedLayoutBreakpoint: propTypes.number,
-  position: propTypes.oneOf(['left', 'right']),
-  width: propTypes.number,
-  renderContent: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  $open: PropTypes.object,
+  forceClosed: PropTypes.bool,
+  fixedLayoutBreakpoint: PropTypes.number,
+  position: PropTypes.oneOf(['left', 'right']),
+  width: PropTypes.number,
+  renderContent: PropTypes.func
 }
 
 export default observer(SmartSidebar)

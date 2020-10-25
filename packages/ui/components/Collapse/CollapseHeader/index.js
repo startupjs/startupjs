@@ -1,11 +1,11 @@
 import React, { useRef } from 'react'
 import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import { Animated } from 'react-native'
-import propTypes from 'prop-types'
 import Div from './../../Div'
 import Row from './../../Row'
 import Icon from './../../Icon'
-import Span from './../../Typography/Span'
+import Span from './../../typography/Span'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
@@ -23,11 +23,11 @@ function CollapseHeader ({
 }) {
   if (icon === true) icon = faCaretRight
   const reverse = iconPosition === 'right'
-  const animationProgress = useRef(new Animated.Value(open ? 1 : 0)).current
+  const animation = useRef(new Animated.Value(open ? 1 : 0)).current
 
   useDidUpdate(() => {
     Animated.timing(
-      animationProgress,
+      animation,
       {
         toValue: open ? 1 : 0,
         duration: 250,
@@ -47,7 +47,7 @@ function CollapseHeader ({
       Animated.View(
         style={
           transform: [{
-            rotate: animationProgress.interpolate({
+            rotate: animation.interpolate({
               inputRange: [0, 1],
               outputRange: [reverse ? '180deg' : '0deg', '90deg']
             })
@@ -69,12 +69,12 @@ CollapseHeader.defaultProps = {
 }
 
 CollapseHeader.propTypes = {
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  icon: propTypes.oneOfType([propTypes.bool, propTypes.object]),
-  iconStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  icon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.func]),
+  iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(CollapseHeader)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Div from './../Div'
-import propTypes from 'prop-types'
 import MenuItem from './MenuItem'
 import { MenuProvider } from './menuContext'
 import './index.styl'
@@ -11,11 +11,12 @@ function Menu ({
   children,
   variant,
   activeBorder,
-  iconPosition
+  iconPosition,
+  activeColor
 }) {
-  const content = React.Children.map(children, (child, index) => {
+  const content = React.Children.toArray(children).map((child, index) => {
     if (child.type === MenuItem) {
-      return React.cloneElement(child, { activeBorder, iconPosition })
+      return React.cloneElement(child, { activeBorder, iconPosition, activeColor })
     }
     return child
   })
@@ -34,11 +35,12 @@ Menu.defaultProps = {
 }
 
 Menu.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['vertical', 'horizontal']),
-  activeBorder: propTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
-  iconPosition: MenuItem.propTypes.iconPosition
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['vertical', 'horizontal']),
+  activeBorder: PropTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
+  iconPosition: MenuItem.propTypes.iconPosition,
+  activeColor: PropTypes.string
 }
 
 const ObservedMenu = observer(Menu)

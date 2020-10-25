@@ -1,0 +1,85 @@
+import { useState } from 'react'
+import AutoSuggest from '../AutoSuggest'
+import MenuItem from '../Menu/MenuItem'
+import Br from '../Br'
+import Row from '../Row'
+import Span from '../typography/Span'
+import Avatar from '../Avatar'
+
+# AutoSuggest
+A text field with a pop-up list of options.
+
+```jsx
+import { AutoSuggest } from '@startupjs/ui'
+```
+
+## Example
+- options: array of objects for options, each option has a value and a label
+- value: active value
+- maxHeight: maximum height of the popup list
+- placeholder: the title of the field
+- onChange: callback function, called after selecting a value, takes the selected value as the first parameter
+```jsx example
+const [value, setValue] = useState({})
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+  { value: '4', label: 'Oscar' },
+  { value: '5', label: 'Charlie' },
+  { value: '6', label: 'James' },
+  { value: '7', label: 'William' },
+]
+return (
+  <AutoSuggest
+    options={options}
+    value={value}
+    maxHeight={160}
+    placeholder="Select value"
+    onChange={v=> setValue(v)}
+  />
+)
+```
+
+## Customization
+- renderItem: a function that is called when rendering each element of the array. Gets 2 arguments - the current element (item) and its index.
+```jsx example
+const [value, setValue] = useState({})
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+  { value: '4', label: 'Oscar' },
+  { value: '5', label: 'Charlie' },
+  { value: '6', label: 'James' },
+  { value: '7', label: 'William' },
+]
+const renderItem = (item, index)=> {
+  return (
+    <Row
+      vAlign='center'
+      style={{ padding: 8 }}
+      onPress={()=> setValue(item)}
+    >
+      <Avatar size='xs'>{item.label}</Avatar>
+      <Span style={{ marginLeft: 8 }}>{item.label}</Span>
+    </Row>
+  )
+}
+return (
+  <AutoSuggest
+    options={options}
+    value={value}
+    maxHeight={160}
+    placeholder="Select value"
+    renderItem={renderItem}
+  />
+)
+```
+
+## Also
+- onDismiss: callback, called when the list is closed
+- onChangeText: callback, called when entering text, accepts 1 argument text
+- onScrollEnd: callback, called at the end of the scroll
+
+<Br lines={16} />

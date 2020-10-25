@@ -1,7 +1,6 @@
 .root
   flex-direction row
   align-items center
-  radius()
 
   &.right
     flex-direction row-reverse
@@ -16,7 +15,35 @@
 .userInfo
   flex-shrink 1
 
-.name,
+.name
 .description
   &.right
     text-align right
+
+.name,
+  &.xs
+  &.s
+  &.m
+    font(m)
+
+  &.l
+  &.xl
+    font(l)
+
+  &.xxl
+    font(xl)
+
+.description
+  &.xs
+  &.s
+    font(xs)
+
+  &.m
+    font(s)
+
+  &.l
+  &.xl
+    font(m)
+
+  &.xxl
+    font(l)

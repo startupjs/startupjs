@@ -32,7 +32,7 @@ export default observer(function TestComponent ({ style }) {
     Div.root(style=style)
       Span
         | TestThing counter:#{' '}
-        Span(bold size='l') #{testThing.counter}
+        Span.counter(bold) #{testThing.counter}
       Br
       Row
         Button(
@@ -54,7 +54,7 @@ export default observer(function TestComponent ({ style }) {
       Button(color='warning' size='s' onPress=reset) RESET
       Br
       Card(variant='outlined')
-        Span(description)
+        Span(variant='description')
           | Open the same page in another browser tab or in mobile app to see counter update in real time.
       Br
       Card.rest

@@ -38,7 +38,16 @@ for (const methodName of BATCH_SETTERS) {
   racer.Model.prototype[methodName] = function () {
     let value
     batching.batch(() => {
+      // TODO: temporary hack, investigate '_setEach'
+      // (this is happenning because of a '$root.setEach('_session', ...)') in
+      // app/client/index.js -> initServerSession
+      if (methodName === '_setEach') {
+        semaphore.ignoreCollectionObservableWarning = true
+      }
       value = oldMethod.apply(this, arguments)
+      if (methodName === '_setEach') {
+        semaphore.ignoreCollectionObservableWarning = false
+      }
     })
     return value
   }

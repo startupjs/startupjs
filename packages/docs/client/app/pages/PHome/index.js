@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
-import { useParams } from 'startupjs/app'
-import { observer, emit } from 'startupjs'
+import { observer, emit, useLocal } from 'startupjs'
 import { useDocsContext } from '../../../../docsContext'
 import { useLang } from '../../../clientHelpers'
 import { DEFAULT_LANGUAGE } from '../../../const'
@@ -9,7 +8,8 @@ export default observer(function PHome ({
   style
 }) {
   const docs = useDocsContext()
-  let { lang: paramsLang } = useParams()
+  const [params = {}] = useLocal('$render.params')
+  const paramsLang = params.lang
   let [lang = DEFAULT_LANGUAGE, setLang] = useLang()
   if (paramsLang && paramsLang !== lang) {
     lang = paramsLang

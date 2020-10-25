@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
+import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
   StyleSheet
 } from 'react-native'
-import propTypes from 'prop-types'
-import { observer, useDidUpdate } from 'startupjs'
-import config from '../../config/rootConfig'
-import colorToRGBA from '../../config/colorToRGBA'
-import './index.styl'
+import { colorToRGBA } from '../../helpers'
+import STYLES from './index.styl'
 
-const SHADOWS = config.shadows
 const isWeb = Platform.OS === 'web'
-const { defaultHoverOpacity, defaultActiveOpacity } = config.Div
+const {
+  config: {
+    defaultHoverOpacity,
+    defaultActiveOpacity
+  },
+  shadows: SHADOWS
+} = STYLES
 
 function Div ({
   style = [],
@@ -28,11 +32,12 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   onPress,
+  onLongPress,
   onClick,
   ...props
 }) {
   const handlePress = onClick || onPress
-  const isClickable = typeof handlePress === 'function' && !disabled
+  const isClickable = (typeof handlePress === 'function' || onLongPress) && !disabled
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   let extraStyle = {}
@@ -49,6 +54,7 @@ function Div ({
 
   if (isClickable) {
     wrapperProps.onPress = handlePress
+    wrapperProps.onLongPress = onLongPress
 
     // setup hover and active states styles and props
     if (feedback) {
@@ -99,11 +105,19 @@ function Div ({
     }
   }
 
+  // backgroundColor in style can override extraStyle backgroundColor
+  // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], extraStyle, style]
+      style=[style, extraStyle]
       styleName=[
-        { ['with-shadow']: !!level, clickable: isWeb && isClickable, bleed },
+        {
+          ['with-shadow']: !!level,
+          clickable: isWeb && isClickable,
+          bleed,
+          disabled
+        },
+        'shadow-'+level,
         shape,
         pushedModifier
       ]
@@ -124,19 +138,20 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['opacity', 'highlight']),
-  feedback: propTypes.bool,
-  hoverStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  disabled: propTypes.bool,
-  level: propTypes.oneOf(SHADOWS.map((key, index) => index)),
-  shape: propTypes.oneOf(['squared', 'rounded', 'circle']),
-  pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
-  bleed: propTypes.bool,
-  onPress: propTypes.func,
-  onClick: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['opacity', 'highlight']),
+  feedback: PropTypes.bool,
+  hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  disabled: PropTypes.bool,
+  level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
+  shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
+  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
+  bleed: PropTypes.bool,
+  onPress: PropTypes.func,
+  onClick: PropTypes.func,
+  onLongPress: PropTypes.func
 }
 
 export default observer(Div)
@@ -155,7 +170,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.05)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
       }
     }
 
@@ -164,7 +179,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.2)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.2)' }
       }
     }
   }

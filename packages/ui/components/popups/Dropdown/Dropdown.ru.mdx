@@ -1,0 +1,116 @@
+import { useState } from 'react'
+import { View, Text } from 'react-native'
+import Dropdown from './index.js'
+import Icon from '../../Icon'
+import Row from '../../Row'
+import Br from '../../Br'
+import {
+  faSort,
+  faEllipsisV,
+  faPencilAlt,
+  faTrashAlt
+} from '@fortawesome/free-solid-svg-icons'
+
+# Dropdown
+Всплывающие меню. Адаптируемое в зависимости от расширения.
+```jsx
+import { Dropdown } from '@startupjs/ui'
+```
+
+## Простой пример
+В функцию onChange приходит значение нажатого чилдрена.
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      activeValue={sort}
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Caption placeholder="Sort by" />
+      <Dropdown.Item value="popular" label="Popular" />
+      <Dropdown.Item value="brand" label="Brand" />
+      <Dropdown.Item value="name" label="Name" />
+    </Dropdown>
+  </View>
+)
+```
+
+## Разные варианты заголовков
+### По умолчанию
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      activeValue={sort}
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Item value="popular" label="Popular" />
+      <Dropdown.Item value="brand" label="Brand" />
+      <Dropdown.Item value="name" label="Name" />
+    </Dropdown>
+  </View>
+)
+```
+
+### В виде кнопки
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      activeValue={sort}
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Caption variant="button" placeholder="Menu" />
+      <Dropdown.Item value="popular" label="Popular" />
+      <Dropdown.Item value="brand" label="Brand" />
+      <Dropdown.Item value="name" label="Name" />
+    </Dropdown>
+  </View>
+)
+```
+
+### Кастомный
+```jsx example
+const [sort, setSort] = useState('')
+const captionStyle= { width: 30, height: 30, backgroundColor: 'white', 
+  borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
+return (
+  <View>
+    <Dropdown
+      activeValue={sort}
+      onChange={value=> setSort(value)}
+      popoverWidth={160}
+    >
+      <Dropdown.Caption>
+        <View style={captionStyle}>
+          <Icon icon={faEllipsisV} />
+        </View>
+      </Dropdown.Caption>
+      <Dropdown.Item value="popular" label="Popular" />
+      <Dropdown.Item value="brand" label="Brand" />
+      <Dropdown.Item value="name" label="Name" />
+    </Dropdown>
+  </View>
+)
+```
+
+## Иконки в пунктах списка
+```jsx example
+const [sort, setSort] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      activeValue={sort}
+      onChange={value=> setSort(value)}
+    >
+      <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />
+      <Dropdown.Item icon={faTrashAlt} value="delete" label="Delete" />
+    </Dropdown>
+  </View>
+)
+```
+
+<Br lines={10} />

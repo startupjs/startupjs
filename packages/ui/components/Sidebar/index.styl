@@ -1,19 +1,19 @@
 .root
   height 100%
   flex-direction row
+  &.right
+    flex-direction row-reverse
 
 .sidebar
-  z-index 1
-  position absolute
-  height 100%
-  top 0
-  flex-direction row
-
-  &.invisible
-    // We using 'position relative' because 'display none'
-    // did not work with 'position absolute' on android
-    position relative
-    display none
+  flex-direction column
+  display none
+  flex-grow 0
+  &.open
+    display flex
 
 .main
+  flex-direction column
   flex 1
+
+:export
+  colors: $UI.colors

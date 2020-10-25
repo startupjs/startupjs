@@ -12,6 +12,7 @@ const methodOverride = require('method-override')
 const connectMongo = require('connect-mongo')
 const racerHighway = require('racer-highway')
 const hsts = require('hsts')
+const cors = require('cors')
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
@@ -19,6 +20,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
     extended: true
   }
 }
+const WWW_REGEXP = /www\./
 
 function getDefaultSessionUpdateInterval (sessionMaxAge) {
   // maxAge is in ms. Return in s. So it's 1/10nth of maxAge.
@@ -89,6 +91,34 @@ module.exports = (backend, appRoutes, error, options, done) => {
           next()
         })
         .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
+    }
+
+    // get rid of 'www.' from url
+    expressApp.use((req, res, next) => {
+      if (WWW_REGEXP.test(req.hostname)) {
+        const newHostname = req.hostname.replace(WWW_REGEXP, '')
+        return res.redirect(
+          301,
+          req.protocol + '://' + newHostname + req.originalUrl
+        )
+      }
+      next()
+    })
+
+    // ----------------------------------------------------->    static    <#
+    options.ee.emit('static', expressApp)
+
+    if (process.env.NODE_ENV !== 'production' && process.env.VITE) {
+      // Enable cors requests from localhost in dev
+      expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
+      // Redirect to https 3010 port in dev
+      const VITE_PORT = 3010
+      expressApp.use((req, res, next) => {
+        if (req.method === 'GET' && (req.path === '/' || req.path === '')) {
+          return res.redirect(301, 'https://' + req.get('host').replace(/:?\d+$/, ':' + VITE_PORT) + req.originalUrl)
+        }
+        next()
+      })
     }
 
     expressApp

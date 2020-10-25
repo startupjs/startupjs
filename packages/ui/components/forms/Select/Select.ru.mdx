@@ -1,0 +1,84 @@
+import { useState } from 'react'
+import Select from '../Select'
+import Div from '../../Div'
+import Br from '../../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Select (список)
+
+Наследует [TextInput props](/docs/en/forms/TextInput).
+
+Список позволяет пользователю выбрать один из нескольких вариантов. Работает аналогично тегу HTML `<select>`.
+
+```jsx
+import { Select } from '@startupjs/ui'
+```
+
+## Пример
+
+```jsx example
+const [color, setColor] = useState()
+const [city, setCity] = useState('la')
+return (
+  <Div>
+    <Select
+      label='Example'
+      placeholder='placeholder'
+      value={color}
+      onChange={setColor}
+      onFocus={(e) => console.log('focused', e)}
+      onBlur={(e) => console.log('blurred', e)}
+      options={[
+        'red',
+        'yellow',
+        'blue'
+      ]}
+    />
+    <Br />
+    <Select
+      label='Custom labels example'
+      value={city}
+      showEmptyValue={false}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+      onChange={setCity}
+    />
+    <Br />
+    <Select
+      label='Readonly Select example'
+      value={city}
+      readonly
+      showEmptyValue={false}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
+    />
+  </Div>
+)
+```
+
+## Отображение пустого значения
+
+Пустое значение по умолчанию показывается. Если вы хотите, чтобы у пользователей не было возможности удалить значение, передайте `showEmptyValue={false}`.
+
+```jsx example
+const [color, setColor] = useState('red')
+return (
+  <Select
+    label='Choose color'
+    value={color}
+    onChange={setColor}
+    options={['red', 'yellow', 'blue']}
+    showEmptyValue={false}
+  />
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Select} />

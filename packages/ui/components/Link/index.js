@@ -1,24 +1,25 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
-import { Platform } from 'react-native'
+import PropTypes from 'prop-types'
+import { Platform, Linking } from 'react-native'
 import Div from './../Div'
-import Span from './../Typography/Span'
+import Span from './../typography/Span'
 import { useHistory } from 'react-router-native'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
+const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/i
 
 function Link ({
   style,
   to,
   color,
   theme,
-  size,
   bold,
   italic,
   block,
   replace,
+  variant,
   onPress,
   ...props
 }) {
@@ -26,6 +27,9 @@ function Link ({
   const extraProps = { accessibilityRole: 'link' }
   const history = useHistory()
 
+  // TODO:
+  // For block=true modifier keys does not work
+  // may be it is related issue https://github.com/necolas/react-native-web/issues/1591
   function handlePress (event) {
     try {
       if (onPress) onPress(event)
@@ -41,9 +45,20 @@ function Link ({
         if (isModifiedEvent(event)) return
         event.preventDefault()
       }
-      const method = replace ? history.replace : history.push
-      method(to)
+
+      if (EXTERNAL_LINK_REGEXP.test(to)) {
+        isWeb
+          ? window.open(to, '_blank')
+          : Linking.openURL(to)
+      } else {
+        const method = replace ? history.replace : history.push
+        method(to)
+      }
     }
+  }
+
+  if (block) {
+    extraProps.variant = variant
   }
 
   if (isWeb) {
@@ -58,7 +73,7 @@ function Link ({
   return pug`
     Component.root(
       style=style
-      styleName=[theme, size, { bold, italic, block }, color]
+      styleName=[theme, { bold, italic, block }, color]
       ...extraProps
       ...props
     )
@@ -70,18 +85,22 @@ function isModifiedEvent (event) {
 }
 
 Link.defaultProps = {
-  ...Span.defaultProps,
+  bold: Span.defaultProps.bold,
+  italic: Span.defaultProps.italic,
   replace: false,
   block: false,
   color: 'default'
 }
 
 Link.propTypes = {
-  ...Span.propTypes,
-  to: propTypes.string,
-  replace: propTypes.bool,
-  block: propTypes.bool,
-  color: propTypes.oneOf(['default', 'primary'])
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  bold: Span.propTypes.bold,
+  italic: Span.propTypes.italic,
+  children: PropTypes.node,
+  to: PropTypes.string.isRequired,
+  replace: PropTypes.bool,
+  block: PropTypes.bool,
+  color: PropTypes.oneOf(['default', 'primary'])
 }
 
 export default observer(Link)

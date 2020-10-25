@@ -1,5 +1,5 @@
-var observable = require('@nx-js/observer-util').observable
+import { observable } from '@nx-js/observer-util'
 
-module.exports = observable({
+export default observable({
   width: 0
 })

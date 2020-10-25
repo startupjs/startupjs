@@ -1,0 +1,99 @@
+import { useState } from 'react'
+import Radio from '../Radio'
+import Span from '../../typography/Span'
+import Div from '../../Div'
+import Br from '../../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Radio (радиокнопка)
+
+Радиокнопки позволяют пользователю выбрать один вариант из списка.
+
+```jsx
+import { Radio } from from '@startupjs/ui'
+```
+
+## Пример
+
+```jsx example
+const [checked, setChecked] = useState()
+return (
+  <Div>
+    <Radio
+      value={checked}
+      onChange={(value) => setChecked(value)}
+      disabled={checked === 'item2'}
+      options={[
+        {
+          value: 'item1',
+          label: 'Item-1 label'
+        },
+        {
+          value: 'item2',
+          label: 'Disable items'
+        },
+        {
+          value: 'item3',
+          label: 'Item-3 label',
+        },
+        {
+          value: 'item4',
+          label: 'Item-4 disabled item',
+          disabled: true
+        }
+      ]}
+    />
+    <Br />
+    <Radio
+      readonly
+      value={checked}
+      options={[
+        {
+          value: 'item1',
+          label: 'Item-1 label'
+        },
+        {
+          value: 'item2',
+          label: 'Disable items'
+        },
+        {
+          value: 'item3',
+          label: 'Item-3 label'
+        },
+        {
+          value: 'item4',
+          label: 'Item-4 disabled item'
+        }
+      ]}
+    />
+  </Div>
+)
+```
+
+## Radio.Item
+
+Компонент, используемый для добавления пользовательской разметки в `Radio` компонент.
+
+```jsx example
+const [selectedItem, setSelectedItem] = useState('')
+return (
+  <Radio
+    value={selectedItem}
+    onChange={(value) => setSelectedItem(value)}
+  >
+    <Radio.Item value='item1'>
+      <Span>Item-1</Span>
+    </Radio.Item>
+    <Radio.Item value='item2'>
+      <Span>Item-2</Span>
+    </Radio.Item>
+    <Radio.Item value='item3'>
+      <Span>Item-3</Span>
+    </Radio.Item>
+  </Radio>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Radio} />

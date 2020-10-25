@@ -226,3 +226,69 @@ import Button from "./Button.css";
   <Text>Foo</Text>
 </View>;
 ```
+
+## ::part() selector
+
+### Preprocess `part` attribute.
+
+- Each `part` gets its styles from the `{part}Style` prop.
+- `part='root'` is magic -- it's linked to the pure `style` prop.
+
+Here is an example `<Card>` component which specifies its root container, title and footer as stylizable parts:
+
+```jsx
+// Card.js
+
+function Card ({ title }) {
+  return (
+    <View part='root'>
+      <Text part='header'>{title}</Text>
+      <Text part='footer'>Copyright</Text>
+    </View>
+  )
+}
+```
+
+**↓ ↓ ↓ ↓ ↓ ↓**
+
+```jsx
+function Card ({ title, style, headerStyle, footerStyle }) {
+  return (
+    <View style={style}>
+      <Text style={headerStyle}>{title}</Text>
+      <Text style={footerStyle}>Copyright</Text>
+    </View>
+  )
+}
+```
+
+### Preprocess `::part()` selector from CSS file to style any component which uses `part` attributes.
+
+Following an example `<Card>` component above, we can call `<Card>` from the `<App>` and customize its parts styles:
+
+```jsx
+// App.js
+
+import Card from './Card'
+import './index.styl'
+
+function App (users) {
+  return users.map(user => (
+    <Card styleName='user' title={user.name} />
+  ))
+}
+```
+
+```styl
+// index.styl
+
+.user
+  margin-top 16px
+
+  &:part(header)
+    background-color black
+    color white
+
+  &:part(footer)
+    font-weight bold
+```

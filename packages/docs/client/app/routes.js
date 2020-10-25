@@ -1,4 +1,4 @@
-module.exports = function (components = {}) {
+export default function (components = {}) {
   return [
     {
       path: '/docs/:lang?',
@@ -6,7 +6,7 @@ module.exports = function (components = {}) {
       component: components.PHome
     },
     {
-      path: '/docs/:lang/:path+',
+      path: '/docs/:path+',
       exact: true,
       component: components.PDoc,
       name: 'docs:doc'

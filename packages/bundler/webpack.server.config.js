@@ -6,10 +6,21 @@ const PROD = !process.env.WEBPACK_DEV
 const BUILD_DIR = '/build/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 
+const EXTENSIONS = ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.server.cjs', '.server.mjs', '.js', '.jsx', '.mjs', '.cjs', '.ts', '.tsx', '.json']
+
 const DEFAULT_FORCE_COMPILE_MODULES = [
+  '@startupjs/init',
+  '@startupjs/init/server',
   'startupjs/init',
-  '@startupjs/init/src',
-  '@startupjs/app/server'
+  'startupjs/init/server',
+  '@startupjs/app',
+  '@startupjs/app/server',
+  'startupjs/app',
+  'startupjs/app/server',
+  '@startupjs/orm',
+  'startupjs/orm',
+  'startupjs/server',
+  '@startupjs/docs'
 ]
 const DEFAULT_ALIAS = {
 }
@@ -49,18 +60,18 @@ module.exports = function getConfig (env, {
     ],
     output: {
       path: BUILD_PATH,
-      filename: PROD ? '[name].js' : '[name].dev.js'
+      filename: PROD ? '[name].cjs' : '[name].dev.cjs'
     },
     module: {
       rules: [
         {
-          test: /\.[jt]sx?$/,
+          test: /\.[cm]?[jt]sx?$/,
           loader: 'babel-loader'
         }
       ]
     },
     resolve: {
-      extensions: ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      extensions: EXTENSIONS,
       alias: {
         ...DEFAULT_ALIAS,
         ...alias

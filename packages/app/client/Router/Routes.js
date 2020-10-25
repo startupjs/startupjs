@@ -1,12 +1,14 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import {
   $root,
   observer,
-  emit
+  emit,
+  initLocalCollection
 } from 'startupjs'
 import { Route } from 'react-router'
 import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
+import qs from 'qs'
 
 export default observer(function Routes ({
   routes,
@@ -14,6 +16,10 @@ export default observer(function Routes ({
   ...props
 }) {
   function render (route, props) {
+    if (route.redirect) {
+      emit('url', route.redirect, { replace: true })
+      return null
+    }
     return pug`
       //- TODO: We can remove passing props because
       //- in pages we can use react-router hooks for this
@@ -39,6 +45,8 @@ export default observer(function Routes ({
 
 const RouteComponent = observer(function RCComponent ({
   route,
+  location,
+  match,
   onError,
   ...props
 }) {
@@ -48,7 +56,7 @@ const RouteComponent = observer(function RCComponent ({
     if (!filters) return setRender(true)
     filters = filters.slice()
     function runFilter (err) {
-      if (err) return onError(err)
+      if (err) return emit('error', err)
       const filter = filters.shift()
       if (typeof filter === 'function') {
         return filter($root, runFilter, (url) => {
@@ -60,9 +68,10 @@ const RouteComponent = observer(function RCComponent ({
     runFilter()
   }
 
-  useMemo(() => {
+  useLayoutEffect(() => {
+    initRoute(location, match.params)
     runFilters(route.filters)
-  }, [])
+  }, [location.pathname, location.search])
 
   if (!render) return null
 
@@ -74,9 +83,31 @@ const RouteComponent = observer(function RCComponent ({
 
   return pug`
     RC(
-      key=props.match.url
+      key=match.url
       params=route.params
+      match=match
+      location=location
       ...props
     )
   `
 })
+
+function initRoute (location, routeParams) {
+  // Check if url or search changed between page rerenderings
+  const prevUrl = $root.get('$render.url')
+  const prevSearch = $root.get('$render.search')
+  const url = location.pathname
+  const search = location.search
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true })
+  if (url === prevUrl && search === prevSearch) return
+  $root.setDiff('$render.url', url)
+  $root.setDiff('$render.search', search)
+  $root.setDiffDeep('$render.query', query)
+
+  if (url !== prevUrl) {
+    $root.setDiffDeep('$render.params', routeParams)
+    $root.setDiff('_session.url', location.pathname) // TODO: DEPRECATED
+    $root.silent().destroy('_page')
+    initLocalCollection('_page')
+  }
+}

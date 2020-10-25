@@ -1,7 +1,8 @@
-module.exports = Object.assign({},
-  require('@startupjs/react-sharedb'),
-  require('@startupjs/hooks/src'),
-  // HINT: `isomorphic` means that the code can be executed both
-  //        on the server and on the client
-  require('@startupjs/isomorphic-helpers')
-)
+export * from '@startupjs/react-sharedb'
+export * from '@startupjs/hooks'
+// HINT: `isomorphic` means that the code can be executed both
+//        on the server and on the client
+export * from '@startupjs/isomorphic-helpers'
+// dummy babel macro functions for @startupjs/babel-plugin-rn-stylename-inline
+export function css () {}
+export function styl () {}

@@ -1,61 +1,31 @@
-import React, { useState } from 'react'
-import { TouchableOpacity, Animated, Platform } from 'react-native'
+import React, { useRef } from 'react'
+import { Animated, Easing, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
-import propTypes from 'prop-types'
-import InputWrapper from '../InputWrapper'
+import Row from '../../Row'
 import Div from '../../Div'
-import Span from '../../Typography/Span'
+import Span from '../../typography/Span'
 import './index.styl'
 
-const isWeb = Platform.OS === 'web'
-const ANIMATION_TIMING = 120
-
-// 0.01 because on android animations does not work with value 0
-const MIN_SCALE_RATIO = 0.01
+const IS_ANDROID = Platform.OS === 'android'
+const ANIMATION_TIMING = 100
+// workaround for android
+// https://github.com/facebook/react-native/issues/6278
+const MIN_SCALE_RATIO = IS_ANDROID ? 0.1 : 0
 const MAX_SCALE_RATIO = 1
 
 const Input = function ({
-  children,
-  color,
-  textColor,
+  style,
   value,
-  label,
+  children,
   checked,
+  disabled,
+  readonly,
   onPress,
   ...props
 }) {
-  const {
-    onMouseEnter,
-    onMouseLeave,
-    onPressIn,
-    onPressOut
-  } = props
-  const [hover, setHover] = useState()
-  const [active, setActive] = useState()
-  const handlers = {
-    onPressIn: (...args) => {
-      setActive(true)
-      onPressIn && onPressIn(...args)
-    },
-    onPressOut: (...args) => {
-      setActive()
-      onPressOut && onPressOut(...args)
-    }
-  }
-  const circleHandlers = { ...handlers }
-
-  if (isWeb) {
-    circleHandlers.onMouseEnter = (...args) => {
-      setHover(true)
-      onMouseEnter && onMouseEnter(...args)
-    }
-    circleHandlers.onMouseLeave = (...args) => {
-      setHover()
-      onMouseLeave && onMouseLeave(...args)
-    }
-  }
-
-  const [checkedSize] = useState(new Animated.Value(checked ? 1 : MIN_SCALE_RATIO))
+  const animation = useRef(
+    new Animated.Value(checked ? MAX_SCALE_RATIO : MIN_SCALE_RATIO)
+  ).current
 
   const setChecked = () => {
     onPress && onPress(value)
@@ -64,62 +34,57 @@ const Input = function ({
   useDidUpdate(() => {
     if (checked) {
       Animated.timing(
-        checkedSize,
+        animation,
         {
           toValue: MAX_SCALE_RATIO,
           duration: ANIMATION_TIMING,
+          easing: Easing.linear,
           useNativeDriver: true
         }
       ).start()
     } else {
       Animated.timing(
-        checkedSize,
+        animation,
         {
           toValue: MIN_SCALE_RATIO,
           duration: ANIMATION_TIMING,
+          easing: Easing.linear,
           useNativeDriver: true
         }
-      ).start(() => {
-        checkedSize.setValue(MIN_SCALE_RATIO)
-      })
+      ).start()
     }
   }, [checked])
 
-  return pug`
-    // TODO: Implement better hover / active states
-    Div.root(
-      activeOpacity=1
-      onPress=setChecked
-      accessible=false
-      ...handlers
-    )
-      InputWrapper.wrapper(
-        styleName={ 'with-label': !!label }
-        hover=hover
-        active=active
-        checked=checked
-        color=color
-      )
-        TouchableOpacity.circle(
-          style={borderColor: color}
-          activeOpacity=1
-          onPress=setChecked
-          ...circleHandlers
-        )
-          Animated.View.checked(
-            style={
-              backgroundColor: color,
-              transform: [{
-                scale: checkedSize
-              }]
-            }
-          )
-      Span.label(style={color: textColor})= label
-  `
-}
+  if (readonly && checked) {
+    return pug`
+      if typeof children === 'string'
+        Span= children
+      else
+        = children
+    `
+  } else if (readonly && !checked) {
+    return null
+  }
 
-Input.propType = {
-  checked: propTypes.bool
+  return pug`
+    Row.root(
+      style=style
+      vAlign='center'
+      disabled=disabled
+      onPress=setChecked
+    )
+      Div.radio(
+        styleName=[{ checked }]
+      )
+        Animated.View.circle(
+          style={ transform: [{ scale: animation }] }
+        )
+      Div.container
+        if typeof children === 'string'
+          Span= children
+        else
+          = children
+  `
 }
 
 export default observer(Input)

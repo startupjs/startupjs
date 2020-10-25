@@ -1,0 +1,48 @@
+$bottomBg = #d0d4da
+$middleBg = #f8f8f8
+$border = #dedede
+$done = #007aff
+
+.root
+  position relative
+
+.overlay
+  z-index 1
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+  width 100%
+  height 100%
+  background-color transparent
+  opacity 0
+  padding 0
+  margin 0
+  +web()
+    appearance none
+    border-width 0
+    cursor pointer
+
+.modalTop
+  flex 1
+
+.modalMiddle
+  height 6u
+  flex-direction row
+  align-items center
+  padding-right 2u
+  justify-content flex-end
+  background-color $middleBg
+  border-top-width 1px
+  border-top-color $border
+
+.modalBottom
+  justify-content center
+  background-color $bottomBg
+
+.done
+  color $done
+  font-weight 600
+  font-size 16px
+  line-height 16px

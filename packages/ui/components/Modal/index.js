@@ -1,6 +1,6 @@
 import { observer } from 'startupjs'
 import { View } from 'react-native'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Modal from './modal'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
@@ -9,20 +9,25 @@ import ModalActions from './ModalActions'
 Modal.defaultProps = {
   visible: false,
   variant: 'window',
+  dismissLabel: ModalActions.defaultProps.dismissLabel,
+  confirmLabel: ModalActions.defaultProps.confirmLabel,
   ModalElement: View
 }
 
 Modal.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['window', 'fullscreen']),
-  visible: propTypes.bool,
-  title: propTypes.string,
-  ModalElement: propTypes.func,
-  onShow: propTypes.func,
-  onDismiss: propTypes.func,
-  onConfirm: propTypes.func,
-  onBackdropPress: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['window', 'fullscreen', 'pure']),
+  visible: PropTypes.bool,
+  title: PropTypes.string,
+  dismissLabel: ModalActions.propTypes.dismissLabel,
+  confirmLabel: ModalActions.propTypes.confirmLabel,
+  ModalElement: PropTypes.any,
+  onShow: PropTypes.func,
+  onCrossPress: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onConfirm: PropTypes.func,
+  onBackdropPress: PropTypes.func
 }
 
 const ObservedModal = observer(Modal)

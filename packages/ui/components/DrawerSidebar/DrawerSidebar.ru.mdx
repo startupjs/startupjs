@@ -1,13 +1,12 @@
-import { useEffect } from 'react'
 import DrawerSidebar from '../DrawerSidebar'
 import Row from '../Row'
 import Div from '../Div'
 import Menu from '../Menu'
 import Button from '../Button'
 import Content from '../Content'
-import Span from '../Typography/Span'
+import Span from '../typography/Span'
 import Br from '../Br'
-import { useModel } from 'startupjs'
+import { useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DrawerSidebar (дровер)
@@ -21,15 +20,11 @@ import { DrawerSidebar } from '@startupjs/ui'
 ## Пример
 
 ```jsx example
-const PATH = '_session.ExampleLeftDrawerSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      path={PATH}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -45,7 +40,45 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+          <Button onPress={() => $open.set(true)}>Открыть</Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Default visibility
+
+Для управления видимостью по умолчанию используйте свойство `defaultOpen` (значение по умолчанию равно `false`).
+
+```jsx example
+const [open, $open] = useSession('ExampleDefaultOpenDrawerSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      $open={$open}
+      defaultOpen={true}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item>Nav-1</Menu.Item>
+          <Menu.Item>Nav-2</Menu.Item>
+          <Menu.Item>Nav-3</Menu.Item>
+          <Menu.Item>Nav-4</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{ backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $open.set(true)}>Open</Button>
         </Row>
         <Br />
         <Span>
@@ -62,15 +95,11 @@ return (
 Свойство `position` указывает сторону окна, с которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx example
-const PATH = '_session.ExampleRightDrawerSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      path={PATH}
+      $open={$open}
       position='right'
       renderContent={() => (
         <Menu>
@@ -87,7 +116,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+          <Button onPress={() => $open.set(true)}>Открыть</Button>
         </Row>
         <Br />
         <Span>
@@ -99,20 +128,16 @@ return (
 )
 ```
 
-## Закрытый дровер
+## Заблокированный дровер
 
 Указание свойства `forceClosed` будет держать дровер закрытым, и он не будет реагировать на жесты или свойство `open`.
 
 ```jsx example
-const PATH = '_session.ExampleLockedDrawerSidebar'
-const $opened = useModel(PATH)
-useEffect(() => {
-  $opened.set(true)
-}, [])
+const [open, $open] = useSession('ExampleLockedDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
-      path={PATH}
+      $open={$open}
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -129,7 +154,7 @@ return (
         style={{ backgroundColor: 'white' }}
       >
         <Row>
-          <Button onPress={() => $opened.set(true)}>Открыть</Button>
+          <Button onPress={() => $open.set(true)}>Открыть</Button>
         </Row>
         <Br />
         <Span>

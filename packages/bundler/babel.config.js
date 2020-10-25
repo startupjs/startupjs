@@ -10,7 +10,6 @@ pass alias options to it directly:
 module.exports = {
   presets: [
     ['startupjs/babel', {
-      legacyClassnames: true,
       alias: {}
     }]
   ]

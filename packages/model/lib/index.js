@@ -1,3 +1,3 @@
-var getModel = require('./getModel')
+import getModel from './getModel'
 var singletonModel = getModel()
-module.exports = singletonModel
+export default singletonModel

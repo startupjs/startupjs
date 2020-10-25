@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Menu from '../Menu'
 import Content from '../Content'
 import Collapse from '../Collapse'
-import { u } from '../../config/helpers'
+import { u } from 'startupjs'
 import {
   faShareAlt,
   faHouseUser,
@@ -114,6 +114,44 @@ To display icon in menu item pass the `icon` property to it. Position of icon ca
 const [active, setActive] = useState('option-1')
 return (
   <Menu style={{ width: u(15) }} variant='horizontal'>
+    <Menu.Item
+      active={active === 'option-1'}
+      icon={faShareAlt}
+      onPress={() => setActive('option-1')}
+    >
+      Option-1
+    </Menu.Item>
+    <Menu.Item
+      active={active === 'option-2'}
+      icon={faHouseUser}
+      onPress={() => setActive('option-2')}
+    >
+      Option-2
+    </Menu.Item>
+    <Menu.Item
+      active={active === 'option-3'}
+      icon={faTable}
+      onPress={() => setActive('option-3')}
+    >
+      Option-3
+    </Menu.Item>
+  </Menu>
+)
+```
+
+## Сhange color of active item
+
+By default, the active menu item has a `primary` color. Use the `activeColor` property to set the desired color for the active element. This property will also change the color of border and icon (if you passed an `activeBorder` property for a Menu or an `icon` for a Menu.Item). `activeColor` accepts color as a string which will be compatible with the CSS color property.(ex. `red`, `#fff`, `rgb(123, 23, 122)`)
+
+```jsx example
+const [active, setActive] = useState('option-1')
+return (
+  <Menu
+    style={{ width: u(15) }}
+    activeBorder='bottom'
+    variant='horizontal'
+    activeColor='rgb(123, 23, 122)'
+  >
     <Menu.Item
       active={active === 'option-1'}
       icon={faShareAlt}

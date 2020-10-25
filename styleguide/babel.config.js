@@ -1,7 +1,6 @@
 module.exports = {
   presets: [
-    ['startupjs/babel', {
-      legacyClassnames: false,
+    ['startupjs/babel.cjs', {
       alias: {}
     }]
   ]

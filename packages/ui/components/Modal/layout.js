@@ -4,7 +4,6 @@ import { View, TouchableOpacity } from 'react-native'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
-import config from './../../config/rootConfig'
 import './index.styl'
 
 function Modal ({
@@ -14,6 +13,9 @@ function Modal ({
   variant,
   title,
   ModalElement,
+  onCrossPress,
+  dismissLabel,
+  confirmLabel,
   onDismiss,
   onConfirm,
   onBackdropPress
@@ -52,6 +54,8 @@ function Modal ({
   // Handle <Modal.Actions>
   const actionsProps = {
     onDismiss,
+    dismissLabel,
+    confirmLabel,
     onConfirm,
     style: content ? { paddingTop: 0 } : null
   }
@@ -63,7 +67,7 @@ function Modal ({
 
   // Handle <Modal.Header>
   const headerProps = {
-    onDismiss,
+    onDismiss: onCrossPress || onDismiss,
     style: content || actions ? { paddingBottom: 0 } : null
   }
   header = header
@@ -82,7 +86,7 @@ function Modal ({
           onPress=onBackdropPress || onDismiss
         )
       ModalElement.modal(
-        style=[isWindowLayout ? config.shadows[4] : {}, modalStyle]
+        style=modalStyle
         styleName=[variant]
       )
         = header

@@ -1,5 +1,13 @@
-import typography from './typography'
-import forms from './forms'
+import foundation from './foundation'
 import components from './components'
+import forms from './forms'
+import hooksAndHelpers from './hooksAndHelpers'
+import popups from './popups'
 
-export default { typography, components, forms }
+export default {
+  foundation,
+  components,
+  forms,
+  popups,
+  hooksAndHelpers
+}

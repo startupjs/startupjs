@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import Span from './../../Typography/Span'
-import propTypes from 'prop-types'
+import Span from './../../typography/Span'
 import './index.styl'
 
 function CollapseContent ({
@@ -13,10 +13,9 @@ function CollapseContent ({
   variant // @private
 }) {
   const content = React.Children.map(children, (child, index) => {
-    const key = `__COLLAPSE_CONTENT_CHILDREN_KEY_${index}__`
     if (typeof child === 'string') {
       return pug`
-        Span(key=key)= child
+        Span= child
       `
     }
     return child
@@ -30,8 +29,8 @@ function CollapseContent ({
 }
 
 CollapseContent.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node
 }
 
 export default observer(CollapseContent)

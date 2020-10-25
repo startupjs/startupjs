@@ -1,1 +1,1 @@
-module.exports = require('@startupjs/backend')
+export { default } from '@startupjs/backend'

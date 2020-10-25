@@ -1,29 +1,11 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
+import { View } from 'react-native'
 import Avatar from '../Avatar'
 import Div from '../Div'
-import Span from '../Typography/Span'
+import Span from '../typography/Span'
 import './index.styl'
-
-const nameSizes = {
-  xxl: 'xl',
-  xl: 'l',
-  l: 'l',
-  m: 'm',
-  s: 'm',
-  xs: 'm'
-}
-
-const descriptionSizes = {
-  xxl: 'l',
-  xl: 'm',
-  l: 'm',
-  m: 's',
-  s: 'xs',
-  xs: 'xs'
-}
 
 function User ({
   style,
@@ -49,15 +31,13 @@ function User ({
       )= name
       View.userInfo
         Span.name(
-          styleName=[avatarPosition]
-          bold
-          size=nameSizes[size]
+          styleName=[size, avatarPosition]
           numberOfLines=1
+          bold
         )= name
         if description
           Span.description(
-            size=descriptionSizes[size]
-            styleName=[avatarPosition]
+            styleName=[size, avatarPosition]
             description
           )= description
   `
@@ -69,14 +49,14 @@ User.defaultProps = {
 }
 
 User.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  avatarUrl: propTypes.string,
-  description: propTypes.string,
-  name: propTypes.string,
-  avatarPosition: propTypes.oneOf(['left', 'right']),
-  size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
-  status: propTypes.oneOf(['online', 'away']),
-  onPress: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  avatarUrl: PropTypes.string,
+  description: PropTypes.string,
+  name: PropTypes.string,
+  avatarPosition: PropTypes.oneOf(['left', 'right']),
+  size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  status: PropTypes.oneOf(['online', 'away']),
+  onPress: PropTypes.func
 }
 
 export default observer(User)

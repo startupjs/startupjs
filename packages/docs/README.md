@@ -43,8 +43,8 @@ yarn add @startupjs/docs
       },
       // different components to display for English and Russian documentation
       component: {
-        en: require('../components/Typography/Typography.en.mdx').default,
-        ru: require('../components/Typography/Typography.ru.mdx').default
+        en: require('../components/typography/Typography.en.mdx').default,
+        ru: require('../components/typography/Typography.ru.mdx').default
       }
     },
     cssGuide: {
@@ -52,7 +52,7 @@ yarn add @startupjs/docs
       // the same title for both English and Russian mdx documentation
       title: 'Typography',
       // the same component to display for English and Russian documentation
-      component: require('../components/Typography/Typography.en.mdx').default
+      component: require('../components/typography/Typography.en.mdx').default
     },
     // docs in collapse
     // items have the same api as mdx docs
