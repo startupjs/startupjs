@@ -473,7 +473,7 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
 function renameFonts () {
   const FONTS_PATH = process.cwd() + '/public/fonts'
   const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
-  const IGNORE = ['.gitignore', '.DS_Store']
+  const IGNORE = ['.gitignore', '.DS_Store', '.gitallowed']
 
   if (fs.existsSync(FONTS_PATH)) {
     const files = fs.readdirSync(FONTS_PATH)
