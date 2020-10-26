@@ -12,7 +12,6 @@ const Multiselect = ({
   value,
   placeholder,
   label,
-  hideOptsMenu,
   showOpts,
   disabled,
   error,
@@ -20,7 +19,8 @@ const Multiselect = ({
   renderListItem,
   onSelect,
   onRemove,
-  onOpen
+  onOpen,
+  onHide
 }) => {
   return pug`
     MultiselectInput(
@@ -37,7 +37,7 @@ const Multiselect = ({
     Drawer(
       visible=showOpts
       position='bottom'
-      onDismiss=hideOptsMenu
+      onDismiss=onHide
       styleSwipe=styles.swipeZone
       styleContent=styles.nativeListContent
     )
@@ -56,7 +56,7 @@ Multiselect.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
-  hideOptsMenu: PropTypes.func.isRequired,
+  onHide: PropTypes.func.isRequired,
   showOpts: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   error: PropTypes.string,

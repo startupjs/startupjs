@@ -10,7 +10,6 @@ const Multiselect = ({
   value,
   placeholder,
   label,
-  hideOptsMenu,
   showOpts,
   disabled,
   readonly,
@@ -20,12 +19,13 @@ const Multiselect = ({
   renderListItem,
   onSelect,
   onRemove,
-  onOpen
+  onOpen,
+  onHide
 }) => {
   return pug`
     Popover.root(
       visible=showOpts
-      onDismiss=hideOptsMenu
+      onDismiss=onHide
       width=popoverWidth
       maxHeight=u(20)
     )
@@ -56,7 +56,7 @@ Multiselect.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
-  hideOptsMenu: PropTypes.func.isRequired,
+  onHide: PropTypes.func.isRequired,
   showOpts: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
