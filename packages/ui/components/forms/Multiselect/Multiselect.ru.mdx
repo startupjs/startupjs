@@ -1,0 +1,76 @@
+import { useState } from 'react'
+import Multiselect from '../Multiselect'
+import Div from '../../Div'
+import Span from '../../typography/Span'
+import Br from '../../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Select
+
+Multiselect позволяет пользователю выбирать несколько элементов из списка
+
+```jsx
+import { Multiselect } from '@startupjs/ui'
+```
+
+- `options` - массив объектов ```{ label, value }``` или примитивоов
+- `onChange` ```function(value: Array)``` - коллбек, который вызывается при смене значения поля. Возвращает массив с выбранными значениями
+
+```jsx example
+const [cities, setCities] = useState(['la', 'tk'])
+// элементы списка так же могут быть массивом из примитивов ['apple', 'banana', 'cherry']
+return (
+  <Div>
+    <Multiselect
+      label='Пример'
+      placeholder='Выберите города'
+      value={cities}
+      onChange={setCities}
+      options={[
+        { label: 'Нью-Йорк', value: 'ny' },
+        { label: 'Лос-Анджелес', value: 'la' },
+        { label: 'Токио', value: 'tk' }
+      ]}
+    />
+    <Br />
+    <Multiselect
+      label='Пример поля только для чтения'
+      readonly
+      value={cities}
+      options={[
+        { label: 'Нью-Йорк', value: 'ny' },
+        { label: 'Лос-Анджелес', value: 'la' },
+        { label: 'Токио', value: 'tk' }
+      ]}
+    />
+  </Div>
+)
+```
+
+## Custom tag
+
+Вы можете рендерить кастомный компонент тегов. Для жтого передайте свой компонент в пропс TagComponent
+
+```jsx example
+const [cities, setCities] = useState(['la', 'tk'])
+return (
+  <Div>
+    <Multiselect
+      label='Пример кастомного тега'
+      value={cities}
+      TagComponent={({ record }) => <Span>✔ {record.label} </Span>}
+      onChange={setCities}
+      options={[
+        { label: 'Нью-Йорк', value: 'ny' },
+        { label: 'Лос-Анджелес', value: 'la' },
+        { label: 'Токио', value: 'tk' }
+      ]}
+    />  
+  </Div>  
+)
+```
+
+
+## Sandbox
+
+<Sandbox Component={Multiselect} />

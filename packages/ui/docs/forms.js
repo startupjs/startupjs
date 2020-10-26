@@ -11,6 +11,7 @@ import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
 import SelectEn from '../components/forms/Select/Select.en.mdx'
 import SelectRu from '../components/forms/Select/Select.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
+import MultiselectRu from '../components/forms/Multiselect/Multiselect.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -67,7 +68,7 @@ export default {
       title: 'Multiselect',
       component: {
         en: MultiselectEn,
-        ru: MultiselectEn
+        ru: MultiselectRu
       }
     }
   }
