@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
 import { Text } from 'react-native'
+import PropTypes from 'prop-types'
 import themed from '../../../theming/themed'
 import './index.styl'
 
