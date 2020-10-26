@@ -3,11 +3,6 @@ import { BaseProvider } from '@startupjs/auth/server'
 const PROVIDER_NAME = 'linkedin'
 
 export default class LinkedinProvider extends BaseProvider {
-  constructor ($root, profile, options) {
-    super($root, profile, options)
-    this.profile = profile
-  }
-
   getProviderName () {
     return PROVIDER_NAME
   }

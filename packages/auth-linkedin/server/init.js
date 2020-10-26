@@ -7,10 +7,13 @@ import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
 export default function init (opts) {
   console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++')
 
-  const { model, config } = opts
+  const { model, config, updateClientSession } = opts
   const { clientId, clientSecret } = config
 
   initRoutes(opts)
+
+  // Append required configs to client session
+  updateClientSession({ linkedin: { clientId } })
 
   passport.use(
     new Strategy(

@@ -24,13 +24,25 @@ export default function init (ee, opts) {
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
 
+  // Use that helper to add some important data to client session
+  // We avoid usage of .env file so we should store all client config in session
+  function updateClientSession (fields) {
+    ee.on('afterSession', expressApp => {
+      expressApp.use((req, res, next) => {
+        const $session = req.model.scope('_session.auth')
+        $session.set({ ...$session.get(), ...fields })
+        next()
+      })
+    })
+  }
+
   ee.on('backend', backend => {
     const model = backend.createModel()
 
     // Init each strategy
     for (const strategy of strategies) {
       const { config, init } = strategy
-      init({ model, router, config })
+      init({ model, router, config, updateClientSession })
     }
   })
 

@@ -14,6 +14,7 @@ export default function initApp (ee, { criticalVersion } = {}) {
       // That info passes to client app right after app initialisation
       // Check app/client/index.js for background and usage
       const session = {
+        ...req.model.get('_session'),
         userId: req.session.userId,
         loggedIn: req.session.loggedIn
       }

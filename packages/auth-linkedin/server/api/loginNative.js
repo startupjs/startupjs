@@ -1,53 +1,65 @@
-// import { CALLBACK_NATIVE_LINKEDIN_URL } from '../../isomorphic'
-// import Provider from '../Provider'
+import axios from 'axios'
+import { CALLBACK_NATIVE_LINKEDIN_URL, FAILURE_LOGIN_URL } from '../../isomorphic'
+import qs from 'query-string'
+import Provider from '../Provider'
+import nconf from 'nconf'
 
-// export default async function loginNative (config, req, res, next) {
-//   const { code } = req.query
-//   const { clientId, clientSecret, baseUrl } = config
-//   const BASE_URL = baseUrl || process.env.BASE_URL
+export default async function loginNative (req, res, next, config) {
+  const { code } = req.query
+  const { clientId, clientSecret } = config
 
-//   const body = {
-//     grant_type: 'authorization_code',
-//     code,
-//     redirect_uri: BASE_URL + CALLBACK_NATIVE_LINKEDIN_URL,
-//     client_id: clientId,
-//     client_secret: clientSecret
-//   }
+  console.log('++++++++++')
+  console.log('++++++++++')
+  console.log('++++++++++')
+  console.log('UNDEFINED')
+  console.log(code)
+  console.log('++++++++++')
+  console.log('++++++++++')
+  console.log('++++++++++')
+  console.log('++++++++++')
 
-//   const requestConfig = {
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded'
-//     }
-//   }
+  const body = {
+    grant_type: 'authorization_code',
+    code,
+    redirect_uri: nconf.get('BASE_URL') + CALLBACK_NATIVE_LINKEDIN_URL,
+    client_id: clientId,
+    client_secret: clientSecret
+  }
 
-//   try {
-//     const { data } = await axios.post('https://www.linkedin.com/oauth/v2/accessToken', qs.stringify(body), requestConfig)
+  const requestConfig = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
 
-//     const authHeaders = {
-//       headers: {
-//         Authorization: `Bearer ${data.access_token}`
-//       }
-//     }
+  try {
+    const { data } = await axios.post('https://www.linkedin.com/oauth/v2/accessToken', qs.stringify(body), requestConfig)
 
-//     const { data: profileData } = await axios.get('https://api.linkedin.com/v2/me', authHeaders)
-//     const { data: emailData } = await axios.get('https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))', authHeaders)
+    const authHeaders = {
+      headers: {
+        Authorization: `Bearer ${data.access_token}`
+      }
+    }
 
-//     const { localizedLastName: lastName, localizedFirstName: firstName } = profileData
-//     const email = emailData.elements[0]['handle~'].emailAddress
+    const { data: profileData } = await axios.get('https://api.linkedin.com/v2/me', authHeaders)
+    const { data: emailData } = await axios.get('https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))', authHeaders)
 
-//     const profile = {
-//       email,
-//       lastName,
-//       firstName,
-//       id: profileData.id
-//     }
+    const { localizedLastName: lastName, localizedFirstName: firstName } = profileData
+    const email = emailData.elements[0]['handle~'].emailAddress
 
-//     const provider = new Provider(req.model, profile, auth.options)
-//     const userId = await provider.findOrCreateUser()
-//     req.session.userId = userId
-//     req.login(userId, next)
-//   } catch (err) {
-//     console.log('[@startupjs/auth-linkedn] Error: linkedin login', err)
-//     return res.status(403).json({ message: 'Access denied' })
-//   }
-// }
+    const profile = {
+      email,
+      lastName,
+      firstName,
+      id: profileData.id
+    }
+
+    const provider = new Provider(req.model, profile)
+    const userId = await provider.findOrCreateUser()
+
+    req.login(userId, next)
+  } catch (err) {
+    console.log('[@dmapper/auth] Error: linkedin login', err)
+    return res.redirect(FAILURE_LOGIN_URL)
+  }
+}
