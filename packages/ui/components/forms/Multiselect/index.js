@@ -3,7 +3,7 @@ import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
-import { Div, Span, Checkbox } from '@startupjs/ui'
+import { Checkbox } from '@startupjs/ui'
 
 import './index.styl'
 
@@ -44,8 +44,8 @@ const Multiselect = ({
     setShowOpts(false)
   }
 
-  const onItemPress = (selected, value) => () => {
-    if (selected) {
+  const onItemPress = value => checked => {
+    if (!checked) {
       _onRemove(value)
     } else {
       _onSelect(value)
@@ -56,9 +56,7 @@ const Multiselect = ({
     const selected = value.includes(item.value)
 
     return pug`
-      Div.suggestion(key=item.value onPress=onItemPress(selected, item.value))
-        Checkbox.checkbox(value=selected)
-        Span.sugText= item.label
+      Checkbox(key=item.value label=item.label value=selected onChange=onItemPress(item.value))
     `
   }
 
