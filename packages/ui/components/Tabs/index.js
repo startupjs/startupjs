@@ -73,6 +73,7 @@ function Tabs ({
 
   const onViewableItemsChanged = useRef(item => {
     const _value = idx => Object.keys(valueToIndex).find(key => valueToIndex[key] === idx)
+    // A check 'item.viewableItems[0] &&' is written in this place due to the fact that on the web, when you quickly scroll tabs from 'item.viewableItems', an empty array is returned
     item.viewableItems[0] && onChange(_value(item.viewableItems[0].index))
   })
 
@@ -96,7 +97,7 @@ function Tabs ({
           onScrollToIndexFailed=() => null
           removeClippedSubviews
           windowSize=tabs ? tabs.length : 1
-          initialScrollIndex=value ? tabIndex : 0
+          initialScrollIndex=tabIndex
         )
         FlatList.content(
           data=content
@@ -110,7 +111,7 @@ function Tabs ({
           maxToRenderPerBatch=0
           decelerationRate=0
           snapToInterval=tabWidth
-          initialScrollIndex=value ? tabIndex : 0
+          initialScrollIndex=tabIndex
           snapToAlignment='center'
           getItemLayout=getItemLayout
           onLayout=item => setTabWidth(item.nativeEvent.layout.width)
