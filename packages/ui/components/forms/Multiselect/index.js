@@ -19,9 +19,11 @@ const Multiselect = ({
   TagComponent,
   onChange,
   onSelect,
-  onRemove
+  onRemove,
+  onFocus,
+  onBlur
 }) => {
-  const [showOpts, setShowOpts] = useState(false)
+  const [focused, setFocused] = useState(false)
   // Map array if user pass options pass an array of primitives
   // Convert it into { label, value } items for consistency
   const _options = options.map(opt => typeof opt === 'object' && opt !== null ? opt : { label: opt, value: opt })
@@ -36,12 +38,18 @@ const Multiselect = ({
     onChange && onChange([...value, _value])
   }
 
-  function showOptsMenu () {
-    setShowOpts(true)
+  function _onFocus () {
+    setFocused(true)
+    onFocus && onFocus()
+  }
+
+  function _onBlur () {
+    setFocused(false)
+    onBlur && onBlur()
   }
 
   function hideOptsMenu () {
-    setShowOpts(false)
+    _onBlur(false)
   }
 
   const onItemPress = value => checked => {
@@ -66,15 +74,15 @@ const Multiselect = ({
       value=value
       placeholder=placeholder
       label=label
-      onOpen=showOptsMenu
-      onHide=hideOptsMenu
-      showOpts=showOpts
+      focused=focused
       disabled=disabled
       readonly=readonly
       popoverWidth=popoverWidth
       error=error
       TagComponent=TagComponent
       renderListItem=renderListItem
+      onOpen=_onFocus
+      onHide=hideOptsMenu
     )
   `
 }
@@ -91,7 +99,9 @@ Multiselect.propTypes = {
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
-  onRemove: PropTypes.func
+  onRemove: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
 }
 
 Multiselect.defaultProps = {

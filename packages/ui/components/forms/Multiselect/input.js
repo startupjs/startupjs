@@ -11,7 +11,7 @@ function MultiselectInput ({
   options,
   disabled,
   readonly,
-  showOpts,
+  focused,
   error,
   TagComponent,
   onOpen
@@ -20,11 +20,11 @@ function MultiselectInput ({
     Div.inputRoot
       if label
         Span.label(
-          styleName={ focused: showOpts, error }
+          styleName={ focused, error }
           variant='description'
         )= label
       Row.input(
-        styleName={ disabled, focused: showOpts, error, readonly }
+        styleName={ disabled, focused, error, readonly }
         onPress=disabled || readonly ? void 0 : onOpen
       )
         if !value || !value.length && !readonly
@@ -51,7 +51,7 @@ MultiselectInput.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  showOpts: PropTypes.bool,
+  focused: PropTypes.bool,
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 }

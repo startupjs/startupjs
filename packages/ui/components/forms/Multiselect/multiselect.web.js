@@ -10,7 +10,7 @@ const Multiselect = ({
   value,
   placeholder,
   label,
-  showOpts,
+  focused,
   disabled,
   readonly,
   popoverWidth,
@@ -24,7 +24,7 @@ const Multiselect = ({
 }) => {
   return pug`
     Popover.root(
-      visible=showOpts
+      visible=focused
       onDismiss=onHide
       width=popoverWidth
       maxHeight=u(20)
@@ -33,7 +33,7 @@ const Multiselect = ({
         MultiselectInput(
           label=label
           onOpen=onOpen
-          showOpts=showOpts
+          showOpts=focused
           value=value
           placeholder=placeholder
           options=options
@@ -57,7 +57,7 @@ Multiselect.propTypes = {
   label: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
-  showOpts: PropTypes.bool.isRequired,
+  focused: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

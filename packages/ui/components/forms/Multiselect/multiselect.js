@@ -12,7 +12,7 @@ const Multiselect = ({
   value,
   placeholder,
   label,
-  showOpts,
+  focused,
   disabled,
   error,
   TagComponent,
@@ -26,7 +26,7 @@ const Multiselect = ({
     MultiselectInput(
       label=label
       onOpen=onOpen
-      showOpts=showOpts
+      focused=focused
       value=value
       placeholder=placeholder
       options=options
@@ -35,7 +35,7 @@ const Multiselect = ({
       TagComponent=TagComponent
     )
     Drawer(
-      visible=showOpts
+      visible=focused
       position='bottom'
       onDismiss=onHide
       styleSwipe=styles.swipeZone
@@ -57,7 +57,7 @@ Multiselect.propTypes = {
   label: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
-  showOpts: PropTypes.bool.isRequired,
+  focused: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
