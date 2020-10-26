@@ -27,6 +27,7 @@
     "Sidebar": "/components/Sidebar",
     "Slicer": "/components/Slicer",
     "SmartSidebar": "/components/SmartSidebar",
+    "Tabs": "/components/Tabs",
     "Tag": "/components/Tag",
     "Typography": "/components/Typography",
     "User": "/components/User",

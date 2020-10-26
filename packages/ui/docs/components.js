@@ -53,6 +53,8 @@ import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
 import TableEn from '../components/table/Table/Table.en.mdx'
 import TableRu from '../components/table/Table/Table.ru.mdx'
+import TabsEn from '../components/Tabs/Tabs.en.mdx'
+import TabsRu from '../components/Tabs/Tabs.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
 import TagRu from '../components/Tag/Tag.ru.mdx'
 import UserEn from '../components/User/User.en.mdx'
@@ -277,6 +279,14 @@ export default {
       component: {
         en: TableEn,
         ru: TableRu
+      }
+    },
+    Tabs: {
+      type: 'mdx',
+      title: 'Tabs',
+      component: {
+        en: TabsEn,
+        ru: TabsRu
       }
     },
     Tag: {

@@ -8,6 +8,8 @@
     "styleguide"
   ],
   "scripts": {
+    "init-project": "rm -rf ./temp/app && LINK=X LOCAL_DIR=./temp ./packages/startupjs/cli.js init app",
+    "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
     "ios": "cd styleguide && yarn ios",
     "start": "cd styleguide && yarn start",
@@ -51,7 +53,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'"
+      "pre-commit": "lint-staged && yarn generate-module-map"
     }
   },
   "license": "MIT"
