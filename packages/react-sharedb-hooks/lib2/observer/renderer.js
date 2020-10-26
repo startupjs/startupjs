@@ -1,4 +1,4 @@
-import { destroyer, promiseBatcher } from '../util'
+import { destroyer, promiseBatcher, hooksCounter } from '../util'
 
 export default function renderer (baseComponent, blockUpdate) {
   return (...args) => {
@@ -7,6 +7,7 @@ export default function renderer (baseComponent, blockUpdate) {
     try {
       destroyer.reset()
       promiseBatcher.reset()
+      hooksCounter.reset()
       res = baseComponent(...args)
     } catch (err) {
       if (!err.then) throw err

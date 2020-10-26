@@ -7,13 +7,17 @@ const COLLECTION = '$components'
 export default class Meta {
   constructor () {
     this.componentId = $root.id()
+    this.createdAt = Date.now()
     this.$self = $root
       .context(this.componentId)
       .scope(`${COLLECTION}.${this.componentId}`)
     semaphore.allowComponentSetter = true
-    this.$self.set('', observable({}))
+    this.$self.set('', observable({
+      _id: this.componentId,
+      _now: this.createdAt
+    }))
     semaphore.allowComponentSetter = false
-    this.createdAt = Date.now()
+    this.hooksReady = {}
 
     this.destroy = this.destroy.bind(this)
   }
