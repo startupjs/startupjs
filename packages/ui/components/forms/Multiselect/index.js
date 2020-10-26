@@ -48,7 +48,7 @@ const Multiselect = ({
     onBlur && onBlur()
   }
 
-  function hideOptsMenu () {
+  function onHide () {
     _onBlur(false)
   }
 
@@ -82,7 +82,7 @@ const Multiselect = ({
       TagComponent=TagComponent
       renderListItem=renderListItem
       onOpen=_onFocus
-      onHide=hideOptsMenu
+      onHide=onHide
     )
   `
 }
