@@ -22,6 +22,9 @@ try {
   PATCHES_DIR = './patches'
 }
 
+const LINK = !!process.env.LINK
+const LOCAL_DIR = process.env.LOCAL_DIR || '.'
+
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
@@ -258,7 +261,15 @@ commander
       throw Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
 
-    let projectPath = path.join(process.cwd(), projectName)
+    if (LOCAL_DIR !== '.') {
+      await execa(
+        'mkdir',
+        ['-p', LOCAL_DIR],
+        { stdio: 'inherit' }
+      )
+    }
+
+    let projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
 
     if (fs.existsSync(projectPath)) {
       const err = `Folder '${projectName}' already exists in the current directory. Delete it to create a new app`
@@ -273,7 +284,10 @@ commander
       `react-native${'@' + reactNative}`,
       'init',
       projectName
-    ].concat(['--version', reactNative]), { stdio: 'inherit' })
+    ].concat(['--version', reactNative]), {
+      cwd: path.join(process.cwd(), LOCAL_DIR),
+      stdio: 'inherit'
+    })
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
@@ -303,6 +317,12 @@ commander
       cwd: projectPath,
       stdio: 'inherit'
     })
+
+    if (LINK) {
+      // TODO: Link startupjs packages. ref:
+      //       https://stackoverflow.com/questions/48681642/yarn-workspaces-and-yarn-link
+      console.log('> TODO: Link startupjs packages for local install')
+    }
 
     if (DEV_DEPENDENCIES.length) {
       // install startupjs devDependencies
