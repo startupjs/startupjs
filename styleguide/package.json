@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.26.3",
+  "version": "0.26.4",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -36,7 +36,7 @@
     "react-native-code-push": "^5.7.0",
     "react-native-collapsible": "1.5.2",
     "react-native-svg": "^12.1.0",
-    "startupjs": "^0.26.3"
+    "startupjs": "^0.26.4"
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
