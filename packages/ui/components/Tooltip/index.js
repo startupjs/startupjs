@@ -8,7 +8,8 @@ import './index.styl'
 function Tooltip ({
   children,
   style,
-  wrapperStyle
+  wrapperStyle,
+  placement
 }) {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -32,8 +33,6 @@ function Tooltip ({
     Popover(
       visible=isVisible
       hasArrow=true
-      positionVertical='top'
-      positionHorizontal='center'
       placement='top-left'
       wrapperStyleName='wrapper'
       onDismiss=()=> setIsVisible(false)
