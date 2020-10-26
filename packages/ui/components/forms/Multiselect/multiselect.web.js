@@ -44,7 +44,7 @@ const Multiselect = ({
         )
       Div.suggestions-web
         each opt in options
-          = renderListItem({ item: opt })
+          = renderListItem(opt)
   `
 }
 

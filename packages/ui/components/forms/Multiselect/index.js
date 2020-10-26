@@ -52,11 +52,11 @@ const Multiselect = ({
     }
   }
 
-  function renderListItem ({ item }) {
+  function renderListItem (item) {
     const selected = value.includes(item.value)
 
     return pug`
-      Checkbox(key=item.value label=item.label value=selected onChange=onItemPress(item.value))
+      Checkbox.checkbox(key=item.value label=item.label value=selected onChange=onItemPress(item.value))
     `
   }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { FlatList } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Drawer } from '@startupjs/ui'
 
 import MultiselectInput from './input'
@@ -41,11 +41,10 @@ const Multiselect = ({
       styleSwipe=styles.swipeZone
       styleContent=styles.nativeListContent
     )
-      FlatList(
-        data=options
-        renderItem=renderListItem
-        keyExtractor=item => item.value
-      )
+      ScrollView.suggestions-native
+        each opt in options
+          = renderListItem(opt)
+
   `
 }
 
