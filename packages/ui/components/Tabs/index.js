@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { FlatList } from 'react-native'
@@ -16,43 +16,37 @@ function Tabs ({
   onChange,
   value
 }) {
-  const values = []
+  const valueToIndex = useMemo(() => {
+    const _valueToIndex = {}
 
-  React.Children.toArray(children).forEach((child, index) => {
-    const childValue = child.props.value === undefined ? index : child.props.value
-    values.push({ [childValue]: index })
-  })
+    React.Children.toArray(children).forEach((child, index) => {
+      _valueToIndex[child.props.value || index] = index
+    })
 
-  const indexOfValue = key => {
-    return value && values.find(obj => Object.keys(obj)[0] === key)[key]
-  }
+    return _valueToIndex
+  }, [React.Children.count(children)])
 
   const [tabWidth, setTabWidth] = useState(0)
-  const [actualTab, setActualTab] = useState(value ? indexOfValue(value) : 0)
-
-  useEffect(() => {
-    setActualTab(indexOfValue(value))
-  }, [value])
+  const tabIndex = valueToIndex[value] || 0
 
   const contentWrapper = useRef()
   const tabsWrapper = useRef()
 
   useEffect(() => {
-    if (children && actualTab) {
-      contentWrapper.current.scrollToIndex({ animated: true, index: actualTab, viewPosition: 0.5 })
-      tabsWrapper.current.scrollToIndex({ animated: true, index: actualTab, viewPosition: 0.5 })
+    if (children && tabIndex) {
+      contentWrapper.current.scrollToIndex({ animated: true, index: tabIndex, viewPosition: 0.5 })
+      tabsWrapper.current.scrollToIndex({ animated: true, index: tabIndex, viewPosition: 0.5 })
     }
-  }, [actualTab])
+  }, [tabIndex])
 
   const onTabPress = (index, value) => {
-    setActualTab(index)
     contentWrapper.current.scrollToIndex({ animated: false, index, viewPosition: 0.5 })
     onChange && onChange(value || index)
   }
 
-  const tabs = children && React.Children.toArray(children).map((child, index) => {
+  const tabs = React.Children.toArray(children).map((child, index) => {
     if (child.type === Tab) {
-      return React.cloneElement(child, { activeStyle, style, iconPosition, onPress: () => onTabPress(index, child.props.value), index, key: index })
+      return React.cloneElement(child, { active: tabIndex === index, activeStyle, style, iconPosition, onPress: () => onTabPress(index, child.props.value), index, key: index })
     } else {
       return pug`
         Tab=child
@@ -60,7 +54,7 @@ function Tabs ({
     }
   })
 
-  const content = children && React.Children.toArray(children).map(child => child.props.children)
+  const content = React.Children.toArray(children).map(child => child.props.children)
 
   const renderContent = ({ item }) => {
     return pug`
@@ -78,7 +72,8 @@ function Tabs ({
   ), [tabWidth])
 
   const onViewableItemsChanged = useRef(item => {
-    item.viewableItems[0] && setActualTab(item.viewableItems[0].index)
+    const _value = idx => Object.keys(valueToIndex).find(key => valueToIndex[key] === idx)
+    item.viewableItems[0] && onChange(_value(item.viewableItems[0].index))
   })
 
   const cellRender = ({ children, ...props }) => {
@@ -88,7 +83,7 @@ function Tabs ({
   }
 
   return pug`
-    TabsProvider(value={iconPosition, active: actualTab})
+    TabsProvider(value={iconPosition})
       Div(style=containerStyle)
         FlatList.menu(
           data=tabs
@@ -101,7 +96,7 @@ function Tabs ({
           onScrollToIndexFailed=() => null
           removeClippedSubviews
           windowSize=tabs ? tabs.length : 1
-          initialScrollIndex=value ? indexOfValue(value) : 0
+          initialScrollIndex=value ? tabIndex : 0
         )
         FlatList.content(
           data=content
@@ -115,7 +110,7 @@ function Tabs ({
           maxToRenderPerBatch=0
           decelerationRate=0
           snapToInterval=tabWidth
-          initialScrollIndex=value ? indexOfValue(value) : 0
+          initialScrollIndex=value ? tabIndex : 0
           snapToAlignment='center'
           getItemLayout=getItemLayout
           onLayout=item => setTabWidth(item.nativeEvent.layout.width)

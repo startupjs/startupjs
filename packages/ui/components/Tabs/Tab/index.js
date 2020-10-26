@@ -19,10 +19,10 @@ function Tab ({
   onPress,
   title,
   index,
+  active,
   ...props
 }) {
   const parentProps = useTabsContext()
-  let active = parentProps.active === index
 
   const _iconPosition = iconPosition || parentProps.iconPosition
   const activeItemColor = activeStyle && activeStyle.color ? activeStyle.color : colors.primary

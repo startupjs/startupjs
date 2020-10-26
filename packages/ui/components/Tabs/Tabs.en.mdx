@@ -2,6 +2,7 @@ import Tabs from '../Tabs'
 import Div from '../Div'
 import ExampleTab from './tabExample/'
 import { Sandbox } from '@startupjs/docs'
+import { useState, useEffect } from 'react'
 
 # Tabs
 
@@ -14,10 +15,13 @@ import { Tabs } from '@startupjs/ui'
 ## Example
 
 ```jsx example
+const [value, setValue] = useState(0)
+
 return (
   <Div>
   <Tabs
-    activeColor='red'
+    value={value}
+    onChange={setValue}
   >
     <Tabs.Item
       title='1 tab'
@@ -25,6 +29,7 @@ return (
       <ExampleTab bgColor='blue' />
     </Tabs.Item>
     <Tabs.Item
+      value='qwe'
       title='2 tab'
     >
       <ExampleTab bgColor='pink' />
