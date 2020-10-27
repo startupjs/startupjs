@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { observer } from 'startupjs'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import Icon from '../Icon'
 import Row from '../Row'
 import Div from '../Div'
-import Icon from '../Icon'
 import Span from '../typography/Span'
-import { colorToRGBA } from '../../helpers'
+import { colorToRGBA } from '../../Helpers'
 import STYLES from './index.styl'
 
 const {
@@ -30,6 +30,37 @@ function Button ({
   onPress = () => {},
   ...props
 }) {
+  const isAsync = onPress.constructor.name === 'AsyncFunction'
+
+  const [asyncActive, setAsyncActive] = useState(false)
+  const [dots, setDots] = useState(['•'])
+  const [timerId, setTimerId] = useState()
+
+  const asyncOnPress = async () => {
+    setAsyncActive(true)
+    await onPress()
+    setAsyncActive(false)
+  }
+
+  useEffect(() => {
+    if (asyncActive && !timerId) {
+      const localDots = dots.slice()
+      const interval = setInterval(() => {
+        if (localDots.length <= 2) {
+          localDots.push('•')
+        } else if (localDots.length === 3) {
+          localDots.splice(1, 2)
+        }
+        setDots([...localDots])
+      }, 1000)
+      setTimerId(interval)
+    } else if (!asyncActive) {
+      clearInterval(timerId)
+      setTimerId()
+      setDots(['•'])
+    }
+  }, [JSON.stringify(dots), asyncActive])
+
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const isFlat = variant === 'flat'
@@ -48,6 +79,12 @@ function Button ({
     { color: isFlat ? colors.white : _color },
     iconStyle
   ])
+  const loaderTranslateStyle = {
+    transform: [
+      { translateY: '-50%' },
+      { translateX: '-25%' }
+    ]
+  }
 
   switch (variant) {
     case 'flat':
@@ -91,40 +128,47 @@ function Button ({
   rootStyle.paddingRight = padding
 
   return pug`
-    Row.root(
-      style=[rootStyle, style]
-      styleName=[
-        size,
-        { disabled }
-      ]
-      align='center'
-      vAlign='center'
-      reverse=iconPosition === 'right'
-      variant='highlight'
-      disabled=disabled
-      onPress=onPress
-      ...rootExtraProps
-      ...props
-    )
-      if icon
-        Div.iconWrapper(
-          style=iconWrapperStyle
-          styleName=[
-            {'with-label': hasChildren},
-            iconPosition
-          ]
-        )
-          Icon.icon(
-            style=iconStyle
-            styleName=[variant]
-            icon=icon
-            size=size
-          )
-      if children
-        Span.label(
-          style=[textStyle]
+    Div
+      if asyncActive
+        Span.label.load(
+          style=[loaderTranslateStyle]
           styleName=[size]
-        )= children
+        )= dots.join('') 
+      Row.root(
+        style=[rootStyle, style]
+        styleName=[
+          size,
+          { disabled }
+        ]
+        align='center'
+        vAlign='center'
+        reverse=iconPosition === 'right'
+        variant='highlight'
+        underlayColor=_color
+        disabled=asyncActive || disabled
+        onPress=isAsync ? asyncOnPress : onPress
+        ...rootExtraProps
+        ...props
+      )
+        if icon
+          Div.iconWrapper(
+            style=iconWrapperStyle
+            styleName=[
+              {'with-label': hasChildren},
+              iconPosition
+            ]
+          )
+            Icon.icon(
+              style=iconStyle
+              styleName=[variant, {'opacity': asyncActive}]
+              icon=icon
+              size=size
+            )
+        if children
+          Span.label(
+            style=[textStyle]
+            styleName=[size, {'opacity': asyncActive}]
+          )= children
   `
 }
 
