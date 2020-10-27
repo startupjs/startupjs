@@ -6,7 +6,7 @@ import Icon from '../Icon'
 import Row from '../Row'
 import Div from '../Div'
 import Span from '../typography/Span'
-import { colorToRGBA } from '../../Helpers'
+import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const {
