@@ -31,7 +31,7 @@ async function register (req, done) {
 
     const provider = new Provider(model, profile)
     const authData = await provider.loadAuthData()
-    if (authData) return done('User already exists')
+    if (authData) return done('[@startup/auth-local] Error: User already exists')
 
     const userId = await provider.findOrCreateUser()
     done(null, userId)
@@ -44,12 +44,12 @@ function parseRegisterRequest (req, res, done) {
   const email = (req.body.email || '').toLowerCase()
   const password = req.body.password
   const confirm = req.body.confirm
-  if (!email) return done('Please fill email')
-  if (!password) return done('Please fill password')
-  if (!confirm) return done('Please fill password confirmation')
-  if (password !== confirm) return done('Password should match confirmation')
-  if (password.length < 6) return done('Password length should be at least 6')
-  if (!EMAIL_REGEXP.test(email)) return done('Incorrect email')
+  if (!email) return done('[@startup/auth-local] Please fill email')
+  if (!password) return done('[@startup/auth-local] Please fill password')
+  if (!confirm) return done('[@startup/auth-local] Please fill password confirmation')
+  if (password !== confirm) return done('[@startup/auth-local] Password should match confirmation')
+  if (password.length < 6) return done('[@startup/auth-local] Password length should be at least 6')
+  if (!EMAIL_REGEXP.test(email)) return done('[@startup/auth-local] Incorrect email')
 
   done(null)
 }

@@ -1,5 +1,4 @@
 import { LOGOUT_URL, SIGN_IN_URL } from '../isomorphic/constants'
-import { setAuthInfo } from './middlewares'
 
 export default function initDefaultRoutes (router) {
   router.get(LOGOUT_URL, function (req, res) {

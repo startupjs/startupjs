@@ -9,7 +9,7 @@ import {
   loginWeb,
   loginNative
 } from './api'
-import { finishAuth, setAuthInfo } from '@startupjs/auth/server'
+import { finishAuth, ensureAuthState } from '@startupjs/auth/server'
 
 export default function (opts) {
   const { router, config } = opts
@@ -20,7 +20,7 @@ export default function (opts) {
   router.get(
     CALLBACK_LINKEDIN_URL,
     passport.authenticate('linkedin', { failureRedirect: FAILURE_LOGIN_URL }),
-    setAuthInfo,
+    ensureAuthState,
     finishAuth
   )
   //
@@ -29,7 +29,7 @@ export default function (opts) {
   router.get(
     CALLBACK_NATIVE_LINKEDIN_URL,
     (req, res, next) => loginNative(req, res, next, config),
-    setAuthInfo,
+    ensureAuthState,
     finishAuth
   )
   //

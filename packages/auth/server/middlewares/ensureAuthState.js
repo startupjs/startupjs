@@ -1,6 +1,6 @@
 // Middleware that prepare auth info for every route
 // And set userId + isLogged ind to server and client sessions
-export default function setAuthInfo (req, res, next) {
+export default function ensureAuthState (req, res, next) {
   const loggedIn = req.isAuthenticated()
 
   const $session = req.model.scope('_session')

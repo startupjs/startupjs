@@ -1,5 +1,5 @@
 import passport from 'passport'
-import { setAuthInfo } from '@startupjs/auth/server/middlewares'
+import { ensureAuthState } from '@startupjs/auth/server/middlewares'
 
 export default function (router) {
   return (req, res, next) => {
@@ -7,7 +7,7 @@ export default function (router) {
       if (err) return next(err)
       passport.session()(req, res, err => {
         if (err) return next(err)
-        setAuthInfo(req, res, () => {
+        ensureAuthState(req, res, () => {
           router.handle(req, res, err => {
             if (err) return next(err)
             next()

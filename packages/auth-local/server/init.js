@@ -28,7 +28,7 @@ export default function init (opts) {
         bcrypt.compare(password, hash, function (err, res) {
           if (err) return cb(err)
           if (res === false) {
-            return cb(null, false, { message: 'Invalid password' })
+            return cb(null, false, { message: '[@startup/auth-local] Invalid password' })
           }
           return cb(null, userId)
         })

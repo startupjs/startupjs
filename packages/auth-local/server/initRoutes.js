@@ -1,4 +1,3 @@
-import _get from 'lodash/get'
 import {
   LOCAL_LOGIN_URL,
   REGISTER_URL,
@@ -9,13 +8,14 @@ import {
   register,
   createPasswordResetSecret
 } from './api'
-import { finishAuth, setAuthInfo } from '@startupjs/auth/server'
-import passport from 'passport'
 
 export default function (opts) {
-  const { router, config } = opts
+  const {
+    router
+    // config
+  } = opts
 
-  router.post(LOCAL_LOGIN_URL, login, finishAuth)
+  router.post(LOCAL_LOGIN_URL, login)
   router.post(REGISTER_URL, register)
   router.post(CREATE_PASS_RESET_SECRET_URL, createPasswordResetSecret)
 }
