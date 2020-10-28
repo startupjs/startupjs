@@ -40,6 +40,7 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
+  'eslint-plugin-import-helpers',
   'eslint-plugin-node',
   'eslint-plugin-promise',
   'eslint-plugin-react',

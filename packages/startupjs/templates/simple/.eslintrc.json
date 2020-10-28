@@ -26,7 +26,8 @@
   },
   "plugins": [
     "react",
-    "react-pug"
+    "react-pug",
+    "eslint-plugin-import-helpers"
   ],
   "rules": {
     "prefer-const": "off",
@@ -35,6 +36,25 @@
     "react-pug/empty-lines": "off",
     "react-pug/no-interpolation": "off",
     "react-pug/prop-types": "off",
-    "react-pug/quotes": "off"
+    "react-pug/quotes": "off",
+    "import-helpers/order-imports": [
+            "warn",
+              { 
+                "newlinesBetween": "ignore",
+                "groups": [
+                    "/^react$/",
+                    "/react-native/",
+                    "/^react.*/",
+                    "/^startupjs/", 
+                    "/^@?startupjs.*/",
+                    "/^@?dmapper.*/",
+                    "module",
+                    "/components/",
+                    ["/helpers/", "/hooks/"],
+                    ["sibling", "parent"],
+                    "/.\/index.styl/"
+                ]
+              }
+        ]
   }
 }
