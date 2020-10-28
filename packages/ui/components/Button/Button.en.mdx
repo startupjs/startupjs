@@ -22,6 +22,7 @@ import { Button } from '@startupjs/ui'
 
 ```jsx example
 const [counter, setCounter] = useState(0)
+
 return (
   <Button onPress={() => setCounter(counter + 1)}>
     Clicked {counter} times
@@ -41,7 +42,7 @@ async function onpress() {
 }
 
 return (
-  <Button onPress={onpress} size='m'>
+  <Button onPress={onpress}>
     Async button
   </Button>
 )
