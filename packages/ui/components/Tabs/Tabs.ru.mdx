@@ -14,10 +14,12 @@ import { Tabs } from '@startupjs/ui'
 ## Пример
 
 ```jsx example
+const [value, $value] = useValue('Second')
+
 return (
   <Div>
   <Tabs
-    activeColor='red'
+    $value={$value}
   >
     <Tabs.Item
       title='1 tab'
@@ -25,6 +27,7 @@ return (
       <ExampleTab bgColor='blue' />
     </Tabs.Item>
     <Tabs.Item
+      value='Second'
       title='2 tab'
     >
       <ExampleTab bgColor='pink' />
@@ -37,5 +40,4 @@ return (
   </Tabs>
   </Div>
 )
-
 ```

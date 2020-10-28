@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
-import { observer } from 'startupjs'
+import { observer, useBind } from 'startupjs'
 import propTypes from 'prop-types'
 import { FlatList } from 'react-native'
 import Div from './../Div'
@@ -13,9 +13,12 @@ function Tabs ({
   iconPosition,
   activeStyle,
   style,
-  onChange,
-  value
+  $value
 }) {
+  let value
+  let onChange
+  ;({ value, onChange } = useBind({ $value, value, onChange }))
+
   const valueToIndex = useMemo(() => {
     const _valueToIndex = {}
 
@@ -27,10 +30,14 @@ function Tabs ({
   }, [React.Children.count(children)])
 
   const [tabWidth, setTabWidth] = useState(0)
-  const tabIndex = valueToIndex[value] || 0
+  const [tabIndex, setTabIndex] = useState(valueToIndex[value] || 0)
 
   const contentWrapper = useRef()
   const tabsWrapper = useRef()
+
+  useEffect(() => {
+    setTabIndex(valueToIndex[value])
+  }, [value])
 
   useEffect(() => {
     if (children && tabIndex) {
@@ -41,7 +48,7 @@ function Tabs ({
 
   const onTabPress = (index, value) => {
     contentWrapper.current.scrollToIndex({ animated: false, index, viewPosition: 0.5 })
-    onChange && onChange(value || index)
+    onChange ? onChange(value || index) : setTabIndex(index)
   }
 
   const tabs = React.Children.toArray(children).map((child, index) => {
@@ -74,7 +81,10 @@ function Tabs ({
   const onViewableItemsChanged = useRef(item => {
     const _value = idx => Object.keys(valueToIndex).find(key => valueToIndex[key] === idx)
     // A check 'item.viewableItems[0] &&' is written in this place due to the fact that on the web, when you quickly scroll tabs from 'item.viewableItems', an empty array is returned
-    item.viewableItems[0] && onChange(_value(item.viewableItems[0].index))
+    if (item.viewableItems[0]) {
+      const value = _value(item.viewableItems[0].index)
+      onChange ? onChange(value) : setTabIndex(item.viewableItems[0].index)
+    }
   })
 
   const cellRender = ({ children, ...props }) => {
@@ -131,8 +141,7 @@ Tabs.propTypes = {
   style: propTypes.oneOfType([propTypes.object, propTypes.array]),
   children: propTypes.node,
   iconPosition: Tab.propTypes.iconPosition,
-  onChange: propTypes.func,
-  value: propTypes.oneOfType([propTypes.string, propTypes.number])
+  $value: propTypes.any
 }
 
 const ObservedTabs = observer(Tabs)
