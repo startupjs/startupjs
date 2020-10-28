@@ -35,7 +35,7 @@ return (
 ## Async кнопка
 
 ```jsx example
-async function onpress() {
+async function onPress() {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve()
@@ -44,7 +44,7 @@ async function onpress() {
 }
 
 return (
-  <Button onPress={onpress}>
+  <Button onPress={onPress}>
     Async button
   </Button>
 )

@@ -31,14 +31,13 @@ function Button ({
   onPress = () => {},
   ...props
 }) {
-  const isAsync = onPress.constructor.name === 'AsyncFunction'
-
   const [asyncActive, setAsyncActive] = useState(false)
 
-  const asyncOnPress = async () => {
+  function _onPress () {
+    const promise = onPress()
+    if (!(promise && promise.then)) return
+    promise.then(() => setAsyncActive(false))
     setAsyncActive(true)
-    await onPress()
-    setAsyncActive(false)
   }
 
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
@@ -113,7 +112,7 @@ function Button ({
       reverse=iconPosition === 'right'
       variant='highlight'
       disabled=asyncActive || disabled
-      onPress=isAsync ? asyncOnPress : onPress
+      onPress=_onPress
       ...rootExtraProps
       ...props
     )
