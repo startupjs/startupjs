@@ -27,7 +27,7 @@ function Button ({
   icon,
   iconPosition,
   disabled,
-  onPress = () => {},
+  onPress,
   ...props
 }) {
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
