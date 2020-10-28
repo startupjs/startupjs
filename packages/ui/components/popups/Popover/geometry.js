@@ -1,5 +1,6 @@
+import { Dimensions } from 'react-native'
+
 const POPOVER_MARGIN = 8
-const ARROW_MARGIN = 10
 const ARROW_SIZE = 8
 
 export default {
@@ -23,50 +24,96 @@ export default {
   arrowLeftPositions: {},
   arrowTopPositions: {},
 
-  getLeftPosition ({
+  getPositions ({
     placement,
+    cy,
     contentInfo,
     captionSize,
-    wrapperStyle,
     hasWidthCaption,
-    hasArrow
+    hasArrow,
+    curHeight,
+    curWidth,
+    animateType
   }) {
-    if (hasWidthCaption) return contentInfo.x
+    this.calcLeftPosition({
+      contentInfo,
+      captionSize,
+      hasWidthCaption,
+      hasArrow,
+      curWidth,
+      curHeight
+    })
 
-    let positionRootLeft = contentInfo.x - wrapperStyle.width
+    this.calcTopPosition({
+      cy,
+      curHeight,
+      captionSize,
+      hasArrow,
+      animateType
+    })
+
+    this.calcLeftPositionArrow({ curWidth })
+    this.calcTopPositionArrow({ curHeight })
+
+    const validPlacement = this.getValidPlacement({
+      placement,
+      curHeight,
+      curWidth
+    })
+
+    return {
+      positionLeft: this.leftPositions[validPlacement],
+      positionTop: this.topPositions[validPlacement],
+      validPlacement
+    }
+  },
+
+  calcLeftPosition ({
+    contentInfo,
+    captionSize,
+    hasWidthCaption,
+    hasArrow,
+    curWidth
+  }) {
+    if (hasWidthCaption) {
+      this.placementOrder.forEach(placement => {
+        this.leftPositions[placement] = contentInfo.x
+      })
+    }
+
+    let positionRootLeft = contentInfo.x - curWidth
     positionRootLeft = positionRootLeft - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+    this.leftPositions['left-top'] = positionRootLeft
     this.leftPositions['left-center'] = positionRootLeft
+    this.leftPositions['left-bottom'] = positionRootLeft
 
     let positionRootRight = contentInfo.x + captionSize.width
     positionRootRight = positionRootRight + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+    this.leftPositions['right-top'] = positionRootRight
     this.leftPositions['right-center'] = positionRootRight
+    this.leftPositions['right-bottom'] = positionRootRight
 
     const positionMinorLeft = contentInfo.x
     this.leftPositions['bottom-left'] = positionMinorLeft
     this.leftPositions['top-left'] = positionMinorLeft
 
-    const positionMinorCenter = contentInfo.x - (wrapperStyle.width / 2) + (captionSize.width / 2)
+    const positionMinorCenter = contentInfo.x - (curWidth / 2) + (captionSize.width / 2)
     this.leftPositions['top-center'] = positionMinorCenter
     this.leftPositions['bottom-center'] = positionMinorCenter
 
-    const positionMinorRight = contentInfo.x - wrapperStyle.width + captionSize.width
+    const positionMinorRight = contentInfo.x - curWidth + captionSize.width
     this.leftPositions['bottom-right'] = positionMinorRight
     this.leftPositions['top-right'] = positionMinorRight
-
-    return this.getValidLeftPosition(placement)
   },
 
-  getTopPosition ({
+  calcTopPosition ({
     cy,
-    placement,
     curHeight,
     captionSize,
     hasArrow,
     animateType
   }) {
-    const offset = animateType === 'slide' ? 20 : 0
-
-    let positionRootBottom = cy - offset
+    let positionRootBottom = cy
     positionRootBottom = positionRootBottom + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
     this.topPositions['bottom-left'] = positionRootBottom
     this.topPositions['bottom-center'] = positionRootBottom
@@ -79,84 +126,95 @@ export default {
     this.topPositions['top-center'] = positionRootTop
     this.topPositions['top-right'] = positionRootTop
 
-    const positionMinorCenter = (cy - offset) - (curHeight / 2) - (captionSize.height / 2)
+    const positionMinorCenter = cy - (curHeight / 2) - (captionSize.height / 2)
     this.topPositions['left-center'] = positionMinorCenter
     this.topPositions['right-center'] = positionMinorCenter
 
-    return this.getValidTopPosition(placement)
+    const positionMinorTop = cy - captionSize.height
+    this.topPositions['left-top'] = positionMinorTop
+    this.topPositions['right-top'] = positionMinorTop
+
+    const positionMinorBottom = cy - curHeight
+    this.topPositions['left-bottom'] = positionMinorBottom
+    this.topPositions['right-bottom'] = positionMinorBottom
   },
 
-  getLeftPositionArrow ({
-    placement,
-    contentInfo,
-    captionSize,
-    isShtampInit,
-    shtampStatus
-  }) {
-    if (!isShtampInit(shtampStatus)) return
-    let positionLC = contentInfo.x - ARROW_SIZE - POPOVER_MARGIN
-    this.arrowLeftPositions['left-center'] = positionLC
+  calcLeftPositionArrow ({ curWidth }) {
+    this.arrowLeftPositions['top-left'] = 10
+    this.arrowLeftPositions['bottom-left'] = 10
 
-    let positionRC = contentInfo.x + captionSize.width
-    this.arrowLeftPositions['right-center'] = positionRC
-
-    let positionRootLeft = contentInfo.x + ARROW_MARGIN
-    this.arrowLeftPositions['top-left'] = positionRootLeft
-    this.arrowLeftPositions['bottom-left'] = positionRootLeft
-
-    let positionMinorRight = (contentInfo.x + captionSize.width) - (ARROW_SIZE * 2) - ARROW_MARGIN
+    let positionMinorRight = curWidth - (ARROW_SIZE * 2) - 10
     this.arrowLeftPositions['top-right'] = positionMinorRight
     this.arrowLeftPositions['bottom-right'] = positionMinorRight
 
-    let positionMinorCenter = contentInfo.x + (captionSize.width / 2) - ARROW_SIZE
+    let positionMinorCenter = (curWidth / 2) - ARROW_SIZE
     this.arrowLeftPositions['top-center'] = positionMinorCenter
     this.arrowLeftPositions['bottom-center'] = positionMinorCenter
 
-    return this.getValidLeftPositionArrow(placement)
+    this.arrowLeftPositions['left-center'] = '100%'
+    this.arrowLeftPositions['left-top'] = '100%'
+    this.arrowLeftPositions['left-bottom'] = '100%'
+
+    this.arrowLeftPositions['right-top'] = -(ARROW_SIZE * 2)
+    this.arrowLeftPositions['right-center'] = -(ARROW_SIZE * 2)
+    this.arrowLeftPositions['right-bottom'] = -(ARROW_SIZE * 2)
   },
 
-  getTopPositionArrow ({
-    placement,
-    animateType,
-    contentInfo,
-    captionSize,
-    isShtampInit,
-    shtampStatus
-  }) {
-    if (!isShtampInit(shtampStatus)) return
-    // const curTop = animateType === 'slide' ? animateTop._value + 20 : animateTop._value
+  calcTopPositionArrow ({ curHeight }) {
+    this.arrowTopPositions['top-left'] = '100%'
+    this.arrowTopPositions['top-center'] = '100%'
+    this.arrowTopPositions['top-right'] = '100%'
 
-    const positionRootTop = contentInfo.y - captionSize.height - POPOVER_MARGIN - ARROW_SIZE
-    this.arrowTopPositions['top-left'] = positionRootTop
-    this.arrowTopPositions['top-center'] = positionRootTop
-    this.arrowTopPositions['top-right'] = positionRootTop
-
-    const positionRootCenter = contentInfo.y - (captionSize.height / 2) - ARROW_SIZE
+    const positionRootCenter = (curHeight / 2) - ARROW_SIZE
     this.arrowTopPositions['left-center'] = positionRootCenter
     this.arrowTopPositions['right-center'] = positionRootCenter
 
-    const positionRootBottom = contentInfo.y
-    this.arrowTopPositions['bottom-left'] = positionRootBottom
-    this.arrowTopPositions['bottom-center'] = positionRootBottom
-    this.arrowTopPositions['bottom-right'] = positionRootBottom
+    this.arrowTopPositions['bottom-left'] = -(ARROW_SIZE * 2)
+    this.arrowTopPositions['bottom-center'] = -(ARROW_SIZE * 2)
+    this.arrowTopPositions['bottom-right'] = -(ARROW_SIZE * 2)
 
-    return this.getValidTopPositionArrow(placement)
+    this.arrowTopPositions['left-top'] = 10
+    this.arrowTopPositions['right-top'] = 10
+
+    this.arrowTopPositions['left-bottom'] = curHeight - (ARROW_SIZE * 2) - 10
+    this.arrowTopPositions['right-bottom'] = curHeight - (ARROW_SIZE * 2) - 10
   },
 
-  getValidLeftPosition (placement) {
-    return this.leftPositions[placement]
-  },
+  // TODO: fix - Maximum call stack size exceeded
+  getValidPlacement ({
+    placement,
+    curHeight,
+    curWidth
+  }) {
+    const activeIndexPlacement = this.placementOrder.findIndex(item => {
+      return item === placement
+    })
 
-  getValidTopPosition (placement) {
-    return this.topPositions[placement]
-  },
+    let nextIndex = activeIndexPlacement + 1
+    if (nextIndex > this.placementOrder.length - 1) nextIndex = 0
 
-  getValidLeftPositionArrow (placement) {
-    return this.arrowLeftPositions[placement]
-  },
+    if (this.leftPositions[placement] < 0 ||
+        this.leftPositions[placement] + curWidth > Dimensions.get('window').width) {
+      return this.getValidPlacement({
+        placement: this.placementOrder[nextIndex],
+        curHeight,
+        curWidth
+      })
+    }
 
-  getValidTopPositionArrow (placement) {
-    return this.arrowTopPositions[placement]
+    const [rootPlacement] = placement.split('-')
+    let _topPosition = this.topPositions[placement]
+    if (rootPlacement === 'top') _topPosition -= curHeight
+
+    if (_topPosition < 0 || _topPosition + curHeight > Dimensions.get('window').height) {
+      return this.getValidPlacement({
+        placement: this.placementOrder[nextIndex],
+        curHeight,
+        curWidth
+      })
+    }
+
+    return this.placementOrder[activeIndexPlacement]
   }
 
 }

@@ -5,7 +5,8 @@ import {
   Animated,
   TouchableWithoutFeedback,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { observer } from 'startupjs'
 import Modal from '../../Modal'
@@ -24,13 +25,8 @@ function isShtampInit (shtampStatus) {
   return ['close', 'render'].indexOf(shtampStatus) === -1
 }
 
-// scale from transform style, with arrow
-
-// placement: left-top -
-// placement: left-bottom -
-// placement: right-top -
-// placement: right-bottom -
-
+// TODO docs
+// geometry to ref.current
 function Popover ({
   children,
   wrapperStyle,
@@ -54,6 +50,7 @@ function Popover ({
   const [contentInfo, setContentInfo] = useState({})
   const [captionSize, setCaptionSize] = useState({})
   const [shtampStatus, setShtampStatus] = useState(SHTAMP_STATUSES.CLOSE)
+  const [localPlacement, setLocalPlacement] = useState(placement)
 
   // animate states
   const [animateOpacityOverlay] = useState(new Animated.Value(visible ? 1 : 0))
@@ -64,8 +61,10 @@ function Popover ({
     (visible || animateType !== 'scale') ? wrapperStyle.width : 0
   ))
   const [animateHeight] = useState(new Animated.Value(0))
-  const [animateScale] = useState(new Animated.Value(1))
+  const [animateScaleX] = useState(new Animated.Value(1))
+  const [animateScaleY] = useState(new Animated.Value(1))
   const [animateTranslateX] = useState(new Animated.Value(0))
+  const [animateTranslateY] = useState(new Animated.Value(0))
 
   // reset state after change dimensions
   useLayoutEffect(() => {
@@ -93,6 +92,7 @@ function Popover ({
     if (shtampStatus === SHTAMP_STATUSES.OPEN && !visible) runHide()
   }, [visible])
 
+  // TODO: children resize
   useEffect(() => {
     if (shtampStatus === SHTAMP_STATUSES.ANIMATE && visible) {
       animateOpacity.setValue(1)
@@ -107,46 +107,49 @@ function Popover ({
       let curHeight = height || refHeight
       curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
+      let curWidth = width || refWidth
+      curWidth = hasWidthCaption ? captionSize.width : curWidth
       const _contentInfo = {
         x: cx,
         y: cy,
         height: curHeight,
         width: width || refWidth
       }
-      setContentInfo(_contentInfo)
 
-      animateTop.setValue(geometry.getTopPosition({
+      const { positionTop, positionLeft, validPlacement } = geometry.getPositions({
+        placement: localPlacement,
         cy,
-        placement,
         curHeight,
+        curWidth,
         captionSize,
         hasArrow,
-        animateType
-      }))
-
-      animateLeft.setValue(geometry.getLeftPosition({
-        placement,
-        contentInfo: _contentInfo,
-        captionSize,
-        wrapperStyle,
         hasWidthCaption,
-        hasArrow
-      }))
+        animateType,
+        contentInfo: _contentInfo
+      })
 
+      animateTop.setValue(positionTop)
+      animateLeft.setValue(positionLeft)
+
+      setLocalPlacement(validPlacement)
+      setContentInfo(_contentInfo)
       setShtampStatus(SHTAMP_STATUSES.ANIMATE)
+
       animate.show({
+        placement: validPlacement,
         cx,
-        placement,
         curHeight,
-        curWidth: width || refWidth,
+        curWidth,
         animateType,
         animateHeight,
         animateOpacity,
         animateTop,
         animateLeft,
         animateWidth,
-        animateScale,
+        animateScaleX,
+        animateScaleY,
         animateTranslateX,
+        animateTranslateY,
         animateOpacityOverlay
       }, () => {
         setShtampStatus(SHTAMP_STATUSES.OPEN)
@@ -161,18 +164,23 @@ function Popover ({
       animateHeight.setValue(refHeight)
 
       animate.hide({
-        placement,
+        placement: localPlacement,
         curHeight: refHeight,
         curWidth: refWidth,
         animateType,
         animateTop,
         animateOpacity,
         animateHeight,
-        animateWidth,
         animateLeft,
+        animateWidth,
+        animateScaleX,
+        animateScaleY,
+        animateTranslateX,
+        animateTranslateY,
         animateOpacityOverlay
       }, () => {
         setShtampStatus(SHTAMP_STATUSES.CLOSE)
+        setLocalPlacement(placement)
         onDismiss()
       })
     })
@@ -195,6 +203,7 @@ function Popover ({
     renderContent.push(child)
   })
 
+  // styles
   const _backdropStyle = StyleSheet.flatten([
     backdropStyle,
     isShtampInit(shtampStatus) ? {} : STYLES.shtamp
@@ -206,7 +215,13 @@ function Popover ({
       left: animateLeft,
       top: animateTop,
       opacity: animateOpacity,
-      width: animateWidth
+      width: animateWidth,
+      transform: [
+        { scaleX: animateScaleX },
+        { scaleY: animateScaleY },
+        { translateX: animateTranslateX },
+        { translateY: animateTranslateY }
+      ]
     } : STYLES.wrapper
   ])
 
@@ -215,15 +230,29 @@ function Popover ({
     { opacity: animateOpacityOverlay }
   ])
 
-  if (hasWidthCaption) _wrapperStyle.width = captionSize.width
+  const _arrowStyle = StyleSheet.flatten([
+    arrowStyle,
+    {
+      left: geometry.arrowLeftPositions[localPlacement],
+      top: geometry.arrowTopPositions[localPlacement]
+    }
+  ])
+
+  const contentStyle = shtampStatus === SHTAMP_STATUSES.ANIMATE
+    ? { height: animateHeight }
+    : Platform.OS === 'web'
+      ? { height: '100%' }
+      : { height: 'auto' }
+
+  if (hasWidthCaption && shtampStatus !== SHTAMP_STATUSES.ANIMATE) {
+    _wrapperStyle.width = captionSize.width
+  }
   if (shtampStatus === SHTAMP_STATUSES.ANIMATE) _wrapperStyle.height = animateHeight
   else if (wrapperStyle.maxHeight) _wrapperStyle.maxHeight = wrapperStyle.maxHeight
   else if (!wrapperStyle.height) _wrapperStyle.height = 'auto'
   if (shtampStatus === SHTAMP_STATUSES.CLOSE) _wrapperStyle.height = 0
 
-  console.log(_wrapperStyle)
-
-  const [rootPlacement] = placement.split('-')
+  const [rootPlacement] = localPlacement.split('-')
   const Wrapper = isShtampInit(shtampStatus) ? Modal : View
   return pug`
     View
@@ -256,42 +285,24 @@ function Popover ({
               top: contentInfo.y - captionSize.height,
               width: captionSize.width
             })= caption.props.children
-          Animated.View.scaleWrapper(style={
-            transform: [{ scale: animateScale }, { translateX: animateTranslateX }]
-          })
+          Animated.View.popover(
+            pointerEvents='box-none'
+            ref=refContent
+            style=_wrapperStyle
+            styleName={ wrapperArrow: hasArrow }
+          )
             if hasArrow
               Animated.View.arrow(
-                style={
-                  left: geometry.getLeftPositionArrow({
-                    placement,
-                    contentInfo,
-                    captionSize,
-                    isShtampInit,
-                    shtampStatus
-                  }),
-                  top: geometry.getTopPositionArrow({
-                    placement,
-                    contentInfo,
-                    animateType,
-                    captionSize,
-                    isShtampInit,
-                    shtampStatus
-                  }),
-                  opacity: animateOpacity
-                }
+                style=_arrowStyle
                 styleName={
                   arrowBottom: rootPlacement === 'bottom',
                   arrowTop: rootPlacement === 'top',
-                  arrowCenterLeft: placement === 'left-center',
-                  arrowCenterRight: placement === 'right-center',
+                  arrowLeft: rootPlacement === 'left',
+                  arrowRight: rootPlacement === 'right',
                 }
               )
-            Animated.View.popover(
-              pointerEvents='box-none'
-              ref=refContent
-              style=_wrapperStyle
-              styleName={ wrapperArrow: hasArrow }
-            )= renderContent
+            Animated.View.content(style=contentStyle)
+              = renderContent
   `
 }
 

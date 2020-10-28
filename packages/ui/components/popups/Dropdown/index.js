@@ -83,8 +83,8 @@ function Dropdown ({
         : (isPopover ? 'popover' : drawerVariant),
       _styleActiveItem: activeItemStyle,
       _activeValue: value,
-      _index: caption ? index - 1 : index,
-      _childenLength: caption ? arr.length - 1 : arr.length,
+      _index: caption ? (index - 1) : index,
+      _childenLength: caption ? (arr.length - 1) : arr.length,
       _onDismissDropdown: () => setIsShow(false),
       _onChange: v => {
         onChange(v)

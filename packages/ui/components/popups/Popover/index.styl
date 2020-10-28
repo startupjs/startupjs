@@ -1,7 +1,6 @@
 .popover
   border-radius 1u
   background-color $UI.colors.white
-  overflow hidden
   shadow(3)
 
 .wrapperArrow
@@ -12,6 +11,9 @@
   opacity 0
   left 0
   top 0
+
+.content
+  overflow hidden
 
 .shtamp
   overflow hidden
@@ -44,11 +46,13 @@
 .arrowTop
   border-top-color $UI.colors.white
 
-.arrowCenterLeft
-  border-left-color $UI.colors.white
+.arrowLeft
+  border-top-color $UI.colors.white
+  transform rotate(-90deg)
 
-.arrowCenterRight
-  border-right-color $UI.colors.white
+.arrowRight
+  border-top-color $UI.colors.white
+  transform rotate(90deg)
 
 :export
   shadows: $UI.shadows

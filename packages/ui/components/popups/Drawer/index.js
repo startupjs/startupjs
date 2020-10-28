@@ -38,16 +38,16 @@ const SHTAMP_RENDER_STYLE = {
 // TODO: more test for work responder with ScrollView
 // https://material-ui.com/ru/components/drawers/#%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%B0%D1%8F-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C
 function Drawer ({
-  visible,
-  position,
-  onDismiss,
-  isSwipe,
-  isShowOverlay,
-  hasDefaultStyleContent,
+  children,
   styleSwipe,
   styleContent,
   styleCase,
-  children
+  visible,
+  position,
+  isSwipe,
+  isShowOverlay,
+  hasDefaultStyleContent,
+  onDismiss
 }) {
   const isHorizontal = position === 'left' || position === 'right'
   const isInvertPosition = position === 'left' || position === 'top'
@@ -125,18 +125,19 @@ function Drawer ({
     })
   }
 
-  const isSizeDefined = ((contentSize.width) || (!contentSize.width && visible))
-  const Wrapper = isSizeDefined ? Modal : View
+  const isSizeDefined = (contentSize.width || (!contentSize.width && visible))
   const _styleCase = {
     ...POSITION_STYLES[position],
     ...styleCase,
     opacity: contentSize.width ? 1 : 0
   }
+
   const _styleContent = {
     transform: [{ [POSITION_NAMES[position]]: animatePosition }],
     ...styleContent
   }
 
+  const Wrapper = isSizeDefined ? Modal : View
   return pug`
     Wrapper(
       transparent=true

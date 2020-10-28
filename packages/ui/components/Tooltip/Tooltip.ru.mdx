@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Text } from 'react-native'
 import Tooltip from '../Tooltip'
 import Button from '../Button'
+import Row from '../Row'
 
 # Tooltip
 
@@ -12,13 +13,33 @@ import { Tooltip } from '@startupjs/ui'
 ## Пример
 ```jsx example
 return (
-  <Tooltip>
-    <Tooltip.Caption>
-      <Text style={{ backgroundColor: '#333' }}>Выйти</Text>
-    </Tooltip.Caption>
-    <Tooltip.Content style={{ padding: 16 }}>
-      Test tip
-    </Tooltip.Content>
-  </Tooltip>
+  <Row>
+    <View style={{ width: 100 }}>
+      <Tooltip
+        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей\n\n\n деятельности требуют определения и уточнения новых предложений.'
+      >
+        <Text style={{ backgroundColor: '#dddddd', padding: 12,
+        borderRadius: 4 }}>Текст...</Text>
+      </Tooltip>
+    </View>
+
+    <View style={{ width: 100 }}>
+      <Tooltip
+        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей\n\n\n деятельности требуют определения и уточнения новых предложений.'
+      >
+        <Text style={{ backgroundColor: '#dddddd', padding: 12,
+        borderRadius: 4 }}>Текст...</Text>
+      </Tooltip>
+    </View>
+
+    <View style={{ width: 100 }}>
+      <Tooltip
+        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей\n\n\n деятельности требуют определения и уточнения новых предложений.'
+      >
+        <Text style={{ backgroundColor: '#dddddd', padding: 12,
+        borderRadius: 4 }}>Текст...</Text>
+      </Tooltip>
+    </View>
+  </Row>
 )
 ```

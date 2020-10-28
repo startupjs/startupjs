@@ -1,60 +1,38 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import { Text, View } from 'react-native'
+import { Span } from '@startupjs/ui'
 import { Popover } from '../popups'
 import TooltipCaption from './Caption'
-import './index.styl'
+import STYLES from './index.styl'
 
+// TODO: duration
 function Tooltip ({
   children,
   style,
-  wrapperStyle,
-  placement
+  tooltipStyle,
+  placement,
+  duration,
+  content
 }) {
   const [isVisible, setIsVisible] = useState(false)
-
-  let caption = null
-  let content = null
-  React.Children.toArray(children).forEach((child, index) => {
-    if (child.type === TooltipCaption) {
-      if (index !== 0) Error('Caption need use first child')
-      caption = React.cloneElement(child, {
-        _onChange: value => {
-          setIsVisible(value)
-        }
-      })
-    }
-    if (child.type === TooltipContent) {
-      content = child
-    }
-  })
 
   return pug`
     Popover(
       visible=isVisible
       hasArrow=true
-      placement='top-left'
-      wrapperStyleName='wrapper'
+      placement=placement || 'top-center'
+      duration=300
+      animateType='scale'
+      wrapperStyle=[STYLES.wrapper, tooltipStyle]
+      arrowStyleName='arrow'
       onDismiss=()=> setIsVisible(false)
+      onRequestOpen=()=> setIsVisible(true)
     )
-      Popover.Caption= caption
-      = content
+      Popover.Caption
+        TooltipCaption(_onChange=v => setIsVisible(v))
+          = children
+      Span.text= content
   `
 }
 
-const TooltipContent = ({ children, style }) => {
-  if (typeof children === 'string') {
-    return pug`
-      View(style=style)
-        Text.text= children
-    `
-  } else {
-    return children
-  }
-}
-
-const ObservedTooltip = observer(Tooltip)
-ObservedTooltip.Caption = TooltipCaption
-ObservedTooltip.Content = TooltipContent
-
-export default ObservedTooltip
+export default observer(Tooltip)

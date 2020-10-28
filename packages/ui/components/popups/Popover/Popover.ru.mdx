@@ -190,6 +190,7 @@ return (
       <View style={{ marginBottom: 16, marginRight: 16 }}>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'top-left'}
           placement='top-left'
           onDismiss={()=> setVisible('')}
@@ -205,6 +206,7 @@ return (
       <View>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'top-center'}
           placement="top-center"
           onDismiss={()=> setVisible('')}
@@ -220,6 +222,7 @@ return (
       <View>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'top-right'}
           placement="top-right"
           onDismiss={()=> setVisible('')}
@@ -239,6 +242,7 @@ return (
       <View style={{ marginBottom: 16 }}>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'left-top'}
           placement="left-top"
           onDismiss={()=> setVisible('')}
@@ -257,6 +261,7 @@ return (
       <View style={{ marginBottom: 16 }}>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'right-top'}
           placement="right-top"
           onDismiss={()=> setVisible('')}
@@ -275,6 +280,7 @@ return (
       <View style={{ marginBottom: 16 }}>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'left-center'}
           placement="left-center"
           onDismiss={()=> setVisible('')}
@@ -293,6 +299,7 @@ return (
       <View>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'right-center'}
           placement="right-center"
           onDismiss={()=> setVisible('')}
@@ -311,6 +318,7 @@ return (
       <View style={{ marginBottom: 16 }}>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'left-bottom'}
           placement="left-bottom"
           onDismiss={()=> setVisible('')}
@@ -329,6 +337,7 @@ return (
       <View style={{ marginBottom: 16 }}>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'right-bottom'}
           placement="right-bottom"
           onDismiss={()=> setVisible('')}
@@ -348,6 +357,7 @@ return (
       <View>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'bottom-left'}
           placement="bottom-left"
           onDismiss={()=> setVisible('')}
@@ -363,6 +373,7 @@ return (
       <View>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'bottom-center'}
           placement="bottom-center"
           onDismiss={()=> setVisible('')}
@@ -378,6 +389,7 @@ return (
       <View>
         <Popover
           hasArrow={true}
+          animateType='scale'
           visible={visible === 'bottom-right'}
           placement="bottom-right"
           onDismiss={()=> setVisible('')}
@@ -406,6 +418,7 @@ return (
     <View>
       <Popover
         visible={visible === 'default'}
+        hasArrow={true}
         onDismiss={()=> setVisible('')}
       >
         <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -422,6 +435,7 @@ return (
       <Popover
         visible={visible === 'scale'}
         animateType='scale'
+        hasArrow={true}
         placement='bottom-center'
         onDismiss={()=> setVisible('')}
       >
