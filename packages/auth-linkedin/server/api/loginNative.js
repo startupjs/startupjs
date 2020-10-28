@@ -8,16 +8,6 @@ export default async function loginNative (req, res, next, config) {
   const { code } = req.query
   const { clientId, clientSecret } = config
 
-  console.log('++++++++++')
-  console.log('++++++++++')
-  console.log('++++++++++')
-  console.log('UNDEFINED')
-  console.log(code)
-  console.log('++++++++++')
-  console.log('++++++++++')
-  console.log('++++++++++')
-  console.log('++++++++++')
-
   const body = {
     grant_type: 'authorization_code',
     code,
