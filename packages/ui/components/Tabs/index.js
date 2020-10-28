@@ -106,7 +106,7 @@ function Tabs ({
           CellRendererComponent=cellRender
           onScrollToIndexFailed=() => null
           removeClippedSubviews
-          windowSize=tabs ? tabs.length : 1
+          windowSize=tabs.length ? tabs.length : 1
           initialScrollIndex=tabIndex
         )
         FlatList.content(
@@ -115,7 +115,7 @@ function Tabs ({
           ref=contentWrapper
           horizontal
           showsHorizontalScrollIndicator=false
-          windowSize=content ? content.length : 1
+          windowSize=content.length ? content.length : 1
           removeClippedSubviews
           initialNumToRender=1
           maxToRenderPerBatch=0
