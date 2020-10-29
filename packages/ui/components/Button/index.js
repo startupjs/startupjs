@@ -129,14 +129,14 @@ function Button ({
         )
           Icon.icon(
             style=iconStyle
-            styleName=[variant, {'opacity': asyncActive}]
+            styleName=[variant, {'invisible': asyncActive}]
             icon=icon
             size=size
           )
       if children
         Span.label(
           style=[textStyle]
-          styleName=[size, {'opacity': asyncActive}]
+          styleName=[size, {'invisible': asyncActive}]
         )= children
   `
 }
