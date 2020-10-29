@@ -14,7 +14,7 @@ let taskId
 
 describe('READ', function () {
   before(async () => {
-    backend.allowCreate('tasksRead', async (docId, doc, session) => {
+    backend.allowCreate('tasksRead', async (backend, collection, docId, doc, session) => {
       return true
     })
 
@@ -28,10 +28,10 @@ describe('READ', function () {
   })
 
   it('deny = false && allow = true => not err', async () => {
-    backend.denyRead('tasksRead', async (docId, doc, session) => {
+    backend.denyRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return false
     })
-    backend.allowRead('tasksRead', async (docId, doc, session) => {
+    backend.allowRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return true
     })
 
@@ -47,10 +47,10 @@ describe('READ', function () {
   })
 
   it('deny = false && allow = false => err{ code: 403.2 }', async () => {
-    backend.denyRead('tasksRead', async (docId, doc, session) => {
+    backend.denyRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return false
     })
-    backend.allowRead('tasksRead', async (docId, doc, session) => {
+    backend.allowRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return false
     })
 
@@ -66,10 +66,10 @@ describe('READ', function () {
   })
 
   it('deny = true && allow = false => err{ code: 403.2 }', async () => {
-    backend.denyRead('tasksRead', async (docId, doc, session) => {
+    backend.denyRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return true
     })
-    backend.allowRead('tasksRead', async (docId, doc, session) => {
+    backend.allowRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return false
     })
 
@@ -85,10 +85,10 @@ describe('READ', function () {
   })
 
   it('deny = true && allow = true => err{ code: 403.2 }', async () => {
-    backend.denyRead('tasksRead', async (docId, doc, session) => {
+    backend.denyRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return true
     })
-    backend.allowRead('tasksRead', async (docId, doc, session) => {
+    backend.allowRead('tasksRead', async (backend, collection, docId, doc, session) => {
       return true
     })
     try {

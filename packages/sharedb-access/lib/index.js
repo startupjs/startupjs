@@ -45,6 +45,7 @@ class ShareDBAccess {
   constructor (backend, options) {
     if (!(this instanceof ShareDBAccess)) return new ShareDBAccess(backend, options)
 
+    this.backend = backend
     this.options = options || {}
     this.allow = {}
     this.deny = {}
@@ -130,7 +131,7 @@ class ShareDBAccess {
 
     const ops = opData.op
 
-    const ok = await this.check('Update', collection, [docId, oldDoc, newDoc, ops, session, shareRequest])
+    const ok = await this.check('Update', collection, [this.backend, collection, docId, oldDoc, newDoc, ops, session, shareRequest])
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
@@ -167,7 +168,7 @@ class ShareDBAccess {
     if (opData.create) {
       const doc = opData.create.data
 
-      const ok = await this.check('Create', collection, [docId, doc, session, shareRequest])
+      const ok = await this.check('Create', collection, [this.backend, collection, docId, doc, session, shareRequest])
       debug('create', ok, collection, docId, doc)
 
       if (ok) return
@@ -179,7 +180,7 @@ class ShareDBAccess {
     if (opData.del) {
       const doc = snapshot.data
 
-      const ok = await this.check('Delete', collection, [docId, doc, session, shareRequest])
+      const ok = await this.check('Delete', collection, [this.backend, collection, docId, doc, session, shareRequest])
       debug('delete', ok, collection, docId, doc)
       if (ok) return
 
@@ -224,7 +225,7 @@ class ShareDBAccess {
 
     const session = agent.connectSession || {}
 
-    const ok = await this.check('Read', collection, [docId, doc, session, shareRequest])
+    const ok = await this.check('Read', collection, [this.backend, collection, docId, doc, session, shareRequest])
 
     debug('read', ok, collection, [docId, doc, session])
 

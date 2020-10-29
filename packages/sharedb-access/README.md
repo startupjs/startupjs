@@ -40,19 +40,19 @@ nothing at all (`undefined`).
 // doc   - document object
 // session - your connect session
 
-backend.allowCreate('items', async (docId, doc, session) => {
+backend.allowCreate('items', async (backend, collection, docId, doc, session) => {
   return true
 })
 
 // Deny creation if user is not admin
-backend.denyCreate('items', async (docId, doc, session) => {
+backend.denyCreate('items', async (backend, collection, docId, doc, session) => {
   return !session.isAdmin
 })
 
 // So, finally, only admins can create docs in 'items' collection
 // the same results is if you just write:
 
-backend.allowCreate('items', async (docId, doc, session) => {
+backend.allowCreate('items', async (backend, collection, docId, doc, session) => {
   return session.isAdmin
 })
 ```
@@ -61,12 +61,12 @@ backend.allowCreate('items', async (docId, doc, session) => {
 Interface is like `create`-operation
 
 ```js
-backend.allowRead('items', async (docId, doc, session) => {
+backend.allowRead('items', async (backend, collection, docId, doc, session) => {
   // Allow all operations
   return true
 })
 
-backend.denyRead('items', async (docId, doc, session) => {
+backend.denyRead('items', async (backend, collection, docId, doc, session) => {
   // But only if the reader is owner of the doc
   return doc.ownerId !== session.userId
 })
@@ -77,12 +77,12 @@ backend.denyRead('items', async (docId, doc, session) => {
 Interface is like `create`-operation
 
 ```js
-backend.allowDelete('items', async (docId, doc, session) => {
+backend.allowDelete('items', async (backend, collection, docId, doc, session) => {
   // Only owners can delete docs
   return doc.ownerId === session.userId
 })
 
-backend.denyDelete('items', async (docId, doc, session) => {
+backend.denyDelete('items', async (backend, collection, docId, doc, session) => {
   // But deny deletion if it's a special type of docs
   return doc.type === 'liveForever'
 })
@@ -97,7 +97,7 @@ backend.denyDelete('items', async (docId, doc, session) => {
 // ops    - array of OT operations
 // session - your connect session
 
-const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
+const allowUpdateAll = async (backend, collection, docId, oldDoc, newDoc, ops, session) => {
   return true
 }
 
