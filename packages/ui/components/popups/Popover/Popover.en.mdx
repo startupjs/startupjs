@@ -186,7 +186,7 @@ right-top, right-center, right-bottom
 bottom-right, bottom-center, bottom-left
 left-bottom, left-center, left-top
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState()
 return (
   <View style={{ alignItems: 'center' }}>
     <Row style={{ flexWrap: 'wrap' }}>
@@ -416,7 +416,7 @@ return (
 animateType - prop responsible for the animation type
 There are three types of animation when opening: default, slide, scale
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState()
 return (
   <Row>
     <View>

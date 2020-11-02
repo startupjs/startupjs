@@ -22,10 +22,12 @@ try {
   PATCHES_DIR = './patches'
 }
 
+const LINK = !!process.env.LINK
+const LOCAL_DIR = process.env.LOCAL_DIR || '.'
+
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'react-native-web@^0.14.3',
   'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
   'react',
@@ -38,11 +40,13 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
+  'eslint-plugin-import-helpers',
   'eslint-plugin-node',
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
+  'husky@^4.3.0',
   'lint-staged'
 ]
 
@@ -258,7 +262,15 @@ commander
       throw Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
 
-    let projectPath = path.join(process.cwd(), projectName)
+    if (LOCAL_DIR !== '.') {
+      await execa(
+        'mkdir',
+        ['-p', LOCAL_DIR],
+        { stdio: 'inherit' }
+      )
+    }
+
+    let projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
 
     if (fs.existsSync(projectPath)) {
       const err = `Folder '${projectName}' already exists in the current directory. Delete it to create a new app`
@@ -273,7 +285,10 @@ commander
       `react-native${'@' + reactNative}`,
       'init',
       projectName
-    ].concat(['--version', reactNative]), { stdio: 'inherit' })
+    ].concat(['--version', reactNative]), {
+      cwd: path.join(process.cwd(), LOCAL_DIR),
+      stdio: 'inherit'
+    })
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
@@ -303,6 +318,12 @@ commander
       cwd: projectPath,
       stdio: 'inherit'
     })
+
+    if (LINK) {
+      // TODO: Link startupjs packages. ref:
+      //       https://stackoverflow.com/questions/48681642/yarn-workspaces-and-yarn-link
+      console.log('> TODO: Link startupjs packages for local install')
+    }
 
     if (DEV_DEPENDENCIES.length) {
       // install startupjs devDependencies
@@ -453,14 +474,17 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
 function renameFonts () {
   const FONTS_PATH = process.cwd() + '/public/fonts'
   const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
+  const IGNORE = ['.gitignore', '.DS_Store', '.gitallowed']
 
   if (fs.existsSync(FONTS_PATH)) {
     const files = fs.readdirSync(FONTS_PATH)
 
     files.forEach(file => {
+      if (IGNORE.includes(file)) return
+
       const [fileName, fileExt] = file.split('.')
       if (EXT_WISHLIST.indexOf(fileExt) === -1) {
-        return console.error(`Font format error: ${fileExt} don\`t support`)
+        return console.error(`Font format error: ${fileExt} is not supported`)
       }
 
       const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
@@ -494,6 +518,12 @@ function addScriptsToPackageJson (projectPath) {
       'eslint --fix',
       'git add'
     ]
+  }
+
+  packageJSON.husky = {
+    hooks: {
+      'pre-commit': 'lint-staged'
+    }
   }
 
   // FIXME: We can't use type=module now, because metro does not support ESM

@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState, useRef } from 'react'
-import { observer } from 'startupjs'
 import {
   Text,
   View,
@@ -9,6 +8,7 @@ import {
   NativeModules,
   StyleSheet
 } from 'react-native'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Drawer from '../Drawer'
 import Popover from '../Popover'

@@ -8,6 +8,8 @@
     "styleguide"
   ],
   "scripts": {
+    "init-project": "rm -rf ./temp/app && LINK=X LOCAL_DIR=./temp ./packages/startupjs/cli.js init app",
+    "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
     "ios": "cd styleguide && yarn ios",
     "start": "cd styleguide && yarn start",
@@ -34,6 +36,7 @@
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import-helpers": "^1.1.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.16.0",
@@ -51,7 +54,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'"
+      "pre-commit": "lint-staged && yarn generate-module-map"
     }
   },
   "license": "MIT"

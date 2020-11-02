@@ -1,3 +1,9 @@
+// TODO:
+// - Remove .getNode(), it's not longer needed on RN 0.62+ and gonna be removed.
+//   (ref: https://reactnative.dev/blog/2020/03/26/version-0.62#deprecations)
+//   This requires a breaking change asking people to upgrade their projects
+//   to RN 0.62+
+
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {
   View,

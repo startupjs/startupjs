@@ -1,0 +1,53 @@
+import Tabs from '../Tabs'
+import Div from '../Div'
+import ExampleTab from './tabExample/'
+import { Sandbox } from '@startupjs/docs'
+
+# Tabs (табы)
+
+Табы отображают список карточек и компонент для навигации по ним.
+
+```jsx
+import { Tabs } from '@startupjs/ui'
+```
+
+## Пример
+
+```jsx example
+const [value, $value] = useValue('Second')
+
+return (
+  <Div>
+  <Tabs
+    $value={$value}
+  >
+    <Tabs.Item
+      title='1 tab'
+    >
+      <ExampleTab bgColor='blue' />
+    </Tabs.Item>
+    <Tabs.Item
+      value='Second'
+      title='2 tab'
+    >
+      <ExampleTab bgColor='pink' />
+    </Tabs.Item>
+    <Tabs.Item
+      title='3 tab'
+    >
+      <ExampleTab bgColor='aqua' />
+    </Tabs.Item>
+  </Tabs>
+  </Div>
+)
+```
+
+## Sandbox
+
+### Tabs
+
+<Sandbox Component={Tabs} />
+
+### Tabs.Item
+
+<Sandbox Component={Tabs.Item} />
