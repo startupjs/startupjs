@@ -78,7 +78,7 @@ the permission rule for the operation, it is considered prohibited by default.
 // docId - id of your doc for access-control
 // doc   - document object
 // session - your connect session
-class ItemsModel {
+class ItemModel {
   static access = {
     create: async (operation, backend, collection, docId, doc, session) => {
       return true
@@ -89,7 +89,7 @@ class ItemsModel {
 // For example, let only admins can create docs in 'items' collection
 // access will be:
 
-class ItemsModel {
+class ItemModel {
   static access = {
     create: async (operation, backend, collection, docId, doc, session) => { 
       return  session.isAdmin
@@ -102,7 +102,7 @@ class ItemsModel {
 Interface is like `create`-operation
 
 ```js
-class ItemsModel {
+class ItemModel {
   static access = {
     // Only if the reader is owner of the doc
     read: async (operation, backend, collection, docId, doc, session) => {
@@ -117,7 +117,7 @@ class ItemsModel {
 Interface is like `create`-operation
 
 ```js
-class ItemsModel {
+class ItemModel {
   static access = {
     // Only owners can delete docs, but nobody can delete doc with special typ
     delete: async (operation, backend, collection, docId, doc, session) => { 
@@ -140,7 +140,7 @@ const allowUpdateAll = async (operation, backend, collection, docId, oldDoc, ses
   return true
 }
 
-class ItemsModel {
+class ItemModel {
   static access = {
     update: allowUpdateAll
   }
@@ -149,7 +149,7 @@ class ItemsModel {
 
 #### Allow Create, Read, Update, Delete
 ```js
-class ItemsModel {
+class ItemModel {
   static access = {
     create: async (operation, backend, collection, docId, doc, session) => { 
       return true
