@@ -18,10 +18,10 @@ describe('CREATE', function () {
   })
 
   it('deny = false && allow = false => err{ code: 403.1 }', async () => {
-    backend.denyCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.denyCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return false
     })
-    backend.allowCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return false
     })
     try {
@@ -35,10 +35,10 @@ describe('CREATE', function () {
   })
 
   it('deny = false && allow = true => not err', async () => {
-    backend.denyCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.denyCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return false
     })
-    backend.allowCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return true
     })
 
@@ -52,10 +52,10 @@ describe('CREATE', function () {
   })
 
   it('deny = true && allow = false => err{ code: 403.1 }', async () => {
-    backend.denyCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.denyCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return true
     })
-    backend.allowCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return false
     })
 
@@ -70,10 +70,10 @@ describe('CREATE', function () {
   })
 
   it('deny = true && allow = true => err{ code: 403.1 }', async () => {
-    backend.denyCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.denyCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return true
     })
-    backend.allowCreate('tasksCreate', async (backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
       return true
     })
 

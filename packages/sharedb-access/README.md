@@ -36,23 +36,26 @@ nothing at all (`undefined`).
 ```js
 // Allow create-operation for collection 'items'
 
+// operation - type of CRUD operation
+// backend - backend of your project
+// collection - name of collection
 // docId - id of your doc for access-control
 // doc   - document object
 // session - your connect session
 
-backend.allowCreate('items', async (backend, collection, docId, doc, session) => {
+backend.allowCreate('items', async (operation, backend, collection, docId, doc, session) => {
   return true
 })
 
 // Deny creation if user is not admin
-backend.denyCreate('items', async (backend, collection, docId, doc, session) => {
+backend.denyCreate('items', async (operation, backend, collection, docId, doc, session) => {
   return !session.isAdmin
 })
 
 // So, finally, only admins can create docs in 'items' collection
 // the same results is if you just write:
 
-backend.allowCreate('items', async (backend, collection, docId, doc, session) => {
+backend.allowCreate('items', async (operation, backend, collection, docId, doc, session) => {
   return session.isAdmin
 })
 ```
@@ -61,12 +64,12 @@ backend.allowCreate('items', async (backend, collection, docId, doc, session) =>
 Interface is like `create`-operation
 
 ```js
-backend.allowRead('items', async (backend, collection, docId, doc, session) => {
+backend.allowRead('items', async (operation, backend, collection, docId, doc, session) => {
   // Allow all operations
   return true
 })
 
-backend.denyRead('items', async (backend, collection, docId, doc, session) => {
+backend.denyRead('items', async (operation, backend, collection, docId, doc, session) => {
   // But only if the reader is owner of the doc
   return doc.ownerId !== session.userId
 })
@@ -77,12 +80,12 @@ backend.denyRead('items', async (backend, collection, docId, doc, session) => {
 Interface is like `create`-operation
 
 ```js
-backend.allowDelete('items', async (backend, collection, docId, doc, session) => {
+backend.allowDelete('items', async (operation, backend, collection, docId, doc, session) => {
   // Only owners can delete docs
   return doc.ownerId === session.userId
 })
 
-backend.denyDelete('items', async (backend, collection, docId, doc, session) => {
+backend.denyDelete('items', async (operation, backend, collection, docId, doc, session) => {
   // But deny deletion if it's a special type of docs
   return doc.type === 'liveForever'
 })
@@ -91,13 +94,16 @@ backend.denyDelete('items', async (backend, collection, docId, doc, session) => 
 #### Update
 
 ```js
+// operation - type of operation
+// backend - backend of your project
+// collection - name of collection
 // docId - id of your doc for access-control
 // oldDoc  - document object (before update)
-// newDoc  - document object (after update)
-// ops    - array of OT operations
 // session - your connect session
+// ops    - array of OT operations
+// newDoc  - document object (after update)
 
-const allowUpdateAll = async (backend, collection, docId, oldDoc, newDoc, ops, session) => {
+const allowUpdateAll = async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
   return true
 }
 

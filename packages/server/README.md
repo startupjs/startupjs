@@ -62,10 +62,10 @@ Template of `access`:
 
 ```js
 static access = {
-  create: async (backend, collection, docId, doc, session) => { your code }
-  read: async (backend, collection, docId, doc, session) => { your code },
-  update: async (backend, collection, docId, oldDoc, newDoc, ops, session) => { your code },
-  delete: async (backend, collection, docId, doc, session) => { your code }
+  create: async (operation, backend, collection, docId, doc, session) => { your code }
+  read: async (operation, backend, collection, docId, doc, session) => { your code },
+  update: async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => { your code },
+  delete: async (operation, backend, collection, docId, doc, session) => { your code }
 }
 ```
 You can describe only those fields that are necessary. But keep in mind that without describing
@@ -80,7 +80,7 @@ the permission rule for the operation, it is considered prohibited by default.
 // session - your connect session
 class ItemsModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => {
+    create: async (operation, backend, collection, docId, doc, session) => {
       return true
     }
   }
@@ -91,7 +91,7 @@ class ItemsModel {
 
 class ItemsModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => { 
+    create: async (operation, backend, collection, docId, doc, session) => { 
       return  session.isAdmin
     }
   }
@@ -105,7 +105,7 @@ Interface is like `create`-operation
 class ItemsModel {
   static access = {
     // Only if the reader is owner of the doc
-    read: async (backend, collection, docId, doc, session) => {
+    read: async (operation, backend, collection, docId, doc, session) => {
       return doc.ownerId === session.userId
     }
   }
@@ -120,7 +120,7 @@ Interface is like `create`-operation
 class ItemsModel {
   static access = {
     // Only owners can delete docs, but nobody can delete doc with special typ
-    delete: async (backend, collection, docId, doc, session) => { 
+    delete: async (operation, backend, collection, docId, doc, session) => { 
       return doc.ownerId === session.userId && doc.type !== 'liveForever'
     }
   }
@@ -136,7 +136,7 @@ class ItemsModel {
 // ops    - array of OT operations
 // session - your connect session
 
-const allowUpdateAll = async (backend, collection, docId, oldDoc, newDoc, ops, session) => {
+const allowUpdateAll = async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
   return true
 }
 
@@ -151,16 +151,16 @@ class ItemsModel {
 ```js
 class ItemsModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => { 
+    create: async (operation, backend, collection, docId, doc, session) => { 
       return true
     },
-    read: async (backend, collection, docId, doc, session) => { 
+    read: async (operation, backend, collection, docId, doc, session) => { 
       return true
     },
-    update: async (backend, collection, docId, oldDoc, newDoc, ops, session) => { 
+    update: async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => { 
       return true
     },
-    delete: async (backend, collection, docId, doc, session) => { 
+    delete: async (operation, backend, collection, docId, doc, session) => { 
       return true
     }
   }
