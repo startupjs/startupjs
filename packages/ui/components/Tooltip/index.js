@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
 import { Span } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 import { Popover } from '../popups'
 import TooltipCaption from './Caption'
 import { PLACEMENT_ORDER } from '../popups/Popover/constants.json'
@@ -42,13 +42,13 @@ function Tooltip ({
   `
 }
 
-Popover.defaultProps = {
+Tooltip.defaultProps = {
   placement: 'top-center',
   durationOpen: 200,
   durationClose: 0
 }
 
-Popover.propTypes = {
+Tooltip.propTypes = {
   tooltipStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   placement: PropTypes.oneOf(PLACEMENT_ORDER),
   durationOpen: PropTypes.number,

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
 import {
   SafeAreaView,
   Animated,
@@ -8,9 +7,10 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
+import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
-import { observer } from 'startupjs'
 import './index.styl'
 
 const POSITION_STYLES = {
