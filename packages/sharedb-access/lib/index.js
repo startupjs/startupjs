@@ -32,7 +32,8 @@ function registerOrmRules (backend, collectionName, access) {
     // the user can write the first letter of the rules in any case
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if (fn) {
-      backend['allow' + op](collectionName, fn)
+      const globalCollectionName = collectionName.replace(/\.\*$/u, '')
+      backend['allow' + op](globalCollectionName, fn)
     }
   })
 }
