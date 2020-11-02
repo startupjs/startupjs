@@ -180,7 +180,11 @@ return (
 ```
 
 ## Позиция
-- placement: имеет 12 вариаций положений
+- placement: имеет 12 вариаций положений 
+top-left, top-center, top-right
+right-top, right-center, right-bottom
+bottom-right, bottom-center, bottom-left
+left-bottom, left-center, left-top
 ```jsx example
 const [visible, setVisible] = useState('')
 return (
@@ -436,7 +440,6 @@ return (
         visible={visible === 'scale'}
         animateType='scale'
         hasArrow={true}
-        placement='bottom-center'
         onDismiss={()=> setVisible('')}
       >
         <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -453,7 +456,7 @@ return (
       <Popover
         visible={visible === 'slide'}
         animateType='slide'
-        positionHorizontal='center'
+        hasArrow={true}
         onDismiss={()=> setVisible('')}
       >
         <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -494,14 +497,14 @@ return (
 )
 ```
 
-- styleWrapper: стили для wrapper
+- wrapperStyle: стили для wrapper
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
       visible={visible}
-      styleWrapper={{ backgroundColor: 'black' }}
+      wrapperStyle={{ backgroundColor: 'black' }}
       onDismiss={()=> setVisible(false)}
     >
       <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -517,14 +520,14 @@ return (
 )
 ```
 
-- styleOverlay: стили для overlay
+- overlayStyle: стили для overlay
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
       visible={visible}
-      styleOverlay={{ backgroundColor: 'black' }}
+      overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
       onDismiss={()=> setVisible(false)}
     >
       <Popover.Caption style={{ width: 150, marginRight: 16 }}>

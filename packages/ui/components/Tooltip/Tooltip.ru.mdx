@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 import Tooltip from '../Tooltip'
 import Button from '../Button'
 import Row from '../Row'
@@ -11,30 +11,32 @@ import { Tooltip } from '@startupjs/ui'
 ```
 
 ## Пример
+- content: скрытая часть, может быть string или jsx
+- children: видимая часть
 ```jsx example
 return (
   <Row>
-    <View style={{ width: 100 }}>
+    <View style={{ width: 100, marginRight: 8 }}>
       <Tooltip
-        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей\n\n\n деятельности требуют определения и уточнения новых предложений.'
+        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения новых предложений.'
       >
         <Text style={{ backgroundColor: '#dddddd', padding: 12,
         borderRadius: 4 }}>Текст...</Text>
       </Tooltip>
     </View>
 
-    <View style={{ width: 100 }}>
+    <View style={{ width: 100, marginRight: 8 }}>
       <Tooltip
-        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей\n\n\n деятельности требуют определения и уточнения новых предложений.'
+        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения новых предложений.'
       >
         <Text style={{ backgroundColor: '#dddddd', padding: 12,
         borderRadius: 4 }}>Текст...</Text>
       </Tooltip>
     </View>
 
-    <View style={{ width: 100 }}>
+    <View style={{ width: 100, marginRight: 8 }}>
       <Tooltip
-        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей\n\n\n деятельности требуют определения и уточнения новых предложений.'
+        content='Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения новых предложений.'
       >
         <Text style={{ backgroundColor: '#dddddd', padding: 12,
         borderRadius: 4 }}>Текст...</Text>

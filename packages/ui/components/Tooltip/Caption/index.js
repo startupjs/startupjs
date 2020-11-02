@@ -1,15 +1,15 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import Div from '../../Div'
 
 export default function TooltipCaption ({
   children,
   style,
-  _onChange
+  onChange
 }) {
   return pug`
-    TouchableOpacity(
+    Div(
       style=style
-      onPress=()=> _onChange(true)
+      onPress=()=> onChange(true)
     )= children
   `
 }

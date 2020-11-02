@@ -4,21 +4,21 @@ import { View } from 'react-native'
 export default function TooltipCaption ({
   children,
   style,
-  _onChange
+  onChange
 }) {
   const refTimer = useRef()
 
   function onMouseOver () {
     clearTimeout(refTimer.current)
     refTimer.current = setTimeout(() => {
-      _onChange(true)
-    }, 500)
+      onChange(true)
+    }, 300)
   }
 
   function onMouseOut () {
     clearTimeout(refTimer.current)
     refTimer.current = null
-    _onChange(false)
+    onChange(false)
   }
 
   return pug`

@@ -2,254 +2,192 @@ import { Animated } from 'react-native'
 
 export default {
   show ({
-    cx,
-    placement,
-    curHeight,
-    curWidth,
+    geometry,
+    contentInfo,
+    durationOpen,
     animateType,
-    animateHeight,
-    animateOpacity,
-    animateTop,
-    animateLeft,
-    animateWidth,
-    animateScaleY,
-    animateScaleX,
-    animateTranslateY,
-    animateTranslateX,
-    animateOpacityOverlay
+    animateStates,
+    hasArrow
   }, callback) {
-    const [rootPlacement, minorPlacement] = placement.split('-')
+    const validPlacement = geometry.validPlacement
+    const [rootPlacement, minorPlacement] = validPlacement.split('-')
 
     if (animateType === 'default') {
-      animateHeight.setValue(0)
-      animateWidth.setValue(curWidth)
-      let topToValue = animateTop._value
-      const leftToValue = animateLeft._value
+      animateStates.height.setValue(0)
+      animateStates.width.setValue(contentInfo.width)
 
-      if (rootPlacement === 'top') {
-        topToValue = animateTop._value - curHeight
+      if (rootPlacement === 'left' || rootPlacement === 'right') {
+        animateStates.width.setValue(0)
       }
-      if (rootPlacement === 'left') {
-        animateHeight.setValue(curHeight)
-        animateWidth.setValue(0)
-        animateLeft.setValue(cx)
+      if ((rootPlacement === 'left' || rootPlacement === 'right') && hasArrow) {
+        animateStates.height.setValue(contentInfo.height)
       }
-      if (rootPlacement === 'right') {
-        animateHeight.setValue(curHeight)
-        animateWidth.setValue(0)
+      if (validPlacement === 'left-center' || validPlacement === 'right-center') {
+        animateStates.height.setValue(contentInfo.height)
       }
 
       return Animated.parallel([
-        Animated.timing(animateOpacity, {
+        Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateLeft, {
-          toValue: leftToValue,
-          duration: 300
+        Animated.timing(animateStates.height, {
+          toValue: contentInfo.height,
+          duration: durationOpen
         }),
-        Animated.timing(animateTop, {
-          toValue: topToValue,
-          duration: 300
+        Animated.timing(animateStates.width, {
+          toValue: contentInfo.width,
+          duration: durationOpen
         }),
-        Animated.timing(animateHeight, {
-          toValue: curHeight,
-          duration: 300
-        }),
-        Animated.timing(animateWidth, {
-          toValue: curWidth,
-          duration: 300
-        }),
-        Animated.timing(animateOpacityOverlay, {
-          toValue: 0.5,
-          duration: 300
+        Animated.timing(animateStates.opacityOverlay, {
+          toValue: 1,
+          duration: durationOpen
         })
       ]).start(callback)
     }
 
     if (animateType === 'slide') {
-      animateHeight.setValue(curHeight)
-      let topToValue = animateTop._value
-      let leftToValue = animateLeft._value
-
-      if (rootPlacement === 'top') {
-        animateTop.setValue(animateTop._value - curHeight + 10)
-        topToValue = animateTop._value - 10
-      }
-      if (rootPlacement === 'bottom') {
-        animateTop.setValue(animateTop._value - 10)
-        topToValue = animateTop._value + 10
-      }
-      if (rootPlacement === 'left') {
-        animateLeft.setValue(animateLeft._value + 10)
-        leftToValue = animateLeft._value - 10
-      }
-      if (rootPlacement === 'right') {
-        animateLeft.setValue(animateLeft._value - 10)
-        leftToValue = animateLeft._value + 10
-      }
+      animateStates.height.setValue(contentInfo.height)
+      animateStates.width.setValue(contentInfo.width)
+      if (rootPlacement === 'top') animateStates.translateY.setValue(10)
+      if (rootPlacement === 'bottom') animateStates.translateY.setValue(-10)
+      if (rootPlacement === 'left') animateStates.translateX.setValue(10)
+      if (rootPlacement === 'right') animateStates.translateX.setValue(-10)
 
       return Animated.parallel([
-        Animated.timing(animateOpacity, {
+        Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateLeft, {
-          toValue: leftToValue,
-          duration: 300
+        Animated.timing(animateStates.translateX, {
+          toValue: 0,
+          duration: durationOpen
         }),
-        Animated.timing(animateTop, {
-          toValue: topToValue,
-          duration: 300
+        Animated.timing(animateStates.translateY, {
+          toValue: 0,
+          duration: durationOpen
         }),
-        Animated.timing(animateOpacityOverlay, {
-          toValue: 0.5,
-          duration: 300
+        Animated.timing(animateStates.opacityOverlay, {
+          toValue: 1,
+          duration: durationOpen
         })
       ]).start(callback)
     }
 
     if (animateType === 'scale') {
-      animateScaleY.setValue(0.9)
-      animateHeight.setValue(curHeight)
-      animateWidth.setValue(curWidth)
+      animateStates.height.setValue(contentInfo.height)
+      animateStates.width.setValue(contentInfo.width)
+      animateStates.scaleY.setValue(0.9)
 
-      if (minorPlacement === 'left') {
-        animateTranslateX.setValue(-4)
-      }
-      if (minorPlacement === 'center') {
-        animateTranslateX.setValue(0)
-      }
-      if (minorPlacement === 'right') {
-        animateTranslateX.setValue(4)
-      }
-      if (rootPlacement === 'left') {
-        animateTranslateX.setValue(-4)
-        animateScaleY.setValue(1)
-      }
-      if (rootPlacement === 'right') {
-        animateTranslateX.setValue(4)
-        animateScaleY.setValue(1)
-      }
+      if (minorPlacement === 'left') animateStates.translateX.setValue(-4)
+      if (minorPlacement === 'center') animateStates.translateX.setValue(0)
+      if (minorPlacement === 'right') animateStates.translateX.setValue(4)
+      if (rootPlacement === 'left') animateStates.translateX.setValue(-4)
+      if (rootPlacement === 'right') animateStates.translateX.setValue(4)
+      if (minorPlacement === 'top') animateStates.translateY.setValue(-4)
+      if (minorPlacement === 'bottom') animateStates.translateY.setValue(4)
 
       return Animated.parallel([
-        Animated.timing(animateScaleY, {
+        Animated.timing(animateStates.scaleY, {
           toValue: 1,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateScaleX, {
+        Animated.timing(animateStates.scaleX, {
           toValue: 1,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateTranslateY, {
+        Animated.timing(animateStates.translateY, {
           toValue: 0,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateTranslateX, {
+        Animated.timing(animateStates.translateX, {
           toValue: 0,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateOpacity, {
+        Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: 300
+          duration: durationOpen
         }),
-        Animated.timing(animateOpacityOverlay, {
-          toValue: 0.5,
-          duration: 300
+        Animated.timing(animateStates.opacityOverlay, {
+          toValue: 1,
+          duration: durationOpen
         })
       ]).start(callback)
     }
   },
 
   hide ({
-    placement,
-    curHeight,
-    curWidth,
+    geometry,
+    contentInfo,
+    durationClose,
     animateType,
-    animateTop,
-    animateOpacity,
-    animateHeight,
-    animateLeft,
-    animateWidth,
-    animateScaleY,
-    animateScaleX,
-    animateTranslateY,
-    animateTranslateX,
-    animateOpacityOverlay
+    animateStates,
+    hasArrow
   }, callback) {
-    const [rootPlacement, minorPlacement] = placement.split('-')
-    Animated.timing(animateOpacity, { toValue: 0, duration: 400 }).start()
+    animateStates.height.setValue(contentInfo.height)
+    const [rootPlacement, minorPlacement] = geometry.validPlacement.split('-')
 
     if (animateType === 'default') {
-      let topToValue = animateTop._value
-      let widthToValue = animateWidth._value
+      let widthToValue = animateStates.width._value
       let heightToValue = 0
-      let leftToValue = animateLeft._value
 
-      if (rootPlacement === 'top') {
-        topToValue = animateTop._value + curHeight
-      }
-      if (rootPlacement === 'left') {
-        widthToValue = 0
-        leftToValue = animateLeft._value + curWidth
-        heightToValue = animateHeight._value
-      }
-      if (rootPlacement === 'right') {
-        widthToValue = 0
-        heightToValue = animateHeight._value
+      if (rootPlacement === 'left') widthToValue = 0
+      if (rootPlacement === 'right') widthToValue = 0
+      if ((rootPlacement === 'left' || rootPlacement === 'right') && hasArrow) {
+        heightToValue = animateStates.height._value
       }
 
       return Animated.parallel([
-        Animated.timing(animateWidth, {
-          toValue: widthToValue,
-          duration: 300
-        }),
-        Animated.timing(animateLeft, {
-          toValue: leftToValue,
-          duration: 300
-        }),
-        Animated.timing(animateHeight, {
-          toValue: heightToValue,
-          duration: 300
-        }),
-        Animated.timing(animateTop, {
-          toValue: topToValue,
-          duration: 300
-        }),
-        Animated.timing(animateOpacityOverlay, {
+        Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: 400
+          duration: durationClose
+        }),
+        Animated.timing(animateStates.width, {
+          toValue: widthToValue,
+          duration: durationClose
+        }),
+        Animated.timing(animateStates.height, {
+          toValue: heightToValue,
+          duration: durationClose
+        }),
+        Animated.timing(animateStates.opacityOverlay, {
+          toValue: 0,
+          duration: durationClose
         })
       ]).start(callback)
     }
 
     if (animateType === 'slide') {
-      let _topToValue = animateTop._value
-      let _leftToValue = animateLeft._value
-      if (rootPlacement === 'top') _topToValue = animateTop._value + 10
-      if (rootPlacement === 'bottom') _topToValue = animateTop._value - 10
-      if (rootPlacement === 'left') _leftToValue = animateLeft._value + 10
-      if (rootPlacement === 'right') _leftToValue = animateLeft._value - 10
+      let toTranslateX = 0
+      let toTranslateY = 0
+      if (rootPlacement === 'top') toTranslateY = 10
+      if (rootPlacement === 'bottom') toTranslateY = -10
+      if (rootPlacement === 'left') toTranslateX = 10
+      if (rootPlacement === 'right') toTranslateX = -10
 
       return Animated.parallel([
-        Animated.timing(animateLeft, {
-          toValue: _leftToValue,
-          duration: 300
-        }),
-        Animated.timing(animateTop, {
-          toValue: _topToValue,
-          duration: 300
-        }),
-        Animated.timing(animateOpacityOverlay, {
+        Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: 400
+          duration: durationClose
+        }),
+        Animated.timing(animateStates.translateX, {
+          toValue: toTranslateX,
+          duration: durationClose
+        }),
+        Animated.timing(animateStates.translateY, {
+          toValue: toTranslateY,
+          duration: durationClose
+        }),
+        Animated.timing(animateStates.opacityOverlay, {
+          toValue: 0,
+          duration: durationClose
         })
       ]).start(callback)
     }
 
     if (animateType === 'scale') {
-      animateHeight.setValue(curHeight)
-      animateWidth.setValue(curWidth)
+      animateStates.height.setValue(contentInfo.height)
+      animateStates.width.setValue(contentInfo.width)
       let _translateY = 0
       let _translateX = 0
       let _scaleY = 0.96
@@ -258,8 +196,8 @@ export default {
       if (minorPlacement === 'center') _translateX = 0
       if (minorPlacement === 'left') _translateX = -4
       if (minorPlacement === 'right') _translateX = 4
-      if (rootPlacement === 'top') _translateY = -8
-      if (rootPlacement === 'bottom') _translateY = 8
+      if (minorPlacement === 'top') _translateY = -4
+      if (minorPlacement === 'bottom') _translateY = 4
       if (rootPlacement === 'left') {
         _scaleY = 1
         _scaleX = 0.96
@@ -270,36 +208,31 @@ export default {
       }
 
       return Animated.parallel([
-        Animated.timing(animateScaleY, {
+        Animated.timing(animateStates.scaleY, {
           toValue: _scaleY,
-          duration: 300
+          duration: durationClose
         }),
-        Animated.timing(animateScaleX, {
+        Animated.timing(animateStates.scaleX, {
           toValue: _scaleX,
-          duration: 300
+          duration: durationClose
         }),
-        Animated.timing(animateTranslateY, {
+        Animated.timing(animateStates.translateY, {
           toValue: _translateY,
-          duration: 300
+          duration: durationClose
         }),
-        Animated.timing(animateTranslateX, {
+        Animated.timing(animateStates.translateX, {
           toValue: _translateX,
-          duration: 300
+          duration: durationClose
         }),
-        Animated.timing(animateOpacity, {
+        Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: 300
+          duration: durationClose
         }),
-        Animated.timing(animateOpacityOverlay, {
+        Animated.timing(animateStates.opacityOverlay, {
           toValue: 0,
-          duration: 300
+          duration: durationClose
         })
-      ]).start(() => {
-        animateScaleY.setValue(1)
-        animateTranslateX.setValue(0)
-        animateTranslateY.setValue(0)
-        callback()
-      })
+      ]).start(callback)
     }
   }
 }

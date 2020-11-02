@@ -20,8 +20,10 @@ const { UIManager } = NativeModules
 
 function Dropdown ({
   children,
-  popoverWrapperStyle,
   activeItemStyle,
+  popoverWrapperStyle,
+  popoverPlacements,
+  popoverPlacement,
   value,
   drawerVariant,
   drawerListTitle,
@@ -111,6 +113,8 @@ function Dropdown ({
       Popover(
         wrapperStyleName='popoverWrapper'
         wrapperStyle=_popoverWrapperStyle
+        placement=popoverPlacement
+        placements=popoverPlacements
         visible=isShow
         hasWidthCaption=!_popoverWrapperStyle.width
         onDismiss=()=> setIsShow(false)
@@ -150,6 +154,8 @@ function Dropdown ({
 
 Dropdown.defaultProps = {
   popoverWrapperStyle: [],
+  popoverPlacement: 'bottom-center',
+  popoverPlacements: ['bottom-center', 'top-center'],
   value: '',
   drawerVariant: 'buttons',
   drawerListTitle: '',
