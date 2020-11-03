@@ -202,6 +202,7 @@ SCRIPTS_ORIG.startProductionWebpack = oneLine(`
 
 SCRIPTS_ORIG.patchPackage = () => oneLine(`
   npx patch-package --patch-dir ${PATCHES_DIR}
+  && startupjs fonts
 `)
 
 SCRIPTS_ORIG.fonts = () => oneLine(`
@@ -214,7 +215,7 @@ const SCRIPTS = {
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
-  postinstall: 'startupjs patch-package && startupjs fonts',
+  postinstall: 'startupjs postinstall',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
