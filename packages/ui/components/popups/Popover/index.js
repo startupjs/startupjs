@@ -33,6 +33,7 @@ function isShtampInit (stepStatus) {
   return ['close', 'render'].indexOf(stepStatus) === -1
 }
 
+// TODO: autofix placement for ref
 function Popover ({
   children,
   wrapperStyle,
