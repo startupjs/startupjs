@@ -1,8 +1,32 @@
 .popover
   border-radius 1u
   background-color $UI.colors.white
-  overflow hidden
+  width 200px
   shadow(3)
+
+.absolute
+  position absolute
+
+.wrapperArrow
+  border-radius .5u
+
+.wrapper
+  position absolute
+  opacity 0
+  left 0
+  top 0
+
+.content
+  overflow hidden
+  height 100%
+
+.shtamp
+  overflow hidden
+  position relative
+  height 0
+  left 0
+  top 0
+  width 0
 
 .overlay
   position absolute
@@ -14,21 +38,5 @@
   width 100%
   height 100%
 
-.arrow
-  position absolute
-  z-index 999
-  border-width 10px
-  border-style solid
-  border-color transparent
-
-.arrowBottom
-  border-bottom-color $UI.colors.white
-
-.arrowTop
-  border-top-color $UI.colors.white
-
-.arrowCenterLeft
-  border-left-color $UI.colors.white
-
-.arrowCenterRight
-  border-right-color $UI.colors.white
+:export
+  shadows: $UI.shadows
