@@ -3,6 +3,7 @@ import { CALLBACK_NATIVE_LINKEDIN_URL, FAILURE_LOGIN_URL } from '../../isomorphi
 import qs from 'query-string'
 import Provider from '../Provider'
 import nconf from 'nconf'
+import { finishAuth } from '@startupjs/auth/server'
 
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query
@@ -47,9 +48,9 @@ export default async function loginNative (req, res, next, config) {
     const provider = new Provider(req.model, profile)
     const userId = await provider.findOrCreateUser()
 
-    req.login(userId, next)
+    finishAuth(req, res, userId)
   } catch (err) {
-    console.log('[@dmapper/auth] Error: linkedin login', err)
+    console.log('[@dmapper/auth-linkedin] Error: linkedin login', err)
     return res.redirect(FAILURE_LOGIN_URL)
   }
 }

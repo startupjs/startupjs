@@ -47,11 +47,10 @@ export default function init (ee, opts) {
   })
 
   ee.on('afterSession', expressApp => {
-    // // Save config to req to access ot from routes
-    // expressApp.use((req, res, next) => {
-    //   req.authConfig = opts
-    //   next()
-    // })
+    expressApp.use((req, res, next) => {
+      console.log('\n', req.cookies, req.url, '\n')
+      next()
+    })
     expressApp.use(passportMiddleware(router))
   })
 }
