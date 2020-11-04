@@ -1,0 +1,18 @@
+{
+  "POPOVER_MARGIN": 8,
+  "ARROW_SIZE": 8,
+  "PLACEMENT_ORDER": [
+    "top-left",
+    "top-center",
+    "top-right",
+    "right-top",
+    "right-center",
+    "right-bottom",
+    "bottom-right",
+    "bottom-center",
+    "bottom-left",
+    "left-bottom",
+    "left-center",
+    "left-top"
+  ]
+}

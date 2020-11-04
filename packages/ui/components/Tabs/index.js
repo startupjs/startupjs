@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
+import { FlatList } from 'react-native'
 import { observer, useBind } from 'startupjs'
 import propTypes from 'prop-types'
-import { FlatList } from 'react-native'
 import Div from './../Div'
 import { TabsProvider } from './tabsContext'
 import Tab from './Tab'

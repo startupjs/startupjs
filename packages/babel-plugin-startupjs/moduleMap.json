@@ -29,6 +29,7 @@
     "SmartSidebar": "/components/SmartSidebar",
     "Tabs": "/components/Tabs",
     "Tag": "/components/Tag",
+    "Tooltip": "/components/Tooltip",
     "User": "/components/User",
     "Checkbox": "/components/forms/Checkbox",
     "DateTimePicker": "/components/forms/DateTimePicker",

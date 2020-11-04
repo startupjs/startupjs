@@ -202,11 +202,14 @@ SCRIPTS_ORIG.startProductionWebpack = oneLine(`
 
 SCRIPTS_ORIG.patchPackage = () => oneLine(`
   npx patch-package --patch-dir ${PATCHES_DIR}
-  && startupjs fonts
 `)
 
 SCRIPTS_ORIG.fonts = () => oneLine(`
   react-native-asset
+`)
+
+SCRIPTS_ORIG.postinstall = () => oneLine(`
+  ${SCRIPTS_ORIG.patchPackage} && ${SCRIPTS_ORIG.fonts}
 `)
 
 const SCRIPTS = {
@@ -429,6 +432,16 @@ commander
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.patchPackage(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('postinstall')
+  .description('Run startupjs postinstall scripts')
+  .action(async (options) => {
+    await execa.command(
+      SCRIPTS_ORIG.postinstall(options),
       { stdio: 'inherit', shell: true }
     )
   })
