@@ -5,14 +5,6 @@ export default class BaseProvider {
     this.options = options || {}
   }
 
-  getCustomUserData (userData) {
-    return userData
-  }
-
-  getCustomAuthData (authData) {
-    return authData
-  }
-
   getFindUserQuery () {
     return { email: this.getEmail() }
   }
@@ -44,31 +36,28 @@ export default class BaseProvider {
   async createUser () {
     const { $root } = this
     const userId = $root.id()
-    let authData = {
+    const authData = {
       id: userId,
       email: this.getEmail(),
-      ...this.getAuthData(),
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      ...this.getAuthData()
     }
 
-    authData = await this.getCustomAuthData(authData)
     await $root.addAsync('auths', authData)
 
-    let userData = this.getUserData()
     const user = {
       id: userId,
-      ...userData,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      ...this.getUserData()
     }
 
-    userData = await this.getCustomUserData(user, authData)
-    await $root.addAsync('users', userData)
+    await $root.addAsync('users', user)
     return userId
   }
 
   getUserData () {
     return {
-      name: this.getName(),
+      email: this.getEmail(),
       firstName: this.getFirstName(),
       lastName: this.getLastName(),
       avatarUrl: this.getAvatarUrl()

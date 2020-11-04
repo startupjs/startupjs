@@ -14,7 +14,7 @@ export default function (opts) {
 
   // Web routes
   router.get(AZUREAD_WEB_LOGIN_URL, loginWeb)
-  router.get(CALLBACK_AZUREAD_URL, loginWebCallback)
+  router.post(CALLBACK_AZUREAD_URL, loginWebCallback)
   //
 
   // Native routes

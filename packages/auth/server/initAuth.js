@@ -47,10 +47,6 @@ export default function init (ee, opts) {
   })
 
   ee.on('afterSession', expressApp => {
-    expressApp.use((req, res, next) => {
-      console.log('\n', req.cookies, req.url, '\n')
-      next()
-    })
     expressApp.use(passportMiddleware(router))
   })
 }
