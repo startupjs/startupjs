@@ -31,6 +31,7 @@
     "Tag": "/components/Tag",
     "User": "/components/User",
     "Checkbox": "/components/forms/Checkbox",
+    "DateTimePicker": "/components/forms/DateTimePicker",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
     "ObjectInput": "/components/forms/ObjectInput",

@@ -12,6 +12,8 @@ import SelectEn from '../components/forms/Select/Select.en.mdx'
 import SelectRu from '../components/forms/Select/Select.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
 import MultiselectRu from '../components/forms/Multiselect/Multiselect.ru.mdx'
+import DateTimePickerEn from '../components/forms/DateTimePicker/DateTimePicker.en.mdx'
+import DateTimePickerRu from '../components/forms/DateTimePicker/DateTimePicker.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -27,6 +29,14 @@ export default {
       component: {
         en: CheckboxEn,
         ru: CheckboxRu
+      }
+    },
+    DateTimePicker: {
+      type: 'mdx',
+      title: 'DateTimePicker',
+      component: {
+        en: DateTimePickerEn,
+        ru: DateTimePickerRu
       }
     },
     Input: {

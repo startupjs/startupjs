@@ -57,5 +57,9 @@
       "pre-commit": "lint-staged && yarn generate-module-map"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "moment-timezone": "^0.5.31",
+    "react-native-datepicker": "^1.7.2"
+  }
 }
