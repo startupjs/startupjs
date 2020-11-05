@@ -54,7 +54,12 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 ## Native Development (iOS and Android)
 
-Follow the [React Native guide](https://reactnative.dev/docs/environment-setup) to setup Android SDK and/or Xcode.
+### Requiremens
+
+Follow the [React Native guide](https://reactnative.dev/docs/environment-setup) to setup everything.
+StartupJS uses native modules, so you have to follow `React Native CLI Quickstart`, not the `Expo` guide.
+
+### How to run StartupJS on native
 
 `yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
 

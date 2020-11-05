@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { observer, u } from 'startupjs'
+import { Checkbox } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
-import { Checkbox } from '@startupjs/ui'
 
 import './index.styl'
 

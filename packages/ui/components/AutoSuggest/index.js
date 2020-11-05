@@ -41,7 +41,6 @@ function AutoSuggest ({
 
   useEffect(() => {
     setIsFocus(false)
-    setInputValue('')
   }, [value])
 
   const renderItems = _data.map((item, index) => {
@@ -64,7 +63,8 @@ function AutoSuggest ({
     Popover(
       maxHeight=maxHeight
       visible=(isFocus || isLoading)
-      positionHorizontal="right"
+      placement='bottom-center'
+      placements=['bottom-center', 'top-center']
       hasWidthCaption=true
       onDismiss=onBlur
     )

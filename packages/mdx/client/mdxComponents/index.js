@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
 import { Platform } from 'react-native'
+import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
 import './index.styl'
 import Code from '../Code'
 

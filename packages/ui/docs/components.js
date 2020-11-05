@@ -57,6 +57,7 @@ import TabsEn from '../components/Tabs/Tabs.en.mdx'
 import TabsRu from '../components/Tabs/Tabs.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
 import TagRu from '../components/Tag/Tag.ru.mdx'
+import TooltipRu from '../components/Tooltip/Tooltip.ru.mdx'
 import UserEn from '../components/User/User.en.mdx'
 import UserRu from '../components/User/User.ru.mdx'
 
@@ -296,6 +297,11 @@ export default {
         en: TagEn,
         ru: TagRu
       }
+    },
+    TooltipRu: {
+      type: 'mdx',
+      title: 'Tooltip',
+      component: TooltipRu
     },
     User: {
       type: 'mdx',

@@ -42,40 +42,47 @@ module.exports = function replaceObserverLoader (source) {
   let lastCloseCurlyBrIndex
   let prevCloseCurlyBrIndex
 
-  // Track when we are inside a comment
-  let inBlockComment = false
-  let inLineComment = false
+  // TODO: Improve figuring out that we are actually in a comment.
+  //       It will bug out when someone is specifying 'http://'
+  //       and other places inside strings.
+
+  // // Track when we are inside a comment
+  // let inBlockComment = false
+  // let inLineComment = false
 
   for (let i = matchIndex + matchLength; i < source.length; i++) {
-    const prevChar = (i > 0 ? source.charAt(i - 1) : '')
     const char = source.charAt(i)
-    const lastTwoChars = `${prevChar}${char}`
 
-    // Handle comments (ignore any chars inside them)
+    // TODO: Improve comments. See comment above for details.
 
-    // - exit comment
+    // // Handle comments (ignore any chars inside them)
 
-    if (inBlockComment) {
-      if (lastTwoChars === '*/') inBlockComment = false
-      continue
-    }
+    // const prevChar = (i > 0 ? source.charAt(i - 1) : '')
+    // const lastTwoChars = `${prevChar}${char}`
 
-    if (inLineComment) {
-      if (char === '\n') inLineComment = false
-      continue
-    }
+    // // - exit comment
+
+    // if (inBlockComment) {
+    //   if (lastTwoChars === '*/') inBlockComment = false
+    //   continue
+    // }
+
+    // if (inLineComment) {
+    //   if (char === '\n') inLineComment = false
+    //   continue
+    // }
 
     // // - enter comment
 
-    if (lastTwoChars === '/*') {
-      inBlockComment = true
-      continue
-    }
+    // if (lastTwoChars === '/*') {
+    //   inBlockComment = true
+    //   continue
+    // }
 
-    if (lastTwoChars === '//') {
-      inLineComment = true
-      continue
-    }
+    // if (lastTwoChars === '//') {
+    //   inLineComment = true
+    //   continue
+    // }
 
     // Brackets counting logic
 
