@@ -14,10 +14,10 @@ let shareDBAccess = new ShareDbAccess(backend)
 
 describe('DELETE', function () {
   before(async () => {
-    backend.allowCreate('tasksDelete', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksDelete', async (docId, doc, session) => {
       return true
     })
-    backend.allowRead('tasksDelete', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowRead('tasksDelete', async (docId, doc, session) => {
       return true
     })
   })
@@ -33,10 +33,10 @@ describe('DELETE', function () {
   })
 
   it('deny = false && allow = false => err{ code: 403.4 }', async () => {
-    backend.denyDelete('tasksDelete', async (operation, backend, collection, docId, doc, session) => {
+    backend.denyDelete('tasksDelete', async (docId, doc, session) => {
       return false
     })
-    backend.allowDelete('tasksDelete', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowDelete('tasksDelete', async (docId, doc, session) => {
       return false
     })
 
@@ -52,10 +52,10 @@ describe('DELETE', function () {
   })
 
   it('deny = false && allow = true => not err', async () => {
-    backend.denyDelete('tasksDelete', async (operation, backend, collection, docId, doc, session) => {
+    backend.denyDelete('tasksDelete', async (docId, doc, session) => {
       return false
     })
-    backend.allowDelete('tasksDelete', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowDelete('tasksDelete', async (docId, doc, session) => {
       return true
     })
 
@@ -71,10 +71,10 @@ describe('DELETE', function () {
   })
 
   it('deny = true && allow = false => err{ code: 403.4 }', async () => {
-    backend.denyCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
+    backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-    backend.allowCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return false
     })
 
@@ -90,10 +90,10 @@ describe('DELETE', function () {
   })
 
   it('deny = true && allow = true => err{ code: 403.4 }', async () => {
-    backend.denyCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
+    backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
-    backend.allowCreate('tasksCreate', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
 

@@ -33,7 +33,7 @@ function registerOrmRules (backend, collectionName, access) {
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if (fn) {
       const globalCollectionName = collectionName.replace(/\.\*$/u, '')
-      backend['allow' + op](globalCollectionName, fn)
+      backend['allow' + op](globalCollectionName, fn.bind(global, backend, globalCollectionName))
     }
   })
 }
@@ -131,7 +131,7 @@ class ShareDBAccess {
     const newDoc = shareRequest.snapshot.data
 
     const ops = opData.op
-    const ok = await this.check(['Update', this.backend, collection, docId, oldDoc, session, ops, newDoc])
+    const ok = await this.check('Update', collection, [docId, oldDoc, session, ops, newDoc])
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
@@ -167,7 +167,7 @@ class ShareDBAccess {
     // ++++++++++++++++++++++++++++++++ CREATE ++++++++++++++++++++++++++++++++++
     if (opData.create) {
       const doc = opData.create.data
-      const ok = await this.check(['Create', this.backend, collection, docId, doc, session])
+      const ok = await this.check('Create', collection, [docId, doc, session])
       debug('create', ok, collection, docId, doc)
 
       if (ok) return
@@ -179,7 +179,7 @@ class ShareDBAccess {
     if (opData.del) {
       const doc = snapshot.data
 
-      const ok = await this.check(['Delete', this.backend, collection, docId, doc, session])
+      const ok = await this.check('Delete', collection, [docId, doc, session])
       debug('delete', ok, collection, docId, doc)
       if (ok) return
 
@@ -224,7 +224,7 @@ class ShareDBAccess {
 
     const session = agent.connectSession || {}
 
-    const ok = await this.check(['Read', this.backend, collection, docId, doc, session])
+    const ok = await this.check('Read', collection, [docId, doc, session])
 
     debug('read', ok, collection, [docId, doc, session])
 
@@ -233,8 +233,7 @@ class ShareDBAccess {
     return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403.2 }
   }
 
-  async check (args) {
-    const [operation,, collection] = args
+  async check (operation, collection, args) {
     const allow = this.allow
     const deny = this.deny
 

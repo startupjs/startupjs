@@ -21,10 +21,10 @@ const getTestNumber = () => {
 
 describe('UPDATE', function () {
   before(async () => {
-    backend.allowCreate('tasksUpdate', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowCreate('tasksUpdate', async (docId, doc, session) => {
       return true
     })
-    backend.allowRead('tasksUpdate', async (operation, backend, collection, docId, doc, session) => {
+    backend.allowRead('tasksUpdate', async (docId, doc, session) => {
       return true
     })
 
@@ -38,10 +38,10 @@ describe('UPDATE', function () {
   })
 
   it('deny = false && allow = false => err{ code: 403.3 }', async () => {
-    backend.denyUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return false
     })
-    backend.allowUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.allowUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return false
     })
 
@@ -56,10 +56,10 @@ describe('UPDATE', function () {
   })
 
   it('deny = false && allow = true => not err', async () => {
-    backend.denyUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return false
     })
-    backend.allowUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.allowUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return true
     })
 
@@ -74,10 +74,10 @@ describe('UPDATE', function () {
   })
 
   it('deny = true && allow = false => err{ code: 403.3 }', async () => {
-    backend.denyUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return true
     })
-    backend.allowUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.allowUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return false
     })
 
@@ -92,10 +92,10 @@ describe('UPDATE', function () {
   })
 
   it('deny = true && allow = true => err{ code: 403.3 }', async () => {
-    backend.denyUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return true
     })
-    backend.allowUpdate('tasksUpdate', async (operation, backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    backend.allowUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return true
     })
 
