@@ -4,10 +4,21 @@ import initRoutes from './initRoutes'
 import passport from 'passport'
 import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
 
+function validateConfigs ({ clientId, clientSecret }) {
+  if (!clientId) {
+    throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Id')
+  }
+  if (!clientSecret) {
+    throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Secret')
+  }
+}
+
 export default function init (opts) {
   console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++')
 
   const { model, config, updateClientSession } = opts
+  validateConfigs(config)
+
   const { clientId, clientSecret } = config
 
   initRoutes(opts)

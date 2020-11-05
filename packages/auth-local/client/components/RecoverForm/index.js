@@ -83,6 +83,9 @@ function RecoverForm ({
 
   return pug`
     Div.root
+      Span.text.center-text.header-text Forgot your password?
+      Span.text.center-text.sub-header-text Enter email to reset your password
+      Br
       if !feedBack
         TextInput(
           onChangeText=onFormChange('email')

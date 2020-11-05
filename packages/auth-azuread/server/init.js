@@ -5,11 +5,25 @@ import passport from 'passport'
 import { CALLBACK_AZUREAD_URL } from '../isomorphic'
 import nconf from 'nconf'
 
+function validateConfigs ({ clientId, identityMetadata, tentantId }) {
+  if (!clientId) {
+    throw new Error('[@dmapper/auth-azuread] Error:', 'Provide Client Id')
+  }
+  if (!identityMetadata) {
+    throw new Error('[@dmapper/auth-azuread] Error:', 'Provide Identity Metadata')
+  }
+  if (!tentantId) {
+    throw new Error('[@dmapper/auth-azuread] Error:', 'Provide Tentant Id')
+  }
+}
+
 export default function init (opts) {
   console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++')
 
   const { model, config, updateClientSession } = opts
-  const { clientId, identityMetadata, allowHttpForRedirectUrl } = config
+  validateConfigs(config)
+
+  const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = config
 
   const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
   const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]
@@ -17,7 +31,7 @@ export default function init (opts) {
   initRoutes(opts)
 
   // Append required configs to client session
-  updateClientSession({ azuread: { clientId, identityMetadata } })
+  updateClientSession({ azuread: { clientId, tentantId } })
 
   passport.use(
     new Strategy(

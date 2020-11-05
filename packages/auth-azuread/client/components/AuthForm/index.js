@@ -1,33 +1,39 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
+import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
 import qs from 'query-string'
-import { CALLBACK_NATIVE_LINKEDIN_URL } from '../../../isomorphic'
+import { CALLBACK_NATIVE_AZUREAD_URL, SCOPE, getStrBase64 } from '../../../isomorphic'
 import { DEFAUL_SUCCESS_REDIRECT_URL } from '@startupjs/auth/isomorphic'
 import { finishAuth } from '@startupjs/auth'
 
-const AUTHORIZATION_URL = 'https://www.linkedin.com/oauth/v2/authorization'
-
 function AuthForm ({ text }) {
   const [baseUrl] = useSession('env.BASE_URL')
-  const [clientId] = useSession('auth.linkedin.clientId')
+  const [config] = useSession('auth.azuread')
   const [showModal, setShowModal] = useState(false)
+
+  const { clientId, tentantId } = config
 
   function showLoginModal () {
     setShowModal(true)
   }
 
   function getAuthorizationUrl () {
-    return `${AUTHORIZATION_URL}?${qs.stringify({
-      response_type: 'code',
+    return `https://login.microsoftonline.com/${tentantId}/oauth2/v2.0/authorize?${qs.stringify({
       client_id: clientId,
-      scope: 'r_emailaddress r_liteprofile',
-      redirect_uri: baseUrl + CALLBACK_NATIVE_LINKEDIN_URL
+      response_type: 'code',
+      redirect_uri: baseUrl + CALLBACK_NATIVE_AZUREAD_URL,
+      scope: SCOPE,
+      response_mode: 'query',
+      prompt: 'login',
+      code_challenge: getStrBase64(`${clientId}_${tentantId}`),
+      code_challenge_method: 'plain'
     })}`
   }
+
+  console.log(getAuthorizationUrl())
 
   function onNavigationStateChange ({ url }) {
     if (url.includes(DEFAUL_SUCCESS_REDIRECT_URL)) {
@@ -36,7 +42,7 @@ function AuthForm ({ text }) {
   }
   return pug`
     Button(
-      icon=faLinkedinIn
+      icon=faMicrosoft
       variant='flat'
       onPress=showLoginModal
     )= text
@@ -60,7 +66,7 @@ function AuthForm ({ text }) {
 }
 
 AuthForm.defaultProps = {
-  text: 'Login with LinkedIn'
+  text: 'Login with Azure AD'
 }
 
 AuthForm.propTypes = {

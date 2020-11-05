@@ -110,51 +110,54 @@ function LoginForm ({
     }
   }, [])
   return pug`
-    TextInput(
-      onChangeText=onFormChange('email')
-      error=formErrors.email
-      label='Email'
-      name='email'
-      placeholder='Enter your email'
-      value=form.email || ''
-    )
-    Br
-    TextInput(
-      onChangeText=onFormChange('password')
-      error=formErrors.password
-      label='Password'
-      name='password'
-      placeholder='Enter your password'
-      secureTextEntry
-      value=form.password || ''
-    )
-    if loading
+    Div.root
+      Span.text.center-text.header-text Log in
+      Span.text.center-text.sub-header-text Welcome back!
+      TextInput(
+        onChangeText=onFormChange('email')
+        error=formErrors.email
+        label='Email'
+        name='email'
+        placeholder='Enter your email'
+        value=form.email || ''
+      )
       Br
-      ActivityIndicator
-    if formErrors.authError
+      TextInput(
+        onChangeText=onFormChange('password')
+        error=formErrors.password
+        label='Password'
+        name='password'
+        placeholder='Enter your password'
+        secureTextEntry
+        value=form.password || ''
+      )
+      if loading
+        Br
+        ActivityIndicator
+      if formErrors.authError
+        Br
+        Span.authError
+          = formErrors.authError
       Br
-      Span.authError
-        = formErrors.authError
-    Br
-    Button(
-      onPress=submit
-      color='primary'
-      variant='flat'
-    ) Log in
-    Br
-    Button(
-      onPress=onChangeAuthPage('recover')
-      color='primary'
-      variant='text'
-    ) Forgot your password?
-    Br
-    Div.line
-      Span.text Don't have an accoun?
       Button(
-        onPress=onChangeAuthPage('register')
+        onPress=submit
+        color='primary'
+        variant='flat'
+      ) Log in
+      Br
+      Button(
+        onPress=onChangeAuthPage('recover')
         color='primary'
         variant='text'
-      ) Sign up
+      ) Forgot your password?
+      Br
+      Div.line
+        Span.text Don't have an accoun?
+        Button(
+          onPress=onChangeAuthPage('register')
+          color='primary'
+          variant='text'
+        ) Sign up
   `
 }
 

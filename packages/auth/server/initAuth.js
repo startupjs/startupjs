@@ -16,8 +16,15 @@ function deserializeUser (userId, done) {
   done(null, userId)
 }
 
+function validateConfigs ({ strategies }) {
+  if (!strategies || !strategies.length) {
+    throw new Error('[@dmapper/auth] Error:', 'Provide at least one strategy')
+  }
+}
+
 export default function init (ee, opts) {
   console.log('++++++++++ Initialization of auth module ++++++++++')
+  validateConfigs(opts)
 
   const { strategies } = opts
 
