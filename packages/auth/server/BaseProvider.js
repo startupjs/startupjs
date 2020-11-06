@@ -52,6 +52,9 @@ export default class BaseProvider {
     }
 
     await $root.addAsync('users', user)
+
+    this.options.onUserCreate && this.options.onUserCreate(user)
+
     return userId
   }
 

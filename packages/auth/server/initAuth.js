@@ -2,11 +2,9 @@ import passport from 'passport'
 import express from 'express'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
+import { onUserCreate, onLogin, onLogout } from './helpers'
 
 const router = express.Router()
-
-// Init default routes
-initDefaultRoutes(router)
 
 function serializeUser (userId, done) {
   done(null, userId)
@@ -22,14 +20,24 @@ function validateConfigs ({ strategies }) {
   }
 }
 
-export default function init (ee, opts) {
-  console.log('++++++++++ Initialization of auth module ++++++++++')
-  validateConfigs(opts)
+export default function (ee, _config) {
+  const config = {}
+  Object.assign(config, {
+    onUserCreate,
+    onLogin,
+    onLogout
+  }, _config)
 
-  const { strategies } = opts
+  console.log('++++++++++ Initialization of auth module ++++++++++\n', config, '\n')
+  validateConfigs(config)
+
+  const { strategies, ...rest } = config
 
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
+
+  // Init default routes
+  initDefaultRoutes(router, config)
 
   // Use that helper to add some important data to client session
   // We avoid usage of .env file so we should store all client config in session
@@ -48,7 +56,12 @@ export default function init (ee, opts) {
 
     // Init each strategy
     for (const initFn of strategies) {
-      initFn({ model, router, updateClientSession })
+      initFn({
+        model,
+        router,
+        updateClientSession,
+        authConfig: rest
+      })
     }
   })
 

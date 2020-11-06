@@ -16,16 +16,17 @@ function validateConfigs ({ clientId, clientSecret }) {
 export default function (config = {}) {
   this.config = {}
 
-  Object.assign(this.config, {
-    // Any defaults....
-  }, config)
+  return ({ model, router, updateClientSession, authConfig }) => {
+    Object.assign(this.config, {
+      ...authConfig
+      // Any defaults....
+    }, config)
 
-  validateConfigs(this.config)
+    validateConfigs(this.config)
 
-  const { clientId, clientSecret } = this.config
-
-  return ({ model, router, updateClientSession }) => {
     console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n', this.config, '\n')
+
+    const { clientId, clientSecret } = this.config
 
     initRoutes({ router, config })
 
@@ -53,7 +54,7 @@ export default function (config = {}) {
               email: emails.pop().value
             }
 
-            const provider = new Provider(model, _profile, config)
+            const provider = new Provider(model, _profile, this.config)
             userId = await provider.findOrCreateUser()
           } catch (e) {
             err = e

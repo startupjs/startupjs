@@ -5,7 +5,6 @@ export default async function finishAuth (req, res, userId) {
     if (err) {
       res.status(403).send({ message: '[@startupjs/auth] Error: Auth failed', error: err })
     }
-    // res.redirect(`/?sid=${req.cookies['connect.sid']}&userId=${userId}`)
     res.redirect(DEFAUL_SUCCESS_REDIRECT_URL)
   })
 }

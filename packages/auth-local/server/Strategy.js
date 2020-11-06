@@ -9,12 +9,13 @@ import { sendRecoveryConfirmation } from './heplers'
 export default function (config = {}) {
   this.config = {}
 
-  Object.assign(this.config, {
-    resetPasswordTimeLimit: 60 * 1000 * 1000, // Expire time of reset password secret,
-    sendRecoveryConfirmation // cb that triggers after reset password secret creating
-  }, config)
+  return ({ model, router, authConfig }) => {
+    Object.assign(this.config, {
+      resetPasswordTimeLimit: 60 * 1000 * 1000, // Expire time of reset password secret,
+      sendRecoveryConfirmation, // cb that triggers after reset password secret creating,
+      ...authConfig
+    }, config)
 
-  return ({ model, router }) => {
     console.log('++++++++++ Initialization of Local auth strategy ++++++++++\n', this.config, '\n')
 
     initRoutes({ router, config: this.config })
@@ -24,8 +25,8 @@ export default function (config = {}) {
         {
           usernameField: 'email'
         },
-        async function (email = '', password, cb) {
-          const provider = new Provider(model, { email })
+        async (email = '', password, cb) => {
+          const provider = new Provider(model, { email }, this.config)
 
           const authData = await provider.loadAuthData()
           if (!authData) return cb(null, false, { message: 'User not found' })
@@ -35,7 +36,7 @@ export default function (config = {}) {
           bcrypt.compare(password, hash, function (err, res) {
             if (err) return cb(err)
             if (res === false) {
-              return cb(null, false, { message: '[@startup/auth-local] Invalid password' })
+              return cb(null, false, { message: 'Invalid email or password' })
             }
             return cb(null, userId)
           })

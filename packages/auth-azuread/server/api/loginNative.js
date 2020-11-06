@@ -47,7 +47,7 @@ export default async function loginNative (req, res, next, config) {
       id
     }
 
-    const provider = new Provider(req.model, profile)
+    const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
     finishAuth(req, res, userId)
