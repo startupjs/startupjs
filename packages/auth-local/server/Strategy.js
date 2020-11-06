@@ -4,7 +4,6 @@ import _get from 'lodash/get'
 import initRoutes from './initRoutes'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
-import { sendRecoveryConfirmation } from './heplers'
 
 export default function (config = {}) {
   this.config = {}
@@ -12,7 +11,9 @@ export default function (config = {}) {
   return ({ model, router, authConfig }) => {
     Object.assign(this.config, {
       resetPasswordTimeLimit: 60 * 1000 * 1000, // Expire time of reset password secret,
-      sendRecoveryConfirmation, // cb that triggers after reset password secret creating,
+      onCreatePasswordResetSecret: () => {}, // cb that triggers after reset password secret creating,
+      onPasswordReset: () => {}, // cb that triggers after reset password operation,
+      onPasswordChange: () => {}, // cb that triggers after change password operation
       ...authConfig
     }, config)
 

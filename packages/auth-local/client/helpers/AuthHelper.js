@@ -3,7 +3,8 @@ import {
   LOCAL_LOGIN_URL,
   CREATE_PASS_RESET_SECRET_URL,
   RESET_PASSWORD_URL,
-  REGISTER_URL
+  REGISTER_URL,
+  CHANGE_PASSWORD_URL
 } from '../../isomorphic'
 import { $root } from 'startupjs'
 
@@ -31,6 +32,12 @@ export default function AuthHelper () {
   // data: { password, confirm, secret }
   this.resetPassword = function (data) {
     return this._axios.post(RESET_PASSWORD_URL, data)
+  }
+
+  // chang password for current user (you must be logged in, userId will be taken from session)
+  // data: { password, confirm, oldPassword }
+  this.changePassword = function (data) {
+    return this._axios.post(CHANGE_PASSWORD_URL, data)
   }
 
   // data: { email, password, confirm, userData(firstName, lastName, ...) }
