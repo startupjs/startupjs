@@ -209,7 +209,7 @@ SCRIPTS_ORIG.fonts = () => oneLine(`
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage} && ${SCRIPTS_ORIG.fonts}
+  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
 `)
 
 const SCRIPTS = {
