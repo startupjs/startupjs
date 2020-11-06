@@ -1,7 +1,7 @@
 export default function (components = {}) {
   return [
     {
-      path: '/docs/:lang?',
+      path: '/docs',
       exact: true,
       component: components.PHome
     },

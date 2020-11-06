@@ -1,20 +1,9 @@
 import { useEffect } from 'react'
-import { observer, emit, useLocal } from 'startupjs'
+import { observer, emit } from 'startupjs'
 import { useDocsContext } from '../../../../docsContext'
-import { useLang } from '../../../clientHelpers'
-import { DEFAULT_LANGUAGE } from '../../../const'
 
-export default observer(function PHome ({
-  style
-}) {
+export default observer(function PHome () {
   const docs = useDocsContext()
-  const [params = {}] = useLocal('$render.params')
-  const paramsLang = params.lang
-  let [lang = DEFAULT_LANGUAGE, setLang] = useLang()
-  if (paramsLang && paramsLang !== lang) {
-    lang = paramsLang
-    setLang(lang)
-  }
 
   function getDocPath (docs) {
     let path = '/'
@@ -35,9 +24,10 @@ export default observer(function PHome ({
   useEffect(() => {
     emit(
       'url',
-      `/docs/${lang}` + getDocPath(docs),
+      '/docs' + getDocPath(docs),
       { replace: true }
     )
   }, [])
+
   return null
 })
