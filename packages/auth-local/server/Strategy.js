@@ -10,7 +10,7 @@ export default function (config = {}) {
 
   return ({ model, router, authConfig }) => {
     Object.assign(this.config, {
-      resetPasswordTimeLimit: 60 * 1000 * 1000, // Expire time of reset password secret,
+      resetPasswordTimeLimit: 60 * 1000 * 10, // Expire time of reset password secret (10 mins by default),
       onCreatePasswordResetSecret: () => {}, // cb that triggers after reset password secret creating,
       onPasswordReset: () => {}, // cb that triggers after reset password operation,
       onPasswordChange: () => {}, // cb that triggers after change password operation
