@@ -47,9 +47,8 @@ export default function init (ee, opts) {
     const model = backend.createModel()
 
     // Init each strategy
-    for (const strategy of strategies) {
-      const { config, init } = strategy
-      init({ model, router, config, updateClientSession })
+    for (const initFn of strategies) {
+      initFn({ model, router, updateClientSession })
     }
   })
 
