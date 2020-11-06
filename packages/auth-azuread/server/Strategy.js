@@ -18,12 +18,18 @@ function validateConfigs ({ clientId, identityMetadata, tentantId }) {
 }
 
 export default function (config = {}) {
-  validateConfigs(config)
+  this.config = {}
 
-  const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = config
+  Object.assign(this.config, {
+    allowHttpForRedirectUrl: false
+  }, config)
 
-  return function ({ model, router, updateClientSession }) {
-    console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++')
+  validateConfigs(this.config)
+
+  const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
+
+  return ({ model, router, updateClientSession }) => {
+    console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n', this.config, '\n')
 
     const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
     const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]

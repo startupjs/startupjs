@@ -4,12 +4,20 @@ import _get from 'lodash/get'
 import initRoutes from './initRoutes'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
+import { sendRecoveryConfirmation } from './heplers'
 
 export default function (config = {}) {
-  return function ({ model, router }) {
-    console.log('++++++++++ Initialization of Local auth strategy ++++++++++')
+  this.config = {}
 
-    initRoutes({ router, config })
+  Object.assign(this.config, {
+    resetPasswordTimeLimit: 60 * 1000 * 1000, // Expire time of reset password secret,
+    sendRecoveryConfirmation // cb that triggers after reset password secret creating
+  }, config)
+
+  return ({ model, router }) => {
+    console.log('++++++++++ Initialization of Local auth strategy ++++++++++\n', this.config, '\n')
+
+    initRoutes({ router, config: this.config })
 
     passport.use(
       new Strategy(

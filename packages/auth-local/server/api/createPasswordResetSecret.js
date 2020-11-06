@@ -1,4 +1,6 @@
-export default function createPasswordResetSecret (req, res, done) {
+export default function createPasswordResetSecret (req, res, done, config) {
+  const { sendRecoveryConfirmation } = config
+
   parseRecoverPasswordRequest(req, res, async function (err, email) {
     if (err) return res.status(400).json({ message: err })
     const { model } = req
@@ -22,22 +24,16 @@ export default function createPasswordResetSecret (req, res, done) {
     }
     await $local.setAsync('passwordReset', passwordReset)
 
-    // TODO: customize hook
-    sendRecoveryConfirmation(req, id, email, secret, function () {
+    sendRecoveryConfirmation(req, { email, secret }, function () {
       res.status(200).json({ email })
     })
   })
 }
 
 function parseRecoverPasswordRequest (req, res, done) {
-  const email = req.body.email
+  const { email } = req.body
 
   if (!email) return done('[@startup/auth-local] Missing email')
 
   done(null, email)
-}
-
-function sendRecoveryConfirmation (req, userId, email, secret, done) {
-  // Place to send a letter with recovery link to your page
-  done()
 }

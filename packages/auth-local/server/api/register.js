@@ -48,7 +48,7 @@ function parseRegisterRequest (req, res, done) {
   if (!password) return done('[@startup/auth-local] Please fill password')
   if (!confirm) return done('[@startup/auth-local] Please fill password confirmation')
   if (password !== confirm) return done('[@startup/auth-local] Password should match confirmation')
-  if (password.length < 6) return done('[@startup/auth-local] Password length should be at least 6')
+  if (password.length < 8) return done('[@startup/auth-local] Password length should be at least 8')
   if (!EMAIL_REGEXP.test(email)) return done('[@startup/auth-local] Incorrect email')
 
   done(null)

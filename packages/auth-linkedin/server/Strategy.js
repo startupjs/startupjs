@@ -14,12 +14,18 @@ function validateConfigs ({ clientId, clientSecret }) {
 }
 
 export default function (config = {}) {
-  validateConfigs(config)
+  this.config = {}
 
-  const { clientId, clientSecret } = config
+  Object.assign(this.config, {
+    // Any defaults....
+  }, config)
 
-  return function ({ model, router, updateClientSession }) {
-    console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++')
+  validateConfigs(this.config)
+
+  const { clientId, clientSecret } = this.config
+
+  return ({ model, router, updateClientSession }) => {
+    console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n', this.config, '\n')
 
     initRoutes({ router, config })
 

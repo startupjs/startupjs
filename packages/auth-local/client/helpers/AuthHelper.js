@@ -16,20 +16,24 @@ export default function AuthHelper () {
   const baseUrl = $root.get('_session.env.BASE_URL')
   this._axios = axios.create({ baseUrl })
 
+  // data: { email, password }
   this.login = function (data) {
     return this._axios.post(LOCAL_LOGIN_URL, data)
   }
 
   // request for change password for email
+  // data: { email }
   this.createPassResetSecret = function (data) {
     return this._axios.post(CREATE_PASS_RESET_SECRET_URL, data)
   }
 
-  // submit secret and new password { password, confirm, secret }
+  // submit secret and new password
+  // data: { password, confirm, secret }
   this.resetPassword = function (data) {
     return this._axios.post(RESET_PASSWORD_URL, data)
   }
 
+  // data: { email, password, confirm, userData(firstName, lastName, ...) }
   this.register = function (data) {
     return this._axios.post(REGISTER_URL, data)
   }
