@@ -68,7 +68,7 @@ function AutoSuggest ({
     Popover(
       wrapperStyle=style
       visible=(isFocus || isLoading)
-      placement='bottom-center'
+      position='bottom'
       placements=['bottom-center', 'top-center']
       hasWidthCaption=true
       durationOpen=200
@@ -116,7 +116,6 @@ AutoSuggest.propTypes = {
     label: PropTypes.string
   }).isRequired,
   placeholder: PropTypes.string,
-  popoverHeight: PropTypes.number,
   renderItem: PropTypes.func,
   isLoading: PropTypes.bool,
   onChange: PropTypes.func,

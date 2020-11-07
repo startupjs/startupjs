@@ -78,11 +78,10 @@ const [sort, setSort] = useState('')
 const captionStyle = { width: 30, height: 30, backgroundColor: 'white', 
   borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
 return (
-  <View>
+  <View style={{ width: 160 }}>
     <Dropdown
       value={sort}
       onChange={v => setSort(v)}
-      wrapperStyle={{ width: 160 }}
     >
       <Dropdown.Caption>
         <View style={captionStyle}>
@@ -114,11 +113,8 @@ return (
 ```
 
 ## Позиция
-Регулируется свойством - placement. Есть 12 позиций:
-top-left, top-center, top-right
-right-top, right-center, right-bottom
-bottom-right, bottom-center, bottom-left
-left-bottom, left-center, left-top
+- position: имеет 12 вариаций положений (left, right, top, bottom)
+- attachment: дополнительный параметр для смещения (start, center, end)
 
 Массив placements - задает какие позиции можно использовать при автофиксе
 

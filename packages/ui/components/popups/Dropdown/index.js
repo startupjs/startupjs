@@ -22,9 +22,10 @@ function Dropdown ({
   children,
   activeItemStyle,
   popoverWrapperStyle,
-  placements,
-  placement,
   value,
+  position,
+  attachment,
+  placements,
   drawerVariant,
   drawerListTitle,
   drawerCancelLabel,
@@ -113,7 +114,8 @@ function Dropdown ({
       Popover(
         wrapperStyleName='popoverWrapper'
         wrapperStyle=_popoverWrapperStyle
-        placement=placement
+        position=position
+        attachment=attachment
         placements=placements
         visible=isShow
         hasWidthCaption=!_popoverWrapperStyle.width
@@ -154,7 +156,8 @@ function Dropdown ({
 
 Dropdown.defaultProps = {
   popoverWrapperStyle: [],
-  placement: 'bottom-center',
+  position: 'bottom',
+  attachment: 'center',
   placements: ['bottom-center', 'top-center'],
   value: '',
   drawerVariant: 'buttons',
