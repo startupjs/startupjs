@@ -9,7 +9,8 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "passport-facebook": "^3.0.0"
+    "passport-facebook": "^3.0.0",
+    "fb": "2.0.0"
   },
   "peerDependencies": {
     "@startupjs/auth": ">= 0.0.1"

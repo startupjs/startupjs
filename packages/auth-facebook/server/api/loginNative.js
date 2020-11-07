@@ -1,6 +1,6 @@
 import FB from 'fb'
 import Provider from '../Provider'
-import { PERMISSIONS, API_VERSION } from '../../isomorphic/constants'
+import { FIELDS, API_VERSION } from '../../isomorphic/constants'
 import { finishAuth } from '@startupjs/auth/server'
 
 export default function loginNative (req, res, next, config) {
@@ -10,7 +10,7 @@ export default function loginNative (req, res, next, config) {
 
   FB.api(
     userID,
-    { version: API_VERSION, fields: PERMISSIONS },
+    { version: API_VERSION, fields: FIELDS },
     async response => {
       if (!response || response.error) {
         console.log(!response ? 'error occurred' : response.error)
