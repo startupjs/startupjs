@@ -1,10 +1,10 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
 import { observer, useLocal } from 'startupjs'
-import { useDocsContext } from '../../../../docsContext'
 import { Span, Br, Div } from '@startupjs/ui'
+import { useDocsContext } from '../../../../docsContext'
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../../../const'
 import { useLang } from '../../../clientHelpers'
-import { ScrollView } from 'react-native'
 import './index.styl'
 import useRestoreScroll from './useRestoreScroll'
 

@@ -315,7 +315,7 @@ Popover.propTypes = {
   backdropStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
   placement: PropTypes.oneOf(PLACEMENT_ORDER),
-  placements: PropTypes.oneOfType([PLACEMENT_ORDER]),
+  placements: PropTypes.oneOf([PLACEMENT_ORDER]),
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
