@@ -103,7 +103,7 @@ DateTimePicker.defaultProps = {
 DateTimePicker.propTypes = {
   mode: PropTypes.oneOf(['date', 'time', 'datetime']),
   onDateChange: PropTypes.func,
-  $date: PropTypes.any,
+  date: PropTypes.any,
   minDate: PropTypes.number,
   maxDate: PropTypes.number,
   label: PropTypes.string,
