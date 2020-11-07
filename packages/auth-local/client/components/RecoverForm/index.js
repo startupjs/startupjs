@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { observer, useValue } from 'startupjs'
@@ -10,11 +9,8 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function RecoverForm ({
-  onSuccess,
-  onError,
-  onChangeAuthPage
-}) {
+/* eslint-disable-next-line */
+function RecoverForm ({ onSuccess, onError, onChangeAuthPage}) {
   const authHelper = useAuthHelper()
 
   const [loading, setLoading] = useState()
@@ -83,6 +79,9 @@ function RecoverForm ({
 
   return pug`
     Div.root
+      Span.text.center-text.header-text Forgot your password?
+      Span.text.center-text.sub-header-text Enter email to reset your password
+      Br
       if !feedBack
         TextInput(
           onChangeText=onFormChange('email')

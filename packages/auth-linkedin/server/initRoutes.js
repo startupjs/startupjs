@@ -8,7 +8,6 @@ import {
   loginWebCallback,
   loginNative
 } from './api'
-import { finishAuth, ensureAuthState } from '@startupjs/auth/server'
 
 export default function (opts) {
   const { router, config } = opts
@@ -21,9 +20,7 @@ export default function (opts) {
   // Native routes
   router.get(
     CALLBACK_NATIVE_LINKEDIN_URL,
-    (req, res, next) => loginNative(req, res, next, config),
-    ensureAuthState,
-    finishAuth
+    (req, res, next) => loginNative(req, res, next, config)
   )
   //
 }
