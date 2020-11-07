@@ -2,7 +2,7 @@ import passport from 'passport'
 import { Strategy } from 'passport-facebook'
 import Provider from './Provider'
 import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic'
+import { CALLBACK_URL, FIELDS } from '../isomorphic/constants'
 
 function validateConfigs ({ clientId, clientSecret }) {
   if (!clientId) {
@@ -39,7 +39,7 @@ export default function (config = {}) {
           clientID: clientId,
           clientSecret,
           callbackURL: CALLBACK_URL,
-          profileFields: ['id', 'email', 'name']
+          profileFields: FIELDS
         },
         async function (accessToken, refreshToken, profile, cb) {
           let userId, err

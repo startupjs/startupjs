@@ -6,9 +6,6 @@ export default class FacebookProvider extends BaseProvider {
   constructor ($root, profile, options) {
     super($root, profile, options)
     this.profile = profile
-
-    // ??
-    // this.avatarSize = options.strategies.facebook.conf.avatarSize || 200
   }
 
   getProviderName () {
@@ -83,11 +80,15 @@ export default class FacebookProvider extends BaseProvider {
   getAvatarUrl () {
     const { profile } = this
 
-    let avatarUrl = `https://graph.facebook.com/${profile.id}/picture?`
-    avatarUrl += 'width=400'
-    avatarUrl += '&height=400'
+    if (profile.photos && profile.photos[0]) {
+      return profile.photos[0].value
+    }
 
-    return avatarUrl
+    if (profile.picture && profile.picture.data) {
+      return profile.picture.data.url
+    }
+
+    return ''
   }
 
   getProviderData () {

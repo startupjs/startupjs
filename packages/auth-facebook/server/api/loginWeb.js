@@ -1,5 +1,6 @@
 import passport from 'passport'
+import { PERMISSIONS } from '../../isomorphic/constants'
 
 export default passport.authenticate('facebook', {
-  scope: ['public_profile', 'email']
+  scope: PERMISSIONS
 })
