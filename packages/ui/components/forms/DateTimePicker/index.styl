@@ -1,0 +1,17 @@
+.root
+  height 4u
+  padding 0 1u
+  font(l)
+  color: $UI.colors.darkLight
+  background-color inherit
+  radius()
+
+  +web()
+    border: 1px solid $UI.colors.darkLighter
+
+    &:focus
+      outline none
+
+.label
+  &.focused
+    color: $UI.colors.primary
