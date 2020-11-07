@@ -5,10 +5,11 @@ import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ style, label, onSuccess }) {
+function AuthButton ({ style, label }) {
   return pug`
     Button.button(
-      onPress=()=> onLogin(onSuccess)
+      style=style
+      onPress=onLogin
       icon=faFacebook
       variant='flat'
     )= label

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { CALLBACK_NATIVE_URL, PERMISSIONS } from '../../../isomorphic/constants'
 import { BASE_URL } from '@env'
 
-export default async function onLogin (onSuccess) {
+export default async function onLogin () {
   const baseUrl = BASE_URL
 
   try {
@@ -21,8 +21,7 @@ export default async function onLogin (onSuccess) {
 
     const data = await AccessToken.getCurrentAccessToken()
 
-    const res = await axios.post(baseUrl + CALLBACK_NATIVE_URL, data)
-    onSuccess && onSuccess(res.data)
+    await axios.post(baseUrl + CALLBACK_NATIVE_URL, data)
   } catch (error) {
     console.log('[@dmapper/auth] Error, FacebookAuth', error)
   }
