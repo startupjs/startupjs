@@ -11,11 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "@startupjs/app": "^0.25.0",
-    "@startupjs/auth": "file:../auth",
-    "@startupjs/auth-azuread": "file:../auth-azuread",
-    "@startupjs/auth-facebook": "file:../auth-facebook",
-    "@startupjs/auth-linkedin": "file:../auth-linkedin",
-    "@startupjs/auth-local": "file:../auth-local",
     "@startupjs/backend": "^0.25.0",
     "@startupjs/bundler": "^0.25.0",
     "@startupjs/cli": "^0.25.0",
