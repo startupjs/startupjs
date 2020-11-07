@@ -6,6 +6,8 @@ import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
 import qs from 'query-string'
 import { CALLBACK_NATIVE_LINKEDIN_URL } from '../../../isomorphic'
+import { DEFAUL_SUCCESS_REDIRECT_URL } from '@startupjs/auth/isomorphic'
+import { finishAuth } from '@startupjs/auth'
 
 const AUTHORIZATION_URL = 'https://www.linkedin.com/oauth/v2/authorization'
 
@@ -18,14 +20,20 @@ function AuthForm ({ text }) {
     setShowModal(true)
   }
 
-  const getAuthorizationUrl = () =>
-    `${AUTHORIZATION_URL}?${qs.stringify({
+  function getAuthorizationUrl () {
+    return `${AUTHORIZATION_URL}?${qs.stringify({
       response_type: 'code',
       client_id: clientId,
       scope: 'r_emailaddress r_liteprofile',
       redirect_uri: baseUrl + CALLBACK_NATIVE_LINKEDIN_URL
     })}`
+  }
 
+  function onNavigationStateChange ({ url }) {
+    if (url.includes(DEFAUL_SUCCESS_REDIRECT_URL)) {
+      finishAuth()
+    }
+  }
   return pug`
     Button(
       icon=faLinkedinIn
@@ -40,10 +48,13 @@ function AuthForm ({ text }) {
         WebView(
           style={ height: u(100) }
           source={ uri: getAuthorizationUrl() }
+
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled
           sharedCookiesEnabled
+
+          onNavigationStateChange=onNavigationStateChange
         )
   `
 }

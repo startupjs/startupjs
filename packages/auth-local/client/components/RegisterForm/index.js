@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import TextInput from '../TextInput'
@@ -11,11 +10,8 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function RegisterForm ({
-  onSuccess,
-  onError,
-  onChangeAuthPage
-}) {
+// eslint-disable-next-line
+function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
 
   const [form, $form] = useValue({
@@ -118,63 +114,66 @@ function RegisterForm ({
     }
   }, [])
   return pug`
-    TextInput(
-      onChangeText=onFormChange('name')
-      error=formErrors.name
-      label='Full name'
-      name='name'
-      placeholder='Enter your full name'
-      value=form.name || ''
-    )
-    Br
-    TextInput(
-      onChangeText=onFormChange('email')
-      error=formErrors.email
-      label='Email'
-      name='email'
-      placeholder='Enter your email'
-      value=form.email || ''
-    )
-    Br
-    TextInput(
-      onChangeText=onFormChange('password')
-      error=formErrors.password
-      label='Password'
-      name='password'
-      placeholder='Enter your password'
-      secureTextEntry
-      value=form.password || ''
-    )
-    Br
-    TextInput(
-      onChangeText=onFormChange('confirm')
-      error=formErrors.confirm
-      name='confirm'
-      placeholder='Confirm your password'
-      secureTextEntry
-      value=form.confirm || ''
-    )
-    if loading
+    Div.root
+      Span.text.center-text.header-text Sign up
       Br
-      ActivityIndicator
-    if formErrors.authError
+      TextInput(
+        onChangeText=onFormChange('name')
+        error=formErrors.name
+        label='Full name'
+        name='name'
+        placeholder='Enter your full name'
+        value=form.name || ''
+      )
       Br
-      Span.authError
-        = formErrors.authError
-    Br
-    Button(
-      onPress=submit
-      variant='flat'
-      color='primary'
-    ) Sign up
-    Br
-    Div.line
-      Span.text Have an accoun?
+      TextInput(
+        onChangeText=onFormChange('email')
+        error=formErrors.email
+        label='Email'
+        name='email'
+        placeholder='Enter your email'
+        value=form.email || ''
+      )
+      Br
+      TextInput(
+        onChangeText=onFormChange('password')
+        error=formErrors.password
+        label='Password'
+        name='password'
+        placeholder='Enter your password'
+        secureTextEntry
+        value=form.password || ''
+      )
+      Br
+      TextInput(
+        onChangeText=onFormChange('confirm')
+        error=formErrors.confirm
+        name='confirm'
+        placeholder='Confirm your password'
+        secureTextEntry
+        value=form.confirm || ''
+      )
+      if loading
+        Br
+        ActivityIndicator
+      if formErrors.authError
+        Br
+        Span.authError
+          = formErrors.authError
+      Br
       Button(
-        onPress=onChangeAuthPage('login')
-        variant='text'
+        onPress=submit
+        variant='flat'
         color='primary'
-      ) Login
+      ) Sign up
+      Br
+      Div.line
+        Span.text Have an accoun?
+        Button(
+          onPress=onChangeAuthPage('login')
+          variant='text'
+          color='primary'
+        ) Login
   `
 }
 

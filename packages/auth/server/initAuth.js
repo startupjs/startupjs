@@ -2,11 +2,9 @@ import passport from 'passport'
 import express from 'express'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
+import { onUserCreate, onLogin, onLogout } from './helpers'
 
 const router = express.Router()
-
-// Init default routes
-initDefaultRoutes(router)
 
 function serializeUser (userId, done) {
   done(null, userId)
@@ -16,13 +14,30 @@ function deserializeUser (userId, done) {
   done(null, userId)
 }
 
-export default function init (ee, opts) {
-  console.log('++++++++++ Initialization of auth module ++++++++++')
+function validateConfigs ({ strategies }) {
+  if (!strategies || !strategies.length) {
+    throw new Error('[@dmapper/auth] Error:', 'Provide at least one strategy')
+  }
+}
 
-  const { strategies } = opts
+export default function (ee, _config) {
+  const config = {}
+  Object.assign(config, {
+    onUserCreate,
+    onLogin,
+    onLogout
+  }, _config)
+
+  console.log('++++++++++ Initialization of auth module ++++++++++\n', config, '\n')
+  validateConfigs(config)
+
+  const { strategies, ...rest } = config
 
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
+
+  // Init default routes
+  initDefaultRoutes(router, config)
 
   // Use that helper to add some important data to client session
   // We avoid usage of .env file so we should store all client config in session
@@ -40,18 +55,17 @@ export default function init (ee, opts) {
     const model = backend.createModel()
 
     // Init each strategy
-    for (const strategy of strategies) {
-      const { config, init } = strategy
-      init({ model, router, config, updateClientSession })
+    for (const initFn of strategies) {
+      initFn({
+        model,
+        router,
+        updateClientSession,
+        authConfig: rest
+      })
     }
   })
 
   ee.on('afterSession', expressApp => {
-    // // Save config to req to access ot from routes
-    // expressApp.use((req, res, next) => {
-    //   req.authConfig = opts
-    //   next()
-    // })
     expressApp.use(passportMiddleware(router))
   })
 }

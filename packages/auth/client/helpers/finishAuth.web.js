@@ -1,3 +1,3 @@
-export default function finishAuth (redirectUrl) {
-  window.location.href = redirectUrl || '/'
+export default function finishAuth () {
+  window.location.href = '/'
 }
