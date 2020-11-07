@@ -112,7 +112,7 @@ function Button ({
       reverse=iconPosition === 'right'
       variant='highlight'
       disabled=asyncActive || disabled
-      onPress=_onPress
+      onPress=onPress && _onPress
       ...rootExtraProps
       ...props
     )

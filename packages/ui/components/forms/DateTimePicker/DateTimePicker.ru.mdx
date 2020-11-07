@@ -1,0 +1,58 @@
+import { useState } from 'react'
+import Div from '../../Div'
+import Br from '../../Br'
+import DateTimePicker from '../DateTimePicker'
+import { Sandbox } from '@startupjs/docs'
+
+# DateTimePicker
+
+у DateTimePicker есть 3 режима (по умолчанию - режим datetime):
+1. date режим : выберите число
+2. time режим : выберите время
+3. datetime режим : выберите число со временем
+
+Возврат - это метка времени, а не объект Date.
+
+```jsx
+import { DateTimePicker } from from '@startupjs/ui'
+```
+
+## Пример для режима datetime
+
+```jsx example
+const [dateTime, setDateTime] = useState()
+return (
+  <Div>
+    <DateTimePicker
+      date={dateTime}
+      onDateChange={setDateTime}
+    />
+  </Div>
+)
+```
+
+## Примеры для режима date и режима time
+
+```jsx example
+const [date, setDate] = useState()
+const [time, setTime] = useState()
+return (
+  <Div>
+    <DateTimePicker
+      date={date}
+      onDateChange={setDate}
+      mode='date'
+    />
+    <Br />
+    <DateTimePicker
+      date={time}
+      onDateChange={setTime}
+      mode='time'
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={DateTimePicker} />
