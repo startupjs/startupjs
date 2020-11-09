@@ -4,7 +4,6 @@ import { Checkbox } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
-
 import './index.styl'
 
 const Multiselect = ({

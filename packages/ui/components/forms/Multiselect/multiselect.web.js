@@ -26,8 +26,10 @@ const Multiselect = ({
     Popover.root(
       visible=focused
       onDismiss=onHide
-      width=popoverWidth
-      maxHeight=u(20)
+      wrapperStyleName={
+        width: popoverWidth,
+        maxHeight: u(20)
+      }
     )
       Popover.Caption
         MultiselectInput(

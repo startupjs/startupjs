@@ -14,6 +14,7 @@ import Drawer from '../Drawer'
 import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
+import { PLACEMENTS_ORDER } from '../Popover/constants'
 import './index.styl'
 
 const { UIManager } = NativeModules
@@ -22,9 +23,10 @@ function Dropdown ({
   children,
   activeItemStyle,
   popoverWrapperStyle,
-  popoverPlacements,
-  popoverPlacement,
   value,
+  position,
+  attachment,
+  placements,
   drawerVariant,
   drawerListTitle,
   drawerCancelLabel,
@@ -113,8 +115,9 @@ function Dropdown ({
       Popover(
         wrapperStyleName='popoverWrapper'
         wrapperStyle=_popoverWrapperStyle
-        placement=popoverPlacement
-        placements=popoverPlacements
+        position=position
+        attachment=attachment
+        placements=placements
         visible=isShow
         hasWidthCaption=!_popoverWrapperStyle.width
         onDismiss=()=> setIsShow(false)
@@ -154,8 +157,8 @@ function Dropdown ({
 
 Dropdown.defaultProps = {
   popoverWrapperStyle: [],
-  popoverPlacement: 'bottom-center',
-  popoverPlacements: ['bottom-center', 'top-center'],
+  position: 'bottom',
+  attachment: 'center',
   value: '',
   drawerVariant: 'buttons',
   drawerListTitle: '',
@@ -166,6 +169,9 @@ Dropdown.propTypes = {
   popoverWrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+  attachment: PropTypes.oneOf(['start', 'center', 'end']),
+  placements: PropTypes.oneOf(PLACEMENTS_ORDER),
   drawerVariant: PropTypes.oneOf(['list', 'buttons', 'pure']),
   drawerListTitle: PropTypes.string,
   drawerCancelLabel: PropTypes.string,

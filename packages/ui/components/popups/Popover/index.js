@@ -18,7 +18,7 @@ import PropTypes from 'prop-types'
 import Modal from '../../Modal'
 import Arrow from './Arrow'
 import Geometry from './Geometry'
-import { PLACEMENT_ORDER } from './constants.json'
+import { PLACEMENTS_ORDER } from './constants.json'
 import animate from './animate'
 import STYLES from './index.styl'
 
@@ -33,6 +33,7 @@ function isShtampInit (stepStatus) {
   return ['close', 'render'].indexOf(stepStatus) === -1
 }
 
+// TODO: autofix placement for ref
 function Popover ({
   children,
   wrapperStyle,
@@ -40,7 +41,8 @@ function Popover ({
   backdropStyle,
   arrowStyle,
   visible,
-  placement,
+  position,
+  attachment,
   placements,
   animateType,
   durationOpen,
@@ -58,7 +60,7 @@ function Popover ({
   const refGeometry = useRef()
 
   const [stepStatus, setStepStatus] = useState(STEP_STATUSES.CLOSE)
-  const [validPlacement, setValidPlacement] = useState(placement)
+  const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
   const [localVisible, setLocalVisible] = useState(visible)
   const [contentInfo, setContentInfo] = useState({})
   const [captionSize, setCaptionSize] = useState({})
@@ -117,7 +119,7 @@ function Popover ({
 
       refGeometry.current = new Geometry({
         contentInfo: _contentInfo,
-        placement,
+        placement: position + '-' + attachment,
         placements,
         captionSize,
         hasArrow
@@ -217,11 +219,11 @@ function Popover ({
     { opacity: animateStates.opacityOverlay }
   ])
 
-  const [rootPlacement] = validPlacement.split('-')
-  if (isShtampInit(stepStatus) && rootPlacement === 'top') _wrapperStyle.bottom = 0
-  if (isShtampInit(stepStatus) && rootPlacement === 'left') _wrapperStyle.right = 0
-  if (isShtampInit(stepStatus) && validPlacement === 'left-bottom') _wrapperStyle.bottom = 0
-  if (isShtampInit(stepStatus) && validPlacement === 'right-bottom') _wrapperStyle.bottom = 0
+  const [validPosition] = validPlacement.split('-')
+  if (isShtampInit(stepStatus) && validPosition === 'top') _wrapperStyle.bottom = 0
+  if (isShtampInit(stepStatus) && validPosition === 'left') _wrapperStyle.right = 0
+  if (isShtampInit(stepStatus) && validPlacement === 'left-end') _wrapperStyle.bottom = 0
+  if (isShtampInit(stepStatus) && validPlacement === 'right-end') _wrapperStyle.bottom = 0
 
   if (stepStatus === STEP_STATUSES.ANIMATE) {
     _wrapperStyle.height = animateStates.height
@@ -277,7 +279,7 @@ function Popover ({
                     Arrow(
                       style=arrowStyle
                       geometry=refGeometry.current
-                      rootPlacement=rootPlacement
+                      validPosition=validPosition
                     )
                   Animated.View.content(style=contentStyle)
                     = renderContent
@@ -300,8 +302,9 @@ function PopoverCaption ({ children, style }) {
 
 Popover.defaultProps = {
   backdropStyle: { zIndex: 99999 },
-  placement: 'bottom-left',
-  placements: PLACEMENT_ORDER,
+  position: 'bottom',
+  attachment: 'center',
+  placements: PLACEMENTS_ORDER,
   animateType: 'default',
   hasWidthCaption: false,
   hasArrow: false,
@@ -314,8 +317,9 @@ Popover.propTypes = {
   overlayStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   backdropStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
-  placement: PropTypes.oneOf(PLACEMENT_ORDER),
-  placements: PropTypes.oneOf([PLACEMENT_ORDER]),
+  position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+  attachment: PropTypes.oneOf(['start', 'center', 'end']),
+  placements: PropTypes.oneOf(PLACEMENTS_ORDER),
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,

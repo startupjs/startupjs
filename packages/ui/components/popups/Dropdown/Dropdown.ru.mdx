@@ -78,11 +78,10 @@ const [sort, setSort] = useState('')
 const captionStyle = { width: 30, height: 30, backgroundColor: 'white', 
   borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
 return (
-  <View>
+  <View style={{ width: 160 }}>
     <Dropdown
       value={sort}
       onChange={v => setSort(v)}
-      popoverWrapperStyle={{ width: 160 }}
     >
       <Dropdown.Caption>
         <View style={captionStyle}>
@@ -113,4 +112,12 @@ return (
 )
 ```
 
+## Позиция
+- position: имеет 4 варианта положений (left, right, top, bottom)
+- attachment: дополнительный параметр для смещения (start, center, end)
+
+Массив placements - задает какие позиции можно использовать при автофиксе
+
+## Так же
+- drawerCancelLabel: задать имя кнопки отмены на iOS и Android
 <Br lines={10} />

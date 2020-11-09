@@ -4,14 +4,14 @@ import { Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { Popover } from '../popups'
 import TooltipCaption from './Caption'
-import { PLACEMENT_ORDER } from '../popups/Popover/constants.json'
 import STYLES from './index.styl'
 
 function Tooltip ({
   children,
   style,
   tooltipStyle,
-  placement,
+  position,
+  attachment,
   durationOpen,
   durationClose,
   content
@@ -22,7 +22,8 @@ function Tooltip ({
     Popover(
       visible=isVisible
       hasArrow=true
-      placement=placement
+      position=position
+      attachment=attachment
       animateType='scale'
       wrapperStyle=[STYLES.wrapper, tooltipStyle]
       arrowStyleName='arrow'
@@ -43,14 +44,16 @@ function Tooltip ({
 }
 
 Tooltip.defaultProps = {
-  placement: 'top-center',
+  position: 'top',
+  attachment: 'center',
   durationOpen: 200,
   durationClose: 0
 }
 
 Tooltip.propTypes = {
   tooltipStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  placement: PropTypes.oneOf(PLACEMENT_ORDER),
+  position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
+  attachment: PropTypes.oneOf(['start', 'center', 'end']),
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number
 }

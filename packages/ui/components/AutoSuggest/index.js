@@ -10,10 +10,10 @@ import Loader from '../Loader'
 import './index.styl'
 
 function AutoSuggest ({
+  style,
   options,
   value,
   placeholder,
-  maxHeight,
   renderItem,
   isLoading,
   onChange,
@@ -23,6 +23,7 @@ function AutoSuggest ({
 }) {
   const [inputValue, setInputValue] = useState('')
   const [isFocus, setIsFocus] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   let _data = options.filter((item, index) => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
@@ -34,13 +35,15 @@ function AutoSuggest ({
 
   function onBlur () {
     if (!_data.length) return
-    setIsFocus(false)
     setInputValue('')
+    setIsFocus(false)
+    setIsOpen(false)
     onDismiss && onDismiss()
   }
 
   useEffect(() => {
     setIsFocus(false)
+    setIsOpen(false)
   }, [value])
 
   const renderItems = _data.map((item, index) => {
@@ -55,17 +58,21 @@ function AutoSuggest ({
   })
 
   const _onChangeText = t => {
+    if (!isOpen) return
     setInputValue(t)
     onChangeText && onChangeText(t)
   }
 
+  if (!style.maxHeight) style.maxHeight = 200
   return pug`
     Popover(
-      maxHeight=maxHeight
+      wrapperStyle=style
       visible=(isFocus || isLoading)
-      placement='bottom-center'
-      placements=['bottom-center', 'top-center']
+      position='bottom'
       hasWidthCaption=true
+      durationOpen=200
+      durationClose=200
+      onRequestOpen=()=> setIsOpen(true)
       onDismiss=onBlur
     )
       Popover.Caption
@@ -93,9 +100,9 @@ function AutoSuggest ({
 }
 
 AutoSuggest.defaultProps = {
+  style: {},
   options: [],
   placeholder: 'Select value',
-  maxHeight: 200,
   value: {},
   renderItem: null,
   isLoading: false
@@ -108,7 +115,6 @@ AutoSuggest.propTypes = {
     label: PropTypes.string
   }).isRequired,
   placeholder: PropTypes.string,
-  popoverHeight: PropTypes.number,
   renderItem: PropTypes.func,
   isLoading: PropTypes.bool,
   onChange: PropTypes.func,

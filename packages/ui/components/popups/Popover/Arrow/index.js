@@ -5,7 +5,7 @@ import './index.styl'
 export default function Arrow ({
   style,
   geometry,
-  rootPlacement
+  validPosition
 }) {
   const _arrowStyle = StyleSheet.flatten([
     style,
@@ -15,11 +15,11 @@ export default function Arrow ({
     }
   ])
 
-  if (_arrowStyle.color && (rootPlacement === 'top' ||
-    rootPlacement === 'left' || rootPlacement === 'right')) {
+  if (_arrowStyle.color && (validPosition === 'top' ||
+    validPosition === 'left' || validPosition === 'right')) {
     _arrowStyle.borderTopColor = _arrowStyle.color
   }
-  if (_arrowStyle.color && rootPlacement === 'bottom') {
+  if (_arrowStyle.color && validPosition === 'bottom') {
     _arrowStyle.borderBottomColor = _arrowStyle.color
   }
 
@@ -27,10 +27,10 @@ export default function Arrow ({
     Animated.View.arrow(
       style=_arrowStyle
       styleName={
-        arrowBottom: rootPlacement === 'bottom',
-        arrowTop: rootPlacement === 'top',
-        arrowLeft: rootPlacement === 'left',
-        arrowRight: rootPlacement === 'right',
+        arrowBottom: validPosition === 'bottom',
+        arrowTop: validPosition === 'top',
+        arrowLeft: validPosition === 'left',
+        arrowRight: validPosition === 'right',
       }
     )
   `

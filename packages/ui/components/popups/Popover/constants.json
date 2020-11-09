@@ -1,18 +1,24 @@
 {
   "POPOVER_MARGIN": 8,
   "ARROW_SIZE": 8,
-  "PLACEMENT_ORDER": [
-    "top-left",
+  "PLACEMENTS_ORDER": [
+    "top-start",
     "top-center",
-    "top-right",
-    "right-top",
+    "top-end",
+    "right-start",
     "right-center",
-    "right-bottom",
-    "bottom-right",
+    "right-end",
+    "bottom-end",
     "bottom-center",
-    "bottom-left",
-    "left-bottom",
+    "bottom-start",
+    "left-end",
     "left-center",
-    "left-top"
-  ]
+    "left-start"
+  ],
+  "POSITIONS_REVERSE": {
+    "top": "bottom",
+    "bottom": "top",
+    "left": "right",
+    "right": "left"
+  }
 }
