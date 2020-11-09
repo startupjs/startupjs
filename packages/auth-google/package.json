@@ -1,7 +1,7 @@
 {
-  "name": "@startupjs/auth-facebooks",
+  "name": "@startupjs/auth-google",
   "version": "0.0.1",
-  "description": "Auth plugin for StartupJS auth module",
+  "description": "Google auth plugin for StartupJS auth module",
   "main": "index.js",
   "publishConfig": {
     "access": "public"

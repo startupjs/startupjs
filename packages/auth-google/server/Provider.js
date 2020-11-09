@@ -3,11 +3,6 @@ import { BaseProvider } from '@startupjs/auth/server'
 const PROVIDER_NAME = 'google'
 
 export default class GoogleProvider extends BaseProvider {
-  constructor ($root, profile, options) {
-    super($root, profile, options)
-    this.profile = profile
-  }
-
   getProviderName () {
     return PROVIDER_NAME
   }
