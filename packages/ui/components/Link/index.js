@@ -1,10 +1,11 @@
 import React from 'react'
+import { Platform, Linking } from 'react-native'
+import { useHistory } from 'react-router-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { Platform, Linking } from 'react-native'
 import Div from './../Div'
+import Button from './../Button'
 import Span from './../typography/Span'
-import { useHistory } from 'react-router-native'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -20,16 +21,13 @@ function Link ({
   block,
   replace,
   variant,
-  onPress,
-  ...props
+  children,
+  onPress
 }) {
   const Component = block ? Div : Span
   const extraProps = { accessibilityRole: 'link' }
   const history = useHistory()
 
-  // TODO:
-  // For block=true modifier keys does not work
-  // may be it is related issue https://github.com/necolas/react-native-web/issues/1591
   function handlePress (event) {
     try {
       if (onPress) onPress(event)
@@ -43,6 +41,8 @@ function Link ({
         // ignore clicks with modifier keys
         // let browser handle these clicks
         if (isModifiedEvent(event)) return
+        // prevent default browser behavior
+        // because we need to use a react router
         event.preventDefault()
       }
 
@@ -59,24 +59,31 @@ function Link ({
 
   if (block) {
     extraProps.variant = variant
+
+    try {
+      // it throws an error if children has more then one child
+      React.Children.only(children)
+      // originalType is using for component in MDX docs
+      if (children.props.originalType === Button || children.type === Button) {
+        extraProps.hoverStyle = {}
+        extraProps.activeStyle = {}
+        children = React.cloneElement(children, { onPress: () => {} })
+      }
+    } catch (e) {}
   }
 
-  if (isWeb) {
-    extraProps.href = to
-    // makes preventDefault work on web,
-    // because react-native onPress does not prevent ctrl + click on web
-    extraProps.onClick = handlePress
-  } else {
-    extraProps.onPress = handlePress
-  }
+  // modifier keys does not work without href attribute
+  if (isWeb) extraProps.href = to
 
   return pug`
     Component.root(
       style=style
-      styleName=[theme, { bold, italic, block }, color]
+      styleName=[theme, color, { block }]
+      bold=bold
+      italic=italic
+      onPress=handlePress
       ...extraProps
-      ...props
-    )
+    )= children
   `
 }
 
