@@ -64,7 +64,7 @@ function Link ({
       // it throws an error if children has more then one child
       React.Children.only(children)
       // originalType is using for component in MDX docs
-      if (children.props.originalType || children.type === Button) {
+      if (children.props.originalType === Button || children.type === Button) {
         extraProps.hoverStyle = {}
         extraProps.activeStyle = {}
         children = React.cloneElement(children, { onPress: () => {} })
