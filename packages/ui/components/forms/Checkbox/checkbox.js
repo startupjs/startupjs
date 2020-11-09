@@ -39,6 +39,7 @@ export default observer(function Checkbox ({
 
   const checkedStyleName = { checked: value }
 
+  if (props.test) console.log(value, animated)
   return pug`
     Div.checkbox(
       style=style

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import { Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import Span from './../typography/Span'
 import { Popover } from '../popups'
 import TooltipCaption from './Caption'
 import STYLES from './index.styl'

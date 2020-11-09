@@ -1,7 +1,9 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Div, Row, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import Div from './../../Div'
+import Row from './../../Row'
+import Span from './../../typography/Span'
 import './index.styl'
 
 function MultiselectInput ({

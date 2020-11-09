@@ -42,20 +42,21 @@ $readonlyColor = $UI.colors.mainText
     line-height 2u
     color $readonlyColor
 
+// NOTE: opacity is workaround because display none and position absolute doesn't work right
+// https://github.com/facebook/react-native/issues/18415
 .checkbox-animation
-  display none
-  position relative
+  opacity 0
+  position absolute
   left 0
   top 0
   bottom 0
   right 0
+  width 10px
+  height 10px
   background-color $checkedColor
 
   &.animated
-    display flex
-
-  &.checked
-    position absolute
+    opacity 1
 
 .switch
   width 3u
