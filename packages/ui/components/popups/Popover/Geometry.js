@@ -2,6 +2,7 @@ import { Dimensions } from 'react-native'
 import {
   PLACEMENTS_ORDER,
   ARROW_SIZE,
+  POSITIONS_REVERSE,
   POPOVER_MARGIN
 } from './constants.json'
 
@@ -152,12 +153,24 @@ function preparePlacements ({ placement, placements }) {
   }
 
   this.preparePlacements = PLACEMENTS_ORDER
-  // const activeIndexPlacement = this.preparePlacements.findIndex(item => {
-  //  return item === placement
-  // })
+  const activeIndexPlacement = this.preparePlacements.findIndex(item => {
+    return item === this.initPlacement
+  })
 
-  // const [position] = this.preparePlacements[activeIndexPlacement].split('-')
-  // swap
+  const [position, attachment] = this.preparePlacements[activeIndexPlacement].split('-')
+  const reversePlacement = `${POSITIONS_REVERSE[position]}-${attachment}`
+  const reverseIndexPlacement = this.preparePlacements.findIndex(item => {
+    return item === reversePlacement
+  })
+  this.preparePlacements = this.preparePlacements.filter(item => {
+    return item !== reversePlacement
+  })
+
+  this.preparePlacements = [
+    ...this.preparePlacements.slice(0, activeIndexPlacement),
+    PLACEMENTS_ORDER[reverseIndexPlacement],
+    ...this.preparePlacements.slice(activeIndexPlacement)
+  ]
 }
 
 function getValidPlacement ({ placement, contentInfo }) {

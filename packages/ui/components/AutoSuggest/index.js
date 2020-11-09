@@ -69,7 +69,6 @@ function AutoSuggest ({
       wrapperStyle=style
       visible=(isFocus || isLoading)
       position='bottom'
-      placements=['bottom-center', 'top-center']
       hasWidthCaption=true
       durationOpen=200
       durationClose=200

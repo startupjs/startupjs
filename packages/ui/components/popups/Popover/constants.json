@@ -15,7 +15,7 @@
     "left-center",
     "left-start"
   ],
-  "PLACEMENTS_REVERSE": {
+  "POSITIONS_REVERSE": {
     "top": "bottom",
     "bottom": "top",
     "left": "right",
