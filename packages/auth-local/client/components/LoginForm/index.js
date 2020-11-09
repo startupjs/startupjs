@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import TextInput from '../TextInput'
-import { observer, useValue, emit } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import axios from 'axios'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function LoginForm ({
-  onSuccess,
-  onError,
-  onHandleError,
-  onChangeAuthPage
-}) {
+/* eslint-disable-next-line */
+function LoginForm ({onSuccess, onError, onHandleError, onChangeAuthPage}) {
   const authHelper = useAuthHelper()
 
   const [form, $form] = useValue({

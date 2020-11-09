@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import TextInput from '../TextInput'
@@ -11,11 +10,8 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function RegisterForm ({
-  onSuccess,
-  onError,
-  onChangeAuthPage
-}) {
+/* eslint-disable-next-line */
+function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
 
   const [form, $form] = useValue({
