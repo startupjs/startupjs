@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { Dimensions } from 'react-native'
 import {
   observer,
   useValue,
@@ -7,12 +8,8 @@ import {
   useBind
 } from 'startupjs'
 import PropTypes from 'prop-types'
-import { Dimensions, StyleSheet } from 'react-native'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
 
@@ -24,7 +21,6 @@ function SmartSidebar ({
   $open,
   position,
   width,
-  backgroundColor,
   children,
   renderContent,
   defaultOpen,
@@ -34,19 +30,10 @@ function SmartSidebar ({
     console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
-  if (/^#|rgb/.test(backgroundColor)) {
-    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
-  }
-
   const componentId = useComponentId()
   if (!$open) {
     [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
-
-  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: colors[backgroundColor] || backgroundColor },
-    style
-  ]))
 
   let open
   let onChange
@@ -71,7 +58,6 @@ function SmartSidebar ({
         position=position
         width=width
         forceClosed=forceClosed
-        backgroundColor=backgroundColor
         renderContent=renderContent
         defaultOpen=defaultOpen
       )= children
@@ -82,7 +68,6 @@ function SmartSidebar ({
         position=position
         width=width
         forceClosed=forceClosed
-        backgroundColor=backgroundColor
         renderContent=renderContent
         defaultOpen=defaultOpen
         ...props

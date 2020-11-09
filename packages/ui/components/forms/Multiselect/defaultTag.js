@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Tag } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import Tag from './../../Tag'
 import './index.styl'
 
 function DefaultTag ({ index, record }) {

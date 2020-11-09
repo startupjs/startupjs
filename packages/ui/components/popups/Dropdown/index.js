@@ -125,7 +125,7 @@ function Dropdown ({
       )
         if caption
           Popover.Caption
-            TouchableOpacity(onPress=()=> setIsShow(true))
+            TouchableOpacity(onPress=()=> setIsShow(!isShow))
               = caption
         ScrollView(ref=refScroll)
           = renderContent
@@ -134,7 +134,7 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity(onPress=()=> setIsShow(true))
+      TouchableOpacity(onPress=()=> setIsShow(!isShow))
         = caption
     Drawer(
       visible=isShow
