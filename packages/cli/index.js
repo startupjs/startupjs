@@ -47,7 +47,8 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
   'husky@^4.3.0',
-  'lint-staged'
+  'lint-staged',
+  'eslint@latest'
 ]
 
 const REMOVE_DEPENDENCIES = [
