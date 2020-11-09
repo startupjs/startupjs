@@ -10,7 +10,7 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-// eslint-disable-next-line
+/* eslint-disable-next-line */
 function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
 

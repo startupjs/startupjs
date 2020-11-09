@@ -1,15 +1,15 @@
 import passport from 'passport'
-import { Strategy } from 'passport-google-oauth20'
+import { Strategy } from 'passport-facebook'
 import Provider from './Provider'
 import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic'
+import { CALLBACK_URL, FIELDS } from '../isomorphic/constants'
 
 function validateConfigs ({ clientId, clientSecret }) {
   if (!clientId) {
-    throw new Error('[@dmapper/auth-google] Error:', 'Provide Client Id')
+    throw new Error('[@dmapper/auth-facebook] Error:', 'Provide Client Id')
   }
   if (!clientSecret) {
-    throw new Error('[@dmapper/auth-google] Error:', 'Provide Client Secret')
+    throw new Error('[@dmapper/auth-facebook] Error:', 'Provide Client Secret')
   }
 }
 
@@ -29,9 +29,9 @@ export default function (config = {}) {
     initRoutes({ router, config })
 
     // Append required configs to client session
-    updateClientSession({ google: { clientId } })
+    updateClientSession({ facebook: { clientId } })
 
-    console.log('++++++++++ Initialization of Google auth strategy ++++++++++')
+    console.log('++++++++++ Initialization of Facebook auth strategy ++++++++++')
 
     passport.use(
       new Strategy(
@@ -39,7 +39,7 @@ export default function (config = {}) {
           clientID: clientId,
           clientSecret,
           callbackURL: CALLBACK_URL,
-          userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
+          profileFields: FIELDS
         },
         async function (accessToken, refreshToken, profile, cb) {
           let userId, err

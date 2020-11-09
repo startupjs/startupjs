@@ -10,8 +10,8 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-// eslint-disable-next-line
-function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
+/* eslint-disable-next-line */
+function LoginForm ({onSuccess, onError, onHandleError, onChangeAuthPage}) {
   const authHelper = useAuthHelper()
 
   const [form, $form] = useValue({
