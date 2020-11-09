@@ -8,7 +8,6 @@ import {
   loginWebCallback,
   loginNative
 } from './api'
-import { finishAuth } from '@startupjs/auth/server'
 
 export default function (opts) {
   const { router, config } = opts
@@ -20,7 +19,6 @@ export default function (opts) {
   // Native routes
   router.post(
     CALLBACK_NATIVE_URL,
-    (req, res, next) => loginNative(req, res, next, config),
-    finishAuth
+    (req, res, next) => loginNative(req, res, next, config)
   )
 }
