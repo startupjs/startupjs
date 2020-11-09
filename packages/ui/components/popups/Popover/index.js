@@ -319,7 +319,7 @@ Popover.propTypes = {
   visible: PropTypes.bool.isRequired,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
-  placements: PropTypes.oneOfType([PLACEMENTS_ORDER]),
+  placements: PropTypes.oneOf(PLACEMENTS_ORDER),
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,

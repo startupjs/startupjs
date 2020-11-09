@@ -1,5 +1,9 @@
 import { Dimensions } from 'react-native'
-import { PLACEMENTS_ORDER, ARROW_SIZE, POPOVER_MARGIN } from './constants.json'
+import {
+  PLACEMENTS_ORDER,
+  ARROW_SIZE,
+  POPOVER_MARGIN
+} from './constants.json'
 
 function Geometry ({
   placement,
@@ -22,10 +26,7 @@ function Geometry ({
 
   prepareTopPositions.call(this, { contentInfo })
   prepareLeftPositions.call(this, { contentInfo })
-
-  this.preparePlacements = PLACEMENTS_ORDER.filter(item => {
-    return placements.indexOf(item) !== -1
-  })
+  preparePlacements.call(this, { placement, placements })
 
   this.getValidPlacement = getValidPlacement
   this.validPlacement = this.getValidPlacement({ placement, contentInfo })
@@ -140,6 +141,23 @@ function prepareLeftPositions ({ contentInfo }) {
   this.prepareLeftPositions['left-start'] -= contentInfo.width
   this.prepareLeftPositions['left-center'] -= contentInfo.width
   this.prepareLeftPositions['left-end'] -= contentInfo.width
+}
+
+function preparePlacements ({ placement, placements }) {
+  if (placements.length !== PLACEMENTS_ORDER.length) {
+    this.preparePlacements = PLACEMENTS_ORDER.filter(item => {
+      return placements.indexOf(item) !== -1
+    })
+    return
+  }
+
+  this.preparePlacements = PLACEMENTS_ORDER
+  // const activeIndexPlacement = this.preparePlacements.findIndex(item => {
+  //  return item === placement
+  // })
+
+  // const [position] = this.preparePlacements[activeIndexPlacement].split('-')
+  // swap
 }
 
 function getValidPlacement ({ placement, contentInfo }) {
