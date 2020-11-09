@@ -39,7 +39,6 @@ export default observer(function Checkbox ({
 
   const checkedStyleName = { checked: value }
 
-  if (props.test) console.log(value, animated)
   return pug`
     Div.checkbox(
       style=style
@@ -56,7 +55,7 @@ export default observer(function Checkbox ({
         size='s'
       )
       AnimatedView.checkbox-animation(
-        styleName=[checkedStyleName, { animated }]
+        styleName=[{ animated }]
         style={
           transform: [{
             translateX: animation.interpolate({
