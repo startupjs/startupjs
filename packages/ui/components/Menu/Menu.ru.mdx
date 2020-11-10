@@ -183,6 +183,33 @@ return (
 )
 ```
 
+## Пункт меню в роли ссылки
+
+Иногда вы хотите использовать пункт меню в качестве ссылки, например, в меню навигации. Смотрите ниже, как вы можете это сделать.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+const [url] = useLocal('$render.url')
+const components = [
+  { label: 'Menu', to: '/docs/components/Menu' },
+  { label: 'Div', to: '/docs/components/Div' },
+  { label: 'Button', to: '/docs/components/Button' }
+]
+return pug`
+  Menu(
+    style={ width: u(15) }
+    activeBorder='left'
+  )
+    each component, index in components
+      - const to = component.to
+      Menu.Item(
+        key=index
+        active=to === url
+        to=to
+      )= component.label
+`
+```
+
 ## Сложное взаимодействие (интеграция с другими компонентами)
 
 Пример раскрывающегося меню с вложенным в него подменю.

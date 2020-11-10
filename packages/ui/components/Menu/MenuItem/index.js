@@ -24,6 +24,7 @@ function MenuItem ({
   activeColor,
   ...props
 }) {
+  // TODO: prevent click if already active (for link and for div)
   const parentProps = useMenuContext()
   const _iconPosition = iconPosition || parentProps.iconPosition
   const activeItemColor = activeColor || colors.primary
