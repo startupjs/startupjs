@@ -13,6 +13,7 @@ export default observer(function PDoc ({
 }) {
   const docs = useDocsContext()
   const [docPath] = useLocal('$render.params.path')
+  const [anchorsOffsetY] = useLocal('_session.anchors')
   let segments = docPath.split('/')
   const [currentLanguage = DEFAULT_LANGUAGE] = useLang()
   let lang
@@ -34,7 +35,7 @@ export default observer(function PDoc ({
 
   // NOTE: The main purpose of this hook is to save the scroll position
   // while writing documentation (otherwise it would jump to top on every save)
-  const scrollViewProps = useRestoreScroll('PDoc', lang, docPath)
+  const scrollViewProps = useRestoreScroll('PDoc', lang, docPath, JSON.stringify(anchorsOffsetY))
 
   return pug`
     ScrollView.root(...scrollViewProps)
