@@ -22,7 +22,8 @@ function Link ({
   replace,
   variant,
   children,
-  onPress
+  onPress,
+  ...props
 }) {
   const Component = block ? Div : Span
   const extraProps = { accessibilityRole: 'link' }
@@ -83,6 +84,7 @@ function Link ({
       italic=italic
       onPress=handlePress
       ...extraProps
+      ...props
     )= children
   `
 }
