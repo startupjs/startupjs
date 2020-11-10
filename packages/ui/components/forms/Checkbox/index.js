@@ -15,8 +15,8 @@ const INPUT_COMPONENTS = {
 }
 
 const READONLY_ICONS = {
-  TRUE: '✔',
-  FALSE: '✘'
+  TRUE: '✓',
+  FALSE: '✗'
 }
 
 function CheckboxInput ({
