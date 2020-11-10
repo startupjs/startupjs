@@ -7,6 +7,7 @@ import moment from 'moment-timezone'
 import './index.styl'
 import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
+import SafariDateTimePicker from './SafariDateTimePicker'
 
 function DateTimePicker ({
   date,
@@ -40,6 +41,7 @@ function DateTimePicker ({
   const maxDateDefault = useMemo(() => {
     return maxDate ? moment(maxDate) : moment().add(100, 'year')
   }, [maxDate])
+  const isSafari = window.navigator.vendor.includes('Apple')
 
   useEffect(() => {
     if (!date) return
@@ -73,26 +75,38 @@ function DateTimePicker ({
 
   return pug`
     if label
-    Span.label(
-      styleName={focused}
-      size='s'
-      variant='description'
-    )= label
-    input.root(
-      ...props
-      style=style
-      min=minDate && moment(minDate).format(formatDate)
-      max=maxDateDefault.format(formatDate)
-      type=mode === 'datetime' ? 'datetime-local' : mode
-      onFocus=onFocus
-      onChange=e => setInputDate(e.target.value)
-      onBlur=e => {
-        changeDate(e.target.value)
-        onBlur()
-      }
-      value=inputDate
-      placeholder=placeholder
-    )
+      Span.label(
+        styleName={focused}
+        size='s'
+        variant='description'
+      )= label
+    if !isSafari
+      input.root(
+        ...props
+        style=style
+        min=minDate && moment(minDate).format(formatDate)
+        max=maxDateDefault.format(formatDate)
+        type=mode === 'datetime' ? 'datetime-local' : mode
+        onFocus=onFocus
+        onChange=e => setInputDate(e.target.value)
+        onBlur=e => {
+          changeDate(e.target.value)
+          onBlur()
+        }
+        value=inputDate
+        placeholder=placeholder
+      )
+    if isSafari
+      SafariDateTimePicker(
+        onChange=changeDate
+        min=minDate && moment(minDate)
+        max=maxDateDefault
+        type=mode
+        value=inputDate
+        valueFormat=formatDate
+        placeholder=placeholder
+        style=style
+      )
   `
 }
 
