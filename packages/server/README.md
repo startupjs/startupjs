@@ -62,10 +62,10 @@ Template of `access`:
 
 ```js
 static access = {
-  create: async (docId, doc, session) => { your code }
-  read: async (docId, doc, session) => { your code },
-  update: async (docId, oldDoc, newDoc, ops, session) => { your code },
-  delete: async (docId, doc, session) => { your code }
+  create: async (backend, collection, docId, doc, session) => { your code }
+  read: async (backend, collection, docId, doc, session) => { your code },
+  update: async (backend, collection, docId, oldDoc, session, ops, newDoc) => { your code },
+  delete: async (backend, collection, docId, doc, session) => { your code }
 }
 ```
 You can describe only those fields that are necessary. But keep in mind that without describing
@@ -78,9 +78,9 @@ the permission rule for the operation, it is considered prohibited by default.
 // docId - id of your doc for access-control
 // doc   - document object
 // session - your connect session
-class ItemsModel {
+class ItemModel {
   static access = {
-    create: async (docId, doc, session) => {
+    create: async (backend, collection, docId, doc, session) => {
       return true
     }
   }
@@ -89,9 +89,9 @@ class ItemsModel {
 // For example, let only admins can create docs in 'items' collection
 // access will be:
 
-class ItemsModel {
+class ItemModel {
   static access = {
-    create: async (docId, doc, session) => { 
+    create: async (backend, collection, docId, doc, session) => { 
       return  session.isAdmin
     }
   }
@@ -102,10 +102,10 @@ class ItemsModel {
 Interface is like `create`-operation
 
 ```js
-class ItemsModel {
+class ItemModel {
   static access = {
     // Only if the reader is owner of the doc
-    read: async (docId, doc, session) => {
+    read: async (backend, collection, docId, doc, session) => {
       return doc.ownerId === session.userId
     }
   }
@@ -117,10 +117,10 @@ class ItemsModel {
 Interface is like `create`-operation
 
 ```js
-class ItemsModel {
+class ItemModel {
   static access = {
     // Only owners can delete docs, but nobody can delete doc with special typ
-    delete: async (docId, doc, session) => { 
+    delete: async (backend, collection, docId, doc, session) => { 
       return doc.ownerId === session.userId && doc.type !== 'liveForever'
     }
   }
@@ -136,11 +136,11 @@ class ItemsModel {
 // ops    - array of OT operations
 // session - your connect session
 
-const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
+const allowUpdateAll = async (backend, collection, docId, oldDoc, session, ops, newDoc) => {
   return true
 }
 
-class ItemsModel {
+class ItemModel {
   static access = {
     update: allowUpdateAll
   }
@@ -149,18 +149,18 @@ class ItemsModel {
 
 #### Allow Create, Read, Update, Delete
 ```js
-class ItemsModel {
+class ItemModel {
   static access = {
-    create: async (docId, doc, session) => { 
+    create: async (backend, collection, docId, doc, session) => { 
       return true
     },
-    read: async (docId, doc, session) => { 
+    read: async (backend, collection, docId, doc, session) => { 
       return true
     },
-    update: async (docId, oldDoc, newDoc, ops, session) => { 
+    update: async (backend, collection, docId, oldDoc, session, ops, newDoc) => { 
       return true
     },
-    delete: async (docId, doc, session) => { 
+    delete: async (backend, collection, docId, doc, session) => { 
       return true
     }
   }
