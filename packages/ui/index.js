@@ -2,6 +2,7 @@
 //            '/scripts/babel/createModuleMap.js', which auto-generates
 //            full module import paths for tree-shaking to be used by
 //            the 'babel-plugin-startupjs'
+//
 export { default as Alert } from './components/Alert'
 export { default as AutoSuggest } from './components/AutoSuggest'
 export { default as Avatar } from './components/Avatar'
@@ -33,6 +34,7 @@ export { default as Slicer } from './components/Slicer'
 export { default as SmartSidebar } from './components/SmartSidebar'
 export * from './components/table'
 export { default as Tag } from './components/Tag'
+export { default as Tooltip } from './components/Tooltip'
 export * from './components/typography'
 export { default as User } from './components/User'
 export { default as themed } from './theming/themed'

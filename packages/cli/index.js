@@ -40,13 +40,15 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
+  'eslint-plugin-import-helpers',
   'eslint-plugin-node',
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
   'husky@^4.3.0',
-  'lint-staged'
+  'lint-staged',
+  'eslint@latest'
 ]
 
 const REMOVE_DEPENDENCIES = [
@@ -207,13 +209,17 @@ SCRIPTS_ORIG.fonts = () => oneLine(`
   react-native-asset
 `)
 
+SCRIPTS_ORIG.postinstall = () => oneLine(`
+  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
+`)
+
 const SCRIPTS = {
   start: 'startupjs start',
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
-  postinstall: 'startupjs patch-package && startupjs fonts',
+  postinstall: 'startupjs postinstall',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
@@ -427,6 +433,16 @@ commander
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.patchPackage(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('postinstall')
+  .description('Run startupjs postinstall scripts')
+  .action(async (options) => {
+    await execa.command(
+      SCRIPTS_ORIG.postinstall(options),
       { stdio: 'inherit', shell: true }
     )
   })

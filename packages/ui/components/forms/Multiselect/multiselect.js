@@ -1,8 +1,8 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ScrollView } from 'react-native'
-import { Drawer } from '@startupjs/ui'
+import Drawer from './../../popups/Drawer'
 
 import MultiselectInput from './input'
 import styles from './index.styl'

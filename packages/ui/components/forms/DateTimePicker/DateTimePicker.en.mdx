@@ -1,0 +1,58 @@
+import { useState } from 'react'
+import Div from '../../Div'
+import Br from '../../Br'
+import DateTimePicker from '../DateTimePicker'
+import { Sandbox } from '@startupjs/docs'
+
+# DateTimePicker
+
+DateTimePicker has 3 modes (The default is datetime mode):
+1. date mode : select a date
+2. time mode : select a time
+3. datetime mode : select a date with a time
+
+Note: The return value is a timestamp rather than Date object.
+
+```jsx
+import { DateTimePicker } from from '@startupjs/ui'
+```
+
+## Example for datetime mode
+
+```jsx example
+const [dateTime, setDateTime] = useState()
+return (
+  <Div>
+    <DateTimePicker
+      date={dateTime}
+      onDateChange={setDateTime}
+    />
+  </Div>
+)
+```
+
+## Examples for date Mode and time Mode
+
+```jsx example
+const [date, setDate] = useState()
+const [time, setTime] = useState()
+return (
+  <Div>
+    <DateTimePicker
+      date={date}
+      onDateChange={setDate}
+      mode='date'
+    />
+    <Br />
+    <DateTimePicker
+      date={time}
+      onDateChange={setTime}
+      mode='time'
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={DateTimePicker} />

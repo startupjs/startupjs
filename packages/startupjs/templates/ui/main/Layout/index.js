@@ -24,7 +24,7 @@ export default observer(function ({ children }) {
 
   function renderSidebar () {
     return pug`
-      Menu.sidebar
+      Menu.sidebar-menu
         MenuItem(url='/') App
         MenuItem(url='/about') About
     `
@@ -32,8 +32,7 @@ export default observer(function ({ children }) {
 
   return pug`
     Layout
-      SmartSidebar(
-        backgroundColor='#eeeeee'
+      SmartSidebar.sidebar(
         path=$opened.path()
         renderContent=renderSidebar
       )

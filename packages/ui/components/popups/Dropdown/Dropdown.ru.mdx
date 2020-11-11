@@ -24,8 +24,8 @@ const [sort, setSort] = useState('')
 return (
   <View style={{ width: 150 }}>
     <Dropdown
-      activeValue={sort}
-      onChange={value=> setSort(value)}
+      value={sort}
+      onChange={v => setSort(v)}
     >
       <Dropdown.Caption placeholder="Sort by" />
       <Dropdown.Item value="popular" label="Popular" />
@@ -43,8 +43,8 @@ const [sort, setSort] = useState('')
 return (
   <View style={{ width: 150 }}>
     <Dropdown
-      activeValue={sort}
-      onChange={value=> setSort(value)}
+      value={sort}
+      onChange={v => setSort(v)}
     >
       <Dropdown.Item value="popular" label="Popular" />
       <Dropdown.Item value="brand" label="Brand" />
@@ -60,8 +60,8 @@ const [sort, setSort] = useState('')
 return (
   <View style={{ width: 150 }}>
     <Dropdown
-      activeValue={sort}
-      onChange={value=> setSort(value)}
+      value={sort}
+      onChange={v => setSort(v)}
     >
       <Dropdown.Caption variant="button" placeholder="Menu" />
       <Dropdown.Item value="popular" label="Popular" />
@@ -75,14 +75,13 @@ return (
 ### Кастомный
 ```jsx example
 const [sort, setSort] = useState('')
-const captionStyle= { width: 30, height: 30, backgroundColor: 'white', 
+const captionStyle = { width: 30, height: 30, backgroundColor: 'white', 
   borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
 return (
-  <View>
+  <View style={{ width: 160 }}>
     <Dropdown
-      activeValue={sort}
-      onChange={value=> setSort(value)}
-      popoverWidth={160}
+      value={sort}
+      onChange={v => setSort(v)}
     >
       <Dropdown.Caption>
         <View style={captionStyle}>
@@ -103,8 +102,8 @@ const [sort, setSort] = useState('')
 return (
   <View style={{ width: 150 }}>
     <Dropdown
-      activeValue={sort}
-      onChange={value=> setSort(value)}
+      value={sort}
+      onChange={v => setSort(v)}
     >
       <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />
       <Dropdown.Item icon={faTrashAlt} value="delete" label="Delete" />
@@ -113,4 +112,12 @@ return (
 )
 ```
 
+## Позиция
+- position: имеет 4 варианта положений (left, right, top, bottom)
+- attachment: дополнительный параметр для смещения (start, center, end)
+
+Массив placements - задает какие позиции можно использовать при автофиксе
+
+## Так же
+- drawerCancelLabel: задать имя кнопки отмены на iOS и Android
 <Br lines={10} />

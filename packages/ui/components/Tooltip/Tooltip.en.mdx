@@ -1,0 +1,47 @@
+import { useState } from 'react'
+import { Text, View } from 'react-native'
+import Tooltip from '../Tooltip'
+import Button from '../Button'
+import Row from '../Row'
+
+# Tooltip
+
+```jsx
+import { Tooltip } from '@startupjs/ui'
+```
+
+## Example
+- content: hidden part, can be string or jsx
+- children: visible part
+```jsx example
+return (
+  <Row>
+    <View style={{ width: 100, marginRight: 8 }}>
+      <Tooltip
+        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+      >
+        <Text style={{ backgroundColor: '#dddddd', padding: 12,
+        borderRadius: 4 }}>Caption...</Text>
+      </Tooltip>
+    </View>
+
+    <View style={{ width: 100, marginRight: 8 }}>
+      <Tooltip
+        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+      >
+        <Text style={{ backgroundColor: '#dddddd', padding: 12,
+        borderRadius: 4 }}>Caption...</Text>
+      </Tooltip>
+    </View>
+
+    <View style={{ width: 100, marginRight: 8 }}>
+      <Tooltip
+        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+      >
+        <Text style={{ backgroundColor: '#dddddd', padding: 12,
+        borderRadius: 4 }}>Caption...</Text>
+      </Tooltip>
+    </View>
+  </Row>
+)
+```

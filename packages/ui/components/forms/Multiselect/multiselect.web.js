@@ -1,7 +1,8 @@
 import React from 'react'
 import { observer, u } from 'startupjs'
-import { Div, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import Div from './../../Div'
+import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
 import './index.styl'
 
@@ -26,8 +27,10 @@ const Multiselect = ({
     Popover.root(
       visible=focused
       onDismiss=onHide
-      width=popoverWidth
-      maxHeight=u(20)
+      wrapperStyleName={
+        width: popoverWidth,
+        maxHeight: u(20)
+      }
     )
       Popover.Caption
         MultiselectInput(

@@ -1,6 +1,6 @@
+import { useSession } from 'startupjs'
 import useLocalStorage from './useLocalStorage'
 import { DEFAULT_LANGUAGE } from './../../const'
-import { useSession } from 'startupjs'
 
 export default function useLang () {
   const [lang, setLang] = useLocalStorage('lang', DEFAULT_LANGUAGE)

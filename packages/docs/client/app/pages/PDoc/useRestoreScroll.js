@@ -1,7 +1,10 @@
 // Hack to restore scroll position of the mdx doc's ScrollView
 // when doing hot reloading.
 import { useRef, useLayoutEffect, useCallback } from 'react'
+import { Platform } from 'react-native'
+import { $root } from 'startupjs'
 
+const isWeb = Platform.OS === 'web'
 const cache = {}
 
 export default function useRestoreScroll (Component, ...inputs) {
@@ -38,6 +41,10 @@ export default function useRestoreScroll (Component, ...inputs) {
 }
 
 function getOffsetY (componentKey, inputs) {
+  return getHashOffsetY() || getCacheOffsetY(componentKey, inputs)
+}
+
+function getCacheOffsetY (componentKey, inputs) {
   if (!cache[componentKey]) cache[componentKey] = {}
   const state = cache[componentKey]
   if (inputs !== state.prevInputs) {
@@ -46,6 +53,12 @@ function getOffsetY (componentKey, inputs) {
   }
 
   return state.prevOffsetY
+}
+
+function getHashOffsetY () {
+  if (!isWeb) return
+  const hash = decodeURI($root.get('$render.hash').replace(/^#/, ''))
+  return $root.get(`_session.anchors.${hash}`)
 }
 
 function hashCode (source) {

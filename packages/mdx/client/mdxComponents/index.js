@@ -1,9 +1,23 @@
-import React, { useContext } from 'react'
-import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
+import React, { useState, useContext } from 'react'
 import { Platform } from 'react-native'
+import { $root } from 'startupjs'
+import {
+  Div,
+  H2,
+  H5,
+  H6,
+  Divider,
+  Span,
+  Br,
+  Row,
+  Link,
+  Icon
+} from '@startupjs/ui'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 import Code from '../Code'
 
+const isWeb = Platform.OS === 'web'
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
 
@@ -22,6 +36,40 @@ function P ({ children }) {
   `
 }
 
+function Anchor ({
+  style,
+  children,
+  anchor,
+  size
+}) {
+  if (!isWeb) {
+    return pug`
+      Div(style=style)= children
+    `
+  }
+
+  const [hover, setHover] = useState()
+
+  return pug`
+    Row.anchor(
+      style=style
+      onLayout=(e) => {
+        $root.set('_session.anchors.' + anchor, e.nativeEvent.layout.y)
+      }
+      vAlign='center'
+      onMouseEnter=() => setHover(true)
+      onMouseLeave=() => setHover()
+    )
+      = children
+      Link.anchor-link(
+        block
+        styleName={ hover }
+        to='#' + anchor
+      )
+        Icon(icon=faLink size=size)
+  `
+}
+
 export default {
   wrapper: ({ children }) => pug`
     Div= children
@@ -30,14 +78,18 @@ export default {
     Div.example= children
   `,
   h1: ({ children }) => pug`
-    H2(bold)= children
+    Anchor(anchor=children size='xl')
+      H2(bold)
+        = children
   `,
   h2: ({ children }) => pug`
-    H5.h2= children
+    Anchor.h2(anchor=children)
+      H5= children
     Divider(size='l')
   `,
   h3: ({ children }) => pug`
-    H6.h6(bold)= children
+    Anchor.h6(anchor=children size='s')
+      H6(bold)= children
   `,
   p: P,
   strong: ({ children }) => pug`

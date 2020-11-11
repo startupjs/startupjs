@@ -1,12 +1,13 @@
-import React from 'react'
-import { observer } from 'startupjs'
+import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { colorToRGBA } from '../../helpers'
+import Icon from '../Icon'
 import Row from '../Row'
 import Div from '../Div'
-import Icon from '../Icon'
+import Loader from '../Loader'
 import Span from '../typography/Span'
-import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const {
@@ -27,9 +28,18 @@ function Button ({
   icon,
   iconPosition,
   disabled,
-  onPress = () => {},
+  onPress,
   ...props
 }) {
+  const [asyncActive, setAsyncActive] = useState(false)
+
+  function _onPress () {
+    const promise = onPress()
+    if (!(promise && promise.then)) return
+    promise.then(() => setAsyncActive(false))
+    setAsyncActive(true)
+  }
+
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const isFlat = variant === 'flat'
@@ -101,11 +111,14 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
-      disabled=disabled
-      onPress=onPress
+      disabled=asyncActive || disabled
+      onPress=onPress ? _onPress : undefined
       ...rootExtraProps
       ...props
     )
+      if asyncActive
+        Div.loader
+          Loader(size='s' color=isFlat ? 'white' : color)
       if icon
         Div.iconWrapper(
           style=iconWrapperStyle
@@ -116,14 +129,14 @@ function Button ({
         )
           Icon.icon(
             style=iconStyle
-            styleName=[variant]
+            styleName=[variant, {'invisible': asyncActive}]
             icon=icon
             size=size
           )
       if children
         Span.label(
           style=[textStyle]
-          styleName=[size]
+          styleName=[size, {'invisible': asyncActive}]
         )= children
   `
 }

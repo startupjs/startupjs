@@ -1,14 +1,14 @@
 import React, { useState, useLayoutEffect } from 'react'
+import { Route } from 'react-router'
 import {
   $root,
   observer,
   emit,
   initLocalCollection
 } from 'startupjs'
-import { Route } from 'react-router'
-import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
 import qs from 'qs'
+import RoutesWrapper from './RoutesWrapper'
 
 export default observer(function Routes ({
   routes,
@@ -96,11 +96,15 @@ function initRoute (location, routeParams) {
   // Check if url or search changed between page rerenderings
   const prevUrl = $root.get('$render.url')
   const prevSearch = $root.get('$render.search')
+  const prevHash = $root.get('$render.hash')
   const url = location.pathname
+  console.log(location.hash)
   const search = location.search
+  const hash = location.hash
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
-  if (url === prevUrl && search === prevSearch) return
+  if (url === prevUrl && search === prevSearch && hash === prevHash) return
   $root.setDiff('$render.url', url)
+  $root.setDiff('$render.hash', location.hash)
   $root.setDiff('$render.search', search)
   $root.setDiffDeep('$render.query', query)
 
