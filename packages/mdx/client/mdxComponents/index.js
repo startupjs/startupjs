@@ -62,7 +62,6 @@ function Anchor ({
     )
       = children
       Link.anchor-link(
-        block
         styleName={ hover }
         to='#' + anchor
       )
