@@ -16,9 +16,10 @@ export default function useRestoreScroll (Component, ...inputs) {
     componentKey = 'default'
   }
 
-  const offsetY = getOffsetY(componentKey, JSON.stringify(inputs))
-
   useLayoutEffect(() => {
+    const offsetY = getHashOffsetY() ||
+      getCacheOffsetY(componentKey, JSON.stringify(inputs))
+    if (offsetY == null) return
     view.current.scrollTo({ x: 0, y: offsetY, animated: false })
   }, inputs)
 
@@ -40,13 +41,11 @@ export default function useRestoreScroll (Component, ...inputs) {
   }
 }
 
-function getOffsetY (componentKey, inputs) {
-  return getHashOffsetY() || getCacheOffsetY(componentKey, inputs)
-}
-
 function getCacheOffsetY (componentKey, inputs) {
-  if (!cache[componentKey]) cache[componentKey] = {}
   const state = cache[componentKey]
+  // don't jump to top of the page on initial render if you are scrolled
+  // or if you don't scroll page yet
+  if (!state) return
   if (inputs !== state.prevInputs) {
     state.prevOffsetY = 0
     state.prevInputs = inputs
