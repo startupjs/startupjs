@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -23,9 +23,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@startupjs/docs": "^0.27.0",
-    "@startupjs/mdx": "^0.27.0",
-    "@startupjs/ui": "^0.27.0",
+    "@startupjs/docs": "^0.28.0",
+    "@startupjs/mdx": "^0.28.0",
+    "@startupjs/ui": "^0.28.0",
     "axios": "^0.19.0",
     "events": "^3.1.0",
     "nconf": "^0.10.0",
@@ -36,7 +36,7 @@
     "react-native-code-push": "^5.7.0",
     "react-native-collapsible": "1.5.2",
     "react-native-svg": "^12.1.0",
-    "startupjs": "^0.27.0"
+    "startupjs": "^0.28.0"
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
