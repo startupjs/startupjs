@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
-import PropTypes from 'prop-types'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
   StyleSheet
 } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'
+
 const {
   config: {
     defaultHoverOpacity,
@@ -89,8 +90,12 @@ function Div ({
   }
 
   let pushedModifier
+  let levelModifier
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
   if (pushedSize) pushedModifier = `pushed-${pushedSize}`
+  // skip level 0 for shadow
+  // because it needed only when you want to override shadow from style sheet
+  if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
     if (isClickable) {
@@ -112,14 +117,13 @@ function Div ({
       style=[style, extraStyle]
       styleName=[
         {
-          ['with-shadow']: !!level,
           clickable: isWeb && isClickable,
           bleed,
           disabled
         },
-        'shadow-'+level,
         shape,
-        pushedModifier
+        pushedModifier,
+        levelModifier
       ]
       ...extraProps
       ...props

@@ -102,13 +102,15 @@ return (
 ## Levels of emphasis
 
 Div `level` property determines different levels of emphasis by adding shadow to component. Possible values of `level` prop can be found in the `Sandbox` section at the bottom of the page.
+**IMPORTANT**: Shadow does not work without background color on mobile devices.
 
 ```jsx example
 const divStyle = {
   width: 100,
   height: 80,
   textAlign: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  backgroundColor: 'white'
 }
 return (
   <Row>
