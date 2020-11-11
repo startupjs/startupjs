@@ -21,7 +21,7 @@ export default function useRestoreScroll (Component, ...inputs) {
       getCacheOffsetY(componentKey, JSON.stringify(inputs))
     if (offsetY == null) return
     view.current.scrollTo({ x: 0, y: offsetY, animated: false })
-  }, [JSON.stringify(inputs)])
+  }, inputs)
 
   const handleScroll = useCallback((event) => {
     const offsetY = (
