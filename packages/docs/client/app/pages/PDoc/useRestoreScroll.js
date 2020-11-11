@@ -1,8 +1,8 @@
 // Hack to restore scroll position of the mdx doc's ScrollView
 // when doing hot reloading.
-import { useRef, useLayoutEffect, useCallback } from 'react'
+import { useRef, useCallback } from 'react'
 import { Platform } from 'react-native'
-import { $root } from 'startupjs'
+import { $root, useDidUpdate } from 'startupjs'
 
 const isWeb = Platform.OS === 'web'
 const cache = {}
@@ -16,11 +16,10 @@ export default function useRestoreScroll (Component, ...inputs) {
     componentKey = 'default'
   }
 
-  const offsetY = getOffsetY(componentKey, JSON.stringify(inputs))
-
-  useLayoutEffect(() => {
+  useDidUpdate(() => {
+    const offsetY = getHashOffsetY() || getCacheOffsetY(componentKey, inputs)
     view.current.scrollTo({ x: 0, y: offsetY, animated: false })
-  }, inputs)
+  }, [JSON.stringify(inputs)])
 
   const handleScroll = useCallback((event) => {
     const offsetY = (
@@ -40,19 +39,10 @@ export default function useRestoreScroll (Component, ...inputs) {
   }
 }
 
-function getOffsetY (componentKey, inputs) {
-  return getHashOffsetY() || getCacheOffsetY(componentKey, inputs)
-}
-
 function getCacheOffsetY (componentKey, inputs) {
   if (!cache[componentKey]) cache[componentKey] = {}
-  const state = cache[componentKey]
-  if (inputs !== state.prevInputs) {
-    state.prevOffsetY = 0
-    state.prevInputs = inputs
-  }
-
-  return state.prevOffsetY
+  cache[componentKey].prevOffsetY = 0
+  return cache[componentKey].prevOffsetY
 }
 
 function getHashOffsetY () {
