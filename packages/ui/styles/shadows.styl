@@ -1,6 +1,10 @@
 $UI.shadows = merge({
   '0': {
-    box-shadow: none
+    // HACK: 'box-shadow none' does not work correctly on ios
+    // it darkens all View component with background in project
+    // and it blurs text when there is no background-color is set
+    // therefore we using 'box-shadow 0 0 0 rgba(black, 0)'
+    box-shadow: 0 0 0 rgba(black, 0)
     elevation: 0
   },
   '1': {
