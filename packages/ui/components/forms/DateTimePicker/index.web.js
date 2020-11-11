@@ -80,7 +80,18 @@ function DateTimePicker ({
         size='s'
         variant='description'
       )= label
-    if !isSafari
+    if isSafari
+      SafariDateTimePicker(
+        onChange=changeDate
+        min=minDate && moment(minDate)
+        max=maxDateDefault
+        type=mode
+        value=inputDate
+        valueFormat=formatDate
+        placeholder=placeholder
+        style=style
+      )
+    else
       input.root(
         ...props
         style=style
@@ -95,17 +106,6 @@ function DateTimePicker ({
         }
         value=inputDate
         placeholder=placeholder
-      )
-    if isSafari
-      SafariDateTimePicker(
-        onChange=changeDate
-        min=minDate && moment(minDate)
-        max=maxDateDefault
-        type=mode
-        value=inputDate
-        valueFormat=formatDate
-        placeholder=placeholder
-        style=style
       )
   `
 }
