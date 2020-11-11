@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { ScrollView, Image } from 'react-native'
 import { observer } from 'startupjs'
 import { Div, Row, Select } from '@startupjs/ui'
 import { BASE_URL } from '@env'
@@ -24,8 +24,9 @@ export default observer(function Content ({
 
   return pug`
     Div.root
-      Image.logo(source={ uri: baseUrl + '/img/docs.png' })
-      Docs(docs=docs lang=lang)
+      ScrollView
+        Image.logo(source={ uri: baseUrl + '/img/docs.png' })
+        Docs(docs=docs lang=lang)
       Row.footer
         Select.lang(
           options=LANGUAGES
