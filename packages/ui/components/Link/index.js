@@ -18,14 +18,17 @@ function Link ({
   theme,
   bold,
   italic,
-  block,
+  display,
   replace,
   variant,
   children,
   onPress,
   ...props
 }) {
-  const Component = block ? Div : Span
+  if (!display) display = typeof children === 'string' ? 'inline' : 'block'
+  const isBlock = display === 'block'
+
+  const Component = isBlock ? Div : Span
   const extraProps = { accessibilityRole: 'link' }
   const history = useHistory()
 
@@ -58,7 +61,8 @@ function Link ({
     }
   }
 
-  if (block) {
+  if (props.test) console.log(isBlock, 'isBlock')
+  if (isBlock) {
     extraProps.variant = variant
 
     try {
@@ -79,7 +83,7 @@ function Link ({
   return pug`
     Component.root(
       style=style
-      styleName=[theme, color, { block }]
+      styleName=[theme, color, display]
       bold=bold
       italic=italic
       onPress=handlePress
@@ -97,7 +101,6 @@ Link.defaultProps = {
   bold: Span.defaultProps.bold,
   italic: Span.defaultProps.italic,
   replace: false,
-  block: false,
   color: 'default'
 }
 
@@ -108,7 +111,7 @@ Link.propTypes = {
   children: PropTypes.node,
   to: PropTypes.string.isRequired,
   replace: PropTypes.bool,
-  block: PropTypes.bool,
+  display: PropTypes.oneOf(['inline', 'block']),
   color: PropTypes.oneOf(['default', 'primary'])
 }
 

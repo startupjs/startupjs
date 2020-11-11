@@ -1,12 +1,12 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { colorToRGBA } from '../../helpers'
 import Link from './../Link'
 import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
-import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -46,7 +46,6 @@ function Breadcrumbs ({
           else
             Row
               Link(
-                block
                 replace=replace
                 ...linkProps
               )
