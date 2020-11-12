@@ -1,28 +1,18 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { observer, useLocal } from 'startupjs'
 import { Span, Br, Div } from '@startupjs/ui'
 import { useDocsContext } from '../../../../docsContext'
-import { DEFAULT_LANGUAGE, LANGUAGES } from '../../../const'
 import { useLang } from '../../../clientHelpers'
+import RestoreScrollManager from './RestoreScrollManager'
 import './index.styl'
-import useRestoreScroll from './useRestoreScroll'
 
 export default observer(function PDoc ({
   style
 }) {
   const docs = useDocsContext()
   const [docPath] = useLocal('$render.params.path')
-  const [anchorsOffsetY] = useLocal('_session.anchors')
-  let segments = docPath.split('/')
-  const [currentLanguage = DEFAULT_LANGUAGE] = useLang()
-  let lang
-  if (LANGUAGES.includes(segments[0])) {
-    lang = segments[0]
-    segments = segments.slice(1)
-  } else {
-    lang = currentLanguage
-  }
+  const segments = docPath.split('/')
+  const [lang] = useLang()
   const Component = segments.reduce((docs, segment) => {
     const doc = docs[segment]
     const Component = getComponent(doc, lang)
@@ -33,12 +23,8 @@ export default observer(function PDoc ({
 
   if (!Component) return pug`Span 404. Not found`
 
-  // NOTE: The main purpose of this hook is to save the scroll position
-  // while writing documentation (otherwise it would jump to top on every save)
-  const scrollViewProps = useRestoreScroll('PDoc', lang, docPath, JSON.stringify(anchorsOffsetY))
-
   return pug`
-    ScrollView.root(...scrollViewProps)
+    RestoreScrollManager.root
       Div.content
         Br
         Component
@@ -50,6 +36,5 @@ function getComponent (item, lang) {
   if (!item) return
   if (!item.component) return
   if (item.component[lang]) return item.component[lang]
-  if (item.component[DEFAULT_LANGUAGE]) return item.component[DEFAULT_LANGUAGE]
   return item.component
 }
