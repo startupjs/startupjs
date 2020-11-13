@@ -7,6 +7,7 @@ import Colors from './colors.mdx'
 import BorderRadius from './borderRadius.mdx'
 import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
+import StyleCode from './styleCode.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -61,6 +62,14 @@ export default {
         en: ExportCSStoJSEn,
         ru: ExportCSStoJSRu
       }
+    },
+    styleCode: {
+      type: 'mdx',
+      title: {
+        en: 'Contributing guide',
+        ru: 'Гайд контрибьюции'
+      },
+      component: StyleCode
     }
   }
 }
