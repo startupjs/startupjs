@@ -10,9 +10,10 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "passport-linkedin-oauth2": "^1.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.0.1"
+    "@startupjs/auth": ">= 0.0.1",
+    "react-native-webview": ">= 10.0.0"
   }
 }

@@ -4,15 +4,17 @@ import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
-import qs from 'query-string'
-import { CALLBACK_NATIVE_LINKEDIN_URL } from '../../../isomorphic'
 import { DEFAUL_SUCCESS_REDIRECT_URL } from '@startupjs/auth/isomorphic'
 import { finishAuth } from '@startupjs/auth'
+import qs from 'query-string'
+import { BASE_URL } from '@env'
+import {
+  CALLBACK_NATIVE_LINKEDIN_URL,
+  AUTHORIZATION_URL
+} from '../../../isomorphic'
 
-const AUTHORIZATION_URL = 'https://www.linkedin.com/oauth/v2/authorization'
-
-function AuthForm ({ text }) {
-  const [baseUrl] = useSession('env.BASE_URL')
+function AuthButton ({ label }) {
+  const baseUrl = BASE_URL
   const [clientId] = useSession('auth.linkedin.clientId')
   const [showModal, setShowModal] = useState(false)
 
@@ -34,12 +36,13 @@ function AuthForm ({ text }) {
       finishAuth()
     }
   }
+
   return pug`
     Button(
       icon=faLinkedinIn
       variant='flat'
       onPress=showLoginModal
-    )= text
+    )= label
     Modal(
       variant='fullscreen'
       visible=showModal
@@ -48,23 +51,21 @@ function AuthForm ({ text }) {
         WebView(
           style={ height: u(100) }
           source={ uri: getAuthorizationUrl() }
-
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled
           sharedCookiesEnabled
-
           onNavigationStateChange=onNavigationStateChange
         )
   `
 }
 
-AuthForm.defaultProps = {
-  text: 'Login with LinkedIn'
+AuthButton.defaultProps = {
+  label: 'Login with LinkedIn'
 }
 
-AuthForm.propTypes = {
-  text: PropTypes.string.isRequired
+AuthButton.propTypes = {
+  label: PropTypes.string.isRequired
 }
 
-export default observer(AuthForm)
+export default observer(AuthButton)

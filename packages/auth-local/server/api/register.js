@@ -48,6 +48,7 @@ function parseRegisterRequest (req, res, done) {
   const email = (req.body.email || '').toLowerCase()
   const password = req.body.password
   const confirm = req.body.confirm
+
   if (!email) return done('Please fill email')
   if (!password) return done('Please fill password')
   if (!confirm) return done('Please fill password confirmation')

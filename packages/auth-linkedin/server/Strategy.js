@@ -39,19 +39,20 @@ export default function (config = {}) {
           clientID: clientId,
           clientSecret,
           callbackURL: CALLBACK_LINKEDIN_URL,
-          profileFields: ['first-name', 'last-name', 'email-address'],
+          profileFields: ['first-name', 'last-name', 'email-address', 'profile-picture'],
           scope: ['r_emailaddress', 'r_liteprofile'],
           state: true
         },
         async function (accessToken, refreshToken, profile, cb) {
           let userId, err
           try {
-            const { id, name, displayName, emails } = profile
+            const { id, name, displayName, emails, photos } = profile
             const _profile = {
               id,
               name,
               displayName,
-              email: emails.pop().value
+              email: emails.pop().value,
+              picture: photos.pop()
             }
 
             const provider = new Provider(model, _profile, this.config)

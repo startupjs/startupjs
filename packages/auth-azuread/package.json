@@ -12,6 +12,7 @@
     "passport-azure-ad": "^4.2.1"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.0.1"
+    "@startupjs/auth": ">= 0.0.1",
+    "react-native-webview": ">= 10.0.0"
   }
 }

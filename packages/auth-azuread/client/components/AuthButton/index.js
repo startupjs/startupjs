@@ -5,12 +5,13 @@ import { Modal, Div, Button } from '@startupjs/ui'
 import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
 import qs from 'query-string'
-import { CALLBACK_NATIVE_AZUREAD_URL, SCOPE, getStrBase64 } from '../../../isomorphic'
 import { DEFAUL_SUCCESS_REDIRECT_URL } from '@startupjs/auth/isomorphic'
 import { finishAuth } from '@startupjs/auth'
+import { BASE_URL } from '@env'
+import { CALLBACK_NATIVE_AZUREAD_URL, SCOPE, getStrBase64 } from '../../../isomorphic'
 
-function AuthForm ({ text }) {
-  const [baseUrl] = useSession('env.BASE_URL')
+function AuthButton ({ label }) {
+  const baseUrl = BASE_URL
   const [config] = useSession('auth.azuread')
   const [showModal, setShowModal] = useState(false)
 
@@ -33,8 +34,6 @@ function AuthForm ({ text }) {
     })}`
   }
 
-  console.log(getAuthorizationUrl())
-
   function onNavigationStateChange ({ url }) {
     if (url.includes(DEFAUL_SUCCESS_REDIRECT_URL)) {
       finishAuth()
@@ -45,7 +44,7 @@ function AuthForm ({ text }) {
       icon=faMicrosoft
       variant='flat'
       onPress=showLoginModal
-    )= text
+    )= label
     Modal(
       variant='fullscreen'
       visible=showModal
@@ -65,12 +64,12 @@ function AuthForm ({ text }) {
   `
 }
 
-AuthForm.defaultProps = {
-  text: 'Login with Azure AD'
+AuthButton.defaultProps = {
+  label: 'Login with Azure AD'
 }
 
-AuthForm.propTypes = {
-  text: PropTypes.string.isRequired
+AuthButton.propTypes = {
+  label: PropTypes.string.isRequired
 }
 
-export default observer(AuthForm)
+export default observer(AuthButton)

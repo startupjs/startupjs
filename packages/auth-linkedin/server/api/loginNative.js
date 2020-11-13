@@ -5,6 +5,9 @@ import Provider from '../Provider'
 import nconf from 'nconf'
 import { finishAuth } from '@startupjs/auth/server'
 
+const LITE_PROFILE_URL = 'https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,maidenName,profilePicture(displayImage~:playableStreams))'
+const EMAIL_URL = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))'
+
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query
   const { clientId, clientSecret } = config
@@ -32,17 +35,18 @@ export default async function loginNative (req, res, next, config) {
       }
     }
 
-    const { data: profileData } = await axios.get('https://api.linkedin.com/v2/me', authHeaders)
-    const { data: emailData } = await axios.get('https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))', authHeaders)
+    const { data: profileData } = await axios.get(LITE_PROFILE_URL, authHeaders)
+    const { data: emailData } = await axios.get(EMAIL_URL, authHeaders)
 
-    const { localizedLastName: lastName, localizedFirstName: firstName } = profileData
     const email = emailData.elements[0]['handle~'].emailAddress
+    const photos = getProfilePictures(profileData.profilePicture)
 
     const profile = {
       email,
-      lastName,
-      firstName,
-      id: profileData.id
+      id: profileData.id,
+      lastName: getName(profileData.lastName),
+      firstName: getName(profileData.firstName),
+      picture: photos.pop()
     }
 
     const provider = new Provider(req.model, profile, config)
@@ -53,4 +57,28 @@ export default async function loginNative (req, res, next, config) {
     console.log('[@dmapper/auth-linkedin] Error: linkedin login', err)
     return res.redirect(FAILURE_LOGIN_URL)
   }
+}
+
+function getProfilePictures (profilePictureObj) {
+  const result = []
+  if (!profilePictureObj) return result
+
+  try {
+    profilePictureObj['displayImage~'].elements.forEach(function (pic) {
+      if (pic.authorizationMethod !== 'PUBLIC') return
+      if (pic.identifiers.length === 0) return
+
+      const url = pic.identifiers[0].identifier
+      result.push({ value: url })
+    })
+  } catch (e) {
+    return result
+  }
+
+  return result
+}
+
+function getName (nameObj) {
+  var locale = nameObj.preferredLocale.language + '_' + nameObj.preferredLocale.country
+  return nameObj.localized[locale]
 }
