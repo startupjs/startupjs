@@ -4,14 +4,14 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import TextInput from '../TextInput'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
+import PropTypes from 'prop-types'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-/* eslint-disable-next-line */
-function LoginForm ({onSuccess, onError, onHandleError, onChangeAuthPage}) {
+function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
 
   const [form, $form] = useValue({
@@ -153,6 +153,13 @@ function LoginForm ({onSuccess, onError, onHandleError, onChangeAuthPage}) {
           variant='text'
         ) Sign up
   `
+}
+
+LoginForm.propTypes = {
+  onSuccess: PropTypes.func,
+  onError: PropTypes.func,
+  onHandleError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default observer(LoginForm)
