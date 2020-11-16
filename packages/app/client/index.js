@@ -1,13 +1,13 @@
 import React, { useMemo, Suspense } from 'react'
 import { Platform } from 'react-native'
-import Router from './Router'
-import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
-import { Blocked, UpdateApp } from './components'
-import useMediaUpdate from './helpers/useMediaUpdate'
-import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
+import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
+import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
+import { Blocked, UpdateApp } from './components'
+import useMediaUpdate from './helpers/useMediaUpdate'
+import Router from './Router'
 
 const OS = Platform.OS
 const routesGlobal = []
@@ -43,6 +43,9 @@ const App = observer(function AppComponent ({
   apps,
   criticalVersion,
   useGlobalInit,
+  androidUpdateLink,
+  iosUpdateLink,
+  supportEmail,
   ...props
 }) {
   // Dynamically update @media queries in CSS whenever window width changes
@@ -50,7 +53,15 @@ const App = observer(function AppComponent ({
 
   const isGlobalInitSuccessful = useGlobalInitBase(useGlobalInit)
 
-  if (useCheckCriticalVersion(criticalVersion)) return pug`UpdateApp`
+  if (useCheckCriticalVersion(criticalVersion)) {
+    return pug`
+      UpdateApp(
+        androidUpdateLink=androidUpdateLink
+        iosUpdateLink=iosUpdateLink
+        supportEmail=supportEmail
+      )
+    `
+  }
 
   const [user] = useLocal('_session.user')
   if (!isGlobalInitSuccessful) return null
