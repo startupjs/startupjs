@@ -1,10 +1,13 @@
-export default function initApp (ee, { criticalVersion } = {}) {
+export default function initApp (ee, { criticalVersion, criticalVersionMiddleware } = {}) {
   if (criticalVersion) {
     ee.on('middleware', expressApp => {
-      expressApp.use(function (req, res, next) {
-        req.model.set('_session.criticalVersion', criticalVersion)
-        next()
-      })
+      if (!criticalVersionMiddleware) {
+        criticalVersionMiddleware = (req, res, next) => {
+          req.model.set('_session.criticalVersion', criticalVersion)
+          next()
+        }
+      }
+      expressApp.use(criticalVersionMiddleware)
     })
   }
   ee.on('routes', expressApp => {
