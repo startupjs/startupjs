@@ -35,6 +35,7 @@
     "DateTimePicker": "/components/forms/DateTimePicker",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
+    "NumberInput": "/components/forms/NumberInput",
     "ObjectInput": "/components/forms/ObjectInput",
     "Radio": "/components/forms/Radio",
     "Select": "/components/forms/Select",

@@ -1,0 +1,166 @@
+// ----- CONFIG: $UI.TextInput
+$this = merge(
+  {
+  caretColor: $UI.colors.primary,
+  borderWidth: 1,
+  height: {
+    l: 5u,
+    m: 4u,
+    s: 3u
+  },
+  lineHeight: {
+    l: 3u,
+    m: 2.5u,
+    s: 2.5u
+  }
+},
+  $UI.TextInput,
+  true
+)
+// ----- COMPONENT
+_inputBg = $UI.colors.white
+_inputBorderColor = $UI.colors.darkLighter
+_inputBgDisabled = $UI.colors.darkLightest
+_inputBorderWidth = 1px // $UI.TextInput.borderWidth
+_inputCaretColor = $this.caretColor
+_inputTextColor = $UI.colors.mainText
+_focusedColor = $UI.colors.primary
+_inputFontSizeL = 2u
+_inputFontSizeM = 1.75u
+_inputFontSizeS = 1.75u
+
+.label
+  margin-bottom 0.5u
+  font(s)
+
+  &.focused
+    color _focusedColor
+
+.readonlySpan
+  &.s
+    font(s)
+
+  &.m
+    font(m)
+
+  &.l
+    font(l)
+
+.input-input
+  flex 1
+  padding-top 0
+  padding-bottom 0
+  min-width 8u
+  border-width _inputBorderWidth
+  border-style solid
+  border-color _inputBorderColor
+  background-color _inputBg
+  color _inputTextColor
+  text-align right
+  radius()
+
+  +web()
+    outline 0
+    caret-color _inputCaretColor
+
+  &.s
+    font-size _inputFontSizeS
+
+  &.m
+    font-size _inputFontSizeM
+
+  &.l
+    font-size _inputFontSizeL
+
+  &.none
+    padding-right 1u
+    padding-left 1u
+
+  &.vertical
+    padding-left 1u
+
+  &.vertical.l
+    padding-right 5.5u
+
+  &.vertical.m
+    padding-right 4.5u
+
+  &.vertical.s
+    padding-right 3.5u
+
+  &.horizontal.l
+    padding-right 5.5u
+    padding-left 5.5u
+
+  &.horizontal.m
+    padding-right 4.5u
+    padding-left 4.5u
+
+  &.horizontal.s
+    padding-right 3.5u
+    padding-left 3.5u
+
+  &.disabled
+    background-color _inputBgDisabled
+
+  &.focused
+    border-color _focusedColor
+
+.input-button
+  position absolute
+  color _inputBorderColor
+
+  &.vertical.up
+    top 0
+    right 0
+    border-top-left-radius 0
+    border-bottom-right-radius 0
+    border-bottom-left-radius 0
+
+  &.vertical.down
+    right 0
+    bottom 0
+    border-top-left-radius 0
+    border-top-right-radius 0
+    border-bottom-left-radius 0
+
+  &.vertical.l
+    height 2.5u
+
+  &.vertical.m
+    height 2u
+
+  &.vertical.s
+    height 1.5u
+
+  &.horizontal.up
+    top 0
+    left 0
+    border-top-right-radius 0
+    border-bottom-right-radius 0
+
+  &.horizontal.down
+    top 0
+    right 0
+    border-top-left-radius 0
+    border-bottom-left-radius 0
+
+  &.horizontal.l
+    height 5u
+
+  &.horizontal.m
+    height 4u
+
+  &.horizontal.s
+    height 3u
+
+  &.disabled
+    color _inputBgDisabled
+
+  &.focused
+    color _focusedColor
+
+:export
+  // ----- JS EXPORTS
+  config $this
+  colors $UI.colors
