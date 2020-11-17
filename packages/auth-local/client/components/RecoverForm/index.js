@@ -3,14 +3,14 @@ import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { observer, useValue } from 'startupjs'
 import TextInput from '../TextInput'
+import PropTypes from 'prop-types'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-/* eslint-disable-next-line */
-function RecoverForm ({ onSuccess, onError, onChangeAuthPage}) {
+function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
 
   const [loading, setLoading] = useState()
@@ -112,6 +112,12 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage}) {
         color='primary'
       ) Back
   `
+}
+
+RecoverForm.propTypes = {
+  onSuccess: PropTypes.func,
+  onError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default observer(RecoverForm)
