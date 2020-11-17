@@ -21,7 +21,7 @@ export default observer(function UpdateApp ({ androidUpdateLink, iosUpdateLink, 
     if supportEmail
       Text
         | If you have any questions, write to us at 
-        Link(to=emailLink)=supportEmail
+        Link(to=emailLink)= supportEmail
   `
   return pug`
     Layout(
