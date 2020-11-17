@@ -4,13 +4,13 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import TextInput from '../TextInput'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
+import PropTypes from 'prop-types'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-/* eslint-disable-next-line */
 function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
 
@@ -175,6 +175,12 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
           color='primary'
         ) Login
   `
+}
+
+RegisterForm.propTypes = {
+  onSuccess: PropTypes.func,
+  onError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default observer(RegisterForm)
