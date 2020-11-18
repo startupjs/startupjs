@@ -159,7 +159,7 @@ export default {
   delete: P,
   a: ({ children, href }) => {
     return pug`
-      Link(to=href size='l' color='primary')= children
+      Link.link(to=href size='l' color='primary')= children
     `
   },
   img: P
