@@ -98,7 +98,6 @@ function initRoute (location, routeParams) {
   const prevSearch = $root.get('$render.search')
   const prevHash = $root.get('$render.hash')
   const url = location.pathname
-  console.log(location.hash)
   const search = location.search
   const hash = location.hash
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })

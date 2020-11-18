@@ -14,6 +14,7 @@ export default observer(function RestoreScrollManager ({
 
   // NOTE: The main purpose of this hook is to save the scroll position
   // while writing documentation (otherwise it would jump to top on every save)
+  // TODO: Scroll to anchors does not work if link using uncorrect language
   const scrollViewProps = useRestoreScroll(
     'PDoc',
     lang,
