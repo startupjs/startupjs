@@ -12,10 +12,10 @@ export default function resetPassword (req, res, done, config) {
     const $auths = model.query('auths', { 'providers.local.passwordReset.secret': secret })
     await model.fetchAsync($auths)
 
-    const id = $auths.getIds()[0]
-    if (!id) return res.status(400).json({ message: 'No user found by secret' })
+    const userId = $auths.getIds()[0]
+    if (!userId) return res.status(400).json({ message: 'No user found by secret' })
 
-    const $auth = model.scope('auths.' + id)
+    const $auth = model.scope('auths.' + userId)
     const $local = $auth.at('providers.local')
 
     const timestamp = $local.get('passwordReset.timestamp')
@@ -34,7 +34,7 @@ export default function resetPassword (req, res, done, config) {
     // Remove used secret
     await $local.del('passwordReset')
 
-    onPasswordReset(id)
+    onPasswordReset(userId)
 
     res.send('Password reset completed')
   })

@@ -23,9 +23,7 @@ export default function (config = {}) {
 
     passport.use(
       new Strategy(
-        {
-          usernameField: 'email'
-        },
+        { usernameField: 'email' },
         async (email = '', password, cb) => {
           const provider = new Provider(model, { email }, this.config)
 

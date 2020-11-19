@@ -5,6 +5,7 @@ import TextInput from '../TextInput'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import './index.styl'
@@ -13,6 +14,7 @@ const isWeb = Platform.OS === 'web'
 
 function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
+  const history = useHistory()
 
   const [form, $form] = useValue({
     email: null,
@@ -93,6 +95,7 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   function unlistenKeypress () {
     window.removeEventListener('keypress', onKeyPress)
   }
+
   useEffect(() => {
     if (isWeb) {
       listenKeypress()
@@ -103,10 +106,19 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
       }
     }
   }, [])
+
+  function onRegister () {
+    if (onChangeAuthPage) onChangeAuthPage('sign-up')
+    else history.push('/auth/sign-up')
+  }
+
+  function onRecover () {
+    if (onChangeAuthPage) onChangeAuthPage('recover')
+    else history.push('/auth/recover')
+  }
+
   return pug`
     Div.root
-      Span.text.center-text.header-text Log in
-      Span.text.center-text.sub-header-text Welcome back!
       TextInput(
         onChangeText=onFormChange('email')
         error=formErrors.email
@@ -140,15 +152,15 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
       ) Log in
       Br
       Button(
-        onPress=onChangeAuthPage('recover')
+        onPress=onRecover
         color='primary'
         variant='text'
       ) Forgot your password?
       Br
       Div.line
-        Span.text Don't have an accoun?
-        Button(
-          onPress=onChangeAuthPage('register')
+        Span.text Don't have an account?
+        Button.button(
+          onPress=onRegister
           color='primary'
           variant='text'
         ) Sign up

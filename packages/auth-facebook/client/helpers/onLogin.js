@@ -1,7 +1,7 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
-import { NativeModules } from 'react-native'
 import { BASE_URL } from '@env'
 import axios from 'axios'
+import { finishAuth } from '@startupjs/auth'
 import { CALLBACK_NATIVE_URL, PERMISSIONS } from '../../isomorphic/constants'
 
 export default async function onLogin () {
@@ -22,7 +22,7 @@ export default async function onLogin () {
 
     const data = await AccessToken.getCurrentAccessToken()
     await axios.post(baseUrl + CALLBACK_NATIVE_URL, data)
-    NativeModules.DevSettings.reload()
+    finishAuth()
   } catch (error) {
     console.log('[@dmapper/auth] Error, FacebookAuth', error)
   }

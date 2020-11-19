@@ -1,14 +1,17 @@
 import React from 'react'
 import * as pages from './pages'
-import getRoutes from '../../isomorphic'
+import { getAuthRoutes } from '../../isomorphic'
 import Layout from './Layout'
 
-export default function initAuthApp ({ components }) {
-  const routes = getRoutes(pages).map(item => {
+export default function initAuthApp ({ localForms, socialButtons }) {
+  const routes = getAuthRoutes(pages).map(item => {
     const Page = item.component
     item.component = () => {
       return pug`
-        Page(components=components)
+        Page(
+          localForms=localForms
+          socialButtons=socialButtons
+        )
       `
     }
     return item

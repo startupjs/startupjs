@@ -9,12 +9,15 @@ import {
   loginNative
 } from './api'
 
-export default function (opts) {
-  const { router, config } = opts
+export default function (options) {
+  const { router, config } = options
 
   // Web routes
   router.get(WEB_LOGIN_URL, loginWeb)
-  router.get(CALLBACK_URL, loginWebCallback)
+  router.get(
+    CALLBACK_URL,
+    (req, res, next) => loginWebCallback(req, res, next, config)
+  )
 
   // Native routes
   router.post(

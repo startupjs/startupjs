@@ -1,12 +1,12 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { logout } from '../../helpers'
+import { onLogout } from '../../helpers'
 import { Button } from '@startupjs/ui'
 
 function LogoutButton () {
   return pug`
     Button(
-      onPress=logout
+      onPress=onLogout
       color='primary'
       variant='flat'
     ) Logout

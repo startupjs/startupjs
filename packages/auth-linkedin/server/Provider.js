@@ -20,13 +20,25 @@ export default class LinkedinProvider extends BaseProvider {
   }
 
   getFirstName () {
-    // const { profile } = this
-    return undefined
+    const { profile } = this
+
+    if (profile.firstName) return profile.firstName
+    if (profile.name && profile.name.givenName) {
+      return profile.name.givenName
+    }
+
+    return ''
   }
 
   getLastName () {
-    // const { profile } = this
-    return undefined
+    const { profile } = this
+
+    if (profile.lastName) return profile.lastName
+    if (profile.name && profile.name.familyName) {
+      return profile.name.familyName
+    }
+
+    return ''
   }
 
   getName () {
@@ -45,8 +57,12 @@ export default class LinkedinProvider extends BaseProvider {
   }
 
   getAvatarUrl () {
-    // const { profile } = this
-    return undefined
+    const { profile } = this
+    if (profile.picture && profile.picture.value) {
+      return profile.picture.value
+    }
+
+    return ''
   }
 
   getProviderData () {

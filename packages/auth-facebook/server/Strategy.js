@@ -26,7 +26,7 @@ export default function (config = {}) {
 
     const { clientId, clientSecret } = this.config
 
-    initRoutes({ router, config })
+    initRoutes({ router, config: this.config })
 
     // Append required configs to client session
     updateClientSession({ facebook: { clientId } })

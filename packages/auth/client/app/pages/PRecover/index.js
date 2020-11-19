@@ -3,7 +3,8 @@ import { AuthForm } from '../../../components'
 import PropTypes from 'prop-types'
 
 function PRecover ({
-  components,
+  localForms,
+  socialButtons,
   onError,
   onSuccess,
   onHandleError
@@ -12,7 +13,8 @@ function PRecover ({
     AuthForm(
       initSlide='recover'
       hasRouting=true
-      components=components
+      localForms=localForms
+      socialButtons=socialButtons
       onError=onError
       onSuccess=onSuccess
       onHandleError=onHandleError
@@ -21,7 +23,8 @@ function PRecover ({
 }
 
 PRecover.propTypes = {
-  components: PropTypes.array,
+  localForms: PropTypes.object,
+  socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func

@@ -3,7 +3,7 @@ import Provider from '../Provider'
 import { finishAuth } from '@startupjs/auth/server'
 
 export default async function loginNative (req, res, next, config) {
-  const { clientId, clientSecret } = config
+  const { clientId, clientSecret, successRedirectUrl } = config
   const { token } = req.body
 
   try {
@@ -11,7 +11,7 @@ export default async function loginNative (req, res, next, config) {
     const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, userId)
+    finishAuth(req, res, { userId, successRedirectUrl })
   } catch (err) {
     console.log('Login with google token error', err)
     return res.status(403).json({ message: 'Access denied' })

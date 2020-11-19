@@ -8,22 +8,22 @@ export default function createPasswordResetSecret (req, res, done, config) {
     const $auths = model.query('auths', { email })
     await model.fetchAsync($auths)
 
-    const id = $auths.getIds()[0]
-    if (!id) return res.status(400).json({ message: 'Email not found' })
+    const userId = $auths.getIds()[0]
+    if (!userId) return res.status(400).json({ message: 'Email not found' })
 
-    const $auth = model.scope('auths.' + id)
+    const $auth = model.scope('auths.' + userId)
     const $local = $auth.at('providers.local')
 
     // Generate secret as uuid
     const secret = model.id()
     // Save secret to user
     const passwordReset = {
-      secret: secret,
+      secret,
       timestamp: +new Date()
     }
     await $local.setAsync('passwordReset', passwordReset)
 
-    onCreatePasswordResetSecret(id, secret)
+    onCreatePasswordResetSecret(userId, secret)
 
     res.send('Secret for password reset has been created')
   })

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { observer, useValue } from 'startupjs'
+import { useHistory } from 'react-router'
 import TextInput from '../TextInput'
 import PropTypes from 'prop-types'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
@@ -12,6 +13,7 @@ const isWeb = Platform.OS === 'web'
 
 function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
+  const history = useHistory()
 
   const [loading, setLoading] = useState()
   const [form, $form] = useValue({
@@ -77,11 +79,13 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
     }
   }, [])
 
+  function onLogin () {
+    if (onChangeAuthPage) onChangeAuthPage('sign-in')
+    else history.push('/auth/sign-in')
+  }
+
   return pug`
     Div.root
-      Span.text.center-text.header-text Forgot your password?
-      Span.text.center-text.sub-header-text Enter email to reset your password
-      Br
       if !feedBack
         TextInput(
           onChangeText=onFormChange('email')
@@ -106,8 +110,8 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
         Span.authError
           = formErrors.globalError
       Br
-      Button(
-        onPress=onChangeAuthPage('login')
+      Button.button(
+        onPress=onLogin
         variant='text'
         color='primary'
       ) Back

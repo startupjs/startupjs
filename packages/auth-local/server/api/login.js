@@ -1,12 +1,13 @@
 import passport from 'passport'
 import { finishAuth } from '@startupjs/auth/server'
 
-export default function login (req, res, done) {
+export default function login (req, res, next, { successRedirectUrl }) {
   passport.authenticate('local', function (err, userId, info) {
     if (err) {
       console.log('[@startup/auth-local] Error:', err)
-      return done(err)
+      return next(err)
     }
-    finishAuth(req, res, userId)
-  })(req, res, done)
+
+    finishAuth(req, res, { userId, successRedirectUrl })
+  })(req, res, next)
 }

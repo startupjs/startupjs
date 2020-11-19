@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform } from 'react-native'
 import { Div, Span, Br, Button } from '@startupjs/ui'
-import TextInput from '../TextInput'
+import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import TextInput from '../TextInput'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
 function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
+  const history = useHistory()
 
   const [form, $form] = useValue({
     name: null,
@@ -113,10 +115,14 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
       }
     }
   }, [])
+
+  function onLogin () {
+    if (onChangeAuthPage) onChangeAuthPage('sign-in')
+    else history.push('/auth/sign-in')
+  }
+
   return pug`
     Div.root
-      Span.text.center-text.header-text Sign up
-      Br
       TextInput(
         onChangeText=onFormChange('name')
         error=formErrors.name
@@ -165,15 +171,15 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
         onPress=submit
         variant='flat'
         color='primary'
-      ) Sign up
+      ) Sign Up
       Br
       Div.line
-        Span.text Have an accoun?
-        Button(
-          onPress=onChangeAuthPage('login')
+        Span.text Have an account?
+        Button.button(
+          onPress=onLogin
           variant='text'
           color='primary'
-        ) Login
+        ) Sign In
   `
 }
 

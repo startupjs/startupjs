@@ -9,18 +9,19 @@ import {
   loginNative
 } from './api'
 
-export default function (opts) {
-  const { router, config } = opts
+export default function (options) {
+  const { router, config } = options
 
   // Web routes
   router.get(LINKEDIN_WEB_LOGIN_URL, loginWeb)
-  router.get(CALLBACK_LINKEDIN_URL, loginWebCallback)
-  //
+  router.get(
+    CALLBACK_LINKEDIN_URL,
+    (req, res, next) => loginWebCallback(req, res, next, config)
+  )
 
   // Native routes
   router.get(
     CALLBACK_NATIVE_LINKEDIN_URL,
     (req, res, next) => loginNative(req, res, next, config)
   )
-  //
 }
