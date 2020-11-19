@@ -54,7 +54,12 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 ## Native Development (iOS and Android)
 
-Follow the [React Native guide](https://reactnative.dev/docs/environment-setup) to setup Android SDK and/or Xcode.
+### Requiremens
+
+Follow the [React Native guide](https://reactnative.dev/docs/environment-setup) to setup everything.
+StartupJS uses native modules, so you have to follow `React Native CLI Quickstart`, not the `Expo` guide.
+
+### How to run StartupJS on native
 
 `yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
 
@@ -248,9 +253,7 @@ to the native installation when working with the large amount of files.
 
 The following guides are available to assist with migration to new major versions of StartupJS:
 
-- [0.22 -> 0.23](/docs/migration-guides/0.22--0.23.md)
-- [0.23 -> 0.24](/docs/migration-guides/0.23--0.24.md)
-- [0.24 -> 0.25](/docs/migration-guides/0.24--0.25.md)
+- [Migration Guides](/docs/migration-guides)
 
 ## Contributing & Troubleshooting
 

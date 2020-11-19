@@ -32,7 +32,8 @@ function registerOrmRules (backend, collectionName, access) {
     // the user can write the first letter of the rules in any case
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if (fn) {
-      backend['allow' + op](collectionName, fn)
+      const globalCollectionName = collectionName.replace(/\.\*$/u, '')
+      backend['allow' + op](globalCollectionName, fn.bind(global, backend, globalCollectionName))
     }
   })
 }
@@ -45,6 +46,7 @@ class ShareDBAccess {
   constructor (backend, options) {
     if (!(this instanceof ShareDBAccess)) return new ShareDBAccess(backend, options)
 
+    this.backend = backend
     this.options = options || {}
     this.allow = {}
     this.deny = {}
@@ -129,8 +131,7 @@ class ShareDBAccess {
     const newDoc = shareRequest.snapshot.data
 
     const ops = opData.op
-
-    const ok = await this.check('Update', collection, [docId, oldDoc, newDoc, ops, session, shareRequest])
+    const ok = await this.check('Update', collection, [docId, oldDoc, session, ops, newDoc])
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
@@ -166,8 +167,7 @@ class ShareDBAccess {
     // ++++++++++++++++++++++++++++++++ CREATE ++++++++++++++++++++++++++++++++++
     if (opData.create) {
       const doc = opData.create.data
-
-      const ok = await this.check('Create', collection, [docId, doc, session, shareRequest])
+      const ok = await this.check('Create', collection, [docId, doc, session])
       debug('create', ok, collection, docId, doc)
 
       if (ok) return
@@ -179,7 +179,7 @@ class ShareDBAccess {
     if (opData.del) {
       const doc = snapshot.data
 
-      const ok = await this.check('Delete', collection, [docId, doc, session, shareRequest])
+      const ok = await this.check('Delete', collection, [docId, doc, session])
       debug('delete', ok, collection, docId, doc)
       if (ok) return
 
@@ -224,7 +224,7 @@ class ShareDBAccess {
 
     const session = agent.connectSession || {}
 
-    const ok = await this.check('Read', collection, [docId, doc, session, shareRequest])
+    const ok = await this.check('Read', collection, [docId, doc, session])
 
     debug('read', ok, collection, [docId, doc, session])
 

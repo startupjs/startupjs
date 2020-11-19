@@ -1,5 +1,5 @@
-import { observer } from 'startupjs'
 import { View } from 'react-native'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Modal from './modal'
 import ModalHeader from './ModalHeader'
@@ -22,7 +22,7 @@ Modal.propTypes = {
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
-  ModalElement: PropTypes.func,
+  ModalElement: PropTypes.any,
   onShow: PropTypes.func,
   onCrossPress: PropTypes.func,
   onDismiss: PropTypes.func,

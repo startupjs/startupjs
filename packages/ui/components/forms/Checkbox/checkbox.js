@@ -55,7 +55,7 @@ export default observer(function Checkbox ({
         size='s'
       )
       AnimatedView.checkbox-animation(
-        styleName=[checkedStyleName, { animated }]
+        styleName=[{ animated }]
         style={
           transform: [{
             translateX: animation.interpolate({

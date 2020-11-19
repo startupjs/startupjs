@@ -1,3 +1,4 @@
+@require '../../constants.styl'
 $page = $UI.media.tablet
 
 .root
@@ -7,7 +8,7 @@ $page = $UI.media.tablet
   padding-left 2u
   padding-right 2u
   max-width $page
+  padding-top $TOPBAR_HEIGHT
   +tablet()
-    padding-top 4u
     padding-left 6u
     padding-right 6u

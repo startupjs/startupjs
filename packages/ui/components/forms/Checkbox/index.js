@@ -1,12 +1,12 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { useLayout } from './../../../hooks'
 import Row from './../../Row'
 import Div from './../../Div'
 import Span from './../../typography/Span'
 import Checkbox from './checkbox'
 import Switch from './switch'
-import { useLayout } from './../../../hooks'
 import './index.styl'
 
 const INPUT_COMPONENTS = {
@@ -15,8 +15,8 @@ const INPUT_COMPONENTS = {
 }
 
 const READONLY_ICONS = {
-  TRUE: '✔',
-  FALSE: '✘'
+  TRUE: '✓',
+  FALSE: '✗'
 }
 
 function CheckboxInput ({
@@ -60,9 +60,9 @@ function CheckboxInput ({
         className=standalone ? className : undefined
         value=value
         disabled=disabled
-        onPress=standalone ? onPress : null /* fix double opacity on input element for rows variant */
-        hoverStyle=standalone ? hoverStyle : null
-        activeStyle=standalone ? activeStyle : null
+        onPress=standalone ? onPress : undefined /* fix double opacity on input element for rows variant */
+        hoverStyle=standalone ? hoverStyle : undefined
+        activeStyle=standalone ? activeStyle : undefined
         ...props
       )
     `
@@ -76,7 +76,7 @@ function CheckboxInput ({
       className=className
       vAlign='center'
       disabled=disabled
-      onPress=!readonly && onPress
+      onPress=!readonly ? onPress : undefined
       hoverStyle=hoverStyle
       activeStyle=activeStyle
     )

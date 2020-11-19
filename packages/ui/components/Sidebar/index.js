@@ -1,22 +1,22 @@
-import React, { useRef, useState, useMemo } from 'react'
+import React from 'react'
+import { ScrollView, View, StyleSheet } from 'react-native'
 import {
   observer,
   useComponentId,
-  useDidUpdate,
   useLocal,
   useBind
 } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ScrollView, Animated, StyleSheet } from 'react-native'
 import Div from '../Div'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
 
 function Sidebar ({
-  style,
+  style = [],
+  sidebarStyle,
+  contentStyle,
   forceClosed,
-  backgroundColor,
   children,
   position,
   path,
@@ -30,20 +30,13 @@ function Sidebar ({
     console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
-  if (/^#|rgb/.test(backgroundColor)) {
-    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
-  }
-
   const componentId = useComponentId()
   if (!$open) {
     [, $open] = useLocal(path || `_session.Sidebar.${componentId}`)
   }
 
-  // DEPRECATED: Remove backgroundColor
-  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: colors[backgroundColor] || backgroundColor },
-    style
-  ]))
+  let backgroundColor
+  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange
@@ -54,77 +47,14 @@ function Sidebar ({
     default: forceClosed ? false : defaultOpen
   }))
 
-  const [invisible, setInvisible] = useState(!open)
-  const animation = useRef(new Animated.Value(open ? 1 : 0)).current
-  const animationPropName = useMemo(() => {
-    return 'padding' + position[0].toUpperCase() + position.slice(1)
-  }, [])
-
-  const _renderContent = () => {
-    return pug`
-      ScrollView(contentContainerStyle={ flex: 1 })
-        = renderContent && renderContent()
-    `
-  }
-
-  useDidUpdate(() => {
-    if (forceClosed) onChange(false)
-  }, [!!forceClosed])
-
-  useDidUpdate(() => {
-    if (forceClosed && invisible) return
-    if (open) {
-      setInvisible(false)
-      Animated.timing(
-        animation,
-        {
-          toValue: 1,
-          duration: 250,
-          useNativeDriver: true
-        }
-      ).start()
-    } else {
-      Animated.timing(
-        animation,
-        {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true
-        }
-      ).start(({ finished }) => {
-        if (finished) setInvisible(true)
-      })
-    }
-  }, [!!open])
-
   return pug`
     Div.root(style=style styleName=[position])
-      Animated.View.sidebar(
-        style={
-          [position]: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [-width, 0]
-          }),
-          width
-        }
-      )
-        Div.sidebarContentWrapper(
-          style={
-            flex: 1,
-            backgroundColor
-          }
-          styleName={invisible}
-          level=1
-        )
-          = _renderContent()
-      Animated.View.main(
-        style={
-          [animationPropName]: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, width]
-          })
-        }
-      )= children
+      ScrollView.sidebar(
+        contentContainerStyle=[{ flex: 1 }, sidebarStyle]
+        styleName={open}
+        style={ width, backgroundColor }
+      )= renderContent && renderContent()
+      View.main(style=contentStyle)= children
   `
 }
 

@@ -24,6 +24,7 @@ function MenuItem ({
   activeColor,
   ...props
 }) {
+  // TODO: prevent click if already active (for link and for div)
   const parentProps = useMenuContext()
   const _iconPosition = iconPosition || parentProps.iconPosition
   const activeItemColor = activeColor || colors.primary
@@ -46,9 +47,6 @@ function MenuItem ({
       style=style
       styleName={reverse}
       variant='highlight'
-      hoverOpacity=0.05
-      activeOpacity=0.25
-      underlayColor=colors.primary
       onPress=onPress
       ...extraProps
       ...props

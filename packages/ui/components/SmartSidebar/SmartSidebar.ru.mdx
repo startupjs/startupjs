@@ -11,7 +11,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # SmartSidebar (умный сайдбар)
 
-Умный сайдбар обычно используется для навигации. Он предоставляет удобный десктоп-мобильный интерфейс. Основываясь на фиксированной точке останова макета, он решает остаться в качестве [видимой боковой панели](/docs/ru/components/Sidebar) или превратиться в [невидимую боковую панель](/docs/ru/components/DrawerSidebar). По умолчанию он не виден на экране.
+Умный сайдбар обычно используется для навигации. Он предоставляет удобный десктоп-мобильный интерфейс. Основываясь на фиксированной точке останова макета, он решает остаться в качестве [видимой боковой панели](/docs/components/Sidebar) или превратиться в [невидимую боковую панель](/docs/components/DrawerSidebar). По умолчанию он не виден на экране.
 
 ```jsx
 import { SmartSidebar } from '@startupjs/ui'
@@ -53,7 +53,7 @@ return (
 
 ## Фиксированная точка останова
 
-Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/ru/components/Sidebar) переключается на [дровер](/docs/ru/components/Drawer). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
+Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/components/Sidebar) переключается на [дровер](/docs/components/Drawer). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
 
 ```jsx example
 const [open, $open] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')

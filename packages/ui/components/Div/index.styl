@@ -15,6 +15,10 @@ $this = merge({
 
 _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
 
+// skip level 0 for shadow
+// because it needed only when you want to override shadow from style sheet
+_shadowLevels = ('1' '2' '3' '4')
+
 .root
   &.rounded
     radius()
@@ -22,13 +26,13 @@ _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
   &.circle
     radius(circle)
 
-  // Shadow does not work without backgorund color
-  &.with-shadow
-    background-color $UI.colors.white
-
   for size in _pushedSizes
     &.pushed-{size}
       margin-left: $UI.gutters[size]
+
+  for level in _shadowLevels
+    &.shadow-{level}
+      shadow(level)
 
   &.bleed
     bleed()

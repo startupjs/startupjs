@@ -7,7 +7,7 @@ import Button from '../../Button'
 import Drawer from './index.js'
 
 # Drawer
-Навигационные панели предназначены для предоставления ссылок на различные части вашего приложения. 
+Навигационные панели предназначены для предоставления ссылок на различные части вашего приложения.
 Боковые панели содержат дополнительную информацию и закрепляются по левую или правую сторону окна браузера.
 ```jsx
 import { Drawer } from '@startupjs/ui'
@@ -108,7 +108,7 @@ return (
       position="bottom"
       onDismiss={() => setVisible()}
       styleCase={{ alignItems: 'center' }}
-      styleContent={{ width: 500, borderTopLeftRadius: 40, 
+      styleContent={{ width: 500, borderTopLeftRadius: 40,
         borderTopRightRadius: 40 }}
     />
     <Button
@@ -166,7 +166,7 @@ return (
       onDismiss={()=> setLeftVisible(false)}
       styleContent={{ width: 240 }}
     >
-      <TouchableWithoutFeedback onPress={()=> history.push('/docs/en/components/Button')}>
+      <TouchableWithoutFeedback onPress={()=> history.push('/docs/components/Button')}>
         <View>
           <Text>Открыть другую страницу</Text>
         </View>
@@ -186,7 +186,7 @@ return (
           <Text>Открыть правый Drawer</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={()=> setOnDismiss('goToPage', '/docs/en/components/Button')}>
+      <TouchableWithoutFeedback onPress={()=> setOnDismiss('goToPage', '/docs/components/Button')}>
         <View>
           <Text>Открыть другую страницу</Text>
          </View>
