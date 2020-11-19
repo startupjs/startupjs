@@ -1,8 +1,7 @@
-import Mailgun from 'mailgun-js'
+const Mailgun = require('mailgun-js')
 
-class MailService extends BaseProvider {
+class MailService {
   constructor (params) {
-    super(params)
     if (this.instance) return this
     const { apiKey, domain } = params
     this.instance = this._initClient({ apiKey, domain })
@@ -24,4 +23,4 @@ class MailService extends BaseProvider {
   }
 }
 
-export default MailService
+module.exports = MailService

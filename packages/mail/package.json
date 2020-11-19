@@ -4,7 +4,6 @@
   "description": "Library to send email messages in app",
   "main": "client/index.js",
   "dependencies": {
-    "inline-css": "^2.6.3",
     "mailgun-js": "^0.22.0"
   },
   "peerDependencies": {
