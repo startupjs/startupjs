@@ -5,6 +5,7 @@ import { finishAuth } from '@startupjs/auth/server'
 
 export default function loginNative (req, res, next, config) {
   const { userID, accessToken } = req.body
+  const { successRedirectUrl } = config
 
   FB.setAccessToken(accessToken)
 
@@ -19,7 +20,7 @@ export default function loginNative (req, res, next, config) {
 
       const provider = new Provider(req.model, response, config)
       const userId = await provider.findOrCreateUser()
-      finishAuth(req, res, userId)
+      finishAuth(req, res, { userId, successRedirectUrl })
     }
   )
 }

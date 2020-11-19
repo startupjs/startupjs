@@ -3,7 +3,8 @@ import { AuthForm } from '../../../components'
 import PropTypes from 'prop-types'
 
 function PSignIn ({
-  components,
+  localForms,
+  socialButtons,
   onError,
   onSuccess,
   onHandleError
@@ -12,7 +13,8 @@ function PSignIn ({
     AuthForm(
       initSlide='sign-in'
       hasRouting=true
-      components=components
+      localForms=localForms
+      socialButtons=socialButtons
       onError=onError
       onSuccess=onSuccess
       onHandleError=onHandleError
@@ -21,7 +23,8 @@ function PSignIn ({
 }
 
 PSignIn.propTypes = {
-  components: PropTypes.array,
+  localForms: PropTypes.object,
+  socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func

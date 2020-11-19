@@ -1,7 +1,7 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
 import { GOOGLE_CLIENT_ID, BASE_URL } from '@env'
 import axios from 'axios'
-import { NativeModules } from 'react-native'
+import { finishAuth } from '@startupjs/auth'
 import { CALLBACK_NATIVE_URL } from '../../isomorphic'
 
 export default async function onLogin () {
@@ -18,7 +18,7 @@ export default async function onLogin () {
     const data = await GoogleSignin.signIn()
 
     await axios.post(baseUrl + CALLBACK_NATIVE_URL, { token: data.idToken })
-    NativeModules.DevSettings.reload()
+    finishAuth()
   } catch (err) {
     if (err.code === statusCodes.SIGN_IN_CANCELLED) {
       console.log('user cancelled the login flow')

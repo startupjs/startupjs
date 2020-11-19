@@ -64,11 +64,8 @@ initAuth(ee, {
 2 - Валидный идентификатор пакета - можно посмотреть через xCode (н-р: `org.reactjs.native.example.auth`)
 3 - Скачать - **GoogleService-Info.plist**
 4 - Загрузить его в проект **через xCode** в папку где находится AppDelegate
-5 - В xCode зайти примерно сюда:
-![](https://i.imgur.com/AJ2U9Jq.jpg)
-
+5 - В xCode зайти в **Info**, найти **URL Types**
 В **URL Types** добавить `REVERSED_CLIENT_ID` из **GoogleService-Info.plist**
-
 6 - Обновить зависимости `cd ios && pod install`
 
 ## Инициализация в верстке

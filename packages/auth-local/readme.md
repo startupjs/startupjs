@@ -1,3 +1,5 @@
+import { LoginForm, RecoverForm, RegisterForm } from '@startupjs/auth-local'
+
 # Локальная авторизация
 
 ## Инициализация главного модуля
@@ -44,3 +46,29 @@ initAuth(ee, {
 ```
 
 ## Компоненты
+### LoginForm
+Форма для авторизации
+```js
+import { LoginForm } from '@startupjs/auth-local'
+```
+```jsx example
+return <LoginForm />
+```
+
+### RecoverForm
+Форма для смены пароля
+```js
+import { RecoverForm } from '@startupjs/auth-local'
+```
+```jsx example
+return <RecoverForm />
+```
+
+### RegisterForm
+Форма для регистрации
+```js
+import { RegisterForm } from '@startupjs/auth-local'
+```
+```jsx example
+return <RegisterForm />
+```

@@ -35,7 +35,7 @@ export default function (config = {}) {
     const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
     const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]
 
-    initRoutes({ router, config })
+    initRoutes({ router, config: this.config })
 
     // Append required configs to client session
     updateClientSession({ azuread: { clientId, tentantId } })

@@ -85,6 +85,7 @@ initAuth(ee, {
 <string>startupjs-auth</string>
 ```
 FACEBOOK_CLIENT_ID - заменить на нужный id.
+FacebookDisplayName - на нужный.
 
 ## Инициализация в верстке
 Можно использовать компонент

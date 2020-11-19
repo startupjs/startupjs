@@ -15,7 +15,7 @@
 `@startupjs/auth-linkedin`
 
 ## Настройка приложения
-1 - Создайть приложение по [ссылке](https://www.linkedin.com/developers)
+1 - Создать приложение по [ссылке](https://www.linkedin.com/developers)
 2 - Во вкладке **Auth**, скопировать **Client ID** как `LINKEDIN_CLIENT_ID`, **Client Secret** как `LINKEDIN_CLIENT_SECRET`
 3 - Добавить ссылки для редиректа, на вкладке **Authorized redirect URLs for your app**:
 `http://localhost:3000/auth/linkedin/callback`

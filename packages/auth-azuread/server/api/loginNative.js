@@ -7,7 +7,12 @@ import { finishAuth } from '@startupjs/auth/server'
 
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query
-  const { clientId, tentantId, clientSecret } = config
+  const {
+    successRedirectUrl,
+    clientId,
+    tentantId,
+    clientSecret
+  } = config
 
   const body = {
     client_id: clientId,
@@ -18,8 +23,6 @@ export default async function loginNative (req, res, next, config) {
     code_verifier: getStrBase64(`${clientId}_${tentantId}`),
     client_secret: clientSecret
   }
-
-  console.log(body)
 
   const tokenRequestConfig = {
     headers: {
@@ -41,16 +44,16 @@ export default async function loginNative (req, res, next, config) {
     const [firstName = 'Unknown', lastName = 'Name'] = displayName.split(' ')
 
     const profile = {
+      id,
       email: mail,
       lastName,
-      firstName,
-      id
+      firstName
     }
 
     const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, userId)
+    finishAuth(req, res, { userId, successRedirectUrl })
   } catch (error) {
     console.log('[@dmapper/auth-azuread] Error: AzureAD login', error)
     return res.redirect(FAILURE_LOGIN_URL)

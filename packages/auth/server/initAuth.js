@@ -3,6 +3,7 @@ import express from 'express'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
 import { onUserCreate, onLogin, onLogout } from './helpers'
+import { DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic'
 
 const router = express.Router()
 
@@ -32,6 +33,7 @@ export default function (ee, _config) {
   validateConfigs(config)
 
   const { strategies, ...rest } = config
+  rest.successRedirectUrl = rest.successRedirectUrl || DEFAUL_SUCCESS_REDIRECT_URL
 
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
@@ -45,7 +47,11 @@ export default function (ee, _config) {
     ee.on('afterSession', expressApp => {
       expressApp.use((req, res, next) => {
         const $session = req.model.scope('_session.auth')
-        $session.set({ ...$session.get(), ...fields })
+        $session.set({
+          successRedirectUrl: config.successRedirectUrl,
+          ...$session.get(),
+          ...fields
+        })
         next()
       })
     })

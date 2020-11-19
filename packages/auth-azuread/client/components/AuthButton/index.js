@@ -5,17 +5,16 @@ import { Modal, Div, Button } from '@startupjs/ui'
 import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
 import qs from 'query-string'
-import { DEFAUL_SUCCESS_REDIRECT_URL } from '@startupjs/auth/isomorphic'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import { CALLBACK_NATIVE_AZUREAD_URL, SCOPE, getStrBase64 } from '../../../isomorphic'
 
 function AuthButton ({ label }) {
   const baseUrl = BASE_URL
-  const [config] = useSession('auth.azuread')
+  const [authConfig] = useSession('auth')
   const [showModal, setShowModal] = useState(false)
 
-  const { clientId, tentantId } = config
+  const { clientId, tentantId } = authConfig.azuread
 
   function showLoginModal () {
     setShowModal(true)
@@ -35,10 +34,12 @@ function AuthButton ({ label }) {
   }
 
   function onNavigationStateChange ({ url }) {
-    if (url.includes(DEFAUL_SUCCESS_REDIRECT_URL)) {
+    if (url.includes(authConfig.successRedirectUrl)) {
+      setShowModal(false)
       finishAuth()
     }
   }
+
   return pug`
     Button(
       icon=faMicrosoft
@@ -53,12 +54,10 @@ function AuthButton ({ label }) {
         WebView(
           style={ height: u(100) }
           source={ uri: getAuthorizationUrl() }
-
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled
           sharedCookiesEnabled
-
           onNavigationStateChange=onNavigationStateChange
         )
   `

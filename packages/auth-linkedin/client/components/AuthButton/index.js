@@ -4,19 +4,17 @@ import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
-import { DEFAUL_SUCCESS_REDIRECT_URL } from '@startupjs/auth/isomorphic'
-import { finishAuth } from '@startupjs/auth'
 import qs from 'query-string'
 import { BASE_URL } from '@env'
-import {
-  CALLBACK_NATIVE_LINKEDIN_URL,
-  AUTHORIZATION_URL
-} from '../../../isomorphic'
+import { CALLBACK_NATIVE_LINKEDIN_URL, AUTHORIZATION_URL } from '../../../isomorphic'
+import { finishAuth } from '@startupjs/auth'
 
 function AuthButton ({ label }) {
   const baseUrl = BASE_URL
-  const [clientId] = useSession('auth.linkedin.clientId')
+  const [authConfig] = useSession('auth')
   const [showModal, setShowModal] = useState(false)
+
+  const { clientId } = authConfig.linkedin
 
   function showLoginModal () {
     setShowModal(true)
@@ -32,7 +30,8 @@ function AuthButton ({ label }) {
   }
 
   function onNavigationStateChange ({ url }) {
-    if (url.includes(DEFAUL_SUCCESS_REDIRECT_URL)) {
+    if (url.includes(authConfig.successRedirectUrl)) {
+      setShowModal(false)
       finishAuth()
     }
   }
