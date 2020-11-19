@@ -1,7 +1,7 @@
-import foundation from './foundation'
 import components from './components'
-import forms from './forms'
 import hooksAndHelpers from './hooksAndHelpers'
+import foundation from './foundation'
+import forms from './forms'
 import popups from './popups'
 
 export default {

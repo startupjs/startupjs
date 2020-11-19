@@ -1,12 +1,71 @@
-import React from 'react'
-import { Div, H2, H5, H6, Divider, Span, Br, Row, Link } from '@startupjs/ui'
+import React, { useState, useContext } from 'react'
 import { Platform } from 'react-native'
+import { $root } from 'startupjs'
+import {
+  Div,
+  H2,
+  H5,
+  H6,
+  Divider,
+  Span,
+  Br,
+  Row,
+  Link,
+  Icon
+} from '@startupjs/ui'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 import Code from '../Code'
+
+const isWeb = Platform.OS === 'web'
+const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
+const ListLevelContext = React.createContext()
+
+function getOrderedListMark (index, level) {
+  switch (level) {
+    case 1:
+      return ALPHABET.charAt(index % ALPHABET.length) + ')'
+    default:
+      return '' + (index + 1) + '.'
+  }
+}
 
 function P ({ children }) {
   return pug`
     Span.p= children
+  `
+}
+
+function Anchor ({
+  style,
+  children,
+  anchor,
+  size
+}) {
+  if (!isWeb) {
+    return pug`
+      Div(style=style)= children
+    `
+  }
+
+  const [hover, setHover] = useState()
+
+  return pug`
+    Row.anchor(
+      style=style
+      onLayout=(e) => {
+        $root.set('_session.anchors.' + anchor, e.nativeEvent.layout.y)
+      }
+      vAlign='center'
+      onMouseEnter=() => setHover(true)
+      onMouseLeave=() => setHover()
+    )
+      = children
+      Link.anchor-link(
+        styleName={ hover }
+        to='#' + anchor
+      )
+        Icon(icon=faLink size=size)
   `
 }
 
@@ -18,14 +77,18 @@ export default {
     Div.example= children
   `,
   h1: ({ children }) => pug`
-    H2(bold)= children
+    Anchor(anchor=children size='xl')
+      H2(bold)
+        = children
   `,
   h2: ({ children }) => pug`
-    H5.h2= children
+    Anchor.h2(anchor=children)
+      H5= children
     Divider(size='l')
   `,
   h3: ({ children }) => pug`
-    H6.h6(bold)= children
+    Anchor.h6(anchor=children size='s')
+      H6(bold)= children
   `,
   p: P,
   strong: ({ children }) => pug`
@@ -43,14 +106,11 @@ export default {
     `
   },
   inlineCode: ({ children }) => pug`
-    Span.inlineCode
-      Span.inlineCode-space= ' '
-      Span.inlineCode-code(
-        style={
-          fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-        }
-      )= children
-      Span.inlineCode-space= ' '
+    Span.inlineCode(
+      style={
+        fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+      }
+    )= ' ' + children + ' '
   `,
   hr: ({ children }) => pug`
     Divider(size='l')
@@ -63,8 +123,16 @@ export default {
   thematicBreak: P,
   blockquote: P,
   ul: ({ children }) => children,
-  ol: ({ children }) => React.Children.map(children, (child, index) => React.cloneElement(child, { index })),
+  ol: ({ children }) => {
+    const currentLevel = useContext(ListLevelContext)
+    const nextLevel = currentLevel == null ? 0 : currentLevel + 1
+    return pug`
+      ListLevelContext.Provider(value=nextLevel)
+        = React.Children.map(children, (child, index) => React.cloneElement(child, { index }))
+    `
+  },
   li: ({ children, index }) => {
+    const level = useContext(ListLevelContext)
     let hasTextChild = false
     children = React.Children.map(children, child => {
       if (typeof child === 'string') {
@@ -74,7 +142,7 @@ export default {
     })
     return pug`
       Row
-        Span.listIndex= index == null ? '-' : index + 1 + '.'
+        Span.listIndex= index == null ? '•' : getOrderedListMark(index, level)
         Div.listContent
           if hasTextChild
             P(size='l')= children
@@ -91,7 +159,7 @@ export default {
   delete: P,
   a: ({ children, href }) => {
     return pug`
-      Link(to=href size='l' color='primary')= children
+      Link.link(to=href size='l' color='primary')= children
     `
   },
   img: P

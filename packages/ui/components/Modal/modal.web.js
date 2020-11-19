@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import { View } from 'react-native'
+import ReactDOM from 'react-dom'
 import Layout from './layout'
 import './index.styl'
 const ROOT_CONTAINER_ID = 'app'
@@ -31,8 +31,7 @@ export default function Modal ({
 
   return ReactDOM.createPortal(
     pug`
-      Layout.layout(
-        styleName={visible}
+      Layout(
         modalStyle=style
         ...props
       )

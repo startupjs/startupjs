@@ -22,7 +22,7 @@ Modal.propTypes = {
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
-  ModalElement: PropTypes.func,
+  ModalElement: PropTypes.any,
   onShow: PropTypes.func,
   onCrossPress: PropTypes.func,
   onDismiss: PropTypes.func,

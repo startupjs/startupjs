@@ -1,27 +1,27 @@
 import React, { useEffect } from 'react'
 import { observer, useSession } from 'startupjs'
-import { Menu, Collapse } from '@startupjs/ui'
-import { DEFAULT_LANGUAGE } from './../../../../../const'
-import './index.styl'
 import { pathFor, useLocation } from 'startupjs/app'
+import { Menu, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { DEFAULT_LANGUAGE } from './../../../../../const'
+import { useLang } from '../../../../../clientHelpers'
+import './index.styl'
 
 const Docs = observer(function DocsComponent ({
   docs,
-  lang,
   subpath = '',
   children,
-  level = 0
+  level = 1
 }) {
   if (!docs) return null
-
+  const [lang] = useLang()
   const { pathname } = useLocation()
   const [, $openedCollapses] = useSession('SidebarCollapses')
 
   // HACK: open parent collapse on initial render
   useEffect(() => {
     if (subpath) {
-      const docPath = pathFor('docs:doc', { lang, path: subpath })
+      const docPath = pathFor('docs:doc', { path: subpath })
       if (pathname.startsWith(docPath)) $openedCollapses.setDiff(subpath, true)
     }
   }, [])
@@ -36,6 +36,8 @@ const Docs = observer(function DocsComponent ({
     return title
   }
 
+  const menuItemStyle = { paddingLeft: level * 24 }
+
   return pug`
     Menu
       each aDocName in Object.keys(docs)
@@ -47,9 +49,9 @@ const Docs = observer(function DocsComponent ({
           - const isActive = rootPath === pathname
           if ['mdx', 'sandbox'].includes(doc.type)
             Menu.Item.item(
+              style=menuItemStyle
               active=isActive
               to=rootPath
-              styleName={ nested: level > 0 }
             )= title
           if doc.type === 'collapse'
             Collapse(
@@ -62,13 +64,14 @@ const Docs = observer(function DocsComponent ({
                 iconStyleName='collapse-icon'
               )
                 Menu.Item.item(
+                  style=menuItemStyle
                   active=isActive
                   to=doc.component ? rootPath : null
                   bold
                   icon=doc.icon
                 )= title
               Collapse.Content
-                Docs(docs=doc.items lang=lang subpath=docPath level=level + 1)
+                Docs(docs=doc.items subpath=docPath level=level + 1)
   `
 })
 

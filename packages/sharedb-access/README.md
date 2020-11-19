@@ -93,11 +93,11 @@ backend.denyDelete('items', async (docId, doc, session) => {
 ```js
 // docId - id of your doc for access-control
 // oldDoc  - document object (before update)
-// newDoc  - document object (after update)
-// ops    - array of OT operations
 // session - your connect session
+// ops    - array of OT operations
+// newDoc  - document object (after update)
 
-const allowUpdateAll = async (docId, oldDoc, newDoc, ops, session) => {
+const allowUpdateAll = async (docId, oldDoc, session, ops, newDoc) => {
   return true
 }
 

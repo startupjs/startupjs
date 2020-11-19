@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
-import PropTypes from 'prop-types'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
   StyleSheet
 } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'
+
 const {
   config: {
     defaultHoverOpacity,
@@ -89,8 +90,12 @@ function Div ({
   }
 
   let pushedModifier
+  let levelModifier
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
   if (pushedSize) pushedModifier = `pushed-${pushedSize}`
+  // skip level 0 for shadow
+  // because it needed only when you want to override shadow from style sheet
+  if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
     if (isClickable) {
@@ -109,16 +114,16 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], style, extraStyle]
+      style=[style, extraStyle]
       styleName=[
         {
-          ['with-shadow']: !!level,
           clickable: isWeb && isClickable,
           bleed,
           disabled
         },
         shape,
-        pushedModifier
+        pushedModifier,
+        levelModifier
       ]
       ...extraProps
       ...props
@@ -169,7 +174,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.05)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
       }
     }
 
@@ -178,7 +183,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.2)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.2)' }
       }
     }
   }

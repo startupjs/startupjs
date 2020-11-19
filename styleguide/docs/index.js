@@ -1,15 +1,28 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
-import Upgrade022to023 from '../../docs/migration-guides/0.22--0.23.md'
-import Upgrade023to024 from '../../docs/migration-guides/0.23--0.24.md'
-import Upgrade024to025 from '../../docs/migration-guides/0.24--0.25.md'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthLocal from '../../packages/auth-local/readme.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
+import * as guides from '../../docs/migration-guides'
+
+function generateGuideItems () {
+  const res = {}
+  for (const name in guides) {
+    const version = name.replace(/^_/, '').replace(/_/g, '.')
+    res[`${version}.md`] = {
+      type: 'mdx',
+      title: version,
+      component: guides[name]
+    }
+  }
+  return res
+}
+
+const GUIDE_ITEMS = generateGuideItems()
 
 export default docs({
   ...uiDocs,
@@ -60,22 +73,6 @@ export default docs({
       ru: 'Обновление'
     },
     icon: faSortNumericUpAlt,
-    items: {
-      '0.22--0.23.md': {
-        type: 'mdx',
-        title: '0.22 -> 0.23',
-        component: Upgrade022to023
-      },
-      '0.23--0.24.md': {
-        type: 'mdx',
-        title: '0.23 -> 0.24',
-        component: Upgrade023to024
-      },
-      '0.24--0.25.md': {
-        type: 'mdx',
-        title: '0.24 -> 0.25',
-        component: Upgrade024to025
-      }
-    }
+    items: GUIDE_ITEMS
   }
 })

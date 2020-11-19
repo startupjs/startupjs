@@ -27,7 +27,7 @@ return (
       visible={visible}
       onDismiss={()=> setVisible(false)}
     >
-      <Popover.Caption style={{ width: 32 }}>
+      <Popover.Caption style={{ width: 24 }}>
         <TouchableOpacity onPress={()=> setVisible(true)}>
           <Icon icon={faUserCircle} size="xl" />
         </TouchableOpacity>
@@ -41,14 +41,14 @@ return (
 ```
 
 ## Размеры
-- maxHeight: максимально возможная высота Popover
+- wrapperStyle={{ maxHeight: 100 }}: задать максимально возможную высоту Popover
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
     visible={visible}
-    maxHeight={100}
+    wrapperStyle={{ maxHeight: 100 }}
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption style={{ width: 100 }}>
@@ -74,14 +74,14 @@ return (
 )
 ```
 
-- height: фиксированная, постоянная высота (по дефолту отсутствует)
+- wrapperStyle={{ height: 100 }}: фиксированная, постоянная высота (по дефолту отсутствует)
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
 return (
   <Popover
     visible={visible}
-    height={100}
+    wrapperStyle={{ height: 100 }}
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption style={{ width: 100 }}>
@@ -114,7 +114,7 @@ const [content, setContent] = useState([1,2])
 return (
   <Popover
     visible={visible}
-    width={400}
+    wrapperStyle={{ width: 400 }}
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption style={{ width: 100 }}>
@@ -180,163 +180,240 @@ return (
 ```
 
 ## Позиция
-Можно задать позиции по вертикали (top, center, bottom) и горизонатли (left, center, right) относительно Caption.
-- positionHorizontal: проп отвечает за отображение по горизонатли
-- positionVertical: проп отвечает за отображение по вертикали
+- position: имеет 4 варианта положений (top, bottom, left, right)
+- attachment: дополнительный параметр для смещения (start, center, end)
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, setVisible] = useState('')
 return (
-  <Row style={{ flexWrap: 'wrap' }}>
-    <View style={{ marginBottom: 16 }}>
-      <Popover
-        visible={visible === 'bottom-right'}
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('bottom-right')}>
-            Bottom Right
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20 }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'bottom-center'}
-        positionHorizontal="center"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('bottom-center')}>
-            Bottom Center
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20 }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'bottom-left'}
-        positionHorizontal="left"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('bottom-left')}>
-            Bottom Left
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20 }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View style={{ marginBottom: 16 }}>
-      <Popover
-        visible={visible === 'center-right'}
-        positionHorizontal="right"
-        positionVertical="center"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('center-right')}>
-            Center Right
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20 }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'center-center'}
-        positionHorizontal="center"
-        positionVertical="center"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('center-center')}>
-            Center Center
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20 }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'center-left'}
-        positionHorizontal="left"
-        positionVertical="center"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('center-left')}>
-            Center Left
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20 }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'top-right'}
-        positionHorizontal="right"
-        positionVertical="top"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('top-right')}>
-            Top Right
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20, height: '100%' }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'top-center'}
-        positionHorizontal="center"
-        positionVertical="top"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('top-center')}>
-            Top Center
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20, height: '100%' }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-    <View>
-      <Popover
-        visible={visible === 'top-left'}
-        positionHorizontal="left"
-        positionVertical="top"
-        onDismiss={()=> setVisible('')}
-      >
-        <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('top-left')}>
-            Top Left
-          </Button>
-        </Popover.Caption>
-        <View style={{ padding: 20, height: '100%' }}>
-          <Text>Контент</Text>
-        </View>
-      </Popover>
-    </View>
-  </Row>
+  <View style={{ alignItems: 'center' }}>
+    <Row style={{ flexWrap: 'wrap' }}>
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ marginBottom: 16, marginRight: 16 }}>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'top-start'}
+          position='top'
+          attachment='start'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60 }}>
+            <Button onPress={()=> setVisible('top-start')}>TL</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'top'}
+          position='top'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('top')}>TC</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'top-end'}
+          position='top'
+          attachment='end'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('top-end')}>TR</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View style={{ width: 60, marginRight: 16 }} />
+    </Row>
+
+    <Row>
+      <View style={{ marginBottom: 16 }}>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'left-start'}
+          position='left'
+          attachment='start'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('left-start')}>LT</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ marginBottom: 16 }}>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'right-start'}
+          position='right'
+          attachment='start'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('right-start')}>RT</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+    </Row>
+
+    <Row>
+      <View style={{ marginBottom: 16 }}>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'left'}
+          position="left"
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('left')}>LC</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'right'}
+          position="right"
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('right')}>RC</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+    </Row>
+
+    <Row>
+      <View style={{ marginBottom: 16 }}>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'left-end'}
+          position='left'
+          attachment='end'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('left-end')}>LB</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View style={{ marginBottom: 16 }}>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'right-end'}
+          position='right'
+          attachment='end'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('right-end')}>RB</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+    </Row>
+
+    <Row>
+      <View style={{ width: 60, marginRight: 16 }} />
+      <View>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'bottom-start'}
+          position='bottom'
+          attachment='start'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('bottom-start')}>BL</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'bottom'}
+          position='bottom'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('bottom')}>BC</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View>
+        <Popover
+          hasArrow={true}
+          animateType='scale'
+          visible={visible === 'bottom-end'}
+          position='bottom'
+          attachment='end'
+          onDismiss={()=> setVisible('')}
+        >
+          <Popover.Caption style={{ width: 60, marginRight: 16 }}>
+            <Button onPress={()=> setVisible('bottom-end')}>BR</Button>
+          </Popover.Caption>
+          <View style={{ padding: 20 }}>
+            <Text>Контент</Text>
+          </View>
+        </Popover>
+      </View>
+      <View style={{ width: 80, marginRight: 16 }} />
+    </Row>
+  </View>
 )
 ```
 
@@ -344,12 +421,13 @@ return (
 animateType - проп отвечающий за тип анимации
 Есть три типа анимации при открытии: default, slide, scale
 ```jsx example
-const [visible, setVisible] = useState('')
+const [visible, setVisible] = useState()
 return (
   <Row>
     <View>
       <Popover
         visible={visible === 'default'}
+        hasArrow={true}
         onDismiss={()=> setVisible('')}
       >
         <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -364,14 +442,14 @@ return (
     </View>
     <View>
       <Popover
-        visible={visible === 'slide'}
-        animateType='slide'
-        positionHorizontal='center'
+        visible={visible === 'scale'}
+        animateType='scale'
+        hasArrow={true}
         onDismiss={()=> setVisible('')}
       >
         <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('slide')}>
-            Slide
+          <Button onPress={()=> setVisible('scale')}>
+            Scale
           </Button>
         </Popover.Caption>
         <View style={{ padding: 20 }}>
@@ -381,14 +459,14 @@ return (
     </View>
     <View>
       <Popover
-        visible={visible === 'scale'}
-        animateType='scale'
-        hasWidthCaption={false}
+        visible={visible === 'slide'}
+        animateType='slide'
+        hasArrow={true}
         onDismiss={()=> setVisible('')}
       >
         <Popover.Caption style={{ width: 150, marginRight: 16 }}>
-          <Button onPress={()=> setVisible('scale')}>
-            Scale
+          <Button onPress={()=> setVisible('slide')}>
+            Slide
           </Button>
         </Popover.Caption>
         <View style={{ padding: 20 }}>
@@ -424,14 +502,14 @@ return (
 )
 ```
 
-- styleWrapper: стили для wrapper
+- wrapperStyle: стили для wrapper
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
       visible={visible}
-      styleWrapper={{ backgroundColor: 'black' }}
+      wrapperStyle={{ backgroundColor: 'black' }}
       onDismiss={()=> setVisible(false)}
     >
       <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -447,14 +525,14 @@ return (
 )
 ```
 
-- styleOverlay: стили для overlay
+- overlayStyle: стили для overlay
 ```jsx example
 const [visible, setVisible] = useState(false)
 return (
   <View>
     <Popover
       visible={visible}
-      styleOverlay={{ backgroundColor: 'black' }}
+      overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
       onDismiss={()=> setVisible(false)}
     >
       <Popover.Caption style={{ width: 150, marginRight: 16 }}>
@@ -469,5 +547,10 @@ return (
   </View>
 )
 ```
+
+## Так же
+- placements: какие позиции можно использовать при автофиксе
+- durationOpen: время анимации при открытии
+- durationClose: время анимации при закрытии
 
 <Br lines={10} />

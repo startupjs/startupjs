@@ -22,10 +22,12 @@ try {
   PATCHES_DIR = './patches'
 }
 
+const LINK = !!process.env.LINK
+const LOCAL_DIR = process.env.LOCAL_DIR || '.'
+
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'react-native-web@^0.12.0',
   'react-native-svg@^12.1.0',
   'nconf@^0.10.0',
   'react',
@@ -38,12 +40,15 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
+  'eslint-plugin-import-helpers',
   'eslint-plugin-node',
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
-  'lint-staged'
+  'husky@^4.3.0',
+  'lint-staged',
+  'eslint@latest'
 ]
 
 const REMOVE_DEPENDENCIES = [
@@ -204,13 +209,17 @@ SCRIPTS_ORIG.fonts = () => oneLine(`
   react-native-asset
 `)
 
+SCRIPTS_ORIG.postinstall = () => oneLine(`
+  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
+`)
+
 const SCRIPTS = {
   start: 'startupjs start',
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
   precommit: 'lint-staged',
-  postinstall: 'startupjs patch-package && startupjs fonts',
+  postinstall: 'startupjs postinstall',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
   'log-android': 'hash ccze 2>/dev/null && npm run log-android-color || (echo "WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze" && react-native log-android)',
@@ -258,7 +267,15 @@ commander
       throw Error(`Template '${template}' doesn't exist. Templates available: ${Object.keys(TEMPLATES).join(', ')}`)
     }
 
-    let projectPath = path.join(process.cwd(), projectName)
+    if (LOCAL_DIR !== '.') {
+      await execa(
+        'mkdir',
+        ['-p', LOCAL_DIR],
+        { stdio: 'inherit' }
+      )
+    }
+
+    let projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
 
     if (fs.existsSync(projectPath)) {
       const err = `Folder '${projectName}' already exists in the current directory. Delete it to create a new app`
@@ -273,7 +290,10 @@ commander
       `react-native${'@' + reactNative}`,
       'init',
       projectName
-    ].concat(['--version', reactNative]), { stdio: 'inherit' })
+    ].concat(['--version', reactNative]), {
+      cwd: path.join(process.cwd(), LOCAL_DIR),
+      stdio: 'inherit'
+    })
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
@@ -303,6 +323,12 @@ commander
       cwd: projectPath,
       stdio: 'inherit'
     })
+
+    if (LINK) {
+      // TODO: Link startupjs packages. ref:
+      //       https://stackoverflow.com/questions/48681642/yarn-workspaces-and-yarn-link
+      console.log('> TODO: Link startupjs packages for local install')
+    }
 
     if (DEV_DEPENDENCIES.length) {
       // install startupjs devDependencies
@@ -412,6 +438,16 @@ commander
   })
 
 commander
+  .command('postinstall')
+  .description('Run startupjs postinstall scripts')
+  .action(async (options) => {
+    await execa.command(
+      SCRIPTS_ORIG.postinstall(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
   .command('fonts')
   .description('Rename fonts and react-native smart linking for assets')
   .action(async (options) => {
@@ -453,14 +489,17 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
 function renameFonts () {
   const FONTS_PATH = process.cwd() + '/public/fonts'
   const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
+  const IGNORE = ['.gitignore', '.DS_Store', '.gitallowed']
 
   if (fs.existsSync(FONTS_PATH)) {
     const files = fs.readdirSync(FONTS_PATH)
 
     files.forEach(file => {
+      if (IGNORE.includes(file)) return
+
       const [fileName, fileExt] = file.split('.')
       if (EXT_WISHLIST.indexOf(fileExt) === -1) {
-        return console.error(`Font format error: ${fileExt} don\`t support`)
+        return console.error(`Font format error: ${fileExt} is not supported`)
       }
 
       const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
@@ -494,6 +533,12 @@ function addScriptsToPackageJson (projectPath) {
       'eslint --fix',
       'git add'
     ]
+  }
+
+  packageJSON.husky = {
+    hooks: {
+      'pre-commit': 'lint-staged'
+    }
   }
 
   // FIXME: We can't use type=module now, because metro does not support ESM

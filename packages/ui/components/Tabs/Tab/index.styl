@@ -1,0 +1,31 @@
+_borderColor = $UI.colors.primary
+_borderSize = 2px
+
+.root
+  padding-left 2u
+  padding-right @padding-left
+  height 4u
+  flex-direction row
+  align-items center
+  flex-grow 1
+  min-width 12u
+  justify-content center
+
+  &.reverse
+    flex-direction row-reverse
+
+.border
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  height _borderSize
+
+.icon
+  &.left
+    margin-right 1u
+  &.right
+    margin-left 1u
+
+:export
+  colors: $UI.colors

@@ -32,6 +32,24 @@ return (
 )
 ```
 
+## Async кнопка
+
+```jsx example
+async function onPress() {
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, 5000)
+  })
+}
+
+return (
+  <Button onPress={onPress}>
+    Async button
+  </Button>
+)
+```
+
 ## Разновидности
 
 Свойство `variant` отвечает за внешнее отображение кнопки (влияет на цвет иконки и текста кнопки). Значение по умолчанию - `outlined`.

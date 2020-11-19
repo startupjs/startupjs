@@ -1,7 +1,10 @@
 // Hack to restore scroll position of the mdx doc's ScrollView
 // when doing hot reloading.
 import { useRef, useLayoutEffect, useCallback } from 'react'
+import { Platform } from 'react-native'
+import { $root } from 'startupjs'
 
+const isWeb = Platform.OS === 'web'
 const cache = {}
 
 export default function useRestoreScroll (Component, ...inputs) {
@@ -13,9 +16,10 @@ export default function useRestoreScroll (Component, ...inputs) {
     componentKey = 'default'
   }
 
-  const offsetY = getOffsetY(componentKey, JSON.stringify(inputs))
-
   useLayoutEffect(() => {
+    const offsetY = getHashOffsetY() ||
+      getCacheOffsetY(componentKey, JSON.stringify(inputs))
+    if (offsetY == null) return
     view.current.scrollTo({ x: 0, y: offsetY, animated: false })
   }, inputs)
 
@@ -37,15 +41,23 @@ export default function useRestoreScroll (Component, ...inputs) {
   }
 }
 
-function getOffsetY (componentKey, inputs) {
-  if (!cache[componentKey]) cache[componentKey] = {}
+function getCacheOffsetY (componentKey, inputs) {
   const state = cache[componentKey]
+  // don't jump to top of the page on initial render if you are scrolled
+  // or if you don't scroll page yet
+  if (!state) return
   if (inputs !== state.prevInputs) {
     state.prevOffsetY = 0
     state.prevInputs = inputs
   }
 
   return state.prevOffsetY
+}
+
+function getHashOffsetY () {
+  if (!isWeb) return
+  const hash = decodeURI($root.get('$render.hash').replace(/^#/, ''))
+  return $root.get(`_session.anchors.${hash}`)
 }
 
 function hashCode (source) {

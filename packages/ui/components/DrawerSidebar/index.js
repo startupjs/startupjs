@@ -1,17 +1,16 @@
 import React, { useRef } from 'react'
-import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'startupjs'
-import PropTypes from 'prop-types'
 import { ScrollView, StyleSheet } from 'react-native'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
+import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
 
 function DrawerSidebar ({
-  style,
+  style = [],
   forceClosed,
   defaultOpen,
-  backgroundColor,
   children,
   path,
   $open,
@@ -24,19 +23,13 @@ function DrawerSidebar ({
     console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
-  if (/^#|rgb/.test(backgroundColor)) {
-    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
-  }
-
   const componentId = useComponentId()
   if (!$open) {
     [, $open] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
   }
 
-  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: colors[backgroundColor] || backgroundColor },
-    style
-  ]))
+  let backgroundColor
+  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange
@@ -100,7 +93,7 @@ DrawerSidebar.propTypes = {
   $open: PropTypes.object,
   defaultOpen: PropTypes.bool,
   forceClosed: PropTypes.bool,
-  position: PropTypes.oneOf(Object.values(DrawerLayout.positions)),
+  position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func
 }

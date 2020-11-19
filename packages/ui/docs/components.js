@@ -53,8 +53,12 @@ import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
 import TableEn from '../components/table/Table/Table.en.mdx'
 import TableRu from '../components/table/Table/Table.ru.mdx'
+import TabsEn from '../components/Tabs/Tabs.en.mdx'
+import TabsRu from '../components/Tabs/Tabs.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
 import TagRu from '../components/Tag/Tag.ru.mdx'
+import TooltipRu from '../components/Tooltip/Tooltip.ru.mdx'
+import TooltipEn from '../components/Tooltip/Tooltip.en.mdx'
 import UserEn from '../components/User/User.en.mdx'
 import UserRu from '../components/User/User.ru.mdx'
 
@@ -279,12 +283,28 @@ export default {
         ru: TableRu
       }
     },
+    Tabs: {
+      type: 'mdx',
+      title: 'Tabs',
+      component: {
+        en: TabsEn,
+        ru: TabsRu
+      }
+    },
     Tag: {
       type: 'mdx',
       title: 'Tag',
       component: {
         en: TagEn,
         ru: TagRu
+      }
+    },
+    Tooltip: {
+      type: 'mdx',
+      title: 'Tooltip',
+      component: {
+        en: TooltipEn,
+        ru: TooltipRu
       }
     },
     User: {
