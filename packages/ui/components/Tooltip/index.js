@@ -8,7 +8,6 @@ import STYLES from './index.styl'
 
 function Tooltip ({
   children,
-  style,
   tooltipStyle,
   position,
   attachment,

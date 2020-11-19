@@ -23,7 +23,6 @@ export default function TooltipCaption ({
 
   return pug`
     View(
-      style=style
       onMouseOver=onMouseOver
       onMouseOut=onMouseOut
     )= children

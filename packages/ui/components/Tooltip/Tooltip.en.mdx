@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Text, View } from 'react-native'
-import Tooltip from '../Tooltip'
+import Alert from '../Alert'
 import Button from '../Button'
 import Row from '../Row'
+import Tooltip from './index'
 
 # Tooltip
 
@@ -10,38 +11,142 @@ import Row from '../Row'
 import { Tooltip } from '@startupjs/ui'
 ```
 
-## Example
+## Usage
+
 - content: hidden part, can be string or jsx
 - children: visible part
+
+## Example with Text
+
 ```jsx example
 return (
   <Row>
-    <View style={{ width: 100, marginRight: 8 }}>
+    <View
+      style={{
+        width: 100,
+        marginRight: 8
+      }}
+    >
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
-        <Text style={{ backgroundColor: '#dddddd', padding: 12,
-        borderRadius: 4 }}>Caption...</Text>
+        <Text
+          style={{
+            backgroundColor: '#dddddd',
+            padding: 12,
+            borderRadius: 4
+          }}>
+            Текст...
+          </Text>
       </Tooltip>
     </View>
-
-    <View style={{ width: 100, marginRight: 8 }}>
+    <View
+      style={{
+        width: 100,
+        marginRight: 8
+      }}
+    >
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
-        <Text style={{ backgroundColor: '#dddddd', padding: 12,
-        borderRadius: 4 }}>Caption...</Text>
+        <Text
+          style={{
+            backgroundColor: '#dddddd',
+            padding: 12,
+            borderRadius: 4
+          }}>
+            Текст...
+          </Text>
       </Tooltip>
     </View>
-
-    <View style={{ width: 100, marginRight: 8 }}>
+    <View
+      style={{
+        width: 100,
+        marginRight: 8
+      }}
+    >
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
-        <Text style={{ backgroundColor: '#dddddd', padding: 12,
-        borderRadius: 4 }}>Caption...</Text>
+        <Text
+          style={{
+            backgroundColor: '#dddddd',
+            padding: 12,
+            borderRadius: 4
+          }}>
+            Текст...
+          </Text>
       </Tooltip>
     </View>
   </Row>
+)
+```
+
+## Tooltip with pressable elements
+
+If you need to wrap a pressable element in a tooltip in a mobile app, the `onPress` property must be in the top component of children. Note that the tooltip will overwrite the `onLongPress` and `onPresOut` properties.
+
+- wrong
+
+```jsx
+<Tooltip
+  content='Some content'
+>
+  <View>
+    <Button
+      onPress={onPressHandler}
+    >
+      Button...
+    </Button>
+  </View>
+</Tooltip>
+```
+
+- right
+
+```jsx
+<Tooltip
+  content='Some content'
+>
+  <Button
+    onPress={onPressHandler}
+  >
+    Button...
+  </Button>
+</Tooltip>
+```
+
+## Example with Button
+
+```jsx example
+const [pressed, setPressed] = useState('')
+
+return (
+  <View>
+    <View 
+      style={{
+        width: 100,
+        marginBottom: 16
+      }}
+    >
+      <Tooltip
+        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+      >
+        <Button
+          onPress={() => setPressed('onPress')}
+          onLongPress={() => setPressed('onLongPress')}
+        >
+          Button...
+        </Button>
+      </Tooltip>
+    </View>
+    {!!pressed && (
+      <Alert
+        variant='success'
+        label={`${pressed} event`}
+        onClose={() => setPressed('')}
+      />
+    )}
+  </View>
 )
 ```
