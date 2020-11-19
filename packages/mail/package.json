@@ -1,0 +1,14 @@
+{
+  "name": "@startupjs/mail",
+  "version": "0.0.1",
+  "description": "Library to send email messages in app",
+  "main": "client/index.js",
+  "dependencies": {
+    "inline-css": "^2.6.3",
+    "mailgun-js": "^0.22.0"
+  },
+  "peerDependencies": {
+    "axios": ">= 0.20.0",
+    "startupjs": ">= 0.23.23"
+  }
+}
