@@ -11,36 +11,35 @@ function NumberInput ({
   style,
   wrapperStyle,
   inputStyle,
-  className,
-  label,
-  placeholder,
-  value,
-  precision,
-  step,
-  min,
-  max,
-  size,
-  layout,
   buttons,
   disabled,
+  label,
+  layout,
+  max,
+  min,
+  placeholder,
   readonly,
+  size,
+  step,
+  value,
   onBlur,
-  onFocus,
-  onChangeNumber,
   onChange,
-  renderWrapper // @private - used by Select
+  onChangeNumber,
+  onFocus
 }) {
   const _layout = useLayout(layout, label)
   const pure = _layout === 'pure'
   const [focused, setFocused] = useState(false)
 
-  function _onBlur () {
+  function _onBlur (...args) {
     setFocused(false)
+    typeof onBlur === 'function' && onBlur(...args)
   }
 
-  function _onFocus () {
+  function _onFocus (...args) {
     if (disabled) return
     setFocused(true)
+    typeof onFocus === 'function' && onFocus(...args)
   }
 
   function renderInput (standalone) {
@@ -56,28 +55,19 @@ function NumberInput ({
       Input(
         style=standalone ? [style, wrapperStyle] : wrapperStyle
         inputStyle=inputStyle
-        className=standalone ? className : undefined
-        value=value
-        precision=precision
-        step=step
-        min=min
-        max=max
-        placeholder=placeholder
         buttons=buttons
         disabled=disabled
         focused=focused
-        renderWrapper=renderWrapper
+        max=max
+        min=min
+        placeholder=placeholder
         size=size
-        onChangeNumber=onChangeNumber
+        step=step
+        value=value
+        onBlur=_onBlur
         onChange=onChange
-        onBlur=(...args) => {
-          _onBlur()
-          onBlur && onBlur(...args)
-        }
-        onFocus=(...args) => {
-          _onFocus()
-          onFocus && onFocus(...args)
-        }
+        onChangeNumber=onChangeNumber
+        onFocus=_onFocus
       )
     `
   }
@@ -95,36 +85,34 @@ function NumberInput ({
 }
 
 NumberInput.defaultProps = {
-  size: 'm',
-  max: Number.MAX_SAFE_INTEGER,
-  min: Number.MIN_SAFE_INTEGER,
-  precision: 0,
-  step: 1,
   buttons: 'vertical',
   disabled: false,
-  readonly: false
+  max: Number.MAX_SAFE_INTEGER,
+  min: Number.MIN_SAFE_INTEGER,
+  readonly: false,
+  size: 'm',
+  step: 1
 }
 
 NumberInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  value: PropTypes.number,
-  step: PropTypes.number,
-  precision: PropTypes.number,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  size: PropTypes.oneOf(['l', 'm', 's']),
-  layout: PropTypes.oneOf(['pure', 'rows']),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   buttons: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
   disabled: PropTypes.bool,
+  label: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
+  max: PropTypes.number,
+  min: PropTypes.number,
+  placeholder: PropTypes.string,
   readonly: PropTypes.bool,
+  size: PropTypes.oneOf(['l', 'm', 's']),
+  step: PropTypes.number,
+  value: PropTypes.number,
   onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
+  onChange: PropTypes.func,
   onChangeNumber: PropTypes.func,
-  onChange: PropTypes.func
+  onFocus: PropTypes.func
 }
 
 export default observer(NumberInput)

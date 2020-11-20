@@ -30,30 +30,23 @@ const IOS_LH_CORRECTION = {
 export default observer(function Input ({
   style,
   inputStyle,
-  className,
-  placeholder,
-  value,
-  precision,
-  step,
-  min,
-  max,
-  size,
   buttons,
-  focused,
   disabled,
-  icon,
-  iconStyle,
+  focused,
+  max,
+  min,
+  placeholder,
+  size,
+  step,
+  value,
   onBlur,
-  onFocus,
-  onChangeNumber,
   onChange,
-  onIconPress,
-  renderWrapper,
-  ...props
+  onChangeNumber,
+  onFocus
 }) {
   const inputRef = useRef()
   const [stringValue, setStringValue] = useState()
-  const [active, setActive] = useState()
+  const [active, setActive] = useState('')
 
   useEffect(() => {
     if (
@@ -67,30 +60,31 @@ export default observer(function Input ({
     }
   }, [value])
 
-  const coefficient = useMemo(() => Math.pow(10, precision), [precision])
+  const validStep = useMemo(() => {
+    if (step === 1) return step
+    if (/^0\.(\d0*)?1$/.test(String(step))) return step
+    console.error(`[ui -> NumberInput] Wrong step provided: ${step}. Step 1 is used instead`)
+    return 1
+  }, [step])
+
+  const stepCount = useMemo(() => validStep === 1 ? 0 : String(validStep).length - 2, [validStep])
+
+  const coefficient = useMemo(() => Math.pow(10, stepCount), [stepCount])
 
   const validMax = useMemo(() => {
-    if (max * coefficient >= Number.MAX_SAFE_INTEGER) return max / coefficient
+    if (max * coefficient * 10 >= Number.MAX_SAFE_INTEGER) return max / coefficient / 10
     return max
   }, [max, coefficient])
 
   const validMin = useMemo(() => {
-    if (min * coefficient <= Number.MIN_SAFE_INTEGER) return min / coefficient
+    if (min * coefficient * 10 <= Number.MIN_SAFE_INTEGER) return min / coefficient / 10
     return min
   }, [min, coefficient])
 
-  const validStep = useMemo(() => {
-    const precisionValue = 1 / coefficient
-    if (!step || step < precisionValue || step > validMax - validMin) {
-      return precisionValue
-    }
-    return step
-  }, [step, coefficient])
-
   const isValidValue = value => {
     let regexp = /^-?\d*?$/
-    if (precision > 0) {
-      regexp = new RegExp('^-?\\d*(\\.(\\d{0,' + precision + '})?)?$')
+    if (stepCount > 0) {
+      regexp = new RegExp('^-?\\d*(\\.(\\d{0,' + stepCount + '})?)?$')
     }
     return regexp.test(value)
   }
@@ -112,11 +106,11 @@ export default observer(function Input ({
     const newValue = getValidValue(value)
     if (newValue !== stringValue) {
       setStringValue(newValue)
-      onChangeNumber && onChangeNumber(toFinite(newValue))
+      typeof onChangeNumber === 'function' && onChangeNumber(toFinite(newValue))
     }
   }
 
-  const onChangeHandler = event => {
+  const _onChange = event => {
     let newValue = ''
     if (IS_WEB) {
       newValue = getValidValue(event.target.value)
@@ -132,24 +126,18 @@ export default observer(function Input ({
 
   const increaseValue = () => {
     const currentValue = stringValue || 0
-    const num = (currentValue * coefficient + validStep * coefficient).toFixed(precision) / coefficient
+    const num = ((currentValue * coefficient + validStep * coefficient) / coefficient).toFixed(stepCount)
     const validNum = Math.min(num, validMax)
     setStringValue(validNum.toString())
-    onChangeNumber && onChangeNumber(validNum)
+    typeof onChangeNumber === 'function' && onChangeNumber(validNum)
   }
 
   const decreaseValue = () => {
     const currentValue = stringValue || 0
-    const num = (currentValue * coefficient - validStep * coefficient).toFixed(precision) / coefficient
+    const num = ((currentValue * coefficient - validStep * coefficient) / coefficient).toFixed(stepCount)
     const validNum = Math.max(num, validMin)
     setStringValue(validNum.toString())
-    onChangeNumber && onChangeNumber(validNum)
-  }
-
-  if (!renderWrapper) {
-    renderWrapper = ({ style }, children) => pug`
-      Div(style=style)= children
-    `
+    typeof onChangeNumber === 'function' && onChangeNumber(validNum)
   }
 
   if (IS_WEB) {
@@ -185,62 +173,57 @@ export default observer(function Input ({
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
-  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
+  if (IS_IOS) inputStyle[0].lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
-  if (onChange) inputExtraProps.onChange = onChangeHandler
+  if (typeof onChange === 'function') inputExtraProps.onChange = _onChange
 
   const inputStyleName = [size, buttons, { disabled, focused }]
 
-  return renderWrapper(
-    {
-      style: [{ height: fullHeight }, style]
-    },
-    pug`
-      React.Fragment
-        TextInput.input-input(
-          ref=inputRef
-          style=inputStyle
+  return pug`
+    Div(style=[{ height: fullHeight }, style])
+      TextInput.input-input(
+        ref=inputRef
+        style=inputStyle
+        styleName=[inputStyleName]
+        editable=!disabled
+        keyboardType='numeric'
+        placeholder=placeholder
+        placeholderTextColor=DARK_LIGHTER_COLOR
+        selectionColor=caretColor
+        value=stringValue ? stringValue : ''
+        onBlur=onBlur
+        onChangeText=onChangeText
+        onFocus=onFocus
+        ...inputExtraProps
+      )
+      if buttons !== 'none'
+        Button.input-button.up(
           styleName=[inputStyleName]
-          selectionColor=caretColor
-          placeholder=placeholder
-          placeholderTextColor=DARK_LIGHTER_COLOR
-          value=stringValue ? stringValue : ''
-          editable=!disabled
-          keyboardType='numeric'
-          onBlur=onBlur
-          onFocus=onFocus
-          onChangeText=onChangeText
-          ...inputExtraProps
+          variant='outlined'
+          color= active === 'up' ? 'primary' : 'darkLight'
+          size=size
+          icon= buttons === 'horizontal' ? faPlus : faAngleUp
+          disabled=disabled
+          onPress=increaseValue
+          onPressIn= () => setActive('up')
+          onPressOut= () => setActive('')
+          onMouseEnter= () => setActive('up')
+          onMouseLeave= () => setActive('')
         )
-        if buttons !== 'none'
-          Button.input-button.up(
-            styleName=[inputStyleName]
-            variant='outlined'
-            color= active === 'up' ? 'primary' : 'darkLight'
-            size=size
-            icon= buttons === 'horizontal' ? faPlus : faAngleUp
-            disabled=disabled
-            onPress=increaseValue
-            onPressIn= () => setActive('up')
-            onPressOut= () => setActive()
-            onMouseEnter= () => setActive('up')
-            onMouseLeave= () => setActive()
-          )
-          Button.input-button.down(
-            styleName=[inputStyleName]
-            variant='outlined'
-            color= active === 'down' ? 'primary' : 'darkLight'
-            size=size
-            icon= buttons === 'horizontal' ? faMinus : faAngleDown
-            disabled=disabled
-            onPress=decreaseValue
-            onPressIn= () => setActive('down')
-            onPressOut= () => setActive()
-            onMouseEnter= () => setActive('down')
-            onMouseLeave= () => setActive()
-          )
+        Button.input-button.down(
+          styleName=[inputStyleName]
+          variant='outlined'
+          color= active === 'down' ? 'primary' : 'darkLight'
+          size=size
+          icon= buttons === 'horizontal' ? faMinus : faAngleDown
+          disabled=disabled
+          onPress=decreaseValue
+          onPressIn= () => setActive('down')
+          onPressOut= () => setActive('')
+          onMouseEnter= () => setActive('down')
+          onMouseLeave= () => setActive('')
+        )
   `
-  )
 })

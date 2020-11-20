@@ -38,31 +38,30 @@ return (
     <NumberInput
       disabled
       label='Disabled NumberInput example'
-      value={123}
+      value={value1}
     />
     <Br />
     <NumberInput
       readonly
       label='Readonly NumberInput with label example'
-      value={123}
+      value={value1}
     />
   </Div>
 )
 ```
 
-## Precision and step
+## Step
 
-The precision specifies how many decimal places can be entered, set by the number of characters using the 'precision' property (0 by default). The step indicates the value to change the number with the buttons, set by the number using the 'step' property (1 by default).
+The step specifies how many decimal places can be entered, set by the numbers 1, 0.1, 0.01, etc. in the `step` property (1 by default).
 
 ```jsx example
 const [value, setValue] = useState()
 return (
   <Div>
     <NumberInput
-      label='Precision and step example'
+      label='Step example'
       value={value}
-      precision={3}
-      step={0.02}
+      step={0.001}
       onChangeNumber={setValue}
     />
   </Div>
@@ -71,7 +70,7 @@ return (
 
 ## Minimum and maximum value
 
-The minimum and maximum values are set by the 'min' and 'max' properties
+The minimum and maximum values are set by the `min` and `max` properties
 
 ```jsx example
 const [value, setValue] = useState()
@@ -90,7 +89,7 @@ return (
 
 ## Buttons
 
-Buttons allow user to change the number at the specified step. The position of the buttons can be changed by passing the 'buttons' property with the value 'vertical' or 'horizontal' ('vertical' by default) to the component or hidden by passing the 'buttons' property with the value 'none' to the component.
+Buttons allow user to change the number at the specified step. The position of the buttons can be changed by passing the `buttons` property with the value `'vertical'` or `'horizontal'` (`'vertical'` by default) to the component or hidden by passing the `buttons` property with the value `'none'` to the component.
 
 ```jsx example
 const [valueVertical, setValueVertical] = useState()
@@ -124,7 +123,7 @@ return (
 
 ## Sizes
 
-Size can be modified using the `size` prop. Default size is `m`.
+Size can be modified using the `size` prop. Default size is `'m'`.
 
 ```jsx example
 const [valueL, setValueL] = useState()
@@ -158,10 +157,10 @@ return (
 
 ## Layout
 
-There are two layouts. The default behavior is 'rows' if 'label' property provided and 'pure' if not. To change the layout pass the property 'layout'.
+There are two layouts. The default behavior is `'rows'` if `label` property provided and `'pure'` if not. To change the layout pass the property `layout`.
 
-- 'pure' displays text input without 'label'
-- 'rows' displays text input with 'label' and if 'label' not set it using placeholder instead
+- `'pure'` displays text input without `label`
+- `'rows'` displays text input with `label` and if `label` not set it using `placeholder` instead
 
 ```jsx example
 const [pureValue, setPureValue] = useState()
