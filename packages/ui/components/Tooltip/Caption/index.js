@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { Children } from 'react'
 import { TouchableOpacity } from 'react-native'
 
 export default function TooltipCaption ({
   children,
-  style,
   onChange
 }) {
   function onLongPress () {
@@ -14,25 +13,31 @@ export default function TooltipCaption ({
     onChange(false)
   }
 
-  function renderChildren () {
-    const mappedChildren = React.Children.toArray(children).map(child => {
-      if (child.props.onPress || child.props.onClick || child.props.onLongPress) {
-        return React.cloneElement(child, {
-          onLongPress,
-          onPressOut
-        })
-      }
-      return child
-    })
+  let isPressable = false
 
-    return mappedChildren
+  let _children = Children.toArray(children).map(child => {
+    if (child.props.onPress || child.props.onClick || child.props.onLongPress) {
+      isPressable = true
+      return React.cloneElement(child, {
+        onLongPress,
+        onPressOut
+      })
+    }
+    return child
+  })
+
+  if (_children.length !== 1) {
+    console.error('[ui -> Tooltip] You must specify a single child')
+    return null
   }
+
+  if (isPressable) return _children
 
   return pug`
     TouchableOpacity(
       activeOpacity=0.8
       onLongPress=onLongPress
       onPressOut=onPressOut
-    )= renderChildren()
+    )= _children
   `
 }
