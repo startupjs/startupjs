@@ -108,7 +108,7 @@ export default observer(function Input ({
     const newValue = getValidValue(value)
     if (newValue !== stringValue) {
       setStringValue(newValue)
-      typeof onChangeNumber === 'function' && onChangeNumber(toFinite(newValue))
+      onChangeNumber && onChangeNumber(toFinite(newValue))
     }
   }
 
@@ -131,7 +131,7 @@ export default observer(function Input ({
     const num = ((currentValue * coefficient + validStep * coefficient) / coefficient).toFixed(stepCount)
     const validNum = Math.min(num, validMax)
     setStringValue(validNum.toString())
-    typeof onChangeNumber === 'function' && onChangeNumber(validNum)
+    onChangeNumber && onChangeNumber(validNum)
   }
 
   const decreaseValue = () => {
@@ -139,7 +139,7 @@ export default observer(function Input ({
     const num = ((currentValue * coefficient - validStep * coefficient) / coefficient).toFixed(stepCount)
     const validNum = Math.max(num, validMin)
     setStringValue(validNum.toString())
-    typeof onChangeNumber === 'function' && onChangeNumber(validNum)
+    onChangeNumber && onChangeNumber(validNum)
   }
 
   if (IS_WEB) {
@@ -181,7 +181,7 @@ export default observer(function Input ({
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
-  if (typeof onChange === 'function') inputExtraProps.onChange = _onChange
+  if (onChange) inputExtraProps.onChange = _onChange
 
   const inputStyleName = [size, buttons, { disabled, focused }]
 

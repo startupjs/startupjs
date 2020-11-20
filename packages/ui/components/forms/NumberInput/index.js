@@ -32,13 +32,13 @@ function NumberInput ({
 
   function _onBlur (...args) {
     setFocused(false)
-    typeof onBlur === 'function' && onBlur(...args)
+    onBlur && onBlur(...args)
   }
 
   function _onFocus (...args) {
     if (disabled) return
     setFocused(true)
-    typeof onFocus === 'function' && onFocus(...args)
+    onFocus && onFocus(...args)
   }
 
   function renderInput () {
