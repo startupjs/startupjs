@@ -76,22 +76,14 @@ return (
 
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
-import {
-  IOS_CRITICAL_VERSION,
-  ANDROID_CRITICAL_VERSION,
-  WEB_CRITICAL_VERSION
-} from '@env'
+import CRITICAL_VERSION from '../criticalVersion.json'
 
 startupjsServer({
   // ...
 },
 (ee, options) => {
   initApp(ee, { 
-    criticalVersion: { 
-      ios: IOS_CRITICAL_VERSION,
-      android: ANDROID_CRITICAL_VERSION,
-      web: WEB_CRITICAL_VERSION
-    },
+    criticalVersion: CRITICAL_VERSION,
     criticalVersionMiddleware: (req, res, next) => {
       // Optional field. Set only if you want to override the default criticalVersionMiddleware.
       next()
