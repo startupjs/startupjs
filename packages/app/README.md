@@ -71,6 +71,21 @@ return (
 
 ### server
 
+Create `criticalVersion.json` in the root of your project. This file will hold the critical version info of your application.
+
+```json
+{
+  "ios": 1,
+  "android": 1,
+  "web": 1,
+  "meta": {
+    "supportEmail": "admin@example.com",
+    "iosUpdateLink": "itms://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=0000000000&mt=8",
+    "androidUpdateLink": "market://details?id=company.example.app"
+  }
+}
+```
+
 ```js
 // server/index.js
 
