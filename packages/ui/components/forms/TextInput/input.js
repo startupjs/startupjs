@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
 import { TextInput, Platform } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
@@ -111,7 +111,7 @@ export default observer(function Input ({
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
-  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
+  if (IS_IOS) inputStyle[0].lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'

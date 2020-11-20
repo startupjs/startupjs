@@ -2,27 +2,43 @@
 import React from 'react'
 import { Picker } from 'react-native'
 import { observer } from 'startupjs'
-import Div from '../../../Div'
-import './index.styl'
 import {
   stringifyValue,
   getLabel,
   parseValue,
   NULL_OPTION
 } from './helpers'
+import Div from '../../../Div'
+import './index.styl'
 
 export default observer(function SelectWrapper ({
-  options = [],
-  value,
-  onChange,
-  disabled,
-  showEmptyValue,
+  children,
   style,
-  children
+  disabled,
+  options,
+  showEmptyValue,
+  value,
+  onChange
 }) {
   function onValueChange (value) {
     if (onChange) onChange(parseValue(value))
   }
+
+  const items = options.map((item, index) => pug`
+    Picker.Item(
+      key=index
+      value=stringifyValue(item)
+      label=getLabel(item)
+    )
+  `)
+
+  showEmptyValue && items.unshift(pug`
+    Picker.Item(
+      key=-1
+      value=stringifyValue(NULL_OPTION)
+      label=getLabel(NULL_OPTION)
+    )
+  `)
 
   return pug`
     Div.root(style=style)
@@ -31,18 +47,6 @@ export default observer(function SelectWrapper ({
         Picker.overlay(
           selectedValue=stringifyValue(value)
           onValueChange=onValueChange
-        )
-          if showEmptyValue
-            Picker.Item(
-              key=-1
-              value=stringifyValue(NULL_OPTION)
-              label=getLabel(NULL_OPTION)
-            )
-          each item, index in options
-            Picker.Item(
-              key=index
-              value=stringifyValue(item)
-              label=getLabel(item)
-            )
+        )= items
   `
 })
