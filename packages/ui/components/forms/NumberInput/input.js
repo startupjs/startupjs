@@ -1,12 +1,11 @@
 import React, { useState, useMemo, useLayoutEffect, useRef, useEffect } from 'react'
-import { TextInput, Platform } from 'react-native'
+import { Platform, StyleSheet, TextInput, View } from 'react-native'
 import { observer } from 'startupjs'
 import { faAngleDown, faAngleUp, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import toFinite from 'lodash/toFinite'
 import cloneDeep from 'lodash/cloneDeep'
 import { colorToRGBA } from '../../../helpers'
 import Button from '../../Button'
-import Div from '../../Div'
 import STYLES from './index.styl'
 
 const {
@@ -62,7 +61,8 @@ export default observer(function Input ({
 
   const validStep = useMemo(() => {
     if (step === 1) return step
-    if (/^0\.(\d0*)?1$/.test(String(step))) return step
+    const floatStepRegexp = /^0\.(\d0*)?1$/
+    if (floatStepRegexp.test(String(step))) return step
     console.error(`[ui -> NumberInput] Wrong step provided: ${step}. Step 1 is used instead`)
     return 1
   }, [step])
@@ -82,9 +82,11 @@ export default observer(function Input ({
   }, [min, coefficient])
 
   const isValidValue = value => {
-    let regexp = /^-?\d*?$/
+    const integerRegexp = /^-?\d*?$/
+    const floatRegexp = new RegExp('^-?\\d*(\\.(\\d{0,' + stepCount + '})?)?$')
+    let regexp = integerRegexp
     if (stepCount > 0) {
-      regexp = new RegExp('^-?\\d*(\\.(\\d{0,' + stepCount + '})?)?$')
+      regexp = floatRegexp
     }
     return regexp.test(value)
   }
@@ -162,18 +164,20 @@ export default observer(function Input ({
     return lH + 2 * (verticalGutter + borderWidth)
   }, [lH, verticalGutter])
 
-  inputStyle = [
+  style = StyleSheet.flatten([{ height: fullHeight }, style])
+
+  inputStyle = StyleSheet.flatten([
     {
       paddingTop: verticalGutter,
       paddingBottom: verticalGutter,
       lineHeight: lH
     },
     inputStyle
-  ]
+  ])
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
-  if (IS_IOS) inputStyle[0].lineHeight -= IOS_LH_CORRECTION[size]
+  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
@@ -182,7 +186,7 @@ export default observer(function Input ({
   const inputStyleName = [size, buttons, { disabled, focused }]
 
   return pug`
-    Div(style=[{ height: fullHeight }, style])
+    View(style=style)
       TextInput.input-input(
         ref=inputRef
         style=inputStyle

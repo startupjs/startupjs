@@ -9,7 +9,6 @@ import './index.styl'
 
 function NumberInput ({
   style,
-  wrapperStyle,
   inputStyle,
   buttons,
   disabled,
@@ -42,7 +41,7 @@ function NumberInput ({
     typeof onFocus === 'function' && onFocus(...args)
   }
 
-  function renderInput (standalone) {
+  function renderInput () {
     if (readonly) {
       return pug`
         Span.readonlySpan(
@@ -53,7 +52,7 @@ function NumberInput ({
 
     return pug`
       Input(
-        style=standalone ? [style, wrapperStyle] : wrapperStyle
+        style=style
         inputStyle=inputStyle
         buttons=buttons
         disabled=disabled
@@ -72,10 +71,10 @@ function NumberInput ({
     `
   }
 
-  if (pure) return renderInput(true)
+  if (pure) return renderInput()
 
   return pug`
-    View.root(style=style)
+    View(style=style)
       Span.label(
         styleName={focused}
         variant='description'
@@ -96,7 +95,6 @@ NumberInput.defaultProps = {
 
 NumberInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   buttons: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
   disabled: PropTypes.bool,
