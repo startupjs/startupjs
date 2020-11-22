@@ -1,5 +1,6 @@
 // ref: https://github.com/lawnstarter/react-native-picker-select/blob/master/src/index.js
 import React from 'react'
+// TODO: Change to @react-native-picker/picker when the issue is closed https://github.com/react-native-picker/picker/issues/175
 import { Picker } from 'react-native'
 import { observer } from 'startupjs'
 import {
