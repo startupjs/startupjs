@@ -1,15 +1,22 @@
 // HACK: In order for parse-prop-types to work properly, we have to use it
 //       before using the PropTypes.
 //       See: https://github.com/diegohaz/parse-prop-types/issues/4#issuecomment-403294065
-import parsePropTypes from 'parse-prop-types'
-import { BASE_URL } from '@env'
-import init from 'startupjs/init'
-import orm from '../model'
 import React from 'react'
+import { Platform } from 'react-native'
+import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
-import { Platform } from 'react-native'
-
+import parsePropTypes from 'parse-prop-types'
+import {
+  BASE_URL,
+  SUPPORT_EMAIL,
+  IOS_UPDATE_LINK,
+  ANDROID_UPDATE_LINK,
+  IOS_CRITICAL_VERSION,
+  ANDROID_CRITICAL_VERSION,
+  WEB_CRITICAL_VERSION
+} from '@env'
+import orm from '../model'
 // Frontend micro-services
 import * as main from '../main'
 import docs from '../docs'
@@ -24,7 +31,17 @@ init({ baseUrl: BASE_URL, orm })
 
 export default observer(() => {
   return pug`
-    App(apps={main, docs})
+    App(
+      apps={main, docs}
+      criticalVersion={
+        ios: IOS_CRITICAL_VERSION,
+        android: ANDROID_CRITICAL_VERSION,
+        web: WEB_CRITICAL_VERSION
+      }
+      supportEmail=SUPPORT_EMAIL
+      androidUpdateLink=ANDROID_UPDATE_LINK
+      iosUpdateLink=IOS_UPDATE_LINK
+    )
   `
 })
 

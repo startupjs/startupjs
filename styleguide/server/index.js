@@ -1,9 +1,10 @@
 import init from 'startupjs/init/server'
-import orm from '../model'
 import startupjsServer from 'startupjs/server'
-import getMainRoutes from '../main/routes'
-import getDocsRoutes from '@startupjs/docs/routes'
 import { initApp } from 'startupjs/app/server'
+import getDocsRoutes from '@startupjs/docs/routes'
+import { CRITICAL_VERSION } from '../config.json'
+import orm from '../model'
+import getMainRoutes from '../main/routes'
 
 // Init startupjs ORM.
 init({ orm })
@@ -16,7 +17,14 @@ startupjsServer({
     ...getDocsRoutes()
   ]
 }, (ee, options) => {
-  initApp(ee)
+  ee.on('backend', async backend => {
+    initApp(backend, CRITICAL_VERSION)
+  })
+  ee.on('routes', expressApp => {
+    expressApp.get('/api/serverSession', function (req, res) {
+      return res.json(req.model.get('_session'))
+    })
+  })
 })
 
 function getHead (appName) {

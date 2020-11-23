@@ -5,5 +5,10 @@
   "BASE_URL": "http://localhost:3000",
   "REDIS_URL": "redis://localhost:6379/1",
   "MONGO_URL": "mongodb://localhost:27017/startupjs-ui",
-  "COPY_TO_ENV": ["MONGO_URL"]
+  "COPY_TO_ENV": ["MONGO_URL"],
+  "CRITICAL_VERSION": {
+    "ios": 1,
+    "android": 1,
+    "web": 1
+  }
 }
