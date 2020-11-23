@@ -3,13 +3,13 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Button from '../Button'
 
-function Tag (props) {
+function Tag ({ size, ...props }) {
   return pug`
     //- button is clickable by default, override this behavior
     Button(
       onPress=null
+      size=size
       ...props
-      size='xs'
     )
   `
 }
@@ -18,13 +18,15 @@ Tag.defaultProps = {
   ...Button.defaultProps,
   color: 'primary',
   variant: 'flat',
-  shape: 'circle'
+  shape: 'circle',
+  size: 'xs'
 }
 
 Tag.propTypes = {
   ...Button.propTypes,
   variant: PropTypes.oneOf(['flat', 'outlined']),
-  shape: PropTypes.oneOf(['circle', 'rounded'])
+  shape: PropTypes.oneOf(['circle', 'rounded']),
+  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])
 }
 
 export default observer(Tag)
