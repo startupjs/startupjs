@@ -1,5 +1,5 @@
-export default async function initApp (backend, CRITICAL_VERSION) {
-  if (!CRITICAL_VERSION) return
+export default async function initApp (backend, criticalVersion) {
+  if (!criticalVersion) return
   const model = backend.createModel({ fetchOnly: true })
   const $version = model.at('service.version')
   await $version.subscribe()
@@ -8,13 +8,12 @@ export default async function initApp (backend, CRITICAL_VERSION) {
   if (!version) {
     await model.addAsync('service', {
       id: 'version',
-      criticalVersion: CRITICAL_VERSION
+      criticalVersion
     })
   } else {
-    await $version.setDiffDeep('criticalVersion', { ...CRITICAL_VERSION })
+    await $version.setDiffDeep('criticalVersion', { ...criticalVersion })
   }
 
-  backend.CRITICAL_VERSION = CRITICAL_VERSION
-  console.log('Critical version:', JSON.stringify(CRITICAL_VERSION, null, 2))
+  console.log('Critical version:', JSON.stringify(criticalVersion, null, 2))
   model.close()
 }
