@@ -5,7 +5,6 @@ import Button from '../Button'
 
 function Tag (props) {
   return pug`
-    //- button is clickable by default, override this behavior
     Button(
       ...props
       size='xs'
