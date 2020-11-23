@@ -5,12 +5,14 @@ export default function TooltipCaption ({
   children,
   onChange
 }) {
-  function onLongPress () {
+  function _onLongPress (cb) {
     onChange(true)
+    cb && cb()
   }
 
-  function onPressOut () {
+  function _onPressOut (cb) {
     onChange(false)
+    cb && cb()
   }
 
   let isPressable = false
@@ -19,8 +21,8 @@ export default function TooltipCaption ({
     if (child.props.onPress || child.props.onClick || child.props.onLongPress) {
       isPressable = true
       return React.cloneElement(child, {
-        onLongPress,
-        onPressOut
+        onLongPress: () => _onLongPress(child.props.onLongPress),
+        onPressOut: () => _onPressOut(child.props.onPressOut)
       })
     }
     return child
@@ -36,8 +38,8 @@ export default function TooltipCaption ({
   return pug`
     TouchableOpacity(
       activeOpacity=0.8
-      onLongPress=onLongPress
-      onPressOut=onPressOut
+      onLongPress= () => _onLongPress()
+      onPressOut= () => _onPressOut()
     )= _children
   `
 }
