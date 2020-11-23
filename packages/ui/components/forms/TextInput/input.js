@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
 import { TextInput, Platform } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
