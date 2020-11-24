@@ -1,0 +1,16 @@
+diff --git a/node_modules/@react-native-picker/picker/js/PickerAndroid.android.js b/node_modules/@react-native-picker/picker/js/PickerAndroid.android.js
+index 189780a..b733b47 100644
+--- a/node_modules/@react-native-picker/picker/js/PickerAndroid.android.js
++++ b/node_modules/@react-native-picker/picker/js/PickerAndroid.android.js
+@@ -67,10 +67,7 @@ class PickerAndroid extends React.Component<
+     props: PickerAndroidProps,
+   ): PickerAndroidState {
+     let selectedIndex = 0;
+-    const items = React.Children.map(props.children, (child, index) => {
+-      if (child === null) {
+-        return;
+-      }
++    const items = React.Children.toArray(props.children).map((child, index) => {
+       if (child.props.value === props.selectedValue) {
+         selectedIndex = index;
+       }
