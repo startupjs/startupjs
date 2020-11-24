@@ -50,7 +50,7 @@ startupjsServer({
         clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
         tentantId: conf.get('AZUREAD_TENTANT_ID'),
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
-        allowHttpForRedirectUrl: process.env.STAGE !== 'production'
+        allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
       })
     ]
   })
