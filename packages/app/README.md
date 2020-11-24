@@ -88,19 +88,14 @@ Add critical version info to your `config.json` file in the root of your project
 
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
-import CRITICAL_VERSION from '../criticalVersion.json'
+import { CRITICAL_VERSION } from 'nconf'
 
 startupjsServer({
   // ...
 },
 (ee, options) => {
   ee.on('backend', async backend => {
-    initApp(backend, CRITICAL_VERSION)
-  })
-  ee.on('routes', expressApp => {
-    expressApp.get('/api/serverSession', function (req, res) {
-      return res.json(req.model.get('_session'))
-    })
+    initApp(ee, backend, CRITICAL_VERSION)
   })
 })
 ```

@@ -4,13 +4,13 @@ import { useDoc } from 'startupjs'
 const OS = Platform.OS
 
 export default function useNeedUpdate (criticalVersion) {
-  const [version] = useDoc('service', 'version')
-  const newOsVersion = version && version.criticalVersion && version.criticalVersion[OS]
+  const [, $version] = useDoc('service', 'version')
+  const newOsVersion = $version.get(`criticalVersion.${OS}`)
   const currentOsVersion = criticalVersion && criticalVersion[OS]
 
   return (
-    currentOsVersion &&
-    newOsVersion &&
+    currentOsVersion + 1 &&
+    newOsVersion + 1 &&
     currentOsVersion < newOsVersion
   )
 }

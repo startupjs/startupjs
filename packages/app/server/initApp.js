@@ -1,4 +1,4 @@
-export default async function initApp (backend, criticalVersion) {
+export default async function initApp (ee, backend, criticalVersion) {
   if (!criticalVersion) return
   const model = backend.createModel({ fetchOnly: true })
   const $version = model.at('service.version')
@@ -16,4 +16,10 @@ export default async function initApp (backend, criticalVersion) {
 
   console.log('Critical version:', JSON.stringify(criticalVersion, null, 2))
   model.close()
+
+  ee.on('routes', expressApp => {
+    expressApp.get('/api/serverSession', function (req, res) {
+      return res.json(req.model.get('_session'))
+    })
+  })
 }

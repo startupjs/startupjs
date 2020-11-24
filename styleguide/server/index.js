@@ -2,7 +2,7 @@ import init from 'startupjs/init/server'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import getDocsRoutes from '@startupjs/docs/routes'
-import { CRITICAL_VERSION } from '../config.json'
+import { CRITICAL_VERSION } from 'nconf'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
 
@@ -18,12 +18,7 @@ startupjsServer({
   ]
 }, (ee, options) => {
   ee.on('backend', async backend => {
-    initApp(backend, CRITICAL_VERSION)
-  })
-  ee.on('routes', expressApp => {
-    expressApp.get('/api/serverSession', function (req, res) {
-      return res.json(req.model.get('_session'))
-    })
+    initApp(ee, backend, CRITICAL_VERSION)
   })
 })
 
