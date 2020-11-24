@@ -19,14 +19,14 @@ Tag.defaultProps = {
   color: 'primary',
   variant: 'flat',
   shape: 'circle',
-  size: 'xs'
+  size
 }
 
 Tag.propTypes = {
   ...Button.propTypes,
-  size: PropTypes.oneOf(['xs']),
   variant: PropTypes.oneOf(['flat', 'outlined']),
-  shape: PropTypes.oneOf(['circle', 'rounded'])
+  shape: PropTypes.oneOf(['circle', 'rounded']),
+  size: PropTypes.oneOf([size])
 }
 
 export default observer(Tag)
