@@ -88,15 +88,13 @@ Add critical version info to your `config.json` file in the root of your project
 
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
-import { CRITICAL_VERSION } from 'nconf'
+import { CRITICAL_VERSION } from '../config.json'
 
 startupjsServer({
   // ...
 },
 (ee, options) => {
-  ee.on('backend', async backend => {
-    initApp(ee, backend, CRITICAL_VERSION)
-  })
+  initApp(ee, CRITICAL_VERSION)
 })
 ```
 

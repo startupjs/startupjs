@@ -8,9 +8,5 @@ export default function useNeedUpdate (criticalVersion) {
   const newOsVersion = $version.get(`criticalVersion.${OS}`)
   const currentOsVersion = criticalVersion && criticalVersion[OS]
 
-  return (
-    currentOsVersion + 1 &&
-    newOsVersion + 1 &&
-    currentOsVersion < newOsVersion
-  )
+  return currentOsVersion < newOsVersion
 }

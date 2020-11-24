@@ -2,7 +2,7 @@ import init from 'startupjs/init/server'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import getDocsRoutes from '@startupjs/docs/routes'
-import { CRITICAL_VERSION } from 'nconf'
+import { CRITICAL_VERSION } from '../config'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
 
@@ -17,9 +17,7 @@ startupjsServer({
     ...getDocsRoutes()
   ]
 }, (ee, options) => {
-  ee.on('backend', async backend => {
-    initApp(ee, backend, CRITICAL_VERSION)
-  })
+  initApp(ee, CRITICAL_VERSION)
 })
 
 function getHead (appName) {
