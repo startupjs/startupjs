@@ -8,6 +8,8 @@ import RadioEn from '../components/forms/Radio/Radio.en.mdx'
 import RadioRu from '../components/forms/Radio/Radio.ru.mdx'
 import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
 import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
+import NumberInputEn from '../components/forms/NumberInput/NumberInput.en.mdx'
+import NumberInputRu from '../components/forms/NumberInput/NumberInput.ru.mdx'
 import SelectEn from '../components/forms/Select/Select.en.mdx'
 import SelectRu from '../components/forms/Select/Select.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
@@ -63,6 +65,14 @@ export default {
       component: {
         en: TextInputEn,
         ru: TextInputRu
+      }
+    },
+    NumberInput: {
+      type: 'mdx',
+      title: 'NumberInput',
+      component: {
+        en: NumberInputEn,
+        ru: NumberInputRu
       }
     },
     Select: {
