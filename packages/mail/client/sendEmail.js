@@ -13,6 +13,10 @@ import axios from 'axios'
  * @param {String} options.provider - name of provider would be used
  */
 
+//  domain, host ????
+
+//  to -> recipientIds (recipientMails ???)
+
 export default async function sendEmail (options = {}) {
   const res = await axios.post('/api/send-email', options)
   return res

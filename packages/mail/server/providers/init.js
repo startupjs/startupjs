@@ -1,17 +1,5 @@
-export let providers
-export let defaultProvider
-
-/*
-config:
-{
-  Mailgun: {
-    instance: require(...),
-    options: {
-      ...
-    }
-  }
-}
-*/
+let providers
+let defaultProvider
 
 export default function initProviders (options = {}) {
   const {
@@ -19,18 +7,31 @@ export default function initProviders (options = {}) {
     providers: providersConfig
   } = options
 
-  let _providers = {}
-  const providerNames = Object.keys(providersConfig)
-
-  // If no default provider passed then we take
+  // If no default provider passed we take
   // first provider from options as default
-  defaultProvider = _defaultProvider || providerNames[0]
+  defaultProvider = _defaultProvider || Object.keys(providersConfig)[0]
 
-  for (let providerName of providerNames) {
-    _providers[providerName] = new providersConfig[providerName].instance(
-      providersConfig[providerName].options
+  providers = providersConfig
+}
+
+export function getProvider (name) {
+  console.log(name, '<<<name')
+  console.log(defaultProvider, defaultProvider)
+  if (!providers) {
+    throw new Error(
+      '[@startupjs/mail] getProvider: initialize ' +
+      'library using initMail before getting provider'
     )
   }
 
-  providers = _providers
+  if (name && !providers[name]) {
+    throw new Error(
+      '[@startupjs/mail] getProvider: provider: ${name} not found. ' +
+      'Initialize it using initMail first.'
+    )
+  }
+
+  console.log(providers, providers[name])
+
+  return providers[name || defaultProvider]
 }

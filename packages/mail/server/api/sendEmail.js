@@ -42,10 +42,35 @@ async function _filterIgnoredEmails (emails, model) {
   return filteredEmails
 }
 
+async function _getSenderEmail (model, options = {}) {
+  const { senderId, domain, host } = options
+
+  if (senderId) {
+    const $auth = model.scope(`auths.${senderId}`)
+    await $auth.subscribe()
+    const senderEmail = $auth.get('email')
+    $auth.unsubscribe()
+    return senderEmail
+  }
+
+  return `noreplay@${conf.get('MAIL_DOMAIN') || domain || host}`
+}
+
+async function _getRecipientEmailsByIds (model, recipientIds) {
+  if (!recipientIds) return []
+  const $$auths = model.query('auths', { _id: { $in: recipientIds } })
+  await $$auths.subscribe()
+  const auths = $$auths.get()
+  const emails = auths.map(auth => auth.email)
+  $$auths.unsubscribe()
+  return emails
+}
+
 /**
  * @param
  * @param {Boolean} options.ignoreWhitelist - should whitelist be ignored in DEV stage
  * @param {String|String[]} options.to - comma separated string with recipient emails 'mail1@mail.com, mail2@mail.com' or array of emails
+ * @param {String[]} options.recipientIds - array of auths ids
  * @param {String} options.subject - mail subject
  * @param {String} options.text - mail text
  * @param {String} options.html - string with html
@@ -55,24 +80,26 @@ async function _filterIgnoredEmails (emails, model) {
  * @param {String} options.provider - name of provider would be used
  */
 
-// TODO: (model, options)
 async function sendEmail (model, options) {
   const mailClient = getProvider(options.provider)
 
   try {
-    const from = options.from || process.env.MAILGUN_FROM_ID || conf.get('MAILGUN_FROM_ID')
+    let recipientMails = await _getRecipientEmailsByIds(model, options.recipientIds)
+    let to = options.to || ''
 
-    let to = options.to
     if (!Array.isArray(to)) {
-      to = to.split(', ')
+      to = to.split(', ').filter(Boolean)
     }
+
+    to = new Set([...to, ...recipientMails])
 
     if (!isProduction && !options.ignoreWhitelist) {
       to = [...await _filterIgnoredEmails(to, model)]
     }
 
     let _options = {
-      from,
+      from: options.from,
+      senderEmail: await _getSenderEmail(model, options),
       to,
       subject: options.subject,
       text: options.text,
@@ -95,7 +122,7 @@ async function sendEmail (model, options) {
 
     return result.success === false ? result : { success: true, result }
   } catch (error) {
-    console.log('\n[@startupjs/mail] | Emailing to failed\nResult: ---->', error.message, error)
+    console.log('\n[@startupjs/mail] | Emailing failed\nResult: ---->', error.message, error)
     return { success: false, data: error.message }
   }
 }

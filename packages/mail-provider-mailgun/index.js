@@ -1,4 +1,5 @@
 const Mailgun = require('mailgun-js')
+const conf = require('nconf')
 
 class MailService {
   constructor (params) {
@@ -13,9 +14,24 @@ class MailService {
     return new Mailgun({ apiKey, domain })
   }
 
+  _prepareData (data) {
+    const from = data.from
+      || `<${data.senderEmail}>`
+      || process.env.MAILGUN_FROM_ID
+      || conf.get('MAILGUN_FROM_ID')
+
+    const _data = {
+      ...data,
+      from,
+    }
+
+    return _data
+  }
+
   send (data) {
     try {
-      return this.instance.messages().send(data)
+      const _data = this._prepareData(data)
+      return this.instance.messages().send(_data)
     } catch (error) {
       console.log('send email ERR:', error)
       return { error }

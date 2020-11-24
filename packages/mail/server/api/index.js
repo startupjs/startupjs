@@ -1,5 +1,6 @@
 import express from 'express'
 import sendEmail from './sendEmail'
+import conf from 'nconf'
 
 export default function initRoutes () {
   const router = express.Router()
