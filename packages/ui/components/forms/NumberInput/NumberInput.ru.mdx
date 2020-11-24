@@ -1,0 +1,198 @@
+import { useState } from 'react'
+import NumberInput from '../NumberInput'
+import Div from '../../Div'
+import Br from '../../Br'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
+
+# NumberInput
+
+NumberInput позволяет пользователю вводить или изменять число.
+
+```jsx
+import { NumberInput } from '@startupjs/ui'
+```
+
+## Пример
+
+```jsx example
+const [value, setValue] = useState()
+const [value1, setValue1] = useState(10)
+return (
+  <Div>
+    <NumberInput
+      label='NumberInput example'
+      placeholder='placeholder'
+      value={value}
+      onChangeNumber={setValue}
+      onFocus={(e) => console.log('focused', e)}
+      onBlur={(e) => console.log('blurred', e)}
+    />
+    <Br />
+    <NumberInput
+      label='NumberInput with start value example'
+      value={value1}
+      onChangeNumber={setValue1}
+    />
+    <Br />
+    <NumberInput
+      disabled
+      label='Disabled NumberInput example'
+      value={value1}
+    />
+    <Br />
+    <NumberInput
+      readonly
+      label='Readonly NumberInput with label example'
+      value={value1}
+    />
+  </Div>
+)
+```
+
+## Шаг
+
+Шаг указывает сколько знаков после запятой можно ввести, задается числами 1, 0.1, 0.01 и тд в свойстве `step` (1 по умолчанию).
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <Div>
+    <NumberInput
+      label='Step example'
+      value={value}
+      step={0.001}
+      onChangeNumber={setValue}
+    />
+  </Div>
+)
+```
+
+## Минимальное и максимальное значения
+
+Минимальное и максимальное значения задаются свойствами 'min' и 'max'
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <Div>
+    <NumberInput
+      label='Min and max example'
+      value={value}
+      min={-30}
+      max={20}
+      onChangeNumber={setValue}
+    />
+  </Div>
+)
+```
+
+## Кнопки
+
+Кнопки позволяют изменять число по заданному шагу. Положение кнопок можно изменить передав в компонент свойство `buttons` со значением 'vertical' или 'horizontal'  (`vertical` по умолчанию) или спрятать передав в компонент свойство `buttons` со значением 'none'.
+
+```jsx example
+const [valueVertical, setValueVertical] = useState()
+const [valueHorizontal, setValueHorizontal] = useState()
+const [valueNone, setValueNone] = useState()
+return (
+  <Div>
+    <NumberInput
+      label='Vertical buttons example'
+      buttons='vertical'
+      value={valueVertical}
+      onChangeNumber={setValueVertical}
+    />
+    <Br />
+    <NumberInput
+      label='Horizontal buttons example'
+      buttons='horizontal'
+      value={valueHorizontal}
+      onChangeNumber={setValueHorizontal}
+    />
+    <Br />
+    <NumberInput
+      label='Without buttons example'
+      buttons='none'
+      value={valueNone}
+      onChangeNumber={setValueNone}
+    />
+  </Div>
+)
+```
+
+## Размеры
+
+Размер может быть изменен с помощью свойства `size`. Размер по умолчанию - `m`
+
+```jsx example
+const [valueL, setValueL] = useState()
+const [valueM, setValueM] = useState()
+const [valueS, setValueS] = useState()
+return (
+  <Div>
+    <NumberInput
+      size='s'
+      label='Size s example'
+      value={valueS}
+      onChangeNumber={setValueS}
+    />
+    <Br />
+    <NumberInput
+      size='m'
+      label='Size m (default) example'
+      value={valueM}
+      onChangeNumber={setValueM}
+    />
+    <Br />
+    <NumberInput
+      size='l'
+      label='Size l example'
+      value={valueL}
+      onChangeNumber={setValueL}
+    />
+  </Div>
+)
+```
+
+## Компоновка
+
+Существует две компоновки. Поведение по умолчанию - `rows` если `label` свойство задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
+
+- `pure` отображает текстовое поле без `label`
+- `rows` отображает текстовое поле с `label` и если `label` не задан, то вместо нее используется `placeholder`
+
+```jsx example
+const [pureValue, setPureValue] = useState()
+const [rowValueWithLabel, setRowValueWithLabelValue] = useState()
+const [rowValueWithoutLabel, setRowValueWithoutLabel] = useState()
+return (
+  <Div>
+    <NumberInput
+      layout='pure'
+      label='Pure layout example'
+      placeholder='Pure layout placeholder'
+      value={pureValue}
+      onChangeNumber={setPureValue}
+    />
+    <Br />
+    <NumberInput
+      label='Row layout because label provided'
+      placeholder='Row layout placeholder with label'
+      value={rowValueWithLabel}
+      onChangeNumber={setRowValueWithLabelValue}
+    />
+    <Br />
+    <NumberInput
+      layout='rows'
+      placeholder='Row layout placeholder without label'
+      value={rowValueWithoutLabel}
+      onChangeNumber={setRowValueWithoutLabel}
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={NumberInput} />

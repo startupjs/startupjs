@@ -8,7 +8,6 @@ import STYLES from './index.styl'
 
 function Tooltip ({
   children,
-  style,
   tooltipStyle,
   position,
   attachment,
@@ -17,6 +16,10 @@ function Tooltip ({
   content
 }) {
   const [isVisible, setIsVisible] = useState(false)
+
+  function onChange (flag) {
+    flag !== isVisible && setIsVisible(flag)
+  }
 
   return pug`
     Popover(
@@ -34,8 +37,9 @@ function Tooltip ({
       onRequestOpen=()=> setIsVisible(true)
     )
       Popover.Caption
-        TooltipCaption(onChange=v => setIsVisible(v))
-          = children
+        TooltipCaption(
+          onChange=onChange
+        )= children
       if typeof content === 'string'
         Span.text= content
       else

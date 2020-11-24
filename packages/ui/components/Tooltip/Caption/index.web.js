@@ -3,7 +3,6 @@ import { View } from 'react-native'
 
 export default function TooltipCaption ({
   children,
-  style,
   onChange
 }) {
   const refTimer = useRef()
@@ -23,7 +22,6 @@ export default function TooltipCaption ({
 
   return pug`
     View(
-      style=style
       onMouseOver=onMouseOver
       onMouseOut=onMouseOut
     )= children
