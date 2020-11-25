@@ -12,6 +12,7 @@ import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
+const DEFAULT_OPEN = true
 
 function SmartSidebar ({
   style,
@@ -23,7 +24,6 @@ function SmartSidebar ({
   width,
   children,
   renderContent,
-  defaultOpen,
   ...props
 }) {
   if (path) {
@@ -40,6 +40,20 @@ function SmartSidebar ({
   ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
+
+  useLayoutEffect(() => {
+    if (fixedLayout) {
+      // when change dimensions from mobile
+      // to desktop resolution or when rendering happen on desktop resolution
+      // we open sidebar if it was opened on mobile resolution or default value
+      $open.setDiff(open || DEFAULT_OPEN)
+    } else {
+      // when change dimensions from desktop
+      // to mobile resolution or when rendering heppen for mobile resolution
+      // we always close sidebars
+      $open.setDiff(false)
+    }
+  }, [!!fixedLayout])
 
   useLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
@@ -59,7 +73,7 @@ function SmartSidebar ({
         width=width
         forceClosed=forceClosed
         renderContent=renderContent
-        defaultOpen=defaultOpen
+        defaultOpen=DEFAULT_OPEN
       )= children
     else
       DrawerSidebar(
@@ -69,7 +83,6 @@ function SmartSidebar ({
         width=width
         forceClosed=forceClosed
         renderContent=renderContent
-        defaultOpen=defaultOpen
         ...props
       )= children
   `
