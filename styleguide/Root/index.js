@@ -10,11 +10,11 @@ import parsePropTypes from 'parse-prop-types'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
-  IOS_UPDATE_LINK,
-  ANDROID_UPDATE_LINK,
-  IOS_CRITICAL_VERSION,
-  ANDROID_CRITICAL_VERSION,
-  WEB_CRITICAL_VERSION
+  UPDATE_LINK_IOS,
+  UPDATE_LINK_ANDROID,
+  CRITICAL_VERSION_IOS,
+  CRITICAL_VERSION_ANDROID,
+  CRITICAL_VERSION_WEB
 } from '@env'
 import orm from '../model'
 // Frontend micro-services
@@ -34,13 +34,13 @@ export default observer(() => {
     App(
       apps={main, docs}
       criticalVersion={
-        ios: IOS_CRITICAL_VERSION,
-        android: ANDROID_CRITICAL_VERSION,
-        web: WEB_CRITICAL_VERSION
+        ios: CRITICAL_VERSION_IOS,
+        android: CRITICAL_VERSION_ANDROID,
+        web: CRITICAL_VERSION_WEB
       }
       supportEmail=SUPPORT_EMAIL
-      androidUpdateLink=ANDROID_UPDATE_LINK
-      iosUpdateLink=IOS_UPDATE_LINK
+      androidUpdateLink=UPDATE_LINK_ANDROID
+      iosUpdateLink=UPDATE_LINK_IOS
     )
   `
 })

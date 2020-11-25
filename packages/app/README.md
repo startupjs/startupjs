@@ -16,11 +16,11 @@ Add critical version info to your `.env` file in the root of your project.
 If the version, specified on the server, stops matching the one in the client-side `<App />`, the user will be required to download an update from the app store.
 
 ```js
-IOS_CRITICAL_VERSION=1
-ANDROID_CRITICAL_VERSION=1
-WEB_CRITICAL_VERSION=1
-ANDROID_UPDATE_LINK="market://details?id=company.example.app"
-IOS_UPDATE_LINK="itms://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=0000000000&mt=8"
+CRITICAL_VERSION_IOS=1
+CRITICAL_VERSION_ANDROID=1
+CRITICAL_VERSION_WEB=1
+UPDATE_LINK_ANDROID="market://details?id=company.example.app"
+UPDATE_LINK_IOS="itms://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=0000000000&mt=8"
 SUPPORT_EMAIL="admin@example.com"
 ```
 
@@ -33,11 +33,11 @@ import App from 'startupjs/app'
 import * as main from '../main'
 import * as admin from '../admin'
 import { 
-  IOS_CRITICAL_VERSION,
-  ANDROID_CRITICAL_VERSION,
-  WEB_CRITICAL_VERSION,
-  ANDROID_UPDATE_LINK,
-  IOS_UPDATE_LINK,
+  CRITICAL_VERSION_IOS,
+  CRITICAL_VERSION_ANDROID,
+  CRITICAL_VERSION_WEB,
+  UPDATE_LINK_ANDROID,
+  UPDATE_LINK_IOS,
   SUPPORT_EMAIL
 } from '@env'
 
@@ -45,13 +45,13 @@ return (
   <App
     apps={{ main, admin }}
     criticalVersion={ 
-      ios: IOS_CRITICAL_VERSION,
-      android: ANDROID_CRITICAL_VERSION,
-      web: WEB_CRITICAL_VERSION
+      ios: CRITICAL_VERSION_IOS,
+      android: CRITICAL_VERSION_ANDROID,
+      web: CRITICAL_VERSION_WEB
     }
     supportEmail=SUPPORT_EMAIL
-    androidUpdateLink=ANDROID_UPDATE_LINK
-    iosUpdateLink=IOS_UPDATE_LINK
+    androidUpdateLink=UPDATE_LINK_ANDROID
+    iosUpdateLink=UPDATE_LINK_IOS
     useGlobalInit={() => { 
       // A function that is called once each time the application is started
     }}
