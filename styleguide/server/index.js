@@ -1,10 +1,8 @@
 import init from 'startupjs/init/server'
-import orm from '../model'
 import startupjsServer from 'startupjs/server'
-import getMainRoutes from '../main/routes'
+import { initApp } from 'startupjs/app/server'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
-import { initApp } from 'startupjs/app/server'
 
 import { initAuth } from '@startupjs/auth/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -14,6 +12,8 @@ import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 
 import conf from 'nconf'
+import getMainRoutes from '../main/routes'
+import orm from '../model'
 
 // Init startupjs ORM.
 init({ orm })
@@ -32,7 +32,17 @@ startupjsServer({
   initAuth(ee, {
     successRedirectUrl: '/profile',
     strategies: [
-      new LocalStrategy({}),
+      new LocalStrategy({
+        onCreatePasswordResetSecret: (userId, secret) => {
+          console.log('\nonCreatePasswordResetSecret', userId, secret)
+        },
+        onPasswordReset: userId => {
+          console.log('\nonPasswordReset', userId)
+        },
+        onPasswordChange: userId => {
+          console.log('\nPasswordChange', userId)
+        }
+      }),
       new FacebookStrategy({
         clientId: conf.get('FACEBOOK_CLIENT_ID'),
         clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
@@ -52,7 +62,29 @@ startupjsServer({
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
         allowHttpForRedirectUrl: true
       })
-    ]
+    ],
+    // onLoginStartHook: async (data, req, res, next) => {
+    //   console.log('onLoginStartHook', data)
+    //   next()
+    // },
+    // onLoginFinishHook: async (data, req, res, next) => {
+    //   console.log('onLoginFinishHook', data)
+    //   next()
+    // },
+    // onLoginHook: async (data, req, res, next) => {
+    //   console.log('onLoginStartHook', data)
+    //   next()
+    // },
+    // onLogoutHook: async (data, req, res, next) => {
+    //   console.log('\nexample onLogout', userId, '\n')
+    //   next()
+    // },
+    onStartUserCreatingHook: user => {
+      console.log('\nexample onUserCreate', user, '\n')
+    },
+    onFinishUserCreatingHook: user => {
+      console.log('\nexample onUserCreate', user, '\n')
+    }
   })
 })
 

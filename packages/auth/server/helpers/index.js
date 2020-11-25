@@ -1,4 +1,5 @@
 export { default as finishAuth } from './finishAuth'
-export { default as onLogin } from './onLogin'
-export { default as onLogout } from './onLogout'
+export { default as onLoginStartHook } from './onLoginStartHook'
+export { default as onLoginFinishHook } from './onLoginFinishHook'
+export { default as onLogoutHook } from './onLogoutHook'
 export { default as onUserCreate } from './onUserCreate'

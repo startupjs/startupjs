@@ -1,9 +1,9 @@
-import axios from 'axios'
-import { CALLBACK_NATIVE_AZUREAD_URL, FAILURE_LOGIN_URL, getStrBase64, SCOPE } from '../../isomorphic'
-import qs from 'query-string'
-import Provider from '../Provider'
-import nconf from 'nconf'
 import { finishAuth } from '@startupjs/auth/server'
+import axios from 'axios'
+import qs from 'query-string'
+import nconf from 'nconf'
+import { CALLBACK_NATIVE_AZUREAD_URL, FAILURE_LOGIN_URL, getStrBase64, SCOPE } from '../../isomorphic'
+import Provider from '../Provider'
 
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query
@@ -11,7 +11,9 @@ export default async function loginNative (req, res, next, config) {
     successRedirectUrl,
     clientId,
     tentantId,
-    clientSecret
+    clientSecret,
+    onLoginFinishHook,
+    onLoginStartHook
   } = config
 
   const body = {
@@ -53,7 +55,7 @@ export default async function loginNative (req, res, next, config) {
     const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl })
+    finishAuth(req, res, { userId, successRedirectUrl, onLoginFinishHook, onLoginStartHook })
   } catch (error) {
     console.log('[@dmapper/auth-azuread] Error: AzureAD login', error)
     return res.redirect(FAILURE_LOGIN_URL)
