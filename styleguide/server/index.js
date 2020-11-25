@@ -62,29 +62,18 @@ startupjsServer({
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
         allowHttpForRedirectUrl: true
       })
-    ],
-    // onLoginStartHook: async (data, req, res, next) => {
-    //   console.log('onLoginStartHook', data)
+    ]
+    // onBeforeLogintHook: async (data, req, res, next) => {
+    //   console.log('onBeforeLogintHook', data)
     //   next()
     // },
-    // onLoginFinishHook: async (data, req, res, next) => {
-    //   console.log('onLoginFinishHook', data)
+    // onBeforeLogoutHook: async (data, req, res, next) => {
+    //   console.log('onBeforeLogoutHook', data)
     //   next()
     // },
-    // onLoginHook: async (data, req, res, next) => {
-    //   console.log('onLoginStartHook', data)
-    //   next()
-    // },
-    // onLogoutHook: async (data, req, res, next) => {
-    //   console.log('\nexample onLogout', userId, '\n')
-    //   next()
-    // },
-    onStartUserCreatingHook: user => {
-      console.log('\nexample onUserCreate', user, '\n')
-    },
-    onFinishUserCreatingHook: user => {
-      console.log('\nexample onUserCreate', user, '\n')
-    }
+    // parseUserCreationData: user => {
+    //   console.log('\nexample onUserCreate', user, '\n')
+    // }
   })
 })
 

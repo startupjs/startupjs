@@ -2,7 +2,7 @@ import { finishAuth } from '@startupjs/auth/server'
 import passport from 'passport'
 
 export default function loginWebCallback (req, res, next, config) {
-  const { successRedirectUrl, onLoginFinishHook, onLoginStartHook } = config
+  const { successRedirectUrl, onBeforeLogintHook } = config
 
   passport.authenticate('google', function (err, userId) {
     if (err) {
@@ -10,6 +10,6 @@ export default function loginWebCallback (req, res, next, config) {
       res.status(500).json({ error: err })
     }
 
-    finishAuth(req, res, { userId, successRedirectUrl, onLoginFinishHook, onLoginStartHook })
+    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLogintHook })
   })(req, res, next)
 }

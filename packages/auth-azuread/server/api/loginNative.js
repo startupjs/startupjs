@@ -12,8 +12,7 @@ export default async function loginNative (req, res, next, config) {
     clientId,
     tentantId,
     clientSecret,
-    onLoginFinishHook,
-    onLoginStartHook
+    onBeforeLogintHook
   } = config
 
   const body = {
@@ -55,7 +54,7 @@ export default async function loginNative (req, res, next, config) {
     const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl, onLoginFinishHook, onLoginStartHook })
+    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLogintHook })
   } catch (error) {
     console.log('[@dmapper/auth-azuread] Error: AzureAD login', error)
     return res.redirect(FAILURE_LOGIN_URL)
