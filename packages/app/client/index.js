@@ -1,13 +1,13 @@
 import React, { useMemo, Suspense } from 'react'
 import { Platform } from 'react-native'
-import Router from './Router'
-import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
-import { Blocked, UpdateApp } from './components'
-import useMediaUpdate from './helpers/useMediaUpdate'
-import _find from 'lodash/find'
 import { generatePath } from 'react-router-native'
+import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
+import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
+import { Blocked, UpdateApp, AccessDeny } from './components'
+import useMediaUpdate from './helpers/useMediaUpdate'
+import Router from './Router'
 
 const OS = Platform.OS
 const routesGlobal = []
@@ -55,6 +55,8 @@ const App = observer(function AppComponent ({
   const [user] = useLocal('_session.user')
   if (!isGlobalInitSuccessful) return null
 
+  const [accessError] = useSession('_accessError')
+
   const roots = {}
   const routes = []
 
@@ -75,12 +77,15 @@ const App = observer(function AppComponent ({
     if user && user.blocked
       Blocked
     else
-      Suspense(fallback=null)
-        Router(
-          apps=roots
-          routes=routes
-          ...props
-        )
+      if accessError
+        AccessDeny
+      else
+        Suspense(fallback=null)
+          Router(
+            apps=roots
+            routes=routes
+            ...props
+          )
   `
 })
 
