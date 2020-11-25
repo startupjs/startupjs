@@ -229,7 +229,7 @@ function Popover ({
     _wrapperStyle.height = animateStates.height
   } else if (wrapperStyle.maxHeight) {
     _wrapperStyle.maxHeight = wrapperStyle.maxHeight
-    if (Platform.OS === 'web') _wrapperStyle.overflow = 'auto'
+    _wrapperStyle.height = wrapperStyle.maxHeight
   }
   if (stepStatus === STEP_STATUSES.CLOSE) _wrapperStyle.height = 0
   if (hasWidthCaption && stepStatus !== STEP_STATUSES.ANIMATE) {

@@ -14,6 +14,7 @@ function DropdownItem ({
   onPress,
   children,
   _activeValue,
+  _selectIndexValue,
   _variant,
   _onChange,
   _onDismissDropdown,
@@ -35,6 +36,7 @@ function DropdownItem ({
     return pug`
       Menu.Item(
         active=_activeValue === value
+        styleName={ selectMenu: _selectIndexValue === _index }
         onPress=handlePress
         iconPosition='left'
         icon=icon
@@ -43,11 +45,12 @@ function DropdownItem ({
   }
 
   return pug`
-    TouchableOpacity(onPress=handlePress)
+    TouchableOpacity.itemCase(onPress=handlePress)
       View.item(styleName=[!isPure && _variant, {
         active: !isPure && (_activeValue === value),
         itemUp: !isPure && (_index === 0),
-        itemDown: !isPure && (_index === _childenLength - 1)
+        itemDown: !isPure && (_index === _childenLength - 1),
+        selectMenu: _selectIndexValue === _index
       }])
         if isPure
           = children
