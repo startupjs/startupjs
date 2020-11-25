@@ -15,8 +15,6 @@ export default function initProviders (options = {}) {
 }
 
 export function getProvider (name) {
-  console.log(name, '<<<name')
-  console.log(defaultProvider, defaultProvider)
   if (!providers) {
     throw new Error(
       '[@startupjs/mail] getProvider: initialize ' +
@@ -26,12 +24,10 @@ export function getProvider (name) {
 
   if (name && !providers[name]) {
     throw new Error(
-      '[@startupjs/mail] getProvider: provider: ${name} not found. ' +
+      `[@startupjs/mail] getProvider: provider: ${name} not found. ` +
       'Initialize it using initMail first.'
     )
   }
-
-  console.log(providers, providers[name])
 
   return providers[name || defaultProvider]
 }

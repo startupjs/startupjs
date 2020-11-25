@@ -1,6 +1,8 @@
 import conf from 'nconf'
-import { templates } from '../initTemplates'
 import { getProvider } from '../providers'
+import { templates } from '../initTemplates'
+import { layouts } from '../initLayouts'
+import { defaultLayout } from '../../layouts'
 
 const STAGE = process.env.STAGE
 const EMAIL_WHITELIST = [...(conf.get('ADMINS') || []), ...(conf.get('EMAIL_WHITELIST') || [])]
@@ -11,12 +13,17 @@ async function _getDataFromTemplate (template, options) {
   return data
 }
 
-async function _checkPermission (email, model) {
-  if (await _checkUnsubscribed(email, model)) return false
+async function _checkPermission (email, ignoreUnsubscribed, model) {
+  if (!ignoreUnsubscribed && await _checkUnsubscribed(email, model)) {
+    console.log(`\n[@startupjs/mail] We can't send email to address ("${email}") that is unsubscribed.\n`)
+    return false
+  }
+
   if (!EMAIL_WHITELIST.includes(email)) {
     console.log(`\n[@startupjs/mail] We can't send email to address ("${email}") that not in whitelist in dev STAGE.\n`)
     return false
   }
+
   return true
 }
 
@@ -32,10 +39,10 @@ async function _checkUnsubscribed (email, model) {
   return !!authsCount
 }
 
-async function _filterIgnoredEmails (emails, model) {
+async function _filterIgnoredEmails (emails, ignoreUnsubscribed, model) {
   let filteredEmails = []
   for (let email of emails) {
-    if (await _checkPermission(email, model)) {
+    if (await _checkPermission(email, ignoreUnsubscribed, model)) {
       filteredEmails.push(email)
     }
   }
@@ -66,6 +73,12 @@ async function _getRecipientEmailsByIds (model, recipientIds) {
   return emails
 }
 
+async function _getDataFromLayout (model, layout, options) {
+  if (!layout) return defaultLayout(options)
+  const data = await layouts[layout](model, options)
+  return data
+}
+
 /**
  * @param
  * @param {Boolean} options.ignoreWhitelist - should whitelist be ignored in DEV stage
@@ -75,6 +88,7 @@ async function _getRecipientEmailsByIds (model, recipientIds) {
  * @param {String} options.text - mail text
  * @param {String} options.html - string with html
  * @param {Boolean} options.inline - inline image for html content (path to image)
+ * @param {String} options.layout - name of layout would be used
  * @param {String} options.template - name of template would be used
  * @param {Object} options.templateOptions - object with options passed to template
  * @param {String} options.provider - name of provider would be used
@@ -84,6 +98,11 @@ async function sendEmail (model, options) {
   const mailClient = getProvider(options.provider)
 
   try {
+    const layoutData = await _getDataFromLayout(
+      model,
+      options.layout,
+      options.layoutOptions
+    )
     let recipientMails = await _getRecipientEmailsByIds(model, options.recipientIds)
     let to = options.to || ''
 
@@ -94,7 +113,7 @@ async function sendEmail (model, options) {
     to = new Set([...to, ...recipientMails])
 
     if (!isProduction && !options.ignoreWhitelist) {
-      to = [...await _filterIgnoredEmails(to, model)]
+      to = [...await _filterIgnoredEmails(to, layoutData.ignoreUnsubscribed, model)]
     }
 
     let _options = {
@@ -112,8 +131,10 @@ async function sendEmail (model, options) {
         options.template,
         options.templateOptions
       )
-      _options.html = html
+      _options.html = layoutData.html.replace('%{content}%', html)
       _options.subject = subject
+    } else {
+      _options.html = layoutData.html.replace('%{content}%', options.html)
     }
 
     const result = await mailClient.send(_options)
