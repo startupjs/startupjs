@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import { useLayout } from './../../../hooks'
 import Input from './input'
 import Span from './../../typography/Span'
-import { useLayout } from './../../../hooks'
 import './index.styl'
 
 function TextInput ({

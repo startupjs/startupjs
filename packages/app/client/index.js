@@ -4,7 +4,7 @@ import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 
 import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
-import { Blocked, UpdateApp } from './components'
+import { Blocked, UpdateApp, AccessDeny } from './components'
 import { useMediaUpdate, useNeedUpdate } from './helpers'
 import Router from './Router'
 
@@ -66,6 +66,8 @@ const App = observer(function AppComponent ({
 
   if (!isGlobalInitSuccessful) return null
 
+  const [accessError] = useSession('_accessError')
+
   const roots = {}
   const routes = []
 
@@ -86,12 +88,15 @@ const App = observer(function AppComponent ({
     if user && user.blocked
       Blocked
     else
-      Suspense(fallback=null)
-        Router(
-          apps=roots
-          routes=routes
-          ...props
-        )
+      if accessError
+        AccessDeny
+      else
+        Suspense(fallback=null)
+          Router(
+            apps=roots
+            routes=routes
+            ...props
+          )
   `
 })
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
-import { TextInput, Platform } from 'react-native'
+import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
@@ -103,11 +103,11 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  inputStyle = [{
+  inputStyle = StyleSheet.flatten([{
     paddingTop: verticalGutter,
     paddingBottom: verticalGutter,
     lineHeight: lH
-  }, inputStyle]
+  }, inputStyle])
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712

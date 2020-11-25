@@ -6,7 +6,12 @@ import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
-import parsePropTypes from 'parse-prop-types'
+import { initAuthApp } from '@startupjs/auth'
+import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
+import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
+import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
+import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
+import * as localForms from '@startupjs/auth-local'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -16,7 +21,9 @@ import {
   CRITICAL_VERSION_ANDROID,
   CRITICAL_VERSION_WEB
 } from '@env'
+import parsePropTypes from 'parse-prop-types'
 import orm from '../model'
+
 // Frontend micro-services
 import * as main from '../main'
 import docs from '../docs'
@@ -30,9 +37,19 @@ if (Platform.OS === 'web') window.model = model
 init({ baseUrl: BASE_URL, orm })
 
 export default observer(() => {
+  const auth = initAuthApp({
+    localForms,
+    socialButtons: [
+      FacebookAuthButton,
+      GoogleAuthButton,
+      AzureadAuthButton,
+      LinkedinAuthButton
+    ]
+  })
+
   return pug`
     App(
-      apps={main, docs}
+      apps={ main, docs, auth }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
