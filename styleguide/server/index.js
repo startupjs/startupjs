@@ -2,7 +2,11 @@ import init from 'startupjs/init/server'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import getDocsRoutes from '@startupjs/docs/routes'
-import { CRITICAL_VERSION } from '../config'
+import {
+  CRITICAL_VERSION_IOS,
+  CRITICAL_VERSION_ANDROID,
+  CRITICAL_VERSION_WEB
+} from '../config.json'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
 
@@ -17,7 +21,11 @@ startupjsServer({
     ...getDocsRoutes()
   ]
 }, (ee, options) => {
-  initApp(ee, CRITICAL_VERSION)
+  initApp(ee, {
+    ios: CRITICAL_VERSION_IOS,
+    android: CRITICAL_VERSION_ANDROID,
+    web: CRITICAL_VERSION_WEB
+  })
 })
 
 function getHead (appName) {

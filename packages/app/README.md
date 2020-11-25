@@ -56,7 +56,7 @@ return (
       // A function that is called once each time the application is started
     }}
     goToHandler={(url, options, goTo) => { 
-      // Callback that will be processed every time before going to url. You must pass the third argument `goTo`
+      // Callback that will be processed every time before going to url. You must pass the third argument `goTo`. You need to be sure to call goTo in your goTo handler with the final url.
     }}
     errorPages={ 
       404: '<h1>404 NOT FOUND</h1>',
@@ -74,11 +74,9 @@ Add critical version info to your `config.json` file in the root of your project
 
 ```json
 {
-  "CRITICAL_VERSION": {
-    "ios": 1,
-    "android": 1,
-    "web": 1
-  }
+  "CRITICAL_VERSION_IOS": 1,
+  "CRITICAL_VERSION_ANDROID": 1,
+  "CRITICAL_VERSION_WEB": 1,
 }
 
 ```
@@ -88,13 +86,21 @@ Add critical version info to your `config.json` file in the root of your project
 
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
-import { CRITICAL_VERSION } from '../config.json'
+import { 
+  CRITICAL_VERSION_IOS,
+  CRITICAL_VERSION_ANDROID,
+  CRITICAL_VERSION_WEB
+ } from '../config.json'
 
 startupjsServer({
   // ...
 },
 (ee, options) => {
-  initApp(ee, CRITICAL_VERSION)
+  initApp(ee, {
+    ios: CRITICAL_VERSION_IOS,
+    android: CRITICAL_VERSION_ANDROID,
+    web: CRITICAL_VERSION_WEB
+  })
 })
 ```
 
