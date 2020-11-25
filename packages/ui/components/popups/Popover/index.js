@@ -105,7 +105,7 @@ function Popover ({
   function runShow () {
     refContent.current.measure((ex, ey, refWidth, refHeight, cx, cy) => {
       const { width, height, maxHeight } = wrapperStyle
-      let curHeight = height || refHeight
+      let curHeight = (height === 'auto' ? null : height) || refHeight
       curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
       let curWidth = width || refWidth
@@ -227,9 +227,10 @@ function Popover ({
 
   if (stepStatus === STEP_STATUSES.ANIMATE) {
     _wrapperStyle.height = animateStates.height
-  } else if (wrapperStyle.maxHeight) {
+  }
+  if (wrapperStyle.maxHeight && stepStatus !== STEP_STATUSES.ANIMATE) {
     _wrapperStyle.maxHeight = wrapperStyle.maxHeight
-    _wrapperStyle.height = wrapperStyle.maxHeight
+    if (!wrapperStyle.height) _wrapperStyle.height = wrapperStyle.maxHeight
   }
   if (stepStatus === STEP_STATUSES.CLOSE) _wrapperStyle.height = 0
   if (hasWidthCaption && stepStatus !== STEP_STATUSES.ANIMATE) {

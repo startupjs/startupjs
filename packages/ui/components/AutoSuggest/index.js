@@ -68,12 +68,12 @@ function AutoSuggest ({
   }
 
   function onKeyDown (e) {
-    e.preventDefault()
     let item, index
     const keyName = e.key
 
     switch (keyName) {
       case 'ArrowUp':
+        e.preventDefault()
         if (selectIndexValue === 0 || (selectIndexValue === -1 && !value.value)) return
 
         index = selectIndexValue - 1
@@ -86,6 +86,7 @@ function AutoSuggest ({
         break
 
       case 'ArrowDown':
+        e.preventDefault()
         if (selectIndexValue === _data.current.length - 1) return
 
         index = selectIndexValue + 1
@@ -98,6 +99,7 @@ function AutoSuggest ({
         break
 
       case 'Enter':
+        e.preventDefault()
         if (selectIndexValue === -1) return
         item = _data.current.find((_, i) => i === selectIndexValue)
         onChange && onChange(item)
@@ -129,6 +131,7 @@ function AutoSuggest ({
   return pug`
     Popover(
       wrapperStyle=style
+      wrapperStyleName='wrapper'
       visible=(isFocus || isLoading)
       position='bottom'
       hasWidthCaption=true

@@ -170,7 +170,7 @@ function Dropdown ({
   if (isPopover) {
     return pug`
       Popover(
-        wrapperStyleName='popoverWrapper'
+        wrapperStyleName='wrapper'
         wrapperStyle=_popoverWrapperStyle
         position=position
         attachment=attachment
