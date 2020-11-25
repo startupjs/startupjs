@@ -12,11 +12,6 @@ import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 
 import conf from 'nconf'
-import {
-  CRITICAL_VERSION_IOS,
-  CRITICAL_VERSION_ANDROID,
-  CRITICAL_VERSION_WEB
-} from '../config.json'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
 
@@ -33,9 +28,9 @@ startupjsServer({
   ]
 }, (ee, options) => {
   initApp(ee, {
-    ios: CRITICAL_VERSION_IOS,
-    android: CRITICAL_VERSION_ANDROID,
-    web: CRITICAL_VERSION_WEB
+    ios: conf.get('CRITICAL_VERSION_IOS'),
+    android: conf.get('CRITICAL_VERSION_ANDROID'),
+    web: conf.get('CRITICAL_VERSION_WEB')
   })
 
   initAuth(ee, {

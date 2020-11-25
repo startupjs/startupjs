@@ -86,20 +86,16 @@ Add critical version info to your `config.json` file in the root of your project
 
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
-import { 
-  CRITICAL_VERSION_IOS,
-  CRITICAL_VERSION_ANDROID,
-  CRITICAL_VERSION_WEB
- } from '../config.json'
+import conf from 'nconf'
 
 startupjsServer({
   // ...
 },
 (ee, options) => {
   initApp(ee, {
-    ios: CRITICAL_VERSION_IOS,
-    android: CRITICAL_VERSION_ANDROID,
-    web: CRITICAL_VERSION_WEB
+    ios: conf.get('CRITICAL_VERSION_IOS'),
+    android: conf.get('CRITICAL_VERSION_ANDROID'),
+    web: conf.get('CRITICAL_VERSION_WEB')
   })
 })
 ```
