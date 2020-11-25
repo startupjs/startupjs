@@ -272,7 +272,7 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - RNCPicker (1.9.2):
+  - RNCPicker (1.9.3):
   - RNGoogleSignin (5.0.0):
     - GoogleSignIn (~> 5.0.0)
     - React-Core
@@ -433,7 +433,7 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNCPicker: 4850f485a2b6a51788c7582d90d4b7d0e1644036
+  RNCPicker: ddfab9d47eb505a76694a673a49e36cfe8c197cb
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23

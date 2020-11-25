@@ -28,7 +28,7 @@
     "@startupjs/docs": "^0.28.1",
     "@startupjs/mdx": "^0.28.0",
     "@startupjs/ui": "^0.28.0",
-    "@react-native-picker/picker": "1.9.2",
+    "@react-native-picker/picker": "^1.9.3",
     "axios": "^0.19.0",
     "events": "^3.1.0",
     "nconf": "^0.10.0",
