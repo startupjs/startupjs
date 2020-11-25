@@ -71,8 +71,9 @@ startupjsServer({
     //   console.log('onBeforeLogoutHook', data)
     //   next()
     // },
-    // parseUserCreationData: user => {
+    // parseUserCreationData: async user => {
     //   console.log('\nexample onUserCreate', user, '\n')
+    //   return { ...user, additionalField: 777 }
     // }
   })
 })
