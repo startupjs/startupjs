@@ -33,8 +33,8 @@ function Button ({
 }) {
   const [asyncActive, setAsyncActive] = useState(false)
 
-  function _onPress () {
-    const promise = onPress()
+  function _onPress (event) {
+    const promise = onPress(event)
     if (!(promise && promise.then)) return
     promise.then(() => setAsyncActive(false))
     setAsyncActive(true)
@@ -49,6 +49,8 @@ function Button ({
   const rootStyle = { height }
   const rootExtraProps = {}
   const iconWrapperStyle = {}
+  let hoverStyle
+  let activeStyle
 
   textStyle = StyleSheet.flatten([
     { color: isFlat ? colors.white : _color },
@@ -66,8 +68,12 @@ function Button ({
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      hoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      activeStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
     case 'text':
+      hoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      activeStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
     case 'shadowed':
       rootStyle.backgroundColor = colors.white
@@ -111,6 +117,8 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
+      hoverStyle=hoverStyle
+      activeStyle=activeStyle
       disabled=asyncActive || disabled
       onPress=onPress ? _onPress : undefined
       ...rootExtraProps
