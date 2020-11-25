@@ -60,7 +60,6 @@ const renderItem = (item, index)=> {
       key={index}
       vAlign='center'
       style={{ padding: 8 }}
-      onPress={()=> setValue(item)}
     >
       <Avatar size='xs'>{item.label}</Avatar>
       <Span style={{ marginLeft: 8 }}>{item.label}</Span>
@@ -74,6 +73,7 @@ return (
     style={{ maxHeight: 160 }}
     placeholder="Select value"
     renderItem={renderItem}
+    onChange={v=> setValue(v)}
   />
 )
 ```

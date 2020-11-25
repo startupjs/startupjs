@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, TouchableOpacity, Platform } from 'react-native'
+import {
+  View,
+  Platform,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import TextInput from '../forms/TextInput'
@@ -9,7 +14,6 @@ import Slicer from '../Slicer'
 import Loader from '../Loader'
 import './index.styl'
 
-// TODO: key event change scroll
 function AutoSuggest ({
   style,
   options,
@@ -150,7 +154,7 @@ function AutoSuggest ({
             value=(!isFocus && value.label) || inputValue
           )
           if !isFocus
-            TouchableOpacity(onPress=onFocus)
+            TouchableWithoutFeedback(onPress=onFocus)
               View.click
       if isLoading
         View.loaderCase

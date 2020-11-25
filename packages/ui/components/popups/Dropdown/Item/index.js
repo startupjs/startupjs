@@ -45,7 +45,7 @@ function DropdownItem ({
   }
 
   return pug`
-    TouchableOpacity.itemCase(onPress=handlePress)
+    TouchableOpacity(onPress=handlePress)
       View.item(styleName=[!isPure && _variant, {
         active: !isPure && (_activeValue === value),
         itemUp: !isPure && (_index === 0),
