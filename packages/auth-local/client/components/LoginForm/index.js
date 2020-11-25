@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Platform } from 'react-native'
-import { Div, Span, Br, Button } from '@startupjs/ui'
-import TextInput from '../TextInput'
+import { Platform } from 'react-native'
+import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
-import PropTypes from 'prop-types'
-import { useHistory } from 'react-router'
+import { Div, Span, Br, Button } from '@startupjs/ui'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import PropTypes from 'prop-types'
+import TextInput from '../TextInput'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -16,12 +16,11 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
   const history = useHistory()
 
+  const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
     email: null,
     password: null
   })
-  const [formErrors, setFormErrors] = useState({})
-  const [loading, setLoading] = useState(false)
 
   const onFormChange = field => value => {
     $form.set(field, value)
@@ -61,7 +60,6 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
     }
 
     try {
-      setLoading(true)
       const res = await authHelper.login(form)
 
       if (res.data) {
@@ -79,8 +77,6 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
           setFormErrors({ authError: error.response.data.message })
         }
       }
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -137,9 +133,6 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
         secureTextEntry
         value=form.password || ''
       )
-      if loading
-        Br
-        ActivityIndicator
       if formErrors.authError
         Br
         Span.authError

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
-import { StyleSheet, TextInput, Platform } from 'react-native'
+import { StyleSheet, TextInput, Platform, View } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
@@ -103,6 +103,13 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
+  function onLayoutIcon (e) {
+    if (IS_WEB) {
+      e.nativeEvent.target.childNodes[0].tabIndex = -1
+      e.nativeEvent.target.childNodes[0].childNodes[0].tabIndex = -1
+    }
+  }
+
   inputStyle = StyleSheet.flatten([{
     paddingTop: verticalGutter,
     paddingBottom: verticalGutter,
@@ -125,16 +132,6 @@ export default observer(function Input ({
     style: [{ height: fullHeight }, style]
   }, pug`
     React.Fragment
-      if icon
-        Div.input-icon(
-          styleName=[size, iconPosition]
-          onPress=onIconPress
-        )
-          Icon(
-            icon=icon
-            style=iconStyle
-            size=ICON_SIZES[size]
-          )
       TextInput.input-input(
         ref=inputRef
         style=inputStyle
@@ -153,5 +150,17 @@ export default observer(function Input ({
         ...props
         ...inputExtraProps
       )
+      if icon
+        View.input-icon(
+          accessible=false
+          onLayout=onLayoutIcon
+          styleName=[size, iconPosition]
+          onStartShouldSetResponder=onIconPress
+        )
+          Icon(
+            icon=icon
+            style=iconStyle
+            size=ICON_SIZES[size]
+          )
   `)
 })
