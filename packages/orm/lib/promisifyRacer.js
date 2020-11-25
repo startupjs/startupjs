@@ -91,6 +91,7 @@ function optionalPromisify (originalFn) {
         })
         originalFn.apply(this, args)
       }).catch(err => {
+        console.error(err)
         if (parseInt(err.code) === 403) {
           const $accessError = this.root.at('_session')
           $accessError.setDiff('_accessError', err)
