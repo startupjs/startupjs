@@ -11,7 +11,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # SmartSidebar (умный сайдбар)
 
-Умный сайдбар обычно используется для навигации. Он предоставляет удобный десктоп-мобильный интерфейс. Основываясь на фиксированной точке останова макета, он решает остаться в качестве [видимой боковой панели](/docs/components/Sidebar) или превратиться в [невидимую боковую панель](/docs/components/DrawerSidebar). По умолчанию он не виден на экране.
+Умный сайдбар обычно используется для навигации. Он предоставляет удобный десктоп-мобильный интерфейс. Основываясь на фиксированной точке останова макета, он решает остаться в качестве [боковой панели](/docs/components/Sidebar) или превратиться в [выдвижную боковую панель](/docs/components/DrawerSidebar). По умолчанию он не виден на экране.
 
 ```jsx
 import { SmartSidebar } from '@startupjs/ui'
@@ -128,7 +128,43 @@ return (
 )
 ```
 
-## Заблокированный сайдбар умный сайдбар
+## Видимость по умолчанию (только десктоп)
+
+Для управления видимостью по умолчанию используйте свойство `defaultOpen`.
+
+```jsx example
+const [open, $open] = useSession('ExampleDefaultOpenSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Div>
+          <Br />
+          <Menu>
+            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          </Menu>
+        </Div>
+      )}
+      defaultOpen
+    >
+      <Content
+        padding
+        width='full'
+        style={{ backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $open.set(!open)}>Toggle</Button>
+        </Row>
+      </Content>
+    </SmartSidebar>
+  </Div>
+)
+```
+
+## Заблокированный умный сайдбар
 
 Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
