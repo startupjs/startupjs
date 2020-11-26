@@ -1,14 +1,20 @@
 // HACK: In order for parse-prop-types to work properly, we have to use it
 //       before using the PropTypes.
 //       See: https://github.com/diegohaz/parse-prop-types/issues/4#issuecomment-403294065
-import parsePropTypes from 'parse-prop-types'
-import { BASE_URL } from '@env'
-import init from 'startupjs/init'
-import orm from '../model'
 import React from 'react'
-import App from 'startupjs/app'
-import { observer, model } from 'startupjs'
 import { Platform } from 'react-native'
+import App from 'startupjs/app'
+import init from 'startupjs/init'
+import { observer, model } from 'startupjs'
+import { initAuthApp } from '@startupjs/auth'
+import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
+import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
+import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
+import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
+import * as localForms from '@startupjs/auth-local'
+import { BASE_URL } from '@env'
+import parsePropTypes from 'parse-prop-types'
+import orm from '../model'
 
 // Frontend micro-services
 import * as main from '../main'
@@ -23,8 +29,18 @@ if (Platform.OS === 'web') window.model = model
 init({ baseUrl: BASE_URL, orm })
 
 export default observer(() => {
+  const auth = initAuthApp({
+    localForms,
+    socialButtons: [
+      FacebookAuthButton,
+      GoogleAuthButton,
+      AzureadAuthButton,
+      LinkedinAuthButton
+    ]
+  })
+
   return pug`
-    App(apps={main, docs})
+    App(apps={ main, docs, auth })
   `
 })
 
