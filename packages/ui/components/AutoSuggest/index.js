@@ -36,10 +36,14 @@ function AutoSuggest ({
     if (Platform.OS !== 'web') return
 
     if (isOpen) {
-      document.onkeydown = onKeyDown
+      document.addEventListener('keydown', onKeyDown)
     } else {
-      document.keydown = null
+      document.removeEventListener('keydown', onKeyDown)
       setSelectIndexValue(-1)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
     }
   }, [isOpen, selectIndexValue])
 
