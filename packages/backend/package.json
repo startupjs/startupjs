@@ -11,6 +11,7 @@
   "dependencies": {
     "@startupjs/sharedb-access": "^0.28.0",
     "@startupjs/sharedb-schema": "^0.28.0",
+    "@startupjs/server-aggregate": "^0.28.0",
     "mongodb": "^2.2.31",
     "racer": "0.9.15",
     "redis": "^2.2.0",

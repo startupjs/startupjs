@@ -1,13 +1,16 @@
-const isPlainObject = require('lodash/isPlainObject')
-const isArray = require('lodash/isArray')
-const conf = require('nconf')
 const ShareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const sharedbSchema = require('@startupjs/sharedb-schema')
-const shareDbHooks = require('sharedb-hooks')
+const serverAggregate = require('@startupjs/server-aggregate')
+// TODO move checkAggregationPermission to hight level
+const checkAggregationPermission = require('@dmapper/permissions/access/checkAggregationPermission.cjs')
+const conf = require('nconf')
+const isArray = require('lodash/isArray')
+const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
 const redis = require('redis-url')
+const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
 
 // Optional sharedb-ws-pubsub
@@ -108,6 +111,24 @@ module.exports = async options => {
       }
     }
     console.log('Sharedb-access is working')
+  }
+
+  if (
+    options.serverAggregate &&
+    global.STARTUP_JS_ORM &&
+    Object.keys(global.STARTUP_JS_ORM).length > 0
+  ) {
+    serverAggregate(backend, checkAggregationPermission)
+    for (const path in global.STARTUP_JS_ORM) {
+      const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
+      if (aggregations) {
+        for (let aggregationKey in aggregations) {
+          const globalCollectionName = path.replace(/\.\*$/u, '')
+          backend.addAggregate(globalCollectionName, aggregationKey, aggregations[aggregationKey])
+        }
+      }
+    }
+    console.log('serverAggregate is working')
   }
 
   if (
