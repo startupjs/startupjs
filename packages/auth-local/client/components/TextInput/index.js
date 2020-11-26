@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-/* eslint-disable-next-line */
-import { Row, Span, TextInput as _TextInput } from '@startupjs/ui'
 import { observer } from 'startupjs'
+import { Row, Span, TextInput as BaseTextInput } from '@startupjs/ui'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import './index.styl'
 
@@ -22,9 +21,10 @@ function TextInput ({
   useEffect(() => {
     setError(errorFromParent)
   }, [errorFromParent])
+
   return pug`
     Row.root
-      _TextInput(
+      BaseTextInput(
         label=label
         placeholder=placeholder
         onChangeText=onChangeText

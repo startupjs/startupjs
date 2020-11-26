@@ -6,6 +6,8 @@ import AutoSuggestRu from '../components/AutoSuggest/AutoSuggest.ru.mdx'
 import AutoSuggestEn from '../components/AutoSuggest/AutoSuggest.en.mdx'
 import AvatarEn from '../components/Avatar/Avatar.en.mdx'
 import AvatarRu from '../components/Avatar/Avatar.ru.mdx'
+import BadgeEn from '../components/Badge/Badge.en.mdx'
+import BadgeRu from '../components/Badge/Badge.ru.mdx'
 import BrEn from '../components/Br/Br.en.mdx'
 import BrRu from '../components/Br/Br.ru.mdx'
 import BreadcrumbsEn from '../components/Breadcrumbs/Breadcrumbs.en.mdx'
@@ -92,6 +94,14 @@ export default {
       component: {
         en: AvatarEn,
         ru: AvatarRu
+      }
+    },
+    Badge: {
+      type: 'mdx',
+      title: 'Badge',
+      component: {
+        en: BadgeEn,
+        ru: BadgeRu
       }
     },
     Br: {
