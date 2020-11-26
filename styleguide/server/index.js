@@ -1,10 +1,8 @@
 import init from 'startupjs/init/server'
-import orm from '../model'
 import startupjsServer from 'startupjs/server'
-import getMainRoutes from '../main/routes'
-import getDocsRoutes from '@startupjs/docs/routes'
-import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import { initApp } from 'startupjs/app/server'
+import { getAuthRoutes } from '@startupjs/auth/isomorphic'
+import getDocsRoutes from '@startupjs/docs/routes'
 
 import { initAuth } from '@startupjs/auth/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -14,6 +12,8 @@ import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 
 import conf from 'nconf'
+import orm from '../model'
+import getMainRoutes from '../main/routes'
 
 // Init startupjs ORM.
 init({ orm })
@@ -27,7 +27,11 @@ startupjsServer({
     ...getAuthRoutes()
   ]
 }, (ee, options) => {
-  initApp(ee)
+  initApp(ee, {
+    ios: conf.get('CRITICAL_VERSION_IOS'),
+    android: conf.get('CRITICAL_VERSION_ANDROID'),
+    web: conf.get('CRITICAL_VERSION_WEB')
+  })
 
   initAuth(ee, {
     successRedirectUrl: '/profile',

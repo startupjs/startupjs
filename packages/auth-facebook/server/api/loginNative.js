@@ -1,7 +1,7 @@
+import { finishAuth } from '@startupjs/auth/server'
 import FB from 'fb'
 import Provider from '../Provider'
 import { FIELDS, API_VERSION } from '../../isomorphic/constants'
-import { finishAuth } from '@startupjs/auth/server'
 
 export default function loginNative (req, res, next, config) {
   const { userID, accessToken } = req.body

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import { H3, Content, Span } from '@startupjs/ui'
-import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import './index.styl'
 

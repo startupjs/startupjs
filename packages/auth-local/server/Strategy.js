@@ -1,9 +1,9 @@
-import Provider from './Provider'
 import { Strategy } from 'passport-local'
 import _get from 'lodash/get'
-import initRoutes from './initRoutes'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
+import initRoutes from './initRoutes'
+import Provider from './Provider'
 
 export default function (config = {}) {
   this.config = {}

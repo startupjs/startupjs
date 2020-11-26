@@ -1,8 +1,8 @@
 import passport from 'passport'
 import express from 'express'
+import { onUserCreate, onLogin, onLogout } from './helpers'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
-import { onUserCreate, onLogin, onLogout } from './helpers'
 import { DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic'
 
 const router = express.Router()

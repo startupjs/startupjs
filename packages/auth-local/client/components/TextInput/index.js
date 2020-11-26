@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { observer } from 'startupjs'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 /* eslint-disable-next-line */
 import { Row, Span, TextInput as _TextInput } from '@startupjs/ui'
-import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import './index.styl'
 
