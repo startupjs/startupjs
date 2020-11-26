@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
-import { StyleSheet, TextInput, Platform, View } from 'react-native'
+import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
@@ -44,12 +44,15 @@ export default observer(function Input ({
   resize,
   numberOfLines,
   icon,
-  iconPosition,
+  secondaryIcon,
   iconStyle,
+  secondaryIconStyle,
+  iconPosition,
   onBlur,
   onFocus,
   onChangeText,
   onIconPress,
+  onSecondaryIconPress,
   renderWrapper,
   ...props
 }) {
@@ -151,16 +154,33 @@ export default observer(function Input ({
         ...inputExtraProps
       )
       if icon
-        View.input-icon(
+        Div.input-icon(
           accessible=false
           onLayout=onLayoutIcon
           styleName=[size, iconPosition]
-          onStartShouldSetResponder=onIconPress
+          onPress=onIconPress
         )
           Icon(
             icon=icon
             style=iconStyle
             size=ICON_SIZES[size]
           )
+      if secondaryIcon
+        Div.input-icon(
+          accessible=false
+          onLayout=onLayoutIcon
+          styleName=[size, getOppositePosition(iconPosition)]
+          onPress=onSecondaryIconPress
+        )
+          Icon(
+            icon=secondaryIcon
+            style=secondaryIconStyle
+            size=ICON_SIZES[size]
+          )
+
   `)
 })
+
+function getOppositePosition (position) {
+  return position === 'left' ? 'right' : 'left'
+}
