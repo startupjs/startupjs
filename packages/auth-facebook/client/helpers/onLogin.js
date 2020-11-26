@@ -1,7 +1,7 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
+import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import axios from 'axios'
-import { finishAuth } from '@startupjs/auth'
 import { CALLBACK_NATIVE_URL, PERMISSIONS } from '../../isomorphic/constants'
 
 export default async function onLogin () {

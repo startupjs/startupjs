@@ -1,6 +1,6 @@
 import React from 'react'
-import { AuthForm } from '../../../components'
 import PropTypes from 'prop-types'
+import { AuthForm } from '../../../components'
 
 function PSignIn ({
   localForms,

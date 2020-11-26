@@ -1,7 +1,7 @@
-import Provider from './Provider'
 import { Strategy } from 'passport-linkedin-oauth2'
-import initRoutes from './initRoutes'
 import passport from 'passport'
+import Provider from './Provider'
+import initRoutes from './initRoutes'
 import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
 
 function validateConfigs ({ clientId, clientSecret }) {

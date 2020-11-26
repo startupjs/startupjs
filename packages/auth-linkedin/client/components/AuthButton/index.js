@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
-import { Modal, Div, Button } from '@startupjs/ui'
 import { WebView } from 'react-native-webview'
 import { observer, u, useSession } from 'startupjs'
+import { Modal, Div, Button } from '@startupjs/ui'
+import { finishAuth } from '@startupjs/auth'
+import PropTypes from 'prop-types'
+import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import qs from 'query-string'
 import { BASE_URL } from '@env'
 import { CALLBACK_NATIVE_LINKEDIN_URL, AUTHORIZATION_URL } from '../../../isomorphic'
-import { finishAuth } from '@startupjs/auth'
 
 function AuthButton ({ label }) {
   const baseUrl = BASE_URL

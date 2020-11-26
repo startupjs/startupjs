@@ -1,6 +1,6 @@
+import { finishAuth } from '@startupjs/auth/server'
 import { OAuth2Client } from 'google-auth-library'
 import Provider from '../Provider'
-import { finishAuth } from '@startupjs/auth/server'
 
 export default async function loginNative (req, res, next, config) {
   const { clientId, clientSecret, successRedirectUrl } = config

@@ -1,5 +1,5 @@
-import passport from 'passport'
 import { finishAuth } from '@startupjs/auth/server'
+import passport from 'passport'
 
 export default function callBackLogin (req, res, next, { successRedirectUrl }) {
   passport.authenticate('azuread-openidconnect', function (err, userId, info) {
