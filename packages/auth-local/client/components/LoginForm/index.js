@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
@@ -16,12 +16,11 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
   const history = useHistory()
 
+  const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
     email: null,
     password: null
   })
-  const [formErrors, setFormErrors] = useState({})
-  const [loading, setLoading] = useState(false)
 
   const onFormChange = field => value => {
     $form.set(field, value)
@@ -61,7 +60,6 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
     }
 
     try {
-      setLoading(true)
       const res = await authHelper.login(form)
 
       if (res.data) {
@@ -79,8 +77,6 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
           setFormErrors({ authError: error.response.data.message })
         }
       }
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -137,9 +133,6 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
         secureTextEntry
         value=form.password || ''
       )
-      if loading
-        Br
-        ActivityIndicator
       if formErrors.authError
         Br
         Span.authError
