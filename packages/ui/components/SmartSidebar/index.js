@@ -16,7 +16,8 @@ const DEFAULT_OPEN = true
 
 function SmartSidebar ({
   style,
-  forceClosed,
+  defaultOpen,
+  disabled,
   fixedLayoutBreakpoint,
   path,
   $open,
@@ -31,6 +32,7 @@ function SmartSidebar ({
   }
 
   const componentId = useComponentId()
+
   if (!$open) {
     [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
@@ -42,11 +44,16 @@ function SmartSidebar ({
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
   useLayoutEffect(() => {
+    if (open && disabled) $open.setDiff(false)
+  }, [!!open, !!disabled])
+
+  useLayoutEffect(() => {
+    if (disabled) return
     if (fixedLayout) {
       // when change dimensions from mobile
       // to desktop resolution or when rendering happen on desktop resolution
       // we open sidebar if it was opened on mobile resolution or default value
-      $open.setDiff(open || DEFAULT_OPEN)
+      $open.setDiff(open || defaultOpen)
     } else {
       // when change dimensions from desktop
       // to mobile resolution or when rendering heppen for mobile resolution
@@ -71,9 +78,9 @@ function SmartSidebar ({
         $open=$open
         position=position
         width=width
-        forceClosed=forceClosed
         renderContent=renderContent
-        defaultOpen=DEFAULT_OPEN
+
+
       )= children
     else
       DrawerSidebar(
@@ -81,15 +88,16 @@ function SmartSidebar ({
         $open=$open
         position=position
         width=width
-        forceClosed=forceClosed
         renderContent=renderContent
+        drawerLockMode=disabled ? 'locked-closed' : undefined
         ...props
       )= children
   `
 }
 
 SmartSidebar.defaultProps = {
-  forceClosed: false,
+  defaultOpen: false,
+  disalbed: false,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
@@ -99,7 +107,8 @@ SmartSidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
-  forceClosed: PropTypes.bool,
+  defaultOpen: PropTypes.bool,
+  disalbed: PropTypes.bool,
   fixedLayoutBreakpoint: PropTypes.number,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,

@@ -58,50 +58,6 @@ return (
 )
 ```
 
-## Видимость по умолчанию
-
-Для управления видимостью по умолчанию используйте свойство `defaultOpen` (значение по умолчанию равно `true`).
-
-```jsx example
-const [open, $open] = useSession('ExampleDefaultCloseSidebar')
-return (
-  <Div style={{overflow: 'hidden'}}>
-    <Sidebar
-      $open={$open}
-      defaultOpen={false}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
-    >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button variant='flat' onPress={() => $open.set(!open)}>
-            Toggle sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
-  </Div>
-)
-```
-
 ## Расположение
 
 Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
@@ -136,48 +92,6 @@ return (
             onPress={() => { $open.set(!open) }}
           >
             Toggle right sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
-)
-```
-
-## Заблокированный сайдбар
-
-Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
-
-```jsx example
-const [open, $open] = useSession('ExampleLockedSidebar')
-return (
-    <Sidebar
-      forceClosed
-      $open={$open}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
-    >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button variant='flat' onPress={() => $open.set(!open)}>
-            Toggle sidebar
           </Button>
         </Row>
         <Br />
