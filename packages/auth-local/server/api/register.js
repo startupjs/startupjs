@@ -1,5 +1,5 @@
-import Provider from '../Provider'
 import bcrypt from 'bcrypt'
+import Provider from '../Provider'
 import { EMAIL_REGEXP } from '../../isomorphic'
 
 export default function (req, res, done, config) {

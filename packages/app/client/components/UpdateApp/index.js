@@ -1,13 +1,13 @@
 import React from 'react'
-import { observer, useSession } from 'startupjs'
-import Layout from './../Layout'
 import { Platform, Linking, Button, Text } from 'react-native'
+import { observer } from 'startupjs'
+import { Link } from '@startupjs/ui'
+import Layout from './../Layout'
 const isIos = Platform.OS === 'ios'
 
-export default observer(function UpdateApp () {
-  const [{ iosUpdateLink, androidUpdateLink } = {}] = useSession('criticalVersion.meta')
-
+export default observer(function UpdateApp ({ androidUpdateLink, iosUpdateLink, supportEmail }) {
   const link = isIos ? iosUpdateLink : androidUpdateLink
+  const emailLink = 'mailto:' + supportEmail
 
   const description = pug`
     Text Sorry, your version of the app is too old.
@@ -18,6 +18,10 @@ export default observer(function UpdateApp () {
       else
         | Google Play
       | .
+    if supportEmail
+      Text
+        | If you have any questions, write to us at 
+        Link(to=emailLink)= supportEmail
   `
   return pug`
     Layout(

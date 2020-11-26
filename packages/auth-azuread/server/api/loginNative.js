@@ -1,9 +1,9 @@
-import axios from 'axios'
-import { CALLBACK_NATIVE_AZUREAD_URL, FAILURE_LOGIN_URL, getStrBase64, SCOPE } from '../../isomorphic'
-import qs from 'query-string'
-import Provider from '../Provider'
-import nconf from 'nconf'
 import { finishAuth } from '@startupjs/auth/server'
+import axios from 'axios'
+import qs from 'query-string'
+import nconf from 'nconf'
+import { CALLBACK_NATIVE_AZUREAD_URL, FAILURE_LOGIN_URL, getStrBase64, SCOPE } from '../../isomorphic'
+import Provider from '../Provider'
 
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query

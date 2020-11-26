@@ -1,3 +1,4 @@
+import { $root } from 'startupjs'
 import axios from 'axios'
 import {
   LOCAL_LOGIN_URL,
@@ -6,7 +7,6 @@ import {
   REGISTER_URL,
   CHANGE_PASSWORD_URL
 } from '../../isomorphic'
-import { $root } from 'startupjs'
 
 export default function AuthHelper () {
   // You must make BASE_URL as bublic in config.json

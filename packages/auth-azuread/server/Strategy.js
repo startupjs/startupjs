@@ -1,9 +1,9 @@
-import Provider from './Provider'
 import { OIDCStrategy as Strategy } from 'passport-azure-ad'
-import initRoutes from './initRoutes'
 import passport from 'passport'
-import { CALLBACK_AZUREAD_URL } from '../isomorphic'
 import nconf from 'nconf'
+import Provider from './Provider'
+import initRoutes from './initRoutes'
+import { CALLBACK_AZUREAD_URL } from '../isomorphic'
 
 function validateConfigs ({ clientId, identityMetadata, tentantId }) {
   if (!clientId) {

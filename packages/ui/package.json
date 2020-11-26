@@ -21,6 +21,7 @@
     "react-native-drawer-layout-polyfill": "^2.0.0"
   },
   "peerDependencies": {
+    "@react-native-picker/picker": ">=1.9.3",
     "react": ">= 16.9.0",
     "react-native": ">= 0.61.4",
     "react-native-collapsible": ">= 1.5.2",

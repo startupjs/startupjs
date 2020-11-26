@@ -1,5 +1,5 @@
-import passport from 'passport'
 import { finishAuth } from '@startupjs/auth/server'
+import passport from 'passport'
 
 export default function callBackLogin (req, res, next, { successRedirectUrl }) {
   passport.authenticate('linkedin', function (err, userId, info) {
