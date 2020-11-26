@@ -8,13 +8,13 @@ const STAGE = process.env.STAGE
 const EMAIL_WHITELIST = [...(conf.get('ADMINS') || []), ...(conf.get('EMAIL_WHITELIST') || [])]
 const isProduction = STAGE === 'production'
 
-async function _getDataFromTemplate (template, options) {
-  const data = await templates[template](options)
+async function _getDataFromTemplate (model, template, options) {
+  const data = await templates[template](model, options)
   return data
 }
 
-async function _checkPermission (email, ignoreUnsubscribed, model) {
-  if (!ignoreUnsubscribed && await _checkUnsubscribed(email, model)) {
+async function _checkPermission (model, email, ignoreUnsubscribed) {
+  if (!ignoreUnsubscribed && await _checkUnsubscribed(model, email)) {
     console.log(`\n[@startupjs/mail] We can't send email to address ("${email}") that is unsubscribed.\n`)
     return false
   }
@@ -27,7 +27,7 @@ async function _checkPermission (email, ignoreUnsubscribed, model) {
   return true
 }
 
-async function _checkUnsubscribed (email, model) {
+async function _checkUnsubscribed (model, email) {
   const $auths = model.query('auths', {
     'emailSettings.unsubscribed': true,
     email,
@@ -39,10 +39,10 @@ async function _checkUnsubscribed (email, model) {
   return !!authsCount
 }
 
-async function _filterIgnoredEmails (emails, ignoreUnsubscribed, model) {
+async function _filterIgnoredEmails (model, emails, ignoreUnsubscribed) {
   let filteredEmails = []
   for (let email of emails) {
-    if (await _checkPermission(email, ignoreUnsubscribed, model)) {
+    if (await _checkPermission(model, email, ignoreUnsubscribed)) {
       filteredEmails.push(email)
     }
   }
@@ -80,7 +80,8 @@ async function _getDataFromLayout (model, layout, options) {
 }
 
 /**
- * @param
+ * @param {String} options.from - Any string compatible with your mail provider.
+ * @param {String} options.senderId - id of email sender
  * @param {Boolean} options.ignoreWhitelist - should whitelist be ignored in DEV stage
  * @param {String|String[]} options.to - comma separated string with recipient emails 'mail1@mail.com, mail2@mail.com' or array of emails
  * @param {String[]} options.recipientIds - array of auths ids
@@ -89,6 +90,7 @@ async function _getDataFromLayout (model, layout, options) {
  * @param {String} options.html - string with html
  * @param {Boolean} options.inline - inline image for html content (path to image)
  * @param {String} options.layout - name of layout would be used
+ * @param {Object} options.layoutOptions - object with options passed to layout
  * @param {String} options.template - name of template would be used
  * @param {Object} options.templateOptions - object with options passed to template
  * @param {String} options.provider - name of provider would be used
@@ -113,7 +115,7 @@ async function sendEmail (model, options) {
     to = new Set([...to, ...recipientMails])
 
     if (!isProduction && !options.ignoreWhitelist) {
-      to = [...await _filterIgnoredEmails(to, layoutData.ignoreUnsubscribed, model)]
+      to = [...await _filterIgnoredEmails(model, to, layoutData.ignoreUnsubscribed)]
     }
 
     let _options = {
@@ -128,6 +130,7 @@ async function sendEmail (model, options) {
 
     if (options.template) {
       const { html, subject } = await _getDataFromTemplate(
+        model,
         options.template,
         options.templateOptions
       )
