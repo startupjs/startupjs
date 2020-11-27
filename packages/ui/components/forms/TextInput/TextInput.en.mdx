@@ -2,7 +2,7 @@ import { useState } from 'react'
 import TextInput from '../TextInput'
 import Div from '../../Div'
 import Br from '../../Br'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
@@ -86,7 +86,7 @@ return (
 
 ## Icons
 
-Icon can be added using `icon` property. Position of icon can be changed by passing `iconPosition` to component (`left` by default). To handle clicks on the icon, use the property `onIconPress`. To change icon color use the ʻiconStyleName` property.
+Icon can be added using `icon` and `secondaryIcon` properties. Position of icon can be changed by passing `iconPosition` to component (`left` by default). The `secondaryIcon` uses opposite position of `iconPosition`. To handle clicks on the icon, use the property `onIconPress` and `onSecondaryIconPress`. To change icon color use the ʻiconStyleName` and `secondaryIconStyleName` properties.
 
 In `.styl` file
 ```stylus
@@ -100,12 +100,13 @@ const [valueRight, setRightValue] = useState()
 return (
   <Div>
     <TextInput
-      icon={faTimesCircle}
-      iconStyleName='icon'
+      icon={faSearch}
+      secondaryIcon={faTimesCircle}
+      secondaryIconStyleName='icon'
       label='Example icon left'
       value={valueLeft}
       onChangeText={setLeftValue}
-      onIconPress={() => setLeftValue()}
+      onSecondaryIconPress={() => setLeftValue()}
     />
     <Br />
     <TextInput

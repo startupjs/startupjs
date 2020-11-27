@@ -1,7 +1,7 @@
 import { finishAuth } from '@startupjs/auth/server'
 import axios from 'axios'
-import nconf from 'nconf'
 import qs from 'query-string'
+import nconf from 'nconf'
 import { CALLBACK_NATIVE_LINKEDIN_URL, FAILURE_LOGIN_URL } from '../../isomorphic'
 import Provider from '../Provider'
 

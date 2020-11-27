@@ -1,4 +1,3 @@
-
 import { Strategy } from 'passport-local'
 import _get from 'lodash/get'
 import passport from 'passport'

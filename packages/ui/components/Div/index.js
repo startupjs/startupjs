@@ -32,6 +32,7 @@ function Div ({
   shape,
   pushed, // By some reason prop 'push' was ignored
   bleed,
+  accessible,
   onPress,
   onLongPress,
   onClick,
@@ -43,7 +44,7 @@ function Div ({
   const [active, setActive] = useState()
   let extraStyle = {}
   const extraProps = {}
-  const wrapperProps = {}
+  const wrapperProps = { accessible }
 
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect

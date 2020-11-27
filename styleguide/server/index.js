@@ -1,8 +1,8 @@
 import init from 'startupjs/init/server'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
-import getDocsRoutes from '@startupjs/docs/routes'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
+import getDocsRoutes from '@startupjs/docs/routes'
 
 import { initAuth } from '@startupjs/auth/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -12,8 +12,8 @@ import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 
 import conf from 'nconf'
-import getMainRoutes from '../main/routes'
 import orm from '../model'
+import getMainRoutes from '../main/routes'
 
 // Init startupjs ORM.
 init({ orm })
@@ -27,7 +27,11 @@ startupjsServer({
     ...getAuthRoutes()
   ]
 }, (ee, options) => {
-  initApp(ee)
+  initApp(ee, {
+    ios: conf.get('CRITICAL_VERSION_IOS'),
+    android: conf.get('CRITICAL_VERSION_ANDROID'),
+    web: conf.get('CRITICAL_VERSION_WEB')
+  })
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
@@ -77,7 +81,7 @@ startupjsServer({
         clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
         tentantId: conf.get('AZUREAD_TENTANT_ID'),
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
-        allowHttpForRedirectUrl: true
+        allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
       })
     ]
     // Global auth hooks

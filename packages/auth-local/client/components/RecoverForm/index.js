@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Platform } from 'react-native'
-import { Div, Span, Br, Button } from '@startupjs/ui'
-import { observer, useValue } from 'startupjs'
+import { Platform } from 'react-native'
 import { useHistory } from 'react-router'
-import TextInput from '../TextInput'
-import PropTypes from 'prop-types'
+import { observer, useValue } from 'startupjs'
+import { Div, Span, Br, Button } from '@startupjs/ui'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import { useAuthHelper } from '@startupjs/auth-local/client'
+import PropTypes from 'prop-types'
+import TextInput from '../TextInput'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -15,7 +15,6 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
   const history = useHistory()
 
-  const [loading, setLoading] = useState()
   const [form, $form] = useValue({
     email: null,
     secret: null,
@@ -36,16 +35,11 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
       return
     }
     try {
-      setLoading(true)
       await authHelper.createPassResetSecret(form)
-
       onSuccess && onSuccess(null, 'reset')
-
       setFeedback('Check your email for instructions')
-      setLoading(false)
     } catch (err) {
       setFormErrors({ globalError: err.response.data.message })
-      setLoading(false)
       onError && onError(err)
     }
   }
@@ -69,13 +63,9 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   }, [feedBack])
 
   useEffect(() => {
-    if (isWeb) {
-      listenKeypress()
-    }
+    if (isWeb) listenKeypress()
     return () => {
-      if (isWeb) {
-        unlistenKeypress()
-      }
+      if (isWeb) unlistenKeypress()
     }
   }, [])
 
@@ -103,8 +93,6 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
       else
         Span.text.center-text
           = feedBack
-      if (loading)
-        ActivityIndicator
       if formErrors.globalError
         Br
         Span.authError

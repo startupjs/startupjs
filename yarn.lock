@@ -2769,6 +2769,41 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@startupjs/auth-azuread@file:packages/auth-azuread":
+  version "0.0.1"
+  dependencies:
+    passport-azure-ad "^4.2.1"
+
+"@startupjs/auth-facebook@file:packages/auth-facebook":
+  version "0.0.1"
+  dependencies:
+    fb "2.0.0"
+    passport-facebook "^3.0.0"
+
+"@startupjs/auth-google@file:packages/auth-google":
+  version "0.0.1"
+  dependencies:
+    google-auth-library "^6.0.0"
+    passport-google-oauth20 "^2.0.0"
+
+"@startupjs/auth-linkedin@file:packages/auth-linkedin":
+  version "0.0.1"
+  dependencies:
+    bcrypt "^4.0.1"
+    passport-linkedin-oauth2 "^2.0.0"
+
+"@startupjs/auth-local@file:packages/auth-local":
+  version "0.0.1"
+  dependencies:
+    bcrypt "^4.0.1"
+    passport-local "^1.0.0"
+
+"@startupjs/auth@file:packages/auth":
+  version "0.0.1"
+  dependencies:
+    bcrypt "^4.0.1"
+    passport "^0.4.1"
+
 "@startupjs/babel-plugin-react-css-modules@1701.0.1":
   version "1701.0.1"
   resolved "https://registry.yarnpkg.com/@startupjs/babel-plugin-react-css-modules/-/babel-plugin-react-css-modules-1701.0.1.tgz#93de218cacfdc9313ad03368c90b36a19ed97aad"
@@ -14123,6 +14158,11 @@ moment@^2.0.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
+moment@^2.19.3:
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 mongodb-core@2.1.20:
   version "2.1.20"

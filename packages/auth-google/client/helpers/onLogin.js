@@ -1,7 +1,7 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
+import { finishAuth } from '@startupjs/auth'
 import { GOOGLE_CLIENT_ID, BASE_URL } from '@env'
 import axios from 'axios'
-import { finishAuth } from '@startupjs/auth'
 import { CALLBACK_NATIVE_URL } from '../../isomorphic'
 
 export default async function onLogin () {

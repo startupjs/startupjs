@@ -52,44 +52,6 @@ return (
 )
 ```
 
-## Default visibility
-
-To control default visibility use `defaultOpen` (default value is `false`) property.
-
-```jsx example
-const [open, $open] = useSession('ExampleDefaultOpenDrawerSidebar')
-return (
-  <Div style={{overflow: 'hidden'}}>
-    <DrawerSidebar
-      $open={$open}
-      defaultOpen={true}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item>Nav-1</Menu.Item>
-          <Menu.Item>Nav-2</Menu.Item>
-          <Menu.Item>Nav-3</Menu.Item>
-          <Menu.Item>Nav-4</Menu.Item>
-        </Menu>
-      )}
-    >
-      <Content
-        padding
-        width='full'
-        style={{ backgroundColor: 'white' }}
-      >
-        <Row>
-          <Button onPress={() => $open.set(true)}>Open</Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </DrawerSidebar>
-  </Div>
-)
-```
-
 ## Position
 
 The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
@@ -109,44 +71,6 @@ return (
           <Menu.Item>Nav-4</Menu.Item>
         </Menu>
       )}
-    >
-      <Content
-        padding
-        width='full'
-        style={{ backgroundColor: 'white' }}
-      >
-        <Row>
-          <Button onPress={() => $open.set(true)}>Open</Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </DrawerSidebar>
-  </Div>
-)
-```
-
-## Locked Drawer
-
-Specifying `forceClosed` property will keep the drawer closed and it won't respond to gestures or react to `open` property.
-
-```jsx example
-const [open, $open] = useSession('ExampleLockedDrawerSidebar')
-return (
-  <Div style={{overflow: 'hidden'}}>
-    <DrawerSidebar
-      $open={$open}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item>Nav-1</Menu.Item>
-          <Menu.Item>Nav-2</Menu.Item>
-          <Menu.Item>Nav-3</Menu.Item>
-          <Menu.Item>Nav-4</Menu.Item>
-        </Menu>
-      )}
-      forceClosed
     >
       <Content
         padding

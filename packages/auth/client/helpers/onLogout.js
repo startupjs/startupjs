@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { NativeModules } from 'react-native'
+import axios from 'axios'
 import { LOGOUT_URL } from '../../isomorphic'
 
 export default async function onLogout () {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { onLogout } from '../../helpers'
 import { Button } from '@startupjs/ui'
+import { onLogout } from '../../helpers'
 
 function LogoutButton () {
   return pug`
