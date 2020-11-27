@@ -33,6 +33,23 @@ startupjsServer({
     successRedirectUrl: '/profile',
     strategies: [
       new LocalStrategy({
+        // TODO:
+        // validateRegisterHook: () => {},
+        // validateLoginHook: () => {},
+        // onBeforeRegisterHook: () => {},
+        // onAfterRegisterHook: () => {},
+        // email validation ?
+
+        // TODO: refactor params
+        // onCreatePasswordResetSecret: ({ userId, secret }, req, res, next) => {
+        //   console.log('\nonCreatePasswordResetSecret', userId, secret)
+        // },
+        // onPasswordReset: ({ userId }, req, res, next) => {
+        //   console.log('\nonPasswordReset', userId)
+        // },
+        // onPasswordChange: ({ userId }, req, res, next) => {
+        //   console.log('\nPasswordChange', userId)
+        // }
         onCreatePasswordResetSecret: (userId, secret) => {
           console.log('\nonCreatePasswordResetSecret', userId, secret)
         },
@@ -63,6 +80,8 @@ startupjsServer({
         allowHttpForRedirectUrl: true
       })
     ]
+    // Global auth hooks
+    // TODO: describe behaviour of each hook
     // onBeforeLogintHook: async (data, req, res, next) => {
     //   console.log('onBeforeLogintHook', data)
     //   next()
@@ -73,6 +92,10 @@ startupjsServer({
     // },
     // parseUserCreationData: async user => {
     //   console.log('\nexample onUserCreate', user, '\n')
+    //   return { ...user, additionalField: 777 }
+    // }
+    // onAfterUserCreationHook: async userId => {
+    //   console.log('\nexample onAfterUserCreationHook', user, '\n')
     //   return { ...user, additionalField: 777 }
     // }
   })

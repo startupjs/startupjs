@@ -1,6 +1,11 @@
 import passport from 'passport'
 import express from 'express'
-import { parseUserCreationData, onBeforeLogintHook, onBeforeLogoutHook } from './helpers'
+import {
+  parseUserCreationData,
+  onBeforeLogintHook,
+  onBeforeLogoutHook,
+  onAfterUserCreationHook
+} from './helpers'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
 import { DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic'
@@ -26,7 +31,8 @@ export default function (ee, _config) {
   Object.assign(config, {
     parseUserCreationData,
     onBeforeLogoutHook,
-    onBeforeLogintHook
+    onBeforeLogintHook,
+    onAfterUserCreationHook
   }, _config)
 
   console.log('++++++++++ Initialization of auth module ++++++++++\n', config, '\n')

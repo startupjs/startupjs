@@ -45,9 +45,8 @@ export default class BaseProvider {
 
     // Extend base collection of user fields with custom data in overrided parseUserCreationData hook
     const parseUserCreationDataRes = this.options.parseUserCreationData({ ...immutableUserFields })
+    // Check if returned promise
     const parsedUserFields = parseUserCreationDataRes.then ? await parseUserCreationDataRes : parseUserCreationDataRes
-
-    console.log(parsedUserFields)
 
     // Some fileds like id and email must be immutable so we can't allow to change it
     await $root.addAsync('users', {
@@ -63,6 +62,10 @@ export default class BaseProvider {
     }
 
     await $root.addAsync('auths', authData)
+
+    const hookRes = this.options.onAfterUserCreationHook(userId)
+    // Check if returned promise
+    hookRes.then && await hookRes
 
     return userId
   }
