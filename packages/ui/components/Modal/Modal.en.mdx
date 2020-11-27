@@ -49,12 +49,6 @@ By default the modal shows like window in center of the page. To make it fullscr
 ```jsx example
 const [visible, setVisible] = useState(false)
 
-useEffect(() => {
-  return (
-    () => console.log('test2')
-  )
-}, [])
-
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
