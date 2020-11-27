@@ -322,9 +322,25 @@ model.query('events', {
 })
 ```
 
-## !!!IMPORTANT Permissions
+## IMPORTANT! Using With Permissions
 
-In our orm will check the permissions to perform the aggregation. How to allow users to perform aggregations can be found in the [documentation on permissions](https://core.dmapper.co/docs/permissions).
+You can use this component with permission library for checking user roles and permissions. For it you need to add object with field `customCheck` in `serverAggregate`. `customCheck` is a function for additional checking. You can read how it works in [server-aggregate documentation](https://github.com/startupjs/startupjs/tree/master/packages/server-aggregate). We have special function for it in permissions library.
+
+```js
+import { checkAggregationPermission } from '@dmapper/permissions/access'
+
+startupjsServer({
+  getHead,
+  appRoutes: [
+    ...getMainRoutes()
+  ],
+  accessControl: true,
+  serverAggregate: {
+    customCheck: checkAggregationPermission
+  }
+```
+
+Now in our orm will be checked the permissions to perform the aggregation. How to allow users to perform aggregations can be found in the [documentation on permissions](https://core.dmapper.co/docs/permissions).
 
 ## MIT Licence
 

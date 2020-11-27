@@ -2,8 +2,6 @@ const ShareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const serverAggregate = require('@startupjs/server-aggregate')
-// TODO move checkAggregationPermission to hight level
-const checkAggregationPermission = require('@dmapper/permissions/access/checkAggregationPermission.cjs')
 const conf = require('nconf')
 const isArray = require('lodash/isArray')
 const isPlainObject = require('lodash/isPlainObject')
@@ -118,7 +116,7 @@ module.exports = async options => {
     global.STARTUP_JS_ORM &&
     Object.keys(global.STARTUP_JS_ORM).length > 0
   ) {
-    serverAggregate(backend, checkAggregationPermission)
+    serverAggregate(backend, options.serverAggregate.customCheck)
     for (const path in global.STARTUP_JS_ORM) {
       const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
       if (aggregations) {
