@@ -13,12 +13,13 @@ import { Modal } from '@startupjs/ui'
 
 ## Example
 
-- `onCrossPress` displays cross in title that uses this handler (it has a higher priority than `onDismiss`)
-- `onDismiss` displays cancel button and cross in title that uses this handler
+- `onCrossPress` displays cross in title that uses this handler (it has a higher priority than `onClose`)
+- `onClose` displays cancel button and cross in title that uses this handler
 - `onConfirm` displays confirm button that uses this handler
 
 ```jsx example
 const [visible, setVisible] = useState(false)
+
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
@@ -30,7 +31,7 @@ return (
       dismissLabel='Close'
       confirmLabel='Accept'
       onCrossPress={() => setVisible(false)}
-      onDismiss={() => setVisible(false)}
+      onClose={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
       onShow={() => console.log('Modal shown!')}
       onBackdropPress={() => console.log('Have clicked to backdrop')}
@@ -47,6 +48,13 @@ By default the modal shows like window in center of the page. To make it fullscr
 
 ```jsx example
 const [visible, setVisible] = useState(false)
+
+useEffect(() => {
+  return (
+    () => console.log('test2')
+  )
+}, [])
+
 return (
   <React.Fragment>
     <Button onPress={() => setVisible(true)}>
@@ -56,7 +64,7 @@ return (
       variant='fullscreen'
       title='Fullscreen example'
       visible={visible}
-      onDismiss={() => setVisible(false)}
+      onClose={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
@@ -67,7 +75,7 @@ return (
 
 ## Advanced usage
 
-Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onDismiss`, `onConfirm`. They can be used separately.
+Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onClose`, `onConfirm`. They can be used separately.
 
 ```jsx example
 const [visible, setVisible] = useState(false)

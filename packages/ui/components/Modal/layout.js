@@ -16,7 +16,7 @@ function Modal ({
   onCrossPress,
   dismissLabel,
   confirmLabel,
-  onDismiss,
+  onClose,
   onConfirm,
   onBackdropPress
 }) {
@@ -53,7 +53,7 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    onDismiss,
+    onClose,
     dismissLabel,
     confirmLabel,
     onConfirm,
@@ -61,13 +61,13 @@ function Modal ({
   }
   actions = actions
     ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
-    : onDismiss || onConfirm
+    : onClose || onConfirm
       ? React.createElement(ModalActions, actionsProps)
       : null
 
   // Handle <Modal.Header>
   const headerProps = {
-    onDismiss: onCrossPress || onDismiss,
+    onClose: onCrossPress || onClose,
     style: content || actions ? { paddingBottom: 0 } : null
   }
   header = header
@@ -83,7 +83,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=onBackdropPress || onDismiss
+          onPress=onBackdropPress || onClose
         )
       ModalElement.modal(
         style=modalStyle

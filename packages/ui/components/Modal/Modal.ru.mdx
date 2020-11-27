@@ -13,8 +13,8 @@ import { Modal } from '@startupjs/ui'
 
 ## Пример
 
-- `onCrossPress` отображает крестик в заголовке который использует этот обработчик (он имеет более высокий приоритет чем `onDismiss`)
-- `onDismiss` отображает кнопку отмены и крестик в заголовке которые используют этот обработчик
+- `onCrossPress` отображает крестик в заголовке который использует этот обработчик (он имеет более высокий приоритет чем `onClose`)
+- `onClose` отображает кнопку отмены и крестик в заголовке которые используют этот обработчик
 - `onConfirm` отображает кнопку подтверждения которая использует этот обработчик
 
 ```jsx example
@@ -30,7 +30,7 @@ return (
       dismissLabel='Закрыть'
       confirmLabel='Принять'
       onCrossPress={() => setVisible(false)}
-      onDismiss={() => setVisible(false)}
+      onClose={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
       onShow={() => console.log('Modal shown!')}
       onBackdropPress={() => console.log('Have clicked to backdrop')}
@@ -56,7 +56,7 @@ return (
       variant='fullscreen'
       title='Полноэкранный пример'
       visible={visible}
-      onDismiss={() => setVisible(false)}
+      onClose={() => setVisible(false)}
       onConfirm={() => setVisible(false)}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
@@ -67,7 +67,7 @@ return (
 
 ## Продвинутое использование
 
-Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onDismiss`, `onConfirm`. Их можно использовать по отдельности.
+Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onClose`, `onConfirm`. Их можно использовать по отдельности.
 
 ```jsx example
 const [visible, setVisible] = useState(false)
