@@ -11,7 +11,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # SmartSidebar
 
-SmartSidebar is typically used for nagivation. It provides a desktop-mobile friendly interface. Based on a fixed layout breakpoint, it decides to stay as a [visible sidebar](/docs/components/Sidebar) or to turn into an [invisible drawer sidebar](/docs/components/DrawerSidebar). Though in both cases the sidebar is controllable. By defualt it not visible on the screen.
+SmartSidebar is typically used for navigation. It provides a desktop-mobile friendly interface. Based on a fixed layout breakpoint, it decides to stay as a [sidebar](/docs/components/Sidebar) or to turn into an [drawer sidebar](/docs/components/DrawerSidebar). By default it not visible on the screen.
 
 ```jsx
 import { SmartSidebar } from '@startupjs/ui'
@@ -122,6 +122,42 @@ return (
         <Span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
         </Span>
+      </Content>
+    </SmartSidebar>
+  </Div>
+)
+```
+
+## Default visibility (desktop only)
+
+To control default visibility use `defaultOpen` property.
+
+```jsx example
+const [open, $open] = useSession('ExampleDefaultOpenSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Div>
+          <Br />
+          <Menu>
+            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          </Menu>
+        </Div>
+      )}
+      defaultOpen
+    >
+      <Content
+        padding
+        width='full'
+        style={{ backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $open.set(!open)}>Toggle</Button>
+        </Row>
       </Content>
     </SmartSidebar>
   </Div>
