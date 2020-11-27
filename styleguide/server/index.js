@@ -38,8 +38,8 @@ startupjsServer({
     strategies: [
       new LocalStrategy({
         // Vars
-        resetPasswordTimeLimit: 60 * 1000 * 10,
-        emailRegistrationRegexp: /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/
+        // resetPasswordTimeLimit: 60 * 1000 * 10,
+        // emailRegistrationRegexp: /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/,
 
         // Hooks
         // onCreatePasswordResetSecret: async (userId, secret) => {
@@ -52,15 +52,14 @@ startupjsServer({
         // onAfterRegister: async userId => {
         //   console.log(userId)
         // }
-        //
-
-        // TODO: refactor params
-        // onPasswordReset: ({ userId }, req, res, next) => {
-        //   console.log('\nonPasswordReset', userId)
+        // onBeforePasswordChange: (req, res, next) => {
+        //   console.log('\onBeforePasswordChange')
+        //   next()
         // },
-        // onPasswordChange: ({ userId }, req, res, next) => {
-        //   console.log('\nPasswordChange', userId)
+        // onAfterPasswordChange: userId => {
+        //   console.log('\onAfterPasswordChange')
         // }
+        //
       }),
       new FacebookStrategy({
         clientId: conf.get('FACEBOOK_CLIENT_ID'),
@@ -83,7 +82,6 @@ startupjsServer({
       })
     ]
     // Global auth hooks
-    // TODO: describe behaviour of each hook
     // onBeforeLoginHook: async ({ userId }, req, res, next) => {
     //   console.log('onBeforeLoginHook', userId)
     //   next()

@@ -5,22 +5,29 @@ import bcrypt from 'bcrypt'
 import {
   onCreatePasswordResetSecret,
   onBeforeRegister,
-  onAfterRegister
+  onAfterRegister,
+  onBeforePasswordReset,
+  onAfterPasswordReset,
+  onBeforePasswordChange,
+  onAfterPasswordChange
 } from './helpers'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
+import { DEFAULT_PASS_RESET_TIME_LIMIT } from '../isomorphic'
 
 export default function (config = {}) {
   this.config = {}
 
   return ({ model, router, authConfig }) => {
     Object.assign(this.config, {
-      resetPasswordTimeLimit: 60 * 1000 * 10, // Expire time of reset password secret (10 mins by default),
-      onCreatePasswordResetSecret, // cb that triggers after reset password secret creating,
+      resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      onCreatePasswordResetSecret,
       onBeforeRegister,
       onAfterRegister,
-      onPasswordReset: () => {}, // cb that triggers after reset password operation,
-      onPasswordChange: () => {}, // cb that triggers after change password operation
+      onAfterPasswordReset,
+      onBeforePasswordReset,
+      onBeforePasswordChange,
+      onAfterPasswordChange,
       ...authConfig
     }, config)
 
