@@ -2,7 +2,7 @@ import passport from 'passport'
 import express from 'express'
 import {
   parseUserCreationData,
-  onBeforeLogintHook,
+  onBeforeLoginHook,
   onBeforeLogoutHook,
   onAfterUserCreationHook
 } from './helpers'
@@ -31,7 +31,7 @@ export default function (ee, _config) {
   Object.assign(config, {
     parseUserCreationData,
     onBeforeLogoutHook,
-    onBeforeLogintHook,
+    onBeforeLoginHook,
     onAfterUserCreationHook
   }, _config)
 

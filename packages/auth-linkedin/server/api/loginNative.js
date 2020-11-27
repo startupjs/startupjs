@@ -10,7 +10,7 @@ const EMAIL_URL = 'https://api.linkedin.com/v2/emailAddress?q=members&projection
 
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query
-  const { clientId, clientSecret, successRedirectUrl, onBeforeLogintHook } = config
+  const { clientId, clientSecret, successRedirectUrl, onBeforeLoginHook } = config
 
   const body = {
     grant_type: 'authorization_code',
@@ -52,7 +52,7 @@ export default async function loginNative (req, res, next, config) {
     const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLogintHook })
+    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
   } catch (err) {
     console.log('[@dmapper/auth-linkedin] Error: linkedin login', err)
     return res.redirect(FAILURE_LOGIN_URL)

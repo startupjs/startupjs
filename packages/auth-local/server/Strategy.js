@@ -2,6 +2,11 @@ import { Strategy } from 'passport-local'
 import _get from 'lodash/get'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
+import {
+  onCreatePasswordResetSecret,
+  onBeforeRegister,
+  onAfterRegister
+} from './helpers'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
 
@@ -11,7 +16,9 @@ export default function (config = {}) {
   return ({ model, router, authConfig }) => {
     Object.assign(this.config, {
       resetPasswordTimeLimit: 60 * 1000 * 10, // Expire time of reset password secret (10 mins by default),
-      onCreatePasswordResetSecret: () => {}, // cb that triggers after reset password secret creating,
+      onCreatePasswordResetSecret, // cb that triggers after reset password secret creating,
+      onBeforeRegister,
+      onAfterRegister,
       onPasswordReset: () => {}, // cb that triggers after reset password operation,
       onPasswordChange: () => {}, // cb that triggers after change password operation
       ...authConfig
