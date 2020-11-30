@@ -1,6 +1,6 @@
 import React from 'react'
-import { SuccessRedirect } from '../../components'
 import { observer } from 'startupjs'
+import { SuccessRedirect } from '../../components'
 
 export default observer(function Layout ({ children }) {
   return pug`

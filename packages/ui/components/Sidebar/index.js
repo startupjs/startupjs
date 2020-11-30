@@ -16,13 +16,11 @@ function Sidebar ({
   style = [],
   sidebarStyle,
   contentStyle,
-  forceClosed,
   children,
   position,
   path,
   $open,
   width,
-  defaultOpen,
   renderContent,
   ...props
 }) {
@@ -43,8 +41,7 @@ function Sidebar ({
   ;({ open, onChange } = useBind({
     $open,
     open,
-    onChange,
-    default: forceClosed ? false : defaultOpen
+    onChange
   }))
 
   return pug`
@@ -59,8 +56,6 @@ function Sidebar ({
 }
 
 Sidebar.defaultProps = {
-  defaultOpen: true,
-  forceClosed: false,
   position: 'left',
   width: 264
 }
@@ -69,8 +64,6 @@ Sidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
-  defaultOpen: PropTypes.bool,
-  forceClosed: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func

@@ -1,5 +1,5 @@
-import passport from 'passport'
 import { ensureAuthState } from '@startupjs/auth/server/middlewares'
+import passport from 'passport'
 
 export default function (router) {
   return (req, res, next) => {

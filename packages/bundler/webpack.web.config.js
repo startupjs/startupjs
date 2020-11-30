@@ -10,7 +10,6 @@ const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
-const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
@@ -20,6 +19,7 @@ const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const { getJsxRule } = require('./helpers')
 
 const DEFAULT_MODE = 'react-native'
 
@@ -32,6 +32,7 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
+  '@react-native-picker/picker', // used by ui
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui

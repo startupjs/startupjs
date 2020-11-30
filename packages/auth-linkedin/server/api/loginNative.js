@@ -1,16 +1,16 @@
-import axios from 'axios'
-import { CALLBACK_NATIVE_LINKEDIN_URL, FAILURE_LOGIN_URL } from '../../isomorphic'
-import qs from 'query-string'
-import Provider from '../Provider'
-import nconf from 'nconf'
 import { finishAuth } from '@startupjs/auth/server'
+import axios from 'axios'
+import qs from 'query-string'
+import nconf from 'nconf'
+import { CALLBACK_NATIVE_LINKEDIN_URL, FAILURE_LOGIN_URL } from '../../isomorphic'
+import Provider from '../Provider'
 
 const LITE_PROFILE_URL = 'https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,maidenName,profilePicture(displayImage~:playableStreams))'
 const EMAIL_URL = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))'
 
 export default async function loginNative (req, res, next, config) {
   const { code } = req.query
-  const { clientId, clientSecret, successRedirectUrl } = config
+  const { clientId, clientSecret, successRedirectUrl, onBeforeLogintHook } = config
 
   const body = {
     grant_type: 'authorization_code',
@@ -52,7 +52,7 @@ export default async function loginNative (req, res, next, config) {
     const provider = new Provider(req.model, profile, config)
     const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl })
+    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLogintHook })
   } catch (err) {
     console.log('[@dmapper/auth-linkedin] Error: linkedin login', err)
     return res.redirect(FAILURE_LOGIN_URL)

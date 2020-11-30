@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import { H3, Content, Span } from '@startupjs/ui'
-import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import './index.styl'
 
@@ -29,14 +29,12 @@ function AuthForm ({
   const [activeSlide, setActiveSlide] = useState(initSlide)
   const LocalActiveForm = localForms ? localForms[LOCAL_COMPONENTS[activeSlide]] : null
 
-  const renderSocialButtons = socialButtons.map(Component => {
+  const renderSocialButtons = socialButtons.map((Component, index) => {
     return pug`
-      View.button
+      View.button(key=index)
         Component
     `
   })
-
-  console.log(activeSlide)
 
   return pug`
     Content
@@ -60,7 +58,7 @@ function AuthForm ({
 
 AuthForm.propTypes = {
   initSlide: PropTypes.string,
-  socialButtons: PropTypes.object,
+  socialButtons: PropTypes.array,
   localForms: PropTypes.object,
   hasRouting: PropTypes.bool,
   onSuccess: PropTypes.func,
@@ -70,7 +68,7 @@ AuthForm.propTypes = {
 
 AuthForm.defaultProps = {
   initSlide: 'sign-in',
-  socialButtons: {},
+  socialButtons: [],
   hasRouting: false,
   onSuccess: null,
   onError: null,

@@ -1,8 +1,13 @@
 import passport from 'passport'
 import express from 'express'
+import {
+  parseUserCreationData,
+  onBeforeLogintHook,
+  onBeforeLogoutHook,
+  onAfterUserCreationHook
+} from './helpers'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
-import { onUserCreate, onLogin, onLogout } from './helpers'
 import { DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic'
 
 const router = express.Router()
@@ -24,9 +29,10 @@ function validateConfigs ({ strategies }) {
 export default function (ee, _config) {
   const config = {}
   Object.assign(config, {
-    onUserCreate,
-    onLogin,
-    onLogout
+    parseUserCreationData,
+    onBeforeLogoutHook,
+    onBeforeLogintHook,
+    onAfterUserCreationHook
   }, _config)
 
   console.log('++++++++++ Initialization of auth module ++++++++++\n', config, '\n')

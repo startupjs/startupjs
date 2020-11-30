@@ -1,24 +1,24 @@
 // ref: https://github.com/lawnstarter/react-native-picker-select/blob/master/src/index.js
 import React from 'react'
-import { Picker } from 'react-native'
+import { Picker } from '@react-native-picker/picker'
 import { observer } from 'startupjs'
-import Div from '../../../Div'
-import './index.styl'
 import {
   stringifyValue,
   getLabel,
   parseValue,
   NULL_OPTION
 } from './helpers'
+import Div from '../../../Div'
+import './index.styl'
 
 export default observer(function SelectWrapper ({
-  options = [],
-  value,
-  onChange,
-  disabled,
-  showEmptyValue,
+  children,
   style,
-  children
+  disabled,
+  options,
+  showEmptyValue,
+  value,
+  onChange
 }) {
   function onValueChange (value) {
     if (onChange) onChange(parseValue(value))
