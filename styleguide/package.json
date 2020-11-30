@@ -40,7 +40,7 @@
     "react-native-collapsible": "1.5.2",
     "react-native-fbsdk": "^2.0.0",
     "react-native-svg": "^12.1.0",
-    "react-native-web": "^0.14.3",
+    "react-native-web": "0.14.3",
     "react-native-webview": "10.10.2",
     "startupjs": "^0.29.0"
   },
