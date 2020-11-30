@@ -45,4 +45,13 @@ fn_local_init () {
 
   if [ "$STATUS" = "failed-lerna" ]; then echo "!!! ERROR !!! 'lerna publish' failed!" && exit 1; fi
   if [ "$STATUS" = "failed-init" ]; then echo "!!! ERROR !!! 'npx startupjs init' failed!" && exit 1; fi
+  printf "\n\n\n\n"
+  echo "SUCCESS! 'testapp' folder created."
+  echo "You can run 'yarn' commands of testapp without going into its directory using 'yarn testapp'"
+  echo "For example:"
+  echo "  start:   'yarn testapp start'"
+  echo "  metro:   'yarn testapp metro'"
+  echo "  ios:     'yarn testapp ios'"
+  echo "  android: 'yarn testapp android'"
+  echo "  etc."
 }
