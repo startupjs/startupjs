@@ -1,10 +1,10 @@
 import React from 'react'
-import { observer, u } from 'startupjs'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../../Div'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
-import './index.styl'
+import styles from './index.styl'
 
 const Multiselect = ({
   options,
@@ -14,7 +14,7 @@ const Multiselect = ({
   focused,
   disabled,
   readonly,
-  popoverWidth,
+  tagLimit,
   error,
   TagComponent,
   renderListItem,
@@ -27,10 +27,9 @@ const Multiselect = ({
     Popover.root(
       visible=focused
       onDismiss=onHide
-      wrapperStyleName={
-        width: popoverWidth,
-        maxHeight: u(20)
-      }
+      wrapperStyle=styles.popover
+      attachment='start'
+      position='bottom'
     )
       Popover.Caption
         MultiselectInput(
@@ -39,6 +38,7 @@ const Multiselect = ({
           showOpts=focused
           value=value
           placeholder=placeholder
+          tagLimit=tagLimit
           options=options
           disabled=disabled
           error=error
@@ -61,9 +61,9 @@ Multiselect.propTypes = {
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
+  tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   renderListItem: PropTypes.func
