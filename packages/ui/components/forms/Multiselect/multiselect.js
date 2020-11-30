@@ -14,6 +14,7 @@ const Multiselect = ({
   label,
   focused,
   disabled,
+  tagLimit,
   error,
   TagComponent,
   renderListItem,
@@ -29,6 +30,7 @@ const Multiselect = ({
       focused=focused
       value=value
       placeholder=placeholder
+      tagLimit=tagLimit
       options=options
       disabled=disabled
       error=error
@@ -58,6 +60,7 @@ Multiselect.propTypes = {
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
+  tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
