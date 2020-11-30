@@ -19,7 +19,8 @@ fn_local_init () {
   fi
 
   echo "STEP: init app" &&
-  npm_config_registry=http://localhost:4873/ npx startupjs init test &&
+  rm -rf testapp &&
+  npm_config_registry=http://localhost:4873/ npx startupjs init testapp &&
 
   cd ${SCRIPTPATH}/scripts &&
   node unpublish.js
