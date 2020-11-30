@@ -18,7 +18,9 @@ function Modal ({
   confirmLabel,
   onClose,
   onConfirm,
-  onBackdropPress
+  onBackdropPress,
+  $visible,
+  showCross
 }) {
   // Deconstruct template variables
   let header, actions, content
@@ -46,6 +48,26 @@ function Modal ({
       'If <Modal.Content> is specified, you have to put all your content inside it')
   }
 
+  const _onConfirm = () => {
+    onConfirm && onConfirm()
+    $visible.set(false)
+  }
+
+  const _onClose = () => {
+    onClose && onClose()
+    $visible.set(false)
+  }
+
+  const _onBackdropPress = () => {
+    if (onBackdropPress) {
+      onBackdropPress()
+    } else if (onClose) {
+      onClose()
+    }
+
+    $visible.set(false)
+  }
+
   // Handle <Modal.Content>
   content = content || (contentChildren.length > 0
     ? React.createElement(ModalContent, { variant }, contentChildren)
@@ -53,10 +75,10 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    onClose,
+    onClose: onClose && _onClose,
     dismissLabel,
     confirmLabel,
-    onConfirm,
+    onConfirm: _onConfirm,
     style: content ? { paddingTop: 0 } : null
   }
   actions = actions
@@ -67,7 +89,8 @@ function Modal ({
 
   // Handle <Modal.Header>
   const headerProps = {
-    onClose: onCrossPress || onClose,
+    showCross,
+    onClose: _onClose,
     style: content || actions ? { paddingBottom: 0 } : null
   }
   header = header
@@ -83,7 +106,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=onBackdropPress || onClose
+          onPress=_onBackdropPress
         )
       ModalElement.modal(
         style=modalStyle

@@ -65,6 +65,7 @@ Modal.defaultProps = {
   ModalElement: View,
   animationType: 'fade',
   transparent: false,
+  showCross: true,
   supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']
 }
 
@@ -73,9 +74,11 @@ Modal.propTypes = {
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen', 'custom']),
   visible: PropTypes.bool,
+  $visible: PropTypes.any,
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
+  showCross: PropTypes.bool,
   ModalElement: PropTypes.any,
   animationType: PropTypes.oneOf(['slide', 'fade', 'none']),
   transparent: PropTypes.bool,

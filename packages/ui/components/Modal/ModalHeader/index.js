@@ -11,16 +11,17 @@ import './index.styl'
 function ModalHeader ({
   style,
   children,
+  showCross,
   onClose // @private
 }) {
   return pug`
-    if children || onClose
+    if children
       Row.root(style=style align='between' vAlign='center')
         if typeof children === 'string'
           Span.title(numberOfLines=1)= children
         else
           = children
-        if onClose
+        if showCross
           Div.close(onPress=onClose)
             Icon.icon(icon=faTimes size='xl')
   `
@@ -28,6 +29,7 @@ function ModalHeader ({
 
 ModalHeader.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  showCross: PropTypes.bool,
   children: PropTypes.node
 }
 

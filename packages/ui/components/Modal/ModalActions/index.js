@@ -29,7 +29,6 @@ function ModalActions ({
             variant='flat'
             onPress=onConfirm
           )= confirmLabel
-
   `
 }
 
