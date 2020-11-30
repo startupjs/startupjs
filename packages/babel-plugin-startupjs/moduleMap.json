@@ -12,6 +12,7 @@
     "Content": "/components/Content",
     "Div": "/components/Div",
     "Divider": "/components/Divider",
+    "DraggableList": "/components/DraggableList",
     "DrawerSidebar": "/components/DrawerSidebar",
     "Hr": "/components/Hr",
     "Icon": "/components/Icon",
