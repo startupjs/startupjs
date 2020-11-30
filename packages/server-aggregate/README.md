@@ -20,7 +20,12 @@ On the server:
 ```js
 
 const serverAggregate = require('@startupjs/server-aggregate')
-serverAggregate(backend)  
+serverAggregate(backend, customCheck)
+
+Here:
+
+- `backend` - your backend
+- `customCheck` - your personal check function. It should return an error message if there is an error. **IMPORTANT** The message must be of type `string`.
 
 // function addAggregate accept
 // 'collection' - collection name
@@ -32,7 +37,7 @@ backend.addAggregate('items', 'main', async (params, shareRequest) => {
   // ...
   // access control or whatever
   // ...
-  
+
   return [
     {$match: {type: 'wooden'}}
   ]
@@ -48,7 +53,7 @@ Using queries (on the client):
   // 'collection' - collection name (should match one from addServerQuery)
   // 'queryName' - name of query (should match one from addServerQuery)
   // 'params' - object with query-params
-  
+
   const query = model.aggregateQuery('items', 'main', {
     type: 'global'
   })
@@ -56,7 +61,7 @@ Using queries (on the client):
   model.subscribe(query, function(){
     // ...
   })
-  
+
 ```
 
 Alternative approach (using regular model.query)
@@ -72,7 +77,7 @@ Alternative approach (using regular model.query)
   model.subscribe(query, function(){
     // ...
   })
-  
+
 ```
 
 ## MIT License

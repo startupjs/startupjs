@@ -5,7 +5,7 @@ const errors = {
   query_error: "403: there is an error in the server query, name: '{1}', collection: '{0}', params: '{3}', error: '{4}'"
 }
 
-module.exports = (backend) => {
+module.exports = (backend, customCheck) => {
   backend.addAggregate = (collection, queryName, queryFunction) => {
     QUERIES[collection + '.' + queryName] = queryFunction
   }
@@ -34,6 +34,13 @@ module.exports = (backend) => {
 
     if (isString(serverQuery)) return err('query_error', serverQuery)
 
+    if (customCheck) {
+      const customPermissionMessage = await customCheck.call(backend, shareRequest)
+      if (isString(customPermissionMessage)) {
+        return err('query_error', customPermissionMessage)
+      }
+    }
+
     shareRequest.query = { $aggregate: serverQuery }
 
     function err (name, text) {
@@ -50,11 +57,17 @@ module.exports = (backend) => {
 
   backend.use('query', (shareRequest, next) => {
     handleQuery(shareRequest).then((err) => {
-      next(err)
+      const errorMessage = err && getErrorMessage(err)
+      err && console.error(errorMessage)
+      next(errorMessage)
     }).catch((err) => {
       next(err)
     })
   })
+}
+
+function getErrorMessage (err) {
+  return { message: err, code: 403 }
 }
 
 function formatString (str) {

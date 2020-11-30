@@ -9,6 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "@startupjs/sharedb-access": "^0.28.0"
+  },
   "peerDependencies": {
     "racer": "*"
   },
