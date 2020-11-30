@@ -340,7 +340,7 @@ startupjsServer({
   }
 ```
 
-Now in our orm will be checked the permissions to perform the aggregation. How to allow users to perform aggregations can be found in the [documentation on permissions](https://core.dmapper.co/docs/permissions).
+Now in our orm will be checked the permissions to perform the aggregation. See documentation on `@dmapper/permissions` library in `core` (private for dmapper) to find out how to allow users to perform aggregations.
 
 ## MIT Licence
 
