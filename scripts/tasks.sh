@@ -1,6 +1,8 @@
 #!/bin/sh
 
-SCRIPTPATH="`( cd \"$MY_PATH\" && pwd )`"
+# Get current .sh script's path
+# ref: https://stackoverflow.com/a/43919044/1930491
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BASEDIR=$(cd "$a"; pwd)
 
 fn_local_init () {
   local path=$1
@@ -22,7 +24,7 @@ fn_local_init () {
   rm -rf testapp &&
   npm_config_registry=http://localhost:4873/ npx startupjs init testapp &&
 
-  cd ${SCRIPTPATH}/scripts &&
+  cd ${BASEDIR} &&
   node unpublish.js
 
   echo "STEP: uninstall verdaccio" &&
