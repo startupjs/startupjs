@@ -12,8 +12,6 @@ _primaryColor = $UI.colors.primary
   height _height
   width 100%
   border _inputBorderWidth solid $UI.colors.darkLighter
-  flex-direction row
-  align-items center
   padding 0 1u
   radius()
   +web()
@@ -29,6 +27,10 @@ _primaryColor = $UI.colors.primary
     border none
     background-color none
     padding 0
+
+.row
+  padding-right 3u
+  width 100%
 
 .placeholder
   opacity .5
@@ -46,8 +48,6 @@ _primaryColor = $UI.colors.primary
   padding 0 1u
 
 .suggestions-web
-  background-color $UI.colors.white
-  width 100%
   padding 0 .5u
   radius()
 
@@ -96,7 +96,7 @@ _primaryColor = $UI.colors.primary
   font(s)
 
 .popover
-  max-height 25u
+  height 25u
 
 .ellipsis
   margin 0 1u

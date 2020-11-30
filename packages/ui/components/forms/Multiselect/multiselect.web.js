@@ -1,7 +1,7 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Div from './../../Div'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
 import styles from './index.styl'
@@ -45,7 +45,7 @@ const Multiselect = ({
           readonly=readonly
           TagComponent=TagComponent
         )
-      Div.suggestions-web
+      ScrollView.suggestions-web
         each opt in options
           = renderListItem(opt)
   `
