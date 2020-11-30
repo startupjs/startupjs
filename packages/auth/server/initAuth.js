@@ -4,7 +4,8 @@ import {
   parseUserCreationData,
   onBeforeLoginHook,
   onBeforeLogoutHook,
-  onAfterUserCreationHook
+  onAfterUserCreationHook,
+  onAfterLoginHook
 } from './helpers'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
@@ -32,7 +33,8 @@ export default function (ee, _config) {
     parseUserCreationData,
     onBeforeLogoutHook,
     onBeforeLoginHook,
-    onAfterUserCreationHook
+    onAfterUserCreationHook,
+    onAfterLoginHook
   }, _config)
 
   console.log('++++++++++ Initialization of auth module ++++++++++\n', config, '\n')
