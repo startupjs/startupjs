@@ -11,6 +11,8 @@ const redis = require('redis-url')
 const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
 
+global.__clients = {}
+
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
 try {
@@ -158,11 +160,17 @@ module.exports = async options => {
     if (!req) return
 
     let userId = req.session && req.session.userId
+
+    const model = backend.createModel()
+    global.__clients[userId] = model
+
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
+      model.close()
+      delete global.__clients[userId]
     })
   })
 
