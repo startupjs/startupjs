@@ -37,32 +37,29 @@ startupjsServer({
     successRedirectUrl: '/profile',
     strategies: [
       new LocalStrategy({
-        // TODO:
-        // validateRegisterHook: () => {},
-        // validateLoginHook: () => {},
-        // onBeforeRegisterHook: () => {},
-        // onAfterRegisterHook: () => {},
-        // email validation ?
+        // Vars
+        // resetPasswordTimeLimit: 60 * 1000 * 10,
+        // emailRegistrationRegexp: /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/,
 
-        // TODO: refactor params
-        // onCreatePasswordResetSecret: ({ userId, secret }, req, res, next) => {
+        // Hooks
+        // onCreatePasswordResetSecret: async (userId, secret) => {
         //   console.log('\nonCreatePasswordResetSecret', userId, secret)
         // },
-        // onPasswordReset: ({ userId }, req, res, next) => {
-        //   console.log('\nonPasswordReset', userId)
+        // onBeforeRegister: async (req, res, next) => {
+        //   console.log(req.body)
+        //   next()
         // },
-        // onPasswordChange: ({ userId }, req, res, next) => {
-        //   console.log('\nPasswordChange', userId)
+        // onAfterRegister: async userId => {
+        //   console.log(userId)
         // }
-        onCreatePasswordResetSecret: (userId, secret) => {
-          console.log('\nonCreatePasswordResetSecret', userId, secret)
-        },
-        onPasswordReset: userId => {
-          console.log('\nonPasswordReset', userId)
-        },
-        onPasswordChange: userId => {
-          console.log('\nPasswordChange', userId)
-        }
+        // onBeforePasswordChange: (req, res, next) => {
+        //   console.log('\onBeforePasswordChange')
+        //   next()
+        // },
+        // onAfterPasswordChange: userId => {
+        //   console.log('\onAfterPasswordChange')
+        // }
+        //
       }),
       new FacebookStrategy({
         clientId: conf.get('FACEBOOK_CLIENT_ID'),
@@ -85,13 +82,12 @@ startupjsServer({
       })
     ]
     // Global auth hooks
-    // TODO: describe behaviour of each hook
-    // onBeforeLogintHook: async (data, req, res, next) => {
-    //   console.log('onBeforeLogintHook', data)
+    // onBeforeLoginHook: async ({ userId }, req, res, next) => {
+    //   console.log('onBeforeLoginHook', userId)
     //   next()
     // },
-    // onBeforeLogoutHook: async (data, req, res, next) => {
-    //   console.log('onBeforeLogoutHook', data)
+    // onBeforeLogoutHook: async (req, res, next) => {
+    //   console.log('onBeforeLogoutHook', req.session.user)
     //   next()
     // },
     // parseUserCreationData: async user => {

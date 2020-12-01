@@ -1,16 +1,22 @@
 import bcrypt from 'bcrypt'
 import Provider from '../Provider'
-import { EMAIL_REGEXP } from '../../isomorphic'
 
 export default function (req, res, done, config) {
-  parseRegisterRequest(req, res, function (err) {
+  const { onBeforeRegister, onAfterRegister, emailRegistrationRegexp } = config
+
+  function _done (err) {
     if (err) return res.status(403).json({ message: err })
 
     register(req, config, function (err, userId) {
       if (err) return res.status(403).json({ message: err })
+
+      onAfterRegister(userId)
+
       return res.json(userId)
     })
-  })
+  }
+
+  onBeforeRegister(req, res, _done, { emailRegistrationRegexp })
 }
 
 async function register (req, config, done) {
@@ -42,19 +48,4 @@ async function register (req, config, done) {
     console.log('[startupjs/auth] Error', err)
     done(err)
   }
-}
-
-function parseRegisterRequest (req, res, done) {
-  const email = (req.body.email || '').toLowerCase()
-  const password = req.body.password
-  const confirm = req.body.confirm
-
-  if (!email) return done('Please fill email')
-  if (!password) return done('Please fill password')
-  if (!confirm) return done('Please fill password confirmation')
-  if (password !== confirm) return done('Password should match confirmation')
-  if (password.length < 8) return done('Password length should be at least 8')
-  if (!EMAIL_REGEXP.test(email)) return done('Incorrect email')
-
-  done(null)
 }
