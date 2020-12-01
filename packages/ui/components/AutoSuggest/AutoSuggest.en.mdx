@@ -54,12 +54,16 @@ const options = [
   { value: '6', label: 'James' },
   { value: '7', label: 'William' },
 ]
-const renderItem = (item, index)=> {
+const renderItem = (item, index, selectIndexValue)=> {
+  const style = { padding: 8 }
+  if (selectIndexValue === index) {
+    style.backgroundColor = "#eee"
+  }
   return (
     <Row
+      key={index}
       vAlign='center'
-      style={{ padding: 8 }}
-      onPress={()=> setValue(item)}
+      style={style}
     >
       <Avatar size='xs'>{item.label}</Avatar>
       <Span style={{ marginLeft: 8 }}>{item.label}</Span>
@@ -73,6 +77,7 @@ return (
     style={{ maxHeight: 160 }}
     placeholder="Select value"
     renderItem={renderItem}
+    onChange={v=> setValue(v)}
   />
 )
 ```

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer, u } from 'startupjs'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Checkbox from './../Checkbox'
 import MultiselectComponent from './multiselect'
@@ -12,8 +12,8 @@ const Multiselect = ({
   placeholder,
   label,
   disabled,
-  popoverWidth,
   readonly,
+  tagLimit,
   error,
   TagComponent,
   onChange,
@@ -75,8 +75,8 @@ const Multiselect = ({
       label=label
       focused=focused
       disabled=disabled
+      tagLimit=tagLimit
       readonly=readonly
-      popoverWidth=popoverWidth
       error=error
       TagComponent=TagComponent
       renderListItem=renderListItem
@@ -93,7 +93,7 @@ Multiselect.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  popoverWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tagLimit: PropTypes.number,
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onChange: PropTypes.func,
@@ -109,7 +109,6 @@ Multiselect.defaultProps = {
   placeholder: 'Select',
   disabled: false,
   readonly: false,
-  popoverWidth: u(30),
   TagComponent: DefaultTag
 }
 
