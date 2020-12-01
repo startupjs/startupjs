@@ -191,7 +191,6 @@ function DateTimePicker ({
       disabled=disabled
       onPress=onPressDate
     )= placeholder && !date ? placeholder : getDateStr()
-
     if Platform.OS === 'ios'
       Drawer(
         visible=visible
