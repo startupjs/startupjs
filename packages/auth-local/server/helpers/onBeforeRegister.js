@@ -5,6 +5,8 @@ import { EMAIL_REGEXP } from '../../isomorphic'
  * You can validate register data here
  */
 export default function onBeforeRegister (req, res, next, opts) {
+  console.log('\n[@dmapper/auth] BEFORE user register hook', '\n')
+
   const { emailRegistrationRegexp } = opts
 
   const email = (req.body.email || '').toLowerCase()
