@@ -1,6 +1,6 @@
 import { loginLock } from '@startupjs/auth/server'
 
-const ALLOWED_LOGIN_ATTEMPTS = 2
+const ALLOWED_FAILED_LOGIN_ATTEMPTS = 10
 
 export default async function setLoginAttempts (req, res, next) {
   const { model, body } = req
@@ -13,7 +13,7 @@ export default async function setLoginAttempts (req, res, next) {
     const $auth = model.scope(`auths.${authDoc.id}`)
     const failedLoginAttempts = $auth.get('providers.local.failedLoginAttempts') || 0
 
-    if (failedLoginAttempts > ALLOWED_LOGIN_ATTEMPTS) {
+    if (failedLoginAttempts > ALLOWED_FAILED_LOGIN_ATTEMPTS) {
       await $auth.del('providers.local.failedLoginAttempts')
       return loginLock(authDoc.id, req, res)
     } else {
