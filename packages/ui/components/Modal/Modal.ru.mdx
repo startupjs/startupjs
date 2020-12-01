@@ -27,7 +27,6 @@ return (
     </Button>
     <Modal
       title='Пример'
-      visible={visible}
       $visible={$visible}
       dismissLabel='Закрыть'
       confirmLabel='Принять'
@@ -36,6 +35,7 @@ return (
       onConfirm={() => console.log('Have clicked to confirm button')}
       onShow={() => console.log('Modal shown!')}
       onBackdropPress={() => console.log('Have clicked to backdrop')}
+      onDismiss={() => console.log('onDismiss')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -58,7 +58,6 @@ return (
     <Modal
       variant='fullscreen'
       title='Полноэкранный пример'
-      visible={visible}
       $visible={$visible}
       onClose={() => console.log('Have clicked to close button')}
       onConfirm={() => console.log('Have clicked to confirm button')}
@@ -81,7 +80,7 @@ return (
     <Button onPress={() => $visible.set(true)}>
       Open advanced modal
     </Button>
-    <Modal visible={visible} $visible={$visible}>
+    <Modal $visible={$visible}>
       <Modal.Header>Advanced modal</Modal.Header>
       <Modal.Content>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.

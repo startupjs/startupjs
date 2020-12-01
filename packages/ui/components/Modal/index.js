@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Modal as RNModal } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useBind, useOn } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -9,7 +9,7 @@ import ModalActions from './ModalActions'
 
 function Modal ({
   style,
-  visible,
+  $visible,
   onOrientationChange,
   supportedOrientations,
   animationType,
@@ -19,6 +19,15 @@ function Modal ({
   statusBarTranslucent,
   ...props
 }) {
+  let visible
+  ;({ visible } = useBind({ $visible, visible }))
+
+  // TODO: This hack is used to make onDismiss work correctly.
+  // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
+  useOn('change', $visible, () => {
+    if (!$visible.get()) onDismiss && onDismiss()
+  })
+
   if (!visible) return null
 
   if (props.variant === 'custom') {
@@ -31,7 +40,6 @@ function Modal ({
         onRequestClose=onRequestClose
         onOrientationChange=onOrientationChange
         supportedOrientations=supportedOrientations
-        onDismiss=onDismiss
         onShow=onShow
         statusBarTranslucent=statusBarTranslucent
       )= props.children
@@ -46,12 +54,12 @@ function Modal ({
       onRequestClose=onRequestClose
       onOrientationChange=onOrientationChange
       supportedOrientations=supportedOrientations
-      onDismiss=onDismiss
       onShow=onShow
       statusBarTranslucent=statusBarTranslucent
     )
       Layout(
         modalStyle=style
+        $visible=$visible
         ...props
       )
   `
@@ -74,7 +82,6 @@ Modal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen', 'custom']),
-  visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,
