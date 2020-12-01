@@ -20,7 +20,8 @@ function Modal ({
   onConfirm,
   onBackdropPress,
   $visible,
-  showCross
+  showCross,
+  enableBackdropPress
 }) {
   // Deconstruct template variables
   let header, actions, content
@@ -106,7 +107,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=_onBackdropPress
+          onPress=enableBackdropPress ? _onBackdropPress : undefined
         )
       ModalElement.modal(
         style=modalStyle

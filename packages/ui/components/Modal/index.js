@@ -66,6 +66,7 @@ Modal.defaultProps = {
   animationType: 'fade',
   transparent: false,
   showCross: true,
+  enableBackdropPress: true,
   supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']
 }
 
@@ -79,6 +80,7 @@ Modal.propTypes = {
   dismissLabel: ModalActions.propTypes.dismissLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
   showCross: PropTypes.bool,
+  enableBackdropPress: PropTypes.bool,
   ModalElement: PropTypes.any,
   animationType: PropTypes.oneOf(['slide', 'fade', 'none']),
   transparent: PropTypes.bool,
