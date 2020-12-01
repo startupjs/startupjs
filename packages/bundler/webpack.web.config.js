@@ -32,6 +32,7 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
+  '@react-native-community/datetimepicker', // used by ui
   '@react-native-picker/picker', // used by ui
   '@startupjs/app',
   '@startupjs/ui',
