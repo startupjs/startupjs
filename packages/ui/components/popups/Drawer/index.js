@@ -151,7 +151,7 @@ function Drawer ({
           if isShowOverlay
             TouchableWithoutFeedback(onPress=onDismiss style={ cursor: 'default' })
               Animated.View.overlay(style={ opacity: animateOpacity })
-          Animated.View.content(
+          Animated.View(
             ref=refContent
             styleName={
               content: hasDefaultStyleContent,

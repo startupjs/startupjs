@@ -6,52 +6,117 @@ import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
 
-DateTimePicker has 3 modes (The default is datetime mode):
-1. date mode : select a date
-2. time mode : select a time
-3. datetime mode : select a date with a time
+DateTimePicker allows to display and change the date and time (!works with timestamp).
 
-Note: The return value is a timestamp rather than Date object.
+## Enabling styles on web
+
+If `initUi` or `getUiHead` is not connected on the server, import `initUi` and` getUiHead` and connect them in the body of the `startupjsServer` and `getHead` functions.
+
+```js
+import { getUiHead, initUi } from '@startupjs/ui/server'
+
+startupjsServer({
+  getHead,
+  ...
+}, (ee, options) => {
+  ...
+  initUi(ee, options)
+  ...
+})
+
+function getHead (appName) {
+  return `
+    ${getUiHead()}
+    other head text
+  `
+}
+```
+
+Add module `@startupjs/ui/server` to `forceCompileModules` with server webpack `webpack.server.config.cjs`
+
+```js
+const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
+
+module.exports = getConfig(undefined, {
+  forceCompileModules: ['@startupjs/ui/server']
+})
+```
+
+## Import
 
 ```jsx
 import { DateTimePicker } from from '@startupjs/ui'
 ```
 
-## Example for datetime mode
+## Examples
 
 ```jsx example
 const [dateTime, setDateTime] = useState()
+const [date, setDate] = useState()
+const [time, setTime] = useState()
+
 return (
   <Div>
     <DateTimePicker
       date={dateTime}
+      format='yyyy MM DD HH:mm'
+      label='Date && Time'
+      placeholder='Chose date and time'
       onDateChange={setDateTime}
     />
-  </Div>
-)
-```
-
-## Examples for date Mode and time Mode
-
-```jsx example
-const [date, setDate] = useState()
-const [time, setTime] = useState()
-return (
-  <Div>
+    <Br />
     <DateTimePicker
       date={date}
-      onDateChange={setDate}
+      format='MM-DD-yyyy'
+      label='Date'
+      maxDate={1607983200000}
+      minDate={1605391200000}
       mode='date'
+      size='l'
+      onDateChange={setDate}
     />
     <Br />
     <DateTimePicker
       date={time}
-      onDateChange={setTime}
+      format='HH:mm'
+      label='Time'
+      minuteInterval={15}
       mode='time'
+      size='s'
+      timeFormat='HH-mm'
+      onDateChange={setTime}
     />
   </Div>
 )
 ```
+
+## Options
+
+- `date` - initial date or time in timestamp,
+- `onDateChange` - date and time selection handler, returns a timestamp,
+- `disabled` - disabled picker,
+- `format` - date formatting string,
+- `label` - label,
+- `maxDate` - maximum available date in timestamp,
+- `minDate` - minimum available date in timestamp,
+- `minuteInterval` - the interval at which minutes can be selected, possible values are: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 (default 1, ignored in IOS 14),
+- `mode` - defines the picker type: `datetime` - date and time, `date` - date, `time` - time (default `datetime`),
+- `placeholder` - placeholder for input on the web and button in the native application if the date is not selected,
+- `size` - the sizes of the input on the web and the button in the native application, possible values are: `l`, `m` и `s` (default `m`)
+
+### Web only
+
+- `timeFormat` - the format in which the time in the picker is displayed
+
+### IOS only
+
+- `cancelButtonText` - the text of the button that closes the modal,
+- `confirmButtonText` - text of the button confirming the date change
+
+### Android only
+
+- `is24Hour` - if `true` allows changing of the time picker to a 24 hour format,
+
 
 ## Sandbox
 

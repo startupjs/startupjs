@@ -5,7 +5,7 @@ import { FIELDS, API_VERSION } from '../../isomorphic/constants'
 
 export default function loginNative (req, res, next, config) {
   const { userID, accessToken } = req.body
-  const { successRedirectUrl, onBeforeLogintHook } = config
+  const { successRedirectUrl, onBeforeLoginHook } = config
 
   FB.setAccessToken(accessToken)
 
@@ -20,7 +20,7 @@ export default function loginNative (req, res, next, config) {
 
       const provider = new Provider(req.model, response, config)
       const userId = await provider.findOrCreateUser()
-      finishAuth(req, res, { userId, successRedirectUrl, onBeforeLogintHook })
+      finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
     }
   )
 }

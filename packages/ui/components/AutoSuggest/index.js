@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import {
+  View,
+  Platform,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import TextInput from '../forms/TextInput'
@@ -21,11 +26,33 @@ function AutoSuggest ({
   onChangeText,
   onScrollEnd
 }) {
+  const _data = useRef([])
   const [inputValue, setInputValue] = useState('')
+  const [selectIndexValue, setSelectIndexValue] = useState(-1)
   const [isFocus, setIsFocus] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
-  let _data = options.filter((item, index) => {
+  useEffect(() => {
+    if (Platform.OS !== 'web') return
+
+    if (isOpen) {
+      document.addEventListener('keydown', onKeyDown)
+    } else {
+      document.removeEventListener('keydown', onKeyDown)
+      setSelectIndexValue(-1)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isOpen, selectIndexValue])
+
+  useEffect(() => {
+    setIsFocus(false)
+    setIsOpen(false)
+  }, [value])
+
+  _data.current = options.filter((item, index) => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
   })
 
@@ -34,39 +61,85 @@ function AutoSuggest ({
   }
 
   function onBlur () {
-    if (!_data.length) return
+    if (!_data.current.length) return
     setInputValue('')
     setIsFocus(false)
     setIsOpen(false)
     onDismiss && onDismiss()
   }
 
-  useEffect(() => {
-    setIsFocus(false)
-    setIsOpen(false)
-  }, [value])
+  function _onChangeText (t) {
+    if (!isOpen) return
+    setInputValue(t)
+    setSelectIndexValue(-1)
+    onChangeText && onChangeText(t)
+  }
 
-  const renderItems = _data.map((item, index) => {
-    if (renderItem) return renderItem(item, index)
+  function onKeyDown (e) {
+    let item, index
+    const keyName = e.key
+
+    switch (keyName) {
+      case 'ArrowUp':
+        e.preventDefault()
+        if (selectIndexValue === 0 || (selectIndexValue === -1 && !value.value)) return
+
+        index = selectIndexValue - 1
+        if (selectIndexValue === -1 && value.value) {
+          index = _data.current.findIndex(item => item.value === value.value)
+          index--
+        }
+
+        setSelectIndexValue(index)
+        break
+
+      case 'ArrowDown':
+        e.preventDefault()
+        if (selectIndexValue === _data.current.length - 1) return
+
+        index = selectIndexValue + 1
+        if (selectIndexValue === -1 && value) {
+          index = _data.current.findIndex(item => item.value === value.value)
+          index++
+        }
+
+        setSelectIndexValue(index)
+        break
+
+      case 'Enter':
+        e.preventDefault()
+        if (selectIndexValue === -1) return
+        item = _data.current.find((_, i) => i === selectIndexValue)
+        onChange && onChange(item)
+        break
+    }
+  }
+
+  const renderItems = _data.current.map((item, index) => {
+    if (renderItem) {
+      return pug`
+        TouchableOpacity(
+          key=index
+          onPress=()=> onChange && onChange(item)
+        )= renderItem(item, index, selectIndexValue)
+      `
+    }
+
     return pug`
       Menu.Item(
         key=index
+        styleName={ selectMenu: selectIndexValue === index }
         onPress=()=> onChange && onChange(item)
         active=item.value === value.value
       )= item.label
     `
   })
 
-  const _onChangeText = t => {
-    if (!isOpen) return
-    setInputValue(t)
-    onChangeText && onChangeText(t)
-  }
-
   if (!style.maxHeight) style.maxHeight = 200
   return pug`
     Popover(
       wrapperStyle=style
+      wrapperStyleName='wrapper'
       visible=(isFocus || isLoading)
       position='bottom'
       hasWidthCaption=true
