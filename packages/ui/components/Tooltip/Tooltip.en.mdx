@@ -21,12 +21,7 @@ import { Tooltip } from '@startupjs/ui'
 ```jsx example
 return (
   <Row>
-    <View
-      style={{
-        width: 100,
-        marginRight: 8
-      }}
-    >
+    <View style={{ width: 100, marginRight: 8 }}>
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
@@ -40,12 +35,7 @@ return (
           </Text>
       </Tooltip>
     </View>
-    <View
-      style={{
-        width: 100,
-        marginRight: 8
-      }}
-    >
+    <View style={{ width: 100, marginRight: 8 }}>
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
@@ -59,12 +49,7 @@ return (
           </Text>
       </Tooltip>
     </View>
-    <View
-      style={{
-        width: 100,
-        marginRight: 8
-      }}
-    >
+    <View style={{ width: 100, marginRight: 8 }}>
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
@@ -93,11 +78,7 @@ If you need to wrap a pressable element in a tooltip in a mobile app, the `onPre
   content='Some content'
 >
   <View>
-    <Button
-      onPress={onPressHandler}
-    >
-      Button...
-    </Button>
+    <Button onPress={onPressHandler}>Button...</Button>
   </View>
 </Tooltip>
 ```
@@ -105,14 +86,8 @@ If you need to wrap a pressable element in a tooltip in a mobile app, the `onPre
 - right
 
 ```jsx
-<Tooltip
-  content='Some content'
->
-  <Button
-    onPress={onPressHandler}
-  >
-    Button...
-  </Button>
+<Tooltip content='Some content'>
+  <Button onPress={onPressHandler}>Button...</Button>
 </Tooltip>
 ```
 
@@ -123,28 +98,17 @@ const [pressed, setPressed] = useState('')
 
 return (
   <View>
-    <View 
-      style={{
-        width: 100,
-        marginBottom: 16
-      }}
-    >
+    <View style={{ width: 100 }}>
       <Tooltip
         content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       >
-        <Button
-          onPress={() => setPressed('onPress')}
-          onLongPress={() => setPressed('onLongPress')}
-          onPressIn={() => setPressed('onPressIn')}
-          onPressOut={() => setPressed('onPressOut')}
-        >
-          Button...
-        </Button>
+        <Button onPress={() => setPressed('onPress')}>Button...</Button>
       </Tooltip>
     </View>
     {!!pressed && (
       <Alert
         variant='success'
+        stlye={{ marginTop: 16 }}
         label={`${pressed} event`}
         onClose={() => setPressed('')}
       />

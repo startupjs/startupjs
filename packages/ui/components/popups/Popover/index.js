@@ -78,13 +78,20 @@ function Popover ({
 
   // reset state after change dimensions
   useLayoutEffect(() => {
+    let mounted = true
+
     const handleDimensions = () => {
+      if (!mounted) return
       setContentInfo({})
       setStepStatus(STEP_STATUSES.CLOSE)
       onDismiss()
     }
+
     Dimensions.addEventListener('change', handleDimensions)
-    return () => Dimensions.removeEventListener('change', handleDimensions)
+    return () => {
+      mounted = false
+      Dimensions.removeEventListener('change', handleDimensions)
+    }
   }, [])
 
   // -main
