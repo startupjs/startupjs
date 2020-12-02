@@ -174,7 +174,7 @@ module.exports = async options => {
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
       model.close()
-      delete global.__clients[userId].model
+      delete global.__clients[userId]
     })
   })
 
