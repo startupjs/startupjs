@@ -8,40 +8,6 @@ import { Sandbox } from '@startupjs/docs'
 
 DateTimePicker позволяет отображать и изменять дату и время (!работает с временем в формате временной метки).
 
-## Подключение стилей для web
-
-Если на сервере не подключен `initUi` или `getUiHead`, импортируйте `initUi` и `getUiHead` и подключите их в тело функций `startupjsServer` и `getHead`.
-
-```js
-import { getUiHead, initUi } from '@startupjs/ui/server'
-
-startupjsServer({
-  getHead,
-  ...
-}, (ee, options) => {
-  ...
-  initUi(ee, options)
-  ...
-})
-
-function getHead (appName) {
-  return `
-    ${getUiHead()}
-    other head text
-  `
-}
-```
-
-Добавьте модуль `@startupjs/ui/server` в `forceCompileModules` серверной конфигурации вебпакa `webpack.server.config.cjs`
-
-```js
-const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
-
-module.exports = getConfig(undefined, {
-  forceCompileModules: ['@startupjs/ui/server']
-})
-```
-
 ## Импорт
 
 ```jsx

@@ -5,6 +5,8 @@ import TypographyRu from '../../components/typography/Typography.ru.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
 import Colors from './colors.mdx'
 import BorderRadius from './borderRadius.mdx'
+import ConnectCssEn from './connectCss.en.mdx'
+import ConnectCssRu from './connectCss.ru.mdx'
 import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
 
@@ -50,6 +52,17 @@ export default {
         ru: 'Border Radius'
       },
       component: BorderRadius
+    },
+    ConnectCss: {
+      type: 'mdx',
+      title: {
+        en: 'Connect CSS',
+        ru: 'Подключение CSS'
+      },
+      component: {
+        en: ConnectCssEn,
+        ru: ConnectCssRu
+      }
     },
     exportingCSStoJS: {
       type: 'mdx',

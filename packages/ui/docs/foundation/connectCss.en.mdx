@@ -1,0 +1,33 @@
+# Connect styles from CSS
+
+Import `initUi` and` getUiHead` and connect them in the body of the `startupjsServer` and `getHead` functions in `server/index.js`.
+
+```js
+import { getUiHead, initUi } from '@startupjs/ui/server'
+
+startupjsServer({
+  getHead,
+  ...
+}, (ee, options) => {
+  ...
+  initUi(ee, options)
+  ...
+})
+
+function getHead (appName) {
+  return `
+    ${getUiHead()}
+    other head text
+  `
+}
+```
+
+Add module `@startupjs/ui/server` to `forceCompileModules` in `webpack.server.config.cjs`
+
+```js
+const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
+
+module.exports = getConfig(undefined, {
+  forceCompileModules: ['@startupjs/ui/server']
+})
+```
