@@ -11,13 +11,16 @@ model.root.connection.agent.stream.checkServerAccess = true
 let shareDBAccess = new ShareDbAccess(backend)
 let id
 
+const $session = model.scope('_session')
+const errorTemplate = 'Permission denied (create)'
+
 describe('CREATE', function () {
   afterEach(function () {
     shareDBAccess.allow.Create.tasksCreate = []
     shareDBAccess.deny.Create.tasksCreate = []
   })
 
-  it('deny = false && allow = false => err{ code: 403.1 }', async () => {
+  it('deny = false && allow = false => err{ code: 403 }', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return false
     })
@@ -27,11 +30,14 @@ describe('CREATE', function () {
     try {
       id = model.id()
       await model.add('tasksCreate', { id, type: 'testCreate' })
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.1)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -51,7 +57,7 @@ describe('CREATE', function () {
     assert(true)
   })
 
-  it('deny = true && allow = false => err{ code: 403.1 }', async () => {
+  it('deny = true && allow = false => err{ code: 403 }', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
@@ -62,14 +68,17 @@ describe('CREATE', function () {
     try {
       id = model.id()
       await model.add('tasksCreate', { id, type: 'testCreate' })
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.1)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
-  it('deny = true && allow = true => err{ code: 403.1 }', async () => {
+  it('deny = true && allow = true => err{ code: 403 }', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
@@ -80,10 +89,13 @@ describe('CREATE', function () {
     try {
       id = model.id()
       await model.add('tasksCreate', { id, type: 'testCreate' })
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.1)
-      return
+      assert(false)
     }
-    assert(false)
   })
 })
