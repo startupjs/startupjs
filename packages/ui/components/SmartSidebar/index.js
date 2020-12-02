@@ -12,7 +12,6 @@ import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
-const DEFAULT_OPEN = true
 
 function SmartSidebar ({
   style,
