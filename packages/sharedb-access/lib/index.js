@@ -2,12 +2,6 @@ const _ = require('lodash')
 const util = require('./util')
 const debug = require('debug')('access')
 
-// there are local extensions of error codes for error classification
-// code 403.1: Permission denied (create)
-// code 403.2: Permission denied (read)
-// code 403.3: Permission denied (update)
-// code 403.4: Permission denied (delete)
-
 const operations = [
   'Read',
   'Create',
@@ -136,7 +130,7 @@ class ShareDBAccess {
 
     if (ok) return
 
-    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId, code: 403.3 }
+    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId, code: 403 }
   }
 
   applyHandler (shareRequest, done) {
@@ -172,7 +166,7 @@ class ShareDBAccess {
 
       if (ok) return
 
-      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId, code: 403.1 }
+      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId, code: 403 }
     }
 
     // ++++++++++++++++++++++++++++++++ DELETE ++++++++++++++++++++++++++++++++++
@@ -183,7 +177,7 @@ class ShareDBAccess {
       debug('delete', ok, collection, docId, doc)
       if (ok) return
 
-      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId, code: 403.4 }
+      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId, code: 403 }
     }
 
     // For Update
@@ -230,7 +224,7 @@ class ShareDBAccess {
 
     if (ok) return
 
-    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403.2 }
+    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403 }
   }
 
   async check (operation, collection, args) {
