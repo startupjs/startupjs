@@ -162,7 +162,11 @@ module.exports = async options => {
     let userId = req.session && req.session.userId
 
     const model = backend.createModel()
-    global.__clients[userId] = model
+
+    if (!global.__clients[userId]) {
+      global.__clients[userId] = {}
+    }
+    global.__clients[userId].model = model
 
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
