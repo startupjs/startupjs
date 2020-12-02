@@ -65,7 +65,7 @@ export default class BaseProvider {
 
     const hookRes = this.options.onAfterUserCreationHook(userId)
     // Check if returned promise
-    hookRes.then && await hookRes
+    hookRes && hookRes.then && await hookRes
 
     return userId
   }

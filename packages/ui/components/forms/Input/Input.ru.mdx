@@ -53,6 +53,68 @@ return (
 )
 ```
 
+## Сложный пример
+
+```jsx example
+const schema = {
+  name: {
+    type: 'string',
+    label: 'Name'
+  },
+  number: {
+    type: 'number',
+    label: 'Level'
+  },
+  type: {
+    type: 'select',
+    label: 'Type',
+    options: ['Fire', 'Water', 'Earth', 'Electric']
+  },
+  abilities: {
+    type: 'object',
+    label: 'Abilities',
+    properties: {
+      ability0: {
+        type: 'string',
+        label: 'Ability 1'
+      },
+      ability1: {
+        type: 'string',
+        label: 'Ability 2'
+      },
+      ability2: {
+        type: 'string',
+        label: 'Ability 3'
+      }
+    }
+  },
+  url: {
+    type: 'string',
+    label: 'Image URL'
+  },
+  dangerous: {
+    type: 'boolean',
+    label: 'Is Dangerous'
+  }
+}
+
+const [value, $value] = useValue()
+
+return (
+  <React.Fragment>
+    <Input
+      type='object'
+      $value={$value}
+      properties={schema}
+    />
+    <Br />
+    <Span style={{ fontFamily: 'monospace' }}>
+      VALUE: {JSON.stringify(value, null, 2)}
+    </Span>
+  </React.Fragment>
+)
+```
+
 ## Sandbox
 
 <Sandbox Component={Input} />

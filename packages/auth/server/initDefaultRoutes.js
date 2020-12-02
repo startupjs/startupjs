@@ -5,7 +5,6 @@ export default function initDefaultRoutes (router, config) {
 
   router.get(LOGOUT_URL, function (req, res) {
     onBeforeLogoutHook(
-      { userId: req.session.userId },
       req,
       res,
       () => {
