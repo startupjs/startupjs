@@ -52,7 +52,7 @@ function NumberInput ({
 
     return pug`
       Input(
-        style=style
+        style=pure ? style : undefined
         inputStyle=inputStyle
         buttons=buttons
         disabled=disabled

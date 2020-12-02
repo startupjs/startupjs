@@ -1,6 +1,7 @@
 // HACK: In order for parse-prop-types to work properly, we have to use it
 //       before using the PropTypes.
 //       See: https://github.com/diegohaz/parse-prop-types/issues/4#issuecomment-403294065
+import parsePropTypes from 'parse-prop-types' // eslint-disable-line
 import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
@@ -21,7 +22,6 @@ import {
   CRITICAL_VERSION_ANDROID,
   CRITICAL_VERSION_WEB
 } from '@env'
-import parsePropTypes from 'parse-prop-types'
 import orm from '../model'
 
 // Frontend micro-services

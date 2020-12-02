@@ -1,12 +1,13 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
+import { $root } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
-import { GOOGLE_CLIENT_ID, BASE_URL } from '@env'
+import { BASE_URL } from '@env'
 import axios from 'axios'
 import { CALLBACK_NATIVE_URL } from '../../isomorphic'
 
 export default async function onLogin () {
   const baseUrl = BASE_URL
-  const webClientId = GOOGLE_CLIENT_ID
+  const webClientId = $root.get('_session.auth.google.clientId')
 
   try {
     GoogleSignin.configure({ webClientId })
