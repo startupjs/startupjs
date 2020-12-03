@@ -13,8 +13,8 @@ import { Modal } from '@startupjs/ui'
 
 ## Example
 
-- `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onClose`)
-- `onClose` displays cancel button that uses this handler
+- `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`)
+- `onCancel` displays cancel button that uses this handler
 - `onConfirm` displays confirm button that uses this handler
 
 ```jsx example
@@ -30,12 +30,13 @@ return (
       $visible={$visible}
       dismissLabel='Close'
       confirmLabel='Accept'
-      onCrossPress={() => console.log('Have clicked to cross')}
-      onClose={() => console.log('Have clicked to close button')}
-      onConfirm={() => console.log('Have clicked to confirm button')}
+      onCrossPress={() => $visible.set(false)}
+      onCancel={() => $visible.set(false)}
+      onConfirm={() => $visible.set(false)}
       onShow={() => console.log('Modal shown!')}
-      onBackdropPress={() => console.log('Have clicked to backdrop')}
+      onBackdropPress={() => $visible.set(false)}
       onDismiss={() => console.log('onDismiss')}
+      onRequestClose={() => $visible.set(false)}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -59,9 +60,9 @@ return (
       variant='fullscreen'
       title='Fullscreen example'
       $visible={$visible}
-      onClose={() => console.log('Have clicked to close button')}
-      onConfirm={() => console.log('Have clicked to confirm button')}
-      >
+      onCancel={() => $visible.set(false)}
+      onConfirm={() => $visible.set(false)}
+    >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
   </React.Fragment>
@@ -70,7 +71,7 @@ return (
 
 ## Advanced usage
 
-Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onClose`, `onConfirm`. They can be used separately.
+Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onCancel`, `onConfirm`. They can be used separately.
 
 ```jsx example
 const [visible, $visible] = useValue(false)

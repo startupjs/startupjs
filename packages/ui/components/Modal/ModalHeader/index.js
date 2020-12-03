@@ -12,24 +12,29 @@ function ModalHeader ({
   style,
   children,
   showCross,
-  onClose // @private
+  onCrossPress // @private
 }) {
   return pug`
-    if children
-      Row.root(style=style align='between' vAlign='center')
+    if children || showCross
+      Row.root(style=style align=children ? 'between' : 'right' vAlign='center')
         if typeof children === 'string'
           Span.title(numberOfLines=1)= children
         else
           = children
         if showCross
-          Div.close(onPress=onClose)
+          Div.close(onPress=onCrossPress)
             Icon.icon(icon=faTimes size='xl')
   `
+}
+
+ModalHeader.defaultProps = {
+  showCross: true
 }
 
 ModalHeader.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   showCross: PropTypes.bool,
+  onCrossPress: PropTypes.func,
   children: PropTypes.node
 }
 

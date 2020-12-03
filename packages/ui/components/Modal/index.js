@@ -10,6 +10,7 @@ import ModalActions from './ModalActions'
 function Modal ({
   style,
   $visible,
+  transparent,
   onOrientationChange,
   supportedOrientations,
   animationType,
@@ -28,14 +29,12 @@ function Modal ({
     if (!$visible.get()) onDismiss && onDismiss()
   })
 
-  if (!visible) return null
-
   if (props.variant === 'custom') {
     return pug`
       RNModal(
         style=style
-        visible
-        transparent
+        visible=visible
+        transparent=transparent
         animationType=animationType
         onRequestClose=onRequestClose
         onOrientationChange=onOrientationChange
@@ -48,8 +47,8 @@ function Modal ({
 
   return pug`
     RNModal(
-      visible
-      transparent
+      visible=visible
+      transparent=transparent
       animationType=animationType
       onRequestClose=onRequestClose
       onOrientationChange=onOrientationChange
@@ -72,8 +71,8 @@ Modal.defaultProps = {
   confirmLabel: ModalActions.defaultProps.confirmLabel,
   ModalElement: View,
   animationType: 'fade',
-  transparent: false,
-  showCross: true,
+  transparent: true,
+  showCross: ModalHeader.defaultProps.showCross,
   enableBackdropPress: true,
   supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']
 }
@@ -101,7 +100,7 @@ Modal.propTypes = {
   ])),
   onShow: PropTypes.func,
   onCrossPress: PropTypes.func,
-  onClose: PropTypes.func,
+  onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
   onBackdropPress: PropTypes.func,
   onOrientationChange: PropTypes.func,

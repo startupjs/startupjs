@@ -10,7 +10,7 @@ function ModalActions ({
   children,
   dismissLabel,
   confirmLabel,
-  onClose,
+  onCancel,
   onConfirm
 }) {
   return pug`
@@ -18,10 +18,10 @@ function ModalActions ({
       if children
         = children
       else
-        if onClose
+        if onCancel
           Button.action(
             color='primary'
-            onPress=onClose
+            onPress=onCancel
           )= dismissLabel
         if onConfirm
           Button.action(
@@ -42,7 +42,7 @@ ModalActions.propTypes = {
   children: PropTypes.node,
   dismissLabel: PropTypes.string,
   confirmLabel: PropTypes.string,
-  onClose: PropTypes.func,
+  onCancel: PropTypes.func,
   onConfirm: PropTypes.func
 }
 

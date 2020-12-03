@@ -13,8 +13,8 @@ import { Modal } from '@startupjs/ui'
 
 ## Пример
 
-- `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onClose`)
-- `onClose` отображает кнопку отмены, которая использует этот обработчик
+- `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onCancel`)
+- `onCancel` отображает кнопку отмены, которая использует этот обработчик
 - `onConfirm` отображает кнопку подтверждения которая использует этот обработчик
 
 ```jsx example
@@ -30,12 +30,13 @@ return (
       $visible={$visible}
       dismissLabel='Закрыть'
       confirmLabel='Принять'
-      onCrossPress={() => console.log('Have clicked to cross')}
-      onClose={() => console.log('Have clicked to close button')}
-      onConfirm={() => console.log('Have clicked to confirm button')}
+      onCrossPress={() => $visible.set(false)}
+      onCancel={() => $visible.set(false)}
+      onConfirm={() => $visible.set(false)}
       onShow={() => console.log('Modal shown!')}
-      onBackdropPress={() => console.log('Have clicked to backdrop')}
+      onBackdropPress={() => $visible.set(false)}
       onDismiss={() => console.log('onDismiss')}
+      onRequestClose={() => $visible.set(false)}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -59,8 +60,8 @@ return (
       variant='fullscreen'
       title='Полноэкранный пример'
       $visible={$visible}
-      onClose={() => console.log('Have clicked to close button')}
-      onConfirm={() => console.log('Have clicked to confirm button')}
+      onCancel={() => $visible.set(false)}
+      onConfirm={() => $visible.set(false)}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -70,7 +71,7 @@ return (
 
 ## Продвинутое использование
 
-Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onClose`, `onConfirm`. Их можно использовать по отдельности.
+Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onCancel`, `onConfirm`. Их можно использовать по отдельности.
 
 ```jsx example
 const [visible, $visible] = useValue(false)

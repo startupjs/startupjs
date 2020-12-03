@@ -16,7 +16,7 @@ function Modal ({
   onCrossPress,
   dismissLabel,
   confirmLabel,
-  onClose,
+  onCancel,
   onConfirm,
   onBackdropPress,
   $visible,
@@ -49,25 +49,7 @@ function Modal ({
       'If <Modal.Content> is specified, you have to put all your content inside it')
   }
 
-  const _onConfirm = () => {
-    onConfirm && onConfirm()
-    $visible.set(false)
-  }
-
-  const _onClose = () => {
-    onClose && onClose()
-    $visible.set(false)
-  }
-
-  const _onBackdropPress = () => {
-    if (onBackdropPress) {
-      onBackdropPress()
-    } else if (onClose) {
-      onClose()
-    }
-
-    $visible.set(false)
-  }
+  const setVisibleFalse = () => $visible.set(false)
 
   // Handle <Modal.Content>
   content = content || (contentChildren.length > 0
@@ -76,29 +58,29 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    onClose: onClose && _onClose,
     dismissLabel,
     confirmLabel,
-    onConfirm: _onConfirm,
+    onCancel: onCancel || setVisibleFalse,
+    onConfirm: onConfirm || setVisibleFalse,
     style: content ? { paddingTop: 0 } : null
   }
   actions = actions
     ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
-    : onClose || onConfirm
+    : onCancel || onConfirm
       ? React.createElement(ModalActions, actionsProps)
       : null
 
   // Handle <Modal.Header>
   const headerProps = {
     showCross,
-    onClose: _onClose,
+    onCrossPress: onCrossPress || onCancel || setVisibleFalse,
     style: content || actions ? { paddingBottom: 0 } : null
   }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
     : title
       ? React.createElement(ModalHeader, headerProps, title)
-      : null
+      : React.createElement(ModalHeader, headerProps)
 
   const isWindowLayout = variant === 'window'
 
@@ -107,7 +89,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=enableBackdropPress ? _onBackdropPress : undefined
+          onPress=onBackdropPress || onCancel || setVisibleFalse
         )
       ModalElement.modal(
         style=modalStyle
