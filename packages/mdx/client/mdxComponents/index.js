@@ -48,6 +48,10 @@ function Anchor ({
     `
   }
 
+  if (typeof anchor === 'object') {
+    anchor = anchor.props.children
+  }
+
   const [hover, setHover] = useState()
 
   return pug`
