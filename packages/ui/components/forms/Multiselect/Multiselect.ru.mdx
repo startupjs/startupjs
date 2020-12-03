@@ -14,62 +14,69 @@ import { Multiselect } from '@startupjs/ui'
 ```
 
 - `options` - массив объектов ```{ label, value }``` или примитивоов
+- `TagComponent` - компонент для кастомных тегов
+- `tagLimit` - максимальное количество отображаемых тегов
 - `onChange` ```function(value: Array)``` - коллбек, который вызывается при смене значения поля. Возвращает массив с выбранными значениями
 
 ```jsx example
-const [cities, setCities] = useState(['la', 'tk'])
-// элементы списка так же могут быть массивом из примитивов ['apple', 'banana', 'cherry']
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+  { label: 'Moscow', value: 'msc' },
+  { label: 'Berlin', value: 'bl' },
+  { label: 'Milan', value: 'mi' },
+  { label: 'Sydney', value: 'sy' },
+  { label: 'Porto', value: 'po' }
+]
+
+const [cities, setCities] = useState(['la', 'tk', 'msc', 'po', 'ny'])
+
 return (
   <Div>
     <Multiselect
-      label='Пример'
-      placeholder='Выберите города'
+      label='Example'
+      placeholder='Select cities'
       value={cities}
       onChange={setCities}
-      options={[
-        { label: 'Нью-Йорк', value: 'ny' },
-        { label: 'Лос-Анджелес', value: 'la' },
-        { label: 'Токио', value: 'tk' }
-      ]}
+      options={OPTIONS}
     />
     <Br />
     <Multiselect
-      label='Пример поля только для чтения'
-      readonly
+      label='Example with tags limiter'
+      placeholder='Select cities'
+      tagLimit={3}
       value={cities}
-      options={[
-        { label: 'Нью-Йорк', value: 'ny' },
-        { label: 'Лос-Анджелес', value: 'la' },
-        { label: 'Токио', value: 'tk' }
-      ]}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <br />
+    <Multiselect
+      label='Example Multiselect with custom tag'
+      value={cities}
+      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+      onChange={setCities}
+      options={OPTIONS}
+    />  
+    <Br />
+    <Multiselect
+      label='Example of disabled Multiselect'
+      placeholder='Select cities'
+      value={cities}
+      options={OPTIONS}
+      disabled
+    />
+    <Br />
+    <Multiselect
+      label='Example of readonly Multiselect'
+      placeholder='Select cities'
+      value={cities}
+      options={OPTIONS}
+      readonly
     />
   </Div>
 )
 ```
-
-## Custom tag
-
-Вы можете рендерить кастомный компонент тегов. Для жтого передайте свой компонент в пропс TagComponent
-
-```jsx example
-const [cities, setCities] = useState(['la', 'tk'])
-return (
-  <Div>
-    <Multiselect
-      label='Пример кастомного тега'
-      value={cities}
-      TagComponent={({ record }) => <Span>✔ {record.label} </Span>}
-      onChange={setCities}
-      options={[
-        { label: 'Нью-Йорк', value: 'ny' },
-        { label: 'Лос-Анджелес', value: 'la' },
-        { label: 'Токио', value: 'tk' }
-      ]}
-    />  
-  </Div>  
-)
-```
-
 
 ## Sandbox
 

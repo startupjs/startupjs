@@ -49,7 +49,7 @@ startupjsServer(
 })
 ```
 
-Using `@startupjs/sharedb-access` you can control `create`, `read`, `update`, and `delete` 
+Using `@startupjs/sharedb-access` you can control `create`, `read`, `update`, and `delete`
 database operation for every collection. You can define `allow` rules for each CRUD operations
 in your orm model. By default all the operations are denied.
 
@@ -91,7 +91,7 @@ class ItemModel {
 
 class ItemModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => { 
+    create: async (backend, collection, docId, doc, session) => {
       return  session.isAdmin
     }
   }
@@ -120,7 +120,7 @@ Interface is like `create`-operation
 class ItemModel {
   static access = {
     // Only owners can delete docs, but nobody can delete doc with special typ
-    delete: async (backend, collection, docId, doc, session) => { 
+    delete: async (backend, collection, docId, doc, session) => {
       return doc.ownerId === session.userId && doc.type !== 'liveForever'
     }
   }
@@ -151,16 +151,16 @@ class ItemModel {
 ```js
 class ItemModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => { 
+    create: async (backend, collection, docId, doc, session) => {
       return true
     },
-    read: async (backend, collection, docId, doc, session) => { 
+    read: async (backend, collection, docId, doc, session) => {
       return true
     },
-    update: async (backend, collection, docId, oldDoc, session, ops, newDoc) => { 
+    update: async (backend, collection, docId, oldDoc, session, ops, newDoc) => {
       return true
     },
-    delete: async (backend, collection, docId, doc, session) => { 
+    delete: async (backend, collection, docId, doc, session) => {
       return true
     }
   }
@@ -209,6 +209,138 @@ export default class UserModel extends BaseModel {
 }
 
 ```
+
+
+## @startupjs/sharedb-aggregate connection
+
+### Usage
+Add `serverAggregate: true` in options of your `startupjsServer`. For example:
+
+```js
+// server/index.js
+startupjsServer(
+{
+  getHead,
+  appRoutes: [
+    ...getMainRoutes()
+  ],
+  serverAggregate: true
+}, ee => {
+  // your code
+})
+```
+After connecting the library, all requests with the `$aggregate` parameter will be **blocked**. In order to execute a query with aggregation,
+it must be declared in the `static aggregations` of model for which the aggregation will be performed. For example:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class EventsModel extends BaseModel {
+  static aggregations = {
+    openEvents: async (params, shareRequest) => {
+      return [
+        {$match: {status: 'open'}}
+      ]
+    }
+
+  }
+}
+
+```
+
+Here we have created an aggregation for the `events` collection named `openEvents`. Here `params` an object with parameters specified when calling a query;
+`shareRequest` is the standard sharedb request [context object](https://github.com/share/sharedb#middlewares).
+
+## Using queries (on the client):
+
+**Only** aggregations defined in the model can be called on the client. The call is made by name and has the following form:
+
+```js
+model.query('events', {
+    $aggregationName: 'openEvents',
+    $params: {
+      // your params
+    }
+  })
+```
+
+Or yo can use hook `useQuery`:
+```js
+const [openEvents] = useQuery('events', {
+    $aggregationName: 'openEvents',
+    $params: {
+      // your params
+    }
+  })
+```
+
+## how params works
+If you call such a query:
+
+```js
+model.query('events', {
+  $aggregationName: 'openEvents',
+  $params: {
+    title: 'Test Event'
+  }
+})
+```
+
+then `params` in `openEvents` will contain:
+
+```js
+{
+  title: 'Test Event'
+}
+```
+
+This way you can customize your aggregations in difinition. For example you can want to get parameters for `$match`:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class EventsModel extends BaseModel {
+  static aggregations = {
+    matchByParams: async (params, shareRequest) => {
+      return [
+        {$match: params}
+      ]
+    }
+  }
+}
+```
+
+Now you need to send necessary parameter in `$params`:
+
+```js
+model.query('events', {
+  $aggregationName: 'matchByParams',
+  $params: {
+    title: 'Custom Params Name',
+    status: 'close'
+  }
+})
+```
+
+## IMPORTANT! Using With Permissions
+
+You can use this component with permission library for checking user roles and permissions. For it you need to add object with field `customCheck` in `serverAggregate`. `customCheck` is a function for additional checking. You can read how it works in [server-aggregate documentation](https://github.com/startupjs/startupjs/tree/master/packages/server-aggregate). We have special function for it in permissions library.
+
+```js
+import { checkAggregationPermission } from '@dmapper/permissions/access'
+
+startupjsServer({
+  getHead,
+  appRoutes: [
+    ...getMainRoutes()
+  ],
+  accessControl: true,
+  serverAggregate: {
+    customCheck: checkAggregationPermission
+  }
+```
+
+Now in our orm will be checked the permissions to perform the aggregation. See documentation on `@dmapper/permissions` library in `core` (private for dmapper) to find out how to allow users to perform aggregations.
 
 ## MIT Licence
 

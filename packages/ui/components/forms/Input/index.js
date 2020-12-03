@@ -5,6 +5,7 @@ import TextInput from '../TextInput'
 import Checkbox from '../Checkbox'
 import ObjectInput from '../ObjectInput'
 import Select from '../Select'
+import NumberInput from '../NumberInput'
 
 const INPUTS = {
   text: {
@@ -26,6 +27,13 @@ const INPUTS = {
     Component: ObjectInput,
     getProps: $value => ({
       value: $value && $value.get()
+    })
+  },
+  number: {
+    Component: NumberInput,
+    getProps: $value => ({
+      value: $value && $value.get(),
+      onChangeNumber: value => $value && $value.setDiff(value)
     })
   },
   select: {
@@ -77,7 +85,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select']).isRequired,
+  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select', 'number']).isRequired,
   $value: PropTypes.any
 }
 
