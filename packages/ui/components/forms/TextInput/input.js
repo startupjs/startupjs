@@ -38,6 +38,7 @@ export default observer(function Input ({
   className,
   placeholder,
   value,
+  editable,
   size,
   focused,
   disabled,
@@ -58,8 +59,6 @@ export default observer(function Input ({
 }) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
-
-  const isSelect = !!renderWrapper
 
   if (!renderWrapper) {
     renderWrapper = ({ style }, children) => pug`
@@ -145,7 +144,7 @@ export default observer(function Input ({
         placeholder=placeholder
         placeholderTextColor=DARK_LIGHTER_COLOR
         value=value
-        editable=!disabled && !isSelect
+        editable=editable && !disabled
         multiline=multiline
         onBlur=onBlur
         onFocus=onFocus

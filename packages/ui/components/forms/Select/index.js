@@ -40,7 +40,8 @@ function Select ({
       icon=faAngleDown
       iconPosition='right'
       renderWrapper=renderWrapper
-      selection={start: 0,end: 0}
+      selection=false
+      editable=false
       ...props
     )
   `
