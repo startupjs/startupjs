@@ -1,17 +1,32 @@
-.root
-  height 4u
-  padding 0 1u
-  font(l)
-  color: $UI.colors.darkLight
-  background-color inherit
-  radius()
+.focused
+  color $UI.colors.primary
 
-  +web()
-    border: 1px solid $UI.colors.darkLighter
+.buttons
+  padding 1u
 
-    &:focus
-      outline none
+.button
+  flex 1
 
-.label
-  &.focused
-    color: $UI.colors.primary
+.cancelButton
+  justify-content flex-start
+
+.confirmButton
+  justify-content flex-end
+
+.cancelButtonText
+  color $UI.colors.secondaryText
+
+.confirmButtonText
+  color $UI.colors.success
+
+.picker
+  margin 5u 2u 0
+
+.container
+  overflow hidden
+  border 1px solid $UI.colors.darkLighter
+  border-radius 0.3rem
+  background-color $UI.colors.white
+
+:export
+  colors $UI.colors

@@ -3,7 +3,7 @@ import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
-
+import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
 import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
@@ -32,11 +32,37 @@ startupjsServer({
     android: conf.get('CRITICAL_VERSION_ANDROID'),
     web: conf.get('CRITICAL_VERSION_WEB')
   })
+  const rootPath = options.dirname.replace(/\/styleguide/g, '')
+  initUi(ee, { dirname: rootPath })
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
     strategies: [
-      new LocalStrategy({}),
+      new LocalStrategy({
+        // Vars
+        // resetPasswordTimeLimit: 60 * 1000 * 10,
+        // emailRegistrationRegexp: /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/,
+
+        // Hooks
+        // onCreatePasswordResetSecret: async (userId, secret) => {
+        //   console.log('\nonCreatePasswordResetSecret', userId, secret)
+        // },
+        // onBeforeRegister: async (req, res, next) => {
+        //   console.log(req.body)
+        //   next()
+        // },
+        // onAfterRegister: async userId => {
+        //   console.log(userId)
+        // }
+        // onBeforePasswordChange: (req, res, next) => {
+        //   console.log('\onBeforePasswordChange')
+        //   next()
+        // },
+        // onAfterPasswordChange: userId => {
+        //   console.log('\onAfterPasswordChange')
+        // }
+        //
+      }),
       new FacebookStrategy({
         clientId: conf.get('FACEBOOK_CLIENT_ID'),
         clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
@@ -57,11 +83,29 @@ startupjsServer({
         allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
       })
     ]
+    // Global auth hooks
+    // onBeforeLoginHook: async ({ userId }, req, res, next) => {
+    //   console.log('onBeforeLoginHook', userId)
+    //   next()
+    // },
+    // onBeforeLogoutHook: async (req, res, next) => {
+    //   console.log('onBeforeLogoutHook', req.session.user)
+    //   next()
+    // },
+    // parseUserCreationData: async user => {
+    //   console.log('\nexample onUserCreate', user, '\n')
+    //   return { ...user, additionalField: 777 }
+    // }
+    // onAfterUserCreationHook: async userId => {
+    //   console.log('\nexample onAfterUserCreationHook', user, '\n')
+    //   return { ...user, additionalField: 777 }
+    // }
   })
 })
 
 function getHead (appName) {
   return `
+    ${getUiHead()}
     <title>StartupJS UI</title>
     <!-- Put vendor JS and CSS here -->
   `

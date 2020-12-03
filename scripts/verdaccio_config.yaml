@@ -1,0 +1,22 @@
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    cache: false
+auth:
+  auth-memory:
+    users:
+      user:
+        name: admin
+        password: admin
+store:
+  memory:
+    limit: 200
+packages:
+  '@*/*':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '**':
+    access: $all
+    publish: $all
+    proxy: npmjs

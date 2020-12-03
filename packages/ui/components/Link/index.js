@@ -61,7 +61,6 @@ function Link ({
     }
   }
 
-  if (props.test) console.log(isBlock, 'isBlock')
   if (isBlock) {
     extraProps.variant = variant
 
@@ -72,7 +71,14 @@ function Link ({
       if (children.props.originalType === Button || children.type === Button) {
         extraProps.hoverStyle = {}
         extraProps.activeStyle = {}
-        children = React.cloneElement(children, { onPress: () => {} })
+        // we pass the duplicate of `handlePress` instead of empty function
+        // because event doesn't bubble up on phones
+        // and for the web we need to prevent standard behavior
+        // which is what the function itself does on web
+        children = React.cloneElement(
+          children,
+          { onPress: handlePress }
+        )
       }
     } catch (e) {}
   }

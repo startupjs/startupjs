@@ -8,7 +8,8 @@ import './index.styl'
 
 const TYPE_TO_INPUT = {
   string: 'text',
-  boolean: 'checkbox'
+  boolean: 'checkbox',
+  integer: 'number'
 }
 
 export default observer(function ObjectInput ({

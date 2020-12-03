@@ -1,6 +1,6 @@
 import React from 'react'
-import { observer } from 'startupjs'
 import { Text, ScrollView } from 'react-native'
+import { observer } from 'startupjs'
 import './index.styl'
 import { Content } from '@startupjs/ui'
 
