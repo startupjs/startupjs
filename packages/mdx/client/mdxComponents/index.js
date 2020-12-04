@@ -48,8 +48,30 @@ function Anchor ({
     `
   }
 
+  const getChildrenOfAnchor = obj => {
+    const getProp = o => {
+      for (let prop in o) {
+        if (prop === 'props') {
+          if (typeof (o[prop].children) === 'object') {
+            getProp(o[prop].children)
+          } else {
+            anchor = o[prop].children
+          }
+        }
+      }
+    }
+
+    if (Array.isArray(obj)) {
+      obj = obj[0]
+    }
+
+    getProp(obj)
+  }
+
+  /// hack
+
   if (typeof anchor === 'object') {
-    anchor = anchor.props.children
+    getChildrenOfAnchor(anchor)
   }
 
   const [hover, setHover] = useState()
