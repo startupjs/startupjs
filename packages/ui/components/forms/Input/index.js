@@ -48,7 +48,24 @@ const INPUTS = {
     Component: DateTimePicker,
     getProps: $value => ({
       date: $value && $value.get(),
-      onDateChange: value => $value && $value.setDiff(value)
+      onDateChange: value => $value && $value.setDiff(value),
+      mode: 'date'
+    })
+  },
+  datetime: {
+    Component: DateTimePicker,
+    getProps: $value => ({
+      date: $value && $value.get(),
+      onDateChange: value => $value && $value.setDiff(value),
+      mode: 'datetime'
+    })
+  },
+  time: {
+    Component: DateTimePicker,
+    getProps: $value => ({
+      date: $value && $value.get(),
+      onDateChange: value => $value && $value.setDiff(value),
+      mode: 'time'
     })
   }
 }
@@ -80,8 +97,8 @@ function Input ({
   const bindingProps = $value ? getProps($value) : {}
   return pug`
     Component(
-      ...props
       ...bindingProps
+      ...props
       style=style
       $value=$value
     )
