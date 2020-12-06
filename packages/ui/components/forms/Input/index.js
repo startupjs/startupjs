@@ -117,7 +117,17 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select', 'number', 'date']).isRequired,
+  type: PropTypes.oneOf([
+    'text',
+    'checkbox',
+    'object',
+    'select',
+    'number',
+    'date',
+    'datetime',
+    'time',
+    'array'
+  ]).isRequired,
   $value: PropTypes.any
 }
 

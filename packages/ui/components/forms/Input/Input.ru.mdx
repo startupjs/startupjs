@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
@@ -56,8 +57,11 @@ return (
 
 ## Сложный пример
 
+При использовании `object` инпута, важно объявить `schema` как константу либо вне вашего компонента, либо закэшировать ее через `useMemo()`.
+Если этого не сделать, то `Input` будет перерендеривать все дерево формы целиком при редактировании лишь одного поля.
+
 ```jsx example
-const schema = {
+const schema = useMemo(() => ({
   name: {
     type: 'string',
     label: 'Name'
@@ -65,6 +69,10 @@ const schema = {
   number: {
     type: 'number',
     label: 'Level'
+  },
+  dangerous: {
+    type: 'boolean',
+    label: 'Is Dangerous'
   },
   type: {
     type: 'select',
@@ -80,8 +88,8 @@ const schema = {
         label: 'Galaxy'
       },
       planet: {
-        type: 'string',
-        label: 'Planet'
+        type: 'number',
+        label: 'Planet Number'
       },
       location: {
         type: 'string',
@@ -89,15 +97,16 @@ const schema = {
       }
     }
   },
+  abilities: {
+    type: 'array',
+    label: 'Abilities',
+    items: { type: 'string' }
+  },
   url: {
     type: 'string',
     label: 'Image URL'
-  },
-  dangerous: {
-    type: 'boolean',
-    label: 'Is Dangerous'
   }
-}
+}), [])
 
 const [value, $value] = useValue()
 

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
@@ -56,8 +57,11 @@ return (
 
 ## Complex example
 
+When using `object` input it's important to have `schema` defined as a constant either outside of your compoment or cached with `useMemo()`.
+Otherwise it is going to rerender the whole form tree whenever you are aditing just one field.
+
 ```jsx example
-const schema = {
+const schema = useMemo(() => ({
   name: {
     type: 'string',
     label: 'Name'
@@ -102,7 +106,7 @@ const schema = {
     type: 'string',
     label: 'Image URL'
   }
-}
+}), [])
 
 const [value, $value] = useValue()
 
