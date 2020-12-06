@@ -6,6 +6,7 @@ import Checkbox from '../Checkbox'
 import ObjectInput from '../ObjectInput'
 import Select from '../Select'
 import NumberInput from '../NumberInput'
+import DateTimePicker from '../DateTimePicker'
 
 const INPUTS = {
   text: {
@@ -41,6 +42,13 @@ const INPUTS = {
     getProps: $value => ({
       value: $value && $value.get(),
       onChange: value => $value && $value.setDiff(value)
+    })
+  },
+  date: {
+    Component: DateTimePicker,
+    getProps: $value => ({
+      date: $value && $value.get(),
+      onDateChange: value => $value && $value.setDiff(value)
     })
   }
 }
@@ -85,7 +93,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select', 'number']).isRequired,
+  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select', 'number', 'date']).isRequired,
   $value: PropTypes.any
 }
 
