@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Checkbox from '../Checkbox'
 import ObjectInput from '../ObjectInput'
+import ArrayInput from '../ArrayInput'
 import Select from '../Select'
 import NumberInput from '../NumberInput'
 import DateTimePicker from '../DateTimePicker'
@@ -26,6 +27,12 @@ const INPUTS = {
   },
   object: {
     Component: ObjectInput,
+    getProps: $value => ({
+      value: $value && $value.get()
+    })
+  },
+  array: {
+    Component: ArrayInput,
     getProps: $value => ({
       value: $value && $value.get()
     })

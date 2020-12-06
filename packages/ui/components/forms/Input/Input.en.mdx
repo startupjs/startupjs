@@ -66,6 +66,10 @@ const schema = {
     type: 'number',
     label: 'Level'
   },
+  dangerous: {
+    type: 'boolean',
+    label: 'Is Dangerous'
+  },
   type: {
     type: 'select',
     label: 'Type',
@@ -80,8 +84,8 @@ const schema = {
         label: 'Galaxy'
       },
       planet: {
-        type: 'string',
-        label: 'Planet'
+        type: 'number',
+        label: 'Planet Number'
       },
       location: {
         type: 'string',
@@ -89,13 +93,14 @@ const schema = {
       }
     }
   },
+  abilities: {
+    type: 'array',
+    label: 'Abilities',
+    items: { type: 'string' }
+  },
   url: {
     type: 'string',
     label: 'Image URL'
-  },
-  dangerous: {
-    type: 'boolean',
-    label: 'Is Dangerous'
   }
 }
 
