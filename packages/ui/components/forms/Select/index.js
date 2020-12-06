@@ -1,10 +1,10 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import TextInput from '../TextInput'
-import Wrapper from './Wrapper'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { getLabelFromValue } from './Wrapper/helpers'
+import TextInput from '../TextInput'
+import Wrapper from './Wrapper'
 
 // TODO: Refactor and move InputLayout into a separate component
 

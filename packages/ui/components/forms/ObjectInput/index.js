@@ -55,7 +55,7 @@ export default observer(function ObjectInput ({
     if (label) {
       return pug`
         Div(style=style)
-          Span.label= label
+          Span.label(variant='description')= label
           Card(
             style=inputStyle
             variant='outlined'
