@@ -112,6 +112,26 @@ return (
 )
 ```
 
+## Примеры поведения Dropdown.Item
+1 - Обычный, когда есть label и value, value будет предаваться в родительский onChange
+2 - Когда нужно кастомное нажатие, можно передать в Item калбэк onPress
+3 - Когда нужно обозначить ссылку, сохраняя стиль Item`а
+```jsx example
+const [state, setState] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      value={state}
+      onChange={v=> setState(v)}
+    >
+      <Dropdown.Item label="Выбрать 1" value={1} />
+      <Dropdown.Item label="Показать 2" onPress={()=> alert('2')} />
+      <Dropdown.Item label="На главную" to='/' />
+    </Dropdown>
+  </View>
+)
+```
+
 ## Позиция
 - position: имеет 4 варианта положений (left, right, top, bottom)
 - attachment: дополнительный параметр для смещения (start, center, end)
