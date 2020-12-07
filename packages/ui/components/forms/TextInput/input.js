@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
@@ -32,13 +33,13 @@ const ICON_SIZES = {
   l: 'l'
 }
 
-export default observer(function Input ({
+function Input ({
   style,
   inputStyle,
   className,
   placeholder,
   value,
-  editable = true,
+  editable,
   size,
   focused,
   disabled,
@@ -180,8 +181,18 @@ export default observer(function Input ({
           )
 
   `)
-})
+}
 
 function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
+
+Input.defaultProps = {
+  editable: true
+}
+
+Input.propTypes = {
+  editable: PropTypes.bool
+}
+
+export default observer(Input)
