@@ -9,7 +9,7 @@ import {
 } from './helpers'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
-import { DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic'
+import { DEFAUL_SUCCESS_REDIRECT_URL, SIGN_IN_URL } from '../isomorphic'
 
 const router = express.Router()
 
@@ -30,6 +30,7 @@ function validateConfigs ({ strategies }) {
 export default function (ee, _config) {
   const config = {}
   Object.assign(config, {
+    signInPageUrl: SIGN_IN_URL,
     parseUserCreationData,
     onBeforeLogoutHook,
     onBeforeLoginHook,
