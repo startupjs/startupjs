@@ -276,6 +276,7 @@ PODS:
     - React-Core
   - RNGoogleSignin (5.0.0):
     - GoogleSignIn (~> 5.0.0)
+  - RNCPicker (1.9.2):
     - React-Core
   - RNSVG (12.1.0):
     - React
@@ -436,6 +437,7 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
+  RNCPicker: 4850f485a2b6a51788c7582d90d4b7d0e1644036
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
