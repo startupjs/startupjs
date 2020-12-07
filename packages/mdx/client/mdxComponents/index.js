@@ -48,6 +48,9 @@ function Anchor ({
     `
   }
 
+  /// HACK TODO
+  /// This is a hack that fixes invalid URLs for anchors.
+  /// Remove this hack when there is a mdxComponent refactor.
   const getChildrenOfAnchor = obj => {
     const getProp = o => {
       for (let prop in o) {
@@ -67,8 +70,6 @@ function Anchor ({
 
     getProp(obj)
   }
-
-  /// hack
 
   if (typeof anchor === 'object') {
     getChildrenOfAnchor(anchor)
