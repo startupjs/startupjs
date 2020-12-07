@@ -49,7 +49,7 @@ startupjsServer({
         //   console.log(req.body)
         //   next()
         // },
-        // onAfterRegister: async (req, userId) => {
+        // onAfterRegister: async ({ userId }, req) => {
         //   console.log(userId)
         // }
         // onBeforePasswordChange: (req, res, next) => {
