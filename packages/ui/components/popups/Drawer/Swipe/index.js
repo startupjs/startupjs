@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { PanResponder, View } from 'react-native'
+import { PanResponder, View, StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import './index.styl'
 
@@ -13,7 +13,7 @@ const RESPONDER_STYLES = {
 function Swipe ({
   position,
   contentSize,
-  styleSwipe,
+  swipeStyle,
   isHorizontal,
   isSwipe,
   isInvertPosition,
@@ -83,7 +83,10 @@ function Swipe ({
   }), [startDrag, endDrag, contentSize])
 
   const _responder = !isSwipe ? { panHandlers: {} } : responder
-  const _responderStyle = { ...RESPONDER_STYLES[position], ...styleSwipe }
+  const _responderStyle = StyleSheet.flatten([
+    RESPONDER_STYLES[position],
+    swipeStyle
+  ])
 
   return pug`
     View.responder(..._responder.panHandlers style=_responderStyle)
