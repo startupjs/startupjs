@@ -12,16 +12,17 @@ function Modal ({
   children,
   variant,
   title,
-  ModalElement,
-  onCrossPress,
   dismissLabel,
   confirmLabel,
-  onCancel,
-  onConfirm,
-  onBackdropPress,
+  ModalElement,
   $visible,
   showCross,
-  enableBackdropPress
+  enableBackdropPress,
+  closeFallback,
+  onCrossPress,
+  onBackdropPress,
+  onCancel,
+  onConfirm
 }) {
   // Deconstruct template variables
   let header, actions, content
@@ -49,8 +50,6 @@ function Modal ({
       'If <Modal.Content> is specified, you have to put all your content inside it')
   }
 
-  const setVisibleFalse = () => $visible.set(false)
-
   // Handle <Modal.Content>
   content = content || (contentChildren.length > 0
     ? React.createElement(ModalContent, { variant }, contentChildren)
@@ -60,9 +59,9 @@ function Modal ({
   const actionsProps = {
     dismissLabel,
     confirmLabel,
-    onCancel: onCancel || setVisibleFalse,
-    onConfirm: onConfirm || setVisibleFalse,
-    style: content ? { paddingTop: 0 } : null
+    style: content ? { paddingTop: 0 } : null,
+    onCancel: onCancel || closeFallback,
+    onConfirm: onConfirm || closeFallback
   }
   actions = actions
     ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
@@ -72,9 +71,8 @@ function Modal ({
 
   // Handle <Modal.Header>
   const headerProps = {
-    showCross,
-    onCrossPress: onCrossPress || onCancel || setVisibleFalse,
-    style: content || actions ? { paddingBottom: 0 } : null
+    style: content || actions ? { paddingBottom: 0 } : null,
+    onCrossPress: showCross ? onCrossPress || onCancel || closeFallback : undefined
   }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
@@ -89,7 +87,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=onBackdropPress || onCancel || setVisibleFalse
+          onPress=enableBackdropPress ? onBackdropPress || onCancel || closeFallback : undefined
         )
       ModalElement.modal(
         style=modalStyle

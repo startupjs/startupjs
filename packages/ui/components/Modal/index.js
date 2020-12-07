@@ -11,17 +11,22 @@ function Modal ({
   style,
   $visible,
   transparent,
-  onOrientationChange,
   supportedOrientations,
+  statusBarTranslucent,
   animationType,
   onDismiss,
   onRequestClose,
   onShow,
-  statusBarTranslucent,
+  onOrientationChange,
   ...props
 }) {
   let visible
-  ;({ visible } = useBind({ $visible, visible }))
+  let onChangeVisible
+  ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
+
+  function closeFallback () {
+    onChangeVisible(false)
+  }
 
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
@@ -29,38 +34,27 @@ function Modal ({
     if (!$visible.get()) onDismiss && onDismiss()
   })
 
-  if (props.variant === 'custom') {
-    return pug`
-      RNModal(
-        style=style
-        visible=visible
-        transparent=transparent
-        animationType=animationType
-        onRequestClose=onRequestClose
-        onOrientationChange=onOrientationChange
-        supportedOrientations=supportedOrientations
-        onShow=onShow
-        statusBarTranslucent=statusBarTranslucent
-      )= props.children
-    `
-  }
-
   return pug`
     RNModal(
+      style=style
       visible=visible
       transparent=transparent
+      supportedOrientations=supportedOrientations
       animationType=animationType
+      statusBarTranslucent=statusBarTranslucent
       onRequestClose=onRequestClose
       onOrientationChange=onOrientationChange
-      supportedOrientations=supportedOrientations
       onShow=onShow
-      statusBarTranslucent=statusBarTranslucent
     )
-      Layout(
-        modalStyle=style
-        $visible=$visible
-        ...props
-      )
+      if props.variant !== 'custom'
+        Layout(
+          modalStyle=style
+          $visible=$visible
+          closeFallback=closeFallback
+          ...props
+        )
+      else
+        = props.children
   `
 }
 
@@ -72,9 +66,10 @@ Modal.defaultProps = {
   ModalElement: View,
   animationType: 'fade',
   transparent: true,
-  showCross: ModalHeader.defaultProps.showCross,
+  showCross: true,
   enableBackdropPress: true,
-  supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']
+  supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right'],
+  onRequestClose: () => {} // required prop in some platforms
 }
 
 Modal.propTypes = {
