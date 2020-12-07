@@ -1,17 +1,17 @@
-export let layouts
+export let _layouts
 
-export default function initLayouts (configLayouts) {
-  if (layouts) return
-  layouts = { ...configLayouts }
+export default function initLayouts (layouts) {
+  if (_layouts) return
+  _layouts = { ...layouts }
 }
 
-export function registerLayouts (newLayouts) {
-  for (let layoutName in newLayouts) {
-    if (layouts[layoutName]) {
+export function registerLayouts (layouts) {
+  for (let layoutName in layouts) {
+    if (_layouts[layoutName]) {
       throw new Error('[@startupjs/mail] registerLayouts: ' +
         `layout ${layoutName} already registred`
       )
     }
-    layouts[layoutName] = newLayouts[layoutName]
+    _layouts[layoutName] = layouts[layoutName]
   }
 }

@@ -1,33 +1,33 @@
-let providers
-let defaultProvider
+let _providers
+let _defaultProvider
 
 export default function initProviders (options = {}) {
   const {
-    defaultProvider: _defaultProvider,
-    providers: providersConfig
+    defaultProvider,
+    providers
   } = options
 
   // If no default provider passed we take
   // first provider from options as default
-  defaultProvider = _defaultProvider || Object.keys(providersConfig)[0]
+  _defaultProvider = defaultProvider || Object.keys(providers)[0]
 
-  providers = providersConfig
+  _providers = providers
 }
 
-export function getProvider (name) {
-  if (!providers) {
+export function getProvider (name = _defaultProvider) {
+  if (!_providers) {
     throw new Error(
       '[@startupjs/mail] getProvider: initialize ' +
       'library using initMail before getting provider'
     )
   }
 
-  if (name && !providers[name]) {
+  if (!_providers[name]) {
     throw new Error(
       `[@startupjs/mail] getProvider: provider: ${name} not found. ` +
       'Initialize it using initMail first.'
     )
   }
 
-  return providers[name || defaultProvider]
+  return _providers[name || _defaultProvider]
 }

@@ -1,17 +1,17 @@
-export let templates
+export let _templates
 
-export default function initTemplates (configTemplates) {
-  if (templates) return
-  templates = {...configTemplates}
+export default function initTemplates (templates) {
+  if (_templates) return
+  _templates = { ...templates }
 }
 
-export function registerTemplates (newTemplates) {
-  for ( let templateName in newTemplates ) {
-    if (templates[templateName]) {
+export function registerTemplates (templates) {
+  for (let templateName in templates) {
+    if (_templates[templateName]) {
       throw new Error('[@startupjs/mail] registerTemplates: ' +
         `tempate ${templateName} already registred`
       )
     }
-    templates[templateName] = newTemplates[templateName]
+    _templates[templateName] = templates[templateName]
   }
 }
