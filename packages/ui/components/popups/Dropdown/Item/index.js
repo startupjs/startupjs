@@ -40,7 +40,7 @@ function DropdownItem ({
         to=to
         active=_activeValue === value
         styleName={ selectMenu: _selectIndexValue === _index }
-        onPress=to ? null : handlePress
+        onPress=handlePress
         iconPosition='left'
         icon=icon
       )= label
@@ -64,10 +64,6 @@ function DropdownItem ({
           if _activeValue === value
             Icon.iconActive(styleName=_variant icon=faCheck)
   `
-}
-
-DropdownItem.defaultProps = {
-  to: ''
 }
 
 DropdownItem.propTypes = {

@@ -116,17 +116,41 @@ return (
 1 - Обычный, когда есть label и value, value будет предаваться в родительский onChange
 2 - Когда нужно кастомное нажатие, можно передать в Item калбэк onPress
 3 - Когда нужно обозначить ссылку, сохраняя стиль Item`а
+4 - Кастомное использование. Можно использовать value и родительский onChange. Либо же свой обработчик onPress.
 ```jsx example
 const [state, setState] = useState('')
+
+const customStyle = state === 'custom'
+  ? { backgroundColor: 'blue', padding: 8 }
+  : { backgroundColor: 'yellow', padding: 8 }
+
+const customStyle2 = state === 'custom2'
+  ? { backgroundColor: 'blue', padding: 8 }
+  : { backgroundColor: 'yellow', padding: 8 }
+
 return (
   <View style={{ width: 150 }}>
     <Dropdown
       value={state}
       onChange={v=> setState(v)}
     >
-      <Dropdown.Item label="Выбрать 1" value={1} />
-      <Dropdown.Item label="Показать 2" onPress={()=> alert('2')} />
-      <Dropdown.Item label="На главную" to='/' />
+      <Dropdown.Item label='Выбрать 1' value={1} />
+      <Dropdown.Item label='Показать 2' onPress={()=> alert('2')} />
+      <Dropdown.Item
+        to='/'
+        label='На главную'
+        onPress={()=> alert('На главную')}
+      />
+      <Dropdown.Item value='custom'>
+        <View style={customStyle}>
+          <Text>Кастомный 1</Text>
+        </View>
+      </Dropdown.Item>
+      <Dropdown.Item onPress={()=> setState('custom2')}>
+        <View style={customStyle2}>
+          <Text>Кастомный 2</Text>
+        </View>
+      </Dropdown.Item>
     </Dropdown>
   </View>
 )
