@@ -48,6 +48,33 @@ function Anchor ({
     `
   }
 
+  /// HACK TODO
+  /// This is a hack that fixes invalid URLs for anchors.
+  /// Remove this hack when there is a mdxComponent refactor.
+  const getChildrenOfAnchor = obj => {
+    const getProp = o => {
+      for (let prop in o) {
+        if (prop === 'props') {
+          if (typeof (o[prop].children) === 'object') {
+            getProp(o[prop].children)
+          } else {
+            anchor = o[prop].children
+          }
+        }
+      }
+    }
+
+    if (Array.isArray(obj)) {
+      obj = obj[0]
+    }
+
+    getProp(obj)
+  }
+
+  if (typeof anchor === 'object') {
+    getChildrenOfAnchor(anchor)
+  }
+
   const [hover, setHover] = useState()
 
   return pug`
