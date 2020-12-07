@@ -53,7 +53,7 @@ export default function (config = {}) {
           useCookieInsteadOfSession: true,
           cookieEncryptionKeys
         },
-        async function (iss, sub, profile, accessToken, refreshToken, done) {
+        async (iss, sub, profile, accessToken, refreshToken, done) => {
           let userId, err
           try {
             const provider = new Provider(model, profile, this.config)

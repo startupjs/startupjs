@@ -41,7 +41,7 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
         },
-        async function (accessToken, refreshToken, profile, cb) {
+        async (accessToken, refreshToken, profile, cb) => {
           let userId, err
 
           try {

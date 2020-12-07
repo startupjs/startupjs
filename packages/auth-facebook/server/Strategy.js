@@ -41,7 +41,7 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           profileFields: FIELDS
         },
-        async function (accessToken, refreshToken, profile, cb) {
+        async (accessToken, refreshToken, profile, cb) => {
           let userId, err
 
           try {
