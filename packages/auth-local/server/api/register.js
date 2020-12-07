@@ -7,10 +7,10 @@ export default function (req, res, done, config) {
   function _done (err) {
     if (err) return res.status(403).json({ message: err })
 
-    register(req, config, function (err, userId) {
+    register(req, config, async function (err, userId) {
       if (err) return res.status(403).json({ message: err })
 
-      onAfterRegister(userId)
+      await onAfterRegister(req, userId)
 
       return res.json(userId)
     })
