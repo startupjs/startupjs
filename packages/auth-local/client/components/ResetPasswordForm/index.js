@@ -12,12 +12,12 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess }) {
 
   const [form, $form] = useValue({})
   const [error, $error] = useValue()
-  const [feedback, setFeedback] = useValue()
+  const [feedback, $feedback] = useValue()
   const [auth] = useQueryDoc('auths', { 'providers.local.passwordReset.secret': secret })
   const [user] = useDoc('users', _get(auth, 'id') || '_DUMMY_')
 
   function _onSuccess () {
-    setFeedback('Your password has been changed successfully.')
+    $feedback.set('Your password has been changed successfully.')
     onSuccess && onSuccess(user.id)
   }
 
