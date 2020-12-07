@@ -66,6 +66,8 @@ function DropdownItem ({
   `
 }
 
+DropdownItem.defaultProps = {}
+
 DropdownItem.propTypes = {
   label: propTypes.string.isRequired,
   value: propTypes.string.isRequired
