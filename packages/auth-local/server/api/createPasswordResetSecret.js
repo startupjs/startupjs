@@ -23,7 +23,7 @@ export default function createPasswordResetSecret (req, res, done, config) {
     }
     await $local.setAsync('passwordReset', passwordReset)
 
-    const hookRes = onCreatePasswordResetSecret(userId, secret)
+    const hookRes = onCreatePasswordResetSecret({ userId, secret })
     hookRes && hookRes.then && await hookRes
 
     res.send('Secret for password reset has been created')
