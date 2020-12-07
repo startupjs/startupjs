@@ -1,12 +1,12 @@
-import React, { useLayoutEffect, useState, useRef } from 'react'
+import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
 import {
   Text,
   View,
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  NativeModules,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -17,8 +17,7 @@ import DropdownItem from './Item'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
 import './index.styl'
 
-const { UIManager } = NativeModules
-
+// TODO: key event change scroll
 function Dropdown ({
   style,
   activeItemStyle,
@@ -33,7 +32,13 @@ function Dropdown ({
   onChange,
   onDismiss
 }) {
+  const refScroll = useRef()
+  const [selectIndexValue, setSelectIndexValue] = useState(-1)
   const [layoutWidth, setLayoutWidth] = useState(null)
+  const [isShow, setIsShow] = useState(false)
+  const [activePosition, setActivePosition] = useState(null)
+  const isPopover = layoutWidth > 780
+
   useLayoutEffect(() => {
     if (!layoutWidth) handleWidthChange()
     Dimensions.addEventListener('change', handleWidthChange)
@@ -43,18 +48,26 @@ function Dropdown ({
     setLayoutWidth(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
   }
 
-  const refScroll = useRef()
-  const [activePosition, setActivePosition] = useState(null)
-  const [isShow, setIsShow] = useState(false)
-  const isPopover = layoutWidth > 780
+  useEffect(() => {
+    if (Platform.OS !== 'web') return
 
-  const onLayoutActive = ({ nativeEvent }) => {
+    if (isShow) {
+      document.addEventListener('keydown', onKeyDown)
+    } else {
+      document.removeEventListener('keydown', onKeyDown)
+      setSelectIndexValue(-1)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isShow, selectIndexValue])
+
+  function onLayoutActive ({ nativeEvent }) {
     setActivePosition(nativeEvent.layout.y)
   }
 
-  const _popoverWrapperStyle = StyleSheet.flatten(popoverWrapperStyle)
-
-  const onCancel = () => {
+  function onCancel () {
     onDismiss && onDismiss()
     setIsShow(false)
   }
@@ -88,6 +101,7 @@ function Dropdown ({
         : (isPopover ? 'popover' : drawerVariant),
       _styleActiveItem: activeItemStyle,
       _activeValue: value,
+      _selectIndexValue: selectIndexValue,
       _index: caption ? (index - 1) : index,
       _childenLength: caption ? (arr.length - 1) : arr.length,
       _onDismissDropdown: () => setIsShow(false),
@@ -99,7 +113,13 @@ function Dropdown ({
 
     if (value === child.props.value) {
       activeLabel = child.props.label
-      renderContent.push(<View onLayout={onLayoutActive}>{_child}</View>)
+      renderContent.push(pug`
+        View(
+          key=index
+          value=child.props.value
+          onLayout=onLayoutActive
+        )=_child
+      `)
     } else {
       renderContent.push(_child)
     }
@@ -109,6 +129,46 @@ function Dropdown ({
     caption = <DropdownCaption _activeLabel={activeLabel} />
   } else {
     caption = React.cloneElement(caption, { _activeLabel: activeLabel })
+  }
+
+  function onKeyDown (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    let item, index
+    const keyName = e.key
+
+    switch (keyName) {
+      case 'ArrowUp':
+        if (selectIndexValue === 0 || (selectIndexValue === -1 && !value)) return
+
+        index = selectIndexValue - 1
+        if (selectIndexValue === -1 && value) {
+          index = renderContent.findIndex(item => item.props.value === value)
+          index--
+        }
+
+        setSelectIndexValue(index)
+        break
+
+      case 'ArrowDown':
+        if (selectIndexValue === renderContent.length - 1) return
+
+        index = selectIndexValue + 1
+        if (selectIndexValue === -1 && value) {
+          index = renderContent.findIndex(item => item.props.value === value)
+          index++
+        }
+
+        setSelectIndexValue(index)
+        break
+
+      case 'Enter':
+        if (selectIndexValue === -1) return
+        item = renderContent.find((_, i) => i === selectIndexValue)
+        onChange && onChange(item.props.value)
+        break
+    }
   }
 
   if (isPopover) {

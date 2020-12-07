@@ -1,10 +1,14 @@
 import bcrypt from 'bcrypt'
 
 export default function resetPassword (req, res, done, config) {
-  const { resetPasswordTimeLimit, onPasswordReset } = config
+  const {
+    resetPasswordTimeLimit,
+    onBeforePasswordReset,
+    onAfterPasswordReset
+  } = config
   const { secret, password } = req.body
 
-  parseResetPasswordRequest(req, res, async function (err) {
+  onBeforePasswordReset(req, res, async function (err) {
     if (err) return res.status(400).json({ message: err })
 
     const { model } = req
@@ -34,19 +38,8 @@ export default function resetPassword (req, res, done, config) {
     // Remove used secret
     await $local.del('passwordReset')
 
-    onPasswordReset(userId)
+    onAfterPasswordReset(userId)
 
     res.send('Password reset completed')
   })
-}
-
-function parseResetPasswordRequest (req, res, done) {
-  const { secret, password, confirm } = req.body
-
-  if (!secret) return done('Missing secret')
-  if (!password) return done('Missing password')
-  if (!confirm) return done('Missing password confirm')
-  if (password !== confirm) return done('Password should match confirmation')
-
-  done(null)
 }

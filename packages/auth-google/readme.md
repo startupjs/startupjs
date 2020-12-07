@@ -49,7 +49,7 @@ initAuth(ee, {
 ```
 
 ## Использование на мобильных приложениях
-Добавить в .env - `GOOGLE_CLIENT_ID`, так же **BASE_URL** должен быть - `http://localhost:3000`
+**BASE_URL** должен ВЕЗДЕ (.env, config.json) быть - `http://localhost:3000`
 
 ## Android
 1 - В **Firebase** на главной странице проекта добавить Android приложение

@@ -34,3 +34,6 @@ package-lock.json
 .prettierrc
 
 /temp
+
+# Test application initialized with `yarn init-local` command.
+/testapp

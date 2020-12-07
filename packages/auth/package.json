@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth",
-  "version": "0.0.1",
+  "version": "0.29.3",
   "description": "Auth module for StartupJS apps",
   "main": "index.js",
   "publishConfig": {
@@ -14,7 +14,7 @@
   },
   "peerDependencies": {
     "@startupjs/ui": ">= 0.22.1",
-    "startupjs": ">= 0.23.23",
-    "lodash": "4.x"
+    "lodash": "4.x",
+    "startupjs": ">= 0.23.23"
   }
 }

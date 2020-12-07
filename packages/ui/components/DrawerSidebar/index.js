@@ -9,8 +9,6 @@ const { colors } = STYLES
 
 function DrawerSidebar ({
   style = [],
-  forceClosed,
-  defaultOpen,
   children,
   path,
   $open,
@@ -36,27 +34,20 @@ function DrawerSidebar ({
   ;({ open, onChange } = useBind({
     $open,
     open,
-    onChange,
-    default: defaultOpen
+    onChange
   }))
-
-  let drawerExtraProps = {}
-  if (forceClosed) {
-    drawerExtraProps.drawerLockMode = 'locked-closed'
-  }
 
   let drawerRef = useRef()
 
   useDidUpdate(() => {
     let drawer = drawerRef.current
-    if (!drawer) return
-    if (forceClosed && !open) return
-    if (open && !forceClosed) {
+
+    if (open) {
       drawer.openDrawer()
     } else {
       drawer.closeDrawer()
     }
-  }, [!!forceClosed, !!open])
+  }, [!!open])
 
   const _renderContent = () => {
     return pug`
@@ -75,14 +66,11 @@ function DrawerSidebar ({
       onDrawerClose=() => onChange(false)
       onDrawerOpen=() => onChange(true)
       ...props
-      ...drawerExtraProps
     )= children
   `
 }
 
 DrawerSidebar.defaultProps = {
-  defaultOpen: false,
-  forceClosed: false,
   position: 'left',
   width: 264
 }
@@ -91,8 +79,6 @@ DrawerSidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
-  defaultOpen: PropTypes.bool,
-  forceClosed: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func

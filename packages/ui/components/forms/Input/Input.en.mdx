@@ -1,6 +1,7 @@
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
+import Span from '../../typography/Span'
 import { useValue, u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
@@ -62,8 +63,13 @@ const schema = {
     label: 'Name'
   },
   number: {
-    type: 'string',
-    label: 'Number'
+    type: 'number',
+    label: 'Level'
+  },
+  type: {
+    type: 'select',
+    label: 'Type',
+    options: ['Fire', 'Water', 'Earth', 'Electric']
   },
   abilities: {
     type: 'object',
@@ -93,14 +99,20 @@ const schema = {
   }
 }
 
-const [, $value] = useValue()
+const [value, $value] = useValue()
 
 return (
-  <Input
-    type='object'
-    $value={$value}
-    properties={schema}
-  />
+  <React.Fragment>
+    <Input
+      type='object'
+      $value={$value}
+      properties={schema}
+    />
+    <Br />
+    <Span style={{ fontFamily: 'monospace' }}>
+      VALUE: {JSON.stringify(value, null, 2)}
+    </Span>
+  </React.Fragment>
 )
 ```
 
