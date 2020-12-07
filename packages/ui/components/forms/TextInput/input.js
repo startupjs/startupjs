@@ -38,7 +38,7 @@ export default observer(function Input ({
   className,
   placeholder,
   value,
-  editable,
+  editable = true,
   size,
   focused,
   disabled,
