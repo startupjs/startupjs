@@ -20,9 +20,9 @@ import './index.styl'
 const { UIManager } = NativeModules
 
 function Dropdown ({
-  children,
+  style,
   activeItemStyle,
-  popoverWrapperStyle,
+  children,
   value,
   position,
   attachment,
@@ -59,12 +59,13 @@ function Dropdown ({
     setIsShow(false)
   }
 
-  const onRequestOpen = () => {
-    UIManager.measure(refScroll.current.getInnerViewNode(), (x, y) => {
-      if (activePosition >= _popoverWrapperStyle.height) {
-        refScroll.current.scrollTo({ y: activePosition })
-      }
-    })
+  const _wrapperStyle = StyleSheet.flatten(style)
+
+  function onRequestOpen () {
+    const curHeight = _wrapperStyle.maxHeight || _wrapperStyle.height
+    if (activePosition >= curHeight - 10) {
+      refScroll.current.scrollTo({ y: activePosition, animated: false })
+    }
   }
 
   let caption = null
@@ -113,13 +114,13 @@ function Dropdown ({
   if (isPopover) {
     return pug`
       Popover(
-        wrapperStyleName='popoverWrapper'
-        wrapperStyle=_popoverWrapperStyle
+        wrapperStyleName='wrapper'
+        wrapperStyle=_wrapperStyle
         position=position
         attachment=attachment
         placements=placements
         visible=isShow
-        hasWidthCaption=!_popoverWrapperStyle.width
+        hasWidthCaption=!_wrapperStyle.width
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
       )
@@ -141,13 +142,18 @@ function Dropdown ({
       position='bottom'
       hasDefaultStyleContent=drawerVariant === 'list'
       onDismiss=()=> setIsShow(false)
+      onRequestOpen=onRequestOpen
     )
       View.dropdown(styleName=drawerVariant)
         if drawerVariant === 'list'
           View.caption(styleName=drawerVariant)
             Text.captionText(styleName=drawerVariant)= drawerListTitle
-        View.case(styleName=drawerVariant)
-          = renderContent
+        ScrollView.case(
+          ref=refScroll
+          showsVerticalScrollIndicator=false
+          style=_wrapperStyle
+          styleName=drawerVariant
+        )= renderContent
         if drawerVariant === 'buttons'
           TouchableOpacity(onPress=onCancel)
             View.button(styleName=drawerVariant)
@@ -156,7 +162,7 @@ function Dropdown ({
 }
 
 Dropdown.defaultProps = {
-  popoverWrapperStyle: [],
+  style: [],
   position: 'bottom',
   attachment: 'center',
   value: '',
@@ -166,7 +172,7 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  popoverWrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),

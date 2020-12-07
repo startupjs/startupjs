@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Dimensions } from 'react-native'
 import Dropdown from './index.js'
 import Icon from '../../Icon'
 import Row from '../../Row'
@@ -107,6 +107,27 @@ return (
     >
       <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />
       <Dropdown.Item icon={faTrashAlt} value="delete" label="Delete" />
+    </Dropdown>
+  </View>
+)
+```
+
+## Максимальная высота (стилизация)
+```jsx example
+const [value, setValue] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      style={Dimensions.get('window').width < 780 ? { maxHeight: 160 } : { maxHeight: 100 }}
+      value={value}
+      onChange={v => setValue(v)}
+    >
+      <Dropdown.Item value="java" label="Java" />
+      <Dropdown.Item value="golang" label="Golang" />
+      <Dropdown.Item value="js" label="JavaScript" />
+      <Dropdown.Item value="python" label="Python" />
+      <Dropdown.Item value="csharp" label="C#" />
+      <Dropdown.Item value="cpp" label="C++" />
     </Dropdown>
   </View>
 )
