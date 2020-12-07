@@ -39,6 +39,7 @@ export default function (config = {}) {
       new Strategy(
         { usernameField: 'email' },
         async (email = '', password, cb) => {
+          email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
           const authData = await provider.loadAuthData()
