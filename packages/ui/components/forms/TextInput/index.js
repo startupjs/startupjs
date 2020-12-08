@@ -17,6 +17,7 @@ function TextInput ({
   placeholder,
   value,
   size,
+  editable,
   layout,
   disabled,
   readonly,
@@ -59,6 +60,7 @@ function TextInput ({
         focused=focused
         renderWrapper=renderWrapper
         size=size
+        editable=editable
         onBlur=(...args) => {
           _onBlur()
           onBlur && onBlur(...args)
@@ -90,6 +92,7 @@ TextInput.defaultProps = {
   disabled: false,
   readonly: false,
   resize: false,
+  editable: true,
   numberOfLines: 1,
   iconPosition: 'left'
 }
@@ -107,6 +110,7 @@ TextInput.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   resize: PropTypes.bool,
+  editable: PropTypes.bool,
   numberOfLines: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   iconPosition: PropTypes.oneOf(['left', 'right']),
