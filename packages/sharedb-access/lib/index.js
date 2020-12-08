@@ -33,7 +33,13 @@ function registerOrmRules (backend, collectionName, access) {
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if (fn) {
       const globalCollectionName = collectionName.replace(/\.\*$/u, '')
-      backend['allow' + op](globalCollectionName, fn.bind(global, backend, globalCollectionName))
+      backend['allow' + op](globalCollectionName, (...params) => {
+        const [,, session] = params
+        const userId = session.userId
+        const model = global.__clients[userId].model
+        const collection = globalCollectionName
+        return fn(model, collection, ...params)
+      })
     }
   })
 }
