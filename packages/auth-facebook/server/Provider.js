@@ -92,7 +92,9 @@ export default class FacebookProvider extends BaseProvider {
   }
 
   getProviderData () {
-    return {}
+    return {
+      email: this.getEmail()
+    }
   }
 
   getRawProviderData () {
