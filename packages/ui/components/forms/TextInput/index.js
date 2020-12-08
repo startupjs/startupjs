@@ -92,7 +92,7 @@ TextInput.defaultProps = {
   disabled: false,
   readonly: false,
   resize: false,
-  editable: true,
+  editable: Input.defaultProps.editable,
   numberOfLines: 1,
   iconPosition: 'left'
 }
