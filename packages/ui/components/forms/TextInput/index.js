@@ -110,7 +110,7 @@ TextInput.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   resize: PropTypes.bool,
-  editable: PropTypes.bool,
+  editable: Input.propTypes.editable,
   numberOfLines: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   iconPosition: PropTypes.oneOf(['left', 'right']),

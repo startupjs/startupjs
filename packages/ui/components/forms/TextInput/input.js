@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
+import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
@@ -188,6 +189,10 @@ function getOppositePosition (position) {
 
 Input.defaultProps = {
   editable: true
+}
+
+Input.propTypes = {
+  editable: PropTypes.bool
 }
 
 export default observer(Input)
