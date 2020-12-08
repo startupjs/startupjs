@@ -6,6 +6,7 @@ import { Sandbox } from '@startupjs/docs'
 # Modal
 
 Modal can be used when the user needs to inform about ciritcal information, require decisions or interact a complex sub-application without navigating to a new page or interrupting the workflow.
+The Modal component inherits from [React Native Modal](https://reactnative.dev/docs/modal), you can use all its props.
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -13,9 +14,15 @@ import { Modal } from '@startupjs/ui'
 
 ## Example
 
+- `showCross` boolean value, sets the display of a cross in the header (by default `true`)
 - `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`)
 - `onCancel` displays cancel button that uses this handler
 - `onConfirm` displays confirm button that uses this handler
+- `enableBackdropPress` boolean, sets whether the area around the modal will be clickable (default is `true`)
+- `onBackdropPress` callback, which is executed when clicking on the area around the modalk
+- `onRequestClose` callback, which is executed when the physical `Home` key on Android is pressed, the `Esc` key in the browser (by default, closes the modal)
+- `onDismiss` callback, which is executed after closing the modalk in any way
+- `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
