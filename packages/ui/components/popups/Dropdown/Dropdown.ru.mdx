@@ -112,7 +112,7 @@ return (
 )
 ```
 
-## Максимальная высота (стилизация)
+## Стилизация
 ```jsx example
 const [value, setValue] = useState('')
 return (
@@ -133,7 +133,18 @@ return (
 )
 ```
 
-## Позиция
+Есть 2 типа поведения Dropdown, для десктопного и мобильного разрешения
+На десктопе используется компонент [Popover](/docs/popups/Popover)
+На мобильных экранах - [Drawer](/docs/popups/Drawer)
+Чтобы правильно применять style для каждого варианта, можно использовать миксин `+from`:
+```styl
+.wrapper
+  // Popover styles
+  +from($UI.media.tablet)
+    // Drawer styles
+```
+
+## Позиция для Popover
 - position: имеет 4 варианта положений (left, right, top, bottom)
 - attachment: дополнительный параметр для смещения (start, center, end)
 

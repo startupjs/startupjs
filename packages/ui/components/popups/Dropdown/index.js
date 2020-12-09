@@ -16,7 +16,7 @@ import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
-import './index.styl'
+import STYLES from './index.styl'
 
 const { UIManager } = NativeModules
 
@@ -40,7 +40,7 @@ function Dropdown ({
   const [layoutWidth, setLayoutWidth] = useState(null)
   const [isShow, setIsShow] = useState(false)
   const [activeInfo, setActiveInfo] = useState(null)
-  const isPopover = layoutWidth > 780
+  const isPopover = layoutWidth > STYLES.media.tablet
 
   useLayoutEffect(() => {
     if (!layoutWidth) handleWidthChange()
