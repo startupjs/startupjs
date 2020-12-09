@@ -62,6 +62,7 @@ function Popover ({
   const [stepStatus, setStepStatus] = useState(STEP_STATUSES.CLOSE)
   const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
   const [localVisible, setLocalVisible] = useState(visible)
+  const [localDurationOpen, setLocalDurationOpen] = useState(durationOpen)
   const [contentInfo, setContentInfo] = useState({})
   const [captionSize, setCaptionSize] = useState({})
 
@@ -97,16 +98,20 @@ function Popover ({
   // -main
   useEffect(() => {
     if (stepStatus === STEP_STATUSES.CLOSE && visible) {
-      setStepStatus(STEP_STATUSES.RENDER)
-      setLocalVisible(true)
-      setTimeout(runShow, 0)
+      if (captionSize.height) {
+        setStepStatus(STEP_STATUSES.RENDER)
+        setLocalVisible(true)
+        setTimeout(runShow, 0)
+      } else {
+        setLocalDurationOpen(0)
+      }
     }
 
     if (stepStatus === STEP_STATUSES.OPEN && !visible) {
       if (!refContentOpen.current) return
       runHide()
     }
-  }, [visible])
+  }, [visible, captionSize.height])
   // -
 
   function runShow () {
@@ -137,7 +142,7 @@ function Popover ({
       setStepStatus(STEP_STATUSES.ANIMATE)
 
       animate.show({
-        durationOpen,
+        durationOpen: localDurationOpen,
         geometry: refGeometry.current,
         contentInfo: _contentInfo,
         animateType,
@@ -145,6 +150,7 @@ function Popover ({
         hasArrow
       }, () => {
         setStepStatus(STEP_STATUSES.OPEN)
+        setLocalDurationOpen(durationOpen)
         onRequestOpen && onRequestOpen()
       })
     })
