@@ -1,22 +1,23 @@
 import React from 'react'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
+import { faApple } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ label }) {
+function AuthButton ({ style, label }) {
   return pug`
     Button.button(
+      style=style
       onPress=onLogin
-      icon=faMicrosoft
+      icon=faApple
       variant='flat'
     )= label
   `
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Azure AD'
+  label: 'Login with Apple'
 }
 
 AuthButton.propTypes = {

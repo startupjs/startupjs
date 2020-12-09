@@ -1,0 +1,4 @@
+export const WEB_LOGIN_URL = '/auth/apple'
+export const CALLBACK_URL = '/auth/apple/callback'
+export const CALLBACK_NATIVE_URL = CALLBACK_URL + '-native'
+export const FAILURE_LOGIN_URL = '/login?invalid=1'

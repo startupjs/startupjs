@@ -1,0 +1,51 @@
+import { BaseProvider } from '@startupjs/auth/server'
+
+const PROVIDER_NAME = 'apple'
+
+export default class AppleProvider extends BaseProvider {
+  getProviderName () {
+    return PROVIDER_NAME
+  }
+
+  getProviderId () {
+    const { profile } = this
+    return profile.id
+  }
+
+  getFindUserQuery () {
+    const { profile } = this
+    return { 'providers.apple.id': profile.id }
+  }
+
+  getAvatarUrl () {
+    return null
+  }
+
+  getEmail () {
+    const { profile } = this
+    return profile.email || ''
+  }
+
+  getFirstName () {
+    return ''
+  }
+
+  getLastName () {
+    return ''
+  }
+
+  getName () {
+    const firstName = this.getFirstName()
+    const lastName = this.getLastName()
+    const name = firstName + ' ' + lastName || ''
+    return name
+  }
+
+  getProviderData () {
+    return {}
+  }
+
+  getRawProviderData () {
+    return this.profile
+  }
+}

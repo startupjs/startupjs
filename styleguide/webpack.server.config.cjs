@@ -8,10 +8,11 @@ module.exports = getConfig(undefined, {
   forceCompileModules: [
     '@startupjs/auth/server',
     '@startupjs/auth/isomorphic',
+    '@startupjs/auth-apple/server',
+    '@startupjs/auth-azuread/server',
     '@startupjs/auth-facebook/server',
     '@startupjs/auth-google/server',
     '@startupjs/auth-linkedin/server',
-    '@startupjs/auth-azuread/server',
     '@startupjs/auth-local/server'
   ],
   alias: {}

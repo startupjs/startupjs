@@ -8,9 +8,10 @@ import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { initAuthApp } from '@startupjs/auth'
+import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple'
+import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
 import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
 import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
-import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
 import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
 import * as localForms from '@startupjs/auth-local'
 import {
@@ -40,9 +41,10 @@ export default observer(() => {
   const auth = initAuthApp({
     localForms,
     socialButtons: [
+      AppleAuthButton,
+      AzureadAuthButton,
       FacebookAuthButton,
       GoogleAuthButton,
-      AzureadAuthButton,
       LinkedinAuthButton
     ]
   })

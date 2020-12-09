@@ -5,12 +5,14 @@ import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 
 import { initAuth } from '@startupjs/auth/server'
+import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
+import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
 import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
 import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
-import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 
+import path from 'path'
 import conf from 'nconf'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
@@ -36,6 +38,31 @@ startupjsServer({
   initAuth(ee, {
     successRedirectUrl: '/profile',
     strategies: [
+      new AppleStrategy({
+        clientId: conf.get('APPLE_CLIENT_ID'),
+        teamId: conf.get('APPLE_TEAM_ID'),
+        keyId: conf.get('APPLE_KEY_ID'),
+        privateKeyLocation: path.join(process.cwd(), 'server/appleAuthKey.p8')
+      }),
+      new AzureADStrategy({
+        clientId: conf.get('AZUREAD_CLIENT_ID'),
+        clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
+        tentantId: conf.get('AZUREAD_TENTANT_ID'),
+        identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
+        allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
+      }),
+      new FacebookStrategy({
+        clientId: conf.get('FACEBOOK_CLIENT_ID'),
+        clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
+      }),
+      new GoogleStrategy({
+        clientId: conf.get('GOOGLE_CLIENT_ID'),
+        clientSecret: conf.get('GOOGLE_CLIENT_SECRET')
+      }),
+      new LinkedinStrategy({
+        clientId: conf.get('LINKEDIN_CLIENT_ID'),
+        clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
+      }),
       new LocalStrategy({
         // Vars
         // resetPasswordTimeLimit: 60 * 1000 * 10,
@@ -60,25 +87,6 @@ startupjsServer({
         //   console.log('\onAfterPasswordChange')
         // }
         //
-      }),
-      new FacebookStrategy({
-        clientId: conf.get('FACEBOOK_CLIENT_ID'),
-        clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
-      }),
-      new GoogleStrategy({
-        clientId: conf.get('GOOGLE_CLIENT_ID'),
-        clientSecret: conf.get('GOOGLE_CLIENT_SECRET')
-      }),
-      new LinkedinStrategy({
-        clientId: conf.get('LINKEDIN_CLIENT_ID'),
-        clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
-      }),
-      new AzureADStrategy({
-        clientId: conf.get('AZUREAD_CLIENT_ID'),
-        clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
-        tentantId: conf.get('AZUREAD_TENTANT_ID'),
-        identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
-        allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
       })
     ]
     // Global auth hooks
