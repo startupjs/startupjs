@@ -79,8 +79,6 @@ function Dropdown ({
 
   function onRequestOpen () {
     UIManager.measure(refScroll.current.getScrollableNode(), (x, y, width, curHeight) => {
-      console.log(curHeight, activeInfo.y, activeInfo.height)
-
       if (activeInfo.y >= (curHeight - activeInfo.height)) {
         refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
       }
