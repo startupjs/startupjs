@@ -18,7 +18,15 @@
     "ios-release": "react-native run-ios --simulator \"iPhone 8\" --configuration Release",
     "build": "ASYNC=1 startupjs build",
     "start-production": "startupjs start-production",
-    "fonts": "startupjs fonts"
+    "fonts": "startupjs fonts",
+    "test:build:server": "rm -rf ./build && webpack --config webpack.server.config.cjs",
+    "run-test-server": "PORT=3001 MONGO_URL=mongodb://localhost:27017/styleguide_test yarn start-production",
+    "test:e2e:metro": "E2E=1 yarn metro -- --port=8082",
+    "clear-db": "mongo styleguide_test --eval \"db.dropDatabase();\"",
+    "test:e2e": "detox test -c ios",
+    "": "",
+    "e2e:build": "detox build -c ios",
+    "e2e": "concurrently -s first -k -n 'S,B,T' -c white,cyan.bgBlue,black.bgWhite \"yarn clear-db && yarn test:build:server && yarn run-test-server\" \"yarn test:e2e:metro\" \"yarn test:e2e\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -45,6 +53,10 @@
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
+    "concurrently": "5.3.0",
+    "detox": "^17.14.3",
+    "jest": "26.6.3",
+    "jest-circus": "26.6.3",
     "react-test-renderer": "16.9.0"
   }
 }

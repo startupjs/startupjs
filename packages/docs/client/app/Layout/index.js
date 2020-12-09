@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer, useModel } from 'startupjs'
 import { Layout, Row, Button, useMedia } from '@startupjs/ui'
-import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import { MDXProvider } from '@startupjs/mdx'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import './index.styl'
 
 const Topbar = observer(function Topbar () {
@@ -33,7 +33,7 @@ export default observer(function StyleguideLayout ({ children }) {
   //       to achieve a semi-transparent effect
   return pug`
     MDXProvider
-      Layout.layout
+      Layout.layout(testID="Layout")
         Sidebar
           Topbar
           = children
