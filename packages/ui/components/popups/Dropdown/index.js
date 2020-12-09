@@ -36,7 +36,7 @@ function Dropdown ({
   const [selectIndexValue, setSelectIndexValue] = useState(-1)
   const [layoutWidth, setLayoutWidth] = useState(null)
   const [isShow, setIsShow] = useState(false)
-  const [activePosition, setActivePosition] = useState(null)
+  const [activeInfo, setActiveInfo] = useState(null)
   const isPopover = layoutWidth > 780
 
   useLayoutEffect(() => {
@@ -64,7 +64,7 @@ function Dropdown ({
   }, [isShow, selectIndexValue])
 
   function onLayoutActive ({ nativeEvent }) {
-    setActivePosition(nativeEvent.layout.y)
+    setActiveInfo(nativeEvent.layout)
   }
 
   function onCancel () {
@@ -76,8 +76,8 @@ function Dropdown ({
 
   function onRequestOpen () {
     const curHeight = _wrapperStyle.maxHeight || _wrapperStyle.height
-    if (activePosition >= curHeight - 10) {
-      refScroll.current.scrollTo({ y: activePosition, animated: false })
+    if (activeInfo.y >= (curHeight - activeInfo.height)) {
+      refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
     }
   }
 

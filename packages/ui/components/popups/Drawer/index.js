@@ -100,7 +100,7 @@ function Drawer ({
         Animated.timing(animatePosition, { toValue: 0, duration: 300 }),
         isShowOverlay && Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
       ]).start(() => {
-        onRequestOpen()
+        onRequestOpen && onRequestOpen()
       })
     }
 
