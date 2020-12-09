@@ -6,7 +6,8 @@ import {
   ScrollView,
   Dimensions,
   StyleSheet,
-  Platform
+  Platform,
+  NativeModules
 } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -16,6 +17,8 @@ import DropdownCaption from './Caption'
 import DropdownItem from './Item'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
 import './index.styl'
+
+const { UIManager } = NativeModules
 
 // TODO: key event change scroll
 function Dropdown ({
@@ -75,10 +78,13 @@ function Dropdown ({
   const _wrapperStyle = StyleSheet.flatten(style)
 
   function onRequestOpen () {
-    const curHeight = _wrapperStyle.maxHeight || _wrapperStyle.height
-    if (activeInfo.y >= (curHeight - activeInfo.height)) {
-      refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
-    }
+    UIManager.measure(refScroll.current.getScrollableNode(), (x, y, width, curHeight) => {
+      console.log(curHeight, activeInfo.y, activeInfo.height)
+
+      if (activeInfo.y >= (curHeight - activeInfo.height)) {
+        refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
+      }
+    })
   }
 
   let caption = null
@@ -200,6 +206,7 @@ function Dropdown ({
     Drawer(
       visible=isShow
       position='bottom'
+      style={ maxHeight: '100%' }
       hasDefaultStyleContent=drawerVariant === 'list'
       onDismiss=()=> setIsShow(false)
       onRequestOpen=onRequestOpen
