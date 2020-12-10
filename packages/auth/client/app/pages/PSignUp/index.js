@@ -2,6 +2,7 @@ import React from 'react'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { AuthForm, Logo } from '../../../components'
+import { SIGN_UP_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PSignUp ({
@@ -23,7 +24,7 @@ function PSignUp ({
         AuthForm(
           captions=captions
           descriptions=descriptions
-          initSlide='sign-up'
+          initSlide=SIGN_UP_SLIDE
           hasRouting=true
           localForms=localForms
           socialButtons=socialButtons

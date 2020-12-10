@@ -4,21 +4,8 @@ import { observer } from 'startupjs'
 import { H3, Content, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import OrDivider from '../OrDivider'
+import { DEFAULT_FORMS_CAPTIONS, FORM_COMPONENTS_KEYS, SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '../../../isomorphic'
 import './index.styl'
-
-const CAPTIONS = {
-  'sign-in': 'Sign In',
-  'sign-up': 'Sign Up',
-  recover: 'Forgot password?',
-  'reset-password': 'Reset password'
-}
-
-const LOCAL_COMPONENTS = {
-  'sign-in': 'LoginForm',
-  'sign-up': 'RegisterForm',
-  recover: 'RecoverForm',
-  'reset-password': 'ResetPasswordForm'
-}
 
 const DESCRIPTIONS = {}
 
@@ -34,9 +21,9 @@ function AuthForm ({
   onHandleError
 }) {
   const [activeSlide, setActiveSlide] = useState(initSlide)
-  const LocalActiveForm = localForms ? localForms[LOCAL_COMPONENTS[activeSlide]] : null
+  const LocalActiveForm = localForms ? localForms[FORM_COMPONENTS_KEYS[activeSlide]] : null
 
-  const _captions = Object.assign(CAPTIONS, captions)
+  const _captions = Object.assign(DEFAULT_FORMS_CAPTIONS, captions)
   const currentCaption = _captions[activeSlide]
 
   const _descriptions = Object.assign(DESCRIPTIONS, descriptions)
@@ -63,7 +50,7 @@ function AuthForm ({
         = renderSocialButtons
 
       // FIXME: ref this line
-      if renderSocialButtons && renderSocialButtons.length && LocalActiveForm && ['sign-in', 'sign-up'].includes(activeSlide)
+      if renderSocialButtons && renderSocialButtons.length && LocalActiveForm && [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
         OrDivider
 
       if LocalActiveForm
@@ -90,7 +77,7 @@ AuthForm.propTypes = {
 }
 
 AuthForm.defaultProps = {
-  initSlide: 'sign-in',
+  initSlide: SIGN_IN_SLIDE,
   socialButtons: [],
   hasRouting: false,
   onSuccess: null,

@@ -5,6 +5,7 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import { SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import './index.styl'
@@ -111,7 +112,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   }, [])
 
   function onLogin () {
-    if (onChangeAuthPage) onChangeAuthPage('sign-in')
+    if (onChangeAuthPage) onChangeAuthPage(SIGN_IN_SLIDE)
     else emit('url', '/auth/sign-in')
   }
 

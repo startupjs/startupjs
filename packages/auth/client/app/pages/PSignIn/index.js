@@ -2,6 +2,7 @@ import React from 'react'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { AuthForm, Logo } from '../../../components'
+import { SIGN_IN_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PSignIn ({
@@ -23,7 +24,7 @@ function PSignIn ({
         AuthForm(
           captions=captions
           descriptions=descriptions
-          initSlide='sign-in'
+          initSlide=SIGN_IN_SLIDE
           hasRouting=true
           localForms=localForms
           socialButtons=socialButtons

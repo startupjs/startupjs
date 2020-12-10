@@ -5,6 +5,7 @@ import { finishAuth } from '@startupjs/auth'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { useAuthHelper } from '@startupjs/auth-local'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import { SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import './index.styl'
@@ -102,7 +103,7 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   }, [])
 
   function onRegister () {
-    if (onChangeAuthPage) onChangeAuthPage('sign-up')
+    if (onChangeAuthPage) onChangeAuthPage(SIGN_UP_SLIDE)
     else emit('url', '/auth/sign-up')
   }
 

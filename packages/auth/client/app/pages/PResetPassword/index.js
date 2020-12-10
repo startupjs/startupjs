@@ -3,6 +3,7 @@ import { observer } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { AuthForm, Logo } from '../../../components'
+import { RESET_PASSWORD_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PResetPassword ({
@@ -24,7 +25,7 @@ function PResetPassword ({
         AuthForm(
           captions=captions
           descriptions=descriptions
-          initSlide='reset-password'
+          initSlide=RESET_PASSWORD_SLIDE
           hasRouting=true
           localForms=localForms
           onError=onError
