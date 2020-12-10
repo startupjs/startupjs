@@ -2711,13 +2711,6 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@react-native-community/cookies@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cookies/-/cookies-5.0.1.tgz#1ffeefc31d51b7296ae0b5bfb249deb43fcbbcea"
-  integrity sha512-Is/kWBmYBFtX4DOImfglK5Bz2w3PdpgMGTqdVQSbZlFdSDw32lwFMk1mLSAzL5EcUEDwJJbcEATbU3JGSZSVXw==
-  dependencies:
-    invariant "^2.2.4"
-
 "@react-native-community/google-signin@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/google-signin/-/google-signin-5.0.0.tgz#d1d89c697cc214c10017fa283817e84bd03b2d76"
@@ -17162,11 +17155,6 @@ react-native-datepicker@^1.7.2:
   integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
   dependencies:
     moment "^2.22.0"
-
-react-native-device-info@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-7.3.0.tgz#0e4491708bdb74a20f961338009439769c45c82a"
-  integrity sha512-ctmScKCrlBmJgmWFvAdEcmROD6ORkn/4uhZI4p1lsE2HV29p2wXYMiVqfkmwZ0v5Q91CaXy6+/UElgz+pPYMdQ==
 
 react-native-drawer-layout-polyfill@^2.0.0:
   version "2.0.0"
