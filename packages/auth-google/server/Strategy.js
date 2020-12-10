@@ -31,7 +31,7 @@ export default function (config = {}) {
     // Append required configs to client session
     updateClientSession({ google: { clientId } })
 
-    console.log('++++++++++ Initialization of Google auth strategy ++++++++++')
+    console.log('++++++++++ Initialization of Google auth strategy ++++++++++\n')
 
     passport.use(
       new Strategy(

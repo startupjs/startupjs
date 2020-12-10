@@ -28,7 +28,7 @@ export default function (config = {}) {
 
     validateConfigs(this.config)
 
-    console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n', this.config, '\n')
+    console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n')
 
     const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
 

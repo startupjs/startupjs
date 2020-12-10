@@ -6,15 +6,25 @@ export default class BaseProvider {
   }
 
   getFindUserQuery () {
-    return { email: this.getEmail() }
+    const email = this.getEmail()
+    return {
+      $or: [
+        {
+          [`providers.${this.getProviderName()}.email`]: email
+        },
+        { email }
+      ]
+    }
   }
 
   async findOrCreateUser () {
     const { $root } = this
+
     const providerName = this.getProviderName()
-    const authQuery = $root.query('auths', this.getFindUserQuery())
-    await authQuery.fetchAsync()
-    let userId = authQuery.getIds()[0]
+    const $auths = $root.query('auths', this.getFindUserQuery())
+    await $auths.fetchAsync()
+
+    let userId = $auths.getIds()[0]
 
     if (userId) {
       const $auth = $root.scope('auths.' + userId)
@@ -29,7 +39,7 @@ export default class BaseProvider {
       userId = await this.createUser()
     }
 
-    authQuery.unfetch()
+    $auths.unfetch()
     return userId
   }
 

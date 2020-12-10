@@ -68,7 +68,9 @@ export default class GoogleProvider extends BaseProvider {
   }
 
   getProviderData () {
-    return {}
+    return {
+      email: this.getEmail()
+    }
   }
 
   getRawProviderData () {

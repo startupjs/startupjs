@@ -14,12 +14,15 @@ export default async function loginNative (req, res, next, config) {
 
   try {
     const profile = await getProfile(token, clientId, clientSecret)
-    const provider = new Provider(req.model, profile, config)
-    const userId = await provider.findOrCreateUser()
 
-    // onBeforeLoginHook
+    // If it's authorized session -> patch auth doc with new account
+    if (req.session.loggedIn) {
+    } {
+      const provider = new Provider(req.model, profile, config)
+      const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+      finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    }
   } catch (err) {
     console.log('Login with google token error', err)
     return res.status(403).json({ message: 'Access denied' })

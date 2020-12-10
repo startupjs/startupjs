@@ -31,7 +31,7 @@ export default function (config = {}) {
       ...authConfig
     }, config)
 
-    console.log('++++++++++ Initialization of Local auth strategy ++++++++++\n', this.config, '\n')
+    console.log('++++++++++ Initialization of Local auth strategy ++++++++++\n')
 
     initRoutes({ router, config: this.config })
 

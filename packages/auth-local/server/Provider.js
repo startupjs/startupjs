@@ -7,7 +7,7 @@ export default class LocalProvider extends BaseProvider {
   }
 
   getProviderId () {
-    return this.profile.email
+    return null
   }
 
   getEmail () {
@@ -35,7 +35,11 @@ export default class LocalProvider extends BaseProvider {
 
   getProviderData () {
     const { hash, salt, unconfirmed } = this.profile
-    const data = { hash, salt }
+    const data = {
+      hash,
+      salt,
+      email: this.getEmail()
+    }
     if (unconfirmed) data.unconfirmed = true
     return data
   }
@@ -44,8 +48,7 @@ export default class LocalProvider extends BaseProvider {
     return {
       providers: {
         [this.getProviderName()]: {
-          ...this.getProviderData(),
-          id: this.getProviderId()
+          ...this.getProviderData()
         }
       }
     }
