@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.29.6",
+  "version": "0.29.7",
   "sideEffects": [],
   "private": true,
   "scripts": {
