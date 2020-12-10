@@ -123,8 +123,13 @@ module.exports = async options => {
       const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
       if (aggregations) {
         for (let aggregationKey in aggregations) {
-          const globalCollectionName = path.replace(/\.\*$/u, '')
-          backend.addAggregate(globalCollectionName, aggregationKey, aggregations[aggregationKey])
+          const collection = path.replace(/\.\*$/u, '')
+          backend.addAggregate(collection, aggregationKey, (queryParams, shareRequest) => {
+            const session = shareRequest.agent.connectSession
+            const userId = session.userId
+            const model = global.__clients[userId].model
+            return aggregations[aggregationKey](model, queryParams, session)
+          })
         }
       }
     }

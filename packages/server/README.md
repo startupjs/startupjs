@@ -237,12 +237,11 @@ import { BaseModel } from 'startupjs/orm'
 
 export default class EventsModel extends BaseModel {
   static aggregations = {
-    openEvents: async (params, shareRequest) => {
+    openEvents: async (model, params, session) => {
       return [
         {$match: {status: 'open'}}
       ]
     }
-
   }
 }
 
@@ -301,7 +300,7 @@ import { BaseModel } from 'startupjs/orm'
 
 export default class EventsModel extends BaseModel {
   static aggregations = {
-    matchByParams: async (params, shareRequest) => {
+    matchByParams: async (model, params, session) => {
       return [
         {$match: params}
       ]
