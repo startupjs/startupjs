@@ -221,8 +221,6 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-cookies (5.0.1):
-    - React-Core
   - react-native-fbsdk (2.0.0):
     - React
     - react-native-fbsdk/Core (= 2.0.0)
@@ -276,8 +274,6 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCPicker (1.9.4):
     - React-Core
-  - RNDeviceInfo (7.3.0):
-    - React-Core
   - RNGoogleSignin (5.0.0):
     - GoogleSignIn (~> 5.0.0)
     - React-Core
@@ -304,7 +300,6 @@ DEPENDENCIES:
   - React-jsi (from `../../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../../node_modules/react-native/ReactCommon/jsinspector`)
-  - "react-native-cookies (from `../../node_modules/@react-native-community/cookies`)"
   - react-native-fbsdk (from `../../node_modules/react-native-fbsdk`)
   - react-native-webview (from `../../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -319,7 +314,6 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../../node_modules/react-native/ReactCommon`)
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
-  - RNDeviceInfo (from `../../node_modules/react-native-device-info`)
   - "RNGoogleSignin (from `../../node_modules/@react-native-community/google-signin`)"
   - RNSVG (from `../../node_modules/react-native-svg`)
   - Yoga (from `../../node_modules/react-native/ReactCommon/yoga`)
@@ -369,8 +363,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../../node_modules/react-native/ReactCommon/jsinspector"
-  react-native-cookies:
-    :path: "../../node_modules/@react-native-community/cookies"
   react-native-fbsdk:
     :path: "../../node_modules/react-native-fbsdk"
   react-native-webview:
@@ -397,8 +389,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon"
   RNCPicker:
     :path: "../../node_modules/@react-native-picker/picker"
-  RNDeviceInfo:
-    :path: "../../node_modules/react-native-device-info"
   RNGoogleSignin:
     :path: "../../node_modules/@react-native-community/google-signin"
   RNSVG:
@@ -432,7 +422,6 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-cookies: ce50e42ace7cf0dd47769260ca5bbe8eee607e4e
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-webview: 0aa2cde4ee7e3e1c5fffdf64dbce9c709aa18155
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -446,7 +435,6 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
-  RNDeviceInfo: 2392152a6082f106af50ae9002b094fcc769f922
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
