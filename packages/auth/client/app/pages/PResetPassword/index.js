@@ -1,10 +1,11 @@
 import React from 'react'
+import { observer } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { AuthForm, Logo } from '../../../components'
 import '../sharedPageStyles.styl'
 
-function PRecover ({
+function PResetPassword ({
   captions,
   descriptions,
   logo,
@@ -23,18 +24,17 @@ function PRecover ({
         AuthForm(
           captions=captions
           descriptions=descriptions
-          initSlide='recover'
+          initSlide='reset-password'
           hasRouting=true
           localForms=localForms
-          socialButtons=socialButtons
           onError=onError
           onSuccess=onSuccess
           onHandleError=onHandleError
-      )
+        )
   `
 }
 
-PRecover.propTypes = {
+PResetPassword.propTypes = {
   captions: PropTypes.object,
   descriptions: PropTypes.object,
   logo: PropTypes.node,
@@ -45,4 +45,4 @@ PRecover.propTypes = {
   onHandleError: PropTypes.func
 }
 
-export default PRecover
+export default observer(PResetPassword)

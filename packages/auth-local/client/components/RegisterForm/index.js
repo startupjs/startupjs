@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { useHistory } from 'react-router'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, emit } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { useAuthHelper } from '@startupjs/auth-local/client'
@@ -14,7 +13,6 @@ const isWeb = Platform.OS === 'web'
 
 function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
-  const history = useHistory()
 
   const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
@@ -114,7 +112,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
 
   function onLogin () {
     if (onChangeAuthPage) onChangeAuthPage('sign-in')
-    else history.push('/auth/sign-in')
+    else emit('url', '/auth/sign-in')
   }
 
   return pug`

@@ -78,6 +78,7 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
     Div.root
       if !feedBack
         TextInput(
+          label='Enter your email'
           onChangeText=onFormChange('email')
           error=formErrors.email
           name='email'
