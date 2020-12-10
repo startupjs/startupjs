@@ -40,7 +40,7 @@ module.exports = function replaceObserverLoader (source) {
   let matchLength = matchStr.length
   let openBr = 1 // Count opened brackets, we start from one already opened
   let lastCloseCurlyBrIndex
-  let prevCloseCurlyBrIndex
+  let lastOpenCurlyBrIndex
 
   // TODO: Improve figuring out that we are actually in a comment.
   //       It will bug out when someone is specifying 'http://'
@@ -86,31 +86,37 @@ module.exports = function replaceObserverLoader (source) {
 
     // Brackets counting logic
 
-    if (char === ')') {
-      --openBr
-    } else if (char === '(') {
-      ++openBr
-    } else if (char === '}') {
-      prevCloseCurlyBrIndex = lastCloseCurlyBrIndex
-      lastCloseCurlyBrIndex = i
+    switch (char) {
+      case ')':
+        --openBr
+        break
+      case '(':
+        ++openBr
+        break
+      case '{':
+        lastOpenCurlyBrIndex = i
+        break
+      case '}':
+        lastCloseCurlyBrIndex = i
+        break
     }
 
     if (openBr <= 0) {
       let options = ''
-      let hasOptions = false
 
-      if (prevCloseCurlyBrIndex) {
+      if (lastOpenCurlyBrIndex && lastCloseCurlyBrIndex) {
+        const sourceBetweenCurlyBrackets =
+          source.slice(lastOpenCurlyBrIndex, lastCloseCurlyBrIndex + 1)
+
         for (const anchor of OPTIONS_ANCHORS) {
-          if (source.slice(prevCloseCurlyBrIndex, i).includes(anchor)) {
-            hasOptions = true
+          if (sourceBetweenCurlyBrackets.includes(anchor)) {
+            options = sourceBetweenCurlyBrackets
             break
           }
         }
       }
 
-      if (hasOptions) {
-        options = source.slice(prevCloseCurlyBrIndex + 1, lastCloseCurlyBrIndex + 1)
-      }
+      if (options) options = ', ' + options
 
       source = source.slice(0, i) + ')' + options + source.slice(i)
       break
