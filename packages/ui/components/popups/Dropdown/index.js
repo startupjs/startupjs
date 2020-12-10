@@ -6,7 +6,8 @@ import {
   ScrollView,
   Dimensions,
   StyleSheet,
-  Platform
+  Platform,
+  NativeModules
 } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -15,13 +16,15 @@ import Popover from '../Popover'
 import DropdownCaption from './Caption'
 import DropdownItem from './Item'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { UIManager } = NativeModules
 
 // TODO: key event change scroll
 function Dropdown ({
-  children,
+  style,
   activeItemStyle,
-  popoverWrapperStyle,
+  children,
   value,
   position,
   attachment,
@@ -36,8 +39,8 @@ function Dropdown ({
   const [selectIndexValue, setSelectIndexValue] = useState(-1)
   const [layoutWidth, setLayoutWidth] = useState(null)
   const [isShow, setIsShow] = useState(false)
-  const [activePosition, setActivePosition] = useState(null)
-  const isPopover = layoutWidth > 780
+  const [activeInfo, setActiveInfo] = useState(null)
+  const isPopover = layoutWidth > STYLES.media.tablet
 
   useLayoutEffect(() => {
     if (!layoutWidth) handleWidthChange()
@@ -64,7 +67,7 @@ function Dropdown ({
   }, [isShow, selectIndexValue])
 
   function onLayoutActive ({ nativeEvent }) {
-    setActivePosition(nativeEvent.layout.y)
+    setActiveInfo(nativeEvent.layout)
   }
 
   function onCancel () {
@@ -72,13 +75,14 @@ function Dropdown ({
     setIsShow(false)
   }
 
-  const _popoverWrapperStyle = StyleSheet.flatten(popoverWrapperStyle)
+  const _wrapperStyle = StyleSheet.flatten(style)
 
   function onRequestOpen () {
-    const curHeight = _popoverWrapperStyle.maxHeight || _popoverWrapperStyle.height
-    if (activePosition >= curHeight) {
-      refScroll.current.scrollTo({ y: activePosition })
-    }
+    UIManager.measure(refScroll.current.getScrollableNode(), (x, y, width, curHeight) => {
+      if (activeInfo.y >= (curHeight - activeInfo.height)) {
+        refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
+      }
+    })
   }
 
   let caption = null
@@ -175,12 +179,12 @@ function Dropdown ({
     return pug`
       Popover(
         wrapperStyleName='wrapper'
-        wrapperStyle=_popoverWrapperStyle
+        wrapperStyle=_wrapperStyle
         position=position
         attachment=attachment
         placements=placements
         visible=isShow
-        hasWidthCaption=!_popoverWrapperStyle.width
+        hasWidthCaption=!_wrapperStyle.width
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
       )
@@ -200,15 +204,21 @@ function Dropdown ({
     Drawer(
       visible=isShow
       position='bottom'
+      style={ maxHeight: '100%' }
       hasDefaultStyleContent=drawerVariant === 'list'
       onDismiss=()=> setIsShow(false)
+      onRequestOpen=onRequestOpen
     )
       View.dropdown(styleName=drawerVariant)
         if drawerVariant === 'list'
           View.caption(styleName=drawerVariant)
             Text.captionText(styleName=drawerVariant)= drawerListTitle
-        View.case(styleName=drawerVariant)
-          = renderContent
+        ScrollView.case(
+          ref=refScroll
+          showsVerticalScrollIndicator=false
+          style=_wrapperStyle
+          styleName=drawerVariant
+        )= renderContent
         if drawerVariant === 'buttons'
           TouchableOpacity(onPress=onCancel)
             View.button(styleName=drawerVariant)
@@ -217,7 +227,7 @@ function Dropdown ({
 }
 
 Dropdown.defaultProps = {
-  popoverWrapperStyle: [],
+  style: [],
   position: 'bottom',
   attachment: 'center',
   value: '',
@@ -227,7 +237,7 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  popoverWrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
