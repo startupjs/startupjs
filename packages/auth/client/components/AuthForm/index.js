@@ -36,6 +36,9 @@ function AuthForm ({
     `
   })
 
+  const needOrLine = renderSocialButtons && renderSocialButtons.length &&
+    LocalActiveForm && [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
+
   return pug`
     Content
       if LocalActiveForm
@@ -49,8 +52,7 @@ function AuthForm ({
       if activeSlide !== 'recover'
         = renderSocialButtons
 
-      // FIXME: ref this line
-      if renderSocialButtons && renderSocialButtons.length && LocalActiveForm && [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
+      if needOrLine
         OrDivider
 
       if LocalActiveForm
