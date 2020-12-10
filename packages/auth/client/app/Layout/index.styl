@@ -1,12 +1,15 @@
 .root
-  min-height 100%
+  flex 1
+  &:part(contentContainer)
+    flex 1
   +desktop()
     background-color $UI.colors.darkLighter
-    justify-content center
-    align-items center
+    &:part(contentContainer)
+      justify-content center
+      align-items center
 
 .wrapper
-  padding 2u
+  padding 2u 0
   width 100%
   border-radius 0.5u
   +desktop()
