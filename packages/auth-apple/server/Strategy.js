@@ -1,6 +1,6 @@
 import passport from 'passport'
 import Strategy from '@nicokaiser/passport-apple'
-// import nconf from 'nconf'
+import nconf from 'nconf'
 import fs from 'fs'
 import Provider from './Provider'
 import initRoutes from './initRoutes'
@@ -48,7 +48,7 @@ export default function (config = {}) {
         keyID: keyId,
         key: fs.readFileSync(privateKeyLocation),
         scope: ['name', 'email'],
-        callbackURL: 'https://7f2183d284ab.ngrok.io' + CALLBACK_URL
+        callbackURL: nconf.get('BASE_URL') + CALLBACK_URL
       },
       async (accessToken, refreshToken, profile, cb) => {
         let userId, err

@@ -26,7 +26,7 @@ export default function (options) {
     CALLBACK_NATIVE_URL,
     (req, res) => loginNative(req, res, config)
   )
-  router.get(
+  router.post(
     CALLBACK_NATIVE_FINISH_URL,
     (req, res, next) => loginNativeFinish(req, res, next, config)
   )

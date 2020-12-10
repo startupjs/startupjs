@@ -1,21 +1,26 @@
 import React, { useState } from 'react'
 import { WebView } from 'react-native-webview'
-import { observer, u, useSession } from 'startupjs'
+import { observer, u, useLocal } from 'startupjs'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 import qs from 'query-string'
-// import { BASE_URL } from '@env'
-import { CALLBACK_NATIVE_URL, AUTHORIZATION_URL } from '../../../isomorphic'
+import { BASE_URL } from '@env'
+import {
+  AUTHORIZATION_URL,
+  CALLBACK_NATIVE_URL,
+  CALLBACK_NATIVE_FINISH_URL
+} from '../../../isomorphic'
 import './index.styl'
 
 function AuthButton ({ style, label }) {
-  // const baseUrl = BASE_URL
-  const [authConfig] = useSession('auth')
+  const baseUrl = BASE_URL
+  const [session] = useLocal('_session')
   const [showModal, setShowModal] = useState(false)
 
-  const { clientId } = authConfig.apple
+  const { clientId } = session.auth.apple
 
   function showLoginModal () {
     setShowModal(true)
@@ -27,13 +32,19 @@ function AuthButton ({ style, label }) {
       scope: 'name email',
       response_type: 'code',
       response_mode: 'form_post',
-      redirect_uri: 'https://7f2183d284ab.ngrok.io' + CALLBACK_NATIVE_URL
+      redirect_uri: baseUrl + CALLBACK_NATIVE_URL
     })}`
   }
 
-  function onNavigationStateChange ({ url }) {
-    if (url.includes(authConfig.successRedirectUrl)) {
+  async function onNavigationStateChange ({ url }) {
+    if (url.includes('/auth/sing-in?apple=1')) {
+      const data = qs.parse(url)
+
       setShowModal(false)
+      await axios.post(CALLBACK_NATIVE_FINISH_URL, {
+        iv: data.iv,
+        content: data.content
+      })
       finishAuth()
     }
   }

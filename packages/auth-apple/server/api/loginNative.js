@@ -1,9 +1,14 @@
-// import { finishAuth } from '@startupjs/auth/server'
 import appleSignin from 'apple-signin-auth'
 import fs from 'fs'
-// import nconf from 'nconf'
-import { CALLBACK_NATIVE_URL, FAILURE_LOGIN_URL } from '../../isomorphic'
-// import Provider from '../Provider'
+import qs from 'query-string'
+import nconf from 'nconf'
+import crypto from 'crypto'
+import {
+  CRYPTO_SECRET_KEY,
+  CRYPTO_ALGORITHM,
+  CALLBACK_NATIVE_URL,
+  FAILURE_LOGIN_URL
+} from '../../isomorphic'
 
 export default async function loginNative (req, res, config) {
   const { code } = req.body
@@ -23,7 +28,7 @@ export default async function loginNative (req, res, config) {
 
   const options = {
     clientID: clientId,
-    redirectUri: 'https://7f2183d284ab.ngrok.io' + CALLBACK_NATIVE_URL,
+    redirectUri: nconf.get('BASE_URL') + CALLBACK_NATIVE_URL,
     clientSecret
   }
 
@@ -35,7 +40,15 @@ export default async function loginNative (req, res, config) {
       ignoreExpiration: true
     })
 
-    res.send({ userAppleId })
+    const iv = crypto.randomBytes(16)
+    const cipher = crypto.createCipheriv(CRYPTO_ALGORITHM, CRYPTO_SECRET_KEY, iv)
+    const encrypted = Buffer.concat([cipher.update(userAppleId), cipher.final()])
+
+    res.redirect('/auth/sing-in?' + qs.stringify({
+      apple: 1,
+      iv: iv.toString('hex'),
+      content: encrypted.toString('hex')
+    }))
   } catch (err) {
     console.log('[@dmapper/auth-apple] Error: Apple login', err)
     return res.redirect(FAILURE_LOGIN_URL)
