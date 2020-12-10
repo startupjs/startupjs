@@ -36,6 +36,9 @@ export default function (config = {}) {
 
     initRoutes({ router, config: this.config })
 
+    // Append required configs to client session
+    updateClientSession({ apple: { clientId } })
+
     console.log('++++++++++ Initialization of Apple auth strategy ++++++++++')
 
     passport.use(
@@ -45,7 +48,7 @@ export default function (config = {}) {
         keyID: keyId,
         key: fs.readFileSync(privateKeyLocation),
         scope: ['name', 'email'],
-        callbackURL: 'https://11526220f041.ngrok.io' + CALLBACK_URL
+        callbackURL: 'https://7f2183d284ab.ngrok.io' + CALLBACK_URL
       },
       async (accessToken, refreshToken, profile, cb) => {
         let userId, err

@@ -9,10 +9,10 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
+    "apple-signin-auth": "1.4.1",
     "@nicokaiser/passport-apple": "0.2.1"
   },
   "peerDependencies": {
-    "@invertase/react-native-apple-authentication": "2.1.0",
     "@startupjs/auth": ">= 0.0.1"
   }
 }

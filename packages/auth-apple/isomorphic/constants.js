@@ -1,4 +1,6 @@
 export const WEB_LOGIN_URL = '/auth/apple'
 export const CALLBACK_URL = '/auth/apple/callback'
 export const CALLBACK_NATIVE_URL = CALLBACK_URL + '-native'
+export const CALLBACK_NATIVE_FINISH_URL = CALLBACK_NATIVE_URL + '-finish'
 export const FAILURE_LOGIN_URL = '/login?invalid=1'
+export const AUTHORIZATION_URL = 'https://appleid.apple.com/auth/authorize'
