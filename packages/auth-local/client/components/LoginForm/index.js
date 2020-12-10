@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { useHistory } from 'react-router'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, emit } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { Div, Span, Br, Button } from '@startupjs/ui'
-import { useAuthHelper } from '@startupjs/auth-local/client'
+import { useAuthHelper } from '@startupjs/auth-local'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import { SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import './index.styl'
@@ -14,7 +14,6 @@ const isWeb = Platform.OS === 'web'
 
 function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
-  const history = useHistory()
 
   const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
@@ -104,13 +103,13 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   }, [])
 
   function onRegister () {
-    if (onChangeAuthPage) onChangeAuthPage('sign-up')
-    else history.push('/auth/sign-up')
+    if (onChangeAuthPage) onChangeAuthPage(SIGN_UP_SLIDE)
+    else emit('url', '/auth/sign-up')
   }
 
   function onRecover () {
     if (onChangeAuthPage) onChangeAuthPage('recover')
-    else history.push('/auth/recover')
+    else emit('url', '/auth/recover')
   }
 
   return pug`

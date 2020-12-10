@@ -3,10 +3,10 @@
 //       See: https://github.com/diegohaz/parse-prop-types/issues/4#issuecomment-403294065
 import parsePropTypes from 'parse-prop-types' // eslint-disable-line
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, Image } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
-import { observer, model } from 'startupjs'
+import { observer, model, u } from 'startupjs'
 import { initAuthApp } from '@startupjs/auth'
 import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple'
 import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
@@ -38,7 +38,16 @@ if (Platform.OS === 'web') window.model = model
 init({ baseUrl: BASE_URL, orm })
 
 export default observer(() => {
+  const logo = pug`
+    Image(
+      resizeMode='contain'
+      style={ width: u(5), height: u(5) },
+      source={ uri: '/img/docs.png' }
+    )
+  `
+
   const auth = initAuthApp({
+    logo,
     localForms,
     socialButtons: [
       AppleAuthButton,

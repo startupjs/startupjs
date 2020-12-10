@@ -31,7 +31,7 @@ export default function (config = {}) {
     // Append required configs to client session
     updateClientSession({ facebook: { clientId } })
 
-    console.log('++++++++++ Initialization of Facebook auth strategy ++++++++++')
+    console.log('++++++++++ Initialization of Facebook auth strategy ++++++++++\n')
 
     passport.use(
       new Strategy(

@@ -38,7 +38,7 @@ export default function (ee, _config) {
     onAfterLoginHook
   }, _config)
 
-  console.log('++++++++++ Initialization of auth module ++++++++++\n', config, '\n')
+  console.log('++++++++++ Initialization of auth module ++++++++++\n')
   validateConfigs(config)
 
   const { strategies, ...rest } = config

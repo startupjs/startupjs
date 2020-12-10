@@ -50,14 +50,14 @@ return (
       onChange={setCities}
       options={OPTIONS}
     />
-    <br />
+    <Br />
     <Multiselect
       label='Example Multiselect with custom tag'
       value={cities}
       TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
       onChange={setCities}
       options={OPTIONS}
-    />  
+    />
     <Br />
     <Multiselect
       label='Example of disabled Multiselect'
