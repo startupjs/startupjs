@@ -1,7 +1,7 @@
 import React, { useMemo, useLayoutEffect } from 'react'
 import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
-import { Span, themed, Input } from '@startupjs/ui'
+import { Span, themed, Input, NumberInput } from '@startupjs/ui'
 import parsePropTypes from 'parse-prop-types'
 import Table from './Table'
 import Tbody from './Tbody'
@@ -77,16 +77,10 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                   onChangeText=value => $value.set(value)
                 )
               else if type === 'number'
-                - const aValue = parseFloat(value)
-                Input(
-                  type='text'
+                NumberInput(
                   size='s'
-                  value='' + (isNaN(aValue) ? '' : aValue)
-                  onChangeText=value => {
-                    value = parseFloat(value)
-                    if (isNaN(value)) value = undefined
-                    $value.set(value)
-                  }
+                  value=value
+                  onChangeNumber=value => $value.set(value)
                 )
               else if type === 'node'
                 Input(

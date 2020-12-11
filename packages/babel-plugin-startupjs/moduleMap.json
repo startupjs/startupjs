@@ -32,6 +32,7 @@
     "Tag": "/components/Tag",
     "Tooltip": "/components/Tooltip",
     "User": "/components/User",
+    "ArrayInput": "/components/forms/ArrayInput",
     "Checkbox": "/components/forms/Checkbox",
     "DateTimePicker": "/components/forms/DateTimePicker",
     "Input": "/components/forms/Input",

@@ -1,9 +1,9 @@
 import { SIGN_IN_URL } from './constants'
 
-function isLoggedIn (signInUrl) {
+function isLoggedIn (signInPageUrl) {
   return function (model, next, redirect) {
     const loggedIn = model.get('_session.loggedIn')
-    if (!loggedIn) return redirect(signInUrl || SIGN_IN_URL)
+    if (!loggedIn) return redirect(signInPageUrl || SIGN_IN_URL)
     next()
   }
 }

@@ -12,6 +12,9 @@ let shareDBAccess = new ShareDbAccess(backend)
 
 let id
 
+const $session = model.scope('_session')
+const errorTemplate = 'Permission denied (update)'
+
 // test number so that each change is unique
 let number = 1
 
@@ -37,7 +40,7 @@ describe('UPDATE', function () {
     shareDBAccess.deny.Update.tasksUpdate = []
   })
 
-  it('deny = false && allow = false => err{ code: 403.3 }', async () => {
+  it('deny = false && allow = false => err{ code: 403 }', async () => {
     backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return false
     })
@@ -48,11 +51,14 @@ describe('UPDATE', function () {
     try {
       const $task = model.at('tasksUpdate' + '.' + id)
       await $task.set('newField' + getTestNumber(), 'testInfo')
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.3)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -73,7 +79,7 @@ describe('UPDATE', function () {
     assert(true)
   })
 
-  it('deny = true && allow = false => err{ code: 403.3 }', async () => {
+  it('deny = true && allow = false => err{ code: 403 }', async () => {
     backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return true
     })
@@ -84,14 +90,17 @@ describe('UPDATE', function () {
     try {
       const $task = model.at('tasksUpdate' + '.' + id)
       await $task.set('newField' + getTestNumber(), 'testInfo')
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.3)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
-  it('deny = true && allow = true => err{ code: 403.3 }', async () => {
+  it('deny = true && allow = true => err{ code: 403 }', async () => {
     backend.denyUpdate('tasksUpdate', async (docId, oldDoc, session, ops, newDoc) => {
       return true
     })
@@ -102,10 +111,13 @@ describe('UPDATE', function () {
     try {
       const $task = model.at('tasksUpdate' + '.' + id)
       await $task.set('newField' + getTestNumber(), 'testInfo')
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.3)
-      return
+      assert(false)
     }
-    assert(false)
   })
 })

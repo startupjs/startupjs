@@ -24,7 +24,7 @@ export default function (config = {}) {
 
     validateConfigs(this.config)
 
-    console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n', this.config, '\n')
+    console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n')
 
     const { clientId, clientSecret } = this.config
 
@@ -43,7 +43,7 @@ export default function (config = {}) {
           scope: ['r_emailaddress', 'r_liteprofile'],
           state: true
         },
-        async function (accessToken, refreshToken, profile, cb) {
+        async (accessToken, refreshToken, profile, cb) => {
           let userId, err
           try {
             const { id, name, displayName, emails, photos } = profile

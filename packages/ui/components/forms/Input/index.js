@@ -4,8 +4,10 @@ import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Checkbox from '../Checkbox'
 import ObjectInput from '../ObjectInput'
+import ArrayInput from '../ArrayInput'
 import Select from '../Select'
 import NumberInput from '../NumberInput'
+import DateTimePicker from '../DateTimePicker'
 
 const INPUTS = {
   text: {
@@ -29,6 +31,12 @@ const INPUTS = {
       value: $value && $value.get()
     })
   },
+  array: {
+    Component: ArrayInput,
+    getProps: $value => ({
+      value: $value && $value.get()
+    })
+  },
   number: {
     Component: NumberInput,
     getProps: $value => ({
@@ -41,6 +49,30 @@ const INPUTS = {
     getProps: $value => ({
       value: $value && $value.get(),
       onChange: value => $value && $value.setDiff(value)
+    })
+  },
+  date: {
+    Component: DateTimePicker,
+    getProps: $value => ({
+      date: $value && $value.get(),
+      onDateChange: value => $value && $value.setDiff(value),
+      mode: 'date'
+    })
+  },
+  datetime: {
+    Component: DateTimePicker,
+    getProps: $value => ({
+      date: $value && $value.get(),
+      onDateChange: value => $value && $value.setDiff(value),
+      mode: 'datetime'
+    })
+  },
+  time: {
+    Component: DateTimePicker,
+    getProps: $value => ({
+      date: $value && $value.get(),
+      onDateChange: value => $value && $value.setDiff(value),
+      mode: 'time'
     })
   }
 }
@@ -72,8 +104,8 @@ function Input ({
   const bindingProps = $value ? getProps($value) : {}
   return pug`
     Component(
-      ...props
       ...bindingProps
+      ...props
       style=style
       $value=$value
     )
@@ -85,7 +117,17 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: PropTypes.oneOf(['text', 'checkbox', 'object', 'select', 'number']).isRequired,
+  type: PropTypes.oneOf([
+    'text',
+    'checkbox',
+    'object',
+    'select',
+    'number',
+    'date',
+    'datetime',
+    'time',
+    'array'
+  ]).isRequired,
   $value: PropTypes.any
 }
 

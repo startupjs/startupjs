@@ -31,7 +31,7 @@ export default function (config = {}) {
       ...authConfig
     }, config)
 
-    console.log('++++++++++ Initialization of Local auth strategy ++++++++++\n', this.config, '\n')
+    console.log('++++++++++ Initialization of Local auth strategy ++++++++++\n')
 
     initRoutes({ router, config: this.config })
 
@@ -39,6 +39,7 @@ export default function (config = {}) {
       new Strategy(
         { usernameField: 'email' },
         async (email = '', password, cb) => {
+          email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
           const authData = await provider.loadAuthData()

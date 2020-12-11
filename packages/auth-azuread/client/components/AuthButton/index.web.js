@@ -3,10 +3,11 @@ import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
+import './index.styl'
 
 function AuthButton ({ label }) {
   return pug`
-    Button(
+    Button.button(
       onPress=onLogin
       icon=faMicrosoft
       variant='flat'
@@ -15,7 +16,7 @@ function AuthButton ({ label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Azure AD'
+  label: 'Azure AD'
 }
 
 AuthButton.propTypes = {

@@ -5,9 +5,11 @@ import propTypes from 'prop-types'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from '../../../Icon'
 import Menu from '../../../Menu'
+import Link from '../../../Link'
 import './index.styl'
 
 function DropdownItem ({
+  to,
   label,
   value,
   icon,
@@ -35,6 +37,7 @@ function DropdownItem ({
   if (_variant === 'popover' && !isPure) {
     return pug`
       Menu.Item(
+        to=to
         active=_activeValue === value
         styleName={ selectMenu: _selectIndexValue === _index }
         onPress=handlePress
@@ -44,8 +47,9 @@ function DropdownItem ({
     `
   }
 
+  const Wrapper = to ? Link : TouchableOpacity
   return pug`
-    TouchableOpacity(onPress=handlePress)
+    Wrapper(onPress=handlePress to=to)
       View.item(styleName=[!isPure && _variant, {
         active: !isPure && (_activeValue === value),
         itemUp: !isPure && (_index === 0),
