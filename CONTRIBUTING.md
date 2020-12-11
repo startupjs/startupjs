@@ -12,6 +12,7 @@
 
     - Use **`Squash and merge`** merging strategy.
     - Title of PR must follow conventional commits format. If it doesn't -- edit the PR title before merging.
+    - When you have a bunch of fixes/features in master, you can publish the patch version by using the command `yarn publish-patch`. It will also automatically update changelog.
 
 2. If PR has breaking changes it must be merged to `next`.
 
@@ -25,4 +26,5 @@
 4. When releasing a new breaking version, make a PR from `next` to `master`.
 
     - **IMPORTANT!!!** Use regular **`Create a merge commit`** merge strategy when merging the PR. Because we must not lose any commits history when doing this merge.
-    - After merge, manually update `master` -> `next` and push `next` directly to github.
+    - After merge, use `yarn publish-minor` to publish the new breaking version to npm. It will also automatically update changelog.
+    - Manually update `master` -> `next` and push `next` directly to github.
