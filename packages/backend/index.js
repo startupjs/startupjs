@@ -11,6 +11,8 @@ const redis = require('redis-url')
 const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
 
+global.__clients = {}
+
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
 try {
@@ -121,8 +123,13 @@ module.exports = async options => {
       const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
       if (aggregations) {
         for (let aggregationKey in aggregations) {
-          const globalCollectionName = path.replace(/\.\*$/u, '')
-          backend.addAggregate(globalCollectionName, aggregationKey, aggregations[aggregationKey])
+          const collection = path.replace(/\.\*$/u, '')
+          backend.addAggregate(collection, aggregationKey, (queryParams, shareRequest) => {
+            const session = shareRequest.agent.connectSession
+            const userId = session.userId
+            const model = global.__clients[userId].model
+            return aggregations[aggregationKey](model, queryParams, session)
+          })
         }
       }
     }
@@ -158,11 +165,21 @@ module.exports = async options => {
     if (!req) return
 
     let userId = req.session && req.session.userId
+
+    const model = backend.createModel()
+
+    if (!global.__clients[userId]) {
+      global.__clients[userId] = {}
+    }
+    global.__clients[userId].model = model
+
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
+      model.close()
+      delete global.__clients[userId]
     })
   })
 
