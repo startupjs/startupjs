@@ -1,4 +1,5 @@
 import { appleAuthAndroid } from '@invertase/react-native-apple-authentication'
+import { finishAuth } from '@startupjs/auth'
 import { v4 as uuid } from 'uuid'
 import axios from 'axios'
 import { BASE_URL } from '@env'
@@ -21,8 +22,9 @@ export default async function onLogin (clientId) {
     })
 
     const data = await appleAuthAndroid.signIn()
-
     await axios.post(CALLBACK_NATIVE_URL, data)
+
+    finishAuth()
   } catch (err) {
     console.log(err)
   }
