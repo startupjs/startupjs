@@ -274,8 +274,6 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCPicker (1.9.4):
     - React-Core
-  - RNDateTimePicker (3.0.6):
-    - React-Core
   - RNGoogleSignin (5.0.0):
     - GoogleSignIn (~> 5.0.0)
     - React-Core
@@ -440,7 +438,6 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
-  RNDateTimePicker: 120f8d08b19dd50c0308d30a07c1982e4618e9ad
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
@@ -448,4 +445,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b5b8bf23b760d2d581d649ac82b7a3361cb48fcb
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

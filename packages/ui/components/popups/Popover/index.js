@@ -49,9 +49,9 @@ function Popover ({
   durationClose,
   hasArrow,
   hasWidthCaption,
+  hasCaptionInModal,
   onDismiss,
-  onRequestOpen,
-  onOverlayMouseMove
+  onRequestOpen
 }) {
   wrapperStyle = StyleSheet.flatten([wrapperStyle])
 
@@ -95,7 +95,7 @@ function Popover ({
       setTimeout(runShow, 0)
     }
 
-    if (stepStatus === STEP_STATUSES.OPEN && !visible) {
+    if (stepStatus !== STEP_STATUSES.CLOSE && !visible) {
       if (!refContentOpen.current) return
       runHide()
     }
@@ -162,12 +162,6 @@ function Popover ({
         onDismiss()
       })
     })
-  }
-
-  const _onOverlayMouseMove = () => {
-    if (Platform.OS === 'web') {
-      onOverlayMouseMove && onOverlayMouseMove()
-    }
   }
 
   // parse children
@@ -256,11 +250,8 @@ function Popover ({
           )
             View.case
               TouchableWithoutFeedback(onPress=onDismiss)
-                Animated.View.overlay(
-                  style=_overlayStyle
-                  onMouseMove=_onOverlayMouseMove
-                )
-              if caption
+                Animated.View.overlay(style=_overlayStyle)
+              if hasCaptionInModal && caption
                 View.absolute(style={
                   width: captionSize.width,
                   left: contentInfo.x,
@@ -309,6 +300,7 @@ Popover.defaultProps = {
   animateType: 'default',
   hasWidthCaption: false,
   hasArrow: false,
+  hasCaptionInModal: true,
   durationOpen: 300,
   durationClose: 300
 }
@@ -324,6 +316,7 @@ Popover.propTypes = {
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
+  hasCaptionInModal: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
   onDismiss: PropTypes.func,
