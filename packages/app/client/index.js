@@ -1,4 +1,5 @@
 import React, { useMemo, Suspense } from 'react'
+import { Platform } from 'react-native'
 import { generatePath } from 'react-router-native'
 import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
 import _find from 'lodash/find'
@@ -24,6 +25,8 @@ function useGlobalInitBase (cb) {
   useMemo(() => {
     // reference self to '_session.user' for easier access
     $session.ref('user', $user)
+    // set system info
+    $root.setDiff('$system.platform', Platform.OS)
   }, [])
 
   return cb ? cb() : true
