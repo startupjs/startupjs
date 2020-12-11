@@ -1,19 +1,10 @@
-.popoverWrapper
-  border-radius .5u
-
 .dropdown
   &.list
     padding 2u
     padding-bottom 1u
 
-  &.system
-    background-color rgba(255, 255, 255, .9)
-
-.systemMenu
-  position absolute
-  width 100%
-  height 5u
-  background-color $UI.colors.white
+  &.buttons
+    max-height 100%
 
 .case
   &.buttons
@@ -41,6 +32,9 @@
     border-radius 1u
     background-color $UI.colors.white
 
-.popoverWrapper
+.wrapper
   border-radius 0.5u
   shadow(2)
+
+:export
+  media: $UI.media

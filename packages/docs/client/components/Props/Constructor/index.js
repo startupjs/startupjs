@@ -1,13 +1,13 @@
 import React, { useMemo, useLayoutEffect } from 'react'
-import { observer } from 'startupjs'
-import parsePropTypes from 'parse-prop-types'
 import { Text, Platform } from 'react-native'
+import { observer } from 'startupjs'
+import { Span, themed, Input } from '@startupjs/ui'
+import parsePropTypes from 'parse-prop-types'
 import Table from './Table'
 import Tbody from './Tbody'
 import Thead from './Thead'
 import Tr from './Tr'
 import Td from './Td'
-import { Span, themed, Input } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(themed(function Constructor ({ Component, $props, style, theme }) {

@@ -12,7 +12,12 @@ function renderContent () {
 export default observer(function Sidebar ({ children }) {
   const $open = useModel(SIDEBAR_PATH)
   return pug`
-    SmartSidebar($open=$open width=240 renderContent=renderContent)
+    SmartSidebar(
+      $open=$open
+      width=240
+      renderContent=renderContent
+      defaultOpen
+    )
       = children
   `
 })

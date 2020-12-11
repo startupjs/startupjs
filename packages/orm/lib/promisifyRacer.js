@@ -93,7 +93,12 @@ function optionalPromisify (originalFn) {
       }).catch(err => {
         console.error(err)
         if (parseInt(err.code) === 403) {
-          const $accessError = this.root.at('_session')
+          let $accessError
+          if (this instanceof Query) {
+            $accessError = this.model.scope('_session')
+          } else {
+            $accessError = this.scope('_session')
+          }
           $accessError.setDiff('_accessError', err)
         }
       })

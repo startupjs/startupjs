@@ -1,14 +1,17 @@
-const isPlainObject = require('lodash/isPlainObject')
-const isArray = require('lodash/isArray')
-const conf = require('nconf')
 const ShareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const sharedbSchema = require('@startupjs/sharedb-schema')
-const shareDbHooks = require('sharedb-hooks')
+const serverAggregate = require('@startupjs/server-aggregate')
+const conf = require('nconf')
+const isArray = require('lodash/isArray')
+const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
 const redis = require('redis-url')
+const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
+
+global.__clients = {}
 
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
@@ -111,6 +114,29 @@ module.exports = async options => {
   }
 
   if (
+    options.serverAggregate &&
+    global.STARTUP_JS_ORM &&
+    Object.keys(global.STARTUP_JS_ORM).length > 0
+  ) {
+    serverAggregate(backend, options.serverAggregate.customCheck)
+    for (const path in global.STARTUP_JS_ORM) {
+      const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
+      if (aggregations) {
+        for (let aggregationKey in aggregations) {
+          const collection = path.replace(/\.\*$/u, '')
+          backend.addAggregate(collection, aggregationKey, (queryParams, shareRequest) => {
+            const session = shareRequest.agent.connectSession
+            const userId = session.userId
+            const model = global.__clients[userId].model
+            return aggregations[aggregationKey](model, queryParams, session)
+          })
+        }
+      }
+    }
+    console.log('serverAggregate is working')
+  }
+
+  if (
     options.validateSchema &&
     process.env.NODE_ENV !== 'production' &&
     global.STARTUP_JS_ORM &&
@@ -139,11 +165,21 @@ module.exports = async options => {
     if (!req) return
 
     let userId = req.session && req.session.userId
+
+    const model = backend.createModel()
+
+    if (!global.__clients[userId]) {
+      global.__clients[userId] = {}
+    }
+    global.__clients[userId].model = model
+
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
+      model.close()
+      delete global.__clients[userId]
     })
   })
 

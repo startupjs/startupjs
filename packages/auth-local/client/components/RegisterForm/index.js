@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
@@ -16,15 +16,13 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
   const history = useHistory()
 
+  const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
     name: null,
     email: null,
     password: null,
     confirm: null
   })
-
-  const [formErrors, setFormErrors] = useState({})
-  const [loading, setLoading] = useState(false)
 
   const onFormChange = field => value => {
     $form.set(field, value)
@@ -77,7 +75,6 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
     delete formClone.name
 
     try {
-      setLoading(true)
       await authHelper.register(formClone)
       const res = await authHelper.login({ email: form.email, password: form.password })
 
@@ -86,7 +83,6 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
       }
     } catch (error) {
       setFormErrors({ authError: error.response.data.message })
-      setLoading(false)
       onError && onError(error)
     }
   }
@@ -159,9 +155,6 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
         secureTextEntry
         value=form.confirm || ''
       )
-      if loading
-        Br
-        ActivityIndicator
       if formErrors.authError
         Br
         Span.authError

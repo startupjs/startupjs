@@ -15,7 +15,8 @@ const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
   style,
-  forceClosed,
+  defaultOpen,
+  disabled,
   fixedLayoutBreakpoint,
   path,
   $open,
@@ -23,7 +24,6 @@ function SmartSidebar ({
   width,
   children,
   renderContent,
-  defaultOpen,
   ...props
 }) {
   if (path) {
@@ -31,6 +31,7 @@ function SmartSidebar ({
   }
 
   const componentId = useComponentId()
+
   if (!$open) {
     [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
@@ -40,6 +41,25 @@ function SmartSidebar ({
   ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
+
+  useLayoutEffect(() => {
+    if (open && disabled) $open.setDiff(false)
+  }, [!!open, !!disabled])
+
+  useLayoutEffect(() => {
+    if (disabled) return
+    if (fixedLayout) {
+      // when change dimensions from mobile
+      // to desktop resolution or when rendering happen on desktop resolution
+      // we open sidebar if it was opened on mobile resolution or default value
+      $open.setDiff(open || defaultOpen)
+    } else {
+      // when change dimensions from desktop
+      // to mobile resolution or when rendering heppen for mobile resolution
+      // we always close sidebars
+      $open.setDiff(false)
+    }
+  }, [!!fixedLayout])
 
   useLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
@@ -57,9 +77,9 @@ function SmartSidebar ({
         $open=$open
         position=position
         width=width
-        forceClosed=forceClosed
         renderContent=renderContent
-        defaultOpen=defaultOpen
+
+
       )= children
     else
       DrawerSidebar(
@@ -67,16 +87,16 @@ function SmartSidebar ({
         $open=$open
         position=position
         width=width
-        forceClosed=forceClosed
         renderContent=renderContent
-        defaultOpen=defaultOpen
+        drawerLockMode=disabled ? 'locked-closed' : undefined
         ...props
       )= children
   `
 }
 
 SmartSidebar.defaultProps = {
-  forceClosed: false,
+  defaultOpen: false,
+  disalbed: false,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
@@ -86,7 +106,8 @@ SmartSidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
-  forceClosed: PropTypes.bool,
+  defaultOpen: PropTypes.bool,
+  disalbed: PropTypes.bool,
   fixedLayoutBreakpoint: PropTypes.number,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
