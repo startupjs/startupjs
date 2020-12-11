@@ -9,10 +9,17 @@ export const SIGN_UP_SLIDE = 'sign-up'
 export const RECOVER_PASSWORD_SLIDE = 'recover'
 
 export const DEFAULT_FORMS_CAPTIONS = {
-  [SIGN_IN_SLIDE]: 'Sign In',
+  [SIGN_IN_SLIDE]: 'Welcome Back!',
   [SIGN_UP_SLIDE]: 'Sign Up',
   [RECOVER_PASSWORD_SLIDE]: 'Forgot password?',
   [RESET_PASSWORD_SLIDE]: 'Reset password'
+}
+
+export const DEFAULT_FORMS_DESCRIPTIONS = {
+  [SIGN_IN_SLIDE]: 'Log In with',
+  [SIGN_UP_SLIDE]: undefined,
+  [RECOVER_PASSWORD_SLIDE]: undefined,
+  [RESET_PASSWORD_SLIDE]: undefined
 }
 
 export const FORM_COMPONENTS_KEYS = {

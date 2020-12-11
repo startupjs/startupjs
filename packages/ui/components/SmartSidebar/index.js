@@ -43,8 +43,14 @@ function SmartSidebar ({
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
   useLayoutEffect(() => {
-    if (open && disabled) $open.setDiff(false)
-  }, [!!open, !!disabled])
+    if (disabled) {
+      $open.setDiff(false)
+    } else if (fixedLayout) {
+      // or we can save open state before disabling
+      // to open it with this state when enabling
+      $open.setDiff(defaultOpen)
+    }
+  }, [disabled])
 
   useLayoutEffect(() => {
     if (disabled) return
@@ -59,7 +65,7 @@ function SmartSidebar ({
       // we always close sidebars
       $open.setDiff(false)
     }
-  }, [!!fixedLayout])
+  }, [fixedLayout])
 
   useLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
@@ -78,8 +84,6 @@ function SmartSidebar ({
         position=position
         width=width
         renderContent=renderContent
-
-
       )= children
     else
       DrawerSidebar(

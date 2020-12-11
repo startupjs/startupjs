@@ -136,8 +136,9 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
         Br
         Span.authError
           = formErrors.authError
-      Br
+      Br(lines=2)
       Button(
+        size='l'
         onPress=submit
         color='primary'
         variant='flat'
@@ -148,10 +149,10 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
         color='primary'
         variant='text'
       ) Forgot your password?
-      Br
+      Br(half)
       Div.line
         Span.text Don't have an account?
-        Button.button(
+        Button.signUp(
           onPress=onRegister
           color='primary'
           variant='text'

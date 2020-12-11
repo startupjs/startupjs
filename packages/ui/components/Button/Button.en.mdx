@@ -55,15 +55,15 @@ The `variant` property is responsible for the external display of the button (af
 ```jsx example
 return (
   <Div>
-    <Button icon={faCoffee}>
+    <Button onPress={() => console.log('pressed')} icon={faCoffee}>
       Outlined
     </Button>
     <Br />
-    <Button variant='flat' icon={faCoffee}>
+    <Button onPress={() => console.log('pressed')} variant='flat' icon={faCoffee}>
       Flat
     </Button>
     <Br />
-    <Button variant='text' icon={faCoffee}>
+    <Button onPress={() => console.log('pressed')} variant='text' icon={faCoffee}>
       Text
     </Button>
   </Div>
@@ -77,15 +77,15 @@ Color is `dark` by default. It can be changed by passing color name from the con
 ```jsx example
 return (
   <Div>
-    <Button variant='flat'>
+    <Button onPress={() => console.log('pressed')} variant='flat'>
       Default dark
     </Button>
     <Br />
-    <Button color='primary' variant='flat'>
+    <Button onPress={() => console.log('pressed')} color='primary' variant='flat'>
       Primary
     </Button>
     <Br />
-    <Button color='success' variant='flat'>
+    <Button onPress={() => console.log('pressed')} color='success' variant='flat'>
       Success
     </Button>
   </Div>

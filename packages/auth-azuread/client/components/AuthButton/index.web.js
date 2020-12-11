@@ -16,7 +16,7 @@ function AuthButton ({ label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Azure AD'
+  label: 'Azure AD'
 }
 
 AuthButton.propTypes = {

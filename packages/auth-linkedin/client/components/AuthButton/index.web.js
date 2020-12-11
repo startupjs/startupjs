@@ -16,7 +16,7 @@ function AuthButton ({ label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with LinkedIn'
+  label: 'LinkedIn'
 }
 
 AuthButton.propTypes = {

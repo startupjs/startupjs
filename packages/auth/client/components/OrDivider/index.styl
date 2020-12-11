@@ -1,22 +1,14 @@
 .root
+  margin-top 2u
   display flex
   flex-direction row
-  justify-content center
-  position relative
+  align-items center
 
 .line
-  border-bottom-color $UI.colors.darkLighter
-  border-bottom-width 1
-  position absolute
-  top 50%
-
-.left
-  left 0
-  width 40%
-
-.right
-  right 0
-  width 40%
+  background-color $UI.colors.darkLighter
+  height 1px
+  flex 1
 
 .text
+  padding 0 2u
   color $UI.colors.darkLighter

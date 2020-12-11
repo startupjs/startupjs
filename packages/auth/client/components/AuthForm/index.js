@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
-import { H3, Content, Span } from '@startupjs/ui'
+import { H5, Content, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import OrDivider from '../OrDivider'
-import { DEFAULT_FORMS_CAPTIONS, FORM_COMPONENTS_KEYS, SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '../../../isomorphic'
+import { DEFAULT_FORMS_CAPTIONS, DEFAULT_FORMS_DESCRIPTIONS, FORM_COMPONENTS_KEYS, SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '../../../isomorphic'
 import './index.styl'
-
-const DESCRIPTIONS = {}
 
 function AuthForm ({
   captions,
@@ -26,7 +24,7 @@ function AuthForm ({
   const _captions = Object.assign(DEFAULT_FORMS_CAPTIONS, captions)
   const currentCaption = _captions[activeSlide]
 
-  const _descriptions = Object.assign(DESCRIPTIONS, descriptions)
+  const _descriptions = Object.assign(DEFAULT_FORMS_DESCRIPTIONS, descriptions)
   const currentDescription = _descriptions[activeSlide]
 
   const renderSocialButtons = socialButtons.map((Component, index) => {
@@ -43,14 +41,15 @@ function AuthForm ({
     Content
       if LocalActiveForm
         if typeof currentCaption === 'string'
-          H3.caption= currentCaption
+          H5.caption= currentCaption
         else
           = currentCaption
         if currentDescription
-          Span(description).description= currentDescription
+          Span.description(variant='description')= currentDescription
 
       if activeSlide !== 'recover'
-        = renderSocialButtons
+        View.buttons
+          = renderSocialButtons
 
       if needOrLine
         OrDivider

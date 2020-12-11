@@ -8,6 +8,7 @@ const OBSERVABLE_COLLECTIONS = [
   '$hooks',
   '$subs',
   '$render',
+  '$system',
   '_page',
   '_session'
 ]

@@ -6,7 +6,7 @@ export default function OrDivider () {
   return pug`
     Div.root
       Div.line.left
-      Div.line.right
       Span.text or
+      Div.line.right
   `
 }
