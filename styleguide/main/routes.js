@@ -2,7 +2,7 @@ export default (components = {}) => [
   {
     path: '/',
     exact: true,
-    redirect: '/docs'
+    redirect: '/auth/sign-in'
   },
   {
     path: '/profile',

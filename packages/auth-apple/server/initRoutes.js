@@ -1,15 +1,5 @@
-import {
-  WEB_LOGIN_URL,
-  CALLBACK_URL,
-  CALLBACK_NATIVE_URL,
-  CALLBACK_NATIVE_FINISH_URL
-} from '../isomorphic'
-import {
-  loginWeb,
-  loginWebCallback,
-  loginNative,
-  loginNativeFinish
-} from './api'
+import { WEB_LOGIN_URL, CALLBACK_URL, CALLBACK_NATIVE_URL } from '../isomorphic'
+import { loginWeb, loginWebCallback, loginNative } from './api'
 
 export default function (options) {
   const { router, config } = options
@@ -25,9 +15,5 @@ export default function (options) {
   router.post(
     CALLBACK_NATIVE_URL,
     (req, res) => loginNative(req, res, config)
-  )
-  router.post(
-    CALLBACK_NATIVE_FINISH_URL,
-    (req, res, next) => loginNativeFinish(req, res, next, config)
   )
 }

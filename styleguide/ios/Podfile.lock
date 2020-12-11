@@ -272,6 +272,8 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
+  - RNAppleAuthentication (2.1.0):
+    - React-Core
   - RNCPicker (1.9.4):
     - React-Core
   - RNGoogleSignin (5.0.0):
@@ -313,6 +315,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../../node_modules/react-native/ReactCommon`)
+  - "RNAppleAuthentication (from `../../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNGoogleSignin (from `../../node_modules/@react-native-community/google-signin`)"
   - RNSVG (from `../../node_modules/react-native-svg`)
@@ -387,6 +390,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../../node_modules/react-native/ReactCommon"
+  RNAppleAuthentication:
+    :path: "../../node_modules/@invertase/react-native-apple-authentication"
   RNCPicker:
     :path: "../../node_modules/@react-native-picker/picker"
   RNGoogleSignin:
@@ -434,6 +439,7 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
+  RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e

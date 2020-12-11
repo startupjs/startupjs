@@ -1,56 +1,42 @@
-import appleSignin from 'apple-signin-auth'
-import fs from 'fs'
-import qs from 'query-string'
-import nconf from 'nconf'
+import { finishAuth } from '@startupjs/auth/server'
 import crypto from 'crypto'
-import {
-  CRYPTO_SECRET_KEY,
-  CRYPTO_ALGORITHM,
-  CALLBACK_NATIVE_URL,
-  FAILURE_LOGIN_URL
-} from '../../isomorphic'
+import appleSigninAuth from 'apple-signin-auth'
+import Provider from '../Provider'
 
 export default async function loginNative (req, res, config) {
-  const { code } = req.body
-  const {
-    clientId,
-    teamId,
-    keyId,
-    privateKeyLocation
-  } = config
+  const data = req.body
 
-  const clientSecret = appleSignin.getClientSecret({
-    clientID: clientId,
-    teamID: teamId,
-    privateKey: fs.readFileSync(privateKeyLocation),
-    keyIdentifier: keyId
+  if (data.code) {
+    loginAndroid(req, res, data, config)
+  } else {
+    loginIOS(req, res, data, config)
+  }
+}
+
+async function loginIOS (req, res, profile, config) {
+  const { successRedirectUrl, onBeforeLoginHook } = config
+
+  const provider = new Provider(req.model, profile, config)
+  const userId = await provider.findOrCreateUser()
+
+  finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+}
+
+async function loginAndroid (req, res, data, config) {
+  const { successRedirectUrl, onBeforeLoginHook } = config
+
+  const appleIdTokenClaims = await appleSigninAuth.verifyIdToken(data.id_token, {
+    nonce: data.nonce
+      ? crypto.createHash('sha256').update(data.nonce).digest('hex')
+      : undefined
   })
 
-  const options = {
-    clientID: clientId,
-    redirectUri: nconf.get('BASE_URL') + CALLBACK_NATIVE_URL,
-    clientSecret
+  const profile = {
+    id: appleIdTokenClaims.sub
   }
 
-  try {
-    const response = await appleSignin.getAuthorizationToken(code, options)
+  const provider = new Provider(req.model, profile, config)
+  const userId = await provider.findOrCreateUser()
 
-    const { sub: userAppleId } = await appleSignin.verifyIdToken(response.id_token, {
-      audience: clientId,
-      ignoreExpiration: true
-    })
-
-    const iv = crypto.randomBytes(16)
-    const cipher = crypto.createCipheriv(CRYPTO_ALGORITHM, CRYPTO_SECRET_KEY, iv)
-    const encrypted = Buffer.concat([cipher.update(userAppleId), cipher.final()])
-
-    res.redirect('/auth/sing-in?' + qs.stringify({
-      apple: 1,
-      iv: iv.toString('hex'),
-      content: encrypted.toString('hex')
-    }))
-  } catch (err) {
-    console.log('[@dmapper/auth-apple] Error: Apple login', err)
-    return res.redirect(FAILURE_LOGIN_URL)
-  }
+  finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
 }

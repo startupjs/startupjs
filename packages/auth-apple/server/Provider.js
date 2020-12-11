@@ -27,10 +27,22 @@ export default class AppleProvider extends BaseProvider {
   }
 
   getFirstName () {
+    const { profile } = this
+
+    if (profile.fullName) {
+      return profile.fullName.givenName
+    }
+
     return ''
   }
 
   getLastName () {
+    const { profile } = this
+
+    if (profile.fullName) {
+      return profile.fullName.familyName
+    }
+
     return ''
   }
 
