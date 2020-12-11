@@ -1,7 +1,7 @@
-import { LOGOUT_URL, SIGN_IN_URL, DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic/constants'
+import { LOGOUT_URL, DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic/constants'
 
 export default function initDefaultRoutes (router, config) {
-  const { onBeforeLogoutHook } = config
+  const { onBeforeLogoutHook, signInPageUrl } = config
 
   router.get(LOGOUT_URL, function (req, res) {
     onBeforeLogoutHook(
@@ -11,7 +11,7 @@ export default function initDefaultRoutes (router, config) {
         delete req.session.loggedIn
         delete req.session.userId
         req.logout()
-        res.redirect(SIGN_IN_URL)
+        res.redirect(signInPageUrl)
       })
   })
 

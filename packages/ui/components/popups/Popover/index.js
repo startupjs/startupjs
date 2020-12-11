@@ -62,6 +62,7 @@ function Popover ({
   const [stepStatus, setStepStatus] = useState(STEP_STATUSES.CLOSE)
   const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
   const [localVisible, setLocalVisible] = useState(visible)
+  const [localDurationOpen, setLocalDurationOpen] = useState(durationOpen)
   const [contentInfo, setContentInfo] = useState({})
   const [captionSize, setCaptionSize] = useState({})
 
@@ -78,28 +79,39 @@ function Popover ({
 
   // reset state after change dimensions
   useLayoutEffect(() => {
+    let mounted = true
+
     const handleDimensions = () => {
+      if (!mounted) return
       setContentInfo({})
       setStepStatus(STEP_STATUSES.CLOSE)
       onDismiss()
     }
+
     Dimensions.addEventListener('change', handleDimensions)
-    return () => Dimensions.removeEventListener('change', handleDimensions)
+    return () => {
+      mounted = false
+      Dimensions.removeEventListener('change', handleDimensions)
+    }
   }, [])
 
   // -main
   useEffect(() => {
     if (stepStatus === STEP_STATUSES.CLOSE && visible) {
-      setStepStatus(STEP_STATUSES.RENDER)
-      setLocalVisible(true)
-      setTimeout(runShow, 0)
+      if (captionSize.height) {
+        setStepStatus(STEP_STATUSES.RENDER)
+        setLocalVisible(true)
+        setTimeout(runShow, 0)
+      } else {
+        setLocalDurationOpen(0)
+      }
     }
 
     if (stepStatus === STEP_STATUSES.OPEN && !visible) {
       if (!refContentOpen.current) return
       runHide()
     }
-  }, [visible])
+  }, [visible, captionSize.height])
   // -
 
   function runShow () {
@@ -130,7 +142,7 @@ function Popover ({
       setStepStatus(STEP_STATUSES.ANIMATE)
 
       animate.show({
-        durationOpen,
+        durationOpen: localDurationOpen,
         geometry: refGeometry.current,
         contentInfo: _contentInfo,
         animateType,
@@ -138,6 +150,7 @@ function Popover ({
         hasArrow
       }, () => {
         setStepStatus(STEP_STATUSES.OPEN)
+        setLocalDurationOpen(durationOpen)
         onRequestOpen && onRequestOpen()
       })
     })

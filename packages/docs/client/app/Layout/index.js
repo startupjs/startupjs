@@ -1,24 +1,15 @@
 import React from 'react'
 import { observer, useModel } from 'startupjs'
-import { Layout, Row, Button, useMedia } from '@startupjs/ui'
-import Sidebar, { SIDEBAR_PATH } from './Sidebar'
+import { Layout, Row, Button } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import './index.styl'
 
 const Topbar = observer(function Topbar () {
   const $open = useModel(SIDEBAR_PATH)
-  const media = useMedia()
 
   function toggleSidebar () {
-    const open = $open.get()
-    // special case, since by default it's closed on mobile, tablet
-    // and opened on desktop and wide
-    if (open == null) {
-      const defaultOpen = media.desktop
-      $open.set(!defaultOpen)
-      return
-    }
     $open.set(!$open.get())
   }
 

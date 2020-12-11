@@ -108,7 +108,8 @@ export default observer(function Input ({
     const newValue = getValidValue(value)
     if (newValue !== stringValue) {
       setStringValue(newValue)
-      onChangeNumber && onChangeNumber(toFinite(newValue))
+      const num = newValue === '' || newValue === '-' ? undefined : toFinite(newValue)
+      onChangeNumber && onChangeNumber(num)
     }
   }
 

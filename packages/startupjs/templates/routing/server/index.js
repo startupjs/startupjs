@@ -1,9 +1,9 @@
 import init from 'startupjs/init'
-import orm from '../model'
 import startupjsServer from 'startupjs/server'
+import { initApp } from 'startupjs/app/server'
+import orm from '../model'
 import api from './api'
 import getMainRoutes from '../main/routes'
-import { initApp } from 'startupjs/app/server'
 
 // Init startupjs ORM.
 init({ orm })
@@ -24,7 +24,7 @@ startupjsServer({
 
 function getHead (appName) {
   return `
-    <title>HelloWorld</title>
+    <title>App</title>
     <!-- Put vendor JS and CSS here -->
   `
 }

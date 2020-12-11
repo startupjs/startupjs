@@ -31,7 +31,7 @@ export default function (config = {}) {
     // Append required configs to client session
     updateClientSession({ google: { clientId } })
 
-    console.log('++++++++++ Initialization of Google auth strategy ++++++++++')
+    console.log('++++++++++ Initialization of Google auth strategy ++++++++++\n')
 
     passport.use(
       new Strategy(
@@ -41,7 +41,7 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
         },
-        async function (accessToken, refreshToken, profile, cb) {
+        async (accessToken, refreshToken, profile, cb) => {
           let userId, err
 
           try {

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import { SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
@@ -70,7 +71,7 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   }, [])
 
   function onLogin () {
-    if (onChangeAuthPage) onChangeAuthPage('sign-in')
+    if (onChangeAuthPage) onChangeAuthPage(SIGN_IN_SLIDE)
     else history.push('/auth/sign-in')
   }
 
@@ -78,6 +79,7 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
     Div.root
       if !feedBack
         TextInput(
+          label='Enter your email'
           onChangeText=onFormChange('email')
           error=formErrors.email
           name='email'

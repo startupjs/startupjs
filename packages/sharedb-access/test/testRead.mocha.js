@@ -12,6 +12,9 @@ let shareDBAccess = new ShareDbAccess(backend)
 
 let taskId
 
+const $session = model.scope('_session')
+const errorTemplate = 'Permission denied (read)'
+
 describe('READ', function () {
   before(async () => {
     backend.allowCreate('tasksRead', async (docId, doc, session) => {
@@ -46,7 +49,7 @@ describe('READ', function () {
     assert(true)
   })
 
-  it('deny = false && allow = false => err{ code: 403.2 }', async () => {
+  it('deny = false && allow = false => err{ code: 403 }', async () => {
     backend.denyRead('tasksRead', async (docId, doc, session) => {
       return false
     })
@@ -58,14 +61,17 @@ describe('READ', function () {
       const $task = model.at('tasksRead' + '.' + taskId)
       await $task.subscribe()
       $task.unsubscribe()
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.2)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
-  it('deny = true && allow = false => err{ code: 403.2 }', async () => {
+  it('deny = true && allow = false => err{ code: 403 }', async () => {
     backend.denyRead('tasksRead', async (docId, doc, session) => {
       return true
     })
@@ -77,14 +83,17 @@ describe('READ', function () {
       const $task = model.at('tasksRead' + '.' + taskId)
       await $task.subscribe()
       $task.unsubscribe()
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.2)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
-  it('deny = true && allow = true => err{ code: 403.2 }', async () => {
+  it('deny = true && allow = true => err{ code: 403 }', async () => {
     backend.denyRead('tasksRead', async (docId, doc, session) => {
       return true
     })
@@ -95,10 +104,13 @@ describe('READ', function () {
       const $task = model.at('tasksRead' + '.' + taskId)
       await $task.subscribe()
       $task.unsubscribe()
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.2)
-      return
+      assert(false)
     }
-    assert(false)
   })
 })

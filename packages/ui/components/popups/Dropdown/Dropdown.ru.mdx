@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Dimensions } from 'react-native'
 import Dropdown from './index.js'
 import Icon from '../../Icon'
 import Row from '../../Row'
@@ -75,7 +75,7 @@ return (
 ### Кастомный
 ```jsx example
 const [sort, setSort] = useState('')
-const captionStyle = { width: 30, height: 30, backgroundColor: 'white', 
+const captionStyle = { width: 30, height: 30, backgroundColor: 'white',
   borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
 return (
   <View style={{ width: 160 }}>
@@ -112,7 +112,84 @@ return (
 )
 ```
 
-## Позиция
+## Стилизация
+```jsx example
+const [value, setValue] = useState('')
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      style={Dimensions.get('window').width < 780 ? { maxHeight: 160 } : { maxHeight: 100 }}
+      value={value}
+      onChange={v => setValue(v)}
+    >
+      <Dropdown.Item value="java" label="Java" />
+      <Dropdown.Item value="golang" label="Golang" />
+      <Dropdown.Item value="js" label="JavaScript" />
+      <Dropdown.Item value="python" label="Python" />
+      <Dropdown.Item value="csharp" label="C#" />
+      <Dropdown.Item value="cpp" label="C++" />
+    </Dropdown>
+  </View>
+)
+```
+
+## Примеры поведения Dropdown.Item
+1 - Обычный, когда есть label и value, value будет предаваться в родительский onChange
+2 - Когда нужно кастомное нажатие, можно передать в Item калбэк onPress
+3 - Когда нужно обозначить ссылку, сохраняя стиль Item`а
+4 - Кастомное использование. Можно использовать value и родительский onChange. Либо же свой обработчик onPress.
+
+```jsx example
+const [state, setState] = useState('')
+
+const customStyle = state === 'custom'
+  ? { backgroundColor: 'blue', padding: 8 }
+  : { backgroundColor: 'yellow', padding: 8 }
+
+const customStyle2 = state === 'custom2'
+  ? { backgroundColor: 'blue', padding: 8 }
+  : { backgroundColor: 'yellow', padding: 8 }
+
+return (
+  <View style={{ width: 150 }}>
+    <Dropdown
+      value={state}
+      onChange={v=> setState(v)}
+    >
+      <Dropdown.Item label='Выбрать 1' value={1} />
+      <Dropdown.Item label='Показать 2' onPress={()=> alert('2')} />
+      <Dropdown.Item
+        to='/'
+        label='На главную'
+        onPress={()=> alert('На главную')}
+      />
+      <Dropdown.Item value='custom'>
+        <View style={customStyle}>
+          <Text>Кастомный 1</Text>
+        </View>
+      </Dropdown.Item>
+      <Dropdown.Item onPress={()=> setState('custom2')}>
+        <View style={customStyle2}>
+          <Text>Кастомный 2</Text>
+        </View>
+      </Dropdown.Item>
+    </Dropdown>
+  </View>
+)
+```
+
+Есть 2 типа поведения Dropdown, для десктопного и мобильного разрешения
+На десктопе используется компонент [Popover](/docs/popups/Popover)
+На мобильных экранах - [Drawer](/docs/popups/Drawer)
+Чтобы правильно применять style для каждого варианта, можно использовать миксин `+tablet`:
+```styl
+.wrapper
+  // Drawer styles
+  +tablet()
+    // Popover styles
+```
+
+## Позиция для Popover
 - position: имеет 4 варианта положений (left, right, top, bottom)
 - attachment: дополнительный параметр для смещения (start, center, end)
 

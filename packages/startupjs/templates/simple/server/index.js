@@ -1,6 +1,6 @@
 import init from 'startupjs/init'
-import orm from '../model'
 import startupjsServer from 'startupjs/server'
+import orm from '../model'
 import api from './api'
 
 // Init startupjs ORM.
@@ -15,7 +15,7 @@ startupjsServer({ getHead }, ee => {
 
 function getHead (appName) {
   return `
-    <title>HelloWorld</title>
+    <title>App</title>
     <!-- Put vendor JS and CSS here -->
   `
 }

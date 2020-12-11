@@ -1,16 +1,11 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
 import Span from '../../typography/Span'
 import './index.styl'
-
-const TYPE_TO_INPUT = {
-  string: 'text',
-  boolean: 'checkbox',
-  integer: 'number'
-}
 
 export default observer(function ObjectInput ({
   style,
@@ -39,7 +34,7 @@ export default observer(function ObjectInput ({
         return {
           ...inputProps,
           key,
-          type: input || TYPE_TO_INPUT[type] || type,
+          type: input || SCHEMA_TYPE_TO_INPUT[type] || type,
           $value: $value.at(key)
         }
       }
@@ -55,7 +50,7 @@ export default observer(function ObjectInput ({
     if (label) {
       return pug`
         Div(style=style)
-          Span.label= label
+          Span.label(variant='description')= label
           Card(
             style=inputStyle
             variant='outlined'

@@ -2,12 +2,6 @@ const _ = require('lodash')
 const util = require('./util')
 const debug = require('debug')('access')
 
-// there are local extensions of error codes for error classification
-// code 403.1: Permission denied (create)
-// code 403.2: Permission denied (read)
-// code 403.3: Permission denied (update)
-// code 403.4: Permission denied (delete)
-
 const operations = [
   'Read',
   'Create',
@@ -24,16 +18,21 @@ function validateKeys (obj, collectionName) {
   })
 }
 
-function registerOrmRules (backend, collectionName, access) {
+function registerOrmRules (backend, pattern, access) {
   // if there are extra fields, an exception is thrown
-  validateKeys(access, collectionName)
+  validateKeys(access, pattern)
 
   operations.map(op => {
     // the user can write the first letter of the rules in any case
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if (fn) {
-      const globalCollectionName = collectionName.replace(/\.\*$/u, '')
-      backend['allow' + op](globalCollectionName, fn.bind(global, backend, globalCollectionName))
+      const collection = pattern.replace(/\.\*$/u, '')
+      backend['allow' + op](collection, (...params) => {
+        const [,, session] = params
+        const userId = session.userId
+        const model = global.__clients[userId].model
+        return fn(model, collection, ...params)
+      })
     }
   })
 }
@@ -136,7 +135,7 @@ class ShareDBAccess {
 
     if (ok) return
 
-    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId, code: 403.3 }
+    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId, code: 403 }
   }
 
   applyHandler (shareRequest, done) {
@@ -172,7 +171,7 @@ class ShareDBAccess {
 
       if (ok) return
 
-      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId, code: 403.1 }
+      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId, code: 403 }
     }
 
     // ++++++++++++++++++++++++++++++++ DELETE ++++++++++++++++++++++++++++++++++
@@ -183,7 +182,7 @@ class ShareDBAccess {
       debug('delete', ok, collection, docId, doc)
       if (ok) return
 
-      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId, code: 403.4 }
+      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId, code: 403 }
     }
 
     // For Update
@@ -230,7 +229,7 @@ class ShareDBAccess {
 
     if (ok) return
 
-    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403.2 }
+    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403 }
   }
 
   async check (operation, collection, args) {

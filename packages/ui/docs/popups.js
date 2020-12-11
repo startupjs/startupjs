@@ -4,6 +4,7 @@ import DrawerRu from '../components/popups/Drawer/Drawer.ru.mdx'
 import PopoverRu from '../components/popups/Popover/Popover.ru.mdx'
 import PopoverEn from '../components/popups/Popover/Popover.en.mdx'
 import DropdownRu from '../components/popups/Dropdown/Dropdown.ru.mdx'
+import DropdownEn from '../components/popups/Dropdown/Dropdown.en.mdx'
 
 export default {
   type: 'collapse',
@@ -29,7 +30,10 @@ export default {
     Dropdown: {
       type: 'mdx',
       title: 'Dropdown',
-      component: DropdownRu
+      component: {
+        en: DropdownEn,
+        ru: DropdownRu
+      }
     }
   }
 }

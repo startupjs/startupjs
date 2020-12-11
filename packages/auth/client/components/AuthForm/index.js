@@ -1,23 +1,15 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
-import { H3, Content, Span } from '@startupjs/ui'
+import { H5, Content, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import OrDivider from '../OrDivider'
+import { DEFAULT_FORMS_CAPTIONS, DEFAULT_FORMS_DESCRIPTIONS, FORM_COMPONENTS_KEYS, SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '../../../isomorphic'
 import './index.styl'
 
-const CAPTIONS = {
-  'sign-in': 'Sign In',
-  'sign-up': 'Sign Up',
-  recover: 'Forgot password'
-}
-
-const LOCAL_COMPONENTS = {
-  'sign-in': 'LoginForm',
-  'sign-up': 'RegisterForm',
-  recover: 'RecoverForm'
-}
-
 function AuthForm ({
+  captions,
+  descriptions,
   initSlide,
   socialButtons,
   localForms,
@@ -27,7 +19,13 @@ function AuthForm ({
   onHandleError
 }) {
   const [activeSlide, setActiveSlide] = useState(initSlide)
-  const LocalActiveForm = localForms ? localForms[LOCAL_COMPONENTS[activeSlide]] : null
+  const LocalActiveForm = localForms ? localForms[FORM_COMPONENTS_KEYS[activeSlide]] : null
+
+  const _captions = Object.assign(DEFAULT_FORMS_CAPTIONS, captions)
+  const currentCaption = _captions[activeSlide]
+
+  const _descriptions = Object.assign(DEFAULT_FORMS_DESCRIPTIONS, descriptions)
+  const currentDescription = _descriptions[activeSlide]
 
   const renderSocialButtons = socialButtons.map((Component, index) => {
     return pug`
@@ -36,14 +34,25 @@ function AuthForm ({
     `
   })
 
+  const needOrLine = renderSocialButtons && renderSocialButtons.length &&
+    LocalActiveForm && [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
+
   return pug`
     Content
       if LocalActiveForm
-        H3.caption= CAPTIONS[activeSlide]
-        Span.desc
+        if typeof currentCaption === 'string'
+          H5.caption= currentCaption
+        else
+          = currentCaption
+        if currentDescription
+          Span.description(variant='description')= currentDescription
 
       if activeSlide !== 'recover'
-        = renderSocialButtons
+        View.buttons
+          = renderSocialButtons
+
+      if needOrLine
+        OrDivider
 
       if LocalActiveForm
         View.form
@@ -57,6 +66,8 @@ function AuthForm ({
 }
 
 AuthForm.propTypes = {
+  captions: PropTypes.object,
+  descriptions: PropTypes.object,
   initSlide: PropTypes.string,
   socialButtons: PropTypes.array,
   localForms: PropTypes.object,
@@ -67,7 +78,7 @@ AuthForm.propTypes = {
 }
 
 AuthForm.defaultProps = {
-  initSlide: 'sign-in',
+  initSlide: SIGN_IN_SLIDE,
   socialButtons: [],
   hasRouting: false,
   onSuccess: null,
