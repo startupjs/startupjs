@@ -9,7 +9,7 @@ import STYLES from './index.styl'
 
 function Tooltip ({
   children,
-  style,
+  tooltipStyle,
   position,
   attachment,
   durationOpen,
@@ -28,7 +28,7 @@ function Tooltip ({
       attachment=attachment
       animateType='scale'
       backdropStyleName='backdrop'
-      wrapperStyle=[STYLES.wrapper, style]
+      wrapperStyle=[STYLES.wrapper, tooltipStyle]
       arrowStyleName='arrow'
       durationOpen=durationOpen
       durationClose=durationClose
