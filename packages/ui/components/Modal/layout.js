@@ -15,6 +15,7 @@ function Modal ({
   dismissLabel,
   confirmLabel,
   ModalElement,
+  isUncontrolled,
   $visible,
   showCross,
   enableBackdropPress,
@@ -65,7 +66,7 @@ function Modal ({
   }
   actions = actions
     ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
-    : onCancel || onConfirm
+    : onCancel || onConfirm || isUncontrolled
       ? React.createElement(ModalActions, actionsProps)
       : null
 

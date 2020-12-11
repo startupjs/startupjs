@@ -2,6 +2,7 @@ import { useValue } from 'startupjs'
 import Modal from '../Modal'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
+import { useRef } from 'react'
 
 # Modal
 
@@ -26,13 +27,15 @@ import { Modal } from '@startupjs/ui'
 
 ```jsx example
 const [visible, $visible] = useValue(false)
+const modalRef = useRef()
 
 return (
   <React.Fragment>
-    <Button onPress={() => $visible.set(true)}>
+    <Button onPress={() => modalRef.current.open()}>
       Open modal
     </Button>
     <Modal
+      ref={modalRef}
       title='Example'
       $visible={$visible}
       dismissLabel='Close'

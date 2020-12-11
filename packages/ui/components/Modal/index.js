@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useImperativeHandle } from 'react'
 import { View, Modal as RNModal } from 'react-native'
-import { observer, useBind, useOn } from 'startupjs'
+import { observer, useBind, useOn, useComponentId, useLocal } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -19,7 +19,14 @@ function Modal ({
   onShow,
   onOrientationChange,
   ...props
-}) {
+}, ref) {
+  const isUncontrolled = !$visible
+
+  const componentId = useComponentId()
+  if (!$visible) {
+    [, $visible] = useLocal(`_session.Modal.${componentId}`)
+  }
+
   let visible
   let onChangeVisible
   ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
@@ -34,10 +41,19 @@ function Modal ({
     if (!$visible.get()) onDismiss && onDismiss()
   })
 
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      onChangeVisible(true)
+    },
+    close: () => {
+      onChangeVisible(false)
+    }
+  }))
+
   return pug`
     RNModal(
       style=style
-      visible=visible
+      visible=!!visible
       transparent=transparent
       supportedOrientations=supportedOrientations
       animationType=animationType
@@ -51,14 +67,16 @@ function Modal ({
           modalStyle=style
           $visible=$visible
           closeFallback=closeFallback
+          isUncontrolled=isUncontrolled
           ...props
         )
       else
         = props.children
   `
 }
+const ObservedModal = observer(Modal, { forwardRef: true })
 
-Modal.defaultProps = {
+ObservedModal.defaultProps = {
   visible: false,
   variant: 'window',
   dismissLabel: ModalActions.defaultProps.dismissLabel,
@@ -72,7 +90,7 @@ Modal.defaultProps = {
   onRequestClose: () => {} // required prop in some platforms
 }
 
-Modal.propTypes = {
+ObservedModal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen', 'custom']),
@@ -103,7 +121,8 @@ Modal.propTypes = {
   onDismiss: PropTypes.func
 }
 
-const ObservedModal = observer(Modal)
+ObservedModal.displayName = 'Modal'
+
 ObservedModal.Header = ModalHeader
 ObservedModal.Content = ModalContent
 ObservedModal.Actions = ModalActions

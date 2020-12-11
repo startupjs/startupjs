@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { observer } from 'startupjs'
 import { themed, Row } from '@startupjs/ui'
 import GridVisualizer from './GridVisualizer'
 
@@ -19,8 +19,6 @@ export default observer(themed(function Renderer ({
   block,
   style
 }) {
-  const [, $visible] = useValue(false)
-
   let Wrapper
   let extraProps = {}
   if (showSizes) {
@@ -28,12 +26,6 @@ export default observer(themed(function Renderer ({
     extraProps.block = block
   } else {
     Wrapper = block ? View : Row
-  }
-
-  // TODO: This hack is used to make onDismiss work correctly.
-  // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
-  if (Component.displayName.includes('Modal')) {
-    props = { ...props, $visible }
   }
 
   return pug`
