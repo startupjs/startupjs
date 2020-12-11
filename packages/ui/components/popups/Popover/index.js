@@ -108,8 +108,11 @@ function Popover ({
     }
 
     if (stepStatus !== STEP_STATUSES.CLOSE && !visible) {
-      if (!refContentOpen.current) return
-      runHide()
+      if (!refContentOpen.current) {
+        setTimeout(runHide, 100)
+      } else {
+        runHide()
+      }
     }
   }, [visible, captionSize.height])
   // -
