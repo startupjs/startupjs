@@ -7,7 +7,7 @@ export default function onBeforePasswordChange (req, res, next) {
   const { oldPassword, password, confirm } = req.body
   const { userId, loggedIn } = req.session
 
-  if (!userId || loggedIn) return next("Seems you aren't authorised")
+  if (!userId || (userId && !loggedIn)) return next("Seems you aren't authorised")
   if (!oldPassword) return next('Please fill old password')
   if (!password) return next('Please fill password')
   if (!confirm) return next('Please fill password confirmation')

@@ -12,6 +12,9 @@ let taskId
 
 let shareDBAccess = new ShareDbAccess(backend)
 
+const $session = model.scope('_session')
+const errorTemplate = 'Permission denied (delete)'
+
 describe('DELETE', function () {
   before(async () => {
     backend.allowCreate('tasksDelete', async (docId, doc, session) => {
@@ -32,7 +35,7 @@ describe('DELETE', function () {
     shareDBAccess.deny.Delete.tasksDelete = []
   })
 
-  it('deny = false && allow = false => err{ code: 403.4 }', async () => {
+  it('deny = false && allow = false => err{ code: 403 }', async () => {
     backend.denyDelete('tasksDelete', async (docId, doc, session) => {
       return false
     })
@@ -44,11 +47,14 @@ describe('DELETE', function () {
       const $task = model.at('tasksDelete' + '.' + taskId)
       await $task.subscribe()
       await $task.del()
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.4)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
   it('deny = false && allow = true => not err', async () => {
@@ -70,7 +76,7 @@ describe('DELETE', function () {
     assert(true)
   })
 
-  it('deny = true && allow = false => err{ code: 403.4 }', async () => {
+  it('deny = true && allow = false => err{ code: 403 }', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
@@ -82,14 +88,17 @@ describe('DELETE', function () {
       const $task = model.at('tasksDelete' + '.' + taskId)
       await $task.subscribe()
       await $task.del()
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.4)
-      return
+      assert(false)
     }
-    assert(false)
   })
 
-  it('deny = true && allow = true => err{ code: 403.4 }', async () => {
+  it('deny = true && allow = true => err{ code: 403 }', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
@@ -101,10 +110,13 @@ describe('DELETE', function () {
       const $task = model.at('tasksDelete' + '.' + taskId)
       await $task.subscribe()
       await $task.del()
+
+      const accessError = $session.get('_accessError')
+
+      assert.strictEqual(accessError.message.includes(errorTemplate), true)
+      assert.strictEqual(accessError.code, 403)
     } catch (e) {
-      assert.strictEqual(e.code, 403.4)
-      return
+      assert(false)
     }
-    assert(false)
   })
 })

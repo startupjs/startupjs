@@ -6,6 +6,8 @@ export default observer(function TooltipCaption ({
   children,
   onChange
 }) {
+  let isPressable = false
+
   function _onLongPress (cb) {
     onChange(true)
     cb && cb()
@@ -16,20 +18,19 @@ export default observer(function TooltipCaption ({
     cb && cb()
   }
 
-  let isPressable = false
-
-  let _children = Children.toArray(children).map(child => {
-    if (child.props.onPress || child.props.onClick || child.props.onLongPress) {
+  const _children = Children.toArray(children).map(child => {
+    if (child.props.onPress || child.props.onLongPress) {
       isPressable = true
       return React.cloneElement(child, {
         onLongPress: () => _onLongPress(child.props.onLongPress),
-        onPressOut: () => _onPressOut(child.props.onPressOut)
+        onPressOut: () => _onPressOut(child.props.onPressOut),
+        onPress: child.props.onPress
       })
     }
     return child
   })
 
-  if (_children.length !== 1) {
+  if (isPressable && _children.length > 1) {
     console.error('[ui -> Tooltip] You must specify a single child')
     return null
   }

@@ -1,0 +1,44 @@
+import { useState } from 'react'
+import Content from '../../Content'
+import Br from '../../Br'
+import Span from '../../typography/Span'
+import ArrayInput from '../ArrayInput'
+import { useValue } from 'startupjs'
+
+# ArrayInput
+
+ArrayInput lets you build dynamic forms using its declarative api.
+
+```jsx
+import { ArrayInput } from '@startupjs/ui'
+```
+
+## Example
+
+ArrayInput accepts an object in the `items` property with a required `input` key to specify what type of input to display.
+
+Possible types are:
+
+[сheckbox](/docs/forms/Checkbox)
+[text](/docs/forms/TextInput)
+[object](/docs/forms/ObjectInput)
+[select](/docs/forms/Select)
+[date](/docs/forms/DateTimePicker)
+[datetime](/docs/forms/DateTimePicker)
+[time](/docs/forms/DateTimePicker)
+
+The `items` object also inherits any of the props passed to these components.
+
+```jsx example
+const [value, $value] = useValue(['Green', 'Blue'])
+return (
+  <ArrayInput
+    value={value}
+    $value={$value}
+    label='Colors'
+    items={{
+      input: 'text'
+    }}
+  />
+)
+```

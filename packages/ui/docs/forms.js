@@ -18,6 +18,7 @@ import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
 import MultiselectRu from '../components/forms/Multiselect/Multiselect.ru.mdx'
 import DateTimePickerEn from '../components/forms/DateTimePicker/DateTimePicker.en.mdx'
 import DateTimePickerRu from '../components/forms/DateTimePicker/DateTimePicker.ru.mdx'
+import ArrayInputEn from '../components/forms/ArrayInput/ArrayInput.en.mdx'
 
 export default {
   type: 'collapse',
@@ -58,6 +59,11 @@ export default {
         en: ObjectInputEn,
         ru: ObjectInputRu
       }
+    },
+    Array: {
+      type: 'mdx',
+      title: 'ArrayInput',
+      component: ArrayInputEn
     },
     Radio: {
       type: 'mdx',

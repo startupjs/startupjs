@@ -28,7 +28,7 @@ export default function (config = {}) {
 
     validateConfigs(this.config)
 
-    console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n', this.config, '\n')
+    console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n')
 
     const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
 
@@ -53,7 +53,7 @@ export default function (config = {}) {
           useCookieInsteadOfSession: true,
           cookieEncryptionKeys
         },
-        async function (iss, sub, profile, accessToken, refreshToken, done) {
+        async (iss, sub, profile, accessToken, refreshToken, done) => {
           let userId, err
           try {
             const provider = new Provider(model, profile, this.config)
