@@ -8,6 +8,7 @@ import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import qs from 'query-string'
 import { BASE_URL } from '@env'
 import { CALLBACK_NATIVE_LINKEDIN_URL, AUTHORIZATION_URL } from '../../../isomorphic'
+import './index.styl'
 
 function AuthButton ({ label }) {
   const baseUrl = BASE_URL
@@ -37,7 +38,7 @@ function AuthButton ({ label }) {
   }
 
   return pug`
-    Button(
+    Button.button(
       icon=faLinkedinIn
       variant='flat'
       onPress=showLoginModal
@@ -60,7 +61,7 @@ function AuthButton ({ label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with LinkedIn'
+  label: 'LinkedIn'
 }
 
 AuthButton.propTypes = {

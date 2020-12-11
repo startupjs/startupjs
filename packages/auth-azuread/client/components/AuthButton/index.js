@@ -8,6 +8,7 @@ import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import qs from 'query-string'
 import { BASE_URL } from '@env'
 import { CALLBACK_NATIVE_AZUREAD_URL, SCOPE, getStrBase64 } from '../../../isomorphic'
+import './index.styl'
 
 function AuthButton ({ label }) {
   const baseUrl = BASE_URL
@@ -41,7 +42,7 @@ function AuthButton ({ label }) {
   }
 
   return pug`
-    Button(
+    Button.button(
       icon=faMicrosoft
       variant='flat'
       onPress=showLoginModal
@@ -64,7 +65,7 @@ function AuthButton ({ label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Azure AD'
+  label: 'Azure AD'
 }
 
 AuthButton.propTypes = {

@@ -1,12 +1,15 @@
 import React from 'react'
-import { observer, useQueryDoc, useValue, useDoc } from 'startupjs'
+import { observer, useQueryDoc, useValue, useDoc, $root, emit } from 'startupjs'
 import { useAuthHelper } from '@startupjs/auth-local'
-import { Span, Div, TextInput, Button } from '@startupjs/ui'
+import { Span, Div, TextInput, Button, Br } from '@startupjs/ui'
+import { SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
 import './index.styl'
 
-export default observer(function ResetPasswordForm ({ secret, onSuccess }) {
+export default observer(function ResetPasswordForm ({ secret, onSuccess, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
+
+  const _secret = secret || $root.get('$render.query.secret')
 
   const [form, $form] = useValue({})
   const [error, $error] = useValue()
@@ -36,8 +39,8 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess }) {
     }
 
     try {
-      authHelper.resetPassword({
-        secret,
+      await authHelper.resetPassword({
+        secret: _secret,
         ...form
       })
       _onSuccess()
@@ -59,34 +62,48 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess }) {
     $form.set({ ...$form.get(), [name]: value })
   }
 
+  function onLogin () {
+    if (onChangeAuthPage) onChangeAuthPage(SIGN_IN_SLIDE)
+    else emit('url', '/auth/sign-in')
+  }
+
   return pug`
     Div.root
-      Div.content
-        if !feedback
-          Span.header-text Enter your new password
-          TextInput.input(
-            value=form.password
-            onChange=onInputChange('password')
-            placeholder='Password'
-            secureTextEntry
-          )
-          TextInput.input(
-            value=form.confirm
-            onChange=onInputChange('confirm')
-            placeholder='Confirm'
-            secureTextEntry
-          )
-          Div.error
-            if error
-              Span.errorMsg
-                = error
-          Button.saveButton(
-            variant='flat'
-            color='primary'
-            disabled=!form.confirm || !form.password
-            onPress=save
-          ) SAVE
-        else
-          Span.feedback= feedback
+      if !_secret
+        Span.feedback= 'Please provide password reset secret'
+      else
+        Div.content
+          if !feedback
+            TextInput.input(
+              label='Enter new password'
+              value=form.password
+              onChange=onInputChange('password')
+              placeholder='Password'
+              secureTextEntry
+            )
+            TextInput.input(
+              value=form.confirm
+              onChange=onInputChange('confirm')
+              placeholder='Confirm'
+              secureTextEntry
+            )
+            Div.error
+              if error
+                Span.errorMsg
+                  = error
+            Button.saveButton(
+              variant='flat'
+              color='primary'
+              disabled=!form.confirm || !form.password
+              onPress=save
+            ) SAVE
+          else
+            Span.feedback= feedback
+            Br
+            Button(
+              variant='flat'
+              color='primary'
+              onPress=onLogin
+            ) Log in
   `
 })

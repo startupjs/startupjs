@@ -13,5 +13,10 @@ export default (components = {}) => [
     path: '/auth/recover',
     exact: true,
     component: components.PRecover
+  },
+  {
+    path: '/auth/reset-password',
+    exact: true,
+    component: components.PResetPassword
   }
 ]

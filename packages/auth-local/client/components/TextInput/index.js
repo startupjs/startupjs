@@ -32,6 +32,7 @@ function TextInput ({
         secureTextEntry=showPass
         icon=secureTextEntry ? showPass ? faEye : faEyeSlash : undefined
         iconPosition='right'
+        iconStyleName='eye-icon'
         onIconPress=togglePassVisibility
       )
     if error
