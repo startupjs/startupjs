@@ -9,5 +9,5 @@ export default async function getSenderEmail (model, options = {}) {
     return senderEmail
   }
 
-  return from || `noreplay@${process.env.MAIL_DOMAIN || domain || host}`
+  return from || `noreplay@${process.env.MAIL_DOMAIN || domain || host}` // host = req.host...
 }

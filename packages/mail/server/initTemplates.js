@@ -1,17 +1,21 @@
-export let _templates
+export let _templates = {}
 
-export default function initTemplates (templates) {
-  if (_templates) return
-  _templates = { ...templates }
-}
-
-export function registerTemplates (templates) {
+export default function initTemplates (templates = {}) {
   for (let templateName in templates) {
-    if (_templates[templateName]) {
-      throw new Error('[@startupjs/mail] registerTemplates: ' +
-        `tempate ${templateName} already registred`
-      )
-    }
-    _templates[templateName] = templates[templateName]
+    registerTemplate(templateName, templates[templateName])
   }
 }
+
+export function registerTemplate (name, template) {
+  if (_templates[name]) {
+    throw new Error('[@startupjs/mail] registerTemplates: ' +
+      `tempate ${name} already registred`
+    )
+  }
+
+  _templates[name] = template
+}
+
+// getUserVars
+// getLayoutVars
+// getGlobalVars

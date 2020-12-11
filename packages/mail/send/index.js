@@ -4,10 +4,14 @@ import filterIgnoredEmails from './filterIgnoredEmails'
 import getDataFromLayout from './getDataFromLayout'
 import getSenderEmail from './getSenderEmail'
 import getRecipientEmailsByIds from './getRecipientEmailsByIds'
+// import { getLayout } from '../server/initLayouts'
+import getVars from './vars'
+import {
+  DEFAULT_LAYOUT_NAME
+} from '../constants'
 
 /**
  * @param {String} options.from - Any string compatible with your mail provider.
- *
  * @param {String} options.senderId - id of email sender
  * @param {Boolean} options.ignoreWhitelist - should whitelist be ignored in DEV stage
  * @param {String|String[]} options.to - comma separated string with recipient emails 'mail1@mail.com, mail2@mail.com' or array of emails
@@ -17,21 +21,28 @@ import getRecipientEmailsByIds from './getRecipientEmailsByIds'
  * @param {String} options.html - string with html
  * @param {Boolean} options.inline - inline image for html content (path to image)
  * @param {String} options.layout - name of layout would be used
- * @param {Object} options.layoutOptions - object with options passed to layout
+ * REMOVE @param {Object} options.layoutOptions - object with options passed to layout
  * @param {String} options.template - name of template would be used
- * @param {Object} options.templateOptions - object with options passed to template
+ * REMOVE @param {Object} options.templateOptions - object with options passed to template
  * @param {String} options.provider - name of provider would be used
  */
 
 async function sendEmail (model, options) {
-  const mailClient = getProvider(options.provider)
+  // TODO:
+  // options = { ...options }
+  // _.defaults(options, { host: req.host, .. }
 
   try {
+    const mailClient = getProvider(options.provider)
+    const layoutName = options.layout || DEFAULT_LAYOUT_NAME
+
+    const vars = await getVars(model, options)
+
     const layoutData = await getDataFromLayout(
       model,
-      options.layout,
-      options.layoutOptions
+      layoutName
     )
+
     let recipientMails = await getRecipientEmailsByIds(model, options.recipientIds)
     let to = options.to || ''
 
@@ -54,7 +65,8 @@ async function sendEmail (model, options) {
       subject: options.subject,
       text: options.text,
       html: options.html,
-      inline: options.inline
+      inline: options.inline,
+      vars
     }
 
     if (options.template) {
@@ -63,10 +75,10 @@ async function sendEmail (model, options) {
         options.template,
         options.templateOptions
       )
-      _options.html = layoutData.html.replace('%{content}%', template)
+      _options.html = layoutData.layout.replace('{{html}}', template)
       _options.subject = subject
     } else {
-      _options.html = layoutData.html.replace('%{content}%', options.html)
+      _options.html = layoutData.layout.replace('{{html}}', options.html)
     }
 
     const result = await mailClient.send(_options)
