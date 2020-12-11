@@ -25,9 +25,10 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
-    "publish-patch": "npx lerna publish patch",
-    "publish-minor": "npx lerna publish minor",
-    "publish-alpha": "npx lerna publish preminor --dist-tag next"
+    "publish-patch": "npx lerna publish patch --no-push && yarn publish-update-changelog",
+    "publish-minor": "npx lerna publish minor --no-push && yarn publish-update-changelog",
+    "publish-alpha": "npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-update-changelog": "yarn changelog && git add CHANGELOG.md && git commit --amend --no-edit && git push && git push --tags"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
