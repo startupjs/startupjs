@@ -55,3 +55,14 @@ fn_local_init () {
   echo "  android: 'yarn testapp android'"
   echo "  etc."
 }
+
+fn_update_changelog () {
+  set -e
+  git tag -d "v$(node -e "console.log(require('./lerna.json').version)")"
+  yarn changelog
+  git add CHANGELOG.md
+  git commit --amend --no-edit
+  git tag "v$(node -e "console.log(require('./lerna.json').version)")"
+  git push
+  git push --tags
+}
