@@ -2,6 +2,15 @@
 
 
 
+## [0.29.12](https://github.com/startupjs/startupjs/compare/v0.29.11...v0.29.12) (2020-12-12)
+
+
+### Features
+
+* Implement initial plugins architecture. https://github.com/startupjs/startupjs/wiki/Plugins ([afa8e47](https://github.com/startupjs/startupjs/commit/afa8e47f5fe51cf49ca144a1f38ade44f79d50b8))
+
+
+
 ## [0.29.11](https://github.com/startupjs/startupjs/compare/v0.29.10...v0.29.11) (2020-12-11)
 
 
