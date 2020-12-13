@@ -257,7 +257,7 @@ The following guides are available to assist with migration to new major version
 
 ## Contributing & Troubleshooting
 
-See [CONTRIBUTING.md](/CONTRIBTING.md)
+See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 ## Licence
 
