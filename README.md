@@ -257,22 +257,7 @@ The following guides are available to assist with migration to new major version
 
 ## Contributing & Troubleshooting
 
-To initialize the monorepo, run:
-
-```sh
-yarn
-```
-
-After that you can run the styleguide project to develop the UI components, etc.:
-
-```sh
-cd styleguide
-yarn start
-```
-
-If you have any questions or want to request a feature, please look wether a similar issue already exists in this repo, otherwise feel free to file a new one.
-
-If you want to contribute, feel free to send your PRs, we will review them and provide our feedback on a short notice.
+See [CONTRIBUTING.md](/CONTRIBTING.md)
 
 ## Licence
 
