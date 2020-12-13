@@ -21,7 +21,7 @@ fn_local_init () {
   sleep 5
 
   echo ">>> STEP 3: lerna publish. Ignore any version bumps using intermediate branch."
-  git stash
+  git stash -u
   git branch -d verdaccio-temp || true
   git checkout -b verdaccio-temp
   git stash apply
