@@ -2,6 +2,7 @@ import { useValue } from 'startupjs'
 import Modal from '../Modal'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
+import { useRef } from 'react'
 
 # Modal (модалка)
 
@@ -69,6 +70,28 @@ return (
       $visible={$visible}
       onCancel={() => $visible.set(false)}
       onConfirm={() => $visible.set(false)}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Неконтролируемая модалка
+
+Вам не обязательно создавать свой `useValue` и передавать его сеттер в модалку. Для управления состоянием модалки вы можете завести переменную с `const modalRef = useRef()` и передавать её в модалку `ref={modalRef}`, а затем самим вызывать методы `open` и `close` у `modalRef.current` для управления состоянием модалки.
+
+```jsx example
+const modalRef = useRef()
+
+return (
+  <React.Fragment>
+    <Button onPress={() => modalRef.current.open()}>
+      Открыть неконтролируемую модалку
+    </Button>
+    <Modal
+      ref={modalRef}
+      title='Неконтролируемая модалка'
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>

@@ -16,7 +16,6 @@ function Modal ({
   confirmLabel,
   ModalElement,
   isUncontrolled,
-  $visible,
   showCross,
   enableBackdropPress,
   closeFallback,
@@ -56,17 +55,27 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
+  const _onConfirm = () => {
+    onConfirm && onConfirm()
+    closeFallback()
+  }
+
+  const _onCancel = () => {
+    onCancel && onCancel()
+    closeFallback()
+  }
+
   // Handle <Modal.Actions>
   const actionsProps = {
     dismissLabel,
     confirmLabel,
     style: content ? { paddingTop: 0 } : null,
-    onCancel: onCancel || closeFallback,
-    onConfirm: onConfirm || closeFallback
+    onCancel: isUncontrolled ? _onCancel : onCancel || closeFallback,
+    onConfirm: isUncontrolled ? _onConfirm : onConfirm || closeFallback
   }
   actions = actions
     ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
-    : onCancel || onConfirm || isUncontrolled
+    : onCancel || onConfirm
       ? React.createElement(ModalActions, actionsProps)
       : null
 
@@ -77,9 +86,9 @@ function Modal ({
   }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
-    : title
+    : title || showCross
       ? React.createElement(ModalHeader, headerProps, title)
-      : React.createElement(ModalHeader, headerProps)
+      : null
 
   const isWindowLayout = variant === 'window'
 

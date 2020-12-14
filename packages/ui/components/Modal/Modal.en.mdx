@@ -27,15 +27,13 @@ import { Modal } from '@startupjs/ui'
 
 ```jsx example
 const [visible, $visible] = useValue(false)
-const modalRef = useRef()
 
 return (
   <React.Fragment>
-    <Button onPress={() => modalRef.current.open()}>
+    <Button onPress={() => $visible.set(true)}>
       Open modal
     </Button>
     <Modal
-      ref={modalRef}
       title='Example'
       $visible={$visible}
       dismissLabel='Close'
@@ -72,6 +70,28 @@ return (
       $visible={$visible}
       onCancel={() => $visible.set(false)}
       onConfirm={() => $visible.set(false)}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Uncontrolled modal
+
+You don't need to create your `useValue` and pass its setter to the modal. To control the state of the modal, you can create a variable with `const modalRef = useRef()` and pass it to the modal `ref={modalRef}`, and then call the `open` and` close` methods of `modalRef.current` to control modalk state.
+
+```jsx example
+const modalRef = useRef()
+
+return (
+  <React.Fragment>
+    <Button onPress={() => modalRef.current.open()}>
+      Open nncontrolled modal
+    </Button>
+    <Modal
+      ref={modalRef}
+      title='Uncontrolled modal'
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>

@@ -14,15 +14,14 @@ function ModalHeader ({
   onCrossPress // @private
 }) {
   return pug`
-    if children || onCrossPress
-      Row.root(style=style align=children ? 'between' : 'right' vAlign='center')
-        if typeof children === 'string'
-          Span.title(numberOfLines=1)= children
-        else
-          = children
-        if onCrossPress
-          Div.close(onPress=onCrossPress)
-            Icon.icon(icon=faTimes size='xl')
+    Row.root(style=style align=children ? 'between' : 'right' vAlign='center')
+      if typeof children === 'string'
+        Span.title(numberOfLines=1)= children
+      else
+        = children
+      if onCrossPress
+        Div.close(onPress=onCrossPress)
+          Icon.icon(icon=faTimes size='xl')
   `
 }
 

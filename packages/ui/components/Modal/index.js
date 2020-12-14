@@ -1,6 +1,6 @@
-import React, { useImperativeHandle } from 'react'
+import React, { useImperativeHandle, useLayoutEffect } from 'react'
 import { View, Modal as RNModal } from 'react-native'
-import { observer, useBind, useOn, useComponentId, useLocal } from 'startupjs'
+import { observer, useOn, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -22,38 +22,36 @@ function Modal ({
 }, ref) {
   const isUncontrolled = !$visible
 
-  const componentId = useComponentId()
-  if (!$visible) {
-    [, $visible] = useLocal(`_session.Modal.${componentId}`)
-  }
+  // eslint-disable-next-line camelcase
+  const [_visible, $_visible] = useValue(false)
 
-  let visible
-  let onChangeVisible
-  ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
+  useLayoutEffect(() => {
+    if ($visible) $visible.ref($_visible)
+  }, [])
 
   function closeFallback () {
-    onChangeVisible(false)
+    $_visible.set(false)
   }
 
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
-  useOn('change', $visible, () => {
-    if (!$visible.get()) onDismiss && onDismiss()
+  useOn('change', $_visible, () => {
+    if (!$_visible.get()) onDismiss && onDismiss()
   })
 
   useImperativeHandle(ref, () => ({
     open: () => {
-      onChangeVisible(true)
+      $_visible.set(true)
     },
     close: () => {
-      onChangeVisible(false)
+      $_visible.set(false)
     }
   }))
 
   return pug`
     RNModal(
       style=style
-      visible=!!visible
+      visible=_visible
       transparent=transparent
       supportedOrientations=supportedOrientations
       animationType=animationType
@@ -65,7 +63,6 @@ function Modal ({
       if props.variant !== 'custom'
         Layout(
           modalStyle=style
-          $visible=$visible
           closeFallback=closeFallback
           isUncontrolled=isUncontrolled
           ...props
@@ -120,8 +117,6 @@ ObservedModal.propTypes = {
   onRequestClose: PropTypes.func,
   onDismiss: PropTypes.func
 }
-
-ObservedModal.displayName = 'Modal'
 
 ObservedModal.Header = ModalHeader
 ObservedModal.Content = ModalContent
