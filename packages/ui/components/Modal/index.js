@@ -20,13 +20,13 @@ function Modal ({
   onOrientationChange,
   ...props
 }, ref) {
-  const isUncontrolled = !$visible
-
   // eslint-disable-next-line camelcase
   const [_visible, $_visible] = useValue(false)
 
   useLayoutEffect(() => {
-    if ($visible) $visible.ref($_visible)
+    if (!$visible) return
+    $visible.ref($_visible)
+    return () => $visible.removeRef($_visible)
   }, [])
 
   function closeFallback () {
@@ -64,7 +64,6 @@ function Modal ({
         Layout(
           modalStyle=style
           closeFallback=closeFallback
-          isUncontrolled=isUncontrolled
           ...props
         )
       else
