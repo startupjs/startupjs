@@ -54,13 +54,15 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
-  const _onConfirm = () => {
-    onConfirm && onConfirm()
+  const _onConfirm = async () => {
+    const promise = onConfirm && onConfirm()
+    if (promise.then) await promise
     closeFallback()
   }
 
-  const _onCancel = () => {
-    onCancel && onCancel()
+  const _onCancel = async () => {
+    const promise = onCancel && onCancel()
+    if (promise.then) await promise
     closeFallback()
   }
 
