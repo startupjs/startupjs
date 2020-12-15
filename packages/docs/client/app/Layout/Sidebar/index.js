@@ -15,7 +15,7 @@ export default observer(function Sidebar ({ children }) {
   return pug`
     SmartSidebar(
       $open=$open
-      width=240
+      width=280
       renderContent=renderContent
       defaultOpen
     )

@@ -1,3 +1,26 @@
+## [0.29.13](https://github.com/startupjs/startupjs/compare/v0.29.12...v0.29.13) (2020-12-13)
+
+
+### Bug Fixes
+
+* **docs,mdx:** Improve documentation styles ([a110fdb](https://github.com/startupjs/startupjs/commit/a110fdbcb753b7a0b948e7ae2d0b758ccd91fcc1))
+
+
+### Reverts
+
+* Revert "chore: generate changelog using lerna" ([1b73cb4](https://github.com/startupjs/startupjs/commit/1b73cb4ecff3368c5c01fe30960c3a0935395e49))
+
+
+
+## [0.29.12](https://github.com/startupjs/startupjs/compare/v0.29.11...v0.29.12) (2020-12-12)
+
+
+### Features
+
+* Implement initial plugins architecture. https://github.com/startupjs/startupjs/wiki/Plugins ([afa8e47](https://github.com/startupjs/startupjs/commit/afa8e47f5fe51cf49ca144a1f38ade44f79d50b8))
+
+
+
 ## [0.29.11](https://github.com/startupjs/startupjs/compare/v0.29.10...v0.29.11) (2020-12-11)
 
 
