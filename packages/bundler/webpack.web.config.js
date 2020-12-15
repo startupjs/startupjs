@@ -23,7 +23,6 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const { getJsxRule } = require('./helpers')
 
 const DEFAULT_MODE = 'react-native'
-const PLUGINS = getPluginConfigs()
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
@@ -55,6 +54,7 @@ module.exports = function getConfig (env, {
   alias = {},
   mode = DEFAULT_MODE
 } = {}) {
+  const plugins = getPluginConfigs()
   process.env.BABEL_ENV = PROD ? 'web_production' : 'web_development'
   process.env.MODE = mode
 
@@ -67,7 +67,7 @@ module.exports = function getConfig (env, {
   // array must be non-empty to prevent matching all node_modules via regex
   forceCompileModules = forceCompileModules
     .concat(DEFAULT_FORCE_COMPILE_MODULES)
-    .concat(getPluginsForceCompileList())
+    .concat(getPluginsForceCompileList(plugins))
 
   return pickBy({
     mode: PROD ? 'production' : 'development',
@@ -324,10 +324,10 @@ module.exports = function getConfig (env, {
   }, Boolean)
 }
 
-function getPluginsForceCompileList () {
+function getPluginsForceCompileList (plugins) {
   let list = []
-  for (const plugin in PLUGINS) {
-    const value = PLUGINS[plugin]?.bundler?.forceCompile?.web
+  for (const plugin in plugins) {
+    const value = plugins[plugin]?.bundler?.forceCompile?.web
     if (value === true) list.push(plugin)
     if (Array.isArray(value)) list = list.concat(value)
   }
