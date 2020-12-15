@@ -28,8 +28,8 @@ import { Modal } from '@startupjs/ui'
 - `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
 ### There are two options for managing the state of a modal:
-  1. `useValue` - you create `useValue` and pass its setter to the `$visible` parameter and then to close the modal you need to change the scope model in the callbacks that are passed to the modal for various actions (`$visible.set(false)`).
-  2. `useRef` - you create `useRef()` and pass it to the modal in the ref parameter and then you can call `modalRef.current.open()` and `modalRef.current.close()` to control the state of the modal. In this case, it is not necessary to call the closure of the modal in the `onConfirm` and `onCancel` callbacks, the closure will be triggered automatically.
+  1. Having passed the scoped model targeting some path to the modal via the `$visible` parameter, and then to close the modal, you need to change the scope-model in the callbacks, which are passed to the modal for various actions (`$ model.set(false)`).
+  2. By passing `ref` to the modal, which will receive the `open()` and `close()` methods that you will call to manage the modal state. In this case, it is not necessary to call the closure of the modal in the `onConfirm` and `onCancel` callbacks, the closure will be triggered automatically.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
