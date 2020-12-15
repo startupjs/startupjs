@@ -25,7 +25,7 @@ function Modal ({
 
   useLayoutEffect(() => {
     if (!$visible) return
-    $visible.ref($_visible)
+    $_visible.ref($visible)
     return () => $visible.removeRef($_visible)
   }, [])
 
