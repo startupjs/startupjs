@@ -54,15 +54,31 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
-  const _onConfirm = async () => {
-    const promise = onConfirm && onConfirm()
-    if (promise.then) await promise
+  const _onConfirm = async event => {
+    const promise = onConfirm && onConfirm(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
     closeFallback()
   }
 
-  const _onCancel = async () => {
-    const promise = onCancel && onCancel()
-    if (promise.then) await promise
+  const _onCancel = async event => {
+    const promise = onCancel && onCancel(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
+    closeFallback()
+  }
+
+  const _onCrossPress = async event => {
+    const promise = onCrossPress && onCrossPress(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
+    closeFallback()
+  }
+
+  const _onBackdropPress = async event => {
+    const promise = onBackdropPress && onBackdropPress(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
     closeFallback()
   }
 
@@ -83,7 +99,7 @@ function Modal ({
   // Handle <Modal.Header>
   const headerProps = {
     style: content || actions ? { paddingBottom: 0 } : null,
-    onCrossPress: showCross ? onCrossPress || onCancel || closeFallback : undefined
+    onCrossPress: showCross ? _onCrossPress : undefined
   }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
@@ -98,7 +114,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=enableBackdropPress ? onBackdropPress || onCancel || closeFallback : undefined
+          onPress=enableBackdropPress ? _onBackdropPress : undefined
         )
       ModalElement.modal(
         style=modalStyle

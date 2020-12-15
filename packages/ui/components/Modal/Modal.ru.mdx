@@ -18,18 +18,18 @@ import { Modal } from '@startupjs/ui'
 ## Пример
 
 - `showCross` булевое значение, устанавливает отображение крестика в заголовке (по умолчанию `true`)
-- `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onCancel`)
-- `onCancel` отображает кнопку отмены, которая использует этот обработчик
-- `onConfirm` отображает кнопку подтверждения которая использует этот обработчик
+- `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onCancel`, по умолчанию закрывает модалку)
+- `onCancel` отображает кнопку отмены, которая использует этот обработчик (по умолчанию закрывает модалку)
+- `onConfirm` отображает кнопку подтверждения которая использует этот обработчик (по умолчанию закрывает модалку)
 - `enableBackdropPress` булевое значение, устанавливает будет ли область вокруг модалки кликабельной (по умолчанию `true`)
-- `onBackdropPress` колбек, который выполняется при нажатии на область вокруг модалки
+- `onBackdropPress` колбек, который выполняется при нажатии на область вокруг модалки (по умолчанию закрывает модалку)
 - `onRequestClose` колбек, который выполняется при нажатии физической клавиши `Домой` на Android, клавиши `Esc` в браузере (по умолчанию закрывает модалку)
 - `onDismiss` колбек, который выполняется после закрытия модалки любым способом
 - `onOrientationChange` колбек, который выполняется при смене ориентации мобильного устройства.
 
 ### Для управления состоянием модалки есть два варианта:
-  1. Передав scope-модель в модалку через параметр `$visible` и тогда для закрытия модалки необходимо изменять scope-модель в колбеках, которые передаются в модалку на различные действия (`$model.set(false)`).
-	2. Передав `ref` в модалку, который получит методы `open()` и `close()`, которые вы будете вызывать для управления состоянием модалки. В этом случае необязательно в колбеках `onConfirm` и `onCancel` самим вызывать закрытие модалки, закрытие будет срабатывать автоматически.
+  1. Передав scope-модель в модалку через параметр `$visible`.
+	2. Передав `ref` в модалку, который получит методы `open()` и `close()`, которые вы будете вызывать для управления состоянием модалки.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
@@ -50,13 +50,13 @@ return (
       $visible={$visible}
       dismissLabel='Закрыть'
       confirmLabel='Принять'
-      onCrossPress={() => $visible.set(false)}
-      onCancel={() => $visible.set(false)}
-      onConfirm={() => $visible.set(false)}
-      onShow={() => console.log('Modal shown!')}
-      onBackdropPress={() => $visible.set(false)}
+      onCrossPress={() => console.log('onCrossPress')}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
+      onShow={() => console.log('onShow')}
+      onBackdropPress={() => console.log('onBackdropPress')}
       onDismiss={() => console.log('onDismiss')}
-      onRequestClose={() => $visible.set(false)}
+      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -80,8 +80,8 @@ return (
       variant='fullscreen'
       title='Полноэкранный пример'
       $visible={$visible}
-      onCancel={() => $visible.set(false)}
-      onConfirm={() => $visible.set(false)}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>

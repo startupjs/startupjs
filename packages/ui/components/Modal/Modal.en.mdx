@@ -18,18 +18,18 @@ import { Modal } from '@startupjs/ui'
 ## Example
 
 - `showCross` boolean value, sets the display of a cross in the header (by default `true`)
-- `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`)
-- `onCancel` displays cancel button that uses this handler
-- `onConfirm` displays confirm button that uses this handler
+- `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`, by default, closes the modal)
+- `onCancel` displays cancel button that uses this handler (by default, closes the modal)
+- `onConfirm` displays confirm button that uses this handler (by default, closes the modal)
 - `enableBackdropPress` boolean, sets whether the area around the modal will be clickable (default is `true`)
-- `onBackdropPress` callback, which is executed when clicking on the area around the modal
+- `onBackdropPress` callback, which is executed when clicking on the area around the modal (by default, closes the modal)
 - `onRequestClose` callback, which is executed when the physical `Home` key on Android is pressed, the `Esc` key in the browser (by default, closes the modal)
 - `onDismiss` callback, which is executed after closing the modal in any way
 - `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
 ### There are two options for managing the state of a modal:
-  1. Having passed the scoped model targeting some path to the modal via the `$visible` parameter, and then to close the modal, you need to change the scope-model in the callbacks, which are passed to the modal for various actions (`$ model.set(false)`).
-  2. By passing `ref` to the modal, which will receive the `open()` and `close()` methods that you will call to manage the modal state. In this case, it is not necessary to call the closure of the modal in the `onConfirm` and `onCancel` callbacks, the closure will be triggered automatically.
+  1. Having passed the scope-model to the modal via the `$visible` parameter.
+  2. By passing `ref` to the modal, which will receive the `open()` and `close()` methods that you will call to manage the modal state.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
@@ -50,13 +50,13 @@ return (
       $visible={$visible}
       dismissLabel='Close'
       confirmLabel='Accept'
-      onCrossPress={() => $visible.set(false)}
-      onCancel={() => $visible.set(false)}
-      onConfirm={() => $visible.set(false)}
-      onShow={() => console.log('Modal shown!')}
-      onBackdropPress={() => $visible.set(false)}
+      onCrossPress={() => console.log('onCrossPress')}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
+      onShow={() => console.log('onShow')}
+      onBackdropPress={() => console.log('onBackdropPress')}
       onDismiss={() => console.log('onDismiss')}
-      onRequestClose={() => $visible.set(false)}
+      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -80,8 +80,8 @@ return (
       variant='fullscreen'
       title='Fullscreen example'
       $visible={$visible}
-      onCancel={() => $visible.set(false)}
-      onConfirm={() => $visible.set(false)}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
