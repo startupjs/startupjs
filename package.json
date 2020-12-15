@@ -21,18 +21,18 @@
     "ios-release": "cd styleguide && yarn ios-release",
     "build": "cd styleguide && yarn build",
     "start-production": "cd styleguide && yarn start-production",
-    "postinstall": "patch-package && startupjs patch-package",
+    "postinstall": "startupjs patch-package",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
-    "publish-stable": "npx lerna publish --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
-    "publish-patch": "npx lerna publish patch --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
-    "publish-minor": "npx lerna publish minor --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
-    "publish-alpha-minor": "npx lerna publish preminor --dist-tag next --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
-    "publish-alpha": "npx lerna publish prerelease --dist-tag next --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)",
-    "publish-canary": "npx lerna publish prerelease --preid canary --dist-tag canary --since=$(git log --all --grep='^v[0-9]+\\.[0-9]+\\.[0-9]+' -E -1 --format=format:%H)"
+    "publish-patch": "npx lerna publish patch --no-push && yarn publish-update-changelog",
+    "publish-minor": "npx lerna publish minor --no-push && yarn publish-update-changelog",
+    "publish-alpha": "npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-update-changelog": "yarn changelog && git add CHANGELOG.md && git commit --amend --no-edit && git push && git push --tags"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "conventional-changelog-cli": "^2.1.1",
     "eslint": "^7.13.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
@@ -44,7 +44,7 @@
     "eslint-plugin-react-pug": "^0.8.4",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.1.0",
-    "lerna": "3.22.1",
+    "lerna": "^3.22.1",
     "lint-staged": "^9.5.0"
   },
   "lint-staged": {
