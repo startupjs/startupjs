@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useRef } from 'react'
+import { useValue } from 'startupjs'
 import Modal from '../Modal'
 import Button from '../Button'
+import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
 # Modal
+
+Inherits [React Native Modal](https://reactnative.dev/docs/modal).
 
 Modal can be used when the user needs to inform about ciritcal information, require decisions or interact a complex sub-application without navigating to a new page or interrupting the workflow.
 
@@ -13,27 +17,46 @@ import { Modal } from '@startupjs/ui'
 
 ## Example
 
-- `onCrossPress` displays cross in title that uses this handler (it has a higher priority than `onDismiss`)
-- `onDismiss` displays cancel button and cross in title that uses this handler
-- `onConfirm` displays confirm button that uses this handler
+- `showCross` boolean value, sets the display of a cross in the header (by default `true`)
+- `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`, by default, closes the modal)
+- `onCancel` displays cancel button that uses this handler (by default, closes the modal)
+- `onConfirm` displays confirm button that uses this handler (by default, closes the modal)
+- `enableBackdropPress` boolean, sets whether the area around the modal will be clickable (default is `true`)
+- `onBackdropPress` callback, which is executed when clicking on the area around the modal (by default, closes the modal)
+- `onRequestClose` callback, which is executed when the physical `Home` key on Android is pressed, the `Esc` key in the browser (by default, closes the modal)
+- `onDismiss` callback, which is executed after closing the modal in any way
+- `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
+
+### There are two options for managing the state of a modal:
+  1. Having passed the scope-model to the modal via the `$visible` parameter.
+  2. By passing `ref` to the modal, which will receive the `open()` and `close()` methods that you will call to manage the modal state.
 
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, $visible] = useValue(false)
+const modalRef = useRef()
+
 return (
   <React.Fragment>
-    <Button onPress={() => setVisible(true)}>
-      Open modal
+    <Button onPress={() => $visible.set(true)}>
+      Open modal via useValue
+    </Button>
+    <Br/>
+    <Button onPress={() => modalRef.current.open()}>
+      Open modal via useRef
     </Button>
     <Modal
       title='Example'
-      visible={visible}
+      ref={modalRef}
+      $visible={$visible}
       dismissLabel='Close'
       confirmLabel='Accept'
-      onCrossPress={() => setVisible(false)}
-      onDismiss={() => setVisible(false)}
-      onConfirm={() => setVisible(false)}
-      onShow={() => console.log('Modal shown!')}
-      onBackdropPress={() => console.log('Have clicked to backdrop')}
+      onCrossPress={() => console.log('onCrossPress')}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
+      onShow={() => console.log('onShow')}
+      onBackdropPress={() => console.log('onBackdropPress')}
+      onDismiss={() => console.log('onDismiss')}
+      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -46,18 +69,19 @@ return (
 By default the modal shows like window in center of the page. To make it fullscreen, you need pass the string `fullscreen` to the `variant` property.
 
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, $visible] = useValue(false)
+
 return (
   <React.Fragment>
-    <Button onPress={() => setVisible(true)}>
+    <Button onPress={() => $visible.set(true)}>
       Open fullscreen modal
     </Button>
     <Modal
       variant='fullscreen'
       title='Fullscreen example'
-      visible={visible}
-      onDismiss={() => setVisible(false)}
-      onConfirm={() => setVisible(false)}
+      $visible={$visible}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -67,16 +91,17 @@ return (
 
 ## Advanced usage
 
-Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onDismiss`, `onConfirm`. They can be used separately.
+Modal consists of three parts - `Header`, `Content` and `Actions`. These parts can be used to add custom markup, the `Header` is used instead of `title`, the `Content` is used instead of children and the `Actions` is used instead of handlers `onCancel`, `onConfirm`. They can be used separately.
 
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, $visible] = useValue(false)
+
 return (
   <React.Fragment>
-    <Button onPress={() => setVisible(true)}>
+    <Button onPress={() => $visible.set(true)}>
       Open advanced modal
     </Button>
-    <Modal visible={visible}>
+    <Modal $visible={$visible}>
       <Modal.Header>Advanced modal</Modal.Header>
       <Modal.Content>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
@@ -84,14 +109,14 @@ return (
       <Modal.Actions>
         <Button
           shape='circle'
-          onPress={() => setVisible(false)}
+          onPress={() => $visible.set(false)}
         >
           Custom close
         </Button>
         <Button
           pushed
           shape='circle'
-          onPress={() => setVisible(false)}
+          onPress={() => $visible.set(false)}
         >
           Custom confirm
         </Button>

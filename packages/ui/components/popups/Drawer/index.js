@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Dimensions
 } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Modal from '../../Modal'
 import Swipe from './Swipe'
@@ -56,7 +56,7 @@ function Drawer ({
 
   const refContent = useRef()
   const [contentSize, setContentSize] = useState({ width: null, height: null })
-  const [isRender, setIsRender] = useState(true)
+  const [, $isRender] = useValue(true)
 
   const [animateOpacity] = useState(new Animated.Value(visible ? 1 : 0))
   const [animatePosition] = useState(new Animated.Value(0))
@@ -87,13 +87,13 @@ function Drawer ({
           )
         }
 
-        setIsRender(visible)
+        $isRender.set(visible)
       })
     }, 0)
   }
 
   const show = () => {
-    setIsRender(true)
+    $isRender.set(true)
 
     const animated = () => {
       Animated.parallel([
@@ -122,7 +122,7 @@ function Drawer ({
       }),
       isShowOverlay && Animated.timing(animateOpacity, { toValue: 0, duration: 200 })
     ]).start(() => {
-      setIsRender(false)
+      $isRender.set(false)
       onDismiss()
     })
   }
@@ -144,8 +144,8 @@ function Drawer ({
     Wrapper(
       transparent=true
       ariaHideApp=false
-      visible=isRender
-      variant='pure'
+      $visible=$isRender
+      variant='custom'
       style=isSizeDefined ? {} : SHTAMP_RENDER_STYLE
     )
       SafeAreaView.areaCase

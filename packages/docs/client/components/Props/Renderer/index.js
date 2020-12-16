@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
-import GridVisualizer from './GridVisualizer'
 import { themed, Row } from '@startupjs/ui'
+import GridVisualizer from './GridVisualizer'
 
 export default observer(themed(function Renderer ({
   Component,
@@ -27,6 +27,7 @@ export default observer(themed(function Renderer ({
   } else {
     Wrapper = block ? View : Row
   }
+
   return pug`
     Wrapper(
       ...extraProps

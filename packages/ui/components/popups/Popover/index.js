@@ -13,7 +13,7 @@ import {
   StyleSheet,
   Platform
 } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Modal from '../../Modal'
 import Arrow from './Arrow'
@@ -65,6 +65,7 @@ function Popover ({
   const [localDurationOpen, setLocalDurationOpen] = useState(durationOpen)
   const [contentInfo, setContentInfo] = useState({})
   const [captionSize, setCaptionSize] = useState({})
+  const [, $modalVisible] = useValue(true)
 
   const [animateStates] = useState({
     opacityOverlay: new Animated.Value(0),
@@ -262,9 +263,9 @@ function Popover ({
         if isShtampInit(stepStatus)
           Wrapper(
             transparent=true
-            visible=true
+            $visible=$modalVisible
             ariaHideApp=false
-            variant='pure'
+            variant='custom'
             style=_backdropStyle
           )
             View.case
