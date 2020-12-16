@@ -31,21 +31,23 @@
     "@startupjs/mdx": "^0.29.14",
     "@startupjs/ui": "^0.29.14",
     "axios": "^0.19.0",
+    "babel-jest": "^25.1.0",
     "events": "^3.1.0",
     "nconf": "^0.10.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "0.63.4",
-    "react-native-code-push": "^6.4.0",
     "react-native-collapsible": "1.5.2",
     "react-native-fbsdk": "^2.0.0",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "10.10.2",
+    "react-test-renderer": "16.13.1",
     "startupjs": "^0.29.14"
   },
   "devDependencies": {
-    "babel-jest": "^24.9.0",
-    "react-test-renderer": "16.9.0"
+    "jest": "^25.1.0",
+    "babel-jest": "^25.1.0",
+    "react-test-renderer": "16.13.1"
   }
 }
