@@ -28,8 +28,8 @@ import { Modal } from '@startupjs/ui'
 - `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
 ### There are two options for managing the state of a modal:
-  1. Having passed the scope-model to the modal via the `$visible` parameter.
-  2. By passing `ref` to the modal, which will receive the `open()` and `close()` methods that you will call to manage the modal state.
+  1. By passing the scoped model to the `$visible ' property from the state of which visibility is controlled.
+  2. By passing `ref`, which will receive the `open()` and `close()` methods to control visibility.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
