@@ -1,3 +1,13 @@
+## [0.29.14](https://github.com/startupjs/startupjs/compare/v0.29.13...v0.29.14) (2020-12-16)
+
+
+### Bug Fixes
+
+* pod install ([#428](https://github.com/startupjs/startupjs/issues/428)) ([9b762f3](https://github.com/startupjs/startupjs/commit/9b762f3ccfb572272fac3d52c124453a5c4c62a0))
+* **auth-azuread:** doc https ([#421](https://github.com/startupjs/startupjs/issues/421)) ([b573951](https://github.com/startupjs/startupjs/commit/b573951666af8dc03ddac4cd756f30f399291bc2))
+
+
+
 ## [0.29.13](https://github.com/startupjs/startupjs/compare/v0.29.12...v0.29.13) (2020-12-13)
 
 
