@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import Icon from '../Icon'
@@ -33,12 +33,16 @@ function Button ({
   onPress,
   ...props
 }) {
+  const isMountedRef = useIsMountedRef()
   const [asyncActive, setAsyncActive] = useState(false)
 
   function _onPress (event) {
     const promise = onPress(event)
     if (!(promise && promise.then)) return
-    promise.then(() => setAsyncActive(false))
+    promise.then(() => {
+      if (!isMountedRef.current) return
+      setAsyncActive(false)
+    })
     setAsyncActive(true)
   }
 
