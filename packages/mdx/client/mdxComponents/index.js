@@ -110,8 +110,8 @@ export default {
   `,
   h2: ({ children }) => pug`
     Anchor.h2(anchor=children)
-      H5= children
-    Divider(size='l')
+      H5.h2-text= children
+    Div.divider
   `,
   h3: ({ children }) => pug`
     Anchor.h6(anchor=children size='s')

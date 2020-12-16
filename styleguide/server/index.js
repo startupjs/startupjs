@@ -36,31 +36,7 @@ startupjsServer({
   initAuth(ee, {
     successRedirectUrl: '/profile',
     strategies: [
-      new LocalStrategy({
-        // Vars
-        // resetPasswordTimeLimit: 60 * 1000 * 10,
-        // emailRegistrationRegexp: /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/,
-
-        // Hooks
-        // onCreatePasswordResetSecret: async (userId, secret) => {
-        //   console.log('\nonCreatePasswordResetSecret', userId, secret)
-        // },
-        // onBeforeRegister: async (req, res, next) => {
-        //   console.log(req.body)
-        //   next()
-        // },
-        // onAfterRegister: async userId => {
-        //   console.log(userId)
-        // }
-        // onBeforePasswordChange: (req, res, next) => {
-        //   console.log('\onBeforePasswordChange')
-        //   next()
-        // },
-        // onAfterPasswordChange: userId => {
-        //   console.log('\onAfterPasswordChange')
-        // }
-        //
-      }),
+      new LocalStrategy(),
       new FacebookStrategy({
         clientId: conf.get('FACEBOOK_CLIENT_ID'),
         clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
@@ -81,23 +57,6 @@ startupjsServer({
         allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
       })
     ]
-    // Global auth hooks
-    // onBeforeLoginHook: async ({ userId }, req, res, next) => {
-    //   console.log('onBeforeLoginHook', userId)
-    //   next()
-    // },
-    // onBeforeLogoutHook: async (req, res, next) => {
-    //   console.log('onBeforeLogoutHook', req.session.user)
-    //   next()
-    // },
-    // parseUserCreationData: async user => {
-    //   console.log('\nexample onUserCreate', user, '\n')
-    //   return { ...user, additionalField: 777 }
-    // }
-    // onAfterUserCreationHook: async userId => {
-    //   console.log('\nexample onAfterUserCreationHook', user, '\n')
-    //   return { ...user, additionalField: 777 }
-    // }
   })
 })
 

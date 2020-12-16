@@ -17,7 +17,7 @@ function AuthButton ({ style, label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Google'
+  label: 'Google'
 }
 
 AuthButton.propTypes = {

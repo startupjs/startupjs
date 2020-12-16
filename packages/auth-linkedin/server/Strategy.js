@@ -24,7 +24,7 @@ export default function (config = {}) {
 
     validateConfigs(this.config)
 
-    console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n', this.config, '\n')
+    console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n')
 
     const { clientId, clientSecret } = this.config
 

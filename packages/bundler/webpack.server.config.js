@@ -1,3 +1,4 @@
+const { getPluginConfigs } = require('@startupjs/plugin/manager')
 const pickBy = require('lodash/pickBy')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
@@ -30,6 +31,7 @@ module.exports = function getConfig (env, {
   modulesDir = 'node_modules',
   alias = {}
 } = {}) {
+  const plugins = getPluginConfigs()
   process.env.BABEL_ENV = 'server'
 
   if (typeof forceCompileModules === 'string') {
@@ -38,7 +40,10 @@ module.exports = function getConfig (env, {
   if (typeof alias === 'string') {
     alias = JSON.parse(alias)
   }
-  forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
+  forceCompileModules = forceCompileModules
+    .concat(DEFAULT_FORCE_COMPILE_MODULES)
+    .concat(getPluginsForceCompileList(plugins))
+
   forceCompileModules = forceCompileModules.map(moduleName => {
     return new RegExp('^' + moduleName + '($|/)')
   })
@@ -78,4 +83,14 @@ module.exports = function getConfig (env, {
       }
     }
   }, Boolean)
+}
+
+function getPluginsForceCompileList (plugins) {
+  let list = []
+  for (const plugin in plugins) {
+    const value = plugins[plugin]?.bundler?.forceCompile?.server
+    if (value === true) list.push(plugin)
+    if (Array.isArray(value)) list = list.concat(value)
+  }
+  return list
 }

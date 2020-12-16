@@ -11,8 +11,8 @@ export default async function login (req, res, next, config) {
     }
 
     const _onAfterLoginHook = async function (userId) {
-      onAfterLoginHook && await onAfterLoginHook(userId)
-      await clearLoginAttempts(userId)
+      onAfterLoginHook && await onAfterLoginHook({ userId }, req)
+      await clearLoginAttempts(userId, req.model)
     }
 
     finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })

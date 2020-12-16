@@ -85,14 +85,24 @@ function optionalPromisify (originalFn) {
     } else {
       return new Promise((resolve, reject) => {
         // Append the callback
+        let syncResult // eslint-disable-line
+        let isSyncCallback = true
         args.push(function promisifyCallback (err, value) {
           if (err) return reject(err)
-          return resolve(value)
+          if (value) return resolve(value)
+          if (isSyncCallback) {
+            // When modifying local collection, result is returned immediately,
+            // so we have to hack it to return async to save the sync result.
+            process.nextTick(() => resolve(syncResult))
+          } else {
+            return resolve(syncResult)
+          }
         })
-        originalFn.apply(this, args)
+        syncResult = originalFn.apply(this, args)
+        isSyncCallback = undefined
       }).catch(err => {
-        console.error(err)
         if (parseInt(err.code) === 403) {
+          console.error(err)
           let $accessError
           if (this instanceof Query) {
             $accessError = this.model.scope('_session')
@@ -100,6 +110,8 @@ function optionalPromisify (originalFn) {
             $accessError = this.scope('_session')
           }
           $accessError.setDiff('_accessError', err)
+        } else {
+          throw err
         }
       })
     }
