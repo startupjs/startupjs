@@ -12,13 +12,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 # Dropdown
-Всплывающие меню. Адаптируемое в зависимости от расширения.
+Pop-up menus. Adaptable depending on the extension.
 ```jsx
 import { Dropdown } from '@startupjs/ui'
 ```
 
-## Простой пример
-В функцию onChange приходит значение нажатого чилдрена.
+## Simple example
+Into function onChange comes value of the pressed child.
 ```jsx example
 const [sort, setSort] = useState('')
 return (
@@ -36,8 +36,8 @@ return (
 )
 ```
 
-## Разные варианты заголовков
-### По умолчанию
+## Different header options
+### Default
 ```jsx example
 const [sort, setSort] = useState('')
 return (
@@ -54,7 +54,7 @@ return (
 )
 ```
 
-### В виде кнопки
+### In the form of a button
 ```jsx example
 const [sort, setSort] = useState('')
 return (
@@ -72,7 +72,7 @@ return (
 )
 ```
 
-### Кастомный
+### Custom
 ```jsx example
 const [sort, setSort] = useState('')
 const captionStyle = { width: 30, height: 30, backgroundColor: 'white',
@@ -96,7 +96,7 @@ return (
 )
 ```
 
-## Иконки в пунктах списка
+## Icons in items
 ```jsx example
 const [sort, setSort] = useState('')
 return (
@@ -112,7 +112,7 @@ return (
 )
 ```
 
-## Стилизация
+## Stylization
 ```jsx example
 const [value, setValue] = useState('')
 return (
@@ -133,55 +133,10 @@ return (
 )
 ```
 
-## Примеры поведения Dropdown.Item
-1 - Обычный, когда есть label и value, value будет предаваться в родительский onChange
-2 - Когда нужно кастомное нажатие, можно передать в Item калбэк onPress
-3 - Когда нужно обозначить ссылку, сохраняя стиль Item`а
-4 - Кастомное использование. Можно использовать value и родительский onChange. Либо же свой обработчик onPress.
-
-```jsx example
-const [state, setState] = useState('')
-
-const customStyle = state === 'custom'
-  ? { backgroundColor: 'blue', padding: 8 }
-  : { backgroundColor: 'yellow', padding: 8 }
-
-const customStyle2 = state === 'custom2'
-  ? { backgroundColor: 'blue', padding: 8 }
-  : { backgroundColor: 'yellow', padding: 8 }
-
-return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      value={state}
-      onChange={v=> setState(v)}
-    >
-      <Dropdown.Item label='Выбрать 1' value={1} />
-      <Dropdown.Item label='Показать 2' onPress={()=> alert('2')} />
-      <Dropdown.Item
-        to='/'
-        label='На главную'
-        onPress={()=> alert('На главную')}
-      />
-      <Dropdown.Item value='custom'>
-        <View style={customStyle}>
-          <Text>Кастомный 1</Text>
-        </View>
-      </Dropdown.Item>
-      <Dropdown.Item onPress={()=> setState('custom2')}>
-        <View style={customStyle2}>
-          <Text>Кастомный 2</Text>
-        </View>
-      </Dropdown.Item>
-    </Dropdown>
-  </View>
-)
-```
-
-Есть 2 типа поведения Dropdown, для десктопного и мобильного разрешения
-На десктопе используется компонент [Popover](/docs/popups/Popover)
-На мобильных экранах - [Drawer](/docs/popups/Drawer)
-Чтобы правильно применять style для каждого варианта, можно использовать миксин `+tablet`:
+There are 2 types of behavior Dropdown, for desktop and mobile resolution
+[Popover](/docs/popups/Popover) component is used on the desktop
+[Drawer](/docs/popups/Drawer) is used on mobile screens
+To apply styles correctly for each variation, need use mixin `+tablet`:
 ```styl
 .wrapper
   // Drawer styles
@@ -189,12 +144,11 @@ return (
     // Popover styles
 ```
 
-## Позиция для Popover
-- position: имеет 4 варианта положений (left, right, top, bottom)
-- attachment: дополнительный параметр для смещения (start, center, end)
-
+## Position for Popover
+- position: has 4 position variations (top, bottom, left, right)
+- attachment: an additional parameter for the offset (start, center, end)
 Массив placements - задает какие позиции можно использовать при автофиксе
 
-## Так же
-- drawerCancelLabel: задать имя кнопки отмены на iOS и Android
+## Also
+- drawerCancelLabel: specify the name of the cancel button iOS and Android
 <Br lines={10} />

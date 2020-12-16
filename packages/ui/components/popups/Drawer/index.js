@@ -5,6 +5,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Platform,
+  StyleSheet,
   Dimensions
 } from 'react-native'
 import { observer } from 'startupjs'
@@ -38,16 +39,17 @@ const SHTAMP_RENDER_STYLE = {
 // TODO: more test for work responder with ScrollView
 // https://material-ui.com/ru/components/drawers/#%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%B0%D1%8F-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C
 function Drawer ({
+  style,
+  swipeStyle,
+  caseStyle,
   children,
-  styleSwipe,
-  styleContent,
-  styleCase,
   visible,
   position,
   isSwipe,
   isShowOverlay,
   hasDefaultStyleContent,
-  onDismiss
+  onDismiss,
+  onRequestOpen
 }) {
   const isHorizontal = position === 'left' || position === 'right'
   const isInvertPosition = position === 'left' || position === 'top'
@@ -61,6 +63,7 @@ function Drawer ({
 
   useEffect(() => {
     if (contentSize.width === null) setParams()
+
     if (visible) show()
     else hide()
   }, [visible])
@@ -89,7 +92,7 @@ function Drawer ({
     }, 0)
   }
 
-  const show = callback => {
+  const show = () => {
     setIsRender(true)
 
     const animated = () => {
@@ -97,7 +100,7 @@ function Drawer ({
         Animated.timing(animatePosition, { toValue: 0, duration: 300 }),
         isShowOverlay && Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
       ]).start(() => {
-        callback && callback()
+        onRequestOpen && onRequestOpen()
       })
     }
 
@@ -108,7 +111,7 @@ function Drawer ({
     }
   }
 
-  const hide = callback => {
+  const hide = () => {
     Animated.parallel([
       Animated.timing(animatePosition, {
         toValue:
@@ -121,21 +124,20 @@ function Drawer ({
     ]).start(() => {
       setIsRender(false)
       onDismiss()
-      callback && callback()
     })
   }
 
   const isSizeDefined = (contentSize.width || (!contentSize.width && visible))
-  const _styleCase = {
-    ...POSITION_STYLES[position],
-    ...styleCase,
-    opacity: contentSize.width ? 1 : 0
-  }
+  const _styleCase = StyleSheet.flatten([
+    POSITION_STYLES[position],
+    caseStyle,
+    { opacity: contentSize.width ? 1 : 0 }
+  ])
 
-  const _styleContent = {
-    transform: [{ [POSITION_NAMES[position]]: animatePosition }],
-    ...styleContent
-  }
+  const _styleContent = StyleSheet.flatten([
+    { transform: [{ [POSITION_NAMES[position]]: animatePosition }] },
+    style
+  ])
 
   const Wrapper = isSizeDefined ? Modal : View
   return pug`
@@ -164,7 +166,7 @@ function Drawer ({
             Swipe(
               position=position
               contentSize=contentSize
-              styleSwipe=styleSwipe
+              swipeStyle=swipeStyle
               isHorizontal=isHorizontal
               isSwipe=isSwipe
               isInvertPosition=isInvertPosition
