@@ -1,3 +1,12 @@
+## [0.29.15](https://github.com/startupjs/startupjs/compare/v0.29.14...v0.29.15) (2020-12-16)
+
+
+### Features
+
+* Add redirectUrl param to finish auth ([#432](https://github.com/startupjs/startupjs/issues/432)) ([04e0b98](https://github.com/startupjs/startupjs/commit/04e0b98578002cf3a5db71ad8639d2e7e73c588f))
+
+
+
 ## [0.29.14](https://github.com/startupjs/startupjs/compare/v0.29.13...v0.29.14) (2020-12-16)
 
 
