@@ -23,14 +23,11 @@
     "test:build:server": "rm -rf ./build && webpack --config webpack.server.config.cjs",
     "test:build:ios": "detox build -c ios",
     "test:build:android": "detox build -c android",
-    "": "",
     "test:server": "PORT=3001 MONGO_URL=mongodb://localhost:27017/styleguide_test yarn start-production",
     "test:metro": "E2E=1 yarn metro -- --port=8082",
-    "":"",
     "test:clear-db": "mongo styleguide_test --eval \"db.dropDatabase();\"",
     "test:ios": "detox test -c ios",
     "test:android": "detox test -c android --loglevel trace",
-    "": "",
     "test:mobile": "concurrently -s first -k -n 'S,B,T' -c white,cyan.bgBlue,black.bgWhite \"yarn test:clear-db && yarn test:build:server && yarn test:server\" \"yarn test:metro\" \"yarn test:ios\""
   },
   "dependencies": {
@@ -63,5 +60,8 @@
     "jest": "26.6.3",
     "jest-circus": "26.6.3",
     "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }

@@ -1,5 +1,15 @@
 {
   "root": true,
+  "overrides": [
+    {
+      "files": ["*.e2e.js"],
+      "env": {
+        "detox/detox": true,
+        "jest": true,
+        "jest/globals": true
+      }
+    }
+  ],
   "env": {
     "browser": true,
     "es6": true,
@@ -9,7 +19,8 @@
   "extends": [
     "standard",
     "standard-react",
-    "plugin:react-pug/all"
+    "plugin:react-pug/all",
+    "plugin:jest/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -27,6 +38,8 @@
   "plugins": [
     "react",
     "react-pug",
+    "jest",
+    "detox",
     "eslint-plugin-import-helpers"
   ],
   "rules": {
