@@ -6,7 +6,6 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const PROD = !process.env.WEBPACK_DEV
 const BUILD_DIR = '/build/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
-const PLUGINS = getPluginConfigs()
 
 const EXTENSIONS = ['.server.js', '.server.jsx', '.server.ts', '.server.tsx', '.server.cjs', '.server.mjs', '.js', '.jsx', '.mjs', '.cjs', '.ts', '.tsx', '.json']
 
@@ -32,6 +31,7 @@ module.exports = function getConfig (env, {
   modulesDir = 'node_modules',
   alias = {}
 } = {}) {
+  const plugins = getPluginConfigs()
   process.env.BABEL_ENV = 'server'
 
   if (typeof forceCompileModules === 'string') {
@@ -42,7 +42,7 @@ module.exports = function getConfig (env, {
   }
   forceCompileModules = forceCompileModules
     .concat(DEFAULT_FORCE_COMPILE_MODULES)
-    .concat(getPluginsForceCompileList())
+    .concat(getPluginsForceCompileList(plugins))
 
   forceCompileModules = forceCompileModules.map(moduleName => {
     return new RegExp('^' + moduleName + '($|/)')
@@ -85,10 +85,10 @@ module.exports = function getConfig (env, {
   }, Boolean)
 }
 
-function getPluginsForceCompileList () {
+function getPluginsForceCompileList (plugins) {
   let list = []
-  for (const plugin in PLUGINS) {
-    const value = PLUGINS[plugin]?.bundler?.forceCompile?.server
+  for (const plugin in plugins) {
+    const value = plugins[plugin]?.bundler?.forceCompile?.server
     if (value === true) list.push(plugin)
     if (Array.isArray(value)) list = list.concat(value)
   }

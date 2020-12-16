@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.29.13",
+  "version": "0.29.14",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -27,22 +27,22 @@
     "@react-native-community/datetimepicker": "^3.0.6",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-picker/picker": "^1.9.3",
-    "@startupjs/docs": "^0.29.13",
-    "@startupjs/mdx": "^0.29.13",
-    "@startupjs/ui": "^0.29.13",
+    "@startupjs/docs": "^0.29.14",
+    "@startupjs/mdx": "^0.29.14",
+    "@startupjs/ui": "^0.29.14",
     "axios": "^0.19.0",
     "events": "^3.1.0",
     "nconf": "^0.10.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-native": "0.61.5",
-    "react-native-code-push": "^5.7.0",
+    "react-native": "0.63.4",
+    "react-native-code-push": "^6.4.0",
     "react-native-collapsible": "1.5.2",
     "react-native-fbsdk": "^2.0.0",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.29.13"
+    "startupjs": "^0.29.14"
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
