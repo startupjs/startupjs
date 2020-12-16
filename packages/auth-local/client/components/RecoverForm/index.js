@@ -4,7 +4,7 @@ import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
+import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
@@ -37,7 +37,7 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
     }
     try {
       await authHelper.createPassResetSecret(form)
-      onSuccess && onSuccess(null, 'reset')
+      onSuccess && onSuccess(null, RECOVER_PASSWORD_SLIDE)
       setFeedback('Check your email for instructions')
     } catch (err) {
       setFormErrors({ globalError: err.response.data.message })

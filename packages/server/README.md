@@ -62,10 +62,10 @@ Template of `access`:
 
 ```js
 static access = {
-  create: async (backend, collection, docId, doc, session) => { your code }
-  read: async (backend, collection, docId, doc, session) => { your code },
-  update: async (backend, collection, docId, oldDoc, session, ops, newDoc) => { your code },
-  delete: async (backend, collection, docId, doc, session) => { your code }
+  create: async (model, collection, docId, doc, session) => { your code }
+  read: async (model, collection, docId, doc, session) => { your code },
+  update: async (model, collection, docId, oldDoc, session, ops, newDoc) => { your code },
+  delete: async (model, collection, docId, doc, session) => { your code }
 }
 ```
 You can describe only those fields that are necessary. But keep in mind that without describing
@@ -80,7 +80,7 @@ the permission rule for the operation, it is considered prohibited by default.
 // session - your connect session
 class ItemModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => {
+    create: async (model, collection, docId, doc, session) => {
       return true
     }
   }
@@ -91,7 +91,7 @@ class ItemModel {
 
 class ItemModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => {
+    create: async (model, collection, docId, doc, session) => {
       return  session.isAdmin
     }
   }
@@ -105,7 +105,7 @@ Interface is like `create`-operation
 class ItemModel {
   static access = {
     // Only if the reader is owner of the doc
-    read: async (backend, collection, docId, doc, session) => {
+    read: async (model, collection, docId, doc, session) => {
       return doc.ownerId === session.userId
     }
   }
@@ -120,7 +120,7 @@ Interface is like `create`-operation
 class ItemModel {
   static access = {
     // Only owners can delete docs, but nobody can delete doc with special typ
-    delete: async (backend, collection, docId, doc, session) => {
+    delete: async (model, collection, docId, doc, session) => {
       return doc.ownerId === session.userId && doc.type !== 'liveForever'
     }
   }
@@ -136,7 +136,7 @@ class ItemModel {
 // ops    - array of OT operations
 // session - your connect session
 
-const allowUpdateAll = async (backend, collection, docId, oldDoc, session, ops, newDoc) => {
+const allowUpdateAll = async (model, collection, docId, oldDoc, session, ops, newDoc) => {
   return true
 }
 
@@ -151,16 +151,16 @@ class ItemModel {
 ```js
 class ItemModel {
   static access = {
-    create: async (backend, collection, docId, doc, session) => {
+    create: async (model, collection, docId, doc, session) => {
       return true
     },
-    read: async (backend, collection, docId, doc, session) => {
+    read: async (model, collection, docId, doc, session) => {
       return true
     },
-    update: async (backend, collection, docId, oldDoc, session, ops, newDoc) => {
+    update: async (model, collection, docId, oldDoc, session, ops, newDoc) => {
       return true
     },
-    delete: async (backend, collection, docId, doc, session) => {
+    delete: async (model, collection, docId, doc, session) => {
       return true
     }
   }
@@ -237,12 +237,11 @@ import { BaseModel } from 'startupjs/orm'
 
 export default class EventsModel extends BaseModel {
   static aggregations = {
-    openEvents: async (params, shareRequest) => {
+    openEvents: async (model, params, session) => {
       return [
         {$match: {status: 'open'}}
       ]
     }
-
   }
 }
 
@@ -301,7 +300,7 @@ import { BaseModel } from 'startupjs/orm'
 
 export default class EventsModel extends BaseModel {
   static aggregations = {
-    matchByParams: async (params, shareRequest) => {
+    matchByParams: async (model, params, session) => {
       return [
         {$match: params}
       ]

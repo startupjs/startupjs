@@ -1,3 +1,95 @@
+# [0.30.0](https://github.com/pturchik/startupjs/compare/v0.29.1...v0.30.0) (2020-12-16)
+
+
+### Bug Fixes
+
+* **auth:** Change func to arrow func (context issue) ([324b316](https://github.com/pturchik/startupjs/commit/324b3162778fca7ab50e8df1e6ee33e01e2f1e33))
+* **auth:** Fix console errors, update AD config ([f088eb7](https://github.com/pturchik/startupjs/commit/f088eb7715ee130bb2058b97236d97e9c46761da))
+* **auth:** Local linkedin strategy ([7b7ded1](https://github.com/pturchik/startupjs/commit/7b7ded12ac937e7452b9dc1253174abea0b6f6c0))
+* **auth-azuread:** doc https ([#421](https://github.com/pturchik/startupjs/issues/421)) ([b573951](https://github.com/pturchik/startupjs/commit/b573951666af8dc03ddac4cd756f30f399291bc2))
+* **auth-local:** email to lower case ([#410](https://github.com/pturchik/startupjs/issues/410)) ([aa99d0d](https://github.com/pturchik/startupjs/commit/aa99d0de322c2e60eb464911196e98bddca91056))
+* **auth): Fix layout. fix(ui->Button:** Fix hover and active styles ([f4683e8](https://github.com/pturchik/startupjs/commit/f4683e8cc2f71c32c1908604b5ee03710ce2b943))
+* **bundler:** don't use generic index.js file anymore, must require a specific configuration from now on to prevent mixing envs. ([#429](https://github.com/pturchik/startupjs/issues/429)) ([6da0d7f](https://github.com/pturchik/startupjs/commit/6da0d7ffd1a076eb670dd1b1827ff1c43584a3b0))
+* **Button:** don't update loading state if the component is unmounted ([#431](https://github.com/pturchik/startupjs/issues/431)) ([5d774cb](https://github.com/pturchik/startupjs/commit/5d774cb8bf29a3a99b0be445fe437c4bbde8c294))
+* **docs:** fix anchors in inline code headers in mdx files ([#407](https://github.com/pturchik/startupjs/issues/407)) ([b8ce7ee](https://github.com/pturchik/startupjs/commit/b8ce7ee74a39a6b2c19ae938ac7d891f692cf14a))
+* **docs,mdx:** Improve documentation styles ([a110fdb](https://github.com/pturchik/startupjs/commit/a110fdbcb753b7a0b948e7ae2d0b758ccd91fcc1))
+* **init-local:** Add helper 'yarn testapp' command to run 'yarn' commands from within testapp folder. Add success instructions describing how to use it. ([990d927](https://github.com/pturchik/startupjs/commit/990d92703c11d4a0d24e137f9447cb827408953a))
+* **init-local:** Ignore changes to code made by lerna. Control failure status. ([dd6769d](https://github.com/pturchik/startupjs/commit/dd6769d49578e5d3a2044c6da7b4b31e02724f4d))
+* **init-local:** Use memory cache for storage, don't cache any npm packages, fix permissions on install, remove unpublishing since it's no longer needed. ([9499ea4](https://github.com/pturchik/startupjs/commit/9499ea47825c7db180bbf792565a02b638fe8109))
+* **orm:** Return racer function's sync result from promise ([443d780](https://github.com/pturchik/startupjs/commit/443d7800ad1dc17d6bf19d9c0cc19ee4d648f807))
+* **react-sharedb-util:** add aggregationName support to useQuery ([d42cc1e](https://github.com/pturchik/startupjs/commit/d42cc1e2c8e43c955897b7da37a22fbf5dd4ad23))
+* **replaceObserver:** improve logic of searching for options ([#419](https://github.com/pturchik/startupjs/issues/419)) ([d29f85c](https://github.com/pturchik/startupjs/commit/d29f85c4e4e647ce05093593d9e07d0294ddc98c))
+* **templates:** minor, change title to App ([41524e0](https://github.com/pturchik/startupjs/commit/41524e0589b3be83de81dc85a618011a32d9ae78))
+* **ui:** use plugin api to mark 'ui' library to be force compiled on server (needed for date picker styles init) ([6e504c4](https://github.com/pturchik/startupjs/commit/6e504c43471a2d26ec68e5252d1c776719466778))
+* **ui -> Popover:** visible true ([#415](https://github.com/pturchik/startupjs/issues/415)) ([25e9e24](https://github.com/pturchik/startupjs/commit/25e9e24dd7f8a97988f7ce7f951357bed26777ce))
+* **ui -> Tooltip:** web event window ([#427](https://github.com/pturchik/startupjs/issues/427)) ([828b218](https://github.com/pturchik/startupjs/commit/828b2186c474b7302f957c32daa0234ab227ddcf))
+* minor ([59a9ccc](https://github.com/pturchik/startupjs/commit/59a9cccb556c2c80d03f0124baf06dad1944d2cf))
+* pod install ([#428](https://github.com/pturchik/startupjs/issues/428)) ([9b762f3](https://github.com/pturchik/startupjs/commit/9b762f3ccfb572272fac3d52c124453a5c4c62a0))
+* **Tooltip:** show ([#386](https://github.com/pturchik/startupjs/issues/386)) ([c5d0be7](https://github.com/pturchik/startupjs/commit/c5d0be723ee061d298a58835e45c3a2f4261767e))
+* **ui -> Dropdown:** style ([#413](https://github.com/pturchik/startupjs/issues/413)) ([077cac1](https://github.com/pturchik/startupjs/commit/077cac17ee5785638419f607385b6da4b8e230ba))
+* **ui->Input:** Add missing types to propTypes. Fix performance issues in the example. ([ebb937d](https://github.com/pturchik/startupjs/commit/ebb937d644fa0ccd568f859146cd71aa20bac5f8))
+* **ui->Select:** fix select text and caret when focussed with Tab ([#405](https://github.com/pturchik/startupjs/issues/405)) ([2dfa138](https://github.com/pturchik/startupjs/commit/2dfa138c1fff6d67601ae9a61a9037e2200b8f10))
+* minor ([d54c603](https://github.com/pturchik/startupjs/commit/d54c60335badab6c3b20b2bee90602e907bb1d96))
+* **yarn init-local:** properly find scripts folder ([b1536c5](https://github.com/pturchik/startupjs/commit/b1536c52a3408c1b9e8302107b3911e9fad33d6b))
+* ignore /testapp created by init-local ([87dd66b](https://github.com/pturchik/startupjs/commit/87dd66bacd99153ce78b6666870e46b5bac8ed2d))
+
+
+### Features
+
+* Add redirectUrl param to finish auth ([#432](https://github.com/pturchik/startupjs/issues/432)) ([04e0b98](https://github.com/pturchik/startupjs/commit/04e0b98578002cf3a5db71ad8639d2e7e73c588f))
+* Implement initial plugins architecture. https://github.com/startupjs/startupjs/wiki/Plugins ([afa8e47](https://github.com/pturchik/startupjs/commit/afa8e47f5fe51cf49ca144a1f38ade44f79d50b8))
+* **app:** Set '.platform' during globalInit ([a2e403b](https://github.com/pturchik/startupjs/commit/a2e403baa77079c3c72e3ccd50142d21ccce83ca))
+* **app->AccessDeny:** fix styles ([#423](https://github.com/pturchik/startupjs/issues/423)) ([ef0f8e7](https://github.com/pturchik/startupjs/commit/ef0f8e7f31ca0fe82516afc52fdfaa52bcbe162d))
+* **auth:** Add additional hooks, implement auth lock ([#399](https://github.com/pturchik/startupjs/issues/399)) ([4d52e87](https://github.com/pturchik/startupjs/commit/4d52e87129a315b0e53835c5983613d61de56cb0))
+* **auth:** Add signInPageUrl opt ([759253f](https://github.com/pturchik/startupjs/commit/759253f005b95489dae4bb4791885a697008ca92))
+* **auth:** Base global hooks ([aa59c4f](https://github.com/pturchik/startupjs/commit/aa59c4ffaa8ecdd31402b795aef86ce959727cc5))
+* **auth:** docs ([#368](https://github.com/pturchik/startupjs/issues/368)) ([53a50f3](https://github.com/pturchik/startupjs/commit/53a50f3a3f07fa6ec72cbc61d8b30249ce2ee38f))
+* **auth:** facebook ([32aaf8a](https://github.com/pturchik/startupjs/commit/32aaf8adf1e7273fbc5349483f71537081101dba))
+* **auth:** google ([76f3309](https://github.com/pturchik/startupjs/commit/76f33098d42214f2b7d7dcd6b9996774234dd20d))
+* **auth:** Linkedin web auth ([6df92d2](https://github.com/pturchik/startupjs/commit/6df92d270e6bf6cd38eacf95d1c303af10fc80fb))
+* **auth:** micro frontend ([#361](https://github.com/pturchik/startupjs/issues/361)) ([5fbab60](https://github.com/pturchik/startupjs/commit/5fbab60349bff1692c4d8fbd82b7b9b16d83c385))
+* **auth:** Save email to each strategy + ResetPassword form ([#416](https://github.com/pturchik/startupjs/issues/416)) ([43494ca](https://github.com/pturchik/startupjs/commit/43494caf5278bc64b53eff69108ba294ebc98b14))
+* **auth:** Update hooks params according to Lingua auth flow ([#412](https://github.com/pturchik/startupjs/issues/412)) ([826f379](https://github.com/pturchik/startupjs/commit/826f37942e86b6032f54218f2bc02a2122ac1e62))
+* **AutoSuggest/Dropdown:** key events ([#394](https://github.com/pturchik/startupjs/issues/394)) ([5539f59](https://github.com/pturchik/startupjs/commit/5539f598ee9886ba700daabc69f35f6ed3ad52d5))
+* **cli:** init local ([#393](https://github.com/pturchik/startupjs/issues/393)) ([959ee30](https://github.com/pturchik/startupjs/commit/959ee3053356567ebdb8017de94bfde9cee2e1e9))
+* **Input): add number type. fix(Sandbox:** Fix parsing prop-types. feat(ObjectInput) ([b0796da](https://github.com/pturchik/startupjs/commit/b0796da848cdcb5b19bb9503249ca209ed325a05))
+* **sharedb-access:** Create global models for each user instead of using backend ([#400](https://github.com/pturchik/startupjs/issues/400)) ([0b578a8](https://github.com/pturchik/startupjs/commit/0b578a8c0db98b2b8f0cdec43c412ae7a3241ad1))
+* **ui:** Add ArrayInput component to fully cover json-schema form rendering. ([6fd6a61](https://github.com/pturchik/startupjs/commit/6fd6a612af20c49b2a17cdf065f337cf98a2dcbb))
+* **ui -> Dropdown:** add prop to ([#409](https://github.com/pturchik/startupjs/issues/409)) ([9bfdd36](https://github.com/pturchik/startupjs/commit/9bfdd366ab055f7a4a9c009f02ebdc3cdc84649e))
+* **ui -> NumberInput:** features doc ([#425](https://github.com/pturchik/startupjs/issues/425)) ([f273e6d](https://github.com/pturchik/startupjs/commit/f273e6d61857d3109e88853a5ed07341c4361689))
+* **ui->Input:** Add 'date' support ([887b23e](https://github.com/pturchik/startupjs/commit/887b23ec2df86c3d88fa609f40e0dcdcd1a77b67))
+* **ui->Input): add 'datetime' and 'time'. fix(ui->Input:** 'date' input by default uses mode 'date' of DateTimePicker ([905dce8](https://github.com/pturchik/startupjs/commit/905dce83d53e45b4dc1aa5d7d05607e6d92d21a1))
+* async parseUserCreationData ([22d2bea](https://github.com/pturchik/startupjs/commit/22d2beac8310c5497bf385d3a61250c2d0470de0))
+* Hooks PR ([9b95c45](https://github.com/pturchik/startupjs/commit/9b95c45a157e2c7b735a8cece3a8e23c2a808831))
+* onBeforeLogintHook, parseUserCreationData ([131f02f](https://github.com/pturchik/startupjs/commit/131f02f36ba7af13ad55dcb6f3c7b53b47618284))
+* Remake DateTimePicker for web to always use a library. Add support for date format ([#402](https://github.com/pturchik/startupjs/issues/402)) ([76b206c](https://github.com/pturchik/startupjs/commit/76b206cd28f505e31f519eaa122d11fddace337e)), closes [#373](https://github.com/pturchik/startupjs/issues/373) [#381](https://github.com/pturchik/startupjs/issues/381) [#362](https://github.com/pturchik/startupjs/issues/362) [#2](https://github.com/pturchik/startupjs/issues/2) [#390](https://github.com/pturchik/startupjs/issues/390) [#389](https://github.com/pturchik/startupjs/issues/389) [#391](https://github.com/pturchik/startupjs/issues/391) [#384](https://github.com/pturchik/startupjs/issues/384) [#385](https://github.com/pturchik/startupjs/issues/385) [#382](https://github.com/pturchik/startupjs/issues/382) [#387](https://github.com/pturchik/startupjs/issues/387)
+
+
+### Reverts
+
+* Revert "chore: generate changelog using lerna" ([1b73cb4](https://github.com/pturchik/startupjs/commit/1b73cb4ecff3368c5c01fe30960c3a0935395e49))
+* **auth:** Revert some Azure AD creds ([8200e8e](https://github.com/pturchik/startupjs/commit/8200e8e4c89f6ea2ba060421eeadabbbed6527fe))
+
+
+
+## [0.29.16](https://github.com/startupjs/startupjs/compare/v0.29.14...v0.29.16) (2020-12-16)
+
+
+### Features
+
+* Add redirectUrl param to finish auth ([#432](https://github.com/startupjs/startupjs/issues/432)) ([04e0b98](https://github.com/startupjs/startupjs/commit/04e0b98578002cf3a5db71ad8639d2e7e73c588f))
+
+
+
+## [0.29.15](https://github.com/startupjs/startupjs/compare/v0.29.14...v0.29.15) (2020-12-16)
+
+
+### Features
+
+* Add redirectUrl param to finish auth ([#432](https://github.com/startupjs/startupjs/issues/432)) ([04e0b98](https://github.com/startupjs/startupjs/commit/04e0b98578002cf3a5db71ad8639d2e7e73c588f))
+
+
+
 ## [0.29.14](https://github.com/startupjs/startupjs/compare/v0.29.13...v0.29.14) (2020-12-16)
 
 

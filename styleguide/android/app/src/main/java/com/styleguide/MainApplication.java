@@ -10,7 +10,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import com.microsoft.codepush.react.CodePush;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -34,11 +33,6 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
-
-        @Override
-        protected String getJSBundleFile() {
-          return CodePush.getJSBundleFile();
-        }
       };
 
   @Override
@@ -60,7 +54,8 @@ public class MainApplication extends Application implements ReactApplication {
    * @param context
    * @param reactInstanceManager
    */
-  private static void initializeFlipper(Context context, ReactInstanceManager reactInstanceManager) {
+  private static void initializeFlipper(
+      Context context, ReactInstanceManager reactInstanceManager) {
     if (BuildConfig.DEBUG) {
       try {
         /*
@@ -68,7 +63,8 @@ public class MainApplication extends Application implements ReactApplication {
         since Flipper library is not available in release mode
         */
         Class<?> aClass = Class.forName("com.styleguide.ReactNativeFlipper");
-        aClass.getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
+        aClass
+            .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);
       } catch (ClassNotFoundException e) {
         e.printStackTrace();

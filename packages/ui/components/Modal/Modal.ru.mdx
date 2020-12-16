@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useRef } from 'react'
+import { useValue } from 'startupjs'
 import Modal from '../Modal'
 import Button from '../Button'
+import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
 # Modal (модалка)
+
+Наследует [React Native Modal](https://reactnative.dev/docs/modal).
 
 Модалка может быть использована, когда пользователю необходимо сообщить о критической информации, требовать принятия решений или взаимодействовать со сложным подприложением без перехода на новую страницу или прерывания рабочего процесса.
 
@@ -13,27 +17,46 @@ import { Modal } from '@startupjs/ui'
 
 ## Пример
 
-- `onCrossPress` отображает крестик в заголовке который использует этот обработчик (он имеет более высокий приоритет чем `onDismiss`)
-- `onDismiss` отображает кнопку отмены и крестик в заголовке которые используют этот обработчик
-- `onConfirm` отображает кнопку подтверждения которая использует этот обработчик
+- `showCross` булевое значение, устанавливает отображение крестика в заголовке (по умолчанию `true`)
+- `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onCancel`, по умолчанию закрывает модалку)
+- `onCancel` отображает кнопку отмены, которая использует этот обработчик (по умолчанию закрывает модалку)
+- `onConfirm` отображает кнопку подтверждения которая использует этот обработчик (по умолчанию закрывает модалку)
+- `enableBackdropPress` булевое значение, устанавливает будет ли область вокруг модалки кликабельной (по умолчанию `true`)
+- `onBackdropPress` колбек, который выполняется при нажатии на область вокруг модалки (по умолчанию закрывает модалку)
+- `onRequestClose` колбек, который выполняется при нажатии физической клавиши `Домой` на Android, клавиши `Esc` в браузере (по умолчанию закрывает модалку)
+- `onDismiss` колбек, который выполняется после закрытия модалки любым способом
+- `onOrientationChange` колбек, который выполняется при смене ориентации мобильного устройства.
+
+### Для управления состоянием модалки есть два варианта:
+  1. Передав скоуп модель в свойство `$visible` из состояния которой идет управление видимостью.
+	2. Передав `ref`, который получит методы `open()` и `close()` для управления видимостью.
 
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, $visible] = useValue(false)
+const modalRef = useRef()
+
 return (
   <React.Fragment>
-    <Button onPress={() => setVisible(true)}>
-      Открыть модалку
+    <Button onPress={() => $visible.set(true)}>
+      Открыть модалку через useValue
+    </Button>
+    <Br/>
+    <Button onPress={() => modalRef.current.open()}>
+      Открыть модалку чере useRef
     </Button>
     <Modal
       title='Пример'
-      visible={visible}
+      ref={modalRef}
+      $visible={$visible}
       dismissLabel='Закрыть'
       confirmLabel='Принять'
-      onCrossPress={() => setVisible(false)}
-      onDismiss={() => setVisible(false)}
-      onConfirm={() => setVisible(false)}
-      onShow={() => console.log('Modal shown!')}
-      onBackdropPress={() => console.log('Have clicked to backdrop')}
+      onCrossPress={() => console.log('onCrossPress')}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
+      onShow={() => console.log('onShow')}
+      onBackdropPress={() => console.log('onBackdropPress')}
+      onDismiss={() => console.log('onDismiss')}
+      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -46,18 +69,19 @@ return (
 По умолчанию модалка отображается как окно в центре страницы. Чтобы сделать её полноэкранной, нужно передать строку `fullscreen` в свойство `variant`.
 
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, $visible] = useValue(false)
+
 return (
   <React.Fragment>
-    <Button onPress={() => setVisible(true)}>
+    <Button onPress={() => $visible.set(true)}>
       Открыть полноэкранную модалку
     </Button>
     <Modal
       variant='fullscreen'
       title='Полноэкранный пример'
-      visible={visible}
-      onDismiss={() => setVisible(false)}
-      onConfirm={() => setVisible(false)}
+      $visible={$visible}
+      onCancel={() => console.log('onCancel')}
+      onConfirm={() => console.log('onConfirm')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -67,16 +91,17 @@ return (
 
 ## Продвинутое использование
 
-Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onDismiss`, `onConfirm`. Их можно использовать по отдельности.
+Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onCancel`, `onConfirm`. Их можно использовать по отдельности.
 
 ```jsx example
-const [visible, setVisible] = useState(false)
+const [visible, $visible] = useValue(false)
+
 return (
   <React.Fragment>
-    <Button onPress={() => setVisible(true)}>
+    <Button onPress={() => $visible.set(true)}>
       Open advanced modal
     </Button>
-    <Modal visible={visible}>
+    <Modal $visible={$visible}>
       <Modal.Header>Advanced modal</Modal.Header>
       <Modal.Content>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
@@ -84,14 +109,14 @@ return (
       <Modal.Actions>
         <Button
           shape='circle'
-          onPress={() => setVisible(false)}
+          onPress={() => $visible.set(false)}
         >
           Custom close
         </Button>
         <Button
           pushed
           shape='circle'
-          onPress={() => setVisible(false)}
+          onPress={() => $visible.set(false)}
         >
           Custom confirm
         </Button>
