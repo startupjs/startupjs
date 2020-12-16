@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 
@@ -7,6 +7,12 @@ export default observer(function TooltipCaption ({
   componentId,
   onChange
 }) {
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('mousemove', onWindowMouseMove)
+    }
+  }, [])
+
   function onMouseOver () {
     window.addEventListener('mousemove', onWindowMouseMove)
     onChange(true)
