@@ -1,5 +1,4 @@
 <resources>
-    <string name="CodePushDeploymentKey" moduleConfig="true"></string>
     <string name="app_name">styleguide</string>
     <string name="facebook_app_id">362079571766118</string>
 </resources>
