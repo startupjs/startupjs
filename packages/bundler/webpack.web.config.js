@@ -1,3 +1,4 @@
+const { getPluginConfigs } = require('@startupjs/plugin/manager')
 const pickBy = require('lodash/pickBy')
 const pick = require('lodash/pick')
 const fs = require('fs')
@@ -53,6 +54,7 @@ module.exports = function getConfig (env, {
   alias = {},
   mode = DEFAULT_MODE
 } = {}) {
+  const plugins = getPluginConfigs()
   process.env.BABEL_ENV = PROD ? 'web_production' : 'web_development'
   process.env.MODE = mode
 
@@ -63,7 +65,9 @@ module.exports = function getConfig (env, {
     alias = JSON.parse(alias)
   }
   // array must be non-empty to prevent matching all node_modules via regex
-  forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
+  forceCompileModules = forceCompileModules
+    .concat(DEFAULT_FORCE_COMPILE_MODULES)
+    .concat(getPluginsForceCompileList(plugins))
 
   return pickBy({
     mode: PROD ? 'production' : 'development',
@@ -318,4 +322,14 @@ module.exports = function getConfig (env, {
       publicPath: '/build/client/'
     }
   }, Boolean)
+}
+
+function getPluginsForceCompileList (plugins) {
+  let list = []
+  for (const plugin in plugins) {
+    const value = plugins[plugin]?.bundler?.forceCompile?.web
+    if (value === true) list.push(plugin)
+    if (Array.isArray(value)) list = list.concat(value)
+  }
+  return list
 }
