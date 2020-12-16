@@ -4,7 +4,7 @@ throw new Error(`
 Now instead of using general \`require('startupjs/bundler.cjs')\` you have to require
 a specific file you need.
 
-Here is how what you need to change:
+Here is what you need to change:
 
 1. \`require('startupjs/bundler.cjs').webpackWebConfig\`
     v v v
@@ -31,7 +31,7 @@ Here is how what you need to change:
    \`require('startupjs/bundler/vite.config.cjs')\`
 
 Additionally, if you did override .js/.jsx compilation in your webpack.web.config.cjs, you
-might have used \`getJsxRule\` function there. In which case you should not get it from helpers:
+might have used \`getJsxRule\` function there. In which case you should now get it from helpers:
 
 7. \`const { getJsxRule } = require('startupjs/bundler.cjs')\`
     v v v
