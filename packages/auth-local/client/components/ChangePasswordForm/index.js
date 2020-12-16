@@ -2,6 +2,7 @@ import React from 'react'
 import { observer, useValue } from 'startupjs'
 import { useAuthHelper } from '@startupjs/auth-local'
 import { Span, Div, TextInput, Button } from '@startupjs/ui'
+import { RESET_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
 import './index.styl'
 
@@ -14,7 +15,7 @@ export default observer(function ChangePasswordForm ({ onSuccess }) {
 
   function _onSuccess () {
     $feedback.set('Your password has been changed successfully.')
-    onSuccess && onSuccess()
+    onSuccess && onSuccess(null, RESET_PASSWORD_SLIDE)
   }
 
   async function save () {

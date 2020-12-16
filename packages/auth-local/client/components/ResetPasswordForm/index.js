@@ -2,7 +2,7 @@ import React from 'react'
 import { observer, useQueryDoc, useValue, useDoc, $root, emit } from 'startupjs'
 import { useAuthHelper } from '@startupjs/auth-local'
 import { Span, Div, TextInput, Button, Br } from '@startupjs/ui'
-import { SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
+import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
 import './index.styl'
 
@@ -43,7 +43,7 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess, onChang
         secret: _secret,
         ...form
       })
-      _onSuccess()
+      _onSuccess(null, RECOVER_PASSWORD_SLIDE)
     } catch (error) {
       const errorMsg = _get(error, 'response.data.message')
       if (errorMsg === 'reset password expired' && user) {

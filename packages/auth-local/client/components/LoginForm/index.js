@@ -5,7 +5,7 @@ import { finishAuth } from '@startupjs/auth'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { useAuthHelper } from '@startupjs/auth-local'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import { SIGN_UP_SLIDE, SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import './index.styl'
@@ -62,7 +62,7 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
       const res = await authHelper.login(form)
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, 'login') : finishAuth()
+        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth()
       }
     } catch (error) {
       if (onHandleError) {
