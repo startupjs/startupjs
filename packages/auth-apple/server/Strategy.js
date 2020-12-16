@@ -32,7 +32,7 @@ export default function (config = {}) {
 
     validateConfigs(this.config)
 
-    const { clientId, teamId, keyId, privateKeyLocation } = this.config
+    const { clientId, teamId, keyId, privateKeyLocation, testBaseUrl } = this.config
 
     initRoutes({ router, config: this.config })
 
@@ -48,7 +48,7 @@ export default function (config = {}) {
         keyID: keyId,
         key: fs.readFileSync(privateKeyLocation),
         scope: ['name', 'email'],
-        callbackURL: nconf.get('BASE_URL') + CALLBACK_URL
+        callbackURL: (testBaseUrl || nconf.get('BASE_URL')) + CALLBACK_URL
       },
       async (accessToken, refreshToken, profile, cb) => {
         let userId, err

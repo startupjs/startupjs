@@ -6,9 +6,6 @@
 ## Установка зависимостей
 `yarn add @startupjs/auth-apple`
 `yarn add @invertase/react-native-apple-authentication`
-`yarn add react-native-get-random-values`
-
-// react-native-get-random-values
 
 ## Force compile
 В webpack.server.config.cjs -> forceCompileModules добавить:
@@ -21,7 +18,7 @@
 1 - Открыть проект в xCode
 2 - Targets -> Signing & Capabilities
 3 - Добавить команду
-4 - Дабавить Capability
+4 - Дабавить Capability - Sign in with Apple
 5 - Перейти в [Identifiers](https://developer.apple.com/account/resources/identifiers/list/). Там должен появиться идентификатор
 6 - Перейти в [Keys](https://developer.apple.com/account/resources/authkeys/list)
 7 - Создать новый ключ. Выбрать **Sign in with Apple**. Во вкладке **Edit** - выбрать нужный **Primary App ID**
@@ -40,7 +37,7 @@ https://c48c1b8bb802.ngrok.io/auth/apple/callback-native
 ## Инициализация на сервере
 Импорт стратегии:
 ```js
-import { Strategy as AzureadStrategy } from '@startupjs/auth-azuread/server'
+import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 ```
 
 Импорт либы для конфига:

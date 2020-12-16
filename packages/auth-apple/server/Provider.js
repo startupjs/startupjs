@@ -54,7 +54,9 @@ export default class AppleProvider extends BaseProvider {
   }
 
   getProviderData () {
-    return {}
+    return {
+      email: this.getEmail()
+    }
   }
 
   getRawProviderData () {
