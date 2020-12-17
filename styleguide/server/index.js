@@ -3,7 +3,7 @@ import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
-
+import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
@@ -34,6 +34,8 @@ startupjsServer({
     android: conf.get('CRITICAL_VERSION_ANDROID'),
     web: conf.get('CRITICAL_VERSION_WEB')
   })
+  const rootPath = options.dirname.replace(/\/styleguide/g, '')
+  initUi(ee, { dirname: rootPath })
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
@@ -70,6 +72,7 @@ startupjsServer({
 
 function getHead (appName) {
   return `
+    ${getUiHead()}
     <title>StartupJS UI</title>
     <!-- Put vendor JS and CSS here -->
   `

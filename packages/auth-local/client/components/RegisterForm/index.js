@@ -5,7 +5,7 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
+import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import './index.styl'
@@ -78,7 +78,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
       const res = await authHelper.login({ email: form.email, password: form.password })
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, 'register') : finishAuth()
+        onSuccess ? onSuccess(res.data, SIGN_UP_SLIDE) : finishAuth()
       }
     } catch (error) {
       setFormErrors({ authError: error.response.data.message })

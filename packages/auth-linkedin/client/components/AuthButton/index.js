@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { WebView } from 'react-native-webview'
-import { observer, u, useSession } from 'startupjs'
+import { observer, u, useSession, useValue } from 'startupjs'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import PropTypes from 'prop-types'
@@ -13,12 +13,12 @@ import './index.styl'
 function AuthButton ({ label }) {
   const baseUrl = BASE_URL
   const [authConfig] = useSession('auth')
-  const [showModal, setShowModal] = useState(false)
+  const [, $showModal] = useValue(false)
 
   const { clientId } = authConfig.linkedin
 
   function showLoginModal () {
-    setShowModal(true)
+    $showModal.set(true)
   }
 
   function getAuthorizationUrl () {
@@ -32,7 +32,7 @@ function AuthButton ({ label }) {
 
   function onNavigationStateChange ({ url }) {
     if (url.includes(authConfig.successRedirectUrl)) {
-      setShowModal(false)
+      $showModal.set(false)
       finishAuth()
     }
   }
@@ -43,7 +43,10 @@ function AuthButton ({ label }) {
       variant='flat'
       onPress=showLoginModal
     )= label
-    Modal(variant='fullscreen' visible=showModal)
+    Modal(
+      variant='fullscreen'
+      $visible=$showModal
+    )
       Div.modal
         WebView(
           style={ height: u(100) }

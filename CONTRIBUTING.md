@@ -1,5 +1,31 @@
 # Contributing to StartupJS
 
+To initialize the monorepo, run:
+
+```sh
+yarn
+```
+
+After that you can run the styleguide project to develop the UI components, etc.. You can run it from the monorepo root with:
+
+```sh
+yarn start
+```
+
+To test creation of a fresh project:
+
+```sh
+yarn init-local
+```
+
+This will create a new project in `testapp` directory. You can run it from the monorepo root with:
+
+```sh
+yarn testapp start
+```
+
+If you have any questions or want to request a feature, please look wether a similar issue already exists in this repo, otherwise feel free to file a new one.
+
 ## Submitting Pull Requests
 
 1. PR title has to follow [Conventional Changelog format](https://github.com/conventional-changelog/conventional-changelog/blob/master/packages/conventional-changelog-angular/README.md)

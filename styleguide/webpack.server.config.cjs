@@ -1,4 +1,4 @@
-const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
+const getConfig = require('startupjs/bundler/webpack.server.config.cjs')
 // TODO: In future if styleguide is deployed separately from the monorepo
 //       this might be needed to use either node_modules or ../node_modules
 // const PROD = !process.env.WEBPACK_DEV
@@ -13,7 +13,8 @@ module.exports = getConfig(undefined, {
     '@startupjs/auth-facebook/server',
     '@startupjs/auth-google/server',
     '@startupjs/auth-linkedin/server',
-    '@startupjs/auth-local/server'
+    '@startupjs/auth-local/server',
+    '@startupjs/ui/server'
   ],
   alias: {}
 })

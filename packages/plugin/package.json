@@ -1,0 +1,14 @@
+{
+  "name": "@startupjs/plugin",
+  "version": "0.30.0",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "StartupJS Plugin API",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "license": "MIT"
+}

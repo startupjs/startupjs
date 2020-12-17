@@ -1,5 +1,5 @@
+const config = require('startupjs/bundler/metro.config.cjs')
 const path = require('path')
-const config = require('startupjs/bundler.cjs').metroConfig
 
 config.watchFolders = [
   path.resolve(__dirname, '../'),

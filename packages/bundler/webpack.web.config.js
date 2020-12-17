@@ -1,3 +1,4 @@
+const { getPluginConfigs } = require('@startupjs/plugin/manager')
 const pickBy = require('lodash/pickBy')
 const pick = require('lodash/pick')
 const fs = require('fs')
@@ -22,6 +23,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const { getJsxRule } = require('./helpers')
 
 const DEFAULT_MODE = 'react-native'
+const PLUGINS = getPluginConfigs()
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
@@ -32,6 +34,7 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
+  '@react-native-community/datetimepicker', // used by ui
   '@react-native-picker/picker', // used by ui
   '@startupjs/app',
   '@startupjs/ui',
@@ -63,7 +66,9 @@ module.exports = function getConfig (env, {
     alias = JSON.parse(alias)
   }
   // array must be non-empty to prevent matching all node_modules via regex
-  forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
+  forceCompileModules = forceCompileModules
+    .concat(DEFAULT_FORCE_COMPILE_MODULES)
+    .concat(getPluginsForceCompileList())
 
   return pickBy({
     mode: PROD ? 'production' : 'development',
@@ -318,4 +323,14 @@ module.exports = function getConfig (env, {
       publicPath: '/build/client/'
     }
   }, Boolean)
+}
+
+function getPluginsForceCompileList () {
+  let list = []
+  for (const plugin in PLUGINS) {
+    const value = PLUGINS[plugin]?.bundler?.forceCompile?.web
+    if (value === true) list.push(plugin)
+    if (Array.isArray(value)) list = list.concat(value)
+  }
+  return list
 }
