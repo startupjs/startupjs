@@ -9,12 +9,12 @@ import './index.styl'
 function AuthButton ({ style, label }) {
   const [authConfig] = useSession('auth')
 
-  const { clientId } = authConfig.apple
+  const { clientId, testBaseUrl } = authConfig.apple
 
   return pug`
     Button.button(
       style=style
-      onPress=()=> onLogin(clientId)
+      onPress=()=> onLogin({ clientId, testBaseUrl })
       icon=faApple
       variant='flat'
     )= label

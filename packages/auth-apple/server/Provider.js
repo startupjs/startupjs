@@ -33,6 +33,10 @@ export default class AppleProvider extends BaseProvider {
       return profile.fullName.givenName
     }
 
+    if (profile.name) {
+      return profile.name.firstName
+    }
+
     return ''
   }
 
@@ -41,6 +45,10 @@ export default class AppleProvider extends BaseProvider {
 
     if (profile.fullName) {
       return profile.fullName.familyName
+    }
+
+    if (profile.name) {
+      return profile.name.lastName
     }
 
     return ''

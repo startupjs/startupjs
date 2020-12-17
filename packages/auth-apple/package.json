@@ -14,7 +14,6 @@
   },
   "peerDependencies": {
     "@invertase/react-native-apple-authentication": ">= 2.1.0",
-    "@startupjs/auth": ">= 0.0.1",
-    "react-native-get-random-values": ">= 1.5.0"
+    "@startupjs/auth": ">= 0.0.1"
   }
 }

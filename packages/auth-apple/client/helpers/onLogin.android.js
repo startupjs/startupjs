@@ -1,16 +1,16 @@
 import { appleAuthAndroid } from '@invertase/react-native-apple-authentication'
+import { $root } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
-import { v4 as uuid } from 'uuid'
 import axios from 'axios'
 import { BASE_URL } from '@env'
 import { CALLBACK_NATIVE_URL } from '../../isomorphic'
 
-export default async function onLogin (clientId) {
-  const baseUrl = BASE_URL
+export default async function onLogin ({ clientId, testBaseUrl }) {
+  const baseUrl = testBaseUrl || BASE_URL
 
   try {
-    const rawNonce = uuid()
-    const state = uuid()
+    const rawNonce = $root.id()
+    const state = $root.id()
 
     appleAuthAndroid.configure({
       clientId,
