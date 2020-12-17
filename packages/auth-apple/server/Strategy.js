@@ -37,7 +37,7 @@ export default function (config = {}) {
     initRoutes({ router, config: this.config })
 
     // Append required configs to client session
-    updateClientSession({ apple: { clientId } })
+    updateClientSession({ apple: { clientId, testBaseUrl } })
 
     console.log('++++++++++ Initialization of Apple auth strategy ++++++++++')
 
