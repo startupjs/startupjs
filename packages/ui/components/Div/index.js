@@ -33,6 +33,7 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  _preventEvent = true,
   onPress,
   onLongPress,
   onClick,
@@ -63,8 +64,8 @@ function Div ({
     // to make it similar as behavior of the native mobiles
     if (isWeb) {
       _handlePress = (e) => {
-        e.preventDefault()
-        handlePress && handlePress()
+        if (_preventEvent) e.preventDefault()
+        handlePress && handlePress(e)
       }
     } else {
       _handlePress = handlePress
