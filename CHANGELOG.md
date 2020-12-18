@@ -1,3 +1,12 @@
+## [0.30.2](https://github.com/startupjs/startupjs/compare/v0.30.1...v0.30.2) (2020-12-18)
+
+
+### Bug Fixes
+
+* **Div:** prevent default browser behavior for click inside Link component, to make it similar as behavior of the native mobiles ([#437](https://github.com/startupjs/startupjs/issues/437)) ([96b4da6](https://github.com/startupjs/startupjs/commit/96b4da6912597f5c1cf8410e5a5cbd710df9c918))
+
+
+
 ## [0.30.1](https://github.com/startupjs/startupjs/compare/v0.30.0...v0.30.1) (2020-12-17)
 
 
