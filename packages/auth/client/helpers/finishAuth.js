@@ -7,7 +7,11 @@ export default async function finishAuth (redirectUrl) {
   if (Platform.OS === 'web') {
     window.location.pathname = successRedirectUrl
   } else {
-    await AsyncStorage.setItem('successRedirectUrl', successRedirectUrl)
-    NativeModules.DevSettings.reload()
+    // There are no returning promis on Android devices
+    // so usage of await getting app stuck
+    AsyncStorage.setItem('successRedirectUrl', successRedirectUrl)
+    setTimeout(() => {
+      NativeModules.DevSettings.reload()
+    }, 0)
   }
 }

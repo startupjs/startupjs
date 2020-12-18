@@ -1,3 +1,12 @@
+## [0.30.1](https://github.com/startupjs/startupjs/compare/v0.30.0...v0.30.1) (2020-12-17)
+
+
+### Bug Fixes
+
+* **auth:** Android finish auth stuck ([#435](https://github.com/startupjs/startupjs/issues/435)) ([353a72d](https://github.com/startupjs/startupjs/commit/353a72d59cde0d6e71306150cf40a2c0e204d046))
+
+
+
 # [0.30.0](https://github.com/startupjs/startupjs/compare/v0.29.1...v0.30.0) (2020-12-16)
 
 
