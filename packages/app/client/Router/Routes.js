@@ -32,7 +32,7 @@ export default observer(function Routes ({
     return pug`
       Route(
         key=route.path
-        render=render.bind(null, route)
+        component=props => render(route, props)
         ...props
       )
     `
