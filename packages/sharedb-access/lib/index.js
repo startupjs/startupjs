@@ -18,16 +18,21 @@ function validateKeys (obj, collectionName) {
   })
 }
 
-function registerOrmRules (backend, collectionName, access) {
+function registerOrmRules (backend, pattern, access) {
   // if there are extra fields, an exception is thrown
-  validateKeys(access, collectionName)
+  validateKeys(access, pattern)
 
   operations.map(op => {
     // the user can write the first letter of the rules in any case
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
     if (fn) {
-      const globalCollectionName = collectionName.replace(/\.\*$/u, '')
-      backend['allow' + op](globalCollectionName, fn.bind(global, backend, globalCollectionName))
+      const collection = pattern.replace(/\.\*$/u, '')
+      backend['allow' + op](collection, (...params) => {
+        const [,, session] = params
+        const userId = session.userId
+        const model = global.__clients[userId].model
+        return fn(model, collection, ...params)
+      })
     }
   })
 }

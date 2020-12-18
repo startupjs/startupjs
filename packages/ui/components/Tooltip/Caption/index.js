@@ -1,7 +1,8 @@
 import React, { Children } from 'react'
 import { TouchableOpacity } from 'react-native'
+import { observer } from 'startupjs'
 
-export default function TooltipCaption ({
+export default observer(function TooltipCaption ({
   children,
   onChange
 }) {
@@ -35,7 +36,6 @@ export default function TooltipCaption ({
   }
 
   if (isPressable) return _children
-
   return pug`
     TouchableOpacity(
       activeOpacity=0.8
@@ -43,4 +43,4 @@ export default function TooltipCaption ({
       onPressOut=()=> _onPressOut()
     )= _children
   `
-}
+})

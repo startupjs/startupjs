@@ -13,7 +13,7 @@ import {
   StyleSheet,
   Platform
 } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Modal from '../../Modal'
 import Arrow from './Arrow'
@@ -49,9 +49,9 @@ function Popover ({
   durationClose,
   hasArrow,
   hasWidthCaption,
+  hasCaptionInModal,
   onDismiss,
-  onRequestOpen,
-  onOverlayMouseMove
+  onRequestOpen
 }) {
   wrapperStyle = StyleSheet.flatten([wrapperStyle])
 
@@ -65,6 +65,7 @@ function Popover ({
   const [localDurationOpen, setLocalDurationOpen] = useState(durationOpen)
   const [contentInfo, setContentInfo] = useState({})
   const [captionSize, setCaptionSize] = useState({})
+  const [, $modalVisible] = useValue(true)
 
   const [animateStates] = useState({
     opacityOverlay: new Animated.Value(0),
@@ -107,9 +108,12 @@ function Popover ({
       }
     }
 
-    if (stepStatus === STEP_STATUSES.OPEN && !visible) {
-      if (!refContentOpen.current) return
-      runHide()
+    if (stepStatus !== STEP_STATUSES.CLOSE && !visible) {
+      if (!refContentOpen.current) {
+        setTimeout(runHide, 100)
+      } else {
+        runHide()
+      }
     }
   }, [visible, captionSize.height])
   // -
@@ -175,12 +179,6 @@ function Popover ({
         onDismiss()
       })
     })
-  }
-
-  const _onOverlayMouseMove = () => {
-    if (Platform.OS === 'web') {
-      onOverlayMouseMove && onOverlayMouseMove()
-    }
   }
 
   // parse children
@@ -262,18 +260,15 @@ function Popover ({
         if isShtampInit(stepStatus)
           Wrapper(
             transparent=true
-            visible=true
+            $visible=$modalVisible
             ariaHideApp=false
-            variant='pure'
+            variant='custom'
             style=_backdropStyle
           )
             View.case
               TouchableWithoutFeedback(onPress=onDismiss)
-                Animated.View.overlay(
-                  style=_overlayStyle
-                  onMouseMove=_onOverlayMouseMove
-                )
-              if caption
+                Animated.View.overlay(style=_overlayStyle)
+              if hasCaptionInModal && caption
                 View.absolute(style={
                   width: captionSize.width,
                   left: contentInfo.x,
@@ -322,6 +317,7 @@ Popover.defaultProps = {
   animateType: 'default',
   hasWidthCaption: false,
   hasArrow: false,
+  hasCaptionInModal: true,
   durationOpen: 300,
   durationClose: 300
 }
@@ -337,6 +333,7 @@ Popover.propTypes = {
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
+  hasCaptionInModal: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
   onDismiss: PropTypes.func,

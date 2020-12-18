@@ -51,11 +51,13 @@ initAuth(ee, {
       clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
       tentantId: conf.get('AZUREAD_TENTANT_ID'),
       identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
-      allowHttpForRedirectUrl: true
+      allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
     })
   ]
 })
 ```
+Параметр `allowHttpForRedirectUrl` - определяет возможность использования `http` для `redirect url`
+Для продакшена нужно использвать https в BASE_URL, и условие `process.env.NODE_ENV !== 'production'`
 
 ## Инициализация в верстке
 ```js

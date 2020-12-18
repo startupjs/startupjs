@@ -21,14 +21,19 @@ fn_local_init () {
   sleep 5
 
   echo ">>> STEP 3: lerna publish. Ignore any version bumps using intermediate branch."
-  git stash
+  # Generate random number as stash message. This is needed to understand whether
+  # stash happened or not. Because if there is nothing to stash, it's not an error
+  # and so we just don't need to apply stash later
+  # ref: https://unix.stackexchange.com/a/268960
+  random_id="TEMP-local-init-$(od -vAn -N4 -tu4 < /dev/urandom)"
+  git stash push -u -m "$random_id"
   git branch -d verdaccio-temp || true
   git checkout -b verdaccio-temp
-  git stash apply
+  git stash list | grep "$random_id" && git stash apply
   npx lerna publish prerelease --registry http://localhost:4873/ --no-git-tag-version --no-private --no-push --yes --no-git-reset --dist-tag local || STATUS="failed-lerna"
   git reset --hard HEAD
   git checkout -
-  git stash pop
+  git stash list | grep "$random_id" && git stash pop
   git branch -d verdaccio-temp
 
   if [ "$STATUS" = "running" ]; then
@@ -54,4 +59,15 @@ fn_local_init () {
   echo "  ios:     'yarn testapp ios'"
   echo "  android: 'yarn testapp android'"
   echo "  etc."
+}
+
+fn_update_changelog () {
+  set -e
+  git tag -d "v$(node -e "console.log(require('./lerna.json').version)")"
+  yarn changelog
+  git add CHANGELOG.md
+  git commit --amend --no-edit
+  git tag "v$(node -e "console.log(require('./lerna.json').version)")"
+  git push
+  git push --tags
 }

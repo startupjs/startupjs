@@ -6,52 +6,82 @@ import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
 
-у DateTimePicker есть 3 режима (по умолчанию - режим datetime):
-1. date режим : выберите число
-2. time режим : выберите время
-3. datetime режим : выберите число со временем
+DateTimePicker позволяет отображать и изменять дату и время (!работает с временем в формате временной метки).
 
-Возврат - это метка времени, а не объект Date.
+## Импорт
 
 ```jsx
 import { DateTimePicker } from from '@startupjs/ui'
 ```
 
-## Пример для режима datetime
+## Примеры
 
 ```jsx example
 const [dateTime, setDateTime] = useState()
+const [date, setDate] = useState()
+const [time, setTime] = useState()
+
 return (
   <Div>
     <DateTimePicker
       date={dateTime}
+      format='yyyy MM DD HH:mm'
+      label='Date && Time'
+      placeholder='Chose date and time'
       onDateChange={setDateTime}
     />
-  </Div>
-)
-```
-
-## Примеры для режима date и режима time
-
-```jsx example
-const [date, setDate] = useState()
-const [time, setTime] = useState()
-return (
-  <Div>
+    <Br />
     <DateTimePicker
       date={date}
-      onDateChange={setDate}
+      format='MM-DD-yyyy'
+      label='Date'
+      maxDate={1607983200000}
+      minDate={1605391200000}
       mode='date'
+      size='l'
+      onDateChange={setDate}
     />
     <Br />
     <DateTimePicker
       date={time}
-      onDateChange={setTime}
+      format='HH:mm'
+      label='Time'
+      minuteInterval={15}
       mode='time'
+      size='s'
+      timeFormat='HH-mm'
+      onDateChange={setTime}
     />
   </Div>
 )
 ```
+
+## Опции
+
+- `date` - исходная дата или время в формате временной метки,
+- `onDateChange` - обработчик выбора даты и времени, возвращает временную метку,
+- `disabled` - отключенный пикер,
+- `format` - строка для форматирования даты,
+- `label` - заголовок,
+- `maxDate` - максимальная доступная дата в формате временной метки,
+- `minDate` - минимальная доступная дата в формате временной метки,
+- `minuteInterval` - интервал через который можно выбрать минуты, доступные значения: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 (по умолчанию 1, игнорируется в IOS 14),
+- `mode` - определяет тип пикера: `datetime` - дата и время, `date` - дата, `time` - время (по умолчанию `datetime`),
+- `placeholder` - плейсхолдер для инпута на вебе и кнопки в нативном приложении если дата не выбрана,
+- `size` - размеры инпута на вебе и кнопки в нативном приложении, доступные значения: `l`, `m` и `s` (по умолчанию `m`)
+
+### Только для веба
+
+- `timeFormat` - формат в котором отображается время в пикере
+
+### Только для IOS
+
+- `cancelButtonText` - текст кнопки закрывающей модальное окно,
+- `confirmButtonText` - текст кнопки подтверждающей смену даты
+
+### Только для Android
+
+- `is24Hour` - если `true` включает 24-часовой формат при выборе времени,
 
 ## Sandbox
 

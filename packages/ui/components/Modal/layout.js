@@ -12,13 +12,16 @@ function Modal ({
   children,
   variant,
   title,
-  ModalElement,
-  onCrossPress,
   dismissLabel,
   confirmLabel,
-  onDismiss,
-  onConfirm,
-  onBackdropPress
+  ModalElement,
+  showCross,
+  enableBackdropPress,
+  closeFallback,
+  onCrossPress,
+  onBackdropPress,
+  onCancel,
+  onConfirm
 }) {
   // Deconstruct template variables
   let header, actions, content
@@ -51,28 +54,56 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
+  const _onConfirm = async event => {
+    const promise = onConfirm && onConfirm(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
+    closeFallback()
+  }
+
+  const _onCancel = async event => {
+    const promise = onCancel && onCancel(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
+    closeFallback()
+  }
+
+  const _onCrossPress = async event => {
+    const promise = onCrossPress && onCrossPress(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
+    closeFallback()
+  }
+
+  const _onBackdropPress = async event => {
+    const promise = onBackdropPress && onBackdropPress(event)
+    if (promise?.then) await promise
+    if (event.defaultPrevented) return
+    closeFallback()
+  }
+
   // Handle <Modal.Actions>
   const actionsProps = {
-    onDismiss,
     dismissLabel,
     confirmLabel,
-    onConfirm,
-    style: content ? { paddingTop: 0 } : null
+    style: content ? { paddingTop: 0 } : null,
+    onCancel: _onCancel,
+    onConfirm: _onConfirm
   }
   actions = actions
     ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
-    : onDismiss || onConfirm
+    : onCancel || onConfirm
       ? React.createElement(ModalActions, actionsProps)
       : null
 
   // Handle <Modal.Header>
   const headerProps = {
-    onDismiss: onCrossPress || onDismiss,
-    style: content || actions ? { paddingBottom: 0 } : null
+    style: content || actions ? { paddingBottom: 0 } : null,
+    onCrossPress: showCross ? _onCrossPress : undefined
   }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
-    : title
+    : title || showCross
       ? React.createElement(ModalHeader, headerProps, title)
       : null
 
@@ -83,7 +114,7 @@ function Modal ({
       if isWindowLayout
         TouchableOpacity.overlay(
           activeOpacity=1
-          onPress=onBackdropPress || onDismiss
+          onPress=enableBackdropPress ? _onBackdropPress : undefined
         )
       ModalElement.modal(
         style=modalStyle

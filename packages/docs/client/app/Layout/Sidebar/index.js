@@ -11,10 +11,11 @@ function renderContent () {
 
 export default observer(function Sidebar ({ children }) {
   const $open = useModel(SIDEBAR_PATH)
+
   return pug`
     SmartSidebar(
       $open=$open
-      width=240
+      width=280
       renderContent=renderContent
       defaultOpen
     )
