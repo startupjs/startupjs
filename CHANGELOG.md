@@ -1,3 +1,12 @@
+## [0.30.3](https://github.com/startupjs/startupjs/compare/v0.30.2...v0.30.3) (2020-12-18)
+
+
+### Bug Fixes
+
+* **Link:** dont prevent event when Link using Div ([#439](https://github.com/startupjs/startupjs/issues/439)) ([48dc78b](https://github.com/startupjs/startupjs/commit/48dc78baebb7184fd7a52171ea0d9940cc087b9c))
+
+
+
 ## [0.30.2](https://github.com/startupjs/startupjs/compare/v0.30.1...v0.30.2) (2020-12-18)
 
 
