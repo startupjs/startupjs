@@ -3,13 +3,19 @@ import { View } from 'react-native'
 import { observer } from 'startupjs'
 import { H5, Content, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import _get from 'lodash/get'
 import OrDivider from '../OrDivider'
-import { DEFAULT_FORMS_CAPTIONS, DEFAULT_FORMS_DESCRIPTIONS, FORM_COMPONENTS_KEYS, SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '../../../isomorphic'
+import {
+  DEFAULT_FORMS_CAPTIONS,
+  DEFAULT_FORMS_DESCRIPTIONS,
+  FORM_COMPONENTS_KEYS,
+  SIGN_IN_SLIDE,
+  SIGN_UP_SLIDE
+} from '../../../isomorphic'
 import './index.styl'
 
 function AuthForm ({
-  captions,
-  descriptions,
+  configs,
   initSlide,
   socialButtons,
   localForms,
@@ -21,11 +27,12 @@ function AuthForm ({
   const [activeSlide, setActiveSlide] = useState(initSlide)
   const LocalActiveForm = localForms ? localForms[FORM_COMPONENTS_KEYS[activeSlide]] : null
 
-  const _captions = Object.assign(DEFAULT_FORMS_CAPTIONS, captions)
-  const currentCaption = _captions[activeSlide]
+  // Config with titles, texts, custom components etc.
+  const config = _get(configs, activeSlide, {})
 
-  const _descriptions = Object.assign(DEFAULT_FORMS_DESCRIPTIONS, descriptions)
-  const currentDescription = _descriptions[activeSlide]
+  const caption = config.title || DEFAULT_FORMS_CAPTIONS[activeSlide]
+  const description = config.description || DEFAULT_FORMS_DESCRIPTIONS[activeSlide]
+  const localFormDescription = config.localFormDescription
 
   const renderSocialButtons = socialButtons.map((Component, index) => {
     return pug`
@@ -40,14 +47,17 @@ function AuthForm ({
   return pug`
     Content
       if LocalActiveForm
-        if typeof currentCaption === 'string'
-          H5.caption= currentCaption
+        if typeof caption === 'string'
+          H5.caption= caption
         else
-          = currentCaption
-        if currentDescription
-          Span.description(variant='description')= currentDescription
+          = caption
 
-      if activeSlide !== 'recover'
+        if typeof description === 'string'
+          Span.description(variant='description')= description
+        else
+          = description
+
+      if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
         View.buttons
           = renderSocialButtons
 
@@ -56,6 +66,10 @@ function AuthForm ({
 
       if LocalActiveForm
         View.form
+          if typeof localFormDescription === 'string'
+            Span.description(variant='description')= localFormDescription
+          else
+            = localFormDescription
           LocalActiveForm(
             onSuccess=onSuccess
             onError=onError
@@ -66,8 +80,7 @@ function AuthForm ({
 }
 
 AuthForm.propTypes = {
-  captions: PropTypes.object,
-  descriptions: PropTypes.object,
+  configs: PropTypes.object,
   initSlide: PropTypes.string,
   socialButtons: PropTypes.array,
   localForms: PropTypes.object,

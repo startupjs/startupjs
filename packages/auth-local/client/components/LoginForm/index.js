@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, emit } from 'startupjs'
+import { observer, useValue, emit, useSession } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { Div, Span, Br, Button } from '@startupjs/ui'
-import { useAuthHelper } from '@startupjs/auth-local'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import { SIGN_UP_SLIDE, SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
+import { useAuthHelper } from '../../helpers'
 import TextInput from '../TextInput'
 import './index.styl'
 
@@ -14,6 +14,8 @@ const isWeb = Platform.OS === 'web'
 
 function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
+
+  const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
 
   const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
@@ -149,14 +151,15 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
         color='primary'
         variant='text'
       ) Forgot your password?
-      Br(half)
-      Div.line
-        Span.text Don't have an account?
-        Button.signUp(
-          onPress=onRegister
-          color='primary'
-          variant='text'
-        ) Sign up
+      if localSignUpEnabled
+        Br(half)
+        Div.line
+          Span.text Don't have an account?
+          Button.signUp(
+            onPress=onRegister
+            color='primary'
+            variant='text'
+          ) Sign up
   `
 }
 

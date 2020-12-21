@@ -1,3 +1,14 @@
+## [0.30.5](https://github.com/startupjs/startupjs/compare/v0.30.4...v0.30.5) (2020-12-21)
+
+
+### Features
+
+* **auth:** Add  config prop for auth forms ([#445](https://github.com/startupjs/startupjs/issues/445)) ([835f78f](https://github.com/startupjs/startupjs/commit/835f78f58eb643e8640312a76dfa10da68d1ccfb))
+* **auth:** apple ([#414](https://github.com/startupjs/startupjs/issues/414)) ([94aa118](https://github.com/startupjs/startupjs/commit/94aa1189f3d4c583862bea6ea0f88c7684cf8bb0))
+* **ui/Checkbox:** add icon property ([#441](https://github.com/startupjs/startupjs/issues/441)) ([82702cc](https://github.com/startupjs/startupjs/commit/82702cc29fec127f2d3264c32c2f1bb79d5e0831))
+
+
+
 ## [0.30.4](https://github.com/startupjs/startupjs/compare/v0.30.3...v0.30.4) (2020-12-21)
 
 
