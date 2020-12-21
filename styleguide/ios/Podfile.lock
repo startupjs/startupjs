@@ -405,6 +405,7 @@ DEPENDENCIES:
   - React-RCTText (from `../../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../../node_modules/react-native/ReactCommon`)
+  - "RNAppleAuthentication (from `../../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../node_modules/@react-native-community/datetimepicker`)"
   - "RNGoogleSignin (from `../../node_modules/@react-native-community/google-signin`)"
@@ -488,6 +489,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../../node_modules/react-native/ReactCommon"
+  RNAppleAuthentication:
+    :path: "../../node_modules/@invertase/react-native-apple-authentication"
   RNCPicker:
     :path: "../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
@@ -554,4 +557,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 99f0f126f975d65fc26940201cf4c1cafb74a159
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0
