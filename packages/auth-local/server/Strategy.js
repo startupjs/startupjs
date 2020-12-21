@@ -3,6 +3,7 @@ import _get from 'lodash/get'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
+  onBeforeCreatePasswordResetSecret,
   onCreatePasswordResetSecret,
   onBeforeRegister,
   onAfterRegister,
@@ -21,6 +22,7 @@ export default function (config = {}) {
   return ({ model, router, authConfig }) => {
     Object.assign(this.config, {
       resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      onBeforeCreatePasswordResetSecret,
       onCreatePasswordResetSecret,
       onBeforeRegister,
       onAfterRegister,
