@@ -42,7 +42,7 @@ return (
 
 ## Чекбокс со своей иконкой
 
-Свойство `customIcon` позволяет вам добавить определенную иконку для некоторых состояний.
+Свойство `icon` позволяет заменить стандартную иконку или добавить определенную иконку для некоторых состояний.
 
 ```jsx example
 const [checkedAll, setCheckedAll] = useState(false)
@@ -74,7 +74,7 @@ function onChange (value, id) {
 }
 
 const extraProps = {}
-if (intermediate) extraProps.customIcon = faMinus
+if (intermediate) extraProps.icon = faMinus
 
 return (
   <Div>
