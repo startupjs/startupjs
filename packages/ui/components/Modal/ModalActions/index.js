@@ -21,12 +21,14 @@ function ModalActions ({
         if onCancel
           Button.action(
             color='primary'
+            _preventEvent=false
             onPress=onCancel
           )= dismissLabel
         if onConfirm
           Button.action(
             color='primary'
             variant='flat'
+            _preventEvent=false
             onPress=onConfirm
           )= confirmLabel
   `

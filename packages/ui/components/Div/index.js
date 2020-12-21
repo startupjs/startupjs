@@ -33,6 +33,7 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  _preventEvent = true,
   onPress,
   onLongPress,
   onClick,
@@ -55,7 +56,22 @@ function Div ({
   }, [isClickable])
 
   if (isClickable) {
-    wrapperProps.onPress = handlePress
+    let _handlePress
+
+    // HACK:
+    // if some content inside link is clickable
+    // we need to prevent default browser behavior
+    // to make it similar as behavior of the native mobiles
+    if (isWeb) {
+      _handlePress = (e) => {
+        if (_preventEvent) e.preventDefault()
+        handlePress && handlePress(e)
+      }
+    } else {
+      _handlePress = handlePress
+    }
+
+    wrapperProps.onPress = _handlePress
     wrapperProps.onLongPress = onLongPress
 
     // setup hover and active states styles and props

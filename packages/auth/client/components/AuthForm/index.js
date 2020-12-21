@@ -4,7 +4,13 @@ import { observer } from 'startupjs'
 import { H5, Content, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import OrDivider from '../OrDivider'
-import { DEFAULT_FORMS_CAPTIONS, DEFAULT_FORMS_DESCRIPTIONS, FORM_COMPONENTS_KEYS, SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '../../../isomorphic'
+import {
+  DEFAULT_FORMS_CAPTIONS,
+  DEFAULT_FORMS_DESCRIPTIONS,
+  FORM_COMPONENTS_KEYS,
+  SIGN_IN_SLIDE,
+  SIGN_UP_SLIDE
+} from '../../../isomorphic'
 import './index.styl'
 
 function AuthForm ({
@@ -47,7 +53,7 @@ function AuthForm ({
         if currentDescription
           Span.description(variant='description')= currentDescription
 
-      if activeSlide !== 'recover'
+      if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
         View.buttons
           = renderSocialButtons
 

@@ -26,7 +26,8 @@ export default function resetPassword (req, res, done, config) {
     await $auth.setAsync('providers.local.hash', newHash)
     await $auth.setAsync('providers.local.salt', newSalt)
 
-    onAfterPasswordChange(userId)
+    const hookRes = onAfterPasswordChange({ userId }, req)
+    hookRes && hookRes.then && await hookRes
 
     res.send('Password has been changed')
   })
