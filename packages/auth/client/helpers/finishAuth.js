@@ -1,13 +1,17 @@
 import { NativeModules, AsyncStorage, Platform } from 'react-native'
 import { $root } from 'startupjs'
 
-export default async function finishAuth () {
-  const successRedirectUrl = $root.get('_session.auth.successRedirectUrl')
+export default async function finishAuth (redirectUrl) {
+  const successRedirectUrl = redirectUrl || $root.get('_session.auth.successRedirectUrl')
 
   if (Platform.OS === 'web') {
     window.location.pathname = successRedirectUrl
   } else {
-    await AsyncStorage.setItem('successRedirectUrl', successRedirectUrl)
-    NativeModules.DevSettings.reload()
+    // There are no returning promis on Android devices
+    // so usage of await getting app stuck
+    AsyncStorage.setItem('successRedirectUrl', successRedirectUrl)
+    setTimeout(() => {
+      NativeModules.DevSettings.reload()
+    }, 0)
   }
 }

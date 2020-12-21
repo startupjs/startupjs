@@ -49,9 +49,9 @@ function Popover ({
   durationClose,
   hasArrow,
   hasWidthCaption,
+  hasCaptionInModal,
   onDismiss,
-  onRequestOpen,
-  onOverlayMouseMove
+  onRequestOpen
 }) {
   wrapperStyle = StyleSheet.flatten([wrapperStyle])
 
@@ -108,9 +108,12 @@ function Popover ({
       }
     }
 
-    if (stepStatus === STEP_STATUSES.OPEN && !visible) {
-      if (!refContentOpen.current) return
-      runHide()
+    if (stepStatus !== STEP_STATUSES.CLOSE && !visible) {
+      if (!refContentOpen.current) {
+        setTimeout(runHide, 100)
+      } else {
+        runHide()
+      }
     }
   }, [visible, captionSize.height])
   // -
@@ -176,12 +179,6 @@ function Popover ({
         onDismiss()
       })
     })
-  }
-
-  const _onOverlayMouseMove = () => {
-    if (Platform.OS === 'web') {
-      onOverlayMouseMove && onOverlayMouseMove()
-    }
   }
 
   // parse children
@@ -270,11 +267,8 @@ function Popover ({
           )
             View.case
               TouchableWithoutFeedback(onPress=onDismiss)
-                Animated.View.overlay(
-                  style=_overlayStyle
-                  onMouseMove=_onOverlayMouseMove
-                )
-              if caption
+                Animated.View.overlay(style=_overlayStyle)
+              if hasCaptionInModal && caption
                 View.absolute(style={
                   width: captionSize.width,
                   left: contentInfo.x,
@@ -323,6 +317,7 @@ Popover.defaultProps = {
   animateType: 'default',
   hasWidthCaption: false,
   hasArrow: false,
+  hasCaptionInModal: true,
   durationOpen: 300,
   durationClose: 300
 }
@@ -338,6 +333,7 @@ Popover.propTypes = {
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
+  hasCaptionInModal: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
   onDismiss: PropTypes.func,

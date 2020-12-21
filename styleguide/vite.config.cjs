@@ -1,3 +1,3 @@
-const config = require('startupjs/bundler.cjs').viteConfig
+const config = require('startupjs/bundler/vite.config.cjs')
 
 module.exports = config

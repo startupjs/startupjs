@@ -93,6 +93,7 @@ function Link ({
       bold=bold
       italic=italic
       onPress=handlePress
+      _preventEvent=false
       ...extraProps
       ...props
     )= children
