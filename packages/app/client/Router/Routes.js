@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { Route } from 'react-router'
+import { Route, Redirect } from 'react-router'
 import {
   $root,
   observer,
@@ -15,24 +15,25 @@ export default observer(function Routes ({
   onRouteError,
   ...props
 }) {
-  function render (route, props) {
-    if (route.redirect) {
-      emit('url', route.redirect, { replace: true })
-      return null
-    }
-    return pug`
-      //- TODO: We can remove passing props because
-      //- in pages we can use react-router hooks for this
-      RouteComponent(...props route=route onError=onRouteError)
-    `
-  }
-
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
+
+    function render (props) {
+      return route.redirect
+        ? pug`
+          Redirect(to=route.redirect)
+        `
+        : pug`
+          //- TODO: We can remove passing props because
+          //- in pages we can use react-router hooks for this
+          RouteComponent(...props route=route onError=onRouteError)
+        `
+    }
+
     return pug`
       Route(
         key=route.path
-        component=props => render(route, props)
+        render=render
         ...props
       )
     `
