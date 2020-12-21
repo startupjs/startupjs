@@ -1,20 +1,13 @@
 {
   "root": true,
-  "overrides": [
-    {
-      "files": ["*.e2e.js"],
-      "env": {
-        "detox/detox": true,
-        "jest": true,
-        "jest/globals": true
-      }
-    }
-  ],
   "env": {
     "browser": true,
     "es6": true,
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "detox/detox": true,
+    "jest": true,
+    "jest/globals": true
   },
   "extends": [
     "standard",
@@ -50,6 +43,7 @@
     "react-pug/no-interpolation": "off",
     "react-pug/prop-types": "off",
     "react-pug/quotes": "off",
+    "jest/expect-expect": "off",
     "import-helpers/order-imports": [
             "warn",
               { 

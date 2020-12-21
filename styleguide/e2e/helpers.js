@@ -1,4 +1,3 @@
-// import _ from 'lodash'
 const _ = require('lodash')
 
 // -----------------------------------------------
@@ -33,7 +32,7 @@ Object.assign(ElementPrototype, {
 
 // Proxy element/expect methods
 const proxyHandler = {
-  get ({ selector }, propKey) {
+  get: ({ selector }, propKey) => {
     return function (...args) {
       let matcher = getMatcher(selector)
       if (/^to/.test(propKey)) {
@@ -48,17 +47,17 @@ const proxyHandler = {
 /*
   x(selector) accepts 3 types of selectors:
   1. id -- has to start with '#'.
-     Examples:
-       $('#myButton')
+    Examples:
+      $('#myButton')
   2. text -- has to start with '=' and for nested selectors you might need
-     to wrap it into [].
-     Examples:
-       $('= My User Profile')
-       $('[= My User Profile]')
-       $('[= My TopBar] = Confirm Action')
+    to wrap it into [].
+    Examples:
+      $('= My User Profile')
+      $('[= My User Profile]')
+      $('[= My TopBar] = Confirm Action')
   3. type -- starts with a letter.
-     Examples:
-       $('UIPickerView')
+    Examples:
+      $('UIPickerView')
 
   It also supports ancestor selectors (same as in css, with space).
   Example: $('#topBar ="My User Profile"')

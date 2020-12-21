@@ -1,29 +1,17 @@
-// const config = require('./config.json')
+describe('Test suite 1', () => {
+  it('should have logo', async () => {
+    await x('#button').tap()
+    await x('#logo').toBeVisible()
+  })
+})
 
 describe('Example', () => {
-  // beforeAll(async () => {
-  //   // await device.reloadReactNative()
-  //   // console.log(detox.init())
-  //   await detox.init(config)
-  //   // console.log('tut2')
-  // })
-
-  // it('should have Layout', async () => {
-  //   await waitFor(element(by.id('Layout'))).toBeVisible().withTimeout(4000)
-  // })
-
-  it('should have Layout2', async () => {
-    setTimeout(async () => await element(x('#button')).tap(), 4000)
-    setTimeout(async () => await expect(element(x('#logo'))).toBeVisible(), 4000)
+  it('should change languages', async () => {
+    await element(by.id('button')).tap()
+    await expect(element(by.text('English'))).toBeVisible().tap()
+    await expect(element(by.type('UIPickerView'))).toBeVisible()
+    await element(by.type('UIPickerView')).setColumnToValue(1, 'ru')
+    await element(by.label('Confirm')).tap()
+    await x('= Основы').toBeVisible()
   })
-
-  // it('should show hello screen after tap', async () => {
-  //   await element(by.id('hello_button')).tap()
-  //   await expect(element(by.text('Hello!!!'))).toBeVisible()
-  // })
-
-  // it('should show world screen after tap', async () => {
-  //   await element(by.id('world_button')).tap()
-  //   await expect(element(by.text('World!!!'))).toBeVisible()
-  // })
 })

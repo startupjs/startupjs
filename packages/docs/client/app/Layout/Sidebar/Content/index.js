@@ -29,6 +29,7 @@ export default observer(function Content ({
         Docs(docs=docs lang=lang)
       Row.footer
         Select.lang(
+          testID='languagesSelect'
           options=LANGUAGES
           value=lang
           onChange=setLang
