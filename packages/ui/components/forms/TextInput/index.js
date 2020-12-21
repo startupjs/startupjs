@@ -25,7 +25,7 @@ function TextInput ({
   onFocus,
   renderWrapper, // @private - used by Select
   ...props
-}) {
+}, ref) {
   const _layout = useLayout(layout, label)
   const pure = _layout === 'pure'
   const [focused, setFocused] = useState(false)
@@ -50,6 +50,7 @@ function TextInput ({
 
     return pug`
       Input(
+        ref=ref
         style=standalone ? [style, wrapperStyle] : wrapperStyle
         inputStyle=inputStyle
         iconStyle=iconStyle
@@ -86,7 +87,9 @@ function TextInput ({
   `
 }
 
-TextInput.defaultProps = {
+const ObservedTextInput = observer(TextInput, { forwardRef: true })
+
+ObservedTextInput.defaultProps = {
   size: 'm',
   value: '', // default value is important to prevent error
   disabled: false,
@@ -97,7 +100,7 @@ TextInput.defaultProps = {
   iconPosition: 'left'
 }
 
-TextInput.propTypes = {
+ObservedTextInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -120,4 +123,4 @@ TextInput.propTypes = {
   onIconPress: PropTypes.func
 }
 
-export default observer(TextInput)
+export default ObservedTextInput

@@ -6,6 +6,7 @@ import Layout from './layout'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
+import Portal from '../Portal'
 
 function Modal ({
   style,
@@ -60,16 +61,18 @@ function Modal ({
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
-      if props.variant !== 'custom'
-        Layout(
-          modalStyle=style
-          closeFallback=closeFallback
-          ...props
-        )
-      else
-        = props.children
+      Portal.Provider
+        if props.variant !== 'custom'
+          Layout(
+            modalStyle=style
+            closeFallback=closeFallback
+            ...props
+          )
+        else
+          = props.children
   `
 }
+
 const ObservedModal = observer(Modal, { forwardRef: true })
 
 ObservedModal.defaultProps = {

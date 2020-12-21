@@ -7,6 +7,7 @@ import { Platform, Image } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model, u } from 'startupjs'
+import { Portal } from '@startupjs/ui'
 import { initAuthApp } from '@startupjs/auth'
 import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
 import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
@@ -57,17 +58,18 @@ export default observer(() => {
   })
 
   return pug`
-    App(
-      apps={ main, docs, auth }
-      criticalVersion={
-        ios: CRITICAL_VERSION_IOS,
-        android: CRITICAL_VERSION_ANDROID,
-        web: CRITICAL_VERSION_WEB
-      }
-      supportEmail=SUPPORT_EMAIL
-      androidUpdateLink=UPDATE_LINK_ANDROID
-      iosUpdateLink=UPDATE_LINK_IOS
-    )
+    Portal.Provider
+      App(
+        apps={ main, docs, auth }
+        criticalVersion={
+          ios: CRITICAL_VERSION_IOS,
+          android: CRITICAL_VERSION_ANDROID,
+          web: CRITICAL_VERSION_WEB
+        }
+        supportEmail=SUPPORT_EMAIL
+        androidUpdateLink=UPDATE_LINK_ANDROID
+        iosUpdateLink=UPDATE_LINK_IOS
+      )
   `
 })
 

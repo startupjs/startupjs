@@ -75,8 +75,6 @@ function Dropdown ({
     setIsShow(false)
   }
 
-  const _wrapperStyle = StyleSheet.flatten(style)
-
   function onRequestOpen () {
     UIManager.measure(refScroll.current.getScrollableNode(), (x, y, width, curHeight) => {
       if (activeInfo.y >= (curHeight - activeInfo.height)) {
@@ -135,6 +133,12 @@ function Dropdown ({
     caption = React.cloneElement(caption, { _activeLabel: activeLabel })
   }
 
+  const _popoverStyle = StyleSheet.flatten(style)
+  if (caption.props.variant === 'button' || caption.props.variant === 'custom') {
+    _popoverStyle.minWidth = 160
+  }
+
+  // TODO: to hook
   function onKeyDown (e) {
     e.preventDefault()
     e.stopPropagation()
@@ -171,6 +175,7 @@ function Dropdown ({
         if (selectIndexValue === -1) return
         item = renderContent.find((_, i) => i === selectIndexValue)
         onChange && onChange(item.props.value)
+        setIsShow(false)
         break
     }
   }
@@ -178,13 +183,14 @@ function Dropdown ({
   if (isPopover) {
     return pug`
       Popover(
-        wrapperStyleName='wrapper'
-        wrapperStyle=_wrapperStyle
+        styleName='popover'
+        contentStyleName='content'
+        style=_popoverStyle
         position=position
         attachment=attachment
         placements=placements
         visible=isShow
-        hasWidthCaption=!_wrapperStyle.width
+        hasWidthCaption=!_popoverStyle.width
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
       )
@@ -216,7 +222,7 @@ function Dropdown ({
         ScrollView.case(
           ref=refScroll
           showsVerticalScrollIndicator=false
-          style=_wrapperStyle
+          style=_popoverStyle
           styleName=drawerVariant
         )= renderContent
         if drawerVariant === 'buttons'
@@ -229,7 +235,7 @@ function Dropdown ({
 Dropdown.defaultProps = {
   style: [],
   position: 'bottom',
-  attachment: 'center',
+  attachment: 'start',
   value: '',
   drawerVariant: 'buttons',
   drawerListTitle: '',

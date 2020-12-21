@@ -1,44 +1,36 @@
-// TODO:
-// - Remove .getNode(), it's not longer needed on RN 0.62+ and gonna be removed.
-//   (ref: https://reactnative.dev/blog/2020/03/26/version-0.62#deprecations)
-//   This requires a breaking change asking people to upgrade their projects
-//   to RN 0.62+
-
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {
   View,
   Animated,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   Dimensions,
-  StyleSheet,
-  Platform
+  StyleSheet
 } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Modal from '../../Modal'
 import Arrow from './Arrow'
+import Portal from '../../Portal'
 import Geometry from './Geometry'
 import { PLACEMENTS_ORDER } from './constants.json'
 import animate from './animate'
 import STYLES from './index.styl'
 
-const STEP_STATUSES = {
+const STEPS = {
   CLOSE: 'close',
   RENDER: 'render',
   ANIMATE: 'animate',
   OPEN: 'open'
 }
 
-function isShtampInit (stepStatus) {
-  return ['close', 'render'].indexOf(stepStatus) === -1
+function isShtampInit (step) {
+  return ['close', 'render'].indexOf(step) === -1
 }
 
 // TODO: autofix placement for ref
 function Popover ({
   children,
-  wrapperStyle,
-  overlayStyle,
-  backdropStyle,
+  style,
+  contentStyle,
   arrowStyle,
   visible,
   position,
@@ -49,26 +41,21 @@ function Popover ({
   durationClose,
   hasArrow,
   hasWidthCaption,
-  hasCaptionInModal,
+  hasOverlay,
   onDismiss,
-  onRequestOpen
+  onRequestOpen,
+  onRequestClose
 }) {
-  wrapperStyle = StyleSheet.flatten([wrapperStyle])
+  style = StyleSheet.flatten([style])
+  const refPopover = useRef()
+  const refCaption = useRef()
+  const refGeometry = useRef({})
 
-  const refContent = useRef()
-  const refContentOpen = useRef()
-  const refGeometry = useRef()
-
-  const [stepStatus, setStepStatus] = useState(STEP_STATUSES.CLOSE)
+  const [step, setStep] = useState(STEPS.CLOSE)
   const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
-  const [localVisible, setLocalVisible] = useState(visible)
-  const [localDurationOpen, setLocalDurationOpen] = useState(durationOpen)
-  const [contentInfo, setContentInfo] = useState({})
-  const [captionSize, setCaptionSize] = useState({})
-  const [, $modalVisible] = useValue(true)
+  const [captionInfo, setCaptionInfo] = useState({})
 
   const [animateStates] = useState({
-    opacityOverlay: new Animated.Value(0),
     opacity: new Animated.Value(0),
     height: new Animated.Value(0),
     width: new Animated.Value(0),
@@ -84,8 +71,7 @@ function Popover ({
 
     const handleDimensions = () => {
       if (!mounted) return
-      setContentInfo({})
-      setStepStatus(STEP_STATUSES.CLOSE)
+      setStep(STEPS.CLOSE)
       onDismiss()
     }
 
@@ -98,73 +84,68 @@ function Popover ({
 
   // -main
   useEffect(() => {
-    if (stepStatus === STEP_STATUSES.CLOSE && visible) {
-      if (captionSize.height) {
-        setStepStatus(STEP_STATUSES.RENDER)
-        setLocalVisible(true)
-        setTimeout(runShow, 0)
-      } else {
-        setLocalDurationOpen(0)
-      }
+    if (visible) {
+      setStep(STEPS.RENDER)
+      setTimeout(runShow, 0)
     }
 
-    if (stepStatus !== STEP_STATUSES.CLOSE && !visible) {
-      if (!refContentOpen.current) {
-        setTimeout(runHide, 100)
-      } else {
-        runHide()
-      }
+    if (step !== STEPS.CLOSE && !visible) {
+      runHide()
     }
-  }, [visible, captionSize.height])
+  }, [visible])
   // -
 
   function runShow () {
-    refContent.current.measure((ex, ey, refWidth, refHeight, cx, cy) => {
-      const { width, height, maxHeight } = wrapperStyle
-      let curHeight = (height === 'auto' ? null : height) || refHeight
-      curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
+    if (!refCaption.current || !refPopover.current) return
 
-      let curWidth = width || refWidth
-      curWidth = hasWidthCaption ? captionSize.width : curWidth
-      const _contentInfo = {
-        x: cx,
-        y: cy,
-        height: curHeight,
-        width: curWidth
-      }
+    // x, y, width, height, pageX, pageY
+    refCaption.current.measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
+      refPopover.current.measure((px, py, pWidth, pHeight, ppx, ppy) => {
+        const captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 
-      refGeometry.current = new Geometry({
-        contentInfo: _contentInfo,
-        placement: position + '-' + attachment,
-        placements,
-        captionSize,
-        hasArrow
-      })
+        const { width, height = 'auto', maxHeight } = style
+        let curHeight = (height === 'auto') ? pHeight : height
+        curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
-      setValidPlacement(refGeometry.current.validPlacement)
-      setContentInfo(_contentInfo)
-      setStepStatus(STEP_STATUSES.ANIMATE)
+        let curWidth = width || pWidth
+        curWidth = hasWidthCaption ? captionInfo.width : curWidth
+        const contentInfo = {
+          x: cpx,
+          y: cpy,
+          height: curHeight,
+          width: curWidth
+        }
 
-      animate.show({
-        durationOpen: localDurationOpen,
-        geometry: refGeometry.current,
-        contentInfo: _contentInfo,
-        animateType,
-        animateStates,
-        hasArrow
-      }, () => {
-        setStepStatus(STEP_STATUSES.OPEN)
-        setLocalDurationOpen(durationOpen)
-        onRequestOpen && onRequestOpen()
+        refGeometry.current = new Geometry({
+          placement: position + '-' + attachment,
+          captionInfo,
+          contentInfo,
+          placements,
+          hasArrow
+        })
+
+        setValidPlacement(refGeometry.current.validPlacement)
+        setStep(STEPS.ANIMATE)
+
+        animate.show({
+          durationOpen,
+          geometry: refGeometry.current,
+          contentInfo,
+          animateType,
+          animateStates,
+          hasArrow
+        }, () => {
+          setStep(STEPS.OPEN)
+          onRequestOpen && onRequestOpen()
+        })
       })
     })
   }
 
   function runHide () {
-    refContentOpen.current.getNode().measure((x, y, refWidth, refHeight) => {
-      contentInfo.height = refHeight
-      contentInfo.width = refWidth
-      setStepStatus(STEP_STATUSES.ANIMATE)
+    refPopover.current.measure((x, y, popoverWidth, popoverHeight) => {
+      const contentInfo = { width: popoverWidth, height: popoverHeight }
+      setStep(STEPS.ANIMATE)
 
       animate.hide({
         durationClose,
@@ -174,158 +155,118 @@ function Popover ({
         animateStates,
         hasArrow
       }, () => {
-        setLocalVisible(false)
-        setStepStatus(STEP_STATUSES.CLOSE)
-        onDismiss()
+        setStep(STEPS.CLOSE)
+        onDismiss && onDismiss()
+        onRequestClose && onRequestClose()
       })
     })
   }
 
   // parse children
   let caption = null
-  let renderContent = []
+  let content = []
   const onLayoutCaption = e => {
-    setCaptionSize({
-      width: e.nativeEvent.layout.width,
-      height: e.nativeEvent.layout.height
-    })
+    setCaptionInfo(e.nativeEvent.layout)
   }
-  React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type === PopoverCaption) {
-      caption = child
-      return
+  React.Children.toArray(children).forEach(child => {
+    if (child.type.name === PopoverCaption.name) {
+      caption = pug`
+        View.caption(
+          ref=refCaption
+          style=child.props.style
+          onLayout=onLayoutCaption
+        )= child.props.children
+      `
+    } else {
+      content.push(child)
     }
-    renderContent.push(child)
   })
 
   // styles
-  const _backdropStyle = StyleSheet.flatten([
-    backdropStyle,
-    isShtampInit(stepStatus) ? {} : STYLES.shtamp
-  ])
-
-  const contentStyle = stepStatus === STEP_STATUSES.ANIMATE
-    ? { height: animateStates.height }
-    : Platform.OS === 'web'
-      ? { height: '100%' }
-      : { height: 'auto' }
+  const _contentStyle = StyleSheet.flatten([contentStyle])
 
   const _wrapperStyle = StyleSheet.flatten([
-    wrapperStyle,
-    isShtampInit(stepStatus) ? {
-      position: 'absolute',
-      opacity: animateStates.opacity,
-      width: animateStates.width,
-      transform: [
-        { scaleX: animateStates.scaleX },
-        { scaleY: animateStates.scaleY },
-        { translateX: animateStates.translateX },
-        { translateY: animateStates.translateY }
-      ]
-    } : STYLES.wrapper
+    STYLES.wrapper,
+    {
+      left: refGeometry.current.positionLeft,
+      top: refGeometry.current.positionTop
+    },
+    isShtampInit(step) ? { width: 'auto' } : { width: '100%' }
   ])
 
-  const _overlayStyle = StyleSheet.flatten([
-    overlayStyle,
-    { opacity: animateStates.opacityOverlay }
+  const _popoverStyle = StyleSheet.flatten([
+    style,
+    isShtampInit(step)
+      ? {
+        position: 'absolute',
+        opacity: animateStates.opacity,
+        transform: [
+          { scaleX: animateStates.scaleX },
+          { scaleY: animateStates.scaleY },
+          { translateX: animateStates.translateX },
+          { translateY: animateStates.translateY }
+        ]
+      }
+      : STYLES.popoverShtamp
   ])
 
   const [validPosition] = validPlacement.split('-')
-  if (isShtampInit(stepStatus) && validPosition === 'top') _wrapperStyle.bottom = 0
-  if (isShtampInit(stepStatus) && validPosition === 'left') _wrapperStyle.right = 0
-  if (isShtampInit(stepStatus) && validPlacement === 'left-end') _wrapperStyle.bottom = 0
-  if (isShtampInit(stepStatus) && validPlacement === 'right-end') _wrapperStyle.bottom = 0
+  if (isShtampInit(step) && validPosition === 'top') _popoverStyle.bottom = 0
+  if (isShtampInit(step) && validPosition === 'left') _popoverStyle.right = 0
+  if (isShtampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
+  if (isShtampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
 
-  if (stepStatus === STEP_STATUSES.ANIMATE) {
-    _wrapperStyle.height = animateStates.height
+  if (step === STEPS.ANIMATE && animateType === 'default') {
+    _popoverStyle.height = animateStates.height
   }
-  if (wrapperStyle.maxHeight && stepStatus !== STEP_STATUSES.ANIMATE) {
-    _wrapperStyle.maxHeight = wrapperStyle.maxHeight
-    if (!wrapperStyle.height) _wrapperStyle.height = wrapperStyle.maxHeight
-  }
-  if (stepStatus === STEP_STATUSES.CLOSE) _wrapperStyle.height = 0
-  if (hasWidthCaption && stepStatus !== STEP_STATUSES.ANIMATE) {
-    _wrapperStyle.width = captionSize.width
-  }
+  if (hasWidthCaption) _popoverStyle.width = captionInfo.width
+  if (style.maxHeight) _contentStyle.maxHeight = style.maxHeight
 
-  const Wrapper = isShtampInit(stepStatus) ? Modal : View
   return pug`
-    View
-      if caption
-        View(
-          style=caption.props.style
-          onLayout=onLayoutCaption
-        )= caption.props.children
-      if localVisible
-        if isShtampInit(stepStatus)
-          Wrapper(
-            transparent=true
-            $visible=$modalVisible
-            ariaHideApp=false
-            variant='custom'
-            style=_backdropStyle
+    = caption
+    Portal
+      if step !== STEPS.CLOSE
+        if hasOverlay
+          TouchableOpacity.overlay(onPress=onDismiss)
+        View(style=_wrapperStyle)
+          Animated.View.popover(
+            ref=refPopover
+            style=_popoverStyle
+            styleName={ popoverArrow: hasArrow }
           )
-            View.case
-              TouchableWithoutFeedback(onPress=onDismiss)
-                Animated.View.overlay(style=_overlayStyle)
-              if hasCaptionInModal && caption
-                View.absolute(style={
-                  width: captionSize.width,
-                  left: contentInfo.x,
-                  top: contentInfo.y
-                })= caption.props.children
-              Animated.View.absolute(style={
-                left: refGeometry.current.positionLeft,
-                top: refGeometry.current.positionTop
-              })
-                Animated.View.popover(
-                  ref=refContentOpen
-                  pointerEvents='box-none'
-                  style=_wrapperStyle
-                  styleName={ wrapperArrow: hasArrow }
-                )
-                  if hasArrow
-                    Arrow(
-                      style=arrowStyle
-                      geometry=refGeometry.current
-                      validPosition=validPosition
-                    )
-                  Animated.View.content(style=contentStyle)
-                    = renderContent
-        else
-          View.popover(
-            ref=refContent
-            style=_wrapperStyle
-          )
-            View.content
-              = renderContent
+            if hasArrow
+              Arrow(
+                style=arrowStyle
+                geometry=refGeometry.current
+                validPosition=validPosition
+              )
+            Animated.View.content(
+              style=_contentStyle
+              styleName={ contentArrow: hasArrow }
+            )= content
   `
 }
 
-function PopoverCaption ({ children, style }) {
-  return pug`
-    View(style=style)
-      = children
-  `
+function PopoverCaption ({ children }) {
+  return children
 }
 
 Popover.defaultProps = {
-  backdropStyle: { zIndex: 99999 },
   position: 'bottom',
-  attachment: 'center',
+  attachment: 'start',
   placements: PLACEMENTS_ORDER,
   animateType: 'default',
   hasWidthCaption: false,
   hasArrow: false,
-  hasCaptionInModal: true,
+  hasOverlay: true,
   durationOpen: 300,
-  durationClose: 300
+  durationClose: 200
 }
 
 Popover.propTypes = {
-  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  overlayStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  backdropStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  contentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
@@ -333,11 +274,12 @@ Popover.propTypes = {
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
-  hasCaptionInModal: PropTypes.bool,
+  hasOverlay: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
   onDismiss: PropTypes.func,
-  onRequestOpen: PropTypes.func
+  onRequestOpen: PropTypes.func,
+  onRequestClose: PropTypes.func
 }
 
 const ObservedPopover = observer(Popover)

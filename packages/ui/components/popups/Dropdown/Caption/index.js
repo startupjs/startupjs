@@ -9,6 +9,7 @@ import Button from '../../../Button'
 import './index.styl'
 
 function DropdownCaption ({
+  style,
   children,
   placeholder,
   variant,
@@ -21,6 +22,7 @@ function DropdownCaption ({
   if (variant === 'button') {
     return pug`
       Button(
+        style=style
         variant='flat'
         color='primary'
         pointerEvents='box-none'
@@ -30,7 +32,10 @@ function DropdownCaption ({
 
   return pug`
     Row.select
-      Span.placeholder(styleName={ active: !!_activeLabel })
+      Span.placeholder(
+        style=style
+        styleName={ active: !!_activeLabel }
+      )
         = _activeLabel || placeholder
       Icon(icon=faAngleDown)
   `

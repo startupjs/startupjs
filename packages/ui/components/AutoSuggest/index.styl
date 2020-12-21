@@ -3,20 +3,36 @@
   align-items center
   height 100%
 
-.click
-  height 30
+.root
+  padding 2u 0
+  flex 1
+
+.item
   width 100%
+
+.portal
   position absolute
+  left 200
+  top 200
+  width 100
+  background-color #eeeeee
+  align-items center
+  justify-content center
   z-index 999
-  cursor text
+
+.overlay
+  z-index 998
+  position absolute
+  height 100%
+  width 100%
   left 0
   top 0
 
 .selectMenu
   background-color #eee
 
-.wrapper
-  overflow visible
-  height auto
-  +web()
-    overflow auto
+.item
+  width 100%
+
+.caption
+  width 100%

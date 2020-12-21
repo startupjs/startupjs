@@ -1,43 +1,44 @@
-.popover
-  border-radius 1u
-  background-color $UI.colors.white
-  width 200px
-  shadow(3)
-
-.absolute
+.overlay
   position absolute
-
-.wrapperArrow
-  border-radius .5u
+  cursor default
+  height 100%
+  width 100%
+  left 0
+  top 0
+  z-index 9999
 
 .wrapper
   position absolute
+  z-index 9999
+  width 100%
+
+.popoverShtamp
+  position absolute
   opacity 0
-  left 0
-  top 0
+  left -999
+  top -999
   z-index -1
 
-.content
-  overflow hidden
-  height 100%
-
-.shtamp
-  overflow hidden
-  position relative
-  height 0
-  left 0
-  top 0
-  width 0
-
-.overlay
+.popover
+  border-radius 1u
   position absolute
-  width 100%
-  height 100%
+  align-items center
+  justify-content center
+  z-index 999
+  shadow(3)
 
-.case, .areaCase
-  flex 1
-  width 100%
+.content
+  border-radius 1u
+  background-color #ffffff
   height 100%
+  overflow hidden
+  width 100%
+
+.caption
+  align-self flex-start
+
+.popoverArrow, .contentArrow
+  border-radius .5u
 
 :export
   shadows: $UI.shadows

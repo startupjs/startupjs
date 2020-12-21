@@ -10,7 +10,7 @@ function Geometry ({
   placement,
   placements,
   contentInfo,
-  captionSize,
+  captionInfo,
   hasArrow
 }) {
   this.initPlacement = placement
@@ -19,32 +19,32 @@ function Geometry ({
   this.arrowLeftPositions = {}
   this.arrowTopPositions = {}
 
-  calcLeftPositions.call(this, { contentInfo, captionSize, hasArrow })
-  calcTopPositions.call(this, { contentInfo, captionSize, hasArrow })
+  calcLeftPositions.call(this, { contentInfo, captionInfo, hasArrow })
+  calcTopPositions.call(this, { contentInfo, captionInfo, hasArrow })
 
-  calcLeftPositionsArrow.call(this, { contentInfo })
-  calcTopPositionsArrow.call(this, { contentInfo })
+  calcLeftPositionsArrow.call(this, contentInfo)
+  calcTopPositionsArrow.call(this, contentInfo)
 
-  prepareTopPositions.call(this, { contentInfo })
-  prepareLeftPositions.call(this, { contentInfo })
-  preparePlacements.call(this, { placement, placements })
+  prepareTopPositions.call(this, contentInfo)
+  prepareLeftPositions.call(this, contentInfo)
+  preparePlacements.call(this, placements)
 
   this.getValidPlacement = getValidPlacement
-  this.validPlacement = this.getValidPlacement({ placement, contentInfo })
+  this.validPlacement = this.getValidPlacement(placement, contentInfo)
   this.positionLeft = this.leftPositions[this.validPlacement]
   this.positionTop = this.topPositions[this.validPlacement]
   this.arrowLeftPosition = this.arrowLeftPositions[this.validPlacement]
   this.arrowTopPosition = this.arrowTopPositions[this.validPlacement]
 }
 
-function calcLeftPositions ({ contentInfo, captionSize, hasArrow }) {
+function calcLeftPositions ({ contentInfo, captionInfo, hasArrow }) {
   let positionRootLeft = contentInfo.x
   positionRootLeft = positionRootLeft - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.leftPositions['left-start'] = positionRootLeft
   this.leftPositions['left-center'] = positionRootLeft
   this.leftPositions['left-end'] = positionRootLeft
 
-  let positionRootRight = contentInfo.x + captionSize.width
+  let positionRootRight = contentInfo.x + captionInfo.width
   positionRootRight = positionRootRight + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.leftPositions['right-start'] = positionRootRight
   this.leftPositions['right-center'] = positionRootRight
@@ -54,17 +54,17 @@ function calcLeftPositions ({ contentInfo, captionSize, hasArrow }) {
   this.leftPositions['bottom-start'] = positionMinorLeft
   this.leftPositions['top-start'] = positionMinorLeft
 
-  const positionMinorCenter = contentInfo.x - (contentInfo.width / 2) + (captionSize.width / 2)
+  const positionMinorCenter = contentInfo.x - (contentInfo.width / 2) + (captionInfo.width / 2)
   this.leftPositions['top-center'] = positionMinorCenter
   this.leftPositions['bottom-center'] = positionMinorCenter
 
-  const positionMinorRight = contentInfo.x - contentInfo.width + captionSize.width
+  const positionMinorRight = contentInfo.x - contentInfo.width + captionInfo.width
   this.leftPositions['bottom-end'] = positionMinorRight
   this.leftPositions['top-end'] = positionMinorRight
 }
 
-function calcTopPositions ({ captionSize, contentInfo, hasArrow }) {
-  let positionRootBottom = contentInfo.y + captionSize.height
+function calcTopPositions ({ captionInfo, contentInfo, hasArrow }) {
+  let positionRootBottom = contentInfo.y + captionInfo.height
   positionRootBottom = positionRootBottom + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.topPositions['bottom-start'] = positionRootBottom
   this.topPositions['bottom-center'] = positionRootBottom
@@ -76,18 +76,18 @@ function calcTopPositions ({ captionSize, contentInfo, hasArrow }) {
   this.topPositions['top-center'] = positionRootTop
   this.topPositions['top-end'] = positionRootTop
 
-  const positionMinorCenter = contentInfo.y + (captionSize.height / 2) - (contentInfo.height / 2)
+  const positionMinorCenter = contentInfo.y + (captionInfo.height / 2) - (contentInfo.height / 2)
   this.topPositions['left-center'] = positionMinorCenter
   this.topPositions['right-center'] = positionMinorCenter
 
   this.topPositions['left-start'] = contentInfo.y
   this.topPositions['right-start'] = contentInfo.y
 
-  this.topPositions['left-end'] = contentInfo.y + captionSize.height
-  this.topPositions['right-end'] = contentInfo.y + captionSize.height
+  this.topPositions['left-end'] = contentInfo.y + captionInfo.height
+  this.topPositions['right-end'] = contentInfo.y + captionInfo.height
 }
 
-function calcLeftPositionsArrow ({ contentInfo }) {
+function calcLeftPositionsArrow (contentInfo) {
   this.arrowLeftPositions['top-start'] = 10
   this.arrowLeftPositions['bottom-start'] = 10
 
@@ -108,7 +108,7 @@ function calcLeftPositionsArrow ({ contentInfo }) {
   this.arrowLeftPositions['right-end'] = -(ARROW_SIZE * 2)
 }
 
-function calcTopPositionsArrow ({ contentInfo }) {
+function calcTopPositionsArrow (contentInfo) {
   this.arrowTopPositions['top-start'] = '100%'
   this.arrowTopPositions['top-center'] = '100%'
   this.arrowTopPositions['top-end'] = '100%'
@@ -128,7 +128,7 @@ function calcTopPositionsArrow ({ contentInfo }) {
   this.arrowTopPositions['right-end'] = contentInfo.height - (ARROW_SIZE * 2) - 10
 }
 
-function prepareTopPositions ({ contentInfo }) {
+function prepareTopPositions (contentInfo) {
   this.prepareTopPositions = { ...this.topPositions }
   this.prepareTopPositions['top-start'] -= contentInfo.height
   this.prepareTopPositions['top-center'] -= contentInfo.height
@@ -137,14 +137,14 @@ function prepareTopPositions ({ contentInfo }) {
   this.prepareTopPositions['left-end'] -= contentInfo.height
 }
 
-function prepareLeftPositions ({ contentInfo }) {
+function prepareLeftPositions (contentInfo) {
   this.prepareLeftPositions = { ...this.leftPositions }
   this.prepareLeftPositions['left-start'] -= contentInfo.width
   this.prepareLeftPositions['left-center'] -= contentInfo.width
   this.prepareLeftPositions['left-end'] -= contentInfo.width
 }
 
-function preparePlacements ({ placement, placements }) {
+function preparePlacements (placements) {
   if (placements.length !== PLACEMENTS_ORDER.length) {
     this.preparePlacements = PLACEMENTS_ORDER.filter(item => {
       return placements.indexOf(item) !== -1
@@ -173,7 +173,7 @@ function preparePlacements ({ placement, placements }) {
   ]
 }
 
-function getValidPlacement ({ placement, contentInfo }) {
+function getValidPlacement (placement, contentInfo) {
   if (!this.counter) this.counter = 1
   else this.counter++
 
@@ -191,19 +191,19 @@ function getValidPlacement ({ placement, contentInfo }) {
   const _leftPosition = this.prepareLeftPositions[placement]
   if (_leftPosition < 0 ||
       _leftPosition + contentInfo.width > Dimensions.get('window').width) {
-    return this.getValidPlacement({
-      placement: this.preparePlacements[nextIndex],
+    return this.getValidPlacement(
+      this.preparePlacements[nextIndex],
       contentInfo
-    })
+    )
   }
 
   const _topPosition = this.prepareTopPositions[placement]
   if (_topPosition < 0 ||
     _topPosition + contentInfo.height > Dimensions.get('window').height) {
-    return this.getValidPlacement({
-      placement: this.preparePlacements[nextIndex],
+    return this.getValidPlacement(
+      this.preparePlacements[nextIndex],
       contentInfo
-    })
+    )
   }
 
   return this.preparePlacements[activeIndexPlacement]

@@ -22,6 +22,7 @@
     "Menu": "/components/Menu",
     "Modal": "/components/Modal",
     "Pagination": "/components/Pagination",
+    "Portal": "/components/Portal",
     "Progress": "/components/Progress",
     "Rating": "/components/Rating",
     "Row": "/components/Row",

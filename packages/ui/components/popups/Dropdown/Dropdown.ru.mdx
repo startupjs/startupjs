@@ -21,18 +21,17 @@ import { Dropdown } from '@startupjs/ui'
 В функцию onChange приходит значение нажатого чилдрена.
 ```jsx example
 const [sort, setSort] = useState('')
+
 return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      value={sort}
-      onChange={v => setSort(v)}
-    >
-      <Dropdown.Caption placeholder="Sort by" />
-      <Dropdown.Item value="popular" label="Popular" />
-      <Dropdown.Item value="brand" label="Brand" />
-      <Dropdown.Item value="name" label="Name" />
-    </Dropdown>
-  </View>
+  <Dropdown
+    value={sort}
+    onChange={v => setSort(v)}
+  >
+    <Dropdown.Caption placeholder="Sort by" />
+    <Dropdown.Item value="popular" label="Popular" />
+    <Dropdown.Item value="brand" label="Brand" />
+    <Dropdown.Item value="name" label="Name" />
+  </Dropdown>
 )
 ```
 
@@ -40,59 +39,58 @@ return (
 ### По умолчанию
 ```jsx example
 const [sort, setSort] = useState('')
+
 return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      value={sort}
-      onChange={v => setSort(v)}
-    >
-      <Dropdown.Item value="popular" label="Popular" />
-      <Dropdown.Item value="brand" label="Brand" />
-      <Dropdown.Item value="name" label="Name" />
-    </Dropdown>
-  </View>
+  <Dropdown
+    value={sort}
+    onChange={v => setSort(v)}
+  >
+    <Dropdown.Caption placeholder="Sort by" />
+    <Dropdown.Item value="popular" label="Popular" />
+    <Dropdown.Item value="brand" label="Brand" />
+    <Dropdown.Item value="name" label="Name" />
+  </Dropdown>
 )
 ```
 
 ### В виде кнопки
 ```jsx example
 const [sort, setSort] = useState('')
+
 return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      value={sort}
-      onChange={v => setSort(v)}
-    >
-      <Dropdown.Caption variant="button" placeholder="Menu" />
-      <Dropdown.Item value="popular" label="Popular" />
-      <Dropdown.Item value="brand" label="Brand" />
-      <Dropdown.Item value="name" label="Name" />
-    </Dropdown>
-  </View>
+  <Dropdown
+    value={sort}
+    onChange={v => setSort(v)}
+  >
+    <Dropdown.Caption variant="button" placeholder="Menu" />
+    <Dropdown.Item value="popular" label="Popular" />
+    <Dropdown.Item value="brand" label="Brand" />
+    <Dropdown.Item value="name" label="Name" />
+  </Dropdown>
 )
 ```
 
 ### Кастомный
 ```jsx example
 const [sort, setSort] = useState('')
+
 const captionStyle = { width: 30, height: 30, backgroundColor: 'white',
   borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
+
 return (
-  <View style={{ width: 160 }}>
-    <Dropdown
-      value={sort}
-      onChange={v => setSort(v)}
-    >
-      <Dropdown.Caption>
-        <View style={captionStyle}>
-          <Icon icon={faEllipsisV} />
-        </View>
-      </Dropdown.Caption>
-      <Dropdown.Item value="popular" label="Popular" />
-      <Dropdown.Item value="brand" label="Brand" />
-      <Dropdown.Item value="name" label="Name" />
-    </Dropdown>
-  </View>
+  <Dropdown
+    value={sort}
+    onChange={v => setSort(v)}
+  >
+    <Dropdown.Caption>
+      <View style={captionStyle}>
+        <Icon icon={faEllipsisV} />
+      </View>
+    </Dropdown.Caption>
+    <Dropdown.Item value="popular" label="Popular" />
+    <Dropdown.Item value="brand" label="Brand" />
+    <Dropdown.Item value="name" label="Name" />
+  </Dropdown>
 )
 ```
 
@@ -100,15 +98,13 @@ return (
 ```jsx example
 const [sort, setSort] = useState('')
 return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      value={sort}
-      onChange={v => setSort(v)}
-    >
-      <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />
-      <Dropdown.Item icon={faTrashAlt} value="delete" label="Delete" />
-    </Dropdown>
-  </View>
+  <Dropdown
+    value={sort}
+    onChange={v => setSort(v)}
+  >
+    <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />
+    <Dropdown.Item icon={faTrashAlt} value="delete" label="Delete" />
+  </Dropdown>
 )
 ```
 
@@ -116,20 +112,22 @@ return (
 ```jsx example
 const [value, setValue] = useState('')
 return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      style={Dimensions.get('window').width < 780 ? { maxHeight: 160 } : { maxHeight: 100 }}
-      value={value}
-      onChange={v => setValue(v)}
-    >
-      <Dropdown.Item value="java" label="Java" />
-      <Dropdown.Item value="golang" label="Golang" />
-      <Dropdown.Item value="js" label="JavaScript" />
-      <Dropdown.Item value="python" label="Python" />
-      <Dropdown.Item value="csharp" label="C#" />
-      <Dropdown.Item value="cpp" label="C++" />
-    </Dropdown>
-  </View>
+  <Dropdown
+    style={
+      Dimensions.get('window').width < 780
+        ? { maxHeight: 160 }
+        : { maxHeight: 100 }
+    }
+    value={value}
+    onChange={v => setValue(v)}
+  >
+    <Dropdown.Item value="java" label="Java" />
+    <Dropdown.Item value="golang" label="Golang" />
+    <Dropdown.Item value="js" label="JavaScript" />
+    <Dropdown.Item value="python" label="Python" />
+    <Dropdown.Item value="csharp" label="C#" />
+    <Dropdown.Item value="cpp" label="C++" />
+  </Dropdown>
 )
 ```
 
@@ -151,30 +149,28 @@ const customStyle2 = state === 'custom2'
   : { backgroundColor: 'yellow', padding: 8 }
 
 return (
-  <View style={{ width: 150 }}>
-    <Dropdown
-      value={state}
-      onChange={v=> setState(v)}
-    >
-      <Dropdown.Item label='Выбрать 1' value={1} />
-      <Dropdown.Item label='Показать 2' onPress={()=> alert('2')} />
-      <Dropdown.Item
-        to='/'
-        label='На главную'
-        onPress={()=> alert('На главную')}
-      />
-      <Dropdown.Item value='custom'>
-        <View style={customStyle}>
-          <Text>Кастомный 1</Text>
-        </View>
-      </Dropdown.Item>
-      <Dropdown.Item onPress={()=> setState('custom2')}>
-        <View style={customStyle2}>
-          <Text>Кастомный 2</Text>
-        </View>
-      </Dropdown.Item>
-    </Dropdown>
-  </View>
+  <Dropdown
+    value={state}
+    onChange={v=> setState(v)}
+  >
+    <Dropdown.Item label='Выбрать 1' value={1} />
+    <Dropdown.Item label='Показать 2' onPress={()=> alert('2')} />
+    <Dropdown.Item
+      to='/'
+      label='На главную'
+      onPress={()=> alert('На главную')}
+    />
+    <Dropdown.Item value='custom'>
+      <View style={customStyle}>
+        <Text>Кастомный 1</Text>
+      </View>
+    </Dropdown.Item>
+    <Dropdown.Item onPress={()=> setState('custom2')}>
+      <View style={customStyle2}>
+        <Text>Кастомный 2</Text>
+      </View>
+    </Dropdown.Item>
+  </Dropdown>
 )
 ```
 

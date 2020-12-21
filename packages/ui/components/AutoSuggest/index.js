@@ -1,20 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
-import {
-  View,
-  Platform,
-  TouchableOpacity,
-  TouchableWithoutFeedback
-} from 'react-native'
+import React, { useState, useRef } from 'react'
+import { TouchableOpacity, Platform, View } from 'react-native'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
 import TextInput from '../forms/TextInput'
-import Popover from '../popups/Popover'
 import Menu from '../Menu'
+import Popover from '../popups/Popover'
 import Slicer from '../Slicer'
 import Loader from '../Loader'
+import useKeyboard from './useKeyboard'
 import './index.styl'
 
-function AutoSuggest ({
+// TODO: KeyboardAvoidingView
+export default observer(function AutoSuggest ({
   style,
   options,
   value,
@@ -27,92 +23,33 @@ function AutoSuggest ({
   onScrollEnd
 }) {
   const _data = useRef([])
+  const refInput = useRef()
+
+  const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const [selectIndexValue, setSelectIndexValue] = useState(-1)
-  const [isFocus, setIsFocus] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
+    isShow,
+    _data,
+    value,
+    onChange,
+    onChangeShow: v => setIsShow(v)
+  })
 
-  useEffect(() => {
-    if (Platform.OS !== 'web') return
-
-    if (isOpen) {
-      document.addEventListener('keydown', onKeyDown)
-    } else {
-      document.removeEventListener('keydown', onKeyDown)
-      setSelectIndexValue(-1)
-    }
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [isOpen, selectIndexValue])
-
-  useEffect(() => {
-    setIsFocus(false)
-    setIsOpen(false)
-  }, [value])
-
-  _data.current = options.filter((item, index) => {
+  _data.current = options.filter(item => {
     return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
   })
 
-  function onFocus () {
-    setIsFocus(true)
-  }
-
-  function onBlur () {
-    if (!_data.current.length) return
-    setInputValue('')
-    setIsFocus(false)
-    setIsOpen(false)
+  function onClose (e) {
+    setIsShow(false)
+    setSelectIndexValue(-1)
+    refInput.current.blur()
     onDismiss && onDismiss()
   }
 
   function _onChangeText (t) {
-    if (!isOpen) return
     setInputValue(t)
     setSelectIndexValue(-1)
     onChangeText && onChangeText(t)
-  }
-
-  function onKeyDown (e) {
-    let item, index
-    const keyName = e.key
-
-    switch (keyName) {
-      case 'ArrowUp':
-        e.preventDefault()
-        if (selectIndexValue === 0 || (selectIndexValue === -1 && !value.value)) return
-
-        index = selectIndexValue - 1
-        if (selectIndexValue === -1 && value.value) {
-          index = _data.current.findIndex(item => item.value === value.value)
-          index--
-        }
-
-        setSelectIndexValue(index)
-        break
-
-      case 'ArrowDown':
-        e.preventDefault()
-        if (selectIndexValue === _data.current.length - 1) return
-
-        index = selectIndexValue + 1
-        if (selectIndexValue === -1 && value) {
-          index = _data.current.findIndex(item => item.value === value.value)
-          index++
-        }
-
-        setSelectIndexValue(index)
-        break
-
-      case 'Enter':
-        e.preventDefault()
-        if (selectIndexValue === -1) return
-        item = _data.current.find((_, i) => i === selectIndexValue)
-        onChange && onChange(item)
-        break
-    }
   }
 
   const renderItems = _data.current.map((item, index) => {
@@ -120,46 +57,49 @@ function AutoSuggest ({
       return pug`
         TouchableOpacity(
           key=index
-          onPress=()=> onChange && onChange(item)
+          onPress=()=> {
+            onChange && onChange(item)
+            onClose()
+          }
         )= renderItem(item, index, selectIndexValue)
       `
     }
 
     return pug`
-      Menu.Item(
+      Menu.Item.item(
         key=index
         styleName={ selectMenu: selectIndexValue === index }
-        onPress=()=> onChange && onChange(item)
+        onPress=e=> {
+          onChange && onChange(item)
+          onClose()
+        }
         active=item.value === value.value
       )= item.label
     `
   })
 
-  if (!style.maxHeight) style.maxHeight = 200
   return pug`
     Popover(
-      wrapperStyle=style
-      wrapperStyleName='wrapper'
-      visible=(isFocus || isLoading)
-      position='bottom'
+      visible=(isShow || isLoading)
+      style=style
       hasWidthCaption=true
       durationOpen=200
       durationClose=200
-      onRequestOpen=()=> setIsOpen(true)
-      onDismiss=onBlur
+      animateType='slide'
+      onDismiss=onClose
+      onRequestClose=()=> setInputValue('')
     )
-      Popover.Caption
-        View.captionCase
-          TextInput(
-            placeholder=placeholder
-            onChangeText=_onChangeText
-            onFocus=onFocus
-            autoFocus=isFocus
-            value=(!isFocus && value.label) || inputValue
-          )
-          if !isFocus
-            TouchableWithoutFeedback(onPress=onFocus)
-              View.click
+      Popover.Caption.caption
+        TextInput(
+          ref=refInput
+          value=(!isShow && value.label) || inputValue
+          placeholder=placeholder
+          onChangeText=_onChangeText
+          onFocus=()=> setIsShow(true)
+          onBlur=()=> Platform.OS !== 'web' && setIsShow(false)
+          onKeyPress=onKeyPress
+        )
+
       if isLoading
         View.loaderCase
           Loader(size='s')
@@ -170,30 +110,4 @@ function AutoSuggest ({
           onScrollEnd=onScrollEnd
         )= renderItems
   `
-}
-
-AutoSuggest.defaultProps = {
-  style: {},
-  options: [],
-  placeholder: 'Select value',
-  value: {},
-  renderItem: null,
-  isLoading: false
-}
-
-AutoSuggest.propTypes = {
-  options: PropTypes.array.isRequired,
-  value: PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string
-  }).isRequired,
-  placeholder: PropTypes.string,
-  renderItem: PropTypes.func,
-  isLoading: PropTypes.bool,
-  onChange: PropTypes.func,
-  onDismiss: PropTypes.func,
-  onChangeText: PropTypes.func,
-  onScrollEnd: PropTypes.func
-}
-
-export default observer(AutoSuggest)
+})
