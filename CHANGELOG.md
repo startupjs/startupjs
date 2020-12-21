@@ -1,3 +1,12 @@
+## [0.30.4](https://github.com/startupjs/startupjs/compare/v0.30.3...v0.30.4) (2020-12-21)
+
+
+### Bug Fixes
+
+* **ui/Modal:** fix closing by default ([#440](https://github.com/startupjs/startupjs/issues/440)) ([41f9108](https://github.com/startupjs/startupjs/commit/41f910872ae98b066129b36471ab3d4838a46691))
+
+
+
 ## [0.30.3](https://github.com/startupjs/startupjs/compare/v0.30.2...v0.30.3) (2020-12-18)
 
 
