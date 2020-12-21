@@ -6,8 +6,7 @@ import { SIGN_IN_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PSignIn ({
-  captions,
-  descriptions,
+  configs,
   logo,
   localForms,
   socialButtons,
@@ -22,8 +21,7 @@ function PSignIn ({
           Logo(logo=logo)
       Div.wrapper
         AuthForm(
-          captions=captions
-          descriptions=descriptions
+          configs=configs
           initSlide=SIGN_IN_SLIDE
           hasRouting=true
           localForms=localForms
@@ -36,8 +34,7 @@ function PSignIn ({
 }
 
 PSignIn.propTypes = {
-  captions: PropTypes.object,
-  descriptions: PropTypes.object,
+  configs: PropTypes.object,
   logo: PropTypes.node,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
