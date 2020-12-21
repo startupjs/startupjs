@@ -27,6 +27,16 @@ import { Modal } from '@startupjs/ui'
 - `onDismiss` callback, which is executed after closing the modal in any way
 - `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
+### Closing by default
+  If you want to cancel the default closing of the modal when `onCancel`, `onConfirm`, `onBackdropPress` and `onCrossPress` are triggered, add `event.preventDefault()` to your callback:
+
+  ```js
+    const myOnPress = event => {
+      event.preventDefault()
+      // your code
+    }
+  ```
+
 ### There are two options for managing the state of a modal:
   1. By passing the scoped model to the `$visible ' property from the state of which visibility is controlled.
   2. By passing `ref`, which will receive the `open()` and `close()` methods to control visibility.

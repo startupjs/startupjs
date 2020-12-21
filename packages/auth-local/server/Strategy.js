@@ -51,7 +51,7 @@ export default function (config = {}) {
           const authData = await provider.loadAuthData()
           if (!authData) return cb(null, false, { message: 'User not found' })
 
-          const hash = _get(authData, 'providers.local.hash')
+          const hash = _get(authData, 'providers.local.hash', '')
           const userId = await provider.findOrCreateUser()
           bcrypt.compare(password, hash, function (err, res) {
             if (err) return cb(err)
