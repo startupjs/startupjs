@@ -26,6 +26,7 @@ function CheckboxInput ({
   label,
   value,
   layout,
+  customIcon,
   disabled,
   readonly,
   onChange,
@@ -59,6 +60,7 @@ function CheckboxInput ({
         style=standalone ? style : {}
         className=standalone ? className : undefined
         value=value
+        customIcon=customIcon
         disabled=disabled
         onPress=standalone ? onPress : undefined /* fix double opacity on input element for rows variant */
         hoverStyle=standalone ? hoverStyle : undefined
@@ -102,6 +104,7 @@ CheckboxInput.propTypes = {
   label: PropTypes.node,
   value: PropTypes.bool,
   layout: PropTypes.oneOf(['pure', 'rows']),
+  customIcon: PropTypes.object,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   onChange: PropTypes.func

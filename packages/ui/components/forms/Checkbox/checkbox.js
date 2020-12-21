@@ -12,6 +12,7 @@ export default observer(function Checkbox ({
   style,
   className,
   value,
+  customIcon,
   disabled,
   onPress,
   ...props
@@ -37,7 +38,7 @@ export default observer(function Checkbox ({
     }
   }, [value])
 
-  const checkedStyleName = { checked: value }
+  const checkedStyleName = { checked: value || !!customIcon }
 
   return pug`
     Div.checkbox(
@@ -51,7 +52,7 @@ export default observer(function Checkbox ({
     )
       Icon.checkbox-icon(
         styleName=[checkedStyleName]
-        icon=faCheck
+        icon=customIcon || faCheck
         size='s'
       )
       AnimatedView.checkbox-animation(
