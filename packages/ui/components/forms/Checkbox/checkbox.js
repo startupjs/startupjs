@@ -38,7 +38,7 @@ export default observer(function Checkbox ({
     }
   }, [value])
 
-  const checkedStyleName = { checked: value || !!customIcon }
+  const checkedStyleName = { checked: value }
 
   return pug`
     Div.checkbox(
