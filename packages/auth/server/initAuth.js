@@ -57,6 +57,7 @@ export default function (ee, _config) {
       expressApp.use((req, res, next) => {
         const $session = req.model.scope('_session.auth')
         $session.set({
+          signInPageUrl: config.signInPageUrl,
           successRedirectUrl: config.successRedirectUrl,
           ...$session.get(),
           ...fields
