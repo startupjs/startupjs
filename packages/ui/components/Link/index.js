@@ -63,6 +63,7 @@ function Link ({
 
   if (isBlock) {
     extraProps.variant = variant
+    extraProps._preventEvent = false
 
     try {
       // it throws an error if children has more then one child
@@ -77,7 +78,7 @@ function Link ({
         // which is what the function itself does on web
         children = React.cloneElement(
           children,
-          { onPress: handlePress }
+          { _preventEvent: false, onPress: handlePress }
         )
       }
     } catch (e) {}
@@ -93,7 +94,6 @@ function Link ({
       bold=bold
       italic=italic
       onPress=handlePress
-      _preventEvent=false
       ...extraProps
       ...props
     )= children

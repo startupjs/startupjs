@@ -63,11 +63,15 @@ fn_local_init () {
 
 fn_update_changelog () {
   set -e
-  git tag -d "v$(node -e "console.log(require('./lerna.json').version)")"
+  current_version="v$(node -e "console.log(require('./lerna.json').version)")"
+  # Exit if "no" was answered or Ctrl+C pressed during publish (lerna doesn't do exit 1 in that case).
+  # If lerna did do the version upgrade we are going to have a non-pushed tag (since we run lerna with --no-push)
+  git ls-remote --tags | grep "$current_version$" && exit 1
+  git tag -d "$current_version"
   yarn changelog
   git add CHANGELOG.md
   git commit --amend --no-edit
-  git tag "v$(node -e "console.log(require('./lerna.json').version)")"
+  git tag "$current_version" -m "$current_version"
   git push
   git push --tags
 }

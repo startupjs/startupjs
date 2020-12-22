@@ -1,3 +1,36 @@
+## [0.30.7](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.30.7) (2020-12-22)
+
+
+
+## [0.30.6](https://github.com/startupjs/startupjs/compare/v0.30.5...v0.30.6) (2020-12-21)
+
+
+### Bug Fixes
+
+* **Link:** dont prevent event for case when button in link ([8b284ed](https://github.com/startupjs/startupjs/commit/8b284ede74679d272dff71493d3b3de636017df0))
+* prevent warnings ([#438](https://github.com/startupjs/startupjs/issues/438)) ([0464027](https://github.com/startupjs/startupjs/commit/0464027bac1a003c4bcd3f4191f17d18890bb9fb))
+* **auth:** Prevent server error on login without provider ([10c9b4a](https://github.com/startupjs/startupjs/commit/10c9b4af04b8dfd63f9438a9ac34dd3215822187))
+
+
+### Features
+
+* **auth:** Add  config prop for auth forms ([#445](https://github.com/startupjs/startupjs/issues/445)) ([835f78f](https://github.com/startupjs/startupjs/commit/835f78f58eb643e8640312a76dfa10da68d1ccfb))
+* **auth:** apple ([#414](https://github.com/startupjs/startupjs/issues/414)) ([94aa118](https://github.com/startupjs/startupjs/commit/94aa1189f3d4c583862bea6ea0f88c7684cf8bb0))
+* **ui/Checkbox:** add icon property ([#441](https://github.com/startupjs/startupjs/issues/441)) ([82702cc](https://github.com/startupjs/startupjs/commit/82702cc29fec127f2d3264c32c2f1bb79d5e0831))
+
+
+
+## [0.30.5](https://github.com/startupjs/startupjs/compare/v0.30.4...v0.30.5) (2020-12-21)
+
+
+### Features
+
+* **auth:** Add  config prop for auth forms ([#445](https://github.com/startupjs/startupjs/issues/445)) ([835f78f](https://github.com/startupjs/startupjs/commit/835f78f58eb643e8640312a76dfa10da68d1ccfb))
+* **auth:** apple ([#414](https://github.com/startupjs/startupjs/issues/414)) ([94aa118](https://github.com/startupjs/startupjs/commit/94aa1189f3d4c583862bea6ea0f88c7684cf8bb0))
+* **ui/Checkbox:** add icon property ([#441](https://github.com/startupjs/startupjs/issues/441)) ([82702cc](https://github.com/startupjs/startupjs/commit/82702cc29fec127f2d3264c32c2f1bb79d5e0831))
+
+
+
 ## [0.30.4](https://github.com/startupjs/startupjs/compare/v0.30.3...v0.30.4) (2020-12-21)
 
 
