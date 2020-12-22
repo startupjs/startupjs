@@ -3,8 +3,7 @@ import { observer, useSession } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
 import { Menu, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import { DEFAULT_LANGUAGE } from './../../../../../const'
-import { useLang } from '../../../../../clientHelpers'
+import { getTitle, useLang } from '../../../../../clientHelpers'
 import './index.styl'
 
 const Docs = observer(function DocsComponent ({
@@ -25,16 +24,6 @@ const Docs = observer(function DocsComponent ({
       if (pathname.startsWith(docPath)) $openedCollapses.setDiff(subpath, true)
     }
   }, [])
-
-  function getTitle (item, lang) {
-    const title = item.title
-      ? typeof item.title === 'string'
-        ? item.title
-        : item.title[lang] || item.title[DEFAULT_LANGUAGE]
-      : null
-    if (!title) throw Error('No title specified')
-    return title
-  }
 
   const menuItemStyle = { paddingLeft: level * 24 }
 
