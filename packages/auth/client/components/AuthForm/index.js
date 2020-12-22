@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { observer, emit } from 'startupjs'
+import { observer, emit, useLocal } from 'startupjs'
 import { H5, Content, Span } from '@startupjs/ui'
 import { SIGN_IN_URL, SIGN_UP_URL, RECOVER_PASS_URL } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
@@ -27,6 +27,8 @@ function AuthForm ({
   onHandleError,
   onChangeAuthPage
 }) {
+  const [search = ''] = useLocal('$render.search')
+
   const [activeSlide, setActiveSlide] = useState(initSlide)
   const LocalActiveForm = localForms ? localForms[FORM_COMPONENTS_KEYS[activeSlide]] : null
 
@@ -55,13 +57,13 @@ function AuthForm ({
       if (hasRouting) {
         switch (slide) {
           case SIGN_IN_SLIDE:
-            emit('url', SIGN_IN_URL)
+            emit('url', SIGN_IN_URL + search)
             break
           case SIGN_UP_SLIDE:
-            emit('url', SIGN_UP_URL)
+            emit('url', SIGN_UP_URL + search)
             break
           case RECOVER_PASSWORD_SLIDE:
-            emit('url', RECOVER_PASS_URL)
+            emit('url', RECOVER_PASS_URL + search)
             break
           default:
             break
