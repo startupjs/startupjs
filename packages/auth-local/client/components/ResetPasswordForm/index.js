@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer, useQueryDoc, useValue, useDoc, $root, emit } from 'startupjs'
+import { useAuthHelper } from '@startupjs/auth-local'
 import { Span, Div, TextInput, Button, Br } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
@@ -63,8 +64,7 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess, onChang
   }
 
   function onLogin () {
-    if (onChangeAuthPage) onChangeAuthPage(SIGN_IN_SLIDE)
-    else emit('url', '/auth/sign-in')
+    onChangeAuthPage(SIGN_IN_SLIDE)
   }
 
   return pug`
