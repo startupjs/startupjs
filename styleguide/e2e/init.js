@@ -18,7 +18,7 @@ async function wait () {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve()
-    }, 1000)
+    }, 5000)
   })
 }
 
