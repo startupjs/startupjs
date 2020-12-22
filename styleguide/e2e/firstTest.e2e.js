@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 describe('Test suite 1', () => {
   it('should have logo', async () => {
     await x('#button').tap()
