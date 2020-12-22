@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, emit } from 'startupjs'
 import { H5, Content, Span } from '@startupjs/ui'
+import { SIGN_IN_URL, SIGN_UP_URL, RECOVER_PASS_URL } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import _get from 'lodash/get'
 import OrDivider from '../OrDivider'
@@ -10,7 +11,8 @@ import {
   DEFAULT_FORMS_DESCRIPTIONS,
   FORM_COMPONENTS_KEYS,
   SIGN_IN_SLIDE,
-  SIGN_UP_SLIDE
+  SIGN_UP_SLIDE,
+  RECOVER_PASSWORD_SLIDE
 } from '../../../isomorphic'
 import './index.styl'
 
@@ -22,7 +24,8 @@ function AuthForm ({
   hasRouting,
   onSuccess,
   onError,
-  onHandleError
+  onHandleError,
+  onChangeAuthPage
 }) {
   const [activeSlide, setActiveSlide] = useState(initSlide)
   const LocalActiveForm = localForms ? localForms[FORM_COMPONENTS_KEYS[activeSlide]] : null
@@ -43,6 +46,31 @@ function AuthForm ({
 
   const needOrLine = renderSocialButtons && renderSocialButtons.length &&
     LocalActiveForm && [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
+
+  function _onChangeAuthPage (slide) {
+    // Catch case if we need update query params or do something else
+    if (onChangeAuthPage && hasRouting) {
+      onChangeAuthPage(slide)
+    } else {
+      if (hasRouting) {
+        switch (slide) {
+          case SIGN_IN_SLIDE:
+            emit('url', SIGN_IN_URL)
+            break
+          case SIGN_UP_SLIDE:
+            emit('url', SIGN_UP_URL)
+            break
+          case RECOVER_PASSWORD_SLIDE:
+            emit('url', RECOVER_PASS_URL)
+            break
+          default:
+            break
+        }
+      } else {
+        setActiveSlide(slide)
+      }
+    }
+  }
 
   return pug`
     Content
@@ -74,7 +102,7 @@ function AuthForm ({
             onSuccess=onSuccess
             onError=onError
             onHandleError=onHandleError
-            onChangeAuthPage=hasRouting ? null : setActiveSlide
+            onChangeAuthPage=_onChangeAuthPage
           )
   `
 }
@@ -87,7 +115,8 @@ AuthForm.propTypes = {
   hasRouting: PropTypes.bool,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onHandleError: PropTypes.func
+  onHandleError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 AuthForm.defaultProps = {

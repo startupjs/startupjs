@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, emit, useSession } from 'startupjs'
+import { observer, useValue, useSession } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { useAuthHelper } from '@startupjs/auth-local'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { SIGN_UP_SLIDE, SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
+import { SIGN_UP_SLIDE, SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import './index.styl'
@@ -105,13 +105,11 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   }, [])
 
   function onRegister () {
-    if (onChangeAuthPage) onChangeAuthPage(SIGN_UP_SLIDE)
-    else emit('url', '/auth/sign-up')
+    onChangeAuthPage(SIGN_UP_SLIDE)
   }
 
   function onRecover () {
-    if (onChangeAuthPage) onChangeAuthPage('recover')
-    else emit('url', '/auth/recover')
+    onChangeAuthPage(RECOVER_PASSWORD_SLIDE)
   }
 
   return pug`
@@ -167,7 +165,7 @@ LoginForm.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeAuthPage: PropTypes.func.isRequired
 }
 
 export default observer(LoginForm)
