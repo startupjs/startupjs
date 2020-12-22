@@ -60,3 +60,6 @@ buck-out/
 
 # DB data
 /data/
+
+# Test screenshots
+/artifacts/

@@ -343,6 +343,8 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
+  - RNAppleAuthentication (2.1.0):
+    - React-Core
   - RNCPicker (1.9.4):
     - React-Core
   - RNDateTimePicker (3.0.6):
@@ -548,6 +550,7 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
+  RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
   RNDateTimePicker: 120f8d08b19dd50c0308d30a07c1982e4618e9ad
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499

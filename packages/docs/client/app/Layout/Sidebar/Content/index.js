@@ -25,10 +25,11 @@ export default observer(function Content ({
   return pug`
     Div.root
       ScrollView
-        Image.logo(source={ uri: baseUrl + '/img/docs.png' })
+        Image.logo(testID='logo' source={ uri: baseUrl + '/img/docs.png' })
         Docs(docs=docs lang=lang)
       Row.footer
         Select.lang(
+          testID='languagesSelect'
           options=LANGUAGES
           value=lang
           onChange=setLang
