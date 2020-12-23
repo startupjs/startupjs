@@ -1,3 +1,12 @@
+## [0.30.10](https://github.com/startupjs/startupjs/compare/v0.30.9...v0.30.10) (2020-12-23)
+
+
+### Bug Fixes
+
+* **auth:** Fastfix for mobile logout helper ([123c6bb](https://github.com/startupjs/startupjs/commit/123c6bb34a5ca6746d67c9a18c2443775fa11c1b))
+
+
+
 ## [0.30.9](https://github.com/startupjs/startupjs/compare/v0.30.8...v0.30.9) (2020-12-23)
 
 
