@@ -7,6 +7,7 @@ const _ = require('lodash')
 // Hack to obtain prototype of the Element class
 const ElementPrototype = Object.getPrototypeOf(element(by.id('DUMMY')))
 
+/*eslint-disable*/
 Object.assign(ElementPrototype, {
   async pickValue (columnValues) {
     let picker, confirm

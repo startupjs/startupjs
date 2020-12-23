@@ -281,6 +281,8 @@ PODS:
   - react-native-fbsdk/Share (2.0.0):
     - FBSDKShareKit (~> 7.0)
     - React
+  - react-native-restart (0.0.19):
+    - React-Core
   - react-native-webview (10.10.2):
     - React-Core
   - React-RCTActionSheet (0.63.4):
@@ -345,6 +347,8 @@ PODS:
     - React-jsi (= 0.63.4)
   - RNAppleAuthentication (2.1.0):
     - React-Core
+  - RNCAsyncStorage (1.13.2):
+    - React
   - RNCPicker (1.9.4):
     - React-Core
   - RNDateTimePicker (3.0.6):
@@ -396,6 +400,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-fbsdk (from `../../node_modules/react-native-fbsdk`)
+  - react-native-restart (from `../../node_modules/react-native-restart`)
   - react-native-webview (from `../../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../../node_modules/react-native/Libraries/NativeAnimation`)
@@ -408,6 +413,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCAsyncStorage (from `../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../node_modules/@react-native-community/datetimepicker`)"
   - "RNGoogleSignin (from `../../node_modules/@react-native-community/google-signin`)"
@@ -469,6 +475,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon/jsinspector"
   react-native-fbsdk:
     :path: "../../node_modules/react-native-fbsdk"
+  react-native-restart:
+    :path: "../../node_modules/react-native-restart"
   react-native-webview:
     :path: "../../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -493,6 +501,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../../node_modules/@invertase/react-native-apple-authentication"
+  RNCAsyncStorage:
+    :path: "../../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
     :path: "../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
@@ -539,6 +549,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
+  react-native-restart: 28dfecbccaf8ffb1070c5e3500d739aedbb0c381
   react-native-webview: 0aa2cde4ee7e3e1c5fffdf64dbce9c709aa18155
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
@@ -551,6 +562,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
+  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
   RNDateTimePicker: 120f8d08b19dd50c0308d30a07c1982e4618e9ad
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499

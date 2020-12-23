@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useHistory } from 'react-router'
 
 export default function SuccessRedirect ({ children }) {
