@@ -12,7 +12,12 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
+function RegisterForm ({
+  redirectUrl,
+  onSuccess,
+  onError,
+  onChangeAuthPage
+}) {
   const authHelper = useAuthHelper()
 
   const [formErrors, setFormErrors] = useState({})
@@ -78,7 +83,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
       const res = await authHelper.login({ email: form.email, password: form.password })
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_UP_SLIDE) : finishAuth()
+        onSuccess ? onSuccess(res.data, SIGN_UP_SLIDE) : finishAuth(redirectUrl)
       }
     } catch (error) {
       setFormErrors({ authError: error.response.data.message })
@@ -175,6 +180,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
 }
 
 RegisterForm.propTypes = {
+  redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onChangeAuthPage: PropTypes.func.isRequired

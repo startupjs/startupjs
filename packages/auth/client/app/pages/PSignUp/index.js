@@ -10,6 +10,7 @@ function PSignUp ({
   logo,
   localForms,
   socialButtons,
+  redirectUrl,
   onError,
   onSuccess,
   onHandleError,
@@ -27,6 +28,7 @@ function PSignUp ({
           hasRouting=true
           localForms=localForms
           socialButtons=socialButtons
+          redirectUrl=redirectUrl
           onError=onError
           onSuccess=onSuccess
           onHandleError=onHandleError
@@ -40,6 +42,7 @@ PSignUp.propTypes = {
   logo: PropTypes.node,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
+  redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,

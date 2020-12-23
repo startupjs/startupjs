@@ -8,6 +8,7 @@ export default function initAuthApp ({
   socialButtons,
   configs,
   logo,
+  redirectUrl,
   onChangeAuthPage
 }) {
   const routes = getAuthRoutes(pages).map(item => {
@@ -19,6 +20,7 @@ export default function initAuthApp ({
           configs=configs
           localForms=localForms
           socialButtons=socialButtons
+          redirectUrl=redirectUrl
           onChangeAuthPage=onChangeAuthPage
         )
       `
