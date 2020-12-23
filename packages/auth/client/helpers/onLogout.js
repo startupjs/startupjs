@@ -1,9 +1,8 @@
-import { $root } from 'startupjs'
+import RNRestart from 'react-native-restart'
 import axios from 'axios'
 import { LOGOUT_URL } from '../../isomorphic'
 
-export default async function onLogout (redirectUrl) {
-  const _redirectUrl = $root.get('_session.auth.signInPageUrl') || redirectUrl || '/'
+export default async function onLogout () {
   await axios.get(LOGOUT_URL)
-  window.location.pathname = _redirectUrl
+  RNRestart.Restart()
 }
