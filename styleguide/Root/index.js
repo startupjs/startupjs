@@ -49,6 +49,7 @@ export default observer(() => {
   const auth = initAuthApp({
     logo,
     localForms,
+    redirectUrl: '/profile?customParam=dummy',
     socialButtons: [
       AppleAuthButton,
       AzureadAuthButton,

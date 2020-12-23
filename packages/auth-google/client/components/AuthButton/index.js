@@ -5,11 +5,11 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ style, label }) {
+function AuthButton ({ style, label, redirectUrl }) {
   return pug`
     Button.button(
       style=style
-      onPress=onLogin
+      onPress=() => onLogin(redirectUrl)
       icon=faGoogle
       variant='flat'
     )= label
@@ -21,7 +21,8 @@ AuthButton.defaultProps = {
 }
 
 AuthButton.propTypes = {
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
+  redirectUrl: PropTypes.string
 }
 
 export default AuthButton

@@ -10,9 +10,11 @@ function PSignIn ({
   logo,
   localForms,
   socialButtons,
+  redirectUrl,
   onError,
   onSuccess,
-  onHandleError
+  onHandleError,
+  onChangeAuthPage
 }) {
   return pug`
     Div.root
@@ -26,9 +28,11 @@ function PSignIn ({
           hasRouting=true
           localForms=localForms
           socialButtons=socialButtons
+          redirectUrl=redirectUrl
           onError=onError
           onSuccess=onSuccess
           onHandleError=onHandleError
+          onChangeAuthPage=onChangeAuthPage
         )
   `
 }
@@ -38,9 +42,11 @@ PSignIn.propTypes = {
   logo: PropTypes.node,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
+  redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onHandleError: PropTypes.func
+  onHandleError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default PSignIn

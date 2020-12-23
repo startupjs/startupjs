@@ -1,11 +1,11 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.30.7",
+  "version": "0.30.9",
   "sideEffects": [],
   "private": true,
   "scripts": {
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",
-    "ios": "react-native run-ios --simulator \"iPhone 8\"",
+    "ios": "react-native run-ios --simulator \"iPhone 11\"",
     "start": "startupjs start",
     "metro": "react-native start --reset-cache",
     "web": "startupjs web",
@@ -18,19 +18,30 @@
     "ios-release": "react-native run-ios --simulator \"iPhone 8\" --configuration Release",
     "build": "ASYNC=1 startupjs build",
     "start-production": "startupjs start-production",
-    "fonts": "startupjs fonts"
+    "fonts": "startupjs fonts",
+    "test:build:server": "rm -rf ./build && webpack --config webpack.server.config.cjs",
+    "test:build:ios": "yarn build:jsbundle:ios && detox build -c ios",
+    "test:build:android": "detox build -c android",
+    "test:server": "PORT=3001 MONGO_URL=mongodb://localhost:27017/styleguide_test yarn server",
+    "test:metro": "RCT_METRO_PORT=8082 yarn metro -- --port=8082",
+    "test:clear-db": "mongo styleguide_test --eval \"db.dropDatabase();\"",
+    "test:ios": "detox test -c ios --artifacts-location $PWD/artifacts --take-screenshots all",
+    "test:android": "detox test -c android --loglevel trace",
+    "test:mobile": "concurrently -s first -k -n 'S,B,T' -c white,cyan.bgBlue,black.bgWhite \"yarn test:clear-db && yarn test:build:server && yarn test:server\" \"yarn test:metro\" \"yarn test:ios\"",
+    "build:jsbundle:ios": "mkdir -p ios/build/Build/Products/Release-iphonesimulator/styleguide.app/ && react-native bundle --entry-file='index.js' --bundle-output='./ios/build/Build/Products/Release-iphonesimulator/styleguide.app/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@invertase/react-native-apple-authentication": "^2.1.0",
+    "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/datetimepicker": "^3.0.6",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-picker/picker": "^1.9.3",
-    "@startupjs/docs": "^0.30.7",
-    "@startupjs/mdx": "^0.30.7",
-    "@startupjs/ui": "^0.30.7",
+    "@startupjs/docs": "^0.30.9",
+    "@startupjs/mdx": "^0.30.9",
+    "@startupjs/ui": "^0.30.9",
     "axios": "^0.19.0",
     "babel-jest": "^25.1.0",
     "events": "^3.1.0",
@@ -41,13 +52,20 @@
     "react-native": "0.63.4",
     "react-native-collapsible": "1.5.2",
     "react-native-fbsdk": "^2.0.0",
+    "react-native-restart": "0.0.19",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.30.7"
+    "startupjs": "^0.30.9"
   },
   "devDependencies": {
-    "babel-jest": "^25.1.0",
-    "jest": "^25.1.0",
-    "react-test-renderer": "16.13.1"
+    "babel-jest": "^24.9.0",
+    "concurrently": "5.3.0",
+    "detox": "^17.14.3",
+    "jest": "26.6.3",
+    "jest-circus": "26.6.3",
+    "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }

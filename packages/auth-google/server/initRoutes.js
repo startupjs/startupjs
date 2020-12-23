@@ -1,3 +1,4 @@
+import { parseRedirectUrl } from '@startupjs/auth/server'
 import {
   WEB_LOGIN_URL,
   CALLBACK_URL,
@@ -13,7 +14,7 @@ export default function (options) {
   const { router, config } = options
 
   // Web routes
-  router.get(WEB_LOGIN_URL, loginWeb)
+  router.get(WEB_LOGIN_URL, parseRedirectUrl, loginWeb)
   router.get(
     CALLBACK_URL,
     (req, res, next) => loginWebCallback(req, res, next, config)

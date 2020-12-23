@@ -3,5 +3,5 @@ import { LOGOUT_URL } from '../../isomorphic'
 
 export default async function onLogout () {
   await axios.get(LOGOUT_URL)
-  window.location.pathname = '/'
+  window.location.href = '/'
 }

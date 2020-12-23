@@ -20,6 +20,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8FDAA96CB7B3C1251995B2E0 /* libPods-styleguide-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB587507DE3856749B88E94F /* libPods-styleguide-tvOSTests.a */; };
 		D3C7446ECF83EF2AF79151F7 /* libPods-styleguide.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8AADCE48303594BA4F2C36A /* libPods-styleguide.a */; };
+		F486B79E258B00FA0061D311 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F486B79D258B00FA0061D311 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		E88070C1638417B6955F4E36 /* Pods-styleguide-styleguideTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-styleguideTests.release.xcconfig"; path = "Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F486B79D258B00FA0061D311 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				F486B79D258B00FA0061D311 /* GoogleService-Info.plist */,
 			);
 			name = styleguide;
 			sourceTree = "<group>";
@@ -154,7 +157,6 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -203,7 +205,6 @@
 				DD06C6750CC5087E47E13308 /* Pods-styleguide-tvOSTests.debug.xcconfig */,
 				71883F3FEF8C157CB432BE30 /* Pods-styleguide-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -351,6 +352,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F486B79E258B00FA0061D311 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

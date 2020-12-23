@@ -8,10 +8,13 @@ import { Button } from '@startupjs/ui'
 
 ## Установка зависимостей
 `yarn add @startupjs/auth`
+`yarn add @react-native-async-storage/async-storage`
+`yarn add react-native-restart`
 
 ## Force compile
 В webpack.server.config.cjs -> forceCompileModules добавить:
 `@startupjs/auth/server`
+`@startupjs/auth/isomorphic`
 
 В webpack.web.config.cjs -> forceCompileModules добавить:
 `@startupjs/auth`
@@ -69,6 +72,16 @@ const auth = initAuthApp({
 5 - Передать в App
 ```pug
 App(apps={ auth, main })
+```
+
+6 - Добавить роутеры на сервер
+```js
+import { getAuthRoutes } from '@startupjs/auth/isomorphic'
+//...
+appRoutes: [
+  ...getAuthRoutes()
+]
+//...
 ```
 
 [Тестовый пример](/auth/sign-in)

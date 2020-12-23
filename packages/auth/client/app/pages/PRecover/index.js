@@ -11,7 +11,8 @@ function PRecover ({
   socialButtons,
   onError,
   onSuccess,
-  onHandleError
+  onHandleError,
+  onChangeAuthPage
 }) {
   return pug`
     Div.root
@@ -28,6 +29,7 @@ function PRecover ({
           onError=onError
           onSuccess=onSuccess
           onHandleError=onHandleError
+          onChangeAuthPage=onChangeAuthPage
       )
   `
 }
@@ -39,7 +41,8 @@ PRecover.propTypes = {
   socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onHandleError: PropTypes.func
+  onHandleError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default PRecover
