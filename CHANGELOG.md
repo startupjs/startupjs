@@ -1,3 +1,13 @@
+## [0.30.9](https://github.com/startupjs/startupjs/compare/v0.30.8...v0.30.9) (2020-12-23)
+
+
+### Bug Fixes
+
+* **auth:** Change pathmane to href for web ([64e18ce](https://github.com/startupjs/startupjs/commit/64e18ce105b8a351f4d3361e27ac3c6af97f7f5e))
+* **ui/Modal:** pass style and modalStyle correctly ([4e1c23e](https://github.com/startupjs/startupjs/commit/4e1c23e9072e68caecfe39551bab3688c7c95180))
+
+
+
 ## [0.30.8](https://github.com/startupjs/startupjs/compare/v0.30.7...v0.30.8) (2020-12-22)
 
 
