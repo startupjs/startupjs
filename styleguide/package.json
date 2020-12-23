@@ -19,7 +19,6 @@
     "build": "ASYNC=1 startupjs build",
     "start-production": "startupjs start-production",
     "fonts": "startupjs fonts",
-    "": "",
     "test:build:server": "rm -rf ./build && webpack --config webpack.server.config.cjs",
     "test:build:ios": "yarn build:jsbundle:ios && detox build -c ios",
     "test:build:android": "detox build -c android",
