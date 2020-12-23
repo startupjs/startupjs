@@ -22,7 +22,7 @@ function AuthButton ({ style, label, redirectUrl }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Apple'
+  label: 'Apple'
 }
 
 AuthButton.propTypes = {
