@@ -1,3 +1,16 @@
+## [0.30.8](https://github.com/startupjs/startupjs/compare/v0.30.7...v0.30.8) (2020-12-22)
+
+
+### Bug Fixes
+
+* **auth:** remove duplicated import ([66ba6d2](https://github.com/startupjs/startupjs/commit/66ba6d28dbbdef3a0f0e94582234cb288c8c24f6))
+
+
+
+## [0.30.7](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.30.7) (2020-12-22)
+
+
+
 ## [0.30.6](https://github.com/startupjs/startupjs/compare/v0.30.5...v0.30.6) (2020-12-21)
 
 

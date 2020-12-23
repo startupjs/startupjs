@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { useHistory } from 'react-router'
 import { observer, useValue } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
@@ -14,7 +13,6 @@ const isWeb = Platform.OS === 'web'
 
 function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   const authHelper = useAuthHelper()
-  const history = useHistory()
 
   const [form, $form] = useValue({
     email: null,
@@ -71,8 +69,7 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
   }, [])
 
   function onLogin () {
-    if (onChangeAuthPage) onChangeAuthPage(SIGN_IN_SLIDE)
-    else history.push('/auth/sign-in')
+    onChangeAuthPage(SIGN_IN_SLIDE)
   }
 
   return pug`
@@ -111,7 +108,7 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
 RecoverForm.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeAuthPage: PropTypes.func.isRequired
 }
 
 export default observer(RecoverForm)
