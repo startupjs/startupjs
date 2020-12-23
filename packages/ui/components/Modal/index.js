@@ -9,6 +9,7 @@ import ModalActions from './ModalActions'
 
 function Modal ({
   style,
+  modalStyle,
   $visible,
   transparent,
   supportedOrientations,
@@ -50,7 +51,6 @@ function Modal ({
 
   return pug`
     RNModal(
-      style=style
       visible=_visible
       transparent=transparent
       supportedOrientations=supportedOrientations
@@ -62,7 +62,8 @@ function Modal ({
     )
       if props.variant !== 'custom'
         Layout(
-          modalStyle=style
+          style=style
+          modalStyle=modalStyle
           closeFallback=closeFallback
           ...props
         )

@@ -5,14 +5,14 @@ import { AuthForm, Logo } from '../../../components'
 import '../sharedPageStyles.styl'
 
 function PRecover ({
-  captions,
-  descriptions,
+  configs,
   logo,
   localForms,
   socialButtons,
   onError,
   onSuccess,
-  onHandleError
+  onHandleError,
+  onChangeAuthPage
 }) {
   return pug`
     Div.root
@@ -21,8 +21,7 @@ function PRecover ({
           Logo(logo=logo)
       Div.wrapper
         AuthForm(
-          captions=captions
-          descriptions=descriptions
+          configs=configs
           initSlide='recover'
           hasRouting=true
           localForms=localForms
@@ -30,19 +29,20 @@ function PRecover ({
           onError=onError
           onSuccess=onSuccess
           onHandleError=onHandleError
+          onChangeAuthPage=onChangeAuthPage
       )
   `
 }
 
 PRecover.propTypes = {
-  captions: PropTypes.object,
-  descriptions: PropTypes.object,
+  configs: PropTypes.object,
   logo: PropTypes.node,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onHandleError: PropTypes.func
+  onHandleError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default PRecover

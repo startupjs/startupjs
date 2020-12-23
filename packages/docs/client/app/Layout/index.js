@@ -15,7 +15,7 @@ const Topbar = observer(function Topbar () {
 
   return pug`
     Row.topbar
-      Button(icon=faBars onPress=toggleSidebar color='darkLight')
+      Button(testID='button' icon=faBars onPress=toggleSidebar color='darkLight')
   `
 })
 
@@ -24,7 +24,7 @@ export default observer(function StyleguideLayout ({ children }) {
   //       to achieve a semi-transparent effect
   return pug`
     MDXProvider
-      Layout.layout
+      Layout.layout(testID="Layout")
         Sidebar
           Topbar
           = children

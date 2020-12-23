@@ -6,14 +6,14 @@ import { SIGN_UP_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PSignUp ({
-  captions,
-  descriptions,
+  configs,
   logo,
   localForms,
   socialButtons,
   onError,
   onSuccess,
-  onHandleError
+  onHandleError,
+  onChangeAuthPage
 }) {
   return pug`
     Div.root
@@ -22,8 +22,7 @@ function PSignUp ({
           Logo(logo=logo)
       Div.wrapper
         AuthForm(
-          captions=captions
-          descriptions=descriptions
+          configs=configs
           initSlide=SIGN_UP_SLIDE
           hasRouting=true
           localForms=localForms
@@ -31,19 +30,20 @@ function PSignUp ({
           onError=onError
           onSuccess=onSuccess
           onHandleError=onHandleError
+          onChangeAuthPage=onChangeAuthPage
         )
   `
 }
 
 PSignUp.propTypes = {
-  captions: PropTypes.object,
-  descriptions: PropTypes.object,
+  configs: PropTypes.object,
   logo: PropTypes.node,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onHandleError: PropTypes.func
+  onHandleError: PropTypes.func,
+  onChangeAuthPage: PropTypes.func
 }
 
 export default PSignUp

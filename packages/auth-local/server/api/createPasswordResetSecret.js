@@ -1,7 +1,7 @@
 export default function createPasswordResetSecret (req, res, done, config) {
-  const { onCreatePasswordResetSecret } = config
+  const { onBeforeCreatePasswordResetSecret, onCreatePasswordResetSecret } = config
 
-  parseRecoverPasswordRequest(req, res, async function (err, email) {
+  onBeforeCreatePasswordResetSecret(req, res, async function (err, email) {
     if (err) return res.status(400).json({ message: err })
     const { model } = req
 
@@ -28,12 +28,4 @@ export default function createPasswordResetSecret (req, res, done, config) {
 
     res.send('Secret for password reset has been created')
   })
-}
-
-function parseRecoverPasswordRequest (req, res, done) {
-  const { email } = req.body
-
-  if (!email) return done('Missing email')
-
-  done(null, email)
 }

@@ -1,3 +1,72 @@
+## [0.30.8](https://github.com/startupjs/startupjs/compare/v0.30.7...v0.30.8) (2020-12-22)
+
+
+### Bug Fixes
+
+* **auth:** remove duplicated import ([66ba6d2](https://github.com/startupjs/startupjs/commit/66ba6d28dbbdef3a0f0e94582234cb288c8c24f6))
+
+
+
+## [0.30.7](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.30.7) (2020-12-22)
+
+
+
+## [0.30.6](https://github.com/startupjs/startupjs/compare/v0.30.5...v0.30.6) (2020-12-21)
+
+
+### Bug Fixes
+
+* **Link:** dont prevent event for case when button in link ([8b284ed](https://github.com/startupjs/startupjs/commit/8b284ede74679d272dff71493d3b3de636017df0))
+* prevent warnings ([#438](https://github.com/startupjs/startupjs/issues/438)) ([0464027](https://github.com/startupjs/startupjs/commit/0464027bac1a003c4bcd3f4191f17d18890bb9fb))
+* **auth:** Prevent server error on login without provider ([10c9b4a](https://github.com/startupjs/startupjs/commit/10c9b4af04b8dfd63f9438a9ac34dd3215822187))
+
+
+### Features
+
+* **auth:** Add  config prop for auth forms ([#445](https://github.com/startupjs/startupjs/issues/445)) ([835f78f](https://github.com/startupjs/startupjs/commit/835f78f58eb643e8640312a76dfa10da68d1ccfb))
+* **auth:** apple ([#414](https://github.com/startupjs/startupjs/issues/414)) ([94aa118](https://github.com/startupjs/startupjs/commit/94aa1189f3d4c583862bea6ea0f88c7684cf8bb0))
+* **ui/Checkbox:** add icon property ([#441](https://github.com/startupjs/startupjs/issues/441)) ([82702cc](https://github.com/startupjs/startupjs/commit/82702cc29fec127f2d3264c32c2f1bb79d5e0831))
+
+
+
+## [0.30.5](https://github.com/startupjs/startupjs/compare/v0.30.4...v0.30.5) (2020-12-21)
+
+
+### Features
+
+* **auth:** Add  config prop for auth forms ([#445](https://github.com/startupjs/startupjs/issues/445)) ([835f78f](https://github.com/startupjs/startupjs/commit/835f78f58eb643e8640312a76dfa10da68d1ccfb))
+* **auth:** apple ([#414](https://github.com/startupjs/startupjs/issues/414)) ([94aa118](https://github.com/startupjs/startupjs/commit/94aa1189f3d4c583862bea6ea0f88c7684cf8bb0))
+* **ui/Checkbox:** add icon property ([#441](https://github.com/startupjs/startupjs/issues/441)) ([82702cc](https://github.com/startupjs/startupjs/commit/82702cc29fec127f2d3264c32c2f1bb79d5e0831))
+
+
+
+## [0.30.4](https://github.com/startupjs/startupjs/compare/v0.30.3...v0.30.4) (2020-12-21)
+
+
+### Bug Fixes
+
+* **ui/Modal:** fix closing by default ([#440](https://github.com/startupjs/startupjs/issues/440)) ([41f9108](https://github.com/startupjs/startupjs/commit/41f910872ae98b066129b36471ab3d4838a46691))
+
+
+
+## [0.30.3](https://github.com/startupjs/startupjs/compare/v0.30.2...v0.30.3) (2020-12-18)
+
+
+### Bug Fixes
+
+* **Link:** dont prevent event when Link using Div ([#439](https://github.com/startupjs/startupjs/issues/439)) ([48dc78b](https://github.com/startupjs/startupjs/commit/48dc78baebb7184fd7a52171ea0d9940cc087b9c))
+
+
+
+## [0.30.2](https://github.com/startupjs/startupjs/compare/v0.30.1...v0.30.2) (2020-12-18)
+
+
+### Bug Fixes
+
+* **Div:** prevent default browser behavior for click inside Link component, to make it similar as behavior of the native mobiles ([#437](https://github.com/startupjs/startupjs/issues/437)) ([96b4da6](https://github.com/startupjs/startupjs/commit/96b4da6912597f5c1cf8410e5a5cbd710df9c918))
+
+
+
 ## [0.30.1](https://github.com/startupjs/startupjs/compare/v0.30.0...v0.30.1) (2020-12-17)
 
 

@@ -3,17 +3,23 @@ import * as pages from './pages'
 import { getAuthRoutes } from '../../isomorphic'
 import Layout from './Layout'
 
-export default function initAuthApp ({ localForms, socialButtons, captions, descriptions, logo }) {
+export default function initAuthApp ({
+  localForms,
+  socialButtons,
+  configs,
+  logo,
+  onChangeAuthPage
+}) {
   const routes = getAuthRoutes(pages).map(item => {
     const Page = item.component
     item.component = () => {
       return pug`
         Page(
           logo=logo
-          captions=captions
-          descriptions=descriptions
+          configs=configs
           localForms=localForms
           socialButtons=socialButtons
+          onChangeAuthPage=onChangeAuthPage
         )
       `
     }

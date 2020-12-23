@@ -3,6 +3,7 @@ import _get from 'lodash/get'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
+  onBeforeCreatePasswordResetSecret,
   onCreatePasswordResetSecret,
   onBeforeRegister,
   onAfterRegister,
@@ -18,9 +19,11 @@ import { DEFAULT_PASS_RESET_TIME_LIMIT } from '../isomorphic'
 export default function (config = {}) {
   this.config = {}
 
-  return ({ model, router, authConfig }) => {
+  return ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      localSignUpEnabled: true,
+      onBeforeCreatePasswordResetSecret,
       onCreatePasswordResetSecret,
       onBeforeRegister,
       onAfterRegister,
@@ -35,6 +38,9 @@ export default function (config = {}) {
 
     initRoutes({ router, config: this.config })
 
+    // Append required configs to client session
+    updateClientSession({ local: { localSignUpEnabled: this.config.localSignUpEnabled } })
+
     passport.use(
       new Strategy(
         { usernameField: 'email' },
@@ -45,7 +51,7 @@ export default function (config = {}) {
           const authData = await provider.loadAuthData()
           if (!authData) return cb(null, false, { message: 'User not found' })
 
-          const hash = _get(authData, 'providers.local.hash')
+          const hash = _get(authData, 'providers.local.hash', '')
           const userId = await provider.findOrCreateUser()
           bcrypt.compare(password, hash, function (err, res) {
             if (err) return cb(err)

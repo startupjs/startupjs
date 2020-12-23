@@ -1,4 +1,9 @@
-export default async function finishAuth (req, res, { userId, successRedirectUrl, onBeforeLoginHook, onAfterLoginHook }) {
+export default async function finishAuth (req, res, {
+  userId,
+  successRedirectUrl,
+  onBeforeLoginHook,
+  onAfterLoginHook
+}) {
   onBeforeLoginHook({ userId }, req, res, () => {
     req.login(userId, async function (err) {
       if (err) {

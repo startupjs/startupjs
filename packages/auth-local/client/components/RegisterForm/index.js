@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, emit } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
-import { useAuthHelper } from '@startupjs/auth-local/client'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
+import { useAuthHelper } from '../../helpers'
 import TextInput from '../TextInput'
 import './index.styl'
 
@@ -112,8 +112,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
   }, [])
 
   function onLogin () {
-    if (onChangeAuthPage) onChangeAuthPage(SIGN_IN_SLIDE)
-    else emit('url', '/auth/sign-in')
+    onChangeAuthPage(SIGN_IN_SLIDE)
   }
 
   return pug`
@@ -178,7 +177,7 @@ function RegisterForm ({ onSuccess, onError, onChangeAuthPage }) {
 RegisterForm.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeAuthPage: PropTypes.func.isRequired
 }
 
 export default observer(RegisterForm)
