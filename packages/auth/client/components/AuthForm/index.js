@@ -22,6 +22,7 @@ function AuthForm ({
   socialButtons,
   localForms,
   hasRouting,
+  redirectUrl,
   onSuccess,
   onError,
   onHandleError,
@@ -42,7 +43,9 @@ function AuthForm ({
   const renderSocialButtons = socialButtons.map((Component, index) => {
     return pug`
       View.button(key=index)
-        Component
+        Component(
+          redirectUrl=redirectUrl
+        )
     `
   })
 
@@ -101,6 +104,7 @@ function AuthForm ({
           else
             = localFormDescription
           LocalActiveForm(
+            redirectUrl=redirectUrl
             onSuccess=onSuccess
             onError=onError
             onHandleError=onHandleError
@@ -115,6 +119,7 @@ AuthForm.propTypes = {
   socialButtons: PropTypes.array,
   localForms: PropTypes.object,
   hasRouting: PropTypes.bool,
+  redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,

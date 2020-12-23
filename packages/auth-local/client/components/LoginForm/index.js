@@ -12,7 +12,13 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
+function LoginForm ({
+  redirectUrl,
+  onSuccess,
+  onError,
+  onHandleError,
+  onChangeAuthPage
+}) {
   const authHelper = useAuthHelper()
 
   const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
@@ -64,7 +70,7 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
       const res = await authHelper.login(form)
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth()
+        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth(redirectUrl)
       }
     } catch (error) {
       if (onHandleError) {
@@ -162,6 +168,7 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
 }
 
 LoginForm.propTypes = {
+  redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,
