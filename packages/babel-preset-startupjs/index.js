@@ -1,6 +1,7 @@
 const genericNames = require('generic-names')
 const { LOCAL_IDENT_NAME } = require('./constants')
 const ASYNC = process.env.ASYNC
+const APP_ENV = process.env.APP_ENV
 const DEFAULT_MODE = 'react-native'
 
 const DIRECTORY_ALIASES = {
@@ -29,10 +30,13 @@ const basePlugins = ({ alias } = {}) => [
   [require('@babel/plugin-proposal-decorators'), { legacy: true }]
 ]
 
-const dotenvPlugin = ({ production, mockBaseUrl } = {}) => {
+const dotenvPlugin = ({ production, mockBaseUrl, envName = APP_ENV } = {}) => {
+  if (!envName) {
+    envName = production ? 'production' : 'local'
+  }
   const options = {
     moduleName: '@env',
-    path: ['.env', production ? '.env.production' : '.env.local']
+    path: ['.env', `.env.${envName}`]
   }
   if (mockBaseUrl) {
     options.override = {

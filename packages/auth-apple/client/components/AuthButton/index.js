@@ -6,7 +6,7 @@ import { faApple } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ style, label }) {
+function AuthButton ({ style, label, redirectUrl }) {
   const [authConfig] = useSession('auth')
 
   const { clientId, testBaseUrl } = authConfig.apple
@@ -14,7 +14,7 @@ function AuthButton ({ style, label }) {
   return pug`
     Button.button(
       style=style
-      onPress=()=> onLogin({ clientId, testBaseUrl })
+      onPress=()=> onLogin({ clientId, testBaseUrl }, redirectUrl)
       icon=faApple
       variant='flat'
     )= label
@@ -22,11 +22,12 @@ function AuthButton ({ style, label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Login with Apple'
+  label: 'Apple'
 }
 
 AuthButton.propTypes = {
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
+  redirectUrl: PropTypes.string
 }
 
 export default AuthButton

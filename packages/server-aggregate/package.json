@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/server-aggregate",
-  "version": "0.30.7",
+  "version": "0.30.9",
   "description": "Module for describing aggregations on the server",
   "main": "server.js",
   "publishConfig": {
@@ -13,7 +13,7 @@
     "@startupjs/sharedb-access": "^0.28.0"
   },
   "peerDependencies": {
-    "racer": "*"
+    "racer": "0.9.15"
   },
   "author": "Artur Zayats <zag2art@gmail.com>",
   "license": "MIT"

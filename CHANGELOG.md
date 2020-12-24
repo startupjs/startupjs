@@ -1,3 +1,31 @@
+## [0.30.10](https://github.com/startupjs/startupjs/compare/v0.30.9...v0.30.10) (2020-12-23)
+
+
+### Bug Fixes
+
+* **auth:** Fastfix for mobile logout helper ([123c6bb](https://github.com/startupjs/startupjs/commit/123c6bb34a5ca6746d67c9a18c2443775fa11c1b))
+
+
+
+## [0.30.9](https://github.com/startupjs/startupjs/compare/v0.30.8...v0.30.9) (2020-12-23)
+
+
+### Bug Fixes
+
+* **auth:** Change pathmane to href for web ([64e18ce](https://github.com/startupjs/startupjs/commit/64e18ce105b8a351f4d3361e27ac3c6af97f7f5e))
+* **ui/Modal:** pass style and modalStyle correctly ([4e1c23e](https://github.com/startupjs/startupjs/commit/4e1c23e9072e68caecfe39551bab3688c7c95180))
+
+
+
+## [0.30.8](https://github.com/startupjs/startupjs/compare/v0.30.7...v0.30.8) (2020-12-22)
+
+
+### Bug Fixes
+
+* **auth:** remove duplicated import ([66ba6d2](https://github.com/startupjs/startupjs/commit/66ba6d28dbbdef3a0f0e94582234cb288c8c24f6))
+
+
+
 ## [0.30.7](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.30.7) (2020-12-22)
 
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, emit, useSession } from 'startupjs'
+import { observer, useValue, useSession } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { SIGN_UP_SLIDE, SIGN_IN_SLIDE } from '@startupjs/auth/isomorphic'
+import { SIGN_UP_SLIDE, SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
 import TextInput from '../TextInput'
@@ -12,7 +12,13 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
+function LoginForm ({
+  redirectUrl,
+  onSuccess,
+  onError,
+  onHandleError,
+  onChangeAuthPage
+}) {
   const authHelper = useAuthHelper()
 
   const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
@@ -64,7 +70,7 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
       const res = await authHelper.login(form)
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth()
+        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth(redirectUrl)
       }
     } catch (error) {
       if (onHandleError) {
@@ -105,13 +111,11 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
   }, [])
 
   function onRegister () {
-    if (onChangeAuthPage) onChangeAuthPage(SIGN_UP_SLIDE)
-    else emit('url', '/auth/sign-up')
+    onChangeAuthPage(SIGN_UP_SLIDE)
   }
 
   function onRecover () {
-    if (onChangeAuthPage) onChangeAuthPage('recover')
-    else emit('url', '/auth/recover')
+    onChangeAuthPage(RECOVER_PASSWORD_SLIDE)
   }
 
   return pug`
@@ -164,10 +168,11 @@ function LoginForm ({ onSuccess, onError, onHandleError, onChangeAuthPage }) {
 }
 
 LoginForm.propTypes = {
+  redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeAuthPage: PropTypes.func.isRequired
 }
 
 export default observer(LoginForm)
