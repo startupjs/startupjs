@@ -17,9 +17,7 @@ function Provider ({ children }) {
 function Listener () {
   const manager = state => {
     const [data] = state
-    return Object.keys(data).map(key => {
-      return data[key]
-    })
+    return Object.values(data).map(item => item)
   }
 
   return (

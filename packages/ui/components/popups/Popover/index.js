@@ -190,8 +190,7 @@ function Popover ({
     {
       left: refGeometry.current.positionLeft,
       top: refGeometry.current.positionTop
-    },
-    isShtampInit(step) ? { width: 'auto' } : { width: '100%' }
+    }
   ])
 
   const _popoverStyle = StyleSheet.flatten([
@@ -221,6 +220,7 @@ function Popover ({
   }
   if (hasWidthCaption) _popoverStyle.width = captionInfo.width
   if (style.maxHeight) _contentStyle.maxHeight = style.maxHeight
+  if (_contentStyle.maxWidth) _wrapperStyle.maxWidth = _contentStyle.maxWidth
 
   return pug`
     = caption

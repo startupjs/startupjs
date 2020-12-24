@@ -62,14 +62,11 @@ function Modal ({
       onShow=onShow
     )
       Portal.Provider
-        if props.variant !== 'custom'
-          Layout(
-            modalStyle=style
-            closeFallback=closeFallback
-            ...props
-          )
-        else
-          = props.children
+        Layout(
+          modalStyle=style
+          closeFallback=closeFallback
+          ...props
+        )
   `
 }
 
@@ -92,7 +89,7 @@ ObservedModal.defaultProps = {
 ObservedModal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  variant: PropTypes.oneOf(['window', 'fullscreen', 'custom']),
+  variant: PropTypes.oneOf(['window', 'fullscreen']),
   $visible: PropTypes.any,
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,

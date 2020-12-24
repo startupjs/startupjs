@@ -3,7 +3,9 @@ import { Text, View } from 'react-native'
 import Alert from '../Alert'
 import Button from '../Button'
 import Row from '../Row'
-import Tooltip from './index'
+import Span from '../typography/Span'
+import Div from '../Div'
+import Tooltip from './'
 
 # Tooltip
 
@@ -19,99 +21,73 @@ import { Tooltip } from '@startupjs/ui'
 ## Example with Text
 
 ```jsx example
+const wrapperStyle = { backgroundColor: '#dddddd', height: 40, borderRadius: 6, width: 100, alignItems: 'center', justifyContent: 'center' }
+
+const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+
 return (
   <Row>
-    <View style={{ width: 100, marginRight: 8 }}>
-      <Tooltip
-        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      >
-        <Text
-          style={{
-            backgroundColor: '#dddddd',
-            padding: 12,
-            borderRadius: 4
-          }}>
-            Текст...
-          </Text>
-      </Tooltip>
-    </View>
-    <View style={{ width: 100, marginRight: 8 }}>
-      <Tooltip
-        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      >
-        <Text
-          style={{
-            backgroundColor: '#dddddd',
-            padding: 12,
-            borderRadius: 4
-          }}>
-            Текст...
-          </Text>
-      </Tooltip>
-    </View>
-    <View style={{ width: 100, marginRight: 8 }}>
-      <Tooltip
-        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      >
-        <Text
-          style={{
-            backgroundColor: '#dddddd',
-            padding: 12,
-            borderRadius: 4
-          }}>
-            Текст...
-          </Text>
-      </Tooltip>
-    </View>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Caption 1</Span>
+      </Div>
+    </Tooltip>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Caption 2</Span>
+      </Div>
+    </Tooltip>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Caption 3</Span>
+      </Div>
+    </Tooltip>
   </Row>
 )
 ```
 
 ## Tooltip with pressable elements
 
-If you need to wrap a pressable element in a tooltip in a mobile app, the `onPress` property must be in the top component of children.
+If you need to wrap a pressable element in a tooltip in a mobile app, the `onPress` property must be in the top component of children
 
-- wrong
+❌ wrong
 
 ```jsx
-<Tooltip
-  content='Some content'
->
+<Tooltip content='Some content'>
   <View>
-    <Button onPress={onPressHandler}>Button...</Button>
+    <Button onPress={onPressHandler}>Button</Button>
   </View>
 </Tooltip>
 ```
 
-- right
+✅ right
 
 ```jsx
 <Tooltip content='Some content'>
-  <Button onPress={onPressHandler}>Button...</Button>
+  <Button onPress={onPressHandler}>Button</Button>
 </Tooltip>
 ```
 
 ## Example with Button
 
 ```jsx example
-const [pressed, setPressed] = useState('')
+const [isClick, setIsClick] = useState(false)
+
+const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
 
 return (
   <View>
-    <View style={{ width: 100 }}>
-      <Tooltip
-        content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      >
-        <Button onPress={() => setPressed('onPress')}>Button...</Button>
-      </Tooltip>
-    </View>
-    {!!pressed && (
-      <Alert
-        variant='success'
-        stlye={{ marginTop: 16 }}
-        label={`${pressed} event`}
-        onClose={() => setPressed('')}
-      />
+    <Tooltip content={content}>
+      <Button onPress={() => setIsClick(true)}>Button</Button>
+    </Tooltip>
+    {!!isClick && (
+      <Div style={{ marginTop: 8 }}>
+        <Alert
+          variant='success'
+          label={`onPress event`}
+          onClose={()=> setIsClick(false)}
+        />
+      </Div>
     )}
   </View>
 )

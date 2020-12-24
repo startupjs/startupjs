@@ -1,20 +1,19 @@
-import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Text,
   View,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
   StyleSheet,
-  Platform,
   NativeModules
 } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import DropdownCaption from './components/Caption'
+import DropdownItem from './components/Item'
+import { useLayoutSize, useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
-import DropdownCaption from './Caption'
-import DropdownItem from './Item'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
 import STYLES from './index.styl'
 
@@ -32,39 +31,25 @@ function Dropdown ({
   drawerVariant,
   drawerListTitle,
   drawerCancelLabel,
+  hasDrawer,
   onChange,
   onDismiss
 }) {
   const refScroll = useRef()
-  const [selectIndexValue, setSelectIndexValue] = useState(-1)
-  const [layoutWidth, setLayoutWidth] = useState(null)
+  const renderContent = useRef([])
+
   const [isShow, setIsShow] = useState(false)
   const [activeInfo, setActiveInfo] = useState(null)
-  const isPopover = layoutWidth > STYLES.media.tablet
+  const [selectIndexValue] = useKeyboard({
+    value,
+    isShow,
+    renderContent,
+    onChange,
+    onChangeShow: v => setIsShow(v)
+  })
 
-  useLayoutEffect(() => {
-    if (!layoutWidth) handleWidthChange()
-    Dimensions.addEventListener('change', handleWidthChange)
-    return () => Dimensions.removeEventListener('change', handleWidthChange)
-  }, [])
-  const handleWidthChange = () => {
-    setLayoutWidth(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
-  }
-
-  useEffect(() => {
-    if (Platform.OS !== 'web') return
-
-    if (isShow) {
-      document.addEventListener('keydown', onKeyDown)
-    } else {
-      document.removeEventListener('keydown', onKeyDown)
-      setSelectIndexValue(-1)
-    }
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [isShow, selectIndexValue])
+  const [layoutWidth] = useLayoutSize()
+  const isPopover = !hasDrawer || (layoutWidth > STYLES.media.tablet)
 
   function onLayoutActive ({ nativeEvent }) {
     setActiveInfo(nativeEvent.layout)
@@ -77,15 +62,15 @@ function Dropdown ({
 
   function onRequestOpen () {
     UIManager.measure(refScroll.current.getScrollableNode(), (x, y, width, curHeight) => {
-      if (activeInfo.y >= (curHeight - activeInfo.height)) {
+      if (activeInfo && activeInfo.y >= (curHeight - activeInfo.height)) {
         refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
       }
     })
   }
 
   let caption = null
-  let renderContent = []
   let activeLabel = ''
+  renderContent.current = []
   React.Children.toArray(children).forEach((child, index, arr) => {
     if (child.type === DropdownCaption) {
       if (index !== 0) Error('Caption need use first child')
@@ -115,7 +100,7 @@ function Dropdown ({
 
     if (value === child.props.value) {
       activeLabel = child.props.label
-      renderContent.push(pug`
+      renderContent.current.push(pug`
         View(
           key=index
           value=child.props.value
@@ -123,7 +108,7 @@ function Dropdown ({
         )=_child
       `)
     } else {
-      renderContent.push(_child)
+      renderContent.current.push(_child)
     }
   })
 
@@ -136,48 +121,6 @@ function Dropdown ({
   const _popoverStyle = StyleSheet.flatten(style)
   if (caption.props.variant === 'button' || caption.props.variant === 'custom') {
     _popoverStyle.minWidth = 160
-  }
-
-  // TODO: to hook
-  function onKeyDown (e) {
-    e.preventDefault()
-    e.stopPropagation()
-
-    let item, index
-    const keyName = e.key
-
-    switch (keyName) {
-      case 'ArrowUp':
-        if (selectIndexValue === 0 || (selectIndexValue === -1 && !value)) return
-
-        index = selectIndexValue - 1
-        if (selectIndexValue === -1 && value) {
-          index = renderContent.findIndex(item => item.props.value === value)
-          index--
-        }
-
-        setSelectIndexValue(index)
-        break
-
-      case 'ArrowDown':
-        if (selectIndexValue === renderContent.length - 1) return
-
-        index = selectIndexValue + 1
-        if (selectIndexValue === -1 && value) {
-          index = renderContent.findIndex(item => item.props.value === value)
-          index++
-        }
-
-        setSelectIndexValue(index)
-        break
-
-      case 'Enter':
-        if (selectIndexValue === -1) return
-        item = renderContent.find((_, i) => i === selectIndexValue)
-        onChange && onChange(item.props.value)
-        setIsShow(false)
-        break
-    }
   }
 
   if (isPopover) {
@@ -199,13 +142,13 @@ function Dropdown ({
             TouchableOpacity(onPress=()=> setIsShow(!isShow))
               = caption
         ScrollView(ref=refScroll)
-          = renderContent
+          = renderContent.current
     `
   }
 
   return pug`
     if caption
-      TouchableOpacity(onPress=()=> setIsShow(!isShow))
+      TouchableOpacity.caption(onPress=()=> setIsShow(!isShow))
         = caption
     Drawer(
       visible=isShow
@@ -224,7 +167,7 @@ function Dropdown ({
           showsVerticalScrollIndicator=false
           style=_popoverStyle
           styleName=drawerVariant
-        )= renderContent
+        )= renderContent.current
         if drawerVariant === 'buttons'
           TouchableOpacity(onPress=onCancel)
             View.button(styleName=drawerVariant)
@@ -239,7 +182,8 @@ Dropdown.defaultProps = {
   value: '',
   drawerVariant: 'buttons',
   drawerListTitle: '',
-  drawerCancelLabel: 'Cancel'
+  drawerCancelLabel: 'Cancel',
+  hasDrawer: true
 }
 
 Dropdown.propTypes = {
@@ -252,7 +196,7 @@ Dropdown.propTypes = {
   drawerVariant: PropTypes.oneOf(['list', 'buttons', 'pure']),
   drawerListTitle: PropTypes.string,
   drawerCancelLabel: PropTypes.string,
-  hasPopoverWidthCaption: PropTypes.bool,
+  hasDrawer: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onDismiss: PropTypes.func
 }

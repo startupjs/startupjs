@@ -1,11 +1,11 @@
 import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import Icon from '../../../Icon'
-import Menu from '../../../Menu'
-import Link from '../../../Link'
+import Icon from '../../../../Icon'
+import Menu from '../../../../Menu'
+import Link from '../../../../Link'
 import './index.styl'
 
 function DropdownItem ({
@@ -69,8 +69,8 @@ function DropdownItem ({
 DropdownItem.defaultProps = {}
 
 DropdownItem.propTypes = {
-  label: propTypes.string.isRequired,
-  value: propTypes.string.isRequired
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 export default observer(DropdownItem)

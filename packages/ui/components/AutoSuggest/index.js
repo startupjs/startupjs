@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { TouchableOpacity, Platform, View } from 'react-native'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import Popover from '../popups/Popover'
@@ -10,7 +11,8 @@ import useKeyboard from './useKeyboard'
 import './index.styl'
 
 // TODO: KeyboardAvoidingView
-export default observer(function AutoSuggest ({
+// onRegExRequest
+function AutoSuggest ({
   style,
   options,
   value,
@@ -36,7 +38,7 @@ export default observer(function AutoSuggest ({
   })
 
   _data.current = options.filter(item => {
-    return inputValue ? !!item.label.match(new RegExp('^' + inputValue, 'gi')) : true
+    return inputValue ? !!item.label.match(new RegExp(inputValue, 'gi')) : true
   })
 
   function onClose (e) {
@@ -110,4 +112,31 @@ export default observer(function AutoSuggest ({
           onScrollEnd=onScrollEnd
         )= renderItems
   `
-})
+}
+
+AutoSuggest.defaultProps = {
+  style: {},
+  options: [],
+  value: {},
+  placeholder: 'Select value',
+  renderItem: null,
+  isLoading: false
+}
+
+AutoSuggest.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  options: PropTypes.array.isRequired,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string
+  }).isRequired,
+  placeholder: PropTypes.string,
+  renderItem: PropTypes.func,
+  isLoading: PropTypes.bool,
+  onChange: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onChangeText: PropTypes.func,
+  onScrollEnd: PropTypes.func
+}
+
+export default observer(AutoSuggest)

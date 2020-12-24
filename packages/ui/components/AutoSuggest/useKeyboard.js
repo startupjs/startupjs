@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 export default function useKeyboard ({
-  isShow,
   _data,
   value,
   onChange,

@@ -52,6 +52,8 @@ Tooltip.defaultProps = {
 
 Tooltip.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  contentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
   durationOpen: PropTypes.number,

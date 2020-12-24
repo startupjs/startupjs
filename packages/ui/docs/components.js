@@ -42,6 +42,8 @@ import ModalEn from '../components/Modal/Modal.en.mdx'
 import ModalRu from '../components/Modal/Modal.ru.mdx'
 import PaginationEn from '../components/Pagination/Pagination.en.mdx'
 import PaginationRu from '../components/Pagination/Pagination.ru.mdx'
+import PortalEn from '../components/Portal/Portal.en.mdx'
+import PortalRu from '../components/Portal/Portal.ru.mdx'
 import ProgressEn from '../components/Progress/Progress.en.mdx'
 import ProgressRu from '../components/Progress/Progress.ru.mdx'
 import RatingEn from '../components/Rating/Rating.en.mdx'
@@ -238,6 +240,14 @@ export default {
       component: {
         en: PaginationEn,
         ru: PaginationRu
+      }
+    },
+    Portal: {
+      type: 'mdx',
+      title: 'Portal',
+      component: {
+        en: PortalEn,
+        ru: PortalRu
       }
     },
     Progress: {

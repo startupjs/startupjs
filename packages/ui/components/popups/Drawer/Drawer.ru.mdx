@@ -16,14 +16,15 @@ import { Drawer } from '@startupjs/ui'
 ## Простой пример
 ```jsx example
 const [visible, setVisible] = useState(false)
+
 return (
   <View>
     <Drawer
       visible={visible}
+      style={{ width: 250 }}
       onDismiss={() => setVisible(false)}
-      styleContent={{ width: 250 }}
     >
-      <View>
+      <View style={{ padding: 16 }}>
         <Text>Контент</Text>
       </View>
     </Drawer>
@@ -38,27 +39,28 @@ return (
 ## Позиция
 Компонент можно разворачивать из разных направлений (left, right, top, buttom).
 ```jsx example
-const positions = ['left', 'right', 'top', 'bottom']
-const names = ['Слева', 'Справа', 'Сверху', 'Снизу']
 const [visible, setVisible] = useState('')
+
+const data = { left: 'Слева', right: 'Справа', top: 'Сверху', bottom: 'Снизу' }
+
 return (
   <Row>
     {
-      positions.map((item, index) => (
+      Object.keys(data).map((key, index) => (
         <View key={index}>
           <Drawer
-            position={item}
-            visible={visible === item}
-            onDismiss={() => setVisible('')}
+            position={key}
+            visible={visible === key}
+            onDismiss={()=> setVisible('')}
           >
-            <View>
-              <Text>{names[index]}</Text>
+            <View style={{ padding: 16 }}>
+              <Text>{data[key]}</Text>
             </View>
           </Drawer>
           <Button
-            onPress={() => setVisible(item)}
+            onPress={()=> setVisible(key)}
             style={{ width: 120, marginRight: 16 }}
-          >{names[index]}</Button>
+          >{data[key]}</Button>
         </View>
       ))
     }
@@ -70,13 +72,14 @@ return (
 В компоненте есть поддержка закрытия с помощью свайпа.
 ```jsx example
 const [visible, setVisible] = useState('')
+
 return (
   <Row>
     <Drawer
       visible={visible === 'zone'}
       onDismiss={() => setVisible('')}
-      styleContent={{ width: 250 }}
-      styleSwipe={{ backgroundColor: '#eeeeee' }}
+      style={{ width: 250 }}
+      swipeStyle={{ backgroundColor: '#eeeeee' }}
     />
     <Button
       style={{ width: 280, marginRight: 24 }}
@@ -85,53 +88,14 @@ return (
     <Drawer
       visible={visible === 'custom'}
       onDismiss={() => setVisible('')}
-      styleContent={{ width: 250 }}
-      styleSwipe={{ backgroundColor: '#eeeeee', width: '30%',
+      style={{ width: 250 }}
+      swipeStyle={{ backgroundColor: '#eeeeee', width: '30%',
         height: 100, top: 30 }}
     />
     <Button
       style={{ width: 280 }}
       onPress={() => setVisible('custom')}
     >Кастомная зона свайпа</Button>
-  </Row>
-)
-```
-
-## Кастомизация
-Можно передавать стили для контента и всей обертки.
-```jsx example
-const [visible, setVisible] = useState()
-return (
-  <Row>
-    <Drawer
-      visible={visible === 1}
-      position="bottom"
-      onDismiss={() => setVisible()}
-      styleCase={{ alignItems: 'center' }}
-      styleContent={{ width: 500, borderTopLeftRadius: 40,
-        borderTopRightRadius: 40 }}
-    />
-    <Button
-      style={{ width: 280, marginRight: 24 }}
-      onPress={() => setVisible(1)}
-    >Пример 1</Button>
-    <Drawer
-      visible={visible === 2}
-      position="top"
-      onDismiss={() => setVisible()}
-      isShowOverlay={false}
-      hasDefaultStyleContent={false}
-      styleCase={{ alignItems: 'center' }}
-      styleContent={{ width: '60%', height: 60, paddingTop: 20 }}
-      styleSwipe={{ height: '100%' }}
-    >
-      <View style={{ width: '100%', height: '100%',
-        backgroundColor: '#6464f9', borderRadius: 20 }} />
-    </Drawer>
-    <Button
-      style={{ width: 280, marginRight: 24 }}
-      onPress={() => setVisible(2)}
-    >Пример 2</Button>
   </Row>
 )
 ```
@@ -148,23 +112,25 @@ const history = useHistory()
 const [leftDrawer, setLeftDrawer] = useState(false)
 const [rightDrawer, setRightDrawer] = useState(false)
 const [leftVisible, setLeftVisible] = useState(false)
+
 const [onDismiss, setOnDismiss] = useDrawerDismiss({
   rightDrawer: () => setRightDrawer(true),
   goToPage: path => history.push(path),
   default: () => setLeftDrawer(false)
 })
+
 return (
   <Row>
     <Drawer
       visible={rightDrawer}
-      position="right"
+      position='right'
       onDismiss={()=> setRightDrawer(false)}
-      styleContent={{ width: 240 }}
+      style={{ width: 240 }}
     />
     <Drawer
       visible={leftVisible}
       onDismiss={()=> setLeftVisible(false)}
-      styleContent={{ width: 240 }}
+      style={{ width: 240 }}
     >
       <TouchableWithoutFeedback onPress={()=> history.push('/docs/components/Button')}>
         <View>
@@ -179,7 +145,7 @@ return (
     <Drawer
       visible={leftDrawer}
       onDismiss={onDismiss}
-      styleContent={{ width: 240 }}
+      style={{ width: 240 }}
     >
       <TouchableWithoutFeedback onPress={()=> setOnDismiss('rightDrawer')}>
         <View>
