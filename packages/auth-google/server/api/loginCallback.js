@@ -30,10 +30,11 @@ async function _linkAccount ({ req, res, config }) {
     successRedirectUrl,
     onBeforeLoginHook
   } = config
+
+  // We receive code param from web auth
+  // token param came along with requests from mobile platforms
   let { token, code } = req.query
 
-  // We can receive code param from web auth
-  // toke param came along with requests from mobile platforms
   if (!token && code) {
     token = await getGoogleIdToken({
       code,
