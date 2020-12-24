@@ -21,6 +21,7 @@ import { AutoSuggest } from '@startupjs/ui'
 - onChange: callback function, called after selecting a value, takes the selected value as the first parameter
 ```jsx example
 const [value, setValue] = useState({})
+
 const options = [
   { value: '1', label: 'Harry' },
   { value: '2', label: 'Alfie' },
@@ -28,8 +29,9 @@ const options = [
   { value: '4', label: 'Oscar' },
   { value: '5', label: 'Charlie' },
   { value: '6', label: 'James' },
-  { value: '7', label: 'William' },
+  { value: '7', label: 'William' }
 ]
+
 return (
   <AutoSuggest
     options={options}
@@ -45,6 +47,7 @@ return (
 - renderItem: a function that is called when rendering each element of the array. Gets 2 arguments - the current element (item) and its index.
 ```jsx example
 const [value, setValue] = useState({})
+
 const options = [
   { value: '1', label: 'Harry' },
   { value: '2', label: 'Alfie' },
@@ -52,13 +55,16 @@ const options = [
   { value: '4', label: 'Oscar' },
   { value: '5', label: 'Charlie' },
   { value: '6', label: 'James' },
-  { value: '7', label: 'William' },
+  { value: '7', label: 'William' }
 ]
+
 const renderItem = (item, index, selectIndexValue)=> {
   const style = { padding: 8 }
+
   if (selectIndexValue === index) {
     style.backgroundColor = "#eee"
   }
+
   return (
     <Row
       key={index}
@@ -70,6 +76,7 @@ const renderItem = (item, index, selectIndexValue)=> {
     </Row>
   )
 }
+
 return (
   <AutoSuggest
     options={options}

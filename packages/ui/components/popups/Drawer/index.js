@@ -32,13 +32,11 @@ const POSITION_NAMES = {
 function Drawer ({
   style,
   swipeStyle,
-  caseStyle,
   children,
   visible,
   position,
   isSwipe,
   hasOverlay,
-  hasDefaultStyleContent,
   onDismiss,
   onRequestOpen
 }) {
@@ -130,10 +128,10 @@ function Drawer ({
               ref=refContent
               style=_styleContent
               styleName={
-                contentDefault: isShow && hasDefaultStyleContent,
-                contentBottom: isShow && hasDefaultStyleContent && position === 'bottom',
-                fullHorizontal: isShow && hasDefaultStyleContent && isHorizontal,
-                fullVertical: isShow && hasDefaultStyleContent && !isHorizontal
+                contentDefault: isShow,
+                contentBottom: isShow && position === 'bottom',
+                fullHorizontal: isShow && isHorizontal,
+                fullVertical: isShow && !isHorizontal
               }
             )
               Swipe(
@@ -155,19 +153,18 @@ Drawer.defaultProps = {
   visible: false,
   position: 'left',
   isSwipe: true,
-  hasOverlay: true,
-  hasDefaultStyleContent: true
+  hasOverlay: true
 }
 
 Drawer.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  swipeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
-  onDismiss: PropTypes.func,
   position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   isSwipe: PropTypes.bool,
   hasOverlay: PropTypes.bool,
-  hasDefaultStyleContent: PropTypes.bool,
-  styleCase: PropTypes.object,
-  styleContent: PropTypes.object
+  onDismiss: PropTypes.func,
+  onRequestOpen: PropTypes.func
 }
 
 export default observer(Drawer)

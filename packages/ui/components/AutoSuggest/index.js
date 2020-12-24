@@ -1,19 +1,28 @@
 import React, { useState, useRef } from 'react'
-import { TouchableOpacity, Platform, View } from 'react-native'
+import { TouchableOpacity, View, FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import Popover from '../popups/Popover'
-import Slicer from '../Slicer'
 import Loader from '../Loader'
 import useKeyboard from './useKeyboard'
 import './index.styl'
+
+const SUPPORT_PLACEMENTS = [
+  'bottom-start',
+  'bottom-center',
+  'bottom-end',
+  'top-start',
+  'top-center',
+  'top-end'
+]
 
 // TODO: KeyboardAvoidingView
 // onRegExRequest
 function AutoSuggest ({
   style,
+  styleCaption,
   options,
   value,
   placeholder,
@@ -54,7 +63,7 @@ function AutoSuggest ({
     onChangeText && onChangeText(t)
   }
 
-  const renderItems = _data.current.map((item, index) => {
+  function _renderItem ({ item, index }) {
     if (renderItem) {
       return pug`
         TouchableOpacity(
@@ -78,27 +87,27 @@ function AutoSuggest ({
         active=item.value === value.value
       )= item.label
     `
-  })
+  }
 
   return pug`
     Popover(
       visible=(isShow || isLoading)
       style=style
-      hasWidthCaption=true
+      hasWidthCaption=!style.width
+      placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
       animateType='slide'
       onDismiss=onClose
       onRequestClose=()=> setInputValue('')
     )
-      Popover.Caption.caption
+      Popover.Caption.caption(style=styleCaption)
         TextInput(
           ref=refInput
           value=(!isShow && value.label) || inputValue
           placeholder=placeholder
           onChangeText=_onChangeText
           onFocus=()=> setIsShow(true)
-          onBlur=()=> Platform.OS !== 'web' && setIsShow(false)
           onKeyPress=onKeyPress
         )
 
@@ -106,11 +115,11 @@ function AutoSuggest ({
         View.loaderCase
           Loader(size='s')
       else
-        Slicer(
-          countVisibleElements=10
-          countNearElements=10
-          onScrollEnd=onScrollEnd
-        )= renderItems
+        FlatList(
+          data=_data.current
+          renderItem=_renderItem
+          keyExtractor=(item, index) => item.value
+        )
   `
 }
 

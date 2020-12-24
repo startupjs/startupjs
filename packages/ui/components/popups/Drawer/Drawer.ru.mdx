@@ -41,7 +41,24 @@ return (
 ```jsx example
 const [visible, setVisible] = useState('')
 
-const data = { left: 'Слева', right: 'Справа', top: 'Сверху', bottom: 'Снизу' }
+const data = {
+  left: {
+    name: 'Слева',
+    style: { width: 240 }
+  },
+  right: {
+    name: 'Справа',
+    style: { width: 240 }
+  },
+  top: {
+    name: 'Сверху',
+    style: { height: 240 }
+  },
+  bottom: {
+    name: 'Снизу',
+    style: { height: 240 }
+  }
+}
 
 return (
   <Row>
@@ -50,17 +67,18 @@ return (
         <View key={index}>
           <Drawer
             position={key}
+            style={data[key].style}
             visible={visible === key}
             onDismiss={()=> setVisible('')}
           >
             <View style={{ padding: 16 }}>
-              <Text>{data[key]}</Text>
+              <Text>{data[key].name}</Text>
             </View>
           </Drawer>
           <Button
             onPress={()=> setVisible(key)}
             style={{ width: 120, marginRight: 16 }}
-          >{data[key]}</Button>
+          >{data[key].name}</Button>
         </View>
       ))
     }

@@ -52,7 +52,6 @@ import RowEn from '../components/Row/Row.en.mdx'
 import RowRu from '../components/Row/Row.ru.mdx'
 import SidebarEn from '../components/Sidebar/Sidebar.en.mdx'
 import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
-import SlicerRu from '../components/Slicer/Slicer.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
 import TableEn from '../components/table/Table/Table.en.mdx'
@@ -273,11 +272,6 @@ export default {
         en: RowEn,
         ru: RowRu
       }
-    },
-    Slicer: {
-      type: 'mdx',
-      title: 'Slicer',
-      component: SlicerRu
     },
     Sidebar: {
       type: 'mdx',

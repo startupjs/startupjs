@@ -154,7 +154,7 @@ function Dropdown ({
       visible=isShow
       position='bottom'
       style={ maxHeight: '100%' }
-      hasDefaultStyleContent=drawerVariant === 'list'
+      styleName={ drawerReset: drawerVariant === 'buttons' }
       onDismiss=()=> setIsShow(false)
       onRequestOpen=onRequestOpen
     )

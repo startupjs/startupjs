@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {
   View,
   Animated,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   Dimensions,
   StyleSheet
 } from 'react-native'
@@ -220,14 +220,14 @@ function Popover ({
   }
   if (hasWidthCaption) _popoverStyle.width = captionInfo.width
   if (style.maxHeight) _contentStyle.maxHeight = style.maxHeight
-  if (_contentStyle.maxWidth) _wrapperStyle.maxWidth = _contentStyle.maxWidth
 
   return pug`
     = caption
     Portal
       if step !== STEPS.CLOSE
         if hasOverlay
-          TouchableOpacity.overlay(onPress=onDismiss)
+          TouchableWithoutFeedback(onPress=onDismiss)
+            View.overlay
         View(style=_wrapperStyle)
           Animated.View.popover(
             ref=refPopover

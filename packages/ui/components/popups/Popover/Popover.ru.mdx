@@ -45,12 +45,12 @@ return (
 - style={{ maxHeight: 100 }}: задать максимально возможную высоту Popover
 ```jsx example
 const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1,2])
+const [content, setContent] = useState([1, 2])
 
 return (
   <Popover
     visible={visible}
-    style={{ maxHeight: 100, width: 200 }}
+    style={{ maxHeight: 100 }}
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption>
@@ -79,12 +79,12 @@ return (
 - style={{ height: 100 }}: фиксированная, постоянная высота (по дефолту отсутствует)
 ```jsx example
 const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1,2])
+const [content, setContent] = useState([1, 2])
 
 return (
   <Popover
     visible={visible}
-    style={{ height: 100, width: 200 }}
+    style={{ height: 100 }}
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption>
@@ -134,7 +134,7 @@ return (
 - hasWidthCaption: задать ширину по Caption (boolean)
 ```jsx example
 const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1,2])
+const [content, setContent] = useState([1, 2])
 
 return (
   <Popover
@@ -155,7 +155,7 @@ return (
 Если не задано ни maxHeight ни height, высота подстраивается под контент
 ```jsx example
 const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1,2,3])
+const [content, setContent] = useState([1, 2, 3])
 
 return (
   <Popover
@@ -248,7 +248,7 @@ animateType - проп отвечающий за тип анимации
 ```jsx example
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
-const [visible, setVisible] = useState()
+const [visible, setVisible] = useState('')
 
 const animations = ['Default', 'Scale', 'Slide']
 
@@ -281,6 +281,7 @@ return (
 - hasArrow: нужно ли использовать стрелку (по дефолту false)
 ```jsx example
 const [visible, setVisible] = useState(false)
+
 return (
   <Popover
     visible={visible}
@@ -288,7 +289,7 @@ return (
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption>
-      <Button onPress={()=> setVisible('default')}>
+      <Button onPress={()=> setVisible(true)}>
         Со стрелкой
       </Button>
     </Popover.Caption>

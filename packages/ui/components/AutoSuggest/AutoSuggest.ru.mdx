@@ -22,6 +22,7 @@ import { AutoSuggest } from '@startupjs/ui'
 - onChange: калбэк функция, вызывается после выбора значения, принимает выбранное значение первым параметром
 ```jsx example
 const [value, setValue] = useState({})
+
 const options = [
   { value: '1', label: 'Harry' },
   { value: '2', label: 'Alfie' },
@@ -29,8 +30,9 @@ const options = [
   { value: '4', label: 'Oscar' },
   { value: '5', label: 'Charlie' },
   { value: '6', label: 'James' },
-  { value: '7', label: 'William' },
+  { value: '7', label: 'William' }
 ]
+
 return (
   <AutoSuggest
     options={options}
@@ -46,6 +48,7 @@ return (
 - renderItem: функция которая вызывается при рендеренге каждого элемента массива. Получает 2 аргумента - текущий элемент (item) и его индекс.
 ```jsx example
 const [value, setValue] = useState({})
+
 const options = [
   { value: '1', label: 'Harry' },
   { value: '2', label: 'Alfie' },
@@ -55,11 +58,14 @@ const options = [
   { value: '6', label: 'James' },
   { value: '7', label: 'William' },
 ]
+
 const renderItem = (item, index, selectIndexValue)=> {
   const style = { padding: 8 }
+
   if (selectIndexValue === index) {
     style.backgroundColor = "#eee"
   }
+
   return (
     <Row
       key={index}
@@ -71,6 +77,7 @@ const renderItem = (item, index, selectIndexValue)=> {
     </Row>
   )
 }
+
 return (
   <AutoSuggest
     options={options}
