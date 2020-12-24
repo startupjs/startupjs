@@ -4,7 +4,8 @@ import {
   Animated,
   TouchableWithoutFeedback,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -42,10 +43,11 @@ function Popover ({
   hasArrow,
   hasWidthCaption,
   hasOverlay,
+  hasDefaultWrapper,
   onDismiss,
   onRequestOpen,
   onRequestClose
-}) {
+}, ref) {
   style = StyleSheet.flatten([style])
   const refPopover = useRef()
   const refCaption = useRef()
@@ -218,7 +220,18 @@ function Popover ({
   if (step === STEPS.ANIMATE && animateType === 'default') {
     _popoverStyle.height = animateStates.height
   }
-  if (hasWidthCaption) _popoverStyle.width = captionInfo.width
+
+  if (validPosition !== 'left') {
+    _wrapperStyle.width = '100%'
+    _wrapperStyle.maxWidth = Dimensions.get('window').width - (_wrapperStyle.left || 0)
+  } else {
+    _wrapperStyle.width = _wrapperStyle.left
+    _wrapperStyle.left = 0
+  }
+  if (hasWidthCaption) {
+    _popoverStyle.width = captionInfo.width
+    _contentStyle.width = captionInfo.width
+  }
   if (style.maxHeight) _contentStyle.maxHeight = style.maxHeight
 
   return pug`
@@ -240,10 +253,14 @@ function Popover ({
                 geometry=refGeometry.current
                 validPosition=validPosition
               )
-            Animated.View.content(
-              style=_contentStyle
-              styleName={ contentArrow: hasArrow }
-            )= content
+            if hasDefaultWrapper
+              ScrollView.content(
+                ref=ref
+                showsVerticalScrollIndicator=step !== STEPS.ANIMATE
+                styleName={ contentArrow: hasArrow }
+              )= content
+            else
+              = content
   `
 }
 
@@ -251,7 +268,9 @@ function PopoverCaption ({ children }) {
   return children
 }
 
-Popover.defaultProps = {
+const ObservedPopover = observer(Popover, { forwardRef: true })
+
+ObservedPopover.defaultProps = {
   position: 'bottom',
   attachment: 'start',
   placements: PLACEMENTS_ORDER,
@@ -259,11 +278,12 @@ Popover.defaultProps = {
   hasWidthCaption: false,
   hasArrow: false,
   hasOverlay: true,
+  hasDefaultWrapper: true,
   durationOpen: 300,
   durationClose: 200
 }
 
-Popover.propTypes = {
+ObservedPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   contentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -275,6 +295,7 @@ Popover.propTypes = {
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
   hasOverlay: PropTypes.bool,
+  hasInsideScroll: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
   onDismiss: PropTypes.func,
@@ -282,6 +303,5 @@ Popover.propTypes = {
   onRequestClose: PropTypes.func
 }
 
-const ObservedPopover = observer(Popover)
 ObservedPopover.Caption = PopoverCaption
 export default ObservedPopover

@@ -3,6 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from '../popups/Popover'
 import TooltipCaption from './Caption'
+import Div from '../Div'
 import Span from '../typography/Span'
 import './index.styl'
 
@@ -22,8 +23,6 @@ function Tooltip ({
     Popover(
       visible=isShow
       arrowStyleName='arrow'
-      contentStyleName='content'
-      contentStyle=contentStyle
       position='top'
       attachment='center'
       animateType='scale'
@@ -31,15 +30,17 @@ function Tooltip ({
       durationClose=durationClose
       hasArrow=true
       hasOverlay=false
+      hasDefaultWrapper=false
       onDismiss=()=> setIsShow(false)
     )
       Popover.Caption(style=style)
         TooltipCaption(onChange=v=> setIsShow(v))
           = children
-      if typeof content === 'string'
-        Span.text= content
-      else
-        = content
+      Div.content(style=contentStyle)
+        if typeof content === 'string'
+          Span.text= content
+        else
+          = content
   `
 }
 

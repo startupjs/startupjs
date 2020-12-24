@@ -92,12 +92,12 @@ function AutoSuggest ({
   return pug`
     Popover(
       visible=(isShow || isLoading)
-      style=style
       hasWidthCaption=!style.width
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
       animateType='slide'
+      hasDefaultWrapper=false
       onDismiss=onClose
       onRequestClose=()=> setInputValue('')
     )
@@ -115,11 +115,13 @@ function AutoSuggest ({
         View.loaderCase
           Loader(size='s')
       else
-        FlatList(
-          data=_data.current
-          renderItem=_renderItem
-          keyExtractor=(item, index) => item.value
-        )
+        View.contentCase
+          FlatList.content(
+            style=style
+            data=_data.current
+            renderItem=_renderItem
+            keyExtractor=(item, index) => item.value
+          )
   `
 }
 

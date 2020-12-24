@@ -3,12 +3,17 @@
   cursor default
   height 100%
   width 100%
-  z-index 9998
-  background-color #eeeeee
+  left 0
+  top 0
+
+  +web()
+    z-index 9998
 
 .wrapper
   position absolute
-  z-index 9999
+
+  +web()
+    z-index 9999
 
 .popoverShtamp
   position absolute
@@ -28,9 +33,8 @@
 .content
   border-radius 1u
   background-color #ffffff
-  height 100%
-  overflow hidden
   width 100%
+  overflow hidden
 
 .caption
   align-self flex-start

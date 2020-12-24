@@ -126,6 +126,7 @@ function Dropdown ({
   if (isPopover) {
     return pug`
       Popover(
+        ref=refScroll
         styleName='popover'
         contentStyleName='content'
         style=_popoverStyle
@@ -133,7 +134,7 @@ function Dropdown ({
         attachment=attachment
         placements=placements
         visible=isShow
-        hasWidthCaption=!_popoverStyle.width
+        hasWidthCaption=(!_popoverStyle.width && !_popoverStyle.minWidth)
         onDismiss=()=> setIsShow(false)
         onRequestOpen=onRequestOpen
       )
@@ -141,8 +142,7 @@ function Dropdown ({
           Popover.Caption
             TouchableOpacity(onPress=()=> setIsShow(!isShow))
               = caption
-        ScrollView(ref=refScroll)
-          = renderContent.current
+        = renderContent.current
     `
   }
 
