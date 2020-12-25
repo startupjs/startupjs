@@ -50,8 +50,10 @@ function Modal ({
   }))
 
   return pug`
+    //- HACK: modal window appears when visible is undefined,
+    //- make visible flag boolean
     RNModal(
-      visible=_visible
+      visible=!!_visible
       transparent=transparent
       supportedOrientations=supportedOrientations
       animationType=animationType
