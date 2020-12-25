@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import qs from 'query-string'
 import { BASE_URL } from '@env'
-import { CALLBACK_NATIVE_LINKEDIN_URL, AUTHORIZATION_URL } from '../../../isomorphic'
+import { CALLBACK_LINKEDIN_URL, AUTHORIZATION_URL } from '../../../isomorphic'
 import './index.styl'
 
 function AuthButton ({ label }) {
@@ -26,7 +26,7 @@ function AuthButton ({ label }) {
       response_type: 'code',
       client_id: clientId,
       scope: 'r_emailaddress r_liteprofile',
-      redirect_uri: baseUrl + CALLBACK_NATIVE_LINKEDIN_URL
+      redirect_uri: baseUrl + CALLBACK_LINKEDIN_URL
     })}`
   }
 

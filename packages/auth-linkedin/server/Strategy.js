@@ -1,7 +1,8 @@
 import { Strategy } from 'passport-linkedin-oauth2'
 import passport from 'passport'
-import Provider from './Provider'
+import nconf from 'nconf'
 import initRoutes from './initRoutes'
+
 import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
 
 function validateConfigs ({ clientId, clientSecret }) {
@@ -38,30 +39,14 @@ export default function (config = {}) {
         {
           clientID: clientId,
           clientSecret,
-          callbackURL: CALLBACK_LINKEDIN_URL,
+          callbackURL: nconf.get('BASE_URL') + CALLBACK_LINKEDIN_URL,
           profileFields: ['first-name', 'last-name', 'email-address', 'profile-picture'],
           scope: ['r_emailaddress', 'r_liteprofile'],
           state: true
         },
-        async (accessToken, refreshToken, profile, cb) => {
-          let userId, err
-          try {
-            const { id, name, displayName, emails, photos } = profile
-            const _profile = {
-              id,
-              name,
-              displayName,
-              email: emails.pop().value,
-              picture: photos.pop()
-            }
-
-            const provider = new Provider(model, _profile, this.config)
-            userId = await provider.findOrCreateUser()
-          } catch (e) {
-            err = e
-          }
-          return cb(err, userId)
-        }
+        // We no need in verify callback
+        // We validate a code manually in auth-facebook/server/api/loginCallback.js
+        () => {}
       )
     )
   }

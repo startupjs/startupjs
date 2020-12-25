@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^4.0.1",
-    "passport-linkedin-oauth2": "^2.0.0"
+    "passport-linkedin-oauth2": "^2.0.0",
+    "qs": "^6.9.3"
   },
   "peerDependencies": {
     "@startupjs/auth": ">= 0.0.1",

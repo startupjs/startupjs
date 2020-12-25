@@ -1,21 +1,22 @@
-import { finishAuth } from '@startupjs/auth/server'
+import { finishAuth, linkAccount } from '@startupjs/auth/server'
+import nconf from 'nconf'
 import axios from 'axios'
 import qs from 'query-string'
-import nconf from 'nconf'
-import { CALLBACK_NATIVE_LINKEDIN_URL, FAILURE_LOGIN_URL } from '../../isomorphic'
+import { FAILURE_LOGIN_URL, CALLBACK_LINKEDIN_URL } from '../../isomorphic'
 import Provider from '../Provider'
 
 const LITE_PROFILE_URL = 'https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,maidenName,profilePicture(displayImage~:playableStreams))'
 const EMAIL_URL = 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))'
 
-export default async function loginNative (req, res, next, config) {
-  const { code } = req.query
+export default async function loginCallback (req, res, next, config) {
   const { clientId, clientSecret, successRedirectUrl, onBeforeLoginHook } = config
+
+  const { code } = req.query
 
   const body = {
     grant_type: 'authorization_code',
     code,
-    redirect_uri: nconf.get('BASE_URL') + CALLBACK_NATIVE_LINKEDIN_URL,
+    redirect_uri: nconf.get('BASE_URL') + CALLBACK_LINKEDIN_URL,
     client_id: clientId,
     client_secret: clientSecret
   }
@@ -50,9 +51,14 @@ export default async function loginNative (req, res, next, config) {
     }
 
     const provider = new Provider(req.model, profile, config)
-    const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    if (req.session.loggedIn) {
+      const response = await linkAccount(req, provider)
+      return res.send(response)
+    } else {
+      const userId = await provider.findOrCreateUser()
+      finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    }
   } catch (err) {
     console.log('[@dmapper/auth-linkedin] Error: linkedin login', err)
     return res.redirect(FAILURE_LOGIN_URL)
