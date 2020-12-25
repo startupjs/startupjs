@@ -1,25 +1,26 @@
-import { finishAuth } from '@startupjs/auth/server'
+import { finishAuth, linkAccount } from '@startupjs/auth/server'
 import axios from 'axios'
 import qs from 'query-string'
 import nconf from 'nconf'
-import { CALLBACK_NATIVE_AZUREAD_URL, FAILURE_LOGIN_URL, getStrBase64, SCOPE } from '../../isomorphic'
+import { FAILURE_LOGIN_URL, getStrBase64, SCOPE, CALLBACK_AZUREAD_URL } from '../../isomorphic'
 import Provider from '../Provider'
 
-export default async function loginNative (req, res, next, config) {
-  const { code } = req.query
+export default async function callBackLogin (req, res, next, config) {
   const {
-    successRedirectUrl,
     clientId,
-    tentantId,
     clientSecret,
+    tentantId,
+    successRedirectUrl,
     onBeforeLoginHook
   } = config
+
+  const { code } = req.query
 
   const body = {
     client_id: clientId,
     scope: SCOPE,
     code,
-    redirect_uri: nconf.get('BASE_URL') + CALLBACK_NATIVE_AZUREAD_URL,
+    redirect_uri: nconf.get('BASE_URL') + CALLBACK_AZUREAD_URL,
     grant_type: 'authorization_code',
     code_verifier: getStrBase64(`${clientId}_${tentantId}`),
     client_secret: clientSecret
@@ -52,9 +53,14 @@ export default async function loginNative (req, res, next, config) {
     }
 
     const provider = new Provider(req.model, profile, config)
-    const userId = await provider.findOrCreateUser()
 
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    if (req.session.loggedIn) {
+      const response = await linkAccount(req, provider, 3)
+      return res.send(response)
+    } else {
+      const userId = await provider.findOrCreateUser()
+      finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    }
   } catch (error) {
     console.log('[@dmapper/auth-azuread] Error: AzureAD login', error)
     return res.redirect(FAILURE_LOGIN_URL)

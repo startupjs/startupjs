@@ -33,17 +33,14 @@ export const FORM_COMPONENTS_KEYS = {
 export const LINKED_PROVIDER_ERROR_HTML = `
   <p>Another account with same provider already linked!</p>
   <p>You will be redirected back in 3 seconds.</p>
-  <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
 `
 
 export const ACCOUNT_LINKED_HTML = `
   <p>Account linked successful!</p>
   <p>You will be redirected back in 3 seconds.</p>
-  <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
 `
 
 export const ACCOUNT_ALREADY_LINKED = `
   <p>Account is already linked</p>
   <p>You will be redirected back in 3 seconds.</p>
-  <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
 `

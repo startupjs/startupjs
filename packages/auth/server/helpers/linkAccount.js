@@ -1,6 +1,6 @@
-import { LINKED_PROVIDER_ERROR_HTML, ACCOUNT_ALREADY_LINKED, ACCOUNT_LINKED_HTML } from '../../isomorphic'
+import { LINKED_PROVIDER_ERROR_HTML, ACCOUNT_ALREADY_LINKED, ACCOUNT_LINKED_HTML, generateGoBackScript } from '../../isomorphic'
 
-export default async function linkAccount (req, provider) {
+export default async function linkAccount (req, provider, goBackPagesCount = 2) {
   const { model } = req
   let response = ACCOUNT_LINKED_HTML
 
@@ -26,5 +26,8 @@ export default async function linkAccount (req, provider) {
 
   $auth.unsubscribe()
 
-  return response
+  return `
+    ${response}
+    ${generateGoBackScript(goBackPagesCount)}
+  `
 }

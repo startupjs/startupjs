@@ -1,7 +1,6 @@
 import { OIDCStrategy as Strategy } from 'passport-azure-ad'
 import passport from 'passport'
 import nconf from 'nconf'
-import Provider from './Provider'
 import initRoutes from './initRoutes'
 import { CALLBACK_AZUREAD_URL } from '../isomorphic'
 
@@ -30,7 +29,7 @@ export default function (config = {}) {
 
     console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n')
 
-    const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
+    const { clientId, clientSecret, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
 
     const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
     const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]
@@ -44,25 +43,19 @@ export default function (config = {}) {
       new Strategy(
         {
           clientID: clientId,
+          clientSecret,
           identityMetadata,
-          responseType: 'id_token',
-          responseMode: 'form_post',
+          responseType: 'code',
+          responseMode: 'query',
           allowHttpForRedirectUrl,
           redirectUrl,
           scope: ['email', 'profile'],
           useCookieInsteadOfSession: true,
           cookieEncryptionKeys
         },
-        async (iss, sub, profile, accessToken, refreshToken, done) => {
-          let userId, err
-          try {
-            const provider = new Provider(model, profile, this.config)
-            userId = await provider.findOrCreateUser()
-          } catch (e) {
-            err = e
-          }
-          return done(err, userId)
-        }
+        // We no need in verify callback
+        // We validate a code manually in auth-google/server/api/loginCallback.js
+        () => {}
       )
     )
   }

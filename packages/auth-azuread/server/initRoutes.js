@@ -1,28 +1,22 @@
 import { parseRedirectUrl } from '@startupjs/auth/server'
 import {
-  AZUREAD_WEB_LOGIN_URL,
   CALLBACK_AZUREAD_URL,
-  CALLBACK_NATIVE_AZUREAD_URL
+  AZUREAD_LOGIN_URL
 } from '../isomorphic'
 import {
-  loginWeb,
-  loginWebCallback,
-  loginNative
+  redirectToAzureLogin,
+  loginCallback
 } from './api'
 
 export default function (options) {
   const { router, config } = options
 
-  // Web routes
-  router.get(AZUREAD_WEB_LOGIN_URL, parseRedirectUrl, loginWeb)
-  router.post(
-    CALLBACK_AZUREAD_URL,
-    (req, res, next) => loginWebCallback(req, res, next, config)
+  router.get(AZUREAD_LOGIN_URL,
+    parseRedirectUrl,
+    (req, res, next) => redirectToAzureLogin(req, res, next, config)
   )
-
-  // Native routes
   router.get(
-    CALLBACK_NATIVE_AZUREAD_URL,
-    (req, res, next) => loginNative(req, res, next, config)
+    CALLBACK_AZUREAD_URL,
+    (req, res, next) => loginCallback(req, res, next, config)
   )
 }

@@ -20,8 +20,8 @@
   "LINKEDIN_CLIENT_ID": "86de02azmctr4f",
   "LINKEDIN_CLIENT_SECRET": "IRYCV5mjnzLMQDfv",
 
-  "AZUREAD_CLIENT_ID": "c761df89-9dd2-4dd9-b126-a03957374070",
-  "AZUREAD_CLIENT_SECRET": "f1a_f_8U.P0kMGHj5nHGh~lJbNB38q~LNy",
+  "AZUREAD_CLIENT_ID": "96a317ea-48a7-48d8-937e-c459dec36556",
+  "AZUREAD_CLIENT_SECRET": "k41o.5uxH4xrY.RgW~zcy_.LZXG5SjVO8n",
   "AZUREAD_TENTANT_ID": "af044e48-a314-4541-84c7-f0cc76ae5f44",
   "AZUREAD_IDENTITY_METADATA": "https://login.microsoftonline.com/af044e48-a314-4541-84c7-f0cc76ae5f44/v2.0/.well-known/openid-configuration",
 
