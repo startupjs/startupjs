@@ -31,7 +31,6 @@ function isShtampInit (step) {
 function Popover ({
   children,
   style,
-  contentStyle,
   arrowStyle,
   visible,
   position,
@@ -185,8 +184,6 @@ function Popover ({
   })
 
   // styles
-  const _contentStyle = StyleSheet.flatten([contentStyle])
-
   const _wrapperStyle = StyleSheet.flatten([
     STYLES.wrapper,
     {
@@ -218,6 +215,7 @@ function Popover ({
   if (isShtampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
 
   if (step === STEPS.ANIMATE && animateType === 'default') {
+    delete _popoverStyle.minHeight
     _popoverStyle.height = animateStates.height
   }
 
@@ -230,9 +228,7 @@ function Popover ({
   }
   if (hasWidthCaption) {
     _popoverStyle.width = captionInfo.width
-    _contentStyle.width = captionInfo.width
   }
-  if (style.maxHeight) _contentStyle.maxHeight = style.maxHeight
 
   return pug`
     = caption
@@ -245,7 +241,7 @@ function Popover ({
           Animated.View.popover(
             ref=refPopover
             style=_popoverStyle
-            styleName={ popoverArrow: hasArrow }
+            styleName={ hasArrow }
           )
             if hasArrow
               Arrow(
@@ -256,8 +252,8 @@ function Popover ({
             if hasDefaultWrapper
               ScrollView.content(
                 ref=ref
+                style=STYLES.hasArrow
                 showsVerticalScrollIndicator=step !== STEPS.ANIMATE
-                styleName={ contentArrow: hasArrow }
               )= content
             else
               = content
@@ -285,7 +281,6 @@ ObservedPopover.defaultProps = {
 
 ObservedPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  contentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),

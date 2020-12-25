@@ -1,13 +1,13 @@
 .overlay
   position absolute
-  cursor default
   height 100%
   width 100%
   left 0
   top 0
 
   +web()
-    z-index 9998
+    cursor default
+    z-index 8999
 
 .wrapper
   position absolute
@@ -25,21 +25,19 @@
 .popover
   border-radius 1u
   position absolute
-  align-items center
-  justify-content center
+  background-color #ffffff
   z-index 999
   shadow(3)
 
 .content
   border-radius 1u
-  background-color #ffffff
   width 100%
   overflow hidden
 
 .caption
   align-self flex-start
 
-.popoverArrow, .contentArrow
+.hasArrow
   border-radius .5u
 
 :export

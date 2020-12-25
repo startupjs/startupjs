@@ -22,7 +22,7 @@ const SUPPORT_PLACEMENTS = [
 // onRegExRequest
 function AutoSuggest ({
   style,
-  styleCaption,
+  captionStyle,
   options,
   value,
   placeholder,
@@ -92,7 +92,7 @@ function AutoSuggest ({
   return pug`
     Popover(
       visible=(isShow || isLoading)
-      hasWidthCaption=!style.width
+      hasWidthCaption=(!style.width && !style.maxWidth)
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
@@ -101,9 +101,10 @@ function AutoSuggest ({
       onDismiss=onClose
       onRequestClose=()=> setInputValue('')
     )
-      Popover.Caption.caption(style=styleCaption)
+      Popover.Caption.caption
         TextInput(
           ref=refInput
+          style=captionStyle
           value=(!isShow && value.label) || inputValue
           placeholder=placeholder
           onChangeText=_onChangeText
@@ -136,6 +137,7 @@ AutoSuggest.defaultProps = {
 
 AutoSuggest.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  captionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   options: PropTypes.array.isRequired,
   value: PropTypes.shape({
     value: PropTypes.string,

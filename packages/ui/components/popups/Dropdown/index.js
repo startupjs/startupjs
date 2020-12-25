@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useImperativeHandle } from 'react'
 import {
   Text,
   View,
@@ -34,12 +34,13 @@ function Dropdown ({
   hasDrawer,
   onChange,
   onDismiss
-}) {
+}, ref) {
   const refScroll = useRef()
   const renderContent = useRef([])
 
   const [isShow, setIsShow] = useState(false)
   const [activeInfo, setActiveInfo] = useState(null)
+  const [layoutWidth] = useLayoutSize()
   const [selectIndexValue] = useKeyboard({
     value,
     isShow,
@@ -47,9 +48,16 @@ function Dropdown ({
     onChange,
     onChangeShow: v => setIsShow(v)
   })
-
-  const [layoutWidth] = useLayoutSize()
   const isPopover = !hasDrawer || (layoutWidth > STYLES.media.tablet)
+
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      setIsShow(true)
+    },
+    close: () => {
+      setIsShow(false)
+    }
+  }))
 
   function onLayoutActive ({ nativeEvent }) {
     setActiveInfo(nativeEvent.layout)
@@ -175,7 +183,9 @@ function Dropdown ({
   `
 }
 
-Dropdown.defaultProps = {
+const ObservedDropdown = observer(Dropdown, { forwardRef: true })
+
+ObservedDropdown.defaultProps = {
   style: [],
   position: 'bottom',
   attachment: 'start',
@@ -186,7 +196,7 @@ Dropdown.defaultProps = {
   hasDrawer: true
 }
 
-Dropdown.propTypes = {
+ObservedDropdown.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -201,7 +211,6 @@ Dropdown.propTypes = {
   onDismiss: PropTypes.func
 }
 
-const ObservedDropdown = observer(Dropdown)
 ObservedDropdown.Caption = DropdownCaption
 ObservedDropdown.Item = DropdownItem
 export default ObservedDropdown

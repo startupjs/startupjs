@@ -1,6 +1,7 @@
 /* @asyncImports */
 import { faWindowRestore } from '@fortawesome/free-solid-svg-icons'
 import DrawerRu from '../components/popups/Drawer/Drawer.ru.mdx'
+import DrawerEn from '../components/popups/Drawer/Drawer.en.mdx'
 import PopoverRu from '../components/popups/Popover/Popover.ru.mdx'
 import PopoverEn from '../components/popups/Popover/Popover.en.mdx'
 import DropdownRu from '../components/popups/Dropdown/docs/Dropdown.ru.mdx'
@@ -17,7 +18,10 @@ export default {
     Drawer: {
       type: 'mdx',
       title: 'Drawer',
-      component: DrawerRu
+      component: {
+        en: DrawerEn,
+        ru: DrawerRu
+      }
     },
     Popover: {
       type: 'mdx',
