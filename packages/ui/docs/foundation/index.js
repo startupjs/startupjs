@@ -7,6 +7,8 @@ import Colors from './colors.mdx'
 import BorderRadius from './borderRadius.mdx'
 import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
+import TestingRu from './testing.ru.mdx'
+import TestingEn from './testing.en.mdx'
 
 export default {
   type: 'collapse',
@@ -60,6 +62,17 @@ export default {
       component: {
         en: ExportCSStoJSEn,
         ru: ExportCSStoJSRu
+      }
+    },
+    Testing: {
+      type: 'mdx',
+      title: {
+        en: 'Testing',
+        ru: 'Тестирование'
+      },
+      component: {
+        en: TestingEn,
+        ru: TestingRu
       }
     }
   }
