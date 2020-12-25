@@ -41,7 +41,7 @@ export default function (config = {}) {
           userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
         },
         // We no need in verify callback
-        // We validate a code manually in packages/auth-google/server/api/loginCallback.js
+        // We validate a code manually in auth-google/server/api/loginCallback.js
         () => {}
       )
     )
