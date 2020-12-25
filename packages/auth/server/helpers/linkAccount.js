@@ -1,6 +1,8 @@
+import { LINKED_PROVIDER_ERROR_HTML, ACCOUNT_ALREADY_LINKED, ACCOUNT_LINKED_HTML } from '../../isomorphic'
+
 export default async function linkAccount (req, provider) {
   const { model } = req
-  let error
+  let response = ACCOUNT_LINKED_HTML
 
   const $auth = model.scope('auths.' + req.session.userId)
   await $auth.subscribe()
@@ -11,8 +13,9 @@ export default async function linkAccount (req, provider) {
 
   if (providerName in providers) {
     if (provider.getEmail() !== providers[providerName].email) {
-      // todo return refresh page
-      error = '[@startupjs/auth] Error: Another account with same provider already linked'
+      response = LINKED_PROVIDER_ERROR_HTML
+    } else {
+      response = ACCOUNT_ALREADY_LINKED
     }
   } else {
     await $auth.set(
@@ -23,5 +26,5 @@ export default async function linkAccount (req, provider) {
 
   $auth.unsubscribe()
 
-  return error
+  return response
 }

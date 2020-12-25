@@ -30,3 +30,27 @@ export const FORM_COMPONENTS_KEYS = {
   [RECOVER_PASSWORD_SLIDE]: 'RecoverForm',
   [RESET_PASSWORD_SLIDE]: 'ResetPasswordForm'
 }
+
+export const LINKED_PROVIDER_ERROR_HTML = `
+  <p>Another account with same provider already linked!</p>
+  <p>You will be redirected back in 3 seconds.</p>
+  <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
+`
+
+export const ACCOUNT_LINKED_HTML = `
+  <p>Account linked successful!</p>
+  <p>You will be redirected back in 3 seconds.</p>
+  <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
+`
+
+export const ACCOUNT_ALREADY_LINKED = `
+  <p>Account is already linked</p>
+  <p>You will be redirected back in 3 seconds.</p>
+  <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
+`
+
+export const SUCCESS_AUTH_HTML = `
+  <p>Authorization successful!</p>
+  <p>You will be redirected back in just a second.</p>
+  <script>setTimeout(function(){window.location.href = '/'}, 100)</script>
+`

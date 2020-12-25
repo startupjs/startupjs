@@ -13,7 +13,6 @@ export default async function loginWebCallback (req, res, next, config) {
   } = config
 
   let { token, code } = req.query
-  let userId
 
   // Auth request from mobile platforms has "token" param
   // but desktop send "code" param which used to get "idToken"
@@ -32,15 +31,10 @@ export default async function loginWebCallback (req, res, next, config) {
 
   // If request came along with authorized session -> link new account to existing auth.providers doc
   if (req.session.loggedIn) {
-    const error = await linkAccount(req, provider)
-    userId = req.session.userId
-
-    if (error) {
-      return res.status(400).json({ message: error })
-    }
+    const response = await linkAccount(req, provider)
+    return res.send(response)
   } else {
-    userId = await provider.findOrCreateUser()
+    const userId = await provider.findOrCreateUser()
+    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
   }
-
-  finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
 }

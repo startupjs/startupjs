@@ -1,4 +1,4 @@
-import { LOGOUT_URL, DEFAUL_SUCCESS_REDIRECT_URL } from '../isomorphic/constants'
+import { LOGOUT_URL, DEFAUL_SUCCESS_REDIRECT_URL, SUCCESS_AUTH_HTML } from '../isomorphic/constants'
 
 export default function initDefaultRoutes (router, config) {
   const { onBeforeLogoutHook, signInPageUrl } = config
@@ -16,10 +16,6 @@ export default function initDefaultRoutes (router, config) {
   })
 
   router.get(DEFAUL_SUCCESS_REDIRECT_URL, function (req, res) {
-    res.send(`
-      <p>Authorization successful!</p>
-      <p>You will be redirected back in just a second.</p>
-      <script>setTimeout(function(){window.location.href = '/'}, 100)</script>
-    `)
+    res.send(SUCCESS_AUTH_HTML)
   })
 }
