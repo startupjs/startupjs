@@ -1,16 +1,17 @@
-.wrapper
+.content
+  padding 1.25u 2u 1.25u 2u
   background-color #222222
-  width 300
+  align-items center
+  justify-content center
+  border-radius .5u
+  max-width 220
+
+  +tablet()
+    max-width 360
 
 .text
-  padding 2u
   color #ffffff
+  display flex
 
 .arrow
   color #222222
-
-.backdrop
-  +web()
-    height 0
-    width 0
-    overflow visible

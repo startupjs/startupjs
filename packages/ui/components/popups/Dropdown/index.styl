@@ -12,6 +12,9 @@
     border-radius 1u
     background-color $UI.colors.white
 
+.caption
+  align-self flex-start
+
 .captionText
   &.list
     padding 1u 2u 2u
@@ -32,9 +35,18 @@
     border-radius 1u
     background-color $UI.colors.white
 
-.wrapper
-  border-radius 0.5u
+.content
+  border-radius .5u
+
+.popover
+  border-radius .5u
   shadow(2)
+
+.drawerReset
+  background-color transparent
+  height auto
+  box-shadow none
+  border-radius 0
 
 :export
   media: $UI.media
