@@ -2,7 +2,6 @@ export const LOGOUT_URL = '/auth/logout'
 export const SIGN_IN_URL = '/auth/sign-in'
 export const SIGN_UP_URL = '/auth/sign-up'
 export const RECOVER_PASS_URL = '/auth/recover'
-export const DEFAUL_SUCCESS_REDIRECT_URL = '/auth/success'
 export const LOGIN_LOCK_TIME = 60 * 1000
 
 export const RESET_PASSWORD_SLIDE = 'reset-password'
@@ -47,10 +46,4 @@ export const ACCOUNT_ALREADY_LINKED = `
   <p>Account is already linked</p>
   <p>You will be redirected back in 3 seconds.</p>
   <script>setTimeout(function(){window.history.go(-2)}, 3000)</script>
-`
-
-export const SUCCESS_AUTH_HTML = `
-  <p>Authorization successful!</p>
-  <p>You will be redirected back in just a second.</p>
-  <script>setTimeout(function(){window.location.href = '/'}, 100)</script>
 `
