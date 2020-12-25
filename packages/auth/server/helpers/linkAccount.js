@@ -10,7 +10,10 @@ export default async function linkAccount (req, provider) {
   const providerName = provider.getProviderName()
 
   if (providerName in providers) {
-    error = '[@startupjs/auth] Error: Another account with same provider already linked'
+    if (provider.getEmail() !== providers[providerName].email) {
+      // todo return refresh page
+      error = '[@startupjs/auth] Error: Another account with same provider already linked'
+    }
   } else {
     await $auth.set(
       'providers.' + providerName,
