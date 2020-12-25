@@ -1,6 +1,6 @@
 import { finishAuth, linkAccount } from '@startupjs/auth/server'
 import conf from 'nconf'
-import { getGoogleIdToken, getGoogleProfile } from '../helpers'
+import { getFBAccessToken, getFBProfile } from '../helpers'
 import { CALLBACK_URL } from '../../isomorphic'
 import Provider from '../Provider'
 
@@ -12,20 +12,20 @@ export default async function loginCallback (req, res, next, config) {
     onBeforeLoginHook
   } = config
 
-  let { token, code } = req.query
+  let { accessToken, code } = req.query
 
-  // Auth request from mobile platforms has "token" param
-  // but desktop send "code" param which used to get "idToken"
-  if (!token && code) {
-    token = await getGoogleIdToken({
-      code,
+  // Auth request from mobile platforms has "accessToken" param
+  // but desktop send "code" param which used to get "accessToken"
+  if (!accessToken && code) {
+    accessToken = await getFBAccessToken({
       clientId,
       clientSecret,
+      code,
       redirectURI: conf.get('BASE_URL') + CALLBACK_URL
     })
   }
 
-  const profile = await getGoogleProfile(token, clientId, clientSecret)
+  const profile = await getFBProfile(accessToken)
 
   const provider = new Provider(req.model, profile, config)
 
