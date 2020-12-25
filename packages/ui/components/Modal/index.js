@@ -27,7 +27,7 @@ function Modal ({
   useLayoutEffect(() => {
     if (!$visible) return
     $_visible.ref($visible)
-    return () => $visible.removeRef($_visible)
+    return () => $_visible.removeRef()
   }, [])
 
   function closeFallback () {
@@ -74,7 +74,6 @@ function Modal ({
 const ObservedModal = observer(Modal, { forwardRef: true })
 
 ObservedModal.defaultProps = {
-  visible: false,
   variant: 'window',
   dismissLabel: ModalActions.defaultProps.dismissLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,

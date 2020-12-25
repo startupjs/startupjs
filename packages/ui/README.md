@@ -101,6 +101,11 @@ module.exports = getConfig(undefined, {
   })
 ```
 
+### Tabs
+Requires install `react-native-gesture-handler` and `react-native-reanimated`.
+
+There are additional steps required for `react-native-gesture-handler` on Android after linking (for all React Native versions). Check the [this guide](https://docs.swmansion.com/react-native-gesture-handler/docs/) to complete the installation.
+
 ### TextInput
 Set cursor color of the input on android for the same view as web
 and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
