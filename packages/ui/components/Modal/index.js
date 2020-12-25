@@ -1,6 +1,6 @@
 import React, { useImperativeHandle, useLayoutEffect } from 'react'
 import { View, Modal as RNModal } from 'react-native'
-import { observer, useOn, useValue } from 'startupjs'
+import { observer, useOn, useValue, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -21,6 +21,7 @@ function Modal ({
   onOrientationChange,
   ...props
 }, ref) {
+  const isMountedRef = useIsMountedRef()
   // eslint-disable-next-line camelcase
   const [_visible, $_visible] = useValue(false)
 
@@ -36,8 +37,12 @@ function Modal ({
 
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
+  // It fixed in 0.64
   useOn('change', $_visible, () => {
-    if (!$_visible.get()) onDismiss && onDismiss()
+    setTimeout(() => {
+      if (!isMountedRef.current) return
+      if (!$_visible.get()) onDismiss && onDismiss()
+    }, 0)
   })
 
   useImperativeHandle(ref, () => ({
