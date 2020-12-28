@@ -2,7 +2,7 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import axios from 'axios'
-import { CALLBACK_NATIVE_URL, PERMISSIONS } from '../../isomorphic/constants'
+import { CALLBACK_URL, PERMISSIONS } from '../../isomorphic/constants'
 
 export default async function onLogin () {
   const baseUrl = BASE_URL
@@ -21,7 +21,9 @@ export default async function onLogin () {
     }
 
     const data = await AccessToken.getCurrentAccessToken()
-    await axios.post(baseUrl + CALLBACK_NATIVE_URL, data)
+    await axios.get(baseUrl + CALLBACK_URL, {
+      params: data
+    })
     finishAuth()
   } catch (error) {
     console.log('[@dmapper/auth] Error, FacebookAuth', error)

@@ -2,7 +2,6 @@ export const LOGOUT_URL = '/auth/logout'
 export const SIGN_IN_URL = '/auth/sign-in'
 export const SIGN_UP_URL = '/auth/sign-up'
 export const RECOVER_PASS_URL = '/auth/recover'
-export const DEFAUL_SUCCESS_REDIRECT_URL = '/auth/success'
 export const LOGIN_LOCK_TIME = 60 * 1000
 
 export const RESET_PASSWORD_SLIDE = 'reset-password'
@@ -30,3 +29,8 @@ export const FORM_COMPONENTS_KEYS = {
   [RECOVER_PASSWORD_SLIDE]: 'RecoverForm',
   [RESET_PASSWORD_SLIDE]: 'ResetPasswordForm'
 }
+
+export const LINKED_PROVIDER_ERROR = 'Another account with same provider already linked!'
+export const ACCOUNT_LINKED_INFO = 'Account linked successful!'
+export const ACCOUNT_ALREADY_LINKED_ERROR = 'Account is already linked to your profile.'
+export const ACCOUNT_ALREADY_LINKED_TO_ANOHER_PROFILE_ERROR = 'Account is already linked to another profile.'
