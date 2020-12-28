@@ -3,12 +3,14 @@ import { WebView } from 'react-native-webview'
 import { observer, u, useSession, useValue } from 'startupjs'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
+import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { LINKEDIN_WEB_LOGIN_URL } from '../../../isomorphic'
 import './index.styl'
 
 function AuthButton ({ label }) {
+  const baseUrl = BASE_URL
   const [authConfig] = useSession('auth')
   const [, $showModal] = useValue(false)
 
@@ -17,7 +19,7 @@ function AuthButton ({ label }) {
   }
 
   function onNavigationStateChange ({ url }) {
-    if (url.includes(authConfig.successRedirectUrl)) {
+    if (url === (baseUrl + authConfig.successRedirectUrl)) {
       $showModal.set(false)
       finishAuth()
     }
@@ -36,7 +38,7 @@ function AuthButton ({ label }) {
       Div.modal
         WebView(
           style={ height: u(100) }
-          source={ uri: LINKEDIN_WEB_LOGIN_URL }
+          source={ uri: baseUrl + LINKEDIN_WEB_LOGIN_URL }
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled
