@@ -3,6 +3,7 @@ const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
 const Font = require('fonteditor-core').Font
+const link = require('./link')
 const CLI_VERSION = require('./package.json').version
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
@@ -361,6 +362,8 @@ commander
       })
     }
 
+    if (template === 'ui') link()
+
     console.log(getSuccessInstructions(projectName))
   })
 
@@ -608,3 +611,5 @@ exports.run = (options = {}) => {
   templatesPath = options.templatesPath
   commander.parse(process.argv)
 }
+
+exports.link = link
