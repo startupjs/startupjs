@@ -3,6 +3,7 @@ import passport from 'passport'
 import nconf from 'nconf'
 import initRoutes from './initRoutes'
 import { CALLBACK_AZUREAD_URL } from '../isomorphic'
+import Provider from './Provider'
 
 function validateConfigs ({ clientId, identityMetadata, tentantId }) {
   if (!clientId) {
@@ -53,9 +54,16 @@ export default function (config = {}) {
           useCookieInsteadOfSession: true,
           cookieEncryptionKeys
         },
-        // We no need in verify callback
-        // We validate a code manually in auth-google/server/api/loginCallback.js
-        () => {}
+        async (iss, sub, profile, accessToken, refreshToken, done) => {
+          let userId, err
+          try {
+            const provider = new Provider(model, profile, this.config)
+            userId = await provider.findOrCreateUser()
+          } catch (e) {
+            err = e
+          }
+          return done(err, userId)
+        }
       )
     )
   }
