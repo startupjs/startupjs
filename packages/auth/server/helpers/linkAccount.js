@@ -1,33 +1,47 @@
-import { LINKED_PROVIDER_ERROR_HTML, ACCOUNT_ALREADY_LINKED, ACCOUNT_LINKED_HTML, generateGoBackScript } from '../../isomorphic'
+import {
+  LINKED_PROVIDER_ERROR,
+  ACCOUNT_ALREADY_LINKED_ERROR,
+  ACCOUNT_LINKED_INFO,
+  ACCOUNT_ALREADY_LINKED_TO_ANOHER_PROFILE_ERROR,
+  generateRedirectResponse
+} from '../../isomorphic'
 
-export default async function linkAccount (req, provider, goBackPagesCount = 2) {
+export default async function linkAccount (req, provider, goBackCount = 2) {
   const { model } = req
-  let response = ACCOUNT_LINKED_HTML
-
-  const $auth = model.scope('auths.' + req.session.userId)
-  await $auth.subscribe()
-
-  const providers = $auth.get('providers')
+  let responseText = ACCOUNT_LINKED_INFO
 
   const providerName = provider.getProviderName()
+  const providerEmail = provider.getEmail()
 
-  if (providerName in providers) {
-    if (provider.getEmail() !== providers[providerName].email) {
-      response = LINKED_PROVIDER_ERROR_HTML
-    } else {
-      response = ACCOUNT_ALREADY_LINKED
-    }
+  const $existingAccounts = model.query('auths', {
+    [`providers.${providerName}.email`]: providerEmail
+  })
+
+  const $auth = model.scope('auths.' + req.session.userId)
+
+  await model.subscribe($existingAccounts, $auth)
+
+  const existingAccounts = $existingAccounts.get()
+  const providers = $auth.get('providers')
+
+  // Return error if that account has already linked to another profile
+  if (existingAccounts.length) {
+    responseText = ACCOUNT_ALREADY_LINKED_TO_ANOHER_PROFILE_ERROR
   } else {
-    await $auth.set(
-      'providers.' + providerName,
-      provider.getAuthData().providers[providerName]
-    )
+    if (providerName in providers) {
+      if (providerEmail !== providers[providerName].email) {
+        responseText = LINKED_PROVIDER_ERROR
+      } else {
+        responseText = ACCOUNT_ALREADY_LINKED_ERROR
+      }
+    } else {
+      await $auth.set(
+        'providers.' + providerName,
+        provider.getAuthData().providers[providerName]
+      )
+    }
   }
+  model.unsubscribe($existingAccounts, $auth)
 
-  $auth.unsubscribe()
-
-  return `
-    ${response}
-    ${generateGoBackScript(goBackPagesCount)}
-  `
+  return generateRedirectResponse(responseText, 3000, goBackCount)
 }

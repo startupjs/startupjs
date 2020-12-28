@@ -30,17 +30,7 @@ export const FORM_COMPONENTS_KEYS = {
   [RESET_PASSWORD_SLIDE]: 'ResetPasswordForm'
 }
 
-export const LINKED_PROVIDER_ERROR_HTML = `
-  <p>Another account with same provider already linked!</p>
-  <p>You will be redirected back in 3 seconds.</p>
-`
-
-export const ACCOUNT_LINKED_HTML = `
-  <p>Account linked successful!</p>
-  <p>You will be redirected back in 3 seconds.</p>
-`
-
-export const ACCOUNT_ALREADY_LINKED = `
-  <p>Account is already linked</p>
-  <p>You will be redirected back in 3 seconds.</p>
-`
+export const LINKED_PROVIDER_ERROR = 'Another account with same provider already linked!'
+export const ACCOUNT_LINKED_INFO = 'Account linked successful!'
+export const ACCOUNT_ALREADY_LINKED_ERROR = 'Account is already linked to your profile.'
+export const ACCOUNT_ALREADY_LINKED_TO_ANOHER_PROFILE_ERROR = 'Account is already linked to another profile.'
