@@ -74,7 +74,7 @@ return (
 ### Web only
 
 - `timeFormat` - the format in which the time in the picker is displayed
-- `customInput` - custom component instead of the standard `Input`
+- `InputComponent` - custom component instead of the standard `Input`
 
 ```jsx example
 const [dateTime, setDateTime] = useState(Date.now())
@@ -90,7 +90,7 @@ const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => {
 return (
   <Div>
     <DateTimePicker
-      customInput={<ExampleCustomInput />}
+      InputComponent={<ExampleCustomInput />}
       date={dateTime}
       mode='date'
       format='MMMM / DD / yyyy'

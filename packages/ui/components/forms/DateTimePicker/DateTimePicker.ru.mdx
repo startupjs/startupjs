@@ -74,7 +74,7 @@ return (
 ### Только для веба
 
 - `timeFormat` - формат в котором отображается время в пикере
-- `customInput` - свой компонент вместо стандартного `Input`
+- `InputComponent` - свой компонент вместо стандартного `Input`
 
 ```jsx example
 const [dateTime, setDateTime] = useState(Date.now())
@@ -94,7 +94,7 @@ const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => {
 return (
   <Div>
     <DateTimePicker
-      customInput={<ExampleCustomInput />}
+      InputComponent={<ExampleCustomInput />}
       date={dateTime}
       mode='date'
       format='MMMM / DD / yyyy'

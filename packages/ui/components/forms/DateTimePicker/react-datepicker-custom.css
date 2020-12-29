@@ -164,5 +164,5 @@
 
 /* Allow to open Calendar over Popover */
 .react-datepicker-popper {
-  z-index: 10000;
+  z-index: 10999;
 }
