@@ -7,6 +7,22 @@
 yarn add @startupjs/ui
 ```
 
+### Requirements
+
+```
+  react-native-collapsible
+  react-native-svg
+  react-native-gesture-handler
+  react-native-reanimated
+```
+
+### Linking
+Link startupjs library (required for all React Native versions)
+
+```
+  npx startupjs link
+```
+
 ## Configuration
 1. Import UI styles in your root style file `styles/index.styl`. You can also override any default configuration here (palette, colors, variables, etc.):
 ```styl
@@ -57,64 +73,6 @@ const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
 module.exports = getConfig(undefined, {
   forceCompileModules: ['@startupjs/ui/server']
 })
-```
-
-3. Install and configure additional modules below:
-
-### Collapse
-
-1. Install library `react-native-collapsible`
-```
-  yarn add react-native-collapsible
-```
-
-2. Add library to `forceCompileModules` of your `webpack.web.config.js`.
-```js
-  const getConfig = require('startupjs/bundler').webpackWebConfig
-
-  module.exports = getConfig(undefined, {
-    forceCompileModules: ['react-native-collapsible']
-  })
-```
-
-### Icon component
-
-1. Install library `react-native-svg`
-```
-  yarn add react-native-svg
-```
-
-2. Link native code
-```
-  cd ios && pod install
-```
-
-3. Usage example
-```js
-  import { Icon } from '@startupjs/ui'
-  import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-
-  export default observer(function Card ({
-    return pug`
-      Icon(icon=faCoffee size='l')
-    `
-  })
-```
-
-### TextInput
-Set cursor color of the input on android for the same view as web
-and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
-
-```xml
-  <resources>
-    <!-- ...other configs... -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-      <item name="android:textColor">#000000</item>
-      <!-- sets cursor color -->
-      <item name="colorControlActivated">#2962FF</item>
-    </style>
-    <!-- ...other configs... -->
-  </resources>
 ```
 
 ## Usage
