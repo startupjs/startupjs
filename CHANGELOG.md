@@ -1,3 +1,23 @@
+# [0.31.0](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.31.0) (2020-12-29)
+
+
+### Bug Fixes
+
+* **auth:** Change pathmane to href for web ([64e18ce](https://github.com/startupjs/startupjs/commit/64e18ce105b8a351f4d3361e27ac3c6af97f7f5e))
+* **auth:** Fastfix for mobile logout helper ([123c6bb](https://github.com/startupjs/startupjs/commit/123c6bb34a5ca6746d67c9a18c2443775fa11c1b))
+* **auth:** remove duplicated import ([66ba6d2](https://github.com/startupjs/startupjs/commit/66ba6d28dbbdef3a0f0e94582234cb288c8c24f6))
+* **auth-apple:** button name ([#451](https://github.com/startupjs/startupjs/issues/451)) ([5810d16](https://github.com/startupjs/startupjs/commit/5810d166445d3140ca21ebe9aa8815211c31be1e))
+* **Modal:** dont call  when the modal is closed ([fd3f21a](https://github.com/startupjs/startupjs/commit/fd3f21a92b57b4cd4c65daa6cd47bb482890e812))
+* **Modal:** prevent appears when visible is ([f83a398](https://github.com/startupjs/startupjs/commit/f83a3989d0732dad24f53432bede04e37a12aaf6))
+* **ui/Modal:** pass style and modalStyle correctly ([4e1c23e](https://github.com/startupjs/startupjs/commit/4e1c23e9072e68caecfe39551bab3688c7c95180))
+
+
+### Features
+
+* **babel-preset-startupjs:** Add APP_ENV variable to override which .env file to use. For example with APP_ENV=qa the '.env.qa' will be used ([1abb468](https://github.com/startupjs/startupjs/commit/1abb468ce187371d899e3e99d7167570c4ef0da2))
+
+
+
 ## [0.30.10](https://github.com/startupjs/startupjs/compare/v0.30.9...v0.30.10) (2020-12-23)
 
 

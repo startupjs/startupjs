@@ -93,11 +93,11 @@ PODS:
   - GTMAppAuth (1.1.0):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher (~> 1.4)
-  - GTMSessionFetcher (1.4.0):
-    - GTMSessionFetcher/Full (= 1.4.0)
-  - GTMSessionFetcher/Core (1.4.0)
-  - GTMSessionFetcher/Full (1.4.0):
-    - GTMSessionFetcher/Core (= 1.4.0)
+  - GTMSessionFetcher (1.5.0):
+    - GTMSessionFetcher/Full (= 1.5.0)
+  - GTMSessionFetcher/Core (1.5.0)
+  - GTMSessionFetcher/Full (1.5.0):
+    - GTMSessionFetcher/Core (= 1.5.0)
   - OpenSSL-Universal (1.0.2.20):
     - OpenSSL-Universal/Static (= 1.0.2.20)
   - OpenSSL-Universal/Static (1.0.2.20)
@@ -353,8 +353,12 @@ PODS:
     - React-Core
   - RNDateTimePicker (3.0.6):
     - React-Core
+  - RNGestureHandler (1.9.0):
+    - React-Core
   - RNGoogleSignin (5.0.0):
     - GoogleSignIn (~> 5.0.0)
+    - React-Core
+  - RNReanimated (1.13.2):
     - React-Core
   - RNSVG (12.1.0):
     - React
@@ -416,7 +420,9 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../node_modules/@react-native-community/datetimepicker`)"
+  - RNGestureHandler (from `../../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../../node_modules/@react-native-community/google-signin`)"
+  - RNReanimated (from `../../node_modules/react-native-reanimated`)
   - RNSVG (from `../../node_modules/react-native-svg`)
   - Yoga (from `../../node_modules/react-native/ReactCommon/yoga`)
 
@@ -507,8 +513,12 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
     :path: "../../node_modules/@react-native-community/datetimepicker"
+  RNGestureHandler:
+    :path: "../../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../../node_modules/@react-native-community/google-signin"
+  RNReanimated:
+    :path: "../../node_modules/react-native-reanimated"
   RNSVG:
     :path: "../../node_modules/react-native-svg"
   Yoga:
@@ -536,7 +546,7 @@ SPEC CHECKSUMS:
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
-  GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
@@ -565,11 +575,13 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
   RNCPicker: 2c31098349f499e7ab4da6c1ce26f7537d271062
   RNDateTimePicker: 120f8d08b19dd50c0308d30a07c1982e4618e9ad
+  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 99f0f126f975d65fc26940201cf4c1cafb74a159
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.9.3

@@ -1,6 +1,5 @@
 import passport from 'passport'
 import { Strategy } from 'passport-google-oauth20'
-import Provider from './Provider'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL } from '../isomorphic'
 
@@ -41,18 +40,9 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
         },
-        async (accessToken, refreshToken, profile, cb) => {
-          let userId, err
-
-          try {
-            const provider = new Provider(model, profile, this.config)
-            userId = await provider.findOrCreateUser()
-          } catch (e) {
-            err = e
-          }
-
-          return cb(err, userId)
-        }
+        // We no need in verify callback
+        // We validate a code manually in auth-google/server/api/loginCallback.js
+        () => {}
       )
     )
   }

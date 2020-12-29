@@ -1,11 +1,14 @@
-.menu
-  &.horizontal
-    flex-direction row
-    flex-grow 1
+$primary = $UI.colors.primary
 
-.content
-  flex-grow 1
+.root
+  overflow hidden
 
-.tab,
-.tabWrap
-  flex-grow 1
+.bar
+  background-color transparent
+
+.indicator
+  background-color $primary
+
+.label
+  &.focused
+    color $primary

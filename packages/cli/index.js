@@ -3,6 +3,7 @@ const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
 const Font = require('fonteditor-core').Font
+const link = require('./link')
 const CLI_VERSION = require('./package.json').version
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
@@ -263,6 +264,8 @@ const TEMPLATES = {
     packages: [
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@fortawesome/free-solid-svg-icons@^5.12.0',
+      'react-native-gesture-handler@^1.9.0',
+      'react-native-reanimated@^1.13.2',
       '@react-native-community/datetimepicker@^3.0.6',
       '@react-native-picker/picker@^1.9.3',
       'react-native-collapsible@1.5.2'
@@ -376,6 +379,8 @@ commander
         stdio: 'inherit'
       })
     }
+
+    if (template === 'ui') link()
 
     console.log(getSuccessInstructions(projectName))
   })
@@ -631,3 +636,5 @@ exports.run = (options = {}) => {
   templatesPath = options.templatesPath
   commander.parse(process.argv)
 }
+
+exports.link = link

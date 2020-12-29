@@ -42,6 +42,8 @@ import ModalEn from '../components/Modal/Modal.en.mdx'
 import ModalRu from '../components/Modal/Modal.ru.mdx'
 import PaginationEn from '../components/Pagination/Pagination.en.mdx'
 import PaginationRu from '../components/Pagination/Pagination.ru.mdx'
+import PortalEn from '../components/Portal/Portal.en.mdx'
+import PortalRu from '../components/Portal/Portal.ru.mdx'
 import ProgressEn from '../components/Progress/Progress.en.mdx'
 import ProgressRu from '../components/Progress/Progress.ru.mdx'
 import RatingEn from '../components/Rating/Rating.en.mdx'
@@ -50,7 +52,6 @@ import RowEn from '../components/Row/Row.en.mdx'
 import RowRu from '../components/Row/Row.ru.mdx'
 import SidebarEn from '../components/Sidebar/Sidebar.en.mdx'
 import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
-import SlicerRu from '../components/Slicer/Slicer.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
 import SmartSidebarRu from '../components/SmartSidebar/SmartSidebar.ru.mdx'
 import TableEn from '../components/table/Table/Table.en.mdx'
@@ -240,6 +241,14 @@ export default {
         ru: PaginationRu
       }
     },
+    Portal: {
+      type: 'mdx',
+      title: 'Portal',
+      component: {
+        en: PortalEn,
+        ru: PortalRu
+      }
+    },
     Progress: {
       type: 'mdx',
       title: 'Progress',
@@ -263,11 +272,6 @@ export default {
         en: RowEn,
         ru: RowRu
       }
-    },
-    Slicer: {
-      type: 'mdx',
-      title: 'Slicer',
-      component: SlicerRu
     },
     Sidebar: {
       type: 'mdx',

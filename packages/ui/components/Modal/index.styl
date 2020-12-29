@@ -6,6 +6,9 @@ _gutter = $UI.gutters.m
 .root
   height 100%
 
+  +android()
+    z-index 0 // android only: popover does not display without this property
+
   &.window
     padding 0 _gutter
     // margin auto does not work for .modal class without row direction
