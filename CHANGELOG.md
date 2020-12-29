@@ -15,7 +15,7 @@
 ### Features
 
 * **babel-preset-startupjs:** Add APP_ENV variable to override which .env file to use. For example with APP_ENV=qa the '.env.qa' will be used ([1abb468](https://github.com/startupjs/startupjs/commit/1abb468ce187371d899e3e99d7167570c4ef0da2))
-
+* **ui/Portal**: add component
 
 
 ## [0.30.10](https://github.com/startupjs/startupjs/compare/v0.30.9...v0.30.10) (2020-12-23)
