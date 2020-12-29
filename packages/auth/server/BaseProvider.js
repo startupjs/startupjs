@@ -30,7 +30,7 @@ export default class BaseProvider {
       const $auth = $root.scope('auths.' + userId)
       const providers = $auth.get('providers') || {}
       if (!providers[providerName]) {
-        $auth.set(
+        await $auth.set(
           'providers.' + providerName,
           this.getAuthData().providers[providerName]
         )

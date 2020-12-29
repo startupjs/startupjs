@@ -8,7 +8,7 @@ import './index.styl'
 function AuthButton ({ label, redirectUrl }) {
   return pug`
     Button.button(
-      onPress=onLogin
+      onPress=() => onLogin(redirectUrl)
       icon=faLinkedinIn
       variant='flat'
     )= label
