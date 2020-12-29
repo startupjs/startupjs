@@ -4,6 +4,7 @@
 module.exports = ({ debugJsx }) => {
   const defaultPlugins = [
     [require('@babel/plugin-syntax-flow')],
+    [require('@babel/plugin-proposal-nullish-coalescing-operator')],
     [require('@babel/plugin-proposal-optional-chaining'), { loose: true }],
     [require('@babel/plugin-proposal-class-properties'), { loose: true }],
     [require('@babel/plugin-transform-function-name')]

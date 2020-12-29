@@ -3,11 +3,10 @@ import { WebView } from 'react-native-webview'
 import { observer, u, useSession, useValue } from 'startupjs'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
+import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
-import qs from 'query-string'
-import { BASE_URL } from '@env'
-import { CALLBACK_NATIVE_AZUREAD_URL, SCOPE, getStrBase64 } from '../../../isomorphic'
+import { AZUREAD_LOGIN_URL } from '../../../isomorphic'
 import './index.styl'
 
 function AuthButton ({ label }) {
@@ -15,27 +14,11 @@ function AuthButton ({ label }) {
   const [authConfig] = useSession('auth')
   const [, $showModal] = useValue(false)
 
-  const { clientId, tentantId } = authConfig.azuread
-
   function showLoginModal () {
     $showModal.set(true)
   }
-
-  function getAuthorizationUrl () {
-    return `https://login.microsoftonline.com/${tentantId}/oauth2/v2.0/authorize?${qs.stringify({
-      client_id: clientId,
-      response_type: 'code',
-      redirect_uri: baseUrl + CALLBACK_NATIVE_AZUREAD_URL,
-      scope: SCOPE,
-      response_mode: 'query',
-      prompt: 'login',
-      code_challenge: getStrBase64(`${clientId}_${tentantId}`),
-      code_challenge_method: 'plain'
-    })}`
-  }
-
   function onNavigationStateChange ({ url }) {
-    if (url.includes(authConfig.successRedirectUrl)) {
+    if (url === (baseUrl + authConfig.successRedirectUrl)) {
       $showModal.set(false)
       finishAuth()
     }
@@ -54,7 +37,7 @@ function AuthButton ({ label }) {
       Div.modal
         WebView(
           style={ height: u(100) }
-          source={ uri: getAuthorizationUrl() }
+          source={ uri: baseUrl + AZUREAD_LOGIN_URL }
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled

@@ -9,7 +9,7 @@ export default async function setLoginAttempts (req, res, next) {
   await $auths.subscribe()
   const authDoc = $auths.get()[0]
 
-  if (authDoc) {
+  if (authDoc && authDoc.providers.local) {
     const $auth = model.scope(`auths.${authDoc.id}`)
     const failedLoginAttempts = $auth.get('providers.local.failedLoginAttempts') || 0
 

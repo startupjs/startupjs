@@ -1,4 +1,5 @@
 import React from 'react'
+import { observer } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
@@ -24,4 +25,4 @@ AuthButton.propTypes = {
   redirectUrl: PropTypes.string
 }
 
-export default AuthButton
+export default observer(AuthButton)
