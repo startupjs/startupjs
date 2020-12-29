@@ -29,19 +29,18 @@ export default {
       return Animated.parallel([
         Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.height, {
           toValue: contentInfo.height,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.width, {
           toValue: contentInfo.width,
-          duration: durationOpen
-        }),
-        Animated.timing(animateStates.opacityOverlay, {
-          toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         })
       ]).start(callback)
     }
@@ -57,19 +56,18 @@ export default {
       return Animated.parallel([
         Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateX, {
           toValue: 0,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateY, {
           toValue: 0,
-          duration: durationOpen
-        }),
-        Animated.timing(animateStates.opacityOverlay, {
-          toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         })
       ]).start(callback)
     }
@@ -98,27 +96,28 @@ export default {
       return Animated.parallel([
         Animated.timing(animateStates.scaleY, {
           toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.scaleX, {
           toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateY, {
           toValue: 0,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateX, {
           toValue: 0,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: durationOpen
-        }),
-        Animated.timing(animateStates.opacityOverlay, {
-          toValue: 1,
-          duration: durationOpen
+          duration: durationOpen,
+          useNativeDriver: false
         })
       ]).start(callback)
     }
@@ -148,19 +147,18 @@ export default {
       return Animated.parallel([
         Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.width, {
           toValue: widthToValue,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.height, {
           toValue: heightToValue,
-          duration: durationClose
-        }),
-        Animated.timing(animateStates.opacityOverlay, {
-          toValue: 0,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         })
       ]).start(callback)
     }
@@ -176,19 +174,18 @@ export default {
       return Animated.parallel([
         Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateX, {
           toValue: toTranslateX,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateY, {
           toValue: toTranslateY,
-          duration: durationClose
-        }),
-        Animated.timing(animateStates.opacityOverlay, {
-          toValue: 0,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         })
       ]).start(callback)
     }
@@ -226,27 +223,28 @@ export default {
       return Animated.parallel([
         Animated.timing(animateStates.scaleY, {
           toValue: _scaleY,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.scaleX, {
           toValue: _scaleX,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateY, {
           toValue: _translateY,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.translateX, {
           toValue: _translateX,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         }),
         Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: durationClose
-        }),
-        Animated.timing(animateStates.opacityOverlay, {
-          toValue: 0,
-          duration: durationClose
+          duration: durationClose,
+          useNativeDriver: false
         })
       ]).start(callback)
     }

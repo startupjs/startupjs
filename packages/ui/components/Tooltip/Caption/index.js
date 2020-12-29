@@ -1,11 +1,8 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { observer } from 'startupjs'
 
-export default observer(function TooltipCaption ({
-  children,
-  onChange
-}) {
+export default observer(function TooltipCaption ({ children, onChange }) {
   let isPressable = false
 
   function _onLongPress (cb) {
@@ -18,13 +15,13 @@ export default observer(function TooltipCaption ({
     cb && cb()
   }
 
-  const _children = Children.toArray(children).map(child => {
+  const _children = React.Children.toArray(children).map(child => {
     if (child.props.onPress || child.props.onLongPress) {
       isPressable = true
       return React.cloneElement(child, {
         onLongPress: () => _onLongPress(child.props.onLongPress),
         onPressOut: () => _onPressOut(child.props.onPressOut),
-        onPress: child.props.onPress
+        onPress: child.props.onPress || child.props.onLongPress
       })
     }
     return child

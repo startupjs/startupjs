@@ -6,6 +6,7 @@ import Layout from './layout'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
+import Portal from '../Portal'
 
 function Modal ({
   style,
@@ -28,7 +29,7 @@ function Modal ({
   useLayoutEffect(() => {
     if (!$visible) return
     $_visible.ref($visible)
-    return () => $visible.removeRef($_visible)
+    return () => $_visible.removeRef()
   }, [])
 
   function closeFallback () {
@@ -67,21 +68,19 @@ function Modal ({
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
-      if props.variant !== 'custom'
+      Portal.Provider
         Layout(
           style=style
           modalStyle=modalStyle
           closeFallback=closeFallback
           ...props
         )
-      else
-        = props.children
   `
 }
+
 const ObservedModal = observer(Modal, { forwardRef: true })
 
 ObservedModal.defaultProps = {
-  visible: false,
   variant: 'window',
   dismissLabel: ModalActions.defaultProps.dismissLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
@@ -97,7 +96,7 @@ ObservedModal.defaultProps = {
 ObservedModal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  variant: PropTypes.oneOf(['window', 'fullscreen', 'custom']),
+  variant: PropTypes.oneOf(['window', 'fullscreen']),
   $visible: PropTypes.any,
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,

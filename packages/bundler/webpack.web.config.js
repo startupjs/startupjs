@@ -20,8 +20,8 @@ const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const webpack = require('webpack')
 const { getJsxRule } = require('./helpers')
-
 const DEFAULT_MODE = 'react-native'
 const PLUGINS = getPluginConfigs()
 
@@ -164,6 +164,9 @@ module.exports = function getConfig (env, {
       }),
       new ProgressBarPlugin({
         format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
+      }),
+      new webpack.DefinePlugin({
+        __DEV__: !PROD
       })
     ].filter(Boolean),
     output: {

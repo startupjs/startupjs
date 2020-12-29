@@ -1,12 +1,18 @@
-import Tabs from '../Tabs'
+import { useState } from 'react'
 import Div from '../Div'
-import ExampleTab from './tabExample/'
-import { Sandbox } from '@startupjs/docs'
-import { useValue } from 'startupjs'
+import Tabs from '../Tabs'
 
 # Tabs
 
-Tabs display a list of cards and components for navigating through them.
+Inherits [react-native-tab-view](https://github.com/satya164/react-native-tab-view) with some changes:
+
+- `navigationState` property is replaced to properties `routes` and `$value`, where:
+  - `routes` is have the same structure as `navigationState.routes`
+  - `$value` is the scoped model, to make tabs controlled (by omitting this property the tabs will be uncontrolled)
+- added property `initialKey` to set default tab
+- added property `onChange` that responds to tab change instead of `onIndexChange`
+
+Tabs allow you to switch between different views.
 
 ```jsx
 import { Tabs } from '@startupjs/ui'
@@ -15,40 +21,34 @@ import { Tabs } from '@startupjs/ui'
 ## Example
 
 ```jsx example
-const [value, $value] = useValue('Second')
+const [routes] = useState([
+  { key: 'first', title: 'First' },
+  { key: 'second', title: 'Second' },
+])
+
+const FirstRoute = () => (
+  <Div style={[{ flexGrow: 1, backgroundColor: '#ff4081' }]} />
+)
+
+const SecondRoute = () => (
+  <Div style={[{ flexGrow: 1, backgroundColor: '#673ab7' }]} />
+)
+
+function renderScene ({ route }) {
+  switch (route.key) {
+    case 'first':
+      return <FirstRoute />;
+    case 'second':
+      return <SecondRoute />;
+  }
+}
 
 return (
-  <Div>
   <Tabs
-    $value={$value}
-  >
-    <Tabs.Item
-      title='1 tab'
-    >
-      <ExampleTab bgColor='blue' />
-    </Tabs.Item>
-    <Tabs.Item
-      value='Second'
-      title='2 tab'
-    >
-      <ExampleTab bgColor='pink' />
-    </Tabs.Item>
-    <Tabs.Item
-      title='3 tab'
-    >
-      <ExampleTab bgColor='aqua' />
-    </Tabs.Item>
-  </Tabs>
-  </Div>
+    style={{ height: 250 }}
+    routes={routes}
+    renderScene={renderScene}
+
+  />
 )
 ```
-
-## Sandbox
-
-### Tabs
-
-<Sandbox Component={Tabs} />
-
-### Tabs.Item
-
-<Sandbox Component={Tabs.Item} />

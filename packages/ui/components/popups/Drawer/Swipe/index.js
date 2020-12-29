@@ -17,9 +17,9 @@ function Swipe ({
   isHorizontal,
   isSwipe,
   isInvertPosition,
-  animatePosition,
-  hide,
-  show
+  animateStates,
+  runHide,
+  runShow
 }) {
   const [startDrag, setStartDrag] = useState(null)
   const [endDrag, setEndDrag] = useState(false)
@@ -38,9 +38,9 @@ function Swipe ({
       const validOffset = isInvertPosition ? -offset : offset
 
       if (validOffset >= dragZoneValue) {
-        hide()
+        runHide()
       } else {
-        show()
+        runShow()
       }
 
       setOffset(null)
@@ -49,8 +49,8 @@ function Swipe ({
       return
     }
 
-    if (isInvertPosition && offset < 0) animatePosition.setValue(offset)
-    if (!isInvertPosition && offset > 0) animatePosition.setValue(offset)
+    if (isInvertPosition && offset < 0) animateStates.position.setValue(offset)
+    if (!isInvertPosition && offset > 0) animateStates.position.setValue(offset)
   }, [offset, endDrag])
 
   const responder = useMemo(() => PanResponder.create({
