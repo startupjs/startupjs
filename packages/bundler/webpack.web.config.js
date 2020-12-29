@@ -166,7 +166,7 @@ module.exports = function getConfig (env, {
         format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
       }),
       new webpack.DefinePlugin({
-        __DEV__: PROD
+        __DEV__: !PROD
       })
     ].filter(Boolean),
     output: {
