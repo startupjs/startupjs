@@ -17,6 +17,7 @@ const scrollableClasses = [
 ]
 
 function DateTimePicker ({
+  customInput,
   date,
   disabled,
   format,
@@ -48,6 +49,7 @@ function DateTimePicker ({
   if (mode === 'time') pickerProps.dateFormat = _format || 'HH:mm'
   if (mode !== 'date') pickerProps.timeFormat = timeFormat || 'HH:mm'
   if (minDate) pickerProps.minDate = minDate
+  if (customInput) pickerProps.customInput = customInput
 
   const renderContainer = ({ children }) => {
     return (
@@ -100,6 +102,7 @@ DateTimePicker.defaultProps = {
 }
 
 DateTimePicker.propTypes = {
+  customInput: PropTypes.node,
   date: PropTypes.number,
   disabled: PropTypes.bool,
   label: PropTypes.string,

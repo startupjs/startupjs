@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import Div from '../../Div'
 import Br from '../../Br'
+import Button from '../../Button'
 import DateTimePicker from '../DateTimePicker'
 import { Sandbox } from '@startupjs/docs'
 
@@ -73,6 +74,32 @@ return (
 ### Web only
 
 - `timeFormat` - the format in which the time in the picker is displayed
+- `customInput` - custom component instead of the standard `Input`
+
+```jsx example
+const [dateTime, setDateTime] = useState(Date.now())
+
+const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => {
+  return (
+    <Button color='primary' variant='flat' onPress={onClick}>
+      {value}
+    </Button>
+  )
+})
+
+return (
+  <Div>
+    <DateTimePicker
+      customInput={<ExampleCustomInput />}
+      date={dateTime}
+      mode='date'
+      format='MMMM / DD / yyyy'
+      label='Input as Button'
+      onDateChange={setDateTime}
+    />
+  </Div>
+)
+```
 
 ### IOS only
 
