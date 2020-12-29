@@ -17958,6 +17958,11 @@ qs@6.9.3:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.3.tgz#bfadcd296c2d549f1dffa560619132c977f5008e"
   integrity sha512-EbZYNarm6138UKKq46tdx08Yo/q9ZhFoAXAI1meAFd2GtbRDhbZY2WQSICskT0c5q99aFzLG1D4nvTk9tqfXIw==
 
+qs@^6.9.3:
+  version "6.9.4"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.4.tgz#9090b290d1f91728d3c22e54843ca44aea5ab687"
+  integrity sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
+
 qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -18043,16 +18048,6 @@ racer@0.9.15:
   version "0.9.15"
   resolved "https://registry.yarnpkg.com/racer/-/racer-0.9.15.tgz#13b314e3d6595a7182ab2b79128e875a04a94133"
   integrity sha512-6lmVJeofR/AU+97BVlSK/EKoJy5sK9PDmnZRSY3+UocVGnNCeFBbvaIYhyXIhDMP/k2NNqeo6Yc4TwIl+lzl6A==
-  dependencies:
-    arraydiff "^0.1.1"
-    fast-deep-equal "^2.0.1"
-    sharedb "^1.0.0-beta"
-    uuid "^2.0.1"
-
-racer@^0.9.16:
-  version "0.9.16"
-  resolved "https://registry.yarnpkg.com/racer/-/racer-0.9.16.tgz#2bf52f77f4cda43c0f32498aa417dac7d998a4c2"
-  integrity sha512-nnWyz0JsLeln2R5/ZcUM9GRIJlrYNXQzkmt9paVtz//cWCufJhMemL7wIf9QufX7yu3pJi8f38K/KjQUFq6XEw==
   dependencies:
     arraydiff "^0.1.1"
     fast-deep-equal "^2.0.1"
