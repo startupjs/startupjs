@@ -18054,6 +18054,16 @@ racer@0.9.15:
     sharedb "^1.0.0-beta"
     uuid "^2.0.1"
 
+racer@^0.9.16:
+  version "0.9.16"
+  resolved "https://registry.yarnpkg.com/racer/-/racer-0.9.16.tgz#2bf52f77f4cda43c0f32498aa417dac7d998a4c2"
+  integrity sha512-nnWyz0JsLeln2R5/ZcUM9GRIJlrYNXQzkmt9paVtz//cWCufJhMemL7wIf9QufX7yu3pJi8f38K/KjQUFq6XEw==
+  dependencies:
+    arraydiff "^0.1.1"
+    fast-deep-equal "^2.0.1"
+    sharedb "^1.0.0-beta"
+    uuid "^2.0.1"
+
 raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
@@ -18227,10 +18237,10 @@ react-native-dynamic-style-processor@^0.21.0:
     micro-memoize "^2.0.3"
     react-native-css-media-query-processor "^0.21.1"
 
-react-native-fbsdk@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-2.0.0.tgz#eb041bdb8f9b9180a1696d3bd7d7accee6554262"
-  integrity sha512-CyPKoBVt9Y+KznALcnN4lkh6dUNqZjyFS6GbkXXTFf72wR9Dl8bXF2dDj56w/o5/TFoCnNCmQlZgh7P/NiElZQ==
+react-native-fbsdk@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-3.0.0.tgz#07ef41758bb17a0acaff744008af625a45ef9a01"
+  integrity sha512-i0JocuzLlGk13J0xFDjm8GlX7SADAL2kh/syE/HOn5HHdW+PFjC31MNj5AtzIw2TicHXpHGO6VPKNfdWFbxboA==
 
 react-native-gesture-handler@^1.9.0:
   version "1.9.0"
