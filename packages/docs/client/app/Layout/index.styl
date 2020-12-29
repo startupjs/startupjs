@@ -6,6 +6,7 @@
 .topbar
   position absolute
   align-items center
+  justify-content space-between
   top 0
   left 0
   right 0
@@ -15,3 +16,15 @@
   border-bottom-color rgba(black, 0.05)
   height $TOPBAR_HEIGHT
   padding 0 1u
+
+.searchWrapper
+  width 32u
+
+  +tablet()
+    width 42u
+
+.search
+  max-height 20u
+
+.active
+  color $UI.colors.primary
