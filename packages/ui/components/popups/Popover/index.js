@@ -32,6 +32,7 @@ function Popover ({
   children,
   style,
   arrowStyle,
+  captionStyle,
   visible,
   position,
   attachment,
@@ -85,7 +86,7 @@ function Popover ({
 
   // -main
   useEffect(() => {
-    if (visible) {
+    if (step === STEPS.CLOSE && visible) {
       setStep(STEPS.RENDER)
       setTimeout(runShow, 0)
     }
@@ -144,6 +145,8 @@ function Popover ({
   }
 
   function runHide () {
+    if (!refPopover.current) return
+
     refPopover.current.measure((x, y, popoverWidth, popoverHeight) => {
       const contentInfo = { width: popoverWidth, height: popoverHeight }
       setStep(STEPS.ANIMATE)
@@ -172,9 +175,9 @@ function Popover ({
   React.Children.toArray(children).forEach(child => {
     if (child.type.name === PopoverCaption.name) {
       caption = pug`
-        View.caption(
+        View(
           ref=refCaption
-          style=child.props.style
+          style=[captionStyle, child.props.style]
           onLayout=onLayoutCaption
         )= child.props.children
       `

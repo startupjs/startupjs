@@ -22,6 +22,7 @@ const { UIManager } = NativeModules
 // TODO: key event change scroll
 function Dropdown ({
   style,
+  captionStyle,
   activeItemStyle,
   children,
   value,
@@ -137,6 +138,7 @@ function Dropdown ({
         ref=refScroll
         styleName='popover'
         contentStyleName='content'
+        captionStyle=captionStyle
         style=_popoverStyle
         position=position
         attachment=attachment
