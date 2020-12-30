@@ -24,9 +24,10 @@
     "test:server": "PORT=3001 MONGO_URL=mongodb://localhost:27017/styleguide_test yarn start-production",
     "test:clear-db": "mongo styleguide_test --eval \"db.dropDatabase();\"",
     "test:ios": "detox test -c ios --artifacts-location $PWD/artifacts --take-screenshots all",
-    "test:android": "detox test -c android --loglevel trace",
+    "test:android": "adb reverse tcp:3001 tcp:3001 && detox test -c android --artifacts-location $PWD/artifacts --take-screenshots all",
     "test": "concurrently -s first -k -n 'S,T' -c white,cyan.bgBlue \"yarn test:clear-db && yarn build && yarn test:server\" \"yarn build:jsbundle:ios && yarn test:ios\"",
-    "build:jsbundle:ios": "mkdir -p ios/build/Build/Products/Release-iphonesimulator/styleguide.app/ && APP_ENV=detox react-native bundle --entry-file='index.js' --bundle-output='./ios/build/Build/Products/Release-iphonesimulator/styleguide.app/main.jsbundle' --reset-cache --dev=false"
+    "build:jsbundle:ios": "mkdir -p ios/build/Build/Products/Release-iphonesimulator/styleguide.app/ && APP_ENV=detox react-native bundle --entry-file='index.js' --bundle-output='./ios/build/Build/Products/Release-iphonesimulator/styleguide.app/main.jsbundle' --reset-cache --dev=false",
+    "build:jsbundle:android": "APP_ENV=detox react-native bundle --entry-file='index.js' --bundle-output android/app/build/intermediates/assets/release/index.android.bundle --assets-dest android/app/build/intermediates/res/ --reset-cache --dev=false --platform='android'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
