@@ -48,7 +48,7 @@
     "react-dom": "16.13.1",
     "react-native": "0.63.4",
     "react-native-collapsible": "1.5.2",
-    "react-native-fbsdk": "^2.0.0",
+    "react-native-fbsdk": "^3.0.0",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-reanimated": "^1.13.2",
     "react-native-restart": "0.0.19",
