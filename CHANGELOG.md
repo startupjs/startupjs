@@ -1,3 +1,13 @@
+## [0.31.1](https://github.com/startupjs/startupjs/compare/v0.31.0...v0.31.1) (2020-12-30)
+
+
+### Bug Fixes
+
+* **Popover:** add caption style ([#461](https://github.com/startupjs/startupjs/issues/461)) ([8245481](https://github.com/startupjs/startupjs/commit/82454815f789ac38061048e20f4392d7bf23a941))
+* **Tabs:** move style property to tabs wrapper style and add tabsStyle for tabs instead ([d48e5b4](https://github.com/startupjs/startupjs/commit/d48e5b4329a2ab8dc1b73491da57f5854d8d7e0b))
+
+
+
 # [0.31.0](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.31.0) (2020-12-29)
 
 
