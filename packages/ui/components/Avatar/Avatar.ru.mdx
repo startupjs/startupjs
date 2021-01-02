@@ -15,123 +15,104 @@ import { Avatar } from '@startupjs/ui'
 
 ## Пример
 
-```jsx example
-return (
-  <Avatar
-    src='/img/avatar1.jpeg'
-  />
-)
+```pug example
+return pug`
+  Avatar(src='/img/avatar1.jpeg')
+`
 ```
 
 ## Размеры
 
 Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Песочница` внизу страницы.
 
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
+```pug example
+return pug`
+  Row
+    Div
+      Avatar(
         size='xs'
         src='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='s'
         src='/img/avatar2.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='m'
         src='/img/avatar3.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='l'
         src='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='xl'
         src='/img/avatar2.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='xxl'
         src='/img/avatar3.jpeg'
-      />
-    </Div>
-  </Row>
-)
+      )
+`
 ```
 
 ## Статус пользователя
 
 Аватары могут быть использованы для отображения онлайн-статуса пользователя. Он может быть установлен путем передачи строки `online` или `away` в свойство `status`.
 
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
+```pug example
+return pug`
+  Row
+    Div
+      Avatar(
         status='online'
         src='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         status='away'
         src='/img/avatar2.jpeg'
-      />
-    </Div>
-  </Row>
-)
+      )
+`
 ```
 
 ## Резервная строка
 
 Если свойство `url` не указано или произошла ошибка при загрузке изображения аватара, то компонент использует альтернативу. Альтернативой является инициалы двух первых слов `children` строки если она указана и `?` если нет. В приведенном ниже примере `резервная строка` - 'John Doe', поэтому будет отображаться 'JD'.
 
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
+```pug example
+return pug`
+  Row
+    Div
+      Avatar(src='/img/non-existen-image.jpeg')
+    Div(pushed)
+      Avatar(
         src='/img/non-existen-image.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
-        src='/img/non-existen-image.jpeg'
-      >
-        John Doe
-      </Avatar>
-    </Div>
-  </Row>
-)
+      ) John Doe
+`
 ```
 
 ## Действия
 
 Переданный обработчик в `onPress` свойство будет вызван когда пользователь нажмет на компонент.
 
-```jsx example
+```pug example
 const [counter, setCounter] = useState(0)
-return (
-  <Div>
-    <Avatar
+
+return pug`
+  Div
+    Avatar(
       src='/img/avatar1.jpeg'
-      onPress={() => setCounter(counter + 1)}
-    />
-    <Br />
-    <Span>Нажато {counter} раз</Span>
-  </Div>
-)
+      onPress=()=> setCounter(counter + 1)
+    )
+    Br
+    Span= 'Нажато ' + counter + ' раз'
+`
 ```
 
 ## Sandbox

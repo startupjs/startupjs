@@ -7,7 +7,6 @@ import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 
 # Avatar
-
 Avatars can be used to represent people. When used with a specific logo, avatars can also be used to represent a brand. They also can be a placeholder when there is no image or image can't be loaded by some reason to be shown, showing an alternative in this case.
 
 ```jsx
@@ -16,123 +15,100 @@ import { Avatar } from '@startupjs/ui'
 
 ## Example
 
-```jsx example
-return (
-  <Avatar
-    src='/img/avatar1.jpeg'
-  />
-)
+```pug example
+return pug`
+  Avatar(src='/img/avatar1.jpeg')
+`
 ```
 
 ## Sizes
-
 Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
+```pug example
+return pug`
+  Row
+    Div
+      Avatar(
         size='xs'
         src='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='s'
         src='/img/avatar2.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='m'
         src='/img/avatar3.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='l'
         src='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='xl'
         src='/img/avatar2.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         size='xxl'
         src='/img/avatar3.jpeg'
-      />
-    </Div>
-  </Row>
-)
+      )
+`
 ```
 
 ## User status
-
 Avatars can be used to display user online status. It can be set by passing string `online` or `away` to property `status`.
 
-
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
+```pug example
+return pug`
+  Row
+    Div
+      Avatar(
         status='online'
         src='/img/avatar1.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
+      )
+    Div(pushed)
+      Avatar(
         status='away'
         src='/img/avatar2.jpeg'
-      />
-    </Div>
-  </Row>
-)
+      )
+`
 ```
 
 ## Fallback string
 If `url` prop is not provided or if there is an error loading the avatar image, the component using an alternative. The alternative is initials of two first words of `children` string if provided and `?` if not. In the example below alternative is 'John Doe' therefore 'JD' will be displayed.
 
-```jsx example
-return (
-  <Row>
-    <Div>
-      <Avatar
+```pug example
+return pug`
+  Row
+    Div
+      Avatar(src='/img/non-existen-image.jpeg')
+    Div(pushed)
+      Avatar(
         src='/img/non-existen-image.jpeg'
-      />
-    </Div>
-    <Div pushed>
-      <Avatar
-        src='/img/non-existen-image.jpeg'
-      >
-        John Doe
-      </Avatar>
-    </Div>
-  </Row>
-)
+      ) John Doe
+`
 ```
 
 ## Actions
-
 Passed handler to `onPress` property will be called when the user taps the component.
 
-```jsx example
+```pug example
 const [counter, setCounter] = useState(0)
-return (
-  <Div>
-    <Avatar
+
+return pug`
+  Div
+    Avatar(
       src='/img/avatar1.jpeg'
-      onPress={() => setCounter(counter + 1)}
-    />
-    <Br />
-    <Span>Clicked {counter} times</Span>
-  </Div>
-)
+      onPress=()=> setCounter(counter + 1)
+    )
+    Br
+    Span= 'Clicked ' + counter + ' times'
+`
 ```
 
 ## Sandbox

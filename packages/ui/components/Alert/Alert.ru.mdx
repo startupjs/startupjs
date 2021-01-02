@@ -4,13 +4,9 @@ import Div from '../Div'
 import Br from '../Br'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
-import {
-  faCheck,
-  faExclamationTriangle
-} from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
 # Alert (оповещение)
-
 Оповещение отображает короткое, важное сообщение таким образом, чтобы привлечь внимание пользователя, не прерывая его работу.
 
 ```jsx
@@ -20,76 +16,73 @@ import { Alert } from '@startupjs/ui'
 ## Пример
 Существует 4 типа предупреждений: `success`, `info`, `warning`, `error`. Вы можете указать тип, передав свойство `variant`.
 
-```jsx example
-return (
-  <Div>
-    <Alert
+```pug example
+return pug`
+  Div
+    Alert(
       variant='info'
       label='This is an info alert — check it out!'
-    />
-    <Br />
-    <Alert
+    )
+    Br
+    Alert(
       variant='success'
       label='This is an success alert — check it out!'
-    />
-    <Br />
-    <Alert
+    )
+    Br
+    Alert(
       variant='warning'
       label='This is an warning alert — check it out!'
-    />
-    <Br />
-    <Alert
+    )
+    Br
+    Alert(
       variant='error'
       label='This is an error alert — check it out!'
-    />
-  </Div>
-)
+    )
+`
 ```
 
 ## Иконки
 Свойство `icon`позволяет добавить иконку в начало компонента оповещения.
 Свойство `variant` определяет соответствующий цвет и для иконки.
 
-```jsx example
-return (
-  <Div>
-    <Alert
-      icon={faCheck}
+```pug example
+return pug`
+  Div
+    Alert(
+      icon=faCheck
       variant='success'
       label='Success alert icon'
-    />
-    <Br />
-    <Alert
-      icon={faExclamationTriangle}
+    )
+    Br
+    Alert(
+      icon=faExclamationTriangle
       variant='warning'
       label='Warning alert icon'
-    />
-  </Div>
-)
+    )
+`
 ```
 
 ## Действия
-
 Оповещение может иметь действие (`onClose' свойство). Оно отображается после сообщения, в конце оповещения.
 
-```jsx example
+```pug example
 const [showAlert, setShowAlert] = useState(true)
-return (
-  <Div>
-    {showAlert &&
-      <Alert
+
+return pug`
+  Div
+    if showAlert
+      Alert(
         variant='warning'
-        icon={faExclamationTriangle}
+        icon=faExclamationTriangle
         label='Warning alert with actions'
-        onClose={() => setShowAlert(false)}
-      />
-    }
-    <Br />
-    <Button disabled={showAlert} onPress={() => setShowAlert(true)}>
-      Re-Open
-    </Button>
-  </Div>
-)
+        onClose=()=> setShowAlert(false)
+      )
+    Br
+    Button(
+      disabled=showAlert
+      onPress=()=> setShowAlert(true)
+    ) Re-Open
+`
 ```
 
 ## Sandbox
