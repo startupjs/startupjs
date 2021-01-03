@@ -44,14 +44,17 @@ function Breadcrumbs ({
           if isLastRoute
             Item(icon=icon color=mainTextColor bold)= name
           else
-            Row
+            Row.item
               Link(
                 replace=replace
                 ...linkProps
               )
                 Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name
-              Span.separator(styleName=[size])
-                | &nbsp#{separator}&nbsp
+              if typeof separator === 'string'
+                Span.separator(styleName=[size])
+                  | &nbsp#{separator}&nbsp
+              else
+                = separator
   `
 }
 
@@ -71,7 +74,7 @@ Breadcrumbs.propTypes = {
     icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
   })).isRequired,
   iconPosition: PropTypes.oneOf(['left', 'right']),
-  separator: PropTypes.string,
+  separator: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   replace: PropTypes.bool
 }
