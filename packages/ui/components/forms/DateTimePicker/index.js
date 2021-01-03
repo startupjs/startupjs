@@ -4,9 +4,12 @@ import RNCDateTimePicker from '@react-native-community/datetimepicker'
 import TimePickerAndroid from '@react-native-community/datetimepicker/src/timepicker.android'
 import DatePickerAndroid from '@react-native-community/datetimepicker/src/datepicker.android'
 import { observer } from 'startupjs'
-import { Button, Drawer, Row, Span } from '@startupjs/ui'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
+import Button from '../../Button'
+import Drawer from '../../popups/Drawer'
+import Row from '../../Row'
+import Span from '../../typography/Span'
 import STYLES from './index.styl'
 
 const { colors: { mainText, secondaryText } } = STYLES
