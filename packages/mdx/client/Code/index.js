@@ -31,7 +31,7 @@ export default memo(function Code ({
     if (!language) return children
 
     if (language === 'jsx') {
-      const pugIndex = children.search(/return pug`/gi)
+      const pugIndex = children.search(/pug`/gi)
 
       if (pugIndex !== -1) {
         const jsPart = renderer(refractor.highlight(children.slice(0, pugIndex), language), textStyle)
