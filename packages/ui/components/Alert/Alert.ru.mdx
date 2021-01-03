@@ -9,14 +9,14 @@ import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icon
 # Alert (оповещение)
 Оповещение отображает короткое, важное сообщение таким образом, чтобы привлечь внимание пользователя, не прерывая его работу.
 
-```jsx
+```js
 import { Alert } from '@startupjs/ui'
 ```
 
 ## Пример
 Существует 4 типа предупреждений: `success`, `info`, `warning`, `error`. Вы можете указать тип, передав свойство `variant`.
 
-```pug example
+```jsx example
 return pug`
   Div
     Alert(
@@ -45,7 +45,7 @@ return pug`
 Свойство `icon`позволяет добавить иконку в начало компонента оповещения.
 Свойство `variant` определяет соответствующий цвет и для иконки.
 
-```pug example
+```jsx example
 return pug`
   Div
     Alert(
@@ -65,7 +65,7 @@ return pug`
 ## Действия
 Оповещение может иметь действие (`onClose' свойство). Оно отображается после сообщения, в конце оповещения.
 
-```pug example
+```jsx example
 const [showAlert, setShowAlert] = useState(true)
 
 return pug`

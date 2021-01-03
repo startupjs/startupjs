@@ -16,7 +16,7 @@ import { Alert } from '@startupjs/ui'
 ## Example
 There are 4 types of Alert: `success`, `info`, `warning`, `error`. You can specify it by passing `variant` property.
 
-```pug example
+```jsx example
 return pug`
   Div
     Alert(
@@ -45,7 +45,7 @@ return pug`
 The `icon` prop allows you to add an icon to the beginning of the alert component.
 The `variant` prop defines the corresponding color for the icon.
 
-```pug example
+```jsx example
 return pug`
   Div
     Alert(
@@ -66,7 +66,7 @@ return pug`
 
 An alert can have an action (`onClose` prop). It is rendered after the message, at the end of the alert.
 
-```pug example
+```jsx example
 const [showAlert, setShowAlert] = useState(true)
 
 return pug`

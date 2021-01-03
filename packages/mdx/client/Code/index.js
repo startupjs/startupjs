@@ -29,6 +29,17 @@ export default memo(function Code ({
   if (typeof children !== 'string') throw Error('[Code] Code must be a string')
   const code = useMemo(() => {
     if (!language) return children
+
+    if (language === 'jsx') {
+      const pugIndex = children.search(/return pug`/gi)
+
+      if (pugIndex !== -1) {
+        const jsPart = renderer(refractor.highlight(children.slice(0, pugIndex), language), textStyle)
+        const pugPart = renderer(refractor.highlight(children.slice(pugIndex), 'pug'), textStyle)
+        return [...jsPart, ...pugPart]
+      }
+    }
+
     return renderer(refractor.highlight(children, language), textStyle)
   }, [children, language])
 

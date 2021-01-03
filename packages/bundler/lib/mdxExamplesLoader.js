@@ -1,4 +1,4 @@
-const REGEX = /(```jsx|```pug) +example([\s\S]*?)(```)/g
+const REGEX = /(```jsx) +example([\s\S]*?)(```)/g
 
 module.exports = function mdxExamplesLoader (source) {
   const observer = "import { observer as __observer } from 'startupjs'"
