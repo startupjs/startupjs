@@ -59,6 +59,7 @@
     "H6": "/components/typography/H6",
     "Span": "/components/typography/Span",
     "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
+    "useHover": "/hooks/useHover.js",
     "useLayout": "/hooks/useLayout.js",
     "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",

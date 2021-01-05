@@ -180,6 +180,9 @@ module.exports = function getConfig (env, {
           test: getJsxRule().test,
           exclude: /node_modules/,
           use: [
+            {
+              loader: require.resolve('./lib/cssDecoratorsLoader.js')
+            },
             pick(getJsxRule(), ['loader', 'options']),
             {
               loader: require.resolve('./lib/replaceObserverLoader.js')
