@@ -1,3 +1,20 @@
+## [0.31.2](https://github.com/startupjs/startupjs/compare/v0.31.1...v0.31.2) (2021-01-05)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-inline:** Search magic preprocessors imports in all 'startupjs' imports (there might be multiple, for example in our .mdx files) ([498331b](https://github.com/startupjs/startupjs/commit/498331b04afb8426b9ff11e17b5159072a3f5900))
+* **DateTimePicker:** fixed zIndex, added property InputComponent ([#459](https://github.com/startupjs/startupjs/issues/459)) ([dafec10](https://github.com/startupjs/startupjs/commit/dafec1050538e1cd70d7e3d54188ade15ef435a1))
+
+
+### Features
+
+* **Breadcrumbs:** jsx separator ([#463](https://github.com/startupjs/startupjs/issues/463)) ([15c57cb](https://github.com/startupjs/startupjs/commit/15c57cb6d9557b0ee36172c0346773fb4e24a2d5))
+* **mdx:** pug example ([#462](https://github.com/startupjs/startupjs/issues/462)) ([e0d432d](https://github.com/startupjs/startupjs/commit/e0d432dfdf60093d5ce5175c30044dee4dc12a67))
+* **mdx:** Rewrite pug template string highlighting to a full sub-language highlighting support. Support styl/css/pug highlighting as subtemplates. ([28d8eef](https://github.com/startupjs/startupjs/commit/28d8eef2cba666e250a2d11d6b815e7aa1a7bf08))
+
+
+
 ## [0.31.1](https://github.com/startupjs/startupjs/compare/v0.31.0...v0.31.1) (2020-12-30)
 
 
