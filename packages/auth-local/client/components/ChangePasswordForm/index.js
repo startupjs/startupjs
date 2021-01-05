@@ -1,9 +1,10 @@
 import React from 'react'
 import { observer, useValue } from 'startupjs'
-import { Span, Div, TextInput, Button } from '@startupjs/ui'
+import { Span, Div, Button, Br } from '@startupjs/ui'
 import { RESET_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
 import { useAuthHelper } from '../../helpers'
+import TextInput from '../TextInput'
 import './index.styl'
 
 export default observer(function ChangePasswordForm ({ onSuccess }) {
@@ -49,7 +50,7 @@ export default observer(function ChangePasswordForm ({ onSuccess }) {
     }
   }
 
-  const onInputChange = name => ({ target: { value } }) => {
+  const onInputChange = name => value => {
     if (error) $error.del()
     $form.set({ ...$form.get(), [name]: value })
   }
@@ -58,26 +59,30 @@ export default observer(function ChangePasswordForm ({ onSuccess }) {
     Div.root
       Div.content
         if !feedback
-          Span.header-text Update password
           TextInput.input(
+            onChangeText=onInputChange('oldPassword')
             label='Enter your old password'
-            value=form.oldPassword
-            onChange=onInputChange('oldPassword')
+            name='oldPassword'
             placeholder='Old password'
             secureTextEntry
+            value=form.oldPassword || ''
           )
+          Br
           TextInput.input(
+            onChangeText=onInputChange('password')
             label='Enter your new password'
-            value=form.password
-            onChange=onInputChange('password')
+            name='password'
             placeholder='New Password'
             secureTextEntry
+            value=form.password || ''
           )
+          Br
           TextInput.input(
-            value=form.confirm
-            onChange=onInputChange('confirm')
+            onChangeText=onInputChange('confirm')
+            name='confirm'
             placeholder='Confirm new password'
             secureTextEntry
+            value=form.confirm || ''
           )
           Div.error
             if error
