@@ -1,3 +1,12 @@
+## [0.31.4](https://github.com/startupjs/startupjs/compare/v0.31.3...v0.31.4) (2021-01-05)
+
+
+### Features
+
+* **auth:** Implement auth modal ([#465](https://github.com/startupjs/startupjs/issues/465)) ([8cccbec](https://github.com/startupjs/startupjs/commit/8cccbecbc155756080872a3d00a14ad5a373c82e))
+
+
+
 ## [0.31.3](https://github.com/startupjs/startupjs/compare/v0.31.2...v0.31.3) (2021-01-05)
 
 
