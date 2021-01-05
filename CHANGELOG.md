@@ -1,3 +1,12 @@
+## [0.31.3](https://github.com/startupjs/startupjs/compare/v0.31.2...v0.31.3) (2021-01-05)
+
+
+### Bug Fixes
+
+* **auth:** Closure issue onEnterPress ([6b95b5d](https://github.com/startupjs/startupjs/commit/6b95b5d7ed03550cbddd08064b6312bcea0f0247))
+
+
+
 ## [0.31.2](https://github.com/startupjs/startupjs/compare/v0.31.1...v0.31.2) (2021-01-05)
 
 
