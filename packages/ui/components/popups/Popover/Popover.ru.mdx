@@ -254,6 +254,7 @@ return (
           visible={visible === animate.toLowerCase()}
           animateType={animate.toLowerCase()}
           hasArrow={true}
+          key={index}
           onDismiss={()=> setVisible('')}
         >
           <Popover.Caption style={{ marginRight: 16 }}>

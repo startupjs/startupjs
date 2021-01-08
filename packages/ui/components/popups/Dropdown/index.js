@@ -1,17 +1,18 @@
-import React, { useState, useRef, useImperativeHandle } from 'react'
+import React, { useState, useRef, useImperativeHandle, useEffect } from 'react'
 import {
-  Text,
-  View,
-  TouchableOpacity,
+  Dimensions,
+  NativeModules,
   ScrollView,
   StyleSheet,
-  NativeModules
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import DropdownCaption from './components/Caption'
 import DropdownItem from './components/Item'
-import { useLayoutSize, useKeyboard } from './helpers'
+import { useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
@@ -41,7 +42,9 @@ function Dropdown ({
 
   const [isShow, setIsShow] = useState(false)
   const [activeInfo, setActiveInfo] = useState(null)
-  const [layoutWidth] = useLayoutSize()
+  const [layoutWidth, $layoutWidth] = useValue(
+    Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
+  )
   const [selectIndexValue] = useKeyboard({
     value,
     isShow,
@@ -50,6 +53,16 @@ function Dropdown ({
     onChangeShow: v => setIsShow(v)
   })
   const isPopover = !hasDrawer || (layoutWidth > STYLES.media.tablet)
+
+  function handleWidthChange () {
+    setIsShow(false)
+    $layoutWidth.setDiff(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
+  }
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', handleWidthChange)
+    return () => Dimensions.removeEventListener('change', handleWidthChange)
+  }, [])
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -99,7 +112,7 @@ function Dropdown ({
       _activeValue: value,
       _selectIndexValue: selectIndexValue,
       _index: caption ? (index - 1) : index,
-      _childenLength: caption ? (arr.length - 1) : arr.length,
+      _childrenLength: caption ? (arr.length - 1) : arr.length,
       _onDismissDropdown: () => setIsShow(false),
       _onChange: v => {
         onChange(v)
