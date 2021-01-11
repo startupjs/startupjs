@@ -40,7 +40,7 @@ function Dropdown ({
   const refScroll = useRef()
   const renderContent = useRef([])
 
-  const [isShow, setIsShow] = useState(false)
+  const [isShow, $isShow] = useValue(false)
   const [activeInfo, setActiveInfo] = useState(null)
   const [layoutWidth, $layoutWidth] = useValue(
     Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
@@ -50,26 +50,29 @@ function Dropdown ({
     isShow,
     renderContent,
     onChange,
-    onChangeShow: v => setIsShow(v)
+    onChangeShow: v => $isShow.setDiff(v)
   })
   const isPopover = !hasDrawer || (layoutWidth > STYLES.media.tablet)
 
   function handleWidthChange () {
-    setIsShow(false)
+    $isShow.setDiff(false)
     $layoutWidth.setDiff(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
   }
 
   useEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
-    return () => Dimensions.removeEventListener('change', handleWidthChange)
+    return () => {
+      $isShow.del()
+      Dimensions.removeEventListener('change', handleWidthChange)
+    }
   }, [])
 
   useImperativeHandle(ref, () => ({
     open: () => {
-      setIsShow(true)
+      $isShow.setDiff(true)
     },
     close: () => {
-      setIsShow(false)
+      $isShow.setDiff(false)
     }
   }))
 
@@ -79,7 +82,7 @@ function Dropdown ({
 
   function onCancel () {
     onDismiss && onDismiss()
-    setIsShow(false)
+    $isShow.setDiff(false)
   }
 
   function onRequestOpen () {
@@ -113,10 +116,10 @@ function Dropdown ({
       _selectIndexValue: selectIndexValue,
       _index: caption ? (index - 1) : index,
       _childrenLength: caption ? (arr.length - 1) : arr.length,
-      _onDismissDropdown: () => setIsShow(false),
+      _onDismissDropdown: () => $isShow.setDiff(false),
       _onChange: v => {
         onChange(v)
-        setIsShow(false)
+        $isShow.setDiff(false)
       }
     })
 
@@ -158,12 +161,12 @@ function Dropdown ({
         placements=placements
         visible=isShow
         hasWidthCaption=(!_popoverStyle.width && !_popoverStyle.minWidth)
-        onDismiss=()=> setIsShow(false)
+        onDismiss=()=> $isShow.setDiff(false)
         onRequestOpen=onRequestOpen
       )
         if caption
           Popover.Caption
-            TouchableOpacity(onPress=()=> setIsShow(!isShow))
+            TouchableOpacity(onPress=()=> $isShow.set(!isShow))
               = caption
         = renderContent.current
     `
@@ -171,14 +174,14 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity.caption(onPress=()=> setIsShow(!isShow))
+      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
         = caption
     Drawer(
       visible=isShow
       position='bottom'
       style={ maxHeight: '100%' }
       styleName={ drawerReset: drawerVariant === 'buttons' }
-      onDismiss=()=> setIsShow(false)
+      onDismiss=()=> $isShow.setDiff(false)
       onRequestOpen=onRequestOpen
     )
       View.dropdown(styleName=drawerVariant)

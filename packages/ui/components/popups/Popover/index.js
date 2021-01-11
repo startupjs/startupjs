@@ -248,7 +248,7 @@ function Popover ({
   return pug`
     = caption
     Portal
-      if visible && step !== STEPS.CLOSE
+      if step !== STEPS.CLOSE
         if hasOverlay
           TouchableWithoutFeedback(onPress=onDismiss)
             View.overlay
