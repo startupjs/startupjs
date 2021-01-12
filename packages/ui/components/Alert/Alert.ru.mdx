@@ -4,9 +4,10 @@ import Div from '../Div'
 import Br from '../Br'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
-import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { faFire } from '@fortawesome/free-solid-svg-icons'
 
 # Alert (оповещение)
+
 Оповещение отображает короткое, важное сообщение таким образом, чтобы привлечь внимание пользователя, не прерывая его работу.
 
 ```js
@@ -14,75 +15,145 @@ import { Alert } from '@startupjs/ui'
 ```
 
 ## Пример
-Существует 4 типа предупреждений: `success`, `info`, `warning`, `error`. Вы можете указать тип, передав свойство `variant`.
+
+Существует 4 типа предупреждений, каждый с уникальным цветом и значком: `info`, `success`, `warning`, `error`. Вы можете указать тип, передав свойство `variant`.
 
 ```jsx example
-return pug`
-  Div
-    Alert(
+return (
+  <Div>
+    <Alert
       variant='info'
       label='This is an info alert — check it out!'
-    )
-    Br
-    Alert(
+    />
+    <Br />
+    <Alert
       variant='success'
       label='This is an success alert — check it out!'
-    )
-    Br
-    Alert(
+    />
+    <Br />
+    <Alert
       variant='warning'
       label='This is an warning alert — check it out!'
-    )
-    Br
-    Alert(
+    />
+    <Br />
+    <Alert
       variant='error'
       label='This is an error alert — check it out!'
-    )
-`
+    />
+  </Div>
+)
+```
+
+## Заголовок
+
+Вы можете использовать свойство `title`, чтобы отобразить заголовок над содержимым.
+
+```jsx example
+return (
+  <Div>
+    <Alert
+      variant='info'
+      title='Info'
+      label='This is an info alert — check it out!'
+    />
+    <Br />
+    <Alert
+      variant='success'
+      title='Success'
+      label='This is an success alert — check it out!'
+    />
+    <Br />
+    <Alert
+      variant='warning'
+      title='Warning'
+      label='This is an warning alert — check it out!'
+    />
+    <Br />
+    <Alert
+      variant='error'
+      title='Error'
+      label='This is an error alert — check it out!'
+    />
+  </Div>
+)
 ```
 
 ## Иконки
-Свойство `icon`позволяет добавить иконку в начало компонента оповещения.
+
+Свойство `icon` позволяет изменить иконку в начале компонента.
 Свойство `variant` определяет соответствующий цвет и для иконки.
 
+Установка свойства `icon` в значение `false` полностью удалит иконку.
+
 ```jsx example
-return pug`
-  Div
-    Alert(
-      icon=faCheck
-      variant='success'
-      label='Success alert icon'
-    )
-    Br
-    Alert(
-      icon=faExclamationTriangle
+return (
+  <Div>
+    <Alert
+      icon={faFire}
+      variant='error'
+      label='Error alert with custom icon'
+    />
+    <Br />
+    <Alert
+      icon={false}
       variant='warning'
-      label='Warning alert icon'
-    )
-`
+      label='Warning alert without icon'
+    />
+  </Div>
+)
 ```
 
 ## Действия
-Оповещение может иметь действие (`onClose' свойство). Оно отображается после сообщения, в конце оповещения.
+Alert может иметь действие (`onClose` свойство), например кнопку закрытия или отмены. Действие рендерится после сообщения, в конце Alert.
+
+Если передан колбек `onClose` и не задано свойство `ActionComponent`, отображается значок закрытия по умолчанию. Свойство `ActionComponent` можно использовать для предоставления альтернативного компонента, например, с помощью `Button`, `Tag` или `Icon`.
 
 ```jsx example
-const [showAlert, setShowAlert] = useState(true)
+const [showFirstAlert, setShowFirstAlert] = useState(true)
+const [showSecondAlert, setShowSecondAlert] = useState(true)
 
-return pug`
-  Div
-    if showAlert
-      Alert(
-        variant='warning'
-        icon=faExclamationTriangle
-        label='Warning alert with actions'
-        onClose=()=> setShowAlert(false)
-      )
-    Br
-    Button(
-      disabled=showAlert
-      onPress=()=> setShowAlert(true)
-    ) Re-Open
-`
+const renderCustomCloseButton = () => {
+  return (
+    <Button
+      color='success'
+      variant='flat'
+      size='s'
+      onPress={() => setShowSecondAlert(false)}
+    >
+      CLOSE
+    </Button>
+  )
+}
+
+return (
+  <Div>
+    {showFirstAlert && <Alert
+      variant='warning'
+      label='Warning alert with default actions'
+      onClose={() => setShowFirstAlert(false)}
+    />}
+    <Br />
+    <Button
+      disabled={showFirstAlert}
+      onPress={() => setShowFirstAlert(true)}
+    >
+      Re-Open
+    </Button>
+    <Br />
+    {showSecondAlert && <Alert
+      variant='success'
+      label='Success alert with custom actions'
+      ActionComponent={renderCustomCloseButton}
+    />}
+    <Br />
+    <Button
+      disabled={showSecondAlert}
+      onPress={() => setShowSecondAlert(true)}
+    >
+      Re-Open
+    </Button>
+  </Div>
+)
 ```
 
 ## Sandbox
