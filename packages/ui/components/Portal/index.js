@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Dimensions } from 'react-native'
 import { useComponentId } from 'startupjs'
 
-const PortalContext = React.createContext({})
+const PortalContext = React.createContext([])
 
 function Provider ({ children }) {
   const [data, setData] = useState({})

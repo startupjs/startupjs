@@ -120,8 +120,9 @@ function AutoSuggest ({
           FlatList.content(
             style=style
             data=_data.current
+            extraData=_data.current
             renderItem=_renderItem
-            keyExtractor=(item, index) => item.value
+            keyExtractor=item => item.value
           )
   `
 }
