@@ -32,7 +32,7 @@ SUPPORT_EMAIL="admin@example.com"
 import App from 'startupjs/app'
 import * as main from '../main'
 import * as admin from '../admin'
-import { 
+import {
   CRITICAL_VERSION_IOS,
   CRITICAL_VERSION_ANDROID,
   CRITICAL_VERSION_WEB,
@@ -44,7 +44,7 @@ import {
 return (
   <App
     apps={{ main, admin }}
-    criticalVersion={ 
+    criticalVersion={
       ios: CRITICAL_VERSION_IOS,
       android: CRITICAL_VERSION_ANDROID,
       web: CRITICAL_VERSION_WEB
@@ -52,22 +52,36 @@ return (
     supportEmail=SUPPORT_EMAIL
     androidUpdateLink=UPDATE_LINK_ANDROID
     iosUpdateLink=UPDATE_LINK_IOS
-    useGlobalInit={() => { 
+    useGlobalInit={() => {
       // A function that is called once each time the application is started
     }}
-    goToHandler={(url, options, goTo) => { 
+    goToHandler={(url, options, goTo) => {
       // Callback that will be processed every time before going to url. You must pass the third argument `goTo`. You need to be sure to call goTo in your goTo handler with the final url.
     }}
-    errorPages={ 
-      404: '<h1>404 NOT FOUND</h1>',
+    errorPages={
+      404: ({ goBack }) => {
+        return (
+          <Div>
+            <Span>404 Error</Span>
+            <Button onPress={goBack}>Go back</Button>
+          </Div>
+        )
+      },
       ...,
     } // Takes an object in the format {
-      //   error status number: "html code that should be displayed for this error",
+      //   error status number: Component that will be rendered,
       //   ...,
       // }
   />
 )
 ```
+
+#### errorPages
+If you don't pass this props, then the default template will be renderd.
+
+The components you specify will have `goBack` and `disableError` props.
+- `goBack` will return you on previous route (similar to `history.goBack()` from `react-router-native`). This is useful when you need to make a transition from the wrong route for example.
+- `disableError` will disable the error. This is useful when an error occurs on the same route and you need to stay on the same page ().
 
 ### server
 Add critical version info to your `config.json` file in the root of your project. This file will hold the critical version info of your application.
