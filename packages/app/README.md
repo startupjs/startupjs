@@ -81,7 +81,7 @@ If you don't pass this props, then the default template will be renderd.
 
 The components you specify will have `goBack` and `disableError` props.
 - `goBack` will return you on previous route (similar to `history.goBack()` from `react-router-native`). This is useful when you need to make a transition from the wrong route for example.
-- `disableError` will disable the error. This is useful when an error occurs on the same route and you need to stay on the same page ().
+- `disableError` will disable the error. This is useful when an error occurs on the same route and you need to stay on the same page.
 
 ### server
 Add critical version info to your `config.json` file in the root of your project. This file will hold the critical version info of your application.
