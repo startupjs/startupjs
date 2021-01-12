@@ -72,7 +72,7 @@ Alert.propTypes = {
   variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
   title: PropTypes.string,
   label: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool, PropTypes.func]),
   ActionComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onClose: PropTypes.func
 }
