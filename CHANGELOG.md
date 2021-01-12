@@ -1,3 +1,17 @@
+## [0.31.5](https://github.com/startupjs/startupjs/compare/v0.31.4...v0.31.5) (2021-01-12)
+
+
+### Bug Fixes
+
+* **docs:** move portal over Layout instead of App ([#471](https://github.com/startupjs/startupjs/issues/471)) ([4f1beb0](https://github.com/startupjs/startupjs/commit/4f1beb04067787de1b0e65b37c1464f7cf8b5222))
+* **Link:** make preventDefault work for async handler ([59ce7e8](https://github.com/startupjs/startupjs/commit/59ce7e8cd31648f3a9d2c01eb953bea354b65d15))
+* **Modal:** make preventDefault work for async handlers ([2e8dbfc](https://github.com/startupjs/startupjs/commit/2e8dbfc41548cdbacbda52a390e63bc353646c72))
+* **Multiselect:** make popover width as caption width ([96711a9](https://github.com/startupjs/startupjs/commit/96711a98bf5f928d3337aeebbc15f4c96ea754b0))
+* **ui/Modal:** fix fullscreen modal for iOS ([#472](https://github.com/startupjs/startupjs/issues/472)) ([01feb18](https://github.com/startupjs/startupjs/commit/01feb1878aa0e88b705c7159fb3a3f53b170771a))
+* **ui/MultiSelect:** fix passing styles to Popover ([#470](https://github.com/startupjs/startupjs/issues/470)) ([a08c586](https://github.com/startupjs/startupjs/commit/a08c5860f1af7b444ca06e44edc94c88d5c06222))
+
+
+
 ## [0.31.4](https://github.com/startupjs/startupjs/compare/v0.31.3...v0.31.4) (2021-01-05)
 
 
