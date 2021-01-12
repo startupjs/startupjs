@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, useLayoutEffect } from 'react'
-import { View, Modal as RNModal } from 'react-native'
+import { SafeAreaView, Modal as RNModal } from 'react-native'
 import { observer, useOn, useValue, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
@@ -84,7 +84,7 @@ ObservedModal.defaultProps = {
   variant: 'window',
   dismissLabel: ModalActions.defaultProps.dismissLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
-  ModalElement: View,
+  ModalElement: SafeAreaView,
   animationType: 'fade',
   transparent: true,
   showCross: true,
