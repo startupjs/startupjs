@@ -1,28 +1,19 @@
 import React from 'react'
-import { Platform, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import { useHistory } from 'react-router-native'
 import { observer } from 'startupjs'
+import { defaultTemplates } from './templates'
 import './index.styl'
-const isWeb = Platform.OS === 'web'
-// const isIos = Platform.OS === 'ios'
 
-export default observer(function Error ({ value, pages = {} }) {
+export default observer(function Error ({ value, pages = {}, disableError }) {
   // TODO: Need to make the default layout better
   const history = useHistory()
   const status = parseInt(value)
-  const html = pages[status]
+  const Template = pages[status] || defaultTemplates[status]
   return pug`
     View.root
-      if html
-        if isWeb
-          div(dangerouslySetInnerHTML={ __html: html })
-        else
-          // TODO VITE show proper 404 on native using WebView
-          // WebView(
-          //   source={html}
-          //   scalesPageToFit=isIos ? false : true
-          // )
-          Text= html
+      if Template
+        Template(disableError=disableError)
       else
         Text.title Error
         Text
