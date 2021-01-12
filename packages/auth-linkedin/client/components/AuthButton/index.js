@@ -3,11 +3,10 @@ import { WebView } from 'react-native-webview'
 import { observer, u, useSession, useValue } from 'startupjs'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
+import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
-import qs from 'query-string'
-import { BASE_URL } from '@env'
-import { CALLBACK_NATIVE_LINKEDIN_URL, AUTHORIZATION_URL } from '../../../isomorphic'
+import { LINKEDIN_WEB_LOGIN_URL } from '../../../isomorphic'
 import './index.styl'
 
 function AuthButton ({ label }) {
@@ -15,23 +14,12 @@ function AuthButton ({ label }) {
   const [authConfig] = useSession('auth')
   const [, $showModal] = useValue(false)
 
-  const { clientId } = authConfig.linkedin
-
   function showLoginModal () {
     $showModal.set(true)
   }
 
-  function getAuthorizationUrl () {
-    return `${AUTHORIZATION_URL}?${qs.stringify({
-      response_type: 'code',
-      client_id: clientId,
-      scope: 'r_emailaddress r_liteprofile',
-      redirect_uri: baseUrl + CALLBACK_NATIVE_LINKEDIN_URL
-    })}`
-  }
-
   function onNavigationStateChange ({ url }) {
-    if (url.includes(authConfig.successRedirectUrl)) {
+    if (url === (baseUrl + authConfig.successRedirectUrl)) {
       $showModal.set(false)
       finishAuth()
     }
@@ -50,7 +38,7 @@ function AuthButton ({ label }) {
       Div.modal
         WebView(
           style={ height: u(100) }
-          source={ uri: getAuthorizationUrl() }
+          source={ uri: baseUrl + LINKEDIN_WEB_LOGIN_URL }
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled

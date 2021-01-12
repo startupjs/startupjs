@@ -161,3 +161,8 @@
   li.react-datepicker__time-list-item--selected:hover {
   background-color: rgba(89, 45, 234, 0.95);
 }
+
+/* Allow to open Calendar over Popover */
+.react-datepicker-popper {
+  z-index: 10999;
+}

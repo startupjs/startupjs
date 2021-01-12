@@ -3,7 +3,7 @@ import { $root } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import axios from 'axios'
-import { CALLBACK_NATIVE_URL } from '../../isomorphic'
+import { CALLBACK_URL } from '../../isomorphic'
 
 export default async function onLogin () {
   const baseUrl = BASE_URL
@@ -18,7 +18,11 @@ export default async function onLogin () {
 
     const data = await GoogleSignin.signIn()
 
-    await axios.post(baseUrl + CALLBACK_NATIVE_URL, { token: data.idToken })
+    await axios.get(baseUrl + CALLBACK_URL, {
+      params: {
+        token: data.idToken
+      }
+    })
     finishAuth()
   } catch (err) {
     if (err.code === statusCodes.SIGN_IN_CANCELLED) {

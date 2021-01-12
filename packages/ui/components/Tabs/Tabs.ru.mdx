@@ -1,12 +1,18 @@
-import Tabs from '../Tabs'
+import { useState } from 'react'
 import Div from '../Div'
-import ExampleTab from './tabExample/'
-import { Sandbox } from '@startupjs/docs'
-import { useValue } from 'startupjs'
+import Tabs from '../Tabs'
 
-# Tabs (табы)
+# Tabs (вкладки)
 
-Табы отображают список карточек и компонент для навигации по ним.
+Наследует [react-native-tab-view](https://github.com/satya164/react-native-tab-view) с некоторыми изменениями:
+
+- `navigationState` свойство заменено на свойства `routes` и `$value`, где:
+  - `routes` имеет ту же структуру, что и `navigationState.routes`
+  - `$value` скоуп модель, чтобы сделать вкладки контролируемыми (если опустить это свойство вкладки будут неконтролируемыми)
+- добавлено свойство `initialKey` для установки вкладки по умолчанию
+- добавлен свойство `onChange` которое реагирует на смену вкладки вместо `onIndexChange`
+
+Вкладки позволяют переключаться между различными видами.
 
 ```jsx
 import { Tabs } from '@startupjs/ui'
@@ -15,40 +21,34 @@ import { Tabs } from '@startupjs/ui'
 ## Пример
 
 ```jsx example
-const [value, $value] = useValue('Second')
+const [routes] = useState([
+  { key: 'first', title: 'First' },
+  { key: 'second', title: 'Second' },
+])
+
+const FirstRoute = () => (
+  <Div style={[{ flexGrow: 1, backgroundColor: '#ff4081' }]} />
+)
+
+const SecondRoute = () => (
+  <Div style={[{ flexGrow: 1, backgroundColor: '#673ab7' }]} />
+)
+
+function renderScene ({ route }) {
+  switch (route.key) {
+    case 'first':
+      return <FirstRoute />;
+    case 'second':
+      return <SecondRoute />;
+  }
+}
 
 return (
-  <Div>
   <Tabs
-    $value={$value}
-  >
-    <Tabs.Item
-      title='1 tab'
-    >
-      <ExampleTab bgColor='blue' />
-    </Tabs.Item>
-    <Tabs.Item
-      value='Second'
-      title='2 tab'
-    >
-      <ExampleTab bgColor='pink' />
-    </Tabs.Item>
-    <Tabs.Item
-      title='3 tab'
-    >
-      <ExampleTab bgColor='aqua' />
-    </Tabs.Item>
-  </Tabs>
-  </Div>
+    style={{ height: 250 }}
+    routes={routes}
+    renderScene={renderScene}
+
+  />
 )
 ```
-
-## Sandbox
-
-### Tabs
-
-<Sandbox Component={Tabs} />
-
-### Tabs.Item
-
-<Sandbox Component={Tabs.Item} />

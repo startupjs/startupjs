@@ -7,7 +7,7 @@
 export default async function loginLockChecker (req, res, next) {
   const { model, body } = req
 
-  const $auths = model.query('auths', { email: body.email })
+  const $auths = model.query('auths', { 'providers.local.email': body.email })
   await $auths.subscribe()
   const authDoc = $auths.get()[0]
   $auths.unsubscribe()

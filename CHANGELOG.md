@@ -1,3 +1,68 @@
+## [0.31.4](https://github.com/startupjs/startupjs/compare/v0.31.3...v0.31.4) (2021-01-05)
+
+
+### Features
+
+* **auth:** Implement auth modal ([#465](https://github.com/startupjs/startupjs/issues/465)) ([8cccbec](https://github.com/startupjs/startupjs/commit/8cccbecbc155756080872a3d00a14ad5a373c82e))
+
+
+
+## [0.31.3](https://github.com/startupjs/startupjs/compare/v0.31.2...v0.31.3) (2021-01-05)
+
+
+### Bug Fixes
+
+* **auth:** Closure issue onEnterPress ([6b95b5d](https://github.com/startupjs/startupjs/commit/6b95b5d7ed03550cbddd08064b6312bcea0f0247))
+
+
+
+## [0.31.2](https://github.com/startupjs/startupjs/compare/v0.31.1...v0.31.2) (2021-01-05)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-inline:** Search magic preprocessors imports in all 'startupjs' imports (there might be multiple, for example in our .mdx files) ([498331b](https://github.com/startupjs/startupjs/commit/498331b04afb8426b9ff11e17b5159072a3f5900))
+* **DateTimePicker:** fixed zIndex, added property InputComponent ([#459](https://github.com/startupjs/startupjs/issues/459)) ([dafec10](https://github.com/startupjs/startupjs/commit/dafec1050538e1cd70d7e3d54188ade15ef435a1))
+
+
+### Features
+
+* **Breadcrumbs:** jsx separator ([#463](https://github.com/startupjs/startupjs/issues/463)) ([15c57cb](https://github.com/startupjs/startupjs/commit/15c57cb6d9557b0ee36172c0346773fb4e24a2d5))
+* **mdx:** pug example ([#462](https://github.com/startupjs/startupjs/issues/462)) ([e0d432d](https://github.com/startupjs/startupjs/commit/e0d432dfdf60093d5ce5175c30044dee4dc12a67))
+* **mdx:** Rewrite pug template string highlighting to a full sub-language highlighting support. Support styl/css/pug highlighting as subtemplates. ([28d8eef](https://github.com/startupjs/startupjs/commit/28d8eef2cba666e250a2d11d6b815e7aa1a7bf08))
+
+
+
+## [0.31.1](https://github.com/startupjs/startupjs/compare/v0.31.0...v0.31.1) (2020-12-30)
+
+
+### Bug Fixes
+
+* **Popover:** add caption style ([#461](https://github.com/startupjs/startupjs/issues/461)) ([8245481](https://github.com/startupjs/startupjs/commit/82454815f789ac38061048e20f4392d7bf23a941))
+* **Tabs:** move style property to tabs wrapper style and add tabsStyle for tabs instead ([d48e5b4](https://github.com/startupjs/startupjs/commit/d48e5b4329a2ab8dc1b73491da57f5854d8d7e0b))
+
+
+
+# [0.31.0](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.31.0) (2020-12-29)
+
+
+### Bug Fixes
+
+* **auth:** Change pathmane to href for web ([64e18ce](https://github.com/startupjs/startupjs/commit/64e18ce105b8a351f4d3361e27ac3c6af97f7f5e))
+* **auth:** Fastfix for mobile logout helper ([123c6bb](https://github.com/startupjs/startupjs/commit/123c6bb34a5ca6746d67c9a18c2443775fa11c1b))
+* **auth:** remove duplicated import ([66ba6d2](https://github.com/startupjs/startupjs/commit/66ba6d28dbbdef3a0f0e94582234cb288c8c24f6))
+* **auth-apple:** button name ([#451](https://github.com/startupjs/startupjs/issues/451)) ([5810d16](https://github.com/startupjs/startupjs/commit/5810d166445d3140ca21ebe9aa8815211c31be1e))
+* **Modal:** dont call  when the modal is closed ([fd3f21a](https://github.com/startupjs/startupjs/commit/fd3f21a92b57b4cd4c65daa6cd47bb482890e812))
+* **Modal:** prevent appears when visible is ([f83a398](https://github.com/startupjs/startupjs/commit/f83a3989d0732dad24f53432bede04e37a12aaf6))
+* **ui/Modal:** pass style and modalStyle correctly ([4e1c23e](https://github.com/startupjs/startupjs/commit/4e1c23e9072e68caecfe39551bab3688c7c95180))
+
+
+### Features
+
+* **babel-preset-startupjs:** Add APP_ENV variable to override which .env file to use. For example with APP_ENV=qa the '.env.qa' will be used ([1abb468](https://github.com/startupjs/startupjs/commit/1abb468ce187371d899e3e99d7167570c4ef0da2))
+* **ui/Portal**: add component
+
+
 ## [0.30.10](https://github.com/startupjs/startupjs/compare/v0.30.9...v0.30.10) (2020-12-23)
 
 

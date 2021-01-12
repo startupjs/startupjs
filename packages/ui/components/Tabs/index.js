@@ -1,149 +1,87 @@
-import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
-import { FlatList } from 'react-native'
-import { observer, useBind } from 'startupjs'
-import propTypes from 'prop-types'
-import Div from './../Div'
-import { TabsProvider } from './tabsContext'
-import Tab from './Tab'
+import React, { useLayoutEffect } from 'react'
+import { TabView, TabBar } from 'react-native-tab-view'
+import { observer, useValue } from 'startupjs'
+import { Div } from '@startupjs/ui'
+import PropTypes from 'prop-types'
+import findIndex from 'lodash/findIndex'
+import Span from './../typography/Span'
 import './index.styl'
 
 function Tabs ({
-  containerStyle,
-  children,
-  iconPosition,
-  activeStyle,
   style,
-  $value
+  tabsStyle,
+  routes,
+  initialKey,
+  $value,
+  renderTabBar,
+  renderLabel,
+  onChange,
+  onIndexChange, // skip property
+  ...props
 }) {
-  let value
-  let onChange
-  ;({ value, onChange } = useBind({ $value, value, onChange }))
+  const [localValue, $localValue] = useValue(initialKey || routes[0]?.key)
 
-  const valueToIndex = useMemo(() => {
-    const _valueToIndex = {}
+  useLayoutEffect(() => {
+    if (!$value) return
+    $localValue.ref($value)
+    return () => $localValue.removeRef()
+  }, [])
 
-    React.Children.toArray(children).forEach((child, index) => {
-      _valueToIndex[child.props.value || index] = index
-    })
+  const tabIndex = findIndex(routes, { key: localValue })
 
-    return _valueToIndex
-  }, [React.Children.count(children)])
+  function _renderTabBar (props) {
+    if (renderTabBar) return renderTabBar(props)
 
-  const [tabWidth, setTabWidth] = useState(0)
-  const [tabIndex, setTabIndex] = useState(valueToIndex[value] || 0)
-
-  const contentWrapper = useRef()
-  const tabsWrapper = useRef()
-
-  useEffect(() => {
-    setTabIndex(valueToIndex[value])
-  }, [value])
-
-  useEffect(() => {
-    if (children && tabIndex) {
-      contentWrapper.current.scrollToIndex({ animated: true, index: tabIndex, viewPosition: 0.5 })
-      tabsWrapper.current.scrollToIndex({ animated: true, index: tabIndex, viewPosition: 0.5 })
-    }
-  }, [tabIndex])
-
-  const onTabPress = (index, value) => {
-    contentWrapper.current.scrollToIndex({ animated: false, index, viewPosition: 0.5 })
-    onChange ? onChange(value || index) : setTabIndex(index)
-  }
-
-  const tabs = React.Children.toArray(children).map((child, index) => {
-    if (child.type === Tab) {
-      return React.cloneElement(child, { active: tabIndex === index, activeStyle, style, iconPosition, onPress: () => onTabPress(index, child.props.value), index, key: index })
-    } else {
-      return pug`
-        Tab=child
-      `
-    }
-  })
-
-  const content = React.Children.toArray(children).map(child => child.props.children)
-
-  const renderContent = ({ item }) => {
     return pug`
-      Div(style={ width: tabWidth })=item
-    `
-  }
-  const renderTab = ({ item }) => {
-    return pug`
-      Div.tab=item
+      TabBar.bar(
+        indicatorStyleName='indicator'
+        renderLabel=_renderLabel
+        ...props
+      )
     `
   }
 
-  const getItemLayout = useCallback((data, index) => (
-    { length: tabWidth, offset: tabWidth * index, index }
-  ), [tabWidth])
+  function _renderLabel (props) {
+    if (renderLabel) return renderLabel(props)
 
-  const onViewableItemsChanged = useRef(item => {
-    const _value = idx => Object.keys(valueToIndex).find(key => valueToIndex[key] === idx)
-    // A check 'item.viewableItems[0] &&' is written in this place due to the fact that on the web, when you quickly scroll tabs from 'item.viewableItems', an empty array is returned
-    if (item.viewableItems[0]) {
-      const value = _value(item.viewableItems[0].index)
-      onChange ? onChange(value) : setTabIndex(item.viewableItems[0].index)
-    }
-  })
-
-  const cellRender = ({ children, ...props }) => {
     return pug`
-      Div.tabWrap(...props)=children
+      Span.label(styleName={ focused: props.focused })
+        = props.route.title.toUpperCase()
     `
+  }
+
+  function _onIndexChange (index) {
+    const key = routes[index].key
+    onChange
+      ? onChange(key)
+      : $localValue.set(key)
   }
 
   return pug`
-    TabsProvider(value={iconPosition})
-      Div(style=containerStyle)
-        FlatList.menu(
-          data=tabs
-          renderItem=renderTab
-          ref=tabsWrapper
-          horizontal
-          showsHorizontalScrollIndicator=false
-          contentContainerStyle={ flexGrow: 1 }
-          CellRendererComponent=cellRender
-          onScrollToIndexFailed=() => null
-          removeClippedSubviews
-          windowSize=tabs.length ? tabs.length : 1
-          initialScrollIndex=tabIndex
-        )
-        FlatList.content(
-          data=content
-          renderItem=renderContent
-          ref=contentWrapper
-          horizontal
-          showsHorizontalScrollIndicator=false
-          windowSize=content.length ? content.length : 1
-          removeClippedSubviews
-          initialNumToRender=1
-          maxToRenderPerBatch=0
-          decelerationRate=0
-          snapToInterval=tabWidth
-          initialScrollIndex=tabIndex
-          snapToAlignment='center'
-          getItemLayout=getItemLayout
-          onLayout=item => setTabWidth(item.nativeEvent.layout.width)
-          onViewableItemsChanged=onViewableItemsChanged.current
-          viewabilityConfig={ itemVisiblePercentThreshold: 50, minimumViewTime: 300 }
-        )
+    //- remove Div when issue will be fixed https://github.com/satya164/react-native-tab-view/issues/1110
+    Div.root(style=style)
+      TabView(
+        style=tabsStyle
+        navigationState={ index: tabIndex, routes }
+        renderTabBar=_renderTabBar
+        onIndexChange=_onIndexChange
+        ...props
+      )
   `
 }
 
-Tabs.defaultProps = {
-  iconPosition: 'left'
-}
-
-Tabs.propTypes = {
-  containerStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  iconPosition: Tab.propTypes.iconPosition,
-  $value: propTypes.any
-}
-
 const ObservedTabs = observer(Tabs)
-ObservedTabs.Item = Tab
+
+ObservedTabs.defaultProps = {}
+
+ObservedTabs.propTypes = {
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    title: PropTypes.string
+  })),
+  initialKey: PropTypes.string,
+  $value: PropTypes.any,
+  onChange: PropTypes.func
+}
+
 export default ObservedTabs

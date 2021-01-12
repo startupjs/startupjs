@@ -1,34 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 
-export default observer(function TooltipCaption ({
-  children,
-  componentId,
-  onChange
-}) {
-  useEffect(() => {
-    return () => {
-      window.removeEventListener('mousemove', onWindowMouseMove)
-    }
-  }, [])
+export default observer(function TooltipCaption ({ children, onChange }) {
+  const refTimeout = useRef()
 
   function onMouseOver () {
-    window.addEventListener('mousemove', onWindowMouseMove)
-    onChange(true)
+    refTimeout.current = setTimeout(() => {
+      if (!refTimeout.current) return
+      onChange(true)
+    }, 200)
   }
 
-  function onWindowMouseMove (e) {
-    if (!e.target.closest('#tooltip__' + componentId)) {
-      window.removeEventListener('mousemove', onWindowMouseMove)
-      onChange(false)
-    }
+  function onMouseLeave () {
+    clearTimeout(refTimeout.current)
+    onChange(false)
+    refTimeout.current = null
   }
 
   return pug`
     View(
-      nativeID='tooltip__' + componentId
       onMouseOver=onMouseOver
+      onMouseLeave=onMouseLeave
     )= children
   `
 })

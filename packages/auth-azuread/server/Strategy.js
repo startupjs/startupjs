@@ -1,9 +1,9 @@
 import { OIDCStrategy as Strategy } from 'passport-azure-ad'
 import passport from 'passport'
 import nconf from 'nconf'
-import Provider from './Provider'
 import initRoutes from './initRoutes'
 import { CALLBACK_AZUREAD_URL } from '../isomorphic'
+import Provider from './Provider'
 
 function validateConfigs ({ clientId, identityMetadata, tentantId }) {
   if (!clientId) {
@@ -30,7 +30,7 @@ export default function (config = {}) {
 
     console.log('++++++++++ Initialization of AzureAD auth strategy ++++++++++\n')
 
-    const { clientId, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
+    const { clientId, clientSecret, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
 
     const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
     const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]
@@ -44,9 +44,10 @@ export default function (config = {}) {
       new Strategy(
         {
           clientID: clientId,
+          clientSecret,
           identityMetadata,
-          responseType: 'id_token',
-          responseMode: 'form_post',
+          responseType: 'code',
+          responseMode: 'query',
           allowHttpForRedirectUrl,
           redirectUrl,
           scope: ['email', 'profile'],

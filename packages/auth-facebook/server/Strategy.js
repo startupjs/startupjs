@@ -1,6 +1,5 @@
 import passport from 'passport'
 import { Strategy } from 'passport-facebook'
-import Provider from './Provider'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL, FIELDS } from '../isomorphic/constants'
 
@@ -41,18 +40,9 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           profileFields: FIELDS
         },
-        async (accessToken, refreshToken, profile, cb) => {
-          let userId, err
-
-          try {
-            const provider = new Provider(model, profile, this.config)
-            userId = await provider.findOrCreateUser()
-          } catch (e) {
-            err = e
-          }
-
-          return cb(err, userId)
-        }
+        // We no need in verify callback
+        // We validate a code manually in auth-facebook/server/api/loginCallback.js
+        () => {}
       )
     )
   }

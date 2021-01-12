@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import AuthHelper from './AuthHelper'
 
 function useAuthHelper () {
-  const [authHelper, setAuthHelper] = useState()
-  useEffect(() => {
-    setAuthHelper(new AuthHelper())
-  }, [])
+  const [authHelper] = useState(new AuthHelper())
   return authHelper
 }
 

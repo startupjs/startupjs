@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
+import React, {
+  useState,
+  useMemo,
+  useLayoutEffect,
+  useRef,
+  useImperativeHandle
+} from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -57,7 +63,7 @@ function Input ({
   onSecondaryIconPress,
   renderWrapper,
   ...props
-}) {
+}, ref) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
 
@@ -66,6 +72,15 @@ function Input ({
       Div(style=style)= children
     `
   }
+
+  useImperativeHandle(ref, () => ({
+    blur: () => {
+      inputRef.current.blur()
+    },
+    focus: () => {
+      inputRef.current.focus()
+    }
+  }))
 
   useLayoutEffect(() => {
     if (resize) {
@@ -187,12 +202,14 @@ function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
 
-Input.defaultProps = {
+const ObservedInput = observer(Input, { forwardRef: true })
+
+ObservedInput.defaultProps = {
   editable: true
 }
 
-Input.propTypes = {
+ObservedInput.propTypes = {
   editable: PropTypes.bool
 }
 
-export default observer(Input)
+export default ObservedInput

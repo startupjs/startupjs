@@ -57,8 +57,7 @@ export default class LocalProvider extends BaseProvider {
   async loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
-      email: this.getEmail(),
-      'providers.local': { $exists: true }
+      'providers.local.email': this.getEmail()
     })
     await authQuery.fetchAsync()
     const id = authQuery.getIds()[0]

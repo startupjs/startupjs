@@ -9,7 +9,7 @@ import {
 } from './helpers'
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
-import { DEFAUL_SUCCESS_REDIRECT_URL, SIGN_IN_URL } from '../isomorphic'
+import { SIGN_IN_URL } from '../isomorphic'
 
 const router = express.Router()
 
@@ -31,6 +31,7 @@ export default function (ee, _config) {
   const config = {}
   Object.assign(config, {
     signInPageUrl: SIGN_IN_URL,
+    successRedirectUrl: '/',
     parseUserCreationData,
     onBeforeLogoutHook,
     onBeforeLoginHook,
@@ -42,7 +43,6 @@ export default function (ee, _config) {
   validateConfigs(config)
 
   const { strategies, ...rest } = config
-  rest.successRedirectUrl = rest.successRedirectUrl || DEFAUL_SUCCESS_REDIRECT_URL
 
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)

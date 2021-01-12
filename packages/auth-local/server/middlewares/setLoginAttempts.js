@@ -5,7 +5,7 @@ const ALLOWED_FAILED_LOGIN_ATTEMPTS = 10
 export default async function setLoginAttempts (req, res, next) {
   const { model, body } = req
 
-  const $auths = model.query('auths', { email: body.email })
+  const $auths = model.query('auths', { 'providers.local.email': body.email })
   await $auths.subscribe()
   const authDoc = $auths.get()[0]
 
