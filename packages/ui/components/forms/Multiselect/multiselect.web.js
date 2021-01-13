@@ -25,10 +25,9 @@ const Multiselect = ({
   // FIXME: we use hasWidthCaption
   // because popover stretches to full screen (tesing in Modal component)
   return pug`
-    Popover.root(
+    Popover.popover(
       visible=focused
       onDismiss=onHide
-      styleName='popover'
       attachment='start'
       position='bottom'
       hasWidthCaption
