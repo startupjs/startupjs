@@ -102,7 +102,7 @@ function Dropdown ({
       _childenLength: caption ? (arr.length - 1) : arr.length,
       _onDismissDropdown: () => setIsShow(false),
       _onChange: v => {
-        onChange(v)
+        onChange && onChange(v)
         setIsShow(false)
       }
     })
