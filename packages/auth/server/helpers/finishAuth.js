@@ -15,7 +15,11 @@ export default async function finishAuth (req, res, {
 
       if (userId) {
         await setLastLogin(userId, req.model)
-        onAfterLoginHook && onAfterLoginHook(userId)
+
+        if (onAfterLoginHook) {
+          const hookRes = onAfterLoginHook(userId)
+          hookRes && hookRes.then && await hookRes
+        }
       }
 
       res.redirect(redirectUrl)

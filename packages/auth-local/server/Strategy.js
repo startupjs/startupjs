@@ -53,6 +53,9 @@ export default function (config = {}) {
 
           const hash = _get(authData, 'providers.local.hash', '')
           const userId = await provider.findOrCreateUser()
+
+          await normalizeProvider(userId, model)
+
           bcrypt.compare(password, hash, function (err, res) {
             if (err) return cb(err)
             if (res === false) {
@@ -64,4 +67,25 @@ export default function (config = {}) {
       )
     )
   }
+}
+
+// Generally we don't need an provider id to perform auth
+// auth proces depends on provider.email field only
+// but earlier implementation of auth lib used provideer.id in local strategy
+// Those lines is added only for backward compabilities reasons
+async function normalizeProvider (userId, model) {
+  const $auth = model.scope(`auths.${userId}`)
+  await $auth.subscribe()
+
+  const authLocalProvider = $auth.get('providers.local')
+
+  if (authLocalProvider.id && !authLocalProvider.email) {
+    await $auth.set('providers.local.email', authLocalProvider.id)
+  }
+
+  if (authLocalProvider.email && !authLocalProvider.id) {
+    await $auth.set('providers.local.id', authLocalProvider.email)
+  }
+
+  $auth.unsubscribe()
 }

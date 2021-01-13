@@ -7,10 +7,18 @@ export default class BaseProvider {
 
   getFindUserQuery () {
     const email = this.getEmail()
+
     return {
       $or: [
         {
           [`providers.${this.getProviderName()}.email`]: email
+        },
+        // Generally we don't need an provider id to perform auth
+        // auth proces depends on provider.email field only
+        // but earlier implementation of auth lib used provideer.id in local strategy
+        // Those lines is added only for backward compabilities reasons
+        {
+          [`providers.${this.getProviderName()}.id`]: this.getProviderId()
         },
         { email }
       ]
