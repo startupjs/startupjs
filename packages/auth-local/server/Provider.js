@@ -51,7 +51,14 @@ export default class LocalProvider extends BaseProvider {
   async loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
-      'providers.local.email': this.getEmail()
+      $or: [
+        { 'providers.local.email': this.getEmail() },
+        // Generally we don't need an provider id to perform auth
+        // auth proces depends on provider.email field only
+        // but earlier implementation of auth lib used provideer.id in local strategy
+        // Those lines is added only for backward compabilities reasons
+        { 'providers.local.id': this.getEmail() }
+      ]
     })
     await authQuery.fetchAsync()
     const id = authQuery.getIds()[0]
