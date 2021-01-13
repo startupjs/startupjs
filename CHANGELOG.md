@@ -1,3 +1,13 @@
+## [0.31.7](https://github.com/startupjs/startupjs/compare/v0.31.6...v0.31.7) (2021-01-13)
+
+
+### Bug Fixes
+
+* **auth:** Fastfix for local loadAuthData ([265090a](https://github.com/startupjs/startupjs/commit/265090a6a8759871a3b9fc08eb9969ee896a5365))
+* **ui/Multiselect:** fix max-height ([#475](https://github.com/startupjs/startupjs/issues/475)) ([4196e31](https://github.com/startupjs/startupjs/commit/4196e314523b1bacb3ded19816fbe3cfe8d86585))
+
+
+
 ## [0.31.6](https://github.com/startupjs/startupjs/compare/v0.31.5...v0.31.6) (2021-01-13)
 
 
