@@ -14,8 +14,8 @@ export default function AuthHelper () {
   // ...
   // "PUBLIC": ["BASE_URL"]
   // ...
-  const baseUrl = $root.get('_session.env.BASE_URL')
-  this._axios = axios.create({ baseUrl })
+  const baseURL = $root.get('_session.env.BASE_URL')
+  this._axios = axios.create({ baseURL })
 
   // data: { email, password }
   this.login = function (data) {
