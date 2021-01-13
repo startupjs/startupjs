@@ -7,7 +7,7 @@ export default class LocalProvider extends BaseProvider {
   }
 
   getProviderId () {
-    return null
+    return this.getEmail()
   }
 
   getEmail () {
@@ -20,6 +20,10 @@ export default class LocalProvider extends BaseProvider {
 
   getLastName () {
     return this.profile.lastName
+  }
+
+  getRawProviderData () {
+    return null
   }
 
   getName () {
@@ -42,16 +46,6 @@ export default class LocalProvider extends BaseProvider {
     }
     if (unconfirmed) data.unconfirmed = true
     return data
-  }
-
-  getAuthData () {
-    return {
-      providers: {
-        [this.getProviderName()]: {
-          ...this.getProviderData()
-        }
-      }
-    }
   }
 
   async loadAuthData () {
