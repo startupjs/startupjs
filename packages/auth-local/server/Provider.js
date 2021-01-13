@@ -7,7 +7,7 @@ export default class LocalProvider extends BaseProvider {
   }
 
   getProviderId () {
-    return null
+    return this.getEmail()
   }
 
   getEmail () {
@@ -20,6 +20,10 @@ export default class LocalProvider extends BaseProvider {
 
   getLastName () {
     return this.profile.lastName
+  }
+
+  getRawProviderData () {
+    return null
   }
 
   getName () {
@@ -44,21 +48,17 @@ export default class LocalProvider extends BaseProvider {
     return data
   }
 
-  getAuthData () {
-    return {
-      providers: {
-        [this.getProviderName()]: {
-          ...this.getProviderData()
-        }
-      }
-    }
-  }
-
   async loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
-      email: this.getEmail(),
-      'providers.local': { $exists: true }
+      $or: [
+        { 'providers.local.email': this.getEmail() },
+        // Generally we don't need an provider id to perform auth
+        // auth proces depends on provider.email field only
+        // but earlier implementation of auth lib used provideer.id in local strategy
+        // Those lines is added only for backward compabilities reasons
+        { 'providers.local.id': this.getEmail() }
+      ]
     })
     await authQuery.fetchAsync()
     const id = authQuery.getIds()[0]

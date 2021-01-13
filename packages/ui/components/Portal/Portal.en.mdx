@@ -3,51 +3,41 @@ import Button from '../Button'
 import Span from '../typography/Span'
 import Div from '../Div'
 import Portal from './'
+import { u } from 'startupjs'
 
 # Portal
+
+The portal component renders its children into a new "subtree" outside of current DOM hierarchy.
 
 ```jsx
 import { Portal } from '@startupjs/ui'
 ```
 
-## Usage
-1 - You need to initialize **Portal.Provider** at the very top of the application
-
-For example in **Root**:
-```jsx
-return (
-  <Portal.Provider>
-    <App apps={{ main }} />
-  </Portal.Provider>
-)
-```
-
-Or **Layout**:
-```jsx
-function Layout ({ children }) {
-  return (
-    <Portal.Provider>
-      {children}
-    </Portal.Provider>
-  )
-}
-```
-
-2 - Throw something in the top of the application need use **Portal**. All those `children` that he receives are immediately displayed on top of everything
+## Example
 
 ```jsx example
 const [isShow, setIsShow] = useState(false)
 
-const contentStyle = { position: 'absolute', height: 160, width: 200, backgroundColor: '#555555', right: 0, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }
+const contentStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: u(25),
+  height: u(20),
+  backgroundColor: '#444',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
 
-const textStyle = { color: '#fff', marginBottom: 16, fontSize: 24 }
+const textStyle = {
+  color: '#fff',
+  marginBottom: u(2),
+  fontSize: u(3)
+}
 
 return (
   <Div>
-    <Button
-      style={{ width: 120 }}
-      onPress={()=> setIsShow(true)
-    }>Open</Button>
+    <Button onPress={()=> setIsShow(true)}>Open</Button>
     <Portal>
       {
         isShow &&

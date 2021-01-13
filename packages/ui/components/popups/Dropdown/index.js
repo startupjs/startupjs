@@ -118,7 +118,7 @@ function Dropdown ({
       _childrenLength: caption ? (arr.length - 1) : arr.length,
       _onDismissDropdown: () => $isShow.setDiff(false),
       _onChange: v => {
-        onChange(v)
+        onChange && onChange(v)
         $isShow.setDiff(false)
       }
     })

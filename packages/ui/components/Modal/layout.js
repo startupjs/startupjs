@@ -55,6 +55,7 @@ function Modal ({
     : null)
 
   const _onConfirm = async event => {
+    event.persist() // TODO: remove in react 17
     const promise = onConfirm && onConfirm(event)
     if (promise?.then) await promise
     if (event.defaultPrevented) return
@@ -62,6 +63,7 @@ function Modal ({
   }
 
   const _onCancel = async event => {
+    event.persist() // TODO: remove in react 17
     const promise = onCancel && onCancel(event)
     if (promise?.then) await promise
     if (event.defaultPrevented) return
@@ -69,6 +71,7 @@ function Modal ({
   }
 
   const _onCrossPress = async event => {
+    event.persist() // TODO: remove in react 17
     const promise = onCrossPress && onCrossPress(event)
     if (promise?.then) await promise
     if (event.defaultPrevented) return
@@ -76,6 +79,7 @@ function Modal ({
   }
 
   const _onBackdropPress = async event => {
+    event.persist() // TODO: remove in react 17
     const promise = onBackdropPress && onBackdropPress(event)
     if (promise?.then) await promise
     if (event.defaultPrevented) return
