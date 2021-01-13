@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
-import styles from './index.styl'
+import './index.styl'
 
 const Multiselect = ({
   options,
@@ -28,7 +28,7 @@ const Multiselect = ({
     Popover.root(
       visible=focused
       onDismiss=onHide
-      style=styles.popover
+      styleName='popover'
       attachment='start'
       position='bottom'
       hasWidthCaption
