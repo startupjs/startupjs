@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import Alert from '../Alert'
 import Div from '../Div'
+import Row from '../Row'
 import Br from '../Br'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
-import { faFire } from '@fortawesome/free-solid-svg-icons'
+import { faFire, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 # Alert (оповещение)
 
@@ -125,6 +126,31 @@ const renderCustomCloseButton = () => {
   )
 }
 
+const renderCustomActions = () => {
+  return (
+    <Row>
+      <Button
+        color='error'
+        variant='text'
+        icon={faTimes}
+        size='s'
+        onPress={() => {}}
+      >
+        Cancel
+      </Button>
+      <Button
+        color='success'
+        variant='text'
+        icon={faCheck}
+        size='s'
+        onPress={() => {}}
+      >
+        Confirm
+      </Button>
+    </Row>
+  )
+}
+
 return (
   <Div>
     {showFirstAlert && <Alert
@@ -152,6 +178,12 @@ return (
     >
       Re-Open
     </Button>
+    <Br />
+    <Alert
+      variant='info'
+      label='Info alert with two custom actions'
+      ActionComponent={renderCustomActions}
+    />
   </Div>
 )
 ```
