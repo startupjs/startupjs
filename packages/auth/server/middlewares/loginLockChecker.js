@@ -17,6 +17,7 @@ export default async function loginLockChecker (req, res, next) {
       { 'providers.local.id': body.email }
     ]
   })
+
   await $auths.subscribe()
   const authDoc = $auths.get()[0]
   $auths.unsubscribe()

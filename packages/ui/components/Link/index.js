@@ -33,6 +33,7 @@ function Link ({
   const history = useHistory()
 
   function handlePress (event) {
+    event.persist() // TODO: remove in react 17
     try {
       if (onPress) onPress(event)
     } catch (err) {
