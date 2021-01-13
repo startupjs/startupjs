@@ -126,6 +126,31 @@ const renderCustomCloseButton = () => {
   )
 }
 
+const renderCustomActions = () => {
+  return (
+    <Row>
+      <Button
+        color='error'
+        variant='text'
+        icon={faTimes}
+        size='s'
+        onPress={() => {}}
+      >
+        Cancel
+      </Button>
+      <Button
+        color='success'
+        variant='text'
+        icon={faCheck}
+        size='s'
+        onPress={() => {}}
+      >
+        Confirm
+      </Button>
+    </Row>
+  )
+}
+
 return (
   <Div>
     {showFirstAlert && <Alert
@@ -153,6 +178,12 @@ return (
     >
       Re-Open
     </Button>
+    <Br />
+    <Alert
+      variant='info'
+      label='Info alert with two custom actions'
+      ActionComponent={renderCustomActions}
+    />
   </Div>
 )
 ```
