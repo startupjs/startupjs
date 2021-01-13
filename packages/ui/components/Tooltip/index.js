@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { observer } from 'startupjs'
+import React, { useEffect } from 'react'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from '../popups/Popover'
 import TooltipCaption from './Caption'
@@ -17,7 +17,9 @@ function Tooltip ({
   durationClose,
   content
 }) {
-  const [isShow, setIsShow] = useState(false)
+  const [isShow, $isShow] = useValue(false)
+
+  useEffect(() => () => $isShow.del(), [])
 
   return pug`
     Popover(
@@ -31,10 +33,10 @@ function Tooltip ({
       hasArrow=true
       hasOverlay=false
       hasDefaultWrapper=false
-      onDismiss=()=> setIsShow(false)
+      onDismiss= ()=> $isShow.setDiff(false)
     )
       Popover.Caption(style=style)
-        TooltipCaption(onChange=v=> setIsShow(v))
+        TooltipCaption(onChange= v=> $isShow.setDiff(v))
           = children
       Div.content(style=contentStyle)
         if typeof content === 'string'

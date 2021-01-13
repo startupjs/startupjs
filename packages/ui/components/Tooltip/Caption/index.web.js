@@ -1,9 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 
 export default observer(function TooltipCaption ({ children, onChange }) {
   const refTimeout = useRef()
+
+  useEffect(() => {
+    window.addEventListener('wheel', onDisable, true)
+    return () => window.removeEventListener('wheel', onDisable)
+  }, [])
 
   function onMouseOver () {
     refTimeout.current = setTimeout(() => {
@@ -12,7 +17,7 @@ export default observer(function TooltipCaption ({ children, onChange }) {
     }, 200)
   }
 
-  function onMouseLeave () {
+  function onDisable () {
     clearTimeout(refTimeout.current)
     onChange(false)
     refTimeout.current = null
@@ -21,7 +26,7 @@ export default observer(function TooltipCaption ({ children, onChange }) {
   return pug`
     View(
       onMouseOver=onMouseOver
-      onMouseLeave=onMouseLeave
+      onMouseLeave=onDisable
     )= children
   `
 })

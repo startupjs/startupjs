@@ -1,17 +1,18 @@
-import React, { useState, useRef, useImperativeHandle } from 'react'
+import React, { useState, useRef, useImperativeHandle, useEffect } from 'react'
 import {
-  Text,
-  View,
-  TouchableOpacity,
+  Dimensions,
+  NativeModules,
   ScrollView,
   StyleSheet,
-  NativeModules
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import DropdownCaption from './components/Caption'
 import DropdownItem from './components/Item'
-import { useLayoutSize, useKeyboard } from './helpers'
+import { useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
@@ -39,24 +40,39 @@ function Dropdown ({
   const refScroll = useRef()
   const renderContent = useRef([])
 
-  const [isShow, setIsShow] = useState(false)
+  const [isShow, $isShow] = useValue(false)
   const [activeInfo, setActiveInfo] = useState(null)
-  const [layoutWidth] = useLayoutSize()
+  const [layoutWidth, $layoutWidth] = useValue(
+    Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
+  )
   const [selectIndexValue] = useKeyboard({
     value,
     isShow,
     renderContent,
     onChange,
-    onChangeShow: v => setIsShow(v)
+    onChangeShow: v => $isShow.setDiff(v)
   })
   const isPopover = !hasDrawer || (layoutWidth > STYLES.media.tablet)
 
+  function handleWidthChange () {
+    $isShow.setDiff(false)
+    $layoutWidth.setDiff(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
+  }
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', handleWidthChange)
+    return () => {
+      $isShow.del()
+      Dimensions.removeEventListener('change', handleWidthChange)
+    }
+  }, [])
+
   useImperativeHandle(ref, () => ({
     open: () => {
-      setIsShow(true)
+      $isShow.setDiff(true)
     },
     close: () => {
-      setIsShow(false)
+      $isShow.setDiff(false)
     }
   }))
 
@@ -66,7 +82,7 @@ function Dropdown ({
 
   function onCancel () {
     onDismiss && onDismiss()
-    setIsShow(false)
+    $isShow.setDiff(false)
   }
 
   function onRequestOpen () {
@@ -99,11 +115,11 @@ function Dropdown ({
       _activeValue: value,
       _selectIndexValue: selectIndexValue,
       _index: caption ? (index - 1) : index,
-      _childenLength: caption ? (arr.length - 1) : arr.length,
-      _onDismissDropdown: () => setIsShow(false),
+      _childrenLength: caption ? (arr.length - 1) : arr.length,
+      _onDismissDropdown: () => $isShow.setDiff(false),
       _onChange: v => {
         onChange && onChange(v)
-        setIsShow(false)
+        $isShow.setDiff(false)
       }
     })
 
@@ -145,12 +161,12 @@ function Dropdown ({
         placements=placements
         visible=isShow
         hasWidthCaption=(!_popoverStyle.width && !_popoverStyle.minWidth)
-        onDismiss=()=> setIsShow(false)
+        onDismiss=()=> $isShow.setDiff(false)
         onRequestOpen=onRequestOpen
       )
         if caption
           Popover.Caption
-            TouchableOpacity(onPress=()=> setIsShow(!isShow))
+            TouchableOpacity(onPress=()=> $isShow.set(!isShow))
               = caption
         = renderContent.current
     `
@@ -158,14 +174,14 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity.caption(onPress=()=> setIsShow(!isShow))
+      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
         = caption
     Drawer(
       visible=isShow
       position='bottom'
       style={ maxHeight: '100%' }
       styleName={ drawerReset: drawerVariant === 'buttons' }
-      onDismiss=()=> setIsShow(false)
+      onDismiss=()=> $isShow.setDiff(false)
       onRequestOpen=onRequestOpen
     )
       View.dropdown(styleName=drawerVariant)
