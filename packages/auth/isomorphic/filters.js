@@ -8,6 +8,15 @@ function isLoggedIn (signInPageUrl) {
   }
 }
 
+function isNotLoggedIn (signInPageUrl) {
+  return function (model, next, redirect) {
+    const loggedIn = model.get('_session.loggedIn')
+    if (loggedIn) return redirect('/')
+    next()
+  }
+}
+
 export default {
-  isLoggedIn
+  isLoggedIn,
+  isNotLoggedIn
 }
