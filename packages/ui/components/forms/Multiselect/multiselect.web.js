@@ -17,6 +17,7 @@ const Multiselect = ({
   error,
   TagComponent,
   renderListItem,
+  hasWidthCaption,
   onSelect,
   onRemove,
   onOpen,
@@ -27,6 +28,7 @@ const Multiselect = ({
       visible=focused
       attachment='start'
       position='bottom'
+      hasWidthCaption=hasWidthCaption
       onDismiss=onHide
     )
       Popover.Caption

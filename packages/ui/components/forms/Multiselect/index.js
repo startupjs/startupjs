@@ -16,6 +16,7 @@ const Multiselect = ({
   tagLimit,
   error,
   TagComponent,
+  hasWidthCaption,
   onChange,
   onSelect,
   onRemove,
@@ -79,6 +80,7 @@ const Multiselect = ({
       readonly=readonly
       error=error
       TagComponent=TagComponent
+      hasWidthCaption=hasWidthCaption
       renderListItem=renderListItem
       onOpen=_onFocus
       onHide=onHide
@@ -96,6 +98,7 @@ Multiselect.propTypes = {
   tagLimit: PropTypes.number,
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  hasWidthCaption: PropTypes.bool,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onRemove: PropTypes.func,
@@ -109,6 +112,7 @@ Multiselect.defaultProps = {
   placeholder: 'Select',
   disabled: false,
   readonly: false,
+  hasWidthCaption: false,
   TagComponent: DefaultTag
 }
 
