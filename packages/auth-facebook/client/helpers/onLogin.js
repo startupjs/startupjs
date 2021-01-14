@@ -4,9 +4,7 @@ import { BASE_URL } from '@env'
 import axios from 'axios'
 import { CALLBACK_URL, PERMISSIONS } from '../../isomorphic/constants'
 
-export default async function onLogin () {
-  const baseUrl = BASE_URL
-
+export default async function onLogin (baseUrl = BASE_URL) {
   try {
     // The problem was that Facebook SDK was still keeping the previous session token, and when
     // I was trying to login again I was getting this error, to solve this problem all

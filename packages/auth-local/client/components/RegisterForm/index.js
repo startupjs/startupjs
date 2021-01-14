@@ -5,6 +5,7 @@ import { Div, Span, Br, Button } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import _get from 'lodash/get'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
 import TextInput from '../TextInput'
@@ -13,12 +14,13 @@ import './index.styl'
 const isWeb = Platform.OS === 'web'
 
 function RegisterForm ({
+  baseUrl,
   redirectUrl,
   onSuccess,
   onError,
   onChangeAuthPage
 }) {
-  const authHelper = useAuthHelper()
+  const authHelper = useAuthHelper(baseUrl)
 
   const [formErrors, setFormErrors] = useState({})
   const [form, $form] = useValue({
@@ -86,7 +88,7 @@ function RegisterForm ({
         onSuccess ? onSuccess(res.data, SIGN_UP_SLIDE) : finishAuth(redirectUrl)
       }
     } catch (error) {
-      setFormErrors({ authError: error.response.data.message })
+      setFormErrors({ authError: _get(error, 'response.data.message', error.message) })
       onError && onError(error)
     }
   }
@@ -183,7 +185,8 @@ RegisterForm.propTypes = {
   redirectUrl: PropTypes.string,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func.isRequired
+  onChangeAuthPage: PropTypes.func.isRequired,
+  baseUrl: PropTypes.string
 }
 
 export default observer(RegisterForm)

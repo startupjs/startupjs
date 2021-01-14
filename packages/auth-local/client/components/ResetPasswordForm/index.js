@@ -7,8 +7,8 @@ import _get from 'lodash/get'
 import TextInput from '../TextInput'
 import './index.styl'
 
-export default observer(function ResetPasswordForm ({ secret, onSuccess, onChangeAuthPage }) {
-  const authHelper = useAuthHelper()
+export default observer(function ResetPasswordForm ({ baseUrl, secret, onSuccess, onChangeAuthPage }) {
+  const authHelper = useAuthHelper(baseUrl)
 
   const _secret = secret || $root.get('$render.query.secret')
 
@@ -46,7 +46,7 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess, onChang
       })
       _onSuccess(null, RECOVER_PASSWORD_SLIDE)
     } catch (error) {
-      const errorMsg = _get(error, 'response.data.message')
+      const errorMsg = _get(error, 'response.data.message', error.message)
       if (errorMsg === 'reset password expired' && user) {
         $error.set('Link is expired.')
         return

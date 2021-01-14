@@ -1,15 +1,16 @@
 import React from 'react'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import { BASE_URL } from '@env'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ style, label, redirectUrl }) {
+function AuthButton ({ baseUrl, style, label, redirectUrl }) {
   return pug`
     Button.button(
       style=style
-      onPress=() => onLogin(redirectUrl)
+      onPress=() => onLogin(baseUrl, redirectUrl)
       icon=faGoogle
       variant='flat'
     )= label
@@ -17,12 +18,14 @@ function AuthButton ({ style, label, redirectUrl }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Google'
+  label: 'Google',
+  baseUrl: BASE_URL
 }
 
 AuthButton.propTypes = {
   label: PropTypes.string.isRequired,
-  redirectUrl: PropTypes.string
+  redirectUrl: PropTypes.string,
+  baseUrl: PropTypes.string.isRequired
 }
 
 export default AuthButton

@@ -7,8 +7,8 @@ import { useAuthHelper } from '../../helpers'
 import TextInput from '../TextInput'
 import './index.styl'
 
-export default observer(function ChangePasswordForm ({ onSuccess }) {
-  const authHelper = useAuthHelper()
+export default observer(function ChangePasswordForm ({ baseUrl, onSuccess }) {
+  const authHelper = useAuthHelper(baseUrl)
 
   const [form, $form] = useValue({})
   const [error, $error] = useValue()
@@ -45,7 +45,7 @@ export default observer(function ChangePasswordForm ({ onSuccess }) {
 
       _onSuccess()
     } catch (error) {
-      const errorMsg = _get(error, 'response.data.message')
+      const errorMsg = _get(error, 'response.data.message', error.message)
       $error.set(errorMsg)
     }
   }
