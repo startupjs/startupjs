@@ -1,3 +1,13 @@
+## [0.31.10](https://github.com/startupjs/startupjs/compare/v0.31.9...v0.31.10) (2021-01-14)
+
+
+### Bug Fixes
+
+* **ui/Dropdown:** remove required onChange ([#480](https://github.com/startupjs/startupjs/issues/480)) ([0ca809e](https://github.com/startupjs/startupjs/commit/0ca809e4f4fac9e47144f47523bbab6e644be992))
+* **ui/Multiselect:** add `hasCaptionWidth` property ([#479](https://github.com/startupjs/startupjs/issues/479)) ([81d11ef](https://github.com/startupjs/startupjs/commit/81d11ef3a91f157231d89636d7c1038941d04c6a))
+
+
+
 ## [0.31.9](https://github.com/startupjs/startupjs/compare/v0.31.8...v0.31.9) (2021-01-14)
 
 
