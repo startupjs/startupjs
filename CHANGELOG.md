@@ -1,3 +1,13 @@
+## [0.31.9](https://github.com/startupjs/startupjs/compare/v0.31.8...v0.31.9) (2021-01-14)
+
+
+### Bug Fixes
+
+* **auth:** fix passing baseURL param ([#477](https://github.com/startupjs/startupjs/issues/477)) ([e6b68ff](https://github.com/startupjs/startupjs/commit/e6b68ffda1ed215e8ed5d85419dee8f71a21941e))
+* **auth:** Generate redirect url based on  host req ([5160fdc](https://github.com/startupjs/startupjs/commit/5160fdca7d03f159c48b544269fc2a02c7da8c00))
+
+
+
 ## [0.31.8](https://github.com/startupjs/startupjs/compare/v0.31.5...v0.31.8) (2021-01-13)
 
 
