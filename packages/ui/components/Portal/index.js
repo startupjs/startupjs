@@ -57,6 +57,15 @@ function Portal ({ children = {} }) {
     })
   }, [children])
 
+  useEffect(() => {
+    return () => {
+      setData(state => {
+        delete state[componentId]
+        return { ...state }
+      })
+    }
+  }, [])
+
   return null
 }
 
