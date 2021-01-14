@@ -17,25 +17,23 @@ const Multiselect = ({
   error,
   TagComponent,
   renderListItem,
+  hasWidthCaption,
   onSelect,
   onRemove,
   onOpen,
   onHide
 }) => {
-  // FIXME: we use hasWidthCaption
-  // because popover stretches to full screen (tesing in Modal component)
   return pug`
     Popover.popover(
       visible=focused
-      onDismiss=onHide
       attachment='start'
       position='bottom'
-      hasWidthCaption
+      hasWidthCaption=hasWidthCaption
+      onDismiss=onHide
     )
       Popover.Caption
         MultiselectInput(
           label=label
-          onOpen=onOpen
           showOpts=focused
           value=value
           placeholder=placeholder
@@ -45,6 +43,7 @@ const Multiselect = ({
           error=error
           readonly=readonly
           TagComponent=TagComponent
+          onOpen=onOpen
         )
       each opt in options
         = renderListItem(opt)
