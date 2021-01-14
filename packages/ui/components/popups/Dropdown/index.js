@@ -150,10 +150,8 @@ function Dropdown ({
 
   if (isPopover) {
     return pug`
-      Popover(
+      Popover.popover(
         ref=refScroll
-        styleName='popover'
-        contentStyleName='content'
         captionStyle=captionStyle
         style=_popoverStyle
         position=position

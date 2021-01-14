@@ -9,6 +9,7 @@ import Link from '../../../../Link'
 import './index.styl'
 
 function DropdownItem ({
+  style,
   to,
   label,
   value,
@@ -28,18 +29,19 @@ function DropdownItem ({
   const handlePress = () => {
     if (onPress) {
       onPress()
-      _onDismissDropdown()
+      _onDismissDropdown && _onDismissDropdown()
     } else {
-      _onChange(value)
+      _onChange && _onChange(value)
     }
   }
 
-  if (_variant === 'popover' && !isPure) {
+  if ((_variant === 'popover' && !isPure) || !_variant) {
     return pug`
       Menu.Item(
         to=to
-        active=_activeValue === value
-        styleName={ selectMenu: _selectIndexValue === _index }
+        style=style
+        active=_variant && _activeValue === value
+        styleName={ selectMenu: _variant && _selectIndexValue === _index }
         onPress=handlePress
         iconPosition='left'
         icon=icon
@@ -49,7 +51,11 @@ function DropdownItem ({
 
   const Wrapper = to ? Link : TouchableOpacity
   return pug`
-    Wrapper(onPress=handlePress to=to)
+    Wrapper(
+      to=to
+      style=style
+      onPress=handlePress
+    )
       View.item(styleName=[!isPure && _variant, {
         active: !isPure && (_activeValue === value),
         itemUp: !isPure && (_index === 0),
