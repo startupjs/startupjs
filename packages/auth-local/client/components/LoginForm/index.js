@@ -13,7 +13,7 @@ import './index.styl'
 const isWeb = Platform.OS === 'web'
 
 function LoginForm ({
-  formState = {},
+  config,
   redirectUrl,
   baseUrl,
   onSuccess,
@@ -102,8 +102,7 @@ function LoginForm ({
   }
 
   useEffect(() => {
-    const { email } = formState
-    if (email) $form.set('email', email)
+    if (config.formState) $form.setEach({...config.formState})
     if (isWeb) {
       listenKeypress()
     }
