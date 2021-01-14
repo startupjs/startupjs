@@ -11,7 +11,8 @@ function Geometry ({
   placements,
   contentInfo,
   captionInfo,
-  hasArrow
+  hasArrow,
+  dimensions
 }) {
   this.initPlacement = placement
   this.leftPositions = {}
@@ -19,11 +20,11 @@ function Geometry ({
   this.arrowLeftPositions = {}
   this.arrowTopPositions = {}
 
-  calcLeftPositions.call(this, { contentInfo, captionInfo, hasArrow })
-  calcTopPositions.call(this, { contentInfo, captionInfo, hasArrow })
+  calcLeftPositions.call(this, { contentInfo, captionInfo, hasArrow, dimensions })
+  calcTopPositions.call(this, { contentInfo, captionInfo, hasArrow, dimensions })
 
-  calcLeftPositionsArrow.call(this, contentInfo)
-  calcTopPositionsArrow.call(this, contentInfo)
+  calcLeftPositionsArrow.call(this, contentInfo, captionInfo, dimensions)
+  calcTopPositionsArrow.call(this, contentInfo, captionInfo, dimensions)
 
   prepareTopPositions.call(this, contentInfo)
   prepareLeftPositions.call(this, contentInfo)
@@ -37,95 +38,232 @@ function Geometry ({
   this.arrowTopPosition = this.arrowTopPositions[this.validPlacement]
 }
 
-function calcLeftPositions ({ contentInfo, captionInfo, hasArrow }) {
-  let positionRootLeft = contentInfo.x
-  positionRootLeft = positionRootLeft - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+function calcLeftPositions ({ contentInfo, captionInfo, hasArrow, dimensions }) {
+  const halfContent = contentInfo.width / 2
+  const halfCaption = captionInfo.width / 2
+
+  const overRight = dimensions.width - contentInfo.width
+
+  const positionMinorLeft = contentInfo.x
+  if (positionMinorLeft + contentInfo.width > dimensions.width) {
+    this.leftPositions['bottom-start'] = overRight
+    this.leftPositions['top-start'] = overRight
+  } else {
+    this.leftPositions['bottom-start'] = positionMinorLeft
+    this.leftPositions['top-start'] = positionMinorLeft
+  }
+
+  const positionMinorCenter = contentInfo.x - halfContent + halfCaption
+  if (positionMinorCenter < 0) {
+    this.leftPositions['top-center'] = 0
+    this.leftPositions['bottom-center'] = 0
+  } else if (positionMinorCenter + contentInfo.width > dimensions.width) {
+    this.leftPositions['top-center'] = overRight
+    this.leftPositions['bottom-center'] = overRight
+  } else {
+    this.leftPositions['top-center'] = positionMinorCenter
+    this.leftPositions['bottom-center'] = positionMinorCenter
+  }
+
+  const positionMinorRight = contentInfo.x - contentInfo.width + captionInfo.width
+  if (positionMinorRight < 0) {
+    this.leftPositions['bottom-end'] = 0
+    this.leftPositions['top-end'] = 0
+  } else {
+    this.leftPositions['bottom-end'] = positionMinorRight
+    this.leftPositions['top-end'] = positionMinorRight
+  }
+
+  const positionRootLeft = contentInfo.x - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.leftPositions['left-start'] = positionRootLeft
   this.leftPositions['left-center'] = positionRootLeft
   this.leftPositions['left-end'] = positionRootLeft
 
-  let positionRootRight = contentInfo.x + captionInfo.width
-  positionRootRight = positionRootRight + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootRight = contentInfo.x + captionInfo.width + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.leftPositions['right-start'] = positionRootRight
   this.leftPositions['right-center'] = positionRootRight
   this.leftPositions['right-end'] = positionRootRight
-
-  const positionMinorLeft = contentInfo.x
-  this.leftPositions['bottom-start'] = positionMinorLeft
-  this.leftPositions['top-start'] = positionMinorLeft
-
-  const positionMinorCenter = contentInfo.x - (contentInfo.width / 2) + (captionInfo.width / 2)
-  this.leftPositions['top-center'] = positionMinorCenter
-  this.leftPositions['bottom-center'] = positionMinorCenter
-
-  const positionMinorRight = contentInfo.x - contentInfo.width + captionInfo.width
-  this.leftPositions['bottom-end'] = positionMinorRight
-  this.leftPositions['top-end'] = positionMinorRight
 }
 
-function calcTopPositions ({ captionInfo, contentInfo, hasArrow }) {
-  let positionRootBottom = contentInfo.y + captionInfo.height
-  positionRootBottom = positionRootBottom + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+function calcTopPositions ({ captionInfo, contentInfo, hasArrow, dimensions }) {
+  const halfCaption = captionInfo.height / 2
+  const halfContent = contentInfo.height / 2
+  const positionRootBottom = captionInfo.y + captionInfo.height + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.topPositions['bottom-start'] = positionRootBottom
   this.topPositions['bottom-center'] = positionRootBottom
   this.topPositions['bottom-end'] = positionRootBottom
 
-  let positionRootTop = contentInfo.y
-  positionRootTop = positionRootTop - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootTop = captionInfo.y - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.topPositions['top-start'] = positionRootTop
   this.topPositions['top-center'] = positionRootTop
   this.topPositions['top-end'] = positionRootTop
 
-  const positionMinorCenter = contentInfo.y + (captionInfo.height / 2) - (contentInfo.height / 2)
-  this.topPositions['left-center'] = positionMinorCenter
-  this.topPositions['right-center'] = positionMinorCenter
+  const positionMinorCenter = captionInfo.y + halfCaption - halfContent
+  if (positionMinorCenter < 0) {
+    this.topPositions['left-center'] = 0
+    this.topPositions['right-center'] = 0
+  } else if (captionInfo.y + halfContent > dimensions.height) {
+    const positionMinorCenterOverBottom = dimensions.height - contentInfo.height
+    this.topPositions['left-center'] = positionMinorCenterOverBottom
+    this.topPositions['right-center'] = positionMinorCenterOverBottom
+  } else {
+    this.topPositions['left-center'] = positionMinorCenter
+    this.topPositions['right-center'] = positionMinorCenter
+  }
 
-  this.topPositions['left-start'] = contentInfo.y
-  this.topPositions['right-start'] = contentInfo.y
+  if (captionInfo.y + contentInfo.height > dimensions.height) {
+    const positionMinorStartOver = dimensions.height - contentInfo.height
+    this.topPositions['left-start'] = positionMinorStartOver
+    this.topPositions['right-start'] = positionMinorStartOver
+  } else {
+    this.topPositions['left-start'] = captionInfo.y
+    this.topPositions['right-start'] = captionInfo.y
+  }
 
-  this.topPositions['left-end'] = contentInfo.y + captionInfo.height
-  this.topPositions['right-end'] = contentInfo.y + captionInfo.height
+  if (captionInfo.y + captionInfo.height - contentInfo.height < 0) {
+    this.topPositions['left-end'] = contentInfo.height
+    this.topPositions['right-end'] = contentInfo.height
+  } else {
+    const positionMinorEnd = captionInfo.y + captionInfo.height
+    this.topPositions['left-end'] = positionMinorEnd
+    this.topPositions['right-end'] = positionMinorEnd
+  }
 }
 
-function calcLeftPositionsArrow (contentInfo) {
-  this.arrowLeftPositions['top-start'] = 10
-  this.arrowLeftPositions['bottom-start'] = 10
+function calcLeftPositionsArrow (contentInfo, captionInfo, dimensions) {
+  const halfContent = contentInfo.width / 2
+  const halfCaption = captionInfo.width / 2
 
-  let positionMinorRight = contentInfo.width - (ARROW_SIZE * 2) - 10
-  this.arrowLeftPositions['top-end'] = positionMinorRight
-  this.arrowLeftPositions['bottom-end'] = positionMinorRight
+  const overLeft = captionInfo.x + halfCaption - ARROW_SIZE
+  const overRight = contentInfo.width - (dimensions.width - captionInfo.x) + halfCaption - ARROW_SIZE
+  const minRight = contentInfo.width - (ARROW_SIZE * 3)
 
-  let positionMinorCenter = (contentInfo.width / 2) - ARROW_SIZE
-  this.arrowLeftPositions['top-center'] = positionMinorCenter
-  this.arrowLeftPositions['bottom-center'] = positionMinorCenter
+  if (captionInfo.x + contentInfo.width > dimensions.width) {
+    if (captionInfo.x + captionInfo.width > dimensions.width) {
+      this.arrowLeftPositions['top-start'] = minRight
+      this.arrowLeftPositions['bottom-start'] = minRight
+    } else {
+      this.arrowLeftPositions['top-start'] = overRight
+      this.arrowLeftPositions['bottom-start'] = overRight
+    }
+  } else {
+    const positionStart = halfCaption - ARROW_SIZE
+    this.arrowLeftPositions['top-start'] = positionStart
+    this.arrowLeftPositions['bottom-start'] = positionStart
+  }
+
+  if (captionInfo.x - contentInfo.width + captionInfo.width < 0) {
+    if (captionInfo.x < 0) {
+      this.arrowLeftPositions['top-end'] = ARROW_SIZE
+      this.arrowLeftPositions['bottom-end'] = ARROW_SIZE
+    } else {
+      this.arrowLeftPositions['top-end'] = overLeft
+      this.arrowLeftPositions['bottom-end'] = overLeft
+    }
+  } else {
+    const positionEnd = contentInfo.width - halfCaption - ARROW_SIZE
+    this.arrowLeftPositions['top-end'] = positionEnd
+    this.arrowLeftPositions['bottom-end'] = positionEnd
+  }
+
+  if (captionInfo.x - halfContent + halfCaption < 0) {
+    if (captionInfo.x < 0) {
+      this.arrowLeftPositions['top-center'] = ARROW_SIZE
+      this.arrowLeftPositions['bottom-center'] = ARROW_SIZE
+    } else {
+      this.arrowLeftPositions['top-center'] = overLeft
+      this.arrowLeftPositions['bottom-center'] = overLeft
+    }
+  } else if (captionInfo.x + halfContent > dimensions.width) {
+    if (captionInfo.x + captionInfo.width > dimensions.width) {
+      this.arrowLeftPositions['top-center'] = minRight
+      this.arrowLeftPositions['bottom-center'] = minRight
+    } else {
+      this.arrowLeftPositions['top-center'] = overRight
+      this.arrowLeftPositions['bottom-center'] = overRight
+    }
+  } else {
+    const positionCenter = halfContent - ARROW_SIZE
+    this.arrowLeftPositions['top-center'] = positionCenter
+    this.arrowLeftPositions['bottom-center'] = positionCenter
+  }
 
   this.arrowLeftPositions['left-center'] = '100%'
   this.arrowLeftPositions['left-start'] = '100%'
   this.arrowLeftPositions['left-end'] = '100%'
 
-  this.arrowLeftPositions['right-start'] = -(ARROW_SIZE * 2)
-  this.arrowLeftPositions['right-center'] = -(ARROW_SIZE * 2)
-  this.arrowLeftPositions['right-end'] = -(ARROW_SIZE * 2)
+  const dblArrow = ARROW_SIZE * 2
+  this.arrowLeftPositions['right-start'] = -dblArrow
+  this.arrowLeftPositions['right-center'] = -dblArrow
+  this.arrowLeftPositions['right-end'] = -dblArrow
 }
 
-function calcTopPositionsArrow (contentInfo) {
+function calcTopPositionsArrow (contentInfo, captionInfo, dimensions) {
+  const halfCaption = captionInfo.height / 2
+  const halfContent = contentInfo.height / 2
+
+  const overTop = captionInfo.y + halfCaption - ARROW_SIZE
+  const overBottom = contentInfo.height - (dimensions.height - captionInfo.y) + halfCaption - ARROW_SIZE
+  const minBottom = contentInfo.height - (ARROW_SIZE * 3)
+
+  if (captionInfo.y + halfCaption - halfContent < 0) {
+    if (captionInfo.y < 0) {
+      this.arrowTopPositions['left-center'] = ARROW_SIZE
+      this.arrowTopPositions['right-center'] = ARROW_SIZE
+    } else {
+      this.arrowTopPositions['left-center'] = overTop
+      this.arrowTopPositions['right-center'] = overTop
+    }
+  } else if (captionInfo.y + halfContent > dimensions.height) {
+    if (captionInfo.y + captionInfo.height > dimensions.height) {
+      this.arrowTopPositions['left-center'] = minBottom
+      this.arrowTopPositions['right-center'] = minBottom
+    } else {
+      this.arrowTopPositions['left-center'] = overBottom
+      this.arrowTopPositions['right-center'] = overBottom
+    }
+  } else {
+    const positionCenter = halfContent - ARROW_SIZE
+    this.arrowTopPositions['left-center'] = positionCenter
+    this.arrowTopPositions['right-center'] = positionCenter
+  }
+
+  if (captionInfo.y + contentInfo.height > dimensions.height) {
+    if (captionInfo.y + captionInfo.height > dimensions.height) {
+      this.arrowTopPositions['left-start'] = minBottom
+      this.arrowTopPositions['right-start'] = minBottom
+    } else {
+      this.arrowTopPositions['left-start'] = overBottom
+      this.arrowTopPositions['right-start'] = overBottom
+    }
+  } else {
+    const positionStart = halfCaption - ARROW_SIZE
+    this.arrowTopPositions['left-start'] = positionStart
+    this.arrowTopPositions['right-start'] = positionStart
+  }
+
+  if (captionInfo.y + captionInfo.height - contentInfo.height < 0) {
+    if (captionInfo.y < 0) {
+      this.arrowTopPositions['left-end'] = ARROW_SIZE
+      this.arrowTopPositions['right-end'] = ARROW_SIZE
+    } else {
+      this.arrowTopPositions['left-end'] = overTop
+      this.arrowTopPositions['right-end'] = overTop
+    }
+  } else {
+    const positionEnd = contentInfo.height - halfCaption - ARROW_SIZE
+    this.arrowTopPositions['left-end'] = positionEnd
+    this.arrowTopPositions['right-end'] = positionEnd
+  }
+
   this.arrowTopPositions['top-start'] = '100%'
   this.arrowTopPositions['top-center'] = '100%'
   this.arrowTopPositions['top-end'] = '100%'
 
-  const positionRootCenter = (contentInfo.height / 2) - ARROW_SIZE
-  this.arrowTopPositions['left-center'] = Math.floor(positionRootCenter)
-  this.arrowTopPositions['right-center'] = Math.floor(positionRootCenter)
-
-  this.arrowTopPositions['bottom-start'] = -(ARROW_SIZE * 2)
-  this.arrowTopPositions['bottom-center'] = -(ARROW_SIZE * 2)
-  this.arrowTopPositions['bottom-end'] = -(ARROW_SIZE * 2)
-
-  this.arrowTopPositions['left-start'] = 10
-  this.arrowTopPositions['right-start'] = 10
-
-  this.arrowTopPositions['left-end'] = contentInfo.height - (ARROW_SIZE * 2) - 10
-  this.arrowTopPositions['right-end'] = contentInfo.height - (ARROW_SIZE * 2) - 10
+  const dblArrow = ARROW_SIZE * 2
+  this.arrowTopPositions['bottom-start'] = -dblArrow
+  this.arrowTopPositions['bottom-center'] = -dblArrow
+  this.arrowTopPositions['bottom-end'] = -dblArrow
 }
 
 function prepareTopPositions (contentInfo) {

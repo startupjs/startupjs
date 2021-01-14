@@ -21,7 +21,7 @@ function DropdownItem ({
   _onChange,
   _onDismissDropdown,
   _index,
-  _childenLength
+  _childrenLength
 }) {
   const isPure = _variant === 'pure'
 
@@ -53,7 +53,7 @@ function DropdownItem ({
       View.item(styleName=[!isPure && _variant, {
         active: !isPure && (_activeValue === value),
         itemUp: !isPure && (_index === 0),
-        itemDown: !isPure && (_index === _childenLength - 1),
+        itemDown: !isPure && (_index === _childrenLength - 1),
         selectMenu: _selectIndexValue === _index
       }])
         if isPure
