@@ -225,7 +225,7 @@ ObservedDropdown.propTypes = {
   drawerListTitle: PropTypes.string,
   drawerCancelLabel: PropTypes.string,
   hasDrawer: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   onDismiss: PropTypes.func
 }
 
