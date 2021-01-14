@@ -5,6 +5,7 @@ import { AuthForm, Logo } from '../../../components'
 import '../sharedPageStyles.styl'
 
 function PRecover ({
+  baseUrl,
   configs,
   logo,
   localForms,
@@ -21,6 +22,7 @@ function PRecover ({
           Logo(logo=logo)
       Div.wrapper
         AuthForm(
+          baseUrl=baseUrl
           configs=configs
           initSlide='recover'
           hasRouting=true
@@ -35,6 +37,7 @@ function PRecover ({
 }
 
 PRecover.propTypes = {
+  baseUrl: PropTypes.string,
   configs: PropTypes.object,
   logo: PropTypes.node,
   localForms: PropTypes.object,

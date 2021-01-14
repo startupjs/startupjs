@@ -7,6 +7,7 @@ import { RESET_PASSWORD_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PResetPassword ({
+  baseUrl,
   configs,
   logo,
   localForms,
@@ -22,6 +23,7 @@ function PResetPassword ({
           Logo(logo=logo)
       Div.wrapper
         AuthForm(
+          baseUrl=baseUrl
           configs=configs
           initSlide=RESET_PASSWORD_SLIDE
           hasRouting=true
@@ -34,6 +36,7 @@ function PResetPassword ({
 }
 
 PResetPassword.propTypes = {
+  baseUrl: PropTypes.string,
   configs: PropTypes.object,
   logo: PropTypes.node,
   localForms: PropTypes.object,

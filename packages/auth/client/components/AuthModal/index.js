@@ -24,6 +24,7 @@ const { width } = Dimensions.get('window')
  * })
  */
 function AuthModal ({
+  baseUrl,
   localForms,
   socialButtons,
   onSuccess,
@@ -65,6 +66,7 @@ function AuthModal ({
 }
 
 AuthModal.propTypes = {
+  baseUrl: PropTypes.string.isRequired,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,

@@ -4,6 +4,7 @@ import { observer, useValue } from 'startupjs'
 import { Div, Span, Br, Button } from '@startupjs/ui'
 import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
+import _get from 'lodash/get'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
 import TextInput from '../TextInput'
@@ -11,8 +12,8 @@ import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 
-function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
-  const authHelper = useAuthHelper()
+function RecoverForm ({ baseUrl, onSuccess, onError, onChangeAuthPage }) {
+  const authHelper = useAuthHelper(baseUrl)
 
   const [form, $form] = useValue({
     email: null,
@@ -37,9 +38,9 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
       await authHelper.createPassResetSecret(form)
       onSuccess && onSuccess(null, RECOVER_PASSWORD_SLIDE)
       setFeedback('Check your email for instructions')
-    } catch (err) {
-      setFormErrors({ globalError: err.response.data.message })
-      onError && onError(err)
+    } catch (error) {
+      setFormErrors({ globalError: _get(error, 'response.data.message', error.message) })
+      onError && onError(error)
     }
   }
 
@@ -108,7 +109,8 @@ function RecoverForm ({ onSuccess, onError, onChangeAuthPage }) {
 RecoverForm.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func.isRequired
+  onChangeAuthPage: PropTypes.func.isRequired,
+  baseUrl: PropTypes.string
 }
 
 export default observer(RecoverForm)
