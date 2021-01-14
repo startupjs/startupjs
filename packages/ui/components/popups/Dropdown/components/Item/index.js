@@ -14,6 +14,7 @@ function DropdownItem ({
   label,
   value,
   icon,
+  disabled,
   onPress,
   children,
   _activeValue,
@@ -29,21 +30,21 @@ function DropdownItem ({
   const handlePress = () => {
     if (onPress) {
       onPress()
-      _onDismissDropdown && _onDismissDropdown()
+      _onDismissDropdown()
     } else {
-      _onChange && _onChange(value)
+      _onChange(value)
     }
   }
 
-  if ((_variant === 'popover' && !isPure) || !_variant) {
+  if (_variant === 'popover' && !isPure) {
     return pug`
       Menu.Item(
         to=to
         style=style
-        active=_variant && _activeValue === value
-        styleName={ selectMenu: _variant && _selectIndexValue === _index }
+        active=_activeValue === value
+        disabled=disabled
+        styleName={ selectMenu: _selectIndexValue === _index }
         onPress=handlePress
-        iconPosition='left'
         icon=icon
       )= label
     `
