@@ -5,8 +5,7 @@ import { BASE_URL } from '@env'
 import axios from 'axios'
 import { CALLBACK_URL } from '../../isomorphic'
 
-export default async function onLogin () {
-  const baseUrl = BASE_URL
+export default async function onLogin (baseUrl = BASE_URL) {
   const webClientId = $root.get('_session.auth.google.clientId')
 
   try {

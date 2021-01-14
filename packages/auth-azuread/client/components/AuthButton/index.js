@@ -9,8 +9,7 @@ import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { AZUREAD_LOGIN_URL } from '../../../isomorphic'
 import './index.styl'
 
-function AuthButton ({ label }) {
-  const baseUrl = BASE_URL
+function AuthButton ({ baseUrl, label }) {
   const [authConfig] = useSession('auth')
   const [, $showModal] = useValue(false)
 
@@ -48,11 +47,13 @@ function AuthButton ({ label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Azure AD'
+  label: 'Azure AD',
+  baseUrl: BASE_URL
 }
 
 AuthButton.propTypes = {
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
+  baseUrl: PropTypes.string.isRequired
 }
 
 export default observer(AuthButton)

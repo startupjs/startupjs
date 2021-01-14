@@ -15,12 +15,13 @@ const isWeb = Platform.OS === 'web'
 function LoginForm ({
   formState = {},
   redirectUrl,
+  baseUrl,
   onSuccess,
   onError,
   onHandleError,
   onChangeAuthPage
 }) {
-  const authHelper = useAuthHelper()
+  const authHelper = useAuthHelper(baseUrl)
 
   const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
 
@@ -78,11 +79,11 @@ function LoginForm ({
         onHandleError({ form, setFormErrors }, error)
       } else {
         onError && onError(error)
-        if (error.response.status === 403) {
+        if (error.response && error.response.status === 403) {
           const msg = 'The email or password you entered is incorrect'
           setFormErrors({ authError: msg })
         } else {
-          setFormErrors({ authError: error.response.data.message })
+          setFormErrors({ authError: (error.response && error.response.data.message) || error.message })
         }
       }
     }
@@ -175,7 +176,8 @@ LoginForm.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func.isRequired
+  onChangeAuthPage: PropTypes.func.isRequired,
+  baseUrl: PropTypes.string
 }
 
 export default observer(LoginForm)

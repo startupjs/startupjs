@@ -4,10 +4,10 @@ import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { onLogout } from '../../helpers'
 
-function LogoutButton ({ redirectUrl }) {
+function LogoutButton ({ baseUrl, redirectUrl }) {
   return pug`
     Button(
-      onPress=() => onLogout(redirectUrl)
+      onPress=() => onLogout(baseUrl, redirectUrl)
       color='primary'
       variant='flat'
     ) Logout
@@ -15,7 +15,8 @@ function LogoutButton ({ redirectUrl }) {
 }
 
 LogoutButton.propTypes = {
-  redirectUrl: PropTypes.string
+  redirectUrl: PropTypes.string,
+  baseUrl: PropTypes.string
 }
 
 export default observer(LogoutButton)

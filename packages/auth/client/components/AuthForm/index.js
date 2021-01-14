@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
+
 import { observer, emit, useLocal } from 'startupjs'
 import { H5, Content, Span } from '@startupjs/ui'
 import { SIGN_IN_URL, SIGN_UP_URL, RECOVER_PASS_URL } from '@startupjs/auth/isomorphic'
+import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import _get from 'lodash/get'
 import OrDivider from '../OrDivider'
@@ -17,6 +19,7 @@ import {
 import './index.styl'
 
 function AuthForm ({
+  baseUrl,
   configs,
   initSlide,
   socialButtons,
@@ -45,6 +48,7 @@ function AuthForm ({
     return pug`
       View.button(key=index)
         Component(
+          baseUrl=baseUrl
           redirectUrl=redirectUrl
         )
     `
@@ -106,6 +110,7 @@ function AuthForm ({
             = localFormDescription
           LocalActiveForm(
             formState=formState
+            baseUrl=baseUrl
             redirectUrl=redirectUrl
             onSuccess=onSuccess
             onError=onError
@@ -116,6 +121,7 @@ function AuthForm ({
 }
 
 AuthForm.propTypes = {
+  baseUrl: PropTypes.string.isRequired,
   configs: PropTypes.object,
   initSlide: PropTypes.string,
   socialButtons: PropTypes.array,
@@ -129,6 +135,7 @@ AuthForm.propTypes = {
 }
 
 AuthForm.defaultProps = {
+  baseUrl: BASE_URL,
   initSlide: SIGN_IN_SLIDE,
   socialButtons: [],
   hasRouting: false,
