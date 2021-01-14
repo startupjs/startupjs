@@ -39,6 +39,7 @@ function AuthForm ({
   const caption = config.title || DEFAULT_FORMS_CAPTIONS[activeSlide]
   const description = config.description || DEFAULT_FORMS_DESCRIPTIONS[activeSlide]
   const localFormDescription = config.localFormDescription
+  const formState = config.formState
 
   const renderSocialButtons = socialButtons.map((Component, index) => {
     return pug`
@@ -104,6 +105,7 @@ function AuthForm ({
           else
             = localFormDescription
           LocalActiveForm(
+            formState=formState
             redirectUrl=redirectUrl
             onSuccess=onSuccess
             onError=onError

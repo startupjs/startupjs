@@ -13,6 +13,7 @@ import './index.styl'
 const isWeb = Platform.OS === 'web'
 
 function RegisterForm ({
+  formState = {},
   redirectUrl,
   onSuccess,
   onError,
@@ -106,6 +107,9 @@ function RegisterForm ({
   }
 
   useEffect(() => {
+    const { email, name } = formState
+    if (email) $form.set('email', email)
+    if (name) $form.set('name', name)
     if (isWeb) {
       listenKeypress()
     }
