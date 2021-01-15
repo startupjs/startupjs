@@ -102,7 +102,7 @@ function LoginForm ({
   }
 
   useEffect(() => {
-    if (config.formState) $form.setEach({...config.formState})
+    if (config && config.formState) $form.setEach({...config.formState})
     if (isWeb) {
       listenKeypress()
     }
