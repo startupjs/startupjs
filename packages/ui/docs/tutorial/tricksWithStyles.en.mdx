@@ -1,0 +1,252 @@
+# Tricks with styles
+
+## Units
+
+StartupJS/UI initially uses an 8-pixel grid for padding. This means that the unit of measurement for padding is unit (u). One unit equals 8px. All styles that could be specified in pixels are specified in units.
+
+For example: 
+
+```css
+.card
+  padding 2u 3u // 16px 24px
+  margin 3u // 24px
+```
+
+
+## Mixins
+You are already familiar with the implementation of mixins in Stylus so you can now get acquainted with the preset mixins within the @StartupJS/UI package
+
+## Миксин font()
+
+The first mixin is `font()`, which takes one of the following parameters `[xs, s, m, l, xl, xxl, xxxl, xxxxl, xxxxxl]`, `m` by default.
+`font()` is used within a selector for text elements and is replaced at compile time with `font-size` and `line-height`, depending on the value selected.
+Table of possible values:	
+
+
+**Table of possible values:**
+
+```
+| Value  | font-size | line-height |
+| -------- | --------- | ----------- |
+| xs       | 1.25u     | 1.75u       |
+| s        | 1.5u      | 2u          |
+| m        | 1.75u     | 2.5u        |
+| l        | 2u        | 3u          |
+| xl       | 2.5u      | 3.5u        |
+| xxl      | 3u        | 4u          |
+| xxxl     | 4.5u      | 6u          |
+| xxxxl    | 6u        | 8u          |
+| xxxxxl   | 9u        | 12u         |
+```
+
+
+## shadow() mixin
+React Native has its own features when working with shadows(`box-shadow`). To avoid these complexities in everyday life, `StartupJS/UI` provides a set of predefined shadow styles for your components.
+
+Миксин `shadow()` принимает в себя себя число от `0` до `4`, по умолчанию `1` и разворачивает в селектор набор стилей `box-shadow` по следующей схеме:
+
+The `shadow()` mixin takes a number from `0` to `4`, `1` by default, and extends the selector with the `box-shadow` set of styles in this way:
+
+```
+| Value  | Styles                                                    |
+| -------- | ------------------------------------------------------- |
+| 0        | box-shadow: none и elevation: 0                         |
+| 1        | box-shadow: 0 1px 2px rgba(black, 0.2) и >elevation: 3  |
+| 2        | box-shadow: 0 3px 5px rgba(black, 0.15) и elevation: 6  |
+| 3        | box-shadow: 0 5px 8px rgba(black, 0.15) и elevation: 12 |
+| 4        | box-shadow: 0 8px 12px rgba(black, 0.2) и elevation: 18 |
+```
+> For illustrative examples of how each level of shadow will be displayed, look to the right
+
+## radius() mixin
+The `radius()` mixin sets the `border-radius` value for the specified element. It is used to keep the design language consistent. It takes the values `[m, l, circle]`, `m` by default.
+
+The `radius()` mixin is extended with the following values:
+
+```
+| Value  | Styles                 |
+| -------- | -------------------- |
+| m        | border-radius 4px    |
+| l        | border-radius 8px    |
+| circle   | border-radius 9999px |
+```
+The `circle` value will make your element assume round shape.
+
+> You can also add your own values or alter the existing ones. This can be done in the `styles/helpers.styl` file.
+
+
+## Screen size and device mixins
+
+In pure ***CSS***, you have the ability to use @media-queries for adding styles only to certain user screen sizes. StartupJS has mixins that are already tailored to match the required user screen sizes and even their devices and systems.
+
+Let's take a closer look:
+
+```
+| Mixins       | Environment                      |
+| ------------ | ---------------------------- |
+| +tablet()    | min-width >=768px            |
+| +desktop()   | min-width >=1024px           |
+| +wide()      | min-width >=1280px           |
+| +portrait()  | Портретная ориентация экрана      |
+| +landscape() | Альбомная ориентация экрана       |
+| +web()       | Веб-окружение                  |
+| +android()   | ОС Android                   |
+| +ios()       | OC iOS                       |
+| +native()    | !web                         |
+```
+> In order to override the value of some mixin yourself, you only need to change it in the `styles/` folder of your project. For example, screen sizes for `tablet, desktop, wide` mixins are located in the `variables.styl` file.
+
+Usage example: 
+```css
+.card
+  padding 2u
+  margin 0 2u
+  +tablet()
+    padding 3u
+    margin 0 3u
+  +desktop()
+    padding 4u
+    margin 0 4u
+```
+
+----------------
+
+## UI object
+
+## What is $UI
+
+The `startupjs/ui` styles contain the global `$UI` object. It has within itself all the necessary constants. The presence of such an object simplifies the process of creating styles, since now you do not need to set up a huge number of files with various constants. Instead of it, you only need to call the property of the global object `$UI`. And if there is an urgent need to extend the object with your own constants, this can be easily achieved using `merge`. You can find out more about it below.
+
+## Properties of $UI
+
+- `$UI.palette` - contains the main colors for the user interface. All other basic colors are derived from these.
+- `$UI.colors` - contains many colors derived from `$UI.palette`. There is one rule for all colors, except for `$UI.palette.black` (this color splits into two: mainText and secondaryText). Each color has the following counterparts (note that `colorName` and `palleteColorName` may not match):
+  - colorName: $UI.palette.palleteColorName,
+  - colorNameLight: rgba($UI.palette.palleteColorName, 0.5),
+  - colorNameLighter: rgba($UI.palette.palleteColorName, 0.25),
+  - colorNameLightest: rgba($UI.palette.palleteColorName, 0.05)
+- `$UI.shadows` - contains constants for shadows. For numbers from 0 to 4 values are set by default.
+- `$UI.media` - contains screen sizes. These sizes are used for screen size defining mixins (for example tablet()). Here the constants for tablet, desktop and wide are contained.
+- `$UI.fontFamilies` - contains font names.
+- `$UI.fontSizes` - contains font size constants that can be seen in the table above.
+- `$UI.lineHeights` - contains row height constants which can be seen in the table above.
+
+## Extending the global $UI component
+
+Глобальный обьект `$UI` можно расширять и переопределять его свойства. Это позволяет реализовывать любые дизайнерские решения в вашем проекте. Для того чтобы модифицировать `$UI` необходимо использовать функцию `merge`. Например, если вам необходимо добавить новый цвет `pink`, то это можно сделать следующим образом:
+
+The global `$UI` object can be extended and its properties can be overridden. This enables the implementation of any design solutions in your project. In order to modify `$UI`, use the `merge` function. For example, if you need to add a new color `pink`, this can be achieved this way: 
+
+```js
+$UI = merge($UI, {
+  colors: {
+    pink: #fc69ff,
+  }
+}, true)
+
+```
+
+or you can override the `primary` and `warning` colors with those relevant for your project and add a new size for `Button`: 
+
+```js
+$UI = merge($UI, {
+  colors: {
+    primary: #4a76a8,
+    warning: #880000
+  },
+  Button: {
+    heights: {
+      xxl: 10u
+    }
+  }
+}, true)
+```
+
+Such transformations of `$UI` object should be performed in the main style sheet file of the project, which you can find at `styles/index.styl`. Since this file will be triggered when the entire project is launched, you will get a modified `$UI` in any style sheet file.
+
+## merge
+Let's explore how the `merge` function works. Its prototype looks like this: 
+
+```js
+merge(object, source, deep)
+```
+
+- `object` - a source object
+- `source` - an object that will extend the source object `object`
+- `deep` - is it necessary to do the extension in depth
+
+Keep in mind that `source` properties are considered more relevant than `object` properties. Therefore, if the `object` has a height property and `source` has a `height` property, then the resulting `height` property will be that from the `source` object.
+
+```js
+obj1 = {
+  width: 100px,
+  height: 100px
+}
+
+obj2 = {
+  color: red,
+  height: 400px
+}
+
+result = merge(obj1, obj2, true)
+// expected result = {
+//   width: 100px,
+//   height: 400px,
+//   color: red
+// }
+```
+
+The `deep` property indicates whether to check objects in depth. That is, if there are nested objects with the same properties, then this property is necessary for the correct object modification.
+
+```js
+obj1 = {
+  Button: {
+    width: 100px,
+    height: 100px
+  }
+}
+
+obj2 = {
+   Button: {
+    color: red,
+    height: 400px
+  }
+}
+
+result = merge(obj1, obj2, true)
+// expected result = {
+//   Button: {
+//     width: 100px,
+//     height: 400px,
+//     color: red
+// }
+```
+
+
+
+## exporting styles in js
+
+You can also now fetch any values from styles in the files with the code. To do this, you only need to export an object in the style sheet file, using the `:export` command.
+
+```js
+.root
+  height: $this.height
+  background-color: $this.bgColor
+
+:export
+  colors: $UI.colors
+  foobar: 42
+```
+
+Here we have exported the object with the `colors` and `foobar` fields. Let's now import this object in the js file. 
+
+```js
+import STYLES from './index.styl'
+
+const {
+  colors,
+  foobar
+} = STYLES
+```
+
+In such an uncomplicated way, you can get any constants from styles in the code.
