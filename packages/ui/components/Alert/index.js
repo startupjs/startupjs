@@ -25,42 +25,55 @@ function Alert ({
   icon,
   label,
   title,
-  ActionComponent,
+  renderActions,
+  children,
   onClose
 }) {
+  if (label) {
+    children = label
+    console.warn('[@startupjs/ui] Alert: label is DEPRECATED, use children instead.')
+  }
+
   return pug`
-    Row.root(
-      vAlign='start'
+    Div.root(
       styleName=[variant]
     )
-      if icon !== false
-        Div.iconWrapper
-          Icon.icon(
-            icon=icon || ICONS[variant]
-            size='l'
-            styleName=[variant]
-          )
-      Div.content
+      Row
+        if icon !== false
+          Div.iconWrapper
+            Icon.icon(
+              icon=icon || ICONS[variant]
+              size='l'
+              styleName=[variant]
+            )
         if title
           Span.title(
             bold
             numberOfLines=1
           )
             = title
-        if label
-          Span.label(
-            numberOfLines=1
-          )
-            = label
-      if ActionComponent
-        ActionComponent
-      if !ActionComponent && onClose
-        Div.closeIconWrapper(onPress=onClose)
-          Icon.closeIcon(
-            icon=faTimes
-            size='l'
-            styleName=[variant]
-          )
+        else
+          Div.content
+            if typeof children === 'string'
+              Span.label= children
+            else
+              = children
+        if renderActions
+          Div= renderActions()
+        else if onClose
+          Div.closeIconWrapper(onPress=onClose)
+            Icon.closeIcon(
+              icon=faTimes
+              size='l'
+              styleName=[variant]
+            )
+      if title
+        Div(styleName={childrenWrapper: icon !== false})
+          if typeof children === 'string'
+            Span.label= children
+          else
+            = children
+      
   `
 }
 
@@ -69,11 +82,12 @@ Alert.defaultProps = {
 }
 
 Alert.propTypes = {
+  children: PropTypes.node,
   variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
   title: PropTypes.string,
   label: PropTypes.string,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool, PropTypes.func]),
-  ActionComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  renderActions: PropTypes.func,
   onClose: PropTypes.func
 }
 

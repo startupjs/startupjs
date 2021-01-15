@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import Alert from '../Alert'
 import Div from '../Div'
+import Row from '../Row'
 import Br from '../Br'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
-import { faFire } from '@fortawesome/free-solid-svg-icons'
+import { faFire, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 # Alert
 
@@ -21,25 +22,21 @@ The alert offers four severity levels that set a distinctive icon and color: `su
 ```jsx example
 return (
   <Div>
-    <Alert
-      variant='info'
-      label='This is an info alert — check it out!'
-    />
+    <Alert variant='info'>
+      This is an info alert — check it out!
+    </Alert>
     <Br />
-    <Alert
-      variant='success'
-      label='This is an success alert — check it out!'
-    />
+    <Alert variant='success'>
+      This is an success alert — check it out!
+    </Alert>
     <Br />
-    <Alert
-      variant='warning'
-      label='This is an warning alert — check it out!'
-    />
+    <Alert variant='warning'>
+      This is an warning alert — check it out!
+    </Alert>
     <Br />
-    <Alert
-      variant='error'
-      label='This is an error alert — check it out!'
-    />
+    <Alert variant='error'>
+      This is an error alert — check it out!  
+    </Alert>
   </Div>
 )
 ```
@@ -54,26 +51,30 @@ return (
     <Alert
       variant='info'
       title='Info'
-      label='This is an info alert — check it out!'
-    />
+    >
+      This is an info alert — check it out!
+    </Alert>
     <Br />
     <Alert
       variant='success'
       title='Success'
-      label='This is an success alert — check it out!'
-    />
+    >
+      This is an success alert — check it out!
+    </Alert>
     <Br />
     <Alert
       variant='warning'
       title='Warning'
-      label='This is an warning alert — check it out!'
-    />
+    >
+      This is an warning alert — check it out!
+    </Alert>
     <Br />
     <Alert
       variant='error'
       title='Error'
-      label='This is an error alert — check it out!'
-    />
+    >
+      This is an error alert — check it out!
+    </Alert>
   </Div>
 )
 ```
@@ -91,14 +92,16 @@ return (
     <Alert
       icon={faFire}
       variant='error'
-      label='Error alert with custom icon'
-    />
+    >
+      Error alert with custom icon
+    </Alert>
     <Br />
     <Alert
       icon={false}
       variant='warning'
-      label='Warning alert without icon'
-    />
+    >
+      Warning alert without icon
+    </Alert>
   </Div>
 )
 ```
@@ -107,7 +110,7 @@ return (
 
 An alert can have an action (`onClose` prop). It is rendered after the message, at the end of the alert.
 
-If an `onClose` callback is provided and no `ActionComponent` prop is set, a close icon is displayed. The `ActionComponent` prop can be used to provide an alternative action, for example using a `Button`, `Tag` or `Icon`.
+If an `onClose` callback is provided and no `renderActions` prop is set, a close icon is displayed. The `renderActions` prop can be used to provide an alternative action, for example using a `Button`, `Tag` or `Icon`.
 
 ```jsx example
 const [showFirstAlert, setShowFirstAlert] = useState(true)
@@ -155,9 +158,10 @@ return (
   <Div>
     {showFirstAlert && <Alert
       variant='warning'
-      label='Warning alert with default actions'
       onClose={() => setShowFirstAlert(false)}
-    />}
+    >
+      Warning alert with default actions
+    </Alert>}
     <Br />
     <Button
       disabled={showFirstAlert}
@@ -168,9 +172,10 @@ return (
     <Br />
     {showSecondAlert && <Alert
       variant='success'
-      label='Success alert with custom actions'
-      ActionComponent={renderCustomCloseButton}
-    />}
+      renderActions={renderCustomCloseButton}
+    >
+      Success alert with custom actions
+    </Alert>}
     <Br />
     <Button
       disabled={showSecondAlert}
@@ -181,9 +186,10 @@ return (
     <Br />
     <Alert
       variant='info'
-      label='Info alert with two custom actions'
-      ActionComponent={renderCustomActions}
-    />
+      renderActions={renderCustomActions}
+    >
+      Info alert with two custom actions
+    </Alert>
   </Div>
 )
 ```
