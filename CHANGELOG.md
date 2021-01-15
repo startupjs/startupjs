@@ -1,3 +1,12 @@
+## [0.31.11](https://github.com/startupjs/startupjs/compare/v0.31.10...v0.31.11) (2021-01-15)
+
+
+### Bug Fixes
+
+* **ui/Portal:** destroy state ([#483](https://github.com/startupjs/startupjs/issues/483)) ([9a44143](https://github.com/startupjs/startupjs/commit/9a44143d408988be6ce89cb0fcd24e88878b512f))
+
+
+
 ## [0.31.10](https://github.com/startupjs/startupjs/compare/v0.31.9...v0.31.10) (2021-01-14)
 
 
