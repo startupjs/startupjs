@@ -108,6 +108,7 @@ function AuthForm ({
           else
             = localFormDescription
           LocalActiveForm(
+            config=config
             baseUrl=baseUrl
             redirectUrl=redirectUrl
             onSuccess=onSuccess
