@@ -1,3 +1,13 @@
+## [0.31.14](https://github.com/startupjs/startupjs/compare/v0.31.13...v0.31.14) (2021-01-18)
+
+
+### Bug Fixes
+
+* **auth:** Props order for AuthForm ([71f186b](https://github.com/startupjs/startupjs/commit/71f186b55bf6361c2a587e6d7e627967e5db29dc))
+* **ui/Popover:** arrow position ([#485](https://github.com/startupjs/startupjs/issues/485)) ([9873caf](https://github.com/startupjs/startupjs/commit/9873caf4ff157915c14277c740f8c1d3b947f869))
+
+
+
 ## [0.31.13](https://github.com/startupjs/startupjs/compare/v0.31.11...v0.31.13) (2021-01-18)
 
 
