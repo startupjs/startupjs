@@ -43,7 +43,7 @@ function Alert ({
           size='l'
           styleName=[variant]
         )
-      Div.content(styleName={ isIcon: icon !== false })
+      Div.content(styleName={ indent: icon !== false })
         if title
           Span(bold)
             = title
@@ -57,7 +57,7 @@ function Alert ({
           = renderActions()
       else if onClose
         Div.actions(onPress=onClose)
-          Icon.closeIcon(
+          Icon.icon(
             icon=faTimes
             size='l'
             styleName=[variant]
