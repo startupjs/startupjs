@@ -188,7 +188,7 @@ return (
 - position: has 4 position variations (top, bottom, left, right)
 - attachment: an additional parameter for the offset (start, center, end)
 ```jsx example
-const blocktyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
+const blocStyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
 const placements = [
@@ -202,7 +202,7 @@ const placements = [
 const [visible, setVisible] = useState('')
 
 function getPopover(placement, index) {
-  if (!placement) return <View key={index} style={blocktyle} />
+  if (!placement) return <View key={index} style={blocStyle} />
 
   const [position, attachment] = placement.split('-')
   const initials = (position[0] + attachment[0]).toUpperCase()
@@ -217,7 +217,7 @@ function getPopover(placement, index) {
       attachment={attachment}
       onDismiss={()=> setVisible('')}
     >
-      <Popover.Caption style={blocktyle}>
+      <Popover.Caption style={blocStyle}>
         <Button onPress={()=> setVisible(placement)}>{initials}</Button>
       </Popover.Caption>
       <View style={contentStyle}>
