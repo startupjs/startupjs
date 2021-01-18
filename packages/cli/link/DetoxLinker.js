@@ -153,6 +153,7 @@ class DetoxLinker {
         fs.mkdirSync(this.networkSecurityConfigFolder, { recursive: true })
       }
       fs.writeFileSync(this.networkSecurityConfigRout, networkSecurityConfig)
+      infon('  network_security_config.xml created successfully!')
     } catch (e) {
       errorn('network_security_config.xml was not linked. ' + e.message)
     }
@@ -170,6 +171,7 @@ class DetoxLinker {
         })
       }
       fs.writeFileSync(this.detoxTestRoute, DetoxTest)
+      infon('  DetoxTest.java created successfully!')
     } catch (e) {
       errorn('DetoxTest.java was not linked. ' + e.message)
     }
