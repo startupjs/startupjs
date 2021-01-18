@@ -13,7 +13,11 @@ The portal component renders its children into a new "subtree" outside of curren
 import { Portal } from '@startupjs/ui'
 ```
 
-## Example
+## Initialization
+
+It is necessary to wrap the part of the application components on top of which Poral will work
+
+**Important:** Portal.Provider should not be located above the components associated with react-router, since some UI components working in conjunction with Portal use it API (eg: useHistory in Dropdown). So it's best to wrap a separate Layout, not the whole app in  Root/App
 
 ```jsx example
 const [isShow, setIsShow] = useState(false)
