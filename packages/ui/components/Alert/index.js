@@ -20,6 +20,7 @@ const ICONS = {
   warning: faExclamationTriangle,
   success: faCheckCircle
 }
+
 function Alert ({
   variant,
   icon,
@@ -35,31 +36,27 @@ function Alert ({
   }
 
   return pug`
-    Row.root
+    Row.root(styleName=[variant])
       if icon !== false
-        Div.iconWrapper
-          Icon.icon(
-            icon=icon || ICONS[variant]
-            size='l'
-            styleName=[variant]
-          )
-      Div.content
+        Icon.icon(
+          icon=icon || ICONS[variant]
+          size='l'
+          styleName=[variant]
+        )
+      Div.content(styleName={ isIcon: icon !== false })
         if title
-          Span.title(
-            bold
-            numberOfLines=1
-          )
+          Span(bold)
             = title
         if typeof children === 'string'
-          Span.label
+          Span
             = children
         else
           = children
       if renderActions
-        Div
+        Div.actions
           = renderActions()
       else if onClose
-        Div.closeIconWrapper(onPress=onClose)
+        Div.actions(onPress=onClose)
           Icon.closeIcon(
             icon=faTimes
             size='l'

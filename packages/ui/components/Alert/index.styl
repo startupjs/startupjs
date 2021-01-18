@@ -1,6 +1,6 @@
 .root
   radius()
-  padding 2u
+  padding 1u 2u
   border-color: $UI.colors.primary
   border-width 1px
   background-color: $UI.colors.primaryLightest
@@ -17,14 +17,6 @@
     border-color: $UI.colors.success
     background-color: $UI.colors.successLightest
 
-.iconWrapper
-  margin-right 2u
-  padding 2px 0
-
-.closeIconWrapper
-  margin-left 1u
-  padding 2px 0
-
 .icon, .closeIcon
   color: $UI.colors.primary
 
@@ -37,10 +29,17 @@
   &.success
     color: $UI.colors.success
 
-.label,
-.title
-  font(l)
-  flex-grow 1
+.icon
+  flex-shrink 0
+
+.actions
+  flex-shrink 0
+  margin-left 2u
 
 .content
-  flex 1
+  justify-content center
+  flex-shrink 1
+  flex-grow 1
+
+  &.isIcon
+    margin-left 1.5u
