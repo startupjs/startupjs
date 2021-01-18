@@ -35,45 +35,38 @@ function Alert ({
   }
 
   return pug`
-    Div.root(
-      styleName=[variant]
+    Row.root(
+      vAlign='start'
     )
-      Row
-        if icon !== false
-          Div.iconWrapper
-            Icon.icon(
-              icon=icon || ICONS[variant]
-              size='l'
-              styleName=[variant]
-            )
+      if icon !== false
+        Div.iconWrapper
+          Icon.icon(
+            icon=icon || ICONS[variant]
+            size='l'
+            styleName=[variant]
+          )
+      Div.content
         if title
           Span.title(
             bold
             numberOfLines=1
           )
             = title
-        else
-          Div.content
-            if typeof children === 'string'
-              Span.label= children
-            else
-              = children
-        if renderActions
-          Div= renderActions()
-        else if onClose
-          Div.closeIconWrapper(onPress=onClose)
-            Icon.closeIcon(
-              icon=faTimes
-              size='l'
-              styleName=[variant]
-            )
-      if title
-        Div(styleName={childrenWrapper: icon !== false})
-          if typeof children === 'string'
-            Span.label= children
-          else
+        if typeof children === 'string'
+          Span.label
             = children
-      
+        else
+          = children
+      if renderActions
+        Div
+          = renderActions()
+      else if onClose
+        Div.closeIconWrapper(onPress=onClose)
+          Icon.closeIcon(
+            icon=faTimes
+            size='l'
+            styleName=[variant]
+          )
   `
 }
 
