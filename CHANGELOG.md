@@ -1,3 +1,13 @@
+## [0.31.13](https://github.com/startupjs/startupjs/compare/v0.31.11...v0.31.13) (2021-01-18)
+
+
+### Bug Fixes
+
+* **ui/AutoSuggest:** on scroll end event ([#487](https://github.com/startupjs/startupjs/issues/487)) ([e3c31c9](https://github.com/startupjs/startupjs/commit/e3c31c9bfd175f160151eafdf806f6821dad161a))
+* **ui/Dropdown:** add style and disabled props in item ([#481](https://github.com/startupjs/startupjs/issues/481)) ([20b0039](https://github.com/startupjs/startupjs/commit/20b003970297d5049494672e327a41b9ed50c0d1))
+
+
+
 ## [0.31.11](https://github.com/startupjs/startupjs/compare/v0.31.10...v0.31.11) (2021-01-15)
 
 
