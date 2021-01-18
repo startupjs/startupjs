@@ -32,8 +32,6 @@ const detoxTestRoute = detoxTestFolder + '/DetoxTest.java'
 function getAppName () {
   let content = fs.readFileSync(appBuildGradleAndroid, 'utf8')
   const appNameString = content.match(/applicationId.*/)[0]
-  console.log('appNameString: ', appNameString)
-  console.log('appNameString.match: ', appNameString.match(/"com\.*"/))
   const appName = appNameString.match(/"com.*"/)[0].replace(/"/g, '').replace(/com\./, '')
   return appName
 }
