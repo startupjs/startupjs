@@ -35,9 +35,7 @@ function Alert ({
   }
 
   return pug`
-    Row.root(
-      vAlign='start'
-    )
+    Row.root
       if icon !== false
         Div.iconWrapper
           Icon.icon(
