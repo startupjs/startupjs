@@ -244,6 +244,10 @@ function Popover ({
   if (hasWidthCaption && captionInfo.current) {
     _popoverStyle.width = captionInfo.current.width
   }
+  if (step === STEPS.ANIMATE) {
+    _popoverStyle.width = animateStates.width
+    _popoverStyle.height = animateStates.height
+  }
 
   return pug`
     = caption
@@ -267,7 +271,7 @@ function Popover ({
             if hasDefaultWrapper
               ScrollView.content(
                 ref=ref
-                style=STYLES.hasArrow
+                styleName={ hasArrow }
                 showsVerticalScrollIndicator=step !== STEPS.ANIMATE
               )= content
             else

@@ -147,9 +147,8 @@ function calcLeftPositionsArrow (contentInfo, captionInfo, dimensions) {
       this.arrowLeftPositions['bottom-start'] = overRight
     }
   } else {
-    const positionStart = halfCaption - ARROW_SIZE
-    this.arrowLeftPositions['top-start'] = positionStart
-    this.arrowLeftPositions['bottom-start'] = positionStart
+    this.arrowLeftPositions['top-start'] = ARROW_SIZE
+    this.arrowLeftPositions['bottom-start'] = ARROW_SIZE
   }
 
   if (captionInfo.x - contentInfo.width + captionInfo.width < 0) {
@@ -161,7 +160,7 @@ function calcLeftPositionsArrow (contentInfo, captionInfo, dimensions) {
       this.arrowLeftPositions['bottom-end'] = overLeft
     }
   } else {
-    const positionEnd = contentInfo.width - halfCaption - ARROW_SIZE
+    const positionEnd = contentInfo.width - (ARROW_SIZE * 3)
     this.arrowLeftPositions['top-end'] = positionEnd
     this.arrowLeftPositions['bottom-end'] = positionEnd
   }
@@ -237,7 +236,7 @@ function calcTopPositionsArrow (contentInfo, captionInfo, dimensions) {
       this.arrowTopPositions['right-start'] = overBottom
     }
   } else {
-    const positionStart = halfCaption - ARROW_SIZE
+    const positionStart = ARROW_SIZE
     this.arrowTopPositions['left-start'] = positionStart
     this.arrowTopPositions['right-start'] = positionStart
   }
@@ -251,7 +250,7 @@ function calcTopPositionsArrow (contentInfo, captionInfo, dimensions) {
       this.arrowTopPositions['right-end'] = overTop
     }
   } else {
-    const positionEnd = contentInfo.height - halfCaption - ARROW_SIZE
+    const positionEnd = contentInfo.height - (ARROW_SIZE * 3)
     this.arrowTopPositions['left-end'] = positionEnd
     this.arrowTopPositions['right-end'] = positionEnd
   }
