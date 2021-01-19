@@ -9,6 +9,7 @@ import './index.styl'
 
 function NumberInput ({
   style,
+  buttonStyle,
   inputStyle,
   buttons,
   disabled,
@@ -53,6 +54,7 @@ function NumberInput ({
     return pug`
       Input(
         style=pure ? style : undefined
+        buttonStyle=buttonStyle
         inputStyle=inputStyle
         buttons=buttons
         disabled=disabled
@@ -95,6 +97,7 @@ NumberInput.defaultProps = {
 
 NumberInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  buttonStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   buttons: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
   disabled: PropTypes.bool,

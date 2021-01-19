@@ -2,7 +2,6 @@ import { useState } from 'react'
 import NumberInput from '../NumberInput'
 import Div from '../../Div'
 import Br from '../../Br'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # NumberInput
@@ -190,6 +189,40 @@ return (
       onChangeNumber={setRowValueWithoutLabel}
     />
   </Div>
+)
+```
+
+## Стилизация
+
+Для стилизация можно применить свойства:
+
+- `style` - для стилизации корневого компонента
+- `inputStyle` - для стилизации поля ввода
+- `buttonStyle` - для стилизации кнопок
+
+
+```jsx example
+const [value, setValue] = useState()
+
+return (
+    <NumberInput
+      label='Custom style example'
+      style={{
+        width: 250
+      }}
+      buttonStyle={{
+        borderWidth: 0
+      }}
+      inputStyle={{
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderRadius: 0
+      }}
+      placeholder='Enter number'
+      value={value}
+      onChangeNumber={setValue}
+    />
 )
 ```
 

@@ -28,6 +28,7 @@ const IOS_LH_CORRECTION = {
 
 export default observer(function Input ({
   style,
+  buttonStyle,
   inputStyle,
   buttons,
   disabled,
@@ -205,6 +206,7 @@ export default observer(function Input ({
       if buttons !== 'none'
         Button.input-button.up(
           styleName=[inputStyleName]
+          style=buttonStyle 
           variant='outlined'
           color= active === 'up' ? 'primary' : 'darkLight'
           size=size
@@ -218,6 +220,7 @@ export default observer(function Input ({
         )
         Button.input-button.down(
           styleName=[inputStyleName]
+          style=buttonStyle
           variant='outlined'
           color= active === 'down' ? 'primary' : 'darkLight'
           size=size
