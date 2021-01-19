@@ -49,11 +49,10 @@ export default observer(function Input ({
   const [active, setActive] = useState('')
 
   useEffect(() => {
+    if (typeof value === 'undefined') value = ''
     if (
       !isNaN(value) &&
-      typeof value === 'number' &&
-      stringValue !== '-' &&
-      stringValue !== '' &&
+      (value === '' || typeof value === 'number') &&
       stringValue !== value.toString()
     ) {
       setStringValue(value.toString())
