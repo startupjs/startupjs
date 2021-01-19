@@ -49,10 +49,11 @@ export default observer(function Input ({
   const [active, setActive] = useState('')
 
   useEffect(() => {
-    if (typeof value === 'undefined') value = ''
     if (
       !isNaN(value) &&
-      (value === '' || typeof value === 'number') &&
+      typeof value === 'number' &&
+      stringValue !== '-' &&
+      stringValue !== '' &&
       stringValue !== value.toString()
     ) {
       setStringValue(value.toString())
@@ -206,7 +207,7 @@ export default observer(function Input ({
       if buttons !== 'none'
         Button.input-button.up(
           styleName=[inputStyleName]
-          style=buttonStyle 
+          style=buttonStyle
           variant='outlined'
           color= active === 'up' ? 'primary' : 'darkLight'
           size=size
