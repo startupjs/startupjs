@@ -452,7 +452,7 @@ commander
 commander
   .command('android-link')
   .description('Links android files')
-  .action(async (options) => {
+  .action(async () => {
     link()
   })
 
@@ -623,5 +623,3 @@ exports.run = (options = {}) => {
   templatesPath = options.templatesPath
   commander.parse(process.argv)
 }
-
-exports.link = link
