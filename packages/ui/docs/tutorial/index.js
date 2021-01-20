@@ -1,5 +1,5 @@
 /* @asyncImports */
-import { faLandmark } from '@fortawesome/free-solid-svg-icons'
+import { faBook } from '@fortawesome/free-solid-svg-icons'
 import FoundationRu from './foundation.ru.mdx'
 import FoundationEn from './foundation.en.mdx'
 import BasicsRu from './basics.ru.mdx'
@@ -25,7 +25,7 @@ export default {
     en: 'StartupJS tutorial',
     ru: 'StartupJS туториал'
   },
-  icon: faLandmark,
+  icon: faBook,
   items: {
     Foundation: {
       type: 'mdx',

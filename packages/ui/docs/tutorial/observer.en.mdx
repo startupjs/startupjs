@@ -8,7 +8,7 @@ In this example, the subscriber is the user, and the action performed is the sen
 
 A very good explanation of this pattern can be found at [refactoringGuru](https://refactoring.guru/ru/design-patterns/observer).
 
-In `StartupJS`, every component has an `observer` wrapper. It is HOF (Higher Order Function) that adds reactivity to the component. This function is an observer that monitors changes in all values from the `FunctionalComponent` (see example below) associated with `sharedb`. That is, a component wrapped in an `observer` reactively reacts to every change in the database. Thus, the information in `FunctionalComponent` is always up to date.
+In `StartupJS`, every component has an `observer` wrapper. It is HOF (Higher Order Function) that adds reactivity to the component. This function is an observer that monitors changes in all values from the `FunctionalComponent` (see example below) associated with database, see [ShareDB](/docs/tutorial/ShareDBHooks) section. That is, a component wrapped in an `observer` reactively reacts to every change in the database. Thus, the information in `FunctionalComponent` is always up to date.
 
 In general, it looks like this:
 
