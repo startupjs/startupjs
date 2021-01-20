@@ -14,8 +14,6 @@
 -	***Single server and client interface*** - the same model interface can be used on the server for initial page rendering and on the client interface for interaction with user. Racer supports combining models, created on the server, as well as reinitializing them in the same state in the browser.
 -	***Persistent Storage*** - Racer uses ShareDB for logging all data operations, publishing operations on multiple external servers and automatic document saving. It currently supports MongoDB and can be easily adjusted to support other document storages.
 
------
-
 You have already worked with model in the chapter on creating the Todo List app. Model is a core concept in Startupjs. With its help, we can perform any of the CRUD operations very easily. The startupjs for racer implements [orm](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) (Object-Relational Mapping) to associate the database with the code. In simple terms, ORM is a system that provides functionality for working with a database in the form of object methods. That is, using ORM you have an object responsible for a specific document or collection.
 
 ## In simple words
@@ -179,8 +177,6 @@ Or to remove it:
 ```js
   $todo.del()
 ```
-
----
 
 ## Let's practice (model)
 

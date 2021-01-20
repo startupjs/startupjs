@@ -27,7 +27,7 @@ Table of possible values:
 **Table of possible values:**
 
 ```
-| Value  | font-size | line-height |
+| Value    | font-size | line-height |
 | -------- | --------- | ----------- |
 | xs       | 1.25u     | 1.75u       |
 | s        | 1.5u      | 2u          |
@@ -47,7 +47,7 @@ React Native has its own features when working with shadows(`box-shadow`). To av
 The `shadow ()` mixin has 5 levels of shadows and takes a number from `0` to` 4`, by default `1`, which both adjust the shadow level, and expands the` box-shadow` style set into the selector according to the following scheme:
 
 ```
-| Value  | Styles                                                    |
+| Value    | Styles                                                  |
 | -------- | ------------------------------------------------------- |
 | 0        | box-shadow: none и elevation: 0                         |
 | 1        | box-shadow: 0 1px 2px rgba(black, 0.2) и >elevation: 3  |
@@ -63,7 +63,7 @@ The `radius()` mixin sets the `border-radius` value for the specified element. I
 The `radius()` mixin is extended with the following values:
 
 ```
-| Value  | Styles                 |
+| Value    | Styles               |
 | -------- | -------------------- |
 | m        | border-radius 4px    |
 | l        | border-radius 8px    |
@@ -81,16 +81,16 @@ In pure ***CSS***, you have the ability to use @media-queries for adding styles 
 Let's take a closer look:
 
 ```
-| Mixins       | Environment                      |
+| Mixins       | Environment                  |
 | ------------ | ---------------------------- |
 | +tablet()    | min-width >=768px            |
 | +desktop()   | min-width >=1024px           |
 | +wide()      | min-width >=1280px           |
-| +portrait()  | Портретная ориентация экрана      |
-| +landscape() | Альбомная ориентация экрана       |
-| +web()       | Веб-окружение                  |
-| +android()   | ОС Android                   |
-| +ios()       | OC iOS                       |
+| +portrait()  | Portrait screen orientation  |
+| +landscape() | Landscape screen orientation |
+| +web()       | Web environment              |
+| +android()   | OS Android                   |
+| +ios()       | OS iOS                       |
 | +native()    | !web                         |
 ```
 > Among the mixins there is also a mixin +mobile(), which is styled for the mobile screen size (<=480px), but since we adhere to the mobile-first principle in development, all styles are set by default for the mobile screen resolution.
