@@ -54,8 +54,8 @@ Then add the header that was previously added to `Content`
 ```
 
 You will see the first level heading on the right side in the preview. 
- 
- 
+
+
 ### Content Component Attributes
 
 As you can see, Content has centered our header with left and right paddings, but it is clear that the top and bottom paddings are missing.
@@ -76,7 +76,9 @@ Now there are paddings on all sides.
 
 ## Adding the Styles
 
-As with regular HTML, you can use the `style` attribute on a component. Let us add some styling to the `<H1>` element:
+As with regular HTML, you can use the `style` attribute on a component. Don't be afraid to use the same classes in your components, because all components are compiled independently using `css-modules`.
+
+Let us add some styling to the `<H1>` element:
 
 ```js
 <H1 style={{color: 'purple'}}>TODO List</H1>

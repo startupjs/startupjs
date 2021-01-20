@@ -2,7 +2,7 @@
 
 ## Units
 
-StartupJS/UI initially uses an 8-pixel grid for padding. This means that the unit of measurement for padding is unit (u). One unit equals 8px. All styles that could be specified in pixels are specified in units.
+StartupJS/UI initially uses an 8-pixel grid for padding. This means that the unit of measurement for padding is unit (u). One unit equals 8px. All styles that could be specified in pixels are specified in units. All sizes in styles should be specified in units. Fractional units (2.5u) should only be specified as a last resort. In situations where you need to specify 1px, for example, you can move away from using units.
 
 For example: 
 
@@ -20,6 +20,7 @@ You are already familiar with the implementation of mixins in Stylus so you can 
 
 The first mixin is `font()`, which takes one of the following parameters `[xs, s, m, l, xl, xxl, xxxl, xxxxl, xxxxxl]`, `m` by default.
 `font()` is used within a selector for text elements and is replaced at compile time with `font-size` and `line-height`, depending on the value selected.
+
 Table of possible values:	
 
 
@@ -43,9 +44,7 @@ Table of possible values:
 ## shadow() mixin
 React Native has its own features when working with shadows(`box-shadow`). To avoid these complexities in everyday life, `StartupJS/UI` provides a set of predefined shadow styles for your components.
 
-Миксин `shadow()` принимает в себя себя число от `0` до `4`, по умолчанию `1` и разворачивает в селектор набор стилей `box-shadow` по следующей схеме:
-
-The `shadow()` mixin takes a number from `0` to `4`, `1` by default, and extends the selector with the `box-shadow` set of styles in this way:
+The `shadow ()` mixin has 5 levels of shadows and takes a number from `0` to` 4`, by default `1`, which both adjust the shadow level, and expands the` box-shadow` style set into the selector according to the following scheme:
 
 ```
 | Value  | Styles                                                    |
@@ -72,7 +71,7 @@ The `radius()` mixin is extended with the following values:
 ```
 The `circle` value will make your element assume round shape.
 
-> You can also add your own values or alter the existing ones. This can be done in the `styles/helpers.styl` file.
+> You can also add your own values or alter the existing ones. This can be done in the `styles/helpers.styl` file. How to edit mixins you can read in the official Stylus documentation - [Mixins](https://stylus-lang.com/docs/mixins.html)
 
 
 ## Screen size and device mixins
@@ -94,6 +93,8 @@ Let's take a closer look:
 | +ios()       | OC iOS                       |
 | +native()    | !web                         |
 ```
+> Among the mixins there is also a mixin +mobile(), which is styled for the mobile screen size (<=480px), but since we adhere to the mobile-first principle in development, all styles are set by default for the mobile screen resolution.
+
 > In order to override the value of some mixin yourself, you only need to change it in the `styles/` folder of your project. For example, screen sizes for `tablet, desktop, wide` mixins are located in the `variables.styl` file.
 
 Usage example: 
@@ -162,7 +163,7 @@ $UI = merge($UI, {
 }, true)
 ```
 
-Such transformations of `$UI` object should be performed in the main style sheet file of the project, which you can find at `styles/index.styl`. Since this file will be triggered when the entire project is launched, you will get a modified `$UI` in any style sheet file.
+Such transformations of `$UI` object should be performed in the main style sheet file of the project, which you can find at `styles/index.styl`.
 
 ## merge
 Let's explore how the `merge` function works. Its prototype looks like this: 

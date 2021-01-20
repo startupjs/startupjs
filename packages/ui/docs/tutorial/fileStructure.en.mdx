@@ -21,7 +21,7 @@ Such behavior is discouraged in a cross-platform development format, but, as usu
 
 ## Application entry point
 
-Each application has its own entry point. In React, this is where the react files are connected to the `html` file. That is, in essence, this is where your application starts from.
+Each application has its own entry point. That is, in essence, this is where your application starts from.
 
 In startupjs structure there is the `Root` folder. This is where the `App` component, which initializes the entire application, is imported from startupjs. This is what the standard `Root/index.js` looks like:
 
@@ -261,7 +261,7 @@ startupjsServer(
 
 ## Server
 
-Startupjs provides an Express-based server. After running `npx startupjs init myapp` you get a fully functional server, to which the orm and base application are already connected. On this basis, you can already build your application’s business logic. Server can be found at `server/index.js`. Let us look closer at how a typical server looks in startupjs:
+Startupjs provides an Express-based server. After running `npx startupjs init myapp` you get a fully functional server, to which the orm and base application `main` are already connected. On this basis, you can already build your application’s business logic. Server can be found at `server/index.js`. Let us look closer at how a typical server looks in startupjs:
 
 ```js
 import init from 'startupjs/init'
@@ -312,7 +312,7 @@ Some things to note here:
 
 ## Force Compile Modules
 
-By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel` for example. In this case, add the package name to `forceCompileModules` in `webpack` configuration file. Be aware of the fact that two such files exist:
+By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel`. In this case, add the package name to `forceCompileModules` in `webpack` configuration file. Be aware of the fact that two such files exist:
 
  1. `webpack.server.config.cjs` - for building the server
  2. `webpack.web.config.cjs` - for building the client side
