@@ -35,12 +35,11 @@ const Multiselect = ({
       error=error
       TagComponent=TagComponent
     )
-    Drawer(
+    Drawer.nativeListContent(
       visible=focused
       position='bottom'
       onDismiss=onHide
       styleSwipe=styles.swipeZone
-      styleContent=styles.nativeListContent
     )
       ScrollView.suggestions-native
         each opt in options

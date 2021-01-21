@@ -66,7 +66,7 @@ function Drawer ({
   function runShow () {
     if (!refContent.current) return
 
-    refContent.current.measure((x, y, width, height) => {
+    getValidNode(refContent.current).measure((x, y, width, height) => {
       let isInit = !contentSize.width
       setContentSize({ width, height })
 
@@ -88,7 +88,7 @@ function Drawer ({
   const runHide = () => {
     if (!refContent.current) return
 
-    refContent.current.measure((x, y, width, height) => {
+    getValidNode(refContent.current).measure((x, y, width, height) => {
       animate.hide({
         width,
         height,
@@ -147,6 +147,12 @@ function Drawer ({
               )
               = children
   `
+}
+
+function getValidNode (current) {
+  return current.measure
+    ? current
+    : current.getNode()
 }
 
 Drawer.defaultProps = {
