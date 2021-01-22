@@ -1,3 +1,12 @@
+## [0.31.16](https://github.com/startupjs/startupjs/compare/v0.31.15...v0.31.16) (2021-01-22)
+
+
+### Bug Fixes
+
+* **ui/popups:** node measure ([#494](https://github.com/startupjs/startupjs/issues/494)) ([9d056b9](https://github.com/startupjs/startupjs/commit/9d056b99a124366178e3fc9f4215af8fb1a8f73f))
+
+
+
 ## [0.31.15](https://github.com/startupjs/startupjs/compare/v0.31.8...v0.31.15) (2021-01-19)
 
 
