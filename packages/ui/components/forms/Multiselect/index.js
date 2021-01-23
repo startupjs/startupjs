@@ -17,6 +17,7 @@ const Multiselect = ({
   error,
   TagComponent,
   hasWidthCaption,
+  renderListItem,
   onChange,
   onSelect,
   onRemove,
@@ -60,8 +61,12 @@ const Multiselect = ({
     }
   }
 
-  function renderListItem (item) {
+  function _renderListItem (item) {
     const selected = value.includes(item.value)
+
+    if (!!renderListItem) {
+      return renderListItem(item, selected, onItemPress)
+    }
 
     return pug`
       Checkbox.checkbox(key=item.value label=item.label value=selected onChange=onItemPress(item.value))
@@ -81,7 +86,7 @@ const Multiselect = ({
       error=error
       TagComponent=TagComponent
       hasWidthCaption=hasWidthCaption
-      renderListItem=renderListItem
+      renderListItem=_renderListItem
       onOpen=_onFocus
       onHide=onHide
     )
@@ -99,6 +104,7 @@ Multiselect.propTypes = {
   error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   hasWidthCaption: PropTypes.bool,
+  renderListItem: PropTypes.func,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   onRemove: PropTypes.func,
