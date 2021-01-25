@@ -1,10 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-<<<<<<< HEAD
   "version": "0.31.30",
-=======
-  "version": "0.31.29",
->>>>>>> 46d4193e (Merge master to detox branch (#520))
   "sideEffects": [],
   "private": true,
   "scripts": {
