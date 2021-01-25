@@ -1,3 +1,12 @@
+## [0.31.19](https://github.com/startupjs/startupjs/compare/v0.31.18...v0.31.19) (2021-01-25)
+
+
+### Bug Fixes
+
+* **orm-associations:** return missed ORM entity ([c91bc5c](https://github.com/startupjs/startupjs/commit/c91bc5c7af1a0f679cf1253895088162bfdad8ba))
+
+
+
 ## [0.31.18](https://github.com/startupjs/startupjs/compare/v0.31.15...v0.31.18) (2021-01-25)
 
 
