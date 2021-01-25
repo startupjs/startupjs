@@ -1,11 +1,6 @@
 ## [0.31.18](https://github.com/startupjs/startupjs/compare/v0.31.15...v0.31.18) (2021-01-25)
 
 
-### Bug Fixes
-
-* **ui/popups:** node measure ([#494](https://github.com/startupjs/startupjs/issues/494)) ([9d056b9](https://github.com/startupjs/startupjs/commit/9d056b99a124366178e3fc9f4215af8fb1a8f73f))
-
-
 ### Features
 
 * **orm:** add associations decorators ([#496](https://github.com/startupjs/startupjs/issues/496)) ([f18f15d](https://github.com/startupjs/startupjs/commit/f18f15d41391677e6b00b7d67fb190e191d84178))
@@ -15,6 +10,9 @@
 ## [0.31.17](https://github.com/startupjs/startupjs/compare/v0.31.16...v0.31.17) (2021-01-25)
 
 
+### Features
+
+* **ui/Multiselect:** add `renderList` item prop ([#495](https://github.com/startupjs/startupjs/issues/495)) ([fa5002e](https://github.com/startupjs/startupjs/commit/fa5002eec260a3cc5a9a34f6bbe7fece4fd8a192))
 
 ## [0.31.16](https://github.com/startupjs/startupjs/compare/v0.31.15...v0.31.16) (2021-01-22)
 
