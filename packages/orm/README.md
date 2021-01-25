@@ -175,7 +175,7 @@ Association allow you to describe relationships between ORM entities for reuse i
 
 Specifies a one-to-one association with another ORM entity. This decorator should only be used if this ORM entity contains the foreign key.
 
-`AssociatedOrmEntity (String)`: associated orm entity
+`AssociatedOrmEntity (OrmEntityClass)`: associated orm entity
 
 `options (Object)`:
 * `key`: foreign key name (default: `collection + 'Id'`)
@@ -185,7 +185,7 @@ Specifies a one-to-one association with another ORM entity. This decorator shoul
 
 Specifies a one-to-one association with another ORM entity. This decorator should only be used if the other ORM entity contains the foreign key.
 
-`AssociatedOrmEntity (String)`: associated orm entity
+`AssociatedOrmEntity (OrmEntityClass)`: associated orm entity
 
 `options (Object)`:
 * `key`: foreign key name (default: `collection + 'Id'`)
@@ -194,7 +194,7 @@ Specifies a one-to-one association with another ORM entity. This decorator shoul
 ### `hasMany(AssociatedOrmEntity, options)`
 Is similar to `hasOne`, but indicates a one-to-many association with another ORM entity.
 
-`AssociatedOrmEntity (String)`: associated orm entity
+`AssociatedOrmEntity (OrmEntityClass)`: associated orm entity
 
 `options (Object)`:
 * `key`: foreign key name (default: `collection + 'Ids'`)
