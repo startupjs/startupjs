@@ -18,16 +18,15 @@
     "build": "ASYNC=1 startupjs build",
     "start-production": "startupjs start-production",
     "fonts": "startupjs fonts",
-    "test:build:server": "rm -rf ./build && webpack --config webpack.server.config.cjs",
-    "test:build:ios": "yarn build:jsbundle:ios && detox build -c ios",
+    "test:build:ios": "detox build -c ios",
     "test:build:android": "detox build -c android",
-    "test:server": "PORT=3001 MONGO_URL=mongodb://localhost:27017/styleguide_test yarn server",
-    "test:metro": "RCT_METRO_PORT=8082 yarn metro -- --port=8082",
+    "test:server": "PORT=3001 MONGO_URL=mongodb://localhost:27017/styleguide_test yarn start-production",
     "test:clear-db": "mongo styleguide_test --eval \"db.dropDatabase();\"",
     "test:ios": "detox test -c ios --artifacts-location $PWD/artifacts --take-screenshots all",
-    "test:android": "detox test -c android --loglevel trace",
-    "test:mobile": "concurrently -s first -k -n 'S,B,T' -c white,cyan.bgBlue,black.bgWhite \"yarn test:clear-db && yarn test:build:server && yarn test:server\" \"yarn test:metro\" \"yarn test:ios\"",
-    "build:jsbundle:ios": "mkdir -p ios/build/Build/Products/Release-iphonesimulator/styleguide.app/ && react-native bundle --entry-file='index.js' --bundle-output='./ios/build/Build/Products/Release-iphonesimulator/styleguide.app/main.jsbundle' --dev=false --platform='ios'"
+    "test:android": "adb reverse tcp:3001 tcp:3001 && detox test -c android --artifacts-location $PWD/artifacts --take-screenshots all",
+    "test": "concurrently -s first -k -n 'S,T' -c white,cyan.bgBlue \"yarn test:clear-db && yarn build && yarn test:server\" \"yarn build:jsbundle:ios && yarn test:ios\"",
+    "build:jsbundle:ios": "mkdir -p ios/build/Build/Products/Release-iphonesimulator/styleguide.app/ && APP_ENV=detox react-native bundle --entry-file='index.js' --bundle-output='./ios/build/Build/Products/Release-iphonesimulator/styleguide.app/main.jsbundle' --reset-cache --dev=false",
+    "build:jsbundle:android": "APP_ENV=detox react-native bundle --entry-file='index.js' --bundle-output android/app/build/intermediates/assets/release/index.android.bundle --assets-dest android/app/build/intermediates/res/ --reset-cache --dev=false --platform='android'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
