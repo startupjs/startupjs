@@ -12,6 +12,10 @@ export default function (racer) {
   racer.orm = function (pattern, OrmEntity, alias) {
     var name = alias || pattern
     if (global.STARTUP_JS_ORM[name]) throw alreadyDefinedError(pattern, alias)
+
+    var match = pattern.match(/^[^.]+/)
+    if (match) OrmEntity.collection = match[0]
+
     global.STARTUP_JS_ORM[name] = {
       pattern: pattern,
       regexp: patternToRegExp(pattern),
@@ -119,9 +123,7 @@ BaseModel.prototype.getId = function () {
 }
 
 BaseModel.prototype.getCollection = function () {
-  var model = this.root
-  var actualField = this.dereferenceSelf()
-  return model._splitPath(actualField.path())[0]
+  return this.constructor.collection
 }
 
 BaseModel.prototype.dereferenceSelf = function () {
@@ -130,4 +132,11 @@ BaseModel.prototype.dereferenceSelf = function () {
   return model.scope(model._dereference(segments, true).join('.'))
 }
 
+BaseModel.associations = []
+
+BaseModel.prototype.getAssociations = function () {
+  return this.constructor.associations
+}
+
 export { BaseModel }
+export * from './associations'
