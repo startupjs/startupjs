@@ -9,5 +9,6 @@ export default function hasOne (AssociatedOrmEntity, options) {
         key: pluralize.singular(AssociatedOrmEntity.collection) + 'Id'
       }, options)
     )
+    return OrmEntity
   }
 }
