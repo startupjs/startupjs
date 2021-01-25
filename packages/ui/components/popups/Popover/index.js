@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from './Arrow'
 import Portal from '../../Portal'
@@ -23,7 +23,7 @@ const STEPS = {
   OPEN: 'open'
 }
 
-function isShtampInit (step) {
+function isStampInit (step) {
   return ['close', 'render'].indexOf(step) === -1
 }
 
@@ -32,6 +32,7 @@ function Popover ({
   children,
   style,
   arrowStyle,
+  captionStyle,
   visible,
   position,
   attachment,
@@ -51,10 +52,14 @@ function Popover ({
   const refPopover = useRef()
   const refCaption = useRef()
   const refGeometry = useRef({})
+  const captionInfo = useRef({})
 
-  const [step, setStep] = useState(STEPS.CLOSE)
+  const [step, $step] = useValue(STEPS.CLOSE)
   const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
-  const [captionInfo, setCaptionInfo] = useState({})
+  const [dimensions, $dimensions] = useValue({
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
+  })
 
   const [animateStates] = useState({
     opacity: new Animated.Value(0),
@@ -72,7 +77,11 @@ function Popover ({
 
     const handleDimensions = () => {
       if (!mounted) return
-      setStep(STEPS.CLOSE)
+      $step.set(STEPS.CLOSE)
+      $dimensions.setDiff({
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
+      })
       onDismiss()
     }
 
@@ -85,8 +94,8 @@ function Popover ({
 
   // -main
   useEffect(() => {
-    if (visible) {
-      setStep(STEPS.RENDER)
+    if (step === STEPS.CLOSE && visible) {
+      $step.set(STEPS.RENDER)
       setTimeout(runShow, 0)
     }
 
@@ -97,19 +106,19 @@ function Popover ({
   // -
 
   function runShow () {
-    if (!refCaption.current || !refPopover.current) return
-
+    if (!refCaption.current) return
     // x, y, width, height, pageX, pageY
     refCaption.current.measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
+      if (!refPopover.current) return
       refPopover.current.measure((px, py, pWidth, pHeight, ppx, ppy) => {
-        const captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
+        const _captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 
         const { width, height = 'auto', maxHeight } = style
         let curHeight = (height === 'auto') ? pHeight : height
         curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
         let curWidth = width || pWidth
-        curWidth = hasWidthCaption ? captionInfo.width : curWidth
+        curWidth = hasWidthCaption ? _captionInfo.width : curWidth
         const contentInfo = {
           x: cpx,
           y: cpy,
@@ -119,14 +128,15 @@ function Popover ({
 
         refGeometry.current = new Geometry({
           placement: position + '-' + attachment,
-          captionInfo,
+          captionInfo: _captionInfo,
           contentInfo,
           placements,
-          hasArrow
+          hasArrow,
+          dimensions
         })
 
         setValidPlacement(refGeometry.current.validPlacement)
-        setStep(STEPS.ANIMATE)
+        $step.set(STEPS.ANIMATE)
 
         animate.show({
           durationOpen,
@@ -136,7 +146,7 @@ function Popover ({
           animateStates,
           hasArrow
         }, () => {
-          setStep(STEPS.OPEN)
+          $step.set(STEPS.OPEN)
           onRequestOpen && onRequestOpen()
         })
       })
@@ -144,37 +154,42 @@ function Popover ({
   }
 
   function runHide () {
-    refPopover.current.measure((x, y, popoverWidth, popoverHeight) => {
-      const contentInfo = { width: popoverWidth, height: popoverHeight }
-      setStep(STEPS.ANIMATE)
+    if (!refPopover.current) {
+      onDismiss && onDismiss()
+      onRequestClose && onRequestClose()
+    } else {
+      refPopover.current.measure((x, y, popoverWidth, popoverHeight) => {
+        const contentInfo = { width: popoverWidth, height: popoverHeight }
+        $step.set(STEPS.ANIMATE)
 
-      animate.hide({
-        durationClose,
-        geometry: refGeometry.current,
-        animateType,
-        contentInfo,
-        animateStates,
-        hasArrow
-      }, () => {
-        setStep(STEPS.CLOSE)
-        onDismiss && onDismiss()
-        onRequestClose && onRequestClose()
+        animate.hide({
+          durationClose,
+          geometry: refGeometry.current,
+          animateType,
+          contentInfo,
+          animateStates,
+          hasArrow
+        }, () => {
+          $step.set(STEPS.CLOSE)
+          onDismiss && onDismiss()
+          onRequestClose && onRequestClose()
+        })
       })
-    })
+    }
   }
 
   // parse children
   let caption = null
   let content = []
   const onLayoutCaption = e => {
-    setCaptionInfo(e.nativeEvent.layout)
+    captionInfo.current = e.nativeEvent.layout
   }
   React.Children.toArray(children).forEach(child => {
     if (child.type.name === PopoverCaption.name) {
       caption = pug`
-        View.caption(
+        View(
           ref=refCaption
-          style=child.props.style
+          style=[captionStyle, child.props.style]
           onLayout=onLayoutCaption
         )= child.props.children
       `
@@ -194,7 +209,7 @@ function Popover ({
 
   const _popoverStyle = StyleSheet.flatten([
     style,
-    isShtampInit(step)
+    isStampInit(step)
       ? {
         position: 'absolute',
         opacity: animateStates.opacity,
@@ -205,14 +220,14 @@ function Popover ({
           { translateY: animateStates.translateY }
         ]
       }
-      : STYLES.popoverShtamp
+      : STYLES.popoverStamp
   ])
 
   const [validPosition] = validPlacement.split('-')
-  if (isShtampInit(step) && validPosition === 'top') _popoverStyle.bottom = 0
-  if (isShtampInit(step) && validPosition === 'left') _popoverStyle.right = 0
-  if (isShtampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
-  if (isShtampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
+  if (isStampInit(step) && validPosition === 'top') _popoverStyle.bottom = 0
+  if (isStampInit(step) && validPosition === 'left') _popoverStyle.right = 0
+  if (isStampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
+  if (isStampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
 
   if (step === STEPS.ANIMATE && animateType === 'default') {
     delete _popoverStyle.minHeight
@@ -226,8 +241,12 @@ function Popover ({
     _wrapperStyle.width = _wrapperStyle.left
     _wrapperStyle.left = 0
   }
-  if (hasWidthCaption) {
-    _popoverStyle.width = captionInfo.width
+  if (hasWidthCaption && captionInfo.current) {
+    _popoverStyle.width = captionInfo.current.width
+  }
+  if (step === STEPS.ANIMATE) {
+    _popoverStyle.width = animateStates.width
+    _popoverStyle.height = animateStates.height
   }
 
   return pug`
@@ -252,7 +271,7 @@ function Popover ({
             if hasDefaultWrapper
               ScrollView.content(
                 ref=ref
-                style=STYLES.hasArrow
+                styleName={ hasArrow }
                 showsVerticalScrollIndicator=step !== STEPS.ANIMATE
               )= content
             else

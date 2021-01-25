@@ -19,7 +19,6 @@ const SUPPORT_PLACEMENTS = [
 ]
 
 // TODO: KeyboardAvoidingView
-// onRegExRequest
 function AutoSuggest ({
   style,
   captionStyle,
@@ -38,6 +37,8 @@ function AutoSuggest ({
 
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const [wrapperHeight, setWrapperHeight] = useState(null)
+  const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
     isShow,
     _data,
@@ -89,6 +90,20 @@ function AutoSuggest ({
     `
   }
 
+  function onScroll ({ nativeEvent }) {
+    if (nativeEvent.contentOffset.y + wrapperHeight === scrollHeightContent) {
+      onScrollEnd && onScrollEnd()
+    }
+  }
+
+  function onLayoutWrapper ({ nativeEvent }) {
+    setWrapperHeight(nativeEvent.layout.height)
+  }
+
+  function onChangeSizeScroll (width, height) {
+    setScrollHeightContent(height)
+  }
+
   return pug`
     Popover(
       visible=(isShow || isLoading)
@@ -120,8 +135,13 @@ function AutoSuggest ({
           FlatList.content(
             style=style
             data=_data.current
+            extraData=_data.current
             renderItem=_renderItem
-            keyExtractor=(item, index) => item.value
+            keyExtractor=item=> item.value
+            scrollEventThrottle=500
+            onScroll=onScroll
+            onLayout=onLayoutWrapper
+            onContentSizeChange=onChangeSizeScroll
           )
   `
 }

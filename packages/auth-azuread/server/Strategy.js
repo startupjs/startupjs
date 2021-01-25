@@ -32,6 +32,7 @@ export default function (config = {}) {
 
     const { clientId, clientSecret, identityMetadata, tentantId, allowHttpForRedirectUrl } = this.config
 
+    // TODO: make multitentant
     const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
     const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]
 

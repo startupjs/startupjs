@@ -1,3 +1,127 @@
+## [0.31.13](https://github.com/startupjs/startupjs/compare/v0.31.11...v0.31.13) (2021-01-18)
+
+
+### Bug Fixes
+
+* **ui/AutoSuggest:** on scroll end event ([#487](https://github.com/startupjs/startupjs/issues/487)) ([e3c31c9](https://github.com/startupjs/startupjs/commit/e3c31c9bfd175f160151eafdf806f6821dad161a))
+* **ui/Dropdown:** add style and disabled props in item ([#481](https://github.com/startupjs/startupjs/issues/481)) ([20b0039](https://github.com/startupjs/startupjs/commit/20b003970297d5049494672e327a41b9ed50c0d1))
+
+
+
+## [0.31.11](https://github.com/startupjs/startupjs/compare/v0.31.10...v0.31.11) (2021-01-15)
+
+
+### Bug Fixes
+
+* **ui/Portal:** destroy state ([#483](https://github.com/startupjs/startupjs/issues/483)) ([9a44143](https://github.com/startupjs/startupjs/commit/9a44143d408988be6ce89cb0fcd24e88878b512f))
+
+
+
+## [0.31.10](https://github.com/startupjs/startupjs/compare/v0.31.9...v0.31.10) (2021-01-14)
+
+
+### Bug Fixes
+
+* **ui/Dropdown:** remove required onChange ([#480](https://github.com/startupjs/startupjs/issues/480)) ([0ca809e](https://github.com/startupjs/startupjs/commit/0ca809e4f4fac9e47144f47523bbab6e644be992))
+* **ui/Multiselect:** add `hasCaptionWidth` property ([#479](https://github.com/startupjs/startupjs/issues/479)) ([81d11ef](https://github.com/startupjs/startupjs/commit/81d11ef3a91f157231d89636d7c1038941d04c6a))
+
+
+
+## [0.31.9](https://github.com/startupjs/startupjs/compare/v0.31.8...v0.31.9) (2021-01-14)
+
+
+### Bug Fixes
+
+* **auth:** fix passing baseURL param ([#477](https://github.com/startupjs/startupjs/issues/477)) ([e6b68ff](https://github.com/startupjs/startupjs/commit/e6b68ffda1ed215e8ed5d85419dee8f71a21941e))
+* **auth:** Generate redirect url based on  host req ([5160fdc](https://github.com/startupjs/startupjs/commit/5160fdca7d03f159c48b544269fc2a02c7da8c00))
+
+
+
+## [0.31.8](https://github.com/startupjs/startupjs/compare/v0.31.5...v0.31.8) (2021-01-13)
+
+
+### Bug Fixes
+
+* **auth:** Fastfix for local loadAuthData ([265090a](https://github.com/startupjs/startupjs/commit/265090a6a8759871a3b9fc08eb9969ee896a5365))
+* **Popover:** fix geometry ([#467](https://github.com/startupjs/startupjs/issues/467)) ([a414769](https://github.com/startupjs/startupjs/commit/a4147695ef239cf6286393d778c0f972bc4cbc64))
+* **ui/Dropdown:** onChange ([#478](https://github.com/startupjs/startupjs/issues/478)) ([1c91a68](https://github.com/startupjs/startupjs/commit/1c91a68fb47b607a4c9a70936380076ae15d550a))
+* **ui/Multiselect:** fix max-height ([#475](https://github.com/startupjs/startupjs/issues/475)) ([4196e31](https://github.com/startupjs/startupjs/commit/4196e314523b1bacb3ded19816fbe3cfe8d86585))
+
+
+
+## [0.31.7](https://github.com/startupjs/startupjs/compare/v0.31.6...v0.31.7) (2021-01-13)
+
+
+### Bug Fixes
+
+* **auth:** Fastfix for local loadAuthData ([265090a](https://github.com/startupjs/startupjs/commit/265090a6a8759871a3b9fc08eb9969ee896a5365))
+* **ui/Multiselect:** fix max-height ([#475](https://github.com/startupjs/startupjs/issues/475)) ([4196e31](https://github.com/startupjs/startupjs/commit/4196e314523b1bacb3ded19816fbe3cfe8d86585))
+
+
+
+## [0.31.6](https://github.com/startupjs/startupjs/compare/v0.31.5...v0.31.6) (2021-01-13)
+
+
+
+## [0.31.5](https://github.com/startupjs/startupjs/compare/v0.31.4...v0.31.5) (2021-01-12)
+
+
+### Bug Fixes
+
+* **docs:** move portal over Layout instead of App ([#471](https://github.com/startupjs/startupjs/issues/471)) ([4f1beb0](https://github.com/startupjs/startupjs/commit/4f1beb04067787de1b0e65b37c1464f7cf8b5222))
+* **Link:** make preventDefault work for async handler ([59ce7e8](https://github.com/startupjs/startupjs/commit/59ce7e8cd31648f3a9d2c01eb953bea354b65d15))
+* **Modal:** make preventDefault work for async handlers ([2e8dbfc](https://github.com/startupjs/startupjs/commit/2e8dbfc41548cdbacbda52a390e63bc353646c72))
+* **Multiselect:** make popover width as caption width ([96711a9](https://github.com/startupjs/startupjs/commit/96711a98bf5f928d3337aeebbc15f4c96ea754b0))
+* **ui/Modal:** fix fullscreen modal for iOS ([#472](https://github.com/startupjs/startupjs/issues/472)) ([01feb18](https://github.com/startupjs/startupjs/commit/01feb1878aa0e88b705c7159fb3a3f53b170771a))
+* **ui/MultiSelect:** fix passing styles to Popover ([#470](https://github.com/startupjs/startupjs/issues/470)) ([a08c586](https://github.com/startupjs/startupjs/commit/a08c5860f1af7b444ca06e44edc94c88d5c06222))
+
+
+
+## [0.31.4](https://github.com/startupjs/startupjs/compare/v0.31.3...v0.31.4) (2021-01-05)
+
+
+### Features
+
+* **auth:** Implement auth modal ([#465](https://github.com/startupjs/startupjs/issues/465)) ([8cccbec](https://github.com/startupjs/startupjs/commit/8cccbecbc155756080872a3d00a14ad5a373c82e))
+
+
+
+## [0.31.3](https://github.com/startupjs/startupjs/compare/v0.31.2...v0.31.3) (2021-01-05)
+
+
+### Bug Fixes
+
+* **auth:** Closure issue onEnterPress ([6b95b5d](https://github.com/startupjs/startupjs/commit/6b95b5d7ed03550cbddd08064b6312bcea0f0247))
+
+
+
+## [0.31.2](https://github.com/startupjs/startupjs/compare/v0.31.1...v0.31.2) (2021-01-05)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-inline:** Search magic preprocessors imports in all 'startupjs' imports (there might be multiple, for example in our .mdx files) ([498331b](https://github.com/startupjs/startupjs/commit/498331b04afb8426b9ff11e17b5159072a3f5900))
+* **DateTimePicker:** fixed zIndex, added property InputComponent ([#459](https://github.com/startupjs/startupjs/issues/459)) ([dafec10](https://github.com/startupjs/startupjs/commit/dafec1050538e1cd70d7e3d54188ade15ef435a1))
+
+
+### Features
+
+* **Breadcrumbs:** jsx separator ([#463](https://github.com/startupjs/startupjs/issues/463)) ([15c57cb](https://github.com/startupjs/startupjs/commit/15c57cb6d9557b0ee36172c0346773fb4e24a2d5))
+* **mdx:** pug example ([#462](https://github.com/startupjs/startupjs/issues/462)) ([e0d432d](https://github.com/startupjs/startupjs/commit/e0d432dfdf60093d5ce5175c30044dee4dc12a67))
+* **mdx:** Rewrite pug template string highlighting to a full sub-language highlighting support. Support styl/css/pug highlighting as subtemplates. ([28d8eef](https://github.com/startupjs/startupjs/commit/28d8eef2cba666e250a2d11d6b815e7aa1a7bf08))
+
+
+
+## [0.31.1](https://github.com/startupjs/startupjs/compare/v0.31.0...v0.31.1) (2020-12-30)
+
+
+### Bug Fixes
+
+* **Popover:** add caption style ([#461](https://github.com/startupjs/startupjs/issues/461)) ([8245481](https://github.com/startupjs/startupjs/commit/82454815f789ac38061048e20f4392d7bf23a941))
+* **Tabs:** move style property to tabs wrapper style and add tabsStyle for tabs instead ([d48e5b4](https://github.com/startupjs/startupjs/commit/d48e5b4329a2ab8dc1b73491da57f5854d8d7e0b))
+
+
+
 # [0.31.0](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.31.0) (2020-12-29)
 
 

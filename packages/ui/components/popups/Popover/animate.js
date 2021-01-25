@@ -132,7 +132,7 @@ export default {
     hasArrow
   }, callback) {
     animateStates.height.setValue(contentInfo.height)
-    const [position, attachment] = geometry.validPlacement.split('-')
+    const [position, attachment] = (geometry.validPlacement || '').split('-')
 
     if (animateType === 'default') {
       let widthToValue = animateStates.width._value

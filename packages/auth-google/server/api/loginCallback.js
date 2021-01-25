@@ -1,5 +1,4 @@
 import { finishAuth, linkAccount } from '@startupjs/auth/server'
-import conf from 'nconf'
 import { getGoogleIdToken, getGoogleProfile } from '../helpers'
 import { CALLBACK_URL } from '../../isomorphic'
 import Provider from '../Provider'
@@ -14,6 +13,9 @@ export default async function loginCallback (req, res, next, config) {
 
   let { token, code } = req.query
 
+  // Using to understand which protocol will be used un redirectUrl
+  const protocol = process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
+
   // Auth request from mobile platforms has "token" param
   // but desktop send "code" param which used to get "idToken"
   if (!token && code) {
@@ -21,7 +23,7 @@ export default async function loginCallback (req, res, next, config) {
       code,
       clientId,
       clientSecret,
-      redirectURI: conf.get('BASE_URL') + CALLBACK_URL
+      redirectURI: protocol + req.get('host') + CALLBACK_URL
     })
   }
 

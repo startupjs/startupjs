@@ -6,6 +6,7 @@ import { SIGN_UP_SLIDE } from '../../../../isomorphic'
 import '../sharedPageStyles.styl'
 
 function PSignUp ({
+  baseUrl,
   configs,
   logo,
   localForms,
@@ -23,6 +24,7 @@ function PSignUp ({
           Logo(logo=logo)
       Div.wrapper
         AuthForm(
+          baseUrl=baseUrl
           configs=configs
           initSlide=SIGN_UP_SLIDE
           hasRouting=true
@@ -38,6 +40,7 @@ function PSignUp ({
 }
 
 PSignUp.propTypes = {
+  baseUrl: PropTypes.string,
   configs: PropTypes.object,
   logo: PropTypes.node,
   localForms: PropTypes.object,

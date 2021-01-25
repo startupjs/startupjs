@@ -9,10 +9,12 @@ import Link from '../../../../Link'
 import './index.styl'
 
 function DropdownItem ({
+  style,
   to,
   label,
   value,
   icon,
+  disabled,
   onPress,
   children,
   _activeValue,
@@ -21,7 +23,7 @@ function DropdownItem ({
   _onChange,
   _onDismissDropdown,
   _index,
-  _childenLength
+  _childrenLength
 }) {
   const isPure = _variant === 'pure'
 
@@ -38,10 +40,11 @@ function DropdownItem ({
     return pug`
       Menu.Item(
         to=to
+        style=style
         active=_activeValue === value
+        disabled=disabled
         styleName={ selectMenu: _selectIndexValue === _index }
         onPress=handlePress
-        iconPosition='left'
         icon=icon
       )= label
     `
@@ -49,11 +52,15 @@ function DropdownItem ({
 
   const Wrapper = to ? Link : TouchableOpacity
   return pug`
-    Wrapper(onPress=handlePress to=to)
+    Wrapper(
+      to=to
+      style=style
+      onPress=handlePress
+    )
       View.item(styleName=[!isPure && _variant, {
         active: !isPure && (_activeValue === value),
         itemUp: !isPure && (_index === 0),
-        itemDown: !isPure && (_index === _childenLength - 1),
+        itemDown: !isPure && (_index === _childrenLength - 1),
         selectMenu: _selectIndexValue === _index
       }])
         if isPure

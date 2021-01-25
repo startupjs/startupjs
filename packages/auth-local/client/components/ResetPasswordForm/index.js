@@ -1,13 +1,14 @@
 import React from 'react'
 import { observer, useQueryDoc, useValue, useDoc, $root } from 'startupjs'
 import { useAuthHelper } from '@startupjs/auth-local'
-import { Span, Div, TextInput, Button, Br } from '@startupjs/ui'
+import { Span, Div, Button, Br } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
+import TextInput from '../TextInput'
 import './index.styl'
 
-export default observer(function ResetPasswordForm ({ secret, onSuccess, onChangeAuthPage }) {
-  const authHelper = useAuthHelper()
+export default observer(function ResetPasswordForm ({ baseUrl, secret, onSuccess, onChangeAuthPage }) {
+  const authHelper = useAuthHelper(baseUrl)
 
   const _secret = secret || $root.get('$render.query.secret')
 
@@ -45,7 +46,7 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess, onChang
       })
       _onSuccess(null, RECOVER_PASSWORD_SLIDE)
     } catch (error) {
-      const errorMsg = _get(error, 'response.data.message')
+      const errorMsg = _get(error, 'response.data.message', error.message)
       if (errorMsg === 'reset password expired' && user) {
         $error.set('Link is expired.')
         return
@@ -57,7 +58,7 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess, onChang
     }
   }
 
-  const onInputChange = name => ({ target: { value } }) => {
+  const onInputChange = name => value => {
     if (error) $error.del()
     $form.set({ ...$form.get(), [name]: value })
   }
@@ -74,17 +75,20 @@ export default observer(function ResetPasswordForm ({ secret, onSuccess, onChang
         Div.content
           if !feedback
             TextInput.input(
+              onChangeText=onInputChange('password')
               label='Enter new password'
-              value=form.password
-              onChange=onInputChange('password')
+              name='password'
               placeholder='Password'
               secureTextEntry
+              value=form.password || ''
             )
+            Br
             TextInput.input(
-              value=form.confirm
-              onChange=onInputChange('confirm')
+              onChangeText=onInputChange('confirm')
+              name='confirm'
               placeholder='Confirm'
               secureTextEntry
+              value=form.confirm || ''
             )
             Div.error
               if error

@@ -1,5 +1,5 @@
-import { $root } from 'startupjs'
 import axios from 'axios'
+import { BASE_URL } from '@env'
 import {
   LOCAL_LOGIN_URL,
   CREATE_PASS_RESET_SECRET_URL,
@@ -8,14 +8,9 @@ import {
   CHANGE_PASSWORD_URL
 } from '../../isomorphic'
 
-export default function AuthHelper () {
-  // You must make BASE_URL as bublic in config.json
-  // Just pass BASE_URL key to "PUBLIC" prop array
-  // ...
-  // "PUBLIC": ["BASE_URL"]
-  // ...
-  const baseUrl = $root.get('_session.env.BASE_URL')
-  this._axios = axios.create({ baseUrl })
+export default function AuthHelper (baseUrl) {
+  const baseURL = baseUrl || BASE_URL
+  this._axios = axios.create({ baseURL })
 
   // data: { email, password }
   this.login = function (data) {

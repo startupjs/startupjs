@@ -8,6 +8,8 @@ import Span from './../typography/Span'
 import './index.styl'
 
 function Tabs ({
+  style,
+  tabsStyle,
   routes,
   initialKey,
   $value,
@@ -57,8 +59,9 @@ function Tabs ({
 
   return pug`
     //- remove Div when issue will be fixed https://github.com/satya164/react-native-tab-view/issues/1110
-    Div.root
+    Div.root(style=style)
       TabView(
+        style=tabsStyle
         navigationState={ index: tabIndex, routes }
         renderTabBar=_renderTabBar
         onIndexChange=_onIndexChange

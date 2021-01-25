@@ -1,10 +1,9 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
-import styles from './index.styl'
+import './index.styl'
 
 const Multiselect = ({
   options,
@@ -18,23 +17,23 @@ const Multiselect = ({
   error,
   TagComponent,
   renderListItem,
+  hasWidthCaption,
   onSelect,
   onRemove,
   onOpen,
   onHide
 }) => {
   return pug`
-    Popover.root(
+    Popover.popover(
       visible=focused
-      onDismiss=onHide
-      wrapperStyle=styles.popover
       attachment='start'
       position='bottom'
+      hasWidthCaption=hasWidthCaption
+      onDismiss=onHide
     )
       Popover.Caption
         MultiselectInput(
           label=label
-          onOpen=onOpen
           showOpts=focused
           value=value
           placeholder=placeholder
@@ -44,10 +43,10 @@ const Multiselect = ({
           error=error
           readonly=readonly
           TagComponent=TagComponent
+          onOpen=onOpen
         )
-      ScrollView.suggestions-web
-        each opt in options
-          = renderListItem(opt)
+      each opt in options
+        = renderListItem(opt)
   `
 }
 
