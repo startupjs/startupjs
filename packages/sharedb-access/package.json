@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/sharedb-access",
-  "version": "0.31.0",
+  "version": "0.31.18",
   "description": "Sharedb access-control midleware",
   "publishConfig": {
     "access": "public"
@@ -18,7 +18,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@startupjs/orm": "^0.31.0",
+    "@startupjs/orm": "^0.31.18",
     "chai": "^4.2.0",
     "debug": "*",
     "lodash": "*",
