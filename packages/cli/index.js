@@ -38,6 +38,10 @@ const DEPENDENCIES = [
 
 const DEV_DEPENDENCIES = [
   'babel-eslint',
+  'babel-jest',
+  'concurrently',
+  'detox',
+  'eslint@latest',
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
@@ -48,8 +52,9 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
   'husky@^4.3.0',
-  'lint-staged',
-  'eslint@latest'
+  'jest',
+  'jest-circus',
+  'lint-staged'
 ]
 
 const REMOVE_DEPENDENCIES = [
@@ -233,6 +238,19 @@ const SCRIPTS = {
   fonts: 'startupjs fonts'
 }
 
+const getTestScripts = projectName => {
+  return {
+    'test:build:ios': 'detox build -c ios',
+    'test:build:android': 'detox build -c android',
+    'test:server': `PORT=3001 MONGO_URL=mongodb://localhost:27017/${projectName}_test yarn start-production`,
+    'test:clear-db': `mongo ${projectName}_test --eval 'db.dropDatabase();'`,
+    'test:ios': 'detox test -c ios --artifacts-location $PWD/artifacts --take-screenshots all',
+    'test:android': 'detox test -c android --loglevel trace',
+    test: 'concurrently -s first -k -n "S,T" -c white,cyan.bgBlue "yarn test:clear-db && yarn build && yarn test:server" "yarn build:jsbundle:ios && yarn test:ios"',
+    'build:jsbundle:ios': `mkdir -p ios/build/Build/Products/Release-iphonesimulator/${projectName}.app/ && APP_ENV=detox react-native bundle --entry-file="index.js" --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${projectName}.app/main.jsbundle" --reset-cache --dev=false`
+  }
+}
+
 const DEFAULT_TEMPLATE = 'ui'
 const TEMPLATES = {
   simple: {
@@ -344,7 +362,7 @@ commander
     }
 
     console.log('> Patch package.json with additional scripts')
-    addScriptsToPackageJson(projectPath)
+    addScriptsToPackageJson(projectPath, projectName)
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -538,13 +556,14 @@ function renameFonts () {
   }
 }
 
-function addScriptsToPackageJson (projectPath) {
+function addScriptsToPackageJson (projectPath, projectName) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
-    ...SCRIPTS
+    ...SCRIPTS,
+    ...getTestScripts(projectName)
   }
 
   packageJSON['lint-staged'] = {
@@ -558,6 +577,10 @@ function addScriptsToPackageJson (projectPath) {
     hooks: {
       'pre-commit': 'lint-staged'
     }
+  }
+
+  packageJSON.jest = {
+    preset: 'react-native'
   }
 
   // FIXME: We can't use type=module now, because metro does not support ESM
@@ -580,6 +603,8 @@ function appendGitignore (projectPath) {
     /data/
     # Protection from accidentally commiting private npm keys to a public repo
     .npmrc
+    # Detox
+    /artifacts/
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
