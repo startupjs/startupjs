@@ -64,7 +64,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 
   return pug`
     if err
-      Error(value=err pages=errorPages disableError=()=>setErr())
+      Error(value=err pages=errorPages)
     else
       RenderApp(app=app routes=routes ...props)
 

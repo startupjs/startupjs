@@ -13,10 +13,7 @@ export default observer(function Error ({ value, pages = {}, disableError }) {
   return pug`
     View.root
       if Template
-        Template(
-          goBack=()=>history.goBack()
-          disableError=disableError
-        )
+        Template
       else
         Text.title Error
         Text

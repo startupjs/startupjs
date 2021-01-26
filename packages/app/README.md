@@ -59,11 +59,11 @@ return (
       // Callback that will be processed every time before going to url. You must pass the third argument `goTo`. You need to be sure to call goTo in your goTo handler with the final url.
     }}
     errorPages={
-      404: ({ goBack }) => {
+      404: () => {
         return (
           <Div>
             <Span>404 Error</Span>
-            <Button onPress={goBack}>Go back</Button>
+            <Button onPress={() => history.goBack()}>Go back</Button>
           </Div>
         )
       },
@@ -77,11 +77,36 @@ return (
 ```
 
 #### errorPages
-If you don't pass this props, then the default template will be renderd.
+If you don't pass this props, then the default template will be rendered.
 
-The components you specify will have `goBack` and `disableError` props.
-- `goBack` will return you on previous route (similar to `history.goBack()` from `react-router-native`). This is useful when you need to make a transition from the wrong route for example.
-- `disableError` will disable the error. This is useful when an error occurs on the same route and you need to stay on the same page.
+To generate your own error you need to call `emit('error', ERROR_CODE)`. Here `ERROR_CODE` is your error code. If you want to desable current error you need to call `emit('error', '')`.
+
+You can just change the text and onPress function on the default error template to output to other code, for example.
+
+```js
+import App, { ErrorTemplate } from 'startupjs/app'
+// ...some imports
+
+const NewError= () => {
+  return(
+    <ErrorTemplate
+        title={'405: My custom error'}
+        description={'My custom description'}
+        isSupportEmailBlock={true}
+        goBack={() => emit('error', ''))}
+    ></ErrorTemplate>
+  )
+}
+
+return (
+  <App
+    //...some props
+    errorPages={
+      405: NewError
+    }
+  />
+)
+```
 
 ### server
 Add critical version info to your `config.json` file in the root of your project. This file will hold the critical version info of your application.
