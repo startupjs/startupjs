@@ -1,3 +1,12 @@
+## [0.31.20](https://github.com/startupjs/startupjs/compare/v0.31.19...v0.31.20) (2021-01-26)
+
+
+### Bug Fixes
+
+* **auth:** Get extra data from parseUserCreationData ([a561168](https://github.com/startupjs/startupjs/commit/a561168dc98dc6f5f4c12563710493f9a46e36fd))
+
+
+
 ## [0.31.19](https://github.com/startupjs/startupjs/compare/v0.31.18...v0.31.19) (2021-01-25)
 
 
