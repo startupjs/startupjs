@@ -4,10 +4,14 @@ import PropTypes from 'prop-types'
 import Tag from './../../Tag'
 import './index.styl'
 
-function DefaultTag ({ index, record }) {
+function DefaultTag ({
+  index,
+  record,
+  isLast
+}) {
   return pug`
-    Tag(
-      pushed=index !== 0
+    Tag.tag(
+      styleName={last: isLast}
       variant='flat'
       color='primary'
     )= record.label
