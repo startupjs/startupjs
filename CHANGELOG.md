@@ -6,7 +6,6 @@
 * **orm-associations:** return missed ORM entity ([c91bc5c](https://github.com/startupjs/startupjs/commit/c91bc5c7af1a0f679cf1253895088162bfdad8ba))
 
 
-
 ## [0.31.18](https://github.com/startupjs/startupjs/compare/v0.31.15...v0.31.18) (2021-01-25)
 
 
@@ -37,19 +36,10 @@
 
 ### Bug Fixes
 
-* **auth:** fix passing baseURL param ([#477](https://github.com/startupjs/startupjs/issues/477)) ([e6b68ff](https://github.com/startupjs/startupjs/commit/e6b68ffda1ed215e8ed5d85419dee8f71a21941e))
-* **auth:** Generate redirect url based on  host req ([5160fdc](https://github.com/startupjs/startupjs/commit/5160fdca7d03f159c48b544269fc2a02c7da8c00))
-* **auth:** Props order for AuthForm ([71f186b](https://github.com/startupjs/startupjs/commit/71f186b55bf6361c2a587e6d7e627967e5db29dc))
 * **cli:** fix android link ([#491](https://github.com/startupjs/startupjs/issues/491)) ([b1994d3](https://github.com/startupjs/startupjs/commit/b1994d3e785958815f1ca5eeb735959c6f0ed490))
-* **ui/AutoSuggest:** on scroll end event ([#487](https://github.com/startupjs/startupjs/issues/487)) ([e3c31c9](https://github.com/startupjs/startupjs/commit/e3c31c9bfd175f160151eafdf806f6821dad161a))
-* **ui/Dropdown:** add style and disabled props in item ([#481](https://github.com/startupjs/startupjs/issues/481)) ([20b0039](https://github.com/startupjs/startupjs/commit/20b003970297d5049494672e327a41b9ed50c0d1))
-* **ui/Dropdown:** remove required onChange ([#480](https://github.com/startupjs/startupjs/issues/480)) ([0ca809e](https://github.com/startupjs/startupjs/commit/0ca809e4f4fac9e47144f47523bbab6e644be992))
-* **ui/Multiselect:** add `hasCaptionWidth` property ([#479](https://github.com/startupjs/startupjs/issues/479)) ([81d11ef](https://github.com/startupjs/startupjs/commit/81d11ef3a91f157231d89636d7c1038941d04c6a))
 * **ui/NumberInput:** add ability to style button ([#490](https://github.com/startupjs/startupjs/issues/490)) ([0d99589](https://github.com/startupjs/startupjs/commit/0d99589941852d093f1bfadfaba8e81bf6f26c5f))
 * **ui/NumberInput:** update input value when `undefined` ([#492](https://github.com/startupjs/startupjs/issues/492)) ([f4eff97](https://github.com/startupjs/startupjs/commit/f4eff9707aa26e0a66803e70224f3e43134a4cb1))
-* **ui/Popover:** arrow position ([#485](https://github.com/startupjs/startupjs/issues/485)) ([9873caf](https://github.com/startupjs/startupjs/commit/9873caf4ff157915c14277c740f8c1d3b947f869))
 * **ui/Portal:** add init docs ([#489](https://github.com/startupjs/startupjs/issues/489)) ([3839d1f](https://github.com/startupjs/startupjs/commit/3839d1ff6309d4e9859f6084c6f4512813b16129))
-* **ui/Portal:** destroy state ([#483](https://github.com/startupjs/startupjs/issues/483)) ([9a44143](https://github.com/startupjs/startupjs/commit/9a44143d408988be6ce89cb0fcd24e88878b512f))
 
 
 ### Features
