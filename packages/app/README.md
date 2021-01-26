@@ -81,7 +81,7 @@ If you don't pass this props, then the default template will be rendered.
 
 To generate your own error you need to call `emit('error', ERROR_CODE)`. Here `ERROR_CODE` is your error code. If you want to desable current error you need to call `emit('error', '')`.
 
-You can just change the text and onPress function on the default error template to output to other code, for example.
+You can just change the `text` and `onPress` function on the default error template to output to other code, for example.
 
 ```js
 import App, { ErrorTemplate } from 'startupjs/app'
