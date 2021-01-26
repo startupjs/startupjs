@@ -55,21 +55,20 @@ export default class BaseProvider {
     const { $root } = this
     const userId = $root.id()
 
-    const immutableUserFields = {
+    const userFields = {
       id: userId,
       createdAt: Date.now(),
       ...this.getUserData()
     }
 
     // Extend base collection of user fields with custom data in overrided parseUserCreationData hook
-    const parseUserCreationDataRes = this.options.parseUserCreationData({ ...immutableUserFields })
+    const parseUserCreationDataRes = this.options.parseUserCreationData({ ...userFields })
     // Check if returned promise
     const parsedUserFields = parseUserCreationDataRes.then ? await parseUserCreationDataRes : parseUserCreationDataRes
 
-    // Some fileds like id and email must be immutable so we can't allow to change it
     await $root.addAsync('users', {
-      ...parsedUserFields,
-      ...immutableUserFields
+      ...userFields,
+      ...parsedUserFields
     })
 
     const authData = {
