@@ -9,7 +9,6 @@ function DefaultTag ({
   record,
   isLast
 }) {
-  console.log(isLast, '???')
   return pug`
     Tag.tag(
       styleName={last: isLast}
