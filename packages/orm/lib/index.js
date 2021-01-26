@@ -13,8 +13,10 @@ export default function (racer) {
     var name = alias || pattern
     if (global.STARTUP_JS_ORM[name]) throw alreadyDefinedError(pattern, alias)
 
-    var match = pattern.match(/^[^.]+/)
-    if (match) OrmEntity.collection = match[0]
+    if (!OrmEntity.collection) {
+      var match = pattern.match(/^[^.]+/)
+      if (match) OrmEntity.collection = match[0]
+    }
 
     global.STARTUP_JS_ORM[name] = {
       pattern: pattern,
