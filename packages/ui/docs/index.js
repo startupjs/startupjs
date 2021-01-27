@@ -7,9 +7,9 @@ import tutorial from './tutorial'
 
 export default {
   foundation,
+  tutorial,
   components,
   forms,
   popups,
-  hooksAndHelpers,
-  tutorial
+  hooksAndHelpers
 }
