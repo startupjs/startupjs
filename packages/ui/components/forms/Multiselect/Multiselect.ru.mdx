@@ -66,6 +66,29 @@ return (
     />
     <Br />
     <Multiselect
+      label='Example Multiselect with custom input'
+      value={cities}
+      InputComponent={
+        ({ children, onOpen }) => {
+          return (
+            <Div
+              onPress={onOpen}
+              style={{
+                border: '1px dotted green',
+                padding: 8
+              }}
+            >
+              {children}
+            </Div>
+          )
+        }
+      }
+      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
       label='Example of disabled Multiselect'
       placeholder='Select cities'
       value={cities}

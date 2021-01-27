@@ -16,6 +16,7 @@ const Multiselect = ({
   tagLimit,
   error,
   TagComponent,
+  InputComponent,
   hasWidthCaption,
   renderListItem,
   onChange,
@@ -64,7 +65,7 @@ const Multiselect = ({
   function _renderListItem (item) {
     const selected = value.includes(item.value)
 
-    if (!!renderListItem) {
+    if (renderListItem) {
       return renderListItem(item, selected, onItemPress)
     }
 
@@ -84,6 +85,7 @@ const Multiselect = ({
       tagLimit=tagLimit
       readonly=readonly
       error=error
+      InputComponent=InputComponent
       TagComponent=TagComponent
       hasWidthCaption=hasWidthCaption
       renderListItem=_renderListItem

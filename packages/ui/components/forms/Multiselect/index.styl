@@ -5,11 +5,11 @@ _errorColor = $UI.colors.error
 _primaryColor = $UI.colors.primary
 
 .input
+  align-items center
   background-color $UI.colors.white
-  height _height
   width 100%
   border _inputBorderWidth solid $UI.colors.darkLighter
-  padding 0 1u
+  padding 0.5u
   radius()
   +web()
     overflow auto
@@ -25,24 +25,18 @@ _primaryColor = $UI.colors.primary
     background-color none
     padding 0
 
+.tag
+  margin 0.5u
+
+  &.last
+    margin-right 0
+
 .row
   padding-right 3u
   width 100%
 
 .placeholder
   opacity .5
-
-.tag
-  background-color _primaryColor
-  margin-right 1u
-  flex-direction row
-  justify-content space-between
-  align-items center
-  radius(l)
-
-.tagLabel
-  color $UI.colors.white
-  padding 0 1u
 
 .suggestions-web
   padding 0 .5u

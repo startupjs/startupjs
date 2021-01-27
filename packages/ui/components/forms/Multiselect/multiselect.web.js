@@ -15,6 +15,7 @@ const Multiselect = ({
   readonly,
   tagLimit,
   error,
+  InputComponent,
   TagComponent,
   renderListItem,
   hasWidthCaption,
@@ -42,6 +43,7 @@ const Multiselect = ({
           disabled=disabled
           error=error
           readonly=readonly
+          InputComponent=InputComponent
           TagComponent=TagComponent
           onOpen=onOpen
         )
