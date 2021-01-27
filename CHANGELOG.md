@@ -1,3 +1,17 @@
+## [0.31.21](https://github.com/startupjs/startupjs/compare/v0.31.20...v0.31.21) (2021-01-27)
+
+
+### Bug Fixes
+
+* **orm:** add default 'collection' field based on ORM path only if it does not exist ([d57bba7](https://github.com/startupjs/startupjs/commit/d57bba7b55a148d97f247d252609b0eb320e0109))
+
+
+### Features
+
+* **ui/Multiselect:** add InputComponent prop ([#497](https://github.com/startupjs/startupjs/issues/497)) ([8c09c17](https://github.com/startupjs/startupjs/commit/8c09c1765f4809e38343062c268b0ff48690158f))
+
+
+
 ## [0.31.20](https://github.com/startupjs/startupjs/compare/v0.31.19...v0.31.20) (2021-01-26)
 
 
