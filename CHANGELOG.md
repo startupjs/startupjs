@@ -1,3 +1,17 @@
+## [0.31.22](https://github.com/startupjs/startupjs/compare/v0.31.21...v0.31.22) (2021-01-29)
+
+
+### Bug Fixes
+
+* **app:** refresh hash when change ([fa2c1d8](https://github.com/startupjs/startupjs/commit/fa2c1d8c18213c33c024eb102eea0369160a13ae))
+
+
+### Features
+
+* **DateTimePicker:** add internalization ([#500](https://github.com/startupjs/startupjs/issues/500)) ([c044b0d](https://github.com/startupjs/startupjs/commit/c044b0d2f545b62806cf5a5a3e1a60cbe0f813b0))
+
+
+
 ## [0.31.21](https://github.com/startupjs/startupjs/compare/v0.31.20...v0.31.21) (2021-01-27)
 
 
