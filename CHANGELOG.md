@@ -231,6 +231,11 @@
 # [0.31.0](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.31.0) (2020-12-29)
 
 
+### BREAKING CHANGES
+
+* [See 0.31 migration guide](/docs/migration-guides/0.31.md)
+
+
 ### Bug Fixes
 
 * **auth:** Change pathmane to href for web ([64e18ce](https://github.com/startupjs/startupjs/commit/64e18ce105b8a351f4d3361e27ac3c6af97f7f5e))
@@ -346,6 +351,11 @@
 
 
 # [0.30.0](https://github.com/startupjs/startupjs/compare/v0.29.1...v0.30.0) (2020-12-16)
+
+
+### BREAKING CHANGES
+
+* [See 0.30 migration guide](/docs/migration-guides/0.30.md)
 
 
 ### Bug Fixes
@@ -568,6 +578,11 @@
 # [0.29.0](https://github.com/startupjs/startupjs/compare/v0.28.1...v0.29.0) (2020-11-26)
 
 
+### BREAKING CHANGES
+
+* [See 0.29 migration guide](/docs/migration-guides/0.29.md)
+
+
 ### Bug Fixes
 
 * **auth:** azuread in prod ([#377](https://github.com/startupjs/startupjs/issues/377)) ([91a2dbe](https://github.com/startupjs/startupjs/commit/91a2dbe27ddff0ef2605f54f7e8430865df6ebd0))
@@ -593,6 +608,11 @@
 # [0.28.0](https://github.com/startupjs/startupjs/compare/v0.27.0...v0.28.0) (2020-11-11)
 
 
+### BREAKING CHANGES
+
+* [See 0.28 migration guide](/docs/migration-guides/0.28.md)
+
+
 ### Bug Fixes
 
 * **docs:** fix inline code view on android ([#354](https://github.com/startupjs/startupjs/issues/354)) ([5ca2f57](https://github.com/startupjs/startupjs/commit/5ca2f5734f5dcb5023ad18ff3fd529852c866e5b))
@@ -604,6 +624,11 @@
 
 
 # [0.27.0](https://github.com/startupjs/startupjs/compare/v0.26.9...v0.27.0) (2020-11-09)
+
+
+### BREAKING CHANGES
+
+* [See 0.27 migration guide](/docs/migration-guides/0.27.md)
 
 
 ### Bug Fixes
@@ -716,6 +741,11 @@
 # [0.26.0](https://github.com/startupjs/startupjs/compare/v0.25.2...v0.26.0) (2020-10-23)
 
 
+### BREAKING CHANGES
+
+* [See 0.26 migration guide](/docs/migration-guides/0.26.md)
+
+
 ### Bug Fixes
 
 * **Menu:** remove redundant ([#323](https://github.com/startupjs/startupjs/issues/323)) ([820f1a4](https://github.com/startupjs/startupjs/commit/820f1a408227bb211e031286dc52e39b5a200ad5))
@@ -749,6 +779,11 @@
 
 
 # [0.25.0](https://github.com/startupjs/startupjs/compare/v0.24.4...v0.25.0) (2020-10-20)
+
+
+### BREAKING CHANGES
+
+* [See 0.25 migration guide](/docs/migration-guides/0.25.md)
 
 
 ### Bug Fixes
@@ -794,6 +829,11 @@
 
 
 ## [0.24.1](https://github.com/startupjs/startupjs/compare/v0.23.53...v0.24.1) (2020-10-16)
+
+
+### BREAKING CHANGES
+
+* [See 0.24 migration guide](/docs/migration-guides/0.24.md)
 
 
 ### Bug Fixes
@@ -1284,6 +1324,11 @@
 
 
 # [0.23.0](https://github.com/startupjs/startupjs/compare/v0.22.11...v0.23.0) (2020-07-02)
+
+
+### BREAKING CHANGES
+
+* [See 0.23 migration guide](/docs/migration-guides/0.23.md)
 
 
 ### Bug Fixes
