@@ -465,6 +465,234 @@ function Test({ style, active, submit, disabled, titleStyle }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Array and Object: dynamic part attribute. Array and Object 1`] = `
+
+import './index.styl'
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+  function render () {
+    return (
+      <Card
+        part='card'
+        style={{ color: 'blue' }}
+        titleStyle={{ color: 'red' }}
+      >
+        <Content part={['content', { active }]} />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
+
+const Test = ({
+  activeStyle: _activeStyle,
+  style,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: [
+              {
+                color: "blue",
+              },
+              myCardStyle,
+            ],
+            titleStyle: {
+              color: "red",
+            },
+          }
+        )}
+      >
+        <Content
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: [contentStyle, active ? _activeStyle : undefined],
+            }
+          )}
+        />
+      </Card>
+    );
+  }
+
+  return render();
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Object: dynamic part attribute. Object 1`] = `
+
+import './index.styl'
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+  function render () {
+    return (
+      <Card
+        part='card'
+        style={{ color: 'blue' }}
+        titleStyle={{ color: 'red' }}
+      >
+        <Content part={{content: true, active}} />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
+
+const Test = ({
+  activeStyle: _activeStyle,
+  style,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: [
+              {
+                color: "blue",
+              },
+              myCardStyle,
+            ],
+            titleStyle: {
+              color: "red",
+            },
+          }
+        )}
+      >
+        <Content
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: [
+                true ? contentStyle : undefined,
+                active ? _activeStyle : undefined,
+              ],
+            }
+          )}
+        />
+      </Card>
+    );
+  }
+
+  return render();
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Should error on unsupported dynamic key in object: dynamic part attribute. Should error on unsupported dynamic key in object 1`] = `
+
+import './index.styl'
+function Test ({ variant }) {
+  return (
+    <Card part={{[variant]: true}} />
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+        'part' attribute only supports literal or string keys in object.
+        Dynamic keys or spreads are not supported.
+      
+[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{{[variant][33m:[39m [36mtrue[39m}} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 | [39m  )[0m
+[0m [90m 6 | [39m}[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Should error on unsupported dynamic value in array: dynamic part attribute. Should error on unsupported dynamic value in array 1`] = `
+
+import './index.styl'
+function Test ({ variant }) {
+  return (
+    <Card part={['card', variant]} />
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+      'part' attribute only supports static strings or objects inside an array.
+    
+[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{[[32m'card'[39m[33m,[39m variant]} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m                         [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 | [39m  )[0m
+[0m [90m 6 | [39m}[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Should error on unsupported dynamic value: dynamic part attribute. Should error on unsupported dynamic value 1`] = `
+
+import './index.styl'
+function Test ({ variant }) {
+  return (
+    <Card part={variant} />
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+    'part' attribute might only be the following:
+      - static string
+      - array (with static strings or objects)
+      - object (with static keys)
+    Basically the rule is that the name of the part must be static so that
+    it is possible to determine at compile time which parts are being used.
+  
+[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{variant} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 | [39m  )[0m
+[0m [90m 6 | [39m}[0m
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part with existing style prop: magic 'root' part with existing style prop 1`] = `
 
 import './index.styl'
