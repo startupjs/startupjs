@@ -96,7 +96,7 @@ module.exports = function (babel) {
         // If part style property doesn't exist, inject it
         const key = t.identifier(partStyleAttr)
         const value = partAttrPath.scope.generateUidIdentifier(partStyleAttr)
-        props.properties.push(t.objectProperty(key, value))
+        props.properties.unshift(t.objectProperty(key, value))
         styleProps.push(value)
       }
     } else {

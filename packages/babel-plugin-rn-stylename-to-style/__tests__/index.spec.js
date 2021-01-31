@@ -104,7 +104,7 @@ pluginTester({
     `,
     'part attribute. With destructed props': /* js */`
       import './index.styl'
-      function Test ({ style, cardStyle, title }) {
+      function Test ({ style, cardStyle, title, ...props }) {
         return (
           <Card
             part='card'
@@ -132,7 +132,7 @@ pluginTester({
     `,
     'part attribute. With anon function within named fn': /* js */`
       import './index.styl'
-      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
+      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
         function render () {
           return (
             <Card
@@ -149,7 +149,7 @@ pluginTester({
     `,
     'magic \'root\' part': /* js */`
       import './index.styl'
-      function Test ({ title }) {
+      function Test ({ title, ...props }) {
         return (
           <Card
             part='root'
@@ -163,7 +163,7 @@ pluginTester({
     `,
     'magic \'root\' part with existing style prop': /* js */`
       import './index.styl'
-      function Test ({ title, style }) {
+      function Test ({ title, style, ...props }) {
         return (
           <Card
             part='root'

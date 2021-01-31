@@ -468,7 +468,7 @@ function Test({ style, active, submit, disabled, titleStyle }) {
 exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part with existing style prop: magic 'root' part with existing style prop 1`] = `
 
 import './index.styl'
-function Test ({ title, style }) {
+function Test ({ title, style, ...props }) {
   return (
     <Card
       part='root'
@@ -488,10 +488,11 @@ const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style
   .process;
 
 function Test({
+  activeStyle: _activeStyle,
+  contentStyle: _contentStyle,
   title,
   style,
-  contentStyle: _contentStyle,
-  activeStyle: _activeStyle,
+  ...props
 }) {
   return (
     <Card
@@ -534,7 +535,7 @@ function Test({
 exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part: magic 'root' part 1`] = `
 
 import './index.styl'
-function Test ({ title }) {
+function Test ({ title, ...props }) {
   return (
     <Card
       part='root'
@@ -554,10 +555,11 @@ const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style
   .process;
 
 function Test({
-  title,
-  style: _style,
-  contentStyle: _contentStyle,
   activeStyle: _activeStyle,
+  contentStyle: _contentStyle,
+  style: _style,
+  title,
+  ...props
 }) {
   return (
     <Card
@@ -675,7 +677,7 @@ function Test(_props) {
 exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With anon function within named fn: part attribute. With anon function within named fn 1`] = `
 
 import './index.styl'
-const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
   function render () {
     return (
       <Card
@@ -698,11 +700,12 @@ const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style
   .process;
 
 const Test = ({
+  activeStyle: _activeStyle,
   style,
   cardStyle: myCardStyle,
   contentStyle,
   title,
-  activeStyle: _activeStyle,
+  ...props
 }) => {
   function render() {
     return (
@@ -749,7 +752,7 @@ const Test = ({
 exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With destructed props: part attribute. With destructed props 1`] = `
 
 import './index.styl'
-function Test ({ style, cardStyle, title }) {
+function Test ({ style, cardStyle, title, ...props }) {
   return (
     <Card
       part='card'
@@ -769,11 +772,12 @@ const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style
   .process;
 
 function Test({
+  activeStyle: _activeStyle,
+  contentStyle: _contentStyle,
   style,
   cardStyle,
   title,
-  contentStyle: _contentStyle,
-  activeStyle: _activeStyle,
+  ...props
 }) {
   return (
     <Card
