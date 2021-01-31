@@ -1,3 +1,12 @@
+## [0.31.23](https://github.com/startupjs/startupjs/compare/v0.31.22...v0.31.23) (2021-01-31)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** fix using 'part' attribute in a compoment which has destructured ...props in its attributes ([4a17213](https://github.com/startupjs/startupjs/commit/4a17213379727fe00ecfee20c4db9340963b7af3))
+
+
+
 ## [0.31.22](https://github.com/startupjs/startupjs/compare/v0.31.21...v0.31.22) (2021-01-29)
 
 
