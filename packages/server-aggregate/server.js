@@ -35,7 +35,7 @@ module.exports = (backend, customCheck) => {
     if (isString(serverQuery)) return err('query_error', serverQuery)
 
     if (customCheck) {
-      const customPermissionMessage = await customCheck.call(backend, shareRequest)
+      const customPermissionMessage = await customCheck(shareRequest)
       if (isString(customPermissionMessage)) {
         return err('query_error', customPermissionMessage)
       }
