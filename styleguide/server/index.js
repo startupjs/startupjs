@@ -11,6 +11,7 @@ import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
 import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
 import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
+import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
 
 import path from 'path'
 import conf from 'nconf'
@@ -64,6 +65,15 @@ startupjsServer({
       new LinkedinStrategy({
         clientId: conf.get('LINKEDIN_CLIENT_ID'),
         clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
+      }),
+      new CommonStrategy({
+        providerName: 'virgin',
+        authorizationURL: 'http://localhost:4000/oauth/authorize',
+        tokenURL: 'http://localhost:4000/oauth/token',
+        profileURL: 'http://localhost:4000/oauth/get-me',
+        callbackURL: conf.get('BASE_URL') + '/auth/virgin/callback',
+        clientId: 'da83c993-901d-4dbc-a134-9eff010f747a',
+        clientSecret: 'e18868d8-2bbf-46e6-b9e8-53d9e73975c4'
       }),
       new LocalStrategy()
     ]

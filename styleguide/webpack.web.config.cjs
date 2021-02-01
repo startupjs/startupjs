@@ -8,7 +8,8 @@ module.exports = getConfig(undefined, {
     '@startupjs/auth-facebook',
     '@startupjs/auth-google',
     '@startupjs/auth-linkedin',
-    '@startupjs/auth-local'
+    '@startupjs/auth-local',
+    '@startupjs/auth-common'
   ],
   mode: 'react-native'
 })

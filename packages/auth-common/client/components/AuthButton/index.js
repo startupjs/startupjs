@@ -1,16 +1,23 @@
 import React from 'react'
 import { WebView } from 'react-native-webview'
+import { Image } from 'react-native'
 import { observer, u, useSession, useValue } from 'startupjs'
-import { Modal, Div, Button } from '@startupjs/ui'
+import { Modal, Span, Div } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
-import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
-import { AZUREAD_LOGIN_URL } from '../../../isomorphic'
 import './index.styl'
 
-function AuthButton ({ baseUrl, label }) {
+function AuthButton ({
+  style,
+  label,
+  baseUrl,
+  providerName,
+  imageUrl,
+  redirectUrl
+}) {
   const [authConfig] = useSession('auth')
+  const config = authConfig[providerName]
   const [, $showModal] = useValue(false)
 
   function showLoginModal () {
@@ -25,19 +32,25 @@ function AuthButton ({ baseUrl, label }) {
   }
 
   return pug`
-    Button.button(
-      icon=faMicrosoft
-      variant='flat'
+    Div.button(
+      style=style
       onPress=showLoginModal
-    )= label
+    )
+      if imageUrl
+        Image.image(
+          resizeMode='contain'
+          source={ uri: imageUrl }
+        )
+      Span.label= label
+
     Modal(
       variant='fullscreen'
       $visible=$showModal
     )
-      Div.modal
+      Div
         WebView(
           style={ height: u(100) }
-          source={ uri: baseUrl + AZUREAD_LOGIN_URL }
+          source={ uri: config.authorizationURL }
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled
@@ -48,12 +61,15 @@ function AuthButton ({ baseUrl, label }) {
 }
 
 AuthButton.defaultProps = {
-  label: 'Azure AD',
+  label: 'Login',
   baseUrl: BASE_URL
 }
 
 AuthButton.propTypes = {
+  imageUrl: PropTypes.string,
+  providerName: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  redirectUrl: PropTypes.string,
   baseUrl: PropTypes.string.isRequired
 }
 
