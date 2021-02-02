@@ -61,7 +61,7 @@ export default observer(() => {
         label: 'Virgin',
         providerName: 'virgin',
         style: { backgroundColor: '#e1090d' },
-        imageUrl: '/img/virgin.png'
+        imageUrl: BASE_URL + '/img/virgin.png'
       })
     ]
   })

@@ -7,6 +7,7 @@ import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
+import AuthCommon from '../../packages/auth-common/readme.md'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -63,6 +64,11 @@ export default docs({
         type: 'mdx',
         title: 'Azure AD',
         component: AuthAzuread
+      },
+      common: {
+        type: 'mdx',
+        title: 'Общая',
+        component: AuthCommon
       }
     }
   },

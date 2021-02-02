@@ -1,5 +1,6 @@
 import passport from 'passport'
 import Strategy from 'passport-oauth2'
+import nconf from 'nconf'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
 
@@ -8,8 +9,7 @@ function validateConfigs ({
   clientId,
   clientSecret,
   authorizationURL,
-  tokenURL,
-  callbackURL
+  tokenURL
 }) {
   if (!providerName) {
     throw new Error('[@dmapper/auth-common] Error:', 'Provide name for provider')
@@ -25,9 +25,6 @@ function validateConfigs ({
   }
   if (!tokenURL) {
     throw new Error('[@dmapper/auth-common] Error:', 'Provide Token URL')
-  }
-  if (!callbackURL) {
-    throw new Error('[@dmapper/auth-common] Error:', 'Provide Callback URL')
   }
 }
 
@@ -48,26 +45,18 @@ export default function (config = {}) {
       authorizationURL,
       tokenURL,
       profileURL,
-      callbackURL
+      providerName
     } = $config
 
     initRoutes({ router, config: $config })
 
-    // Append required configs to client session
-    updateClientSession({
-      [$config.providerName]: {
-        clientId,
-        authorizationURL
-      }
-    })
-
     console.log('++++++++++ Initialization of Common auth strategy ' +
-    `for ${$config.providerName} ++++++++++\n`)
+    `for ${providerName} ++++++++++\n`)
 
     const strategy = new Strategy({
       authorizationURL,
       tokenURL,
-      callbackURL,
+      callbackURL: nconf.get('BASE_URL') + `/auth/${providerName}/callback`,
       clientID: clientId,
       clientSecret
     },
@@ -100,6 +89,6 @@ export default function (config = {}) {
       })
     }
 
-    passport.use($config.providerName, strategy)
+    passport.use(providerName, strategy)
   }
 }

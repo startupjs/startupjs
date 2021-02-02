@@ -17,7 +17,6 @@ function AuthButton ({
   redirectUrl
 }) {
   const [authConfig] = useSession('auth')
-  const config = authConfig[providerName]
   const [, $showModal] = useValue(false)
 
   function showLoginModal () {
@@ -50,7 +49,7 @@ function AuthButton ({
       Div
         WebView(
           style={ height: u(100) }
-          source={ uri: config.authorizationURL }
+          source={ uri: baseUrl + '/auth/' + providerName }
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled

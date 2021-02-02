@@ -72,8 +72,8 @@ startupjsServer({
         tokenURL: 'http://localhost:4000/oauth/token',
         profileURL: 'http://localhost:4000/oauth/get-me',
         callbackURL: conf.get('BASE_URL') + '/auth/virgin/callback',
-        clientId: 'da83c993-901d-4dbc-a134-9eff010f747a',
-        clientSecret: 'e18868d8-2bbf-46e6-b9e8-53d9e73975c4'
+        clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
+        clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
       }),
       new LocalStrategy()
     ]
