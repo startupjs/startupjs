@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/sharedb-access",
-  "version": "0.31.22",
+  "version": "0.31.25",
   "description": "Sharedb access-control midleware",
   "publishConfig": {
     "access": "public"
