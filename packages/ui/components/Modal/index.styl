@@ -2,16 +2,12 @@ _overlayBg = $UI.colors.darkLighter
 _modalBg = $UI.colors.white
 _gutter = $UI.gutters.m
 
-// web modal open animation
-// TODO: animation not working on mount
-.layout
-  +web()
-    &.visible
-      animation ShowModal .3s forwards
-
 // layout styles
 .root
   height 100%
+
+  +android()
+    z-index 0 // android only: popover does not display without this property
 
   &.window
     padding 0 _gutter
@@ -48,23 +44,7 @@ _gutter = $UI.gutters.m
     max-width 776px
     min-width 280px
     border-radius 4px
+    shadow(4)
 
   &.fullscreen
     height 100%
-
-.pure
-  position absolute
-  top 0
-  left 0
-  width 100%
-  height 100%
-  overflow hidden
-
-@keyframes ShowModal
-  0%
-    opacity 0
-  100%
-    opacity 1
-
-:export
-  shadows: $UI.shadows

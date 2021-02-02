@@ -1,0 +1,112 @@
+import { useState } from 'react'
+import Multiselect from '../Multiselect'
+import Div from '../../Div'
+import Span from '../../typography/Span'
+import Br from '../../Br'
+import { Sandbox } from '@startupjs/docs'
+
+# Select
+
+Multiselect позволяет пользователю выбирать несколько элементов из списка
+
+```jsx
+import { Multiselect } from '@startupjs/ui'
+```
+
+## Инициализация
+
+Перед использованием нужно настроить [Portal](/docs/components/Portal)
+
+## Пример
+
+- `options` - массив объектов ```{ label, value }``` или примитивоов
+- `TagComponent` - компонент для кастомных тегов
+- `tagLimit` - максимальное количество отображаемых тегов
+- `onChange` ```function(value: Array)``` - коллбек, который вызывается при смене значения поля. Возвращает массив с выбранными значениями
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+  { label: 'Moscow', value: 'msc' },
+  { label: 'Berlin', value: 'bl' },
+  { label: 'Milan', value: 'mi' },
+  { label: 'Sydney', value: 'sy' },
+  { label: 'Porto', value: 'po' }
+]
+
+const [cities, setCities] = useState(['la', 'tk', 'msc', 'po', 'ny'])
+
+return (
+  <Div>
+    <Multiselect
+      label='Example'
+      placeholder='Select cities'
+      value={cities}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
+      label='Example with tags limiter'
+      placeholder='Select cities'
+      tagLimit={3}
+      value={cities}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
+      label='Example Multiselect with custom tag'
+      value={cities}
+      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
+      label='Example Multiselect with custom input'
+      value={cities}
+      InputComponent={
+        ({ children, onOpen }) => {
+          return (
+            <Div
+              onPress={onOpen}
+              style={{
+                border: '1px dotted green',
+                padding: 8
+              }}
+            >
+              {children}
+            </Div>
+          )
+        }
+      }
+      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
+      label='Example of disabled Multiselect'
+      placeholder='Select cities'
+      value={cities}
+      options={OPTIONS}
+      disabled
+    />
+    <Br />
+    <Multiselect
+      label='Example of readonly Multiselect'
+      placeholder='Select cities'
+      value={cities}
+      options={OPTIONS}
+      readonly
+    />
+  </Div>
+)
+```
+
+## Sandbox
+
+<Sandbox Component={Multiselect} />

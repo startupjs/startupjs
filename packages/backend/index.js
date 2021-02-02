@@ -1,13 +1,17 @@
-const isPlainObject = require('lodash/isPlainObject')
-const isArray = require('lodash/isArray')
+const ShareDbAccess = require('@startupjs/sharedb-access')
+const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
+const sharedbSchema = require('@startupjs/sharedb-schema')
+const serverAggregate = require('@startupjs/server-aggregate')
 const conf = require('nconf')
-const shareDbAccess = require('sharedb-access')
-const racerSchema = require('racer-schema')
-const shareDbHooks = require('sharedb-hooks')
+const isArray = require('lodash/isArray')
+const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
 const redis = require('redis-url')
+const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
+
+global.__clients = {}
 
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
@@ -16,7 +20,7 @@ try {
   wsbusPubSub = require('sharedb-wsbus-pubsub')
 } catch (e) {}
 
-module.exports = async (options) => {
+module.exports = async options => {
   // ------------------------------------------------------->     storeUse    <#
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
@@ -62,7 +66,11 @@ module.exports = async (options) => {
 
       // redis alternative
     } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
-      if (!wsbusPubSub) throw new Error("Please install the 'sharedb-wsbus-pubsub' package to use it")
+      if (!wsbusPubSub) {
+        throw new Error(
+          "Please install the 'sharedb-wsbus-pubsub' package to use it"
+        )
+      }
       let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
 
       return racer.createBackend({
@@ -89,9 +97,43 @@ module.exports = async (options) => {
 
   shareDbHooks(backend)
 
-  if (options.accessControl != null) {
-    shareDbAccess(backend, { dontUseOldDocs: true })
-    options.accessControl(backend)
+  if (
+    options.accessControl &&
+    global.STARTUP_JS_ORM &&
+    Object.keys(global.STARTUP_JS_ORM).length > 0
+  ) {
+    // eslint-disable-next-line
+    new ShareDbAccess(backend, { dontUseOldDocs: true })
+    for (const path in global.STARTUP_JS_ORM) {
+      const { access } = global.STARTUP_JS_ORM[path].OrmEntity
+      if (access) {
+        registerOrmRules(backend, path, access)
+      }
+    }
+    console.log('Sharedb-access is working')
+  }
+
+  if (
+    options.serverAggregate &&
+    global.STARTUP_JS_ORM &&
+    Object.keys(global.STARTUP_JS_ORM).length > 0
+  ) {
+    serverAggregate(backend, options.serverAggregate.customCheck)
+    for (const path in global.STARTUP_JS_ORM) {
+      const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
+      if (aggregations) {
+        for (let aggregationKey in aggregations) {
+          const collection = path.replace(/\.\*$/u, '')
+          backend.addAggregate(collection, aggregationKey, (queryParams, shareRequest) => {
+            const session = shareRequest.agent.connectSession
+            const userId = session.userId
+            const model = global.__clients[userId].model
+            return aggregations[aggregationKey](model, queryParams, session)
+          })
+        }
+      }
+    }
+    console.log('serverAggregate is working')
   }
 
   if (
@@ -103,14 +145,15 @@ module.exports = async (options) => {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
     for (const path in global.STARTUP_JS_ORM) {
-      const { schema } = global.STARTUP_JS_ORM[path].OrmEntity
+      const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
 
-      if (schema) {
+      if (properties) {
+        const schema = { type: 'object', properties }
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }
 
-    racerSchema(backend, schemaPerCollection)
+    sharedbSchema(backend, schemaPerCollection)
   }
 
   if (options.hooks != null) {
@@ -122,11 +165,21 @@ module.exports = async (options) => {
     if (!req) return
 
     let userId = req.session && req.session.userId
+
+    const model = backend.createModel()
+
+    if (!global.__clients[userId]) {
+      global.__clients[userId] = {}
+    }
+    global.__clients[userId].model = model
+
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
+      model.close()
+      delete global.__clients[userId]
     })
   })
 

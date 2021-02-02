@@ -1,60 +1,82 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
-import { colorToRGBA } from '../../config/helpers'
+import PropTypes from 'prop-types'
+import {
+  faExclamationCircle,
+  faTimes,
+  faCheckCircle,
+  faExclamationTriangle,
+  faInfoCircle
+} from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Row from '../Row'
 import Icon from '../Icon'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import STYLES from './index.styl'
+import './index.styl'
 
-const { colors } = STYLES
+const ICONS = {
+  info: faInfoCircle,
+  error: faExclamationCircle,
+  warning: faExclamationTriangle,
+  success: faCheckCircle
+}
 
 function Alert ({
-  color,
+  variant,
   icon,
-  iconColor,
   label,
+  title,
+  renderActions,
+  children,
   onClose
 }) {
-  if (/^#|rgb/.test(color)) console.warn('Alert component: Hex color for color property is deprecated. Use style instead')
-  if (/^#|rgb/.test(iconColor)) console.warn('Alert component: Hex color for iconColor property is deprecated. Use style instead')
-  const _color = colors[color] || color
-  const _iconColor = iconColor || _color
-  const backgroundColor = colorToRGBA(_color, 0.05)
+  if (label) {
+    children = label
+    console.warn('[@startupjs/ui] Alert: label is DEPRECATED, use children instead.')
+  }
 
   return pug`
-    Row.root(
-      vAlign='center'
-      style={ borderWidth: 1, borderColor: _color, backgroundColor }
-    )
-      if icon
-        Div.leftIconWrapper
-          Icon(
-            icon=icon
-            color=_iconColor
-          )
-      if label
-        Span.label(style={ color: _color } numberOfLines=1)= label
-      if onClose
-        Div.rightIconWrapper(onPress=onClose)
-          Icon.rightIcon(
+    Row.root(styleName=[variant])
+      if icon !== false
+        Icon.icon(
+          icon=icon || ICONS[variant]
+          size='l'
+          styleName=[variant]
+        )
+      Div.content(styleName={ indent: icon !== false })
+        if title
+          Span(bold)
+            = title
+        if typeof children === 'string'
+          Span
+            = children
+        else
+          = children
+      if renderActions
+        Div.actions
+          = renderActions()
+      else if onClose
+        Div.actions(onPress=onClose)
+          Icon.icon(
             icon=faTimes
-            color=_color
+            size='l'
+            styleName=[variant]
           )
   `
 }
 
 Alert.defaultProps = {
-  color: 'primary'
+  variant: 'info'
 }
 
 Alert.propTypes = {
-  color: propTypes.string,
-  iconColor: propTypes.string,
-  label: propTypes.string,
-  onClose: propTypes.func
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
+  title: PropTypes.string,
+  label: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool, PropTypes.func]),
+  renderActions: PropTypes.func,
+  onClose: PropTypes.func
 }
 
 export default observer(Alert)

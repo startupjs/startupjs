@@ -1,10 +1,12 @@
 import Link from '../Link'
-import Span from '../typography/Span'
-import Row from '../Row'
+import Div from '../Div'
+import Br from '../Br'
+import Rating from '../Rating'
+import Button from '../Button'
+import { u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Link
-Inherits [Span props](/docs/en/typography).
 
 Link allows to navigate of the app and customize anchors.
 
@@ -16,42 +18,102 @@ import { Link } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Span>
-    Inherits&nbsp;
-    <Link to='/docs/en/typography'>
-      Span props
-    </Link>
-  </Span>
+  <Link to='/docs/foundation/Typography'>
+    Typography
+  </Link>
 )
 ```
 
-## Custom layout
+## Different display
 
-Property `block` is used to add custom content to component.
+There are two options `inline` and `block` of the `display` property. It is detected automatically based on the type of `children`, if not specified. When type of `children` is string it `inline` and `block` otherwise. Depending on the `display` property, component has a different appearance.
 
 ```jsx example
 return (
-  <Span>
-    Inherits&nbsp;
-    <Link block to='/docs/en/typography'>
-      <Span>Span props</Span>
+  <Div>
+    <Link to='/docs/foundation/Typography'>
+      Typography
     </Link>
-  </Span>
+    <Br />
+    <Link to='/docs/components/Rating'>
+      <Rating value={4.5} readonly />
+    </Link>
+  </Div>
 )
 ```
 
 ## Colors
 
-To change link color pass the property `color` (doesn't work with the property `block`).
+To change link color pass the property `color` (works only when `display` value is `inline`).
 
 ```jsx example
 return (
-  <Row>
-    <Span>Inherits&nbsp;</Span>
-    <Link to='/docs/en/typography' color='primary'>
-      Span props
-    </Link>
-  </Row>
+  <Link
+    to='/docs/foundation/Typography'
+    color='primary'
+  >
+    Typography
+  </Link>
+)
+```
+
+## Bold link
+
+To make link text bold pass the property `bold` to component.
+
+```jsx example
+return (
+  <Link to='/docs/foundation/Typography' bold>
+    Typography
+  </Link>
+)
+```
+
+## Italic link
+
+To make link text italic pass the property `italic` to component.
+
+```jsx example
+return (
+  <Link to='/docs/foundation/Typography' italic>
+    Typography
+  </Link>
+)
+```
+
+## Hover style
+
+You can change hover style like in [Div component](/docs/components/Div) by passing `variant='highlight'` (works only when `display` value is `block`).
+
+```jsx example
+const style = {
+  height: u(10),
+  backgroundColor: 'white',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Link
+    style={style}
+    to='/docs/components/Rating'
+    variant='highlight'
+  >
+    <Rating value={4.5} readonly />
+  </Link>
+)
+```
+
+## Button as link
+
+Sometimes you want to make button as link. The example below illustrates how to do this correctly.
+
+```jsx example
+return (
+  <Link
+    to='/docs/foundation/Typography'
+  >
+    <Button color='primary' variant='flat'>Typography</Button>
+  </Link>
 )
 ```
 
@@ -66,7 +128,7 @@ function onPress (event) {
 return (
   <Link
     color='primary'
-    to='/docs/en/components/Alert'
+    to='/docs/components/Alert'
     onPress={onPress}
   >
     Alert docs

@@ -1,11 +1,15 @@
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
 import { observer, u } from 'startupjs'
+import PropTypes from 'prop-types'
+import { StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import propTypes from 'prop-types'
 import STYLES from './index.styl'
 
-const { colors } = STYLES
+const {
+  config: {
+    color
+  }
+} = STYLES
 
 const SIZES = {
   xs: u(1),
@@ -19,20 +23,15 @@ const SIZES = {
 function Icon ({
   style,
   icon,
-  color,
   size,
   ...props
 }) {
   if (!icon) return null
-  if (/^#|rgb/.test(color)) console.warn('Icon component: Hex color for color property is deprecated. Use style instead')
 
   const _size = useMemo(() => SIZES[size] || size, [size])
-  const _color = useMemo(() => {
-    return colors[color] || color
-  }, [color])
 
   // Pass color as part of style to allow color override from the outside
-  style = StyleSheet.flatten([{ color: _color }, style])
+  style = StyleSheet.flatten([{ color: color }, style])
 
   // TODO VITE fix custom svg
   if (typeof icon === 'function') {
@@ -43,33 +42,29 @@ function Icon ({
         width=_size
         height=_size
         fill=style.color
-        ...props
       )
     `
   }
+
   return pug`
     FontAwesomeIcon(
       style=style
       icon=icon
-      color=style.color
       size=_size
-      ...props
     )
   `
 }
 
 Icon.defaultProps = {
-  size: 'm',
-  color: 'dark'
+  size: 'm'
 }
 
 Icon.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  icon: propTypes.oneOfType([propTypes.object, propTypes.func]),
-  color: propTypes.string,
-  size: propTypes.oneOfType([
-    propTypes.oneOf(Object.keys(SIZES)),
-    propTypes.number
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(Object.keys(SIZES)),
+    PropTypes.number
   ])
 }
 

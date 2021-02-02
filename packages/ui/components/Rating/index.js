@@ -1,6 +1,6 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Div from './../Div'
 import Row from './../Row'
 import H6 from './../typography/H6'
@@ -16,13 +16,17 @@ function Rating ({
   onChange
 }) {
   return pug`
-    Row.root(style=style vAlign='center' align='between' styleName={readonly})
+    Row(style=style vAlign='center')
       if readonly
         Star(active)
-        H6(bold)= Number.isInteger(value) ? value : value.toFixed(1)
+        H6.value(bold)= value.toFixed(1)
       else
         each ITEM, index in ITEMS
-          Div(key=index onPress=() => onChange && onChange(index + 1))
+          Div.star(
+            key=index
+            onPress=() => onChange && onChange(index + 1)
+            styleName={first: index === 0}
+          )
             Star(active=index < Math.round(value))
   `
 }
@@ -33,10 +37,10 @@ Rating.defaultProps = {
 }
 
 Rating.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  value: propTypes.number,
-  readonly: propTypes.bool,
-  onChange: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  value: PropTypes.number,
+  readonly: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(Rating)

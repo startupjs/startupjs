@@ -24,8 +24,16 @@ lerna-debug.log
 # Yarn lock file
 yarn.lock
 
+# Keep local yarn lock
+!/yarn.lock
+
 # NPM lock
 package-lock.json
 
 # Prettier. NOTE: We use custom eslint rules instead
 .prettierrc
+
+/temp
+
+# Test application initialized with `yarn init-local` command.
+/testapp

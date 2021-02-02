@@ -5,12 +5,13 @@ import {
   Platform,
   StyleSheet
 } from 'react-native'
-import propTypes from 'prop-types'
 import { observer, useDidUpdate } from 'startupjs'
-import { colorToRGBA } from '../../config/helpers'
+import PropTypes from 'prop-types'
+import { colorToRGBA } from '../../helpers'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'
+
 const {
   config: {
     defaultHoverOpacity,
@@ -31,17 +32,20 @@ function Div ({
   shape,
   pushed, // By some reason prop 'push' was ignored
   bleed,
+  accessible,
+  _preventEvent = true,
   onPress,
+  onLongPress,
   onClick,
   ...props
 }) {
   const handlePress = onClick || onPress
-  const isClickable = typeof handlePress === 'function' && !disabled
+  const isClickable = (typeof handlePress === 'function' || onLongPress) && !disabled
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   let extraStyle = {}
   const extraProps = {}
-  const wrapperProps = {}
+  const wrapperProps = { accessible }
 
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
@@ -52,7 +56,23 @@ function Div ({
   }, [isClickable])
 
   if (isClickable) {
-    wrapperProps.onPress = handlePress
+    let _handlePress
+
+    // HACK:
+    // if some content inside link is clickable
+    // we need to prevent default browser behavior
+    // to make it similar as behavior of the native mobiles
+    if (isWeb) {
+      _handlePress = (e) => {
+        if (_preventEvent) e.preventDefault()
+        handlePress && handlePress(e)
+      }
+    } else {
+      _handlePress = handlePress
+    }
+
+    wrapperProps.onPress = _handlePress
+    wrapperProps.onLongPress = onLongPress
 
     // setup hover and active states styles and props
     if (feedback) {
@@ -87,8 +107,12 @@ function Div ({
   }
 
   let pushedModifier
+  let levelModifier
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
   if (pushedSize) pushedModifier = `pushed-${pushedSize}`
+  // skip level 0 for shadow
+  // because it needed only when you want to override shadow from style sheet
+  if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
     if (isClickable) {
@@ -107,16 +131,16 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
-      style=[SHADOWS[level], style, extraStyle]
+      style=[style, extraStyle]
       styleName=[
         {
-          ['with-shadow']: !!level,
           clickable: isWeb && isClickable,
           bleed,
           disabled
         },
         shape,
-        pushedModifier
+        pushedModifier,
+        levelModifier
       ]
       ...extraProps
       ...props
@@ -135,19 +159,20 @@ Div.defaultProps = {
 }
 
 Div.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['opacity', 'highlight']),
-  feedback: propTypes.bool,
-  hoverStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  activeStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  disabled: propTypes.bool,
-  level: propTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
-  shape: propTypes.oneOf(['squared', 'rounded', 'circle']),
-  pushed: propTypes.oneOfType([propTypes.bool, propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
-  bleed: propTypes.bool,
-  onPress: propTypes.func,
-  onClick: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['opacity', 'highlight']),
+  feedback: PropTypes.bool,
+  hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  disabled: PropTypes.bool,
+  level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
+  shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
+  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
+  bleed: PropTypes.bool,
+  onPress: PropTypes.func,
+  onClick: PropTypes.func,
+  onLongPress: PropTypes.func
 }
 
 export default observer(Div)
@@ -166,7 +191,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.05)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
       }
     }
 
@@ -175,7 +200,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0,0,0,0.2)' }
+        return { backgroundColor: 'rgba(0, 0, 0, 0.2)' }
       }
     }
   }

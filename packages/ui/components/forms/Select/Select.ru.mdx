@@ -6,7 +6,7 @@ import { Sandbox } from '@startupjs/docs'
 
 # Select (список)
 
-Наследует [TextInput props](/docs/en/forms/TextInput).
+Наследует [TextInput props](/docs/forms/TextInput).
 
 Список позволяет пользователю выбрать один из нескольких вариантов. Работает аналогично тегу HTML `<select>`.
 
@@ -45,6 +45,18 @@ return (
         { label: 'Tokyo', value: 'tk' }
       ]}
       onChange={setCity}
+    />
+    <Br />
+    <Select
+      label='Readonly Select example'
+      value={city}
+      readonly
+      showEmptyValue={false}
+      options={[
+        { label: 'New York', value: 'ny' },
+        { label: 'Los Angeles', value: 'la' },
+        { label: 'Tokyo', value: 'tk' }
+      ]}
     />
   </Div>
 )

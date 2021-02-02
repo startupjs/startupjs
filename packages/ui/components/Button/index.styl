@@ -31,6 +31,39 @@ _disabledOpacity = 0.25
 .label
   font-weight 500
 
+  &.invisible
+    opacity 0
+
+  &.xs
+    font(xs)
+
+  &.s
+    font(s)
+
+  &.m
+    font(m)
+
+  &.l
+    font(l)
+
+  &.xl
+    font(xl)
+
+  &.xxl
+    font(xxl)
+
+.icon
+  color: $UI.colors.dark
+
+  &.invisible
+    opacity 0
+
+  &.flat
+    color: $UI.colors.white
+
+.loader
+  position absolute
+
 // ----- JS EXPORTS
 
 :export

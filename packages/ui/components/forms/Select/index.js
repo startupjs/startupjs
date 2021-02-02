@@ -1,19 +1,20 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
-import TextInput from '../TextInput'
-import Wrapper from './Wrapper'
+import PropTypes from 'prop-types'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { getLabelFromValue } from './Wrapper/helpers'
+import TextInput from '../TextInput'
+import Wrapper from './Wrapper'
 
 // TODO: Refactor and move InputLayout into a separate component
 
 function Select ({
-  options,
   style,
+  options,
   value,
-  showEmptyValue,
   disabled,
+  readonly,
+  showEmptyValue,
   onChange,
   ...props
 }) {
@@ -33,26 +34,32 @@ function Select ({
   return pug`
     TextInput(
       style=style
+      readonly=readonly
       value=getLabelFromValue(value, options)
       disabled=disabled,
       icon=faAngleDown
       iconPosition='right'
       renderWrapper=renderWrapper
+      selection={start: 0, end: 0}
+      editable=false
       ...props
     )
   `
 }
 
 Select.defaultProps = {
-  disabled: false,
   options: [],
+  disabled: false,
+  readonly: false,
   showEmptyValue: true
 }
 
 Select.propTypes = {
-  onChange: propTypes.func,
-  options: propTypes.array,
-  showEmptyValue: propTypes.bool
+  options: PropTypes.array,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  showEmptyValue: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(Select)

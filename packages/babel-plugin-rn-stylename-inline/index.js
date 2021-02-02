@@ -118,7 +118,6 @@ function getUsedCompilers ($program) {
       }
     }
     if ($import.get('specifiers').length === 0) $import.remove()
-    break
   }
   return res
 }

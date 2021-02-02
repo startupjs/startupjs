@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import Div from './../Div'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Span from '../typography/Span'
 import './index.styl'
@@ -40,7 +40,7 @@ function Avatar ({
               seed: _fallback
             })}
           )
-            Span.fallback(size=size bold)
+            Span.fallback(styleName=[size] bold)
               = initials
       if status
         Div.status(styleName=[size, status, shape])
@@ -55,12 +55,12 @@ Avatar.defaultProps = {
 }
 
 Avatar.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  src: propTypes.string,
-  size: propTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  src: PropTypes.string,
+  size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
   shape: Div.propTypes.shape,
-  status: propTypes.oneOf(['online', 'away']),
-  children: propTypes.string,
+  status: PropTypes.oneOf(['online', 'away']),
+  children: PropTypes.string,
   disabled: Div.propTypes.disabled,
   onPress: Div.propTypes.onPress
 }

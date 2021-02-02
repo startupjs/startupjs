@@ -23,10 +23,33 @@ _iconMargin = 0.5u
     &.xxl
       margin-left 1u
 
+.item
+  align-items center
+
 .separator
   margin-left 2px
   margin-right @margin-left
   color: rgba($UI.colors.dark, 0.8)
+
+.separator,
+.content
+  &.xs
+    font(xs)
+
+  &.s
+    font(s)
+
+  &.m
+    font(m)
+
+  &.l
+    font(l)
+
+  &.xl
+    font(xl)
+
+  &.xxl
+    font(xxl)
 
 :export
   colors: $UI.colors

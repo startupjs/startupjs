@@ -1,60 +1,44 @@
-# StartupJS
+![StartupJS](https://i.imgur.com/ZqbdTmB.png)
 
-> :fire: React **Native + Web** framework with the isomorphic realtime storage engine and observables
+<div align="center">
+  <h1>
+    StartupJS &middot;
+    <a href="https://www.npmjs.com/package/startupjs"><img src="https://img.shields.io/npm/v/startupjs.svg?style=flat" /></a>
+    <a href="#contributing--troubleshooting"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" /></a>
+    <img src="https://img.shields.io/badge/license-MIT-blue" />
+  </h1>
+  <a href="#quickstart">Quickstart</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#native-development-ios-and-android">Native&nbsp;development</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#ide-configuration">IDE&nbsp;support</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#documentation">Docs</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#sub-packages-documentation">Packages</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#version-migration-guides">Migration</a>
+</div>
 
-[Introduction](#introduction)<br/>
-[Requirements](#requirements)<br/>
-[Quick start](#quick-start)<br/>
-[Running on mobile](#running-on-mobile)<br/>
-[IDE configuration](#ide-configuration)<br/>
-[Documentation](#documentation)<br/>
-[Boilerplate templates](#boilerplate-templates)<br/>
-[Docker development Quick Start](#docker-development-quick-start)<br/>
-[List of Packages](#list-of-packages)<br/>
-[Version migration guides](#version-migration-guides)<br/>
-[Contributing & Troubleshooting](#contributing--troubleshooting)<br/>
-[Licence](#licence)
+## What is StartupJS?
 
-## Introduction
+StartupJS is a **full-stack framework** that consists of:
 
-A full-stack framework which uses isomorphic web/native React frontend and NodeJS + MongoDB backend. All data manipulations are done through the isomorphic *React-* and *NodeJS-* *integrated* collaborative real-time observable Model.
+- **Frontend**: Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://github.com/necolas/react-native-web)
+- **Backend**: [ExpressJS](https://expressjs.com/)
+- **Collaborative Database**: [MongoDB](https://www.mongodb.com/) which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server observable [ORM](https://derbyjs.com/docs/derby-0.10/models)
 
-StartupJS stack is built on top of the following libraries and technologies:
+## Quickstart
 
-1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
-1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
-1. [React-ShareDB](/packages/react-sharedb):
-    - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
-    - Allows to sync data between your local state (similar to Redux) and the DB.
-    - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
-    - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
-    - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
-1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](/packages/orm).
-1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](/packages/app) (e.g. `main` and `admin`)
-1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
-1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
-1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
-1. [Offline support](/packages/offline) with an ability to [query data locally](https://github.com/kofrasa/mingo) using the MongoDB queries and aggregations language.
-1. Code Quality control tools:
-    - [ESLint](https://eslint.org/)
-    - *optional* [TypeScript](https://www.typescriptlang.org/)
+### Requirements
 
-## Requirements
+StartupJS app requires: [Node 14.x](https://nodejs.org/), [Yarn](https://yarnpkg.com/), [MongoDB 4.x](https://docs.mongodb.com/manual/installation/), [Redis 5.x](https://redis.io/)
 
-- [Node](https://nodejs.org/) >= 12.0
-- [Yarn](https://yarnpkg.com/)
-- [MongoDB](https://docs.mongodb.com/manual/installation/) 4.0
-- [Redis](https://redis.io/) 5.0
-- [Android SDK](https://developer.android.com/sdk/) (*optional*) for Android development
-- [Xcode](https://developer.apple.com/xcode/) (*optional*) for iOS Development
+Alternatively, you can run everything in [Docker](https://docs.docker.com/install/), in which case follow [Docker development Quick Start](#docker-development-quick-start). **Important** to note is that Docker won't allow you to test Android or iOS.
 
-**OR**
+### Installation
 
-- [Docker](https://docs.docker.com/install/) (Instead of *Quick start*, follow the instructions in [Docker development Quick Start](#docker-development-quick-start) section)
-
-## Quick start
-
-1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` to your project name (use lower case).
+1. Initialize a default [`ui` template](#official-app-templates) project, change `myapp` to your project name (use lower case):
 
     ```
     npx startupjs init myapp
@@ -68,7 +52,14 @@ StartupJS stack is built on top of the following libraries and technologies:
 
 3. Open http://localhost:3000 and start developing!
 
-## Running on mobile
+## Native Development (iOS and Android)
+
+### Requiremens
+
+Follow the [React Native guide](https://reactnative.dev/docs/environment-setup) to setup everything.
+StartupJS uses native modules, so you have to follow `React Native CLI Quickstart`, not the `Expo` guide.
+
+### How to run StartupJS on native
 
 `yarn start` actually combines 2 commands together: `yarn server` and `yarn web`.
 
@@ -109,7 +100,7 @@ Here is the list of commands to run all platforms at the same time:
 
 ## IDE configuration
 
-### Visual Studio Code
+### [![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-grey?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/)
 
 #### Step 1: Add support for PUG syntax highlighting
 
@@ -121,7 +112,7 @@ Here is the list of commands to run all platforms at the same time:
 1. Install extension `ESLint`
 2. Restart VS Code
 
-### Atom
+### [![Atom](https://img.shields.io/badge/Atom-grey?style=for-the-badge&logo=atom)](https://atom.io/)
 
 #### Step 1: Add support for PUG syntax highlighting
 
@@ -143,15 +134,57 @@ Here is the list of commands to run all platforms at the same time:
 The main things you'll need to know to get started with StartupJS are:
 
 1. [React Native](https://reactnative.dev/)
-1. [`Racer`'s Model](https://derbyjs.com/docs/derby-0.10/models). You only need to read the `MODELS` section, ignore everything else.
+1. [Racer's Model](https://derbyjs.com/docs/derby-0.10/models). You only need to read the `MODELS` section, ignore everything else.
 1. [React hooks for Model](/packages/react-sharedb-hooks)
 1. [StartupJS UI Components](https://startupjs-ui.dmapper.co)
 
-**Optional**. For additional documentation on each StartupJS package see the according readme:
+For additional documentation on each StartupJS package see the [according readme](#sub-packages-documentation):
 
-1. [List of StartupJS Packages](#list-of-packages)
+### Advanced
 
-## Boilerplate templates
+To gain further deep knowledge of StartupJS stack you'll need get familiar with the following technologies it's built on:
+
+1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
+1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
+1. [Pug](https://pugjs.org/) which is used besides JSX for templating.
+1. [Stylus](https://stylus-lang.com/) which is used besides CSS for stylesheets.
+1. [React-ShareDB](/packages/react-sharedb):
+    - A [ShareDB](https://github.com/share/sharedb) real-time collaborative database integration into React.
+    - Allows to sync data between your local state (similar to Redux) and the DB.
+    - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
+    - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
+    - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
+1. [Model](https://derbyjs.com/docs/derby-0.10/models) based on [Racer](https://github.com/derbyjs/racer) with an ability to create [custom ORM methods](/packages/orm).
+1. [React Router](https://reacttraining.com/react-router/) for routing and navigation with an ability to separate your frontend into [multiple frontent mircoservices](/packages/app) (e.g. `main` and `admin`)
+1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
+1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
+1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
+1. Code Quality control tools:
+    - [ESLint](https://eslint.org/)
+    - *optional* [TypeScript](https://www.typescriptlang.org/)
+
+### Sub-Packages Documentation
+
+- [App](/packages/app)
+- [Babel preset startupjs](/packages/babel-preset-startupjs)
+- [Backend](/packages/backend)
+- [Bundler](/packages/bundler)
+- [CLI](/packages/cli)
+- [CodePush](/packages/codepush)
+- [Cron](/packages/cron)
+- [Docs](/packages/docs)
+- [Hooks](/packages/hooks)
+- [Init](/packages/init)
+- [Model](/packages/model)
+- [Offline](/packages/offline)
+- [ORM](/packages/orm)
+- [React sharedb](/packages/react-sharedb)
+- [Routes middleware](/packages/routes-middleware)
+- [Server](/packages/server)
+- [StartupJS meta package](/packages/startupjs)
+- [UI](/packages/ui)
+
+## Official App Templates
 
 The following templates are available:
 
@@ -190,7 +223,7 @@ Keep in mind though that since docker uses its own driver to mount folders,
 performance (especially when installing modules) might be considerably slower compared
 to the native installation when working with the large amount of files.
 
-1. Initialize a new [`ui` boilerplate](#boilerplate-templates) project. Change `myapp` at the end to your project name (use lower case).
+1. Initialize a new [`ui` boilerplate](#official-app-templates) project. Change `myapp` at the end to your project name (use lower case).
 
     ```
     docker run --rm -it -v ${PWD}:/ws:delegated startupjs/dev init myapp
@@ -216,57 +249,15 @@ to the native installation when working with the large amount of files.
     ./docker exec
     ```
 
-## List of Packages
-
-- [App](/packages/app)
-- [Babel preset startupjs](/packages/babel-preset-startupjs)
-- [Backend](/packages/backend)
-- [Bundler](/packages/bundler)
-- [CLI](/packages/cli)
-- [CodePush](/packages/codepush)
-- [Cron](/packages/cron)
-- [Docs](/packages/docs)
-- [Hooks](/packages/hooks)
-- [Init](/packages/init)
-- [Model](/packages/model)
-- [Offline](/packages/offline)
-- [ORM](/packages/orm)
-- [React sharedb](/packages/react-sharedb)
-- [Routes middleware](/packages/routes-middleware)
-- [Server](/packages/server)
-- [StartupJS meta package](/packages/startupjs)
-- [UI](/packages/ui)
-
 ## Version migration guides
 
 The following guides are available to assist with migration to new major versions of StartupJS:
 
-- [0.22 -> 0.23](/docs/migration-guides/0.22--0.23.md)
+- [Migration Guides](/docs/migration-guides)
 
 ## Contributing & Troubleshooting
 
-To initialize the monorepo, run:
-
-```sh
-yarn bootstrap
-```
-
-After that you can run the styleguide project to develop the UI components, etc.:
-
-```sh
-cd styleguide
-yarn start
-```
-
-To cleanup all modules:
-
-```sh
-yarn clean
-```
-
-If you have any questions or want to request a feature, please look wether a similar issue already exists in this repo, otherwise feel free to file a new one.
-
-If you want to contribute, feel free to send your PRs, we will review them and provide our feedback on a short notice.
+See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 ## Licence
 

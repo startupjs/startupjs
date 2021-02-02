@@ -1,12 +1,12 @@
 import React from 'react'
-import propTypes from 'prop-types'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import { colorToRGBA } from '../../helpers'
 import Link from './../Link'
 import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
-import { colorToRGBA } from '../../config/helpers'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -29,7 +29,7 @@ function Breadcrumbs ({
             Icon(style=extraStyle icon=icon size=size)
         Span.content(
           style=extraStyle
-          size=size
+          styleName=[size]
           bold=bold
         )= children
     `
@@ -44,15 +44,17 @@ function Breadcrumbs ({
           if isLastRoute
             Item(icon=icon color=mainTextColor bold)= name
           else
-            Row
+            Row.item
               Link(
-                block
                 replace=replace
                 ...linkProps
               )
                 Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name
-              Span.separator(size=size)
-                | &nbsp#{separator}&nbsp
+              if typeof separator === 'string'
+                Span.separator(styleName=[size])
+                  | &nbsp#{separator}&nbsp
+              else
+                = separator
   `
 }
 
@@ -65,16 +67,16 @@ Breadcrumbs.defaultProps = {
 }
 
 Breadcrumbs.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  routes: propTypes.arrayOf(propTypes.shape({
-    to: propTypes.string,
-    name: propTypes.string,
-    icon: propTypes.object
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    to: PropTypes.string,
+    name: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
   })).isRequired,
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  separator: propTypes.string,
-  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  replace: propTypes.bool
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  separator: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+  replace: PropTypes.bool
 }
 
 export default observer(Breadcrumbs)

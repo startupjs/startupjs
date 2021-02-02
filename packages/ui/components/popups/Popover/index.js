@@ -1,343 +1,327 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {
   View,
   Animated,
-  Platform,
   TouchableWithoutFeedback,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from 'react-native'
-import Modal from '../../Modal'
+import { observer, useValue } from 'startupjs'
+import PropTypes from 'prop-types'
+import Arrow from './Arrow'
+import Portal from '../../Portal'
+import Geometry from './Geometry'
+import { PLACEMENTS_ORDER } from './constants.json'
+import animate from './animate'
 import STYLES from './index.styl'
 
-const { shadows } = STYLES
-
-const SHTAMP_RENDER_STYLE = {
-  overflow: 'hidden',
-  position: 'relative',
-  height: 0,
-  left: 0,
-  top: 0,
-  width: 0
+const STEPS = {
+  CLOSE: 'close',
+  RENDER: 'render',
+  ANIMATE: 'animate',
+  OPEN: 'open'
 }
 
-const MARGIN = 5
-const ARROW_MARGIN = 16
-const WITH_ARROW_MARGIN = 8
-const ARROW_WIDTH = 10
+function isStampInit (step) {
+  return ['close', 'render'].indexOf(step) === -1
+}
 
-const Popover = ({
-  positionHorizontal,
-  positionVertical,
-  animateType,
+function getValidNode (current) {
+  return current.measure
+    ? current
+    : current.getNode()
+}
+
+// TODO: autofix placement for ref
+function Popover ({
+  children,
+  style,
+  arrowStyle,
+  captionStyle,
   visible,
-  hasWidthCaption,
+  position,
+  attachment,
+  placements,
+  animateType,
+  durationOpen,
+  durationClose,
   hasArrow,
-  height,
-  width,
+  hasWidthCaption,
+  hasOverlay,
+  hasDefaultWrapper,
   onDismiss,
   onRequestOpen,
-  styleWrapper,
-  styleOverlay,
-  backdropStyle,
-  children
-}) => {
-  const [coords, setCoords] = useState(null)
-  const [contentSize, setContentSize] = useState({})
-  const [captionSize, setCaptionSize] = useState({})
-
+  onRequestClose
+}, ref) {
+  style = StyleSheet.flatten([style])
+  const refPopover = useRef()
   const refCaption = useRef()
-  const refContent = useRef()
-  const [isRender, setIsRender] = useState(true)
+  const refGeometry = useRef({})
+  const captionInfo = useRef({})
 
-  const [animateOpacityOverlay] = useState(new Animated.Value(visible ? 1 : 0))
-  const [animateOpacity] = useState(new Animated.Value(visible ? 1 : 0))
-  const [animateTop] = useState(new Animated.Value(0))
-  const [animateWidth] = useState(new Animated.Value(
-    (visible || animateType !== 'scale') ? width : 0
-  ))
-  const [animateHeight] = useState(new Animated.Value(0))
-
-  useLayoutEffect(() => {
-    const handleDimensions = () => {
-      setCoords(null)
-      animateOpacity.setValue(0)
-      if (animateType !== 'slide') animateHeight.setValue(0)
-      onDismiss()
-    }
-    Dimensions.addEventListener('change', handleDimensions)
-    return () => Dimensions.removeEventListener('change', handleDimensions)
-  }, [])
-
-  useEffect(() => {
-    animateOpacityOverlay.stopAnimation()
-    animateOpacity.stopAnimation()
-    animateTop.stopAnimation()
-    animateWidth.stopAnimation()
-    animateHeight.stopAnimation()
-
-    if (visible) setParams()
-    else hide()
-  }, [visible])
-
-  const setParams = () => {
-    if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
-      return
-    }
-
-    setIsRender(true)
-    setTimeout(() => {
-      refContent.current.getNode().measure((ex, ey, _width, _height, cx, cy) => {
-        animateTop.setValue(getTopPosition({
-          cy,
-          offset: animateType === 'slide' ? 20 : 0,
-          curHeight: height || _height
-        }))
-        setContentSize({
-          height: height || _height,
-          width: width || _width
-        })
-        setCoords({ x: cx, y: cy })
-        show(height || _height, width || _width)
-      })
-    }, 100)
-  }
-
-  const show = (curHeight, curWidth) => {
-    if (animateType === 'slide') animateHeight.setValue(curHeight)
-
-    const animated = () => {
-      Animated.parallel([
-        animateType === 'slide' && Animated.timing(animateTop, {
-          toValue: animateTop._value + 20, duration: 300
-        }),
-        animateType !== 'slide' && Animated.timing(animateHeight, {
-          toValue: curHeight, duration: 300
-        }),
-        animateType === 'scale' && Animated.timing(animateWidth, {
-          toValue: curWidth, duration: 300
-        }),
-        Animated.timing(animateOpacityOverlay, { toValue: 0.5, duration: 300 }),
-        Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
-      ]).start(() => {
-        onRequestOpen && onRequestOpen()
-      })
-    }
-
-    if (Platform.OS === 'android') {
-      setTimeout(animated, 0)
-    } else {
-      animated()
-    }
-  }
-
-  const hide = () => {
-    Animated.parallel([
-      animateType === 'slide' && Animated.timing(animateTop, {
-        toValue: animateTop._value - 20, duration: 300
-      }),
-      animateType !== 'slide' && Animated.timing(animateHeight, {
-        toValue: 0, duration: 300
-      }),
-      animateType === 'scale' && Animated.timing(animateWidth, {
-        toValue: 0, duration: 300
-      }),
-      Animated.timing(animateOpacityOverlay, { toValue: 0, duration: 400 }),
-      Animated.timing(animateOpacity, { toValue: 0, duration: 400 })
-    ]).start(() => {
-      onDismiss()
-      setIsRender(false)
-
-      refCaption.current && refCaption.current.measure((ex, ey, width, height) => {
-        setCaptionSize({ width, height })
-        setCoords(null)
-      })
-    })
-  }
-
-  let caption = null
-  let renderContent = []
-  const onLayoutCaption = e => {
-    setCaptionSize({
-      width: e.nativeEvent.layout.width,
-      height: e.nativeEvent.layout.height
-    })
-  }
-  React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type.toString() === Popover.Caption.toString()) {
-      caption = child
-      return
-    }
-    renderContent.push(child)
+  const [step, $step] = useValue(STEPS.CLOSE)
+  const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
+  const [dimensions, $dimensions] = useValue({
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
   })
 
-  const getLeftPosition = () => {
-    if (!coords) return
-    if (hasWidthCaption) return coords.x
-    if (positionVertical === 'center' && positionHorizontal === 'left') {
-      const position = coords.x - width
-      return position - (hasArrow ? ARROW_WIDTH + MARGIN : MARGIN)
+  const [animateStates] = useState({
+    opacity: new Animated.Value(0),
+    height: new Animated.Value(0),
+    width: new Animated.Value(0),
+    scaleX: new Animated.Value(1),
+    scaleY: new Animated.Value(1),
+    translateX: new Animated.Value(0),
+    translateY: new Animated.Value(0)
+  })
+
+  // reset state after change dimensions
+  useLayoutEffect(() => {
+    let mounted = true
+
+    const handleDimensions = () => {
+      if (!mounted) return
+      $step.set(STEPS.CLOSE)
+      $dimensions.setDiff({
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
+      })
+      onDismiss()
     }
-    if (positionVertical === 'center' && positionHorizontal === 'right') {
-      const position = coords.x + (captionSize ? captionSize.width : 0)
-      return position + (hasArrow ? ARROW_WIDTH + MARGIN : MARGIN)
+
+    Dimensions.addEventListener('change', handleDimensions)
+    return () => {
+      mounted = false
+      Dimensions.removeEventListener('change', handleDimensions)
     }
-    if (positionHorizontal === 'right') {
-      return coords.x - (hasArrow ? WITH_ARROW_MARGIN : 0)
+  }, [])
+
+  // -main
+  useEffect(() => {
+    if (step === STEPS.CLOSE && visible) {
+      $step.set(STEPS.RENDER)
+      setTimeout(runShow, 0)
     }
-    if (positionHorizontal === 'center') {
-      return coords.x - (width / 2) + (captionSize ? (captionSize.width / 2) : 0)
+
+    if (step !== STEPS.CLOSE && !visible) {
+      runHide()
     }
-    if (positionHorizontal === 'left') {
-      const position = coords.x - width + (captionSize ? captionSize.width : 0)
-      return position + (hasArrow ? WITH_ARROW_MARGIN : 0)
+  }, [visible])
+  // -
+
+  function runShow () {
+    if (!refCaption.current) return
+    // x, y, width, height, pageX, pageY
+    getValidNode(refCaption.current).measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
+      if (!refPopover.current) return
+      getValidNode(refPopover.current).measure((px, py, pWidth, pHeight, ppx, ppy) => {
+        const _captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
+
+        const { width, height = 'auto', maxHeight } = style
+        let curHeight = (height === 'auto') ? pHeight : height
+        curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
+
+        let curWidth = width || pWidth
+        curWidth = hasWidthCaption ? _captionInfo.width : curWidth
+        const contentInfo = {
+          x: cpx,
+          y: cpy,
+          height: curHeight,
+          width: curWidth
+        }
+
+        refGeometry.current = new Geometry({
+          placement: position + '-' + attachment,
+          captionInfo: _captionInfo,
+          contentInfo,
+          placements,
+          hasArrow,
+          dimensions
+        })
+
+        setValidPlacement(refGeometry.current.validPlacement)
+        $step.set(STEPS.ANIMATE)
+
+        animate.show({
+          durationOpen,
+          geometry: refGeometry.current,
+          contentInfo,
+          animateType,
+          animateStates,
+          hasArrow
+        }, () => {
+          $step.set(STEPS.OPEN)
+          onRequestOpen && onRequestOpen()
+        })
+      })
+    })
+  }
+
+  function runHide () {
+    if (!refPopover.current) {
+      onDismiss && onDismiss()
+      onRequestClose && onRequestClose()
+    } else {
+      getValidNode(refPopover.current).measure((x, y, popoverWidth, popoverHeight) => {
+        const contentInfo = { width: popoverWidth, height: popoverHeight }
+        $step.set(STEPS.ANIMATE)
+
+        animate.hide({
+          durationClose,
+          geometry: refGeometry.current,
+          animateType,
+          contentInfo,
+          animateStates,
+          hasArrow
+        }, () => {
+          $step.set(STEPS.CLOSE)
+          onDismiss && onDismiss()
+          onRequestClose && onRequestClose()
+        })
+      })
     }
   }
 
-  const getTopPosition = ({ cy, offset = 0, curHeight }) => {
-    const _height = height || curHeight
-    let position = null
+  // parse children
+  let caption = null
+  let content = []
+  const onLayoutCaption = e => {
+    captionInfo.current = e.nativeEvent.layout
+  }
+  React.Children.toArray(children).forEach(child => {
+    if (child.type.name === PopoverCaption.name) {
+      caption = pug`
+        View(
+          ref=refCaption
+          style=[captionStyle, child.props.style]
+          onLayout=onLayoutCaption
+        )= child.props.children
+      `
+    } else {
+      content.push(child)
+    }
+  })
 
-    if (positionVertical === 'center') {
-      position = (cy - offset) - (_height / 2) - (captionSize ? (captionSize.height / 2) : 0)
-      return position
+  // styles
+  const _wrapperStyle = StyleSheet.flatten([
+    STYLES.wrapper,
+    {
+      left: refGeometry.current.positionLeft,
+      top: refGeometry.current.positionTop
     }
-    if (positionVertical === 'bottom') {
-      position = cy - offset
-      return position + (hasArrow ? ARROW_MARGIN : MARGIN)
-    }
-    if (positionVertical === 'top') {
-      position = cy - _height - (captionSize && captionSize.height)
-      return position - (hasArrow ? ARROW_MARGIN : MARGIN)
-    }
+  ])
+
+  const _popoverStyle = StyleSheet.flatten([
+    style,
+    isStampInit(step)
+      ? {
+        position: 'absolute',
+        opacity: animateStates.opacity,
+        transform: [
+          { scaleX: animateStates.scaleX },
+          { scaleY: animateStates.scaleY },
+          { translateX: animateStates.translateX },
+          { translateY: animateStates.translateY }
+        ]
+      }
+      : STYLES.popoverStamp
+  ])
+
+  const [validPosition] = validPlacement.split('-')
+  if (isStampInit(step) && validPosition === 'top') _popoverStyle.bottom = 0
+  if (isStampInit(step) && validPosition === 'left') _popoverStyle.right = 0
+  if (isStampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
+  if (isStampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
+
+  if (step === STEPS.ANIMATE && animateType === 'default') {
+    delete _popoverStyle.minHeight
+    _popoverStyle.height = animateStates.height
   }
 
-  const getLeftPositionArrow = () => {
-    if (!coords) return
-    if (positionVertical === 'center' && positionHorizontal === 'left') {
-      return coords.x - ARROW_MARGIN
-    }
-    if (positionVertical === 'center' && positionHorizontal === 'right') {
-      return coords.x + (captionSize ? captionSize.width : 0) - ARROW_WIDTH / 2
-    }
-    if (positionHorizontal === 'left') {
-      return coords.x + (captionSize ? captionSize.width : 0) - (ARROW_WIDTH * 2) - 2
-    }
-    if (positionHorizontal === 'right') return coords.x + 2
-    if (positionHorizontal === 'center') {
-      let position = coords.x + (width / 2) - (captionSize ? (captionSize.height / 2) : 0)
-      position -= ARROW_MARGIN / 2
-      return position - ARROW_WIDTH
-    }
+  if (validPosition !== 'left') {
+    _wrapperStyle.width = '100%'
+    _wrapperStyle.maxWidth = Dimensions.get('window').width - (_wrapperStyle.left || 0)
+  } else {
+    _wrapperStyle.width = _wrapperStyle.left
+    _wrapperStyle.left = 0
   }
-
-  const getTopPositionArrow = () => {
-    const curTop = animateType === 'slide' ? animateTop._value + 20 : animateTop._value
-    if (positionVertical === 'center') {
-      return curTop + (contentSize.height / 2) - ARROW_WIDTH
-    }
-    if (positionVertical === 'top') {
-      return curTop + contentSize.height
-    }
-    return curTop - 20
+  if (hasWidthCaption && captionInfo.current) {
+    _popoverStyle.width = captionInfo.current.width
   }
-
-  function getBackdropStyle () {
-    return StyleSheet.flatten([
-      backdropStyle,
-      coords === null ? SHTAMP_RENDER_STYLE : {}
-    ])
+  if (step === STEPS.ANIMATE) {
+    _popoverStyle.width = animateStates.width
+    _popoverStyle.height = animateStates.height
   }
-
-  const Wrapper = coords === null ? View : Modal
-  const _styleWrapper = coords === null ? {
-    position: 'absolute',
-    opacity: 0,
-    left: 0,
-    top: 0,
-    ...styleWrapper
-  } : {
-    left: getLeftPosition(),
-    top: animateTop,
-    height: animateHeight,
-    opacity: animateOpacity,
-    width: animateWidth,
-    ...shadows[3],
-    ...styleWrapper
-  }
-
-  if (hasWidthCaption) _styleWrapper.width = captionSize.width
-  if (!isRender) _styleWrapper.height = 0
-  const _styleOverlay = { ...styleOverlay, opacity: animateOpacityOverlay }
 
   return pug`
-    View
-      if caption
-        View(
-          style=caption.props.style
-          ref=refCaption
-          onLayout=onLayoutCaption
-        )= caption.props.children
-      Wrapper(
-        transparent=true
-        visible=isRender
-        ariaHideApp=false
-        variant='pure'
-        style=getBackdropStyle()
-      )
-        View.case
+    = caption
+    Portal
+      if step !== STEPS.CLOSE
+        if hasOverlay
           TouchableWithoutFeedback(onPress=onDismiss)
-            Animated.View.overlay(style=_styleOverlay)
-          if hasArrow && !(positionVertical === 'center' && positionHorizontal === 'center')
-            Animated.View.arrow(
-              style={
-                left: getLeftPositionArrow(),
-                top: getTopPositionArrow(),
-                opacity: animateOpacity
-              }
-              styleName={
-                arrowBottom: positionVertical === 'bottom',
-                arrowTop: positionVertical === 'top',
-                arrowCenterLeft: positionVertical === 'center' && positionHorizontal === 'left',
-                arrowCenterRight: positionVertical === 'center' && positionHorizontal === 'right'
-              }
-            )
+            View.overlay
+        View(style=_wrapperStyle)
           Animated.View.popover(
-            pointerEvents='box-none'
-            ref=refContent
-            style=_styleWrapper
-          )= renderContent
+            ref=refPopover
+            style=_popoverStyle
+            styleName={ hasArrow }
+          )
+            if hasArrow
+              Arrow(
+                style=arrowStyle
+                geometry=refGeometry.current
+                validPosition=validPosition
+              )
+            if hasDefaultWrapper
+              ScrollView.content(
+                ref=ref
+                styleName={ hasArrow }
+                showsVerticalScrollIndicator=step !== STEPS.ANIMATE
+              )= content
+            else
+              = content
   `
 }
 
-Popover.defaultProps = {
-  positionHorizontal: 'right',
-  positionVertical: 'bottom',
+function PopoverCaption ({ children }) {
+  return children
+}
+
+const ObservedPopover = observer(Popover, { forwardRef: true })
+
+ObservedPopover.defaultProps = {
+  position: 'bottom',
+  attachment: 'start',
+  placements: PLACEMENTS_ORDER,
   animateType: 'default',
   hasWidthCaption: false,
   hasArrow: false,
-  width: 200,
-  backdropStyle: { zIndex: 99999 }
+  hasOverlay: true,
+  hasDefaultWrapper: true,
+  durationOpen: 300,
+  durationClose: 200
 }
 
-Popover.propTypes = {
+ObservedPopover.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
-  onDismiss: PropTypes.func,
-  positionHorizontal: PropTypes.oneOf(['left', 'center', 'right']),
-  positionVertical: PropTypes.oneOf(['bottom', 'center', 'top']),
+  position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+  attachment: PropTypes.oneOf(['start', 'center', 'end']),
+  placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
   animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hasWidthCaption: PropTypes.bool,
-  styleBackdrop: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  hasArrow: PropTypes.bool,
+  hasOverlay: PropTypes.bool,
+  hasInsideScroll: PropTypes.bool,
+  durationOpen: PropTypes.number,
+  durationClose: PropTypes.number,
+  onDismiss: PropTypes.func,
+  onRequestOpen: PropTypes.func,
+  onRequestClose: PropTypes.func
 }
 
-Popover.Caption = ({ children, style }) => {
-  return pug`
-    View(style=style)
-      = children
-  `
-}
-
-export default Popover
+ObservedPopover.Caption = PopoverCaption
+export default ObservedPopover

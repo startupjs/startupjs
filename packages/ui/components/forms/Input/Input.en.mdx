@@ -1,12 +1,14 @@
+import { useMemo } from 'react'
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
+import Span from '../../typography/Span'
 import { useValue, u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Input
 
-Input provides a wrapper api around [Checkbox](/docs/en/forms/Checkbox), [TextInput](/docs/en/forms/TextInput), [Select](/docs/en/forms/Select) & [ObjectInput](/docs/en/forms/ObjectInput) components by adding two-way data bindings. You can use any of the above components by specifying the `type` prop.
+Input provides a wrapper api around [Checkbox](/docs/forms/Checkbox), [TextInput](/docs/forms/TextInput), [Select](/docs/forms/Select) & [ObjectInput](/docs/forms/ObjectInput) components by adding two-way data bindings. You can use any of the above components by specifying the `type` prop.
 
 ```jsx
 import { Input } from from '@startupjs/ui'
@@ -55,52 +57,71 @@ return (
 
 ## Complex example
 
+When using `object` input it's important to have `schema` defined as a constant either outside of your compoment or cached with `useMemo()`.
+Otherwise it is going to rerender the whole form tree whenever you are aditing just one field.
+
 ```jsx example
-const schema = {
+const schema = useMemo(() => ({
   name: {
     type: 'string',
     label: 'Name'
   },
   number: {
-    type: 'string',
-    label: 'Number'
-  },
-  abilities: {
-    type: 'object',
-    label: 'Abilities',
-    properties: {
-      ability0: {
-        type: 'string',
-        label: 'Ability 1'
-      },
-      ability1: {
-        type: 'string',
-        label: 'Ability 2'
-      },
-      ability2: {
-        type: 'string',
-        label: 'Ability 3'
-      }
-    }
-  },
-  url: {
-    type: 'string',
-    label: 'Image URL'
+    type: 'number',
+    label: 'Level'
   },
   dangerous: {
     type: 'boolean',
     label: 'Is Dangerous'
+  },
+  type: {
+    type: 'select',
+    label: 'Type',
+    options: ['Fire', 'Water', 'Earth', 'Electric']
+  },
+  address: {
+    type: 'object',
+    label: 'Address',
+    properties: {
+      galaxy: {
+        type: 'string',
+        label: 'Galaxy'
+      },
+      planet: {
+        type: 'number',
+        label: 'Planet Number'
+      },
+      location: {
+        type: 'string',
+        label: 'Location'
+      }
+    }
+  },
+  abilities: {
+    type: 'array',
+    label: 'Abilities',
+    items: { type: 'string' }
+  },
+  url: {
+    type: 'string',
+    label: 'Image URL'
   }
-}
+}), [])
 
-const [, $value] = useValue()
+const [value, $value] = useValue()
 
 return (
-  <Input
-    type='object'
-    $value={$value}
-    properties={schema}
-  />
+  <React.Fragment>
+    <Input
+      type='object'
+      $value={$value}
+      properties={schema}
+    />
+    <Br />
+    <Span style={{ fontFamily: 'monospace' }}>
+      VALUE: {JSON.stringify(value, null, 2)}
+    </Span>
+  </React.Fragment>
 )
 ```
 

@@ -1,38 +1,39 @@
 import React, { useState, useLayoutEffect } from 'react'
+import { Route, Redirect } from 'react-router'
 import {
   $root,
   observer,
   emit,
   initLocalCollection
 } from 'startupjs'
-import { Route } from 'react-router'
-import RoutesWrapper from './RoutesWrapper'
 import omit from 'lodash/omit'
 import qs from 'qs'
+import RoutesWrapper from './RoutesWrapper'
 
 export default observer(function Routes ({
   routes,
   onRouteError,
   ...props
 }) {
-  function render (route, props) {
-    if (route.redirect) {
-      emit('url', route.redirect, { replace: true })
-      return null
-    }
-    return pug`
-      //- TODO: We can remove passing props because
-      //- in pages we can use react-router hooks for this
-      RouteComponent(...props route=route onError=onRouteError)
-    `
-  }
-
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
+
+    function render (props) {
+      return route.redirect
+        ? pug`
+          Redirect(to=route.redirect)
+        `
+        : pug`
+          //- TODO: We can remove passing props because
+          //- in pages we can use react-router hooks for this
+          RouteComponent(...props route=route onError=onRouteError)
+        `
+    }
+
     return pug`
       Route(
         key=route.path
-        render=render.bind(null, route)
+        render=render
         ...props
       )
     `
@@ -56,7 +57,7 @@ const RouteComponent = observer(function RCComponent ({
     if (!filters) return setRender(true)
     filters = filters.slice()
     function runFilter (err) {
-      if (err) return onError(err)
+      if (err) return emit('error', err)
       const filter = filters.shift()
       if (typeof filter === 'function') {
         return filter($root, runFilter, (url) => {
@@ -71,7 +72,7 @@ const RouteComponent = observer(function RCComponent ({
   useLayoutEffect(() => {
     initRoute(location, match.params)
     runFilters(route.filters)
-  }, [location.pathname, location.search])
+  }, [location.pathname, location.search, location.hash])
 
   if (!render) return null
 
@@ -96,11 +97,14 @@ function initRoute (location, routeParams) {
   // Check if url or search changed between page rerenderings
   const prevUrl = $root.get('$render.url')
   const prevSearch = $root.get('$render.search')
+  const prevHash = $root.get('$render.hash')
   const url = location.pathname
   const search = location.search
+  const hash = location.hash
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
-  if (url === prevUrl && search === prevSearch) return
+  if (url === prevUrl && search === prevSearch && hash === prevHash) return
   $root.setDiff('$render.url', url)
+  $root.setDiff('$render.hash', location.hash)
   $root.setDiff('$render.search', search)
   $root.setDiffDeep('$render.query', query)
 

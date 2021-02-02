@@ -1,7 +1,17 @@
 import { useState } from 'react'
 import Button from '../Button'
+import Div from '../Div'
 import Row from '../Row'
+import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
+import {
+  faHouseUser,
+  faCheck,
+  faTable,
+  faShareAlt,
+  faCoffee
+} from '@fortawesome/free-solid-svg-icons'
+import './index.mdx.styl'
 
 # Button (кнопки)
 
@@ -16,9 +26,118 @@ import { Button } from '@startupjs/ui'
 ```jsx example
 const [counter, setCounter] = useState(0)
 return (
-  <Button onPress={() => setCounter(counter + 1)}>
+  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} color='primary' variant='flat'>
     Нажато {counter} раз
   </Button>
+)
+```
+
+## Async кнопка
+
+```jsx example
+async function onPress() {
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, 5000)
+  })
+}
+
+return (
+  <Button onPress={onPress}>
+    Async button
+  </Button>
+)
+```
+
+## Разновидности
+
+Свойство `variant` отвечает за внешнее отображение кнопки (влияет на цвет иконки и текста кнопки). Значение по умолчанию - `outlined`.
+
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee}>
+      Контурная
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCoffee}>
+      Плоская
+    </Button>
+    <Br />
+    <Button variant='text' icon={faCoffee}>
+      Текстовая
+    </Button>
+  </Div>
+)
+```
+
+## Цвета
+
+Цвет по умолчанию `dark`. Его можно изменить, передав имя цвета из списка цветов конфига в свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat'>
+      Default dark
+    </Button>
+    <Br />
+    <Button color='primary' variant='flat'>
+      Primary
+    </Button>
+    <Br />
+    <Button color='success' variant='flat'>
+      Success
+    </Button>
+  </Div>
+)
+```
+
+## Размеры
+
+Свойство `size` применяется к размеру кнопки, иконки и тексту кнопки.
+Размер по умолчанию - `m`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+
+```jsx example
+return (
+  <Div>
+    <Button variant='flat' size='s' icon={faCheck}>
+      Small
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCheck}>
+      Default
+    </Button>
+    <Br />
+    <Button variant='flat' size='l' icon={faCheck}>
+      Large
+    </Button>
+  </Div>
+)
+```
+
+## Иконки
+
+Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию). Чтобы изменить цвет иконки используйте `iconStyleName` свойство.
+
+В `.styl` файле
+```stylus
+.icon
+  color $UI.colors.success
+```
+
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee} iconStyleName='icon'>
+      Иконка слева (по умолчанию) с измененным цветом
+    </Button>
+    <Br />
+    <Button icon={faCoffee} iconPosition='right'>
+      Иконка справа
+    </Button>
+  </Div>
 )
 ```
 

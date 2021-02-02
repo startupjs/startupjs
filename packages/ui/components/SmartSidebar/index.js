@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { Dimensions } from 'react-native'
 import {
   observer,
   useValue,
@@ -6,53 +7,65 @@ import {
   useLocal,
   useBind
 } from 'startupjs'
-import { Dimensions, StyleSheet } from 'react-native'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import DrawerSidebar from '../DrawerSidebar'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
   style,
-  forceClosed,
+  defaultOpen,
+  disabled,
   fixedLayoutBreakpoint,
   path,
   $open,
   position,
   width,
-  backgroundColor,
   children,
   renderContent,
-  defaultOpen,
   ...props
 }) {
   if (path) {
     console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
 
-  if (/^#|rgb/.test(backgroundColor)) {
-    console.warn('[@startupjs/ui] Sidebar:: Hex color for backgroundColor property is deprecated. Use style instead')
-  }
-
   const componentId = useComponentId()
+
   if (!$open) {
     [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
-
-  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten([
-    { backgroundColor: colors[backgroundColor] || backgroundColor },
-    style
-  ]))
 
   let open
   let onChange
   ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
+
+  useLayoutEffect(() => {
+    if (disabled) {
+      $open.setDiff(false)
+    } else if (fixedLayout) {
+      // or we can save open state before disabling
+      // to open it with this state when enabling
+      $open.setDiff(defaultOpen)
+    }
+  }, [disabled])
+
+  useLayoutEffect(() => {
+    if (disabled) return
+    if (fixedLayout) {
+      // when change dimensions from mobile
+      // to desktop resolution or when rendering happen on desktop resolution
+      // we open sidebar if it was opened on mobile resolution or default value
+      $open.setDiff(open || defaultOpen)
+    } else {
+      // when change dimensions from desktop
+      // to mobile resolution or when rendering heppen for mobile resolution
+      // we always close sidebars
+      $open.setDiff(false)
+    }
+  }, [fixedLayout])
 
   useLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
@@ -70,10 +83,7 @@ function SmartSidebar ({
         $open=$open
         position=position
         width=width
-        forceClosed=forceClosed
-        backgroundColor=backgroundColor
         renderContent=renderContent
-        defaultOpen=defaultOpen
       )= children
     else
       DrawerSidebar(
@@ -81,31 +91,31 @@ function SmartSidebar ({
         $open=$open
         position=position
         width=width
-        forceClosed=forceClosed
-        backgroundColor=backgroundColor
         renderContent=renderContent
-        defaultOpen=defaultOpen
+        drawerLockMode=disabled ? 'locked-closed' : undefined
         ...props
       )= children
   `
 }
 
 SmartSidebar.defaultProps = {
-  forceClosed: false,
+  defaultOpen: false,
+  disalbed: false,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
 }
 
 SmartSidebar.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  $open: propTypes.object,
-  forceClosed: propTypes.bool,
-  fixedLayoutBreakpoint: propTypes.number,
-  position: propTypes.oneOf(['left', 'right']),
-  width: propTypes.number,
-  renderContent: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  $open: PropTypes.object,
+  defaultOpen: PropTypes.bool,
+  disalbed: PropTypes.bool,
+  fixedLayoutBreakpoint: PropTypes.number,
+  position: PropTypes.oneOf(['left', 'right']),
+  width: PropTypes.number,
+  renderContent: PropTypes.func
 }
 
 export default observer(SmartSidebar)

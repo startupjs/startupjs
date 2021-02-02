@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Row from './../../Row'
 import Button from './../../Button'
 import './index.styl'
@@ -10,7 +10,7 @@ function ModalActions ({
   children,
   dismissLabel,
   confirmLabel,
-  onDismiss,
+  onCancel,
   onConfirm
 }) {
   return pug`
@@ -18,18 +18,19 @@ function ModalActions ({
       if children
         = children
       else
-        if onDismiss
+        if onCancel
           Button.action(
             color='primary'
-            onPress=onDismiss
+            _preventEvent=false
+            onPress=onCancel
           )= dismissLabel
         if onConfirm
           Button.action(
             color='primary'
             variant='flat'
+            _preventEvent=false
             onPress=onConfirm
           )= confirmLabel
-
   `
 }
 
@@ -39,12 +40,12 @@ ModalActions.defaultProps = {
 }
 
 ModalActions.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  dismissLabel: propTypes.string,
-  confirmLabel: propTypes.string,
-  onDismiss: propTypes.func,
-  onConfirm: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.node,
+  dismissLabel: PropTypes.string,
+  confirmLabel: PropTypes.string,
+  onCancel: PropTypes.func,
+  onConfirm: PropTypes.func
 }
 
 export default observer(ModalActions)

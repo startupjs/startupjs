@@ -1,12 +1,14 @@
+import { useMemo } from 'react'
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
+import Span from '../../typography/Span'
 import { useValue, u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Input (инпут)
 
-Инпут предоставляет апи-обвертку над [Checkbox](/docs/ru/forms/Checkbox), [TextInput](/docs/ru/forms/TextInput), [Select](/docs/ru/forms/Select) и [ObjectInput](/docs/ru/forms/ObjectInput) компонентами, добавляя двустороннию привязку данных. Вы можете использовать любой из вышеперечисленных компонентов, указав свойство `type`.
+Инпут предоставляет апи-обвертку над [Checkbox](/docs/forms/Checkbox), [TextInput](/docs/forms/TextInput), [Select](/docs/forms/Select) и [ObjectInput](/docs/forms/ObjectInput) компонентами, добавляя двустороннию привязку данных. Вы можете использовать любой из вышеперечисленных компонентов, указав свойство `type`.
 
 ```jsx
 import { Input } from from '@startupjs/ui'
@@ -50,6 +52,76 @@ return (
       }}
     />
   </Div>
+)
+```
+
+## Сложный пример
+
+При использовании `object` инпута, важно объявить `schema` как константу либо вне вашего компонента, либо закэшировать ее через `useMemo()`.
+Если этого не сделать, то `Input` будет перерендеривать все дерево формы целиком при редактировании лишь одного поля.
+
+```jsx example
+const schema = useMemo(() => ({
+  name: {
+    type: 'string',
+    label: 'Name'
+  },
+  number: {
+    type: 'number',
+    label: 'Level'
+  },
+  dangerous: {
+    type: 'boolean',
+    label: 'Is Dangerous'
+  },
+  type: {
+    type: 'select',
+    label: 'Type',
+    options: ['Fire', 'Water', 'Earth', 'Electric']
+  },
+  address: {
+    type: 'object',
+    label: 'Address',
+    properties: {
+      galaxy: {
+        type: 'string',
+        label: 'Galaxy'
+      },
+      planet: {
+        type: 'number',
+        label: 'Planet Number'
+      },
+      location: {
+        type: 'string',
+        label: 'Location'
+      }
+    }
+  },
+  abilities: {
+    type: 'array',
+    label: 'Abilities',
+    items: { type: 'string' }
+  },
+  url: {
+    type: 'string',
+    label: 'Image URL'
+  }
+}), [])
+
+const [value, $value] = useValue()
+
+return (
+  <React.Fragment>
+    <Input
+      type='object'
+      $value={$value}
+      properties={schema}
+    />
+    <Br />
+    <Span style={{ fontFamily: 'monospace' }}>
+      VALUE: {JSON.stringify(value, null, 2)}
+    </Span>
+  </React.Fragment>
 )
 ```
 

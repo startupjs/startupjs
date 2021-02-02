@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import Alert from '../Alert'
 import Div from '../Div'
+import Row from '../Row'
 import Br from '../Br'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
-import {
-  faCheck,
-  faExclamationTriangle
-} from '@fortawesome/free-solid-svg-icons'
+import { faFire, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 # Alert
 
@@ -19,49 +17,91 @@ import { Alert } from '@startupjs/ui'
 
 ## Example
 
+The alert offers four severity levels that set a distinctive icon and color: `success`, `info`, `warning`, `error`. You can specify it by passing `variant` property.
+
 ```jsx example
 return (
   <Div>
-    <Alert
-      label='Primary color alert'
-    />
+    <Alert variant='info'>
+      This is an info alert — check it out!
+    </Alert>
     <Br />
-    <Alert
-      color='success'
-      label='Success alert'
-    />
+    <Alert variant='success'>
+      This is an success alert — check it out!
+    </Alert>
     <Br />
-    <Alert
-      color='warning'
-      label='Warning alert'
-    />
+    <Alert variant='warning'>
+      This is an warning alert — check it out!
+    </Alert>
     <Br />
-    <Alert
-      color='error'
-      label='Error alert'
-    />
+    <Alert variant='error'>
+      This is an error alert — check it out!  
+    </Alert>
   </Div>
 )
 ```
 
-## Icons
+## Title
 
-The `icon` prop allows you to add an icon to the beginning of the alert component.
+You can use the `title` property to display the title above the content.
 
 ```jsx example
 return (
   <Div>
     <Alert
-      icon={faCheck}
-      color='success'
-      label='Success alert icon'
-    />
+      variant='info'
+      title='Info'
+    >
+      This is an info alert — check it out!
+    </Alert>
     <Br />
     <Alert
-      icon={faExclamationTriangle}
-      color='warning'
-      label='Warning alert icon'
-    />
+      variant='success'
+      title='Success'
+    >
+      This is an success alert — check it out!
+    </Alert>
+    <Br />
+    <Alert
+      variant='warning'
+      title='Warning'
+    >
+      This is an warning alert — check it out!
+    </Alert>
+    <Br />
+    <Alert
+      variant='error'
+      title='Error'
+    >
+      This is an error alert — check it out!
+    </Alert>
+  </Div>
+)
+```
+
+
+## Icons
+The `icon` property allows you to change the icon at the beginning of the component.
+The `variant` prop defines the corresponding color for the icon.
+
+Setting the `icon` property to `false` will completely remove the icon.
+
+```jsx example
+return (
+  <Div>
+    <Alert
+      icon={faFire}
+      variant='error'
+    >
+      Error alert with custom icon
+    </Alert>
+    <Br />
+    <Alert
+      icon={false}
+      variant='warning'
+    >
+      Warning alert without icon
+    </Alert>
   </Div>
 )
 ```
@@ -70,21 +110,86 @@ return (
 
 An alert can have an action (`onClose` prop). It is rendered after the message, at the end of the alert.
 
+If an `onClose` callback is provided and no `renderActions` prop is set, a close icon is displayed. The `renderActions` prop can be used to provide an alternative action, for example using a `Button`, `Tag` or `Icon`.
+
 ```jsx example
-const [showAlert, setShowAlert] = useState(true)
+const [showFirstAlert, setShowFirstAlert] = useState(true)
+const [showSecondAlert, setShowSecondAlert] = useState(true)
+
+const renderCustomCloseButton = () => {
+  return (
+    <Button
+      color='success'
+      variant='flat'
+      size='s'
+      onPress={() => setShowSecondAlert(false)}
+    >
+      CLOSE
+    </Button>
+  )
+}
+
+const renderCustomActions = () => {
+  return (
+    <Row>
+      <Button
+        color='error'
+        variant='text'
+        icon={faTimes}
+        size='s'
+        onPress={() => {}}
+      >
+        Cancel
+      </Button>
+      <Button
+        color='success'
+        variant='text'
+        icon={faCheck}
+        size='s'
+        onPress={() => {}}
+      >
+        Confirm
+      </Button>
+    </Row>
+  )
+}
+
 return (
   <Div>
-    {showAlert &&
-      <Alert
-        color='primary'
-        label='Alert with actions'
-        onClose={() => setShowAlert(false)}
-      />
-    }
+    {showFirstAlert && <Alert
+      variant='warning'
+      onClose={() => setShowFirstAlert(false)}
+    >
+      Warning alert with default actions
+    </Alert>}
     <Br />
-    <Button disabled={showAlert} onPress={() => setShowAlert(true)}>
+    <Button
+      disabled={showFirstAlert}
+      onPress={() => setShowFirstAlert(true)}
+    >
       Re-Open
     </Button>
+    <Br />
+    {showSecondAlert && <Alert
+      variant='success'
+      renderActions={renderCustomCloseButton}
+    >
+      Success alert with custom actions
+    </Alert>}
+    <Br />
+    <Button
+      disabled={showSecondAlert}
+      onPress={() => setShowSecondAlert(true)}
+    >
+      Re-Open
+    </Button>
+    <Br />
+    <Alert
+      variant='info'
+      renderActions={renderCustomActions}
+    >
+      Info alert with two custom actions
+    </Alert>
   </Div>
 )
 ```

@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
 import {
   SafeAreaView,
   Animated,
   View,
   TouchableWithoutFeedback,
-  Platform,
-  Dimensions
+  StyleSheet
 } from 'react-native'
-import Modal from '../../Modal'
+import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import Portal from '../../Portal'
 import Swipe from './Swipe'
-import STYLES from './index.styl'
-
-const { shadows } = STYLES
+import animate from './animate'
+import './index.styl'
 
 const POSITION_STYLES = {
   left: { alignItems: 'flex-start' },
@@ -28,172 +27,150 @@ const POSITION_NAMES = {
   bottom: 'translateY'
 }
 
-const SHTAMP_RENDER_STYLE = {
-  left: -999,
-  top: -999,
-  position: 'absolute',
-  width: Dimensions.get('window').width,
-  height: Dimensions.get('window').height
-}
-
 // TODO: more test for work responder with ScrollView
 // https://material-ui.com/ru/components/drawers/#%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%B0%D1%8F-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C
-const Drawer = ({
+function Drawer ({
+  style,
+  swipeStyle,
+  children,
   visible,
   position,
-  onDismiss,
   isSwipe,
-  isShowOverlay,
-  hasDefaultStyleContent,
-  styleSwipe,
-  styleContent,
-  styleCase,
-  children
-}) => {
+  hasOverlay,
+  onDismiss,
+  onRequestOpen
+}) {
   const isHorizontal = position === 'left' || position === 'right'
   const isInvertPosition = position === 'left' || position === 'top'
 
   const refContent = useRef()
-  const [contentSize, setContentSize] = useState({ width: null, height: null })
-  const [isRender, setIsRender] = useState(true)
+  const [isShow, setIsShow] = useState(false)
+  const [contentSize, setContentSize] = useState({})
 
-  const [animateOpacity] = useState(new Animated.Value(visible ? 1 : 0))
-  const [animatePosition] = useState(new Animated.Value(0))
+  const [animateStates] = useState({
+    opacity: new Animated.Value(visible ? 1 : 0),
+    position: new Animated.Value(0)
+  })
 
+  // -main
   useEffect(() => {
-    if (contentSize.width === null) setParams()
-    if (visible) show()
-    else hide()
-  }, [visible])
-
-  const setParams = () => {
-    if (contentSize.width !== null) return
-
-    setTimeout(() => {
-      if (!refContent.current || !refContent.current.getNode || !refContent.current.getNode()) {
-        return
-      }
-
-      refContent.current.getNode().measure((x, y, width, height) => {
-        setContentSize({ height, width })
-
-        if (!visible) {
-          animatePosition.setValue(
-            isHorizontal
-              ? isInvertPosition ? -width : width
-              : isInvertPosition ? -height : height
-          )
-        }
-
-        setIsRender(visible)
-      })
-    }, 0)
-  }
-
-  const show = callback => {
-    setIsRender(true)
-
-    const animated = () => {
-      Animated.parallel([
-        Animated.timing(animatePosition, { toValue: 0, duration: 300 }),
-        isShowOverlay && Animated.timing(animateOpacity, { toValue: 1, duration: 300 })
-      ]).start(() => {
-        callback && callback()
-      })
-    }
-
-    if (Platform.OS === 'android') {
-      setTimeout(() => animated(), 0)
+    if (visible) {
+      setIsShow(true)
+      setTimeout(runShow, 0)
     } else {
-      animated()
+      runHide()
     }
-  }
+  }, [visible])
+  // -
 
-  const hide = callback => {
-    Animated.parallel([
-      Animated.timing(animatePosition, {
-        toValue:
-            isHorizontal
-              ? isInvertPosition ? -contentSize.width : contentSize.width
-              : isInvertPosition ? -contentSize.height : contentSize.height,
-        duration: 200
-      }),
-      isShowOverlay && Animated.timing(animateOpacity, { toValue: 0, duration: 200 })
-    ]).start(() => {
-      setIsRender(false)
-      onDismiss()
-      callback && callback()
+  function runShow () {
+    if (!refContent.current) return
+
+    getValidNode(refContent.current).measure((x, y, width, height) => {
+      let isInit = !contentSize.width
+      setContentSize({ width, height })
+
+      animate.show({
+        width,
+        height,
+        contentSize,
+        animateStates,
+        hasOverlay,
+        isHorizontal,
+        isInvertPosition,
+        isInit
+      }, () => {
+        onRequestOpen && onRequestOpen()
+      })
     })
   }
 
-  const isSizeDefined = ((contentSize.width) || (!contentSize.width && visible))
-  const Wrapper = isSizeDefined ? Modal : View
-  const _styleCase = {
-    ...POSITION_STYLES[position],
-    ...styleCase,
-    opacity: contentSize.width ? 1 : 0
-  }
-  const _styleContent = {
-    transform: [{ [POSITION_NAMES[position]]: animatePosition }],
-    ...shadows[2],
-    ...styleContent
+  const runHide = () => {
+    if (!refContent.current) return
+
+    getValidNode(refContent.current).measure((x, y, width, height) => {
+      animate.hide({
+        width,
+        height,
+        animateStates,
+        hasOverlay,
+        isHorizontal,
+        isInvertPosition
+      }, () => {
+        setContentSize({})
+        setIsShow(false)
+        onDismiss()
+      })
+    })
   }
 
+  const _styleCase = StyleSheet.flatten([
+    POSITION_STYLES[position],
+    { opacity: isShow ? 1 : 0 }
+  ])
+
+  const _styleContent = StyleSheet.flatten([
+    contentSize.width ? {} : { top: -999, left: -999 },
+    { transform: [{ [POSITION_NAMES[position]]: animateStates.position }] },
+    style
+  ])
+
   return pug`
-    Wrapper(
-      transparent=true
-      ariaHideApp=false
-      visible=isRender
-      variant='pure'
-      style=isSizeDefined ? {} : SHTAMP_RENDER_STYLE
-    )
-      SafeAreaView.areaCase
-        View.case(style=_styleCase)
-          if isShowOverlay
-            TouchableWithoutFeedback(onPress=onDismiss style={ cursor: 'default' })
-              Animated.View.overlay(style={ opacity: animateOpacity })
-          Animated.View.s(
-            ref=refContent
-            styleName={
-              content: hasDefaultStyleContent,
-              contentBottom: hasDefaultStyleContent && position === 'bottom',
-              fullHorizontal: hasDefaultStyleContent && isHorizontal,
-              fullVertical: hasDefaultStyleContent && !isHorizontal
-            }
-            style=_styleContent
-          )
-            Swipe(
-              position=position
-              contentSize=contentSize
-              styleSwipe=styleSwipe
-              isHorizontal=isHorizontal
-              isSwipe=isSwipe
-              isInvertPosition=isInvertPosition
-              animatePosition=animatePosition
-              hide=hide
-              show=show
+    Portal
+      if isShow
+        SafeAreaView.area
+          View.case(style=_styleCase)
+            if hasOverlay
+              TouchableWithoutFeedback.overlayCase(onPress=onDismiss)
+                Animated.View.overlay(style={ opacity: animateStates.opacity })
+
+            Animated.View.content(
+              ref=refContent
+              style=_styleContent
+              styleName={
+                contentDefault: isShow,
+                contentBottom: isShow && position === 'bottom',
+                fullHorizontal: isShow && isHorizontal,
+                fullVertical: isShow && !isHorizontal
+              }
             )
-            = children
+              Swipe(
+                position=position
+                contentSize=contentSize
+                swipeStyle=swipeStyle
+                isHorizontal=isHorizontal
+                isSwipe=isSwipe
+                isInvertPosition=isInvertPosition
+                animateStates=animateStates
+                runHide=runHide
+                runShow=runShow
+              )
+              = children
   `
+}
+
+function getValidNode (current) {
+  return current.measure
+    ? current
+    : current.getNode()
 }
 
 Drawer.defaultProps = {
   visible: false,
   position: 'left',
   isSwipe: true,
-  isShowOverlay: true,
-  hasDefaultStyleContent: true
+  hasOverlay: true
 }
 
 Drawer.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  swipeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
-  onDismiss: PropTypes.func,
   position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   isSwipe: PropTypes.bool,
-  isShowOverlay: PropTypes.bool,
-  hasDefaultStyleContent: PropTypes.bool,
-  styleCase: PropTypes.object,
-  styleContent: PropTypes.object
+  hasOverlay: PropTypes.bool,
+  onDismiss: PropTypes.func,
+  onRequestOpen: PropTypes.func
 }
 
-export default Drawer
+export default observer(Drawer)

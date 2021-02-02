@@ -1,13 +1,13 @@
 import React, { useMemo, useLayoutEffect } from 'react'
-import { observer } from 'startupjs'
-import parsePropTypes from 'parse-prop-types'
 import { Text, Platform } from 'react-native'
+import { observer } from 'startupjs'
+import { Span, themed, Input, NumberInput } from '@startupjs/ui'
+import parsePropTypes from 'parse-prop-types'
 import Table from './Table'
 import Tbody from './Tbody'
 import Thead from './Thead'
 import Tr from './Tr'
 import Td from './Td'
-import { Span, themed, Input } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
@@ -18,9 +18,10 @@ export default observer(themed(function Constructor ({ Component, $props, style,
   useLayoutEffect(() => {
     for (const prop of entries) {
       if (prop.defaultValue) {
-        // FIXME: All logic is broken when default value is function
-        // this is due to a racer patch
-        $props.set(prop.name, prop.defaultValue)
+        // NOTE: Due to a racer patch, last argument cannot be a function
+        // because it will be used as a callback of `$props.set`,
+        // so we use null to avoid this behavior when defaultValue is function
+        $props.set(prop.name, prop.defaultValue, null)
       }
     }
   }, entries)
@@ -36,6 +37,9 @@ export default observer(themed(function Constructor ({ Component, $props, style,
       Tbody
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
+          - const $value = $props.at(name)
+          - let value = $value.get()
+
           Tr(key=index)
             Td: Span.name(
               style={
@@ -46,20 +50,20 @@ export default observer(themed(function Constructor ({ Component, $props, style,
               if type === 'oneOf'
                 Span.possibleValue
                   - let first = true
-                  each value, index in possibleValues
+                  each possibleValue, index in possibleValues
                     React.Fragment(key=index)
                       if !first
                         Span.separator #{' | '}
-                      Span.value(styleName=[theme])= JSON.stringify(value)
+                      Span.value(styleName=[theme])= JSON.stringify(possibleValue)
                       - first = false
               else if type === 'oneOfType'
                 Span.possibleType
                   - let first = true
-                  each value, index in possibleTypes
+                  each possibleValue, index in possibleTypes
                     React.Fragment(key=index)
                       if !first
                         Span.separator #{' | '}
-                      Span.type(styleName=[theme])= value && value.name
+                      Span.type(styleName=[theme])= possibleValue && possibleValue.name
                       - first = false
               else
                 Span.type(styleName=[theme])= type
@@ -69,41 +73,35 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                 Input(
                   type='text'
                   size='s'
-                  value=$props.get(name) || ''
-                  onChangeText=value => $props.set(name, value)
+                  value=value || ''
+                  onChangeText=value => $value.set(value)
                 )
               else if type === 'number'
-                - const aValue = parseFloat($props.get(name))
-                Input(
-                  type='text'
+                NumberInput(
                   size='s'
-                  value='' + (isNaN(aValue) ? '' : aValue)
-                  onChangeText=value => {
-                    value = parseFloat(value)
-                    if (isNaN(value)) value = undefined
-                    $props.set(name, value)
-                  }
+                  value=value
+                  onChangeNumber=value => $value.set(value)
                 )
               else if type === 'node'
                 Input(
                   type='text'
                   size='s'
-                  value=$props.get(name) || ''
-                  onChangeText=value => $props.set(name, value)
+                  value=value || ''
+                  onChangeText=value => $value.set(value)
                 )
               else if type === 'oneOf'
                 Input(
                   type='select'
                   size='s'
-                  value=$props.get(name)
-                  onChange=value => $props.set(name, value)
+                  value=value
+                  onChange=value => $value.set(value)
                   options=possibleValues
                 )
               else if type === 'bool'
                 Input.checkbox(
                   type='checkbox'
-                  value=$props.get(name)
-                  onChange=value => $props.set(name, value)
+                  value=value
+                  onChange=value => $value.set(value)
                 )
               else
                 Span.unsupported -

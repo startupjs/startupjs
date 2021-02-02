@@ -7,6 +7,22 @@
 yarn add @startupjs/ui
 ```
 
+### Requirements
+
+```
+  react-native-collapsible
+  react-native-svg
+  react-native-gesture-handler
+  react-native-reanimated
+```
+
+### Linking
+Link startupjs library (required for all React Native versions)
+
+```
+  npx startupjs link
+```
+
 ## Configuration
 1. Import UI styles in your root style file `styles/index.styl`. You can also override any default configuration here (palette, colors, variables, etc.):
 ```styl
@@ -25,62 +41,38 @@ $UI = merge($UI, {
 }, true)
 ```
 
-2. Install and configure additional modules below:
+2. Connect styles from external CSS
 
-### Collapse
+Import `initUi` and` getUiHead` and connect them in the body of the `startupjsServer` and `getHead` functions in `server/index.js`.
 
-1. Install library `react-native-collapsible`
-```
-  yarn add react-native-collapsible
-```
-
-2. Add library to `forceCompileModules` of your `webpack.web.config.js`.
 ```js
-  const getConfig = require('startupjs/bundler').webpackWebConfig
+import { getUiHead, initUi } from '@startupjs/ui/server'
 
-  module.exports = getConfig(undefined, {
-    forceCompileModules: ['react-native-collapsible']
-  })
+startupjsServer({
+  getHead,
+  ...
+}, (ee, options) => {
+  ...
+  initUi(ee, options)
+  ...
+})
+
+function getHead (appName) {
+  return `
+    ${getUiHead()}
+    other head text
+  `
+}
 ```
 
-### Icon component
+Add module `@startupjs/ui/server` to `forceCompileModules` in `webpack.server.config.cjs`
 
-1. Install library `react-native-svg`
-```
-  yarn add react-native-svg
-```
-
-2. Link native code
-```
-  cd ios && pod install
-```
-
-3. Usage example
 ```js
-  import { Icon } from '@startupjs/ui'
-  import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
 
-  export default observer(function Card ({
-    return pug`
-      Icon(icon=faCoffee size='l')
-    `
-  })
-```
-
-### TextInput
-Set cursor color of the input on android for the same view as web
-and ios in `%PROJECT%/android/app/src/res/values/styles.xml`.
-
-```xml
-  <resources>
-    <!-- ...other configs... -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-      <item name="android:textColor">#000000</item>
-      <!-- sets cursor color -->
-      <item name="colorControlActivated">#2962FF</item>
-    </style>
-    <!-- ...other configs... -->
-  </resources>
+module.exports = getConfig(undefined, {
+  forceCompileModules: ['@startupjs/ui/server']
+})
 ```
 
 ## Usage

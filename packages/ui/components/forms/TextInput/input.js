@@ -1,7 +1,14 @@
-import React, { useState, useMemo, useLayoutEffect, useRef } from 'react'
+import React, {
+  useState,
+  useMemo,
+  useLayoutEffect,
+  useRef,
+  useImperativeHandle
+} from 'react'
+import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
-import { TextInput, Platform } from 'react-native'
-import { colorToRGBA } from '../../../config/helpers'
+import PropTypes from 'prop-types'
+import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import STYLES from './index.styl'
@@ -32,36 +39,48 @@ const ICON_SIZES = {
   l: 'l'
 }
 
-export default observer(function Input ({
+function Input ({
   style,
   inputStyle,
   className,
   placeholder,
   value,
+  editable,
   size,
   focused,
   disabled,
   resize,
   numberOfLines,
   icon,
+  secondaryIcon,
+  iconStyle,
+  secondaryIconStyle,
   iconPosition,
-  iconColor,
   onBlur,
   onFocus,
   onChangeText,
   onIconPress,
+  onSecondaryIconPress,
   renderWrapper,
   ...props
-}) {
+}, ref) {
   const inputRef = useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
-  const _iconColor = colors[iconColor] || iconColor
 
   if (!renderWrapper) {
     renderWrapper = ({ style }, children) => pug`
       Div(style=style)= children
     `
   }
+
+  useImperativeHandle(ref, () => ({
+    blur: () => {
+      inputRef.current.blur()
+    },
+    focus: () => {
+      inputRef.current.focus()
+    }
+  }))
 
   useLayoutEffect(() => {
     if (resize) {
@@ -104,11 +123,18 @@ export default observer(function Input ({
     return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
   }, [currentNumberOfLines, lH, verticalGutter])
 
-  inputStyle = [{
+  function onLayoutIcon (e) {
+    if (IS_WEB) {
+      e.nativeEvent.target.childNodes[0].tabIndex = -1
+      e.nativeEvent.target.childNodes[0].childNodes[0].tabIndex = -1
+    }
+  }
+
+  inputStyle = StyleSheet.flatten([{
     paddingTop: verticalGutter,
     paddingBottom: verticalGutter,
     lineHeight: lH
-  }, inputStyle]
+  }, inputStyle])
 
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
@@ -126,16 +152,6 @@ export default observer(function Input ({
     style: [{ height: fullHeight }, style]
   }, pug`
     React.Fragment
-      if icon
-        Div.input-icon(
-          styleName=[size, iconPosition]
-          onPress=onIconPress
-        )
-          Icon(
-            icon=icon
-            color=_iconColor
-            size=ICON_SIZES[size]
-          )
       TextInput.input-input(
         ref=inputRef
         style=inputStyle
@@ -144,7 +160,7 @@ export default observer(function Input ({
         placeholder=placeholder
         placeholderTextColor=DARK_LIGHTER_COLOR
         value=value
-        editable=!disabled
+        editable=editable && !disabled
         multiline=multiline
         onBlur=onBlur
         onFocus=onFocus
@@ -154,5 +170,46 @@ export default observer(function Input ({
         ...props
         ...inputExtraProps
       )
+      if icon
+        Div.input-icon(
+          accessible=false
+          onLayout=onLayoutIcon
+          styleName=[size, iconPosition]
+          onPress=onIconPress
+        )
+          Icon(
+            icon=icon
+            style=iconStyle
+            size=ICON_SIZES[size]
+          )
+      if secondaryIcon
+        Div.input-icon(
+          accessible=false
+          onLayout=onLayoutIcon
+          styleName=[size, getOppositePosition(iconPosition)]
+          onPress=onSecondaryIconPress
+        )
+          Icon(
+            icon=secondaryIcon
+            style=secondaryIconStyle
+            size=ICON_SIZES[size]
+          )
+
   `)
-})
+}
+
+function getOppositePosition (position) {
+  return position === 'left' ? 'right' : 'left'
+}
+
+const ObservedInput = observer(Input, { forwardRef: true })
+
+ObservedInput.defaultProps = {
+  editable: true
+}
+
+ObservedInput.propTypes = {
+  editable: PropTypes.bool
+}
+
+export default ObservedInput

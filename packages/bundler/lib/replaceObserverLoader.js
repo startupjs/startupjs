@@ -40,34 +40,83 @@ module.exports = function replaceObserverLoader (source) {
   let matchLength = matchStr.length
   let openBr = 1 // Count opened brackets, we start from one already opened
   let lastCloseCurlyBrIndex
-  let prevCloseCurlyBrIndex
+  let lastOpenCurlyBrIndex
+
+  // TODO: Improve figuring out that we are actually in a comment.
+  //       It will bug out when someone is specifying 'http://'
+  //       and other places inside strings.
+
+  // // Track when we are inside a comment
+  // let inBlockComment = false
+  // let inLineComment = false
 
   for (let i = matchIndex + matchLength; i < source.length; i++) {
-    if (source.charAt(i) === ')') {
-      --openBr
-    } else if (source.charAt(i) === '(') {
-      ++openBr
-    } else if (source.charAt(i) === '}') {
-      prevCloseCurlyBrIndex = lastCloseCurlyBrIndex
-      lastCloseCurlyBrIndex = i
+    const char = source.charAt(i)
+
+    // TODO: Improve comments. See comment above for details.
+
+    // // Handle comments (ignore any chars inside them)
+
+    // const prevChar = (i > 0 ? source.charAt(i - 1) : '')
+    // const lastTwoChars = `${prevChar}${char}`
+
+    // // - exit comment
+
+    // if (inBlockComment) {
+    //   if (lastTwoChars === '*/') inBlockComment = false
+    //   continue
+    // }
+
+    // if (inLineComment) {
+    //   if (char === '\n') inLineComment = false
+    //   continue
+    // }
+
+    // // - enter comment
+
+    // if (lastTwoChars === '/*') {
+    //   inBlockComment = true
+    //   continue
+    // }
+
+    // if (lastTwoChars === '//') {
+    //   inLineComment = true
+    //   continue
+    // }
+
+    // Brackets counting logic
+
+    switch (char) {
+      case ')':
+        --openBr
+        break
+      case '(':
+        ++openBr
+        break
+      case '{':
+        lastOpenCurlyBrIndex = i
+        break
+      case '}':
+        lastCloseCurlyBrIndex = i
+        break
     }
 
     if (openBr <= 0) {
       let options = ''
-      let hasOptions = false
 
-      if (prevCloseCurlyBrIndex) {
+      if (lastOpenCurlyBrIndex && lastCloseCurlyBrIndex) {
+        const sourceBetweenCurlyBrackets =
+          source.slice(lastOpenCurlyBrIndex, lastCloseCurlyBrIndex + 1)
+
         for (const anchor of OPTIONS_ANCHORS) {
-          if (source.slice(prevCloseCurlyBrIndex, i).includes(anchor)) {
-            hasOptions = true
+          if (sourceBetweenCurlyBrackets.includes(anchor)) {
+            options = sourceBetweenCurlyBrackets
             break
           }
         }
       }
 
-      if (hasOptions) {
-        options = source.slice(prevCloseCurlyBrIndex + 1, lastCloseCurlyBrIndex + 1)
-      }
+      if (options) options = ', ' + options
 
       source = source.slice(0, i) + ')' + options + source.slice(i)
       break

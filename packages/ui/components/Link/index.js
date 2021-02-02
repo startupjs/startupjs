@@ -1,10 +1,11 @@
 import React from 'react'
-import { observer } from 'startupjs'
-import propTypes from 'prop-types'
 import { Platform, Linking } from 'react-native'
-import Div from './../Div'
-import Span from './../typography/Span'
 import { useHistory } from 'react-router-native'
+import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import Div from './../Div'
+import Button from './../Button'
+import Span from './../typography/Span'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -15,23 +16,24 @@ function Link ({
   to,
   color,
   theme,
-  size,
   bold,
   italic,
-  block,
+  display,
   replace,
   variant,
+  children,
   onPress,
   ...props
 }) {
-  const Component = block ? Div : Span
+  if (!display) display = typeof children === 'string' ? 'inline' : 'block'
+  const isBlock = display === 'block'
+
+  const Component = isBlock ? Div : Span
   const extraProps = { accessibilityRole: 'link' }
   const history = useHistory()
 
-  // TODO:
-  // For block=true modifier keys does not work
-  // may be it is related issue https://github.com/necolas/react-native-web/issues/1591
   function handlePress (event) {
+    event.persist() // TODO: remove in react 17
     try {
       if (onPress) onPress(event)
     } catch (err) {
@@ -44,6 +46,8 @@ function Link ({
         // ignore clicks with modifier keys
         // let browser handle these clicks
         if (isModifiedEvent(event)) return
+        // prevent default browser behavior
+        // because we need to use a react router
         event.preventDefault()
       }
 
@@ -58,26 +62,42 @@ function Link ({
     }
   }
 
-  if (block) {
+  if (isBlock) {
     extraProps.variant = variant
+    extraProps._preventEvent = false
+
+    try {
+      // it throws an error if children has more then one child
+      React.Children.only(children)
+      // originalType is using for component in MDX docs
+      if (children.props.originalType === Button || children.type === Button) {
+        extraProps.hoverStyle = {}
+        extraProps.activeStyle = {}
+        // we pass the duplicate of `handlePress` instead of empty function
+        // because event doesn't bubble up on phones
+        // and for the web we need to prevent standard behavior
+        // which is what the function itself does on web
+        children = React.cloneElement(
+          children,
+          { _preventEvent: false, onPress: handlePress }
+        )
+      }
+    } catch (e) {}
   }
 
-  if (isWeb) {
-    extraProps.href = to
-    // makes preventDefault work on web,
-    // because react-native onPress does not prevent ctrl + click on web
-    extraProps.onClick = handlePress
-  } else {
-    extraProps.onPress = handlePress
-  }
+  // modifier keys does not work without href attribute
+  if (isWeb) extraProps.href = to
 
   return pug`
     Component.root(
       style=style
-      styleName=[theme, size, { bold, italic, block }, color]
+      styleName=[theme, color, display]
+      bold=bold
+      italic=italic
+      onPress=handlePress
       ...extraProps
       ...props
-    )
+    )= children
   `
 }
 
@@ -89,19 +109,18 @@ Link.defaultProps = {
   bold: Span.defaultProps.bold,
   italic: Span.defaultProps.italic,
   replace: false,
-  block: false,
   color: 'default'
 }
 
 Link.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   bold: Span.propTypes.bold,
   italic: Span.propTypes.italic,
-  children: propTypes.node,
-  to: propTypes.string.isRequired,
-  replace: propTypes.bool,
-  block: propTypes.bool,
-  color: propTypes.oneOf(['default', 'primary'])
+  children: PropTypes.node,
+  to: PropTypes.string.isRequired,
+  replace: PropTypes.bool,
+  display: PropTypes.oneOf(['inline', 'block']),
+  color: PropTypes.oneOf(['default', 'primary'])
 }
 
 export default observer(Link)

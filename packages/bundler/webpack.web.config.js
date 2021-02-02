@@ -1,3 +1,4 @@
+const { getPluginConfigs } = require('@startupjs/plugin/manager')
 const pickBy = require('lodash/pickBy')
 const pick = require('lodash/pick')
 const fs = require('fs')
@@ -10,27 +11,19 @@ const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
-const { getJsxRule } = require('./helpers')
 const autoprefixer = require('autoprefixer')
-const stylusHashPlugin = require('@dmapper/stylus-hash-plugin')
 const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
-const CONFIG_PATH = path.join(process.cwd(), '/startupjs.config.cjs')
 const BUILD_DIR = '/build/client/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-
+const webpack = require('webpack')
+const { getJsxRule } = require('./helpers')
 const DEFAULT_MODE = 'react-native'
-
-// Get ui config if it exists
-let ui
-try {
-  const startupjsConfig = require(CONFIG_PATH)
-  ui = startupjsConfig && startupjsConfig.ui
-} catch (err) {}
+const PLUGINS = getPluginConfigs()
 
 // Turn on support of asynchronously loaded chunks (dynamic import())
 // This will make a separate mini-bundle (chunk) for each npm module (from node_modules)
@@ -41,6 +34,8 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
 const DEFAULT_FORCE_COMPILE_MODULES = [
+  '@react-native-community/datetimepicker', // used by ui
+  '@react-native-picker/picker', // used by ui
   '@startupjs/app',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui
@@ -71,7 +66,9 @@ module.exports = function getConfig (env, {
     alias = JSON.parse(alias)
   }
   // array must be non-empty to prevent matching all node_modules via regex
-  forceCompileModules = forceCompileModules.concat(DEFAULT_FORCE_COMPILE_MODULES)
+  forceCompileModules = forceCompileModules
+    .concat(DEFAULT_FORCE_COMPILE_MODULES)
+    .concat(getPluginsForceCompileList())
 
   return pickBy({
     mode: PROD ? 'production' : 'development',
@@ -167,6 +164,9 @@ module.exports = function getConfig (env, {
       }),
       new ProgressBarPlugin({
         format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
+      }),
+      new webpack.DefinePlugin({
+        __DEV__: !PROD
       })
     ].filter(Boolean),
     output: {
@@ -197,7 +197,7 @@ module.exports = function getConfig (env, {
           ]
         },
         {
-          test: /\.mdx$/,
+          test: /\.mdx?$/,
           exclude: /node_modules/,
           use: [
             pick(getJsxRule(), ['loader', 'options']),
@@ -252,7 +252,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'stylus-loader',
               options: {
-                use: ui ? [stylusHashPlugin('$UI', ui)] : [],
+                use: [],
                 import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
                 define: {
                   __WEB__: true
@@ -326,4 +326,14 @@ module.exports = function getConfig (env, {
       publicPath: '/build/client/'
     }
   }, Boolean)
+}
+
+function getPluginsForceCompileList () {
+  let list = []
+  for (const plugin in PLUGINS) {
+    const value = PLUGINS[plugin]?.bundler?.forceCompile?.web
+    if (value === true) list.push(plugin)
+    if (Array.isArray(value)) list = list.concat(value)
+  }
+  return list
 }

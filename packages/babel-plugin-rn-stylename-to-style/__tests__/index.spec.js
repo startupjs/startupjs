@@ -104,7 +104,7 @@ pluginTester({
     `,
     'part attribute. With destructed props': /* js */`
       import './index.styl'
-      function Test ({ style, cardStyle, title }) {
+      function Test ({ style, cardStyle, title, ...props }) {
         return (
           <Card
             part='card'
@@ -132,7 +132,7 @@ pluginTester({
     `,
     'part attribute. With anon function within named fn': /* js */`
       import './index.styl'
-      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
+      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
         function render () {
           return (
             <Card
@@ -149,7 +149,7 @@ pluginTester({
     `,
     'magic \'root\' part': /* js */`
       import './index.styl'
-      function Test ({ title }) {
+      function Test ({ title, ...props }) {
         return (
           <Card
             part='root'
@@ -163,7 +163,7 @@ pluginTester({
     `,
     'magic \'root\' part with existing style prop': /* js */`
       import './index.styl'
-      function Test ({ title, style }) {
+      function Test ({ title, style, ...props }) {
         return (
           <Card
             part='root'
@@ -174,6 +174,73 @@ pluginTester({
           </Card>
         )
       }
-    `
+    `,
+    'dynamic part attribute. Object': /* js */`
+      import './index.styl'
+      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+        function render () {
+          return (
+            <Card
+              part='card'
+              style={{ color: 'blue' }}
+              titleStyle={{ color: 'red' }}
+            >
+              <Content part={{content: true, active}} />
+            </Card>
+          )
+        }
+        return render()
+      }
+    `,
+    'dynamic part attribute. Array and Object': /* js */`
+      import './index.styl'
+      const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+        function render () {
+          return (
+            <Card
+              part='card'
+              style={{ color: 'blue' }}
+              titleStyle={{ color: 'red' }}
+            >
+              <Content part={['content', { active }]} />
+            </Card>
+          )
+        }
+        return render()
+      }
+    `,
+    'dynamic part attribute. Should error on unsupported dynamic value': {
+      code: /* js */`
+        import './index.styl'
+        function Test ({ variant }) {
+          return (
+            <Card part={variant} />
+          )
+        }
+      `,
+      error: /'part' attribute might only be the following/
+    },
+    'dynamic part attribute. Should error on unsupported dynamic value in array': {
+      code: /* js */`
+        import './index.styl'
+        function Test ({ variant }) {
+          return (
+            <Card part={['card', variant]} />
+          )
+        }
+      `,
+      error: /'part' attribute only supports static strings or objects inside an array/
+    },
+    'dynamic part attribute. Should error on unsupported dynamic key in object': {
+      code: /* js */`
+        import './index.styl'
+        function Test ({ variant }) {
+          return (
+            <Card part={{[variant]: true}} />
+          )
+        }
+      `,
+      error: /'part' attribute only supports literal or string keys in object/
+    }
   }
 })

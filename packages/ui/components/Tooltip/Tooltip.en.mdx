@@ -1,0 +1,103 @@
+import { useState } from 'react'
+import { Text, View } from 'react-native'
+import Alert from '../Alert'
+import Button from '../Button'
+import Row from '../Row'
+import Span from '../typography/Span'
+import Div from '../Div'
+import Tooltip from './'
+
+# Tooltip
+
+```jsx
+import { Tooltip } from '@startupjs/ui'
+```
+
+## Initialization
+
+Before use you need to configure [Portal](/docs/components/Portal)
+
+## Usage
+
+- content: hidden part, can be string or jsx
+- children: visible part
+
+## Example with Text
+
+```jsx example
+const wrapperStyle = { backgroundColor: '#dddddd', height: 40, borderRadius: 6, width: 100, alignItems: 'center', justifyContent: 'center' }
+
+const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+
+return (
+  <Row>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Caption 1</Span>
+      </Div>
+    </Tooltip>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Caption 2</Span>
+      </Div>
+    </Tooltip>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Caption 3</Span>
+      </Div>
+    </Tooltip>
+  </Row>
+)
+```
+
+## Tooltip with pressable elements
+
+If you need to wrap a pressable element in a tooltip in a mobile app, the `onPress` property must be in the top component of children
+
+❌ wrong
+
+```jsx
+<Tooltip content='Some content'>
+  <View>
+    <Button onPress={onPressHandler}>Button</Button>
+  </View>
+</Tooltip>
+```
+
+✅ right
+
+```jsx
+<Tooltip content='Some content'>
+  <Button onPress={onPressHandler}>Button</Button>
+</Tooltip>
+```
+
+## Example with Button
+
+```jsx example
+const [isClick, setIsClick] = useState(false)
+
+const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+
+return (
+  <View>
+    <Tooltip content={content}>
+      <Button onPress={() => setIsClick(true)}>Button</Button>
+    </Tooltip>
+    {!!isClick && (
+      <Div style={{ marginTop: 8 }}>
+        <Alert
+          variant='success'
+          label={`onPress event`}
+          onClose={()=> setIsClick(false)}
+        />
+      </Div>
+    )}
+  </View>
+)
+```
+
+## Stylization
+
+- style: changes the styles of children (header)
+- contentStyle: changes the styles of hidden content

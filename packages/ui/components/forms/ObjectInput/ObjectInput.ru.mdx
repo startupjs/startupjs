@@ -15,13 +15,12 @@ import { ObjectInput } from from '@startupjs/ui'
 ```
 
 ## Пример
-ObjectInput принимает объект в свойство `properties` с обязательным ключом `input` для указания типа отображаемого поля. Возможные типы ([сheckbox](/docs/ru/components/Checkbox), [text](/docs/ru/components/TextInput) и [object](/docs/ru/components/ObjectInput)). Объект `properties` также наследует любые свойства передаваемые в этим компонентам.
+ObjectInput принимает объект в свойство `properties` с обязательным ключом `input` для указания типа отображаемого поля. Возможные типы ([сheckbox](/docs/components/Checkbox), [text](/docs/components/TextInput) и [object](/docs/components/ObjectInput)). Объект `properties` также наследует любые свойства передаваемые в этим компонентам.
 
 ```jsx example
 const [value, $value] = useValue()
 return (
   <ObjectInput
-    type='text'
     value={value}
     $value={$value}
     properties={{
@@ -50,7 +49,6 @@ ObjectInput принимает массив в свойстве `order`, что�
 const [value, $value] = useValue()
 return (
   <ObjectInput
-    type='text'
     value={value}
     $value={$value}
     order={['lastName', 'termsAndCondition', 'firstName']}
@@ -92,7 +90,6 @@ return (
     <Span>Example-1</Span>
     <Br lines={0.5} />
     <ObjectInput
-      type='text'
       value={value}
       $value={$value}
       properties={{
@@ -113,7 +110,6 @@ return (
     <Span>Example-2</Span>
     <Br lines={0.5}/>
     <ObjectInput
-      type='text'
       value={value2}
       $value={$value2}
       properties={{

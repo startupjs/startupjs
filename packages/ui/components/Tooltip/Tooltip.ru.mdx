@@ -1,0 +1,103 @@
+import { useState } from 'react'
+import { Text, View } from 'react-native'
+import Alert from '../Alert'
+import Button from '../Button'
+import Row from '../Row'
+import Span from '../typography/Span'
+import Div from '../Div'
+import Tooltip from './'
+
+# Tooltip
+
+```jsx
+import { Tooltip } from '@startupjs/ui'
+```
+
+## Инициализация
+
+Перед использованием нужно настроить [Portal](/docs/components/Portal)
+
+## Использование
+
+- content: скрытая часть, может быть string или jsx
+- children: видимая часть
+
+## Пример с текстом
+
+```jsx example
+const wrapperStyle = { backgroundColor: '#dddddd', height: 40, borderRadius: 6, width: 120, alignItems: 'center', justifyContent: 'center' }
+
+const content = 'Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения новых предложений'
+
+return (
+  <Row>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Заголовок 1</Span>
+      </Div>
+    </Tooltip>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+      <Div style={wrapperStyle}>
+        <Span>Заголовок 2</Span>
+      </Div>
+    </Tooltip>
+    <Tooltip content={content} style={{ marginRight: 8 }}>
+       <Div style={wrapperStyle}>
+        <Span>Заголовок 3</Span>
+      </Div>
+    </Tooltip>
+  </Row>
+)
+```
+
+## Тултип с нажимаемыми элементами
+
+Если нужно обернуть нажимаемый элемент в тултип в мобильном приложении, свойство `onPress` должно быть в верхнем компоненте
+
+❌ неверно
+
+```jsx
+<Tooltip content='Текст подсказка'>
+  <View>
+    <Button onPress={onPressHandler}>Кнопка</Button>
+  </View>
+</Tooltip>
+```
+
+✅ верно
+
+```jsx
+<Tooltip content='Текст подсказка'>
+  <Button onPress={onPressHandler}>Кнопка</Button>
+</Tooltip>
+```
+
+## Пример с кнопкой
+
+```jsx example
+const [isClick, setIsClick] = useState(false)
+
+const content = 'Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения новых предложений'
+
+return (
+  <Div>
+    <Tooltip content={content}>
+      <Button onPress={()=> setIsClick(true)}>Нажать</Button>
+    </Tooltip>
+    {!!isClick && (
+      <Div style={{ marginTop: 8 }}>
+        <Alert
+          variant='success'
+          label={`onPress event`}
+          onClose={()=> setIsClick(false)}
+        />
+      </Div>
+    )}
+  </Div>
+)
+```
+
+## Стилизация
+
+- style: изменяет стили children (заголовка)
+- contentStyle: изменяет стили скрытого контента

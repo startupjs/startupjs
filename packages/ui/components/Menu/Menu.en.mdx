@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocal } from 'startupjs'
 import Menu from '../Menu'
 import Content from '../Content'
 import Collapse from '../Collapse'
@@ -175,6 +176,32 @@ return (
     </Menu.Item>
   </Menu>
 )
+```
+
+## Menu item as link
+
+Sometimes you want using menu item as link, for example in navigation menu. See below how you can do this.
+
+```jsx example
+const [url] = useLocal('$render.url')
+const components = [
+  { label: 'Menu', to: '/docs/components/Menu' },
+  { label: 'Div', to: '/docs/components/Div' },
+  { label: 'Button', to: '/docs/components/Button' }
+]
+return pug`
+  Menu(
+    style={ width: u(15) }
+    activeBorder='left'
+  )
+    each component, index in components
+      - const to = component.to
+      Menu.Item(
+        key=index
+        active=to === url
+        to=to
+      )= component.label
+`
 ```
 
 ## Complex interaction (intergration with other components)

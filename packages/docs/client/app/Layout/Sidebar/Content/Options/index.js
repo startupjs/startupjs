@@ -13,7 +13,7 @@ import './index.styl'
 export default observer(function Options ({
   style
 }) {
-  const [open, $open] = useValue(false)
+  const [, $open] = useValue(false)
   const [, $showGrid] = useShowGrid()
   // TODO: figure out why getting showSizes here leads to a bug of being non-reactive
   //       initially. While $showSizes.get() works fine for some reason.
@@ -31,9 +31,7 @@ export default observer(function Options ({
     )
     Modal(
       title='Settings'
-      visible=open
-      onDismiss=() => $open.set(false)
-      dismissLabel='Close'
+      $visible=$open
     )
       Input.input(type='checkbox' label='Dark theme' $value=$darkTheme)
       if $showSizes.get()

@@ -1,12 +1,13 @@
-import React from 'react'
-import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import React, { useState } from 'react'
+import { StyleSheet } from 'react-native'
+import { observer, useIsMountedRef } from 'startupjs'
+import PropTypes from 'prop-types'
+import { colorToRGBA } from '../../helpers'
+import Icon from '../Icon'
 import Row from '../Row'
 import Div from '../Div'
-import Icon from '../Icon'
+import Loader from '../Loader'
 import Span from '../typography/Span'
-import { colorToRGBA } from '../../config/helpers'
-import { StyleSheet } from 'react-native'
 import STYLES from './index.styl'
 
 const {
@@ -18,34 +19,53 @@ const {
 
 function Button ({
   style,
+  iconStyle,
   textStyle,
   children,
   color,
   variant,
   size,
   icon,
-  iconColor,
   iconPosition,
-  textColor,
   disabled,
+  hoverStyle,
+  activeStyle,
   onPress,
   ...props
 }) {
-  if (/^#|rgb/.test(color)) console.warn('Button component: Hex color for color property is deprecated. Use style instead')
-  if (/^#|rgb/.test(iconColor)) console.warn('Button component: Hex color for iconColor property is deprecated. Use style instead')
+  const isMountedRef = useIsMountedRef()
+  const [asyncActive, setAsyncActive] = useState(false)
+
+  function _onPress (event) {
+    const promise = onPress(event)
+    if (!(promise && promise.then)) return
+    promise.then(() => {
+      if (!isMountedRef.current) return
+      setAsyncActive(false)
+    })
+    setAsyncActive(true)
+  }
+
+  if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
+
   const isFlat = variant === 'flat'
-  style = StyleSheet.flatten([{ color: colors[color] || color }, style])
-  const _color = style.color
-  const _textColor = colors[textColor] || textColor ||
-    (isFlat ? colors.white : _color)
-  const _iconColor = colors[iconColor] || iconColor ||
-    (isFlat ? colors.white : _color)
+  const _color = colors[color]
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
   const rootExtraProps = {}
-  const labelStyle = { color: _textColor }
-  const iconStyle = {}
+  const iconWrapperStyle = {}
+  let extraHoverStyle
+  let extraActiveStyle
+
+  textStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    textStyle
+  ])
+  iconStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    iconStyle
+  ])
 
   switch (variant) {
     case 'flat':
@@ -54,8 +74,12 @@ function Button ({
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
     case 'text':
+      extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
     case 'shadowed':
       rootStyle.backgroundColor = colors.white
@@ -71,12 +95,12 @@ function Button ({
 
     switch (iconPosition) {
       case 'left':
-        iconStyle.marginRight = iconMargins[size]
-        iconStyle.marginLeft = -quarterOfHeight
+        iconWrapperStyle.marginRight = iconMargins[size]
+        iconWrapperStyle.marginLeft = -quarterOfHeight
         break
       case 'right':
-        iconStyle.marginLeft = iconMargins[size]
-        iconStyle.marginRight = -quarterOfHeight
+        iconWrapperStyle.marginLeft = iconMargins[size]
+        iconWrapperStyle.marginRight = -quarterOfHeight
         break
     }
   } else {
@@ -99,25 +123,34 @@ function Button ({
       vAlign='center'
       reverse=iconPosition === 'right'
       variant='highlight'
-      underlayColor=_color
-      disabled=disabled
-      onPress=onPress
+      hoverStyle=extraHoverStyle ? [extraHoverStyle, hoverStyle] : hoverStyle
+      activeStyle=extraActiveStyle ? [extraActiveStyle, activeStyle] : activeStyle
+      disabled=asyncActive || disabled
+      onPress=onPress ? _onPress : undefined
       ...rootExtraProps
       ...props
     )
+      if asyncActive
+        Div.loader
+          Loader(size='s' color=isFlat ? 'white' : color)
       if icon
         Div.iconWrapper(
-          style=iconStyle
+          style=iconWrapperStyle
           styleName=[
             {'with-label': hasChildren},
             iconPosition
           ]
         )
-          Icon(icon=icon size=size color=_iconColor)
+          Icon.icon(
+            style=iconStyle
+            styleName=[variant, {'invisible': asyncActive}]
+            icon=icon
+            size=size
+          )
       if children
         Span.label(
-          style=[labelStyle, textStyle]
-          size=size
+          style=[textStyle]
+          styleName=[size, {'invisible': asyncActive}]
         )= children
   `
 }
@@ -133,15 +166,14 @@ Button.defaultProps = {
 
 Button.propTypes = {
   ...Div.propTypes,
-  textStyle: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  children: propTypes.node,
-  variant: propTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
-  size: propTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
+  textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  color: PropTypes.oneOf(Object.keys(colors)),
+  children: PropTypes.node,
+  variant: PropTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
+  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,
-  textColor: propTypes.string,
-  icon: propTypes.object,
-  iconPosition: propTypes.oneOf(['left', 'right']),
-  iconColor: propTypes.string
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
 export default observer(Button)

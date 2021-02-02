@@ -1,17 +1,22 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
+import { useLayout } from './../../../hooks'
 import Row from './../../Row'
 import Div from './../../Div'
 import Span from './../../typography/Span'
 import Checkbox from './checkbox'
 import Switch from './switch'
-import { useLayout } from './../../../hooks'
 import './index.styl'
 
 const INPUT_COMPONENTS = {
   checkbox: Checkbox,
   switch: Switch
+}
+
+const READONLY_ICONS = {
+  TRUE: '✓',
+  FALSE: '✗'
 }
 
 function CheckboxInput ({
@@ -21,7 +26,9 @@ function CheckboxInput ({
   label,
   value,
   layout,
+  icon,
   disabled,
+  readonly,
   onChange,
   hoverStyle,
   activeStyle,
@@ -36,15 +43,28 @@ function CheckboxInput ({
 
   function renderInput (standalone) {
     const Input = INPUT_COMPONENTS[variant]
+
+    if (readonly) {
+      return pug`
+        Row.checkbox-icon-wrap(
+          styleName=[variant]
+        )
+          Span.checkbox-icon(
+            styleName={readonly}
+          )=value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
+      `
+    }
+
     return pug`
       Input(
         style=standalone ? style : {}
         className=standalone ? className : undefined
         value=value
+        icon=icon
         disabled=disabled
-        onPress=standalone ? onPress : null /* fix double opacity on input element for rows variant */
-        hoverStyle=standalone ? hoverStyle : null
-        activeStyle=standalone ? activeStyle : null
+        onPress=standalone ? onPress : undefined /* fix double opacity on input element for rows variant */
+        hoverStyle=standalone ? hoverStyle : undefined
+        activeStyle=standalone ? activeStyle : undefined
         ...props
       )
     `
@@ -58,7 +78,7 @@ function CheckboxInput ({
       className=className
       vAlign='center'
       disabled=disabled
-      onPress=onPress
+      onPress=!readonly ? onPress : undefined
       hoverStyle=hoverStyle
       activeStyle=activeStyle
     )
@@ -74,17 +94,20 @@ function CheckboxInput ({
 CheckboxInput.defaultProps = {
   variant: 'checkbox',
   value: false,
-  disabled: false
+  disabled: false,
+  readonly: false
 }
 
 CheckboxInput.propTypes = {
-  style: propTypes.oneOfType([propTypes.object, propTypes.array]),
-  variant: propTypes.oneOf(['checkbox', 'switch']),
-  label: propTypes.node,
-  value: propTypes.bool,
-  layout: propTypes.oneOf(['pure', 'rows']),
-  disabled: propTypes.bool,
-  onChange: propTypes.func
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  variant: PropTypes.oneOf(['checkbox', 'switch']),
+  label: PropTypes.node,
+  value: PropTypes.bool,
+  layout: PropTypes.oneOf(['pure', 'rows']),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default observer(CheckboxInput)

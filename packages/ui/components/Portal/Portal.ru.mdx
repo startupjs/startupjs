@@ -1,0 +1,71 @@
+import { useState } from 'react'
+import Button from '../Button'
+import Span from '../typography/Span'
+import Div from '../Div'
+import Portal from './'
+import { u } from 'startupjs'
+
+# Portal (портал)
+
+Портал визуализирует свои дочерние элементы в новое "поддерево" вне текущей иерархии DOM.
+
+```jsx
+import { Portal } from '@startupjs/ui'
+```
+
+## Инициализация
+
+Нужно обернуть ту часть компонентов приложения, поверх которых будет отображаться Portal
+
+**Важно:** Portal.Provider не должен быть расположен выше компонентов связаных с react-router, т.к. некоторые UI компоненты работающие в связке с Portal используют его API (н-р: useHistory в Dropdown). Поэтому лучше всего обернуть отдельный Layout, а не все приложение в Root/App
+
+```jsx
+function Layout ({ children }) {
+  return (
+    <Portal.Provider>
+      <Layout>{children}</Layout>
+    </Portal.Provider>
+  )
+}
+```
+
+## Пример
+
+```jsx example
+const [isShow, setIsShow] = useState(false)
+
+const contentStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: u(25),
+  height: u(20),
+  backgroundColor: '#444',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+
+const textStyle = {
+  color: '#fff',
+  marginBottom: u(2),
+  fontSize: u(3)
+}
+
+return (
+  <Div>
+    <Button onPress={()=> setIsShow(true)}>Open</Button>
+    <Portal>
+      {
+        isShow &&
+        <Div style={contentStyle}>
+          <Span style={textStyle}>Content</Span>
+          <Button
+            variant='flat'
+            onPress={()=> setIsShow(false)}
+          >Close</Button>
+        </Div>
+      }
+    </Portal>
+  </Div>
+)
+```

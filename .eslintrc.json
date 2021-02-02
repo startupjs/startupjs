@@ -4,16 +4,21 @@
     "browser": true,
     "es6": true,
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "detox/detox": true,
+    "jest": true,
+    "jest/globals": true
   },
   "extends": [
     "standard",
     "standard-react",
-    "plugin:react-pug/all"
+    "plugin:react-pug/all",
+    "plugin:jest/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
+    "SharedArrayBuffer": "readonly",
+    "x": true
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -26,7 +31,10 @@
   },
   "plugins": [
     "react",
-    "react-pug"
+    "react-pug",
+    "jest",
+    "detox",
+    "eslint-plugin-import-helpers"
   ],
   "rules": {
     "prefer-const": "off",
@@ -35,6 +43,26 @@
     "react-pug/empty-lines": "off",
     "react-pug/no-interpolation": "off",
     "react-pug/prop-types": "off",
-    "react-pug/quotes": "off"
+    "react-pug/quotes": "off",
+    "jest/expect-expect": "off",
+    "import-helpers/order-imports": [
+            "warn",
+              { 
+                "newlinesBetween": "ignore",
+                "groups": [
+                    "/^react$/",
+                    "/react-native/",
+                    "/^react.*/",
+                    "/^startupjs/", 
+                    "/^@?startupjs.*/",
+                    "/^@?dmapper.*/",
+                    "module",
+                    "/components/",
+                    ["/helpers/", "/hooks/"],
+                    ["sibling", "parent"],
+                    "/.\/index.styl/"
+                ]
+              }
+        ]
   }
 }

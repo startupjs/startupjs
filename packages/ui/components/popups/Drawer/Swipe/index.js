@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { PanResponder, View } from 'react-native'
+import { PanResponder, View, StyleSheet } from 'react-native'
+import { observer } from 'startupjs'
 import './index.styl'
 
 const RESPONDER_STYLES = {
@@ -9,16 +10,16 @@ const RESPONDER_STYLES = {
   top: { bottom: 0, width: '100%', height: '10%' }
 }
 
-export default function Swipe ({
+function Swipe ({
   position,
   contentSize,
-  styleSwipe,
+  swipeStyle,
   isHorizontal,
   isSwipe,
   isInvertPosition,
-  animatePosition,
-  hide,
-  show
+  animateStates,
+  runHide,
+  runShow
 }) {
   const [startDrag, setStartDrag] = useState(null)
   const [endDrag, setEndDrag] = useState(false)
@@ -37,9 +38,9 @@ export default function Swipe ({
       const validOffset = isInvertPosition ? -offset : offset
 
       if (validOffset >= dragZoneValue) {
-        hide()
+        runHide()
       } else {
-        show()
+        runShow()
       }
 
       setOffset(null)
@@ -48,8 +49,8 @@ export default function Swipe ({
       return
     }
 
-    if (isInvertPosition && offset < 0) animatePosition.setValue(offset)
-    if (!isInvertPosition && offset > 0) animatePosition.setValue(offset)
+    if (isInvertPosition && offset < 0) animateStates.position.setValue(offset)
+    if (!isInvertPosition && offset > 0) animateStates.position.setValue(offset)
   }, [offset, endDrag])
 
   const responder = useMemo(() => PanResponder.create({
@@ -82,9 +83,14 @@ export default function Swipe ({
   }), [startDrag, endDrag, contentSize])
 
   const _responder = !isSwipe ? { panHandlers: {} } : responder
-  const _responderStyle = { ...RESPONDER_STYLES[position], ...styleSwipe }
+  const _responderStyle = StyleSheet.flatten([
+    RESPONDER_STYLES[position],
+    swipeStyle
+  ])
 
   return pug`
     View.responder(..._responder.panHandlers style=_responderStyle)
   `
 }
+
+export default observer(Swipe)

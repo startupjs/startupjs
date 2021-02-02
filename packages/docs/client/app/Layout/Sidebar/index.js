@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { observer, useModel } from 'startupjs'
 import { SmartSidebar } from '@startupjs/ui'
 import Content from './Content'
 
-const PATH = '_session.Sidebar'
+export const SIDEBAR_PATH = '_session.Sidebar.mainSidebar'
 
 function renderContent () {
   return pug`Content`
 }
 
 export default observer(function Sidebar ({ children }) {
-  const $opened = useModel(PATH)
-  useEffect(() => {
-    if ($opened.get() == null) $opened.set(true)
-  }, [])
+  const $open = useModel(SIDEBAR_PATH)
+
   return pug`
-    SmartSidebar(path=PATH width=240 renderContent=renderContent)
+    SmartSidebar(
+      $open=$open
+      width=280
+      renderContent=renderContent
+      defaultOpen
+    )
       = children
   `
 })

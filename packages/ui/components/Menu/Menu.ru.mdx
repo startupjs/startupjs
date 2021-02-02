@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocal } from 'startupjs'
 import Menu from '../Menu'
 import Content from '../Content'
 import Collapse from '../Collapse'
@@ -181,6 +182,32 @@ return (
     </Menu.Item>
   </Menu>
 )
+```
+
+## Пункт меню в роли ссылки
+
+Иногда вы хотите использовать пункт меню в качестве ссылки, например, в меню навигации. Смотрите ниже, как вы можете это сделать.
+
+```jsx example
+const [url] = useLocal('$render.url')
+const components = [
+  { label: 'Menu', to: '/docs/components/Menu' },
+  { label: 'Div', to: '/docs/components/Div' },
+  { label: 'Button', to: '/docs/components/Button' }
+]
+return pug`
+  Menu(
+    style={ width: u(15) }
+    activeBorder='left'
+  )
+    each component, index in components
+      - const to = component.to
+      Menu.Item(
+        key=index
+        active=to === url
+        to=to
+      )= component.label
+`
 ```
 
 ## Сложное взаимодействие (интеграция с другими компонентами)

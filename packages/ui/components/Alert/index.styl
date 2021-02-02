@@ -1,16 +1,42 @@
 .root
   radius()
-  padding 0 1u
-  height 4u
+  padding 1u 2u
+  border-color: $UI.colors.primary
+  border-width 1px
+  background-color: $UI.colors.primaryLightest
 
-.leftIconWrapper
-  margin-right 1u
+  &.error
+    border-color: $UI.colors.error
+    background-color: $UI.colors.errorLightest
 
-.label
+  &.warning
+    border-color: $UI.colors.warning
+    background-color: $UI.colors.warningLightest
+
+  &.success
+    border-color: $UI.colors.success
+    background-color: $UI.colors.successLightest
+
+.icon
+  color: $UI.colors.primary
+  flex-shrink 0
+
+  &.error
+    color: $UI.colors.error
+
+  &.warning
+    color: $UI.colors.warning
+
+  &.success
+    color: $UI.colors.success
+
+.actions
+  flex-shrink 0
+  margin-left 2u
+
+.content
+  flex-shrink 1
   flex-grow 1
 
-.rightIconWrapper
-  margin-left 1u
-
-:export
-  colors: $UI.colors
+  &.indent
+    margin-left 1.5u

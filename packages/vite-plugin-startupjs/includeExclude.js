@@ -38,6 +38,8 @@ exports.include = [
 ]
 
 exports.exclude = [
+  '@react-native-community/datetimepicker',
+  '@react-native-picker/picker',
   'react',
   'react-dom',
   'react-native',

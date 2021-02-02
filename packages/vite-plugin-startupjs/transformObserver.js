@@ -1,5 +1,5 @@
-const callLoader = require('./lib/callLoader')
-const replaceObserverLoader = require('./lib/replaceObserverLoader')
+const callLoader = require('@startupjs/bundler/lib/callLoader')
+const replaceObserverLoader = require('@startupjs/bundler/lib/replaceObserverLoader')
 
 module.exports = {
   test: (path) => /\.([jt]sx?|mdx?)$/.test(path),

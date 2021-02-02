@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { faMinus } from '@fortawesome/free-solid-svg-icons'
 import Div from '../../Div'
 import Br from '../../Br'
 import Checkbox from '../Checkbox'
@@ -29,6 +30,72 @@ return (
       value={true}
       disabled
     />
+    <Br />
+    <Checkbox
+      label='Readonly example'
+      value={true}
+      readonly
+    />
+  </Div>
+)
+```
+
+## Checkbox with custom icon
+
+The `icon` property allows to change the default icon.
+
+```jsx example
+const [checkedAll, setCheckedAll] = useState(false)
+const [selected, setSelected] = useState([])
+const [intermediate, setIntermediate] = useState(false)
+
+const checkboxes = ['One', 'Two', 'Three']
+
+useEffect(() => {
+  setIntermediate(selected.length > 0 && selected.length < checkboxes.length)
+  setCheckedAll(selected.length === checkboxes.length)
+}, [selected])
+
+function onChangeAll(value) {
+  setCheckedAll(value)
+  if (value) {
+    setSelected(checkboxes)
+  } else {
+    setSelected([])
+  }
+}
+
+function onChange (value, id) {
+  if (value){
+    setSelected(prevState => [...prevState, id])
+  } else {
+    setSelected(prevState => prevState.filter(item => item !== id))
+  }
+}
+
+const extraProps = {}
+if (intermediate) extraProps.icon = faMinus
+
+return (
+  <Div>
+    <Checkbox
+      label='Check all'
+      value={checkedAll || intermediate}
+      onChange={onChangeAll}
+      {...extraProps}
+    />
+    <Div pushed>
+      {checkboxes.map(item => (
+        <Div key={item}>
+          <Br />
+          <Checkbox
+            label={item}
+            value={selected.includes(item)}
+            onChange={value => onChange(value, item)}
+          />
+        </Div>
+      ))}
+    </Div>
   </Div>
 )
 ```
@@ -53,6 +120,13 @@ return (
       label='Switch disbabled example'
       value={true}
       disabled
+    />
+    <Br />
+    <Checkbox
+      variant='switch'
+      label='Switch readonly example'
+      value={true}
+      readonly
     />
   </Div>
 )
