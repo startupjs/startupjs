@@ -11,6 +11,7 @@ import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
 import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
 import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
+import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
 
 import path from 'path'
 import conf from 'nconf'
@@ -65,7 +66,11 @@ startupjsServer({
         clientId: conf.get('LINKEDIN_CLIENT_ID'),
         clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
       }),
-      new LocalStrategy()
+      new LocalStrategy(),
+      new IDGStrategy({
+        clientId: conf.get('IDG_CLIENT_ID'),
+        clientSecret: conf.get('IDG_CLIENT_SECRET')
+      })
     ]
   })
 })
