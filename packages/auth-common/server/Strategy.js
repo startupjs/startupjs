@@ -29,15 +29,13 @@ function validateConfigs ({
 }
 
 export default function (config = {}) {
-  let $config = {}
-
   return ({ model, router, updateClientSession, authConfig }) => {
-    Object.assign($config, {
+    Object.assign(config, {
       ...authConfig
       // Any defaults....
     }, config)
 
-    validateConfigs($config)
+    validateConfigs(config)
 
     const {
       clientId,
@@ -46,9 +44,9 @@ export default function (config = {}) {
       tokenURL,
       profileURL,
       providerName
-    } = $config
+    } = config
 
-    initRoutes({ router, config: $config })
+    initRoutes({ router, config })
 
     console.log('++++++++++ Initialization of Common auth strategy ' +
     `for ${providerName} ++++++++++\n`)
@@ -64,7 +62,7 @@ export default function (config = {}) {
       let userId, err
 
       try {
-        const provider = new Provider(model, profile, $config)
+        const provider = new Provider(model, profile, config)
         userId = await provider.findOrCreateUser()
       } catch (e) {
         err = e
