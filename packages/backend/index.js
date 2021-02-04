@@ -12,7 +12,7 @@ const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
 
 global.__clients = {}
-const usersConectionCounter = {}
+const usersConnectionCounter = {}
 
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
@@ -167,13 +167,12 @@ module.exports = async options => {
 
     let userId = req.session && req.session.userId
 
-    const model = backend.createModel()
-
     if (!global.__clients[userId]) {
+      const model = backend.createModel()
       global.__clients[userId] = { model }
     }
 
-    usersConectionCounter[userId] = ~~usersConectionCounter[userId] + 1
+    usersConnectionCounter[userId] = ~~usersConnectionCounter[userId] + 1
 
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
@@ -181,10 +180,10 @@ module.exports = async options => {
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
 
-      usersConectionCounter[userId] -= 1
+      usersConnectionCounter[userId] -= 1
 
-      if (usersConectionCounter[userId] <= 0) {
-        model.close()
+      if (usersConnectionCounter[userId] <= 0) {
+        global.__clients[userId].model.close()
         delete global.__clients[userId]
       }
     })
