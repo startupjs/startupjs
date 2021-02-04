@@ -63,6 +63,13 @@ fn_local_init () {
 
 fn_before_publish () {
   set -e
+  echo "Checking that you are on master branch..."
+  if git status | grep "On branch master"; then
+    echo "."
+  else
+    echo "!!! ERROR !!! You can only publish on master branch!"
+    exit 1
+  fi
   echo "Checking that startupjs/startupjs github repo is set as origin in git..."
   if git remote -v | grep startupjs/startupjs; then
     echo "."
