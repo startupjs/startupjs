@@ -15,7 +15,8 @@ module.exports = getConfig(undefined, {
     '@startupjs/auth-linkedin/server',
     '@startupjs/auth-local/server',
     '@startupjs/auth-common/server',
-    '@startupjs/ui/server'
+    '@startupjs/ui/server',
+    '@startupjs/auth-idg/server'
   ],
   alias: {}
 })

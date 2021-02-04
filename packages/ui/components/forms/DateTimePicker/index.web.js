@@ -2,13 +2,21 @@
 import React, { useMemo, useState } from 'react'
 // eslint-disable-next-line
 import { unstable_createElement } from 'react-native-web'
-import DatePicker, { CalendarContainer } from 'react-datepicker'
+import DatePicker, { CalendarContainer, registerLocale } from 'react-datepicker'
 import { observer } from 'startupjs'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
+import * as locale from 'date-fns/locale'
 import Div from '../../Div'
 import Span from './../../typography/Span'
 import './index.styl'
+
+const localLanguage = window.navigator.language
+const DEFAULT_LOCALE = 'enUS'
+const languageArray = localLanguage.split('-')
+const preparedLocale = `${languageArray[0]}${(languageArray[1] || '').toUpperCase()}`
+
+registerLocale('currentLocale', locale[preparedLocale] || locale[DEFAULT_LOCALE])
 
 const scrollableClasses = [
   'react-datepicker__time-list',
@@ -39,15 +47,16 @@ function DateTimePicker ({
   const pickerProps = {
     showTimeSelect: mode !== 'date',
     showTimeSelectOnly: mode === 'time',
-    dateFormat: _format || 'yyyy/MM/dd'
+    dateFormat: _format || 'Pp'
   }
 
   const maxDateDefault = useMemo(() => {
     return maxDate || moment().add(100, 'year').valueOf()
   }, [maxDate])
 
-  if (mode === 'time') pickerProps.dateFormat = _format || 'HH:mm'
-  if (mode !== 'date') pickerProps.timeFormat = timeFormat || 'HH:mm'
+  if (mode === 'time') pickerProps.dateFormat = _format || 'p'
+  if (mode === 'date') pickerProps.dateFormat = _format || 'P'
+  if (mode !== 'date') pickerProps.timeFormat = timeFormat || 'p'
   if (minDate) pickerProps.minDate = minDate
   if (InputComponent) pickerProps.customInput = InputComponent
 
@@ -76,6 +85,7 @@ function DateTimePicker ({
       disabled=disabled
       dropdownMode='select'
       fixedHeight
+      locale='currentLocale'
       maxDate=maxDateDefault
       placeholderText=placeholder
       portalId='datepicker-portal'

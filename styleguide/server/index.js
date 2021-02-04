@@ -12,6 +12,7 @@ import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
 import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
+import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
 
 import path from 'path'
 import conf from 'nconf'
@@ -75,7 +76,11 @@ startupjsServer({
         clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
         clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
       }),
-      new LocalStrategy()
+      new LocalStrategy(),
+      new IDGStrategy({
+        clientId: conf.get('IDG_CLIENT_ID'),
+        clientSecret: conf.get('IDG_CLIENT_SECRET')
+      })
     ]
   })
 })
