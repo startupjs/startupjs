@@ -3,24 +3,21 @@
 
 ### Bug Fixes
 
-* **app:** refresh hash when change ([fa2c1d8](https://github.com/startupjs/startupjs/commit/fa2c1d8c18213c33c024eb102eea0369160a13ae))
-* **auth:** Get extra data from parseUserCreationData ([a561168](https://github.com/startupjs/startupjs/commit/a561168dc98dc6f5f4c12563710493f9a46e36fd))
-* **babel-plugin-rn-stylename-to-style:** fix using 'part' attribute in a compoment which has destructured ...props in its attributes ([4a17213](https://github.com/startupjs/startupjs/commit/4a17213379727fe00ecfee20c4db9340963b7af3))
 * **backend:** add counter of users connections to fix memory leaks ([#505](https://github.com/startupjs/startupjs/issues/505)) ([007c26d](https://github.com/startupjs/startupjs/commit/007c26d5175db04a4433a332bbf56ac365623f93))
-* **orm:** add default 'collection' field based on ORM path only if it does not exist ([d57bba7](https://github.com/startupjs/startupjs/commit/d57bba7b55a148d97f247d252609b0eb320e0109))
 
 
 ### Features
 
 * **auth-apple:** linking ([#504](https://github.com/startupjs/startupjs/issues/504)) ([8707d9b](https://github.com/startupjs/startupjs/commit/8707d9ba1176a4ef672b349dd28868884b7487cd))
 * **auth-idg:** add ([#503](https://github.com/startupjs/startupjs/issues/503)) ([efbfdb7](https://github.com/startupjs/startupjs/commit/efbfdb716c345d112b0b4939f6ccd4199acd7cf0))
-* **babel-plugin-rn-stylename-to-style:** Add limited support for dynamic `part` attribute, similar to `styleName`. ([0c146d2](https://github.com/startupjs/startupjs/commit/0c146d2378c4fdffb2c7db39986d76ba0f575b9f))
-* **DateTimePicker:** add internalization ([#500](https://github.com/startupjs/startupjs/issues/500)) ([c044b0d](https://github.com/startupjs/startupjs/commit/c044b0d2f545b62806cf5a5a3e1a60cbe0f813b0))
-* **ui/Multiselect:** add InputComponent prop ([#497](https://github.com/startupjs/startupjs/issues/497)) ([8c09c17](https://github.com/startupjs/startupjs/commit/8c09c1765f4809e38343062c268b0ff48690158f))
-
 
 
 ## [0.31.25](https://github.com/startupjs/startupjs/compare/v0.31.24...v0.31.25) (2021-02-02)
+
+
+### Performance Improvements
+
+* **backend:** update `sharedb-mongo` package to the same version with monorepo ([#502](https://github.com/startupjs/startupjs/issues/502)) ([d42dd4a](https://github.com/startupjs/startupjs/commit/d42dd4af53635292a15b368335391dcd0df3226c))
 
 
 
