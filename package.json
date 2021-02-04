@@ -25,9 +25,10 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -k ./lerna.json",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
-    "publish-patch": "npx lerna publish patch --no-push && yarn publish-update-changelog",
-    "publish-minor": "npx lerna publish minor --no-push && yarn publish-update-changelog",
-    "publish-alpha": "npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
+    "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
+    "publish-alpha": "yarn before-publish && npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
+    "before-publish": ". ./scripts/tasks.sh && fn_before_publish",
     "publish-update-changelog": ". ./scripts/tasks.sh && fn_update_changelog"
   },
   "devDependencies": {
