@@ -4,9 +4,9 @@ import passport from 'passport'
 export default function loginCallback (req, res, next, config) {
   const { successRedirectUrl, onBeforeLoginHook } = config
 
-  passport.authenticate('azuread-openidconnect', function (err, userId, info) {
+  passport.authenticate(config.providerName, function (err, userId, info) {
     if (err) {
-      console.log('[@startup/auth-linkedin] Error:', err)
+      console.log('[@startup/auth-common] Error:', err)
       res.status(500).json({ error: err })
     }
 
