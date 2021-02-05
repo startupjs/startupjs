@@ -116,6 +116,7 @@ export const ChildModel = Model.ChildModel
 function BaseModel () {
   Model.ChildModel.apply(this, arguments)
 }
+
 BaseModel.prototype = Object.create(Model.ChildModel.prototype)
 BaseModel.prototype.constructor = BaseModel
 
@@ -134,7 +135,10 @@ BaseModel.prototype.dereferenceSelf = function () {
   return model.scope(model._dereference(segments, true).join('.'))
 }
 
-BaseModel.associations = []
+BaseModel.addAssociation = function (association) {
+  if (!this.associations) this.associations = []
+  this.associations.push(association)
+}
 
 BaseModel.prototype.getAssociations = function () {
   return this.constructor.associations
