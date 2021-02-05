@@ -18,6 +18,6 @@ export class MailStartupJS {
   }
 
   async send(settings: SendSettings): Promise<void> {
-    this.mail.send(settings);
+    await this.mail.send(settings);
   }
 }

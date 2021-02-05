@@ -23,10 +23,7 @@ export class Mail {
     const targetTemplateName =
       settings?.template || defaultTemplateName.getName();
 
-    let provider: Provider | undefined;
-    let template: Template | undefined;
-
-    provider = availableProviders.find(
+    const provider: Provider | undefined = availableProviders.find(
       availableProvider => availableProvider.getName() === targetProviderName
     );
 
@@ -54,7 +51,7 @@ export class Mail {
       throw new Error('[@startupjs/mail] template list is empty.');
     }
 
-    template = availableTemplates.find(
+    const template: Template | undefined = availableTemplates.find(
       template => template.getName() === targetTemplateName
     );
 
@@ -64,6 +61,7 @@ export class Mail {
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await provider.send({
       from: settings.from,
       to: settings.to,

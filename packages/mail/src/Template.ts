@@ -11,7 +11,7 @@ export class Template {
   constructor(
     templates: Template[] = [],
     dirname: string = __dirname,
-    ext: string = 'html'
+    ext = 'html'
   ) {
     this.templates = templates;
     this.dirname = dirname;
@@ -39,7 +39,7 @@ export class Template {
     return _template(template)(text);
   }
   async getData(): Promise<{ [key: string]: any }> {
-    return {};
+    return Promise.resolve({});
   }
   async composeData(
     context: {

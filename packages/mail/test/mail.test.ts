@@ -7,7 +7,7 @@ describe('Check mail with', () => {
     const provider1 = new Provider1();
     const template1 = new Template1();
 
-    let mail: Mail = new Mail({
+    const mail: Mail = new Mail({
       providers: [provider1],
       templates: [template1],
       default: { provider: provider1, template: template1 },

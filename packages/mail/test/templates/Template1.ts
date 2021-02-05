@@ -9,7 +9,7 @@ export class Template1 extends Template {
   }
   getData(): Promise<{ [key: string]: any }> {
     return new Promise(resolve => {
-      setTimeout(async () => {
+      setTimeout(() => {
         resolve({
           user: 'Dmitriy',
         });
