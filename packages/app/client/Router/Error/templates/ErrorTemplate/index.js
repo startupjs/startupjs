@@ -1,24 +1,25 @@
 import React from 'react'
 import { Linking } from 'react-native'
-import { observer, useSession } from 'startupjs'
+import { observer, emit } from 'startupjs'
 import { Card, H3, H5, Span, Button, Div } from '@startupjs/ui'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
-export default observer(function ErrorTemplate ({ title, description, isSupportEmailBlock, goBack }) {
-  const [{ supportEmail } = {}] = useSession('criticalVersion.meta')
-
+export default observer(function ErrorTemplate ({ title, description, supportEmail }) {
   return pug`
     Div.root
       Card.card
-        H3.info= title
-        H5= description
-        if supportEmail && isSupportEmailBlock
-          Span &nbsp;at&nbsp;
-          Span.email(onPress=() => Linking.openURL('mailto:' + supportEmail))= supportEmail
-          Span .
+        if title
+          H3.info= title
+        if description
+          H5= description
+        if supportEmail
+          Span If you think it's a mistake, please contact support
+            Span.email(onPress=() => Linking.openURL('mailto:' + supportEmail))= ' ' + supportEmail
+            Span .
 
-        Button.backButton(icon=faArrowLeft onPress=goBack) Go back
+
+        Button.backButton(icon=faArrowLeft onPress=() => emit('error')) Go back
 
   `
 })

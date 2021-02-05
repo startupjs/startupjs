@@ -19,6 +19,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   routes,
   errorPages,
   goToHandler,
+  supportEmail,
   ...props
 }) {
   const location = useLocation()
@@ -64,7 +65,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 
   return pug`
     if err
-      Error(value=err pages=errorPages)
+      Error(value=err pages=errorPages supportEmail=supportEmail)
     else
       RenderApp(app=app routes=routes ...props)
 

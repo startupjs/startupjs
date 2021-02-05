@@ -93,6 +93,7 @@ const App = observer(function AppComponent ({
         Router(
           apps=roots
           routes=routes
+          supportEmail=supportEmail
           ...props
         )
   `

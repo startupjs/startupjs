@@ -1,26 +1,15 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { useHistory } from 'react-router-native'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import { defaultTemplates } from './templates'
 import './index.styl'
 
-export default observer(function Error ({ value, pages = {}, disableError }) {
+export default observer(function Error ({ value, pages = {}, supportEmail }) {
   // TODO: Need to make the default layout better
-  const history = useHistory()
-  const status = parseInt(value)
-  const Template = pages[status] || defaultTemplates[status]
+  const status = value
+  const Template = pages[status] || defaultTemplates[status] || defaultTemplates.default
   return pug`
     View.root
-      if Template
-        Template
-      else
-        Text.title Error
-        Text
-          Text= 'Sorry, something went wrong. Please '
-          Text.back(onPress=() => {
-            history.goBack()
-          }) go back
-          Text= ' and try again.'
+      Template(supportEmail=supportEmail)
   `
 })
