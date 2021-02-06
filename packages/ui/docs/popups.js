@@ -11,7 +11,7 @@ export default {
   type: 'collapse',
   title: {
     en: 'Popups',
-    ru: 'Всплывающие элементы'
+    ru: 'Всплывающие эл-ты'
   },
   icon: faWindowRestore,
   items: {
