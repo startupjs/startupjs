@@ -17,7 +17,10 @@
     "lint": "tsdx lint --fix src test",
     "prepare": "tsdx build --tsconfig tsconfig.build.json",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "fmt": "ts-standard --fix",
+    "outdated": "npm-check-updates",
+    "upgrade": "npm-check-updates -u --target minor"
   },
   "peerDependencies": {},
   "husky": {
@@ -44,24 +47,29 @@
       "limit": "10 KB"
     }
   ],
+  "ts-standard": {
+    "project": "./tsconfig.json"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.9.2",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
     "@types/lodash.template": "^4.5.0",
-    "eslint": "^7.19.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
+    "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.2.1",
     "husky": "^4.3.8",
+    "npm-check-updates": "^11.1.1",
     "lodash.template": "^4.5.0",
     "size-limit": "^4.9.2",
+    "ts-standard": "^10.0.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3"

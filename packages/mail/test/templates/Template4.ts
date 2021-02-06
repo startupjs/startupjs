@@ -1,16 +1,17 @@
-import { Template } from '../../src';
+import { Template } from '../../src'
 
 export class Template4 extends Template {
-  constructor() {
-    super([], __dirname);
+  constructor () {
+    super([], __dirname)
   }
-  getData(): Promise<{ [key: string]: any }> {
-    return new Promise(resolve => {
+
+  async getData (): Promise<{ [key: string]: any }> {
+    return await new Promise(resolve => {
       setTimeout(() => {
         resolve({
-          user: 'Lada',
-        });
-      }, 150);
-    });
+          user: 'Lada'
+        })
+      }, 150)
+    })
   }
 }
