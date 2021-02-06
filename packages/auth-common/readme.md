@@ -26,9 +26,9 @@ initAuth(ee, {
   strategies: [
     new CommonStrategy({
       providerName: 'virgin',
-      authorizationURL: 'http://virgin-dev.dmapper.co/oauth/authorize',
-      tokenURL: 'http://virgin-dev.dmapper.co/oauth/token',
-      profileURL: 'http://virgin-dev.dmapper.co/oauth/get-me',
+      authorizationURL: 'http://virgin.example.com/oauth/authorize',
+      tokenURL: 'http://virgin.example.com/oauth/token',
+      profileURL: 'http://virgin.example.com/oauth/get-me',
       clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
       clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
     })
