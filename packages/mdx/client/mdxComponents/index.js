@@ -16,6 +16,7 @@ import {
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 import Code from '../Code'
+import Img from '../Img'
 
 const isWeb = Platform.OS === 'web'
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
@@ -189,5 +190,7 @@ export default {
       Link.link(to=href size='l' color='primary')= children
     `
   },
-  img: P
+  img: ({ src }) => pug`
+    Img(src=src)
+  `
 }
