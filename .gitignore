@@ -37,3 +37,9 @@ package-lock.json
 
 # Test application initialized with `yarn init-local` command.
 /testapp
+
+# Distribution of tsdx
+dist
+
+# Logs of tsdx
+*.log

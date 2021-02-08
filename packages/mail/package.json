@@ -28,12 +28,6 @@
       "pre-commit": "tsdx lint --fix src test"
     }
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "name": "@startupjs/mail",
   "author": "Dmitriy Borodin",
   "module": "dist/mail.esm.js",
@@ -58,12 +52,10 @@
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
     "eslint": "^7.19.0",
-    "eslint-config-prettier": "^7.2.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "^4.2.1",
     "husky": "^4.3.8",
     "npm-check-updates": "^11.1.1",
