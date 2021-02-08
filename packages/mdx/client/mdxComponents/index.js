@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Platform } from 'react-native'
+import { Image, Platform } from 'react-native'
 import { $root } from 'startupjs'
 import {
   Div,
@@ -16,7 +16,6 @@ import {
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 import Code from '../Code'
-import Img from '../Img'
 
 const isWeb = Platform.OS === 'web'
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
@@ -190,7 +189,25 @@ export default {
       Link.link(to=href size='l' color='primary')= children
     `
   },
-  img: ({ src }) => pug`
-    Img(src=src)
-  `
+  img: ({ src }) => {
+    const [style, setStyle] = useState({})
+
+    function onLayout (e) {
+      const maxWidth = e.nativeEvent.layout.width
+      Image.getSize(src, (width, height) => {
+        if (maxWidth) {
+          const coefficient = maxWidth / width
+          setStyle({
+            width: Math.min(width, maxWidth),
+            height: coefficient < 1 ? Math.ceil(height * coefficient) : height
+          })
+        }
+      })
+    }
+
+    return pug`
+      Div.imageWrapper(onLayout=onLayout)
+        Image(style=style source={ uri: src })
+    `
+  }
 }
