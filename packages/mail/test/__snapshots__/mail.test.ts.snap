@@ -3,32 +3,46 @@
 exports[`Check mail with one default provider and one default template 1`] = `
 "<h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 "
 `;
 
 exports[`Check mail with one default provider and one default template 2`] = `
 Object {
-  "Template4": Object {
-    "user": "Lada",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with one default provider and one default template 3`] = `
+Object {
+  "payload": Object {
+    "Provider1": true,
   },
+  "status": "success",
 }
 `;
 
 exports[`Check mail with one default provider and one default template of two templates 1`] = `
 "<h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 "
 `;
 
 exports[`Check mail with one default provider and one default template of two templates 2`] = `
 Object {
-  "Template4": Object {
-    "user": "Lada",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with one default provider and one default template of two templates 3`] = `
+Object {
+  "payload": Object {
+    "Provider1": true,
   },
+  "status": "success",
 }
 `;
 
@@ -36,29 +50,29 @@ exports[`Check mail with one default provider and one default template with nest
 "<!DOCTYPE html>
 <html>
   <head>
-    <title>%recipient.Template1.title%</title>
+    <title>%recipient.Template1_title%</title>
   </head>
   <body>
     <h2>Template 1</h2>
     <p>
-      Some text... Info: %recipient.Template1.info%
+      Some text... Info: %recipient.Template1_info%
     </p>
     <div>
       <h2>Template 2</h2>
 <p>
-  Some text... Info: %recipient.Template2.info%
+  Some text... Info: %recipient.Template2_info%
 </p>
 <p>Template 3 will here</p>
 <div>
   <h2>Template 3</h2>
 <p>
-  Some text... Info: %recipient.Template3.info%
+  Some text... Info: %recipient.Template3_info%
 </p>
 <p>Template 4 will here</p>
 <div>
   <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
 </div>
@@ -69,20 +83,20 @@ exports[`Check mail with one default provider and one default template with nest
     <div>
       <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
     </div>
     <div>
       <h2>Template 3</h2>
 <p>
-  Some text... Info: %recipient.Template3.info%
+  Some text... Info: %recipient.Template3_info%
 </p>
 <p>Template 4 will here</p>
 <div>
   <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
 </div>
@@ -95,31 +109,32 @@ exports[`Check mail with one default provider and one default template with nest
 
 exports[`Check mail with one default provider and one default template with nested templates 2`] = `
 Object {
-  "Template1": Object {
-    "user": "Dmitriy",
+  "Template1_user": "Dmitriy",
+  "Template2_user": "Oleg",
+  "Template3_user": "Lena",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with one default provider and one default template with nested templates 3`] = `
+Object {
+  "payload": Object {
+    "Provider1": true,
   },
-  "Template2": Object {
-    "user": "Oleg",
-  },
-  "Template3": Object {
-    "user": "Lena",
-  },
-  "Template4": Object {
-    "user": "Lada",
-  },
+  "status": "success",
 }
 `;
 
 exports[`Check mail with one default provider and one selected template of two templates 1`] = `
 "<h2>Template 3</h2>
 <p>
-  Some text... Info: %recipient.Template3.info%
+  Some text... Info: %recipient.Template3_info%
 </p>
 <p>Template 4 will here</p>
 <div>
   <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
 </div>
@@ -128,44 +143,63 @@ exports[`Check mail with one default provider and one selected template of two t
 
 exports[`Check mail with one default provider and one selected template of two templates 2`] = `
 Object {
-  "Template3": Object {
-    "user": "Lena",
+  "Template3_user": "Lena",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with one default provider and one selected template of two templates 3`] = `
+Object {
+  "payload": Object {
+    "Provider1": true,
   },
-  "Template4": Object {
-    "user": "Lada",
-  },
+  "status": "success",
 }
 `;
 
 exports[`Check mail with three providers with default provider and one default template 1`] = `
 "<h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 "
 `;
 
 exports[`Check mail with three providers with default provider and one default template 2`] = `
 Object {
-  "Template4": Object {
-    "user": "Lada",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with three providers with default provider and one default template 3`] = `
+Object {
+  "payload": Object {
+    "Provider2": true,
   },
+  "status": "success",
 }
 `;
 
 exports[`Check mail with three providers with one selected provider and one default template 1`] = `
 "<h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 "
 `;
 
 exports[`Check mail with three providers with one selected provider and one default template 2`] = `
 Object {
-  "Template4": Object {
-    "user": "Lada",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with three providers with one selected provider and one default template 3`] = `
+Object {
+  "payload": Object {
+    "Provider3": true,
   },
+  "status": "success",
 }
 `;
 
@@ -173,29 +207,29 @@ exports[`Check mail with three providers with one selected provider and one sele
 "<!DOCTYPE html>
 <html>
   <head>
-    <title>%recipient.Template1.title%</title>
+    <title>%recipient.Template1_title%</title>
   </head>
   <body>
     <h2>Template 1</h2>
     <p>
-      Some text... Info: %recipient.Template1.info%
+      Some text... Info: %recipient.Template1_info%
     </p>
     <div>
       <h2>Template 2</h2>
 <p>
-  Some text... Info: %recipient.Template2.info%
+  Some text... Info: %recipient.Template2_info%
 </p>
 <p>Template 3 will here</p>
 <div>
   <h2>Template 3</h2>
 <p>
-  Some text... Info: %recipient.Template3.info%
+  Some text... Info: %recipient.Template3_info%
 </p>
 <p>Template 4 will here</p>
 <div>
   <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
 </div>
@@ -206,20 +240,20 @@ exports[`Check mail with three providers with one selected provider and one sele
     <div>
       <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
     </div>
     <div>
       <h2>Template 3</h2>
 <p>
-  Some text... Info: %recipient.Template3.info%
+  Some text... Info: %recipient.Template3_info%
 </p>
 <p>Template 4 will here</p>
 <div>
   <h2>Template 4</h2>
 <p>
-  Some text... Info: %recipient.Template4.info%
+  Some text... Info: %recipient.Template4_info%
 </p>
 
 </div>
@@ -232,17 +266,18 @@ exports[`Check mail with three providers with one selected provider and one sele
 
 exports[`Check mail with three providers with one selected provider and one selected template with nested structure 2`] = `
 Object {
-  "Template1": Object {
-    "user": "Dmitriy",
+  "Template1_user": "Dmitriy",
+  "Template2_user": "Oleg",
+  "Template3_user": "Lena",
+  "Template4_user": "Lada",
+}
+`;
+
+exports[`Check mail with three providers with one selected provider and one selected template with nested structure 3`] = `
+Object {
+  "payload": Object {
+    "Provider1": true,
   },
-  "Template2": Object {
-    "user": "Oleg",
-  },
-  "Template3": Object {
-    "user": "Lena",
-  },
-  "Template4": Object {
-    "user": "Lada",
-  },
+  "status": "success",
 }
 `;

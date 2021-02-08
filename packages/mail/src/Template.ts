@@ -1,5 +1,6 @@
 import fs from 'fs'
 import _template from 'lodash.template'
+import { resolve } from 'path'
 import { promisify } from 'util'
 
 const readFile = promisify(fs.readFile)
@@ -11,7 +12,7 @@ export class Template {
   constructor (
     templates: Template[] = [],
     dirname: string = __dirname,
-    ext = 'html'
+    ext: string = 'html'
   ) {
     this.templates = templates
     this.dirname = dirname
@@ -24,7 +25,7 @@ export class Template {
 
   async getTemplateBody (): Promise<string> {
     const template = await readFile(
-      `${this.dirname}/${this.getName()}.${this.ext}`,
+      resolve(`${this.dirname}/${this.getName()}.${this.ext}`),
       {
         encoding: 'utf-8'
       }
@@ -47,13 +48,23 @@ export class Template {
 
   async composeData (context: { [key: string]: any } = {}): Promise<{ [key: string]: any }> {
     if (context[this.getName()] === undefined) {
-      context[this.getName()] = await this.getData()
+      const name = this.getName()
+      const data = await this.getData()
+
+      Object.keys(data).forEach((key) => {
+        context[`${name}_${key}`] = data[key]
+      })
     }
 
     await Promise.all(
       this.templates.map(async template => {
         if (context[template.getName()] === undefined) {
-          context[template.getName()] = await template.getData()
+          const name = template.getName()
+          const data = await template.getData()
+
+          Object.keys(data).forEach((key) => {
+            context[`${name}_${key}`] = data[key]
+          })
         }
       })
     )

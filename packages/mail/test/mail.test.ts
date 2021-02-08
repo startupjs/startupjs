@@ -18,14 +18,15 @@ describe('Check mail with', () => {
       default: { provider: provider1, template: template4 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template'
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 
   it('one default provider and one default template of two templates', async () => {
@@ -39,14 +40,15 @@ describe('Check mail with', () => {
       default: { provider: provider1, template: template4 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template'
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 
   it('one default provider and one selected template of two templates', async () => {
@@ -60,15 +62,16 @@ describe('Check mail with', () => {
       default: { provider: provider1, template: template4 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template',
       template: template3.getName()
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 
   it('one default provider and one default template with nested templates', async () => {
@@ -81,14 +84,15 @@ describe('Check mail with', () => {
       default: { provider: provider1, template: template1 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template'
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 
   it('three providers with default provider and one default template', async () => {
@@ -103,14 +107,15 @@ describe('Check mail with', () => {
       default: { provider: provider2, template: template4 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template'
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 
   it('three providers with one selected provider and one default template', async () => {
@@ -125,15 +130,16 @@ describe('Check mail with', () => {
       default: { provider: provider2, template: template4 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template',
       provider: provider3.getName()
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 
   it('three providers with one selected provider and one selected template with nested structure', async () => {
@@ -151,7 +157,7 @@ describe('Check mail with', () => {
       default: { provider: provider2, template: template4 }
     })
 
-    const template = await mail.send({
+    const providerResponse = await mail.send({
       from: 'dmitriy@borodin.site',
       to: 'borodin.d8@gmail.com',
       subject: 'one provider and one template',
@@ -159,7 +165,8 @@ describe('Check mail with', () => {
       template: template1.getName()
     })
 
-    expect(template.text).toMatchSnapshot()
-    expect(template.context).toMatchSnapshot()
+    expect(providerResponse.text).toMatchSnapshot()
+    expect(providerResponse.context).toMatchSnapshot()
+    expect(providerResponse.result).toMatchSnapshot()
   })
 })

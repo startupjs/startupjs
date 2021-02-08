@@ -1,6 +1,7 @@
 import express from 'express'
 import { Mail } from './Mail'
 import { MailSettings } from './MailSettings'
+import { ProviderResponse } from './Provider'
 import { SendSettings } from './Send'
 
 // TODO Реализовать всю логику которую требует StartupJS.
@@ -17,7 +18,7 @@ export class MailStartupJS {
     console.log({ expressApplication, apiRootPath })
   }
 
-  async send (settings: SendSettings): Promise<void> {
-    await this.mail.send(settings)
+  async send (settings: SendSettings): Promise<ProviderResponse> {
+    return await this.mail.send(settings)
   }
 }

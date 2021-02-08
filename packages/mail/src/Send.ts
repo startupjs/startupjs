@@ -1,12 +1,11 @@
 export interface SendSettings {
   from: string
-  to: string
+  to: string | string[]
   cc?: string
   bcc?: string
   subject: string
-  inline?: NodeJS.ReadableStream[] | NodeJS.ReadableStream
-  attachment?: NodeJS.ReadableStream[] | NodeJS.ReadableStream
-  tls?: boolean
+  inline?: NodeJS.ReadWriteStream[] | NodeJS.ReadWriteStream
+  attachment?: NodeJS.ReadWriteStream[] | NodeJS.ReadWriteStream
   provider?: string
   template?: string
 }

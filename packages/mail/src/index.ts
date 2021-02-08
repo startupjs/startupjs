@@ -1,12 +1,13 @@
 import express from 'express'
 import { MailSettings } from './MailSettings'
 import { MailStartupJS } from './MailStartupJS'
+import { ProviderResponse } from './Provider'
 import { SendSettings } from './Send'
 
 export { Mail } from './Mail'
 export { MailSettings } from './MailSettings'
 export { MailStartupJS } from './MailStartupJS'
-export { Provider } from './Provider'
+export { Provider, ProviderResponse } from './Provider'
 export { Send, SendSettings } from './Send'
 export { Template } from './Template'
 
@@ -23,9 +24,9 @@ export const initMail = (
   }
 }
 
-export const sendEmail = async (settings: SendSettings): Promise<void> => {
+export const sendEmail = async (settings: SendSettings): Promise<ProviderResponse> => {
   if (mail !== null) {
-    await mail.send(settings)
+    return await mail.send(settings)
   } else {
     throw new Error('[@startupjs/mail] mail service should be init first.')
   }

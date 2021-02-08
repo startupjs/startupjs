@@ -1,5 +1,5 @@
 import { MailSettings } from './MailSettings'
-import { Provider } from './Provider'
+import { Provider, ProviderResponse } from './Provider'
 import { SendSettings } from './Send'
 import { Template } from './Template'
 
@@ -11,10 +11,7 @@ export class Mail {
     this.send = this.send.bind(this)
   }
 
-  async send (settings: SendSettings): Promise<{
-    text: string
-    context: { [key: string]: any }
-  }> {
+  async send (settings: SendSettings): Promise<ProviderResponse> {
     const availableProviders = this.mailSettings.providers
     let availableTemplates = this.mailSettings.templates
     const defaultProviderName = this.mailSettings.default.provider
@@ -68,12 +65,11 @@ export class Mail {
     return await provider.send({
       from: settings.from,
       to: settings.to,
-      cc: settings.cc,
-      bcc: settings.bcc,
+      ...settings.cc !== undefined ? { cc: settings.cc } : {},
+      ...settings.bcc !== undefined ? { bcc: settings.bcc } : {},
       subject: settings.subject,
-      inline: settings.inline,
-      attachment: settings.attachment,
-      tls: settings.tls,
+      ...settings.inline !== undefined ? { inline: settings.inline } : {},
+      ...settings.attachment !== undefined ? { attachment: settings.attachment } : {},
       template: {
         text: await template.getTemplateBody(),
         context: await template.composeData()

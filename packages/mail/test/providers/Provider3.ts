@@ -1,4 +1,5 @@
 import { Provider } from '../../src'
+import { ProviderResponse } from '../../src/Provider'
 
 export class Provider3 implements Provider {
   getName (): string {
@@ -7,7 +8,7 @@ export class Provider3 implements Provider {
 
   async send (settings: {
     from: string
-    to: string
+    to: string | string[]
     cc?: string | undefined
     bcc?: string | undefined
     subject: string
@@ -15,11 +16,17 @@ export class Provider3 implements Provider {
     attachment?: NodeJS.ReadableStream | NodeJS.ReadableStream[] | undefined
     tls?: boolean | undefined
     template: { text: string, context: { [key: string]: any } }
-  }): Promise<any> {
+  }): Promise<ProviderResponse> {
     return await new Promise((resolve, reject) => {
       setTimeout(() => {
         if (settings?.template?.context !== undefined) {
-          resolve(settings.template)
+          resolve({
+            ...settings.template,
+            result: {
+              status: 'success',
+              payload: { Provider3: true }
+            }
+          })
         } else {
           reject(
             new Error("Template text or Template context wasn't received.")
