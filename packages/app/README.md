@@ -89,8 +89,6 @@ You can change the error page to your own by passing an object of the following 
 To show an error page, use `emit('error', ERROR_KEY)`, where `ERROR_KEY` is the unique identifier of the error.
 To hide an error page when the error occurred, use `emit('error')` (it is equivalent to `emit('error', '')`).
 
-You can just change the `text` and `onPress` function on the default error template to output to other code, for example.
-
 ```js
 import App, { ErrorTemplate } from 'startupjs/app'
 // ...some imports
@@ -98,8 +96,8 @@ import App, { ErrorTemplate } from 'startupjs/app'
 const NewError= () => {
   return(
     <ErrorTemplate
-        title={'405: My custom error'}
-        description={'My custom description'}
+      title={'405: My custom error'}
+      description={'My custom description'}
     ></ErrorTemplate>
   )
 }

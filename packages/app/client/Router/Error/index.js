@@ -6,8 +6,7 @@ import './index.styl'
 
 export default observer(function Error ({ value, pages = {}, supportEmail }) {
   // TODO: Need to make the default layout better
-  const status = value
-  const Template = pages[status] || defaultTemplates[status] || defaultTemplates.default
+  const Template = pages[value] || defaultTemplates[value] || defaultTemplates.default
   return pug`
     View.root
       Template(supportEmail=supportEmail)

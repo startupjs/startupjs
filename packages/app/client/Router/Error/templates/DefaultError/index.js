@@ -5,8 +5,8 @@ import ErrorTemplate from '../ErrorTemplate'
 export default observer(function DefaultError ({ supportEmail }) {
   return pug`
     ErrorTemplate(
-        title='Sorry, something went wrong. Please go back and try again.'
-        supportEmail=supportEmail
-      )
+      title='Sorry, something went wrong. Please go back and try again.'
+      supportEmail=supportEmail
+    )
   `
 })

@@ -17,9 +17,6 @@ export default observer(function ErrorTemplate ({ title, description, supportEma
           Span If you think it's a mistake, please contact support
             Span.email(onPress=() => Linking.openURL('mailto:' + supportEmail))= ' ' + supportEmail
             Span .
-
-
         Button.backButton(icon=faArrowLeft onPress=() => emit('error')) Go back
-
   `
 })
