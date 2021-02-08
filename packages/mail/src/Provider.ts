@@ -13,5 +13,8 @@ export interface Provider {
       text: string
       context: { [key: string]: any }
     }
-  }) => Promise<any>
+  }) => Promise<{
+    text: string
+    context: { [key: string]: any }
+  }>
 }

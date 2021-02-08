@@ -19,7 +19,7 @@ export class Provider3 implements Provider {
     return await new Promise((resolve, reject) => {
       setTimeout(() => {
         if (settings?.template?.context !== undefined) {
-          resolve(settings)
+          resolve(settings.template)
         } else {
           reject(
             new Error("Template text or Template context wasn't received.")

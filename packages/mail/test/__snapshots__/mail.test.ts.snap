@@ -1,29 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Check mail with one provider and one template 1`] = `
+exports[`Check mail with one default provider and one default template 1`] = `
+"<h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+"
+`;
+
+exports[`Check mail with one default provider and one default template 2`] = `
 Object {
-  "attachment": undefined,
-  "bcc": undefined,
-  "cc": undefined,
-  "from": "dmitriy@borodin.site",
-  "inline": undefined,
-  "subject": "one provider and one template",
-  "template": Object {
-    "context": Object {
-      "Template1": Object {
-        "user": "Dmitriy",
-      },
-      "Template2": Object {
-        "user": "Oleg",
-      },
-      "Template3": Object {
-        "user": "Lena",
-      },
-      "Template4": Object {
-        "user": "Lada",
-      },
-    },
-    "text": "<!DOCTYPE html>
+  "Template4": Object {
+    "user": "Lada",
+  },
+}
+`;
+
+exports[`Check mail with one default provider and one default template of two templates 1`] = `
+"<h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+"
+`;
+
+exports[`Check mail with one default provider and one default template of two templates 2`] = `
+Object {
+  "Template4": Object {
+    "user": "Lada",
+  },
+}
+`;
+
+exports[`Check mail with one default provider and one default template with nested templates 1`] = `
+"<!DOCTYPE html>
 <html>
   <head>
     <title>%recipient.Template1.title%</title>
@@ -80,9 +90,159 @@ Object {
     </div>
   </body>
 </html>
-",
+"
+`;
+
+exports[`Check mail with one default provider and one default template with nested templates 2`] = `
+Object {
+  "Template1": Object {
+    "user": "Dmitriy",
   },
-  "tls": undefined,
-  "to": "borodin.d8@gmail.com",
+  "Template2": Object {
+    "user": "Oleg",
+  },
+  "Template3": Object {
+    "user": "Lena",
+  },
+  "Template4": Object {
+    "user": "Lada",
+  },
+}
+`;
+
+exports[`Check mail with one default provider and one selected template of two templates 1`] = `
+"<h2>Template 3</h2>
+<p>
+  Some text... Info: %recipient.Template3.info%
+</p>
+<p>Template 4 will here</p>
+<div>
+  <h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+
+</div>
+"
+`;
+
+exports[`Check mail with one default provider and one selected template of two templates 2`] = `
+Object {
+  "Template3": Object {
+    "user": "Lena",
+  },
+  "Template4": Object {
+    "user": "Lada",
+  },
+}
+`;
+
+exports[`Check mail with three providers with default provider and one default template 1`] = `
+"<h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+"
+`;
+
+exports[`Check mail with three providers with default provider and one default template 2`] = `
+Object {
+  "Template4": Object {
+    "user": "Lada",
+  },
+}
+`;
+
+exports[`Check mail with three providers with one selected provider and one default template 1`] = `
+"<h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+"
+`;
+
+exports[`Check mail with three providers with one selected provider and one default template 2`] = `
+Object {
+  "Template4": Object {
+    "user": "Lada",
+  },
+}
+`;
+
+exports[`Check mail with three providers with one selected provider and one selected template with nested structure 1`] = `
+"<!DOCTYPE html>
+<html>
+  <head>
+    <title>%recipient.Template1.title%</title>
+  </head>
+  <body>
+    <h2>Template 1</h2>
+    <p>
+      Some text... Info: %recipient.Template1.info%
+    </p>
+    <div>
+      <h2>Template 2</h2>
+<p>
+  Some text... Info: %recipient.Template2.info%
+</p>
+<p>Template 3 will here</p>
+<div>
+  <h2>Template 3</h2>
+<p>
+  Some text... Info: %recipient.Template3.info%
+</p>
+<p>Template 4 will here</p>
+<div>
+  <h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+
+</div>
+
+</div>
+
+    </div>
+    <div>
+      <h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+
+    </div>
+    <div>
+      <h2>Template 3</h2>
+<p>
+  Some text... Info: %recipient.Template3.info%
+</p>
+<p>Template 4 will here</p>
+<div>
+  <h2>Template 4</h2>
+<p>
+  Some text... Info: %recipient.Template4.info%
+</p>
+
+</div>
+
+    </div>
+  </body>
+</html>
+"
+`;
+
+exports[`Check mail with three providers with one selected provider and one selected template with nested structure 2`] = `
+Object {
+  "Template1": Object {
+    "user": "Dmitriy",
+  },
+  "Template2": Object {
+    "user": "Oleg",
+  },
+  "Template3": Object {
+    "user": "Lena",
+  },
+  "Template4": Object {
+    "user": "Lada",
+  },
 }
 `;

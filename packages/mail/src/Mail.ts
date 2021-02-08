@@ -11,7 +11,10 @@ export class Mail {
     this.send = this.send.bind(this)
   }
 
-  async send (settings: SendSettings): Promise<any> {
+  async send (settings: SendSettings): Promise<{
+    text: string
+    context: { [key: string]: any }
+  }> {
     const availableProviders = this.mailSettings.providers
     let availableTemplates = this.mailSettings.templates
     const defaultProviderName = this.mailSettings.default.provider
