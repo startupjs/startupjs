@@ -1,4 +1,4 @@
-const { name } = require('./app.json')
+module.exports = `const { name } = require('./app.json')
 const { configPath } = require('@startupjs/e2e')
 
 module.exports = {
@@ -7,8 +7,8 @@ module.exports = {
   "configurations": {
     "ios": {
       "type": "ios.simulator",
-      "binaryPath": `ios/build/Build/Products/Release-iphonesimulator/${name}.app`,
-      "build": `xcodebuild -workspace ios/${name}.xcworkspace -scheme ${name} -configuration Release -sdk iphonesimulator -derivedDataPath ios/build`,
+      "binaryPath": \`ios/build/Build/Products/Release-iphonesimulator/\${name}.app\`,
+      "build": \`xcodebuild -workspace ios/\${name}.xcworkspace -scheme \${name} -configuration Release -sdk iphonesimulator -derivedDataPath ios/build\`,
       "device": {
         "type": "iPhone 11"
       }
@@ -23,3 +23,4 @@ module.exports = {
     }
   }
 }
+`

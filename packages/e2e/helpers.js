@@ -1,4 +1,6 @@
 const _ = require('lodash')
+// const element = require('detox').element
+// const by = require('detox').by
 
 // -----------------------------------------------
 //   Extend `element`
