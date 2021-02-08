@@ -195,6 +195,13 @@ export default {
   img: ({ src }) => {
     const [style, setStyle] = useState({})
 
+    const isUrl = /^(http|https):\/\//.test(src)
+
+    if (!isUrl) {
+      console.warn('[@startupjs/mdx] Need to provide the url for the image')
+      return null
+    }
+
     function onLayout (e) {
       const maxWidth = e.nativeEvent.layout.width
       Image.getSize(src, (width, height) => {
@@ -209,6 +216,7 @@ export default {
     }
 
     return pug`
+      Br
       Div.imageWrapper(onLayout=onLayout)
         Image(style=style source={ uri: src })
     `
