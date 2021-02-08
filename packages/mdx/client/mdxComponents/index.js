@@ -32,7 +32,10 @@ function getOrderedListMark (index, level) {
 
 function P ({ children }) {
   return pug`
-    Span.p= children
+    if children && children.props && children.props.mdxType === 'img'
+      = children
+    else
+      Span.p= children
   `
 }
 
