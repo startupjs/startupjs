@@ -127,7 +127,7 @@ BaseModel.prototype.getId = function () {
 BaseModel.prototype.getCollection = function () {
   let collection = this.constructor.collection
 
-  // fallback when orm is fabric
+  // fallback when orm is factory
   if (!collection) {
     const model = this.root
     const actualField = this.dereferenceSelf()
