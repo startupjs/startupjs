@@ -15,6 +15,7 @@ const Multiselect = ({
   disabled,
   tagLimit,
   error,
+  InputComponent,
   TagComponent,
   renderListItem,
   onSelect,
@@ -33,14 +34,14 @@ const Multiselect = ({
       options=options
       disabled=disabled
       error=error
+      InputComponent=InputComponent
       TagComponent=TagComponent
     )
-    Drawer(
+    Drawer.nativeListContent(
       visible=focused
       position='bottom'
       onDismiss=onHide
       styleSwipe=styles.swipeZone
-      styleContent=styles.nativeListContent
     )
       ScrollView.suggestions-native
         each opt in options
@@ -62,6 +63,7 @@ Multiselect.propTypes = {
   tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
   error: PropTypes.string,
+  InputComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   renderListItem: PropTypes.func
 }

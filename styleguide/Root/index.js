@@ -13,6 +13,8 @@ import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
 import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
 import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
 import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
+import { createAuthButton } from '@startupjs/auth-common'
+import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg/client'
 import * as localForms from '@startupjs/auth-local'
 import {
   BASE_URL,
@@ -55,7 +57,14 @@ export default observer(() => {
       AzureadAuthButton,
       FacebookAuthButton,
       GoogleAuthButton,
-      LinkedinAuthButton
+      LinkedinAuthButton,
+      createAuthButton({
+        label: 'Virgin',
+        providerName: 'virgin',
+        style: { backgroundColor: '#e1090d' },
+        imageUrl: BASE_URL + '/img/virgin.png'
+      }),
+      IDGAuthButton
     ]
   })
 

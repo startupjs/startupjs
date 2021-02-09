@@ -35,9 +35,9 @@ module.exports = function (babel) {
     return processCall
   }
 
-  function addPartStyleToProps (partAttrPath) {
-    const partNames = partAttrPath.node.value.value.split(' ').filter(Boolean)
-    let closestFnPath = partAttrPath
+  function addPartStyleToProps ($jsxAttribute) {
+    const parts = getParts($jsxAttribute.get('value'))
+    let closestFnPath = $jsxAttribute
     // find react functional component declaration.
     // While searching, skip named functions which start from lowercase
     while (true) {
@@ -57,14 +57,14 @@ module.exports = function (babel) {
       }
     }
     if (!closestFnPath) {
-      throw partAttrPath.buildCodeFrameError(`
+      throw $jsxAttribute.buildCodeFrameError(`
         Closest react functional component not found for 'part' attribute.
         Or your component is named lowercase.'
       `)
     }
     let props = closestFnPath.node.params[0]
     if (!props) {
-      props = partAttrPath.scope.generateUidIdentifier('props')
+      props = $jsxAttribute.scope.generateUidIdentifier('props')
       closestFnPath.node.params[0] = props
     }
     if (t.isAssignmentPattern(props)) {
@@ -72,22 +72,21 @@ module.exports = function (babel) {
     }
     const styleProps = []
     if (t.isIdentifier(props)) {
-      for (const partName of partNames) {
-        const partStyleAttr = convertPartName(partName)
-        styleProps.push(
-          t.memberExpression(props, t.identifier(partStyleAttr))
-        )
+      for (const part of parts) {
+        const partStyleAttr = convertPartName(part.name)
+        const value = t.memberExpression(props, t.identifier(partStyleAttr))
+        styleProps.push(buildDynamicPart(value, part))
       }
     } else if (t.isObjectPattern(props)) {
       // TODO: optimize to be more efficient than O(n^2)
-      for (const partName of partNames) {
-        const partStyleAttr = convertPartName(partName)
+      for (const part of parts) {
+        const partStyleAttr = convertPartName(part.name)
         let exists
         // Check whether the part style property already exists
         for (const property of props.properties) {
           if (!t.isObjectProperty(property)) continue
           if (property.key.name === partStyleAttr) {
-            styleProps.push(property.value)
+            styleProps.push(buildDynamicPart(property.value, part))
             exists = true
             break
           }
@@ -95,13 +94,13 @@ module.exports = function (babel) {
         if (exists) continue
         // If part style property doesn't exist, inject it
         const key = t.identifier(partStyleAttr)
-        const value = partAttrPath.scope.generateUidIdentifier(partStyleAttr)
-        props.properties.push(t.objectProperty(key, value))
-        styleProps.push(value)
+        const value = $jsxAttribute.scope.generateUidIdentifier(partStyleAttr)
+        props.properties.unshift(t.objectProperty(key, value))
+        styleProps.push(buildDynamicPart(value, part))
       }
     } else {
-      throw partAttrPath.buildCodeFrameError(`
-        Can't find props attribute and embed part style props into it.
+      throw $jsxAttribute.buildCodeFrameError(`
+        Can't find props attribute and embed 'part' style props into it.
         Supported props formats:
           - function Hello ({ one, two }) {}
           - function Hello (props) {}
@@ -248,17 +247,17 @@ module.exports = function (babel) {
     },
     visitor: {
       Program: {
-        enter (path, state) {
-          state.reqName = path.scope.generateUidIdentifier(
+        enter ($this, state) {
+          state.reqName = $this.scope.generateUidIdentifier(
             'processStyleName'
           )
         },
-        exit (path, state) {
+        exit ($this, state) {
           if (!state.hasTransformedClassName) {
             return
           }
 
-          const lastImportOrRequire = path
+          const lastImportOrRequire = $this
             .get('body')
             .filter(p => p.isImportDeclaration() || isRequire(p.node))
             .pop()
@@ -272,7 +271,7 @@ module.exports = function (babel) {
           }
         }
       },
-      ImportDeclaration: function importResolver (path, state) {
+      ImportDeclaration: ($this, state) => {
         const extensions =
           Array.isArray(state.opts.extensions) &&
           state.opts.extensions
@@ -283,13 +282,13 @@ module.exports = function (babel) {
           )
         }
 
-        const node = path.node
+        const node = $this.node
 
         if (extensions.indexOf(getExt(node)) === -1) {
           return
         }
 
-        const anonymousImports = path.container.filter(n => {
+        const anonymousImports = $this.container.filter(n => {
           return (
             t.isImportDeclaration(n) &&
             n.specifiers.length === 0 &&
@@ -298,7 +297,7 @@ module.exports = function (babel) {
         })
 
         if (anonymousImports.length > 1) {
-          throw new Error(
+          throw $this.buildCodeFrameError(
             'Cannot use anonymous style name with more than one stylesheet import.'
           )
         }
@@ -307,13 +306,13 @@ module.exports = function (babel) {
 
         if (!specifier) {
           specifier = t.ImportDefaultSpecifier(
-            path.scope.generateUidIdentifier('css')
+            $this.scope.generateUidIdentifier('css')
           )
           node.specifiers = [specifier]
         }
       },
       JSXOpeningElement: {
-        exit (path, state) {
+        exit ($this, state) {
           // TODO: Don't handle *StyleName separately, instead merge it into handleStyleNames()
           for (const key in styleHash) {
             // root styleName can only be handled by new logic in handleStyleNames()
@@ -326,27 +325,25 @@ module.exports = function (babel) {
             }
           }
           // New logic with support for ::part(name) pseudo-class
-          handleStyleNames(path, state)
+          handleStyleNames($this, state)
           styleHash = {}
         }
       },
-      JSXAttribute: function JSXAttribute (path, state) {
-        const name = path.node.name.name
+      JSXAttribute: function JSXAttribute ($this, state) {
+        const name = $this.node.name.name
         if (STYLE_NAME_REGEX.test(name)) {
           const convertedName = convertStyleName(name)
           if (!styleHash[convertedName]) styleHash[convertedName] = {}
-          styleHash[convertedName].styleName = path
+          styleHash[convertedName].styleName = $this
         } else if (STYLE_REGEX.test(name)) {
           if (!styleHash[name]) styleHash[name] = {}
-          styleHash[name].style = path
+          styleHash[name].style = $this
         } else if (name === 'part') {
-          if (!t.isStringLiteral(path.node.value)) {
-            throw path.buildCodeFrameError('\'part\' attribute supports only static string values')
-          }
-          const styleProps = addPartStyleToProps(path)
+          validatePart($this)
+          const styleProps = addPartStyleToProps($this)
           if (!styleHash[ROOT_STYLE_PROP_NAME]) styleHash[ROOT_STYLE_PROP_NAME] = {}
           styleHash[ROOT_STYLE_PROP_NAME].partStyle = styleProps
-          path.remove()
+          $this.remove()
         }
       }
     }
@@ -368,4 +365,78 @@ function convertStyleName (name) {
 function convertPartName (partName) {
   if (partName === 'root') return 'style'
   return partName + 'Style'
+}
+
+function validatePart ($jsxAttribute) {
+  const $value = $jsxAttribute.get('value')
+  if ($value.isStringLiteral()) return true
+  if ($value.isJSXExpressionContainer()) {
+    const $expr = $value.get('expression')
+    if ($expr.isObjectExpression()) {
+      return validateDynamicPartObject($expr)
+    } else if ($expr.isArrayExpression()) {
+      return validateDynamicPartArray($expr)
+    }
+  }
+  throw $jsxAttribute.buildCodeFrameError(`
+    'part' attribute might only be the following:
+      - static string
+      - array (with static strings or objects)
+      - object (with static keys)
+    Basically the rule is that the name of the part must be static so that
+    it is possible to determine at compile time which parts are being used.
+  `)
+}
+
+function validateDynamicPartObject ($object) {
+  for (const $property of $object.get('properties')) {
+    if (!$property.isObjectProperty() || $property.node.computed) {
+      throw $property.buildCodeFrameError(`
+        'part' attribute only supports literal or string keys in object.
+        Dynamic keys or spreads are not supported.
+      `)
+    }
+  }
+  return true
+}
+
+function validateDynamicPartArray ($array) {
+  for (const $element of $array.get('elements')) {
+    if ($element.isStringLiteral()) continue
+    if ($element.isObjectExpression()) {
+      validateDynamicPartObject($element)
+      continue
+    }
+    throw $element.buildCodeFrameError(`
+      'part' attribute only supports static strings or objects inside an array.
+    `)
+  }
+  return true
+}
+
+function getParts ($value) {
+  if ($value.isStringLiteral()) {
+    return $value.node.value.split(' ').filter(Boolean).map(i => ({ name: i }))
+  } else if ($value.isJSXExpressionContainer()) {
+    return getParts($value.get('expression'))
+  } else if ($value.isArrayExpression()) {
+    return $value.get('elements').map($el => getParts($el)).flat()
+  } else if ($value.isObjectExpression()) {
+    return $value.get('properties').map($prop => ({
+      name: $prop.node.key.name || $prop.node.key.value,
+      condition: $prop.node.value
+    }))
+  }
+}
+
+function buildDynamicPart (expr, part) {
+  if (part.condition) {
+    return t.conditionalExpression(
+      part.condition,
+      expr,
+      t.identifier('undefined')
+    )
+  } else {
+    return expr
+  }
 }

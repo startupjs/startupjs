@@ -27,6 +27,12 @@ function isStampInit (step) {
   return ['close', 'render'].indexOf(step) === -1
 }
 
+function getValidNode (current) {
+  return current.measure
+    ? current
+    : current.getNode()
+}
+
 // TODO: autofix placement for ref
 function Popover ({
   children,
@@ -108,9 +114,9 @@ function Popover ({
   function runShow () {
     if (!refCaption.current) return
     // x, y, width, height, pageX, pageY
-    refCaption.current.measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
+    getValidNode(refCaption.current).measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
       if (!refPopover.current) return
-      refPopover.current.measure((px, py, pWidth, pHeight, ppx, ppy) => {
+      getValidNode(refPopover.current).measure((px, py, pWidth, pHeight, ppx, ppy) => {
         const _captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 
         const { width, height = 'auto', maxHeight } = style
@@ -158,7 +164,7 @@ function Popover ({
       onDismiss && onDismiss()
       onRequestClose && onRequestClose()
     } else {
-      refPopover.current.measure((x, y, popoverWidth, popoverHeight) => {
+      getValidNode(refPopover.current).measure((x, y, popoverWidth, popoverHeight) => {
         const contentInfo = { width: popoverWidth, height: popoverHeight }
         $step.set(STEPS.ANIMATE)
 

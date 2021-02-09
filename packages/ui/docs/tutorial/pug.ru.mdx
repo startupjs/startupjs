@@ -1,0 +1,220 @@
+# Pug/Jade
+
+В StartupJS рекомендовано вместо нативного JSX-синтаксиса использовать препроцесор Pug. Но, если Pug вам не подходит - можете смело использовать JSX и не читать этот раздел.
+
+> Pug - это препроцессор HTML и шаблонизатор, который был написан на JavaScript для Node.js.
+
+В StartupJS его поддержка уже реализована, никаких дополнительных пакетов устанавливать и настраивать не надо. Единственное, что вам необходимо сделать - [настроить свою IDE](https://github.com/startupjs/startupjs#ide-configuration).
+
+Далее мы пройдемся по основным особенностям Pug и его синтаксису.
+
+## Синтаксис Pug
+
+Синтаксик Pug достаточно прост. В нем нет угловых скобок и закрывающих тегов. Вложенность элементов друг в друга определяется отступом.
+
+Все это делает код лаконичным и легкочитаемым. И самое главное — ускоряется скорость написания кода.
+
+**Основные отличия синтаксиса Pug от JSX:**
+* Вложенность определяется отступом
+* Классы задаются через точку (.)
+* Id задаются через решетку (#)
+* Однострочные комментарии задаются через //
+* Атрибуты указываются в круглых скобках.
+
+
+
+## Теги и классы
+
+Давайте напишем небольшой пример, за основу возьмем знакомую нам разметку TodoList'a:
+
+**Pug**
+```pug
+Content
+  H1 TODOList
+  Card
+    Span Выучить StartupJS
+```
+**HTML**
+```html
+<Content>
+  <H1>TODOList</H1>
+  <Card>
+    <Span>Выучить StartupJS</Span>
+  </Card>
+</Content>
+```
+
+Теперь добавим тегам еще и классы
+
+**Pug**
+```pug
+Content.root
+  H1.title TODOList
+  Card.todo
+    Span.todoTitle Выучить StartupJS
+```
+**HTML**
+```html
+<Content class="root">
+  <H1 class="title">TODOList</H1>
+  <Card class="todo">
+    <Span class="todoTitile">Выучить StartupJS</Span>
+  </Card>
+</Content>
+```
+
+
+## Атрибуты
+
+Для того, чтобы указать атрибут элементу разметки достаточно указать его в круглых скобках.
+
+
+**Pug**
+```pug
+Button(size='m') Add
+```
+**JSX**
+```jsx
+<Button size='m'>Add</Button>
+```
+
+Если необходимо указать атрибут вместе и класс для элемента, то атрибут пишется после класса:
+
+**Pug**
+```pug
+Button.submit(size='m') Add
+```
+**JSX**
+```jsx
+<Button class="submit" size='m'>Add</Button>
+```
+
+Если необходимо указать несколько атрибутов, то можно указать их через пробел.
+
+Если атрибутов много, то можно перенести их на отдельные строки для читаемости:
+
+**Pug**
+```pug
+Button(
+  icon=faTimes
+  iconColor='error'
+  size='s'
+  onPress=() => removeTodo(todo.id)
+)
+```
+**JSX**
+```jsx
+<Button
+  icon={faTimes}
+  iconColor='error'
+  size='s'
+  onPress={() => removeTodo(todo.id)}
+/>
+```
+
+> Заметьте, что в Pug вы не обязаны заключать JS-код в фигурные скобки чтобы вставить их в проп.
+
+
+
+## Циклы
+
+Циклы или итерации в Pug позволяют выполнять какие-то множественные операции, написав всего лишь несколько строк кода.
+В StartupJS циклами вы можете заменять рендер компонентов из массива с помощью метода `Array.map()`
+
+> Чтобы получить `index` внутри `each` добавьте его после `todo` через запятую
+> `each todo, index in todos`
+
+**Pug**
+```pug
+const [todos, $todos] = useQuery('todos', {})
+
+Content(padding)
+  H1 TodoList
+  each todo in todos
+    Card(key=todo.id)
+      Span=todo.title
+```
+**JSX**
+```jsx
+const [todos, $todos] = useQuery('todos', {})
+
+<Content padding>
+  <H1>TODOList</H1>
+  {todos.map(todo => (
+    <Card key={todo.id}>
+      <Span>{todo.title}</Span>
+    </Card>
+  ))}
+</Content>
+```
+
+
+## Условия
+
+Pug работает на основе JavaScript поэтому есть возможность использовать условия при написании кода, как и в любом другом языке программирования.
+
+**Pug**
+```pug
+const [todos, $todos] = useQuery('todos', {})
+// todos === []
+
+Content(padding)
+  H1 TodoList
+  if todos.length
+    each todo in todos
+      Card(key=todo.id)
+        Span=todo.title
+  else
+    Span Список задач пуст
+```
+**JSX**
+```jsx
+<Content padding>
+  <H1>TODOList</H1>
+  <Span>Список задач пуст</Span>
+</Content>
+```
+
+
+Если вы захотите использовать:
+```pug
+if !value
+  Span Пусто
+```
+то можете заменить его на:
+```pug
+unless value
+  Span Пусто
+```
+
+## Интерполяция кода
+
+В Pug существует несколько видов вывода переменных. Давайте посмотрим на пример с ними:
+
+```pug
+const title = 'TodoList'
+
+Span=title
+Span My app: #{title}
+Span My app: !{title}
+```
+
+Если нужно вывести переменную в строке можно использовать вывод `#{title}` или `!{title}`, в остальных случаях — `=title`.
+
+
+
+## Конструкция Case
+
+В Pug оператор `case` работает также, как и в JavaScript `switch case`.
+
+```pug
+const [todos, $todos] = useQuery('todos', {})
+
+case todos.length
+    when 0
+        Span У вас нет задач
+    when 1
+        Span У вас 1 задача
+    default
+        Span У вас #{todos.length} задач
+```

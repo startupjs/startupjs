@@ -422,7 +422,12 @@ commander
       })
     }
 
-    if (template === 'ui') link()
+    if (template === 'ui') {
+      await execa('startupjs', ['android-link'], {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
+    }
 
     console.log(getSuccessInstructions(projectName))
   })
@@ -520,6 +525,13 @@ commander
       SCRIPTS_ORIG.patchPackage(options),
       { stdio: 'inherit', shell: true }
     )
+  })
+
+commander
+  .command('android-link')
+  .description('Links android files')
+  .action(async () => {
+    link()
   })
 
 commander
@@ -689,5 +701,3 @@ exports.run = (options = {}) => {
   templatesPath = options.templatesPath
   commander.parse(process.argv)
 }
-
-exports.link = link

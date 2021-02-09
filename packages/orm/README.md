@@ -167,7 +167,53 @@ racer.orm('_session.rivalPlayer', PlayerModel)
 ```
 ## [JSON Schema](https://json-schema.org/understanding-json-schema/) validation of documents.
 
-### Installation
+## Associations decorators
+
+Association allow you to describe relationships between ORM entities for reuse in your code.
+
+### `belongsTo(AssociatedOrmEntity, options)`
+
+Specifies a one-to-one association with another ORM entity. This decorator should only be used if this ORM entity contains the foreign key.
+
+`AssociatedOrmEntity (OrmEntityClass)`: associated orm entity
+
+`options (Object)`:
+* `key`: foreign key name (default: `collection + 'Id'`)
+* any other custom properties
+
+### `hasOne(AssociatedOrmEntity, options)`
+
+Specifies a one-to-one association with another ORM entity. This decorator should only be used if the other ORM entity contains the foreign key.
+
+`AssociatedOrmEntity (OrmEntityClass)`: associated orm entity
+
+`options (Object)`:
+* `key`: foreign key name (default: `collection + 'Id'`)
+* any other custom properties
+
+### `hasMany(AssociatedOrmEntity, options)`
+Is similar to `hasOne`, but indicates a one-to-many association with another ORM entity.
+
+`AssociatedOrmEntity (OrmEntityClass)`: associated orm entity
+
+`options (Object)`:
+* `key`: foreign key name (default: `collection + 'Ids'`)
+* any other custom properties
+
+```js
+import { BaseModel, belongsTo, hasOne, hasMany } from 'startupjs/orm'
+
+class UserModel extends BaseModel {}
+
+@hasMany(FolderModel)
+@hasOne(FileModel)
+class FolderModel extends BaseModel {}
+
+@belongsTo(UserModel)
+class FileModel extends BaseModel {}
+```
+
+## Installation
 
 1. in `server/index.js` add `validateSchema: true` to `startupjsServer()` options
 2. Go to one of your ORM document entities (for example, `UserModel`, which targets `users.*`) and add a static method `schema`:
@@ -189,7 +235,7 @@ export default class UserModel extends BaseModel {
 }
 ```
 
-### Notes
+## Notes
 
 1. Schema is checked on both client-side and server-side.
 2. Schema validation only works in development. So there won't be any performance overheads when `NODE_ENV` is `production`

@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
-import RouterComponent from './RouterComponent'
-import { useLocation, useHistory } from 'react-router-native'
-import { $root, observer, useSyncEffect } from 'startupjs'
 import { Linking, Platform } from 'react-native'
+import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
+import { $root, observer, useSyncEffect } from 'startupjs'
+import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
 const isWeb = Platform.OS === 'web'
@@ -19,6 +19,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   routes,
   errorPages,
   goToHandler,
+  supportEmail,
   ...props
 }) {
   const location = useLocation()
@@ -64,7 +65,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 
   return pug`
     if err
-      Error(value=err pages=errorPages)
+      Error(value=err pages=errorPages supportEmail=supportEmail)
     else
       RenderApp(app=app routes=routes ...props)
 
