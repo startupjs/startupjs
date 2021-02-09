@@ -1,3 +1,20 @@
+## [0.31.27](https://github.com/startupjs/startupjs/compare/v0.31.26...v0.31.27) (2021-02-09)
+
+
+### Bug Fixes
+
+* **orm:** add fallback to get collection for factory ORM ([#509](https://github.com/startupjs/startupjs/issues/509)) ([cd8a85f](https://github.com/startupjs/startupjs/commit/cd8a85f95cd5dac89730b12bf4578aa49b984166))
+* **ui/Badge:** fix positioning on android ([#507](https://github.com/startupjs/startupjs/issues/507)) ([77c1ddf](https://github.com/startupjs/startupjs/commit/77c1ddf06471125539a546f518d1a3f72c7ad3e3))
+
+
+### Features
+
+* **app:** add ability to customize error page ([#473](https://github.com/startupjs/startupjs/issues/473)) ([a2e2d28](https://github.com/startupjs/startupjs/commit/a2e2d2840a655fe9957306be4f42588e99cc367a))
+* **auth-common:** add ([#501](https://github.com/startupjs/startupjs/issues/501)) ([b9d9abf](https://github.com/startupjs/startupjs/commit/b9d9abffc4ff87e49264b0630ee540e0af0ee6be))
+* **orm:** set associations in both directions (parent and child) ([#508](https://github.com/startupjs/startupjs/issues/508)) ([3d08205](https://github.com/startupjs/startupjs/commit/3d08205cdbc8dc71acdcd1204a824d2eec413cbf))
+
+
+
 ## [0.31.26](https://github.com/startupjs/startupjs/compare/v0.31.19...v0.31.26) (2021-02-04)
 
 
