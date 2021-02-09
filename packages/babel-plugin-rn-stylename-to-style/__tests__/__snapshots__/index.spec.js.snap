@@ -16,40 +16,41 @@ function Test ({ style, active, submit, disabled }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test({ style, active, submit, disabled }) {
   const titleStyle = {
-    color: 'red',
-    fontWeight: 'bold'
-  }
+    color: "red",
+    fontWeight: "bold",
+  };
   return (
     <div
       {..._processStyleName(
         [
-          'root',
+          "root",
           {
-            active
-          }
+            active,
+          },
         ],
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
-          style: style
+          style: style,
         }
       )}
     >
       <span
         {..._processStyleName(
-          ['title'],
+          ["title"],
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
-            style: titleStyle
+            style: titleStyle,
           }
         )}
       >
@@ -57,14 +58,14 @@ function Test({ style, active, submit, disabled }) {
       </span>
       <span
         {..._processStyleName(
-          ['description'],
+          ["description"],
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: {
-              color: 'green'
-            }
+              color: "green",
+            },
           }
         )}
       >
@@ -74,22 +75,22 @@ function Test({ style, active, submit, disabled }) {
         {..._processStyleName(
           {
             submit,
-            disabled
+            disabled,
           },
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: {
-              color: 'pink'
-            }
+              color: "pink",
+            },
           }
         )}
       >
         Submit
       </button>
     </div>
-  )
+  );
 }
 
 
@@ -108,9 +109,10 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
@@ -118,59 +120,59 @@ function Test({ style, active, submit, disabled, titleStyle }) {
       titleStyle={[
         _processStyleName(
           [
-            'title',
+            "title",
             {
-              active
-            }
+              active,
+            },
           ],
           _css
         ),
         [
           titleStyle,
           {
-            color: 'green'
-          }
-        ]
+            color: "green",
+          },
+        ],
       ]}
       title="container"
       {..._processStyleName(
         [
-          'root',
+          "root",
           {
-            active
-          }
+            active,
+          },
         ],
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
-          style: style
+          style: style,
         }
       )}
     >
       <Content
         footerStyle={[
-          _processStyleName('footer', _css),
+          _processStyleName("footer", _css),
           {
-            color: 'blue'
-          }
+            color: "blue",
+          },
         ]}
         center
         title="text"
         {..._processStyleName(
-          'text',
+          "text",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: {
-              color: 'red'
-            }
+              color: "red",
+            },
           }
         )}
       />
     </Card>
-  )
+  );
 }
 
 
@@ -189,9 +191,10 @@ function Test ({ style, active, submit, disabled }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test({ style, active, submit, disabled }) {
   return (
@@ -199,16 +202,16 @@ function Test({ style, active, submit, disabled }) {
       title="container"
       {..._processStyleName(
         [
-          'root',
+          "root",
           {
-            active
-          }
+            active,
+          },
         ],
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
-          style: style
+          style: style,
         }
       )}
     >
@@ -216,19 +219,19 @@ function Test({ style, active, submit, disabled }) {
         center
         title="text"
         {..._processStyleName(
-          'text',
+          "text",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: {
-              color: 'red'
-            }
+              color: "red",
+            },
           }
         )}
       />
     </div>
-  )
+  );
 }
 
 
@@ -250,40 +253,41 @@ function Test ({ style }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test({ style }) {
   const titleStyle = {
-    color: 'red',
-    fontWeight: 'bold'
-  }
+    color: "red",
+    fontWeight: "bold",
+  };
   return (
     <div
       {..._processStyleName(
-        'root active',
+        "root active",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: [
             style,
             {
-              backgroundColor: 'black'
-            }
-          ]
+              backgroundColor: "black",
+            },
+          ],
         }
       )}
     >
       <span
         {..._processStyleName(
-          'title',
+          "title",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
-            style: titleStyle
+            style: titleStyle,
           }
         )}
       >
@@ -291,14 +295,14 @@ function Test({ style }) {
       </span>
       <span
         {..._processStyleName(
-          'description',
+          "description",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: {
-              color: 'green'
-            }
+              color: "green",
+            },
           }
         )}
       >
@@ -306,17 +310,17 @@ function Test({ style }) {
       </span>
       <button
         {..._processStyleName(
-          'submit disabled',
+          "submit disabled",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {}
         )}
       >
         Submit
       </button>
     </div>
-  )
+  );
 }
 
 
@@ -337,27 +341,28 @@ function Test () {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test() {
   return (
     <div
       {..._processStyleName(
-        'root active',
+        "root active",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {}
       )}
     >
       <span
         {..._processStyleName(
-          'title',
+          "title",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {}
         )}
       >
@@ -365,10 +370,10 @@ function Test() {
       </span>
       <span
         {..._processStyleName(
-          'description',
+          "description",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {}
         )}
       >
@@ -376,17 +381,17 @@ function Test() {
       </span>
       <button
         {..._processStyleName(
-          'submit disabled',
+          "submit disabled",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {}
         )}
       >
         Submit
       </button>
     </div>
-  )
+  );
 }
 
 
@@ -405,9 +410,10 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
@@ -415,22 +421,22 @@ function Test({ style, active, submit, disabled, titleStyle }) {
       title="container"
       {..._processStyleName(
         [
-          'root',
+          "root",
           {
-            active
-          }
+            active,
+          },
         ],
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: style,
           titleStyle: [
             titleStyle,
             {
-              color: 'green'
-            }
-          ]
+              color: "green",
+            },
+          ],
         }
       )}
     >
@@ -438,31 +444,259 @@ function Test({ style, active, submit, disabled, titleStyle }) {
         center
         title="text"
         {..._processStyleName(
-          'text',
+          "text",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: {
-              color: 'red'
+              color: "red",
             },
             footerStyle: {
-              color: 'blue'
-            }
+              color: "blue",
+            },
           }
         )}
       />
     </Card>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Array and Object: dynamic part attribute. Array and Object 1`] = `
+
+import './index.styl'
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+  function render () {
+    return (
+      <Card
+        part='card'
+        style={{ color: 'blue' }}
+        titleStyle={{ color: 'red' }}
+      >
+        <Content part={['content', { active }]} />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
+
+const Test = ({
+  activeStyle: _activeStyle,
+  style,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: [
+              {
+                color: "blue",
+              },
+              myCardStyle,
+            ],
+            titleStyle: {
+              color: "red",
+            },
+          }
+        )}
+      >
+        <Content
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: [contentStyle, active ? _activeStyle : undefined],
+            }
+          )}
+        />
+      </Card>
+    );
+  }
+
+  return render();
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Object: dynamic part attribute. Object 1`] = `
+
+import './index.styl'
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+  function render () {
+    return (
+      <Card
+        part='card'
+        style={{ color: 'blue' }}
+        titleStyle={{ color: 'red' }}
+      >
+        <Content part={{content: true, active}} />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
+
+const Test = ({
+  activeStyle: _activeStyle,
+  style,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: [
+              {
+                color: "blue",
+              },
+              myCardStyle,
+            ],
+            titleStyle: {
+              color: "red",
+            },
+          }
+        )}
+      >
+        <Content
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: [
+                true ? contentStyle : undefined,
+                active ? _activeStyle : undefined,
+              ],
+            }
+          )}
+        />
+      </Card>
+    );
+  }
+
+  return render();
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Should error on unsupported dynamic key in object: dynamic part attribute. Should error on unsupported dynamic key in object 1`] = `
+
+import './index.styl'
+function Test ({ variant }) {
+  return (
+    <Card part={{[variant]: true}} />
   )
 }
 
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+        'part' attribute only supports literal or string keys in object.
+        Dynamic keys or spreads are not supported.
+      
+[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{{[variant][33m:[39m [36mtrue[39m}} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 | [39m  )[0m
+[0m [90m 6 | [39m}[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Should error on unsupported dynamic value in array: dynamic part attribute. Should error on unsupported dynamic value in array 1`] = `
+
+import './index.styl'
+function Test ({ variant }) {
+  return (
+    <Card part={['card', variant]} />
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+      'part' attribute only supports static strings or objects inside an array.
+    
+[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{[[32m'card'[39m[33m,[39m variant]} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m                         [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 | [39m  )[0m
+[0m [90m 6 | [39m}[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Should error on unsupported dynamic value: dynamic part attribute. Should error on unsupported dynamic value 1`] = `
+
+import './index.styl'
+function Test ({ variant }) {
+  return (
+    <Card part={variant} />
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+    'part' attribute might only be the following:
+      - static string
+      - array (with static strings or objects)
+      - object (with static keys)
+    Basically the rule is that the name of the part must be static so that
+    it is possible to determine at compile time which parts are being used.
+  
+[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{variant} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 | [39m  )[0m
+[0m [90m 6 | [39m}[0m
 
 `;
 
 exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part with existing style prop: magic 'root' part with existing style prop 1`] = `
 
 import './index.styl'
-function Test ({ title, style }) {
+function Test ({ title, style, ...props }) {
   return (
     <Card
       part='root'
@@ -476,44 +710,51 @@ function Test ({ title, style }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
-function Test({ title, style, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
+function Test({
+  activeStyle: _activeStyle,
+  contentStyle: _contentStyle,
+  title,
+  style,
+  ...props
+}) {
   return (
     <Card
       {..._processStyleName(
-        '',
+        "",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: [
             {
-              color: 'blue'
+              color: "blue",
             },
-            style
+            style,
           ],
           titleStyle: {
-            color: 'red'
-          }
+            color: "red",
+          },
         }
       )}
     >
       <Content
         {..._processStyleName(
-          '',
+          "",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
-            style: [_contentStyle, _activeStyle]
+            style: [_contentStyle, _activeStyle],
           }
         )}
       />
     </Card>
-  )
+  );
 }
 
 
@@ -522,7 +763,7 @@ function Test({ title, style, contentStyle: _contentStyle, activeStyle: _activeS
 exports[`@startupjs/babel-plugin-rn-stylename-to-style magic 'root' part: magic 'root' part 1`] = `
 
 import './index.styl'
-function Test ({ title }) {
+function Test ({ title, ...props }) {
   return (
     <Card
       part='root'
@@ -536,44 +777,51 @@ function Test ({ title }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
-function Test({ title, style: _style, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
+function Test({
+  activeStyle: _activeStyle,
+  contentStyle: _contentStyle,
+  style: _style,
+  title,
+  ...props
+}) {
   return (
     <Card
       {..._processStyleName(
-        '',
+        "",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: [
             {
-              color: 'blue'
+              color: "blue",
             },
-            _style
+            _style,
           ],
           titleStyle: {
-            color: 'red'
-          }
+            color: "red",
+          },
         }
       )}
     >
       <Content
         {..._processStyleName(
-          '',
+          "",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
-            style: [_contentStyle, _activeStyle]
+            style: [_contentStyle, _activeStyle],
           }
         )}
       />
     </Card>
-  )
+  );
 }
 
 
@@ -601,53 +849,54 @@ function Test () {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test(_props) {
   return (
     <Card
       {..._processStyleName(
-        '',
+        "",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: [
             {
-              color: 'blue'
+              color: "blue",
             },
-            _props.cardStyle
+            _props.cardStyle,
           ],
           titleStyle: {
-            color: 'red'
-          }
+            color: "red",
+          },
         }
       )}
     >
       <Content
         {..._processStyleName(
-          'content',
+          "content",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: [
               {
-                fontWeight: 'bold'
+                fontWeight: "bold",
               },
               _props.contentStyle,
-              _props.activeStyle
+              _props.activeStyle,
             ],
             bodyStyle: {
-              color: 'blue'
-            }
+              color: "blue",
+            },
           }
         )}
       />
     </Card>
-  )
+  );
 }
 
 
@@ -656,7 +905,7 @@ function Test(_props) {
 exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With anon function within named fn: part attribute. With anon function within named fn 1`] = `
 
 import './index.styl'
-const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
+const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
   function render () {
     return (
       <Card
@@ -673,49 +922,57 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title }) => {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
-const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, activeStyle: _activeStyle }) => {
+const Test = ({
+  activeStyle: _activeStyle,
+  style,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
   function render() {
     return (
       <Card
         {..._processStyleName(
-          '',
+          "",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
             style: [
               {
-                color: 'blue'
+                color: "blue",
               },
-              myCardStyle
+              myCardStyle,
             ],
             titleStyle: {
-              color: 'red'
-            }
+              color: "red",
+            },
           }
         )}
       >
         <Content
           {..._processStyleName(
-            '',
+            "",
             _css,
-            typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-            typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
             {
-              style: [contentStyle, _activeStyle]
+              style: [contentStyle, _activeStyle],
             }
           )}
         />
       </Card>
-    )
+    );
   }
 
-  return render()
-}
+  return render();
+};
 
 
 `;
@@ -723,7 +980,7 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, activeStyle:
 exports[`@startupjs/babel-plugin-rn-stylename-to-style part attribute. With destructed props: part attribute. With destructed props 1`] = `
 
 import './index.styl'
-function Test ({ style, cardStyle, title }) {
+function Test ({ style, cardStyle, title, ...props }) {
   return (
     <Card
       part='card'
@@ -737,44 +994,52 @@ function Test ({ style, cardStyle, title }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
-function Test({ style, cardStyle, title, contentStyle: _contentStyle, activeStyle: _activeStyle }) {
+function Test({
+  activeStyle: _activeStyle,
+  contentStyle: _contentStyle,
+  style,
+  cardStyle,
+  title,
+  ...props
+}) {
   return (
     <Card
       {..._processStyleName(
-        '',
+        "",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: [
             {
-              color: 'blue'
+              color: "blue",
             },
-            cardStyle
+            cardStyle,
           ],
           titleStyle: {
-            color: 'red'
-          }
+            color: "red",
+          },
         }
       )}
     >
       <Content
         {..._processStyleName(
-          '',
+          "",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
-            style: [_contentStyle, _activeStyle]
+            style: [_contentStyle, _activeStyle],
           }
         )}
       />
     </Card>
-  )
+  );
 }
 
 
@@ -797,44 +1062,45 @@ function Test (props) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import _css from './index.styl'
+import _css from "./index.styl";
 
-const _processStyleName = require('@startupjs/babel-plugin-rn-stylename-to-style/process').process
+const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
+  .process;
 
 function Test(props) {
   return (
     <Card
       {..._processStyleName(
-        '',
+        "",
         _css,
-        typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-        typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
         {
           style: [
             {
-              color: 'blue'
+              color: "blue",
             },
-            props.cardStyle
+            props.cardStyle,
           ],
           titleStyle: {
-            color: 'red'
-          }
+            color: "red",
+          },
         }
       )}
     >
       <Content
         {..._processStyleName(
-          '',
+          "",
           _css,
-          typeof __CSS_GLOBAL__ !== 'undefined' && __CSS_GLOBAL__,
-          typeof __CSS_LOCAL__ !== 'undefined' && __CSS_LOCAL__,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
           {
-            style: [props.contentStyle, props.activeStyle]
+            style: [props.contentStyle, props.activeStyle],
           }
         )}
       />
     </Card>
-  )
+  );
 }
 
 

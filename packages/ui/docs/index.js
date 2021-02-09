@@ -6,8 +6,8 @@ import popups from './popups'
 import tutorial from './tutorial'
 
 export default {
-  foundation,
   tutorial,
+  foundation,
   components,
   forms,
   popups,

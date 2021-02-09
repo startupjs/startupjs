@@ -116,6 +116,7 @@ export const ChildModel = Model.ChildModel
 function BaseModel () {
   Model.ChildModel.apply(this, arguments)
 }
+
 BaseModel.prototype = Object.create(Model.ChildModel.prototype)
 BaseModel.prototype.constructor = BaseModel
 
@@ -125,7 +126,16 @@ BaseModel.prototype.getId = function () {
 }
 
 BaseModel.prototype.getCollection = function () {
-  return this.constructor.collection
+  let collection = this.constructor.collection
+
+  // fallback when orm is factory
+  if (!collection) {
+    const model = this.root
+    const actualField = this.dereferenceSelf()
+    collection = model._splitPath(actualField.path())[0]
+  }
+
+  return collection
 }
 
 BaseModel.prototype.dereferenceSelf = function () {
@@ -134,7 +144,10 @@ BaseModel.prototype.dereferenceSelf = function () {
   return model.scope(model._dereference(segments, true).join('.'))
 }
 
-BaseModel.associations = []
+BaseModel.addAssociation = function (association) {
+  if (!this.associations) this.associations = []
+  this.associations.push(association)
+}
 
 BaseModel.prototype.getAssociations = function () {
   return this.constructor.associations

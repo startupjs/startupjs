@@ -1,3 +1,61 @@
+## [0.31.27](https://github.com/startupjs/startupjs/compare/v0.31.26...v0.31.27) (2021-02-09)
+
+
+### Bug Fixes
+
+* **orm:** add fallback to get collection for factory ORM ([#509](https://github.com/startupjs/startupjs/issues/509)) ([cd8a85f](https://github.com/startupjs/startupjs/commit/cd8a85f95cd5dac89730b12bf4578aa49b984166))
+* **ui/Badge:** fix positioning on android ([#507](https://github.com/startupjs/startupjs/issues/507)) ([77c1ddf](https://github.com/startupjs/startupjs/commit/77c1ddf06471125539a546f518d1a3f72c7ad3e3))
+
+
+### Features
+
+* **app:** add ability to customize error page ([#473](https://github.com/startupjs/startupjs/issues/473)) ([a2e2d28](https://github.com/startupjs/startupjs/commit/a2e2d2840a655fe9957306be4f42588e99cc367a))
+* **auth-common:** add ([#501](https://github.com/startupjs/startupjs/issues/501)) ([b9d9abf](https://github.com/startupjs/startupjs/commit/b9d9abffc4ff87e49264b0630ee540e0af0ee6be))
+* **orm:** set associations in both directions (parent and child) ([#508](https://github.com/startupjs/startupjs/issues/508)) ([3d08205](https://github.com/startupjs/startupjs/commit/3d08205cdbc8dc71acdcd1204a824d2eec413cbf))
+
+
+
+## [0.31.26](https://github.com/startupjs/startupjs/compare/v0.31.19...v0.31.26) (2021-02-04)
+
+
+### Bug Fixes
+
+* **backend:** add counter of users connections to fix memory leaks ([#505](https://github.com/startupjs/startupjs/issues/505)) ([007c26d](https://github.com/startupjs/startupjs/commit/007c26d5175db04a4433a332bbf56ac365623f93))
+
+
+### Features
+
+* **auth-apple:** linking ([#504](https://github.com/startupjs/startupjs/issues/504)) ([8707d9b](https://github.com/startupjs/startupjs/commit/8707d9ba1176a4ef672b349dd28868884b7487cd))
+* **auth-idg:** add ([#503](https://github.com/startupjs/startupjs/issues/503)) ([efbfdb7](https://github.com/startupjs/startupjs/commit/efbfdb716c345d112b0b4939f6ccd4199acd7cf0))
+
+
+## [0.31.25](https://github.com/startupjs/startupjs/compare/v0.31.24...v0.31.25) (2021-02-02)
+
+
+### Performance Improvements
+
+* **backend:** update `sharedb-mongo` package to the same version with monorepo ([#502](https://github.com/startupjs/startupjs/issues/502)) ([d42dd4a](https://github.com/startupjs/startupjs/commit/d42dd4af53635292a15b368335391dcd0df3226c))
+
+
+
+## [0.31.24](https://github.com/startupjs/startupjs/compare/v0.31.23...v0.31.24) (2021-01-31)
+
+
+### Features
+
+* **babel-plugin-rn-stylename-to-style:** Add limited support for dynamic `part` attribute, similar to `styleName`. ([0c146d2](https://github.com/startupjs/startupjs/commit/0c146d2378c4fdffb2c7db39986d76ba0f575b9f))
+
+
+
+## [0.31.23](https://github.com/startupjs/startupjs/compare/v0.31.22...v0.31.23) (2021-01-31)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** fix using 'part' attribute in a compoment which has destructured ...props in its attributes ([4a17213](https://github.com/startupjs/startupjs/commit/4a17213379727fe00ecfee20c4db9340963b7af3))
+
+
+
 ## [0.31.22](https://github.com/startupjs/startupjs/compare/v0.31.21...v0.31.22) (2021-01-29)
 
 
@@ -222,6 +280,11 @@
 # [0.31.0](https://github.com/startupjs/startupjs/compare/v0.30.6...v0.31.0) (2020-12-29)
 
 
+### BREAKING CHANGES
+
+* [See 0.31 migration guide](/docs/migration-guides/0.31.md)
+
+
 ### Bug Fixes
 
 * **auth:** Change pathmane to href for web ([64e18ce](https://github.com/startupjs/startupjs/commit/64e18ce105b8a351f4d3361e27ac3c6af97f7f5e))
@@ -337,6 +400,11 @@
 
 
 # [0.30.0](https://github.com/startupjs/startupjs/compare/v0.29.1...v0.30.0) (2020-12-16)
+
+
+### BREAKING CHANGES
+
+* [See 0.30 migration guide](/docs/migration-guides/0.30.md)
 
 
 ### Bug Fixes
@@ -559,6 +627,11 @@
 # [0.29.0](https://github.com/startupjs/startupjs/compare/v0.28.1...v0.29.0) (2020-11-26)
 
 
+### BREAKING CHANGES
+
+* [See 0.29 migration guide](/docs/migration-guides/0.29.md)
+
+
 ### Bug Fixes
 
 * **auth:** azuread in prod ([#377](https://github.com/startupjs/startupjs/issues/377)) ([91a2dbe](https://github.com/startupjs/startupjs/commit/91a2dbe27ddff0ef2605f54f7e8430865df6ebd0))
@@ -584,6 +657,11 @@
 # [0.28.0](https://github.com/startupjs/startupjs/compare/v0.27.0...v0.28.0) (2020-11-11)
 
 
+### BREAKING CHANGES
+
+* [See 0.28 migration guide](/docs/migration-guides/0.28.md)
+
+
 ### Bug Fixes
 
 * **docs:** fix inline code view on android ([#354](https://github.com/startupjs/startupjs/issues/354)) ([5ca2f57](https://github.com/startupjs/startupjs/commit/5ca2f5734f5dcb5023ad18ff3fd529852c866e5b))
@@ -595,6 +673,11 @@
 
 
 # [0.27.0](https://github.com/startupjs/startupjs/compare/v0.26.9...v0.27.0) (2020-11-09)
+
+
+### BREAKING CHANGES
+
+* [See 0.27 migration guide](/docs/migration-guides/0.27.md)
 
 
 ### Bug Fixes
@@ -707,6 +790,11 @@
 # [0.26.0](https://github.com/startupjs/startupjs/compare/v0.25.2...v0.26.0) (2020-10-23)
 
 
+### BREAKING CHANGES
+
+* [See 0.26 migration guide](/docs/migration-guides/0.26.md)
+
+
 ### Bug Fixes
 
 * **Menu:** remove redundant ([#323](https://github.com/startupjs/startupjs/issues/323)) ([820f1a4](https://github.com/startupjs/startupjs/commit/820f1a408227bb211e031286dc52e39b5a200ad5))
@@ -740,6 +828,11 @@
 
 
 # [0.25.0](https://github.com/startupjs/startupjs/compare/v0.24.4...v0.25.0) (2020-10-20)
+
+
+### BREAKING CHANGES
+
+* [See 0.25 migration guide](/docs/migration-guides/0.25.md)
 
 
 ### Bug Fixes
@@ -785,6 +878,11 @@
 
 
 ## [0.24.1](https://github.com/startupjs/startupjs/compare/v0.23.53...v0.24.1) (2020-10-16)
+
+
+### BREAKING CHANGES
+
+* [See 0.24 migration guide](/docs/migration-guides/0.24.md)
 
 
 ### Bug Fixes
@@ -1275,6 +1373,11 @@
 
 
 # [0.23.0](https://github.com/startupjs/startupjs/compare/v0.22.11...v0.23.0) (2020-07-02)
+
+
+### BREAKING CHANGES
+
+* [See 0.23 migration guide](/docs/migration-guides/0.23.md)
 
 
 ### Bug Fixes

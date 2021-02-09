@@ -11,8 +11,8 @@ import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
 export default {
   type: 'collapse',
   title: {
-    en: 'Foundation',
-    ru: 'Основы'
+    en: 'General',
+    ru: 'Общее'
   },
   icon: faLandmark,
   items: {

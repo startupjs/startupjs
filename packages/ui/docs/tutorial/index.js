@@ -22,8 +22,8 @@ import TricksWithStylesEn from './tricksWithStyles.en.mdx'
 export default {
   type: 'collapse',
   title: {
-    en: 'StartupJS tutorial',
-    ru: 'StartupJS туториал'
+    en: 'Tutorial',
+    ru: 'Туториал'
   },
   icon: faBook,
   items: {
