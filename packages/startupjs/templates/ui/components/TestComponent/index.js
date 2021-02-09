@@ -32,10 +32,7 @@ export default observer(function TestComponent ({ style }) {
     Div.root(style=style)
       Span
         | TestThing counter:#{' '}
-        Span.counter(
-          bold
-          testID='spanCounter'
-        ) #{testThing.counter}
+        Span.counter(bold) #{testThing.counter}
       Br
       Row
         Button(
@@ -44,7 +41,6 @@ export default observer(function TestComponent ({ style }) {
           size='l'
           onPress=increment
           icon=faPlus
-          testID='buttonPlus'
         )
         Button(
           pushed
@@ -53,7 +49,6 @@ export default observer(function TestComponent ({ style }) {
           size='l'
           onPress=decrement
           icon=faMinus
-          testID='buttonMinus'
         )
       Br
       Button(color='warning' size='s' onPress=reset) RESET
