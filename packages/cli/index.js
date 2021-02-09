@@ -10,7 +10,7 @@ const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
 const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
-const APP_JSON_PATH = path.join(process.cwd(), '/app.json')
+const APP_JSON_PATH = path.join(process.cwd(), 'app.json')
 
 let PATCHES_DIR
 try {
@@ -112,12 +112,12 @@ SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
     `)
   }
 
-  if (ios) {
-    return SCRIPTS_ORIG.testIos(appName, artifacts)
-  }
-
   if (build) {
     return SCRIPTS_ORIG.testBuild(appName)
+  }
+
+  if (ios) {
+    return SCRIPTS_ORIG.testIos(appName, artifacts)
   }
 }
 
