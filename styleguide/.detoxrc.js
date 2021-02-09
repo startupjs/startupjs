@@ -1,13 +1,14 @@
-const APP_NAME = require('./app.json').name
+const { name } = require('./app.json')
+const { configPath } = require('@startupjs/e2e')
 
 module.exports = {
   "testRunner": "jest",
-  "runnerConfig": "e2e/config.json",
+  "runnerConfig": configPath,
   "configurations": {
     "ios": {
       "type": "ios.simulator",
-      "binaryPath": `ios/build/Build/Products/Release-iphonesimulator/${APP_NAME}.app`,
-      "build": `xcodebuild -workspace ios/${APP_NAME}.xcworkspace -scheme ${APP_NAME} -configuration Release -sdk iphonesimulator -derivedDataPath ios/build`,
+      "binaryPath": `ios/build/Build/Products/Release-iphonesimulator/${name}.app`,
+      "build": `xcodebuild -workspace ios/${name}.xcworkspace -scheme ${name} -configuration Release -sdk iphonesimulator -derivedDataPath ios/build`,
       "device": {
         "type": "iPhone 11"
       }
