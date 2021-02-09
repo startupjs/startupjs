@@ -125,7 +125,16 @@ BaseModel.prototype.getId = function () {
 }
 
 BaseModel.prototype.getCollection = function () {
-  return this.constructor.collection
+  let collection = this.constructor.collection
+
+  // fallback when orm is factory
+  if (!collection) {
+    const model = this.root
+    const actualField = this.dereferenceSelf()
+    collection = model._splitPath(actualField.path())[0]
+  }
+
+  return collection
 }
 
 BaseModel.prototype.dereferenceSelf = function () {
