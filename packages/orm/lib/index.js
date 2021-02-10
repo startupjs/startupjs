@@ -147,7 +147,7 @@ BaseModel.prototype.dereferenceSelf = function () {
 BaseModel.associations = []
 
 BaseModel.addAssociation = function (association) {
-  this.association = this.association.concat(association)
+  this.associations = this.associations.concat(association)
 }
 
 BaseModel.prototype.getAssociations = function () {
