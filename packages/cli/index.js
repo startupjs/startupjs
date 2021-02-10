@@ -238,11 +238,8 @@ const TEMPLATES = {
   simple: {
     subTemplates: ['simple']
   },
-  routing: {
-    subTemplates: ['simple', 'routing']
-  },
   ui: {
-    subTemplates: ['simple', 'routing', 'ui'],
+    subTemplates: ['simple', 'ui'],
     packages: [
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@fortawesome/free-solid-svg-icons@^5.12.0',

@@ -189,8 +189,7 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
 The following templates are available:
 
 1. `simple`
-2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
-3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
+2. `ui` (default) - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
 
 By default `init` creates a project using the feature-rich `ui` template.
 
