@@ -1,3 +1,12 @@
+## [0.31.29](https://github.com/startupjs/startupjs/compare/v0.31.28...v0.31.29) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** fix typo 'association' -> 'associations' ([3c999ea](https://github.com/startupjs/startupjs/commit/3c999ea05525dcad5406fc2e845f9c0b49b8466b))
+
+
+
 ## [0.31.28](https://github.com/startupjs/startupjs/compare/v0.31.27...v0.31.28) (2021-02-10)
 
 
