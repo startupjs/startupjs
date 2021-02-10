@@ -75,6 +75,8 @@ module.exports = getConfig(undefined, {
 })
 ```
 
+3. Some components used Portal, so need to initiate its [Provider](https://startupjs-ui.dmapper.co/docs/components/Portal#Initialization)
+
 ## Usage
 ```js
 import { Button } from '@startupjs/ui'

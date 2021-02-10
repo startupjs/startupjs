@@ -1,10 +1,10 @@
-import { BASE_URL } from '@env'
-import init from 'startupjs/init'
-import orm from '../model'
 import React from 'react'
-import App from 'startupjs/app'
-import { observer, model } from 'startupjs'
 import { Platform } from 'react-native'
+import init from 'startupjs/init'
+import { observer, model } from 'startupjs'
+import { App } from '@startupjs/ui'
+import { BASE_URL } from '@env'
+import orm from '../model'
 
 // Frontend micro-services
 import * as main from '../main'

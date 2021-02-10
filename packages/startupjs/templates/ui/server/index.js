@@ -1,6 +1,5 @@
 import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
-import { initApp } from 'startupjs/app/server'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import orm from '../model'
 import api from './api'
@@ -16,7 +15,6 @@ startupjsServer({
     ...getMainRoutes()
   ]
 }, (ee, options) => {
-  initApp(ee)
   initUi(ee, options)
 
   ee.on('routes', expressApp => {
