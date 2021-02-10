@@ -1,3 +1,12 @@
+## [0.31.28](https://github.com/startupjs/startupjs/compare/v0.31.27...v0.31.28) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** add default value ([976b7b2](https://github.com/startupjs/startupjs/commit/976b7b2abd23cb49fa6b95977ff6b243fe411bc6))
+
+
+
 ## [0.31.27](https://github.com/startupjs/startupjs/compare/v0.31.26...v0.31.27) (2021-02-09)
 
 
