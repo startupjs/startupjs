@@ -1,0 +1,78 @@
+import { useRef, useEffect } from 'react'
+import Row from '../Row'
+import { DragHandler, DropHandler } from './'
+
+# Drag
+
+```jsx example
+const ref = useRef()
+
+useEffect(() => {
+  console.log(ref.current)
+}, [])
+
+const dropStyle = {
+  width: 48,
+  height: 48,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: 'transparent'
+}
+
+function onDragBegin (data, monitor) {
+  console.log('onDragBegin', data)
+}
+
+function onDragEnd (data, monitor) {
+  console.log('onDragEnd', data)
+}
+
+function onDropHover (data, monitor) {
+  console.log('onDropHover', data)
+}
+
+function onDrop (drop, item) {
+  // drop.put(item)
+  console.log('onDrop', drop, item)
+}
+
+const dragItem = pug`
+  DragHandler(
+    type="example"
+    onDragBegin=onDragBegin
+    onDragEnd=onDragEnd
+  )
+`
+
+return pug`
+  Row(style={
+    width: 200,
+    justifyContent: 'space-between'
+  })
+    = dragItem
+    DropHandler(
+      type="example"
+      style=dropStyle
+      activeStyle={ borderColor: '#ccc' }
+      hoverStyle={ borderColor: 'blue' }
+      onHover=onDropHover
+      onDrop=onDrop
+    )
+    DropHandler(
+      type="example"
+      style=dropStyle
+      activeStyle={ borderColor: '#ccc' }
+      hoverStyle={ borderColor: 'blue' }
+      onHover=onDropHover
+      onDrop=onDrop
+    )
+    DropHandler(
+      type="example"
+      style=dropStyle
+      activeStyle={ borderColor: '#ccc' }
+      hoverStyle={ borderColor: 'blue' }
+      onHover=onDropHover
+      onDrop=onDrop
+    )
+`
+```

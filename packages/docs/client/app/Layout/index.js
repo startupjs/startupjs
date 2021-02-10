@@ -1,7 +1,17 @@
 import React, { useState } from 'react'
 import { emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
-import { AutoSuggest, Button, Div, Layout, Menu, Row, Span, Portal } from '@startupjs/ui'
+import {
+  AutoSuggest,
+  Button,
+  Div,
+  Layout,
+  Menu,
+  Row,
+  Span,
+  Portal,
+  DndProvider
+} from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import Sidebar, { SIDEBAR_PATH } from './Sidebar'
@@ -86,9 +96,10 @@ export default observer(function StyleguideLayout ({ children }) {
   return pug`
     MDXProvider
       Portal.Provider
-        Layout.layout(testID="Layout")
-          Sidebar
-            Topbar
-            = children
+        DndProvider
+          Layout.layout(testID="Layout")
+            Sidebar
+              Topbar
+              = children
   `
 })
