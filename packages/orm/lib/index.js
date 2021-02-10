@@ -144,9 +144,10 @@ BaseModel.prototype.dereferenceSelf = function () {
   return model.scope(model._dereference(segments, true).join('.'))
 }
 
+BaseModel.associations = []
+
 BaseModel.addAssociation = function (association) {
-  if (!this.associations) this.associations = []
-  this.associations.push(association)
+  this.association = this.association.concat(association)
 }
 
 BaseModel.prototype.getAssociations = function () {
