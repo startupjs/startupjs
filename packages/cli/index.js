@@ -7,6 +7,7 @@ const link = require('./link')
 const CLI_VERSION = require('./package.json').version
 const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
 const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
+const FIRSTTEST_TEMPLATE = require('./detoxTemplates/firstTestTemplate')
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
 const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
@@ -103,13 +104,18 @@ SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
       SCRIPTS_ORIG.testInit()
     } catch (err) {
       return oneLine(`
-        echo '${err}'
+        echo '\\033[0;31m${err}'
       `)
     }
 
-    return oneLine(`
-      echo 'Detox inited'
-    `)
+    return `
+      echo "
+        \\033[0;32mCreated a directory at path: /e2e
+        Created a file at path: /e2e/firstTest.e2e.js
+        Created a file at path: /.env.detox
+        Created a file at path: /.detoxrc.js
+      "
+    `
   }
 
   if (build) {
@@ -122,11 +128,16 @@ SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
 }
 
 SCRIPTS_ORIG.testInit = () => {
-  const detoxrcPath = path.join(process.cwd(), '/.detoxrc.js')
-  const envdetoxPath = path.join(process.cwd(), '/.env.detox')
+  const detoxrcPath = path.join(process.cwd(), '.detoxrc.js')
+  const envdetoxPath = path.join(process.cwd(), '.env.detox')
+  const e2eDirPath = path.join(process.cwd(), 'e2e')
 
   fs.writeFileSync(detoxrcPath, DETOXRC_TEMPLATE)
   fs.writeFileSync(envdetoxPath, ENVDETOX_TEMPLATE)
+  if (!fs.existsSync(e2eDirPath)) {
+    fs.mkdirSync(e2eDirPath)
+  }
+  fs.writeFileSync(path.join(e2eDirPath, 'firstTest.e2e.js'), FIRSTTEST_TEMPLATE)
 }
 
 SCRIPTS_ORIG.testBuild = appName => oneLine(`
