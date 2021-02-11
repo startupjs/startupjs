@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import {
   observer,
-  useDoc,
-  useApi
+  useApi,
+  useDoc
 } from 'startupjs'
+import { Br, Button, Card, Div, Row, Span } from '@startupjs/ui'
 import axios from 'axios'
-import './index.styl'
-import { Div, Span, Button, Br, Row, Card } from '@startupjs/ui'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import './index.styl'
 
 export default observer(function TestComponent ({ style }) {
   const [testThing, $testThing] = useDoc('testThings', 'first')
