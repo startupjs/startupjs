@@ -104,13 +104,18 @@ SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
       SCRIPTS_ORIG.testInit()
     } catch (err) {
       return oneLine(`
-        echo '${err}'
+        echo '\\033[0;31m${err}'
       `)
     }
 
-    return oneLine(`
-      echo 'Detox inited'
-    `)
+    return `
+      echo "
+        \\033[0;32mCreated a directory at path: /e2e
+        Created a file at path: /e2e/firstTest.e2e.js
+        Created a file at path: /.env.detox
+        Created a file at path: /.detoxrc.js
+      "
+    `
   }
 
   if (build) {
