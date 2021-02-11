@@ -13,6 +13,12 @@ Multiselect позволяет пользователю выбирать нес�
 import { Multiselect } from '@startupjs/ui'
 ```
 
+## Инициализация
+
+Перед использованием нужно настроить [Portal](/docs/components/Portal)
+
+## Пример
+
 - `options` - массив объектов ```{ label, value }``` или примитивоов
 - `TagComponent` - компонент для кастомных тегов
 - `tagLimit` - максимальное количество отображаемых тегов
@@ -54,6 +60,29 @@ return (
     <Multiselect
       label='Example Multiselect with custom tag'
       value={cities}
+      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
+      label='Example Multiselect with custom input'
+      value={cities}
+      InputComponent={
+        ({ children, onOpen }) => {
+          return (
+            <Div
+              onPress={onOpen}
+              style={{
+                border: '1px dotted green',
+                padding: 8
+              }}
+            >
+              {children}
+            </Div>
+          )
+        }
+      }
       TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
       onChange={setCities}
       options={OPTIONS}

@@ -72,7 +72,7 @@ const RouteComponent = observer(function RCComponent ({
   useLayoutEffect(() => {
     initRoute(location, match.params)
     runFilters(route.filters)
-  }, [location.pathname, location.search])
+  }, [location.pathname, location.search, location.hash])
 
   if (!render) return null
 

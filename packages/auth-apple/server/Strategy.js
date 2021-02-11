@@ -52,16 +52,15 @@ export default function (config = {}) {
         callbackURL: (testBaseUrl || nconf.get('BASE_URL')) + CALLBACK_URL
       },
       async (accessToken, refreshToken, profile, cb) => {
-        let userId, err
+        let provider, err
 
         try {
-          const provider = new Provider(model, profile, this.config)
-          userId = await provider.findOrCreateUser()
+          provider = new Provider(model, profile, this.config)
         } catch (e) {
           err = e
         }
 
-        return cb(err, userId)
+        return cb(err, provider)
       })
     )
   }

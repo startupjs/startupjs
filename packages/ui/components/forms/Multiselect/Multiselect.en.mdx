@@ -13,6 +13,12 @@ Multiselect lets user pick multiple options.
 import { Multiselect } from '@startupjs/ui'
 ```
 
+## Initialization
+
+Before use you need to configure [Portal](/docs/components/Portal)
+
+## Example
+
 - `options` - array of objects ```{ label, value }``` or primitives
 - `TagComponent` - prop for custom tag render
 - `tagLimit` - max amount of displaying tags
@@ -54,6 +60,29 @@ return (
     <Multiselect
       label='Example Multiselect with custom tag'
       value={cities}
+      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+      onChange={setCities}
+      options={OPTIONS}
+    />
+    <Br />
+    <Multiselect
+      label='Example Multiselect with custom input'
+      value={cities}
+      InputComponent={
+        ({ children, onOpen }) => {
+          return (
+            <Div
+              onPress={onOpen}
+              style={{
+                border: '1px dotted green',
+                padding: 8
+              }}
+            >
+              {children}
+            </Div>
+          )
+        }
+      }
       TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
       onChange={setCities}
       options={OPTIONS}

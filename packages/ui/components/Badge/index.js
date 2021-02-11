@@ -33,7 +33,7 @@ function Badge ({
 
   function onLayout (event) {
     const { width } = event.nativeEvent.layout
-    width && setRight(Math.floor(width / 2) * -1)
+    width && setRight(Math.ceil(width / 2) * -1)
   }
 
   const style = { backgroundColor: colors[color] }

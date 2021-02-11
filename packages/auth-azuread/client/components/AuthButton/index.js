@@ -16,6 +16,7 @@ function AuthButton ({ baseUrl, label }) {
   function showLoginModal () {
     $showModal.set(true)
   }
+
   function onNavigationStateChange ({ url }) {
     if (url === (baseUrl + authConfig.successRedirectUrl)) {
       $showModal.set(false)

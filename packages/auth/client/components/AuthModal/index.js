@@ -33,7 +33,7 @@ function AuthModal ({
 }) {
   const isMobileWidth = width <= 480
   const [_redirectUrl] = useLocal('$render.query.redirectUrl')
-  const [modal, $modal] = useValue(false) // { page, redirectUrl }
+  const [modal, $modal] = useValue(false)
 
   function onClose () {
     $modal.set(false)
@@ -53,7 +53,6 @@ function AuthModal ({
       Modal.Header(style=styles.header)
       Div.content
         AuthForm(
-          ...modal
           initSlide=SIGN_IN_SLIDE
           redirectUrl=_get(modal, 'redirectUrl') || _redirectUrl
           onSuccess=onSuccess
@@ -61,6 +60,7 @@ function AuthModal ({
           onChangeAuthPage=onChangeAuthPage
           localForms=localForms
           socialButtons=socialButtons
+          ...modal
         )
   `
 }

@@ -40,7 +40,7 @@ import { Strategy as AzureadStrategy } from '@startupjs/auth-azuread/server'
 Импорт либы для конфига:
 ```js
 import conf from 'nconf'
-````
+```
 
 В startupjsServer, в стратегии функции initAuth нужно добавить AzureadStrategy, с переменными из конфига:
 ```js
