@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.31.27",
+  "version": "0.31.29",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -46,7 +46,7 @@
     "react-native-restart": "0.0.19",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.31.27"
+    "startupjs": "^0.31.29"
   },
   "devDependencies": {
     "react-test-renderer": "16.9.0"

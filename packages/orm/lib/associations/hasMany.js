@@ -16,7 +16,7 @@ export default function hasMany (AssociatedOrmEntity, options) {
         type: 'oppositeHasMany',
         orm: OrmEntity,
         key: pluralize.singular(AssociatedOrmEntity.collection) + 'Ids',
-        childrenName: OrmEntity.collection, // TODO:
+        childrenName: OrmEntity.collection,
         opposite: true
       }, options)
     )
