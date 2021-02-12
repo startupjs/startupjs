@@ -28,7 +28,7 @@ function rollupPlugin (options = {}) {
 }
 
 module.exports = function stylusToReactNativePlugin (config, options) {
-  config.installOptions.rollup.plugins.push(
+  config.packageOptions.rollup.plugins.push(
     rollupPlugin({ include: '**/node_modules/**' })
   )
 
@@ -36,7 +36,7 @@ module.exports = function stylusToReactNativePlugin (config, options) {
     name: 'stylus-to-react-native-plugin',
     resolve: {
       input: ['.styl'],
-      output: ['.stylModule.js']
+      output: ['.js']
     },
     async load ({ filePath }) {
       const code = await fs.readFile(filePath, 'utf-8')

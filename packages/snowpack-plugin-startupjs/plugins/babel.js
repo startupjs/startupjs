@@ -29,7 +29,7 @@ function rollupPlugin (options = {}) {
 }
 
 module.exports = function (config, options) {
-  config.installOptions.rollup.plugins.push(
+  config.packageOptions.rollup.plugins.push(
     rollupPlugin({
       include: [
         // '**/node_modules/**'

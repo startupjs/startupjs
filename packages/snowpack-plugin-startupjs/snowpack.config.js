@@ -2,21 +2,16 @@ module.exports = {
   mount: {
     main: '/main',
     Root: '/Root',
-    public: '/',
+    // public: '/',
+    '.': '/',
     model: '/model',
     components: '/components'
   },
   plugins: [
     './plugins/babel',
     './plugins/stylusToReactNative',
-    './plugins/cssToReactNative',
-    '@snowpack/plugin-react-refresh'
-  ],
-  install: [
-    '@babel/runtime/helpers/extends',
-    '@startupjs/babel-plugin-rn-stylename-to-style/process',
-    'react-native-web/dist/cjs/index.js',
-    'startupjs/orm'
+    './plugins/cssToReactNative'
+    // '@snowpack/plugin-react-refresh'
   ],
   alias: {
     'react-native': 'react-native-web/dist/cjs/index.js',
@@ -26,8 +21,14 @@ module.exports = {
   devOptions: {
     port: 3010
   },
-  installOptions: {
-    externalPackage: ['@env', '@startupjs/server']
+  packageOptions: {
+    external: ['@env', '@startupjs/server'],
+    knownEntrypoints: [
+      '@babel/runtime/helpers/extends',
+      '@startupjs/babel-plugin-rn-stylename-to-style/process',
+      'react-native-web/dist/cjs/index.js',
+      'startupjs/orm'
+    ]
   },
   exclude: [
     './server',

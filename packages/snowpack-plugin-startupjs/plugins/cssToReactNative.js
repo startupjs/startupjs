@@ -26,7 +26,7 @@ function rollupPlugin (options = {}) {
 }
 
 module.exports = function cssToReactNativePlugin (config, options) {
-  config.installOptions.rollup.plugins.push(
+  config.packageOptions.rollup.plugins.push(
     rollupPlugin({ include: '**/node_modules/**' })
   )
 
@@ -34,7 +34,7 @@ module.exports = function cssToReactNativePlugin (config, options) {
     name: 'css-to-react-native-plugin',
     resolve: {
       input: ['.css'],
-      output: ['.cssModule.js']
+      output: ['.js']
     },
     async load ({ filePath }) {
       const code = await fs.readFile(filePath, 'utf-8')
