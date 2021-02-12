@@ -246,7 +246,7 @@ const TEMPLATES = {
     packages: [
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@fortawesome/free-solid-svg-icons@^5.12.0',
-      'react-native-gesture-handler@^1.9.0',
+      'react-native-gesture-handler@1.9.0',
       'react-native-reanimated@^1.13.2',
       '@react-native-community/datetimepicker@^3.0.6',
       '@react-native-picker/picker@^1.9.3',
