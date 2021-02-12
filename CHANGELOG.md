@@ -1,3 +1,13 @@
+## [0.31.30](https://github.com/startupjs/startupjs/compare/v0.31.29...v0.31.30) (2021-02-12)
+
+
+### Bug Fixes
+
+* **cli:** commit react-native-gesture-handler version ([#517](https://github.com/startupjs/startupjs/issues/517)) ([46859bf](https://github.com/startupjs/startupjs/commit/46859bfa20e4adb68b1292c727cd8bdcfc73a349))
+* **ui/MenuItem:** fix flex growing ([#513](https://github.com/startupjs/startupjs/issues/513)) ([da4052b](https://github.com/startupjs/startupjs/commit/da4052b26b40a36c835d72a565877fd2751f7d38))
+
+
+
 ## [0.31.29](https://github.com/startupjs/startupjs/compare/v0.31.28...v0.31.29) (2021-02-10)
 
 

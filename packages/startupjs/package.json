@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.31.29",
+  "version": "0.31.30",
   "engines": {
     "node": ">= 14"
   },
@@ -13,7 +13,7 @@
     "@startupjs/app": "^0.31.27",
     "@startupjs/backend": "^0.31.29",
     "@startupjs/bundler": "^0.31.26",
-    "@startupjs/cli": "^0.31.15",
+    "@startupjs/cli": "^0.31.30",
     "@startupjs/hooks": "^0.31.0",
     "@startupjs/init": "^0.31.0",
     "@startupjs/isomorphic-helpers": "^0.31.0",
