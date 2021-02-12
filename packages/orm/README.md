@@ -201,16 +201,14 @@ Is similar to `hasOne`, but indicates a one-to-many association with another ORM
 * any other custom properties
 
 ```js
-import { BaseModel, belongsTo, hasOne, hasMany } from 'startupjs/orm'
+import { BaseModel, hasMany, hasOne, belongsTo } from 'startupjs/orm'
+import GamesModel from './GamesModel'
+import GameModel from './GameModel'
+import PlayerModel from './PlayerModel'
 
-class UserModel extends BaseModel {}
-
-@hasMany(FolderModel)
-@hasOne(FileModel)
-class FolderModel extends BaseModel {}
-
-@belongsTo(UserModel)
-class FileModel extends BaseModel {}
+racer.orm('games', GamesModel)
+racer.orm('games.*', hasMany(PlayerModel)(GameModel))
+racer.orm('players.*', PlayerModel)
 ```
 
 ## Installation

@@ -1,10 +1,10 @@
-import { BASE_URL } from '@env'
-import init from 'startupjs/init'
-import orm from '../model'
 import React from 'react'
-import { observer, model } from 'startupjs'
 import { Platform } from 'react-native'
+import { observer, model } from 'startupjs'
+import init from 'startupjs/init'
+import { BASE_URL } from '@env'
 import { TestComponent } from 'components'
+import orm from '../model'
 
 if (Platform.OS === 'web') window.model = model
 
