@@ -395,7 +395,7 @@ export default observer(function Game ({gameId}) {
     <div>
       <label>
         Secret:
-        <input type='text' value={code} onChange={updateSecret} />
+        <input type='text' value={secret} onChange={updateSecret} />
       </label>
 
       <label>
