@@ -4,6 +4,7 @@ import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
+import ErrorWrapper from '../ErrorWrapper'
 import Span from '../../typography/Span'
 import './index.styl'
 
@@ -13,6 +14,7 @@ export default observer(function ObjectInput ({
   $value,
   value,
   label,
+  errors = {},
   properties,
   order
 }) {
@@ -67,12 +69,13 @@ export default observer(function ObjectInput ({
   return renderContainer(pug`
     each input, index in inputs
       - const { key, style, ...inputProps } = input
-      Input.input(
-        ...inputProps
-        key=key
-        style=style
-        styleName={ pushTop: index !== 0 }
-      )
+      ErrorWrapper(err=errors[key])
+        Input.input(
+          ...inputProps
+          key=key
+          style=style
+          styleName={ pushTop: index !== 0 }
+        )
   `)
 })
 
