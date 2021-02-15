@@ -17,7 +17,9 @@
     "ios-release": "react-native run-ios --simulator \"iPhone 8\" --configuration Release",
     "build": "ASYNC=1 startupjs build",
     "start-production": "startupjs start-production",
-    "fonts": "startupjs fonts"
+    "fonts": "startupjs fonts",
+    "test:ios": "startupjs test --ios --artifacts",
+    "test:build:ios": "startupjs test --build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",

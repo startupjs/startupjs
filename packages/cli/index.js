@@ -158,7 +158,11 @@ SCRIPTS_ORIG.testIos = (appName, artifacts) => oneLine(`
 `)
 
 SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
-  mkdir -p ios/build/Build/Products/Release-iphonesimulator/${appName}.app/ && APP_ENV=detox react-native bundle --entry-file="index.js" --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${appName}.app/main.jsbundle" --reset-cache --dev=false
+  mkdir -p ios/build/Build/Products/Release-iphonesimulator/${appName}.app/
+  && APP_ENV=detox react-native bundle
+  --entry-file="index.js"
+  --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${appName}.app/main.jsbundle"
+  --reset-cache --dev=false
 `)
 
 // Server

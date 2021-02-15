@@ -99,8 +99,8 @@ class DetoxLinker {
     const defaultConfigRegExp = /defaultConfig\s*\{[\s\S]*?\}/
     const defaultConfigDetox = content.match(defaultConfigRegExp)[0].replace(/\}$/,
       '    testBuildType System.getProperty(\'testBuildType\', \'debug\')  // This will later be used to control the test apk build type\n' +
-      '        testInstrumentationRunner \'androidx.test.runner.AndroidJUnitRunner\')\n' +
-      '}'
+      '        testInstrumentationRunner \'androidx.test.runner.AndroidJUnitRunner\'\n' +
+      '    }'
     )
 
     const progvardRegExp = /proguardFiles getDefaultProguardFile\("proguard-android\.txt"\), "proguard-rules\.pro"/
