@@ -16,7 +16,6 @@
     "@startupjs/cli": "^0.31.30",
     "@startupjs/hooks": "^0.31.0",
     "@startupjs/init": "^0.31.0",
-    "@startupjs/e2e": "^0.31.0",
     "@startupjs/isomorphic-helpers": "^0.31.0",
     "@startupjs/orm": "^0.31.29",
     "@startupjs/patches": "^0.31.0",

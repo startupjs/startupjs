@@ -2,6 +2,10 @@
 
 For e2e testing on mobile platforms, uses the [Detox](https://github.com/wix/Detox) library and test-runner [Jest](https://jestjs.io/)
 
+## Installing the package
+
+`yarn add -D @startupjs/e2e`
+
 ## Running tests
 
 To run the commands `@startupjs/e2e`, you need to globally install `detox-cli` - `npm i detox-cli -g`
