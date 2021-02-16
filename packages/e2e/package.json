@@ -1,0 +1,26 @@
+{
+  "name": "@startupjs/e2e",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Package for e2e tests",
+  "version": "0.31.13",
+  "main": "index.js",
+  "dependencies": {
+    "babel-jest": "^25.1.0",
+    "concurrently": "5.3.0",
+    "detox": "^17.14.3",
+    "jest": "26.6.3",
+    "jest-circus": "26.6.3",
+    "lodash": "4.17.x",
+    "wait-on": "^5.2.1"
+  },
+  "peerDependencies": {
+    "react": ">= 16.9.0 < 17",
+    "react-native": "*",
+    "startupjs": ">= 0.23.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

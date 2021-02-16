@@ -53,7 +53,7 @@ startupjsServer({
         clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
         tentantId: conf.get('AZUREAD_TENTANT_ID'),
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
-        allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
+        allowHttpForRedirectUrl: true
       }),
       new FacebookStrategy({
         clientId: conf.get('FACEBOOK_CLIENT_ID'),
