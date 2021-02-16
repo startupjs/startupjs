@@ -23,7 +23,7 @@ Then start adding the ORM entities to your model.
 Each ORM Entity must be inherited from either:
 
 - `Model.ChildModel` from `racer` package.
-- or **recommended** `BaseModel` from `startupjs/orm` package. This one has additional helper methids like `.getId` and `.getCollection` and can also use ActionRecord-like associations.
+- or **recommended** `BaseModel` from `startupjs/orm` package. This one has additional helper methods like `.getId` and `.getCollection` and can also use ActionRecord-like associations.
 
 ```js
 
