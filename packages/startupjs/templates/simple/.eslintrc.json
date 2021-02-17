@@ -38,23 +38,23 @@
     "react-pug/prop-types": "off",
     "react-pug/quotes": "off",
     "import-helpers/order-imports": [
-            "warn",
-              { 
-                "newlinesBetween": "ignore",
-                "groups": [
-                    "/^react$/",
-                    "/react-native/",
-                    "/^react.*/",
-                    "/^startupjs/", 
-                    "/^@?startupjs.*/",
-                    "/^@?dmapper.*/",
-                    "module",
-                    "/components/",
-                    ["/helpers/", "/hooks/"],
-                    ["sibling", "parent"],
-                    "/.\/index.styl/"
-                ]
-              }
-        ]
+      "warn",
+        { 
+          "newlinesBetween": "ignore",
+          "groups": [
+            "/^react$/",
+            "/react-native/",
+            "/^react.*/",
+            "/^startupjs/",
+            "/^@?startupjs.*/",
+            "/^@?dmapper.*/",
+            "module",
+            "/components/",
+            ["/helpers/", "/hooks/"],
+            ["sibling", "parent"],
+            "/.\/index.styl/"
+          ]
+        }
+    ]
   }
 }
