@@ -1,6 +1,7 @@
 // Plugins Manager API (used by the actual framework)
 const fs = require('fs')
 const path = require('path')
+const resolve = require('resolve')
 
 const ROOT = process.cwd()
 const CONFIG_NAME = 'startupjs.config.cjs'
@@ -32,6 +33,7 @@ function setModuleConfig (packageName) {
   if (cache[packageName]) return
 
   const packagePath = resolveNodeModuleDir(ROOT, packageName)
+  if (!packagePath) return
   const config = getConfig(path.join(packagePath, CONFIG_NAME))
   if (!config) return
 
@@ -67,9 +69,12 @@ function getConfig (configPath) {
 
 // ref: react-native-community/cli
 function resolveNodeModuleDir (root, packageName) {
-  return path.dirname(
-    require.resolve(path.join(packageName, 'package.json'), {
-      paths: [ROOT]
-    })
-  )
+  try {
+    return path.dirname(
+      resolve.sync(path.join(packageName, 'package.json'), {
+        paths: [ROOT]
+      })
+    )
+  } catch (err) {
+  }
 }
