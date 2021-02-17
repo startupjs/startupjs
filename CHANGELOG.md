@@ -3,7 +3,7 @@
 
 ### BREAKING CHANGES
 
-* **NO** breaking changes. A new major package for E2E tests was added. For usage see [Tests docs](https://startupjs-ui.dmapper.co/docs/foundation/Testing).
+* [See 0.32 migration guide](/docs/migration-guides/0.32.md)
 
 
 ### Features
