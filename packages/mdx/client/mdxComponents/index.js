@@ -133,11 +133,12 @@ export default {
     `
   },
   inlineCode: ({ children }) => pug`
-    Span.inlineCode(
-      style={
+    Span.inlineCodeWrapper
+      Span.inlineCodeSpacer= ' '
+      Span.inlineCode(style={
         fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-      }
-    )= ' ' + children + ' '
+      })= children
+      Span.inlineCodeSpacer= ' '
   `,
   hr: ({ children }) => pug`
     Divider(size='l')
