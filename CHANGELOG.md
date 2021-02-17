@@ -1,6 +1,11 @@
 # [0.32.0](https://github.com/startupjs/startupjs/compare/v0.31.30...v0.32.0) (2021-02-17)
 
 
+### BREAKING CHANGES
+
+* **NO** breaking changes. A new major package for E2E tests was added. For usage see [Tests docs](https://startupjs-ui.dmapper.co/docs/foundation/Testing).
+
+
 ### Features
 
 * **detox:** add package ([#522](https://github.com/startupjs/startupjs/issues/522)) ([13414c0](https://github.com/startupjs/startupjs/commit/13414c0ea2569728160986ca1946768c536e0a44))
