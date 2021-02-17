@@ -3,6 +3,7 @@ import { Linking, Platform } from 'react-native'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
 import { $root, observer, useSyncEffect } from 'startupjs'
+import { PluginsProvider } from '@startupjs/plugin'
 import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
@@ -75,6 +76,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 const RenderApp = observer(function RenderAppComponent ({
   apps,
   app,
+  plugins,
   ...props
 }) {
   const Layout = app ? apps[app] : null
@@ -85,8 +87,9 @@ const RenderApp = observer(function RenderAppComponent ({
   }
 
   return pug`
-    Layout
-      Routes(...props)
+    PluginsProvider(plugins=plugins)
+      Layout
+        Routes(...props)
   `
 })
 

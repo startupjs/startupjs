@@ -63,6 +63,14 @@
     "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
-    "themed": "/theming/themed.js"
+    "themed": "/theming/themed.js",
+    "App": "/app/App.js",
+    "ErrorTemplate": "/app/ErrorTemplate.js",
+    "pathFor": "/app/pathFor.js",
+    "useHistory": "/app/useHistory.js",
+    "useLocation": "/app/useLocation.js",
+    "useParams": "/app/useParams.js",
+    "useRouteMatch": "/app/useRouteMatch.js",
+    "initPortal": "/plugins/initPortal.js"
   }
 }

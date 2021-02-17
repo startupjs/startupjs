@@ -14,7 +14,9 @@ const MODULE_DIRS = {
   '@startupjs/ui': [
     { source: path.join(PACKAGES_DIR, 'ui/components') },
     { source: path.join(PACKAGES_DIR, 'ui/hooks'), includeFiles: true },
-    { source: path.join(PACKAGES_DIR, 'ui/theming'), includeFiles: true }
+    { source: path.join(PACKAGES_DIR, 'ui/theming'), includeFiles: true },
+    { source: path.join(PACKAGES_DIR, 'ui/app'), includeFiles: true },
+    { source: path.join(PACKAGES_DIR, 'ui/plugins'), includeFiles: true }
   ]
 }
 

@@ -1,2 +1,1 @@
-// Plugin User API (used in custom startupjs libraries)
-module.exports = {}
+export { default as PluginsProvider } from './client/PluginsProvider'

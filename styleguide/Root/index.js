@@ -16,6 +16,7 @@ import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/clien
 import { createAuthButton } from '@startupjs/auth-common'
 import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg/client'
 import * as localForms from '@startupjs/auth-local'
+import { initPortal } from '@startupjs/ui'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -71,6 +72,7 @@ export default observer(() => {
   return pug`
     App(
       apps={ main, docs, auth }
+      plugins=[initPortal]
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,

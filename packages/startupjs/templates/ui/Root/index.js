@@ -1,8 +1,8 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
-import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
+import { App, initPortal } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import orm from '../model'
 
@@ -21,6 +21,7 @@ export default observer(() => {
   return pug`
     App(
       apps={main}
+      plugins=[initPortal]
     )
   `
 })

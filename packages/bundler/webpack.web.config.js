@@ -37,6 +37,7 @@ const DEFAULT_FORCE_COMPILE_MODULES = [
   '@react-native-community/datetimepicker', // used by ui
   '@react-native-picker/picker', // used by ui
   '@startupjs/app',
+  '@startupjs/plugin',
   '@startupjs/ui',
   'react-native-collapsible' // used by ui
 ]
