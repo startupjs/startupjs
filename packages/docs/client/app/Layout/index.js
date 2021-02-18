@@ -3,6 +3,7 @@ import { emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
 import { AutoSuggest, Button, Div, Layout, Menu, Row, Span, Portal } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
+import { ScrollableProvider } from '@dmapper/scrollable-anchors'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import { useDocsContext } from '../../../docsContext'
@@ -89,6 +90,7 @@ export default observer(function StyleguideLayout ({ children }) {
         Layout.layout(testID="Layout")
           Sidebar
             Topbar
-            = children
+            ScrollableProvider
+              = children
   `
 })

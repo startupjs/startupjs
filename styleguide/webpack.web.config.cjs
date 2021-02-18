@@ -10,7 +10,8 @@ module.exports = getConfig(undefined, {
     '@startupjs/auth-linkedin',
     '@startupjs/auth-local',
     '@startupjs/auth-common',
-    '@startupjs/auth-idg'
+    '@startupjs/auth-idg',
+    '@dmapper/scrollable-anchors'
   ],
   mode: 'react-native'
 })

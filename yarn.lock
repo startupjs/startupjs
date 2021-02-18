@@ -1277,6 +1277,11 @@
   dependencies:
     passport-oauth2 "^1.5.0"
 
+"@dmapper/scrollable-anchors@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@dmapper/scrollable-anchors/-/scrollable-anchors-0.0.2.tgz#bedb8ba0e97a129a0ce40a3f8bf48e5bc4e77adf"
+  integrity sha512-gAPoncqJHaEAi78RbQx5TqDRYyFJ2PkVTYp69rStV8e8q2LXLXG1i1sYWpZY7WSKyIAW4ipZVIq2z9rQHy3WZw==
+
 "@dmapper/stylus-hash-plugin@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@dmapper/stylus-hash-plugin/-/stylus-hash-plugin-0.0.1.tgz#844faab7604d7f5007abb3c410dba5d0814cef1d"
