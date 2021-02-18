@@ -8,7 +8,7 @@
   "main": "index.js",
   "dependencies": {
     "@mdx-js/react": "~1.5.8",
-    "@dmapper/scrollable-anchors": "^0.0.2",
+    "@startupjs/scrollable-anchors": "^0.0.3",
     "@startupjs/ui": "^0.32.0",
     "refractor": "^3.0.0"
   },

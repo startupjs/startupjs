@@ -1,0 +1,12 @@
+{
+  "name": "@startupjs/scrollable-anchors",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Immitation of scrollable anchors",
+  "version": "0.0.3",
+  "main": "index.js",
+  "dependencies": {
+    "@startupjs/ui": ">= 0.28.0"
+  }
+}

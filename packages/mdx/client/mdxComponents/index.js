@@ -12,7 +12,7 @@ import {
   Link,
   Icon
 } from '@startupjs/ui'
-import { Anchor } from '@dmapper/scrollable-anchors'
+import { Anchor } from '@startupjs/scrollable-anchors'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import './index.styl'

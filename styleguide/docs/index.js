@@ -8,6 +8,8 @@ import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
 import AuthCommon from '../../packages/auth-common/readme.md'
+import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -71,6 +73,27 @@ export default docs({
         component: AuthCommon
       }
     }
+  },
+  libraries: {
+    type: 'collapse',
+    title: {
+      en: 'Libraries',
+      ru: 'Библиотеки'
+    },
+    icon: faSortNumericUpAlt,
+    items: [
+      {
+        type: 'mdx',
+        title: {
+          en: 'Scrollable anchors',
+          ru: 'Якоря с прокрутой'
+        },
+        component: {
+          en: ScrollableAnchorsEn,
+          ru: ScrollableAnchorsRu
+        }
+      }
+    ]
   },
   'migration-guides': {
     type: 'collapse',
