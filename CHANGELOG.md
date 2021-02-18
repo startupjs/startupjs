@@ -1,3 +1,12 @@
+## [0.32.2](https://github.com/startupjs/startupjs/compare/v0.32.1...v0.32.2) (2021-02-18)
+
+
+### Bug Fixes
+
+* **scrollable:** Decode hash from URL ([fc4e249](https://github.com/startupjs/startupjs/commit/fc4e249a416a35a609f0db3b9a9b58c76260a75d))
+
+
+
 ## [0.32.1](https://github.com/startupjs/startupjs/compare/v0.32.0...v0.32.1) (2021-02-18)
 
 
