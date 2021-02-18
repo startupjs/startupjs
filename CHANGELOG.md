@@ -1,3 +1,14 @@
+## [0.32.1](https://github.com/startupjs/startupjs/compare/v0.32.0...v0.32.1) (2021-02-18)
+
+
+### Bug Fixes
+
+* **mdx:** Improve inlineCode styles, add bigger margin before h2 ([701db87](https://github.com/startupjs/startupjs/commit/701db879f0aba45ddc167004f343b86ad6c60b64))
+* **plugin:** Use a replacement library instead of require.resolve() to have it working in ESM environments ([ea80fb3](https://github.com/startupjs/startupjs/commit/ea80fb3e967c7415892062f3ff3f8690bef9c2dc))
+* **ui/Popover:** multiple popover close bug ([#527](https://github.com/startupjs/startupjs/issues/527)) ([d9b8d23](https://github.com/startupjs/startupjs/commit/d9b8d2330dfc38ef36886712f7267655ad96d046))
+
+
+
 # [0.32.0](https://github.com/startupjs/startupjs/compare/v0.31.30...v0.32.0) (2021-02-17)
 
 
