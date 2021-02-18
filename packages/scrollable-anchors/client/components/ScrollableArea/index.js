@@ -11,11 +11,7 @@ function ScrollableArea ({ id, children, style }) {
     if (ref.current) registerArea({ areaId: id, ref: ref.current })
   }, [ref.current])
 
-  useEffect(() => {
-    return () => {
-      unregisterArea(id)
-    }
-  }, [])
+  useEffect(() => unregisterArea, [])
   return pug`
     ScrollView(
       ref=ref

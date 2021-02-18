@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { ScrollView } from 'react-native'
 import { observer, useOn, usePage, useLocal } from 'startupjs'
 import PropTypes from 'prop-types'
-import ScrollableArea from '../ScrollableArea'
 
 const GLOBAL_ID = 'global'
 
@@ -13,8 +13,10 @@ function ScrollableProvider ({ reactOnHash, children }) {
   const [hash] = useLocal('$render.hash')
   const [url] = useLocal('$render.url')
 
+  const globalScrollRef = useRef()
+
   const [anchorRegistry = {}, $anchorRegistry] = usePage('scrollableProvider.anchors')
-  const [areaRegistry = {}, $areaRegistry] = usePage('scrollableProvider.areas')
+  const [, $areaRegistry] = usePage('scrollableProvider.areas')
   const [scrollQueue = [], $scrollQueue] = usePage('scrollableProvider.queue')
 
   useOn('ScrollableProvider.registerAnchor', onElementRegister)
@@ -45,15 +47,19 @@ function ScrollableProvider ({ reactOnHash, children }) {
 
     // Find first element from query that have anvhorId or have y position offset
     // (in case scroll to specifik postition, ot to anchor)
-    const queueItemIndex = scrollQueue.findIndex(item => !isUndefined(anchorRegistry[item.anchorId]) || !isUndefined(item.y))
+    const queueItemIndex = scrollQueue.findIndex(item => !isUndefined($anchorRegistry.get(item.anchorId)) || !isUndefined(item.y))
 
-    const item = scrollQueue[queueItemIndex]
+    const item = $scrollQueue.get(queueItemIndex)
     if (!item) return
 
     const { areaId, anchorId, offset, y } = item
 
-    const scrollRef = areaRegistry[areaId]
-    const posY = y || anchorRegistry[anchorId]
+    const scrollRef = areaId === GLOBAL_ID ? globalScrollRef.current : $areaRegistry.get(areaId)
+
+    // Seems ref is expired :(
+    if (!scrollRef) return
+
+    const posY = y || $anchorRegistry.get(anchorId)
 
     scrollRef.scrollTo({
       animated: true,
@@ -108,8 +114,9 @@ function ScrollableProvider ({ reactOnHash, children }) {
   // Scroll to top on url change
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
+
   return pug`
-    ScrollableArea(id=GLOBAL_ID)
+    ScrollView(ref=globalScrollRef)
       =children
   `
 }
