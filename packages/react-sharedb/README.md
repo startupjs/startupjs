@@ -19,6 +19,8 @@ It's recommended to just use `startupjs` package, since it proxies the API of `@
 
 You don't need to install anything if you are in a StartupJS project.
 
+If you want to use `react-sharedb` separately from StartupJS in a pure React project, refer to the following [issue](https://github.com/startupjs/startupjs/issues/529). You'll also need to manually setup the `sharedb` on your server following its [readme](https://github.com/share/sharedb) instructions.
+
 ## Usage with Hooks
 
 [Hooks syntax documentation](/packages/react-sharedb-hooks)
