@@ -106,7 +106,7 @@ function ScrollableProvider ({ reactOnHash, children }) {
   useEffect(() => {
     if (reactOnHash && hash) {
       addScrollToQueue({
-        anchorId: hash.replace('#', '')
+        anchorId: decodeURI(hash.replace('#', ''))
       })
     }
   }, [hash])
