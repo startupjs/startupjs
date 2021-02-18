@@ -7,6 +7,6 @@
   "version": "0.0.3",
   "main": "index.js",
   "dependencies": {
-    "@startupjs/ui": ">= 0.28.0"
+    "@startupjs/ui": "^0.32.0"
   }
 }

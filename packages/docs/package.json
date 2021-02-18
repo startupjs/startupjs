@@ -10,7 +10,7 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@startupjs/mdx": "^0.32.0",
-    "@startupjs/scrollable-anchors": "^0.0.3",
+    "@startupjs/scrollable-anchors": "^0.32.0",
     "@startupjs/ui": "^0.32.0",
     "parse-prop-types": "^0.3.0"
   },
