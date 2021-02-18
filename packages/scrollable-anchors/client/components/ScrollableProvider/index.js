@@ -67,19 +67,12 @@ function ScrollableProvider ({ reactOnHash, children }) {
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
     if (!Number.isInteger(posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
-    if (anchorId in anchorRegistry && posY === anchorRegistry[anchorRegistry]) {
-      console.warn(`Warn [scrollable-anchors]: Anchor with anchorId ${anchorId} already registered`)
-      return
-    }
 
     $anchorRegistry.set(anchorId, posY)
   }
 
   function onElementUnregister (anchorId) {
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of unregistering element.')
-    if (!anchorRegistry[anchorId]) {
-      return
-    }
 
     $anchorRegistry.del(anchorId)
   }
@@ -87,19 +80,12 @@ function ScrollableProvider ({ reactOnHash, children }) {
   function onAreaRegister ({ areaId, ref }) {
     if (!areaId) throw new Error('Error [scrollable-anchors]: Provide areaId of registering scrollable area.')
     if (!ref) throw new Error('Error [scrollable-anchors]: Provide ref of scrollable area.')
-    if (areaId in areaRegistry) {
-      console.warn(`Warn [scrollable-anchors]: Area with areaId ${areaId} already registered.`)
-      return
-    }
 
     $areaRegistry.set(areaId, ref)
   }
 
   function onAreaUnregister (areaId) {
     if (!areaId) throw new Error('Error [scrollable-anchors]: Provide areaId of unregistering scrollble area.')
-    if (!areaRegistry[areaId]) {
-      return
-    }
 
     $areaRegistry.del(areaId)
   }
