@@ -1,6 +1,6 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
-import { faSortNumericUpAlt, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
+import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthLocal from '../../packages/auth-local/readme.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
@@ -80,9 +80,9 @@ export default docs({
       en: 'Libraries',
       ru: 'Библиотеки'
     },
-    icon: faSortNumericUpAlt,
-    items: [
-      {
+    icon: faLayerGroup,
+    items: {
+      anchors: {
         type: 'mdx',
         title: {
           en: 'Scrollable anchors',
@@ -93,7 +93,7 @@ export default docs({
           ru: ScrollableAnchorsRu
         }
       }
-    ]
+    }
   },
   'migration-guides': {
     type: 'collapse',

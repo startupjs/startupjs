@@ -8,5 +8,10 @@ export default (components = {}) => [
     path: '/profile',
     exact: true,
     component: components.PProfile
+  },
+  {
+    path: '/scrollable-anchors-example',
+    exact: true,
+    component: components.PAnchorsExample
   }
 ]

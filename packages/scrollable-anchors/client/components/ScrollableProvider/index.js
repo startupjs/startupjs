@@ -23,8 +23,10 @@ function ScrollableProvider ({ reactOnHash, children }) {
   useOn('ScrollableProvider.unregisterArea', onAreaUnregister)
   useOn('ScrollableProvider.scrollTo', addScrollToQueue)
 
-  function addScrollToQueue ({ anchorId, areaId = GLOBAL_ID, offset = 0 }) {
-    if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide id of anchor.')
+  function addScrollToQueue ({ anchorId, areaId = GLOBAL_ID, offset = 0, y }) {
+    if (!anchorId && isUndefined(y)) {
+      throw new Error('Error [scrollable-anchors]: Provide id of anchor or y position.')
+    }
     if (offset && !Number.isInteger(offset)) {
       console.warn('Warn [scrollable-anchors]: Offset must be an integer.')
       return
@@ -33,22 +35,25 @@ function ScrollableProvider ({ reactOnHash, children }) {
     $scrollQueue.push({
       anchorId,
       areaId,
-      offset
+      offset,
+      y
     })
   }
 
   function processQueue () {
     if (!scrollQueue || scrollQueue.length === 0) return
 
-    const queueItemIndex = scrollQueue.findIndex(item => !isUndefined(anchorRegistry[item.anchorId]))
+    // Find first element from query that have anvhorId or have y position offset
+    // (in case scroll to specifik postition, ot to anchor)
+    const queueItemIndex = scrollQueue.findIndex(item => !isUndefined(anchorRegistry[item.anchorId]) || !isUndefined(item.y))
 
-    const area = scrollQueue[queueItemIndex]
-    if (!area) return
+    const item = scrollQueue[queueItemIndex]
+    if (!item) return
 
-    const { areaId, anchorId, offset } = area
+    const { areaId, anchorId, offset, y } = item
 
     const scrollRef = areaRegistry[areaId]
-    const posY = anchorRegistry[anchorId]
+    const posY = y || anchorRegistry[anchorId]
 
     scrollRef.scrollTo({
       animated: true,
@@ -100,12 +105,10 @@ function ScrollableProvider ({ reactOnHash, children }) {
   }
 
   function scrollToTop () {
-    if (areaRegistry[GLOBAL_ID]) {
-      areaRegistry[GLOBAL_ID].scrollTo({
-        animated: true,
-        y: 0
-      })
-    }
+    addScrollToQueue({
+      areaId: GLOBAL_ID,
+      y: 0
+    })
   }
 
   useEffect(() => {
@@ -118,7 +121,6 @@ function ScrollableProvider ({ reactOnHash, children }) {
 
   // Scroll to top on url change
   useEffect(scrollToTop, [url])
-
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
   return pug`
     ScrollableArea(id=GLOBAL_ID)
