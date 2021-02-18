@@ -17,9 +17,7 @@
 
 It's recommended to just use `startupjs` package, since it proxies the API of `@startupjs/react-sharedb`.
 
-```
-yarn add startupjs
-```
+You don't need to install anything if you are in a StartupJS project.
 
 ## Usage with Hooks
 
