@@ -1,7 +1,7 @@
 import { emit } from 'startupjs'
 
-export function scrollTo ({ anchorId, areaId, offset }) {
-  emit('ScrollableProvider.scrollTo', { anchorId, areaId, offset })
+export function scrollTo ({ anchorId, areaId, offset, smooth, y }) {
+  emit('ScrollableProvider.scrollTo', { anchorId, areaId, offset, smooth, y })
 }
 
 export function registerAnchor ({ anchorId, posY }) {

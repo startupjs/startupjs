@@ -25,7 +25,7 @@ function ScrollableProvider ({ reactOnHash, children }) {
   useOn('ScrollableProvider.unregisterArea', onAreaUnregister)
   useOn('ScrollableProvider.scrollTo', addScrollToQueue)
 
-  function addScrollToQueue ({ anchorId, areaId = GLOBAL_ID, offset = 0, y }) {
+  function addScrollToQueue ({ anchorId, areaId = GLOBAL_ID, offset = 0, y, smooth = true }) {
     if (!anchorId && isUndefined(y)) {
       throw new Error('Error [scrollable-anchors]: Provide id of anchor or y position.')
     }
@@ -38,7 +38,8 @@ function ScrollableProvider ({ reactOnHash, children }) {
       anchorId,
       areaId,
       offset,
-      y
+      y,
+      smooth
     })
   }
 
@@ -52,7 +53,7 @@ function ScrollableProvider ({ reactOnHash, children }) {
     const item = $scrollQueue.get(queueItemIndex)
     if (!item) return
 
-    const { areaId, anchorId, offset, y } = item
+    const { areaId, anchorId, offset, y, smooth } = item
 
     const scrollRef = areaId === GLOBAL_ID ? globalScrollRef.current : $areaRegistry.get(areaId)
 
@@ -62,7 +63,7 @@ function ScrollableProvider ({ reactOnHash, children }) {
     const posY = y || $anchorRegistry.get(anchorId)
 
     scrollRef.scrollTo({
-      animated: true,
+      animated: smooth,
       y: posY + offset
     })
 
@@ -98,6 +99,7 @@ function ScrollableProvider ({ reactOnHash, children }) {
 
   function scrollToTop () {
     addScrollToQueue({
+      smooth: false,
       areaId: GLOBAL_ID,
       y: 0
     })
