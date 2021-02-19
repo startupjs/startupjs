@@ -20,7 +20,7 @@
 1. Оберните свой верхний родительский компонент (Layout - лучшее место) в ***ScrollableProvider*** HOC;
 
   ```jsx
-  import { ScrollableProvider } from '@dmappper/scrollable-anchors'
+  import { ScrollableProvider } from '@startupjs/scrollable-anchors'
   // ...
   function Layout ({ children }) {
     return (
@@ -42,7 +42,7 @@
 
       ```jsx
       import { Link, Span, TextInput } from '@startupjs/ui'
-      import { Anchor } from '@dmappper/scrollable-anchors'
+      import { Anchor } from '@startupjs/scrollable-anchors'
       // ...
       <Anchor id='dash-anchor'>
         <React.Fragment>
@@ -64,7 +64,7 @@
 
       ```jsx
       import { Div, Span } from '@startupjs/ui'
-      import { Anchor } from '@dmappper/scrollable-anchors'
+      import { Anchor } from '@startupjs/scrollable-anchors'
       // ...
       // ...
       Anchor(id='div-anchor' Component=Div ...componentProps) Якорь Div
@@ -74,7 +74,7 @@
 3. (Опционально) Добавте вложенные зоны для контрорлирования скролла при помощи ***ScrollableArea*** HOC;
 
   ```jsx
-  import { ScrollableArea, Anchor } from '@dmappper/scrollable-anchors'
+  import { ScrollableArea, Anchor } from '@startupjs/scrollable-anchors'
   // ...
   <ScrollableArea id='my-scrollable-area'>
     {/* Много-много контента */}

@@ -20,7 +20,7 @@ Component for native anchors imitation and animating vertical scrolling.
 1. Wrap your top component (Layout is the best place) into ***ScrollableProvider*** HOC;
 
   ```jsx
-  import { ScrollableProvider } from '@dmappper/scrollable-anchors'
+  import { ScrollableProvider } from '@startupjs/scrollable-anchors'
   // ...
   function Layout ({ children }) {
     return (
@@ -40,7 +40,7 @@ Component for native anchors imitation and animating vertical scrolling.
 
       ```jsx
       import { Link, Span, TextInput } from '@startupjs/ui'
-      import { Anchor } from '@dmappper/scrollable-anchors'
+      import { Anchor } from '@startupjs/scrollable-anchors'
       // ...
       <Anchor id='dash-anchor'>
         <React.Fragment>
@@ -61,7 +61,7 @@ Component for native anchors imitation and animating vertical scrolling.
 
       ```jsx
       import { Div, Span } from '@startupjs/ui'
-      import { Anchor } from '@dmappper/scrollable-anchors'
+      import { Anchor } from '@startupjs/scrollable-anchors'
       // ...
       // ...
       Anchor(id='div-anchor' Component=Div ...componentProps) Div anchor
@@ -70,7 +70,7 @@ Component for native anchors imitation and animating vertical scrolling.
 3. (Optional) Add another scrollable areas with ***ScrollableArea*** HOC;
 
   ```jsx
-  import { ScrollableArea, Anchor } from '@dmappper/scrollable-anchors'
+  import { ScrollableArea, Anchor } from '@startupjs/scrollable-anchors'
   // ...
   <ScrollableArea id='my-scrollable-area'>
     {/* A lot of content */}
