@@ -1,3 +1,12 @@
+## [0.32.4](https://github.com/startupjs/startupjs/compare/v0.32.3...v0.32.4) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Crach on unregisterArea ([39e4f9b](https://github.com/startupjs/startupjs/commit/39e4f9bd5330bc02c4785f1a1e3cab7a99c90a36))
+
+
+
 ## [0.32.3](https://github.com/startupjs/startupjs/compare/v0.32.2...v0.32.3) (2021-02-19)
 
 
