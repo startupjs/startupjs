@@ -1,3 +1,19 @@
+## [0.32.3](https://github.com/startupjs/startupjs/compare/v0.32.2...v0.32.3) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Scroll top without animation ([15d37fa](https://github.com/startupjs/startupjs/commit/15d37fa578eee2fc704a2880d33a4205b67b00f9))
+* **scrollable:** Typo ([d87ab9f](https://github.com/startupjs/startupjs/commit/d87ab9f28e111a6edab6f7a75342b5fd53199391))
+* **scrollable:** Update module deps ([194aa63](https://github.com/startupjs/startupjs/commit/194aa63677438447fff9063502368deef384b01c))
+
+
+### Features
+
+* **doc:** closing the sidebar after selecting a menu item ([#533](https://github.com/startupjs/startupjs/issues/533)) ([adbecfa](https://github.com/startupjs/startupjs/commit/adbecfa7677dadec24e49c2677217d7df883db6b))
+
+
+
 ## [0.32.2](https://github.com/startupjs/startupjs/compare/v0.32.1...v0.32.2) (2021-02-18)
 
 
