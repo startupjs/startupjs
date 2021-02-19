@@ -7,7 +7,10 @@ import { Platform, Image } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model, u } from 'startupjs'
+import { Span } from '@startupjs/ui'
 import { initAuthApp } from '@startupjs/auth'
+import { registerPlugins } from '@startupjs/plugin'
+import uiPlugin from '@startupjs/ui/uiPlugin'
 import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple'
 import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
 import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
@@ -38,6 +41,35 @@ if (Platform.OS === 'web') window.model = model
 // to init the websocket connection and axios.
 // Initialization must start before doing any subscribes to data.
 init({ baseUrl: BASE_URL, orm })
+
+const testPlugin = {
+  name: 'test',
+  func: options => {
+    return {
+      username: 'Simon',
+      getUsers: function ({ username }) {
+        console.log('user', options.username || username)
+      },
+      User: observer(() => {
+        return pug`
+          Span 123
+        `
+      })
+    }
+  }
+}
+
+registerPlugins({
+  '@startupjs/app': [
+    [uiPlugin, {
+      defaultEnable: true,
+      defaultOptions: {
+        emoji: true
+      }
+    }],
+    testPlugin
+  ]
+})
 
 export default observer(() => {
   const logo = pug`
@@ -70,6 +102,11 @@ export default observer(() => {
 
   return pug`
     App(
+      plugins={
+        test: {
+          username: 'vabacc'
+        }
+      }
       apps={ main, docs, auth }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
