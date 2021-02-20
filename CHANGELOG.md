@@ -1,3 +1,40 @@
+# [0.32.0](https://github.com/startupjs/startupjs/compare/v0.31.30...v0.32.0) (2021-02-17)
+
+
+### Features
+
+* **detox:** add package ([#522](https://github.com/startupjs/startupjs/issues/522)) ([13414c0](https://github.com/startupjs/startupjs/commit/13414c0ea2569728160986ca1946768c536e0a44))
+
+
+
+## [0.31.30](https://github.com/startupjs/startupjs/compare/v0.31.29...v0.31.30) (2021-02-12)
+
+
+### Bug Fixes
+
+* **cli:** commit react-native-gesture-handler version ([#517](https://github.com/startupjs/startupjs/issues/517)) ([46859bf](https://github.com/startupjs/startupjs/commit/46859bfa20e4adb68b1292c727cd8bdcfc73a349))
+* **ui/MenuItem:** fix flex growing ([#513](https://github.com/startupjs/startupjs/issues/513)) ([da4052b](https://github.com/startupjs/startupjs/commit/da4052b26b40a36c835d72a565877fd2751f7d38))
+
+
+
+## [0.31.29](https://github.com/startupjs/startupjs/compare/v0.31.28...v0.31.29) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** fix typo 'association' -> 'associations' ([3c999ea](https://github.com/startupjs/startupjs/commit/3c999ea05525dcad5406fc2e845f9c0b49b8466b))
+
+
+
+## [0.31.28](https://github.com/startupjs/startupjs/compare/v0.31.27...v0.31.28) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** add default value ([976b7b2](https://github.com/startupjs/startupjs/commit/976b7b2abd23cb49fa6b95977ff6b243fe411bc6))
+
+
+
 ## [0.31.27](https://github.com/startupjs/startupjs/compare/v0.31.26...v0.31.27) (2021-02-09)
 
 
