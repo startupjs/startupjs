@@ -31,7 +31,6 @@ export const FORM_COMPONENTS_KEYS = {
   [SIGN_UP_SLIDE]: 'RegisterForm',
   [RECOVER_PASSWORD_SLIDE]: 'RecoverForm',
   [RESET_PASSWORD_SLIDE]: 'ResetPasswordForm',
-  [RESET_PASSWORD_SLIDE]: 'ResetPasswordForm',
   [CHANGE_PASSWORD_SLIDE]: 'ChangePasswordForm'
 }
 

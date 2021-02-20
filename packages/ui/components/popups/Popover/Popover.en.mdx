@@ -45,6 +45,51 @@ return (
 );
 ```
 
+## Multiple popovers
+```jsx example
+const [visible, setVisible] = useState(false)
+const [secondVisible, setSecondVisible] = useState(false)
+
+const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
+
+return (
+  <React.Fragment>
+    <Popover
+      visible={visible}
+      onDismiss={()=> setVisible(false)}
+    >
+      <Popover.Caption>
+        <TouchableOpacity onPress={()=> setVisible(true)}>
+          <Icon icon={faUserCircle} size="xl" />
+        </TouchableOpacity>
+      </Popover.Caption>
+      <View style={contentStyle}>
+        <TouchableOpacity onPress={()=> {
+          setVisible(false)
+          setSecondVisible(true)
+        }}>
+          <Text>Click to open the second popover</Text>
+        </TouchableOpacity>
+      </View>
+    </Popover>
+    <Br />
+    <Popover
+      visible={secondVisible}
+      onDismiss={()=> setSecondVisible(false)}
+    >
+      <Popover.Caption>
+        <TouchableOpacity onPress={()=> setSecondVisible(true)}>
+          <Text>Second Popover Caption</Text>
+        </TouchableOpacity>
+      </Popover.Caption>
+      <View style={contentStyle}>
+        <Text>Second Popover content</Text>
+      </View>
+    </Popover>
+  </React.Fragment>
+);
+```
+
 ## Dimensions
 - style={{ maxHeight: 100 }}: maximum possible height Popover
 ```jsx example

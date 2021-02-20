@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { Platform } from 'react-native'
-import { $root } from 'startupjs'
 import {
   Div,
   H2,
@@ -13,11 +12,12 @@ import {
   Link,
   Icon
 } from '@startupjs/ui'
+import { Anchor } from '@startupjs/scrollable-anchors'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
+import _kebabCase from 'lodash/kebabCase'
 import './index.styl'
 import Code from '../Code'
 
-const isWeb = Platform.OS === 'web'
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
 
@@ -36,53 +36,20 @@ function P ({ children }) {
   `
 }
 
-function Anchor ({
-  style,
+function MDXAnchor ({
   children,
+  style,
   anchor,
   size
 }) {
-  if (!isWeb) {
-    return pug`
-      Div(style=style)= children
-    `
-  }
-
-  /// HACK TODO
-  /// This is a hack that fixes invalid URLs for anchors.
-  /// Remove this hack when there is a mdxComponent refactor.
-  const getChildrenOfAnchor = obj => {
-    const getProp = o => {
-      for (let prop in o) {
-        if (prop === 'props') {
-          if (typeof (o[prop].children) === 'object') {
-            getProp(o[prop].children)
-          } else {
-            anchor = o[prop].children
-          }
-        }
-      }
-    }
-
-    if (Array.isArray(obj)) {
-      obj = obj[0]
-    }
-
-    getProp(obj)
-  }
-
-  if (typeof anchor === 'object') {
-    getChildrenOfAnchor(anchor)
-  }
-
   const [hover, setHover] = useState()
+  const anchorKebab = _kebabCase(anchor)
 
   return pug`
-    Row.anchor(
+    Anchor(
       style=style
-      onLayout=(e) => {
-        $root.set('_session.anchors.' + anchor, e.nativeEvent.layout.y)
-      }
+      id=anchorKebab
+      Component=Row
       vAlign='center'
       onMouseEnter=() => setHover(true)
       onMouseLeave=() => setHover()
@@ -90,7 +57,7 @@ function Anchor ({
       = children
       Link.anchor-link(
         styleName={ hover }
-        to='#' + anchor
+        to='#' + anchorKebab
       )
         Icon(icon=faLink size=size)
   `
@@ -104,17 +71,17 @@ export default {
     Div.example= children
   `,
   h1: ({ children }) => pug`
-    Anchor(anchor=children size='xl')
+    MDXAnchor(anchor=children size='xl')
       H2(bold)
         = children
   `,
   h2: ({ children }) => pug`
-    Anchor.h2(anchor=children)
+    MDXAnchor.h2(anchor=children)
       H5.h2-text= children
     Div.divider
   `,
   h3: ({ children }) => pug`
-    Anchor.h6(anchor=children size='s')
+    MDXAnchor.h6(anchor=children size='s')
       H6(bold)= children
   `,
   p: P,
@@ -133,11 +100,12 @@ export default {
     `
   },
   inlineCode: ({ children }) => pug`
-    Span.inlineCode(
-      style={
+    Span.inlineCodeWrapper
+      Span.inlineCodeSpacer= ' '
+      Span.inlineCode(style={
         fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-      }
-    )= ' ' + children + ' '
+      })= children
+      Span.inlineCodeSpacer= ' '
   `,
   hr: ({ children }) => pug`
     Divider(size='l')
