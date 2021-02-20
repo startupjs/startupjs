@@ -56,7 +56,8 @@
     "react-native-restart": "0.0.19",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.31.27"
+    "startupjs": "^0.31.27",
+    "text-encoding-polyfill": "^0.6.7"
   },
   "devDependencies": {
     "babel-jest": "^25.1.0",

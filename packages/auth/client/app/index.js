@@ -13,7 +13,6 @@ import {
 } from '../../isomorphic'
 import CommonLayout from './Layout'
 
-// logo => add in custom Layout
 export default function initAuthApp ({
   baseUrl = BASE_URL,
   Layout = CommonLayout,

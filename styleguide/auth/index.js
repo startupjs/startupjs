@@ -25,6 +25,17 @@ function getCaptionForm (slide) {
 const loginForm = pug`
   LoginForm(
     properties={
+      email: {
+        value: 'test@gmail.com'
+      }
+    }
+  )
+`
+
+const registerForm = pug`
+  RegisterForm(
+    properties={
+      name: null,
       age: {
         input: 'number',
         label: 'Age',
@@ -32,7 +43,8 @@ const loginForm = pug`
       }
     }
     validateSchema={
-      age: Joi.string().required().messages({
+      name: null,
+      age: Joi.number().required().messages({
         'any.required': 'Fill in the field',
         'string.empty': 'Fill in the field'
       })
@@ -45,7 +57,7 @@ export default initAuthApp({
   redirectUrl: '/profile?customParam=dummy',
   localForms: {
     'sign-in': loginForm,
-    'sign-up': <RegisterForm />,
+    'sign-up': registerForm,
     recover: <RecoverForm />
   },
 

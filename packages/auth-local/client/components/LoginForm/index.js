@@ -16,6 +16,9 @@ import {
 } from '@startupjs/auth/isomorphic'
 import { finishAuth } from '@startupjs/auth'
 import _get from 'lodash/get'
+import _mergeWith from 'lodash/mergeWith'
+import _pickBy from 'lodash/pickBy'
+import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
 import commonSchema from './utils/joi'
@@ -102,7 +105,13 @@ function LoginForm ({
     }
   }
 
-  const _properties = { ...LOGIN_DEFAULT_INPUTS, ...properties }
+  const _properties = _pickBy(
+    _mergeWith(
+      LOGIN_DEFAULT_INPUTS, properties,
+      (a, b) => (b === null) ? null : undefined
+    ),
+    _identity
+  )
 
   return pug`
     ObjectInput(
