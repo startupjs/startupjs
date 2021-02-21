@@ -46,7 +46,7 @@ function MDXAnchor ({
   const anchorKebab = _kebabCase(anchor)
 
   return pug`
-    Anchor(
+    Anchor.anchor(
       style=style
       id=anchorKebab
       Component=Row
