@@ -71,9 +71,12 @@ function ScrollableProvider ({ reactOnHash, children }) {
   }
 
   function onElementRegister ({ anchorId, posY }) {
+    // Android OS has fractional values
+    const _posY = Math.round(posY)
+
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
-    if (!Number.isInteger(posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
+    if (!Number.isInteger(_posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
 
     $anchorRegistry.set(anchorId, posY)
   }
@@ -116,7 +119,6 @@ function ScrollableProvider ({ reactOnHash, children }) {
   // Scroll to top on url change
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
-
   return pug`
     ScrollView(ref=globalScrollRef)
       =children
