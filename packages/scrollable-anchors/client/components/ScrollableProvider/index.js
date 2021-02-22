@@ -9,7 +9,7 @@ function isUndefined (x) {
   return typeof x === 'undefined'
 }
 
-function ScrollableProvider ({ reactOnHash, children }) {
+function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
   const [hash] = useLocal('$render.hash')
   const [url] = useLocal('$render.url')
 
@@ -71,12 +71,9 @@ function ScrollableProvider ({ reactOnHash, children }) {
   }
 
   function onElementRegister ({ anchorId, posY }) {
-    // Android OS has fractional values
-    const _posY = Math.round(posY)
-
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
-    if (!Number.isInteger(_posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
+    if (!Number.isInteger(posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
 
     $anchorRegistry.set(anchorId, posY)
   }
@@ -120,7 +117,7 @@ function ScrollableProvider ({ reactOnHash, children }) {
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
   return pug`
-    ScrollView(ref=globalScrollRef)
+    ScrollView(ref=globalScrollRef style=style ...rest)
       =children
   `
 }
