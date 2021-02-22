@@ -1,3 +1,20 @@
+## [0.32.5](https://github.com/startupjs/startupjs/compare/v0.32.4...v0.32.5) (2021-02-22)
+
+
+### Bug Fixes
+
+* **App:** remove UI components ([#536](https://github.com/startupjs/startupjs/issues/536)) ([a329d44](https://github.com/startupjs/startupjs/commit/a329d44077b059f06b1a59c25224a1c1eb781909))
+* **auth:** Rm duplicated line ([49469eb](https://github.com/startupjs/startupjs/commit/49469ebb11c72f0888cda8c5fb71e54cad667726))
+* **mdx:** break-word for anchors ([457ced7](https://github.com/startupjs/startupjs/commit/457ced7b0d4fc26c00d7d972691ea2c89840f234))
+* **scrollable:** Crash on android ([b2f5ee6](https://github.com/startupjs/startupjs/commit/b2f5ee668ba4fcc1896cf0162edc71b2d21c76e8))
+
+
+### Features
+
+* **acrollable:** Add ability to pass scrollview props ([878113b](https://github.com/startupjs/startupjs/commit/878113b078de02497084eb26f28e2759e988539e))
+
+
+
 ## [0.32.4](https://github.com/startupjs/startupjs/compare/v0.32.3...v0.32.4) (2021-02-19)
 
 
