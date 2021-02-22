@@ -3,7 +3,6 @@ import { observer, useLocal } from 'startupjs'
 import { Span, Br, Div } from '@startupjs/ui'
 import { useDocsContext } from '../../../../docsContext'
 import { useLang } from '../../../clientHelpers'
-import RestoreScrollManager from './RestoreScrollManager'
 import './index.styl'
 
 export default observer(function PDoc ({
@@ -24,11 +23,10 @@ export default observer(function PDoc ({
   if (!Component) return pug`Span 404. Not found`
 
   return pug`
-    RestoreScrollManager.root
-      Div.content
-        Br
-        Component
-        Br(lines=4)
+    Div.content
+      Br
+      Component
+      Br(lines=4)
   `
 })
 

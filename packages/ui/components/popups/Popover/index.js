@@ -159,10 +159,15 @@ function Popover ({
     })
   }
 
+  function _closeStep () {
+    $step.set(STEPS.CLOSE)
+    onDismiss && onDismiss()
+    onRequestClose && onRequestClose()
+  }
+
   function runHide () {
     if (!refPopover.current) {
-      onDismiss && onDismiss()
-      onRequestClose && onRequestClose()
+      _closeStep()
     } else {
       getValidNode(refPopover.current).measure((x, y, popoverWidth, popoverHeight) => {
         const contentInfo = { width: popoverWidth, height: popoverHeight }
@@ -175,11 +180,7 @@ function Popover ({
           contentInfo,
           animateStates,
           hasArrow
-        }, () => {
-          $step.set(STEPS.CLOSE)
-          onDismiss && onDismiss()
-          onRequestClose && onRequestClose()
-        })
+        }, _closeStep)
       })
     }
   }

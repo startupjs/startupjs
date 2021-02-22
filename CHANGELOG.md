@@ -1,4 +1,54 @@
+## [0.32.4](https://github.com/startupjs/startupjs/compare/v0.32.3...v0.32.4) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Crach on unregisterArea ([39e4f9b](https://github.com/startupjs/startupjs/commit/39e4f9bd5330bc02c4785f1a1e3cab7a99c90a36))
+
+
+
+## [0.32.3](https://github.com/startupjs/startupjs/compare/v0.32.2...v0.32.3) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Scroll top without animation ([15d37fa](https://github.com/startupjs/startupjs/commit/15d37fa578eee2fc704a2880d33a4205b67b00f9))
+* **scrollable:** Typo ([d87ab9f](https://github.com/startupjs/startupjs/commit/d87ab9f28e111a6edab6f7a75342b5fd53199391))
+* **scrollable:** Update module deps ([194aa63](https://github.com/startupjs/startupjs/commit/194aa63677438447fff9063502368deef384b01c))
+
+
+### Features
+
+* **doc:** closing the sidebar after selecting a menu item ([#533](https://github.com/startupjs/startupjs/issues/533)) ([adbecfa](https://github.com/startupjs/startupjs/commit/adbecfa7677dadec24e49c2677217d7df883db6b))
+
+
+
+## [0.32.2](https://github.com/startupjs/startupjs/compare/v0.32.1...v0.32.2) (2021-02-18)
+
+
+### Bug Fixes
+
+* **scrollable:** Decode hash from URL ([fc4e249](https://github.com/startupjs/startupjs/commit/fc4e249a416a35a609f0db3b9a9b58c76260a75d))
+
+
+
+## [0.32.1](https://github.com/startupjs/startupjs/compare/v0.32.0...v0.32.1) (2021-02-18)
+
+
+### Bug Fixes
+
+* **mdx:** Improve inlineCode styles, add bigger margin before h2 ([701db87](https://github.com/startupjs/startupjs/commit/701db879f0aba45ddc167004f343b86ad6c60b64))
+* **plugin:** Use a replacement library instead of require.resolve() to have it working in ESM environments ([ea80fb3](https://github.com/startupjs/startupjs/commit/ea80fb3e967c7415892062f3ff3f8690bef9c2dc))
+* **ui/Popover:** multiple popover close bug ([#527](https://github.com/startupjs/startupjs/issues/527)) ([d9b8d23](https://github.com/startupjs/startupjs/commit/d9b8d2330dfc38ef36886712f7267655ad96d046))
+
+
+
 # [0.32.0](https://github.com/startupjs/startupjs/compare/v0.31.30...v0.32.0) (2021-02-17)
+
+
+### BREAKING CHANGES
+
+* [See 0.32 migration guide](/docs/migration-guides/0.32.md)
 
 
 ### Features
