@@ -9,7 +9,6 @@ import { Button } from '@startupjs/ui'
 
 ## Установка зависимостей
 `yarn add @startupjs/auth`
-`yarn add @react-native-async-storage/async-storage`
 `yarn add react-native-restart`
 
 ## Force compile
@@ -224,27 +223,10 @@ import { onLogout } from '@startupjs/auth'
 return <Button onPress={onLogout}>Выйти</Button>
 ```
 
-
 ## Редирект после авторизации
-Компонент чтобы правильно сделать редирект после авторизации на вебе и мобильном приложении
-```js
-import { SuccessRedirect } from '@startupjs/auth'
-```
-
-Для использования нужно обернуть Layout
-```jsx
-function Layout ({ children }) {
-  return pug`
-    SuccessRedirect
-      = children
-  `
-}
-```
-
 Задать путь редиректа при инициализации на сервере
 ```js
 initAuth(ee, {
   successRedirectUrl: '/profile',
 })
 ```
-
