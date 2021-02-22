@@ -29,10 +29,6 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     if (!anchorId && isUndefined(y)) {
       throw new Error('Error [scrollable-anchors]: Provide id of anchor or y position.')
     }
-    if (offset && !Number.isInteger(offset)) {
-      console.warn('Warn [scrollable-anchors]: Offset must be an integer.')
-      return
-    }
 
     $scrollQueue.push({
       anchorId,
@@ -71,12 +67,8 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
   }
 
   function onElementRegister ({ anchorId, posY }) {
-    // posY has fractional values
-    const _posY = Math.round(posY)
-
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
-    if (!Number.isInteger(_posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
 
     $anchorRegistry.set(anchorId, posY)
   }
