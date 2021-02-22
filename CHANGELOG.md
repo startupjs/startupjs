@@ -1,3 +1,12 @@
+## [0.32.6](https://github.com/startupjs/startupjs/compare/v0.32.5...v0.32.6) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Return accidentally removed changes ([a81968c](https://github.com/startupjs/startupjs/commit/a81968cf72e11929c5b7f6e2bbb50e2c116d6bd8))
+
+
+
 ## [0.32.5](https://github.com/startupjs/startupjs/compare/v0.32.4...v0.32.5) (2021-02-22)
 
 
