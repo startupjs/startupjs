@@ -1,3 +1,12 @@
+## [0.32.7](https://github.com/startupjs/startupjs/compare/v0.32.6...v0.32.7) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Rm integer validation ([2e9511f](https://github.com/startupjs/startupjs/commit/2e9511f75bc4fbd9035dd7127c430f5c92209c8e))
+
+
+
 ## [0.32.6](https://github.com/startupjs/startupjs/compare/v0.32.5...v0.32.6) (2021-02-22)
 
 
