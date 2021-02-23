@@ -32,10 +32,7 @@ function getOrderedListMark (index, level) {
 
 function P ({ children }) {
   return pug`
-    if children && children.props && children.props.mdxType === 'img'
-      = children
-    else
-      Span.p= children
+    Span.p= children
   `
 }
 
@@ -120,7 +117,12 @@ export default {
     Anchor.h6(anchor=children size='s')
       H6(bold)= children
   `,
-  p: P,
+  p: ({ children }) => {
+    if (children?.props?.mdxType === 'img') return children
+    return pug`
+      P= children
+    `
+  },
   strong: ({ children }) => pug`
     Span.p(bold)= children
   `,
@@ -205,19 +207,18 @@ export default {
     function onLayout (e) {
       const maxWidth = e.nativeEvent.layout.width
       Image.getSize(src, (width, height) => {
-        if (maxWidth) {
-          const coefficient = maxWidth / width
-          setStyle({
-            width: Math.min(width, maxWidth),
-            height: coefficient < 1 ? Math.ceil(height * coefficient) : height
-          })
-        }
-      })
+        const coefficient = maxWidth / width
+        setStyle({
+          width: Math.min(width, maxWidth),
+          height: coefficient < 1 ? Math.ceil(height * coefficient) : height
+        })
+      },
+      error => console.warn(`[@startupjs/mdx], ${error}`)
+      )
     }
 
     return pug`
-      Br
-      Div.imageWrapper(onLayout=onLayout)
+      Row.p(onLayout=onLayout)
         Image(style=style source={ uri: src })
     `
   }
