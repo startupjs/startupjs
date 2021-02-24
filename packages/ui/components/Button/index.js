@@ -147,7 +147,7 @@ function Button ({
             icon=icon
             size=size
           )
-      if children
+      if children != null
         Span.label(
           style=[textStyle]
           styleName=[size, {'invisible': asyncActive}]
