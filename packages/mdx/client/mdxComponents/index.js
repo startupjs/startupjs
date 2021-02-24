@@ -118,6 +118,9 @@ export default {
       H6(bold)= children
   `,
   p: ({ children }) => {
+    // TODO: HACK: Image does not work as need in Text on Android and IOS.
+    // Check after the release of react-native v0.64 with this commit
+    // https://github.com/facebook/react-native/commit/a0268a7bfc8000b5297d2b50f81e000d1f479c76
     if (children?.props?.mdxType === 'img') return children
     return pug`
       P= children
