@@ -1,17 +1,23 @@
 import React, { createContext, useContext } from 'react'
-import useComponentPlugins from './useComponentPlugins'
+import useInstancePlugins from './useInstancePlugins'
 
 const PluginsContext = createContext({})
 
-export function PluginsProvider ({ children, name, plugins = [] }) {
-  const [_plugins] = useComponentPlugins(name, plugins)
+export function PluginsProvider ({ children, name, plugins = {} }) {
+  const [filterPlugins, mergeOptions] = useInstancePlugins(name, plugins)
 
   return pug`
-    PluginsContext.Provider(value=_plugins)
+    PluginsContext.Provider(value=[filterPlugins, mergeOptions])
       = children
   `
 }
 
 export function usePlugins () {
-  return useContext(PluginsContext)
+  const [plugins] = useContext(PluginsContext)
+  return plugins
+}
+
+export function useOptions () {
+  const [, options] = useContext(PluginsContext)
+  return options
 }

@@ -6,7 +6,7 @@ import React from 'react'
 import { Platform, Image } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
-import { observer, model, u } from 'startupjs'
+import { observer, model, u, useLocal, initLocalCollection } from 'startupjs'
 import { Span } from '@startupjs/ui'
 import { initAuthApp } from '@startupjs/auth'
 import { registerPlugins } from '@startupjs/plugin'
@@ -44,19 +44,16 @@ init({ baseUrl: BASE_URL, orm })
 
 const testPlugin = {
   name: 'test',
-  func: options => {
-    return {
-      username: 'Simon',
-      getUsers: function ({ username }) {
-        console.log('user', options.username || username)
-      },
-      User: observer(() => {
-        return pug`
-          Span 123
-        `
-      })
-    }
-  }
+  username: 'Simon',
+  getUsers: function () {
+    console.log('options', this.options)
+    console.log('user', this.options.username || this.username)
+  },
+  User: observer(({ useOptions }) => {
+    return pug`
+      Span 123
+    `
+  })
 }
 
 registerPlugins({
@@ -71,7 +68,11 @@ registerPlugins({
   ]
 })
 
+initLocalCollection('_temp')
+
 export default observer(() => {
+  const [temp = '123'] = useLocal('_temp.0')
+
   const logo = pug`
     Image(
       resizeMode='contain'
@@ -103,8 +104,11 @@ export default observer(() => {
   return pug`
     App(
       plugins={
-        test: {
-          username: 'vabacc'
+        [uiPlugin.name]: {
+          emoji: temp
+        },
+        [testPlugin.name]: {
+          username: true
         }
       }
       apps={ main, docs, auth }

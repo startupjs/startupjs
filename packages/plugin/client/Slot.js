@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
-import { usePlugins } from './PluginsProvider'
+import { usePlugins, useOptions } from './PluginsProvider'
 
 export default observer(function Slot ({
   name,
@@ -8,9 +8,18 @@ export default observer(function Slot ({
   ...props
 }) {
   const plugins = usePlugins()
+  const options = useOptions()
 
-  return plugins.reduce((children, plugin) => {
-    const Component = plugin[name]
-    return Component ? pug`Component(...props)= children` : children
+  return plugins.reduce((children, pluginStructure) => {
+    const Component = pluginStructure[name]
+    const pluginOptions = options[pluginStructure.name]
+
+    if (Component) {
+      return useMemo(() => {
+        return pug`Component(...props options=pluginOptions)= children`
+      }, [JSON.stringify(pluginOptions)])
+    }
+
+    return children
   }, children)
 })

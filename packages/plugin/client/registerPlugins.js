@@ -6,34 +6,26 @@ import _cloneDeep from 'lodash/cloneDeep'
 initLocalCollection('_plugins')
 
 // TODO: let call 1 time?
-export default function registerPlugins (globalPlugins) {
-  const parsePlugins = _cloneDeep(globalPlugins)
+export default function registerPlugins (initPlugins) {
+  const allPlugins = _cloneDeep(initPlugins)
 
-  Object.keys(globalPlugins).forEach(key => {
-    const packagePlugins = globalPlugins[key]
+  Object.keys(allPlugins).forEach(packageName => {
+    const packagePlugins = allPlugins[packageName]
 
-    parsePlugins[key] = packagePlugins.map((plugin, index) => {
+    allPlugins[packageName] = packagePlugins.map(packagePlugin => {
       try {
-        let pluginObject = null
-        let options = {}
+        let pluginStructure = null
+        let manageOptions = {}
 
-        if (_isArray(plugin)) [pluginObject, options] = plugin
-        else if (_isObject(plugin)) pluginObject = plugin
+        if (_isArray(packagePlugin)) [pluginStructure, manageOptions] = packagePlugin
+        else if (_isObject(packagePlugin)) pluginStructure = packagePlugin
 
-        /*
-          if (!_isObject(pluginObject)) {
-            throw new Error(`
-              [@startupjs/plugin]: ${key} plugin with index ${index} is not a function or array with function
-            `)
-          }
-        */
-
-        return { ...pluginObject, ...options }
+        return { ...pluginStructure, ...manageOptions }
       } catch (err) {
         console.error(err)
       }
     })
   })
 
-  $root.scope('_plugins.defaults').set(parsePlugins)
+  $root.scope('_plugins.defaults').set(allPlugins)
 }
