@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { Image, Platform } from 'react-native'
-import { $root } from 'startupjs'
 import {
   Div,
   H2,
