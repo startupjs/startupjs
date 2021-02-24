@@ -50,4 +50,6 @@ steps:
   args: [compile]
 
 - name: 'startupjs/deploy:$_VERSION'
+  # For new cluster which has embedded helm: [applyVersion] and remove the previous [compile] step completely.
+  # For cron pass additional '--cron' at the end
   args: [apply]
