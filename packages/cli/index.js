@@ -5,9 +5,13 @@ const fs = require('fs')
 const Font = require('fonteditor-core').Font
 const link = require('./link')
 const CLI_VERSION = require('./package.json').version
+const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
+const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
+const FIRSTTEST_TEMPLATE = require('./detoxTemplates/firstTestTemplate')
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
 const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
+const APP_JSON_PATH = path.join(process.cwd(), 'app.json')
 
 let PATCHES_DIR
 try {
@@ -38,6 +42,7 @@ const DEPENDENCIES = [
 
 const DEV_DEPENDENCIES = [
   'babel-eslint',
+  'eslint@latest',
   'eslint-config-standard',
   'eslint-config-standard-react',
   'eslint-plugin-import',
@@ -48,8 +53,7 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-react-pug',
   'eslint-plugin-standard',
   'husky@^4.3.0',
-  'lint-staged',
-  'eslint@latest'
+  'lint-staged'
 ]
 
 const REMOVE_DEPENDENCIES = [
@@ -88,6 +92,77 @@ SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
 SCRIPTS_ORIG.webWebpack = oneLine(`
   WEBPACK_DEV=1
   webpack-dev-server --config webpack.web.config.cjs
+`)
+
+// Detox test
+
+SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
+  const appName = require(APP_JSON_PATH).name
+
+  if (init) {
+    try {
+      SCRIPTS_ORIG.testInit()
+    } catch (err) {
+      return oneLine(`
+        echo '\\033[0;31m${err}'
+      `)
+    }
+
+    return `
+      echo "
+        \\033[0;32mCreated a directory at path: /e2e
+        Created a file at path: /e2e/firstTest.e2e.js
+        Created a file at path: /.env.detox
+        Created a file at path: /.detoxrc.js
+      "
+    `
+  }
+
+  if (build) {
+    return SCRIPTS_ORIG.testBuild(appName)
+  }
+
+  if (ios) {
+    return SCRIPTS_ORIG.testIos(appName, artifacts)
+  }
+}
+
+SCRIPTS_ORIG.testInit = () => {
+  const detoxrcPath = path.join(process.cwd(), '.detoxrc.js')
+  const envdetoxPath = path.join(process.cwd(), '.env.detox')
+  const e2eDirPath = path.join(process.cwd(), 'e2e')
+
+  fs.writeFileSync(detoxrcPath, DETOXRC_TEMPLATE)
+  fs.writeFileSync(envdetoxPath, ENVDETOX_TEMPLATE)
+  if (!fs.existsSync(e2eDirPath)) {
+    fs.mkdirSync(e2eDirPath)
+  }
+  fs.writeFileSync(path.join(e2eDirPath, 'firstTest.e2e.js'), FIRSTTEST_TEMPLATE)
+}
+
+SCRIPTS_ORIG.testBuild = appName => oneLine(`
+  ${SCRIPTS_ORIG.testJsBundle(appName)}
+  && detox build -c ios
+`)
+
+SCRIPTS_ORIG.testIos = (appName, artifacts) => oneLine(`
+  concurrently
+    -s first -k -n "S,T"
+    -c white,cyan.bgBlue
+    "mongo ${appName}_test --eval 'db.dropDatabase();'
+    && ASYNC=1 startupjs build
+    && PORT=3001 MONGO_URL=mongodb://localhost:27017/${appName}_test startupjs start-production"
+    "${SCRIPTS_ORIG.testJsBundle(appName)}
+    && wait-on http://localhost:3001
+    && detox test -c ios ${artifacts ? '--artifacts-location $PWD/artifacts --take-screenshots all' : ''}"
+`)
+
+SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
+  mkdir -p ios/build/Build/Products/Release-iphonesimulator/${appName}.app/
+  && APP_ENV=detox react-native bundle
+  --entry-file="index.js"
+  --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${appName}.app/main.jsbundle"
+  --reset-cache --dev=false
 `)
 
 // Server
@@ -246,7 +321,7 @@ const TEMPLATES = {
     packages: [
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@fortawesome/free-solid-svg-icons@^5.12.0',
-      'react-native-gesture-handler@^1.9.0',
+      'react-native-gesture-handler@1.9.0',
       'react-native-reanimated@^1.13.2',
       '@react-native-community/datetimepicker@^3.0.6',
       '@react-native-picker/picker@^1.9.3',
@@ -387,6 +462,24 @@ commander
       SCRIPTS_ORIG.start(options),
       { stdio: 'inherit', shell: true }
     )
+  })
+
+commander
+  .command('test')
+  .description('Init or run E2E Detox tests')
+  .option('-s, --ios', 'Run tests on iOS simulator')
+  .option('-i, --init', 'Init test environment in your project')
+  .option('-b, --build', 'Build ios app /ios/build')
+  .option('-a, --artifacts', 'Artifacts are disabled by default. To enable them, pass this flag') // https://github.com/wix/Detox/blob/master/docs/APIRef.Artifacts.md
+  .action(async (options) => {
+    try {
+      await execa.command(
+        SCRIPTS_ORIG.test(options),
+        { stdio: 'inherit', shell: true }
+      )
+    } catch (err) {
+      console.error('Something went wrong...')
+    }
   })
 
 commander

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { observer, useSession } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
-import { Menu, Collapse } from '@startupjs/ui'
+import { useMedia, Menu, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { getTitle, useLang } from '../../../../../clientHelpers'
 import './index.styl'
@@ -15,7 +15,9 @@ const Docs = observer(function DocsComponent ({
   if (!docs) return null
   const [lang] = useLang()
   const { pathname } = useLocation()
+  const { desktop } = useMedia()
   const [, $openedCollapses] = useSession('SidebarCollapses')
+  const [, $mainSidebar] = useSession('Sidebar.mainSidebar')
 
   // HACK: open parent collapse on initial render
   useEffect(() => {
@@ -41,6 +43,7 @@ const Docs = observer(function DocsComponent ({
               style=menuItemStyle
               active=isActive
               to=rootPath
+              onPress=desktop ? undefined : () => $mainSidebar.set(false)
             )= title
           if doc.type === 'collapse'
             Collapse(

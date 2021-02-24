@@ -12,6 +12,6 @@ describe('Example', () => {
     await x('UIPickerView').toBeVisible()
     await x('UIPickerView').setColumnToValue(0, 'Русский')
     await x('= Done').tap()
-    await x('= Основы').toBeVisible()
+    await x('= Общее').toBeVisible()
   })
 })

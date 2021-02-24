@@ -1,3 +1,142 @@
+## [0.32.7](https://github.com/startupjs/startupjs/compare/v0.32.6...v0.32.7) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Rm integer validation ([2e9511f](https://github.com/startupjs/startupjs/commit/2e9511f75bc4fbd9035dd7127c430f5c92209c8e))
+
+
+
+## [0.32.6](https://github.com/startupjs/startupjs/compare/v0.32.5...v0.32.6) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Return accidentally removed changes ([a81968c](https://github.com/startupjs/startupjs/commit/a81968cf72e11929c5b7f6e2bbb50e2c116d6bd8))
+
+
+
+## [0.32.5](https://github.com/startupjs/startupjs/compare/v0.32.4...v0.32.5) (2021-02-22)
+
+
+### Bug Fixes
+
+* **App:** remove UI components ([#536](https://github.com/startupjs/startupjs/issues/536)) ([a329d44](https://github.com/startupjs/startupjs/commit/a329d44077b059f06b1a59c25224a1c1eb781909))
+* **auth:** Rm duplicated line ([49469eb](https://github.com/startupjs/startupjs/commit/49469ebb11c72f0888cda8c5fb71e54cad667726))
+* **mdx:** break-word for anchors ([457ced7](https://github.com/startupjs/startupjs/commit/457ced7b0d4fc26c00d7d972691ea2c89840f234))
+* **scrollable:** Crash on android ([b2f5ee6](https://github.com/startupjs/startupjs/commit/b2f5ee668ba4fcc1896cf0162edc71b2d21c76e8))
+
+
+### Features
+
+* **acrollable:** Add ability to pass scrollview props ([878113b](https://github.com/startupjs/startupjs/commit/878113b078de02497084eb26f28e2759e988539e))
+
+
+
+## [0.32.4](https://github.com/startupjs/startupjs/compare/v0.32.3...v0.32.4) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Crach on unregisterArea ([39e4f9b](https://github.com/startupjs/startupjs/commit/39e4f9bd5330bc02c4785f1a1e3cab7a99c90a36))
+
+
+
+## [0.32.3](https://github.com/startupjs/startupjs/compare/v0.32.2...v0.32.3) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Scroll top without animation ([15d37fa](https://github.com/startupjs/startupjs/commit/15d37fa578eee2fc704a2880d33a4205b67b00f9))
+* **scrollable:** Typo ([d87ab9f](https://github.com/startupjs/startupjs/commit/d87ab9f28e111a6edab6f7a75342b5fd53199391))
+* **scrollable:** Update module deps ([194aa63](https://github.com/startupjs/startupjs/commit/194aa63677438447fff9063502368deef384b01c))
+
+
+### Features
+
+* **doc:** closing the sidebar after selecting a menu item ([#533](https://github.com/startupjs/startupjs/issues/533)) ([adbecfa](https://github.com/startupjs/startupjs/commit/adbecfa7677dadec24e49c2677217d7df883db6b))
+
+
+
+## [0.32.2](https://github.com/startupjs/startupjs/compare/v0.32.1...v0.32.2) (2021-02-18)
+
+
+### Bug Fixes
+
+* **scrollable:** Decode hash from URL ([fc4e249](https://github.com/startupjs/startupjs/commit/fc4e249a416a35a609f0db3b9a9b58c76260a75d))
+
+
+
+## [0.32.1](https://github.com/startupjs/startupjs/compare/v0.32.0...v0.32.1) (2021-02-18)
+
+
+### Bug Fixes
+
+* **mdx:** Improve inlineCode styles, add bigger margin before h2 ([701db87](https://github.com/startupjs/startupjs/commit/701db879f0aba45ddc167004f343b86ad6c60b64))
+* **plugin:** Use a replacement library instead of require.resolve() to have it working in ESM environments ([ea80fb3](https://github.com/startupjs/startupjs/commit/ea80fb3e967c7415892062f3ff3f8690bef9c2dc))
+* **ui/Popover:** multiple popover close bug ([#527](https://github.com/startupjs/startupjs/issues/527)) ([d9b8d23](https://github.com/startupjs/startupjs/commit/d9b8d2330dfc38ef36886712f7267655ad96d046))
+
+
+
+# [0.32.0](https://github.com/startupjs/startupjs/compare/v0.31.30...v0.32.0) (2021-02-17)
+
+
+### BREAKING CHANGES
+
+* [See 0.32 migration guide](/docs/migration-guides/0.32.md)
+
+
+### Features
+
+* **detox:** add package ([#522](https://github.com/startupjs/startupjs/issues/522)) ([13414c0](https://github.com/startupjs/startupjs/commit/13414c0ea2569728160986ca1946768c536e0a44))
+
+
+
+## [0.31.30](https://github.com/startupjs/startupjs/compare/v0.31.29...v0.31.30) (2021-02-12)
+
+
+### Bug Fixes
+
+* **cli:** commit react-native-gesture-handler version ([#517](https://github.com/startupjs/startupjs/issues/517)) ([46859bf](https://github.com/startupjs/startupjs/commit/46859bfa20e4adb68b1292c727cd8bdcfc73a349))
+* **ui/MenuItem:** fix flex growing ([#513](https://github.com/startupjs/startupjs/issues/513)) ([da4052b](https://github.com/startupjs/startupjs/commit/da4052b26b40a36c835d72a565877fd2751f7d38))
+
+
+
+## [0.31.29](https://github.com/startupjs/startupjs/compare/v0.31.28...v0.31.29) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** fix typo 'association' -> 'associations' ([3c999ea](https://github.com/startupjs/startupjs/commit/3c999ea05525dcad5406fc2e845f9c0b49b8466b))
+
+
+
+## [0.31.28](https://github.com/startupjs/startupjs/compare/v0.31.27...v0.31.28) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** add default value ([976b7b2](https://github.com/startupjs/startupjs/commit/976b7b2abd23cb49fa6b95977ff6b243fe411bc6))
+
+
+
+## [0.31.27](https://github.com/startupjs/startupjs/compare/v0.31.26...v0.31.27) (2021-02-09)
+
+
+### Bug Fixes
+
+* **orm:** add fallback to get collection for factory ORM ([#509](https://github.com/startupjs/startupjs/issues/509)) ([cd8a85f](https://github.com/startupjs/startupjs/commit/cd8a85f95cd5dac89730b12bf4578aa49b984166))
+* **ui/Badge:** fix positioning on android ([#507](https://github.com/startupjs/startupjs/issues/507)) ([77c1ddf](https://github.com/startupjs/startupjs/commit/77c1ddf06471125539a546f518d1a3f72c7ad3e3))
+
+
+### Features
+
+* **app:** add ability to customize error page ([#473](https://github.com/startupjs/startupjs/issues/473)) ([a2e2d28](https://github.com/startupjs/startupjs/commit/a2e2d2840a655fe9957306be4f42588e99cc367a))
+* **auth-common:** add ([#501](https://github.com/startupjs/startupjs/issues/501)) ([b9d9abf](https://github.com/startupjs/startupjs/commit/b9d9abffc4ff87e49264b0630ee540e0af0ee6be))
+* **orm:** set associations in both directions (parent and child) ([#508](https://github.com/startupjs/startupjs/issues/508)) ([3d08205](https://github.com/startupjs/startupjs/commit/3d08205cdbc8dc71acdcd1204a824d2eec413cbf))
+
+
+
 ## [0.31.26](https://github.com/startupjs/startupjs/compare/v0.31.19...v0.31.26) (2021-02-04)
 
 

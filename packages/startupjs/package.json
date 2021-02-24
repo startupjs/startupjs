@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.31.26",
+  "version": "0.32.5",
   "engines": {
     "node": ">= 14"
   },
@@ -10,18 +10,18 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/app": "^0.31.26",
-    "@startupjs/backend": "^0.31.26",
-    "@startupjs/bundler": "^0.31.26",
-    "@startupjs/cli": "^0.31.15",
-    "@startupjs/hooks": "^0.31.0",
-    "@startupjs/init": "^0.31.0",
-    "@startupjs/isomorphic-helpers": "^0.31.0",
-    "@startupjs/orm": "^0.31.26",
-    "@startupjs/patches": "^0.31.0",
-    "@startupjs/react-sharedb": "^0.31.0",
-    "@startupjs/server": "^0.31.26",
-    "babel-preset-startupjs": "^0.31.26",
+    "@startupjs/app": "^0.32.5",
+    "@startupjs/backend": "^0.32.1",
+    "@startupjs/bundler": "^0.32.1",
+    "@startupjs/cli": "^0.32.1",
+    "@startupjs/hooks": "^0.32.1",
+    "@startupjs/init": "^0.32.1",
+    "@startupjs/isomorphic-helpers": "^0.32.1",
+    "@startupjs/orm": "^0.32.1",
+    "@startupjs/patches": "^0.32.1",
+    "@startupjs/react-sharedb": "^0.32.1",
+    "@startupjs/server": "^0.32.1",
+    "babel-preset-startupjs": "^0.32.1",
     "react-native-web": "^0.14.3"
   }
 }

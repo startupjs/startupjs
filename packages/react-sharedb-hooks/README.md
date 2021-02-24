@@ -15,9 +15,9 @@
 
 ## Installation
 
-It's recommended to just use `startupjs` package, since it proxies the API of `@startupjs/react-sharedb`.
-
 You don't need to install anything if you are in a StartupJS project.
+
+For instructions on standalone usage in a pure React project refer to [`react-sharedb` readme](https://github.com/startupjs/startupjs/tree/master/packages/react-sharedb#using-react-sharedb-in-a-pure-react-project)
 
 ## Usage with Hooks
 
@@ -395,7 +395,7 @@ export default observer(function Game ({gameId}) {
     <div>
       <label>
         Secret:
-        <input type='text' value={code} onChange={updateSecret} />
+        <input type='text' value={secret} onChange={updateSecret} />
       </label>
 
       <label>

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Platform, Linking, Button, Text } from 'react-native'
+import { Button, Linking, Platform, Text } from 'react-native'
 import { observer } from 'startupjs'
-import { Link } from '@startupjs/ui'
 import Layout from './../Layout'
+import './index.styl'
+
 const isIos = Platform.OS === 'ios'
 
 export default observer(function UpdateApp ({ androidUpdateLink, iosUpdateLink, supportEmail }) {
@@ -10,18 +11,18 @@ export default observer(function UpdateApp ({ androidUpdateLink, iosUpdateLink, 
   const emailLink = 'mailto:' + supportEmail
 
   const description = pug`
-    Text Sorry, your version of the app is too old.
-    Text
+    Text.text Sorry, your version of the app is too old.&nbsp;
+    Text.text
       | Please update the app by visiting the&nbsp;
       if isIos
         | App Store
       else
         | Google Play
-      | .
+      | .&nbsp;
     if supportEmail
-      Text
-        | If you have any questions, write to us at 
-        Link(to=emailLink)= supportEmail
+      Text.text If you have any questions, write to us at&nbsp;
+        Text.email(onPress=() => Linking.openURL(emailLink))= supportEmail
+        Text .
   `
   return pug`
     Layout(

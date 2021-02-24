@@ -32,7 +32,7 @@ SUPPORT_EMAIL="admin@example.com"
 import App from 'startupjs/app'
 import * as main from '../main'
 import * as admin from '../admin'
-import { 
+import {
   CRITICAL_VERSION_IOS,
   CRITICAL_VERSION_ANDROID,
   CRITICAL_VERSION_WEB,
@@ -40,11 +40,23 @@ import {
   UPDATE_LINK_IOS,
   SUPPORT_EMAIL
 } from '@env'
+import { useHistory } from 'react-router-native'
+
+
+  const CustomError = () => {
+    const history = useHistory()
+    return(
+      <Div>
+        <Span>404 Error</Span>
+        <Button onPress={() => history.goBack()}>Go back</Button>
+      </Div>
+    )
+  }
 
 return (
   <App
     apps={{ main, admin }}
-    criticalVersion={ 
+    criticalVersion={
       ios: CRITICAL_VERSION_IOS,
       android: CRITICAL_VERSION_ANDROID,
       web: CRITICAL_VERSION_WEB
@@ -52,19 +64,50 @@ return (
     supportEmail=SUPPORT_EMAIL
     androidUpdateLink=UPDATE_LINK_ANDROID
     iosUpdateLink=UPDATE_LINK_IOS
-    useGlobalInit={() => { 
+    useGlobalInit={() => {
       // A function that is called once each time the application is started
     }}
-    goToHandler={(url, options, goTo) => { 
+    goToHandler={(url, options, goTo) => {
       // Callback that will be processed every time before going to url. You must pass the third argument `goTo`. You need to be sure to call goTo in your goTo handler with the final url.
     }}
-    errorPages={ 
-      404: '<h1>404 NOT FOUND</h1>',
+    errorPages={
+      404: CustomError,
       ...,
     } // Takes an object in the format {
-      //   error status number: "html code that should be displayed for this error",
+      //   error status number: Component that will be rendered
       //   ...,
       // }
+  />
+)
+```
+
+#### Display an error
+You can change the error page to your own by passing an object of the following structure to the `errorPages` property:
+- `ERROR_KEY (Component)`: specific page for `ERROR_KEY`
+- `default (Component)`: the page that will be used when there is no specific page for the `ERROR_KEY`
+
+To show an error page, use `emit('error', ERROR_KEY)`, where `ERROR_KEY` is the unique identifier of the error.
+To hide an error page when the error occurred, use `emit('error')` (it is equivalent to `emit('error', '')`).
+
+```js
+import App, { ErrorTemplate } from 'startupjs/app'
+// ...some imports
+
+const NewError= () => {
+  return(
+    <ErrorTemplate
+      title={'405: My custom error'}
+      description={'My custom description'}
+    ></ErrorTemplate>
+  )
+}
+
+return (
+  <App
+    //...some props
+    errorPages={
+      405: NewError
+    }
   />
 )
 ```
