@@ -58,6 +58,12 @@ function LoginForm ({
   const [errors, setErrors] = useError({})
 
   useEffect(() => {
+    properties && Object.keys(properties).forEach(key => {
+      if (properties[key]?.value) {
+        $form.set(key, properties[key].value)
+      }
+    })
+
     if (IS_WEB) {
       window.addEventListener('keypress', onKeyPress)
     }

@@ -1,4 +1,7 @@
-import { $root, emit } from 'startupjs'
+import { Platform } from 'react-native'
+import RNRestart from 'react-native-restart'
+import { $root } from 'startupjs'
+import { BASE_URL } from '@env'
 import axios from 'axios'
 
 export default async function finishAuth (redirectUrl) {
@@ -7,7 +10,10 @@ export default async function finishAuth (redirectUrl) {
     $root.get('_session.auth.successRedirectUrl') ||
     '/'
 
-  const res = await axios.get('/api/serverSession')
-  await $root.setEach('_session', res.data)
-  emit('url', successRedirectUrl)
+  if (Platform.OS !== 'web') {
+    await axios.post(BASE_URL + '/api/restore-url', {
+      restoreUrl: successRedirectUrl
+    })
+    RNRestart.Restart()
+  }
 }

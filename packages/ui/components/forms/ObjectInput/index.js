@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
@@ -29,13 +29,9 @@ export default observer(function ObjectInput ({
 
   order = getOrder(order, properties)
 
-  const inputs = useMemo(() => {
+  function getInputs () {
     return order.map((key, index) => {
-      const { input, type, dependsOn, dependsValue, value, ...inputProps } = properties[key] || {}
-
-      if (value) {
-        $value.at(key).set(value)
-      }
+      const { input, type, dependsOn, dependsValue, ...inputProps } = properties[key] || {}
 
       if (resolvesDeps(value, dependsOn, dependsValue)) {
         return {
@@ -47,7 +43,9 @@ export default observer(function ObjectInput ({
       }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
     }).filter(Boolean)
-  }, [JSON.stringify(order), JSON.stringify(properties)])
+  }
+
+  const inputs = getInputs()
 
   if (inputs.length === 0) return null
 
