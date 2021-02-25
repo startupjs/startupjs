@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb-util",
   "type": "module",
-  "version": "0.32.1",
+  "version": "0.32.8",
   "engines": {
     "node": ">= 14"
   },

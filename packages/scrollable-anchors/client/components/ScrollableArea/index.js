@@ -4,7 +4,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { registerArea, unregisterArea } from '../../helpers'
 
-function ScrollableArea ({ id, children, style }) {
+function ScrollableArea ({ id, children, style, ...rest }) {
   const ref = useRef()
 
   useEffect(() => {
@@ -16,6 +16,7 @@ function ScrollableArea ({ id, children, style }) {
     ScrollView(
       ref=ref
       style=style
+      ...rest
     )
       = children
   `

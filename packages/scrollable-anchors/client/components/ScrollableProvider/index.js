@@ -9,7 +9,7 @@ function isUndefined (x) {
   return typeof x === 'undefined'
 }
 
-function ScrollableProvider ({ reactOnHash, children }) {
+function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
   const [hash] = useLocal('$render.hash')
   const [url] = useLocal('$render.url')
 
@@ -28,10 +28,6 @@ function ScrollableProvider ({ reactOnHash, children }) {
   function addScrollToQueue ({ anchorId, areaId = GLOBAL_ID, offset = 0, y, smooth = true }) {
     if (!anchorId && isUndefined(y)) {
       throw new Error('Error [scrollable-anchors]: Provide id of anchor or y position.')
-    }
-    if (offset && !Number.isInteger(offset)) {
-      console.warn('Warn [scrollable-anchors]: Offset must be an integer.')
-      return
     }
 
     $scrollQueue.push({
@@ -73,7 +69,6 @@ function ScrollableProvider ({ reactOnHash, children }) {
   function onElementRegister ({ anchorId, posY }) {
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
-    if (!Number.isInteger(posY)) throw new Error('Error [scrollable-anchors]: posY must be an integer.')
 
     $anchorRegistry.set(anchorId, posY)
   }
@@ -116,9 +111,8 @@ function ScrollableProvider ({ reactOnHash, children }) {
   // Scroll to top on url change
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
-
   return pug`
-    ScrollView(ref=globalScrollRef)
+    ScrollView(ref=globalScrollRef style=style ...rest)
       =children
   `
 }

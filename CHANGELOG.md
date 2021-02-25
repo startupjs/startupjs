@@ -1,3 +1,49 @@
+## [0.32.8](https://github.com/startupjs/startupjs/compare/v0.32.7...v0.32.8) (2021-02-24)
+
+
+### Features
+
+* **deploy:** Add support for deploying 'cron' microservice ([0d58ef4](https://github.com/startupjs/startupjs/commit/0d58ef427593fc07847509460bb75ed6ac03e029))
+* **mdx:** add component for image ([#510](https://github.com/startupjs/startupjs/issues/510)) ([345aa91](https://github.com/startupjs/startupjs/commit/345aa916a576801903dbf6fd5acbbb0887078f4b))
+* **server-aggregate:** forward error from model to router ([#534](https://github.com/startupjs/startupjs/issues/534)) ([90de1b7](https://github.com/startupjs/startupjs/commit/90de1b7cba2f13b30ce1de3b1ac7e86133039a97))
+
+
+
+## [0.32.7](https://github.com/startupjs/startupjs/compare/v0.32.6...v0.32.7) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Rm integer validation ([2e9511f](https://github.com/startupjs/startupjs/commit/2e9511f75bc4fbd9035dd7127c430f5c92209c8e))
+
+
+
+## [0.32.6](https://github.com/startupjs/startupjs/compare/v0.32.5...v0.32.6) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Return accidentally removed changes ([a81968c](https://github.com/startupjs/startupjs/commit/a81968cf72e11929c5b7f6e2bbb50e2c116d6bd8))
+
+
+
+## [0.32.5](https://github.com/startupjs/startupjs/compare/v0.32.4...v0.32.5) (2021-02-22)
+
+
+### Bug Fixes
+
+* **App:** remove UI components ([#536](https://github.com/startupjs/startupjs/issues/536)) ([a329d44](https://github.com/startupjs/startupjs/commit/a329d44077b059f06b1a59c25224a1c1eb781909))
+* **auth:** Rm duplicated line ([49469eb](https://github.com/startupjs/startupjs/commit/49469ebb11c72f0888cda8c5fb71e54cad667726))
+* **mdx:** break-word for anchors ([457ced7](https://github.com/startupjs/startupjs/commit/457ced7b0d4fc26c00d7d972691ea2c89840f234))
+* **scrollable:** Crash on android ([b2f5ee6](https://github.com/startupjs/startupjs/commit/b2f5ee668ba4fcc1896cf0162edc71b2d21c76e8))
+
+
+### Features
+
+* **acrollable:** Add ability to pass scrollview props ([878113b](https://github.com/startupjs/startupjs/commit/878113b078de02497084eb26f28e2759e988539e))
+
+
+
 ## [0.32.4](https://github.com/startupjs/startupjs/compare/v0.32.3...v0.32.4) (2021-02-19)
 
 
