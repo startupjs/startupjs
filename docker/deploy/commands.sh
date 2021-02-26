@@ -181,8 +181,14 @@ function apply {
   _sourceEnv
 
   _initKubectl
-  # TODO: remove --dry-run in real deploy
-  kubectl apply -f "$COMPILED_PATH"
+  kubectl apply -f "$COMPILED_PATH/deployment.yaml"
+  kubectl apply -f "$COMPILED_PATH/backendConfig.yaml"
+  kubectl apply -f "$COMPILED_PATH/service.yaml"
+
+  # TODO: Very hardcode way to pass '--cron', refactor this to proper options.
+  if [ "$1" = "--cron" ]; then
+    kubectl apply -f "$COMPILED_PATH/cron.yaml"
+  fi
 }
 
 function applyVersion {
@@ -191,6 +197,11 @@ function applyVersion {
 
   _initKubectl
   kubectl set image deployment/"$_APP"-server "$_APP"-server=gcr.io/"$PROJECT_ID"/"$_APP":"$COMMIT_SHA" --record
+
+  # TODO: Very hardcode way to pass '--cron', refactor this to proper options.
+  if [ "$1" = "--cron" ]; then
+    kubectl set image deployment/"$_APP"-cron "$_APP"-cron=gcr.io/"$PROJECT_ID"/"$_APP":"$COMMIT_SHA" --record
+  fi
 }
 
 function batch {
@@ -203,10 +214,10 @@ function batch {
   push
   pushLatest
   if [ "$1" = "--version-only" ]; then
-    applyVersion
+    applyVersion "$2" # TODO: Very hardcode way to pass '--cron', refactor this to proper options.
   else
     compile
-    apply
+    apply "$1" # TODO: Very hardcode way to pass '--cron', refactor this to proper options.
   fi
 }
 

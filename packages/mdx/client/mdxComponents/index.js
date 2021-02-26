@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Platform } from 'react-native'
+import { Image, Platform } from 'react-native'
 import {
   Div,
   H2,
@@ -94,7 +94,15 @@ export default {
     MDXAnchor.h6(anchor=getTextChildren(children) size='s')
       H6(bold)= children
   `,
-  p: P,
+  p: ({ children }) => {
+    // TODO: HACK: Image does not work as need in Text on Android and IOS.
+    // Check after the release of react-native v0.64 with this commit
+    // https://github.com/facebook/react-native/commit/a0268a7bfc8000b5297d2b50f81e000d1f479c76
+    if (children?.props?.mdxType === 'img') return children
+    return pug`
+      P= children
+    `
+  },
   strong: ({ children }) => pug`
     Span.p(bold)= children
   `,
@@ -167,5 +175,32 @@ export default {
       Link.link(to=href size='l' color='primary')= children
     `
   },
-  img: P
+  img: ({ src }) => {
+    const [style, setStyle] = useState({})
+
+    const isUrl = /^(http|https):\/\//.test(src)
+
+    if (!isUrl) {
+      console.warn('[@startupjs/mdx] Need to provide the url for the image')
+      return null
+    }
+
+    function onLayout (e) {
+      const maxWidth = e.nativeEvent.layout.width
+      Image.getSize(src, (width, height) => {
+        const coefficient = maxWidth / width
+        setStyle({
+          width: Math.min(width, maxWidth),
+          height: coefficient < 1 ? Math.ceil(height * coefficient) : height
+        })
+      },
+      error => console.warn(`[@startupjs/mdx], ${error}`)
+      )
+    }
+
+    return pug`
+      Row.p(onLayout=onLayout)
+        Image(style=style source={ uri: src })
+    `
+  }
 }
