@@ -15,6 +15,7 @@ import {
 import { Anchor } from '@startupjs/scrollable-anchors'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
+import _get from 'lodash/get'
 import './index.styl'
 import Code from '../Code'
 
@@ -34,6 +35,15 @@ function P ({ children }) {
   return pug`
     Span.p= children
   `
+}
+
+function getTextChildren (children) {
+  const nestedChildren = _get(children, 'props.children')
+  if (nestedChildren) {
+    return getTextChildren(nestedChildren)
+  }
+
+  return children
 }
 
 function MDXAnchor ({
@@ -71,17 +81,17 @@ export default {
     Div.example= children
   `,
   h1: ({ children }) => pug`
-    MDXAnchor(anchor=children size='xl')
+    MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
         = children
   `,
   h2: ({ children }) => pug`
-    MDXAnchor.h2(anchor=children)
+    MDXAnchor.h2(anchor=getTextChildren(children))
       H5.h2-text= children
     Div.divider
   `,
   h3: ({ children }) => pug`
-    MDXAnchor.h6(anchor=children size='s')
+    MDXAnchor.h6(anchor=getTextChildren(children) size='s')
       H6(bold)= children
   `,
   p: P,
