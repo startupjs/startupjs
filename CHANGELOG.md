@@ -1,3 +1,14 @@
+## [0.32.9](https://github.com/startupjs/startupjs/compare/v0.32.8...v0.32.9) (2021-02-26)
+
+
+### Bug Fixes
+
+* **Button:** dont display loading for immediately resloved promise ([#538](https://github.com/startupjs/startupjs/issues/538)) ([c78c660](https://github.com/startupjs/startupjs/commit/c78c6607d03091e057e368aa76be109302d00f84))
+* **mdx:** getTextChildren fn ([acbb4ac](https://github.com/startupjs/startupjs/commit/acbb4ac514e6bd982140dcb2f841d271fd1b39e1))
+* **ui/Button:** verify children ([#537](https://github.com/startupjs/startupjs/issues/537)) ([38215b4](https://github.com/startupjs/startupjs/commit/38215b4c15319a16ae6826e6ad28d39e3f0cf253))
+
+
+
 ## [0.32.8](https://github.com/startupjs/startupjs/compare/v0.32.7...v0.32.8) (2021-02-24)
 
 
