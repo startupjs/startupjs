@@ -41,7 +41,7 @@ export function ExampleComponent () {
   const pluginHook = usePluginHook()
 
   useEffect(() => {
-    pluginHook('say', { username: user.name })
+    pluginHook('getMessage', { username: user.name })
   }, [])
 
   return pug`
@@ -62,24 +62,20 @@ export function ExampleComponent () {
 Объект со свойствами:
 
 - `name` - имя плагина, должно быть уникальным в пределах пакета
-- `func` - метод который после вызова должен вернуть объект с ключами для слотов и хуков. Ключи будут использованы либо в слотах с такими же именим либо при вызове хуков с такими именами
+- `defaultOptions` - опции которые задаются внутри плагина
 
 `renderPlugin.js`
 
 ```jsx
 export default {
   name: 'smile',
-  func: ({ icon }) => {
-    return {
-      WrapperPlugin: observer(({ children }) => {
-        return pug`
-          Card
-            = children
-            Icon(...icon)
-        `
-      })
-    }
-  }
+  WrapperPlugin: observer(({ children }) => {
+    return pug`
+      Card
+        = children
+        Icon(...icon)
+    `
+  })
 }
 ```
 
@@ -87,11 +83,12 @@ export default {
 
 ```jsx
 export default {
-  name: 'sayHello',
-  func: options => {
-    return {
-      say: () => console.log(`Hello, ${options.userName}`)
-    }
+  name: 'message',
+  defaultOptions: {
+    username: 'Ghost'
+  },
+  getMessage() {
+    console.log(`Hello, ${this.options.username}`)
   }
 }
 ```
@@ -113,7 +110,7 @@ registerPlugins({
     [hookPlugin, {
       defaultEnable: true,
       defaultOptions: {
-        userName = 'Jack Daniels'
+        username = 'Jack Daniels'
       }]
     ]
   ]
@@ -127,7 +124,6 @@ registerPlugins({
 - `defaultEnable` - если передать со значением `true` плагин будет автоматически применен со своей библиотекой по всему приложению
 - `defaultOptions` - опции для плагина, которые будут переданы в плагин для применения по умолчанию
 
-
 ### Применение на экзампляре компонента из пакета
 
 На каждом экзампляре компонента можно модифицировать плагины отдельно.
@@ -139,13 +135,13 @@ import Component from 'package'
 
 Component(
   plugins={
-    smile: {
+    [smilePlugin.name]: {
       icon: {
         icon: 'angry',
         style: { color: 'red' }
       }
     },
-    sayHello: false
+    [messagePlugin.name]: false
   }
 )
 ```

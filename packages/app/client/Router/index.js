@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Linking, Platform } from 'react-native'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
 import { $root, observer, useSyncEffect } from 'startupjs'
-import { Slot, usePluginHook } from '@startupjs/plugin'
 import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
@@ -78,7 +77,6 @@ const RenderApp = observer(function RenderAppComponent ({
   app,
   ...props
 }) {
-  const pluginHook = usePluginHook()
   const Layout = app ? apps[app] : null
 
   if (!Layout) {
@@ -86,14 +84,9 @@ const RenderApp = observer(function RenderAppComponent ({
     return null
   }
 
-  useEffect(() => {
-    pluginHook('getUsers', { username: 'Simon' })
-  }, [])
-
   return pug`
-    Slot(name='LayoutWrapper')
-      Layout
-        Routes(...props)
+    Layout
+      Routes(...props)
   `
 })
 
