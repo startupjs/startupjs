@@ -26,7 +26,7 @@ const loginForm = pug`
   LoginForm(
     properties={
       email: {
-        value: 'test@gmail.com'
+        initValue: 'test@gmail.com'
       }
     }
   )
@@ -91,7 +91,6 @@ export default initAuthApp({
         paddingRight: 24
       })
         H5(style={
-          fontWeight: 600,
           textAlign: 'center'
         })= getCaptionForm(slide)
         = socialButtons

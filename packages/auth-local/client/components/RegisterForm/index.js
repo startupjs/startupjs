@@ -49,16 +49,10 @@ function RegisterForm ({
 }) {
   const authHelper = useAuthHelper(baseUrl)
 
-  const [form, $form] = useValue({})
+  const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
 
   useEffect(() => {
-    properties && Object.keys(properties).forEach(key => {
-      if (properties[key]?.value) {
-        $form.set(key, properties[key].value)
-      }
-    })
-
     if (IS_WEB) {
       window.addEventListener('keypress', onKeyPress)
     }
@@ -143,6 +137,16 @@ function RegisterForm ({
             color='primary'
           ) Sign In
   `
+}
+
+function initForm (properties) {
+  const initData = {}
+  properties && Object.keys(properties).forEach(key => {
+    if (properties[key]?.initValue) {
+      initData[key] = properties[key].initValue
+    }
+  })
+  return initData
 }
 
 RegisterForm.propTypes = {
