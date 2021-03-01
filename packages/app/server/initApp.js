@@ -1,3 +1,5 @@
+import sessionMiddleware from './sessionMiddleware'
+
 export default async function initApp (ee, criticalVersion) {
   if (criticalVersion) {
     ee.on('backend', async backend => {
@@ -20,9 +22,19 @@ export default async function initApp (ee, criticalVersion) {
     })
   }
 
+  ee.on('middleware', expressApp => {
+    expressApp.use(sessionMiddleware)
+  })
+
   ee.on('routes', expressApp => {
     expressApp.get('/api/serverSession', function (req, res) {
       return res.json(req.model.get('_session'))
+    })
+
+    expressApp.post('/api/restore-url', function (req, res) {
+      const { restoreUrl } = req.body
+      req.session.restoreUrl = restoreUrl
+      res.sendStatus(200)
     })
   })
 }

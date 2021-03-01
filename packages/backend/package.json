@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/backend",
-  "version": "0.32.8",
+  "version": "0.32.9",
   "description": "Create new ShareDB backend instance",
   "main": "index.js",
   "scripts": {},
@@ -9,7 +9,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/server-aggregate": "^0.32.8",
+    "@startupjs/server-aggregate": "^0.32.9",
     "@startupjs/sharedb-access": "^0.32.1",
     "@startupjs/sharedb-schema": "^0.32.1",
     "mongodb": "^2.2.31",
