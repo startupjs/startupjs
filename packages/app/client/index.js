@@ -54,6 +54,7 @@ const App = observer(function AppComponent ({
 
   const [user] = useLocal('_session.user')
   const isNeedUpdate = useNeedUpdate(criticalVersion)
+
   const isGlobalInitSuccessful = useGlobalInitBase(useGlobalInit)
 
   if (isNeedUpdate) {
