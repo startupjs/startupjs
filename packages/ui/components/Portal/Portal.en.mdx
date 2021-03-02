@@ -17,8 +17,6 @@ import { Portal } from '@startupjs/ui'
 
 It is necessary to wrap the part of the application components on top of which the Portal will be displayed
 
-**Important:** Portal.Provider should not be located above the components associated with react-router, since some UI components working in conjunction with Portal use its API (eg: useHistory in Dropdown). So it's best to wrap a separate Layout, not the whole app in Root/App
-
 ```jsx
 function Layout ({ children }) {
   return (
@@ -27,6 +25,18 @@ function Layout ({ children }) {
     </Portal.Provider>
   )
 }
+```
+
+To wrap the entire application validly, it is better to use an application plugin:
+
+```js
+import { portalPlugin } from '@startupjs/ui'
+...
+registerPlugins({
+  '@startupjs/app': [
+    [portalPlugin, { defaultEnable: true }]
+  ]
+})
 ```
 
 ## Example

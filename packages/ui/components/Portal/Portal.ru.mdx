@@ -17,8 +17,6 @@ import { Portal } from '@startupjs/ui'
 
 Нужно обернуть ту часть компонентов приложения, поверх которых будет отображаться Portal
 
-**Важно:** Portal.Provider не должен быть расположен выше компонентов связаных с react-router, т.к. некоторые UI компоненты работающие в связке с Portal используют его API (н-р: useHistory в Dropdown). Поэтому лучше всего обернуть отдельный Layout, а не все приложение в Root/App
-
 ```jsx
 function Layout ({ children }) {
   return (
@@ -27,6 +25,18 @@ function Layout ({ children }) {
     </Portal.Provider>
   )
 }
+```
+
+Чтобы валидно обернуть все приложение, лучше использовать плагин для app:
+
+```js
+import { portalPlugin } from '@startupjs/ui'
+...
+registerPlugins({
+  '@startupjs/app': [
+    [portalPlugin, { defaultEnable: true }]
+  ]
+})
 ```
 
 ## Пример

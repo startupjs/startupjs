@@ -3,9 +3,11 @@ import { Linking, Platform } from 'react-native'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
 import { $root, observer, useSyncEffect } from 'startupjs'
+import { Slot } from '@startupjs/plugin'
 import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
+
 const isWeb = Platform.OS === 'web'
 
 export default observer(function Router (props) {
@@ -85,8 +87,9 @@ const RenderApp = observer(function RenderAppComponent ({
   }
 
   return pug`
-    Layout
-      Routes(...props)
+    Slot(name='LayoutWrapper')
+      Layout
+        Routes(...props)
   `
 })
 
