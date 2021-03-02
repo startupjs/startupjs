@@ -37,7 +37,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   useSyncEffect(() => {
     $root.on('url', goTo)
     $root.on('error', setErr)
-    $root.on('restore', restore)
+    $root.on('restart', restart)
 
     return () => {
       $root.removeListener('url', goTo)
@@ -68,8 +68,10 @@ const AppsFactory = observer(function AppsFactoryComponent ({
     }
   }
 
-  async function restore (restoreUrl) {
-    await axios.post(BASE_URL + '/api/restore-url', { restoreUrl })
+  async function restart (restoreUrl) {
+    if (restoreUrl) {
+      await axios.post(BASE_URL + '/api/restore-url', { restoreUrl })
+    }
 
     if (isWeb) {
       window.location.pathname = '/'
