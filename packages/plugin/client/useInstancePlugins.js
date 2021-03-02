@@ -5,9 +5,8 @@ export default function useInstancePlugins (packageName, customOptions) {
   let [defaultPlugins = []] = useLocal('_plugins.defaults.' + packageName)
 
   let filterPlugins = defaultPlugins.filter(plugin => {
-    if (plugin.defaultEnable && !customOptions[plugin.name]) return true
-    if (plugin.defaultEnable && customOptions[plugin.name]) return true
-    if (!plugin.defaultEnable && customOptions[plugin.name]) return true
+    if (plugin.defaultEnable && customOptions[plugin.name] === undefined) return true
+    if (customOptions[plugin.name]) return true
     return false
   })
 
