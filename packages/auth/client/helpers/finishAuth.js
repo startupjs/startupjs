@@ -6,5 +6,5 @@ export default async function finishAuth (redirectUrl) {
     $root.get('_session.auth.successRedirectUrl') ||
     '/'
 
-  emit('restore', successRedirectUrl)
+  emit('restart', successRedirectUrl)
 }
