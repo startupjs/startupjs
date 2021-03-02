@@ -41,13 +41,22 @@ export function ExampleComponent () {
   const pluginHook = usePluginHook()
 
   useEffect(() => {
-    pluginHook('getMessage', { username: user.name })
+    // Первый аргумент имя хука, последующие - параметры которые он должен принять
+    pluginHook('getMessage', {
+      title,
+      message,
+      username: user.name
+    })
   }, [])
 
+  /*
+    Обязательный проп в Slot - name, он определяет в какой компонент оборачиваться
+    Но так же можно передать любые другие пропсы, для динамического использования
+  */
   return pug`
     Div
       Span SideLeft
-    Slot(name='WrapperPlugin')
+    Slot(name='WrapperPlugin' isAdmin=true)
     Div
       Span SideRight
   `
@@ -69,11 +78,26 @@ export function ExampleComponent () {
 ```jsx
 export default {
   name: 'smile',
-  WrapperPlugin: observer(({ children }) => {
+  defaultOptions: {
+    icon: {
+      icon: 'laugh',
+      style: { color: 'orange' }
+    }
+  },
+  WrapperPlugin: observer(({
+    children,
+    options,
+    /*
+      получает конечные options, которые формируются из defaultOptions плагина,
+      defaultOptions из функции registerPlugins и кастомных options пакета
+    */
+    isAdmin
+  }) => {
+    if (!isAdmin) return children
     return pug`
       Card
         = children
-        Icon(...icon)
+        Icon(...options.icon)
     `
   })
 }
@@ -87,8 +111,16 @@ export default {
   defaultOptions: {
     username: 'Ghost'
   },
-  getMessage() {
-    console.log(`Hello, ${this.options.username}`)
+  getMessage({ title, message, username }) {
+    console.log(`
+      ${title}
+      Hello, ${username || this.options.username}
+      /*
+        получает конечные options в this, которые формируются из defaultOptions плагина,
+        defaultOptions из функции registerPlugins и кастомных options пакета
+      */
+      ${message}
+    `)
   }
 }
 ```
