@@ -8,6 +8,7 @@ import ArrayInput from '../ArrayInput'
 import Select from '../Select'
 import NumberInput from '../NumberInput'
 import DateTimePicker from '../DateTimePicker'
+import PasswordInput from '../PasswordInput'
 
 const INPUTS = {
   text: {
@@ -74,6 +75,13 @@ const INPUTS = {
       onDateChange: value => $value && $value.setDiff(value),
       mode: 'time'
     })
+  },
+  password: {
+    Component: PasswordInput,
+    getProps: $value => ({
+      value: $value && $value.get(),
+      onChangeText: value => $value && $value.setDiff(value)
+    })
   }
 }
 const INPUT_TYPES = Object.keys(INPUTS)
@@ -126,7 +134,8 @@ Input.propTypes = {
     'date',
     'datetime',
     'time',
-    'array'
+    'array',
+    'password'
   ]).isRequired,
   $value: PropTypes.any
 }

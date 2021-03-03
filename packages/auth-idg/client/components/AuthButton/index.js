@@ -1,6 +1,6 @@
 import React from 'react'
 import { WebView } from 'react-native-webview'
-import { observer, u, useSession, useValue } from 'startupjs'
+import { observer, u, useValue } from 'startupjs'
 import { Modal, Row, Span } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
@@ -10,7 +10,6 @@ import IDG from './img/IDG.svg'
 import './index.styl'
 
 function AuthButton ({ baseUrl, label }) {
-  const [authConfig] = useSession('auth')
   const [, $showModal] = useValue(false)
 
   function showLoginModal () {
@@ -18,7 +17,7 @@ function AuthButton ({ baseUrl, label }) {
   }
 
   function onNavigationStateChange ({ url }) {
-    if (url === (baseUrl + authConfig.successRedirectUrl)) {
+    if (url.includes(baseUrl) && !url.includes('auth')) {
       $showModal.set(false)
       finishAuth()
     }

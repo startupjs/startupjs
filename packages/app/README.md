@@ -12,6 +12,7 @@ yarn add @startupjs/app
 ```
 react: >= 16.9.0 < 17
 react-native: >= 0.61.4 < 0.64.0
+react-native-restart: >= 0.0.22
 startupjs: >= 0.33.0
 ```
 

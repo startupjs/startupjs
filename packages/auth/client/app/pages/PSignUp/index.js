@@ -1,55 +1,46 @@
 import React from 'react'
-import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { AuthForm, Logo } from '../../../components'
+import { AuthForm } from '../../../components'
 import { SIGN_UP_SLIDE } from '../../../../isomorphic'
-import '../sharedPageStyles.styl'
+import '../common.styl'
 
 function PSignUp ({
   baseUrl,
-  configs,
-  logo,
+  redirectUrl,
   localForms,
   socialButtons,
-  redirectUrl,
+  renderForm,
   onError,
   onSuccess,
   onHandleError,
-  onChangeAuthPage
+  onChangeSlide
 }) {
   return pug`
-    Div.root
-      if logo
-        Div.logo
-          Logo(logo=logo)
-      Div.wrapper
-        AuthForm(
-          baseUrl=baseUrl
-          configs=configs
-          initSlide=SIGN_UP_SLIDE
-          hasRouting=true
-          localForms=localForms
-          socialButtons=socialButtons
-          redirectUrl=redirectUrl
-          onError=onError
-          onSuccess=onSuccess
-          onHandleError=onHandleError
-          onChangeAuthPage=onChangeAuthPage
-        )
+    AuthForm(
+      baseUrl=baseUrl
+      redirectUrl=redirectUrl
+      slide=SIGN_UP_SLIDE
+      localForms=localForms
+      socialButtons=socialButtons
+      renderForm=renderForm
+      onError=onError
+      onSuccess=onSuccess
+      onHandleError=onHandleError
+      onChangeSlide=onChangeSlide
+    )
   `
 }
 
 PSignUp.propTypes = {
   baseUrl: PropTypes.string,
-  configs: PropTypes.object,
-  logo: PropTypes.node,
+  redirectUrl: PropTypes.string,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
-  redirectUrl: PropTypes.string,
-  onSuccess: PropTypes.func,
+  renderForm: PropTypes.func,
   onError: PropTypes.func,
+  onSuccess: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeSlide: PropTypes.func
 }
 
 export default PSignUp
