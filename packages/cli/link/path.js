@@ -5,6 +5,10 @@ const styles = glob.sync('**/values/styles.xml', ignoreFolders)
 
 const appJsonPath = glob.sync('**/app.json', ignoreFolders)[0]
 
+if (!appJsonPath) {
+  throw new Error('Can\'t find app.json')
+}
+
 // TODO: some people get undefined when trying to find mainApplicationJava
 // const mainApplicationJava = glob.sync(
 //   '**/MainApplication.java',
