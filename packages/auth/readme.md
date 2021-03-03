@@ -1,14 +1,14 @@
+import { useState } from 'react'
 import { AuthForm, LogoutButton, onLogout } from './'
 import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
 import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
-import * as localForms from '@startupjs/auth-local'
+import { LoginForm, RegisterForm, RecoverForm } from '@startupjs/auth-local'
 import { Button } from '@startupjs/ui'
 
 # Авторизация
 
 ## Установка зависимостей
 `yarn add @startupjs/auth`
-`yarn add @react-native-async-storage/async-storage`
 `yarn add react-native-restart`
 
 ## Force compile
@@ -27,7 +27,7 @@ import { Button } from '@startupjs/ui'
 import { initAuth } from '@startupjs/auth/server'
 ```
 
-В тело функции startupjsServer, нужно добавить:
+В теле функции startupjsServer происходит инициальзация модуля, в strategies - добавляются стратегии каждая со своим набором характеристик:
 ```js
 initAuth(ee, {
   strategies: [
@@ -39,42 +39,51 @@ initAuth(ee, {
   ]
 })
 ```
-Вместо LocalStrategy и FacebookStrategy - стратегии которые вам нужны
 
 ## Micro frontend
-В auth есть готовые страницы для авторизации.
+[Тестовый пример](/auth/sign-in)
 
-Чтобы их использовать:
-1 - Перейти в Root/index.js
-2 - Импорт функции initAuthApp, это функция получает компоненты нужных стратегий, для их валидного отображения в дальнейшем
+Представляет собой готовые страницы с формами, которые можно подключить на сайт
+
+Чтобы их использовать, нужно в файле Root/index.js (либо где используется startupjs/app), заинитить микро фронтент и положить его в App компонент
+
+Для начала нужна функция инициализатор, которая принимает нужные опции:
 ```js
 import { initAuthApp } from '@startupjs/auth'
 ```
 
-3 - Импорт нужных компонентов, например:
+Основные ее опции - это socialButtons и localForms, которые собирают нужные компоненты для общей формы. Т.к. заранее неизвестно какие стратегии должны быть подключены, приходиться подключать их самим. Кнопки есть практически у каждой стратегии, кроме локальной, чтобы ознакомиться какие компоненты существуют для auth-local, есть отдельное описание для этой стратегии (сообственно как и для всех других).
+
+Импорт нужных компонентов:
 ```js
 import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
 import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin'
-import * as localForms from '@startupjs/auth-local'
+import { LoginForm, RegisterForm, RecoverForm } from '@startupjs/auth-local'
 ```
 
-4 - Сгенерировать micro frontent для авторизации
-```js
+Все базируется на локальной стратегии. Она имеет 3 стандартных формы: Авторизация, Регистрация, Восстановление пароля. Между этими формами происходит переключение под капотом.
+Микрофронтенд имеет 3 обязательных роута для локальной стратегии: 'sign-in', 'sign-up' и 'recover', собственно при использовании локальной формы, всегда нужно чтобы по этим ключам были установлены компоненты с формами.
+
+```jsx
 const auth = initAuthApp({
-  localForms,
+  localForms: {
+    'sign-in': <LoginForm />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  },
   socialButtons: [
-    AzureadAuthButton,
-    LinkedinAuthButton
+    <AzureadAuthButton />,
+    <LinkedinAuthButton />
   ]
 })
 ```
 
-5 - Передать в App
+Когда микрофронтенд сгенерирован, нужно просто передать его в App
 ```pug
 App(apps={ auth, main })
 ```
 
-6 - Добавить роутеры на сервер
+И так же добавить роуты для сервере
 ```js
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 //...
@@ -84,23 +93,113 @@ appRoutes: [
 //...
 ```
 
-[Тестовый пример](/auth/sign-in)
+### Кастомизация микрофронтенда
+Можно изменить `Layout`. К примеру у сайта есть своя шапка, лого, фон и т.д.
+Для этого можно прокинуть кастомный Layout в опции микрофронтенда:
+
+```jsx
+const auth = initAuthApp({
+  Layout,
+  localForms: {
+    'sign-in': <LoginForm />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  }
+})
+```
+
+Поскольку в localForms и socialButtons прокидывается jsx, все компоненты можно модифицировать как обычно:
+```jsx
+const auth = initAuthApp({
+  Layout,
+  localForms: {
+    'sign-in': <LoginForm
+      properties={{
+        age: {
+          input: 'number',
+          label: 'Age',
+          placeholder: 'Enter your age'
+        }
+      }}
+      validateSchema={{
+        age: Joi.string().required().messages({
+          'any.required': 'Fill in the field',
+          'string.empty': 'Fill in the field'
+        })
+      }}
+    />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  },
+  socialButtons: [
+    <GoogleAuthButton
+      label='Sign in with Google'
+    />,
+    <FacebookAuthButton
+      label='Sign in with Facebook'
+    />
+  ]
+})
+```
+
+Подробно о кастомизации этих компонентов описано на страницах с нужными стратегиями
+
+Если нужно изменить стандартные заголовки и сделать свою разметку, можно применить функцию renderForm:
+```jsx
+const auth = initAuthApp({
+  Layout,
+  localForms: {
+    'sign-in': <LoginForm />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  },
+  socialButtons: [
+    <GoogleAuthButton />,
+    <FacebookAuthButton />
+  ],
+  renderForm: function ({
+    slide,
+    socialButtons,
+    localActiveForm,
+    onChangeSlide
+  }) {
+    return pug`
+      Div
+        H5= getCaptionForm(slide)
+        = socialButtons
+        Div(style={ marginTop: 16 })
+          = localActiveForm
+    `
+  }
+})
+```
+
+Она получает те формы которые объявлены, и текущий слайд
 
 ## Общий компонент
 Общая форма с нужными видами авторизации
+Все тоже самое что и для микрофронтенда, только нет роутов, и переключение слайдов нужно настроить самим
 
 ```js
 import { AuthForm } from '@startupjs/auth'
 ```
 
 ```jsx example
+const [slide, setSlide] = useState('sign-in')
+
 return (
   <AuthForm
-    localForms={localForms}
+    slide={slide}
+    localForms={{
+      'sign-in': <LoginForm />,
+      'sign-up': <RegisterForm />,
+      'recover': <RecoverForm />
+    }}
     socialButtons={[
-      GoogleAuthButton,
-      LinkedinAuthButton
+      <GoogleAuthButton label='Sign in with Google' />,
+      <LinkedinAuthButton />
     ]}
+    onChangeSlide={slide=> setSlide(slide)}
   />
 )
 ```
@@ -124,27 +223,10 @@ import { onLogout } from '@startupjs/auth'
 return <Button onPress={onLogout}>Выйти</Button>
 ```
 
-
 ## Редирект после авторизации
-Компонент чтобы правильно сделать редирект после авторизации на вебе и мобильном приложении
-```js
-import { SuccessRedirect } from '@startupjs/auth'
-```
-
-Для использования нужно обернуть Layout
-```jsx
-function Layout ({ children }) {
-  return pug`
-    SuccessRedirect
-      = children
-  `
-}
-```
-
 Задать путь редиректа при инициализации на сервере
 ```js
 initAuth(ee, {
   successRedirectUrl: '/profile',
 })
 ```
-

@@ -1,7 +1,7 @@
 import React from 'react'
 import { WebView } from 'react-native-webview'
 import { Image } from 'react-native'
-import { observer, u, useSession, useValue } from 'startupjs'
+import { observer, u, useValue } from 'startupjs'
 import { Modal, Span, Div } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'
@@ -16,7 +16,6 @@ function AuthButton ({
   imageUrl,
   redirectUrl
 }) {
-  const [authConfig] = useSession('auth')
   const [, $showModal] = useValue(false)
 
   function showLoginModal () {
@@ -24,7 +23,7 @@ function AuthButton ({
   }
 
   function onNavigationStateChange ({ url }) {
-    if (url === (baseUrl + authConfig.successRedirectUrl)) {
+    if (url.includes(baseUrl) && !url.includes('auth')) {
       $showModal.set(false)
       finishAuth()
     }

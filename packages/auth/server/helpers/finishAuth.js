@@ -22,7 +22,8 @@ export default async function finishAuth (req, res, {
         }
       }
 
-      res.redirect(redirectUrl)
+      req.session.restoreUrl = redirectUrl
+      res.redirect('/')
     })
   })
 }
