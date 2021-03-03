@@ -18287,7 +18287,7 @@ react-native-reanimated@^1.13.2:
   dependencies:
     fbjs "^1.0.0"
 
-react-native-restart@0.0.19:
+react-native-restart@^0.0.19:
   version "0.0.19"
   resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.19.tgz#a088eeb747bef03d379b5733dbeea4191efc4091"
   integrity sha512-ZtJAgpyWbvZRH4Aj2lFzpCeWuripq1zYk8HCr8s2bPgnHm1aeqXeh+gyaT+ErkeCQtzHXqNkPZNRES2gOjJGug==
