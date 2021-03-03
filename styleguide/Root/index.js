@@ -7,7 +7,7 @@ import { Platform, Image } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model, u } from 'startupjs'
-import { portalPlugin } from '@startupjs/ui'
+import { uiAppPlugin } from '@startupjs/ui'
 import { registerPlugins } from '@startupjs/plugin'
 import { initAuthApp } from '@startupjs/auth'
 import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple'
@@ -43,7 +43,7 @@ init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
   '@startupjs/app': [
-    [portalPlugin, { defaultEnable: true }]
+    [uiAppPlugin, { defaultEnable: true }]
   ]
 })
 
