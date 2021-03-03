@@ -10,10 +10,16 @@ yarn add @startupjs/ui
 ### Requirements
 
 ```
-  react-native-collapsible
-  react-native-svg
-  react-native-gesture-handler
-  react-native-reanimated
+@react-native-community/datetimepicker: ^3.0.6
+@react-native-picker/picker: >=1.9.3
+react: >= 16.9.0 < 17
+react-native: >= 0.61.4 < 0.64.0
+react-native-collapsible: 1.5.2
+react-native-gesture-handler: 1.9.0
+react-native-reanimated: >= 1.13.2
+react-native-svg: >= 9.13.6
+react-native-tab-view: >= 2.15.2
+startupjs: >= 0.33.0
 ```
 
 ### Linking
@@ -63,16 +69,6 @@ function getHead (appName) {
     other head text
   `
 }
-```
-
-Add module `@startupjs/ui/server` to `forceCompileModules` in `webpack.server.config.cjs`
-
-```js
-const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
-
-module.exports = getConfig(undefined, {
-  forceCompileModules: ['@startupjs/ui/server']
-})
 ```
 
 ## Usage

@@ -17,6 +17,7 @@
     "just-wait": "^1.0.11",
     "nodemon": "^1.19.2",
     "react-native-asset": "2.0.1",
+    "source-map-support": "^0.5.19",
     "vite": "0.20.3",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.8",

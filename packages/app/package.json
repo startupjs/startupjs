@@ -20,8 +20,8 @@
     "react-router-native-stack": "^0.0.16"
   },
   "peerDependencies": {
-    "@startupjs/react-sharedb": "*",
     "react": ">= 16.9.0 < 17",
-    "react-native": ">= 0.61.4 < 0.62"
+    "react-native": ">= 0.61.4 < 0.64.0",
+    "startupjs": ">= 0.33.0"
   }
 }

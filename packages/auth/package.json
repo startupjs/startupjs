@@ -13,8 +13,10 @@
     "passport": "^0.4.1"
   },
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.22.1",
+    "@react-native-async-storage/async-storage": ">= 1.13.2",
+    "react-native-restart": ">= 0.0.19",
+    "@startupjs/ui": ">= 0.33.0",
     "lodash": "4.x",
-    "startupjs": ">= 0.23.23"
+    "startupjs": ">= 0.33.0"
   }
 }

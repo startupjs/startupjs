@@ -1,6 +1,13 @@
 # startupjs bundler
 > Opinionated scripts and configs to develop a react-native-web project
 
+## Requirements
+
+```
+metro-config: *
+react-native-svg: >= 9.13.6
+```
+
 ## Usage
 
 TBD

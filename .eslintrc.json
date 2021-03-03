@@ -47,13 +47,13 @@
     "jest/expect-expect": "off",
     "import-helpers/order-imports": [
             "warn",
-              { 
+              {
                 "newlinesBetween": "ignore",
                 "groups": [
                     "/^react$/",
                     "/react-native/",
                     "/^react.*/",
-                    "/^startupjs/", 
+                    "/^startupjs/",
                     "/^@?startupjs.*/",
                     "/^@?dmapper.*/",
                     "module",

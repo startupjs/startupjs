@@ -3,21 +3,17 @@
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
-`yarn add @startupjs/auth-facebook`
-`yarn add react-native-fbsdk`
+## Требования
+
+```
+@startupjs/auth: >= 0.33.0
+react-native-fbsdk: >= 1.0.0
+```
 
 ## Создание приложения
 Создайте [здесь](https://developers.facebook.com/apps/) приложение для facebook.
 Скопируйте **ID приложения** в config.json, как `FACEBOOK_CLIENT_ID`.
 Далее в настройках, скопируйте **Секрет приложения** в config.json, как `FACEBOOK_CLIENT_SECRET`.
-
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-facebook/server`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-facebook`
 
 ## Инициализация на сервере
 Импорт стратегии:

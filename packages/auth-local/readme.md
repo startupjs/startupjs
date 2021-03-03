@@ -5,15 +5,11 @@ import { LoginForm, RecoverForm, RegisterForm } from '@startupjs/auth-local'
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
-`yarn add @startupjs/auth-local`
+## Требования
 
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-local/server`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-local`
+```
+@startupjs/auth: >= 0.33.0
+```
 
 ## Инициализация на сервере
 Импорт стратегии:

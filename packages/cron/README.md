@@ -1,5 +1,11 @@
 # startupjs cron
 
+## Installation
+
+```sh
+yarn add node-cron
+```
+
 ## Usage
 
 Create `cron.js` file in the root of your project. Perform all initialization

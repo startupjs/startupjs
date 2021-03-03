@@ -7,6 +7,13 @@
 yarn add @startupjs/codepush
 ```
 
+## Requirements
+
+```
+react: >= 16.9.0 < 17
+react-native-code-push: >= 5.7.0 < 6
+```
+
 ## Setup
 
 [CodePush](https://github.com/Microsoft/react-native-code-push) is a cloud service that enables React Native developers to deploy mobile app updates instantly to all the devices of users.

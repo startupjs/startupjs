@@ -3,16 +3,12 @@
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
-`yarn add @startupjs/auth-google`
-`yarn add @react-native-community/google-signin`
+## Требования
 
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-google/server'`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-google`
+```
+@react-native-community/google-signin: 4.x
+@startupjs/auth: >= 0.33.0
+```
 
 ## Создание и настройка приложения
 1 - Создать аккаунт [Firebase](https://console.firebase.google.com/), если еще не создан.

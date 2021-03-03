@@ -3,16 +3,12 @@
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
-`yarn add @startupjs/auth-azuread`
-`yarn add react-native-webview`
+## Требования
 
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-azuread/server`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-azuread`
+```
+@startupjs/auth: >= 0.33.0
+react-native-webview: >= 10.0.0
+```
 
 ## Настройка приложения
 1 - Перейти на [Microsoft Azure portal](https://portal.azure.com/)
