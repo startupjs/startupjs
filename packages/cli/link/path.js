@@ -29,7 +29,7 @@ const androidManifestXML = glob.sync(
   ignoreFolders
 )[0]
 
-const APP_NAME = appJsonPath && require(path.resolve(process.cwd(), appJsonPath)).name
+const APP_NAME = require(path.resolve(process.cwd(), appJsonPath)).name
 
 const networkSecurityConfigFolder = 'android/app/src/main/res/xml'
 const networkSecurityConfigRout = networkSecurityConfigFolder + '/network_security_config.xml'
