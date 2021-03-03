@@ -27,18 +27,6 @@ function Layout ({ children }) {
 }
 ```
 
-To wrap the entire application validly, it is better to use an application plugin:
-
-```js
-import { portalPlugin } from '@startupjs/ui'
-...
-registerPlugins({
-  '@startupjs/app': [
-    [portalPlugin, { defaultEnable: true }]
-  ]
-})
-```
-
 ## Example
 
 ```jsx example

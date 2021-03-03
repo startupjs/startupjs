@@ -27,18 +27,6 @@ function Layout ({ children }) {
 }
 ```
 
-Чтобы валидно обернуть все приложение, лучше использовать плагин для app:
-
-```js
-import { portalPlugin } from '@startupjs/ui'
-...
-registerPlugins({
-  '@startupjs/app': [
-    [portalPlugin, { defaultEnable: true }]
-  ]
-})
-```
-
 ## Пример
 
 ```jsx example
