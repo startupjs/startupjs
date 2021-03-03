@@ -1,7 +1,9 @@
 const glob = require('glob')
-const fs = require('fs')
+const path = require('path')
 const ignoreFolders = { ignore: ['node_modules/**', '**/build/**'] }
 const styles = glob.sync('**/values/styles.xml', ignoreFolders)
+
+const appJsonPath = glob.sync('**/app.json', ignoreFolders)[0]
 
 // TODO: some people get undefined when trying to find mainApplicationJava
 // const mainApplicationJava = glob.sync(
@@ -23,20 +25,13 @@ const androidManifestXML = glob.sync(
   ignoreFolders
 )[0]
 
-const APP_NAME = getAppName()
+const APP_NAME = appJsonPath && require(path.resolve(process.cwd(), appJsonPath)).name
 
 const networkSecurityConfigFolder = 'android/app/src/main/res/xml'
 const networkSecurityConfigRout = networkSecurityConfigFolder + '/network_security_config.xml'
 
 const detoxTestFolder = `android/app/src/androidTest/java/com/${APP_NAME}`
 const detoxTestRoute = detoxTestFolder + '/DetoxTest.java'
-
-function getAppName () {
-  let content = fs.readFileSync(appBuildGradleAndroid, 'utf8')
-  const appNameString = content.match(/applicationId.*/)[0]
-  const appName = appNameString.match(/"com.*"/)[0].replace(/"/g, '').replace(/com\./, '')
-  return appName
-}
 
 // exports
 
