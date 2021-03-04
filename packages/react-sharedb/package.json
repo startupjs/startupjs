@@ -23,7 +23,7 @@
     "@startupjs/react-sharedb-util": "^0.32.9",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.17.20",
-    "racer": "0.9.15",
+    "racer": "1.0.0",
     "rich-text": "^4.0.0"
   },
   "devDependencies": {

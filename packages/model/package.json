@@ -10,7 +10,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "racer": "0.9.15",
+    "racer": "1.0.0",
     "racer-highway": "^8.1.0"
   }
 }

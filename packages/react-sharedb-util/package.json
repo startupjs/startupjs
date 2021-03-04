@@ -16,7 +16,7 @@
     "@nx-js/observer-util": "^4.1.3",
     "@startupjs/model": "^0.32.1",
     "lodash": "^4.17.20",
-    "racer": "0.9.15"
+    "racer": "1.0.0"
   },
   "peerDependencies": {
     "react": ">= 16.9.0 < 17"
