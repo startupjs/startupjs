@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "peerDependencies": {
-    "racer": "0.9.15"
+  "dependencies": {
+    "racer": "1.0.0"
   },
   "author": "Artur Zayats <zag2art@gmail.com>",
   "license": "MIT"
