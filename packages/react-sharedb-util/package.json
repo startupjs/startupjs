@@ -20,7 +20,7 @@
     "@startupjs/model": "^0.32.1",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "4.x",
-    "racer": "0.9.15",
+    "racer": "1.0.0",
     "rich-text": "^4.0.0"
   },
   "devDependencies": {
