@@ -67,6 +67,7 @@ const REMOVE_DEPENDENCIES = [
 const REMOVE_FILES = [
   '.prettierrc.js',
   '.eslintrc.js',
+  '.flowconfig',
   'App.js',
   'babel.config.js',
   'metro.config.js'

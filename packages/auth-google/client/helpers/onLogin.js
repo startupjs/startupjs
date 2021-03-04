@@ -1,4 +1,4 @@
-import { GoogleSignin, statusCodes } from '@react-native-community/google-signin'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { $root } from 'startupjs'
 import { finishAuth } from '@startupjs/auth'
 import { BASE_URL } from '@env'

@@ -4,8 +4,7 @@
 ## Requirements
 
 ```
-metro-config: *
-react-native-svg: >= 9.13.6
+react-native-svg: >= 12.1.0
 ```
 
 ## Usage

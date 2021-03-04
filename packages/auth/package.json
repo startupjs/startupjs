@@ -10,13 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "lodash": "^4.17.20",
     "passport": "^0.4.1"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": ">= 1.13.2",
     "react-native-restart": ">= 0.0.22",
     "@startupjs/ui": ">= 0.33.0",
-    "lodash": "4.x",
     "startupjs": ">= 0.33.0"
   }
 }

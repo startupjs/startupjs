@@ -6,7 +6,7 @@
 ## Требования
 
 ```
-@react-native-community/google-signin: 4.x
+@react-native-google-signin/google-signin: >= 6.0.0
 @startupjs/auth: >= 0.33.0
 ```
 

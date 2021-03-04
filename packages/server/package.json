@@ -17,7 +17,7 @@
     "express": "4.x",
     "express-session": "^1.11.3",
     "hsts": "^2.1.0",
-    "lodash": "4.x",
+    "lodash": "^4.17.20",
     "method-override": "~2.3.10",
     "racer-highway": "^8.1.0"
   },

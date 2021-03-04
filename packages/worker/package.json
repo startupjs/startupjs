@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.7.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.20",
     "mongodb": "^2.2.33",
     "redlock": "^3.0.0",
     "ioredis": "^4.8.0",

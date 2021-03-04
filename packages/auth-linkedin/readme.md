@@ -7,7 +7,7 @@
 
 ```
 @startupjs/auth: >= 0.33.0
-react-native-webview: >= 10.0.0
+react-native-webview: 10.10.2
 ```
 
 ## Настройка приложения

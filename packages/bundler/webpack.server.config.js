@@ -88,9 +88,7 @@ module.exports = function getConfig (env, {
 function getPluginsForceCompileList () {
   let list = []
   for (const plugin in PLUGINS) {
-    const envs = PLUGINS[plugin]?.bundler?.forceCompile
-    if (!envs) continue
-    const value = envs.server || envs.isomorphic
+    const value = PLUGINS[plugin]?.bundler?.forceCompile?.server
     if (value === true) list.push(plugin)
     if (Array.isArray(value)) list = list.concat(value)
   }
