@@ -3,21 +3,12 @@
 //       See: https://github.com/diegohaz/parse-prop-types/issues/4#issuecomment-403294065
 import parsePropTypes from 'parse-prop-types' // eslint-disable-line
 import React from 'react'
-import { Platform, Image } from 'react-native'
+import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
-import { observer, model, u } from 'startupjs'
-import { uiAppPlugin } from '@startupjs/ui'
+import { observer, model } from 'startupjs'
 import { registerPlugins } from '@startupjs/plugin'
-import { initAuthApp } from '@startupjs/auth'
-import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple'
-import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
-import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook'
-import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
-import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
-import { createAuthButton } from '@startupjs/auth-common'
-import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg/client'
-import * as localForms from '@startupjs/auth-local'
+import { uiAppPlugin } from '@startupjs/ui'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -32,6 +23,7 @@ import orm from '../model'
 // Frontend micro-services
 import * as main from '../main'
 import docs from '../docs'
+import auth from '../auth'
 
 if (Platform.OS === 'web') window.model = model
 
@@ -48,34 +40,6 @@ registerPlugins({
 })
 
 export default observer(() => {
-  const logo = pug`
-    Image(
-      resizeMode='contain'
-      style={ width: u(5), height: u(5) },
-      source={ uri: '/img/docs.png' }
-    )
-  `
-
-  const auth = initAuthApp({
-    logo,
-    localForms,
-    redirectUrl: '/profile?customParam=dummy',
-    socialButtons: [
-      AppleAuthButton,
-      AzureadAuthButton,
-      FacebookAuthButton,
-      GoogleAuthButton,
-      LinkedinAuthButton,
-      createAuthButton({
-        label: 'Virgin',
-        providerName: 'virgin',
-        style: { backgroundColor: '#e1090d' },
-        imageUrl: BASE_URL + '/img/virgin.png'
-      }),
-      IDGAuthButton
-    ]
-  })
-
   return pug`
     App(
       apps={ main, docs, auth }

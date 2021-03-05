@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "@hapi/joi": "^17.1.1",
     "passport-local": "^1.0.0"
   },
   "peerDependencies": {

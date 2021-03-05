@@ -1,9 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import { Linking, Platform } from 'react-native'
+import RNRestart from 'react-native-restart'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
 import { $root, observer, useSyncEffect } from 'startupjs'
 import { Slot } from '@startupjs/plugin'
+import { BASE_URL } from '@env'
+import axios from 'axios'
 import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
@@ -35,6 +38,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   useSyncEffect(() => {
     $root.on('url', goTo)
     $root.on('error', setErr)
+    $root.on('restart', restart)
 
     return () => {
       $root.removeListener('url', goTo)
@@ -62,6 +66,18 @@ const AppsFactory = observer(function AppsFactoryComponent ({
       isWeb
         ? window.open(url, '_blank')
         : Linking.openURL(url)
+    }
+  }
+
+  async function restart (restoreUrl) {
+    if (restoreUrl) {
+      await axios.post(BASE_URL + '/api/restore-url', { restoreUrl })
+    }
+
+    if (isWeb) {
+      window.location.pathname = '/'
+    } else {
+      RNRestart.Restart()
     }
   }
 

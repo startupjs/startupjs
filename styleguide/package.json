@@ -26,7 +26,6 @@
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@invertase/react-native-apple-authentication": "^2.1.0",
-    "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/datetimepicker": "^3.0.6",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-picker/picker": "^1.9.3",
@@ -45,10 +44,11 @@
     "react-native-fbsdk": "^3.0.0",
     "react-native-gesture-handler": "1.9.0",
     "react-native-reanimated": "^1.13.2",
-    "react-native-restart": "0.0.19",
+    "react-native-restart": "^0.0.19",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.32.9"
+    "startupjs": "^0.32.9",
+    "text-encoding-polyfill": "^0.6.7"
   },
   "devDependencies": {
     "react-test-renderer": "16.9.0"
