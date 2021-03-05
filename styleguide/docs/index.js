@@ -2,6 +2,7 @@ import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import AuthMain from '../../packages/auth/readme.md'
+import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
 import AuthCommon from '../../packages/auth-common/readme.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
@@ -42,10 +43,20 @@ export default docs({
         title: 'Главный модуль',
         component: AuthMain
       },
-      local: {
+      apple: {
         type: 'mdx',
-        title: 'Локальная',
-        component: AuthLocal
+        title: 'Apple',
+        component: AuthApple
+      },
+      azuread: {
+        type: 'mdx',
+        title: 'Azure AD',
+        component: AuthAzuread
+      },
+      common: {
+        type: 'mdx',
+        title: 'Общая',
+        component: AuthCommon
       },
       facebook: {
         type: 'mdx',
@@ -62,15 +73,10 @@ export default docs({
         title: 'Linkedin',
         component: AuthLinkedin
       },
-      azuread: {
+      local: {
         type: 'mdx',
-        title: 'Azure AD',
-        component: AuthAzuread
-      },
-      common: {
-        type: 'mdx',
-        title: 'Общая',
-        component: AuthCommon
+        title: 'Локальная',
+        component: AuthLocal
       }
     }
   },

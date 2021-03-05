@@ -9,6 +9,7 @@ export default observer(function PProfile () {
   const [user] = useDoc('users', userId)
 
   if (!user) return null
+
   return pug`
     Layout
       Content

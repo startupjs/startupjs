@@ -3,6 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "type": "module",
   "description": "Express.js with plugged in ShareDB",
   "version": "0.32.9",
   "main": "index.js",
