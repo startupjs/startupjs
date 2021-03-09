@@ -71,6 +71,22 @@ function getHead (appName) {
 }
 ```
 
+## App plugin
+Register ui plugin for app
+
+```js
+import { registerPlugins } from '@startupjs/plugin'
+import { uiAppPlugin } from '@startupjs/ui'
+
+...
+
+registerPlugins({
+  '@startupjs/app': [
+    [uiAppPlugin, { defaultEnable: true }]
+  ]
+})
+```
+
 ## Usage
 ```js
 import { Button } from '@startupjs/ui'
