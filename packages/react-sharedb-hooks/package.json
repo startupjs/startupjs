@@ -20,6 +20,6 @@
     "lodash": "^4.17.20"
   },
   "peerDependencies": {
-    "react": ">= 16.9.0 < 17.0.0"
+    "react": "16.9 - 17"
   }
 }
