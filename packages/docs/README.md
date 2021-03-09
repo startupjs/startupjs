@@ -13,6 +13,14 @@ You can create a new application with the routing system using the `routing` tem
 yarn add @startupjs/docs
 ```
 
+## Requirements
+
+```
+react: >= 16.9.0 < 17
+react-native: >= 0.61.4 < 0.64.0
+startupjs: >= 0.33.0
+```
+
 ## Usage
 
 1. Create the `docs/` folder in your project root.

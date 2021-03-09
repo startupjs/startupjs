@@ -2,6 +2,12 @@
 
 > Helpers for react-sharedb hooks and classes syntaxes
 
+## Requirements
+
+```
+react: >= 16.9.0 < 17
+```
+
 ## Licence
 
 MIT

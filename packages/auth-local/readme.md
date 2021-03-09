@@ -7,23 +7,19 @@ import { Button } from '@startupjs/ui'
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
+## Требования
+
 ```
-yarn add @startupjs/auth-local
-yarn add text-encoding-polyfill
+@startupjs/auth: >= 0.33.0
+text-encoding-polyfill: >= 0.6.7
 ```
+
+## Инициализация дополнительных модулей
 
 В корневом index.js добавить:
 ```js
 import 'text-encoding-polyfill'
 ```
-
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-local/server`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-local`
 
 ## Инициализация на сервере
 Импорт стратегии:

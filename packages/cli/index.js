@@ -67,6 +67,7 @@ const REMOVE_DEPENDENCIES = [
 const REMOVE_FILES = [
   '.prettierrc.js',
   '.eslintrc.js',
+  '.flowconfig',
   'App.js',
   'babel.config.js',
   'metro.config.js'
@@ -295,7 +296,6 @@ const SCRIPTS = {
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
-  precommit: 'lint-staged',
   postinstall: 'startupjs postinstall',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',

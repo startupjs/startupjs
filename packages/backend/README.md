@@ -7,6 +7,12 @@
 yarn add @startupjs/backend
 ```
 
+## Requirements
+
+```
+nconf: *
+```
+
 ## Usage
 
 ```js

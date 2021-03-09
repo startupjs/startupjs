@@ -1,6 +1,7 @@
 {
   "name": "@startupjs/auth-local",
   "version": "0.32.1",
+  "type": "module",
   "description": "Local auth plugin for StartupJS auth module",
   "main": "index.js",
   "publishConfig": {
@@ -14,6 +15,7 @@
     "passport-local": "^1.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.0.1"
+    "@startupjs/auth": ">= 0.33.0",
+    "text-encoding-polyfill": ">= 0.6.7"
   }
 }

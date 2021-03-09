@@ -11,10 +11,10 @@
 
     // full path to workerActions.mjs and workerInit.mjs
     // by default 'worker/workerActions.mjs'
-    process.env.WORKER_ACTIONS_PATH = path.join(process.cwd(), './workerActions.mjs') 
+    process.env.WORKER_ACTIONS_PATH = path.join(process.cwd(), './workerActions.mjs')
     // by default worker/initWorker.mjs
-    process.env.WORKER_INIT_PATH = path.join(process.cwd(), './workerInit.mjs') 
-        
+    process.env.WORKER_INIT_PATH = path.join(process.cwd(), './workerInit.mjs')
+
     const dispatcher = new TaskDispatcher()
 
     dispatcher.start().catch((err) => {
@@ -56,7 +56,7 @@
 Worker has default parameters. These values ​​can be changed if necessary in `index.mjs` by specifying them in process.env.
 
 ```js
-WORKER_CHILDREN_NUM: '2', // workers amount in TaskDispatcher 
+WORKER_CHILDREN_NUM: '2', // workers amount in TaskDispatcher
 WORKER_TASK_DEFAULT_TIMEOUT: '30000', // time on execute task
 WORKER_THROTTLE_TIMEOUT: '3000', // time on execute task
 WORKER_TASK_COLLECTION: 'tasks', // task collection name

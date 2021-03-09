@@ -7,17 +7,14 @@ import { Button } from '@startupjs/ui'
 
 # Авторизация
 
-## Установка зависимостей
-`yarn add @startupjs/auth`
-`yarn add react-native-restart`
+## Требования
 
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth/server`
-`@startupjs/auth/isomorphic`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth`
+```
+@react-native-async-storage/async-storage: >= 1.13.2
+react-native-restart: >= 0.0.22
+@startupjs/ui: >= 0.33.0
+startupjs: >= 0.33.0
+```
 
 ## Описание
 

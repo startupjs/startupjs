@@ -2,14 +2,15 @@ import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import AuthMain from '../../packages/auth/readme.md'
-import AuthLocal from '../../packages/auth-local/readme.md'
+import AuthApple from '../../packages/auth-apple/readme.md'
+import AuthAzuread from '../../packages/auth-azuread/readme.md'
+import AuthCommon from '../../packages/auth-common/readme.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
-import AuthAzuread from '../../packages/auth-azuread/readme.md'
-import AuthCommon from '../../packages/auth-common/readme.md'
-import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import AuthLocal from '../../packages/auth-local/readme.md'
 import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
+import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -42,10 +43,20 @@ export default docs({
         title: 'Главный модуль',
         component: AuthMain
       },
-      local: {
+      apple: {
         type: 'mdx',
-        title: 'Локальная',
-        component: AuthLocal
+        title: 'Apple',
+        component: AuthApple
+      },
+      azuread: {
+        type: 'mdx',
+        title: 'Azure AD',
+        component: AuthAzuread
+      },
+      common: {
+        type: 'mdx',
+        title: 'Общая',
+        component: AuthCommon
       },
       facebook: {
         type: 'mdx',
@@ -62,15 +73,10 @@ export default docs({
         title: 'Linkedin',
         component: AuthLinkedin
       },
-      azuread: {
+      local: {
         type: 'mdx',
-        title: 'Azure AD',
-        component: AuthAzuread
-      },
-      common: {
-        type: 'mdx',
-        title: 'Общая',
-        component: AuthCommon
+        title: 'Локальная',
+        component: AuthLocal
       }
     }
   },
