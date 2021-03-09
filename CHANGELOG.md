@@ -1,3 +1,32 @@
+# [0.33.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.33.0-alpha.0) (2021-03-09)
+
+
+### Bug Fixes
+
+* **cli/link:** fix getting app name for android ([#546](https://github.com/startupjs/startupjs/issues/546)) ([c77e843](https://github.com/startupjs/startupjs/commit/c77e84359a04b5b8351d3263233d8d900e9afd78))
+* **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
+
+
+### chore
+
+* **app:** remove `peerDependencies` version restriction ([#518](https://github.com/startupjs/startupjs/issues/518)) ([ef51ff5](https://github.com/startupjs/startupjs/commit/ef51ff5183f1fc98938ef91cb79eefee16c891cb))
+
+
+### Features
+
+* **app:** add ability to restart app ([#543](https://github.com/startupjs/startupjs/issues/543)) ([947251f](https://github.com/startupjs/startupjs/commit/947251ff39aa236477cb538225f69ee0d718b3c8))
+* **app:** add ability to restore url after reload app ([#539](https://github.com/startupjs/startupjs/issues/539)) ([a508bbd](https://github.com/startupjs/startupjs/commit/a508bbd79c5e61fbf319c61049a938a63c79c896))
+* **app:** use 'LayoutWrapper' plugin to decorate app Layout ([#545](https://github.com/startupjs/startupjs/issues/545)) ([6558efc](https://github.com/startupjs/startupjs/commit/6558efc2d87fb58b3a15615ae40fd8da26bb9df8))
+* **auth:** add ability to customize forms ([#525](https://github.com/startupjs/startupjs/issues/525)) ([0bacc86](https://github.com/startupjs/startupjs/commit/0bacc8695cef7ca059cba3ba244bc302316a8bad))
+* **plugin:** add frontend api ([#535](https://github.com/startupjs/startupjs/issues/535)) ([b73f7f2](https://github.com/startupjs/startupjs/commit/b73f7f2a8ffa032640f5bad2bcd3b200a94e48ea))
+
+
+### BREAKING CHANGES
+
+* **app:** Remove version version restriction of `react` and `react-native`.
+
+
+
 ## [0.32.9](https://github.com/startupjs/startupjs/compare/v0.32.8...v0.32.9) (2021-02-26)
 
 
