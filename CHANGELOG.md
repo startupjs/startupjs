@@ -1,9 +1,15 @@
 # [0.33.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.2...v0.33.0-alpha.3) (2021-03-09)
 
+### Bug Fixes
+
+* update peer deps of react and fix peer deps for ui template ([7bc03cc](https://github.com/startupjs/startupjs/commit/7bc03ccfd43ecfdcaed97703687f0b82e87ecac0))
 
 
 # [0.33.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.1...v0.33.0-alpha.2) (2021-03-09)
 
+### Bug Fixes
+
+* update peer deps of react and fix peer deps for ui template ([b867bc7](https://github.com/startupjs/startupjs/commit/b867bc74157fa335678f7307cb0f16f4381a76ba))
 
 
 # [0.33.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.0...v0.33.0-alpha.1) (2021-03-09)
