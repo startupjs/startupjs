@@ -19699,10 +19699,10 @@ sharedb-mongo@1.0.0-beta.15:
     mongodb "^2.1.2 || ^3.0.0"
     sharedb "^1.0.0-beta"
 
-sharedb-mongo@^1.0.0-beta.4, sharedb-mongo@^1.0.0-beta.8:
-  version "1.0.0-beta.14"
-  resolved "https://registry.yarnpkg.com/sharedb-mongo/-/sharedb-mongo-1.0.0-beta.14.tgz#42ae557411b1bf88dd3b4167396425dc6b262a60"
-  integrity sha512-9z8DG5sTriEduB5dUFqTSQBqRnsKsXUX4ZPv0P/OsFcjY0sZQJWLL9WOD7wRQxa0SQfWCX1dQDVnZLB4USYrBw==
+sharedb-mongo@^1.0.0-beta.15:
+  version "1.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/sharedb-mongo/-/sharedb-mongo-1.0.0-beta.16.tgz#8f10f86f320adb7512704643bd0f63fdd1151c5d"
+  integrity sha512-ir+TC/Y+e4xmzjlnMr+Enm+4GcwujbtxU7aANkkjyCoMbpRe1wMQQFX9NCAOfxy9/TSejrGiedtScVfBJfHj3Q==
   dependencies:
     async "^2.6.3"
     mongodb "^2.1.2 || ^3.0.0"
