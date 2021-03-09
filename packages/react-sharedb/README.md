@@ -27,7 +27,7 @@ If you want to use `react-sharedb` separately from StartupJS in a pure React pro
 ## Requirements
 
 ```
-react: >= 16.9.0 < 17
+react: >= 16.9.0 < 17.0.0
 ```
 
 ## Usage with Hooks

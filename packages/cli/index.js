@@ -328,7 +328,7 @@ const TEMPLATES = {
       'react-native-collapsible@1.5.2',
       'react-native-gesture-handler@1.9.0',
       'react-native-reanimated@^1.13.2',
-      'react-native-tab-view^2.15.2'
+      'react-native-tab-view@^2.15.2'
     ]
   }
 }
