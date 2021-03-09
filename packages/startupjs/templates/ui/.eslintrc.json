@@ -47,22 +47,22 @@
     "jest/expect-expect": "off",
     "import-helpers/order-imports": [
       "warn",
-        { 
-          "newlinesBetween": "ignore",
-          "groups": [
-            "/^react$/",
-            "/react-native/",
-            "/^react.*/",
-            "/^startupjs/", 
-            "/^@?startupjs.*/",
-            "/^@?dmapper.*/",
-            "module",
-            "/components/",
-            ["/helpers/", "/hooks/"],
-            ["sibling", "parent"],
-            "/.\/index.styl/"
-          ]
-        }
+      {
+        "newlinesBetween": "ignore",
+        "groups": [
+          "/^react$/",
+          "/react-native/",
+          "/^react.*/",
+          "/^startupjs/",
+          "/^@?startupjs.*/",
+          "/^@?dmapper.*/",
+          "module",
+          "/components/",
+          ["/helpers/", "/hooks/"],
+          ["sibling", "parent"],
+          "/.\/index.styl/"
+        ]
+      }
     ]
   }
 }

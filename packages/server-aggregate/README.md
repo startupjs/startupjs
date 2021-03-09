@@ -8,6 +8,12 @@ Racer server aggregate plugin. It allows only server-defined aggregate queries.
 yarn add @startupjs/server-aggregate
 ```
 
+### requirements
+
+```
+racer: 0.9.15
+```
+
 ### usage
 
 In our client code:
@@ -82,4 +88,3 @@ Alternative approach (using regular model.query)
 
 ## MIT License
 Copyright (c) 2018 by Artur Zayats
-

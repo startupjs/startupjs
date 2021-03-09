@@ -7,6 +7,12 @@
 yarn add @startupjs/routes-middleware
 ```
 
+## Requirements
+
+```
+react: >= 16.9.0 < 17
+```
+
 ## Usage
 
 ```js

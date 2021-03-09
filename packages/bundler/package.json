@@ -30,7 +30,8 @@
     "file-loader": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "generic-names": "^1.0.3",
-    "lodash": "4.x",
+    "lodash": "^4.17.20",
+    "metro-config": "*",
     "mini-css-extract-plugin": "^0.8.0",
     "moment": "^2.0.0",
     "moment-locales-webpack-plugin": "^1.0.7",
@@ -47,7 +48,6 @@
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
-    "metro-config": "*",
-    "react-native-svg": ">= 9.13.6"
+    "react-native-svg": ">= 12.1.0"
   }
 }

@@ -27,7 +27,7 @@
   "dependencies": {
     "@js-code/native-store": "0.0.2",
     "@startupjs/model": "^0.32.1",
-    "racer": "0.9.15",
+    "racer": "1.0.0",
     "sharedb": "^1.0.0",
     "sharedb-mingo": "^3.0.7",
     "sharedb-offline": "0.0.9"

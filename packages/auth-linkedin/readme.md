@@ -3,16 +3,12 @@
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
-`yarn add @startupjs/auth-linkedin`
-`yarn add react-native-webview`
+## Требования
 
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-linkedin/server`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-linkedin`
+```
+@startupjs/auth: >= 0.33.0-alpha.0
+react-native-webview: 10.10.2
+```
 
 ## Настройка приложения
 1 - Создать приложение по [ссылке](https://www.linkedin.com/developers)

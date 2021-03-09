@@ -1,6 +1,12 @@
 # startupjs dm-sharedb-server
 > Express.js server with ShareDB, configs system, and react-router support for rendering client apps.
 
+## Requirements
+
+```
+nconf: *
+```
+
 ## Usage
 
 ```javascript
@@ -26,6 +32,7 @@ const getHead = appName => `
 ## @startupjs/sharedb-access connection
 
 ### Usage
+
 Add `accessControl: true` in options of your `startupjsServer`. For example:
 
 ```js

@@ -14,19 +14,20 @@ export default observer(function PDoc ({
   const [lang] = useLang()
   const Component = segments.reduce((docs, segment) => {
     const doc = docs[segment]
+    if (!doc) return
     const Component = getComponent(doc, lang)
     if (Component) return Component
     if (doc.type === 'collapse') return doc.items
-    throw Error('No component specified')
   }, docs)
-
-  if (!Component) return pug`Span 404. Not found`
 
   return pug`
     Div.content
       Br
-      Component
-      Br(lines=4)
+      if Component
+        Component
+        Br(lines=4)
+      else
+        Span(variant='h2') Page not found
   `
 })
 
