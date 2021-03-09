@@ -29,14 +29,16 @@ function AuthModal ({
   socialButtons,
   onSuccess,
   onError,
+  onClose,
   onChangeSlide
 }) {
   const isMobileWidth = width <= 480
   const [_redirectUrl] = useLocal('$render.query.redirectUrl')
   const [modal, $modal] = useValue(false)
 
-  function onClose () {
+  function _onClose () {
     $modal.set(false)
+    onClose()
   }
 
   function onShow (props = {}) {
@@ -44,7 +46,7 @@ function AuthModal ({
   }
 
   useOn('AuthModal.show', onShow)
-  useOn('AuthModal.close', onClose)
+  useOn('AuthModal.close', _onClose)
 
   return pug`
     Modal(
@@ -54,7 +56,6 @@ function AuthModal ({
       Modal.Header(style=styles.header)
       Div.content
         AuthForm(
-          slide=slide
           redirectUrl=_get(modal, 'redirectUrl') || _redirectUrl
           localForms=localForms
           socialButtons=socialButtons
@@ -62,6 +63,7 @@ function AuthModal ({
           onError=onError
           onChangeSlide=onChangeSlide
           ...modal
+          slide=slide
         )
   `
 }
@@ -73,6 +75,7 @@ AuthModal.propTypes = {
   socialButtons: PropTypes.array,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
+  onClose: PropTypes.func,
   onChangeSlide: PropTypes.func
 }
 
