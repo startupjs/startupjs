@@ -7,7 +7,7 @@
 
 ```
 @invertase/react-native-apple-authentication: >= 2.1.0
-@startupjs/auth: >= 0.33.0
+@startupjs/auth: >= 0.33.0-alpha.0
 ```
 
 ## Настройка приложения

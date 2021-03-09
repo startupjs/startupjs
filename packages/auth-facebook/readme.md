@@ -6,7 +6,7 @@
 ## Требования
 
 ```
-@startupjs/auth: >= 0.33.0
+@startupjs/auth: >= 0.33.0-alpha.0
 react-native-fbsdk: >= 1.0.0
 ```
 

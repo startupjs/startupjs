@@ -12,8 +12,8 @@ import { Button } from '@startupjs/ui'
 ```
 @react-native-async-storage/async-storage: >= 1.13.2
 react-native-restart: >= 0.0.22
-@startupjs/ui: >= 0.33.0
-startupjs: >= 0.33.0
+@startupjs/ui: >= 0.33.0-alpha.0
+startupjs: >= 0.33.0-alpha.0
 ```
 
 ## Описание
