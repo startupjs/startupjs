@@ -1,3 +1,12 @@
+# [0.33.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.0...v0.33.0-alpha.1) (2021-03-09)
+
+
+### Bug Fixes
+
+* fix broken compilation process ([263caa5](https://github.com/startupjs/startupjs/commit/263caa5d1cda63f136ec48b530493f8bfd950f08))
+
+
+
 # [0.33.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.33.0-alpha.0) (2021-03-09)
 
 
