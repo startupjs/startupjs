@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/server-aggregate",
-  "version": "0.32.8",
+  "version": "0.32.9",
   "description": "Module for describing aggregations on the server",
   "main": "server.js",
   "publishConfig": {
@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "peerDependencies": {
-    "racer": "0.9.15"
+  "dependencies": {
+    "racer": "1.0.0"
   },
   "author": "Artur Zayats <zag2art@gmail.com>",
   "license": "MIT"

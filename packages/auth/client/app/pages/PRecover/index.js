@@ -1,51 +1,40 @@
 import React from 'react'
-import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { AuthForm, Logo } from '../../../components'
-import '../sharedPageStyles.styl'
+import { AuthForm } from '../../../components'
+import { RECOVER_PASSWORD_SLIDE } from '../../../../isomorphic'
+import '../common.styl'
 
 function PRecover ({
   baseUrl,
-  configs,
-  logo,
   localForms,
   socialButtons,
   onError,
   onSuccess,
   onHandleError,
-  onChangeAuthPage
+  onChangeSlide
 }) {
   return pug`
-    Div.root
-      if logo
-        Div.logo
-          Logo(logo=logo)
-      Div.wrapper
-        AuthForm(
-          baseUrl=baseUrl
-          configs=configs
-          initSlide='recover'
-          hasRouting=true
-          localForms=localForms
-          socialButtons=socialButtons
-          onError=onError
-          onSuccess=onSuccess
-          onHandleError=onHandleError
-          onChangeAuthPage=onChangeAuthPage
-      )
+    AuthForm(
+      baseUrl=baseUrl
+      slide=RECOVER_PASSWORD_SLIDE
+      localForms=localForms
+      socialButtons=socialButtons
+      onError=onError
+      onSuccess=onSuccess
+      onHandleError=onHandleError
+      onChangeSlide=onChangeSlide
+    )
   `
 }
 
 PRecover.propTypes = {
   baseUrl: PropTypes.string,
-  configs: PropTypes.object,
-  logo: PropTypes.node,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
-  onSuccess: PropTypes.func,
   onError: PropTypes.func,
+  onSuccess: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeSlide: PropTypes.func
 }
 
 export default PRecover
