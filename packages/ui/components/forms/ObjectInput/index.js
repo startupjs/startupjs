@@ -70,10 +70,9 @@ export default observer(function ObjectInput ({
   return renderContainer(pug`
     each input, index in inputs
       - const { key, style, ...inputProps } = input
-      ErrorWrapper(err=errors[key])
+      ErrorWrapper(key=key err=errors[key])
         Input.input(
           ...inputProps
-          key=key
           style=style
           styleName={ pushTop: index !== 0 }
         )
