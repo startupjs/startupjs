@@ -4,6 +4,7 @@
 ## Requirements
 
 ```
+express: 4.x
 nconf: *
 ```
 

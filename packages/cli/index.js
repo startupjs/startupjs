@@ -34,7 +34,6 @@ const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
   'react-native-svg@^12.1.0',
-  'react-native-restart@^0.0.22',
   'nconf@^0.10.0',
   'react',
   'react-dom',
@@ -315,18 +314,21 @@ const TEMPLATES = {
     subTemplates: ['simple']
   },
   routing: {
-    subTemplates: ['simple', 'routing']
+    subTemplates: ['simple', 'routing'],
+    packages: [
+      'react-native-restart@^0.0.22'
+    ]
   },
   ui: {
     subTemplates: ['simple', 'routing', 'ui'],
     packages: [
       `@startupjs/ui@${STARTUPJS_VERSION}`,
-      '@fortawesome/free-solid-svg-icons@^5.12.0',
-      'react-native-gesture-handler@1.9.0',
-      'react-native-reanimated@^1.13.2',
       '@react-native-community/datetimepicker@^3.0.6',
       '@react-native-picker/picker@^1.9.3',
-      'react-native-collapsible@1.5.2'
+      'react-native-collapsible@1.5.2',
+      'react-native-gesture-handler@1.9.0',
+      'react-native-reanimated@^1.13.2',
+      'react-native-tab-view^2.15.2'
     ]
   }
 }

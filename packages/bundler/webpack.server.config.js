@@ -1,4 +1,4 @@
-const { getPluginConfigs } = require('@startupjs/plugin/manager')
+const { getPluginConfigs } = require('@startupjs/plugin/manager.cjs')
 const pickBy = require('lodash/pickBy')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
