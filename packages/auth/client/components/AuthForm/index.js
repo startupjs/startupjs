@@ -1,143 +1,99 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-
-import { observer, emit, useLocal } from 'startupjs'
-import { H5, Content, Span } from '@startupjs/ui'
-import { SIGN_IN_URL, SIGN_UP_URL, RECOVER_PASS_URL } from '@startupjs/auth/isomorphic'
+import React from 'react'
+import { observer } from 'startupjs'
+import { Row, H5, Content, Div, Span } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
-import _get from 'lodash/get'
 import OrDivider from '../OrDivider'
 import {
   DEFAULT_FORMS_CAPTIONS,
   DEFAULT_FORMS_DESCRIPTIONS,
-  FORM_COMPONENTS_KEYS,
   SIGN_IN_SLIDE,
-  SIGN_UP_SLIDE,
-  RECOVER_PASSWORD_SLIDE
+  SIGN_UP_SLIDE
 } from '../../../isomorphic'
 import './index.styl'
 
 function AuthForm ({
   baseUrl,
-  configs,
-  initSlide,
+  redirectUrl,
+  slide,
   socialButtons,
   localForms,
-  hasRouting,
-  redirectUrl,
+  renderForm,
   onSuccess,
   onError,
   onHandleError,
-  onChangeAuthPage
+  onChangeSlide
 }) {
-  const [search = ''] = useLocal('$render.search')
+  const localActiveForm = localForms ? localForms[slide] : null
 
-  const [activeSlide, setActiveSlide] = useState(initSlide)
-  const LocalActiveForm = localForms ? localForms[FORM_COMPONENTS_KEYS[activeSlide]] : null
-
-  // Config with titles, texts, custom components etc.
-  const config = _get(configs, activeSlide, {})
-
-  const caption = config.title || DEFAULT_FORMS_CAPTIONS[activeSlide]
-  const description = config.description || DEFAULT_FORMS_DESCRIPTIONS[activeSlide]
-  const localFormDescription = config.localFormDescription
-
-  const renderSocialButtons = socialButtons.map((Component, index) => {
+  const prepereSocialButtons = socialButtons.map((component, index) => {
     return pug`
-      View.button(key=index)
-        Component(
-          baseUrl=baseUrl
-          redirectUrl=redirectUrl
-        )
+      Div.button(key=index)
+        = component
     `
   })
 
-  const needOrLine = renderSocialButtons && renderSocialButtons.length &&
-    LocalActiveForm && [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
+  const isNeedOrLine = prepereSocialButtons && localActiveForm &&
+    [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)
 
-  function _onChangeAuthPage (slide) {
-    // Catch case if we need update query params or do something else
-    if (onChangeAuthPage && hasRouting) {
-      onChangeAuthPage(slide)
-    } else {
-      if (hasRouting) {
-        switch (slide) {
-          case SIGN_IN_SLIDE:
-            emit('url', SIGN_IN_URL + search)
-            break
-          case SIGN_UP_SLIDE:
-            emit('url', SIGN_UP_URL + search)
-            break
-          case RECOVER_PASSWORD_SLIDE:
-            emit('url', RECOVER_PASS_URL + search)
-            break
-          default:
-            break
-        }
-      } else {
-        setActiveSlide(slide)
-      }
-    }
+  let prepereLocalActiveForm = null
+  if (localActiveForm) {
+    prepereLocalActiveForm = React.cloneElement(localActiveForm, {
+      ...localActiveForm.props,
+      onChangeSlide
+    })
+  }
+
+  if (renderForm) {
+    return renderForm({
+      slide,
+      socialButtons: pug`
+        Row.buttons= prepereSocialButtons
+      `,
+      localActiveForm: prepereLocalActiveForm
+    })
   }
 
   return pug`
     Content
-      if LocalActiveForm
-        if typeof caption === 'string'
-          H5.caption= caption
-        else
-          = caption
+      if localActiveForm
+        H5.caption= DEFAULT_FORMS_CAPTIONS[slide]
 
-        if typeof description === 'string'
-          Span.description(variant='description')= description
-        else
-          = description
+        Span.description(variant='description')
+          = DEFAULT_FORMS_DESCRIPTIONS[slide]
 
-      if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(activeSlide)
-        View.buttons
-          = renderSocialButtons
+      if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)
+        Row.buttons
+          = prepereSocialButtons
 
-      if needOrLine
+      if isNeedOrLine
         OrDivider
 
-      if LocalActiveForm
-        View.form
-          if typeof localFormDescription === 'string'
-            Span.description(variant='description')= localFormDescription
-          else
-            = localFormDescription
-          LocalActiveForm(
-            config=config
-            baseUrl=baseUrl
-            redirectUrl=redirectUrl
-            onSuccess=onSuccess
-            onError=onError
-            onHandleError=onHandleError
-            onChangeAuthPage=_onChangeAuthPage
-          )
+      if localActiveForm
+        Div.form
+          = prepereLocalActiveForm
   `
 }
 
 AuthForm.propTypes = {
-  baseUrl: PropTypes.string.isRequired,
-  configs: PropTypes.object,
-  initSlide: PropTypes.string,
+  baseUrl: PropTypes.string,
+  redirectUrl: PropTypes.string,
+  slide: PropTypes.string,
   socialButtons: PropTypes.array,
   localForms: PropTypes.object,
-  hasRouting: PropTypes.bool,
-  redirectUrl: PropTypes.string,
+  renderForm: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func
+  onChangeSlide: PropTypes.func
 }
 
 AuthForm.defaultProps = {
   baseUrl: BASE_URL,
-  initSlide: SIGN_IN_SLIDE,
+  slide: SIGN_IN_SLIDE,
+  localForms: {},
   socialButtons: [],
-  hasRouting: false,
+  renderForm: null,
   onSuccess: null,
   onError: null,
   onHandleError: null

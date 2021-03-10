@@ -1,116 +1,99 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue } from 'startupjs'
-import { Div, Span, Br, Button } from '@startupjs/ui'
-import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
+import { Span, Button, TextInput, ErrorWrapper } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
+import _merge from 'lodash/merge'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import TextInput from '../TextInput'
 import './index.styl'
 
-const isWeb = Platform.OS === 'web'
+const IS_WEB = Platform.OS === 'web'
 
-function RecoverForm ({ baseUrl, onSuccess, onError, onChangeAuthPage }) {
+const DEFAULT_CONFIG = {
+  emailInputLabel: 'Email',
+  emailInputPlaceholder: 'Enter your email',
+  resetButtonLabel: 'Get reset link',
+  backButtonLabel: 'Back'
+}
+
+function RecoverForm ({
+  baseUrl,
+  config,
+  onSuccess,
+  onError,
+  onChangeSlide
+}) {
   const authHelper = useAuthHelper(baseUrl)
 
-  const [form, $form] = useValue({
-    email: null,
-    secret: null,
-    password: null,
-    confirm: null
-  })
-  const [formErrors, setFormErrors] = useState({})
-  const [feedBack, setFeedback] = useState(null)
+  const [form, $form] = useValue({ email: '' })
+  const [errors, setErrors] = useState({})
+  const [message, setMessage] = useState('')
 
-  const onFormChange = field => value => {
-    $form.set(field, value)
+  useEffect(() => {
+    if (IS_WEB) {
+      window.addEventListener('keypress', onKeyPress)
+    }
+
+    return () => {
+      if (IS_WEB) {
+        window.removeEventListener('keypress', onKeyPress)
+      }
+    }
+  }, [])
+
+  function onKeyPress (e) {
+    if (e.key === 'Enter') createRecoverySecret()
   }
 
-  // TODO: ref validation | use hapi?
   async function createRecoverySecret () {
-    if (!FORM_REGEXPS.email.re.test(form.email)) {
-      setFormErrors({ ...formErrors, email: FORM_REGEXPS.email.error })
-      return
-    }
     try {
       await authHelper.createPassResetSecret(form)
       onSuccess && onSuccess(null, RECOVER_PASSWORD_SLIDE)
-      setFeedback('Check your email for instructions')
+      setMessage('Check your email for instructions')
+      setErrors({})
     } catch (error) {
-      setFormErrors({ globalError: _get(error, 'response.data.message', error.message) })
+      setErrors({ server: _get(error, 'response.data.message', error.message) })
       onError && onError(error)
     }
   }
 
-  function onKeyPress (e) {
-    if (e.key === 'Enter') {
-      createRecoverySecret()
-    }
-  }
-
-  function listenKeypress () {
-    window.addEventListener('keypress', onKeyPress)
-  }
-
-  function unlistenKeypress () {
-    window.removeEventListener('keypress', onKeyPress)
-  }
-
-  useEffect(() => {
-    setFormErrors({})
-  }, [feedBack])
-
-  useEffect(() => {
-    if (isWeb) listenKeypress()
-    return () => {
-      if (isWeb) unlistenKeypress()
-    }
-  }, [])
-
-  function onLogin () {
-    onChangeAuthPage(SIGN_IN_SLIDE)
-  }
+  const _config = _merge({}, DEFAULT_CONFIG, config)
 
   return pug`
-    Div.root
-      if !feedBack
+    if !message
+      ErrorWrapper(err=errors.server)
         TextInput(
-          label='Enter your email'
-          onChangeText=onFormChange('email')
-          error=formErrors.email
           name='email'
-          placeholder='Email'
-          value=form.email || ''
+          label=_config.emailInputLabel
+          placeholder=_config.emailInputPlaceholder
+          value=form.email
+          onChangeText=t => $form.set('email', t)
         )
-        Br
-        Button(
-          onPress=createRecoverySecret
-          color='primary'
-          variant='flat'
-        ) Get reset link
-      else
-        Span.text.center-text
-          = feedBack
-      if formErrors.globalError
-        Br
-        Span.authError
-          = formErrors.globalError
-      Br
+
       Button.button(
-        onPress=onLogin
-        variant='text'
         color='primary'
-      ) Back
+        variant='flat'
+        onPress=createRecoverySecret
+      )= _config.resetButtonLabel
+    else
+      Span.text= message
+
+    Button.back(
+      variant='text'
+      color='primary'
+      onPress=() => onChangeSlide(SIGN_IN_SLIDE)
+    )= _config.backButtonLabel
   `
 }
 
 RecoverForm.propTypes = {
+  baseUrl: PropTypes.string,
+  config: PropTypes.object,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func.isRequired,
-  baseUrl: PropTypes.string
+  onChangeSlide: PropTypes.func
 }
 
 export default observer(RecoverForm)

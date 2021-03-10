@@ -7,6 +7,12 @@
 yarn add @startupjs/mdx
 ```
 
+## Requirements
+
+```
+react: 16.9 - 17
+```
+
 ## Usage
 
 Wrap your `<App />` into the `MDXProvider`.

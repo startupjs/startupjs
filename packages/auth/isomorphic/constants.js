@@ -4,10 +4,10 @@ export const SIGN_UP_URL = '/auth/sign-up'
 export const RECOVER_PASS_URL = '/auth/recover'
 export const LOGIN_LOCK_TIME = 60 * 1000
 
-export const RESET_PASSWORD_SLIDE = 'reset-password'
 export const SIGN_IN_SLIDE = 'sign-in'
 export const SIGN_UP_SLIDE = 'sign-up'
 export const RECOVER_PASSWORD_SLIDE = 'recover'
+export const RESET_PASSWORD_SLIDE = 'reset-password'
 export const CHANGE_PASSWORD_SLIDE = 'change-password'
 
 export const DEFAULT_FORMS_CAPTIONS = {
@@ -24,14 +24,6 @@ export const DEFAULT_FORMS_DESCRIPTIONS = {
   [RECOVER_PASSWORD_SLIDE]: undefined,
   [RESET_PASSWORD_SLIDE]: undefined,
   [CHANGE_PASSWORD_SLIDE]: undefined
-}
-
-export const FORM_COMPONENTS_KEYS = {
-  [SIGN_IN_SLIDE]: 'LoginForm',
-  [SIGN_UP_SLIDE]: 'RegisterForm',
-  [RECOVER_PASSWORD_SLIDE]: 'RecoverForm',
-  [RESET_PASSWORD_SLIDE]: 'ResetPasswordForm',
-  [CHANGE_PASSWORD_SLIDE]: 'ChangePasswordForm'
 }
 
 export const LINKED_PROVIDER_ERROR = 'Another account with same provider already linked!'

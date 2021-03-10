@@ -66,6 +66,7 @@ const REMOVE_DEPENDENCIES = [
 const REMOVE_FILES = [
   '.prettierrc.js',
   '.eslintrc.js',
+  '.flowconfig',
   'App.js',
   'babel.config.js',
   'metro.config.js'
@@ -294,7 +295,6 @@ const SCRIPTS = {
   metro: 'react-native start --reset-cache',
   web: 'startupjs web',
   server: 'startupjs server',
-  precommit: 'lint-staged',
   postinstall: 'startupjs postinstall',
   adb: 'adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010',
   'log-android-color': 'react-native log-android | ccze -m ansi -C -o nolookups',
@@ -314,18 +314,29 @@ const TEMPLATES = {
     subTemplates: ['simple']
   },
   routing: {
-    subTemplates: ['simple', 'routing']
+    subTemplates: ['simple', 'routing'],
+    packages: [
+      // === START APP PEER DEPS ===
+      'react-native-restart@^0.0.22'
+      // === END APP PEER DEPS ===
+    ]
   },
   ui: {
     subTemplates: ['simple', 'routing', 'ui'],
     packages: [
+      // === START APP PEER DEPS ===
+      'react-native-restart@^0.0.22',
+      // === END APP PEER DEPS ===
+
+      // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
-      '@fortawesome/free-solid-svg-icons@^5.12.0',
-      'react-native-gesture-handler@1.9.0',
-      'react-native-reanimated@^1.13.2',
       '@react-native-community/datetimepicker@^3.0.6',
       '@react-native-picker/picker@^1.9.3',
-      'react-native-collapsible@1.5.2'
+      'react-native-collapsible@1.5.2',
+      'react-native-gesture-handler@1.9.0',
+      'react-native-reanimated@^1.13.2',
+      'react-native-tab-view@^2.15.2'
+      // === END UI PEER DEPS ===
     ]
   }
 }

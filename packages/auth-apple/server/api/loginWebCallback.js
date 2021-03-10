@@ -15,7 +15,7 @@ export default function loginWebCallback (req, res, next, config) {
       const response = await linkAccount(req, provider)
       return res.send(response)
     } else {
-      const userId = await provider.findOrCreateUser()
+      const userId = await provider.findOrCreateUser({ req })
       finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
     }
   })(req, res, next)

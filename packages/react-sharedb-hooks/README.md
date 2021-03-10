@@ -19,6 +19,12 @@ You don't need to install anything if you are in a StartupJS project.
 
 For instructions on standalone usage in a pure React project refer to [`react-sharedb` readme](https://github.com/startupjs/startupjs/tree/master/packages/react-sharedb#using-react-sharedb-in-a-pure-react-project)
 
+## Requirements
+
+```
+react: 16.9 - 17
+```
+
 ## Usage with Hooks
 
 ### `observer(FunctionalComponent, options)` HOF

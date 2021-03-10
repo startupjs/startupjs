@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useMemo, useEffect, useLayoutEffect } from 'react'
 import { Route, Redirect } from 'react-router'
 import {
   $root,
@@ -10,11 +10,22 @@ import omit from 'lodash/omit'
 import qs from 'qs'
 import RoutesWrapper from './RoutesWrapper'
 
+let isLoadApp = false
+
 export default observer(function Routes ({
   routes,
   onRouteError,
   ...props
 }) {
+  const restoreUrl = useMemo(() => {
+    return $root.get('_session.restoreUrl')
+  }, [])
+
+  useEffect(() => {
+    $root.del('_session.restoreUrl')
+    isLoadApp = true
+  }, [])
+
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
 
@@ -38,6 +49,12 @@ export default observer(function Routes ({
       )
     `
   })
+
+  if (!isLoadApp && restoreUrl) {
+    return pug`
+      Redirect(to=restoreUrl)
+    `
+  }
 
   return pug`
     RoutesWrapper(...props)= routeComponents
