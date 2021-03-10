@@ -97,7 +97,7 @@ SCRIPTS_ORIG.webWebpack = oneLine(`
 
 // Detox test
 
-SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
+SCRIPTS_ORIG.test = ({ ios, init, build, artifacts, updateScreenshot } = {}) => {
   const appName = require(APP_JSON_PATH).name
 
   if (init) {
@@ -124,7 +124,7 @@ SCRIPTS_ORIG.test = ({ ios, init, build, artifacts } = {}) => {
   }
 
   if (ios) {
-    return SCRIPTS_ORIG.testIos(appName, artifacts)
+    return SCRIPTS_ORIG.testIos(appName, artifacts, updateScreenshot)
   }
 }
 
@@ -146,7 +146,8 @@ SCRIPTS_ORIG.testBuild = appName => oneLine(`
   && detox build -c ios
 `)
 
-SCRIPTS_ORIG.testIos = (appName, artifacts) => oneLine(`
+SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
+  ${updateScreenshot ? 'rm -rf e2e/__image_snapshots__/ &&' : ''}
   concurrently
     -s first -k -n "S,T"
     -c white,cyan.bgBlue
@@ -155,7 +156,9 @@ SCRIPTS_ORIG.testIos = (appName, artifacts) => oneLine(`
     && PORT=3001 MONGO_URL=mongodb://localhost:27017/${appName}_test startupjs start-production"
     "${SCRIPTS_ORIG.testJsBundle(appName)}
     && wait-on http://localhost:3001
-    && detox test -c ios ${artifacts ? '--artifacts-location $PWD/artifacts --take-screenshots all' : ''}"
+    && detox test -c ios
+    ${artifacts ? '--artifacts-location $PWD/artifacts --take-screenshots all' : ''}
+    ${updateScreenshot ? '--testNamePattern Screenshots:' : ''}"
 `)
 
 SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
@@ -430,7 +433,7 @@ commander
     }
 
     console.log('> Patch package.json with additional scripts')
-    addScriptsToPackageJson(projectPath)
+    patchScriptsInPackageJson(projectPath)
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -482,6 +485,7 @@ commander
   .option('-i, --init', 'Init test environment in your project')
   .option('-b, --build', 'Build ios app /ios/build')
   .option('-a, --artifacts', 'Artifacts are disabled by default. To enable them, pass this flag') // https://github.com/wix/Detox/blob/master/docs/APIRef.Artifacts.md
+  .option('-u, --updateScreenshot', 'Update tests screenshots')
   .action(async (options) => {
     try {
       await execa.command(
@@ -642,9 +646,15 @@ function renameFonts () {
   }
 }
 
-function addScriptsToPackageJson (projectPath) {
+function patchScriptsInPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
+
+  delete packageJSON.scripts.test
+  delete packageJSON.devDependencies['babel-jest']
+  delete packageJSON.devDependencies['react-test-renderer']
+  delete packageJSON.devDependencies.jest
+  delete packageJSON.jest
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
@@ -684,6 +694,9 @@ function appendGitignore (projectPath) {
     /data/
     # Protection from accidentally commiting private npm keys to a public repo
     .npmrc
+    # Detox
+    /artifacts/
+    /e2e/__diff_output__
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
