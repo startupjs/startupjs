@@ -70,7 +70,7 @@ const Search = observer(function Search () {
       value=value
       options=options
       placeholder='Search...'
-      renderItema=item => renderItem(item, pathname)
+      renderItem=item => renderItem(item, pathname)
       onChange=onChange
       onChangeText=APP_ENV === 'detox' ? onChangeText : undefined
     )
