@@ -51,6 +51,15 @@
 
 
 
+## [0.32.11](https://github.com/startupjs/startupjs/compare/v0.32.10...v0.32.11) (2021-03-10)
+
+
+### Bug Fixes
+
+* **cli/link:** fix getting app name for android ([12588ff](https://github.com/startupjs/startupjs/commit/12588ff8f553f56da28570f4d54d46528d5d22d5))
+
+
+
 ## [0.32.10](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.32.10) (2021-03-10)
 
 ### Bug Fixes
