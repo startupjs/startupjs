@@ -10,16 +10,18 @@ export default observer(function Slot ({
   const plugins = usePlugins()
   const options = useOptions()
 
-  return plugins.reduce((children, pluginStructure) => {
+  return plugins.reduce((acc, pluginStructure) => {
     const Component = pluginStructure[name]
     const pluginOptions = options[pluginStructure.name]
 
     if (Component) {
       return useMemo(() => {
-        return pug`Component(...props options=pluginOptions)= children`
-      }, [JSON.stringify(pluginOptions)])
+        return pug`
+          Component(...props options=pluginOptions)= acc
+        `
+      }, [JSON.stringify(pluginOptions), children])
     }
 
-    return children
+    return acc
   }, children)
 })

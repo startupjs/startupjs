@@ -351,7 +351,7 @@ PODS:
     - React-Core
   - RNCPicker (1.9.11):
     - React-Core
-  - RNDateTimePicker (3.2.0):
+  - RNDateTimePicker (3.0.9):
     - React-Core
   - RNGestureHandler (1.9.0):
     - React-Core
@@ -574,7 +574,7 @@ SPEC CHECKSUMS:
   RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
   RNCAsyncStorage: fe58eec522885718d6b297b7b658bf87d7ca557b
   RNCPicker: 6780c753e9e674065db90d9c965920516402579d
-  RNDateTimePicker: 17593e41b6b1585aeb8ecbe1c1cbc30cba3d0b4b
+  RNDateTimePicker: 8a51a2216c307769e69ef827293d59549ab1ca23
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
@@ -584,4 +584,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 99f0f126f975d65fc26940201cf4c1cafb74a159
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.0
