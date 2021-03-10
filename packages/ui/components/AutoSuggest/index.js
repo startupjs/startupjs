@@ -30,7 +30,8 @@ function AutoSuggest ({
   onChange,
   onDismiss,
   onChangeText,
-  onScrollEnd
+  onScrollEnd,
+  testID
 }) {
   const _data = useRef([])
   const refInput = useRef()
@@ -125,6 +126,7 @@ function AutoSuggest ({
           onChangeText=_onChangeText
           onFocus=()=> setIsShow(true)
           onKeyPress=onKeyPress
+          testID=testID
         )
 
       if isLoading

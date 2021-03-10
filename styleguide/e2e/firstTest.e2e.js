@@ -1,3 +1,5 @@
+const x = require('@startupjs/e2e/helpers')
+
 describe('Test suite 1', () => {
   it('should have logo', async () => {
     await x('#button').tap()
