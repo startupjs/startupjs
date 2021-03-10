@@ -207,7 +207,7 @@ Is similar to `hasOne`, but indicates a one-to-many association with another ORM
 * any other custom properties
 
 ```js
-import { BaseModel, hasMany, hasOne, belongsTo } from 'startupjs/orm'
+import { BaseModel, hasMany } from 'startupjs/orm'
 import GamesModel from './GamesModel'
 import GameModel from './GameModel'
 import PlayerModel from './PlayerModel'
