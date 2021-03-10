@@ -4,21 +4,16 @@
     "browser": true,
     "es6": true,
     "node": true,
-    "mocha": true,
-    "detox/detox": true,
-    "jest": true,
-    "jest/globals": true
+    "mocha": true
   },
   "extends": [
     "standard",
     "standard-react",
-    "plugin:react-pug/all",
-    "plugin:jest/recommended"
+    "plugin:react-pug/all"
   ],
   "globals": {
     "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly",
-    "x": "readonly"
+    "SharedArrayBuffer": "readonly"
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -32,8 +27,6 @@
   "plugins": [
     "react",
     "react-pug",
-    "jest",
-    "detox",
     "eslint-plugin-import-helpers"
   ],
   "rules": {
@@ -44,7 +37,6 @@
     "react-pug/no-interpolation": "off",
     "react-pug/prop-types": "off",
     "react-pug/quotes": "off",
-    "jest/expect-expect": "off",
     "import-helpers/order-imports": [
       "warn",
       {

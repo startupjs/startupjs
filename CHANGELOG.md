@@ -26,6 +26,7 @@
 
 ### Bug Fixes
 
+
 * **cli/link:** fix getting app name for android ([#546](https://github.com/startupjs/startupjs/issues/546)) ([c77e843](https://github.com/startupjs/startupjs/commit/c77e84359a04b5b8351d3263233d8d900e9afd78))
 * **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
 
@@ -47,6 +48,14 @@
 ### BREAKING CHANGES
 
 * **app:** Remove version version restriction of `react` and `react-native`.
+
+
+
+## [0.32.10](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.32.10) (2021-03-10)
+
+### Bug Fixes
+
+* **startupjs:** fix eslint in startupjs ui template ([#557](https://github.com/startupjs/startupjs/issues/557)) ([0926cfd](https://github.com/startupjs/startupjs/commit/0926cfdd4e4d530eb922425a22ed9bd788294e77))
 
 
 
