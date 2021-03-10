@@ -43,8 +43,11 @@ export default function (config = {}) {
 
     passport.use(
       new Strategy(
-        { usernameField: 'email' },
-        async (email = '', password, cb) => {
+        {
+          usernameField: 'email',
+          passReqToCallback: true
+        },
+        async (req, email = '', password, cb) => {
           email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
@@ -52,7 +55,7 @@ export default function (config = {}) {
           if (!authData) return cb(null, false, { message: 'User not found' })
 
           const hash = _get(authData, 'providers.local.hash', '')
-          const userId = await provider.findOrCreateUser()
+          const userId = await provider.findOrCreateUser({ req })
 
           await normalizeProvider(userId, model)
 
