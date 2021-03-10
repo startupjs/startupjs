@@ -32,7 +32,7 @@ export default function changePassword (req, res, done, config) {
       if (authData) {
         return done('User already exists')
       }
-      await provider.findOrCreateUser()
+      await provider.findOrCreateUser({ req })
     } else {
       // Else change password hash
       const oldHash = $auth.get('providers.local.hash')
