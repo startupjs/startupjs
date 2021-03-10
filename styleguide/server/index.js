@@ -1,4 +1,4 @@
-import init from 'startupjs/init/server'
+import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'

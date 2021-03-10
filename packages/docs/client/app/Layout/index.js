@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
-import { AutoSuggest, Button, Div, Layout, Menu, Row, Span, Portal } from '@startupjs/ui'
+import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -86,11 +86,10 @@ export default observer(function StyleguideLayout ({ children }) {
   //       to achieve a semi-transparent effect
   return pug`
     MDXProvider
-      Portal.Provider
-        Layout.layout(testID="Layout")
-          Sidebar
-            Topbar
-            ScrollableProvider
-              = children
+      Layout.layout(testID="Layout")
+        Sidebar
+          Topbar
+          ScrollableProvider
+            = children
   `
 })
