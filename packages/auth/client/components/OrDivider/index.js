@@ -1,12 +1,20 @@
 import React from 'react'
+import { observer } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 import './index.styl'
 
-export default function OrDivider () {
+function OrDivider ({ label = 'or' }) {
   return pug`
     Div.root
       Div.line.left
-      Span.text or
+      Span.text= label
       Div.line.right
   `
 }
+
+OrDivider.propTypes = {
+  label: PropTypes.string
+}
+
+export default observer(OrDivider)
