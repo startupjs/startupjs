@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import { usePlugins, useOptions } from './PluginsProvider'
 
@@ -10,16 +10,20 @@ export default observer(function Slot ({
   const plugins = usePlugins()
   const options = useOptions()
 
-  return plugins.reduce((children, pluginStructure) => {
+  return plugins.reduce((recursiveChildren, pluginStructure) => {
     const Component = pluginStructure[name]
     const pluginOptions = options[pluginStructure.name]
 
+    // TODO: memo pluginOptions
     if (Component) {
-      return useMemo(() => {
-        return pug`Component(...props options=pluginOptions)= children`
-      }, [JSON.stringify(pluginOptions)])
+      return pug`
+        Component(
+          options=pluginOptions
+          ...props
+        )= recursiveChildren
+      `
     }
 
-    return children
+    return recursiveChildren
   }, children)
 })
