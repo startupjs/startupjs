@@ -41,7 +41,7 @@ async function register (req, config, done) {
       return done('User already exists')
     }
 
-    const userId = await provider.findOrCreateUser()
+    const userId = await provider.findOrCreateUser({ req })
 
     done(null, userId)
   } catch (err) {

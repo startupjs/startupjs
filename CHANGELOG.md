@@ -1,3 +1,21 @@
+## [](https://github.com/startupjs/startupjs/compare/v0.32.8...v0.32.9) (2021-03-10)
+
+
+### Features
+
+* **parseUserCreationData:** now takes req in second param
+* **onAfterUserCreationHook:** now takes object with userId in first param and req in second param
+
+
+## [0.32.8](https://github.com/startupjs/startupjs/compare/v0.32.7...v0.32.8) (2021-02-24)
+
+
+### Features
+
+* **deploy:** Add support for deploying 'cron' microservice ([0d58ef4](https://github.com/startupjs/startupjs/commit/0d58ef427593fc07847509460bb75ed6ac03e029))
+* **mdx:** add component for image ([#510](https://github.com/startupjs/startupjs/issues/510)) ([345aa91](https://github.com/startupjs/startupjs/commit/345aa916a576801903dbf6fd5acbbb0887078f4b))
+* **server-aggregate:** forward error from model to router ([#534](https://github.com/startupjs/startupjs/issues/534)) ([90de1b7](https://github.com/startupjs/startupjs/commit/90de1b7cba2f13b30ce1de3b1ac7e86133039a97))
+
 ## [0.32.9](https://github.com/startupjs/startupjs/compare/v0.32.8...v0.32.9) (2021-02-26)
 
 
