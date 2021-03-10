@@ -4,6 +4,7 @@
   "sideEffects": [],
   "private": true,
   "scripts": {
+    "start": "startupjs start",
     "android": "react-native run-android && (npm run adb || true) && npm run log-android",
     "android-release": "react-native run-android --variant=release",
     "ios": "react-native run-ios",
