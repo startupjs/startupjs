@@ -1,3 +1,12 @@
+## [0.32.10](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.32.10) (2021-03-10)
+
+
+### Bug Fixes
+
+* **startupjs:** fix eslint in startupjs ui template ([#557](https://github.com/startupjs/startupjs/issues/557)) ([0926cfd](https://github.com/startupjs/startupjs/commit/0926cfdd4e4d530eb922425a22ed9bd788294e77))
+
+
+
 ## [0.32.9](https://github.com/startupjs/startupjs/compare/v0.32.8...v0.32.9) (2021-02-26)
 
 
