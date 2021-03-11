@@ -148,12 +148,15 @@ module.exports = async options => {
     for (const path in global.STARTUP_JS_ORM) {
       const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
 
-      if (properties) {
+      const isFactory = !!global.STARTUP_JS_ORM[path].OrmEntity.factory
+
+      if (isFactory) {
+        schemaPerCollection.schemas[path.replace('.*', '')] = global.STARTUP_JS_ORM[path].OrmEntity
+      } else if (properties) {
         const schema = { type: 'object', properties }
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }
-
     sharedbSchema(backend, schemaPerCollection)
   }
 
