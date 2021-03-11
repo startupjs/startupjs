@@ -34,8 +34,11 @@ Object.assign(ElementPrototype, {
 // Proxy element/expect methods
 const proxyHandler = {
   get: ({ selector }, propKey) => {
+    let matcher = getMatcher(selector)
+
+    if (/^not/.test(propKey)) return expect(element(matcher)).not[propKey]
+
     return function (...args) {
-      let matcher = getMatcher(selector)
       if (/^to/.test(propKey)) {
         return expect(element(matcher))[propKey](...args)
       } else {

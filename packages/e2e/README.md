@@ -257,7 +257,7 @@ Likewise for `.toExist ()`.
 await x('#invisiable').not.toExist()
 ```
 
-## Скриншот тестирование
+## Screenshot testing
 
 `@startupjs/e2e` allows for screenshot testing. Note: the name of the test from the screenshots must begin with `Screenshots:`
 

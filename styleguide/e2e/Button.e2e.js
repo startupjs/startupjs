@@ -23,6 +23,8 @@ describe('Button', () => {
   it('should render disabled button', async () => {
     await x('#disabledButton').toBeVisible()
     await x('#disabledButton').tap()
+    await x('#disabledButton').not.toHaveLabel('Pressed')
+    await x('#disabledButton').toHaveLabel('Disabled button')
   })
 
   it('should render size="xs" Button', async () => {

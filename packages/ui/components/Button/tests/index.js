@@ -6,6 +6,7 @@ import Button from '../index'
 
 function ButtonTests () {
   const [counter, setCounter] = useState(0)
+  const [disabledButtonLabel, setDisabledButtonLabel] = useState('Disabled button')
   const [asyncButtonLabel, setAsyncButtonLabel] = useState('')
 
   async function onPressAsyncButton () {
@@ -42,8 +43,8 @@ function ButtonTests () {
     Button(
       testID='disabledButton'
       disabled
-      onPress=fn
-    ) Disabled Button
+      onPress=() => setDisabledButtonLabel('Pressed')
+    )= disabledButtonLabel
   `
 }
 
