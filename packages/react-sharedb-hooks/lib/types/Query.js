@@ -49,7 +49,7 @@ export default class Query extends Base {
         })
       }).catch(err => {
         console.error(err)
-        $root.emit('error', err.code)
+        $root.emit('error', err)
       })
       if (batch) {
         promiseBatcher.add(newPromise)
