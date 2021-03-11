@@ -45,7 +45,7 @@ First of all, you need to read the [API Detox documentation](https://github.com/
 At the `e2e` folder, create a file `* .e2e.js` and add a minimal template to it:
 
 ```js
-const x = require('@startupjs/e2e/helpers')
+const { x } = require('@startupjs/e2e/helpers')
 
 describe('Example', () => {
   it('should visible button', async () => {
@@ -266,15 +266,6 @@ describe('Button', () => {
 })
 ```
 
-After the first run of the test, a screenshot will be created in the folder `e2e/__image_snapshots__`. If the next time you run the test, the screenshots will not match, then a file will be created in the folder `e2e/__diff_output__` showing the differences between the initial screenshot and the current state of the test.
-
-```js
-e2e
-├── Button.e2e.js
-├── __diff_output__
-│   └── Button Screenshots: Buttons page-diff.png
-├── __image_snapshots__
-│   └── Button Screenshots: Buttons page-snap.png
-```
+After the first run of the test, a screenshot will be created in the components folder `tests/__image_snapshots__`. If the next time you run the test, the screenshots will not match, then a file will be created in the folder `e2e/__diff_output__` showing the differences between the initial screenshot and the current state of the test.
 
 To overwrite the original screenshot, run the command `npx startupjs test --ios --updateScreenshot`

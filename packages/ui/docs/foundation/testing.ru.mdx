@@ -46,7 +46,7 @@
 В папке `e2e` в корне вашего проекта, создайте файл `*.e2e.js` и добавте в него минимальный шаблон:
 
 ```js
-const x = require('@startupjs/e2e/helpers')
+const { x } = require('@startupjs/e2e/helpers')
 
 describe('Example', () => {
   it('should visible button', async () => {
@@ -263,20 +263,11 @@ const { matchImageSnapshot } = require('@startupjs/e2e')
 describe('Button', () => {
   it('Screenshots: Buttons page', async () => {
     const imagePath = await device.takeScreenshot('Buttons page')
-    matchImageSnapshot(imagePath)
+    matchImageSnapshot(imagePath, __dirname)
   })
 })
 ```
 
-После первого запуска теста создаcтся скриншот в папке `e2e/__image_snapshots__`. Если при последующем запуске теста, скриншоты не будут совпадать, то в папке `e2e/__diff_output__` создаcтся файл с отображением различий между первоначальным скриншотом и текущим состоянием теста.
-
-```js
-e2e
-├── Button.e2e.js
-├── __diff_output__
-│   └── Button Screenshots: Buttons page-diff.png
-├── __image_snapshots__
-│   └── Button Screenshots: Buttons page-snap.png
-```
+После первого запуска теста создаcтся скриншот в папке компонента `tests/__image_snapshots__`. Если при последующем запуске теста, скриншоты не будут совпадать, то в папке `e2e/__diff_output__` создаcтся файл с отображением различий между первоначальным скриншотом и текущим состоянием теста.
 
 Для перезаписи первоначального скриншота запустите комманду `npx startupjs test --ios --updateScreenshot`

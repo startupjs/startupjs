@@ -1,8 +1,18 @@
-const x = require('@startupjs/e2e/helpers')
+const { x } = require('@startupjs/e2e/helpers')
 
-async function goTo (componentName) {
-  await x('#searchInput').toBeVisible()
-  await x('#searchInput').replaceText('/test/' + componentName)
+function goTo () {
+  let componentName = ''
+  return {
+    run: async function goTo () {
+      await x('#searchInput').toBeVisible()
+      await x('#searchInput').replaceText('/test/' + componentName)
+    },
+    changeComponent: newComponentName => {
+      componentName = newComponentName
+    }
+  }
 }
 
-module.exports = { goTo }
+module.exports = {
+  goTo: goTo()
+}

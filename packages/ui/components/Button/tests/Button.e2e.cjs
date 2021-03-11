@@ -1,10 +1,5 @@
 const { jestExpect, matchImageSnapshot } = require('@startupjs/e2e')
-const x = require('@startupjs/e2e/helpers')
-const { goTo } = require('./helpers')
-
-beforeEach(async () => {
-  await goTo('Button')
-})
+const { x } = require('@startupjs/e2e/helpers')
 
 describe('Button', () => {
   it('should click on the button', async () => {
@@ -35,6 +30,6 @@ describe('Button', () => {
 
   it('Screenshots: Buttons page', async () => {
     const imagePath = await device.takeScreenshot('Buttons page')
-    matchImageSnapshot(imagePath)
+    matchImageSnapshot(imagePath, __dirname)
   })
 })

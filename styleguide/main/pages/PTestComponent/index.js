@@ -2,22 +2,18 @@ import React from 'react'
 import { SafeAreaView } from 'react-native'
 import { observer, useLocal } from 'startupjs'
 import { Content } from '@startupjs/ui'
-import { ButtonTests } from './testComponents'
+import * as testComponents from './testComponents'
 
 function PTestComponent () {
   const [componentName] = useLocal('$render.params.componentName')
+  const Component = testComponents[componentName]
 
-  function getComponent () {
-    switch (componentName) {
-      case 'Button':
-        return pug`ButtonTests`
-    }
-  }
+  if (!Component) throw Error(`No tests for component ${componentName} found!`)
 
   return pug`
     SafeAreaView
       Content
-        = getComponent()
+        Component
   `
 }
 

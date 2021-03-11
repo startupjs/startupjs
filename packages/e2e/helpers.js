@@ -66,7 +66,7 @@ const proxyHandler = {
   It also supports ancestor selectors (same as in css, with space).
   Example: $('#topBar ="My User Profile"')
 */
-module.exports = function x (selector) {
+module.exports.x = function x (selector) {
   return new Proxy({ selector }, proxyHandler)
 }
 

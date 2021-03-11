@@ -4,10 +4,11 @@ const jestExpect = require('expect')
 const { toMatchImageSnapshot } = require('jest-image-snapshot')
 jestExpect.extend({ toMatchImageSnapshot })
 
-function matchImageSnapshot (imagePath) {
+function matchImageSnapshot (imagePath, __dirname) {
   const imageBuffer = fs.readFileSync(imagePath)
   jestExpect(imageBuffer).toMatchImageSnapshot({
-    customDiffDir: path.resolve(process.cwd(), 'e2e/__diff_output__'),
+    customSnapshotsDir: path.resolve(__dirname, '__image_snapshots__'),
+    customDiffDir: path.resolve(process.cwd(), '__diff_output__'),
     customSnapshotIdentifier: ({ currentTestName }) => currentTestName
   })
 }

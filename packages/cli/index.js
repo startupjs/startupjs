@@ -12,6 +12,7 @@ const FIRSTTEST_TEMPLATE = require('./detoxTemplates/firstTestTemplate')
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
 const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
 const APP_JSON_PATH = path.join(process.cwd(), 'app.json')
+const ROOT_PATH = process.env.ROOT_PATH || process.cwd()
 
 let PATCHES_DIR
 try {
@@ -147,7 +148,7 @@ SCRIPTS_ORIG.testBuild = appName => oneLine(`
 `)
 
 SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
-  ${updateScreenshot ? 'rm -rf e2e/__image_snapshots__/ &&' : ''}
+  ${updateScreenshot ? `rm -rf \`find ${ROOT_PATH} -name "__image_snapshots__" -type d\` &&` : ''}
   concurrently
     -s first -k -n "S,T"
     -c white,cyan.bgBlue
