@@ -101,16 +101,11 @@ function optionalPromisify (originalFn) {
         syncResult = originalFn.apply(this, args)
         isSyncCallback = undefined
       }).catch(err => {
-        // TODO: emit('error') for each error, not only for sharedbAccess errors
-        if (typeof err.code === 'string') {
-          console.error(err)
-          if (this instanceof Query) {
-            this.model.root.emit('error', err)
-          } else {
-            this.root.emit('error', err)
-          }
+        console.error(err)
+        if (this instanceof Query) {
+          this.model.root.emit('error', err)
         } else {
-          throw err
+          this.root.emit('error', err)
         }
       })
     }
