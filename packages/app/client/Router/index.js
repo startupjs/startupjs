@@ -83,7 +83,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 
   return pug`
     if err
-      Error(value=err pages=errorPages supportEmail=supportEmail)
+      Error(error=err pages=errorPages supportEmail=supportEmail)
     else
       RenderApp(app=app routes=routes ...props)
 
