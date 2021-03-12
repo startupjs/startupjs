@@ -4,7 +4,7 @@ For e2e testing on mobile platforms, uses the [Detox](https://github.com/wix/Det
 
 ## Installing
 
-Install the required dependencies `yarn add -D @startupjs/e2e`
+Install the required dependencies `yarn add -D @startupjs/e2e eslint-plugin-detox eslint-plugin-jest`
 
 Add the following rules to `.eslint.json`:
 
@@ -270,7 +270,7 @@ const { matchImageSnapshot } = require('@startupjs/e2e')
 describe('Button', () => {
   it('Screenshots: Buttons page', async () => {
     const imagePath = await device.takeScreenshot('Buttons page')
-    matchImageSnapshot(imagePath)
+    matchImageSnapshot(imagePath, __dirname)
   })
 })
 ```
