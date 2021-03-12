@@ -61,5 +61,6 @@ buck-out/
 # DB data
 /data/
 
-# Test screenshots
+# Detox
 /artifacts/
+/e2e/__diff_output__

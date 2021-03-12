@@ -34,8 +34,11 @@ Object.assign(ElementPrototype, {
 // Proxy element/expect methods
 const proxyHandler = {
   get: ({ selector }, propKey) => {
+    let matcher = getMatcher(selector)
+
+    if (/^not/.test(propKey)) return expect(element(matcher)).not[propKey]
+
     return function (...args) {
-      let matcher = getMatcher(selector)
       if (/^to/.test(propKey)) {
         return expect(element(matcher))[propKey](...args)
       } else {
@@ -63,7 +66,7 @@ const proxyHandler = {
   It also supports ancestor selectors (same as in css, with space).
   Example: $('#topBar ="My User Profile"')
 */
-module.exports = function x (selector) {
+module.exports.x = function x (selector) {
   return new Proxy({ selector }, proxyHandler)
 }
 

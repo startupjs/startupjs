@@ -13,5 +13,10 @@ export default (components = {}) => [
     path: '/scrollable-anchors-example',
     exact: true,
     component: components.PAnchorsExample
+  },
+  {
+    path: '/test/:componentName',
+    exact: true,
+    component: components.PTestComponent
   }
 ]

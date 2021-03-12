@@ -2,9 +2,29 @@
 
 For e2e testing on mobile platforms, uses the [Detox](https://github.com/wix/Detox) library and test-runner [Jest](https://jestjs.io/)
 
-## Installing the package
+## Installing
 
-`yarn add -D @startupjs/e2e`
+Install the required dependencies `yarn add -D @startupjs/e2e`
+
+Add the following rules to `.eslint.json`:
+
+```js
+  "env": {
+    "detox/detox": true,
+    "jest": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "plugin:jest/recommended"
+  ],
+  "plugins": [
+    "jest",
+    "detox",
+  ],
+  "rules": {
+    "jest/expect-expect": "off",
+  }
+```
 
 ## Running tests
 
@@ -25,6 +45,8 @@ First of all, you need to read the [API Detox documentation](https://github.com/
 At the `e2e` folder, create a file `* .e2e.js` and add a minimal template to it:
 
 ```js
+const { x } = require('@startupjs/e2e/helpers')
+
 describe('Example', () => {
   it('should visible button', async () => {
     await x('#button').toBeVisible()
@@ -90,6 +112,7 @@ After we have found the element, we can apply some actions to it. For example, c
 Let's take a look at a few basic steps to understand how they work.
 
 ## .tap()
+
 `.tap ()` allows you to click on an element. That is, in order to check the work, for example, of a button, you must click on it and so on. It is important to remember that this action can be applied to any element. Let's say we have a form that contains two buttons (accept and dismiss):
 
 ```pug
@@ -116,6 +139,7 @@ await x('#acceptButton').tap()
 Thus, we have made a click on the `Accept` button.
 
 ## .typeText(text)
+
 `.typeText (text)` allows you to enter text into an element. This is necessary to check the completion of the input fields. Let's say we have a form that contains input fields:
 
 ```pug
@@ -142,6 +166,7 @@ await x('#userSurnameInput').typeText('Potter')
 ```
 
 ## .scroll(offset, direction, startPositionX, startPositionY)
+
 Scrolls the element based on the passed parameters. The method is very important, because in order to find an element located below or above the current area of ​​visibility, you need to scroll until the required element appears in the visibility field.
 
 Parameters:
@@ -175,6 +200,7 @@ await x('#userEmail').typeText('harryWizzard@test.com')
 After we have found the element, performed some actions, we need to check the state of the elements. For example, is the element currently visible, contains specific text, and so on. All available waits for an item can be seen in the [pertinent section of the Detox documentation](https://github.com/wix/Detox/blob/master/docs/APIRef.Expect.md).
 
 ## .toBeVisible()
+
 Checks if an element is in the current scope. Thus, we can check the appearance or disappearance of elements when performing actions.
 
 Let's say we have an openModalButton button. When you click on it, the modal window `modal` appears. Then the test for this behavior is:
@@ -185,6 +211,7 @@ await x('#modal').toBeVisible()
 ```
 
 ## .toExist()
+
 Checks if an element is on the current page (not scoping). This method is useful for simply finding out if there is an element on the page.
 
 Let's say we have an `openModalButton` button. When you click on it, a long modal window `modal` appears and somewhere in this window there should be a `change` button. Then the test for this behavior is:
@@ -196,6 +223,7 @@ await x('#change').toExist()
 ```
 
 ## .toHaveToggleValue(value)
+
 Проверяет значение переключаемых элементов(Switch или a Check-Box). Предназначен спецально для элементов которые переключаются в два положения `true` и `false`.
 
 Пусть у нас есть элемент `checkBox`, изначально он должен быть `false`, но после нажатия на него его значение становится `true`. Тест выглядит так:
@@ -208,6 +236,7 @@ await x('#checkBox').toHaveToggleValue(true)
 ```
 
 ## .not
+
 A property that produces logical negation. For example, if you need to check that the `invisiable` element is NOT visible at the moment, then you need to write:
 
 ```js
@@ -219,3 +248,24 @@ Likewise for `.toExist ()`.
 ```js
 await x('#invisiable').not.toExist()
 ```
+
+## Screenshot testing
+
+`@startupjs/e2e` allows for screenshot testing. Note: the name of the test from the screenshots must begin with `Screenshots:`
+
+Example:
+
+```js
+const { matchImageSnapshot } = require('@startupjs/e2e')
+
+describe('Button', () => {
+  it('Screenshots: Buttons page', async () => {
+    const imagePath = await device.takeScreenshot('Buttons page')
+    matchImageSnapshot(imagePath)
+  })
+})
+```
+
+After the first run of the test, a screenshot will be created in the components folder `tests/__image_snapshots__`. If the next time you run the test, the screenshots will not match, then a file will be created in the folder `e2e/__diff_output__` showing the differences between the initial screenshot and the current state of the test.
+
+To overwrite the original screenshot, run the command `npx startupjs test --ios --updateScreenshot`
