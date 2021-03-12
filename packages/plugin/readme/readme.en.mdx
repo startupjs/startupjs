@@ -1,20 +1,180 @@
-# startupjs plugins
-> StartupJS Plugins API implementation and helpers
+# StartupJS plugins web
 
-## Usage
+## Including plugin support in a package
 
-This module is only for internal startupjs usage for now. Client API is upcoming.
+In the main package file, you need to import the `PluginsProvider` component, which will provide plugins below the component tree. It accepts properties:
 
-For overall StartupJS plugins documentation see [wiki](https://github.com/startupjs/startupjs/wiki/Plugins).
+- `name` - a name to designate a scope (you can use a package name), will be used for global initialization;
+- `plugins` - object with options for package plugins.
 
-### Manager
+`RootComponent.js`
 
-#### `getPluginConfigs()`
+```jsx
+import { PluginsProvider } from '@startupjs/plugin'
+import { ExampleComponent } from './ExampleComponent'
+import { name as packageName } from '../package.json'
 
-Parse `package.json`'s `dependencies` and `devDependencies` and gather `startupjs.config.cjs` from all of them as an object `{ 'packageName': config }`. Caches the result for later executions.
+export default function RootComponent ({
+  plugins,
+  ...props
+}) {
+  return pug`
+    PluginsProvider(
+      name=packageName
+      plugins=plugins
+    )
+      ExampleComponent(...props)
+  `
+}
+```
 
-## Licence
+Below in the component tree, we can use the `Slot` components, in which the components from the render plugins will be rendered, the` name` component property corresponds to the key of the object that the plugin will return when called.
+You can also get hook plugins and call them in the right place with default or custom options.
 
-MIT
+`ExampleComponent.js`
 
-(c) Decision Mapper - http://decisionmapper.com
+```jsx
+import { Slot, usePluginHook } from '@startupjs/plugin'
+
+export function ExampleComponent () {
+  const [user] = useSession('user')
+  const pluginHook = usePluginHook()
+
+  useEffect(() => {
+    // The first argument is the name of the hook, the next parameters it should take.
+    pluginHook('getMessage', {
+      title,
+      message,
+      username: user.name
+    })
+  }, [])
+
+  /*
+    Required prop in Slot - name, it defines in which component to wrap,
+    but you can also pass any other props for dynamic use
+  */
+  return pug`
+    Div
+      Span SideLeft
+    Slot(name='WrapperPlugin' isAdmin=true)
+    Div
+      Span SideRight
+  `
+}
+
+```
+
+---
+
+## Creating a plugin
+
+Object with properties:
+
+- `name` - plugin name, must be unique within the package;
+- `defaultOptions` - options that are set inside the plugin.
+
+`renderPlugin.js`
+
+```jsx
+export default {
+  name: 'smile',
+  defaultOptions: {
+    icon: {
+      icon: 'laugh',
+      style: { color: 'orange' }
+    }
+  },
+  WrapperPlugin: observer(({
+    children,
+    options,
+    /*
+      Gets final options that are formed from the plugin's defaultOptions,
+      defaultOptions from the registerPlugins function and custom package options
+    */
+    isAdmin
+  }) => {
+    if (!isAdmin) return children
+    return pug`
+      Card
+        = children
+        Icon(...options.icon)
+    `
+  })
+}
+```
+
+`hookPlugin.js`
+
+```jsx
+export default {
+  name: 'message',
+  defaultOptions: {
+    username: 'Ghost'
+  },
+  getMessage({ title, message, username }) {
+    console.log(`
+      ${title}
+      Hello, ${username || this.options.username}
+      /*
+        Gets the final options in this, which are formed from the plugin's defaultOptions,
+        the defaultOptions from the registerPlugins function and the package's custom options
+      */
+      ${message}
+    `)
+  }
+}
+```
+
+---
+
+### Plugin init
+
+In `Root/index.js` call `registerPlugins`, after imports and before the component:
+
+```jsx
+import { registerPlugins } from '@startupjs/plugin'
+import smilePlugin from 'smilePlugin.js'
+import hookPlugin from 'hookPlugin.js'
+
+registerPlugins({
+  '@startupjs/packageName': [
+    smilePlugin,
+    [hookPlugin, {
+      defaultEnable: true,
+      defaultOptions: {
+        username = 'Jack Daniels'
+      }
+    }]
+  ]
+})
+
+// your Root component
+```
+
+An object is passed to `registerPlugins`, the object keys are the names of libraries/components in which there is support for plugins (used with `PluginsProvider`), the values are arrays with plugins for them.
+
+You can pass just a plugin or an array with a plugin and properties:
+- `defaultEnable` - if passed with the value `true`, the plugin will be automatically applied with its library throughout the application;
+- `defaultOptions` - options for the plugin that will be passed to the plugin to be used by default.
+
+### Applying a component from a package to an instance
+
+For each instance of a component, you can modify plugins separately.
+If the plugin was defined during initialization with the key `defaultEnable: true`, it can be disabled by passing it to the key by the name of the plugin `false`.
+If the plugin was not defined during initialization with the key `defaultEnable: true`, it can be included by passing in the property an object with options to call the plugin, or simply `true` if you need to use `defaultOptions`.
+
+```jsx
+import Component from 'package'
+
+Component(
+  plugins={
+    [smilePlugin.name]: {
+      icon: {
+        icon: 'angry',
+        style: { color: 'red' }
+      }
+    },
+    [messagePlugin.name]: false
+  }
+)
+```
