@@ -1,4 +1,6 @@
-module.exports = `describe('Example', () => {
+module.exports = `const { x } = require('@startupjs/e2e/helpers')
+
+describe('Example', () => {
   it('should have welcome screen', async () => {
     await x('#welcome').toBeVisible()
   })
