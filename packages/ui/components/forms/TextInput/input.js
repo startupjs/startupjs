@@ -1,12 +1,11 @@
 import React, {
-  useState,
   useMemo,
   useLayoutEffect,
   useRef,
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
@@ -65,7 +64,7 @@ function Input ({
   ...props
 }, ref) {
   const inputRef = useRef()
-  const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  const [inputHeight, $inputHeight] = useValue(0)
 
   if (!renderWrapper) {
     renderWrapper = ({ style }, children) => pug`
@@ -82,15 +81,6 @@ function Input ({
     }
   }))
 
-  useLayoutEffect(() => {
-    if (resize) {
-      const numberOfLinesInValue = value.split('\n').length
-      if (numberOfLinesInValue >= numberOfLines) {
-        setCurrentNumberOfLines(numberOfLinesInValue)
-      }
-    }
-  }, [value])
-
   if (IS_WEB) {
     // repeat mobile behaviour on the web
     useLayoutEffect(() => {
@@ -103,12 +93,6 @@ function Input ({
     })
   }
 
-  useDidUpdate(() => {
-    if (numberOfLines > currentNumberOfLines) {
-      setCurrentNumberOfLines(numberOfLines)
-    }
-  }, [numberOfLines])
-
   const multiline = useMemo(() => {
     return resize || numberOfLines > 1
   }, [resize, numberOfLines])
@@ -119,9 +103,9 @@ function Input ({
     return [lH, (h - lH) / 2 - borderWidth]
   }, [size])
 
-  const fullHeight = useMemo(() => {
-    return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
-  }, [currentNumberOfLines, lH, verticalGutter])
+  const minHeight = useMemo(() => {
+    return numberOfLines * lH + 2 * (verticalGutter + borderWidth)
+  }, [numberOfLines, lH, verticalGutter])
 
   function onLayoutIcon (e) {
     if (IS_WEB) {
@@ -139,17 +123,31 @@ function Input ({
   // tested rn 0.61.5 - does not work
   // https://github.com/facebook/react-native/issues/10712
   if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
+  if (!resize && numberOfLines > 1) inputStyle.height = minHeight
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
-  const inputStyleName = [
-    size,
-    { disabled, focused, [`icon-${iconPosition}`]: !!icon }
-  ]
+  if (resize) {
+    if (IS_WEB) {
+      inputHeight && (inputStyle.height = inputHeight)
+      // HACK: the content will be larger than the container
+      inputStyle.overflow = 'hidden'
+      inputExtraProps.onContentSizeChange = event => {
+        // HACK: the height of the input needs to be increased
+        // because the event does not fire
+        // when the number of lines decreases
+        $inputHeight.set(event.nativeEvent.contentSize.height + 1)
+        props.onContentSizeChange && props.onContentSizeChange(event)
+      }
+    }
+  }
+
+  const wrapperHeight = resize ? { minHeight } : { height: minHeight }
+  const inputStyleName = [size, { disabled, focused, [`icon-${iconPosition}`]: !!icon }]
 
   return renderWrapper({
-    style: [{ height: fullHeight }, style]
+    style: [wrapperHeight, style]
   }, pug`
     React.Fragment
       TextInput.input-input(
@@ -194,7 +192,6 @@ function Input ({
             style=secondaryIconStyle
             size=ICON_SIZES[size]
           )
-
   `)
 }
 

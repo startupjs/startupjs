@@ -57,7 +57,6 @@ _inputFontSizeS = 1.75u
 
 .input-input
   margin 0 // important for safari
-  flex 1 // important for multiline
   // padding-top, padding-bottom is important
   // for android because it has invisible paddings
   // on the web is important for textarea (override default paddings)
@@ -70,7 +69,11 @@ _inputFontSizeS = 1.75u
   min-width 8u
   radius()
 
+  +native()
+    flex 1 // important for height limit
+
   +web()
+    flex-grow 1 // important for resize
     outline 0
     caret-color _inputCaretColor
 
