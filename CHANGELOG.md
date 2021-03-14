@@ -1,6 +1,33 @@
 # [0.33.0](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.4...v0.33.0) (2021-03-14)
 
 
+### Bug Fixes
+
+* **auth:** supplement new api ([#553](https://github.com/startupjs/startupjs/issues/553)) ([05d4d64](https://github.com/startupjs/startupjs/commit/05d4d6417bf1cc98e795c71bb3cada25730752e6))
+* **plugins:** fix rendering on ios because of slot memoization ([#556](https://github.com/startupjs/startupjs/issues/556)) ([8f87f7e](https://github.com/startupjs/startupjs/commit/8f87f7e5dbbc1dce4c5ea7efcab60f487375f28b))
+* **styleguide:** add yarn start script ([#554](https://github.com/startupjs/startupjs/issues/554)) ([88d1df1](https://github.com/startupjs/startupjs/commit/88d1df12813cac090182bfec64feec4f1c9aef84))
+* **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
+
+
+### Features
+
+* **app:** add ability to restart app ([#543](https://github.com/startupjs/startupjs/issues/543)) ([947251f](https://github.com/startupjs/startupjs/commit/947251ff39aa236477cb538225f69ee0d718b3c8))
+* **app:** add ability to restore url after reload app ([#539](https://github.com/startupjs/startupjs/issues/539)) ([a508bbd](https://github.com/startupjs/startupjs/commit/a508bbd79c5e61fbf319c61049a938a63c79c896))
+* **app:** use 'LayoutWrapper' plugin to decorate app Layout ([#545](https://github.com/startupjs/startupjs/issues/545)) ([6558efc](https://github.com/startupjs/startupjs/commit/6558efc2d87fb58b3a15615ae40fd8da26bb9df8))
+* **auth:** add ability to customize forms ([#525](https://github.com/startupjs/startupjs/issues/525)) ([0bacc86](https://github.com/startupjs/startupjs/commit/0bacc8695cef7ca059cba3ba244bc302316a8bad))
+* **plugin:** add frontend api ([#535](https://github.com/startupjs/startupjs/issues/535)) ([b73f7f2](https://github.com/startupjs/startupjs/commit/b73f7f2a8ffa032640f5bad2bcd3b200a94e48ea))
+* **app/error:** add message to custom error ([#562](https://github.com/startupjs/startupjs/issues/562)) ([6b97466](https://github.com/startupjs/startupjs/commit/6b974668a7982a7ae3c18ce09632515d6b1873d7))
+* **auth:** Pass req to some hooks ([d4d2ca5](https://github.com/startupjs/startupjs/commit/d4d2ca505cfc731be7bfbe02331cd31b56c493f0))
+* **e2e:** compare sreenshots ([#559](https://github.com/startupjs/startupjs/issues/559)) ([7c6e05d](https://github.com/startupjs/startupjs/commit/7c6e05d1e199fe95dfa0030c1e04cc3113601e1a))
+* **sharedb-schema:** implement schema for factory ORM ([#560](https://github.com/startupjs/startupjs/issues/560)) ([0479b2f](https://github.com/startupjs/startupjs/commit/0479b2f35558ebab58dc4039aa1f05ad568213f1))
+* update `racer` to `1.0.0` version
+
+
+### BREAKING CHANGES
+
+* [See 0.33 migration guide](/docs/migration-guides/0.33.md)
+
+
 
 # [0.33.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.32.11...v0.33.0-alpha.4) (2021-03-12)
 
@@ -18,52 +45,6 @@
 * **auth:** Pass req to some hooks ([d4d2ca5](https://github.com/startupjs/startupjs/commit/d4d2ca505cfc731be7bfbe02331cd31b56c493f0))
 * **e2e:** compare sreenshots ([#559](https://github.com/startupjs/startupjs/issues/559)) ([7c6e05d](https://github.com/startupjs/startupjs/commit/7c6e05d1e199fe95dfa0030c1e04cc3113601e1a))
 * **sharedb-schema:** implement schema for factory ORM ([#560](https://github.com/startupjs/startupjs/issues/560)) ([0479b2f](https://github.com/startupjs/startupjs/commit/0479b2f35558ebab58dc4039aa1f05ad568213f1))
-
-
-
-# [0.33.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.2...v0.33.0-alpha.3) (2021-03-09)
-
-
-
-# [0.33.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.1...v0.33.0-alpha.2) (2021-03-09)
-
-
-
-# [0.33.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.0...v0.33.0-alpha.1) (2021-03-09)
-
-
-### Bug Fixes
-
-* fix broken compilation process ([263caa5](https://github.com/startupjs/startupjs/commit/263caa5d1cda63f136ec48b530493f8bfd950f08))
-
-
-
-# [0.33.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.33.0-alpha.0) (2021-03-09)
-
-
-### Bug Fixes
-
-* **cli/link:** fix getting app name for android ([#546](https://github.com/startupjs/startupjs/issues/546)) ([c77e843](https://github.com/startupjs/startupjs/commit/c77e84359a04b5b8351d3263233d8d900e9afd78))
-* **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
-
-
-### chore
-
-* **app:** remove `peerDependencies` version restriction ([#518](https://github.com/startupjs/startupjs/issues/518)) ([ef51ff5](https://github.com/startupjs/startupjs/commit/ef51ff5183f1fc98938ef91cb79eefee16c891cb))
-
-
-### Features
-
-* **app:** add ability to restart app ([#543](https://github.com/startupjs/startupjs/issues/543)) ([947251f](https://github.com/startupjs/startupjs/commit/947251ff39aa236477cb538225f69ee0d718b3c8))
-* **app:** add ability to restore url after reload app ([#539](https://github.com/startupjs/startupjs/issues/539)) ([a508bbd](https://github.com/startupjs/startupjs/commit/a508bbd79c5e61fbf319c61049a938a63c79c896))
-* **app:** use 'LayoutWrapper' plugin to decorate app Layout ([#545](https://github.com/startupjs/startupjs/issues/545)) ([6558efc](https://github.com/startupjs/startupjs/commit/6558efc2d87fb58b3a15615ae40fd8da26bb9df8))
-* **auth:** add ability to customize forms ([#525](https://github.com/startupjs/startupjs/issues/525)) ([0bacc86](https://github.com/startupjs/startupjs/commit/0bacc8695cef7ca059cba3ba244bc302316a8bad))
-* **plugin:** add frontend api ([#535](https://github.com/startupjs/startupjs/issues/535)) ([b73f7f2](https://github.com/startupjs/startupjs/commit/b73f7f2a8ffa032640f5bad2bcd3b200a94e48ea))
-
-
-### BREAKING CHANGES
-
-* **app:** Remove version version restriction of `react` and `react-native`.
 
 
 
@@ -100,11 +81,6 @@
 * **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
 
 
-### chore
-
-* **app:** remove `peerDependencies` version restriction ([#518](https://github.com/startupjs/startupjs/issues/518)) ([ef51ff5](https://github.com/startupjs/startupjs/commit/ef51ff5183f1fc98938ef91cb79eefee16c891cb))
-
-
 ### Features
 
 * **app:** add ability to restart app ([#543](https://github.com/startupjs/startupjs/issues/543)) ([947251f](https://github.com/startupjs/startupjs/commit/947251ff39aa236477cb538225f69ee0d718b3c8))
@@ -116,7 +92,7 @@
 
 ### BREAKING CHANGES
 
-* **app:** Remove version version restriction of `react` and `react-native`.
+* **app:** Remove version restriction of `react` and `react-native`.
 
 
 
