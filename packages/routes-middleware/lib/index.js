@@ -29,7 +29,7 @@ module.exports = function (appRoutes, options = {}) {
       matched = matchAppRoutes(req.url, appRoutes)
     }
     if (!matched) return next()
-    if (matched.redirect) return res.redirect(301, matched.redirect)
+    if (matched.redirect) return res.redirect(307, matched.redirect)
     const model = req.model
     const [url, search] = req.url.split('?')
     model.set('$render.url', url)
