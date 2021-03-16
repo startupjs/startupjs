@@ -1,9 +1,9 @@
+const { matchRoutes } = require('react-router-config')
 const fs = require('fs')
 const _keys = require('lodash/keys')
 const _isArray = require('lodash/isArray')
 const defaultClientLayout = require('./defaultClientLayout')
 const resourceManager = require('./resourceManager')
-const { matchRoutes } = require('react-router-config')
 const DEFAULT_APP_NAME = 'main'
 // `react-native` mode makes all root DOM elements fullscreen
 // with flex-direction column and removes scroll (ScrollView has to be used).
@@ -29,7 +29,7 @@ module.exports = function (appRoutes, options = {}) {
       matched = matchAppRoutes(req.url, appRoutes)
     }
     if (!matched) return next()
-    if (matched.redirect) return res.redirect(302, matched.redirect)
+    if (matched.redirect) return res.redirect(301, matched.redirect)
     const model = req.model
     const [url, search] = req.url.split('?')
     model.set('$render.url', url)
@@ -44,7 +44,7 @@ module.exports = function (appRoutes, options = {}) {
         if (err) return done(err)
         const filter = filters.shift()
         if (typeof filter === 'function') {
-          return filter(model, runFilter, res.redirect.bind(res))
+          return filter(model, runFilter, (url) => res.redirect(307, url))
         }
         done()
       }
