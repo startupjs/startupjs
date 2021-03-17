@@ -10,7 +10,7 @@ import { Button } from '@startupjs/ui'
 ## Требования
 
 ```
-@startupjs/auth: >= 0.33.0-alpha.0
+@startupjs/auth: >= 0.33.0
 text-encoding-polyfill: >= 0.6.7
 ```
 
