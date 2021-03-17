@@ -1,3 +1,13 @@
+## [0.33.1](https://github.com/startupjs/startupjs/compare/v0.33.0...v0.33.1) (2021-03-17)
+
+
+### Bug Fixes
+
+* remove alpha version of startupjs from peer deps ([2901631](https://github.com/startupjs/startupjs/commit/290163197798dbd428b9f434e20606f08cb63277))
+* replace route for filter redirect  ([#567](https://github.com/startupjs/startupjs/issues/567)) ([836cb96](https://github.com/startupjs/startupjs/commit/836cb96caf1a0a593e8b6af4f4b63285cdeae7cd))
+
+
+
 # [0.33.0](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.4...v0.33.0) (2021-03-14)
 
 
