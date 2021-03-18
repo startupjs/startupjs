@@ -1,3 +1,12 @@
+## [0.33.3](https://github.com/startupjs/startupjs/compare/v0.33.2...v0.33.3) (2021-03-18)
+
+
+### Bug Fixes
+
+* **auth:** Add req to onAfterPasswordReset ([ead38c7](https://github.com/startupjs/startupjs/commit/ead38c7f26e8f78fee3dba7bedff9cbf07ece3b9))
+
+
+
 ## [0.33.2](https://github.com/startupjs/startupjs/compare/v0.33.1...v0.33.2) (2021-03-18)
 
 
