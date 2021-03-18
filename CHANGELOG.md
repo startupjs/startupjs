@@ -1,3 +1,12 @@
+## [0.33.2](https://github.com/startupjs/startupjs/compare/v0.33.1...v0.33.2) (2021-03-18)
+
+
+### Bug Fixes
+
+* **auth:** Return some callbacks to forms ([d254e09](https://github.com/startupjs/startupjs/commit/d254e0933e4eb046c1310d5bdde003d32504b37d))
+
+
+
 ## [0.33.1](https://github.com/startupjs/startupjs/compare/v0.33.0...v0.33.1) (2021-03-17)
 
 
