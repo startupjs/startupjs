@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'
 
-function PasswordInput ({ secureTextEntry, ...props }) {
+function PasswordInput ({ ...props }) {
   const [textHidden, setTextHidden] = useState(true)
-
-  useEffect(() => {
-    // HACK: it is important for the WEB to pass by default
-    // the secureTextEntry=true property to the TextInput,
-    // because the field will not automatically accept
-    // the password stored for the domain
-    if (typeof secureTextEntry === 'boolean') setTextHidden(secureTextEntry)
-  }, [secureTextEntry])
 
   return pug`
     TextInput(
@@ -23,14 +14,19 @@ function PasswordInput ({ secureTextEntry, ...props }) {
       secureTextEntry=textHidden
       icon=textHidden ? faEye : faEyeSlash
       iconPosition='right'
+      numberOfLines=1
+      resize=false
       onIconPress=() => setTextHidden(!textHidden)
     )
   `
 }
 
+PasswordInput.defaultProps = {
+  ...TextInput.defaultProps
+}
+
 PasswordInput.propTypes = {
-  ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'onIconPress']),
-  secureTextEntry: PropTypes.bool
+  ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'onIconPress'])
 }
 
 export default observer(PasswordInput)
