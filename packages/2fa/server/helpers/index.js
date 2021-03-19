@@ -3,7 +3,7 @@ import * as QRCode from 'qrcode'
 
 export async function createOrUpdateSecret (model, session, options) {
   const secretCode = speakeasy.generateSecret({
-    name: options.APP_NAME
+    name: options.appName
   })
 
   const secretObj = {
