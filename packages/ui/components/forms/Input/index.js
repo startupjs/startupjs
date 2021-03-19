@@ -1,14 +1,15 @@
 import React from 'react'
 import { observer, $root } from 'startupjs'
 import PropTypes from 'prop-types'
-import TextInput from '../TextInput'
-import Checkbox from '../Checkbox'
-import ObjectInput from '../ObjectInput'
 import ArrayInput from '../ArrayInput'
-import Select from '../Select'
-import NumberInput from '../NumberInput'
+import Checkbox from '../Checkbox'
 import DateTimePicker from '../DateTimePicker'
+import ErrorWrapper from '../ErrorWrapper'
+import NumberInput from '../NumberInput'
+import ObjectInput from '../ObjectInput'
 import PasswordInput from '../PasswordInput'
+import Select from '../Select'
+import TextInput from '../TextInput'
 
 const INPUTS = {
   text: {
@@ -87,9 +88,10 @@ const INPUTS = {
 const INPUT_TYPES = Object.keys(INPUTS)
 
 function Input ({
+  style,
+  error,
   type,
   $value,
-  style,
   ...props
 }) {
   if (!type || !INPUT_TYPES.includes(type)) {
@@ -111,12 +113,13 @@ function Input ({
   const { Component, getProps } = INPUTS[type]
   const bindingProps = $value ? getProps($value) : {}
   return pug`
-    Component(
-      ...bindingProps
-      ...props
-      style=style
-      $value=$value
-    )
+    ErrorWrapper(err=error)
+      Component(
+        ...bindingProps
+        ...props
+        style=style
+        $value=$value
+      )
   `
 }
 
@@ -125,6 +128,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
+  error: PropTypes.string,
   type: PropTypes.oneOf([
     'text',
     'checkbox',
