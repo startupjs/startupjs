@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { Div, Button, TextInput, Row, Span } from '@startupjs/ui'
-import { checkToken } from '@startupjs/2fa'
 import PropTypes from 'prop-types'
+import { checkToken } from '../../helpers'
 import './index.styl'
 
 function CheckToken ({
   style,
   label,
-  onSuccess
+  onSuccess,
+  onDismiss
 }) {
   const [text, setText] = useState('')
 
@@ -16,7 +17,9 @@ function CheckToken ({
     const isValid = await checkToken(text)
 
     if (isValid) {
-      onSuccess()
+      onSuccess && onSuccess()
+    } else {
+      onDismiss && onDismiss()
     }
   }
 
@@ -39,7 +42,8 @@ CheckToken.defaultProps = {
 CheckToken.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   label: PropTypes.string,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  onDismiss: PropTypes.func
 }
 
 export default observer(CheckToken)

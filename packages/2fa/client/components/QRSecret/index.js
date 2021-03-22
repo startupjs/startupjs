@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Image } from 'react-native'
 import { observer } from 'startupjs'
 import { Div } from '@startupjs/ui'
-import { getSecret } from '@startupjs/2fa'
 import PropTypes from 'prop-types'
+import { getSecret } from '../../helpers'
 import './index.styl'
 
 function QRSecret ({ style }) {
