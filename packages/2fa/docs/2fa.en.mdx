@@ -5,7 +5,7 @@ import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../cl
 # 2fa
 > Сomponent of two-factor authentication
 
-## necessary dependences
+## Necessary dependences
   `@startupjs/auth`
 
 ## Installation
@@ -16,7 +16,7 @@ yarn add @startupjs/2fa
 
 ## Connecting to the startupjs
 
-### server
+### Server
 
 In `server/index.js` add next strings:
 ```js
@@ -32,67 +32,66 @@ init2fa(ee, { appName: app.name })
 ## !!! IMPORTANT !!!
 You need to log in on this [page](/auth/sign-in) for use example.
 
-### example
+### Example
 ```js
 import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa'
 ```
 
 ```jsx example
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      alignItems: 'center'
+    },
+    row: {
+      minWidth: 320,
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    },
+    qr: {
+      width: 100,
+      height: 100,
+      marginVertical: 24
+    }
+  })
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  row: {
-    minWidth: 320,
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  },
-  qr: {
-    width: 100,
-    height: 100,
-    marginVertical: 24
+  const [secret, setSecret] = useState({})
+
+  async function onCreateSecret () {
+    const secret = await createSecret()
+    setSecret(secret)
   }
-})
 
-const [secret, setSecret] = useState({})
-
-async function onCreateSecret () {
-  const secret = await createSecret()
-  setSecret(secret)
-}
-
-async function onGetSecret () {
-  try {
-    const secret = await getSecret()
-    secret && setSecret(secret)
-  } catch (err) {
-    console.log('err: ', err)
+  async function onGetSecret () {
+    try {
+      const secret = await getSecret()
+      secret && setSecret(secret)
+    } catch (err) {
+      console.log('err: ', err)
+    }
   }
-}
 
-return (
-  <View style={styles.root}>
-    <View style={styles.row}>
-      <Button
-        style={styles.button}
-        title="Create secret"
-        onPress={onCreateSecret}
-      />
-      <Button
-        style={styles.button}
-        title="Get created secret"
-        onPress={onGetSecret}
-      />
+  return (
+    <View style={styles.root}>
+      <View style={styles.row}>
+        <Button
+          style={styles.button}
+          title="Create secret"
+          onPress={onCreateSecret}
+        />
+        <Button
+          style={styles.button}
+          title="Get created secret"
+          onPress={onGetSecret}
+        />
+      </View>
+      {secret.QRDataURL && <QRSecret style={styles.qr} />}
+      {secret.QRDataURL && <CheckToken onSuccess={() => alert('Right code')} onDismiss={() => alert('Wrong code')} />}
     </View>
-    {secret.QRDataURL && <QRSecret style={styles.qr} />}
-    {secret.QRDataURL && <CheckToken onSuccess={() => alert('Right code')} onDismiss={() => alert('Wrong code')} />}
-  </View>
-)
+  )
 ```
 
-## functions
+## Functions
 
 - `createSecret` - returns a `Promise` which creates a request to create a `Secret` (if secret exists it will be replaced by new secret) and returns the result `{ base32, QRDataURL }` where:
     - `base32` - your Secret code
@@ -102,7 +101,7 @@ return (
 
 - `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`.
 
-## components
+## Components
 
 ### QRSecret
   You can use this component for show QR code of existing secret. If secret does not exist there will show nothing.
