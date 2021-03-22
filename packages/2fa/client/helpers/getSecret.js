@@ -6,6 +6,6 @@ export default async function getSecret (token) {
     const secret = await axios.get(GET_SECRET_URL)
     return secret.data
   } catch (err) {
-    console.log('err: ', err.response.data)
+    throw new Error(err.response.data)
   }
 }

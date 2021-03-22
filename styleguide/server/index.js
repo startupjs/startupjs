@@ -5,6 +5,7 @@ import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
+import { init2fa } from '@startupjs/2fa/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -16,6 +17,7 @@ import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
 
 import path from 'path'
 import conf from 'nconf'
+import app from '../app.json'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
 
@@ -38,6 +40,7 @@ startupjsServer({
   })
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
   initUi(ee, { dirname: rootPath })
+  init2fa(ee, { appName: app.name })
 
   initAuth(ee, {
     successRedirectUrl: '/profile',

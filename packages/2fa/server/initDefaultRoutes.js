@@ -3,8 +3,13 @@ import { GET_SECRET_URL, CHECK_TOKEN_URL, CREATE_SECRET_URL } from '../isomorphi
 
 export default function initDefaultRoutes (router, options) {
   router.get(CREATE_SECRET_URL, async function (req, res) {
-    const secret = await createOrUpdateSecret(req.model, req.session, options)
-    res.status(200).send(secret)
+    try {
+      const secret = await createOrUpdateSecret(req.model, req.session, options)
+      res.status(200).send(secret)
+    } catch (err) {
+      console.error(`${CREATE_SECRET_URL} error: `, err)
+      res.status(400).send(err.message)
+    }
   })
 
   router.get(GET_SECRET_URL, async function (req, res) {

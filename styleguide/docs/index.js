@@ -1,6 +1,7 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import twoFADocs from '../../packages/2fa/docs'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
@@ -98,7 +99,8 @@ export default docs({
           en: ScrollableAnchorsEn,
           ru: ScrollableAnchorsRu
         }
-      }
+      },
+      ...twoFADocs
     }
   },
   'migration-guides': {
