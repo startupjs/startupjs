@@ -16,17 +16,18 @@ function PasswordInput ({ ...props }) {
       iconPosition='right'
       numberOfLines=1
       resize=false
+      readonly=false
       onIconPress=() => setTextHidden(!textHidden)
     )
   `
 }
 
 PasswordInput.defaultProps = {
-  ...TextInput.defaultProps
+  ...omit(TextInput.defaultProps, ['iconPosition', 'numberOfLines', 'resize', 'readonly'])
 }
 
 PasswordInput.propTypes = {
-  ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'onIconPress'])
+  ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'readonly', 'onIconPress'])
 }
 
 export default observer(PasswordInput)
