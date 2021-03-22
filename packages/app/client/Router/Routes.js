@@ -78,7 +78,7 @@ const RouteComponent = observer(function RCComponent ({
       const filter = filters.shift()
       if (typeof filter === 'function') {
         return filter($root, runFilter, (url) => {
-          emit('url', url)
+          emit('url', url, { replace: true })
         })
       }
       setRender(true)

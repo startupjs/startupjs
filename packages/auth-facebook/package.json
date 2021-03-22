@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-facebook",
-  "version": "0.33.0",
+  "version": "0.33.1",
   "type": "module",
   "description": "Auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "passport-facebook": "^3.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0-alpha.0",
+    "@startupjs/auth": ">= 0.33.0",
     "react-native-fbsdk": ">= 1.0.0"
   }
 }

@@ -40,6 +40,9 @@ function AuthForm ({
   if (localActiveForm) {
     prepereLocalActiveForm = React.cloneElement(localActiveForm, {
       ...localActiveForm.props,
+      onSuccess,
+      onError,
+      onHandleError,
       onChangeSlide
     })
   }

@@ -128,3 +128,32 @@ return (
   </Content>
 )
 ```
+
+## Отображение ошибок
+
+Свойство `errors` предоставляет тексты ошибок для инпутов в виде объекта, ключи соответствуют ключам `properties`, свойства - текст ошибки.
+
+```jsx example
+const [value, $value] = useValue({})
+
+return (
+  <ObjectInput
+    value={value}
+    $value={$value}
+    errors={{
+      firstName: value.firstName ? '' : 'First name value must be specified',
+      lastName: value.lastName ? '' : 'Last name value must be specified'
+    }}
+    properties={{
+      firstName: {
+        input: 'text',
+        label: 'First name'
+      },
+      lastName: {
+        input: 'text',
+        label: 'Last name'
+      }
+    }}
+  />
+)
+```

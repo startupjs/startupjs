@@ -7,7 +7,7 @@
 
 ```
 @react-native-google-signin/google-signin: >= 6.0.0
-@startupjs/auth: >= 0.33.0-alpha.0
+@startupjs/auth: >= 0.33.0
 ```
 
 ## Создание и настройка приложения

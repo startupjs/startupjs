@@ -8,6 +8,7 @@ import '../common.styl'
 function PResetPassword ({
   baseUrl,
   localForms,
+  renderForm,
   onError,
   onSuccess,
   onHandleError
@@ -17,6 +18,7 @@ function PResetPassword ({
       baseUrl=baseUrl
       slide=RESET_PASSWORD_SLIDE
       localForms=localForms
+      renderForm=renderForm
       onError=onError
       onSuccess=onSuccess
       onHandleError=onHandleError
@@ -27,6 +29,7 @@ function PResetPassword ({
 PResetPassword.propTypes = {
   baseUrl: PropTypes.string,
   localForms: PropTypes.object,
+  renderForm: PropTypes.func,
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
   onHandleError: PropTypes.func
