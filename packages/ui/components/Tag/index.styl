@@ -1,0 +1,66 @@
+_sizes = 'l' 'm'
+
+// ----- CONFIG: $UI.Tag
+$this = merge(
+  {
+  heights: {
+    m: 2u,
+    l: 3u
+  },
+  paddings: {
+    m: 0.75u,
+    l: 1u
+  },
+  fonts: {
+    m: 's',
+    l: 'l'
+  },
+  outlinedBorderWidth: 1px
+},
+  $UI.Tag,
+  true
+)
+
+// ----- COMPONENT
+_disabledOpacity = 0.25
+
+.root
+  max-width 100%
+
+  &.disabled
+    opacity _disabledOpacity
+
+  &.outlined
+    border-width: $this.outlinedBorderWidth
+
+  for size in _sizes
+    &.{size}
+      padding-left: $this.paddings[size]
+      padding-right @padding-left
+      height: $this.heights[size]
+
+    &.outlined.{size}
+      padding-left: $this.paddings[size] - $this.outlinedBorderWidth
+      padding-right @padding-left
+
+.label
+  for size in _sizes
+    &.{size}
+      font($this.fonts[size])
+
+.iconWrapper
+  &.left
+    margin-right 0.5u
+
+  &.right
+    margin-left 0.5u
+
+.icon
+  color: $UI.colors.dark
+
+  &.flat
+    color: $UI.colors.white
+
+// ----- JS EXPORTS
+:export
+  colors: $UI.colors
