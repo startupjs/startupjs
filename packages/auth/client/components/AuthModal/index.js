@@ -30,7 +30,8 @@ function AuthModal ({
   onSuccess,
   onError,
   onClose,
-  onChangeSlide
+  onChangeSlide,
+  renderForm
 }) {
   const isMobileWidth = width <= 480
   const [_redirectUrl] = useLocal('$render.query.redirectUrl')
@@ -59,6 +60,7 @@ function AuthModal ({
           redirectUrl=_get(modal, 'redirectUrl') || _redirectUrl
           localForms=localForms
           socialButtons=socialButtons
+          renderForm=renderForm
           onSuccess=onSuccess
           onError=onError
           onChangeSlide=onChangeSlide
@@ -73,6 +75,7 @@ AuthModal.propTypes = {
   slide: PropTypes.string,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
+  renderForm: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onClose: PropTypes.func,
