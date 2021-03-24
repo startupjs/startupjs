@@ -41,7 +41,7 @@ function Select ({
       iconPosition='right'
       renderWrapper=renderWrapper
       selection={start: 0, end: 0}
-      editable=false
+      _editable=false /* hack: fixes cursor behavior in Select inside TextInput */
       ...props
     )
   `
