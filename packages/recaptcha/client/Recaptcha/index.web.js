@@ -46,15 +46,12 @@ function RecaptchaComponent ({
   useEffect(() => {
     return () => {
       if (readyInterval) {
-        console.log('1')
         clearInterval(readyInterval)
       }
       if (onCloseObserver) {
-        console.log('2')
         onCloseObserver.disconnect()
       }
       if (_isRendered()) {
-        console.log('3')
         window.grecaptcha.reset(widget)
       }
     }
