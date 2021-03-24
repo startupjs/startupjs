@@ -11,10 +11,14 @@ $this = merge(
     m: 0.75u,
     l: 1u
   },
-  fonts: {
+  fontSizes: {
     m: 's',
-    l: 'l'
+    l: 'm'
   },
+  lineHeights: {
+    m: 'xs',
+    l: 's'
+  }
   outlinedBorderWidth: 1px
 },
   $UI.Tag,
@@ -46,7 +50,8 @@ _disabledOpacity = 0.25
 .label
   for size in _sizes
     &.{size}
-      font($this.fonts[size])
+      font-size: $UI.fontSizes[$this.fontSizes[size]]
+      line-height: $UI.lineHeights[$this.lineHeights[size]]
 
 .iconWrapper
   &.left
