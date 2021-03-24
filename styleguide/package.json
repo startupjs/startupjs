@@ -43,6 +43,7 @@
     "@startupjs/scrollable-anchors": "^0.33.1",
     "@startupjs/ui": "^0.33.1",
     "@startupjs/2fa": "^0.33.1",
+    "@startupjs/recaptcha": "^0.33.0",
     "axios": "^0.21.1",
     "nconf": "^0.10.0",
     "react": "^16.9.0",

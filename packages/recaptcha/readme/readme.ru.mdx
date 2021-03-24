@@ -1,0 +1,124 @@
+import { Sandbox } from '@startupjs/docs'
+import { Div, Button, Span } from '@startupjs/ui'
+import { Recaptcha } from '@startupjs/recaptcha'
+import { useState, useRef } from 'react'
+import axios from 'axios'
+import './index.styl'
+
+# @startupjs/recaptcha
+
+Библиотека для отображения и взаимодействия с [Google ReCaptcha](https://www.google.com/recaptcha/about/)
+
+## Установка
+
+`yarn add @startupjs/recaptcha`
+
+## Подключение к StartupJS
+
+### server
+
+В `server/index.js` добавить следующие строки:
+```js
+  import initRecaptcha from '@startupjs/recaptcha/server'
+```
+В функцию `startupjsServer` добавить:
+```js
+  initRecaptcha(ee)
+```
+В функцию `getHead` добавить:
+```js
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+```
+
+### config
+
+В файл `config.json` вашего проекта необходимо добавить:
+```js
+  {
+    "RECAPTCHA_SECRET_KEY": "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ"
+  }
+```
+
+## Пример
+
+### I'm not a robot
+```jsx example
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+
+  const ref = useRef()
+
+  const send = () => ref.current.open()
+
+  const onVerify = data => {
+    console.log('onVerify', data)
+    data.success && setRecaptchaVerified(true)
+  }
+
+  return pug`
+    Div.root
+      Recaptcha(
+        ref=ref
+        id='normal-captcha'
+        siteKey="6LdyUYoaAAAAAFLQhdpaX6L-n8aAdGQLhhlDRJ21"
+        size='normal'
+        onVerify=onVerify
+        onLoad=() => console.log('onLoad')
+        onExpire=() => console.log('onExpire')
+        onError=error => console.log('onError', error)
+        onClose=() => console.log('onClose')
+      )
+      if recaptchaVerified
+        Span.label Токен валидный
+      Button(
+        onPress=send
+        disabled=recaptchaVerified
+      ) Check
+  `
+```
+
+### Invisible
+```jsx example
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+
+  const ref = useRef()
+
+  const send = () => ref.current.open()
+
+  const onVerify = data => {
+    console.log('onVerify', data)
+    data.success && setRecaptchaVerified(true)
+  }
+
+  return pug`
+    Div.root
+      Recaptcha(
+        id='invisible-captcha'
+        ref=ref
+        siteKey="6LdyUYoaAAAAAFLQhdpaX6L-n8aAdGQLhhlDRJ21"
+        onVerify=onVerify
+        onLoad=() => console.log('onLoad')
+        onExpire=() => console.log('onExpire')
+        onError=error => console.log('onError', error)
+        onClose=() => console.log('onClose')
+      )
+      if recaptchaVerified
+        Span.label Токен валидный
+      Button(
+        onPress=send
+        disabled=recaptchaVerified
+      ) Проверка
+  `
+```
+
+## Параметры
+
+ - `siteKey` [String] - Ваш sitekey
+ - `size` [String] - Вариант отображения виджета (`invisible`, `normal` или `compact`). По умолчанию: `invisible`
+ - `theme` [String] - Цветовая тема виджета (`dark` или `light`). По умолчанию: `light`
+ - `baseUrl` [String] - URL-адрес (домен), настроенный в настройке reCAPTCHA (например, `http://my.domain.com`). По умолчанию: ваш `BASE_URL` из `@env`
+ - `lang` [String] - [Код языка](https://developers.google.com/recaptcha/docs/language). По умолчанию: `en`
+ - `onLoad` [Function] - Функция обратного вызова, выполняемая, когда reCAPTCHA готова к использованию
+ - `onVerify` [Function(data)] - Функция обратного вызова, выполняемая, когда пользователь отправляет успешный ответ. Объект со статусом ответа reCAPTCHA передается вашему обратному вызову
+ - `onExpire` [Function] - Функция обратного вызова, выполняемая, когда срок ответа reCAPTCHA истекает, и пользователя необходимо повторно проверить
+ - `onError` [Function(error)] - Функция обратного вызова, выполняемая, когда reCAPTCHA обнаруживает ошибку (обычно при подключении к сети), и не может продолжаться, пока подключение не будет восстановлено. Если вы указываете здесь функцию, вы несете ответственность за информирование пользователя о том, что он должен повторить попытку
+ - `onClose` [Function] - (Экспериментально) Функция обратного вызова, выполняемая при закрытии окна reCAPTCHA
