@@ -7,10 +7,11 @@ export default ({
   style,
   children,
   err,
-  position = 'bottom'
+  position = 'bottom',
+  ...otherProps
 }) => {
   return pug`
-    Div(style=style)
+    Div(style=style ...otherProps)
       if err && position === 'top'
         Text.text= err
       = children
