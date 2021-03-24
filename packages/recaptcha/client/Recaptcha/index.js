@@ -40,7 +40,7 @@ function RecaptchaComponent ({
       lang,
       id
     })
-  }, [siteKey, size, theme, lang])
+  }, [siteKey, size, theme, lang, id])
 
   const handleLoad = useCallback(
     (...args) => {

@@ -32,9 +32,7 @@ function RecaptchaComponent ({
   }))
 
   useEffect(() => {
-    if (ready) {
-      _renderRecaptcha()
-    } else {
+    if (!ready) {
       setReadyInterval(setInterval(_updateReadyState, 1000))
     }
   }, [])
@@ -48,12 +46,15 @@ function RecaptchaComponent ({
   useEffect(() => {
     return () => {
       if (readyInterval) {
+        console.log('1')
         clearInterval(readyInterval)
       }
       if (onCloseObserver) {
+        console.log('2')
         onCloseObserver.disconnect()
       }
       if (_isRendered()) {
+        console.log('3')
         window.grecaptcha.reset(widget)
       }
     }
@@ -99,9 +100,9 @@ function RecaptchaComponent ({
     const recaptchaElement = recaptchaFrame.parentNode.parentNode
 
     let lastOpacity = recaptchaElement.style.opacity
-    onCloseObserver = new MutationObserver(mutations => {
+    onCloseObserver = new MutationObserver(() => {
       if (lastOpacity !== recaptchaElement.style.opacity &&
-                recaptchaElement.style.opacity == 0) { // eslint-disable-line eqeqeq
+                recaptchaElement.style.opacity == 0) { // eslint-disable-line
         onClose()
       }
       lastOpacity = recaptchaElement.style.opacity

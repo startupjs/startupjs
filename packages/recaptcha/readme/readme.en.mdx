@@ -35,7 +35,7 @@ Add to the `getHead` function:
 You need to add to the `config.json` file of your project:
 ```js
   {
-    "RECAPTCHA_SECRET_KEY": "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ"
+    "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY"
   }
 ```
 
@@ -59,7 +59,7 @@ You need to add to the `config.json` file of your project:
       Recaptcha(
         ref=ref
         id='normal-captcha'
-        siteKey="6LdyUYoaAAAAAFLQhdpaX6L-n8aAdGQLhhlDRJ21"
+        siteKey='6Lfh54waAAAAAIWETB62SYoe9ZQyoN0rGGHYK83w'
         size='normal'
         onVerify=onVerify
         onLoad=() => console.log('onLoad')
@@ -94,7 +94,7 @@ You need to add to the `config.json` file of your project:
       Recaptcha(
         id='invisible-captcha'
         ref=ref
-        siteKey="6LdyUYoaAAAAAFLQhdpaX6L-n8aAdGQLhhlDRJ21"
+        siteKey='6Lfh54waAAAAAIWETB62SYoe9ZQyoN0rGGHYK83w'
         onVerify=onVerify
         onLoad=() => console.log('onLoad')
         onExpire=() => console.log('onExpire')
@@ -110,11 +110,11 @@ You need to add to the `config.json` file of your project:
   `
 ```
 
-## Параметры
+## Props
 
  - `siteKey` [String] - Your sitekey
- - `size` [String] - The size of the widget (`invisible`, `normal` или `compact`). Default: `invisible`
- - `theme` [String] - The color theme of the widget (`dark` или `light`). Default: `light`
+ - `size` [String] - The size of the widget (`invisible`, `normal` or `compact`). Default: `invisible`
+ - `theme` [String] - The color theme of the widget (`dark` or `light`). Default: `light`
  - `baseUrl` [String] - The URL (domain) configured in the reCAPTCHA setup. (ex. `http://my.domain.com`). Default: your `BASE_URL` from `@env`
  - `lang` [String] - [Language code](https://developers.google.com/recaptcha/docs/language). Default: `en`
  - `onLoad` [Function] - A callback function, executed when the reCAPTCHA is ready to use
