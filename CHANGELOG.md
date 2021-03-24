@@ -1,3 +1,17 @@
+## [0.33.5](https://github.com/startupjs/startupjs/compare/v0.33.4...v0.33.5) (2021-03-24)
+
+
+### Bug Fixes
+
+* **auth:** add `renderForm` for AuthModal and fix `auth-google` migration guide ([#576](https://github.com/startupjs/startupjs/issues/576)) ([50b9d3d](https://github.com/startupjs/startupjs/commit/50b9d3df878bd522fae3c5cae0992337de8a1e9d))
+
+
+### Features
+
+* **auth:** Add testIds to Login form ([b1ee31d](https://github.com/startupjs/startupjs/commit/b1ee31d5674a4bba251c950e68472396e202a08a))
+
+
+
 ## [0.33.4](https://github.com/startupjs/startupjs/compare/v0.33.3...v0.33.4) (2021-03-23)
 
 
