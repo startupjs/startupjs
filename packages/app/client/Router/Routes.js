@@ -50,7 +50,7 @@ export default observer(function Routes ({
     `
   })
 
-  if (!isLoadApp && restoreUrl) {
+  if (!isLoadApp && restoreUrl && restoreUrl !== '/') {
     return pug`
       Redirect(to=restoreUrl)
     `
