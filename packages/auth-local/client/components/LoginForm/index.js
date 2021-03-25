@@ -32,12 +32,14 @@ const LOGIN_DEFAULT_INPUTS = {
   email: {
     input: 'text',
     label: 'Email',
-    placeholder: 'Enter your email'
+    placeholder: 'Enter your email',
+    testID: 'auth-email-input'
   },
   password: {
     input: 'password',
     label: 'Password',
-    placeholder: 'Enter your password'
+    placeholder: 'Enter your password',
+    testID: 'auth-password-input'
   }
 }
 
@@ -145,11 +147,13 @@ function LoginForm ({
           onPress=onSubmit
           color='primary'
           variant='flat'
+          testID='auth-login-button'
         ) Log in
         Button.recover(
           onPress=()=> onChangeSlide(RECOVER_PASSWORD_SLIDE)
           color='primary'
           variant='text'
+          testID='auth-forgot-pass-slide-button'
         ) Forgot your password?
 
         if localSignUpEnabled
@@ -159,6 +163,7 @@ function LoginForm ({
               onPress=()=> onChangeSlide(SIGN_UP_SLIDE)
               color='primary'
               variant='text'
+              testID='auth-sign-up-slide-button'
             ) Sign up
   `
 }

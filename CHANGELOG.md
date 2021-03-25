@@ -1,3 +1,37 @@
+## [0.33.6](https://github.com/startupjs/startupjs/compare/v0.33.5...v0.33.6) (2021-03-25)
+
+
+### Bug Fixes
+
+* **app:** don't restore url if it is current url ([#577](https://github.com/startupjs/startupjs/issues/577)) ([98a45b7](https://github.com/startupjs/startupjs/commit/98a45b70f6b2e6f9c4fd6aab681eec0b508c031a))
+
+
+
+## [0.33.5](https://github.com/startupjs/startupjs/compare/v0.33.4...v0.33.5) (2021-03-24)
+
+
+### Bug Fixes
+
+* **auth:** add `renderForm` for AuthModal and fix `auth-google` migration guide ([#576](https://github.com/startupjs/startupjs/issues/576)) ([50b9d3d](https://github.com/startupjs/startupjs/commit/50b9d3df878bd522fae3c5cae0992337de8a1e9d))
+
+
+### Features
+
+* **auth:** Add testIds to Login form ([b1ee31d](https://github.com/startupjs/startupjs/commit/b1ee31d5674a4bba251c950e68472396e202a08a))
+
+
+
+## [0.33.4](https://github.com/startupjs/startupjs/compare/v0.33.3...v0.33.4) (2021-03-23)
+
+
+### Features
+
+* **2fa:** add 2fa package ([#569](https://github.com/startupjs/startupjs/issues/569)) ([5e091c5](https://github.com/startupjs/startupjs/commit/5e091c5bc31aafc93e610cbbd6d3d117e23334d6))
+* **2fa:** add error handler on serverside and add docs ([#575](https://github.com/startupjs/startupjs/issues/575)) ([ac3993b](https://github.com/startupjs/startupjs/commit/ac3993bba8b58a781b3904e0498d29dfbca6d36e))
+* **ui/Input:** add ability to display an error ([#568](https://github.com/startupjs/startupjs/issues/568)) ([e042c24](https://github.com/startupjs/startupjs/commit/e042c2467baa45e25d6fc549f485f13f7e51242d))
+
+
+
 ## [0.33.3](https://github.com/startupjs/startupjs/compare/v0.33.2...v0.33.3) (2021-03-18)
 
 
