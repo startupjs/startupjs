@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useLayoutEffect } from 'react'
-import { Route, Redirect } from 'react-router'
+import { Route, Redirect, useLocation } from 'react-router'
 import {
   $root,
   observer,
@@ -17,6 +17,9 @@ export default observer(function Routes ({
   onRouteError,
   ...props
 }) {
+  const location = useLocation()
+  const currentUrl = location.pathname
+
   const restoreUrl = useMemo(() => {
     return $root.get('_session.restoreUrl')
   }, [])
@@ -50,7 +53,7 @@ export default observer(function Routes ({
     `
   })
 
-  if (!isLoadApp && restoreUrl) {
+  if (!isLoadApp && restoreUrl && currentUrl !== restoreUrl) {
     return pug`
       Redirect(to=restoreUrl)
     `
