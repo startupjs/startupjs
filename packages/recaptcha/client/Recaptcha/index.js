@@ -1,9 +1,8 @@
 import React, { useImperativeHandle, useState, useCallback, useRef, useMemo } from 'react'
 import WebView from 'react-native-webview'
 import { Modal } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Div, Loader } from '@startupjs/ui'
-import axios from 'axios'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'
 import getTemplate from './get-template'
@@ -15,8 +14,7 @@ function RecaptchaComponent ({
   style,
   id,
   theme,
-  size,
-  siteKey,
+  variant,
   baseUrl,
   lang,
   onVerify,
@@ -29,24 +27,25 @@ function RecaptchaComponent ({
   const webViewRef = useRef()
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [recaptchaSiteKey] = useSession('Recaptcha.RECAPTCHA_SITE_KEY')
 
-  const isInvisibleSize = size === 'invisible'
+  const isInvisible = variant === 'invisible'
 
   const html = useMemo(() => {
     return getTemplate({
-      siteKey,
-      size,
+      siteKey: recaptchaSiteKey,
+      variant,
       theme,
       lang,
       id
     })
-  }, [siteKey, size, theme, lang, id])
+  }, [recaptchaSiteKey, variant, theme, lang, id])
 
   const handleLoad = useCallback(
     (...args) => {
       onLoad && onLoad(...args)
 
-      if (isInvisibleSize) {
+      if (isInvisible) {
         webViewRef.current.injectJavaScript(`
             window.rnRecaptcha.execute();
           `)
@@ -54,7 +53,7 @@ function RecaptchaComponent ({
 
       setLoading(false)
     },
-    [onLoad, isInvisibleSize]
+    [onLoad, isInvisible]
   )
 
   const handleClose = useCallback(
@@ -87,17 +86,14 @@ function RecaptchaComponent ({
           onError && onError(...payload.error)
         }
         if (payload.verify) {
-          const { data } = await axios.post('/api/recaptcha-check-token', {
-            token: payload.verify[0]
-          })
           handleClose()
-          onVerify && onVerify(data)
+          onVerify && onVerify(...payload.verify)
         }
       } catch (err) {
         console.warn(err)
       }
     },
-    [onVerify, onExpire, onError, handleClose, handleLoad, isInvisibleSize]
+    [onVerify, onExpire, onError, handleClose, handleLoad, isInvisible]
   )
 
   const source = useMemo(
@@ -164,7 +160,7 @@ const Recaptcha = observer(RecaptchaComponent, { forwardRef: true })
 Recaptcha.defaultProps = {
   id: 'recaptcha',
   theme: 'light',
-  size: 'invisible',
+  variant: 'invisible',
   baseUrl: BASE_URL || '',
   lang: 'en'
 }
@@ -173,8 +169,7 @@ Recaptcha.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   id: PropTypes.string,
   theme: PropTypes.oneOf(['light', 'dark']),
-  size: PropTypes.oneOf(['invisible', 'normal', 'compact']),
-  siteKey: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,
   baseUrl: PropTypes.string,
   onVerify: PropTypes.func,

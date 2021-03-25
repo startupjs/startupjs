@@ -11,7 +11,7 @@ const getTemplate = params => {
         <script>
             const siteKey = '{{siteKey}}';
             const theme = '{{theme}}';
-            const size = '{{size}}';
+            const size = '{{variant}}';
     
             let readyInterval;
             let onCloseInterval;

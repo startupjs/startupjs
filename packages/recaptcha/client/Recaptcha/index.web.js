@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useImperativeHandle, useCallback } from 'react'
-import { observer } from 'startupjs'
-import axios from 'axios'
+import React, { useEffect, useState, useImperativeHandle } from 'react'
+import { observer, useSession } from 'startupjs'
 import PropTypes from 'prop-types'
 
 const isReady = () => Boolean(typeof window === 'object' && window.grecaptcha && window.grecaptcha.render)
@@ -8,8 +7,7 @@ const isReady = () => Boolean(typeof window === 'object' && window.grecaptcha &&
 function RecaptchaComponent ({
   id,
   theme,
-  size,
-  siteKey,
+  variant,
   lang,
   onVerify,
   onExpire,
@@ -19,15 +17,16 @@ function RecaptchaComponent ({
 }, ref) {
   const [ready, setReady] = useState(isReady())
   const [readyInterval, setReadyInterval] = useState()
+  const [recaptchaSiteKey] = useSession('Recaptcha.RECAPTCHA_SITE_KEY')
   let onCloseObserver, widget
 
   useImperativeHandle(ref, () => ({
     open: () => {
       onClose && _registerOnCloseListener()
-      size === 'invisible' && window.grecaptcha.execute(widget)
+      variant === 'invisible' && window.grecaptcha.execute(widget)
     },
     close: () => {
-      size === 'invisible' && window.grecaptcha.reset(widget)
+      variant === 'invisible' && window.grecaptcha.reset(widget)
     }
   }))
 
@@ -57,18 +56,13 @@ function RecaptchaComponent ({
     }
   }, [readyInterval])
 
-  const _onVerify = useCallback(async token => {
-    const { data } = await axios.post('/api/recaptcha-check-token', { token })
-    onVerify && onVerify(data)
-  }, [])
-
   const _renderRecaptcha = () => {
     widget = window.grecaptcha.render(id, {
-      sitekey: siteKey,
-      size,
+      sitekey: recaptchaSiteKey,
+      size: variant,
       theme,
       hl: lang,
-      callback: _onVerify,
+      callback: onVerify,
       'expired-callback': onExpire,
       'error-callback': onError
     })
@@ -120,15 +114,14 @@ const Recaptcha = observer(RecaptchaComponent, { forwardRef: true })
 Recaptcha.defaultProps = {
   id: 'recaptcha',
   theme: 'light',
-  size: 'invisible',
+  variant: 'invisible',
   lang: 'en'
 }
 
 Recaptcha.propTypes = {
   id: PropTypes.string,
   theme: PropTypes.oneOf(['light', 'dark']),
-  size: PropTypes.oneOf(['invisible', 'normal', 'compact']),
-  siteKey: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,
   onVerify: PropTypes.func,
   onExpire: PropTypes.func,

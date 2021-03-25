@@ -1,11 +1,10 @@
-import express from 'express'
-import initRouters from './initRouters'
+import checkToken from './checkToken'
+import { setRecaptchaSiteKey } from './middlewares'
 
-const router = express.Router()
-
-export default function (ee) {
-  initRouters(router)
+function initRecaptcha (ee) {
   ee.on('afterSession', expressApp => {
-    expressApp.use(router)
+    expressApp.use(setRecaptchaSiteKey)
   })
 }
+
+export { checkToken, initRecaptcha }
