@@ -54,11 +54,14 @@ return (
 
 ## Контурные теги
 
-Контурные теги предлагают альтернативный стиль, передавая `outlined` строку в свойство `variant` компонента.
+Контурные теги предлагают альтернативный стиль, в свойство `variant` нужно передать `outlined` или `outlined-bg` для контурного тега с фоном.
 
 ```jsx example
 return (
-  <Tag variant='outlined'>Контурный тег</Tag>
+  <Row>
+    <Tag variant='outlined'>Контурный тег</Tag>
+    <Tag variant='outlined-bg' pushed='s'>Контурный тег с фоном</Tag>
+  </Row>
 )
 ```
 
@@ -93,7 +96,11 @@ return (
     <Tag icon={faCoffee}>
       Иконка слева
     </Tag>
-    <Tag secondaryIcon={faCoffee} pushed='s'>
+    <Tag
+      secondaryIcon={faCoffee}
+      variant='outlined-bg'
+      pushed='s'
+    >
       Иконка справа
     </Tag>
     <Tag

@@ -49,6 +49,10 @@ function Tag ({
     { color: isFlat ? colors.white : _color },
     iconStyle
   ])
+  secondaryIconStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    secondaryIconStyle
+  ])
 
   switch (variant) {
     case 'flat':
@@ -58,6 +62,12 @@ function Tag ({
       rootStyle.borderColor = colorToRGBA(_color, 0.5)
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
+      break
+    case 'outlined-bg':
+      rootStyle.borderColor = _color
+      rootStyle.backgroundColor = colorToRGBA(_color, 0.15)
+      extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.35) }
       break
   }
 
@@ -114,7 +124,7 @@ Tag.defaultProps = {
 
 Tag.propTypes = {
   ...Div.propTypes,
-  variant: PropTypes.oneOf(['flat', 'outlined']),
+  variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['m', 'l'])
 }

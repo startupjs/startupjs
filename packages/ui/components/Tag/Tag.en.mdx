@@ -54,11 +54,14 @@ return (
 
 ## Outlined tags
 
-Outlined tags offer an alternative style by passing `outlined` string on `variant` property to component.
+Outlined tags offer an alternative style, in property `variant` need to pass `outlined` or `outlined-bg` for an outlined tag with a background.
 
 ```jsx example
 return (
-  <Tag variant='outlined'>Outlined tag</Tag>
+  <Row>
+    <Tag variant='outlined'>Outlined tag</Tag>
+    <Tag variant='outlined-bg' pushed='s'>Outlined tag with a background</Tag>
+  </Row>
 )
 ```
 
@@ -93,7 +96,11 @@ return (
     <Tag icon={faCoffee}>
       Icon on the left
     </Tag>
-    <Tag secondaryIcon={faCoffee} pushed='s'>
+    <Tag
+      secondaryIcon={faCoffee}
+      variant='outlined-bg'
+      pushed='s'
+    >
       Icon on the right
     </Tag>
     <Tag

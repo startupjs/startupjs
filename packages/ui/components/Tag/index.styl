@@ -35,6 +35,7 @@ _disabledOpacity = 0.25
     opacity _disabledOpacity
 
   &.outlined
+  &.outlined-bg
     border-width: $this.outlinedBorderWidth
 
   for size in _sizes
@@ -44,6 +45,7 @@ _disabledOpacity = 0.25
       height: $this.heights[size]
 
     &.outlined.{size}
+    &.outlined-bg.{size}
       padding-left: $this.paddings[size] - $this.outlinedBorderWidth
       padding-right @padding-left
 
