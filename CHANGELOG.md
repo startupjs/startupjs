@@ -1,3 +1,12 @@
+## [0.33.6](https://github.com/startupjs/startupjs/compare/v0.33.5...v0.33.6) (2021-03-25)
+
+
+### Bug Fixes
+
+* **app:** don't restore url if it is current url ([#577](https://github.com/startupjs/startupjs/issues/577)) ([98a45b7](https://github.com/startupjs/startupjs/commit/98a45b70f6b2e6f9c4fd6aab681eec0b508c031a))
+
+
+
 ## [0.33.5](https://github.com/startupjs/startupjs/compare/v0.33.4...v0.33.5) (2021-03-24)
 
 
