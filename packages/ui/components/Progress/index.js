@@ -1,7 +1,7 @@
 import React from 'react'
+import { View } from 'react-native'
 import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
 import Span from '../typography/Span'
 import Div from '../Div'
 import Filler from './filler'
@@ -23,7 +23,7 @@ function Progress ({
         //- To normalize value pass value=Math.min(value, 100)
         Filler(style=extraStyle value=value)
       if typeof children === 'string'
-        Span.label(description)= children
+        Span.label= children
       else
         = children
   `
