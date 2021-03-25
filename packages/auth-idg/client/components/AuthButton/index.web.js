@@ -6,9 +6,16 @@ import { onLogin } from '../../helpers'
 import IDG from './img/IDG.svg'
 import './index.styl'
 
-function AuthButton ({ label, redirectUrl }) {
+function AuthButton ({
+  style,
+  label,
+  redirectUrl
+}) {
   return pug`
-    Row.button(onPress=() => onLogin(redirectUrl))
+    Row.button(
+      style=style
+      onPress=() => onLogin({ redirectUrl })
+    )
       IDG(
         viewBox="2 4 40 40"
         height=u(2)

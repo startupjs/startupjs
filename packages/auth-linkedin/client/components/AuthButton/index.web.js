@@ -5,12 +5,17 @@ import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ label, redirectUrl }) {
+function AuthButton ({
+  style,
+  redirectUrl,
+  label
+}) {
   return pug`
     Button.button(
-      onPress=() => onLogin(redirectUrl)
+      style=style
       icon=faLinkedinIn
       variant='flat'
+      onPress=() => onLogin({ redirectUrl })
     )= label
   `
 }
@@ -20,6 +25,7 @@ AuthButton.defaultProps = {
 }
 
 AuthButton.propTypes = {
+  style: PropTypes.object,
   label: PropTypes.string.isRequired,
   redirectUrl: PropTypes.string
 }

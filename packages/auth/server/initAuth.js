@@ -31,7 +31,6 @@ export default function (ee, _config) {
   const config = {}
   Object.assign(config, {
     signInPageUrl: SIGN_IN_URL,
-    successRedirectUrl: '/',
     parseUserCreationData,
     onBeforeLogoutHook,
     onBeforeLoginHook,
@@ -58,7 +57,6 @@ export default function (ee, _config) {
         const $session = req.model.scope('_session.auth')
         $session.set({
           signInPageUrl: config.signInPageUrl,
-          successRedirectUrl: config.successRedirectUrl,
           ...$session.get(),
           ...fields
         })

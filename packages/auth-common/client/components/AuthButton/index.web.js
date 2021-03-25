@@ -18,7 +18,7 @@ function AuthButton ({
   return pug`
     Div.button(
       style=style
-      onPress=()=> onLogin(providerName, redirectUrl)
+      onPress=()=> onLogin({ providerName, redirectUrl })
     )
       if imageUrl
         Image.image(

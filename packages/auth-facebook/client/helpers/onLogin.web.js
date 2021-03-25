@@ -1,7 +1,12 @@
 import { Linking } from 'react-native'
-import { WEB_LOGIN_URL } from '../../isomorphic/constants'
+import { CookieManager } from '@startupjs/auth'
+import { WEB_LOGIN_URL } from '../../isomorphic'
 
-export default async function login (baseUrl, redirectUrl) {
-  const query = redirectUrl ? `?redirectUrl=${redirectUrl}` : ''
-  Linking.openURL(WEB_LOGIN_URL + query)
+export default async function onLogin ({ redirectUrl }) {
+  // set redirectUrl in cookie and play redirect from server
+  if (redirectUrl) {
+    CookieManager.set({ name: 'redirectUrl', value: redirectUrl })
+  }
+
+  Linking.openURL(WEB_LOGIN_URL)
 }

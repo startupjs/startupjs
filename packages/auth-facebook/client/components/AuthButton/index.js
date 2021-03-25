@@ -1,25 +1,28 @@
 import React from 'react'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { BASE_URL } from '@env'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ baseUrl, style, label, redirectUrl }) {
+function AuthButton ({
+  style,
+  baseUrl,
+  redirectUrl,
+  label
+}) {
   return pug`
     Button.button(
       style=style
-      onPress=() => onLogin(baseUrl, redirectUrl)
       icon=faFacebook
       variant='flat'
+      onPress=() => onLogin({ baseUrl, redirectUrl })
     )= label
   `
 }
 
 AuthButton.defaultProps = {
-  label: 'Facebook',
-  baseUrl: BASE_URL
+  label: 'Facebook'
 }
 
 AuthButton.propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dimensions } from 'react-native'
-import { observer, useOn, useLocal, useValue } from 'startupjs'
+import { observer, useOn, useValue } from 'startupjs'
 import { Modal, Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import _get from 'lodash/get'
@@ -24,6 +24,7 @@ const { width } = Dimensions.get('window')
  */
 function AuthModal ({
   baseUrl,
+  redirectUrl,
   slide,
   localForms,
   socialButtons,
@@ -33,16 +34,15 @@ function AuthModal ({
   onChangeSlide
 }) {
   const isMobileWidth = width <= 480
-  const [_redirectUrl] = useLocal('$render.query.redirectUrl')
-  const [modal, $modal] = useValue(false)
+  const [formData, $formData] = useValue(false)
 
   function _onClose () {
-    $modal.set(false)
+    $formData.set(false)
     onClose()
   }
 
   function onShow (props = {}) {
-    $modal.set(props)
+    $formData.set(props)
   }
 
   useOn('AuthModal.show', onShow)
@@ -50,19 +50,19 @@ function AuthModal ({
 
   return pug`
     Modal(
-      $visible=$modal
+      $visible=$formData
       variant=isMobileWidth ? 'fullscreen' : 'window'
     )
       Modal.Header(style=styles.header)
       Div.content
         AuthForm(
-          redirectUrl=_get(modal, 'redirectUrl') || _redirectUrl
+          redirectUrl=redirectUrl || _get(formData, 'redirectUrl')
           localForms=localForms
           socialButtons=socialButtons
           onSuccess=onSuccess
           onError=onError
           onChangeSlide=onChangeSlide
-          ...modal
+          ...formData
           slide=slide
         )
   `
@@ -70,6 +70,7 @@ function AuthModal ({
 
 AuthModal.propTypes = {
   baseUrl: PropTypes.string.isRequired,
+  redirectUrl: PropTypes.string,
   slide: PropTypes.string,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,

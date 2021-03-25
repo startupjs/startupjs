@@ -14,7 +14,9 @@ import {
   SIGN_IN_SLIDE,
   RECOVER_PASSWORD_SLIDE
 } from '@startupjs/auth/isomorphic'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
+import { BASE_URL } from '@env'
+import moment from 'moment'
 import _get from 'lodash/get'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
@@ -85,10 +87,21 @@ function LoginForm ({
     if (errors.check(fullSchema, form)) return
 
     try {
+      if (redirectUrl) {
+        await CookieManager.set({
+          baseUrl,
+          name: 'redirectUrl',
+          value: redirectUrl,
+          expires: moment().add(15, 'minutes').toISOString()
+        })
+      }
+
       const res = await authHelper.login(form)
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth(redirectUrl)
+        onSuccess
+          ? onSuccess(res.data, SIGN_IN_SLIDE)
+          : clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
       }
     } catch (error) {
       if (onHandleError) {
@@ -158,6 +171,10 @@ function initForm (properties) {
     }
   })
   return initData
+}
+
+LoginForm.defaultProps = {
+  baseUrl: BASE_URL
 }
 
 LoginForm.propTypes = {

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError } from 'startupjs'
 import { Row, Div, Span, Button, ObjectInput, ErrorWrapper } from '@startupjs/ui'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import moment from 'moment'
+import { BASE_URL } from '@env'
 import _get from 'lodash/get'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
@@ -87,6 +89,15 @@ function RegisterForm ({
     }
 
     try {
+      if (redirectUrl) {
+        await CookieManager.set({
+          baseUrl,
+          name: 'redirectUrl',
+          value: redirectUrl,
+          expires: moment().add(15, 'minutes').toISOString()
+        })
+      }
+
       await authHelper.register(formClone)
       const res = await authHelper.login({
         email: form.email,
@@ -94,7 +105,9 @@ function RegisterForm ({
       })
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_UP_SLIDE) : finishAuth(redirectUrl)
+        onSuccess
+          ? onSuccess(res.data, SIGN_UP_SLIDE)
+          : clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
       }
     } catch (error) {
       onError && onError(error)
@@ -147,6 +160,10 @@ function initForm (properties) {
     }
   })
   return initData
+}
+
+RegisterForm.defaultProps = {
+  baseUrl: BASE_URL
 }
 
 RegisterForm.propTypes = {

@@ -1,22 +1,34 @@
 import { appleAuth } from '@invertase/react-native-apple-authentication'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import axios from 'axios'
+import { BASE_URL } from '@env'
+import moment from 'moment'
 import { CALLBACK_NATIVE_URL } from '../../isomorphic'
 
-export default async function onLogin ({ baseUrl }) {
+export default async function onLogin ({ baseUrl = BASE_URL, redirectUrl }) {
+  // set redirectUrl in cookie and play redirect from server
+  if (redirectUrl) {
+    await CookieManager.set({
+      baseUrl,
+      name: 'redirectUrl',
+      value: redirectUrl,
+      expires: moment().add(15, 'minutes').toISOString()
+    })
+  }
+
   try {
     const data = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME]
     })
 
-    await axios.post(baseUrl + CALLBACK_NATIVE_URL, {
+    const res = await axios.post(baseUrl + CALLBACK_NATIVE_URL, {
       id: data.user,
       email: data.email,
       fullName: data.fullName
     })
 
-    finishAuth()
+    clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
   } catch (err) {
     console.log(err)
   }

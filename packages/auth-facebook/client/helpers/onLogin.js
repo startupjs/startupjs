@@ -1,10 +1,21 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import axios from 'axios'
-import { CALLBACK_URL, PERMISSIONS } from '../../isomorphic/constants'
+import moment from 'moment'
+import { CALLBACK_URL, PERMISSIONS } from '../../isomorphic'
 
-export default async function onLogin (baseUrl = BASE_URL) {
+export default async function onLogin ({ baseUrl = BASE_URL, redirectUrl }) {
+  // set redirectUrl in cookie and play redirect from server
+  if (redirectUrl) {
+    await CookieManager.set({
+      baseUrl,
+      name: 'redirectUrl',
+      value: redirectUrl,
+      expires: moment().add(15, 'minutes').toISOString()
+    })
+  }
+
   try {
     // The problem was that Facebook SDK was still keeping the previous session token, and when
     // I was trying to login again I was getting this error, to solve this problem all
@@ -19,10 +30,12 @@ export default async function onLogin (baseUrl = BASE_URL) {
     }
 
     const data = await AccessToken.getCurrentAccessToken()
-    await axios.get(baseUrl + CALLBACK_URL, {
+
+    const res = await axios.get(baseUrl + CALLBACK_URL, {
       params: data
     })
-    finishAuth()
+
+    clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
   } catch (error) {
     console.log('[@dmapper/auth] Error, FacebookAuth', error)
   }

@@ -3,7 +3,8 @@ import { WebView } from 'react-native-webview'
 import { Image } from 'react-native'
 import { observer, u, useValue } from 'startupjs'
 import { Modal, Span, Div } from '@startupjs/ui'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
+import moment from 'moment'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import './index.styl'
@@ -18,14 +19,23 @@ function AuthButton ({
 }) {
   const [, $showModal] = useValue(false)
 
-  function showLoginModal () {
+  async function showLoginModal () {
+    if (redirectUrl) {
+      await CookieManager.set({
+        baseUrl,
+        name: 'redirectUrl',
+        value: redirectUrl,
+        expires: moment().add(15, 'minutes').toISOString()
+      })
+    }
+
     $showModal.set(true)
   }
 
   function onNavigationStateChange ({ url }) {
     if (url.includes(baseUrl) && !url.includes('auth')) {
       $showModal.set(false)
-      finishAuth()
+      setTimeout(() => clientFinishAuth(url.replace(baseUrl, '')), 100)
     }
   }
 

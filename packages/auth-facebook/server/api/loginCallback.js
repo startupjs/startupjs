@@ -7,7 +7,6 @@ export default async function loginCallback (req, res, next, config) {
   const {
     clientId,
     clientSecret,
-    successRedirectUrl,
     onBeforeLoginHook
   } = config
 
@@ -37,6 +36,6 @@ export default async function loginCallback (req, res, next, config) {
     return res.send(response)
   } else {
     const userId = await provider.findOrCreateUser({ req })
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    finishAuth(req, res, { userId, onBeforeLoginHook })
   }
 }

@@ -2,29 +2,31 @@ import React from 'react'
 import { useSession } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { BASE_URL } from '@env'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ baseUrl, style, label, redirectUrl }) {
+function AuthButton ({
+  style,
+  baseUrl,
+  redirectUrl,
+  label
+}) {
   const [authConfig] = useSession('auth')
-
   const { clientId, testBaseUrl } = authConfig.apple
 
   return pug`
     Button.button(
       style=style
-      onPress=()=> onLogin({ clientId, testBaseUrl, baseUrl }, redirectUrl)
       icon=faApple
       variant='flat'
+      onPress=()=> onLogin({ clientId, testBaseUrl, baseUrl, redirectUrl })
     )= label
   `
 }
 
 AuthButton.defaultProps = {
-  label: 'Apple',
-  baseUrl: BASE_URL
+  label: 'Apple'
 }
 
 AuthButton.propTypes = {
