@@ -1,7 +1,7 @@
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
 import Avatar from '../Avatar'
 import Div from '../Div'
 import Span from '../typography/Span'
@@ -38,7 +38,7 @@ function User ({
         if description
           Span.description(
             styleName=[size, avatarPosition]
-            description
+            variant='description'
           )= description
   `
 }

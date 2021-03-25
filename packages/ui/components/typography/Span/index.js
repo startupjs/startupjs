@@ -1,7 +1,7 @@
 import React from 'react'
+import { Text } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { Text } from 'react-native'
 import themed from '../../../theming/themed'
 import './index.styl'
 
@@ -11,7 +11,6 @@ function Span ({
   variant,
   bold,
   italic,
-  description,
   theme,
   ...props
 }) {
