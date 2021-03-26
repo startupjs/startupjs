@@ -37,9 +37,8 @@ Add to the `getHead` function:
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 ```
 
-#### checkToken(token)
-A server function that accepts a token, verifies it on the Google server, and returns an object with a response
-
+#### `checkToken(token)`
+A server function that accepts a token, verifies it on the Google server, and returns a boolean response
 
 ### config
 
@@ -52,6 +51,25 @@ You need to add to the `config.json` file of your project:
 ```
 
 ## Example
+
+### Use on server
+```js
+import { checkToken } from '@startupjs/recaptcha/server'
+
+export default function initRoutes (router) {
+  router.post('/api/auth', async function (req, res) {
+    const { token, ...data } = req.body
+
+    const isVerified = await checkToken(token)
+
+    if (!isVerified) {
+      return res.status(403).send(isVerified)
+    }
+
+    // ...
+  })
+}
+```
 
 ### I'm not a robot
 ```jsx example
@@ -131,3 +149,11 @@ You need to add to the `config.json` file of your project:
  - `onExpire` [Function] - A callback function, executed when the reCAPTCHA response expires and the user needs to re-verify
  - `onError` [Function(error)] - A callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry
  - `onClose` [Function] - (Experimental) A callback function, executed when the Modal is closed
+
+## Advanced use
+
+```js
+  import { checkDataToken } from '@startupjs/recaptcha/server'
+```
+
+`checkDataToken (token)` is an extended function `checkToken (token)` that returns an object with the original Google API response

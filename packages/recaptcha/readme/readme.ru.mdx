@@ -37,8 +37,8 @@ import './index.styl'
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 ```
 
-#### checkToken(token)
-Серверная функция, которая принимает токен, верифицирует его на сервере Google и возвращает объект с ответом
+#### `checkToken(token)`
+Серверная функция, которая принимает токен, верифицирует его на сервере Google и возвращает булевый ответ
 
 ### config
 
@@ -51,6 +51,25 @@ import './index.styl'
 ```
 
 ## Пример
+
+### Использование на сервере
+```js
+import { checkToken } from '@startupjs/recaptcha/server'
+
+export default function initRoutes (router) {
+  router.post('/api/auth', async function (req, res) {
+    const { token, ...data } = req.body
+
+    const isVerified = await checkToken(token)
+
+    if (!isVerified) {
+      return res.status(403).send(isVerified)
+    }
+
+    // ...
+  })
+}
+```
 
 ### I'm not a robot
 ```jsx example
@@ -130,3 +149,11 @@ import './index.styl'
  - `onExpire` [Function] - Функция обратного вызова, выполняемая, когда срок ответа reCAPTCHA истекает, и пользователя необходимо повторно проверить
  - `onError` [Function(error)] - Функция обратного вызова, выполняемая, когда reCAPTCHA обнаруживает ошибку (обычно при подключении к сети), и не может продолжаться, пока подключение не будет восстановлено. Если вы указываете здесь функцию, вы несете ответственность за информирование пользователя о том, что он должен повторить попытку
  - `onClose` [Function] - (Экспериментально) Функция обратного вызова, выполняемая при закрытии окна reCAPTCHA
+
+## Advanced use
+
+```js
+  import { checkDataToken } from '@startupjs/recaptcha/server'
+```
+
+`checkDataToken(token)` - расширенная функция `checkToken(token)`, которая возвращает объект с оригинальным ответом Google API

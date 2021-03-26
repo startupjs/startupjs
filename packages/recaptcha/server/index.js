@@ -1,4 +1,5 @@
 import checkToken from './checkToken'
+import checkDataToken from './checkDataToken'
 import { setRecaptchaSiteKey } from './middlewares'
 
 function initRecaptcha (ee) {
@@ -7,4 +8,4 @@ function initRecaptcha (ee) {
   })
 }
 
-export { checkToken, initRecaptcha }
+export { checkToken, initRecaptcha, checkDataToken }
