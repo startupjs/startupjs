@@ -14,7 +14,6 @@ import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
 import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
-import fs from 'fs'
 
 import path from 'path'
 import conf from 'nconf'
@@ -43,28 +42,20 @@ startupjsServer({
   initUi(ee, { dirname: rootPath })
   init2fa(ee, { appName: app.name })
 
-  const privateConfigPath = process.cwd() + '/config.private.json'
-  let privateConfig = {}
-  if (fs.existsSync(privateConfigPath)) {
-    privateConfig = JSON.parse(fs.readFileSync(privateConfigPath, {
-      encoding: 'utf8'
-    }))
-  }
-
   initAuth(ee, {
     successRedirectUrl: '/profile',
     strategies: [
       new AppleStrategy({
-        clientId: privateConfig.APPLE_CLIENT_ID || '',
-        teamId: privateConfig.APPLE_TEAM_ID || '',
-        keyId: privateConfig.APPLE_KEY_ID || '',
+        clientId: conf.get('APPLE_CLIENT_ID'),
+        teamId: conf.get('APPLE_TEAM_ID'),
+        keyId: conf.get('APPLE_KEY_ID'),
         privateKeyLocation: path.join(process.cwd(), 'server/appleAuthKey.private.p8')
       }),
       new AzureADStrategy({
-        clientId: privateConfig.AZUREAD_CLIENT_ID || '',
-        clientSecret: privateConfig.AZUREAD_CLIENT_SECRET || '',
-        tentantId: privateConfig.AZUREAD_TENTANT_ID || '',
-        identityMetadata: privateConfig.AZUREAD_IDENTITY_METADATA || '',
+        clientId: conf.get('AZUREAD_CLIENT_ID'),
+        clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
+        tentantId: conf.get('AZUREAD_TENTANT_ID'),
+        identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
         allowHttpForRedirectUrl: true
       }),
       new FacebookStrategy({
