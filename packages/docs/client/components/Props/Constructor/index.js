@@ -13,6 +13,7 @@ import './index.styl'
 export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
   const entries = useMemo(() => {
     return parseEntries(Object.entries(parsePropTypes(Component)))
+      .filter(entry => entry.name[0] !== '_') // skip private properties
   }, [Component])
 
   useLayoutEffect(() => {
@@ -36,76 +37,75 @@ export default observer(themed(function Constructor ({ Component, $props, style,
           Td: Text.header.right(styleName=[theme]) VALUE
       Tbody
         each entry, index in entries
-          unless entry.name[0] === '_'
-            - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
-            - const $value = $props.at(name)
-            - let value = $value.get()
+          - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
+          - const $value = $props.at(name)
+          - let value = $value.get()
 
-            Tr(key=index)
-              Td: Span.name(
-                style={
-                  fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-                }
-              )= name
-              Td
-                if type === 'oneOf'
-                  Span.possibleValue
-                    - let first = true
-                    each possibleValue, index in possibleValues
-                      React.Fragment(key=index)
-                        if !first
-                          Span.separator #{' | '}
-                        Span.value(styleName=[theme])= JSON.stringify(possibleValue)
-                        - first = false
-                else if type === 'oneOfType'
-                  Span.possibleType
-                    - let first = true
-                    each possibleValue, index in possibleTypes
-                      React.Fragment(key=index)
-                        if !first
-                          Span.separator #{' | '}
-                        Span.type(styleName=[theme])= possibleValue && possibleValue.name
-                        - first = false
-                else
-                  Span.type(styleName=[theme])= type
-              Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
-              Td.vCenter
-                if type === 'string'
-                  Input(
-                    type='text'
-                    size='s'
-                    value=value || ''
-                    onChangeText=value => $value.set(value)
-                  )
-                else if type === 'number'
-                  NumberInput(
-                    size='s'
-                    value=value
-                    onChangeNumber=value => $value.set(value)
-                  )
-                else if type === 'node'
-                  Input(
-                    type='text'
-                    size='s'
-                    value=value || ''
-                    onChangeText=value => $value.set(value)
-                  )
-                else if type === 'oneOf'
-                  Input(
-                    type='select'
-                    size='s'
-                    value=value
-                    onChange=value => $value.set(value)
-                    options=possibleValues
-                  )
-                else if type === 'bool'
-                  Input.checkbox(
-                    type='checkbox'
-                    value=value
-                    onChange=value => $value.set(value)
-                  )
-                else
-                  Span.unsupported -
+          Tr(key=index)
+            Td: Span.name(
+              style={
+                fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+              }
+            )= name
+            Td
+              if type === 'oneOf'
+                Span.possibleValue
+                  - let first = true
+                  each possibleValue, index in possibleValues
+                    React.Fragment(key=index)
+                      if !first
+                        Span.separator #{' | '}
+                      Span.value(styleName=[theme])= JSON.stringify(possibleValue)
+                      - first = false
+              else if type === 'oneOfType'
+                Span.possibleType
+                  - let first = true
+                  each possibleValue, index in possibleTypes
+                    React.Fragment(key=index)
+                      if !first
+                        Span.separator #{' | '}
+                      Span.type(styleName=[theme])= possibleValue && possibleValue.name
+                      - first = false
+              else
+                Span.type(styleName=[theme])= type
+            Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
+            Td.vCenter
+              if type === 'string'
+                Input(
+                  type='text'
+                  size='s'
+                  value=value || ''
+                  onChangeText=value => $value.set(value)
+                )
+              else if type === 'number'
+                NumberInput(
+                  size='s'
+                  value=value
+                  onChangeNumber=value => $value.set(value)
+                )
+              else if type === 'node'
+                Input(
+                  type='text'
+                  size='s'
+                  value=value || ''
+                  onChangeText=value => $value.set(value)
+                )
+              else if type === 'oneOf'
+                Input(
+                  type='select'
+                  size='s'
+                  value=value
+                  onChange=value => $value.set(value)
+                  options=possibleValues
+                )
+              else if type === 'bool'
+                Input.checkbox(
+                  type='checkbox'
+                  value=value
+                  onChange=value => $value.set(value)
+                )
+              else
+                Span.unsupported -
   `
 }))
 
