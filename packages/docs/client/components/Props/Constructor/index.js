@@ -13,6 +13,7 @@ import './index.styl'
 export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
   const entries = useMemo(() => {
     return parseEntries(Object.entries(parsePropTypes(Component)))
+      .filter(entry => entry.name[0] !== '_') // skip private properties
   }, [Component])
 
   useLayoutEffect(() => {
