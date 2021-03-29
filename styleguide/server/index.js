@@ -15,6 +15,7 @@ import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
 import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
 
+import fs from 'fs'
 import path from 'path'
 import conf from 'nconf'
 import app from '../app.json'
@@ -44,7 +45,46 @@ startupjsServer({
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
-    strategies: [
+    strategies: getAuthStrategies()
+  })
+})
+
+function getAuthStrategies () {
+  const strategies = [
+    new FacebookStrategy({
+      clientId: conf.get('FACEBOOK_CLIENT_ID'),
+      clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
+    }),
+    new GoogleStrategy({
+      clientId: conf.get('GOOGLE_CLIENT_ID'),
+      clientSecret: conf.get('GOOGLE_CLIENT_SECRET')
+    }),
+    new LinkedinStrategy({
+      clientId: conf.get('LINKEDIN_CLIENT_ID'),
+      clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
+    }),
+    new CommonStrategy({
+      providerName: 'virgin',
+      authorizationURL: 'http://localhost:4000/oauth/authorize',
+      tokenURL: 'http://localhost:4000/oauth/token',
+      profileURL: 'http://localhost:4000/oauth/get-me',
+      callbackURL: conf.get('BASE_URL') + '/auth/virgin/callback',
+      clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
+      clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
+    }),
+    new LocalStrategy(),
+    new IDGStrategy({
+      clientId: conf.get('IDG_CLIENT_ID'),
+      clientSecret: conf.get('IDG_CLIENT_SECRET')
+    })
+  ]
+
+  const isPrivateFilesExist =
+    fs.existsSync(path.join(process.cwd(), 'server/appleAuthKey.private.p8')) &&
+    fs.existsSync(path.join(process.cwd(), 'config.private.json'))
+
+  if (isPrivateFilesExist) {
+    strategies.concat([
       new AppleStrategy({
         clientId: conf.get('APPLE_CLIENT_ID'),
         teamId: conf.get('APPLE_TEAM_ID'),
@@ -57,36 +97,12 @@ startupjsServer({
         tentantId: conf.get('AZUREAD_TENTANT_ID'),
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
         allowHttpForRedirectUrl: true
-      }),
-      new FacebookStrategy({
-        clientId: conf.get('FACEBOOK_CLIENT_ID'),
-        clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
-      }),
-      new GoogleStrategy({
-        clientId: conf.get('GOOGLE_CLIENT_ID'),
-        clientSecret: conf.get('GOOGLE_CLIENT_SECRET')
-      }),
-      new LinkedinStrategy({
-        clientId: conf.get('LINKEDIN_CLIENT_ID'),
-        clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
-      }),
-      new CommonStrategy({
-        providerName: 'virgin',
-        authorizationURL: 'http://localhost:4000/oauth/authorize',
-        tokenURL: 'http://localhost:4000/oauth/token',
-        profileURL: 'http://localhost:4000/oauth/get-me',
-        callbackURL: conf.get('BASE_URL') + '/auth/virgin/callback',
-        clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
-        clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
-      }),
-      new LocalStrategy(),
-      new IDGStrategy({
-        clientId: conf.get('IDG_CLIENT_ID'),
-        clientSecret: conf.get('IDG_CLIENT_SECRET')
       })
-    ]
-  })
-})
+    ])
+  }
+
+  return strategies
+}
 
 function getHead (appName) {
   return `
