@@ -41,7 +41,7 @@ function Select ({
       iconPosition='right'
       renderWrapper=renderWrapper
       selection={start: 0, end: 0}
-      _editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
+      editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
       ...props
     )
   `

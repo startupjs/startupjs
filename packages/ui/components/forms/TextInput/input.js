@@ -45,7 +45,7 @@ function Input ({
   className,
   placeholder,
   value,
-  _editable,
+  editable,
   size,
   focused,
   disabled,
@@ -160,7 +160,7 @@ function Input ({
         placeholder=placeholder
         placeholderTextColor=DARK_LIGHTER_COLOR
         value=value
-        editable=_editable && !disabled
+        editable=editable && !disabled
         multiline=multiline
         onBlur=onBlur
         onFocus=onFocus
@@ -205,11 +205,11 @@ function getOppositePosition (position) {
 const ObservedInput = observer(Input, { forwardRef: true })
 
 ObservedInput.defaultProps = {
-  _editable: true
+  editable: true
 }
 
 ObservedInput.propTypes = {
-  _editable: PropTypes.bool
+  editable: PropTypes.bool
 }
 
 export default ObservedInput
