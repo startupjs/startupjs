@@ -49,7 +49,7 @@ startupjsServer({
         clientId: conf.get('APPLE_CLIENT_ID'),
         teamId: conf.get('APPLE_TEAM_ID'),
         keyId: conf.get('APPLE_KEY_ID'),
-        privateKeyLocation: path.join(process.cwd(), 'server/appleAuthKey.p8')
+        privateKeyLocation: path.join(process.cwd(), 'server/appleAuthKey.private.p8')
       }),
       new AzureADStrategy({
         clientId: conf.get('AZUREAD_CLIENT_ID'),
