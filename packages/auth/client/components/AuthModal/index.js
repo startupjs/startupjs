@@ -24,13 +24,11 @@ const { width } = Dimensions.get('window')
  */
 function AuthModal ({
   baseUrl,
-  slide,
   localForms,
   socialButtons,
   onSuccess,
   onError,
   onClose,
-  onChangeSlide,
   renderForm
 }) {
   const isMobileWidth = width <= 480
@@ -63,23 +61,20 @@ function AuthModal ({
           renderForm=renderForm
           onSuccess=onSuccess
           onError=onError
-          onChangeSlide=onChangeSlide
+          onChangeSlide=slide=> $modal.set('slide', slide)
           ...modal
-          slide=slide
         )
   `
 }
 
 AuthModal.propTypes = {
   baseUrl: PropTypes.string.isRequired,
-  slide: PropTypes.string,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
   renderForm: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onClose: PropTypes.func,
-  onChangeSlide: PropTypes.func
+  onClose: PropTypes.func
 }
 
 export default observer(AuthModal)
