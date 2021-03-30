@@ -38,7 +38,7 @@ export default function resetPassword (req, res, done, config) {
     // Remove used secret
     await $local.del('passwordReset')
 
-    await onAfterPasswordReset(userId)
+    await onAfterPasswordReset({ userId }, req)
 
     res.send('Password reset completed')
   })

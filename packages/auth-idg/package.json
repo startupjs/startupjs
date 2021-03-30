@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-idg",
-  "version": "0.33.0-alpha.0",
+  "version": "0.33.1",
   "type": "module",
   "description": "iDecisionGames auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "@dmapper/passport-idg-oauth2": "^2.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0-alpha.0",
+    "@startupjs/auth": ">= 0.33.0",
     "react-native-webview": "10.10.2"
   }
 }

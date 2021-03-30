@@ -8,6 +8,7 @@ function PRecover ({
   baseUrl,
   localForms,
   socialButtons,
+  renderForm,
   onError,
   onSuccess,
   onHandleError,
@@ -19,6 +20,7 @@ function PRecover ({
       slide=RECOVER_PASSWORD_SLIDE
       localForms=localForms
       socialButtons=socialButtons
+      renderForm=renderForm
       onError=onError
       onSuccess=onSuccess
       onHandleError=onHandleError
@@ -31,6 +33,7 @@ PRecover.propTypes = {
   baseUrl: PropTypes.string,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
+  renderForm: PropTypes.func,
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
   onHandleError: PropTypes.func,

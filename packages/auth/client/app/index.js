@@ -19,7 +19,10 @@ export default function initAuthApp ({
   localForms,
   socialButtons,
   renderForm,
-  onChangeSlide
+  onChangeSlide,
+  onSuccess,
+  onError,
+  onHandleError
 }) {
   function _onChangeSlide (slide) {
     const search = $root.get('$render').search
@@ -53,7 +56,10 @@ export default function initAuthApp ({
           localForms=localForms
           socialButtons=socialButtons
           renderForm=renderForm
-          onChangeSlide=_onChangeSlide
+          onChangeSlide=_onChangeSlide,
+          onSuccess=onSuccess
+          onError=onError
+          onHandleError=onHandleError
         )
       `
     }

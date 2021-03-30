@@ -64,3 +64,6 @@ buck-out/
 # Detox
 /artifacts/
 /e2e/__diff_output__
+
+# private files
+*.private.*

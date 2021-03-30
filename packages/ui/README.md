@@ -19,7 +19,7 @@ react-native-gesture-handler: 1.9.0
 react-native-reanimated: >= 1.13.2
 react-native-svg: >= 12.1.0
 react-native-tab-view: >= 2.15.2
-startupjs: >= 0.33.0-alpha.0
+startupjs: >= 0.33.0
 ```
 
 ### Linking
