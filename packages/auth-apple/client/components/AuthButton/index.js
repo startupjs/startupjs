@@ -10,7 +10,7 @@ import './index.styl'
 function AuthButton ({ baseUrl, style, label, redirectUrl }) {
   const [authConfig] = useSession('auth')
 
-  const { clientId, testBaseUrl } = authConfig.apple
+  const { clientId, testBaseUrl } = authConfig.apple || {}
 
   return pug`
     Button.button(

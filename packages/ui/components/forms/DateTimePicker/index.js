@@ -196,11 +196,10 @@ function DateTimePicker ({
     )= placeholder && !date ? placeholder : getDateStr()
 
     if Platform.OS === 'ios'
-      Drawer(
+      Drawer.drawer(
+        swipeStyleName='swipe'
         visible=visible
         position='bottom'
-        styleContent={ height: 260 }
-        styleSwipe={ height: 0 }
         onDismiss=onPressCancel
       )
         Row.buttons(
