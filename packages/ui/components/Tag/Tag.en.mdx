@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import Br from '../Br'
+import Div from '../Div'
 import Row from '../Row'
 import Tag from '../Tag'
 import './index.mdx.styl'
@@ -20,7 +21,9 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Tag>Tag</Tag>
+  <Row>
+    <Tag>Tag</Tag>
+  </Row>
 )
 ```
 
@@ -45,10 +48,11 @@ The `size` property applies to the size of tag, icons, and text. There are two s
 
 ```jsx example
 return (
-  <Row vAlign='center'>
+  <Div style={{ alignItems: 'flex-start' }}>
+    <Tag size='s'>Size 's'</Tag>
+    <Br />
     <Tag>Size 'm' (default)</Tag>
-    <Tag size='l' pushed='s'>Size 'l'</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -60,7 +64,7 @@ Outlined tags offer an alternative style, in property `variant` need to pass `ou
 return (
   <Row>
     <Tag variant='outlined'>Outlined tag</Tag>
-    <Tag variant='outlined-bg' pushed='s'>Outlined tag with a background</Tag>
+    <Tag variant='outlined-bg' pushed='s' onPress={() => {}}>Outlined tag with a background</Tag>
   </Row>
 )
 ```
@@ -93,11 +97,11 @@ In `.styl` file
 ```jsx example
 return (
   <Row>
-    <Tag icon={faCoffee}>
+    <Tag icon={faStopCircle}>
       Icon on the left
     </Tag>
     <Tag
-      secondaryIcon={faCoffee}
+      secondaryIcon={faStopCircle}
       variant='outlined-bg'
       pushed='s'
     >
@@ -107,7 +111,7 @@ return (
       iconStyleName='icon'
       secondaryIconStyleName='secondaryIcon'
       variant='outlined'
-      icon={faCoffee}
+      icon={faStopCircle}
       secondaryIcon={faTimesCircle}
       pushed='s'
     >

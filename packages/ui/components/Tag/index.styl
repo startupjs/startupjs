@@ -1,66 +1,81 @@
-_sizes = 'l' 'm'
-
 // ----- CONFIG: $UI.Tag
-$this = merge(
-  {
+
+$this = merge({
   heights: {
-    m: 2u,
-    l: 3u
+    s: 2.5u,
+    m: 3u,
   },
   paddings: {
-    m: 0.75u,
-    l: 1u
+    s: 1u,
+    m: 1.5u
   },
   fontSizes: {
-    m: 's',
-    l: 'm'
+    s: 's',
+    m: 's'
   },
-  lineHeights: {
-    m: 'xs',
-    l: 's'
+  iconMargins: {
+    inside: {
+      s: 0.75u,
+      m: 1u
+    }
+    outside: {
+      s: -0.25u,
+      m: -0.5u
+    }
   }
-  outlinedBorderWidth: 1px
+  outlinedBorderWidth: 1px,
+  disabledOpacity: 0.25
 },
   $UI.Tag,
   true
 )
 
-// ----- COMPONENT
-_disabledOpacity = 0.25
-
 .root
-  max-width 100%
+  flex-direction row
+  align-items center
+  justify-content center
+
+  for size, height in $this.heights
+    &.{size}
+      height height
+
+  for size, padding in $this.paddings
+    &.{size}
+      padding-left padding
+      padding-right padding
 
   &.disabled
-    opacity _disabledOpacity
+    opacity $this.disabledOpacity
 
   &.outlined
   &.outlined-bg
     border-width: $this.outlinedBorderWidth
 
-  for size in _sizes
-    &.{size}
-      padding-left: $this.paddings[size]
-      padding-right @padding-left
-      height: $this.heights[size]
-
-    &.outlined.{size}
-    &.outlined-bg.{size}
-      padding-left: $this.paddings[size] - $this.outlinedBorderWidth
-      padding-right @padding-left
-
 .label
-  for size in _sizes
+  font-weight 500
+
+  for size, fontSize in $this.fontSizes
     &.{size}
-      font-size: $UI.fontSizes[$this.fontSizes[size]]
-      line-height: $UI.lineHeights[$this.lineHeights[size]]
+      font(fontSize)
 
 .iconWrapper
   &.left
-    margin-right 0.5u
+    for size, margin in $this.iconMargins.inside
+      &.{size}
+        margin-right margin
+
+    for size, margin in $this.iconMargins.outside
+      &.{size}
+        margin-left margin
 
   &.right
-    margin-left 0.5u
+    for size, margin in $this.iconMargins.inside
+      &.{size}
+        margin-left margin
+
+    for size, margin in $this.iconMargins.outside
+      &.{size}
+        margin-right margin
 
 .icon
   color: $UI.colors.dark
@@ -69,5 +84,6 @@ _disabledOpacity = 0.25
     color: $UI.colors.white
 
 // ----- JS EXPORTS
+
 :export
   colors: $UI.colors

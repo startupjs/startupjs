@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import Br from '../Br'
+import Div from '../Div'
 import Row from '../Row'
 import Tag from '../Tag'
 import './index.mdx.styl'
@@ -20,7 +21,9 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Tag>Тег</Tag>
+  <Row>
+    <Tag>Тег</Tag>
+  </Row>
 )
 ```
 
@@ -45,10 +48,11 @@ return (
 
 ```jsx example
 return (
-  <Row vAlign='center'>
+  <Div style={{ alignItems: 'flex-start' }}>
+    <Tag size='s'>Размер 's'</Tag>
+    <Br />
     <Tag>Размер 'm' (по умолчанию)</Tag>
-    <Tag size='l' pushed='s'>Размер 'l'</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -93,11 +97,11 @@ In `.styl` file
 ```jsx example
 return (
   <Row>
-    <Tag icon={faCoffee}>
+    <Tag icon={faStopCircle}>
       Иконка слева
     </Tag>
     <Tag
-      secondaryIcon={faCoffee}
+      secondaryIcon={faStopCircle}
       variant='outlined-bg'
       pushed='s'
     >
@@ -107,7 +111,7 @@ return (
       iconStyleName='icon'
       secondaryIconStyleName='secondaryIcon'
       variant='outlined'
-      icon={faCoffee}
+      icon={faStopCircle}
       secondaryIcon={faTimesCircle}
       pushed='s'
     >

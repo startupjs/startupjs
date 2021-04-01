@@ -4,7 +4,6 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import Icon from '../Icon'
-import Row from '../Row'
 import Div from '../Div'
 import Span from '../typography/Span'
 import STYLES from './index.styl'
@@ -12,32 +11,37 @@ import STYLES from './index.styl'
 const { colors } = STYLES
 
 const ICON_SIZES = {
-  m: 's',
-  l: 'm'
+  s: 's',
+  m: 's'
 }
 
 function Tag ({
   style,
-  iconStyle,
-  secondaryIconStyle,
   textStyle,
   children,
   color,
   variant,
   size,
   icon,
+  iconStyle,
   secondaryIcon,
+  secondaryIconStyle,
   disabled,
   hoverStyle,
   activeStyle,
   onPress,
   ...props
 }) {
-  if (!colors[color]) console.error('Tag component: Color for color property is incorrect. Use colors from $UI.colors')
+  if (!colors[color]) {
+    console.error(
+      'Tag component: Color for color property is incorrect. ' +
+      'Use colors from $UI.colors'
+    )
+  }
 
   const isFlat = variant === 'flat'
   const _color = colors[color]
-  const rootStyle = { }
+  const rootStyle = {}
   let extraHoverStyle
   let extraActiveStyle
 
@@ -67,20 +71,18 @@ function Tag ({
       rootStyle.borderColor = _color
       rootStyle.backgroundColor = colorToRGBA(_color, 0.15)
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
-      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.35) }
+      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
   }
 
   return pug`
-    Row.root(
+    Div.root(
       style=[rootStyle, style]
       styleName=[
         variant,
         size,
         { disabled }
       ]
-      align='center'
-      vAlign='center'
       variant='highlight'
       hoverStyle=extraHoverStyle ? [extraHoverStyle, hoverStyle] : hoverStyle
       activeStyle=extraActiveStyle ? [extraActiveStyle, activeStyle] : activeStyle
@@ -89,7 +91,9 @@ function Tag ({
       ...props
     )
       if icon
-        Div.iconWrapper.left
+        Div.iconWrapper.left(
+          styleName=[size]
+        )
           Icon.icon(
             style=iconStyle
             styleName=[variant]
@@ -97,6 +101,9 @@ function Tag ({
             size=ICON_SIZES[size]
           )
 
+      //- workaround when we interpolate variable into component
+      //- const value = 0
+      //- Tag= value
       if children != null
         Span.label(
           style=[textStyle]
@@ -104,10 +111,12 @@ function Tag ({
         )= children
 
       if secondaryIcon
-        Div.iconWrapper.right
+        Div.iconWrapper.right(
+          styleName=[size]
+        )
           Icon.icon(
             style=secondaryIconStyle
-            styleName=[variant]
+            styleName=[variant, size]
             icon=secondaryIcon
             size=ICON_SIZES[size]
           )
@@ -126,7 +135,7 @@ Tag.propTypes = {
   ...Div.propTypes,
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
   shape: PropTypes.oneOf(['circle', 'rounded']),
-  size: PropTypes.oneOf(['m', 'l'])
+  size: PropTypes.oneOf(['s', 'm'])
 }
 
 export default observer(Tag)
