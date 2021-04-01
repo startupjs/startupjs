@@ -12,6 +12,8 @@ import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthLocal from '../../packages/auth-local/readme.md'
 import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
 import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
+import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -100,7 +102,18 @@ export default docs({
           ru: ScrollableAnchorsRu
         }
       },
-      ...twoFADocs
+      ...twoFADocs,
+      recaptcha: {
+        type: 'mdx',
+        title: {
+          en: 'reCaptcha',
+          ru: 'Капча'
+        },
+        component: {
+          en: RecaptchaEn,
+          ru: RecaptchaRu
+        }
+      }
     }
   },
   'migration-guides': {

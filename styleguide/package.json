@@ -41,6 +41,7 @@
     "@startupjs/auth-local": "^0.33.5",
     "@startupjs/docs": "^0.33.6",
     "@startupjs/mdx": "^0.33.6",
+    "@startupjs/recaptcha": "^0.33.0",
     "@startupjs/scrollable-anchors": "^0.33.6",
     "@startupjs/ui": "^0.33.5",
     "axios": "^0.21.1",
