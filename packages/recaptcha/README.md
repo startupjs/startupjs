@@ -51,7 +51,7 @@ You need to add to the `config.json` file of your project:
 import { checkToken } from '@startupjs/recaptcha/server'
 
 export default function initRoutes (router) {
-  router.post('/api/auth', async function (req, res) {
+  router.post('/api/subscribe-something', async function (req, res) {
     const { token, ...data } = req.body
 
     const isVerified = await checkToken(token)
@@ -60,60 +60,44 @@ export default function initRoutes (router) {
       return res.status(403).send(isVerified)
     }
 
-    // ...
+    // Do something with the subscription email...
   })
 }
-```
-
-### I'm not a robot
-```js
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
-
-  const ref = useRef()
-
-  const send = () => ref.current.open()
-
-  const onVerify = token => {
-    console.log('onVerify', token)
-    setRecaptchaVerified(true)
-  }
-
-  return pug`
-    Div.root
-      Recaptcha(
-        ref=ref
-        id='normal-captcha'
-        variant='normal'
-        onVerify=onVerify
-        onLoad=() => console.log('onLoad')
-        onExpire=() => console.log('onExpire')
-        onError=error => console.log('onError', error)
-        onClose=() => console.log('onClose')
-      )
-      if recaptchaVerified
-        Span.label The token is valid
-      Button(
-        onPress=send
-        disabled=recaptchaVerified
-      ) Check
-  `
 ```
 
 ### Invisible
 ```js
   const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+  const [email, setEmail] = useState('')
 
   const ref = useRef()
 
-  const send = () => ref.current.open()
+  const openRecaptcha = () => {
+    if (!email) return
 
-  const onVerify = token => {
-    console.log('onVerify', token)
-    setRecaptchaVerified(true)
+    ref.current.open()
+  }
+
+  const onVerify = async token => {
+    try {
+      const res = await axios.post('/api/subscribe-something', {
+        token,
+        email
+      })
+      console.log('Response: ', res.data)
+      setRecaptchaVerified(res.data)
+    } catch (err) {
+      console.error(err.response.data)
+    }
   }
 
   return pug`
     Div.root
+      TextInput.emailInput(
+        label='Your email'
+        value=email
+        onChangeText=setEmail
+      )
       Recaptcha(
         id='invisible-captcha'
         ref=ref
@@ -124,11 +108,63 @@ export default function initRoutes (router) {
         onClose=() => console.log('onClose')
       )
       if recaptchaVerified
-        Span.label The token is valid
+        Span.label Thank you for subscribing
       Button(
-        onPress=send
+        onPress=openRecaptcha
         disabled=recaptchaVerified
-      ) Check
+      ) Subscribe
+  `
+```
+
+### I'm not a robot
+```js
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+  const [email, setEmail] = useState('')
+
+  const ref = useRef()
+
+  const openRecaptcha = () => {
+    if (!email) return
+
+    ref.current.open()
+  }
+
+  const onVerify = async token => {
+    try {
+      const res = await axios.post('/api/subscribe-something', {
+        token,
+        email
+      })
+      console.log('Response: ', res.data)
+      setRecaptchaVerified(res.data)
+    } catch (err) {
+      console.error(err.response.data)
+    }
+  }
+
+  return pug`
+    Div.root
+      TextInput.emailInput(
+        label='Your email'
+        value=email
+        onChangeText=setEmail
+      )
+      Recaptcha(
+        variant='normal'
+        id='normal-captcha'
+        ref=ref
+        onVerify=onVerify
+        onLoad=() => console.log('onLoad')
+        onExpire=() => console.log('onExpire')
+        onError=error => console.log('onError', error)
+        onClose=() => console.log('onClose')
+      )
+      if recaptchaVerified
+        Span.label Thank you for subscribing
+      Button(
+        onPress=openRecaptcha
+        disabled=recaptchaVerified
+      ) Subscribe
   `
 ```
 

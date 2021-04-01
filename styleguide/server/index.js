@@ -19,6 +19,7 @@ import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
 import fs from 'fs'
 import path from 'path'
 import conf from 'nconf'
+import initRecaptchaDoc from './initRecaptchaDoc'
 import app from '../app.json'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
@@ -44,6 +45,7 @@ startupjsServer({
   initUi(ee, { dirname: rootPath })
   init2fa(ee, { appName: app.name })
   initRecaptcha(ee)
+  initRecaptchaDoc(ee)
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
