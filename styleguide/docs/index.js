@@ -12,6 +12,8 @@ import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthLocal from '../../packages/auth-local/readme.md'
 import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
 import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
+import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -100,7 +102,18 @@ export default docs({
           ru: ScrollableAnchorsRu
         }
       },
-      ...twoFADocs
+      ...twoFADocs,
+      plugins: {
+        type: 'mdx',
+        title: {
+          en: 'Plugins',
+          ru: 'Плагины'
+        },
+        component: {
+          en: PluginEn,
+          ru: PluginRu
+        }
+      }
     }
   },
   'migration-guides': {
