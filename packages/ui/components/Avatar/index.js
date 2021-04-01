@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
-import Div from './../Div'
 import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
+import Div from './../Div'
 import Span from '../typography/Span'
 import './index.styl'
 
@@ -19,8 +19,27 @@ function Avatar ({
   const [error, setError] = useState()
   useDidUpdate(setError, [src])
 
+  const avatarStyleForSize = typeof size === 'number'
+    ? {
+      width: `${size}px`,
+      height: `${size}px`
+    }
+    : {}
+  const statusStyleForSize = typeof size === 'number'
+    ? {
+      width: `${Math.round(size / 4)}px`,
+      height: `${Math.round(size / 4)}px`
+    }
+    : {}
+
+  const styleForRoot = Array.isArray(style) ? [...style, avatarStyleForSize] : { ...style, ...avatarStyleForSize }
+  const _styleName = typeof size === 'string' ? [size] : []
   return pug`
-    Div.root(style=style styleName=[size] ...props)
+    Div.root(
+      style= styleForRoot
+      styleName= _styleName
+      ...props
+    )
       Div.avatarWrapper(shape=shape)
         if src && !error
           Image.avatar(
@@ -34,16 +53,16 @@ function Avatar ({
           - const [firstName, lastName] = _fallback.split(' ')
           - const initials = (firstName ? firstName[0].toUpperCase() : '') + (lastName ? lastName[0].toUpperCase() : '')
           Div.avatar(
-            styleName=[size]
+            styleName=_styleName
             style={backgroundColor: randomcolor({
               luminosity: 'bright',
               seed: _fallback
             })}
           )
-            Span.fallback(styleName=[size] bold)
+            Span.fallback(styleName=_styleName bold)
               = initials
       if status
-        Div.status(styleName=[size, status, shape])
+        Div.status(styleName=[status, shape, _styleName] style=statusStyleForSize)
   `
 }
 
@@ -57,7 +76,10 @@ Avatar.defaultProps = {
 Avatar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   src: PropTypes.string,
-  size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(['l', 'm', 's']),
+    PropTypes.number
+  ]),
   shape: Div.propTypes.shape,
   status: PropTypes.oneOf(['online', 'away']),
   children: PropTypes.string,

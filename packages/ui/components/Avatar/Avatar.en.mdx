@@ -22,17 +22,12 @@ return pug`
 ```
 
 ## Sizes
-Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+Size is `m` by default. It can be changed by changing the `size` property by setting it to one of the values ​​('s', 'm', 'l') or by specifying the size in pixels.
 
 ```jsx example
 return pug`
   Row
     Div
-      Avatar(
-        size='xs'
-        src='/img/avatar1.jpeg'
-      )
-    Div(pushed)
       Avatar(
         size='s'
         src='/img/avatar2.jpeg'
@@ -49,12 +44,7 @@ return pug`
       )
     Div(pushed)
       Avatar(
-        size='xl'
-        src='/img/avatar2.jpeg'
-      )
-    Div(pushed)
-      Avatar(
-        size='xxl'
+        size=60
         src='/img/avatar3.jpeg'
       )
 `
