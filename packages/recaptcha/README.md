@@ -51,7 +51,7 @@ You need to add to the `config.json` file of your project:
 import { checkToken } from '@startupjs/recaptcha/server'
 
 export default function initRoutes (router) {
-  router.post('/api/subscribe-something', async function (req, res) {
+  router.post('/api/subscribe-to-mailing', async function (req, res) {
     const { token, ...data } = req.body
 
     const isVerified = await checkToken(token)
@@ -80,7 +80,7 @@ export default function initRoutes (router) {
 
   const onVerify = async token => {
     try {
-      const res = await axios.post('/api/subscribe-something', {
+      const res = await axios.post('/api/subscribe-to-mailing', {
         token,
         email
       })
@@ -131,7 +131,7 @@ export default function initRoutes (router) {
 
   const onVerify = async token => {
     try {
-      const res = await axios.post('/api/subscribe-something', {
+      const res = await axios.post('/api/subscribe-to-mailing', {
         token,
         email
       })
