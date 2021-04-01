@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import Tag from '../Tag'
-import Div from '../Div'
-import Br from '../Br'
 import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
+import Br from '../Br'
+import Row from '../Row'
+import Tag from '../Tag'
 import './index.mdx.styl'
 
 # Tag (тег)
-Наследует [Button props](/docs/components/Button).
+
+Наследует [Div props](/docs/components/Div).
 
 Теги - это компактные элементы, представляющие входные данные, атрибут или действие. Они позволяют пользователям вводить информацию, делать выбор, фильтровать контент или инициировать действия. В то время как предполагается, что кнопки будут появляться с призывами к действию, теги должны появляться динамически как группа из нескольких интерактивных элементов.
 
@@ -29,25 +30,38 @@ return (
 
 ```jsx example
 return (
-  <Div>
-    <Tag>Основной (по умолчанию)</Tag>
-    <Br />
-    <Tag color='success'>Успех</Tag>
-    <Br />
-    <Tag color='warning'>Предупреждение</Tag>
-    <Br />
-    <Tag color='error'>Ошибка</Tag>
-  </Div>
+  <Row>
+    <Tag pushed='s'>Primary (default)</Tag>
+    <Tag color='success' pushed='s'>Success</Tag>
+    <Tag color='warning' pushed='s'>Warning</Tag>
+    <Tag color='error' pushed='s'>Error</Tag>
+  </Row>
+)
+```
+
+## Размеры
+
+Свойство `size` применяется к размеру тега, иконок и текста. Есть два размера - `m` и `l` (по умолчанию `m`).
+
+```jsx example
+return (
+  <Row vAlign='center'>
+    <Tag>Размер 'm' (по умолчанию)</Tag>
+    <Tag size='l' pushed='s'>Размер 'l'</Tag>
+  </Row>
 )
 ```
 
 ## Контурные теги
 
-Контурные теги предлагают альтернативный стиль, передвая `outlined` строку в свойство `variant` компонента.
+Контурные теги предлагают альтернативный стиль, в свойство `variant` нужно передать `outlined` или `outlined-bg` для контурного тега с фоном.
 
 ```jsx example
 return (
-  <Tag variant='outlined'>Контурный тег</Tag>
+  <Row>
+    <Tag variant='outlined'>Контурный тег</Tag>
+    <Tag variant='outlined-bg' pushed='s'>Контурный тег с фоном</Tag>
+  </Row>
 )
 ```
 
@@ -57,35 +71,49 @@ return (
 
 ```jsx example
 return (
-  <Div>
-    <Tag>Форма круга</Tag>
-    <Br />
-    <Tag shape='rounded'>Округлая форма</Tag>
-  </Div>
+  <Row>
+    <Tag>Круглая форма (по умолчанию)</Tag>
+    <Tag shape='rounded' pushed='s'>Закругленная форма</Tag>
+  </Row>
 )
 ```
 
 ## Иконки
 
-Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию). Чтобы изменить цвет иконки используйте `iconStyleName` свойство.
+Иконки слева и справа могут быть добавлены с помощью свойств `icon` и `secondaryIcon`. Чтобы изменить цвет иконки, используйте соответствующее свойство `iconStyleName` или  `secondaryIconStyleName`.
 
-В `.styl` файле
+In `.styl` file
 ```stylus
 .icon
-  color $UI.colors.primary
+  color $UI.colors.dark
+.secondaryIcon
+  color $UI.colors.error
 ```
 
 ```jsx example
 return (
-  <Div>
-    <Tag variant='outlined' icon={faCoffee} iconStyleName='icon'>
-      Иконка слева (по умолчанию) с измененным цветом
+  <Row>
+    <Tag icon={faCoffee}>
+      Иконка слева
     </Tag>
-    <Br />
-    <Tag icon={faCoffee} iconPosition='right'>
+    <Tag
+      secondaryIcon={faCoffee}
+      variant='outlined-bg'
+      pushed='s'
+    >
       Иконка справа
     </Tag>
-  </Div>
+    <Tag
+      iconStyleName='icon'
+      secondaryIconStyleName='secondaryIcon'
+      variant='outlined'
+      icon={faCoffee}
+      secondaryIcon={faTimesCircle}
+      pushed='s'
+    >
+      Две иконки
+    </Tag>
+  </Row>
 )
 ```
 
