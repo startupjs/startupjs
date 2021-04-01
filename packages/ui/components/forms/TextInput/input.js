@@ -14,7 +14,7 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, height, lineHeight, borderWidth
+    caretColor, height, lineHeights, borderWidth
   },
   colors
 } = STYLES
@@ -98,9 +98,12 @@ function Input ({
   }, [resize, numberOfLines])
 
   const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeight[size]
+    const lineHeight = lineHeights[size]
+    // tested rn 0.61.5 - does not work
+    // https://github.com/facebook/react-native/issues/10712
+    const lH = IS_IOS ? lineHeight - IOS_LH_CORRECTION[size] : lineHeight
     const h = height[size]
-    return [lH, (h - lH) / 2 - borderWidth]
+    return [lH, (h - lineHeight) / 2 - borderWidth]
   }, [size])
 
   const minHeight = useMemo(() => {
@@ -120,78 +123,70 @@ function Input ({
     lineHeight: lH
   }, inputStyle])
 
-  // tested rn 0.61.5 - does not work
-  // https://github.com/facebook/react-native/issues/10712
-  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
-  if (!resize && numberOfLines > 1) inputStyle.height = minHeight
-
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
+  // important for multiline in pure input
+  inputStyle.minHeight = minHeight
 
-  if (resize) {
-    if (IS_WEB) {
-      inputHeight && (inputStyle.height = inputHeight)
-      // HACK: the content will be larger than the container
-      inputStyle.overflow = 'hidden'
-      inputExtraProps.onContentSizeChange = event => {
-        // HACK: the height of the input needs to be increased
-        // because the event does not fire
-        // when the number of lines decreases
-        $inputHeight.set(event.nativeEvent.contentSize.height + 1)
-        props.onContentSizeChange && props.onContentSizeChange(event)
-      }
+  const wrapperHeight = resize ? {} : { height: minHeight }
+
+  if (IS_WEB && resize) {
+    inputStyle.overflow = 'hidden'
+    inputStyle.height = Math.max(minHeight, inputHeight)
+
+    inputExtraProps.onContentSizeChange = event => {
+      $inputHeight.set(event.nativeEvent.contentSize.height)
+      props.onContentSizeChange && props.onContentSizeChange(event)
     }
   }
 
-  const wrapperHeight = resize ? { minHeight } : { height: minHeight }
   const inputStyleName = [size, { disabled, focused, [`icon-${iconPosition}`]: !!icon }]
 
   return renderWrapper({
     style: [wrapperHeight, style]
   }, pug`
-    React.Fragment
-      TextInput.input-input(
-        ref=inputRef
-        style=inputStyle
-        styleName=[inputStyleName]
-        selectionColor=caretColor
-        placeholder=placeholder
-        placeholderTextColor=DARK_LIGHTER_COLOR
-        value=value
-        editable=editable && !disabled
-        multiline=multiline
-        onBlur=onBlur
-        onFocus=onFocus
-        onChangeText=(value) => {
-          onChangeText && onChangeText(value)
-        }
-        ...props
-        ...inputExtraProps
+    TextInput.input-input(
+      ref=inputRef
+      style=inputStyle
+      styleName=[inputStyleName]
+      selectionColor=caretColor
+      placeholder=placeholder
+      placeholderTextColor=DARK_LIGHTER_COLOR
+      value=value
+      editable=editable && !disabled
+      multiline=multiline
+      onBlur=onBlur
+      onFocus=onFocus
+      onChangeText=(value) => {
+        onChangeText && onChangeText(value)
+      }
+      ...props
+      ...inputExtraProps
+    )
+    if icon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, iconPosition]
+        onPress=onIconPress
       )
-      if icon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, iconPosition]
-          onPress=onIconPress
+        Icon(
+          icon=icon
+          style=iconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=icon
-            style=iconStyle
-            size=ICON_SIZES[size]
-          )
-      if secondaryIcon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, getOppositePosition(iconPosition)]
-          onPress=onSecondaryIconPress
+    if secondaryIcon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, getOppositePosition(iconPosition)]
+        onPress=onSecondaryIconPress
+      )
+        Icon(
+          icon=secondaryIcon
+          style=secondaryIconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=secondaryIcon
-            style=secondaryIconStyle
-            size=ICON_SIZES[size]
-          )
   `)
 }
 
