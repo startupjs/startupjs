@@ -1,12 +1,11 @@
 import React, {
-  useState,
   useMemo,
   useLayoutEffect,
   useRef,
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
@@ -15,7 +14,7 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, height, lineHeight, borderWidth
+    caretColor, height, lineHeights, borderWidth
   },
   colors
 } = STYLES
@@ -65,7 +64,7 @@ function Input ({
   ...props
 }, ref) {
   const inputRef = useRef()
-  const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  const [inputHeight, $inputHeight] = useValue(0)
 
   if (!renderWrapper) {
     renderWrapper = ({ style }, children) => pug`
@@ -82,15 +81,6 @@ function Input ({
     }
   }))
 
-  useLayoutEffect(() => {
-    if (resize) {
-      const numberOfLinesInValue = value.split('\n').length
-      if (numberOfLinesInValue >= numberOfLines) {
-        setCurrentNumberOfLines(numberOfLinesInValue)
-      }
-    }
-  }, [value])
-
   if (IS_WEB) {
     // repeat mobile behaviour on the web
     useLayoutEffect(() => {
@@ -103,25 +93,22 @@ function Input ({
     })
   }
 
-  useDidUpdate(() => {
-    if (numberOfLines > currentNumberOfLines) {
-      setCurrentNumberOfLines(numberOfLines)
-    }
-  }, [numberOfLines])
-
   const multiline = useMemo(() => {
     return resize || numberOfLines > 1
   }, [resize, numberOfLines])
 
   const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeight[size]
+    const lineHeight = lineHeights[size]
+    // tested rn 0.61.5 - does not work
+    // https://github.com/facebook/react-native/issues/10712
+    const lH = IS_IOS ? lineHeight - IOS_LH_CORRECTION[size] : lineHeight
     const h = height[size]
-    return [lH, (h - lH) / 2 - borderWidth]
+    return [lH, (h - lineHeight) / 2 - borderWidth]
   }, [size])
 
-  const fullHeight = useMemo(() => {
-    return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
-  }, [currentNumberOfLines, lH, verticalGutter])
+  const minHeight = useMemo(() => {
+    return numberOfLines * lH + 2 * (verticalGutter + borderWidth)
+  }, [numberOfLines, lH, verticalGutter])
 
   function onLayoutIcon (e) {
     if (IS_WEB) {
@@ -136,65 +123,70 @@ function Input ({
     lineHeight: lH
   }, inputStyle])
 
-  // tested rn 0.61.5 - does not work
-  // https://github.com/facebook/react-native/issues/10712
-  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
-
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
+  // important for multiline in pure input
+  inputStyle.minHeight = minHeight
 
-  const inputStyleName = [
-    size,
-    { disabled, focused, [`icon-${iconPosition}`]: !!icon }
-  ]
+  const wrapperHeight = resize ? {} : { height: minHeight }
+
+  if (IS_WEB && resize) {
+    inputStyle.overflow = 'hidden'
+    inputStyle.height = Math.max(minHeight, inputHeight)
+
+    inputExtraProps.onContentSizeChange = event => {
+      $inputHeight.set(event.nativeEvent.contentSize.height)
+      props.onContentSizeChange && props.onContentSizeChange(event)
+    }
+  }
+
+  const inputStyleName = [size, { disabled, focused, [`icon-${iconPosition}`]: !!icon }]
 
   return renderWrapper({
-    style: [{ height: fullHeight }, style]
+    style: [wrapperHeight, style]
   }, pug`
-    React.Fragment
-      TextInput.input-input(
-        ref=inputRef
-        style=inputStyle
-        styleName=[inputStyleName]
-        selectionColor=caretColor
-        placeholder=placeholder
-        placeholderTextColor=DARK_LIGHTER_COLOR
-        value=value
-        editable=editable && !disabled
-        multiline=multiline
-        onBlur=onBlur
-        onFocus=onFocus
-        onChangeText=(value) => {
-          onChangeText && onChangeText(value)
-        }
-        ...props
-        ...inputExtraProps
+    TextInput.input-input(
+      ref=inputRef
+      style=inputStyle
+      styleName=[inputStyleName]
+      selectionColor=caretColor
+      placeholder=placeholder
+      placeholderTextColor=DARK_LIGHTER_COLOR
+      value=value
+      editable=editable && !disabled
+      multiline=multiline
+      onBlur=onBlur
+      onFocus=onFocus
+      onChangeText=(value) => {
+        onChangeText && onChangeText(value)
+      }
+      ...props
+      ...inputExtraProps
+    )
+    if icon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, iconPosition]
+        onPress=onIconPress
       )
-      if icon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, iconPosition]
-          onPress=onIconPress
+        Icon(
+          icon=icon
+          style=iconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=icon
-            style=iconStyle
-            size=ICON_SIZES[size]
-          )
-      if secondaryIcon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, getOppositePosition(iconPosition)]
-          onPress=onSecondaryIconPress
+    if secondaryIcon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, getOppositePosition(iconPosition)]
+        onPress=onSecondaryIconPress
+      )
+        Icon(
+          icon=secondaryIcon
+          style=secondaryIconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=secondaryIcon
-            style=secondaryIconStyle
-            size=ICON_SIZES[size]
-          )
-
   `)
 }
 

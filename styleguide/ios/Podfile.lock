@@ -351,11 +351,11 @@ PODS:
     - React-Core
   - RNCPicker (1.9.11):
     - React-Core
-  - RNDateTimePicker (3.0.9):
+  - RNDateTimePicker (3.2.0):
     - React-Core
   - RNGestureHandler (1.9.0):
     - React-Core
-  - RNGoogleSignin (5.0.0):
+  - RNGoogleSignin (6.0.0):
     - GoogleSignIn (~> 5.0.0)
     - React-Core
   - RNReanimated (1.13.2):
@@ -421,7 +421,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../../node_modules/react-native-gesture-handler`)
-  - "RNGoogleSignin (from `../../node_modules/@react-native-community/google-signin`)"
+  - "RNGoogleSignin (from `../../node_modules/@react-native-google-signin/google-signin`)"
   - RNReanimated (from `../../node_modules/react-native-reanimated`)
   - RNSVG (from `../../node_modules/react-native-svg`)
   - Yoga (from `../../node_modules/react-native/ReactCommon/yoga`)
@@ -516,7 +516,7 @@ EXTERNAL SOURCES:
   RNGestureHandler:
     :path: "../../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
-    :path: "../../node_modules/@react-native-community/google-signin"
+    :path: "../../node_modules/@react-native-google-signin/google-signin"
   RNReanimated:
     :path: "../../node_modules/react-native-reanimated"
   RNSVG:
@@ -574,9 +574,9 @@ SPEC CHECKSUMS:
   RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
   RNCAsyncStorage: fe58eec522885718d6b297b7b658bf87d7ca557b
   RNCPicker: 6780c753e9e674065db90d9c965920516402579d
-  RNDateTimePicker: 8a51a2216c307769e69ef827293d59549ab1ca23
+  RNDateTimePicker: 17593e41b6b1585aeb8ecbe1c1cbc30cba3d0b4b
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
-  RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
+  RNGoogleSignin: 111fd4792913208f338fe3178005f7a22e490ff9
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
@@ -584,4 +584,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 99f0f126f975d65fc26940201cf4c1cafb74a159
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1
