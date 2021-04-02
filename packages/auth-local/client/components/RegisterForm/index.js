@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError } from 'startupjs'
 import { Row, Div, Span, Button, ObjectInput, ErrorWrapper } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import { Recaptcha } from '@startupjs/recaptcha'
 import _get from 'lodash/get'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
@@ -52,6 +53,8 @@ function RegisterForm ({
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
 
+  const recaptchaRef = useRef()
+
   useEffect(() => {
     if (IS_WEB) {
       window.addEventListener('keypress', onKeyPress)
@@ -66,10 +69,10 @@ function RegisterForm ({
 
   // TODO: next input
   function onKeyPress (e) {
-    if (e.key === 'Enter') onSubmit()
+    if (e.key === 'Enter') recaptchaRef.current.open()
   }
 
-  async function onSubmit () {
+  async function onSubmit (recaptchaToken) {
     setErrors({})
 
     let fullSchema = commonSchema
@@ -79,7 +82,7 @@ function RegisterForm ({
 
     if (errors.check(fullSchema, form)) return
 
-    const formClone = { ...form }
+    const formClone = { ...form, recaptchaToken }
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
       formClone.lastName = form.name.split(' ').pop()
@@ -124,8 +127,13 @@ function RegisterForm ({
       = renderActions({ onSubmit, onChangeSlide })
     else
       Div.actions
+        Recaptcha(
+          id='register-form-captcha'
+          ref=recaptchaRef
+          onVerify=onSubmit
+        )
         Button(
-          onPress=onSubmit
+          onPress=() => recaptchaRef.current.open()
           variant='flat'
           color='primary'
         ) Sign Up
