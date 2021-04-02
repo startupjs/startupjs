@@ -16,9 +16,10 @@ function RecaptchaComponent ({
   onLoad
 }, ref) {
   const [ready, setReady] = useState(isReady())
+  const [widget, setWidget] = useState()
+  const [onCloseObserver, setOnCloseObserver] = useState()
   const [readyInterval, setReadyInterval] = useState()
   const [recaptchaSiteKey] = useSession('Recaptcha.RECAPTCHA_SITE_KEY')
-  let onCloseObserver, widget
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -57,7 +58,7 @@ function RecaptchaComponent ({
   }, [readyInterval])
 
   const _renderRecaptcha = () => {
-    widget = window.grecaptcha.render(id, {
+    setWidget(window.grecaptcha.render(id, {
       sitekey: recaptchaSiteKey,
       size: variant,
       theme,
@@ -65,7 +66,7 @@ function RecaptchaComponent ({
       callback: onVerify,
       'expired-callback': onExpire,
       'error-callback': onError
-    })
+    }))
     if (onLoad) {
       onLoad()
     }
@@ -91,13 +92,13 @@ function RecaptchaComponent ({
     const recaptchaElement = recaptchaFrame.parentNode.parentNode
 
     let lastOpacity = recaptchaElement.style.opacity
-    onCloseObserver = new MutationObserver(() => {
+    setOnCloseObserver(new MutationObserver(() => {
       if (lastOpacity !== recaptchaElement.style.opacity &&
                 recaptchaElement.style.opacity == 0) { // eslint-disable-line
         onClose()
       }
       lastOpacity = recaptchaElement.style.opacity
-    })
+    }))
     onCloseObserver.observe(recaptchaElement, {
       attributes: true,
       attributeFilter: ['style']
