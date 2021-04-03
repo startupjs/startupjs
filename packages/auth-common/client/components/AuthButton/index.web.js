@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Span, Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'
@@ -15,10 +15,22 @@ function AuthButton ({
   imageUrl,
   redirectUrl
 }) {
+  const [authConfig] = useSession('auth')
+  const { expiresRedirectUrl } = authConfig
+
+  function _onLogin () {
+    onLogin({
+      baseUrl,
+      providerName,
+      redirectUrl,
+      expiresRedirectUrl
+    })
+  }
+
   return pug`
     Div.button(
       style=style
-      onPress=()=> onLogin({ providerName, redirectUrl })
+      onPress=_onLogin
     )
       if imageUrl
         Image.image(

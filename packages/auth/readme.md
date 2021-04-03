@@ -230,15 +230,11 @@ return <Button onPress={onLogout}>Выйти</Button>
 ```js
   import { CookieManager } from '@startupjs/auth'
 
-  // web
-  CookieManager.set({ name: 'redirectUrl', value: redirectUrl })
-
-  // native
-  await CookieManager.set({
+  CookieManager.set({
     baseUrl,
-    name: 'redirectUrl',
+    name: 'authRedirectUrl',
     value: redirectUrl,
-    expires: moment().add(15, 'minutes').toISOString().slice(0, -1)
+    expires: moment().add(5, 'minutes')
   })
 ```
 

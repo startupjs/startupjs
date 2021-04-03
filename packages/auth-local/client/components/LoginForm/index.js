@@ -57,6 +57,7 @@ function LoginForm ({
   const authHelper = useAuthHelper(baseUrl)
 
   const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
+  const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
@@ -92,9 +93,9 @@ function LoginForm ({
       if (redirectUrl) {
         await CookieManager.set({
           baseUrl,
-          name: 'redirectUrl',
+          name: 'authRedirectUrl',
           value: redirectUrl,
-          expires: moment().add(15, 'minutes').toISOString()
+          expires: moment().add(expiresRedirectUrl, 'milliseconds')
         })
       }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { WebView } from 'react-native-webview'
-import { observer, u, useValue } from 'startupjs'
+import { observer, u, useValue, useSession } from 'startupjs'
 import { Modal, Div, Button } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import moment from 'moment'
@@ -17,14 +17,16 @@ function AuthButton ({
   label
 }) {
   const [, $showModal] = useValue(false)
+  const [authConfig] = useSession('auth')
+  const { expiresRedirectUrl } = authConfig
 
   async function showLoginModal () {
     if (redirectUrl) {
       await CookieManager.set({
         baseUrl,
-        name: 'redirectUrl',
+        name: 'authRedirectUrl',
         value: redirectUrl,
-        expires: moment().add(15, 'minutes').toISOString()
+        expires: moment().add(expiresRedirectUrl, 'milliseconds')
       })
     }
 

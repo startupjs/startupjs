@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useError } from 'startupjs'
+import { observer, useValue, useError, useSession } from 'startupjs'
 import { Row, Div, Span, Button, ObjectInput, ErrorWrapper } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
@@ -50,6 +50,7 @@ function RegisterForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
+  const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
@@ -92,9 +93,9 @@ function RegisterForm ({
       if (redirectUrl) {
         await CookieManager.set({
           baseUrl,
-          name: 'redirectUrl',
+          name: 'authRedirectUrl',
           value: redirectUrl,
-          expires: moment().add(15, 'minutes').toISOString()
+          expires: moment().add(expiresRedirectUrl, 'milliseconds')
         })
       }
 

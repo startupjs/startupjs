@@ -35,15 +35,15 @@ function AuthModal ({
   renderForm
 }) {
   const isMobileWidth = width <= 480
-  const [formData, $formData] = useValue(false)
+  const [modalData, $modalData] = useValue(false)
 
   function _onClose () {
-    $formData.set(false)
+    $modalData.set(false)
     onClose()
   }
 
   function onShow (props = {}) {
-    $formData.set(props)
+    $modalData.set(props)
   }
 
   useOn('AuthModal.show', onShow)
@@ -51,20 +51,20 @@ function AuthModal ({
 
   return pug`
     Modal(
-      $visible=$formData
+      $visible=$modalData
       variant=isMobileWidth ? 'fullscreen' : 'window'
     )
       Modal.Header(style=styles.header)
       Div.content
         AuthForm(
-          redirectUrl=redirectUrl || _get(formData, 'redirectUrl')
+          redirectUrl=redirectUrl || _get(modalData, 'redirectUrl')
           localForms=localForms
           socialButtons=socialButtons
           renderForm=renderForm
           onSuccess=onSuccess
           onError=onError
           onChangeSlide=onChangeSlide
-          ...formData
+          ...modalData
           slide=slide
         )
   `

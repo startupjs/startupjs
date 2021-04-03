@@ -11,6 +11,8 @@ import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
 import { SIGN_IN_URL } from '../isomorphic'
 
+const DEFAULT_EXPIRES_REDIRECT_URL = 5 * 60000 // 5 min in ms
+
 const router = express.Router()
 
 function serializeUser (userId, done) {
@@ -42,6 +44,7 @@ export default function (ee, _config) {
   validateConfigs(config)
 
   const { strategies, ...rest } = config
+  rest.expiresRedirectUrl = rest.expiresRedirectUrl || DEFAULT_EXPIRES_REDIRECT_URL
 
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
@@ -57,6 +60,7 @@ export default function (ee, _config) {
         const $session = req.model.scope('_session.auth')
         $session.set({
           signInPageUrl: config.signInPageUrl,
+          expiresRedirectUrl: rest.expiresRedirectUrl,
           ...$session.get(),
           ...fields
         })

@@ -5,14 +5,18 @@ import axios from 'axios'
 import moment from 'moment'
 import { CALLBACK_URL, PERMISSIONS } from '../../isomorphic'
 
-export default async function onLogin ({ baseUrl = BASE_URL, redirectUrl }) {
+export default async function onLogin ({
+  baseUrl = BASE_URL,
+  redirectUrl,
+  expiresRedirectUrl
+}) {
   // set redirectUrl in cookie and play redirect from server
   if (redirectUrl) {
     await CookieManager.set({
       baseUrl,
-      name: 'redirectUrl',
+      name: 'authRedirectUrl',
       value: redirectUrl,
-      expires: moment().add(15, 'minutes').toISOString()
+      expires: moment().add(expiresRedirectUrl, 'milliseconds')
     })
   }
 

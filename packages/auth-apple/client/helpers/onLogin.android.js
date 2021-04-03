@@ -10,14 +10,15 @@ export default async function onLogin ({
   baseUrl = BASE_URL,
   clientId,
   testBaseUrl,
-  redirectUrl
+  redirectUrl,
+  expiresRedirectUrl
 }) {
   if (redirectUrl) {
     await CookieManager.set({
       baseUrl,
-      name: 'redirectUrl',
+      name: 'authRedirectUrl',
       value: redirectUrl,
-      expires: moment().add(15, 'minutes').toISOString()
+      expires: moment().add(expiresRedirectUrl, 'milliseconds')
     })
   }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
@@ -12,12 +12,23 @@ function AuthButton ({
   redirectUrl,
   label
 }) {
+  const [authConfig] = useSession('auth')
+  const { expiresRedirectUrl } = authConfig
+
+  function _onLogin () {
+    onLogin({
+      baseUrl,
+      redirectUrl,
+      expiresRedirectUrl
+    })
+  }
+
   return pug`
     Button.button(
       style=style
       icon=faMicrosoft
       variant='flat'
-      onPress=() => onLogin({ baseUrl, redirectUrl })
+      onPress=_onLogin
     )= label
   `
 }

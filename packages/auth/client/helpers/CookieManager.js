@@ -11,7 +11,7 @@ _CookieManager.set = async function ({
   await CookieManager.set(baseUrl, {
     name,
     value,
-    expires
+    expires: expires.toISOString()
   })
 }
 

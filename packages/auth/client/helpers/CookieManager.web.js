@@ -8,7 +8,12 @@ _CookieManager.set = function ({
   value,
   expires
 }) {
-  CookieManager.set(name, value)
+  const { hostname } = new URL(baseUrl)
+
+  CookieManager.set(name, value, {
+    domain: hostname,
+    expires: expires.toDate()
+  })
 }
 
 export default _CookieManager
