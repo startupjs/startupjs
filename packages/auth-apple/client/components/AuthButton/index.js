@@ -14,7 +14,7 @@ function AuthButton ({
 }) {
   const [authConfig] = useSession('auth')
   const { expiresRedirectUrl } = authConfig
-  const { clientId, testBaseUrl } = authConfig.apple
+  const { clientId, testBaseUrl } = authConfig.apple || {}
 
   function _onLogin () {
     onLogin({

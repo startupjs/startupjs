@@ -1,3 +1,24 @@
+## [0.33.7](https://github.com/startupjs/startupjs/compare/v0.33.6...v0.33.7) (2021-04-02)
+
+
+### Bug Fixes
+
+* **auth:** check if private file exists ([#586](https://github.com/startupjs/startupjs/issues/586)) ([24a3d2a](https://github.com/startupjs/startupjs/commit/24a3d2af5314b419fcbccb9ede7a27753ffc7030))
+* **auth:** remove private config and private keys ([#585](https://github.com/startupjs/startupjs/issues/585)) ([d785dba](https://github.com/startupjs/startupjs/commit/d785dbab509987dedd06285eecbd6575f3bb05cd))
+* **DateTimePicker:** fix iOS drawer buttons and height ([#583](https://github.com/startupjs/startupjs/issues/583)) ([ef93c4e](https://github.com/startupjs/startupjs/commit/ef93c4e2d9b2c9f6780ab47868bd67b4947b37bd))
+* **docs/Sandbox:** skip private props ([#580](https://github.com/startupjs/startupjs/issues/580)) ([db0dca3](https://github.com/startupjs/startupjs/commit/db0dca3cdd94eee76ddd9c5e2faabb5b19d3f6f5))
+* **mdx:** fix header anchor jumps on hover ([#581](https://github.com/startupjs/startupjs/issues/581)) ([b70e483](https://github.com/startupjs/startupjs/commit/b70e483a56c55485ff11402e86e52b8f623881f9))
+* **recaptcha:** fix error when adding two invisible captchas ([#595](https://github.com/startupjs/startupjs/issues/595)) ([e06d71c](https://github.com/startupjs/startupjs/commit/e06d71c6fa6d0ea3cafd95c79b58c34d543a7c63))
+* **ui/Span:** remove redundant description prop ([#582](https://github.com/startupjs/startupjs/issues/582)) ([ea368d3](https://github.com/startupjs/startupjs/commit/ea368d33ddaffd45c253a66a483039e5ee1725f6))
+
+
+### Features
+
+* add `@startupjs/recaptcha` package ([#579](https://github.com/startupjs/startupjs/issues/579)) ([eb35f60](https://github.com/startupjs/startupjs/commit/eb35f60dbb22be713e7fac67f5b6734be6b99cdc))
+* **sharedb-access:** implementation for factory ([#578](https://github.com/startupjs/startupjs/issues/578)) ([ef88f3b](https://github.com/startupjs/startupjs/commit/ef88f3bdd803e55935d9651198ef7c8cb4a5206c))
+
+
+
 ## [0.33.6](https://github.com/startupjs/startupjs/compare/v0.33.5...v0.33.6) (2021-03-25)
 
 

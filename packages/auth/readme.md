@@ -39,6 +39,7 @@ initAuth(ee, {
 
 ## Micro frontend
 [Тестовый пример](/auth/sign-in)
+(ключи apple и azure скрыты из публичного доступа и их нужно добавлять вручную)
 
 Представляет собой готовые страницы с формами, которые можно подключить на сайт
 
@@ -201,23 +202,78 @@ return (
 )
 ```
 
-## Кнопка и хэлпер "Выйти"
-Пример использования
+## Хэлперы и серверные хуки
 
-```js
+### Кнопка выйти
+```jsx
 import { LogoutButton } from '@startupjs/auth'
-```
-```jsx example
+...
 return <LogoutButton />
 ```
 
-или
-
-```js
+### Хэлпер для выхода
+```jsx
 import { onLogout } from '@startupjs/auth'
-```
-```jsx example
+...
 return <Button onPress={onLogout}>Выйти</Button>
+```
+
+### onBeforeLoginHook
+
+Хэлпер-мидлвара, вызывается перед авторизацией
+
+```jsx
+initAuth(ee, {
+  // ...
+  onBeforeLoginHook: ({ userId }, req, res, next) => {
+    console.log('onBeforeLoginHook')
+    next()
+  },
+  // ...
+}
+```
+
+### onAfterUserCreationHook
+
+Хэлпер-мидлвара, вызывается после создания юзера
+
+```jsx
+initAuth(ee, {
+  // ...
+  onAfterUserCreationHook: ({ userId }, req) => {
+    console.log('onAfterUserCreationHook')
+  },
+  // ...
+}
+```
+
+### onAfterLoginHook
+
+Хэлпер-мидлвара, вызывается после авторизации
+
+```jsx
+initAuth(ee, {
+  // ...
+  onAfterLoginHook: ({ userId }, req) => {
+    console.log('onAfterLoginHook')
+  },
+  // ...
+}
+```
+
+### onBeforeLogoutHook
+
+Хэлпер-мидлвара, вызывается перед выходом
+
+```jsx
+initAuth(ee, {
+  // ...
+  onBeforeLogoutHook: (req, res, next) => {
+    console.log('onBeforeLogoutHook')
+    next()
+  },
+  // ...
+}
 ```
 
 ## Редирект после авторизации
