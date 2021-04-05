@@ -104,7 +104,7 @@ function Input ({
   }
 
   useDidUpdate(() => {
-    if (numberOfLines > currentNumberOfLines) {
+    if (numberOfLines !== currentNumberOfLines) {
       setCurrentNumberOfLines(numberOfLines)
     }
   }, [numberOfLines])
