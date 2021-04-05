@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useError } from 'startupjs'
+import { observer, useValue, useError, useSession } from 'startupjs'
 import { Row, Div, Span, Button, ObjectInput, ErrorWrapper } from '@startupjs/ui'
 import { finishAuth } from '@startupjs/auth'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
@@ -52,6 +52,7 @@ function RegisterForm ({
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
+  const [recaptchaEnabled] = useSession('Recaptcha.recaptchaSecretKeyExists')
 
   const recaptchaRef = useRef()
 
@@ -69,7 +70,7 @@ function RegisterForm ({
 
   // TODO: next input
   function onKeyPress (e) {
-    if (e.key === 'Enter') recaptchaRef.current.open()
+    if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : onSubmit()
   }
 
   async function onSubmit (recaptchaToken) {
@@ -127,13 +128,14 @@ function RegisterForm ({
       = renderActions({ onSubmit, onChangeSlide })
     else
       Div.actions
-        Recaptcha(
-          id='register-form-captcha'
-          ref=recaptchaRef
-          onVerify=onSubmit
-        )
+        if recaptchaEnabled
+          Recaptcha(
+            id='register-form-captcha'
+            ref=recaptchaRef
+            onVerify=onSubmit
+          )
         Button(
-          onPress=() => recaptchaRef.current.open()
+          onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : onSubmit()
           variant='flat'
           color='primary'
         ) Sign Up

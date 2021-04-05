@@ -21,6 +21,10 @@ text-encoding-polyfill: >= 0.6.7
 import 'text-encoding-polyfill'
 ```
 
+## Подключение капчи
+
+Если вы хотите добавить **reCaptcha** для форм регистрации и смены пароля, то выполните инструкции из [документации @startupjs/recaptcha](/docs/libraries/recaptcha#connecting-to-startup-js).
+
 ## Инициализация на сервере
 Импорт стратегии:
 ```js

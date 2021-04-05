@@ -24,9 +24,12 @@ async function register (req, config, done) {
   const { model } = req
   const email = req.body.email.toLowerCase()
   const password = req.body.password
+  const recaptchaEnabled = model.get('_session.Recaptcha.recaptchaSecretKeyExists')
 
-  const checkTokenResponse = await checkToken(req.body.recaptchaToken)
-  if (!checkTokenResponse) return done('Recaptcha token is invalid')
+  if (recaptchaEnabled) {
+    const checkTokenResponse = await checkToken(req.body.recaptchaToken)
+    if (!checkTokenResponse) return done('Recaptcha token is invalid')
+  }
   delete req.body.recaptchaToken
 
   // You can pass custom values to new user with help of userData parameter

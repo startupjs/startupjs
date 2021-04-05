@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, useSession } from 'startupjs'
 import { Span, Button, TextInput, ErrorWrapper } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import { Recaptcha } from '@startupjs/recaptcha'
@@ -27,6 +27,7 @@ function RecoverForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
+  const [recaptchaEnabled] = useSession('Recaptcha.recaptchaSecretKeyExists')
 
   const [form, $form] = useValue({ email: '' })
   const [errors, setErrors] = useState({})
@@ -46,7 +47,7 @@ function RecoverForm ({
   }, [])
 
   function onKeyPress (e) {
-    if (e.key === 'Enter') recaptchaRef.current.open()
+    if (e.key === 'Enter') onSubmit()
   }
 
   async function createRecoverySecret (recaptchaToken) {
@@ -58,6 +59,14 @@ function RecoverForm ({
     } catch (error) {
       setErrors({ server: _get(error, 'response.data.message', error.message) })
       onError && onError(error)
+    }
+  }
+
+  function onSubmit (recaptchaToken) {
+    if (recaptchaEnabled) {
+      recaptchaRef.current.open()
+    } else {
+      createRecoverySecret(recaptchaToken)
     }
   }
 
@@ -73,15 +82,16 @@ function RecoverForm ({
           value=form.email
           onChangeText=t => $form.set('email', t)
         )
-      Recaptcha(
-        id='recover-form-captcha'
-        ref=recaptchaRef
-        onVerify=createRecoverySecret
-      )
+      if recaptchaEnabled
+        Recaptcha(
+          id='recover-form-captcha'
+          ref=recaptchaRef
+          onVerify=createRecoverySecret
+        )
       Button.button(
         color='primary'
         variant='flat'
-        onPress=() => recaptchaRef.current.open()
+        onPress=onSubmit
       )= _config.resetButtonLabel
     else
       Span.text= message
