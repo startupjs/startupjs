@@ -1,23 +1,25 @@
+$this = merge(
+  {
+    avatarSizes: {
+      s: 4u,
+      m: 5u,
+      l: 6u,
+    },
+    statusSizes: {
+      s: 1.25u,
+      m: 1.5u,
+      l: 1.75u,
+    },
+  },
+  $UI.Avatar,
+  true
+)
+
 _white = $UI.colors.white
-_l = 6u
-_m = 5u
-_s = 4u
 
 .root
   +web()
     user-select none
-
-  &.l
-    width _l
-    height @width
-
-  &.m
-    width _m
-    height @width
-
-  &.s
-    width _s
-    height @width
 
 .avatarWrapper
   height 100%
@@ -61,14 +63,5 @@ _s = 4u
   &.away
     background-color $UI.colors.warning
 
-  &.l
-    width 1.75u
-    height @width
-
-  &.m
-    width 1.5u
-    height @width
-
-  &.s
-    width 1.25u
-    height @width
+:export
+  config: $this

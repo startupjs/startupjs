@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Image } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Div from './../Div'
 import Span from '../typography/Span'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { config } = STYLES
 
 function Avatar ({
   style,
@@ -19,25 +21,16 @@ function Avatar ({
   const [error, setError] = useState()
   useDidUpdate(setError, [src])
 
-  const avatarStyleForSize = typeof size === 'number'
-    ? {
-      width: `${size}px`,
-      height: `${size}px`
-    }
-    : {}
-  const statusStyleForSize = typeof size === 'number'
-    ? {
-      width: `${Math.round(size / 4)}px`,
-      height: `${Math.round(size / 4)}px`
-    }
-    : {}
+  const _size = `${config.avatarSizes[size] || size}px`
+  const rootStyle = { width: _size, height: _size }
+  const _statusSize = `${config.statusSizes[size] || Math.round(size / 4)}px`
+  const statusStyle = { width: _statusSize, height: _statusSize }
 
-  const styleForRoot = Array.isArray(style) ? [...style, avatarStyleForSize] : { ...style, ...avatarStyleForSize }
   const _styleName = typeof size === 'string' ? [size] : []
   return pug`
     Div.root(
-      style= styleForRoot
-      styleName= _styleName
+      style=StyleSheet.flatten([style, rootStyle])
+      styleName=_styleName
       ...props
     )
       Div.avatarWrapper(shape=shape)
@@ -62,7 +55,7 @@ function Avatar ({
             Span.fallback(styleName=_styleName bold)
               = initials
       if status
-        Div.status(styleName=[status, shape, _styleName] style=statusStyleForSize)
+        Div.status(styleName=[status, shape, _styleName] style=statusStyle)
   `
 }
 
@@ -77,7 +70,7 @@ Avatar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   src: PropTypes.string,
   size: PropTypes.oneOfType([
-    PropTypes.oneOf(['l', 'm', 's']),
+    PropTypes.oneOf(['s', 'm', 'l']),
     PropTypes.number
   ]),
   shape: Div.propTypes.shape,
