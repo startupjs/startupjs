@@ -135,6 +135,20 @@ return (
 )
 ```
 
+## Fonts
+
+To add custom fonts, add them to the public / fonts folder and type `yarn fonts` in the console. The name of the font files must be in accordance with the Google Fonts rules - `{font name} - {Thickness} {Style}` - for example Roboto-MediumItalic.ttf, BaiJumjuree-Bold.ttf.
+
+To use custom fonts, you need to use mixin `fontFamily (fontName, fontWeight, fontStyle)`:
+
+```stylus
+.text
+  fontFamily('Roboto', 500, 'italic')
+  
+.caption
+  fontFamily('BaiJamjuree', 700)
+```
+
 ## Sandbox
 
 ### Span

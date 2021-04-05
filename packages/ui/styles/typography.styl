@@ -40,3 +40,29 @@ text(key = default)
     font(xl)
   else if key is h6
     font(l)
+
+fontFamily(_fontName, _fontWeight, _fontStyle = '')
+  _result=_fontName + '-'
+
+  if _fontWeight == 100
+    _result+='Thin'
+  else if _fontWeight == 200
+    _result+='ExtraLight'
+  else if _fontWeight == 300
+    _result+='Light'
+  else if _fontWeight == 400
+    _result+='Regular'
+  else if _fontWeight == 500
+    _result+='Medium'
+  else if _fontWeight == 600
+    _result+='SemiBold'
+  else if _fontWeight == 700
+    _result+='Bold'
+  else if _fontWeight == 800
+    _result+='ExtraBold'
+  else if _fontWeight == 900
+    _result+='Black'
+  
+  _result+=_fontStyle
+
+  font-family _result
