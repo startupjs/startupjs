@@ -24,7 +24,7 @@ async function register (req, config, done) {
   const { model } = req
   const email = req.body.email.toLowerCase()
   const password = req.body.password
-  const recaptchaEnabled = model.get('_session.Recaptcha.authRecaptchaEnabled')
+  const recaptchaEnabled = model.get('_session.auth.recaptchaEnabled')
 
   if (recaptchaEnabled) {
     const checkTokenResponse = await checkToken(req.body.recaptchaToken)

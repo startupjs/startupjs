@@ -61,6 +61,7 @@ export default function (ee, _config) {
         $session.set({
           signInPageUrl: config.signInPageUrl,
           expiresRedirectUrl: rest.expiresRedirectUrl,
+          recaptchaEnabled: !!_config.recaptchaEnabled,
           ...$session.get(),
           ...fields
         })
@@ -68,17 +69,6 @@ export default function (ee, _config) {
       })
     })
   }
-
-  ee.on('afterSession', expressApp => {
-    expressApp.use((req, res, next) => {
-      const $session = req.model.scope('_session.Recaptcha')
-      $session.set({
-        authRecaptchaEnabled: !!_config.recaptchaEnabled,
-        ...$session.get()
-      })
-      next()
-    })
-  })
 
   ee.on('backend', backend => {
     const model = backend.createModel()
@@ -94,7 +84,7 @@ export default function (ee, _config) {
     }
   })
 
-  ee.on('afterSession', expressApp => {
+  ee.on('routes', expressApp => {
     expressApp.use(passportMiddleware(router))
   })
 }

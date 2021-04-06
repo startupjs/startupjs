@@ -27,7 +27,7 @@ function RecoverForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
-  const [recaptchaEnabled] = useSession('Recaptcha.authRecaptchaEnabled')
+  const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
 
   const [form, $form] = useValue({ email: '' })
   const [errors, setErrors] = useState({})

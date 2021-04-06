@@ -55,7 +55,7 @@ function RegisterForm ({
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
-  const [recaptchaEnabled] = useSession('Recaptcha.authRecaptchaEnabled')
+  const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
 
   const recaptchaRef = useRef()
 
