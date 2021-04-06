@@ -10,7 +10,7 @@ export default function setRecaptchaSiteKey (req, res, next) {
   }
 
   try {
-    $session.set('Recaptcha.RECAPTCHA_SITE_KEY', RECAPTCHA_SITE_KEY)
+    $session.set('Recaptcha.SITE_KEY', RECAPTCHA_SITE_KEY)
   } catch (err) {
     return next(err)
   }
