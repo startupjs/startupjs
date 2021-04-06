@@ -1,6 +1,6 @@
 import { SIGN_IN_URL } from './constants'
 
-function isLoggedIn(signInPageUrl) {
+function isLoggedIn (signInPageUrl) {
   return function (model, next, redirect) {
     const loggedIn = model.get('_session.loggedIn')
     if (!loggedIn) return redirect(signInPageUrl || SIGN_IN_URL)
@@ -8,12 +8,15 @@ function isLoggedIn(signInPageUrl) {
   }
 }
 
-function isNotLoggedIn(redirectUrl) {
+function isNotLoggedIn (redirectUrl = '/') {
   return function (model, next, redirect) {
     const loggedIn = model.get('_session.loggedIn')
-    const successRedirectUrl =
-      redirectUrl || model.get('_session.auth.successRedirectUrl') || '/'
-    if (loggedIn) return redirect(successRedirectUrl)
+
+    const _redirectUrl = redirectUrl ||
+      model.get('_session.auth.successRedirectUrl') ||
+      '/'
+
+    if (loggedIn) return redirect(_redirectUrl)
     next()
   }
 }

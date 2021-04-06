@@ -267,6 +267,8 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
+  - react-native-cookies (6.0.5):
+    - React-Core
   - react-native-fbsdk (3.0.0):
     - React
     - react-native-fbsdk/Core (= 3.0.0)
@@ -345,13 +347,13 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - RNAppleAuthentication (2.1.0):
+  - RNAppleAuthentication (2.1.1):
     - React-Core
   - RNCAsyncStorage (1.14.1):
     - React-Core
-  - RNCPicker (1.9.11):
+  - RNCPicker (1.12.0):
     - React-Core
-  - RNDateTimePicker (3.0.9):
+  - RNDateTimePicker (3.4.0):
     - React-Core
   - RNGestureHandler (1.9.0):
     - React-Core
@@ -403,6 +405,7 @@ DEPENDENCIES:
   - React-jsi (from `../../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-cookies (from `../../node_modules/@react-native-cookies/cookies`)"
   - react-native-fbsdk (from `../../node_modules/react-native-fbsdk`)
   - react-native-restart (from `../../node_modules/react-native-restart`)
   - react-native-webview (from `../../node_modules/react-native-webview`)
@@ -479,6 +482,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-cookies:
+    :path: "../../node_modules/@react-native-cookies/cookies"
   react-native-fbsdk:
     :path: "../../node_modules/react-native-fbsdk"
   react-native-restart:
@@ -558,6 +563,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
+  react-native-cookies: dd3fe2fd198f54d016fb6875cb8c2fb767170fdc
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
   react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979
   react-native-webview: 0aa2cde4ee7e3e1c5fffdf64dbce9c709aa18155
@@ -571,10 +577,10 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
+  RNAppleAuthentication: f4cc93d710f1337f66550d04d84bf47553bc0eae
   RNCAsyncStorage: fe58eec522885718d6b297b7b658bf87d7ca557b
-  RNCPicker: 6780c753e9e674065db90d9c965920516402579d
-  RNDateTimePicker: 8a51a2216c307769e69ef827293d59549ab1ca23
+  RNCPicker: a3f85bfd04ab192fe9a8fe7485b5ef4f80e59022
+  RNDateTimePicker: f7e5a5e88ad9081367b884e924358f4629e029d4
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
