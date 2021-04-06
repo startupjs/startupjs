@@ -86,10 +86,7 @@ export default function (ee, _config) {
   ee.on('afterSession', expressApp => {
     expressApp.use((req, res, next) => {
       const $session = req.model.scope('_session.auth')
-      $session.set({
-        recaptchaEnabled: !!_config.recaptchaEnabled,
-        ...$session.get()
-      })
+      $session.set('recaptchaEnabled', !!_config.recaptchaEnabled)
       next()
     })
     expressApp.use(passportMiddleware(router))
