@@ -19,7 +19,7 @@ function RecaptchaComponent ({
   const [widget, setWidget] = useState()
   const [onCloseObserver, setOnCloseObserver] = useState()
   const [readyInterval, setReadyInterval] = useState()
-  const [recaptchaSiteKey] = useSession('Recaptcha.RECAPTCHA_SITE_KEY')
+  const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
 
   useImperativeHandle(ref, () => ({
     open: () => {

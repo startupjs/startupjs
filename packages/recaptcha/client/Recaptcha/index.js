@@ -27,7 +27,7 @@ function RecaptchaComponent ({
   const webViewRef = useRef()
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [recaptchaSiteKey] = useSession('Recaptcha.RECAPTCHA_SITE_KEY')
+  const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
 
   const isInvisible = variant === 'invisible'
 
