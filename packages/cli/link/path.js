@@ -15,7 +15,9 @@ if (!appJsonPath) {
 //   ignoreFolders
 // )[0]
 
-// Detox
+// Android files
+const mainActivityJava = glob.sync('**/MainActivity.java', ignoreFolders)[0]
+
 const mainBuildGradleAndroid = glob.sync(
   '**/android/build.gradle',
   ignoreFolders
@@ -37,15 +39,23 @@ const networkSecurityConfigRout = networkSecurityConfigFolder + '/network_securi
 const detoxTestFolder = `android/app/src/androidTest/java/com/${APP_NAME}`
 const detoxTestRoute = detoxTestFolder + '/DetoxTest.java'
 
+// iOS files
+const appDelegate = glob.sync('**/AppDelegate.m', ignoreFolders)[0]
+const podFile = glob.sync('**/Podfile', ignoreFolders)[0]
+
+const oneSignalNotificationServise = glob.sync('**/NotificationService.swift', ignoreFolders)[0]
+
 // exports
 
-exports.mainActivityJava = glob.sync('**/MainActivity.java', ignoreFolders)[0]
+exports.mainActivityJava = mainActivityJava
 // exports.mainApplicationJava = mainApplicationJava
 // exports.rootGradle = mainApplicationJava
 //   .replace(/android\/app\/.*\.java/, 'android/build.gradle')
 exports.styles = styles
-exports.appDelegate = glob.sync('**/AppDelegate.m', ignoreFolders)[0]
-exports.podFile = glob.sync('**/Podfile', ignoreFolders)[0]
+
+exports.appDelegate = appDelegate
+exports.podFile = podFile
+exports.oneSignalNotificationServise = oneSignalNotificationServise
 
 exports.networkSecurityConfigFolder = networkSecurityConfigFolder
 exports.networkSecurityConfigRout = networkSecurityConfigRout
@@ -54,4 +64,6 @@ exports.detoxTestRoute = detoxTestRoute
 exports.mainBuildGradleAndroid = mainBuildGradleAndroid
 exports.appBuildGradleAndroid = appBuildGradleAndroid
 exports.androidManifestXML = androidManifestXML
+
 exports.APP_NAME = APP_NAME
+exports.publicFolder = './public'

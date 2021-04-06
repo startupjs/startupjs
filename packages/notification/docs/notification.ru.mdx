@@ -1,0 +1,40 @@
+import { useState } from 'react'
+import { View, Button, StyleSheet } from 'react-native'
+
+# Notifications
+> Компонент двухфакторной авторизации
+
+## Необходимые зависимости
+  `react-native-onesignal`
+
+## Уcтановка
+
+```js
+  yarn add @startupjs/notifications
+```
+
+### iOS
+  Проделайте [шаг 4](https://documentation.onesignal.com/docs/react-native-sdk-setup#step-4---install-for-ios-using-cocoapods-for-ios-apps) для настройки нотификаций на iOS.
+  Этап 4.3.6 можно пропустить.
+
+### Android
+  Для настройки Android необходимо получить и зарегестрировать в `OneSignal` [Firebase Server Key](https://documentation.onesignal.com/docs/generate-a-google-server-api-key).
+
+  google-service.json не забыть
+
+## Подключение к startupjs
+
+### server
+
+В `server/index.js` добавить следующие строки:
+```js
+  import { initNotifications } from '@startupjs/notification'
+  import app from '../app.json'
+```
+
+В `startupjsServer` функцию добавить:
+```js
+  initNotifications(ee)
+```
+
+

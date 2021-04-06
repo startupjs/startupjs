@@ -453,7 +453,7 @@ commander
     }
 
     if (template === 'ui') {
-      await execa('startupjs', ['android-link'], {
+      await execa('startupjs', ['link'], {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -559,10 +559,12 @@ commander
   })
 
 commander
-  .command('android-link')
-  .description('Links android files')
-  .action(async () => {
-    link()
+  .command('link')
+  .description('Links files')
+  .option('-o, --oneSignal', 'Links files for oneSignal. It will work only with @startupjs/notification')
+  .option('-s, --standart', 'Default startupjs linking')
+  .action(async (options) => {
+    link(options)
   })
 
 commander
