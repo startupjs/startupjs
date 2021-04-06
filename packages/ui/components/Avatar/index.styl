@@ -10,6 +10,11 @@ $this = merge(
       m: 1.5u,
       l: 1.75u,
     },
+    fallbackSizes: {
+      s: 1.5u,
+      m: 1.75u,
+      l: 2u,
+    }
   },
   $UI.Avatar,
   true
@@ -32,15 +37,6 @@ _white = $UI.colors.white
 
 .fallback
   color white
-
-  &.s
-    font(s)
-
-  &.m
-    font(m)
-
-  &.l
-    font(l)
 
 .status
   position absolute

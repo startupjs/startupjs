@@ -21,16 +21,16 @@ function Avatar ({
   const [error, setError] = useState()
   useDidUpdate(setError, [src])
 
-  const _size = `${config.avatarSizes[size] || size}px`
+  const _size = config.avatarSizes[size] || size
   const rootStyle = { width: _size, height: _size }
-  const _statusSize = `${config.statusSizes[size] || Math.round(size / 4)}px`
+  const _statusSize = config.statusSizes[size] || Math.round(size / 4)
   const statusStyle = { width: _statusSize, height: _statusSize }
+  const _fallbackFontSize = config.fallbackSizes[size] || Math.round(size / 2.5)
+  const fallbackStyle = { fontSize: _fallbackFontSize, lineHeight: _fallbackFontSize }
 
-  const _styleName = typeof size === 'string' ? [size] : []
   return pug`
     Div.root(
       style=StyleSheet.flatten([style, rootStyle])
-      styleName=_styleName
       ...props
     )
       Div.avatarWrapper(shape=shape)
@@ -46,16 +46,15 @@ function Avatar ({
           - const [firstName, lastName] = _fallback.split(' ')
           - const initials = (firstName ? firstName[0].toUpperCase() : '') + (lastName ? lastName[0].toUpperCase() : '')
           Div.avatar(
-            styleName=_styleName
             style={backgroundColor: randomcolor({
               luminosity: 'bright',
               seed: _fallback
             })}
           )
-            Span.fallback(styleName=_styleName bold)
+            Span.fallback(bold style=fallbackStyle)
               = initials
       if status
-        Div.status(styleName=[status, shape, _styleName] style=statusStyle)
+        Div.status(styleName=[status, shape] style=statusStyle)
   `
 }
 
