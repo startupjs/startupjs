@@ -27,7 +27,7 @@ function RecoverForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
-  const [recaptchaEnabled] = useSession('Recaptcha.recaptchaSecretKeyExists')
+  const [recaptchaEnabled] = useSession('Recaptcha.authRecaptchaEnabled')
 
   const [form, $form] = useValue({ email: '' })
   const [errors, setErrors] = useState({})
@@ -47,7 +47,7 @@ function RecoverForm ({
   }, [])
 
   function onKeyPress (e) {
-    if (e.key === 'Enter') onSubmit()
+    if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
   }
 
   async function createRecoverySecret (recaptchaToken) {
@@ -59,14 +59,6 @@ function RecoverForm ({
     } catch (error) {
       setErrors({ server: _get(error, 'response.data.message', error.message) })
       onError && onError(error)
-    }
-  }
-
-  function onSubmit (recaptchaToken) {
-    if (recaptchaEnabled) {
-      recaptchaRef.current.open()
-    } else {
-      createRecoverySecret(recaptchaToken)
     }
   }
 
@@ -91,7 +83,7 @@ function RecoverForm ({
       Button.button(
         color='primary'
         variant='flat'
-        onPress=onSubmit
+        onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
       )= _config.resetButtonLabel
     else
       Span.text= message

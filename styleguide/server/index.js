@@ -49,7 +49,8 @@ startupjsServer({
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
-    strategies: getAuthStrategies()
+    strategies: getAuthStrategies(),
+    recaptchaEnabled: true
   })
 })
 

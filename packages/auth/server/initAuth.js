@@ -67,6 +67,17 @@ export default function (ee, _config) {
     })
   }
 
+  ee.on('afterSession', expressApp => {
+    expressApp.use((req, res, next) => {
+      const $session = req.model.scope('_session.Recaptcha')
+      $session.set({
+        authRecaptchaEnabled: !!_config.recaptchaEnabled,
+        ...$session.get()
+      })
+      next()
+    })
+  })
+
   ee.on('backend', backend => {
     const model = backend.createModel()
 
