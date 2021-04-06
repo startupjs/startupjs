@@ -61,7 +61,6 @@ export default function (ee, _config) {
         $session.set({
           signInPageUrl: config.signInPageUrl,
           expiresRedirectUrl: rest.expiresRedirectUrl,
-          recaptchaEnabled: !!_config.recaptchaEnabled,
           ...$session.get(),
           ...fields
         })
@@ -84,7 +83,15 @@ export default function (ee, _config) {
     }
   })
 
-  ee.on('routes', expressApp => {
+  ee.on('afterSession', expressApp => {
+    expressApp.use((req, res, next) => {
+      const $session = req.model.scope('_session.auth')
+      $session.set({
+        recaptchaEnabled: !!_config.recaptchaEnabled,
+        ...$session.get()
+      })
+      next()
+    })
     expressApp.use(passportMiddleware(router))
   })
 }
