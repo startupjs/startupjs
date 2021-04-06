@@ -4,7 +4,7 @@ import appleSigninAuth from 'apple-signin-auth'
 import Provider from '../Provider'
 
 export default async function loginNative (req, res, config) {
-  const { successRedirectUrl, onBeforeLoginHook } = config
+  const { onBeforeLoginHook } = config
   const data = req.body
 
   let profile
@@ -22,7 +22,7 @@ export default async function loginNative (req, res, config) {
     return res.send(response)
   } else {
     const userId = await provider.findOrCreateUser({ req })
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+    finishAuth(req, res, { userId, onBeforeLoginHook })
   }
 }
 

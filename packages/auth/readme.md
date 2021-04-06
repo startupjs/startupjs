@@ -277,9 +277,28 @@ initAuth(ee, {
 ```
 
 ## Редирект после авторизации
-Задать путь редиректа при инициализации на сервере
+Чтобы настроить редирект, нужно прокинуть пропсом redirectUrl в initAuthApp, либо для AuthForm, либо для отдельной кнопки или формы, н-р:
+`<GoogleAuthButton redirectUrl='/profile/google' />`
+`<LoginForm redirectUrl='/profile/local' />`
+
+Редирект работает через куки, и если положить что-то в куку с именем redirectUrl до авторизации, после нее произойдет редирект на value из куки:
+
 ```js
-initAuth(ee, {
-  successRedirectUrl: '/profile',
-})
+  import { CookieManager } from '@startupjs/auth'
+
+  CookieManager.set({
+    baseUrl,
+    name: 'authRedirectUrl',
+    value: redirectUrl,
+    expires: moment().add(5, 'minutes')
+  })
+```
+
+Так же, можно переопределять редирект и на сервере (к примеру в хуке onBeforeLoginHook):
+
+```js
+  onBeforeLoginHook: ({ userId }, req, res, next) => {
+    // req.cookies.redirectUrl = '/123'
+    next()
+  }
 ```

@@ -1,11 +1,26 @@
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { $root } from 'startupjs'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import axios from 'axios'
+import moment from 'moment'
 import { CALLBACK_URL } from '../../isomorphic'
 
-export default async function onLogin (baseUrl = BASE_URL) {
+export default async function onLogin ({
+  baseUrl = BASE_URL,
+  redirectUrl,
+  expiresRedirectUrl
+}) {
+  // set redirectUrl in cookie and play redirect from server
+  if (redirectUrl) {
+    await CookieManager.set({
+      baseUrl,
+      name: 'authRedirectUrl',
+      value: redirectUrl,
+      expires: moment().add(expiresRedirectUrl, 'milliseconds')
+    })
+  }
+
   const webClientId = $root.get('_session.auth.google.clientId')
 
   try {
@@ -17,12 +32,13 @@ export default async function onLogin (baseUrl = BASE_URL) {
 
     const data = await GoogleSignin.signIn()
 
-    await axios.get(baseUrl + CALLBACK_URL, {
+    const res = await axios.get(baseUrl + CALLBACK_URL, {
       params: {
         token: data.idToken
       }
     })
-    finishAuth()
+
+    clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
   } catch (err) {
     if (err.code === statusCodes.SIGN_IN_CANCELLED) {
       console.log('user cancelled the login flow')

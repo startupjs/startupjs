@@ -7,9 +7,9 @@ import { onLogout } from '../../helpers'
 function LogoutButton ({ baseUrl, redirectUrl }) {
   return pug`
     Button(
-      onPress=() => onLogout(baseUrl, redirectUrl)
       color='primary'
       variant='flat'
+      onPress=() => onLogout({ baseUrl, redirectUrl })
     ) Logout
   `
 }
