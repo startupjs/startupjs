@@ -23,7 +23,15 @@ import 'text-encoding-polyfill'
 
 ## Подключение капчи
 
-Если вы хотите добавить **reCaptcha** для форм регистрации и смены пароля, то выполните инструкции из [документации @startupjs/recaptcha](/docs/libraries/recaptcha#connecting-to-startup-js).
+Если вы хотите добавить **reCaptcha** для форм регистрации и смены пароля, то выполните инструкции из [документации @startupjs/recaptcha](/docs/libraries/recaptcha#connecting-to-startup-js) и добавьте в `initAuth` параметр `recaptchaEnabled` в файле `server/index.js`:
+
+```js
+initAuth(ee, {
+  // ...
+  recaptchaEnabled: true,
+  // ...
+})
+```
 
 ## Инициализация на сервере
 Импорт стратегии:
