@@ -7,6 +7,7 @@ import '../common.styl'
 
 function PResetPassword ({
   baseUrl,
+  redirectUrl,
   localForms,
   renderForm,
   onError,
@@ -16,6 +17,7 @@ function PResetPassword ({
   return pug`
     AuthForm(
       baseUrl=baseUrl
+      redirectUrl=redirectUrl
       slide=RESET_PASSWORD_SLIDE
       localForms=localForms
       renderForm=renderForm
@@ -28,6 +30,7 @@ function PResetPassword ({
 
 PResetPassword.propTypes = {
   baseUrl: PropTypes.string,
+  redirectUrl: PropTypes.string,
   localForms: PropTypes.object,
   renderForm: PropTypes.func,
   onError: PropTypes.func,

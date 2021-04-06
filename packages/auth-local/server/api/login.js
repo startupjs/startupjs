@@ -2,7 +2,7 @@ import { finishAuth } from '@startupjs/auth/server'
 import passport from 'passport'
 
 export default async function login (req, res, next, config) {
-  const { successRedirectUrl, onBeforeLoginHook, onAfterLoginHook } = config
+  const { onBeforeLoginHook, onAfterLoginHook } = config
 
   passport.authenticate('local', async function (err, userId, info) {
     if (err) {
@@ -15,7 +15,7 @@ export default async function login (req, res, next, config) {
       await clearLoginAttempts(userId, req.model)
     }
 
-    finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })
+    finishAuth(req, res, { userId, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })
   })(req, res, next)
 }
 

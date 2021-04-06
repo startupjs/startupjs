@@ -27,9 +27,14 @@ function AuthForm ({
   const localActiveForm = localForms ? localForms[slide] : null
 
   const prepereSocialButtons = socialButtons.map((component, index) => {
+    const prepereButton = React.cloneElement(component, {
+      baseUrl,
+      redirectUrl,
+      ...component.props
+    })
+
     return pug`
-      Div.button(key=index)
-        = component
+      Div.button(key=index)= prepereButton
     `
   })
 
@@ -39,11 +44,13 @@ function AuthForm ({
   let prepereLocalActiveForm = null
   if (localActiveForm) {
     prepereLocalActiveForm = React.cloneElement(localActiveForm, {
-      ...localActiveForm.props,
+      baseUrl,
+      redirectUrl,
       onSuccess,
       onError,
       onHandleError,
-      onChangeSlide
+      onChangeSlide,
+      ...localActiveForm.props
     })
   }
 
