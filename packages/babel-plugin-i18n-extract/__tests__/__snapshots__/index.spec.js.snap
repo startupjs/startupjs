@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-i18n-extract Call only with 'key' argument: Call only with 'key' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments passed to the function t
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call with empty 'defaultValue' argument: Call with empty 'defaultValue' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key', '')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'defaultValue' of t cannot be an empty string
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call with empty 'key' argument: Call with empty 'key' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'key' of t cannot be an empty string
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call without arguments: Call without arguments 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t()}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments passed to the function t
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'defaultValue' argument: String literal is not passed to the 'defaultValue' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+const x
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key', x)}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: Const declarations require an initialization value (2:7)
+
+[0m [90m 1 |[39m [36mimport[39m { observer[33m,[39m t } [36mfrom[39m [32m'startupjs'[39m[0m
+[0m[31m[1m>[22m[39m[90m 2 |[39m [36mconst[39m x[0m
+[0m [90m   |[39m        [31m[1m^[22m[39m[0m
+[0m [90m 3 |[39m[0m
+[0m [90m 4 |[39m [36mexport[39m [36mdefault[39m observer([36mfunction[39m [33mApp[39m () {[0m
+[0m [90m 5 |[39m   [36mreturn[39m ([0m
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'key' argument: String literal is not passed to the 'key' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+const x
+
+export default observer(function App () {
+  return (
+    <span>
+      {t(x, 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: Const declarations require an initialization value (2:7)
+
+[0m [90m 1 |[39m [36mimport[39m { observer[33m,[39m t } [36mfrom[39m [32m'startupjs'[39m[0m
+[0m[31m[1m>[22m[39m[90m 2 |[39m [36mconst[39m x[0m
+[0m [90m   |[39m        [31m[1m^[22m[39m[0m
+[0m [90m 3 |[39m[0m
+[0m [90m 4 |[39m [36mexport[39m [36mdefault[39m observer([36mfunction[39m [33mApp[39m () {[0m
+[0m [90m 5 |[39m   [36mreturn[39m ([0m
+
+`;

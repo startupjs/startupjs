@@ -3,5 +3,8 @@ module.exports = {
     ['startupjs/babel.cjs', {
       alias: {}
     }]
+  ],
+  plugins: [
+
   ]
 }
