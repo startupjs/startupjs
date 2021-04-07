@@ -14,10 +14,23 @@ function Avatar ({
   status,
   shape,
   children,
+  renderStatus,
   ...props
 }) {
   const [error, setError] = useState()
   useDidUpdate(setError, [src])
+
+  function _renderStatus () {
+    if (!renderStatus && !status) return null
+    if (renderStatus) {
+      return pug`
+        = renderStatus(size, shape)
+      `
+    }
+    return pug`
+      Div.status(styleName=[size, status, shape])
+    `
+  }
 
   return pug`
     Div.root(style=style styleName=[size] ...props)
@@ -42,8 +55,8 @@ function Avatar ({
           )
             Span.fallback(styleName=[size] bold)
               = initials
-      if status
-        Div.status(styleName=[size, status, shape])
+
+      = _renderStatus()
   `
 }
 
@@ -62,7 +75,8 @@ Avatar.propTypes = {
   status: PropTypes.oneOf(['online', 'away']),
   children: PropTypes.string,
   disabled: Div.propTypes.disabled,
-  onPress: Div.propTypes.onPress
+  onPress: Div.propTypes.onPress,
+  renderStatus: PropTypes.func
 }
 
 export default observer(Avatar)
