@@ -8,7 +8,7 @@ _headerSizes = {
   h6: l
 }
 
-_weightConstants = {
+_fontWeightNamesMap = {
   '100': 'Thin',
   '200': 'ExtraLight',
   '300': 'Light',
@@ -19,6 +19,8 @@ _weightConstants = {
   '800': 'ExtraBold'
   '900': 'Black'
 }
+
+_defaultFontWeight = '400'
 
 font(size = m)
   // Workaround global built-in function s()
@@ -54,12 +56,8 @@ text(key = default)
     font(l)
 
 fontFamily(_fontName, _fontWeight, _fontStyle = '')
-  _resultFontWeight = _weightConstants['400']
-
-  for key, value in _weightConstants
-    if key == _fontWeight
-      _resultFontWeight = value
-
+  _fontWeightString = '' + _fontWeight
+  _resultFontWeight = _fontWeightNamesMap[_fontWeightString] || _fontWeightNamesMap[_defaultFontWeight]
   _result = _fontName + '-' + _resultFontWeight + _fontStyle
 
   font-family _result
