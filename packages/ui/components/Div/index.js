@@ -35,12 +35,10 @@ function Div ({
   accessible,
   onPress,
   onLongPress,
-  onClick,
   _preventEvent,
   ...props
 }) {
-  const handlePress = onClick || onPress
-  const isClickable = handlePress || onLongPress
+  const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   let extraStyle = {}
@@ -66,7 +64,7 @@ function Div ({
         e.preventDefault()
       }
       if (disabled) return
-      handlePress && handlePress(e)
+      onPress && onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
