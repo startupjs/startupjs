@@ -297,7 +297,7 @@ initAuth(ee, {
 
 ```js
   onBeforeLoginHook: ({ userId }, req, res, next) => {
-    // req.cookies.authRedirectUrl = '/123'
+    // req.cookies.authRedirectUrl = '/custom-redirect-path'
     next()
   }
 ```
