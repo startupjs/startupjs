@@ -2,25 +2,36 @@ import { useState } from 'react'
 import { View, Button, StyleSheet } from 'react-native'
 
 # Notifications
-> Компонент двухфакторной авторизации
+> Компонент push уведомлений
 
 ## Необходимые зависимости
-  `react-native-onesignal`
+  `react-native-onesignal>=4.0.5`
 
 ## Уcтановка
 
 ```js
-  yarn add @startupjs/notifications
+  yarn add @startupjs/notifications react-native-onesignal
 ```
 
 ### iOS
   Проделайте [шаг 4](https://documentation.onesignal.com/docs/react-native-sdk-setup#step-4---install-for-ios-using-cocoapods-for-ios-apps) для настройки нотификаций на iOS.
-  Этап 4.3.6 можно пропустить.
+
+  Этап `4.3.6` можно пропустить.
 
 ### Android
-  Для настройки Android необходимо получить и зарегестрировать в `OneSignal` [Firebase Server Key](https://documentation.onesignal.com/docs/generate-a-google-server-api-key).
+  Для настройки Android необходимо получить и зарегестрировать в `OneSignal` [Firebase Server Key](https://documentation.onesignal.com/docs/generate-a-google-server-api-key). Выполните шаги в соответсвии с руководством.
 
-  google-service.json не забыть
+  Не забудьте добавить файл `google-service.json` как указано в `Firebase` при настройке приложения.
+
+
+### Линковка
+Выполните команду в корневой директории вашего проекта:
+
+```js
+npx startupjs link -o
+```
+
+!Важно! запустить нужно именно из корневой директории
 
 ## Подключение к startupjs
 
@@ -28,13 +39,149 @@ import { View, Button, StyleSheet } from 'react-native'
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import { initNotifications } from '@startupjs/notification'
+  import { initNotifications, getHeaderOneSignal } from '@startupjs/notification/server'
   import app from '../app.json'
 ```
 
-В `startupjsServer` функцию добавить:
+В `startupjsServer` добавить:
 ```js
-  initNotifications(ee)
+  startupjsServer({
+    // Some your options
+  }, (ee, options) => {
+    //... Some your code
+    initNotifications(ee)
+  }
 ```
 
+В `getHead` добавить `getHeaderOneSignal`:
 
+```js
+function getHead (appName) {
+  return `
+    ${getUiHead()}
+    <title>HelloWorld</title>
+    <!-- Put vendor JS and CSS here -->
+    ${getHeaderOneSignal()}
+    </script>
+  `
+}
+```
+
+### client
+
+В `root/index.js` добавьте `initOneSignal`:
+
+```js
+// Your imports
+import { initOneSignal } from '@startupjs/notification'
+
+//...
+init({ baseUrl: BASE_URL, orm })
+
+initOneSignal()
+
+//...
+})
+```
+
+## Общие настройки
+
+В файл `config.json` добавьте поля:
+
+```js
+{
+  ...
+  "ONESIGNAL_REST_KEY": "YOUR_REST_KEY",
+  "ONESIGNAL_APP_ID": "YOUR_APP_ID"
+}
+```
+
+Эти ключи можно найти на в настройках вашего приложения [на сайте onesignal](https://app.onesignal.com/apps). Для этого:
+- Выберите ваше приложение в списке.
+- Выберите `Settings` в верхнем меню
+- Выберите `Keys & IDs`
+- В `ONESIGNAL_REST_KEY` скопируйте значение из поля `REST API KEY`
+- В `ONESIGNAL_APP_ID` скопируйте значение из поля `ONESIGNAL APP ID`
+
+## API
+
+### client
+
+- `initOneSignal(useInit)` - `useInit` - это функция которая будет вызвана после регистрации приложения, здесь можно разместить функции из [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk).
+
+- `OneSignal` - инстанс `onesignal`, который позволяет использовать [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk) и [Web Push SDK](https://documentation.onesignal.com/docs/web-push-sdk). Используйте только этот инстанс в рамках приложения!
+
+- `sendNotification(data)` - функция для отправки нотификаций, используйте структуру запроса как указано в [SERVER REST API](https://documentation.onesignal.com/reference/create-notification). !ВАЖНО! поле `app_id` указывать не нужно.
+
+## Использование кастомных id для регистрации пользователей в onesignal
+
+При первом запуске приложения будет сгенерирован уникальный `id` в `onesignal`  для пользователя (посмотреть их можно в разделе `Audience` [вашего приложения в onesignal](https://app.onesignal.com/apps/)). Такое поведение не удобно,так как обычно у пользователей уже есть локальные `id`. 
+
+Для того чтобы записать дополнительный `id` для пользователя, можно использовать метод `setExternalUserId(local_id)`.
+
+```js
+const LOCAL_ID = 'localId'
+OneSignal.setExternalUserId(LOCAL_ID)
+```
+
+В рамках `startupjs`, например:
+
+```js
+//...
+import { OneSignal } from '@startupjs/notification'
+
+// ...
+const [userId] = useSession('userId')
+OneSignal.setExternalUserId(userId)
+//...
+```
+
+## Тестирование
+
+Протестировать работу нотификаций для iOS можно только на реальном устройстве. Важный момент заключается в том, что устройство на котором будет производиться тестирование и компьютер должны находиться в одной сети на момент запуска. Также необходимо в `env` и в `config.json` заменить адрес `http://localhost:3000` на реальный ip адресс вашего компьютера в данный момент.
+
+После настройки, запустите сборку приложения в `xcode` для подключенного устройства.
+
+### Тестовая функция для `initOneSignal`
+
+Используйте данную функцию, чтобы познакомиться с обработчиками событий в [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk).
+
+```js
+import { OneSignal } from '@startupjs/notification'
+
+export default async function defaultUseInit () {
+  OneSignal.setLogLevel(6, 0)
+  OneSignal.setRequiresUserPrivacyConsent(false)
+  OneSignal.promptForPushNotificationsWithUserResponse(response => {
+    console.log('Prompt response:', response)
+  })
+
+  /* O N E S I G N A L  H A N D L E R S */
+  OneSignal.setNotificationWillShowInForegroundHandler(notifReceivedEvent => {
+    console.log('OneSignal: notification will show in foreground:', notifReceivedEvent)
+  })
+
+  OneSignal.setNotificationOpenedHandler(notification => {
+    console.log('OneSignal: notification opened:', notification)
+  })
+
+  OneSignal.setInAppMessageClickHandler(event => {
+    console.log('OneSignal IAM clicked:', event)
+  })
+
+  OneSignal.addEmailSubscriptionObserver((event) => {
+    console.log('OneSignal: email subscription changed: ', event)
+  })
+
+  OneSignal.addSubscriptionObserver(event => {
+    console.log('OneSignal: subscription changed:', event)
+  })
+
+  OneSignal.addPermissionObserver(event => {
+    console.log('OneSignal: permission changed:', event)
+  })
+
+  const deviceState = await OneSignal.getDeviceState()
+  console.log('deviceState: ', deviceState)
+}
+```

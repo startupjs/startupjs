@@ -1,13 +1,16 @@
 import NotificationRu from './notification.ru.mdx'
-import NotificationEn from './notification.ed.mdx'
+import NotificationEn from './notification.en.mdx'
 
 export default {
   Notifications: {
     type: 'mdx',
-    title: 'Notifications',
+    title: {
+      en: 'Notifications',
+      ru: 'Нотификации'
+    },
     component: {
-      en: NotificationRu,
-      ru: NotificationEn
+      en: NotificationEn,
+      ru: NotificationRu
     }
   }
 }

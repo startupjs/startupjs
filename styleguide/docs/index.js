@@ -2,6 +2,7 @@ import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import twoFADocs from '../../packages/2fa/docs'
+import notificationDocs from '../../packages/notification/docs'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
@@ -105,6 +106,7 @@ export default docs({
         }
       },
       ...twoFADocs,
+      ...notificationDocs,
       plugins: {
         type: 'mdx',
         title: {
