@@ -23,16 +23,11 @@ return pug`
 
 ## Размеры
 
-Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size`. Возможные значения свойства можно найти в разделе `Песочница` внизу страницы.
+Размер по умолчанию - `m`. Его можно изменить, изменив свойство `size` задав его в виде одного из значений ('s', 'm','l') или указав размер в пикселях.
 
 ```jsx example
 return pug`
   Row
-    Div
-      Avatar(
-        size='xs'
-        src='/img/avatar1.jpeg'
-      )
     Div(pushed)
       Avatar(
         size='s'
@@ -50,12 +45,7 @@ return pug`
       )
     Div(pushed)
       Avatar(
-        size='xl'
-        src='/img/avatar2.jpeg'
-      )
-    Div(pushed)
-      Avatar(
-        size='xxl'
+        size=60
         src='/img/avatar3.jpeg'
       )
 `
