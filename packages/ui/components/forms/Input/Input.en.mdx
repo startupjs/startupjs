@@ -125,6 +125,21 @@ return (
 )
 ```
 
+## Displaying errors
+
+The `error` property provides the error text for the input.
+
+```jsx example
+const [value, $value] = useValue()
+
+return (
+  <Input
+    $value={$value}
+    error={value ? '' : 'Need to provide value'}
+  />
+)
+```
+
 ## Sandbox
 
 <Sandbox Component={Input} />

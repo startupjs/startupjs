@@ -1,6 +1,7 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import twoFADocs from '../../packages/2fa/docs'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
@@ -11,6 +12,10 @@ import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthLocal from '../../packages/auth-local/readme.md'
 import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
 import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
+import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
+import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
+import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -97,6 +102,29 @@ export default docs({
         component: {
           en: ScrollableAnchorsEn,
           ru: ScrollableAnchorsRu
+        }
+      },
+      ...twoFADocs,
+      plugins: {
+        type: 'mdx',
+        title: {
+          en: 'Plugins',
+          ru: 'Плагины'
+        },
+        component: {
+          en: PluginEn,
+          ru: PluginRu
+        }
+      },
+      recaptcha: {
+        type: 'mdx',
+        title: {
+          en: 'reCaptcha',
+          ru: 'Капча'
+        },
+        component: {
+          en: RecaptchaEn,
+          ru: RecaptchaRu
         }
       }
     }

@@ -1,3 +1,95 @@
+## [0.33.8](https://github.com/startupjs/startupjs/compare/v0.33.7...v0.33.8) (2021-04-06)
+
+
+### Bug Fixes
+
+* **TextInput:** fix `numberOfLines` property reactivity ([#599](https://github.com/startupjs/startupjs/issues/599)) ([c4090c4](https://github.com/startupjs/startupjs/commit/c4090c47803b5ba8d89436d4d8b1d5bd124bcc2d))
+
+
+
+## [0.33.7](https://github.com/startupjs/startupjs/compare/v0.33.6...v0.33.7) (2021-04-02)
+
+
+### Bug Fixes
+
+* **auth:** check if private file exists ([#586](https://github.com/startupjs/startupjs/issues/586)) ([24a3d2a](https://github.com/startupjs/startupjs/commit/24a3d2af5314b419fcbccb9ede7a27753ffc7030))
+* **auth:** remove private config and private keys ([#585](https://github.com/startupjs/startupjs/issues/585)) ([d785dba](https://github.com/startupjs/startupjs/commit/d785dbab509987dedd06285eecbd6575f3bb05cd))
+* **DateTimePicker:** fix iOS drawer buttons and height ([#583](https://github.com/startupjs/startupjs/issues/583)) ([ef93c4e](https://github.com/startupjs/startupjs/commit/ef93c4e2d9b2c9f6780ab47868bd67b4947b37bd))
+* **docs/Sandbox:** skip private props ([#580](https://github.com/startupjs/startupjs/issues/580)) ([db0dca3](https://github.com/startupjs/startupjs/commit/db0dca3cdd94eee76ddd9c5e2faabb5b19d3f6f5))
+* **mdx:** fix header anchor jumps on hover ([#581](https://github.com/startupjs/startupjs/issues/581)) ([b70e483](https://github.com/startupjs/startupjs/commit/b70e483a56c55485ff11402e86e52b8f623881f9))
+* **recaptcha:** fix error when adding two invisible captchas ([#595](https://github.com/startupjs/startupjs/issues/595)) ([e06d71c](https://github.com/startupjs/startupjs/commit/e06d71c6fa6d0ea3cafd95c79b58c34d543a7c63))
+* **ui/Span:** remove redundant description prop ([#582](https://github.com/startupjs/startupjs/issues/582)) ([ea368d3](https://github.com/startupjs/startupjs/commit/ea368d33ddaffd45c253a66a483039e5ee1725f6))
+
+
+### Features
+
+* add `@startupjs/recaptcha` package ([#579](https://github.com/startupjs/startupjs/issues/579)) ([eb35f60](https://github.com/startupjs/startupjs/commit/eb35f60dbb22be713e7fac67f5b6734be6b99cdc))
+* **sharedb-access:** implementation for factory ([#578](https://github.com/startupjs/startupjs/issues/578)) ([ef88f3b](https://github.com/startupjs/startupjs/commit/ef88f3bdd803e55935d9651198ef7c8cb4a5206c))
+
+
+
+## [0.33.6](https://github.com/startupjs/startupjs/compare/v0.33.5...v0.33.6) (2021-03-25)
+
+
+### Bug Fixes
+
+* **app:** don't restore url if it is current url ([#577](https://github.com/startupjs/startupjs/issues/577)) ([98a45b7](https://github.com/startupjs/startupjs/commit/98a45b70f6b2e6f9c4fd6aab681eec0b508c031a))
+
+
+
+## [0.33.5](https://github.com/startupjs/startupjs/compare/v0.33.4...v0.33.5) (2021-03-24)
+
+
+### Bug Fixes
+
+* **auth:** add `renderForm` for AuthModal and fix `auth-google` migration guide ([#576](https://github.com/startupjs/startupjs/issues/576)) ([50b9d3d](https://github.com/startupjs/startupjs/commit/50b9d3df878bd522fae3c5cae0992337de8a1e9d))
+
+
+### Features
+
+* **auth:** Add testIds to Login form ([b1ee31d](https://github.com/startupjs/startupjs/commit/b1ee31d5674a4bba251c950e68472396e202a08a))
+
+
+
+## [0.33.4](https://github.com/startupjs/startupjs/compare/v0.33.3...v0.33.4) (2021-03-23)
+
+
+### Features
+
+* **2fa:** add 2fa package ([#569](https://github.com/startupjs/startupjs/issues/569)) ([5e091c5](https://github.com/startupjs/startupjs/commit/5e091c5bc31aafc93e610cbbd6d3d117e23334d6))
+* **2fa:** add error handler on serverside and add docs ([#575](https://github.com/startupjs/startupjs/issues/575)) ([ac3993b](https://github.com/startupjs/startupjs/commit/ac3993bba8b58a781b3904e0498d29dfbca6d36e))
+* **ui/Input:** add ability to display an error ([#568](https://github.com/startupjs/startupjs/issues/568)) ([e042c24](https://github.com/startupjs/startupjs/commit/e042c2467baa45e25d6fc549f485f13f7e51242d))
+
+
+
+## [0.33.3](https://github.com/startupjs/startupjs/compare/v0.33.2...v0.33.3) (2021-03-18)
+
+
+### Bug Fixes
+
+* **auth:** Add req to onAfterPasswordReset ([ead38c7](https://github.com/startupjs/startupjs/commit/ead38c7f26e8f78fee3dba7bedff9cbf07ece3b9))
+
+
+
+## [0.33.2](https://github.com/startupjs/startupjs/compare/v0.33.1...v0.33.2) (2021-03-18)
+
+
+### Bug Fixes
+
+* **auth:** Return some callbacks to forms ([d254e09](https://github.com/startupjs/startupjs/commit/d254e0933e4eb046c1310d5bdde003d32504b37d))
+
+
+
+## [0.33.1](https://github.com/startupjs/startupjs/compare/v0.33.0...v0.33.1) (2021-03-17)
+
+
+### Bug Fixes
+
+* remove alpha version of startupjs from peer deps ([2901631](https://github.com/startupjs/startupjs/commit/290163197798dbd428b9f434e20606f08cb63277))
+* replace route for filter redirect  ([#567](https://github.com/startupjs/startupjs/issues/567)) ([836cb96](https://github.com/startupjs/startupjs/commit/836cb96caf1a0a593e8b6af4f4b63285cdeae7cd))
+
+
+
 # [0.33.0](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.4...v0.33.0) (2021-03-14)
 
 

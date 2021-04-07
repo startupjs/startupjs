@@ -35,6 +35,7 @@ function Div ({
   accessible,
   onPress,
   onLongPress,
+  _preventEvent,
   ...props
 }) {
   const isClickable = onPress || onLongPress
@@ -58,21 +59,21 @@ function Div ({
     wrapperProps.onPress = (e) => {
       // prevent bubbling event (default browser behavior)
       // make it consistent with native mobiles
-      if (disabled) {
+      if (_preventEvent || disabled) {
         e.persist() // TODO: remove in react 17
         e.preventDefault()
-        return
       }
+      if (disabled) return
       onPress && onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
       // make it consistent with native mobiles
-      if (disabled) {
+      if (_preventEvent || disabled) {
         e.persist() // TODO: remove in react 17
         e.preventDefault()
-        return
       }
+      if (disabled) return
       onLongPress && onLongPress(e)
     }
 
@@ -157,7 +158,8 @@ Div.defaultProps = {
   feedback: true,
   disabled: false,
   bleed: false,
-  pushed: false
+  pushed: false,
+  _preventEvent: true
 }
 
 Div.propTypes = {
@@ -174,7 +176,8 @@ Div.propTypes = {
   bleed: PropTypes.bool,
   onPress: PropTypes.func,
   onClick: PropTypes.func,
-  onLongPress: PropTypes.func
+  onLongPress: PropTypes.func,
+  _preventEvent: PropTypes.bool
 }
 
 export default observer(Div)

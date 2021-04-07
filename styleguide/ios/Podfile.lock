@@ -265,6 +265,8 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
+  - react-native-cookies (6.0.5):
+    - React-Core
   - react-native-fbsdk (3.0.0):
     - React
     - react-native-fbsdk/Core (= 3.0.0)
@@ -399,6 +401,7 @@ DEPENDENCIES:
   - React-jsi (from `../../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-cookies (from `../../node_modules/@react-native-cookies/cookies`)"
   - react-native-fbsdk (from `../../node_modules/react-native-fbsdk`)
   - react-native-pager-view (from `../../node_modules/react-native-pager-view`)
   - react-native-restart (from `../../node_modules/react-native-restart`)
@@ -474,6 +477,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-cookies:
+    :path: "../../node_modules/@react-native-cookies/cookies"
   react-native-fbsdk:
     :path: "../../node_modules/react-native-fbsdk"
   react-native-pager-view:
@@ -551,6 +556,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
+  react-native-cookies: dd3fe2fd198f54d016fb6875cb8c2fb767170fdc
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
   react-native-pager-view: c1ec84a464024641ccb1102e9ec12be020d3d74c
   react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979

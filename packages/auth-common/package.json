@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-common",
-  "version": "0.33.0",
+  "version": "0.33.8",
   "type": "module",
   "description": "Common auth plugin for oauth2",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "scripts": {},
   "license": "MIT",
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0-alpha.0",
+    "@startupjs/auth": ">= 0.33.0",
     "react-native-webview": "10.10.2"
   }
 }

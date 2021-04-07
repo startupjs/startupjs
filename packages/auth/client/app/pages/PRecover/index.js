@@ -6,8 +6,10 @@ import '../common.styl'
 
 function PRecover ({
   baseUrl,
+  redirectUrl,
   localForms,
   socialButtons,
+  renderForm,
   onError,
   onSuccess,
   onHandleError,
@@ -16,9 +18,11 @@ function PRecover ({
   return pug`
     AuthForm(
       baseUrl=baseUrl
+      redirectUrl=redirectUrl
       slide=RECOVER_PASSWORD_SLIDE
       localForms=localForms
       socialButtons=socialButtons
+      renderForm=renderForm
       onError=onError
       onSuccess=onSuccess
       onHandleError=onHandleError
@@ -29,8 +33,10 @@ function PRecover ({
 
 PRecover.propTypes = {
   baseUrl: PropTypes.string,
+  redirectUrl: PropTypes.string,
   localForms: PropTypes.object,
   socialButtons: PropTypes.array,
+  renderForm: PropTypes.func,
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
   onHandleError: PropTypes.func,

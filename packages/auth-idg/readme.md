@@ -6,7 +6,7 @@
 ## Требования
 
 ```
-@startupjs/auth: >= 0.33.0-alpha.0
+@startupjs/auth: >= 0.33.0
 react-native-webview: 10.10.2
 ```
 

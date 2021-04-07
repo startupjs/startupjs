@@ -12,8 +12,8 @@ import { Button } from '@startupjs/ui'
 ```
 @react-native-async-storage/async-storage: >= 1.13.2
 react-native-restart: >= 0.0.22
-@startupjs/ui: >= 0.33.0-alpha.0
-startupjs: >= 0.33.0-alpha.0
+@startupjs/ui: >= 0.33.0
+startupjs: >= 0.33.0
 ```
 
 ## Описание
@@ -39,6 +39,7 @@ initAuth(ee, {
 
 ## Micro frontend
 [Тестовый пример](/auth/sign-in)
+(ключи apple и azure скрыты из публичного доступа и их нужно добавлять вручную)
 
 Представляет собой готовые страницы с формами, которые можно подключить на сайт
 
@@ -201,29 +202,103 @@ return (
 )
 ```
 
-## Кнопка и хэлпер "Выйти"
-Пример использования
+## Хэлперы и серверные хуки
 
-```js
+### Кнопка выйти
+```jsx
 import { LogoutButton } from '@startupjs/auth'
-```
-```jsx example
+...
 return <LogoutButton />
 ```
 
-или
-
-```js
+### Хэлпер для выхода
+```jsx
 import { onLogout } from '@startupjs/auth'
-```
-```jsx example
+...
 return <Button onPress={onLogout}>Выйти</Button>
 ```
 
-## Редирект после авторизации
-Задать путь редиректа при инициализации на сервере
-```js
+### onBeforeLoginHook
+
+Хэлпер-мидлвара, вызывается перед авторизацией
+
+```jsx
 initAuth(ee, {
-  successRedirectUrl: '/profile',
-})
+  // ...
+  onBeforeLoginHook: ({ userId }, req, res, next) => {
+    console.log('onBeforeLoginHook')
+    next()
+  },
+  // ...
+}
+```
+
+### onAfterUserCreationHook
+
+Хэлпер-мидлвара, вызывается после создания юзера
+
+```jsx
+initAuth(ee, {
+  // ...
+  onAfterUserCreationHook: ({ userId }, req) => {
+    console.log('onAfterUserCreationHook')
+  },
+  // ...
+}
+```
+
+### onAfterLoginHook
+
+Хэлпер-мидлвара, вызывается после авторизации
+
+```jsx
+initAuth(ee, {
+  // ...
+  onAfterLoginHook: ({ userId }, req) => {
+    console.log('onAfterLoginHook')
+  },
+  // ...
+}
+```
+
+### onBeforeLogoutHook
+
+Хэлпер-мидлвара, вызывается перед выходом
+
+```jsx
+initAuth(ee, {
+  // ...
+  onBeforeLogoutHook: (req, res, next) => {
+    console.log('onBeforeLogoutHook')
+    next()
+  },
+  // ...
+}
+```
+
+## Редирект после авторизации
+Чтобы настроить редирект, нужно прокинуть пропсом redirectUrl в initAuthApp, либо для AuthForm, либо для отдельной кнопки или формы, н-р:
+`<GoogleAuthButton redirectUrl='/profile/google' />`
+`<LoginForm redirectUrl='/profile/local' />`
+
+Редирект работает через куки, и если положить что-то в куку с именем redirectUrl до авторизации, после нее произойдет редирект на value из куки:
+
+```js
+  import { CookieManager } from '@startupjs/auth'
+
+  CookieManager.set({
+    baseUrl,
+    name: 'authRedirectUrl',
+    value: redirectUrl,
+    expires: moment().add(5, 'minutes')
+  })
+```
+
+Так же, можно переопределять редирект и на сервере (к примеру в хуке onBeforeLoginHook):
+
+```js
+  onBeforeLoginHook: ({ userId }, req, res, next) => {
+    // req.cookies.redirectUrl = '/123'
+    next()
+  }
 ```

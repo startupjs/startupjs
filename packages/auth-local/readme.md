@@ -10,7 +10,7 @@ import { Button } from '@startupjs/ui'
 ## Требования
 
 ```
-@startupjs/auth: >= 0.33.0-alpha.0
+@startupjs/auth: >= 0.33.0
 text-encoding-polyfill: >= 0.6.7
 ```
 
@@ -19,6 +19,18 @@ text-encoding-polyfill: >= 0.6.7
 В корневом index.js добавить:
 ```js
 import 'text-encoding-polyfill'
+```
+
+## Подключение капчи
+
+Если вы хотите добавить **reCaptcha** для форм регистрации и смены пароля, то выполните инструкции из [документации @startupjs/recaptcha](/docs/libraries/recaptcha#connecting-to-startup-js) и добавьте в `initAuth` параметр `recaptchaEnabled` в файле `server/index.js`:
+
+```js
+initAuth(ee, {
+  // ...
+  recaptchaEnabled: true,
+  // ...
+})
 ```
 
 ## Инициализация на сервере
@@ -30,23 +42,7 @@ import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 ```js
 initAuth(ee, {
   strategies: [
-    new LocalStrategy({
-      onCreatePasswordResetSecret: (userId, secret) => {
-        // callback
-      },
-      onPasswordReset: userId => {
-        // callback
-      },
-      onPasswordChange: userId => {
-        // callback
-      },
-      onCreateEmailChangeSecret: (userId, secret) => {
-        // callback
-      },
-      onEmailChange: userId => {
-        // callback
-      }
-    })
+    new LocalStrategy()
   ]
 })
 ```
@@ -167,4 +163,157 @@ import { RecoverForm } from '@startupjs/auth-local'
 ```
 ```jsx example
 return <RecoverForm />
+```
+
+## Серверные хуки
+
+### onBeforeRegister
+
+Хэлпер-мидлвара, вызывается перед регистрацией
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeRegister: (req, res, next, opts) => {
+        console.log('onBeforeRegister')
+        next()
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onAfterRegister
+
+Хэлпер-мидлвара, вызывается после регистрации
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onAfterRegister: ({ userId }, req) => {
+        console.log('onAfterRegister')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeCreatePasswordResetSecret
+
+Хэлпер-мидлвара, вызывается перед созданием кода для сброса пароля
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeCreatePasswordResetSecret: (req, res, done) => {
+        console.log('onBeforeCreatePasswordResetSecret')
+
+        const { email } = req.body
+        if (!email) return done('Missing email')
+        done(null, email)
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onCreatePasswordResetSecret
+
+Хэлпер-мидлвара, вызывается при создании кода для сброса пароля
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onCreatePasswordResetSecret: ({ userId, secret }, req) => {
+        console.log('onCreatePasswordResetSecret')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforePasswordReset
+
+Хэлпер-мидлвара, вызывается перед восстановлением пароля
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforePasswordReset: (req, res, next) => {
+        console.log('onBeforePasswordReset')
+        next()
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onAfterPasswordReset
+
+Хэлпер-мидлвара, вызывается после восстановления пароля
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onAfterPasswordReset: ({ userId }, req) => {
+        console.log('onAfterPasswordReset')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforePasswordChange
+
+Хэлпер-мидлвара, вызывается перед изменением пароля
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforePasswordChange: (req, res, next) => {
+        console.log('onBeforePasswordChange')
+        next()
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onAfterPasswordChange
+
+Хэлпер-мидлвара, вызывается после изменения пароля
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onAfterPasswordChange: ({ userId }, req) => {
+        console.log('onAfterPasswordChange')
+      }
+    })
+  ]
+  // ...
+}
 ```
