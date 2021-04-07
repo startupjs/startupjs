@@ -9,6 +9,8 @@ import STYLES from './index.styl'
 
 const { config } = STYLES
 
+const DEFAULT_STATUSES = ['online', 'away']
+
 function Avatar ({
   style,
   src,
@@ -16,6 +18,7 @@ function Avatar ({
   status,
   shape,
   children,
+  statusComponents,
   ...props
 }) {
   const [error, setError] = useState()
@@ -27,6 +30,8 @@ function Avatar ({
   const statusStyle = { width: _statusSize, height: _statusSize }
   const _fallbackFontSize = config.fallbackSizes[size] || Math.round(size / 2.5)
   const fallbackStyle = { fontSize: _fallbackFontSize, lineHeight: _fallbackFontSize }
+
+  const StatusComponent = getStatusComponent(statusComponents, status)
 
   return pug`
     Div.root(
@@ -54,8 +59,18 @@ function Avatar ({
             Span.fallback(bold style=fallbackStyle)
               = initials
       if status
-        Div.status(styleName=[status, shape] style=statusStyle)
+        StatusComponent.status(styleName=[status, shape] style=statusStyle)
   `
+}
+
+function getStatusComponent (statusComponents, status) {
+  if (status && !DEFAULT_STATUSES.includes(status) && !statusComponents?.[status]) {
+    throw Error(`
+      [@dmapper/ui -> Avatar] Custom component for status '${status}' is not specified.
+      Use 'statusComponents' to specify it.
+    `)
+  }
+  return statusComponents?.[status] || Div
 }
 
 Avatar.defaultProps = {
@@ -73,7 +88,10 @@ Avatar.propTypes = {
     PropTypes.number
   ]),
   shape: Div.propTypes.shape,
-  status: PropTypes.oneOf(['online', 'away']),
+  status: PropTypes.oneOfType([
+    PropTypes.oneOf(['online', 'away']),
+    PropTypes.string
+  ]),
   children: PropTypes.string,
   disabled: Div.propTypes.disabled,
   onPress: Div.propTypes.onPress
