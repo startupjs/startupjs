@@ -16,21 +16,20 @@
 ### Features
 
 * **auth:** implement recaptcha for register and reset forms ([#596](https://github.com/startupjs/startupjs/issues/596)) ([ec54280](https://github.com/startupjs/startupjs/commit/ec54280e37dc8b24948386308575eafa7e6b427e))
-* **Button:** remove unused variant ([#574](https://github.com/startupjs/startupjs/issues/574)) ([25db034](https://github.com/startupjs/startupjs/commit/25db034090f6ff75301fceab9283eb97c6f5da39))
-* **startupjs/Tabs:** update react-native-tab-view to 3.0.0 ([#571](https://github.com/startupjs/startupjs/issues/571)) ([2da4c44](https://github.com/startupjs/startupjs/commit/2da4c44b609b254bd6e0ed0c6d9ccf89e0953762))
 * **ui/Avatar:** Add support for custom status icons (components) ([e52af23](https://github.com/startupjs/startupjs/commit/e52af2356079b11747beaad26a1d0e9057574568))
 * **ui/Tag:** add `size` property ([#592](https://github.com/startupjs/startupjs/issues/592)) ([ccd4f4a](https://github.com/startupjs/startupjs/commit/ccd4f4abd8e195c7005b220e2ae6c43809348456))
 
 
 ### BREAKING CHANGES
 
-* **ui/Tag:** - remove `iconPosition` property. For the icon on the left, use the `icon` property and `iconStyle` to style it, for the icon on the right, use the `secondaryIcon` and `secondaryIconStyle` properties, and all these properties to use two icons
-- no more support loading indicator for async action
-- the default component size has become larger
-- add `size` property
+* **ui/Tag:**
+  * remove `iconPosition` property. For the icon on the left, use the `icon` property and `iconStyle` to style it, for the icon on the right, use the `secondaryIcon` and `secondaryIconStyle` properties, and all these properties to use two icons
+  * no more support loading indicator for async action
+  * the default component size has become larger
+  * add `size` property
 * **auth:** Remove `AuthModal` component. Instead use `Modal` + `AuthForm`.
 * **ui/PasswordInput:** The property `secureTextEntry` was removed because it is redundant.
-* **Button:** remove `shadowed` from `variant` property
+* **Button:** the `variant` property no longer supported `shadowed` value
 
 
 
