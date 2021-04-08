@@ -11,8 +11,8 @@ const onesignalInstance = axios.create({
 })
 
 export async function sendNotification (data) {
-  await onesignalInstance.post({
+  await onesignalInstance.post('/', {
     app_id: ONESIGNAL_APP_ID,
-    data
+    ...data
   })
 }
