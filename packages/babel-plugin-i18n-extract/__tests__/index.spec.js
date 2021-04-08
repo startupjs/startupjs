@@ -10,7 +10,6 @@ pluginTester({
   babelOptions: {
     plugins: ['@babel/plugin-syntax-jsx']
   },
-  error: true,
   tests: [
     {
       title: 'Call without arguments',
@@ -77,12 +76,12 @@ pluginTester({
       error: true,
       code: `
         import { observer, t } from 'startupjs'
-        const x
+        const key = 'key'
 
         export default observer(function App () {
           return (
             <span>
-              {t(x, 'defaultValue')}
+              {t(key, 'defaultValue')}
             </span>
           )
         })
@@ -93,12 +92,12 @@ pluginTester({
       error: true,
       code: `
         import { observer, t } from 'startupjs'
-        const x
+        const defaultValue = 'defaultValue'
 
         export default observer(function App () {
           return (
             <span>
-              {t('key', x)}
+              {t('key', defaultValue)}
             </span>
           )
         })
@@ -110,6 +109,68 @@ pluginTester({
         import { observer, t } from 'startupjs'
 
         export default observer(function App () {
+          return (
+            <span>
+              {t('key', 'defaultValue')}
+            </span>
+          )
+        })
+      `
+    },
+    {
+      title: 'Call with custom name',
+      code: `
+        import { observer, t as myT } from 'startupjs'
+
+        export default observer(function App () {
+          return (
+            <span>
+              {myT('key', 'defaultValue')}
+            </span>
+          )
+        })
+      `
+    },
+    {
+      title: 'Ignore if not import',
+      code: `
+        import { observer } from 'startupjs'
+
+        export default observer(function App () {
+          const t = useTranslation()
+
+          return (
+            <span>
+              {t('key', 'defaultValue')}
+            </span>
+          )
+        })
+      `
+    },
+    {
+      title: 'Ignore shadowing',
+      code: `
+        import { observer, t } from 'startupjs'
+
+        export default observer(function App () {
+          const t = useTranslation()
+
+          return (
+            <span>
+              {t('key', 'defaultValue')}
+            </span>
+          )
+        })
+      `
+    },
+    {
+      title: 'Ignore if not used import with custom name',
+      code: `
+        import { observer, t as myT } from 'startupjs'
+
+        export default observer(function App () {
+          const t = useTranslation()
+
           return (
             <span>
               {t('key', 'defaultValue')}

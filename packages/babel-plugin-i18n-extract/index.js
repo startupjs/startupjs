@@ -5,32 +5,37 @@ module.exports = function (babel) {
   const t = babel.types
   let skip
   let tFunctionName
+  let $program
 
   return {
     pre () {
       skip = true
       tFunctionName = undefined
+      $program = undefined
     },
     visitor: {
-      ImportDeclaration: (path) => {
-        const node = path.node
-        if (node.source.value !== LIBRARY_NAME) return
-        const { specifiers } = node
-        for (const specifier of specifiers) {
-          // console.log(specifier)
+      Program: ($this) => {
+        $program = $this
+      },
+      ImportDeclaration: ($this) => {
+        if ($this.node.source.value !== LIBRARY_NAME) return
+        for (const specifier of $this.node.specifiers) {
           if (specifier.imported.name !== T_FUNCTION_NAME) continue
           tFunctionName = specifier.local.name
           skip = false
         }
-        // console.log(path, 'path')
       },
-      CallExpression: (path) => {
+      CallExpression: ($this, state) => {
         if (skip) return
 
-        const node = path.node
-        if (node.callee.name !== tFunctionName) return
+        const tFunctionBinding = $this.scope.getBinding(tFunctionName)
+        const programTFunctionBinding = $program.scope.bindings[tFunctionName]
 
-        const args = node.arguments
+        if (tFunctionBinding !== programTFunctionBinding) return
+        if ($this.node.callee.name !== tFunctionName) return
+
+        const args = $this.node.arguments
+
         if (args.length < 2) {
           // TODO: add file name to error message
           throw new Error(
@@ -69,6 +74,20 @@ module.exports = function (babel) {
             `Argument 'defaultValue' of ${tFunctionName} cannot be an empty string`
           )
         }
+
+        console.log($this)
+        // content = fs.readFileSync(filePath, { encoding: 'utf8' });
+        // fs.writeFileSync(
+        //   filePath,
+        //   exporter.stringify({
+        //     config,
+        //     file: translationFile,
+        //   }),
+        //   {
+        //     encoding: 'utf8',
+        //   },
+        // );
+        // keyNode.value
       }
     }
   }

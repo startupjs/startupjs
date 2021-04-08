@@ -18,6 +18,28 @@ Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments pas
 
 `;
 
+exports[`@startupjs/babel-plugin-i18n-extract Call with custom name: Call with custom name 1`] = `
+
+import { observer, t as myT } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {myT('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, t as myT } from "startupjs";
+export default observer(function App() {
+  return <span>{myT("key", "defaultValue")}</span>;
+});
+
+
+`;
+
 exports[`@startupjs/babel-plugin-i18n-extract Call with empty 'defaultValue' argument: Call with empty 'defaultValue' argument 1`] = `
 
 import { observer, t } from 'startupjs'
@@ -72,54 +94,137 @@ Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments pas
 
 `;
 
-exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'defaultValue' argument: String literal is not passed to the 'defaultValue' argument 1`] = `
+exports[`@startupjs/babel-plugin-i18n-extract Correct call: Correct call 1`] = `
 
 import { observer, t } from 'startupjs'
-const x
 
 export default observer(function App () {
   return (
     <span>
-      {t('key', x)}
+      {t('key', 'defaultValue')}
     </span>
   )
 })
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown: Const declarations require an initialization value (2:7)
+import { observer, t } from "startupjs";
+export default observer(function App() {
+  return <span>{t("key", "defaultValue")}</span>;
+});
 
-[0m [90m 1 |[39m [36mimport[39m { observer[33m,[39m t } [36mfrom[39m [32m'startupjs'[39m[0m
-[0m[31m[1m>[22m[39m[90m 2 |[39m [36mconst[39m x[0m
-[0m [90m   |[39m        [31m[1m^[22m[39m[0m
-[0m [90m 3 |[39m[0m
-[0m [90m 4 |[39m [36mexport[39m [36mdefault[39m observer([36mfunction[39m [33mApp[39m () {[0m
-[0m [90m 5 |[39m   [36mreturn[39m ([0m
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Ignore if not import: Ignore if not import 1`] = `
+
+import { observer } from 'startupjs'
+
+export default observer(function App () {
+  const t = useTranslation()
+
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+export default observer(function App() {
+  const t = useTranslation();
+  return <span>{t("key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Ignore if not used import with custom name: Ignore if not used import with custom name 1`] = `
+
+import { observer, t as myT } from 'startupjs'
+
+export default observer(function App () {
+  const t = useTranslation()
+
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, t as myT } from "startupjs";
+export default observer(function App() {
+  const t = useTranslation();
+  return <span>{t("key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Ignore shadowing: Ignore shadowing 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  const t = useTranslation()
+
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, t } from "startupjs";
+export default observer(function App() {
+  const t = useTranslation();
+  return <span>{t("key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'defaultValue' argument: String literal is not passed to the 'defaultValue' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+const defaultValue = 'defaultValue'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key', defaultValue)}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'defaultValue' of t should be a string literal
 
 `;
 
 exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'key' argument: String literal is not passed to the 'key' argument 1`] = `
 
 import { observer, t } from 'startupjs'
-const x
+const key = 'key'
 
 export default observer(function App () {
   return (
     <span>
-      {t(x, 'defaultValue')}
+      {t(key, 'defaultValue')}
     </span>
   )
 })
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown: Const declarations require an initialization value (2:7)
-
-[0m [90m 1 |[39m [36mimport[39m { observer[33m,[39m t } [36mfrom[39m [32m'startupjs'[39m[0m
-[0m[31m[1m>[22m[39m[90m 2 |[39m [36mconst[39m x[0m
-[0m [90m   |[39m        [31m[1m^[22m[39m[0m
-[0m [90m 3 |[39m[0m
-[0m [90m 4 |[39m [36mexport[39m [36mdefault[39m observer([36mfunction[39m [33mApp[39m () {[0m
-[0m [90m 5 |[39m   [36mreturn[39m ([0m
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'key' of t should be a string literal
 
 `;
