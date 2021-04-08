@@ -1,3 +1,39 @@
+# [0.34.0](https://github.com/startupjs/startupjs/compare/v0.33.8...v0.34.0) (2021-04-08)
+
+
+### Bug Fixes
+
+* **app:** fix restart for web ([fb0a397](https://github.com/startupjs/startupjs/commit/fb0a397deec68a01a4be9adb0c643a4ba577ed93))
+* **auth:** remove `AuthModal` ([#594](https://github.com/startupjs/startupjs/issues/594)) ([cd9a0d4](https://github.com/startupjs/startupjs/commit/cd9a0d4843bb95a1e4b9315f10d3f8caae5b1491))
+* **auth:** setup default arguments for `onLogout` ([#605](https://github.com/startupjs/startupjs/issues/605)) ([7cac079](https://github.com/startupjs/startupjs/commit/7cac079c944194dc996e6d7eba80bf6c933171a7))
+* **recaptcha:** set a specific version `react-native-webview` ([#601](https://github.com/startupjs/startupjs/issues/601)) ([e7afe44](https://github.com/startupjs/startupjs/commit/e7afe44238367d718eb9a4f106f12ec314113a80))
+* **ui/Avatar:** add ability to specify size and remove extra sizes ([#590](https://github.com/startupjs/startupjs/issues/590)) ([fbcb977](https://github.com/startupjs/startupjs/commit/fbcb97705e2ae7caeacabf418d8fc90cff52bd7d))
+* **ui/Div:** make event bubbling consistent for web and mobile ([#608](https://github.com/startupjs/startupjs/issues/608)) ([52c2406](https://github.com/startupjs/startupjs/commit/52c240606ea200ebdf5150425016c3e3ad385dec))
+* **ui/Div:** remove redundant web only `onClick` property ([#593](https://github.com/startupjs/startupjs/issues/593)) ([a5d36cd](https://github.com/startupjs/startupjs/commit/a5d36cd890b28ad348f4088ea44262bda9da02ac))
+* **ui/PasswordInput:** remove `secureTextEntry` property ([#570](https://github.com/startupjs/startupjs/issues/570)) ([1597219](https://github.com/startupjs/startupjs/commit/15972193b4be6221ae1af837ff291b2d07be7a1e))
+
+
+### Features
+
+* **auth:** implement recaptcha for register and reset forms ([#596](https://github.com/startupjs/startupjs/issues/596)) ([ec54280](https://github.com/startupjs/startupjs/commit/ec54280e37dc8b24948386308575eafa7e6b427e))
+* **Button:** remove unused variant ([#574](https://github.com/startupjs/startupjs/issues/574)) ([25db034](https://github.com/startupjs/startupjs/commit/25db034090f6ff75301fceab9283eb97c6f5da39))
+* **startupjs/Tabs:** update react-native-tab-view to 3.0.0 ([#571](https://github.com/startupjs/startupjs/issues/571)) ([2da4c44](https://github.com/startupjs/startupjs/commit/2da4c44b609b254bd6e0ed0c6d9ccf89e0953762))
+* **ui/Avatar:** Add support for custom status icons (components) ([e52af23](https://github.com/startupjs/startupjs/commit/e52af2356079b11747beaad26a1d0e9057574568))
+* **ui/Tag:** add `size` property ([#592](https://github.com/startupjs/startupjs/issues/592)) ([ccd4f4a](https://github.com/startupjs/startupjs/commit/ccd4f4abd8e195c7005b220e2ae6c43809348456))
+
+
+### BREAKING CHANGES
+
+* **ui/Tag:** - remove `iconPosition` property. For the icon on the left, use the `icon` property and `iconStyle` to style it, for the icon on the right, use the `secondaryIcon` and `secondaryIconStyle` properties, and all these properties to use two icons
+- no more support loading indicator for async action
+- the default component size has become larger
+- add `size` property
+* **auth:** Remove `AuthModal` component. Instead use `Modal` + `AuthForm`.
+* **ui/PasswordInput:** The property `secureTextEntry` was removed because it is redundant.
+* **Button:** remove `shadowed` from `variant` property
+
+
+
 ## [0.33.8](https://github.com/startupjs/startupjs/compare/v0.33.7...v0.33.8) (2021-04-06)
 
 
