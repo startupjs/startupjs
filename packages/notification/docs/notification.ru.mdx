@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import { View, Button, StyleSheet } from 'react-native'
+import { useState, useEffect } from 'react'
+import { useSession } from 'startupjs'
+import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
+import { OneSignal, sendNotification } from '@startupjs/notification'
 
 # Notifications
 > Компонент push уведомлений
@@ -183,4 +185,76 @@ export default async function defaultUseInit () {
   const deviceState = await OneSignal.getDeviceState()
   console.log('deviceState: ', deviceState)
 }
+```
+
+## Примеры
+
+Отправка уведомления текущему пользователю. Для этого можно использовать метод [sendSelfNotification](https://documentation.onesignal.com/docs/web-push-sdk#sendselfnotification). Этот метод доступен только на вебе.
+
+```jsx example
+return (
+  <Button onPress={()=>OneSignal.sendSelfNotification()}>
+    Send Test Push
+  </Button>
+)
+```
+
+Отправить уведомление.
+
+```jsx example
+const [title, setTitle] = useState('')
+const [content, setContent] = useState('')
+const [userId] = useSession('userId')
+
+function setExternalUserId (id) {
+  OneSignal.setExternalUserId(id)
+}
+
+async function getExternalUserId () {
+  const externalUserId = await OneSignal.getExternalUserId()
+  console.log('ExternalUserId: ', externalUserId)
+}
+
+function sendCustomNotification () {
+  sendNotification({
+    headings: {"en": title},
+    contents: {"en": content},
+    include_external_user_ids: [userId]
+  })
+}
+
+return (
+  <Div>
+    <Row align='around'>
+      <Button onPress={()=>setExternalUserId(userId)}>
+        Set external userId
+      </Button>
+      <Button onPress={()=>getExternalUserId()}>
+        Get external userId
+      </Button>
+    </Row>
+
+    <Br/>
+
+    <TextInput
+      value={title}
+      placeholder='title'
+      onChangeText={setTitle}
+    ></TextInput>
+
+    <Br/>
+
+    <TextInput
+      value={content}
+      placeholder='content'
+      onChangeText={setContent}
+    ></TextInput>
+
+    <Br/>
+    
+    <Button onPress={sendCustomNotification}>
+      Send Test Push
+    </Button>
+  </Div>
+)
 ```
