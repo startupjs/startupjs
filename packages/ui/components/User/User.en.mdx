@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import User from '../User'
 import Div from '../Div'
 import Br from '../Br'
 import Span from '../typography/Span'
 import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
 
 # User
 
@@ -145,6 +146,55 @@ return (
     </Span>
   </Div>
 )
+```
+
+## Custom status icon
+
+You can provide custom components for the status icon using `statusComponents` prop.
+
+```jsx example
+const AbsentStatus = useCallback(({ style }) => (
+  <Div style={style} styleName='absent'>
+    <Div styleName='absent-line absent-line-1' />
+    <Div styleName='absent-line absent-line-2' />
+  </Div>
+))
+
+return pug`
+  Div
+    User(
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+      src='/img/avatar1.jpeg'
+      status='online'
+    )
+    Br
+    User(
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+      src='/img/avatar2.jpeg'
+      status='absent'
+      statusComponents={
+        absent: AbsentStatus
+      }
+    )
+`
+
+styl`
+  .absent
+    background-color white
+    justify-content center
+    &-line
+      position absolute
+      height 2px
+      left 0
+      right 0
+      background-color red
+      &-1
+        transform rotate(45deg)
+      &-2
+        transform rotate(-45deg)
+`
 ```
 
 ## Sandbox

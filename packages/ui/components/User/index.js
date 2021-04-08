@@ -15,6 +15,7 @@ function User ({
   avatarPosition,
   size,
   status,
+  statusComponents,
   onPress
 }) {
   return pug`
@@ -28,6 +29,7 @@ function User ({
         size=size
         status=status
         src=avatarUrl
+        statusComponents=statusComponents
       )= name
       View.userInfo
         Span.name(
