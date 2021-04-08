@@ -36,7 +36,7 @@ class IOSLinker {
       return content
     }
 
-    const oneSignalPodfile = `\
+    const oneSignalPodfile = `
 target 'OneSignalNotificationServiceExtension' do
   pod 'OneSignal', '>= 3.0', '< 4.0'
 end 

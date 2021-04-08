@@ -6,7 +6,7 @@
 
 ## Installation
 
-```js
+```sh
   yarn add @startupjs/notifications react-native-onesignal
 ```
 
@@ -23,7 +23,7 @@
 ### Linking
 Run the command in the root directory of your project:
 
-```js
+```sh
 npx startupjs link -o
 ```
 
@@ -36,7 +36,6 @@ npx startupjs link -o
 In `server/index.js` add the following lines:
 ```js
   import { initNotifications, getHeaderOneSignal } from '@startupjs/notification/server'
-  import app from '../app.json'
 ```
 
 In `startupjsServer` add:
@@ -65,7 +64,7 @@ function getHead (appName) {
 
 ### client
 
-In `root/index.js` add `initOneSignal`:
+In `Root/index.js` add `initOneSignal`:
 
 ```js
 // Your imports

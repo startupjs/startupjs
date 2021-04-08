@@ -15,6 +15,7 @@ import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
 import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
+import { initNotifications, getHeaderOneSignal } from '@startupjs/notification/server'
 
 import fs from 'fs'
 import path from 'path'
@@ -46,6 +47,7 @@ startupjsServer({
   init2fa(ee, { appName: app.name })
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
+  initNotifications(ee)
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
@@ -114,6 +116,7 @@ function getHead (appName) {
     <title>StartupJS UI</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Put vendor JS and CSS here -->
+    ${getHeaderOneSignal()}
   `
 }
 

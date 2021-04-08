@@ -42,6 +42,7 @@
     "@startupjs/docs": "^0.33.6",
     "@startupjs/mdx": "^0.33.6",
     "@startupjs/recaptcha": "^0.33.0",
+    "@startupjs/notification": "^0.33.0",
     "@startupjs/scrollable-anchors": "^0.33.6",
     "@startupjs/ui": "^0.33.5",
     "axios": "^0.21.1",
@@ -57,6 +58,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.2",
     "react-native-webview": "10.10.2",
+    "react-native-onesignal": "^4.0.5",
     "startupjs": "^0.33.6",
     "text-encoding-polyfill": "^0.6.7"
   }

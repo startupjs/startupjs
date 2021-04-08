@@ -9,6 +9,7 @@ import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from '@startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
+import { initOneSignal } from '@startupjs/notification'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -32,6 +33,8 @@ if (Platform.OS === 'web') window.model = model
 // to init the websocket connection and axios.
 // Initialization must start before doing any subscribes to data.
 init({ baseUrl: BASE_URL, orm })
+
+initOneSignal()
 
 registerPlugins({
   '@startupjs/app': [

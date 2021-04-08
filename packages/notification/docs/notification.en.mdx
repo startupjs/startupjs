@@ -69,7 +69,7 @@ function getHead (appName) {
 
 ### client
 
-In `root/index.js` add `initOneSignal`:
+In `Root/index.js` add `initOneSignal`:
 
 ```js
 // Your imports
@@ -107,7 +107,7 @@ These keys can be found in your app settings on the [onesignal website](https://
 
 ### client
 
-- `initOneSignal(useInit)` - `useInit` - the function that will be called after registering the application, here you can place functions from the(https://documentation.onesignal.com/docs/react-native-sdk).
+- `initOneSignal(useInit)` - `useInit` - the function that will be called after registering the application, here you can place functions from the [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk).
 
 - `OneSignal` - the `onesignal` instance that allows you to use the [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk) and the [Web Push SDK](https://documentation.onesignal.com/docs/web-push-sdk). Use only this instance within the application!
 
@@ -221,6 +221,8 @@ function sendCustomNotification () {
     contents: {"en": content},
     include_external_user_ids: [userId]
   })
+  setTitle('')
+  setContent('')
 }
 
 return (
