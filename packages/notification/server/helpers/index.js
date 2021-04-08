@@ -1,5 +1,8 @@
 import axios from 'axios'
-import { ONESIGNAL_REST_KEY, ONESIGNAL_APP_ID } from 'nconf'
+import nconf from 'nconf'
+
+const ONESIGNAL_REST_KEY = nconf.get('ONESIGNAL_REST_KEY')
+const ONESIGNAL_APP_ID = nconf.get('ONESIGNAL_APP_ID')
 
 const onesignalInstance = axios.create({
   baseURL: 'https://onesignal.com/api/v1/notifications',

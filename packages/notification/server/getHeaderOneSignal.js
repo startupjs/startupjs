@@ -1,4 +1,6 @@
-import { ONESIGNAL_APP_ID } from 'nconf'
+import nconf from 'nconf'
+
+const ONESIGNAL_APP_ID = nconf.get('ONESIGNAL_APP_ID')
 
 const header = `\
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
@@ -6,7 +8,7 @@ const header = `\
   window.OneSignal = window.OneSignal || [];
   OneSignal.push(function() {
     OneSignal.init({
-      appId: ${ONESIGNAL_APP_ID},
+      appId: "${ONESIGNAL_APP_ID}",
     });
   });
 </script>

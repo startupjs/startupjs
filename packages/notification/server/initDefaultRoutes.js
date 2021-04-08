@@ -1,6 +1,8 @@
-import { ONESIGNAL_APP_ID } from 'nconf'
+import nconf from 'nconf'
 import { sendNotification } from './helpers'
 import { SEND_PUSH, GET_APP_ID } from '../isomorphic/constants'
+
+const ONESIGNAL_APP_ID = nconf.get('ONESIGNAL_APP_ID')
 
 export default function initDefaultRoutes (router, options) {
   router.post(SEND_PUSH, async function (req, res) {
