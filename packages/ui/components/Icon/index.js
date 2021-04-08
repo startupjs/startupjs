@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
-import { observer, u } from 'startupjs'
-import PropTypes from 'prop-types'
 import { StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { observer, u } from 'startupjs'
+import { Span } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 import STYLES from './index.styl'
 
 const {
@@ -43,6 +44,16 @@ function Icon ({
         height=_size
         fill=style.color
       )
+    `
+  }
+
+  if (typeof icon === 'object' && icon.type && icon.codePoint) {
+    const codeIcon = `&#${icon.codePoint}`
+    return pug`
+      Span(
+        styleName=[icon.type]
+        style=StyleSheet.flatten([style, {fontSize: _size}])
+      )=codeIcon
     `
   }
 

@@ -33,6 +33,20 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 ```
 
+## Material icons fonts
+
+To use Material icons fonts, you need to pass an object with the icon type and code point
+
+```jsx example
+return (
+  <Row align='around'>
+    <Icon icon={{ type: 'material-icons', codePoint: 'e8b8' }} />
+    <Icon icon={{ type: 'material-icons-round', codePoint: 'e8b6' }} />
+    <Icon icon={{{ type: 'material-icons-two-tone', codePoint: 'e87d' }} />
+  </Row>
+)
+```
+
 ```jsx example
 return (
   <Row align='around'>

@@ -41,6 +41,20 @@ return (
 )
 ```
 
+## Material icons fonts
+
+Для использования Material icons fonts необходимо передать объект с типом иконки и code point
+
+```jsx example
+return (
+  <Row align='around'>
+    <Icon icon={{ type: 'material-icons', codePoint: 'e8b8' }} />
+    <Icon icon={{ type: 'material-icons-round', codePoint: 'e8b6' }} />
+    <Icon icon={{{ type: 'material-icons-two-tone', codePoint: 'e87d' }} />
+  </Row>
+)
+```
+
 ## Размеры
 
 Размер можно изменить с помощью свойства `size`. Значение по умолчанию `m`. Предопределенные значения размеров иконок - `xs`,` s`, `m`,` l`, `xl`, ` xxl`. Размер также может быть сколь угодно увеличен или уменьшен путем передачи числа в свойство `size`.
