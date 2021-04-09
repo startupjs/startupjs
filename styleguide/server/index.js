@@ -51,7 +51,12 @@ startupjsServer({
 
   initAuth(ee, {
     successRedirectUrl: '/profile',
-    strategies: getAuthStrategies()
+    onBeforeLoginHook: ({ userId }, req, res, next) => {
+      // req.cookies.redirectUrl = '/123'
+      next()
+    },
+    strategies: getAuthStrategies(),
+    recaptchaEnabled: true
   })
 })
 
@@ -114,7 +119,7 @@ function getHead (appName) {
   return `
     ${getUiHead()}
     <title>StartupJS UI</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
     <!-- Put vendor JS and CSS here -->
     ${getHeaderOneSignal()}
   `

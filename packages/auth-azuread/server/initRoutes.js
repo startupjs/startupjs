@@ -1,4 +1,3 @@
-import { parseRedirectUrl } from '@startupjs/auth/server'
 import {
   CALLBACK_AZUREAD_URL,
   AZUREAD_LOGIN_URL
@@ -11,8 +10,8 @@ import {
 export default function (options) {
   const { router, config } = options
 
-  router.get(AZUREAD_LOGIN_URL,
-    parseRedirectUrl,
+  router.get(
+    AZUREAD_LOGIN_URL,
     (req, res, next) => loginWeb(req, res, next, config)
   )
   router.get(

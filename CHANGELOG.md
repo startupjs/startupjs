@@ -1,3 +1,82 @@
+## [0.34.1](https://github.com/startupjs/startupjs/compare/v0.34.0...v0.34.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* **ui/User:** adjust sizes according to Avatar component changes ([2a1b23b](https://github.com/startupjs/startupjs/commit/2a1b23b222ae03f75b8313a4370ae20323ea2305))
+
+
+### Features
+
+* **ui/User:** add support for custom status icons (components) ([5dc7d4b](https://github.com/startupjs/startupjs/commit/5dc7d4b4392cc36aaffd9607d6dfc6d634b5cfde))
+
+
+
+# [0.34.0](https://github.com/startupjs/startupjs/compare/v0.33.8...v0.34.0) (2021-04-08)
+
+
+### Bug Fixes
+
+* **app:** fix restart for web ([fb0a397](https://github.com/startupjs/startupjs/commit/fb0a397deec68a01a4be9adb0c643a4ba577ed93))
+* **auth:** remove `AuthModal` ([#594](https://github.com/startupjs/startupjs/issues/594)) ([cd9a0d4](https://github.com/startupjs/startupjs/commit/cd9a0d4843bb95a1e4b9315f10d3f8caae5b1491))
+* **auth:** setup default arguments for `onLogout` ([#605](https://github.com/startupjs/startupjs/issues/605)) ([7cac079](https://github.com/startupjs/startupjs/commit/7cac079c944194dc996e6d7eba80bf6c933171a7))
+* **recaptcha:** set a specific version `react-native-webview` ([#601](https://github.com/startupjs/startupjs/issues/601)) ([e7afe44](https://github.com/startupjs/startupjs/commit/e7afe44238367d718eb9a4f106f12ec314113a80))
+* **ui/Avatar:** add ability to specify size and remove extra sizes ([#590](https://github.com/startupjs/startupjs/issues/590)) ([fbcb977](https://github.com/startupjs/startupjs/commit/fbcb97705e2ae7caeacabf418d8fc90cff52bd7d))
+* **ui/Div:** make event bubbling consistent for web and mobile ([#608](https://github.com/startupjs/startupjs/issues/608)) ([52c2406](https://github.com/startupjs/startupjs/commit/52c240606ea200ebdf5150425016c3e3ad385dec))
+* **ui/Div:** remove redundant web only `onClick` property ([#593](https://github.com/startupjs/startupjs/issues/593)) ([a5d36cd](https://github.com/startupjs/startupjs/commit/a5d36cd890b28ad348f4088ea44262bda9da02ac))
+* **ui/PasswordInput:** remove `secureTextEntry` property ([#570](https://github.com/startupjs/startupjs/issues/570)) ([1597219](https://github.com/startupjs/startupjs/commit/15972193b4be6221ae1af837ff291b2d07be7a1e))
+
+
+### Features
+
+* **auth:** implement recaptcha for register and reset forms ([#596](https://github.com/startupjs/startupjs/issues/596)) ([ec54280](https://github.com/startupjs/startupjs/commit/ec54280e37dc8b24948386308575eafa7e6b427e))
+* **ui/Avatar:** Add support for custom status icons (components) ([e52af23](https://github.com/startupjs/startupjs/commit/e52af2356079b11747beaad26a1d0e9057574568))
+* **ui/Tag:** add `size` property ([#592](https://github.com/startupjs/startupjs/issues/592)) ([ccd4f4a](https://github.com/startupjs/startupjs/commit/ccd4f4abd8e195c7005b220e2ae6c43809348456))
+
+
+### BREAKING CHANGES
+
+* **ui/Tag:**
+  * remove `iconPosition` property. For the icon on the left, use the `icon` property and `iconStyle` to style it, for the icon on the right, use the `secondaryIcon` and `secondaryIconStyle` properties, and all these properties to use two icons
+  * no more support loading indicator for async action
+  * the default component size has become larger
+  * add `size` property
+* **auth:** Remove `AuthModal` component. Instead use `Modal` + `AuthForm`.
+* **ui/PasswordInput:** The property `secureTextEntry` was removed because it is redundant.
+* **Button:** the `variant` property no longer supported `shadowed` value
+
+
+
+## [0.33.8](https://github.com/startupjs/startupjs/compare/v0.33.7...v0.33.8) (2021-04-06)
+
+
+### Bug Fixes
+
+* **TextInput:** fix `numberOfLines` property reactivity ([#599](https://github.com/startupjs/startupjs/issues/599)) ([c4090c4](https://github.com/startupjs/startupjs/commit/c4090c47803b5ba8d89436d4d8b1d5bd124bcc2d))
+
+
+
+## [0.33.7](https://github.com/startupjs/startupjs/compare/v0.33.6...v0.33.7) (2021-04-02)
+
+
+### Bug Fixes
+
+* **auth:** check if private file exists ([#586](https://github.com/startupjs/startupjs/issues/586)) ([24a3d2a](https://github.com/startupjs/startupjs/commit/24a3d2af5314b419fcbccb9ede7a27753ffc7030))
+* **auth:** remove private config and private keys ([#585](https://github.com/startupjs/startupjs/issues/585)) ([d785dba](https://github.com/startupjs/startupjs/commit/d785dbab509987dedd06285eecbd6575f3bb05cd))
+* **DateTimePicker:** fix iOS drawer buttons and height ([#583](https://github.com/startupjs/startupjs/issues/583)) ([ef93c4e](https://github.com/startupjs/startupjs/commit/ef93c4e2d9b2c9f6780ab47868bd67b4947b37bd))
+* **docs/Sandbox:** skip private props ([#580](https://github.com/startupjs/startupjs/issues/580)) ([db0dca3](https://github.com/startupjs/startupjs/commit/db0dca3cdd94eee76ddd9c5e2faabb5b19d3f6f5))
+* **mdx:** fix header anchor jumps on hover ([#581](https://github.com/startupjs/startupjs/issues/581)) ([b70e483](https://github.com/startupjs/startupjs/commit/b70e483a56c55485ff11402e86e52b8f623881f9))
+* **recaptcha:** fix error when adding two invisible captchas ([#595](https://github.com/startupjs/startupjs/issues/595)) ([e06d71c](https://github.com/startupjs/startupjs/commit/e06d71c6fa6d0ea3cafd95c79b58c34d543a7c63))
+* **ui/Span:** remove redundant description prop ([#582](https://github.com/startupjs/startupjs/issues/582)) ([ea368d3](https://github.com/startupjs/startupjs/commit/ea368d33ddaffd45c253a66a483039e5ee1725f6))
+
+
+### Features
+
+* add `@startupjs/recaptcha` package ([#579](https://github.com/startupjs/startupjs/issues/579)) ([eb35f60](https://github.com/startupjs/startupjs/commit/eb35f60dbb22be713e7fac67f5b6734be6b99cdc))
+* **sharedb-access:** implementation for factory ([#578](https://github.com/startupjs/startupjs/issues/578)) ([ef88f3b](https://github.com/startupjs/startupjs/commit/ef88f3bdd803e55935d9651198ef7c8cb4a5206c))
+
+
+
 ## [0.33.6](https://github.com/startupjs/startupjs/compare/v0.33.5...v0.33.6) (2021-03-25)
 
 

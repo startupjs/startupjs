@@ -1,19 +1,19 @@
 {
   "name": "@startupjs/recaptcha",
   "type": "module",
-  "version": "0.33.0",
+  "version": "0.34.0",
   "description": "reCAPTCHA plugin",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "react-native-webview": "^10.0.0"
+    "react-native-webview": "10.10.2"
   },
   "peerDependencies": {
+    "prop-types": "*",
     "react": ">=16.9.0",
-    "react-native": ">=0.60.0",
-    "prop-types": "*"
+    "react-native": ">=0.60.0"
   },
   "license": "MIT",
   "readmeFilename": "README.md"

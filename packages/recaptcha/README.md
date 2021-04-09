@@ -170,6 +170,7 @@ export default function initRoutes (router) {
 
 ## Props
 
+ - `id` [String] - The component id. Must be unique for each captcha on the page. Default: `recaptcha`
  - `variant` [String] - The variant of the widget (`invisible`, `normal` or `compact`). Default: `invisible`
  - `theme` [String] - The color theme of the widget (`dark` or `light`). Default: `light`
  - `baseUrl` [String] - The URL (domain) configured in the reCAPTCHA setup. (ex. `http://my.domain.com`). Default: your `BASE_URL` from `@env`

@@ -84,10 +84,6 @@ function Button ({
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
-    case 'shadowed':
-      rootStyle.backgroundColor = colors.white
-      rootExtraProps.level = 2
-      break
   }
 
   let padding
@@ -172,7 +168,7 @@ Button.propTypes = {
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   color: PropTypes.oneOf(Object.keys(colors)),
   children: PropTypes.node,
-  variant: PropTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
+  variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
