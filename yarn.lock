@@ -17592,6 +17592,13 @@ react-native-fbsdk@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-3.0.0.tgz#07ef41758bb17a0acaff744008af625a45ef9a01"
   integrity sha512-i0JocuzLlGk13J0xFDjm8GlX7SADAL2kh/syE/HOn5HHdW+PFjC31MNj5AtzIw2TicHXpHGO6VPKNfdWFbxboA==
 
+react-native-onesignal@^4.0.5:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-4.0.6.tgz#e20dd164310113fc0fe9a97c8b70270d5cec6fcd"
+  integrity sha512-HHU7+sy7qMOyEeVkaCguOSTq9IbHYkloJLy/CUgiRIKvlUItyHRIwAb7mmaZk4ieVANTxbUzy9LKZvKAburLhw==
+  dependencies:
+    invariant "^2.2.2"
+
 react-native-pager-view@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.1.2.tgz#a6957afc81f5729cbb884fe963df3482e2f46877"
@@ -17640,7 +17647,7 @@ react-native-web@^0.14.3:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.4"
 
-react-native-webview@10.10.2, react-native-webview@^10.0.0:
+react-native-webview@10.10.2:
   version "10.10.2"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-10.10.2.tgz#13208aef17c9ccfd28355363688f4cbe2143f10a"
   integrity sha512-98Dh7q1gEflicFZ8KNL3nK5XRjx50OZXqw87jHofVjKfjbK0LKmvI5X8ymgUMGg61JVgI3AF+g8qpDvqjgQsfg==
