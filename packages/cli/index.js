@@ -567,6 +567,14 @@ commander
   })
 
 commander
+  .command('android-link')
+  .description('Links android files')
+  .action(async () => {
+    console.warn('"starupjs android-link" is deprecated. Use "startupjs link" instead.')
+    link()
+  })
+
+commander
   .command('postinstall')
   .description('Run startupjs postinstall scripts')
   .action(async (options) => {
