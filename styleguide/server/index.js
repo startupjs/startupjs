@@ -120,8 +120,8 @@ function getHead (appName) {
     ${getUiHead()}
     <title>StartupJS UI</title>
     <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-    <!-- Put vendor JS and CSS here -->
     ${getHeaderOneSignal()}
+    <!-- Put vendor JS and CSS here -->
   `
 }
 
