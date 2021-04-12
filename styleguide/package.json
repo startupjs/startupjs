@@ -24,7 +24,6 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@invertase/react-native-apple-authentication": "^2.1.0",
-    "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/datetimepicker": "^3.0.6",
     "@react-native-cookies/cookies": "^6.0.5",
     "@react-native-google-signin/google-signin": "^6.0.0",
