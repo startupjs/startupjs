@@ -12,6 +12,7 @@ function DefaultTag ({
   return pug`
     Tag.tag(
       styleName={last: isLast}
+      size='s'
       variant='flat'
       color='primary'
     )= record.label

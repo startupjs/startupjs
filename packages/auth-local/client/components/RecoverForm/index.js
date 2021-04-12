@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, useSession } from 'startupjs'
 import { Span, Button, TextInput, ErrorWrapper } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
+import { Recaptcha } from '@startupjs/recaptcha'
 import _get from 'lodash/get'
 import _merge from 'lodash/merge'
 import PropTypes from 'prop-types'
@@ -26,10 +27,12 @@ function RecoverForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
+  const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
 
   const [form, $form] = useValue({ email: '' })
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState('')
+  const recaptchaRef = useRef()
 
   useEffect(() => {
     if (IS_WEB) {
@@ -44,12 +47,12 @@ function RecoverForm ({
   }, [])
 
   function onKeyPress (e) {
-    if (e.key === 'Enter') createRecoverySecret()
+    if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
   }
 
-  async function createRecoverySecret () {
+  async function createRecoverySecret (recaptchaToken) {
     try {
-      await authHelper.createPassResetSecret(form)
+      await authHelper.createPassResetSecret({ ...form, recaptchaToken })
       onSuccess && onSuccess(null, RECOVER_PASSWORD_SLIDE)
       setMessage('Check your email for instructions')
       setErrors({})
@@ -71,11 +74,16 @@ function RecoverForm ({
           value=form.email
           onChangeText=t => $form.set('email', t)
         )
-
+      if recaptchaEnabled
+        Recaptcha(
+          id='recover-form-captcha'
+          ref=recaptchaRef
+          onVerify=createRecoverySecret
+        )
       Button.button(
         color='primary'
         variant='flat'
-        onPress=createRecoverySecret
+        onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
       )= _config.resetButtonLabel
     else
       Span.text= message

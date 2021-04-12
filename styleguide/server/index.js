@@ -52,7 +52,8 @@ startupjsServer({
       // req.cookies.authRedirectUrl = '/custom-redirect-path'
       next()
     },
-    strategies: getAuthStrategies()
+    strategies: getAuthStrategies(),
+    recaptchaEnabled: true
   })
 })
 
@@ -115,7 +116,7 @@ function getHead (appName) {
   return `
     ${getUiHead()}
     <title>StartupJS UI</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
     <!-- Put vendor JS and CSS here -->
   `
 }

@@ -1,38 +1,30 @@
+$this = merge(
+  {
+    avatarSizes: {
+      s: 4u,
+      m: 5u,
+      l: 6u,
+    },
+    statusSizes: {
+      s: 1.25u,
+      m: 1.5u,
+      l: 1.75u,
+    },
+    fallbackSizes: {
+      s: 1.5u,
+      m: 1.75u,
+      l: 2u,
+    }
+  },
+  $UI.Avatar,
+  true
+)
+
 _white = $UI.colors.white
-_xxl = 8u
-_xl = 7u
-_l = 6u
-_m = 5u
-_s = 4u
-_xs = 3u
 
 .root
   +web()
     user-select none
-
-  &.xxl
-    width _xxl
-    height @width
-
-  &.xl
-    width _xl
-    height @width
-
-  &.l
-    width _l
-    height @width
-
-  &.m
-    width _m
-    height @width
-
-  &.s
-    width _s
-    height @width
-
-  &.xs
-    width _xs
-    height @width
 
 .avatarWrapper
   height 100%
@@ -45,24 +37,6 @@ _xs = 3u
 
 .fallback
   color white
-
-  &.xs
-    font(xs)
-
-  &.s
-    font(s)
-
-  &.m
-    font(m)
-
-  &.l
-    font(l)
-
-  &.xl
-    font(xl)
-
-  &.xxl
-    font(xxl)
 
 .status
   position absolute
@@ -79,37 +53,11 @@ _xs = 3u
     bottom -0.25u
     right @bottom
 
-    &.xxl
-    &.xl
-      bottom -0.5u
-      right @bottom
-
   &.online
     background-color $UI.colors.success
 
   &.away
     background-color $UI.colors.warning
 
-  &.xxl
-    width 2.25u
-    height @width
-
-  &.xl
-    width 2u
-    height @width
-
-  &.l
-    width 1.75u
-    height @width
-
-  &.m
-    width 1.5u
-    height @width
-
-  &.s
-    width 1.25u
-    height @width
-
-  &.xs
-    width 1u
-    height @width
+:export
+  config: $this
