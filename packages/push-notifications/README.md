@@ -35,7 +35,7 @@ npx startupjs link -o
 
 In `server/index.js` add the following lines:
 ```js
-  import { initNotifications, getHeaderOneSignal } from '@startupjs/push-notifications/server'
+  import { initNotifications, getOneSignalHead } from '@startupjs/push-notifications/server'
 ```
 
 In `startupjsServer` add:
@@ -48,15 +48,15 @@ In `startupjsServer` add:
   }
 ```
 
-In `getHead` add `getHeaderOneSignal`:
+In `getHead` add `getOneSignalHead`:
 
 ```js
 function getHead (appName) {
   return `
     ${getUiHead()}
+    ${getOneSignalHead()}
     <title>HelloWorld</title>
     <!-- Put vendor JS and CSS here -->
-    ${getHeaderOneSignal()}
     </script>
   `
 }

@@ -14,6 +14,6 @@ const header = `\
 </script>
 `
 
-export default function getHeaderOneSignal () {
+export default function getOneSignalHead () {
   return header
 }

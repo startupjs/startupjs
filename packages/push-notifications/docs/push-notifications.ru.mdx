@@ -41,7 +41,7 @@ npx startupjs link -o
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import { initNotifications, getHeaderOneSignal } from '@startupjs/push-notifications/server'
+  import { initNotifications, getOneSignalHead } from '@startupjs/push-notifications/server'
 ```
 
 В `startupjsServer` добавить:
@@ -54,15 +54,15 @@ npx startupjs link -o
   }
 ```
 
-В `getHead` добавить `getHeaderOneSignal`:
+В `getHead` добавить `getOneSignalHead`:
 
 ```js
 function getHead (appName) {
   return `
     ${getUiHead()}
+    ${getOneSignalHead()}
     <title>HelloWorld</title>
     <!-- Put vendor JS and CSS here -->
-    ${getHeaderOneSignal()}
     </script>
   `
 }
