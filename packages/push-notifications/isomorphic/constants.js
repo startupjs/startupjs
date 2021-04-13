@@ -1,2 +1,2 @@
-export const SEND_PUSH = '/push-notifications/send'
-export const GET_APP_ID = '/push-notifications/appId'
+export const SEND_PUSH = '/api/push-notifications/send'
+export const GET_APP_ID = '/api/push-notifications/appId'

@@ -1,11 +1,5 @@
-import express from 'express'
-import initDefaultRoutes from './initDefaultRoutes'
-
-const router = express.Router()
+import routes from './routes'
 
 export default function (ee, options) {
-  initDefaultRoutes(router, options)
-  ee.on('afterSession', expressApp => {
-    expressApp.use(router)
-  })
+  ee.on('routes', routes)
 }
