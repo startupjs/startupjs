@@ -4,9 +4,11 @@ import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
 import { OneSignal, sendNotification } from '@startupjs/push-notifications'
 
 # Push notifications
+
 > Компонент push уведомлений
 
 ## Необходимые зависимости
+
   `react-native-onesignal>=4.0.5`
 
 ## Уcтановка
@@ -16,17 +18,20 @@ import { OneSignal, sendNotification } from '@startupjs/push-notifications'
 ```
 
 ### iOS
+
   Проделайте [шаг 4](https://documentation.onesignal.com/docs/react-native-sdk-setup#step-4---install-for-ios-using-cocoapods-for-ios-apps) для настройки нотификаций на iOS.
 
   Этап `4.3.6` можно пропустить.
 
 ### Android
+
   Для настройки Android необходимо получить и зарегестрировать в `OneSignal` [Firebase Server Key](https://documentation.onesignal.com/docs/generate-a-google-server-api-key). Выполните шаги в соответствии с руководством.
 
   Не забудьте добавить файл `google-service.json` как указано в `Firebase` при настройке приложения.
 
 
 ### Линковка
+
 Выполните команду в корневой директории вашего проекта:
 
 ```js

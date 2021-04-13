@@ -2,6 +2,7 @@
 > Push notifications component
 
 ## Required dependencies
+
   `react-native-onesignal>=4.0.5`
 
 ## Installation
@@ -11,16 +12,19 @@
 ```
 
 ### iOS
+
   Follow [step 4](https://documentation.onesignal.com/docs/react-native-sdk-setup#step-4---install-for-ios-using-cocoapods-for-ios-apps) to set up notifications on iOS.
 
   Step `4.3.6` can be skipped.
 
 ### Android
+
   To configure Android you need to get and register in `OneSignal` [Firebase Server Key](https://documentation.onesignal.com/docs/generate-a-google-server-api-key). Follow the steps according to the manual.
 
   Don't forget to add the `google-service.json` file as specified in `Firebase` when configuring your application.
 
 ### Linking
+
 Run the command in the root directory of your project:
 
 ```sh
