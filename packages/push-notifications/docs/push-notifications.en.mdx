@@ -1,3 +1,8 @@
+import { useState, useEffect } from 'react'
+import { useSession } from 'startupjs'
+import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
+import { OneSignal, sendNotification } from '@startupjs/push-notifications'
+
 # Notifications
 > Push notifications component
 
@@ -6,8 +11,8 @@
 
 ## Installation
 
-```sh
-  yarn add @startupjs/notifications react-native-onesignal
+```js
+  yarn add @startupjs/push-notifications react-native-onesignal
 ```
 
 ### iOS
@@ -23,7 +28,7 @@
 ### Linking
 Run the command in the root directory of your project:
 
-```sh
+```js
 npx startupjs link -o
 ```
 
@@ -35,7 +40,7 @@ npx startupjs link -o
 
 In `server/index.js` add the following lines:
 ```js
-  import { initNotifications, getHeaderOneSignal } from '@startupjs/notification/server'
+  import { initNotifications, getHeaderOneSignal } from '@startupjs/push-notifications/server'
 ```
 
 In `startupjsServer` add:
@@ -68,7 +73,7 @@ In `Root/index.js` add `initOneSignal`:
 
 ```js
 // Your imports
-import { initOneSignal } from '@startupjs/notification'
+import { initOneSignal } from '@startupjs/push-notifications'
 
 //...
 init({ baseUrl: BASE_URL, orm })
@@ -102,7 +107,7 @@ These keys can be found in your app settings on the [onesignal website](https://
 
 ### client
 
-- `initOneSignal(useInit)` - `useInit` - the function that will be called after registering the application, here you can place functions from the(https://documentation.onesignal.com/docs/react-native-sdk).
+- `initOneSignal(useInit)` - `useInit` - the function that will be called after registering the application, here you can place functions from the [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk).
 
 - `OneSignal` - the `onesignal` instance that allows you to use the [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk) and the [Web Push SDK](https://documentation.onesignal.com/docs/web-push-sdk). Use only this instance within the application!
 
@@ -123,7 +128,7 @@ Within `startupjs`, for example:
 
 ```js
 //...
-import { OneSignal } from '@startupjs/notification'
+import { OneSignal } from '@startupjs/push-notifications'
 
 // ...
 const [userId] = useSession('userId')
@@ -142,7 +147,7 @@ Once configured, run the build of the application in `xcode` for the connected d
 Use this function to familiarize yourself with event handlers in [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk).
 
 ```js
-import { OneSignal } from '@startupjs/notification'
+import { OneSignal } from '@startupjs/push-notifications'
 
 export default async function defaultUseInit () {
   OneSignal.setLogLevel(6, 0)
@@ -179,4 +184,79 @@ export default async function defaultUseInit () {
   const deviceState = await OneSignal.getDeviceState()
   console.log('deviceState: ', deviceState)
 }
+```
+
+
+## Examples
+
+Send a notification to the current user. To do this, you can use the [sendSelfNotification method](https://documentation.onesignal.com/docs/web-push-sdk#sendselfnotification). This method is only available on the web.
+
+```jsx example
+return (
+  <Button onPress={()=>OneSignal.sendSelfNotification()}>
+    Send Test Push
+  </Button>
+)
+```
+
+Send notification.
+
+```jsx example
+const [title, setTitle] = useState('')
+const [content, setContent] = useState('')
+const [userId] = useSession('userId')
+
+function setExternalUserId (id) {
+  OneSignal.setExternalUserId(id)
+}
+
+async function getExternalUserId () {
+  const externalUserId = await OneSignal.getExternalUserId()
+  console.log('ExternalUserId: ', externalUserId)
+}
+
+function sendCustomNotification () {
+  sendNotification({
+    headings: {"en": title},
+    contents: {"en": content},
+    include_external_user_ids: [userId]
+  })
+  setTitle('')
+  setContent('')
+}
+
+return (
+  <Div>
+    <Row align='around'>
+      <Button onPress={()=>setExternalUserId(userId)}>
+        Set external userId
+      </Button>
+      <Button onPress={()=>getExternalUserId()}>
+        Get external userId
+      </Button>
+    </Row>
+
+    <Br/>
+
+    <TextInput
+      value={title}
+      placeholder='title'
+      onChangeText={setTitle}
+    ></TextInput>
+
+    <Br/>
+
+    <TextInput
+      value={content}
+      placeholder='content'
+      onChangeText={setContent}
+    ></TextInput>
+
+    <Br/>
+    
+    <Button onPress={sendCustomNotification}>
+      Send Test Push
+    </Button>
+  </Div>
+)
 ```

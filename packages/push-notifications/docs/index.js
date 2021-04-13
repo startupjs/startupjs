@@ -1,5 +1,5 @@
-import NotificationRu from './notification.ru.mdx'
-import NotificationEn from './notification.en.mdx'
+import NotificationRu from './push-notifications.ru.mdx'
+import NotificationEn from './push-notifications.en.mdx'
 
 export default {
   Notifications: {

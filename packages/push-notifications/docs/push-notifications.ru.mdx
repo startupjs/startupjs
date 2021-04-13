@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'startupjs'
 import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
-import { OneSignal, sendNotification } from '@startupjs/notification'
+import { OneSignal, sendNotification } from '@startupjs/push-notifications'
 
 # Notifications
 > Компонент push уведомлений
@@ -12,7 +12,7 @@ import { OneSignal, sendNotification } from '@startupjs/notification'
 ## Уcтановка
 
 ```js
-  yarn add @startupjs/notifications react-native-onesignal
+  yarn add @startupjs/push-notifications react-native-onesignal
 ```
 
 ### iOS
@@ -41,7 +41,7 @@ npx startupjs link -o
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import { initNotifications, getHeaderOneSignal } from '@startupjs/notification/server'
+  import { initNotifications, getHeaderOneSignal } from '@startupjs/push-notifications/server'
 ```
 
 В `startupjsServer` добавить:
@@ -74,7 +74,7 @@ function getHead (appName) {
 
 ```js
 // Your imports
-import { initOneSignal } from '@startupjs/notification'
+import { initOneSignal } from '@startupjs/push-notifications'
 
 //...
 init({ baseUrl: BASE_URL, orm })
@@ -129,7 +129,7 @@ OneSignal.setExternalUserId(LOCAL_ID)
 
 ```js
 //...
-import { OneSignal } from '@startupjs/notification'
+import { OneSignal } from '@startupjs/push-notifications'
 
 // ...
 const [userId] = useSession('userId')
@@ -148,7 +148,7 @@ OneSignal.setExternalUserId(userId)
 Используйте данную функцию, чтобы познакомиться с обработчиками событий в [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk).
 
 ```js
-import { OneSignal } from '@startupjs/notification'
+import { OneSignal } from '@startupjs/push-notifications'
 
 export default async function defaultUseInit () {
   OneSignal.setLogLevel(6, 0)

@@ -1,5 +1,5 @@
 {
-  "name": "@startupjs/notification",
+  "name": "@startupjs/push-notifications",
   "version": "0.33.4",
   "type": "module",
   "description": "Push notification module",
