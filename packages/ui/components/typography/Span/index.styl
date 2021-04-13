@@ -3,16 +3,31 @@ _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
 // Add font-family when we add fonts to app
 
 .root
-  fontFamily('Roboto', 400)
-  for variant in _variants
+  for variant in _variants 
     &.{variant}
       text(variant)
 
-  &.bold
-    fontFamily('Roboto', 700)
+  for variant in _variants
+    &.{variant}
+      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
+        fontFamily($UI.fontFamilies.heading)
+      else
+        fontFamily($UI.fontFamilies.normal)
+    
+    &.{variant}&.bold
+      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
+        fontFamily($UI.fontFamilies.heading, 700)
+      else
+        fontFamily($UI.fontFamilies.normal, 700)
 
-  &.italic
-    fontFamily('Roboto', 400, 'italic')
+    &.{variant}&.italic
+      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
+        fontFamily($UI.fontFamilies.heading, 400, 'italic')
+      else
+        fontFamily($UI.fontFamilies.normal, 400, 'italic')
 
-  &.bold.italic
-    fontFamily('Roboto', 700, 'italic')
+    &.{variant}&.bold.italic
+      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
+        fontFamily($UI.fontFamilies.heading, 700, 'italic')
+      else
+        fontFamily($UI.fontFamilies.normal, 700, 'italic')

@@ -1,21 +1,4 @@
 {
   "migIndex": 1,
-  "data": [
-    {
-      "path": "public/fonts/Roboto-Bold.ttf",
-      "sha1": "5542913a3b5ac6c659b0c22d0673cd6728534586"
-    },
-    {
-      "path": "public/fonts/Roboto-BoldItalic.ttf",
-      "sha1": "6e4b2ba0fd346e1c097531cabefd1d8eb5abe9c5"
-    },
-    {
-      "path": "public/fonts/Roboto-Regular.ttf",
-      "sha1": "18ecbd196ed4677a82e95fbb94e8815eeaee4707"
-    },
-    {
-      "path": "public/fonts/Roboto-RegularItalic.ttf",
-      "sha1": "5b798156c7ed46f8aa3991674bb3fe24f95046c4"
-    }
-  ]
+  "data": []
 }

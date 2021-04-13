@@ -56,9 +56,14 @@ text(key = default)
     font(l)
 
 fontFamily(_fontName, _fontWeight = _defaultFontWeight, _fontStyle = '')
-  _fontWeightString = '' + _fontWeight
-  _resultFontWeight = _fontWeightNamesMap[_fontWeightString]
-  _result = _fontName + '-' + _resultFontWeight + _fontStyle
+  if (!!match(_fontName, $UI.fontFamilies.heading) || !!match(_fontName, $UI.fontFamilies.heading) || !!match(',', _fontName))
+    font-family _fontName
+    font-weight _fontWeight
+    font-style unquote(_fontStyle)
+  else
+    _fontWeightString = '' + _fontWeight
+    _resultFontWeight = _fontWeightNamesMap[_fontWeightString]
+    _result = _fontName + '-' + _resultFontWeight + replace(italic, Italic, _fontStyle)
 
-  font-family _result
+    font-family _result
   
