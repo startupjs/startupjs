@@ -9,7 +9,7 @@ import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from '@startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
-import { initOneSignal } from '@startupjs/notification'
+import { initOneSignal } from '@startupjs/push-notifications'
 import {
   BASE_URL,
   SUPPORT_EMAIL,

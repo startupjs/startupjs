@@ -560,7 +560,7 @@ commander
 commander
   .command('link')
   .description('Links files')
-  .option('-o, --oneSignal', 'Links files for oneSignal. It will work only with @startupjs/notification')
+  .option('-o, --oneSignal', 'Links files for oneSignal. It will work only with @startupjs/push-notifications')
   .option('-s, --standart', 'Default startupjs linking')
   .action(async (options) => {
     link(options)

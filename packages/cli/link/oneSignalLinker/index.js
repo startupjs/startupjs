@@ -5,7 +5,7 @@ const { infon, errorn } = require('../log')
 
 function oneSignalLinker () {
   if (!isOneSignalPackage()) {
-    errorn('@startupjs/notification is not installed!')
+    errorn('@startupjs/push-notifications is not installed!')
     return
   }
   infon('  Linking OneSignal')
@@ -22,7 +22,7 @@ function oneSignalLinker () {
 
 function isOneSignalPackage () {
   try {
-    const path = require.resolve('@startupjs/notification')
+    const path = require.resolve('@startupjs/push-notifications')
     return !!path
   } catch (err) {
     return false

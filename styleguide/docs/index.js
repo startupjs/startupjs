@@ -2,7 +2,8 @@ import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import twoFADocs from '../../packages/2fa/docs'
-import notificationDocs from '../../packages/notification/docs'
+import NotificationEn from '../../packages/push-notifications/docs/push-notifications.en.mdx'
+import NotificationRu from '../../packages/push-notifications/docs/push-notifications.ru.mdx'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
@@ -106,7 +107,14 @@ export default docs({
         }
       },
       ...twoFADocs,
-      ...notificationDocs,
+      'push-notifications': {
+        type: 'mdx',
+        title: 'Push notifications',
+        component: {
+          en: NotificationEn,
+          ru: NotificationRu
+        }
+      },
       plugins: {
         type: 'mdx',
         title: {

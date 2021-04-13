@@ -15,7 +15,7 @@ import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
 import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
 import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
 import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
-import { initNotifications, getHeaderOneSignal } from '@startupjs/notification/server'
+import { initNotifications, getOneSignalHead } from '@startupjs/push-notifications/server'
 
 import fs from 'fs'
 import path from 'path'
@@ -118,9 +118,9 @@ function getAuthStrategies () {
 function getHead (appName) {
   return `
     ${getUiHead()}
+    ${getOneSignalHead()}
     <title>StartupJS UI</title>
     <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-    ${getHeaderOneSignal()}
     <!-- Put vendor JS and CSS here -->
   `
 }
