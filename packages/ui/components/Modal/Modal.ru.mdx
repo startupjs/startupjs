@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useValue } from 'startupjs'
 import Modal from '../Modal'
 import Button from '../Button'
@@ -15,9 +15,26 @@ import { Sandbox } from '@startupjs/docs'
 import { Modal } from '@startupjs/ui'
 ```
 
-## Пример
+## Простой пример
+
+```jsx example
+const [visible, setVisible] = useState(false)
+
+return pug`
+  Modal(
+    visible=visible
+    title='Текст в модалке'
+    onChange=setVisible
+  )
+    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+  Button(onPress=() => setVisible(true)) Открыть модалку
+`
+```
+
+## Свойства
 
 - `showCross` булевое значение, устанавливает отображение крестика в заголовке (по умолчанию `true`)
+- `onChange` функция, которая будет запущена, когда `Modal` необходимо изменить состояние видимости (необязательный при использовании двусторонней привязки данных `$visible`)
 - `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onCancel`, по умолчанию закрывает модалку)
 - `onCancel` отображает кнопку отмены, которая использует этот обработчик (по умолчанию закрывает модалку)
 - `onConfirm` отображает кнопку подтверждения которая использует этот обработчик (по умолчанию закрывает модалку)
@@ -28,13 +45,15 @@ import { Modal } from '@startupjs/ui'
 - `onOrientationChange` колбек, который выполняется при смене ориентации мобильного устройства.
 
 ### Закрытие по умолчанию
-  Если вы хотите отменить закрытие модалки по умолчанию при `onCancel`, `onConfirm`, `onBackdropPress` и `onCrossPress`, то добавьте в свой колбек `event.preventDefault()`:
-  ```js
-    const myOnPress = event => {
-      event.preventDefault()
-      // your code
-    }
-  ```
+
+Если вы хотите отменить закрытие модалки по умолчанию при `onCancel`, `onConfirm`, `onBackdropPress` и `onCrossPress`, то добавьте в свой колбек `event.preventDefault()`:
+
+```js
+  const myOnPress = event => {
+    event.preventDefault()
+    // your code
+  }
+```
 
 ### Для управления состоянием модалки есть два варианта:
   1. Передав скоуп модель в свойство `$visible` из состояния которой идет управление видимостью.
