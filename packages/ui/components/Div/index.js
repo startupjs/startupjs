@@ -175,7 +175,6 @@ Div.propTypes = {
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   bleed: PropTypes.bool,
   onPress: PropTypes.func,
-  onClick: PropTypes.func,
   onLongPress: PropTypes.func,
   _preventEvent: PropTypes.bool
 }

@@ -1,3 +1,17 @@
+## [0.34.1](https://github.com/startupjs/startupjs/compare/v0.34.0...v0.34.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* **ui/User:** adjust sizes according to Avatar component changes ([2a1b23b](https://github.com/startupjs/startupjs/commit/2a1b23b222ae03f75b8313a4370ae20323ea2305))
+
+
+### Features
+
+* **ui/User:** add support for custom status icons (components) ([5dc7d4b](https://github.com/startupjs/startupjs/commit/5dc7d4b4392cc36aaffd9607d6dfc6d634b5cfde))
+
+
+
 # [0.34.0](https://github.com/startupjs/startupjs/compare/v0.33.8...v0.34.0) (2021-04-08)
 
 

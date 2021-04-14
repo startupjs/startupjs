@@ -2549,13 +2549,6 @@
     native-url "^0.2.6"
     schema-utils "^2.6.5"
 
-"@react-native-async-storage/async-storage@^1.13.2":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.14.1.tgz#3c2ff2b1a312df3b1c809a60fa88665e50a095b8"
-  integrity sha512-UkLUox2q5DKNYB6IMUzsuwrTJeXGLySvtQlnrqd3fd+96JErCT4X3xD+W1cvQjes0nm0LbaELbwObKc+Tea7wA==
-  dependencies:
-    deep-assign "^3.0.0"
-
 "@react-native-community/async-storage@^1.6.2":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.12.1.tgz#25f821b4f6b13abe005ad67e47c6f1cee9f27b24"
@@ -2689,11 +2682,6 @@
   integrity sha512-k/Mn8upo1P++YMO7KdC5FbZbk3uY78B2by6Ni2pyFDlItWCFwZ5A/dPnwlFZvKD35VPXMKxbTCEaJI35Fot2+A==
   dependencies:
     invariant "^2.2.4"
-
-"@react-native-community/google-signin@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-community/google-signin/-/google-signin-5.0.0.tgz#d1d89c697cc214c10017fa283817e84bd03b2d76"
-  integrity sha512-MvFHImmtlmE1kJZgZ9XaULm/OBuQ/AQWOCPr3NzYTUv2cCqyGwfFrealo5PS/fuL/InCGcfqK1k/1dZ+67Hjmg==
 
 "@react-native-cookies/cookies@^6.0.5":
   version "6.0.5"
