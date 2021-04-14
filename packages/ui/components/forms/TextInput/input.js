@@ -104,7 +104,7 @@ function Input ({
   }
 
   useDidUpdate(() => {
-    if (numberOfLines > currentNumberOfLines) {
+    if (numberOfLines !== currentNumberOfLines) {
       setCurrentNumberOfLines(numberOfLines)
     }
   }, [numberOfLines])
@@ -205,7 +205,8 @@ function getOppositePosition (position) {
 const ObservedInput = observer(Input, { forwardRef: true })
 
 ObservedInput.defaultProps = {
-  editable: true
+  editable: true,
+  numberOfLines: 1
 }
 
 ObservedInput.propTypes = {

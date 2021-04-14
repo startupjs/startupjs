@@ -1,6 +1,7 @@
 {
   "name": "@startupjs/auth",
-  "version": "0.31.26",
+  "version": "0.34.0",
+  "type": "module",
   "description": "Auth module for StartupJS apps",
   "main": "index.js",
   "publishConfig": {
@@ -10,11 +11,13 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "lodash": "^4.17.20",
+    "js-cookie": "^2.2.1",
     "passport": "^0.4.1"
   },
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.22.1",
-    "lodash": "4.x",
-    "startupjs": ">= 0.23.23"
+    "@startupjs/ui": ">= 0.33.0",
+    "@react-native-cookies/cookies": ">= 6.0.0",
+    "startupjs": ">= 0.33.0"
   }
 }

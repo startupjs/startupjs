@@ -56,14 +56,15 @@ export default function (config = {}) {
       tokenURL,
       callbackURL: nconf.get('BASE_URL') + `/auth/${providerName}/callback`,
       clientID: clientId,
-      clientSecret
+      clientSecret,
+      passReqToCallback: true
     },
-    async function (accessToken, refreshToken, profile, cb) {
+    async function (req, accessToken, refreshToken, profile, cb) {
       let userId, err
 
       try {
         const provider = new Provider(model, profile, config)
-        userId = await provider.findOrCreateUser()
+        userId = await provider.findOrCreateUser({ req })
       } catch (e) {
         err = e
       }

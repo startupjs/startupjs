@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import Tag from '../Tag'
-import Div from '../Div'
-import Br from '../Br'
-import { faTimesCircle, faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
+import Br from '../Br'
+import Div from '../Div'
+import Row from '../Row'
+import Tag from '../Tag'
 import './index.mdx.styl'
 
 # Tag
-Inherits [Button props](/docs/components/Button).
+
+Inherits [Div props](/docs/components/Div).
 
 Tags are compact elements that represent an input, attribute, or action. They allow users to enter information, make selections, filter content, or trigger actions. While buttons are expected to appear consistently and with familiar calls to action, tags should appear dynamically as a group of multiple interactive elements.
 
@@ -19,7 +21,9 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Tag>Tag</Tag>
+  <Row>
+    <Tag>Tag</Tag>
+  </Row>
 )
 ```
 
@@ -29,25 +33,39 @@ Color is `primary` by default. It can be changed by passing color name from the 
 
 ```jsx example
 return (
-  <Div>
+  <Row>
     <Tag>Primary (default)</Tag>
+    <Tag color='success' pushed='s'>Success</Tag>
+    <Tag color='warning' pushed='s'>Warning</Tag>
+    <Tag color='error' pushed='s'>Error</Tag>
+  </Row>
+)
+```
+
+## Размеры
+
+The `size` property applies to the size of tag, icons, and text. There are two sizes - `m` and` l` (default is `m`).
+
+```jsx example
+return (
+  <Div style={{ alignItems: 'flex-start' }}>
+    <Tag size='s'>Size 's'</Tag>
     <Br />
-    <Tag color='success'>Success</Tag>
-    <Br />
-    <Tag color='warning'>Warning</Tag>
-    <Br />
-    <Tag color='error'>Error</Tag>
+    <Tag>Size 'm' (default)</Tag>
   </Div>
 )
 ```
 
 ## Outlined tags
 
-Outlined tags offer an alternative style by passing `outlined` string on `variant` property to component.
+Outlined tags offer an alternative style, in property `variant` need to pass `outlined` or `outlined-bg` for an outlined tag with a background.
 
 ```jsx example
 return (
-  <Tag variant='outlined'>Outlined tag</Tag>
+  <Row>
+    <Tag variant='outlined'>Outlined tag</Tag>
+    <Tag variant='outlined-bg' pushed='s' onPress={() => {}}>Outlined tag with a background</Tag>
+  </Row>
 )
 ```
 
@@ -57,35 +75,49 @@ Tags can have different corner shapes. It can be changed by changing `shape` pro
 
 ```jsx example
 return (
-  <Div>
+  <Row>
     <Tag>Circle shape</Tag>
-    <Br />
-    <Tag shape='rounded'>Rounded shape</Tag>
-  </Div>
+    <Tag shape='rounded' pushed='s'>Rounded shape</Tag>
+  </Row>
 )
 ```
 
 ## Icons
 
-Icon can be added using `icon` property. Position of icon can be changed by passing `iconPosition` to component (`left` by default). To change icon color use the `iconStyleName` property.
+Left and right icons can be added using the `icon` and `secondaryIcon` properties. To change the color of an icon, use the corresponding `iconStyleName` or `secondaryIconStyleName` property.
 
 In `.styl` file
 ```stylus
 .icon
-  color $UI.colors.primary
+  color $UI.colors.dark
+.secondaryIcon
+  color $UI.colors.error
 ```
 
 ```jsx example
 return (
-  <Div>
-    <Tag variant='outlined' icon={faCoffee} iconStyleName='icon'>
-      Icon on the left (default) with the changed color
+  <Row>
+    <Tag icon={faStopCircle}>
+      Icon on the left
     </Tag>
-    <Br />
-    <Tag icon={faCoffee} iconPosition='right'>
+    <Tag
+      secondaryIcon={faStopCircle}
+      variant='outlined-bg'
+      pushed='s'
+    >
       Icon on the right
     </Tag>
-  </Div>
+    <Tag
+      iconStyleName='icon'
+      secondaryIconStyleName='secondaryIcon'
+      variant='outlined'
+      icon={faStopCircle}
+      secondaryIcon={faTimesCircle}
+      pushed='s'
+    >
+      Two icons
+    </Tag>
+  </Row>
 )
 ```
 

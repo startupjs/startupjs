@@ -1,32 +1,141 @@
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Button from '../Button'
+import { colorToRGBA } from '../../helpers'
+import Icon from '../Icon'
+import Div from '../Div'
+import Span from '../typography/Span'
+import STYLES from './index.styl'
 
-const size = 'xs'
+const { colors } = STYLES
 
-function Tag (props) {
-  return pug`
-    Button(
-      ...props
-      size=size
+const ICON_SIZES = {
+  s: 's',
+  m: 's'
+}
+
+function Tag ({
+  style,
+  textStyle,
+  children,
+  color,
+  variant,
+  size,
+  icon,
+  iconStyle,
+  secondaryIcon,
+  secondaryIconStyle,
+  disabled,
+  hoverStyle,
+  activeStyle,
+  onPress,
+  ...props
+}) {
+  if (!colors[color]) {
+    console.error(
+      'Tag component: Color for color property is incorrect. ' +
+      'Use colors from $UI.colors'
     )
+  }
+
+  const isFlat = variant === 'flat'
+  const _color = colors[color]
+  const rootStyle = {}
+  let extraHoverStyle
+  let extraActiveStyle
+
+  textStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    textStyle
+  ])
+  iconStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    iconStyle
+  ])
+  secondaryIconStyle = StyleSheet.flatten([
+    { color: isFlat ? colors.white : _color },
+    secondaryIconStyle
+  ])
+
+  switch (variant) {
+    case 'flat':
+      rootStyle.backgroundColor = _color
+      break
+    case 'outlined':
+      rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
+      break
+    case 'outlined-bg':
+      rootStyle.borderColor = _color
+      rootStyle.backgroundColor = colorToRGBA(_color, 0.15)
+      extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
+      extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
+      break
+  }
+
+  return pug`
+    Div.root(
+      style=[rootStyle, style]
+      styleName=[
+        variant,
+        size,
+        { disabled }
+      ]
+      variant='highlight'
+      hoverStyle=extraHoverStyle ? [extraHoverStyle, hoverStyle] : hoverStyle
+      activeStyle=extraActiveStyle ? [extraActiveStyle, activeStyle] : activeStyle
+      disabled=disabled
+      onPress=onPress
+      ...props
+    )
+      if icon
+        Div.iconWrapper.left(
+          styleName=[size]
+        )
+          Icon.icon(
+            style=iconStyle
+            styleName=[variant]
+            icon=icon
+            size=ICON_SIZES[size]
+          )
+
+      //- workaround when we interpolate variable into component
+      //- const value = 0
+      //- Tag= value
+      if children != null
+        Span.label(
+          style=[textStyle]
+          styleName=[size]
+        )= children
+
+      if secondaryIcon
+        Div.iconWrapper.right(
+          styleName=[size]
+        )
+          Icon.icon(
+            style=secondaryIconStyle
+            styleName=[variant, size]
+            icon=secondaryIcon
+            size=ICON_SIZES[size]
+          )
   `
 }
 
 Tag.defaultProps = {
-  ...Button.defaultProps,
+  ...Div.defaultProps,
   color: 'primary',
   variant: 'flat',
-  shape: 'circle',
-  size
+  size: 'm',
+  shape: 'circle'
 }
 
 Tag.propTypes = {
-  ...Button.propTypes,
-  variant: PropTypes.oneOf(['flat', 'outlined']),
+  ...Div.propTypes,
+  variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
   shape: PropTypes.oneOf(['circle', 'rounded']),
-  size: PropTypes.oneOf([size])
+  size: PropTypes.oneOf(['s', 'm'])
 }
 
 export default observer(Tag)

@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
-import { Image } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
-import Div from './../Div'
 import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
+import Div from './../Div'
 import Span from '../typography/Span'
-import './index.styl'
+import STYLES from './index.styl'
+
+const { config } = STYLES
+
+const DEFAULT_STATUSES = ['online', 'away']
 
 function Avatar ({
   style,
@@ -14,13 +18,26 @@ function Avatar ({
   status,
   shape,
   children,
+  statusComponents,
   ...props
 }) {
   const [error, setError] = useState()
   useDidUpdate(setError, [src])
 
+  const _size = config.avatarSizes[size] || size
+  const rootStyle = { width: _size, height: _size }
+  const _statusSize = config.statusSizes[size] || Math.round(size / 4)
+  const statusStyle = { width: _statusSize, height: _statusSize }
+  const _fallbackFontSize = config.fallbackSizes[size] || Math.round(size / 2.5)
+  const fallbackStyle = { fontSize: _fallbackFontSize, lineHeight: _fallbackFontSize }
+
+  const StatusComponent = getStatusComponent(statusComponents, status)
+
   return pug`
-    Div.root(style=style styleName=[size] ...props)
+    Div.root(
+      style=StyleSheet.flatten([style, rootStyle])
+      ...props
+    )
       Div.avatarWrapper(shape=shape)
         if src && !error
           Image.avatar(
@@ -34,17 +51,26 @@ function Avatar ({
           - const [firstName, lastName] = _fallback.split(' ')
           - const initials = (firstName ? firstName[0].toUpperCase() : '') + (lastName ? lastName[0].toUpperCase() : '')
           Div.avatar(
-            styleName=[size]
             style={backgroundColor: randomcolor({
               luminosity: 'bright',
               seed: _fallback
             })}
           )
-            Span.fallback(styleName=[size] bold)
+            Span.fallback(bold style=fallbackStyle)
               = initials
       if status
-        Div.status(styleName=[size, status, shape])
+        StatusComponent.status(styleName=[status, shape] style=statusStyle)
   `
+}
+
+function getStatusComponent (statusComponents, status) {
+  if (status && !DEFAULT_STATUSES.includes(status) && !statusComponents?.[status]) {
+    throw Error(`
+      [@dmapper/ui -> Avatar] Custom component for status '${status}' is not specified.
+      Use 'statusComponents' to specify it.
+    `)
+  }
+  return statusComponents?.[status] || Div
 }
 
 Avatar.defaultProps = {
@@ -57,9 +83,15 @@ Avatar.defaultProps = {
 Avatar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   src: PropTypes.string,
-  size: PropTypes.oneOf(['xxl', 'xl', 'l', 'm', 's', 'xs']),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(['s', 'm', 'l']),
+    PropTypes.number
+  ]),
   shape: Div.propTypes.shape,
-  status: PropTypes.oneOf(['online', 'away']),
+  status: PropTypes.oneOfType([
+    PropTypes.oneOf(['online', 'away']),
+    PropTypes.string
+  ]),
   children: PropTypes.string,
   disabled: Div.propTypes.disabled,
   onPress: Div.propTypes.onPress

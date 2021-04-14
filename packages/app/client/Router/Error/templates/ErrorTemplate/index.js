@@ -1,22 +1,22 @@
 import React from 'react'
-import { Linking } from 'react-native'
+import { Linking, Text, TouchableOpacity, View } from 'react-native'
 import { observer, emit } from 'startupjs'
-import { Card, H3, H5, Span, Button, Div } from '@startupjs/ui'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 export default observer(function ErrorTemplate ({ title, description, supportEmail }) {
   return pug`
-    Div.root
-      Card.card
+    View.root
+      View.card
         if title
-          H3.info= title
+          Text.info= title
         if description
-          H5= description
+          Text.text.description= description
         if supportEmail
-          Span If you think it's a mistake, please contact support
-            Span.email(onPress=() => Linking.openURL('mailto:' + supportEmail))= ' ' + supportEmail
-            Span .
-        Button.backButton(icon=faArrowLeft onPress=() => emit('error')) Go back
+          Text.text.span If you think it's a mistake, please contact support
+            Text= ' '
+            Text.email(onPress=() => Linking.openURL('mailto:' + supportEmail))= supportEmail
+            Text.text .
+        TouchableOpacity.backButton(onPress=() => emit('error'))
+          Text.text.label ◀︎  Go back
   `
 })

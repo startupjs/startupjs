@@ -36,14 +36,17 @@ function Button ({
   const isMountedRef = useIsMountedRef()
   const [asyncActive, setAsyncActive] = useState(false)
 
-  function _onPress (event) {
+  async function _onPress (event) {
+    let resolved = false
     const promise = onPress(event)
     if (!(promise && promise.then)) return
-    promise.then(() => {
-      if (!isMountedRef.current) return
-      setAsyncActive(false)
-    })
+    promise.then(() => { resolved = true })
+    await new Promise((resolve, reject) => setTimeout(resolve, 0))
+    if (resolved) return
     setAsyncActive(true)
+    await promise
+    if (!isMountedRef.current) return
+    setAsyncActive(false)
   }
 
   if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
@@ -80,10 +83,6 @@ function Button ({
     case 'text':
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
-      break
-    case 'shadowed':
-      rootStyle.backgroundColor = colors.white
-      rootExtraProps.level = 2
       break
   }
 
@@ -147,7 +146,7 @@ function Button ({
             icon=icon
             size=size
           )
-      if children
+      if children != null
         Span.label(
           style=[textStyle]
           styleName=[size, {'invisible': asyncActive}]
@@ -169,7 +168,7 @@ Button.propTypes = {
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   color: PropTypes.oneOf(Object.keys(colors)),
   children: PropTypes.node,
-  variant: PropTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
+  variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

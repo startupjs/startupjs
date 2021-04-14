@@ -82,4 +82,3 @@ Alternative approach (using regular model.query)
 
 ## MIT License
 Copyright (c) 2018 by Artur Zayats
-

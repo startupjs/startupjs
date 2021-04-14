@@ -13,6 +13,7 @@ export default observer(function ObjectInput ({
   $value,
   value,
   label,
+  errors = {},
   properties,
   order
 }) {
@@ -30,6 +31,7 @@ export default observer(function ObjectInput ({
   function getInputs () {
     return order.map((key, index) => {
       const { input, type, dependsOn, dependsValue, ...inputProps } = properties[key] || {}
+
       if (resolvesDeps(value, dependsOn, dependsValue)) {
         return {
           ...inputProps,
@@ -72,6 +74,7 @@ export default observer(function ObjectInput ({
         key=key
         style=style
         styleName={ pushTop: index !== 0 }
+        error=errors[key]
       )
   `)
 })

@@ -2,7 +2,7 @@ import { finishAuth, linkAccount } from '@startupjs/auth/server'
 import passport from 'passport'
 
 export default function loginWebCallback (req, res, next, config) {
-  const { successRedirectUrl, onBeforeLoginHook } = config
+  const { onBeforeLoginHook } = config
 
   passport.authenticate('apple', async function (err, provider) {
     if (err) {
@@ -15,8 +15,8 @@ export default function loginWebCallback (req, res, next, config) {
       const response = await linkAccount(req, provider)
       return res.send(response)
     } else {
-      const userId = await provider.findOrCreateUser()
-      finishAuth(req, res, { userId, successRedirectUrl, onBeforeLoginHook })
+      const userId = await provider.findOrCreateUser({ req })
+      finishAuth(req, res, { userId, onBeforeLoginHook })
     }
   })(req, res, next)
 }

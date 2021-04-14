@@ -7,7 +7,14 @@
 yarn add @startupjs/app
 ```
 
-## Installation
+## Requirements
+
+```
+react: 16.9 - 17
+react-native: >= 0.61.4 < 0.64.0
+react-native-restart: >= 0.0.22
+startupjs: >= 0.33.0
+```
 
 ### Critical Version
 
@@ -43,11 +50,12 @@ import {
 import { useHistory } from 'react-router-native'
 
 
-  const CustomError = () => {
+  const CustomError = ({ error, supportEmail }) => {
     const history = useHistory()
     return(
       <Div>
-        <Span>404 Error</Span>
+        <Span>{error.code} Error</Span>
+        <Span>{error.message}</Span>
         <Button onPress={() => history.goBack()}>Go back</Button>
       </Div>
     )
@@ -86,7 +94,11 @@ You can change the error page to your own by passing an object of the following 
 - `ERROR_KEY (Component)`: specific page for `ERROR_KEY`
 - `default (Component)`: the page that will be used when there is no specific page for the `ERROR_KEY`
 
-To show an error page, use `emit('error', ERROR_KEY)`, where `ERROR_KEY` is the unique identifier of the error.
+Component will invoke with next props:
+- `supportEmail`: supportEmail from <App>
+- `error`: The entity of throwed error (object `{code, message}`)
+
+To show an error page, use `emit('error', { ERROR_KEY, message })`, where `ERROR_KEY` is the unique identifier of the error.
 To hide an error page when the error occurred, use `emit('error')` (it is equivalent to `emit('error', '')`).
 
 ```js

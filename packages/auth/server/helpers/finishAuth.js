@@ -1,12 +1,11 @@
 export default async function finishAuth (req, res, {
   userId,
-  successRedirectUrl,
   onBeforeLoginHook,
   onAfterLoginHook
 }) {
   onBeforeLoginHook({ userId }, req, res, () => {
-    const redirectUrl = req.session.redirectUrl || successRedirectUrl || '/'
-    delete req.session.redirectUrl
+    const authRedirectUrl = req.cookies.authRedirectUrl || '/'
+    res.clearCookie('authRedirectUrl')
 
     req.login(userId, async function (err) {
       if (err) {
@@ -22,7 +21,7 @@ export default async function finishAuth (req, res, {
         }
       }
 
-      res.redirect(redirectUrl)
+      res.redirect(authRedirectUrl)
     })
   })
 }

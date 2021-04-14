@@ -25,7 +25,7 @@ export default class BaseProvider {
     }
   }
 
-  async findOrCreateUser () {
+  async findOrCreateUser ({ req }) {
     const { $root } = this
 
     const providerName = this.getProviderName()
@@ -44,14 +44,14 @@ export default class BaseProvider {
         )
       }
     } else {
-      userId = await this.createUser()
+      userId = await this.createUser({ req })
     }
 
     $auths.unfetch()
     return userId
   }
 
-  async createUser () {
+  async createUser ({ req }) {
     const { $root } = this
     const userId = $root.id()
 
@@ -62,7 +62,7 @@ export default class BaseProvider {
     }
 
     // Extend base collection of user fields with custom data in overrided parseUserCreationData hook
-    const parseUserCreationDataRes = this.options.parseUserCreationData({ ...userFields })
+    const parseUserCreationDataRes = this.options.parseUserCreationData({ ...userFields }, req)
     // Check if returned promise
     const parsedUserFields = parseUserCreationDataRes.then ? await parseUserCreationDataRes : parseUserCreationDataRes
 
@@ -80,7 +80,7 @@ export default class BaseProvider {
 
     await $root.addAsync('auths', authData)
 
-    const hookRes = this.options.onAfterUserCreationHook(userId)
+    const hookRes = this.options.onAfterUserCreationHook({ userId }, req)
     // Check if returned promise
     hookRes && hookRes.then && await hookRes
 

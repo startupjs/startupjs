@@ -96,7 +96,7 @@ ObservedTextInput.defaultProps = {
   readonly: false,
   resize: false,
   editable: Input.defaultProps.editable,
-  numberOfLines: 1,
+  numberOfLines: Input.defaultProps.numberOfLines,
   iconPosition: 'left'
 }
 

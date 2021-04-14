@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Platform } from 'react-native'
-import { $root } from 'startupjs'
+import { Image, Platform } from 'react-native'
 import {
   Div,
   H2,
@@ -13,11 +12,13 @@ import {
   Link,
   Icon
 } from '@startupjs/ui'
+import { Anchor } from '@startupjs/scrollable-anchors'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
+import _kebabCase from 'lodash/kebabCase'
+import _get from 'lodash/get'
 import './index.styl'
 import Code from '../Code'
 
-const isWeb = Platform.OS === 'web'
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
 
@@ -36,53 +37,29 @@ function P ({ children }) {
   `
 }
 
-function Anchor ({
-  style,
+function getTextChildren (children) {
+  const nestedChildren = _get(children, 'props.children')
+  if (nestedChildren) {
+    return getTextChildren(nestedChildren)
+  }
+
+  return children
+}
+
+function MDXAnchor ({
   children,
+  style,
   anchor,
   size
 }) {
-  if (!isWeb) {
-    return pug`
-      Div(style=style)= children
-    `
-  }
-
-  /// HACK TODO
-  /// This is a hack that fixes invalid URLs for anchors.
-  /// Remove this hack when there is a mdxComponent refactor.
-  const getChildrenOfAnchor = obj => {
-    const getProp = o => {
-      for (let prop in o) {
-        if (prop === 'props') {
-          if (typeof (o[prop].children) === 'object') {
-            getProp(o[prop].children)
-          } else {
-            anchor = o[prop].children
-          }
-        }
-      }
-    }
-
-    if (Array.isArray(obj)) {
-      obj = obj[0]
-    }
-
-    getProp(obj)
-  }
-
-  if (typeof anchor === 'object') {
-    getChildrenOfAnchor(anchor)
-  }
-
   const [hover, setHover] = useState()
+  const anchorKebab = _kebabCase(anchor)
 
   return pug`
-    Row.anchor(
+    Anchor.anchor(
       style=style
-      onLayout=(e) => {
-        $root.set('_session.anchors.' + anchor, e.nativeEvent.layout.y)
-      }
+      id=anchorKebab
+      Component=Row
       vAlign='center'
       onMouseEnter=() => setHover(true)
       onMouseLeave=() => setHover()
@@ -90,7 +67,7 @@ function Anchor ({
       = children
       Link.anchor-link(
         styleName={ hover }
-        to='#' + anchor
+        to='#' + anchorKebab
       )
         Icon(icon=faLink size=size)
   `
@@ -104,20 +81,28 @@ export default {
     Div.example= children
   `,
   h1: ({ children }) => pug`
-    Anchor(anchor=children size='xl')
+    MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
         = children
   `,
   h2: ({ children }) => pug`
-    Anchor.h2(anchor=children)
+    MDXAnchor.h2(anchor=getTextChildren(children))
       H5.h2-text= children
     Div.divider
   `,
   h3: ({ children }) => pug`
-    Anchor.h6(anchor=children size='s')
+    MDXAnchor.h6(anchor=getTextChildren(children) size='s')
       H6(bold)= children
   `,
-  p: P,
+  p: ({ children }) => {
+    // TODO: HACK: Image does not work as need in Text on Android and IOS.
+    // Check after the release of react-native v0.64 with this commit
+    // https://github.com/facebook/react-native/commit/a0268a7bfc8000b5297d2b50f81e000d1f479c76
+    if (children?.props?.mdxType === 'img') return children
+    return pug`
+      P= children
+    `
+  },
   strong: ({ children }) => pug`
     Span.p(bold)= children
   `,
@@ -133,11 +118,12 @@ export default {
     `
   },
   inlineCode: ({ children }) => pug`
-    Span.inlineCode(
-      style={
+    Span.inlineCodeWrapper
+      Span.inlineCodeSpacer= ' '
+      Span.inlineCode(style={
         fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-      }
-    )= ' ' + children + ' '
+      })= children
+      Span.inlineCodeSpacer= ' '
   `,
   hr: ({ children }) => pug`
     Divider(size='l')
@@ -189,5 +175,32 @@ export default {
       Link.link(to=href size='l' color='primary')= children
     `
   },
-  img: P
+  img: ({ src }) => {
+    const [style, setStyle] = useState({})
+
+    const isUrl = /^(http|https):\/\//.test(src)
+
+    if (!isUrl) {
+      console.warn('[@startupjs/mdx] Need to provide the url for the image')
+      return null
+    }
+
+    function onLayout (e) {
+      const maxWidth = e.nativeEvent.layout.width
+      Image.getSize(src, (width, height) => {
+        const coefficient = maxWidth / width
+        setStyle({
+          width: Math.min(width, maxWidth),
+          height: coefficient < 1 ? Math.ceil(height * coefficient) : height
+        })
+      },
+      error => console.warn(`[@startupjs/mdx], ${error}`)
+      )
+    }
+
+    return pug`
+      Row.p(onLayout=onLayout)
+        Image(style=style source={ uri: src })
+    `
+  }
 }

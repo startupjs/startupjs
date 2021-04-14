@@ -1,0 +1,180 @@
+# StartupJS plugins web
+
+## Включение поддержки плагинов в пакет
+
+В главном файле пакета необходимо поключить компонент `PluginsProvider` который будет предоставлять плагины ниже по дереву компонетов. Он принимает свойства:
+
+- `name` - имя для обозначения скоупа (можно применить название пакета), будет использовано при глобальной инициализации;
+- `plugins` - объект с опциями для плагинов пакета.
+
+`RootComponent.js`
+
+```jsx
+import { PluginsProvider } from '@startupjs/plugin'
+import { ExampleComponent } from './ExampleComponent'
+import { name as packageName } from '../package.json'
+
+export default function RootComponent ({
+  plugins,
+  ...props
+}) {
+  return pug`
+    PluginsProvider(
+      name=packageName
+      plugins=plugins
+    )
+      ExampleComponent(...props)
+  `
+}
+```
+
+Ниже по дереву компонентов мы можем использовать компоненты `Slot`, в которых будут отрендерены компоненты из рендер-плагинов, свойство компонента `name` соответствует ключу объекта который вернет плагин при вызове.
+А также можно получить хук-плагины и вызвать их в нужном месте с дефолтными или кастомными опциями.
+
+`ExampleComponent.js`
+
+```jsx
+import { Slot, usePluginHook } from '@startupjs/plugin'
+
+export function ExampleComponent () {
+  const [user] = useSession('user')
+  const pluginHook = usePluginHook()
+
+  useEffect(() => {
+    // Первый аргумент имя хука, последующие - параметры которые он должен принять
+    pluginHook('getMessage', {
+      title,
+      message,
+      username: user.name
+    })
+  }, [])
+
+  /*
+    Обязательный проп в Slot - name, он определяет в какой компонент оборачиваться
+    Но так же можно передать любые другие пропсы, для динамического использования
+  */
+  return pug`
+    Div
+      Span SideLeft
+    Slot(name='WrapperPlugin' isAdmin=true)
+    Div
+      Span SideRight
+  `
+}
+
+```
+
+---
+
+## Создание плагина
+
+Объект со свойствами:
+
+- `name` - имя плагина, должно быть уникальным в пределах пакета;
+- `defaultOptions` - опции которые задаются внутри плагина.
+
+`renderPlugin.js`
+
+```jsx
+export default {
+  name: 'smile',
+  defaultOptions: {
+    icon: {
+      icon: 'laugh',
+      style: { color: 'orange' }
+    }
+  },
+  WrapperPlugin: observer(({
+    children,
+    options,
+    /*
+      Получает конечные options, которые формируются из defaultOptions плагина,
+      defaultOptions из функции registerPlugins и кастомных options пакета
+    */
+    isAdmin
+  }) => {
+    if (!isAdmin) return children
+    return pug`
+      Card
+        = children
+        Icon(...options.icon)
+    `
+  })
+}
+```
+
+`hookPlugin.js`
+
+```jsx
+export default {
+  name: 'message',
+  defaultOptions: {
+    username: 'Ghost'
+  },
+  getMessage({ title, message, username }) {
+    console.log(`
+      ${title}
+      Hello, ${username || this.options.username}
+      /*
+        Получает конечные options в this, которые формируются из defaultOptions плагина,
+        defaultOptions из функции registerPlugins и кастомных options пакета
+      */
+      ${message}
+    `)
+  }
+}
+```
+
+---
+
+### Инит плагинов
+
+В `Root/index.js` вызвать `registerPlugins`, после импортов и до компонента:
+
+```jsx
+import { registerPlugins } from '@startupjs/plugin'
+import smilePlugin from 'smilePlugin.js'
+import hookPlugin from 'hookPlugin.js'
+
+registerPlugins({
+  '@startupjs/packageName': [
+    smilePlugin,
+    [hookPlugin, {
+      defaultEnable: true,
+      defaultOptions: {
+        username = 'Jack Daniels'
+      }
+    }]
+  ]
+})
+
+// your Root component
+```
+
+В `registerPlugins` передается объект, ключи объекта - названия библиотек/компонентов в которых есть поддержка плагинов (используется с `PluginsProvider`), значения - массивы с плагинами для них.
+
+Можно передать просто плагин или массив с плагином и свойствами:
+- `defaultEnable` - если передать со значением `true` плагин будет автоматически применен со своей библиотекой по всему приложению;
+- `defaultOptions` - опции для плагина, которые будут переданы в плагин для применения по умолчанию,
+
+### Применение на экзампляре компонента из пакета
+
+На каждом экземпляре компонента можно модифицировать плагины отдельно.
+Если плагин при инициализации был определен с ключом `defaultEnable: true`, его можно отключить передав в ключ по имени плагина `false`.
+Если плагин не был при инициализации определен с ключом `defaultEnable: true`, его можнов включить передав в свойство объект с опциями для вызова плагина или просто `true` если надо использовать `defaultOptions`.
+
+```jsx
+import Component from 'package'
+
+Component(
+  plugins={
+    [smilePlugin.name]: {
+      icon: {
+        icon: 'angry',
+        style: { color: 'red' }
+      }
+    },
+    [messagePlugin.name]: false
+  }
+)
+```

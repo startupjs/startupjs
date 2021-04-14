@@ -7,6 +7,7 @@ class Schema {
     const { schemas, validators = {}, formats = {} } = options
 
     this.backend = backend
+    this.model = backend.createModel()
     this.options = options
     this.schemas = schemas
     this.customValidators = validators
@@ -21,6 +22,7 @@ class Schema {
   commitHandler = async (shareRequest, done) => {
     const {
       snapshot: { data: newDoc },
+      id: docId,
       collection,
       op: opData
     } = shareRequest
@@ -35,7 +37,15 @@ class Schema {
       return done(err)
     }
 
-    const rootSchema = this.schemas[collection]
+    let rootSchema = this.schemas[collection]
+
+    if (rootSchema.factory) {
+      const $doc = this.model._scope(`${collection}.${docId}`)
+      await $doc.subscribe()
+      // get model from factory like in @startupjs/orm: https://github.com/startupjs/startupjs/blob/master/packages/orm/lib/index.js#L77
+      const factoryModel = rootSchema($doc, this.model)
+      rootSchema = { type: 'object', properties: factoryModel.constructor.schema }
+    }
 
     if (!rootSchema) {
       // throw error if current collenction have no schema
@@ -96,7 +106,7 @@ class Schema {
       op: opData
     } = shareRequest
 
-    this.validator.validate(snapshotData, this.schemas[collectionName])
+    this.validator.validate(snapshotData, schema)
     const _errors = this.validator.getLastErrors()
 
     if (_errors && _errors.length) {

@@ -26,6 +26,7 @@ function initNconf (dirname) {
   else if (stage) addNconfFile(nconf, stage)
   else if (app) addNconfFile(nconf, app)
 
+  nconf.file('private', dirname + '/config.private.json')
   nconf.defaults(require(dirname + '/config.json'))
 
   // Copy REDIS_URL into env if present (it'll be used by redis-url module)
