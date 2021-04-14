@@ -1,17 +1,68 @@
+const fs = require('fs')
+const path = require('path')
+const packageJson = require('./package.json')
+const moduleLocation = require.resolve(packageJson.name)
+
 const T_FUNCTION_NAME = 't'
 const LIBRARY_NAME = 'startupjs'
+const FILENAME = 'translations.json'
 
-module.exports = function (babel) {
+module.exports = function (babel, opts) {
   const t = babel.types
   let skip
   let tFunctionName
   let $program
+  let keys
 
   return {
     pre () {
       skip = true
       tFunctionName = undefined
       $program = undefined
+      keys = {}
+    },
+    post (state) {
+      let { cwd, filename } = state.opts
+      const isTestEnv = process.env.NODE_ENV === 'test'
+
+      // workaround for tests
+      if (!filename && isTestEnv) {
+        filename = this.opts.filename
+      }
+
+      if (!filename) return
+
+      const key = filename
+        // HACK
+        // for linked packages in node_modules the state.opts.filename return
+        // linked path instead of path to node_modules
+        // we need this path to be correct to replace cwd
+        .replace('startupjs/packages', 'styleguide/node_modules')
+        .replace(cwd, '')
+
+      let fileContent
+      const filePath = path.join(path.dirname(moduleLocation), FILENAME)
+
+      try {
+        fileContent = JSON.parse(
+          fs.readFileSync(filePath, { encoding: 'utf8' })
+        )
+      } catch (err) {
+        fileContent = {}
+      }
+
+      if (!Object.keys(keys).length) {
+        if (fileContent[key]) delete fileContent[key]
+        return
+      }
+
+      fileContent[key] = keys
+
+      fs.writeFileSync(
+        filePath,
+        JSON.stringify(fileContent),
+        { encoding: 'utf8' }
+      )
     },
     visitor: {
       Program: ($this) => {
@@ -25,7 +76,7 @@ module.exports = function (babel) {
           skip = false
         }
       },
-      CallExpression: ($this, state) => {
+      CallExpression: ($this) => {
         if (skip) return
 
         const tFunctionBinding = $this.scope.getBinding(tFunctionName)
@@ -54,13 +105,6 @@ module.exports = function (babel) {
           )
         }
 
-        if (!keyNode.value) {
-          throw new Error(
-            '[@startupjs/babel-plugin-i18n-extract]: ' +
-            `Argument 'key' of ${tFunctionName} cannot be an empty string`
-          )
-        }
-
         if (!t.isStringLiteral(defaultValueNode)) {
           throw new Error(
             '[@startupjs/babel-plugin-i18n-extract]: ' +
@@ -68,26 +112,24 @@ module.exports = function (babel) {
           )
         }
 
-        if (!defaultValueNode.value) {
+        const key = keyNode.value
+        const defaultValue = defaultValueNode.value
+
+        if (!key) {
+          throw new Error(
+            '[@startupjs/babel-plugin-i18n-extract]: ' +
+            `Argument 'key' of ${tFunctionName} cannot be an empty string`
+          )
+        }
+
+        if (!defaultValue) {
           throw new Error(
             '[@startupjs/babel-plugin-i18n-extract]: ' +
             `Argument 'defaultValue' of ${tFunctionName} cannot be an empty string`
           )
         }
 
-        console.log($this)
-        // content = fs.readFileSync(filePath, { encoding: 'utf8' });
-        // fs.writeFileSync(
-        //   filePath,
-        //   exporter.stringify({
-        //     config,
-        //     file: translationFile,
-        //   }),
-        //   {
-        //     encoding: 'utf8',
-        //   },
-        // );
-        // keyNode.value
+        keys[key] = defaultValue
       }
     }
   }

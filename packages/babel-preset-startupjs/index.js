@@ -46,6 +46,10 @@ const dotenvPlugin = ({ production, mockBaseUrl, envName = APP_ENV } = {}) => {
   return [require('@startupjs/babel-plugin-dotenv'), options]
 }
 
+const i18nPlugin = () => {
+  return [require('@startupjs/babel-plugin-i18n-extract')]
+}
+
 const webReactCssModulesPlugin = ({ production } = {}) =>
   [require('@startupjs/babel-plugin-react-css-modules'), {
     handleMissingStyleName: 'ignore',
@@ -113,7 +117,8 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' })
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
+    i18nPlugin()
   ]
 }
 
@@ -163,7 +168,8 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin()
+    webPassClassnamePlugin(),
+    i18nPlugin()
   ]
 }
 

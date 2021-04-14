@@ -1,9 +1,9 @@
 export default function (components = {}) {
   return [
     {
-      path: '/internalization/:tab?',
+      path: '/internationalization/:tab?',
       exact: true,
-      component: components.PInternalization
+      component: components.PInternationalization
     }
   ]
 }

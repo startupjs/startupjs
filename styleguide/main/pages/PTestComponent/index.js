@@ -1,10 +1,12 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native'
-import { observer, useLocal } from 'startupjs'
+import { t, observer, useLocal } from 'startupjs'
 import { Content } from '@startupjs/ui'
 import * as testComponents from './testComponents'
 
 function PTestComponent () {
+  t('key', 'value')
+  t('key1', 'value1')
   const [componentName] = useLocal('$render.params.componentName')
   const Component = testComponents[componentName]
 

@@ -21,9 +21,10 @@ import {
 import orm from '../model'
 
 // Frontend micro-services
-import * as main from '../main'
-import docs from '../docs'
 import auth from '../auth'
+import docs from '../docs'
+import i18n, { useI18nGlobalInit } from '../i18n'
+import * as main from '../main'
 
 if (Platform.OS === 'web') window.model = model
 
@@ -42,12 +43,13 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ main, docs, auth }
+      apps={ auth, docs, i18n, main }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
         web: CRITICAL_VERSION_WEB
       }
+      useGlobalInit=useI18nGlobalInit
       supportEmail=SUPPORT_EMAIL
       androidUpdateLink=UPDATE_LINK_ANDROID
       iosUpdateLink=UPDATE_LINK_IOS

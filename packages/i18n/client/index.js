@@ -1,11 +1,3 @@
-import { routes, Layout as DefaultLayout } from './app'
-import { initConfig } from './config'
-
-export default function initOrgs (config, Layout) {
-  initConfig(config)
-
-  return {
-    routes,
-    Layout: Layout || DefaultLayout
-  }
-}
+export { default as initI18n } from './init'
+export { default as t } from './t'
+export { default as useI18nGlobalInit } from './useGlobalInit'

@@ -21,22 +21,19 @@ Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments pas
 exports[`@startupjs/babel-plugin-i18n-extract Call with custom name: Call with custom name 1`] = `
 
 import { observer, t as myT } from 'startupjs'
+const key = 'key'
 
 export default observer(function App () {
   return (
     <span>
-      {myT('key', 'defaultValue')}
+      {myT(key, 'defaultValue')}
     </span>
   )
 })
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { observer, t as myT } from "startupjs";
-export default observer(function App() {
-  return <span>{myT("key", "defaultValue")}</span>;
-});
-
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'key' of myT should be a string literal
 
 `;
 
@@ -119,10 +116,8 @@ export default observer(function App() {
 exports[`@startupjs/babel-plugin-i18n-extract Ignore if not import: Ignore if not import 1`] = `
 
 import { observer } from 'startupjs'
-
 export default observer(function App () {
   const t = useTranslation()
-
   return (
     <span>
       {t('key', 'defaultValue')}
@@ -144,10 +139,8 @@ export default observer(function App() {
 exports[`@startupjs/babel-plugin-i18n-extract Ignore if not used import with custom name: Ignore if not used import with custom name 1`] = `
 
 import { observer, t as myT } from 'startupjs'
-
 export default observer(function App () {
   const t = useTranslation()
-
   return (
     <span>
       {t('key', 'defaultValue')}
@@ -169,10 +162,8 @@ export default observer(function App() {
 exports[`@startupjs/babel-plugin-i18n-extract Ignore shadowing: Ignore shadowing 1`] = `
 
 import { observer, t } from 'startupjs'
-
 export default observer(function App () {
   const t = useTranslation()
-
   return (
     <span>
       {t('key', 'defaultValue')}

@@ -10,6 +10,10 @@ pluginTester({
   babelOptions: {
     plugins: ['@babel/plugin-syntax-jsx']
   },
+  // since the filename is empty when we pass the 'code' to test object
+  // then we could use fixtures
+  // but we can't use fixtures because of this bug https://github.com/babel-utils/babel-plugin-tester/issues/74
+  // so as a workaround just pass the filename in the plugin options
   tests: [
     {
       title: 'Call without arguments',
@@ -104,7 +108,26 @@ pluginTester({
       `
     },
     {
+      title: 'Call with custom name',
+      error: true,
+      code: `
+        import { observer, t as myT } from 'startupjs'
+        const key = 'key'
+
+        export default observer(function App () {
+          return (
+            <span>
+              {myT(key, 'defaultValue')}
+            </span>
+          )
+        })
+      `
+    },
+    {
       title: 'Correct call',
+      pluginOptions: {
+        filename: 'correct.js'
+      },
       code: `
         import { observer, t } from 'startupjs'
 
@@ -118,27 +141,11 @@ pluginTester({
       `
     },
     {
-      title: 'Call with custom name',
-      code: `
-        import { observer, t as myT } from 'startupjs'
-
-        export default observer(function App () {
-          return (
-            <span>
-              {myT('key', 'defaultValue')}
-            </span>
-          )
-        })
-      `
-    },
-    {
       title: 'Ignore if not import',
       code: `
         import { observer } from 'startupjs'
-
         export default observer(function App () {
           const t = useTranslation()
-
           return (
             <span>
               {t('key', 'defaultValue')}
@@ -151,10 +158,8 @@ pluginTester({
       title: 'Ignore shadowing',
       code: `
         import { observer, t } from 'startupjs'
-
         export default observer(function App () {
           const t = useTranslation()
-
           return (
             <span>
               {t('key', 'defaultValue')}
@@ -167,10 +172,8 @@ pluginTester({
       title: 'Ignore if not used import with custom name',
       code: `
         import { observer, t as myT } from 'startupjs'
-
         export default observer(function App () {
           const t = useTranslation()
-
           return (
             <span>
               {t('key', 'defaultValue')}

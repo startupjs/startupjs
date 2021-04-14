@@ -6,3 +6,4 @@ export * from '@startupjs/isomorphic-helpers'
 // dummy babel macro functions for @startupjs/babel-plugin-rn-stylename-inline
 export function css () {}
 export function styl () {}
+export function t () {}
