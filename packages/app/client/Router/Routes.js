@@ -1,5 +1,5 @@
-import React, { useState, useLayoutEffect } from 'react'
-import { Route, Redirect } from 'react-router'
+import React, { useState, useMemo, useEffect, useLayoutEffect } from 'react'
+import { Route, Redirect, useLocation } from 'react-router'
 import {
   $root,
   observer,
@@ -10,11 +10,25 @@ import omit from 'lodash/omit'
 import qs from 'qs'
 import RoutesWrapper from './RoutesWrapper'
 
+let isLoadApp = false
+
 export default observer(function Routes ({
   routes,
   onRouteError,
   ...props
 }) {
+  const location = useLocation()
+  const currentUrl = location.pathname
+
+  const restoreUrl = useMemo(() => {
+    return $root.get('_session.restoreUrl')
+  }, [])
+
+  useEffect(() => {
+    $root.del('_session.restoreUrl')
+    isLoadApp = true
+  }, [])
+
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
 
@@ -39,6 +53,12 @@ export default observer(function Routes ({
     `
   })
 
+  if (!isLoadApp && restoreUrl && currentUrl !== restoreUrl) {
+    return pug`
+      Redirect(to=restoreUrl)
+    `
+  }
+
   return pug`
     RoutesWrapper(...props)= routeComponents
   `
@@ -61,7 +81,7 @@ const RouteComponent = observer(function RCComponent ({
       const filter = filters.shift()
       if (typeof filter === 'function') {
         return filter($root, runFilter, (url) => {
-          emit('url', url)
+          emit('url', url, { replace: true })
         })
       }
       setRender(true)

@@ -1,0 +1,114 @@
+import { useState } from 'react'
+import { View, Button, StyleSheet } from 'react-native'
+import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../client'
+
+# 2fa
+> Компонент двухфакторной авторизации
+
+## Необходимые зависимости
+  `@startupjs/auth`
+
+## Уcтановка
+
+```js
+  yarn add @startupjs/2fa
+```
+
+## Подключение к startupjs
+
+### server
+
+В `server/index.js` добавить следующие строки:
+```js
+  import { init2fa } from '@startupjs/2fa/server'
+  import app from '../app.json'
+```
+
+В `startupjsServer` функцию добавить:
+```js
+  init2fa(ee, { appName: app.name })
+```
+
+## !!! ВАЖНО !!!
+Для использования примера необходимо [авторизоваться](/auth/sign-in).
+
+### Пример
+```js
+  import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa'
+```
+
+```jsx example
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      alignItems: 'center'
+    },
+    row: {
+      minWidth: 320,
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    },
+    qr: {
+      width: 100,
+      height: 100,
+      marginVertical: 24
+    }
+  })
+
+  const [secret, setSecret] = useState({})
+
+  async function onCreateSecret () {
+    const secret = await createSecret()
+    setSecret(secret)
+  }
+
+  async function onGetSecret () {
+    try {
+      const secret = await getSecret()
+      secret && setSecret(secret)
+    } catch (err) {
+      console.log('err: ', err)
+    }
+  }
+
+  return (
+    <View style={styles.root}>
+      <View style={styles.row}>
+        <Button
+          style={styles.button}
+          title="Create secret"
+          onPress={onCreateSecret}
+        />
+        <Button
+          style={styles.button}
+          title="Get created secret"
+          onPress={onGetSecret}
+        />
+      </View>
+      {secret.QRDataURL && <QRSecret style={styles.qr} />}
+      {secret.QRDataURL && <CheckToken onSuccess={() => alert('Right code')} onDismiss={() => alert('Wrong code')} />}
+    </View>
+  )
+```
+
+## Функции
+
+- `createSecret` - возвращает `Promise`, который делает запрос на создание `Secret` (если секрет существует, он будет заменен новым секретом) и возвращает результат в виде `{ base32, QRDataURL }` где:
+    - `base32` - секрет
+    - `QRDataURL` - QR код, который можно использовать как изображение
+
+- `checkToken(token)` - возвращает `true` если токен валидный, в противном случае вернет `false`
+
+- `getSecret` - возвращает уже созданный секрет (если секрет не существует, выдается ошибка) в формате, как в `createSecret`.
+
+## Компоненты
+
+### QRSecret
+  Вы можете использовать этот компонент для отображения QR-кода существующего секрета. Если секрет не существует, ничего не будет показано.
+
+### CheckToken
+  Простая проверка токена. Принимает следующие пропсы:
+- `style` - стили root компонента
+- `label` - надпись над инпутом
+- `onSuccess` - коллбек при валидном токене
+- `onDismiss` - коллбек при не валидном токене

@@ -5,6 +5,7 @@ import Row from '../Row'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 import {
+  faHouseUser,
   faCheck,
   faCoffee
 } from '@fortawesome/free-solid-svg-icons'
@@ -24,7 +25,7 @@ import { Button } from '@startupjs/ui'
 const [counter, setCounter] = useState(0)
 
 return (
-  <Button onPress={() => setCounter(counter + 1)}>
+  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} color='primary' variant='flat'>
     Clicked {counter} times
   </Button>
 )

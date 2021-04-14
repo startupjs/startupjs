@@ -1,13 +1,21 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
-import { faSortNumericUpAlt, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
+import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import twoFADocs from '../../packages/2fa/docs'
 import AuthMain from '../../packages/auth/readme.md'
-import AuthLocal from '../../packages/auth-local/readme.md'
+import AuthApple from '../../packages/auth-apple/readme.md'
+import AuthAzuread from '../../packages/auth-azuread/readme.md'
+import AuthCommon from '../../packages/auth-common/readme.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
-import AuthAzuread from '../../packages/auth-azuread/readme.md'
-import AuthCommon from '../../packages/auth-common/readme.md'
+import AuthLocal from '../../packages/auth-local/readme.md'
+import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
+import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
+import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
+import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
+import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -40,10 +48,20 @@ export default docs({
         title: 'Главный модуль',
         component: AuthMain
       },
-      local: {
+      apple: {
         type: 'mdx',
-        title: 'Локальная',
-        component: AuthLocal
+        title: 'Apple',
+        component: AuthApple
+      },
+      azuread: {
+        type: 'mdx',
+        title: 'Azure AD',
+        component: AuthAzuread
+      },
+      common: {
+        type: 'mdx',
+        title: 'Общая',
+        component: AuthCommon
       },
       facebook: {
         type: 'mdx',
@@ -60,15 +78,54 @@ export default docs({
         title: 'Linkedin',
         component: AuthLinkedin
       },
-      azuread: {
+      local: {
         type: 'mdx',
-        title: 'Azure AD',
-        component: AuthAzuread
+        title: 'Локальная',
+        component: AuthLocal
+      }
+    }
+  },
+  libraries: {
+    type: 'collapse',
+    title: {
+      en: 'Libraries',
+      ru: 'Библиотеки'
+    },
+    icon: faLayerGroup,
+    items: {
+      anchors: {
+        type: 'mdx',
+        title: {
+          en: 'Scrollable anchors',
+          ru: 'Якоря с прокрутой'
+        },
+        component: {
+          en: ScrollableAnchorsEn,
+          ru: ScrollableAnchorsRu
+        }
       },
-      common: {
+      ...twoFADocs,
+      plugins: {
         type: 'mdx',
-        title: 'Общая',
-        component: AuthCommon
+        title: {
+          en: 'Plugins',
+          ru: 'Плагины'
+        },
+        component: {
+          en: PluginEn,
+          ru: PluginRu
+        }
+      },
+      recaptcha: {
+        type: 'mdx',
+        title: {
+          en: 'reCaptcha',
+          ru: 'Капча'
+        },
+        component: {
+          en: RecaptchaEn,
+          ru: RecaptchaRu
+        }
       }
     }
   },

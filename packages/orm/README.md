@@ -8,16 +8,22 @@ Lets you automatically override your scope models
 
 ## Usage
 
-Add the plugin:
+StartupJS project has the ORM plugin enabled by default,
+so you don't need to do any initialization and can just start adding new ORM entities.
+
+If you are using this package standalone, you'll need to add the orm plugin manually:
 
 ```js
 import Racer from 'racer'
-import racerOrm from 'racer-orm'
+import racerOrm from '@startupjs/orm'
 Racer.use(racerOrm)
 ```
 
 Then start adding the ORM entities to your model.
-Each ORM Entity must be inherited from `Model.ChildModel`.
+Each ORM Entity must be inherited from either:
+
+- `Model.ChildModel` from `racer` package.
+- or **recommended** `BaseModel` from `startupjs/orm` package. This one has additional helper methods like `.getId` and `.getCollection` and can also use ActionRecord-like associations.
 
 ```js
 
@@ -201,7 +207,7 @@ Is similar to `hasOne`, but indicates a one-to-many association with another ORM
 * any other custom properties
 
 ```js
-import { BaseModel, hasMany, hasOne, belongsTo } from 'startupjs/orm'
+import { BaseModel, hasMany } from 'startupjs/orm'
 import GamesModel from './GamesModel'
 import GameModel from './GameModel'
 import PlayerModel from './PlayerModel'

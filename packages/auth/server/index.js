@@ -4,6 +4,5 @@ export { finishAuth, loginLock, linkAccount } from './helpers'
 export {
   ensureAuthState,
   loginLockChecker,
-  parseRedirectUrl,
   isLoggedIn
 } from './middlewares'

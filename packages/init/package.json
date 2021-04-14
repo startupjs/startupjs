@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/init",
   "type": "module",
-  "version": "0.31.0",
+  "version": "0.34.0",
   "engines": {
     "node": ">= 14"
   },
@@ -13,8 +13,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/react-sharedb": "^0.31.0",
-    "racer": "0.9.15",
+    "@startupjs/react-sharedb": "^0.34.0",
+    "racer": "1.0.0",
     "rich-text": "^4.0.0",
     "sharedb": "^1.0.0"
   },

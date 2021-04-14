@@ -17,8 +17,17 @@
 
 It's recommended to just use `startupjs` package, since it proxies the API of `@startupjs/react-sharedb`.
 
+You don't need to install anything if you are in a StartupJS project.
+
+### using `react-sharedb` in a pure React project
+
+If you want to use `react-sharedb` separately from StartupJS in a pure React project, refer to the following [issue](https://github.com/startupjs/startupjs/issues/529). You'll also need to manually setup the `sharedb` on your server following its [readme](https://github.com/share/sharedb) instructions. Make sure you use the same `sharedb` and `racer` versions as used in `react-sharedb`, you can check for duplicates using `yarn list sharedb racer`.
+
+
+## Requirements
+
 ```
-yarn add startupjs
+react: 16.9 - 17
 ```
 
 ## Usage with Hooks

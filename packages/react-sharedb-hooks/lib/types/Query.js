@@ -1,6 +1,7 @@
 import Base from './Base'
 import { observable } from '@nx-js/observer-util'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
+import $root from '@startupjs/model'
 import promiseBatcher from '../hooks/promiseBatcher'
 
 const MAX_LISTENERS = 100
@@ -46,6 +47,9 @@ export default class Query extends Base {
           this._unsubscribe() // unsubscribe the old hook to prevent memory leaks
           setTimeout(resolve, 0)
         })
+      }).catch(err => {
+        console.error(err)
+        $root.emit('error', err)
       })
       if (batch) {
         promiseBatcher.add(newPromise)

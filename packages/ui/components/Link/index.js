@@ -11,6 +11,10 @@ import './index.styl'
 const isWeb = Platform.OS === 'web'
 const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/i
 
+// IDEA
+// Think about to remove Span, Div properties (variant, bold, italic, etc) and
+// to make Link more clear
+
 function Link ({
   style,
   to,
@@ -79,7 +83,7 @@ function Link ({
         // which is what the function itself does on web
         children = React.cloneElement(
           children,
-          { _preventEvent: false, onPress: handlePress }
+          { onPress: handlePress, _preventEvent: false }
         )
       }
     } catch (e) {}

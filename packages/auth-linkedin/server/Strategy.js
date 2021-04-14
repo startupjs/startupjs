@@ -44,9 +44,10 @@ export default function (config = {}) {
           callbackURL: nconf.get('BASE_URL') + CALLBACK_LINKEDIN_URL,
           profileFields: ['first-name', 'last-name', 'email-address', 'profile-picture'],
           scope: ['r_emailaddress', 'r_liteprofile'],
-          state: true
+          state: true,
+          passReqToCallback: true
         },
-        async (accessToken, refreshToken, profile, cb) => {
+        async (req, accessToken, refreshToken, profile, cb) => {
           let userId, err
           try {
             const { id, name, displayName, emails, photos } = profile
@@ -59,7 +60,7 @@ export default function (config = {}) {
             }
 
             const provider = new Provider(model, _profile, this.config)
-            userId = await provider.findOrCreateUser()
+            userId = await provider.findOrCreateUser({ req })
           } catch (e) {
             err = e
           }

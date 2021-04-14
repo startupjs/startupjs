@@ -1,6 +1,12 @@
 # startupjs bundler
 > Opinionated scripts and configs to develop a react-native-web project
 
+## Requirements
+
+```
+react-native-svg: >= 12.1.0
+```
+
 ## Usage
 
 TBD

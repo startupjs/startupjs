@@ -3,16 +3,12 @@
 ## Инициализация главного модуля
 [Настройка главного модуля](/docs/auth/main)
 
-## Установка зависимостей
-`yarn add @startupjs/auth-apple`
-`yarn add @invertase/react-native-apple-authentication`
+## Требования
 
-## Force compile
-В webpack.server.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-apple/server`
-
-В webpack.web.config.cjs -> forceCompileModules добавить:
-`@startupjs/auth-apple`
+```
+@invertase/react-native-apple-authentication: >= 2.1.0
+@startupjs/auth: >= 0.33.0
+```
 
 ## Настройка приложения
 1 - Открыть проект в xCode

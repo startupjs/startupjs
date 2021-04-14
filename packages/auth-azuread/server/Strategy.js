@@ -53,13 +53,14 @@ export default function (config = {}) {
           redirectUrl,
           scope: ['email', 'profile'],
           useCookieInsteadOfSession: true,
-          cookieEncryptionKeys
+          cookieEncryptionKeys,
+          passReqToCallback: true
         },
-        async (iss, sub, profile, accessToken, refreshToken, done) => {
+        async (req, iss, sub, profile, accessToken, refreshToken, done) => {
           let userId, err
           try {
             const provider = new Provider(model, profile, this.config)
-            userId = await provider.findOrCreateUser()
+            userId = await provider.findOrCreateUser({ req })
           } catch (e) {
             err = e
           }

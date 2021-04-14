@@ -1,5 +1,6 @@
 const ShareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
+const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const serverAggregate = require('@startupjs/server-aggregate')
 const conf = require('nconf')
@@ -106,8 +107,14 @@ module.exports = async options => {
     // eslint-disable-next-line
     new ShareDbAccess(backend, { dontUseOldDocs: true })
     for (const path in global.STARTUP_JS_ORM) {
-      const { access } = global.STARTUP_JS_ORM[path].OrmEntity
-      if (access) {
+      const ormEntity = global.STARTUP_JS_ORM[path].OrmEntity
+
+      const { access } = ormEntity
+      const isFactory = !!ormEntity.factory
+
+      if (isFactory) {
+        rigisterOrmRulesFromFactory(backend, path, ormEntity)
+      } else if (access) {
         registerOrmRules(backend, path, access)
       }
     }
@@ -148,12 +155,15 @@ module.exports = async options => {
     for (const path in global.STARTUP_JS_ORM) {
       const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
 
-      if (properties) {
+      const isFactory = !!global.STARTUP_JS_ORM[path].OrmEntity.factory
+
+      if (isFactory) {
+        schemaPerCollection.schemas[path.replace('.*', '')] = global.STARTUP_JS_ORM[path].OrmEntity
+      } else if (properties) {
         const schema = { type: 'object', properties }
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }
-
     sharedbSchema(backend, schemaPerCollection)
   }
 

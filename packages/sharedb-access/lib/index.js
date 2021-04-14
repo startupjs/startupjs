@@ -38,6 +38,32 @@ function registerOrmRules (backend, pattern, access) {
   })
 }
 
+function rigisterOrmRulesFromFactory (backend, pattern, factory) {
+  operations.map(op => {
+    // the user can write the first letter of the rules in any case
+    const collection = pattern.replace(/\.\*$/u, '')
+    backend['allow' + op](collection, async (...params) => {
+      const [docId, , session] = params
+      const userId = session.userId
+      const model = global.__clients[userId].model
+
+      const $doc = model._scope(`${collection}.${docId}`)
+      await $doc.subscribe()
+      const factoryModel = factory($doc, model)
+      const accsessFn = factoryModel.constructor.access[op.charAt(0).toLowerCase() + op.slice(1)]
+
+      $doc.unsubscribe()
+      if (accsessFn) {
+        // if there are extra fields, an exception is thrown
+        validateKeys(accsessFn, pattern)
+        return accsessFn(model, collection, ...params)
+      } else {
+        return false
+      }
+    })
+  })
+}
+
 // Possible options:
 // dontUseOldDocs: false - if true don't save unupdated docs for update action
 // opCreatorUserIdPath - path to 'userId' for op's meta
@@ -289,3 +315,4 @@ class ShareDBAccess {
 module.exports = ShareDBAccess
 module.exports.lookup = util.lookup
 module.exports.registerOrmRules = registerOrmRules
+module.exports.rigisterOrmRulesFromFactory = rigisterOrmRulesFromFactory

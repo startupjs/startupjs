@@ -8,6 +8,12 @@
 yarn add @startupjs/init
 ```
 
+## Requirements
+
+```
+axios: *
+```
+
 ## Usage
 
 **IMPORTANT:**
