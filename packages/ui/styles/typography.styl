@@ -56,7 +56,7 @@ text(key = default)
     font(l)
 
 fontFamily(_fontName, _fontWeight = _defaultFontWeight, _fontStyle = '')
-  if (!!match(_fontName, $UI.fontFamilies.heading) || !!match(_fontName, $UI.fontFamilies.heading) || !!match(',', _fontName))
+  if (!!match(_fontName, $UI.fontFamilies.normal) || !!match(_fontName, $UI.fontFamilies.heading) || !!match(',', _fontName))
     font-family _fontName
     font-weight _fontWeight
     font-style unquote(_fontStyle)
