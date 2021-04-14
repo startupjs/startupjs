@@ -18,6 +18,8 @@ const SUPPORT_PLACEMENTS = [
   'top-end'
 ]
 
+const reRegExpChar = /[\\^$.*+?()[\]{}|]/g
+
 // TODO: KeyboardAvoidingView
 function AutoSuggest ({
   style,
@@ -49,7 +51,13 @@ function AutoSuggest ({
   })
 
   _data.current = options.filter(item => {
-    return inputValue ? !!item.label.match(new RegExp(inputValue, 'gi')) : true
+    if (inputValue) {
+      const replaced = reRegExpChar.test(inputValue)
+        ? inputValue.replace(reRegExpChar, '\\$&')
+        : inputValue
+      return new RegExp(replaced, 'gi').test(item.label)
+    }
+    return true
   })
 
   function onClose (e) {
