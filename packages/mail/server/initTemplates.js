@@ -1,4 +1,4 @@
-export let _templates = {}
+import _config from './config'
 
 export default function initTemplates (templates = {}) {
   for (let templateName in templates) {
@@ -7,11 +7,11 @@ export default function initTemplates (templates = {}) {
 }
 
 export function registerTemplate (name, template) {
-  if (_templates[name]) {
+  if (_config.templates[name]) {
     throw new Error('[@startupjs/mail] registerTemplates: ' +
       `tempate ${name} already registred`
     )
   }
 
-  _templates[name] = template
+  _config.templates[name] = template
 }

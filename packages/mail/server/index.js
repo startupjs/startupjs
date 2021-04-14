@@ -21,19 +21,18 @@ export default async function initMail (ee, options = {}) {
     throw new Error('[@startupjs/mail] initMail: options.providers is required!')
   }
 
-  if (!options.templates) {
-    throw new Error('[@startupjs/mail] initMail: options.templates is required!')
-  }
-
   initProviders({
     defaultProvider: options.defaultProvider,
     providers: options.providers
   })
 
   initLayouts(options.layouts)
-  initTemplates(options.templates)
+
+  if (options.templates) {
+    initTemplates(options.templates)
+  }
 
   ee.on('routes', expressApp => {
-    expressApp.use('/api', mailApi)
+    expressApp.use('/api/mail', mailApi)
   })
 }

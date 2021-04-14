@@ -19,6 +19,6 @@ import axios from 'axios'
  */
 
 export default async function sendEmail (options = {}) {
-  const res = await axios.post('/api/send-email', options)
+  const res = await axios.post('/api/mail/send', options)
   return res
 }

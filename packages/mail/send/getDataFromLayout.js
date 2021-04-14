@@ -1,4 +1,4 @@
-import { _layouts as layouts } from '../server/initLayouts'
+import _config from '../server/config'
 import { DEFAULT_LAYOUT_NAME } from '../constants'
 
 export default async function getDataFromLayout (
@@ -6,6 +6,6 @@ export default async function getDataFromLayout (
   layout = DEFAULT_LAYOUT_NAME,
   options
 ) {
-  const data = await layouts[layout](model, options)
+  const data = await _config.layouts[layout](model, options)
   return data
 }
