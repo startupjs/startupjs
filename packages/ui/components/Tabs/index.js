@@ -10,8 +10,10 @@ import './index.styl'
 function Tabs ({
   style,
   tabsStyle,
+  tabStyle,
   routes,
   initialKey,
+  scrollEnabled,
   $value,
   renderTabBar,
   renderLabel,
@@ -34,6 +36,8 @@ function Tabs ({
 
     return pug`
       TabBar.bar(
+        scrollEnabled=scrollEnabled
+        tabStyle=tabStyle
         indicatorStyleName='indicator'
         renderLabel=_renderLabel
         ...props
