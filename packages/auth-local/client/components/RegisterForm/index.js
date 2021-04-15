@@ -27,16 +27,19 @@ const REGISTER_DEFAULT_INPUTS = {
   email: {
     input: 'text',
     label: 'Email',
-    placeholder: 'Enter your email'
+    placeholder: 'Enter your email',
+    autoCapitalize: 'none'
   },
   password: {
     input: 'password',
     label: 'Password',
-    placeholder: 'Enter your password'
+    placeholder: 'Enter your password',
+    autoCapitalize: 'none'
   },
   confirm: {
     input: 'password',
-    placeholder: 'Confirm your password'
+    placeholder: 'Confirm your password',
+    autoCapitalize: 'none'
   }
 }
 
@@ -122,7 +125,8 @@ function RegisterForm ({
 
   const _properties = _pickBy(
     _mergeWith(
-      REGISTER_DEFAULT_INPUTS, properties,
+      { ...REGISTER_DEFAULT_INPUTS },
+      properties,
       (a, b) => (b === null) ? null : undefined
     ),
     _identity

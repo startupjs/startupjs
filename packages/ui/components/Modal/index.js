@@ -1,6 +1,6 @@
 import React, { useImperativeHandle, useLayoutEffect } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
-import { observer, useOn, useValue, useIsMountedRef } from 'startupjs'
+import { observer, useBind } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -11,55 +11,45 @@ import Portal from '../Portal'
 function Modal ({
   style,
   modalStyle,
+  visible,
   $visible,
   transparent,
   supportedOrientations,
   statusBarTranslucent,
   animationType,
+  onChange,
   onDismiss,
   onRequestClose,
   onShow,
   onOrientationChange,
   ...props
 }, ref) {
-  const isMountedRef = useIsMountedRef()
-  // eslint-disable-next-line camelcase
-  const [_visible, $_visible] = useValue(false)
+  ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
 
-  useLayoutEffect(() => {
-    if (!$visible) return
-    $_visible.ref($visible)
-    return () => $_visible.removeRef()
-  }, [])
+  const _visible = !!visible
 
   function closeFallback () {
-    $_visible.set(false)
+    onChange && onChange(false)
   }
 
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
   // It fixed in 0.64
-  useOn('change', $_visible, () => {
-    setTimeout(() => {
-      if (!isMountedRef.current) return
-      if (!$_visible.get()) onDismiss && onDismiss()
-    }, 0)
-  })
+  useLayoutEffect(() => {
+    if (!_visible) onDismiss && onDismiss()
+  }, [visible])
 
   useImperativeHandle(ref, () => ({
-    open: () => {
-      $_visible.set(true)
-    },
-    close: () => {
-      $_visible.set(false)
-    }
-  }))
+    open: () => { onChange && onChange(true) },
+    close: () => { onChange && onChange(false) }
+  }), [])
 
   return pug`
-    //- HACK: modal window appears when visible is undefined,
-    //- make visible flag boolean
+    //- WORKAROUND
+    //- we pass boolean value to visible property
+    //- because modal window appears for undefined value
     RNModal(
-      visible=!!_visible
+      visible=_visible
       transparent=transparent
       supportedOrientations=supportedOrientations
       animationType=animationType
@@ -68,13 +58,14 @@ function Modal ({
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
-      Portal.Provider
-        Layout(
-          style=style
-          modalStyle=modalStyle
-          closeFallback=closeFallback
-          ...props
-        )
+      if _visible
+        Portal.Provider
+          Layout(
+            style=style
+            modalStyle=modalStyle
+            closeFallback=closeFallback
+            ...props
+          )
   `
 }
 
@@ -97,6 +88,7 @@ ObservedModal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen']),
+  visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
   dismissLabel: ModalActions.propTypes.dismissLabel,
@@ -114,6 +106,7 @@ ObservedModal.propTypes = {
     'landscape-left',
     'landscape-right'
   ])),
+  onChange: PropTypes.func,
   onShow: PropTypes.func,
   onCrossPress: PropTypes.func,
   onCancel: PropTypes.func,

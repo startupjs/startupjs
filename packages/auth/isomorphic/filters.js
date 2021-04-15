@@ -12,11 +12,7 @@ function isNotLoggedIn (redirectUrl = '/') {
   return function (model, next, redirect) {
     const loggedIn = model.get('_session.loggedIn')
 
-    const _redirectUrl = redirectUrl ||
-      model.get('_session.auth.successRedirectUrl') ||
-      '/'
-
-    if (loggedIn) return redirect(_redirectUrl)
+    if (loggedIn) return redirect(redirectUrl)
     next()
   }
 }

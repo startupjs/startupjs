@@ -1,3 +1,15 @@
+## [0.34.2](https://github.com/startupjs/startupjs/compare/v0.34.1...v0.34.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to displaying incorrect fields in forms ([#606](https://github.com/startupjs/startupjs/issues/606)) ([97fa11d](https://github.com/startupjs/startupjs/commit/97fa11db67bc59b91cb5eb50df01066737cd381a))
+* **styleguide:** fix android ([4c7d6b5](https://github.com/startupjs/startupjs/commit/4c7d6b55bbf10cfc33b091de23bd5888d5a3f41b))
+* **ui/Div:** remove onClick from propTypes ([afd6d9e](https://github.com/startupjs/startupjs/commit/afd6d9e280b4f9f1a36a6371118433be23805621))
+* **ui/Modal:** dont render content if modal isnt visible ([#613](https://github.com/startupjs/startupjs/issues/613)) ([#618](https://github.com/startupjs/startupjs/issues/618)) ([f81140d](https://github.com/startupjs/startupjs/commit/f81140d48321a09d650be07fcb32c4399fb0bd74))
+
+
+
 ## [0.34.1](https://github.com/startupjs/startupjs/compare/v0.34.0...v0.34.1) (2021-04-08)
 
 
