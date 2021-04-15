@@ -1,19 +1,19 @@
 import React, { useLayoutEffect } from 'react'
-import { TabView, TabBar } from 'react-native-tab-view'
+import { TabView } from 'react-native-tab-view'
 import { observer, useValue } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'
+import pick from 'lodash/pick'
 import Span from './../typography/Span'
+import Bar from './Bar'
 import './index.styl'
 
 function Tabs ({
   style,
   tabsStyle,
-  tabStyle,
   routes,
   initialKey,
-  scrollEnabled,
   $value,
   renderTabBar,
   renderLabel,
@@ -22,6 +22,8 @@ function Tabs ({
   ...props
 }) {
   const [localValue, $localValue] = useValue(initialKey || routes[0]?.key)
+  const tabBarProps = pick(props, Object.keys(Bar.propTypes))
+  const tabViewProps = pick(props, Object.keys(ObservedTabs.propTypes))
 
   useLayoutEffect(() => {
     if (!$value) return
@@ -35,11 +37,10 @@ function Tabs ({
     if (renderTabBar) return renderTabBar(props)
 
     return pug`
-      TabBar.bar(
-        scrollEnabled=scrollEnabled
-        tabStyle=tabStyle
+      Bar.bar(
         indicatorStyleName='indicator'
         renderLabel=_renderLabel
+        ...tabBarProps
         ...props
       )
     `
@@ -69,7 +70,7 @@ function Tabs ({
         navigationState={ index: tabIndex, routes }
         renderTabBar=_renderTabBar
         onIndexChange=_onIndexChange
-        ...props
+        ...tabViewProps
       )
   `
 }
@@ -85,7 +86,24 @@ ObservedTabs.propTypes = {
   })),
   initialKey: PropTypes.string,
   $value: PropTypes.any,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onIndexChange: PropTypes.func,
+  navigationState: PropTypes.object,
+  renderScene: PropTypes.func,
+  initialLayout: PropTypes.any,
+  keyboardDismissMode: PropTypes.string,
+  lazy: PropTypes.bool,
+  lazyPreloadDistance: PropTypes.number,
+  onSwipeStart: PropTypes.func,
+  onSwipeEnd: PropTypes.func,
+  renderLazyPlaceholder: PropTypes.func,
+  renderTabBar: PropTypes.func,
+  sceneContainerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  swipeEnabled: PropTypes.bool,
+  tabBarPosition: PropTypes.string
 }
+
+ObservedTabs.Bar = Bar
 
 export default ObservedTabs
