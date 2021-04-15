@@ -1,3 +1,14 @@
+## [0.34.3](https://github.com/startupjs/startupjs/compare/v0.34.2...v0.34.3) (2021-04-15)
+
+
+### Bug Fixes
+
+* Recalc anchors pos on height change ([706e2d0](https://github.com/startupjs/startupjs/commit/706e2d0542bff3d7fbf34892f9d17b82d37994c6))
+* **anchors:** Raceconditions for el registering ([ab66425](https://github.com/startupjs/startupjs/commit/ab66425b18a707ce001a955d43ba6e4704b9a75c))
+* **ui/Autosuggest:** fix search with non-letter characters ([#617](https://github.com/startupjs/startupjs/issues/617)) ([2b0fd0b](https://github.com/startupjs/startupjs/commit/2b0fd0b58630231fbb9dbeab9095a1e0fdc5252e))
+
+
+
 ## [0.34.2](https://github.com/startupjs/startupjs/compare/v0.34.1...v0.34.2) (2021-04-14)
 
 
