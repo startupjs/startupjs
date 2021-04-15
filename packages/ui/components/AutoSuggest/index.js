@@ -117,17 +117,16 @@ function AutoSuggest ({
       onDismiss=onClose
       onRequestClose=()=> setInputValue('')
     )
-      Popover.Caption.caption
-        TextInput(
-          ref=refInput
-          style=captionStyle
-          value=(!isShow && value.label) || inputValue
-          placeholder=placeholder
-          onChangeText=_onChangeText
-          onFocus=()=> setIsShow(true)
-          onKeyPress=onKeyPress
-          testID=testID
-        )
+      TextInput(
+        ref=refInput
+        style=captionStyle
+        value=(!isShow && value.label) || inputValue
+        placeholder=placeholder
+        onChangeText=_onChangeText
+        onFocus=()=> setIsShow(true)
+        onKeyPress=onKeyPress
+        testID=testID
+      )
 
       if isLoading
         View.loaderCase

@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {
   View,
   Animated,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
-  StyleSheet,
-  ScrollView
+  StyleSheet
 } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -33,13 +33,14 @@ function getValidNode (current) {
     : current.getNode()
 }
 
-// TODO: autofix placement for ref
 function Popover ({
   children,
   style,
   arrowStyle,
-  captionStyle,
+  wrapperContentStyle,
+  renderContent,
   visible,
+  $visible,
   position,
   attachment,
   placements,
@@ -60,6 +61,7 @@ function Popover ({
   const refGeometry = useRef({})
   const captionInfo = useRef({})
 
+  const [_visible, _$visible] = useValue(false)
   const [step, $step] = useValue(STEPS.CLOSE)
   const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
   const [dimensions, $dimensions] = useValue({
@@ -75,6 +77,17 @@ function Popover ({
     translateY: new Animated.Value(0)
   })
 
+  useLayoutEffect(() => {
+    if (!$visible) return
+    _$visible.ref($visible)
+    return () => _$visible.removeRef()
+  }, [])
+
+  useEffect(() => {
+    if (visible === undefined) return
+    _$visible.set(visible)
+  }, [visible])
+
   // reset state after change dimensions
   useLayoutEffect(() => {
     let mounted = true
@@ -86,7 +99,7 @@ function Popover ({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
       })
-      onDismiss()
+      onDismiss && onDismiss(false)
     }
 
     Dimensions.addEventListener('change', handleDimensions)
@@ -98,15 +111,15 @@ function Popover ({
 
   // -main
   useEffect(() => {
-    if (step === STEPS.CLOSE && visible) {
+    if (step === STEPS.CLOSE && _visible) {
       $step.set(STEPS.RENDER)
       setTimeout(runShow, 0)
     }
 
-    if (step !== STEPS.CLOSE && !visible) {
+    if (step !== STEPS.CLOSE && !_visible) {
       runHide()
     }
-  }, [visible])
+  }, [_visible])
   // -
 
   function runShow () {
@@ -159,8 +172,15 @@ function Popover ({
 
   function _closeStep () {
     $step.set(STEPS.CLOSE)
-    onDismiss && onDismiss()
+    onDismiss && onDismiss(false)
     onRequestClose && onRequestClose()
+  }
+
+  function _onDismiss () {
+    if ($visible === undefined && visible === undefined) {
+      _$visible.set(false)
+    }
+    onDismiss && onDismiss(false)
   }
 
   function runHide () {
@@ -183,37 +203,40 @@ function Popover ({
     }
   }
 
-  // parse children
-  let caption = null
-  let content = []
-  const onLayoutCaption = e => {
-    captionInfo.current = e.nativeEvent.layout
-  }
-  React.Children.toArray(children).forEach(child => {
-    if (child.type.name === PopoverCaption.name) {
-      caption = pug`
-        View(
-          ref=refCaption
-          style=[captionStyle, child.props.style]
-          onLayout=onLayoutCaption
-        )= child.props.children
-      `
-    } else {
-      content.push(child)
-    }
-  })
+  React.Children.only(children)
 
-  // styles
-  const _wrapperStyle = StyleSheet.flatten([
-    STYLES.wrapper,
+  // set caption
+  let caption = null
+  if (visible === undefined && $visible === undefined) {
+    caption = pug`
+      TouchableOpacity(
+        style=style
+        ref=refCaption
+        onPress=()=> _$visible.set(true)
+      )= children
+    `
+  } else {
+    caption = pug`
+      View(
+        style=style
+        ref=refCaption
+      )= children
+    `
+  }
+
+  // set need coordinates for the position
+  // on the screen from refGeometry
+  const _coordsStyle = StyleSheet.flatten([
+    STYLES.coords,
     {
       left: refGeometry.current.positionLeft,
       top: refGeometry.current.positionTop
     }
   ])
 
+  // if geometric data is received, play animation from animateStates
+  // otherwise use stamp styles to hide the element before counting
   const _popoverStyle = StyleSheet.flatten([
-    style,
     isStampInit(step)
       ? {
         position: 'absolute',
@@ -225,34 +248,43 @@ function Popover ({
           { translateY: animateStates.translateY }
         ]
       }
-      : STYLES.popoverStamp
+      : STYLES.stamp
   ])
 
+  // TODO comment
   const [validPosition] = validPlacement.split('-')
   if (isStampInit(step) && validPosition === 'top') _popoverStyle.bottom = 0
   if (isStampInit(step) && validPosition === 'left') _popoverStyle.right = 0
   if (isStampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
   if (isStampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
 
+  // HACK: stretch the content block
+  // needed for android, there it is impossible to display a child that goes beyond the size of the parent,
+  // you have to give the parent the maximum possible width, depending on the validPosition
   if (validPosition !== 'left') {
-    _wrapperStyle.width = '100%'
-    _wrapperStyle.maxWidth = Dimensions.get('window').width - (_wrapperStyle.left || 0)
+    _coordsStyle.width = '100%'
+    _coordsStyle.maxWidth = Dimensions.get('window').width - (_coordsStyle.left || 0)
   } else {
-    _wrapperStyle.width = _wrapperStyle.left
-    _wrapperStyle.left = 0
+    _coordsStyle.width = _coordsStyle.left
+    _coordsStyle.left = 0
   }
+
+  // set popover content from caption width, if hasWidthCaption prop is true
   if (hasWidthCaption && captionInfo.current) {
     _popoverStyle.width = captionInfo.current.width
   }
 
+  // common overlay
   return pug`
     = caption
+
     Portal
       if step !== STEPS.CLOSE
         if hasOverlay
-          TouchableWithoutFeedback(onPress=onDismiss)
+          TouchableWithoutFeedback(onPress=_onDismiss)
             View.overlay
-        View(style=_wrapperStyle)
+
+        View(style=_coordsStyle)
           Animated.View.popover(
             ref=refPopover
             style=_popoverStyle
@@ -264,19 +296,8 @@ function Popover ({
                 geometry=refGeometry.current
                 validPosition=validPosition
               )
-            if hasDefaultWrapper
-              ScrollView.content(
-                ref=ref
-                styleName={ hasArrow }
-                showsVerticalScrollIndicator=step !== STEPS.ANIMATE
-              )= content
-            else
-              = content
+            = renderContent()
   `
-}
-
-function PopoverCaption ({ children }) {
-  return children
 }
 
 const ObservedPopover = observer(Popover, { forwardRef: true })
@@ -297,7 +318,9 @@ ObservedPopover.defaultProps = {
 ObservedPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  visible: PropTypes.bool.isRequired,
+  renderContent: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
+  $visible: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
   placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
@@ -313,5 +336,4 @@ ObservedPopover.propTypes = {
   onRequestClose: PropTypes.func
 }
 
-ObservedPopover.Caption = PopoverCaption
 export default ObservedPopover
