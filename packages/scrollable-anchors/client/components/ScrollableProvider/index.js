@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import { ScrollView } from 'react-native'
-import { observer, useOn, usePage, useLocal } from 'startupjs'
+import { observer, useOn, usePage, useLocal, emit } from 'startupjs'
+import _debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 
 const GLOBAL_ID = 'global'
@@ -109,6 +110,14 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     })
   }
 
+  // Recalc anchors positions on content height change
+  const onDimensionChange = useCallback(
+    _debounce(() => {
+      emit('ScrollableProvider.recalcPositions')
+    }, 500),
+    []
+  )
+
   useEffect(() => {
     if (reactOnHash && hash) {
       addScrollToQueue({
@@ -116,12 +125,16 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
       })
     }
   }, [hash])
-
   // Scroll to top on url change
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
   return pug`
-    ScrollView(ref=globalScrollRef style=style ...rest)
+    ScrollView(
+      ref=globalScrollRef
+      style=style
+      onContentSizeChange=onDimensionChange
+      ...rest
+    )
       =children
   `
 }
