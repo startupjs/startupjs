@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { TouchableOpacity, View, FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import Popover from '../popups/Popover'
@@ -17,8 +18,6 @@ const SUPPORT_PLACEMENTS = [
   'top-center',
   'top-end'
 ]
-
-const reRegExpChar = /[\\^$.*+?()[\]{}|]/g
 
 // TODO: KeyboardAvoidingView
 function AutoSuggest ({
@@ -50,15 +49,11 @@ function AutoSuggest ({
     onChangeShow: v => setIsShow(v)
   })
 
-  _data.current = options.filter(item => {
-    if (inputValue) {
-      const replaced = reRegExpChar.test(inputValue)
-        ? inputValue.replace(reRegExpChar, '\\$&')
-        : inputValue
-      return new RegExp(replaced, 'gi').test(item.label)
-    }
-    return true
-  })
+  _data.current = options.filter(item =>
+    inputValue
+      ? new RegExp(escapeRegExp(inputValue), 'gi').test(item.label)
+      : true
+  )
 
   function onClose (e) {
     setIsShow(false)
