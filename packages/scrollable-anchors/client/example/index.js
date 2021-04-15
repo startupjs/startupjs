@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, u } from 'startupjs'
+import { observer } from 'startupjs'
 import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
 import { ScrollableArea, Anchor } from '../components'
 import { scrollTo } from '../helpers'
@@ -26,7 +26,7 @@ function Example () {
           key=anchorId
           variant='flat'
           size='s'
-          onPress=() => scrollToAnchor({ anchorId, offset: -u(10) })
+          onPress=() => scrollToAnchor({ anchorId })
         )= anchorId
     Div.root
       Anchor(id=ANCHORS[0] Component=H1 bold)= ANCHORS[0]

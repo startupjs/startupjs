@@ -30,13 +30,16 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
       throw new Error('Error [scrollable-anchors]: Provide id of anchor or y position.')
     }
 
-    $scrollQueue.push({
-      anchorId,
-      areaId,
-      offset,
-      y,
-      smooth
-    })
+    // To prevent rasecondition issue of cleaning previous registered values
+    setTimeout(() => {
+      $scrollQueue.push({
+        anchorId,
+        areaId,
+        offset,
+        y,
+        smooth
+      })
+    }, 0)
   }
 
   function processQueue () {
@@ -70,7 +73,10 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
 
-    $anchorRegistry.set(anchorId, posY)
+    // To prevent rasecondition issue of cleaning previous registered values
+    setTimeout(() => {
+      $anchorRegistry.set(anchorId, posY)
+    }, 0)
   }
 
   function onElementUnregister (anchorId) {
@@ -83,7 +89,10 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     if (!areaId) throw new Error('Error [scrollable-anchors]: Provide areaId of registering scrollable area.')
     if (!ref) throw new Error('Error [scrollable-anchors]: Provide ref of scrollable area.')
 
-    $areaRegistry.set(areaId, ref)
+    // To prevent rasecondition issue of cleaning previous registered values
+    setTimeout(() => {
+      $areaRegistry.set(areaId, ref)
+    }, 0)
   }
 
   function onAreaUnregister (areaId) {
