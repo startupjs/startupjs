@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { TouchableOpacity, View, FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -49,11 +49,11 @@ function AutoSuggest ({
     onChangeShow: v => setIsShow(v)
   })
 
-  _data.current = options.filter(item =>
-    inputValue
-      ? new RegExp(escapeRegExp(inputValue), 'gi').test(item.label)
-      : true
-  )
+  const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
+
+  _data.current = escapedInputValue
+    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
+    : options
 
   function onClose (e) {
     setIsShow(false)
