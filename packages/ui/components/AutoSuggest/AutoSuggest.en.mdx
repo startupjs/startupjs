@@ -17,6 +17,25 @@ import { AutoSuggest } from '@startupjs/ui'
 
 Before use you need to configure [Portal](/docs/components/Portal)
 
+## Simple example
+```jsx example
+const [value, setValue] = useState({})
+
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+]
+
+return (
+  <AutoSuggest
+    options={options}
+    value={value}
+    onChange={v=>setValue(v)}
+  />
+)
+```
+
 ## Example
 - options: array of objects for options, each option has a value and a label
 - value: active value

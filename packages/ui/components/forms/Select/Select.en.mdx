@@ -14,6 +14,23 @@ Select lets user pick one of multiple options. Works similar to HTML's `<select>
 import { Select } from '@startupjs/ui'
 ```
 
+## Simple example
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    label='Select'
+    value={color}
+    onChange={setColor}
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
+)
+```
+
 ## Example
 
 ```jsx example

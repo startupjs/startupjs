@@ -15,6 +15,21 @@ DateTimePicker allows to display and change the date and time (!works with times
 import { DateTimePicker } from from '@startupjs/ui'
 ```
 
+## Simple examples
+
+```jsx example
+const [date, setDate] = useState()
+
+return (
+  <DateTimePicker
+    date={date}
+    label='Date'
+    mode='date'
+    onDateChange={setDate}
+  />
+)
+```
+
 ## Examples
 
 ```jsx example

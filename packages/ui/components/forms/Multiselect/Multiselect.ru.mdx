@@ -17,6 +17,27 @@ import { Multiselect } from '@startupjs/ui'
 
 Перед использованием нужно настроить [Portal](/docs/components/Portal)
 
+## Простой пример
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    label='Multiselect'
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
 ## Пример
 
 - `options` - массив объектов ```{ label, value }``` или примитивоов

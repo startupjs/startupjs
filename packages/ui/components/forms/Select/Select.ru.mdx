@@ -14,6 +14,23 @@ import { Sandbox } from '@startupjs/docs'
 import { Select } from '@startupjs/ui'
 ```
 
+## Простой пример
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    label='Select'
+    value={color}
+    onChange={setColor}
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
+)
+```
+
 ## Пример
 
 ```jsx example

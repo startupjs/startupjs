@@ -14,6 +14,19 @@ TextInput lets user enter or edit text.
 import { TextInput } from '@startupjs/ui'
 ```
 
+## Simple example
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <TextInput
+    label='TextInput'
+    value={value}
+    onChangeText={setValue}
+  />
+)
+```
+
 ## Example
 
 ```jsx example

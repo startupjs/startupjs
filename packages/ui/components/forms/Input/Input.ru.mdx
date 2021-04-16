@@ -14,6 +14,20 @@ import { Sandbox } from '@startupjs/docs'
 import { Input } from from '@startupjs/ui'
 ```
 
+## Простой пример
+
+```jsx example
+const [, $textValue] = useValue()
+
+return (
+  <Input
+    type='text'
+    label='Text input'
+    $value={$textValue}
+  />
+)
+```
+
 ## Пример
 
 ```jsx example

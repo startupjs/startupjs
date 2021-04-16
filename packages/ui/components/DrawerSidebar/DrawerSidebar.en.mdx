@@ -17,6 +17,22 @@ Drawer is typically used for nagivation. It initially not visible on the screen,
 import { DrawerSidebar } from '@startupjs/ui'
 ```
 
+## Simple example
+
+```jsx example
+const [open, $open] = useSession('SimpleExampleDrawerSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      $open={$open}
+      renderContent={() => (<Span>DrawerSidebar</Span>)}
+    >
+      <Button onPress={() => $open.set(true)}>Open</Button>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
 ## Example
 
 ```jsx example

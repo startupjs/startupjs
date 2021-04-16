@@ -17,6 +17,29 @@ import { Sandbox } from '@startupjs/docs'
 import { Sidebar } from '@startupjs/ui'
 ```
 
+## Простой пример
+
+```jsx example
+const [open, $open] = useSession('SimpleExampleSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <Sidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>
+          Sidebar
+        </Span>
+      )}
+    >
+      <Button onPress={() => $open.set(!open)}>
+        Toggle sidebar
+      </Button>
+    </Sidebar>
+  </Div>
+)
+```
+
 ## Пример
 
 ```jsx example

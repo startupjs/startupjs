@@ -17,6 +17,22 @@ import { Sandbox } from '@startupjs/docs'
 import { DrawerSidebar } from '@startupjs/ui'
 ```
 
+## Простой пример
+
+```jsx example
+const [open, $open] = useSession('SimpleExampleDrawerSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      $open={$open}
+      renderContent={() => (<Span>DrawerSidebar</Span>)}
+    >
+      <Button onPress={() => $open.set(true)}>Open</Button>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
 ## Пример
 
 ```jsx example

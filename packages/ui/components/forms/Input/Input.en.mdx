@@ -14,6 +14,20 @@ Input provides a wrapper api around [Checkbox](/docs/forms/Checkbox), [TextInput
 import { Input } from from '@startupjs/ui'
 ```
 
+## Simple example
+
+```jsx example
+const [, $textValue] = useValue()
+
+return (
+  <Input
+    type='text'
+    label='Text input'
+    $value={$textValue}
+  />
+)
+```
+
 ## Example
 
 ```jsx example

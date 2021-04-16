@@ -12,6 +12,19 @@ NumberInput позволяет пользователю вводить или и
 import { NumberInput } from '@startupjs/ui'
 ```
 
+## Простой пример
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <NumberInput
+    label='NumberInput'
+    value={value}
+    onChangeNumber={setValue}
+  />
+)
+```
+
 ## Пример
 
 ```jsx example

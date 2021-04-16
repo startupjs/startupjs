@@ -17,6 +17,29 @@ Sidebar is typically used for nagivation. It initially not visible on the screen
 import { Sidebar } from '@startupjs/ui'
 ```
 
+## Simple example
+
+```jsx example
+const [open, $open] = useSession('SimpleExampleSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <Sidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>
+          Sidebar
+        </Span>
+      )}
+    >
+      <Button onPress={() => $open.set(!open)}>
+        Toggle sidebar
+      </Button>
+    </Sidebar>
+  </Div>
+)
+```
+
 ## Example
 
 ```jsx example

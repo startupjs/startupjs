@@ -17,6 +17,25 @@ SmartSidebar is typically used for navigation. It provides a desktop-mobile frie
 import { SmartSidebar } from '@startupjs/ui'
 ```
 
+## Simple Example
+
+```jsx example
+const [open, $open] = useSession('SimpleExampleSmartSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>SmartSidebar</Span>
+      )}
+    >
+      <Button onPress={() => $open.set(!open)}>Toggle Sidebar</Button>
+    </SmartSidebar>
+  </Div>
+)
+```
+
 ## Example
 
 ```jsx example
