@@ -3,31 +3,24 @@ _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
 // Add font-family when we add fonts to app
 
 .root
-  for variant in _variants 
+  for variant in _variants
     &.{variant}
       text(variant)
 
-  for variant in _variants
-    &.{variant}
-      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
-        fontFamily($UI.fontFamilies.heading)
-      else
-        fontFamily($UI.fontFamilies.normal)
-    
-    &.{variant}&.bold
-      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
-        fontFamily($UI.fontFamilies.heading, 700)
-      else
-        fontFamily($UI.fontFamilies.normal, 700)
+  fontFamily($UI.fontNormal)
 
-    &.{variant}&.italic
-      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
-        fontFamily($UI.fontFamilies.heading, 400, 'italic')
-      else
-        fontFamily($UI.fontFamilies.normal, 400, 'italic')
+  &.bold
+    fontFamily($UI.fontNormal, 700)
+  &.italic
+    fontFamily($UI.fontNormal, 400, italic)
+  &.bold.italic
+    fontFamily($UI.fontNormal, 700, italic)
 
-    &.{variant}&.bold.italic
-      if variant in ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
-        fontFamily($UI.fontFamilies.heading, 700, 'italic')
-      else
-        fontFamily($UI.fontFamilies.normal, 700, 'italic')
+  &.header
+    fontFamily($UI.fontHeading)
+    &.bold
+      fontFamily($UI.fontHeading, 700)
+    &.italic
+      fontFamily($UI.fontHeading, 400, italic)
+    &.bold.italic
+      fontFamily($UI.fontHeading, 700, italic)

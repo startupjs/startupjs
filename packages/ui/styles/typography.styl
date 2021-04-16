@@ -20,8 +20,6 @@ _fontWeightNamesMap = {
   '900': 'Black'
 }
 
-_defaultFontWeight = 400
-
 font(size = m)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
@@ -29,6 +27,10 @@ font(size = m)
   size = 's' if size is s
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
+
+// is custom fonts
+isCustomFont(_font)
+  return !match(',', _font) && !match(_font, $UI.fontNormal) && !match(_font, $UI.fontHeading)
 
 text(key = default)
   // color
@@ -55,16 +57,17 @@ text(key = default)
   else if key is h6
     font(l)
 
-fontFamily(_fontName, _fontWeight = _defaultFontWeight, _fontStyle = '')
-  if (!!match(_fontName, $UI.fontFamilies.normal) || !!match(_fontName, $UI.fontFamilies.heading) || !!match(',', _fontName))
-    font-family _fontName
-    font-weight _fontWeight
-    if (!!_fontStyle)
-      font-style unquote(_fontStyle)
-  else
-    _fontWeightString = '' + _fontWeight
-    _resultFontWeight = _fontWeightNamesMap[_fontWeightString]
-    _result = _fontName + '-' + _resultFontWeight + replace(italic, Italic, _fontStyle)
+fontFamily(_fontName, _fontWeight, _fontStyle = normal)
+  if (_fontName && (typeof(_fontName) == 'string'))
+    if (!isCustomFont(_fontName))
+      font-family _fontName
+      font-weight _fontWeight
+      font-style _fontStyle
+    else
+      _resultFontWeight = _fontWeightNamesMap['' + _fontWeight] || _fontWeightNamesMap['' + $UI.fontWeightRegular]
+      _result = _fontName + '-' + _resultFontWeight
+      if (_fontStyle == italic)
+        _result = _result + 'Italic'
 
-    font-family _result
+      font-family _result
   
