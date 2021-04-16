@@ -1,31 +1,35 @@
-import React, { useEffect } from 'react'
-import { observer } from 'startupjs'
-import { Div } from '@startupjs/ui'
+import React, { useEffect, useRef } from 'react'
+import { View } from 'react-native'
+import { observer, useOn } from 'startupjs'
 import PropTypes from 'prop-types'
 import { registerAnchor, unregisterAnchor } from '../../helpers'
 
 function Anchor ({ id, children, style, Component, ...componentProps }) {
-  function _onLayout (e) {
-    const { nativeEvent: { layout } } = e
-    registerAnchor({
-      anchorId: id,
-      posY: layout.y
-    })
-
-    if (componentProps.onLayout) {
-      componentProps.onLayout(e)
-    }
-  }
+  const ref = useRef()
 
   function onUnmount () {
     unregisterAnchor(id)
   }
 
+  function getPosition () {
+    ref.current.measure((fx, fy) => {
+      registerAnchor({
+        anchorId: id,
+        posY: fy
+      })
+    })
+  }
+
+  useOn('ScrollableProvider.recalcPositions', getPosition)
+
   useEffect(() => onUnmount, [])
+
   return pug`
+    // Extra block to calculate correct y pos of element on parent size changes
+    // IE: Parent can have dynamic content, we need recalc anchors positions when content changes
+    View(ref=ref)
     Component(
       ...componentProps
-      onLayout=_onLayout
       style=style
     )
       = children
@@ -41,7 +45,7 @@ Anchor.propTypes = {
 }
 
 Anchor.defaultProps = {
-  Component: Div,
+  Component: View,
   style: {}
 }
 
