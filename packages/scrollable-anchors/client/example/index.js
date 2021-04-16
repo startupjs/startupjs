@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
 import { ScrollableArea, Anchor } from '../components'
@@ -15,12 +15,17 @@ const ANOTHER_AREA_ID = 'area-2'
 const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Semper risus in hendrerit gravida. Tortor posuere ac ut consequat semper viverra nam libero justo. Eget nullam non nisi est sit amet facilisis. Donec ultrices tincidunt arcu non sodales neque. Odio ut sem nulla pharetra diam sit amet nisl. Tellus molestie nunc non blandit massa enim nec dui nunc. Sed risus ultricies tristique nulla aliquet enim tortor at auctor. Est lorem ipsum dolor sit amet consectetur adipiscing. Sagittis nisl rhoncus mattis rhoncus urna. Massa placerat duis ultricies lacus sed turpis tincidunt id aliquet. Molestie at elementum eu facilisis. Arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc.'
 
 function Example () {
+  const [extraContentVisibility, setExtraContentVisibility] = useState(false)
+
   function scrollToAnchor ({ anchorId, areaId, offset }) {
     scrollTo({ anchorId, areaId, offset })
   }
 
   return pug`
     Div.anchors
+      Button(
+        onPress=() => setExtraContentVisibility(!extraContentVisibility)
+      )= extraContentVisibility ? 'Hide extra content' : 'Render extra content'
       each anchorId in ANCHORS
         Button.anchorBtn(
           key=anchorId
@@ -85,6 +90,16 @@ function Example () {
           Br
           Span= LOREM
       Br
+      if extraContentVisibility
+        H1 Extra content
+        Span= LOREM
+        Span= LOREM
+        Span= LOREM
+        Span= LOREM
+        Span= LOREM
+        Span= LOREM
+        Span= LOREM
+        Span= LOREM
       H3 Another scrollable area
       Div.myAnchors
         each anchorId in NESTED_ANCHORS
