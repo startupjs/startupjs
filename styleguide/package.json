@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.34.3",
+  "version": "0.34.4",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -38,10 +38,10 @@
     "@startupjs/auth-idg": "^0.34.0",
     "@startupjs/auth-linkedin": "^0.34.0",
     "@startupjs/auth-local": "^0.34.2",
-    "@startupjs/docs": "^0.34.3",
-    "@startupjs/mdx": "^0.34.3",
+    "@startupjs/docs": "^0.34.4",
+    "@startupjs/mdx": "^0.34.4",
     "@startupjs/recaptcha": "^0.34.0",
-    "@startupjs/scrollable-anchors": "^0.34.3",
+    "@startupjs/scrollable-anchors": "^0.34.4",
     "@startupjs/ui": "^0.34.3",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
