@@ -20,7 +20,7 @@ export default observer(function Droppable ({
       ref,
       items: children.map(child => child.props.dragId)
     })
-  }, [])
+  }, [children])
 
   useEffect(() => {
     ref.current.measure((x, y, width, height, pageX, pageY) => {

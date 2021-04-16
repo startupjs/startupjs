@@ -258,6 +258,7 @@ function Popover ({
 
   return pug`
     = caption
+
     Portal
       if step !== STEPS.CLOSE
         if hasOverlay

@@ -24,13 +24,12 @@ export default observer(function Draggable ({
     top: new Animated.Value(0)
   }
 
-  // FIX: update ref after onDragEnd
   useEffect(() => {
     $dndContext.set(`drags.${dragId}`, {
       ref,
       style: {}
     })
-  }, [])
+  }, [_dropId, _index])
 
   function onHandlerStateChange ({ nativeEvent }) {
     const data = {
@@ -101,28 +100,47 @@ export default observer(function Draggable ({
   }
 
   function checkPosition (activeData) {
-    dndContext.drops[_dropId].ref.current.measure((dX, dY, dWidth, dHeight, dPageX, dPageY) => {
-      let startPosition = null
-      let endPosition = null
+    dndContext.drops[_dropId].ref.current.measure(async (dX, dY, dWidth, dHeight, dPageX, dPageY) => {
+      const positions = []
+      let startPosition = dPageY
+      let endPosition = dPageY
+
+      if (!dndContext.drops[dndContext.dropHoverId]) return
 
       for (let index = 0; index < dndContext.drops[dndContext.dropHoverId].items.length; index++) {
         const iterDragId = dndContext.drops[dndContext.dropHoverId].items[index]
 
-        dndContext.drags[iterDragId].ref.current.measure((x, y, width, height, pageX, pageY) => {
-          if (iterDragId === dragId) return
+        await new Promise(resolve => {
+          dndContext.drags[iterDragId].ref.current.measure((x, y, width, height, pageX, pageY) => {
+            if (index === 0) {
+              startPosition = dPageY
+              endPosition = dPageY + y + (height / 2)
+            } else {
+              startPosition = endPosition
+              endPosition = pageY + (height / 2)
+            }
 
-          if (index === 0) {
-            startPosition = dPageY
-            endPosition = dPageY + y + (height / 2)
-          } else {
-            startPosition = endPosition
-            endPosition = pageY + (height / 2)
-          }
+            if (iterDragId === dragId) {
+              positions.push(null)
+            } else {
+              positions.push({ start: startPosition, end: endPosition })
+            }
 
-          if (activeData.y > startPosition && activeData.y < endPosition) {
-            $dndContext.set('dragHoverIndex', index)
-          }
+            resolve()
+          })
         })
+      }
+
+      positions.push({ start: endPosition, end: dPageY + dHeight })
+
+      for (let index = 0; index < positions.length; index++) {
+        const position = positions[index]
+        if (!position) continue
+
+        if (activeData.y > position.start && activeData.y < position.end) {
+          $dndContext.set('dragHoverIndex', index)
+          break
+        }
       }
     })
   }
@@ -137,12 +155,15 @@ export default observer(function Draggable ({
     dndContext.dropHoverId === _dropId &&
     dndContext.dragHoverIndex === _index
 
+  const isShowLastPlaceholder = dndContext.activeData &&
+    dndContext.dropHoverId === _dropId &&
+    dndContext.drops[_dropId].items.length - 1 === _index &&
+    dndContext.dragHoverIndex === _index + 1
+
   return pug`
     if isShowPlaceholder
-      View(
+      View.placeholder(
         style={
-          backgroundColor: '#dddddd',
-          borderRadius: 4,
           height: dndContext.activeData.drag.height,
           marginTop: dndContext.activeData.drag.style.marginTop,
           marginBottom: dndContext.activeData.drag.style.marginBottom
@@ -164,5 +185,14 @@ export default observer(function Draggable ({
         ref=ref
         style=[style, contextStyle]
       )= children
+
+    if isShowLastPlaceholder
+      View.placeholder(
+        style={
+          height: dndContext.activeData.drag.height,
+          marginTop: dndContext.activeData.drag.style.marginTop,
+          marginBottom: dndContext.activeData.drag.style.marginBottom
+        }
+      )
   `
 })
