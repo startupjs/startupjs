@@ -30,7 +30,7 @@ fn_local_init () {
   git branch -d verdaccio-temp || true
   git checkout -b verdaccio-temp
   git stash list | grep "$random_id" && git stash apply
-  npx lerna publish prerelease --registry http://localhost:4873/ --no-git-tag-version --no-private --no-push --yes --no-git-reset --dist-tag local || STATUS="failed-lerna"
+  npx lerna publish prerelease --registry http://localhost:4873/ --force-publish --no-git-tag-version --no-private --no-push --yes --no-git-reset --dist-tag local || STATUS="failed-lerna"
   git reset --hard HEAD
   git checkout -
   git stash list | grep "$random_id" && git stash pop
