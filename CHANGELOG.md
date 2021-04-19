@@ -1,3 +1,12 @@
+## [0.34.4](https://github.com/startupjs/startupjs/compare/v0.34.3...v0.34.4) (2021-04-16)
+
+
+### Bug Fixes
+
+* **anchors:** prevent chilfren rerendering ([5aed489](https://github.com/startupjs/startupjs/commit/5aed489f95a7dde4f5846df2195ade5f3a1f6ac5))
+
+
+
 ## [0.34.3](https://github.com/startupjs/startupjs/compare/v0.34.2...v0.34.3) (2021-04-15)
 
 
