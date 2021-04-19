@@ -4,7 +4,7 @@ import { Div, Span, Radio, Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import './index.styl'
 
-function ProvidersList ({ providers, chooseProvider }) {
+function ProvidersList2fa ({ providers, chooseProvider }) {
   const [selectedProvider, setSelectedProvider] = useState('')
 
   return pug`
@@ -30,9 +30,9 @@ function ProvidersList ({ providers, chooseProvider }) {
   `
 }
 
-ProvidersList.propTypes = {
+ProvidersList2fa.propTypes = {
   providers: PropTypes.array,
   chooseProvider: PropTypes.func
 }
 
-export default observer(ProvidersList)
+export default observer(ProvidersList2fa)

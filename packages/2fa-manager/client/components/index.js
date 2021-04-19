@@ -1,2 +1,1 @@
-export { default as TwoFAModal } from './TwoFAModal'
-export { default as ProvidersList } from './ProvidersList'
+export { default as ProvidersList2fa } from './ProvidersList2fa'
