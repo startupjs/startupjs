@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Platform,
-  StyleSheet
+  StyleSheet,
+  Animated
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
+import Portal from '../Portal'
+import usePopover from '../popups/Popover/usePopover'
 import STYLES from './index.styl'
+
+const STEPS = {
+  CLOSE: 'close',
+  RENDER: 'render',
+  ANIMATE: 'animate',
+  OPEN: 'open'
+}
 
 const isWeb = Platform.OS === 'web'
 
@@ -33,14 +44,30 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  renderTooltip,
   onPress,
   onLongPress,
   _preventEvent,
   ...props
 }) {
   const isClickable = onPress || onLongPress
+  const ref = useRef()
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+  const [isShowTooltip, setIsShowTooltip] = useState(false)
+
+  const {
+    step,
+    refAnimate,
+    locationStyle,
+    animateStyle
+  } = usePopover({
+    style,
+    visible: isShowTooltip,
+    refCaption: ref
+  })
+  // const { tooltipProps } = useTooltip(setIsShowTooltip)
+
   let extraStyle = {}
   const extraProps = {}
   const wrapperProps = { accessible }
@@ -120,20 +147,16 @@ function Div ({
   function maybeWrapToClickable (children) {
     if (isClickable) {
       return pug`
-        TouchableWithoutFeedback(
-          ...wrapperProps
-        )
-          = children
+        TouchableWithoutFeedback(...wrapperProps)= children
       `
     } else {
       return children
     }
   }
 
-  // backgroundColor in style can override extraStyle backgroundColor
-  // so passing the extraStyle to the end is important in this case
-  return maybeWrapToClickable(pug`
+  const div = pug`
     View.root(
+      ref=ref
       style=[style, extraStyle]
       styleName=[
         {
@@ -147,9 +170,45 @@ function Div ({
       ]
       ...extraProps
       ...props
-    )
-      = children
-  `)
+    )= children
+  `
+
+  if (renderTooltip) {
+    return pug`
+      TouchableWithoutFeedback(
+        onPress=() => setIsShowTooltip(true)
+      )= div
+
+      Portal
+        if step !== STEPS.CLOSE
+          View(style={
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          })
+            TouchableOpacity(
+              onPress=() => setIsShowTooltip(false)
+              style={
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                top: 0,
+                left: 0
+              }
+            )
+            View(style=locationStyle)
+              Animated.View(
+                ref=refAnimate
+                style=animateStyle
+              )= renderTooltip()
+    `
+  }
+
+  // backgroundColor in style can override extraStyle backgroundColor
+  // so passing the extraStyle to the end is important in this case
+  return maybeWrapToClickable(div)
 }
 
 Div.defaultProps = {

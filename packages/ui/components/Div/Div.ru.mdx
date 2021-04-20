@@ -123,3 +123,30 @@ return (
   </Row>
 )
 ```
+
+## renderTooltip
+
+```jsx example
+function renderTooltip () {
+  return pug`
+    Div(style={
+      padding: 16,
+      backgroundColor: '#333'
+    })
+      Span(style={
+        color: '#fff'
+      }) Text
+  `
+}
+
+return pug`
+  Div(
+    style={
+      width: 16,
+      height: 16,
+      backgroundColor: '#333'
+    }
+    renderTooltip=renderTooltip
+  )
+`
+```
