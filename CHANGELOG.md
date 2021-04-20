@@ -1,3 +1,13 @@
+## [0.34.5](https://github.com/startupjs/startupjs/compare/v0.34.4...v0.34.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** add container that take styles ([#628](https://github.com/startupjs/startupjs/issues/628)) ([0407bc4](https://github.com/startupjs/startupjs/commit/0407bc4862db543f9cc69776af350ba11454d6a8))
+* **ui/Tabs:** fix passing props to `TabBar` ([#619](https://github.com/startupjs/startupjs/issues/619)) ([83316cb](https://github.com/startupjs/startupjs/commit/83316cbc7427b5d9a70220f878c65a08d6f5fd5c))
+
+
+
 ## [0.34.4](https://github.com/startupjs/startupjs/compare/v0.34.3...v0.34.4) (2021-04-16)
 
 
