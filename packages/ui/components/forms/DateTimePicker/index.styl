@@ -1,5 +1,14 @@
+_focusedColor = $UI.colors.primary
+
 .focused
-  color: $UI.colors.primary
+  color _focusedColor
+
+.label
+  margin-bottom 0.5u
+  font(s)
+
+  &.focused
+    color _focusedColor
 
 .drawer
   height 32.5u
