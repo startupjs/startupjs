@@ -25,6 +25,7 @@ const scrollableClasses = [
 ]
 
 function DateTimePicker ({
+  style,
   InputComponent,
   date,
   disabled,
@@ -72,35 +73,36 @@ function DateTimePicker ({
   }
 
   return pug`
-    if label
-      Span.label(
-        styleName={focused}
-        size='s'
-        variant='description'
-      )= label
-    DatePicker(
-      className=size
-      calendarClassName=mode
-      calendarContainer=renderContainer
-      disabled=disabled
-      dropdownMode='select'
-      fixedHeight
-      locale='currentLocale'
-      maxDate=maxDateDefault
-      placeholderText=placeholder
-      portalId='datepicker-portal'
-      selected=date
-      showMonthDropdown
-      showMonthYearSelect
-      showPopperArrow=false
-      showYearDropdown
-      timeIntervals=minuteInterval
-      closeOnScroll= e => !scrollableClasses.includes(e.target.className)
-      onChange= date => onDateChange(+date)
-      onCalendarClose= () => setFocused(false)
-      onCalendarOpen= () => setFocused(true)
-      ...pickerProps
-    )
+    Div(style=style)
+      if label
+        Span.label(
+          styleName={focused}
+          size='s'
+          variant='description'
+        )= label
+      DatePicker(
+        className=size
+        calendarClassName=mode
+        calendarContainer=renderContainer
+        disabled=disabled
+        dropdownMode='select'
+        fixedHeight
+        locale='currentLocale'
+        maxDate=maxDateDefault
+        placeholderText=placeholder
+        portalId='datepicker-portal'
+        selected=date
+        showMonthDropdown
+        showMonthYearSelect
+        showPopperArrow=false
+        showYearDropdown
+        timeIntervals=minuteInterval
+        closeOnScroll= e => !scrollableClasses.includes(e.target.className)
+        onChange= date => onDateChange(+date)
+        onCalendarClose= () => setFocused(false)
+        onCalendarOpen= () => setFocused(true)
+        ...pickerProps
+      )
   `
 }
 
@@ -112,6 +114,7 @@ DateTimePicker.defaultProps = {
 }
 
 DateTimePicker.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   InputComponent: PropTypes.node,
   date: PropTypes.number,
   disabled: PropTypes.bool,
