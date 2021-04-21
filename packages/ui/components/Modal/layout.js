@@ -12,8 +12,7 @@ function Modal ({
   children,
   variant,
   title,
-  dismissLabel, // DEPRECATED
-  cancelLabel,
+  dismissLabel,
   confirmLabel,
   ModalElement,
   showCross,
@@ -48,10 +47,6 @@ function Modal ({
   if (content && contentChildren.length > 0) {
     throw Error('[ui -> Modal] React elements found directly within <Modal>. ' +
       'If <Modal.Content> is specified, you have to put all your content inside it')
-  }
-
-  if (dismissLabel) {
-    console.warn('[@startupjs/ui] Modal: dismissLabel is DEPRECATED, use cancelLabel instead')
   }
 
   // Handle <Modal.Content>
@@ -93,11 +88,10 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    dismissLabel, // DEPRECATED
-    cancelLabel,
+    dismissLabel,
     confirmLabel,
     style: content ? { paddingTop: 0 } : null,
-    onCancel: (onCancel !== null) && _onCancel,
+    onCancel: _onCancel,
     onConfirm: _onConfirm
   }
   actions = actions

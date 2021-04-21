@@ -16,7 +16,6 @@ export function alert ({ title, message }) {
     title,
     content: message,
     confirmLabel: 'Ok',
-    onCancel: null,
     onConfirm: dialogClose
   })
 }

@@ -1,13 +1,16 @@
 import { $root, useLocal } from 'startupjs'
 
-const APP_PATH = '_page.app'
+function generatePath (subpath = '') {
+  let path = '_page.app'
 
-function generatePath (path = '') {
-  if (path && typeof path !== 'string') {
-    throw new Error('[@startupjs/app] generatePath: path must be a string')
+  if (subpath) {
+    if (typeof path !== 'string') {
+      throw new Error('[@startupjs/app] generatePath: path must be a string')
+    }
+    path += `.${subpath}`
   }
 
-  return `${APP_PATH}.${path}`
+  return path
 }
 
 export function getScope (path) {
