@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import Portal from '../Portal'
 import usePopover from '../popups/Popover/usePopover'
+import useTooltip from '../Tooltip/useTooltip'
 import STYLES from './index.styl'
 
 const STEPS = {
@@ -44,35 +45,40 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  renderPopover,
   renderTooltip,
   onPress,
   onLongPress,
   _preventEvent,
   ...props
 }) {
-  const isClickable = onPress || onLongPress
-  const ref = useRef()
+  const refCaption = useRef()
+  const refAnimate = useRef()
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   const [isShowTooltip, setIsShowTooltip] = useState(false)
 
-  const {
-    step,
-    refAnimate,
-    locationStyle,
-    animateStyle
-  } = usePopover({
+  const { step, locationStyle, animateStyle } = usePopover({
     style,
-    visible: isShowTooltip,
-    refCaption: ref
+    refAnimate,
+    refCaption,
+    visible: isShowTooltip
   })
-  // const { tooltipProps } = useTooltip(setIsShowTooltip)
+  const tooltipProps = useTooltip({
+    onPress,
+    onLongPress,
+    onChange: setIsShowTooltip
+  })
 
   let extraStyle = {}
   const extraProps = {}
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
+  if (renderPopover) {
+    onPress = () => setIsShowTooltip(true)
+  }
+  const isClickable = onPress || onLongPress
 
   // TODO disabled
   useDidUpdate(() => {
@@ -145,7 +151,7 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable) {
+    if (isClickable || renderTooltip) {
       return pug`
         TouchableWithoutFeedback(...wrapperProps)= children
       `
@@ -154,9 +160,9 @@ function Div ({
     }
   }
 
-  const div = pug`
+  const div = maybeWrapToClickable(pug`
     View.root(
-      ref=ref
+      ref=refCaption
       style=[style, extraStyle]
       styleName=[
         {
@@ -170,33 +176,19 @@ function Div ({
       ]
       ...extraProps
       ...props
+      ...tooltipProps
     )= children
-  `
+  `)
 
-  if (renderTooltip) {
+  if (renderPopover) {
     return pug`
-      TouchableWithoutFeedback(
-        onPress=() => setIsShowTooltip(true)
-      )= div
+      = div
 
       Portal
         if step !== STEPS.CLOSE
-          View(style={
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          })
-            TouchableOpacity(
+          View.wrapper
+            TouchableOpacity.overlay(
               onPress=() => setIsShowTooltip(false)
-              style={
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                top: 0,
-                left: 0
-              }
             )
             View(style=locationStyle)
               Animated.View(
@@ -206,9 +198,23 @@ function Div ({
     `
   }
 
+  if (renderTooltip) {
+    return pug`
+      = div
+
+      Portal
+        if step !== STEPS.CLOSE
+          View(style=locationStyle)
+            Animated.View(
+              ref=refAnimate
+              style=animateStyle
+            )= renderTooltip()
+    `
+  }
+
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
-  return maybeWrapToClickable(div)
+  return div
 }
 
 Div.defaultProps = {

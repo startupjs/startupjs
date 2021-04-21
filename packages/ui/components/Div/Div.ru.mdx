@@ -127,25 +127,26 @@ return (
 ## renderTooltip
 
 ```jsx example
+const captionStyle = { width: 16, height: 16, backgroundColor: '#333' }
+const contentStyle = {
+  paddingLeft: 24,
+  paddingRight: 24,
+  paddingTop: 12,
+  paddingBottom: 12,
+  borderRadius: 8,
+  backgroundColor: '#333333'
+}
+
 function renderTooltip () {
   return pug`
-    Div(style={
-      padding: 16,
-      backgroundColor: '#333'
-    })
-      Span(style={
-        color: '#fff'
-      }) Text
+    Div(style=contentStyle)
+      Span(style={ color: '#fff' }) Text
   `
 }
 
 return pug`
   Div(
-    style={
-      width: 16,
-      height: 16,
-      backgroundColor: '#333'
-    }
+    style=captionStyle
     renderTooltip=renderTooltip
   )
 `

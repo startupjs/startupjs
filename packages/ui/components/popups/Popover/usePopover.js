@@ -25,6 +25,7 @@ function getValidNode (current) {
 
 export default function usePopover ({
   style = [],
+  refAnimate = null,
   refCaption = null,
   visible = false,
   position = 'bottom',
@@ -39,7 +40,8 @@ export default function usePopover ({
   onRequestOpen = null,
   onRequestClose = null
 }) {
-  const refAnimate = useRef()
+  // refCaption, refAnimate
+
   const refGeometry = useRef({})
   const captionInfo = useRef({})
 
