@@ -33,13 +33,15 @@ const LOGIN_DEFAULT_INPUTS = {
     input: 'text',
     label: 'Email',
     placeholder: 'Enter your email',
-    testID: 'auth-email-input'
+    testID: 'auth-email-input',
+    autoCapitalize: 'none'
   },
   password: {
     input: 'password',
     label: 'Password',
     placeholder: 'Enter your password',
-    testID: 'auth-password-input'
+    testID: 'auth-password-input',
+    autoCapitalize: 'none'
   }
 }
 
@@ -123,7 +125,8 @@ function LoginForm ({
 
   const _properties = _pickBy(
     _mergeWith(
-      LOGIN_DEFAULT_INPUTS, properties,
+      { ...LOGIN_DEFAULT_INPUTS },
+      properties,
       (a, b) => (b === null) ? null : undefined
     ),
     _identity

@@ -1,3 +1,45 @@
+## [0.34.5](https://github.com/startupjs/startupjs/compare/v0.34.4...v0.34.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** add container that take styles ([#628](https://github.com/startupjs/startupjs/issues/628)) ([0407bc4](https://github.com/startupjs/startupjs/commit/0407bc4862db543f9cc69776af350ba11454d6a8))
+* **ui/Tabs:** fix passing props to `TabBar` ([#619](https://github.com/startupjs/startupjs/issues/619)) ([83316cb](https://github.com/startupjs/startupjs/commit/83316cbc7427b5d9a70220f878c65a08d6f5fd5c))
+
+
+
+## [0.34.4](https://github.com/startupjs/startupjs/compare/v0.34.3...v0.34.4) (2021-04-16)
+
+
+### Bug Fixes
+
+* **anchors:** prevent chilfren rerendering ([5aed489](https://github.com/startupjs/startupjs/commit/5aed489f95a7dde4f5846df2195ade5f3a1f6ac5))
+
+
+
+## [0.34.3](https://github.com/startupjs/startupjs/compare/v0.34.2...v0.34.3) (2021-04-15)
+
+
+### Bug Fixes
+
+* Recalc anchors pos on height change ([706e2d0](https://github.com/startupjs/startupjs/commit/706e2d0542bff3d7fbf34892f9d17b82d37994c6))
+* **anchors:** Raceconditions for el registering ([ab66425](https://github.com/startupjs/startupjs/commit/ab66425b18a707ce001a955d43ba6e4704b9a75c))
+* **ui/Autosuggest:** fix search with non-letter characters ([#617](https://github.com/startupjs/startupjs/issues/617)) ([2b0fd0b](https://github.com/startupjs/startupjs/commit/2b0fd0b58630231fbb9dbeab9095a1e0fdc5252e))
+
+
+
+## [0.34.2](https://github.com/startupjs/startupjs/compare/v0.34.1...v0.34.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to displaying incorrect fields in forms ([#606](https://github.com/startupjs/startupjs/issues/606)) ([97fa11d](https://github.com/startupjs/startupjs/commit/97fa11db67bc59b91cb5eb50df01066737cd381a))
+* **styleguide:** fix android ([4c7d6b5](https://github.com/startupjs/startupjs/commit/4c7d6b55bbf10cfc33b091de23bd5888d5a3f41b))
+* **ui/Div:** remove onClick from propTypes ([afd6d9e](https://github.com/startupjs/startupjs/commit/afd6d9e280b4f9f1a36a6371118433be23805621))
+* **ui/Modal:** dont render content if modal isnt visible ([#613](https://github.com/startupjs/startupjs/issues/613)) ([#618](https://github.com/startupjs/startupjs/issues/618)) ([f81140d](https://github.com/startupjs/startupjs/commit/f81140d48321a09d650be07fcb32c4399fb0bd74))
+
+
+
 ## [0.34.1](https://github.com/startupjs/startupjs/compare/v0.34.0...v0.34.1) (2021-04-08)
 
 
