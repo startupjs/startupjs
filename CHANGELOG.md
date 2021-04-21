@@ -1,3 +1,12 @@
+## [0.34.6](https://github.com/startupjs/startupjs/compare/v0.34.5...v0.34.6) (2021-04-21)
+
+
+### Features
+
+* **auth:** Email update feature ([59ddca5](https://github.com/startupjs/startupjs/commit/59ddca5d27db69237db8575606ac772e8c34ec9f))
+
+
+
 ## [0.34.5](https://github.com/startupjs/startupjs/compare/v0.34.4...v0.34.5) (2021-04-20)
 
 
