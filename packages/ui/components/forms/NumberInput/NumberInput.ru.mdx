@@ -18,47 +18,44 @@ import { NumberInput } from '@startupjs/ui'
 const [value, setValue] = useState()
 return (
   <NumberInput
-    label='NumberInput'
     value={value}
     onChangeNumber={setValue}
   />
 )
 ```
 
-## Пример
+## Label
 
 ```jsx example
 const [value, setValue] = useState()
-const [value1, setValue1] = useState(10)
 return (
-  <Div>
-    <NumberInput
-      label='NumberInput example'
-      placeholder='placeholder'
-      value={value}
-      onChangeNumber={setValue}
-      onFocus={(e) => console.log('focused', e)}
-      onBlur={(e) => console.log('blurred', e)}
-    />
-    <Br />
-    <NumberInput
-      label='NumberInput with start value example'
-      value={value1}
-      onChangeNumber={setValue1}
-    />
-    <Br />
-    <NumberInput
-      disabled
-      label='Disabled NumberInput example'
-      value={value1}
-    />
-    <Br />
-    <NumberInput
-      readonly
-      label='Readonly NumberInput with label example'
-      value={value1}
-    />
-  </Div>
+  <NumberInput
+    label='Label'
+    value={value}
+    onChangeNumber={setValue}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <NumberInput
+    disabled
+    value={10}
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <NumberInput
+    readonly
+    value={10}
+  />
 )
 ```
 

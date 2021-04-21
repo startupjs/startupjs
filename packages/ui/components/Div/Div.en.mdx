@@ -22,7 +22,7 @@ return (
 )
 ```
 
-## Example
+## Clickable
 
 ```jsx example
 const divStyle = {
@@ -34,18 +34,12 @@ const divStyle = {
 }
 const [counter, setCounter] = useState(0)
 return (
-  <Div>
-    <Div style={divStyle}>
-      <Span>Not clickable</Span>
-    </Div>
-    <Br />
-    <Div
-      style={divStyle}
-      onLongPress={() => setCounter(counter + 10)}
-      onPress={() => setCounter(counter + 1)}
-    >
-      <Span>Clicked {counter} times</Span>
-    </Div>
+  <Div
+    style={divStyle}
+    onLongPress={() => setCounter(counter + 10)}
+    onPress={() => setCounter(counter + 1)}
+  >
+    <Span>Clicked {counter} times</Span>
   </Div>
 )
 ```

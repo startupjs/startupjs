@@ -23,14 +23,16 @@ import { Button } from '@startupjs/ui'
 
 ## Простой пример
 ```jsx example
+const [counter, setCounter] = useState(0)
+
 return (
-  <Button>
-    Button
+  <Button onPress={() => setCounter(counter + 1)}>
+    Нажато {counter} раз
   </Button>
 )
 ```
 
-## Пример
+## Иконки
 
 ```jsx example
 const [counter, setCounter] = useState(0)

@@ -20,7 +20,6 @@ import { Select } from '@startupjs/ui'
 const [color, setColor] = useState()
 return (
   <Select
-    label='Select'
     value={color}
     onChange={setColor}
     options={[
@@ -31,51 +30,50 @@ return (
 )
 ```
 
-## Example
+## Label
 
 ```jsx example
 const [color, setColor] = useState()
-const [city, setCity] = useState('la')
 return (
-  <Div>
-    <Select
-      label='Example'
-      placeholder='placeholder'
-      value={color}
-      onChange={setColor}
-      onFocus={(e) => console.log('focused', e)}
-      onBlur={(e) => console.log('blurred', e)}
-      options={[
-        'red',
-        'yellow',
-        'blue'
-      ]}
-    />
-    <Br />
-    <Select
-      label='Custom labels example'
-      value={city}
-      showEmptyValue={false}
-      options={[
-        { label: 'New York', value: 'ny' },
-        { label: 'Los Angeles', value: 'la' },
-        { label: 'Tokyo', value: 'tk' }
-      ]}
-      onChange={setCity}
-    />
-    <Br />
-    <Select
-      label='Readonly Select example'
-      value={city}
-      readonly
-      showEmptyValue={false}
-      options={[
-        { label: 'New York', value: 'ny' },
-        { label: 'Los Angeles', value: 'la' },
-        { label: 'Tokyo', value: 'tk' }
-      ]}
-    />
-  </Div>
+  <Select
+    label="Label"
+    value={color}
+    onChange={setColor}
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <Select
+    disabled
+    value='red'
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <Select
+    readonly
+    value='red'
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
 )
 ```
 

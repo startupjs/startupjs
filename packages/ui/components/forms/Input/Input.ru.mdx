@@ -22,50 +22,8 @@ const [, $textValue] = useValue()
 return (
   <Input
     type='text'
-    label='Text input'
     $value={$textValue}
   />
-)
-```
-
-## Пример
-
-```jsx example
-const [, $textValue] = useValue()
-const [, $checkboxValue] = useValue()
-const [, $objectValue] = useValue()
-return (
-  <Div>
-    <Input
-      type='text'
-      label='Text input'
-      $value={$textValue}
-    />
-    <Br />
-    <Input
-      type='checkbox'
-      label='Checkbox component'
-      $value={$checkboxValue}
-    />
-    <Br />
-    <Input
-      type='object'
-      $value={$objectValue}
-      properties={{
-        checkbox: {
-          input: 'checkbox',
-          label: 'Click to display next input'
-        },
-        dependent: {
-          dependsOn: 'checkbox',
-          dependsValue: true,
-          input: 'text',
-          label: 'Dependent on checkbox',
-          style: { marginTop: u(1) }
-        }
-      }}
-    />
-  </Div>
 )
 ```
 

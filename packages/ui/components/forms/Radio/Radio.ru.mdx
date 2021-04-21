@@ -35,15 +35,16 @@ return (
 )
 ```
 
-## Пример
+## Disabled
 
 ```jsx example
 const [checked, setChecked] = useState()
+const [checkedDisable, setCheckedDisable] = useState()
 return (
   <Div>
     <Radio
       value={checked}
-      onChange={(value) => setChecked(value)}
+      onChange={setChecked}
       disabled={checked === 'item2'}
       options={[
         {
@@ -58,17 +59,12 @@ return (
           value: 'item3',
           label: 'Item-3 label',
         },
-        {
-          value: 'item4',
-          label: 'Item-4 disabled item',
-          disabled: true
-        }
       ]}
     />
     <Br />
     <Radio
-      readonly
-      value={checked}
+      value={checkedDisable}
+      onChange={setCheckedDisable}
       options={[
         {
           value: 'item1',
@@ -76,16 +72,13 @@ return (
         },
         {
           value: 'item2',
-          label: 'Disable items'
+          label: 'Item-2 label',
         },
         {
           value: 'item3',
-          label: 'Item-3 label'
+          label: 'Disable item',
+          disabled: true
         },
-        {
-          value: 'item4',
-          label: 'Item-4 disabled item'
-        }
       ]}
     />
   </Div>

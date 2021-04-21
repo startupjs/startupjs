@@ -41,36 +41,6 @@ return (
 )
 ```
 
-## Пример
-
-Border position of the active element can be customized using `activeBorder` prop.
-
-```jsx example
-const [active, setActive] = useState('option-1')
-return (
-  <Menu style={{ width: u(15) }}>
-    <Menu.Item
-      active={active === 'option-1'}
-      onPress={() => setActive('option-1')}
-    >
-      Option-1
-    </Menu.Item>
-    <Menu.Item
-      active={active === 'option-2'}
-      onPress={() => setActive('option-2')}
-    >
-      Option-2
-    </Menu.Item>
-    <Menu.Item
-      active={active === 'option-3'}
-      onPress={() => setActive('option-3')}
-    >
-      Option-3
-    </Menu.Item>
-  </Menu>
-)
-```
-
 ## Подсвеченный активный элемент
 
 По умолчанию активный пункт меню не подсвечивается. Чтобы подсветить его, используйте свойство `activeBorder`.

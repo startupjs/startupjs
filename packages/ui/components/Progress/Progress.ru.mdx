@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import Progress from '../Progress'
 import { Sandbox } from '@startupjs/docs'
+import Button from '../Button'
+import Br from '../Br'
 
 # Progress (прогресс)
 
@@ -18,25 +20,37 @@ return (
 )
 ```
 
-## Пример
+## Интерактивный пример
 
 ```jsx example
 const [value, setValue] = useState(0)
+const [startProgress, setStartProgress] = useState(false)
+const [countdown, setCountdown] = useState(false)
+
 useEffect(() => {
-  const interval = setInterval(() => {
-    setValue(v => {
-      const nextValue = v + 1
-      if (nextValue > 100) {
-        clearInterval(interval)
-        return 100
-      }
-      return nextValue
-    })
-  }, 1000)
+  let interval
+  if (startProgress) {
+    interval = setInterval(() => {
+      setValue(v => {
+        const nextValue = countdown ? v - 1 : v + 1
+        if (nextValue === 100 || nextValue === 0) {
+          setCountdown(!countdown)
+        }
+        return nextValue
+      })
+    }, 100)
+  }
   return () => clearInterval(interval)
-}, [])
+}, [startProgress, countdown])
+
 return (
-  <Progress value={value} />
+  <>
+    <Progress value={value} />
+    <Br />
+    <Button onPress={() => setStartProgress(!startProgress)}>
+      {startProgress ? 'Стоп' : 'Старт'}
+    </Button>
+  </>
 )
 ```
 

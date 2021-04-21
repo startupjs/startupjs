@@ -23,6 +23,8 @@ import { Icon } from '@startupjs/ui'
 
 ## Simple example
 
+Component uses `@fortawesome/react-native-fontawesome` library to implement icons.
+
 ```jsx
 import { faHouseUser } from '@fortawesome/free-solid-svg-icons'
 ```
@@ -30,28 +32,6 @@ import { faHouseUser } from '@fortawesome/free-solid-svg-icons'
 ```jsx example
 return (
   <Icon icon={faHouseUser} />
-)
-```
-
-## Fontawesome icons
-
-Component uses `@fortawesome/react-native-fontawesome` library to implement icons.
-
-```jsx
-import {
-  faHouseUser,
-  faTable,
-  faShareAlt
-} from '@fortawesome/free-solid-svg-icons'
-```
-
-```jsx example
-return (
-  <Row align='around'>
-    <Icon icon={faShareAlt} />
-    <Icon icon={faHouseUser} />
-    <Icon icon={faTable} />
-  </Row>
 )
 ```
 

@@ -41,34 +41,6 @@ return (
 )
 ```
 
-## Example
-
-```jsx example
-const [active, setActive] = useState('option-1')
-return (
-  <Menu style={{ width: u(15) }}>
-    <Menu.Item
-      active={active === 'option-1'}
-      onPress={() => setActive('option-1')}
-    >
-      Option-1
-    </Menu.Item>
-    <Menu.Item
-      active={active === 'option-2'}
-      onPress={() => setActive('option-2')}
-    >
-      Option-2
-    </Menu.Item>
-    <Menu.Item
-      active={active === 'option-3'}
-      onPress={() => setActive('option-3')}
-    >
-      Option-3
-    </Menu.Item>
-  </Menu>
-)
-```
-
 ## Highlighted active item
 
 By default the active menu item is not highlighted. To highlight it use the `activeBorder` property.

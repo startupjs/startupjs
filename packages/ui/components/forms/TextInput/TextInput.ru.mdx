@@ -20,46 +20,46 @@ import { TextInput } from '@startupjs/ui'
 const [value, setValue] = useState()
 return (
   <TextInput
-    label='TextInput'
+    placeholder='TextInput'
     value={value}
     onChangeText={setValue}
   />
 )
 ```
 
-## Пример
+## Label
 
 ```jsx example
 const [value, setValue] = useState()
-const [value1, setValue1] = useState()
 return (
-  <Div>
-    <TextInput
-      label='Example'
-      placeholder='placeholder'
-      value={value}
-      onChangeText={setValue}
-      onFocus={(e) => console.log('focused', e)}
-      onBlur={(e) => console.log('blurred', e)}
-    />
-    <Br />
-    <TextInput
-      disabled
-      label='Disabled input example'
-      value='Disabled value'
-    />
-    <Br />
-    <TextInput
-      readonly
-      label='Readonly input with label example'
-      value='Readonly value'
-    />
-    <Br />
-    <TextInput
-      readonly
-      value='Readonly input without label example'
-    />
-  </Div>
+  <TextInput
+    label='Label'
+    placeholder='TextInput'
+    value={value}
+    onChangeText={setValue}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <TextInput
+    disabled
+    value='disabled'
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <TextInput
+    readonly
+    value='readonly'
+  />
 )
 ```
 

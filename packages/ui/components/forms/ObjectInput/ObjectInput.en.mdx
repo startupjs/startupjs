@@ -16,28 +16,6 @@ import { ObjectInput } from from '@startupjs/ui'
 
 ## Simple example
 
-```jsx example
-const [value, $value] = useValue()
-return (
-  <ObjectInput
-    value={value}
-    $value={$value}
-    properties={{
-      firstName: {
-        input: 'text',
-        label: 'Input text'
-      },
-      checkbox: {
-        input: 'checkbox',
-        label: 'Checkbox'
-      }
-    }}
-  />
-)
-```
-
-## Example
-
 ObjectInput accepts an object in the `properties` property with a required `input` key to specify what type of input to display. Possible types are ([сheckbox](/docs/components/Checkbox), [text](/docs/components/TextInput) & [object](/docs/components/ObjectInput)). The `properties` object also inherit any of the props passed to the these components.
 
 ```jsx example

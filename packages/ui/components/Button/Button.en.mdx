@@ -21,14 +21,16 @@ import { Button } from '@startupjs/ui'
 
 ## Simple example
 ```jsx example
+const [counter, setCounter] = useState(0)
+
 return (
-  <Button>
-    Button
+  <Button onPress={() => setCounter(counter + 1)}>
+    Clicked {counter} times
   </Button>
 )
 ```
 
-## Example
+## Icons
 
 ```jsx example
 const [counter, setCounter] = useState(0)
