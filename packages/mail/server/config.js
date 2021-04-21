@@ -1,8 +1,3 @@
-const _config = {
-  layouts: {},
-  providers: {},
-  defaultProvider: null,
-  templates: {}
-}
+const _config = {}
 
 export default _config

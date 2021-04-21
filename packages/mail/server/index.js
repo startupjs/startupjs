@@ -1,5 +1,5 @@
 import mailApi from './api'
-import initProviders from './providers/init'
+import initProviders from './providers/initProviders'
 import initTemplates from './initTemplates'
 import initLayouts from './initLayouts'
 export { default as initMailRoutes } from './api'
@@ -17,14 +17,7 @@ export default async function initMail (ee, options = {}) {
     throw new Error('[@startupjs/mail] initMail: ee is required')
   }
 
-  if (!options.providers) {
-    throw new Error('[@startupjs/mail] initMail: options.providers is required!')
-  }
-
-  initProviders({
-    defaultProvider: options.defaultProvider,
-    providers: options.providers
-  })
+  initProviders(options)
 
   initLayouts(options.layouts)
 

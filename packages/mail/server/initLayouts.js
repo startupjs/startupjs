@@ -1,3 +1,4 @@
+import _set from 'lodash/set'
 import { DEFAULT_LAYOUT_NAME } from '../constants'
 import defaultLayout from '../layouts/defaultLayout'
 
@@ -14,13 +15,13 @@ export default function initLayouts (layouts = {}) {
 }
 
 export function registerLayout (name, layout) {
-  if (_config.layouts[name]) {
+  if (_config.layouts && _config.layouts[name]) {
     throw new Error('[@startupjs/mail] registerLayouts: ' +
       `layout ${name} already registred`
     )
   }
 
-  _config.layouts[name] = layout
+  _set(_config, ['layouts', name], layout)
 }
 
 export function getLayout (name) {
