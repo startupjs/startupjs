@@ -2,7 +2,12 @@ import React, { useEffect, useState, useImperativeHandle } from 'react'
 import { observer, useSession } from 'startupjs'
 import PropTypes from 'prop-types'
 
-const isReady = () => Boolean(typeof window === 'object' && window.grecaptcha && window.grecaptcha.render)
+const isReady = isEnterprise => {
+  if (isEnterprise) {
+    return Boolean(typeof window === 'object' && window?.grecaptcha?.enterprise?.render)
+  }
+  return Boolean(typeof window === 'object' && window?.grecaptcha?.render)
+}
 
 function RecaptchaComponent ({
   id,
@@ -20,14 +25,25 @@ function RecaptchaComponent ({
   const [onCloseObserver, setOnCloseObserver] = useState()
   const [readyInterval, setReadyInterval] = useState()
   const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
+  const [enterpriseNormalSiteKey] = useSession('Recaptcha.ENTERPRISE_NORMAL_SITE_KEY')
+  const [enterpriseInvisibleSiteKey] = useSession('Recaptcha.ENTERPRISE_INVISIBLE_SITE_KEY')
+  const [isEnterprise] = useSession('Recaptcha.enterprise')
+
+  const grecaptcha = isEnterprise ? window.grecaptcha.enterprise : window.grecaptcha
+  const isInvisible = variant === 'invisible'
+
+  const getSiteKey = () => {
+    if (isEnterprise) { return isInvisible ? enterpriseInvisibleSiteKey : enterpriseNormalSiteKey }
+    return recaptchaSiteKey
+  }
 
   useImperativeHandle(ref, () => ({
     open: () => {
       onClose && _registerOnCloseListener()
-      variant === 'invisible' && window.grecaptcha.execute(widget)
+      variant === 'invisible' && grecaptcha.execute(widget)
     },
     close: () => {
-      variant === 'invisible' && window.grecaptcha.reset(widget)
+      variant === 'invisible' && grecaptcha.reset(widget)
     }
   }))
 
@@ -52,18 +68,20 @@ function RecaptchaComponent ({
         onCloseObserver.disconnect()
       }
       if (_isRendered()) {
-        window.grecaptcha.reset(widget)
+        grecaptcha.reset(widget)
       }
     }
   }, [readyInterval])
 
+  const _onVerify = isEnterprise ? token => onVerify({ token, variant }) : onVerify
+
   const _renderRecaptcha = () => {
-    setWidget(window.grecaptcha.render(id, {
-      sitekey: recaptchaSiteKey,
+    setWidget(grecaptcha.render(id, {
+      sitekey: getSiteKey(),
       size: variant,
       theme,
       hl: lang,
-      callback: onVerify,
+      callback: _onVerify,
       'expired-callback': onExpire,
       'error-callback': onError
     }))
@@ -73,7 +91,7 @@ function RecaptchaComponent ({
   }
 
   const _updateReadyState = () => {
-    if (isReady()) {
+    if (isReady(isEnterprise)) {
       clearInterval(readyInterval)
       setReady(true)
     }
@@ -88,7 +106,7 @@ function RecaptchaComponent ({
 
     const iframes = document.getElementsByTagName('iframe')
     const recaptchaFrame = Array.prototype.find
-      .call(iframes, e => e.src.includes('google.com/recaptcha/api2/bframe'))
+      .call(iframes, e => e.src.includes(`google.com/recaptcha/${isEnterprise ? 'enterprise' : 'api2/bframe'}`))
     const recaptchaElement = recaptchaFrame.parentNode.parentNode
 
     let lastOpacity = recaptchaElement.style.opacity
@@ -99,7 +117,7 @@ function RecaptchaComponent ({
       }
       lastOpacity = recaptchaElement.style.opacity
     }))
-    onCloseObserver.observe(recaptchaElement, {
+    onCloseObserver && onCloseObserver.observe(recaptchaElement, {
       attributes: true,
       attributeFilter: ['style']
     })

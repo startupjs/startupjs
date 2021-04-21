@@ -28,18 +28,26 @@ function RecaptchaComponent ({
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(true)
   const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
+  const [enterpriseNormalSiteKey] = useSession('Recaptcha.ENTERPRISE_NORMAL_SITE_KEY')
+  const [enterpriseInvisibleSiteKey] = useSession('Recaptcha.ENTERPRISE_INVISIBLE_SITE_KEY')
+  const [isEnterprise] = useSession('Recaptcha.enterprise')
 
   const isInvisible = variant === 'invisible'
 
+  const getSiteKey = () => {
+    if (isEnterprise) { return isInvisible ? enterpriseInvisibleSiteKey : enterpriseNormalSiteKey }
+    return recaptchaSiteKey
+  }
+
   const html = useMemo(() => {
     return getTemplate({
-      siteKey: recaptchaSiteKey,
+      siteKey: getSiteKey(),
       variant,
       theme,
       lang,
       id
-    })
-  }, [recaptchaSiteKey, variant, theme, lang, id])
+    }, isEnterprise)
+  }, [recaptchaSiteKey, enterpriseNormalSiteKey, enterpriseInvisibleSiteKey, variant, theme, lang, id])
 
   const handleLoad = useCallback(
     (...args) => {
@@ -87,7 +95,7 @@ function RecaptchaComponent ({
         }
         if (payload.verify) {
           handleClose()
-          onVerify && onVerify(...payload.verify)
+          onVerify && isEnterprise ? onVerify({ token: payload.verify[0], variant }) : onVerify(...payload.verify)
         }
       } catch (err) {
         console.warn(err)

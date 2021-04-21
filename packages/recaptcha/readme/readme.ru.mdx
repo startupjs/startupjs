@@ -175,6 +175,44 @@ export default function initRoutes (router) {
   `
 ```
 
+## reCAPTCHA Enterprise
+
+Для использования [reCAPTCHA Enterprise](https://cloud.google.com/recaptcha-enterprise) необходимо выполнить следующие действия:
+
+В `server/index.js` добавить следующие строки:
+```js
+  import initRecaptcha from '@startupjs/recaptcha/server'
+```
+В функцию `startupjsServer` добавить:
+```js
+  initRecaptcha(ee, { enterprise: true })
+```
+В функцию `getHead` добавить:
+```js
+  <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+```
+В файл `config.json` вашего проекта необходимо добавить:
+```js
+  {
+    "RECAPTCHA_SECRET_KEY": "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ",
+    "RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY": "ВАШ_САЙТ_КЛЮЧ",
+    "RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY": "ВАШ_САЙТ_КЛЮЧ",
+    "GOOGLE_CLOUD_PROJECT_ID": "ID_ВАШЕГО_GOOGLE_CLOUD"
+  }
+```
+`RECAPTCHA_SECRET_KEY` создаётся здесь https://console.cloud.google.com/apis/credentials
+`RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY` и `RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY` - https://cloud.google.com/recaptcha-enterprise/docs/create-key
+
+### Использование на сервере
+
+```js
+  import { checkEnterpriseToken } from '@startupjs/recaptcha/server'
+```
+
+### Использование на клиенте
+
+Использование reCAPTCHA Enterprise на клиенте отличается от использования reCAPTCHA v2 только тем, что callback `onVerify` компонента `Recaptcha` возвращает объект `{ token: 'token', variant: 'normal of visible' }`
+
 ## Параметры
 
  - `id` [String] - id компонента. Должен быть уникален для каждой капчи на странице. По умолчанию: `recaptcha`
