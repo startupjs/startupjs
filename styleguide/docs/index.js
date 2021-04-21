@@ -16,6 +16,8 @@ import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
 import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import TwoFAManagerEn from '../../packages/2fa-manager/docs/2fa-manager.en.mdx'
+import TwoFAManagerRu from '../../packages/2fa-manager/docs/2fa-manager.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -105,6 +107,17 @@ export default docs({
         }
       },
       ...twoFADocs,
+      TwoFAManager: {
+        type: 'mdx',
+        title: {
+          en: '2fa manager',
+          ru: '2fa менеджер'
+        },
+        component: {
+          en: TwoFAManagerEn,
+          ru: TwoFAManagerRu
+        }
+      },
       plugins: {
         type: 'mdx',
         title: {

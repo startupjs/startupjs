@@ -1,11 +1,10 @@
-import { init, send, check } from './server'
+import { send, check } from './server'
 
 class Provider {
-  constructor (name, init, send, check) {
-    this._isValidArguments(name, init, send, check)
+  constructor (name, send, check) {
+    this._isValidArguments(name, send, check)
 
     this.name = name
-    this.init = init
     this.send = send
     this.check = check
   }
@@ -14,12 +13,9 @@ class Provider {
     return this.name
   }
 
-  _isValidArguments (name, init, send, check) {
+  _isValidArguments (name, send, check) {
     if (typeof name !== 'string') {
       throw new TypeError('Invalid argument name. Must be a string!')
-    }
-    if (typeof init !== 'function') {
-      throw new TypeError('Invalid argument init. Must be a function!')
     }
     if (typeof send !== 'function') {
       throw new TypeError('Invalid argument send. Must be a function!')
@@ -30,4 +26,4 @@ class Provider {
   }
 }
 
-export default new Provider('totp', init, send, check)
+export default new Provider('totp', send, check)

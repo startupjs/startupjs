@@ -1,10 +1,15 @@
+import { useState } from 'react'
+import { Div, Button, Span, Br } from '@startupjs/ui'
+import { useProviders, ProvidersList2fa } from '@startupjs/2fa-manager'
+import { CheckToken } from '@startupjs/2fa'
+
 # 2fa-manager
 
 Component for using various two-factor authentication methods.
 
 ## Installation
 
-```sh
+```js
   yarn add @startupjs/2fa-manager
 ```
 
@@ -89,3 +94,44 @@ Component for displaying a list of registered providers. Accepts the following p
 
 - `providers` - array of provider names
 - `chooseProvider` - function, returns the name of the selected provider
+
+```js
+import { useProviders } from '@startupjs/2fa-manager'
+```
+
+```jsx example
+const providers = useProviders()
+const [currentProvider, setCurrentProvider] = useState('')
+return pug`
+  ProvidersList2fa(
+    providers=providers
+    chooseProvider=setCurrentProvider
+  )
+  Br
+  if currentProvider
+    Span= 'You chose the ' + currentProvider
+`
+```
+
+## Example
+
+```js
+import { CheckToken } from '@startupjs/2fa'
+```
+
+```jsx example
+const providers = useProviders()
+const [currentProvider, setCurrentProvider] = useState('')
+
+return pug`
+  Div
+    if !currentProvider
+      ProvidersList2fa(providers=providers chooseProvider=setCurrentProvider)
+    else
+      if currentProvider === 'totp'
+        CheckToken(
+          onSuccess=() => console.log('Code is right')
+          onDismiss=() => console.log('Code is wrong')
+        )
+`
+```

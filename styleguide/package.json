@@ -44,6 +44,7 @@
     "@startupjs/recaptcha": "^0.34.0",
     "@startupjs/scrollable-anchors": "^0.34.1",
     "@startupjs/ui": "^0.34.1",
+    "@startupjs/2fa-manager": "^0.34.0",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
     "nconf": "^0.10.0",

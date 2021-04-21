@@ -21,10 +21,6 @@ export default class TwoFAManager {
     return this.providers.map(provider => provider.getName())
   }
 
-  initProviders (ee, options) {
-    this.providers.forEach(provider => provider.init(ee, options))
-  }
-
   _getProvider (providerName) {
     const provider = this.providers.find(provider => provider.getName() === providerName)
     if (!provider) {
