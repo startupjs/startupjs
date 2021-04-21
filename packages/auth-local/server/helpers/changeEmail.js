@@ -35,6 +35,9 @@ export default async function changeEmail ({ email, userId, model }) {
   await $user.set('email', email)
   await $auth.set('email', email)
   await $auth.set('providers.local.email', email)
+  if (auth.id) {
+    await $auth.set('providers.local.id', email)
+  }
 
   model.unfetch($user, $auth, $existingUser)
 }
