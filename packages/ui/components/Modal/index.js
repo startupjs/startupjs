@@ -73,7 +73,8 @@ const ObservedModal = observer(Modal, { forwardRef: true })
 
 ObservedModal.defaultProps = {
   variant: 'window',
-  dismissLabel: ModalActions.defaultProps.dismissLabel,
+  dismissLabel: ModalActions.defaultProps.dismissLabel, // DEPRECATED
+  cancelLabel: ModalActions.defaultProps.cancelLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
   ModalElement: SafeAreaView,
   animationType: 'fade',
@@ -91,7 +92,8 @@ ObservedModal.propTypes = {
   visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
-  dismissLabel: ModalActions.propTypes.dismissLabel,
+  dismissLabel: ModalActions.propTypes.dismissLabel, // DEPRECATED
+  cancelLabel: ModalActions.propTypes.cancelLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
   showCross: PropTypes.bool,
   enableBackdropPress: PropTypes.bool,
