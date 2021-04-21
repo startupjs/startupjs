@@ -15,3 +15,5 @@ export { default as onBeforeEmailChange } from './onBeforeEmailChange'
 // Helpers
 export { default as createEmailChangeSecret } from './createEmailChangeSecret'
 export { default as changeEmail } from './changeEmail'
+export { default as createPasswordResetSecret } from './createPasswordResetSecret'
+export { default as changePassword } from './changePassword'
