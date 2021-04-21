@@ -1,3 +1,12 @@
+## [0.34.7](https://github.com/startupjs/startupjs/compare/v0.34.6...v0.34.7) (2021-04-21)
+
+
+### Bug Fixes
+
+* **auth:** Update local provider id ([e8e254b](https://github.com/startupjs/startupjs/commit/e8e254b43f3b27ca5b3e55eb32f79ae711a9d228))
+
+
+
 ## [0.34.6](https://github.com/startupjs/startupjs/compare/v0.34.5...v0.34.6) (2021-04-21)
 
 
