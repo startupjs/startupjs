@@ -10,8 +10,7 @@ import { Button } from '@startupjs/ui'
 ## Требования
 
 ```
-@react-native-async-storage/async-storage: >= 1.13.2
-react-native-restart: >= 0.0.22
+@react-native-cookies/cookies: >= 6.0.6
 @startupjs/ui: >= 0.33.0
 startupjs: >= 0.33.0
 ```
@@ -298,7 +297,7 @@ initAuth(ee, {
 
 ```js
   onBeforeLoginHook: ({ userId }, req, res, next) => {
-    // req.cookies.redirectUrl = '/123'
+    // req.cookies.authRedirectUrl = '/custom-redirect-path'
     next()
   }
 ```

@@ -53,9 +53,8 @@ startupjsServer({
   })
 
   initAuth(ee, {
-    successRedirectUrl: '/profile',
     onBeforeLoginHook: ({ userId }, req, res, next) => {
-      // req.cookies.redirectUrl = '/123'
+      // req.cookies.authRedirectUrl = '/custom-redirect-path'
       next()
     },
     strategies: getAuthStrategies(),

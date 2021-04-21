@@ -16,6 +16,7 @@ import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg'
 import { BASE_URL } from '@env'
 import Joi from '@hapi/joi'
 import Layout from './Layout'
+import './index.styl'
 
 function getCaptionForm (slide) {
   if (slide === 'sign-in') return 'Авторизация'
@@ -84,18 +85,10 @@ export default initAuthApp({
     onChangeSlide
   }) {
     return pug`
-      Div(style={
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 24,
-        paddingRight: 24
-      })
-        H5(style={
-          textAlign: 'center'
-        })= getCaptionForm(slide)
+      Div.form
+        H5.caption= getCaptionForm(slide)
         = socialButtons
-        Div(style={ marginTop: 16 })
-          = localActiveForm
+        Div.case= localActiveForm
     `
   }
 })

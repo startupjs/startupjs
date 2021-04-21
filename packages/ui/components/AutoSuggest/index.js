@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { TouchableOpacity, View, FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import Popover from '../popups/Popover'
@@ -48,9 +49,11 @@ function AutoSuggest ({
     onChangeShow: v => setIsShow(v)
   })
 
-  _data.current = options.filter(item => {
-    return inputValue ? !!item.label.match(new RegExp(inputValue, 'gi')) : true
-  })
+  const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
+
+  _data.current = escapedInputValue
+    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
+    : options
 
   function onClose (e) {
     setIsShow(false)
