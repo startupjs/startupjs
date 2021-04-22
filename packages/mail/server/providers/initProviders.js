@@ -1,4 +1,5 @@
 import _config from '../config'
+import BaseMailProvider from './BaseMailProvider'
 
 export default function initProviders (options = {}) {
   const {
@@ -11,6 +12,12 @@ export default function initProviders (options = {}) {
       '[@startupjs/mail] initProviders: providers is required'
     )
   }
+
+  providers.forEach(provider => {
+    if (!(provider instanceof BaseMailProvider)) {
+      throw new Error(`[@startupjs/mail]: Provider ${provider} is not an instance of BaseMailProvider`)
+    }
+  })
 
   _config.defaultProvider = defaultProvider || Object.keys(providers)[0]
 

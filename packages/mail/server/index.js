@@ -3,7 +3,7 @@ import initProviders from './providers/initProviders'
 import initTemplates from './initTemplates'
 import initLayouts from './initLayouts'
 export { default as initMailRoutes } from './api'
-export { getProvider } from './providers'
+export { getProvider, BaseMailProvider } from './providers'
 export { default as sendEmail } from '../send'
 
 /**
