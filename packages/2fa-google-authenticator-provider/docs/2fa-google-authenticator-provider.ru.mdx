@@ -1,0 +1,32 @@
+# @startupjs/2fa-google-authenticator-provider
+
+Компонент провайдера для верификации через приложение google authenticator.
+
+## Зависимости
+
+```js
+@startupjs/2fa-manager >= 0.34.0,
+@startupjs/2fa >= 0.34.0
+```
+
+## Установка
+
+```js
+  yarn add @startupjs/2fa-google-authenticator-provider
+```
+
+## Использование
+
+Необходимо импортировать компонент `GAProvider` из @startupjs/2fa-google-authenticator-provider.
+
+```js
+import { GAProvider } from '@startupjs/2fa-google-authenticator-provider'
+```
+
+Затем нужно добавить `GAProvider` в массив `providers` у `initTwoFAManager`
+
+```js
+initTwoFAManager(ee, {
+  providers: [GAProvider]
+})
+```

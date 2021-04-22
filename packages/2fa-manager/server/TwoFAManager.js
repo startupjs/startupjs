@@ -1,9 +1,13 @@
+import { Provider } from '../Provider'
+
 export default class TwoFAManager {
   constructor (options) {
     if (TwoFAManager._instance) {
       return TwoFAManager._instance
     }
     TwoFAManager._instance = this
+
+    this._isValidOptions(options)
     this.providers = options.providers || []
   }
 
@@ -28,5 +32,13 @@ export default class TwoFAManager {
     }
 
     return provider
+  }
+
+  _isValidOptions (options) {
+    options.providers.forEach(provider => {
+      if (!(provider instanceof Provider)) {
+        throw new Error(`[TwoFAManager.constructor]: Provider ${provider} must be instanse of Provider from @startupjs/2fa-manager/Provider!`)
+      }
+    })
   }
 }

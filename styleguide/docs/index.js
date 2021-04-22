@@ -1,7 +1,10 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import twoFADocs from '../../packages/2fa/docs'
+import TwoFAEn from '../../packages/2fa/docs/2fa.en.mdx'
+import TwoFARu from '../../packages/2fa/docs/2fa.ru.mdx'
+import GAProviderEn from '../../packages/2fa-google-authenticator-provider/docs/2fa-google-authenticator-provider.en.mdx'
+import GAProviderRu from '../../packages/2fa-google-authenticator-provider/docs/2fa-google-authenticator-provider.ru.mdx'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
@@ -106,16 +109,40 @@ export default docs({
           ru: ScrollableAnchorsRu
         }
       },
-      ...twoFADocs,
-      TwoFAManager: {
-        type: 'mdx',
+      '2fa': {
+        type: 'collapse',
         title: {
-          en: '2fa manager',
-          ru: '2fa менеджер'
+          en: '2fa',
+          ru: '2fa'
         },
-        component: {
-          en: TwoFAManagerEn,
-          ru: TwoFAManagerRu
+        items: {
+          TwoFAManager: {
+            type: 'mdx',
+            title: {
+              en: 'Manager',
+              ru: 'Менеджер'
+            },
+            component: {
+              en: TwoFAManagerEn,
+              ru: TwoFAManagerRu
+            }
+          },
+          '2fa-totp': {
+            type: 'mdx',
+            title: 'TOTP',
+            component: {
+              en: TwoFAEn,
+              ru: TwoFARu
+            }
+          },
+          GAProvider: {
+            type: 'mdx',
+            title: 'Google Authenticator Provider',
+            component: {
+              en: GAProviderEn,
+              ru: GAProviderRu
+            }
+          }
         }
       },
       plugins: {
