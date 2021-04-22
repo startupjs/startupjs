@@ -128,7 +128,7 @@ return pug`
     if !currentProvider
       ProvidersList2fa(providers=providers chooseProvider=setCurrentProvider)
     else
-      if currentProvider === 'totp'
+      if currentProvider === 'google-authenticator'
         CheckToken(
           onSuccess=() => console.log('Code is right')
           onDismiss=() => console.log('Code is wrong')
