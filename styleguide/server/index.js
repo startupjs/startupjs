@@ -7,7 +7,7 @@ import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { init2fa } from '@startupjs/2fa/server'
 import { initTwoFAManager } from '@startupjs/2fa-manager/server'
-import totpProvider from '@startupjs/2fa/provider'
+import { GAProvider } from '@startupjs/2fa-google-authenticator-provider/server'
 import { initRecaptcha } from '@startupjs/recaptcha/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
@@ -49,7 +49,7 @@ startupjsServer({
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {
-    providers: [totpProvider]
+    providers: [GAProvider]
   })
 
   initAuth(ee, {
