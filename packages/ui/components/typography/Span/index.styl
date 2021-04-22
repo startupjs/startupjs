@@ -7,20 +7,20 @@ _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
     &.{variant}
       text(variant)
 
-  fontFamily($UI.fontNormal)
+  fontFamily($UI.fontFamilies.normal)
 
   &.bold
-    fontFamily($UI.fontNormal, 700)
+    fontFamily($UI.fontFamilies.normal, 700)
   &.italic
-    fontFamily($UI.fontNormal, 400, italic)
+    fontFamily($UI.fontFamilies.normal, 400, italic)
   &.bold.italic
-    fontFamily($UI.fontNormal, 700, italic)
+    fontFamily($UI.fontFamilies.normal, 700, italic)
 
   &.header
-    fontFamily($UI.fontHeading)
+    fontFamily($UI.fontFamilies.heading)
     &.bold
-      fontFamily($UI.fontHeading, 700)
+      fontFamily($UI.fontFamilies.heading, 700)
     &.italic
-      fontFamily($UI.fontHeading, 400, italic)
+      fontFamily($UI.fontFamilies.heading, 400, italic)
     &.bold.italic
-      fontFamily($UI.fontHeading, 700, italic)
+      fontFamily($UI.fontFamilies.heading, 700, italic)
