@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'startupjs'
 import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
-import { OneSignal, sendNotification } from '@startupjs/push-notifications'
+import { OneSignal, sendNotification, sendAdvancedNotification } from '@startupjs/push-notifications'
 
 # Push notifications
 
@@ -117,11 +117,17 @@ initOneSignal()
 
 - `OneSignal` - инстанс `onesignal`, который позволяет использовать [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk) и [Web Push SDK](https://documentation.onesignal.com/docs/web-push-sdk). Используйте только этот инстанс в рамках приложения!
 
-- `sendNotification(data)` - функция для отправки нотификаций, используйте структуру запроса как указано в [SERVER REST API](https://documentation.onesignal.com/reference/create-notification). !ВАЖНО! поле `app_id` указывать не нужно.
+- `sendNotification({ userIds, title, content })` - функция для отправки нотификаций. Опции:
+  - `userIds` - массив id юзеров которым будет отправлено push уведомление. Здесь используются локальные id юзеров из БД. !ВАЖНО! в этой функции отправка происходит по `external_user_id`, (пример работы с `externalUserId` смотрите ниже). 
+  - `title` - строка заголовка.
+  - `content` - строка контента.
+
+- `sendAdvancedNotification(data)` - функция для отправки нотификаций, используйте структуру запроса как указано в [SERVER REST API](https://documentation.onesignal.com/reference/create-notification). !ВАЖНО! поле `app_id` указывать не нужно.
+
 
 ## Использование кастомных id для регистрации пользователей в onesignal
 
-При первом запуске приложения будет сгенерирован уникальный `id` в `onesignal`  для пользователя (посмотреть их можно в разделе `Audience` [вашего приложения в onesignal](https://app.onesignal.com/apps/)). Такое поведение не удобно, так как обычно у пользователей уже есть локальные `id`. 
+При первом запуске приложения будет сгенерирован уникальный `id` в `onesignal`  для пользователя (посмотреть их можно в разделе `Audience` [вашего приложения в onesignal](https://app.onesignal.com/apps/)). Такое поведение не удобно, так как обычно у пользователей уже есть локальные `id`.
 
 Для того чтобы записать дополнительный `id` для пользователя, можно использовать метод `setExternalUserId(local_id)`.
 
@@ -140,6 +146,32 @@ import { OneSignal } from '@startupjs/push-notifications'
 const [userId] = useSession('userId')
 OneSignal.setExternalUserId(userId)
 //...
+```
+
+Иcпользуйте данный метод в удобном месте вашего приложения.
+
+## Персонализация уведомлений
+
+В уведомлениях можно использовать уникальные переменные для каждого пользователя. Подробную информацию о пользовательских переменных можно найти [здесь](https://documentation.onesignal.com/docs/data-tag-implementation). Информация об отправке персонализированых сообщений находится [здесь](https://documentation.onesignal.com/docs/personalization).
+
+Присвоение персональных переменных.
+
+```js
+OneSignal.sendTags({
+  firstName: 'Bill',
+  currentLevel: 7
+})
+```
+Использование в сообщении.
+
+```js
+const personalMessage = "Hello {{ firstName | default: 'there'}}! We just improved our controls, come back and see if you can beat level {{ currentLevel | default: '1' }}!"
+
+sendNotification({
+  ids: [userId1, userId2],
+  title: ''
+  content: personalMessage
+})
 ```
 
 ## Тестирование
@@ -222,6 +254,16 @@ async function getExternalUserId () {
 
 function sendCustomNotification () {
   sendNotification({
+    userIds: [userId],
+    title,
+    content
+  })
+  setTitle('')
+  setContent('')
+}
+
+function sendAdvancedCustomNotification () {
+  sendAdvancedNotification({
     headings: {"en": title},
     contents: {"en": content},
     include_external_user_ids: [userId]
@@ -261,6 +303,12 @@ return (
     
     <Button onPress={sendCustomNotification}>
       Send Test Push
+    </Button>
+
+    <Br/>
+    
+    <Button onPress={sendAdvancedCustomNotification}>
+      Send Advanced Test Push
     </Button>
   </Div>
 )

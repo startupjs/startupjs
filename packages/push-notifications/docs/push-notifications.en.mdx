@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'startupjs'
 import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
-import { OneSignal, sendNotification } from '@startupjs/push-notifications'
+import { OneSignal, sendNotification, sendAdvancedNotification } from '@startupjs/push-notifications'
 
 # Push notifications
 
@@ -116,7 +116,12 @@ These keys can be found in your app settings on the [onesignal website](https://
 
 - `OneSignal` - the `onesignal` instance that allows you to use the [React Native SDK](https://documentation.onesignal.com/docs/react-native-sdk) and the [Web Push SDK](https://documentation.onesignal.com/docs/web-push-sdk). Use only this instance within the application!
 
-- `sendNotification(data)` - function to send notifications, use the request structure as specified in [SERVER REST API](https://documentation.onesignal.com/reference/create-notification). !IMPORTANT! the `app_id` field is not required.
+- `sendNotification({ userIds, title, content })` - function for sending notifications. Options:
+  - `userIds` - an array of user ids to which the push notification will be sent. It uses local user ids from the database. !IMPORTANT! in this function, sending is done by `external_user_id`, (see below for an example of working with` externalUserId`).
+  - `title` - string with title.
+  - `content` - string with content.
+
+- `sendAdvancedNotification(data)` - function to send notifications, use the request structure as specified in [SERVER REST API](https://documentation.onesignal.com/reference/create-notification). !IMPORTANT! the `app_id` field is not required.
 
 ## Using custom ids to register users with onesignal
 
@@ -139,6 +144,32 @@ import { OneSignal } from '@startupjs/push-notifications'
 const [userId] = useSession('userId')
 OneSignal.setExternalUserId(userId)
 //...
+```
+
+Use this method at a convenient location in your application.
+
+## Personalize notifications
+
+You can use unique variables for each user in notifications. More information about custom variables can be found [here](https://documentation.onesignal.com/docs/data-tag-implementation). Information about sending personalized messages is located [here](https://documentation.onesignal.com/docs/personalization).
+
+Assigning personal variables.
+
+```js
+OneSignal.sendTags({
+  firstName: 'Bill',
+  currentLevel: 7
+})
+```
+Use in a message.
+
+```js
+const personalMessage = "Hello {{ firstName | default: 'there'}}! We just improved our controls, come back and see if you can beat level {{ currentLevel | default: '1' }}!"
+
+sendNotification({
+  ids: [userId1, userId2],
+  title: ''
+  content: personalMessage
+})
 ```
 
 ## Testing
@@ -222,6 +253,16 @@ async function getExternalUserId () {
 
 function sendCustomNotification () {
   sendNotification({
+    userIds: [userId],
+    title,
+    content
+  })
+  setTitle('')
+  setContent('')
+}
+
+function sendAdvancedCustomNotification () {
+  sendAdvancedNotification({
     headings: {"en": title},
     contents: {"en": content},
     include_external_user_ids: [userId]
@@ -261,6 +302,12 @@ return (
     
     <Button onPress={sendCustomNotification}>
       Send Test Push
+    </Button>
+
+    <Br/>
+    
+    <Button onPress={sendAdvancedCustomNotification}>
+      Send Advanced Test Push
     </Button>
   </Div>
 )
