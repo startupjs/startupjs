@@ -1,5 +1,5 @@
 export default class Provider {
-  constructor (name, init, send, check) {
+  constructor (name, send, check) {
     this._isValidArguments(name, send, check)
 
     this.name = name
@@ -11,7 +11,7 @@ export default class Provider {
     return this.name
   }
 
-  _isValidArguments (name, init, send, check) {
+  _isValidArguments (name, send, check) {
     if (typeof name !== 'string') {
       throw new TypeError('Invalid argument name. Must be a string!')
     }
