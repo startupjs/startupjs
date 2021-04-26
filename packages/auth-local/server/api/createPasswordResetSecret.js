@@ -35,7 +35,7 @@ export default function createPasswordResetSecret (req, res, done, config) {
 
       res.send('Secret for password reset has been created')
     } catch (error) {
-      res.status(400).send(error.message)
+      res.status(400).send({ message: error.message })
     }
   })
 }
