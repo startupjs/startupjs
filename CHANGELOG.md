@@ -1,3 +1,17 @@
+## [0.34.8](https://github.com/startupjs/startupjs/compare/v0.34.7...v0.34.8) (2021-04-26)
+
+
+### Bug Fixes
+
+* **auth:** error format in res ([2017532](https://github.com/startupjs/startupjs/commit/20175320053ba22d2646d47ead0039bc35cdd709))
+
+
+### Features
+
+* **mdx:** add md table support and jsx pure-example ([#631](https://github.com/startupjs/startupjs/issues/631)) ([ea8b34d](https://github.com/startupjs/startupjs/commit/ea8b34d5014e43c148225615e06acc8002982ee3))
+
+
+
 ## [0.34.7](https://github.com/startupjs/startupjs/compare/v0.34.6...v0.34.7) (2021-04-21)
 
 
