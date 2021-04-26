@@ -32,6 +32,7 @@ function CheckboxInput ({
   onChange,
   hoverStyle,
   activeStyle,
+  vAlign,
   ...props
 }) {
   const _layout = useLayout(layout, label)
@@ -76,7 +77,7 @@ function CheckboxInput ({
     Row.root(
       style=style
       className=className
-      vAlign='center'
+      vAlign=vAlign
       disabled=disabled
       onPress=!readonly ? onPress : undefined
       hoverStyle=hoverStyle
@@ -93,6 +94,7 @@ function CheckboxInput ({
 
 CheckboxInput.defaultProps = {
   variant: 'checkbox',
+  vAlign: 'center',
   value: false,
   disabled: false,
   readonly: false
@@ -107,6 +109,7 @@ CheckboxInput.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
+  vAlign: PropTypes.string,
   onChange: PropTypes.func
 }
 

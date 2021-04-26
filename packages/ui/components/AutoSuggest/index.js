@@ -32,6 +32,7 @@ function AutoSuggest ({
   onDismiss,
   onChangeText,
   onScrollEnd,
+  closeOnSelect,
   testID
 }) {
   const _data = useRef([])
@@ -58,7 +59,7 @@ function AutoSuggest ({
   function onClose (e) {
     setIsShow(false)
     setSelectIndexValue(-1)
-    refInput.current.blur()
+    refInput.current && refInput.current.blur()
     onDismiss && onDismiss()
   }
 
@@ -75,7 +76,7 @@ function AutoSuggest ({
           key=index
           onPress=()=> {
             onChange && onChange(item)
-            onClose()
+            closeOnSelect && onClose()
           }
         )= renderItem(item, index, selectIndexValue)
       `
@@ -157,6 +158,7 @@ AutoSuggest.defaultProps = {
   value: {},
   placeholder: 'Select value',
   renderItem: null,
+  closeOnSelect: true,
   isLoading: false
 }
 
@@ -174,6 +176,7 @@ AutoSuggest.propTypes = {
   onChange: PropTypes.func,
   onDismiss: PropTypes.func,
   onChangeText: PropTypes.func,
+  closeOnSelect: PropTypes.bool,
   onScrollEnd: PropTypes.func
 }
 
