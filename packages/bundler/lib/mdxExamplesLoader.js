@@ -29,7 +29,7 @@ function pureReplacer (match, p1, p2, p3) {
   if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
 
   return (
-    `<section style={{backgroundColor: 'red' }}>
+    `<section>
       <React.Fragment>
         {React.createElement(__observer(function Example () {
           ${p2}
