@@ -7,6 +7,12 @@ import H6 from './H6'
 import Span from './Span'
 import Br from '../Br'
 import Div from '../Div'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
 import { Sandbox } from '@startupjs/docs'
 import './index.styl'
 
@@ -26,12 +32,12 @@ import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
 
 ## Sizes
 
-To change text size use `font(size)` global mixin. Possible values of `size` (`xs`, `s`, `m`, `l`, `xl`, `xxl`, `xxxl`, `xxxxl`, `xxxxxl`). `m` is default `Span` size.
+To change text size use `font(size)` global mixin. Possible values of `size` (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `body1`, `body2`, `subtitle1`, `subtitle2`). `body2` is default `Span` size.
 
 In `.styl` file
 ```stylus
 .text
-  font(xxl)
+  font(h2)
 ```
 
 ```jsx example
@@ -40,50 +46,120 @@ In `.styl` file
 
 ## Variants
 
-The `variant` property means **"make text as"** and it uses `text(key)` global mixin under the hood. Possible values of `key` (`default`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `description`). **We do not recommend using mixin unnecessarily instead of `variant` property**.
+```jsx pure-example
+const tableStyle = {
+  backgroundColor: '#fff',
+}
 
-```jsx example
+const hoverOptions = {
+  style: {
+    cursor: 'default',
+  },
+  hoverStyle: {
+    backgroundColor: '#ebf8fd',
+  },
+  activeStyle: {
+    opacity: 1,
+    backgroundColor: '#ebf8fd',
+  },
+  onPress: () => undefined,
+}
+
 return (
-  <Div>
-    <Span>
-      Default (size - m, color - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='description'>
-      Description (use to reduce the significance of the text, size - m, color - $UI.colors.secondaryText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h1'>
-      H1 (size - xxxxxl, color - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h2'>
-      H2 (size - xxxxl, color - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h3'>
-      H3 (size - xxxl, color - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h4'>
-      H4 (size - xxl, color - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h5'>
-      H5 (size - xl, color - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h6'>
-      H6 (size - l, color - $UI.colors.mainText)
-    </Span>
-  </Div>
+<Table style={tableStyle}>
+    <Thead>
+      <Tr>
+        <Th {...hoverOptions}>
+          Font
+        </Th>
+        <Th {...hoverOptions}>font-size</Th>
+        <Th {...hoverOptions}>line-height</Th>
+        <Th {...hoverOptions}>letter-spacing</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='h1'>H1</Span>
+        </Td>
+        <Td>72px</Td>
+        <Td>96px</Td>
+        <Td>-1.5</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='h2'>H2</Span>
+        </Td>
+        <Td>48px</Td>
+        <Td>64px</Td>
+        <Td>-0.5</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='h3'>H3</Span>
+        </Td>
+        <Td>36px</Td>
+        <Td>48px</Td>
+        <Td>0</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='h4'>H4</Span>
+        </Td>
+        <Td>24px</Td>
+        <Td>32px</Td>
+        <Td>0.25</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='h5'>H5</Span>
+        </Td>
+        <Td>20px</Td>
+        <Td>28px</Td>
+        <Td>0</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='h6'>H6</Span>
+        </Td>
+        <Td>16px</Td>
+        <Td>24px</Td>
+        <Td>0.15</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='body1'>body1</Span>
+        </Td>
+        <Td>16px</Td>
+        <Td>24px</Td>
+        <Td>0.5</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='body2'>body2 (default)</Span>
+        </Td>
+        <Td>14px</Td>
+        <Td>20px</Td>
+        <Td>0.25</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='subtitle1'>subtitle1</Span>
+        </Td>
+        <Td>16px</Td>
+        <Td>24px</Td>
+        <Td>0.15</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td>
+          <Span styleName='subtitle2'>subtitle2</Span>
+        </Td>
+        <Td>14px</Td>
+        <Td>20px</Td>
+        <Td>0.1</Td>
+      </Tr>
+    </Tbody>
+  </Table>
 )
 ```
 

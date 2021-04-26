@@ -12,12 +12,21 @@ function Span ({
   bold,
   italic,
   theme,
+  description,
   ...props
 }) {
+  if (variant && variant !== 'default') {
+    if (variant === 'description') {
+      console.warn("[@startupjs/ui] Span: variant='description' is DEPRECATED, use prop description instead.")
+    } else {
+      console.warn(`[@startupjs/ui] Span: variant='${variant}' is DEPRECATED, use font(${variant}) mixin instead.`)
+    }
+  }
+
   return pug`
     Text.root(
       style=style
-      styleName=[theme, variant, { bold, italic }]
+      styleName=[theme, variant, { bold, italic, description }]
       ...props
     )= children
   `
@@ -36,7 +45,8 @@ Span.propTypes = {
     'default', 'description', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
   ]),
   bold: PropTypes.bool,
-  italic: PropTypes.bool
+  italic: PropTypes.bool,
+  description: PropTypes.bool
 }
 
 export default observer(themed(Span))
