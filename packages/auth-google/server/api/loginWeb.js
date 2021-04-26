@@ -5,6 +5,6 @@ export default function loginWeb (req, res, next) {
   return passport.authenticate('google', {
     scope: PERMISSIONS,
     prompt: 'select_account',
-    loginHint: req.query.email
+    ...req.query
   })(req, res, next)
 }

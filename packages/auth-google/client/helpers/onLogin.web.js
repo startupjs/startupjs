@@ -8,7 +8,7 @@ export default async function onLogin ({
   baseUrl = BASE_URL,
   redirectUrl,
   expiresRedirectUrl,
-  email
+  ...options
 }) {
   // set redirectUrl in cookie and play redirect from server
   if (redirectUrl) {
@@ -20,5 +20,7 @@ export default async function onLogin ({
     })
   }
 
-  Linking.openURL(email ? WEB_LOGIN_URL + `?email=${email}` : WEB_LOGIN_URL)
+  const serializedOptions = Object.keys(options).map(key => key + '=' + options[key]).join('&')
+
+  Linking.openURL(serializedOptions ? WEB_LOGIN_URL + `?${serializedOptions}` : WEB_LOGIN_URL)
 }
