@@ -1,7 +1,10 @@
 import passport from 'passport'
 import { PERMISSIONS } from '../../isomorphic'
 
-export default passport.authenticate('google', {
-  scope: PERMISSIONS,
-  prompt: 'select_account'
-})
+export default function loginWeb (req, res, next) {
+  return passport.authenticate('google', {
+    scope: PERMISSIONS,
+    prompt: 'select_account',
+    loginHint: req.query.email
+  })(req, res, next)
+}

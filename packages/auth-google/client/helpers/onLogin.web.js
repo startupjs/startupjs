@@ -7,7 +7,8 @@ import { WEB_LOGIN_URL } from '../../isomorphic'
 export default async function onLogin ({
   baseUrl = BASE_URL,
   redirectUrl,
-  expiresRedirectUrl
+  expiresRedirectUrl,
+  email
 }) {
   // set redirectUrl in cookie and play redirect from server
   if (redirectUrl) {
@@ -19,5 +20,5 @@ export default async function onLogin ({
     })
   }
 
-  Linking.openURL(WEB_LOGIN_URL)
+  Linking.openURL(email ? WEB_LOGIN_URL + `?email=${email}` : WEB_LOGIN_URL)
 }
