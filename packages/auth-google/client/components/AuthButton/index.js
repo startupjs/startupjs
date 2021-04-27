@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useSession } from 'startupjs'
+import { observer } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
@@ -8,29 +8,15 @@ import './index.styl'
 
 function AuthButton ({
   style,
-  baseUrl,
-  redirectUrl,
   label,
   ...options
 }) {
-  const [authConfig] = useSession('auth')
-  const { expiresRedirectUrl } = authConfig
-
-  function _onLogin () {
-    onLogin({
-      baseUrl,
-      redirectUrl,
-      expiresRedirectUrl,
-      ...options
-    })
-  }
-
   return pug`
     Button.button(
       style=style
       icon=faGoogle
       variant='flat'
-      onPress=_onLogin
+      onPress=() => onLogin(options)
     )= label
   `
 }

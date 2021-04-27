@@ -1,15 +1,18 @@
 import { Linking } from 'react-native'
+import { $root } from 'startupjs'
 import { CookieManager } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import moment from 'moment'
+import qs from 'qs'
 import { WEB_LOGIN_URL } from '../../isomorphic'
 
 export default async function onLogin ({
   baseUrl = BASE_URL,
   redirectUrl,
-  expiresRedirectUrl,
   ...options
 }) {
+  const expiresRedirectUrl = $root.get('_session.auth.expiresRedirectUrl')
+
   // set redirectUrl in cookie and play redirect from server
   if (redirectUrl) {
     CookieManager.set({
@@ -20,7 +23,7 @@ export default async function onLogin ({
     })
   }
 
-  const serializedOptions = Object.keys(options).map(key => key + '=' + options[key]).join('&')
+  const serializedOptions = qs.stringify(options, { addQueryPrefix: true })
 
-  Linking.openURL(serializedOptions ? WEB_LOGIN_URL + `?${serializedOptions}` : WEB_LOGIN_URL)
+  Linking.openURL(serializedOptions ? WEB_LOGIN_URL + serializedOptions : WEB_LOGIN_URL)
 }
