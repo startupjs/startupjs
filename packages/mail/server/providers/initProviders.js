@@ -13,8 +13,8 @@ export default function initProviders (options = {}) {
     )
   }
 
-  providers.forEach(provider => {
-    if (!(provider instanceof BaseMailProvider)) {
+  Object.keys(providers).forEach(provider => {
+    if (!(providers[provider] instanceof BaseMailProvider)) {
       throw new Error(`[@startupjs/mail]: Provider ${provider} is not an instance of BaseMailProvider`)
     }
   })
