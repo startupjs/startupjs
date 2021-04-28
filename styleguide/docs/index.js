@@ -1,8 +1,8 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import TwoFAEn from '../../packages/2fa/docs/2fa.en.mdx'
-import TwoFARu from '../../packages/2fa/docs/2fa.ru.mdx'
+import TwoFAGAEn from '../../packages/2fa-google-authenticator/docs/2fa-google-authenticator.en.mdx'
+import TwoFAGARu from '../../packages/2fa-google-authenticator/docs/2fa-google-authenticator.ru.mdx'
 import GAProviderEn from '../../packages/2fa-google-authenticator-provider/docs/2fa-google-authenticator-provider.en.mdx'
 import GAProviderRu from '../../packages/2fa-google-authenticator-provider/docs/2fa-google-authenticator-provider.ru.mdx'
 import AuthMain from '../../packages/auth/readme.md'
@@ -127,12 +127,12 @@ export default docs({
               ru: TwoFAManagerRu
             }
           },
-          '2fa-totp': {
+          '2fa-google-authenticator': {
             type: 'mdx',
-            title: 'TOTP',
+            title: 'Google Authenticator',
             component: {
-              en: TwoFAEn,
-              ru: TwoFARu
+              en: TwoFAGAEn,
+              ru: TwoFAGARu
             }
           },
           GAProvider: {
