@@ -3,7 +3,7 @@ import { View, Button, StyleSheet } from 'react-native'
 import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../client'
 
 # 2fa-google-authenticator
-> Сomponent of two-factor authentication
+> Сomponent of two-factor authentication for Google Authenticator
 
 ## Necessary dependences
   `@startupjs/auth`
@@ -32,7 +32,7 @@ init2fa(ee, { appName: app.name })
 ## !!! IMPORTANT !!!
 You need to log in on this [page](/auth/sign-in) for use example.
 
-The QR code is a secret and should only be displayed to authorized users.
+The QR code is a secret and should only be displayed to authorized users. The user reads this code using the Google Authenticator application, after which codes are generated in the application.
 
 ### Example
 ```js
@@ -101,7 +101,7 @@ import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-go
 
 - `checkToken(token)` - return `true` if token is valid and `false` otherwise
 
-- `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`.
+- `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`
 
 ## Components
 
