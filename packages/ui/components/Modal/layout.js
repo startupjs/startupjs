@@ -59,7 +59,12 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
-  let _onConfirm = null
+  let _onConfirm
+  let _onCancel
+  cancelLabel = dismissLabel === Modal.propTypes.dismissLabel
+    ? cancelLabel
+    : dismissLabel
+
   if (onConfirm) {
     _onConfirm = async event => {
       event.persist() // TODO: remove in react 17
@@ -70,8 +75,11 @@ function Modal ({
     }
   }
 
-  let _onCancel = null
   if (onCancel !== null) {
+    if (!onConfirm && cancelLabel === Modal.propTypes.cancelLabel) {
+      cancelLabel = 'Ok'
+    }
+
     _onCancel = async event => {
       event.persist() // TODO: remove in react 17
       const promise = onCancel && onCancel(event)
