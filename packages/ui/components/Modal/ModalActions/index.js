@@ -14,6 +14,11 @@ function ModalActions ({
   onCancel,
   onConfirm
 }) {
+  let _cancelLabel = cancelLabel || dismissLabel || 'Cancel'
+  if (onCancel && !cancelLabel && !dismissLabel && !onConfirm) {
+    _cancelLabel = 'Ok'
+  }
+
   return pug`
     Row.root(style=style align='right')
       if children
@@ -24,7 +29,8 @@ function ModalActions ({
             color='primary'
             _preventEvent=false
             onPress=onCancel
-          )= cancelLabel || dismissLabel
+          )= _cancelLabel
+
         if onConfirm
           Button.action(
             color='primary'
