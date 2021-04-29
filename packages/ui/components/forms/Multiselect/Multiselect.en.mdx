@@ -17,7 +17,7 @@ import { Multiselect } from '@startupjs/ui'
 
 Before use you need to configure [Portal](/docs/components/Portal)
 
-## Простой пример
+## Simple example
 
 ```jsx example
 const OPTIONS = [
@@ -58,20 +58,18 @@ return (
 )
 ```
 
-## Опции
+## Options
 
-Вы можете добавить в опии массив объектов ```{ label, value }``` или примитивоов
+You can pass array of objects { label, value } or primitives to options property.
 
 ```jsx example
-const OPTIONS = [
+const OBJECT_OPTIONS_EXAMPLE = [
   { label: 'New York', value: 'ny' },
   { label: 'Los Angeles', value: 'la' },
-  { label: 'Tokyo', value: 'tk' },
 ]
-const OPTIONS_ARRAY = [
+const PRIMITIVIES_OPTIONS_EXAMPLE = [
   'New York',
   'Los Angeles',
-  'Tokyo'
 ]
 
 const [cities, setCities] = useState([])
@@ -82,13 +80,13 @@ return (
     <Multiselect
       value={cities}
       onChange={setCities}
-      options={OPTIONS}
+      options={OBJECT_OPTIONS_EXAMPLE}
     />
     <Br />
     <Multiselect
       value={citiesArray}
       onChange={setCitiesArray}
-      options={OPTIONS_ARRAY}
+      options={PRIMITIVIES_OPTIONS_EXAMPLE}
     />
   </>
 )

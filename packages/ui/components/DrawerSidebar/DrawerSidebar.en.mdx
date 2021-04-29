@@ -33,14 +33,17 @@ return (
 )
 ```
 
-## Example
+## Position
+
+The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
 
 ```jsx example
-const [open, $open] = useSession('ExampleDrawerSidebar')
+const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
       $open={$open}
+      position='right'
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>
@@ -68,17 +71,14 @@ return (
 )
 ```
 
-## Position
-
-The `position` property specifies the side of the window from which the drawer will slide in. Possible values of `position` property are `left` (default) and `right`.
+## Complex example
 
 ```jsx example
-const [open, $open] = useSession('ExampleRightDrawerSidebar')
+const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
       $open={$open}
-      position='right'
       renderContent={() => (
         <Menu>
           <Menu.Item>Nav-1</Menu.Item>

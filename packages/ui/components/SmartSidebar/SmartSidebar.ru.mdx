@@ -36,41 +36,6 @@ return (
 )
 ```
 
-
-## Пример
-
-```jsx example
-const [open, $open] = useSession('ExampleSmartSidebar')
-return (
-  <Div style={{overflow: 'hidden'}}>
-    <SmartSidebar
-      $open={$open}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-        </Menu>
-      )}
-    >
-      <Content
-        padding
-        width='full'
-        style={{ backgroundColor: 'white' }}
-      >
-        <Row>
-          <Button onPress={() => $open.set(!open)}>Toggle</Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </SmartSidebar>
-  </Div>
-)
-```
-
 ## Фиксированная точка останова
 
 Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/components/Sidebar) переключается на [дровер](/docs/components/Drawer). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
@@ -214,6 +179,40 @@ return (
         <Row>
           <Button onPress={() => $open.set(!open)}>Toggle</Button>
         </Row>
+      </Content>
+    </SmartSidebar>
+  </Div>
+)
+```
+
+## Сложный пример
+
+```jsx example
+const [open, $open] = useSession('ExampleSmartSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{ backgroundColor: 'white' }}
+      >
+        <Row>
+          <Button onPress={() => $open.set(!open)}>Toggle</Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
       </Content>
     </SmartSidebar>
   </Div>

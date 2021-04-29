@@ -34,34 +34,6 @@ return (
 )
 ```
 
-## Example with Text
-
-```jsx example
-const wrapperStyle = { backgroundColor: '#dddddd', height: 40, borderRadius: 6, width: 100, alignItems: 'center', justifyContent: 'center' }
-
-const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
-
-return (
-  <Row>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Caption 1</Span>
-      </Div>
-    </Tooltip>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Caption 2</Span>
-      </Div>
-    </Tooltip>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Caption 3</Span>
-      </Div>
-    </Tooltip>
-  </Row>
-)
-```
-
 ## Tooltip with pressable elements
 
 If you need to wrap a pressable element in a tooltip in a mobile app, the `onPress` property must be in the top component of children

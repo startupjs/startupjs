@@ -39,49 +39,32 @@ return (
 
 ```jsx example
 const [checked, setChecked] = useState()
-const [checkedDisable, setCheckedDisable] = useState()
+
 return (
-  <Div>
-    <Radio
-      value={checked}
-      onChange={setChecked}
-      disabled={checked === 'item2'}
-      options={[
-        {
-          value: 'item1',
-          label: 'Item-1 label'
-        },
-        {
-          value: 'item2',
-          label: 'Disable items'
-        },
-        {
-          value: 'item3',
-          label: 'Item-3 label',
-        },
-      ]}
-    />
-    <Br />
-    <Radio
-      value={checkedDisable}
-      onChange={setCheckedDisable}
-      options={[
-        {
-          value: 'item1',
-          label: 'Item-1 label'
-        },
-        {
-          value: 'item2',
-          label: 'Item-2 label',
-        },
-        {
-          value: 'item3',
-          label: 'Disable item',
-          disabled: true
-        },
-      ]}
-    />
-  </Div>
+  <Radio
+    value={checked}
+    onChange={setChecked}
+    disabled={checked === 'item2'}
+    options={[
+      {
+        value: 'item1',
+        label: 'Item-1 label'
+      },
+      {
+        value: 'item2',
+        label: 'Disable items',
+      },
+      {
+        value: 'item3',
+        label: 'Item-3 label',
+      },
+      {
+        value: 'item4',
+        label: 'Item 4 disabled item',
+        disabled: true
+      }
+    ]}
+  />
 )
 ```
 

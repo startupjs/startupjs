@@ -40,47 +40,6 @@ return (
 )
 ```
 
-## Example
-
-```jsx example
-const [open, $open] = useSession('ExampleSidebar')
-return (
-  <Div style={{overflow: 'hidden'}}>
-    <Sidebar
-      $open={$open}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
-    >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button variant='flat' onPress={() => $open.set(!open)}>
-            Toggle sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
-  </Div>
-)
-```
-
 ## Position
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
@@ -123,6 +82,47 @@ return (
         </Span>
       </Content>
     </Sidebar>
+)
+```
+
+## Complex example
+
+```jsx example
+const [open, $open] = useSession('ExampleSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <Sidebar
+      $open={$open}
+      renderContent={() => (
+        <Menu>
+          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+        </Menu>
+      )}
+    >
+      <Content
+        padding
+        width='full'
+        style={{
+          backgroundColor: 'white'
+        }}
+      >
+        <Row>
+          <Button variant='flat' onPress={() => $open.set(!open)}>
+            Toggle sidebar
+          </Button>
+        </Row>
+        <Br />
+        <Span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        </Span>
+      </Content>
+    </Sidebar>
+  </Div>
 )
 ```
 
