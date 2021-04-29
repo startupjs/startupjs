@@ -21,12 +21,12 @@ import './index.mdx.styl'
 import { Button } from '@startupjs/ui'
 ```
 
-## Пример
-
+## Простой пример
 ```jsx example
 const [counter, setCounter] = useState(0)
+
 return (
-  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} color='primary' variant='flat'>
+  <Button onPress={() => setCounter(counter + 1)}>
     Нажато {counter} раз
   </Button>
 )
