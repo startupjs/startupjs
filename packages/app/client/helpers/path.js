@@ -4,7 +4,7 @@ function generatePath (subpath = '') {
   let path = '_page.app'
 
   if (subpath) {
-    if (typeof path !== 'string') {
+    if (typeof subpath !== 'string') {
       throw new Error('[@startupjs/app] generatePath: path must be a string')
     }
     path += `.${subpath}`

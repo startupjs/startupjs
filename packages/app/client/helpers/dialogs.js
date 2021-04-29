@@ -1,11 +1,10 @@
 import React from 'react'
 import { $root, observer } from 'startupjs'
-import { TextInput, Span } from '@startupjs/ui'
+import { TextInput, Span, Br } from '@startupjs/ui'
 import { getScope } from './path'
 
 const $dialog = getScope('dialog')
 const dialogOpen = options => $dialog.set(options)
-const dialogClose = () => $dialog.del()
 
 export function alert ({ title, message }) {
   if (message && typeof message !== 'string') {
@@ -14,9 +13,7 @@ export function alert ({ title, message }) {
 
   dialogOpen({
     title,
-    content: message,
-    confirmLabel: 'Ok',
-    onConfirm: dialogClose
+    children: message
   })
 }
 
@@ -33,7 +30,7 @@ export async function confirm ({
   const result = await new Promise(resolve => {
     dialogOpen({
       title,
-      content: message,
+      children: message,
       cancelLabel,
       confirmLabel,
       onCancel: () => resolve(false),
@@ -59,8 +56,9 @@ export async function prompt ({ title, message }) {
   const result = await new Promise(resolve => {
     dialogOpen({
       title,
-      content: pug`
-        Span(style={ marginBottom: 8 })= message
+      children: pug`
+        Span= message
+        Br(half)
         PromptInput
       `,
       confirmLabel: 'Send',

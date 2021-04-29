@@ -11,6 +11,6 @@ export default observer(function Dialog () {
       $visible=$dialog
       showCross=false
       ...dialog
-    )= dialog.content
+    )= dialog.children
   `
 })
