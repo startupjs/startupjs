@@ -12,7 +12,8 @@ function Modal ({
   children,
   variant,
   title,
-  dismissLabel,
+  dismissLabel, // DEPRECATED
+  cancelLabel,
   confirmLabel,
   ModalElement,
   showCross,
@@ -49,25 +50,35 @@ function Modal ({
       'If <Modal.Content> is specified, you have to put all your content inside it')
   }
 
+  if (dismissLabel) {
+    console.warn('[@startupjs/ui] Modal: dismissLabel is DEPRECATED, use cancelLabel instead')
+  }
+
   // Handle <Modal.Content>
   content = content || (contentChildren.length > 0
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
-  const _onConfirm = async event => {
-    event.persist() // TODO: remove in react 17
-    const promise = onConfirm && onConfirm(event)
-    if (promise?.then) await promise
-    if (event.defaultPrevented) return
-    closeFallback()
+  let _onConfirm = null
+  if (onConfirm) {
+    _onConfirm = async event => {
+      event.persist() // TODO: remove in react 17
+      const promise = onConfirm && onConfirm(event)
+      if (promise?.then) await promise
+      if (event.defaultPrevented) return
+      closeFallback()
+    }
   }
 
-  const _onCancel = async event => {
-    event.persist() // TODO: remove in react 17
-    const promise = onCancel && onCancel(event)
-    if (promise?.then) await promise
-    if (event.defaultPrevented) return
-    closeFallback()
+  let _onCancel = null
+  if (onCancel) {
+    _onCancel = async event => {
+      event.persist() // TODO: remove in react 17
+      const promise = onCancel && onCancel(event)
+      if (promise?.then) await promise
+      if (event.defaultPrevented) return
+      closeFallback()
+    }
   }
 
   const _onCrossPress = async event => {
@@ -88,7 +99,8 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    dismissLabel,
+    dismissLabel, // DEPRECATED
+    cancelLabel,
     confirmLabel,
     style: content ? { paddingTop: 0 } : null,
     onCancel: _onCancel,
