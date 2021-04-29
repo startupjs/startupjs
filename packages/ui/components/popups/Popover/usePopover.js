@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { Animated, Dimensions, StyleSheet } from 'react-native'
 import { useValue } from 'startupjs'
 import { PLACEMENTS_ORDER } from './constants.json'
+import Arrow from './Arrow'
 import Geometry from './Geometry'
 import animate from './animate'
 import STYLES from './index.styl'
@@ -25,23 +26,24 @@ function getValidNode (current) {
 
 export default function usePopover ({
   style = [],
+  arrowStyle = {},
+  contentStyle = {},
   refAnimate = null,
   refCaption = null,
   visible = false,
   position = 'bottom',
   attachment = 'start',
   placements = PLACEMENTS_ORDER,
-  animateType = 'slide',
+  animateType = 'opacity',
   durationOpen = 300,
   durationClose = 200,
   hasArrow = false,
   hasWidthCaption = false,
   onDismiss = null,
   onRequestOpen = null,
-  onRequestClose = null
+  onRequestClose = null,
+  renderTooltip
 }) {
-  // refCaption, refAnimate
-
   const refGeometry = useRef({})
   const captionInfo = useRef({})
 
@@ -73,7 +75,7 @@ export default function usePopover ({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
       })
-      onDismiss()
+      onDismiss && onDismiss()
     }
 
     Dimensions.addEventListener('change', handleDimensions)
@@ -104,14 +106,14 @@ export default function usePopover ({
       if (!refAnimate.current) return
 
       getValidNode(refAnimate.current).measure((ax, ay, aWidth, aHeight, apx, apy) => {
-        const _captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
+        captionInfo.current = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 
-        const { width, height = 'auto', maxHeight } = style
+        // TODO: test
+        const { height = 'auto', maxHeight } = contentStyle
         let curHeight = (height === 'auto') ? aHeight : height
         curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
-        let curWidth = width || aWidth
-        curWidth = hasWidthCaption ? _captionInfo.width : curWidth
+        let curWidth = hasWidthCaption ? captionInfo.current.width : aWidth
         const contentInfo = {
           x: cpx,
           y: cpy,
@@ -121,7 +123,7 @@ export default function usePopover ({
 
         refGeometry.current = new Geometry({
           placement: position + '-' + attachment,
-          captionInfo: _captionInfo,
+          captionInfo: captionInfo.current,
           contentInfo,
           placements,
           hasArrow,
@@ -172,7 +174,7 @@ export default function usePopover ({
     onRequestClose && onRequestClose()
   }
 
-  // states
+  // styles
   const locationStyle = StyleSheet.flatten([
     STYLES.location,
     {
@@ -215,10 +217,20 @@ export default function usePopover ({
     animateStyle.width = captionInfo.current.width
   }
 
+  const arrow = pug`
+    if hasArrow
+      Arrow(
+        style=arrowStyle
+        geometry=refGeometry.current
+        validPosition=validPosition
+      )
+  `
+
   return {
     refAnimate,
     step,
     locationStyle,
-    animateStyle
+    animateStyle,
+    arrow
   }
 }

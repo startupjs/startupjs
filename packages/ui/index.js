@@ -35,7 +35,7 @@ export { default as SmartSidebar } from './components/SmartSidebar'
 export * from './components/table'
 export { default as Tabs } from './components/Tabs'
 export { default as Tag } from './components/Tag'
-export { default as Tooltip } from './components/Tooltip'
+export { default as Tooltip } from './components/Tooltip' // DEPRECATED
 export * from './components/typography'
 export { default as User } from './components/User'
 export { default as themed } from './theming/themed'

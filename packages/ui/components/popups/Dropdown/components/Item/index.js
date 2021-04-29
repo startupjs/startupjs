@@ -10,65 +10,61 @@ import './index.styl'
 
 function DropdownItem ({
   style,
-  to,
-  label,
-  value,
-  icon,
-  disabled,
-  onPress,
   children,
+  disabled,
+  item,
+  renderItem,
+  _variant,
   _activeValue,
   _selectIndexValue,
-  _variant,
+  _index,
+  _childrenLength,
   _onChange,
   _onDismissDropdown,
-  _index,
-  _childrenLength
+  _onLayout
 }) {
-  const isPure = _variant === 'pure'
-
   const handlePress = () => {
-    if (onPress) {
-      onPress()
+    if (item.action) {
+      item.action()
       _onDismissDropdown()
     } else {
-      _onChange(value)
+      _onChange(item.value)
     }
   }
 
-  if (_variant === 'popover' && !isPure) {
+  if (_variant === 'popover' && !renderItem) {
     return pug`
       Menu.Item(
-        to=to
+        to=item.to
         style=style
-        active=_activeValue === value
+        active=_activeValue === item.value
         disabled=disabled
         styleName={ selectMenu: _selectIndexValue === _index }
         onPress=handlePress
-        icon=icon
-      )= label
+        icon=item.icon
+      )= item.label
     `
   }
 
-  const Wrapper = to ? Link : TouchableOpacity
+  const Wrapper = item.to ? Link : TouchableOpacity
   return pug`
     Wrapper(
-      to=to
+      to=item.to
       style=style
       onPress=handlePress
     )
-      View.item(styleName=[!isPure && _variant, {
-        active: !isPure && (_activeValue === value),
-        itemUp: !isPure && (_index === 0),
-        itemDown: !isPure && (_index === _childrenLength - 1),
+      View.item(styleName=[!renderItem && _variant, {
+        active: !renderItem && (_activeValue === item.value),
+        itemUp: !renderItem && (_index === 0),
+        itemDown: !renderItem && (_index === _childrenLength - 1),
         selectMenu: _selectIndexValue === _index
       }])
-        if isPure
-          = children
+        if renderItem
+          = renderItem(item, _index, _selectIndexValue)
         else
-          Text.itemText(styleName=[_variant, { active: _activeValue && _activeValue === value }])
-            = label
-          if _activeValue === value
+          Text.itemText(styleName=[_variant, { active: _activeValue && _activeValue === item.value }])
+            = item.label
+          if _activeValue === item.value
             Icon.iconActive(styleName=_variant icon=faCheck)
   `
 }

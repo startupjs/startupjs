@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
-  TouchableOpacity,
   Platform,
   StyleSheet,
   Animated
@@ -11,6 +10,7 @@ import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import Portal from '../Portal'
+import Span from '../typography/Span'
 import usePopover from '../popups/Popover/usePopover'
 import useTooltip from '../Tooltip/useTooltip'
 import STYLES from './index.styl'
@@ -45,8 +45,10 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
-  renderPopover,
+  tooltipProps = {},
   renderTooltip,
+  renderTooltipWrapper,
+  _showTooltip,
   onPress,
   onLongPress,
   _preventEvent,
@@ -57,27 +59,44 @@ function Div ({
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   const [isShowTooltip, setIsShowTooltip] = useState(false)
+  const showTooltipInvolved = _showTooltip !== undefined
 
-  const { step, locationStyle, animateStyle } = usePopover({
+  useEffect(() => {
+    setIsShowTooltip(_showTooltip)
+  }, [_showTooltip])
+
+  const {
+    step,
+    locationStyle,
+    animateStyle,
+    arrow
+  } = usePopover({
+    attachment: showTooltipInvolved ? 'start' : 'center',
+    position: showTooltipInvolved ? 'bottom' : 'top',
+    animateType: showTooltipInvolved ? 'opacity' : 'scale',
+    durationOpen: 200,
+    durationClose: 100,
+    hasArrow: !showTooltipInvolved,
+    arrowStyle: showTooltipInvolved ? {} : { color: '#222222' },
+    ...tooltipProps,
     style,
     refAnimate,
     refCaption,
+    renderTooltip,
     visible: isShowTooltip
   })
-  const tooltipProps = useTooltip({
+
+  let extraStyle = {}
+  const tooltipActions = useTooltip({
+    showTooltipInvolved,
     onPress,
     onLongPress,
     onChange: setIsShowTooltip
   })
 
-  let extraStyle = {}
-  const extraProps = {}
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
-  if (renderPopover) {
-    onPress = () => setIsShowTooltip(true)
-  }
   const isClickable = onPress || onLongPress
 
   // TODO disabled
@@ -160,6 +179,16 @@ function Div ({
     }
   }
 
+  if (renderTooltip && !showTooltipInvolved) {
+    props.onMouseOver = (...args) => {
+      tooltipActions.onMouseOver(...args)
+    }
+    props.onMouseLeave = (...args) => {
+      tooltipActions.onMouseLeave()
+      props.onMouseLeave(...args)
+    }
+  }
+
   const div = maybeWrapToClickable(pug`
     View.root(
       ref=refCaption
@@ -174,41 +203,44 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
-      ...extraProps
       ...props
-      ...tooltipProps
     )= children
   `)
 
-  if (renderPopover) {
-    return pug`
-      = div
-
-      Portal
-        if step !== STEPS.CLOSE
-          View.wrapper
-            TouchableOpacity.overlay(
-              onPress=() => setIsShowTooltip(false)
-            )
-            View(style=locationStyle)
-              Animated.View(
-                ref=refAnimate
-                style=animateStyle
-              )= renderTooltip()
-    `
-  }
-
   if (renderTooltip) {
+    let tooltipContent = pug`
+      View(style=locationStyle)
+        Animated.View(
+          ref=refAnimate
+          style=animateStyle
+        )
+          = arrow
+          Div(
+            styleName={
+              tooltipContent: !showTooltipInvolved,
+              popoverContent: showTooltipInvolved,
+              popoverContentArrow: showTooltipInvolved 
+                && tooltipProps.hasArrow
+            }
+            style=tooltipProps.contentStyle
+          )
+            if typeof renderTooltip === 'string'
+              Span.text= renderTooltip
+            else
+              = renderTooltip()
+    `
+
+    if (renderTooltipWrapper) {
+      tooltipContent = renderTooltipWrapper({
+        children: tooltipContent
+      })
+    }
+
     return pug`
       = div
-
       Portal
         if step !== STEPS.CLOSE
-          View(style=locationStyle)
-            Animated.View(
-              ref=refAnimate
-              style=animateStyle
-            )= renderTooltip()
+          = tooltipContent
     `
   }
 

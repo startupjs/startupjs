@@ -46,7 +46,7 @@ _shadowLevels = ('1' '2' '3' '4')
       opacity 0.5
 
 // -----------------------------------------
-//   POPOVER
+//   TOOLTIP
 // ---------------------------------------------
 .overlay, .wrapper
   width 100%
@@ -54,6 +54,29 @@ _shadowLevels = ('1' '2' '3' '4')
   position absolute
   top 0
   left 0
+
+.tooltipContent
+  padding 1.25u 2u 1.25u 2u
+  background-color #222222
+  align-items center
+  justify-content center
+  border-radius .5u
+  max-width 220
+
+  +tablet()
+    max-width 360
+
+.popoverContent
+  padding 2u 3u 2u 3u
+  border-radius 1u
+  background-color #ffffff
+  shadow(3)
+
+.popoverContentArrow
+  border-radius .5u
+
+.text
+  color #ffffff
 
 // -----------------------------------------
 //   JS EXPORTS

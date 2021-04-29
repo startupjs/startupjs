@@ -1,8 +1,11 @@
 export default function useTooltip ({
+  showTooltipInvolved,
   onPress,
   onLongPress,
   onChange
 }) {
+  if (showTooltipInvolved) return {}
+
   function _onLongPress (cb) {
     onChange(true)
     onLongPress && onLongPress()

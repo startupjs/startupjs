@@ -1,11 +1,16 @@
 import React, { useState, useRef, useMemo } from 'react'
-import { TouchableOpacity, View, FlatList } from 'react-native'
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
-import Popover from '../popups/Popover'
+import Div from '../Div'
 import Loader from '../Loader'
 import useKeyboard from './useKeyboard'
 import './index.styl'
@@ -28,7 +33,11 @@ function AutoSuggest ({
   placeholder,
   renderItem,
   isLoading,
-  onChange,
+  label,
+  disabled,
+  size,
+  onChange, // to onSelect
+  onFilter,
   onDismiss,
   onChangeText,
   onScrollEnd,
@@ -51,9 +60,13 @@ function AutoSuggest ({
 
   const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
 
-  _data.current = escapedInputValue
-    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
-    : options
+  if (onFilter) {
+    onFilter(inputValue)
+  } else {
+    _data.current = escapedInputValue
+      ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
+      : options
+  }
 
   function onClose (e) {
     setIsShow(false)
@@ -108,30 +121,8 @@ function AutoSuggest ({
     setScrollHeightContent(height)
   }
 
-  return pug`
-    Popover(
-      visible=(isShow || isLoading)
-      hasWidthCaption=(!style.width && !style.maxWidth)
-      placements=SUPPORT_PLACEMENTS
-      durationOpen=200
-      durationClose=200
-      animateType='slide'
-      hasDefaultWrapper=false
-      onDismiss=onClose
-      onRequestClose=()=> setInputValue('')
-    )
-      Popover.Caption.caption
-        TextInput(
-          ref=refInput
-          style=captionStyle
-          value=(!isShow && value.label) || inputValue
-          placeholder=placeholder
-          onChangeText=_onChangeText
-          onFocus=()=> setIsShow(true)
-          onKeyPress=onKeyPress
-          testID=testID
-        )
-
+  function renderContent () {
+    return pug`
       if isLoading
         View.loaderCase
           Loader(size='s')
@@ -148,6 +139,51 @@ function AutoSuggest ({
             onLayout=onLayoutWrapper
             onContentSizeChange=onChangeSizeScroll
           )
+    `
+  }
+
+  function renderTooltipWrapper ({ children }) {
+    return pug`
+      View.wrapper
+        TouchableWithoutFeedback(onPress=() => setIsShow(false))
+          View.overlay
+        = children
+    `
+  }
+
+  return pug`
+    Div(
+      _showTooltip=(isShow || isLoading)
+      renderTooltip=renderContent
+      renderTooltipWrapper=renderTooltipWrapper
+      tooltipProps={
+        hasWidthCaption: (!style.width && !style.maxWidth),
+        placements: SUPPORT_PLACEMENTS,
+        durationOpen: 200,
+        durationClose: 200,
+        animateType: 'opacity',
+        hasDefaultWrapper: false,
+        contentStyle: {
+          paddingLeft: 0, paddingRight: 0,
+          paddingTop: 0, paddingBottom: 0
+        },
+        onDismiss: onClose,
+        onRequestClose: ()=> setInputValue('')
+      }
+    )
+      TextInput(
+        ref=refInput
+        style=captionStyle
+        value=(!isShow && value.label) || inputValue
+        placeholder=placeholder
+        label=label
+        disabled=disabled
+        size=size
+        onChangeText=_onChangeText
+        onFocus=()=> setIsShow(true)
+        onKeyPress=onKeyPress
+        testID=testID
+      )
   `
 }
 

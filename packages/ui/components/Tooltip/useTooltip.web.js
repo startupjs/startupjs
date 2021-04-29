@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react'
 
-export default function useTooltip ({ onChange }) {
+export default function useTooltip ({
+  showTooltipInvolved,
+  onChange
+}) {
+  if (showTooltipInvolved) return {}
+
   const refTimeout = useRef()
 
   useEffect(() => {

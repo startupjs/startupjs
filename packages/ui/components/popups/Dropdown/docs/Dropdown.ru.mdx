@@ -3,12 +3,17 @@ import { View, Text, Dimensions } from 'react-native'
 import Dropdown from '../'
 import Icon from '../../../Icon'
 import Row from '../../../Row'
+import Div from '../../../Div'
+import Span from '../../../typography/Span'
 import Br from '../../../Br'
+import Avatar from '../../../Avatar'
 import {
   faSort,
   faEllipsisV,
   faPencilAlt,
-  faTrashAlt
+  faTrashAlt,
+  faAngleDown,
+  faCog
 } from '@fortawesome/free-solid-svg-icons'
 
 # Dropdown
@@ -24,117 +29,92 @@ import { Dropdown } from '@startupjs/ui'
 ## Простой пример
 В функцию onChange приходит значение нажатого чилдрена.
 ```jsx example
+const captionStyle = {
+  width: 200, paddingLeft: 16, paddingRight: 16, backgroundColor: '#ddd',
+  paddingTop: 8, paddingBottom: 8, alignItems: 'center',
+  justifyContent: 'space-between', borderRadius: 8,
+  flexDirection: 'row'
+}
+
 const [sort, setSort] = useState('')
 
-return (
-  <Dropdown
-    value={sort}
-    onChange={v => setSort(v)}
-  >
-    <Dropdown.Caption placeholder="Sort by" />
-    <Dropdown.Item value="popular" label="Popular" />
-    <Dropdown.Item value="brand" label="Brand" />
-    <Dropdown.Item value="name" label="Name" />
-  </Dropdown>
-)
-```
+const options= [
+  { value: 'popular', label: 'Popular' },
+  { value: 'brand', label: 'Brand' },
+  { value: 'name', label: 'Name' }
+]
 
-## Разные варианты заголовков
-### По умолчанию
-```jsx example
-const [sort, setSort] = useState('')
-
-return (
-  <Dropdown
-    value={sort}
-    onChange={v => setSort(v)}
-  >
-    <Dropdown.Caption placeholder="Sort by" />
-    <Dropdown.Item value="popular" label="Popular" />
-    <Dropdown.Item value="brand" label="Brand" />
-    <Dropdown.Item value="name" label="Name" />
-  </Dropdown>
-)
-```
-
-### В виде кнопки
-```jsx example
-const [sort, setSort] = useState('')
-
-return (
-  <Dropdown
-    value={sort}
-    onChange={v => setSort(v)}
-  >
-    <Dropdown.Caption variant="button" placeholder="Menu" />
-    <Dropdown.Item value="popular" label="Popular" />
-    <Dropdown.Item value="brand" label="Brand" />
-    <Dropdown.Item value="name" label="Name" />
-  </Dropdown>
-)
-```
-
-### Кастомный
-```jsx example
-const [sort, setSort] = useState('')
-
-const captionStyle = { width: 30, height: 30, backgroundColor: 'white',
-  borderRadius: 50, justifyContent: 'center', alignItems: 'center' }
-
-return (
-  <Dropdown
-    value={sort}
-    onChange={v => setSort(v)}
-  >
-    <Dropdown.Caption>
-      <View style={captionStyle}>
-        <Icon icon={faEllipsisV} />
-      </View>
-    </Dropdown.Caption>
-    <Dropdown.Item value="popular" label="Popular" />
-    <Dropdown.Item value="brand" label="Brand" />
-    <Dropdown.Item value="name" label="Name" />
-  </Dropdown>
-)
+return pug`
+  Dropdown(
+    value=sort
+    style=captionStyle
+    options=options
+    onChange=v=> setSort(v)
+  )
+    Span(style={ marginRight: 8 }) Sort by #{sort || '...'}
+    Icon(icon=faAngleDown)
+`
 ```
 
 ## Иконки в пунктах списка
 ```jsx example
+const captionStyle = {
+  padding: 8, backgroundColor: '#ddd', width: 36, height: 36,
+  justifyContent: 'center', alignItems: 'center',
+  borderRadius: 48
+}
+
 const [sort, setSort] = useState('')
 
-return (
-  <Dropdown
-    value={sort}
-    onChange={v => setSort(v)}
-  >
-    <Dropdown.Item icon={faPencilAlt} value="edit" label="Edit" />
-    <Dropdown.Item icon={faTrashAlt} value="delete" label="Delete" />
-  </Dropdown>
-)
+const options = [
+  { icon: faPencilAlt, value: 'edit', label: 'Edit' },
+  { icon: faTrashAlt, value: 'delete', label: 'Delete' }
+]
+
+return pug`
+  Dropdown(
+    value=sort
+    style=captionStyle
+    options=options
+    onChange=v=> setSort(v)
+  )
+    Icon(icon=faCog)
+`
 ```
 
 ## Стилизация
 ```jsx example
+const captionStyle = {
+  padding: 8, backgroundColor: '#ddd', width: 36, height: 36,
+  justifyContent: 'center', alignItems: 'center',
+  borderRadius: 48
+}
+
+const contentStyle = Dimensions.get('window').width < 780
+  ? { maxHeight: 160 }
+  : { maxHeight: 100 }
+
 const [value, setValue] = useState('')
 
-return (
-  <Dropdown
-    style={
-      Dimensions.get('window').width < 780
-        ? { maxHeight: 160 }
-        : { maxHeight: 100 }
-    }
-    value={value}
-    onChange={v => setValue(v)}
-  >
-    <Dropdown.Item value="java" label="Java" />
-    <Dropdown.Item value="golang" label="Golang" />
-    <Dropdown.Item value="js" label="JavaScript" />
-    <Dropdown.Item value="python" label="Python" />
-    <Dropdown.Item value="csharp" label="C#" />
-    <Dropdown.Item value="cpp" label="C++" />
-  </Dropdown>
-)
+const options = [
+  { value: 'java', label: 'Java' },
+  { value: 'golang', label: 'Golang' },
+  { value: 'js', label: 'JavaScript' },
+  { value: 'python', label: 'Python' },
+  { value: 'csharp', label: 'C#' },
+  { value: 'cpp', label: 'C++' }
+]
+
+return pug`
+  Dropdown(
+    value=value
+    options=options
+    style=captionStyle
+    contentStyle=contentStyle
+    onChange=v=> setValue(v)
+  )
+    Icon(icon=faCog)
+`
 ```
 
 Есть 2 типа поведения Dropdown, для десктопного и мобильного разрешения
@@ -148,47 +128,123 @@ return (
     // Popover styles
 ```
 
-## Примеры поведения Dropdown.Item
-1 - Стандартое поведение - когда есть `label` и `value`. При выборе значения `value` передается в каллбэк `onChange`
-2 - Для кастомного нажатия нужно передать калбэк `onPress` в **Dropdown.Item**
-3 - Чтобы **Dropdown.Item** как ссылка для перехода на нужную страницу, можно использовать проп `to`
-4 - Если нужны кастомные стили, для изменения активного значения можно использовать калбэк `onPress`, либо проп `value`, который будет передаваться в `onChange`, так же как и в стандартном варианте
-
+## Кастомнизация (renderItem)
 ```jsx example
-const [state, setState] = useState('')
+  const captionStyle = {
+    padding: 8, backgroundColor: '#ddd', width: 36, height: 36,
+    justifyContent: 'center', alignItems: 'center',
+    borderRadius: 48
+  }
 
-const customStyle = state === 'custom'
-  ? { backgroundColor: 'blue', padding: 8 }
-  : { backgroundColor: 'yellow', padding: 8 }
+  const itemStyle = {
+    alignItems: 'center',
+    padding: 8
+  }
 
-const customStyle2 = state === 'custom2'
-  ? { backgroundColor: 'blue', padding: 8 }
-  : { backgroundColor: 'yellow', padding: 8 }
+  const options = [
+    {
+      value: 'orange',
+      label: 'Orange',
+      image: 'https://riviste.newbusinessmedia.it/wp-content/uploads/sites/27/2013/12/Fotolia_11313277_M.jpg'
+    },
+    {
+      value: 'grapefruit',
+      label: 'Grapefruit',
+      image: 'https://i.ndtvimg.com/mt/cooks/2014-11/grapefruit.jpg'
+    },
+    {
+      value: 'lime',
+      label: 'Lime',
+      image: 'https://static.libertyprim.com/files/familles/lime-large.jpg'
+    },
+    {
+      value: 'lemon',
+      label: 'Lemon',
+      image: 'https://i5.walmartimages.com/asr/b34574b9-0476-40d6-95b8-a54d0dd92bfb_1.5c2cf0cddcc03ee5aa1e181afe8be355.jpeg'
+    },
+    {
+      value: 'mandarin',
+      label: 'Mandarin',
+      image: 'https://cdn.webshopapp.com/shops/72785/files/56492820/550x550x2/flavour-art-mandarin.jpg'
+    }
+  ]
 
-return (
-  <Dropdown
-    value={state}
-    onChange={v=> setState(v)}
-  >
-    <Dropdown.Item label='Выбрать 1' value={1} />
-    <Dropdown.Item label='Показать 2' onPress={()=> alert('2')} />
-    <Dropdown.Item
-      to='/'
-      label='На главную'
-      onPress={()=> alert('На главную')}
-    />
-    <Dropdown.Item value='custom'>
-      <View style={customStyle}>
-        <Text>Кастомный 1</Text>
-      </View>
-    </Dropdown.Item>
-    <Dropdown.Item onPress={()=> setState('custom2')}>
-      <View style={customStyle2}>
-        <Text>Кастомный 2</Text>
-      </View>
-    </Dropdown.Item>
-  </Dropdown>
-)
+  function renderItem (item, index, activeIndex) {
+    return pug`
+      Row(style=itemStyle)
+        Avatar(size='s' src=item.image)
+        Span(style={ marginLeft: 8 })= item.label
+    `
+  }
+
+  return pug`
+    Dropdown(
+      style=captionStyle
+      options=options
+      renderItem=renderItem
+    )
+      Icon(icon=faCog)
+  `
+```
+
+## Событие на item
+```jsx example
+const captionStyle = {
+  padding: 8, backgroundColor: '#ddd', width: 36, height: 36,
+  justifyContent: 'center', alignItems: 'center',
+  borderRadius: 48
+}
+
+const contentStyle = Dimensions.get('window').width < 780
+  ? { maxHeight: 160 }
+  : { maxHeight: 100 }
+
+const [value, setValue] = useState('')
+
+const options = [
+  { label: 'Java', action: ()=> alert('Java') },
+  { label: 'Golang', action: ()=> alert('Golang') },
+  { label: 'JavaScript', action: ()=> alert('JavaScript') }
+]
+
+return pug`
+  Dropdown(
+    options=options
+    style=captionStyle
+    contentStyle=contentStyle
+  )
+    Icon(icon=faCog)
+`
+```
+
+## Переход по ссылке на item
+```jsx example
+const captionStyle = {
+  padding: 8, backgroundColor: '#ddd', width: 36, height: 36,
+  justifyContent: 'center', alignItems: 'center',
+  borderRadius: 48
+}
+
+const contentStyle = Dimensions.get('window').width < 780
+  ? { maxHeight: 100 }
+  : { maxHeight: 100 }
+
+const [value, setValue] = useState('')
+
+const options = [
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: 'contact' }
+]
+
+return pug`
+  Dropdown(
+    options=options
+    style=captionStyle
+    contentStyle=contentStyle
+  )
+    Icon(icon=faCog)
+`
 ```
 
 ## Позиция для Popover
