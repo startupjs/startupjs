@@ -9,7 +9,6 @@ export default observer(function Dialog () {
   return pug`
     Modal(
       $visible=$dialog
-      showCross=false
       ...dialog
     )= dialog.children
   `
