@@ -8,7 +8,6 @@ import './index.styl'
 function ModalActions ({
   style,
   children,
-  dismissLabel, // DEPRECATED
   cancelLabel,
   confirmLabel,
   onCancel,
@@ -24,7 +23,7 @@ function ModalActions ({
             color='primary'
             _preventEvent=false
             onPress=onCancel
-          )= cancelLabel || dismissLabel
+          )= cancelLabel
         if onConfirm
           Button.action(
             color='primary'
@@ -36,7 +35,6 @@ function ModalActions ({
 }
 
 ModalActions.defaultProps = {
-  dismissLabel: 'Cancel', // DEPRECATED
   cancelLabel: 'Cancel',
   confirmLabel: 'Confirm'
 }
@@ -44,7 +42,6 @@ ModalActions.defaultProps = {
 ModalActions.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  dismissLabel: PropTypes.string, // DEPRECATED
   cancelLabel: PropTypes.string,
   confirmLabel: PropTypes.string,
   onCancel: PropTypes.func,
