@@ -71,7 +71,7 @@ function Modal ({
   }
 
   let _onCancel = null
-  if (onCancel) {
+  if (onCancel !== null) {
     _onCancel = async event => {
       event.persist() // TODO: remove in react 17
       const promise = onCancel && onCancel(event)
