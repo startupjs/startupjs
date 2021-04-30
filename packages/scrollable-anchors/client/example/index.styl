@@ -1,6 +1,5 @@
 .root
   padding 5u 3u
-  position relative
   border 1px dashed $UI.colors.darkLight
   +desktop()
     margin 10u auto
@@ -12,9 +11,10 @@
   height 50u
 
 .anchors
-  position absolute
+  position sticky
   flex-direction row
   justify-content flex-end
+  align-items center
   top 0
   left 0
   right 0

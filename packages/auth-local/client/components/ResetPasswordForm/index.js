@@ -19,7 +19,7 @@ export default observer(function ResetPasswordForm ({
   const [form, $form] = useValue({})
   const [error, $error] = useValue()
   const [feedback, $feedback] = useValue()
-  const [auth] = useQueryDoc('auths', { 'providers.local.passwordReset.secret': secret })
+  const [auth] = useQueryDoc('auths', { 'providers.local.passwordResetMeta.secret': secret })
   const [user] = useDoc('users', _get(auth, 'id') || '_DUMMY_')
 
   function _onSuccess () {

@@ -1,3 +1,77 @@
+## [0.34.8](https://github.com/startupjs/startupjs/compare/v0.34.7...v0.34.8) (2021-04-26)
+
+
+### Bug Fixes
+
+* **auth:** error format in res ([2017532](https://github.com/startupjs/startupjs/commit/20175320053ba22d2646d47ead0039bc35cdd709))
+
+
+### Features
+
+* **mdx:** add md table support and jsx pure-example ([#631](https://github.com/startupjs/startupjs/issues/631)) ([ea8b34d](https://github.com/startupjs/startupjs/commit/ea8b34d5014e43c148225615e06acc8002982ee3))
+
+
+
+## [0.34.7](https://github.com/startupjs/startupjs/compare/v0.34.6...v0.34.7) (2021-04-21)
+
+
+### Bug Fixes
+
+* **auth:** Update local provider id ([e8e254b](https://github.com/startupjs/startupjs/commit/e8e254b43f3b27ca5b3e55eb32f79ae711a9d228))
+
+
+
+## [0.34.6](https://github.com/startupjs/startupjs/compare/v0.34.5...v0.34.6) (2021-04-21)
+
+
+### Features
+
+* **auth:** Email update feature ([59ddca5](https://github.com/startupjs/startupjs/commit/59ddca5d27db69237db8575606ac772e8c34ec9f))
+
+
+
+## [0.34.5](https://github.com/startupjs/startupjs/compare/v0.34.4...v0.34.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** add container that take styles ([#628](https://github.com/startupjs/startupjs/issues/628)) ([0407bc4](https://github.com/startupjs/startupjs/commit/0407bc4862db543f9cc69776af350ba11454d6a8))
+* **ui/Tabs:** fix passing props to `TabBar` ([#619](https://github.com/startupjs/startupjs/issues/619)) ([83316cb](https://github.com/startupjs/startupjs/commit/83316cbc7427b5d9a70220f878c65a08d6f5fd5c))
+
+
+
+## [0.34.4](https://github.com/startupjs/startupjs/compare/v0.34.3...v0.34.4) (2021-04-16)
+
+
+### Bug Fixes
+
+* **anchors:** prevent chilfren rerendering ([5aed489](https://github.com/startupjs/startupjs/commit/5aed489f95a7dde4f5846df2195ade5f3a1f6ac5))
+
+
+
+## [0.34.3](https://github.com/startupjs/startupjs/compare/v0.34.2...v0.34.3) (2021-04-15)
+
+
+### Bug Fixes
+
+* Recalc anchors pos on height change ([706e2d0](https://github.com/startupjs/startupjs/commit/706e2d0542bff3d7fbf34892f9d17b82d37994c6))
+* **anchors:** Raceconditions for el registering ([ab66425](https://github.com/startupjs/startupjs/commit/ab66425b18a707ce001a955d43ba6e4704b9a75c))
+* **ui/Autosuggest:** fix search with non-letter characters ([#617](https://github.com/startupjs/startupjs/issues/617)) ([2b0fd0b](https://github.com/startupjs/startupjs/commit/2b0fd0b58630231fbb9dbeab9095a1e0fdc5252e))
+
+
+
+## [0.34.2](https://github.com/startupjs/startupjs/compare/v0.34.1...v0.34.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to displaying incorrect fields in forms ([#606](https://github.com/startupjs/startupjs/issues/606)) ([97fa11d](https://github.com/startupjs/startupjs/commit/97fa11db67bc59b91cb5eb50df01066737cd381a))
+* **styleguide:** fix android ([4c7d6b5](https://github.com/startupjs/startupjs/commit/4c7d6b55bbf10cfc33b091de23bd5888d5a3f41b))
+* **ui/Div:** remove onClick from propTypes ([afd6d9e](https://github.com/startupjs/startupjs/commit/afd6d9e280b4f9f1a36a6371118433be23805621))
+* **ui/Modal:** dont render content if modal isnt visible ([#613](https://github.com/startupjs/startupjs/issues/613)) ([#618](https://github.com/startupjs/startupjs/issues/618)) ([f81140d](https://github.com/startupjs/startupjs/commit/f81140d48321a09d650be07fcb32c4399fb0bd74))
+
+
+
 ## [0.34.1](https://github.com/startupjs/startupjs/compare/v0.34.0...v0.34.1) (2021-04-08)
 
 

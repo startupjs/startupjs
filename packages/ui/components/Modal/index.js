@@ -1,6 +1,6 @@
-import React, { useImperativeHandle, useLayoutEffect } from 'react'
+import React, { useImperativeHandle } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
-import { observer, useBind } from 'startupjs'
+import { observer, useDidUpdate, useBind } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -35,7 +35,7 @@ function Modal ({
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
   // It fixed in 0.64
-  useLayoutEffect(() => {
+  useDidUpdate(() => {
     if (!_visible) onDismiss && onDismiss()
   }, [visible])
 
@@ -73,7 +73,6 @@ const ObservedModal = observer(Modal, { forwardRef: true })
 
 ObservedModal.defaultProps = {
   variant: 'window',
-  dismissLabel: ModalActions.defaultProps.dismissLabel, // DEPRECATED
   cancelLabel: ModalActions.defaultProps.cancelLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
   ModalElement: SafeAreaView,
@@ -92,7 +91,6 @@ ObservedModal.propTypes = {
   visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
-  dismissLabel: ModalActions.propTypes.dismissLabel, // DEPRECATED
   cancelLabel: ModalActions.propTypes.cancelLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
   showCross: PropTypes.bool,

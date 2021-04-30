@@ -15,7 +15,49 @@ import Span from '../../typography/Span'
 import { Table, Thead, Tbody, Tr, Th, Td } from '@startupjs/ui'
 ```
 
-## Пример
+## Простой пример
+
+```jsx example
+return (
+  <Table>
+    <Thead>
+      <Tr>
+        <Th>
+          <Span bold>
+            First
+          </Span>
+        </Th>
+        <Th>
+          <Span bold>
+            Second
+          </Span>
+        </Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr>
+        <Td>
+          <Span>First 1</Span>
+        </Td>
+        <Td>
+          <Span>Second 1</Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>
+          <Span>First 2</Span>
+        </Td>
+        <Td>
+          <Span>Second 3</Span>
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
+
+
+## Стилизация
 
 ```jsx example
 const tableStyle = {

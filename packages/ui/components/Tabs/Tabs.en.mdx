@@ -11,6 +11,7 @@ Inherits [react-native-tab-view](https://github.com/satya164/react-native-tab-vi
   - `$value` is the scoped model, to make tabs controlled (by omitting this property the tabs will be uncontrolled)
 - added property `initialKey` to set default tab
 - added property `onChange` that responds to tab change instead of `onIndexChange`
+- all props for [TabBar](https://github.com/satya164/react-native-tab-view#tabbar) can be assigned to `Tabs` component
 
 Tabs allow you to switch between different views.
 
@@ -18,7 +19,10 @@ Tabs allow you to switch between different views.
 import { Tabs } from '@startupjs/ui'
 ```
 
-## Example
+## Tabs.Bar
+Use component `Tabs.Bar` in the `renderTabBar` function if you want to make a custom `TabBar`
+
+## Simple example
 
 ```jsx example
 const [routes] = useState([
@@ -48,7 +52,6 @@ return (
     style={{ height: 250 }}
     routes={routes}
     renderScene={renderScene}
-
   />
 )
 ```

@@ -13,15 +13,17 @@ export function alert ({ title, message }) {
 
   dialogOpen({
     title,
-    children: message
+    children: message,
+    cancelLabel: 'Ok',
+    onCancel: () => {}
   })
 }
 
 export async function confirm ({
   title,
   message,
-  cancelLabel,
-  confirmLabel
+  cancelLabel = 'Cancel',
+  confirmLabel = 'Confirm'
 }) {
   if (message && typeof message !== 'string') {
     throw new Error('[@startupjs/app] alert: message should be a string')
@@ -61,6 +63,7 @@ export async function prompt ({ title, message }) {
         Br(half)
         PromptInput
       `,
+      cancelLabel: 'Cancel',
       confirmLabel: 'Send',
       onConfirm: () => resolve($root.get('_session.popup.textInput'))
     })

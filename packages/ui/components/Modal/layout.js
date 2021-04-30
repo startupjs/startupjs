@@ -12,7 +12,7 @@ function Modal ({
   children,
   variant,
   title,
-  dismissLabel, // DEPRECATED
+  dismissLabel,
   cancelLabel,
   confirmLabel,
   ModalElement,
@@ -24,6 +24,14 @@ function Modal ({
   onCancel,
   onConfirm
 }) {
+  // DEPRECATED
+  if (dismissLabel) {
+    console.warn(
+      '[@startupjs/ui] Modal: dismissLabel is DEPRECATED, use cancelLabel instead'
+    )
+    cancelLabel = dismissLabel
+  }
+
   // Deconstruct template variables
   let header, actions, content
   const contentChildren = []
@@ -59,19 +67,24 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
-  let _onConfirm = null
+  let _onConfirm
+  let _onCancel
+
   if (onConfirm) {
     _onConfirm = async event => {
       event.persist() // TODO: remove in react 17
-      const promise = onConfirm && onConfirm(event)
+      const promise = onConfirm(event)
       if (promise?.then) await promise
       if (event.defaultPrevented) return
       closeFallback()
     }
   }
 
-  let _onCancel = null
-  if (onCancel !== null) {
+  if (onCancel || onConfirm) {
+    if (!onConfirm && cancelLabel === ModalActions.defaultProps.cancelLabel) {
+      cancelLabel = 'OK'
+    }
+
     _onCancel = async event => {
       event.persist() // TODO: remove in react 17
       const promise = onCancel && onCancel(event)
@@ -99,7 +112,6 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    dismissLabel, // DEPRECATED
     cancelLabel,
     confirmLabel,
     style: content ? { paddingTop: 0 } : null,

@@ -13,30 +13,44 @@ Checkboxes allow the user to select one or more items from a set.
 import { Checkbox } from from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 const [checked, setChecked] = useState(false)
 return (
-  <Div>
-    <Checkbox
-      label='Example'
-      value={checked}
-      onChange={setChecked}
-    />
-    <Br />
-    <Checkbox
-      label='Disabled example'
-      value={true}
-      disabled
-    />
-    <Br />
-    <Checkbox
-      label='Readonly example'
-      value={true}
-      readonly
-    />
-  </Div>
+  <Checkbox
+    value={checked}
+    onChange={setChecked}
+  />
+)
+```
+
+## Label
+
+```jsx example
+const [checked, setChecked] = useState(false)
+return (
+  <Checkbox
+    label='Label'
+    value={checked}
+    onChange={setChecked}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <Checkbox value={true} disabled />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <Checkbox value={true} readonly/>
 )
 ```
 

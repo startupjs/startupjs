@@ -10,7 +10,13 @@ import {
   Br,
   Row,
   Link,
-  Icon
+  Icon,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr
 } from '@startupjs/ui'
 import { Anchor } from '@startupjs/scrollable-anchors'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
@@ -163,12 +169,25 @@ export default {
             = children
     `
   },
-  table: P,
-  thead: P,
-  tbody: P,
-  tr: P,
-  td: P,
-  th: P,
+  table: ({ children }) => {
+    return pug`
+      Table(style={ marginTop: 16 })= children
+    `
+  },
+  thead: Thead,
+  tbody: Tbody,
+  tr: ({ children }) => {
+    return pug`
+      Tr(
+        style={cursor: 'default'}
+        hoverStyle={backgroundColor: '#ebf8fd'}
+        activeStyle={backgroundColor: '#ebf8fd'}
+        onPress=() => null
+      )= children
+    `
+  },
+  td: Td,
+  th: Th,
   delete: P,
   a: ({ children, href }) => {
     return pug`
