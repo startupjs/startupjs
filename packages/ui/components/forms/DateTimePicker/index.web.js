@@ -77,7 +77,6 @@ function DateTimePicker ({
       if label
         Span.label(
           styleName={focused}
-          size='s'
           variant='description'
         )= label
       DatePicker(
