@@ -58,10 +58,6 @@ function Modal ({
       'If <Modal.Content> is specified, you have to put all your content inside it')
   }
 
-  if (dismissLabel) {
-    console.warn('[@startupjs/ui] Modal: dismissLabel is DEPRECATED, use cancelLabel instead')
-  }
-
   // Handle <Modal.Content>
   content = content || (contentChildren.length > 0
     ? React.createElement(ModalContent, { variant }, contentChildren)
