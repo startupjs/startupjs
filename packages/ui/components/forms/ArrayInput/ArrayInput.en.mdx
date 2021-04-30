@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Sandbox } from '@startupjs/docs'
 import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
@@ -8,8 +9,6 @@ import { useValue } from 'startupjs'
 # ArrayInput
 
 ArrayInput lets you build dynamic forms using its declarative api.
-
-ArrayInput accepts an object in the `items` property with a required `input` key to specify what type of input to display.
 
 Possible types are:
 
@@ -30,10 +29,9 @@ import { ArrayInput } from '@startupjs/ui'
 ## Simple example
 
 ```jsx example
-const [value, $value] = useValue(['Green', 'Blue'])
+const [, $value] = useValue(['Green', 'Blue'])
 return (
   <ArrayInput
-    value={value}
     $value={$value}
     label='Colors'
     items={{
@@ -42,3 +40,14 @@ return (
   />
 )
 ```
+
+## Properties
+- `style` - styles for the main `ArrayInput` container,
+- `inputStyle` - styles for the input container,
+- `$value` - model with fields for `ArrayInput`,
+- `label` - displayed title,
+- `items` - an object with a required key `input` to indicate what type of input to display.
+
+## Sandbox
+
+<Sandbox Component={ArrayInput} />
