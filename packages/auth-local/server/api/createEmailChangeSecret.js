@@ -5,6 +5,7 @@ export default function createEmailChangeSecret (req, res, done, config) {
 
   onBeforeCreateEmailChangeSecret(req, res, async function (err, opts = {}) {
     const { email, userId } = opts
+    email = email.toLowerCase()
 
     if (err) return res.status(400).json({ message: err })
 
