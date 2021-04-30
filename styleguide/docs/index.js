@@ -2,9 +2,12 @@ import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import twoFADocs from '../../packages/2fa/docs'
-import AuthMain from '../../packages/auth/readme.md'
-import AuthApple from '../../packages/auth-apple/readme.md'
-import AuthAzuread from '../../packages/auth-azuread/readme.md'
+import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
+import AuthMainEn from '../../packages/auth/docs/readme.en.md'
+import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
+import AuthAppleEn from '../../packages/auth-apple/docs/readme.en.md'
+import AuthAzureadRu from '../../packages/auth-azuread/docs/readme.ru.md'
+import AuthAzureadEn from '../../packages/auth-azuread/docs/readme.en.md'
 import AuthCommon from '../../packages/auth-common/readme.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
@@ -45,18 +48,30 @@ export default docs({
     items: {
       main: {
         type: 'mdx',
-        title: 'Главный модуль',
-        component: AuthMain
+        title: {
+          en: 'Main module',
+          ru: 'Главный модуль'
+        },
+        component: {
+          en: AuthMainEn,
+          ru: AuthMainRu
+        }
       },
       apple: {
         type: 'mdx',
         title: 'Apple',
-        component: AuthApple
+        component: {
+          en: AuthAppleEn,
+          ru: AuthAppleRu
+        }
       },
       azuread: {
         type: 'mdx',
         title: 'Azure AD',
-        component: AuthAzuread
+        component: {
+          en: AuthAzureadEn,
+          ru: AuthAzureadRu
+        }
       },
       common: {
         type: 'mdx',
