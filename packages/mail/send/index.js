@@ -30,7 +30,8 @@ async function sendEmail (model, options) {
 
     const layoutData = await getDataFromLayout(
       model,
-      layoutName
+      layoutName,
+      options.layoutOptions
     )
 
     let recipientMails = await getRecipientEmailsByIds(model, options.recipientIds)
@@ -53,7 +54,8 @@ async function sendEmail (model, options) {
       subject: options.subject,
       text: options.text,
       html: options.html,
-      inline: options.inline
+      inline: options.inline,
+      'recipient-variables': options.variables
     }
 
     if (options.template) {

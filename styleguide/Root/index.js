@@ -9,6 +9,9 @@ import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from '@startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
+
+// Frontend micro-services
+import * as mail from '@startupjs/mail/client/app'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -18,12 +21,10 @@ import {
   CRITICAL_VERSION_ANDROID,
   CRITICAL_VERSION_WEB
 } from '@env'
-import orm from '../model'
-
-// Frontend micro-services
-import * as main from '../main'
-import docs from '../docs'
 import auth from '../auth'
+import docs from '../docs'
+import * as main from '../main'
+import orm from '../model'
 
 if (Platform.OS === 'web') window.model = model
 
@@ -42,7 +43,7 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ main, docs, auth }
+      apps={ main, docs, auth, mail }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,

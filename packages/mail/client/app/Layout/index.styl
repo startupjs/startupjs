@@ -1,0 +1,19 @@
+.root
+  flex-grow 1
+  justify-content center
+  align-items center
+  +desktop()
+    background-color $UI.colors.primaryLight
+
+
+.wrapper
+  justify-content space-between
+  align-items center
+  padding 3u
+  width 100%
+  radius()
+  +desktop()
+    width 80u
+    height 35u
+    background-color $UI.colors.white
+    box-shadow $UI.colors.darkLighter 0 1u 1.5u

@@ -6,6 +6,7 @@ import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { init2fa } from '@startupjs/2fa/server'
+import getMailRoutes from '@startupjs/mail/routes'
 import { initRecaptcha } from '@startupjs/recaptcha/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
@@ -33,7 +34,8 @@ startupjsServer({
   appRoutes: [
     ...getMainRoutes(),
     ...getDocsRoutes(),
-    ...getAuthRoutes()
+    ...getAuthRoutes(),
+    ...getMailRoutes()
   ]
 }, (ee, options) => {
   initApp(ee, {
