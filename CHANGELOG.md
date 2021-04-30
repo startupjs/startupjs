@@ -1,3 +1,21 @@
+## [0.34.9](https://github.com/startupjs/startupjs/compare/v0.34.8...v0.34.9) (2021-04-30)
+
+
+### Bug Fixes
+
+* **auth-local:** move email case to lower case ([#640](https://github.com/startupjs/startupjs/issues/640)) ([c8affa6](https://github.com/startupjs/startupjs/commit/c8affa6ce98b6002434c3ace7b07be68c79c1dbb))
+* **docs:** make topbar non-overlapping content ([#635](https://github.com/startupjs/startupjs/issues/635)) ([c82e5c3](https://github.com/startupjs/startupjs/commit/c82e5c324817c7bb0b58e55d902e640d33932042))
+* **ui/AutoSuggest:** don't clean input on blur if correct value is not set ([#642](https://github.com/startupjs/startupjs/issues/642)) ([1c869a3](https://github.com/startupjs/startupjs/commit/1c869a396ba6f03ec527d8232e22f270314b8cf9))
+* **ui/Modal:** deprecate , use  instead ([6c3222d](https://github.com/startupjs/startupjs/commit/6c3222dcbf026a7e1965dd1f4b5cd9fcfbb78504))
+* **ui/Modal:** fix  triggering on first rendering ([2ff7c9d](https://github.com/startupjs/startupjs/commit/2ff7c9d101fc05f09f6dd65ece8898ef16897b55))
+
+
+### Features
+
+* **auth-google:** pass login options to google auth library ([#634](https://github.com/startupjs/startupjs/issues/634)) ([1c05776](https://github.com/startupjs/startupjs/commit/1c05776fbf3bdf0bb308b34268cdfea32bf3b7f7))
+
+
+
 ## [0.34.8](https://github.com/startupjs/startupjs/compare/v0.34.7...v0.34.8) (2021-04-26)
 
 
