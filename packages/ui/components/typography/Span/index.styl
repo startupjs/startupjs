@@ -1,26 +1,26 @@
 _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
 
 // Add font-family when we add fonts to app
-
+ 
 .root
   for variant in _variants
     &.{variant}
       text(variant)
 
-  fontFamily($UI.fontFamilies.normal)
+  fontFamily('normal')
 
   &.bold
-    fontFamily($UI.fontFamilies.normal, 700)
+    fontFamily('normal', $UI.fontWeights.normalBold)
   &.italic
-    fontFamily($UI.fontFamilies.normal, 400, italic)
+    fontFamily('normal', $UI.fontWeights.normal, italic)
   &.bold.italic
-    fontFamily($UI.fontFamilies.normal, 700, italic)
+    fontFamily('normal', $UI.fontWeights.normalBold, italic)
 
   &.header
-    fontFamily($UI.fontFamilies.heading)
+    fontFamily('heading')
     &.bold
-      fontFamily($UI.fontFamilies.heading, 700)
+      fontFamily('heading', $UI.fontWeights.headingBold)
     &.italic
-      fontFamily($UI.fontFamilies.heading, 400, italic)
+      fontFamily('heading', $UI.fontWeights.heading, italic)
     &.bold.italic
-      fontFamily($UI.fontFamilies.heading, 700, italic)
+      fontFamily('heading', $UI.fontWeights.headingBold, italic)

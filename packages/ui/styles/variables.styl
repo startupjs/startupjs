@@ -22,7 +22,12 @@ $UI.fontFamilies = merge({
   heading: $fontHeading
 }, $UI.fontFamilies, true)
 
-$UI.fontWeightRegular = 400
+$UI.fontWeights = {
+  normal: 400,
+  normalBold: 700,
+  heading: 400,
+  headingBold: 700
+}
 
 $UI.fontSizes = merge({
   xs: 1.25u,

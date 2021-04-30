@@ -8,7 +8,7 @@ _headerSizes = {
   h6: l
 }
 
-_fontWeightNamesMap = {
+$fontWeightNamesMap = {
   '100': 'Thin',
   '200': 'ExtraLight',
   '300': 'Light',
@@ -28,9 +28,13 @@ font(size = m)
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
 
-// is default fonts - is the font included in UI.fontFamilies.normal or $UI.fontFamilies.heading
-isDefaultFont(_font)
-  return match(',', _font) || match(_font, $UI.fontFamilies.normal) || match(_font, $UI.fontFamilies.heading)
+isCustomFont(fontName)
+  newFont = $UI.fontFamilies[fontName]
+  if (index($UI.customFontFamilies, newFont) != null ) {
+    return true
+  } else {
+    return false
+  }
 
 text(key = default)
   // color
@@ -57,16 +61,21 @@ text(key = default)
   else if key is h6
     font(l)
 
-fontFamily(_fontName, _fontWeight = $UI.fontWeightRegular, _fontStyle = normal)
-  if (_fontName && (typeof(_fontName) == 'string'))
-    if (isDefaultFont(_fontName))
-      font-family _fontName
-      font-weight _fontWeight
-      font-style _fontStyle
-    else
-      _resultFontWeight = _fontWeightNamesMap['' + _fontWeight] || _fontWeightNamesMap['' + $UI.fontWeightRegular]
-      _result = _fontName + '-' + _resultFontWeight
-      if (_fontStyle == italic)
-        _result = _result + 'Italic'
-
-      font-family _result
+fontFamily(fontName = null, fontWeight = $UI.fontWeights.normal, fontStyle = normal)
+  if (!$UI.fontFamilies[fontName]) {
+    error('ERROR! Wrong ' + fontName + ', it must be a key string of $UI.fontFamilies')
+  } else {
+    newFont = $UI.fontFamilies[fontName]
+    
+    if (isCustomFont(fontName)) {
+      newFont += '-' + ($fontWeightNamesMap['' + fontWeight] || $fontWeightNamesMap['' + $UI.fontWeights.normal])
+      if (fontStyle == italic) {
+        newFont += 'Italic'
+      }
+      font-family newFont
+    } else {
+      font-family newFont
+      font-weight fontWeight
+      font-style fontStyle
+    }
+  }
