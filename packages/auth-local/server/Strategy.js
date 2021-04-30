@@ -10,7 +10,11 @@ import {
   onBeforePasswordReset,
   onAfterPasswordReset,
   onBeforePasswordChange,
-  onAfterPasswordChange
+  onAfterPasswordChange,
+  onCreateEmailChangeSecret,
+  onBeforeCreateEmailChangeSecret,
+  onBeforeEmailChange,
+  onAfterEmailChange
 } from './helpers'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
@@ -31,6 +35,10 @@ export default function (config = {}) {
       onBeforePasswordReset,
       onBeforePasswordChange,
       onAfterPasswordChange,
+      onBeforeCreateEmailChangeSecret,
+      onCreateEmailChangeSecret,
+      onBeforeEmailChange,
+      onAfterEmailChange,
       ...authConfig
     }, config)
 

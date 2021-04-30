@@ -17,93 +17,202 @@ import { Multiselect } from '@startupjs/ui'
 
 Before use you need to configure [Portal](/docs/components/Portal)
 
-## Example
-
-- `options` - array of objects ```{ label, value }``` or primitives
-- `TagComponent` - prop for custom tag render
-- `tagLimit` - max amount of displaying tags
-- `onChange` ```function(value: Array)``` - the callback triggered when the value is changed. Returns an array with selected values
+## Simple example
 
 ```jsx example
 const OPTIONS = [
   { label: 'New York', value: 'ny' },
   { label: 'Los Angeles', value: 'la' },
   { label: 'Tokyo', value: 'tk' },
-  { label: 'Moscow', value: 'msc' },
-  { label: 'Berlin', value: 'bl' },
-  { label: 'Milan', value: 'mi' },
-  { label: 'Sydney', value: 'sy' },
-  { label: 'Porto', value: 'po' }
 ]
 
-const [cities, setCities] = useState(['la', 'tk', 'msc', 'po', 'ny'])
+const [cities, setCities] = useState([])
 
 return (
-  <Div>
+  <Multiselect
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Label
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    label="Label"
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Options
+
+You can pass array of objects { label, value } or primitives to options property.
+
+```jsx example
+const OBJECT_OPTIONS_EXAMPLE = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+]
+const PRIMITIVIES_OPTIONS_EXAMPLE = [
+  'New York',
+  'Los Angeles',
+]
+
+const [cities, setCities] = useState([])
+const [citiesArray, setCitiesArray] = useState([])
+
+return (
+  <>
     <Multiselect
-      label='Example'
-      placeholder='Select cities'
       value={cities}
       onChange={setCities}
-      options={OPTIONS}
+      options={OBJECT_OPTIONS_EXAMPLE}
     />
     <Br />
     <Multiselect
-      label='Example with tags limiter'
-      placeholder='Select cities'
-      tagLimit={3}
-      value={cities}
-      onChange={setCities}
-      options={OPTIONS}
+      value={citiesArray}
+      onChange={setCitiesArray}
+      options={PRIMITIVIES_OPTIONS_EXAMPLE}
     />
-    <Br />
-    <Multiselect
-      label='Example Multiselect with custom tag'
-      value={cities}
-      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
-      onChange={setCities}
-      options={OPTIONS}
-    />
-    <Br />
-    <Multiselect
-      label='Example Multiselect with custom input'
-      value={cities}
-      InputComponent={
-        ({ children, onOpen }) => {
-          return (
-            <Div
-              onPress={onOpen}
-              style={{
-                border: '1px dotted green',
-                padding: 8
-              }}
-            >
-              {children}
-            </Div>
-          )
-        }
+  </>
+)
+```
+
+## Disabled
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+const [cities, setCities] = useState(['ny'])
+
+return (
+  <Multiselect
+    disabled
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+const [cities, setCities] = useState(['ny'])
+
+return (
+  <Multiselect
+    readonly
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Tag
+
+Вы можете добавить кастомный компонент для тегов
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    value={cities}
+    TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Input Component
+
+Вы можете добавить кастомный компонент для input
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    value={cities}
+    InputComponent={
+      ({ children, onOpen }) => {
+        return (
+          <Div
+            onPress={onOpen}
+            style={{
+              border: '1px dotted green',
+              padding: 8
+            }}
+          >
+            {children}
+          </Div>
+        )
       }
-      TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
-      onChange={setCities}
-      options={OPTIONS}
-    />
-    <Br />
-    <Multiselect
-      label='Example of disabled Multiselect'
-      placeholder='Select cities'
-      value={cities}
-      options={OPTIONS}
-      disabled
-    />
-    <Br />
-    <Multiselect
-      label='Example of readonly Multiselect'
-      placeholder='Select cities'
-      value={cities}
-      options={OPTIONS}
-      readonly
-    />
-  </Div>
+    }
+    TagComponent={({ record }) => <Span>✔ {record.label} &nbsp;&nbsp;&nbsp;&nbsp;</Span>}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Tag limit
+
+Вы можете ограничить количество выводимых тегов
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    tagLimit={2}
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
 )
 ```
 

@@ -19,12 +19,12 @@ Menu displays a list of choices and also can be used for navigation.
 import { Menu } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
-  <Menu style={{ width: u(15) }}>
+  <Menu>
     <Menu.Item
       active={active === 'option-1'}
       onPress={() => setActive('option-1')}
@@ -36,12 +36,6 @@ return (
       onPress={() => setActive('option-2')}
     >
       Option-2
-    </Menu.Item>
-    <Menu.Item
-      active={active === 'option-3'}
-      onPress={() => setActive('option-3')}
-    >
-      Option-3
     </Menu.Item>
   </Menu>
 )

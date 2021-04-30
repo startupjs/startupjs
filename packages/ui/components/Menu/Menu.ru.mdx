@@ -19,14 +19,12 @@ import { Sandbox } from '@startupjs/docs'
 import { Menu } from '@startupjs/ui'
 ```
 
-## Пример
-
-Border position of the active element can be customized using `activeBorder` prop.
+## Простой пример
 
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
-  <Menu style={{ width: u(15) }}>
+  <Menu>
     <Menu.Item
       active={active === 'option-1'}
       onPress={() => setActive('option-1')}
@@ -38,12 +36,6 @@ return (
       onPress={() => setActive('option-2')}
     >
       Option-2
-    </Menu.Item>
-    <Menu.Item
-      active={active === 'option-3'}
-      onPress={() => setActive('option-3')}
-    >
-      Option-3
     </Menu.Item>
   </Menu>
 )

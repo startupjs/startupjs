@@ -15,48 +15,20 @@ DateTimePicker позволяет отображать и изменять да�
 import { DateTimePicker } from from '@startupjs/ui'
 ```
 
-## Примеры
+## Простой пример
 
 ```jsx example
-const [dateTime, setDateTime] = useState()
 const [date, setDate] = useState()
-const [time, setTime] = useState()
 
 return (
-  <Div>
-    <DateTimePicker
-      date={dateTime}
-      label='Date && Time'
-      placeholder='Chose date and time'
-      onDateChange={setDateTime}
-    />
-    <Br />
-    <DateTimePicker
-      date={date}
-      format='MM-DD-yyyy'
-      label='Date'
-      maxDate={1607983200000}
-      minDate={1605391200000}
-      mode='date'
-      size='l'
-      onDateChange={setDate}
-    />
-    <Br />
-    <DateTimePicker
-      date={time}
-      format='HH:mm'
-      label='Time'
-      minuteInterval={15}
-      mode='time'
-      size='s'
-      timeFormat='HH-mm'
-      onDateChange={setTime}
-    />
-  </Div>
+  <DateTimePicker
+    date={date}
+    onDateChange={setDate}
+  />
 )
 ```
 
-## Опции
+## Свойства
 
 - `date` - исходная дата или время в формате временной метки,
 - `onDateChange` - обработчик выбора даты и времени, возвращает временную метку,
