@@ -5,6 +5,7 @@ export default function createPasswordResetSecret (req, res, done, config) {
 
   onBeforeCreatePasswordResetSecret(req, res, async function (err, email) {
     if (err) return res.status(400).json({ message: err })
+    email = email.toLowerCase()
     const { model } = req
 
     const recaptchaEnabled = model.get('_session.auth.recaptchaEnabled')
