@@ -29,7 +29,7 @@
 https://c48c1b8bb802.ngrok.io/auth/apple/callback,
 https://c48c1b8bb802.ngrok.io/auth/apple/callback-native
 
-## Init on the server
+## Init on server
 Importing a strategy:
 ```js
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
@@ -56,7 +56,7 @@ initAuth(ee, {
 
 For tests, you can use **testBaseUrl**
 
-Init in the layout
+## Init in layout
 ```js
 import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple/client'
 ```

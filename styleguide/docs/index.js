@@ -8,7 +8,8 @@ import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
 import AuthAppleEn from '../../packages/auth-apple/docs/readme.en.md'
 import AuthAzureadRu from '../../packages/auth-azuread/docs/readme.ru.md'
 import AuthAzureadEn from '../../packages/auth-azuread/docs/readme.en.md'
-import AuthCommon from '../../packages/auth-common/readme.md'
+import AuthCommonRu from '../../packages/auth-common/docs/readme.ru.md'
+import AuthCommonEn from '../../packages/auth-common/docs/readme.en.md'
 import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
@@ -75,8 +76,14 @@ export default docs({
       },
       common: {
         type: 'mdx',
-        title: 'Общая',
-        component: AuthCommon
+        title: {
+          en: 'Common',
+          ru: 'Общая'
+        },
+        component: {
+          en: AuthCommonEn,
+          ru: AuthCommonRu
+        }
       },
       facebook: {
         type: 'mdx',
