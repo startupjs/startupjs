@@ -4,33 +4,36 @@ import languageDetector from './languageDetector'
 import { useConfig } from './config'
 
 export default function useI18nGlobalInit () {
+  // TODO
+  // input multiline
   const $session = useModel('_session')
   const [lang, $lang] = useSession('lang')
   const config = useConfig()
-  const defaultLang = config.defaultLang
+  const { defaultLang, supportedLangs } = config
+
+  function getLang (lang) {
+    if (!lang) return defaultLang
+    return supportedLangs.includes(lang) ? lang : defaultLang
+  }
 
   if (!lang) {
-    const configLanguageDetector = config.languageDetector
+    const _languageDetector = config.languageDetector === 'function'
+      ? config.languageDetector
+      : languageDetector
 
-    // TODO: Check that the lang in supportedLang
-    if (typeof configLanguageDetector === 'function') {
-      const promise = configLanguageDetector()
+    const promise = _languageDetector()
 
-      if (promise && promise.then) {
-        throw promise.then(lang => $lang.set(lang || defaultLang))
-      } else {
-        $lang.set(promise || defaultLang)
-      }
+    if (promise && promise.then) {
+      throw promise.then(lang => $lang.set(getLang(lang)))
     } else {
-      const lang = languageDetector()
-      $lang.set(lang || defaultLang)
+      throw $lang.set(getLang(promise))
     }
   }
 
   const [translations, $translations] = useDoc('translations', lang)
 
   if (!translations && lang !== defaultLang) {
-    throw $root.add('translations', { id: lang })
+    throw $root.scope('i18nTranslations').addNew(lang)
   }
 
   useMemo(() => {

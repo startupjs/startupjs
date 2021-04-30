@@ -10,12 +10,14 @@ import AuthFacebook from '../../packages/auth-facebook/readme.md'
 import AuthGoogle from '../../packages/auth-google/readme.md'
 import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
 import AuthLocal from '../../packages/auth-local/readme.md'
-import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
-import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import i18nEn from '../../packages/i18n/readme/readme.en.mdx'
+import i18nRu from '../../packages/i18n/readme/readme.ru.mdx'
 import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
 import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
+import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -93,18 +95,18 @@ export default docs({
     },
     icon: faLayerGroup,
     items: {
-      anchors: {
+      ...twoFADocs,
+      i18n: {
         type: 'mdx',
         title: {
-          en: 'Scrollable anchors',
-          ru: 'Якоря с прокрутой'
+          en: 'Internationalization',
+          ru: 'Интернационализация'
         },
         component: {
-          en: ScrollableAnchorsEn,
-          ru: ScrollableAnchorsRu
+          en: i18nEn,
+          ru: i18nRu
         }
       },
-      ...twoFADocs,
       plugins: {
         type: 'mdx',
         title: {
@@ -125,6 +127,17 @@ export default docs({
         component: {
           en: RecaptchaEn,
           ru: RecaptchaRu
+        }
+      },
+      anchors: {
+        type: 'mdx',
+        title: {
+          en: 'Scrollable anchors',
+          ru: 'Якоря с прокрутой'
+        },
+        component: {
+          en: ScrollableAnchorsEn,
+          ru: ScrollableAnchorsRu
         }
       }
     }

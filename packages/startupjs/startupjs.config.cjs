@@ -4,12 +4,13 @@ module.exports = {
     forceCompile: {
       web: [
         'startupjs/app',
+        'startupjs/i18n',
         'startupjs/init',
         'startupjs/plugin'
       ],
       server: [
         'startupjs/app',
-        'startupjs/init',
+        'startupjs/i18n',
         'startupjs/orm',
         'startupjs/server'
       ]

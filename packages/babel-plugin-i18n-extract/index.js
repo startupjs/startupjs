@@ -4,7 +4,11 @@ const packageJson = require('./package.json')
 const moduleLocation = require.resolve(packageJson.name)
 
 const T_FUNCTION_NAME = 't'
-const LIBRARY_NAME = 'startupjs'
+const IMPORT_T_FUNCTION_LIBRARIES = [
+  'startupjs',
+  'startupjs/i18n',
+  '@startupjs/i18n'
+]
 const FILENAME = 'translations.json'
 
 module.exports = function (babel, opts) {
@@ -69,7 +73,9 @@ module.exports = function (babel, opts) {
         $program = $this
       },
       ImportDeclaration: ($this) => {
-        if ($this.node.source.value !== LIBRARY_NAME) return
+        const value = $this.node.source.value
+        const hasImport = IMPORT_T_FUNCTION_LIBRARIES.includes(value)
+        if (!hasImport) return
         for (const specifier of $this.node.specifiers) {
           if (specifier.imported.name !== T_FUNCTION_NAME) continue
           tFunctionName = specifier.local.name

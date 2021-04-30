@@ -15,6 +15,7 @@ const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
   style,
+  sidebarStyle,
   defaultOpen,
   disabled,
   fixedLayoutBreakpoint,
@@ -80,6 +81,7 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         style=style
+        sidebarStyle=sidebarStyle
         $open=$open
         position=position
         width=width

@@ -15,6 +15,7 @@
     "@startupjs/bundler": "^0.34.0",
     "@startupjs/cli": "^0.34.0",
     "@startupjs/hooks": "^0.34.0",
+    "@startupjs/i18n": "^0.34.0",
     "@startupjs/init": "^0.34.0",
     "@startupjs/isomorphic-helpers": "^0.34.0",
     "@startupjs/orm": "^0.34.0",
