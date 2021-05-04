@@ -4,7 +4,6 @@
 [Настройка главного модуля](/docs/auth/main)
 
 ## Требования
-
 ```
 @startupjs/auth: >= 0.33.0
 react-native-webview: 10.10.2
@@ -33,29 +32,25 @@ initAuth(ee, {
 ```
 **providerName** - имя за котором будет закреплена стратегия, к примеру в AzureADStrategy - это azuread, на основе этого имени, создается callback роут
 
-**authorizationURL** - ссылка для подтверждения входа. Обычно при переходе на нее показывается диалоговое окно, в котором опевещается какие данные пользователя будут использованы на сайте
+**authorizationURL** - ссылка для подтверждения входа. Обычно при переходе на нее показывается диалоговое окно, в котором оповещается какие данные пользователя будут использованы на сайте
 
 **tokenURL** - ссылка для получения токена доступа
 
 **profileURL** - ссылка для получения данных юзера, с токеном доступа
 
 ## Инициализация в верстке
-Поскольку зарание не известно какой сервис будет использоваться, можно создать кастомный компонент для кнопки, пример:
-
 ```js
-import { createAuthButton } from '@startupjs/auth-common'
+import { AuthButton as VirginAuthButton } from '@startupjs/auth-common'
 ```
 
 ```jsx
-const VirginAuthButton = createAuthButton({
-  label: 'Virgin',
-  providerName: 'virgin',
-  style: { backgroundColor: '#e1090d' },
-  imageUrl: BASE_URL + '/img/virgin.png'
-})
-
 return pug`
-  VirginAuthButton
+  VirginAuthButton(
+    label='Virgin'
+    providerName='virgin'
+    style={ backgroundColor: '#e1090d' }
+    imageUrl=BASE_URL + '/img/virgin.png'
+  )
 `
 ```
 **label** - текст отображаемый в кнопке
@@ -70,14 +65,14 @@ return pug`
 ```js
 const auth = initAuthApp({
   socialButtons: [
-    GoogleAuthButton,
-    LinkedinAuthButton,
-    createAuthButton({
-      label: 'Virgin',
-      providerName: 'virgin',
-      style: { backgroundColor: '#e1090d' },
-      imageUrl: BASE_URL + '/img/virgin.png'
-    })
+    <GoogleAuthButton />,
+    <LinkedinAuthButton />,
+    <VirginAuthButton
+      label='Virgin',
+      providerName='virgin',
+      style={{ backgroundColor: '#e1090d' }},
+      imageUrl={BASE_URL + '/img/virgin.png'}
+    />
   ]
 })
 ```
