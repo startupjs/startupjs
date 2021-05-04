@@ -37,9 +37,9 @@ function getOrderedListMark (index, level) {
   }
 }
 
-function P ({ children }) {
+function P ({ style, children }) {
   return pug`
-    Span.p= children
+    Span.p(style=style)= children
   `
 }
 
@@ -139,6 +139,12 @@ export default {
   h4: P,
   h5: P,
   h6: P,
+  center: ({ children }) => {
+    return pug`
+      P.center= children
+    `
+  },
+  br: Br,
   thematicBreak: P,
   blockquote: P,
   ul: ({ children }) => children,
