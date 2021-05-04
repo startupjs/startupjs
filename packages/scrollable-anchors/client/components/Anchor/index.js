@@ -12,10 +12,13 @@ function Anchor ({ id, children, style, Component, ...componentProps }) {
   }
 
   function getPosition () {
-    ref.current.measure((fx, fy) => {
+    // Measure doesn't work properly under Android
+    // It always receives ( x: 0, y: 0 )
+    ref.current.measure((x, y) => {
+      console.log(x, y)
       registerAnchor({
         anchorId: id,
-        posY: fy
+        posY: Math.round(y)
       })
     })
   }
@@ -27,7 +30,9 @@ function Anchor ({ id, children, style, Component, ...componentProps }) {
   return pug`
     // Extra block to calculate correct y pos of element on parent size changes
     // IE: Parent can have dynamic content, we need recalc anchors positions when content changes
-    View(ref=ref)
+    // + issue with Android and ref.measure https://github.com/facebook/react-native/issues/3282#issuecomment-201934117
+    // collapsable false is required to measureInWindow item correectly
+    View(ref=ref collapsable=false)
     Component(
       ...componentProps
       style=style
