@@ -8,6 +8,18 @@ _headerSizes = {
   h6: l
 }
 
+$fontWeightNamesMap = {
+  '100': 'Thin',
+  '200': 'ExtraLight',
+  '300': 'Light',
+  '400': 'Regular',
+  '500': 'Medium',
+  '600': 'SemiBold',
+  '700': 'Bold',
+  '800': 'ExtraBold'
+  '900': 'Black'
+}
+
 font(size = m)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
@@ -15,6 +27,14 @@ font(size = m)
   size = 's' if size is s
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
+
+isCustomFont(fontName)
+  newFont = $UI.fontFamilies[fontName]
+  if (index($UI.customFontFamilies, newFont) != null ) {
+    return true
+  } else {
+    return false
+  }
 
 text(key = default)
   // color
@@ -40,3 +60,22 @@ text(key = default)
     font(xl)
   else if key is h6
     font(l)
+
+fontFamily(fontName = null, fontWeight = $UI.fontWeights.normal, fontStyle = normal)
+  if (!$UI.fontFamilies[fontName]) {
+    error('ERROR! Wrong ' + fontName + ', it must be a key string of $UI.fontFamilies')
+  } else {
+    newFont = $UI.fontFamilies[fontName]
+    
+    if (isCustomFont(fontName)) {
+      newFont += '-' + ($fontWeightNamesMap['' + fontWeight] || $fontWeightNamesMap['' + $UI.fontWeights.normal])
+      if (fontStyle == italic) {
+        newFont += 'Italic'
+      }
+      font-family newFont
+    } else {
+      font-family newFont
+      font-weight fontWeight
+      font-style fontStyle
+    }
+  }

@@ -1,0 +1,66 @@
+# Шрифты
+
+## Шрифты по умолчанию
+
+По умолчанию используется следующие шриты `system-ui, -apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif`.
+
+Значения шрифтов по умолчанию хранятся в переменной `$UI.fontFamilies.normal` (используется для компонента `Span`) и `$UI.fontFamilies.heading` (используется для компонента `H1` - `H6`).
+
+Вы можете переопределить эти значения любыми другими дефольными шрифтами, находящимися в вашей системе, либо кастомными шрифтами(рассказано ниже).
+
+В переменной `$UI.fontWeights` опеределены дефолтная толщина шрифта, при необходимости вы можете их переопределить:
+
+```stylus
+$UI.fontWeights = {
+  normal: 400,
+  normalBold: 700,
+  heading: 400,
+  headingBold: 700,
+}
+```
+
+## Добавление кастомных шрифтов
+
+Для добавления кастомных шрифтов необходимо
+
+1. Добавить шрифты в папку public/fonts и набрать в консоли `yarn fonts`. Название файлов шрифтов должно быть в соответстии с правилама Google Fonts - `{Название шрифта}-{Толщина}{Стиль}` - например Roboto-MediumItalic.ttf, BaiJumjuree-Bold.ttf. Вам необходимо добавить все начертания и толщины шрифта, которые вы планируете использовать.
+
+2. Добавить в переменную `$UI.fontFamilies` свойство - ключ с условным названием шрифта и значение - фактическое название шрифта. 
+
+3. Добавить в список `$UI.customFontFamilies` фактическое название шрифта.
+
+```stylus
+$UI.fontFamilies.myCustomFont = 'BaiJumjuree'
+$UI.customFontFamilies = 'Roboto' 'BaiJumjuree'
+```
+
+После этого вы можете переопределить `$UI.fontFamilies.normal` или `$UI.fontFamilies.heading` своим кастомным шрифтом
+
+```stylus
+$UI.fontFamilies.normal = 'BaiJumjuree'
+```
+
+Либо использовать миксин `fontFamily`
+
+```stylus
+.myCustomFont
+  fontFamily('myCustomFont')
+```
+
+## Миксин fontFamily
+
+Миксин `fontFamily(fontName, fontWeight, fontStyle)` предназначен для установки шрифта, толщины шрифта и стиля начертания.
+
+1. `fontName` - принимает любые значения ключей `$UI.fontFamilies` и в соответстии с этим устанавливает необходимое семейство шрифтов.
+
+2. `fontWeight`(опциональный) - принимает толщину шрифта (значение по умолчанию `$UI.fontWeights.normal`).
+
+3. `fontStyle`(опциональный) - принимает стиль начертания (`normal` или `italic`, значение по умолчанию - `normal`)
+
+```stylus
+.text
+  fontFamily('normal', 700, italic)
+
+.myCustomFont
+  fontFamily('myCustomFont', 400)
+```

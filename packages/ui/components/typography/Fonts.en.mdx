@@ -1,0 +1,66 @@
+# Fonts
+
+## Default fonts
+
+The default fonts are `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif`.
+
+The default font values ​​are stored in the variables `$UI.fontFamilies.normal` (used for the` Span` component) and `$UI.fontFamilies.heading` (used for the `H1` - `H6` component).
+
+You can override these values ​​with any other default fonts on your system, or with custom fonts.
+
+The variables `$UI.fontWeights` define the default font weight, if necessary, you can override them:
+
+```stylus
+$UI.fontWeights = {
+  normal: 400,
+  normal bold: 700,
+  header: 400,
+  headingBold: 700,
+}
+```
+
+## Adding custom fonts
+
+To add custom fonts you need
+
+1. Add fonts to the public/fonts folder and type `yarn fonts` in the console. The name of the font files must be in accordance with the Google Fonts rules - `{Font name}-{Thickness}{Style}` - for example, Roboto-MediumItalic.ttf, BaiJumjuree-Bold.ttf. You need to add any typefaces and weights that you plan to use.
+
+2. Add the property `$UI.fontFamilies` to the variable - a key with a conventional font name and a value - the actual name of the font.
+
+3. Add the actual font name to the `$UI.customFontFamilies` list.
+
+```stylus
+$UI.fontFamilies.myCustomFont = 'BaiJumjuree'
+$UI.customFontFamilies = 'Roboto' 'BaiJumjuree'
+```
+
+After that you can override `$UI.fontFamilies.normal` or `$UI.fontFamilies.heading` with your custom font.
+
+```stylus
+$UI.fontFamilies.normal = 'BaiJumjuree'
+```
+
+Or use the `fontFamily` mixin
+
+```stylus
+.myCustomFont
+  fontFamily('myCustomFont')
+```
+
+## Mixin fontFamily
+
+The `fontFamily(fontName, fontWeight, fontStyle)` mixin is intended for setting the font, font weight and style.
+
+1. `fontName` - accepts any key values ​​from `$UI.fontFamilies` and sets the required font family accordingly.
+
+2. `fontWeight`(optional) - takes the weight of the font (the default is `$UI.fontWeights.normal`).
+
+3. `fontStyle`(optional) - accepts the font style (`normal` or `italic`, default value is `normal`)
+
+```stylus
+.text
+  fontFamily('normal', 700, italic)
+
+.myCustomFont
+  fontFamily('myCustomFont', 400)
+```
