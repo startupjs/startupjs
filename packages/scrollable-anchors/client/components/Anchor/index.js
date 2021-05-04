@@ -15,7 +15,6 @@ function Anchor ({ id, children, style, Component, ...componentProps }) {
     // Measure doesn't work properly under Android
     // It always receives ( x: 0, y: 0 )
     ref.current.measure((x, y) => {
-      console.log(x, y)
       registerAnchor({
         anchorId: id,
         posY: Math.round(y)
