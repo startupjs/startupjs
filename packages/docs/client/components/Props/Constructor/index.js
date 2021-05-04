@@ -1,7 +1,7 @@
 import React, { useMemo, useLayoutEffect } from 'react'
 import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
-import { Span, themed, Input, NumberInput } from '@startupjs/ui'
+import { Span, themed, Input, NumberInput, Tag } from '@startupjs/ui'
 import parsePropTypes from 'parse-prop-types'
 import Table from './Table'
 import Tbody from './Tbody'
@@ -49,7 +49,12 @@ export default observer(themed(function Constructor ({ Component, $props, style,
                 }
               )= name
               if isRequired
-                Span.required Required
+                Tag.required(
+                  variant='outlined'
+                  size='s'
+                  color='error'
+                  shape='rounded'
+                ) Required
             Td
               if type === 'oneOf'
                 Span.possibleValue
