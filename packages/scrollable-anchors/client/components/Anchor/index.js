@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { observer, useOn } from 'startupjs'
 import PropTypes from 'prop-types'
 import { registerAnchor, unregisterAnchor } from '../../helpers'
+
+const isAndroid = Platform.OS === 'android'
 
 function Anchor ({ id, children, style, Component, ...componentProps }) {
   const ref = useRef()
@@ -13,11 +15,12 @@ function Anchor ({ id, children, style, Component, ...componentProps }) {
 
   function getPosition () {
     // Measure doesn't work properly under Android
-    // It always receives ( x: 0, y: 0 )
-    ref.current.measure((x, y) => {
+    // It always receives ( x: 0, y: 0 ) so Anchors will not work with nested ScrollableAreas
+    // Android anchors will work with top level ScrollableProvider
+    ref.current.measure((x, y, width, height, px, py) => {
       registerAnchor({
         anchorId: id,
-        posY: Math.round(y)
+        posY: Math.round(isAndroid ? py : y)
       })
     })
   }
