@@ -1,5 +1,4 @@
 import checkToken from './checkToken'
-import checkEnterpriseToken from './checkEnterpriseToken'
 import checkDataToken from './checkDataToken'
 import { setRecaptchaSiteKey } from './middlewares'
 
@@ -17,7 +16,6 @@ function initRecaptcha (ee, options) {
 
 export {
   checkToken,
-  checkEnterpriseToken,
   initRecaptcha,
   checkDataToken
 }

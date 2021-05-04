@@ -5,9 +5,9 @@ const router = express.Router()
 
 export default function (ee) {
   router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { token } = req.body
+    const { token, type, variant } = req.body
 
-    const isVerified = await checkToken(token)
+    const isVerified = await checkToken({ token, type, variant })
 
     if (!isVerified) {
       return res.status(403).send(isVerified)

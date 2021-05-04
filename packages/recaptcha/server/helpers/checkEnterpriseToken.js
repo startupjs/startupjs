@@ -6,6 +6,7 @@ export default async function checkEnterpriseToken ({ token, variant }) {
   const ENTERPRISE_NORMAL_SITE_KEY = nconf.get('RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY')
   const ENTERPRISE_INVISIBLE_SITE_KEY = nconf.get('RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY')
   const GOOGLE_CLOUD_PROJECT_ID = nconf.get('GOOGLE_CLOUD_PROJECT_ID')
+  const THRESHOLD = 0.3 // TODO: Get THRESHOLD from options in initRecaptcha
 
   const { data } = await axios.post(
     `https://recaptchaenterprise.googleapis.com/v1beta1/projects/${GOOGLE_CLOUD_PROJECT_ID}/assessments?key=${RECAPTCHA_SECRET_KEY}`,
@@ -21,5 +22,5 @@ export default async function checkEnterpriseToken ({ token, variant }) {
     console.error('[@startupjs/recaptcha]: token is invalid')
   }
 
-  return data.score
+  return data.score >= THRESHOLD
 }

@@ -1,17 +1,9 @@
-import axios from 'axios'
-import nconf from 'nconf'
-import { ERRORS } from './constants'
+import { checkEnterpriseToken as _checkEnterpriseToken, checkToken as _checkToken } from './helpers'
 
-export default async function checkToken (token) {
-  const RECAPTCHA_SECRET_KEY = nconf.get('RECAPTCHA_SECRET_KEY')
-
-  const { data } = await axios.get(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${token}`
-  )
-
-  if (!data.success) {
-    console.error(`[@startupjs/recaptcha]: ${ERRORS[data['error-codes']]}`)
+export default async function checkToken (options) {
+  if (options.type === 'enterprise') {
+    return _checkEnterpriseToken(options)
+  } else {
+    return _checkToken(options)
   }
-
-  return data.success
 }
