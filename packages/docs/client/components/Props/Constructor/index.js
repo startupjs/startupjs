@@ -1,7 +1,7 @@
 import React, { useMemo, useLayoutEffect } from 'react'
 import { Text, Platform } from 'react-native'
 import { observer } from 'startupjs'
-import { Span, themed, Input, NumberInput } from '@startupjs/ui'
+import { Span, themed, Input, NumberInput, Tag } from '@startupjs/ui'
 import parsePropTypes from 'parse-prop-types'
 import Table from './Table'
 import Tbody from './Tbody'
@@ -37,16 +37,24 @@ export default observer(themed(function Constructor ({ Component, $props, style,
           Td: Text.header.right(styleName=[theme]) VALUE
       Tbody
         each entry, index in entries
-          - const { name, type, defaultValue, possibleValues, possibleTypes } = entry
+          - const { name, type, defaultValue, possibleValues, possibleTypes, isRequired } = entry
           - const $value = $props.at(name)
           - let value = $value.get()
 
           Tr(key=index)
-            Td: Span.name(
-              style={
-                fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-              }
-            )= name
+            Td
+              Span.name(
+                style={
+                  fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+                }
+              )= name
+              if isRequired
+                Tag.required(
+                  variant='outlined'
+                  size='s'
+                  color='error'
+                  shape='rounded'
+                ) Required
             Td
               if type === 'oneOf'
                 Span.possibleValue
@@ -117,7 +125,8 @@ function parseEntries (entries) {
       type: meta.type.name,
       defaultValue: meta.defaultValue && meta.defaultValue.value,
       possibleValues: meta.type.value,
-      possibleTypes: meta.type.value
+      possibleTypes: meta.type.value,
+      isRequired: meta.required
     }
   })
 }
