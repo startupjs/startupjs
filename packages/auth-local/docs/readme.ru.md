@@ -8,21 +8,18 @@ import { Button } from '@startupjs/ui'
 [Настройка главного модуля](/docs/auth/main)
 
 ## Требования
-
 ```
 @startupjs/auth: >= 0.33.0
 text-encoding-polyfill: >= 0.6.7
 ```
 
 ## Инициализация дополнительных модулей
-
 В корневом index.js добавить:
 ```js
 import 'text-encoding-polyfill'
 ```
 
 ## Подключение капчи
-
 Если вы хотите добавить **reCaptcha** для форм регистрации и смены пароля, то выполните инструкции из [документации @startupjs/recaptcha](/docs/libraries/recaptcha#connecting-to-startup-js) и добавьте в `initAuth` параметр `recaptchaEnabled` в файле `server/index.js`:
 
 ```js
@@ -63,7 +60,7 @@ import { LoginForm } from '@startupjs/auth-local'
 return <LoginForm />
 ```
 
-**Кастомизация:**
+**Кастомизация**
 Пропсы для кастомизации:
 - **properties**: работает по принципу `properties` из ObjectInput, можно добавить новые поля или заоверайдить стандартные
 - **validateSchema**: проп для описания [joi](https://joi.dev/api/) схемы, передавать нужно объект как в примере. Так же, если добавляется новая форма, для нее всегда должна быть описана схема
@@ -168,7 +165,6 @@ return <RecoverForm />
 ## Серверные хуки
 
 ### onBeforeRegister
-
 Хэлпер-мидлвара, вызывается перед регистрацией
 
 ```jsx
@@ -187,7 +183,6 @@ initAuth(ee, {
 ```
 
 ### onAfterRegister
-
 Хэлпер-мидлвара, вызывается после регистрации
 
 ```jsx
@@ -205,7 +200,6 @@ initAuth(ee, {
 ```
 
 ### onBeforeCreatePasswordResetSecret
-
 Хэлпер-мидлвара, вызывается перед созданием кода для сброса пароля
 
 ```jsx
@@ -227,7 +221,6 @@ initAuth(ee, {
 ```
 
 ### onCreatePasswordResetSecret
-
 Хэлпер-мидлвара, вызывается при создании кода для сброса пароля
 
 ```jsx
@@ -245,7 +238,6 @@ initAuth(ee, {
 ```
 
 ### onBeforePasswordReset
-
 Хэлпер-мидлвара, вызывается перед восстановлением пароля
 
 ```jsx
@@ -264,7 +256,6 @@ initAuth(ee, {
 ```
 
 ### onAfterPasswordReset
-
 Хэлпер-мидлвара, вызывается после восстановления пароля
 
 ```jsx
@@ -282,7 +273,6 @@ initAuth(ee, {
 ```
 
 ### onBeforePasswordChange
-
 Хэлпер-мидлвара, вызывается перед изменением пароля
 
 ```jsx
@@ -301,7 +291,6 @@ initAuth(ee, {
 ```
 
 ### onAfterPasswordChange
-
 Хэлпер-мидлвара, вызывается после изменения пароля
 
 ```jsx
