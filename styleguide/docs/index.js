@@ -10,10 +10,14 @@ import AuthAzureadRu from '../../packages/auth-azuread/docs/readme.ru.md'
 import AuthAzureadEn from '../../packages/auth-azuread/docs/readme.en.md'
 import AuthCommonRu from '../../packages/auth-common/docs/readme.ru.md'
 import AuthCommonEn from '../../packages/auth-common/docs/readme.en.md'
-import AuthFacebook from '../../packages/auth-facebook/readme.md'
-import AuthGoogle from '../../packages/auth-google/readme.md'
-import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
-import AuthLocal from '../../packages/auth-local/readme.md'
+import AuthFacebookRu from '../../packages/auth-facebook/docs/readme.ru.md'
+import AuthFacebookEn from '../../packages/auth-facebook/docs/readme.en.md'
+import AuthGoogleRu from '../../packages/auth-google/docs/readme.ru.md'
+import AuthGoogleEn from '../../packages/auth-google/docs/readme.en.md'
+import AuthLinkedinRu from '../../packages/auth-linkedin/docs/readme.ru.md'
+import AuthLinkedinEn from '../../packages/auth-linkedin/docs/readme.en.md'
+import AuthLocalRu from '../../packages/auth-local/docs/readme.ru.md'
+import AuthLocalEn from '../../packages/auth-local/docs/readme.en.md'
 import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
 import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
 import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
@@ -88,22 +92,34 @@ export default docs({
       facebook: {
         type: 'mdx',
         title: 'Facebook',
-        component: AuthFacebook
+        component: {
+          en: AuthFacebookEn,
+          ru: AuthFacebookRu
+        }
       },
       google: {
         type: 'mdx',
         title: 'Google',
-        component: AuthGoogle
+        component: {
+          en: AuthGoogleEn,
+          ru: AuthGoogleRu
+        }
       },
       linkedin: {
         type: 'mdx',
         title: 'Linkedin',
-        component: AuthLinkedin
+        component: {
+          en: AuthLinkedinEn,
+          ru: AuthLinkedinRu
+        }
       },
       local: {
         type: 'mdx',
         title: 'Локальная',
-        component: AuthLocal
+        component: {
+          en: AuthLocalEn,
+          ru: AuthLocalRu
+        }
       }
     }
   },

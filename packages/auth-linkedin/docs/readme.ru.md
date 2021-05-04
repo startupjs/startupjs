@@ -4,7 +4,6 @@
 [Настройка главного модуля](/docs/auth/main)
 
 ## Требования
-
 ```
 @startupjs/auth: >= 0.33.0
 react-native-webview: 10.10.2
