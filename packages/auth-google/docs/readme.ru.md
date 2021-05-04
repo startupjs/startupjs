@@ -4,7 +4,6 @@
 [Настройка главного модуля](/docs/auth/main)
 
 ## Требования
-
 ```
 @react-native-google-signin/google-signin: >= 6.0.0
 @startupjs/auth: >= 0.33.0
