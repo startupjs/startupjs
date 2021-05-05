@@ -1,6 +1,6 @@
 interface TypeFns {
   __subscriptionType: string,
-  __subscriptionInvalid: boolean,
+  __subscriptionInvalid?: boolean,
   params: any
 }
 
