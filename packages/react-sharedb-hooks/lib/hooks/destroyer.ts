@@ -1,18 +1,20 @@
 class Destroyer {
+  fns: Function[]
+
   constructor () {
     this.fns = []
   }
 
-  add (fn) {
+  add (fn: Function): void {
     this.fns.push(fn)
   }
 
-  run () {
+  run (): void {
     this.fns.forEach(fn => fn())
     this.fns.length = 0
   }
 
-  getDestructor () {
+  getDestructor (): Function {
     const fns = [...this.fns]
     this.fns.length = 0
     return () => {
@@ -21,7 +23,7 @@ class Destroyer {
     }
   }
 
-  reset () {
+  reset (): void {
     this.fns.length = 0
   }
 }

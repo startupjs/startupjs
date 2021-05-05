@@ -24,18 +24,18 @@ import {
   observable
 } from '@nx-js/observer-util'
 
-const STORE = 'store'
-const STORE_DEPRECATED = 'scope'
-const $STORE = '$' + STORE
-const $STORE_DEPRECATED = '$' + STORE_DEPRECATED
-const DEFAULT_COLLECTION = '$components'
-const SUBSCRIBE_COMPUTATION_NAME = '__subscribeComputation'
-const HELPER_METHODS_TO_BIND = ['get', 'at']
+const STORE: string = 'store'
+const STORE_DEPRECATED: string = 'scope'
+const $STORE: string = '$' + STORE
+const $STORE_DEPRECATED: string = '$' + STORE_DEPRECATED
+const DEFAULT_COLLECTION: string = '$components'
+const SUBSCRIBE_COMPUTATION_NAME: string = '__subscribeComputation'
+const HELPER_METHODS_TO_BIND: string[] = ['get', 'at']
 const DUMMY_STATE = {}
 
-export default function subscribe (fn) {
-  return function decorateTarget (Component) {
-    const isStateless = !(
+export default function subscribe (fn: Function): Function {
+  return function decorateTarget (Component: React.Component) {
+    const isStateless: boolean = !(
       Component.prototype && Component.prototype.isReactComponent
     )
     const AutorunComponent = Component.__isSubscription
@@ -49,7 +49,7 @@ export default function subscribe (fn) {
   }
 }
 
-function getAutorunComponent (Component, isStateless) {
+function getAutorunComponent (Component: React.Component, isStateless: boolean) {
   class AutorunHOC extends (isStateless ? React.Component : Component) {
     constructor (props, ...args) {
       super(props, ...args)
@@ -96,14 +96,25 @@ function getAutorunComponent (Component, isStateless) {
       if (super.componentWillUnmount) super.componentWillUnmount()
     }
   }
+
   AutorunHOC.displayName = `AutorunHOC(${Component.displayName ||
     Component.name ||
     'Component'})`
   return AutorunHOC
 }
 
-function getSubscriptionsContainer (DecoratedComponent, fns) {
+function getSubscriptionsContainer (DecoratedComponent: React.Component, fns: Function[]) {
   class SubscriptionsContainer extends React.Component {
+    model: any
+    models: {}
+    dataFns: Function[]
+    unmounted: boolean
+    doForceUpdate: boolean
+    comps: {}
+    items: {}
+    rendered: boolean
+    loaded: boolean
+
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillMount () {
       this.model = this.getOrCreateModel()
@@ -322,7 +333,7 @@ function getSubscriptionsContainer (DecoratedComponent, fns) {
     }
 
     // TODO: Refactor to use 3 different facade methods
-    destroyItem (key, terminate, modelDestroyed) {
+    destroyItem (key: string, terminate?: boolean, modelDestroyed?: boolean) {
       if (!this.items[key]) return console.error('Trying to destroy', key)
       batching.batch(() => {
         if (!modelDestroyed) this.items[key].unrefModel()
@@ -345,7 +356,7 @@ function generateScopedModel () {
   return model.scope(path)
 }
 
-function getItemConstructor (type) {
+function getItemConstructor (type: string): any {
   switch (type) {
     case 'Local':
       return Local
@@ -386,16 +397,16 @@ function getItemConstructorFromParams (params) {
   )
 }
 
-function getComputationName (index) {
+function getComputationName (index: number): string {
   return `${SUBSCRIBE_COMPUTATION_NAME}${index}`
 }
 
-function bindMethods (object, methodsToBind) {
+function bindMethods (object: {}, methodsToBind: any): void {
   for (const method of methodsToBind) {
     object[method] = object[method].bind(object)
   }
 }
 
-function getScopedModelName (key) {
+function getScopedModelName (key: string): string {
   return `$${key}`
 }

@@ -1,7 +1,7 @@
 import racer from 'racer'
 import Socket from 'racer-highway/lib/browser/socket'
 
-var isServer = typeof window === 'undefined'
+var isServer: boolean = typeof window === 'undefined'
 var DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',
   reconnect: true,
@@ -13,7 +13,7 @@ var DEFAULT_CLIENT_OPTIONS = {
   timeout: 10000,
   timeoutIncrement: 10000
 }
-var DEFAULT_UNLOAD_DELAY = 3000 // short delay, like 100, might be better
+var DEFAULT_UNLOAD_DELAY: number = 3000 // short delay, like 100, might be better
 
 racer.Model.prototype._createSocket = function () {
   var clientOptions =
@@ -22,7 +22,7 @@ racer.Model.prototype._createSocket = function () {
   return new Socket(clientOptions)
 }
 
-export default function getModel () {
+export default function getModel (): any {
   if (isServer) return
 
   // Try to unbundle server-side model

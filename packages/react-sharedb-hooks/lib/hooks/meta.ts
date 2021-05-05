@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 
-export const ComponentMetaContext = React.createContext({})
+export const ComponentMetaContext: any = React.createContext({})
 
-export function useNow () {
+export function useNow (): number {
   const { createdAt } = useContext(ComponentMetaContext)
   return createdAt
 }
 
-export function useComponentId () {
+export function useComponentId (): string {
   const { componentId } = useContext(ComponentMetaContext)
   return componentId
 }

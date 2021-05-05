@@ -9,13 +9,14 @@ import {
   subLocal,
   subValue,
   subQuery,
-  subApi
+  subApi,
+  TypeDataInterface
 } from './subscriptionTypeFns'
 import co from 'co'
 
-const SUBS_COLLECTION = '$subs'
+const SUBS_COLLECTION: string = '$subs'
 
-export default function (racer) {
+export default function (racer: any): void {
   racer.Model.prototype.subDoc = generateMethodOfType(subDoc)
   racer.Model.prototype.subQuery = generateMethodOfType(subQuery)
   racer.Model.prototype.subLocal = generateMethodOfType(subLocal)
@@ -23,17 +24,17 @@ export default function (racer) {
   racer.Model.prototype.subApi = generateMethodOfType(subApi)
 }
 
-function generateMethodOfType (typeFn) {
-  const isQuery = typeFn === subQuery
-  const isSync = typeFn === subLocal || typeFn === subValue
+function generateMethodOfType (typeFn: Function) {
+  const isQuery: boolean = typeFn === subQuery
+  const isSync: boolean = typeFn === subLocal || typeFn === subValue
 
   // IMPORTANT: subLocal, subValue can actually be made to be synchronous,
   //            but for consistency of the sub* functions api, the decision was made
   //            to always return a promise
   return co.wrap(function * (...args) {
-    const $subs = this.scope(SUBS_COLLECTION)
-    const subId = this.id()
-    const params = typeFn(...args)
+    const $subs: any = this.scope(SUBS_COLLECTION)
+    const subId: string = this.id()
+    const params: TypeDataInterface = typeFn(...args)
     const item = getItemFromParams(params, $subs, subId)
     const unsubscribe = () => {
       item.unrefModel()
@@ -46,8 +47,8 @@ function generateMethodOfType (typeFn) {
     // For Query and QueryExtra return the scoped model targeting the actual collection path.
     // This is much more useful since you can use that use this returned model
     // to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
-    const collectionName = isQuery ? getCollectionName(params) : undefined
-    const $queryCollection = isQuery ? this.scope(collectionName) : undefined
+    const collectionName: string = isQuery ? getCollectionName(params) : undefined
+    const $queryCollection: any = isQuery ? this.scope(collectionName) : undefined
 
     // For Doc, Local, Value return the model scoped to the hook path
     // But only after the initialization actually finished, otherwise
@@ -69,18 +70,18 @@ function generateMethodOfType (typeFn) {
   })
 }
 
-export function getCollectionName (params) {
+export function getCollectionName (params: TypeDataInterface): string {
   return params && params.params && params.params[0]
 }
 
-export function getItemFromParams (params, model, key) {
+export function getItemFromParams (params: TypeDataInterface, model: any, key: string): any {
   const explicitType = params && params.__subscriptionType
   const subscriptionParams = params.params
   const constructor = getItemConstructor(explicitType)
   return new constructor(model, key, subscriptionParams)
 }
 
-function getItemConstructor (type) {
+function getItemConstructor (type: string): any {
   switch (type) {
     case 'Local':
       return Local

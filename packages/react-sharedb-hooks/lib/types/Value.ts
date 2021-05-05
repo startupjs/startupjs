@@ -1,23 +1,29 @@
 import Base from './Base'
 
 export default class Value extends Base {
-  constructor (...args) {
-    super(...args)
+  value: any
+
+  constructor (model, key: string, params) {
+    super(model, key, params)
     this.value = this.params
   }
 
-  refModel () {
+  init (): undefined {
+    return undefined
+  }
+
+  refModel (): void {
     if (this.cancelled) return
     const { key } = this
     this.model.setDiff(key, this.value)
   }
 
-  unrefModel () {
+  unrefModel (): void {
     const { key } = this
     this.model.del(key)
   }
 
-  destroy () {
+  destroy (): void {
     // this.unrefModel() // TODO: Maybe enable unref in future
     delete this.value
     super.destroy()

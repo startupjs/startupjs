@@ -14,7 +14,7 @@ const OBSERVABLE_COLLECTIONS = [
 ]
 
 // Export a dummy function to prevent tree shaking from getting rid of this module
-export default function dummyNoTreeShaking () {}
+export default function dummyNoTreeShaking (): void {}
 
 if (model) {
   init()
@@ -24,7 +24,7 @@ if (model) {
   )
 }
 
-function init () {
+function init (): void {
   for (const collection of OBSERVABLE_COLLECTIONS) {
     initLocalCollection(collection)
   }

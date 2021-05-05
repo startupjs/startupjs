@@ -16,7 +16,12 @@ const DEFAULT_OPTIONS = {
 
 // TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
-function observer (Component, options) {
+function observer (Component: React.Component, options: {
+  forwardRef?: boolean,
+  suspenseProps?: {
+    fallback: React.ReactElement
+  }
+} = {}): any {
   const _options = Object.assign({}, DEFAULT_OPTIONS, options)
   return wrapObserverMeta(makeObserver(Component, _options), _options)
 }
@@ -26,7 +31,12 @@ observer.__makeObserver = makeObserver
 
 export { observer }
 
-function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+function pipeComponentMeta (
+  SourceComponent: React.Component,
+  TargetComponent: React.Component,
+  suffix: string = '',
+  defaultName: string = 'StartupjsWrapper'
+): React.Component {
   const displayName = SourceComponent.displayName || SourceComponent.name
   if (!TargetComponent.displayName) {
     TargetComponent.displayName = displayName ? (displayName + suffix) : defaultName
@@ -40,7 +50,7 @@ function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defau
   return TargetComponent
 }
 
-function makeObserver (baseComponent, options = {}) {
+function makeObserver (baseComponent: React.ReactElement, options = {}) {
   const { forwardRef } = Object.assign({}, DEFAULT_OPTIONS, options)
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
   const random = Math.random()
@@ -82,10 +92,12 @@ function makeObserver (baseComponent, options = {}) {
     : WrappedComponent
 }
 
-function wrapObserverMeta (
-  Component,
-  options = {}
-) {
+function wrapObserverMeta (Component: React.ReactElement, options: {
+  forwardRef?: boolean,
+  suspenseProps?: {
+    fallback: React.ReactElement
+  }
+} = {}) {
   const { forwardRef, suspenseProps } = Object.assign({}, DEFAULT_OPTIONS, options)
   if (!(suspenseProps && suspenseProps.fallback)) {
     throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
@@ -124,7 +136,10 @@ function wrapObserverMeta (
   return memoComponent
 }
 
-function wrapBaseComponent (baseComponent, blockUpdate) {
+function wrapBaseComponent (
+  baseComponent,
+  blockUpdate: { value: boolean }
+): Function {
   return (...args) => {
     blockUpdate.value = true
     let res
@@ -151,7 +166,7 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
   }
 }
 
-function useForceUpdate () {
+function useForceUpdate (): Function {
   const [, setTick] = React.useState()
   return () => {
     setTick(Math.random())
@@ -159,10 +174,10 @@ function useForceUpdate () {
 }
 
 // TODO: Might change to just `useEffect` in future. Don't know which one fits here better yet.
-function useUnmount (fn) {
+function useUnmount (fn: Function): void {
   React.useLayoutEffect(() => fn, [])
 }
 
-function NullComponent () {
+function NullComponent (): null {
   return null
 }

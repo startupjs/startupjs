@@ -17,18 +17,26 @@ import {
   subLocal,
   subValue,
   subQuery,
-  subApi
+  subApi,
+  TypeDataInterface
 } from '../subscriptionTypeFns'
 import $root from '@startupjs/model'
 import destroyer from './destroyer'
 import isArray from 'lodash/isArray'
 import promiseBatcher from './promiseBatcher'
 
-const HOOKS_COLLECTION = '$hooks'
-const $hooks = $root.scope(HOOKS_COLLECTION)
-const WARNING_MESSAGE = "[react-sharedb] Warning. Item couldn't initialize. " +
+const HOOKS_COLLECTION: string = '$hooks'
+const $hooks: any = $root.scope(HOOKS_COLLECTION)
+const WARNING_MESSAGE: string = "[react-sharedb] Warning. Item couldn't initialize. " +
   'This might be normal if several resubscriptions happened ' +
   'quickly one after another. Error:'
+
+interface EnumResultHook {
+  value: any
+  scope: any
+  initCount: number
+}
+export interface ResultHook extends Array<EnumResultHook>{}
 
 export const useDoc = generateUseItemOfType(subDoc)
 export const useBatchDoc = generateUseItemOfType(subDoc, { batch: true })
@@ -45,20 +53,24 @@ export const useAsyncApi = generateUseItemOfType(subApi, { optional: true })
 export const useLocal = generateUseItemOfType(subLocal)
 export const useValue = generateUseItemOfType(subValue)
 
-function generateUseItemOfType (typeFn, { optional, batch } = {}) {
-  const isQuery = typeFn === subQuery
-  const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
-  const isSync = typeFn === subLocal || typeFn === subValue
-  return (...args) => {
-    const hookId = useMemo(() => $root.id(), [])
-    const hashedArgs = useMemo(() => JSON.stringify(args), args)
+function generateUseItemOfType (typeFn: Function, { optional, batch }: {
+  optional?: boolean,
+  batch?: boolean
+} = {}): Function {
+  const isQuery: boolean = typeFn === subQuery
+  const takeOriginalModel: boolean = typeFn === subDoc || typeFn === subLocal
+  const isSync: boolean = typeFn === subLocal || typeFn === subValue
 
-    const initsCountRef = useRef(0)
-    const cancelInitRef = useRef()
+  return (...args: any[]): ResultHook => {
+    const hookId: string = useMemo(() => $root.id(), [])
+    const hashedArgs: any = useMemo(() => JSON.stringify(args), args)
+
+    const initsCountRef: { current: number } = useRef(0)
+    const cancelInitRef: { current: { value?: boolean } } = useRef()
+    const destructorsRef: { current: Function[] } = useRef([])
     const itemRef = useRef()
-    const destructorsRef = useRef([])
 
-    const destroy = useCallback(() => {
+    const destroy: Function = useCallback(() => {
       if (cancelInitRef.current) cancelInitRef.current.value = true
       itemRef.current = undefined
       destructorsRef.current.forEach(destroy => destroy())
@@ -73,9 +85,9 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
     // throwing Promise out of hook
     useSync(() => destroyer.add(destroy), [])
 
-    const params = useMemo(() => typeFn(...args), [hashedArgs])
+    const params: TypeDataInterface = useMemo(() => typeFn(...args), [hashedArgs])
 
-    function finishInit () {
+    function finishInit (): void {
       // destroy the previous item and all unsuccessful item inits which happened until now.
       // Unsuccessful inits means the inits of those items which were cancelled, because
       // while the subscription was in process, another new item init started
@@ -95,8 +107,9 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
       itemRef.current && itemRef.current.refModel()
     }
 
-    function initItem (params) {
+    function initItem (params: TypeDataInterface): void {
       const item = getItemFromParams(params, $hooks, hookId)
+
       destructorsRef.current.push(() => {
         item.unrefModel()
         item.destroy()
@@ -112,11 +125,11 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
         // Cancel initialization of the previous item
         if (cancelInitRef.current) cancelInitRef.current.value = true
         // and init new
-        const cancelInit = {}
+        const cancelInit: { value?: boolean } = {}
         cancelInitRef.current = cancelInit
 
         // If there is no previous item, it means we are the first
-        const firstItem = !itemRef.current
+        const firstItem: boolean = !itemRef.current
         // Cancel previous item
         if (itemRef.current) itemRef.current.cancel()
         // and init new
@@ -169,11 +182,11 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
     // For Query and QueryExtra return the scoped model targeting the actual collection path.
     // This is much more useful since you can use that use this returned model
     // to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
-    const collectionName = useMemo(
+    const collectionName: string = useMemo(
       () => (isQuery ? getCollectionName(params) : undefined),
       [hashedArgs]
     )
-    const $queryCollection = useMemo(
+    const $queryCollection: any = useMemo(
       () => (isQuery ? $root.scope(collectionName) : undefined),
       [collectionName]
     )
@@ -181,7 +194,7 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
     // For Doc, Local, Value return the model scoped to the hook path
     // But only after the initialization actually finished, otherwise
     // the ORM won't be able to properly resolve the path which was not referenced yet
-    const $model = useMemo(
+    const $model: any = useMemo(
       () => {
         if (isQuery || !initsCountRef.current) return
         // For Doc and Local return original path
@@ -218,21 +231,22 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
   }
 }
 
-export function useBatch () {
+export function useBatch (): void {
   const promise = promiseBatcher.getPromiseAll()
   if (promise) throw promise
 }
 
-export function getCollectionName (params) {
+export function getCollectionName (params: TypeDataInterface): string {
   return params && params.params && params.params[0]
 }
 
-export function getPath (params) {
+export function getPath (params: TypeDataInterface): string {
   if (!params) {
     // This should never happen
     console.warn('[react-sharedb] Unknown Param')
     return '__ERROR__.unknownParam'
   }
+
   const type = params.__subscriptionType
   switch (type) {
     case 'Local':
@@ -242,14 +256,18 @@ export function getPath (params) {
   }
 }
 
-export function getItemFromParams (params, model, key) {
+export function getItemFromParams (
+  params: TypeDataInterface,
+  model: any,
+  key: string
+) {
   const explicitType = params && params.__subscriptionType
   const subscriptionParams = params.params
   const constructor = getItemConstructor(explicitType)
   return new constructor(model, key, subscriptionParams)
 }
 
-function getItemConstructor (type) {
+function getItemConstructor (type: string) {
   switch (type) {
     case 'Local':
       return Local
@@ -268,12 +286,10 @@ function getItemConstructor (type) {
   }
 }
 
-function useUnmount (fn) {
+function useUnmount (fn: Function): void {
   useLayoutEffect(() => fn, [])
 }
 
-function useSync (fn, inputs) {
-  useMemo(() => {
-    fn()
-  }, inputs)
+function useSync (fn: Function, inputs: any[]): void {
+  useMemo(() => fn(), inputs)
 }

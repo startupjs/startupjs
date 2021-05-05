@@ -1,25 +1,32 @@
 import Base from './Base'
 import { observable } from '@nx-js/observer-util'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
-import $root from '@startupjs/model'
-import promiseBatcher from '../hooks/promiseBatcher'
 
-const MAX_LISTENERS = 100
+const MAX_LISTENERS: number = 100
 
 export default class Query extends Base {
-  constructor (...args) {
-    super(...args)
+  listeners: any[]
+  docId: string
+  collection: string
+  query: {}
+  subscription: any
+
+  constructor (model: any, key: string, params: any) {
+    super(model, key, params)
     const [collection, query] = this.params
     this.collection = collection
     this.query = query
     this.listeners = []
   }
 
-  init (firstItem, { optional, batch } = {}) {
+  init (firstItem, { optional, batch }: {
+    optional?: boolean,
+    batch?: boolean
+  } = {}): any {
     return this._subscribe(firstItem, { optional, batch })
   }
 
-  refModel () {
+  refModel (): void {
     if (this.cancelled) return
     const { key } = this
     this.subscription.ref(this.model.at(key))
@@ -27,13 +34,16 @@ export default class Query extends Base {
     this.subscription.refIds(this.model.at(getIdsName(key)))
   }
 
-  unrefModel () {
+  unrefModel (): void {
     const { key } = this
     this.model.removeRef(getIdsName(key))
     this.model.removeRef(key)
   }
 
-  _subscribe (firstItem, { optional, batch } = {}) {
+  _subscribe (firstItem, { optional, batch }: {
+    optional?: boolean,
+    batch?: boolean
+  } = {}): any {
     const { collection, query } = this
     this.subscription = this.model.root.query(collection, query)
     const promise = this.model.root.subscribeSync(this.subscription)
@@ -47,16 +57,8 @@ export default class Query extends Base {
           this._unsubscribe() // unsubscribe the old hook to prevent memory leaks
           setTimeout(resolve, 0)
         })
-      }).catch(err => {
-        console.error(err)
-        $root.emit('error', err)
       })
-      if (batch) {
-        promiseBatcher.add(newPromise)
-        return { type: 'batch' }
-      } else {
-        throw newPromise
-      }
+      throw newPromise
     }
 
     const finish = () => {
@@ -99,7 +101,7 @@ export default class Query extends Base {
     }
   }
 
-  _clearListeners () {
+  _clearListeners (): void {
     // remove query listeners
     for (const listener of this.listeners || []) {
       listener.ee.removeListener(listener.eventName, listener.fn)
@@ -109,7 +111,7 @@ export default class Query extends Base {
     delete this.listeners
   }
 
-  _unsubscribe () {
+  _unsubscribe (): void {
     if (!this.subscription) return
     this.model.root.unsubscribe(this.subscription)
     // setTimeout(() => {
@@ -119,7 +121,7 @@ export default class Query extends Base {
     delete this.subscription
   }
 
-  destroy () {
+  destroy (): void {
     try {
       this._clearListeners()
       // this.unrefModel() // TODO: Maybe enable unref in future
@@ -132,15 +134,15 @@ export default class Query extends Base {
   }
 }
 
-export function getIdsName (plural) {
+export function getIdsName (plural: string): string {
   if (/ies$/i.test(plural)) return plural.replace(/ies$/i, 'y') + 'Ids'
   return plural.replace(/s$/i, '') + 'Ids'
 }
 
-export function getShareResultsIds (results) {
+export function getShareResultsIds (results: any[]): string[] {
   const ids = []
   for (let i = 0; i < results.length; i++) {
-    const shareDoc = results[i]
+    const shareDoc: { id: string } = results[i]
     ids.push(shareDoc.id)
   }
   return ids

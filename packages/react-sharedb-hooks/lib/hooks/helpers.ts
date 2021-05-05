@@ -1,14 +1,20 @@
 import { useMemo, useLayoutEffect } from 'react'
 import $root from '@startupjs/model'
-import { useQuery, useLocal, useBatchQuery, useAsyncQuery } from './types'
+import {
+  ResultHook,
+  useQuery,
+  useLocal,
+  useBatchQuery,
+  useAsyncQuery
+} from './types'
 
 export const emit = $root.emit.bind($root)
 
-export function useModel (path) {
+export function useModel (path: string): any {
   return useMemo(() => $root.scope(path), [path])
 }
 
-export function useOn (...args) {
+export function useOn (...args: any[]): void {
   useLayoutEffect(() => {
     const [eventName] = args
     const listener = $root.on(...args)
@@ -18,17 +24,25 @@ export function useOn (...args) {
   })
 }
 
-export function useEmit () {
+export function useEmit (): any {
   return emit
 }
 
-export function generateUseQueryIds ({ batch, optional } = {}) {
+export function generateUseQueryIds ({ batch, optional }: {
+  batch?: boolean;
+  optional?: boolean;
+} = {}): Function {
   const useFn = batch
     ? useBatchQuery
     : optional
       ? useAsyncQuery
       : useQuery
-  return (collection, ids = [], options = {}) => {
+
+  return (
+    collection: string,
+    ids: string[],
+    options: { reverse: boolean }
+  ): ResultHook => {
     const [, $items, ready] = useFn(collection, { _id: { $in: ids } })
     if (!ready) return [undefined, $items, ready]
     if (options.reverse) ids = ids.slice().reverse()
@@ -41,13 +55,20 @@ export const useQueryIds = generateUseQueryIds()
 export const useBatchQueryIds = generateUseQueryIds({ batch: true })
 export const useAsyncQueryIds = generateUseQueryIds({ optional: true })
 
-export function generateUseQueryDoc ({ batch, optional } = {}) {
+export function generateUseQueryDoc ({ batch, optional }: {
+  batch?: boolean;
+  optional?: boolean;
+} = {}) {
   const useFn = batch
     ? useBatchQuery
     : optional
       ? useAsyncQuery
       : useQuery
-  return (collection, query) => {
+
+  return (
+    collection: string,
+    query: { $sort: any }
+  ): ResultHook => {
     query = Object.assign({}, query, { $limit: 1 })
     if (!query.$sort) query.$sort = { createdAt: -1 }
     const [items = [], , ready] = useFn(collection, query)
@@ -68,7 +89,7 @@ export const useQueryDoc = generateUseQueryDoc()
 export const useBatchQueryDoc = generateUseQueryDoc({ batch: true })
 export const useAsyncQueryDoc = generateUseQueryDoc({ optional: true })
 
-export function useLocalDoc (collection, docId) {
+export function useLocalDoc (collection: string, docId: string): ResultHook {
   console.warn(`
     useLocalDoc() is DEPRECATED! Instead use useDoc() the same exact way.
     useLocalDoc() will be removed in the next release!
@@ -90,7 +111,7 @@ export function useLocalDoc (collection, docId) {
   return useLocal(collection + '.' + docId)
 }
 
-export function useSession (path) {
+export function useSession (path: string): ResultHook {
   if (typeof path !== 'string') {
     throw new Error(
       `[react-sharedb] useSession(): \`path\` must be a String. Got: ${path}`
@@ -99,7 +120,7 @@ export function useSession (path) {
   return useLocal('_session' + '.' + path)
 }
 
-export function usePage (path) {
+export function usePage (path: string): ResultHook {
   if (typeof path !== 'string') {
     throw new Error(
       `[react-sharedb] usePage(): \`path\` must be a String. Got: ${path}`

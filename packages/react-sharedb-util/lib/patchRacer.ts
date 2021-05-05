@@ -8,15 +8,15 @@ import { observable, isObservable } from '@nx-js/observer-util'
 import batching from '../batching'
 import semaphore from './semaphore'
 
-const STORE = 'store'
-const $STORE = '$' + STORE
-const DEFAULT_COLLECTION = '$components'
+const STORE: string = 'store'
+const $STORE: string = '$' + STORE
+const DEFAULT_COLLECTION: string = '$components'
 
-const BATCH_SETTERS = ['_mutate', '_setEach', '_setDiff', '_setDiffDeep']
-const WARNING_SETTERS = ['_set', '_setDiff', '_setNull', '_del']
+const BATCH_SETTERS: string[] = ['_mutate', '_setEach', '_setDiff', '_setDiffDeep']
+const WARNING_SETTERS: string[] = ['_set', '_setDiff', '_setNull', '_del']
 
 // Export a dummy function to prevent tree shaking from getting rid of this module
-export default function dummyNoTreeShaking () {}
+export default function dummyNoTreeShaking (): void {}
 
 // ----------------------------------------------
 //   Monkey patches of ShareDB and Racer
@@ -103,7 +103,7 @@ RacerRemoteDoc.prototype._updateCollectionData = function () {
 }
 
 // Add additional `sync` variant of fetch, which will sync return data if it already exists in cache
-racer.Model.prototype.fetchSync = function () {
+racer.Model.prototype.fetchSync = function (): Promise<any> {
   let _resolve
   const promise = new Promise(function (resolve) { _resolve = resolve })
   this._forSubscribable(arguments, 'fetch', _resolve, promise)
@@ -111,7 +111,7 @@ racer.Model.prototype.fetchSync = function () {
 }
 
 // Add additional `sync` variant of subscribe, which will sync return data if it already exists in cache
-racer.Model.prototype.subscribeSync = function () {
+racer.Model.prototype.subscribeSync = function (): Promise<any> {
   let _resolve
   let _reject
   const promise = new Promise(function (resolve, reject) {
@@ -185,7 +185,7 @@ racer.Model.prototype._forSubscribable = function (argumentsObject, method, reso
 }
 
 // Monkey patch query subscribe to return data synchronously if it's in cache
-RacerQuery.prototype.subscribe = function (cb) {
+RacerQuery.prototype.subscribe = function (cb: Function) {
   cb = this.model.wrapCallback(cb)
   this.model._context.subscribeQuery(this)
 

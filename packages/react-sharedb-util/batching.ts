@@ -2,13 +2,17 @@
 // Requires ES6 Set
 
 class Batching {
+  active: boolean
+  queue: Set<any>
+  flushActive: boolean
+
   constructor () {
     this.active = false
     this.queue = new Set()
     this.flushActive = false
   }
 
-  batch (fn) {
+  batch (fn: Function): void {
     if (this.active) return fn()
     this.active = true
     fn()
@@ -16,7 +20,7 @@ class Batching {
     this.active = false
   }
 
-  flush () {
+  flush (): void {
     if (this.flushActive) return
     this.flushActive = true
     while (true) {
@@ -28,13 +32,13 @@ class Batching {
     this.flushActive = false
   }
 
-  add (fn) {
+  add (fn: Function): void {
     if (!this.active) return fn()
     this.queue.add(fn)
   }
 }
 
-function getFirstItem (set) {
+function getFirstItem (set: any): any {
   let first
   if (set.values) {
     const it = set.values()

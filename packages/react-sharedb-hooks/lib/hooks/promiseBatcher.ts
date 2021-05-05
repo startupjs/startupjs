@@ -1,22 +1,25 @@
 class PromiseBatcher {
+  promises: Promise<any>[]
+  active: boolean
+
   constructor () {
     this.promises = []
     this.active = false
   }
 
-  add (promise) {
+  add (promise: Promise<any>): void {
     this.promises.push(promise)
   }
 
-  activate () {
+  activate (): void {
     this.active = true
   }
 
-  isActive () {
+  isActive (): boolean {
     return this.active
   }
 
-  getPromiseAll () {
+  getPromiseAll (): Promise<any[]> {
     this.active = false
     if (this.promises.length === 0) return
     const promises = [...this.promises]
@@ -24,7 +27,7 @@ class PromiseBatcher {
     return Promise.all(promises)
   }
 
-  reset () {
+  reset (): void {
     this.promises.length = 0
     this.active = false
   }

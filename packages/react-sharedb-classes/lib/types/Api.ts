@@ -1,10 +1,18 @@
 import Base from './Base'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
-import promiseBatcher from '../hooks/promiseBatcher'
 
 export default class Local extends Base {
-  constructor (...args) {
-    super(...args)
+  fn: Function
+  path: string
+  inputs: any[]
+  options: {
+    debounce: boolean
+  }
+  data: any
+  // listeners: any[]
+
+  constructor (model, key: string, params) {
+    super(model, key, params)
     const [path, fn, inputs, options] = this.params
     this.fn = fn
     this.path = path
@@ -14,10 +22,13 @@ export default class Local extends Base {
       const cacheKey = '_' + hashCode(this.fn.toString() + JSON.stringify(this.inputs))
       this.path = '_session._cache.' + cacheKey
     }
-    this.listeners = []
+    // this.listeners = []
   }
 
-  init (firstItem, { optional, batch } = {}) {
+  init (firstItem,  { optional, batch }: {
+    optional?: boolean,
+    batch?: boolean
+  } = {}): any {
     if (this.options.debounce && !firstItem) {
       return new Promise(resolve => {
         setTimeout(resolve, this.options.debounce)
@@ -29,7 +40,7 @@ export default class Local extends Base {
     return this._fetch(firstItem, { optional, batch })
   }
 
-  refModel () {
+  refModel (): void {
     if (this.cancelled) return
     const { key } = this
     if (this.path) {
@@ -41,7 +52,7 @@ export default class Local extends Base {
     }
   }
 
-  unrefModel () {
+  unrefModel (): void {
     const { key } = this
     if (this.path) {
       this.model.removeRef(key)
@@ -51,7 +62,10 @@ export default class Local extends Base {
     }
   }
 
-  _fetch (firstItem, { optional, batch } = {}) {
+  _fetch (firstItem?, { optional, batch }: {
+    optional?: boolean,
+    batch?: boolean
+  } = {}): any {
     const promise = this.fn(...this.inputs)
     if (!(promise && typeof promise.then === 'function')) {
       throw new Error('[react-sharedb] Api: fn must return promise')
@@ -67,12 +81,7 @@ export default class Local extends Base {
       const newPromise = promise.then(data => {
         model.set(path, data)
       })
-      if (batch) {
-        promiseBatcher.add(newPromise)
-        return { type: 'batch' }
-      } else {
-        throw newPromise
-      }
+      throw newPromise
     } else {
       return promise.then(data => {
         if (this.cancelled) return
@@ -82,7 +91,7 @@ export default class Local extends Base {
     }
   }
 
-  destroy () {
+  destroy (): void {
     // this.unrefModel() // TODO: Maybe enable unref in future
     delete this.path
     delete this.fn
@@ -93,10 +102,10 @@ export default class Local extends Base {
   }
 }
 
-function hashCode (source) {
+function hashCode (source: string): number {
   let hash = 0
   if (source.length === 0) return hash
-  for (var i = 0; i < source.length; i++) {
+  for (let i = 0; i < source.length; i++) {
     const char = source.charCodeAt(i)
     hash = ((hash << 5) - hash) + char
     hash = hash & hash // Convert to 32bit integer

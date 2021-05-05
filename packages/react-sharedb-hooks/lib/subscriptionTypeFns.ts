@@ -4,19 +4,26 @@ import isBoolean from 'lodash/isBoolean'
 import isNumber from 'lodash/isNumber'
 import { _isExtraQuery as isExtraQuery } from '@startupjs/react-sharedb-util'
 
-export function subLocal (localPath) {
+export interface TypeDataInterface {
+  __subscriptionType: 'Local' | 'Doc' | 'Value' | 'Query' | 'QueryExtra' | 'Api'
+  __subscriptionInvalid?: boolean
+  params: any
+}
+
+export function subLocal (localPath: string): TypeDataInterface {
   if (typeof localPath !== 'string') {
     throw new Error(
       `[react-sharedb] subLocal(): localPath must be a String. Got: ${localPath}`
     )
   }
+
   return {
     __subscriptionType: 'Local',
     params: localPath
   }
 }
 
-export function subDoc (collection, docId) {
+export function subDoc (collection: string, docId: string): TypeDataInterface {
   let invalid
   if (typeof collection !== 'string') {
     throw new Error(
@@ -33,6 +40,7 @@ export function subDoc (collection, docId) {
     invalid = true
   }
   if (invalid) docId = '__NULL__'
+
   return {
     __subscriptionType: 'Doc',
     __subscriptionInvalid: invalid,
@@ -40,7 +48,7 @@ export function subDoc (collection, docId) {
   }
 }
 
-export function subQuery (collection, query) {
+export function subQuery (collection: string, query: {}): TypeDataInterface {
   let invalid
   if (typeof collection !== 'string') {
     throw new Error(
@@ -69,6 +77,7 @@ export function subQuery (collection, query) {
     `)
   }
   if (invalid) query = { _id: '__NON_EXISTENT__' }
+
   return {
     __subscriptionType: isExtraQuery(query) ? 'QueryExtra' : 'Query',
     __subscriptionInvalid: invalid,
@@ -76,20 +85,26 @@ export function subQuery (collection, query) {
   }
 }
 
-export function subValue (value) {
+export function subValue (value: any): TypeDataInterface {
   return {
     __subscriptionType: 'Value',
     params: value
   }
 }
 
-export function subApi (path, fn, inputs, options) {
+export function subApi (
+  path: any,
+  fn: any,
+  inputs: any,
+  options: any
+): TypeDataInterface {
   if (typeof path === 'function') {
     options = inputs
     inputs = fn
     fn = path
     path = undefined
   }
+
   if (typeof fn !== 'function') {
     throw new Error(
       `[react-sharedb] subApi(): api Function (which must return promise) was not provided. Got: ${fn}`
@@ -125,6 +140,7 @@ export function subApi (path, fn, inputs, options) {
       )
     }
   }
+
   return {
     __subscriptionType: 'Api',
     params: [path, fn, inputs, options]

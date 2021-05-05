@@ -1,32 +1,42 @@
 import Base from './Base'
 import { observable } from '@nx-js/observer-util'
-import promiseBatcher from '../hooks/promiseBatcher'
 
 export default class Doc extends Base {
-  constructor (...args) {
-    super(...args)
+  listeners: any[]
+  docId: string
+  collection: string
+  subscription: any
+
+  constructor (model: any, key: string, params: any) {
+    super(model, key, params)
     const [collection, docId] = this.params
     this.collection = collection
     this.docId = docId
     this.listeners = []
   }
 
-  init (firstItem, { optional, batch } = {}) {
+  init (firstItem, { optional, batch }: {
+    optional?: boolean,
+    batch?: boolean
+  } = {}): any {
     return this._subscribe(firstItem, { optional, batch })
   }
 
-  refModel () {
+  refModel (): void {
     if (this.cancelled) return
     const { key } = this
     this.model.ref(key, this.subscription)
   }
 
-  unrefModel () {
+  unrefModel (): void {
     const { key } = this
     this.model.removeRef(key)
   }
 
-  _subscribe (firstItem, { optional, batch } = {}) {
+  _subscribe (firstItem,{ optional, batch }: {
+    optional?: boolean,
+    batch?: boolean
+  } = {}): any {
     const { collection, docId } = this
     this.subscription = this.model.root.scope(`${collection}.${docId}`)
     const promise = this.model.root.subscribeSync(this.subscription)
@@ -41,12 +51,7 @@ export default class Doc extends Base {
           setTimeout(resolve, 0)
         })
       })
-      if (batch) {
-        promiseBatcher.add(newPromise)
-        return { type: 'batch' }
-      } else {
-        throw newPromise
-      }
+      throw newPromise
     }
 
     const finish = () => {
@@ -77,7 +82,7 @@ export default class Doc extends Base {
     }
   }
 
-  _clearListeners () {
+  _clearListeners (): void {
     // remove query listeners
     for (const listener of this.listeners || []) {
       listener.ee.removeListener(listener.eventName, listener.fn)
@@ -87,13 +92,13 @@ export default class Doc extends Base {
     delete this.listeners
   }
 
-  _unsubscribe () {
+  _unsubscribe (): void {
     if (!this.subscription) return
     this.model.root.unsubscribe(this.subscription)
     delete this.subscription
   }
 
-  destroy () {
+  destroy (): void {
     try {
       this._clearListeners()
       // this.unrefModel() // TODO: Maybe enable unref in future
