@@ -5,7 +5,7 @@ interface Batching {
 
   batch: (fn: Function) => void | Function;
   flush: () => void;
-  add?: (fn: Function) => void | Function;
+  add: (fn: Function) => void | Function;
 }
 
 export const batching: Batching

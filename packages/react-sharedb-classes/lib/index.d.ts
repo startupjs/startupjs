@@ -12,6 +12,7 @@ export function subQuery (collection: string, query: {}): TypeFns
 
 export function subValue (value: any): TypeFns
 
-export function subApi (path: string, fn: Function, inputs: any, options: {}): TypeFns
+export function subApi (path: string, fn: Function, inputs: any, options?: {}): TypeFns
+export function subApi (fn: Function, inputs: any, options?: {}): TypeFns
 
 export function subscribe (fn: Function): TypeFns
