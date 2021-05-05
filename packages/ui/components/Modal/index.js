@@ -92,6 +92,7 @@ ObservedModal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen']),
+  visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
   cancelLabel: ModalActions.propTypes.cancelLabel,
