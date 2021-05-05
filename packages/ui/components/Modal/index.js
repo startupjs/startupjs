@@ -1,6 +1,6 @@
 import React, { useImperativeHandle } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
-import { observer, useDidUpdate, useBind } from 'startupjs'
+import { observer, useDidUpdate, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -11,7 +11,6 @@ import Portal from '../Portal'
 function Modal ({
   style,
   modalStyle,
-  visible,
   $visible,
   transparent,
   supportedOrientations,
@@ -24,8 +23,13 @@ function Modal ({
   onOrientationChange,
   ...props
 }, ref) {
-  ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
+  if (!Object.keys(props).includes('visible') && !$visible) {
+    [, $visible] = useValue(false)
+  }
 
+  let visible = props.visible
+
+  ;({ visible, onChange } = useBind({ visible, $visible, onChange, default: false }))
   const _visible = !!visible
 
   function closeFallback () {
@@ -88,7 +92,6 @@ ObservedModal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen']),
-  visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
   cancelLabel: ModalActions.propTypes.cancelLabel,
