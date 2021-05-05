@@ -1,13 +1,13 @@
-import { checkToken } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
 import express from 'express'
 
 const router = express.Router()
 
 export default function (ee) {
   router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { token, type, variant } = req.body
+    const { recaptcha } = req.body
 
-    const isVerified = await checkToken({ token, type, variant })
+    const isVerified = await checkRecaptcha(recaptcha)
 
     if (!isVerified) {
       return res.status(403).send(isVerified)

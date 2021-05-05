@@ -9,21 +9,18 @@ import './index.styl'
 
 library for displaying and interacting with [Google ReCaptcha](https://www.google.com/recaptcha/about/)
 
-## Install
+## Install the module
 
 `yarn add @startupjs/recaptcha`
 
-## Connecting to StartupJS
+## Init module on client
 
 ```js
   // Component
   import { Recaptcha } from '@startupjs/recaptcha'
-
-  // Token verification function on the Google server
-  import { checkToken } from '@startupjs/recaptcha/server'
 ```
 
-### server
+## Init module on server
 
 Add the following lines to `server/index.js`:
 ```js
@@ -31,19 +28,34 @@ Add the following lines to `server/index.js`:
 ```
 Add to the `startupjsServer` function:
 ```js
-  initRecaptcha(ee)
+  initRecaptcha(ee, { type: 'enterprise' })
 ```
+In the `type` field, specify which [reCAPTCHA type](https://www.google.com/recaptcha/about) you want to use (possible types: `enterprise` or `v3`)
+
 Add to the `getHead` function:
 ```js
+  // If you use reCAPTCHA v3
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  // If you use reCAPTCHA Enterprise
+  <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
 ```
 
-#### `checkToken(token)`
-A server function that accepts a token, verifies it on the Google server, and returns a boolean response
+## Configuring config.json
 
-### config
+In `config.json` file of your project, you need to add for **reCAPTCHA Enterprise**:
 
-You need to add to the `config.json` file of your project:
+```js
+  {
+    "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
+    "RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY": "YOUR_SITE_KEY",
+    "RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY": "YOUR_SITE_KEY",
+    "GOOGLE_CLOUD_PROJECT_ID": "ID_YOUR_CLOUD_PROJECT"
+  }
+```
+`RECAPTCHA_SECRET_KEY` created here https://console.cloud.google.com/apis/credentials
+`RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY` и `RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY` - https://cloud.google.com/recaptcha-enterprise/docs/create-key
+
+For **reCAPTCHA v3**, it will be enough:
 ```js
   {
     "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
@@ -51,17 +63,17 @@ You need to add to the `config.json` file of your project:
   }
 ```
 
-## Example
+## Usage
 
-### Use on server
+### Server
 ```js
-import { checkToken } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
 
 export default function initRoutes (router) {
   router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { token, ...data } = req.body
+    const { recaptcha, email } = req.body
 
-    const isVerified = await checkToken(token)
+    const isVerified = await checkRecaptcha(recaptcha)
 
     if (!isVerified) {
       return res.status(403).send(isVerified)
@@ -72,7 +84,7 @@ export default function initRoutes (router) {
 }
 ```
 
-### Invisible
+### Client
 ```jsx example
   const [recaptchaVerified, setRecaptchaVerified] = useState(false)
   const [email, setEmail] = useState('')
@@ -85,10 +97,10 @@ export default function initRoutes (router) {
     ref.current.open()
   }
 
-  const onVerify = async token => {
+  const onVerify = async recaptcha => {
     try {
       const res = await axios.post('/api/subscribe-to-mailing', {
-        token,
+        recaptcha,
         email
       })
       console.log('Response: ', res.data)
@@ -106,7 +118,6 @@ export default function initRoutes (router) {
         onChangeText=setEmail
       )
       Recaptcha(
-        id='invisible-captcha'
         ref=ref
         onVerify=onVerify
         onLoad=() => console.log('onLoad')
@@ -122,98 +133,11 @@ export default function initRoutes (router) {
       ) Subscribe
   `
 ```
-
-### I'm not a robot
-```jsx example
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
-  const [email, setEmail] = useState('')
-
-  const ref = useRef()
-
-  const openRecaptcha = () => {
-    if (!email) return
-
-    ref.current.open()
-  }
-
-  const onVerify = async token => {
-    try {
-      const res = await axios.post('/api/subscribe-to-mailing', {
-        token,
-        email
-      })
-      console.log('Response: ', res.data)
-      setRecaptchaVerified(res.data)
-    } catch (err) {
-      console.error(err.response.data)
-    }
-  }
-
-  return pug`
-    Div.root
-      TextInput.emailInput(
-        label='Your email'
-        value=email
-        onChangeText=setEmail
-      )
-      Recaptcha(
-        variant='normal'
-        id='normal-captcha'
-        ref=ref
-        onVerify=onVerify
-        onLoad=() => console.log('onLoad')
-        onExpire=() => console.log('onExpire')
-        onError=error => console.log('onError', error)
-        onClose=() => console.log('onClose')
-      )
-      if recaptchaVerified
-        Span.label Thank you for subscribing
-      Button(
-        onPress=openRecaptcha
-        disabled=recaptchaVerified
-      ) Subscribe
-  `
-```
-
-## reCAPTCHA Enterprise
-
-To use [reCAPTCHA Enterprise](https://cloud.google.com/recaptcha-enterprise), follow these steps:
-
-Add the following lines to `server/index.js`:
-```js
-  import initRecaptcha from '@startupjs/recaptcha/server'
-```
-Add to the `startupjsServer` function:
-```js
-  initRecaptcha(ee, { enterprise: true })
-```
-Add to the `getHead` function:
-```js
-  <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
-```
-You need to add to the `config.json` file of your project:
-```js
-  {
-    "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
-    "RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY": "YOUR_SITE_KEY",
-    "RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY": "YOUR_SITE_KEY",
-    "GOOGLE_CLOUD_PROJECT_ID": "YOUR_ID_GOOGLE_CLOUD"
-  }
-```
-`RECAPTCHA_SECRET_KEY` created here https://console.cloud.google.com/apis/credentials
-`RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY` and `RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY` - https://cloud.google.com/recaptcha-enterprise/docs/create-key
-
-### Server use
-
-```js
-  import { checkEnterpriseToken } from '@startupjs/recaptcha/server'
-```
-
-### Client use
-
-Using reCAPTCHA Enterprise on the client differs from using reCAPTCHA v2 only in that the callback `onVerify` of the `Recaptcha` component returns an object `{token: 'token', variant: 'normal of visible'}`
 
 ## Props
+
+The `Recaptcha` component takes parameters from [official Google reCAPTCHA documentation](https://developers.google.com/recaptcha/docs/invisible#config)
+
  - `id` [String] - The component id. Must be unique for each captcha on the page. Default: `recaptcha`
  - `variant` [String] - The variant of the widget (`invisible`, `normal` or `compact`). Default: `invisible`
  - `theme` [String] - The color theme of the widget (`dark` or `light`). Default: `light`
@@ -228,7 +152,7 @@ Using reCAPTCHA Enterprise on the client differs from using reCAPTCHA v2 only in
 ## Advanced use
 
 ```js
-  import { checkDataToken } from '@startupjs/recaptcha/server'
+  import { checkDataRecaptcha } from '@startupjs/recaptcha/server'
 ```
 
-`checkDataToken (token)` is an extended function `checkToken (token)` that returns an object with the original Google API response
+`checkDataRecaptcha(recaptcha)` is an extended function `checkRecaptcha(recaptcha)` that returns an object with the original Google API response. Different reCAPTCHA types return different data structures in the response.
