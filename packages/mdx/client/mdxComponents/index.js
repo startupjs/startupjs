@@ -16,10 +16,12 @@ import {
   Td,
   Th,
   Thead,
-  Tr
+  Tr,
+  Collapse,
+  Tooltip
 } from '@startupjs/ui'
 import { Anchor } from '@startupjs/scrollable-anchors'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import './index.styl'
@@ -116,12 +118,38 @@ export default {
     Span.p(italic)= children
   `,
   pre: ({ children }) => children,
-  code: ({ children, className }) => {
+  code: ({ children, className, example }) => {
     const language = (className || '').replace(/language-/, '')
-    return pug`
-      Br
-      Code(language=language)= children
+    const [open, setOpen] = useState(false)
+    const [copyText, setCopyText] = useState(' Copy code ')
+
+    const copyHandler = () => {
+      navigator.clipboard.writeText(children).then(() => {
+        setCopyText('Copied')
+        setTimeout(() => setCopyText(' Copy code '), 3000)
+      })
+    }
+
+    if (example) {
+      return pug`
+        Collapse.collapse(open=open variant='pure')
+          Collapse.Header.collapseHeader(icon=false onPress=null)
+            Row(align='right')
+              Tooltip(content=' Show code ')
+                Div.iconWrapper(onPress=() => setOpen(!open))
+                  Icon.collapseIcon(icon=faCode)
+              Tooltip.copyIcon(content=copyText)
+                Div.iconWrapper(onPress=copyHandler)
+                  Icon.collapseIcon(icon=faCopy)
+          Collapse.Content.collapseContent
+            Code(language=language)= children
     `
+    } else {
+      return pug`
+        Br
+        Code(language=language)= children
+      `
+    }
   },
   inlineCode: ({ children }) => pug`
     Span.inlineCodeWrapper
