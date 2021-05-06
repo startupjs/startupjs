@@ -29,7 +29,11 @@ export default observer(function Draggable ({
       ref,
       style: {}
     })
-  }, [_dropId, _index])
+  }, [
+    _dropId,
+    _index,
+    dndContext.drags[dragId]?.ref?.current
+  ])
 
   function onHandlerStateChange ({ nativeEvent }) {
     const data = {

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { DragDropProvider, Draggable, Droppable } from './'
 import Div from '../Div'
 import Row from '../Row'
+import { ScrollView } from 'react-native'
 import H5 from '../typography/H5'
 import Span from '../typography/Span'
 
@@ -55,6 +56,9 @@ const dragStyle = {
   borderRadius: 4
 }
 
+const arrInsertEl = (arr, index, item) => arr.splice(index, 0, item)
+const arrRemoveEl = (arr, index) => arr.splice(index, 1)
+
 function onDragEnd ({
   dragId,
   dropId,
@@ -65,26 +69,33 @@ function onDragEnd ({
   const dropHoverIndex = data.findIndex(drop => drop.id === dropHoverId)
   const dragIndex = data[dropIndex].items.findIndex(drag => drag.id === dragId)
 
-  data[dropHoverIndex].items.splice(hoverIndex, 0, data[dropIndex].items[dragIndex])
-  data[dropIndex].items.splice(dragIndex, 1)
+  const drag = data[dropIndex].items[dragIndex]
+
+  arrInsertEl(data[dropHoverIndex].items, hoverIndex, drag)
+  if (dropHoverId === dropId && hoverIndex < dragIndex) {
+    arrRemoveEl(data[dropIndex].items, dragIndex + 1)
+  } else {
+    arrRemoveEl(data[dropIndex].items, dragIndex)
+  }
 
   setData([...data])
 }
 
 return pug`
   DragDropProvider
-    Row
-      each drop in data
-        Droppable(
-          style=dropStyle
-          dropId=drop.id
-        )
-          each drag in drop.items
-            Draggable(
-              style=dragStyle
-              dragId=drag.id
-              onDragEnd=onDragEnd
-            )
-              Span= drag.text
+    ScrollView(horizontal=true)
+      Row
+        each drop in data
+          Droppable(
+            style=dropStyle
+            dropId=drop.id
+          )
+            each drag in drop.items
+              Draggable(
+                style=dragStyle
+                dragId=drag.id
+                onDragEnd=onDragEnd
+              )
+                Span= drag.text
 `
 ```
