@@ -1,4 +1,4 @@
-export { default as checkToken } from './checkToken'
-export { default as checkDataToken } from './checkToken'
-export { default as checkEnterpriseToken } from './checkEnterpriseToken'
-export { default as checkDataEnterpriseToken } from './checkEnterpriseToken'
+export { default as checkToken } from './v3/checkToken'
+export { default as checkDataToken } from './v3/checkDataToken'
+export { default as checkEnterpriseToken } from './enterprise/checkEnterpriseToken'
+export { default as checkDataEnterpriseToken } from './enterprise/checkDataEnterpriseToken'
