@@ -3,14 +3,15 @@ import { useValue } from 'startupjs'
 
 /*
   DragDropContext = {
-    dropHoverId: '',
-    dragHoverIndex: null,
+    dropHoverId: string,
+    dragHoverIndex: number,
 
     activeData: {
-      type,
-      dropId,
-      dragId,
-      drag: { x, y, style }
+      type: string,
+      dropId: string,
+      dragId: string,
+      dragStyle: {},
+      startPosition: { x, y }
     },
 
     drops: {

@@ -40,8 +40,8 @@ export default observer(function Draggable ({
       type,
       dragId,
       dropId: _dropId,
-      drag: { style },
-      start: {
+      dragStyle: { ...style },
+      startPosition: {
         x: nativeEvent.x,
         y: nativeEvent.y
       }
@@ -49,13 +49,11 @@ export default observer(function Draggable ({
 
     if (nativeEvent.state === State.BEGAN) {
       ref.current.measure((dragX, dragY, dragWidth, dragHeight) => {
-        data.drag.x = dragX
-        data.drag.y = dragY
-        data.drag.height = dragHeight
+        data.dragStyle.height = dragHeight
 
         dndContext.drops[_dropId].ref.current.measure((dx, dy, dw, dropHeight) => {
-          animateStates.left.setValue(nativeEvent.absoluteX - data.start.x)
-          animateStates.top.setValue(nativeEvent.absoluteY - data.start.y)
+          animateStates.left.setValue(nativeEvent.absoluteX - data.startPosition.x)
+          animateStates.top.setValue(nativeEvent.absoluteY - data.startPosition.y)
 
           $root.batch(() => {
             $dndContext.set(`drags.${dragId}.style`, { display: 'none' })
@@ -80,10 +78,10 @@ export default observer(function Draggable ({
       })
 
       $root.batch(() => {
+        $dndContext.set(`drags.${dragId}.style`, {})
+        $dndContext.set('activeData', {})
         $dndContext.set('dropHoverId', '')
         $dndContext.set('dragHoverIndex', null)
-        $dndContext.set('activeData', {})
-        $dndContext.set(`drags.${dragId}.style`, {})
       })
     }
   }
@@ -92,10 +90,10 @@ export default observer(function Draggable ({
     if (!dndContext.dropHoverId) return
 
     animateStates.left.setValue(
-      nativeEvent.absoluteX - dndContext.activeData.start.x
+      nativeEvent.absoluteX - dndContext.activeData.startPosition.x
     )
     animateStates.top.setValue(
-      nativeEvent.absoluteY - dndContext.activeData.start.y
+      nativeEvent.absoluteY - dndContext.activeData.startPosition.y
     )
 
     $dndContext.set('activeData.x', nativeEvent.absoluteX)
@@ -168,9 +166,9 @@ export default observer(function Draggable ({
     if isShowPlaceholder
       View.placeholder(
         style={
-          height: dndContext.activeData.drag.height,
-          marginTop: dndContext.activeData.drag.style.marginTop,
-          marginBottom: dndContext.activeData.drag.style.marginBottom
+          height: dndContext.activeData.dragStyle.height,
+          marginTop: dndContext.activeData.dragStyle.marginTop,
+          marginBottom: dndContext.activeData.dragStyle.marginBottom
         }
       )
 
@@ -193,9 +191,9 @@ export default observer(function Draggable ({
     if isShowLastPlaceholder
       View.placeholder(
         style={
-          height: dndContext.activeData.drag.height,
-          marginTop: dndContext.activeData.drag.style.marginTop,
-          marginBottom: dndContext.activeData.drag.style.marginBottom
+          height: dndContext.activeData.dragStyle.height,
+          marginTop: dndContext.activeData.dragStyle.marginTop,
+          marginBottom: dndContext.activeData.dragStyle.marginBottom
         }
       )
   `
