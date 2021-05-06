@@ -11,16 +11,13 @@ export default observer(function ObjectInput ({
   style,
   inputStyle,
   $value,
-  value,
   label,
   errors = {},
   properties,
   order
 }) {
-  if (!$value) {
-    console.error('[ui -> Object] $value is required')
-    return null
-  }
+  const value = $value.get()
+
   if (!properties) {
     console.error('[ui -> Object] properties is required')
     return null
