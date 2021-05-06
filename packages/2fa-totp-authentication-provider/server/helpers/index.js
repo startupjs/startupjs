@@ -1,4 +1,4 @@
-import { checkToken } from '@startupjs/2fa-google-authenticator/server/helpers'
+import { checkToken } from '@startupjs/2fa-totp-authentication/server/helpers'
 
 export function send () {
   return null

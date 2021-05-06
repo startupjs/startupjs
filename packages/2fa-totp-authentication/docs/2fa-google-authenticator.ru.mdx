@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { View, Button, StyleSheet } from 'react-native'
 import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../client'
 
-# 2fa-google-authenticator
+# 2fa-totp-authentication
 > Компонент двухфакторной авторизации с Google Authenticator
 
 ## Необходимые зависимости
@@ -11,7 +11,7 @@ import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../cl
 ## Уcтановка
 
 ```js
-  yarn add @startupjs/2fa-google-authenticator
+  yarn add @startupjs/2fa-totp-authentication
 ```
 
 ## Подключение к startupjs
@@ -20,7 +20,7 @@ import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../cl
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import { init2fa } from '@startupjs/2fa-google-authenticator/server'
+  import { init2fa } from '@startupjs/2fa-totp-authentication/server'
   import app from '../app.json'
 ```
 
@@ -36,7 +36,7 @@ QR код является секретом и отображать его сл�
 
 ### Пример
 ```js
-  import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-google-authenticator'
+  import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-totp-authentication'
 ```
 
 ```jsx example

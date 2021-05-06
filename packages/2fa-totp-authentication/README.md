@@ -1,26 +1,19 @@
-import { useState } from 'react'
-import { View, Button, StyleSheet } from 'react-native'
-import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../client'
-
-# 2fa-google-authenticator
-> Сomponent of two-factor authentication for Google Authenticator
-
-## Necessary dependences
-  `@startupjs/auth`
+# startupjs 2fa-totp-authentication
+> Сomponent of two-factor authentication
 
 ## Installation
 
-```js
-yarn add @startupjs/2fa-google-authenticator
+```sh
+yarn add @startupjs/2fa-totp-authentication
 ```
 
 ## Connecting to the startupjs
 
-### Server
+### server
 
 In `server/index.js` add next strings:
 ```js
-import { init2fa } from '@startupjs/2fa-google-authenticator/server'
+import { init2fa } from '@startupjs/2fa-totp-authentication/server'
 import app from '../app.json'
 ```
 
@@ -29,34 +22,12 @@ In `startupjsServer` function add:
 init2fa(ee, { appName: app.name })
 ```
 
-## !!! IMPORTANT !!!
-You need to log in on this [page](/auth/sign-in) for use example.
+### client
 
-The QR code is a secret and should only be displayed to authorized users. The user reads this code using the Google Authenticator application, after which codes are generated in the application.
-
-### Example
 ```js
-import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-google-authenticator'
-```
+import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-totp-authentication'
 
-```jsx example
-  const styles = StyleSheet.create({
-    root: {
-      flex: 1,
-      alignItems: 'center'
-    },
-    row: {
-      minWidth: 320,
-      flexDirection: 'row',
-      justifyContent: 'space-around'
-    },
-    qr: {
-      width: 100,
-      height: 100,
-      marginVertical: 24
-    }
-  })
-
+export default function MyComponent() {
   const [secret, setSecret] = useState({})
 
   async function onCreateSecret () {
@@ -91,19 +62,37 @@ import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-go
       {secret.QRDataURL && <CheckToken onSuccess={() => alert('Right code')} onDismiss={() => alert('Wrong code')} />}
     </View>
   )
+}
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  row: {
+    minWidth: 320,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  qr: {
+    width: 100,
+    height: 100
+  }
+})
 ```
 
-## Functions
+## functions
 
-- `createSecret` - returns a `Promise` which creates a request to create a `Secret` (if secret exists it will be replaced by new secret) and returns the result `{ base32, QRDataURL }` where:
+- `createSecret` - returns a `Promise` which creates a request to create a `Secret` (if secret exists it will be replaced by new secret) and returns the result:
+  - `{ base32, QRDataURL }` here:
     - `base32` - your Secret code
     - `QRDataURL` - QR code that you can use like image
 
 - `checkToken(token)` - return `true` if token is valid and `false` otherwise
 
-- `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`
+- `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`.
 
-## Components
+## components
 
 ### QRSecret
   You can use this component for show QR code of existing secret. If secret does not exist there will show nothing.

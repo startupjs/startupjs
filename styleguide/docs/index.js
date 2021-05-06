@@ -1,10 +1,10 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import TwoFAGAEn from '../../packages/2fa-google-authenticator/docs/2fa-google-authenticator.en.mdx'
-import TwoFAGARu from '../../packages/2fa-google-authenticator/docs/2fa-google-authenticator.ru.mdx'
-import GAProviderEn from '../../packages/2fa-google-authenticator-provider/docs/2fa-google-authenticator-provider.en.mdx'
-import GAProviderRu from '../../packages/2fa-google-authenticator-provider/docs/2fa-google-authenticator-provider.ru.mdx'
+import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx'
+import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
+import GAProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
+import GAProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
 import AuthMain from '../../packages/auth/readme.md'
 import AuthApple from '../../packages/auth-apple/readme.md'
 import AuthAzuread from '../../packages/auth-azuread/readme.md'
@@ -127,7 +127,7 @@ export default docs({
               ru: TwoFAManagerRu
             }
           },
-          '2fa-google-authenticator': {
+          '2fa-totp-authentication': {
             type: 'mdx',
             title: 'Google Authenticator',
             component: {
