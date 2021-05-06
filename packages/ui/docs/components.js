@@ -24,6 +24,7 @@ import DivEn from '../components/Div/Div.en.mdx'
 import DivRu from '../components/Div/Div.ru.mdx'
 import DividerEn from '../components/Divider/Divider.en.mdx'
 import DividerRu from '../components/Divider/Divider.ru.mdx'
+import Draggable from '../components/draggable/Draggable.mdx'
 import DrawerSidebarEn from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import DrawerSidebarRu from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
 import HrEn from '../components/Hr/Hr.en.mdx'
@@ -168,6 +169,11 @@ export default {
         en: DividerEn,
         ru: DividerRu
       }
+    },
+    draggable: {
+      type: 'mdx',
+      title: 'draggable',
+      component: Draggable
     },
     DrawerSidebar: {
       type: 'mdx',
