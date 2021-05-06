@@ -28,14 +28,6 @@ font(size = m)
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
 
-isCustomFont(fontName)
-  newFont = $UI.fontFamilies[fontName]
-  if (index($UI.customFontFamilies, newFont) != null ) {
-    return true
-  } else {
-    return false
-  }
-
 text(key = default)
   // color
   if key is description
@@ -61,21 +53,34 @@ text(key = default)
   else if key is h6
     font(l)
 
-fontFamily(fontName = null, fontWeight = $UI.fontWeights.normal, fontStyle = normal)
-  if (!$UI.fontFamilies[fontName]) {
-    error('ERROR! Wrong ' + fontName + ', it must be a key string of $UI.fontFamilies')
-  } else {
-    newFont = $UI.fontFamilies[fontName]
-    
-    if (isCustomFont(fontName)) {
-      newFont += '-' + ($fontWeightNamesMap['' + fontWeight] || $fontWeightNamesMap['' + $UI.fontWeights.normal])
-      if (fontStyle == italic) {
-        newFont += 'Italic'
-      }
-      font-family newFont
-    } else {
-      font-family newFont
-      font-weight fontWeight
-      font-style fontStyle
+fontFamily(
+  fontName = 'normal',
+  fontWeight = $UI.fontWeights.normal,
+  fontStyle = normal
+)
+  fontFamily = $UI.fontFamilies[fontName]
+
+  if (isCustomFont(fontFamily)) {
+    thickness = $fontWeightNamesMap['' + fontWeight]
+    isRegular = thickness is 'Regular'
+    isItalic = fontStyle is italic
+
+    fontFamily += '-'
+    // add thickness
+    // don't add thickness to font family name if regular and italic
+    if (!isRegular || !isItalic) {
+      fontFamily += $fontWeightNamesMap['' + fontWeight]
     }
+    // add style
+    if (isItalic) {
+      fontFamily += 'Italic'
+    }
+    font-family fontFamily
+  } else {
+    font-family fontFamily
+    font-weight fontWeight
+    font-style fontStyle
   }
+
+isCustomFont(fontFamily)
+  return index($UI.customFontFamilies, fontFamily)
