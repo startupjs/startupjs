@@ -2,14 +2,22 @@ import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import twoFADocs from '../../packages/2fa/docs'
-import AuthMain from '../../packages/auth/readme.md'
-import AuthApple from '../../packages/auth-apple/readme.md'
-import AuthAzuread from '../../packages/auth-azuread/readme.md'
-import AuthCommon from '../../packages/auth-common/readme.md'
-import AuthFacebook from '../../packages/auth-facebook/readme.md'
-import AuthGoogle from '../../packages/auth-google/readme.md'
-import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
-import AuthLocal from '../../packages/auth-local/readme.md'
+import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
+import AuthMainEn from '../../packages/auth/docs/readme.en.md'
+import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
+import AuthAppleEn from '../../packages/auth-apple/docs/readme.en.md'
+import AuthAzureadRu from '../../packages/auth-azuread/docs/readme.ru.md'
+import AuthAzureadEn from '../../packages/auth-azuread/docs/readme.en.md'
+import AuthCommonRu from '../../packages/auth-common/docs/readme.ru.md'
+import AuthCommonEn from '../../packages/auth-common/docs/readme.en.md'
+import AuthFacebookRu from '../../packages/auth-facebook/docs/readme.ru.md'
+import AuthFacebookEn from '../../packages/auth-facebook/docs/readme.en.md'
+import AuthGoogleRu from '../../packages/auth-google/docs/readme.ru.md'
+import AuthGoogleEn from '../../packages/auth-google/docs/readme.en.md'
+import AuthLinkedinRu from '../../packages/auth-linkedin/docs/readme.ru.md'
+import AuthLinkedinEn from '../../packages/auth-linkedin/docs/readme.en.md'
+import AuthLocalRu from '../../packages/auth-local/docs/readme.ru.md'
+import AuthLocalEn from '../../packages/auth-local/docs/readme.en.md'
 import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
 import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
 import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
@@ -45,43 +53,73 @@ export default docs({
     items: {
       main: {
         type: 'mdx',
-        title: 'Главный модуль',
-        component: AuthMain
+        title: {
+          en: 'Main module',
+          ru: 'Главный модуль'
+        },
+        component: {
+          en: AuthMainEn,
+          ru: AuthMainRu
+        }
       },
       apple: {
         type: 'mdx',
         title: 'Apple',
-        component: AuthApple
+        component: {
+          en: AuthAppleEn,
+          ru: AuthAppleRu
+        }
       },
       azuread: {
         type: 'mdx',
         title: 'Azure AD',
-        component: AuthAzuread
+        component: {
+          en: AuthAzureadEn,
+          ru: AuthAzureadRu
+        }
       },
       common: {
         type: 'mdx',
-        title: 'Общая',
-        component: AuthCommon
+        title: {
+          en: 'Common',
+          ru: 'Общая'
+        },
+        component: {
+          en: AuthCommonEn,
+          ru: AuthCommonRu
+        }
       },
       facebook: {
         type: 'mdx',
         title: 'Facebook',
-        component: AuthFacebook
+        component: {
+          en: AuthFacebookEn,
+          ru: AuthFacebookRu
+        }
       },
       google: {
         type: 'mdx',
         title: 'Google',
-        component: AuthGoogle
+        component: {
+          en: AuthGoogleEn,
+          ru: AuthGoogleRu
+        }
       },
       linkedin: {
         type: 'mdx',
         title: 'Linkedin',
-        component: AuthLinkedin
+        component: {
+          en: AuthLinkedinEn,
+          ru: AuthLinkedinRu
+        }
       },
       local: {
         type: 'mdx',
         title: 'Локальная',
-        component: AuthLocal
+        component: {
+          en: AuthLocalEn,
+          ru: AuthLocalRu
+        }
       }
     }
   },

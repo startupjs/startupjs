@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AuthForm, LogoutButton, onLogout } from './'
+import { AuthForm, LogoutButton, onLogout } from '../'
 import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google'
 import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
 import { LoginForm, RegisterForm, RecoverForm } from '@startupjs/auth-local'
@@ -17,13 +17,12 @@ startupjs: >= 0.33.0
 
 ## Описание
 
-
 ## Инициализация на сервере
 ```js
 import { initAuth } from '@startupjs/auth/server'
 ```
 
-В теле функции startupjsServer происходит инициальзация модуля, в strategies - добавляются стратегии каждая со своим набором характеристик:
+В теле функции **startupjsServer** происходит инициализация модуля, в **strategies** добавляются стратегии каждая со своим набором характеристик:
 ```js
 initAuth(ee, {
   strategies: [
@@ -49,7 +48,7 @@ initAuth(ee, {
 import { initAuthApp } from '@startupjs/auth'
 ```
 
-Основные ее опции - это socialButtons и localForms, которые собирают нужные компоненты для общей формы. Т.к. заранее неизвестно какие стратегии должны быть подключены, приходиться подключать их самим. Кнопки есть практически у каждой стратегии, кроме локальной, чтобы ознакомиться какие компоненты существуют для auth-local, есть отдельное описание для этой стратегии (сообственно как и для всех других).
+Основные ее опции - это socialButtons и localForms, которые собирают нужные компоненты для общей формы. Т.к. заранее неизвестно какие стратегии должны быть подключены, приходиться подключать их самим. Кнопки есть практически у каждой стратегии, кроме локальной, чтобы ознакомиться какие компоненты существуют для auth-local, есть отдельное описание для этой стратегии (собственно как и для всех других).
 
 Импорт нужных компонентов:
 ```js
@@ -218,7 +217,6 @@ return <Button onPress={onLogout}>Выйти</Button>
 ```
 
 ### onBeforeLoginHook
-
 Хэлпер-мидлвара, вызывается перед авторизацией
 
 ```jsx
@@ -233,7 +231,6 @@ initAuth(ee, {
 ```
 
 ### onAfterUserCreationHook
-
 Хэлпер-мидлвара, вызывается после создания юзера
 
 ```jsx
@@ -247,7 +244,6 @@ initAuth(ee, {
 ```
 
 ### onAfterLoginHook
-
 Хэлпер-мидлвара, вызывается после авторизации
 
 ```jsx
@@ -261,7 +257,6 @@ initAuth(ee, {
 ```
 
 ### onBeforeLogoutHook
-
 Хэлпер-мидлвара, вызывается перед выходом
 
 ```jsx
