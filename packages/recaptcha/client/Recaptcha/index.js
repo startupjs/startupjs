@@ -1,10 +1,11 @@
 import React, { useImperativeHandle, useState, useCallback, useRef, useMemo } from 'react'
 import WebView from 'react-native-webview'
 import { Modal } from 'react-native'
-import { observer, useSession } from 'startupjs'
+import { observer } from 'startupjs'
 import { Div, Loader } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'
+import { getSiteKey, getRecaptchaType } from '../../helpers'
 import getTemplate from './get-template'
 import './index.styl'
 
@@ -27,19 +28,18 @@ function RecaptchaComponent ({
   const webViewRef = useRef()
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
 
   const isInvisible = variant === 'invisible'
 
   const html = useMemo(() => {
     return getTemplate({
-      siteKey: recaptchaSiteKey,
+      siteKey: getSiteKey(),
       variant,
       theme,
       lang,
       id
     })
-  }, [recaptchaSiteKey, variant, theme, lang, id])
+  }, [variant, theme, lang, id])
 
   const handleLoad = useCallback(
     (...args) => {
@@ -87,7 +87,11 @@ function RecaptchaComponent ({
         }
         if (payload.verify) {
           handleClose()
-          onVerify && onVerify(...payload.verify)
+          onVerify && onVerify({
+            type: getRecaptchaType(),
+            token: payload.verify[0],
+            variant
+          })
         }
       } catch (err) {
         console.warn(err)

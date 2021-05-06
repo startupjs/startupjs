@@ -1,11 +1,17 @@
-import checkToken from './checkToken'
-import checkDataToken from './checkDataToken'
-import { setRecaptchaSiteKey } from './middlewares'
+import defaults from 'lodash/defaults'
+import checkRecaptcha from './checkRecaptcha'
+import checkDataRecaptcha from './checkDataRecaptcha'
+import { setRecaptcha } from './middlewares'
 
-function initRecaptcha (ee) {
+function initRecaptcha (ee, options) {
+  options = defaults(options, { type: 'v3' })
   ee.on('afterSession', expressApp => {
-    expressApp.use(setRecaptchaSiteKey)
+    expressApp.use(setRecaptcha(options))
   })
 }
 
-export { checkToken, initRecaptcha, checkDataToken }
+export {
+  checkRecaptcha,
+  initRecaptcha,
+  checkDataRecaptcha
+}

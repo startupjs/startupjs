@@ -1,4 +1,19 @@
+import { $root } from 'startupjs'
+import { getIframeUrl } from '../../helpers'
+
 const getTemplate = params => {
+  const isEnterprise = $root.get('_session.Recaptcha.enterprise')
+
+  const grecaptcha = isEnterprise ? 'window.grecaptcha.enterprise' : 'window.grecaptcha'
+
+  const recaptchajsUrl = isEnterprise
+    ? 'https://www.google.com/recaptcha/enterprise.js'
+    : 'https://www.google.com/recaptcha/api.js'
+
+  const readyFunction = isEnterprise
+    ? 'Boolean(typeof window === "object" && window?.grecaptcha?.enterprise?.render)'
+    : 'Boolean(typeof window === "object" && window?.grecaptcha?.render)'
+
   let template = `
     <!DOCTYPE html>
     <html lang="{{lang}}">
@@ -7,7 +22,7 @@ const getTemplate = params => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title></title>
-        <script src="https://www.google.com/recaptcha/api.js?hl={{lang}}" async defer></script>
+        <script src="${recaptchajsUrl}?hl={{lang}}" async defer></script>
         <script>
             const siteKey = '{{siteKey}}';
             const theme = '{{theme}}';
@@ -48,8 +63,7 @@ const getTemplate = params => {
                 }));
             }
     
-            const isReady = () => Boolean(typeof window === 'object' && window.grecaptcha && window.grecaptcha.render);
-    
+            const isReady = () => ${readyFunction}
             const registerOnCloseListener = () => {
                 if (onCloseObserver) {
                     onCloseObserver.disconnect();
@@ -58,7 +72,7 @@ const getTemplate = params => {
                 const iframes = document.getElementsByTagName('iframe');
     
                 const recaptchaFrame = Array.prototype.find
-                    .call(iframes, e => e.src.includes('google.com/recaptcha/api2/bframe'));
+                    .call(iframes, e => e.src.includes('${getIframeUrl()}'));
                 const recaptchaElement = recaptchaFrame.parentNode.parentNode;
     
                 clearInterval(onCloseInterval);
@@ -71,7 +85,7 @@ const getTemplate = params => {
                     }
                     lastOpacity = recaptchaElement.style.opacity;
                 });
-                onCloseObserver.observe(recaptchaElement, {
+                onCloseObserver && onCloseObserver.observe(recaptchaElement, {
                     attributes: true,
                     attributeFilter: ['style'],
                 });
@@ -82,7 +96,7 @@ const getTemplate = params => {
             }
     
             const renderRecaptcha = () => {
-                widget = window.grecaptcha.render('{{id}}', {
+                widget = ${grecaptcha}.render('{{id}}', {
                     sitekey: siteKey,
                     size,
                     theme,
@@ -112,10 +126,10 @@ const getTemplate = params => {
             
             window.rnRecaptcha = {
                 execute: () => {
-                    window.grecaptcha.execute(widget);
+                    ${grecaptcha}.execute(widget);
                 },
                 reset: () => {
-                    window.grecaptcha.reset(widget);
+                    ${grecaptcha}.reset(widget);
                 },
             }
         </script>
