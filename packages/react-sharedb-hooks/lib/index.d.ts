@@ -19,16 +19,28 @@ interface Destroyer {
 export const destroyer: Destroyer
 
 // helpers
-export const emit: any;
+declare function emit (event: string): boolean
+export { emit }
+export function useEmit(): typeof emit
+
 export function useModel (path: string): any;
 
+type eventType = 'change' | 'insert' | 'remove' | 'move' | 'load' | 'unload' | 'all'
+type scope = any
+
 export function useOn (eventName: string, fn: Function): void;
-export function useOn (
-  eventType: 'change'|'insert'|'remove'|'move'|'load'|'unload'|'all',
-  scope: any,
+export function useOn(eventType: eventType, fn: Function): Function;
+export function useOn(
+  eventType: eventType,
+  path: string | scope,
   fn: Function
-): void;
-export function useEmit (): any;
+): Function;
+export function useOn(
+  eventType: eventType,
+  path: string | scope,
+  options: { useEventObjects: boolean },
+  fn: Function
+): Function;
 
 export const useQueryIds: (collection: string, ids: string[], options?: {}) => ResultHook;
 export const useBatchQueryIds: (collection: string, ids: string[], options?: {}) => ResultHook;
@@ -53,7 +65,7 @@ export function generateUseQueryIds({ batch, optional }?: {
 }): (collection: string, ids: any[], options?: {}) => ResultHook;
 
 // meta
-export const ComponentMetaContext: any;
+export const ComponentMetaContext: {};
 export function useNow (): number;
 export function useComponentId (): string;
 
@@ -74,14 +86,14 @@ export const useQuery: (collection: string, query: {}) => ResultHook;
 export const useBatchQuery: (collection: string, query: {}) => ResultHook;
 export const useAsyncQuery: (collection: string, query: {}) => ResultHook;
 
-export function useApi (path: string, fn: Function, inputs: any[], options?: {}): ResultHook;
-export function useApi (fn: Function, inputs: any[], options?: {}): ResultHook;
+export function useApi (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook;
+export function useApi (fn: Function, inputs?: any[], options?: {}): ResultHook;
 
-export function useBatchApi (path: string, fn: Function, inputs: any[], options?: {}): ResultHook;
-export function useBatchApi (fn: Function, inputs: any[], options?: {}): ResultHook;
+export function useBatchApi (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook;
+export function useBatchApi (fn: Function, inputs?: any[], options?: {}): ResultHook;
 
-export function useAsyncApi (path: string, fn: Function, inputs: any[], options?: {}): ResultHook;
-export function useAsyncApi (fn: Function, inputs: any[], options?: {}): ResultHook;
+export function useAsyncApi (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook;
+export function useAsyncApi (fn: Function, inputs?: any[], options?: {}): ResultHook;
 
 export const useLocal: (path: string) => ResultHook;
 export const useValue: (value?: any) => ResultHook;

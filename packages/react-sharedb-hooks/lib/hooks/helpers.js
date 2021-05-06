@@ -4,8 +4,8 @@ import { useQuery, useLocal, useBatchQuery, useAsyncQuery } from './types'
 
 export const emit = $root.emit.bind($root)
 
-export function useModel (path) {
-  return useMemo(() => $root.scope(path), [path])
+export function useModel (...args) {
+  return useMemo(() => $root.scope(...args), [...args])
 }
 
 export function useOn (...args) {
