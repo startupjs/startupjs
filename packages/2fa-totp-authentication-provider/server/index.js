@@ -1,1 +1,1 @@
-export { default as GAProvider } from './Provider'
+export { default as TotpProvider } from './Provider'
