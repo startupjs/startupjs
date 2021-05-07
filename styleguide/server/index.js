@@ -23,7 +23,6 @@ import initRecaptchaDoc from './initRecaptchaDoc'
 import app from '../app.json'
 import orm from '../model'
 import getMainRoutes from '../main/routes'
-import migration from './migration'
 
 // Init startupjs ORM.
 init({ orm })
@@ -55,13 +54,6 @@ startupjsServer({
     },
     strategies: getAuthStrategies(),
     recaptchaEnabled: true
-  })
-
-  ee.on('afterSession', expressApp => {
-    expressApp.post('/migrations/:name', (req, res) => {
-      req.setTimeout(2 * 2 * 1800000) // 2 * 2 * 30min = 2 hours
-      migration(req, res)
-    })
   })
 })
 
