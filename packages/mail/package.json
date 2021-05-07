@@ -1,0 +1,11 @@
+{
+  "name": "@startupjs/mail",
+  "version": "0.0.1",
+  "description": "Library to send email messages in app",
+  "type": "module",
+  "main": "client/index.js",
+  "peerDependencies": {
+    "axios": "*",
+    "startupjs": ">= 0.33.0"
+  }
+}

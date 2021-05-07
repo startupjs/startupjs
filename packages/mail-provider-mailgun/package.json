@@ -1,0 +1,12 @@
+{
+  "name": "@startupjs/mail-provider-mailgun",
+  "version": "0.0.1",
+  "description": "Mailgun provider for @startupjs/mail",
+  "main": "index.js",
+  "dependencies": {
+    "mailgun.js": "^3.3.0"
+  },
+  "peerDependencies": {
+    "startupjs": ">= 0.33.0"
+  }
+}
