@@ -4,7 +4,7 @@ import isBoolean from 'lodash/isBoolean'
 import isNumber from 'lodash/isNumber'
 import { _isExtraQuery as isExtraQuery } from '@startupjs/react-sharedb-util'
 
-export function subLocal (localPath, defaultValue) {
+export function subLocal (localPath) {
   if (typeof localPath !== 'string') {
     throw new Error(
       `[react-sharedb] subLocal(): localPath must be a String. Got: ${localPath}`
