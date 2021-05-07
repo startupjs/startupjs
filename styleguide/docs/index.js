@@ -16,6 +16,8 @@ import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
 import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import PushNotificationsEn from '../../packages/push-notifications/docs/push-notifications.en.mdx'
+import PushNotificationsRu from '../../packages/push-notifications/docs/push-notifications.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -125,6 +127,17 @@ export default docs({
         component: {
           en: RecaptchaEn,
           ru: RecaptchaRu
+        }
+      },
+      'push-notofications': {
+        type: 'mdx',
+        title: {
+          en: 'Push',
+          ru: 'Push'
+        },
+        component: {
+          en: PushNotificationsEn,
+          ru: PushNotificationsRu
         }
       }
     }

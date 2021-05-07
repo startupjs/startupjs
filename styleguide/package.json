@@ -42,6 +42,7 @@
     "@startupjs/mdx": "^0.34.8",
     "@startupjs/recaptcha": "^0.34.0",
     "@startupjs/scrollable-anchors": "^0.34.8",
+    "@startupjs/push-notifications": "^0.34.2",
     "@startupjs/ui": "^0.34.8",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
@@ -57,6 +58,8 @@
     "react-native-tab-view": "^3.0.0",
     "react-native-webview": "10.10.2",
     "startupjs": "^0.34.8",
-    "text-encoding-polyfill": "^0.6.7"
+    "text-encoding-polyfill": "^0.6.7",
+    "@react-native-community/push-notification-ios": "^1.8.0",
+    "react-native-push-notification": "^7.2.3"
   }
 }

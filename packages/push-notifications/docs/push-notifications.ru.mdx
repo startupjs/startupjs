@@ -1,0 +1,169 @@
+import { BASE_URL } from '@env'
+import { useState, useEffect } from 'react'
+import { useSession } from 'startupjs'
+import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
+import { sendNotification } from '@startupjs/push-notifications'
+
+# Push Notifications
+
+!ВАЖНО! Пакет работает только на платформах ios и android!
+
+## Зависимости
+
+```js
+@react-native-community/push-notification-ios >= 1.8.0
+react-native-push-notification >= 7.2.3
+```
+
+## Установка
+
+```js
+yarn add @startupjs/push-notifications @react-native-community/push-notification-ios react-native-push-notification
+```
+
+
+## Подключение сертификатов
+
+### Создание сертификата p8
+
+Для того чтобы отправлять пуш уведомления на ios устройства, необходимо создать сертефикаты.
+
+Выберите `Certificates, Identifiers & Profiles` и перейдите в `Keys`. Нажмите кнопку с кружком +, чтобы создать новый ключ.
+
+![alpha](/img/pushs_2.png "Certificates, Identifiers & Profiles")
+
+Дайте ему имя и включите `Apple Push Notifications service (APNs)`. Выберите `Continue` и на следующем экране выберите `Register`.
+
+![alpha](/img/pushs_3.png "Apple Push Notifications service (APNs)")
+
+Важно записать следующие три элемента с этой страницы:
+
+- Выберите `Download`, чтобы сохранить файл `p8` локально. Вам нужно будет загрузить это в `Firebase`. Вы не сможете загрузить этот сертификат, покинув эту страницу.
+- Скопируйте и сохраните `Key ID`.
+- Скопируйте и сохраните свой `membership ID`. Он находится рядом с вашим именем в правом верхнем углу `Membership Center` или в разделе `Membership Details`.
+
+![alpha](/img/pushs_4.png "Apple Push Notifications service (APNs)")
+
+### Настройка проекта Firebase
+
+Нужно подключить `p8` сертификат к вашему приложению в `Firebase`. В своем проекте `Firebase` выберите шестеренку рядом с `Project Overview` и выберите `Project settings`:
+
+![alpha](/img/pushs_5.png "Apple Push Notifications service (APNs)")
+
+Затем настройте приложение для iOS в разделе `General` в настройках вашего проекта. Проделайте все указаные операции:
+
+![alpha](/img/pushs_6.png "Apple Push Notifications service (APNs)")
+
+Затем загрузите свой сертификат `p8`, перейдя в `Cloud Messaging` в настройках проекта `Firebase`. В разделе `APNs Authentication Key` выберите `Upload`.
+
+![alpha](/img/pushs_7.png "Apple Push Notifications service (APNs)")
+
+Введите данные, которые вы сохранили на шаге создания сертификата `p8`
+
+## Использование
+
+### Подключение
+
+### server
+
+```js
+import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+import serviceAccount from 'path/to/serviceAccountKey.json'
+...
+init({ orm })
+initFirebaseApp(serviceAccount)
+
+...
+startupjsServer({
+...
+}, (ee, options) => {
+  ...
+  initPushNotifications(ee)
+  ...
+}
+
+```
+Сгенерировать `serviceAccount` можно в `Firebase` [консоли](https://console.firebase.google.com/project/) вашего приложения. Откройте вкладку `Service accounts` и нажмите `Generate new private key`.
+
+![alpha](/img/pushs_1.png "firebase admin")
+
+### client
+
+Вызовите `initPushNotifications` и `initAndroidChannel` в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализация имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
+
+```js
+App(
+  ...
+  useGlobalInit=() => {
+    initPushNotifications()
+    initAndroidChannel({
+        channelId: 'my-test-channel',
+        channelName: 'My channel'
+    })
+    return true
+  }
+)
+```
+
+## API
+
+### server API
+
+- `initPushNotifications (ee)`
+
+- `initFirebaseApp(serviceAccount)` - инициализация приложения `Firebase`. Как создать `serviceAccount` смотрите [выше](/docs/libraries/push-notofications#server).
+
+### client API
+
+- `initAndroidChannel (options, callback)` - функция регистрации нового канала push сообщений для Android. Пуши на `Android` обязательно должны отправляться на канал, иначе сообщение не будет доставлено. Можно создавать несколько различных каналов.
+  - `options` - объект опций для создания канала, полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#channel-management-android). Обязательные параметры:
+    - `channelId` - строка, уникальный идентификатор канала
+    - `channelName` - строка, имя канала
+  - `callback` - коллбек, принимает аргумент `created`, который указывает на то был ли уже создан канал, `false` означает, что канал уже был создан
+
+- `initPushNotifications (options)` - функция инициализации пуш уведомлений.
+  - `options` - объект опций для инициализации пушей. Полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#usage). !!ВАЖНО!! Крайне не рекомендуется переопределять поля `onRegister` и `onNotification` так как это может нарушить поведение пакета.
+
+- `sendNotification(userIds, title, body, androidChannelId, filters = {})` - функция для отправки нотификаций. Опции:
+  - `userIds` - массив id юзеров которым будет отправлено push уведомление. 
+  - `title` - строка заголовка.
+  - `body` - строка контента.
+  - `androidChannelId` - строка с именем канала для android.
+  - `filters` - объект фильтров. Поддерживаются следующие поля:
+    - `platforms` - массив платформ, на которые нужно отправить нотификацию. Если не задано, то сообщение будет отправлено на все зарегестрированные устройства.
+
+
+### Пример
+
+```jsx example
+const [title, setTitle] = useState('')
+const [content, setContent] = useState('')
+const [userId] = useSession('userId')
+
+function sendCustomNotification () {
+  sendNotification([userId], title, content, 'my-test-channel')
+  setTitle('')
+  setContent('')
+}
+
+return (
+  <Div>
+    <TextInput
+      value={title}
+      placeholder='title'
+      onChangeText={setTitle}
+    ></TextInput>
+    <Br/>
+    <TextInput
+      value={content}
+      placeholder='content'
+      onChangeText={setContent}
+    ></TextInput>
+    <Br/>
+    
+    <Button onPress={sendCustomNotification}>
+      Send Test Push
+    </Button>
+  </Div>
+)
+```
