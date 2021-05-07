@@ -118,7 +118,6 @@ function AutoSuggest ({
       animateType='slide'
       hasDefaultWrapper=false
       onDismiss=onClose
-      onRequestClose=()=> setInputValue('')
     )
       Popover.Caption.caption
         TextInput(

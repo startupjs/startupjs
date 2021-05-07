@@ -1,6 +1,6 @@
-import React, { useImperativeHandle, useLayoutEffect } from 'react'
+import React, { useImperativeHandle } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
-import { observer, useBind } from 'startupjs'
+import { observer, useDidUpdate, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -11,7 +11,6 @@ import Portal from '../Portal'
 function Modal ({
   style,
   modalStyle,
-  visible,
   $visible,
   transparent,
   supportedOrientations,
@@ -24,8 +23,13 @@ function Modal ({
   onOrientationChange,
   ...props
 }, ref) {
-  ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
+  if (!Object.keys(props).includes('visible') && !$visible) {
+    [, $visible] = useValue(false)
+  }
 
+  let visible = props.visible
+
+  ;({ visible, onChange } = useBind({ visible, $visible, onChange, default: false }))
   const _visible = !!visible
 
   function closeFallback () {
@@ -35,7 +39,7 @@ function Modal ({
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
   // It fixed in 0.64
-  useLayoutEffect(() => {
+  useDidUpdate(() => {
     if (!_visible) onDismiss && onDismiss()
   }, [visible])
 
@@ -73,7 +77,7 @@ const ObservedModal = observer(Modal, { forwardRef: true })
 
 ObservedModal.defaultProps = {
   variant: 'window',
-  dismissLabel: ModalActions.defaultProps.dismissLabel,
+  cancelLabel: ModalActions.defaultProps.cancelLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
   ModalElement: SafeAreaView,
   animationType: 'fade',
@@ -91,7 +95,7 @@ ObservedModal.propTypes = {
   visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
-  dismissLabel: ModalActions.propTypes.dismissLabel,
+  cancelLabel: ModalActions.propTypes.cancelLabel,
   confirmLabel: ModalActions.propTypes.confirmLabel,
   showCross: PropTypes.bool,
   enableBackdropPress: PropTypes.bool,

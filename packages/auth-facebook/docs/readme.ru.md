@@ -4,7 +4,6 @@
 [Настройка главного модуля](/docs/auth/main)
 
 ## Требования
-
 ```
 @startupjs/auth: >= 0.33.0
 react-native-fbsdk: >= 1.0.0
@@ -24,7 +23,7 @@ import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
 Импорт либы для конфига:
 ```js
 import conf from 'nconf'
-````
+```
 
 В startupjsServer, в стратегии функции initAuth нужно добавить FacebookStrategy, с переменными из конфига:
 ```js

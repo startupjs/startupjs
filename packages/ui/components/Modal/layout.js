@@ -13,6 +13,7 @@ function Modal ({
   variant,
   title,
   dismissLabel,
+  cancelLabel,
   confirmLabel,
   ModalElement,
   showCross,
@@ -23,6 +24,14 @@ function Modal ({
   onCancel,
   onConfirm
 }) {
+  // DEPRECATED
+  if (dismissLabel) {
+    console.warn(
+      '[@startupjs/ui] Modal: dismissLabel is DEPRECATED, use cancelLabel instead'
+    )
+    cancelLabel = dismissLabel
+  }
+
   // Deconstruct template variables
   let header, actions, content
   const contentChildren = []
@@ -88,7 +97,7 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    dismissLabel,
+    cancelLabel,
     confirmLabel,
     style: content ? { paddingTop: 0 } : null,
     onCancel: _onCancel,
