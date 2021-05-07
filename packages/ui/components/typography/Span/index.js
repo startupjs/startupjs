@@ -34,16 +34,12 @@ function Span ({
 
 Span.defaultProps = {
   bold: false,
-  italic: false,
-  variant: 'default'
+  italic: false
 }
 
 Span.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  variant: PropTypes.oneOf([
-    'default', 'description', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-  ]),
   bold: PropTypes.bool,
   italic: PropTypes.bool,
   description: PropTypes.bool
