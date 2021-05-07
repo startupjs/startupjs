@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useImperativeHandle } from 'react'
-import { observer } from 'startupjs'
+import { observer, useComponentId } from 'startupjs'
 import PropTypes from 'prop-types'
 import {
   getSiteKey,
@@ -10,7 +10,6 @@ import {
 } from '../../helpers'
 
 function RecaptchaComponent ({
-  id,
   theme,
   variant,
   lang,
@@ -24,6 +23,7 @@ function RecaptchaComponent ({
   const [widget, setWidget] = useState()
   const [onCloseObserver, setOnCloseObserver] = useState()
   const [readyInterval, setReadyInterval] = useState()
+  const id = useComponentId()
 
   const grecaptcha = getGrecaptcha()
 
@@ -119,14 +119,12 @@ function RecaptchaComponent ({
 const Recaptcha = observer(RecaptchaComponent, { forwardRef: true })
 
 Recaptcha.defaultProps = {
-  id: 'recaptcha',
   theme: 'light',
   variant: 'invisible',
   lang: 'en'
 }
 
 Recaptcha.propTypes = {
-  id: PropTypes.string,
   theme: PropTypes.oneOf(['light', 'dark']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,

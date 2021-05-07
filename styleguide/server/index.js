@@ -44,7 +44,7 @@ startupjsServer({
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
   initUi(ee, { dirname: rootPath })
   init2fa(ee, { appName: app.name })
-  initRecaptcha(ee, { type: 'v3' })
+  initRecaptcha(ee)
   initRecaptchaDoc(ee)
 
   initAuth(ee, {

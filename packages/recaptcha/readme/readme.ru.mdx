@@ -13,13 +13,6 @@ import './index.styl'
 
 `yarn add @startupjs/recaptcha`
 
-## Инициализация модуля на клиенте
-
-```js
-  // Компонент
-  import { Recaptcha } from '@startupjs/recaptcha'
-```
-
 ## Инициализация модуля на сервере
 
 В `server/index.js` добавить следующие строки:
@@ -28,9 +21,9 @@ import './index.styl'
 ```
 В функцию `startupjsServer` добавить:
 ```js
-  initRecaptcha(ee, { type: 'enterprise' })
+  initRecaptcha(ee, options)
 ```
-В поле `type` указывайте какой [тип reCAPTCHA](https://www.google.com/recaptcha/about) вы хотите использовать (возможные типы: `enterprise` или `v3`)
+Аргумент `options` принимает объект с полем `type`, в него указывайте какой [тип reCAPTCHA](https://www.google.com/recaptcha/about) вы хотите использовать (возможные типы: `enterprise` или `v3`)
 
 В функцию `getHead` добавить нужный скрипт:
 ```js
@@ -65,26 +58,12 @@ import './index.styl'
 
 ## Пример
 
-### Сервер
-```js
-import { checkRecaptcha } from '@startupjs/recaptcha/server'
+### Клиент
 
-export default function initRoutes (router) {
-  router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { recaptcha, email } = req.body
-
-    const isVerified = await checkRecaptcha(recaptcha)
-
-    if (!isVerified) {
-      return res.status(403).send(isVerified)
-    }
-
-    // Do something with the subscription email...
-  })
-}
+```jsx
+  import { Recaptcha } from '@startupjs/recaptcha'
 ```
 
-### Клиент
 ```jsx example
   const [recaptchaVerified, setRecaptchaVerified] = useState(false)
   const [email, setEmail] = useState('')
@@ -135,11 +114,29 @@ export default function initRoutes (router) {
   `
 ```
 
-## Параметры
+### Сервер
+```js
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
+
+export default function initRoutes (router) {
+  router.post('/api/subscribe-to-mailing', async function (req, res) {
+    const { recaptcha, email } = req.body
+
+    const isVerified = await checkRecaptcha(recaptcha)
+
+    if (!isVerified) {
+      return res.status(403).send(isVerified)
+    }
+
+    // Do something with email subscription...
+  })
+}
+```
+
+## Параметры компонента Recaptcha
 
 Компонент `Recaptcha` принимает параметры из [официальной документации Google reCAPTCHA](https://developers.google.com/recaptcha/docs/invisible#config)
 
- - `id` [String] - id компонента. Должен быть уникален для каждой капчи на странице. По умолчанию: `recaptcha`
  - `variant` [String] - Вариант отображения виджета (`invisible`, `normal` или `compact`). По умолчанию: `invisible`
  - `theme` [String] - Цветовая тема виджета (`dark` или `light`). По умолчанию: `light`
  - `baseUrl` [String] - URL-адрес (домен), настроенный в настройке reCAPTCHA (например, `http://my.domain.com`). По умолчанию: ваш `BASE_URL` из `@env`
@@ -156,4 +153,4 @@ export default function initRoutes (router) {
   import { checkDataRecaptcha } from '@startupjs/recaptcha/server'
 ```
 
-`checkDataRecaptcha(recaptcha)` - расширенная функция `checkRecaptcha(recaptcha)`, которая возвращает объект с оригинальным ответом Google API. Разные типы reCAPTCHA возвращают разную структуру данных в ответе.
+`checkDataRecaptcha(recaptcha)` - это расширенный вариант функции `checkRecaptcha(recaptcha)`, которая возвращает объект с оригинальным ответом Google API. Разные типы reCAPTCHA возвращают разную структуру данных в ответе.

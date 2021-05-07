@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useState, useCallback, useRef, useMemo } from 'react'
 import WebView from 'react-native-webview'
 import { Modal } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useComponentId } from 'startupjs'
 import { Div, Loader } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'
@@ -13,7 +13,6 @@ const originWhitelist = ['*']
 
 function RecaptchaComponent ({
   style,
-  id,
   theme,
   variant,
   baseUrl,
@@ -28,6 +27,7 @@ function RecaptchaComponent ({
   const webViewRef = useRef()
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(true)
+  const id = useComponentId()
 
   const isInvisible = variant === 'invisible'
 
@@ -162,7 +162,6 @@ function RecaptchaComponent ({
 const Recaptcha = observer(RecaptchaComponent, { forwardRef: true })
 
 Recaptcha.defaultProps = {
-  id: 'recaptcha',
   theme: 'light',
   variant: 'invisible',
   baseUrl: BASE_URL || '',
@@ -171,7 +170,6 @@ Recaptcha.defaultProps = {
 
 Recaptcha.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  id: PropTypes.string,
   theme: PropTypes.oneOf(['light', 'dark']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,

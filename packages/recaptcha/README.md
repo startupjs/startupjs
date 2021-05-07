@@ -6,13 +6,6 @@ library for displaying and interacting with [Google ReCaptcha](https://www.googl
 
 `yarn add @startupjs/recaptcha`
 
-## Init module on client
-
-```js
-  // Component
-  import { Recaptcha } from '@startupjs/recaptcha'
-```
-
 ## Init module on server
 
 Add the following lines to `server/index.js`:
@@ -21,9 +14,9 @@ Add the following lines to `server/index.js`:
 ```
 Add to the `startupjsServer` function:
 ```js
-  initRecaptcha(ee, { type: 'enterprise' })
+  initRecaptcha(ee, options)
 ```
-In the `type` field, specify which [reCAPTCHA type](https://www.google.com/recaptcha/about) you want to use (possible types: `enterprise` or `v3`)
+The `options` argument accepts an object with a `type` field, in it specify which [reCAPTCHA type](https://www.google.com/recaptcha/about) you want to use (possible types: `enterprise` or `v3`)
 
 Add to the `getHead` function:
 ```js
@@ -58,27 +51,13 @@ For **reCAPTCHA v3**, it will be enough:
 
 ## Usage
 
-### Server
-```js
-import { checkRecaptcha } from '@startupjs/recaptcha/server'
+### Client
 
-export default function initRoutes (router) {
-  router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { recaptcha, email } = req.body
-
-    const isVerified = await checkRecaptcha(recaptcha)
-
-    if (!isVerified) {
-      return res.status(403).send(isVerified)
-    }
-
-    // Do something with the subscription email...
-  })
-}
+```jsx
+  import { Recaptcha } from '@startupjs/recaptcha'
 ```
 
-### Client
-```js
+```jsx example
   const [recaptchaVerified, setRecaptchaVerified] = useState(false)
   const [email, setEmail] = useState('')
 
@@ -127,11 +106,29 @@ export default function initRoutes (router) {
   `
 ```
 
-## Props
+### Server
+```js
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
+
+export default function initRoutes (router) {
+  router.post('/api/subscribe-to-mailing', async function (req, res) {
+    const { recaptcha, email } = req.body
+
+    const isVerified = await checkRecaptcha(recaptcha)
+
+    if (!isVerified) {
+      return res.status(403).send(isVerified)
+    }
+
+    // Do something with email subscription...
+  })
+}
+```
+
+## Recaptcha component props
 
 The `Recaptcha` component takes parameters from [official Google reCAPTCHA documentation](https://developers.google.com/recaptcha/docs/invisible#config)
 
- - `id` [String] - The component id. Must be unique for each captcha on the page. Default: `recaptcha`
  - `variant` [String] - The variant of the widget (`invisible`, `normal` or `compact`). Default: `invisible`
  - `theme` [String] - The color theme of the widget (`dark` or `light`). Default: `light`
  - `baseUrl` [String] - The URL (domain) configured in the reCAPTCHA setup. (ex. `http://my.domain.com`). Default: your `BASE_URL` from `@env`
@@ -148,4 +145,4 @@ The `Recaptcha` component takes parameters from [official Google reCAPTCHA docum
   import { checkDataRecaptcha } from '@startupjs/recaptcha/server'
 ```
 
-`checkDataRecaptcha(recaptcha)` is an extended function `checkRecaptcha(recaptcha)` that returns an object with the original Google API response. Different reCAPTCHA types return different data structures in the response.
+`checkDataRecaptcha(recaptcha)` is an advanced variant of `checkRecaptcha(recaptcha)` function that returns an object with the original Google API response. Different reCAPTCHA types return different data structures in the response.
