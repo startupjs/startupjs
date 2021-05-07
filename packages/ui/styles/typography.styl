@@ -54,13 +54,13 @@ text(key = default)
     font(l)
 
 fontFamily(
-  fontName = $UI.fontFamilies.normal,
+  fontName = 'normal',
   fontWeight = $UI.fontWeights.normal,
   fontStyle = normal
 )
   fontFamily = $UI.fontFamilies[fontName]
 
-  if (true) {
+  if (isCustomFont(fontFamily)) {
     thickness = $fontWeightNamesMap['' + fontWeight]
     isRegular = thickness is 'Regular'
     isItalic = fontStyle is italic
@@ -83,4 +83,4 @@ fontFamily(
   }
 
 isCustomFont(fontFamily)
-  return index($UI.customFontFamilies, fontFamily) != null
+  return index($UI.customFontFamilies, fontFamily)
