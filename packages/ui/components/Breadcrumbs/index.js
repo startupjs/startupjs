@@ -12,6 +12,8 @@ import STYLES from './index.styl'
 const { colors } = STYLES
 const mainTextColor = colors.mainText
 
+const DEPRECATED_SIZE_VALUES = ['xs', 'xl', 'xxl']
+
 function Breadcrumbs ({
   style,
   routes,
@@ -20,6 +22,10 @@ function Breadcrumbs ({
   replace,
   iconPosition
 }) {
+  if (DEPRECATED_SIZE_VALUES.includes(size)) {
+    console.warn(`[@startupjs/ui] Breadcrumbs: size='${size}' is DEPRECATED, use one of 's', 'm', 'l' instead.`)
+  }
+
   function Item ({ icon, color, bold, children }) {
     const extraStyle = { color }
     return pug`
