@@ -68,10 +68,10 @@ Enter the details that you saved in the step of creating the `p8` certificate.
 
 ```js
 import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
-import serviceAccount from 'path/to/serviceAccountKey.json'
+const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
 ...
 init({ orm })
-initFirebaseApp(serviceAccount)
+initFirebaseApp(serviceAccountPath)
 
 ...
 startupjsServer({
@@ -111,7 +111,8 @@ App(
 
 - `initPushNotifications (ee)`
 
-- `initFirebaseApp(serviceAccount)` - initialization of the `Firebase` application. How to create a `serviceAccount` see [above](/ docs / libraries / push-notofications # server).
+- `initFirebaseApp(serviceAccount)` - initialization of the `Firebase` application. How to create a `serviceAccount` see [above](/docs/libraries/push-notofications#server).
+  - `serviceAccountPath` - string, absolute path to `serviceAccount`.
 
 ### client API
 
