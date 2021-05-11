@@ -30,11 +30,11 @@ yarn add @startupjs/push-notifications @react-native-community/push-notification
 
 Выберите `Certificates, Identifiers & Profiles` и перейдите в `Keys`. Нажмите кнопку с кружком +, чтобы создать новый ключ.
 
-![alpha](/img/pushs_2.png "Certificates, Identifiers & Profiles")
+![alpha](/img/docs/push-notifications/pushs2.png "Certificates, Identifiers & Profiles")
 
 Дайте ему имя и включите `Apple Push Notifications service (APNs)`. Выберите `Continue` и на следующем экране выберите `Register`.
 
-![alpha](/img/pushs_3.png "Apple Push Notifications service (APNs)")
+![alpha](/img/docs/push-notifications/pushs3.png "Apple Push Notifications service (APNs)")
 
 Важно записать следующие три элемента с этой страницы:
 
@@ -42,21 +42,21 @@ yarn add @startupjs/push-notifications @react-native-community/push-notification
 - Скопируйте и сохраните `Key ID`.
 - Скопируйте и сохраните свой `membership ID`. Он находится рядом с вашим именем в правом верхнем углу `Membership Center` или в разделе `Membership Details`.
 
-![alpha](/img/pushs_4.png "Apple Push Notifications service (APNs)")
+![alpha](/img/docs/push-notifications/pushs4.png "Apple Push Notifications service (APNs)")
 
 ### Настройка проекта Firebase
 
 Нужно подключить `p8` сертификат к вашему приложению в `Firebase`. В своем проекте `Firebase` выберите шестеренку рядом с `Project Overview` и выберите `Project settings`:
 
-![alpha](/img/pushs_5.png "Apple Push Notifications service (APNs)")
+![alpha](/img/docs/push-notifications/pushs5.png "Apple Push Notifications service (APNs)")
 
 Затем настройте приложение для iOS в разделе `General` в настройках вашего проекта. Проделайте все указаные операции:
 
-![alpha](/img/pushs_6.png "Apple Push Notifications service (APNs)")
+![alpha](/img/docs/push-notifications/pushs6.png "Apple Push Notifications service (APNs)")
 
 Затем загрузите свой сертификат `p8`, перейдя в `Cloud Messaging` в настройках проекта `Firebase`. В разделе `APNs Authentication Key` выберите `Upload`.
 
-![alpha](/img/pushs_7.png "Apple Push Notifications service (APNs)")
+![alpha](/img/docs/push-notifications/pushs7.png "Apple Push Notifications service (APNs)")
 
 Введите данные, которые вы сохранили на шаге создания сертификата `p8`
 
@@ -85,7 +85,7 @@ startupjsServer({
 ```
 Сгенерировать `serviceAccount` можно в `Firebase` [консоли](https://console.firebase.google.com/project/) вашего приложения. Откройте вкладку `Service accounts` и нажмите `Generate new private key`.
 
-![alpha](/img/pushs_1.png "firebase admin")
+![alpha](/img/docs/push-notifications/pushs1.png "firebase admin")
 
 ### client
 
