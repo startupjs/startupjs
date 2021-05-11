@@ -1,14 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
-  StyleSheet
+  StyleSheet,
+  Animated
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
+import Portal from '../Portal'
+import Span from '../typography/Span'
+import usePopover from '../popups/Popover/usePopover'
+import useTooltip from '../Tooltip/useTooltip'
 import STYLES from './index.styl'
+
+const STEPS = {
+  CLOSE: 'close',
+  RENDER: 'render',
+  ANIMATE: 'animate',
+  OPEN: 'open'
+}
 
 const isWeb = Platform.OS === 'web'
 
@@ -33,19 +45,59 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  tooltipProps = {},
+  renderTooltip,
+  renderTooltipWrapper,
+  _showTooltip,
   onPress,
   onLongPress,
   _preventEvent,
   ...props
 }) {
-  const isClickable = onPress || onLongPress
+  const refCaption = useRef()
+  const refAnimate = useRef()
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+  const [isShowTooltip, setIsShowTooltip] = useState(false)
+  const showTooltipInvolved = _showTooltip !== undefined
+
+  useEffect(() => {
+    setIsShowTooltip(_showTooltip)
+  }, [_showTooltip])
+
+  const {
+    step,
+    locationStyle,
+    animateStyle,
+    arrow
+  } = usePopover({
+    attachment: showTooltipInvolved ? 'start' : 'center',
+    position: showTooltipInvolved ? 'bottom' : 'top',
+    animateType: showTooltipInvolved ? 'opacity' : 'scale',
+    durationOpen: 200,
+    durationClose: 100,
+    hasArrow: !showTooltipInvolved,
+    arrowStyle: showTooltipInvolved ? {} : { color: '#222222' },
+    ...tooltipProps,
+    style,
+    refAnimate,
+    refCaption,
+    renderTooltip,
+    visible: isShowTooltip
+  })
+
   let extraStyle = {}
-  const extraProps = {}
+  const tooltipActions = useTooltip({
+    showTooltipInvolved,
+    onPress,
+    onLongPress,
+    onChange: setIsShowTooltip
+  })
+
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
+  const isClickable = onPress || onLongPress
 
   // TODO disabled
   useDidUpdate(() => {
@@ -118,22 +170,28 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable) {
+    if (isClickable || renderTooltip) {
       return pug`
-        TouchableWithoutFeedback(
-          ...wrapperProps
-        )
-          = children
+        TouchableWithoutFeedback(...wrapperProps)= children
       `
     } else {
       return children
     }
   }
 
-  // backgroundColor in style can override extraStyle backgroundColor
-  // so passing the extraStyle to the end is important in this case
-  return maybeWrapToClickable(pug`
+  if (renderTooltip && !showTooltipInvolved) {
+    props.onMouseOver = (...args) => {
+      tooltipActions.onMouseOver(...args)
+    }
+    props.onMouseLeave = (...args) => {
+      tooltipActions.onMouseLeave()
+      props.onMouseLeave(...args)
+    }
+  }
+
+  const div = maybeWrapToClickable(pug`
     View.root(
+      ref=refCaption
       style=[style, extraStyle]
       styleName=[
         {
@@ -145,11 +203,50 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
-      ...extraProps
       ...props
-    )
-      = children
+    )= children
   `)
+
+  if (renderTooltip) {
+    let tooltipContent = pug`
+      View(style=locationStyle)
+        Animated.View(
+          ref=refAnimate
+          style=animateStyle
+        )
+          = arrow
+          Div(
+            styleName={
+              tooltipContent: !showTooltipInvolved,
+              popoverContent: showTooltipInvolved,
+              popoverContentArrow: showTooltipInvolved 
+                && tooltipProps.hasArrow
+            }
+            style=tooltipProps.contentStyle
+          )
+            if typeof renderTooltip === 'string'
+              Span.text= renderTooltip
+            else
+              = renderTooltip()
+    `
+
+    if (renderTooltipWrapper) {
+      tooltipContent = renderTooltipWrapper({
+        children: tooltipContent
+      })
+    }
+
+    return pug`
+      = div
+      Portal
+        if step !== STEPS.CLOSE
+          = tooltipContent
+    `
+  }
+
+  // backgroundColor in style can override extraStyle backgroundColor
+  // so passing the extraStyle to the end is important in this case
+  return div
 }
 
 Div.defaultProps = {
