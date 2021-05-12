@@ -1,5 +1,6 @@
 import axios from 'axios'
 import nconf from 'nconf'
+import { ENTERPRISE_ERRORS } from '../../constants'
 
 export default async function checkEnterpriseToken ({ token, variant }) {
   const RECAPTCHA_SECRET_KEY = nconf.get('RECAPTCHA_SECRET_KEY')
@@ -19,7 +20,7 @@ export default async function checkEnterpriseToken ({ token, variant }) {
   )
 
   if (!data.tokenProperties.valid) {
-    console.error('[@startupjs/recaptcha]: token is invalid')
+    console.error(`[@startupjs/recaptcha]: ${ENTERPRISE_ERRORS[data.tokenProperties.invalidReason]}`)
   }
 
   return data.score >= THRESHOLD
