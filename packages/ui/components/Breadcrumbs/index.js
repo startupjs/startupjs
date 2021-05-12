@@ -44,7 +44,7 @@ function Breadcrumbs ({
   return pug`
     Row(style=style wrap)
       each route, index in routes
-        - const { name, icon, ...linkProps } = route
+        - const { name, icon, to } = route
         - const isLastRoute = index === routes.length - 1
         React.Fragment(key=index)
           if isLastRoute
@@ -52,8 +52,7 @@ function Breadcrumbs ({
           else
             Row.item
               Link(
-                replace=replace
-                ...linkProps
+                to=to
               )
                 Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name
               if typeof separator === 'string'
