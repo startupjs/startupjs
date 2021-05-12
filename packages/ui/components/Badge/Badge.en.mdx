@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import Badge from '../Badge'
 import Div from '../Div'
 import Row from '../Row'
-import { faBan, faExclamationTriangle, faTimes, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
@@ -10,80 +9,50 @@ import './index.mdx.styl'
 
 Badge is small status descriptors for UI elements. Badges should have a label for accessibility and clear comprehension. When the label is not defined, a badge becomes icon-only.
 
-## Simple exmaple
-
-```jsx
+```js
 import { Badge } from '@startupjs/ui'
-
-return <Badge>{children}</Badge>
 ```
 
-## Options
+## Simple exmaple
 
-### Labels
+```jsx example
+return (
+  <Badge>
+    <Div styleName='child'/>
+  </Badge>
+)
+```
 
-Short text content.
+## Variants
+
+Badges are of two types: `default` and `dot`. `default` it is the most frequently used and the default specified. `dot` turns the icon into a small dot, this can be used as a message that something has changed without content.
 
 ```jsx example
 return (
   <Row>
-    <Badge label='#'>
-      <Div styleName='child' pushed/>
-    </Badge>
     <Badge label='10'>
       <Div styleName='child' pushed/>
     </Badge>
-    <Badge label='Label'>
+    <Badge variant='dot'>
       <Div styleName='child' pushed/>
     </Badge>
   </Row>
 )
 ```
 
-### Sizes
-
-Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the default and most frequently used. The other sizes should be used sparingly to create a hierarchy of importance on a page. When the size `s` content is not displayed.
-
-```jsx example
-return (
-  <Row>
-    <Badge size='s'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge label='M'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge size='l' label='L'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
-)
-```
-
-### Colors
+## Colors
 
 Color is `primary` by default. It can be changed by passing color name from the config colors to `color` property. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
 ```jsx example
 return (
-  <Row>
-    <Badge>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='success'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='warning'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='error'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
+  <Badge color='error'>
+    <Div styleName='child' pushed/>
+  </Badge>
 )
 ```
 
-### Position
+## Position
 
 Badges come in two positions: `top` and `bottom`. Default value is `top`.
 
@@ -100,27 +69,15 @@ return (
 )
 ```
 
-### Icons
+## Icons
 
 Icon can be added using `icon` property.
 
-
 ```jsx example
 return (
-  <Row>
-    <Badge icon={faThumbsUp} label='10+' color='success'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faExclamationTriangle} color='warning'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faTimes} size='l' color='error'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faBan} size='l' color='dark'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
+  <Badge icon={faThumbsUp} label='10+' color='success'>
+    <Div styleName='child' pushed/>
+  </Badge>
 )
 ```
 

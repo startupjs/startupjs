@@ -1,11 +1,17 @@
 _s = 1u
+_dot = 1u
 _m = 2u
+_default = 2u
 _l = 3u
 _sHalf = (_s / 2)
+_dotHalf = (_s / 2)
 _mHalf = (_m / 2)
+_defaultHalf = (_m / 2)
 _lHalf = (_l / 2)
 _sMinusHalf = (_s / 2) * -1
+_dotMinusHalf = (_s / 2) * -1
 _mMinusHalf = (_m / 2) * -1
+_defaultMinusHalf = (_m / 2) * -1
 _lMinusHalf = (_l / 2) * -1
 _white = $UI.colors.white
 
@@ -30,6 +36,17 @@ _white = $UI.colors.white
     &.bottom
       bottom _sMinusHalf
 
+  &.dot
+    min-width _dot
+    height _dot
+    border-radius _dotHalf
+
+    &.top
+      top _dotMinusHalf
+
+    &.bottom
+      bottom _dotMinusHalf
+
   &.m
     min-width _m
     height _m
@@ -43,6 +60,20 @@ _white = $UI.colors.white
 
     &.bottom
       bottom _mMinusHalf
+
+  &.default
+    min-width _default
+    height _default
+    border-radius _defaultHalf
+
+    &.withLabel
+      padding 0 0.5u
+
+    &.top
+      top _defaultMinusHalf
+
+    &.bottom
+      bottom _defaultMinusHalf
 
   &.l
     min-width _l
@@ -62,6 +93,10 @@ _white = $UI.colors.white
   color _white
 
   &.m
+    font-size 1u
+    line-height 1.5u
+
+  &.default
     font-size 1u
     line-height 1.5u
 

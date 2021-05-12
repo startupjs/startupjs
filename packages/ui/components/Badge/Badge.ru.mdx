@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import Badge from '../Badge'
 import Div from '../Div'
 import Row from '../Row'
-import { faBan, faExclamationTriangle, faTimes, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
@@ -10,80 +9,50 @@ import './index.mdx.styl'
 
 Бейджи - это небольшие дескрипторы статуса для элементов пользовательского интерфейса. В них должен быть контент для доступности и ясного понимания. Если контент не определен, бейдж становится только кругом.
 
-## Простой пример
-
-```jsx
+```js
 import { Badge } from '@startupjs/ui'
-
-return <Badge>{children}</Badge>
 ```
 
-## Options
+## Простой пример
 
-### Labels
+```jsx example
+return (
+  <Badge>
+    <Div styleName='child'/>
+  </Badge>
+)
+```
 
-Короткий текстовый контент
+## Variants
+
+Бейджи бывают двух видов: `default` и `dot`. `default` является наиболее часто используемым и определен по умолчанию. `dot` превращает значок в маленькую точку, это можно использовать как уведомление о том, что что-то изменилось без контента.
 
 ```jsx example
 return (
   <Row>
-    <Badge label='#'>
-      <Div styleName='child' pushed/>
-    </Badge>
     <Badge label='10'>
       <Div styleName='child' pushed/>
     </Badge>
-    <Badge label='Label'>
+    <Badge variant='dot'>
       <Div styleName='child' pushed/>
     </Badge>
   </Row>
 )
 ```
 
-### Sizes
-
-Бейджи бывают трех разных размеров: `s`, `m` и `l`. Размер `m` является наиболее часто используемым и определен по умолчанию. Остальные размеры следует использовать с осторожностью, чтобы создать иерархию важности на странице. При размере `s` контент не отображается.
-
-```jsx example
-return (
-  <Row>
-    <Badge size='s'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge label='M'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge size='l' label='L'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
-)
-```
-
-### Colors
+## Colors
 
 По умолчанию цвет является `primary`. Его можно изменить, передав имя цвета из цветов конфигурации в свойство `color`. Возможные значения свойства можно найти в песочнице внизу страницы.
 
 ```jsx example
 return (
-  <Row>
-    <Badge>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='success'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='warning'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='error'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
+  <Badge color='error'>
+    <Div styleName='child' pushed/>
+  </Badge>
 )
 ```
 
-### Positions
+## Positions
 
 Бейджи бывают в двух позиций: `top` и `bottom`. Значение по умолчанию - `top`.
 
@@ -100,26 +69,15 @@ return (
 )
 ```
 
-### Icons
+## Icons
 
 Иконка может быть добавлена с помощью свойства `icon`.
 
 ```jsx example
 return (
-  <Row>
-    <Badge icon={faThumbsUp} label='10+' color='success'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faExclamationTriangle} color='warning'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faTimes} size='l' color='error'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faBan} size='l' color='dark'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
+  <Badge icon={faThumbsUp} label='10+' color='success'>
+    <Div styleName='child' pushed/>
+  </Badge>
 )
 ```
 
