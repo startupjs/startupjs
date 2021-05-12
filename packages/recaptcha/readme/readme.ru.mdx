@@ -28,9 +28,9 @@ import './index.styl'
 В функцию `getHead` добавить нужный скрипт:
 ```js
   // Если будете использовать reCAPTCHA v3
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js" async></script>
   // Если будете использовать reCAPTCHA Enterprise
-  <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+  <script src="https://www.google.com/recaptcha/enterprise.js" async></script>
 ```
 
 ## Настройка config.json
@@ -55,6 +55,7 @@ import './index.styl'
     "RECAPTCHA_SITE_KEY": "ВАШ_САЙТ_КЛЮЧ"
   }
 ```
+Данный ключи создаются в [Google Admin Console](https://www.google.com/recaptcha/admin/).
 
 ## Пример
 

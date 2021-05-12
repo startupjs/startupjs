@@ -1,10 +1,8 @@
 import { $root } from 'startupjs'
-import { getIframeUrl } from '../../helpers'
+import { getIframeUrl, grecaptchaAsString } from '../../helpers'
 
 const getTemplate = params => {
   const isEnterprise = $root.get('_session.Recaptcha.enterprise')
-
-  const grecaptcha = isEnterprise ? 'window.grecaptcha.enterprise' : 'window.grecaptcha'
 
   const recaptchajsUrl = isEnterprise
     ? 'https://www.google.com/recaptcha/enterprise.js'
@@ -22,7 +20,7 @@ const getTemplate = params => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title></title>
-        <script src="${recaptchajsUrl}?hl={{lang}}" async defer></script>
+        <script src="${recaptchajsUrl}?hl={{lang}}" async></script>
         <script>
             const siteKey = '{{siteKey}}';
             const theme = '{{theme}}';
@@ -96,7 +94,7 @@ const getTemplate = params => {
             }
     
             const renderRecaptcha = () => {
-                widget = ${grecaptcha}.render('{{id}}', {
+                widget = ${grecaptchaAsString}.render('{{id}}', {
                     sitekey: siteKey,
                     size,
                     theme,
@@ -126,10 +124,10 @@ const getTemplate = params => {
             
             window.rnRecaptcha = {
                 execute: () => {
-                    ${grecaptcha}.execute(widget);
+                    ${grecaptchaAsString}.execute(widget);
                 },
                 reset: () => {
-                    ${grecaptcha}.reset(widget);
+                    ${grecaptchaAsString}.reset(widget);
                 },
             }
         </script>

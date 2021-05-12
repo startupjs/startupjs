@@ -116,7 +116,7 @@ function getHead (appName) {
   return `
     ${getUiHead()}
     <title>StartupJS UI</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async></script>
     <!-- Put vendor JS and CSS here -->
   `
 }

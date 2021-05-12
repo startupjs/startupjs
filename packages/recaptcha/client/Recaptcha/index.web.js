@@ -21,9 +21,10 @@ function RecaptchaComponent ({
 }, ref) {
   const [ready, setReady] = useState(isReady())
   const [widget, setWidget] = useState()
-  const [onCloseObserver, setOnCloseObserver] = useState()
   const [readyInterval, setReadyInterval] = useState()
   const id = useComponentId()
+
+  let onCloseObserver
 
   const grecaptcha = getGrecaptcha()
 
@@ -98,13 +99,13 @@ function RecaptchaComponent ({
     const recaptchaElement = recaptchaFrame.parentNode.parentNode
 
     let lastOpacity = recaptchaElement.style.opacity
-    setOnCloseObserver(new MutationObserver(() => {
+    onCloseObserver = new MutationObserver(() => {
       if (lastOpacity !== recaptchaElement.style.opacity &&
                 recaptchaElement.style.opacity == 0) { // eslint-disable-line
         onClose()
       }
       lastOpacity = recaptchaElement.style.opacity
-    }))
+    })
     onCloseObserver && onCloseObserver.observe(recaptchaElement, {
       attributes: true,
       attributeFilter: ['style']

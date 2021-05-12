@@ -32,10 +32,13 @@ const getIframeUrl = () => {
     : 'google.com/recaptcha/api2/bframe'
 }
 
+const grecaptchaAsString = isEnterprise() ? 'window.grecaptcha.enterprise' : 'window.grecaptcha'
+
 export {
   getSiteKey,
   isReady,
   getGrecaptcha,
   getRecaptchaType,
-  getIframeUrl
+  getIframeUrl,
+  grecaptchaAsString
 }
