@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useBind } from 'startupjs'
+import { observer } from 'startupjs'
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
@@ -17,13 +17,12 @@ function ArrayInput ({
   label,
   items
 }) {
+  const value = $value.get()
+
   if (!items) {
     console.error('[ui -> Array] items is required')
     return null
   }
-
-  let value
-  ({ value } = useBind({ value, $value }))
 
   function getInputs () {
     return (value || []).map((_, index) => {
