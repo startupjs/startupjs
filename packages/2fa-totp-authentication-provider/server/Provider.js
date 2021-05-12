@@ -1,4 +1,18 @@
 import { Provider } from '@startupjs/2fa-manager/Provider'
-import { send, check } from './helpers'
+import { checkToken } from '@startupjs/2fa-totp-authentication/server/helpers'
+import { init2fa } from '@startupjs/2fa-totp-authentication/server'
 
-export default new Provider('google-authenticator', send, check)
+export default class TotpProvider extends Provider {
+  constructor (ee, options) {
+    super('google-authenticator')
+    this.init(ee, options)
+  }
+
+  init (ee, options) {
+    init2fa(ee, options)
+  }
+
+  check (model, session, token) {
+    return checkToken(model, session, token)
+  }
+}

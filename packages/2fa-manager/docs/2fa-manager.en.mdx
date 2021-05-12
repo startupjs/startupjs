@@ -27,7 +27,14 @@ Add function to `startupjsServer`:
 
 ```js
   initTwoFAManager(ee, {
-    providers: [YOUR_PROVIDER1, YOUR_PROVIDER2]
+    providers: [
+      {
+        Provider: YOUR_PROVIDER1,
+        options: YOUR_PROVIDER1_OPTIONS
+      },{
+        YOUR_PROVIDER2,
+        options: YOUR_PROVIDER2_OPTIONS
+      }]
   })
 ```
 
@@ -47,23 +54,31 @@ Class `Provider(name, send, check)` where:
 ```js
 import { Provider } from '@startupjs/2fa-manager/Provider'
 
-function init (ee, options) {
-  return null
-}
+export default class CustomProvider extends Provider {
+  constructor (ee, options) {
+    super('testProvider')
+    this.init(ee, options)
+  }
 
-function send () {
-  console.log('test code')
-}
+  init (ee, options) {
+    // your init, for example
+    init2fa(ee, options)
+  }
 
-function check (token) {
-  if (token === 'test code') {
-    console.log('Right code')
-  } else {
-    console.log('Wrong code')
+  send () {
+    console.log('test code')
+  }
+
+  check (model, session, token) {
+    if (token === 'test code') {
+      console.log('Right code')
+      return true
+    } else {
+      console.log('Wrong code')
+      return false
+    }
   }
 }
-
-export default new Provider('testProvider', init, send, check)
 ```
 
 Now this `Provider` can be registered with `initTwoFaManager` and used by the name `testProvider`.
@@ -72,11 +87,11 @@ Now this `Provider` can be registered with `initTwoFaManager` and used by the na
 
 ### server
 
-### `initTwoFaManager(ee, options)`
+### initTwoFaManager(ee, options)
 
 - `ee` - eventEmitter of server.
-- `options` - options object. Contains a list of providers:
-  - `providers` - array of providers.
+- `options [Object]` - options object. Contains a list of providers:
+  - `providers [Array]` - array of objects with providers.
 
 ### TwoFAManager
 
@@ -125,13 +140,6 @@ const [currentProvider, setCurrentProvider] = useState('')
 
 return pug`
   Div
-    if !currentProvider
-      ProvidersList2fa(providers=providers chooseProvider=setCurrentProvider)
-    else
-      if currentProvider === 'google-authenticator'
-        CheckToken(
-          onSuccess=() => console.log('Code is right')
-          onDismiss=() => console.log('Code is wrong')
-        )
+    ProvidersBlock(onSubmit=(twoFA)=>console.log(twoFA.selectedProvider, twoFA.code))
 `
 ```

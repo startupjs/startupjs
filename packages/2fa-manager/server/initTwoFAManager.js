@@ -2,7 +2,7 @@ import routes from './routes'
 import TwoFAManager from './TwoFAManager'
 
 export default function (ee, options) {
-  const TwoFAManagerInstance = new TwoFAManager(options)
+  const TwoFAManagerInstance = new TwoFAManager(ee, options)
 
   ee.on('afterSession', expressApp => {
     expressApp.use((req, res, next) => {

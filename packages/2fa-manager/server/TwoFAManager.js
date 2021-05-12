@@ -1,14 +1,22 @@
 import { Provider } from '../Provider'
 
+// options = {
+//   providers: [
+//     {
+//       Provider: class Provider,
+//       options: {}
+//     }
+//   ]
+// }
 export default class TwoFAManager {
-  constructor (options) {
+  constructor (ee, options) {
     if (TwoFAManager._instance) {
       return TwoFAManager._instance
     }
     TwoFAManager._instance = this
 
-    this._isValidOptions(options)
-    this.providers = options.providers || []
+    this.providers = []
+    this.initProviders(ee, options.providers)
   }
 
   send (model, session, providerName) {
@@ -18,7 +26,18 @@ export default class TwoFAManager {
 
   check (model, session, token, providerName) {
     const provider = this.getProvider(providerName)
-    provider.check(model, session, token)
+    return provider.check(model, session, token)
+  }
+
+  initProviders (ee, providers) {
+    for (const provider of providers) {
+      const _provider = new provider.Provider(ee, provider.options || {})
+      if (_provider instanceof Provider) {
+        this.providers.push(_provider)
+      } else {
+        throw new Error(`[TwoFAManager.constructor]: Provider ${provider} must be instanse of Provider from @startupjs/2fa-manager/Provider!`)
+      }
+    }
   }
 
   getProviders () {
@@ -32,13 +51,5 @@ export default class TwoFAManager {
     }
 
     return provider
-  }
-
-  _isValidOptions (options) {
-    options.providers.forEach(provider => {
-      if (!(provider instanceof Provider)) {
-        throw new Error(`[TwoFAManager.constructor]: Provider ${provider} must be instanse of Provider from @startupjs/2fa-manager/Provider!`)
-      }
-    })
   }
 }

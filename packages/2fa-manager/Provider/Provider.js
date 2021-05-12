@@ -1,25 +1,29 @@
 export default class Provider {
-  constructor (name, send, check) {
-    this._isValidArguments(name, send, check)
+  constructor (name) {
+    this._isValidArguments(name)
 
     this.name = name
-    this.send = send
-    this.check = check
+  }
+
+  init (ee, options) {
+    return null
+  }
+
+  send (model, session) {
+    return null
+  }
+
+  check (model, session, token) {
+    return null
   }
 
   getName () {
     return this.name
   }
 
-  _isValidArguments (name, send, check) {
+  _isValidArguments (name) {
     if (typeof name !== 'string') {
-      throw new TypeError('Invalid argument name. Must be a string!')
-    }
-    if (typeof send !== 'function') {
-      throw new TypeError('Invalid argument send. Must be a function!')
-    }
-    if (typeof check !== 'function') {
-      throw new TypeError('Invalid argument check. Must be a function!')
+      throw new TypeError('[@startupjs/2fa-manager/Provider]: Invalid argument name. Must be a string!')
     }
   }
 }

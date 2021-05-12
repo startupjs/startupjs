@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Div, Button, Span, Br } from '@startupjs/ui'
-import { useProviders, ProvidersList2fa } from '@startupjs/2fa-manager'
+import { useProviders, ProvidersList2fa, ProvidersBlock } from '@startupjs/2fa-manager'
 import { CheckToken } from '@startupjs/2fa'
 
 # 2fa-manager
@@ -27,7 +27,14 @@ import { CheckToken } from '@startupjs/2fa'
 
 ```js
   initTwoFAManager(ee, {
-    providers: [YOUR_PROVIDER1, YOUR_PROVIDER2]
+    providers: [
+      {
+        Provider: YOUR_PROVIDER1,
+        options: YOUR_PROVIDER1_OPTIONS
+      },{
+        YOUR_PROVIDER2,
+        options: YOUR_PROVIDER2_OPTIONS
+      }]
   })
 ```
 
@@ -47,23 +54,31 @@ import { CheckToken } from '@startupjs/2fa'
 ```js
 import { Provider } from '@startupjs/2fa-manager/Provider'
 
-function init (ee, options) {
-  return null
-}
+export default class CustomProvider extends Provider {
+  constructor (ee, options) {
+    super('testProvider')
+    this.init(ee, options)
+  }
 
-function send () {
-  console.log('test code')
-}
+  init (ee, options) {
+    // your init, for example
+    init2fa(ee, options)
+  }
 
-function check (token) {
-  if (token === 'test code') {
-    console.log('Right code')
-  } else {
-    console.log('Wrong code')
+  send () {
+    console.log('test code')
+  }
+
+  check (model, session, token) {
+    if (token === 'test code') {
+      console.log('Right code')
+      return true
+    } else {
+      console.log('Wrong code')
+      return false
+    }
   }
 }
-
-export default new Provider('testProvider', init, send, check)
 ```
 
 Теперь этот `Provider` можно зарегистрировать в `initTwoFaManager` и использовать по имени `testProvider`.
@@ -72,28 +87,51 @@ export default new Provider('testProvider', init, send, check)
 
 ### server
 
-### `initTwoFaManager(ee, options)`
+### initTwoFaManager(ee, options)
 
 - `ee` - eventEmitter сервера.
-- `options` - объект опций. Содержит список провайдеров:
-  - `providers` - массив провайдеров.
+- `options [Object]` - объект опций. Содержит список провайдеров:
+  - `providers [Array]` - массив обьектов провайдеров.
+
+### checkToken (model, session, { data = {}, providerName = '', token = '' })
+
+Функция для проверки кода на сервере. Параметры:
+
+- `model` - модель
+- `session` - сессия
+- `options [Object]` - опции
+  - `data [Object] default {}` - тело запроса, используется если вы добавили в тело запроса поле `twoFA`, как рекомендуется в `ProvidersBlock`, имеет приоритет над параметрами `providerName` и `token`.
+  - `providerName [String] default ''` - имя провайдера, если задаете это поле, то не передавайте значение `data` в опции
+  - `token [String] default ''` - ключ, который необходимо проверить, если задаете это поле, то не передавайте значение `data` в опции
 
 ### TwoFAManager
 
 Класс синглтон, который содержит следующие методы:
 
-- `send(model, session, providerName)` - вызывет метод `send` провайдера `providerName`.
-- `check(model, session, token, providerName)` - вызывет метод `check` провайдера `providerName`.
+- `send(model, session, providerName)` - вызывает метод `send` провайдера `providerName`.
+- `check(model, session, token, providerName)` - вызывает метод `check` провайдера `providerName`.
 - `getProviders()` - возвращает массив имен, зарегистрированных провайдеров.
 
 ### client
+
+### ProvidersBlock(providerNames, onSubmit)
+
+Компонент реализует всю последовательность для двух факторной проверки. Принимает следующие пропсы:
+
+- `providerNames [Array]` - имена провадеров, которые необходимо отобразить (провайдеры должны быть подключены в серверной части). Если не передать, то отображаются все подключенные провайдеры.
+
+- `onSubmit [Function(twoFA)]` - коллбек, возвращает объект `twoFA`, который содержит следующие поля:
+  - `selectedProvider [String]` - имя выбранного провайдера
+  - `code [String]` - введеный код
+
+!Важно! Коллбек нужен для того, чтобы предоставить данные, которые вам необходимо передать на сервер. Проверку валидности введеного кода нужно проверять только на сервере, так как клиентский код может быть модифицирован злоумышленником. Рекомендуется добавить в передаваемый запрос поле с именем `twoFA` и содержанием как у обьета `twoFA` из функции `onSubmit`.
 
 ### ProvidersList2fa(providers, chooseProvider)
 
 Компонент для отображения списка зарегистрированных провайдеров. Принимает следующие пропсы:
 
-- `providers` - массив имен провайдеров
-- `chooseProvider` - функция, возвращает имя выбранного провайдера
+- `providers [Array]` - массив имен провайдеров
+- `chooseProvider [Function]` - функция, возвращает имя выбранного провайдера
 
 ```js
 import { useProviders } from '@startupjs/2fa-manager'
@@ -125,13 +163,6 @@ const [currentProvider, setCurrentProvider] = useState('')
 
 return pug`
   Div
-    if !currentProvider
-      ProvidersList2fa(providers=providers chooseProvider=setCurrentProvider)
-    else
-      if currentProvider === 'google-authenticator'
-        CheckToken(
-          onSuccess=() => console.log('Code is right')
-          onDismiss=() => console.log('Code is wrong')
-        )
+    ProvidersBlock(onSubmit=(twoFA)=>console.log(twoFA.selectedProvider, twoFA.code))
 `
 ```
