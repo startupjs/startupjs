@@ -1,22 +1,13 @@
-// DEPRECATED: Span
-_headerSizes = {
-  h1: xxxxxl,
-  h2: xxxxl,
-  h3: xxxl,
-  h4: xxl,
-  h5: xl,
-  h6: l
-}
-
-font(size = m)
+font(size = body2)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
-  size = _headerSizes[size] || size // DEPRECATED: Span
   size = 's' if size is s
+  size = body2 if size is default // DEPRECATED
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
 
-text(key = default)
+text(key = default) // DEPRECATED
+  p('text() mixin is deprecated, use font() instead')
   // color
   if key is description
     color: $UI.colors.secondaryText
