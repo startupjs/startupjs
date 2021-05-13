@@ -48,17 +48,6 @@ export default class LocalProvider extends BaseProvider {
     return data
   }
 
-  getUserData () {
-    const _profile = { ...this.profile }
-
-    delete _profile.password
-    delete _profile.hash
-    delete _profile.salt
-    delete _profile.unconfirmed
-
-    return _profile
-  }
-
   async loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
