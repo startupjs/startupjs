@@ -10,7 +10,7 @@ import { CheckToken } from '@startupjs/2fa'
 ## Установка
 
 ```js
-  yarn add @startupjs/2fa-manager
+yarn add @startupjs/2fa-manager
 ```
 
 ## Подключение к startupjs
@@ -20,22 +20,18 @@ import { CheckToken } from '@startupjs/2fa'
 В `server/index.js` добавить следующие строки:
 
 ```js
-  import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+import { initTwoFAManager } from '@startupjs/2fa-manager/server'
 ```
 
 В `startupjsServer` функцию добавить:
 
 ```js
-  initTwoFAManager(ee, {
-    providers: [
-      {
-        Provider: YOUR_PROVIDER1,
-        options: YOUR_PROVIDER1_OPTIONS
-      },{
-        YOUR_PROVIDER2,
-        options: YOUR_PROVIDER2_OPTIONS
-      }]
-  })
+initTwoFAManager(ee, {
+  providers: [
+    [YOUR_PROVIDER1, YOUR_PROVIDER1_OPTIONS]
+    [YOUR_PROVIDER2, YOUR_PROVIDER2_OPTIONS]
+  ]
+})
 ```
 
 ### Создание своих провайдеров
@@ -49,7 +45,7 @@ import { CheckToken } from '@startupjs/2fa'
 - `check(code)` - функция проверки валидности кода.
   - `code` - код, который необходимо проверить.
 
-## Пример
+**Пример**
 
 ```js
 import { Provider } from '@startupjs/2fa-manager/Provider'
@@ -87,51 +83,38 @@ export default class CustomProvider extends Provider {
 
 ### server
 
-### initTwoFaManager(ee, options)
+- `initTwoFaManager(ee, options)`
+  - `ee` - eventEmitter сервера.
+  - `options [Object]` - объект опций. Содержит список провайдеров:
+    - `providers [Array]` - массив массивов провайдеров.
 
-- `ee` - eventEmitter сервера.
-- `options [Object]` - объект опций. Содержит список провайдеров:
-  - `providers [Array]` - массив обьектов провайдеров.
+- `checkToken (model, session, { data = {}, providerName = '', token = '' })` - Функция для проверки кода на сервере. Параметры:
+  - `model` - модель
+  - `session` - сессия
+  - `options [Object]` - опции
+    - `data [Object] default {}` - тело запроса, используется если вы добавили в тело запроса поле `twoFA`, как рекомендуется в `ProvidersBlock`, имеет приоритет над параметрами `providerName` и `token`.
+    - `providerName [String] default ''` - имя провайдера, если задаете это поле, то не передавайте значение `data` в опции
+    - `token [String] default ''` - ключ, который необходимо проверить, если задаете это поле, то не передавайте значение `data` в опции
 
-### checkToken (model, session, { data = {}, providerName = '', token = '' })
-
-Функция для проверки кода на сервере. Параметры:
-
-- `model` - модель
-- `session` - сессия
-- `options [Object]` - опции
-  - `data [Object] default {}` - тело запроса, используется если вы добавили в тело запроса поле `twoFA`, как рекомендуется в `ProvidersBlock`, имеет приоритет над параметрами `providerName` и `token`.
-  - `providerName [String] default ''` - имя провайдера, если задаете это поле, то не передавайте значение `data` в опции
-  - `token [String] default ''` - ключ, который необходимо проверить, если задаете это поле, то не передавайте значение `data` в опции
-
-### TwoFAManager
-
-Класс синглтон, который содержит следующие методы:
-
-- `send(model, session, providerName)` - вызывает метод `send` провайдера `providerName`.
-- `check(model, session, token, providerName)` - вызывает метод `check` провайдера `providerName`.
-- `getProviders()` - возвращает массив имен, зарегистрированных провайдеров.
+- `TwoFAManager` - Класс синглтон, который содержит следующие методы:
+  - `send(model, session, providerName)` - вызывает метод `send` провайдера `providerName`.
+  - `check(model, session, token, providerName)` - вызывает метод `check` провайдера `providerName`.
+  - `getProviders()` - возвращает массив имен, зарегистрированных провайдеров.
 
 ### client
 
-### ProvidersBlock(providerNames, onSubmit)
+- `ProvidersBlock(providerNames, onSubmit)` - Компонент реализует всю последовательность для двух факторной проверки. Принимает следующие пропсы:
+  - `providerNames [Array]` - имена провадеров, которые необходимо отобразить (провайдеры должны быть подключены в серверной части). Если не передать, то отображаются все подключенные провайдеры.
 
-Компонент реализует всю последовательность для двух факторной проверки. Принимает следующие пропсы:
-
-- `providerNames [Array]` - имена провадеров, которые необходимо отобразить (провайдеры должны быть подключены в серверной части). Если не передать, то отображаются все подключенные провайдеры.
-
-- `onSubmit [Function(twoFA)]` - коллбек, возвращает объект `twoFA`, который содержит следующие поля:
-  - `selectedProvider [String]` - имя выбранного провайдера
-  - `code [String]` - введеный код
+  - `onSubmit [Function(twoFA)]` - коллбек, возвращает объект `twoFA`, который содержит следующие поля:
+    - `selectedProvider [String]` - имя выбранного провайдера
+    - `code [String]` - введеный код
 
 !Важно! Коллбек нужен для того, чтобы предоставить данные, которые вам необходимо передать на сервер. Проверку валидности введеного кода нужно проверять только на сервере, так как клиентский код может быть модифицирован злоумышленником. Рекомендуется добавить в передаваемый запрос поле с именем `twoFA` и содержанием как у обьета `twoFA` из функции `onSubmit`.
 
-### ProvidersList2fa(providers, chooseProvider)
-
-Компонент для отображения списка зарегистрированных провайдеров. Принимает следующие пропсы:
-
-- `providers [Array]` - массив имен провайдеров
-- `chooseProvider [Function]` - функция, возвращает имя выбранного провайдера
+- `ProvidersList2fa(providers, chooseProvider)` - Компонент для отображения списка зарегистрированных провайдеров. Принимает следующие пропсы:
+  - `providers [Array]` - массив имен провайдеров
+  - `chooseProvider [Function]` - функция, возвращает имя выбранного провайдера
 
 ```js
 import { useProviders } from '@startupjs/2fa-manager'

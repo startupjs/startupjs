@@ -1,6 +1,7 @@
 import * as QRCode from 'qrcode'
 
 export default async function getSecret (model, session) {
+  console.warn('\x1b[33m%s\x1b[0m', '@startupjs/2fa is deprecated. Use @startupjs/2fa-totp-authentication instead. It has same API.')
   const userId = session.userId
 
   const $auths = model.scope(`auths.${userId}`)

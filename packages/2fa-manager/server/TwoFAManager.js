@@ -1,4 +1,4 @@
-import { Provider } from '../Provider'
+import { Provider as ParentProvider } from '../Provider'
 
 // options = {
 //   providers: [
@@ -31,8 +31,9 @@ export default class TwoFAManager {
 
   initProviders (ee, providers) {
     for (const provider of providers) {
-      const _provider = new provider.Provider(ee, provider.options || {})
-      if (_provider instanceof Provider) {
+      const [Provider, options] = provider
+      const _provider = new Provider(ee, options || {})
+      if (_provider instanceof ParentProvider) {
         this.providers.push(_provider)
       } else {
         throw new Error(`[TwoFAManager.constructor]: Provider ${provider} must be instanse of Provider from @startupjs/2fa-manager/Provider!`)

@@ -2,6 +2,7 @@ import * as speakeasy from 'speakeasy'
 import * as QRCode from 'qrcode'
 
 export default async function createOrUpdateSecret (model, session, options) {
+  console.warn('\x1b[33m%s\x1b[0m', '@startupjs/2fa is deprecated. Use @startupjs/2fa-totp-authentication instead. It has same API.')
   const secretCode = speakeasy.generateSecret({
     name: options.appName
   })

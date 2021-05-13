@@ -47,10 +47,9 @@ startupjsServer({
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {
-    providers: [{
-      Provider: TotpProvider,
-      options: { appName: app.name }
-    }]
+    providers: [
+      [TotpProvider, { appName: app.name }]
+    ]
   })
 
   initAuth(ee, {
