@@ -1,27 +1,11 @@
-import defaults from 'lodash/defaults'
-import checkRecaptcha from './checkRecaptcha'
-import checkDataRecaptcha from './checkDataRecaptcha'
-import { setRecaptcha } from './middlewares'
+import checkToken from './checkToken'
+import checkDataToken from './checkDataToken'
+import { setRecaptchaSiteKey } from './middlewares'
 
-function initRecaptcha (ee, options) {
-  options = defaults(options, { type: 'v3' })
+function initRecaptcha (ee) {
   ee.on('afterSession', expressApp => {
-    expressApp.use(setRecaptcha(options))
+    expressApp.use(setRecaptchaSiteKey)
   })
 }
 
-function getRecaptchaHead (req) {
-  switch (req.model.get('_session.Recaptcha.type')) {
-    case 'enterprise':
-      return '<script src="https://www.google.com/recaptcha/enterprise.js" async>'
-    case 'v3':
-      return '<script src="https://www.google.com/recaptcha/api.js?render=explicit" async></script>'
-  }
-}
-
-export {
-  checkRecaptcha,
-  initRecaptcha,
-  checkDataRecaptcha,
-  getRecaptchaHead
-}
+export { checkToken, initRecaptcha, checkDataToken }

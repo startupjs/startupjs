@@ -2,10 +2,11 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Row from '../../Row'
+import './index.styl'
 
 function Tr ({ style, children, ...props }) {
   return pug`
-    Row(
+    Row.root(
       ...props
       style=style
     )= children

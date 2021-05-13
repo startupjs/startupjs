@@ -6,7 +6,7 @@
 
 В данном примере подписчик это пользователь, а действие которое выполняется это - оповещение. Но если пойти дальше, то можно увидеть, что подписчиком может быть любая сущность, а действием любая функция(в рамках программирования такая функция называется коллбек). То есть при каждом изменении компонент вызовет коллбек каждого из подписчиков.
 
-Очень хорошее объяснение этого патерна можно посмотреть на [refactoringGuru](https://refactoring.guru/ru/design-patterns/observer).
+Очень хорошее объяснение этого патерна можно посмотреть на [refactoringGuru](https://refactoring.guru/ru/design-patterns/observer). 
 
 В `StartupJS` каждый компонент имеет обертку `observer`. Это HOF (Higher Order Function), который добавляет реактивность в компонент. Данная функция и является наблюдателем, который следит за изменениями всех значений из  `FunctionalComponent` (смотри пример ниже) связанных с базой данных, более подробно смотреть раздел [ShareDB](/docs/tutorial/ShareDBHooks). То есть компонент обернутый в `observer` реактивно реагирует на каждое изменение в базе данных. Таким образом в `FunctionalComponent` всегда актуальная информация.
 
@@ -16,9 +16,10 @@ observer(FunctionalComponent, options)
 ```
 
 `options` может принимать следующие значения:
-  - `forwardRef` если передано, то компонент оборачивается в `React.forwardRef`
-  - `suspenseProps`:
-    - `fallback` React-компонент, который отображается, пока происходит загрузка компонента
+
+- forwardRef - если передать true, то для аргумента `FunctionalComponent` будет использоваться React.forwardRef 
+- suspenseProps
+    - fallback - React компонент (то есть <MyComponent />)
 
 ```jsx
 import {observer, useDoc} from 'startupjs'
@@ -26,10 +27,7 @@ import {observer, useDoc} from 'startupjs'
 export default observer(function User ({userId}) {
   const [user, $user] = useDoc('users', userId)
   return (
-    <input
-      value={user.name}
-      onChange={e => $user.set('name', e.target.value)}
-    />
+    <input value={user.name} onChange={e => $user.set('name', e.target.value)} />
   )
 })
 ```

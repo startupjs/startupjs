@@ -2,11 +2,21 @@
 
 library for displaying and interacting with [Google ReCaptcha](https://www.google.com/recaptcha/about/)
 
-## Install the module
+## Install
 
 `yarn add @startupjs/recaptcha`
 
-## Init module on server
+## Connecting to StartupJS
+
+```js
+  // Component
+  import { Recaptcha } from '@startupjs/recaptcha'
+
+  // Token verification function on the Google server
+  import { checkToken } from '@startupjs/recaptcha/server'
+```
+
+### server
 
 Add the following lines to `server/index.js`:
 ```js
@@ -14,57 +24,49 @@ Add the following lines to `server/index.js`:
 ```
 Add to the `startupjsServer` function:
 ```js
-  initRecaptcha(ee, options)
+  initRecaptcha(ee)
 ```
-The `options` argument accepts an object with a `type` field, that specify which [reCAPTCHA type](https://www.google.com/recaptcha/about) you want to use (possible types: `enterprise` or `v3`)
-
-In the `getHead` function, add a call to the `getRecaptchaHead` function:
-
+Add to the `getHead` function:
 ```js
-  import { getRecaptchaHead } from '@startupjs/recaptcha/server'
-
-  function getHead (appName, req) {
-    return `
-      // ...
-      ${getRecaptchaHead(req)}
-      // ...
-    `
-}
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 ```
 
-## Configuring config.json
+#### `checkToken(token)`
+A server function that accepts a token, verifies it on the Google server, and returns a boolean response
 
-In `config.json` file of your project, you need to add for **reCAPTCHA Enterprise**:
+### config
 
-```js
-  {
-    "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
-    "RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY": "YOUR_SITE_KEY",
-    "RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY": "YOUR_SITE_KEY",
-    "GOOGLE_CLOUD_PROJECT_ID": "ID_YOUR_CLOUD_PROJECT"
-  }
-```
-`RECAPTCHA_SECRET_KEY` created here https://console.cloud.google.com/apis/credentials
-`RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY` и `RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY` - https://cloud.google.com/recaptcha-enterprise/docs/create-key
-
-For **reCAPTCHA v3**, it will be enough:
+You need to add to the `config.json` file of your project:
 ```js
   {
     "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
     "RECAPTCHA_SITE_KEY": "YOUR_SITE_KEY"
   }
 ```
-These keys are created in the [Google Admin Console](https://www.google.com/recaptcha/admin/).
 
-## Usage
+## Example
 
-### Client
+### Use on server
+```js
+import { checkToken } from '@startupjs/recaptcha/server'
 
-```jsx
-  import { Recaptcha } from '@startupjs/recaptcha'
+export default function initRoutes (router) {
+  router.post('/api/subscribe-to-mailing', async function (req, res) {
+    const { token, ...data } = req.body
+
+    const isVerified = await checkToken(token)
+
+    if (!isVerified) {
+      return res.status(403).send(isVerified)
+    }
+
+    // Do something with the subscription email...
+  })
+}
 ```
 
-```jsx example
+### Invisible
+```js
   const [recaptchaVerified, setRecaptchaVerified] = useState(false)
   const [email, setEmail] = useState('')
 
@@ -76,10 +78,10 @@ These keys are created in the [Google Admin Console](https://www.google.com/reca
     ref.current.open()
   }
 
-  const onVerify = async recaptcha => {
+  const onVerify = async token => {
     try {
       const res = await axios.post('/api/subscribe-to-mailing', {
-        recaptcha,
+        token,
         email
       })
       console.log('Response: ', res.data)
@@ -97,6 +99,7 @@ These keys are created in the [Google Admin Console](https://www.google.com/reca
         onChangeText=setEmail
       )
       Recaptcha(
+        id='invisible-captcha'
         ref=ref
         onVerify=onVerify
         onLoad=() => console.log('onLoad')
@@ -113,29 +116,61 @@ These keys are created in the [Google Admin Console](https://www.google.com/reca
   `
 ```
 
-### Server
+### I'm not a robot
 ```js
-import { checkRecaptcha } from '@startupjs/recaptcha/server'
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+  const [email, setEmail] = useState('')
 
-export default function initRoutes (router) {
-  router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { recaptcha, email } = req.body
+  const ref = useRef()
 
-    const isVerified = await checkRecaptcha(recaptcha)
+  const openRecaptcha = () => {
+    if (!email) return
 
-    if (!isVerified) {
-      return res.status(403).send(isVerified)
+    ref.current.open()
+  }
+
+  const onVerify = async token => {
+    try {
+      const res = await axios.post('/api/subscribe-to-mailing', {
+        token,
+        email
+      })
+      console.log('Response: ', res.data)
+      setRecaptchaVerified(res.data)
+    } catch (err) {
+      console.error(err.response.data)
     }
+  }
 
-    // Do something with email subscription...
-  })
-}
+  return pug`
+    Div.root
+      TextInput.emailInput(
+        label='Your email'
+        value=email
+        onChangeText=setEmail
+      )
+      Recaptcha(
+        variant='normal'
+        id='normal-captcha'
+        ref=ref
+        onVerify=onVerify
+        onLoad=() => console.log('onLoad')
+        onExpire=() => console.log('onExpire')
+        onError=error => console.log('onError', error)
+        onClose=() => console.log('onClose')
+      )
+      if recaptchaVerified
+        Span.label Thank you for subscribing
+      Button(
+        onPress=openRecaptcha
+        disabled=recaptchaVerified
+      ) Subscribe
+  `
 ```
 
-## Recaptcha component props
+## Props
 
-The `Recaptcha` component takes parameters from [official Google reCAPTCHA documentation](https://developers.google.com/recaptcha/docs/invisible#config)
-
+ - `id` [String] - The component id. Must be unique for each captcha on the page. Default: `recaptcha`
  - `variant` [String] - The variant of the widget (`invisible`, `normal` or `compact`). Default: `invisible`
  - `theme` [String] - The color theme of the widget (`dark` or `light`). Default: `light`
  - `baseUrl` [String] - The URL (domain) configured in the reCAPTCHA setup. (ex. `http://my.domain.com`). Default: your `BASE_URL` from `@env`
@@ -149,7 +184,7 @@ The `Recaptcha` component takes parameters from [official Google reCAPTCHA docum
 ## Advanced use
 
 ```js
-  import { checkDataRecaptcha } from '@startupjs/recaptcha/server'
+  import { checkDataToken } from '@startupjs/recaptcha/server'
 ```
 
-`checkDataRecaptcha(recaptcha)` is an advanced variant of `checkRecaptcha(recaptcha)` function that returns an object with the original Google API response. Different reCAPTCHA types return different data structures in the response.
+`checkDataToken (token)` is an extended function `checkToken (token)` that returns an object with the original Google API response

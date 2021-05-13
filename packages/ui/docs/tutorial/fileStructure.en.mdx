@@ -6,20 +6,18 @@ After running `npx startupjs init myapp` you will get a folder with the `myapp` 
 
 Since startupjs has `react-native` in its core, each file is interpreted as a file for compilation for both mobile device and web version. Still, it is possible to split files based on the platform. To do this, use the following principle:
 
-  * `*.web.js` for files, only suited for the web version.
-  * `*.js` for files, suited for mobile devices.
+- *.web.js - for files, only suited for the web version.
+- *.js - for files, suited for mobile devices.
 
 If there is no file named `*.web.js`, then the `*.js` file is compiled for both web and mobile version.
 
 ## Why this is needed
 
 1. **There is a module for only one of the platforms**
+Sometimes a situation occurs when a cross-platform module is significantly inferior in terms of quality to a module for one of the platforms. Let’s suppose there is a module for working with images suited for the web version exclusively. Then, in the `*.web.js` file we will use this module, while for a mobile application we will find an alternative, suited for `react-native`.
 
-  Sometimes a situation occurs when a cross-platform module is significantly inferior in terms of quality to a module for one of the platforms. Let’s suppose there is a module for working with images suited for the web version exclusively. Then, in the `*.web.js` file we will use this module, while for a mobile application we will find an alternative, suited for `react-native`.
-
-1. **Significant differences in web version and application**
-
-  Such behavior is discouraged in a cross-platform development format, but, as usual, there are exceptions. Let's say your application has an admin panel and, for some reason, you want the web application to have much more functionality. Then it makes sense to generate two files: `*.web.js` and `*.js`.
+2. **Significant differences in web version and application**
+Such behavior is discouraged in a cross-platform development format, but, as usual, there are exceptions. Let's say your application has an admin panel and, for some reason, you want the web application to have much more functionality. Then it makes sense to generate two files: `*.web.js` and `*.js`.
 
 ## Application entry point
 
@@ -58,15 +56,13 @@ export default observer(() => {
 
 Let's take a closer look at what this code does. There are some curious points.
 
-1. `import * as main from '../main'`: imports the main application. Startupjs allows you to build multiple applications within a single project. More on this below.
+1. `import * as main from '../main'` - imports the main application. Startupjs allows you to build multiple applications within a single project. More on this below.
 
-1. `init({ baseUrl: BASE_URL, orm })`: initializes the current base url for the project, which is required for `react-native` (for example, to connect the application to the server) and which sets up orm. Actually, this is what is said in the comment.
+2. `init({ baseUrl: BASE_URL, orm })` - initializes the current base url for the project, which is required for `react-native` (for example, to connect the application to the server) and which sets up orm. Actually, this is what is said in the comment.
 
-1. `App(apps={main})`: the actual initialization of the entire project, including all applications. There are a few extra props here too:
-
-    * `criticalVersion` - indicates the current version of the application, and if the current version of the application is outdated, a request to update it will appear.
-
-    * `useGlobalInit`: сallback that will be executed after initialization. By default, initialization is to add a reference to `user` in` _session.user`. To add a reference means to create such a link, which will constantly contain the actual information about `user` in` _session.user` and vice versa, when changing `_session.user`, the changes will immediately go to `user`. But you can pass your callback to useGlobalInit, which will be executed right after the default behavior. An important point is that the passed callback must return `true` on success, since otherwise the code execution will not go to the application renderer, since it will consider that an error occurred at the time of initialization.
+3. `App(apps={main})` - the actual initialization of the entire project, including all applications. There are a few extra props here too:
+- `criticalVersion` - indicates the current version of the application, and if the current version of the application is outdated, a request to update it will appear.
+- `useGlobalInit` - сallback that will be executed after initialization. By default, initialization is to add a reference to `user` in` _session.user`. To add a reference means to create such a link, which will constantly contain the actual information about `user` in` _session.user` and vice versa, when changing `_session.user`, the changes will immediately go to `user`. But you can pass your callback to useGlobalInit, which will be executed right after the default behavior. An important point is that the passed callback must return `true` on success, since otherwise the code execution will not go to the application renderer, since it will consider that an error occurred at the time of initialization.
 
 ## ORM
 
@@ -82,11 +78,14 @@ export default function (racer) {
 }
 ```
 
-Let's stop here to examine each option in further detail. Pay special attention to the names of the imported models. You can see that we have a plural `TodosModel` and a single `TodoModel`. The plural model is for collection. The plurality of the name comes from the fact that the collection contains many same-type objects (for example, here the collection contains many todo objects). The singular model represents one SPECIFIC item in the collection. Let's use an example to understand it better. You have a large room filled with cats. This is a collection of cats and it is described by `CatsModel`. There are many cats - red, black and even dappled. But a specific gray cat Boris with light spots will be described by `CatModel`.  Obviously, these models will have different functionality. So you can add a new cat to the room or remove an existing one. But with a specific cat, you can do completely different things, for example, add a ribbon to it. Now let's see how we bind a specific model to a specific entity. For this we use the command `racer.orm(path, model)`.
+Let's stop here to examine each option in further detail. Pay special attention to the names of the imported models. You can see that we have a plural `TodosModel` and a single `TodoModel`. The plural model is for collection. The plurality of the name comes from the fact that the collection contains many same-type objects (for example, here the collection contains many todo objects). The singular model represents one SPECIFIC item in the collection. Let's use an example to understand it better. You have a large room filled with cats. This is a collection of cats and it is described by `CatsModel`. There are many cats - red, black and even dappled. But a specific gray cat Boris with light spots will be described by `CatModel`.  Obviously, these models will have different functionality. So you can add a new cat to the room or remove an existing one. But with a specific cat, you can do completely different things, for example, add a ribbon to it. Now let's see how we bind a specific model to a specific entity. For this we use the command
+
+`racer.orm(path, model)`
 
 Here, `path` is the path to a specific entity (most often it is a collection or a collection item). Usually it looks like:
-  * `collectionName`: the name of the collection, in the listing above it is `todos`
-  *`collectionName.*`: any specific element of the collection. In the listing above it is each `todo` in the `todos` collection.
+
+- `collectionName` - the name of the collection, in the listing above it is `todos`
+- `collectionName.*` - any specific element of the collection. In the listing above it is each `todo` in the `todos` collection.
 
 ---
 
@@ -210,8 +209,9 @@ A significant difference between layouts and functionality is a prerequisite for
 Let us add the `admin` application to the base project.
 
 1.	Create a folder with the name of your new application. In our case this folder will be called `admin`.
-1.	Implement a basic structure, following the example of `main`. This means that you have to add `index.js`, `routes.js` and `Layout`, `pages` folders.
-1.	Now you need to set it up in `Root`. Within the `index.js` file, where the application is initialized, add the `admin` application to the `App` component props. You will get the following structure:
+2.	Implement a basic structure, following the example of `main`. This means that you have to add `index.js`, `routes.js` and `Layout`, `pages` folders.
+3.	Now you need to set it up in `Root`. Within the `index.js` file, where the application is initialized, add the `admin` application to the `App` component props. You will get the following structure:
+
 
 ```js
 ...
@@ -257,7 +257,6 @@ startupjsServer(
   (ee, options) => {
     ...
 ```
-
 `BUNDLE_NAME` - indicates the name of the bundle where all these routes should end up.
 
 ## Server
@@ -302,20 +301,21 @@ export default function run () {}
 
 Some things to note here:
 
-  * `init({ orm })`: initializing orm on the server side
-  * `startupjsServer(option, callback)`: function that initializes the server. Generally speaking, it is the key function. It has two parameters:
-    * `option`: options object. Here the routes of each application are set as well as a template for the head block in the source html file. Different startupjs extensions are also set here (for example, shardb-access, sharedb-schema, etc.)
-    * `callback(ee, option)`: here `ee` is an instance of `EventEmitter`, therefore it enables subscription to various `events`. `option` is a modified copy of the first argument `startupjsServer`, generated by `startupjsServer`.
-  * `initApp(ee)`: required for session initialization.
-  * `ee.on('routes', callback)`: here in the callback middleware Express is connected. Thus, in the example above connection to `api` is being established, import of which can be seen above, at `/api` route.
+- init({ orm }) - initializing orm on the server side
+- startupjsServer(option, callback) - function that initializes the server. Generally speaking, it is the key function. It has two parameters:
+  - `option` - options object. Here the routes of each application are set as well as a template for the head block in the source html file. Different startupjs extensions are also set here (for example, shardb-access, sharedb-schema, etc.)
+  - `callback(ee, option)` - here `ee` is an instance of `EventEmitter`, therefore it enables subscription to various `events`. `option` is a modified copy of the first argument `startupjsServer`, generated by `startupjsServer`..
+
+- `initApp(ee)` - required for session initialization.
+- `ee.on('routes', callback)` -  here in the callback middleware Express is connected. Thus, in the example above connection to `api` is being established, import of which can be seen above, at `/api` route.
+
 
 ## Force Compile Modules
 
 By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel`. In this case, add the package name to `forceCompileModules` in `webpack` configuration file. Be aware of the fact that two such files exist:
 
-  * `webpack.server.config.cjs`: for building the server
-
-  * `webpack.web.config.cjs`: for building the client side
+ 1. `webpack.server.config.cjs` - for building the server
+ 2. `webpack.web.config.cjs` - for building the client side
 
 A module has to be added to the corresponding configuration file, depending on which part of the project it is used in.
 

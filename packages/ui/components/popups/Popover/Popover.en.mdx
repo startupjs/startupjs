@@ -287,13 +287,13 @@ return (
 
 ## Animations
 animateType - prop responsible for the animation type
-There are three types of animation when opening: opacity, scale
+There are three types of animation when opening: default, slide, scale
 ```jsx example
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
 const [visible, setVisible] = useState('')
 
-const animations = ['Opacity', 'Scale']
+const animations = ['Default', 'Scale', 'Slide']
 
 return (
   <Row>
