@@ -4,7 +4,7 @@
 
 StartupJS/UI initially uses an 8-pixel grid for padding. This means that the unit of measurement for padding is unit (u). One unit equals 8px. All styles that could be specified in pixels are specified in units. All sizes in styles should be specified in units. Fractional units (2.5u) should only be specified as a last resort. In situations where you need to specify 1px, for example, you can move away from using units.
 
-For example: 
+For example:
 
 ```css
 .card
@@ -90,7 +90,7 @@ Let's take a closer look:
 
 > In order to override the value of some mixin yourself, you only need to change it in the `styles/` folder of your project. For example, screen sizes for `tablet, desktop, wide` mixins are located in the `variables.styl` file.
 
-Usage example: 
+Usage example:
 ```css
 .card
   padding 2u
@@ -121,7 +121,11 @@ The `startupjs/ui` styles contain the global `$UI` object. It has within itself 
   - colorNameLightest: rgba($UI.palette.palleteColorName, 0.05)
 - `$UI.shadows` - contains constants for shadows. For numbers from 0 to 4 values are set by default.
 - `$UI.media` - contains screen sizes. These sizes are used for screen size defining mixins (for example tablet()). Here the constants for tablet, desktop and wide are contained.
-- `$UI.fontFamilies` - contains font names.
+
+- `$UI.fontFamilies`:
+  - `normal` - specifies font names for body text (component `Span`)
+  - `heading` - specifies font names for headers text (components `H1-H6`)
+
 - `$UI.fontSizes` - contains font size constants that can be seen in the table above.
 - `$UI.lineHeights` - contains row height constants which can be seen in the table above.
 
@@ -129,7 +133,7 @@ The `startupjs/ui` styles contain the global `$UI` object. It has within itself 
 
 Глобальный обьект `$UI` можно расширять и переопределять его свойства. Это позволяет реализовывать любые дизайнерские решения в вашем проекте. Для того чтобы модифицировать `$UI` необходимо использовать функцию `merge`. Например, если вам необходимо добавить новый цвет `pink`, то это можно сделать следующим образом:
 
-The global `$UI` object can be extended and its properties can be overridden. This enables the implementation of any design solutions in your project. In order to modify `$UI`, use the `merge` function. For example, if you need to add a new color `pink`, this can be achieved this way: 
+The global `$UI` object can be extended and its properties can be overridden. This enables the implementation of any design solutions in your project. In order to modify `$UI`, use the `merge` function. For example, if you need to add a new color `pink`, this can be achieved this way:
 
 ```js
 $UI = merge($UI, {
@@ -140,7 +144,7 @@ $UI = merge($UI, {
 
 ```
 
-or you can override the `primary` and `warning` colors with those relevant for your project and add a new size for `Button`: 
+or you can override the `primary` and `warning` colors with those relevant for your project and add a new size for `Button`:
 
 ```js
 $UI = merge($UI, {
@@ -159,7 +163,7 @@ $UI = merge($UI, {
 Such transformations of `$UI` object should be performed in the main style sheet file of the project, which you can find at `styles/index.styl`.
 
 ## merge
-Let's explore how the `merge` function works. Its prototype looks like this: 
+Let's explore how the `merge` function works. Its prototype looks like this:
 
 ```js
 merge(object, source, deep)
@@ -232,7 +236,7 @@ You can also now fetch any values from styles in the files with the code. To do 
   foobar: 42
 ```
 
-Here we have exported the object with the `colors` and `foobar` fields. Let's now import this object in the js file. 
+Here we have exported the object with the `colors` and `foobar` fields. Let's now import this object in the js file.
 
 ```js
 import STYLES from './index.styl'

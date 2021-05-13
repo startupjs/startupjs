@@ -15,6 +15,10 @@ function Span ({
   description,
   ...props
 }) {
+  const header = ['h1', 'h2', 'h3', 'h4', 'h5', 'h5'].includes(variant)
+    ? 'header'
+    : ''
+
   if (variant && variant !== 'default') {
     if (variant === 'description') {
       console.warn("[@startupjs/ui] Span: variant='description' is DEPRECATED, use prop description instead.")
@@ -26,7 +30,7 @@ function Span ({
   return pug`
     Text.root(
       style=style
-      styleName=[theme, variant, { bold, italic, description }]
+      styleName=[theme, variant, { bold, italic, description }, header]
       ...props
     )= children
   `
