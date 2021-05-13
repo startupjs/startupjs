@@ -1,14 +1,6 @@
 # [0.35.0](https://github.com/startupjs/startupjs/compare/v0.34.10...v0.35.0) (2021-05-13)
 
 
-### Reverts
-
-* Revert "Next (#659)" (#660) ([a1d3522](https://github.com/startupjs/startupjs/commit/a1d3522ee9027f5962bade782e5c0b47e46ff6be)), closes [#659](https://github.com/startupjs/startupjs/issues/659) [#660](https://github.com/startupjs/startupjs/issues/660)
-
-
-* Next (#659) ([0ee9556](https://github.com/startupjs/startupjs/commit/0ee9556cb2f807e3e1159aa4eb506b37da7357cd)), closes [#659](https://github.com/startupjs/startupjs/issues/659)
-
-
 ### Bug Fixes
 
 * **auth:** don't save auth data in the user collection ([#654](https://github.com/startupjs/startupjs/issues/654)) ([0336f19](https://github.com/startupjs/startupjs/commit/0336f19744f0a047924833c6d29ec1aabfff3d20))
@@ -34,7 +26,7 @@
 
 ### BREAKING CHANGES
 
-* ### `startupjs/ui/Popover`
+### `startupjs/ui/Popover`
 - remove `default` variant from animateType prop
 - rename `slide` to `opacity` in animateType prop
 
