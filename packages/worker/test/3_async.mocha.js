@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
-import DispatcherRunner from './utils.js'
 import path from 'path'
+import DispatcherRunner from './utils.js'
 import { __dirname } from './__dirname.js'
 
 describe('async tasks', function () {
@@ -10,7 +10,7 @@ describe('async tasks', function () {
   before(async () => {
     process.env.WORKER_TASK_DEFAULT_TIMEOUT = '30000' // default
     process.env.WORKER_ACTIONS_PATH = path.join(__dirname, './workerActions.js')
-    process.env.WORKER_INIT_PATH = path.join(__dirname, './initWorker.js')
+    process.env.WORKER_INIT_PATH = path.join(__dirname, './workerInit.js')
     await runner.dropMongoDatabase()
     await runner.dropRedisDatabase()
     await runner.start(3)

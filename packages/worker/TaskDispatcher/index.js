@@ -1,6 +1,6 @@
+import random from 'lodash/random.js'
 import AutoStop from './utils/autoStop.js'
 import { delay } from '../utils.js'
-import random from 'lodash/random.js'
 import { getDbs } from '../db.js'
 import MongoQueue from './MongoQueue.js'
 import RedisQueue from './RedisQueue.js'
@@ -32,7 +32,6 @@ export default class TaskDispatcher {
   }
 
   async stop () {
-    // console.log('stopping Task dispatcher')
     if (!this.started) return
     await this.workerManager.stop()
     this.workerManager = null
@@ -47,14 +46,16 @@ export default class TaskDispatcher {
     let workerId
 
     await model.fetchAsync($task)
+
     if (!$task.get()) {
       return console.log('ERROR: cant get task', taskId)
     }
-    const { uniqId, type, createdAt } = $task.get()
 
+    const { uniqId, type, createdAt } = $task.get()
     let start
     let duration
     let waiting
+
     switch (status) {
       case ('executing'):
         start = Date.now()
@@ -97,8 +98,6 @@ export default class TaskDispatcher {
     }
 
     await model.unfetchAsync($task)
-    console.log('-------------------')
-    console.log('Done task', taskId)
   }
 
   _startLoops () {
