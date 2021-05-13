@@ -12,15 +12,25 @@ function Span ({
   bold,
   italic,
   theme,
+  description,
   ...props
 }) {
   const header = ['h1', 'h2', 'h3', 'h4', 'h5', 'h5'].includes(variant)
     ? 'header'
     : ''
+
+  if (variant && variant !== 'default') {
+    if (variant === 'description') {
+      console.warn("[@startupjs/ui] Span: variant='description' is DEPRECATED, use prop description instead.")
+    } else {
+      console.warn(`[@startupjs/ui] Span: variant='${variant}' is DEPRECATED, use font(${variant}) mixin instead.`)
+    }
+  }
+
   return pug`
     Text.root(
       style=style
-      styleName=[theme, variant, { bold, italic }, header]
+      styleName=[theme, variant, { bold, italic, description }, header]
       ...props
     )= children
   `
@@ -28,18 +38,15 @@ function Span ({
 
 Span.defaultProps = {
   bold: false,
-  italic: false,
-  variant: 'default'
+  italic: false
 }
 
 Span.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  variant: PropTypes.oneOf([
-    'default', 'description', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-  ]),
   bold: PropTypes.bool,
-  italic: PropTypes.bool
+  italic: PropTypes.bool,
+  description: PropTypes.bool
 }
 
 export default observer(themed(Span))
