@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.35.0",
+  "version": "0.35.1",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -37,7 +37,7 @@
     "@startupjs/auth-google": "^0.35.0",
     "@startupjs/auth-idg": "^0.35.0",
     "@startupjs/auth-linkedin": "^0.35.0",
-    "@startupjs/auth-local": "^0.35.0",
+    "@startupjs/auth-local": "^0.35.1",
     "@startupjs/docs": "^0.35.0",
     "@startupjs/mdx": "^0.35.0",
     "@startupjs/recaptcha": "^0.35.0",

@@ -1,3 +1,12 @@
+## [0.35.1](https://github.com/startupjs/startupjs/compare/v0.35.0...v0.35.1) (2021-05-13)
+
+
+### Bug Fixes
+
+* **auth-local:** fix saving user data ([c6c8b23](https://github.com/startupjs/startupjs/commit/c6c8b230b7ab9d88738419ec57ecefffeea78469))
+
+
+
 # [0.35.0](https://github.com/startupjs/startupjs/compare/v0.34.10...v0.35.0) (2021-05-13)
 
 
