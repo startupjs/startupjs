@@ -17,7 +17,7 @@ import './index.styl'
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import initRecaptcha from '@startupjs/recaptcha/server'
+  import { initRecaptcha } from '@startupjs/recaptcha/server'
 ```
 В функцию `startupjsServer` добавить:
 ```js
@@ -25,12 +25,18 @@ import './index.styl'
 ```
 Аргумент `options` принимает объект с полем `type`, в него указывайте какой [тип reCAPTCHA](https://www.google.com/recaptcha/about) вы хотите использовать (возможные типы: `enterprise` или `v3`)
 
-В функцию `getHead` добавить нужный скрипт:
+В функцию `getHead` добавить вызов функции `getRecaptchaHead`:
+
 ```js
-  // Если будете использовать reCAPTCHA v3
-  <script src="https://www.google.com/recaptcha/api.js" async></script>
-  // Если будете использовать reCAPTCHA Enterprise
-  <script src="https://www.google.com/recaptcha/enterprise.js" async></script>
+  import { getRecaptchaHead } from '@startupjs/recaptcha/server'
+
+  function getHead (appName) {
+    return `
+      // ...
+      ${getRecaptchaHead()}
+      // ...
+    `
+}
 ```
 
 ## Настройка config.json
@@ -98,7 +104,6 @@ import './index.styl'
         onChangeText=setEmail
       )
       Recaptcha(
-        id='asdasd'
         ref=ref
         onVerify=onVerify
         onLoad=() => console.log('onLoad')

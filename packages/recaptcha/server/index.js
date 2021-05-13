@@ -8,10 +8,21 @@ function initRecaptcha (ee, options) {
   ee.on('afterSession', expressApp => {
     expressApp.use(setRecaptcha(options))
   })
+  global.Recaptcha = options
+}
+
+function getRecaptchaHead () {
+  switch (global.Recaptcha.type) {
+    case 'enterprise':
+      return '<script src="https://www.google.com/recaptcha/enterprise.js" async>'
+    case 'v3':
+      return '<script src="https://www.google.com/recaptcha/api.js?render=explicit" async></script>'
+  }
 }
 
 export {
   checkRecaptcha,
   initRecaptcha,
-  checkDataRecaptcha
+  checkDataRecaptcha,
+  getRecaptchaHead
 }
