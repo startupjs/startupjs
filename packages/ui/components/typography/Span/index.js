@@ -1,9 +1,8 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, styl } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../../theming/themed'
-import './index.styl'
 
 function Span ({
   style,
@@ -15,9 +14,25 @@ function Span ({
   description,
   ...props
 }) {
-  const header = ['h1', 'h2', 'h3', 'h4', 'h5', 'h5'].includes(variant)
-    ? 'header'
-    : ''
+  styl`
+    _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
+    _description = $UI.colors.secondaryText
+
+    .root
+      fontFamily('normal')
+
+      &.bold
+        fontFamily('normal', $UI.fontWeights.normalBold)
+
+      &.italic
+        fontFamily('normal', $UI.fontWeights.normal, italic)
+
+      &.bold.italic
+        fontFamily('normal', $UI.fontWeights.normalBold, italic)
+
+      &.description
+        color _description
+  `
 
   if (variant && variant !== 'default') {
     if (variant === 'description') {
@@ -30,7 +45,7 @@ function Span ({
   return pug`
     Text.root(
       style=style
-      styleName=[theme, variant, { bold, italic, description }, header]
+      styleName=[theme, variant, { bold, italic, description }]
       ...props
     )= children
   `
