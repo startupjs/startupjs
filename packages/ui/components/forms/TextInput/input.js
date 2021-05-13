@@ -148,6 +148,8 @@ function Input ({
     { disabled, focused, [`icon-${iconPosition}`]: !!icon }
   ]
 
+  console.log(inputStyle)
+
   return renderWrapper({
     style: [{ height: fullHeight }, style]
   }, pug`

@@ -1,12 +1,18 @@
 import React, { useState, useRef, useMemo } from 'react'
-import { TouchableOpacity, View, FlatList } from 'react-native'
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
-import Popover from '../popups/Popover'
+import Div from '../Div'
 import Loader from '../Loader'
+import MultiSelect from './MultiSelect'
 import useKeyboard from './useKeyboard'
 import './index.styl'
 
@@ -22,17 +28,27 @@ const SUPPORT_PLACEMENTS = [
 // TODO: KeyboardAvoidingView
 function AutoSuggest ({
   style,
-  captionStyle,
+  contentStyle,
+  inputStyle,
   options,
-  value,
+  value, // string or array
+  multiselect,
   placeholder,
   renderItem,
+  renderTag,
   isLoading,
-  onChange,
+  label,
+  disabled,
+  size,
+  testID,
+  limitTagSelect,
+  onChange, // DEPRECATED
+  onSelect,
+  onFilter,
   onDismiss,
   onChangeText,
   onScrollEnd,
-  testID
+  onRemove
 }) {
   const _data = useRef([])
   const refInput = useRef()
@@ -40,23 +56,30 @@ function AutoSuggest ({
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [wrapperHeight, setWrapperHeight] = useState(null)
+  const [_inputStyle] = useState(inputStyle || {})
   const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
     isShow,
     _data,
     value,
-    onChange,
+    onChange, // DEPRECATED
+    onSelect,
     onChangeShow: v => setIsShow(v)
   })
 
   const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
 
-  _data.current = escapedInputValue
-    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
-    : options
+  if (onFilter) {
+    onFilter(inputValue)
+  } else {
+    _data.current = escapedInputValue
+      ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
+      : options
+  }
 
   function onClose (e) {
     setIsShow(false)
+    multiselect && setInputValue('')
     setSelectIndexValue(-1)
     refInput.current.blur()
     onDismiss && onDismiss()
@@ -68,15 +91,25 @@ function AutoSuggest ({
     onChangeText && onChangeText(t)
   }
 
+  function _onSelect (item) {
+    if (multiselect) {
+      value.push(item)
+      onChange && onChange([...value]) // DEPRECATED
+      onSelect && onSelect([...value])
+    } else {
+      onChange && onChange(item) // DEPRECATED
+      onSelect && onSelect(item)
+    }
+
+    onClose()
+  }
+
   function _renderItem ({ item, index }) {
     if (renderItem) {
       return pug`
         TouchableOpacity(
           key=index
-          onPress=()=> {
-            onChange && onChange(item)
-            onClose()
-          }
+          onPress=()=> _onSelect(item)
         )= renderItem(item, index, selectIndexValue)
       `
     }
@@ -85,10 +118,7 @@ function AutoSuggest ({
       Menu.Item.item(
         key=index
         styleName={ selectMenu: selectIndexValue === index }
-        onPress=e=> {
-          onChange && onChange(item)
-          onClose()
-        }
+        onPress=()=> _onSelect(item)
         active=item.value === value.value
       )= item.label
     `
@@ -108,36 +138,15 @@ function AutoSuggest ({
     setScrollHeightContent(height)
   }
 
-  return pug`
-    Popover(
-      visible=(isShow || isLoading)
-      hasWidthCaption=(!style.width && !style.maxWidth)
-      placements=SUPPORT_PLACEMENTS
-      durationOpen=200
-      durationClose=200
-      animateType='slide'
-      hasDefaultWrapper=false
-      onDismiss=onClose
-    )
-      Popover.Caption.caption
-        TextInput(
-          ref=refInput
-          style=captionStyle
-          value=(!isShow && value.label) || inputValue
-          placeholder=placeholder
-          onChangeText=_onChangeText
-          onFocus=()=> setIsShow(true)
-          onKeyPress=onKeyPress
-          testID=testID
-        )
-
+  function renderContent () {
+    return pug`
       if isLoading
         View.loaderCase
           Loader(size='s')
       else
         View.contentCase
           FlatList.content(
-            style=style
+            style=contentStyle
             data=_data.current
             extraData=_data.current
             renderItem=_renderItem
@@ -147,6 +156,58 @@ function AutoSuggest ({
             onLayout=onLayoutWrapper
             onContentSizeChange=onChangeSizeScroll
           )
+    `
+  }
+
+  function renderTooltipWrapper ({ children }) {
+    return pug`
+      View.wrapper
+        TouchableWithoutFeedback(onPress=() => setIsShow(false))
+          View.overlay
+        = children
+    `
+  }
+
+  if (multiselect) {
+    return pug`
+      MultiSelect(
+        options=options
+      )
+    `
+  }
+
+  return pug`
+    Div(
+      _showTooltip=(isShow || isLoading)
+      renderTooltip=renderContent
+      renderTooltipWrapper=renderTooltipWrapper
+      tooltipProps={
+        hasWidthCaption: (!style.width && !style.maxWidth),
+        placements: SUPPORT_PLACEMENTS,
+        durationOpen: 200,
+        durationClose: 200,
+        animateType: 'opacity',
+        hasDefaultWrapper: false,
+        contentStyle: {
+          paddingLeft: 0, paddingRight: 0,
+          paddingTop: 0, paddingBottom: 0
+        },
+        onDismiss: onClose
+      }
+    )
+      TextInput(
+        ref=refInput
+        inputStyle=_inputStyle
+        value=(!isShow && value.label) || inputValue
+        placeholder=placeholder
+        label=label
+        disabled=disabled
+        size=size
+        testID=testID
+        onChangeText=_onChangeText
+        onFocus=()=> setIsShow(true)
+        onKeyPress=onKeyPress
+      )
   `
 }
 
