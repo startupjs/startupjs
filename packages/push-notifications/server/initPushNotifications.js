@@ -5,7 +5,7 @@ const router = express.Router()
 
 export default function initPushNotifications (ee, options) {
   initDefaultRoutes(router, options)
-  ee.on('afterSession', expressApp => {
+  ee.on('routes', expressApp => {
     expressApp.use(router)
   })
 }

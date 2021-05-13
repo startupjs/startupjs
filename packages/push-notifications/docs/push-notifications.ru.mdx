@@ -89,13 +89,14 @@ startupjsServer({
 
 ### client
 
-Вызовите `initPushNotifications` и `initAndroidChannel` в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализация имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
+Вызовите `initPushNotifications` (если необходимо создать дополнительный канал для андроида, то добавьте функцию `initAndroidChannel`) в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализацию имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
 
 ```js
 App(
   ...
   useGlobalInit=() => {
     initPushNotifications()
+    // Создание дополнительного канала, канал 'default' создается в момент выполнения initPushNotifications
     initAndroidChannel({
         channelId: 'my-test-channel',
         channelName: 'My channel'
@@ -117,34 +118,39 @@ App(
 ### client API
 
 - `initAndroidChannel (options, callback)` - функция регистрации нового канала push сообщений для Android. Пуши на `Android` обязательно должны отправляться на канал, иначе сообщение не будет доставлено. Можно создавать несколько различных каналов.
-  - `options` - объект опций для создания канала, полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#channel-management-android). Обязательные параметры:
-    - `channelId` - строка, уникальный идентификатор канала
-    - `channelName` - строка, имя канала
-  - `callback` - коллбек, принимает аргумент `created`, который указывает на то был ли уже создан канал, `false` означает, что канал уже был создан
+  - `options [Object]` - объект опций для создания канала, полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#channel-management-android). Обязательные параметры:
+    - `channelId [String]` - строка, уникальный идентификатор канала
+    - `channelName [String]` - строка, имя канала
+  - `callback [Function]` - коллбек, принимает аргумент `created`, который указывает на то был ли уже создан канал, `false` означает, что канал уже был создан
 
-- `initPushNotifications (options)` - функция инициализации пуш уведомлений.
-  - `options` - объект опций для инициализации пушей. Полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#usage). !!ВАЖНО!! Крайне не рекомендуется переопределять поля `onRegister` и `onNotification` так как это может нарушить поведение пакета.
+- `initPushNotifications (options)` - функция инициализации пуш уведомлений. Также инициализирует канал id `default` для андроида.
+  - `options [Object]` - объект опций для инициализации пушей. Полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#usage). !!ВАЖНО!! Крайне не рекомендуется переопределять поля `onRegister` и `onNotification [Function]` так как это может нарушить поведение пакета.
 
-- `sendNotification(userIds, title, body, androidChannelId, filters = {})` - функция для отправки нотификаций. Опции:
-  - `userIds` - массив id юзеров которым будет отправлено push уведомление. 
-  - `title` - строка заголовка.
-  - `body` - строка контента.
-  - `androidChannelId` - строка с именем канала для android.
-  - `filters` - объект фильтров. Поддерживаются следующие поля:
-    - `platforms` - массив платформ, на которые нужно отправить нотификацию. Если не задано, то сообщение будет отправлено на все зарегестрированные устройства.
+- `sendNotification(userIds, options)` - функция для отправки нотификаций. Опции:
+  - `userIds [Array]` - массив id юзеров которым будет отправлено push уведомление.
+  - `options [Object]`:
+    - `title [String]` - строка заголовка.
+    - `body [String] (required)` - строка контента.
+    - `androidChannelId [String]` - строка с именем канала для android.
+    - `filters [Object]` - объект фильтров. Поддерживаются следующие поля:
+      - `platforms [Array]` - массив платформ, на которые нужно отправить нотификацию. Если не задано, то сообщение будет отправлено на все зарегестрированные устройства.
 
 
 ### Пример
 
 ```jsx example
 const [title, setTitle] = useState('')
-const [content, setContent] = useState('')
+const [body, setBody] = useState('')
 const [userId] = useSession('userId')
 
 function sendCustomNotification () {
-  sendNotification([userId], title, content, 'my-test-channel')
+  sendNotification([userId], {
+    title,
+    body,
+    androidChannelId: 'my-test-channel'
+  })
   setTitle('')
-  setContent('')
+  setBody('')
 }
 
 return (
@@ -153,13 +159,13 @@ return (
       value={title}
       placeholder='title'
       onChangeText={setTitle}
-    ></TextInput>
+    />
     <Br/>
     <TextInput
-      value={content}
+      value={body}
       placeholder='content'
-      onChangeText={setContent}
-    ></TextInput>
+      onChangeText={setBody}
+    />
     <Br/>
     
     <Button onPress={sendCustomNotification}>

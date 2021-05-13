@@ -12,6 +12,15 @@ const DEFAULT_PLATFORMS = ['ios', 'android']
 // }
 
 export default async function sendNotification (model, data) {
+  if (!data.userIds) {
+    console.error('[@startupjs/push-notifications/sendNotification]: userIds is required!')
+    return
+  }
+  if (!data.options.body) {
+    console.error('[@startupjs/push-notifications/sendNotification]: body is required!')
+    return
+  }
+
   const $pushs = model.query('pushs', {
     _id: { $in: data.userIds }
   })
@@ -21,7 +30,7 @@ export default async function sendNotification (model, data) {
 
   const tokens = []
 
-  const platforms = getPlatforms(data.filters)
+  const platforms = getPlatforms(data.options?.filters)
   pushs.forEach(el => {
     platforms.forEach(platform => {
       if (el.platforms[platform]) {
@@ -34,19 +43,17 @@ export default async function sendNotification (model, data) {
     tokens,
     {
       notification: {
-        title: data.title,
-        body: data.body,
-        android_channel_id: data.androidChannelId
+        title: data.options?.title || '',
+        body: data.options.body,
+        android_channel_id: data.options?.androidChannelId || 'default'
       },
-      data: {
-        ...data.data
-      }
+      data: data.options?.data || {}
     }
   )
 }
 
 function getPlatforms (filters) {
-  if (filters.platforms?.length) {
+  if (filters?.platforms?.length) {
     return filters.platforms
   } else {
     return DEFAULT_PLATFORMS

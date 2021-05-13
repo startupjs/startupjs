@@ -1,2 +1,1 @@
-export const SEND_URL = '/push-notifications/send'
-export const GET_USERS_URL = '/push-notifications/get-users'
+export const SEND_URL = '/api/push-notifications/send'

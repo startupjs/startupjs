@@ -89,13 +89,14 @@ You can generate a `serviceAccount` in the `Firebase` [console](https://console.
 
 ### client
 
-Call `initPushNotifications` and `initAndroidChannel` in the place where you need to initialize the device token of the current user (devices are written based on the `userId` from the current session). It makes sense to perform initialization only for an authorized user. But if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
+Call `initPushNotifications` (if you need to create an additional channel for the android, then add the `initAndroidChannel` function) in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
 
 ```js
 App(
   ...
   useGlobalInit=() => {
     initPushNotifications()
+    // Creation of an additional channel, the 'default' channel is created when initPushNotifications are executed
     initAndroidChannel({
         channelId: 'my-test-channel',
         channelName: 'My channel'
@@ -117,34 +118,37 @@ App(
 ### client API
 
 - `initAndroidChannel (options, callback)` - function of registering a new channel of push messages for Android. Push notifications on `Android` must be sent to the channel, otherwise the message will not be delivered. Several different channels can be created.
-  - `options` - object of options for creating a channel, a complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#channel-management-android). Required parameters:
-    - `channelId` - string, channel unique identifier
-    - `channelName` - string, channel name
-  - `callback` - callback, takes an argument `created`, which indicates whether the channel has already been created, `false` means that the channel has already been created
+  - `options [Object]` - object of options for creating a channel, a complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#channel-management-android). Required parameters:
+    - `channelId [String]` - string, channel unique identifier
+    - `channelName [String]` - string, channel name
+  - `callback [Function]` - callback, takes an argument `created`, which indicates whether the channel has already been created, `false` means that the channel has already been created
 
-- `initPushNotifications (options)` - function of initializing push notifications.
-  - `options` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
+- `initPushNotifications (options)` - function of initializing push notifications. Also initializes the channel id `default` for android.
+  - `options [Object]` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
 
-- `sendNotification(userIds, title, body, androidChannelId, filters = {})` - function for sending notifications. Options:
-  - `userIds` - array of user id to which the push notification will be sent.
-  - `title` - string of title
-  - `body` - string of content.
-  - `androidChannelId` - string with the channel name for android.
-  - `filters` - object of filters. The following fields are supported:
-    - `platforms` - array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
+- `sendNotification(userIds, options)` - function for sending notifications. - `options [Object]`:
+    - `title [String]` - header string.
+    - `body [String] (required)` - content string.
+    - `androidChannelId [String]` - string with the channel name for android.
+    - `filters [Object]` - filters object. The following fields are supported:
+      - `platforms [Array]` - an array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
 
 
 ### Example
 
 ```jsx example
 const [title, setTitle] = useState('')
-const [content, setContent] = useState('')
+const [body, setBody] = useState('')
 const [userId] = useSession('userId')
 
 function sendCustomNotification () {
-  sendNotification([userId], title, content, 'my-test-channel')
+  sendNotification([userId], {
+    title,
+    body,
+    androidChannelId: 'my-test-channel'
+  })
   setTitle('')
-  setContent('')
+  setBody('')
 }
 
 return (
@@ -153,13 +157,13 @@ return (
       value={title}
       placeholder='title'
       onChangeText={setTitle}
-    ></TextInput>
+    />
     <Br/>
     <TextInput
-      value={content}
+      value={body}
       placeholder='content'
-      onChangeText={setContent}
-    ></TextInput>
+      onChangeText={setBody}
+    />
     <Br/>
     
     <Button onPress={sendCustomNotification}>
