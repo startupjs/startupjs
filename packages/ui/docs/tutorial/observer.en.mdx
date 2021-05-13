@@ -17,9 +17,10 @@ observer(FunctionalComponent, options)
 ```
 
 `options` can take the following values:
-  - `forwardRef` if passed, then component wraps to `React.forwardRef`
-  - `suspenseProps`:
-    - `fallback` React component that is rendered while waiting for the component to load
+
+- forwardRef - if true is passed, then React.forwardRef will be used as the `FunctionalComponent` argument
+- suspenseProps
+- fallback - React component (`<MyComponent />`)
 
 ```jsx
 import {observer, useDoc} from 'startupjs'

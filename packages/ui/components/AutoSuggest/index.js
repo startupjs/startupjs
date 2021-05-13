@@ -115,7 +115,7 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
-      animateType='opacity'
+      animateType='slide'
       hasDefaultWrapper=false
       onDismiss=onClose
     )

@@ -1,11 +1,10 @@
 import React, { useImperativeHandle, useState, useCallback, useRef, useMemo } from 'react'
 import WebView from 'react-native-webview'
 import { Modal } from 'react-native'
-import { observer, useComponentId } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Div, Loader } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'
-import { getSiteKey, getRecaptchaType } from '../../helpers'
 import getTemplate from './get-template'
 import './index.styl'
 
@@ -13,6 +12,7 @@ const originWhitelist = ['*']
 
 function RecaptchaComponent ({
   style,
+  id,
   theme,
   variant,
   baseUrl,
@@ -27,19 +27,19 @@ function RecaptchaComponent ({
   const webViewRef = useRef()
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(true)
-  const id = useComponentId()
+  const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
 
   const isInvisible = variant === 'invisible'
 
   const html = useMemo(() => {
     return getTemplate({
-      siteKey: getSiteKey(),
+      siteKey: recaptchaSiteKey,
       variant,
       theme,
       lang,
       id
     })
-  }, [variant, theme, lang, id])
+  }, [recaptchaSiteKey, variant, theme, lang, id])
 
   const handleLoad = useCallback(
     (...args) => {
@@ -87,11 +87,7 @@ function RecaptchaComponent ({
         }
         if (payload.verify) {
           handleClose()
-          onVerify && onVerify({
-            type: getRecaptchaType(),
-            token: payload.verify[0],
-            variant
-          })
+          onVerify && onVerify(...payload.verify)
         }
       } catch (err) {
         console.warn(err)
@@ -162,6 +158,7 @@ function RecaptchaComponent ({
 const Recaptcha = observer(RecaptchaComponent, { forwardRef: true })
 
 Recaptcha.defaultProps = {
+  id: 'recaptcha',
   theme: 'light',
   variant: 'invisible',
   baseUrl: BASE_URL || '',
@@ -170,6 +167,7 @@ Recaptcha.defaultProps = {
 
 Recaptcha.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  id: PropTypes.string,
   theme: PropTypes.oneOf(['light', 'dark']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,

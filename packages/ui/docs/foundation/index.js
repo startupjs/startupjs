@@ -2,8 +2,6 @@
 import { faLandmark } from '@fortawesome/free-solid-svg-icons'
 import TypographyEn from '../../components/typography/Typography.en.mdx'
 import TypographyRu from '../../components/typography/Typography.ru.mdx'
-import FontsEn from '../../components/typography/Fonts.en.mdx'
-import FontsRu from '../../components/typography/Fonts.ru.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
 import Colors from './colors.mdx'
 import BorderRadius from './borderRadius.mdx'
@@ -29,17 +27,6 @@ export default {
       component: {
         en: TypographyEn,
         ru: TypographyRu
-      }
-    },
-    Fonts: {
-      type: 'mdx',
-      title: {
-        en: 'Fonts',
-        ru: 'Шрифты'
-      },
-      component: {
-        en: FontsEn,
-        ru: FontsRu
       }
     },
     Collections: {

@@ -1,1 +1,1 @@
-export { default as setRecaptcha } from './setRecaptcha'
+export { default as setRecaptchaSiteKey } from './setRecaptchaSiteKey'
