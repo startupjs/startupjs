@@ -18,12 +18,18 @@ Add to the `startupjsServer` function:
 ```
 The `options` argument accepts an object with a `type` field, that specify which [reCAPTCHA type](https://www.google.com/recaptcha/about) you want to use (possible types: `enterprise` or `v3`)
 
-Add to the `getHead` function:
+In the `getHead` function, add a call to the `getRecaptchaHead` function:
+
 ```js
-  // If you use reCAPTCHA v3
-  <script src="https://www.google.com/recaptcha/api.js" async></script>
-  // If you use reCAPTCHA Enterprise
-  <script src="https://www.google.com/recaptcha/enterprise.js" async></script>
+  import { getRecaptchaHead } from '@startupjs/recaptcha/server'
+
+  function getHead (appName, req) {
+    return `
+      // ...
+      ${getRecaptchaHead(req)}
+      // ...
+    `
+}
 ```
 
 ## Configuring config.json

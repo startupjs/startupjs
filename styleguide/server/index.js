@@ -112,10 +112,10 @@ function getAuthStrategies () {
   return strategies
 }
 
-function getHead (appName) {
+function getHead (appName, req) {
   return `
     ${getUiHead()}
-    ${getRecaptchaHead()}
+    ${getRecaptchaHead(req)}
     <title>StartupJS UI</title>
     <!-- Put vendor JS and CSS here -->
   `

@@ -30,10 +30,10 @@ import './index.styl'
 ```js
   import { getRecaptchaHead } from '@startupjs/recaptcha/server'
 
-  function getHead (appName) {
+  function getHead (appName, req) {
     return `
       // ...
-      ${getRecaptchaHead()}
+      ${getRecaptchaHead(req)}
       // ...
     `
 }
