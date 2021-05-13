@@ -97,7 +97,8 @@ function Div ({
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
-  const isClickable = onPress || onLongPress
+  const isClickable = onPress || onLongPress ||
+    (renderTooltip && !showTooltipInvolved && !isWeb)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -116,7 +117,7 @@ function Div ({
         e.preventDefault()
       }
       if (disabled) return
-      onPress && onPress(e)
+      tooltipActions.onPress ? tooltipActions.onPress(e) : onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
@@ -126,7 +127,7 @@ function Div ({
         e.preventDefault()
       }
       if (disabled) return
-      onLongPress && onLongPress(e)
+      tooltipActions.onLongPress ? tooltipActions.onLongPress(e) : onLongPress(e)
     }
 
     // setup hover and active states styles and props
@@ -139,6 +140,7 @@ function Div ({
       wrapperProps.onPressOut = (...args) => {
         setActive()
         onPressOut && onPressOut(...args)
+        tooltipActions.onPressOut && tooltipActions.onPressOut()
       }
 
       if (isWeb) {
@@ -169,6 +171,21 @@ function Div ({
   // because it needed only when you want to override shadow from style sheet
   if (level) levelModifier = `shadow-${level}`
 
+  if (renderTooltip && !showTooltipInvolved) {
+    if (isWeb) {
+      const { onMouseOver, onMouseLeave } = props
+
+      props.onMouseOver = () => {
+        tooltipActions.onMouseOver()
+        onMouseOver()
+      }
+      props.onMouseLeave = () => {
+        tooltipActions.onMouseLeave()
+        onMouseLeave()
+      }
+    }
+  }
+
   function maybeWrapToClickable (children) {
     if (isClickable || renderTooltip) {
       return pug`
@@ -176,16 +193,6 @@ function Div ({
       `
     } else {
       return children
-    }
-  }
-
-  if (renderTooltip && !showTooltipInvolved) {
-    props.onMouseOver = (...args) => {
-      tooltipActions.onMouseOver(...args)
-    }
-    props.onMouseLeave = (...args) => {
-      tooltipActions.onMouseLeave()
-      props.onMouseLeave(...args)
     }
   }
 

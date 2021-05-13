@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Div from '../../Div'
 import DeprecatedPopover from './DeprecatedPopover'
 import { PLACEMENTS_ORDER } from './constants.json'
+import './index.styl'
 
 function Popover ({
   children,

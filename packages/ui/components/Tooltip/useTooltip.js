@@ -6,13 +6,13 @@ export default function useTooltip ({
 }) {
   if (showTooltipInvolved) return {}
 
-  function _onLongPress (cb) {
+  function _onLongPress (e) {
     onChange(true)
-    onLongPress && onLongPress()
+    onLongPress && onLongPress(e)
   }
 
   return {
-    onLongPress: () => _onLongPress(),
+    onLongPress: e => _onLongPress(e),
     onPressOut: () => onChange(false),
     onPress: onPress || onLongPress
   }
