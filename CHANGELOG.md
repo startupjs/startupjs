@@ -1,3 +1,23 @@
+## [0.34.10](https://github.com/startupjs/startupjs/compare/v0.34.9...v0.34.10) (2021-05-12)
+
+
+### Bug Fixes
+
+* **auth:** fix resend auth form ([#658](https://github.com/startupjs/startupjs/issues/658)) ([a6ac19e](https://github.com/startupjs/startupjs/commit/a6ac19efd3135bb426af09e083b9105b3d06c118))
+* **auth-local:** fix reassign const ([#651](https://github.com/startupjs/startupjs/issues/651)) ([3c37e5a](https://github.com/startupjs/startupjs/commit/3c37e5a06528ce21daf093d6bf618351d423ce16))
+* **ui/ArrayInput:** remove redundant props 'value' ([abe2724](https://github.com/startupjs/startupjs/commit/abe2724f6fb8056171b68c4a3bbef31e7e86de8e))
+* **ui/Modal:** fix bug related to opening modal using ref ([#650](https://github.com/startupjs/startupjs/issues/650)) ([f65f09e](https://github.com/startupjs/startupjs/commit/f65f09e8262d45b13b1e0299abdf95f477392f46))
+* **ui/ObjectInput:** remove redundant props 'value' ([787444d](https://github.com/startupjs/startupjs/commit/787444df87f9af493fed4d055301be9c11a92ea9))
+
+
+### Features
+
+* **docs/Sandbox:** display `required` label for required props ([#644](https://github.com/startupjs/startupjs/issues/644)) ([3c93431](https://github.com/startupjs/startupjs/commit/3c9343120fc6bd5e91a9a60966a159675c0fbc26))
+* **mdx:** add local urls support ([#655](https://github.com/startupjs/startupjs/issues/655)) ([3dad5b3](https://github.com/startupjs/startupjs/commit/3dad5b3b18685290e6beec903c7f4e0f1abf3317))
+* **react-sharedb:** add typescript declaration files ([#648](https://github.com/startupjs/startupjs/issues/648)) ([5911df6](https://github.com/startupjs/startupjs/commit/5911df633d5456f903f966403866b085ee4b6fe0))
+
+
+
 ## [0.34.9](https://github.com/startupjs/startupjs/compare/v0.34.8...v0.34.9) (2021-04-30)
 
 
