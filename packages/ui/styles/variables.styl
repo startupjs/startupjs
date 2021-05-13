@@ -14,10 +14,20 @@ $UI.gutters = merge({
   xxl: 5u
 }, $UI.gutters, true)
 
+$fontNormal = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif"
+$fontHeading = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif"
+
 $UI.fontFamilies = merge({
-  normal: 'Cochin',
-  heading: 'Cochin'
+  normal: $fontNormal,
+  heading: $fontHeading
 }, $UI.fontFamilies, true)
+
+$UI.fontWeights = {
+  normal: 400,
+  normalBold: 700,
+  heading: 400,
+  headingBold: 700
+}
 
 $UI.fontSizes = merge({
   xs: 1.25u, // DEPRECATED

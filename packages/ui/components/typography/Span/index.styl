@@ -8,11 +8,28 @@ _description = $UI.colors.secondaryText
     &.{variant}
       font(variant)
 
+  fontFamily('normal')
+
   &.bold
-    font-weight 700
+    fontFamily('normal', $UI.fontWeights.normalBold)
 
   &.italic
-    font-style italic
+    fontFamily('normal', $UI.fontWeights.normal, italic)
+
+  &.bold.italic
+    fontFamily('normal', $UI.fontWeights.normalBold, italic)
+
+  &.header
+    fontFamily('heading')
+
+    &.bold
+      fontFamily('heading', $UI.fontWeights.headingBold)
+
+    &.italic
+      fontFamily('heading', $UI.fontWeights.heading, italic)
+
+    &.bold.italic
+      fontFamily('heading', $UI.fontWeights.headingBold, italic)
 
   &.description
     color _description

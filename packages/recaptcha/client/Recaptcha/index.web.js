@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useImperativeHandle } from 'react'
-import { observer, useSession } from 'startupjs'
+import { observer, useComponentId } from 'startupjs'
 import PropTypes from 'prop-types'
-
-const isReady = () => Boolean(typeof window === 'object' && window.grecaptcha && window.grecaptcha.render)
+import {
+  getSiteKey,
+  isReady,
+  getGrecaptcha,
+  getRecaptchaType,
+  getIframeUrl
+} from '../../helpers'
 
 function RecaptchaComponent ({
-  id,
   theme,
   variant,
   lang,
@@ -17,17 +21,20 @@ function RecaptchaComponent ({
 }, ref) {
   const [ready, setReady] = useState(isReady())
   const [widget, setWidget] = useState()
-  const [onCloseObserver, setOnCloseObserver] = useState()
   const [readyInterval, setReadyInterval] = useState()
-  const [recaptchaSiteKey] = useSession('Recaptcha.SITE_KEY')
+  const id = useComponentId()
+
+  let onCloseObserver
+
+  const grecaptcha = getGrecaptcha()
 
   useImperativeHandle(ref, () => ({
     open: () => {
       onClose && _registerOnCloseListener()
-      variant === 'invisible' && window.grecaptcha.execute(widget)
+      variant === 'invisible' && grecaptcha.execute(widget)
     },
     close: () => {
-      variant === 'invisible' && window.grecaptcha.reset(widget)
+      variant === 'invisible' && grecaptcha.reset(widget)
     }
   }))
 
@@ -52,18 +59,18 @@ function RecaptchaComponent ({
         onCloseObserver.disconnect()
       }
       if (_isRendered()) {
-        window.grecaptcha.reset(widget)
+        grecaptcha.reset(widget)
       }
     }
   }, [readyInterval])
 
   const _renderRecaptcha = () => {
-    setWidget(window.grecaptcha.render(id, {
-      sitekey: recaptchaSiteKey,
+    setWidget(grecaptcha.render(id, {
+      sitekey: getSiteKey(variant),
       size: variant,
       theme,
       hl: lang,
-      callback: onVerify,
+      callback: token => onVerify({ type: getRecaptchaType(), token, variant }),
       'expired-callback': onExpire,
       'error-callback': onError
     }))
@@ -88,18 +95,18 @@ function RecaptchaComponent ({
 
     const iframes = document.getElementsByTagName('iframe')
     const recaptchaFrame = Array.prototype.find
-      .call(iframes, e => e.src.includes('google.com/recaptcha/api2/bframe'))
+      .call(iframes, e => e.src.includes(getIframeUrl()))
     const recaptchaElement = recaptchaFrame.parentNode.parentNode
 
     let lastOpacity = recaptchaElement.style.opacity
-    setOnCloseObserver(new MutationObserver(() => {
+    onCloseObserver = new MutationObserver(() => {
       if (lastOpacity !== recaptchaElement.style.opacity &&
                 recaptchaElement.style.opacity == 0) { // eslint-disable-line
         onClose()
       }
       lastOpacity = recaptchaElement.style.opacity
-    }))
-    onCloseObserver.observe(recaptchaElement, {
+    })
+    onCloseObserver && onCloseObserver.observe(recaptchaElement, {
       attributes: true,
       attributeFilter: ['style']
     })
@@ -113,14 +120,12 @@ function RecaptchaComponent ({
 const Recaptcha = observer(RecaptchaComponent, { forwardRef: true })
 
 Recaptcha.defaultProps = {
-  id: 'recaptcha',
   theme: 'light',
   variant: 'invisible',
   lang: 'en'
 }
 
 Recaptcha.propTypes = {
-  id: PropTypes.string,
   theme: PropTypes.oneOf(['light', 'dark']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,

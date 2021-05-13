@@ -1,0 +1,103 @@
+# Fonts
+
+The font system is one of the most foundational parts of any interface design.
+
+A well-designed font system greatly enhances the user's readability and efficiency, because text helps users understand application content and do their work.
+
+## Font family
+
+In order to implement a good font system, the first thing is to choose an appropriate font family. In StartupJS we prefer to use the default system font family and then also provide a set of alternative fonts to maintain readability for screens on different platforms and browsers.
+
+```
+system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif
+```
+
+You can change the default font families by changing `$UI.fontFamilies.*`, where `*` is:
+
+  * `normal` font family for body text (used for `Span` component)
+  * `heading` font family for headers text (used for components `H1-H6`)
+
+## Font weight
+
+The `$UI.fontWeights` variable defines the default font weight for font families, you can override them if necessary
+
+```stylus
+$UI.fontWeights = {
+  normal: 400,
+  normal bold: 700,
+  header: 400,
+  headingBold: 700,
+}
+```
+
+## Additional font names
+
+You can add an additional semantic names with your own font families to `styles/index.styl`
+
+```stylus
+@require '../../node_modules/@startupjs/ui/styles/index.styl'
+$UI.fontFamilies.myFont = 'Roboto, sans-serif' // add additional font families to 'myFont' name
+```
+
+## How to set the font for an element?
+
+To set the font family for an element you need to use `fontFamily(name, weight, style)` mixin in your styles, where:
+
+* `name` is semantic font's name from `$UI.fontFamilies` (default value is `'normal'`)
+
+* `weight` is font's weight, supporting any values from 100 to 900 in increments of 100 (default value is `$UI.fontWeights.normal`)
+
+* `style` is font's style, supporting values `normal` or `italic` (default value is `normal`)
+
+
+```stylus
+.text
+  fontFamily('normal')
+
+  &.bold
+    fontFamily('normal', 700)
+
+  &.italic
+    fontFamily('normal', undefined, italic)
+
+  &.bold.italic
+    fontFamily('normal', 700, italic)
+
+.textWithAdditionalFont
+  fontFamily('myFont')
+```
+
+## Custom fonts
+
+To add custom fonts you need:
+
+The name of the font files must be in accordance with the Google Fonts rules
+
+1. Download the font files and place them to the `public/fonts` folder. Then run `yarn fonts` command that will configure the fonts for further use. The name of the font files must comply with the Google Fonts rules - `{Font name}-{Thickness}{Style}`, for example `Roboto-Regular`, `Roboto-Italic`, `BaiJumjuree-BoldItalic`. **NOTE**: for regular italic text google omits thickness word `Regular` in font name.
+
+1. Add your custom `Font name` (only font name without thickness and style) to the `$UI.customFontFamilies` list.
+
+  ```stylus
+  $UI.customFontFamilies = 'Roboto, BaiJumjuree'
+  ```
+
+1. Then ou can override any semantic font name or add an additional semantic name with your custom font.
+
+  ```stylus
+  $UI.fontFamilies.heading = 'Roboto'
+  $UI.fontFamilies.myFont = 'BaiJumjuree'
+  ```
+
+As an example, if you want to change the font for body text of the application to `Lato`, you need:
+
+* add `Lato-Regular` font for regular text
+
+* add `Lato-RegularItalic`, `Lato-Bold`, `Lato-BoldItalic` fonts since the `Span` component has `bold` and `italic` modifiers to make text bold and italic accordingly
+
+* override the `$UI.fontFamilies.normal` variable that the `Span` component uses and add font to `$UI.customFontFamilies` to `styles/index.styl` file
+
+```stylus
+@require '../../node_modules/@startupjs/ui/styles/index.styl'
+$UI.fontFamilies.normal = 'Lato'
+$UI.customFontFamilies = 'Lato'
+```
