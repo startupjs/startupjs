@@ -1,6 +1,6 @@
 import React from 'react'
-import { observer } from 'startupjs'
 import { Platform } from 'react-native'
+import { observer } from 'startupjs'
 import Span from './Span'
 
 export default function generateHeader (tag) {

@@ -24,15 +24,15 @@ system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helve
 ```stylus
 $UI.fontWeights = {
   normal: 400,
-  normal bold: 700,
-  header: 400,
-  headingBold: 700,
+  normalBold: 700,
+  heading: 400,
+  headingBold: 700
 }
 ```
 
 ## Дополнительные имена шрифтов
 
-Вы можете добавить дополнительные семантические имена с вашими собственными семействами шрифтов в `styles/index.styl
+Вы можете добавить дополнительные семантические имена с вашими собственными семействами шрифтов в `styles/index.styl`
 
 ```stylus
 @require '../../node_modules/@startupjs/ui/styles/index.styl'
@@ -41,7 +41,7 @@ $UI.fontFamilies.myFont = 'Roboto, sans-serif' // add additional font families t
 
 ## Как установить шрифт для элемента?
 
-Чтобы установить семейство шрифтов для элемента, вам нужно использовать миксин `fontFamily (name, weight, style)` в ваших стилях, где:
+Чтобы установить семейство шрифтов для элемента, вам нужно использовать миксин `fontFamily(name, weight, style)` в ваших стилях, где:
 
 * `name` - имя семантического шрифта из `$UI.fontFamilies` (значение по умолчанию `'normal'`)
 

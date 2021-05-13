@@ -14,9 +14,9 @@ import Tr from '../table/Tr'
 import Th from '../table/Th'
 import Td from '../table/Td'
 import { Sandbox } from '@startupjs/docs'
-import './index.styl'
+import './index.mdx.styl'
 
-# Typography
+# Typography components
 
 A set of components to make text clear and easy to read to the end user. The base component of typography is `Span`, which means that all other components use it in different variations for example headers.
 
@@ -69,69 +69,69 @@ return (
 <Table style={tableStyle}>
     <Thead>
       <Tr>
-        <Th {...hoverOptions}>
+        <Th>
           Font
         </Th>
-        <Th {...hoverOptions}>font-size</Th>
-        <Th {...hoverOptions}>line-height</Th>
+        <Th>font-size</Th>
+        <Th>line-height</Th>
       </Tr>
     </Thead>
     <Tbody>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='h1'>H1</Span>
         </Td>
-        <Td>72px</Td>
-        <Td>96px</Td>
+        <Td styleName='td'>72px</Td>
+        <Td styleName='td'>96px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='h2'>H2</Span>
         </Td>
-        <Td>48px</Td>
-        <Td>64px</Td>
+        <Td styleName='td'>48px</Td>
+        <Td styleName='td'>64px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='h3'>H3</Span>
         </Td>
-        <Td>36px</Td>
-        <Td>48px</Td>
+        <Td styleName='td'>36px</Td>
+        <Td styleName='td'>48px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='h4'>H4</Span>
         </Td>
-        <Td>24px</Td>
-        <Td>32px</Td>
+        <Td styleName='td'>24px</Td>
+        <Td styleName='td'>32px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='h5'>H5</Span>
         </Td>
-        <Td>20px</Td>
-        <Td>28px</Td>
+        <Td styleName='td'>20px</Td>
+        <Td styleName='td'>28px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='h6'>H6</Span>
         </Td>
-        <Td>16px</Td>
-        <Td>24px</Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>24px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='body1'>body1</Span>
         </Td>
-        <Td>16px</Td>
-        <Td>24px</Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>24px</Td>
       </Tr>
       <Tr {...hoverOptions}>
-        <Td>
+        <Td styleName='td'>
           <Span styleName='body2'>body2 (default)</Span>
         </Td>
-        <Td>14px</Td>
-        <Td>20px</Td>
+        <Td styleName='td'>14px</Td>
+        <Td styleName='td'>20px</Td>
       </Tr>
     </Tbody>
   </Table>
@@ -140,7 +140,7 @@ return (
 
 ## Headers
 
-`H*` components are used for heading or subheadings of a section or a page. The main difference from the `Span` component with `variant` property is that the `H*` paste semantic tags to DOM on web.
+`H*` components are used for heading or subheadings of a section or a page. The main difference from the `Span` component with mixin `font(size)` is that the `H*` paste semantic tags to DOM on web.
 
 ```jsx example
 return (
