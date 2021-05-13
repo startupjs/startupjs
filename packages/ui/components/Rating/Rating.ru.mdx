@@ -10,9 +10,17 @@ import { Sandbox } from '@startupjs/docs'
 import { Rating } from '@startupjs/ui'
 ```
 
-## Example
+## Простой пример
 
 Рейтинг предоставляет пятизвездочную систему оценки. Свойство `value` округляется до ближайщего целого числа.
+
+```jsx example
+return (
+  <Rating value={3} />
+)
+```
+
+## Управление рейтингом
 
 ```jsx example
 const [rated, setRated] = useState(0)

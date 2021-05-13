@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { observer, useOn } from 'startupjs'
 import PropTypes from 'prop-types'
 import { registerAnchor, unregisterAnchor } from '../../helpers'
+
+const isAndroid = Platform.OS === 'android'
 
 function Anchor ({ id, children, style, Component, ...componentProps }) {
   const ref = useRef()
@@ -12,10 +14,13 @@ function Anchor ({ id, children, style, Component, ...componentProps }) {
   }
 
   function getPosition () {
-    ref.current.measure((fx, fy) => {
+    // Measure doesn't work properly under Android
+    // It always receives ( x: 0, y: 0 ) so Anchors will not work with nested ScrollableAreas
+    // Android anchors will work with top level ScrollableProvider
+    ref.current.measure((x, y, width, height, px, py) => {
       registerAnchor({
         anchorId: id,
-        posY: fy
+        posY: Math.round(isAndroid ? py : y)
       })
     })
   }
@@ -27,7 +32,9 @@ function Anchor ({ id, children, style, Component, ...componentProps }) {
   return pug`
     // Extra block to calculate correct y pos of element on parent size changes
     // IE: Parent can have dynamic content, we need recalc anchors positions when content changes
-    View(ref=ref)
+    // + issue with Android and ref.measure https://github.com/facebook/react-native/issues/3282#issuecomment-201934117
+    // collapsable false is required to measureInWindow item correectly
+    View(ref=ref collapsable=false)
     Component(
       ...componentProps
       style=style

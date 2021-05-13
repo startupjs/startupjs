@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.34.5",
+  "version": "0.34.10",
   "sideEffects": [],
   "private": true,
   "scripts": {
@@ -33,15 +33,15 @@
     "@startupjs/auth-azuread": "^0.34.0",
     "@startupjs/auth-common": "^0.34.0",
     "@startupjs/auth-facebook": "^0.34.0",
-    "@startupjs/auth-google": "^0.34.0",
+    "@startupjs/auth-google": "^0.34.9",
     "@startupjs/auth-idg": "^0.34.0",
     "@startupjs/auth-linkedin": "^0.34.0",
-    "@startupjs/auth-local": "^0.34.2",
-    "@startupjs/docs": "^0.34.5",
-    "@startupjs/mdx": "^0.34.5",
+    "@startupjs/auth-local": "^0.34.10",
+    "@startupjs/docs": "^0.34.10",
+    "@startupjs/mdx": "^0.34.10",
     "@startupjs/recaptcha": "^0.34.0",
-    "@startupjs/scrollable-anchors": "^0.34.5",
-    "@startupjs/ui": "^0.34.5",
+    "@startupjs/scrollable-anchors": "^0.34.10",
+    "@startupjs/ui": "^0.34.10",
     "@startupjs/2fa-manager": "^0.34.0",
     "@startupjs/2fa-totp-authentication": "^0.34.0",
     "@startupjs/2fa-totp-authentication-provider": "^0.34.0",
@@ -58,7 +58,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^3.0.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.34.0",
+    "startupjs": "^0.34.10",
     "text-encoding-polyfill": "^0.6.7"
   }
 }

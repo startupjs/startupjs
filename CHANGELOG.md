@@ -1,3 +1,73 @@
+## [0.34.10](https://github.com/startupjs/startupjs/compare/v0.34.9...v0.34.10) (2021-05-12)
+
+
+### Bug Fixes
+
+* **auth:** fix resend auth form ([#658](https://github.com/startupjs/startupjs/issues/658)) ([a6ac19e](https://github.com/startupjs/startupjs/commit/a6ac19efd3135bb426af09e083b9105b3d06c118))
+* **auth-local:** fix reassign const ([#651](https://github.com/startupjs/startupjs/issues/651)) ([3c37e5a](https://github.com/startupjs/startupjs/commit/3c37e5a06528ce21daf093d6bf618351d423ce16))
+* **ui/ArrayInput:** remove redundant props 'value' ([abe2724](https://github.com/startupjs/startupjs/commit/abe2724f6fb8056171b68c4a3bbef31e7e86de8e))
+* **ui/Modal:** fix bug related to opening modal using ref ([#650](https://github.com/startupjs/startupjs/issues/650)) ([f65f09e](https://github.com/startupjs/startupjs/commit/f65f09e8262d45b13b1e0299abdf95f477392f46))
+* **ui/ObjectInput:** remove redundant props 'value' ([787444d](https://github.com/startupjs/startupjs/commit/787444df87f9af493fed4d055301be9c11a92ea9))
+
+
+### Features
+
+* **docs/Sandbox:** display `required` label for required props ([#644](https://github.com/startupjs/startupjs/issues/644)) ([3c93431](https://github.com/startupjs/startupjs/commit/3c9343120fc6bd5e91a9a60966a159675c0fbc26))
+* **mdx:** add local urls support ([#655](https://github.com/startupjs/startupjs/issues/655)) ([3dad5b3](https://github.com/startupjs/startupjs/commit/3dad5b3b18685290e6beec903c7f4e0f1abf3317))
+* **react-sharedb:** add typescript declaration files ([#648](https://github.com/startupjs/startupjs/issues/648)) ([5911df6](https://github.com/startupjs/startupjs/commit/5911df633d5456f903f966403866b085ee4b6fe0))
+
+
+
+## [0.34.9](https://github.com/startupjs/startupjs/compare/v0.34.8...v0.34.9) (2021-04-30)
+
+
+### Bug Fixes
+
+* **auth-local:** move email case to lower case ([#640](https://github.com/startupjs/startupjs/issues/640)) ([c8affa6](https://github.com/startupjs/startupjs/commit/c8affa6ce98b6002434c3ace7b07be68c79c1dbb))
+* **docs:** make topbar non-overlapping content ([#635](https://github.com/startupjs/startupjs/issues/635)) ([c82e5c3](https://github.com/startupjs/startupjs/commit/c82e5c324817c7bb0b58e55d902e640d33932042))
+* **ui/AutoSuggest:** don't clean input on blur if correct value is not set ([#642](https://github.com/startupjs/startupjs/issues/642)) ([1c869a3](https://github.com/startupjs/startupjs/commit/1c869a396ba6f03ec527d8232e22f270314b8cf9))
+* **ui/Modal:** deprecate , use  instead ([6c3222d](https://github.com/startupjs/startupjs/commit/6c3222dcbf026a7e1965dd1f4b5cd9fcfbb78504))
+* **ui/Modal:** fix  triggering on first rendering ([2ff7c9d](https://github.com/startupjs/startupjs/commit/2ff7c9d101fc05f09f6dd65ece8898ef16897b55))
+
+
+### Features
+
+* **auth-google:** pass login options to google auth library ([#634](https://github.com/startupjs/startupjs/issues/634)) ([1c05776](https://github.com/startupjs/startupjs/commit/1c05776fbf3bdf0bb308b34268cdfea32bf3b7f7))
+
+
+
+## [0.34.8](https://github.com/startupjs/startupjs/compare/v0.34.7...v0.34.8) (2021-04-26)
+
+
+### Bug Fixes
+
+* **auth:** error format in res ([2017532](https://github.com/startupjs/startupjs/commit/20175320053ba22d2646d47ead0039bc35cdd709))
+
+
+### Features
+
+* **mdx:** add md table support and jsx pure-example ([#631](https://github.com/startupjs/startupjs/issues/631)) ([ea8b34d](https://github.com/startupjs/startupjs/commit/ea8b34d5014e43c148225615e06acc8002982ee3))
+
+
+
+## [0.34.7](https://github.com/startupjs/startupjs/compare/v0.34.6...v0.34.7) (2021-04-21)
+
+
+### Bug Fixes
+
+* **auth:** Update local provider id ([e8e254b](https://github.com/startupjs/startupjs/commit/e8e254b43f3b27ca5b3e55eb32f79ae711a9d228))
+
+
+
+## [0.34.6](https://github.com/startupjs/startupjs/compare/v0.34.5...v0.34.6) (2021-04-21)
+
+
+### Features
+
+* **auth:** Email update feature ([59ddca5](https://github.com/startupjs/startupjs/commit/59ddca5d27db69237db8575606ac772e8c34ec9f))
+
+
+
 ## [0.34.5](https://github.com/startupjs/startupjs/compare/v0.34.4...v0.34.5) (2021-04-20)
 
 

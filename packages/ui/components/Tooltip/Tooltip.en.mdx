@@ -22,29 +22,13 @@ Before use you need to configure [Portal](/docs/components/Portal)
 - content: hidden part, can be string or jsx
 - children: visible part
 
-## Example with Text
+## Simple example
 
 ```jsx example
-const wrapperStyle = { backgroundColor: '#dddddd', height: 40, borderRadius: 6, width: 100, alignItems: 'center', justifyContent: 'center' }
-
-const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
-
 return (
   <Row>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Caption 1</Span>
-      </Div>
-    </Tooltip>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Caption 2</Span>
-      </Div>
-    </Tooltip>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Caption 3</Span>
-      </Div>
+    <Tooltip content="tooltip">
+      <Span>Content</Span>
     </Tooltip>
   </Row>
 )

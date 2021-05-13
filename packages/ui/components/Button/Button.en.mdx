@@ -19,13 +19,12 @@ Buttons allow users to perform an action or to navigate to another page. They ha
 import { Button } from '@startupjs/ui'
 ```
 
-## Example
-
+## Simple example
 ```jsx example
 const [counter, setCounter] = useState(0)
 
 return (
-  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} color='primary' variant='flat'>
+  <Button onPress={() => setCounter(counter + 1)}>
     Clicked {counter} times
   </Button>
 )

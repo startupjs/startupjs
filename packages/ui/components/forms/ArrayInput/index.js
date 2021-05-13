@@ -13,14 +13,11 @@ export default observer(function ObjectInput ({
   style,
   inputStyle,
   $value,
-  value,
   label,
   items
 }) {
-  if (!$value) {
-    console.error('[ui -> Array] $value is required')
-    return null
-  }
+  const value = $value.get()
+
   if (!items) {
     console.error('[ui -> Array] items is required')
     return null
