@@ -1,15 +1,11 @@
 import { EventEmitter } from 'events'
 import random from 'lodash/random.js'
-import path, { dirname } from 'path'
 import cluster from 'cluster'
-import { fileURLToPath } from 'url'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import entryPath from './entryPath.cjs'
 
 const env = process.env
-const WORKER_ENTRY_PATH = path.join(__dirname, './executor.js')
 
-cluster.setupMaster({ exec: WORKER_ENTRY_PATH })
+cluster.setupMaster({ exec: entryPath })
 
 export default class Worker extends EventEmitter {
   constructor () {
