@@ -5,8 +5,9 @@ import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
-import { init2fa } from '@startupjs/2fa/server'
-import { initRecaptcha } from '@startupjs/recaptcha/server'
+import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
+import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
 import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
@@ -48,9 +49,13 @@ startupjsServer({
   })
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
   initUi(ee, { dirname: rootPath })
-  init2fa(ee, { appName: app.name })
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
+  initTwoFAManager(ee, {
+    providers: [
+      [TotpProvider, { appName: app.name }]
+    ]
+  })
 
   initPushNotifications(ee)
 
@@ -87,7 +92,17 @@ function getAuthStrategies () {
       clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
       clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
     }),
-    new LocalStrategy(),
+    new LocalStrategy({
+      getUserData: function () {
+        return {
+          email: this.getEmail(),
+          firstName: this.getFirstName(),
+          lastName: this.getLastName(),
+          avatarUrl: this.getAvatarUrl(),
+          age: this.profile.age
+        }
+      }
+    }),
     new IDGStrategy({
       clientId: conf.get('IDG_CLIENT_ID'),
       clientSecret: conf.get('IDG_CLIENT_SECRET')
@@ -119,11 +134,11 @@ function getAuthStrategies () {
   return strategies
 }
 
-function getHead (appName) {
+function getHead (appName, req) {
   return `
     ${getUiHead()}
+    ${getRecaptchaHead(req)}
     <title>StartupJS UI</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
     <!-- Put vendor JS and CSS here -->
   `
 }
