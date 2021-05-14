@@ -1,9 +1,4 @@
-import H1 from './H1'
-import H2 from './H2'
-import H3 from './H3'
-import H4 from './H4'
-import H5 from './H5'
-import H6 from './H6'
+import { H1, H2, H3, H4, H5, H6 } from './headers'
 import Span from './Span'
 import Br from '../Br'
 import Div from '../Div'
@@ -18,7 +13,9 @@ import './index.mdx.styl'
 
 # Typography components
 
-A set of components to make text clear and easy to read to the end user. The base component of typography is `Span`, which means that all other components use it in different variations for example headers.
+Inherits [Text props](https://reactnative.dev/docs/next/text).
+
+A set of components to make text clear and easy to read to the end user.
 
 ```jsx
 import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
@@ -26,13 +23,15 @@ import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
 
 ## Span
 
+The base component of typography is `Span`
+
 ```jsx example
   <Span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</Span>
 ```
 
 ## Sizes
 
-To change text size use `font(size)` global mixin. Possible values of `size` (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `body1`, `body2`, `subtitle1`, `subtitle2`). `body2` is default `Span` size.
+To change text size use `font(size)` global mixin. Possible values of `size` (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `body1`, `body2`). `body2` is default `Span` size.
 
 In `.styl` file
 ```stylus
@@ -44,7 +43,7 @@ In `.styl` file
   <Span styleName='text'>Text size - xxl.</Span>
 ```
 
-## Variants
+## Size table
 
 ```jsx pure-example
 const tableStyle = {
@@ -140,7 +139,8 @@ return (
 
 ## Headers
 
-`H*` components are used for heading or subheadings of a section or a page. The main difference from the `Span` component with mixin `font(size)` is that the `H*` paste semantic tags to DOM on web.
+`H*` components are used for heading or subheadings of a section or ф page, and they also paste semantic tags to DOM on the web.
+
 
 ```jsx example
 return (

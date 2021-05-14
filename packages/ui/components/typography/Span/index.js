@@ -14,26 +14,6 @@ function Span ({
   description,
   ...props
 }) {
-  styl`
-    _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
-    _description = $UI.colors.secondaryText
-
-    .root
-      fontFamily('normal')
-
-      &.bold
-        fontFamily('normal', $UI.fontWeights.normalBold)
-
-      &.italic
-        fontFamily('normal', $UI.fontWeights.normal, italic)
-
-      &.bold.italic
-        fontFamily('normal', $UI.fontWeights.normalBold, italic)
-
-      &.description
-        color _description
-  `
-
   if (variant && variant !== 'default') {
     if (variant === 'description') {
       console.warn("[@startupjs/ui] Span: variant='description' is DEPRECATED, use prop description instead.")
@@ -65,3 +45,27 @@ Span.propTypes = {
 }
 
 export default observer(themed(Span))
+
+styl`
+    _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
+    _description = $UI.colors.secondaryText
+
+    .root
+      fontFamily('normal')
+
+      for variant in _variants
+        &.{variant}
+          font(variant)
+
+      &.bold
+        fontFamily('normal', $UI.fontWeights.normalBold)
+
+      &.italic
+        fontFamily('normal', $UI.fontWeights.normal, italic)
+
+      &.bold.italic
+        fontFamily('normal', $UI.fontWeights.normalBold, italic)
+
+      &.description
+        color _description
+  `
