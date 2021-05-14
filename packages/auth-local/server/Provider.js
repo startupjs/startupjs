@@ -1,7 +1,15 @@
 import { BaseProvider } from '@startupjs/auth/server'
+import _pick from 'lodash/pick'
 const PROVIDER_NAME = 'local'
 
 export default class LocalProvider extends BaseProvider {
+  constructor (model, profile, config) {
+    super(model, profile, config)
+
+    const methods = _pick(config, ['getUserData'])
+    Object.assign(this, methods)
+  }
+
   getProviderName () {
     return PROVIDER_NAME
   }

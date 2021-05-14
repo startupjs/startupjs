@@ -85,7 +85,17 @@ function getAuthStrategies () {
       clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
       clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
     }),
-    new LocalStrategy(),
+    new LocalStrategy({
+      getUserData: function () {
+        return {
+          email: this.getEmail(),
+          firstName: this.getFirstName(),
+          lastName: this.getLastName(),
+          avatarUrl: this.getAvatarUrl(),
+          age: this.profile.age
+        }
+      }
+    }),
     new IDGStrategy({
       clientId: conf.get('IDG_CLIENT_ID'),
       clientSecret: conf.get('IDG_CLIENT_SECRET')
