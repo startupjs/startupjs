@@ -15,9 +15,8 @@ const {
 const isWeb = Platform.OS === 'web'
 
 const ICON_SIZES = {
-  m: 'xs',
-  l: 'm',
-  default: 'xs'
+  m: 's',
+  l: 'm'
 }
 
 function Badge ({
@@ -26,15 +25,10 @@ function Badge ({
   label,
   icon,
   position,
-  size, // DEPRECATED
+  size,
   variant
 }) {
   if (!colors[color]) console.error('Badge component: Color for color property is incorrect. Use colors from $UI.colors')
-  if (size) {
-    console.warn('[@startupjs/ui] Badge: prop size is DEPRECATED, use variant instead.')
-    // TODO: It is necessary to remove all references to size in the next major version
-    variant = size
-  }
 
   const [right, setRight] = useState(0)
 
@@ -54,6 +48,7 @@ function Badge ({
       = children
       Row.badge(
         styleName=[
+          size,
           variant,
           position,
           { withLabel: label }
@@ -64,17 +59,17 @@ function Badge ({
         ]
         onLayout=onLayout
       )
-        if variant !== 'dot' && variant !== 's'
+        if variant === 'default'
           if icon
             Icon.icon(
               styleName=[{ withLabel: label }]
               icon=icon
-              size=ICON_SIZES[variant]
+              size=ICON_SIZES[size]
             )
           if label
             Span.label(
-                styleName=[variant]
-                bold=variant === 'l'
+                styleName=[size]
+                bold=size === 'l'
               )= label
   `
 }
@@ -82,7 +77,8 @@ function Badge ({
 Badge.defaultProps = {
   color: 'primary',
   position: 'top',
-  variant: 'default'
+  variant: 'default',
+  size: 'm'
 }
 
 Badge.propTypes = {
@@ -91,6 +87,7 @@ Badge.propTypes = {
   label: PropTypes.string,
   icon: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom']),
+  size: PropTypes.oneOf(['s', 'm', 'l']),
   variant: PropTypes.oneOf(['default', 'dot'])
 }
 

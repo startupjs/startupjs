@@ -23,9 +23,29 @@ return (
 )
 ```
 
+## Sizes
+
+Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the default and most frequently used. The other sizes should be used sparingly to create a hierarchy of importance on a page.
+
+```jsx example
+return (
+  <Row>
+    <Badge label='16' size='s'>
+      <Div styleName='child' pushed/>
+    </Badge>
+    <Badge label='20'>
+      <Div styleName='child' pushed/>
+    </Badge>
+    <Badge label='24' size='l'>
+      <Div styleName='child' pushed/>
+    </Badge>
+  </Row>
+)
+```
+
 ## Variants
 
-Badges are of two types: `default` and `dot`. `default` it is the most frequently used and the default specified. `dot` turns the icon into a small dot, this can be used as a message that something has changed without content.
+Badges are of two types: `default` and `dot`. `default` it is the most frequently used and the default specified. `dot` turns the icon into a small dot, this can be used as a message that something has changed without content. If the property is `variant='dot'`, the `size` property will be ignored.
 
 ```jsx example
 return (
