@@ -1,3 +1,15 @@
+$fontWeightNamesMap = {
+  '100': 'Thin',
+  '200': 'ExtraLight',
+  '300': 'Light',
+  '400': 'Regular',
+  '500': 'Medium',
+  '600': 'SemiBold',
+  '700': 'Bold',
+  '800': 'ExtraBold'
+  '900': 'Black'
+}
+
 font(size = body2)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
@@ -31,3 +43,35 @@ text(key = default) // DEPRECATED
     font(xl)
   else if key is h6
     font(l)
+
+fontFamily(
+  fontName = 'normal',
+  fontWeight = $UI.fontWeights.normal,
+  fontStyle = normal
+)
+  fontFamily = $UI.fontFamilies[fontName]
+
+  if (isCustomFont(fontFamily)) {
+    thickness = $fontWeightNamesMap['' + fontWeight]
+    isRegular = thickness is 'Regular'
+    isItalic = fontStyle is italic
+
+    fontFamily += '-'
+    // add thickness
+    // don't add thickness to font family name if regular and italic
+    if (!isRegular || !isItalic) {
+      fontFamily += $fontWeightNamesMap['' + fontWeight]
+    }
+    // add style
+    if (isItalic) {
+      fontFamily += 'Italic'
+    }
+    font-family fontFamily
+  } else {
+    font-family fontFamily
+    font-weight fontWeight
+    font-style fontStyle
+  }
+
+isCustomFont(fontFamily)
+  return index($UI.customFontFamilies, fontFamily)

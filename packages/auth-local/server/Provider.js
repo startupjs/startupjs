@@ -48,10 +48,6 @@ export default class LocalProvider extends BaseProvider {
     return data
   }
 
-  getUserData () {
-    return this.profile
-  }
-
   async loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
