@@ -36,6 +36,7 @@ function AutoSuggest ({
   placeholder,
   renderItem,
   renderTag,
+  renderInput,
   isLoading,
   label,
   disabled,
@@ -93,15 +94,18 @@ function AutoSuggest ({
 
   function _onSelect (item) {
     if (multiselect) {
-      value.push(item)
+      const index = value.findIndex(i => i.value === item.value)
+      if (index !== -1) value.splice(index, 1)
+      else value.push(item)
+
       onChange && onChange([...value]) // DEPRECATED
       onSelect && onSelect([...value])
+      refInput.current.focus()
     } else {
       onChange && onChange(item) // DEPRECATED
       onSelect && onSelect(item)
+      onClose()
     }
-
-    onClose()
   }
 
   function _renderItem ({ item, index }) {
@@ -168,14 +172,6 @@ function AutoSuggest ({
     `
   }
 
-  if (multiselect) {
-    return pug`
-      MultiSelect(
-        options=options
-      )
-    `
-  }
-
   return pug`
     Div(
       _showTooltip=(isShow || isLoading)
@@ -194,20 +190,33 @@ function AutoSuggest ({
         },
         onDismiss: onClose
       }
+      styleName={ multiselect }
     )
-      TextInput(
-        ref=refInput
-        inputStyle=_inputStyle
-        value=(!isShow && value.label) || inputValue
-        placeholder=placeholder
-        label=label
-        disabled=disabled
-        size=size
-        testID=testID
-        onChangeText=_onChangeText
-        onFocus=()=> setIsShow(true)
-        onKeyPress=onKeyPress
-      )
+      if multiselect
+        MultiSelect(
+          ref=refInput
+          value=value
+          placeholder=placeholder
+          inputValue=inputValue
+          renderTag=renderTag
+          onChangeShow=v=> setIsShow(v)
+          onChangeText=_onChangeText
+          onChange=onChange
+        )
+      else
+        TextInput(
+          ref=refInput
+          inputStyle=_inputStyle
+          value=(!isShow && value.label) || inputValue
+          placeholder=placeholder
+          label=label
+          disabled=disabled
+          size=size
+          testID=testID
+          onChangeText=_onChangeText
+          onFocus=()=> setIsShow(true)
+          onKeyPress=onKeyPress
+        )
   `
 }
 
@@ -224,10 +233,7 @@ AutoSuggest.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   captionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   options: PropTypes.array.isRequired,
-  value: PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string
-  }).isRequired,
+  value: PropTypes.any,
   placeholder: PropTypes.string,
   renderItem: PropTypes.func,
   isLoading: PropTypes.bool,
