@@ -1,3 +1,12 @@
+## [0.35.3](https://github.com/startupjs/startupjs/compare/v0.35.2...v0.35.3) (2021-05-14)
+
+
+### Features
+
+* **auth-local:** add ability to override `getUserData` method ([#664](https://github.com/startupjs/startupjs/issues/664)) ([33d6b80](https://github.com/startupjs/startupjs/commit/33d6b8057112c0db684ef43b80bb0393f344e5ac))
+
+
+
 ## [0.35.2](https://github.com/startupjs/startupjs/compare/v0.35.1...v0.35.2) (2021-05-14)
 
 
