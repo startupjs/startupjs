@@ -69,7 +69,6 @@ function Badge ({
           if label
             Span.label(
                 styleName=[size]
-                bold=size === 'l'
               )= label
   `
 }
