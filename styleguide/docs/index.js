@@ -1,7 +1,10 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import twoFADocs from '../../packages/2fa/docs'
+import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx'
+import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
+import TOTPProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
+import TOTPProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
 import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
 import AuthMainEn from '../../packages/auth/docs/readme.en.md'
 import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
@@ -24,6 +27,8 @@ import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
 import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import TwoFAManagerEn from '../../packages/2fa-manager/docs/2fa-manager.en.mdx'
+import TwoFAManagerRu from '../../packages/2fa-manager/docs/2fa-manager.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -142,7 +147,42 @@ export default docs({
           ru: ScrollableAnchorsRu
         }
       },
-      ...twoFADocs,
+      '2fa': {
+        type: 'collapse',
+        title: {
+          en: '2fa',
+          ru: '2fa'
+        },
+        items: {
+          TwoFAManager: {
+            type: 'mdx',
+            title: {
+              en: 'Manager',
+              ru: 'Менеджер'
+            },
+            component: {
+              en: TwoFAManagerEn,
+              ru: TwoFAManagerRu
+            }
+          },
+          '2fa-totp-authentication': {
+            type: 'mdx',
+            title: 'Totp authentication',
+            component: {
+              en: TwoFAGAEn,
+              ru: TwoFAGARu
+            }
+          },
+          GAProvider: {
+            type: 'mdx',
+            title: 'Totp authentication Provider',
+            component: {
+              en: TOTPProviderEn,
+              ru: TOTPProviderRu
+            }
+          }
+        }
+      },
       plugins: {
         type: 'mdx',
         title: {

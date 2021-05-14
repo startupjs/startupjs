@@ -5,7 +5,8 @@ import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
-import { init2fa } from '@startupjs/2fa/server'
+import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
 import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
@@ -43,9 +44,13 @@ startupjsServer({
   })
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
   initUi(ee, { dirname: rootPath })
-  init2fa(ee, { appName: app.name })
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
+  initTwoFAManager(ee, {
+    providers: [
+      [TotpProvider, { appName: app.name }]
+    ]
+  })
 
   initAuth(ee, {
     onBeforeLoginHook: ({ userId }, req, res, next) => {
