@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/2fa-totp-authentication-provider",
-  "version": "0.34.0",
+  "version": "0.35.2",
   "type": "module",
   "description": "Google authenticator provider",
   "main": "index.js",

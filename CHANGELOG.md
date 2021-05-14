@@ -1,3 +1,17 @@
+## [0.35.2](https://github.com/startupjs/startupjs/compare/v0.35.1...v0.35.2) (2021-05-14)
+
+
+### Bug Fixes
+
+* **recaptcha:** make web force compiled ([#663](https://github.com/startupjs/startupjs/issues/663)) ([5b2d710](https://github.com/startupjs/startupjs/commit/5b2d710f2186c8dc0255094e8a58006c9e1668a3))
+
+
+### Features
+
+* **2fa-manager:** add `2fa-manager` package ([#624](https://github.com/startupjs/startupjs/issues/624)) ([6b78dd3](https://github.com/startupjs/startupjs/commit/6b78dd37b13cf63e884f0725aa3d487050968105))
+
+
+
 ## [0.35.1](https://github.com/startupjs/startupjs/compare/v0.35.0...v0.35.1) (2021-05-13)
 
 
