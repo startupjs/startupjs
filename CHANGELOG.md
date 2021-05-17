@@ -1,3 +1,12 @@
+## [0.35.4](https://github.com/startupjs/startupjs/compare/v0.35.3...v0.35.4) (2021-05-17)
+
+
+### Bug Fixes
+
+* **ui/Span:** add missing default font color ([e092166](https://github.com/startupjs/startupjs/commit/e09216692dfeb197e4d80fe5718ae109e48abece))
+
+
+
 ## [0.35.3](https://github.com/startupjs/startupjs/compare/v0.35.2...v0.35.3) (2021-05-14)
 
 
