@@ -2,14 +2,7 @@ import { H1, H2, H3, H4, H5, H6 } from './headers'
 import Span from './Span'
 import Br from '../Br'
 import Div from '../Div'
-import Table from '../table/Table'
-import Thead from '../table/Thead'
-import Tbody from '../table/Tbody'
-import Tr from '../table/Tr'
-import Th from '../table/Th'
-import Td from '../table/Td'
 import { Sandbox } from '@startupjs/docs'
-import './index.mdx.styl'
 
 # Компоненты типографии
 
@@ -23,118 +16,10 @@ import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
 
 ## Span (спан)
 
-Базовый компонент типографики - это `Span`
+Базовый компонент типографики - это `Span`, он используется для обычного текста.
 
 ```jsx example
   <Span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</Span>
-```
-
-## Размеры
-
-Для изменения размера текста используйте глобальный миксин `font(size)`. Возможные значения `size` (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `body1`, `body2`). `body2` - это стандартный размер `Span`.
-
-В `.styl` файле
-```stylus
-.text
-  font(h2)
-```
-
-```jsx example
-  <Span styleName='text'>Text size - xxl.</Span>
-```
-
-## Таблица размеров
-
-```jsx pure-example
-const tableStyle = {
-  backgroundColor: '#fff',
-}
-
-const hoverOptions = {
-  style: {
-    cursor: 'default',
-  },
-  hoverStyle: {
-    backgroundColor: '#ebf8fd',
-  },
-  activeStyle: {
-    opacity: 1,
-    backgroundColor: '#ebf8fd',
-  },
-  onPress: () => undefined,
-}
-
-return (
-<Table style={tableStyle}>
-    <Thead>
-      <Tr>
-        <Th>
-          Font
-        </Th>
-        <Th>font-size</Th>
-        <Th>line-height</Th>
-      </Tr>
-    </Thead>
-    <Tbody>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h1'>H1</Span>
-        </Td>
-        <Td styleName='td'>72px</Td>
-        <Td styleName='td'>96px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h2'>H2</Span>
-        </Td>
-        <Td styleName='td'>48px</Td>
-        <Td styleName='td'>64px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h3'>H3</Span>
-        </Td>
-        <Td styleName='td'>36px</Td>
-        <Td styleName='td'>48px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h4'>H4</Span>
-        </Td>
-        <Td styleName='td'>24px</Td>
-        <Td styleName='td'>32px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h5'>H5</Span>
-        </Td>
-        <Td styleName='td'>20px</Td>
-        <Td styleName='td'>28px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h6'>H6</Span>
-        </Td>
-        <Td styleName='td'>16px</Td>
-        <Td styleName='td'>24px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='body1'>body1</Span>
-        </Td>
-        <Td styleName='td'>16px</Td>
-        <Td styleName='td'>24px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='body2'>body2 (default)</Span>
-        </Td>
-        <Td styleName='td'>14px</Td>
-        <Td styleName='td'>20px</Td>
-      </Tr>
-    </Tbody>
-  </Table>
-)
 ```
 
 ## Заголовки

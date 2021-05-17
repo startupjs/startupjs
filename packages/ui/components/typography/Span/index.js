@@ -47,7 +47,7 @@ Span.propTypes = {
 export default observer(themed(Span))
 
 styl`
-    _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
+    _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6 DEPRECATED
     _description = $UI.colors.secondaryText
 
     .root
