@@ -1,9 +1,19 @@
+// ----- CONFIG: $UI.Span
+
+$this = merge({
+  color: $UI.colors.mainText,
+  descriptionColor: $UI.colors.secondaryText
+}, $UI.Span, true)
+
+// ----- COMPONENT
+
 _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
-_description = $UI.colors.secondaryText
 
 // Add font-family when we add fonts to app
 
 .root
+  color: $this.color
+
   for variant in _variants
     &.{variant}
       font(variant)
@@ -32,4 +42,4 @@ _description = $UI.colors.secondaryText
       fontFamily('heading', $UI.fontWeights.headingBold, italic)
 
   &.description
-    color _description
+    color: $this.descriptionColor
