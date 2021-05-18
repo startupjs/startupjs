@@ -12,40 +12,7 @@ export default {
     const validPlacement = geometry.validPlacement
     const [position, attachment] = validPlacement.split('-')
 
-    if (animateType === 'default') {
-      animateStates.height.setValue(0)
-      animateStates.width.setValue(contentInfo.width)
-
-      if (position === 'left' || position === 'right') {
-        animateStates.width.setValue(0)
-      }
-      if ((position === 'left' || position === 'right') && hasArrow) {
-        animateStates.height.setValue(contentInfo.height)
-      }
-      if (validPlacement === 'left-center' || validPlacement === 'right-center') {
-        animateStates.height.setValue(contentInfo.height)
-      }
-
-      return Animated.parallel([
-        Animated.timing(animateStates.opacity, {
-          toValue: 1,
-          duration: durationOpen,
-          useNativeDriver: false
-        }),
-        Animated.timing(animateStates.height, {
-          toValue: contentInfo.height,
-          duration: durationOpen,
-          useNativeDriver: false
-        }),
-        Animated.timing(animateStates.width, {
-          toValue: contentInfo.width,
-          duration: durationOpen,
-          useNativeDriver: false
-        })
-      ]).start(callback)
-    }
-
-    if (animateType === 'slide') {
+    if (animateType === 'opacity') {
       animateStates.height.setValue(contentInfo.height)
       animateStates.width.setValue(contentInfo.width)
       if (position === 'top') animateStates.translateY.setValue(10)
@@ -134,36 +101,7 @@ export default {
     animateStates.height.setValue(contentInfo.height)
     const [position, attachment] = (geometry.validPlacement || '').split('-')
 
-    if (animateType === 'default') {
-      let widthToValue = animateStates.width._value
-      let heightToValue = 0
-
-      if (position === 'left') widthToValue = 0
-      if (position === 'right') widthToValue = 0
-      if ((position === 'left' || position === 'right') && hasArrow) {
-        heightToValue = animateStates.height._value
-      }
-
-      return Animated.parallel([
-        Animated.timing(animateStates.opacity, {
-          toValue: 0,
-          duration: durationClose,
-          useNativeDriver: false
-        }),
-        Animated.timing(animateStates.width, {
-          toValue: widthToValue,
-          duration: durationClose,
-          useNativeDriver: false
-        }),
-        Animated.timing(animateStates.height, {
-          toValue: heightToValue,
-          duration: durationClose,
-          useNativeDriver: false
-        })
-      ]).start(callback)
-    }
-
-    if (animateType === 'slide') {
+    if (animateType === 'opacity') {
       let toTranslateX = 0
       let toTranslateY = 0
       if (position === 'top') toTranslateY = 10

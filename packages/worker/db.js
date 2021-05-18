@@ -26,6 +26,7 @@ export const getDbs = () => {
 
   let shareMongo
 
+  console.log(mongoUrl, mongoOpts)
   if (mongoOpts && fs.existsSync(ROOT_PATH + '/config/' + mongoOpts.key)) {
     shareMongo = shareDbMongo({
       mongo: (callback) => {

@@ -79,7 +79,7 @@ function RegisterForm ({
     if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : onSubmit()
   }
 
-  async function onSubmit (recaptchaToken) {
+  async function onSubmit (recaptcha) {
     setErrors({})
 
     let fullSchema = commonSchema
@@ -89,7 +89,7 @@ function RegisterForm ({
 
     if (errors.check(fullSchema, form)) return recaptchaRef.current.close()
 
-    const formClone = { ...form, recaptchaToken }
+    const formClone = { ...form, recaptcha }
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
       formClone.lastName = form.name.split(' ').pop()

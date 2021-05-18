@@ -6,7 +6,7 @@ import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { init2fa } from '@startupjs/2fa/server'
-import { initRecaptcha } from '@startupjs/recaptcha/server'
+import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -112,11 +112,11 @@ function getAuthStrategies () {
   return strategies
 }
 
-function getHead (appName) {
+function getHead (appName, req) {
   return `
     ${getUiHead()}
+    ${getRecaptchaHead(req)}
     <title>StartupJS UI</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
     <!-- Put vendor JS and CSS here -->
   `
 }

@@ -71,7 +71,6 @@ In this example, we are referring to `todos`, which basically means we are refer
   $todos.unsubscribe()
 ```
 
-
 ## Collection model
 
 Let's take a look at some basic examples. Startupjs uses MongoDB as its database. Therefore, all examples use the syntax of this database.
@@ -171,7 +170,6 @@ Imagine this method iterates over each field of the passed object and executes a
   }
 ```
 
-
 Or to remove it:
 
 ```js
@@ -180,84 +178,83 @@ Or to remove it:
 
 ## Let's practice (model)
 
-1.	DO NOT USE CUSTOM HOOKS IN THIS TASK! We need to use the `model` from startupjs, which grants us access to the global model. You have a variable `userId` that contains the user `id` from the users collection. Subscribe to it, fill in the `name` and `age` fields, and then add a new field `hobby=football`.
+1. **DO NOT USE CUSTOM HOOKS IN THIS TASK!** We need to use the `model` from startupjs, which grants us access to the global model. You have a variable `userId` that contains the user `id` from the users collection. Subscribe to it, fill in the `name` and `age` fields, and then add a new field `hobby=football`.
 
-```jsx
-  const [user, setUser] = useState()
-  const userId = '123123123'
+  ```jsx
+    const [user, setUser] = useState()
+    const userId = '123123123'
 
-  function getUser() {
-    const $user = model.at('users.'+userId)
-    await $user.subscribe()
-    const user = $user.get()
-    console.log({...user})
-    $user.set('hobby', 'football')
-    $user.unsubscribe()
-    setUser(user)
-  }
+    function getUser() {
+      const $user = model.at('users.'+userId)
+      await $user.subscribe()
+      const user = $user.get()
+      console.log({...user})
+      $user.set('hobby', 'football')
+      $user.unsubscribe()
+      setUser(user)
+    }
 
-
-  return pug`
-    Div
-      Button(onPress=getUser) Get User
+    return pug`
       Div
-        Span= user.name
-        Span= user.age
-  `
-```
-
-2.There is a `users` collection. Implement the `addUser`, `removeUser` functions.
-
-```jsx
-  const [name, setName] = useState('')
-  const [age, setAge] = useState('')
-  const [users, $users] = useQuery('users', {})
-
-  function addUser() {
-    // write here
-  }
-
-  function removeUser() {
-    // write here
-  }
-
-  return pug`
-    Div
-      each user in users
+        Button(onPress=getUser) Get User
         Div
-        Span= user.name
-        Span= user.age
-        Button(onPress=removeUser) Remove user
+          Span= user.name
+          Span= user.age
+    `
+  ```
+
+1. There is a `users` collection. Implement the `addUser`, `removeUser` functions.
+
+  ```jsx
+    const [name, setName] = useState('')
+    const [age, setAge] = useState('')
+    const [users, $users] = useQuery('users', {})
+
+    function addUser() {
+      // write here
+    }
+
+    function removeUser() {
+      // write here
+    }
+
+    return pug`
       Div
-        TextInput(value=name label='name' onChangeText=setName)
-        TextInput(value=age label='age' onChangeText=setAge)
-        Button(onPress=addUser) Add user
-  `
-```
+        each user in users
+          Div
+          Span= user.name
+          Span= user.age
+          Button(onPress=removeUser) Remove user
+        Div
+          TextInput(value=name label='name' onChangeText=setName)
+          TextInput(value=age label='age' onChangeText=setAge)
+          Button(onPress=addUser) Add user
+    `
+  ```
 
-3.	Now let's implement a simple counter example to practice the number-related model methods. Write functions addCounter, reduceCounter. Since this is the 3rd task, let's also implement the addAsync function, which will increment the counter by 1 in 2 seconds after clicking.
+1. Now let's implement a simple counter example to practice the number-related model methods. Write functions addCounter, reduceCounter. Since this is the 3rd task, let's also implement the addAsync function, which will increment the counter by 1 in 2 seconds after clicking.
 
-```jsx
-  const [counter, $counter] = useValue()
+  ```jsx
+    const [counter, $counter] = useValue()
 
-  function addCounter() {
-    // write here
-  }
+    function addCounter() {
+      // write here
+    }
 
-  function reduceCounter() {
-    // write here
-  }
+    function reduceCounter() {
+      // write here
+    }
 
-  function addAsync() {
-    // write here
-  }
+    function addAsync() {
+      // write here
+    }
 
-  return pug`
-    Div
-      Span= counter
-      Row
-        Button(onPress=addCounter) Add
-        Button(onPress=reduceCounter) Reduce
-        Button(onPress=addUser) Add async
-  `
-```
+    return pug`
+      Div
+        Span= counter
+        Row
+          Button(onPress=addCounter) Add
+          Button(onPress=reduceCounter) Reduce
+          Button(onPress=addUser) Add async
+    `
+  ```
