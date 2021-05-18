@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react'
 import {
   View,
+  Platform,
   FlatList,
   TouchableOpacity,
   TouchableWithoutFeedback
@@ -11,6 +12,7 @@ import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import Div from '../Div'
+import Drawer from '../popups/Drawer'
 import Loader from '../Loader'
 import MultiSelect from './MultiSelect'
 import useKeyboard from './useKeyboard'
@@ -60,12 +62,9 @@ function AutoSuggest ({
   const [_inputStyle] = useState(inputStyle || {})
   const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
-    isShow,
     _data,
     value,
-    onChange, // DEPRECATED
-    onSelect,
-    onChangeShow: v => setIsShow(v)
+    onSelect: _onSelect
   })
 
   const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
@@ -98,14 +97,22 @@ function AutoSuggest ({
       if (index !== -1) value.splice(index, 1)
       else value.push(item)
 
+      setInputValue('')
+      setSelectIndexValue(-1)
       onChange && onChange([...value]) // DEPRECATED
       onSelect && onSelect([...value])
-      refInput.current.focus()
+      Platform.OS === 'web' && refInput.current.focus()
     } else {
       onChange && onChange(item) // DEPRECATED
       onSelect && onSelect(item)
       onClose()
     }
+  }
+
+  function isActiveItem (item) {
+    return multiselect
+      ? value.find(iter => iter.value === item.value)
+      : item.value === value.value
   }
 
   function _renderItem ({ item, index }) {
@@ -123,7 +130,7 @@ function AutoSuggest ({
         key=index
         styleName={ selectMenu: selectIndexValue === index }
         onPress=()=> _onSelect(item)
-        active=item.value === value.value
+        active=isActiveItem(item)
       )= item.label
     `
   }
@@ -148,7 +155,7 @@ function AutoSuggest ({
         View.loaderCase
           Loader(size='s')
       else
-        View.contentCase
+        View.contentCase(nativeID='popoverContent')
           FlatList.content(
             style=contentStyle
             data=_data.current
@@ -165,10 +172,37 @@ function AutoSuggest ({
 
   function renderTooltipWrapper ({ children }) {
     return pug`
-      View.wrapper
-        TouchableWithoutFeedback(onPress=() => setIsShow(false))
-          View.overlay
+      if !multiselect || (multiselect && !Platform.OS === 'web')
+        View.wrapper
+          TouchableWithoutFeedback(onPress=() => setIsShow(false))
+            View.overlay
+          = children
+      else
         = children
+    `
+  }
+
+  if (multiselect && Platform.OS !== 'web') {
+    return pug`
+      Div.multiselect
+        MultiSelect(
+          ref=refInput
+          value=value
+          isShow=isShow
+          placeholder=placeholder
+          inputValue=inputValue
+          renderTag=renderTag
+          onKeyPress=onKeyPress
+          onChangeShow=v=> setIsShow(v)
+          onChangeText=_onChangeText
+          onChange=onChange
+        )
+      Drawer(
+        visible=isShow
+        position='bottom'
+        style={ height: 200 }
+        onDismiss=()=> setIsShow(false)
+      )= renderContent()
     `
   }
 
@@ -196,9 +230,11 @@ function AutoSuggest ({
         MultiSelect(
           ref=refInput
           value=value
+          isShow=isShow
           placeholder=placeholder
           inputValue=inputValue
           renderTag=renderTag
+          onKeyPress=onKeyPress
           onChangeShow=v=> setIsShow(v)
           onChangeText=_onChangeText
           onChange=onChange

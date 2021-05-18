@@ -79,10 +79,10 @@ const options = [
   { value: '4', label: 'Oscar' },
   { value: '5', label: 'Charlie' },
   { value: '6', label: 'James' },
-  { value: '7', label: 'William' },
+  { value: '7', label: 'William' }
 ]
 
-const renderItem = (item, index, selectIndexValue)=> {
+function renderItem (item, index, selectIndexValue) {
   const style = { padding: 8 }
 
   if (selectIndexValue === index) {
@@ -113,7 +113,7 @@ return (
 )
 ```
 
-## Простой пример
+## MultiSelect
 ```jsx example
 const [value, setValue] = useState([])
 

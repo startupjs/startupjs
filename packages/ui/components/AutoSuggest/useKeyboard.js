@@ -3,8 +3,7 @@ import { useState } from 'react'
 export default function useKeyboard ({
   _data,
   value,
-  onChange,
-  onChangeShow
+  onSelect
 }) {
   const [selectIndexValue, setSelectIndexValue] = useState(-1)
 
@@ -43,8 +42,7 @@ export default function useKeyboard ({
         e.preventDefault()
         if (selectIndexValue === -1) return
         item = _data.current.find((_, i) => i === selectIndexValue)
-        onChangeShow(false)
-        onChange && onChange(item)
+        onSelect(item)
         break
     }
   }

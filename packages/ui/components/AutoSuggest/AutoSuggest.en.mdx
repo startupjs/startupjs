@@ -81,7 +81,7 @@ const options = [
   { value: '7', label: 'William' }
 ]
 
-const renderItem = (item, index, selectIndexValue)=> {
+function renderItem (item, index, selectIndexValue) {
   const style = { padding: 8 }
 
   if (selectIndexValue === index) {
@@ -95,7 +95,7 @@ const renderItem = (item, index, selectIndexValue)=> {
       style={style}
     >
       <Avatar size='xs'>{item.label}</Avatar>
-      <Span style={{ marginLeft: 8 }}>{item.label}</Span>
+      <Span>{item.label}</Span>
     </Row>
   )
 }
@@ -108,6 +108,27 @@ return (
     placeholder="Select value"
     renderItem={renderItem}
     onChange={v=> setValue(v)}
+  />
+)
+```
+
+
+## MultiSelect
+```jsx example
+const [value, setValue] = useState([])
+
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+]
+
+return (
+  <AutoSuggest
+    options={options}
+    value={value}
+    multiselect
+    onChange={v => setValue(v)}
   />
 )
 ```

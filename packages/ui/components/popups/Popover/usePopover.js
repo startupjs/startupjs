@@ -41,8 +41,7 @@ export default function usePopover ({
   hasWidthCaption = false,
   onDismiss = null,
   onRequestOpen = null,
-  onRequestClose = null,
-  renderTooltip
+  onRequestClose = null
 }) {
   const refGeometry = useRef({})
   const captionInfo = useRef({})
