@@ -52,6 +52,7 @@ function Breadcrumbs ({
           else
             Row.item
               Link(
+                replace=replace
                 to=to
               )
                 Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name

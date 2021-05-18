@@ -119,8 +119,6 @@ return (
 
 Alert может иметь действие (`onClose` свойство), например кнопку закрытия или отмены. Действие рендерится после сообщения, в конце Alert.
 
-Если передан колбек `onClose` и не задано свойство `renderActions`, отображается значок закрытия по умолчанию.
-
 ```jsx example
 const [showFirstAlert, setShowFirstAlert] = useState(true)
 
@@ -144,7 +142,7 @@ return (
 )
 ```
 
-Свойство `renderActions` можно использовать для предоставления альтернативного компонента, например, с помощью `Button`, `Tag` или `Icon`.
+Свойство `renderActions` можно использовать для предоставления альтернативного компонента.
 
 ```jsx example
 const [showSecondAlert, setShowSecondAlert] = useState(true)

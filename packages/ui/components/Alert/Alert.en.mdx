@@ -119,8 +119,6 @@ return (
 
 An alert can have an action (`onClose` prop). It is rendered after the message, at the end of the alert.
 
-If an `onClose` callback is provided and no `renderActions` prop is set, a close icon is displayed.
-
 ```jsx example
 const [showFirstAlert, setShowFirstAlert] = useState(true)
 
@@ -144,7 +142,7 @@ return (
 )
 ```
 
-The `renderActions` prop can be used to provide an alternative action, for example using a `Button`, `Tag` or `Icon`.
+The `renderActions` prop can be used to provide an alternative action.
 
 ```jsx example
 const [showSecondAlert, setShowSecondAlert] = useState(true)

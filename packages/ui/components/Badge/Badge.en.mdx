@@ -101,6 +101,41 @@ return (
 )
 ```
 
+## Counter
+
+If `label` property takes a value of type `number`, then the `max` property can be set to limit the maximum displayed number in the label.
+
+```jsx example
+return (
+  <Badge label={1000} max={100}>
+    <Div styleName='child' pushed/>
+  </Badge>
+)
+```
+
+## renderLabel
+
+The `renderLabel` property takes a render function and renders it instead of inside the Badge.
+
+```jsx example
+const renderCustomLabel = () => (
+  <Button
+    onPress={() => console.log('Clicked')}
+    size='xs'
+    variant='text'
+    color='white'
+  >
+    Click me
+  </Button>
+)
+
+return (
+  <Badge renderLabel={renderCustomLabel} size='l'>
+    <Div styleName='child' pushed/>
+  </Badge>
+)
+```
+
 ## Sandbox
 
 <Sandbox Component={Badge} />

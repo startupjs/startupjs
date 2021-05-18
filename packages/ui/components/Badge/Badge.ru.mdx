@@ -1,6 +1,7 @@
 import Badge from '../Badge'
 import Div from '../Div'
 import Row from '../Row'
+import Button from '../Button'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
@@ -96,6 +97,41 @@ return (
 ```jsx example
 return (
   <Badge icon={faThumbsUp} label='10+' color='success'>
+    <Div styleName='child' pushed/>
+  </Badge>
+)
+```
+
+## Счетчик
+
+Если свойство `label` принимает значение типа `number`, то можно задать свойство `max` чтобы ограничить максимальное отображаемое число в лейбле.
+
+```jsx example
+return (
+  <Badge label={1000} max={100}>
+    <Div styleName='child' pushed/>
+  </Badge>
+)
+```
+
+## renderLabel
+
+Свойство `renderLabel` принимает рендер-функцию и рендерит её вместо внутри бейджа.
+
+```jsx example
+const renderCustomLabel = () => (
+  <Button
+    onPress={() => console.log('Clicked')}
+    size='xs'
+    variant='text'
+    color='white'
+  >
+    Click me
+  </Button>
+)
+
+return (
+  <Badge renderLabel={renderCustomLabel} size='l'>
     <Div styleName='child' pushed/>
   </Badge>
 )

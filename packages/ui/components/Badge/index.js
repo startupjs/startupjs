@@ -15,6 +15,7 @@ const {
 const isWeb = Platform.OS === 'web'
 
 const ICON_SIZES = {
+  s: 'xs',
   m: 's',
   l: 'm'
 }
@@ -26,11 +27,19 @@ function Badge ({
   icon,
   position,
   size,
-  variant
+  variant,
+  max,
+  renderLabel
 }) {
   if (!colors[color]) console.error('Badge component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const [right, setRight] = useState(0)
+
+  let _label = label
+
+  if (typeof label === 'number' && label > max) {
+    _label = max + '+'
+  }
 
   function onLayout (event) {
     const { width } = event.nativeEvent.layout
@@ -62,14 +71,15 @@ function Badge ({
         if variant === 'default'
           if icon
             Icon.icon(
-              styleName=[{ withLabel: label }]
               icon=icon
               size=ICON_SIZES[size]
             )
           if label
             Span.label(
-                styleName=[size]
-              )= label
+              styleName=[size, { withIcon: icon }]
+            )= _label
+          else if renderLabel
+            Div= renderLabel()
   `
 }
 
@@ -83,11 +93,13 @@ Badge.defaultProps = {
 Badge.propTypes = {
   children: PropTypes.node,
   color: PropTypes.oneOf(Object.keys(colors)),
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom']),
   size: PropTypes.oneOf(['s', 'm', 'l']),
-  variant: PropTypes.oneOf(['default', 'dot'])
+  variant: PropTypes.oneOf(['default', 'dot']),
+  max: PropTypes.number,
+  renderLabel: PropTypes.func
 }
 
 export default observer(Badge)
