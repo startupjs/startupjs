@@ -114,29 +114,6 @@ return (
 )
 ```
 
-## renderLabel
-
-Свойство `renderLabel` принимает рендер-функцию и рендерит её вместо внутри бейджа.
-
-```jsx example
-const renderCustomLabel = () => (
-  <Button
-    onPress={() => console.log('Clicked')}
-    size='xs'
-    variant='text'
-    color='white'
-  >
-    Click me
-  </Button>
-)
-
-return (
-  <Badge renderLabel={renderCustomLabel} size='l'>
-    <Div styleName='child' pushed/>
-  </Badge>
-)
-```
-
 ## Sandbox
 
 <Sandbox Component={Badge} />

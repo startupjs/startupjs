@@ -28,8 +28,7 @@ function Badge ({
   position,
   size,
   variant,
-  max,
-  renderLabel
+  max
 }) {
   if (!colors[color]) console.error('Badge component: Color for color property is incorrect. Use colors from $UI.colors')
 
@@ -37,7 +36,7 @@ function Badge ({
 
   let _label = label
 
-  if (typeof label === 'number' && label > max) {
+  if (label > max) {
     _label = max + '+'
   }
 
@@ -78,8 +77,6 @@ function Badge ({
             Span.label(
               styleName=[size, { withIcon: icon }]
             )= _label
-          else if renderLabel
-            Div= renderLabel()
   `
 }
 
@@ -98,8 +95,7 @@ Badge.propTypes = {
   position: PropTypes.oneOf(['top', 'bottom']),
   size: PropTypes.oneOf(['s', 'm', 'l']),
   variant: PropTypes.oneOf(['default', 'dot']),
-  max: PropTypes.number,
-  renderLabel: PropTypes.func
+  max: PropTypes.number
 }
 
 export default observer(Badge)

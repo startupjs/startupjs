@@ -113,29 +113,6 @@ return (
 )
 ```
 
-## renderLabel
-
-The `renderLabel` property takes a render function and renders it instead of inside the Badge.
-
-```jsx example
-const renderCustomLabel = () => (
-  <Button
-    onPress={() => console.log('Clicked')}
-    size='xs'
-    variant='text'
-    color='white'
-  >
-    Click me
-  </Button>
-)
-
-return (
-  <Badge renderLabel={renderCustomLabel} size='l'>
-    <Div styleName='child' pushed/>
-  </Badge>
-)
-```
-
 ## Sandbox
 
 <Sandbox Component={Badge} />
