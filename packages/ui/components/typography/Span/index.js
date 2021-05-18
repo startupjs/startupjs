@@ -47,11 +47,20 @@ Span.propTypes = {
 export default observer(themed(Span))
 
 styl`
+    // ----- CONFIG: $UI.Span
+
+    $this = merge({
+      color: $UI.colors.mainText,
+      descriptionColor: $UI.colors.secondaryText
+    }, $UI.Span, true)
+
+    // ----- COMPONENT
+
     _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6 DEPRECATED
-    _description = $UI.colors.secondaryText
 
     .root
       fontFamily('normal')
+      color: $this.color
 
       for variant in _variants
         &.{variant}
@@ -67,5 +76,5 @@ styl`
         fontFamily('normal', $UI.fontWeights.normalBold, italic)
 
       &.description
-        color _description
+        color: $this.descriptionColor
   `

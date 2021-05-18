@@ -1,7 +1,15 @@
 import { BaseProvider } from '@startupjs/auth/server'
+import _pick from 'lodash/pick'
 const PROVIDER_NAME = 'local'
 
 export default class LocalProvider extends BaseProvider {
+  constructor (model, profile, config) {
+    super(model, profile, config)
+
+    const methods = _pick(config, ['getUserData'])
+    Object.assign(this, methods)
+  }
+
   getProviderName () {
     return PROVIDER_NAME
   }
@@ -46,17 +54,6 @@ export default class LocalProvider extends BaseProvider {
     }
     if (unconfirmed) data.unconfirmed = true
     return data
-  }
-
-  getUserData () {
-    const _profile = { ...this.profile }
-
-    delete _profile.password
-    delete _profile.hash
-    delete _profile.salt
-    delete _profile.unconfirmed
-
-    return _profile
   }
 
   async loadAuthData () {

@@ -1,4 +1,4 @@
-import { checkToken } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
 import { createPasswordResetSecret as _createPasswordResetSecret } from '../helpers'
 
 export default function createPasswordResetSecret (req, res, done, config) {
@@ -12,14 +12,14 @@ export default function createPasswordResetSecret (req, res, done, config) {
     const recaptchaEnabled = model.get('_session.auth.recaptchaEnabled')
 
     if (recaptchaEnabled) {
-      const checkTokenResponse = await checkToken(req.body.recaptchaToken)
+      const checkTokenResponse = await checkRecaptcha(req.body.recaptcha)
       if (!checkTokenResponse) {
         return res.status(400).json({
           message: 'Recaptcha token is invalid'
         })
       }
     }
-    delete req.body.recaptchaToken
+    delete req.body.recaptcha
 
     try {
       const secret = await _createPasswordResetSecret({ model, email })
