@@ -49,7 +49,12 @@ fontFamily(
   fontWeight = $UI.fontWeights.normal,
   fontStyle = normal
 )
-  fontFamily = $UI.fontFamilies[fontName]
+  fontFamilies = $UI.fontFamilies[$PLATFORM] || $UI.fontFamilies.default || {}
+  fontFamily = fontFamilies[fontName]
+
+  if (!fontFamily) {
+    return
+  }
 
   if (isCustomFont(fontFamily)) {
     thickness = $fontWeightNamesMap['' + fontWeight]
