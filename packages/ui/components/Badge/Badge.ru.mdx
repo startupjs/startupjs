@@ -18,7 +18,7 @@ import { Badge } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Badge>
+  <Badge label='10'>
     <Icon icon={faEnvelope} size={40} />
   </Badge>
 )
@@ -32,13 +32,13 @@ return (
 return (
   <Row>
     <Badge label='16' size='s'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge label='20'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge style={{ marginLeft: 16 }} label='20'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge label='24' size='l'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge style={{ marginLeft: 16 }} label='24' size='l'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
   </Row>
 )
@@ -46,16 +46,16 @@ return (
 
 ## Variants
 
-Бейджи бывают двух видов: `default` и `dot`. `default` является наиболее часто используемым и определен по умолчанию. `dot` превращает значок в маленькую точку, это можно использовать как уведомление о том, что что-то изменилось без контента или как индикатор изменения состояния. При значении свойства `variant='dot'` свойство `size` будет игнорироваться.
+Бейджи бывают двух видов: `default` и `dot`. `default` является наиболее часто используемым и определен по умолчанию. `dot` превращает значок в маленькую точку, это можно использовать как уведомление о том, что что-то изменилось или как индикатор изменения состояния. При значении свойства `variant='dot'` свойство `size` будет игнорироваться.
 
 ```jsx example
 return (
   <Row>
     <Badge label='10'>
-      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
+      <Icon icon={faEnvelope} size={40}/>
     </Badge>
-    <Badge variant='dot'>
-      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
+    <Badge style={{ marginLeft: 16 }} variant='dot'>
+      <Icon icon={faEnvelope} size={40}/>
     </Badge>
   </Row>
 )
@@ -67,7 +67,7 @@ return (
 
 ```jsx example
 return (
-  <Badge color='error'>
+  <Badge color='error' label='10'>
     <Icon icon={faEnvelope} size={40}/>
   </Badge>
 )
@@ -75,16 +75,16 @@ return (
 
 ## Positions
 
-Бейдж может находится в двух положениях: `top` и `bottom`. Значение по умолчанию: `top`.
+Бейдж может находится в двух положениях: `top` и `bottom`. **Значение по умолчанию:** `top`.
 
 ```jsx example
 return (
   <Row>
-    <Badge>
-      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
+    <Badge label='10'>
+      <Icon icon={faEnvelope} size={40}/>
     </Badge>
-    <Badge position='bottom'>
-      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
+    <Badge style={{ marginLeft: 16 }} position='bottom' label='10'>
+      <Icon icon={faEnvelope} size={40}/>
     </Badge>
   </Row>
 )
@@ -96,7 +96,7 @@ return (
 
 ```jsx example
 return (
-  <Badge icon={faThumbsUp} label='10+' color='success'>
+  <Badge icon={faThumbsUp} label='10' color='success'>
     <Icon icon={faEnvelope} size={40}/>
   </Badge>
 )

@@ -1,7 +1,6 @@
 import Badge from '../Badge'
 import Row from '../Row'
 import Button from '../Button'
-import Div from '../Div'
 import Icon from '../Icon'
 import { faThumbsUp, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
@@ -18,7 +17,7 @@ import { Badge } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Badge>
+  <Badge label='10'>
     <Icon icon={faEnvelope} size={40} />
   </Badge>
 )
@@ -32,13 +31,13 @@ Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the def
 return (
   <Row>
     <Badge label='16' size='s'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge label='20'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge style={{ marginLeft: 16 }} label='20'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge label='24' size='l'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge style={{ marginLeft: 16 }} label='24' size='l'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
   </Row>
 )
@@ -52,10 +51,10 @@ Badges are of two types: `default` and `dot`. `default` it is the most frequentl
 return (
   <Row>
     <Badge label='10'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge variant='dot'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge style={{ marginLeft: 16 }} variant='dot'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
   </Row>
 )
@@ -67,8 +66,8 @@ Color is `primary` by default. It can be changed by passing color name from the 
 
 ```jsx example
 return (
-  <Badge color='error'>
-    <Div styleName='child' pushed/>
+  <Badge color='error' label='10'>
+    <Icon icon={faEnvelope} size={40}/>
   </Badge>
 )
 ```
@@ -80,11 +79,11 @@ Badge can be in two positions: `top` and `bottom`. Default value is: `top`.
 ```jsx example
 return (
   <Row>
-    <Badge>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge label='10'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge position='bottom'>
-      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
+    <Badge style={{ marginLeft: 16 }} position='bottom' label='10'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
   </Row>
 )

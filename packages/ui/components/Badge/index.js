@@ -21,6 +21,8 @@ const ICON_SIZES = {
 }
 
 function Badge ({
+  style,
+  badgeStyle,
   children,
   color,
   label,
@@ -45,38 +47,39 @@ function Badge ({
     width && setRight(Math.ceil(width / 2) * -1)
   }
 
-  const style = { backgroundColor: colors[color] }
+  const _badgeStyle = { ...badgeStyle, backgroundColor: colors[color] }
 
   if (isWeb) {
-    style.transform = 'translate(50%, 0)'
+    _badgeStyle.transform = 'translate(50%, 0)'
   }
 
   return pug`
-    Div.root
+    Div.root(style=style)
       = children
-      Row.badge(
-        styleName=[
-          size,
-          variant,
-          position,
-          { withLabel: label }
-        ]
-        style=[
-          style,
-          { right: isWeb ? 0 : right }
-        ]
-        onLayout=onLayout
-      )
-        if variant === 'default'
-          if icon
-            Icon.icon(
-              icon=icon
-              size=ICON_SIZES[size]
-            )
-          if label
-            Span.label(
-              styleName=[size, { withIcon: icon }]
-            )= _label
+      if (variant === 'default' && label) || variant === 'dot'
+        Row.badge(
+          styleName=[
+            size,
+            variant,
+            position,
+            { withLabel: label }
+          ]
+          style=[
+            _badgeStyle,
+            { right: isWeb ? 0 : right }
+          ]
+          onLayout=onLayout
+        )
+          if variant === 'default'
+            if icon
+              Icon.icon(
+                icon=icon
+                size=ICON_SIZES[size]
+              )
+            if label
+              Span.label(
+                styleName=[size, { withIcon: icon }]
+              )= _label
   `
 }
 
@@ -88,6 +91,8 @@ Badge.defaultProps = {
 }
 
 Badge.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  badgeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   color: PropTypes.oneOf(Object.keys(colors)),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
