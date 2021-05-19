@@ -1,3 +1,12 @@
+import Span from './Span'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
+
 # Шрифты
 
 Система шрифтов - одна из основополагающих частей любого дизайна интерфейса.
@@ -17,6 +26,116 @@ system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helve
   * `normal` семейство шрифтов для основного текста (используется компонентом `Span`)
   * `heading` семейство шрифтов для текста заголовков (используется для компонентов `H1-H6`)
 
+## Шрифт
+
+Для изменения размера текста используйте миксин `font(scale)`, где `scale` - масштаб из таблицы размеров ниже.
+
+В `.styl` файле
+```stylus
+.text
+  font(h2)
+```
+
+```jsx example
+  <Span styleName='text'>Text size - h2.</Span>
+```
+
+### Таблица размеров
+
+```jsx pure-example
+const tableStyle = {
+  backgroundColor: '#fff',
+}
+
+const hoverOptions = {
+  style: {
+    cursor: 'default',
+  },
+  hoverStyle: {
+    backgroundColor: '#ebf8fd',
+  },
+  activeStyle: {
+    opacity: 1,
+    backgroundColor: '#ebf8fd',
+  },
+  onPress: () => undefined,
+}
+
+return (
+<Table style={tableStyle}>
+    <Thead>
+      <Tr>
+        <Th>
+          Масштаб
+        </Th>
+        <Th>font-size</Th>
+        <Th>line-height</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='h1'>H1</Span>
+        </Td>
+        <Td styleName='td'>72px</Td>
+        <Td styleName='td'>96px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='h2'>H2</Span>
+        </Td>
+        <Td styleName='td'>48px</Td>
+        <Td styleName='td'>64px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='h3'>H3</Span>
+        </Td>
+        <Td styleName='td'>36px</Td>
+        <Td styleName='td'>48px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='h4'>H4</Span>
+        </Td>
+        <Td styleName='td'>24px</Td>
+        <Td styleName='td'>32px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='h5'>H5</Span>
+        </Td>
+        <Td styleName='td'>20px</Td>
+        <Td styleName='td'>28px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='h6'>H6</Span>
+        </Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>24px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='body1'>body1</Span>
+        </Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>24px</Td>
+      </Tr>
+      <Tr {...hoverOptions}>
+        <Td styleName='td'>
+          <Span styleName='body2'>body2</Span>
+        </Td>
+        <Td styleName='td'>14px</Td>
+        <Td styleName='td'>20px</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
+
+`body2` - используется по умолчанию.
+
 ## Толщина шрифта
 
 Переменная `$UI.fontWeights` определяет толщину шрифта по умолчанию для семейств шрифтов, при необходимости их можно переопределить
@@ -24,15 +143,15 @@ system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helve
 ```stylus
 $UI.fontWeights = {
   normal: 400,
-  normal bold: 700,
-  header: 400,
-  headingBold: 700,
+  normalBold: 700,
+  heading: 400,
+  headingBold: 700
 }
 ```
 
 ## Дополнительные имена шрифтов
 
-Вы можете добавить дополнительные семантические имена с вашими собственными семействами шрифтов в `styles/index.styl
+Вы можете добавить дополнительные семантические имена с вашими собственными семействами шрифтов в `styles/index.styl`
 
 ```stylus
 @require '../../node_modules/@startupjs/ui/styles/index.styl'
@@ -41,7 +160,7 @@ $UI.fontFamilies.myFont = 'Roboto, sans-serif' // add additional font families t
 
 ## Как установить шрифт для элемента?
 
-Чтобы установить семейство шрифтов для элемента, вам нужно использовать миксин `fontFamily (name, weight, style)` в ваших стилях, где:
+Чтобы установить семейство шрифтов для элемента, вам нужно использовать миксин `fontFamily(name, weight, style)` в ваших стилях, где:
 
 * `name` - имя семантического шрифта из `$UI.fontFamilies` (значение по умолчанию `'normal'`)
 
