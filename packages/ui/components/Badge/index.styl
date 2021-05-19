@@ -30,12 +30,12 @@ _sizes = {
       &.bottom
         bottom -(_halfSize)
 
-      if size != dot
-        &.withLabel
-          if size == l
-            padding 0 1u
-          else
-            padding 0 0.5u
+    &.withLabel
+      &.s
+      &.m
+        padding 0 0.5u
+      &.l
+        padding 0 1u
 
 .label
   color _white

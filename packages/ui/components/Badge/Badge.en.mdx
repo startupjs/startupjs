@@ -1,13 +1,14 @@
 import Badge from '../Badge'
-import Div from '../Div'
 import Row from '../Row'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import Button from '../Button'
+import Div from '../Div'
+import Icon from '../Icon'
+import { faThumbsUp, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
-import './index.mdx.styl'
 
 # Badge
 
-Badge is small status descriptors for UI elements.
+Badge is small state descriptors for UI elements.
 
 ```js
 import { Badge } from '@startupjs/ui'
@@ -18,26 +19,26 @@ import { Badge } from '@startupjs/ui'
 ```jsx example
 return (
   <Badge>
-    <Div styleName='child'/>
+    <Icon icon={faEnvelope} size={40} />
   </Badge>
 )
 ```
 
 ## Sizes
 
-Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the default and most frequently used. The other sizes should be used sparingly to create a hierarchy of importance on a page.
+Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the default and most frequently used. The other sizes should be used with care so as not to break the hierarchy of importance on the page.
 
 ```jsx example
 return (
   <Row>
     <Badge label='16' size='s'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
     <Badge label='20'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
     <Badge label='24' size='l'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
   </Row>
 )
@@ -45,16 +46,16 @@ return (
 
 ## Variants
 
-Badges are of two types: `default` and `dot`. `default` it is the most frequently used and the default specified. `dot` turns the icon into a small dot, this can be used as a message that something has changed without content. If the property is `variant='dot'`, the `size` property will be ignored.
+Badges are of two types: `default` and `dot`. `default` it is the most frequently used and the default specified. `dot` turns the icon into a small dot, this can be used as a message that something has changed without content or as an indicator of a state change. If the property is `variant='dot'`, the `size` property will be ignored.
 
 ```jsx example
 return (
   <Row>
     <Badge label='10'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
     <Badge variant='dot'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
   </Row>
 )
@@ -74,16 +75,16 @@ return (
 
 ## Position
 
-Badges come in two positions: `top` and `bottom`. Default value is `top`.
+Badge can be in two positions: `top` and `bottom`. Default value is: `top`.
 
 ```jsx example
 return (
   <Row>
     <Badge>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
     <Badge position='bottom'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
   </Row>
 )
@@ -96,19 +97,19 @@ Icon can be added using `icon` property.
 ```jsx example
 return (
   <Badge icon={faThumbsUp} label='10+' color='success'>
-    <Div styleName='child' pushed/>
+    <Icon icon={faEnvelope} size={40} />
   </Badge>
 )
 ```
 
 ## Counter
 
-If `label` property takes a value of type `number`, then the `max` property can be set to limit the maximum displayed number in the label.
+If `label` property takes a numeric value, then the `max` property can be set to limit the maximum displayed number in the label.
 
 ```jsx example
 return (
   <Badge label={1000} max={100}>
-    <Div styleName='child' pushed/>
+    <Icon icon={faEnvelope} size={40} />
   </Badge>
 )
 ```

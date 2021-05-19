@@ -1,14 +1,14 @@
 import Badge from '../Badge'
-import Div from '../Div'
 import Row from '../Row'
 import Button from '../Button'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import Div from '../Div'
+import Icon from '../Icon'
+import { faThumbsUp, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
-import './index.mdx.styl'
 
 # Badge (Бейдж)
 
-Бейджи - это небольшие дескрипторы статуса для элементов пользовательского интерфейса.
+Бейджи - это небольшие дескрипторы состояния для элементов пользовательского интерфейса.
 
 ```js
 import { Badge } from '@startupjs/ui'
@@ -19,26 +19,26 @@ import { Badge } from '@startupjs/ui'
 ```jsx example
 return (
   <Badge>
-    <Div styleName='child'/>
+    <Icon icon={faEnvelope} size={40} />
   </Badge>
 )
 ```
 
 ## Sizes
 
-Бейджи бывают трех разных размеров: `s`, `m` и `l`. Размер `m` является наиболее часто используемым и определен по умолчанию. Остальные размеры следует использовать с осторожностью, чтобы создать иерархию важности на странице.
+Бейджи бывают трех разных размеров: `s`, `m` и `l`. Размер `m` является наиболее часто используемым и определен по умолчанию. Остальные размеры следует использовать с осторожностью, чтобы не нарушить иерархию важности на странице.
 
 ```jsx example
 return (
   <Row>
     <Badge label='16' size='s'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
     <Badge label='20'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
     <Badge label='24' size='l'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40} /></Div>
     </Badge>
   </Row>
 )
@@ -46,16 +46,16 @@ return (
 
 ## Variants
 
-Бейджи бывают двух видов: `default` и `dot`. `default` является наиболее часто используемым и определен по умолчанию. `dot` превращает значок в маленькую точку, это можно использовать как уведомление о том, что что-то изменилось без контента. При значении свойства `variant='dot'` свойство `size` будет игнорироваться.
+Бейджи бывают двух видов: `default` и `dot`. `default` является наиболее часто используемым и определен по умолчанию. `dot` превращает значок в маленькую точку, это можно использовать как уведомление о том, что что-то изменилось без контента или как индикатор изменения состояния. При значении свойства `variant='dot'` свойство `size` будет игнорироваться.
 
 ```jsx example
 return (
   <Row>
     <Badge label='10'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
     </Badge>
     <Badge variant='dot'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
     </Badge>
   </Row>
 )
@@ -63,28 +63,28 @@ return (
 
 ## Colors
 
-По умолчанию цвет является `primary`. Его можно изменить, передав имя цвета из цветов конфигурации в свойство `color`. Возможные значения свойства можно найти в песочнице внизу страницы.
+По умолчанию цвет является `primary`. Его можно изменить, передав имя цвета из списка цветов конфигурации в свойство `color`. Возможные значения свойства можно найти в песочнице внизу страницы.
 
 ```jsx example
 return (
   <Badge color='error'>
-    <Div styleName='child' pushed/>
+    <Icon icon={faEnvelope} size={40}/>
   </Badge>
 )
 ```
 
 ## Positions
 
-Бейджи бывают в двух позиций: `top` и `bottom`. Значение по умолчанию - `top`.
+Бейдж может находится в двух положениях: `top` и `bottom`. Значение по умолчанию: `top`.
 
 ```jsx example
 return (
   <Row>
     <Badge>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
     </Badge>
     <Badge position='bottom'>
-      <Div styleName='child' pushed/>
+      <Div pushed><Icon icon={faEnvelope} size={40}/></Div>
     </Badge>
   </Row>
 )
@@ -97,19 +97,19 @@ return (
 ```jsx example
 return (
   <Badge icon={faThumbsUp} label='10+' color='success'>
-    <Div styleName='child' pushed/>
+    <Icon icon={faEnvelope} size={40}/>
   </Badge>
 )
 ```
 
 ## Счетчик
 
-Если свойство `label` принимает значение типа `number`, то можно задать свойство `max` чтобы ограничить максимальное отображаемое число в лейбле.
+Если свойство `label` содержит числовое значение, то можно задать свойство `max` чтобы ограничить максимальное отображаемое число в лейбле.
 
 ```jsx example
 return (
   <Badge label={1000} max={100}>
-    <Div styleName='child' pushed/>
+    <Icon icon={faEnvelope} size={40}/>
   </Badge>
 )
 ```
