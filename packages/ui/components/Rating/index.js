@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import Row from './../Row'
-import H6 from './../typography/H6'
+import { H6 } from './../typography'
 import Star from './Star'
 import './index.styl'
 const AMOUNT = 5

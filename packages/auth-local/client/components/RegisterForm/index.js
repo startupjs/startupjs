@@ -89,7 +89,8 @@ function RegisterForm ({
 
     if (errors.check(fullSchema, form)) return recaptchaRef.current.close()
 
-    const formClone = { ...form, recaptcha }
+    const formClone = { ...form }
+    if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
       formClone.lastName = form.name.split(' ').pop()
