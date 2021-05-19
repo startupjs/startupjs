@@ -10,6 +10,7 @@ module.exports = {
       server: [
         'startupjs/app',
         'startupjs/init',
+        'startupjs/nconf',
         'startupjs/orm',
         'startupjs/server'
       ]
