@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer, useQuery, useValue } from 'startupjs'
 import {
   Span,
@@ -11,16 +11,26 @@ import {
   Tr,
   Th,
   Td,
-  Modal
+  Modal,
+  Pagination
 } from '@startupjs/ui'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import _get from 'lodash/get'
 import SendMessageForm from '../SendMessageForm'
 import './index.styl'
 
+const LIMIT = 10
+
 function Messages () {
+  const [skip, setSkip] = useState(0)
   const [, $visible] = useValue(false)
-  const [pushMessages = []] = useQuery('pushMessages', {})
+  const [pushMessages = []] = useQuery('pushMessages', {
+    $limit: LIMIT,
+    $skip: skip
+  })
+
+  const [pushMessagesCount = 0] = useQuery('pushMessages', { $count: true })
+
   return pug`
     Div.root
       Row.menu
@@ -53,6 +63,14 @@ function Messages () {
                   Span= pushMessage.options.body
                 Td
                   Span= _get(pushMessage, 'options.filters.platforms', ['ios', 'android']).join(', ')
+    unless pushMessagesCount < LIMIT
+      Row(align='center')
+        Pagination(
+          count=pushMessagesCount
+          limit=LIMIT
+          skip=skip
+          onChangePage=val => setSkip(val * LIMIT)
+        )
     Modal($visible=$visible)
       SendMessageForm(onClose=() => $visible.set(false))
   `

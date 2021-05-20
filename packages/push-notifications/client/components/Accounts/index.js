@@ -11,18 +11,26 @@ import {
   Td,
   Modal,
   Dropdown,
-  Icon
+  Icon,
+  Pagination
 } from '@startupjs/ui'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import SendMessageForm from '../SendMessageForm'
 import './index.styl'
 
+const LIMIT = 10
+
 function Accounts () {
+  const [skip, setSkip] = useState(0)
   const [, $visible] = useValue(false)
 
   const [state, setState] = useState('')
 
-  const [pushs = []] = useQuery('pushs', {})
+  const [pushs = []] = useQuery('pushs', {
+    $limit: LIMIT,
+    $skip: skip
+  })
+  const [pushsCount = 0] = useQuery('pushs', { $count: true })
   const [users = []] = useQuery('users', { _id: { $in: pushs.map(push => push.id) } })
   const [personalId, $personalId] = useValue('')
 
@@ -63,6 +71,14 @@ function Accounts () {
                     Row.cellContent
                       Icon(icon=faEllipsisH)
                   Dropdown.Item(value='send' label='Send message' onPress=() => openModal(push.id))
+    unless pushsCount < LIMIT
+      Row(align='center')
+        Pagination(
+          count=pushsCount
+          limit=LIMIT
+          skip=skip
+          onChangePage=val => setSkip(val * LIMIT)
+        )
     Modal($visible=$visible)
       SendMessageForm(userId=personalId onClose=() => $visible.set(false))
   `
