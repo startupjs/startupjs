@@ -13,7 +13,6 @@ export default class WorkerManager {
   async start () {
     if (this.started) return
     if (this.starting) return
-    // console.log('worker manager - starting')
 
     this.starting = true
 
@@ -66,7 +65,6 @@ export default class WorkerManager {
   }
 
   async stop () {
-    // console.log('stopping worker manager')
     if (this.stopping) return
 
     this.stopping = true

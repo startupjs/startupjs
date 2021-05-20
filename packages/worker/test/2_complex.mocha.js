@@ -24,9 +24,7 @@ describe('tasks', function () {
     it('timeout sec', async () => {
       const taskNum = 1
       const result = await runner.executeTasks({}, taskNum, 0, { duration: 8000 })
-      // console.log('result', result)
       assert.equal(taskNum, result.error)
-      // assert(!result.series)
     })
   })
 })

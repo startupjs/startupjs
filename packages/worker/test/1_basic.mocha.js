@@ -26,7 +26,6 @@ describe('tasks', function () {
     it('fast tasks - regular mode', async () => {
       const taskNum = 10
       const result = await runner.executeTasks({ differentUniqIds: true }, taskNum, 0, { duration: 50 })
-      console.log('result', result)
       assert.equal(taskNum, result.done)
       assert(!result.series)
     })
@@ -37,7 +36,6 @@ describe('tasks', function () {
         duration: 50,
         singleton: true
       })
-      // console.log('result', result)
       assert.equal(taskNum, result.done)
       assert(result.series)
     })
@@ -48,7 +46,6 @@ describe('tasks', function () {
         duration: 50,
         throttle: true
       })
-      // console.log('result', result)
       assert.equal(1, result.done)
       assert.equal(taskNum - 1, result.refused)
     })
@@ -95,7 +92,6 @@ describe('tasks', function () {
         duration: 50,
         throttle: true
       })
-      // console.log('result', result)
       assert.equal(result.done, 2)
     })
 
@@ -107,7 +103,6 @@ describe('tasks', function () {
         throttle: true,
         trailing: true
       })
-      // console.log('result', result)
       assert.equal(result.done, 2)
       assert(result.time >= 12000)
     })
@@ -130,7 +125,6 @@ describe('tasks', function () {
         duration: 50,
         singleton: true
       })
-      // console.log('result', result)
       assert.equal(result.done, 10)
       assert.deepEqual(result.timestamps, sortBy(clone(result.timestamps)))
     })

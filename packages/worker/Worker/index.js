@@ -22,7 +22,6 @@ export default class Worker extends EventEmitter {
 
   createWorker () {
     return new Promise((resolve, reject) => {
-      // console.log('creating worker')
       let worker = cluster.fork(process.env)
 
       worker.once('message', (data) => {
@@ -90,7 +89,6 @@ export default class Worker extends EventEmitter {
           return reject(new Error('Child Worker returned message for another task: ' + taskId + ' ' + this.taskId))
         }
         if (err) {
-          // console.log('reject - error', err)
           return reject(err)
         }
 
