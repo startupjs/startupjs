@@ -23,10 +23,11 @@ let customInit;
   try {
     await import(env.WORKER_INIT_PATH) // This should populate the global DM_WORKER_ACTIONS var
     customInit = global.DM_WORKER_INIT
-    if (typeof customInit !== 'function') {
+    if (typeof customInit === 'function') {
+      customInit(dbs.backend)
+    } else {
       console.warn('[worker] WARNING! workerInit.js doesn\'t export a function. Ignoring.')
     }
-    customInit && customInit(dbs.backend)
   } catch (e) {
     console.warn('[worker] WARNING! No custom init file found. Create an workerInit.js file in ' +
         'your project\'s worker directory to do the custom initialization of backend (hooks, etc.).')
