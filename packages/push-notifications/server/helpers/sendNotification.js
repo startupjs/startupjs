@@ -3,12 +3,15 @@ import * as fadmin from 'firebase-admin'
 const DEFAULT_PLATFORMS = ['ios', 'android']
 
 // data: {
-//  userIds: array
-//  title: string,
-//  body: string,
-//  filters: {
-//   platforms: ['ios', 'android']
-// }
+//  userIds: array,
+//  options: {
+//    title: string,
+//    body: string,
+//    androidChannelId: string,
+//    filters: {
+//      platforms: ['ios', 'android']
+//    },
+//    data: object
 // }
 
 export default async function sendNotification (model, data) {
@@ -39,15 +42,21 @@ export default async function sendNotification (model, data) {
     })
   })
 
+  const _data = setDefaults(data)
+
+  saveMessage(model, _data, tokens)
+
+  if (!tokens.length) return
+
   await fadmin.messaging().sendToDevice(
     tokens,
     {
       notification: {
-        title: data.options?.title || '',
-        body: data.options.body,
-        android_channel_id: data.options?.androidChannelId || 'default'
+        title: _data.options.title,
+        body: _data.options.body,
+        android_channel_id: _data.options.androidChannelId
       },
-      data: data.options?.data || {}
+      data: _data.options.data
     }
   )
 }
@@ -58,4 +67,31 @@ function getPlatforms (filters) {
   } else {
     return DEFAULT_PLATFORMS
   }
+}
+
+function setDefaults (data) {
+  const _data = data
+
+  if (!data.options?.title) {
+    _data.options.title = ''
+  }
+
+  if (!data.options?.androidChannelId) {
+    _data.options.androidChannelId = 'default'
+  }
+
+  if (!data.options.data) {
+    _data.options.data = {}
+  }
+
+  return _data
+}
+
+function saveMessage (model, data) {
+  const $pushMessages = model.at('pushMessages')
+
+  $pushMessages.add({
+    ...data,
+    createdAt: Date.now()
+  })
 }

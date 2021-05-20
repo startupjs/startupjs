@@ -2,7 +2,7 @@ import { BASE_URL } from '@env'
 import { useState, useEffect } from 'react'
 import { useSession } from 'startupjs'
 import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
-import { sendNotification } from '@startupjs/push-notifications'
+import { sendNotification, NotificationDashboard } from '@startupjs/push-notifications'
 
 # Push Notifications
 
@@ -171,4 +171,8 @@ return (
     </Button>
   </Div>
 )
+```
+
+```jsx example
+  <NotificationDashboard/>
 ```
