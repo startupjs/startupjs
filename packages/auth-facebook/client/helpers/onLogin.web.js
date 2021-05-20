@@ -8,7 +8,7 @@ export default async function onLogin ({
   baseUrl = BASE_URL,
   redirectUrl,
   expiresRedirectUrl
-}) {
+} = {}) {
   // set redirectUrl in cookie and play redirect from server
   if (redirectUrl) {
     CookieManager.set({

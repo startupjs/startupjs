@@ -13,177 +13,142 @@ import './index.styl'
 
 `yarn add @startupjs/recaptcha`
 
-## Подключение к StartupJS
-
-```js
-  // Компонент
-  import { Recaptcha } from '@startupjs/recaptcha'
-
-  // Функция верификации токена на сервере Google
-  import { checkToken } from '@startupjs/recaptcha/server'
-```
-
-### server
+## Инициализация модуля на сервере
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import initRecaptcha from '@startupjs/recaptcha/server'
+  import { initRecaptcha } from '@startupjs/recaptcha/server'
 ```
 В функцию `startupjsServer` добавить:
 ```js
-  initRecaptcha(ee)
+  initRecaptcha(ee, options)
 ```
-В функцию `getHead` добавить:
+Аргумент `options` принимает объект с полем `type`, в него указывайте какой [тип reCAPTCHA](https://www.google.com/recaptcha/about) вы хотите использовать (возможные типы: `enterprise` или `v3`)
+
+В функцию `getHead` добавить вызов функции `getRecaptchaHead`:
+
 ```js
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  import { getRecaptchaHead } from '@startupjs/recaptcha/server'
+
+  function getHead (appName, req) {
+    return `
+      // ...
+      ${getRecaptchaHead(req)}
+      // ...
+    `
+}
 ```
 
-#### `checkToken(token)`
-Серверная функция, которая принимает токен, верифицирует его на сервере Google и возвращает булевый ответ
+## Настройка config.json
 
-### config
+В файл `config.json` вашего проекта необходимо добавить для **reCAPTCHA Enterprise**:
 
-В файл `config.json` вашего проекта необходимо добавить:
+```js
+  {
+    "RECAPTCHA_SECRET_KEY": "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ",
+    "RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY": "ВАШ_САЙТ_КЛЮЧ",
+    "RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY": "ВАШ_САЙТ_КЛЮЧ",
+    "GOOGLE_CLOUD_PROJECT_ID": "ID_ВАШЕГО_GOOGLE_CLOUD"
+  }
+```
+`RECAPTCHA_SECRET_KEY` создаётся здесь https://console.cloud.google.com/apis/credentials
+`RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY` и `RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY` - https://cloud.google.com/recaptcha-enterprise/docs/create-key
+
+Для **reCAPTCHA v3** будет достаточно:
 ```js
   {
     "RECAPTCHA_SECRET_KEY": "ВАШ_СЕКРЕТНЫЙ_КЛЮЧ",
     "RECAPTCHA_SITE_KEY": "ВАШ_САЙТ_КЛЮЧ"
   }
 ```
+Данный ключи создаются в [Google Admin Console](https://www.google.com/recaptcha/admin/).
 
 ## Пример
 
-### Использование на сервере
+### Клиент
+
+```jsx
+  import { Recaptcha } from '@startupjs/recaptcha'
+```
+
+```jsx example
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+  const [email, setEmail] = useState('')
+
+  const ref = useRef()
+
+  const openRecaptcha = () => {
+    if (!email) return
+
+    ref.current.open()
+  }
+
+  const onVerify = async recaptcha => {
+    try {
+      const res = await axios.post('/api/subscribe-to-mailing', {
+        recaptcha,
+        email
+      })
+      console.log('Response: ', res.data)
+      setRecaptchaVerified(res.data)
+    } catch (err) {
+      console.error(err.response.data)
+    }
+  }
+
+  return pug`
+    Div.root
+      TextInput.emailInput(
+        label='Ваша почта'
+        value=email
+        onChangeText=setEmail
+      )
+      Recaptcha(
+        ref=ref
+        onVerify=onVerify
+        onLoad=() => console.log('onLoad')
+        onExpire=() => console.log('onExpire')
+        onError=error => console.log('onError', error)
+        onClose=() => console.log('onClose')
+      )
+      if recaptchaVerified
+        Span.label Спасибо за подписку
+      Button(
+        onPress=openRecaptcha
+        disabled=recaptchaVerified
+      ) Подписаться
+  `
+```
+
+### Сервер
 ```js
-import { checkToken } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
 
 export default function initRoutes (router) {
   router.post('/api/subscribe-to-mailing', async function (req, res) {
-    const { token, email } = req.body
+    const { recaptcha, email } = req.body
 
-    const isVerified = await checkToken(token)
+    const isVerified = await checkRecaptcha(recaptcha)
 
     if (!isVerified) {
       return res.status(403).send(isVerified)
     }
 
-    // Do something with the subscription email...
+    // Do something with email subscription...
   })
 }
 ```
 
-### Invisible
-```jsx example
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
-  const [email, setEmail] = useState('')
+## Параметры компонента Recaptcha
 
-  const ref = useRef()
+Компонент `Recaptcha` принимает параметры из [официальной документации Google reCAPTCHA](https://developers.google.com/recaptcha/docs/invisible#config)
 
-  const openRecaptcha = () => {
-    if (!email) return
-
-    ref.current.open()
-  }
-
-  const onVerify = async token => {
-    try {
-      const res = await axios.post('/api/subscribe-to-mailing', {
-        token,
-        email
-      })
-      console.log('Response: ', res.data)
-      setRecaptchaVerified(res.data)
-    } catch (err) {
-      console.error(err.response.data)
-    }
-  }
-
-  return pug`
-    Div.root
-      TextInput.emailInput(
-        label='Ваша почта'
-        value=email
-        onChangeText=setEmail
-      )
-      Recaptcha(
-        id='invisible-captcha'
-        ref=ref
-        onVerify=onVerify
-        onLoad=() => console.log('onLoad')
-        onExpire=() => console.log('onExpire')
-        onError=error => console.log('onError', error)
-        onClose=() => console.log('onClose')
-      )
-      if recaptchaVerified
-        Span.label Спасибо за подписку
-      Button(
-        onPress=openRecaptcha
-        disabled=recaptchaVerified
-      ) Подписаться
-  `
-```
-
-### I'm not a robot
-```jsx example
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
-  const [email, setEmail] = useState('')
-
-  const ref = useRef()
-
-  const openRecaptcha = () => {
-    if (!email) return
-
-    ref.current.open()
-  }
-
-  const onVerify = async token => {
-    try {
-      const res = await axios.post('/api/subscribe-to-mailing', {
-        token,
-        email
-      })
-      console.log('Response: ', res.data)
-      setRecaptchaVerified(res.data)
-    } catch (err) {
-      console.error(err.response.data)
-    }
-  }
-
-  return pug`
-    Div.root
-      TextInput.emailInput(
-        label='Ваша почта'
-        value=email
-        onChangeText=setEmail
-      )
-      Recaptcha(
-        variant='normal'
-        id='normal-captcha'
-        ref=ref
-        onVerify=onVerify
-        onLoad=() => console.log('onLoad')
-        onExpire=() => console.log('onExpire')
-        onError=error => console.log('onError', error)
-        onClose=() => console.log('onClose')
-      )
-      if recaptchaVerified
-        Span.label Спасибо за подписку
-      Button(
-        onPress=openRecaptcha
-        disabled=recaptchaVerified
-      ) Подписаться
-  `
-```
-
-## Параметры
-
- - `id` [String] - id компонента. Должен быть уникален для каждой капчи на странице. По умолчанию: `recaptcha`
  - `variant` [String] - Вариант отображения виджета (`invisible`, `normal` или `compact`). По умолчанию: `invisible`
  - `theme` [String] - Цветовая тема виджета (`dark` или `light`). По умолчанию: `light`
  - `baseUrl` [String] - URL-адрес (домен), настроенный в настройке reCAPTCHA (например, `http://my.domain.com`). По умолчанию: ваш `BASE_URL` из `@env`
  - `lang` [String] - [Код языка](https://developers.google.com/recaptcha/docs/language). По умолчанию: `en`
  - `onLoad` [Function] - Функция обратного вызова, выполняемая, когда reCAPTCHA готова к использованию
- - `onVerify` [Function(token)] - Функция обратного вызова, выполняемая, когда пользователь отправляет успешный ответ. Токен ответа reCAPTCHA передается вашему обратному вызову
+ - `onVerify` [Function(object)] - Функция обратного вызова, выполняемая, когда пользователь отправляет успешный ответ. Объект ответа reCAPTCHA передается вашему обратному вызову
  - `onExpire` [Function] - Функция обратного вызова, выполняемая, когда срок ответа reCAPTCHA истекает, и пользователя необходимо повторно проверить
  - `onError` [Function(error)] - Функция обратного вызова, выполняемая, когда reCAPTCHA обнаруживает ошибку (обычно при подключении к сети), и не может продолжаться, пока подключение не будет восстановлено. Если вы указываете здесь функцию, вы несете ответственность за информирование пользователя о том, что он должен повторить попытку
  - `onClose` [Function] - (Экспериментально) Функция обратного вызова, выполняемая при закрытии окна reCAPTCHA
@@ -191,7 +156,7 @@ export default function initRoutes (router) {
 ## Advanced use
 
 ```js
-  import { checkDataToken } from '@startupjs/recaptcha/server'
+  import { checkDataRecaptcha } from '@startupjs/recaptcha/server'
 ```
 
-`checkDataToken(token)` - расширенная функция `checkToken(token)`, которая возвращает объект с оригинальным ответом Google API
+`checkDataRecaptcha(recaptcha)` - это расширенный вариант функции `checkRecaptcha(recaptcha)`, которая возвращает объект с оригинальным ответом Google API. Разные типы reCAPTCHA возвращают разную структуру данных в ответе.

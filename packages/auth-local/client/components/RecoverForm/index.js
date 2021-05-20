@@ -50,14 +50,15 @@ function RecoverForm ({
     if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
   }
 
-  async function createRecoverySecret (recaptchaToken) {
+  async function createRecoverySecret (recaptcha) {
     try {
-      await authHelper.createPassResetSecret({ ...form, recaptchaToken })
+      await authHelper.createPassResetSecret({ ...form, recaptcha })
       onSuccess && onSuccess(null, RECOVER_PASSWORD_SLIDE)
       setMessage('Check your email for instructions')
       setErrors({})
     } catch (error) {
       setErrors({ server: _get(error, 'response.data.message', error.message) })
+      recaptchaRef.current.close()
       onError && onError(error)
     }
   }

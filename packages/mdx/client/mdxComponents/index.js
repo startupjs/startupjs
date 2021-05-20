@@ -26,6 +26,7 @@ import { Anchor } from '@startupjs/scrollable-anchors'
 import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
+import { BASE_URL } from '@env'
 import './index.styl'
 import Code from '../Code'
 
@@ -230,18 +231,22 @@ export default {
     `
   },
   img: ({ src }) => {
+    let _src = src
     const [style, setStyle] = useState({})
 
-    const isUrl = /^(http|https):\/\//.test(src)
+    const isUrl = /^(http|https):\/\//.test(_src)
+    const isLocalUrl = /^\//.test(_src)
 
-    if (!isUrl) {
+    if (isLocalUrl) {
+      _src = BASE_URL + _src
+    } else if (!isUrl) {
       console.warn('[@startupjs/mdx] Need to provide the url for the image')
       return null
     }
 
     function onLayout (e) {
       const maxWidth = e.nativeEvent.layout.width
-      Image.getSize(src, (width, height) => {
+      Image.getSize(_src, (width, height) => {
         const coefficient = maxWidth / width
         setStyle({
           width: Math.min(width, maxWidth),
@@ -254,7 +259,7 @@ export default {
 
     return pug`
       Row.p(onLayout=onLayout)
-        Image(style=style source={ uri: src })
+        Image(style=style source={ uri: _src })
     `
   }
 }
