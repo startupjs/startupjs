@@ -1,4 +1,4 @@
-const REGEX = /(```jsx) +example([\s\S]*?)(```)/g
+const REGEX = /(```jsx +example)([\s\S]*?)(```)/g
 const PURE_REGEX = /(```jsx) +pure-example([\s\S]*?)(```)/g
 
 module.exports = function mdxExamplesLoader (source) {
@@ -9,7 +9,7 @@ module.exports = function mdxExamplesLoader (source) {
 }
 
 function replacer (match, p1, p2, p3) {
-  const code = `\n\n${p1}${p2}${p3}\n`
+  const code = `\n\n${p1}${p2}${p3}`
   p2 = p2.trim().replace(/\n+/g, '\n')
   if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
 

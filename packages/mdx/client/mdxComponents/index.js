@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Image, Platform } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
+import { observer, useValue } from 'startupjs'
 import {
   Div,
   H2,
@@ -118,39 +120,38 @@ export default {
     Span.p(italic)= children
   `,
   pre: ({ children }) => children,
-  code: ({ children, className, example }) => {
+  code: observer(({ children, className, example }) => {
     const language = (className || '').replace(/language-/, '')
     const [open, setOpen] = useState(false)
-    const [copyText, setCopyText] = useState(' Copy code ')
+    const [copyText, $copyText] = useValue('Copy code')
 
     const copyHandler = () => {
-      navigator.clipboard.writeText(children).then(() => {
-        setCopyText('Copied')
-        setTimeout(() => setCopyText(' Copy code '), 3000)
-      })
+      Clipboard.setString(children)
+      $copyText.set('Copied')
     }
 
-    if (example) {
-      return pug`
-        Collapse.collapse(open=open variant='pure')
-          Collapse.Header.collapseHeader(icon=false onPress=null)
-            Row(align='right')
-              Tooltip(content=' Show code ')
-                Div.iconWrapper(onPress=() => setOpen(!open))
-                  Icon.collapseIcon(icon=faCode)
-              Tooltip.copyIcon(content=copyText)
-                Div.iconWrapper(onPress=copyHandler)
-                  Icon.collapseIcon(icon=faCopy)
-          Collapse.Content.collapseContent
-            Code(language=language)= children
+    return pug`
+      Div.code
+        if example
+          Collapse.code-collapse(open=open variant='pure')
+            Collapse.Header.code-collapse-header(icon=false onPress=null)
+              Row.code-actions(align='right')
+                Tooltip(content=open ? 'Hide code' : 'Show code')
+                  Div.code-action(onPress=() => setOpen(!open))
+                    Icon.code-action-collapse(icon=faCode color='error')
+                Tooltip(content=copyText)
+                  Div.code-action(
+                    onPress=copyHandler
+                    onMouseLeave=() => setTimeout(() => $copyText.setDiff('Copy code'), 300)
+                  )
+                    Icon.code-action-copy(icon=faCopy)
+            Collapse.Content.code-collapse-content
+              Code(language=language)= children
+        else
+          Br
+          Code(language=language)= children
     `
-    } else {
-      return pug`
-        Br
-        Code(language=language)= children
-      `
-    }
-  },
+  }),
   inlineCode: ({ children }) => pug`
     Span.inlineCodeWrapper
       Span.inlineCodeSpacer= ' '
