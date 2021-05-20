@@ -23,7 +23,6 @@ export default class DispatcherRunner {
 
   async stop () {
     for (let runner of this.runners) {
-      // console.log('runner stopping')
       await runner.stop()
       console.log('Dispatcher', runner._num, 'is stopped')
     }
@@ -111,7 +110,6 @@ export default class DispatcherRunner {
 
     const tasks = []
     for (let i = 0; i < num; i++) {
-      // console.log('tasks length', tasks.length)
       let uniqId = id
       if (params.differentUniqIds) uniqId = model.id()
       tasks.push(runTask(await this.createTask(uniqId, options)))

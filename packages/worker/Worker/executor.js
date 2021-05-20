@@ -4,6 +4,7 @@ import { isPromise } from '../utils.js'
 
 const env = process.env
 const collection = env.WORKER_TASK_COLLECTION
+const dbs = getDbs()
 
 let actions;
 (async () => {
@@ -22,7 +23,9 @@ let customInit;
   try {
     await import(env.WORKER_INIT_PATH) // This should populate the global DM_WORKER_ACTIONS var
     customInit = global.DM_WORKER_INIT
-    if (typeof customInit !== 'function') {
+    if (typeof customInit === 'function') {
+      customInit(dbs.backend)
+    } else {
       console.warn('[worker] WARNING! workerInit.js doesn\'t export a function. Ignoring.')
     }
   } catch (e) {
@@ -30,9 +33,6 @@ let customInit;
         'your project\'s worker directory to do the custom initialization of backend (hooks, etc.).')
   }
 })()
-
-const dbs = getDbs()
-customInit && customInit(dbs.backend)
 
 function executeTask (action, model, task, done) {
   const res = action(model, task, done)

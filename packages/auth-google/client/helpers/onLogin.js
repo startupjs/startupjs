@@ -10,7 +10,7 @@ export default async function onLogin ({
   baseUrl = BASE_URL,
   redirectUrl,
   ...options
-}) {
+} = {}) {
   const expiresRedirectUrl = $root.get('_session.auth.expiresRedirectUrl')
 
   // set redirectUrl in cookie and play redirect from server
