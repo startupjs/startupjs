@@ -49,33 +49,32 @@ fontFamily(
   fontWeight = $UI.fontWeights.normal,
   fontStyle = normal
 )
-  fontFamilies = $UI.fontFamilies[$PLATFORM] || $UI.fontFamilies.default || {}
-  fontFamily = fontFamilies[fontName]
+  defaultFontFamilies = $UI.fontFamilies.default || {}
+  fontFamilies = $UI.fontFamilies[$PLATFORM]
+  fontFamily = fontFamilies ? fontFamilies[fontName] : defaultFontFamilies[fontName]
 
-  if (!fontFamily) {
-    return
-  }
+  font-weight fontWeight
+  font-style fontStyle
 
-  if (isCustomFont(fontFamily)) {
-    thickness = $fontWeightNamesMap['' + fontWeight]
-    isRegular = thickness is 'Regular'
-    isItalic = fontStyle is italic
+  if (fontFamily) {
+    if (isCustomFont(fontFamily)) {
+      thickness = $fontWeightNamesMap['' + fontWeight]
+      isRegular = thickness is 'Regular'
+      isItalic = fontStyle is italic
 
-    fontFamily += '-'
-    // add thickness
-    // don't add thickness to font family name if regular and italic
-    if (!isRegular || !isItalic) {
-      fontFamily += $fontWeightNamesMap['' + fontWeight]
+      fontFamily += '-'
+      // add thickness
+      // don't add thickness to font family name if regular and italic
+      if (!isRegular || !isItalic) {
+        fontFamily += $fontWeightNamesMap['' + fontWeight]
+      }
+      // add style
+      if (isItalic) {
+        fontFamily += 'Italic'
+      }
     }
-    // add style
-    if (isItalic) {
-      fontFamily += 'Italic'
-    }
+
     font-family fontFamily
-  } else {
-    font-family fontFamily
-    font-weight fontWeight
-    font-style fontStyle
   }
 
 isCustomFont(fontFamily)

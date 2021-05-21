@@ -15,117 +15,91 @@ import './index.mdx.styl'
 
 ## Cемейство шрифтов
 
-Для того, чтобы реализовать хорошую систему шрифтов, первое, что нужно сделать, - это выбрать подходящее семейство шрифтов. В StartupJS мы предпочитаем использовать семейство системных шрифтов, а затем также предоставляем набор альтернативных шрифтов для обеспечения удобочитаемости экранов на разных платформах и в разных браузерах.
+В StartupJS мы предпочитаем использовать семейство системных шрифтов и предоставляем возможность переопределять их на свои собственные.
 
+Объект `$UI.fontFamilies` принимает ключи зависящие от платформы `web`, `android`, `ios`, `windows`, `macos`, `native` для переопределения шрифтов на определенной платформе и один специальный ключ `default` для переопределения шрифтов одновременно для всех платформ.
+
+```styl
+$UI.fontFamilies = {
+  default: {
+    normal: 'Lato',
+    heading: 'Roboto'
+  },
+  android: {
+    normal: 'sans-serif'
+  },
+  android: {
+    normal: 'San Francisco'
+  },
+}
 ```
-system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif
-```
 
-Вы можете изменить семейства шрифтов используемые по умолчанию, изменив `$UI.fontFamilies.*`, где `*`:
+где:
 
-  * `normal` семейство шрифтов для основного текста (используется компонентом `Span`)
-  * `heading` семейство шрифтов для текста заголовков (используется для компонентов `H1-H6`)
+* `normal` семейство шрифтов для основного текста (используется компонентом `Span`)
+* `heading` семейство шрифтов для текста заголовков (используется для компонентов `H1-H6`)
 
-## Шрифт
+**ПРИМЕЧАНИЕ:** Вы также можете добавить дополнительные семантические имена с вашим собственным семейством шрифтов.
 
-Для изменения размера текста используйте миксин `font(scale)`, где `scale` - масштаб из таблицы размеров ниже.
+## Размер шрифта
 
-В `.styl` файле
+Для изменения размера текста используйте миксин `font(scale)`, где `scale` - масштаб из таблицы размеров. **Значение по умолчанию:** `body2`.
+
 ```stylus
 .text
   font(h2)
 ```
 
-```jsx example
-  <Span styleName='text'>Text size - h2.</Span>
-```
-
-### Таблица размеров
-
 ```jsx pure-example
-const tableStyle = {
-  backgroundColor: '#fff',
-}
-
-const hoverOptions = {
-  style: {
-    cursor: 'default',
-  },
-  hoverStyle: {
-    backgroundColor: '#ebf8fd',
-  },
-  activeStyle: {
-    opacity: 1,
-    backgroundColor: '#ebf8fd',
-  },
-  onPress: () => undefined,
-}
-
 return (
-<Table style={tableStyle}>
+  <Table styleName='table'>
     <Thead>
       <Tr>
-        <Th>
-          Масштаб
-        </Th>
-        <Th>font-size</Th>
-        <Th>line-height</Th>
+        <Th styleName='th'>Масштаб</Th>
+        <Th styleName='th'>font-size</Th>
+        <Th styleName='th'>line-height</Th>
       </Tr>
     </Thead>
     <Tbody>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h1'>H1</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h1</Td>
         <Td styleName='td'>72px</Td>
         <Td styleName='td'>96px</Td>
       </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h2'>H2</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h2</Td>
         <Td styleName='td'>48px</Td>
         <Td styleName='td'>64px</Td>
       </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h3'>H3</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h3</Td>
         <Td styleName='td'>36px</Td>
         <Td styleName='td'>48px</Td>
       </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h4'>H4</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h4</Td>
         <Td styleName='td'>24px</Td>
         <Td styleName='td'>32px</Td>
       </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h5'>H5</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h5</Td>
         <Td styleName='td'>20px</Td>
         <Td styleName='td'>28px</Td>
       </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='h6'>H6</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h6</Td>
         <Td styleName='td'>16px</Td>
         <Td styleName='td'>24px</Td>
       </Tr>
-      <Tr {...hoverOptions}>
-        <Td styleName='td'>
-          <Span styleName='body1'>body1</Span>
-        </Td>
+      <Tr styleName='tr'>
+        <Td styleName='td'>body1</Td>
         <Td styleName='td'>16px</Td>
-        <Td styleName='td'>24px</Td>
-      </Tr>
-      <Tr {...hoverOptions}>
         <Td styleName='td'>
-          <Span styleName='body2'>body2</Span>
+          24px
         </Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>body2</Td>
         <Td styleName='td'>14px</Td>
         <Td styleName='td'>20px</Td>
       </Tr>
@@ -133,8 +107,6 @@ return (
   </Table>
 )
 ```
-
-`body2` - используется по умолчанию.
 
 ## Толщина шрифта
 
@@ -149,14 +121,8 @@ $UI.fontWeights = {
 }
 ```
 
-## Дополнительные имена шрифтов
 
-Вы можете добавить дополнительные семантические имена с вашими собственными семействами шрифтов в `styles/index.styl`
 
-```stylus
-@require '../../node_modules/@startupjs/ui/styles/index.styl'
-$UI.fontFamilies.myFont = 'Roboto, sans-serif' // add additional font families to 'myFont' name
-```
 
 ## Как установить шрифт для элемента?
 
@@ -194,27 +160,18 @@ $UI.fontFamilies.myFont = 'Roboto, sans-serif' // add additional font families t
 
 1. Добавьте ваш кастомный `Font name` (только название шрифта без толщины и стиля) в список `$UI.customFontFamilies`.
 
-  ```stylus
-  $UI.customFontFamilies = 'Roboto, BaiJumjuree'
-  ```
-
 1. Затем вы можете переопределить любое семантическое имя шрифта или добавить дополнительное семантическое имя с вашим пользовательским шрифтом.
 
-  ```stylus
-  $UI.fontFamilies.heading = 'Roboto'
-  $UI.fontFamilies.myFont = 'BaiJumjuree'
-  ```
-
-Например, если вы хотите изменить шрифт основного текста приложения на `Lato`, вам необходимо:
+Например, если вы хотите изменить шрифт основного текста приложения на `Lato` для всех платформ, вам необходимо:
 
 * добавить `Lato-Regular` шрифт для обычного текста
 
 * добавить шрифты `Lato-RegularItalic`, `Lato-Bold`, `Lato-BoldItalic`, так как компонент `Span` имеет модификаторы `bold` и `italic` для выделения текста жирным и курсивным соотвественно
 
-* переопределить переменную `$UI.fontFamilies.normal` которую использует компонент `Span` и добавить шрифт в `$UI.customFontFamilies` в файл `styles/index.styl`
+* добавить шрифт в `$UI.customFontFamilies` и задать переменную `$UI.fontFamilies.default.normal` (`default` используется для всех платформ) в файле `styles/index.styl`
 
 ```stylus
 @require '../../node_modules/@startupjs/ui/styles/index.styl'
-$UI.fontFamilies.normal = 'Lato'
+$UI.fontFamilies.default.normal = 'Lato'
 $UI.customFontFamilies = 'Lato'
 ```
