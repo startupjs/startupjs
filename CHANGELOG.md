@@ -11,11 +11,6 @@
 * **ui/DateTimePicker:** add disabled styles ([#673](https://github.com/startupjs/startupjs/issues/673)) ([d8bbbb9](https://github.com/startupjs/startupjs/commit/d8bbbb9e3b1f56b68f3393cd73e3f10bc290eacf))
 
 
-### Reverts
-
-* Revert "f(auth-local): fix bugs related to using recaptcha when it is not enabled (#669)" (#670) ([56104d4](https://github.com/startupjs/startupjs/commit/56104d4d6234ea1bb9f694a07172340cd90bcf35)), closes [#669](https://github.com/startupjs/startupjs/issues/669) [#670](https://github.com/startupjs/startupjs/issues/670)
-
-
 
 ## [0.35.5](https://github.com/startupjs/startupjs/compare/v0.35.4...v0.35.5) (2021-05-20)
 
