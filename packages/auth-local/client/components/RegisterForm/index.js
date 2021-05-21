@@ -87,7 +87,7 @@ function RegisterForm ({
       fullSchema = fullSchema.keys(validateSchema)
     }
 
-    if (recaptchaEnabled && errors.check(fullSchema, form)) return recaptchaRef.current.close()
+    if (errors.check(fullSchema, form)) return recaptchaRef.current.close()
 
     const formClone = { ...form }
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
