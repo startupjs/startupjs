@@ -5,13 +5,14 @@ import { useLayout } from './../../../hooks'
 import Row from './../../Row'
 import Div from './../../Div'
 import Span from './../../typography/Span'
-import Checkbox from './checkbox'
-import Switch from './switch'
+import CheckboxInput from './checkbox'
+import SwitchInput from './switch'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const INPUT_COMPONENTS = {
-  checkbox: Checkbox,
-  switch: Switch
+  checkbox: CheckboxInput,
+  switch: SwitchInput
 }
 
 const READONLY_ICONS = {
@@ -19,7 +20,7 @@ const READONLY_ICONS = {
   FALSE: '✗'
 }
 
-function CheckboxInput ({
+function Checkbox ({
   style,
   className,
   variant,
@@ -91,14 +92,14 @@ function CheckboxInput ({
   `
 }
 
-CheckboxInput.defaultProps = {
+Checkbox.defaultProps = {
   variant: 'checkbox',
   value: false,
   disabled: false,
   readonly: false
 }
 
-CheckboxInput.propTypes = {
+Checkbox.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['checkbox', 'switch']),
   label: PropTypes.node,
@@ -110,4 +111,4 @@ CheckboxInput.propTypes = {
   onChange: PropTypes.func
 }
 
-export default observer(CheckboxInput)
+export default observer(themed(Checkbox))

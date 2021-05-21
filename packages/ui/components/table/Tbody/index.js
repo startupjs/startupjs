@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
+import themed from '../../theming/themed'
 
 function Tbody ({ style, children, ...props }) {
   return pug`
@@ -17,4 +18,4 @@ Tbody.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(Tbody)
+export default observer(themed(Tbody))

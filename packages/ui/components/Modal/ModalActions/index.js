@@ -3,6 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Row from './../../Row'
 import Button from './../../Button'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function ModalActions ({
@@ -48,4 +49,4 @@ ModalActions.propTypes = {
   onConfirm: PropTypes.func
 }
 
-export default observer(ModalActions)
+export default observer(themed(ModalActions))

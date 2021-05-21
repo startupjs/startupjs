@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Avatar from '../Avatar'
 import Div from '../Div'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function User ({
@@ -67,4 +68,4 @@ User.propTypes = {
   onPress: PropTypes.func
 }
 
-export default observer(User)
+export default observer(themed(User))

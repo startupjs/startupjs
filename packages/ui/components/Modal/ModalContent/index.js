@@ -1,8 +1,9 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ScrollView } from 'react-native'
 import Span from './../../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function ModalContent ({
@@ -33,4 +34,4 @@ ModalContent.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(ModalContent)
+export default observer(themed(ModalContent))

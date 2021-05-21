@@ -2,9 +2,10 @@ import React from 'react'
 import { Platform, Text } from 'react-native'
 import { observer, styl } from 'startupjs'
 import PropTypes from 'prop-types'
+import themed from '../../theming/themed'
 
 export default function generateHeader (tag) {
-  const header = observer(
+  const header = observer(themed(
     ({ children, style, bold, italic, ...props }) => {
       const isWeb = Platform.OS === 'web'
       const role = isWeb
@@ -20,7 +21,7 @@ export default function generateHeader (tag) {
         )= children
       `
     }
-  )
+  ))
 
   header.defaultProps = {
     bold: false,

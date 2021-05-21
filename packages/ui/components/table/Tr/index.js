@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Row from '../../Row'
+import themed from '../../theming/themed'
 
 function Tr ({ style, children, ...props }) {
   return pug`
@@ -17,4 +18,4 @@ Tr.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(Tr)
+export default observer(themed(Tr))

@@ -3,9 +3,10 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from './input'
 import Div from './../../Div'
+import themed from '../../theming/themed'
 import './index.styl'
 
-const Radio = function ({
+function Radio ({
   style,
   children,
   value,
@@ -73,6 +74,8 @@ Radio.propTypes = {
   onChange: PropTypes.func
 }
 
-const ObservedRadio = observer(Radio)
+const ObservedRadio = observer(themed(Radio))
+
 ObservedRadio.Item = Input
+
 export default ObservedRadio

@@ -10,6 +10,7 @@ import ObjectInput from '../ObjectInput'
 import PasswordInput from '../PasswordInput'
 import Select from '../Select'
 import TextInput from '../TextInput'
+import themed from '../../theming/themed'
 
 const INPUTS = {
   text: {
@@ -144,4 +145,4 @@ Input.propTypes = {
   $value: PropTypes.any
 }
 
-export default observer(Input)
+export default observer(themed(Input))

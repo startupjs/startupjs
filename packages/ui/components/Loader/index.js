@@ -1,7 +1,8 @@
 import React from 'react'
+import { ActivityIndicator } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ActivityIndicator } from 'react-native'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -28,4 +29,4 @@ Loader.propTypes = {
   color: PropTypes.oneOf(Object.keys(colors))
 }
 
-export default observer(Loader)
+export default observer(themed(Loader))

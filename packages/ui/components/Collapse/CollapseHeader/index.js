@@ -1,12 +1,13 @@
 import React, { useRef } from 'react'
+import { Animated } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
-import { Animated } from 'react-native'
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import Div from './../../Div'
 import Row from './../../Row'
 import Icon from './../../Icon'
 import Span from './../../typography/Span'
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function CollapseHeader ({
@@ -77,4 +78,4 @@ CollapseHeader.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(CollapseHeader)
+export default observer(themed(CollapseHeader))

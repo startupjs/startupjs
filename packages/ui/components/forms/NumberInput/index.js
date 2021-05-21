@@ -7,6 +7,7 @@ import { faAngleDown, faAngleUp, faMinus, faPlus } from '@fortawesome/free-solid
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Button from '../../Button'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -214,4 +215,4 @@ NumberInput.propTypes = {
   onFocus: PropTypes.func
 }
 
-export default observer(NumberInput)
+export default observer(themed(NumberInput))

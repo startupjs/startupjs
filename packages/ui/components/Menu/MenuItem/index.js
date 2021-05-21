@@ -6,6 +6,7 @@ import Link from './../../Link'
 import Icon from './../../Icon'
 import Span from './../../typography/Span'
 import { useMenuContext } from './../menuContext'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -82,4 +83,4 @@ MenuItem.propTypes = {
   activeColor: PropTypes.string
 }
 
-export default observer(MenuItem)
+export default observer(themed(MenuItem))

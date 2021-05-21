@@ -11,6 +11,7 @@ import Div from '../../Div'
 import Drawer from '../../popups/Drawer'
 import Row from '../../Row'
 import Span from '../../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors: { mainText, secondaryText } } = STYLES
@@ -21,7 +22,7 @@ const FORMATS = {
   time: 'HH:mm'
 }
 
-function DateTimePicker ({
+function DateTimePickerNative ({
   style,
   cancelButtonText,
   confirmButtonText,
@@ -231,14 +232,14 @@ function DateTimePicker ({
   `
 }
 
-DateTimePicker.defaultProps = {
+DateTimePickerNative.defaultProps = {
   cancelButtonText: 'Cancel',
   confirmButtonText: 'Ok',
   mode: 'datetime',
   size: 'm'
 }
 
-DateTimePicker.propTypes = {
+DateTimePickerNative.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   cancelButtonText: PropTypes.string,
   confirmButtonText: PropTypes.string,
@@ -256,4 +257,4 @@ DateTimePicker.propTypes = {
   onDateChange: PropTypes.func
 }
 
-export default observer(DateTimePicker)
+export default observer(themed(DateTimePickerNative))

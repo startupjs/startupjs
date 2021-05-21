@@ -7,9 +7,10 @@ import Div from '../../Div'
 import Card from '../../Card'
 import Button from '../../Button'
 import Span from '../../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
-export default observer(function ObjectInput ({
+function ArrayInput ({
   style,
   inputStyle,
   $value,
@@ -85,4 +86,6 @@ export default observer(function ObjectInput ({
       onPress=() => $value.push(undefined)
     )
   `)
-})
+}
+
+export default observer(themed(ArrayInput))

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { useLayout } from './../../../hooks'
 import Input from './input'
 import Span from './../../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function TextInput ({
@@ -87,7 +88,7 @@ function TextInput ({
   `
 }
 
-const ObservedTextInput = observer(TextInput, { forwardRef: true })
+const ObservedTextInput = observer(themed(TextInput), { forwardRef: true })
 
 ObservedTextInput.defaultProps = {
   size: 'm',

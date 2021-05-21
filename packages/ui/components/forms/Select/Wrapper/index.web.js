@@ -3,16 +3,17 @@ import React from 'react'
 // eslint-disable-next-line
 import { unstable_createElement } from 'react-native'
 import { observer } from 'startupjs'
-import Div from '../../../Div'
-import './index.styl'
 import {
   stringifyValue,
   getLabel,
   parseValue,
   NULL_OPTION
 } from './helpers'
+import Div from '../../../Div'
+import themed from '../../theming/themed'
+import './index.styl'
 
-export default observer(function SelectWrapper ({
+function SelectInputWeb ({
   options = [],
   value,
   onChange,
@@ -38,4 +39,5 @@ export default observer(function SelectWrapper ({
             option(key=index value=stringifyValue(item))
               = getLabel(item)
   `
-})
+}
+export default observer(themed(SelectInputWeb))

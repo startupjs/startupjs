@@ -1,10 +1,12 @@
 import React from 'react'
-import { observer } from 'startupjs'
 import { View } from 'react-native'
+import { observer } from 'startupjs'
+import themed from '../../theming/themed'
 import './index.styl'
 
-export default observer(function ProgressFiller ({ style, value }) {
+function ProgressFillerWeb ({ style, value }) {
   return pug`
     View.filler(style=[{width: value + '%'}, style])
   `
-})
+}
+export default observer(themed(ProgressFillerWeb))

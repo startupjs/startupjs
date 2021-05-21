@@ -3,6 +3,7 @@ import { observer } from 'startupjs'
 import omit from 'lodash/omit'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'
+import themed from '../../theming/themed'
 
 function PasswordInput ({ ...props }) {
   const [textHidden, setTextHidden] = useState(true)
@@ -30,4 +31,4 @@ PasswordInput.propTypes = {
   ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'readonly', 'onIconPress'])
 }
 
-export default observer(PasswordInput)
+export default observer(themed(PasswordInput))

@@ -5,12 +5,13 @@ import React, {
   useRef,
   useImperativeHandle
 } from 'react'
-import { StyleSheet, TextInput, Platform } from 'react-native'
+import { StyleSheet, TextInput as RNTextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -39,7 +40,7 @@ const ICON_SIZES = {
   l: 'l'
 }
 
-function Input ({
+function TextInput ({
   style,
   inputStyle,
   className,
@@ -152,7 +153,7 @@ function Input ({
     style: [{ height: fullHeight }, style]
   }, pug`
     React.Fragment
-      TextInput.input-input(
+      RNTextInput.input-input(
         ref=inputRef
         style=inputStyle
         styleName=[inputStyleName]
@@ -202,7 +203,7 @@ function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
 
-const ObservedInput = observer(Input, { forwardRef: true })
+const ObservedInput = observer(themed(TextInput), { forwardRef: true })
 
 ObservedInput.defaultProps = {
   editable: true,
