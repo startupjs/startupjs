@@ -143,13 +143,12 @@ export default {
                 Tooltip(content=copyText)
                   Div.code-action(
                     onPress=copyHandler
-                    onMouseLeave=() => setTimeout(() => $copyText.setDiff('Copy code'), 300)
+                    onMouseEnter=() => $copyText.set('Copy code')
                   )
                     Icon.code-action-copy(icon=faCopy)
             Collapse.Content.code-collapse-content
               Code(language=language)= children
         else
-          Br
           Code(language=language)= children
     `
   }),
