@@ -58,7 +58,7 @@ function RecoverForm ({
       setErrors({})
     } catch (error) {
       setErrors({ server: _get(error, 'response.data.message', error.message) })
-      recaptchaRef.current.close()
+      recaptchaEnabled && recaptchaRef.current.close()
       onError && onError(error)
     }
   }
