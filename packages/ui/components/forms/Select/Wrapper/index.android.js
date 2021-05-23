@@ -9,10 +9,10 @@ import {
   NULL_OPTION
 } from './helpers'
 import Div from '../../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../../theming/themed'
 import './index.styl'
 
-function SelectInputAndroid ({
+function SelectWrapper ({
   children,
   style,
   disabled,
@@ -48,4 +48,4 @@ function SelectInputAndroid ({
   `
 }
 
-export default observer(themed(SelectInputAndroid))
+export default observer(themed('Select', SelectWrapper))

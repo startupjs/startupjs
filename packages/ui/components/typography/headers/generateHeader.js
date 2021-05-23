@@ -2,11 +2,11 @@ import React from 'react'
 import { Platform, Text } from 'react-native'
 import { observer, styl } from 'startupjs'
 import PropTypes from 'prop-types'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 
 export default function generateHeader (tag) {
   const header = observer(themed(
-    ({ children, style, bold, italic, ...props }) => {
+    function Header ({ children, style, bold, italic, ...props }) {
       const isWeb = Platform.OS === 'web'
       const role = isWeb
         ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') }

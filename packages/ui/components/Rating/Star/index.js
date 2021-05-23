@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 // We can create this component using react-native-svg in future
@@ -22,4 +22,4 @@ function Star ({
   `
 }
 
-export default observer(themed(Star))
+export default observer(themed('Rating', Star))

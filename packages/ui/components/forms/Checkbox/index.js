@@ -7,7 +7,7 @@ import Div from './../../Div'
 import Span from './../../typography/Span'
 import CheckboxInput from './checkbox'
 import SwitchInput from './switch'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const INPUT_COMPONENTS = {

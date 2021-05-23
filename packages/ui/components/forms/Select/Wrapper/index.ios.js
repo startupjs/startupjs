@@ -10,10 +10,10 @@ import {
   NULL_OPTION
 } from './helpers'
 import Div from '../../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../../theming/themed'
 import './index.styl'
 
-function SelectInputIOS ({
+function SelectWrapper ({
   options = [],
   value,
   onChange,
@@ -69,4 +69,4 @@ function SelectInputIOS ({
                 )
   `
 }
-export default observer(themed(SelectInputIOS))
+export default observer(themed('Select', SelectWrapper))

@@ -7,7 +7,7 @@ import Div from '../../Div'
 import Card from '../../Card'
 import Button from '../../Button'
 import Span from '../../typography/Span'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function ArrayInput ({

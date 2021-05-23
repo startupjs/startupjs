@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 
 function Tbody ({ style, children, ...props }) {
   return pug`

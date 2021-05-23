@@ -10,10 +10,10 @@ import {
   NULL_OPTION
 } from './helpers'
 import Div from '../../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../../theming/themed'
 import './index.styl'
 
-function SelectInputWeb ({
+function SelectWrapper ({
   options = [],
   value,
   onChange,
@@ -40,4 +40,4 @@ function SelectInputWeb ({
               = getLabel(item)
   `
 }
-export default observer(themed(SelectInputWeb))
+export default observer(themed('Select', SelectWrapper))

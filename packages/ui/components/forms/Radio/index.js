@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from './input'
 import Div from './../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function Radio ({
@@ -49,7 +49,7 @@ function Radio ({
     })
 
   return pug`
-    Div(style=style)
+    Div.root(style=style)
       = _children
   `
 }

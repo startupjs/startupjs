@@ -2,7 +2,6 @@ import React from 'react'
 import { TabBar } from 'react-native-tab-view'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import themed from '../../theming/themed'
 
 function Bar ({
   ...props
@@ -39,4 +38,4 @@ Bar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
-export default observer(themed(Bar))
+export default observer(Bar)

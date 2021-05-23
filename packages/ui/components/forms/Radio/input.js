@@ -4,7 +4,7 @@ import { observer, useDidUpdate } from 'startupjs'
 import Row from '../../Row'
 import Div from '../../Div'
 import Span from '../../typography/Span'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const IS_ANDROID = Platform.OS === 'android'
@@ -68,7 +68,7 @@ const RadioInput = function ({
   }
 
   return pug`
-    Row.root(
+    Row.input(
       style=style
       vAlign='center'
       disabled=disabled
@@ -88,4 +88,4 @@ const RadioInput = function ({
   `
 }
 
-export default observer(themed(RadioInput))
+export default observer(themed('Radio', RadioInput))

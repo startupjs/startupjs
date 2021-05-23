@@ -4,7 +4,7 @@ import { observer, useDidUpdate } from 'startupjs'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
 import Div from './../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const AnimatedView = Animated.View
@@ -70,4 +70,4 @@ function CheckboxInput ({
   `
 }
 
-export default observer(themed(CheckboxInput))
+export default observer(themed('Checkbox', CheckboxInput))

@@ -7,7 +7,7 @@ import Div from './../../Div'
 import Row from './../../Row'
 import Icon from './../../Icon'
 import Span from './../../typography/Span'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function CollapseHeader ({

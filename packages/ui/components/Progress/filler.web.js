@@ -4,9 +4,9 @@ import { observer } from 'startupjs'
 import themed from '../../theming/themed'
 import './index.styl'
 
-function ProgressFillerWeb ({ style, value }) {
+function ProgressFiller ({ style, value }) {
   return pug`
     View.filler(style=[{width: value + '%'}, style])
   `
 }
-export default observer(themed(ProgressFillerWeb))
+export default observer(themed('Progress', ProgressFiller))

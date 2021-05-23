@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import * as locale from 'date-fns/locale'
 import Div from '../../Div'
 import Span from './../../typography/Span'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const localLanguage = window.navigator.language
@@ -25,7 +25,7 @@ const scrollableClasses = [
   'react-datepicker__year-select'
 ]
 
-function DateTimePickerWeb ({
+function DateTimePicker ({
   style,
   InputComponent,
   date,
@@ -106,14 +106,14 @@ function DateTimePickerWeb ({
   `
 }
 
-DateTimePickerWeb.defaultProps = {
+DateTimePicker.defaultProps = {
   minuteInterval: 1,
   mode: 'datetime',
   size: 'm',
   onDateChange: () => {}
 }
 
-DateTimePickerWeb.propTypes = {
+DateTimePicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   InputComponent: PropTypes.node,
   date: PropTypes.number,
@@ -127,4 +127,4 @@ DateTimePickerWeb.propTypes = {
   onDateChange: PropTypes.func
 }
 
-export default observer(themed(DateTimePickerWeb))
+export default observer(themed(DateTimePicker))

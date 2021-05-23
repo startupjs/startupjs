@@ -3,7 +3,7 @@ import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Span from './../../typography/Span'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function Td ({ style, children, ellipsis, ...props }) {

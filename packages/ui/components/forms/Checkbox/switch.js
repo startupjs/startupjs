@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Animated, Easing } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const AnimatedView = Animated.View
@@ -61,4 +61,4 @@ function SwitchInput ({
       )
   `
 }
-export default observer(themed(SwitchInput))
+export default observer(themed('Checkbox', SwitchInput))

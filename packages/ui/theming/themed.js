@@ -15,6 +15,7 @@ export default function themed (name, Component) {
   function ThemeWrapper (props) {
     // Setup global component style overrides
     const uiStyle = useStyle()
+
     if (uiStyle) {
       const styleProps = memoizedMatcher(name, uiStyle, '', '', {}) || {}
       const keysLength = Object.keys(styleProps).length

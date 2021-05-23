@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import { observer } from 'startupjs'
 import { Div } from '@startupjs/ui'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function InputErrorWrapper ({

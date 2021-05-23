@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import omit from 'lodash/omit'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 
 function PasswordInput ({ ...props }) {
   const [textHidden, setTextHidden] = useState(true)

@@ -6,7 +6,7 @@ import Span from './../../typography/Span'
 import Icon from './../../Icon'
 import Row from './../../Row'
 import Div from './../../Div'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function ModalHeader ({

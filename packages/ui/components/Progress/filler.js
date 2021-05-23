@@ -12,7 +12,7 @@ const {
 
 const AnimatedView = Animated.View
 
-function ProgressFillerNative ({ style, value }) {
+function ProgressFiller ({ style, value }) {
   const [progress] = useState(new Animated.Value(value))
   const [width, setWidth] = useState(0)
 
@@ -46,4 +46,4 @@ function ProgressFillerNative ({ style, value }) {
   `
 }
 
-export default observer(themed(ProgressFillerNative))
+export default observer(themed('Progress', ProgressFiller))

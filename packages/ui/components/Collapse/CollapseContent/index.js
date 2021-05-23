@@ -4,7 +4,7 @@ import Collapsible from 'react-native-collapsible'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function CollapseContent ({

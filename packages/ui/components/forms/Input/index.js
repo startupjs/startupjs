@@ -10,7 +10,7 @@ import ObjectInput from '../ObjectInput'
 import PasswordInput from '../PasswordInput'
 import Select from '../Select'
 import TextInput from '../TextInput'
-import themed from '../../theming/themed'
+import themed from '../../../theming/themed'
 
 const INPUTS = {
   text: {
