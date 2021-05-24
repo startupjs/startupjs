@@ -7,7 +7,9 @@ $fontWeightNamesMap = {
   '600': 'SemiBold',
   '700': 'Bold',
   '800': 'ExtraBold'
-  '900': 'Black'
+  '900': 'Black',
+  normal: 'Regular',
+  bold: 'Bold'
 }
 
 font(size = body2)
@@ -45,13 +47,13 @@ text(key = default) // DEPRECATED
     font(l)
 
 fontFamily(
-  fontName = 'normal',
+  fontName = normal,
   fontWeight = $UI.fontWeights.normal,
   fontStyle = normal
 )
   defaultFontFamilies = $UI.fontFamilies.default || {}
   fontFamilies = $UI.fontFamilies[$PLATFORM]
-  fontFamily = fontFamilies ? fontFamilies[fontName] : defaultFontFamilies[fontName]
+  fontFamily = (fontFamilies ? fontFamilies[fontName] : defaultFontFamilies[fontName]) || fontName
 
   font-weight fontWeight
   font-style fontStyle

@@ -125,11 +125,11 @@ $UI.fontWeights = {
 
 To set the font family for an element you need to use `fontFamily(name, weight, style)` mixin in your styles, where:
 
-* `name` is semantic font's name from `$UI.fontFamilies` (default value is `'normal'`)
+* `name` is font name, takes the name of the font family or semantic font name from `$UI.fontFamilies`. **Default:**  `normal`.
 
-* `weight` is font's weight, supporting any values from 100 to 900 in increments of 100 (default value is `$UI.fontWeights.normal`)
+* `weight` is font's weight, takes the values `normal`, `bold` and any values from 100 to 900 in increments of 100. **Default:** `$UI.fontWeights.normal`.
 
-* `style` is font's style, supporting values `normal` or `italic` (default value is `normal`)
+* `style` is font's style, takes the values `normal` or `italic`. **Default:** `normal`.
 
 
 ```stylus
