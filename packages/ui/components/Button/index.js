@@ -8,6 +8,7 @@ import Row from '../Row'
 import Div from '../Div'
 import Loader from '../Loader'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -175,4 +176,4 @@ Button.propTypes = {
   iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
-export default observer(Button)
+export default observer(themed(Button))

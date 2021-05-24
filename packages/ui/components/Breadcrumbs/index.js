@@ -7,6 +7,7 @@ import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -85,4 +86,4 @@ Breadcrumbs.propTypes = {
   replace: PropTypes.bool
 }
 
-export default observer(Breadcrumbs)
+export default observer(themed(Breadcrumbs))

@@ -8,7 +8,7 @@ import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
 import Portal from '../Portal'
 
-function Modal ({
+function ModalRoot ({
   style,
   modalStyle,
   $visible,
@@ -73,7 +73,7 @@ function Modal ({
   `
 }
 
-const ObservedModal = observer(Modal, { forwardRef: true })
+const ObservedModal = observer(ModalRoot, { forwardRef: true })
 
 ObservedModal.defaultProps = {
   variant: 'window',

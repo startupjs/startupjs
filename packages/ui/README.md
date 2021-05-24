@@ -81,9 +81,20 @@ import { uiAppPlugin } from '@startupjs/ui'
 
 registerPlugins({
   '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true }]
+    [uiAppPlugin, { defaultEnable: true, style: overridesStyle }]
   ]
 })
+```
+
+where `overridesStyle` is the styles to override default components' styles and for the override to work the component must be wrapped into `themed()` decorator. The override syntax looks requires that component is referred as a class by its name (starting with a capital letter) in the `.styl` file. For example `Button` is referred as `.Button`:
+
+```styl
+.Button
+  color red
+  &:part(hover)
+    color green
+  &:part(active)
+    color blue
 ```
 
 ## Usage

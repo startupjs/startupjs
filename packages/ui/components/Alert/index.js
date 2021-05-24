@@ -12,6 +12,7 @@ import Div from '../Div'
 import Span from '../typography/Span'
 import Row from '../Row'
 import Icon from '../Icon'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const ICONS = {
@@ -79,4 +80,4 @@ Alert.propTypes = {
   onClose: PropTypes.func
 }
 
-export default observer(Alert)
+export default observer(themed(Alert))
