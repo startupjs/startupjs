@@ -345,7 +345,9 @@ PODS:
     - React-jsi (= 0.63.4)
   - RNAppleAuthentication (2.1.1):
     - React-Core
-  - RNCPicker (1.12.0):
+  - RNCClipboard (1.7.0):
+    - React-Core
+  - RNCPicker (1.16.1):
     - React-Core
   - RNDateTimePicker (3.4.0):
     - React-Core
@@ -411,6 +413,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCClipboard (from `../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../../node_modules/@react-native-community/datetimepicker`)"
   - "RNGoogleSignin (from `../../node_modules/@react-native-google-signin/google-signin`)"
@@ -502,6 +505,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../../node_modules/@invertase/react-native-apple-authentication"
+  RNCClipboard:
+    :path: "../../node_modules/@react-native-clipboard/clipboard"
   RNCPicker:
     :path: "../../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
@@ -563,7 +568,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNAppleAuthentication: f4cc93d710f1337f66550d04d84bf47553bc0eae
-  RNCPicker: a3f85bfd04ab192fe9a8fe7485b5ef4f80e59022
+  RNCClipboard: 245417a78ab585e0d4d83926c28907e7b2bc24bd
+  RNCPicker: 61c7a0645b9e4ac67960aa7f22a3effcecfdfb8d
   RNDateTimePicker: f7e5a5e88ad9081367b884e924358f4629e029d4
   RNGoogleSignin: 111fd4792913208f338fe3178005f7a22e490ff9
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
