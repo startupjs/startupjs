@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import MenuItem from './MenuItem'
 import { MenuProvider } from './menuContext'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function Menu ({
@@ -43,6 +44,8 @@ Menu.propTypes = {
   activeColor: PropTypes.string
 }
 
-const ObservedMenu = observer(Menu)
+const ObservedMenu = observer(themed(Menu))
+
 ObservedMenu.Item = MenuItem
+
 export default ObservedMenu

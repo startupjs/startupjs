@@ -1,7 +1,8 @@
 import React from 'react'
-import { observer, u } from 'startupjs'
 import { Text } from 'react-native'
+import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
+import themed from '../../theming/themed'
 import './index.styl'
 const LINE_HEIGHT = u(2)
 
@@ -24,4 +25,4 @@ Br.propTypes = {
 
 }
 
-export default observer(Br)
+export default observer(themed(Br))

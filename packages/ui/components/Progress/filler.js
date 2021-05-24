@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
 import { Animated, Easing } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -11,7 +12,7 @@ const {
 
 const AnimatedView = Animated.View
 
-export default observer(function ProgressFiller ({ style, value }) {
+function ProgressFiller ({ style, value }) {
   const [progress] = useState(new Animated.Value(value))
   const [width, setWidth] = useState(0)
 
@@ -43,4 +44,6 @@ export default observer(function ProgressFiller ({ style, value }) {
       onLayout=(event) => setWidth(event.nativeEvent.layout.width)
     )
   `
-})
+}
+
+export default observer(themed('Progress', ProgressFiller))

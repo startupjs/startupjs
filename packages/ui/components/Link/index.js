@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import Button from './../Button'
 import Span from './../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -127,4 +128,4 @@ Link.propTypes = {
   color: PropTypes.oneOf(['default', 'primary'])
 }
 
-export default observer(Link)
+export default observer(themed(Link))

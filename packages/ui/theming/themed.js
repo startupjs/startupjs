@@ -1,7 +1,10 @@
 import React, { useContext } from 'react'
 import matcher from '@startupjs/babel-plugin-rn-stylename-to-style/matcher'
+import memoize from 'lodash/memoize'
 import ThemeContext from './ThemeContext'
 import { useStyle } from '../StyleContext'
+
+const memoizedMatcher = memoize(matcher, name => name)
 
 // TODO: Move themed inside react-sharedb's observer()
 export default function themed (name, Component) {
@@ -12,8 +15,9 @@ export default function themed (name, Component) {
   function ThemeWrapper (props) {
     // Setup global component style overrides
     const uiStyle = useStyle()
+
     if (uiStyle) {
-      const styleProps = matcher(name, uiStyle, '', '', {}) || {}
+      const styleProps = memoizedMatcher(name, uiStyle, '', '', {}) || {}
       const keysLength = Object.keys(styleProps).length
       if (
         keysLength > 0 &&

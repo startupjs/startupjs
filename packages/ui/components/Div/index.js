@@ -8,6 +8,7 @@ import {
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -179,7 +180,7 @@ Div.propTypes = {
   _preventEvent: PropTypes.bool
 }
 
-export default observer(Div)
+export default observer(themed(Div))
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {

@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
-import { observer, u } from 'startupjs'
-import PropTypes from 'prop-types'
 import { StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { observer, u } from 'startupjs'
+import PropTypes from 'prop-types'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -68,4 +69,4 @@ Icon.propTypes = {
   ])
 }
 
-export default observer(Icon)
+export default observer(themed(Icon))

@@ -38,7 +38,10 @@ init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
   '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }]
+    [
+      uiAppPlugin,
+      { defaultEnable: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }
+    ]
   ]
 })
 

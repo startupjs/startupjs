@@ -4,6 +4,7 @@ import { observer } from 'startupjs'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function Modal ({
@@ -150,4 +151,4 @@ function Modal ({
   `
 }
 
-export default observer(Modal)
+export default observer(themed(Modal))
