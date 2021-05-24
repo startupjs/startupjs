@@ -55,9 +55,6 @@ fontFamily(
   fontFamilies = $UI.fontFamilies[$PLATFORM]
   fontFamily = (fontFamilies ? fontFamilies[fontName] : defaultFontFamilies[fontName]) || fontName
 
-  font-weight fontWeight
-  font-style fontStyle
-
   if (fontFamily) {
     if (isCustomFont(fontFamily)) {
       thickness = $fontWeightNamesMap['' + fontWeight]
@@ -74,6 +71,9 @@ fontFamily(
       if (isItalic) {
         fontFamily += 'Italic'
       }
+    } else {
+      font-weight fontWeight
+      font-style fontStyle
     }
 
     font-family fontFamily
