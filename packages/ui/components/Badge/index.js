@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Platform } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
@@ -11,8 +10,6 @@ import STYLES from './index.styl'
 const {
   colors
 } = STYLES
-
-const isWeb = Platform.OS === 'web'
 
 const ICON_SIZES = {
   s: 'xs',
@@ -44,31 +41,27 @@ function Badge ({
 
   function onLayout (event) {
     const { width } = event.nativeEvent.layout
-    width && setRight(Math.ceil(width / 2) * -1)
+    setRight(Math.ceil(width / 2) * -1)
   }
 
   const _badgeStyle = { ...badgeStyle, backgroundColor: colors[color] }
-
-  if (isWeb) {
-    _badgeStyle.transform = 'translate(50%, 0)'
-  }
 
   return pug`
     Div.root(style=style)
       = children
       if (variant === 'default' && label) || variant === 'dot'
         Row.badge(
+          onLayout=onLayout
           styleName=[
             size,
             variant,
             position,
-            { withLabel: label }
+            { withLabel: label, visible: right }
           ]
           style=[
             _badgeStyle,
-            { right: isWeb ? 0 : right }
+            { right }
           ]
-          onLayout=onLayout
         )
           if variant === 'default'
             if icon

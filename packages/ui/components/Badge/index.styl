@@ -16,6 +16,10 @@ _sizes = {
   justify-content center
   align-items center
   border 1px solid _white
+  opacity 0
+
+  &.visible
+    opacity 1
 
   for size, unit in _sizes
     _halfSize = unit / 2
