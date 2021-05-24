@@ -1,21 +1,9 @@
 const { infon } = require('./log')
 const postLinkAndroid = require('./postLinkAndroid')
+const postLinkIOS = require('./postLinkIOS')
 
-module.exports = function link (options = {}) {
-  // default case, when there is no flags
-  if (!Object.keys(options).length) {
-    postLinkAndroid()
-    return endLinking()
-  }
-
-  const { standart } = options
-
-  if (standart) {
-    postLinkAndroid()
-  }
-  endLinking()
-}
-
-function endLinking () {
+module.exports = function link () {
+  postLinkAndroid()
+  postLinkIOS()
   infon('startupjs link is completed. Thank you for using startupjs!\n\n')
 }

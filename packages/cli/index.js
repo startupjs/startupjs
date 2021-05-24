@@ -560,9 +560,8 @@ commander
 commander
   .command('link')
   .description('Links files')
-  .option('-s, --standart', 'Default startupjs linking')
-  .action(async (options) => {
-    link(options)
+  .action(async () => {
+    link()
   })
 
 commander
