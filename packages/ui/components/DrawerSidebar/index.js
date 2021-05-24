@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
 import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -84,4 +85,4 @@ DrawerSidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(DrawerSidebar)
+export default observer(themed(DrawerSidebar))

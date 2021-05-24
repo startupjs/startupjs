@@ -1,7 +1,8 @@
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const LINE_SIZE = 8
@@ -36,4 +37,4 @@ Hr.propTypes = {
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['m', 'l', 'xl'])])
 }
 
-export default observer(Hr)
+export default observer(themed(Hr))

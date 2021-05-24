@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import * as locale from 'date-fns/locale'
 import Div from '../../Div'
 import Span from './../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const localLanguage = window.navigator.language
@@ -126,4 +127,4 @@ DateTimePicker.propTypes = {
   onDateChange: PropTypes.func
 }
 
-export default observer(DateTimePicker)
+export default observer(themed(DateTimePicker))

@@ -6,6 +6,7 @@ import { colorToRGBA } from '../../helpers'
 import Icon from '../Icon'
 import Div from '../Div'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -138,4 +139,4 @@ Tag.propTypes = {
   size: PropTypes.oneOf(['s', 'm'])
 }
 
-export default observer(Tag)
+export default observer(themed(Tag))

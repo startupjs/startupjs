@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import CollapseHeader from './CollapseHeader'
 import CollapseContent from './CollapseContent'
+import themed from '../../theming/themed'
 import './index.styl'
 
 // TODO: hover, active states
@@ -82,7 +83,7 @@ Collapse.propTypes = {
   onChange: PropTypes.func
 }
 
-const ObserverCollapse = observer(Collapse)
+const ObserverCollapse = observer(themed(Collapse))
 ObserverCollapse.Header = CollapseHeader
 ObserverCollapse.Content = CollapseContent
 

@@ -1,3 +1,17 @@
+## [0.35.6](https://github.com/startupjs/startupjs/compare/v0.35.5...v0.35.6) (2021-05-21)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to using recaptcha when it is not enabled ([#671](https://github.com/startupjs/startupjs/issues/671)) ([88ddbb0](https://github.com/startupjs/startupjs/commit/88ddbb08cc9b9d327454112836abd8dcae59e6d9))
+
+
+### Features
+
+* **ui/DateTimePicker:** add disabled styles ([#673](https://github.com/startupjs/startupjs/issues/673)) ([d8bbbb9](https://github.com/startupjs/startupjs/commit/d8bbbb9e3b1f56b68f3393cd73e3f10bc290eacf))
+
+
+
 ## [0.35.5](https://github.com/startupjs/startupjs/compare/v0.35.4...v0.35.5) (2021-05-20)
 
 

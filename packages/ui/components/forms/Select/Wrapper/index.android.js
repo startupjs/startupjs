@@ -9,9 +9,10 @@ import {
   NULL_OPTION
 } from './helpers'
 import Div from '../../../Div'
+import themed from '../../../../theming/themed'
 import './index.styl'
 
-export default observer(function SelectWrapper ({
+function SelectWrapper ({
   children,
   style,
   disabled,
@@ -45,4 +46,6 @@ export default observer(function SelectWrapper ({
               label=getLabel(item)
             )
   `
-})
+}
+
+export default observer(themed('Select', SelectWrapper))
