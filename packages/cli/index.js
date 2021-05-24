@@ -452,7 +452,7 @@ commander
     }
 
     if (template === 'ui') {
-      await execa('startupjs', ['android-link'], {
+      await execa('startupjs', ['link'], {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -558,9 +558,17 @@ commander
   })
 
 commander
+  .command('link')
+  .description('Links files')
+  .action(async () => {
+    link()
+  })
+
+commander
   .command('android-link')
   .description('Links android files')
   .action(async () => {
+    console.warn('"starupjs android-link" is deprecated. Use "startupjs link" instead.')
     link()
   })
 
