@@ -24,7 +24,6 @@ describe('async tasks', function () {
     it('fast tasks - regular mode', async () => {
       const taskNum = 10
       const result = await runner.executeTasks({ differentUniqIds: true }, taskNum, 0, { duration: 50, _type: 'testAsync' })
-      console.log('result', result)
       assert.equal(taskNum, result.done)
       assert(!result.series)
     })

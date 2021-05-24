@@ -43,6 +43,11 @@
   outline: none;
 }
 
+.react-datepicker__input-container input[disabled] {
+  background-color: rgba(62, 70, 87, 0.05);
+  border-color: rgba(62, 70, 87, 0.25);
+}
+
 .react-datepicker__header__dropdown {
   padding-top: 8px;
 }

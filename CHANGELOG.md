@@ -1,3 +1,28 @@
+## [0.35.6](https://github.com/startupjs/startupjs/compare/v0.35.5...v0.35.6) (2021-05-21)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to using recaptcha when it is not enabled ([#671](https://github.com/startupjs/startupjs/issues/671)) ([88ddbb0](https://github.com/startupjs/startupjs/commit/88ddbb08cc9b9d327454112836abd8dcae59e6d9))
+
+
+### Features
+
+* **ui/DateTimePicker:** add disabled styles ([#673](https://github.com/startupjs/startupjs/issues/673)) ([d8bbbb9](https://github.com/startupjs/startupjs/commit/d8bbbb9e3b1f56b68f3393cd73e3f10bc290eacf))
+
+
+
+## [0.35.5](https://github.com/startupjs/startupjs/compare/v0.35.4...v0.35.5) (2021-05-20)
+
+
+### Bug Fixes
+
+* **auth-google, auth-facebook:** add default params for `onLogin` ([#667](https://github.com/startupjs/startupjs/issues/667)) ([614a1e1](https://github.com/startupjs/startupjs/commit/614a1e19b3a705538870b1e86500d7e3ec4a967d))
+* **scrollable-anchors:** fix getting incorrect position ([ddf3f1c](https://github.com/startupjs/startupjs/commit/ddf3f1cea607b5ea5e372cd98bbd9553fed2be6e))
+* **worker:** fix broken custom initialization ([6de6282](https://github.com/startupjs/startupjs/commit/6de62822ba7fa927bc035b2f012aae5d4aa29c14))
+
+
+
 ## [0.35.4](https://github.com/startupjs/startupjs/compare/v0.35.3...v0.35.4) (2021-05-17)
 
 
