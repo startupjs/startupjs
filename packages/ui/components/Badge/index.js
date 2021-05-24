@@ -6,6 +6,7 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Row from '../Row'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -87,4 +88,4 @@ Badge.propTypes = {
   size: PropTypes.oneOf(['s', 'm', 'l'])
 }
 
-export default observer(Badge)
+export default observer(themed(Badge))

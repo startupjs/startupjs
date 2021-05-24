@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Div from './../Div'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { config } = STYLES
@@ -97,4 +98,4 @@ Avatar.propTypes = {
   onPress: Div.propTypes.onPress
 }
 
-export default observer(Avatar)
+export default observer(themed(Avatar))

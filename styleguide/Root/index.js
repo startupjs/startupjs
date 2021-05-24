@@ -7,7 +7,7 @@ import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
-import { registerPlugins } from '@startupjs/plugin'
+import { registerPlugins } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
 import {
   BASE_URL,
@@ -25,6 +25,9 @@ import * as main from '../main'
 import docs from '../docs'
 import auth from '../auth'
 
+// Override default styles
+import UI_STYLE_OVERRIDES from './uiOverrides.styl'
+
 if (Platform.OS === 'web') window.model = model
 
 // Init startupjs connection to server and the ORM.
@@ -35,7 +38,10 @@ init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
   '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true }]
+    [
+      uiAppPlugin,
+      { defaultEnable: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }
+    ]
   ]
 })
 

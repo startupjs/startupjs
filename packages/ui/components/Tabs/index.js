@@ -7,6 +7,7 @@ import findIndex from 'lodash/findIndex'
 import pick from 'lodash/pick'
 import Span from './../typography/Span'
 import Bar from './Bar'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function Tabs ({
@@ -75,7 +76,7 @@ function Tabs ({
   `
 }
 
-const ObservedTabs = observer(Tabs)
+const ObservedTabs = observer(themed(Tabs))
 
 ObservedTabs.defaultProps = {}
 

@@ -5,9 +5,10 @@ import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
 import Span from '../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
-export default observer(function ObjectInput ({
+function ObjectInput ({
   style,
   inputStyle,
   $value,
@@ -74,7 +75,9 @@ export default observer(function ObjectInput ({
         error=errors[key]
       )
   `)
-})
+}
+
+export default observer(themed(ObjectInput))
 
 function getOrder (order, properties) {
   return order != null ? order : Object.keys(properties)

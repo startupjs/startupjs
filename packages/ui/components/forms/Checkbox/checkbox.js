@@ -4,11 +4,12 @@ import { observer, useDidUpdate } from 'startupjs'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
 import Div from './../../Div'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const AnimatedView = Animated.View
 
-export default observer(function Checkbox ({
+function CheckboxInput ({
   style,
   className,
   value,
@@ -67,4 +68,6 @@ export default observer(function Checkbox ({
         }
       )
   `
-})
+}
+
+export default observer(themed('Checkbox', CheckboxInput))
