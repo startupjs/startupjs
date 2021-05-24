@@ -126,9 +126,14 @@ export default {
     const [open, setOpen] = useState(false)
     const [copyText, $copyText] = useValue('Copy code')
 
-    const copyHandler = () => {
+    function copyHandler () {
       Clipboard.setString(children)
       $copyText.set('Copied')
+    }
+
+    function onMouseEnter () {
+      // we need to reutrn default text if it was copied
+      $copyText.setDiff('Copy code')
     }
 
     return pug`
@@ -143,7 +148,7 @@ export default {
                 Tooltip(content=copyText)
                   Div.code-action(
                     onPress=copyHandler
-                    onMouseEnter=() => $copyText.set('Copy code')
+                    onMouseEnter=onMouseEnter
                   )
                     Icon.code-action-copy(icon=faCopy)
             Collapse.Content.code-collapse-content
