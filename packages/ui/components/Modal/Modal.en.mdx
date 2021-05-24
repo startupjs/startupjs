@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useValue } from 'startupjs'
 import Modal from '../Modal'
 import Button from '../Button'
@@ -15,9 +15,26 @@ Modal can be used when the user needs to inform about ciritcal information, requ
 import { Modal } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
+
+```jsx example
+const [visible, setVisible] = useState(false)
+
+return pug`
+  Modal(
+    visible=visible
+    title='Text in modal'
+    onChange=setVisible
+  )
+    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+  Button(onPress=() => setVisible(true)) Open modal
+`
+```
+
+## Props
 
 - `showCross` boolean value, sets the display of a cross in the header (by default `true`)
+- `onChange` function that will be run when the `Modal` needs to change the visibility state (optional when using the `$visible` two-way data binding)
 - `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`, by default, closes the modal)
 - `onCancel` displays cancel button that uses this handler (by default, closes the modal)
 - `onConfirm` displays confirm button that uses this handler (by default, closes the modal)
@@ -28,14 +45,15 @@ import { Modal } from '@startupjs/ui'
 - `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
 ### Closing by default
-  If you want to cancel the default closing of the modal when `onCancel`, `onConfirm`, `onBackdropPress` and `onCrossPress` are triggered, add `event.preventDefault()` to your callback:
 
-  ```js
-    const myOnPress = event => {
-      event.preventDefault()
-      // your code
-    }
-  ```
+If you want to cancel the default closing of the modal when `onCancel`, `onConfirm`, `onBackdropPress` and `onCrossPress` are triggered, add `event.preventDefault()` to your callback:
+
+```js
+  const myOnPress = event => {
+    event.preventDefault()
+    // your code
+  }
+```
 
 ### There are two options for managing the state of a modal:
   1. By passing the scoped model to the `$visible ' property from the state of which visibility is controlled.
@@ -58,7 +76,7 @@ return (
       title='Example'
       ref={modalRef}
       $visible={$visible}
-      dismissLabel='Close'
+      cancelLabel='Close'
       confirmLabel='Accept'
       onCrossPress={() => console.log('onCrossPress')}
       onCancel={() => console.log('onCancel')}

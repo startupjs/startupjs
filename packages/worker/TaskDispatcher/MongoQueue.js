@@ -39,7 +39,6 @@ export default class MongoQueue {
           task.num = item.num
           return task
         })
-        // console.log('mongo loop', tasks.length)
         await this.handleTasks(tasks)
         await model.unfetchAsync($query)
       } catch (err) {

@@ -1,26 +1,25 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import PropTypes from 'prop-types'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
 import Button from '../../Button'
 import Span from '../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
-export default observer(function ObjectInput ({
+function ArrayInput ({
   style,
   inputStyle,
   $value,
-  value,
   label,
   items
 }) {
-  if (!$value) {
-    console.error('[ui -> Array] $value is required')
-    return null
-  }
+  const value = $value.get()
+
   if (!items) {
     console.error('[ui -> Array] items is required')
     return null
@@ -88,4 +87,14 @@ export default observer(function ObjectInput ({
       onPress=() => $value.push(undefined)
     )
   `)
-})
+}
+
+ArrayInput.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  $value: PropTypes.any.isRequired,
+  label: PropTypes.string,
+  items: PropTypes.object.isRequired
+}
+
+export default observer(themed(ArrayInput))

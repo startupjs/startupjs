@@ -15,7 +15,14 @@ import { Sandbox } from '@startupjs/docs'
 import { Br } from 'startupjs/ui'
 ```
 
-## Example
+## Простой пример
+```jsx example
+return (
+  <Br />
+)
+```
+
+## Количество линий
 
 Количество разрывов линий можно изменить, передав число в свойство `lines`. Значение по умолчанию для `lines` равно `1`, а ширина одной строки - `16px`.
 
@@ -25,7 +32,7 @@ const itemStyle = {
   justifyContent: 'center',
   alignItems: 'center'
 }
-const [value, setValue] = useState('1')
+const [value, setValue] = useState(1)
 return (
   <Content>
     <TextInput
@@ -35,11 +42,11 @@ return (
     />
     <Br />
     <Div style={itemStyle} level={1}>
-      <Span size='xl'>Item 1</Span>
+      <Span>Item 1</Span>
     </Div>
     <Br lines={Number(value)} />
     <Div style={itemStyle} level={1}>
-      <Span size='xl'>Item 2</Span>
+      <Span>Item 2</Span>
     </Div>
   </Content>
 )
@@ -58,11 +65,11 @@ const itemStyle = {
 return (
   <Content>
     <Div style={itemStyle} level={1}>
-      <Span size='xl'>Item 1</Span>
+      <Span>Item 1</Span>
     </Div>
     <Br half />
     <Div style={itemStyle} level={1}>
-      <Span size='xl'>Item 2</Span>
+      <Span>Item 2</Span>
     </Div>
   </Content>
 )

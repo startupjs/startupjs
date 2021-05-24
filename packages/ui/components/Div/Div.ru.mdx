@@ -13,7 +13,16 @@ import { Sandbox } from '@startupjs/docs'
 import { Div } from '@startupjs/ui'
 ```
 
-## Пример
+## Простой пример
+```jsx example
+return (
+  <Div>
+    <Span>Div</Span>
+  </Div>
+)
+```
+
+## Кликабельность
 
 ```jsx example
 const divStyle = {
@@ -25,23 +34,17 @@ const divStyle = {
 }
 const [counter, setCounter] = useState(0)
 return (
-  <Div>
-    <Div style={divStyle}>
-      <Span>Not clickable</Span>
-    </Div>
-    <Br />
-    <Div
-      style={divStyle}
-      onLongPress={() => setCounter(counter + 10)}
-      onPress={() => setCounter(counter + 1)}
-    >
-      <Span>Clicked {counter} times</Span>
-    </Div>
+  <Div
+    style={divStyle}
+    onLongPress={() => setCounter(counter + 10)}
+    onPress={() => setCounter(counter + 1)}
+  >
+    <Span>Clicked {counter} times</Span>
   </Div>
 )
 ```
 
-## Несколько дивов подряд
+## Отступы между несколькими Div
 
 При использовании нескольких дивов в [Row](/docs/components/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
 
@@ -58,13 +61,13 @@ return (
     <Div style={divStyle}>
       <Span>Div 1</Span>
     </Div>
-    <Div pushed='xs' style={divStyle}>
+    <Div pushed='s' style={divStyle}>
       <Span>Div 2</Span>
     </Div>
-    <Div pushed='s' style={divStyle}>
+    <Div pushed style={divStyle}>
       <Span>Div 3</Span>
     </Div>
-    <Div pushed style={divStyle}>
+    <Div pushed='l' style={divStyle}>
       <Span>Div 4</Span>
     </Div>
   </Row>

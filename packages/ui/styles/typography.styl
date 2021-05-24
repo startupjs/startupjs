@@ -1,22 +1,27 @@
-// DEPRECATED: Span
-_headerSizes = {
-  h1: xxxxxl,
-  h2: xxxxl,
-  h3: xxxl,
-  h4: xxl,
-  h5: xl,
-  h6: l
+$fontWeightNamesMap = {
+  '100': 'Thin',
+  '200': 'ExtraLight',
+  '300': 'Light',
+  '400': 'Regular',
+  '500': 'Medium',
+  '600': 'SemiBold',
+  '700': 'Bold',
+  '800': 'ExtraBold'
+  '900': 'Black',
+  normal: 'Regular',
+  bold: 'Bold'
 }
 
-font(size = m)
+font(size = body2)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
-  size = _headerSizes[size] || size // DEPRECATED: Span
   size = 's' if size is s
+  size = body2 if size is default // DEPRECATED
   font-size: $UI.fontSizes[size]
   line-height $UI.lineHeights[size]
 
-text(key = default)
+text(key = default) // DEPRECATED
+  p('text() mixin is deprecated, use font() instead')
   // color
   if key is description
     color: $UI.colors.secondaryText
@@ -40,3 +45,39 @@ text(key = default)
     font(xl)
   else if key is h6
     font(l)
+
+fontFamily(
+  fontName = normal,
+  fontWeight = $UI.fontWeights.normal,
+  fontStyle = normal
+)
+  defaultFontFamilies = $UI.fontFamilies.default || {}
+  fontFamilies = $UI.fontFamilies[$PLATFORM]
+  fontFamily = (fontFamilies ? fontFamilies[fontName] : defaultFontFamilies[fontName]) || fontName
+
+  if (fontFamily) {
+    if (isCustomFont(fontFamily)) {
+      thickness = $fontWeightNamesMap['' + fontWeight]
+      isRegular = thickness is 'Regular'
+      isItalic = fontStyle is italic
+
+      fontFamily += '-'
+      // add thickness
+      // don't add thickness to font family name if regular and italic
+      if (!isRegular || !isItalic) {
+        fontFamily += $fontWeightNamesMap['' + fontWeight]
+      }
+      // add style
+      if (isItalic) {
+        fontFamily += 'Italic'
+      }
+    } else {
+      font-weight fontWeight
+      font-style fontStyle
+    }
+
+    font-family fontFamily
+  }
+
+isCustomFont(fontFamily)
+  return index($UI.customFontFamilies, fontFamily)

@@ -13,7 +13,7 @@ Component for native anchors imitation and animating vertical scrolling.
 
 ## Installation
 
-```yarn add @dmapper/scrollable-anchors```
+```yarn add @startupjs/scrollable-anchors```
 
 ## Requirements
 
@@ -75,6 +75,8 @@ startupjs: ^0.33.0
       Anchor(id='span-anchor' Component=Span ...componentProps) Span anchor
       ```
 3. (Optional) Add another scrollable areas with ***ScrollableArea*** HOC;
+
+  *Android version works only with top level anchors. Anchors in ScrollableAreas will work incorrectly
 
   ```jsx
   import { ScrollableArea, Anchor } from '@startupjs/scrollable-anchors'

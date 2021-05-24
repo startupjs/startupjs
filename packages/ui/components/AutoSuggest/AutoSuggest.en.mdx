@@ -17,12 +17,32 @@ import { AutoSuggest } from '@startupjs/ui'
 
 Before use you need to configure [Portal](/docs/components/Portal)
 
-## Example
+## Simple example
+```jsx example
+const [value, setValue] = useState({})
+
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+]
+
+return (
+  <AutoSuggest
+    options={options}
+    value={value}
+    onChange={v => setValue(v)}
+  />
+)
+```
+
+## Props
 - options: array of objects for options, each option has a value and a label
 - value: active value
 - maxHeight: maximum height of the popup list
 - placeholder: the title of the field
 - onChange: callback function, called after selecting a value, takes the selected value as the first parameter
+
 ```jsx example
 const [value, setValue] = useState({})
 
@@ -49,6 +69,7 @@ return (
 
 ## Customization
 - renderItem: a function that is called when rendering each element of the array. Gets 2 arguments - the current element (item) and its index.
+
 ```jsx example
 const [value, setValue] = useState({})
 
@@ -99,5 +120,3 @@ return (
 - onDismiss: callback, called when the list is closed
 - onChangeText: callback, called when entering text, accepts 1 argument text
 - onScrollEnd: callback, called at the end of the scroll
-
-<Br lines={16} />

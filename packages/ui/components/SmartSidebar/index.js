@@ -9,6 +9,7 @@ import {
 } from 'startupjs'
 import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
+import themed from '../../theming/themed'
 import DrawerSidebar from '../DrawerSidebar'
 
 const FIXED_LAYOUT_BREAKPOINT = 1024
@@ -120,7 +121,7 @@ SmartSidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(SmartSidebar)
+export default observer(themed(SmartSidebar))
 
 function isFixedLayout (fixedLayoutBreakpoint) {
   let dim = Dimensions.get('window')

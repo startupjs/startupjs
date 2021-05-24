@@ -18,7 +18,7 @@ import { Popover } from '@startupjs/ui'
 
 Before use you need to configure [Portal](/docs/components/Portal)
 
-## Example
+## Simple example
 - visible: boolean prop, indicates whether to display the popup part or not
 - onDismiss: prop callback function, called when closing
 - Popover.Caption - subcomponent, its content is what Popover is connected. Should always be the first
@@ -287,13 +287,13 @@ return (
 
 ## Animations
 animateType - prop responsible for the animation type
-There are three types of animation when opening: default, slide, scale
+There are three types of animation when opening: opacity, scale
 ```jsx example
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
 const [visible, setVisible] = useState('')
 
-const animations = ['Default', 'Scale', 'Slide']
+const animations = ['Opacity', 'Scale']
 
 return (
   <Row>

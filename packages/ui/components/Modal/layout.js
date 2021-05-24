@@ -4,6 +4,7 @@ import { observer } from 'startupjs'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function Modal ({
@@ -13,6 +14,7 @@ function Modal ({
   variant,
   title,
   dismissLabel,
+  cancelLabel,
   confirmLabel,
   ModalElement,
   showCross,
@@ -23,6 +25,14 @@ function Modal ({
   onCancel,
   onConfirm
 }) {
+  // DEPRECATED
+  if (dismissLabel) {
+    console.warn(
+      '[@startupjs/ui] Modal: dismissLabel is DEPRECATED, use cancelLabel instead'
+    )
+    cancelLabel = dismissLabel
+  }
+
   // Deconstruct template variables
   let header, actions, content
   const contentChildren = []
@@ -54,20 +64,31 @@ function Modal ({
     ? React.createElement(ModalContent, { variant }, contentChildren)
     : null)
 
-  const _onConfirm = async event => {
-    event.persist() // TODO: remove in react 17
-    const promise = onConfirm && onConfirm(event)
-    if (promise?.then) await promise
-    if (event.defaultPrevented) return
-    closeFallback()
+  let _onConfirm
+  let _onCancel
+
+  if (onConfirm) {
+    _onConfirm = async event => {
+      event.persist() // TODO: remove in react 17
+      const promise = onConfirm(event)
+      if (promise?.then) await promise
+      if (event.defaultPrevented) return
+      closeFallback()
+    }
   }
 
-  const _onCancel = async event => {
-    event.persist() // TODO: remove in react 17
-    const promise = onCancel && onCancel(event)
-    if (promise?.then) await promise
-    if (event.defaultPrevented) return
-    closeFallback()
+  if (onCancel || onConfirm) {
+    if (!onConfirm && cancelLabel === ModalActions.defaultProps.cancelLabel) {
+      cancelLabel = 'OK'
+    }
+
+    _onCancel = async event => {
+      event.persist() // TODO: remove in react 17
+      const promise = onCancel && onCancel(event)
+      if (promise?.then) await promise
+      if (event.defaultPrevented) return
+      closeFallback()
+    }
   }
 
   const _onCrossPress = async event => {
@@ -88,7 +109,7 @@ function Modal ({
 
   // Handle <Modal.Actions>
   const actionsProps = {
-    dismissLabel,
+    cancelLabel,
     confirmLabel,
     style: content ? { paddingTop: 0 } : null,
     onCancel: _onCancel,
@@ -130,4 +151,4 @@ function Modal ({
   `
 }
 
-export default observer(Modal)
+export default observer(themed(Modal))

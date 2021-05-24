@@ -1,31 +1,42 @@
-import React, { useEffect } from 'react'
-import { observer } from 'startupjs'
-import { Div } from '@startupjs/ui'
+import React, { useEffect, useRef } from 'react'
+import { View, Platform } from 'react-native'
+import { observer, useOn } from 'startupjs'
 import PropTypes from 'prop-types'
 import { registerAnchor, unregisterAnchor } from '../../helpers'
 
-function Anchor ({ id, children, style, Component, ...componentProps }) {
-  function _onLayout (e) {
-    const { nativeEvent: { layout } } = e
-    registerAnchor({
-      anchorId: id,
-      posY: layout.y
-    })
+const isAndroid = Platform.OS === 'android'
 
-    if (componentProps.onLayout) {
-      componentProps.onLayout(e)
-    }
-  }
+function Anchor ({ id, children, style, Component, ...componentProps }) {
+  const ref = useRef()
 
   function onUnmount () {
     unregisterAnchor(id)
   }
 
+  function getPosition () {
+    // Measure doesn't work properly under Android
+    // It always receives ( x: 0, y: 0 ) so Anchors will not work with nested ScrollableAreas
+    // Android anchors will work with top level ScrollableProvider
+    ref.current.measure((x, y, width, height, px, py) => {
+      registerAnchor({
+        anchorId: id,
+        posY: Math.round(isAndroid ? py : y)
+      })
+    })
+  }
+
+  useOn('ScrollableProvider.recalcPositions', getPosition)
+
   useEffect(() => onUnmount, [])
+
   return pug`
+    // Extra block to calculate correct y pos of element on parent size changes
+    // IE: Parent can have dynamic content, we need recalc anchors positions when content changes
+    // + issue with Android and ref.measure https://github.com/facebook/react-native/issues/3282#issuecomment-201934117
+    // collapsable false is required to measureInWindow item correectly
+    View(ref=ref collapsable=false)
     Component(
       ...componentProps
-      onLayout=_onLayout
       style=style
     )
       = children
@@ -41,7 +52,7 @@ Anchor.propTypes = {
 }
 
 Anchor.defaultProps = {
-  Component: Div,
+  Component: View,
   style: {}
 }
 

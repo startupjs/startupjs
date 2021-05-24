@@ -7,9 +7,11 @@ import { observer } from 'startupjs'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import Button from '../../Button'
+import Div from '../../Div'
 import Drawer from '../../popups/Drawer'
 import Row from '../../Row'
 import Span from '../../typography/Span'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors: { mainText, secondaryText } } = STYLES
@@ -21,6 +23,7 @@ const FORMATS = {
 }
 
 function DateTimePicker ({
+  style,
   cancelButtonText,
   confirmButtonText,
   date,
@@ -180,20 +183,20 @@ function DateTimePicker ({
   }
 
   return pug`
-    if label
-      Span(
-        styleName={focused}
-        size='s'
-        variant='description'
-      )= label
+    Div(style=style)
+      if label
+        Span.label(
+          styleName={focused}
+          variant='description'
+        )= label
 
-    Button(
-      textStyle={ color: date ? mainText : secondaryText }
-      color= focused ? 'primary' : 'dark'
-      size=size
-      disabled=disabled
-      onPress=onPressDate
-    )= placeholder && !date ? placeholder : getDateStr()
+      Button(
+        textStyle={ color: date ? mainText : secondaryText }
+        color= focused ? 'primary' : 'dark'
+        size=size
+        disabled=disabled
+        onPress=onPressDate
+      )= placeholder && !date ? placeholder : getDateStr()
 
     if Platform.OS === 'ios'
       Drawer.drawer(
@@ -237,6 +240,7 @@ DateTimePicker.defaultProps = {
 }
 
 DateTimePicker.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   cancelButtonText: PropTypes.string,
   confirmButtonText: PropTypes.string,
   date: PropTypes.number,
@@ -253,4 +257,4 @@ DateTimePicker.propTypes = {
   onDateChange: PropTypes.func
 }
 
-export default observer(DateTimePicker)
+export default observer(themed(DateTimePicker))

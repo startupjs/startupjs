@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import User from '../User'
 import Div from '../Div'
 import Br from '../Br'
 import Span from '../typography/Span'
 import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
 
 # User (пользователь)
 
@@ -15,22 +16,11 @@ import { Sandbox } from '@startupjs/docs'
 import { User } from '@startupjs/ui'
 ```
 
-## Example
+## Простой пример
 
 ```jsx example
 return (
-  <Div>
-    <User
-      avatarUrl='/img/avatar1.jpeg'
-      name='John Doe'
-      description='The cat is a domestic species of small carnivorous mammal'
-    />
-    <Br />
-    <User
-      name='John Doe'
-      description='The cat is a domestic species of small carnivorous mammal'
-    />
-  </Div>
+  <User avatarUrl='/img/avatar1.jpeg' />
 )
 ```
 
@@ -41,13 +31,6 @@ return (
 ```jsx example
 return (
   <Div>
-    <User
-      size='xs'
-      avatarUrl='/img/avatar1.jpeg'
-      name='John Doe'
-      description='xs размер'
-    />
-    <Br />
     <User
       size='s'
       avatarUrl='/img/avatar2.jpeg'
@@ -66,20 +49,6 @@ return (
       avatarUrl='/img/avatar1.jpeg'
       name='John Doe'
       description='l размер'
-    />
-    <Br />
-    <User
-      size='xl'
-      avatarUrl='/img/avatar2.jpeg'
-      name='John Doe'
-      description='xl размер'
-    />
-    <Br />
-    <User
-      size='xxl'
-      avatarUrl='/img/avatar3.jpeg'
-      name='John Doe'
-      description='xxl размер'
     />
   </Div>
 )
@@ -144,6 +113,55 @@ return (
     </Span>
   </Div>
 )
+```
+
+## Кастомная иконка статуса
+
+Можно указать кастомные компоненты для иконок статуса, используя свойство `statusComponents`.
+
+```jsx example
+const AbsentStatus = useCallback(({ style }) => (
+  <Div style={style} styleName='absent'>
+    <Div styleName='absent-line absent-line-1' />
+    <Div styleName='absent-line absent-line-2' />
+  </Div>
+))
+
+return pug`
+  Div
+    User(
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+      src='/img/avatar1.jpeg'
+      status='online'
+    )
+    Br
+    User(
+      name='John Doe'
+      description='The cat is a domestic species of small carnivorous mammal'
+      src='/img/avatar2.jpeg'
+      status='absent'
+      statusComponents={
+        absent: AbsentStatus
+      }
+    )
+`
+
+styl`
+  .absent
+    background-color white
+    justify-content center
+    &-line
+      position absolute
+      height 2px
+      left 0
+      right 0
+      background-color red
+      &-1
+        transform rotate(45deg)
+      &-2
+        transform rotate(-45deg)
+`
 ```
 
 ## Sandbox

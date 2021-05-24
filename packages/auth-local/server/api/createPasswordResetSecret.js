@@ -1,45 +1,42 @@
-import { checkToken } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
+import { createPasswordResetSecret as _createPasswordResetSecret } from '../helpers'
 
 export default function createPasswordResetSecret (req, res, done, config) {
   const { onBeforeCreatePasswordResetSecret, onCreatePasswordResetSecret } = config
 
   onBeforeCreatePasswordResetSecret(req, res, async function (err, email) {
     if (err) return res.status(400).json({ message: err })
+    email = email.toLowerCase()
     const { model } = req
 
     const recaptchaEnabled = model.get('_session.auth.recaptchaEnabled')
 
     if (recaptchaEnabled) {
-      const checkTokenResponse = await checkToken(req.body.recaptchaToken)
+      const checkTokenResponse = await checkRecaptcha(req.body.recaptcha)
       if (!checkTokenResponse) {
         return res.status(400).json({
           message: 'Recaptcha token is invalid'
         })
       }
     }
-    delete req.body.recaptchaToken
+    delete req.body.recaptcha
 
-    const $auths = model.query('auths', { email })
-    await model.fetchAsync($auths)
+    try {
+      const secret = await _createPasswordResetSecret({ model, email })
 
-    const userId = $auths.getIds()[0]
-    if (!userId) return res.status(400).json({ message: 'Email not found' })
+      const $auths = model.query('auths', { email })
+      await model.fetch($auths)
 
-    const $auth = model.scope('auths.' + userId)
-    const $local = $auth.at('providers.local')
+      const auth = $auths.get()[0]
 
-    // Generate secret as uuid
-    const secret = model.id()
-    // Save secret to user
-    const passwordReset = {
-      secret,
-      timestamp: +new Date()
+      model.unfetch($auths)
+
+      const hookRes = onCreatePasswordResetSecret({ userId: auth.id, secret }, req)
+      hookRes && hookRes.then && await hookRes
+
+      res.send('Secret for password reset has been created')
+    } catch (error) {
+      res.status(400).send({ message: error.message })
     }
-    await $local.setAsync('passwordReset', passwordReset)
-
-    const hookRes = onCreatePasswordResetSecret({ userId, secret }, req)
-    hookRes && hookRes.then && await hookRes
-
-    res.send('Secret for password reset has been created')
   })
 }

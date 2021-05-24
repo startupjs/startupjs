@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import { ScrollView } from 'react-native'
-import { observer, useOn, usePage, useLocal } from 'startupjs'
+import { observer, useOn, usePage, useLocal, emit } from 'startupjs'
+import _debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 
 const GLOBAL_ID = 'global'
@@ -30,13 +31,16 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
       throw new Error('Error [scrollable-anchors]: Provide id of anchor or y position.')
     }
 
-    $scrollQueue.push({
-      anchorId,
-      areaId,
-      offset,
-      y,
-      smooth
-    })
+    // To prevent rasecondition issue of cleaning previous registered values
+    setTimeout(() => {
+      $scrollQueue.push({
+        anchorId,
+        areaId,
+        offset,
+        y,
+        smooth
+      })
+    }, 0)
   }
 
   function processQueue () {
@@ -56,7 +60,7 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     // Seems ref is expired :(
     if (!scrollRef) return
 
-    const posY = y || $anchorRegistry.get(anchorId)
+    const posY = isUndefined(y) ? $anchorRegistry.get(anchorId) : y
 
     scrollRef.scrollTo({
       animated: smooth,
@@ -70,7 +74,10 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
 
-    $anchorRegistry.set(anchorId, posY)
+    // To prevent raсecondition issue of cleaning previous registered values
+    setTimeout(() => {
+      $anchorRegistry.set(anchorId, posY)
+    }, 0)
   }
 
   function onElementUnregister (anchorId) {
@@ -83,7 +90,10 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     if (!areaId) throw new Error('Error [scrollable-anchors]: Provide areaId of registering scrollable area.')
     if (!ref) throw new Error('Error [scrollable-anchors]: Provide ref of scrollable area.')
 
-    $areaRegistry.set(areaId, ref)
+    // To prevent rasecondition issue of cleaning previous registered values
+    setTimeout(() => {
+      $areaRegistry.set(areaId, ref)
+    }, 0)
   }
 
   function onAreaUnregister (areaId) {
@@ -100,6 +110,14 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     })
   }
 
+  // Recalc anchors positions on content height change
+  const onDimensionChange = useCallback(
+    _debounce(() => {
+      emit('ScrollableProvider.recalcPositions')
+    }, 500),
+    []
+  )
+
   useEffect(() => {
     if (reactOnHash && hash) {
       addScrollToQueue({
@@ -107,12 +125,16 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
       })
     }
   }, [hash])
-
   // Scroll to top on url change
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
   return pug`
-    ScrollView(ref=globalScrollRef style=style ...rest)
+    ScrollView(
+      ref=globalScrollRef
+      style=style
+      onContentSizeChange=onDimensionChange
+      ...rest
+    )
       =children
   `
 }

@@ -1,12 +1,14 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { TouchableOpacity, View, FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import Popover from '../popups/Popover'
 import Loader from '../Loader'
 import useKeyboard from './useKeyboard'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const SUPPORT_PLACEMENTS = [
@@ -48,9 +50,11 @@ function AutoSuggest ({
     onChangeShow: v => setIsShow(v)
   })
 
-  _data.current = options.filter(item => {
-    return inputValue ? !!item.label.match(new RegExp(inputValue, 'gi')) : true
-  })
+  const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
+
+  _data.current = escapedInputValue
+    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
+    : options
 
   function onClose (e) {
     setIsShow(false)
@@ -112,10 +116,9 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
-      animateType='slide'
+      animateType='opacity'
       hasDefaultWrapper=false
       onDismiss=onClose
-      onRequestClose=()=> setInputValue('')
     )
       Popover.Caption.caption
         TextInput(
@@ -174,4 +177,4 @@ AutoSuggest.propTypes = {
   onScrollEnd: PropTypes.func
 }
 
-export default observer(AutoSuggest)
+export default observer(themed(AutoSuggest))

@@ -1,15 +1,11 @@
 import { EventEmitter } from 'events'
 import random from 'lodash/random.js'
-import path, { dirname } from 'path'
 import cluster from 'cluster'
-import { fileURLToPath } from 'url'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import entryPath from './entryPath.cjs'
 
 const env = process.env
-const WORKER_ENTRY_PATH = path.join(__dirname, './executor.js')
 
-cluster.setupMaster({ exec: WORKER_ENTRY_PATH })
+cluster.setupMaster({ exec: entryPath })
 
 export default class Worker extends EventEmitter {
   constructor () {
@@ -26,7 +22,6 @@ export default class Worker extends EventEmitter {
 
   createWorker () {
     return new Promise((resolve, reject) => {
-      // console.log('creating worker')
       let worker = cluster.fork(process.env)
 
       worker.once('message', (data) => {
@@ -94,7 +89,6 @@ export default class Worker extends EventEmitter {
           return reject(new Error('Child Worker returned message for another task: ' + taskId + ' ' + this.taskId))
         }
         if (err) {
-          // console.log('reject - error', err)
           return reject(err)
         }
 

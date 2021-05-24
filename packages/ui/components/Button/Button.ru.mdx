@@ -21,12 +21,12 @@ import './index.mdx.styl'
 import { Button } from '@startupjs/ui'
 ```
 
-## Пример
-
+## Простой пример
 ```jsx example
 const [counter, setCounter] = useState(0)
+
 return (
-  <Button onPress={() => setCounter(counter + 1)} icon={faHouseUser} color='primary' variant='flat'>
+  <Button onPress={() => setCounter(counter + 1)}>
     Нажато {counter} раз
   </Button>
 )
@@ -74,7 +74,7 @@ return (
 
 ## Цвета
 
-Цвет по умолчанию `dark`. Его можно изменить, передав имя цвета из списка цветов конфига в свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
+Цвет по умолчанию `dark`. Его можно изменить, передав имя цвета из списка цветов конфигурации в свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
 
 ```jsx example
 return (

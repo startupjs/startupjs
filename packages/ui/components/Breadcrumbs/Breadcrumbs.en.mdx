@@ -1,7 +1,7 @@
 import Breadcrumbs from '../Breadcrumbs'
 import Div from '../Div'
 import Br from '../Br'
-import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
+import { faRocket, faBook ,faGift, faAnchor } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs
@@ -11,9 +11,7 @@ Breadcrumbs indicate the current page’s location within a navigational hierarc
 import { Breadcrumbs } from 'startupjs/ui'
 ```
 
-## Example
-
-Each route object accepts any prop given to the [Link](/docs/components/Link) component apart from the ones mentioned below.
+## Simple example
 
 ```jsx example
 return (
@@ -30,6 +28,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -56,6 +58,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -85,6 +91,11 @@ return (
         to: '#component',
         name: 'Component',
         icon: faGift
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs',
+        icon: faAnchor
       }
     ]}
   />
@@ -112,6 +123,10 @@ return (
         {
           to: '#component',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />
@@ -130,6 +145,10 @@ return (
         {
           to: '#component',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />

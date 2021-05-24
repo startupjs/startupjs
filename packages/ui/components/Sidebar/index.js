@@ -8,6 +8,7 @@ import {
 } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -69,4 +70,4 @@ Sidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(Sidebar)
+export default observer(themed(Sidebar))

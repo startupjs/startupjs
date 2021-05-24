@@ -15,30 +15,65 @@ $UI.gutters = merge({
 }, $UI.gutters, true)
 
 $UI.fontFamilies = merge({
-  normal: 'Cochin',
-  heading: 'Cochin'
+  web: {
+    normal: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif",
+    heading: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif"
+  },
+  android: {
+    normal: 'System',
+    heading: 'System'
+  },
+  ios: {
+    normal: 'System',
+    heading: 'System'
+  }
 }, $UI.fontFamilies, true)
 
+$UI.fontWeights = {
+  normal: 400,
+  normalBold: 700,
+  heading: 400,
+  headingBold: 700
+}
+
 $UI.fontSizes = merge({
-  xs: 1.25u,
-  s: 1.5u,
-  m: 1.75u,
-  l: 2u,
-  xl: 2.5u,
-  xxl: 3u,
-  xxxl: 4.5u,
-  xxxxl: 6u,
-  xxxxxl: 9u
+  xs: 1.25u, // DEPRECATED
+  s: 1.5u, // DEPRECATED
+  m: 1.75u, // DEPRECATED
+  l: 2u, // DEPRECATED
+  xl: 2.5u, // DEPRECATED
+  xxl: 3u, // DEPRECATED
+  xxxl: 4.5u, // DEPRECATED
+  xxxxl: 6u, // DEPRECATED
+  xxxxxl: 9u, // DEPRECATED
+  h1: 9u,
+  h2: 6u,
+  h3: 4.5u,
+  h4: 3u,
+  h5: 2.5u,
+  h6: 2u,
+  description: 1.75u, // DEPRECATED
+  body1: 2u,
+  body2: 1.75u
 }, $UI.fontSizes, true)
 
 $UI.lineHeights = merge({
-  xs: 1.75u,
-  s: 2u,
-  m: 2.5u,
-  l: 3u,
-  xl: 3.5u,
-  xxl: 4u,
-  xxxl: 6u,
-  xxxxl: 8u,
-  xxxxxl: 12u
+  xs: 1.75u, // DEPRECATED
+  s: 2u, // DEPRECATED
+  m: 2.5u, // DEPRECATED
+  l: 3u, // DEPRECATED
+  xl: 3.5u, // DEPRECATED
+  xxl: 4u, // DEPRECATED
+  xxxl: 6u, // DEPRECATED
+  xxxxl: 8u, // DEPRECATED
+  xxxxxl: 12u, // DEPRECATED
+  h1: 12u,
+  h2: 8u,
+  h3: 6u,
+  h4: 4u,
+  h5: 3.5u,
+  h6: 3u,
+  description: 2.5u, // DEPRECATED
+  body1: 3u,
+  body2: 2.5u
 }, $UI.lineHeights, true)

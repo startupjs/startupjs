@@ -9,8 +9,10 @@ import { CALLBACK_URL } from '../../isomorphic'
 export default async function onLogin ({
   baseUrl = BASE_URL,
   redirectUrl,
-  expiresRedirectUrl
-}) {
+  ...options
+} = {}) {
+  const expiresRedirectUrl = $root.get('_session.auth.expiresRedirectUrl')
+
   // set redirectUrl in cookie and play redirect from server
   if (redirectUrl) {
     await CookieManager.set({
@@ -24,7 +26,7 @@ export default async function onLogin ({
   const webClientId = $root.get('_session.auth.google.clientId')
 
   try {
-    GoogleSignin.configure({ webClientId })
+    GoogleSignin.configure({ webClientId, ...options })
 
     await GoogleSignin.hasPlayServices({
       showPlayServicesUpdateDialog: true

@@ -15,7 +15,16 @@ An alert displays a short, important message in a way that attracts the user's a
 import { Alert } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
+```jsx example
+return (
+  <Alert>
+    Message
+  </Alert>
+)
+```
+
+## Variants
 
 The alert offers four severity levels that set a distinctive icon and color: `success`, `info`, `warning`, `error`. You can specify it by passing `variant` property.
 
@@ -110,10 +119,32 @@ return (
 
 An alert can have an action (`onClose` prop). It is rendered after the message, at the end of the alert.
 
-If an `onClose` callback is provided and no `renderActions` prop is set, a close icon is displayed. The `renderActions` prop can be used to provide an alternative action, for example using a `Button`, `Tag` or `Icon`.
-
 ```jsx example
 const [showFirstAlert, setShowFirstAlert] = useState(true)
+
+return (
+  <Div>
+    {showFirstAlert && <Alert
+      variant='warning'
+      onClose={() => setShowFirstAlert(false)}
+    >
+      Warning alert with default actions
+    </Alert>}
+    <Br />
+    <Button
+      style={{ alignSelf: 'center' }}
+      disabled={showFirstAlert}
+      onPress={() => setShowFirstAlert(true)}
+    >
+      Re-Open
+    </Button>
+  </Div>
+)
+```
+
+The `renderActions` prop can be used to provide an alternative action.
+
+```jsx example
 const [showSecondAlert, setShowSecondAlert] = useState(true)
 
 const renderCustomCloseButton = () => {
@@ -129,67 +160,22 @@ const renderCustomCloseButton = () => {
   )
 }
 
-const renderCustomActions = () => {
-  return (
-    <Row>
-      <Button
-        color='error'
-        variant='text'
-        icon={faTimes}
-        size='s'
-        onPress={() => {}}
-      >
-        Cancel
-      </Button>
-      <Button
-        color='success'
-        variant='text'
-        icon={faCheck}
-        size='s'
-        onPress={() => {}}
-      >
-        Confirm
-      </Button>
-    </Row>
-  )
-}
-
 return (
   <Div>
-    {showFirstAlert && <Alert
-      variant='warning'
-      onClose={() => setShowFirstAlert(false)}
-    >
-      Warning alert with default actions
-    </Alert>}
-    <Br />
-    <Button
-      disabled={showFirstAlert}
-      onPress={() => setShowFirstAlert(true)}
-    >
-      Re-Open
-    </Button>
-    <Br />
     {showSecondAlert && <Alert
-      variant='success'
-      renderActions={renderCustomCloseButton}
-    >
-      Success alert with custom actions
-    </Alert>}
+        variant='success'
+        renderActions={renderCustomCloseButton}
+      >
+        Success alert with custom actions
+      </Alert>}
     <Br />
     <Button
+      style={{ alignSelf: 'center' }}
       disabled={showSecondAlert}
       onPress={() => setShowSecondAlert(true)}
     >
       Re-Open
     </Button>
-    <Br />
-    <Alert
-      variant='info'
-      renderActions={renderCustomActions}
-    >
-      Info alert with two custom actions
-    </Alert>
   </Div>
 )
 ```
