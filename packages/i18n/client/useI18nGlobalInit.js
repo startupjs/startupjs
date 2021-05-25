@@ -9,11 +9,11 @@ export default function useI18nGlobalInit () {
   const $session = useModel('_session')
   const [lang, $lang] = useSession('lang')
   const config = useConfig()
-  const { defaultLang, supportedLangs } = config
+  const { lang: defaultLang, langs } = config
 
   function getLang (lang) {
     if (!lang) return defaultLang
-    return supportedLangs.includes(lang) ? lang : defaultLang
+    return langs.includes(lang) ? lang : defaultLang
   }
 
   if (!lang) {

@@ -1,6 +1,6 @@
 import routes from './routes'
 
-export function initI18n (ee) {
+export function initI18n (ee, config) {
   if (!ee) {
     throw new Error('[@startupjs/i18n] initI18n: ee is required')
   }

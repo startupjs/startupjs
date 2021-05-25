@@ -2,8 +2,7 @@
 import React, { useRef, useLayoutEffect, useCallback } from 'react'
 import { FlatList } from 'react-native'
 import { observer, styl } from 'startupjs'
-import { Button, Div, Dropdown, Row, Span } from '@startupjs/ui'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { Div, Span } from '@startupjs/ui'
 import SubTranslations from './SubTranslations'
 import usePage from './../../../usePage'
 import { decodePath } from './../../../../isomorphic'
@@ -31,37 +30,8 @@ export default observer(function Translations () {
     flatListRef.current.scrollToIndex({ animated: false, index: 0 })
   }, [type, filter])
 
-  // TODO
-  const onMenuChange = useCallback(value => {
-    switch (value) {
-      case 'unsued':
-        console.log('unsued')
-        break
-      default:
-        alert('Not supported')
-    }
-  })
-
   return pug`
     Div.root
-      Row.header(align='right')
-        //- TODO
-        Button(
-          color='primary'
-          variant='flat'
-          onPress=() => {}
-        ) Save
-        Dropdown(
-          onChange=onMenuChange
-        )
-          Dropdown.Caption
-            Button.menu(
-              variant='text'
-              icon=faEllipsisV
-            )
-          Dropdown.Item(value='unused' label='Remove unused')
-          Dropdown.Item(value='import' label='Import a file')
-          Dropdown.Item(value='export' label='Export as file')
       FlatList(
         ref=flatListRef
         data=displayTranslations
@@ -78,11 +48,6 @@ export default observer(function Translations () {
     .root
       flex-grow 1
       flex-shrink 1
-    .header
-      padding 1u 2u
-      border-bottom: 1px solid $UI.colors.darkLighter
-    .menu
-      margin-left 1u
     .translation
       padding-left 2u
       padding-right @padding-left

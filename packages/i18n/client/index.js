@@ -1,4 +1,5 @@
+export { default as changeLang } from './changeLang'
 export { default as initI18n } from './initI18n'
 export { default as t } from './t'
 export { default as useI18nGlobalInit } from './useI18nGlobalInit'
-export { default as useSupportedLangs } from './useSupportedLangs'
+export { default as useLangs } from './useLangs'

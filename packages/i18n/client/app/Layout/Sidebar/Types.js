@@ -29,6 +29,7 @@ export default observer(function Types () {
         - const meta = TRANSLATION_TYPES_META[TYPE]
         Row.type(
           key=TYPE
+          styleName={ first: !index }
           align='between'
           vAlign='center'
           onPress=() => { onTypePress(TYPE) }
@@ -36,12 +37,14 @@ export default observer(function Types () {
           Row(vAlign='center')
             Icon(style=meta.iconStyle icon=meta.icon)
             Span.label(bold=active)= meta.label
-          Span(variant='description' bold=active)= countersByType[TYPE]
+          Span(description bold=active)= countersByType[TYPE]
   `
 
   styl`
     .type
       margin-top 1u
+      &.first
+        margin-top 0
     .label
       margin-left 1.5u
   `

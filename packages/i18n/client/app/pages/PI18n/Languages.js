@@ -26,13 +26,13 @@ export default observer(function Languages ({
 })
 
 const LanguageDefault = observer(({ fullTranslationKey }) => {
-  const { defaultLang } = useConfig()
+  const { lang } = useConfig()
   const [value] = usePage(`translations.${fullTranslationKey}`)
 
   return pug`
     Row.root(vAlign='center')
       Row.info
-        Span.lang= defaultLang
+        Span.lang= lang
       TextInput.input(
         size='s'
         resize

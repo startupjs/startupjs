@@ -17,28 +17,28 @@ export function initConfig (config) {
 function getLocalConfig (baseConfig) {
   const config = defaults(
     cloneDeep(baseConfig),
-    { defaultLang: DEFAULT_LANGUAGE, supportedLangs: [] }
+    { lang: DEFAULT_LANGUAGE, langs: [] }
   )
-  const getSupportedLangs = config.getSupportedLangs
+  const getLangs = config.getLangs
 
-  if (typeof getSupportedLangs === 'function') {
-    let supportedLangs = getSupportedLangs()
+  if (typeof getLangs === 'function') {
+    let langs = getLangs()
 
-    if (!Array.isArray(supportedLangs)) {
+    if (!Array.isArray(langs)) {
       throw new Error(
-        '[@staratupjs/i18n]: getSupportedLangs ' +
+        '[@staratupjs/i18n]: getLangs ' +
         'must return an array of languages'
       )
     }
 
-    delete config.getSupportedLangs
-    config.supportedLangs = supportedLangs
+    delete config.getLangs
+    config.langs = langs
   }
 
-  const { defaultLang, supportedLangs } = config
+  const { lang, langs } = config
 
-  if (!supportedLangs.includes(defaultLang)) {
-    config.supportedLangs = [defaultLang].concat(supportedLangs)
+  if (!langs.includes(lang)) {
+    config.langs = [lang].concat(langs)
   }
 
   return config

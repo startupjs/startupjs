@@ -1,4 +1,88 @@
 # i18n
 
+i18n module provides with tools to localize your product.
 
-I18next is an internationalization-framework.It provides you with a complete solution to localize your product
+## Requirements
+
+@startupjs/ui: >= 0.34.0
+axios: *
+express: 4.x
+react: 16.9 - 17
+react-native: >= 0.61.4 < 0.64.0
+startupjs: >= 0.34.0
+
+## Installation & basic setup
+
+1. Install the module
+
+  `yarn add @startupjs/i18n`
+
+1. Init module on server side
+
+  ```js
+  import { initI18n } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    // ...
+  }, (ee, options) => {
+    initI18n(ee)
+  })
+  ```
+
+1. Add server-side orgs routes
+
+  ```js
+  import { getI18nRoutes } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    appRoutes: [
+      // provides pages /i18n to manage translations
+      ...getI18nRoutes()
+    ]
+  }, (ee, options) => {
+    // ...
+  })
+  ```
+
+1. Init the isomorphic model
+
+  ```js
+  import initI18nModel from '@startupjs/i18n/model'
+
+  export default function initOrm (racer) {
+    initI18nModel(racer)
+  }
+  ```
+
+1. Create `i18n/index.js` file and initialize the client-size i18n app on it
+
+  ```js
+  import { initI18n, useI18nGlobalInit } from '@startupjs/i18n'
+
+  export default initI18n({
+    lang: 'en', // default language, it is 'en' by default
+    langs: ['en', 'ru'], // a list of supported languages
+    // you can use `getLangs` function instead of `langs`
+    // if you need dynamically define a list of supported languages
+    // the function takes precedence if you set both properties
+    getLangs: () => {
+      const langs = ... // logic that gets languages
+      return langs
+    }
+  })
+  export { useI18nGlobalInit }
+  ```
+
+1. Add client-side i18n app to `Root/App.js`
+
+  ```js
+  import React from 'react'
+  import i18n, { useI18nGlobalInit } from 'PATH_TO_ORGS_FILE_CREATED_IN_SECTION_ABOVE'
+
+  return pug`
+    App(
+      apps={ i18n }
+      useGlobalInit=useI18nGlobalInit
+    )
+  `
+  ```

@@ -24,16 +24,19 @@ export default observer(function Filters () {
         - const active = filter === value
         Row.filter(
           key=FILTER
+          styleName={ first: !index }
           align='between'
           vAlign='center'
           onPress=() => { onFilterPress(value) }
         )
           Span.label(bold=active)= FILTER.label
-          Span(variant='description' bold=active)= countersByFilter[value]
+          Span(description bold=active)= countersByFilter[value]
   `
 
   styl`
     .filter
       margin-top 1u
+      &.first
+        margin-top 0
   `
 })

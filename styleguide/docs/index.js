@@ -177,8 +177,8 @@ export default docs({
       i18n: {
         type: 'mdx',
         title: {
-          en: 'Internationalization',
-          ru: 'Интернационализация'
+          en: 'i18n',
+          ru: 'i18n'
         },
         component: {
           en: i18nEn,

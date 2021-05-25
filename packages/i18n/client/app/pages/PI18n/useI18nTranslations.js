@@ -1,15 +1,15 @@
 import { useMemo } from 'react'
 import { $root, useQuery } from 'startupjs'
-import useSupportedLangs from './../../../useSupportedLangs'
+import useLangs from './../../../useLangs'
 
 export default function useI18nTranslations () {
-  const supportedLangs = useSupportedLangs({ exceptDefault: true })
+  const langs = useLangs({ exceptDefault: true })
   const translationIds = useMemo(() => {
     const ids = []
-    for (const supportedLang of supportedLangs) {
+    for (const lang of langs) {
       ids.push(
-        supportedLang,
-        $root.scope(`i18nTranslations.${supportedLang}`).getDraftId()
+        lang,
+        $root.scope(`i18nTranslations.${lang}`).getDraftId()
       )
     }
     return ids
@@ -22,8 +22,8 @@ export default function useI18nTranslations () {
   const promises = []
 
   // create missing translations docs
-  for (const supportedLang of supportedLangs) {
-    const $lang = $root.scope(`i18nTranslations.${supportedLang}`)
+  for (const lang of langs) {
+    const $lang = $root.scope(`i18nTranslations.${lang}`)
     if (!$lang.get()) promises.push($lang.createNew())
   }
 

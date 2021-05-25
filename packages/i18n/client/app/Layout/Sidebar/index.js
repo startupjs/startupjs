@@ -13,7 +13,9 @@ export default observer(function i18nSidebar ({ children }) {
         Search
         Br
         Types
+        Br(half)
         Hr
+        Br(half)
         Filters
     `
   }

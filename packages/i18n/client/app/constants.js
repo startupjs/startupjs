@@ -13,7 +13,6 @@ export const DISPLAYED_TRANSLATION_TYPES = [
   UNTRANSLATED_TYPE
 ]
 
-console.log(ICONS_STYLES, 'ICONS_STYLES')
 export const TRANSLATION_TYPES_META = {
   [TRANSLATED_TYPE]: {
     label: 'translated',
@@ -30,5 +29,5 @@ export const TRANSLATION_TYPES_META = {
 // filters
 export const PENDING_FILTER = 'pending'
 export const DISPLAYED_TRANSLATION_FILTERS = [
-  { label: 'Pending', value: PENDING_FILTER }
+  { label: 'Pending to be saved', value: PENDING_FILTER }
 ]
