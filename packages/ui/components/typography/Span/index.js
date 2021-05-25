@@ -59,6 +59,7 @@ styl`
   _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6 DEPRECATED
 
   .root
+    font()
     fontFamily('normal')
     color: $this.color
 
