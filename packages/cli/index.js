@@ -335,7 +335,7 @@ const TEMPLATES = {
       // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@react-native-community/datetimepicker@^3.0.6',
-      '@react-native-picker/picker@^1.9.3',
+      '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@1.5.2',
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'

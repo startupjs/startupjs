@@ -28,7 +28,7 @@
     "@react-native-community/datetimepicker": "^3.0.6",
     "@react-native-cookies/cookies": "^6.0.5",
     "@react-native-google-signin/google-signin": "^6.0.0",
-    "@react-native-picker/picker": "^1.9.3",
+    "@react-native-picker/picker": "^1.16.1",
     "@startupjs/2fa": "^0.35.2",
     "@startupjs/2fa-manager": "^0.35.2",
     "@startupjs/2fa-totp-authentication": "^0.35.2",
