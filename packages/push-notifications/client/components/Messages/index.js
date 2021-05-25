@@ -63,7 +63,7 @@ function Messages () {
                   Span= pushMessage.options.body
                 Td
                   Span= _get(pushMessage, 'options.filters.platforms', ['ios', 'android']).join(', ')
-    unless pushMessagesCount < LIMIT
+    unless pushMessagesCount <= LIMIT
       Row(align='center')
         Pagination(
           count=pushMessagesCount

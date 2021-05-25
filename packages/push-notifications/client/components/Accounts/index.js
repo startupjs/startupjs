@@ -71,7 +71,7 @@ function Accounts () {
                     Row.cellContent
                       Icon(icon=faEllipsisH)
                   Dropdown.Item(value='send' label='Send message' onPress=() => openModal(push.id))
-    unless pushsCount < LIMIT
+    unless pushsCount <= LIMIT
       Row(align='center')
         Pagination(
           count=pushsCount

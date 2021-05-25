@@ -60,6 +60,22 @@ yarn add @startupjs/push-notifications @react-native-community/push-notification
 
 Введите данные, которые вы сохранили на шаге создания сертификата `p8`
 
+## iOS
+
+Добавьте Capabilities : Background Mode - Remote Notifications
+Перейдите в деректорию MyReactProject/ios и откройте в xcode MyProject.xcworkspace. В самом верху выберите "MyProject" , затем выберите таб "Signing & Capabilities". Добавьте 2 новых Capabilities с помощью кнопки "+":
+
+![alpha](/img/docs/push-notifications/pushs8.png "Apple XCode Capabilities")
+
+Background Mode capability и выберите Remote Notifications.
+Push Notifications capability
+
+![alpha](/img/docs/push-notifications/pushs9.png "Apple XCode Capabilities")
+
+![alpha](/img/docs/push-notifications/pushs10.png "Apple XCode Capabilities")
+
+![alpha](/img/docs/push-notifications/pushs11.png "Apple XCode Capabilities")
+
 ## Использование
 
 ### Подключение
