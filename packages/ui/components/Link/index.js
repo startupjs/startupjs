@@ -6,10 +6,15 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import Button from './../Button'
 import Span from './../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
 const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/i
+
+// IDEA
+// Think about to remove Span, Div properties (variant, bold, italic, etc) and
+// to make Link more clear
 
 function Link ({
   style,
@@ -79,7 +84,7 @@ function Link ({
         // which is what the function itself does on web
         children = React.cloneElement(
           children,
-          { _preventEvent: false, onPress: handlePress }
+          { onPress: handlePress, _preventEvent: false }
         )
       }
     } catch (e) {}
@@ -123,4 +128,4 @@ Link.propTypes = {
   color: PropTypes.oneOf(['default', 'primary'])
 }
 
-export default observer(Link)
+export default observer(themed(Link))

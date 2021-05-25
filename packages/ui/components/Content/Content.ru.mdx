@@ -13,6 +13,15 @@ import { Sandbox } from '@startupjs/docs'
 import { Content } from '@startupjs/ui'
 ```
 
+## Простой пример
+```jsx example
+return (
+  <Content>
+    <Span>Content</Span>
+  </Content>
+)
+```
+
 ## Пример
 
 По умолчанию контент имеет левый и правый отступ равный `16px'.
@@ -30,7 +39,7 @@ const divStyle = {
 return (
   <Content style={contentStyle}>
     <Div style={divStyle}>
-      <Span size='xl'>content</Span>
+      <Span>content</Span>
     </Div>
   </Content>
 )
@@ -53,7 +62,7 @@ const divStyle = {
 return (
   <Content style={contentStyle} padding>
     <Div style={divStyle}>
-      <Span size='xl'>content</Span>
+      <Span>content</Span>
     </Div>
   </Content>
 )
@@ -77,13 +86,13 @@ return (
   <Div>
     <Div style={divStyle}>
       <Content style={contentStyle}>
-        <Span size='xl'>Content without full</Span>
+        <Span>Content without full</Span>
       </Content>
     </Div>
     <Br />
     <Div style={divStyle}>
       <Content style={contentStyle} full>
-        <Span size='xl'>Content with full</Span>
+        <Span>Content with full</Span>
       </Content>
     </Div>
   </Div>
@@ -111,7 +120,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Mobile (default)</Span>
+        <Span>Mobile (default)</Span>
       </Div>
     </Content>
     <Br />
@@ -121,7 +130,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Tablet</Span>
+        <Span>Tablet</Span>
       </Div>
     </Content>
     <Br />
@@ -131,7 +140,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Desktop</Span>
+        <Span>Desktop</Span>
       </Div>
     </Content>
     <Br />
@@ -141,7 +150,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Full Width</Span>
+        <Span>Full Width</Span>
       </Div>
     </Content>
   </Div>

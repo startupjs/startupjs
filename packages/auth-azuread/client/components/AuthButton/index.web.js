@@ -1,25 +1,40 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { BASE_URL } from '@env'
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ baseUrl, label, redirectUrl }) {
+function AuthButton ({
+  style,
+  baseUrl,
+  redirectUrl,
+  label
+}) {
+  const [authConfig] = useSession('auth')
+  const { expiresRedirectUrl } = authConfig
+
+  function _onLogin () {
+    onLogin({
+      baseUrl,
+      redirectUrl,
+      expiresRedirectUrl
+    })
+  }
+
   return pug`
     Button.button(
-      onPress=() => onLogin(redirectUrl)
+      style=style
       icon=faMicrosoft
       variant='flat'
+      onPress=_onLogin
     )= label
   `
 }
 
 AuthButton.defaultProps = {
-  label: 'Azure AD',
-  baseUrl: BASE_URL
+  label: 'Azure AD'
 }
 
 AuthButton.propTypes = {

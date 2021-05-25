@@ -1,20 +1,16 @@
-import { getDbs } from '../db.js'
 import cluster from 'cluster'
+import { getDbs } from '../db.js'
 import { isPromise } from '../utils.js'
 
-const worker = cluster.worker
 const env = process.env
 const collection = env.WORKER_TASK_COLLECTION
-const ACTIONS_PATH = env.WORKER_ACTIONS_PATH
-const INIT_PATH = env.WORKER_INIT_PATH
+const dbs = getDbs()
 
 let actions;
 (async () => {
   try {
-    let actionsFilePath = ACTIONS_PATH
-    let importedActions
-    importedActions = await import(actionsFilePath)
-    actions = importedActions.ACTIONS || {}
+    await import(env.WORKER_ACTIONS_PATH)
+    actions = global.DM_WORKER_ACTIONS || {}
   } catch (e) {
     console.warn('[worker] WARNING! No actions file found. Create a workerActions.js file in ' +
         'your project\'s worker directory with the actions which the worker can execute.')
@@ -25,21 +21,18 @@ let customInit;
 // Execute worker init file from the parent project's root/worker folder (if exists)
 (async () => {
   try {
-    let initFilePath = INIT_PATH
-    let importedCustomInit
-    importedCustomInit = await import(initFilePath) // This should populate the global DM_WORKER_ACTIONS var
-    customInit = importedCustomInit.init
-    if (typeof customInit !== 'function') {
-      console.warn('[worker] WARNING! initWorker.js doesn\'t export a function. Ignoring.')
+    await import(env.WORKER_INIT_PATH) // This should populate the global DM_WORKER_ACTIONS var
+    customInit = global.DM_WORKER_INIT
+    if (typeof customInit === 'function') {
+      customInit(dbs.backend)
+    } else {
+      console.warn('[worker] WARNING! workerInit.js doesn\'t export a function. Ignoring.')
     }
   } catch (e) {
-    console.warn('[worker] WARNING! No custom init file found. Create an initWorker.js file in ' +
+    console.warn('[worker] WARNING! No custom init file found. Create an workerInit.js file in ' +
         'your project\'s worker directory to do the custom initialization of backend (hooks, etc.).')
   }
 })()
-
-const dbs = getDbs()
-customInit && customInit(dbs.backend)
 
 function executeTask (action, model, task, done) {
   const res = action(model, task, done)
@@ -53,7 +46,6 @@ function executeTask (action, model, task, done) {
 }
 
 async function executeTaskWrapper (taskId) {
-  // console.log('run task', taskId)
   const { backend } = dbs
   const model = backend.createModel()
   const $task = model.at(collection + '.' + taskId)
@@ -101,13 +93,10 @@ process.on('message', (data) => {
     return
   }
 
-  // console.log('Run task', taskId, worker.id)
-
   executeTaskWrapper(data.taskId).then(() => {
-    // console.log('Done task', taskId, worker.id)
     process.send({ taskId })
   }).catch((err) => {
-    console.log('Done task - err', taskId, worker.id, err)
+    console.log('Done task - err', taskId, cluster.worker.id, err)
     process.send({ taskId, err: err && err.message })
   })
 })

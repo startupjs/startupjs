@@ -8,6 +8,7 @@ import {
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -33,49 +34,52 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
-  _preventEvent = true,
   onPress,
   onLongPress,
-  onClick,
+  _preventEvent,
   ...props
 }) {
-  const handlePress = onClick || onPress
-  const isClickable = (typeof handlePress === 'function' || onLongPress) && !disabled
+  const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
   let extraStyle = {}
   const extraProps = {}
   const wrapperProps = { accessible }
-
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
+
+  // TODO disabled
   useDidUpdate(() => {
     if (isClickable) return
+    if (!disabled) return
     if (hover) setHover()
     if (active) setActive()
-  }, [isClickable])
+  }, [isClickable, disabled])
 
   if (isClickable) {
-    let _handlePress
-
-    // HACK:
-    // if some content inside link is clickable
-    // we need to prevent default browser behavior
-    // to make it similar as behavior of the native mobiles
-    if (isWeb) {
-      _handlePress = (e) => {
-        if (_preventEvent) e.preventDefault()
-        handlePress && handlePress(e)
+    wrapperProps.onPress = (e) => {
+      // prevent bubbling event (default browser behavior)
+      // make it consistent with native mobiles
+      if (_preventEvent || disabled) {
+        e.persist() // TODO: remove in react 17
+        e.preventDefault()
       }
-    } else {
-      _handlePress = handlePress
+      if (disabled) return
+      onPress && onPress(e)
+    }
+    wrapperProps.onLongPress = (e) => {
+      // prevent bubbling event (default browser behavior)
+      // make it consistent with native mobiles
+      if (_preventEvent || disabled) {
+        e.persist() // TODO: remove in react 17
+        e.preventDefault()
+      }
+      if (disabled) return
+      onLongPress && onLongPress(e)
     }
 
-    wrapperProps.onPress = _handlePress
-    wrapperProps.onLongPress = onLongPress
-
     // setup hover and active states styles and props
-    if (feedback) {
+    if (feedback && !disabled) {
       const { onPressIn, onPressOut } = props
       wrapperProps.onPressIn = (...args) => {
         setActive(true)
@@ -155,7 +159,8 @@ Div.defaultProps = {
   feedback: true,
   disabled: false,
   bleed: false,
-  pushed: false
+  pushed: false,
+  _preventEvent: true
 }
 
 Div.propTypes = {
@@ -171,11 +176,11 @@ Div.propTypes = {
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
   bleed: PropTypes.bool,
   onPress: PropTypes.func,
-  onClick: PropTypes.func,
-  onLongPress: PropTypes.func
+  onLongPress: PropTypes.func,
+  _preventEvent: PropTypes.bool
 }
 
-export default observer(Div)
+export default observer(themed(Div))
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {

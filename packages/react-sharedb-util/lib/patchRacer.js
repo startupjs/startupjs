@@ -113,8 +113,12 @@ racer.Model.prototype.fetchSync = function () {
 // Add additional `sync` variant of subscribe, which will sync return data if it already exists in cache
 racer.Model.prototype.subscribeSync = function () {
   let _resolve
-  const promise = new Promise(function (resolve) { _resolve = resolve })
-  this._forSubscribable(arguments, 'subscribe', _resolve, promise)
+  let _reject
+  const promise = new Promise(function (resolve, reject) {
+    _resolve = resolve
+    _reject = reject
+  })
+  this._forSubscribable(arguments, 'subscribe', _resolve, promise, _reject)
   return promise
 }
 
@@ -123,7 +127,7 @@ racer.Model.prototype.subscribeSync = function () {
 // which is gonna be either:
 //   - resolved, if we are already subscribed to all data (it's in racer model)
 //   - pending, if at least one subscription needs to be executed
-racer.Model.prototype._forSubscribable = function (argumentsObject, method, resolve, promise) {
+racer.Model.prototype._forSubscribable = function (argumentsObject, method, resolve, promise, reject) {
   let args, cb
   if (!argumentsObject.length) {
     // Use this model's scope if no arguments
@@ -145,7 +149,8 @@ racer.Model.prototype._forSubscribable = function (argumentsObject, method, reso
 
   // [SYNC MODE] For sync usage of subscribe
   if (resolve) {
-    cb = function () {
+    cb = function (err) {
+      if (err) return reject(err)
       promise.sync = true
       resolve()
     }

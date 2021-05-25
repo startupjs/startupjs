@@ -4,7 +4,7 @@
 
 StartupJS/UI initially uses an 8-pixel grid for padding. This means that the unit of measurement for padding is unit (u). One unit equals 8px. All styles that could be specified in pixels are specified in units. All sizes in styles should be specified in units. Fractional units (2.5u) should only be specified as a last resort. In situations where you need to specify 1px, for example, you can move away from using units.
 
-For example: 
+For example:
 
 ```css
 .card
@@ -21,12 +21,9 @@ You are already familiar with the implementation of mixins in Stylus so you can 
 The first mixin is `font()`, which takes one of the following parameters `[xs, s, m, l, xl, xxl, xxxl, xxxxl, xxxxxl]`, `m` by default.
 `font()` is used within a selector for text elements and is replaced at compile time with `font-size` and `line-height`, depending on the value selected.
 
-Table of possible values:	
-
 
 **Table of possible values:**
 
-```
 | Value    | font-size | line-height |
 | -------- | --------- | ----------- |
 | xs       | 1.25u     | 1.75u       |
@@ -38,7 +35,6 @@ Table of possible values:
 | xxxl     | 4.5u      | 6u          |
 | xxxxl    | 6u        | 8u          |
 | xxxxxl   | 9u        | 12u         |
-```
 
 
 ## shadow() mixin
@@ -46,7 +42,6 @@ React Native has its own features when working with shadows(`box-shadow`). To av
 
 The `shadow ()` mixin has 5 levels of shadows and takes a number from `0` to` 4`, by default `1`, which both adjust the shadow level, and expands the` box-shadow` style set into the selector according to the following scheme:
 
-```
 | Value    | Styles                                                  |
 | -------- | ------------------------------------------------------- |
 | 0        | box-shadow: none и elevation: 0                         |
@@ -54,7 +49,7 @@ The `shadow ()` mixin has 5 levels of shadows and takes a number from `0` to` 4`
 | 2        | box-shadow: 0 3px 5px rgba(black, 0.15) и elevation: 6  |
 | 3        | box-shadow: 0 5px 8px rgba(black, 0.15) и elevation: 12 |
 | 4        | box-shadow: 0 8px 12px rgba(black, 0.2) и elevation: 18 |
-```
+
 > For illustrative examples of how each level of shadow will be displayed, look to the right
 
 ## radius() mixin
@@ -62,13 +57,12 @@ The `radius()` mixin sets the `border-radius` value for the specified element. I
 
 The `radius()` mixin is extended with the following values:
 
-```
 | Value    | Styles               |
 | -------- | -------------------- |
 | m        | border-radius 4px    |
 | l        | border-radius 8px    |
 | circle   | border-radius 9999px |
-```
+
 The `circle` value will make your element assume round shape.
 
 > You can also add your own values or alter the existing ones. This can be done in the `styles/helpers.styl` file. How to edit mixins you can read in the official Stylus documentation - [Mixins](https://stylus-lang.com/docs/mixins.html)
@@ -80,7 +74,6 @@ In pure ***CSS***, you have the ability to use @media-queries for adding styles 
 
 Let's take a closer look:
 
-```
 | Mixins       | Environment                  |
 | ------------ | ---------------------------- |
 | +tablet()    | min-width >=768px            |
@@ -92,12 +85,12 @@ Let's take a closer look:
 | +android()   | OS Android                   |
 | +ios()       | OS iOS                       |
 | +native()    | !web                         |
-```
+
 > Among the mixins there is also a mixin +mobile(), which is styled for the mobile screen size (<=480px), but since we adhere to the mobile-first principle in development, all styles are set by default for the mobile screen resolution.
 
 > In order to override the value of some mixin yourself, you only need to change it in the `styles/` folder of your project. For example, screen sizes for `tablet, desktop, wide` mixins are located in the `variables.styl` file.
 
-Usage example: 
+Usage example:
 ```css
 .card
   padding 2u
@@ -128,7 +121,11 @@ The `startupjs/ui` styles contain the global `$UI` object. It has within itself 
   - colorNameLightest: rgba($UI.palette.palleteColorName, 0.05)
 - `$UI.shadows` - contains constants for shadows. For numbers from 0 to 4 values are set by default.
 - `$UI.media` - contains screen sizes. These sizes are used for screen size defining mixins (for example tablet()). Here the constants for tablet, desktop and wide are contained.
-- `$UI.fontFamilies` - contains font names.
+
+- `$UI.fontFamilies`:
+  - `normal` - specifies font names for body text (component `Span`)
+  - `heading` - specifies font names for headers text (components `H1-H6`)
+
 - `$UI.fontSizes` - contains font size constants that can be seen in the table above.
 - `$UI.lineHeights` - contains row height constants which can be seen in the table above.
 
@@ -136,7 +133,7 @@ The `startupjs/ui` styles contain the global `$UI` object. It has within itself 
 
 Глобальный обьект `$UI` можно расширять и переопределять его свойства. Это позволяет реализовывать любые дизайнерские решения в вашем проекте. Для того чтобы модифицировать `$UI` необходимо использовать функцию `merge`. Например, если вам необходимо добавить новый цвет `pink`, то это можно сделать следующим образом:
 
-The global `$UI` object can be extended and its properties can be overridden. This enables the implementation of any design solutions in your project. In order to modify `$UI`, use the `merge` function. For example, if you need to add a new color `pink`, this can be achieved this way: 
+The global `$UI` object can be extended and its properties can be overridden. This enables the implementation of any design solutions in your project. In order to modify `$UI`, use the `merge` function. For example, if you need to add a new color `pink`, this can be achieved this way:
 
 ```js
 $UI = merge($UI, {
@@ -147,7 +144,7 @@ $UI = merge($UI, {
 
 ```
 
-or you can override the `primary` and `warning` colors with those relevant for your project and add a new size for `Button`: 
+or you can override the `primary` and `warning` colors with those relevant for your project and add a new size for `Button`:
 
 ```js
 $UI = merge($UI, {
@@ -166,7 +163,7 @@ $UI = merge($UI, {
 Such transformations of `$UI` object should be performed in the main style sheet file of the project, which you can find at `styles/index.styl`.
 
 ## merge
-Let's explore how the `merge` function works. Its prototype looks like this: 
+Let's explore how the `merge` function works. Its prototype looks like this:
 
 ```js
 merge(object, source, deep)
@@ -239,7 +236,7 @@ You can also now fetch any values from styles in the files with the code. To do 
   foobar: 42
 ```
 
-Here we have exported the object with the `colors` and `foobar` fields. Let's now import this object in the js file. 
+Here we have exported the object with the `colors` and `foobar` fields. Let's now import this object in the js file.
 
 ```js
 import STYLES from './index.styl'

@@ -41,7 +41,7 @@ function Select ({
       iconPosition='right'
       renderWrapper=renderWrapper
       selection={start: 0, end: 0}
-      editable=false
+      editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
       ...props
     )
   `
@@ -55,6 +55,7 @@ Select.defaultProps = {
 }
 
 Select.propTypes = {
+  label: PropTypes.string,
   options: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,

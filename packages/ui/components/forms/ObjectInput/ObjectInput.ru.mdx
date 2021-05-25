@@ -14,7 +14,8 @@ ObjectInput позволяет создавать динамические фо�
 import { ObjectInput } from from '@startupjs/ui'
 ```
 
-## Пример
+## Простой пример
+
 ObjectInput принимает объект в свойство `properties` с обязательным ключом `input` для указания типа отображаемого поля. Возможные типы ([сheckbox](/docs/components/Checkbox), [text](/docs/components/TextInput) и [object](/docs/components/ObjectInput)). Объект `properties` также наследует любые свойства передаваемые в этим компонентам.
 
 ```jsx example
@@ -126,5 +127,34 @@ return (
       }}
     />
   </Content>
+)
+```
+
+## Отображение ошибок
+
+Свойство `errors` предоставляет тексты ошибок для инпутов в виде объекта, ключи соответствуют ключам `properties`, свойства - текст ошибки.
+
+```jsx example
+const [value, $value] = useValue({})
+
+return (
+  <ObjectInput
+    value={value}
+    $value={$value}
+    errors={{
+      firstName: value.firstName ? '' : 'First name value must be specified',
+      lastName: value.lastName ? '' : 'Last name value must be specified'
+    }}
+    properties={{
+      firstName: {
+        input: 'text',
+        label: 'First name'
+      },
+      lastName: {
+        input: 'text',
+        label: 'Last name'
+      }
+    }}
+  />
 )
 ```

@@ -101,17 +101,11 @@ function optionalPromisify (originalFn) {
         syncResult = originalFn.apply(this, args)
         isSyncCallback = undefined
       }).catch(err => {
-        if (parseInt(err.code) === 403) {
-          console.error(err)
-          let $accessError
-          if (this instanceof Query) {
-            $accessError = this.model.scope('_session')
-          } else {
-            $accessError = this.scope('_session')
-          }
-          $accessError.setDiff('_accessError', err)
+        console.error(err)
+        if (this instanceof Query) {
+          this.model.root.emit('error', err)
         } else {
-          throw err
+          this.root.emit('error', err)
         }
       })
     }

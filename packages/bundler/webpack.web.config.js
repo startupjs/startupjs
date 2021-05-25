@@ -1,4 +1,4 @@
-const { getPluginConfigs } = require('@startupjs/plugin/manager')
+const { getPluginConfigs } = require('@startupjs/plugin/manager.cjs')
 const pickBy = require('lodash/pickBy')
 const pick = require('lodash/pick')
 const fs = require('fs')
@@ -33,13 +33,6 @@ if (ASYNC) console.log('[dm-bundler] ASYNC optimization is turned ON')
 
 const EXTENSIONS = ['.web.js', '.js', '.web.jsx', '.jsx', '.mjs', '.cjs', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json']
 
-const DEFAULT_FORCE_COMPILE_MODULES = [
-  '@react-native-community/datetimepicker', // used by ui
-  '@react-native-picker/picker', // used by ui
-  '@startupjs/app',
-  '@startupjs/ui',
-  'react-native-collapsible' // used by ui
-]
 const DEFAULT_ALIAS = {
   // fix warning requiring './locale': https://github.com/moment/moment/issues/1435
   moment$: 'moment/moment.js',
@@ -67,7 +60,6 @@ module.exports = function getConfig (env, {
   }
   // array must be non-empty to prevent matching all node_modules via regex
   forceCompileModules = forceCompileModules
-    .concat(DEFAULT_FORCE_COMPILE_MODULES)
     .concat(getPluginsForceCompileList())
 
   return pickBy({

@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import { changePassword } from '../helpers'
 
 export default function resetPassword (req, res, done, config) {
   const {
@@ -13,32 +13,35 @@ export default function resetPassword (req, res, done, config) {
 
     const { model } = req
 
-    const $auths = model.query('auths', { 'providers.local.passwordReset.secret': secret })
-    await model.fetchAsync($auths)
+    const $auths = model.query('auths', { 'providers.local.passwordResetMeta.secret': secret })
+    await $auths.fetch()
 
     const userId = $auths.getIds()[0]
-    if (!userId) return res.status(400).json({ message: 'No user found by secret' })
+    if (!userId) {
+      return res.status(400).json({ message: 'No user found by secret' })
+    }
 
     const $auth = model.scope('auths.' + userId)
     const $local = $auth.at('providers.local')
 
-    const timestamp = $local.get('passwordReset.timestamp')
+    const timestamp = $local.get('passwordResetMeta.timestamp')
     const now = +new Date()
 
     if (timestamp + resetPasswordTimeLimit < now) {
       return res.status(400).json({ message: 'Secret is expired' })
     }
 
-    // Save password
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password, salt)
-    await $local.set('salt', salt)
-    await $local.set('hash', hash)
+    try {
+      await changePassword({ model, userId, password })
+    } catch (error) {
+      return res.status(400).json({ message: error.message })
+    }
 
     // Remove used secret
-    await $local.del('passwordReset')
+    await $local.del('passwordResetMeta')
 
-    await onAfterPasswordReset(userId)
+    const hookRes = onAfterPasswordReset({ userId }, req)
+    hookRes && hookRes.then && await hookRes
 
     res.send('Password reset completed')
   })

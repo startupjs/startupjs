@@ -9,12 +9,6 @@ import { useValue } from 'startupjs'
 
 ArrayInput lets you build dynamic forms using its declarative api.
 
-```jsx
-import { ArrayInput } from '@startupjs/ui'
-```
-
-## Example
-
 ArrayInput accepts an object in the `items` property with a required `input` key to specify what type of input to display.
 
 Possible types are:
@@ -28,6 +22,12 @@ Possible types are:
 [time](/docs/forms/DateTimePicker)
 
 The `items` object also inherits any of the props passed to these components.
+
+```jsx
+import { ArrayInput } from '@startupjs/ui'
+```
+
+## Simple example
 
 ```jsx example
 const [value, $value] = useValue(['Green', 'Blue'])

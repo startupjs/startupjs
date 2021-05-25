@@ -1,3 +1,728 @@
+## [0.35.7](https://github.com/startupjs/startupjs/compare/v0.35.6...v0.35.7) (2021-05-25)
+
+
+### Bug Fixes
+
+* **ui/Span:** add missing default font size ([b81a718](https://github.com/startupjs/startupjs/commit/b81a71810a9ace3fdeb8b92e7ab6b02625ace9d7))
+
+
+### Features
+
+* **cli:** add common command `link` instead `android-link` ([#674](https://github.com/startupjs/startupjs/issues/674)) ([d42641a](https://github.com/startupjs/startupjs/commit/d42641acb8f284a918a7dc24d2bd344a0e8316f8))
+* **mdx:** add action `collapse`, `copy code` for code block ([#652](https://github.com/startupjs/startupjs/issues/652)) ([da57909](https://github.com/startupjs/startupjs/commit/da57909674e67b775514e274c734747ef8f2dee5))
+* **ui:** add ability to override ui styles ([#668](https://github.com/startupjs/startupjs/issues/668)) ([e943bb3](https://github.com/startupjs/startupjs/commit/e943bb3d09f29d6502f21f2a1b8a901b1dd44084))
+
+
+
+## [0.35.6](https://github.com/startupjs/startupjs/compare/v0.35.5...v0.35.6) (2021-05-21)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to using recaptcha when it is not enabled ([#671](https://github.com/startupjs/startupjs/issues/671)) ([88ddbb0](https://github.com/startupjs/startupjs/commit/88ddbb08cc9b9d327454112836abd8dcae59e6d9))
+
+
+### Features
+
+* **ui/DateTimePicker:** add disabled styles ([#673](https://github.com/startupjs/startupjs/issues/673)) ([d8bbbb9](https://github.com/startupjs/startupjs/commit/d8bbbb9e3b1f56b68f3393cd73e3f10bc290eacf))
+
+
+
+## [0.35.5](https://github.com/startupjs/startupjs/compare/v0.35.4...v0.35.5) (2021-05-20)
+
+
+### Bug Fixes
+
+* **auth-google, auth-facebook:** add default params for `onLogin` ([#667](https://github.com/startupjs/startupjs/issues/667)) ([614a1e1](https://github.com/startupjs/startupjs/commit/614a1e19b3a705538870b1e86500d7e3ec4a967d))
+* **scrollable-anchors:** fix getting incorrect position ([ddf3f1c](https://github.com/startupjs/startupjs/commit/ddf3f1cea607b5ea5e372cd98bbd9553fed2be6e))
+* **worker:** fix broken custom initialization ([6de6282](https://github.com/startupjs/startupjs/commit/6de62822ba7fa927bc035b2f012aae5d4aa29c14))
+
+
+
+## [0.35.4](https://github.com/startupjs/startupjs/compare/v0.35.3...v0.35.4) (2021-05-17)
+
+
+### Bug Fixes
+
+* **ui/Span:** add missing default font color ([e092166](https://github.com/startupjs/startupjs/commit/e09216692dfeb197e4d80fe5718ae109e48abece))
+
+
+
+## [0.35.3](https://github.com/startupjs/startupjs/compare/v0.35.2...v0.35.3) (2021-05-14)
+
+
+### Features
+
+* **auth-local:** add ability to override `getUserData` method ([#664](https://github.com/startupjs/startupjs/issues/664)) ([33d6b80](https://github.com/startupjs/startupjs/commit/33d6b8057112c0db684ef43b80bb0393f344e5ac))
+
+
+
+## [0.35.2](https://github.com/startupjs/startupjs/compare/v0.35.1...v0.35.2) (2021-05-14)
+
+
+### Bug Fixes
+
+* **recaptcha:** make web force compiled ([#663](https://github.com/startupjs/startupjs/issues/663)) ([5b2d710](https://github.com/startupjs/startupjs/commit/5b2d710f2186c8dc0255094e8a58006c9e1668a3))
+
+
+### Features
+
+* **2fa-manager:** add `2fa-manager` package ([#624](https://github.com/startupjs/startupjs/issues/624)) ([6b78dd3](https://github.com/startupjs/startupjs/commit/6b78dd37b13cf63e884f0725aa3d487050968105))
+
+
+
+## [0.35.1](https://github.com/startupjs/startupjs/compare/v0.35.0...v0.35.1) (2021-05-13)
+
+
+### Bug Fixes
+
+* **auth-local:** fix saving user data ([c6c8b23](https://github.com/startupjs/startupjs/commit/c6c8b230b7ab9d88738419ec57ecefffeea78469))
+
+
+
+# [0.35.0](https://github.com/startupjs/startupjs/compare/v0.34.10...v0.35.0) (2021-05-13)
+
+
+### Bug Fixes
+
+* **auth:** don't save auth data in the user collection ([#654](https://github.com/startupjs/startupjs/issues/654)) ([0336f19](https://github.com/startupjs/startupjs/commit/0336f19744f0a047924833c6d29ec1aabfff3d20))
+* **Table:** fix paddings ([#626](https://github.com/startupjs/startupjs/issues/626)) ([f338d44](https://github.com/startupjs/startupjs/commit/f338d44c244d6495c18467423b4491ea5d6b8794))
+* **ui/ArrayInput:** remove redundant props 'value' ([58b57ac](https://github.com/startupjs/startupjs/commit/58b57acdc9aa6b5b2507cb1b2e76947b2a1d07b5))
+* **ui/AutoSuggest:** don't clean input on blur if correct value is not set ([#642](https://github.com/startupjs/startupjs/issues/642)) ([1444a9a](https://github.com/startupjs/startupjs/commit/1444a9a7e5c9863eaac3d06fc0e8aac277de7f14))
+* **ui/Modal:** change `Modal.Actions` behaviour ([225982a](https://github.com/startupjs/startupjs/commit/225982acb674a8915d57bd1b39667c20866a907f))
+* **ui/Modal:** dont render content if modal isnt visible ([#613](https://github.com/startupjs/startupjs/issues/613)) ([e43f1a5](https://github.com/startupjs/startupjs/commit/e43f1a532e0546eb0e8e12b4fe6a6297a84847c2))
+* **ui/Modal:** fix bug related to opening modal using ref ([#650](https://github.com/startupjs/startupjs/issues/650)) ([a851b4c](https://github.com/startupjs/startupjs/commit/a851b4cc8cbb4b0702bdf8aff6723eb49c57f8d7))
+* **ui/ObjectInput:** remove redundant props 'value' ([653a4f6](https://github.com/startupjs/startupjs/commit/653a4f6fb4f5ffe12766d8c183ea04f8e1666e14))
+* **ui/Popover:** rework animations ([#623](https://github.com/startupjs/startupjs/issues/623)) ([d2cad4a](https://github.com/startupjs/startupjs/commit/d2cad4a94d7c48eea20198e7b5ccdedd73297855))
+* **worker:** make worker compatible with webpack compilation ([cae2cf4](https://github.com/startupjs/startupjs/commit/cae2cf4eedd5ff38fc0f3e757a1942e691b0c230))
+
+
+### Features
+
+* **app:** add alert, confirm, prompt boxes ([#638](https://github.com/startupjs/startupjs/issues/638)) ([0168a88](https://github.com/startupjs/startupjs/commit/0168a88baadc55f393d4f283514d9208a156bab2))
+* **docs/Sandbox:** display `required` label for required props ([#644](https://github.com/startupjs/startupjs/issues/644)) ([1d1de4f](https://github.com/startupjs/startupjs/commit/1d1de4f35d4b831d37d7220801c07afea072dfe0))
+* **recaptcha:** add enterprise recaptcha ([#653](https://github.com/startupjs/startupjs/issues/653)) ([d722ab1](https://github.com/startupjs/startupjs/commit/d722ab1ede850da79fd5910b0a2f0d72eaab66dd))
+* **typography:** add `fontFamily` mixin ([#597](https://github.com/startupjs/startupjs/issues/597)) ([09158bc](https://github.com/startupjs/startupjs/commit/09158bc8efeec1efd1678319a27cfa87c5ef1610))
+* **ui/typography:** add semantic font size names ([#632](https://github.com/startupjs/startupjs/issues/632)) ([3c562bc](https://github.com/startupjs/startupjs/commit/3c562bc943ab7bb441e249eec458eeff26d2d691))
+
+
+### BREAKING CHANGES
+
+### `startupjs/ui/Popover`
+- remove `default` variant from animateType prop
+- rename `slide` to `opacity` in animateType prop
+
+### `startupjs/ui/Tr`
+- remove paddings
+
+### `startupjs/ui/Th`
+- increase horizontal paddings to 16px
+
+### `startupjs/ui/Td`
+- increase horizontal paddings to 16px
+
+### `@startupjs/ui/Modal`
+
+- Now, the cancel button is always displayed along with the confirm button. If you want display one button use `onCancel`.
+
+### `Fonts`
+
+Default font family for `Span` and `H1-H6` components were changed from `Cochin` to
+
+```
+system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif
+```
+
+If you want to use custom fonts read [this](https://startupjs-ui.dmapper.co/docs/foundation/Fonts).
+
+### `@startupjs/auth`
+
+- Fix save password, hash, salt, unconfirmed in users collection
+
+- To remove unnecessary data use this code:
+
+```js
+async function (model) {
+  const $users = model.query('users', {
+    $or: [
+      { password: { $exists: true } },
+      { confirm: { $exists: true } },
+      { hash: { $exists: true } },
+      { salt: { $exists: true } },
+      { unconfirmed: { $exists: true } }
+    ]
+  })
+
+  await $users.fetch()
+
+  for (const user of $users.get()) {
+    await Promise.all([
+      model.del(`users.${user.id}.password`),
+      await model.del(`users.${user.id}.confirm`),
+      await model.del(`users.${user.id}.hash`),
+      await model.del(`users.${user.id}.salt`),
+      await model.del(`users.${user.id}.unconfirmed`)
+    ])
+  }
+}
+```
+* **ui/Modal:** Now, the cancel button is always displayed along with the confirm button. If you want display one button use `onCancel`.
+* **Table:** Move horizontal paddings from `Tr` to `Th, Td`.
+
+
+
+## [0.34.10](https://github.com/startupjs/startupjs/compare/v0.34.9...v0.34.10) (2021-05-12)
+
+
+### Bug Fixes
+
+* **auth:** fix resend auth form ([#658](https://github.com/startupjs/startupjs/issues/658)) ([a6ac19e](https://github.com/startupjs/startupjs/commit/a6ac19efd3135bb426af09e083b9105b3d06c118))
+* **auth-local:** fix reassign const ([#651](https://github.com/startupjs/startupjs/issues/651)) ([3c37e5a](https://github.com/startupjs/startupjs/commit/3c37e5a06528ce21daf093d6bf618351d423ce16))
+* **ui/ArrayInput:** remove redundant props 'value' ([abe2724](https://github.com/startupjs/startupjs/commit/abe2724f6fb8056171b68c4a3bbef31e7e86de8e))
+* **ui/Modal:** fix bug related to opening modal using ref ([#650](https://github.com/startupjs/startupjs/issues/650)) ([f65f09e](https://github.com/startupjs/startupjs/commit/f65f09e8262d45b13b1e0299abdf95f477392f46))
+* **ui/ObjectInput:** remove redundant props 'value' ([787444d](https://github.com/startupjs/startupjs/commit/787444df87f9af493fed4d055301be9c11a92ea9))
+
+
+### Features
+
+* **docs/Sandbox:** display `required` label for required props ([#644](https://github.com/startupjs/startupjs/issues/644)) ([3c93431](https://github.com/startupjs/startupjs/commit/3c9343120fc6bd5e91a9a60966a159675c0fbc26))
+* **mdx:** add local urls support ([#655](https://github.com/startupjs/startupjs/issues/655)) ([3dad5b3](https://github.com/startupjs/startupjs/commit/3dad5b3b18685290e6beec903c7f4e0f1abf3317))
+* **react-sharedb:** add typescript declaration files ([#648](https://github.com/startupjs/startupjs/issues/648)) ([5911df6](https://github.com/startupjs/startupjs/commit/5911df633d5456f903f966403866b085ee4b6fe0))
+
+
+
+## [0.34.9](https://github.com/startupjs/startupjs/compare/v0.34.8...v0.34.9) (2021-04-30)
+
+
+### Bug Fixes
+
+* **auth-local:** move email case to lower case ([#640](https://github.com/startupjs/startupjs/issues/640)) ([c8affa6](https://github.com/startupjs/startupjs/commit/c8affa6ce98b6002434c3ace7b07be68c79c1dbb))
+* **docs:** make topbar non-overlapping content ([#635](https://github.com/startupjs/startupjs/issues/635)) ([c82e5c3](https://github.com/startupjs/startupjs/commit/c82e5c324817c7bb0b58e55d902e640d33932042))
+* **ui/AutoSuggest:** don't clean input on blur if correct value is not set ([#642](https://github.com/startupjs/startupjs/issues/642)) ([1c869a3](https://github.com/startupjs/startupjs/commit/1c869a396ba6f03ec527d8232e22f270314b8cf9))
+* **ui/Modal:** deprecate , use  instead ([6c3222d](https://github.com/startupjs/startupjs/commit/6c3222dcbf026a7e1965dd1f4b5cd9fcfbb78504))
+* **ui/Modal:** fix  triggering on first rendering ([2ff7c9d](https://github.com/startupjs/startupjs/commit/2ff7c9d101fc05f09f6dd65ece8898ef16897b55))
+
+
+### Features
+
+* **auth-google:** pass login options to google auth library ([#634](https://github.com/startupjs/startupjs/issues/634)) ([1c05776](https://github.com/startupjs/startupjs/commit/1c05776fbf3bdf0bb308b34268cdfea32bf3b7f7))
+
+
+
+## [0.34.8](https://github.com/startupjs/startupjs/compare/v0.34.7...v0.34.8) (2021-04-26)
+
+
+### Bug Fixes
+
+* **auth:** error format in res ([2017532](https://github.com/startupjs/startupjs/commit/20175320053ba22d2646d47ead0039bc35cdd709))
+
+
+### Features
+
+* **mdx:** add md table support and jsx pure-example ([#631](https://github.com/startupjs/startupjs/issues/631)) ([ea8b34d](https://github.com/startupjs/startupjs/commit/ea8b34d5014e43c148225615e06acc8002982ee3))
+
+
+
+## [0.34.7](https://github.com/startupjs/startupjs/compare/v0.34.6...v0.34.7) (2021-04-21)
+
+
+### Bug Fixes
+
+* **auth:** Update local provider id ([e8e254b](https://github.com/startupjs/startupjs/commit/e8e254b43f3b27ca5b3e55eb32f79ae711a9d228))
+
+
+
+## [0.34.6](https://github.com/startupjs/startupjs/compare/v0.34.5...v0.34.6) (2021-04-21)
+
+
+### Features
+
+* **auth:** Email update feature ([59ddca5](https://github.com/startupjs/startupjs/commit/59ddca5d27db69237db8575606ac772e8c34ec9f))
+
+
+
+## [0.34.5](https://github.com/startupjs/startupjs/compare/v0.34.4...v0.34.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** add container that take styles ([#628](https://github.com/startupjs/startupjs/issues/628)) ([0407bc4](https://github.com/startupjs/startupjs/commit/0407bc4862db543f9cc69776af350ba11454d6a8))
+* **ui/Tabs:** fix passing props to `TabBar` ([#619](https://github.com/startupjs/startupjs/issues/619)) ([83316cb](https://github.com/startupjs/startupjs/commit/83316cbc7427b5d9a70220f878c65a08d6f5fd5c))
+
+
+
+## [0.34.4](https://github.com/startupjs/startupjs/compare/v0.34.3...v0.34.4) (2021-04-16)
+
+
+### Bug Fixes
+
+* **anchors:** prevent chilfren rerendering ([5aed489](https://github.com/startupjs/startupjs/commit/5aed489f95a7dde4f5846df2195ade5f3a1f6ac5))
+
+
+
+## [0.34.3](https://github.com/startupjs/startupjs/compare/v0.34.2...v0.34.3) (2021-04-15)
+
+
+### Bug Fixes
+
+* Recalc anchors pos on height change ([706e2d0](https://github.com/startupjs/startupjs/commit/706e2d0542bff3d7fbf34892f9d17b82d37994c6))
+* **anchors:** Raceconditions for el registering ([ab66425](https://github.com/startupjs/startupjs/commit/ab66425b18a707ce001a955d43ba6e4704b9a75c))
+* **ui/Autosuggest:** fix search with non-letter characters ([#617](https://github.com/startupjs/startupjs/issues/617)) ([2b0fd0b](https://github.com/startupjs/startupjs/commit/2b0fd0b58630231fbb9dbeab9095a1e0fdc5252e))
+
+
+
+## [0.34.2](https://github.com/startupjs/startupjs/compare/v0.34.1...v0.34.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **auth-local:** fix bugs related to displaying incorrect fields in forms ([#606](https://github.com/startupjs/startupjs/issues/606)) ([97fa11d](https://github.com/startupjs/startupjs/commit/97fa11db67bc59b91cb5eb50df01066737cd381a))
+* **styleguide:** fix android ([4c7d6b5](https://github.com/startupjs/startupjs/commit/4c7d6b55bbf10cfc33b091de23bd5888d5a3f41b))
+* **ui/Div:** remove onClick from propTypes ([afd6d9e](https://github.com/startupjs/startupjs/commit/afd6d9e280b4f9f1a36a6371118433be23805621))
+* **ui/Modal:** dont render content if modal isnt visible ([#613](https://github.com/startupjs/startupjs/issues/613)) ([#618](https://github.com/startupjs/startupjs/issues/618)) ([f81140d](https://github.com/startupjs/startupjs/commit/f81140d48321a09d650be07fcb32c4399fb0bd74))
+
+
+
+## [0.34.1](https://github.com/startupjs/startupjs/compare/v0.34.0...v0.34.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* **ui/User:** adjust sizes according to Avatar component changes ([2a1b23b](https://github.com/startupjs/startupjs/commit/2a1b23b222ae03f75b8313a4370ae20323ea2305))
+
+
+### Features
+
+* **ui/User:** add support for custom status icons (components) ([5dc7d4b](https://github.com/startupjs/startupjs/commit/5dc7d4b4392cc36aaffd9607d6dfc6d634b5cfde))
+
+
+
+# [0.34.0](https://github.com/startupjs/startupjs/compare/v0.33.8...v0.34.0) (2021-04-08)
+
+
+### Bug Fixes
+
+* **app:** fix restart for web ([fb0a397](https://github.com/startupjs/startupjs/commit/fb0a397deec68a01a4be9adb0c643a4ba577ed93))
+* **auth:** remove `AuthModal` ([#594](https://github.com/startupjs/startupjs/issues/594)) ([cd9a0d4](https://github.com/startupjs/startupjs/commit/cd9a0d4843bb95a1e4b9315f10d3f8caae5b1491))
+* **auth:** setup default arguments for `onLogout` ([#605](https://github.com/startupjs/startupjs/issues/605)) ([7cac079](https://github.com/startupjs/startupjs/commit/7cac079c944194dc996e6d7eba80bf6c933171a7))
+* **recaptcha:** set a specific version `react-native-webview` ([#601](https://github.com/startupjs/startupjs/issues/601)) ([e7afe44](https://github.com/startupjs/startupjs/commit/e7afe44238367d718eb9a4f106f12ec314113a80))
+* **ui/Avatar:** add ability to specify size and remove extra sizes ([#590](https://github.com/startupjs/startupjs/issues/590)) ([fbcb977](https://github.com/startupjs/startupjs/commit/fbcb97705e2ae7caeacabf418d8fc90cff52bd7d))
+* **ui/Div:** make event bubbling consistent for web and mobile ([#608](https://github.com/startupjs/startupjs/issues/608)) ([52c2406](https://github.com/startupjs/startupjs/commit/52c240606ea200ebdf5150425016c3e3ad385dec))
+* **ui/Div:** remove redundant web only `onClick` property ([#593](https://github.com/startupjs/startupjs/issues/593)) ([a5d36cd](https://github.com/startupjs/startupjs/commit/a5d36cd890b28ad348f4088ea44262bda9da02ac))
+* **ui/PasswordInput:** remove `secureTextEntry` property ([#570](https://github.com/startupjs/startupjs/issues/570)) ([1597219](https://github.com/startupjs/startupjs/commit/15972193b4be6221ae1af837ff291b2d07be7a1e))
+
+
+### Features
+
+* **auth:** implement recaptcha for register and reset forms ([#596](https://github.com/startupjs/startupjs/issues/596)) ([ec54280](https://github.com/startupjs/startupjs/commit/ec54280e37dc8b24948386308575eafa7e6b427e))
+* **ui/Avatar:** Add support for custom status icons (components) ([e52af23](https://github.com/startupjs/startupjs/commit/e52af2356079b11747beaad26a1d0e9057574568))
+* **ui/Tag:** add `size` property ([#592](https://github.com/startupjs/startupjs/issues/592)) ([ccd4f4a](https://github.com/startupjs/startupjs/commit/ccd4f4abd8e195c7005b220e2ae6c43809348456))
+
+
+### BREAKING CHANGES
+
+* **ui/Tag:**
+  * remove `iconPosition` property. For the icon on the left, use the `icon` property and `iconStyle` to style it, for the icon on the right, use the `secondaryIcon` and `secondaryIconStyle` properties, and all these properties to use two icons
+  * no more support loading indicator for async action
+  * the default component size has become larger
+  * add `size` property
+* **auth:** Remove `AuthModal` component. Instead use `Modal` + `AuthForm`.
+* **ui/PasswordInput:** The property `secureTextEntry` was removed because it is redundant.
+* **Button:** the `variant` property no longer supported `shadowed` value
+
+
+
+## [0.33.8](https://github.com/startupjs/startupjs/compare/v0.33.7...v0.33.8) (2021-04-06)
+
+
+### Bug Fixes
+
+* **TextInput:** fix `numberOfLines` property reactivity ([#599](https://github.com/startupjs/startupjs/issues/599)) ([c4090c4](https://github.com/startupjs/startupjs/commit/c4090c47803b5ba8d89436d4d8b1d5bd124bcc2d))
+
+
+
+## [0.33.7](https://github.com/startupjs/startupjs/compare/v0.33.6...v0.33.7) (2021-04-02)
+
+
+### Bug Fixes
+
+* **auth:** check if private file exists ([#586](https://github.com/startupjs/startupjs/issues/586)) ([24a3d2a](https://github.com/startupjs/startupjs/commit/24a3d2af5314b419fcbccb9ede7a27753ffc7030))
+* **auth:** remove private config and private keys ([#585](https://github.com/startupjs/startupjs/issues/585)) ([d785dba](https://github.com/startupjs/startupjs/commit/d785dbab509987dedd06285eecbd6575f3bb05cd))
+* **DateTimePicker:** fix iOS drawer buttons and height ([#583](https://github.com/startupjs/startupjs/issues/583)) ([ef93c4e](https://github.com/startupjs/startupjs/commit/ef93c4e2d9b2c9f6780ab47868bd67b4947b37bd))
+* **docs/Sandbox:** skip private props ([#580](https://github.com/startupjs/startupjs/issues/580)) ([db0dca3](https://github.com/startupjs/startupjs/commit/db0dca3cdd94eee76ddd9c5e2faabb5b19d3f6f5))
+* **mdx:** fix header anchor jumps on hover ([#581](https://github.com/startupjs/startupjs/issues/581)) ([b70e483](https://github.com/startupjs/startupjs/commit/b70e483a56c55485ff11402e86e52b8f623881f9))
+* **recaptcha:** fix error when adding two invisible captchas ([#595](https://github.com/startupjs/startupjs/issues/595)) ([e06d71c](https://github.com/startupjs/startupjs/commit/e06d71c6fa6d0ea3cafd95c79b58c34d543a7c63))
+* **ui/Span:** remove redundant description prop ([#582](https://github.com/startupjs/startupjs/issues/582)) ([ea368d3](https://github.com/startupjs/startupjs/commit/ea368d33ddaffd45c253a66a483039e5ee1725f6))
+
+
+### Features
+
+* add `@startupjs/recaptcha` package ([#579](https://github.com/startupjs/startupjs/issues/579)) ([eb35f60](https://github.com/startupjs/startupjs/commit/eb35f60dbb22be713e7fac67f5b6734be6b99cdc))
+* **sharedb-access:** implementation for factory ([#578](https://github.com/startupjs/startupjs/issues/578)) ([ef88f3b](https://github.com/startupjs/startupjs/commit/ef88f3bdd803e55935d9651198ef7c8cb4a5206c))
+
+
+
+## [0.33.6](https://github.com/startupjs/startupjs/compare/v0.33.5...v0.33.6) (2021-03-25)
+
+
+### Bug Fixes
+
+* **app:** don't restore url if it is current url ([#577](https://github.com/startupjs/startupjs/issues/577)) ([98a45b7](https://github.com/startupjs/startupjs/commit/98a45b70f6b2e6f9c4fd6aab681eec0b508c031a))
+
+
+
+## [0.33.5](https://github.com/startupjs/startupjs/compare/v0.33.4...v0.33.5) (2021-03-24)
+
+
+### Bug Fixes
+
+* **auth:** add `renderForm` for AuthModal and fix `auth-google` migration guide ([#576](https://github.com/startupjs/startupjs/issues/576)) ([50b9d3d](https://github.com/startupjs/startupjs/commit/50b9d3df878bd522fae3c5cae0992337de8a1e9d))
+
+
+### Features
+
+* **auth:** Add testIds to Login form ([b1ee31d](https://github.com/startupjs/startupjs/commit/b1ee31d5674a4bba251c950e68472396e202a08a))
+
+
+
+## [0.33.4](https://github.com/startupjs/startupjs/compare/v0.33.3...v0.33.4) (2021-03-23)
+
+
+### Features
+
+* **2fa:** add 2fa package ([#569](https://github.com/startupjs/startupjs/issues/569)) ([5e091c5](https://github.com/startupjs/startupjs/commit/5e091c5bc31aafc93e610cbbd6d3d117e23334d6))
+* **2fa:** add error handler on serverside and add docs ([#575](https://github.com/startupjs/startupjs/issues/575)) ([ac3993b](https://github.com/startupjs/startupjs/commit/ac3993bba8b58a781b3904e0498d29dfbca6d36e))
+* **ui/Input:** add ability to display an error ([#568](https://github.com/startupjs/startupjs/issues/568)) ([e042c24](https://github.com/startupjs/startupjs/commit/e042c2467baa45e25d6fc549f485f13f7e51242d))
+
+
+
+## [0.33.3](https://github.com/startupjs/startupjs/compare/v0.33.2...v0.33.3) (2021-03-18)
+
+
+### Bug Fixes
+
+* **auth:** Add req to onAfterPasswordReset ([ead38c7](https://github.com/startupjs/startupjs/commit/ead38c7f26e8f78fee3dba7bedff9cbf07ece3b9))
+
+
+
+## [0.33.2](https://github.com/startupjs/startupjs/compare/v0.33.1...v0.33.2) (2021-03-18)
+
+
+### Bug Fixes
+
+* **auth:** Return some callbacks to forms ([d254e09](https://github.com/startupjs/startupjs/commit/d254e0933e4eb046c1310d5bdde003d32504b37d))
+
+
+
+## [0.33.1](https://github.com/startupjs/startupjs/compare/v0.33.0...v0.33.1) (2021-03-17)
+
+
+### Bug Fixes
+
+* remove alpha version of startupjs from peer deps ([2901631](https://github.com/startupjs/startupjs/commit/290163197798dbd428b9f434e20606f08cb63277))
+* replace route for filter redirect  ([#567](https://github.com/startupjs/startupjs/issues/567)) ([836cb96](https://github.com/startupjs/startupjs/commit/836cb96caf1a0a593e8b6af4f4b63285cdeae7cd))
+
+
+
+# [0.33.0](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.4...v0.33.0) (2021-03-14)
+
+
+### Bug Fixes
+
+* **auth:** supplement new api ([#553](https://github.com/startupjs/startupjs/issues/553)) ([05d4d64](https://github.com/startupjs/startupjs/commit/05d4d6417bf1cc98e795c71bb3cada25730752e6))
+* **plugins:** fix rendering on ios because of slot memoization ([#556](https://github.com/startupjs/startupjs/issues/556)) ([8f87f7e](https://github.com/startupjs/startupjs/commit/8f87f7e5dbbc1dce4c5ea7efcab60f487375f28b))
+* **styleguide:** add yarn start script ([#554](https://github.com/startupjs/startupjs/issues/554)) ([88d1df1](https://github.com/startupjs/startupjs/commit/88d1df12813cac090182bfec64feec4f1c9aef84))
+* **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
+
+
+### Features
+
+* **app:** add ability to restart app ([#543](https://github.com/startupjs/startupjs/issues/543)) ([947251f](https://github.com/startupjs/startupjs/commit/947251ff39aa236477cb538225f69ee0d718b3c8))
+* **app:** add ability to restore url after reload app ([#539](https://github.com/startupjs/startupjs/issues/539)) ([a508bbd](https://github.com/startupjs/startupjs/commit/a508bbd79c5e61fbf319c61049a938a63c79c896))
+* **app:** use 'LayoutWrapper' plugin to decorate app Layout ([#545](https://github.com/startupjs/startupjs/issues/545)) ([6558efc](https://github.com/startupjs/startupjs/commit/6558efc2d87fb58b3a15615ae40fd8da26bb9df8))
+* **auth:** add ability to customize forms ([#525](https://github.com/startupjs/startupjs/issues/525)) ([0bacc86](https://github.com/startupjs/startupjs/commit/0bacc8695cef7ca059cba3ba244bc302316a8bad))
+* **plugin:** add frontend api ([#535](https://github.com/startupjs/startupjs/issues/535)) ([b73f7f2](https://github.com/startupjs/startupjs/commit/b73f7f2a8ffa032640f5bad2bcd3b200a94e48ea))
+* **app/error:** add message to custom error ([#562](https://github.com/startupjs/startupjs/issues/562)) ([6b97466](https://github.com/startupjs/startupjs/commit/6b974668a7982a7ae3c18ce09632515d6b1873d7))
+* **auth:** Pass req to some hooks ([d4d2ca5](https://github.com/startupjs/startupjs/commit/d4d2ca505cfc731be7bfbe02331cd31b56c493f0))
+* **e2e:** compare sreenshots ([#559](https://github.com/startupjs/startupjs/issues/559)) ([7c6e05d](https://github.com/startupjs/startupjs/commit/7c6e05d1e199fe95dfa0030c1e04cc3113601e1a))
+* **sharedb-schema:** implement schema for factory ORM ([#560](https://github.com/startupjs/startupjs/issues/560)) ([0479b2f](https://github.com/startupjs/startupjs/commit/0479b2f35558ebab58dc4039aa1f05ad568213f1))
+* update `racer` to `1.0.0` version
+
+
+### BREAKING CHANGES
+
+* [See 0.33 migration guide](/docs/migration-guides/0.33.md)
+
+
+
+# [0.33.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.32.11...v0.33.0-alpha.4) (2021-03-12)
+
+
+### Bug Fixes
+
+* **auth:** supplement new api ([#553](https://github.com/startupjs/startupjs/issues/553)) ([05d4d64](https://github.com/startupjs/startupjs/commit/05d4d6417bf1cc98e795c71bb3cada25730752e6))
+* **plugins:** fix rendering on ios because of slot memoization ([#556](https://github.com/startupjs/startupjs/issues/556)) ([8f87f7e](https://github.com/startupjs/startupjs/commit/8f87f7e5dbbc1dce4c5ea7efcab60f487375f28b))
+* **styleguide:** add yarn start script ([#554](https://github.com/startupjs/startupjs/issues/554)) ([88d1df1](https://github.com/startupjs/startupjs/commit/88d1df12813cac090182bfec64feec4f1c9aef84))
+
+
+### Features
+
+* **app/error:** add message to custom error ([#562](https://github.com/startupjs/startupjs/issues/562)) ([6b97466](https://github.com/startupjs/startupjs/commit/6b974668a7982a7ae3c18ce09632515d6b1873d7))
+* **auth:** Pass req to some hooks ([d4d2ca5](https://github.com/startupjs/startupjs/commit/d4d2ca505cfc731be7bfbe02331cd31b56c493f0))
+* **e2e:** compare sreenshots ([#559](https://github.com/startupjs/startupjs/issues/559)) ([7c6e05d](https://github.com/startupjs/startupjs/commit/7c6e05d1e199fe95dfa0030c1e04cc3113601e1a))
+* **sharedb-schema:** implement schema for factory ORM ([#560](https://github.com/startupjs/startupjs/issues/560)) ([0479b2f](https://github.com/startupjs/startupjs/commit/0479b2f35558ebab58dc4039aa1f05ad568213f1))
+
+
+
+# [0.33.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.2...v0.33.0-alpha.3) (2021-03-09)
+
+### Bug Fixes
+
+* update peer deps of react and fix peer deps for ui template ([7bc03cc](https://github.com/startupjs/startupjs/commit/7bc03ccfd43ecfdcaed97703687f0b82e87ecac0))
+
+
+# [0.33.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.1...v0.33.0-alpha.2) (2021-03-09)
+
+### Bug Fixes
+
+* update peer deps, fix react-native-tab-view dep for cli package ([b867bc7](https://github.com/startupjs/startupjs/commit/b867bc74157fa335678f7307cb0f16f4381a76ba))
+
+
+# [0.33.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.33.0-alpha.0...v0.33.0-alpha.1) (2021-03-09)
+
+
+### Bug Fixes
+
+* fix broken compilation process ([263caa5](https://github.com/startupjs/startupjs/commit/263caa5d1cda63f136ec48b530493f8bfd950f08))
+
+
+
+# [0.33.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.33.0-alpha.0) (2021-03-09)
+
+
+### Bug Fixes
+
+
+* **cli/link:** fix getting app name for android ([#546](https://github.com/startupjs/startupjs/issues/546)) ([c77e843](https://github.com/startupjs/startupjs/commit/c77e84359a04b5b8351d3263233d8d900e9afd78))
+* **Div:** prevent event bubbling when disabled ([#544](https://github.com/startupjs/startupjs/issues/544)) ([d705c13](https://github.com/startupjs/startupjs/commit/d705c1312a76e1f36fd0c744e76d7c11be9d16a3))
+
+
+### Features
+
+* **app:** add ability to restart app ([#543](https://github.com/startupjs/startupjs/issues/543)) ([947251f](https://github.com/startupjs/startupjs/commit/947251ff39aa236477cb538225f69ee0d718b3c8))
+* **app:** add ability to restore url after reload app ([#539](https://github.com/startupjs/startupjs/issues/539)) ([a508bbd](https://github.com/startupjs/startupjs/commit/a508bbd79c5e61fbf319c61049a938a63c79c896))
+* **app:** use 'LayoutWrapper' plugin to decorate app Layout ([#545](https://github.com/startupjs/startupjs/issues/545)) ([6558efc](https://github.com/startupjs/startupjs/commit/6558efc2d87fb58b3a15615ae40fd8da26bb9df8))
+* **auth:** add ability to customize forms ([#525](https://github.com/startupjs/startupjs/issues/525)) ([0bacc86](https://github.com/startupjs/startupjs/commit/0bacc8695cef7ca059cba3ba244bc302316a8bad))
+* **plugin:** add frontend api ([#535](https://github.com/startupjs/startupjs/issues/535)) ([b73f7f2](https://github.com/startupjs/startupjs/commit/b73f7f2a8ffa032640f5bad2bcd3b200a94e48ea))
+
+
+### BREAKING CHANGES
+
+* **app:** Remove version restriction of `react` and `react-native`.
+
+
+
+## [0.32.11](https://github.com/startupjs/startupjs/compare/v0.32.10...v0.32.11) (2021-03-10)
+
+
+### Bug Fixes
+
+* **cli/link:** fix getting app name for android ([12588ff](https://github.com/startupjs/startupjs/commit/12588ff8f553f56da28570f4d54d46528d5d22d5))
+
+
+
+## [0.32.10](https://github.com/startupjs/startupjs/compare/v0.32.9...v0.32.10) (2021-03-10)
+
+### Bug Fixes
+
+* **startupjs:** fix eslint in startupjs ui template ([#557](https://github.com/startupjs/startupjs/issues/557)) ([0926cfd](https://github.com/startupjs/startupjs/commit/0926cfdd4e4d530eb922425a22ed9bd788294e77))
+
+
+
+## [0.32.9](https://github.com/startupjs/startupjs/compare/v0.32.8...v0.32.9) (2021-02-26)
+
+
+### Bug Fixes
+
+* **Button:** dont display loading for immediately resloved promise ([#538](https://github.com/startupjs/startupjs/issues/538)) ([c78c660](https://github.com/startupjs/startupjs/commit/c78c6607d03091e057e368aa76be109302d00f84))
+* **mdx:** getTextChildren fn ([acbb4ac](https://github.com/startupjs/startupjs/commit/acbb4ac514e6bd982140dcb2f841d271fd1b39e1))
+* **ui/Button:** verify children ([#537](https://github.com/startupjs/startupjs/issues/537)) ([38215b4](https://github.com/startupjs/startupjs/commit/38215b4c15319a16ae6826e6ad28d39e3f0cf253))
+
+
+
+## [0.32.8](https://github.com/startupjs/startupjs/compare/v0.32.7...v0.32.8) (2021-02-24)
+
+
+### Features
+
+* **deploy:** Add support for deploying 'cron' microservice ([0d58ef4](https://github.com/startupjs/startupjs/commit/0d58ef427593fc07847509460bb75ed6ac03e029))
+* **mdx:** add component for image ([#510](https://github.com/startupjs/startupjs/issues/510)) ([345aa91](https://github.com/startupjs/startupjs/commit/345aa916a576801903dbf6fd5acbbb0887078f4b))
+* **server-aggregate:** forward error from model to router ([#534](https://github.com/startupjs/startupjs/issues/534)) ([90de1b7](https://github.com/startupjs/startupjs/commit/90de1b7cba2f13b30ce1de3b1ac7e86133039a97))
+
+
+
+## [0.32.7](https://github.com/startupjs/startupjs/compare/v0.32.6...v0.32.7) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Rm integer validation ([2e9511f](https://github.com/startupjs/startupjs/commit/2e9511f75bc4fbd9035dd7127c430f5c92209c8e))
+
+
+
+## [0.32.6](https://github.com/startupjs/startupjs/compare/v0.32.5...v0.32.6) (2021-02-22)
+
+
+### Bug Fixes
+
+* **scrollable:** Return accidentally removed changes ([a81968c](https://github.com/startupjs/startupjs/commit/a81968cf72e11929c5b7f6e2bbb50e2c116d6bd8))
+
+
+
+## [0.32.5](https://github.com/startupjs/startupjs/compare/v0.32.4...v0.32.5) (2021-02-22)
+
+
+### Bug Fixes
+
+* **App:** remove UI components ([#536](https://github.com/startupjs/startupjs/issues/536)) ([a329d44](https://github.com/startupjs/startupjs/commit/a329d44077b059f06b1a59c25224a1c1eb781909))
+* **auth:** Rm duplicated line ([49469eb](https://github.com/startupjs/startupjs/commit/49469ebb11c72f0888cda8c5fb71e54cad667726))
+* **mdx:** break-word for anchors ([457ced7](https://github.com/startupjs/startupjs/commit/457ced7b0d4fc26c00d7d972691ea2c89840f234))
+* **scrollable:** Crash on android ([b2f5ee6](https://github.com/startupjs/startupjs/commit/b2f5ee668ba4fcc1896cf0162edc71b2d21c76e8))
+
+
+### Features
+
+* **acrollable:** Add ability to pass scrollview props ([878113b](https://github.com/startupjs/startupjs/commit/878113b078de02497084eb26f28e2759e988539e))
+
+
+
+## [0.32.4](https://github.com/startupjs/startupjs/compare/v0.32.3...v0.32.4) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Crach on unregisterArea ([39e4f9b](https://github.com/startupjs/startupjs/commit/39e4f9bd5330bc02c4785f1a1e3cab7a99c90a36))
+
+
+
+## [0.32.3](https://github.com/startupjs/startupjs/compare/v0.32.2...v0.32.3) (2021-02-19)
+
+
+### Bug Fixes
+
+* **scrollable:** Scroll top without animation ([15d37fa](https://github.com/startupjs/startupjs/commit/15d37fa578eee2fc704a2880d33a4205b67b00f9))
+* **scrollable:** Typo ([d87ab9f](https://github.com/startupjs/startupjs/commit/d87ab9f28e111a6edab6f7a75342b5fd53199391))
+* **scrollable:** Update module deps ([194aa63](https://github.com/startupjs/startupjs/commit/194aa63677438447fff9063502368deef384b01c))
+
+
+### Features
+
+* **doc:** closing the sidebar after selecting a menu item ([#533](https://github.com/startupjs/startupjs/issues/533)) ([adbecfa](https://github.com/startupjs/startupjs/commit/adbecfa7677dadec24e49c2677217d7df883db6b))
+
+
+
+## [0.32.2](https://github.com/startupjs/startupjs/compare/v0.32.1...v0.32.2) (2021-02-18)
+
+
+### Bug Fixes
+
+* **scrollable:** Decode hash from URL ([fc4e249](https://github.com/startupjs/startupjs/commit/fc4e249a416a35a609f0db3b9a9b58c76260a75d))
+
+
+
+## [0.32.1](https://github.com/startupjs/startupjs/compare/v0.32.0...v0.32.1) (2021-02-18)
+
+
+### Bug Fixes
+
+* **mdx:** Improve inlineCode styles, add bigger margin before h2 ([701db87](https://github.com/startupjs/startupjs/commit/701db879f0aba45ddc167004f343b86ad6c60b64))
+* **plugin:** Use a replacement library instead of require.resolve() to have it working in ESM environments ([ea80fb3](https://github.com/startupjs/startupjs/commit/ea80fb3e967c7415892062f3ff3f8690bef9c2dc))
+* **ui/Popover:** multiple popover close bug ([#527](https://github.com/startupjs/startupjs/issues/527)) ([d9b8d23](https://github.com/startupjs/startupjs/commit/d9b8d2330dfc38ef36886712f7267655ad96d046))
+
+
+
+# [0.32.0](https://github.com/startupjs/startupjs/compare/v0.31.30...v0.32.0) (2021-02-17)
+
+
+### BREAKING CHANGES
+
+* [See 0.32 migration guide](/docs/migration-guides/0.32.md)
+
+
+### Features
+
+* **detox:** add package ([#522](https://github.com/startupjs/startupjs/issues/522)) ([13414c0](https://github.com/startupjs/startupjs/commit/13414c0ea2569728160986ca1946768c536e0a44))
+
+
+
+## [0.31.30](https://github.com/startupjs/startupjs/compare/v0.31.29...v0.31.30) (2021-02-12)
+
+
+### Bug Fixes
+
+* **cli:** commit react-native-gesture-handler version ([#517](https://github.com/startupjs/startupjs/issues/517)) ([46859bf](https://github.com/startupjs/startupjs/commit/46859bfa20e4adb68b1292c727cd8bdcfc73a349))
+* **ui/MenuItem:** fix flex growing ([#513](https://github.com/startupjs/startupjs/issues/513)) ([da4052b](https://github.com/startupjs/startupjs/commit/da4052b26b40a36c835d72a565877fd2751f7d38))
+
+
+
+## [0.31.29](https://github.com/startupjs/startupjs/compare/v0.31.28...v0.31.29) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** fix typo 'association' -> 'associations' ([3c999ea](https://github.com/startupjs/startupjs/commit/3c999ea05525dcad5406fc2e845f9c0b49b8466b))
+
+
+
+## [0.31.28](https://github.com/startupjs/startupjs/compare/v0.31.27...v0.31.28) (2021-02-10)
+
+
+### Bug Fixes
+
+* **orm/associations:** add default value ([976b7b2](https://github.com/startupjs/startupjs/commit/976b7b2abd23cb49fa6b95977ff6b243fe411bc6))
+
+
+
+## [0.31.27](https://github.com/startupjs/startupjs/compare/v0.31.26...v0.31.27) (2021-02-09)
+
+
+### Bug Fixes
+
+* **orm:** add fallback to get collection for factory ORM ([#509](https://github.com/startupjs/startupjs/issues/509)) ([cd8a85f](https://github.com/startupjs/startupjs/commit/cd8a85f95cd5dac89730b12bf4578aa49b984166))
+* **ui/Badge:** fix positioning on android ([#507](https://github.com/startupjs/startupjs/issues/507)) ([77c1ddf](https://github.com/startupjs/startupjs/commit/77c1ddf06471125539a546f518d1a3f72c7ad3e3))
+
+
+### Features
+
+* **app:** add ability to customize error page ([#473](https://github.com/startupjs/startupjs/issues/473)) ([a2e2d28](https://github.com/startupjs/startupjs/commit/a2e2d2840a655fe9957306be4f42588e99cc367a))
+* **auth-common:** add ([#501](https://github.com/startupjs/startupjs/issues/501)) ([b9d9abf](https://github.com/startupjs/startupjs/commit/b9d9abffc4ff87e49264b0630ee540e0af0ee6be))
+* **orm:** set associations in both directions (parent and child) ([#508](https://github.com/startupjs/startupjs/issues/508)) ([3d08205](https://github.com/startupjs/startupjs/commit/3d08205cdbc8dc71acdcd1204a824d2eec413cbf))
+
+
+
+## [0.31.26](https://github.com/startupjs/startupjs/compare/v0.31.19...v0.31.26) (2021-02-04)
+
+
+### Bug Fixes
+
+* **backend:** add counter of users connections to fix memory leaks ([#505](https://github.com/startupjs/startupjs/issues/505)) ([007c26d](https://github.com/startupjs/startupjs/commit/007c26d5175db04a4433a332bbf56ac365623f93))
+
+
+### Features
+
+* **auth-apple:** linking ([#504](https://github.com/startupjs/startupjs/issues/504)) ([8707d9b](https://github.com/startupjs/startupjs/commit/8707d9ba1176a4ef672b349dd28868884b7487cd))
+* **auth-idg:** add ([#503](https://github.com/startupjs/startupjs/issues/503)) ([efbfdb7](https://github.com/startupjs/startupjs/commit/efbfdb716c345d112b0b4939f6ccd4199acd7cf0))
+
+
+## [0.31.25](https://github.com/startupjs/startupjs/compare/v0.31.24...v0.31.25) (2021-02-02)
+
+
+### Performance Improvements
+
+* **backend:** update `sharedb-mongo` package to the same version with monorepo ([#502](https://github.com/startupjs/startupjs/issues/502)) ([d42dd4a](https://github.com/startupjs/startupjs/commit/d42dd4af53635292a15b368335391dcd0df3226c))
+
+
+
 ## [0.31.24](https://github.com/startupjs/startupjs/compare/v0.31.23...v0.31.24) (2021-01-31)
 
 

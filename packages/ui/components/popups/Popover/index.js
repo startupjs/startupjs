@@ -159,10 +159,15 @@ function Popover ({
     })
   }
 
+  function _closeStep () {
+    $step.set(STEPS.CLOSE)
+    onDismiss && onDismiss()
+    onRequestClose && onRequestClose()
+  }
+
   function runHide () {
     if (!refPopover.current) {
-      onDismiss && onDismiss()
-      onRequestClose && onRequestClose()
+      _closeStep()
     } else {
       getValidNode(refPopover.current).measure((x, y, popoverWidth, popoverHeight) => {
         const contentInfo = { width: popoverWidth, height: popoverHeight }
@@ -175,11 +180,7 @@ function Popover ({
           contentInfo,
           animateStates,
           hasArrow
-        }, () => {
-          $step.set(STEPS.CLOSE)
-          onDismiss && onDismiss()
-          onRequestClose && onRequestClose()
-        })
+        }, _closeStep)
       })
     }
   }
@@ -235,11 +236,6 @@ function Popover ({
   if (isStampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
   if (isStampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
 
-  if (step === STEPS.ANIMATE && animateType === 'default') {
-    delete _popoverStyle.minHeight
-    _popoverStyle.height = animateStates.height
-  }
-
   if (validPosition !== 'left') {
     _wrapperStyle.width = '100%'
     _wrapperStyle.maxWidth = Dimensions.get('window').width - (_wrapperStyle.left || 0)
@@ -249,10 +245,6 @@ function Popover ({
   }
   if (hasWidthCaption && captionInfo.current) {
     _popoverStyle.width = captionInfo.current.width
-  }
-  if (step === STEPS.ANIMATE) {
-    _popoverStyle.width = animateStates.width
-    _popoverStyle.height = animateStates.height
   }
 
   return pug`
@@ -295,13 +287,13 @@ ObservedPopover.defaultProps = {
   position: 'bottom',
   attachment: 'start',
   placements: PLACEMENTS_ORDER,
-  animateType: 'default',
+  animateType: 'opacity',
   hasWidthCaption: false,
   hasArrow: false,
   hasOverlay: true,
   hasDefaultWrapper: true,
-  durationOpen: 300,
-  durationClose: 200
+  durationOpen: 150,
+  durationClose: 100
 }
 
 ObservedPopover.propTypes = {
@@ -311,7 +303,7 @@ ObservedPopover.propTypes = {
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
   placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
-  animateType: PropTypes.oneOf(['default', 'slide', 'scale']),
+  animateType: PropTypes.oneOf(['opacity', 'scale']),
   hasWidthCaption: PropTypes.bool,
   hasArrow: PropTypes.bool,
   hasOverlay: PropTypes.bool,

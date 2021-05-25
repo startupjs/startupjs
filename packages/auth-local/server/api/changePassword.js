@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import { changePassword as _changePassword } from '../helpers'
 import Provider from '../Provider'
 
 export default function changePassword (req, res, done, config) {
@@ -32,7 +33,7 @@ export default function changePassword (req, res, done, config) {
       if (authData) {
         return done('User already exists')
       }
-      await provider.findOrCreateUser()
+      await provider.findOrCreateUser({ req })
     } else {
       // Else change password hash
       const oldHash = $auth.get('providers.local.hash')
@@ -42,8 +43,11 @@ export default function changePassword (req, res, done, config) {
         if (!match) return res.status(400).json({ message: 'Old password is not correct' })
       }
 
-      await $auth.setAsync('providers.local.hash', newHash)
-      await $auth.setAsync('providers.local.salt', newSalt)
+      try {
+        await _changePassword({ model, userId, password })
+      } catch (error) {
+        return res.status(400).json({ message: error.message })
+      }
     }
 
     const hookRes = onAfterPasswordChange({ userId }, req)

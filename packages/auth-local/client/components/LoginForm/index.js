@@ -1,182 +1,201 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useSession } from 'startupjs'
-import { finishAuth } from '@startupjs/auth'
-import { Div, Span, Br, Button } from '@startupjs/ui'
-import { FORM_REGEXPS } from '@startupjs/auth-local/isomorphic'
-import { SIGN_UP_SLIDE, SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
+import { observer, useValue, useSession, useError } from 'startupjs'
+import {
+  Row,
+  Div,
+  Span,
+  Button,
+  ObjectInput,
+  ErrorWrapper
+} from '@startupjs/ui'
+import {
+  SIGN_UP_SLIDE,
+  SIGN_IN_SLIDE,
+  RECOVER_PASSWORD_SLIDE
+} from '@startupjs/auth/isomorphic'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
+import { BASE_URL } from '@env'
+import moment from 'moment'
+import _get from 'lodash/get'
+import _mergeWith from 'lodash/mergeWith'
+import _pickBy from 'lodash/pickBy'
+import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import TextInput from '../TextInput'
+import commonSchema from './utils/joi'
 import './index.styl'
 
-const isWeb = Platform.OS === 'web'
+const IS_WEB = Platform.OS === 'web'
+
+const LOGIN_DEFAULT_INPUTS = {
+  email: {
+    input: 'text',
+    label: 'Email',
+    placeholder: 'Enter your email',
+    testID: 'auth-email-input',
+    autoCapitalize: 'none'
+  },
+  password: {
+    input: 'password',
+    label: 'Password',
+    placeholder: 'Enter your password',
+    testID: 'auth-password-input',
+    autoCapitalize: 'none'
+  }
+}
 
 function LoginForm ({
-  config,
-  redirectUrl,
   baseUrl,
+  redirectUrl,
+  properties,
+  validateSchema,
+  renderActions,
   onSuccess,
   onError,
   onHandleError,
-  onChangeAuthPage
+  onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
 
   const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
+  const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
 
-  const [formErrors, setFormErrors] = useState({})
-  const [form, $form] = useValue({
-    email: null,
-    password: null
-  })
+  const [form, $form] = useValue(initForm(properties))
+  const [errors, setErrors] = useError({})
 
-  const onFormChange = field => value => {
-    $form.set(field, value)
-  }
-
-  // TODO: ref validation | use hapi?
-  const validateFields = () => {
-    setFormErrors({})
-
-    const fields = Object.keys(form)
-    const errors = {}
-    let isFormValid = true
-
-    fields.forEach(fieldName => {
-      const rules = FORM_REGEXPS[fieldName]
-      let error
-
-      if (rules && !rules.re.test(form[fieldName])) {
-        error = rules.error
-      }
-
-      if (error) {
-        isFormValid = false
-      }
-
-      errors[fieldName] = error
-    })
-
-    setFormErrors(errors)
-
-    return isFormValid
-  }
-
-  const submit = async () => {
-    if (!validateFields()) {
-      return
+  useEffect(() => {
+    if (IS_WEB) {
+      window.addEventListener('keypress', onKeyPress)
     }
 
+    return () => {
+      if (IS_WEB) {
+        window.removeEventListener('keypress', onKeyPress)
+      }
+    }
+  }, [])
+
+  // TODO: next input
+  function onKeyPress (e) {
+    if (e.key === 'Enter') onSubmit()
+  }
+
+  const onSubmit = async () => {
+    setErrors({})
+
+    let fullSchema = commonSchema
+    if (validateSchema) {
+      fullSchema = fullSchema.keys(validateSchema)
+    }
+
+    if (errors.check(fullSchema, form)) return
+
     try {
+      if (redirectUrl) {
+        await CookieManager.set({
+          baseUrl,
+          name: 'authRedirectUrl',
+          value: redirectUrl,
+          expires: moment().add(expiresRedirectUrl, 'milliseconds')
+        })
+      }
+
       const res = await authHelper.login(form)
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth(redirectUrl)
+        onSuccess
+          ? onSuccess(res.data, SIGN_IN_SLIDE)
+          : clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
       }
     } catch (error) {
       if (onHandleError) {
-        onHandleError({ form, setFormErrors }, error)
+        onHandleError({ form, setErrors }, error)
       } else {
         onError && onError(error)
+
         if (error.response && error.response.status === 403) {
-          const msg = 'The email or password you entered is incorrect'
-          setFormErrors({ authError: msg })
+          setErrors({ server: 'The email or password you entered is incorrect' })
         } else {
-          setFormErrors({ authError: (error.response && error.response.data.message) || error.message })
+          setErrors({ server: _get(error, 'response.data.message', error.message) })
         }
       }
     }
   }
 
-  function onKeyPress (e) {
-    if (e.key === 'Enter') submit()
-  }
-
-  function listenKeypress () {
-    window.addEventListener('keypress', onKeyPress)
-  }
-
-  function unlistenKeypress () {
-    window.removeEventListener('keypress', onKeyPress)
-  }
-
-  useEffect(() => {
-    if (config && config.formState) $form.setEach({...config.formState})
-    if (isWeb) {
-      listenKeypress()
-    }
-    return () => {
-      if (isWeb) {
-        unlistenKeypress()
-      }
-    }
-  }, [])
-
-  function onRegister () {
-    onChangeAuthPage(SIGN_UP_SLIDE)
-  }
-
-  function onRecover () {
-    onChangeAuthPage(RECOVER_PASSWORD_SLIDE)
-  }
+  const _properties = _pickBy(
+    _mergeWith(
+      { ...LOGIN_DEFAULT_INPUTS },
+      properties,
+      (a, b) => (b === null) ? null : undefined
+    ),
+    _identity
+  )
 
   return pug`
-    Div.root
-      TextInput(
-        onChangeText=onFormChange('email')
-        error=formErrors.email
-        label='Email'
-        name='email'
-        placeholder='Enter your email'
-        value=form.email || ''
-      )
-      Br
-      TextInput(
-        onChangeText=onFormChange('password')
-        error=formErrors.password
-        label='Password'
-        name='password'
-        placeholder='Enter your password'
-        secureTextEntry
-        value=form.password || ''
-      )
-      if formErrors.authError
-        Br
-        Span.authError
-          = formErrors.authError
-      Br(lines=2)
-      Button(
-        size='l'
-        onPress=submit
-        color='primary'
-        variant='flat'
-      ) Log in
-      Br
-      Button(
-        onPress=onRecover
-        color='primary'
-        variant='text'
-      ) Forgot your password?
-      if localSignUpEnabled
-        Br(half)
-        Div.line
-          Span.text Don't have an account?
-          Button.signUp(
-            onPress=onRegister
-            color='primary'
-            variant='text'
-          ) Sign up
+    ObjectInput(
+      value=form
+      $value=$form
+      errors=errors
+      properties=_properties
+    )
+
+    ErrorWrapper(err=errors.server)
+
+    if renderActions
+      = renderActions({ onSubmit, onChangeSlide })
+    else
+      Div.actions
+        Button(
+          size='l'
+          onPress=onSubmit
+          color='primary'
+          variant='flat'
+          testID='auth-login-button'
+        ) Log in
+        Button.recover(
+          onPress=()=> onChangeSlide(RECOVER_PASSWORD_SLIDE)
+          color='primary'
+          variant='text'
+          testID='auth-forgot-pass-slide-button'
+        ) Forgot your password?
+
+        if localSignUpEnabled
+          Row.actionChoice
+            Span.actionText Don't have an account?
+            Button.signUp(
+              onPress=()=> onChangeSlide(SIGN_UP_SLIDE)
+              color='primary'
+              variant='text'
+              testID='auth-sign-up-slide-button'
+            ) Sign up
   `
 }
 
+function initForm (properties) {
+  const initData = {}
+  properties && Object.keys(properties).forEach(key => {
+    if (properties[key]?.initValue) {
+      initData[key] = properties[key].initValue
+    }
+  })
+  return initData
+}
+
+LoginForm.defaultProps = {
+  baseUrl: BASE_URL
+}
+
 LoginForm.propTypes = {
+  baseUrl: PropTypes.string,
   redirectUrl: PropTypes.string,
+  properties: PropTypes.object,
+  validateSchema: PropTypes.object,
+  renderActions: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onHandleError: PropTypes.func,
-  onChangeAuthPage: PropTypes.func.isRequired,
-  baseUrl: PropTypes.string
+  onChangeSlide: PropTypes.func
 }
 
 export default observer(LoginForm)

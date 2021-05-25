@@ -1,12 +1,34 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
-import { faSortNumericUpAlt, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
-import AuthMain from '../../packages/auth/readme.md'
-import AuthLocal from '../../packages/auth-local/readme.md'
-import AuthFacebook from '../../packages/auth-facebook/readme.md'
-import AuthGoogle from '../../packages/auth-google/readme.md'
-import AuthLinkedin from '../../packages/auth-linkedin/readme.md'
-import AuthAzuread from '../../packages/auth-azuread/readme.md'
+import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx'
+import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
+import TOTPProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
+import TOTPProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
+import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
+import AuthMainEn from '../../packages/auth/docs/readme.en.md'
+import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
+import AuthAppleEn from '../../packages/auth-apple/docs/readme.en.md'
+import AuthAzureadRu from '../../packages/auth-azuread/docs/readme.ru.md'
+import AuthAzureadEn from '../../packages/auth-azuread/docs/readme.en.md'
+import AuthCommonRu from '../../packages/auth-common/docs/readme.ru.md'
+import AuthCommonEn from '../../packages/auth-common/docs/readme.en.md'
+import AuthFacebookRu from '../../packages/auth-facebook/docs/readme.ru.md'
+import AuthFacebookEn from '../../packages/auth-facebook/docs/readme.en.md'
+import AuthGoogleRu from '../../packages/auth-google/docs/readme.ru.md'
+import AuthGoogleEn from '../../packages/auth-google/docs/readme.en.md'
+import AuthLinkedinRu from '../../packages/auth-linkedin/docs/readme.ru.md'
+import AuthLinkedinEn from '../../packages/auth-linkedin/docs/readme.en.md'
+import AuthLocalRu from '../../packages/auth-local/docs/readme.ru.md'
+import AuthLocalEn from '../../packages/auth-local/docs/readme.en.md'
+import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
+import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
+import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
+import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
+import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import TwoFAManagerEn from '../../packages/2fa-manager/docs/2fa-manager.en.mdx'
+import TwoFAManagerRu from '../../packages/2fa-manager/docs/2fa-manager.ru.mdx'
 import * as guides from '../../docs/migration-guides'
 
 function generateGuideItems () {
@@ -36,33 +58,152 @@ export default docs({
     items: {
       main: {
         type: 'mdx',
-        title: 'Главный модуль',
-        component: AuthMain
+        title: {
+          en: 'Main module',
+          ru: 'Главный модуль'
+        },
+        component: {
+          en: AuthMainEn,
+          ru: AuthMainRu
+        }
       },
-      local: {
+      apple: {
         type: 'mdx',
-        title: 'Локальная',
-        component: AuthLocal
-      },
-      facebook: {
-        type: 'mdx',
-        title: 'Facebook',
-        component: AuthFacebook
-      },
-      google: {
-        type: 'mdx',
-        title: 'Google',
-        component: AuthGoogle
-      },
-      linkedin: {
-        type: 'mdx',
-        title: 'Linkedin',
-        component: AuthLinkedin
+        title: 'Apple',
+        component: {
+          en: AuthAppleEn,
+          ru: AuthAppleRu
+        }
       },
       azuread: {
         type: 'mdx',
         title: 'Azure AD',
-        component: AuthAzuread
+        component: {
+          en: AuthAzureadEn,
+          ru: AuthAzureadRu
+        }
+      },
+      common: {
+        type: 'mdx',
+        title: {
+          en: 'Common',
+          ru: 'Общая'
+        },
+        component: {
+          en: AuthCommonEn,
+          ru: AuthCommonRu
+        }
+      },
+      facebook: {
+        type: 'mdx',
+        title: 'Facebook',
+        component: {
+          en: AuthFacebookEn,
+          ru: AuthFacebookRu
+        }
+      },
+      google: {
+        type: 'mdx',
+        title: 'Google',
+        component: {
+          en: AuthGoogleEn,
+          ru: AuthGoogleRu
+        }
+      },
+      linkedin: {
+        type: 'mdx',
+        title: 'Linkedin',
+        component: {
+          en: AuthLinkedinEn,
+          ru: AuthLinkedinRu
+        }
+      },
+      local: {
+        type: 'mdx',
+        title: 'Локальная',
+        component: {
+          en: AuthLocalEn,
+          ru: AuthLocalRu
+        }
+      }
+    }
+  },
+  libraries: {
+    type: 'collapse',
+    title: {
+      en: 'Libraries',
+      ru: 'Библиотеки'
+    },
+    icon: faLayerGroup,
+    items: {
+      anchors: {
+        type: 'mdx',
+        title: {
+          en: 'Scrollable anchors',
+          ru: 'Якоря с прокрутой'
+        },
+        component: {
+          en: ScrollableAnchorsEn,
+          ru: ScrollableAnchorsRu
+        }
+      },
+      '2fa': {
+        type: 'collapse',
+        title: {
+          en: '2fa',
+          ru: '2fa'
+        },
+        items: {
+          TwoFAManager: {
+            type: 'mdx',
+            title: {
+              en: 'Manager',
+              ru: 'Менеджер'
+            },
+            component: {
+              en: TwoFAManagerEn,
+              ru: TwoFAManagerRu
+            }
+          },
+          '2fa-totp-authentication': {
+            type: 'mdx',
+            title: 'Totp authentication',
+            component: {
+              en: TwoFAGAEn,
+              ru: TwoFAGARu
+            }
+          },
+          GAProvider: {
+            type: 'mdx',
+            title: 'Totp authentication Provider',
+            component: {
+              en: TOTPProviderEn,
+              ru: TOTPProviderRu
+            }
+          }
+        }
+      },
+      plugins: {
+        type: 'mdx',
+        title: {
+          en: 'Plugins',
+          ru: 'Плагины'
+        },
+        component: {
+          en: PluginEn,
+          ru: PluginRu
+        }
+      },
+      recaptcha: {
+        type: 'mdx',
+        title: {
+          en: 'reCaptcha',
+          ru: 'Капча'
+        },
+        component: {
+          en: RecaptchaEn,
+          ru: RecaptchaRu
+        }
       }
     }
   },

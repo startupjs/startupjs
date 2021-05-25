@@ -18,7 +18,7 @@ import { Popover } from '@startupjs/ui'
 
 Перед использованием нужно настроить [Portal](/docs/components/Portal)
 
-## Пример
+## Простой пример
 - visible: boolean проп, указывающий отображать всплывающую часть или нет
 - onDismiss: проп колбек функция, вызывается при нажатии на "пустое место"
 - Popover.Caption - подкомпонент, содержимое которого - то к чему будет привязан Popover. Должен стоять всегда первым
@@ -242,13 +242,13 @@ return (
 
 ## Анимации
 animateType - проп отвечающий за тип анимации
-Есть три типа анимации при открытии: default, slide, scale
+Есть три типа анимации при открытии: opacity, scale
 ```jsx example
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
 const [visible, setVisible] = useState('')
 
-const animations = ['Default', 'Scale', 'Slide']
+const animations = ['Opacity', 'Scale']
 
 return (
   <Row>

@@ -2,12 +2,14 @@ import React, { useMemo, Suspense } from 'react'
 import { Platform } from 'react-native'
 import { generatePath } from 'react-router-native'
 import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
+import { PluginsProvider } from '@startupjs/plugin'
 import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
-import { Blocked, UpdateApp, AccessDeny } from './components'
+import { Blocked, UpdateApp } from './components'
 import { useMediaUpdate, useNeedUpdate } from './helpers'
 import Router from './Router'
+import { name as packageName } from '../package.json'
 
 const routesGlobal = []
 
@@ -42,6 +44,7 @@ export function pathFor (name, options) {
 
 const App = observer(function AppComponent ({
   apps,
+  plugins,
   criticalVersion,
   useGlobalInit,
   androidUpdateLink,
@@ -69,8 +72,6 @@ const App = observer(function AppComponent ({
 
   if (!isGlobalInitSuccessful) return null
 
-  const [accessError] = useSession('_accessError')
-
   const roots = {}
   const routes = []
 
@@ -91,13 +92,15 @@ const App = observer(function AppComponent ({
     if user && user.blocked
       Blocked
     else
-      if accessError
-        AccessDeny
-      else
-        Suspense(fallback=null)
+      Suspense(fallback=null)
+        PluginsProvider(
+          name=packageName
+          plugins=plugins
+        )
           Router(
             apps=roots
             routes=routes
+            supportEmail=supportEmail
             ...props
           )
   `

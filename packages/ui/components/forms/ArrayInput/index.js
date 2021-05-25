@@ -7,20 +7,18 @@ import Div from '../../Div'
 import Card from '../../Card'
 import Button from '../../Button'
 import Span from '../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
-export default observer(function ObjectInput ({
+function ArrayInput ({
   style,
   inputStyle,
   $value,
-  value,
   label,
   items
 }) {
-  if (!$value) {
-    console.error('[ui -> Array] $value is required')
-    return null
-  }
+  const value = $value.get()
+
   if (!items) {
     console.error('[ui -> Array] items is required')
     return null
@@ -88,4 +86,6 @@ export default observer(function ObjectInput ({
       onPress=() => $value.push(undefined)
     )
   `)
-})
+}
+
+export default observer(themed(ArrayInput))

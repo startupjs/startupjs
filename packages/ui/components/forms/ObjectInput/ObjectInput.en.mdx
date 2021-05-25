@@ -14,7 +14,7 @@ ObjectInput lets build dynamic forms using its declarative api.
 import { ObjectInput } from from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ObjectInput accepts an object in the `properties` property with a required `input` key to specify what type of input to display. Possible types are ([сheckbox](/docs/components/Checkbox), [text](/docs/components/TextInput) & [object](/docs/components/ObjectInput)). The `properties` object also inherit any of the props passed to the these components.
 
@@ -126,5 +126,34 @@ return (
       }}
     />
   </Content>
+)
+```
+
+## Displaying errors
+
+The `errors` property provides error texts for inputs as an object, the keys correspond to the `properties` keys, properties - the error text.
+
+```jsx example
+const [value, $value] = useValue({})
+
+return (
+  <ObjectInput
+    value={value}
+    $value={$value}
+    errors={{
+      firstName: value.firstName ? '' : 'First name value must be specified',
+      lastName: value.lastName ? '' : 'Last name value must be specified'
+    }}
+    properties={{
+      firstName: {
+        input: 'text',
+        label: 'First name'
+      },
+      lastName: {
+        input: 'text',
+        label: 'Last name'
+      }
+    }}
+  />
 )
 ```

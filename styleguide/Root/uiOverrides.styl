@@ -1,0 +1,14 @@
+// This in an example file to just demonstrate the ability to override
+// default styles of components.
+// Inspect Button component in browser to see the outline-color and see how it changes on hover and click.
+
+// In order to support the override, each @startupjs/ui component must be wrapped into a
+// `themed()` decorator, same as in Button/index.js
+
+.Button
+  +web()
+    outline-color rgba(255, 0, 0, 0)
+    &:part(hover)
+      outline-color rgba(0, 255, 0, 0)
+    &:part(active)
+      outline-color rgba(0, 0, 255, 0)

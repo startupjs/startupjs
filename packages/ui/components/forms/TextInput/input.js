@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -104,7 +105,7 @@ function Input ({
   }
 
   useDidUpdate(() => {
-    if (numberOfLines > currentNumberOfLines) {
+    if (numberOfLines !== currentNumberOfLines) {
       setCurrentNumberOfLines(numberOfLines)
     }
   }, [numberOfLines])
@@ -202,10 +203,11 @@ function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
 
-const ObservedInput = observer(Input, { forwardRef: true })
+const ObservedInput = observer(themed('TextInput', Input), { forwardRef: true })
 
 ObservedInput.defaultProps = {
-  editable: true
+  editable: true,
+  numberOfLines: 1
 }
 
 ObservedInput.propTypes = {

@@ -5,16 +5,6 @@ const getConfig = require('startupjs/bundler/webpack.server.config.cjs')
 
 module.exports = getConfig(undefined, {
   modulesDir: '../node_modules',
-  forceCompileModules: [
-    '@startupjs/auth/server',
-    '@startupjs/auth/isomorphic',
-    '@startupjs/auth-apple/server',
-    '@startupjs/auth-azuread/server',
-    '@startupjs/auth-facebook/server',
-    '@startupjs/auth-google/server',
-    '@startupjs/auth-linkedin/server',
-    '@startupjs/auth-local/server',
-    '@startupjs/ui/server'
-  ],
+  forceCompileModules: [],
   alias: {}
 })

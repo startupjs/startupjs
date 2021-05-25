@@ -1,5 +1,6 @@
 const ShareDbAccess = require('@startupjs/sharedb-access')
 const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
+const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const serverAggregate = require('@startupjs/server-aggregate')
 const conf = require('nconf')
@@ -12,13 +13,14 @@ const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
 
 global.__clients = {}
+const usersConnectionCounter = {}
 
 // Optional sharedb-ws-pubsub
 let wsbusPubSub = null
 try {
   require.resolve('sharedb-wsbus-pubsub')
   wsbusPubSub = require('sharedb-wsbus-pubsub')
-} catch (e) {}
+} catch (e) { }
 
 module.exports = async options => {
   // ------------------------------------------------------->     storeUse    <#
@@ -105,8 +107,14 @@ module.exports = async options => {
     // eslint-disable-next-line
     new ShareDbAccess(backend, { dontUseOldDocs: true })
     for (const path in global.STARTUP_JS_ORM) {
-      const { access } = global.STARTUP_JS_ORM[path].OrmEntity
-      if (access) {
+      const ormEntity = global.STARTUP_JS_ORM[path].OrmEntity
+
+      const { access } = ormEntity
+      const isFactory = !!ormEntity.factory
+
+      if (isFactory) {
+        rigisterOrmRulesFromFactory(backend, path, ormEntity)
+      } else if (access) {
         registerOrmRules(backend, path, access)
       }
     }
@@ -147,12 +155,15 @@ module.exports = async options => {
     for (const path in global.STARTUP_JS_ORM) {
       const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
 
-      if (properties) {
+      const isFactory = !!global.STARTUP_JS_ORM[path].OrmEntity.factory
+
+      if (isFactory) {
+        schemaPerCollection.schemas[path.replace('.*', '')] = global.STARTUP_JS_ORM[path].OrmEntity
+      } else if (properties) {
         const schema = { type: 'object', properties }
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
     }
-
     sharedbSchema(backend, schemaPerCollection)
   }
 
@@ -166,20 +177,25 @@ module.exports = async options => {
 
     let userId = req.session && req.session.userId
 
-    const model = backend.createModel()
-
     if (!global.__clients[userId]) {
-      global.__clients[userId] = {}
+      const model = backend.createModel()
+      global.__clients[userId] = { model }
     }
-    global.__clients[userId].model = model
+
+    usersConnectionCounter[userId] = ~~usersConnectionCounter[userId] + 1
 
     let userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {
       if (!options.silentLogs) console.log('[WS CLOSED]', userId)
-      model.close()
-      delete global.__clients[userId]
+
+      usersConnectionCounter[userId] -= 1
+
+      if (usersConnectionCounter[userId] <= 0) {
+        global.__clients[userId].model.close()
+        delete global.__clients[userId]
+      }
     })
   })
 

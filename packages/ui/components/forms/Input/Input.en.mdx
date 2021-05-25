@@ -14,44 +14,16 @@ Input provides a wrapper api around [Checkbox](/docs/forms/Checkbox), [TextInput
 import { Input } from from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 const [, $textValue] = useValue()
-const [, $checkboxValue] = useValue()
-const [, $objectValue] = useValue()
+
 return (
-  <Div>
-    <Input
-      type='text'
-      label='Text input'
-      $value={$textValue}
-    />
-    <Br />
-    <Input
-      type='checkbox'
-      label='Checkbox component'
-      $value={$checkboxValue}
-    />
-    <Br />
-    <Input
-      type='object'
-      $value={$objectValue}
-      properties={{
-        checkbox: {
-          input: 'checkbox',
-          label: 'Click to display next input'
-        },
-        dependent: {
-          dependsOn: 'checkbox',
-          dependsValue: true,
-          input: 'text',
-          label: 'Dependent on checkbox',
-          style: { marginTop: u(1) }
-        }
-      }}
-    />
-  </Div>
+  <Input
+    type='text'
+    $value={$textValue}
+  />
 )
 ```
 
@@ -122,6 +94,21 @@ return (
       VALUE: {JSON.stringify(value, null, 2)}
     </Span>
   </React.Fragment>
+)
+```
+
+## Displaying errors
+
+The `error` property provides the error text for the input.
+
+```jsx example
+const [value, $value] = useValue()
+
+return (
+  <Input
+    $value={$value}
+    error={value ? '' : 'Need to provide value'}
+  />
 )
 ```
 

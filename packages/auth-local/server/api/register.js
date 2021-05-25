@@ -1,3 +1,4 @@
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
 import bcrypt from 'bcrypt'
 import Provider from '../Provider'
 
@@ -23,13 +24,20 @@ async function register (req, config, done) {
   const { model } = req
   const email = req.body.email.toLowerCase()
   const password = req.body.password
+  const recaptchaEnabled = model.get('_session.auth.recaptchaEnabled')
+
+  if (recaptchaEnabled) {
+    const checkTokenResponse = await checkRecaptcha(req.body.recaptcha)
+    if (!checkTokenResponse) return done('Recaptcha token is invalid')
+  }
+  delete req.body.recaptcha
 
   // You can pass custom values to new user with help of userData parameter
   // For example we can pass userId from session
-  const userData = req.body.userData || {}
+  const profile = req.body || {}
 
   try {
-    const profile = { email: email.toLowerCase(), ...userData }
+    profile.email = email.toLowerCase()
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
     profile.hash = hash
@@ -41,7 +49,7 @@ async function register (req, config, done) {
       return done('User already exists')
     }
 
-    const userId = await provider.findOrCreateUser()
+    const userId = await provider.findOrCreateUser({ req })
 
     done(null, userId)
   } catch (err) {

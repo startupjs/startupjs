@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const util = require('./util')
+const ShareDBAccessError = require('./error')
 const debug = require('debug')('access')
 
 const operations = [
@@ -34,6 +35,32 @@ function registerOrmRules (backend, pattern, access) {
         return fn(model, collection, ...params)
       })
     }
+  })
+}
+
+function rigisterOrmRulesFromFactory (backend, pattern, factory) {
+  operations.map(op => {
+    // the user can write the first letter of the rules in any case
+    const collection = pattern.replace(/\.\*$/u, '')
+    backend['allow' + op](collection, async (...params) => {
+      const [docId, , session] = params
+      const userId = session.userId
+      const model = global.__clients[userId].model
+
+      const $doc = model._scope(`${collection}.${docId}`)
+      await $doc.subscribe()
+      const factoryModel = factory($doc, model)
+      const accsessFn = factoryModel.constructor.access[op.charAt(0).toLowerCase() + op.slice(1)]
+
+      $doc.unsubscribe()
+      if (accsessFn) {
+        // if there are extra fields, an exception is thrown
+        validateKeys(accsessFn, pattern)
+        return accsessFn(model, collection, ...params)
+      } else {
+        return false
+      }
+    })
   })
 }
 
@@ -102,7 +129,6 @@ class ShareDBAccess {
   commitHandler (shareRequest, done) {
     this.commitHandlerAsync(shareRequest)
       .then((res) => {
-        res && console.error(res)
         done(res)
       })
       .catch((err) => done(err))
@@ -134,14 +160,12 @@ class ShareDBAccess {
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
-
-    return { message: '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId, code: 403 }
+    throw new ShareDBAccessError('ERR_ACCESS_DENY_CREATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
   }
 
   applyHandler (shareRequest, done) {
     this.applyHandlerAsync(shareRequest)
       .then((res) => {
-        res && console.error(res)
         done(res)
       })
       .catch((err) => done(err))
@@ -170,8 +194,7 @@ class ShareDBAccess {
       debug('create', ok, collection, docId, doc)
 
       if (ok) return
-
-      return { message: '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId, code: 403 }
+      throw new ShareDBAccessError('ERR_ACCESS_DENY_CREATE', '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId)
     }
 
     // ++++++++++++++++++++++++++++++++ DELETE ++++++++++++++++++++++++++++++++++
@@ -181,8 +204,7 @@ class ShareDBAccess {
       const ok = await this.check('Delete', collection, [docId, doc, session])
       debug('delete', ok, collection, docId, doc)
       if (ok) return
-
-      return { message: '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId, code: 403 }
+      throw new ShareDBAccessError('ERR_ACCESS_DENY_DELETE', '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId)
     }
 
     // For Update
@@ -203,7 +225,6 @@ class ShareDBAccess {
     }))
       .then(reasons => {
         const reason = reasons.find(reason => reason)
-        reason && console.error(reason)
         done(reason)
       })
       .catch(err => done(err))
@@ -228,8 +249,7 @@ class ShareDBAccess {
     debug('read', ok, collection, [docId, doc, session])
 
     if (ok) return
-
-    return { message: '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId, code: 403 }
+    throw new ShareDBAccessError('ERR_ACCESS_DENY_READ', '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId)
   }
 
   async check (operation, collection, args) {
@@ -295,3 +315,4 @@ class ShareDBAccess {
 module.exports = ShareDBAccess
 module.exports.lookup = util.lookup
 module.exports.registerOrmRules = registerOrmRules
+module.exports.rigisterOrmRulesFromFactory = rigisterOrmRulesFromFactory

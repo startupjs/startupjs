@@ -4,14 +4,16 @@
     "access": "public"
   },
   "description": "MDX provider with a set of custom components for react-native support and syntax highlighting",
-  "version": "0.31.22",
+  "version": "0.35.7",
   "main": "index.js",
   "dependencies": {
     "@mdx-js/react": "~1.5.8",
-    "@startupjs/ui": "^0.31.22",
+    "@startupjs/scrollable-anchors": "^0.35.7",
+    "@startupjs/ui": "^0.35.7",
     "refractor": "^3.0.0"
   },
   "peerDependencies": {
-    "react": ">= 16.9.0 < 17"
+    "@react-native-clipboard/clipboard": "^1.7.0",
+    "react": "16.9 - 17"
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer, emit, useValue, useLocal } from 'startupjs'
-import './index.styl'
-import { Row, Div, Layout, SmartSidebar, Menu, Button, H1 } from '@startupjs/ui'
+import { Button, Div, H1, Layout, Menu, Row, SmartSidebar } from '@startupjs/ui'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import APP from '../../app.json'
+import './index.styl'
 
 const { displayName } = APP
 
@@ -33,7 +33,7 @@ export default observer(function ({ children }) {
   return pug`
     Layout
       SmartSidebar.sidebar(
-        path=$opened.path()
+        $open=$opened
         renderContent=renderSidebar
       )
         Row.menu

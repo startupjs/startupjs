@@ -1,11 +1,16 @@
 import React, { useState, useMemo } from 'react'
-import RouterComponent from './RouterComponent'
-import { useLocation, useHistory } from 'react-router-native'
-import { $root, observer, useSyncEffect } from 'startupjs'
 import { Linking, Platform } from 'react-native'
+import RNRestart from 'react-native-restart'
+import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
+import { $root, observer, useSyncEffect } from 'startupjs'
+import { Slot } from '@startupjs/plugin'
+import { BASE_URL } from '@env'
+import axios from 'axios'
+import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
+
 const isWeb = Platform.OS === 'web'
 
 export default observer(function Router (props) {
@@ -19,6 +24,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   routes,
   errorPages,
   goToHandler,
+  supportEmail,
   ...props
 }) {
   const location = useLocation()
@@ -32,6 +38,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   useSyncEffect(() => {
     $root.on('url', goTo)
     $root.on('error', setErr)
+    $root.on('restart', restart)
 
     return () => {
       $root.removeListener('url', goTo)
@@ -62,9 +69,21 @@ const AppsFactory = observer(function AppsFactoryComponent ({
     }
   }
 
+  async function restart (restoreUrl) {
+    if (restoreUrl) {
+      await axios.post(BASE_URL + '/api/restore-url', { restoreUrl })
+    }
+
+    if (isWeb) {
+      window.location.href = '/'
+    } else {
+      RNRestart.Restart()
+    }
+  }
+
   return pug`
     if err
-      Error(value=err pages=errorPages)
+      Error(error=err pages=errorPages supportEmail=supportEmail)
     else
       RenderApp(app=app routes=routes ...props)
 
@@ -84,8 +103,9 @@ const RenderApp = observer(function RenderAppComponent ({
   }
 
   return pug`
-    Layout
-      Routes(...props)
+    Slot(name='LayoutWrapper')
+      Layout
+        Routes(...props)
   `
 })
 

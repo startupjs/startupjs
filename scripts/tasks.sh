@@ -30,7 +30,7 @@ fn_local_init () {
   git branch -d verdaccio-temp || true
   git checkout -b verdaccio-temp
   git stash list | grep "$random_id" && git stash apply
-  npx lerna publish prerelease --registry http://localhost:4873/ --no-git-tag-version --no-private --no-push --yes --no-git-reset --dist-tag local || STATUS="failed-lerna"
+  npx lerna publish prerelease --registry http://localhost:4873/ --force-publish --no-git-tag-version --no-private --no-push --yes --no-git-reset --dist-tag local || STATUS="failed-lerna"
   git reset --hard HEAD
   git checkout -
   git stash list | grep "$random_id" && git stash pop
@@ -61,6 +61,25 @@ fn_local_init () {
   echo "  etc."
 }
 
+fn_before_publish () {
+  set -e
+  echo "Checking that you are on master branch..."
+  if git status | grep "On branch master"; then
+    echo "."
+  else
+    echo "!!! ERROR !!! You can only publish on master branch!"
+    exit 1
+  fi
+  echo "Checking that startupjs/startupjs github repo is set as origin in git..."
+  if git remote -v | grep startupjs/startupjs; then
+    echo "."
+  else
+    echo "!!! ERROR !!! startupjs/startupjs github repo must be your origin!"
+    exit 1
+  fi
+  git fetch origin --tags
+}
+
 fn_update_changelog () {
   set -e
   current_version="v$(node -e "console.log(require('./lerna.json').version)")"
@@ -72,6 +91,6 @@ fn_update_changelog () {
   git add CHANGELOG.md
   git commit --amend --no-edit
   git tag "$current_version" -m "$current_version"
-  git push
-  git push --tags
+  git push origin master
+  git push origin --tags
 }

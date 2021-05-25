@@ -10,10 +10,15 @@ yarn add @startupjs/ui
 ### Requirements
 
 ```
-  react-native-collapsible
-  react-native-svg
-  react-native-gesture-handler
-  react-native-reanimated
+@react-native-community/datetimepicker: ^3.0.6
+@react-native-picker/picker: >=1.9.3
+react: 16.9 - 17
+react-native: >= 0.61.4 < 0.64.0
+react-native-collapsible: 1.5.2
+react-native-pager-view: >= 5.1.2
+react-native-svg: >= 12.1.0
+react-native-tab-view: >= 3.0.0
+startupjs: >= 0.33.0
 ```
 
 ### Linking
@@ -65,14 +70,31 @@ function getHead (appName) {
 }
 ```
 
-Add module `@startupjs/ui/server` to `forceCompileModules` in `webpack.server.config.cjs`
+## App plugin
+Register ui plugin for app
 
 ```js
-const getConfig = require('startupjs/bundler.cjs').webpackServerConfig
+import { registerPlugins } from '@startupjs/plugin'
+import { uiAppPlugin } from '@startupjs/ui'
 
-module.exports = getConfig(undefined, {
-  forceCompileModules: ['@startupjs/ui/server']
+...
+
+registerPlugins({
+  '@startupjs/app': [
+    [uiAppPlugin, { defaultEnable: true, style: overridesStyle }]
+  ]
 })
+```
+
+where `overridesStyle` is the styles to override default components' styles and for the override to work the component must be wrapped into `themed()` decorator. The override syntax looks requires that component is referred as a class by its name (starting with a capital letter) in the `.styl` file. For example `Button` is referred as `.Button`:
+
+```styl
+.Button
+  color red
+  &:part(hover)
+    color green
+  &:part(active)
+    color blue
 ```
 
 ## Usage
