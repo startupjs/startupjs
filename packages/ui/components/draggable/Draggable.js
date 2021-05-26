@@ -107,9 +107,11 @@ export default observer(function Draggable ({
       let startPosition = dPageY
       let endPosition = dPageY
 
-      if (!dndContext.drops[dndContext.dropHoverId]) return
+      const dragsLength = dndContext.drops[dndContext.dropHoverId]?.items?.length || 0
 
-      for (let index = 0; index < dndContext.drops[dndContext.dropHoverId].items.length; index++) {
+      for (let index = 0; index < dragsLength; index++) {
+        if (!dndContext.dropHoverId) break
+
         const iterDragId = dndContext.drops[dndContext.dropHoverId].items[index]
 
         await new Promise(resolve => {
