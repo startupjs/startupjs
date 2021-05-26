@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
@@ -58,26 +58,30 @@ function Div ({
   const refAnimate = useRef()
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
-  const [isShowTooltip, setIsShowTooltip] = useState(false)
-  const showTooltipInvolved = _showTooltip !== undefined
 
-  useEffect(() => {
-    setIsShowTooltip(_showTooltip)
-  }, [_showTooltip])
+  // we expect to receive boolean
+  const isTooltipControllable = _showTooltip !== undefined
+  const [isShowTooltip, setIsShowTooltip] = useState(isTooltipControllable ? _showTooltip : false)
+
+  if (isTooltipControllable) {
+    useDidUpdate(() => {
+      setIsShowTooltip(_showTooltip)
+    }, [_showTooltip])
+  }
 
   const {
     step,
-    locationStyle,
+    positionStyle,
     animateStyle,
     arrow
   } = usePopover({
-    attachment: showTooltipInvolved ? 'start' : 'center',
-    position: showTooltipInvolved ? 'bottom' : 'top',
-    animateType: showTooltipInvolved ? 'opacity' : 'scale',
+    attachment: isTooltipControllable ? 'start' : 'center',
+    position: isTooltipControllable ? 'bottom' : 'top',
+    animateType: isTooltipControllable ? 'opacity' : 'scale',
     durationOpen: 200,
     durationClose: 100,
-    hasArrow: !showTooltipInvolved,
-    arrowStyle: showTooltipInvolved ? {} : { color: '#222222' },
+    hasArrow: !isTooltipControllable,
+    arrowStyle: STYLES.arrowStyle,
     ...tooltipProps,
     style,
     refAnimate,
@@ -88,7 +92,7 @@ function Div ({
 
   let extraStyle = {}
   const tooltipActions = useTooltip({
-    showTooltipInvolved,
+    isTooltipControllable,
     onPress,
     onLongPress,
     onChange: setIsShowTooltip
@@ -98,7 +102,7 @@ function Div ({
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
   const isClickable = onPress || onLongPress ||
-    (renderTooltip && !showTooltipInvolved && !isWeb)
+    (renderTooltip && !isTooltipControllable && !isWeb)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -171,18 +175,16 @@ function Div ({
   // because it needed only when you want to override shadow from style sheet
   if (level) levelModifier = `shadow-${level}`
 
-  if (renderTooltip && !showTooltipInvolved) {
-    if (isWeb) {
-      const { onMouseOver, onMouseLeave } = props
+  if (isWeb && renderTooltip && !isTooltipControllable) {
+    const { onMouseOver, onMouseLeave } = props
 
-      props.onMouseOver = () => {
-        tooltipActions.onMouseOver()
-        onMouseOver()
-      }
-      props.onMouseLeave = () => {
-        tooltipActions.onMouseLeave()
-        onMouseLeave()
-      }
+    props.onMouseOver = () => {
+      tooltipActions.onMouseOver()
+      onMouseOver && onMouseOver()
+    }
+    props.onMouseLeave = () => {
+      tooltipActions.onMouseLeave()
+      onMouseLeave && onMouseLeave()
     }
   }
 
@@ -196,6 +198,8 @@ function Div ({
     }
   }
 
+  // backgroundColor in style can override extraStyle backgroundColor
+  // so passing the extraStyle to the end is important in this case
   const div = maybeWrapToClickable(pug`
     View.root(
       ref=refCaption
@@ -216,7 +220,7 @@ function Div ({
 
   if (renderTooltip) {
     let tooltipContent = pug`
-      View(style=locationStyle)
+      View(style=positionStyle)
         Animated.View(
           ref=refAnimate
           style=animateStyle
@@ -224,9 +228,9 @@ function Div ({
           = arrow
           Div(
             styleName={
-              tooltipContent: !showTooltipInvolved,
-              popoverContent: showTooltipInvolved,
-              popoverContentArrow: showTooltipInvolved 
+              tooltipContent: !isTooltipControllable,
+              popoverContent: isTooltipControllable,
+              popoverContentArrow: isTooltipControllable 
                 && tooltipProps.hasArrow
             }
             style=tooltipProps.contentStyle
@@ -251,8 +255,6 @@ function Div ({
     `
   }
 
-  // backgroundColor in style can override extraStyle backgroundColor
-  // so passing the extraStyle to the end is important in this case
   return div
 }
 

@@ -35,14 +35,13 @@ export default function usePopover ({
   attachment = 'start',
   placements = PLACEMENTS_ORDER,
   animateType = 'opacity',
-  durationOpen = 300,
-  durationClose = 200,
+  durationOpen = 200,
+  durationClose = 100,
   hasArrow = false,
   hasWidthCaption = false,
-  onDismiss = null,
-  onRequestOpen = null,
-  onRequestClose = null,
-  renderTooltip
+  onDismiss,
+  onRequestOpen,
+  onRequestClose
 }) {
   const refGeometry = useRef({})
   const captionInfo = useRef({})
@@ -175,7 +174,7 @@ export default function usePopover ({
   }
 
   // styles
-  const locationStyle = StyleSheet.flatten([
+  const positionStyle = StyleSheet.flatten([
     STYLES.location,
     {
       left: refGeometry.current.positionLeft,
@@ -206,11 +205,11 @@ export default function usePopover ({
   if (isStampInit(step) && validPlacement === 'right-end') animateStyle.bottom = 0
 
   if (validPosition !== 'left') {
-    locationStyle.width = '100%'
-    locationStyle.maxWidth = Dimensions.get('window').width - (locationStyle.left || 0)
+    positionStyle.width = '100%'
+    positionStyle.maxWidth = Dimensions.get('window').width - (positionStyle.left || 0)
   } else {
-    locationStyle.width = locationStyle.left
-    locationStyle.left = 0
+    positionStyle.width = positionStyle.left
+    positionStyle.left = 0
   }
 
   if (hasWidthCaption && captionInfo.current) {
@@ -229,7 +228,7 @@ export default function usePopover ({
   return {
     refAnimate,
     step,
-    locationStyle,
+    positionStyle,
     animateStyle,
     arrow
   }
