@@ -103,8 +103,8 @@ ObservedPopover.defaultProps = {
   hasArrow: false,
   hasOverlay: true,
   hasDefaultWrapper: true,
-  durationOpen: 300,
-  durationClose: 200
+  durationOpen: 150,
+  durationClose: 100
 }
 
 ObservedPopover.propTypes = {

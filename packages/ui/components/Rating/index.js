@@ -3,9 +3,11 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import Row from './../Row'
-import H6 from './../typography/H6'
+import { H6 } from './../typography'
 import Star from './Star'
+import themed from '../../theming/themed'
 import './index.styl'
+
 const AMOUNT = 5
 const ITEMS = Array(AMOUNT).fill(null)
 
@@ -43,4 +45,4 @@ Rating.propTypes = {
   onChange: PropTypes.func
 }
 
-export default observer(Rating)
+export default observer(themed(Rating))

@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function Thead ({ style, children, bordered, ...props }) {
@@ -24,4 +25,4 @@ Thead.propTypes = {
   bordered: PropTypes.bool
 }
 
-export default observer(Thead)
+export default observer(themed(Thead))

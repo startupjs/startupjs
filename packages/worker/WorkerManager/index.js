@@ -1,6 +1,6 @@
+import without from 'lodash/without.js'
 import { delay } from '../utils.js'
 import Worker from '../Worker/index.js'
-import without from 'lodash/without.js'
 
 const env = process.env
 
@@ -13,7 +13,6 @@ export default class WorkerManager {
   async start () {
     if (this.started) return
     if (this.starting) return
-    // console.log('worker manager - starting')
 
     this.starting = true
 
@@ -66,7 +65,6 @@ export default class WorkerManager {
   }
 
   async stop () {
-    // console.log('stopping worker manager')
     if (this.stopping) return
 
     this.stopping = true
@@ -87,8 +85,6 @@ export default class WorkerManager {
       await delay(100)
       child = this.children[0]
     }
-    // console.log('WM - executeTask - run task', taskId)
     return await child.executeTask(taskId)
-    // console.log('WM - executeTask - done task', taskId)
   }
 }

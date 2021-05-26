@@ -60,7 +60,7 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     // Seems ref is expired :(
     if (!scrollRef) return
 
-    const posY = y || $anchorRegistry.get(anchorId)
+    const posY = isUndefined(y) ? $anchorRegistry.get(anchorId) : y
 
     scrollRef.scrollTo({
       animated: smooth,
@@ -74,7 +74,7 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
     if (!anchorId) throw new Error('Error [scrollable-anchors]: Provide anchorId of registering element.')
     if (isUndefined(posY)) throw new Error('Error [scrollable-anchors]: Provide posY of registering element.')
 
-    // To prevent rasecondition issue of cleaning previous registered values
+    // To prevent raсecondition issue of cleaning previous registered values
     setTimeout(() => {
       $anchorRegistry.set(anchorId, posY)
     }, 0)

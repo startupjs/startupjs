@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Image, Platform } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
+import { observer, useValue } from 'startupjs'
 import {
   Div,
   H2,
@@ -16,12 +18,15 @@ import {
   Td,
   Th,
   Thead,
-  Tr
+  Tr,
+  Collapse,
+  Tooltip
 } from '@startupjs/ui'
 import { Anchor } from '@startupjs/scrollable-anchors'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
+import { BASE_URL } from '@env'
 import './index.styl'
 import Code from '../Code'
 
@@ -116,13 +121,42 @@ export default {
     Span.p(italic)= children
   `,
   pre: ({ children }) => children,
-  code: ({ children, className }) => {
+  code: observer(({ children, className, example }) => {
     const language = (className || '').replace(/language-/, '')
+    const [open, setOpen] = useState(false)
+    const [copyText, $copyText] = useValue('Copy code')
+
+    function copyHandler () {
+      Clipboard.setString(children)
+      $copyText.set('Copied')
+    }
+
+    function onMouseEnter () {
+      // we need to reutrn default text if it was copied
+      $copyText.setDiff('Copy code')
+    }
+
     return pug`
-      Br
-      Code(language=language)= children
+      Div.code
+        if example
+          Collapse.code-collapse(open=open variant='pure')
+            Collapse.Header.code-collapse-header(icon=false onPress=null)
+              Row.code-actions(align='right')
+                Tooltip(content=open ? 'Hide code' : 'Show code')
+                  Div.code-action(onPress=() => setOpen(!open))
+                    Icon.code-action-collapse(icon=faCode color='error')
+                Tooltip(content=copyText)
+                  Div.code-action(
+                    onPress=copyHandler
+                    onMouseEnter=onMouseEnter
+                  )
+                    Icon.code-action-copy(icon=faCopy)
+            Collapse.Content.code-collapse-content
+              Code(language=language)= children
+        else
+          Code(language=language)= children
     `
-  },
+  }),
   inlineCode: ({ children }) => pug`
     Span.inlineCodeWrapper
       Span.inlineCodeSpacer= ' '
@@ -201,18 +235,22 @@ export default {
     `
   },
   img: ({ src }) => {
+    let _src = src
     const [style, setStyle] = useState({})
 
-    const isUrl = /^(http|https):\/\//.test(src)
+    const isUrl = /^(http|https):\/\//.test(_src)
+    const isLocalUrl = /^\//.test(_src)
 
-    if (!isUrl) {
+    if (isLocalUrl) {
+      _src = BASE_URL + _src
+    } else if (!isUrl) {
       console.warn('[@startupjs/mdx] Need to provide the url for the image')
       return null
     }
 
     function onLayout (e) {
       const maxWidth = e.nativeEvent.layout.width
-      Image.getSize(src, (width, height) => {
+      Image.getSize(_src, (width, height) => {
         const coefficient = maxWidth / width
         setStyle({
           width: Math.min(width, maxWidth),
@@ -225,7 +263,7 @@ export default {
 
     return pug`
       Row.p(onLayout=onLayout)
-        Image(style=style source={ uri: src })
+        Image(style=style source={ uri: _src })
     `
   }
 }

@@ -13,6 +13,7 @@ import Portal from '../Portal'
 import Span from '../typography/Span'
 import usePopover from '../popups/Popover/usePopover'
 import useTooltip from '../Tooltip/useTooltip'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const STEPS = {
@@ -285,7 +286,7 @@ Div.propTypes = {
   _preventEvent: PropTypes.bool
 }
 
-export default observer(Div)
+export default observer(themed(Div))
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {

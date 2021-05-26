@@ -8,6 +8,7 @@ import Menu from '../Menu'
 import Popover from '../popups/Popover'
 import Loader from '../Loader'
 import useKeyboard from './useKeyboard'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const SUPPORT_PLACEMENTS = [
@@ -115,7 +116,7 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
-      animateType='slide'
+      animateType='opacity'
       hasDefaultWrapper=false
       onDismiss=onClose
     )
@@ -176,4 +177,4 @@ AutoSuggest.propTypes = {
   onScrollEnd: PropTypes.func
 }
 
-export default observer(AutoSuggest)
+export default observer(themed(AutoSuggest))
