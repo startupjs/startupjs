@@ -3,7 +3,6 @@ const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
 const Font = require('fonteditor-core').Font
-const link = require('./link')
 const CLI_VERSION = require('./package.json').version
 const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
 const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
@@ -561,6 +560,7 @@ commander
   .command('link')
   .description('Links files')
   .action(async () => {
+    const link = require('./link')
     link()
   })
 
@@ -569,6 +569,7 @@ commander
   .description('Links android files')
   .action(async () => {
     console.warn('"starupjs android-link" is deprecated. Use "startupjs link" instead.')
+    const link = require('./link')
     link()
   })
 
