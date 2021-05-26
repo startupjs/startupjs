@@ -187,7 +187,7 @@ function DateTimePicker ({
       if label
         Span.label(
           styleName={focused}
-          variant='description'
+          description
         )= label
 
       Button(
