@@ -24,63 +24,53 @@ function Accounts () {
   const [skip, setSkip] = useState(0)
   const [, $visible] = useValue(false)
 
-  const [state, setState] = useState('')
-
-  const [pushs = []] = useQuery('pushs', {
+  const [pushs] = useQuery('pushs', {
     $limit: LIMIT,
     $skip: skip
   })
   const [pushsCount = 0] = useQuery('pushs', { $count: true })
-  const [users = []] = useQuery('users', { _id: { $in: pushs.map(push => push.id) } })
-  const [personalId, $personalId] = useValue('')
+  const [users] = useQuery('users', { _id: { $in: pushs.map(push => push.id) } })
+  const [personalIds, $personalIds] = useValue([])
 
   function openModal (id) {
-    $personalId.set(id)
+    $personalIds.push(id)
     $visible.set(true)
+  }
+
+  function onClose () {
+    $visible.set(false)
+    $personalIds.set([])
   }
 
   return pug`
     Table.table
       Thead
         Tr
-          Th
-            Span Email
-          Th
-            Span Android
-          Th
-            Span iOS
-          Th.cellContent
-            Span Options
-      if pushs.length
-        Tbody
-          each push in pushs
-            Tr(key=push.id)
-              Td
-                - let user = users.find(user => user.id === push.id)
-                Span= user ? user.email : 'Unauthorized'
-              Td
-                Span= push.platforms.android ? '✓' : '✗'
-              Td
-                Span= push.platforms.ios ? '✓' : '✗'
-              Td.cell
-                Dropdown(
-                  value=state
-                  onChange=v => setState(v)
-                )
-                  Dropdown.Caption
-                    Row.cellContent
-                      Icon(icon=faEllipsisH)
-                  Dropdown.Item(value='send' label='Send message' onPress=() => openModal(push.id))
-    unless pushsCount <= LIMIT
-      Row(align='center')
-        Pagination(
-          count=pushsCount
-          limit=LIMIT
-          skip=skip
-          onChangePage=val => setSkip(val * LIMIT)
-        )
+          Th Email
+          Th Platforms
+          Th.cellContent Options
+      Tbody
+        each push in pushs
+          Tr(key=push.id)
+            Td
+              - let user = users.find(user => user.id === push.id)
+              Span= user ? user.email : 'Unauthorized'
+            Td= Object.keys(push.platforms).join(', ')
+            Td.cellContent
+              Dropdown
+                Dropdown.Caption
+                  Row
+                    Icon(icon=faEllipsisH)
+                Dropdown.Item(value='send' label='Send message' onPress=() => openModal(push.id))
+    Row.pagination(align='center')
+      Pagination(
+        count=pushsCount
+        limit=LIMIT
+        skip=skip
+        onChangePage=val => setSkip(val * LIMIT)
+      )
     Modal($visible=$visible)
-      SendMessageForm(userId=personalId onClose=() => $visible.set(false))
+      SendMessageForm(userIds=personalIds onClose=onClose)
   `
 }
 

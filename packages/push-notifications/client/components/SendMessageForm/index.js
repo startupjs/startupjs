@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { observer, useValue } from 'startupjs'
 import {
   Div,
@@ -10,54 +10,41 @@ import MessageBlock from './MessageBlock'
 import DeliveryConfigBlog from './DeliveryConfigBlog'
 import './index.styl'
 
-const DEFAULT_DATA = {
+const DEFAULT_OPTIONS = {
   title: '',
   body: '',
-  allUsers: true,
-  recipientIds: [],
-  androidChannelId: '',
   filters: {
     platforms: []
   }
 }
-
-function SendMessageForm ({ userId, onClose }) {
-  const [data, $data] = useValue({
-    ...DEFAULT_DATA
+// TODO прокидывать ади юзеров со страницы с аккаунтами с помощью чекбоксов
+function SendMessageForm ({ userIds, onClose }) {
+  const [options, $options] = useValue({
+    ...DEFAULT_OPTIONS
   })
 
-  useLayoutEffect(() => {
-    if (!userId) return
-    $data.setEach({
-      recipientIds: [userId],
-      allUsers: false
-    })
-  }, [])
-
-  function sendCustomNotification () {
-    const { recipientIds, ...options } = data
-
-    sendNotification(recipientIds, { ...options })
-    $data.setDiffDeep({
-      ...DEFAULT_DATA
+  async function send () {
+    await sendNotification(userIds, options)
+    $options.setDiffDeep({
+      ...DEFAULT_OPTIONS
     })
     onClose && onClose()
   }
 
   return pug`
     Div
-      MessageBlock($data=$data)
-      DeliveryConfigBlog($data=$data)
-      Button.sendButton(onPress=sendCustomNotification) Send
+      MessageBlock($options=$options)
+      DeliveryConfigBlog($options=$options)
+      Button.sendButton(onPress=send) Send
   `
 }
 
 SendMessageForm.defaultProps = {
-  userId: ''
+  userIds: []
 }
 
 SendMessageForm.propTypes = {
-  userId: PropTypes.string,
+  userIds: PropTypes.arrayOf(PropTypes.string),
   onClose: PropTypes.func
 }
 

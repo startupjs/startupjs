@@ -9,6 +9,7 @@ import { initTwoFAManager } from '@startupjs/2fa-manager/server'
 import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
 import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
 import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -39,7 +40,8 @@ startupjsServer({
   appRoutes: [
     ...getMainRoutes(),
     ...getDocsRoutes(),
-    ...getAuthRoutes()
+    ...getAuthRoutes(),
+    ...getPushNotificationsRoutes()
   ]
 }, (ee, options) => {
   initApp(ee, {

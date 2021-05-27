@@ -1,3 +1,5 @@
+// Android
+
 // AnroidManifest.xml
 const permisionsString = `
     <uses-permission android:name="android.permission.VIBRATE" />

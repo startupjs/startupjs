@@ -1,6 +1,6 @@
 import React from 'react'
 import { ImageBackground } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import {
   Div,
   TextInput,
@@ -14,12 +14,13 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import phoneImg from './phone'
 import './index.styl'
 
-function MessageBlock ({ $data }) {
-  const data = $data.get()
+function MessageBlock ({ $options }) {
+  const options = $options.get()
+  const [appName] = useSession('appName')
 
   function setField (fieldName) {
     return value => {
-      $data.set(fieldName, value)
+      $options.set(fieldName, value)
     }
   }
 
@@ -28,12 +29,12 @@ function MessageBlock ({ $data }) {
       Div.inputsBlock
         H4 Message
         TextInput.input(
-          value=data.title
+          value=options.title
           placeholder='Title'
           onChangeText=setField('title')
         )
         TextInput.input(
-          value=data.body
+          value=options.body
           placeholder='Content'
           onChangeText=setField('body')
         )
@@ -47,16 +48,16 @@ function MessageBlock ({ $data }) {
             Row.appNameBlock(vAlign='center')
               Icon(size='s' icon=faBell)
               Row.infoBlock(align='between' vAlign='center')
-                Span.appName app name
+                Span.appName= appName ? appName : 'app name'
                 Span(description) now
-            if data.title
-              Span.title(bold numberOfLines=1 ellipsizeMode='tail')= data.title
-            Span.body(numberOfLines=2 ellipsizeMode='tail')= data.body
+            if options.title
+              Span.title(bold numberOfLines=1 ellipsizeMode='tail')= options.title
+            Span.body(numberOfLines=2 ellipsizeMode='tail')= options.body
   `
 }
 
 MessageBlock.propTypes = {
-  $data: PropTypes.any.isRequired
+  $options: PropTypes.any.isRequired
 }
 
 export default observer(MessageBlock)

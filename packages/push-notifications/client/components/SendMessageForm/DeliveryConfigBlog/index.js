@@ -2,7 +2,6 @@ import React from 'react'
 import { observer } from 'startupjs'
 import {
   Div,
-  TextInput,
   Row,
   Checkbox,
   H4,
@@ -13,14 +12,14 @@ import './index.styl'
 
 const PLATFORMS = ['ios', 'android']
 
-function DeliveryConfigBlog ({ $data }) {
-  const data = $data.get()
+function DeliveryConfigBlog ({ $options }) {
+  const options = $options.get()
 
   function setPlatform (platformName) {
-    if (!data.filters.platforms.includes(platformName)) {
-      $data.push('filters.platforms', platformName)
+    if (!options.filters.platforms.includes(platformName)) {
+      $options.push('filters.platforms', platformName)
     } else {
-      $data.remove('filters.platforms', data.filters.platforms.indexOf(platformName))
+      $options.remove('filters.platforms', options.filters.platforms.indexOf(platformName))
     }
   }
 
@@ -35,36 +34,14 @@ function DeliveryConfigBlog ({ $data }) {
               key=platform
               styleName={ first: !index }
               label=platform
-              value=data.filters.platforms.includes(platform)
+              value=options.filters.platforms.includes(platform)
               onChange=() => setPlatform(platform)
             )
-      if data.filters.platforms.includes('android')
-        Div.androidChannelBlock
-          H6 Android Channel
-          TextInput.input(
-            value=data.androidChannelId
-            placeholder='android channel id'
-            onChangeText=text => $data.set('androidChannelId', text)
-          )
-      Div.usersBlock
-        H6 Users
-        Checkbox.checkboxAllUsers(
-          variant='switch'
-          label='All users'
-          value=data.allUsers
-          onChange=value => $data.set('allUsers', value)
-        )
-        if !data.allUsers
-          TextInput.input(
-            value=data.recipientIds[0]
-            placeholder='custom id'
-            onChangeText=text => $data.set('recipientIds.0', text)
-          )
   `
 }
 
 DeliveryConfigBlog.propTypes = {
-  $data: PropTypes.any.isRequired
+  $options: PropTypes.any.isRequired
 }
 
 export default observer(DeliveryConfigBlog)

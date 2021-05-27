@@ -9,7 +9,7 @@ import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
-import { initPushNotifications, initAndroidChannel } from '@startupjs/push-notifications'
+import { initPushNotifications, notificationsDashboard } from '@startupjs/push-notifications'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -49,7 +49,7 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ main, docs, auth }
+      apps={ main, docs, auth, notificationsDashboard }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
@@ -60,10 +60,6 @@ export default observer(() => {
       iosUpdateLink=UPDATE_LINK_IOS
       useGlobalInit=() => {
         initPushNotifications()
-        initAndroidChannel({
-            channelId: 'my-test-channel',
-            channelName: 'My channel'
-        })
         return true
       }
     )

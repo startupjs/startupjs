@@ -2,7 +2,7 @@ import { BASE_URL } from '@env'
 import { useState, useEffect } from 'react'
 import { useSession } from 'startupjs'
 import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
-import { sendNotification, NotificationDashboard } from '@startupjs/push-notifications'
+import { sendNotification } from '@startupjs/push-notifications'
 
 # Push Notifications
 
@@ -84,6 +84,7 @@ Push Notifications capability
 
 ```js
 import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
 ...
 init({ orm })
@@ -92,6 +93,10 @@ initFirebaseApp(serviceAccountPath)
 ...
 startupjsServer({
 ...
+appRoutes: [
+  ...
+  ...getPushNotificationsRoutes()
+]
 }, (ee, options) => {
   ...
   initPushNotifications(ee)
@@ -105,18 +110,17 @@ startupjsServer({
 
 ### client
 
-Вызовите `initPushNotifications` (если необходимо создать дополнительный канал для андроида, то добавьте функцию `initAndroidChannel`) в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализацию имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
+Вызовите `initPushNotifications` в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализацию имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
 
 ```js
+import { initPushNotifications, notificationsDashboard } from '@startupjs/push-notifications'
+...
+
 App(
   ...
+  apps={ ..., notificationsDashboard }
   useGlobalInit=() => {
     initPushNotifications()
-    // Создание дополнительного канала, канал 'default' создается в момент выполнения initPushNotifications
-    initAndroidChannel({
-        channelId: 'my-test-channel',
-        channelName: 'My channel'
-    })
     return true
   }
 )
@@ -132,12 +136,6 @@ App(
   - `serviceAccountPath` - строка, абсолютный путь к `serviceAccount`.
 
 ### client API
-
-- `initAndroidChannel (options, callback)` - функция регистрации нового канала push сообщений для Android. Пуши на `Android` обязательно должны отправляться на канал, иначе сообщение не будет доставлено. Можно создавать несколько различных каналов.
-  - `options [Object]` - объект опций для создания канала, полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#channel-management-android). Обязательные параметры:
-    - `channelId [String]` - строка, уникальный идентификатор канала
-    - `channelName [String]` - строка, имя канала
-  - `callback [Function]` - коллбек, принимает аргумент `created`, который указывает на то был ли уже создан канал, `false` означает, что канал уже был создан
 
 - `initPushNotifications (options)` - функция инициализации пуш уведомлений. Также инициализирует канал id `default` для андроида.
   - `options [Object]` - объект опций для инициализации пушей. Полный список опций можно посмотреть в [документации](https://github.com/zo0r/react-native-push-notification#usage). !!ВАЖНО!! Крайне не рекомендуется переопределять поля `onRegister` и `onNotification [Function]` так как это может нарушить поведение пакета.
@@ -162,8 +160,7 @@ const [userId] = useSession('userId')
 function sendCustomNotification () {
   sendNotification([userId], {
     title,
-    body,
-    androidChannelId: 'my-test-channel'
+    body
   })
   setTitle('')
   setBody('')
@@ -191,6 +188,11 @@ return (
 )
 ```
 
+## Dashboard
+
+[Dashboard](/push-notifications-dashboard)
+
+<!-- 
 ```jsx example
   <NotificationDashboard/>
-```
+``` -->

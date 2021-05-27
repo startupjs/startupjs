@@ -7,7 +7,10 @@ import initAndroidChannel from './initAndroidChannel'
 let isInited = false
 
 export default function initPushNotifications (options) {
-  if (isInited) return
+  if (isInited) {
+    console.warn('[@startupjs/push-notifications]: Re-calling initPushNotifications. You must call this method once in the whole application.!')
+    return
+  }
   isInited = true
 
   PushNotification.configure({

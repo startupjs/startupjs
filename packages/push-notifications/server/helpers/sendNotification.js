@@ -7,7 +7,6 @@ const DEFAULT_PLATFORMS = ['ios', 'android']
 //  options: {
 //    title: string,
 //    body: string,
-//    androidChannelId: string,
 //    filters: {
 //      platforms: ['ios', 'android']
 //    },
@@ -54,7 +53,8 @@ export default async function sendNotification (model, data) {
       notification: {
         title: _data.options.title,
         body: _data.options.body,
-        android_channel_id: _data.options.androidChannelId
+        // only android has channels, thus if we want use this feature for both platforms we need to create custom channels
+        android_channel_id: 'default'
       },
       data: _data.options.data
     }
@@ -74,10 +74,6 @@ function setDefaults (data) {
 
   if (!data.options?.title) {
     _data.options.title = ''
-  }
-
-  if (!data.options?.androidChannelId) {
-    _data.options.androidChannelId = 'default'
   }
 
   if (!data.options.data) {

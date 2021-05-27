@@ -2,7 +2,7 @@ import { BASE_URL } from '@env'
 import { useState, useEffect } from 'react'
 import { useSession } from 'startupjs'
 import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
-import { sendNotification, NotificationDashboard } from '@startupjs/push-notifications'
+import { sendNotification } from '@startupjs/push-notifications'
 
 # Push Notifications
 
@@ -84,6 +84,7 @@ Push Notifications capability
 
 ```js
 import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
 ...
 init({ orm })
@@ -92,6 +93,10 @@ initFirebaseApp(serviceAccountPath)
 ...
 startupjsServer({
 ...
+appRoutes: [
+  ...
+  ...getPushNotificationsRoutes()
+]
 }, (ee, options) => {
   ...
   initPushNotifications(ee)
@@ -105,18 +110,17 @@ You can generate a `serviceAccount` in the `Firebase` [console](https://console.
 
 ### client
 
-Call `initPushNotifications` (if you need to create an additional channel for the android, then add the `initAndroidChannel` function) in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
+Call `initPushNotifications` in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
 
 ```js
+import { initPushNotifications, notificationsDashboard } from '@startupjs/push-notifications'
+...
+
 App(
   ...
+  apps={ ..., notificationsDashboard }
   useGlobalInit=() => {
     initPushNotifications()
-    // Creation of an additional channel, the 'default' channel is created when initPushNotifications are executed
-    initAndroidChannel({
-        channelId: 'my-test-channel',
-        channelName: 'My channel'
-    })
     return true
   }
 )
@@ -132,12 +136,6 @@ App(
   - `serviceAccountPath` - string, absolute path to `serviceAccount`.
 
 ### client API
-
-- `initAndroidChannel (options, callback)` - function of registering a new channel of push messages for Android. Push notifications on `Android` must be sent to the channel, otherwise the message will not be delivered. Several different channels can be created.
-  - `options [Object]` - object of options for creating a channel, a complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#channel-management-android). Required parameters:
-    - `channelId [String]` - string, channel unique identifier
-    - `channelName [String]` - string, channel name
-  - `callback [Function]` - callback, takes an argument `created`, which indicates whether the channel has already been created, `false` means that the channel has already been created
 
 - `initPushNotifications (options)` - function of initializing push notifications. Also initializes the channel id `default` for android.
   - `options [Object]` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
@@ -160,8 +158,7 @@ const [userId] = useSession('userId')
 function sendCustomNotification () {
   sendNotification([userId], {
     title,
-    body,
-    androidChannelId: 'my-test-channel'
+    body
   })
   setTitle('')
   setBody('')
@@ -188,7 +185,6 @@ return (
   </Div>
 )
 ```
+## Dashboard
 
-```jsx example
-  <NotificationDashboard/>
-```
+[Dashboard](/push-notifications-dashboard)

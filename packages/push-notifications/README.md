@@ -1,3 +1,9 @@
+import { BASE_URL } from '@env'
+import { useState, useEffect } from 'react'
+import { useSession } from 'startupjs'
+import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
+import { sendNotification } from '@startupjs/push-notifications'
+
 # Push Notifications
 
 !IMPORTANT! The package only works on ios and android platforms!
@@ -11,7 +17,7 @@ react-native-push-notification >= 7.2.3
 
 ## Installation
 
-```sh
+```js
 yarn add @startupjs/push-notifications @react-native-community/push-notification-ios react-native-push-notification
 ```
 
@@ -24,7 +30,11 @@ In order to send push notifications to ios devices, you need to create certifica
 
 Select `Certificates, Identifiers & Profiles` and go to `Keys`. Click the + circle button to create a new key.
 
+![alpha](/img/docs/push-notifications/pushs2.png "Certificates, Identifiers & Profiles")
+
 Give it a name and enable the `Apple Push Notifications service (APNs)`. Choose `Continue` and on the next screen choose `Register`.
+
+![alpha](/img/docs/push-notifications/pushs3.png "Apple Push Notifications service (APNs)")
 
 It is important to record the following three elements from this page:
 
@@ -32,15 +42,39 @@ It is important to record the following three elements from this page:
 - Copy and save the `Key ID`.
 - Copy and save your membership ID. It is located next to your name in the upper right corner of the Membership Center or in the `Membership Details` section.
 
+![alpha](/img/docs/push-notifications/pushs4.png "Apple Push Notifications service (APNs)")
+
 ### Setting up a Firebase project
 
 You need to connect the `p8` certificate to your application in `Firebase`. In your `Firebase` project, select the gear next to `Project Overview` and select `Project settings`:
 
+![alpha](/img/docs/push-notifications/pushs5.png "Apple Push Notifications service (APNs)")
+
 Then set up your iOS app in the `General` section of your project settings. Do all the operations indicated:
+
+![alpha](/img/docs/push-notifications/pushs6.png "Apple Push Notifications service (APNs)")
 
 Then upload your `p8` certificate by going to `Cloud Messaging` in the `Firebase` project settings. In the `APNs Authentication Key` section, select `Upload`.
 
+![alpha](/img/docs/push-notifications/pushs7.png "Apple Push Notifications service (APNs)")
+
 Enter the details that you saved in the step of creating the `p8` certificate.
+
+## iOS
+
+Add Capabilities : Background Mode - Remote Notifications
+Go into your MyReactProject/ios dir and open MyProject.xcworkspace workspace. Select the top project "MyProject" and select the "Signing & Capabilities" tab. Add a 2 new Capabilities using "+" button:
+
+![alpha](/img/docs/push-notifications/pushs8.png "Apple XCode Capabilities")
+
+Background Mode capability and tick Remote Notifications.
+Push Notifications capability
+
+![alpha](/img/docs/push-notifications/pushs9.png "Apple XCode Capabilities")
+
+![alpha](/img/docs/push-notifications/pushs10.png "Apple XCode Capabilities")
+
+![alpha](/img/docs/push-notifications/pushs11.png "Apple XCode Capabilities")
 
 ## Using
 
@@ -50,6 +84,7 @@ Enter the details that you saved in the step of creating the `p8` certificate.
 
 ```js
 import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
 ...
 init({ orm })
@@ -58,6 +93,10 @@ initFirebaseApp(serviceAccountPath)
 ...
 startupjsServer({
 ...
+appRoutes: [
+  ...
+  ...getPushNotificationsRoutes()
+]
 }, (ee, options) => {
   ...
   initPushNotifications(ee)
@@ -67,20 +106,21 @@ startupjsServer({
 ```
 You can generate a `serviceAccount` in the `Firebase` [console](https://console.firebase.google.com/project/) of your application. Open the `Service accounts` tab and click `Generate new private key`.
 
+![alpha](/img/docs/push-notifications/pushs1.png "firebase admin")
+
 ### client
 
-Call `initPushNotifications` (if you need to create an additional channel for the android, then add the `initAndroidChannel` function) in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
+Call `initPushNotifications` in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
 
 ```js
+import { initPushNotifications, notificationsDashboard } from '@startupjs/push-notifications'
+...
+
 App(
   ...
+  apps={ ..., notificationsDashboard }
   useGlobalInit=() => {
     initPushNotifications()
-    // Creation of an additional channel, the 'default' channel is created when initPushNotifications are executed
-    initAndroidChannel({
-        channelId: 'my-test-channel',
-        channelName: 'My channel'
-    })
     return true
   }
 )
@@ -97,20 +137,13 @@ App(
 
 ### client API
 
-- `initAndroidChannel (options, callback)` - function of registering a new channel of push messages for Android. Push notifications on `Android` must be sent to the channel, otherwise the message will not be delivered. Several different channels can be created.
-  - `options` - object of options for creating a channel, a complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#channel-management-android). Required parameters:
-    - `channelId` - string, channel unique identifier
-    - `channelName` - string, channel name
-  - `callback` - callback, takes an argument `created`, which indicates whether the channel has already been created, `false` means that the channel has already been created
-
 - `initPushNotifications (options)` - function of initializing push notifications. Also initializes the channel id `default` for android.
-  - `options` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
+  - `options [Object]` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
 
-- `sendNotification(userIds, title, body, androidChannelId, filters = {})` - function for sending notifications. Options:
-  - `userIds` - array of user id to which the push notification will be sent.
-  - `title` - string of title
-  - `body` - string of content.
-  - `androidChannelId` - string with the channel name for android.
-  - `filters` - object of filters. The following fields are supported:
-    - `platforms` - array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
+- `sendNotification(userIds, options)` - function for sending notifications. - `options [Object]`:
+    - `title [String]` - header string.
+    - `body [String] (required)` - content string.
+    - `androidChannelId [String]` - string with the channel name for android.
+    - `filters [Object]` - filters object. The following fields are supported:
+      - `platforms [Array]` - an array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
 

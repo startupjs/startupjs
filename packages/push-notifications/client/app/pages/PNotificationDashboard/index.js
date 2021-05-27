@@ -5,8 +5,8 @@ import {
   Span,
   Div
 } from '@startupjs/ui'
-import Accounts from '../Accounts'
-import Messages from '../Messages'
+import Accounts from '../../../components/Accounts'
+import Messages from '../../../components//Messages'
 import './index.styl'
 
 const TABS = {
@@ -14,7 +14,7 @@ const TABS = {
   messages: 'Messages'
 }
 
-function NotificationDashboard () {
+function PNotificationDashboard () {
   const [active, setActive] = useState(TABS.accounts)
   return pug`
     Menu.menu(variant='horizontal' activeBorder='bottom')
@@ -35,4 +35,4 @@ function NotificationDashboard () {
   `
 }
 
-export default observer(NotificationDashboard)
+export default observer(PNotificationDashboard)
