@@ -8,7 +8,7 @@ import {
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
-import themed from '../../theming/themed'
+// import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -38,7 +38,7 @@ function Div ({
   onLongPress,
   _preventEvent,
   ...props
-}) {
+}, ref) {
   const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
@@ -135,6 +135,7 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   return maybeWrapToClickable(pug`
     View.root(
+      ref=ref
       style=[style, extraStyle]
       styleName=[
         {
@@ -153,7 +154,9 @@ function Div ({
   `)
 }
 
-Div.defaultProps = {
+const ObservedDiv = observer(Div, { forwardRef: true })
+
+ObservedDiv.defaultProps = {
   variant: 'opacity',
   level: 0,
   feedback: true,
@@ -163,7 +166,7 @@ Div.defaultProps = {
   _preventEvent: true
 }
 
-Div.propTypes = {
+ObservedDiv.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['opacity', 'highlight']),
@@ -180,7 +183,7 @@ Div.propTypes = {
   _preventEvent: PropTypes.bool
 }
 
-export default observer(themed(Div))
+export default ObservedDiv
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {
