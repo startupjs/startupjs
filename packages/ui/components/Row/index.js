@@ -2,11 +2,13 @@ import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Div from './../Div'
+import Div from '../Div'
 import themed from '../../theming/themed'
 import './index.styl'
 
 const isNative = Platform.OS !== 'web'
+
+console.log(Div)
 
 function Row ({
   style,

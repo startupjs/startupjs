@@ -1,27 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
-  StyleSheet,
-  Animated
+  StyleSheet
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
-import Portal from '../Portal'
-import Span from '../typography/Span'
-import usePopover from '../popups/Popover/usePopover'
-import useTooltip from '../Tooltip/useTooltip'
-import themed from '../../theming/themed'
+// import themed from '../../theming/themed'
 import STYLES from './index.styl'
-
-const STEPS = {
-  CLOSE: 'close',
-  RENDER: 'render',
-  ANIMATE: 'animate',
-  OPEN: 'open'
-}
 
 const isWeb = Platform.OS === 'web'
 
@@ -46,64 +34,19 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
-  tooltipProps = {},
-  renderTooltip,
-  renderTooltipWrapper,
-  _showTooltip,
   onPress,
   onLongPress,
   _preventEvent,
   ...props
-}) {
-  const refCaption = useRef()
-  const refAnimate = useRef()
+}, ref) {
+  const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
-
-  // we expect to receive boolean
-  const isTooltipControllable = _showTooltip !== undefined
-  const [isShowTooltip, setIsShowTooltip] = useState(isTooltipControllable ? _showTooltip : false)
-
-  if (isTooltipControllable) {
-    useDidUpdate(() => {
-      setIsShowTooltip(_showTooltip)
-    }, [_showTooltip])
-  }
-
-  const {
-    step,
-    positionStyle,
-    animateStyle,
-    arrow
-  } = usePopover({
-    attachment: isTooltipControllable ? 'start' : 'center',
-    position: isTooltipControllable ? 'bottom' : 'top',
-    animateType: isTooltipControllable ? 'opacity' : 'scale',
-    durationOpen: 200,
-    durationClose: 100,
-    hasArrow: !isTooltipControllable,
-    arrowStyle: STYLES.arrowStyle,
-    ...tooltipProps,
-    style,
-    refAnimate,
-    refCaption,
-    renderTooltip,
-    visible: isShowTooltip
-  })
-
   let extraStyle = {}
-  const tooltipActions = useTooltip({
-    isTooltipControllable,
-    onPress,
-    onLongPress,
-    onChange: setIsShowTooltip
-  })
-
+  const extraProps = {}
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
-  const isClickable = onPress || onLongPress ||
-    (renderTooltip && !isTooltipControllable && !isWeb)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -122,7 +65,7 @@ function Div ({
         e.preventDefault()
       }
       if (disabled) return
-      tooltipActions.onPress ? tooltipActions.onPress(e) : onPress(e)
+      onPress && onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
@@ -132,7 +75,7 @@ function Div ({
         e.preventDefault()
       }
       if (disabled) return
-      tooltipActions.onLongPress ? tooltipActions.onLongPress(e) : onLongPress(e)
+      onLongPress && onLongPress(e)
     }
 
     // setup hover and active states styles and props
@@ -145,7 +88,6 @@ function Div ({
       wrapperProps.onPressOut = (...args) => {
         setActive()
         onPressOut && onPressOut(...args)
-        tooltipActions.onPressOut && tooltipActions.onPressOut()
       }
 
       if (isWeb) {
@@ -176,23 +118,13 @@ function Div ({
   // because it needed only when you want to override shadow from style sheet
   if (level) levelModifier = `shadow-${level}`
 
-  if (isWeb && renderTooltip && !isTooltipControllable) {
-    const { onMouseOver, onMouseLeave } = props
-
-    props.onMouseOver = () => {
-      tooltipActions.onMouseOver()
-      onMouseOver && onMouseOver()
-    }
-    props.onMouseLeave = () => {
-      tooltipActions.onMouseLeave()
-      onMouseLeave && onMouseLeave()
-    }
-  }
-
   function maybeWrapToClickable (children) {
-    if (isClickable || renderTooltip) {
+    if (isClickable) {
       return pug`
-        TouchableWithoutFeedback(...wrapperProps)= children
+        TouchableWithoutFeedback(
+          ...wrapperProps
+        )
+          = children
       `
     } else {
       return children
@@ -201,9 +133,9 @@ function Div ({
 
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
-  const div = maybeWrapToClickable(pug`
+  return maybeWrapToClickable(pug`
     View.root(
-      ref=refCaption
+      ref=ref
       style=[style, extraStyle]
       styleName=[
         {
@@ -215,51 +147,16 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
+      ...extraProps
       ...props
-    )= children
+    )
+      = children
   `)
-
-  if (renderTooltip) {
-    let tooltipContent = pug`
-      View(style=positionStyle)
-        Animated.View(
-          ref=refAnimate
-          style=animateStyle
-        )
-          = arrow
-          Div(
-            styleName={
-              tooltipContent: !isTooltipControllable,
-              popoverContent: isTooltipControllable,
-              popoverContentArrow: isTooltipControllable 
-                && tooltipProps.hasArrow
-            }
-            style=tooltipProps.contentStyle
-          )
-            if typeof renderTooltip === 'string'
-              Span.text= renderTooltip
-            else
-              = renderTooltip()
-    `
-
-    if (renderTooltipWrapper) {
-      tooltipContent = renderTooltipWrapper({
-        children: tooltipContent
-      })
-    }
-
-    return pug`
-      = div
-      Portal
-        if step !== STEPS.CLOSE
-          = tooltipContent
-    `
-  }
-
-  return div
 }
 
-Div.defaultProps = {
+const ObservedDiv = observer(Div, { forwardRef: true })
+
+ObservedDiv.defaultProps = {
   variant: 'opacity',
   level: 0,
   feedback: true,
@@ -269,7 +166,7 @@ Div.defaultProps = {
   _preventEvent: true
 }
 
-Div.propTypes = {
+ObservedDiv.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['opacity', 'highlight']),
@@ -286,7 +183,7 @@ Div.propTypes = {
   _preventEvent: PropTypes.bool
 }
 
-export default observer(themed(Div))
+export default ObservedDiv
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {

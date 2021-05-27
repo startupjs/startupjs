@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
-import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
+import React, { useRef, useState } from 'react'
+import AbstractPopover from './AbstractPopover'
 import Div from '../../Div'
-import DeprecatedPopover from './DeprecatedPopover'
-import { PLACEMENTS_ORDER } from './constants.json'
 import './index.styl'
 
+function _Popover (props) {
+  if (!props.renderContent) return null
+
+  return pug`
+    Popover(...props)
+  `
+}
+
 function Popover ({
-  children,
   style,
   arrowStyle,
-  captionStyle, // DEPRECATED
   contentStyle,
+  children,
   renderContent,
-  visible, // DEPRECATED
   position,
   attachment,
   placements,
@@ -23,106 +25,34 @@ function Popover ({
   durationClose,
   hasArrow,
   hasWidthCaption,
-  hasOverlay, // DEPRECATED
-  hasDefaultWrapper, // DEPRECATED
-  onDismiss,
   onRequestOpen,
   onRequestClose
-}, ref) {
-  const [_visible, setVisible] = useState(false)
-
-  if (children[0] && children[0].type.name === PopoverCaption.name) {
-    console.warn('[@startupjs/ui] Popover: Popover.Caption is DEPRECATED, use new api')
-
-    return pug`
-      DeprecatedPopover(
-        style=style
-        arrowStyle=arrowStyle
-        captionStyle=captionStyle
-        visible=visible
-        position=position
-        attachment=attachment
-        animateType=animateType
-        durationOpen=durationOpen
-        durationClose=durationClose
-        hasArrow=hasArrow
-        hasOverlay=hasOverlay
-        hasWidthCaption=hasWidthCaption
-        hasDefaultWrapper=hasDefaultWrapper
-        onDismiss=onDismiss
-        onRequestOpen=onRequestOpen
-        onRequestClose=onRequestClose
-      )= children
-    `
-  }
-
-  function renderTooltipWrapper ({ children }) {
-    return pug`
-      View.wrapper
-        TouchableWithoutFeedback(onPress=() => setVisible(false))
-          View.overlay
-        = children
-    `
-  }
+}) {
+  const refCaption = useRef(null)
+  const [visible, setVisible] = useState(false)
 
   return pug`
     Div(
       style=style
-      tooltipProps={
-        contentStyle,
-        animateType,
-        durationOpen,
-        durationClose,
-        position,
-        attachment,
-        hasArrow,
-        hasWidthCaption,
-        onDismiss: ()=> setVisible(false),
-        onRequestOpen,
-        onRequestClose
-      }
-      _showTooltip=_visible
-      renderTooltip=renderContent
-      renderTooltipWrapper=renderTooltipWrapper
+      ref=refCaption
       onPress=()=> setVisible(true)
     )= children
+    AbstractPopover(
+      style=contentStyle
+      arrowStyle=arrowStyle
+      visible=visible
+      refCaption=refCaption
+      position=position
+      attachment=attachment
+      placements=placements
+      animateType=animateType
+      durationOpen=durationOpen
+      durationClose=durationClose
+      hasArrow=hasArrow
+      onRequestOpen=onRequestOpen
+      onRequestClose=()=> setVisible(false)
+    )= renderContent()
   `
 }
 
-const PopoverCaption = ({ children }) => children // DEPRECATED
-
-const ObservedPopover = observer(Popover, { forwardRef: true })
-ObservedPopover.Caption = PopoverCaption // DEPRECATED
-
-ObservedPopover.defaultProps = {
-  position: 'bottom',
-  attachment: 'start',
-  placements: PLACEMENTS_ORDER,
-  animateType: 'opacity',
-  hasWidthCaption: false,
-  hasArrow: false,
-  hasOverlay: true,
-  hasDefaultWrapper: true,
-  durationOpen: 150,
-  durationClose: 100
-}
-
-ObservedPopover.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
-  attachment: PropTypes.oneOf(['start', 'center', 'end']),
-  placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
-  animateType: PropTypes.oneOf(['opacity', 'scale']),
-  hasWidthCaption: PropTypes.bool,
-  hasArrow: PropTypes.bool,
-  hasOverlay: PropTypes.bool,
-  hasInsideScroll: PropTypes.bool,
-  durationOpen: PropTypes.number,
-  durationClose: PropTypes.number,
-  onDismiss: PropTypes.func,
-  onRequestOpen: PropTypes.func,
-  onRequestClose: PropTypes.func
-}
-
-export default ObservedPopover
+export default _Popover
