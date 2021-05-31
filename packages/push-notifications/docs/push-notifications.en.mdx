@@ -113,12 +113,12 @@ You can generate a `serviceAccount` in the `Firebase` [console](https://console.
 Call `initPushNotifications` in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
 
 ```js
-import { initPushNotifications, notificationsDashboard } from '@startupjs/push-notifications'
+import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 ...
 
 App(
   ...
-  apps={ ..., notificationsDashboard }
+  apps={ ..., notifications }
   useGlobalInit=() => {
     initPushNotifications()
     return true

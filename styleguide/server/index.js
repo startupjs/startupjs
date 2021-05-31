@@ -59,7 +59,12 @@ startupjsServer({
     ]
   })
 
-  initPushNotifications(ee)
+  try {
+    initPushNotifications(ee)
+  } catch (err) {
+    console.error(err.message)
+    console.error('Push Notifications will not work!')
+  }
 
   initAuth(ee, {
     onBeforeLoginHook: ({ userId }, req, res, next) => {

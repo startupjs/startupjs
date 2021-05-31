@@ -4,7 +4,6 @@ import { SEND_URL } from '../../isomorphic'
 // options = {
 //  title: string,
 //  body: string,
-//  androidChannelId: ''
 //  filters: {
 //    platforms: [],
 //  },

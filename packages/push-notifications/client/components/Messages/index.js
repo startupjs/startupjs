@@ -18,12 +18,12 @@ const LIMIT = 10
 
 function Messages () {
   const [skip, setSkip] = useState(0)
-  const [pushMessages = []] = useQuery('pushMessages', {
+  const [pushMessages] = useQuery('pushMessages', {
     $limit: LIMIT,
     $skip: skip
   })
 
-  const [pushMessagesCount = 0] = useQuery('pushMessages', { $count: true })
+  const [pushMessagesCount] = useQuery('pushMessages', { $count: true })
 
   return pug`
     Div.root

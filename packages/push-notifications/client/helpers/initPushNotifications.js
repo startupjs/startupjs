@@ -2,7 +2,6 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import PushNotification from 'react-native-push-notification'
 import { $root } from 'startupjs'
 import registerDevice from './registerDevice'
-import initAndroidChannel from './initAndroidChannel'
 
 let isInited = false
 
@@ -50,7 +49,8 @@ export default function initPushNotifications (options) {
     ...options
   })
 
-  initAndroidChannel({
+  // It need to set a default channel, since android receives notifications only through channels
+  PushNotification.createChannel({
     channelId: 'default',
     channelName: 'Default channel'
   })

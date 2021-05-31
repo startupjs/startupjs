@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { observer } from 'startupjs'
 import {
   Menu,
@@ -10,28 +10,36 @@ import Messages from '../../../components//Messages'
 import './index.styl'
 
 const TABS = {
-  accounts: 'Accounts',
-  messages: 'Messages'
+  accounts: { label: 'Accounts', value: 'accounts', component: Accounts },
+  messages: { label: 'Messages', value: 'messages', component: Messages }
 }
 
 function PNotificationDashboard () {
-  const [active, setActive] = useState(TABS.accounts)
-  return pug`
-    Menu.menu(variant='horizontal' activeBorder='bottom')
-      each tab in Object.keys(TABS)
-        Menu.Item.menuItem(
-          key=TABS[tab]
-          active= active === TABS[tab]
-          onPress=() => setActive(TABS[tab])
-        )
-          Span= TABS[tab]
+  const [active, setActive] = useState(TABS.accounts.value)
+  console.log('active: ', active)
 
-    Div.content
-      case active 
-        when TABS.accounts
-          Accounts
-        when TABS.messages
-          Messages
+  const Tab = useMemo(() => {
+    return TABS[active].component
+  }, [active])
+
+  const tabs = useMemo(() => {
+    return Object.keys(TABS)
+  }, [])
+
+  return pug`
+    Div.root
+      Menu.tabs(variant='horizontal' activeBorder='bottom')
+        each tab in tabs
+          - const tabValue = TABS[tab].value
+          Menu.Item.tab(
+            key=tabValue
+            active= active === tabValue
+            onPress=() => setActive(tabValue)
+          )
+            Span.tabLabel= TABS[tab].label
+
+      Div.content
+        Tab
   `
 }
 

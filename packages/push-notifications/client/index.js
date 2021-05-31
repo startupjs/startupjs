@@ -1,3 +1,3 @@
 export * from './helpers'
 export * from './components'
-export { default as notificationsDashboard } from './app'
+export { default as notifications } from './app'

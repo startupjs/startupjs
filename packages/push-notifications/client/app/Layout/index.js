@@ -1,12 +1,11 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
-import { Div } from '@startupjs/ui'
-import './index.styl'
+import { Layout as SLayout } from '@startupjs/ui'
 
 export default function Layout ({ children }) {
   return pug`
     ScrollView
-      Div.root
+      SLayout
         = children
   `
 }

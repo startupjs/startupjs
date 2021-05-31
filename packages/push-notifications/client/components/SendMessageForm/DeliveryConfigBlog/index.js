@@ -24,7 +24,7 @@ function DeliveryConfigBlog ({ $options }) {
   }
 
   return pug`
-    Div.root
+    Div
       H4 Delivery Config
       Div.platformsBlock
         H6 Platforms

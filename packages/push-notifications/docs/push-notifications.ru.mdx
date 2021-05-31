@@ -113,12 +113,12 @@ appRoutes: [
 Вызовите `initPushNotifications` в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализацию имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
 
 ```js
-import { initPushNotifications, notificationsDashboard } from '@startupjs/push-notifications'
+import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 ...
 
 App(
   ...
-  apps={ ..., notificationsDashboard }
+  apps={ ..., notifications }
   useGlobalInit=() => {
     initPushNotifications()
     return true

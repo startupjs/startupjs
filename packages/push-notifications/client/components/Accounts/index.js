@@ -28,7 +28,7 @@ function Accounts () {
     $limit: LIMIT,
     $skip: skip
   })
-  const [pushsCount = 0] = useQuery('pushs', { $count: true })
+  const [pushsCount] = useQuery('pushs', { $count: true })
   const [users] = useQuery('users', { _id: { $in: pushs.map(push => push.id) } })
   const [personalIds, $personalIds] = useValue([])
 
