@@ -83,7 +83,7 @@ const options = [
   { value: '7', label: 'William' }
 ]
 
-const renderItem = (item, index, selectIndexValue)=> {
+function renderItem (item, index, selectIndexValue) {
   const style = { padding: 8 }
 
   if (selectIndexValue === index) {
@@ -114,9 +114,27 @@ return (
 )
 ```
 
+## MultiSelect
+```jsx example
+const [value, setValue] = useState([])
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+]
+return (
+  <AutoSuggest
+    options={options}
+    value={value}
+    multiselect
+    onChange={v => setValue(v)}
+  />
+)
+```
+
 ## Also
-- style: responsible for styled hidden content
-- captionStyle: responsible for heading styles (input)
+- contentStyle: responsible for the styles of hidden content
+- inputStyle: responsible for the input styles
 - onDismiss: callback, called when the list is closed
 - onChangeText: callback, called when entering text, accepts 1 argument text
 - onScrollEnd: callback, called at the end of the scroll
