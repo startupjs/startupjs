@@ -24,7 +24,7 @@ export default async function sendNotification (model, userIds, data) {
   }
 
   const $pushs = model.query('pushs', {
-    _id: { $in: userIds }
+    userId: { $in: userIds }
   })
   await $pushs.subscribe()
   const pushs = $pushs.get()

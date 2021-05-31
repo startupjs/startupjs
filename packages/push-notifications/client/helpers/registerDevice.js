@@ -1,20 +1,20 @@
 import { $root } from 'startupjs'
 
 export default async function registerDevice (userId, token) {
-  const $push = $root.scope(`pushs.${userId}`)
-  await $push.subscribe()
-  const push = $push.get()
+  const $pushs = $root.query('pushs', { userId })
+  await $pushs.subscribe()
+  const [push] = $pushs.get()
 
   if (!push) {
     $root.add('pushs', {
-      id: userId,
+      userId,
       platforms: {
         [token.os]: token.token
       }
     })
   } else {
-    $push.setDiff(`platforms.${token.os}`, token.token)
+    $pushs.setDiff(`platforms.${token.os}`, token.token)
   }
 
-  $push.unsubscribe()
+  $pushs.unsubscribe()
 }

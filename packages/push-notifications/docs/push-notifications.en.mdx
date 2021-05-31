@@ -155,7 +155,7 @@ const [title, setTitle] = useState('')
 const [body, setBody] = useState('')
 const [userId] = useSession('userId')
 
-function sendCustomNotification () {
+function send () {
   sendNotification([userId], {
     title,
     body
@@ -179,7 +179,7 @@ return (
     />
     <Br/>
     
-    <Button onPress={sendCustomNotification}>
+    <Button onPress={send}>
       Send Test Push
     </Button>
   </Div>

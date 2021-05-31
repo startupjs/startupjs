@@ -29,7 +29,7 @@ function Accounts () {
     $skip: skip
   })
   const [pushsCount] = useQuery('pushs', { $count: true })
-  const [users] = useQuery('users', { _id: { $in: pushs.map(push => push.id) } })
+  const [users] = useQuery('users', { _id: { $in: pushs.map(push => push.userId) } })
   const [personalIds, $personalIds] = useValue([])
 
   function openModal (id) {
@@ -53,7 +53,7 @@ function Accounts () {
         each push in pushs
           Tr(key=push.id)
             Td
-              - let user = users.find(user => user.id === push.id)
+              - let user = users.find(user => user.id === push.userId)
               Span= user ? user.email : 'Unauthorized'
             Td= Object.keys(push.platforms).join(', ')
             Td.cellContent
@@ -61,7 +61,7 @@ function Accounts () {
                 Dropdown.Caption
                   Row
                     Icon(icon=faEllipsisH)
-                Dropdown.Item(value='send' label='Send message' onPress=() => openModal(push.id))
+                Dropdown.Item(value='send' label='Send message' onPress=() => openModal(push.userId))
     Row.pagination(align='center')
       Pagination(
         count=pushsCount
