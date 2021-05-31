@@ -16,10 +16,10 @@ function DeliveryConfigBlog ({ $options }) {
   const options = $options.get()
 
   function setPlatform (platformName) {
-    if (!options.filters.platforms.includes(platformName)) {
-      $options.push('filters.platforms', platformName)
+    if (!options.platforms.includes(platformName)) {
+      $options.push('platforms', platformName)
     } else {
-      $options.remove('filters.platforms', options.filters.platforms.indexOf(platformName))
+      $options.remove('platforms', options.platforms.indexOf(platformName))
     }
   }
 
@@ -34,7 +34,7 @@ function DeliveryConfigBlog ({ $options }) {
               key=platform
               styleName={ first: !index }
               label=platform
-              value=options.filters.platforms.includes(platform)
+              value=options.platforms.includes(platform)
               onChange=() => setPlatform(platform)
             )
   `

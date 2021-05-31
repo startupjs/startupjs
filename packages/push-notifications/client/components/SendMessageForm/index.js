@@ -13,9 +13,7 @@ import './index.styl'
 const DEFAULT_OPTIONS = {
   title: '',
   body: '',
-  filters: {
-    platforms: []
-  }
+  platforms: []
 }
 // TODO прокидывать ади юзеров со страницы с аккаунтами с помощью чекбоксов
 function SendMessageForm ({ userIds, onClose }) {

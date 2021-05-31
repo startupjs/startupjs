@@ -2,23 +2,19 @@ import * as fadmin from 'firebase-admin'
 
 const DEFAULT_PLATFORMS = ['ios', 'android']
 
-// data: {
-//  userIds: array,
-//  options: {
-//    title: string,
-//    body: string,
-//    filters: {
-//      platforms: ['ios', 'android']
-//    },
-//    data: object
+// options: {
+//  title: string,
+//  body: string,
+//  platforms: ['ios', 'android']
+//  data: object
 // }
 
-export default async function sendNotification (model, userIds, data) {
+export default async function sendNotification (model, userIds, options) {
   if (!userIds) {
     console.error('[@startupjs/push-notifications/sendNotification]: userIds is required!')
     return
   }
-  if (!data.options.body) {
+  if (!options.body) {
     console.error('[@startupjs/push-notifications/sendNotification]: body is required!')
     return
   }
@@ -32,7 +28,7 @@ export default async function sendNotification (model, userIds, data) {
 
   const tokens = []
 
-  const platforms = getPlatforms(data.options?.filters)
+  const platforms = options.platforms?.length ? options.platforms : DEFAULT_PLATFORMS
   pushs.forEach(el => {
     platforms.forEach(platform => {
       if (el.platforms[platform]) {
@@ -41,9 +37,7 @@ export default async function sendNotification (model, userIds, data) {
     })
   })
 
-  const _data = setDefaults(data)
-
-  await saveMessage(model, _data, tokens)
+  await saveMessage(model, options, userIds)
 
   if (!tokens.length) return
 
@@ -51,43 +45,22 @@ export default async function sendNotification (model, userIds, data) {
     tokens,
     {
       notification: {
-        title: _data.options.title,
-        body: _data.options.body,
+        title: options.title,
+        body: options.body,
         // only android has channels, thus if we want use this feature for both platforms we need to create custom channels
         android_channel_id: 'default'
       },
-      data: _data.options.data
+      data: options.data || {}
     }
   )
 }
 
-function getPlatforms (filters) {
-  if (filters?.platforms?.length) {
-    return filters.platforms
-  } else {
-    return DEFAULT_PLATFORMS
-  }
-}
-
-function setDefaults (data) {
-  const _data = data
-
-  if (!data.options?.title) {
-    _data.options.title = ''
-  }
-
-  if (!data.options.data) {
-    _data.options.data = {}
-  }
-
-  return _data
-}
-
-async function saveMessage (model, data) {
+async function saveMessage (model, options, userIds) {
   const $pushMessages = model.at('pushMessages')
 
   await $pushMessages.add({
-    ...data,
+    ...options,
+    userIds,
     createdAt: Date.now()
   })
 }

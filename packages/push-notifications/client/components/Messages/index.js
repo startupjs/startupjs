@@ -38,9 +38,9 @@ function Messages () {
           each pushMessage in pushMessages
             Tr(key=pushMessage.id)
               Td= new Date(pushMessage.createdAt).toLocaleDateString()
-              Td= pushMessage.options.title ? pushMessage.options.title : '✗'
-              Td= pushMessage.options.body
-              Td= _get(pushMessage, 'options.filters.platforms', ['ios', 'android']).join(', ')
+              Td= pushMessage.title || '✗'
+              Td= pushMessage.body
+              Td= _get(pushMessage, 'platforms', ['ios', 'android']).join(', ')
     Row.pagination(align='center')
       Pagination(
         count=pushMessagesCount

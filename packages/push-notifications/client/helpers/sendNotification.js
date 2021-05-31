@@ -4,9 +4,7 @@ import { SEND_URL } from '../../isomorphic'
 // options = {
 //  title: string,
 //  body: string,
-//  filters: {
-//    platforms: [],
-//  },
+//  platforms: []
 // }
 
 export default async function sendNotification (userIds, options = {}) {
