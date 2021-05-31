@@ -16,7 +16,7 @@ function DeliveryConfigBlog ({ $options }) {
   const options = $options.get()
 
   function setPlatform (platformName) {
-    if (!options.platforms.includes(platformName)) {
+    if (!options.platforms || !options.platforms.includes(platformName)) {
       $options.push('platforms', platformName)
     } else {
       $options.remove('platforms', options.platforms.indexOf(platformName))
@@ -34,7 +34,7 @@ function DeliveryConfigBlog ({ $options }) {
               key=platform
               styleName={ first: !index }
               label=platform
-              value=options.platforms.includes(platform)
+              value=options.platforms ? options.platforms.includes(platform) : false
               onChange=() => setPlatform(platform)
             )
   `

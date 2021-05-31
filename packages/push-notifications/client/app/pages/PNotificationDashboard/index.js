@@ -16,7 +16,6 @@ const TABS = {
 
 function PNotificationDashboard () {
   const [active, setActive] = useState(TABS.accounts.value)
-  console.log('active: ', active)
 
   const Tab = useMemo(() => {
     return TABS[active].component
