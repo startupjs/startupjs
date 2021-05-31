@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {
   View,
   Animated,
-  TouchableWithoutFeedback,
   Dimensions,
   StyleSheet
 } from 'react-native'
@@ -15,14 +14,8 @@ import { PLACEMENTS_ORDER, STEPS } from './constants.json'
 import animate from './animate'
 import STYLES from './index.styl'
 
-function isStampInit (step) {
-  return ['close', 'render'].indexOf(step) === -1
-}
-
-function getValidNode (current) {
-  return current.measure
-    ? current
-    : current.getNode()
+function isMeasured (step) {
+  return step !== 'close' && step !== 'measure'
 }
 
 function AbstractPopover ({
@@ -37,7 +30,7 @@ function AbstractPopover ({
   animateType,
   durationOpen,
   durationClose,
-  hasArrow,
+  arrow,
   hasWidthCaption,
   renderWrapper,
   onRequestOpen,
@@ -45,7 +38,7 @@ function AbstractPopover ({
 }, ref) {
   style = StyleSheet.flatten([style])
 
-  const refPopover = useRef(null)
+  const refPopover = useRef()
   const refGeometry = useRef({})
   const captionInfo = useRef({})
 
@@ -89,7 +82,7 @@ function AbstractPopover ({
   // -main
   useEffect(() => {
     if (step === STEPS.CLOSE && visible) {
-      $step.set(STEPS.RENDER)
+      $step.set(STEPS.MEASURE)
       setTimeout(runShow, 0)
     }
 
@@ -102,22 +95,25 @@ function AbstractPopover ({
   function runShow () {
     if (!refCaption.current) return
 
-    // x, y, width, height, pageX, pageY
-    getValidNode(refCaption.current).measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
+    refCaption.current.measure((captionX, captionY, captionWidth, captionHeight, captionPageX, captionPageY) => {
       if (!refPopover.current) return
 
-      console.log(refPopover.current)
-      getValidNode(refPopover.current).measure((px, py, pWidth, pHeight, ppx, ppy) => {
-        captionInfo.current = { x: cpx, y: cpy, width: cWidth, height: cHeight }
+      refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight, popoverPageX, popoverPageY) => {
+        captionInfo.current = {
+          x: captionPageX,
+          y: captionPageY,
+          width: captionWidth,
+          height: captionHeight
+        }
 
         const { height = 'auto', maxHeight } = style
-        let curHeight = (height === 'auto') ? pHeight : height
+        let curHeight = (height === 'auto') ? popoverHeight : height
         curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
-        let curWidth = hasWidthCaption ? captionInfo.current.width : pWidth
+        let curWidth = hasWidthCaption ? captionWidth : popoverWidth
         const contentInfo = {
-          x: cpx,
-          y: cpy,
+          x: captionPageX,
+          y: captionPageY,
           height: curHeight,
           width: curWidth
         }
@@ -127,12 +123,12 @@ function AbstractPopover ({
           captionInfo: captionInfo.current,
           contentInfo,
           placements,
-          hasArrow,
-          dimensions
+          dimensions,
+          arrow
         })
 
         setValidPlacement(refGeometry.current.validPlacement)
-        $step.set(STEPS.ANIMATE)
+        $step.set(STEPS.RENDER)
 
         animate.show({
           durationOpen,
@@ -140,7 +136,7 @@ function AbstractPopover ({
           contentInfo,
           animateType,
           animateStates,
-          hasArrow
+          arrow
         }, () => {
           $step.set(STEPS.OPEN)
           onRequestOpen && onRequestOpen()
@@ -153,9 +149,9 @@ function AbstractPopover ({
     if (!refPopover.current) {
       _closeStep()
     } else {
-      getValidNode(refPopover.current).measure((x, y, popoverWidth, popoverHeight) => {
+      refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight) => {
         const contentInfo = { width: popoverWidth, height: popoverHeight }
-        $step.set(STEPS.ANIMATE)
+        $step.set(STEPS.RENDER)
 
         animate.hide({
           durationClose,
@@ -163,7 +159,7 @@ function AbstractPopover ({
           animateType,
           contentInfo,
           animateStates,
-          hasArrow
+          arrow
         }, _closeStep)
       })
     }
@@ -184,7 +180,7 @@ function AbstractPopover ({
   ])
 
   const animateStyle = StyleSheet.flatten([
-    isStampInit(step)
+    isMeasured(step)
       ? {
         ...STYLES.animate,
         opacity: animateStates.opacity,
@@ -198,11 +194,12 @@ function AbstractPopover ({
       : STYLES.stamp
   ])
 
+  // We make it possible to correctly expand the geometry of the component when changing its content, in all sides
   const [validPosition] = validPlacement.split('-')
-  if (isStampInit(step) && validPosition === 'top') animateStyle.bottom = 0
-  if (isStampInit(step) && validPosition === 'left') animateStyle.right = 0
-  if (isStampInit(step) && validPlacement === 'left-end') animateStyle.bottom = 0
-  if (isStampInit(step) && validPlacement === 'right-end') animateStyle.bottom = 0
+  if (isMeasured(step) && validPosition === 'top') animateStyle.bottom = 0
+  if (isMeasured(step) && validPosition === 'left') animateStyle.right = 0
+  if (isMeasured(step) && validPlacement === 'left-end') animateStyle.bottom = 0
+  if (isMeasured(step) && validPlacement === 'right-end') animateStyle.bottom = 0
 
   if (validPosition !== 'left') {
     positionStyle.width = '100%'
@@ -222,7 +219,7 @@ function AbstractPopover ({
         ref=refPopover
         style=[style, animateStyle]
       )
-        if hasArrow
+        if arrow
           Arrow(
             style=arrowStyle
             geometry=refGeometry.current
@@ -234,13 +231,7 @@ function AbstractPopover ({
   return pug`
     Portal
       if step !== STEPS.CLOSE
-        if renderWrapper
-          = renderWrapper(popover)
-        else
-          View.wrapper
-            TouchableWithoutFeedback(onPress=onRequestClose)
-              View.overlay
-            = popover
+        = renderWrapper(popover)
   `
 }
 
@@ -252,7 +243,7 @@ ObservedAP.defaultProps = {
   placements: PLACEMENTS_ORDER,
   animateType: 'opacity',
   hasWidthCaption: false,
-  hasArrow: false,
+  arrow: false,
   durationOpen: 300,
   durationClose: 300
 }
@@ -265,7 +256,7 @@ ObservedAP.propTypes = {
   placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
   animateType: PropTypes.oneOf(['opacity', 'scale']),
   hasWidthCaption: PropTypes.bool,
-  hasArrow: PropTypes.bool,
+  arrow: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
   onRequestOpen: PropTypes.func,
