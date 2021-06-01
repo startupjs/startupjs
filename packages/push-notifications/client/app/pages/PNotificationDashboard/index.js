@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import {
   Menu,
@@ -26,19 +27,20 @@ function PNotificationDashboard () {
   }, [])
 
   return pug`
-    Div.root
-      Menu.tabs(variant='horizontal' activeBorder='bottom')
-        each tab in tabs
-          - const tabValue = TABS[tab].value
-          Menu.Item.tab(
-            key=tabValue
-            active= active === tabValue
-            onPress=() => setActive(tabValue)
-          )
-            Span.tabLabel= TABS[tab].label
+    ScrollView
+      Div.root
+        Menu.tabs(variant='horizontal' activeBorder='bottom')
+          each tab in tabs
+            - const tabValue = TABS[tab].value
+            Menu.Item.tab(
+              key=tabValue
+              active= active === tabValue
+              onPress=() => setActive(tabValue)
+            )
+              Span.tabLabel= TABS[tab].label
 
-      Div.content
-        Tab
+        Div.content
+          Tab
   `
 }
 

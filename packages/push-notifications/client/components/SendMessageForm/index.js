@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer, useValue } from 'startupjs'
 import {
   Div,
@@ -7,32 +7,28 @@ import {
 import PropTypes from 'prop-types'
 import { sendNotification } from '../../helpers'
 import MessageBlock from './MessageBlock'
-import DeliveryConfigBlog from './DeliveryConfigBlog'
+import DeliveryConfigBlock from './DeliveryConfigBlock'
 import './index.styl'
 
-const DEFAULT_OPTIONS = {
-  title: '',
-  body: ''
-}
-
 function SendMessageForm ({ userIds, onClose }) {
-  const [options, $options] = useValue({
-    ...DEFAULT_OPTIONS
-  })
+  const [options, $options] = useValue({})
 
   async function send () {
     await sendNotification(userIds, options)
-    $options.setDiffDeep({
-      ...DEFAULT_OPTIONS
-    })
+    $options.set({})
     onClose && onClose()
   }
 
+  const disabled = useMemo(() => {
+    return !options.body || !options.platforms || !options.platforms.length
+  }, [JSON.stringify(options)])
+
   return pug`
-    Div
+    Div.root
       MessageBlock($options=$options)
-      DeliveryConfigBlog($options=$options)
-      Button.sendButton(onPress=send) Send
+      Div.config
+        DeliveryConfigBlock($options=$options)
+      Button.sendButton(disabled=disabled onPress=send) Send
   `
 }
 

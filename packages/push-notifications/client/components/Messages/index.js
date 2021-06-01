@@ -11,7 +11,6 @@ import {
   Td,
   Pagination
 } from '@startupjs/ui'
-import _get from 'lodash/get'
 import './index.styl'
 
 const LIMIT = 10
@@ -27,7 +26,7 @@ function Messages () {
 
   return pug`
     Div.root
-      Table.table
+      Table
         Thead
           Tr
             Th Created At
@@ -40,7 +39,7 @@ function Messages () {
               Td= new Date(pushMessage.createdAt).toLocaleDateString()
               Td= pushMessage.title || '✗'
               Td= pushMessage.body
-              Td= _get(pushMessage, 'platforms', ['ios', 'android']).join(', ')
+              Td= pushMessage.platforms.sort().join(', ')
     Row.pagination(align='center')
       Pagination(
         count=pushMessagesCount

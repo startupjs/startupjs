@@ -24,11 +24,13 @@ export default async function sendNotification (model, userIds, options) {
   })
   await $pushs.subscribe()
   const pushs = $pushs.get()
-  $pushs.unsubscribe()
 
   const tokens = []
 
-  const platforms = options.platforms?.length ? options.platforms : DEFAULT_PLATFORMS
+  const _options = setDefaults(options, { platforms: DEFAULT_PLATFORMS })
+
+  const platforms = _options.platforms
+
   pushs.forEach(el => {
     platforms.forEach(platform => {
       if (el.platforms[platform]) {
@@ -37,20 +39,21 @@ export default async function sendNotification (model, userIds, options) {
     })
   })
 
-  await saveMessage(model, options, userIds)
+  await saveMessage(model, _options, userIds)
 
+  $pushs.unsubscribe()
   if (!tokens.length) return
 
   await fadmin.messaging().sendToDevice(
     tokens,
     {
       notification: {
-        title: options.title,
-        body: options.body,
+        title: _options.title,
+        body: _options.body,
         // only android has channels, thus if we want use this feature for both platforms we need to create custom channels
         android_channel_id: 'default'
       },
-      data: options.data || {}
+      data: _options.data || {}
     }
   )
 }
@@ -63,4 +66,14 @@ async function saveMessage (model, options, userIds) {
     userIds,
     createdAt: Date.now()
   })
+}
+
+function setDefaults (options, defaults = {}) {
+  const _options = Object.assign({}, options)
+  Object.keys(defaults).forEach(key => {
+    if (!_options[key]) {
+      _options[key] = defaults[key]
+    }
+  })
+  return _options
 }

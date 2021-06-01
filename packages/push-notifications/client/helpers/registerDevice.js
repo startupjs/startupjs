@@ -1,7 +1,7 @@
 import { $root } from 'startupjs'
 
 export default async function registerDevice (userId, token) {
-  const $pushs = $root.query('pushs', { userId })
+  const $pushs = $root.query('pushs', { userId, $limit: 1 })
   await $pushs.subscribe()
   const [push] = $pushs.get()
 

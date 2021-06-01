@@ -12,7 +12,7 @@ import './index.styl'
 
 const PLATFORMS = ['ios', 'android']
 
-function DeliveryConfigBlog ({ $options }) {
+function DeliveryConfigBlock ({ $options }) {
   const options = $options.get()
 
   function setPlatform (platformName) {
@@ -40,8 +40,8 @@ function DeliveryConfigBlog ({ $options }) {
   `
 }
 
-DeliveryConfigBlog.propTypes = {
+DeliveryConfigBlock.propTypes = {
   $options: PropTypes.any.isRequired
 }
 
-export default observer(DeliveryConfigBlog)
+export default observer(DeliveryConfigBlock)
