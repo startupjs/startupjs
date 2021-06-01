@@ -6,7 +6,7 @@ export default async function registerDevice (userId, token) {
   const [push] = $pushs.get()
 
   if (!push) {
-    $root.add('pushs', {
+    await $root.add('pushs', {
       userId,
       platforms: {
         [token.os]: token.token

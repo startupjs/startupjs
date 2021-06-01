@@ -27,9 +27,10 @@ export default async function sendNotification (model, userIds, options) {
 
   const tokens = []
 
-  const _options = setDefaults(options, { platforms: DEFAULT_PLATFORMS })
+  let _options = setDefaults(options, { platforms: DEFAULT_PLATFORMS })
+  _options = removeEmpty(_options)
 
-  const platforms = _options.platforms
+  const { platforms, data, ...notification } = _options
 
   pushs.forEach(el => {
     platforms.forEach(platform => {
@@ -48,12 +49,11 @@ export default async function sendNotification (model, userIds, options) {
     tokens,
     {
       notification: {
-        title: _options.title,
-        body: _options.body,
+        ...notification,
         // only android has channels, thus if we want use this feature for both platforms we need to create custom channels
         android_channel_id: 'default'
       },
-      data: _options.data || {}
+      data: data || {}
     }
   )
 }
@@ -75,5 +75,17 @@ function setDefaults (options, defaults = {}) {
       _options[key] = defaults[key]
     }
   })
+  return _options
+}
+
+function removeEmpty (options) {
+  const _options = {}
+
+  Object.keys(options).forEach(key => {
+    if (options[key]) {
+      _options[key] = options[key]
+    }
+  })
+
   return _options
 }
