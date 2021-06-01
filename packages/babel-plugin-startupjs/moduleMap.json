@@ -30,6 +30,7 @@
     "SmartSidebar": "/components/SmartSidebar",
     "Tabs": "/components/Tabs",
     "Tag": "/components/Tag",
+    "Toast": "/components/Toast",
     "Tooltip": "/components/Tooltip",
     "User": "/components/User",
     "ArrayInput": "/components/forms/ArrayInput",

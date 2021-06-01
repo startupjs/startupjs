@@ -23,6 +23,7 @@ const ICONS = {
 }
 
 function Alert ({
+  style,
   variant,
   icon,
   label,
@@ -37,7 +38,10 @@ function Alert ({
   }
 
   return pug`
-    Row.root(styleName=[variant])
+    Row.root(
+      style=style
+      styleName=[variant]
+    )
       if icon !== false
         Icon.icon(
           icon=icon || ICONS[variant]
