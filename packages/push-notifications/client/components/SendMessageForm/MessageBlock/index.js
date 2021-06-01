@@ -31,7 +31,7 @@ function MessageBlock ({ $options }) {
         )
         TextInput.input(
           value=options.body
-          placeholder='Content'
+          placeholder='Content (required)'
           onChangeText=setField('body')
         )
       Div.previewBlock
