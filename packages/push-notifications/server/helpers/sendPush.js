@@ -80,12 +80,10 @@ function setDefaults (options, defaults = {}) {
 
 function removeEmpty (options) {
   const _options = {}
-
   Object.keys(options).forEach(key => {
     if (options[key]) {
       _options[key] = options[key]
     }
   })
-
   return _options
 }
