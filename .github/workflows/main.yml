@@ -1,0 +1,49 @@
+name: deploy-app-aks
+
+on:
+  push:
+    branches:    
+      - aks-cicd
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  CLUSTER_NAME: dm-dev-3-k8s-aks
+  CLUSTER_RESOURCE_GROUP: dm-dev-3
+  APP_NAME: startupjs-ui
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    # Connect to Azure Container Registry (ACR)
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # Container build and push to a Azure Container Registry (ACR)
+    - run: |
+        cd styleguide && docker build . -t ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+    
+    # Set the target Azure Kubernetes Service (AKS) cluster. 
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: ${{ env.CLUSTER_NAME }}
+        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+
+    # Deploy app to AKS
+    - name: 'Deploy'
+      uses: 'deliverybot/helm@v1'
+      with:
+        token: '${{ github.token }}'
+        release: 'startupjs-ui'
+        namespace: 'default'
+        chart: './helm/chart'
+        values: |
+          ingress.host: ${{ env.APP_NAME }}
+          env: dev
+          app.image: ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
