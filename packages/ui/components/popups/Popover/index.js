@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
-import AnimatedSpawn from './AnimatedSpawn'
+import AbstractPopover from './AbstractPopover'
 import DeprecatedPopover from './Deprecated'
 import Div from '../../Div'
 import './index.styl'
@@ -56,7 +56,7 @@ function Popover ({
       ref=refCaption
       onPress=()=> setVisible(true)
     )= children
-    AnimatedSpawn.content(
+    AbstractPopover.content(
       style=[contentStyle]
       styleName={ contentWithArrow: arrow }
       arrowStyle=arrowStyle

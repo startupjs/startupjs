@@ -7,11 +7,11 @@ import {
 } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
-import Arrow from './Arrow'
-import Portal from '../../Portal'
-import Geometry from './Geometry'
-import { PLACEMENTS_ORDER, STEPS } from './constants.json'
-import animate from './animate'
+import Arrow from '../Arrow'
+import Portal from '../../../Portal'
+import Geometry from '../Geometry'
+import { PLACEMENTS_ORDER, STEPS } from '../constants.json'
+import animate from '../animate'
 import STYLES from './index.styl'
 
 function isMeasured (step) {

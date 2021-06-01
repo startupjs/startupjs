@@ -1,13 +1,3 @@
-.location, .animate
-  position absolute
-
-.stamp
-  position absolute
-  opacity 0
-  left -999
-  top -999
-  z-index -1
-
 .wrapper, .overlay
   position absolute
   width 100%
@@ -15,9 +5,8 @@
   left 0
   top 0
 
-.overlay
-  +web()
-    cursor default
+.contentWithArrow
+  border-radius .5u
 
 .content
   padding 2u 3u
@@ -25,5 +14,6 @@
   background-color #ffffff
   shadow(3)
 
-.contentWithArrow
-  border-radius .5u
+.overlay
+  +web()
+    cursor default
