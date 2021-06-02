@@ -39,6 +39,9 @@ jobs:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+    
+    - run: |
+        cat $KUBECONFIG
 
     # Deploy app to AKS
     - name: 'Deploy app'
