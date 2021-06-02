@@ -10,14 +10,12 @@ import {
   Th,
   Td,
   Modal,
-  Dropdown,
-  Icon,
   Pagination,
   Checkbox,
   Div,
   Button
 } from '@startupjs/ui'
-import { faEllipsisH, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faMinus } from '@fortawesome/free-solid-svg-icons'
 import SendMessageForm from '../SendMessageForm'
 import './index.styl'
 
@@ -64,11 +62,6 @@ function Accounts () {
     $visible.set(true)
   }
 
-  function sendToCertainUser (userId) {
-    setSelectedUserIds([userId])
-    openModal()
-  }
-
   function onClose () {
     $visible.set(false)
     setSelectedUserIds([])
@@ -79,13 +72,12 @@ function Accounts () {
 
   return pug`
     Div.root
-      if selectedUserIds.length
-        Row
-          Button(onPress=openModal) Send to selected
-      Table.table(styleName={withButton: selectedUserIds.length})
+      Row.sendButton
+        Button(disabled=!selectedUserIds.length onPress=openModal) Send to selected
+      Table.table
         Thead
           Tr
-            Th
+            Th.cellCheckbox
               Checkbox(
                 value=checkedAll || intermediate
                 onChange=onChangeAll
@@ -93,11 +85,10 @@ function Accounts () {
               )
             Th Email
             Th Platforms
-            Th.cellContent Options
         Tbody
           each push in pushs
             Tr(key=push.id)
-              Td
+              Td.cellCheckbox
                 Checkbox(
                   value=selectedUserIds.includes(push.userId)
                   onChange=value => onChange(value, push.userId)
@@ -106,12 +97,6 @@ function Accounts () {
                 - let user = users.find(user => user.id === push.userId)
                 Span= user ? user.email : 'Unauthorized'
               Td= Object.keys(push.platforms).join(', ')
-              Td.cellContent
-                Dropdown
-                  Dropdown.Caption
-                    Row
-                      Icon(icon=faEllipsisH)
-                  Dropdown.Item(value='send' label='Send message' onPress=() => sendToCertainUser(push.userId))
       Row.pagination(align='center')
         Pagination(
           count=pushsCount
