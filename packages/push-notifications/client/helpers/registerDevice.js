@@ -13,7 +13,8 @@ export default async function registerDevice (userId, token) {
       }
     })
   } else {
-    $pushs.setDiff(`platforms.${token.os}`, token.token)
+    const $push = $root.scope(`pushs.${push.id}`)
+    $push.setDiff(`platforms.${token.os}`, token.token)
   }
 
   $pushs.unsubscribe()

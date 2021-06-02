@@ -24,7 +24,7 @@ function SendMessageForm ({ userIds, onClose }) {
   }, [JSON.stringify(options)])
 
   return pug`
-    Div.root
+    Div
       MessageBlock($options=$options)
       Div.config
         DeliveryConfigBlock($options=$options)

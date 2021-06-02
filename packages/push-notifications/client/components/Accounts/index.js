@@ -119,7 +119,7 @@ function Accounts () {
           skip=skip
           onChangePage=val => setSkip(val * LIMIT)
         )
-    Modal($visible=$visible)
+    Modal($visible=$visible title='Message')
       SendMessageForm(userIds=selectedUserIds onClose=onClose)
   `
 }

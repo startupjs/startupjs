@@ -28,13 +28,15 @@ yarn add @startupjs/push-notifications @react-native-community/push-notification
 
 In order to send push notifications to ios devices, you need to create certificates.
 
+Login to your [Apple Developer account](https://developer.apple.com/account).
+
 Select `Certificates, Identifiers & Profiles` and go to `Keys`. Click the + circle button to create a new key.
 
-![alpha](/img/docs/push-notifications/pushs2.png "Certificates, Identifiers & Profiles")
+![Certificates, Identifiers & Profiles](/img/docs/push-notifications/pushs2.png)
 
 Give it a name and enable the `Apple Push Notifications service (APNs)`. Choose `Continue` and on the next screen choose `Register`.
 
-![alpha](/img/docs/push-notifications/pushs3.png "Apple Push Notifications service (APNs)")
+![Apple Push Notifications service (APNs)](/img/docs/push-notifications/pushs3.png)
 
 It is important to record the following three elements from this page:
 
@@ -42,43 +44,41 @@ It is important to record the following three elements from this page:
 - Copy and save the `Key ID`.
 - Copy and save your membership ID. It is located next to your name in the upper right corner of the Membership Center or in the `Membership Details` section.
 
-![alpha](/img/docs/push-notifications/pushs4.png "Apple Push Notifications service (APNs)")
+![Command id and key id](/img/docs/push-notifications/pushs4.png)
 
 ### Setting up a Firebase project
 
 You need to connect the `p8` certificate to your application in `Firebase`. In your `Firebase` project, select the gear next to `Project Overview` and select `Project settings`:
 
-![alpha](/img/docs/push-notifications/pushs5.png "Apple Push Notifications service (APNs)")
+![Firebase settings](/img/docs/push-notifications/pushs5.png)
 
 Then set up your iOS app in the `General` section of your project settings. Do all the operations indicated:
 
-![alpha](/img/docs/push-notifications/pushs6.png "Apple Push Notifications service (APNs)")
+![Add ios app](/img/docs/push-notifications/pushs6.png)
 
 Then upload your `p8` certificate by going to `Cloud Messaging` in the `Firebase` project settings. In the `APNs Authentication Key` section, select `Upload`.
 
-![alpha](/img/docs/push-notifications/pushs7.png "Apple Push Notifications service (APNs)")
+![Add APNs Authentication Key](/img/docs/push-notifications/pushs7.png)
 
 Enter the details that you saved in the step of creating the `p8` certificate.
 
 ## iOS
 
-Add Capabilities : Background Mode - Remote Notifications
-Go into your MyReactProject/ios dir and open MyProject.xcworkspace workspace. Select the top project "MyProject" and select the "Signing & Capabilities" tab. Add a 2 new Capabilities using "+" button:
+Add Capabilities : `Background Mode` - `Remote Notifications`
+Go into your `MyReactProject/ios` dir and open `MyProject.xcworkspace` workspace with xcode. Select the top project `MyProject` and select the `Signing & Capabilities` tab. Add a 2 new Capabilities using `+` button:
 
-![alpha](/img/docs/push-notifications/pushs8.png "Apple XCode Capabilities")
+![Apple XCode Capabilities](/img/docs/push-notifications/pushs8.png)
 
-Background Mode capability and tick Remote Notifications.
-Push Notifications capability
+`Background Mode` capability and tick `Remote Notifications`.
+`Push Notifications` capability
 
-![alpha](/img/docs/push-notifications/pushs9.png "Apple XCode Capabilities")
+![Background mode](/img/docs/push-notifications/pushs9.png)
 
-![alpha](/img/docs/push-notifications/pushs10.png "Apple XCode Capabilities")
+![Push Notifications](/img/docs/push-notifications/pushs10.png)
 
-![alpha](/img/docs/push-notifications/pushs11.png "Apple XCode Capabilities")
+![Remote Notifications](/img/docs/push-notifications/pushs11.png)
 
-## Using
-
-### Connection
+## Connecting the package to your project
 
 ### server
 
@@ -106,7 +106,7 @@ appRoutes: [
 ```
 You can generate a `serviceAccount` in the `Firebase` [console](https://console.firebase.google.com/project/) of your application. Open the `Service accounts` tab and click `Generate new private key`.
 
-![alpha](/img/docs/push-notifications/pushs1.png "firebase admin")
+![Generate private key](/img/docs/push-notifications/pushs1.png)
 
 ### client
 
@@ -126,65 +126,99 @@ App(
 )
 ```
 
-## API
+## Usage server API
 
-### server API
+### `initPushNotifications (ee)`
+Initialization of push notifications on the server.
 
-- `initPushNotifications (ee)`
+**Arguments**
+  `ee (Object)` - eventEmitter of server.
 
-- `initFirebaseApp(serviceAccount)` - initialization of the `Firebase` application. How to create a `serviceAccount` see [above](/docs/libraries/push-notofications#server).
-  - `serviceAccountPath` - string, absolute path to `serviceAccount`.
+**Example**
 
-### client API
+```js
+startupjsServer({ ... }, (ee, options) => {
+  ...
+  initPushNotifications(ee)
+  ...
+}
+```
 
-- `initPushNotifications (options)` - function of initializing push notifications. Also initializes the channel id `default` for android.
-  - `options [Object]` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
+### `initFirebaseApp(serviceAccount)`
+Initialization of the `Firebase` application. How to create a `serviceAccount` see [above](/docs/libraries/push-notofications#server).
 
-- `sendNotification(userIds, options)` - function for sending notifications. - `options [Object]`:
-    - `title [String]` - header string.
-    - `body [String] (required)` - content string.
-    - `androidChannelId [String]` - string with the channel name for android.
-    - `filters [Object]` - filters object. The following fields are supported:
-      - `platforms [Array]` - an array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
+**Arguments**
+  `serviceAccountPath (String)` - the absolute path to `serviceAccount`.
 
+**Example**
 
-### Example
+```js
+import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+
+init({ orm })
+initFirebaseApp(serviceAccountPath)
+```
+
+### `sendNotification (userIds, options)`
+The function of sending push notifications. Same as [client function](/docs/libraries/push-notofications#send-notification-user-ids-options).
+
+## Usage client API
+
+### `initPushNotifications (options)`
+function of initializing push notifications. 
+
+**Arguments**
+  `options [Object]` - an options object for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and` onNotification [Function]` fields as this may break the package's behavior.
+
+**Example**
+
+```js
+App(
+  ...
+  useGlobalInit=() => {
+    initPushNotifications()
+    return true
+  }
+)
+```
+
+### `sendNotification (userIds, options)`
+function for sending notifications.
+
+**Arguments**
+`userIds [Array]` - array of user id to which push notification will be sent.
+
+`options [Object]`:
+  - `title [String]` - header string.
+  - `body [String] (required)` - content string.
+  - `platforms [Array]` - an array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
+
+**Example**
 
 ```jsx example
-const [title, setTitle] = useState('')
-const [body, setBody] = useState('')
 const [userId] = useSession('userId')
 
-function send () {
-  sendNotification([userId], {
-    title,
-    body
-  })
-  setTitle('')
-  setBody('')
+function getPlan (id) {
+  // WARNING: This is abstract example
+  // This can be any function of yours
+  return { name: 'silver' }
+}
+
+async function subscribe (planId) {
+  const plan = getPlan(planId)
+  // plan subscription logic
+  await sendNotification([userId], { title: 'Subscription ', body: `You have subscribed to plan ${plan.name}`, platforms: ['ios', 'android']})
 }
 
 return (
   <Div>
-    <TextInput
-      value={title}
-      placeholder='title'
-      onChangeText={setTitle}
-    />
-    <Br/>
-    <TextInput
-      value={body}
-      placeholder='content'
-      onChangeText={setBody}
-    />
-    <Br/>
-    
-    <Button onPress={send}>
-      Send Test Push
+    <Button onPress={() => subscribe(123)}>
+      Subscribe
     </Button>
   </Div>
 )
 ```
+
 ## Dashboard
 
 [Dashboard](/push-notifications-dashboard)
