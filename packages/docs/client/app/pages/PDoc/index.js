@@ -27,7 +27,7 @@ export default observer(function PDoc ({
         Component
         Br(lines=4)
       else
-        Span(variant='h2') Page not found
+        Span.message Page not found
   `
 })
 

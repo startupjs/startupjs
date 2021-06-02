@@ -54,7 +54,7 @@ export default observer(function TestComponent ({ style }) {
       Button(color='warning' size='s' onPress=reset) RESET
       Br
       Card(variant='outlined')
-        Span(variant='description')
+        Span(description)
           | Open the same page in another browser tab or in mobile app to see counter update in real time.
       Br
       Card.rest

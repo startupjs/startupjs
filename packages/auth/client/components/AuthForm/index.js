@@ -69,7 +69,7 @@ function AuthForm ({
       if localActiveForm
         H5.caption= DEFAULT_FORMS_CAPTIONS[slide]
 
-        Span.description(variant='description')
+        Span.description(description)
           = DEFAULT_FORMS_DESCRIPTIONS[slide]
 
       if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)

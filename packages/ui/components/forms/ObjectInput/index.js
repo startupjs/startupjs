@@ -50,7 +50,7 @@ function ObjectInput ({
     if (label) {
       return pug`
         Div(style=style)
-          Span.label(variant='description')= label
+          Span.label(description)= label
           Card(
             style=inputStyle
             variant='outlined'

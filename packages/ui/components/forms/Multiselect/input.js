@@ -33,7 +33,7 @@ function MultiselectInput ({
       if label
         Span.label(
           styleName={ focused, error }
-          variant='description'
+          description
         )= label
       Input(
         value=_values
@@ -60,7 +60,7 @@ function MultiselectInput ({
             record={ label: '+' + hiddenTagsLength }
           )
       if error && !readonly
-        Span.error(variant='description')= error
+        Span.error(description)= error
   `
 }
 
