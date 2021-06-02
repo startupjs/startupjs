@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/backend",
-  "version": "0.35.2",
+  "version": "0.35.9",
   "description": "Create new ShareDB backend instance",
   "main": "index.js",
   "scripts": {},
@@ -24,7 +24,7 @@
     "sharedb-wsbus-pubsub": "*"
   },
   "peerDependencies": {
-    "nconf": "*",
-    "mongodb": ">=3.0.0"
+    "mongodb": ">=3.0.0",
+    "nconf": "*"
   }
 }
