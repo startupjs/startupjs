@@ -40,12 +40,27 @@ jobs:
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
-    # Deploy app to AKS
-    - name: 'Deploy app'
-      uses: WyriHaximus/github-action-helm3@v2
+    - uses: azure/k8s-bake@v1
       with:
-        exec: helm upgrade ${{ env.APP_NAME }} ./helm/chart/ --install --wait --atomic --set=app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingres.host=${{ env.APP_NAME }}
-        kubeconfig: '${{ env.KUBECONFIG }}'
+        renderEngine: 'helm'
+        helmChart: './helm/chart'
+        overrides: |     
+          app.image:${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+          ingress.host:${{ env.APP_NAME }}
+        helm-version: 'latest' 
+      id: bake
+
+    - uses: Azure/k8s-deploy@v1.4
+      with:
+        manifests: ${{ steps.bake.outputs.manifestsBundle }}
+      id: deploy
+
+    # Deploy app to AKS
+    # - name: 'Deploy app'
+    #   uses: WyriHaximus/github-action-helm3@v2
+    #   with:
+    #     exec: helm upgrade ${{ env.APP_NAME }} ./helm/chart/ --install --wait --atomic --set=app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingres.host=${{ env.APP_NAME }}
+    #     kubeconfig: '${{ env.KUBECONFIG }}'
       # uses: 'deliverybot/helm@v1'
       # with:
       #   token: '${{ github.token }}'
