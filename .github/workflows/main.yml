@@ -39,23 +39,23 @@ jobs:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
-    
-    - run: |
-        cat $KUBECONFIG
 
     # Deploy app to AKS
     - name: 'Deploy app'
-      uses: 'deliverybot/helm@v1'
+      uses: WyriHaximus/github-action-helm3@v2
       with:
-        token: '${{ github.token }}'
-        release: 'startupjs-ui'
-        namespace: 'default'
-        chart: './helm/chart'
-        helm: helm3
-        atomic: tru
-        values: |
-          ingress.host: ${{ env.APP_NAME }}
-          app.image: ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
-      env:
-        KUBECONFIG: '${{ env.KUBECONFIG }}'
-        KUBECONFIG_FILE: '${{ env.KUBECONFIG }}'
+        exec: helm upgrade ${{ env.APP_NAME }} ./helm/chart/ --install --wait --atomic --set=app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingres.host=${{ env.APP_NAME }}
+        kubeconfig: '${{ env.KUBECONFIG }}'
+      # uses: 'deliverybot/helm@v1'
+      # with:
+      #   token: '${{ github.token }}'
+      #   release: 'startupjs-ui'
+      #   namespace: 'default'
+      #   chart: './helm/chart'
+      #   helm: helm3
+      #   atomic: tru
+      #   values: |
+      #     ingress.host: ${{ env.APP_NAME }}
+      #     app.image: ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+      # env:
+      #   KUBECONFIG_FILE: '${{ env.KUBECONFIG }}'
