@@ -41,7 +41,7 @@ jobs:
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
     
     - run: |
-        ls -alh
+        echo $KUBECONFIG
 
     # Deploy app to AKS
     - name: 'Deploy app'
