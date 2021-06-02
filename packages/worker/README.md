@@ -11,8 +11,8 @@
   import path from 'path'
 
   // full path to workerActions.js and workerInit.js
-  process.env.WORKER_ACTIONS_PATH = path.join(process.cwd(), './build/workerActions.dev.cjs')
-  process.env.WORKER_INIT_PATH = path.join(process.cwd(), './build/workerInit.dev.cjs')
+  process.env.WORKER_ACTIONS_PATH = path.join(process.cwd(), './build/workerActions.cjs')
+  process.env.WORKER_INIT_PATH = path.join(process.cwd(), './build/workerInit.cjs')
 
   const dispatcher = new TaskDispatcher()
 
@@ -69,7 +69,7 @@ module.exports = merge(getConfig(), {
 4. Run in console:
 
 ```js
-cd build && node worker.dev.cjs
+cd build && node worker.cjs
 ```
 
 # Defaults
