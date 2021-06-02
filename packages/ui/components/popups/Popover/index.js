@@ -38,7 +38,7 @@ function Popover ({
   onRequestOpen,
   onRequestClose
 }) {
-  const refCaption = useRef(null)
+  const refCaption = useRef()
   const [visible, setVisible] = useState(false)
 
   function renderWrapper (children) {
@@ -58,7 +58,6 @@ function Popover ({
     )= children
     AbstractPopover.content(
       style=[contentStyle]
-      styleName={ contentWithArrow: arrow }
       arrowStyle=arrowStyle
       visible=visible
       refCaption=refCaption
