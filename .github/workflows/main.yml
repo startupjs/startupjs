@@ -39,9 +39,6 @@ jobs:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
-    
-    - run: |
-        echo $KUBECONFIG
 
     # Deploy app to AKS
     - name: 'Deploy app'
@@ -52,9 +49,9 @@ jobs:
         namespace: 'default'
         chart: './helm/chart'
         helm: helm3
-        atomic: true
+        atomic: tru
         values: |
           ingress.host: ${{ env.APP_NAME }}
           app.image: ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
       env:
-        KUBECONFIG_FILE: '.kube/config'
+        KUBECONFIG_FILE: '${{ env.KUBECONFIG }}'
