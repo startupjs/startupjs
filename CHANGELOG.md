@@ -1,6 +1,25 @@
+## [0.35.9](https://github.com/startupjs/startupjs/compare/v0.35.8...v0.35.9) (2021-06-02)
+
+
+### Bug Fixes
+
+* **bundler:** Move vite to peerDeps. TODO: upgrade vite and vite plugin to the latest version and test that it's actually working on the most recent code. ([a007a24](https://github.com/startupjs/startupjs/commit/a007a24b03e0908483d3522b704bd1ba4e454ea9))
+* **cli:** fix linking when init a new project ([#683](https://github.com/startupjs/startupjs/issues/683)) ([8f39684](https://github.com/startupjs/startupjs/commit/8f3968437c8447031c12f15ba2b3cb6c813e9372))
+* **typography/headers:** add missing font color ([#692](https://github.com/startupjs/startupjs/issues/692)) ([d616e60](https://github.com/startupjs/startupjs/commit/d616e60ddd0183b47553e808fd78d4f1643c6c8f))
+
+
+### Features
+
+* use `mongodb` 3.x ([#689](https://github.com/startupjs/startupjs/issues/689)) ([e9726ce](https://github.com/startupjs/startupjs/commit/e9726cef7d2184422645dc1373427540ef97a07a))
+
+
+
 ## [0.35.8](https://github.com/startupjs/startupjs/compare/v0.35.7...v0.35.8) (2021-05-26)
 
 
+### Bug Fixes
+
+* **auth-idg:** pass `req` to `findOrCreateUser` function
 
 ## [0.35.7](https://github.com/startupjs/startupjs/compare/v0.35.6...v0.35.7) (2021-05-25)
 
