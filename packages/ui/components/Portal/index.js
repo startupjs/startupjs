@@ -33,7 +33,7 @@ const Manager = observer(({ state }) => {
 })
 
 // getter for children from context
-const Listener = () => {
+function Listener () {
   return (
     <PortalContext.Consumer>
       {state => <Manager state={state} />}
@@ -42,7 +42,7 @@ const Listener = () => {
 }
 
 // setter for children to context
-const Portal = ({ children = {} }) => {
+function Portal ({ children = {} }) {
   const componentId = useComponentId()
   const [, $data] = useContext(PortalContext)
 
