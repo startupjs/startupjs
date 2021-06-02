@@ -17,6 +17,9 @@
 ## [0.35.8](https://github.com/startupjs/startupjs/compare/v0.35.7...v0.35.8) (2021-05-26)
 
 
+### Bug Fixes
+
+* **auth-idg:** pass `req` to `findOrCreateUser` function
 
 ## [0.35.7](https://github.com/startupjs/startupjs/compare/v0.35.6...v0.35.7) (2021-05-25)
 
