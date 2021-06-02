@@ -1,6 +1,6 @@
 // @ts-check
-const reactPlugin = require('vite-plugin-react')
 const startupjsPlugin = require('vite-plugin-startupjs')
+const reactPlugin = require('vite-plugin-startupjs/react')
 
 /**
  * @type { import('vite').UserConfig }

@@ -43,6 +43,7 @@ styl`
 
     .root
       fontFamily('heading')
+      color: $UI.colors.mainText
 
       for tag in _tags
         &.{tag}

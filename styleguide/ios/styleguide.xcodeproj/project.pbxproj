@@ -19,8 +19,8 @@
 		385CA508D2F56C47F91B63AE /* libPods-styleguide-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7F2EAED2AF35C16C657FBB /* libPods-styleguide-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8FDAA96CB7B3C1251995B2E0 /* libPods-styleguide-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB587507DE3856749B88E94F /* libPods-styleguide-tvOSTests.a */; };
+		BAE17E64265E90480096F99A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE17E63265E90480096F99A /* GoogleService-Info.plist */; };
 		D3C7446ECF83EF2AF79151F7 /* libPods-styleguide.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8AADCE48303594BA4F2C36A /* libPods-styleguide.a */; };
-		F49B7F6A260C046400FAA391 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F49B7F69260C046300FAA391 /* GoogleService-Info.plist */; };
 		F4CA3E592597F9860092AD4C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CA3E582597F9860092AD4C /* File.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,13 +63,13 @@
 		71883F3FEF8C157CB432BE30 /* Pods-styleguide-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-styleguide-tvOSTests/Pods-styleguide-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = styleguide/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C7F2EAED2AF35C16C657FBB /* libPods-styleguide-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE17E63265E90480096F99A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BB587507DE3856749B88E94F /* libPods-styleguide-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8AADCE48303594BA4F2C36A /* libPods-styleguide.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-styleguide.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD06C6750CC5087E47E13308 /* Pods-styleguide-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-styleguide-tvOSTests/Pods-styleguide-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E88070C1638417B6955F4E36 /* Pods-styleguide-styleguideTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-styleguide-styleguideTests.release.xcconfig"; path = "Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F49B7F69260C046300FAA391 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4CA3E572597F9860092AD4C /* styleguide-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "styleguide-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4CA3E582597F9860092AD4C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,9 +134,9 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				F49B7F69260C046300FAA391 /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				BAE17E63265E90480096F99A /* GoogleService-Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				F4CA3E582597F9860092AD4C /* File.swift */,
 				F4CA3E572597F9860092AD4C /* styleguide-Bridging-Header.h */,
@@ -225,7 +225,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				ADD12214C1B7ADA1E7671E71 /* [CP] Copy Pods Resources */,
-				F21E0076569B5B07501D3586 /* [CP] Embed Pods Frameworks */,
+				0D95D5463C1EDC79E403FBAE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,7 +248,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				0EFDCC97E6B87F63675911E1 /* [CP] Copy Pods Resources */,
-				29A1B4EBC44E9FE835CCB151 /* [CP] Embed Pods Frameworks */,
+				348FBE06D5DFC5F3E7A0C2D7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -358,8 +358,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				BAE17E64265E90480096F99A /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				F49B7F6A260C046400FAA391 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +394,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		0D95D5463C1EDC79E403FBAE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		0DD48F55DA848B1207261C00 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -439,7 +457,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-styleguide/Pods-styleguide-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		29A1B4EBC44E9FE835CCB151 /* [CP] Embed Pods Frameworks */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		348FBE06D5DFC5F3E7A0C2D7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -456,20 +488,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-styleguide/Pods-styleguide-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		5CDBAF0C0753C687E8266D9F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -557,24 +575,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F21E0076569B5B07501D3586 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-styleguide-styleguideTests/Pods-styleguide-styleguideTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -723,6 +723,7 @@
 				CODE_SIGN_ENTITLEMENTS = styleguide/styleguide.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = styleguide/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -749,6 +750,7 @@
 				CODE_SIGN_ENTITLEMENTS = styleguide/styleguide.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GRZZD57234;
+				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = styleguide/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -907,6 +909,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -967,6 +970,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

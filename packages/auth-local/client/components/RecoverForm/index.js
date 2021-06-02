@@ -74,6 +74,7 @@ function RecoverForm ({
           placeholder=_config.emailInputPlaceholder
           value=form.email
           onChangeText=t => $form.set('email', t)
+          testID='recover-email-input'
         )
       if recaptchaEnabled
         Recaptcha(
@@ -85,6 +86,7 @@ function RecoverForm ({
         color='primary'
         variant='flat'
         onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
+        testID='recover-pass-button'
       )= _config.resetButtonLabel
     else
       Span.text= message
@@ -93,6 +95,7 @@ function RecoverForm ({
       variant='text'
       color='primary'
       onPress=() => onChangeSlide(SIGN_IN_SLIDE)
+      testID='back-to-signin-button'
     )= _config.backButtonLabel
   `
 }
