@@ -1,0 +1,124 @@
+# i18n
+
+i18n модуль предоставляет инструменты для локализации вашего продукта.
+
+## Требования
+
+@startupjs/ui: >= 0.34.0
+axios: *
+express: 4.x
+react: 16.9 - 17
+react-native: >= 0.61.4 < 0.64.0
+startupjs: >= 0.34.0
+
+## Установка и базовая настройка
+
+1. Установите модуль
+
+  Модуль не нужно устанавливать, он поставляется с модулем `startupjs`.
+
+1. Инициализируйте модуль на сервере
+
+  ```js
+  import { initI18n } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    // ...
+  }, (ee, options) => {
+    initI18n(ee)
+  })
+  ```
+
+1. Добавьте серверные роуты
+
+  ```js
+  import { getI18nRoutes } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    appRoutes: [
+      // предоставляет страницу /i18n для управления переводами
+      ...getI18nRoutes()
+    ]
+  }, (ee, options) => {
+    // ...
+  })
+  ```
+
+1. Инициализируйте изоморфную модель
+
+  ```js
+  import initI18nModel from '@startupjs/i18n/model'
+
+  export default function initOrm (racer) {
+    initI18nModel(racer)
+  }
+  ```
+
+1. Создайте `i18n/index.js` файл и инициализируйте клиентское приложение в нём
+
+  ```js
+  import { initI18n, useI18nGlobalInit } from '@startupjs/i18n'
+
+  export default initI18n({
+    // язык по умолчанию, используется в качестве языка по умолчанию для
+    // переводов и в качестве резервного языка для `languageDetector`.
+    // Значение по умолчанию: 'en'.
+    lang: 'ru',
+    // список поддерживаемых языков
+    langs: ['en', 'ru'],
+    // вы можете использовать функцию `getLangs` вместо `langs` если вам нужно
+    // динамически определить список поддерживаемых языков
+    // `getLangs` функция имеет приоритет над `langs`, если вы задали оба свойства
+    getLangs: () => {
+      const langs = ... // логика, которая получает языки
+      return langs
+    },
+    // определение используемого языка пользователя
+    // по умолчанию функция пытается найти язык в путях:
+    //   - $render.query.lang
+    //   - _session.lang
+    //   - _session.user.lang
+    // переопределяя эту функцию, вы можете определить свое поведение
+    // для поиска используемого языка, например
+    // ПРИМЕЧАНИЕ: язык по умолчанию используется в случае когда функция ничего не находит
+    languageDetector: () => {
+      return $user.get('language')
+    }
+  })
+  export { useI18nGlobalInit }
+  ```
+
+1. Добавьте клиентское приложение в `Root/App.js`
+
+  ```js
+  import React from 'react'
+  import i18n, { useI18nGlobalInit } from 'PATH_TO_I18N_FILE_CREATED_IN_SECTION_ABOVE'
+
+  return pug`
+    App(
+      apps={ i18n }
+      useGlobalInit=useI18nGlobalInit
+    )
+  `
+  ```
+
+## Как изменить язык?
+
+```jsx
+import { observer } from 'statupjs'
+import { useLang, useLangs } from 'startupjs/i18n'
+import { Select } from '@startupjs/ui'
+
+export default observer(function LanguageSelect () {
+  const [lang, setLang] = useLang()
+  const langs = useLangs()
+
+  return pug`
+    Select(
+      value=lang
+      onChange={setLang}
+      options=langs
+    )
+  `
+})
+```

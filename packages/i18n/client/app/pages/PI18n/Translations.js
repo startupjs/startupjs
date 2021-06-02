@@ -1,62 +1,61 @@
 /* eslint-disable no-unreachable */
-import React, { useRef, useLayoutEffect, useCallback } from 'react'
-import { FlatList } from 'react-native'
-import { observer, styl } from 'startupjs'
-import { Div, Span } from '@startupjs/ui'
-import SubTranslations from './SubTranslations'
+import React, { useRef, useCallback } from 'react'
+import { FlatList, Platform } from 'react-native'
+import { observer, styl, useDidUpdate } from 'startupjs'
 import usePage from './../../../usePage'
-import { decodePath } from './../../../../isomorphic'
+import DefaultLanguage from './DefaultLanguage'
+import Lang from './Lang'
+import Filename from './Filename'
+import Key from './Key'
+
+const isAndroid = Platform.OS === 'android'
+
+const flatListComponentsMapping = {
+  filename: Filename,
+  key: Key,
+  lang: Lang,
+  defaultLanguage: DefaultLanguage
+}
 
 export default observer(function Translations () {
   const flatListRef = useRef()
-  const [{ displayTranslations, type, filter }] = usePage()
+  const [{ displayTranslationKeys, state }] = usePage()
 
-  const renderTranslation = useCallback(({ item, index }) => {
-    const translationKey = item.key
+  const renderItem = useCallback(({ item }) => {
+    const Item = flatListComponentsMapping[item.type]
 
     return pug`
-      Div.translation(styleName={ even: !(index % 2) })
-        Span.translationKey= decodePath(translationKey)
-        SubTranslations(
-          translationKey=translationKey
-          subTranslations=item.subTranslations
-        )
+      // we use a fixed height to improve perfomance of the FlatList
+      Item.item(
+        styleName={ even: !(item.index % 2) }
+        _key=item.key
+      )
+    `
+
+    styl`
+      .item
+        padding-left 2u
+        padding-right @padding-left
+        &.even
+          background-color $UI.colors.darkLightest
     `
   }, [])
 
-  // TODO
-  useLayoutEffect(() => {
-    // if (!flatListRef) return
+  useDidUpdate(() => {
     flatListRef.current.scrollToIndex({ animated: false, index: 0 })
-  }, [type, filter])
+  }, [state])
 
+  // HACK `removeClippedSubviews=false`for android
+  // https://stackoverflow.com/a/66703331
   return pug`
-    Div.root
-      FlatList(
-        ref=flatListRef
-        data=displayTranslations
-        renderItem=renderTranslation
-        initialNumToRender=2
-      )
-  `
-
-  // test initialNumToRender on small areas
-  // removeClippedSubviews
-  // TODO check android https://stackoverflow.com/a/66703331
-
-  styl`
-    .root
-      flex-grow 1
-      flex-shrink 1
-    .translation
-      padding-left 2u
-      padding-right @padding-left
-      &.even
-        background-color $UI.colors.darkLightest
-      &Key
-        padding-top 1u
-        padding-bottom 0.5u
-        border-bottom 1px solid $UI.colors.dark
-        font(l)
+    FlatList(
+      ref=flatListRef
+      data=displayTranslationKeys
+      renderItem=renderItem
+      initialNumToRender=40
+      removeClippedSubviews=isAndroid ? false : true
+      maxToRenderPerBatch=20
+      windowSize=7
+    )
   `
 })

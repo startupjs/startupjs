@@ -4,6 +4,7 @@ import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
+import i18n, { useI18nGlobalInit } from 'startupjs/i18n'
 import { uiAppPlugin } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import orm from '../model'
@@ -28,7 +29,8 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={main}
+      apps={ i18n, main }
+      useGlobalInit=useI18nGlobalInit
     )
   `
 })

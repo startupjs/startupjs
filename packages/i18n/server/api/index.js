@@ -29,7 +29,7 @@ router.post('/get-translations', (req, res) => {
     console.error('[@startupjs/i18n]: translations.json not found')
   }
 
-  res.json(translations ? decodeObjectKeys(translations) : {})
+  res.json(translations ? encodeObjectKeys(translations) : {})
 })
 
 router.post('/change-language', (req, res) => {
@@ -56,13 +56,13 @@ function getTranslationPath () {
   return path.join(cwd, 'node_modules', translationsPath)
 }
 
-function decodeObjectKeys (obj) {
+function encodeObjectKeys (obj) {
   const newObj = {}
 
   for (const key in obj) {
     const value = obj[key]
     newObj[encodePath(key)] = typeof value === 'object'
-      ? decodeObjectKeys(value)
+      ? encodeObjectKeys(value)
       : value
   }
 

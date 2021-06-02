@@ -1,9 +1,9 @@
 import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
+import { initI18n, getI18nRoutes } from 'startupjs/i18n/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
-import { initI18n, getI18nRoutes } from '@startupjs/i18n/server'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { initTwoFAManager } from '@startupjs/2fa-manager/server'
@@ -45,8 +45,8 @@ startupjsServer({
     web: conf.get('CRITICAL_VERSION_WEB')
   })
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
-  initI18n(ee)
   initUi(ee, { dirname: rootPath })
+  initI18n(ee)
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {

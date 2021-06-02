@@ -1,6 +1,7 @@
 import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
+import { initI18n, getI18nRoutes } from 'startupjs/i18n/server'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import orm from '../model'
 import api from './api'
@@ -13,11 +14,13 @@ init({ orm })
 startupjsServer({
   getHead,
   appRoutes: [
-    ...getMainRoutes()
+    ...getMainRoutes(),
+    ...getI18nRoutes()
   ]
 }, (ee, options) => {
   initApp(ee)
   initUi(ee, options)
+  initI18n(ee)
 
   ee.on('routes', expressApp => {
     expressApp.use('/api', api)

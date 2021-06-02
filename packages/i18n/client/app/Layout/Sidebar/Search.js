@@ -1,9 +1,9 @@
+/* eslint-disable no-unreachable */
 import React, { useCallback } from 'react'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, styl } from 'startupjs'
 import { TextInput } from '@startupjs/ui'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import usePage from './../../../usePage'
-import './index.styl'
 
 export default observer(function Search () {
   const [search, $search] = useValue()
@@ -18,13 +18,18 @@ export default observer(function Search () {
   })
 
   return pug`
-    TextInput(
+    TextInput.root(
       icon=faSearch
-      iconStyleName='searchIcon'
       placeholder='Search by filename'
       value=search
       onChangeText=onChangeText
       onSubmitEditing=onSubmit
     )
+  `
+
+  styl`
+    .root
+      &:part(icon)
+        color: $UI.colors.darkLighter
   `
 })

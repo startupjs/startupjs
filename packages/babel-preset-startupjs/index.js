@@ -149,7 +149,8 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' })
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
+    i18nPlugin()
   ].filter(Boolean)
 }
 
@@ -168,8 +169,7 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin(),
-    i18nPlugin()
+    webPassClassnamePlugin()
   ]
 }
 

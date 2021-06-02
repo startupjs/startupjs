@@ -1,9 +1,9 @@
+const routesMiddleware = require('@startupjs/routes-middleware')
 const _defaults = require('lodash/defaults')
 const _cloneDeep = require('lodash/cloneDeep')
 const conf = require('nconf')
 const express = require('express')
 const fs = require('fs')
-const routesMiddleware = require('@startupjs/routes-middleware')
 const expressSession = require('express-session')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
@@ -67,6 +67,7 @@ module.exports = (backend, appRoutes, error, options, done) => {
       timeout: 5000,
       timeoutIncrement: 8000
     }
+
     const hwHandlers = racerHighway(backend, { session }, clientOptions)
 
     const expressApp = express()

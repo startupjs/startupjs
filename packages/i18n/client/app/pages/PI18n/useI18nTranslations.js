@@ -3,7 +3,7 @@ import { $root, useQuery } from 'startupjs'
 import useLangs from './../../../useLangs'
 
 export default function useI18nTranslations () {
-  const langs = useLangs({ exceptDefault: true })
+  const langs = useLangs({ default: false })
   const translationIds = useMemo(() => {
     const ids = []
     for (const lang of langs) {

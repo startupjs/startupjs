@@ -1,33 +1,30 @@
 import {
   faCheckCircle,
-  faExclamationCircle
+  faExclamationCircle,
+  faHourglassHalf
 } from '@fortawesome/free-solid-svg-icons'
 import ICONS_STYLES from './icons.styl'
 
-// types
-export const NO_TYPE = 'all'
-export const TRANSLATED_TYPE = 'translated'
-export const UNTRANSLATED_TYPE = 'untranslated'
-export const DISPLAYED_TRANSLATION_TYPES = [
-  TRANSLATED_TYPE,
-  UNTRANSLATED_TYPE
-]
+export const TRANSLATED_STATUS = 'translated'
+export const UNTRANSLATED_STATUS = 'untranslated'
+export const PENDING_STATE = 'pending'
 
-export const TRANSLATION_TYPES_META = {
-  [TRANSLATED_TYPE]: {
-    label: 'translated',
+export const FILTERS = [TRANSLATED_STATUS, UNTRANSLATED_STATUS, PENDING_STATE]
+
+export const FILTERS_META = {
+  [TRANSLATED_STATUS]: {
+    style: ICONS_STYLES.translated,
     icon: faCheckCircle,
-    iconStyle: ICONS_STYLES.translated
+    label: 'translated'
   },
-  [UNTRANSLATED_TYPE]: {
-    label: 'untranslated',
+  [UNTRANSLATED_STATUS]: {
+    style: ICONS_STYLES.untranslated,
     icon: faExclamationCircle,
-    iconStyle: ICONS_STYLES.untranslated
+    label: 'untranslated'
+  },
+  [PENDING_STATE]: {
+    style: ICONS_STYLES.pending,
+    icon: faHourglassHalf,
+    label: 'pending to be saved'
   }
 }
-
-// filters
-export const PENDING_FILTER = 'pending'
-export const DISPLAYED_TRANSLATION_FILTERS = [
-  { label: 'Pending to be saved', value: PENDING_FILTER }
-]
