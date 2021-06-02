@@ -1,3 +1,17 @@
+## [0.35.10](https://github.com/startupjs/startupjs/compare/v0.35.9...v0.35.10) (2021-06-02)
+
+
+### Bug Fixes
+
+* **worker:** commit  version ([c0bef34](https://github.com/startupjs/startupjs/commit/c0bef34743ecb5128dd20ee51874f144e81cc0cb))
+
+
+### Features
+
+* **push-notifications:** add `push-notifications` package ([#656](https://github.com/startupjs/startupjs/issues/656)) ([7019c08](https://github.com/startupjs/startupjs/commit/7019c0881f53df89c73a8a13be3c4d36ad806de5))
+
+
+
 ## [0.35.9](https://github.com/startupjs/startupjs/compare/v0.35.8...v0.35.9) (2021-06-02)
 
 
