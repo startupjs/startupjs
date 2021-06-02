@@ -1,0 +1,224 @@
+import { BASE_URL } from '@env'
+import { useState, useEffect } from 'react'
+import { useSession } from 'startupjs'
+import { Button, Row, Div, Br, TextInput } from '@startupjs/ui'
+import { sendNotification } from '@startupjs/push-notifications'
+
+# Push Notifications
+
+!ВАЖНО! Пакет работает только на платформах ios и android!
+
+## Зависимости
+
+```js
+@react-native-community/push-notification-ios >= 1.8.0
+react-native-push-notification >= 7.2.3
+```
+
+## Установка
+
+```js
+yarn add @startupjs/push-notifications @react-native-community/push-notification-ios react-native-push-notification
+```
+
+
+## Подключение сертификатов
+
+### Создание сертификата p8
+
+Для того чтобы отправлять пуш уведомления на ios устройства, необходимо создать сертефикаты.
+
+Зайдите в ваш аккаунт в [Apple Developer](https://developer.apple.com/account).
+
+Выберите `Certificates, Identifiers & Profiles` и перейдите в `Keys`. Нажмите кнопку с кружком +, чтобы создать новый ключ.
+
+![Certificates, Identifiers & Profiles](/img/docs/push-notifications/pushs2.png)
+
+Дайте ему имя и включите `Apple Push Notifications service (APNs)`. Выберите `Continue` и на следующем экране выберите `Register`.
+
+![Apple Push Notifications service (APNs)](/img/docs/push-notifications/pushs3.png)
+
+Важно записать следующие три элемента с этой страницы:
+
+- Выберите `Download`, чтобы сохранить файл `p8` локально. Вам нужно будет загрузить это в `Firebase`. Вы не сможете загрузить этот сертификат, покинув эту страницу.
+- Скопируйте и сохраните `Key ID`.
+- Скопируйте и сохраните свой `membership ID`. Он находится рядом с вашим именем в правом верхнем углу `Membership Center` или в разделе `Membership Details`.
+
+![Command id and key id](/img/docs/push-notifications/pushs4.png)
+
+### Настройка проекта Firebase
+
+Нужно подключить `p8` сертификат к вашему приложению в `Firebase`. В своем проекте `Firebase` выберите шестеренку рядом с `Project Overview` и выберите `Project settings`:
+
+![Firebase settings](/img/docs/push-notifications/pushs5.png)
+
+Затем настройте приложение для iOS в разделе `General` в настройках вашего проекта. Проделайте все указаные операции:
+
+![Add ios app](/img/docs/push-notifications/pushs6.png)
+
+Затем загрузите свой сертификат `p8`, перейдя в `Cloud Messaging` в настройках проекта `Firebase`. В разделе `APNs Authentication Key` выберите `Upload`.
+
+![Add APNs Authentication Key](/img/docs/push-notifications/pushs7.png)
+
+Введите данные, которые вы сохранили на шаге создания сертификата `p8`
+
+## iOS
+
+Добавьте `Capabilities` : `Background Mode` - `Remote Notifications`
+Перейдите в деректорию `MyReactProject/ios` и откройте в xcode `MyProject.xcworkspace`. В самом верху выберите `MyProject` , затем выберите таб `Signing & Capabilities`. Добавьте 2 новых `Capabilities` с помощью кнопки `+`:
+
+![Apple XCode Capabilities](/img/docs/push-notifications/pushs8.png)
+
+`Background Mode capability` и выберите `Remote Notifications`.
+`Push Notifications capability`
+
+![Background mode](/img/docs/push-notifications/pushs9.png)
+
+![Push Notifications](/img/docs/push-notifications/pushs10.png)
+
+![Remote Notifications](/img/docs/push-notifications/pushs11.png)
+
+## Подключение пакета к проекту
+
+### server
+
+```js
+import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
+const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
+...
+init({ orm })
+initFirebaseApp(serviceAccountPath)
+
+...
+startupjsServer({
+...
+appRoutes: [
+  ...
+  ...getPushNotificationsRoutes()
+]
+}, (ee, options) => {
+  ...
+  initPushNotifications(ee)
+  ...
+}
+
+```
+Сгенерировать `serviceAccount` можно в `Firebase` [консоли](https://console.firebase.google.com/project/) вашего приложения. Откройте вкладку `Service accounts` и нажмите `Generate new private key`.
+
+![Generate private key](/img/docs/push-notifications/pushs1.png)
+
+### client
+
+Вызовите `initPushNotifications` в месте где необходимо произвести инициализацию токена устройства текущего юзера (устройства записываются на основании userId из текущей сессии). Инициализацию имеет смысл производить только для авторизованного юзера. Но при необходимости допускается инициализация для каждого посетителя, для этого функции можно вызвать прямо в коллбеке `useGlobalInit` у `App`.
+
+```js
+import { initPushNotifications, notifications } from '@startupjs/push-notifications'
+...
+
+App(
+  ...
+  apps={ ..., notifications }
+  useGlobalInit=() => {
+    initPushNotifications()
+    return true
+  }
+)
+```
+
+## Usage server API
+
+### `initPushNotifications (ee)`
+Инициализация пуш уведомлений на сервере.
+
+**Аргументы**
+  `ee (Object)` - eventEmitter сервера.
+
+**Пример**
+
+```js
+startupjsServer({ ... }, (ee, options) => {
+  ...
+  initPushNotifications(ee)
+  ...
+}
+```
+
+### `initFirebaseApp(serviceAccount)`
+Инициализация приложения `Firebase`. Как создать `serviceAccount` смотрите [выше](/docs/libraries/push-notofications#server).
+
+**Аргументы**
+  `serviceAccountPath (String)` - абсолютный путь к `serviceAccount`.
+
+**Пример**
+
+```js
+import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+
+init({ orm })
+initFirebaseApp(serviceAccountPath)
+```
+
+### `sendNotification (userIds, options)`
+Функция отправки пуш уведомлений. Аналогична [клиентской функции](/docs/libraries/push-notofications#send-notification-user-ids-options).
+
+## Usage client API
+
+### `initPushNotifications (options)`
+Функция инициализации пуш уведомлений.
+
+**Аргументы**
+  `options [Object]` - object of options for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and `onNotification` fields as this may break the package behavior.
+
+**Пример**
+
+```js
+App(
+  ...
+  useGlobalInit=() => {
+    initPushNotifications()
+    return true
+  }
+)
+```
+
+### `sendNotification (userIds, options)`
+Функция отправки пуш уведомлений.
+
+**Аргументы**
+`userIds [Array]` - массив id юзеров которым будет отправлено push уведомление.
+
+`options [Object]`:
+  - `title [String]` - строка заголовка.
+  - `body [String] (required)` - строка контента.
+  - `platforms [Array]` - массив платформ, на которые нужно отправить нотификацию. Если не задано, то сообщение будет отправлено на все зарегестрированные устройства.
+
+**Пример**
+
+```jsx example
+const [userId] = useSession('userId')
+
+function getPlan (id) {
+  // WARNING: This is abstract example
+  // This can be any function of yours
+  return { name: 'silver' }
+}
+
+async function subscribe (planId) {
+  const plan = getPlan(planId)
+  // plan subscription logic
+  await sendNotification([userId], { title: 'Subscription ', body: `You have subscribed to plan ${plan.name}`, platforms: ['ios', 'android']})
+}
+
+return (
+  <Div>
+    <Button onPress={() => subscribe(123)}>
+      Subscribe
+    </Button>
+  </Div>
+)
+```
+
+## Dashboard
+
+[Dashboard](/push-notifications-dashboard)
