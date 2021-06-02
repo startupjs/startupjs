@@ -9,6 +9,7 @@ import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
+import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 import {
   BASE_URL,
   SUPPORT_EMAIL,
@@ -48,7 +49,7 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ main, docs, auth }
+      apps={ main, docs, auth, notifications }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
@@ -57,6 +58,10 @@ export default observer(() => {
       supportEmail=SUPPORT_EMAIL
       androidUpdateLink=UPDATE_LINK_ANDROID
       iosUpdateLink=UPDATE_LINK_IOS
+      useGlobalInit=() => {
+        initPushNotifications()
+        return true
+      }
     )
   `
 })
