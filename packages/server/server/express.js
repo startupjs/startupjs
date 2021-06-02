@@ -30,7 +30,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
 module.exports = (backend, appRoutes, error, options, done) => {
   const mongoUrl = conf.get('MONGO_URL')
 
-  const connectMongoOptions = { mongoUrl, mongoOptions: { useUnifiedTopology: true } }
+  const connectMongoOptions = { mongoUrl }
   if (options.sessionMaxAge) {
     connectMongoOptions.touchAfter = options.sessionUpdateInterval ||
         getDefaultSessionUpdateInterval(options.sessionMaxAge)
