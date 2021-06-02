@@ -82,7 +82,7 @@ function TextInput ({
     View.root(style=style)
       Span.label(
         styleName={focused}
-        variant='description'
+        description
       )= label || (value && placeholder) || ' '
       = renderInput()
   `

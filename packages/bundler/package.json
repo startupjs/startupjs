@@ -43,11 +43,15 @@
     "stylus": "0.54.7",
     "stylus-loader": "^3.0.2",
     "terser-webpack-plugin": "^1.1.0",
-    "vite-plugin-react": "2.0.3",
-    "vite-plugin-startupjs": "^0.35.7",
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
-    "react-native-svg": ">= 12.1.0"
+    "react-native-svg": ">= 12.1.0",
+    "vite-plugin-startupjs": "*"
+  },
+  "peerDependenciesMeta": {
+    "vite-plugin-startupjs": {
+      "optional": true
+    }
   }
 }
