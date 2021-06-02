@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import {
@@ -46,13 +47,11 @@ function Alert ({
         )
       Div.content(styleName={ indent: icon !== false })
         if title
-          Span(bold)
-            = title
+          Span(bold)= title
         if typeof children === 'string'
-          Span
-            = children
+          Span.message= children
         else
-          = children
+          View.message= children
       if renderActions
         Div.actions
           = renderActions()
