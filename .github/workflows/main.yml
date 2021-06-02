@@ -44,8 +44,9 @@ jobs:
       with:
         renderEngine: 'helm'
         helmChart: './helm/chart'
+        releaseName: '${{ env.APP_NAME }}'
         overrides: |     
-          app.image:${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+          app.image:${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}\n
           ingress.host:${{ env.APP_NAME }}
         helm-version: 'latest' 
       id: bake
