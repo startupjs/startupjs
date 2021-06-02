@@ -186,3 +186,20 @@ function for sending notifications.
   - `title [String]` - header string.
   - `body [String] (required)` - content string.
   - `platforms [Array]` - an array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
+
+
+**Example**
+
+```js
+function getPlan (id) {
+  // WARNING: This is abstract example
+  // This can be any function of yours
+  return { name: 'silver' }
+}
+
+async function subscribe (planId) {
+  const plan = getPlan(planId)
+  // plan subscription logic
+  await sendNotification([userId], { title: 'Subscription ', body: `You have subscribed to plan ${plan.name}`, platforms: ['ios', 'android']})
+}
+```
