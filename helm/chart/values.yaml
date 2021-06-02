@@ -4,8 +4,6 @@ app:
   replicas: 1
   cron: false
 
-env: env
-
 domain: dmapper.co
 
 ingress:

@@ -15,29 +15,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: 'Checkout'
+      uses: actions/checkout@v2
     
     # Connect to Azure Container Registry (ACR)
-    - uses: azure/docker-login@v1
+    - name: 'ACR login'
+      uses: azure/docker-login@v1
       with:
         login-server: ${{ secrets.REGISTRY }}
         username: ${{ secrets.AZURE_APP_ID }}
         password: ${{ secrets.AZURE_PASSWORD }}
 
     # Container build and push to a Azure Container Registry (ACR)
-    - run: |
-        cd styleguide && docker build . -t ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+    - name: 'Docker build'
+      run: |
+        docker build -f styleguide/Dockerfile -t ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} .
         docker push ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
     
-    # Set the target Azure Kubernetes Service (AKS) cluster. 
-    - uses: azure/aks-set-context@v1
+    # Set the target Azure Kubernetes Service (AKS) cluster.
+    - name: 'Setup AKS access'
+      uses: azure/aks-set-context@v1
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
     # Deploy app to AKS
-    - name: 'Deploy'
+    - name: 'Deploy app'
       uses: 'deliverybot/helm@v1'
       with:
         token: '${{ github.token }}'
@@ -46,5 +50,4 @@ jobs:
         chart: './helm/chart'
         values: |
           ingress.host: ${{ env.APP_NAME }}
-          env: dev
           app.image: ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}

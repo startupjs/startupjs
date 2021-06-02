@@ -11,18 +11,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      {{ if not (eq .Values.env "prod") }}
       - {{ .Values.ingress.host }}.{{ .Values.domain }}
-      {{ else }}
-      - {{ .Values.ingress.host }}
-      {{ end }}
     secretName: {{ .Release.Name }}-tls
   rules:
-  {{ if not (eq .Values.env "prod") }}
   - host: {{ .Values.ingress.host }}.{{ .Values.domain }}
-  {{ else }}
-  - host: {{ .Values.ingress.host }}
-  {{ end }}
     http:
       paths:
       - pathType: Prefix
