@@ -172,7 +172,7 @@ function AbstractPopover ({
 
   // styles
   const positionStyle = StyleSheet.flatten([
-    STYLES.location,
+    STYLES.position,
     {
       left: refGeometry.current.positionLeft,
       top: refGeometry.current.positionTop
@@ -191,7 +191,7 @@ function AbstractPopover ({
           { translateY: animateStates.translateY }
         ]
       }
-      : STYLES.stamp
+      : STYLES.stub
   ])
 
   // We make it possible to correctly expand the geometry of the component when changing its content, in all sides
@@ -245,7 +245,8 @@ ObservedAP.defaultProps = {
   hasWidthCaption: false,
   arrow: false,
   durationOpen: 300,
-  durationClose: 300
+  durationClose: 300,
+  renderWrapper: children => children
 }
 
 ObservedAP.propTypes = {
