@@ -3,7 +3,7 @@ name: master-to-aks
 on:
   push:
     branches:    
-      - aks-cicd
+      - master
 
 # Environment variables available to all jobs and steps in this workflow
 env:
