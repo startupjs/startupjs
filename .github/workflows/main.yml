@@ -48,9 +48,11 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: kubeconfig
-        path: kubeconfig
+        name: artifacts
         retention-days: 1
+        path: |
+          kubeconfig
+          helm/
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,7 +62,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: kubeconfig
+          name: artifacts
+
       - name: Helm release
         shell: bash
         run: |
