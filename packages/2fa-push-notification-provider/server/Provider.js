@@ -4,7 +4,6 @@ import { sendNotification } from '@startupjs/push-notifications/server/helpers'
 export default class PushProvider extends Provider {
   constructor (ee, options) {
     super('push')
-    this.init(ee, options)
   }
 
   async send (model, session) {
