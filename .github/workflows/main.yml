@@ -67,7 +67,7 @@ jobs:
     #   id: deploy
   deploy:
     runs-on: ubuntu-latest
-    container: helm-kubectl:3.5.4
+    container: dtzar/helm-kubectl:3.5.4
     needs: build
     steps:
       - name: Download math result for job 1
