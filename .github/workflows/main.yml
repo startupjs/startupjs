@@ -66,6 +66,7 @@ jobs:
     #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
     #   id: deploy
   deploy:
+    runs-on: ubuntu-latest
     container: helm-kubectl:3.5.4
     needs: build
     steps:
