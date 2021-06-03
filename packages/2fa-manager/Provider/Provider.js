@@ -5,7 +5,7 @@ export default class Provider {
     this.name = name
   }
 
-  async init (ee, options) {
+  init (ee, options) {
     return null
   }
 

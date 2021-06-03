@@ -5,6 +5,8 @@ import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-auth
 import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
 import TOTPProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
 import TOTPProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
+import PushProviderEn from '../../packages/2fa-push-notification-provider/docs/push-notifications.en.mdx'
+import PushProviderRu from '../../packages/2fa-push-notification-provider/docs/push-notifications.ru.mdx'
 import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
 import AuthMainEn from '../../packages/auth/docs/readme.en.md'
 import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
@@ -181,6 +183,14 @@ export default docs({
             component: {
               en: TOTPProviderEn,
               ru: TOTPProviderRu
+            }
+          },
+          PushProvider: {
+            type: 'mdx',
+            title: 'Push notificaton Provider',
+            component: {
+              en: PushProviderEn,
+              ru: PushProviderRu
             }
           }
         }

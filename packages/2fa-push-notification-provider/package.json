@@ -2,7 +2,7 @@
   "name": "@startupjs/2fa-push-notification-provider",
   "version": "0.35.10",
   "type": "module",
-  "description": "Push notification module",
+  "description": "Push notification provider for @startupjs/2fa-manager package",
   "main": "index.js",
   "publishConfig": {
     "access": "public"

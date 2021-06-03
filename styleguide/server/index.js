@@ -57,7 +57,7 @@ startupjsServer({
   initTwoFAManager(ee, {
     providers: [
       [TotpProvider, { appName: app.name }],
-      [PushProvider, {}]
+      [PushProvider]
     ]
   })
 

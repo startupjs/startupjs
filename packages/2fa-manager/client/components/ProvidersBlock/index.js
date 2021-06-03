@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import { Div, TextInput, Button, Row } from '@startupjs/ui'
+import { Div, TextInput, Button, Row, Alert, Br } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { useProviders } from '../../hooks'
 import { send } from '../../helpers'
@@ -17,21 +17,39 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
 
   const [isSended, setIsSended] = useState(false)
 
-  const [selectedProvider, setSelectedProvider] = useState('')
-
+  const [selectedProvider, setSelectedProvider] = useState()
+  const [error, setError] = useState()
   const [code, setCode] = useState('')
 
   function submit () {
     onSubmit({ selectedProvider, code })
   }
 
-  function onSend () {
-    send(selectedProvider)
-    setIsSended(true)
+  async function onSend () {
+    try {
+      await send(selectedProvider)
+      setIsSended(true)
+    } catch (err) {
+      setError(err)
+      setTimeout(() => {
+        setError()
+      }, 5000)
+    }
+  }
+
+  function onBack () {
+    if (isSended) {
+      setIsSended()
+    } else {
+      setSelectedProvider()
+    }
   }
 
   return pug`
     Div.root
+      if error
+        Alert(variant='error') Something went wrong. Try again in 5 minutes
+        Br
       if !selectedProvider
         ProvidersList2fa(providers=providers chooseProvider=setSelectedProvider)
       else
@@ -44,7 +62,7 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
             Button.sendButton(onPress=submit) Check
           else
             Button.sendButton(onPress=onSend) Send
-          Button.sendButton(onPress=() =>setSelectedProvider('')) Back
+          Button.sendButton(onPress=onBack) Back
   `
 }
 
