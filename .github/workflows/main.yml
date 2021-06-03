@@ -55,9 +55,12 @@ jobs:
     #   with:
     #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
     #   id: deploy
-
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
     - name: Helm release
       uses: stefanprodan/kube-tools@v1
+      needs: build
       with:
         helmv3: 3.2.1
         command: |
