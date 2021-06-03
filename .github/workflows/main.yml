@@ -56,11 +56,13 @@ jobs:
     #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
     #   id: deploy
 
-    - name: Install release
-      uses: hiberbee/github-action-helm@latest
+    - name: Helm release
+      uses: stefanprodan/kube-tools@v1
       with:
-        helm-command: upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
-
+        helmv3: 3.2.1
+        command: |
+          helmv3 upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
+ 
     # Deploy app to AKS
     # - name: 'Deploy app'
     #   uses: WyriHaximus/github-action-helm3@v2
