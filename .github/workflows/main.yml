@@ -40,21 +40,26 @@ jobs:
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
-    - uses: azure/k8s-bake@v1
-      with:
-        renderEngine: 'helm'
-        helmChart: './helm/chart'
-        releaseName: '${{ env.APP_NAME }}'
-        overrides: |     
-          app.image:${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}\n
-          ingress.host:${{ env.APP_NAME }}
-        helm-version: 'latest' 
-      id: bake
+    # - uses: azure/k8s-bake@v1
+    #   with:
+    #     renderEngine: 'helm'
+    #     helmChart: './helm/chart'
+    #     releaseName: '${{ env.APP_NAME }}'
+    #     overrides: |     
+    #       app.image:${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}\n
+    #       ingress.host:${{ env.APP_NAME }}
+    #     helm-version: 'latest' 
+    #   id: bake
 
-    - uses: Azure/k8s-deploy@v1.4
+    # - uses: Azure/k8s-deploy@v1.4
+    #   with:
+    #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
+    #   id: deploy
+
+    - name: Install release
+      uses: hiberbee/github-action-helm@latest
       with:
-        manifests: ${{ steps.bake.outputs.manifestsBundle }}
-      id: deploy
+        helm-command: upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
 
     # Deploy app to AKS
     # - name: 'Deploy app'
