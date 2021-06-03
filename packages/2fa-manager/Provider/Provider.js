@@ -5,15 +5,15 @@ export default class Provider {
     this.name = name
   }
 
-  init (ee, options) {
+  async init (ee, options) {
     return null
   }
 
-  send (model, session) {
+  async send (model, session) {
     return null
   }
 
-  check (model, session, token) {
+  async check (model, session, token) {
     return null
   }
 

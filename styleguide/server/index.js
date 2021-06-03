@@ -7,6 +7,7 @@ import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { initTwoFAManager } from '@startupjs/2fa-manager/server'
 import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
+import { PushProvider } from '@startupjs/2fa-push-notification-provider'
 import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
 import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server'
 import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
@@ -55,7 +56,8 @@ startupjsServer({
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {
     providers: [
-      [TotpProvider, { appName: app.name }]
+      [TotpProvider, { appName: app.name }],
+      [PushProvider, {}]
     ]
   })
 
