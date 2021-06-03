@@ -18,19 +18,19 @@ jobs:
     - name: 'Checkout'
       uses: actions/checkout@v2
     
-    # # Connect to Azure Container Registry (ACR)
-    # - name: 'ACR login'
-    #   uses: azure/docker-login@v1
-    #   with:
-    #     login-server: ${{ secrets.REGISTRY }}
-    #     username: ${{ secrets.AZURE_APP_ID }}
-    #     password: ${{ secrets.AZURE_PASSWORD }}
+    # Connect to Azure Container Registry (ACR)
+    - name: 'ACR login'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY }}
+        username: ${{ secrets.AZURE_APP_ID }}
+        password: ${{ secrets.AZURE_PASSWORD }}
 
-    # # Container build and push to a Azure Container Registry (ACR)
-    # - name: 'Docker build'
-    #   run: |
-    #     docker build -f styleguide/Dockerfile -t ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} .
-    #     docker push ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
+    # Container build and push to a Azure Container Registry (ACR)
+    - name: 'Docker build'
+      run: |
+        docker build -f styleguide/Dockerfile -t ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} .
+        docker push ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
     
     # Set the target Azure Kubernetes Service (AKS) cluster.
     - name: 'Setup AKS access'
@@ -40,66 +40,29 @@ jobs:
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
-    - name: 'Prepare artifact'
+    - name: 'Prepare artifacts'
       shell: bash
       run: |
         cat ${{ env.KUBECONFIG }} > kubeconfig
 
-    - name: Upload math result for job 1
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: kubeconfig
         path: kubeconfig
-    # - uses: azure/k8s-bake@v1
-    #   with:
-    #     renderEngine: 'helm'
-    #     helmChart: './helm/chart'
-    #     releaseName: '${{ env.APP_NAME }}'
-    #     overrides: |     
-    #       app.image:${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}\n
-    #       ingress.host:${{ env.APP_NAME }}
-    #     helm-version: 'latest' 
-    #   id: bake
+        retention-days: 1
 
-    # - uses: Azure/k8s-deploy@v1.4
-    #   with:
-    #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
-    #   id: deploy
   deploy:
     runs-on: ubuntu-latest
     container: dtzar/helm-kubectl:3.5.4
     needs: build
     steps:
-      - name: Download math result for job 1
+      - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: kubeconfig
-      - shell: bash
+      - name: Helm release
+        shell: bash
         run: |
           export KUBECONFIG=kubeconfig
-          kubectl get ns
-      # uses: stefanprodan/kube-tools@v1
-      # with:
-      #   helmv3: 3.2.1
-      #   command: |
-      #     helmv3 upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
- 
-    # Deploy app to AKS
-    # - name: 'Deploy app'
-    #   uses: WyriHaximus/github-action-helm3@v2
-    #   with:
-    #     exec: helm upgrade ${{ env.APP_NAME }} ./helm/chart/ --install --wait --atomic --set=app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingres.host=${{ env.APP_NAME }}
-    #     kubeconfig: '${{ env.KUBECONFIG }}'
-      # uses: 'deliverybot/helm@v1'
-      # with:
-      #   token: '${{ github.token }}'
-      #   release: 'startupjs-ui'
-      #   namespace: 'default'
-      #   chart: './helm/chart'
-      #   helm: helm3
-      #   atomic: tru
-      #   values: |
-      #     ingress.host: ${{ env.APP_NAME }}
-      #     app.image: ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
-      # env:
-      #   KUBECONFIG_FILE: '${{ env.KUBECONFIG }}'
+          helm upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
