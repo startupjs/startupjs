@@ -57,10 +57,10 @@ jobs:
     #   id: deploy
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
     - name: Helm release
       uses: stefanprodan/kube-tools@v1
-      needs: build
       with:
         helmv3: 3.2.1
         command: |
