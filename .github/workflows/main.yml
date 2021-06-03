@@ -76,10 +76,8 @@ jobs:
           name: kubeconfig
       - shell: bash
         run: |
-          mkdir -p .kube
-          cat kubeconfig > .kube/config
-      - name: Helm release
-        run: kubectl get ns
+          export KUBECONFIG=kubeconfig
+          kubectl get ns
       # uses: stefanprodan/kube-tools@v1
       # with:
       #   helmv3: 3.2.1
