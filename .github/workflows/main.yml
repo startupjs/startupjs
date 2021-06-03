@@ -40,6 +40,16 @@ jobs:
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
+    - name: 'Prepare artifact'
+      shell: bash
+      run: |
+        cat ${{ env.KUBECONFIG }} > kubeconfig
+
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v2
+      with:
+        name: kubeconfig
+        path: kubeconfig
     # - uses: azure/k8s-bake@v1
     #   with:
     #     renderEngine: 'helm'
@@ -56,15 +66,24 @@ jobs:
     #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
     #   id: deploy
   deploy:
-    runs-on: ubuntu-latest
+    container: helm-kubectl:3.5.4
     needs: build
     steps:
-    - name: Helm release
-      uses: stefanprodan/kube-tools@v1
-      with:
-        helmv3: 3.2.1
-        command: |
-          helmv3 upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v2
+        with:
+          name: kubeconfig
+      - shell: bash
+        run: |
+          mkdir -p .kube
+          cat kubeconfig > .kube/config
+      - name: Helm release
+        run: kubectl get ns
+      # uses: stefanprodan/kube-tools@v1
+      # with:
+      #   helmv3: 3.2.1
+      #   command: |
+      #     helmv3 upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
  
     # Deploy app to AKS
     # - name: 'Deploy app'
