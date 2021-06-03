@@ -1,4 +1,4 @@
-name: deploy-app-aks
+name: master-to-aks
 
 on:
   push:
