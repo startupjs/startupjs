@@ -1,11 +1,12 @@
 _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
+_description = $UI.colors.secondaryText
 
 // Add font-family when we add fonts to app
 
 .root
   for variant in _variants
     &.{variant}
-      text(variant)
+      font(variant)
 
   fontFamily('normal')
 
@@ -13,19 +14,7 @@ _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description')
     fontFamily('normal', $UI.fontWeights.normalBold)
 
   &.italic
-    fontFamily('normal', $UI.fontWeights.normal, italic)
+    font-style italic
 
-  &.bold.italic
-    fontFamily('normal', $UI.fontWeights.normalBold, italic)
-
-  &.header
-    fontFamily('heading')
-
-    &.bold
-      fontFamily('heading', $UI.fontWeights.headingBold)
-
-    &.italic
-      fontFamily('heading', $UI.fontWeights.heading, italic)
-
-    &.bold.italic
-      fontFamily('heading', $UI.fontWeights.headingBold, italic)
+  &.description
+    color _description
