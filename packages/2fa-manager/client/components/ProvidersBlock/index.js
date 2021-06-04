@@ -7,15 +7,11 @@ import { send } from '../../helpers'
 import ProvidersList2fa from '../ProvidersList2fa'
 import './index.styl'
 
-const PROVIDERS_WITHOUT_SEND = ['google-authenticator']
-
 function ProvidersBlock ({ providerNames, onSubmit }) {
   let providers = useProviders()
   if (providerNames) {
     providers = providers.filter(provider => providerNames.includes(provider))
   }
-
-  const [isSended, setIsSended] = useState(false)
 
   const [selectedProvider, setSelectedProvider] = useState()
   const [error, setError] = useState()
@@ -25,10 +21,9 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
     onSubmit({ selectedProvider, code })
   }
 
-  async function onSend () {
+  async function onSend (provider) {
     try {
-      await send(selectedProvider)
-      setIsSended(true)
+      await send(provider)
     } catch (err) {
       setError(err)
       setTimeout(() => {
@@ -38,11 +33,13 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
   }
 
   function onBack () {
-    if (isSended) {
-      setIsSended()
-    } else {
-      setSelectedProvider()
-    }
+    setSelectedProvider()
+    setCode('')
+  }
+
+  function chooseProvider (provider) {
+    setSelectedProvider(provider)
+    onSend(provider)
   }
 
   return pug`
@@ -51,18 +48,15 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
         Alert(variant='error') Something went wrong. Try again in 5 minutes
         Br
       if !selectedProvider
-        ProvidersList2fa(providers=providers chooseProvider=setSelectedProvider)
+        ProvidersList2fa(providers=providers chooseProvider=chooseProvider)
       else
         TextInput(
           value=code
           onChangeText=setCode
         )
         Row.row(vAlign='center')
-          if isSended || PROVIDERS_WITHOUT_SEND.includes(selectedProvider)
-            Button.sendButton(onPress=submit) Check
-          else
-            Button.sendButton(onPress=onSend) Send
-          Button.sendButton(onPress=onBack) Back
+          Button(onPress=submit) Check
+          Button(onPress=onBack) Back
   `
 }
 
