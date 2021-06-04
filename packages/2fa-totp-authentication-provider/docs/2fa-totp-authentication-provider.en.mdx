@@ -35,6 +35,8 @@ import app from 'path/to/your/app.json'
 ...
 
 initTwoFAManager(ee, {
-  providers: [GAProvider]
+  providers: [
+    [TotpProvider, { appName: app.name }]
+  ]
 })
 ```

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import { Div, TextInput, Button, Row, Alert, Br } from '@startupjs/ui'
+import { Div, TextInput, Button, Row } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { useProviders } from '../../hooks'
 import { send } from '../../helpers'
+import { CODES } from './Error/constants'
+import Error from './Error'
 import ProvidersList2fa from '../ProvidersList2fa'
 import './index.styl'
 
@@ -15,38 +17,35 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
 
   const [selectedProvider, setSelectedProvider] = useState()
   const [error, setError] = useState()
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState()
 
-  function submit () {
-    onSubmit({ selectedProvider, code })
-  }
-
-  async function onSend (provider) {
-    try {
-      await send(provider)
-    } catch (err) {
-      setError(err)
-      setTimeout(() => {
-        setError()
-      }, 5000)
-    }
+  async function submit () {
+    setError()
+    const result = await onSubmit({ selectedProvider, code })
+    !result && setError(CODES.VERIFICATION_ERR)
   }
 
   function onBack () {
     setSelectedProvider()
-    setCode('')
+    setCode()
+    setError()
   }
 
-  function chooseProvider (provider) {
-    setSelectedProvider(provider)
-    onSend(provider)
+  async function chooseProvider (provider) {
+    setError()
+    try {
+      await send(provider)
+      setSelectedProvider(provider)
+    } catch (err) {
+      setError(CODES.SERVER_ERR)
+    }
   }
 
   return pug`
     Div.root
       if error
-        Alert(variant='error') Something went wrong. Try again in 5 minutes
-        Br
+        Div.error
+          Error(errorCode=error)
       if !selectedProvider
         ProvidersList2fa(providers=providers chooseProvider=chooseProvider)
       else
