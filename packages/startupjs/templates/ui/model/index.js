@@ -1,4 +1,4 @@
-import initI18nModel from '@startupjs/i18n/model'
+import initI18nModel from 'startupjs/i18n/model'
 
 import TestThing from './TestThingModel'
 
