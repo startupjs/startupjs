@@ -4,7 +4,7 @@ import { useComponentId, useValue, observer } from 'startupjs'
 
 const PortalContext = React.createContext([])
 
-const Provider = observer(({ children }) => {
+function Provider ({ children }) {
   const [data, $data] = useValue({})
 
   // TODO: In many cases, when Dimensions change, the components change, but the previous old ones remain in the context.
@@ -25,7 +25,7 @@ const Provider = observer(({ children }) => {
       = children
       Listener
   `
-})
+}
 
 const Manager = observer(({ state }) => {
   const [data] = state
@@ -48,7 +48,7 @@ function Portal ({ children = {} }) {
 
   useEffect(() => {
     if (children) {
-      $data.set(componentId, children, null)
+      $data.set(componentId, children)
     } else {
       $data.del(componentId)
     }
