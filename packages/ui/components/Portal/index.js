@@ -48,7 +48,7 @@ function Portal ({ children = {} }) {
 
   useEffect(() => {
     if (children) {
-      $data.set(componentId, children)
+      $data.set(componentId, children, null)
     } else {
       $data.del(componentId)
     }
