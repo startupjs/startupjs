@@ -1,11 +1,12 @@
 import { $root } from 'startupjs'
 import {
-  TRANSLATED_STATUS,
-  UNTRANSLATED_STATUS,
-  PENDING_STATE
+  TRANSLATED_STATE,
+  UNTRANSLATED_STATE,
+  PENDING_STATUS
 } from './constants'
+import usePage from './../usePage'
 
-export function getTranslationStatus (
+export function getTranslationState (
   translationFileKey,
   fileTranslationKey,
   lang
@@ -13,10 +14,10 @@ export function getTranslationStatus (
   const key = `${translationFileKey}.${fileTranslationKey}`
   const $translation = $root.scope(`i18nTranslations.${lang}`)
   const value = $translation.get(key)
-  return value ? TRANSLATED_STATUS : UNTRANSLATED_STATUS
+  return value ? TRANSLATED_STATE : UNTRANSLATED_STATE
 }
 
-export function getTranslationStates (
+export function getTranslationStatuses (
   translationFileKey,
   fileTranslationKey,
   lang
@@ -27,37 +28,50 @@ export function getTranslationStates (
   const $draftTranslation = $root.scope(`i18nTranslations.${draftId}`)
   const value = $translation.get(key)
   const draftValue = $draftTranslation.get(key)
-  const states = {
-    [PENDING_STATE]: value !== draftValue
+  const statuses = {
+    [PENDING_STATUS]: value !== draftValue
   }
-  return states
+  return statuses
 }
 
 export function getMetaKey (...args) {
-  return args.join('_')
+  return args.join('__i18n__')
 }
 
 export function getLangMeta (translationFileKey, fileTranslationKey, lang) {
-  const status = getTranslationStatus(
+  const state = getTranslationState(
     translationFileKey,
     fileTranslationKey,
     lang
   )
 
-  const states = getTranslationStates(
+  const statuses = getTranslationStatuses(
     translationFileKey,
     fileTranslationKey,
     lang
   )
 
   const langMeta = {
-    type: 'lang',
-    lang,
     translationFileKey,
     fileTranslationKey,
-    status,
-    states
+    lang,
+    state,
+    statuses
   }
 
   return langMeta
+}
+
+export function useForceUpdate (key) {
+  const [value = 0, $value] = usePage(key)
+  return [value, () => $value.set(Math.random())]
+}
+
+export function useForceUpdatePageInit () {
+  const [value = false, $value] = usePage('forceUpdatePageInit')
+  return [value, (newValue) => $value.set(newValue)]
+}
+
+export function useForceUpdateFiltersCounters () {
+  return useForceUpdate('forceUpdateFiltersCounters')
 }

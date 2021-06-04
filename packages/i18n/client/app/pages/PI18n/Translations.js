@@ -3,10 +3,10 @@ import React, { useRef, useCallback } from 'react'
 import { FlatList, Platform } from 'react-native'
 import { observer, styl, useDidUpdate } from 'startupjs'
 import usePage from './../../../usePage'
-import DefaultLanguage from './DefaultLanguage'
-import Lang from './Lang'
+import DefaultLang from './DefaultLang'
 import Filename from './Filename'
 import Key from './Key'
+import Lang from './Lang'
 
 const isAndroid = Platform.OS === 'android'
 
@@ -14,21 +14,20 @@ const flatListComponentsMapping = {
   filename: Filename,
   key: Key,
   lang: Lang,
-  defaultLanguage: DefaultLanguage
+  defaultLang: DefaultLang
 }
 
 export default observer(function Translations () {
   const flatListRef = useRef()
-  const [{ displayTranslationKeys, state }] = usePage()
+  const [{ displayTranslations, state }] = usePage()
 
   const renderItem = useCallback(({ item }) => {
     const Item = flatListComponentsMapping[item.type]
-
     return pug`
       // we use a fixed height to improve perfomance of the FlatList
       Item.item(
         styleName={ even: !(item.index % 2) }
-        _key=item.key
+        meta=item
       )
     `
 
@@ -50,7 +49,7 @@ export default observer(function Translations () {
   return pug`
     FlatList(
       ref=flatListRef
-      data=displayTranslationKeys
+      data=displayTranslations
       renderItem=renderItem
       initialNumToRender=40
       removeClippedSubviews=isAndroid ? false : true

@@ -4,8 +4,6 @@ import languageDetector from './languageDetector'
 import { useConfig } from './config'
 
 export default function useI18nGlobalInit () {
-  // TODO
-  // input multiline
   const $session = useModel('_session')
   const [lang, $lang] = useSession('lang')
   const config = useConfig()

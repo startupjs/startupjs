@@ -2,16 +2,13 @@
 import React from 'react'
 import { observer, styl } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'
-import usePage from './../../../usePage'
 import { decodePath } from './../../../../isomorphic'
 
-export default observer(function Filename ({ style, _key }) {
-  const [meta] = usePage(`translationsMeta.${_key}`)
-
+export default observer(function Filename ({ style, meta }) {
   return pug`
     Div.root(style=style)
       Div.file(align='between' vAlign='center')
-        Span.filename= decodePath(meta.filename)
+        Span.filename= decodePath(meta.value)
   `
 
   styl`

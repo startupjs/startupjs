@@ -32,7 +32,7 @@ export default observer(function Filters () {
           Row(vAlign='center')
             Icon(style=meta.style icon=meta.icon)
             Span.label(bold=active)= meta.label
-          Span(description bold=active)= filtersCounters[FILTER]
+          Span(description bold=active)= filtersCounters[FILTER] || 0
   `
 
   styl`

@@ -10,11 +10,11 @@ import usePageInit from './usePageInit'
 import Translations from './Translations'
 
 export default observer(function PI18n () {
-  const [displayTranslationKeys] = usePage('displayTranslationKeys')
+  const [displayTranslations] = usePage('displayTranslations')
 
   return pug`
     PageInit
-    if displayTranslationKeys
+    if displayTranslations
       Translations
     else
       Row.loader(align='center' vAlign='center')
