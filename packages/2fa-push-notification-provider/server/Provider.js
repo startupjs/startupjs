@@ -5,7 +5,7 @@ export default class PushProvider extends Provider {
   constructor (ee, options) {
     super('push')
 
-    this.timeWindowMs = options.timeWindowMs || 30 * 1000
+    this.codeMaxAge = options.codeMaxAge || 30 * 1000
   }
 
   async send (model, session) {
@@ -47,21 +47,16 @@ export default class PushProvider extends Provider {
     const $2fas = model.query('2fa', {
       userId,
       'push.code': token,
-      'push.createdAt': { $gte: Date.now() - this.timeWindowMs },
+      'push.createdAt': { $gte: Date.now() - this.codeMaxAge },
       $limit: 1
     })
     await $2fas.subscribe()
     const [twoFa] = $2fas.get()
     const isExist = !!twoFa
-    let result = false
 
-    if (isExist) {
-      const $2fa = model.scope(`2fa.${twoFa.id}`)
-      $2fa.del('push')
-      result = true
-    }
+    if (isExist) await model.scope(`2fa.${twoFa.id}`).del('push')
 
     $2fas.unsubscribe()
-    return result
+    return isExist
   }
 }

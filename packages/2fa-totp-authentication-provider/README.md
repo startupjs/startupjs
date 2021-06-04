@@ -1,38 +1,40 @@
-# @startupjs/2fa-push-notification-provider
+# @startupjs/2fa-totp-authentication-provider
 
-Provider component for verification via `@startupjs/push-notification`.
+Provider for verification via google authenticator app.
 
 ## Dependencies
 
 ```js
-@startupjs/2fa-manager >= 0.35.10,
-@startupjs/push-notification >= 0.35.10
+@startupjs/2fa-manager >= 0.34.0,
+@startupjs/2fa-totp-authentication >= 0.34.0
 ```
 
 ## Installation
 
-```sh
-  yarn add @startupjs/2fa-push-notification-provider
+```js
+  yarn add @startupjs/2fa-totp-authentication-provider
 ```
 
-## !IMPORTANT!
-
-To use this package, you need to include the `@startupjs/push-notification` package as specified in the [documentation](/docs/libraries/push-notofications).
+**IMPORTANT**: To use this method, in advance, the user must provide a secret in the form of a QR code, which he will add to the google-authenticator. More on this in the [google-authenticator documentation](/docs/libraries/2fa/2fa-totp-authentication)
 
 ## Using
 
-You need to import the `PushProvider` component from `@startupjs/2fa-push-notification-provider`.
+You need to import the `GAProvider` component from `@startupjs/2fa-totp-authentication-provider`.
 
 ```js
-import { PushProvider } from '@startupjs/2fa-push-notification-provider'
+import { GAProvider } from '@startupjs/2fa-totp-authentication-provider'
 ```
 
-Then you need to add `PushProvider` to the` providers` array of `initTwoFAManager`. The second argument of the array is the options for the provider. Here you can set the optional `timeWindowMs` parameter, this time during which the code is considered valid. By default, `timeWindowMs = 30000`
+Then you need to add `GAProvider` to the` providers` array of `initTwoFAManager`. The second argument of the array is the options for the provider. `TotpProvider` expects an application name, this name will be displayed in the `google authenticator` interface.
+
+You can get the name of the application from `app.json`, usually this file is located in the root of the project:
 
 ```js
+import app from 'path/to/your/app.json'
+
+...
+
 initTwoFAManager(ee, {
-  providers: [
-    [PushProvider, { timeWindowMs: 'YOUR_TIME_IN_MS' }]
-  ]
+  providers: [GAProvider]
 })
 ```
