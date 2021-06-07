@@ -45,6 +45,7 @@
     "@startupjs/auth-linkedin": "^0.35.10",
     "@startupjs/auth-local": "^0.35.10",
     "@startupjs/docs": "^0.35.10",
+    "@startupjs/i18n": "^0.35.0",
     "@startupjs/mdx": "^0.35.10",
     "@startupjs/push-notifications": "^0.35.10",
     "@startupjs/recaptcha": "^0.35.10",

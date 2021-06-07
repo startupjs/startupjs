@@ -22,9 +22,10 @@ import {
 import orm from '../model'
 
 // Frontend micro-services
-import * as main from '../main'
-import docs from '../docs'
 import auth from '../auth'
+import docs from '../docs'
+import i18n, { useI18nGlobalInit } from '../i18n'
+import * as main from '../main'
 
 // Override default styles
 import UI_STYLE_OVERRIDES from './uiOverrides.styl'
@@ -49,7 +50,7 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ main, docs, auth, notifications }
+      apps={ auth, docs, i18n, main, notifications }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
@@ -59,6 +60,7 @@ export default observer(() => {
       androidUpdateLink=UPDATE_LINK_ANDROID
       iosUpdateLink=UPDATE_LINK_IOS
       useGlobalInit=() => {
+        useI18nGlobalInit()
         initPushNotifications()
         return true
       }
