@@ -26,7 +26,7 @@ observer.__makeObserver = makeObserver
 
 export { observer }
 
-function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName) {
   const displayName = SourceComponent.displayName || SourceComponent.name
   if (!TargetComponent.displayName) {
     TargetComponent.displayName = displayName ? (displayName + suffix) : defaultName
@@ -76,10 +76,13 @@ function makeObserver (baseComponent, options = {}) {
     return observedComponent(...args)
   }
 
-  pipeComponentMeta(baseComponent, WrappedComponent)
-  return forwardRef
+  const Component = forwardRef
     ? React.forwardRef(WrappedComponent)
     : WrappedComponent
+
+  pipeComponentMeta(baseComponent, Component, 'StartupjsObserver')
+
+  return Component
 }
 
 function wrapObserverMeta (
@@ -111,16 +114,14 @@ function wrapObserverMeta (
     )
   }
 
-  let memoComponent
-  pipeComponentMeta(Component, ObserverWrapper, 'Observer', 'StartupjsWrapperObserver')
+  const memoComponent = React.memo(
+    forwardRef
+      ? React.forwardRef(ObserverWrapper)
+      : ObserverWrapper
+  )
 
-  if (forwardRef) {
-    memoComponent = React.memo(React.forwardRef(ObserverWrapper))
-  } else {
-    memoComponent = React.memo(ObserverWrapper)
-  }
+  pipeComponentMeta(Component, memoComponent, 'StartupjsObserverWrapper')
 
-  pipeComponentMeta(Component, memoComponent)
   return memoComponent
 }
 
