@@ -50,9 +50,11 @@ startupjs: >= 0.34.0
   import initI18nModel from 'startupjs/i18n/model'
 
   export default function initOrm (racer) {
-    initI18nModel(racer)
+    initI18nModel(racer, i18nPageAccess)
   }
   ```
+
+  где `i18nPageAccess(model, next, redirect)` фильтр доступа к странице `/i18n`.
 
 1. Создайте `i18n/index.js` файл и инициализируйте клиентское приложение в нём
 

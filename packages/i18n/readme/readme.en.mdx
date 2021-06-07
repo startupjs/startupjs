@@ -50,9 +50,11 @@ startupjs: >= 0.34.0
   import initI18nModel from 'startupjs/i18n/model'
 
   export default function initOrm (racer) {
-    initI18nModel(racer)
+    initI18nModel(racer, i18nPageAccess)
   }
   ```
+
+  where `i18nPageAccess(model, next, redirect)` is the `/i18n` page access filter.
 
 1. Create `i18n/index.js` file and initialize the client-size app on it
 
