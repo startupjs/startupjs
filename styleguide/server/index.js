@@ -8,7 +8,10 @@ import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { initTwoFAManager } from '@startupjs/2fa-manager/server'
 import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
+import { PushProvider } from '@startupjs/2fa-push-notification-provider'
 import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
+import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -29,6 +32,10 @@ import getMainRoutes from '../main/routes'
 // Init startupjs ORM.
 init({ orm })
 
+const serviceAccountPath = path.join(process.cwd(), 'server/serviceAccountKey.private.json')
+const isServiceAccountExists = fs.existsSync(serviceAccountPath)
+isServiceAccountExists && initFirebaseApp(serviceAccountPath)
+
 // Check '@startupjs/server' readme for the full API
 startupjsServer({
   getHead,
@@ -36,7 +43,8 @@ startupjsServer({
     ...getAuthRoutes(),
     ...getI18nRoutes(),
     ...getDocsRoutes(),
-    ...getMainRoutes()
+    ...getMainRoutes(),
+    ...getPushNotificationsRoutes()
   ]
 }, (ee, options) => {
   initApp(ee, {
@@ -51,9 +59,17 @@ startupjsServer({
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {
     providers: [
-      [TotpProvider, { appName: app.name }]
+      [TotpProvider, { appName: app.name }],
+      [PushProvider]
     ]
   })
+
+  try {
+    initPushNotifications(ee)
+  } catch (err) {
+    console.error(err.message)
+    console.error('Push Notifications will not work!')
+  }
 
   initAuth(ee, {
     onBeforeLoginHook: ({ userId }, req, res, next) => {
