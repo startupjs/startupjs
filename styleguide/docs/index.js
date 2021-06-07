@@ -5,6 +5,8 @@ import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-auth
 import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
 import TOTPProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
 import TOTPProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
+import PushProviderEn from '../../packages/2fa-push-notification-provider/docs/push-notifications.en.mdx'
+import PushProviderRu from '../../packages/2fa-push-notification-provider/docs/push-notifications.ru.mdx'
 import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
 import AuthMainEn from '../../packages/auth/docs/readme.en.md'
 import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
@@ -27,6 +29,8 @@ import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
 import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import PushNotificationsEn from '../../packages/push-notifications/docs/push-notifications.en.mdx'
+import PushNotificationsRu from '../../packages/push-notifications/docs/push-notifications.ru.mdx'
 import TwoFAManagerEn from '../../packages/2fa-manager/docs/2fa-manager.en.mdx'
 import TwoFAManagerRu from '../../packages/2fa-manager/docs/2fa-manager.ru.mdx'
 import * as guides from '../../docs/migration-guides'
@@ -180,6 +184,14 @@ export default docs({
               en: TOTPProviderEn,
               ru: TOTPProviderRu
             }
+          },
+          PushProvider: {
+            type: 'mdx',
+            title: 'Push notificaton Provider',
+            component: {
+              en: PushProviderEn,
+              ru: PushProviderRu
+            }
           }
         }
       },
@@ -203,6 +215,17 @@ export default docs({
         component: {
           en: RecaptchaEn,
           ru: RecaptchaRu
+        }
+      },
+      'push-notofications': {
+        type: 'mdx',
+        title: {
+          en: 'Push',
+          ru: 'Push'
+        },
+        component: {
+          en: PushNotificationsEn,
+          ru: PushNotificationsRu
         }
       }
     }
