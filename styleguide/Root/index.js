@@ -24,7 +24,8 @@ import orm from '../model'
 // Frontend micro-services
 import auth from '../auth'
 import docs from '../docs'
-import i18n, { useI18nGlobalInit } from '../i18n'
+// FIXME: i18n library conflicts with docs library '_session.lang'
+// import i18n, { useI18nGlobalInit } from '../i18n'
 import * as main from '../main'
 
 // Override default styles
@@ -50,7 +51,7 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ auth, docs, i18n, main, notifications }
+      apps={ auth, docs, main, notifications }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
@@ -60,7 +61,6 @@ export default observer(() => {
       androidUpdateLink=UPDATE_LINK_ANDROID
       iosUpdateLink=UPDATE_LINK_IOS
       useGlobalInit=() => {
-        useI18nGlobalInit()
         initPushNotifications()
         return true
       }
