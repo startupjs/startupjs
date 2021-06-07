@@ -1,19 +1,9 @@
 import express from 'express'
 import fs from 'fs'
-import path from 'path'
+import resolve from 'resolve'
 import { encodePath } from './../../isomorphic'
 
 const router = express.Router()
-let translationsPath
-
-try {
-  translationsPath =
-    require.resolve('@startupjs/babel-plugin-i18n-extract/translations.json')
-} catch {
-  throw new Error(
-    '[@startupjs/i18n]: @startupjs/babel-plugin-i18n-extract not found'
-  )
-}
 
 router.post('/get-translations', (req, res) => {
   let translations
@@ -47,13 +37,19 @@ router.post('/change-language', (req, res) => {
 })
 
 function getTranslationPath () {
-  let cwd = process.cwd()
-  const styleguidePath = 'startupjs/styleguide'
-  // workaround for development startupjs
-  if (cwd.includes(styleguidePath)) {
-    cwd = cwd.replace(styleguidePath, 'startupjs')
+  let translationsPath
+
+  try {
+    translationsPath = resolve.sync(
+      '@startupjs/babel-plugin-i18n-extract/translations.json'
+    )
+  } catch {
+    throw new Error(
+      '[@startupjs/i18n]: @startupjs/babel-plugin-i18n-extract not found'
+    )
   }
-  return path.join(cwd, 'node_modules', translationsPath)
+
+  return translationsPath
 }
 
 function encodeObjectKeys (obj) {

@@ -1,7 +1,7 @@
 import { initI18n, useI18nGlobalInit } from '@startupjs/i18n'
 
 export default initI18n({
-  langs: ['ru', 'de', 'co', 'it', 'us', 'ag', 'uk', 'po', 'be']
+  langs: []
 })
 
 export { useI18nGlobalInit }

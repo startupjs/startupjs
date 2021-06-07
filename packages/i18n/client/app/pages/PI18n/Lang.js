@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { observer, useLocal, useDidUpdate, useModel } from 'startupjs'
+import { observer, useLocal, useModel } from 'startupjs'
 import { Div, Row, Span, TextInput, Icon } from '@startupjs/ui'
 import { faUndoAlt, faSave } from '@fortawesome/free-solid-svg-icons'
 import debounce from 'lodash/debounce'
@@ -30,12 +30,7 @@ export default observer(function Lang ({ style, meta }) {
     }, 0)
   }
 
-  const debounceUpdateMeta = useCallback(
-    debounce(updateMeta, 300), [])
-
-  useDidUpdate(() => {
-    debounceUpdateMeta()
-  }, [draftValue])
+  const debounceUpdateMeta = useCallback(debounce(updateMeta, 300), [])
 
   const onChangeText = useCallback((text) => {
     if (text) {
@@ -43,7 +38,26 @@ export default observer(function Lang ({ style, meta }) {
     } else {
       $draftValue.del()
     }
+    debounceUpdateMeta()
   }, [])
+
+  function onUndo () {
+    if (value) {
+      $draftValue.set(value)
+    } else {
+      $draftValue.del()
+    }
+    updateMeta()
+  }
+
+  function onSave () {
+    if (draftValue) {
+      $value.set(draftValue)
+    } else {
+      $value.del()
+    }
+    updateMeta()
+  }
 
   return pug`
     Row.root(style=style vAlign='center')
@@ -54,18 +68,9 @@ export default observer(function Lang ({ style, meta }) {
             Icon(style=statusMeta.style icon=statusMeta.icon)
           if langMeta.statuses[PENDING_STATUS]
             Row.pending
-              Div(onPress=() => {
-                onChangeText(value)
-              })
+              Div(onPress=onUndo)
                 Icon.pending-icon(icon=faUndoAlt)
-              Div(pushed onPress=() => {
-                if (draftValue) {
-                  $value.set(draftValue)
-                } else {
-                  $value.del()
-                }
-                updateMeta()
-              })
+              Div(pushed onPress=onSave)
                 Icon.pending-icon(icon=faSave)
         Span.lang= lang
         // TODO
