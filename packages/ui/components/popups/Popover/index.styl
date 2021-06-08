@@ -1,13 +1,3 @@
-.location, .animate
-  position absolute
-
-.stamp
-  position absolute
-  opacity 0
-  left -999
-  top -999
-  z-index -1
-
 .wrapper, .overlay
   position absolute
   width 100%
@@ -15,15 +5,12 @@
   left 0
   top 0
 
+.content
+  padding 2u 3u
+  background-color $UI.colors.white
+  radius()
+  shadow(3)
+
 .overlay
   +web()
     cursor default
-
-.content
-  padding 2u 3u
-  border-radius 1u
-  background-color #ffffff
-  shadow(3)
-
-.contentWithArrow
-  border-radius .5u

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
-import AnimatedSpawn from './AnimatedSpawn'
+import { View, TouchableWithoutFeedback } from 'react-native'
+import AbstractPopover from './AbstractPopover'
 import DeprecatedPopover from './Deprecated'
 import Div from '../../Div'
 import './index.styl'
@@ -32,13 +33,22 @@ function Popover ({
   animateType,
   durationOpen,
   durationClose,
-  hasArrow,
-  hasWidthCaption,
+  arrow,
+  matchCaptionWidth,
   onRequestOpen,
   onRequestClose
 }) {
-  const refCaption = useRef(null)
+  const refCaption = useRef()
   const [visible, setVisible] = useState(false)
+
+  function renderWrapper (children) {
+    return pug`
+      View.wrapper
+        TouchableWithoutFeedback(onPress=()=> setVisible(false))
+          View.overlay
+        = children
+    `
+  }
 
   return pug`
     Div(
@@ -46,19 +56,20 @@ function Popover ({
       ref=refCaption
       onPress=()=> setVisible(true)
     )= children
-    AnimatedSpawn.content(
+    AbstractPopover.content(
       style=[contentStyle]
-      styleName={ contentWithArrow: hasArrow }
       arrowStyle=arrowStyle
       visible=visible
       refCaption=refCaption
       position=position
+      arrow=arrow
+      matchCaptionWidth=matchCaptionWidth
       attachment=attachment
       placements=placements
       animateType=animateType
       durationOpen=durationOpen
       durationClose=durationClose
-      hasArrow=hasArrow
+      renderWrapper=renderWrapper
       onRequestOpen=onRequestOpen
       onRequestClose=()=> setVisible(false)
     )= renderContent()

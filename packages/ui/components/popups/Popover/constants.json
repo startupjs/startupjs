@@ -3,8 +3,8 @@
   "ARROW_SIZE": 8,
   "STEPS": {
     "CLOSE": "close",
+    "MEASURE": "measure",
     "RENDER": "render",
-    "ANIMATE": "animate",
     "OPEN": "open"
   },
   "PLACEMENTS_ORDER": [

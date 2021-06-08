@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Sandbox } from '@startupjs/docs'
 import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
@@ -7,8 +8,9 @@ import { useValue } from 'startupjs'
 
 # ArrayInput
 
-ArrayInput позволяет создавать динамические формы, используя его декларативный апи.
-ArrayInput принимает объект в свойстве `items` с обязательным ключом` input`, чтобы указать, какой тип ввода отображать.
+ArrayInput позволяет создавать динамические формы, используя его декларативный api.
+
+ArrayInput принимает объект в свойстве `items` с метаданными инпута и обязательным ключом `input`, чтобы указать, какой тип ввода отображать.
 
 Возможные типы:
 
@@ -20,7 +22,6 @@ ArrayInput принимает объект в свойстве `items` с обя
 [datetime](/docs/forms/DateTimePicker)
 [time](/docs/forms/DateTimePicker)
 
-Объект `items` также наследует любые свойства, переданные этим компонентам. 
 
 ```jsx
 import { ArrayInput } from '@startupjs/ui'
@@ -29,10 +30,9 @@ import { ArrayInput } from '@startupjs/ui'
 ## Простой пример
 
 ```jsx example
-const [value, $value] = useValue(['Green', 'Blue'])
+const [, $value] = useValue(['Green', 'Blue'])
 return (
   <ArrayInput
-    value={value}
     $value={$value}
     label='Colors'
     items={{
@@ -41,3 +41,7 @@ return (
   />
 )
 ```
+
+## Sandbox
+
+<Sandbox Component={ArrayInput} />

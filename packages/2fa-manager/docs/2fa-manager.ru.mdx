@@ -110,7 +110,9 @@ export default class CustomProvider extends Provider {
     - `selectedProvider [String]` - имя выбранного провайдера
     - `code [String]` - введеный код
 
-!Важно! Коллбек нужен для того, чтобы предоставить данные, которые вам необходимо передать на сервер. Проверку валидности введеного кода нужно проверять только на сервере, так как клиентский код может быть модифицирован злоумышленником. Рекомендуется добавить в передаваемый запрос поле с именем `twoFA` и содержанием как у обьета `twoFA` из функции `onSubmit`.
+**Важно** Коллбек нужен для того, чтобы предоставить данные, которые вам необходимо передать на сервер. Проверку валидности введеного кода нужно проверять только на сервере, так как клиентский код может быть модифицирован злоумышленником. Рекомендуется добавить в передаваемый запрос поле с именем `twoFA` и содержанием как у обьета `twoFA` из функции `onSubmit`.
+
+**Важно** `onSubmit` должен возвращать `true` в случае валидного кода и `false` в случае не валидного кода.
 
 - `ProvidersList2fa(providers, chooseProvider)` - Компонент для отображения списка зарегистрированных провайдеров. Принимает следующие пропсы:
   - `providers [Array]` - массив имен провайдеров
@@ -144,8 +146,14 @@ import { CheckToken } from '@startupjs/2fa'
 const providers = useProviders()
 const [currentProvider, setCurrentProvider] = useState('')
 
+async function onSubmit(twoFA) {
+  console.log(twoFA.selectedProvider, twoFA.code)
+  return twoFA.code
+}
+
 return pug`
   Div
-    ProvidersBlock(onSubmit=(twoFA)=>console.log(twoFA.selectedProvider, twoFA.code))
+    ProvidersBlock(onSubmit=onSubmit)
 `
+```
 ```
