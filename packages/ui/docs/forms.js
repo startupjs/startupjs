@@ -18,6 +18,7 @@ import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
 import MultiselectRu from '../components/forms/Multiselect/Multiselect.ru.mdx'
 import DateTimePickerEn from '../components/forms/DateTimePicker/DateTimePicker.en.mdx'
 import DateTimePickerRu from '../components/forms/DateTimePicker/DateTimePicker.ru.mdx'
+import DateTimeNew from '../components/forms/DateTimePickerNew/DateTimeNew.mdx'
 import ArrayInputEn from '../components/forms/ArrayInput/ArrayInput.en.mdx'
 import PasswordInputEn from '../components/forms/PasswordInput/PasswordInput.en.mdx'
 import PasswordInputRu from '../components/forms/PasswordInput/PasswordInput.ru.mdx'
@@ -45,6 +46,11 @@ export default {
         en: DateTimePickerEn,
         ru: DateTimePickerRu
       }
+    },
+    DateTimeNew: {
+      type: 'mdx',
+      title: 'DateTimeNew',
+      component: DateTimeNew
     },
     Input: {
       type: 'mdx',

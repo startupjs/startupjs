@@ -1,0 +1,13 @@
+import { useState } from 'react'
+import DatePicker from './'
+
+```jsx example
+const [date, setDate] = useState(+new Date())
+
+return pug`
+  DatePicker(
+    date=date
+    onChangeDate=v=> setDate(v)
+  )
+`
+```

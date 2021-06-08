@@ -24,20 +24,23 @@ const FORMATS = {
 
 function DateTimePicker ({
   style,
-  cancelButtonText,
-  confirmButtonText,
-  date,
-  disabled,
-  format,
-  is24Hour,
-  label,
-  maxDate,
-  minDate,
-  minuteInterval,
-  mode,
-  placeholder,
-  size,
-  onDateChange
+
+  placeholder, // -
+  mode, // -
+
+  format, // ?
+  minuteInterval, // ?
+  size, // ?
+  is24Hour, // ?
+  cancelButtonText, // ?
+  confirmButtonText, // ?
+
+  date, // +
+  disabled, // +
+  label, // +
+  maxDate, // +
+  minDate, // +
+  onDateChange // +
 }) {
   const [inputDate, setInputDate] = useState()
   const [visible, setVisible] = useState(false)
