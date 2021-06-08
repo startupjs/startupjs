@@ -26,8 +26,6 @@ import DividerEn from '../components/Divider/Divider.en.mdx'
 import DividerRu from '../components/Divider/Divider.ru.mdx'
 import DrawerSidebarEn from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import DrawerSidebarRu from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
-import HrEn from '../components/Hr/Hr.en.mdx'
-import HrRu from '../components/Hr/Hr.ru.mdx'
 import IconEn from '../components/Icon/Icon.en.mdx'
 import IconRu from '../components/Icon/Icon.ru.mdx'
 import LayoutEn from '../components/Layout/Layout.en.mdx'
@@ -175,14 +173,6 @@ export default {
       component: {
         en: DrawerSidebarEn,
         ru: DrawerSidebarRu
-      }
-    },
-    Hr: {
-      type: 'mdx',
-      title: 'Hr',
-      component: {
-        en: HrEn,
-        ru: HrRu
       }
     },
     Icon: {

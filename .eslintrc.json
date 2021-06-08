@@ -56,8 +56,8 @@
             "/^@?startupjs.*/",
             "/^@?dmapper.*/",
             "module",
-            "/components/",
-            ["/helpers/", "/hooks/"],
+            "/^components/",
+            ["/^helpers/", "/hooks/"],
             ["sibling", "parent"],
             "/.\/index.styl/"
         ]

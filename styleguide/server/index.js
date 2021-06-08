@@ -1,6 +1,7 @@
 import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
+import { initI18n, getI18nRoutes } from 'startupjs/i18n/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
@@ -39,9 +40,10 @@ isServiceAccountExists && initFirebaseApp(serviceAccountPath)
 startupjsServer({
   getHead,
   appRoutes: [
-    ...getMainRoutes(),
-    ...getDocsRoutes(),
     ...getAuthRoutes(),
+    ...getI18nRoutes(),
+    ...getDocsRoutes(),
+    ...getMainRoutes(),
     ...getPushNotificationsRoutes()
   ]
 }, (ee, options) => {
@@ -52,6 +54,7 @@ startupjsServer({
   })
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
   initUi(ee, { dirname: rootPath })
+  initI18n(ee)
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {

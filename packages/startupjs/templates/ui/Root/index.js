@@ -6,6 +6,7 @@ import { observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
 import { BASE_URL } from '@env'
+import i18n, { useI18nGlobalInit } from '../i18n'
 import orm from '../model'
 
 // Frontend micro-services
@@ -28,7 +29,8 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={main}
+      apps={ i18n, main }
+      useGlobalInit=useI18nGlobalInit
     )
   `
 })
