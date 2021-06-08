@@ -1,7 +1,10 @@
 const upstreamTransformer = require('metro-react-native-babel-transformer')
+const svgTransformer = require('react-native-svg-transformer')
+const platformSingleton = require(
+  '@startupjs/babel-plugin-rn-stylename-inline/platformSingleton'
+)
 const stylusToCssLoader = require('./stylusToCssLoader')
 const cssToReactNativeLoader = require('./cssToReactNativeLoader')
-const svgTransformer = require('react-native-svg-transformer')
 const mdxExamplesLoader = require('./mdxExamplesLoader')
 const mdxLoader = require('./mdxLoader')
 const replaceObserverLoader = require('./replaceObserverLoader')
@@ -9,8 +12,10 @@ const callLoader = require('./callLoader')
 
 module.exports.transform = function ({ src, filename, options = {} }) {
   const { platform } = options
+  platformSingleton.value = platform
+
   if (/\.styl$/.test(filename)) {
-    src = callLoader(stylusToCssLoader, src, filename, { platform })
+    src = callLoader(stylusToCssLoader, src, filename)
     src = callLoader(cssToReactNativeLoader, src, filename)
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.css$/.test(filename)) {

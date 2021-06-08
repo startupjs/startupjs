@@ -1,3 +1,66 @@
+## [0.36.1](https://github.com/startupjs/startupjs/compare/v0.36.0...v0.36.1) (2021-06-08)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** add missing 'babel-plugin-i18n-extract' dependency ([b308596](https://github.com/startupjs/startupjs/commit/b308596ba786e764d89ae25787ee3a705b2f1d10))
+
+
+
+# [0.36.0](https://github.com/startupjs/startupjs/compare/v0.35.10...v0.36.0) (2021-06-08)
+
+
+### Bug Fixes
+
+* **mdx:** fix code block indents ([b2cc572](https://github.com/startupjs/startupjs/commit/b2cc572f6fed577f69ffead6fa3e5355ae3f551b))
+* **templates/ui:** fix require of i18n app ([29f1513](https://github.com/startupjs/startupjs/commit/29f151361d26119d3bc06cd11e87cddde0c2e551))
+* **typography/fonts:** add default font 'System' for android and ios ([bca528c](https://github.com/startupjs/startupjs/commit/bca528cdf89b95f13cd651ef46ac668307cc9b2c))
+* **ui:** add ui plugin to module map file ([2a73171](https://github.com/startupjs/startupjs/commit/2a7317176bc5d84045ddf86d8ac1bfb102476697))
+* **ui/Hr:** remove deprecated component ([#695](https://github.com/startupjs/startupjs/issues/695)) ([b9639af](https://github.com/startupjs/startupjs/commit/b9639afdf50aafe2bdbaae5c3fc8476ebe02e0b7))
+* **ui/Select:** fix Android crash with empty value ([#677](https://github.com/startupjs/startupjs/issues/677)) ([6bccb35](https://github.com/startupjs/startupjs/commit/6bccb35953a5de09bbb18d930bb7854ec007de12))
+* **ui/themed:** pass 'ref' to target component ([#699](https://github.com/startupjs/startupjs/issues/699)) ([3b79fa3](https://github.com/startupjs/startupjs/commit/3b79fa32af5e3a8f8b07e8e462b44d80654d8664))
+
+
+### Documentation
+
+* **ui:** improve docs ([#643](https://github.com/startupjs/startupjs/issues/643)) ([ca69839](https://github.com/startupjs/startupjs/commit/ca698396f94d71808bb61632c9e946e16776e878))
+
+
+### Features
+
+* **2fa-push-notification-provider:** add package ([#694](https://github.com/startupjs/startupjs/issues/694)) ([dccae3a](https://github.com/startupjs/startupjs/commit/dccae3af49c0ea60ada2815801ad90f113cc8266))
+* **i18n:** add package ([#698](https://github.com/startupjs/startupjs/issues/698)) ([f98768e](https://github.com/startupjs/startupjs/commit/f98768edace7e7b79ff3ae1b8045df4a30953743))
+* **typography/fonts:** split font families by platforms ([#675](https://github.com/startupjs/startupjs/issues/675)) ([f57f36d](https://github.com/startupjs/startupjs/commit/f57f36d18c6aeaaf3b1d87c716bf355d8b66fe88))
+
+
+### BREAKING CHANGES
+
+* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](https://startupjs-ui.dmapper.co/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
+
+* **ui/Breadcrumbs:** no longer supports `Link` component properties for `route`
+
+* **ui/Badge:** `size='s'` now shows content, if you don't want to show content, then use the `variant='dot'` property
+
+* **ui/Select:** fix error on Android with conditional rendering `Picker.Item` when using the `Select` property `showEmptyValue = {false}`. Need to update `@react-native-picker/picker` library to version 1.16.1.
+
+* **ui/Hr:** remove deprecated `Hr` component, use `Divider` instead
+
+
+
+## [0.35.10](https://github.com/startupjs/startupjs/compare/v0.35.9...v0.35.10) (2021-06-02)
+
+
+### Bug Fixes
+
+* **worker:** commit  version ([c0bef34](https://github.com/startupjs/startupjs/commit/c0bef34743ecb5128dd20ee51874f144e81cc0cb))
+
+
+### Features
+
+* **push-notifications:** add `push-notifications` package ([#656](https://github.com/startupjs/startupjs/issues/656)) ([7019c08](https://github.com/startupjs/startupjs/commit/7019c0881f53df89c73a8a13be3c4d36ad806de5))
+
+
+
 ## [0.35.9](https://github.com/startupjs/startupjs/compare/v0.35.8...v0.35.9) (2021-06-02)
 
 

@@ -1,7 +1,7 @@
 import Breadcrumbs from '../Breadcrumbs'
 import Div from '../Div'
 import Br from '../Br'
-import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
+import { faRocket, faBook , faGift, faAnchor } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs (хлебные крошки)
@@ -13,8 +13,6 @@ import { Breadcrumbs } from 'startupjs/ui'
 ```
 
 ## Простой пример
-
-Каждый объект маршрута принимает любые свойства компонента [Link](/docs/components/Link) кроме тех что упомянуты ниже.
 
 ```jsx example
 return (
@@ -31,6 +29,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -58,6 +60,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -86,6 +92,11 @@ return (
         to: '#component',
         name: 'Component',
         icon: faGift
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs',
+        icon: faAnchor
       }
     ]}
   />
@@ -113,6 +124,10 @@ return (
         {
           to: '#component',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />
@@ -131,6 +146,10 @@ return (
         {
           to: '#',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />

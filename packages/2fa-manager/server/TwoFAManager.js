@@ -8,6 +8,7 @@ import { Provider as ParentProvider } from '../Provider'
 //     }
 //   ]
 // }
+
 export default class TwoFAManager {
   constructor (ee, options) {
     if (TwoFAManager._instance) {
@@ -19,14 +20,14 @@ export default class TwoFAManager {
     this.initProviders(ee, options.providers)
   }
 
-  send (model, session, providerName) {
-    const provider = this.getProvider(providerName)
-    provider.send(model, session)
+  async send (model, session, providerName) {
+    const provider = this._getProvider(providerName)
+    await provider.send(model, session)
   }
 
-  check (model, session, token, providerName) {
-    const provider = this.getProvider(providerName)
-    return provider.check(model, session, token)
+  async check (model, session, token, providerName) {
+    const provider = this._getProvider(providerName)
+    return await provider.check(model, session, token)
   }
 
   initProviders (ee, providers) {

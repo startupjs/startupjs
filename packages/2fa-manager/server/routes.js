@@ -6,16 +6,16 @@ const router = express.Router()
 
 router.post(CHECK_URL, async (req, res) => {
   try {
-    const isValid = new TwoFAManager().check(req.model, req.session, req.body.token, req.body.providerName)
+    const isValid = await new TwoFAManager().check(req.model, req.session, req.body.token, req.body.providerName)
     res.status(200).send(isValid)
   } catch (err) {
     res.status(400).send(err.message)
   }
 })
 
-router.post(SEND_URL, (req, res) => {
+router.post(SEND_URL, async (req, res) => {
   try {
-    new TwoFAManager().send(req.model, req.session, req.body.providerName)
+    await new TwoFAManager().send(req.model, req.session, req.body.providerName)
     res.status(200).end()
   } catch (err) {
     res.status(400).send(err.message)

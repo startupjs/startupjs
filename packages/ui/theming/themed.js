@@ -12,7 +12,8 @@ export default function themed (name, Component) {
     Component = name
     name = Component.displayName || Component.name
   }
-  function ThemeWrapper (props) {
+
+  function ThemeWrapper (props, ref) {
     // Setup global component style overrides
     const uiStyle = useStyle()
 
@@ -39,9 +40,9 @@ export default function themed (name, Component) {
     let theme = props.theme || contextTheme
     let res
     if (theme && !props.theme) {
-      res = Component({ theme, ...props })
+      res = Component({ theme, ...props }, ref)
     } else {
-      res = Component(props)
+      res = Component(props, ref)
     }
     return (props.theme && (!contextTheme || contextTheme !== props.theme)) ? (
       React.createElement(
@@ -53,8 +54,10 @@ export default function themed (name, Component) {
       res
     )
   }
+
   ThemeWrapper.displayName = Component.displayName || Component.name
   ThemeWrapper.propTypes = Component.propTypes
   ThemeWrapper.defaultProps = Component.defaultProps
+
   return ThemeWrapper
 }
