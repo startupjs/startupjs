@@ -34,7 +34,7 @@ function Popover ({
   durationOpen,
   durationClose,
   arrow,
-  hasWidthCaption,
+  matchCaptionWidth,
   onRequestOpen,
   onRequestClose
 }) {
@@ -63,6 +63,7 @@ function Popover ({
       refCaption=refCaption
       position=position
       arrow=arrow
+      matchCaptionWidth=matchCaptionWidth
       attachment=attachment
       placements=placements
       animateType=animateType

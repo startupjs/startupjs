@@ -31,7 +31,7 @@ function AbstractPopover ({
   durationOpen,
   durationClose,
   arrow,
-  hasWidthCaption,
+  matchCaptionWidth,
   renderWrapper,
   onRequestOpen,
   onRequestClose
@@ -110,7 +110,7 @@ function AbstractPopover ({
         let curHeight = (height === 'auto') ? popoverHeight : height
         curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
-        let curWidth = hasWidthCaption ? captionWidth : popoverWidth
+        let curWidth = matchCaptionWidth ? captionWidth : popoverWidth
         const contentInfo = {
           x: captionPageX,
           y: captionPageY,
@@ -209,7 +209,7 @@ function AbstractPopover ({
     positionStyle.left = 0
   }
 
-  if (hasWidthCaption && captionInfo.current) {
+  if (matchCaptionWidth && captionInfo.current) {
     animateStyle.width = captionInfo.current.width
   }
 
@@ -242,7 +242,7 @@ ObservedAP.defaultProps = {
   attachment: 'start',
   placements: PLACEMENTS_ORDER,
   animateType: 'opacity',
-  hasWidthCaption: false,
+  matchCaptionWidth: false,
   arrow: false,
   durationOpen: 300,
   durationClose: 300,
@@ -256,7 +256,7 @@ ObservedAP.propTypes = {
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
   placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
   animateType: PropTypes.oneOf(['opacity', 'scale']),
-  hasWidthCaption: PropTypes.bool,
+  matchCaptionWidth: PropTypes.bool,
   arrow: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
