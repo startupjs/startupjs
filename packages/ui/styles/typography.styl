@@ -52,8 +52,8 @@ fontFamily(
   fontStyle = normal
 )
   defaultFontFamilies = $UI.fontFamilies.default || {}
-  fontFamilies = $UI.fontFamilies[$PLATFORM]
-  fontFamily = (fontFamilies ? fontFamilies[fontName] : defaultFontFamilies[fontName]) || fontName
+  platformFontFamilies = $UI.fontFamilies[$PLATFORM] || {}
+  fontFamily = defaultFontFamilies[fontName] || platformFontFamilies[fontName] || fontName
 
   if (fontFamily) {
     if (isCustomFont(fontFamily)) {
@@ -80,4 +80,4 @@ fontFamily(
   }
 
 isCustomFont(fontFamily)
-  return index($UI.customFontFamilies, fontFamily)
+  return index($UI.customFontFamilies, fontFamily) isnt null
