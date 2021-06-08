@@ -27,12 +27,14 @@
 ### BREAKING CHANGES
 
 * **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](https://startupjs-ui.dmapper.co/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
-* **ui:** ### `startupjs/ui/Breadcrumbs`
-- no longer supports `Link` component properties for `route`
 
-### `startupjs/ui/Badge`
-- `size='s'` now shows content, if you don't want to show content, then use the `variant='dot'` property
+* **ui/Breadcrumbs:** no longer supports `Link` component properties for `route`
 
+* **ui/Badge:** `size='s'` now shows content, if you don't want to show content, then use the `variant='dot'` property
+
+* **ui/Select:** fix error on Android with conditional rendering `Picker.Item` when using the `Select` property `showEmptyValue = {false}`. Need to update `@react-native-picker/picker` library to version 1.16.1.
+
+* **ui/Hr:** remove deprecated `Hr` component, use `Divider` instead
 
 
 # [0.36.0](https://github.com/startupjs/startupjs/compare/v0.35.10...v0.36.0) (2021-06-08)
