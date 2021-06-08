@@ -59,7 +59,7 @@ function MenuItem ({
 
       Div.container(style=containerStyle)
         if typeof children === 'string'
-          Span(style={color} bold=bold)= children
+          Span(style={color} bold=bold numberOfLines=1)= children
         else
           = children
   `
