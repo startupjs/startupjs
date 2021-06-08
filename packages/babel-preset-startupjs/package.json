@@ -24,6 +24,7 @@
     "@babel/plugin-transform-typescript": "^7.5.0",
     "@babel/runtime": "^7.9.0",
     "@startupjs/babel-plugin-dotenv": "^0.36.0",
+    "@startupjs/babel-plugin-i18n-extract": "^0.36.0",
     "@startupjs/babel-plugin-import-to-react-lazy": "^0.36.0",
     "@startupjs/babel-plugin-react-css-modules": "1701.0.1",
     "@startupjs/babel-plugin-react-pug-classnames": "^0.36.0",
