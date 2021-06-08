@@ -6,8 +6,7 @@ export default {
     contentInfo,
     durationOpen,
     animateType,
-    animateStates,
-    hasArrow
+    animateStates
   }, callback) {
     const validPlacement = geometry.validPlacement
     const [position, attachment] = validPlacement.split('-')
@@ -95,8 +94,7 @@ export default {
     contentInfo,
     durationClose,
     animateType,
-    animateStates,
-    hasArrow
+    animateStates
   }, callback) {
     animateStates.height.setValue(contentInfo.height)
     const [position, attachment] = (geometry.validPlacement || '').split('-')
