@@ -1,3 +1,12 @@
+## [0.36.1](https://github.com/startupjs/startupjs/compare/v0.36.0...v0.36.1) (2021-06-08)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** add missing 'babel-plugin-i18n-extract' dependency ([b308596](https://github.com/startupjs/startupjs/commit/b308596ba786e764d89ae25787ee3a705b2f1d10))
+
+
+
 # [0.36.0](https://github.com/startupjs/startupjs/compare/v0.35.10...v0.36.0) (2021-06-08)
 
 
