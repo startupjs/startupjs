@@ -1,3 +1,14 @@
+## [0.36.2](https://github.com/startupjs/startupjs/compare/v0.36.1...v0.36.2) (2021-06-08)
+
+
+### Bug Fixes
+
+* **mdx:** fix code example indents ([ffd7ae3](https://github.com/startupjs/startupjs/commit/ffd7ae3db3045a83a065e9a9d8e1c657f4e209df))
+* **Menu:** menu item can shrink ([9b46a42](https://github.com/startupjs/startupjs/commit/9b46a4278b9061eddb54318380f149af2673a351))
+* **typography/fonts:** fix detection of custom font ([154763d](https://github.com/startupjs/startupjs/commit/154763d563f962e76fa9b3b54afd228f587578b7))
+
+
+
 ## [0.36.1](https://github.com/startupjs/startupjs/compare/v0.36.0...v0.36.1) (2021-06-08)
 
 
