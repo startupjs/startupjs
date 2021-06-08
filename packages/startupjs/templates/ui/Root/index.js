@@ -4,9 +4,9 @@ import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
-import i18n, { useI18nGlobalInit } from 'startupjs/i18n'
 import { uiAppPlugin } from '@startupjs/ui'
 import { BASE_URL } from '@env'
+import i18n, { useI18nGlobalInit } from '../i18n'
 import orm from '../model'
 
 // Frontend micro-services
