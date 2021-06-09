@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import {
@@ -39,19 +38,20 @@ function Alert ({
 
   return pug`
     Row.root(styleName=[variant])
-      if icon !== false
-        Icon.icon(
-          icon=icon || ICONS[variant]
-          size='l'
-          styleName=[variant]
-        )
-      Div.content(styleName={ indent: icon !== false })
-        if title
-          Span(bold)= title
-        if typeof children === 'string'
-          Span.message= children
-        else
-          View.message= children
+      Row.wrapper
+        if icon !== false
+          Icon.icon(
+            icon=icon || ICONS[variant]
+            size='l'
+            styleName=[variant]
+          )
+        Div.content(styleName={ indent: icon !== false })
+          if title
+            Span(bold)= title
+          if typeof children === 'string'
+            Span= children
+          else
+            = children
       if renderActions
         Div.actions
           = renderActions()

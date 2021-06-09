@@ -4,6 +4,7 @@
   border-color: $UI.colors.primary
   border-width 1px
   background-color: $UI.colors.primaryLightest
+  justify-content space-between
 
   &.error
     border-color: $UI.colors.error
@@ -17,8 +18,10 @@
     border-color: $UI.colors.success
     background-color: $UI.colors.successLightest
 
-.icon
+.wrapper
   padding 2px
+
+.icon
   color: $UI.colors.primary
   flex-shrink 0
 
@@ -31,16 +34,13 @@
   &.success
     color: $UI.colors.success
 
-.actions
-  flex-shrink 0
-  margin-left 2u
-
-.message
-  padding 2px
-
 .content
   flex-shrink 1
   flex-grow 1
 
   &.indent
     margin-left 1.5u
+
+.actions
+  flex-shrink 0
+  margin-left 2u
