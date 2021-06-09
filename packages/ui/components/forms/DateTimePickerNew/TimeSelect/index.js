@@ -15,20 +15,12 @@ export default observer(function TimeSelect ({
   const prepareMinutes = useMemo(() => new Array(60).fill(true).map((_, index) => index + 1), [])
 
   function onHour (value) {
-    const timestamp = +moment
-      .tz(date, timezone)
-      .locale(exactLocale)
-      .set('hours', value)
-
+    const timestamp = +moment.tz(date, timezone).hours(value)
     onChangeDate && onChangeDate(timestamp)
   }
 
   function onMinute (value) {
-    const timestamp = +moment
-      .tz(date, timezone)
-      .locale(exactLocale)
-      .set('minute', value)
-
+    const timestamp = +moment.tz(date, timezone).minutes(value)
     onChangeDate && onChangeDate(timestamp)
   }
 
