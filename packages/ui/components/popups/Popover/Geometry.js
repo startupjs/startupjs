@@ -255,9 +255,9 @@ function calcTopPositionsArrow (contentInfo, captionInfo, dimensions) {
     this.arrowTopPositions['right-end'] = positionEnd
   }
 
-  this.arrowTopPositions['top-start'] = '100%'
-  this.arrowTopPositions['top-center'] = '100%'
-  this.arrowTopPositions['top-end'] = '100%'
+  this.arrowTopPositions['top-start'] = contentInfo.height
+  this.arrowTopPositions['top-center'] = contentInfo.height
+  this.arrowTopPositions['top-end'] = contentInfo.height
 
   const dblArrow = ARROW_SIZE * 2
   this.arrowTopPositions['bottom-start'] = -dblArrow
