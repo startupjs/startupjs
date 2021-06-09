@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react'
 import { observer, useValue } from 'startupjs'
-import { Div, Card, Divider, Span, Popover } from '@startupjs/ui'
+import { Div, Divider, Span, Popover } from '@startupjs/ui'
 import moment from 'moment'
 import 'moment/min/locales'
 import getLocale from './getLocale'
@@ -9,7 +9,7 @@ import TimeSelect from './TimeSelect'
 import './index.styl'
 
 function DatePicker ({
-  style, // 1
+  style,
 
   mode, // ['date', 'time', 'datetime']
   renderCaption, // remove InputComponent
@@ -19,13 +19,13 @@ function DatePicker ({
   timezone = moment.tz.guess(), // new
   disabledDays = [], // new
 
-  date, // 1
-  disabled, // 1
+  date,
+  disabled,
   label, // -
   placeholder, // -
   maxDate, // + default: moment().add(100, 'year').valueOf()
-  minDate, // 1
-  onChangeDate // 1
+  minDate,
+  onChangeDate
 }) {
   const [visible, $visible] = useValue(false)
 
@@ -35,8 +35,6 @@ function DatePicker ({
     onChangeDate && onChangeDate(value)
     $visible.set(false)
   }, [onChangeDate])
-
-  console.log(date)
 
   return pug`
     Popover(
@@ -56,7 +54,7 @@ function DatePicker ({
           )
             Span 123
 
-      Card.content
+      Div.content
         Calendar(
           date=date
           exactLocale=exactLocale

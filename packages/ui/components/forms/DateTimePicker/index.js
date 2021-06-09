@@ -35,12 +35,12 @@ function DateTimePicker ({
   cancelButtonText, // ?
   confirmButtonText, // ?
 
-  date, // +
-  disabled, // +
+  date,
+  disabled,
   label, // +
-  maxDate, // +
-  minDate, // +
-  onDateChange // +
+  maxDate,
+  minDate,
+  onDateChange
 }) {
   const [inputDate, setInputDate] = useState()
   const [visible, setVisible] = useState(false)
