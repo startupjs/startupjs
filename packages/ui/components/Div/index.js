@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../helpers'
 import Span from '../typography/Span'
 import AbstractPopover from '../popups/Popover/AbstractPopover'
-import useTooltipProps from '../Tooltip/useTooltipProps'
+import useTooltipActions from '../Tooltip/useTooltipActions'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
@@ -50,22 +50,17 @@ function Div ({
     console.warn(`[@startupjs/ui] Div: variant='${pushed}' is DEPRECATED, use one of 's', 'm', 'l' instead.`)
   }
 
-  const isClickable = onPress || onLongPress || (renderTooltip && !isWeb)
+  const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+
   let extraStyle = {}
-  const extraProps = {}
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
 
   const _ref = ref || useRef()
   const [isShowPopover, setIsShowPopover] = useState(false)
-  const tooltipActions = useTooltipProps({
-    onPress,
-    onLongPress,
-    onChange: v => setIsShowPopover(v)
-  })
 
   // TODO disabled
   useDidUpdate(() => {
@@ -83,10 +78,8 @@ function Div ({
         e.persist() // TODO: remove in react 17
         e.preventDefault()
       }
-
-      tooltipActions.onPress
-        ? tooltipActions.onPress(e)
-        : !disabled && onPress(e)
+      if (disabled) return
+      onPress && onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
@@ -95,10 +88,8 @@ function Div ({
         e.persist() // TODO: remove in react 17
         e.preventDefault()
       }
-
-      tooltipActions.onLongPress
-        ? tooltipActions.onLongPress(e)
-        : !disabled && onLongPress(e)
+      if (disabled) return
+      onLongPress && onLongPress(e)
     }
 
     // setup hover and active states styles and props
@@ -110,7 +101,6 @@ function Div ({
       }
       wrapperProps.onPressOut = (...args) => {
         setActive()
-        tooltipActions.onPressOut && tooltipActions.onPressOut()
         onPressOut && onPressOut(...args)
       }
 
@@ -135,16 +125,34 @@ function Div ({
   }
 
   if (renderTooltip) {
-    const { onMouseOver, onMouseLeave } = props
-    const { onOpen, onClose } = tooltipActions
+    const tooltipActions = useTooltipActions({ onChange: setIsShowPopover })
 
-    props.onMouseOver = (...args) => {
-      onOpen && onOpen()
-      onMouseOver && onMouseOver(...args)
-    }
-    props.onMouseLeave = (...args) => {
-      onClose && onClose()
-      onMouseLeave && onMouseLeave(...args)
+    if (isWeb) {
+      const { onMouseOver, onMouseLeave } = props
+
+      props.onMouseOver = (...args) => {
+        tooltipActions.onOpen()
+        onMouseOver && onMouseOver(...args)
+      }
+      props.onMouseLeave = (...args) => {
+        tooltipActions.onClose()
+        onMouseLeave && onMouseLeave(...args)
+      }
+    } else {
+      const { onPress, onLongPress } = wrapperProps
+
+      wrapperProps.onPress = (...args) => {
+        if (onLongPress && !onPress) onLongPress(...args)
+        if (onPress) onPress(...args)
+      }
+
+      wrapperProps.onLongPress = () => {
+        tooltipActions.onOpen()
+      }
+
+      wrapperProps.onPressOut = () => {
+        tooltipActions.onClose()
+      }
     }
   }
 
@@ -157,11 +165,9 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable) {
+    if (isClickable || (renderTooltip && !isWeb)) {
       return pug`
-        TouchableWithoutFeedback(
-          ...wrapperProps
-        )
+        TouchableWithoutFeedback(...wrapperProps)
           = children
       `
     } else {
@@ -185,7 +191,6 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
-      ...extraProps
       ...props
     )= children
   `)
