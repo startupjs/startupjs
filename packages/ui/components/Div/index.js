@@ -83,8 +83,10 @@ function Div ({
         e.persist() // TODO: remove in react 17
         e.preventDefault()
       }
-      if (disabled) return
-      tooltipActions.onPress ? tooltipActions.onPress(e) : onPress(e)
+
+      tooltipActions.onPress
+        ? tooltipActions.onPress(e)
+        : !disabled && onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
@@ -93,8 +95,10 @@ function Div ({
         e.persist() // TODO: remove in react 17
         e.preventDefault()
       }
-      if (disabled) return
-      tooltipActions.onLongPress ? tooltipActions.onLongPress(e) : onLongPress(e)
+
+      tooltipActions.onLongPress
+        ? tooltipActions.onLongPress(e)
+        : !disabled && onLongPress(e)
     }
 
     // setup hover and active states styles and props
@@ -106,8 +110,8 @@ function Div ({
       }
       wrapperProps.onPressOut = (...args) => {
         setActive()
-        onPressOut && onPressOut(...args)
         tooltipActions.onPressOut && tooltipActions.onPressOut()
+        onPressOut && onPressOut(...args)
       }
 
       if (isWeb) {
@@ -132,12 +136,14 @@ function Div ({
 
   if (renderTooltip) {
     const { onMouseOver, onMouseLeave } = props
+    const { onOpen, onClose } = tooltipActions
+
     props.onMouseOver = (...args) => {
-      tooltipActions.onMouseOver()
+      onOpen && onOpen()
       onMouseOver && onMouseOver(...args)
     }
     props.onMouseLeave = (...args) => {
-      tooltipActions.onMouseLeave()
+      onClose && onClose()
       onMouseLeave && onMouseLeave(...args)
     }
   }
@@ -190,11 +196,11 @@ function Div ({
     if renderTooltip
       AbstractPopover(
         visible=isShowPopover
+        arrow
         refCaption=_ref
-        arrow=true
         animateType='scale'
-        arrowStyleName='tooltipArrow'
-        styleName='tooltipContent'
+        arrowStyleName='tooltip-arrow'
+        styleName='tooltip'
         style=tooltipProps.style
         position=tooltipProps.position
         attachment=tooltipProps.attachment
@@ -204,8 +210,8 @@ function Div ({
       )
         if typeof renderTooltip === 'function'
           = renderTooltip()
-        else if typeof renderTooltip === 'string'
-          Span.tooltipText= renderTooltip
+        else if (typeof renderTooltip === 'string') || (typeof renderTooltip === 'number')
+          Span.tooltip-text= renderTooltip
   `
 }
 
