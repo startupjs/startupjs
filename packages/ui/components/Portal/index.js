@@ -1,16 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Dimensions } from 'react-native'
-import { useComponentId } from 'startupjs'
+import { useComponentId, useValue, observer } from 'startupjs'
 
 const PortalContext = React.createContext([])
 
-function Provider ({ children }) {
-  const [data, setData] = useState({})
+const Provider = observer(({ children }) => {
+  const [data, $data] = useValue({})
 
   // TODO: In many cases, when Dimensions change, the components change, but the previous old ones remain in the context.
   // Need to add possibility manually remove components from context, but right now when connecting to PortalContext we get an infinite re-render.
   function resetData () {
-    setData({})
+    $data.set({})
   }
 
   useEffect(() => {
@@ -21,15 +21,16 @@ function Provider ({ children }) {
   }, [])
 
   return pug`
-    PortalContext.Provider(value=[data, setData])
+    PortalContext.Provider(value=[data, $data])
       = children
       Listener
+      = Object.keys(data)
   `
-}
+})
 
 // getter for children from context
 function Listener () {
-  const manager = state => {
+  function manager (state) {
     const [data] = state
     return Object.values(data).map(item => item)
   }
@@ -44,25 +45,19 @@ function Listener () {
 // setter for children to context
 function Portal ({ children = {} }) {
   const componentId = useComponentId()
-  const [, setData] = useContext(PortalContext)
+  const [, $data] = useContext(PortalContext)
 
   useEffect(() => {
-    setData(state => {
-      if (children) {
-        state[componentId] = children
-      } else {
-        delete state[componentId]
-      }
-      return { ...state }
-    })
+    if (children) {
+      $data.set(componentId, children)
+    } else {
+      $data.del(componentId)
+    }
   }, [children])
 
   useEffect(() => {
     return () => {
-      setData(state => {
-        delete state[componentId]
-        return { ...state }
-      })
+      $data.del(componentId)
     }
   }, [])
 
