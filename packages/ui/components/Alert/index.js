@@ -38,7 +38,7 @@ function Alert ({
 
   return pug`
     Row.root(styleName=[variant])
-      Row.wrapper
+      Row.info
         if icon !== false
           Icon.icon(
             icon=icon || ICONS[variant]
