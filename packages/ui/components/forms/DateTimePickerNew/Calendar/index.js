@@ -39,7 +39,7 @@ function Calendar ({
   const Slide = SLIDES[slide]
 
   return pug`
-    Div.container
+    Div
       Header(
         uiDate=uiDate
         exactLocale=exactLocale
