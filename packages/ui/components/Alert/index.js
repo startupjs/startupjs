@@ -38,21 +38,20 @@ function Alert ({
 
   return pug`
     Row.root(styleName=[variant])
-      if icon !== false
-        Icon.icon(
-          icon=icon || ICONS[variant]
-          size='l'
-          styleName=[variant]
-        )
-      Div.content(styleName={ indent: icon !== false })
-        if title
-          Span(bold)
-            = title
-        if typeof children === 'string'
-          Span
+      Row.wrapper
+        if icon !== false
+          Icon.icon(
+            icon=icon || ICONS[variant]
+            size='l'
+            styleName=[variant]
+          )
+        Div.content(styleName={ indent: icon !== false })
+          if title
+            Span(bold)= title
+          if typeof children === 'string'
+            Span= children
+          else
             = children
-        else
-          = children
       if renderActions
         Div.actions
           = renderActions()
