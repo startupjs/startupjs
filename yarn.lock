@@ -1097,6 +1097,14 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dmapper/carousel@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@dmapper/carousel/-/carousel-0.3.3.tgz#e464cfb8cb10e0da2ca6eafb6eaacf4c4dca9589"
+  integrity sha512-E76t6waSJETU5C1SnEXbHX0ymZTGXt6FIA4kiBJqDQhPocD/+4si0iVqCVkGqssA7ZmNHdF+4hpm1F+P70HAdg==
+  dependencies:
+    "@fortawesome/free-solid-svg-icons" "^5.12.0"
+    prop-types "^15.7.2"
+
 "@dmapper/passport-idg-oauth2@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@dmapper/passport-idg-oauth2/-/passport-idg-oauth2-2.0.0.tgz#c2f59bee0036248c4862527baedc0abe56477b87"
@@ -17336,6 +17344,11 @@ react-native-fbsdk@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-3.0.0.tgz#07ef41758bb17a0acaff744008af625a45ef9a01"
   integrity sha512-i0JocuzLlGk13J0xFDjm8GlX7SADAL2kh/syE/HOn5HHdW+PFjC31MNj5AtzIw2TicHXpHGO6VPKNfdWFbxboA==
+
+react-native-mask-input@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-mask-input/-/react-native-mask-input-1.0.2.tgz#e6819b55a2456c43cad7bb329745ac214593a28c"
+  integrity sha512-oqzdUwOWnE/aq7+rRZwvB4t+bjG7KTCLNejaIGYzL4ixiIcTSUvA1evmVUUAvRC0do1HcNGRbEjZARBhQt9KqQ==
 
 react-native-pager-view@^5.1.2:
   version "5.1.2"

@@ -1,6 +1,6 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useState } from 'react'
 import { observer, useValue } from 'startupjs'
-import { Div, Divider, Popover, TextInput } from '@startupjs/ui'
+import { Div, Divider, TextInput, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import 'moment/min/locales'
@@ -11,9 +11,11 @@ import themed from '../../../theming/themed'
 import './index.styl'
 
 function DatePicker ({
-  style, // ???
+  style,
   formatInput,
-  minuteInterval, // ???
+  hourInterval,
+  minuteInterval,
+  is24Hour,
   size,
   mode,
   renderCaption, // replace InputComponent
@@ -30,6 +32,7 @@ function DatePicker ({
   onChangeDate
 }) {
   const [visible, $visible] = useValue(false)
+  const [textInput, setTextInput] = useState('')
 
   const _formatInput = useMemo(() => {
     if (formatInput) return formatInput
@@ -37,9 +40,10 @@ function DatePicker ({
     if (mode === 'date') return 'YYYY.MM.DD'
     if (mode === 'time') return 'HH:mm'
   }, [formatInput])
+
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
 
-  function getformatDate () {
+  function getFormatDate () {
     return moment
       .tz(date, timezone)
       .locale(exactLocale)
@@ -51,28 +55,47 @@ function DatePicker ({
     $visible.set(false)
   }, [onChangeDate])
 
-  function onBlur () {
+  function onFocus () {
+    setTextInput(getFormatDate())
+    $visible.set(true)
+  }
 
+  function onDismiss () {
+    if (!visible) return
+
+    const timeshtamp = moment(textInput, _formatInput)
+
+    if (timeshtamp.isValid()) {
+      onChangeDate(+timeshtamp)
+    }
+
+    $visible.set(false)
+    setTextInput('')
+  }
+
+  function onChangeText (text) {
+    setTextInput(text)
   }
 
   // TODO: New API Popover
   return pug`
     Popover(
       visible=visible
-      onDismiss=()=> $visible.set(false)
+      onDismiss=onDismiss
     )
       Popover.Caption
         if renderCaption
           = renderCaption()
         else
           TextInput(
+            style=style
             disabled=disabled
             label=label
             size=size
             placeholder=placeholder
-            value=getformatDate()
-            onBlur=onBlur
-            onFocus=()=> $visible.set(true)
+            value=visible ? textInput : getFormatDate()
+            onFocus=onFocus
+            onChangeText=onChangeText
           )
 
       Div.content
@@ -97,6 +120,9 @@ function DatePicker ({
             date=date
             timezone=timezone
             exactLocale=exactLocale
+            is24Hour=is24Hour
+            hourInterval=hourInterval
+            minuteInterval=minuteInterval
             onChangeDate=_onChangeDate
           )
   `
@@ -104,20 +130,18 @@ function DatePicker ({
 
 DatePicker.defaultProps = {
   mode: 'datetime',
+  size: 'm',
   maxDate: moment().add(100, 'year').valueOf(),
-  size: 'm'
+  is24Hour: true,
+  hourInterval: 1,
+  minuteInterval: 1
 }
 
 DatePicker.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]), // ?
-  minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]), // -
-  // hourInterval: []
-  // minuteInterval: []
-  is24Hour: PropTypes.bool, // -
-
-  cancelButtonText: PropTypes.string, // ios
-  confirmButtonText: PropTypes.string, // ios
-
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  hourInterval: PropTypes.number,
+  minuteInterval: PropTypes.number,
+  is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
   label: PropTypes.string,
