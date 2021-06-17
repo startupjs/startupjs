@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer, $root } from 'startupjs'
 import PropTypes from 'prop-types'
 import ArrayInput from '../ArrayInput'
@@ -12,82 +12,6 @@ import Select from '../Select'
 import TextInput from '../TextInput'
 import themed from '../../../theming/themed'
 
-const INPUTS = {
-  text: {
-    Component: TextInput,
-    getProps: $value => ({
-      value: $value && $value.get(),
-      // TODO: Use stringInsert and stringRemove
-      onChangeText: value => $value && $value.setDiff(value)
-    })
-  },
-  checkbox: {
-    Component: Checkbox,
-    getProps: $value => ({
-      value: $value && $value.get(),
-      onChange: value => $value && $value.setDiff(value)
-    })
-  },
-  object: {
-    Component: ObjectInput,
-    getProps: $value => ({
-      value: $value && $value.get()
-    })
-  },
-  array: {
-    Component: ArrayInput,
-    getProps: $value => ({
-      value: $value && $value.get()
-    })
-  },
-  number: {
-    Component: NumberInput,
-    getProps: $value => ({
-      value: $value && $value.get(),
-      onChangeNumber: value => $value && $value.setDiff(value)
-    })
-  },
-  select: {
-    Component: Select,
-    getProps: $value => ({
-      value: $value && $value.get(),
-      onChange: value => $value && $value.setDiff(value)
-    })
-  },
-  date: {
-    Component: DateTimePicker,
-    getProps: $value => ({
-      date: $value && $value.get(),
-      onDateChange: value => $value && $value.setDiff(value),
-      mode: 'date'
-    })
-  },
-  datetime: {
-    Component: DateTimePicker,
-    getProps: $value => ({
-      date: $value && $value.get(),
-      onDateChange: value => $value && $value.setDiff(value),
-      mode: 'datetime'
-    })
-  },
-  time: {
-    Component: DateTimePicker,
-    getProps: $value => ({
-      date: $value && $value.get(),
-      onDateChange: value => $value && $value.setDiff(value),
-      mode: 'time'
-    })
-  },
-  password: {
-    Component: PasswordInput,
-    getProps: $value => ({
-      value: $value && $value.get(),
-      onChangeText: value => $value && $value.setDiff(value)
-    })
-  }
-}
-const INPUT_TYPES = Object.keys(INPUTS)
-
 function Input ({
   style,
   error,
@@ -95,11 +19,89 @@ function Input ({
   $value,
   ...props
 }) {
-  if (!type || !INPUT_TYPES.includes(type)) {
+  const { inputs, types } = useMemo(() => {
+    const _inputs = {
+      text: {
+        Component: TextInput,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          // TODO: Use stringInsert and stringRemove
+          onChangeText: value => $value && $value.setDiff(value)
+        })
+      },
+      checkbox: {
+        Component: Checkbox,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChange: value => $value && $value.setDiff(value)
+        })
+      },
+      object: {
+        Component: ObjectInput,
+        getProps: $value => ({
+          value: $value && $value.get()
+        })
+      },
+      array: {
+        Component: ArrayInput,
+        getProps: $value => ({
+          value: $value && $value.get()
+        })
+      },
+      number: {
+        Component: NumberInput,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChangeNumber: value => $value && $value.setDiff(value)
+        })
+      },
+      select: {
+        Component: Select,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChange: value => $value && $value.setDiff(value)
+        })
+      },
+      date: {
+        Component: DateTimePicker,
+        getProps: $value => ({
+          date: $value && $value.get(),
+          onDateChange: value => $value && $value.setDiff(value),
+          mode: 'date'
+        })
+      },
+      datetime: {
+        Component: DateTimePicker,
+        getProps: $value => ({
+          date: $value && $value.get(),
+          onDateChange: value => $value && $value.setDiff(value),
+          mode: 'datetime'
+        })
+      },
+      time: {
+        Component: DateTimePicker,
+        getProps: $value => ({
+          date: $value && $value.get(),
+          onDateChange: value => $value && $value.setDiff(value),
+          mode: 'time'
+        })
+      },
+      password: {
+        Component: PasswordInput,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChangeText: value => $value && $value.setDiff(value)
+        })
+      }
+    }
+    return { inputs: _inputs, types: Object.keys(_inputs) }
+  }, [])
+
+  if (!type || !types.includes(type)) {
     if (type) {
-      console.error(`[ui -> Input] Wrong type provided: ${type}. Available types: ${INPUT_TYPES}`)
+      console.error(`[ui -> Input] Wrong type provided: ${type}. Available types: ${types}`)
     } else {
-      console.error(`[ui -> Input] type property must be specified. Available types: ${INPUT_TYPES}`)
+      console.error(`[ui -> Input] type property must be specified. Available types: ${types}`)
     }
     return null
   }
@@ -111,7 +113,7 @@ function Input ({
       $value = undefined
     }
   }
-  const { Component, getProps } = INPUTS[type]
+  const { Component, getProps } = inputs[type]
   const bindingProps = $value ? getProps($value) : {}
   return pug`
     ErrorWrapper(err=error)

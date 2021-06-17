@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
 import Div from '../../Div'
@@ -13,14 +14,19 @@ function ObjectInput ({
   inputStyle,
   $value,
   label,
-  errors = {},
+  errors,
   properties,
   order
 }) {
+  if (!$value) {
+    console.error('[ui -> ObjectInput] $value is required')
+    return null
+  }
+
   const value = $value.get()
 
   if (!properties) {
-    console.error('[ui -> Object] properties is required')
+    console.error('[ui -> ObjectInput] properties is required')
     return null
   }
 
@@ -75,6 +81,20 @@ function ObjectInput ({
         error=errors[key]
       )
   `)
+}
+
+ObjectInput.defaultProps = {
+  errors: {}
+}
+
+ObjectInput.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  $value: PropTypes.any.isRequired,
+  errors: PropTypes.object,
+  label: PropTypes.string,
+  order: PropTypes.array,
+  properties: PropTypes.object.isRequired
 }
 
 export default observer(themed(ObjectInput))

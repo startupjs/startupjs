@@ -18,10 +18,15 @@ function ArrayInput ({
   label,
   items
 }) {
+  if (!$value) {
+    console.error('[ui -> ArrayInput] $value is required')
+    return null
+  }
+
   const value = $value.get()
 
   if (!items) {
-    console.error('[ui -> Array] items is required')
+    console.error('[ui -> ArrayInput] items is required')
     return null
   }
 
