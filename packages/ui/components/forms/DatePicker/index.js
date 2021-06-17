@@ -63,10 +63,10 @@ function DatePicker ({
   function onDismiss () {
     if (!visible) return
 
-    const timeshtamp = moment(textInput, _formatInput)
+    const momentInstance = moment(textInput, _formatInput)
 
-    if (timeshtamp.isValid()) {
-      onChangeDate(+timeshtamp)
+    if (momentInstance.isValid()) {
+      onChangeDate(+momentInstance)
     }
 
     $visible.set(false)
@@ -132,7 +132,7 @@ DatePicker.defaultProps = {
   mode: 'datetime',
   size: 'm',
   maxDate: moment().add(100, 'year').valueOf(),
-  is24Hour: true,
+  is24Hour: new RegExp(/a/i).test(moment()._locale._longDateFormat.LT),
   hourInterval: 1,
   minuteInterval: 1
 }

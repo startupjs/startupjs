@@ -31,7 +31,6 @@ export default observer(function Days ({
 
     const currentDay = moment
       .tz(uiDate, timezone)
-      .locale(exactLocale)
       .startOf('M')
       .startOf('w')
       .hours(nowDate.hours())

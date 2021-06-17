@@ -19,12 +19,11 @@ export default observer(function Header ({
   $uiDate
 }) {
   const currentMonthName = moment.tz(uiDate, timezone).locale(exactLocale).format('MMM')
-  const currentYeart = moment.tz(uiDate, timezone).format('yyyy')
+  const currentYear = moment.tz(uiDate, timezone).format('yyyy')
 
   const onMove = useCallback((unitKey, value) => {
     const timestamp = +moment
       .tz(uiDate, timezone)
-      .locale(exactLocale)
       .add(unitKey, value)
 
     $uiDate.set(timestamp)
@@ -44,7 +43,7 @@ export default observer(function Header ({
           pushed='xs'
           onPress=()=> $slide.set('years')
         )
-          Span.year= currentYeart
+          Span.year= currentYear
 
       Row.actions
         // Button(

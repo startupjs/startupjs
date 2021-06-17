@@ -29,7 +29,6 @@ function Calendar ({
   const onJump = useCallback((unitKey, value) => {
     const timestamp = +moment
       .tz(uiDate, timezone)
-      .locale(exactLocale)
       .set(unitKey, value)
 
     $uiDate.set(timestamp)
