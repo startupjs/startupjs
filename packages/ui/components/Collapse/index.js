@@ -15,6 +15,7 @@ function Collapse ({
   open,
   $open,
   variant,
+  icon,
   onChange,
   ...props
 }) {
@@ -49,7 +50,7 @@ function Collapse ({
     : React.createElement(CollapseContent, contentProps, contentChildren)
 
   // Handle <Collapse.Header>
-  const headerProps = { open, variant, onPress }
+  const headerProps = { open, variant, icon, onPress }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
     : React.createElement(CollapseHeader, headerProps, title || '')
@@ -58,13 +59,8 @@ function Collapse ({
     onChange && onChange(!open)
   }
 
-  const extraProps = {}
-  if (variant === 'full') {
-    extraProps.level = 1
-  }
-
   return pug`
-    Div.root(style=style ...extraProps ...props)
+    Div.root(style=style ...props)
       = header
       = content
   `
