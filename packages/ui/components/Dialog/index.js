@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Modal } from '@startupjs/ui'
+import Modal from '../Modal'
 import { usePage } from '../../helpers'
 
 export default observer(function Dialog () {
