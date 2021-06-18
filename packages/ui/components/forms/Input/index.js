@@ -20,7 +20,7 @@ function Input ({
   ...props
 }) {
   const { inputs, types } = useMemo(() => {
-    // INFO: because ObjectInput uses Input inside
+    // INFO: we can't move this code outside of the component because ObjectInput uses Input inside which generates error "minified react error"
     const _inputs = {
       text: {
         Component: TextInput,
