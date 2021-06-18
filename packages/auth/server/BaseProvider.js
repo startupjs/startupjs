@@ -11,7 +11,11 @@ export default class BaseProvider {
     return {
       $or: [
         {
-          [`providers.${this.getProviderName()}.email`]: email
+          $where: function () {
+            for (var index in this.providers) {
+              if (this.providers[index].email === email) { return this }
+            }
+          }
         },
         // Generally we don't need an provider id to perform auth
         // auth proces depends on provider.email field only
@@ -19,8 +23,7 @@ export default class BaseProvider {
         // Those lines is added only for backward compabilities reasons
         {
           [`providers.${this.getProviderName()}.id`]: this.getProviderId()
-        },
-        { email }
+        }
       ]
     }
   }
@@ -30,7 +33,7 @@ export default class BaseProvider {
 
     const providerName = this.getProviderName()
     const $auths = $root.query('auths', this.getFindUserQuery())
-    await $auths.fetchAsync()
+    await $auths.fetch()
 
     let userId = $auths.getIds()[0]
 

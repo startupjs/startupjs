@@ -8,21 +8,23 @@ import {
 
 export default async function linkAccount (req, provider, goBackCount = 2) {
   const { model } = req
-  let responseText = ACCOUNT_LINKED_INFO
 
   const providerName = provider.getProviderName()
   const providerEmail = provider.getEmail()
 
+  // get existingAccounts
   const $existingAccounts = model.query('auths', {
     [`providers.${providerName}.email`]: providerEmail
   })
-
-  const $auth = model.scope('auths.' + req.session.userId)
-
-  await model.subscribe($existingAccounts, $auth)
-
+  await model.subscribe($existingAccounts)
   const existingAccounts = $existingAccounts.get()
+
+  // get current providers
+  const $auth = model.scope('auths.' + req.session.userId)
+  await model.subscribe($auth)
   const providers = $auth.get('providers')
+
+  let responseText = ACCOUNT_LINKED_INFO
 
   // Return error if that account has already linked to another profile
   if (existingAccounts.length) {
