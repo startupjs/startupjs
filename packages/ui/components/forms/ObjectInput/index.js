@@ -18,16 +18,11 @@ function ObjectInput ({
   properties,
   order
 }) {
-  if (!$value) {
+  if (!$value || !properties) {
     return null
   }
 
   const value = $value.get()
-
-  if (!properties) {
-    console.error('[ui -> ObjectInput] properties is required')
-    return null
-  }
 
   order = getOrder(order, properties)
 

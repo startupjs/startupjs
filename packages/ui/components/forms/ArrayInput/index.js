@@ -18,16 +18,11 @@ function ArrayInput ({
   label,
   items
 }) {
-  if (!$value) {
+  if (!$value || !items) {
     return null
   }
 
   const value = $value.get()
-
-  if (!items) {
-    console.error('[ui -> ArrayInput] items is required')
-    return null
-  }
 
   function getInputs () {
     return (value || []).map((_, index) => {
