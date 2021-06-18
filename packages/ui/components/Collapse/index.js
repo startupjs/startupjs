@@ -68,7 +68,8 @@ function Collapse ({
 
 Collapse.defaultProps = {
   open: false,
-  variant: 'full'
+  variant: 'full',
+  icon: CollapseHeader.defaultProps.icon
 }
 
 Collapse.propTypes = {
@@ -76,6 +77,7 @@ Collapse.propTypes = {
   children: PropTypes.node,
   open: PropTypes.bool,
   variant: PropTypes.oneOf(['full', 'pure']),
+  icon: CollapseHeader.propTypes.icon,
   onChange: PropTypes.func
 }
 
