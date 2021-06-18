@@ -20,6 +20,7 @@ function Input ({
   ...props
 }) {
   const { inputs, types } = useMemo(() => {
+    // INFO: because ObjectInput uses Input inside
     const _inputs = {
       text: {
         Component: TextInput,

@@ -19,7 +19,6 @@ function ArrayInput ({
   items
 }) {
   if (!$value) {
-    console.error('[ui -> ArrayInput] $value is required')
     return null
   }
 

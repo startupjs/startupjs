@@ -19,7 +19,6 @@ function ObjectInput ({
   order
 }) {
   if (!$value) {
-    console.error('[ui -> ObjectInput] $value is required')
     return null
   }
 
