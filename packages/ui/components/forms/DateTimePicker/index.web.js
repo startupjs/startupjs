@@ -28,17 +28,17 @@ const scrollableClasses = [
 function DateTimePicker ({
   style,
   InputComponent,
-  placeholder,
-  mode,
-  format,
-  minuteInterval,
-  size,
-  timeFormat,
   date,
   disabled,
+  format,
   label,
   maxDate,
   minDate,
+  minuteInterval,
+  mode,
+  placeholder,
+  size,
+  timeFormat,
   onDateChange
 }) {
   const [focused, setFocused] = useState(false)

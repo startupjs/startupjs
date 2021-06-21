@@ -11,7 +11,6 @@
     "Card": "/components/Card",
     "Collapse": "/components/Collapse",
     "Content": "/components/Content",
-    "Dialog": "/components/Dialog",
     "Div": "/components/Div",
     "Divider": "/components/Divider",
     "DrawerSidebar": "/components/DrawerSidebar",

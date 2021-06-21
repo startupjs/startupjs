@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react'
+import React, { useMemo, useCallback, useState, useEffect } from 'react'
 import { observer, useValue } from 'startupjs'
 import { Div, Divider, TextInput, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
@@ -34,14 +34,23 @@ function DatePicker ({
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
 
+  const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
+  const _is24Hour = useMemo(() => {
+    return (is24Hour !== undefined)
+      ? new RegExp(/a/i).test(moment().locale(exactLocale)._locale._longDateFormat.LT)
+      : is24Hour
+  }, [exactLocale, is24Hour])
+
   const _formatInput = useMemo(() => {
     if (formatInput) return formatInput
-    if (mode === 'datetime') return 'YYYY.MM.DD HH:mm'
-    if (mode === 'date') return 'YYYY.MM.DD'
-    if (mode === 'time') return 'HH:mm'
-  }, [formatInput])
+    if (mode === 'datetime') {
+      return moment().locale(exactLocale)._locale._longDateFormat.L + ' ' +
+      moment().locale(exactLocale)._locale._longDateFormat.LT
+    }
 
-  const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
+    if (mode === 'date') return moment().locale(exactLocale)._locale._longDateFormat.L
+    if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
+  }, [formatInput])
 
   function getFormatDate () {
     return moment
@@ -50,9 +59,12 @@ function DatePicker ({
       .format(_formatInput)
   }
 
+  useEffect(() => {
+    setTextInput(getFormatDate())
+  }, [date])
+
   const _onChangeDate = useCallback(value => {
     onChangeDate && onChangeDate(value)
-    $visible.set(false)
   }, [onChangeDate])
 
   function onFocus () {
@@ -120,7 +132,7 @@ function DatePicker ({
             date=date
             timezone=timezone
             exactLocale=exactLocale
-            is24Hour=is24Hour
+            is24Hour=_is24Hour
             hourInterval=hourInterval
             minuteInterval=minuteInterval
             onChangeDate=_onChangeDate
@@ -132,7 +144,6 @@ DatePicker.defaultProps = {
   mode: 'datetime',
   size: 'm',
   maxDate: moment().add(100, 'year').valueOf(),
-  is24Hour: new RegExp(/a/i).test(moment()._locale._longDateFormat.LT),
   hourInterval: 1,
   minuteInterval: 1
 }

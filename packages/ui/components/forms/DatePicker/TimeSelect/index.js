@@ -34,8 +34,10 @@ export default observer(function TimeSelect ({
     return res
   }, [minuteInterval])
 
-  const hour = moment.tz(date, timezone).locale(exactLocale).hour()
-  const hourMode = hour > 12 ? 'PM' : 'AM'
+  const currentDate = moment.tz(date, timezone).locale(exactLocale)
+  const hour = currentDate.hour()
+  const hourMode = currentDate.locale('en-US').format('A')
+
   const currentHour = is24Hour
     ? hour
     : (hourMode === 'AM' ? hour : hour - 12)

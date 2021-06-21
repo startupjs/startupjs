@@ -43,6 +43,8 @@ export default observer(function Days ({
       for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
         weekLine.push({
           label: currentDay.format('DD'),
+          month: currentDay.month(),
+          day: currentDay.date(),
           value: +currentDay
         })
         currentDay.add(1, 'd')
@@ -52,6 +54,15 @@ export default observer(function Days ({
 
     return data
   }, [uiDate, timezone])
+
+  function _onChangeDay (item) {
+    const timeshtamp = +moment
+      .tz(uiDate, timezone)
+      .date(item.day)
+      .month(item.month)
+
+    onChangeDate && onChangeDate(timeshtamp)
+  }
 
   const isDisableDay = useCallback(value => {
     return disabledDays.some(item => moment(item).tz(timezone).isSame(value, 'd')) ||
@@ -81,7 +92,7 @@ export default observer(function Days ({
             }
             hoverStyleName='cellHover'
             disabled=isDisableDay(day.value)
-            onPress=()=> onChangeDate(day.value)
+            onPress=()=> _onChangeDay(day)
           )
             Span.label(
               styleName={

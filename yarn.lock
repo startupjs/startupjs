@@ -17345,11 +17345,6 @@ react-native-fbsdk@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-3.0.0.tgz#07ef41758bb17a0acaff744008af625a45ef9a01"
   integrity sha512-i0JocuzLlGk13J0xFDjm8GlX7SADAL2kh/syE/HOn5HHdW+PFjC31MNj5AtzIw2TicHXpHGO6VPKNfdWFbxboA==
 
-react-native-mask-input@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-mask-input/-/react-native-mask-input-1.0.2.tgz#e6819b55a2456c43cad7bb329745ac214593a28c"
-  integrity sha512-oqzdUwOWnE/aq7+rRZwvB4t+bjG7KTCLNejaIGYzL4ixiIcTSUvA1evmVUUAvRC0do1HcNGRbEjZARBhQt9KqQ==
-
 react-native-pager-view@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.1.2.tgz#a6957afc81f5729cbb884fe963df3482e2f46877"

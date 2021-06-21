@@ -24,22 +24,19 @@ const FORMATS = {
 
 function DateTimePicker ({
   style,
-
-  placeholder, // -
-  mode, // -
-
-  format, // ?
-  minuteInterval, // ?
-  size, // ?
-  is24Hour, // ?
-  cancelButtonText, // ?
-  confirmButtonText, // ?
-
+  cancelButtonText,
+  confirmButtonText,
   date,
   disabled,
-  label, // +
+  format,
+  is24Hour,
+  label,
   maxDate,
   minDate,
+  minuteInterval,
+  mode,
+  placeholder,
+  size,
   onDateChange
 }) {
   const [inputDate, setInputDate] = useState()
@@ -192,7 +189,6 @@ function DateTimePicker ({
           styleName={focused}
           description
         )= label
-
       Button(
         textStyle={ color: date ? mainText : secondaryText }
         color= focused ? 'primary' : 'dark'
@@ -200,7 +196,6 @@ function DateTimePicker ({
         disabled=disabled
         onPress=onPressDate
       )= placeholder && !date ? placeholder : getDateStr()
-
     if Platform.OS === 'ios'
       Drawer.drawer(
         swipeStyleName='swipe'
