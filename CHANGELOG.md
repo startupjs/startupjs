@@ -1,3 +1,14 @@
+## [0.36.4](https://github.com/startupjs/startupjs/compare/v0.36.3...v0.36.4) (2021-06-21)
+
+
+### Bug Fixes
+
+* **themed:** fix accumulation of styles ([#710](https://github.com/startupjs/startupjs/issues/710)) ([0cc325d](https://github.com/startupjs/startupjs/commit/0cc325d47cc8b768a7456305250996c725ebc286))
+* **ui:** fix form components crashes ([#705](https://github.com/startupjs/startupjs/issues/705)) ([23e7092](https://github.com/startupjs/startupjs/commit/23e70922cda5998553d8b808ab206511ecc27c35))
+* **ui/NumberInput:** fix non-dynamic `value` property ([#709](https://github.com/startupjs/startupjs/issues/709)) ([9dd3417](https://github.com/startupjs/startupjs/commit/9dd3417421e12ce8ec8f69e4a997ac4034ede41e))
+
+
+
 ## [0.36.3](https://github.com/startupjs/startupjs/compare/v0.36.2...v0.36.3) (2021-06-11)
 
 
