@@ -43,7 +43,7 @@ function NumberInput ({
     ) {
       setStringValue(value.toString())
     }
-  }, [value])
+  }, [stringValue, value])
 
   const validStep = useMemo(() => {
     if (step === 1) return step
