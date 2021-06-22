@@ -1,0 +1,36 @@
+# @startupjs/2fa-push-notification-provider
+
+Провайдера для верификации через `@startupjs/push-notification`.
+
+## Зависимости
+
+```js
+@startupjs/2fa-manager >= 0.35.10,
+@startupjs/push-notification >= 0.35.10
+```
+
+## Установка
+
+```js
+  yarn add @startupjs/2fa-push-notification-provider
+```
+
+**ВАЖНО**: Для использования этого пакета необходимо подключить пакет `@startupjs/push-notification` как указано в [документации](/docs/libraries/push-notofications).
+
+## Использование
+
+Необходимо импортировать компонент `PushProvider` из `@startupjs/2fa-push-notification-provider`.
+
+```js
+import { PushProvider } from '@startupjs/2fa-push-notification-provider'
+```
+
+Затем нужно добавить `PushProvider` в массив `providers` у `initTwoFAManager`. Второй аргумент массива - это опции для провайдера. Здесь можно задать, необязательный параметр `codeMaxAge`, это время на протяжении которого код считается валидным. По умолчанию, `codeMaxAge = 30000`
+
+```js
+initTwoFAManager(ee, {
+  providers: [
+    [PushProvider, { codeMaxAge: 'YOUR_TIME_IN_MS' }]
+  ]
+})
+```

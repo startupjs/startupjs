@@ -7,7 +7,9 @@ $fontWeightNamesMap = {
   '600': 'SemiBold',
   '700': 'Bold',
   '800': 'ExtraBold'
-  '900': 'Black'
+  '900': 'Black',
+  normal: 'Regular',
+  bold: 'Bold'
 }
 
 font(size = body2)
@@ -45,33 +47,37 @@ text(key = default) // DEPRECATED
     font(l)
 
 fontFamily(
-  fontName = 'normal',
+  fontName = normal,
   fontWeight = $UI.fontWeights.normal,
   fontStyle = normal
 )
-  fontFamily = $UI.fontFamilies[fontName]
+  defaultFontFamilies = $UI.fontFamilies.default || {}
+  platformFontFamilies = $UI.fontFamilies[$PLATFORM] || {}
+  fontFamily = defaultFontFamilies[fontName] || platformFontFamilies[fontName] || fontName
 
-  if (isCustomFont(fontFamily)) {
-    thickness = $fontWeightNamesMap['' + fontWeight]
-    isRegular = thickness is 'Regular'
-    isItalic = fontStyle is italic
+  if (fontFamily) {
+    if (isCustomFont(fontFamily)) {
+      thickness = $fontWeightNamesMap['' + fontWeight]
+      isRegular = thickness is 'Regular'
+      isItalic = fontStyle is italic
 
-    fontFamily += '-'
-    // add thickness
-    // don't add thickness to font family name if regular and italic
-    if (!isRegular || !isItalic) {
-      fontFamily += $fontWeightNamesMap['' + fontWeight]
+      fontFamily += '-'
+      // add thickness
+      // don't add thickness to font family name if regular and italic
+      if (!isRegular || !isItalic) {
+        fontFamily += $fontWeightNamesMap['' + fontWeight]
+      }
+      // add style
+      if (isItalic) {
+        fontFamily += 'Italic'
+      }
+    } else {
+      font-weight fontWeight
+      font-style fontStyle
     }
-    // add style
-    if (isItalic) {
-      fontFamily += 'Italic'
-    }
+
     font-family fontFamily
-  } else {
-    font-family fontFamily
-    font-weight fontWeight
-    font-style fontStyle
   }
 
 isCustomFont(fontFamily)
-  return index($UI.customFontFamilies, fontFamily)
+  return index($UI.customFontFamilies, fontFamily) isnt null

@@ -1,13 +1,16 @@
 // ref: https://github.com/kristerkari/react-native-stylus-transformer
+const platformSingleton = require(
+  '@startupjs/babel-plugin-rn-stylename-inline/platformSingleton'
+)
 const fs = require('fs')
 const path = require('path')
 const stylus = require('stylus')
-
 const STYLES_PATH = path.join(process.cwd(), 'styles/index.styl')
 
-function renderToCSS (src, filename, platform) {
+function renderToCSS (src, filename) {
   let compiled
   const compiler = stylus(src)
+  const platform = platformSingleton.value
   compiler.set('filename', filename)
 
   if (platform) {
@@ -31,5 +34,5 @@ function renderToCSS (src, filename, platform) {
 }
 
 module.exports = function stylusToReactNative (source) {
-  return renderToCSS(source, this.resourcePath, this.query && this.query.platform)
+  return renderToCSS(source, this.resourcePath)
 }

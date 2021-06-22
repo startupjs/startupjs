@@ -12,7 +12,7 @@ export default class TotpProvider extends Provider {
     init2fa(ee, options)
   }
 
-  check (model, session, token) {
+  async check (model, session, token) {
     return checkToken(model, session, token)
   }
 }

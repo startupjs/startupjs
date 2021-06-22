@@ -1,0 +1,125 @@
+# i18n
+
+i18n module provides with tools to localize your product.
+
+## Requirements
+
+@startupjs/ui: >= 0.34.0
+axios: *
+express: 4.x
+react: 16.9 - 17
+react-native: >= 0.61.4 < 0.64.0
+startupjs: >= 0.34.0
+
+## Installation & basic setup
+
+1. Install the module
+
+  The module does not need to be installed, it comes with the `startupjs` module.
+
+1. Init module on server side
+
+  ```js
+  import { initI18n } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    // ...
+  }, (ee, options) => {
+    initI18n(ee)
+  })
+  ```
+
+1. Add server-side routes
+
+  ```js
+  import { getI18nRoutes } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    appRoutes: [
+      // provides page /i18n to manage translations
+      ...getI18nRoutes()
+    ]
+  }, (ee, options) => {
+    // ...
+  })
+  ```
+
+1. Init the isomorphic model
+
+  ```js
+  import initI18nModel from 'startupjs/i18n/model'
+
+  export default function initOrm (racer) {
+    initI18nModel(racer, i18nPageAccess)
+  }
+  ```
+
+  where `i18nPageAccess(model, next, redirect)` is the `/i18n` page access filter.
+
+1. Create `i18n/index.js` file and initialize the client-size app on it
+
+  ```js
+  import { initI18n, useI18nGlobalInit } from '@startupjs/i18n'
+
+  export default initI18n({
+    // default language, used as the default language for translations and
+    // as fallback language for `languageDetector`. Default: 'en'.
+    lang: 'ru',
+    // a list of supported languages
+    langs: ['en', 'ru'],
+    // you can use `getLangs` function instead of `langs` if you need
+    // dynamically define a list of supported languages
+    // `getLangs` function takes precedence over `langs` if you set both properties
+    getLangs: () => {
+      const langs = ... // logic that gets languages
+      return langs
+    },
+    // detect user language to use
+    // by default the function tries to find language in the paths:
+    //   - $render.query.lang
+    //   - _session.lang
+    //   - _session.user.lang
+    // by overriding this function, you can define your behavior
+    // to search for a language to use
+    // NOTE: the default language is used when the function finds nothing
+    languageDetector: () => {
+      return $user.get('language')
+    }
+  })
+  export { useI18nGlobalInit }
+  ```
+
+1. Add client-side app to `Root/App.js`
+
+  ```js
+  import React from 'react'
+  import i18n, { useI18nGlobalInit } from 'PATH_TO_I18N_FILE_CREATED_IN_SECTION_ABOVE'
+
+  return pug`
+    App(
+      apps={ i18n }
+      useGlobalInit=useI18nGlobalInit
+    )
+  `
+  ```
+
+## How to change the language ?
+
+```jsx
+import { observer } from 'statupjs'
+import { useLang, useLangs } from 'startupjs/i18n'
+import { Select } from '@startupjs/ui'
+
+export default observer(function LanguageSelect () {
+  const [lang, setLang] = useLang()
+  const langs = useLangs()
+
+  return pug`
+    Select(
+      value=lang
+      onChange={setLang}
+      options=langs
+    )
+  `
+})
+```

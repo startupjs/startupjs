@@ -22,9 +22,11 @@ import {
 import orm from '../model'
 
 // Frontend micro-services
-import * as main from '../main'
-import docs from '../docs'
 import auth from '../auth'
+import docs from '../docs'
+// FIXME: i18n library conflicts with docs library '_session.lang'
+// import i18n, { useI18nGlobalInit } from '../i18n'
+import * as main from '../main'
 
 // Override default styles
 import UI_STYLE_OVERRIDES from './uiOverrides.styl'
@@ -49,7 +51,7 @@ registerPlugins({
 export default observer(() => {
   return pug`
     App(
-      apps={ main, docs, auth, notifications }
+      apps={ auth, docs, main, notifications }
       criticalVersion={
         ios: CRITICAL_VERSION_IOS,
         android: CRITICAL_VERSION_ANDROID,
