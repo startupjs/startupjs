@@ -1,0 +1,89 @@
+import { alert, confirm, prompt } from '../../helpers/dialogs'
+import Button from '../Button'
+
+# Dialog
+
+API для вспывающих окон: alert, confirm, prompt
+
+## Инициализация
+
+Вызвать registerPlugin из `startupjs/plugin`, с такими параметрами:
+
+```js
+registerPlugins({
+  '@startupjs/app': [
+    [uiAppPlugin, { defaultEnable: true }]
+  ]
+})
+```
+
+## Использование alert
+
+```js
+import { alert } from '@startupjs/ui/helpers'
+```
+
+Принимает 2 параметрама:
+- message (required)
+- title
+
+```jsx example
+function onOpen () {
+  alert({ message: 'Тестовое сообщение' })
+}
+
+return pug`
+  Button(onPress=onOpen) Открыть alert
+`
+```
+
+## Использование confrim
+
+```js
+import { confrim } from '@startupjs/ui/helpers'
+```
+
+Принимает 4 параметрама:
+- message (required)
+- title
+- cancelLabel (по умолчанию - 'Cancel')
+- confirmLabel (по умолчанию - 'Confirm')
+
+Функция асинхронная, в ответе возвращает булевое значение
+
+```jsx example
+async function onOpen () {
+  const result = await confirm({
+    message: 'Вы действительно хотите что-то сделать?'
+  })
+  console.log(result)
+}
+
+return pug`
+  Button(onPress=onOpen) Открыть confirm
+`
+```
+
+## Использование prompt
+
+```js
+import { prompt } from '@startupjs/ui/helpers'
+```
+
+Принимает 3 параметрама:
+- message (required)
+- title
+- errorMessage
+
+Функция асинхронная, в ответе возвращает введеный текст
+
+```jsx example
+async function onOpen () {
+  const result = await prompt({ message: 'Введите текст' })
+  console.log(result)
+}
+
+return pug`
+  Button(onPress=onOpen) Открыть prompt
+`
+```

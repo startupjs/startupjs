@@ -1,0 +1,89 @@
+import { alert, confirm, prompt } from '../../helpers/dialogs'
+import Button from '../Button'
+
+# Dialog
+
+Pop-up API: alert, confirm, prompt
+
+## Init
+
+Call registerPlugin from `startupjs/plugin`, with the following parameters:
+
+```js
+registerPlugins({
+  '@startupjs/app': [
+    [uiAppPlugin, { defaultEnable: true }]
+  ]
+})
+```
+
+## Using alert
+
+```js
+import { alert } from '@startupjs/ui/helpers'
+```
+
+It takes 2 parameters:
+- message (required)
+- title
+
+```jsx example
+function onOpen () {
+  alert({ message: 'Test message' })
+}
+
+return pug`
+  Button(onPress=onOpen) Open alert
+`
+```
+
+## Using confrim
+
+```js
+import { confrim } from '@startupjs/ui/helpers'
+```
+
+It takes 4 parameters:
+- message (required)
+- title
+- cancelLabel (default - 'Cancel')
+- confirmLabel (default - 'Confirm')
+
+The function is asynchronous, in the response it returns a boolean value
+
+```jsx example
+async function onOpen () {
+  const result = await confirm({
+    message: 'Are you sure you want to do something?'
+  })
+  console.log(result)
+}
+
+return pug`
+  Button(onPress=onOpen) Open confirm
+`
+```
+
+## Using prompt
+
+```js
+import { prompt } from '@startupjs/ui/helpers'
+```
+
+It takes 3 parameters:
+- message (required)
+- title
+- errorMessage
+
+The function is asynchronous, in the response it returns the entered text
+
+```jsx example
+async function onOpen () {
+  const result = await prompt({ message: 'Enter text' })
+  console.log(result)
+}
+
+return pug`
+  Button(onPress=onOpen) Open prompt
+`
+```
