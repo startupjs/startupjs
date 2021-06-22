@@ -20,6 +20,8 @@ import CollapseEn from '../components/Collapse/Collapse.en.mdx'
 import CollapseRu from '../components/Collapse/Collapse.ru.mdx'
 import ContentEn from '../components/Content/Content.en.mdx'
 import ContentRu from '../components/Content/Content.ru.mdx'
+import DialogEn from '../components/Dialog/Dialog.en.mdx'
+import DialogRu from '../components/Dialog/Dialog.ru.mdx'
 import DivEn from '../components/Div/Div.en.mdx'
 import DivRu from '../components/Div/Div.ru.mdx'
 import DividerEn from '../components/Divider/Divider.en.mdx'
@@ -149,6 +151,14 @@ export default {
       component: {
         en: ContentEn,
         ru: ContentRu
+      }
+    },
+    Dialog: {
+      type: 'mdx',
+      title: 'Dialog',
+      component: {
+        en: DialogEn,
+        ru: DialogRu
       }
     },
     Div: {
