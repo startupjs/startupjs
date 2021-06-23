@@ -5,22 +5,10 @@ import Button from '../Button'
 
 Pop-up API: alert, confirm, prompt
 
-## Init
-
-Call registerPlugin from `startupjs/plugin`, with the following parameters:
-
-```js
-registerPlugins({
-  '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true }]
-  ]
-})
-```
-
 ## Using alert
 
 ```js
-import { alert } from '@startupjs/ui/helpers'
+import { alert } from '@startupjs/ui'
 ```
 
 It takes 2 parameters:
@@ -28,8 +16,9 @@ It takes 2 parameters:
 - title
 
 ```jsx example
-function onOpen () {
-  alert({ message: 'Test message' })
+async function onOpen () {
+  await alert({ message: 'Test message' })
+  console.log('next line')
 }
 
 return pug`
@@ -40,7 +29,7 @@ return pug`
 ## Using confrim
 
 ```js
-import { confrim } from '@startupjs/ui/helpers'
+import { confrim } from '@startupjs/ui'
 ```
 
 It takes 4 parameters:
@@ -67,7 +56,7 @@ return pug`
 ## Using prompt
 
 ```js
-import { prompt } from '@startupjs/ui/helpers'
+import { prompt } from '@startupjs/ui'
 ```
 
 It takes 3 parameters:
