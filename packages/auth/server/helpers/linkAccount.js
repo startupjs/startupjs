@@ -12,16 +12,15 @@ export default async function linkAccount (req, provider, goBackCount = 2) {
   const providerName = provider.getProviderName()
   const providerEmail = provider.getEmail()
 
-  // get existingAccounts
   const $existingAccounts = model.query('auths', {
     [`providers.${providerName}.email`]: providerEmail
   })
-  await model.subscribe($existingAccounts)
-  const existingAccounts = $existingAccounts.get()
 
-  // get current providers
   const $auth = model.scope('auths.' + req.session.userId)
-  await model.subscribe($auth)
+
+  await model.subscribe($existingAccounts, $auth)
+
+  const existingAccounts = $existingAccounts.get()
   const providers = $auth.get('providers')
 
   let responseText = ACCOUNT_LINKED_INFO
