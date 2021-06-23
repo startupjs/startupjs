@@ -5,31 +5,20 @@ import Button from '../Button'
 
 API для вспывающих окон: alert, confirm, prompt
 
-## Инициализация
-
-Вызвать registerPlugin из `startupjs/plugin`, с такими параметрами:
-
-```js
-registerPlugins({
-  '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true }]
-  ]
-})
-```
-
 ## Использование alert
 
 ```js
-import { alert } from '@startupjs/ui/helpers'
+import { alert } from '@startupjs/ui'
 ```
 
-Принимает 2 параметрама:
+Принимает 2 параметра:
 - message (required)
 - title
 
 ```jsx example
-function onOpen () {
-  alert({ message: 'Тестовое сообщение' })
+async function onOpen () {
+  await alert({ message: 'Тестовое сообщение' })
+  console.log('next line')
 }
 
 return pug`
@@ -40,10 +29,10 @@ return pug`
 ## Использование confrim
 
 ```js
-import { confrim } from '@startupjs/ui/helpers'
+import { confrim } from '@startupjs/ui'
 ```
 
-Принимает 4 параметрама:
+Принимает 4 параметра:
 - message (required)
 - title
 - cancelLabel (по умолчанию - 'Cancel')
@@ -67,10 +56,10 @@ return pug`
 ## Использование prompt
 
 ```js
-import { prompt } from '@startupjs/ui/helpers'
+import { prompt } from '@startupjs/ui'
 ```
 
-Принимает 3 параметрама:
+Принимает 3 параметра:
 - message (required)
 - title
 - errorMessage
