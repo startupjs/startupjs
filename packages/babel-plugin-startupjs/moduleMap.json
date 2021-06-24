@@ -67,6 +67,9 @@
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
     "uiAppPlugin": "/helpers/uiAppPlugin.js",
-    "dialogs": "/helpers/dialogs.js"
+    "alert": "/helpers/dialogs/alert.js",
+    "confirm": "/helpers/dialogs/confirm.js",
+    "helpers": "/helpers/dialogs/helpers.js",
+    "prompt": "/helpers/dialogs/prompt.js"
   }
 }

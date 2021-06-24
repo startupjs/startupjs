@@ -1,10 +1,10 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import Modal from '../Modal'
-import { usePage } from '../../helpers'
+import { usePath } from '../../helpers/path'
 
 export default observer(function Dialog () {
-  const [dialog = {}, $dialog] = usePage('dialog')
+  const [dialog = {}, $dialog] = usePath('dialog')
 
   return pug`
     Modal(
