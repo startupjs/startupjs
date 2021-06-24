@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react'
+import React, { useMemo, useRef, useCallback, useState, useEffect } from 'react'
 import { observer, useValue } from 'startupjs'
 import { Div, Divider, TextInput, Popover } from '@startupjs/ui'
 import PropTypes from 'prop-types'
@@ -33,6 +33,7 @@ function DatePicker ({
 }) {
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
+  const refInput = useRef()
 
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
   const _is24Hour = useMemo(() => {
@@ -83,11 +84,14 @@ function DatePicker ({
 
     $visible.set(false)
     setTextInput('')
+    refInput.current.blur()
   }
 
   function onChangeText (text) {
     setTextInput(text)
   }
+
+  // mobile to Drawer
 
   // TODO: New API Popover
   return pug`
@@ -100,6 +104,7 @@ function DatePicker ({
           = renderCaption()
         else
           TextInput(
+            ref=refInput
             style=style
             disabled=disabled
             label=label
@@ -141,7 +146,7 @@ function DatePicker ({
 }
 
 DatePicker.defaultProps = {
-  mode: 'datetime',
+  mode: 'time',
   size: 'm',
   maxDate: moment().add(100, 'year').valueOf(),
   hourInterval: 1,

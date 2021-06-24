@@ -13,12 +13,13 @@ export default observer(function Months ({
   onJump
 }) {
   const prepareMonths = useMemo(() => {
-    const months = moment
+    let months = moment
       .tz(uiDate, timezone)
       .locale(exactLocale)
       ._locale
-      ._months
-      .standalone
+      ._monthsShort
+
+    months = months.standalone ? months.standalone : months
 
     const data = []
     for (let i = 0; i < months.length; i += MONTHS_PER_QUARTER) {
@@ -29,7 +30,7 @@ export default observer(function Months ({
     return data
   }, [uiDate, timezone])
 
-  const currentMonth = moment.tz(uiDate, timezone).locale(exactLocale).format('MMMM')
+  const currentMonth = moment.tz(uiDate, timezone).locale(exactLocale).format('MMM')
 
   return pug`
     Row.row
@@ -41,7 +42,7 @@ export default observer(function Months ({
           Div.cell(
             key=monthIndex + '-' + quarterIndex
             styleName={ cellActive: currentMonth === monthName }
-            onPress=()=> onJump('month', monthName)
+            onPress=()=> onJump('month', (quarterIndex * 3) + monthIndex)
           )
             Span.label(
               styleName={ labelActive: currentMonth === monthName }

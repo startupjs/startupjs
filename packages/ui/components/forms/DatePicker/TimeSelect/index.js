@@ -18,13 +18,33 @@ export default observer(function TimeSelect ({
   const refHourCarousel = useRef()
   const refMinuteCarousel = useRef()
 
+  const currentDate = moment.tz(date, timezone).locale(exactLocale)
+  const currentHour = currentDate.hour()
+  const hourMode = currentDate.locale('en-US').format('A')
+
   const prepareHours = useMemo(() => {
     const res = []
-    for (let i = 0; i < (is24Hour ? 24 : 12); i += hourInterval) {
-      res.push(is24Hour ? i : i + 1)
+
+    if (is24Hour) {
+      for (let index = 0; index < 24; index += hourInterval) {
+        res.push({ label: index, value: index })
+      }
+    } else {
+      for (let index = 0; index < 11; index += hourInterval) {
+        res.push({
+          label: index + 1,
+          value: +moment(`${index + 1} ${hourMode}`, ['hh A']).format('HH').slice(0, 2)
+        })
+      }
+
+      res.push({
+        label: 12,
+        value: res[res.length - 1].value - 11
+      })
     }
+
     return res
-  }, [hourInterval])
+  }, [hourMode, hourInterval])
 
   const prepareMinutes = useMemo(() => {
     const res = []
@@ -34,20 +54,10 @@ export default observer(function TimeSelect ({
     return res
   }, [minuteInterval])
 
-  const currentDate = moment.tz(date, timezone).locale(exactLocale)
-  const hour = currentDate.hour()
-  const hourMode = currentDate.locale('en-US').format('A')
-
-  const currentHour = is24Hour
-    ? hour
-    : (hourMode === 'AM' ? hour : hour - 12)
-
   const currentMinute = moment.tz(date, timezone).locale(exactLocale).minute()
 
-  function _onChangeDate ({ item, type }) {
-    if (hourMode === 'PM') item += 12
-
-    const timestamp = +moment.tz(date, timezone).set(type, item)
+  function _onChangeDate ({ value, type }) {
+    const timestamp = +moment.tz(date, timezone).set(type, value)
     onChangeDate && onChangeDate(timestamp)
   }
 
@@ -60,7 +70,7 @@ export default observer(function TimeSelect ({
     }
 
     if (mode === 'AM') {
-      const timeshtamp = +moment.tz(date, timezone).hours(currentHour)
+      const timeshtamp = +moment.tz(date, timezone).hours(currentHour - 12)
       onChangeDate && onChangeDate(timeshtamp)
     }
   }
@@ -80,14 +90,14 @@ export default observer(function TimeSelect ({
           hasArrows=false
         )
           each item in prepareHours
-            - const isActive = currentHour === item
+            - const isActive = currentHour === item.value
             Div.cell(
               styleName={ cellActive: isActive }
               hoverStyleName='cellHover'
-              onPress=()=> _onChangeDate({ item, type: 'hour' })
+              onPress=()=> _onChangeDate({ value: item.value, type: 'hour' })
             )
               Span(styleName={ labelActive: isActive })
-                = ('0' + item).slice(-2)
+                = ('0' + item.label).slice(-2)
         Div.button(onPress=()=> refHourCarousel.current.toNext())
           Icon(icon=faChevronDown)
 
@@ -101,15 +111,15 @@ export default observer(function TimeSelect ({
           variant='vertical'
           hasArrows=false
         )
-          each item in prepareMinutes
-            - const isActive = currentMinute === item
+          each value in prepareMinutes
+            - const isActive = currentMinute === value
             Div.cell(
               styleName={ cellActive: isActive }
               hoverStyleName='cellHover'
-              onPress=()=> _onChangeDate({ item, type: 'minute' })
+              onPress=()=> _onChangeDate({ value, type: 'minute' })
             )
               Span(styleName={ labelActive: isActive })
-                = ('0' + item).slice(-2)
+                = ('0' + value).slice(-2)
         Div.button(onPress=()=> refMinuteCarousel.current.toNext())
           Icon(icon=faChevronDown)
 
