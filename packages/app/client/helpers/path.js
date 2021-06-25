@@ -1,11 +1,11 @@
 import { $root, useLocal } from 'startupjs'
 
 function generatePath (subpath = '') {
-  let path = '_page._ui'
+  let path = '_page.app'
 
   if (subpath) {
     if (typeof subpath !== 'string') {
-      throw new Error('[@startupjs/ui] generatePath: path must be a string')
+      throw new Error('[@startupjs/app] generatePath: path must be a string')
     }
     path += `.${subpath}`
   }
@@ -17,6 +17,6 @@ export function getScope (path) {
   return $root.at(generatePath(path))
 }
 
-export function usePath (path) {
+export function usePage (path) {
   return useLocal(generatePath(path))
 }

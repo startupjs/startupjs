@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
-import colorToRGBA from '../../helpers/colorToRGBA'
+import { colorToRGBA } from '../../helpers'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
