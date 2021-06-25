@@ -175,6 +175,11 @@ module.exports = async options => {
       } else if (schema) {
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
+
+      // allow any 'service' collection structure
+      // since 'service' collection is used in our startupjs libraries
+      // and we don't have a tool to collect scheme from all packages right now
+      schemaPerCollection.schemas.service = { properties: {} }
     }
 
     sharedbSchema(backend, schemaPerCollection)
