@@ -34,38 +34,38 @@ var options = {
   schemas: {
     users: {
       title: 'Example Schema',
-    type: 'object',
-    properties: {
-      nickname: {
-        type: 'string',
-        format: 'xstring', // custom format
-        minLength: 1,
-        maxLength: 10,
-      },
-      email: {
-        type: 'string',
-        format: 'email',
-      },
-      age: {
-        description: 'Age in years',
-        type: 'integer',
-        minimum: 0,
-      },
-      roleId: {
-        type: 'string',
-        collection: 'roles', // additional field for 'join' custom validator
-        validators: ['join'], // custom validators
-      },
-      hobbies: {
-        type: 'array',
-        maxItems: 3,
-        items: {
+      type: 'object',
+      properties: {
+        nickname: {
           type: 'string',
+          format: 'xstring', // custom format
+          minLength: 1,
+          maxLength: 10,
         },
-        uniqueItems: true,
+        email: {
+          type: 'string',
+          format: 'email',
+        },
+        age: {
+          description: 'Age in years',
+          type: 'integer',
+          minimum: 0,
+        },
+        roleId: {
+          type: 'string',
+          collection: 'roles', // additional field for 'join' custom validator
+          validators: ['join'], // custom validators
+        },
+        hobbies: {
+          type: 'array',
+          maxItems: 3,
+          items: {
+            type: 'string',
+          },
+          uniqueItems: true,
+        },
       },
-    },
-    required: ['email'],
+      required: ['email'],
     }
   },
   // JSON-Schema formats can be added here. They should be sync

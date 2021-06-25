@@ -20,7 +20,6 @@ class Schema {
   }
 
   commitHandler = async (shareRequest, done) => {
-    console.log('commitHandler')
     const {
       snapshot: { data: newDoc },
       id: docId,
@@ -39,29 +38,17 @@ class Schema {
     }
 
     let rootSchema = this.schemas[collection]
-    let noSchema
-
     // we need to check the type of rootSchema because the non factory schema can have the 'factory' field
     if (typeof rootSchema === 'function' && rootSchema.factory) {
       // get model from factory like in @startupjs/orm: https://github.com/startupjs/startupjs/blob/master/packages/orm/lib/index.js#L77
       const $doc = this.model._scope(`${collection}.${docId}`)
-
       await $doc.subscribe()
       const factoryModel = rootSchema($doc, this.model)
+      rootSchema = factoryModel.constructor.schema
       $doc.unsubscribe()
-
-      const schema = factoryModel.constructor.schema
-
-      if (schema) {
-        rootSchema = { type: 'object', properties: schema }
-      } else {
-        noSchema = true
-      }
-    } else {
-      noSchema = !rootSchema
     }
 
-    if (noSchema) {
+    if (!rootSchema || !rootSchema.properties) {
       // throw error if current collection have no schema
       // error can be skiped if you add skipNonExisting flag to your options
       if (this.options.skipNonExisting) return done()

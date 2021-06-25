@@ -94,31 +94,34 @@ import { BaseModel } from 'startupjs/orm'
 
 export default class UserModel extends BaseModel {
   static schema = {
-    nickname: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 10,
-    },
-    email: {
-      type: 'string',
-      format: 'email',
-    },
-    age: {
-      description: 'Age in years',
-      type: 'integer',
-      minimum: 0,
-    },
-    roleId: {
-      type: 'string'
-    },
-    hobbies: {
-      type: 'array',
-      maxItems: 3,
-      items: {
+    type: 'object',
+    properties: {
+      nickname: {
         type: 'string',
+        minLength: 1,
+        maxLength: 10,
       },
-      uniqueItems: true,
-    },
+      email: {
+        type: 'string',
+        format: 'email',
+      },
+      age: {
+        description: 'Age in years',
+        type: 'integer',
+        minimum: 0,
+      },
+      roleId: {
+        type: 'string'
+      },
+      hobbies: {
+        type: 'array',
+        maxItems: 3,
+        items: {
+          type: 'string',
+        },
+        uniqueItems: true,
+      }
+    }
   }
 }
 ```
