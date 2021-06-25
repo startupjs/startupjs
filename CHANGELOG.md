@@ -1,3 +1,14 @@
+## [0.36.3](https://github.com/startupjs/startupjs/compare/v0.36.2...v0.36.3) (2021-06-11)
+
+
+### Bug Fixes
+
+* use font family mixin in components ([874c6d2](https://github.com/startupjs/startupjs/commit/874c6d25f79b8be9ac820b715bb08eba2c79d911))
+* **ui/Alert:** fix popping actions ([d470c97](https://github.com/startupjs/startupjs/commit/d470c97fdeb30bf0e9dcd3da0c6c92d3ec582394))
+* **ui/Alert:** fix vertical align ([#691](https://github.com/startupjs/startupjs/issues/691)) ([923cc59](https://github.com/startupjs/startupjs/commit/923cc59c11b206f551ffe6729d66dd5825a80dc4))
+
+
+
 ## [0.36.2](https://github.com/startupjs/startupjs/compare/v0.36.1...v0.36.2) (2021-06-08)
 
 

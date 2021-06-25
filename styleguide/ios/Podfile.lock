@@ -409,7 +409,7 @@ PODS:
     - React-Core
   - RNCClipboard (1.7.0):
     - React-Core
-  - RNCPicker (1.16.1):
+  - RNCPicker (1.12.0):
     - React-Core
   - RNCPushNotificationIOS (1.8.0):
     - React-Core
@@ -656,6 +656,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNAppleAuthentication: f4cc93d710f1337f66550d04d84bf47553bc0eae
+  RNCClipboard: 245417a78ab585e0d4d83926c28907e7b2bc24bd
   RNCPicker: a3f85bfd04ab192fe9a8fe7485b5ef4f80e59022
   RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
   RNDateTimePicker: f7e5a5e88ad9081367b884e924358f4629e029d4
