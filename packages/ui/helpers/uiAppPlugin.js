@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import Portal from '../components/Portal'
-import Dialog from '../components/Dialog'
 import StyleContext from '../StyleContext'
 
 export default {
@@ -10,7 +9,6 @@ export default {
     return pug`
       StyleContext.Provider(value=options.style)
         Portal.Provider= children
-        Dialog
     `
   })
 }
