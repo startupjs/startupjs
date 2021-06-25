@@ -18,7 +18,7 @@ export default async function prompt ({
   title,
   message,
   errorMessage = 'Fill in the field',
-  messageRequired = true
+  required = true
 } = {}) {
   if (typeof message !== 'string') {
     throw new Error('[@startupjs/app] alert: message should be a string')
@@ -26,7 +26,7 @@ export default async function prompt ({
 
   function onConfirm (e, resolve) {
     const result = $dialog.get('textInput')
-    if (!result && messageRequired) {
+    if (!result && required) {
       e.preventDefault()
       $dialog.set('textInputError', errorMessage)
     } else {
