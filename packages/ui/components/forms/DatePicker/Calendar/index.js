@@ -5,7 +5,6 @@ import moment from 'moment'
 import Header from './Header'
 import { Days, Months, Years } from './slides'
 import 'moment/min/locales'
-import './index.styl'
 
 const SLIDES = {
   days: Days,

@@ -1,16 +1,24 @@
 import React, { useMemo, useRef } from 'react'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import { Row, Div, Span, Icon } from '@startupjs/ui'
 import Carousel from '@dmapper/carousel'
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import {
+  faChevronUp,
+  faChevronDown,
+  faChevronLeft,
+  faChevronRight
+} from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
-import './index.styl'
+import STYLES from './index.styl'
 
 export default observer(function TimeSelect ({
   date,
+  layoutWidth,
   exactLocale,
   timezone,
   is24Hour,
+  minDate,
+  maxDate,
   hourInterval,
   minuteInterval,
   onChangeDate
@@ -18,8 +26,10 @@ export default observer(function TimeSelect ({
   const refHourCarousel = useRef()
   const refMinuteCarousel = useRef()
 
-  const currentDate = moment.tz(date, timezone).locale(exactLocale)
+  const [uiDate, $uiDate] = useValue(date)
+  const currentDate = moment(uiDate).locale(exactLocale)
   const currentHour = currentDate.hour()
+  const currentMinute = currentDate.minute()
   const hourMode = currentDate.locale('en-US').format('A')
 
   const prepareHours = useMemo(() => {
@@ -43,21 +53,26 @@ export default observer(function TimeSelect ({
       })
     }
 
-    return res
-  }, [hourMode, hourInterval])
+    return res.filter(item => {
+      const timeshtamp = +moment(uiDate).set('hour', item.value)
+        .set('minutes', 59).set('seconds', 0)
+      return timeshtamp >= minDate && timeshtamp <= maxDate
+    })
+  }, [uiDate, hourMode, hourInterval])
 
   const prepareMinutes = useMemo(() => {
     const res = []
     for (let i = 0; i < 60; i += minuteInterval) {
-      res.push(i)
+      const timeshtamp = +moment(uiDate).set('minutes', i).set('seconds', 0)
+      if (timeshtamp >= minDate && timeshtamp <= maxDate) {
+        res.push(i)
+      }
     }
     return res
-  }, [minuteInterval])
-
-  const currentMinute = moment.tz(date, timezone).locale(exactLocale).minute()
+  }, [uiDate, minuteInterval])
 
   function _onChangeDate ({ value, type }) {
-    const timestamp = +moment.tz(date, timezone).set(type, value)
+    const timestamp = +moment.tz(uiDate, timezone).set(type, value)
     onChangeDate && onChangeDate(timestamp)
   }
 
@@ -65,32 +80,34 @@ export default observer(function TimeSelect ({
     if (hourMode === mode) return
 
     if (mode === 'PM') {
-      const timeshtamp = +moment.tz(date, timezone).hours(currentHour + 12)
-      onChangeDate && onChangeDate(timeshtamp)
+      const timeshtamp = +moment(uiDate).hours(currentHour + 12)
+      $uiDate.set(timeshtamp)
     }
 
     if (mode === 'AM') {
-      const timeshtamp = +moment.tz(date, timezone).hours(currentHour - 12)
-      onChangeDate && onChangeDate(timeshtamp)
+      const timeshtamp = +moment(uiDate).hours(currentHour - 12)
+      $uiDate.set(timeshtamp)
     }
   }
+
+  const startHour = is24Hour
+    ? currentHour
+    : (+currentDate.locale('en-US').format('hh A').slice(0, 2)) - 1
 
   return pug`
     Row.container
       Div.case
         Div.button(onPress=()=> refHourCarousel.current.toBack())
-          Icon(icon=faChevronUp)
+          Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronUp : faChevronLeft)
         Carousel(
           ref=refHourCarousel
           isEndless
-          startIndex=hourInterval === 1
-            ? (is24Hour ? currentHour : currentHour - 1)
-            : 0
-          variant='vertical'
+          startIndex=hourInterval === 1 ? startHour : 0
+          variant=layoutWidth > STYLES.media.mobile ? 'vertical' : 'horizontal'
           hasArrows=false
         )
           each item in prepareHours
-            - const isActive = currentHour === item.value
+            - const isActive = moment(date).hour() === item.value
             Div.cell(
               styleName={ cellActive: isActive }
               hoverStyleName='cellHover'
@@ -99,16 +116,16 @@ export default observer(function TimeSelect ({
               Span(styleName={ labelActive: isActive })
                 = ('0' + item.label).slice(-2)
         Div.button(onPress=()=> refHourCarousel.current.toNext())
-          Icon(icon=faChevronDown)
+          Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronDown : faChevronRight)
 
       Div.case
         Div.button(onPress=()=> refMinuteCarousel.current.toBack())
-          Icon(icon=faChevronUp)
+          Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronUp : faChevronLeft)
         Carousel(
           ref=refMinuteCarousel
           isEndless
           startIndex=minuteInterval === 1 ? currentMinute : 0
-          variant='vertical'
+          variant=layoutWidth > STYLES.media.mobile ? 'vertical' : 'horizontal'
           hasArrows=false
         )
           each value in prepareMinutes
@@ -121,7 +138,7 @@ export default observer(function TimeSelect ({
               Span(styleName={ labelActive: isActive })
                 = ('0' + value).slice(-2)
         Div.button(onPress=()=> refMinuteCarousel.current.toNext())
-          Icon(icon=faChevronDown)
+          Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronDown : faChevronRight)
 
       if !is24Hour
         Div.case

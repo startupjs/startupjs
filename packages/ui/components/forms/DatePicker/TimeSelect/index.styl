@@ -1,9 +1,27 @@
+.container
+  flex-direction column
+
+  +from($UI.media.mobile)
+    flex-direction row
+
 .case
-  max-width 7.5u
-  margin-right 1u
-  align-items center
+  height 5u
+  width 33.75u
+  margin 0 auto
+  overflow hidden
+  flex-direction row
+  margin-top 1u
   justify-content center
-  height 100%
+
+  +from($UI.media.mobile)
+    align-items center
+    justify-content center
+    max-width 7.5u
+    margin-right 1u
+    flex-direction row
+    height auto
+    flex-direction column
+    margin 0
 
 .cell, .button
   width 6.75u
@@ -22,3 +40,6 @@
 
 .labelActive
   color $UI.colors.white
+
+:export
+  media: $UI.media

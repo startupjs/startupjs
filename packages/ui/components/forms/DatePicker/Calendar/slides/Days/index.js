@@ -71,8 +71,6 @@ export default observer(function Days ({
       )
   }, [disabledDays, maxDate, minDate, timezone])
 
-  // const isActive = useCallback
-
   return pug`
     Row.row
       for shortDayName in weekdaysShort

@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useCallback, useState, useEffect } from 'react'
+import { Dimensions } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import moment from 'moment'
@@ -6,12 +7,13 @@ import Div from '../../Div'
 import Divider from '../../Divider'
 import TextInput from '../TextInput'
 import Popover from '../../popups/Popover'
+import Drawer from '../../popups/Drawer'
 import 'moment/min/locales'
 import getLocale from './getLocale'
 import Calendar from './Calendar'
 import TimeSelect from './TimeSelect'
 import themed from '../../../theming/themed'
-import './index.styl'
+import STYLES from './index.styl'
 
 function DatePicker ({
   style,
@@ -37,6 +39,23 @@ function DatePicker ({
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refInput = useRef()
+
+  const [layoutWidth, $layoutWidth] = useValue(
+    Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
+  )
+  function handleWidthChange () {
+    $visible.set(false)
+    $layoutWidth.set(
+      Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
+    )
+  }
+  useEffect(() => {
+    Dimensions.addEventListener('change', handleWidthChange)
+    return () => {
+      $visible.set(false)
+      Dimensions.removeEventListener('change', handleWidthChange)
+    }
+  }, [])
 
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
   const _is24Hour = useMemo(() => {
@@ -127,11 +146,14 @@ function DatePicker ({
         )
 
       if mode === 'datetime'
-        Divider.divider(variant='vertical')
+        Divider.divider
 
       if (mode === 'time') || (mode === 'datetime')
         TimeSelect(
           date=date
+          maxDate=maxDate
+          minDate=minDate
+          layoutWidth=layoutWidth
           timezone=timezone
           exactLocale=exactLocale
           is24Hour=_is24Hour
@@ -143,12 +165,21 @@ function DatePicker ({
 
   // TODO: New API Popover
   return pug`
-    Popover(
-      visible=visible
-      onDismiss=onDismiss
-    )
-      Popover.Caption= caption
-      = content
+    if layoutWidth > STYLES.media.mobile
+      Popover(
+        visible=visible
+        onDismiss=onDismiss
+      )
+        Popover.Caption= caption
+        = content
+    else
+      = caption
+      Drawer.drawer(
+        visible=visible
+        position='bottom'
+        swipeStyleName='swipe'
+        onDismiss=onDismiss
+      )= content
   `
 }
 
