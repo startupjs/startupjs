@@ -99,6 +99,8 @@ function AbstractPopover ({
       if (!refPopover.current) return
 
       refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight, popoverPageX, popoverPageY) => {
+        if ($step.get() !== STEPS.RENDER) return
+
         captionInfo.current = {
           x: captionPageX,
           y: captionPageY,
@@ -138,6 +140,7 @@ function AbstractPopover ({
           animateStates,
           arrow
         }, () => {
+          if ($step.get() !== STEPS.ANIMATE) return
           $step.set(STEPS.OPEN)
           onRequestOpen && onRequestOpen()
         })
