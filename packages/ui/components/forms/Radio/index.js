@@ -3,11 +3,16 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from './input'
 import Div from './../../Div'
+import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
+import { useLayout } from './../../../hooks'
 import './index.styl'
 
 function Radio ({
   style,
+  label,
+  description,
+  layout,
   children,
   value,
   options,
@@ -16,6 +21,9 @@ function Radio ({
   readonly,
   onChange
 }) {
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
   // TODO: DEPRECATED! Remove!
   if (data) {
     options = data
@@ -30,11 +38,11 @@ function Radio ({
     ? options.map((o) => {
       return pug`
         Input(
-          readonly=readonly
           key=o.value
           checked=o.value === value
           value=o.value
-          disabled=disabled || o.disabled
+          disabled=disabled
+          readonly=readonly
           onPress=handleRadioPress
         )= o.label
       `
@@ -48,10 +56,27 @@ function Radio ({
       })
     })
 
-  return pug`
-    Div.root(style=style)
-      = _children
-  `
+  function renderContainer (children) {
+    if (pure) {
+      return pug`
+        Div.root(style=style)= children
+      `
+    } else {
+      return pug`
+        Div.root(style=style)
+          Div.info
+            if label
+              Span.label(bold)= label
+            if description
+              Span.description(description)= description
+          = children
+      `
+    }
+  }
+
+  return renderContainer(pug`
+    Div.selection=_children
+  `)
 }
 
 Radio.defaultProps = {
@@ -62,6 +87,9 @@ Radio.defaultProps = {
 
 Radio.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   // TODO: Also support pure values like in Select. Api should be the same.
   data: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

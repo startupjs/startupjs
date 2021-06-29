@@ -11,10 +11,11 @@ const Multiselect = ({
   value,
   placeholder,
   label,
+  description,
+  layout,
   disabled,
   readonly,
   tagLimit,
-  error,
   TagComponent,
   InputComponent,
   hasWidthCaption,
@@ -70,7 +71,12 @@ const Multiselect = ({
     }
 
     return pug`
-      Checkbox.checkbox(key=item.value label=item.label value=selected onChange=onItemPress(item.value))
+      Checkbox.checkbox(
+        key=item.value
+        label=item.label
+        value=selected
+        onChange=onItemPress(item.value)
+      )
     `
   }
 
@@ -80,11 +86,12 @@ const Multiselect = ({
       value=value
       placeholder=placeholder
       label=label
+      description=description
+      layout=layout
       focused=focused
       disabled=disabled
       tagLimit=tagLimit
       readonly=readonly
-      error=error
       InputComponent=InputComponent
       TagComponent=TagComponent
       hasWidthCaption=hasWidthCaption
@@ -100,10 +107,11 @@ Multiselect.propTypes = {
   options: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   tagLimit: PropTypes.number,
-  error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   hasWidthCaption: PropTypes.bool,
   renderListItem: PropTypes.func,

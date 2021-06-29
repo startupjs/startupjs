@@ -9,6 +9,7 @@ import Card from '../../Card'
 import Button from '../../Button'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
+import { useLayout } from './../../../hooks'
 import './index.styl'
 
 function ArrayInput ({
@@ -16,12 +17,17 @@ function ArrayInput ({
   inputStyle,
   $value,
   label,
+  description,
+  layout,
   items
 }) {
   if (!$value || !items) {
     return null
   }
 
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
   const value = $value.get()
 
   function getInputs () {
@@ -40,19 +46,23 @@ function ArrayInput ({
   const inputs = getInputs()
 
   function renderContainer (children) {
-    if (label) {
+    if (pure) {
+      return pug`
+        Div(style=[style, inputStyle])= children
+      `
+    } else {
       return pug`
         Div(style=style)
-          Span.label(description)= label
+          Div.info
+            if label
+              Span.label(bold)= label
+            if description
+              Span.description(description)= description
           Card(
             style=inputStyle
             variant='outlined'
           )
             = children
-      `
-    } else {
-      return pug`
-        Div(style=[style, inputStyle])= children
       `
     }
   }
@@ -93,6 +103,8 @@ ArrayInput.propTypes = {
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   $value: PropTypes.any.isRequired,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   items: PropTypes.object.isRequired
 }
 

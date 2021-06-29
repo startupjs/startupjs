@@ -25,8 +25,9 @@ function Checkbox ({
   className,
   variant,
   label,
-  value,
+  description,
   layout,
+  value,
   icon,
   disabled,
   readonly,
@@ -35,8 +36,9 @@ function Checkbox ({
   activeStyle,
   ...props
 }) {
-  const _layout = useLayout(layout, label)
-  const pure = _layout === 'pure'
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
 
   function onPress () {
     onChange && onChange(!value)
@@ -74,21 +76,20 @@ function Checkbox ({
   if (pure) return renderInput(true)
 
   return pug`
-    Row.root(
+    Div.root(
       style=style
       className=className
-      vAlign='center'
       disabled=disabled
       onPress=!readonly ? onPress : undefined
       hoverStyle=hoverStyle
       activeStyle=activeStyle
     )
-      = renderInput()
-      Div.label
-        if typeof label === 'string'
-          Span= label
-        else
-          = label
+      Row(vAlign='center')
+        = renderInput()
+        if label
+          Span.label(bold)= label
+      if description
+        Span.description(description)= description
   `
 }
 
@@ -102,9 +103,10 @@ Checkbox.defaultProps = {
 Checkbox.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['checkbox', 'switch']),
-  label: PropTypes.node,
-  value: PropTypes.bool,
+  label: PropTypes.string,
+  description: PropTypes.string,
   layout: PropTypes.oneOf(['pure', 'rows']),
+  value: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,

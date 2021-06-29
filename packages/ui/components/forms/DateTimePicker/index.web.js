@@ -10,6 +10,7 @@ import * as locale from 'date-fns/locale'
 import Div from '../../Div'
 import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
+import { useLayout } from './../../../hooks'
 import './index.styl'
 
 const localLanguage = window.navigator.language
@@ -32,6 +33,8 @@ function DateTimePicker ({
   disabled,
   format,
   label,
+  description,
+  layout,
   maxDate,
   minDate,
   minuteInterval,
@@ -41,6 +44,9 @@ function DateTimePicker ({
   timeFormat,
   onDateChange
 }) {
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
   const [focused, setFocused] = useState(false)
 
   // DatePicker doesn't accept "DD" or "D" day format
@@ -62,7 +68,7 @@ function DateTimePicker ({
   if (minDate) pickerProps.minDate = minDate
   if (InputComponent) pickerProps.customInput = InputComponent
 
-  const renderContainer = ({ children }) => {
+  const renderCalendarContainer = ({ children }) => {
     return (
       <Div level={2} styleName='container'>
         <CalendarContainer className={mode}>
@@ -73,37 +79,52 @@ function DateTimePicker ({
     )
   }
 
-  return pug`
-    Div(style=style)
-      if label
-        Span.label(
-          styleName={focused}
-          description
-        )= label
-      DatePicker(
-        className=size
-        calendarClassName=mode
-        calendarContainer=renderContainer
-        disabled=disabled
-        dropdownMode='select'
-        fixedHeight
-        locale='currentLocale'
-        maxDate=maxDateDefault
-        placeholderText=placeholder
-        portalId='datepicker-portal'
-        selected=date
-        showMonthDropdown
-        showMonthYearSelect
-        showPopperArrow=false
-        showYearDropdown
-        timeIntervals=minuteInterval
-        closeOnScroll= e => !scrollableClasses.includes(e.target.className)
-        onChange= date => onDateChange(+date)
-        onCalendarClose= () => setFocused(false)
-        onCalendarOpen= () => setFocused(true)
-        ...pickerProps
-      )
-  `
+  function renderContainer (children) {
+    if (pure) {
+      return pug`
+        Div(style=style)= children
+      `
+    } else {
+      return pug`
+        Div(style=style)
+          Div.info
+            if label
+              Span.label(
+                styleName={focused}
+                bold
+              )= label
+            if description
+              Span.description(description)= description
+          = children
+      `
+    }
+  }
+
+  return renderContainer(pug`
+    DatePicker(
+      className=size
+      calendarClassName=mode
+      calendarContainer=renderCalendarContainer
+      disabled=disabled
+      dropdownMode='select'
+      fixedHeight
+      locale='currentLocale'
+      maxDate=maxDateDefault
+      placeholderText=placeholder
+      portalId='datepicker-portal'
+      selected=date
+      showMonthDropdown
+      showMonthYearSelect
+      showPopperArrow=false
+      showYearDropdown
+      timeIntervals=minuteInterval
+      closeOnScroll= e => !scrollableClasses.includes(e.target.className)
+      onChange= date => onDateChange(+date)
+      onCalendarClose= () => setFocused(false)
+      onCalendarOpen= () => setFocused(true)
+      ...pickerProps
+    )
+  `)
 }
 
 DateTimePicker.defaultProps = {
@@ -119,6 +140,8 @@ DateTimePicker.propTypes = {
   date: PropTypes.number,
   disabled: PropTypes.bool,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
   minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]),

@@ -20,7 +20,7 @@ $this = merge({
 _inputBg = $UI.colors.white
 _inputBorderColor = $UI.colors.darkLighter
 _inputBgDisabled = $UI.colors.darkLightest
-_inputBorderWidth = 1px//$UI.TextInput.borderWidth
+_inputBorderWidth = 1px
 _inputCaretColor = $this.caretColor
 _inputTextColor = $UI.colors.mainText
 _focusedColor = $UI.colors.primary
@@ -28,32 +28,19 @@ _inputFontSizeL = 2u
 _inputFontSizeM = 1.75u
 _inputFontSizeS = 1.75u
 
+.info
+  margin-bottom 1u
+
 .label
   margin-bottom 0.5u
-  font(s)
+  font(body2)
+
   &.focused
     color _focusedColor
 
-.readonly
-  &.s
-    font(s)
-  &.m
-    font(m)
-  &.l
-    font(l)
-
-.input-icon
-  position absolute
-  top 0
-  bottom 0
-  justify-content center
-  z-index 1
-
-  &.left
-    left 1u
-
-  &.right
-    right 1u
+.description
+  margin-bottom 0.5u
+  font(caption)
 
 .input-input
   margin 0 // important for safari
@@ -99,6 +86,19 @@ _inputFontSizeS = 1.75u
 
       &.s
         padding-{side} 4u
+
+.input-icon
+  position absolute
+  top 0
+  bottom 0
+  justify-content center
+  z-index 1
+
+  &.left
+    left 1u
+
+  &.right
+    right 1u
 
 // ----- JS EXPORTS
 

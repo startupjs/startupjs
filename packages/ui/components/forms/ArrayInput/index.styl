@@ -1,7 +1,10 @@
 $button = lighten($UI.colors.secondaryText, 40%)
 
-.pushTop
-  margin-top 1u
+.item
+  flex-direction row
+
+.input
+  flex 1
 
 .add
   &:part(icon)
@@ -13,11 +16,16 @@ $button = lighten($UI.colors.secondaryText, 40%)
   &:part(icon)
     color: $button
 
-.item
-  flex-direction row
+.pushTop
+  margin-top 1u
 
-.input
-  flex 1
+.info
+  margin-bottom 1u
 
 .label
-  font(s)
+  margin-bottom 0.5u
+  font(body2)
+
+.description
+  margin-bottom 0.5u
+  font(caption)
