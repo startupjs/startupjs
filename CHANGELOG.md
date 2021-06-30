@@ -13,9 +13,11 @@
 * **ui/Carousel:** add component ([#715](https://github.com/startupjs/startupjs/issues/715)) ([674fd58](https://github.com/startupjs/startupjs/commit/674fd584249ead0bc60e076e5bdf5c04ab21adf8))
 
 
-### Reverts
+### BREAKING CHANGES
 
-* Revert "fix(app): move dialogs to ui library (#707)" (#713) ([89f4696](https://github.com/startupjs/startupjs/commit/89f4696d614bf8ca6af03027e74422cbac75e09f)), closes [#707](https://github.com/startupjs/startupjs/issues/707) [#713](https://github.com/startupjs/startupjs/issues/713)
+* **startupjs/ui/forms:** label font size was changed to smaller
+
+* **startupjs/ui/typography:** default text font weight was changed from `700` to `600`
 
 
 
