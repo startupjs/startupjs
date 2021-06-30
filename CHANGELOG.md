@@ -1,3 +1,24 @@
+# [0.37.0](https://github.com/startupjs/startupjs/compare/v0.36.4...v0.37.0) (2021-06-30)
+
+
+### Bug Fixes
+
+* **app:** move dialogs to ui library ([#707](https://github.com/startupjs/startupjs/issues/707)) ([4aae10a](https://github.com/startupjs/startupjs/commit/4aae10a03261a8fce3b90ecce69825a18aca9651))
+* **auth:** improve account linking ([#706](https://github.com/startupjs/startupjs/issues/706)) ([42a5115](https://github.com/startupjs/startupjs/commit/42a51159c0f059b1db0e45720b003dfd046499d5))
+
+
+### Features
+
+* **ui:** add ability to specify label and description for forms components ([#717](https://github.com/startupjs/startupjs/issues/717)) ([5756dc0](https://github.com/startupjs/startupjs/commit/5756dc01b003a7c1e539d3efdb66312bdefd4da5))
+* **ui/Carousel:** add component ([#715](https://github.com/startupjs/startupjs/issues/715)) ([674fd58](https://github.com/startupjs/startupjs/commit/674fd584249ead0bc60e076e5bdf5c04ab21adf8))
+
+
+### Reverts
+
+* Revert "fix(app): move dialogs to ui library (#707)" (#713) ([89f4696](https://github.com/startupjs/startupjs/commit/89f4696d614bf8ca6af03027e74422cbac75e09f)), closes [#707](https://github.com/startupjs/startupjs/issues/707) [#713](https://github.com/startupjs/startupjs/issues/713)
+
+
+
 ## [0.36.4](https://github.com/startupjs/startupjs/compare/v0.36.3...v0.36.4) (2021-06-21)
 
 
