@@ -97,7 +97,6 @@ return (
         input: 'text',
         label: 'Password',
         dependsOn: 'email',
-        dependsValue: value.email || undefined, // HACK: when you enter an email and then delete it the password input does not disappear because the default value on the first render of the email input is undefined and after delete it the empty string
         description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
