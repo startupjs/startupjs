@@ -12,6 +12,7 @@ import Drawer from '../../popups/Drawer'
 import Row from '../../Row'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
+import { useLayout } from './../../../hooks'
 import STYLES from './index.styl'
 
 const { colors: { mainText, secondaryText } } = STYLES
@@ -31,6 +32,8 @@ function DateTimePicker ({
   format,
   is24Hour,
   label,
+  description,
+  layout,
   maxDate,
   minDate,
   minuteInterval,
@@ -39,6 +42,9 @@ function DateTimePicker ({
   size,
   onDateChange
 }) {
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
   const [inputDate, setInputDate] = useState()
   const [visible, setVisible] = useState(false)
   const [focused, setFocused] = useState(false)
@@ -182,54 +188,61 @@ function DateTimePicker ({
     }
   }
 
-  return pug`
-    Div(style=style)
-      if label
-        Span.label(
-          styleName={focused}
-          description
-        )= label
-
-      Button(
-        textStyle={ color: date ? mainText : secondaryText }
-        color= focused ? 'primary' : 'dark'
-        size=size
-        disabled=disabled
-        onPress=onPressDate
-      )= placeholder && !date ? placeholder : getDateStr()
-
-    if Platform.OS === 'ios'
-      Drawer.drawer(
-        swipeStyleName='swipe'
-        visible=visible
-        position='bottom'
-        onDismiss=onPressCancel
-      )
-        Row.buttons(
-          align='between'
-          vAlign='center'
+  function renderContainer (children) {
+    return pug`
+      Div(style=style)
+        if pure
+          = children
+        else
+          Div.info
+            if label
+              Span.label(styleName={focused})= label
+            if description
+              Span.description(description)= description
+          = children
+      if Platform.OS === 'ios'
+        Drawer.drawer(
+          swipeStyleName='swipe'
+          visible=visible
+          position='bottom'
+          onDismiss=onPressCancel
         )
-          Button.button.cancelButton(
-            textStyleName='cancelButtonText'
-            variant='text'
-            onPress=onPressCancel
-          )= cancelButtonText
-          Button.button.confirmButton(
-            textStyleName='confirmButtonText'
-            variant='text'
-            onPress=onPressConfirm
-          )= confirmButtonText
-        // DateTimePicker cannot get its dimensions when rendering starts
-        if visible
-          RNCDateTimePicker.picker(
-            value=getDate()
-            mode=mode
-            minimumDate=minDate && getDate(minDate)
-            maximumDate=maxDate && getDate(maxDate)
-            onChange= (event, date) => setInputDate(date)
-            minuteInterval=minuteInterval
+          Row.buttons(
+            align='between'
+            vAlign='center'
           )
-  `
+            Button.button.cancelButton(
+              textStyleName='cancelButtonText'
+              variant='text'
+              onPress=onPressCancel
+            )= cancelButtonText
+            Button.button.confirmButton(
+              textStyleName='confirmButtonText'
+              variant='text'
+              onPress=onPressConfirm
+            )= confirmButtonText
+          // DateTimePicker cannot get its dimensions when rendering starts
+          if visible
+            RNCDateTimePicker.picker(
+              value=getDate()
+              mode=mode
+              minimumDate=minDate && getDate(minDate)
+              maximumDate=maxDate && getDate(maxDate)
+              onChange= (event, date) => setInputDate(date)
+              minuteInterval=minuteInterval
+            )
+    `
+  }
+
+  return renderContainer(pug`
+    Button(
+      textStyle={ color: date ? mainText : secondaryText }
+      color= focused ? 'primary' : 'dark'
+      size=size
+      disabled=disabled
+      onPress=onPressDate
+    )= placeholder && !date ? placeholder : getDateStr()
+  `)
 }
 
 DateTimePicker.defaultProps = {
@@ -248,6 +261,8 @@ DateTimePicker.propTypes = {
   format: PropTypes.string,
   is24Hour: PropTypes.bool,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
   minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]),

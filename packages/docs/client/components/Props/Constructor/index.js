@@ -1,5 +1,5 @@
 import React, { useMemo, useLayoutEffect } from 'react'
-import { Text, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { observer } from 'startupjs'
 import { Span, themed, Input, NumberInput, Tag } from '@startupjs/ui'
 import parsePropTypes from 'parse-prop-types'
@@ -31,10 +31,10 @@ export default observer(themed(function Constructor ({ Component, $props, style,
     Table.table(style=style)
       Thead.thead
         Tr
-          Td: Text.header(styleName=[theme]) PROP
-          Td: Text.header(styleName=[theme]) TYPE
-          Td: Text.header(styleName=[theme]) DEFAULT
-          Td: Text.header.right(styleName=[theme]) VALUE
+          Td: Span.header(styleName=[theme]) PROP
+          Td: Span.header(styleName=[theme]) TYPE
+          Td: Span.header(styleName=[theme]) DEFAULT
+          Td: Span.header.right(styleName=[theme]) VALUE
       Tbody
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues, possibleTypes, isRequired } = entry

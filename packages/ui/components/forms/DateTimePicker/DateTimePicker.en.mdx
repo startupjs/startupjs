@@ -15,7 +15,7 @@ DateTimePicker allows to display and change the date and time (!works with times
 import { DateTimePicker } from from '@startupjs/ui'
 ```
 
-## Simple examples
+## Simple example
 
 ```jsx example
 const [date, setDate] = useState()
@@ -23,6 +23,7 @@ const [date, setDate] = useState()
 return (
   <DateTimePicker
     date={date}
+    label='Select a date'
     onDateChange={setDate}
   />
 )
@@ -35,6 +36,8 @@ return (
 - `disabled` - disabled picker,
 - `format` - date formatting string,
 - `label` - label,
+- `description` - description,
+- `layout` - display layout,
 - `maxDate` - maximum available date in timestamp,
 - `minDate` - minimum available date in timestamp,
 - `minuteInterval` - the interval at which minutes can be selected, possible values are: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 (default 1, ignored in IOS 14),

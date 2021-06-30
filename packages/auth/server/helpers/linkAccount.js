@@ -8,7 +8,6 @@ import {
 
 export default async function linkAccount (req, provider, goBackCount = 2) {
   const { model } = req
-  let responseText = ACCOUNT_LINKED_INFO
 
   const providerName = provider.getProviderName()
   const providerEmail = provider.getEmail()
@@ -23,6 +22,8 @@ export default async function linkAccount (req, provider, goBackCount = 2) {
 
   const existingAccounts = $existingAccounts.get()
   const providers = $auth.get('providers')
+
+  let responseText = ACCOUNT_LINKED_INFO
 
   // Return error if that account has already linked to another profile
   if (existingAccounts.length) {
