@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react'
+import { ScrollView } from 'react-native'
 import { observer, $root, useComponentId } from 'startupjs'
-import { View, ScrollView } from 'react-native'
 import './index.styl'
+import { themed, Button, Row, Div } from '@startupjs/ui'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
-import { themed, Button, Row } from '@startupjs/ui'
 
 export default observer(themed(function PComponent ({
   Component,
@@ -29,7 +29,7 @@ export default observer(themed(function PComponent ({
   $theProps.setNull('', {})
 
   return pug`
-    View.root(style=style)
+    Div.root(style=style)
       ScrollView.top(styleName=[theme])
         Constructor(Component=Component $props=$theProps)
       ScrollView.bottom(

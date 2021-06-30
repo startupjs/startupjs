@@ -1,10 +1,6 @@
 import docs from '@startupjs/docs'
 import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx'
-import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
-import TOTPProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
-import TOTPProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
 import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
 import AuthMainEn from '../../packages/auth/docs/readme.en.md'
 import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
@@ -21,15 +17,27 @@ import AuthLinkedinRu from '../../packages/auth-linkedin/docs/readme.ru.md'
 import AuthLinkedinEn from '../../packages/auth-linkedin/docs/readme.en.md'
 import AuthLocalRu from '../../packages/auth-local/docs/readme.ru.md'
 import AuthLocalEn from '../../packages/auth-local/docs/readme.en.md'
-import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
-import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import i18nEn from '../../packages/i18n/readme/readme.en.mdx'
+import i18nRu from '../../packages/i18n/readme/readme.ru.mdx'
 import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
+import PushNotificationsEn from '../../packages/push-notifications/docs/push-notifications.en.mdx'
+import PushNotificationsRu from '../../packages/push-notifications/docs/push-notifications.ru.mdx'
 import RecaptchaEn from '../../packages/recaptcha/readme/readme.en.mdx'
 import RecaptchaRu from '../../packages/recaptcha/readme/readme.ru.mdx'
+import ScrollableAnchorsEn from '../../packages/scrollable-anchors/readme/readme.en.mdx'
+import ScrollableAnchorsRu from '../../packages/scrollable-anchors/readme/readme.ru.mdx'
+import * as guides from '../../docs/migration-guides'
+
+// 2fa
+import PushProviderEn from '../../packages/2fa-push-notification-provider/docs/push-notifications.en.mdx'
+import PushProviderRu from '../../packages/2fa-push-notification-provider/docs/push-notifications.ru.mdx'
+import TOTPProviderEn from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx'
+import TOTPProviderRu from '../../packages/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.ru.mdx'
 import TwoFAManagerEn from '../../packages/2fa-manager/docs/2fa-manager.en.mdx'
 import TwoFAManagerRu from '../../packages/2fa-manager/docs/2fa-manager.ru.mdx'
-import * as guides from '../../docs/migration-guides'
+import TwoFAGAEn from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx'
+import TwoFAGARu from '../../packages/2fa-totp-authentication/docs/2fa-totp-authentication.ru.mdx'
 
 function generateGuideItems () {
   const res = {}
@@ -136,17 +144,6 @@ export default docs({
     },
     icon: faLayerGroup,
     items: {
-      anchors: {
-        type: 'mdx',
-        title: {
-          en: 'Scrollable anchors',
-          ru: 'Якоря с прокрутой'
-        },
-        component: {
-          en: ScrollableAnchorsEn,
-          ru: ScrollableAnchorsRu
-        }
-      },
       '2fa': {
         type: 'collapse',
         title: {
@@ -180,7 +177,37 @@ export default docs({
               en: TOTPProviderEn,
               ru: TOTPProviderRu
             }
+          },
+          PushProvider: {
+            type: 'mdx',
+            title: 'Push notificaton Provider',
+            component: {
+              en: PushProviderEn,
+              ru: PushProviderRu
+            }
           }
+        }
+      },
+      i18n: {
+        type: 'mdx',
+        title: {
+          en: 'i18n',
+          ru: 'i18n'
+        },
+        component: {
+          en: i18nEn,
+          ru: i18nRu
+        }
+      },
+      'push-notofications': {
+        type: 'mdx',
+        title: {
+          en: 'Push',
+          ru: 'Push'
+        },
+        component: {
+          en: PushNotificationsEn,
+          ru: PushNotificationsRu
         }
       },
       plugins: {
@@ -203,6 +230,17 @@ export default docs({
         component: {
           en: RecaptchaEn,
           ru: RecaptchaRu
+        }
+      },
+      'scrollable-anchors': {
+        type: 'mdx',
+        title: {
+          en: 'Scrollable anchors',
+          ru: 'Якоря с прокрутой'
+        },
+        component: {
+          en: ScrollableAnchorsEn,
+          ru: ScrollableAnchorsRu
         }
       }
     }

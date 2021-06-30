@@ -56,22 +56,11 @@ const RadioInput = function ({
     }
   }, [checked])
 
-  if (readonly && checked) {
-    return pug`
-      if typeof children === 'string'
-        Span= children
-      else
-        = children
-    `
-  } else if (readonly && !checked) {
-    return null
-  }
-
   return pug`
     Row.input(
       style=style
       vAlign='center'
-      disabled=disabled
+      disabled=disabled || readonly
       onPress=setChecked
     )
       Div.radio(

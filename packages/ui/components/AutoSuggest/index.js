@@ -42,6 +42,7 @@ function AutoSuggest ({
   renderInput,
   isLoading,
   label,
+  description,
   disabled,
   size,
   testID,
@@ -154,7 +155,6 @@ function AutoSuggest ({
   }
 
   function renderWrapper (children) {
-    console.log('123')
     return children
   }
 
@@ -198,12 +198,12 @@ function AutoSuggest ({
         value=(!isShow && value.label) || inputValue
         placeholder=placeholder
         label=label
+        description=description
         disabled=disabled
         size=size
         testID=testID
         onChangeText=_onChangeText
         onFocus=()=> setIsShow(true)
-        onBlur=()=> setIsShow(false)
         onKeyPress=onKeyPress
       )
 

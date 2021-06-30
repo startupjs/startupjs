@@ -39,21 +39,22 @@ export default function generateHeader (tag) {
 }
 
 styl`
-    _tags = ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
+  _tags = ('h1' 'h2' 'h3' 'h4' 'h5' 'h6')
 
-    .root
-      fontFamily('heading')
+  .root
+    fontFamily('heading')
+    color: $UI.colors.mainText
 
-      for tag in _tags
-        &.{tag}
-          font(tag)
+    for tag in _tags
+      &.{tag}
+        font(tag)
 
-      &.bold
-        fontFamily('heading', $UI.fontWeights.headingBold)
+    &.bold
+      fontFamily('heading', $UI.fontWeights.headingBold)
 
-      &.italic
-        fontFamily('heading', $UI.fontWeights.heading, italic)
+    &.italic
+      fontFamily('heading', $UI.fontWeights.heading, italic)
 
-      &.bold.italic
-        fontFamily('heading', $UI.fontWeights.headingBold, italic)
-  `
+    &.bold.italic
+      fontFamily('heading', $UI.fontWeights.headingBold, italic)
+`

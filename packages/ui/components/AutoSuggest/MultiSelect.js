@@ -20,24 +20,23 @@ function MultiSelect ({
   onChangeText
 }, ref) {
   function onHide (e) {
-    if (Platform.OS === 'web') {
-      if (e.target.closest('#popoverContent')) return
+    if (e.target.closest('#popoverContent')) return
 
-      if (!e.target.closest('#tagList')) {
-        e.preventDefault()
-        e.stopPropagation()
-        onChangeShow(false)
-        window.removeEventListener('click', onHide, true)
-      }
-    } else {
+    if (!e.target.closest('#tagList')) {
+      e.preventDefault()
+      e.stopPropagation()
       onChangeShow(false)
+      window.removeEventListener('click', onHide, true)
     }
   }
 
   function onShow () {
     onChangeShow(true)
-    Platform.OS === 'web' && window.addEventListener('click', onHide, true)
-    ref.current.focus()
+
+    if (Platform.OS === 'web') {
+      window.addEventListener('click', onHide, true)
+      ref.current.focus()
+    }
   }
 
   function onRemoveTag (tag) {
@@ -82,12 +81,13 @@ function MultiSelect ({
         width: inputValue.length * 10,
         marginLeft: value.length ? 5 : 8
       })
-        TextInput.multiselectInput(
-          ref=ref
-          value=inputValue
-          onKeyPress=_onKeyPress
-          onChangeText=v=> onChangeText(v)
-        )
+        if Platform.OS === 'web'
+          TextInput.multiselectInput(
+            ref=ref
+            value=inputValue
+            onKeyPress=_onKeyPress
+            onChangeText=v=> onChangeText(v)
+          )
   `
 }
 

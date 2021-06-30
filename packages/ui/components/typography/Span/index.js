@@ -47,35 +47,35 @@ Span.propTypes = {
 export default observer(themed(Span))
 
 styl`
-    // ----- CONFIG: $UI.Span
+  // ----- CONFIG: $UI.Span
 
-    $this = merge({
-      color: $UI.colors.mainText,
-      descriptionColor: $UI.colors.secondaryText
-    }, $UI.Span, true)
+  $this = merge({
+    color: $UI.colors.mainText,
+    descriptionColor: $UI.colors.secondaryText
+  }, $UI.Span, true)
 
-    // ----- COMPONENT
+  // ----- COMPONENT
 
-    _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6 DEPRECATED
+  _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6 DEPRECATED
 
-    .root
-      font()
-      fontFamily('normal')
-      color: $this.color
+  .root
+    font()
+    fontFamily('normal')
+    color: $this.color
 
-      for variant in _variants
-        &.{variant}
-          font(variant)
+    for variant in _variants
+      &.{variant}
+        font(variant)
 
-      &.bold
-        fontFamily('normal', $UI.fontWeights.normalBold)
+    &.bold
+      fontFamily('normal', $UI.fontWeights.normalBold)
 
-      &.italic
-        fontFamily('normal', $UI.fontWeights.normal, italic)
+    &.italic
+      fontFamily('normal', $UI.fontWeights.normal, italic)
 
-      &.bold.italic
-        fontFamily('normal', $UI.fontWeights.normalBold, italic)
+    &.bold.italic
+      fontFamily('normal', $UI.fontWeights.normalBold, italic)
 
-      &.description
-        color: $this.descriptionColor
-  `
+    &.description
+      color: $this.descriptionColor
+`

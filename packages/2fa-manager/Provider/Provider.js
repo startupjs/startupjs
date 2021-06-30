@@ -9,11 +9,11 @@ export default class Provider {
     return null
   }
 
-  send (model, session) {
+  async send (model, session) {
     return null
   }
 
-  check (model, session, token) {
+  async check (model, session, token) {
     return null
   }
 
