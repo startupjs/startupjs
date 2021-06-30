@@ -55,7 +55,7 @@ function ArrayInput ({
         Div(style=style)
           Div.info
             if label
-              Span.label(bold)= label
+              Span.label= label
             if description
               Span.description(description)= description
           Card(

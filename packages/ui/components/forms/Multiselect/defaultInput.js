@@ -31,10 +31,7 @@ export default function DefaultInput ({
         Div
           Div.info
             if label
-              Span.label(
-                styleName={focused}
-                bold
-              )= label
+              Span.label(styleName={focused})= label
             if description
               Span.description(description)= description
           = children

@@ -87,7 +87,7 @@ function Checkbox ({
       Row(vAlign='center')
         = renderInput()
         if label
-          Span.label(bold)= label
+          Span.label= label
       if description
         Span.description(description)= description
   `
