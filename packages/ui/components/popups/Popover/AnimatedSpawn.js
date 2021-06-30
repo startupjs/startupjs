@@ -106,7 +106,6 @@ function AbstractPopover ({
     getValidNode(refCaption.current).measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
       if (!refPopover.current) return
 
-      console.log(refPopover.current)
       getValidNode(refPopover.current).measure((px, py, pWidth, pHeight, ppx, ppy) => {
         captionInfo.current = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 

@@ -154,6 +154,7 @@ function AutoSuggest ({
   }
 
   function renderWrapper (children) {
+    console.log('123')
     return children
   }
 
@@ -202,6 +203,7 @@ function AutoSuggest ({
         testID=testID
         onChangeText=_onChangeText
         onFocus=()=> setIsShow(true)
+        onBlur=()=> setIsShow(false)
         onKeyPress=onKeyPress
       )
 
@@ -221,7 +223,7 @@ function AutoSuggest ({
         durationOpen=200
         durationClose=200
         animateType='opacity'
-        renderWrapper=!multiselect || (multiselect && !Platform.OS === 'web') ? null : renderWrapper
+        renderWrapper=renderWrapper
         onRequestClose=()=> setIsShow(false)
       )
         Div(nativeID='popoverContent')= content
