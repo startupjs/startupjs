@@ -41,7 +41,6 @@ function AuthForm ({
   const isNeedOrLine = prepereSocialButtons && localActiveForm &&
     [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)
 
-  console.log('---baseUrl', baseUrl)
   let prepereLocalActiveForm = null
   if (localActiveForm) {
     prepereLocalActiveForm = React.cloneElement(localActiveForm, {
