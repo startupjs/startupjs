@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* **auth strategies:** add default baseUrl from [@env](https://github.com/env) ([#718](https://github.com/startupjs/startupjs/issues/718)) ([52cc0b4](https://github.com/startupjs/startupjs/commit/52cc0b4fbdb3eaa684cc71084dcc2d0c94fcd3f7))
+* **auth strategies:** add default baseUrl from `@env` ([#718](https://github.com/startupjs/startupjs/issues/718)) ([52cc0b4](https://github.com/startupjs/startupjs/commit/52cc0b4fbdb3eaa684cc71084dcc2d0c94fcd3f7))
 * **ui/Alert:** fix broken styles for info alert ([a010d96](https://github.com/startupjs/startupjs/commit/a010d96b765cf26c28c4a5565d13a7b642b674c7))
 
 
