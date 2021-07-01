@@ -21,11 +21,10 @@ import { ObjectInput } from from '@startupjs/ui'
 ## Простой пример
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
       email: {
@@ -47,11 +46,10 @@ return (
 ObjectInput принимает массив в свойстве `order`, чтобы указать, в каком порядке должны отображаться поля.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     order={['password', 'email']}
     properties={{
@@ -82,11 +80,10 @@ ObjectInput поддерживает `dependsOn` и `dependsValue` свойст�
 **Внимание**: Когда поле `dependsOn` изменяется и зависимое поле больше не видно, его предыдущее значение сохраняется.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
       email: {
@@ -109,11 +106,10 @@ return (
 Свойство `errors` принимает объект с текстами ошибок для полей ввода, где ключ является ключом поля вода из объекта `properties`, а его значением является текст ошибки.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     errors={{
       email: 'Email input error',
