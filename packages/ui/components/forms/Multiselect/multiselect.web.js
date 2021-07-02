@@ -10,11 +10,12 @@ const Multiselect = ({
   value,
   placeholder,
   label,
+  description,
+  layout,
   focused,
   disabled,
   readonly,
   tagLimit,
-  error,
   InputComponent,
   TagComponent,
   renderListItem,
@@ -35,13 +36,14 @@ const Multiselect = ({
       Popover.Caption
         MultiselectInput(
           label=label
-          showOpts=focused
+          description=description
+          layout=layout
+          focused=focused
           value=value
           placeholder=placeholder
           tagLimit=tagLimit
           options=options
           disabled=disabled
-          error=error
           readonly=readonly
           InputComponent=InputComponent
           TagComponent=TagComponent
@@ -59,13 +61,14 @@ Multiselect.propTypes = {
   onRemove: PropTypes.func,
   placeholder: PropTypes.string,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
   tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  error: PropTypes.string,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   renderListItem: PropTypes.func
 }

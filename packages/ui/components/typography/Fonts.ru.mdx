@@ -115,9 +115,9 @@ return (
 ```stylus
 $UI.fontWeights = {
   normal: 400,
-  normalBold: 700,
+  normalBold: 600,
   heading: 400,
-  headingBold: 700
+  headingBold: 600
 }
 ```
 
@@ -137,13 +137,13 @@ $UI.fontWeights = {
   fontFamily('normal')
 
   &.bold
-    fontFamily('normal', 700)
+    fontFamily('normal', 600)
 
   &.italic
     fontFamily('normal', undefined, italic)
 
   &.bold.italic
-    fontFamily('normal', 700, italic)
+    fontFamily('normal', 600, italic)
 
 .textWithAdditionalFont
   fontFamily('myFont')
@@ -155,7 +155,7 @@ $UI.fontWeights = {
 
 1. Загрузите файлы шрифтов и поместите их в папку `public/fonts`. Затем запустите команду `yarn fonts`, которая настроит шрифты для дальнейшего их использования. Имя файлов шрифтов должно соответствовать правилам Google Fonts - `{Font name}-{Thickness}{Style}`, например `Roboto-Regular`, `BaiJumjuree-BoldItalic`. **ПРИМЕЧАНИЕ**: для обычного курсивного текста Google опускает слово `Regular` в названии шрифта.
 
-1. Добавьте ваш кастомный `Font name` (только название шрифта без толщины и стиля) в список `$UI.customFontFamilies`.
+1. Добавьте ваш кастомный `Font name` (только название шрифта без толщины и стиля) в [список](https://stylus-lang.com/docs/iteration.html) `$UI.customFontFamilies`.
 
 1. Затем вы можете переопределить любое семантическое имя шрифта или добавить дополнительное семантическое имя с вашим пользовательским шрифтом.
 
@@ -165,7 +165,7 @@ $UI.fontWeights = {
 
 * добавить шрифты `Lato-RegularItalic`, `Lato-Bold`, `Lato-BoldItalic`, так как компонент `Span` имеет модификаторы `bold` и `italic` для выделения текста жирным и курсивным соотвественно
 
-* добавить шрифт в `$UI.customFontFamilies` и задать переменную `$UI.fontFamilies.default.normal` (`default` используется для всех платформ) в файле `styles/index.styl`
+* добавить шрифт в [список](https://stylus-lang.com/docs/iteration.html) `$UI.customFontFamilies` и задать переменную `$UI.fontFamilies.default.normal` (`default` используется для всех платформ) в файле `styles/index.styl`
 
 ```stylus
 @require '../../node_modules/@startupjs/ui/styles/index.styl'

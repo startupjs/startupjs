@@ -24,11 +24,29 @@ function PasswordInput ({ ...props }) {
 }
 
 PasswordInput.defaultProps = {
-  ...omit(TextInput.defaultProps, ['iconPosition', 'numberOfLines', 'resize', 'readonly'])
+  ...omit(
+    TextInput.defaultProps,
+    [
+      'iconPosition',
+      'numberOfLines',
+      'resize',
+      'readonly'
+    ]
+  )
 }
 
 PasswordInput.propTypes = {
-  ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'readonly', 'onIconPress'])
+  ...omit(
+    TextInput.propTypes,
+    [
+      'icon',
+      'iconPosition',
+      'numberOfLines',
+      'resize',
+      'readonly',
+      'onIconPress'
+    ]
+  )
 }
 
 export default observer(themed(PasswordInput))

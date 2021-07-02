@@ -1,12 +1,13 @@
+const getBackend = require('@startupjs/backend')
 const http = require('http')
 const https = require('https')
 const conf = require('nconf')
-const getBackend = require('@startupjs/backend')
 const start = Date.now()
 let server = null
 let wsServer = null
 
 module.exports = async (options) => {
+  options = Object.assign({ secure: true }, options)
   // React apps routes
   const appRoutes = options.appRoutes
 

@@ -1,35 +1,30 @@
 ## @startupjs/sharedb-access
 
-### Installation
+### Install
 
-- Install npm: `npm install @startupjs/sharedb-access`
-- Install yarn: `yarn add @startupjs/sharedb-access`
+```
+yarn add @startupjs/sharedb-access
+```
 
 ### Usage
 
 ```js
 const shareDbAccess = require('sharedb-access')
-new shareDbAccess(backend[, options])
+new shareDbAccess(backend, options)
 ```
 
 ### Parameters
 
-* `backend` - your ShareDB backend instance
-* `options`(optional) - object with options:
-  * `options.dontUseOldDocs`: false - if true don't save unupdated docs for update action
-  * `options.opCreatorUserIdPath` - path to 'userId' for op's meta
+`options (Object)`:
+* `backend`: your ShareDB backend instance
+* `options (optional)`:
+  * `dontUseOldDocs`: if `true` then don't save unupdated docs for update action. **Default**: `false`.
+  * `opCreatorUserIdPath`: path to `userId` for op's meta
 
 
-Using `sharedb-access` you can control `create`, `read`, `update`, and `delete` 
-database operation for every collection. You can use two types of rules: 
-`allow` and `deny`. By default all the operations are denied. So, you should
-add some rules to allow them. If at least one `allow`-rule allows the write, and
-no `deny`-rules deny the write, then the write is allowed to proceed. 
+Using `sharedb-access` you can control `create`, `read`, `update`, and `delete` database operation for every collection. You can use two types of rules: `allow` and `deny`. By default all operations are denied. So, you should add some rules to allow them. If at least one `allow` rule allows the write, and no `deny` rules deny the write, then the write is allowed to proceed.
 
-You can call `allow` and `deny`-rules as many times as you like. The functions 
-should return `true` if they think the operation should be allowed for `allow` 
-rules and denied for `deny`-rules. Otherwise they should return `false`, or 
-nothing at all (`undefined`).
+You can call `allow` and `deny` rules as many times as you like. The functions should return `true` if they think the operation should be allowed for `allow` rules and denied for `deny` rules. Otherwise they should return `false`, or nothing at all (`undefined`).
 
 #### Create
 

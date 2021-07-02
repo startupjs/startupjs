@@ -26,12 +26,15 @@ export default function themed (name, Component) {
         // TODO: Fix returning an empty style array
         !(keysLength === 1 && Array.isArray(styleProps.style) && styleProps.style.length === 0)
       ) {
+        const newStyleProps = {}
         for (const key in styleProps) {
           if (props[key]) {
-            styleProps[key] = [styleProps[key], props[key]]
+            newStyleProps[key] = [styleProps[key], props[key]]
+          } else {
+            newStyleProps[key] = styleProps[key]
           }
         }
-        props = { ...props, ...styleProps }
+        props = { ...props, ...newStyleProps }
       }
     }
 

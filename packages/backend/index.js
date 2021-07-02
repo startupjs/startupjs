@@ -23,6 +23,8 @@ try {
 } catch (e) { }
 
 module.exports = async options => {
+  options = Object.assign({ secure: true }, options)
+
   // ------------------------------------------------------->     storeUse    <#
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
@@ -97,78 +99,91 @@ module.exports = async options => {
     return oldCreateModel.call(backend, { fetchOnly: true, ...options }, req)
   }
 
+  // sharedb-hooks
   shareDbHooks(backend)
 
-  if (
-    options.accessControl &&
-    global.STARTUP_JS_ORM &&
-    Object.keys(global.STARTUP_JS_ORM).length > 0
-  ) {
+  if (options.hooks != null) {
+    options.hooks(backend)
+  }
+
+  const ORM = global.STARTUP_JS_ORM || {}
+
+  // sharedb-access
+  if (options.secure || options.accessControl) {
     // eslint-disable-next-line
     new ShareDbAccess(backend, { dontUseOldDocs: true })
-    for (const path in global.STARTUP_JS_ORM) {
-      const ormEntity = global.STARTUP_JS_ORM[path].OrmEntity
+
+    for (const path in ORM) {
+      const ormEntity = ORM[path].OrmEntity
 
       const { access } = ormEntity
       const isFactory = !!ormEntity.factory
 
+      // TODO
+      // move rigisterOrmRulesFromFactory and registerOrmRules to this library
       if (isFactory) {
         rigisterOrmRulesFromFactory(backend, path, ormEntity)
       } else if (access) {
         registerOrmRules(backend, path, access)
       }
     }
-    console.log('Sharedb-access is working')
+
+    console.log('sharedb-access is working')
   }
 
-  if (
-    options.serverAggregate &&
-    global.STARTUP_JS_ORM &&
-    Object.keys(global.STARTUP_JS_ORM).length > 0
-  ) {
-    serverAggregate(backend, options.serverAggregate.customCheck)
-    for (const path in global.STARTUP_JS_ORM) {
-      const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
-      if (aggregations) {
-        for (let aggregationKey in aggregations) {
-          const collection = path.replace(/\.\*$/u, '')
-          backend.addAggregate(collection, aggregationKey, (queryParams, shareRequest) => {
+  // server aggregate
+  if (options.secure || options.serverAggregate) {
+    const { customCheck } = options.serverAggregate || {}
+    serverAggregate(backend, customCheck)
+
+    for (const path in ORM) {
+      const { aggregations } = ORM[path].OrmEntity
+      if (!aggregations) continue
+
+      for (let aggregationKey in aggregations) {
+        const collection = path.replace(/\.\*$/u, '')
+        backend.addAggregate(
+          collection,
+          aggregationKey,
+          (queryParams, shareRequest) => {
             const session = shareRequest.agent.connectSession
             const userId = session.userId
             const model = global.__clients[userId].model
             return aggregations[aggregationKey](model, queryParams, session)
-          })
-        }
+          }
+        )
       }
     }
-    console.log('serverAggregate is working')
+
+    console.log('server aggregate is working')
   }
 
+  // sharedb-schema
   if (
-    options.validateSchema &&
-    process.env.NODE_ENV !== 'production' &&
-    global.STARTUP_JS_ORM &&
-    Object.keys(global.STARTUP_JS_ORM).length > 0
+    (options.secure || options.validateSchema) &&
+    process.env.NODE_ENV !== 'production'
   ) {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
-    for (const path in global.STARTUP_JS_ORM) {
-      const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
+    for (const path in ORM) {
+      const { schema } = ORM[path].OrmEntity
 
-      const isFactory = !!global.STARTUP_JS_ORM[path].OrmEntity.factory
+      const isFactory = !!ORM[path].OrmEntity.factory
 
       if (isFactory) {
-        schemaPerCollection.schemas[path.replace('.*', '')] = global.STARTUP_JS_ORM[path].OrmEntity
-      } else if (properties) {
-        const schema = { type: 'object', properties }
+        schemaPerCollection.schemas[path.replace('.*', '')] = ORM[path].OrmEntity
+      } else if (schema) {
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
-    }
-    sharedbSchema(backend, schemaPerCollection)
-  }
 
-  if (options.hooks != null) {
-    options.hooks(backend)
+      // allow any 'service' collection structure
+      // since 'service' collection is used in our startupjs libraries
+      // and we don't have a tool to collect scheme from all packages right now
+      schemaPerCollection.schemas.service = { properties: {} }
+    }
+
+    sharedbSchema(backend, schemaPerCollection)
+    console.log('sharedb-schema is working')
   }
 
   backend.on('client', (client, reject) => {

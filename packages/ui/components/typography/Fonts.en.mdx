@@ -115,9 +115,9 @@ The `$UI.fontWeights` variable defines the default font weight for font families
 ```stylus
 $UI.fontWeights = {
   normal: 400,
-  normalBold: 700,
+  normalBold: 600,
   heading: 400,
-  headingBold: 700
+  headingBold: 600
 }
 ```
 
@@ -137,13 +137,13 @@ To set the font family for an element you need to use `fontFamily(name, weight, 
   fontFamily('normal')
 
   &.bold
-    fontFamily('normal', 700)
+    fontFamily('normal', 600)
 
   &.italic
     fontFamily('normal', undefined, italic)
 
   &.bold.italic
-    fontFamily('normal', 700, italic)
+    fontFamily('normal', 600, italic)
 
 .textWithAdditionalFont
   fontFamily('myFont')
@@ -157,7 +157,7 @@ The name of the font files must be in accordance with the Google Fonts rules
 
 1. Download the font files and place them to the `public/fonts` folder. Then run `yarn fonts` command that will configure the fonts for further use. The name of the font files must comply with the Google Fonts rules - `{Font name}-{Thickness}{Style}`, for example `Roboto-Regular`, `Roboto-Italic`, `BaiJumjuree-BoldItalic`. **NOTE**: for regular italic text google omits thickness word `Regular` in font name.
 
-1. Add your custom `Font name` (only font name without thickness and style) to the `$UI.customFontFamilies` list.
+1. Add your custom `Font name` (only font name without thickness and style) to the `$UI.customFontFamilies` [list](https://stylus-lang.com/docs/iteration.html).
 
 1. Then you can override any semantic font name or add an additional semantic name with your custom font.
 
@@ -167,7 +167,7 @@ As an example, if you want to change the font for body text of the application t
 
 * add `Lato-RegularItalic`, `Lato-Bold`, `Lato-BoldItalic` fonts since the `Span` component has `bold` and `italic` modifiers to make text bold and italic accordingly
 
-* add font to `$UI.customFontFamilies` and set the `$UI.fontFamilies.default.normal` variable (`default` is used for all platforms) in the `styles/index.styl` file
+* add font to `$UI.customFontFamilies` [list](https://stylus-lang.com/docs/iteration.html) and set the `$UI.fontFamilies.default.normal` variable (`default` is used for all platforms) in the `styles/index.styl` file
 
 ```stylus
 @require '../../node_modules/@startupjs/ui/styles/index.styl'

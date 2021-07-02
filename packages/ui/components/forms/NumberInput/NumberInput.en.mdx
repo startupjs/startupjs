@@ -24,13 +24,14 @@ return (
 )
 ```
 
-## Label
+## Label and description
 
 ```jsx example
 const [value, setValue] = useState()
 return (
   <NumberInput
-    label='Label'
+    label='Age'
+    description='How old are you?'
     value={value}
     onChangeNumber={setValue}
   />
@@ -166,10 +167,10 @@ return (
 
 ## Layout
 
-There are two layouts. The default behavior is `'rows'` if `label` property provided and `'pure'` if not. To change the layout pass the property `layout`.
+There are two layouts. The default behavior is `rows` if `label` or `description` property is provided and `pure` if not. To change the layout pass the property `layout`.
 
-- `'pure'` displays text input without `label`
-- `'rows'` displays text input with `label` and if `label` not set it using `placeholder` instead
+- `pure` displays text input without `label` and `description`
+- `rows` displays text input with `label` and `description`. If `label` is not specified then `placeholder` is used instead
 
 ```jsx example
 const [pureValue, setPureValue] = useState()

@@ -137,7 +137,7 @@ export default {
     }
 
     return pug`
-      Div.code
+      Div.code(styleName={ 'code-example': example })
         if example
           Collapse.code-collapse(open=open variant='pure')
             Collapse.Header.code-collapse-header(icon=false onPress=null)

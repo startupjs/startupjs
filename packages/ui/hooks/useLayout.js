@@ -1,5 +1,5 @@
-export default function useLayout (layout, label) {
+export default function useLayout ({ layout, label, description } = {}) {
   if (layout) return layout
-  if (label) return 'rows'
+  if (label || description) return 'rows'
   return 'pure'
 }

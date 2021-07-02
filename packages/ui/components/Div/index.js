@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
-import { colorToRGBA } from '../../helpers'
+import colorToRGBA from '../../helpers/colorToRGBA'
 import Span from '../typography/Span'
 import AbstractPopover from '../popups/Popover/AbstractPopover'
 import useTooltipActions from '../Tooltip/useTooltipActions'
