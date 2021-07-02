@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
@@ -8,6 +8,9 @@ import {
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
+import Span from '../typography/Span'
+import AbstractPopover from '../popups/Popover/AbstractPopover'
+import useTooltipActions from '../Tooltip/useTooltipActions'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
@@ -36,6 +39,8 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  renderTooltip,
+  tooltipProps,
   onPress,
   onLongPress,
   _preventEvent,
@@ -48,11 +53,14 @@ function Div ({
   const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+
   let extraStyle = {}
-  const extraProps = {}
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
+
+  const _ref = ref || useRef()
+  const [isShowPopover, setIsShowPopover] = useState(false)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -116,6 +124,38 @@ function Div ({
     }
   }
 
+  if (renderTooltip) {
+    const tooltipActions = useTooltipActions({ onChange: setIsShowPopover })
+
+    if (isWeb) {
+      const { onMouseOver, onMouseLeave } = props
+
+      props.onMouseOver = (...args) => {
+        tooltipActions.onOpen()
+        onMouseOver && onMouseOver(...args)
+      }
+      props.onMouseLeave = (...args) => {
+        tooltipActions.onClose()
+        onMouseLeave && onMouseLeave(...args)
+      }
+    } else {
+      const { onPress, onLongPress } = wrapperProps
+
+      wrapperProps.onPress = (...args) => {
+        if (onLongPress && !onPress) onLongPress(...args)
+        if (onPress) onPress(...args)
+      }
+
+      wrapperProps.onLongPress = () => {
+        tooltipActions.onOpen()
+      }
+
+      wrapperProps.onPressOut = () => {
+        tooltipActions.onClose()
+      }
+    }
+  }
+
   let pushedModifier
   let levelModifier
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
@@ -125,11 +165,9 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable) {
+    if (isClickable || (renderTooltip && !isWeb)) {
       return pug`
-        TouchableWithoutFeedback(
-          ...wrapperProps
-        )
+        TouchableWithoutFeedback(...wrapperProps)
           = children
       `
     } else {
@@ -139,9 +177,9 @@ function Div ({
 
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
-  return maybeWrapToClickable(pug`
+  const div = maybeWrapToClickable(pug`
     View.root(
-      ref=ref
+      ref=_ref
       style=[style, extraStyle]
       styleName=[
         {
@@ -153,11 +191,33 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
-      ...extraProps
       ...props
-    )
-      = children
+    )= children
   `)
+
+  return pug`
+    = div
+
+    if renderTooltip
+      AbstractPopover(
+        visible=isShowPopover
+        arrow
+        refCaption=_ref
+        animateType='scale'
+        arrowStyleName='tooltip-arrow'
+        styleName='tooltip'
+        style=tooltipProps.style
+        position=tooltipProps.position
+        attachment=tooltipProps.attachment
+        durationOpen=tooltipProps.durationOpen
+        durationClose=tooltipProps.durationClose
+        onRequestClose=()=> setIsShowPopover(false)
+      )
+        if typeof renderTooltip === 'function'
+          = renderTooltip()
+        else if (typeof renderTooltip === 'string') || (typeof renderTooltip === 'number')
+          Span.tooltip-text= renderTooltip
+  `
 }
 
 const ObservedDiv = observer(themed(Div), { forwardRef: true })
@@ -169,6 +229,12 @@ ObservedDiv.defaultProps = {
   disabled: false,
   bleed: false,
   pushed: false,
+  tooltipProps: {
+    position: 'top',
+    attachment: 'center',
+    durationOpen: 200,
+    durationClose: 100
+  },
   _preventEvent: true
 }
 
