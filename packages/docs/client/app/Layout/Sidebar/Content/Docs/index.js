@@ -15,7 +15,7 @@ export default observer(function DocsRoot () {
   // NOTE
   // since layout renders before page loads
   // and $render is created when page loads
-  // we need to wait fot the 'path' to appear
+  // we need to wait for the 'path' to appear
   // in the params
   if (!path) return null
 
