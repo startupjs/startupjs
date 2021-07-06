@@ -5,7 +5,7 @@ import {
   Dimensions,
   StyleSheet
 } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { observer, useComponentId, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from '../Arrow'
 import Portal from '../../../Portal'
@@ -38,6 +38,7 @@ function AbstractPopover ({
 }, ref) {
   style = StyleSheet.flatten([style])
 
+  const componentId = useComponentId()
   const refPopover = useRef()
   const refGeometry = useRef({})
   const captionInfo = useRef({})
@@ -93,12 +94,16 @@ function AbstractPopover ({
   // -
 
   function runShow () {
-    if (!refCaption.current) return
+    console.log('runShow', componentId)
+
+    if (!refCaption.current) return _closeStep()
 
     refCaption.current.measure((captionX, captionY, captionWidth, captionHeight, captionPageX, captionPageY) => {
-      if (!refPopover.current) return
+      if (!refPopover.current) return _closeStep()
 
       refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight, popoverPageX, popoverPageY) => {
+        if ($step.get() !== STEPS.MEASURE) return _closeStep()
+
         captionInfo.current = {
           x: captionPageX,
           y: captionPageY,
@@ -138,6 +143,7 @@ function AbstractPopover ({
           animateStates,
           arrow
         }, () => {
+          if ($step.get() !== STEPS.RENDER) _closeStep()
           $step.set(STEPS.OPEN)
           onRequestOpen && onRequestOpen()
         })
@@ -146,12 +152,14 @@ function AbstractPopover ({
   }
 
   function runHide () {
+    console.log('runHide', componentId)
+
     if (!refPopover.current) {
       _closeStep()
     } else {
       refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight) => {
         const contentInfo = { width: popoverWidth, height: popoverHeight }
-        $step.set(STEPS.RENDER)
+        $step.set(STEPS.CLOSING)
 
         animate.hide({
           durationClose,

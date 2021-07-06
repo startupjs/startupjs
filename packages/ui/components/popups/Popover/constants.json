@@ -5,6 +5,7 @@
     "CLOSE": "close",
     "MEASURE": "measure",
     "RENDER": "render",
+    "CLOSING": "closing",
     "OPEN": "open"
   },
   "PLACEMENTS_ORDER": [
