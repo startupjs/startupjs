@@ -1,3 +1,12 @@
+## [0.37.2](https://github.com/startupjs/startupjs/compare/v0.37.1...v0.37.2) (2021-07-06)
+
+
+### Bug Fixes
+
+* **ui/Modal:** pass missing `style` to modal content root element ([#720](https://github.com/startupjs/startupjs/issues/720)) ([b9abd57](https://github.com/startupjs/startupjs/commit/b9abd5785e26b55d460ccc86a85900ccd0ac5b5d))
+
+
+
 ## [0.37.1](https://github.com/startupjs/startupjs/compare/v0.37.0...v0.37.1) (2021-07-01)
 
 
