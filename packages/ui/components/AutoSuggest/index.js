@@ -1,40 +1,20 @@
 import React, { useState, useRef, useMemo } from 'react'
-import {
-  View,
-  Platform,
-  FlatList,
-  TouchableOpacity
-} from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
-import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
-import Div from '../Div'
-import Drawer from '../popups/Drawer'
-import AnimatedSpawn from '../popups/Popover/AnimatedSpawn'
-import Loader from '../Loader'
-import MultiSelect from './MultiSelect'
+import Caption from './Caption'
+import Content from './Content'
 import useKeyboard from './useKeyboard'
 import themed from '../../theming/themed'
 import './index.styl'
 
-const SUPPORT_PLACEMENTS = [
-  'bottom-start',
-  'bottom-center',
-  'bottom-end',
-  'top-start',
-  'top-center',
-  'top-end'
-]
-
-// TODO: KeyboardAvoidingView
 function AutoSuggest ({
   style,
   contentStyle,
-  inputStyle,
   options,
-  value, // string or array
+  value,
   multiselect,
   placeholder,
   renderItem,
@@ -51,18 +31,14 @@ function AutoSuggest ({
   onSelect,
   onFilter,
   onDismiss,
-  onRemove,
   onChangeText,
   onScrollEnd
 }) {
   const _data = useRef([])
-  const refInput = useRef()
   const refCaption = useRef()
 
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const [wrapperHeight, setWrapperHeight] = useState(null)
-  const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
     _data,
     value,
@@ -84,9 +60,7 @@ function AutoSuggest ({
     multiselect && setInputValue('')
     setSelectIndexValue(-1)
 
-    multiselect
-      ? refInput.current.blur()
-      : refCaption.current.blur()
+    refCaption.current.blur()
     onDismiss && onDismiss()
   }
 
@@ -106,7 +80,7 @@ function AutoSuggest ({
       setSelectIndexValue(-1)
       onChange && onChange([...value]) // DEPRECATED
       onSelect && onSelect([...value])
-      Platform.OS === 'web' && refInput.current.focus()
+      Platform.OS === 'web' && refCaption.current.focus()
     } else {
       onChange && onChange(item) // DEPRECATED
       onSelect && onSelect(item)
@@ -140,93 +114,39 @@ function AutoSuggest ({
     `
   }
 
-  function onScroll ({ nativeEvent }) {
-    if (nativeEvent.contentOffset.y + wrapperHeight === scrollHeightContent) {
-      onScrollEnd && onScrollEnd()
-    }
-  }
-
-  function onLayoutWrapper ({ nativeEvent }) {
-    setWrapperHeight(nativeEvent.layout.height)
-  }
-
-  function onChangeSizeScroll (width, height) {
-    setScrollHeightContent(height)
-  }
-
-  function renderWrapper (children) {
-    return children
-  }
-
-  const content = pug`
-    if isLoading
-      View.loader
-        Loader(size='s')
-    else
-      FlatList(
-        style=style
-        data=_data.current
-        extraData=_data.current
-        renderItem=_renderItem
-        keyExtractor=item=> item.value
-        scrollEventThrottle=500
-        onScroll=onScroll
-        onLayout=onLayoutWrapper
-        onContentSizeChange=onChangeSizeScroll
-      )
-  `
-
   return pug`
-    if multiselect
-      Div.multiselect(ref=refCaption)
-        MultiSelect(
-          ref=refInput
-          value=value
-          isShow=isShow
-          placeholder=placeholder
-          inputValue=inputValue
-          renderTag=renderTag
-          onKeyPress=onKeyPress
-          onChangeShow=v=> setIsShow(v)
-          onChangeText=_onChangeText
-          onChange=onChange
-        )
-    else
-      TextInput(
-        ref=refCaption
-        inputStyle=inputStyle
-        value=(!isShow && value.label) || inputValue
-        placeholder=placeholder
-        label=label
-        description=description
-        disabled=disabled
-        size=size
-        testID=testID
-        onChangeText=_onChangeText
-        onFocus=()=> setIsShow(true)
-        onKeyPress=onKeyPress
-      )
-
-    if multiselect && Platform.OS !== 'web'
-      Drawer(
-        visible=(isShow || isLoading)
-        position='bottom'
-        style={ height: 200 }
-        onDismiss=()=> setIsShow(false)
-      )= content
-    else
-      AnimatedSpawn.content(
-        visible=(isShow || isLoading)
-        refCaption=refCaption
-        hasWidthCaption=(!style.width && !style.maxWidth)
-        placements=SUPPORT_PLACEMENTS
-        durationOpen=200
-        durationClose=200
-        animateType='opacity'
-        renderWrapper=renderWrapper
-        onRequestClose=()=> setIsShow(false)
-      )
-        Div(nativeID='popoverContent')= content
+    Caption(
+      ref=refCaption
+      multiselect=multiselect
+      style=style
+      value=value
+      isShow=isShow
+      inputValue=inputValue
+      placeholder=placeholder
+      label=label
+      description=description
+      disabled=disabled
+      size=size
+      testID=testID
+      renderTag=renderTag
+      onKeyPress=onKeyPress
+      onSelect=_onSelect
+      onChange=onChange
+      onChangeText=_onChangeText
+      onChangeShow=v=> setIsShow(v)
+    )
+    Content(
+      refCaption=refCaption
+      style=style
+      multiselect=multiselect
+      data=_data.current
+      value=value
+      isShow=isShow
+      isLoading=isLoading
+      renderItem=_renderItem
+      onChange=onChange
+      onChangeShow=v=> setIsShow(v)
+    )
   `
 }
 

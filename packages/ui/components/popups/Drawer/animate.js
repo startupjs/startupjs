@@ -8,7 +8,8 @@ export default {
     hasOverlay,
     isHorizontal,
     isInvertPosition,
-    isInit
+    isInit,
+    durationOpen
   }, callback) {
     if (isInit) {
       animateStates.position.setValue(
@@ -21,7 +22,7 @@ export default {
     const animations = [
       Animated.timing(animateStates.position, {
         toValue: 0,
-        duration: 300,
+        duration: durationOpen,
         useNativeDriver: false
       })
     ]
@@ -30,7 +31,7 @@ export default {
       animations.push(
         Animated.timing(animateStates.opacity, {
           toValue: 1,
-          duration: 300,
+          duration: durationOpen,
           useNativeDriver: false
         })
       )
@@ -45,7 +46,8 @@ export default {
     animateStates,
     hasOverlay,
     isHorizontal,
-    isInvertPosition
+    isInvertPosition,
+    durationHide
   }, callback) {
     const animations = [
       Animated.timing(animateStates.position, {
@@ -53,7 +55,7 @@ export default {
           isHorizontal
             ? isInvertPosition ? -width : width
             : isInvertPosition ? -height : height,
-        duration: 200,
+        duration: durationHide,
         useNativeDriver: false
       })
     ]
@@ -62,7 +64,7 @@ export default {
       animations.push(
         Animated.timing(animateStates.opacity, {
           toValue: 0,
-          duration: 200,
+          duration: durationHide,
           useNativeDriver: false
         })
       )

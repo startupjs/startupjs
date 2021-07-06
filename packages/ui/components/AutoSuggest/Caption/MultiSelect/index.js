@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Platform, TextInput } from 'react-native'
 import { observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import Row from '../Row'
-import Div from '../Div'
-import Span from '../typography/Span'
-import Icon from '../Icon'
+import Row from '../../../Row'
+import Div from '../../../Div'
+import Span from '../../../typography/Span'
+import Icon from '../../../Icon'
 import './index.styl'
 
 function MultiSelect ({
@@ -19,6 +19,13 @@ function MultiSelect ({
   onChangeShow,
   onChangeText
 }, ref) {
+  const refInput = useRef()
+
+  useEffect(() => {
+    ref.current.blur = () => refInput.current.blur()
+    ref.current.focus = () => refInput.current.focus()
+  }, [])
+
   function onHide (e) {
     if (e.target.closest('#popoverContent')) return
 
@@ -69,25 +76,26 @@ function MultiSelect ({
   }
 
   return pug`
-    Row.tagList(
-      nativeID='tagList'
-      onPress=onShow
-    )
-      if !inputValue && !value.length
-        Span.placeholder= placeholder
-      each item, index in value
-        = _renderTag(item, index)
-      Div.multiselectInputCase(style={
-        width: inputValue.length * 10,
-        marginLeft: value.length ? 5 : 8
-      })
-        if Platform.OS === 'web'
-          TextInput.multiselectInput(
-            ref=ref
-            value=inputValue
-            onKeyPress=_onKeyPress
-            onChangeText=v=> onChangeText(v)
-          )
+    Div.multiselect(ref=ref)
+      Row.tagList(
+        nativeID='tagList'
+        onPress=onShow
+      )
+        if !inputValue && !value.length
+          Span.placeholder= placeholder
+        each item, index in value
+          = _renderTag(item, index)
+        Div.inputCase(style={
+          width: inputValue.length * 10,
+          marginLeft: value.length ? 5 : 8
+        })
+          if Platform.OS === 'web'
+            TextInput.input(
+              ref=refInput
+              value=inputValue
+              onKeyPress=_onKeyPress
+              onChangeText=v=> onChangeText(v)
+            )
   `
 }
 
