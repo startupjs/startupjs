@@ -12,12 +12,16 @@ export default observer(function PDoc ({
   const [docPath] = useLocal('$render.params.path')
   const segments = docPath.split('/')
   const [lang] = useLang()
-  const Component = segments.reduce((docs, segment) => {
+  const Component = segments.reduce((docs, segment, index) => {
     const doc = docs[segment]
     if (!doc) return
     const Component = getComponent(doc, lang)
+    // when page with 'collapse' type has a component to render
+    // to display it we have to figure out if it is the last segment or not
+    if (doc.type === 'collapse' && segments.length - 1 !== index) {
+      return doc.items
+    }
     if (Component) return Component
-    if (doc.type === 'collapse') return doc.items
   }, docs)
 
   return pug`
