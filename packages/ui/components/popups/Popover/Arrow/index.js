@@ -7,6 +7,10 @@ export default function Arrow ({
   geometry,
   validPosition
 }) {
+  if (geometry) {
+    [validPosition] = geometry.validPlacement.split('-')
+  }
+
   const _arrowStyle = StyleSheet.flatten([
     style,
     {

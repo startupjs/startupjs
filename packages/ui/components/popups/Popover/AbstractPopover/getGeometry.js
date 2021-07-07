@@ -15,16 +15,11 @@ export default function getGeometry ({
   dimensions
 }) {
   let leftPositions = getLeftPositions({ contentInfo, captionInfo, arrow, dimensions })
-  leftPositions = prepareLeftPositions({ contentInfo, leftPositions })
-
   let topPositions = getTopPositions({ contentInfo, captionInfo, arrow, dimensions })
-  topPositions = prepareTopPositions({ contentInfo, topPositions })
-
   let arrowLeftPositions = getLeftPositionsArrow({ contentInfo, captionInfo, dimensions })
   let arrowTopPositions = getTopPositionsArrow({ contentInfo, captionInfo, dimensions })
 
   placements = preparePlacements({ initPlacement: placement, placements })
-
   const validPlacement = getValidPlacement({
     contentInfo,
     placement,
@@ -82,7 +77,7 @@ function getLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
     leftPositions['top-end'] = positionMinorRight
   }
 
-  const positionRootLeft = captionInfo.x - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootLeft = captionInfo.x - contentInfo.width - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   leftPositions['left-start'] = positionRootLeft
   leftPositions['left-center'] = positionRootLeft
   leftPositions['left-end'] = positionRootLeft
@@ -106,7 +101,7 @@ function getTopPositions ({ captionInfo, contentInfo, arrow, dimensions }) {
   topPositions['bottom-center'] = positionRootBottom
   topPositions['bottom-end'] = positionRootBottom
 
-  const positionRootTop = captionInfo.y - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootTop = captionInfo.y - contentInfo.height - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   topPositions['top-start'] = positionRootTop
   topPositions['top-center'] = positionRootTop
   topPositions['top-end'] = positionRootTop
@@ -137,7 +132,7 @@ function getTopPositions ({ captionInfo, contentInfo, arrow, dimensions }) {
     topPositions['left-end'] = contentInfo.height
     topPositions['right-end'] = contentInfo.height
   } else {
-    const positionMinorEnd = captionInfo.y + captionInfo.height
+    const positionMinorEnd = captionInfo.y - captionInfo.height / 2
     topPositions['left-end'] = positionMinorEnd
     topPositions['right-end'] = positionMinorEnd
   }
@@ -288,28 +283,6 @@ function getTopPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
   return arrowTopPositions
 }
 
-function prepareTopPositions ({ topPositions, contentInfo }) {
-  const _topPositions = { ...topPositions }
-
-  _topPositions['top-start'] -= contentInfo.height
-  _topPositions['top-center'] -= contentInfo.height
-  _topPositions['top-end'] -= contentInfo.height
-  _topPositions['right-end'] -= contentInfo.height
-  _topPositions['left-end'] -= contentInfo.height
-
-  return _topPositions
-}
-
-function prepareLeftPositions ({ leftPositions, contentInfo }) {
-  const _leftPositions = { ...leftPositions }
-
-  _leftPositions['left-start'] -= contentInfo.width
-  _leftPositions['left-center'] -= contentInfo.width
-  _leftPositions['left-end'] -= contentInfo.width
-
-  return _leftPositions
-}
-
 function preparePlacements ({ initPlacement, placements }) {
   if (placements.length !== PLACEMENTS_ORDER.length) {
     return PLACEMENTS_ORDER.filter(item => {
@@ -367,9 +340,9 @@ function getValidPlacement (options) {
   if (_leftPosition < 0 ||
       _leftPosition + contentInfo.width > Dimensions.get('window').width) {
     return getValidPlacement({
+      ...options,
       counter: counter + 1,
-      placement: placements[nextIndex],
-      ...options
+      placement: placements[nextIndex]
     })
   }
 
@@ -377,9 +350,9 @@ function getValidPlacement (options) {
   if (_topPosition < 0 ||
     _topPosition + contentInfo.height > Dimensions.get('window').height) {
     return getValidPlacement({
+      ...options,
       counter: counter + 1,
-      placement: placements[nextIndex],
-      ...options
+      placement: placements[nextIndex]
     })
   }
 

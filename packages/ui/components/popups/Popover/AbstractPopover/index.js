@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import {
-  View,
-  Animated,
-  Dimensions,
-  StyleSheet
-} from 'react-native'
+import { Animated, Dimensions, StyleSheet } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from '../Arrow'
@@ -181,38 +176,21 @@ function AbstractPopover ({
       : STYLES.stub
   ])
 
-  // We make it possible to correctly expand the geometry of the component when changing its content, in all sides
-  const [validPosition] = geometry ? geometry.validPlacement.split('-') : ''
-  if (geometry && geometry.validPosition === 'top') animateStyle.bottom = 0
-  if (geometry && geometry.validPosition === 'left') animateStyle.right = 0
-  if (geometry && geometry.validPlacement === 'left-end') animateStyle.bottom = 0
-  if (geometry && geometry.validPlacement === 'right-end') animateStyle.bottom = 0
-
-  if (validPosition !== 'left') {
-    positionStyle.width = '100%'
-    positionStyle.maxWidth = Dimensions.get('window').width - (positionStyle.left || 0)
-  } else {
-    positionStyle.width = positionStyle.left
-    positionStyle.left = 0
-  }
-
   if (matchCaptionWidth && geometry) {
     animateStyle.width = geometry.captionInfo.width
   }
 
   const popover = pug`
-    View(style=positionStyle)
-      Animated.View(
-        onLayout=onLayout
-        style=[style, animateStyle]
-      )
-        if arrow
-          Arrow(
-            style=arrowStyle
-            geometry=geometry
-            validPosition=validPosition
-          )
-        = children
+    Animated.View(
+      onLayout=onLayout
+      style=[style, positionStyle, animateStyle]
+    )
+      if arrow
+        Arrow(
+          style=arrowStyle
+          geometry=geometry
+        )
+      = children
   `
 
   return pug`
