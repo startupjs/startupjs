@@ -9,7 +9,7 @@ export default observer(function Years ({
   timezone,
   onJump
 }) {
-  const prepareYears = useMemo(() => {
+  const matrixdYears = useMemo(() => {
     const data = []
     const currentYear = moment.tz(uiDate, timezone).startOf('Y').add(-7, 'y')
 
@@ -31,9 +31,9 @@ export default observer(function Years ({
     Row.row
       Span(variant='description') Jump to a previous or future year
 
-    for line, lineIndex in prepareYears
+    for line, lineIndex in matrixdYears
       Row.row(key=String(lineIndex))
-        for year, yearIndex in prepareYears[lineIndex]
+        for year, yearIndex in matrixdYears[lineIndex]
           Div.cell(
             key=yearIndex + '-' + lineIndex
             styleName={ cellActive: currentYear === +year }

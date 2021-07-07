@@ -11,6 +11,7 @@ import {
 import moment from 'moment'
 import STYLES from './index.styl'
 
+// TODO: "refHourCarousel.current.toIndex" before onChangeDate with minDate, maxDate
 export default observer(function TimeSelect ({
   date,
   layoutWidth,
@@ -26,50 +27,63 @@ export default observer(function TimeSelect ({
   const refHourCarousel = useRef()
   const refMinuteCarousel = useRef()
 
-  const [uiDate, $uiDate] = useValue(date)
-  const currentDate = moment(uiDate).locale(exactLocale)
+  const _is24Hour = useMemo(() => {
+    if (is24Hour != null) return is24Hour
+    const lt = moment().locale(exactLocale)._locale._longDateFormat.LT
+    return !(new RegExp(/a/i).test(lt))
+  }, [is24Hour, exactLocale])
+
+  const [uiDate] = useValue(date)
+  const currentDate = moment.tz(uiDate, timezone).locale(exactLocale)
   const currentHour = currentDate.hour()
   const currentMinute = currentDate.minute()
-  const hourMode = currentDate.locale('en-US').format('A')
+  const hourMode = currentHour > 11 ? 'PM' : 'AM'
 
-  const prepareHours = useMemo(() => {
+  const preparedHours = useMemo(() => {
     const res = []
 
-    if (is24Hour) {
+    if (_is24Hour) {
       for (let index = 0; index < 24; index += hourInterval) {
         res.push({ label: index, value: index })
       }
     } else {
-      for (let index = 0; index < 11; index += hourInterval) {
-        res.push({
-          label: index + 1,
-          value: +moment(`${index + 1} ${hourMode}`, ['hh A']).format('HH').slice(0, 2)
-        })
-      }
-
       res.push({
         label: 12,
-        value: res[res.length - 1].value - 11
+        value: +moment(`12 ${hourMode}`, ['hh A']).format('HH').slice(0, 2)
       })
-    }
 
-    return res.filter(item => {
-      const timeshtamp = +moment(uiDate).set('hour', item.value)
-        .set('minutes', 59).set('seconds', 0)
-      return timeshtamp >= minDate && timeshtamp <= maxDate
-    })
-  }, [uiDate, hourMode, hourInterval])
-
-  const prepareMinutes = useMemo(() => {
-    const res = []
-    for (let i = 0; i < 60; i += minuteInterval) {
-      const timeshtamp = +moment(uiDate).set('minutes', i).set('seconds', 0)
-      if (timeshtamp >= minDate && timeshtamp <= maxDate) {
-        res.push(i)
+      for (let index = 1; index <= 11; index += hourInterval) {
+        res.push({
+          label: index,
+          value: +moment(`${index} ${hourMode}`, ['hh A']).format('HH').slice(0, 2)
+        })
       }
     }
+
+    const minHour = moment(minDate).startOf('h')
+
+    return res.map(item => {
+      const _date = moment.tz(date, timezone).hours(item.value).startOf('h')
+
+      item.disabled = (minDate && moment.tz(minHour, timezone).isAfter(_date)) ||
+        (maxDate && moment.tz(maxDate, timezone).isBefore(_date))
+      return item
+    })
+  }, [uiDate, date, hourMode, hourInterval, timezone])
+
+  const preparedMinutes = useMemo(() => {
+    const res = []
+    for (let index = 0; index < 60; index += minuteInterval) {
+      const item = { value: index }
+      const _date = moment.tz(date, timezone).minutes(index).startOf('m')
+
+      item.disabled = (minDate && moment.tz(minDate, timezone).isAfter(_date)) ||
+        (maxDate && moment.tz(maxDate, timezone).isBefore(_date))
+
+      res.push(item)
+    }
     return res
-  }, [uiDate, minuteInterval])
+  }, [uiDate, date, minuteInterval, timezone])
 
   function _onChangeDate ({ value, type }) {
     const timestamp = +moment.tz(uiDate, timezone).set(type, value)
@@ -81,16 +95,16 @@ export default observer(function TimeSelect ({
 
     if (mode === 'PM') {
       const timeshtamp = +moment(uiDate).hours(currentHour + 12)
-      $uiDate.set(timeshtamp)
+      onChangeDate(timeshtamp)
     }
 
     if (mode === 'AM') {
       const timeshtamp = +moment(uiDate).hours(currentHour - 12)
-      $uiDate.set(timeshtamp)
+      onChangeDate(timeshtamp)
     }
   }
 
-  const startHour = is24Hour
+  const startHour = _is24Hour
     ? currentHour
     : (+currentDate.locale('en-US').format('hh A').slice(0, 2)) - 1
 
@@ -106,11 +120,12 @@ export default observer(function TimeSelect ({
           variant=layoutWidth > STYLES.media.mobile ? 'vertical' : 'horizontal'
           hasArrows=false
         )
-          each item in prepareHours
-            - const isActive = moment(date).hour() === item.value
+          each item in preparedHours
+            - const isActive = moment.tz(date, timezone).hour() === item.value
             Div.cell(
               styleName={ cellActive: isActive }
               hoverStyleName='cellHover'
+              disabled=item.disabled
               onPress=()=> _onChangeDate({ value: item.value, type: 'hour' })
             )
               Span(styleName={ labelActive: isActive })
@@ -128,19 +143,20 @@ export default observer(function TimeSelect ({
           variant=layoutWidth > STYLES.media.mobile ? 'vertical' : 'horizontal'
           hasArrows=false
         )
-          each value in prepareMinutes
-            - const isActive = currentMinute === value
+          each item in preparedMinutes
+            - const isActive = currentMinute === item.value
             Div.cell(
               styleName={ cellActive: isActive }
               hoverStyleName='cellHover'
-              onPress=()=> _onChangeDate({ value, type: 'minute' })
+              disabled=item.disabled
+              onPress=()=> _onChangeDate({ value: item.value, type: 'minute' })
             )
               Span(styleName={ labelActive: isActive })
-                = ('0' + value).slice(-2)
+                = ('0' + item.value).slice(-2)
         Div.button(onPress=()=> refMinuteCarousel.current.toNext())
           Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronDown : faChevronRight)
 
-      if !is24Hour
+      if !_is24Hour
         Div.case
           Div.cell(
             styleName={ cellActive: hourMode === 'AM' }

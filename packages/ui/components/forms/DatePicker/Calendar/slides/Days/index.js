@@ -24,7 +24,7 @@ export default observer(function Days ({
     return data.map(day => day.toUpperCase())
   }, [uiDate, timezone])
 
-  const prepareMonthDays = useMemo(() => {
+  const matrixdMonthDays = useMemo(() => {
     const data = []
 
     const nowDate = moment.tz(timezone)
@@ -77,9 +77,9 @@ export default observer(function Days ({
         Div.cell(key=shortDayName)
           Span.shortName= shortDayName
 
-    for week, weekIndex in prepareMonthDays
+    for week, weekIndex in matrixdMonthDays
       Row.row(key='week-' + weekIndex)
-        for day, dayIndex in prepareMonthDays[weekIndex]
+        for day, dayIndex in matrixdMonthDays[weekIndex]
           Div.cell(
             key=weekIndex + '-' + dayIndex
             styleName={

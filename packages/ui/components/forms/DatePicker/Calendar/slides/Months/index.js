@@ -12,7 +12,7 @@ export default observer(function Months ({
   timezone,
   onJump
 }) {
-  const prepareMonths = useMemo(() => {
+  const matrixdMonths = useMemo(() => {
     let months = moment
       .tz(uiDate, timezone)
       .locale(exactLocale)
@@ -36,9 +36,9 @@ export default observer(function Months ({
     Row.row
       Span(variant='description') Jump to a previous or future month
 
-    for quarter, quarterIndex in prepareMonths
+    for quarter, quarterIndex in matrixdMonths
       Row.row(key=String(quarterIndex))
-        for monthName, monthIndex in prepareMonths[quarterIndex]
+        for monthName, monthIndex in matrixdMonths[quarterIndex]
           Div.cell(
             key=monthIndex + '-' + quarterIndex
             styleName={ cellActive: currentMonth === monthName }

@@ -15,6 +15,7 @@ import TimeSelect from './TimeSelect'
 import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
+// TODO: disable years and months
 function DatePicker ({
   style,
   formatInput,
@@ -26,7 +27,7 @@ function DatePicker ({
   renderCaption, // replace InputComponent
   locale,
   range,
-  timezone = moment.tz.guess(),
+  timezone,
   disabledDays = [],
   date,
   disabled,
@@ -58,22 +59,17 @@ function DatePicker ({
   }, [])
 
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
-  const _is24Hour = useMemo(() => {
-    return (is24Hour !== undefined)
-      ? new RegExp(/a/i).test(moment().locale(exactLocale)._locale._longDateFormat.LT)
-      : is24Hour
-  }, [exactLocale, is24Hour])
 
   const _formatInput = useMemo(() => {
     if (formatInput) return formatInput
     if (mode === 'datetime') {
-      return moment().locale(exactLocale)._locale._longDateFormat.L + ' ' +
-      moment().locale(exactLocale)._locale._longDateFormat.LT
+      return moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.L + ' ' +
+      moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.LT
     }
 
-    if (mode === 'date') return moment().locale(exactLocale)._locale._longDateFormat.L
-    if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
-  }, [formatInput])
+    if (mode === 'date') return moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.L
+    if (mode === 'time') return moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.LT
+  }, [formatInput, timezone])
 
   function getFormatDate () {
     return moment
@@ -87,6 +83,14 @@ function DatePicker ({
   }, [date])
 
   const _onChangeDate = useCallback(value => {
+    if (minDate != null && value < minDate) {
+      value = minDate
+    }
+
+    if (maxDate != null && value > maxDate) {
+      value = maxDate
+    }
+
     onChangeDate && onChangeDate(value)
   }, [onChangeDate])
 
@@ -95,19 +99,11 @@ function DatePicker ({
     $visible.set(true)
   }
 
-  function onDismiss () {
-    if (!visible) return
-
-    const momentInstance = moment(textInput, _formatInput)
-
-    if (momentInstance.isValid()) {
-      onChangeDate(+momentInstance)
-    }
-
+  const onDismiss = useCallback(() => {
     $visible.set(false)
     setTextInput('')
     refInput.current.blur()
-  }
+  }, [textInput])
 
   function onChangeText (text) {
     setTextInput(text)
@@ -156,7 +152,7 @@ function DatePicker ({
           layoutWidth=layoutWidth
           timezone=timezone
           exactLocale=exactLocale
-          is24Hour=_is24Hour
+          is24Hour=is24Hour
           hourInterval=hourInterval
           minuteInterval=minuteInterval
           onChangeDate=_onChangeDate
@@ -186,9 +182,11 @@ function DatePicker ({
 DatePicker.defaultProps = {
   mode: 'datetime',
   size: 'm',
-  maxDate: moment().add(100, 'year').valueOf(),
+  minDate: +moment([2021, 6, 5, 15, 40]),
+  maxDate: +moment([2021, 6, 6, 15, 40]),
   hourInterval: 1,
-  minuteInterval: 1
+  minuteInterval: 1,
+  timezone: moment.tz.guess()
 }
 
 DatePicker.propTypes = {
