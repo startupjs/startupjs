@@ -15,10 +15,10 @@ function InputErrorWrapper ({
   return pug`
     Div(style=style ...otherProps)
       if err && position === 'top'
-        Text.text= err
+        Text.text.top= err
       = children
       if err && position === 'bottom'
-        Text.text= err
+        Text.text.bottom= err
   `
 }
 

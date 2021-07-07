@@ -82,12 +82,11 @@ function TextInput ({
 
   return pug`
     View.root(style=style)
-      View.info
-        if label
-          Span.label(styleName={focused})= label
-        if description
-          Span.description(description)= description
+      if label
+        Span.label(styleName={focused})= label
       = renderInput()
+      if description
+        Span.description(description)= description
   `
 }
 

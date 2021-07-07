@@ -133,11 +133,10 @@ function Input ({
   const { Component, getProps } = inputs[type]
   const bindingProps = $value ? getProps($value) : {}
   return pug`
-    ErrorWrapper(err=error)
+    ErrorWrapper(style=style err=error)
       Component(
         ...bindingProps
         ...props
-        style=style
         $value=$value
       )
   `

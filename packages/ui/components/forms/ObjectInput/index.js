@@ -7,6 +7,7 @@ import Div from '../../Div'
 import Card from '../../Card'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
+import { useLayout } from './../../../hooks'
 import './index.styl'
 
 function ObjectInput ({
@@ -14,6 +15,8 @@ function ObjectInput ({
   inputStyle,
   $value,
   label,
+  description,
+  layout,
   errors,
   properties,
   order
@@ -22,6 +25,9 @@ function ObjectInput ({
     return null
   }
 
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
   const value = $value.get()
 
   order = getOrder(order, properties)
@@ -47,19 +53,22 @@ function ObjectInput ({
   if (inputs.length === 0) return null
 
   function renderContainer (children) {
-    if (label) {
+    if (pure) {
+      return pug`
+        Div(style=[style, inputStyle])= children
+      `
+    } else {
       return pug`
         Div(style=style)
-          Span.label(description)= label
+          if label
+            Span.label= label
           Card(
             style=inputStyle
             variant='outlined'
           )
             = children
-      `
-    } else {
-      return pug`
-        Div(style=[style, inputStyle])= children
+          if description
+            Span.description(description)= description
       `
     }
   }
@@ -87,6 +96,8 @@ ObjectInput.propTypes = {
   $value: PropTypes.any.isRequired,
   errors: PropTypes.object,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   order: PropTypes.array,
   properties: PropTypes.object.isRequired
 }

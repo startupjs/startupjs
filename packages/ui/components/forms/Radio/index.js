@@ -64,18 +64,17 @@ function Radio ({
     } else {
       return pug`
         Div.root(style=style)
-          Div.info
-            if label
-              Span.label= label
-            if description
-              Span.description(description)= description
+          if label
+            Span.label= label
           = children
+          if description
+            Span.description(description)= description
       `
     }
   }
 
   return renderContainer(pug`
-    Div.selection=_children
+    = _children
   `)
 }
 

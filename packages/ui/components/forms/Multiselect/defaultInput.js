@@ -29,12 +29,11 @@ export default function DefaultInput ({
     } else {
       return pug`
         Div
-          Div.info
-            if label
-              Span.label(styleName={focused})= label
-            if description
-              Span.description(description)= description
+          if label
+            Span.label(styleName={focused})= label
           = children
+          if description
+            Span.description(description)= description
       `
     }
   }

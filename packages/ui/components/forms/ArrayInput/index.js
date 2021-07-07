@@ -53,16 +53,15 @@ function ArrayInput ({
     } else {
       return pug`
         Div(style=style)
-          Div.info
-            if label
-              Span.label= label
-            if description
-              Span.description(description)= description
+          if label
+            Span.label= label
           Card(
             style=inputStyle
             variant='outlined'
           )
             = children
+          if description
+            Span.description(description)= description
       `
     }
   }

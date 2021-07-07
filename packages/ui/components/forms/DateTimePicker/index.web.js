@@ -87,12 +87,11 @@ function DateTimePicker ({
     } else {
       return pug`
         Div(style=style)
-          Div.info
-            if label
-              Span.label(styleName={focused})= label
-            if description
-              Span.description(description)= description
+          if label
+            Span.label(styleName={focused})= label
           = children
+          if description
+            Span.description(description)= description
       `
     }
   }
