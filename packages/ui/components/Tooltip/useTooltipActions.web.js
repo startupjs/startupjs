@@ -1,14 +1,19 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 
 export default function useTooltipActions ({ onChange }) {
-  // const refTimeout = useRef()
+  const refTimeout = useRef()
 
   const onOpen = useCallback(() => {
-    onChange(true)
+    refTimeout.current = setTimeout(() => {
+      if (!refTimeout.current) return
+      onChange(true)
+    }, 200)
   }, [onChange])
 
   const onClose = useCallback(() => {
+    clearTimeout(refTimeout.current)
     onChange(false)
+    refTimeout.current = null
   }, [onChange])
 
   useEffect(() => {
