@@ -5,18 +5,14 @@ import {
   Dimensions,
   StyleSheet
 } from 'react-native'
-import { observer, useComponentId, useValue } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from '../Arrow'
 import Portal from '../../../Portal'
-import Geometry from '../Geometry'
-import { PLACEMENTS_ORDER, STEPS } from '../constants.json'
+import getGeometry from './getGeometry'
+import { PLACEMENTS_ORDER } from '../constants.json'
 import animate from '../animate'
 import STYLES from './index.styl'
-
-function isMeasured (step) {
-  return step !== 'close' && step !== 'measure'
-}
 
 function AbstractPopover ({
   children,
@@ -35,20 +31,13 @@ function AbstractPopover ({
   renderWrapper,
   onRequestOpen,
   onRequestClose
-}, ref) {
+}) {
   style = StyleSheet.flatten([style])
 
-  const componentId = useComponentId()
-  const refPopover = useRef()
-  const refGeometry = useRef({})
-  const captionInfo = useRef({})
-
-  const [step, $step] = useValue(STEPS.CLOSE)
-  const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
-  const [dimensions, $dimensions] = useValue({
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
-  })
+  const refAnimate = useRef()
+  const [contentInfo, setContentInfo] = useState({})
+  const [isRender, setIsRender] = useState(false)
+  const [geometry, setGeometry] = useState(null)
 
   const [animateStates] = useState({
     opacity: new Animated.Value(0),
@@ -60,17 +49,21 @@ function AbstractPopover ({
     translateY: new Animated.Value(0)
   })
 
-  // reset state after change dimensions
+  // -dimensions
+  const [dimensions, $dimensions] = useValue({
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
+  })
   useLayoutEffect(() => {
     let mounted = true
 
-    const handleDimensions = () => {
+    function handleDimensions () {
       if (!mounted) return
       $dimensions.setDiff({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
       })
-      _closeStep()
+      resetStates()
     }
 
     Dimensions.addEventListener('change', handleDimensions)
@@ -79,102 +72,88 @@ function AbstractPopover ({
       Dimensions.removeEventListener('change', handleDimensions)
     }
   }, [])
+  // -
 
   // -main
   useEffect(() => {
-    if (step === STEPS.CLOSE && visible) {
-      $step.set(STEPS.MEASURE)
-      setTimeout(runShow, 0)
+    if (refAnimate.current) {
+      refAnimate.current.stop()
+      refAnimate.current = null
     }
 
-    if (step !== STEPS.CLOSE && !visible) {
-      runHide()
+    if (visible) {
+      setIsRender(true)
+    }
+
+    if (!visible && isRender) {
+      refAnimate.current = animate.hide({
+        geometry,
+        contentInfo,
+        durationClose,
+        animateType,
+        animateStates
+      })
+      refAnimate.current.start(({ finished }) => {
+        refAnimate.current = null
+        finished && resetStates()
+      })
     }
   }, [visible])
   // -
 
-  function runShow () {
-    console.log('runShow', componentId)
-
-    if (!refCaption.current) return _closeStep()
+  function onLayout ({ nativeEvent }) {
+    const contentWidth = nativeEvent.layout.width || contentInfo.width
+    const contentHeight = nativeEvent.layout.height || contentInfo.height
 
     refCaption.current.measure((captionX, captionY, captionWidth, captionHeight, captionPageX, captionPageY) => {
-      if (!refPopover.current) return _closeStep()
+      if (refAnimate.current) return
 
-      refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight, popoverPageX, popoverPageY) => {
-        if ($step.get() !== STEPS.MEASURE) return _closeStep()
+      // captionInfo
+      const captionInfo = {
+        x: captionPageX,
+        y: captionPageY,
+        width: captionWidth,
+        height: captionHeight
+      }
 
-        captionInfo.current = {
-          x: captionPageX,
-          y: captionPageY,
-          width: captionWidth,
-          height: captionHeight
-        }
+      // contentInfo
+      const { height = 'auto', maxHeight } = style
+      let curHeight = (height === 'auto') ? contentHeight : height
+      curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
 
-        const { height = 'auto', maxHeight } = style
-        let curHeight = (height === 'auto') ? popoverHeight : height
-        curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
+      let curWidth = matchCaptionWidth ? captionWidth : contentWidth
+      const contentInfo = { height: curHeight, width: curWidth }
+      setContentInfo({ ...contentInfo })
 
-        let curWidth = matchCaptionWidth ? captionWidth : popoverWidth
-        const contentInfo = {
-          x: captionPageX,
-          y: captionPageY,
-          height: curHeight,
-          width: curWidth
-        }
+      // geometry
+      const _geometry = getGeometry({
+        placement: position + '-' + attachment,
+        placements,
+        captionInfo,
+        contentInfo,
+        dimensions,
+        arrow
+      })
+      setGeometry(_geometry)
 
-        refGeometry.current = new Geometry({
-          placement: position + '-' + attachment,
-          captionInfo: captionInfo.current,
-          contentInfo,
-          placements,
-          dimensions,
-          arrow
-        })
-
-        setValidPlacement(refGeometry.current.validPlacement)
-        $step.set(STEPS.RENDER)
-
-        animate.show({
-          durationOpen,
-          geometry: refGeometry.current,
-          contentInfo,
-          animateType,
-          animateStates,
-          arrow
-        }, () => {
-          if ($step.get() !== STEPS.RENDER) _closeStep()
-          $step.set(STEPS.OPEN)
-          onRequestOpen && onRequestOpen()
-        })
+      // animate
+      refAnimate.current = animate.show({
+        geometry: _geometry,
+        contentInfo,
+        durationOpen,
+        animateType,
+        animateStates
+      })
+      refAnimate.current.start(({ finished }) => {
+        refAnimate.current = null
+        finished && onRequestOpen && onRequestOpen()
       })
     })
   }
 
-  function runHide () {
-    console.log('runHide', componentId)
-
-    if (!refPopover.current) {
-      _closeStep()
-    } else {
-      refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight) => {
-        const contentInfo = { width: popoverWidth, height: popoverHeight }
-        $step.set(STEPS.CLOSING)
-
-        animate.hide({
-          durationClose,
-          geometry: refGeometry.current,
-          animateType,
-          contentInfo,
-          animateStates,
-          arrow
-        }, _closeStep)
-      })
-    }
-  }
-
-  function _closeStep () {
-    $step.set(STEPS.CLOSE)
+  function resetStates () {
+    setIsRender(false)
+    setGeometry(null)
     onRequestClose && onRequestClose()
   }
 
@@ -182,13 +161,13 @@ function AbstractPopover ({
   const positionStyle = StyleSheet.flatten([
     STYLES.position,
     {
-      left: refGeometry.current.positionLeft,
-      top: refGeometry.current.positionTop
+      left: geometry ? geometry.positionLeft : 0,
+      top: geometry ? geometry.positionTop : 0
     }
   ])
 
   const animateStyle = StyleSheet.flatten([
-    isMeasured(step)
+    geometry
       ? {
         ...STYLES.animate,
         opacity: animateStates.opacity,
@@ -203,11 +182,11 @@ function AbstractPopover ({
   ])
 
   // We make it possible to correctly expand the geometry of the component when changing its content, in all sides
-  const [validPosition] = validPlacement.split('-')
-  if (isMeasured(step) && validPosition === 'top') animateStyle.bottom = 0
-  if (isMeasured(step) && validPosition === 'left') animateStyle.right = 0
-  if (isMeasured(step) && validPlacement === 'left-end') animateStyle.bottom = 0
-  if (isMeasured(step) && validPlacement === 'right-end') animateStyle.bottom = 0
+  const [validPosition] = geometry ? geometry.validPlacement.split('-') : ''
+  if (geometry && geometry.validPosition === 'top') animateStyle.bottom = 0
+  if (geometry && geometry.validPosition === 'left') animateStyle.right = 0
+  if (geometry && geometry.validPlacement === 'left-end') animateStyle.bottom = 0
+  if (geometry && geometry.validPlacement === 'right-end') animateStyle.bottom = 0
 
   if (validPosition !== 'left') {
     positionStyle.width = '100%'
@@ -217,20 +196,20 @@ function AbstractPopover ({
     positionStyle.left = 0
   }
 
-  if (matchCaptionWidth && captionInfo.current) {
-    animateStyle.width = captionInfo.current.width
+  if (matchCaptionWidth && geometry) {
+    animateStyle.width = geometry.captionInfo.width
   }
 
   const popover = pug`
     View(style=positionStyle)
       Animated.View(
-        ref=refPopover
+        onLayout=onLayout
         style=[style, animateStyle]
       )
         if arrow
           Arrow(
             style=arrowStyle
-            geometry=refGeometry.current
+            geometry=geometry
             validPosition=validPosition
           )
         = children
@@ -238,12 +217,12 @@ function AbstractPopover ({
 
   return pug`
     Portal
-      if step !== STEPS.CLOSE
+      if isRender
         = renderWrapper(popover)
   `
 }
 
-const ObservedAP = observer(AbstractPopover, { forwardRef: true })
+const ObservedAP = observer(AbstractPopover)
 
 ObservedAP.defaultProps = {
   position: 'bottom',

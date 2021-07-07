@@ -10,8 +10,8 @@ export default function Arrow ({
   const _arrowStyle = StyleSheet.flatten([
     style,
     {
-      left: geometry.arrowLeftPosition || 0,
-      top: geometry.arrowTopPosition || 0
+      left: geometry ? geometry.arrowLeftPosition : 0,
+      top: geometry ? geometry.arrowTopPosition : 0
     }
   ])
 
