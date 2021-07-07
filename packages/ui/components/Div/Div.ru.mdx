@@ -133,10 +133,9 @@ return (
 const captionStyle = { width: 36, height: 36, backgroundColor: '#333' }
 const content = 'Контент'
 return pug`
-  Row
-    Div(
-      style=captionStyle
-      renderTooltip=content
-    )
+  Div(
+    style=captionStyle
+    renderTooltip=content
+  )
 `
 ```
