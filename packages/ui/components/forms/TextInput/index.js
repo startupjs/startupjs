@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { useLayout } from './../../../hooks'
 import Input from './input'
 import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
+import wrapInput from './../wrapInput'
 import './index.styl'
 
 function TextInput ({
@@ -14,10 +14,7 @@ function TextInput ({
   inputStyle,
   iconStyle,
   className,
-  label,
-  description,
   placeholder,
-  layout,
   value,
   size,
   editable,
@@ -28,19 +25,18 @@ function TextInput ({
   renderWrapper, // @private - used by Select
   ...props
 }, ref) {
-  layout = useLayout({ layout, label, description })
-
-  const pure = layout === 'pure'
   const [focused, setFocused] = useState(false)
 
-  function _onBlur () {
+  const _onBlur = useCallback((...args) => {
     setFocused(false)
-  }
+    onBlur && onBlur(...args)
+  }, [])
 
-  function _onFocus () {
+  const _onFocus = useCallback((...args) => {
     if (disabled) return
     setFocused(true)
-  }
+    onFocus && onFocus(...args)
+  }, [])
 
   function renderInput (standalone) {
     if (readonly) {
@@ -63,34 +59,20 @@ function TextInput ({
         renderWrapper=renderWrapper
         size=size
         editable=editable
-        onBlur=(...args) => {
-          _onBlur()
-          onBlur && onBlur(...args)
-        }
-        onFocus=(...args) => {
-          _onFocus()
-          onFocus && onFocus(...args)
-        }
+        onFocus=_onFocus
+        onBlur=_onBlur
         ...props
       )
     `
   }
 
-  if (pure) return renderInput(true)
-
-  label = label || (value && placeholder) || ' '
-
   return pug`
     View.root(style=style)
-      if label
-        Span.label(styleName={focused})= label
       = renderInput()
-      if description
-        Span.description(description)= description
   `
 }
 
-const ObservedTextInput = observer(themed(TextInput), { forwardRef: true })
+const ObservedTextInput = wrapInput(observer(themed('TextInput', TextInput), { forwardRef: true }))
 
 ObservedTextInput.defaultProps = {
   size: 'm',
@@ -108,9 +90,6 @@ ObservedTextInput.propTypes = {
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
   placeholder: PropTypes.string,
   value: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),

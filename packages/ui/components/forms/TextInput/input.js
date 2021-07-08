@@ -63,6 +63,7 @@ function Input ({
   onIconPress,
   onSecondaryIconPress,
   renderWrapper,
+  _hasError,
   ...props
 }, ref) {
   const inputRef = useRef()
@@ -75,13 +76,21 @@ function Input ({
   }
 
   useImperativeHandle(ref, () => ({
-    blur: () => {
-      inputRef.current.blur()
-    },
     focus: () => {
       inputRef.current.focus()
+      onFocus && onFocus()
+    },
+    blur: () => {
+      inputRef.current.blur()
+      onBlur && onBlur()
+    },
+    clear: () => {
+      inputRef.current.clear()
+    },
+    isFocused: () => {
+      return focused
     }
-  }))
+  }), [])
 
   useLayoutEffect(() => {
     if (resize) {
@@ -146,56 +155,59 @@ function Input ({
 
   const inputStyleName = [
     size,
-    { disabled, focused, [`icon-${iconPosition}`]: !!icon }
+    {
+      disabled,
+      focused,
+      [`icon-${iconPosition}`]: !!icon,
+      error: _hasError
+    }
   ]
 
   return renderWrapper({
     style: [{ height: fullHeight }, style]
   }, pug`
-    React.Fragment
-      TextInput.input-input(
-        ref=inputRef
-        style=inputStyle
-        styleName=[inputStyleName]
-        selectionColor=caretColor
-        placeholder=placeholder
-        placeholderTextColor=DARK_LIGHTER_COLOR
-        value=value
-        editable=editable && !disabled
-        multiline=multiline
-        onBlur=onBlur
-        onFocus=onFocus
-        onChangeText=(value) => {
-          onChangeText && onChangeText(value)
-        }
-        ...props
-        ...inputExtraProps
+    TextInput.input-input(
+      ref=inputRef
+      style=inputStyle
+      styleName=[inputStyleName]
+      selectionColor=caretColor
+      placeholder=placeholder
+      placeholderTextColor=DARK_LIGHTER_COLOR
+      value=value
+      editable=editable && !disabled
+      multiline=multiline
+      onBlur=onBlur
+      onFocus=onFocus
+      onChangeText=(value) => {
+        onChangeText && onChangeText(value)
+      }
+      ...props
+      ...inputExtraProps
+    )
+    if icon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, iconPosition]
+        onPress=onIconPress
       )
-      if icon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, iconPosition]
-          onPress=onIconPress
+        Icon(
+          icon=icon
+          style=iconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=icon
-            style=iconStyle
-            size=ICON_SIZES[size]
-          )
-      if secondaryIcon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, getOppositePosition(iconPosition)]
-          onPress=onSecondaryIconPress
+    if secondaryIcon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, getOppositePosition(iconPosition)]
+        onPress=onSecondaryIconPress
+      )
+        Icon(
+          icon=secondaryIcon
+          style=secondaryIconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=secondaryIcon
-            style=secondaryIconStyle
-            size=ICON_SIZES[size]
-          )
-
   `)
 }
 
@@ -211,7 +223,8 @@ ObservedInput.defaultProps = {
 }
 
 ObservedInput.propTypes = {
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
+  _hasError: PropTypes.bool
 }
 
 export default ObservedInput

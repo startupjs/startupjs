@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import TextInput from '../TextInput'
 import Div from '../../Div'
 import Br from '../../Br'
@@ -14,25 +14,19 @@ TextInput lets user enter or edit text.
 import { TextInput } from '@startupjs/ui'
 ```
 
-## Simple example
-
-```jsx example
-const [value, setValue] = useState()
-return (
-  <TextInput
-    placeholder='TextInput'
-    value={value}
-    onChangeText={setValue}
-  />
-)
-```
-
 ## Label and description
 
 ```jsx example
+const ref = useRef()
 const [value, setValue] = useState()
+setTimeout(() => {
+  console.log(ref, 'ref')
+}, 500)
 return (
   <TextInput
+    ref={ref}
+    test={true}
+    error='test'
     label='About me'
     description='Tell us something about yourself'
     placeholder='TextInput'
@@ -42,160 +36,17 @@ return (
 )
 ```
 
-## Disabled
-
-```jsx example
-return (
-  <TextInput
-    disabled
-    value='disabled'
-  />
-)
-```
-
-## Readonly
-
-```jsx example
-return (
-  <TextInput
-    value='readonly'
-    readonly
-  />
-)
-```
-
-## Sizes
-
-Size can be modified using the `size` prop. Default size is `m`.
-
-```jsx example
-const [valueL, setValueL] = useState()
-const [valueM, setValueM] = useState()
-const [valueS, setValueS] = useState()
-return (
-  <Div>
-    <TextInput
-      size='s'
-      label='Size s example'
-      value={valueS}
-      onChangeText={setValueS}
-    />
-    <Br />
-    <TextInput
-      size='m'
-      label='Size m (default) example'
-      value={valueM}
-      onChangeText={setValueM}
-    />
-    <Br />
-    <TextInput
-      size='l'
-      label='Size l example'
-      value={valueL}
-      onChangeText={setValueL}
-    />
-  </Div>
-)
-```
-
-## Icons
-
-Icon can be added using `icon` and `secondaryIcon` properties. Position of icon can be changed by passing `iconPosition` to component (`left` by default). The `secondaryIcon` uses opposite position of `iconPosition`. To handle clicks on the icon, use the property `onIconPress` and `onSecondaryIconPress`. To change icon color use the ʻiconStyleName` and `secondaryIconStyleName` properties.
-
-In `.styl` file
-```stylus
-.icon
-  color: $UI.colors.primary
-```
-
-```jsx example
-const [valueLeft, setLeftValue] = useState()
-const [valueRight, setRightValue] = useState()
-return (
-  <Div>
-    <TextInput
-      icon={faSearch}
-      secondaryIcon={faTimesCircle}
-      secondaryIconStyleName='icon'
-      label='Example icon left'
-      value={valueLeft}
-      onChangeText={setLeftValue}
-      onSecondaryIconPress={() => setLeftValue()}
-    />
-    <Br />
-    <TextInput
-      icon={faTimesCircle}
-      iconPosition='right'
-      label='Example icon right'
-      value={valueRight}
-      onChangeText={setRightValue}
-      onIconPress={() => setRightValue()}
-    />
-  </Div>
-)
-```
-
-## Multiline mode (textarea)
-
-The `multiline` property activates multiline mode.
-
-Properties that only work in multiline mode:
-- `numberOfLines` sets the number of visible lines
-- `resize` the textinput height will grow with content
-
 ```jsx example
 const [value, setValue] = useState()
 return (
   <TextInput
-    multiline
-    resize
-    numberOfLines={4}
-    label='Multiline example'
-    placeholder='Multiline placeholder'
+    layout='columns'
+    error='tesad'
+    label='About me'
+    description='Tell us something about yourself'
+    placeholder='TextInput'
     value={value}
     onChangeText={setValue}
   />
 )
 ```
-
-## Layout
-
-There are two layouts. The default behavior is `rows` if `label` or `description` property is provided and `pure` if not. To change the layout pass the property `layout`.
-
-- `pure` displays text input without `label` and `description`
-- `rows` displays text input with `label` and `description`. If `label` is not specified then `placeholder` is used instead
-
-```jsx example
-const [pureValue, setPureValue] = useState()
-const [rowValueWithLabel, setRowValueWithLabelValue] = useState()
-const [rowValueWithoutLabel, setRowValueWithoutLabel] = useState()
-return (
-  <Div>
-    <TextInput
-      layout='pure'
-      label='Pure layout example'
-      placeholder='Pure layout placeholder'
-      value={pureValue}
-      onChangeText={setPureValue}
-    />
-    <Br />
-    <TextInput
-      label='Row layout bacause label provided'
-      placeholder='Row layout placeholder with label'
-      value={rowValueWithLabel}
-      onChangeText={setRowValueWithLabelValue}
-    />
-    <Br />
-    <TextInput
-      layout='rows'
-      placeholder='Row layout placeholder without label'
-      value={rowValueWithoutLabel}
-      onChangeText={setRowValueWithoutLabel}
-    />
-  </Div>
-)
-```
-
-## Sandbox
-
-<Sandbox Component={TextInput} />

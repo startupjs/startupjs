@@ -17,23 +17,24 @@ $this = merge({
 
 // ----- COMPONENT
 
-_inputBg = $UI.colors.white
-_inputBorderColor = $UI.colors.darkLighter
-_inputBgDisabled = $UI.colors.darkLightest
-_inputBorderWidth = 1px
-_inputCaretColor = $this.caretColor
-_inputTextColor = $UI.colors.mainText
-_focusedColor = $UI.colors.primary
-_inputFontSizeL = 2u
-_inputFontSizeM = 1.75u
-_inputFontSizeS = 1.75u
+$inputBg = $UI.colors.white
+$inputBorderColor = $UI.colors.darkLighter
+$inputBgDisabled = $UI.colors.darkLightest
+$inputBorderWidth = 1px
+$inputCaretColor = $this.caretColor
+$inputTextColor = $UI.colors.mainText
+$focusedColor = $UI.colors.primary
+$errorColor = $UI.colors.attention
+$inputFontSizeL = 2u
+$inputFontSizeM = 1.75u
+$inputFontSizeS = 1.75u
 
 .label
   margin-bottom 0.5u
   font(body2)
 
   &.focused
-    color _focusedColor
+    color $focusedColor
 
 .description
   margin-top 0.5u
@@ -46,32 +47,35 @@ _inputFontSizeS = 1.75u
   // for android because it has invisible paddings
   // on the web is important for textarea (override default paddings)
   padding 0 1u
-  color _inputTextColor
-  background-color _inputBg
-  border-width _inputBorderWidth
+  color $inputTextColor
+  background-color $inputBg
+  border-width $inputBorderWidth
   border-style solid
-  border-color _inputBorderColor
+  border-color $inputBorderColor
   min-width 8u
   radius()
 
   +web()
     outline 0
-    caret-color _inputCaretColor
+    caret-color $inputCaretColor
 
   &.l
-    font-size _inputFontSizeL
+    font-size $inputFontSizeL
 
   &.m
-    font-size _inputFontSizeM
+    font-size $inputFontSizeM
 
   &.s
-    font-size _inputFontSizeS
+    font-size $inputFontSizeS
 
   &.disabled
-    background-color _inputBgDisabled
+    background-color $inputBgDisabled
 
   &.focused
-    border-color _focusedColor
+    border-color $focusedColor
+
+  &.error
+    border-color $errorColor
 
   for side in (left right)
     &.icon-{side}

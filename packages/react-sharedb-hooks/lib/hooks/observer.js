@@ -26,7 +26,7 @@ observer.__makeObserver = makeObserver
 
 export { observer }
 
-function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName) {
+function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
   const displayName = SourceComponent.displayName || SourceComponent.name
   if (!TargetComponent.displayName) {
     TargetComponent.displayName = displayName ? (displayName + suffix) : defaultName
@@ -80,7 +80,7 @@ function makeObserver (baseComponent, options = {}) {
     ? React.forwardRef(WrappedComponent)
     : WrappedComponent
 
-  pipeComponentMeta(baseComponent, Component, 'StartupjsObserver')
+  pipeComponentMeta(baseComponent, Component)
 
   return Component
 }
@@ -91,7 +91,10 @@ function wrapObserverMeta (
 ) {
   const { forwardRef, suspenseProps } = Object.assign({}, DEFAULT_OPTIONS, options)
   if (!(suspenseProps && suspenseProps.fallback)) {
-    throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
+    throw Error(
+      '[observer()] You must pass at least ' +
+      'a fallback parameter to suspenseProps'
+    )
   }
 
   function ObserverWrapper (props, ref) {
@@ -114,13 +117,15 @@ function wrapObserverMeta (
     )
   }
 
+  pipeComponentMeta(Component, ObserverWrapper, 'StartupjsObserverWrapper')
+
   const memoComponent = React.memo(
     forwardRef
       ? React.forwardRef(ObserverWrapper)
       : ObserverWrapper
   )
 
-  pipeComponentMeta(Component, memoComponent, 'StartupjsObserverWrapper')
+  pipeComponentMeta(Component, memoComponent)
 
   return memoComponent
 }
