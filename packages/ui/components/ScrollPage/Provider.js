@@ -5,6 +5,7 @@ import ScrollPageContext from './Context'
 
 export default observer(function ScrollPage ({
   children,
+  scrollEventThrottle = 16,
   ...props
 }, ref) {
   const refScroll = ref || useRef()
@@ -22,8 +23,8 @@ export default observer(function ScrollPage ({
     ScrollPageContext.Provider(value=refScroll)
       ScrollView(
         ...props
+        scrollEventThrottle=scrollEventThrottle
         ref=refScroll
-        scrollEventThrottle=16
         onScroll=onScroll
       )= children
   `

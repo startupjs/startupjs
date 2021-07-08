@@ -6,8 +6,8 @@ import MultiSelect from './MultiSelect'
 
 const { UIManager } = NativeModules
 
-const DRAWER_HEIGHT = Platform.OS === 'iod' ? 460 : 160
-const OFFSET_POSITION = 100
+const DRAWER_HEIGHT = Platform.OS === 'ios' ? 460 : 160
+const OFFSET_POSITION = 50
 
 export default observer(function Caption ({
   style,
@@ -31,11 +31,14 @@ export default observer(function Caption ({
   const scrollPage = useContext(ScrollPageContext)
 
   function onFocus () {
-    ref.current.measure((x, y, width, height, pageX, pageY) => {
-      UIManager.measure(scrollPage.current.getScrollableNode(), (sx, sy, sWidth, sHeight, sPageX, sPageY) => {
-        if (pageY - sPageY + height + DRAWER_HEIGHT > sHeight) {
+    ref.current.measure((x, y, w, inputHeight, px, inputPageY) => {
+      UIManager.measure(scrollPage.current.getScrollableNode(), (sx, sy, sw, scrollWrapperHeight, spx, scrollWrapperPageY) => {
+        const inputInScrollPageY = inputPageY - scrollWrapperPageY
+        const inputBottomPointY = inputInScrollPageY + inputHeight
+
+        if (inputBottomPointY + DRAWER_HEIGHT > scrollWrapperHeight) {
           scrollPage.current.scrollTo({
-            y: (pageY + scrollPage.current.scrollPosition) - sPageY - OFFSET_POSITION,
+            y: inputInScrollPageY + scrollPage.current.scrollPosition - OFFSET_POSITION,
             animated: true
           })
         }
