@@ -76,14 +76,15 @@ export default observer(function Content ({
   }
 
   return pug`
-    Drawer.drawer(
-      visible=(isShow || isLoading)
-      position='bottom'
-      overlayStyleName='drawerOverlay'
-      swipeStyleName='drawerSwipe'
-      durationOpen=200
-      durationHide=200
-      onDismiss=onDismiss
-    )= content
+    if data.length
+      Drawer.drawer(
+        visible=(isShow || isLoading)
+        position='bottom'
+        overlayStyleName='drawerOverlay'
+        swipeStyleName='drawerSwipe'
+        durationOpen=200
+        durationHide=200
+        onDismiss=onDismiss
+      )= content
   `
 })

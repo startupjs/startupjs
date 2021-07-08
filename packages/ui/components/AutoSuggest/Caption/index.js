@@ -30,7 +30,11 @@ export default observer(function Caption ({
 }, ref) {
   const scrollPage = useContext(ScrollPageContext)
 
-  function onFocus () {
+  async function onFocus () {
+    if (Platform.OS === 'android') {
+      await new Promise(resolve => setTimeout(() => resolve(), 100))
+    }
+
     ref.current.measure((x, y, w, inputHeight, px, inputPageY) => {
       UIManager.measure(scrollPage.current.getScrollableNode(), (sx, sy, sw, scrollWrapperHeight, spx, scrollWrapperPageY) => {
         const inputInScrollPageY = inputPageY - scrollWrapperPageY
