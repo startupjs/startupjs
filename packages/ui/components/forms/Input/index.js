@@ -5,9 +5,11 @@ import ArrayInput from '../ArrayInput'
 import Checkbox from '../Checkbox'
 import DateTimePicker from '../DateTimePicker'
 import ErrorWrapper from '../ErrorWrapper'
+import Multiselect from '../Multiselect'
 import NumberInput from '../NumberInput'
 import ObjectInput from '../ObjectInput'
 import PasswordInput from '../PasswordInput'
+import Radio from '../Radio'
 import Select from '../Select'
 import TextInput from '../TextInput'
 import themed from '../../../theming/themed'
@@ -22,42 +24,14 @@ function Input ({
   const { inputs, types } = useMemo(() => {
     // INFO: we can't move this code outside of the component because ObjectInput uses Input inside which generates error "minified react error"
     const _inputs = {
-      text: {
-        Component: TextInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          // TODO: Use stringInsert and stringRemove
-          onChangeText: value => $value && $value.setDiff(value)
-        })
-      },
-      checkbox: {
-        Component: Checkbox,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      object: {
-        Component: ObjectInput,
-        getProps: $value => ({
-          value: $value && $value.get()
-        })
-      },
       array: {
         Component: ArrayInput,
         getProps: $value => ({
           value: $value && $value.get()
         })
       },
-      number: {
-        Component: NumberInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeNumber: value => $value && $value.setDiff(value)
-        })
-      },
-      select: {
-        Component: Select,
+      checkbox: {
+        Component: Checkbox,
         getProps: $value => ({
           value: $value && $value.get(),
           onChange: value => $value && $value.setDiff(value)
@@ -79,6 +53,47 @@ function Input ({
           mode: 'datetime'
         })
       },
+      multiselect: {
+        Component: Multiselect,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChangeNumber: value => $value && $value.setDiff(value)
+        })
+      },
+      number: {
+        Component: NumberInput,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChangeNumber: value => $value && $value.setDiff(value)
+        })
+      },
+      object: {
+        Component: ObjectInput,
+        getProps: $value => ({
+          value: $value && $value.get()
+        })
+      },
+      password: {
+        Component: PasswordInput,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChangeText: value => $value && $value.setDiff(value)
+        })
+      },
+      radio: {
+        Component: Radio,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChange: value => $value && $value.setDiff(value)
+        })
+      },
+      select: {
+        Component: Select,
+        getProps: $value => ({
+          value: $value && $value.get(),
+          onChange: value => $value && $value.setDiff(value)
+        })
+      },
       time: {
         Component: DateTimePicker,
         getProps: $value => ({
@@ -87,10 +102,11 @@ function Input ({
           mode: 'time'
         })
       },
-      password: {
-        Component: PasswordInput,
+      text: {
+        Component: TextInput,
         getProps: $value => ({
           value: $value && $value.get(),
+          // TODO: Use stringInsert and stringRemove
           onChangeText: value => $value && $value.setDiff(value)
         })
       }

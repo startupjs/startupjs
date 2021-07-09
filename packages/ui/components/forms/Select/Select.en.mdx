@@ -30,18 +30,19 @@ return (
 )
 ```
 
-## Label
+## Label and description
 
 ```jsx example
 const [color, setColor] = useState()
 return (
   <Select
-    label="Label"
+    label='Select car color'
+    description='Skip this question, if the color you want is not listed'
     value={color}
     onChange={setColor}
     options={[
       'red',
-      'yellow',
+      'yellow'
     ]}
   />
 )

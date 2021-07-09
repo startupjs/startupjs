@@ -48,6 +48,9 @@ export default function (config = {}) {
 
     initRoutes({ router, config })
 
+    // Append required configs to client session
+    updateClientSession({ [providerName]: { clientId } })
+
     console.log('++++++++++ Initialization of Common auth strategy ' +
     `for ${providerName} ++++++++++\n`)
 

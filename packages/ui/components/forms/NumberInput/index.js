@@ -19,6 +19,7 @@ function NumberInput ({
   buttons,
   disabled,
   label,
+  description,
   layout,
   max,
   min,
@@ -141,6 +142,7 @@ function NumberInput ({
         inputStyleName=['input-input', ...styleNames]
         disabled=disabled
         label=label
+        description=description
         layout=layout
         placeholder=placeholder
         size=size
@@ -201,6 +203,7 @@ NumberInput.propTypes = {
   buttons: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
   disabled: PropTypes.bool,
   label: PropTypes.string,
+  description: PropTypes.string,
   layout: PropTypes.oneOf(['pure', 'rows']),
   max: PropTypes.number,
   min: PropTypes.number,

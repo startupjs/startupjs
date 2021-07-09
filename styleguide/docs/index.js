@@ -128,7 +128,10 @@ export default docs({
       },
       local: {
         type: 'mdx',
-        title: 'Локальная',
+        title: {
+          en: 'Local',
+          ru: 'Локальная'
+        },
         component: {
           en: AuthLocalEn,
           ru: AuthLocalRu

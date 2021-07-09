@@ -11,10 +11,11 @@ const Multiselect = ({
   value,
   placeholder,
   label,
+  description,
+  layout,
   focused,
   disabled,
   tagLimit,
-  error,
   InputComponent,
   TagComponent,
   renderListItem,
@@ -26,6 +27,8 @@ const Multiselect = ({
   return pug`
     MultiselectInput(
       label=label
+      description=description
+      layout=layout
       onOpen=onOpen
       focused=focused
       value=value
@@ -33,7 +36,6 @@ const Multiselect = ({
       tagLimit=tagLimit
       options=options
       disabled=disabled
-      error=error
       InputComponent=InputComponent
       TagComponent=TagComponent
     )
@@ -57,12 +59,13 @@ Multiselect.propTypes = {
   onRemove: PropTypes.func,
   placeholder: PropTypes.string,
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
   tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
-  error: PropTypes.string,
   InputComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   renderListItem: PropTypes.func

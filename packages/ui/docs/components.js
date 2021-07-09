@@ -16,6 +16,8 @@ import ButtonEn from '../components/Button/Button.en.mdx'
 import ButtonRu from '../components/Button/Button.ru.mdx'
 import CardEn from '../components/Card/Card.en.mdx'
 import CardRu from '../components/Card/Card.ru.mdx'
+import CarouselEn from '../components/Carousel/Carousel.en.mdx'
+import CarouselRu from '../components/Carousel/Carousel.ru.mdx'
 import CollapseEn from '../components/Collapse/Collapse.en.mdx'
 import CollapseRu from '../components/Collapse/Collapse.ru.mdx'
 import ContentEn from '../components/Content/Content.en.mdx'
@@ -133,6 +135,14 @@ export default {
       component: {
         en: CardEn,
         ru: CardRu
+      }
+    },
+    Carousel: {
+      type: 'mdx',
+      title: 'Carousel',
+      component: {
+        en: CarouselEn,
+        ru: CarouselRu
       }
     },
     Collapse: {

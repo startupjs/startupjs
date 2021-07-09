@@ -56,6 +56,8 @@ Select.defaultProps = {
 
 Select.propTypes = {
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.string,
   options: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
