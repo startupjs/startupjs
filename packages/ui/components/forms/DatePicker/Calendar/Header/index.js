@@ -38,12 +38,12 @@ export default observer(function Header ({
     Row.header
       Row
         Div(onPress=()=> $slide.set('months'))
-          Span.month= currentMonthName
+          Span.month(bold)= currentMonthName
         Div(
           pushed='xs'
           onPress=()=> $slide.set('years')
         )
-          Span.year= currentYear
+          Span.year(bold)= currentYear
 
       Row.actions
         // Button(

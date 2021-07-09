@@ -44,12 +44,12 @@ function DatePicker ({
   const [layoutWidth, $layoutWidth] = useValue(
     Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
   )
-  function handleWidthChange () {
+  const handleWidthChange = useCallback(() => {
     $visible.set(false)
     $layoutWidth.set(
       Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
     )
-  }
+  }, [])
   useEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
     return () => {
@@ -203,7 +203,7 @@ DatePicker.propTypes = {
   mode: PropTypes.oneOf(['date', 'time', 'datetime']),
   formatInput: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onDateChange: PropTypes.func
+  onChangeDate: PropTypes.func
 }
 
 export default observer(themed(DatePicker))

@@ -1,7 +1,6 @@
 import React, { useMemo, useRef } from 'react'
 import { observer, useValue } from 'startupjs'
-import { Row, Div, Span, Icon } from '@startupjs/ui'
-import Carousel from '@dmapper/carousel'
+import { Row, Div, Span, Icon, Carousel } from '@startupjs/ui'
 import {
   faChevronUp,
   faChevronDown,

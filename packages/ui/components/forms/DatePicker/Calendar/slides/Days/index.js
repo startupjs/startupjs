@@ -71,11 +71,18 @@ export default observer(function Days ({
       )
   }, [disabledDays, maxDate, minDate, timezone])
 
+  function getLabelActive (value) {
+    return range
+      ? moment.tz(value, timezone).isSame(range[0], 'd') ||
+        moment.tz(value, timezone).isSame(range[1], 'd')
+      : moment.tz(value, timezone).isSame(uiDate, 'd')
+  }
+
   return pug`
     Row.row
       for shortDayName in weekdaysShort
         Div.cell(key=shortDayName)
-          Span.shortName= shortDayName
+          Span.shortName(bold)= shortDayName
 
     for week, weekIndex in matrixdMonthDays
       Row.row(key='week-' + weekIndex)
@@ -93,12 +100,10 @@ export default observer(function Days ({
             onPress=()=> _onChangeDay(day)
           )
             Span.label(
+              bold=getLabelActive(day.value)
               styleName={
                 labelMute: !moment.tz(day.value, timezone).isSame(uiDate, 'M'),
-                labelActive: range
-                  ? moment.tz(day.value, timezone).isSame(range[0], 'd') ||
-                    moment.tz(day.value, timezone).isSame(range[1], 'd')
-                  : moment.tz(day.value, timezone).isSame(uiDate, 'd')
+                labelActive: getLabelActive(day.value)
               }
             )= day.label
   `
