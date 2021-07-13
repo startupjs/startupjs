@@ -8,23 +8,29 @@ export default class BaseProvider {
   getFindUserQuery () {
     const email = this.getEmail()
 
+    // Generally we don't need an provider id to perform auth
+    // auth proces depends on provider.email field only
+    // but earlier implementation of auth lib used provideer.id in local strategy
+    // Those lines is added only for backward compabilities reasons
     return {
-      $or: [
-        {
-          $where: function () {
-            for (var index in this.providers) {
-              if (this.providers[index].email === email) { return this }
+      $expr: {
+        $function: {
+          body: `function({ providers, email, providerName, providerId }) {
+            for (var providerName in providers) {
+              return providers[providerName].email === email
             }
-          }
-        },
-        // Generally we don't need an provider id to perform auth
-        // auth proces depends on provider.email field only
-        // but earlier implementation of auth lib used provideer.id in local strategy
-        // Those lines is added only for backward compabilities reasons
-        {
-          [`providers.${this.getProviderName()}.id`]: this.getProviderId()
+
+            return providers[providerName].id = providerId
+          }`,
+          args: [{
+            providers: '$providers',
+            email,
+            providerName: this.getProviderName(),
+            providerId: this.getProviderId()
+          }],
+          lang: 'js'
         }
-      ]
+      }
     }
   }
 
