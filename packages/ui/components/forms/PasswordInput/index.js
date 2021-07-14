@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import omit from 'lodash/omit'
+import pick from 'lodash/pick'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'
 import themed from '../../../theming/themed'
@@ -24,27 +24,36 @@ function PasswordInput ({ ...props }) {
 }
 
 PasswordInput.defaultProps = {
-  ...omit(
+  ...pick(
     TextInput.defaultProps,
     [
-      'iconPosition',
-      'numberOfLines',
-      'resize',
-      'readonly'
+      'size',
+      'value',
+      'disabled',
+      'options'
     ]
   )
 }
 
 PasswordInput.propTypes = {
-  ...omit(
+  ...pick(
     TextInput.propTypes,
     [
-      'icon',
-      'iconPosition',
-      'numberOfLines',
-      'resize',
-      'readonly',
-      'onIconPress'
+      'style',
+      'wrapperStyle',
+      'inputStyle',
+      'label',
+      'description',
+      'layout',
+      'options',
+      'error',
+      'value',
+      'placeholder',
+      'size',
+      'disabled',
+      'onFocus',
+      'onBlur',
+      'onChangeText'
     ]
   )
 }

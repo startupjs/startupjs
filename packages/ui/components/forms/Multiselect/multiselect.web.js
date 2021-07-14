@@ -9,9 +9,6 @@ const Multiselect = ({
   options,
   value,
   placeholder,
-  label,
-  description,
-  layout,
   focused,
   disabled,
   readonly,
@@ -23,7 +20,8 @@ const Multiselect = ({
   onSelect,
   onRemove,
   onOpen,
-  onHide
+  onHide,
+  _hasError
 }) => {
   return pug`
     Popover.popover(
@@ -35,9 +33,6 @@ const Multiselect = ({
     )
       Popover.Caption
         MultiselectInput(
-          label=label
-          description=description
-          layout=layout
           focused=focused
           value=value
           placeholder=placeholder
@@ -48,6 +43,7 @@ const Multiselect = ({
           InputComponent=InputComponent
           TagComponent=TagComponent
           onOpen=onOpen
+          _hasError=_hasError
         )
       each opt in options
         = renderListItem(opt)
@@ -60,17 +56,15 @@ Multiselect.propTypes = {
   onSelect: PropTypes.func,
   onRemove: PropTypes.func,
   placeholder: PropTypes.string,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.string,
-  onOpen: PropTypes.func.isRequired,
-  onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
   tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  renderListItem: PropTypes.func
+  renderListItem: PropTypes.func,
+  onOpen: PropTypes.func.isRequired,
+  onHide: PropTypes.func.isRequired,
+  _hasError: PropTypes.bool // @private
 }
 
 export default observer(Multiselect)

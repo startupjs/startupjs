@@ -1,44 +1,19 @@
 import React from 'react'
-import Div from './../../Div'
 import Row from './../../Row'
 import Span from './../../typography/Span'
-import { useLayout } from './../../../hooks'
 import './index.styl'
 
 export default function DefaultInput ({
   value = [],
-  label,
-  description,
-  layout,
   placeholder,
   disabled,
   focused,
   readonly,
   children,
-  onOpen
+  onOpen,
+  _hasError
 }) {
-  layout = useLayout({ layout, label, description })
-
-  const pure = layout === 'pure'
-
-  function renderContainer (children) {
-    if (pure) {
-      return pug`
-        Div= children
-      `
-    } else {
-      return pug`
-        Div
-          if label
-            Span.label(styleName={focused})= label
-          = children
-          if description
-            Span.description(description)= description
-      `
-    }
-  }
-
-  return renderContainer(pug`
+  return pug`
     if readonly
       Span= value.join(', ')
     else
@@ -51,5 +26,5 @@ export default function DefaultInput ({
           Span.placeholder= placeholder || '-'
 
         = children
-  `)
+  `
 }

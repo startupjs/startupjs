@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import ArrayInput from '../ArrayInput'
 import Checkbox from '../Checkbox'
 import DateTimePicker from '../DateTimePicker'
-import ErrorWrapper from '../ErrorWrapper'
 import Multiselect from '../Multiselect'
 import NumberInput from '../NumberInput'
 import ObjectInput from '../ObjectInput'
@@ -12,11 +11,8 @@ import PasswordInput from '../PasswordInput'
 import Radio from '../Radio'
 import Select from '../Select'
 import TextInput from '../TextInput'
-import themed from '../../../theming/themed'
 
 function Input ({
-  style,
-  error,
   type,
   $value,
   ...props
@@ -122,6 +118,7 @@ function Input ({
     }
     return null
   }
+
   if ($value && typeof $value === 'string') {
     if (/.+\..+/.test($value)) {
       $value = $root.at($value)
@@ -130,37 +127,35 @@ function Input ({
       $value = undefined
     }
   }
+
   const { Component, getProps } = inputs[type]
   const bindingProps = $value ? getProps($value) : {}
+
   return pug`
-    ErrorWrapper(style=style err=error)
-      Component(
-        ...bindingProps
-        ...props
-        $value=$value
-      )
+    Component(
+      ...bindingProps
+      ...props
+      $value=$value
+    )
   `
 }
 
-Input.defaultProps = {
-  type: 'text'
-}
-
 Input.propTypes = {
-  error: PropTypes.string,
   type: PropTypes.oneOf([
-    'text',
+    'array',
     'checkbox',
-    'object',
-    'select',
-    'number',
     'date',
     'datetime',
+    'multiselect',
+    'number',
+    'object',
+    'password',
+    'radio',
+    'select',
     'time',
-    'array',
-    'password'
+    'text'
   ]).isRequired,
   $value: PropTypes.any
 }
 
-export default observer(themed(Input))
+export default observer(Input)

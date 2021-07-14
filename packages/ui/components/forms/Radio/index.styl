@@ -1,15 +1,7 @@
 $uncheckedColor = $UI.colors.dark
 $checkedColor = $UI.colors.primary
+$errorColor = $UI.colors.attention
 _size = 2u
-
-.label
-  font(body2)
-
-  &.focused
-    color _focusedColor
-
-.description
-  font(caption)
 
 .input
   padding-top 1u
@@ -28,11 +20,17 @@ _size = 2u
   &.checked
     border-color $checkedColor
 
+  &.error
+    border-color $errorColor
+
 .circle
   radius(circle)
   width (_size / 2)
   height @width
   background-color $checkedColor
+
+  &.error
+    background-color $errorColor
 
 .container
   margin-left 1u

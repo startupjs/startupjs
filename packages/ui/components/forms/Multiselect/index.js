@@ -4,15 +4,13 @@ import PropTypes from 'prop-types'
 import Checkbox from './../Checkbox'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
+import wrapInput from './../wrapInput'
 import './index.styl'
 
 const Multiselect = ({
   options,
   value,
   placeholder,
-  label,
-  description,
-  layout,
   disabled,
   readonly,
   tagLimit,
@@ -41,18 +39,18 @@ const Multiselect = ({
     onChange && onChange([...value, _value])
   }
 
-  function _onFocus () {
+  function focusHandler () {
     setFocused(true)
     onFocus && onFocus()
   }
 
-  function _onBlur () {
+  function blurHandler () {
     setFocused(false)
     onBlur && onBlur()
   }
 
   function onHide () {
-    _onBlur(false)
+    blurHandler(false)
   }
 
   const onItemPress = value => checked => {
@@ -85,9 +83,6 @@ const Multiselect = ({
       options=_options
       value=value
       placeholder=placeholder
-      label=label
-      description=description
-      layout=layout
       focused=focused
       disabled=disabled
       tagLimit=tagLimit
@@ -96,30 +91,10 @@ const Multiselect = ({
       TagComponent=TagComponent
       hasWidthCaption=hasWidthCaption
       renderListItem=_renderListItem
-      onOpen=_onFocus
+      onOpen=focusHandler
       onHide=onHide
     )
   `
-}
-
-Multiselect.propTypes = {
-  value: PropTypes.array.isRequired,
-  options: PropTypes.array.isRequired,
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.string,
-  disabled: PropTypes.bool,
-  readonly: PropTypes.bool,
-  tagLimit: PropTypes.number,
-  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  hasWidthCaption: PropTypes.bool,
-  renderListItem: PropTypes.func,
-  onChange: PropTypes.func,
-  onSelect: PropTypes.func,
-  onRemove: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func
 }
 
 Multiselect.defaultProps = {
@@ -132,4 +107,22 @@ Multiselect.defaultProps = {
   TagComponent: DefaultTag
 }
 
-export default observer(Multiselect)
+Multiselect.propTypes = {
+  value: PropTypes.array.isRequired,
+  options: PropTypes.array.isRequired,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  tagLimit: PropTypes.number,
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  hasWidthCaption: PropTypes.bool,
+  renderListItem: PropTypes.func,
+  onChange: PropTypes.func,
+  onSelect: PropTypes.func,
+  onRemove: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  _hasError: PropTypes.bool // @private
+}
+
+export default wrapInput(observer(Multiselect))

@@ -7,9 +7,6 @@ import DefaultTag from './defaultTag'
 import './index.styl'
 
 function MultiselectInput ({
-  label,
-  description,
-  layout,
   value,
   placeholder,
   options,
@@ -19,7 +16,8 @@ function MultiselectInput ({
   tagLimit,
   TagComponent,
   InputComponent,
-  onOpen
+  onOpen,
+  _hasError
 }) {
   const values = tagLimit ? value.slice(0, tagLimit) : value
   const hiddenTagsLength = tagLimit
@@ -31,14 +29,12 @@ function MultiselectInput ({
   return pug`
     Input(
       value=values
-      label=label
-      description=description
-      layout=layout
       placeholder=placeholder
       disabled=disabled
       focused=focused
       readonly=readonly
       onOpen=onOpen
+      _hasError=_hasError
     )
       each value, index in values
         - const record = options.find(r => r.value === value)
@@ -63,15 +59,13 @@ MultiselectInput.propTypes = {
   value: PropTypes.array.isRequired,
   onOpen: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.string,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   tagLimit: PropTypes.number,
   focused: PropTypes.bool,
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  InputComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  InputComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  _hasError: PropTypes.bool // @private
 }
 
 export default observer(MultiselectInput)

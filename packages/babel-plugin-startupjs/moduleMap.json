@@ -35,7 +35,6 @@
     "ArrayInput": "/components/forms/ArrayInput",
     "Checkbox": "/components/forms/Checkbox",
     "DateTimePicker": "/components/forms/DateTimePicker",
-    "ErrorWrapper": "/components/forms/ErrorWrapper",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
     "NumberInput": "/components/forms/NumberInput",

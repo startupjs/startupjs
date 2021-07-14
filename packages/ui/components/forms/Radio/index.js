@@ -1,81 +1,54 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Input from './input'
 import Div from './../../Div'
-import Span from './../../typography/Span'
-import themed from '../../../theming/themed'
-import { useLayout } from './../../../hooks'
+import Input from './input'
+import wrapInput from './../wrapInput'
 import './index.styl'
 
 function Radio ({
-  style,
-  label,
-  description,
-  layout,
+  wrapperStyle,
+  inputStyle,
   children,
   value,
   options,
-  data, // DEPRECATED
-  disabled,
-  readonly,
-  onChange
+  onChange,
+  _hasError,
+  ...props
 }) {
-  layout = useLayout({ layout, label, description })
-
-  const pure = layout === 'pure'
-  // TODO: DEPRECATED! Remove!
-  if (data) {
-    options = data
-    console.warn('DEPRECATION ERROR! [@startupjs/ui -> Radio] Use "options" instead of "data"')
-  }
-
   function handleRadioPress (value) {
     return onChange && onChange(value)
   }
 
-  const _children = options.length
+  const radios = options.length
     ? options.map((o) => {
+      const checked = o.value === value
+      const hasError = _hasError && (value ? checked : true)
+
       return pug`
         Input(
+          style=inputStyle
           key=o.value
-          checked=o.value === value
+          checked=checked
           value=o.value
-          disabled=disabled
-          readonly=readonly
           onPress=handleRadioPress
+          _hasError=hasError
+          ...props
         )= o.label
       `
     })
     : React.Children.toArray(children).map((child) => {
       return React.cloneElement(child, {
+        style: inputStyle,
         checked: child.props.value === value,
-        disabled,
-        readonly,
-        onPress: value => handleRadioPress(value)
+        onPress: value => handleRadioPress(value),
+        ...props
       })
     })
 
-  function renderContainer (children) {
-    if (pure) {
-      return pug`
-        Div.root(style=style)= children
-      `
-    } else {
-      return pug`
-        Div.root(style=style)
-          if label
-            Span.label= label
-          = children
-          if description
-            Span.description(description)= description
-      `
-    }
-  }
-
-  return renderContainer(pug`
-    = _children
-  `)
+  return pug`
+    Div(style=[wrapperStyle])= radios
+  `
 }
 
 Radio.defaultProps = {
@@ -85,24 +58,23 @@ Radio.defaultProps = {
 }
 
 Radio.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
+  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   // TODO: Also support pure values like in Select. Api should be the same.
-  data: PropTypes.arrayOf(PropTypes.shape({
+  options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
-const ObservedRadio = observer(themed(Radio))
+const ObservedRadio = observer(Radio)
+const WrappedObservedRadio = wrapInput(ObservedRadio)
 
-ObservedRadio.Item = Input
+WrappedObservedRadio.Item = Input
 
-export default ObservedRadio
+export default WrappedObservedRadio

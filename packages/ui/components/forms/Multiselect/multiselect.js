@@ -10,9 +10,6 @@ const Multiselect = ({
   options,
   value,
   placeholder,
-  label,
-  description,
-  layout,
   focused,
   disabled,
   tagLimit,
@@ -22,13 +19,11 @@ const Multiselect = ({
   onSelect,
   onRemove,
   onOpen,
-  onHide
+  onHide,
+  _hasError
 }) => {
   return pug`
     MultiselectInput(
-      label=label
-      description=description
-      layout=layout
       onOpen=onOpen
       focused=focused
       value=value
@@ -38,6 +33,7 @@ const Multiselect = ({
       disabled=disabled
       InputComponent=InputComponent
       TagComponent=TagComponent
+      _hasError=_hasError
     )
     Drawer.nativeListContent(
       visible=focused
@@ -58,9 +54,6 @@ Multiselect.propTypes = {
   onSelect: PropTypes.func,
   onRemove: PropTypes.func,
   placeholder: PropTypes.string,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
@@ -68,7 +61,8 @@ Multiselect.propTypes = {
   disabled: PropTypes.bool,
   InputComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  renderListItem: PropTypes.func
+  renderListItem: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
 export default observer(Multiselect)

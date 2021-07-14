@@ -6,8 +6,7 @@ import React, {
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
-import PropTypes from 'prop-types'
+import { observer, useDidUpdate, useValue } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
@@ -40,15 +39,13 @@ const ICON_SIZES = {
   l: 'l'
 }
 
-function Input ({
+function TextInputInput ({
   style,
   inputStyle,
-  className,
   placeholder,
   value,
   editable,
   size,
-  focused,
   disabled,
   resize,
   numberOfLines,
@@ -62,33 +59,39 @@ function Input ({
   onChangeText,
   onIconPress,
   onSecondaryIconPress,
-  renderWrapper,
+  _renderWrapper,
   _hasError,
   ...props
 }, ref) {
   const inputRef = useRef()
+  const [inputState, $inputState] = useValue({ focused: false })
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  const focusHandler = (...args) => {
+    if (inputState.focused || disabled) return
+    inputRef.current.focus()
+    onFocus && onFocus(...args)
+    $inputState.set('focused', true)
+  }
+  const blurHandler = (...args) => {
+    if (!inputState.focused || disabled) return
+    onBlur && onBlur(...args)
+    $inputState.set('focused', false)
+  }
 
-  if (!renderWrapper) {
-    renderWrapper = ({ style }, children) => pug`
+  if (!_renderWrapper) {
+    _renderWrapper = ({ style }, children) => pug`
       Div(style=style)= children
     `
   }
 
   useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputRef.current.focus()
-      onFocus && onFocus()
-    },
-    blur: () => {
-      inputRef.current.blur()
-      onBlur && onBlur()
-    },
+    focus: focusHandler,
+    blur: blurHandler,
     clear: () => {
       inputRef.current.clear()
     },
     isFocused: () => {
-      return focused
+      return inputState.focused
     }
   }), [])
 
@@ -104,7 +107,7 @@ function Input ({
   if (IS_WEB) {
     // repeat mobile behaviour on the web
     useLayoutEffect(() => {
-      if (focused && disabled) inputRef.current.blur()
+      if (inputState.focused && disabled) blurHandler()
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
@@ -157,18 +160,18 @@ function Input ({
     size,
     {
       disabled,
-      focused,
+      focused: inputState.focused,
       [`icon-${iconPosition}`]: !!icon,
       error: _hasError
     }
   ]
 
-  return renderWrapper({
+  return _renderWrapper({
     style: [{ height: fullHeight }, style]
   }, pug`
     TextInput.input-input(
-      ref=inputRef
       style=inputStyle
+      ref=inputRef
       styleName=[inputStyleName]
       selectionColor=caretColor
       placeholder=placeholder
@@ -176,8 +179,8 @@ function Input ({
       value=value
       editable=editable && !disabled
       multiline=multiline
-      onBlur=onBlur
-      onFocus=onFocus
+      onFocus=focusHandler
+      onBlur=blurHandler
       onChangeText=(value) => {
         onChangeText && onChangeText(value)
       }
@@ -215,16 +218,9 @@ function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
 
-const ObservedInput = observer(themed('TextInput', Input), { forwardRef: true })
-
-ObservedInput.defaultProps = {
-  editable: true,
-  numberOfLines: 1
-}
-
-ObservedInput.propTypes = {
-  editable: PropTypes.bool,
-  _hasError: PropTypes.bool
-}
+const ObservedInput = observer(
+  themed('TextInput', TextInputInput),
+  { forwardRef: true }
+)
 
 export default ObservedInput

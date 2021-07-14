@@ -26,11 +26,17 @@ observer.__makeObserver = makeObserver
 
 export { observer }
 
-function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+function pipeComponentDisplayName (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
   const displayName = SourceComponent.displayName || SourceComponent.name
+
   if (!TargetComponent.displayName) {
     TargetComponent.displayName = displayName ? (displayName + suffix) : defaultName
   }
+}
+
+function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+  pipeComponentDisplayName(SourceComponent, TargetComponent, suffix, defaultName)
+
   if (!TargetComponent.propTypes && SourceComponent.propTypes) {
     TargetComponent.propTypes = SourceComponent.propTypes
   }
@@ -117,7 +123,9 @@ function wrapObserverMeta (
     )
   }
 
-  pipeComponentMeta(Component, ObserverWrapper, 'StartupjsObserverWrapper')
+  // pipe only displayName because forwardRef render function
+  // do not support propTypes or defaultProps
+  pipeComponentDisplayName(Component, ObserverWrapper, 'StartupjsObserverWrapper')
 
   const memoComponent = React.memo(
     forwardRef

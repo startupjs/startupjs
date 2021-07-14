@@ -11,11 +11,12 @@ const AnimatedView = Animated.View
 
 function CheckboxInput ({
   style,
-  className,
   value,
   icon,
   disabled,
   onPress,
+  onFocus, // IMPORTANT: skip prop because it is triggered when click on checkbox
+  onBlur, // IMPORTANT: skip prop because it is triggered when click outside checkbox after clicking on checkbox
   ...props
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
