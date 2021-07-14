@@ -56,12 +56,12 @@ export default observer(function Days ({
   }, [uiDate, timezone])
 
   function _onChangeDay (item) {
-    const timeshtamp = +moment
+    const timestamp = +moment
       .tz(uiDate, timezone)
       .date(item.day)
       .month(item.month)
 
-    onChangeDate && onChangeDate(timeshtamp)
+    onChangeDate && onChangeDate(timestamp)
   }
 
   const isDisableDay = useCallback(value => {

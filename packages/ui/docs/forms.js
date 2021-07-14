@@ -4,9 +4,7 @@ import ArrayInputEn from '../components/forms/ArrayInput/ArrayInput.en.mdx'
 import ArrayInputRu from '../components/forms/ArrayInput/ArrayInput.ru.mdx'
 import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'
 import CheckboxRu from '../components/forms/Checkbox/Checkbox.ru.mdx'
-import DateTimePickerEn from '../components/forms/DateTimePicker/DateTimePicker.en.mdx'
-import DateTimePickerRu from '../components/forms/DateTimePicker/DateTimePicker.ru.mdx'
-import DatePicker from '../components/forms/DatePicker/DatePicker.mdx'
+import DateTimePicker from '../components/forms/DateTimePicker/DateTimePicker.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import InputRu from '../components/forms/Input/Input.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
@@ -51,15 +49,7 @@ export default {
     DateTimePicker: {
       type: 'mdx',
       title: 'DateTimePicker',
-      component: {
-        en: DateTimePickerEn,
-        ru: DateTimePickerRu
-      }
-    },
-    DatePicker: {
-      type: 'mdx',
-      title: 'DatePicker',
-      component: DatePicker
+      component: DateTimePicker
     },
     Input: {
       type: 'mdx',

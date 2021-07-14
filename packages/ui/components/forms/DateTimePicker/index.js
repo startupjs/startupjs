@@ -1,275 +1,208 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Keyboard, Platform } from 'react-native'
-import RNCDateTimePicker from '@react-native-community/datetimepicker'
-import TimePickerAndroid from '@react-native-community/datetimepicker/src/timepicker.android'
-import DatePickerAndroid from '@react-native-community/datetimepicker/src/datepicker.android'
-import { observer } from 'startupjs'
-import moment from 'moment-timezone'
+import React, { useMemo, useRef, useCallback, useState, useEffect } from 'react'
+import { Dimensions } from 'react-native'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
-import Button from '../../Button'
+import moment from 'moment-timezone'
 import Div from '../../Div'
+import Divider from '../../Divider'
+import TextInput from '../TextInput'
+import Popover from '../../popups/Popover'
 import Drawer from '../../popups/Drawer'
-import Row from '../../Row'
-import Span from '../../typography/Span'
+import 'moment/min/locales'
+import getLocale from './getLocale'
+import Calendar from './Calendar'
+import TimeSelect from './TimeSelect'
 import themed from '../../../theming/themed'
-import { useLayout } from './../../../hooks'
 import STYLES from './index.styl'
 
-const { colors: { mainText, secondaryText } } = STYLES
-
-const FORMATS = {
-  date: 'YYYY-MM-DD',
-  datetime: 'YYYY-MM-DD HH:mm',
-  time: 'HH:mm'
-}
-
+// TODO: disable years and months
 function DateTimePicker ({
   style,
-  cancelButtonText,
-  confirmButtonText,
+  formatInput,
+  // hourInterval,
+  minuteInterval,
+  is24Hour,
+  size,
+  mode,
+  renderCaption, // replace InputComponent
+  locale,
+  range,
+  timezone,
+  disabledDays = [],
   date,
   disabled,
-  format,
-  is24Hour,
   label,
-  description,
-  layout,
+  placeholder,
   maxDate,
   minDate,
-  minuteInterval,
-  mode,
-  placeholder,
-  size,
-  onDateChange
+  onChangeDate
 }) {
-  layout = useLayout({ layout, label, description })
+  const [visible, $visible] = useValue(false)
+  const [textInput, setTextInput] = useState('')
+  const refInput = useRef()
 
-  const pure = layout === 'pure'
-  const [inputDate, setInputDate] = useState()
-  const [visible, setVisible] = useState(false)
-  const [focused, setFocused] = useState(false)
+  const [layoutWidth, $layoutWidth] = useValue(
+    Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
+  )
+  const handleWidthChange = useCallback(() => {
+    $visible.set(false)
+    $layoutWidth.set(
+      Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
+    )
+  }, [])
+  useEffect(() => {
+    Dimensions.addEventListener('change', handleWidthChange)
+    return () => {
+      $visible.set(false)
+      Dimensions.removeEventListener('change', handleWidthChange)
+    }
+  }, [])
 
-  const _format = useMemo(() => format || FORMATS[mode], [format])
-  const _is24Hour = useMemo(() => (typeof is24Hour === 'boolean' ? is24Hour : !_format.match(/h|a/g)), [
-    is24Hour,
-    _format
-  ])
+  const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
 
-  function getDate (_date = inputDate) {
-    if (!_date) {
-      let now = new Date()
-      if (minDate) {
-        let _minDate = getDate(minDate)
-
-        if (now < _minDate) {
-          return _minDate
-        }
-      }
-
-      if (maxDate) {
-        let _maxDate = getDate(maxDate)
-
-        if (now > _maxDate) {
-          return _maxDate
-        }
-      }
-
-      return now
+  const _formatInput = useMemo(() => {
+    if (formatInput) return formatInput
+    if (mode === 'datetime') {
+      return moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.L + ' ' +
+      moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.LT
     }
 
-    if (_date instanceof Date) {
-      return _date
-    }
+    if (mode === 'date') return moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.L
+    if (mode === 'time') return moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.LT
+  }, [formatInput, timezone])
 
-    return moment(_date).toDate()
+  function getFormatDate () {
+    return moment
+      .tz(date, timezone)
+      .locale(exactLocale)
+      .format(_formatInput)
   }
 
   useEffect(() => {
-    if (!date) return
-    moment(inputDate).valueOf() !== date && setInputDate(getDate(date))
+    setTextInput(getFormatDate())
   }, [date])
 
-  function onPressCancel () {
-    setFocused(false)
-    onToggleModal(false)
-  }
-
-  function onPressConfirm () {
-    datePicked()
-    onToggleModal(false)
-  }
-
-  function onToggleModal (visible) {
-    setVisible(visible)
-  }
-
-  function getDateStr () {
-    return moment(date).format(_format)
-  }
-
-  function datePicked (_date) {
-    setFocused(false)
-    onDateChange && onDateChange(moment(_date || inputDate).valueOf())
-  }
-
-  function onDatePicked ({ action, year, month, day }) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      const newDate = new Date(year, month, day)
-      setInputDate(newDate)
-      datePicked(newDate)
-    } else {
-      onPressCancel()
+  const _onChangeDate = useCallback(value => {
+    if (minDate != null && value < minDate) {
+      value = minDate
     }
-  }
 
-  function onTimePicked ({ action, hour, minute }) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      const newDate = moment().hour(hour).minute(minute).toDate()
-      setInputDate(newDate)
-      datePicked(newDate)
-    } else {
-      onPressCancel()
+    if (maxDate != null && value > maxDate) {
+      value = maxDate
     }
+
+    onChangeDate && onChangeDate(value)
+  }, [onChangeDate])
+
+  function onFocus () {
+    setTextInput(getFormatDate())
+    $visible.set(true)
   }
 
-  function onDatetimeTimePicked ({ action, hour, minute }, year, month, day) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      const newDate = new Date(year, month, day, hour, minute)
-      setInputDate(newDate)
-      datePicked(newDate)
-    } else {
-      onPressCancel()
-    }
+  const onDismiss = useCallback(() => {
+    $visible.set(false)
+    setTextInput('')
+    refInput.current.blur()
+  }, [textInput])
+
+  function onChangeText (text) {
+    setTextInput(text)
   }
 
-  function onDatetimePicked ({ action, year, month, day }) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      let timeMoment = moment(inputDate)
-      const newDate = new Date(year, month, day, timeMoment.hour(), timeMoment.minutes())
-      TimePickerAndroid.open({
-        value: newDate,
-        is24Hour: _is24Hour
-      }).then(e => onDatetimeTimePicked(e, year, month, day))
-    } else {
-      onPressCancel()
-    }
-  }
+  const caption = pug`
+    if renderCaption
+      = renderCaption()
+    else
+      TextInput(
+        ref=refInput
+        style=style
+        disabled=disabled
+        label=label
+        size=size
+        placeholder=placeholder
+        value=visible ? textInput : getFormatDate()
+        onFocus=onFocus
+        onChangeText=onChangeText
+      )
+  `
 
-  function onPressDate () {
-    setFocused(true)
-    Keyboard.dismiss()
-
-    setInputDate(getDate())
-
-    if (Platform.OS === 'ios') {
-      onToggleModal(true)
-    } else {
-      if (mode === 'date') {
-        DatePickerAndroid.open({
-          value: inputDate,
-          minimumDate: minDate && getDate(minDate),
-          maximumDate: maxDate && getDate(maxDate)
-        }).then(onDatePicked)
-      } else if (mode === 'time') {
-        TimePickerAndroid.open({
-          value: inputDate,
-          is24Hour: _is24Hour,
-          minuteInterval: minuteInterval
-        }).then(onTimePicked)
-      } else {
-        DatePickerAndroid.open({
-          value: inputDate,
-          minimumDate: minDate && getDate(minDate),
-          maximumDate: maxDate && getDate(maxDate),
-          is24Hour: _is24Hour,
-          minuteInterval: minuteInterval
-        }).then(onDatetimePicked)
-      }
-    }
-  }
-
-  function renderContainer (children) {
-    return pug`
-      Div(style=style)
-        if pure
-          = children
-        else
-          Div.info
-            if label
-              Span.label(styleName={focused})= label
-            if description
-              Span.description(description)= description
-          = children
-      if Platform.OS === 'ios'
-        Drawer.drawer(
-          swipeStyleName='swipe'
-          visible=visible
-          position='bottom'
-          onDismiss=onPressCancel
+  const content = pug`
+    Div.content
+      if (mode === 'date') || (mode === 'datetime')
+        Calendar(
+          date=date
+          exactLocale=exactLocale
+          disabledDays=disabledDays
+          locale=locale
+          maxDate=maxDate
+          minDate=minDate
+          range=range
+          timezone=timezone
+          onChangeDate=_onChangeDate
         )
-          Row.buttons(
-            align='between'
-            vAlign='center'
-          )
-            Button.button.cancelButton(
-              textStyleName='cancelButtonText'
-              variant='text'
-              onPress=onPressCancel
-            )= cancelButtonText
-            Button.button.confirmButton(
-              textStyleName='confirmButtonText'
-              variant='text'
-              onPress=onPressConfirm
-            )= confirmButtonText
-          // DateTimePicker cannot get its dimensions when rendering starts
-          if visible
-            RNCDateTimePicker.picker(
-              value=getDate()
-              mode=mode
-              minimumDate=minDate && getDate(minDate)
-              maximumDate=maxDate && getDate(maxDate)
-              onChange= (event, date) => setInputDate(date)
-              minuteInterval=minuteInterval
-            )
-    `
-  }
 
-  return renderContainer(pug`
-    Button(
-      textStyle={ color: date ? mainText : secondaryText }
-      color= focused ? 'primary' : 'dark'
-      size=size
-      disabled=disabled
-      onPress=onPressDate
-    )= placeholder && !date ? placeholder : getDateStr()
-  `)
+      if mode === 'datetime'
+        Divider.divider
+
+      if (mode === 'time') || (mode === 'datetime')
+        TimeSelect(
+          date=date
+          maxDate=maxDate
+          minDate=minDate
+          layoutWidth=layoutWidth
+          timezone=timezone
+          exactLocale=exactLocale
+          is24Hour=is24Hour
+          minuteInterval=minuteInterval
+          onChangeDate=_onChangeDate
+        )
+  `
+
+  // TODO: New API Popover
+  return pug`
+    if layoutWidth > STYLES.media.mobile
+      Popover(
+        visible=visible
+        onDismiss=onDismiss
+      )
+        Popover.Caption= caption
+        = content
+    else
+      = caption
+      Drawer.drawer(
+        visible=visible
+        position='bottom'
+        swipeStyleName='swipe'
+        onDismiss=onDismiss
+      )= content
+  `
 }
 
 DateTimePicker.defaultProps = {
-  cancelButtonText: 'Cancel',
-  confirmButtonText: 'Ok',
   mode: 'datetime',
-  size: 'm'
+  size: 'm',
+  // minDate: +moment([2021, 6, 5, 15, 40]),
+  // maxDate: +moment([2021, 6, 6, 15, 40]),
+  // hourInterval: 1,
+  minuteInterval: 1
+  // timezone: moment.tz.guess()
 }
 
 DateTimePicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  cancelButtonText: PropTypes.string,
-  confirmButtonText: PropTypes.string,
+  // hourInterval: PropTypes.number,
+  minuteInterval: PropTypes.number,
+  is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
-  format: PropTypes.string,
-  is24Hour: PropTypes.bool,
   label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
+  placeholder: PropTypes.string,
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
-  minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]),
   mode: PropTypes.oneOf(['date', 'time', 'datetime']),
-  placeholder: PropTypes.string,
+  formatInput: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onDateChange: PropTypes.func
+  onChangeDate: PropTypes.func
 }
 
 export default observer(themed(DateTimePicker))

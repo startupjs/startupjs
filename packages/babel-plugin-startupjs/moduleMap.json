@@ -34,7 +34,6 @@
     "User": "/components/User",
     "ArrayInput": "/components/forms/ArrayInput",
     "Checkbox": "/components/forms/Checkbox",
-    "DatePicker": "/components/forms/DatePicker",
     "DateTimePicker": "/components/forms/DateTimePicker",
     "ErrorWrapper": "/components/forms/ErrorWrapper",
     "Input": "/components/forms/Input",

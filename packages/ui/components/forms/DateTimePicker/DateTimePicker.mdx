@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import DatePicker from './'
+import DateTimePicker from './'
 
 ```jsx example
 const [date, setDate] = useState(+new Date())
 
 return pug`
-  DatePicker(
+  DateTimePicker(
     date=date
     timezone='UTC'
     onChangeDate=v=> setDate(v)
