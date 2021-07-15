@@ -29,7 +29,7 @@ function validateConfigs ({
 }
 
 export default function (config = {}) {
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(config, {
       ...authConfig
       // Any defaults....
@@ -93,4 +93,7 @@ export default function (config = {}) {
 
     passport.use(providerName, strategy)
   }
+
+  func.providerName = config.providerName
+  return func
 }

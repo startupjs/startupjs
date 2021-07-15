@@ -1,3 +1,5 @@
+import { auth } from './'
+
 export default class BaseProvider {
   constructor ($root, profile, options) {
     this.$root = $root
@@ -5,40 +7,34 @@ export default class BaseProvider {
     this.options = options || {}
   }
 
-  getFindUserQuery () {
-    const email = this.getEmail()
-
+  async getFindUserQuery () {
     // Generally we don't need an provider id to perform auth
     // auth proces depends on provider.email field only
     // but earlier implementation of auth lib used provideer.id in local strategy
     // Those lines is added only for backward compabilities reasons
-    return {
-      $expr: {
-        $function: {
-          body: `function({ providers, email, providerName, providerId }) {
-            for (var providerName in providers) {
-              return providers[providerName].email === email
-            }
-
-            return providers[providerName].id = providerId
-          }`,
-          args: [{
-            providers: '$providers',
-            email,
-            providerName: this.getProviderName(),
-            providerId: this.getProviderId()
-          }],
-          lang: 'js'
-        }
-      }
+    const query = {
+      $or: [
+        { [`providers.${this.getProviderName()}.id`]: this.getProviderId() }
+      ]
     }
+
+    // We can't use $where because of it supports in mongodb < 4.4
+    // and can't use $function because of it supports in mongodb > 4.4
+    // use $function when all our libraries use mongodb > 4.4
+    auth.config.strategies.forEach(func => {
+      query.$or.push({
+        [`providers.${func.providerName}.email`]: this.getEmail()
+      })
+    })
+
+    return query
   }
 
   async findOrCreateUser ({ req }) {
     const { $root } = this
 
-    const providerName = this.getProviderName()
-    const $auths = $root.query('auths', this.getFindUserQuery())
+    const findUserQuery = await this.getFindUserQuery()
+    const $auths = $root.query('auths', findUserQuery)
     await $auths.fetch()
 
     let userId = $auths.getIds()[0]
@@ -46,6 +42,8 @@ export default class BaseProvider {
     if (userId) {
       const $auth = $root.scope('auths.' + userId)
       const providers = $auth.get('providers') || {}
+      const providerName = this.getProviderName()
+
       if (!providers[providerName]) {
         await $auth.set(
           'providers.' + providerName,
