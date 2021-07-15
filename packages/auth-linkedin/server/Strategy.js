@@ -18,7 +18,7 @@ function validateConfigs ({ clientId, clientSecret }) {
 export default function (config = {}) {
   this.config = {}
 
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig
       // Any defaults....
@@ -69,4 +69,7 @@ export default function (config = {}) {
       )
     )
   }
+
+  func.providerName = 'linkedin'
+  return func
 }
