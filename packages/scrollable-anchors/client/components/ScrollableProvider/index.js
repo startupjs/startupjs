@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import { ScrollView } from 'react-native'
 import { observer, useOn, usePage, useLocal, emit } from 'startupjs'
+import { ScrollPageProvider } from '@startupjs/ui'
 import _debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 
@@ -129,7 +129,7 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
   useEffect(scrollToTop, [url])
   useEffect(processQueue, [JSON.stringify(scrollQueue), JSON.stringify(anchorRegistry)])
   return pug`
-    ScrollView(
+    ScrollPageProvider(
       ref=globalScrollRef
       style=style
       onContentSizeChange=onDimensionChange

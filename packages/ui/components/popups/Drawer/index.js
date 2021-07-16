@@ -32,11 +32,14 @@ const POSITION_NAMES = {
 function Drawer ({
   style,
   swipeStyle,
+  overlayStyle,
   children,
   visible,
   position,
   isSwipe,
   hasOverlay,
+  durationOpen,
+  durationHide,
   onDismiss,
   onRequestOpen
 }) {
@@ -78,7 +81,8 @@ function Drawer ({
         hasOverlay,
         isHorizontal,
         isInvertPosition,
-        isInit
+        isInit,
+        durationOpen
       }, () => {
         onRequestOpen && onRequestOpen()
       })
@@ -95,7 +99,8 @@ function Drawer ({
         animateStates,
         hasOverlay,
         isHorizontal,
-        isInvertPosition
+        isInvertPosition,
+        durationHide
       }, () => {
         setContentSize({})
         setIsShow(false)
@@ -122,7 +127,10 @@ function Drawer ({
           View.case(style=_styleCase)
             if hasOverlay
               TouchableWithoutFeedback.overlayCase(onPress=onDismiss)
-                Animated.View.overlay(style={ opacity: animateStates.opacity })
+                Animated.View.overlay(style=[
+                  { opacity: animateStates.opacity },
+                  overlayStyle
+                ])
 
             Animated.View.content(
               ref=refContent

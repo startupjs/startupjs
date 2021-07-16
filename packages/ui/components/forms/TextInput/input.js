@@ -2,8 +2,7 @@ import React, {
   useState,
   useMemo,
   useLayoutEffect,
-  useRef,
-  useImperativeHandle
+  useRef
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
@@ -11,7 +10,7 @@ import PropTypes from 'prop-types'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
-import themed from '../../../theming/themed'
+// import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -65,7 +64,7 @@ function Input ({
   renderWrapper,
   ...props
 }, ref) {
-  const inputRef = useRef()
+  const inputRef = ref || useRef()
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
 
   if (!renderWrapper) {
@@ -73,15 +72,6 @@ function Input ({
       Div(style=style)= children
     `
   }
-
-  useImperativeHandle(ref, () => ({
-    blur: () => {
-      inputRef.current.blur()
-    },
-    focus: () => {
-      inputRef.current.focus()
-    }
-  }))
 
   useLayoutEffect(() => {
     if (resize) {
@@ -203,7 +193,7 @@ function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
 
-const ObservedInput = observer(themed('TextInput', Input), { forwardRef: true })
+const ObservedInput = observer(Input, { forwardRef: true })
 
 ObservedInput.defaultProps = {
   editable: true,

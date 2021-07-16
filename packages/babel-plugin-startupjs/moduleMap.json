@@ -26,6 +26,7 @@
     "Progress": "/components/Progress",
     "Rating": "/components/Rating",
     "Row": "/components/Row",
+    "ScrollPage": "/components/ScrollPage",
     "Sidebar": "/components/Sidebar",
     "SmartSidebar": "/components/SmartSidebar",
     "Tabs": "/components/Tabs",
