@@ -16,6 +16,8 @@ import ButtonEn from '../components/Button/Button.en.mdx'
 import ButtonRu from '../components/Button/Button.ru.mdx'
 import CardEn from '../components/Card/Card.en.mdx'
 import CardRu from '../components/Card/Card.ru.mdx'
+import CarouselEn from '../components/Carousel/Carousel.en.mdx'
+import CarouselRu from '../components/Carousel/Carousel.ru.mdx'
 import CollapseEn from '../components/Collapse/Collapse.en.mdx'
 import CollapseRu from '../components/Collapse/Collapse.ru.mdx'
 import ContentEn from '../components/Content/Content.en.mdx'
@@ -26,8 +28,6 @@ import DividerEn from '../components/Divider/Divider.en.mdx'
 import DividerRu from '../components/Divider/Divider.ru.mdx'
 import DrawerSidebarEn from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import DrawerSidebarRu from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
-import HrEn from '../components/Hr/Hr.en.mdx'
-import HrRu from '../components/Hr/Hr.ru.mdx'
 import IconEn from '../components/Icon/Icon.en.mdx'
 import IconRu from '../components/Icon/Icon.ru.mdx'
 import LayoutEn from '../components/Layout/Layout.en.mdx'
@@ -137,6 +137,14 @@ export default {
         ru: CardRu
       }
     },
+    Carousel: {
+      type: 'mdx',
+      title: 'Carousel',
+      component: {
+        en: CarouselEn,
+        ru: CarouselRu
+      }
+    },
     Collapse: {
       type: 'mdx',
       title: 'Collapse',
@@ -175,14 +183,6 @@ export default {
       component: {
         en: DrawerSidebarEn,
         ru: DrawerSidebarRu
-      }
-    },
-    Hr: {
-      type: 'mdx',
-      title: 'Hr',
-      component: {
-        en: HrEn,
-        ru: HrRu
       }
     },
     Icon: {

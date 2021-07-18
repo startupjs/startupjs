@@ -9,19 +9,9 @@ import { useValue } from 'startupjs'
 
 ArrayInput lets you build dynamic forms using its declarative api.
 
-ArrayInput accepts an object in the `items` property with a required `input` key to specify what type of input to display.
+ArrayInput accepts an input metadata object with and a required `input` key to specify what type of input to display in the `items` property .
 
-Possible types are:
-
-[сheckbox](/docs/forms/Checkbox)
-[text](/docs/forms/TextInput)
-[object](/docs/forms/ObjectInput)
-[select](/docs/forms/Select)
-[date](/docs/forms/DateTimePicker)
-[datetime](/docs/forms/DateTimePicker)
-[time](/docs/forms/DateTimePicker)
-
-The `items` object also inherits any of the props passed to these components.
+Possible types are: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
 
 ```jsx
 import { ArrayInput } from '@startupjs/ui'
@@ -30,12 +20,12 @@ import { ArrayInput } from '@startupjs/ui'
 ## Simple example
 
 ```jsx example
-const [value, $value] = useValue(['Green', 'Blue'])
+const [, $value] = useValue(['Green', 'Blue'])
 return (
   <ArrayInput
-    value={value}
     $value={$value}
     label='Colors'
+    description='Enter any colors you know'
     items={{
       input: 'text'
     }}

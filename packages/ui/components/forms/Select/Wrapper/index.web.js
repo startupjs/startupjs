@@ -40,4 +40,5 @@ function SelectWrapper ({
               = getLabel(item)
   `
 }
+
 export default observer(themed('Select', SelectWrapper))

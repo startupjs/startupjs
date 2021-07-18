@@ -71,6 +71,7 @@ AuthButton.defaultProps = {
 
 AuthButton.propTypes = {
   label: PropTypes.string.isRequired,
+  redirectUrl: PropTypes.string,
   baseUrl: PropTypes.string.isRequired
 }
 

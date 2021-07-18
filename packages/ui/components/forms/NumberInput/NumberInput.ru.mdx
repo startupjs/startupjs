@@ -24,13 +24,14 @@ return (
 )
 ```
 
-## Label
+## Label and description
 
 ```jsx example
 const [value, setValue] = useState()
 return (
   <NumberInput
-    label='Label'
+    label='Age'
+    description='How old are you?'
     value={value}
     onChangeNumber={setValue}
   />
@@ -166,10 +167,10 @@ return (
 
 ## Компоновка
 
-Существует две компоновки. Поведение по умолчанию - `rows` если `label` свойство задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
+Существует две компоновки. Поведение по умолчанию - `rows` если `label` или `description` свойство задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
 
-- `pure` отображает текстовое поле без `label`
-- `rows` отображает текстовое поле с `label` и если `label` не задан, то вместо нее используется `placeholder`
+- `pure` отображает текстовое поле без `label` и `description`
+- `rows` отображает текстовое поле с `label` и `description`. В случае если `label` не задан, то вместо нее используется `placeholder`
 
 ```jsx example
 const [pureValue, setPureValue] = useState()

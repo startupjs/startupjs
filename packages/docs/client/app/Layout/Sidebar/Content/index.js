@@ -3,7 +3,6 @@ import { ScrollView, Image } from 'react-native'
 import { observer } from 'startupjs'
 import { Div, Row, Select } from '@startupjs/ui'
 import { BASE_URL } from '@env'
-import { useDocsContext } from '../../../../../docsContext'
 import { useLang } from '../../../../clientHelpers'
 import Options from './Options'
 import Docs from './Docs'
@@ -20,13 +19,12 @@ export default observer(function Content ({
   const [lang, setLang] = useLang()
   // TODO: Change logo image to base64 and pass it through context
   const baseUrl = BASE_URL
-  const docs = useDocsContext()
 
   return pug`
     Div.root
       ScrollView
         Image.logo(testID='logo' source={ uri: baseUrl + '/img/docs.png' })
-        Docs(docs=docs lang=lang)
+        Docs
       Row.footer
         Select.lang(
           testID='languagesSelect'

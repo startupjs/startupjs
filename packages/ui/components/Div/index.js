@@ -11,6 +11,8 @@ import { colorToRGBA } from '../../helpers'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
+const DEPRECATED_PUSHED_VALUES = ['xs', 'xl', 'xxl']
+
 const isWeb = Platform.OS === 'web'
 
 const {
@@ -39,6 +41,10 @@ function Div ({
   _preventEvent,
   ...props
 }) {
+  if (DEPRECATED_PUSHED_VALUES.includes(pushed)) {
+    console.warn(`[@startupjs/ui] Div: variant='${pushed}' is DEPRECATED, use one of 's', 'm', 'l' instead.`)
+  }
+
   const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
@@ -173,7 +179,7 @@ Div.propTypes = {
   disabled: PropTypes.bool,
   level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
-  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
+  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,

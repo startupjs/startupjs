@@ -1,68 +1,51 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Dimensions } from 'react-native'
-import { useComponentId } from 'startupjs'
+import React, { useContext, useEffect } from 'react'
+import { useComponentId, useValue, observer } from 'startupjs'
 
 const PortalContext = React.createContext([])
 
-function Provider ({ children }) {
-  const [data, setData] = useState({})
-
-  // TODO: In many cases, when Dimensions change, the components change, but the previous old ones remain in the context.
-  // Need to add possibility manually remove components from context, but right now when connecting to PortalContext we get an infinite re-render.
-  function resetData () {
-    setData({})
-  }
-
-  useEffect(() => {
-    Dimensions.addEventListener('change', resetData)
-    return () => {
-      Dimensions.removeEventListener('change', resetData)
-    }
-  }, [])
+const Provider = ({ children }) => {
+  const [data, $data] = useValue({})
 
   return pug`
-    PortalContext.Provider(value=[data, setData])
+    PortalContext.Provider(value=[data, $data])
       = children
       Listener
   `
 }
 
-// getter for children from context
 function Listener () {
-  const manager = state => {
-    const [data] = state
-    return Object.values(data).map(item => item)
-  }
-
-  return (
-    <PortalContext.Consumer>
-      {manager}
-    </PortalContext.Consumer>
-  )
+  return pug`
+    PortalContext.Consumer
+      = renderChildren
+  `
 }
 
-// setter for children to context
+function renderChildren (state) {
+  return pug`
+    Manager(state=state)
+  `
+}
+
+const Manager = observer(({ state }) => {
+  const [data] = state
+  return Object.values(data).map(item => item)
+})
+
 function Portal ({ children = {} }) {
   const componentId = useComponentId()
-  const [, setData] = useContext(PortalContext)
+  const [data, $data] = useContext(PortalContext)
 
   useEffect(() => {
-    setData(state => {
-      if (children) {
-        state[componentId] = children
-      } else {
-        delete state[componentId]
-      }
-      return { ...state }
-    })
+    if (children) {
+      $data.set(componentId, children)
+    } else if (data[componentId]) {
+      $data.del(componentId)
+    }
   }, [children])
 
   useEffect(() => {
     return () => {
-      setData(state => {
-        delete state[componentId]
-        return { ...state }
-      })
+      $data.del(componentId)
     }
   }, [])
 
@@ -70,4 +53,5 @@ function Portal ({ children = {} }) {
 }
 
 Portal.Provider = Provider
+
 export default Portal
