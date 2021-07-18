@@ -1,17 +1,10 @@
-import React, { useMemo, useRef } from 'react'
-import { observer, useValue } from 'startupjs'
-import { Row, Div, Span, Icon, Carousel } from '@startupjs/ui'
-import {
-  faChevronUp,
-  faChevronDown,
-  faChevronLeft,
-  faChevronRight
-} from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect, useMemo, useRef } from 'react'
+import { FlatList } from 'react-native'
+import { observer } from 'startupjs'
+import { Row, Div, Span } from '@startupjs/ui'
 import moment from 'moment'
-import STYLES from './index.styl'
 
-// TODO: "refHourCarousel.current.toIndex" before onChangeDate with minDate, maxDate
-// add displayTimeVariant
+// TODO: add displayTimeVariant
 export default observer(function TimeSelect ({
   date,
   layoutWidth,
@@ -20,12 +13,10 @@ export default observer(function TimeSelect ({
   is24Hour,
   minDate,
   maxDate,
-  // hourInterval,
   minuteInterval,
   onChangeDate
 }) {
-  const refHourCarousel = useRef()
-  // const refMinuteCarousel = useRef()
+  const refFlatList = useRef()
 
   const _is24Hour = useMemo(() => {
     if (is24Hour != null) return is24Hour
@@ -33,62 +24,62 @@ export default observer(function TimeSelect ({
     return !(new RegExp(/a/i).test(lt))
   }, [is24Hour, exactLocale])
 
-  const [uiDate] = useValue(date)
-  const currentDate = moment.tz(uiDate, timezone).locale(exactLocale)
-  const currentHour = currentDate.hour()
-  // const hourMode = currentHour > 11 ? 'PM' : 'AM'
+  useEffect(() => scrollToIndex(), [date])
+
+  function scrollToIndex () {
+    const _date = +moment.tz(date, timezone).seconds(0).milliseconds(0)
+    const index = preparedData.findIndex(item => _date === item.value)
+    refFlatList.current.scrollToIndex({ animated: false, index })
+  }
 
   const preparedData = useMemo(() => {
     const res = []
 
-    let currentTimestamp = +moment().tz(timezone).startOf('d')
-    const endTimestamp = +moment().tz(timezone).endOf('d')
-    const intervalTimestamp = +new Date(null).setMinutes(5)
+    let currentTimestamp = +moment.tz(date, timezone).locale(exactLocale).startOf('d')
+    const endTimestamp = +moment.tz(date, timezone).locale(exactLocale).endOf('d')
+    const intervalTimestamp = minuteInterval * 60 * 1000
 
-    const format = moment().locale(exactLocale).tz(timezone)._locale._longDateFormat.LT
+    const format = _is24Hour
+      ? moment.tz(date, timezone).locale(exactLocale)._locale._longDateFormat.LT
+      : 'hh:mm A'
 
     while (currentTimestamp < endTimestamp) {
       res.push({
-        label: moment(currentTimestamp).tz(timezone).format(format),
-        value: currentTimestamp
+        label: moment.tz(currentTimestamp, timezone).locale(exactLocale).format(format),
+        value: currentTimestamp,
+        disabled: (currentTimestamp > maxDate) || (currentTimestamp < minDate)
       })
       currentTimestamp += intervalTimestamp
     }
 
     return res
-  }, [])
+  }, [date])
 
-  function _onChangeDate ({ value }) {
-    onChangeDate && onChangeDate(value)
+  function renderItem ({ item }) {
+    const isActive = date === item.value
+    return pug`
+      Div.cell(
+        styleName={ cellActive: isActive }
+        hoverStyleName='cellHover'
+        disabled=item.disabled
+        onPress=()=> onChangeDate(item.value)
+      )
+        Span(styleName={ labelActive: isActive })
+          = item.label
+    `
   }
-
-  const startHour = _is24Hour
-    ? currentHour
-    : (+currentDate.locale('en-US').format('hh A').slice(0, 2)) - 1
 
   return pug`
     Row.container
       Div.case
-        Div.button(onPress=()=> refHourCarousel.current.toBack())
-          Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronUp : faChevronLeft)
-        Carousel(
-          ref=refHourCarousel
-          isEndless
-          startIndex=startHour
-          variant=layoutWidth > STYLES.media.mobile ? 'vertical' : 'horizontal'
-          hasArrows=false
+        FlatList(
+          ref=refFlatList
+          data=preparedData
+          renderItem=renderItem
+          getItemLayout=(data, index) => (
+            { length: 40, offset: 40 * index, index }
+          )
+          keyExtractor=item=> item.value
         )
-          each item in preparedData
-            - const isActive = moment.tz(date, timezone).hour() === item.value
-            Div.cell(
-              styleName={ cellActive: isActive }
-              hoverStyleName='cellHover'
-              disabled=item.disabled
-              onPress=()=> _onChangeDate({ value: item.value, type: 'hour' })
-            )
-              Span(styleName={ labelActive: isActive })
-                = item.label
-        Div.button(onPress=()=> refHourCarousel.current.toNext())
-          Icon(icon=layoutWidth > STYLES.media.mobile ? faChevronDown : faChevronRight)
   `
 })

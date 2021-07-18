@@ -10,11 +10,12 @@ export default observer(function Months ({
   uiDate,
   exactLocale,
   timezone,
+  maxDate,
+  minDate,
   onJump
 }) {
-  const matrixdMonths = useMemo(() => {
-    let months = moment
-      .tz(uiDate, timezone)
+  const quarterMonths = useMemo(() => {
+    let months = moment(uiDate)
       .locale(exactLocale)
       ._locale
       ._monthsShort
@@ -30,18 +31,31 @@ export default observer(function Months ({
     return data
   }, [uiDate, timezone])
 
-  const currentMonth = moment.tz(uiDate, timezone).locale(exactLocale).format('MMM')
+  const currentMonth = moment(uiDate).locale(exactLocale).format('MMM')
+
+  function isDisabled ({ quarterIndex, monthIndex }) {
+    const isAfterMaxDate = moment.tz(uiDate, timezone)
+      .month((quarterIndex * 3) + monthIndex)
+      .startOf('M').isAfter(maxDate)
+
+    const isBeforeMinDate = moment.tz(uiDate, timezone)
+      .month((quarterIndex * 3) + monthIndex)
+      .endOf('M').isBefore(minDate)
+
+    return isAfterMaxDate || isBeforeMinDate
+  }
 
   return pug`
     Row.row
       Span(variant='description') Jump to a previous or future month
 
-    for quarter, quarterIndex in matrixdMonths
+    for quarter, quarterIndex in quarterMonths
       Row.row(key=String(quarterIndex))
-        for monthName, monthIndex in matrixdMonths[quarterIndex]
+        for monthName, monthIndex in quarterMonths[quarterIndex]
           Div.cell(
             key=monthIndex + '-' + quarterIndex
             styleName={ cellActive: currentMonth === monthName }
+            disabled=isDisabled({ quarterIndex, monthIndex })
             onPress=()=> onJump('month', (quarterIndex * 3) + monthIndex)
           )
             Span.label(

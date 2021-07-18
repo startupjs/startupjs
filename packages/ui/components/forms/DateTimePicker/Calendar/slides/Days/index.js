@@ -24,7 +24,7 @@ export default observer(function Days ({
     return data.map(day => day.toUpperCase())
   }, [uiDate, timezone])
 
-  const matrixdMonthDays = useMemo(() => {
+  const matrixMonthDays = useMemo(() => {
     const data = []
 
     const nowDate = moment.tz(timezone)
@@ -65,9 +65,9 @@ export default observer(function Days ({
   }
 
   const isDisableDay = useCallback(value => {
-    return disabledDays.some(item => moment(item).tz(timezone).isSame(value, 'd')) ||
-      (minDate && moment(minDate).tz(timezone).isAfter(value, 'd')) ||
-      (maxDate && moment(maxDate).tz(timezone).isBefore(value, 'd')
+    return disabledDays.some(item => moment.tz(item, timezone).isSame(value, 'd')) ||
+      (minDate && moment.tz(minDate, timezone).isAfter(value, 'd')) ||
+      (maxDate && moment.tz(maxDate, timezone).isBefore(value, 'd')
       )
   }, [disabledDays, maxDate, minDate, timezone])
 
@@ -84,9 +84,9 @@ export default observer(function Days ({
         Div.cell(key=shortDayName)
           Span.shortName(bold)= shortDayName
 
-    for week, weekIndex in matrixdMonthDays
+    for week, weekIndex in matrixMonthDays
       Row.row(key='week-' + weekIndex)
-        for day, dayIndex in matrixdMonthDays[weekIndex]
+        for day, dayIndex in matrixMonthDays[weekIndex]
           Div.cell(
             key=weekIndex + '-' + dayIndex
             styleName={
