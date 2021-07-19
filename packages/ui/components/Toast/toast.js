@@ -1,7 +1,7 @@
 import { $root } from 'startupjs'
 
 export default function toast ({
-  variant,
+  alert,
   icon,
   label,
   title,
@@ -13,7 +13,7 @@ export default function toast ({
   const $toasts = $root.scope('_page.toasts')
 
   $toasts.set(toastId, {
-    variant,
+    alert,
     icon,
     label,
     title,
@@ -21,9 +21,4 @@ export default function toast ({
     content,
     onClose
   })
-
-  // TODO: animation
-  setTimeout(() => {
-    $toasts.del(toastId)
-  }, 3000)
 }
