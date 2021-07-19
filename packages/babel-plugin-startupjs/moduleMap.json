@@ -30,7 +30,6 @@
     "SmartSidebar": "/components/SmartSidebar",
     "Tabs": "/components/Tabs",
     "Tag": "/components/Tag",
-    "Toast": "/components/Toast",
     "Tooltip": "/components/Tooltip",
     "User": "/components/User",
     "ArrayInput": "/components/forms/ArrayInput",
@@ -67,6 +66,8 @@
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
-    "uiAppPlugin": "/helpers/uiAppPlugin.js"
+    "uiAppPlugin": "/helpers/uiAppPlugin.js",
+    "callToast": "/components/toast/callToast.js",
+    "ToastProvider": "/components/toast/ToastProvider.js"
   }
 }
