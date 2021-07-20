@@ -17,6 +17,10 @@ const media = useMedia()
 const props = {}
 if (media.tablet) props.children = 'Home'
 return (
-  <Button icon={faHome} {...props}/>
+  <Button
+    icon={faHome}
+    onPress={()=> alert('For testing, follow the described instructions')}
+    {...props}
+  />
 )
 ```
