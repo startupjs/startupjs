@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
-import { Row, Div, Span } from '@startupjs/ui'
+import { Div, Span } from '@startupjs/ui'
 import moment from 'moment'
 import STYLES from './index.styl'
 
@@ -76,19 +76,18 @@ export default observer(function TimeSelect ({
   const length = isMobile ? STYLES.cell.width : STYLES.cell.height
 
   return pug`
-    Row.container
-      Div.case
-        FlatList(
-          ref=refFlatList
-          data=preparedData
-          renderItem=renderItem
-          horizontal=isMobile
-          getItemLayout=(data, index) => ({
-            offset: length * index,
-            length,
-            index
-          })
-          keyExtractor=item=> item.value
-        )
+    Div.case
+      FlatList(
+        ref=refFlatList
+        data=preparedData
+        renderItem=renderItem
+        horizontal=isMobile
+        getItemLayout=(data, index) => ({
+          offset: length * index,
+          length,
+          index
+        })
+        keyExtractor=item=> item.value
+      )
   `
 })
