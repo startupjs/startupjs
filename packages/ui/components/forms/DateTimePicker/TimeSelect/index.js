@@ -3,6 +3,7 @@ import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import { Row, Div, Span } from '@startupjs/ui'
 import moment from 'moment'
+import STYLES from './index.styl'
 
 // TODO: add displayTimeVariant
 export default observer(function TimeSelect ({
@@ -13,11 +14,13 @@ export default observer(function TimeSelect ({
   is24Hour,
   minDate,
   maxDate,
-  minuteInterval,
+  timeInterval,
   onChangeDate
 }) {
   const refFlatList = useRef()
 
+  // we are looking for 'a' in current locale
+  // to figure out whether to apply 12 hour fore
   const _is24Hour = useMemo(() => {
     if (is24Hour != null) return is24Hour
     const lt = moment().locale(exactLocale)._locale._longDateFormat.LT
@@ -37,7 +40,7 @@ export default observer(function TimeSelect ({
 
     let currentTimestamp = +moment.tz(date, timezone).locale(exactLocale).startOf('d')
     const endTimestamp = +moment.tz(date, timezone).locale(exactLocale).endOf('d')
-    const intervalTimestamp = minuteInterval * 60 * 1000
+    const intervalTimestamp = timeInterval * 60 * 1000
 
     const format = _is24Hour
       ? moment.tz(date, timezone).locale(exactLocale)._locale._longDateFormat.LT
@@ -56,7 +59,7 @@ export default observer(function TimeSelect ({
   }, [date])
 
   function renderItem ({ item }) {
-    const isActive = date === item.value
+    const isActive = +moment(date).startOf('m') === item.value
     return pug`
       Div.cell(
         styleName={ cellActive: isActive }
@@ -69,6 +72,9 @@ export default observer(function TimeSelect ({
     `
   }
 
+  const isMobile = layoutWidth < STYLES.media.mobile
+  const length = isMobile ? STYLES.cell.width : STYLES.cell.height
+
   return pug`
     Row.container
       Div.case
@@ -76,9 +82,12 @@ export default observer(function TimeSelect ({
           ref=refFlatList
           data=preparedData
           renderItem=renderItem
-          getItemLayout=(data, index) => (
-            { length: 40, offset: 40 * index, index }
-          )
+          horizontal=isMobile
+          getItemLayout=(data, index) => ({
+            offset: length * index,
+            length,
+            index
+          })
           keyExtractor=item=> item.value
         )
   `

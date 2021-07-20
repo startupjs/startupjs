@@ -17,8 +17,8 @@ import STYLES from './index.styl'
 
 function DateTimePicker ({
   style,
-  formatInput,
-  minuteInterval,
+  dateFormat,
+  timeInterval,
   is24Hour,
   size,
   mode,
@@ -58,8 +58,8 @@ function DateTimePicker ({
 
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
 
-  const _formatInput = useMemo(() => {
-    if (formatInput) return formatInput
+  const _dateFormat = useMemo(() => {
+    if (dateFormat) return dateFormat
     if (mode === 'datetime') {
       return moment().locale(exactLocale)._locale._longDateFormat.L + ' ' +
       moment().locale(exactLocale)._locale._longDateFormat.LT
@@ -67,10 +67,10 @@ function DateTimePicker ({
 
     if (mode === 'date') return moment().locale(exactLocale)._locale._longDateFormat.L
     if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
-  }, [formatInput, timezone])
+  }, [dateFormat, timezone])
 
   function getFormatDate () {
-    return moment.tz(date, timezone).format(_formatInput)
+    return moment.tz(date, timezone).format(_dateFormat)
   }
 
   useEffect(() => {
@@ -101,7 +101,7 @@ function DateTimePicker ({
   }, [textInput])
 
   function onChangeText (text) {
-    const momentInstance = moment.tz(text, _formatInput, true, timezone)
+    const momentInstance = moment.tz(text, _dateFormat, true, timezone)
     if (momentInstance.isValid()) onChangeDate(+momentInstance)
     setTextInput(text)
   }
@@ -150,7 +150,7 @@ function DateTimePicker ({
           timezone=timezone
           exactLocale=exactLocale
           is24Hour=is24Hour
-          minuteInterval=minuteInterval
+          timeInterval=timeInterval
           onChangeDate=_onChangeDate
         )
   `
@@ -178,13 +178,13 @@ function DateTimePicker ({
 DateTimePicker.defaultProps = {
   mode: 'datetime',
   size: 'm',
-  minuteInterval: 1,
+  timeInterval: 1,
   timezone: moment.tz.guess()
 }
 
 DateTimePicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  minuteInterval: PropTypes.number,
+  timeInterval: PropTypes.number,
   is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
@@ -198,7 +198,7 @@ DateTimePicker.propTypes = {
   locale: PropTypes.string,
   timezone: PropTypes.string,
   disabledDays: PropTypes.array,
-  formatInput: PropTypes.string,
+  dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
   onChangeDate: PropTypes.func
 }

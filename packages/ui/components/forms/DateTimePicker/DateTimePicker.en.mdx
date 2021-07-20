@@ -4,13 +4,13 @@ import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
 
-DateTimePicker DateTimePicker allows to display and change the date and time
+DateTimePicker allows to display and change the date and time
 
 ```jsx
 import { DateTimePicker } from '@startupjs/ui'
 ```
 
-## Простой пример
+## Simple example
 
 ```jsx example
 const [date, setDate] = useState(+new Date())
@@ -23,30 +23,30 @@ return pug`
 `
 ```
 
-## Свойства
+## Props
 
-date - initial date or time in timestamp
+**date** - initial date or time in timestamp
 
-onChangeDate - date and time selection handler, returns a timestamp
+**onChangeDate** - date and time selection handler, returns a timestamp
 
-disabled - disabled picker
+**disabled** - disabled picker
 
-format - date formatting string from [moment](https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/)
+**dateFormat** - date formatting string from [moment](https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/)
 
-label - label
+**label** - label
 
-description - description
+**description** - description
 
-maxDate - maximum available date in timestamp
+**maxDate** - maximum available date in timestamp
 
-minDate - minimum available date in timestamp
+**minDate** - minimum available date in timestamp
 
-minuteInterval - the interval at which minutes can be selected (default - 1)
+**timeInterval** - the interval at which minutes can be selected (default - 1)
 
-mode - defines the picker type: datetime - date and time, date - date, time - time (default - datetime)
+**mode** - defines the picker type: datetime - date and time, date - date, time - time (default - datetime)
 
-placeholder - placeholder for input on the web and button in the native application if the date is not selected
+**placeholder** - placeholder for input on the web and button in the native application if the date is not selected
 
-size - the sizes of the input on the web and the button in the native application, possible values are: l, m and s (default - m)
+**size** - the sizes of the input on the web and the button in the native application, possible values are: l, m and s (default - m)
 
 <Sandbox Component={DateTimePicker} />
