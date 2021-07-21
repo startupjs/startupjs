@@ -10,15 +10,32 @@ import Tr from './Tr'
 import Td from './Td'
 import './index.styl'
 
-export default observer(themed(function Constructor ({ Component, $props, style, theme }) {
+export default observer(themed(function Constructor ({
+  Component,
+  props,
+  $props,
+  style,
+  theme
+}) {
   const entries = useMemo(() => {
-    return parseEntries(Object.entries(parsePropTypes(Component)))
+    const res = parseEntries(Object.entries(parsePropTypes(Component)))
       .filter(entry => entry.name[0] !== '_') // skip private properties
+
+    // set default props from Sandbox
+    if (props) {
+      res.forEach(item => {
+        if (props[item.name] !== undefined) {
+          item.defaultValue = props[item.name]
+        }
+      })
+    }
+
+    return res
   }, [Component])
 
   useLayoutEffect(() => {
     for (const prop of entries) {
-      if (prop.defaultValue) {
+      if (prop.defaultValue !== undefined) {
         // NOTE: Due to a racer patch, last argument cannot be a function
         // because it will be used as a callback of `$props.set`,
         // so we use null to avoid this behavior when defaultValue is function

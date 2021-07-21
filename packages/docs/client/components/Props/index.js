@@ -9,6 +9,7 @@ import Renderer from './Renderer'
 export default observer(themed(function PComponent ({
   Component,
   $props,
+  props,
   componentName,
   showGrid,
   style,
@@ -31,30 +32,34 @@ export default observer(themed(function PComponent ({
   return pug`
     Div.root(style=style)
       ScrollView.top(styleName=[theme])
-        Constructor(Component=Component $props=$theProps)
-      ScrollView.bottom(
-        styleName=[theme, { showSizes }]
-      )
-        Renderer(
+        Constructor(
           Component=Component
-          props=$theProps.get()
-          showGrid=showGrid
-          validateWidth=validateWidth
-          showSizes=showSizes
-          block=block
+          $props=$theProps
+          props=props
         )
-        Row(align='right').display
-          Button(
-            size='s'
-            variant='text'
-            color=block ? undefined : 'primary'
-            onPress=() => setBlock(false)
-          ) inline
-          Button(
-            size='s'
-            variant='text'
-            color=block ? 'primary' : undefined
-            onPress=() => setBlock(true)
-          ) block
+
+      if Object.keys($theProps.get()).length
+        ScrollView.bottom(styleName=[theme, { showSizes }])
+          Renderer(
+            Component=Component
+            props=$theProps.get()
+            showGrid=showGrid
+            validateWidth=validateWidth
+            showSizes=showSizes
+            block=block
+          )
+          Row(align='right').display
+            Button(
+              size='s'
+              variant='text'
+              color=block ? undefined : 'primary'
+              onPress=() => setBlock(false)
+            ) inline
+            Button(
+              size='s'
+              variant='text'
+              color=block ? 'primary' : undefined
+              onPress=() => setBlock(true)
+            ) block
   `
 }))
