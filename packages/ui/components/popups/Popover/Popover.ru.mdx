@@ -23,6 +23,7 @@ import { Popover } from '@startupjs/ui'
 - onDismiss: проп колбек функция, вызывается при нажатии на "пустое место"
 - Popover.Caption - подкомпонент, содержимое которого - то к чему будет привязан Popover. Должен стоять всегда первым
 - То что должно отображаться в всплывающем окне пишется ниже Popover.Caption
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 
@@ -47,6 +48,7 @@ return (
 
 ## Размеры
 - style={{ maxHeight: 100 }}: задать максимально возможную высоту Popover
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -79,6 +81,7 @@ return (
 ```
 
 - style={{ height: 100 }}: фиксированная, постоянная высота (по дефолту отсутствует)
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -111,6 +114,7 @@ return (
 ```
 
 - width: фиксированная, постоянная ширина
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1,2])
@@ -132,6 +136,7 @@ return (
 ```
 
 - hasWidthCaption: задать ширину по Caption (boolean)
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -153,6 +158,7 @@ return (
 ```
 
 Если не задано ни maxHeight ни height, высота подстраивается под контент
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2, 3])
@@ -187,6 +193,7 @@ return (
 ## Позиция
 - position: имеет 4 варианта положений (top, bottom, left, right)
 - attachment: дополнительный параметр для смещения (start, center, end)
+
 ```jsx example
 const blockStyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
@@ -243,6 +250,7 @@ return (
 ## Анимации
 animateType - проп отвечающий за тип анимации
 Есть три типа анимации при открытии: opacity, scale
+
 ```jsx example
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
@@ -278,6 +286,7 @@ return (
 
 ## Стилизация
 - hasArrow: нужно ли использовать стрелку (по дефолту false)
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 
