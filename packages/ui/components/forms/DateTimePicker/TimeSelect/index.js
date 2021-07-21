@@ -31,8 +31,8 @@ export default observer(function TimeSelect ({
   useEffect(() => scrollToIndex(), [])
 
   function scrollToIndex (_date = date) {
-    const dateWithoutSeconds = +moment.tz(_date, timezone)
-    const index = preparedData.findIndex(item => dateWithoutSeconds === item.value)
+    const date = +moment.tz(_date, timezone)
+    const index = preparedData.findIndex(item => date === item.value)
     if (index === -1) return
     refFlatList.current.scrollToIndex({ animated: false, index })
   }
