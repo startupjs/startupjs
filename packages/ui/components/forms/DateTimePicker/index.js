@@ -149,7 +149,6 @@ function DateTimePicker ({
         TimeSelect(
           date=date
           ref=refTimeSelect
-          visible=visible
           maxDate=maxDate
           minDate=minDate
           layoutWidth=layoutWidth

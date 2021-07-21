@@ -8,7 +8,6 @@ import STYLES from './index.styl'
 // TODO: add displayTimeVariant
 export default observer(function TimeSelect ({
   date,
-  visible,
   layoutWidth,
   exactLocale,
   timezone,
