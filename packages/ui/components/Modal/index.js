@@ -77,6 +77,7 @@ const ObservedModal = observer(ModalRoot, { forwardRef: true })
 
 ObservedModal.defaultProps = {
   variant: 'window',
+  visible: false,
   cancelLabel: ModalActions.defaultProps.cancelLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
   ModalElement: SafeAreaView,
