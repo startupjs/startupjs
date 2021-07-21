@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef } from 'react'
-import { FlatList } from 'react-native'
+import React, { useEffect, useMemo, useRef, useImperativeHandle } from 'react'
+import { FlatList, View } from 'react-native'
 import { observer } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'
 import moment from 'moment'
@@ -8,6 +8,7 @@ import STYLES from './index.styl'
 // TODO: add displayTimeVariant
 export default observer(function TimeSelect ({
   date,
+  visible,
   layoutWidth,
   exactLocale,
   timezone,
@@ -16,22 +17,24 @@ export default observer(function TimeSelect ({
   maxDate,
   timeInterval,
   onChangeDate
-}) {
+}, ref) {
   const refFlatList = useRef()
 
   // we are looking for 'a' in current locale
-  // to figure out whether to apply 12 hour fore
+  // to figure out whether to apply 12 hour format
   const _is24Hour = useMemo(() => {
     if (is24Hour != null) return is24Hour
     const lt = moment().locale(exactLocale)._locale._longDateFormat.LT
     return !(new RegExp(/a/i).test(lt))
   }, [is24Hour, exactLocale])
 
-  useEffect(() => scrollToIndex(), [date])
+  useImperativeHandle(ref, () => ({ scrollToIndex }), [])
+  useEffect(() => scrollToIndex(), [])
 
-  function scrollToIndex () {
-    const _date = +moment.tz(date, timezone).seconds(0).milliseconds(0)
-    const index = preparedData.findIndex(item => _date === item.value)
+  function scrollToIndex (_date = date) {
+    const dateWithoutSeconds = +moment.tz(_date, timezone).seconds(0).milliseconds(0)
+    const index = preparedData.findIndex(item => dateWithoutSeconds === item.value)
+    if (index === -1) return
     refFlatList.current.scrollToIndex({ animated: false, index })
   }
 
@@ -76,7 +79,7 @@ export default observer(function TimeSelect ({
   const length = isMobile ? STYLES.cell.width : STYLES.cell.height
 
   return pug`
-    Div.case
+    View.case(ref=ref)
       FlatList(
         ref=refFlatList
         data=preparedData
@@ -90,4 +93,4 @@ export default observer(function TimeSelect ({
         keyExtractor=item=> item.value
       )
   `
-})
+}, { forwardRef: true })

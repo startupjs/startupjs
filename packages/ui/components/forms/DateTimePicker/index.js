@@ -37,6 +37,7 @@ function DateTimePicker ({
 }) {
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
+  const refTimeSelect = useRef()
   const refInput = useRef()
 
   const [layoutWidth, $layoutWidth] = useValue(
@@ -102,7 +103,10 @@ function DateTimePicker ({
 
   function onChangeText (text) {
     const momentInstance = moment.tz(text, _dateFormat, true, timezone)
-    if (momentInstance.isValid()) onChangeDate(+momentInstance)
+    if (momentInstance.isValid()) {
+      refTimeSelect.current.scrollToIndex(+momentInstance)
+      onChangeDate(+momentInstance)
+    }
     setTextInput(text)
   }
 
@@ -144,6 +148,8 @@ function DateTimePicker ({
       if (mode === 'time') || (mode === 'datetime')
         TimeSelect(
           date=date
+          ref=refTimeSelect
+          visible=visible
           maxDate=maxDate
           minDate=minDate
           layoutWidth=layoutWidth
