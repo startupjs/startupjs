@@ -35,6 +35,8 @@ function DateTimePicker ({
   minDate,
   onChangeDate
 }) {
+  date = +moment.tz(date, timezone).seconds(0).milliseconds(0)
+
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()

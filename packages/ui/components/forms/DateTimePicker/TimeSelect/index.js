@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useImperativeHandle } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'
 import moment from 'moment'
@@ -31,7 +31,7 @@ export default observer(function TimeSelect ({
   useEffect(() => scrollToIndex(), [])
 
   function scrollToIndex (_date = date) {
-    const dateWithoutSeconds = +moment.tz(_date, timezone).seconds(0).milliseconds(0)
+    const dateWithoutSeconds = +moment.tz(_date, timezone)
     const index = preparedData.findIndex(item => dateWithoutSeconds === item.value)
     if (index === -1) return
     refFlatList.current.scrollToIndex({ animated: false, index })
@@ -61,7 +61,7 @@ export default observer(function TimeSelect ({
   }, [date])
 
   function renderItem ({ item }) {
-    const isActive = +moment(date).startOf('m') === item.value
+    const isActive = +moment(date) === item.value
     return pug`
       Div.cell(
         styleName={ cellActive: isActive }
@@ -78,7 +78,7 @@ export default observer(function TimeSelect ({
   const length = isMobile ? STYLES.cell.width : STYLES.cell.height
 
   return pug`
-    View.case(ref=ref)
+    Div.case
       FlatList(
         ref=refFlatList
         data=preparedData
