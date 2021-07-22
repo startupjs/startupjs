@@ -46,6 +46,51 @@ return (
 );
 ```
 
+## Несколько всплывающих окон
+```jsx example
+const [visible, setVisible] = useState(false)
+const [secondVisible, setSecondVisible] = useState(false)
+
+const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
+
+return (
+  <React.Fragment>
+    <Popover
+      visible={visible}
+      onDismiss={()=> setVisible(false)}
+    >
+      <Popover.Caption>
+        <TouchableOpacity onPress={()=> setVisible(true)}>
+          <Icon icon={faUserCircle} size="xl" />
+        </TouchableOpacity>
+      </Popover.Caption>
+      <View style={contentStyle}>
+        <TouchableOpacity onPress={()=> {
+          setVisible(false)
+          setSecondVisible(true)
+        }}>
+          <Text>Нажмите, чтобы открыть второе всплывающее окно</Text>
+        </TouchableOpacity>
+      </View>
+    </Popover>
+    <Br />
+    <Popover
+      visible={secondVisible}
+      onDismiss={()=> setSecondVisible(false)}
+    >
+      <Popover.Caption>
+        <TouchableOpacity onPress={()=> setSecondVisible(true)}>
+          <Text>Второй всплывающий заголовок</Text>
+        </TouchableOpacity>
+      </Popover.Caption>
+      <View style={contentStyle}>
+        <Text>Контент второго всплывающего окна</Text>
+      </View>
+    </Popover>
+  </React.Fragment>
+);
+```
+
 ## Размеры
 - style={{ maxHeight: 100 }}: задать максимально возможную высоту Popover
 
