@@ -12,7 +12,7 @@ ObjectInput lets build dynamic forms using its declarative api.
 
 ObjectInput accepts an inputs metadata object with a required `input` key to specify what type of input to display in the `properties` property.
 
-Possible types are: [array](/docs/forms/ArrayInput), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
+Possible types are: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
 
 ```jsx
 import { ObjectInput } from from '@startupjs/ui'
@@ -21,11 +21,10 @@ import { ObjectInput } from from '@startupjs/ui'
 ## Simple example
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
       email: {
@@ -47,11 +46,10 @@ return (
 ObjectInput accepts an array in the `order` property to specify in what order should the inputs be displayed.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     order={['password', 'email']}
     properties={{
@@ -81,11 +79,10 @@ In the example below the dependent `password` input will only be shown if the `e
 **Caution**: When the `dependsOn` field changes and dependent field is no longer visible its previous value is preserved.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
       email: {
@@ -96,7 +93,6 @@ return (
         input: 'text',
         label: 'Password',
         dependsOn: 'email',
-        dependsValue: value.email || undefined, // HACK: when you enter an email and then delete it the password input does not disappear because the default value on the first render of the email input is undefined and after delete it the empty string
         description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
@@ -109,11 +105,10 @@ return (
 The `errors` property accepts an object with error texts for inputs, where the key is the input key from the `properties` object and its value is the error text.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     errors={{
       email: 'Email input error',

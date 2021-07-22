@@ -19,6 +19,7 @@ import { Popover } from '@startupjs/ui'
 Перед использованием нужно настроить [Portal](/docs/components/Portal)
 
 ## Пример
+
 ```jsx example
 const captionStyle = { width: 24, height: 24 }
 
@@ -39,6 +40,7 @@ return pug`
 ```
 
 ## Размеры
+
 ```jsx example
 const contentStyle = { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }
 const [content, setContent] = useState([1, 2])
@@ -110,6 +112,7 @@ return pug`
 ```
 
 - hasWidthCaption: задать ширину по Caption (boolean)
+
 ```jsx example
 const [content, setContent] = useState([1, 2])
 function renderContent () {
@@ -120,7 +123,7 @@ function renderContent () {
 }
 return pug`
   Popover(
-    hasWidthCaption=true
+    hasWidthCaption
     renderContent=renderContent
   )
     Button Открыть
@@ -130,6 +133,7 @@ return pug`
 ## Позиция
 - position: имеет 4 варианта положений (top, bottom, left, right)
 - attachment: дополнительный параметр для смещения (start, center, end)
+
 ```jsx example
 const blockStyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
 const placements = [
@@ -174,6 +178,7 @@ return pug`
 ## Анимации
 animateType - проп отвечающий за тип анимации
 Есть три типа анимации при открытии: opacity, scale
+
 ```jsx example
 const animations = ['Opacity', 'Scale']
 function renderContent () {
@@ -198,6 +203,7 @@ return pug`
 
 ## Стилизация
 - arrow: нужно ли использовать стрелку (по дефолту false)
+
 ```jsx example
 function renderContent () {
   return pug`

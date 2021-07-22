@@ -56,6 +56,7 @@ import { LoginForm } from '@startupjs/auth-local'
 - **onSuccess**: callback вызывается после успешной авторизации
 - **onError**: callback вызывается при ошибке авторизации
 - **onChangeSlide**: получает имя слайда после клика на actions
+
 ```jsx example
 return <LoginForm />
 ```

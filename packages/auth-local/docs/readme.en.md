@@ -56,6 +56,7 @@ Accepts props:
 - **onSuccess**: called after successful authorization
 - **onError**: called when an authorization error occurs
 - **onChangeSlide**: gets name of the slide after clicking on actions
+
 ```jsx example
 return <LoginForm />
 ```
@@ -158,6 +159,7 @@ Password change form
 ```js
 import { RecoverForm } from '@startupjs/auth-local'
 ```
+
 ```jsx example
 return <RecoverForm />
 ```

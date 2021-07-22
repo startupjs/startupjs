@@ -37,8 +37,11 @@ function Alert ({
   }
 
   return pug`
-    Row.root(styleName=[variant])
-      Row.info
+    Row.root(
+      vAlign='center'
+      styleName=[variant]
+    )
+      Row.information
         if icon !== false
           Icon.icon(
             icon=icon || ICONS[variant]
