@@ -78,18 +78,17 @@ export default observer(function TimeSelect ({
   const length = isMobile ? STYLES.cell.width : STYLES.cell.height
 
   return pug`
-    Div.case
-      FlatList(
-        ref=refFlatList
-        data=preparedData
-        renderItem=renderItem
-        horizontal=isMobile
-        getItemLayout=(data, index) => ({
-          offset: length * index,
-          length,
-          index
-        })
-        keyExtractor=item=> item.value
-      )
+    FlatList.case(
+      ref=refFlatList
+      data=preparedData
+      renderItem=renderItem
+      horizontal=isMobile
+      getItemLayout=(data, index) => ({
+        offset: length * index,
+        length,
+        index
+      })
+      keyExtractor=item=> item.value
+    )
   `
 }, { forwardRef: true })

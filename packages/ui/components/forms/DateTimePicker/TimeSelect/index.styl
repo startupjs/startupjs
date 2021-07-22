@@ -1,29 +1,15 @@
 .case
-  height 5u
-  width 34u
+  width 32u
   margin 0 auto
-  overflow hidden
-  flex-direction row
-  margin-top 1u
-  justify-content center
 
   +from($UI.media.mobile)
-    align-items center
-    justify-content center
-    max-width 12u
-    margin-right 1u
-    height auto
-    flex-direction column
-    margin 0
+    width auto
 
-.cell, .button
+.cell
   width 12u
   height 5u
   align-items center
   justify-content center
-
-.button
-  height 4.75u
 
 .cellActive
   background-color $UI.colors.primary
