@@ -151,7 +151,7 @@ return (
 
 ## Locked SmartSidebar
 
-Specifying `disabled` property will keep the sidebar closed and it won't respond to `open` property.
+Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
 
 ```jsx example
 const [open, $open] = useSession('ExampleLockerSmartSidebar')
@@ -169,7 +169,7 @@ return (
           </Menu>
         </Div>
       )}
-      disabled
+      forceClosed
     >
       <Content
         padding
