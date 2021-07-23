@@ -151,7 +151,7 @@ return (
 
 ## Заблокированный умный сайдбар
 
-Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
+Указание свойства `disabled` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
 ```jsx example
 const [open, $open] = useSession('ExampleLockerSmartSidebar')
@@ -169,7 +169,7 @@ return (
           </Menu>
         </Div>
       )}
-      forceClosed
+      disabled
     >
       <Content
         padding
