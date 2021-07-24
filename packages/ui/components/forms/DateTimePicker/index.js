@@ -1,4 +1,11 @@
-import React, { useMemo, useRef, useCallback, useState, useEffect } from 'react'
+import React, {
+  useMemo,
+  useRef,
+  useCallback,
+  useState,
+  useEffect,
+  useLayoutEffect
+} from 'react'
 import { Dimensions } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -35,8 +42,6 @@ function DateTimePicker ({
   minDate,
   onChangeDate
 }) {
-  date = +moment.tz(date, timezone).seconds(0).milliseconds(0)
-
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
@@ -72,15 +77,32 @@ function DateTimePicker ({
     if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
   }, [dateFormat, timezone])
 
-  function getFormatDate () {
-    return moment.tz(date, timezone).format(_dateFormat)
+  function getFormatDate (value = date) {
+    return moment.tz(value, timezone).format(_dateFormat)
   }
 
-  useEffect(() => {
-    setTextInput(getFormatDate())
-  }, [date])
+  useLayoutEffect(() => {
+    _onChangeDate(+moment.tz(date, timezone).seconds(0).milliseconds(0))
+  }, [])
 
   const _onChangeDate = useCallback(value => {
+    // interval
+    const interval = (timeInterval * 60 * 1000)
+
+    const number = value % interval
+    const top = value + (interval - number)
+    const bottom = value - number
+
+    const toTop = top - value
+    const toBottom = value - bottom
+
+    if (toTop < toBottom) {
+      value = top
+    } else {
+      value = bottom
+    }
+
+    // min, max
     if (minDate != null && value < minDate) {
       value = minDate
     }
@@ -89,6 +111,8 @@ function DateTimePicker ({
       value = maxDate
     }
 
+    setTextInput(getFormatDate(value))
+    refTimeSelect.current && refTimeSelect.current.scrollToIndex(value)
     onChangeDate && onChangeDate(value)
   }, [onChangeDate])
 
@@ -105,11 +129,8 @@ function DateTimePicker ({
 
   function onChangeText (text) {
     const momentInstance = moment.tz(text, _dateFormat, true, timezone)
-    if (momentInstance.isValid()) {
-      refTimeSelect.current.scrollToIndex(+momentInstance)
-      onChangeDate(+momentInstance)
-    }
-    setTextInput(text)
+    if (momentInstance.isValid()) _onChangeDate(+momentInstance)
+    else setTextInput(text)
   }
 
   const caption = pug`
