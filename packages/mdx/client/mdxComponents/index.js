@@ -230,10 +230,11 @@ export default {
   th: Th,
   delete: P,
   a: ({ children, href }) => {
-    function onPress () {
+    function onPress (event) {
       const { url, hash } = $root.get('$render')
       const [_url, _hash] = href.split('#')
       if (url === _url && hash === `#${_hash}`) {
+        event.preventDefault()
         scrollTo({ anchorId: _hash })
       }
     }
