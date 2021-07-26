@@ -4,7 +4,7 @@ import { initApp } from 'startupjs/app/server'
 import { initI18n, getI18nRoutes } from 'startupjs/i18n/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
-import { initUi } from '@startupjs/ui/server'
+import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
 import { initTwoFAManager } from '@startupjs/2fa-manager/server'
 import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
@@ -149,6 +149,7 @@ function getAuthStrategies () {
 
 function getHead (appName, req) {
   return `
+    ${getUiHead()}
     ${getRecaptchaHead(req)}
     <title>StartupJS UI</title>
     <!-- Put vendor JS and CSS here -->

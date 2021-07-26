@@ -89,8 +89,8 @@ function DateTimePicker ({
     // interval
     const interval = (timeInterval * 60 * 1000)
 
-    const bottom = value % interval
-    const top = interval - bottom
+    const bottom = value - (value % interval)
+    const top = bottom + interval
     value = top > bottom ? bottom : top
 
     // min, max
@@ -197,7 +197,7 @@ function DateTimePicker ({
 DateTimePicker.defaultProps = {
   mode: 'datetime',
   size: 'm',
-  timeInterval: 1,
+  timeInterval: 5,
   timezone: moment.tz.guess()
 }
 
