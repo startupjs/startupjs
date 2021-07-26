@@ -45,17 +45,18 @@ function CollapseHeader ({
       reverse=reverse
       ...props
     )
-      Animated.View(
-        style={
-          transform: [{
-            rotate: animation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [reverse ? '180deg' : '0deg', '90deg']
-            })
-          }]
-        }
-      )
-        Icon(icon=icon style=iconStyle)
+      if icon
+        Animated.View(
+          style={
+            transform: [{
+              rotate: animation.interpolate({
+                inputRange: [0, 1],
+                outputRange: [reverse ? '180deg' : '0deg', '90deg']
+              })
+            }]
+          }
+        )
+          Icon(icon=icon style=iconStyle)
       Div.container(style=containerStyle styleName={reverse})
         if typeof children === 'string'
           Span= children

@@ -23,7 +23,7 @@ import { DEFAULT_PASS_RESET_TIME_LIMIT } from '../isomorphic'
 export default function (config = {}) {
   this.config = {}
 
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
       localSignUpEnabled: true,
@@ -78,6 +78,9 @@ export default function (config = {}) {
       )
     )
   }
+
+  func.providerName = 'local'
+  return func
 }
 
 // Generally we don't need an provider id to perform auth

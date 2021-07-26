@@ -12,6 +12,7 @@
     "Carousel": "/components/Carousel",
     "Collapse": "/components/Collapse",
     "Content": "/components/Content",
+    "Dialog": "/components/Dialog",
     "Div": "/components/Div",
     "Divider": "/components/Divider",
     "DrawerSidebar": "/components/DrawerSidebar",
@@ -66,6 +67,10 @@
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
-    "uiAppPlugin": "/helpers/uiAppPlugin.js"
+    "uiAppPlugin": "/helpers/uiAppPlugin.js",
+    "alert": "/helpers/dialogs/alert.js",
+    "confirm": "/helpers/dialogs/confirm.js",
+    "helpers": "/helpers/dialogs/helpers.js",
+    "prompt": "/helpers/dialogs/prompt.js"
   }
 }

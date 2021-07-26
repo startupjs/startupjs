@@ -50,7 +50,10 @@ initAuth(ee, {
 1 - In **Firebase** on the project home page, add an Android app
 2 - Valid package name in - `android/app/src/main/java/com/auth/MainActivity.java`, the first line
 3 - Download **google-services.json**, drop it in a folder - `android/app`
-4 - You need to generate the keys - `keytool -list -v -keystore ./android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android` (call from the main folder)
+4 - You need to generate the keys (call from the main folder):
+
+keytool -list -v -keystore ./android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
 5 - Next, go to the Firebase project settings, click on the gear - **"Project Settings"**
 6 - There is an add button for the android app **"Add checksum"**, click on it, the field for entering the generated keys will open, enter SHA1 and SHA256
 
