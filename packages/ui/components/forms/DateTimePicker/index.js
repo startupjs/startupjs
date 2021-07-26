@@ -89,18 +89,9 @@ function DateTimePicker ({
     // interval
     const interval = (timeInterval * 60 * 1000)
 
-    const number = value % interval
-    const top = value + (interval - number)
-    const bottom = value - number
-
-    const toTop = top - value
-    const toBottom = value - bottom
-
-    if (toTop < toBottom) {
-      value = top
-    } else {
-      value = bottom
-    }
+    const bottom = value % interval
+    const top = interval - bottom
+    value = top > bottom ? bottom : top
 
     // min, max
     if (minDate != null && value < minDate) {
