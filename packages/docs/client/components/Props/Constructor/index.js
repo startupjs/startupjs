@@ -1,8 +1,7 @@
-import React, { useMemo, useLayoutEffect } from 'react'
+import React from 'react'
 import { Platform } from 'react-native'
 import { observer } from 'startupjs'
 import { Span, themed, Input, NumberInput, Tag } from '@startupjs/ui'
-import parsePropTypes from 'parse-prop-types'
 import Table from './Table'
 import Tbody from './Tbody'
 import Thead from './Thead'
@@ -12,38 +11,12 @@ import './index.styl'
 
 export default observer(themed(function Constructor ({
   Component,
+  entries,
   props,
   $props,
   style,
   theme
 }) {
-  const entries = useMemo(() => {
-    const res = parseEntries(Object.entries(parsePropTypes(Component)))
-      .filter(entry => entry.name[0] !== '_') // skip private properties
-
-    // set default props from Sandbox
-    if (props) {
-      res.forEach(item => {
-        if (props[item.name] !== undefined) {
-          item.defaultValue = props[item.name]
-        }
-      })
-    }
-
-    return res
-  }, [Component])
-
-  useLayoutEffect(() => {
-    for (const prop of entries) {
-      if (prop.defaultValue !== undefined) {
-        // NOTE: Due to a racer patch, last argument cannot be a function
-        // because it will be used as a callback of `$props.set`,
-        // so we use null to avoid this behavior when defaultValue is function
-        $props.set(prop.name, prop.defaultValue, null)
-      }
-    }
-  }, entries)
-
   return pug`
     Table.table(style=style)
       Thead.thead
@@ -133,17 +106,3 @@ export default observer(themed(function Constructor ({
                 Span.unsupported -
   `
 }))
-
-function parseEntries (entries) {
-  return entries.map(entry => {
-    let meta = entry[1]
-    return {
-      name: entry[0],
-      type: meta.type.name,
-      defaultValue: meta.defaultValue && meta.defaultValue.value,
-      possibleValues: meta.type.value,
-      possibleTypes: meta.type.value,
-      isRequired: meta.required
-    }
-  })
-}
