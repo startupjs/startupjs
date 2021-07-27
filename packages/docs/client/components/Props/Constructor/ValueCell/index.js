@@ -156,6 +156,12 @@ export default observer(function ValueCell ({ $props, entry }) {
   const $value = $props.at(name)
   const value = $value.get()
 
+  if (/^\$/.test(name)) { // hide Input for model prop
+    return pug`
+      Span.unsupported -
+    `
+  }
+
   return pug`
     if EDITABLE_TYPES.includes(type)
       PropInput(
