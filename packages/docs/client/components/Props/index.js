@@ -15,28 +15,24 @@ function parseEntries (entries) {
       type: meta.type.name,
       defaultValue: meta.defaultValue && meta.defaultValue.value,
       possibleValues: meta.type.value,
-      possibleTypes: meta.type.value,
       isRequired: meta.required
     }
   })
 }
 
 function useEntries ({ Component, props = {} }) {
-  const res = useMemo(() => {
+  return useMemo(() => {
     const entries = parseEntries(Object.entries(parsePropTypes(Component)))
-      .filter(entry => entry.name[0] !== '_') // skip private properties
-      .map(item => {
-        if (props[item.name] !== undefined) {
-          item.defaultValue = props[item.name]
+      .reduce((acc, entry) => {
+        if (entry.name[0] === '_') return acc // skip private properties
+        if (props[entry.name] !== undefined) {
+          entry.value = props[entry.name] // add property value to Renderer
         }
-
-        return item
-      })
-
+        acc.push(entry)
+        return acc
+      }, [])
     return entries
-  })
-
-  return [res]
+  }, [])
 }
 
 async function useInitDefaultProps ({ entries, $theProps }) {
@@ -46,11 +42,11 @@ async function useInitDefaultProps ({ entries, $theProps }) {
   const promises = []
 
   for (const prop of entries) {
-    if (prop.defaultValue !== undefined) {
+    if (prop.defaultValue !== undefined || prop.value !== undefined) {
       // NOTE: Due to a racer patch, last argument cannot be a function
       // because it will be used as a callback of `$props.set`,
       // so we use null to avoid this behavior when defaultValue is function
-      promises.push($theProps.set(prop.name, prop.defaultValue, null))
+      promises.push($theProps.set(prop.name, prop.value || prop.defaultValue, null))
     }
   }
 
@@ -80,7 +76,7 @@ export default observer(themed(function PComponent ({
     }
   }, [$props])
 
-  const [entries] = useEntries({ Component, props })
+  const entries = useEntries({ Component, props })
   useInitDefaultProps({ entries, $theProps })
 
   return pug`
