@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { observer, useValue } from 'startupjs'
+import { batch, observer, useValue } from 'startupjs'
 import { Br, Input, Span } from '@startupjs/ui'
 import debounce from 'lodash/debounce'
 import isPlainObject from 'lodash/isPlainObject'
@@ -132,7 +132,7 @@ const IconSelect = observer(function ({ $value, value }) {
 
 const TypesSelect = observer(function ({
   $props,
-  entry: { name, possibleValues, extraParams = {} }
+  entry: { name, defaultValue, possibleValues, extraParams = {} }
 }) {
   const { names, options } = useMemo(
     () =>
@@ -151,9 +151,15 @@ const TypesSelect = observer(function ({
   const $value = $props.at(name)
   const value = $value.get()
 
-  async function onChange (value) {
-    await $value.del()
-    $selectedValue.set(value)
+  function onChange (value) {
+    batch(() => {
+      if (defaultValue !== undefined) {
+        $value.set(defaultValue)
+      } else {
+        $value.del()
+      }
+      $selectedValue.set(value)
+    })
   }
 
   return pug`
