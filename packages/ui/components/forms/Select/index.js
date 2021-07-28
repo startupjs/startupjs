@@ -47,9 +47,9 @@ Select.defaultProps = {
   ...pick(
     TextInput.defaultProps,
     [
+      'size',
       'disabled',
-      'readonly',
-      'options'
+      'readonly'
     ]
   ),
   showEmptyValue: true
@@ -62,13 +62,18 @@ Select.propTypes = {
       'style',
       'wrapperStyle',
       'inputStyle',
+      'placeholder',
+      'value',
+      'size',
       'label',
       'description',
       'layout',
-      'options',
+      'layoutOptions',
       'error',
       'disabled',
-      'readonly'
+      'readonly',
+      'onFocus',
+      'onBlur'
     ]
   ),
   options: PropTypes.array,

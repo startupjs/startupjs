@@ -3,12 +3,9 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from './input'
 import Span from './../../typography/Span'
-import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 function TextInput ({
-  wrapperStyle,
   value,
   readonly,
   ...props
@@ -21,7 +18,6 @@ function TextInput ({
 
   return pug`
     Input(
-      style=wrapperStyle
       ref=ref
       value=value
       ...props
@@ -40,9 +36,10 @@ TextInput.defaultProps = {
 }
 
 TextInput.propTypes = {
-  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   placeholder: PropTypes.string,
   value: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
@@ -52,22 +49,14 @@ TextInput.propTypes = {
   numberOfLines: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   iconPosition: PropTypes.oneOf(['left', 'right']),
+  secondaryIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  onIconPress: PropTypes.func,
+  onSecondaryIconPress: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChangeText: PropTypes.func,
-  onIconPress: PropTypes.func,
   _renderWrapper: PropTypes.func, // @private
   _hasError: PropTypes.bool // @private
 }
 
-const ObservedTextInput = observer(
-  themed('TextInput', TextInput),
-  { forwardRef: true }
-)
-
-const WrappedObservedTextInput = wrapInput(
-  ObservedTextInput,
-  { rows: { descriptionPosition: 'bottom' } }
-)
-
-export default WrappedObservedTextInput
+export default observer(TextInput, { forwardRef: true })

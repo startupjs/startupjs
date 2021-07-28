@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useImperativeHandle } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Row from './../../Row'
+import Div from './../../Div'
 import Span from './../../typography/Span'
 import CheckboxInput from './checkbox'
 import SwitchInput from './switch'
@@ -20,41 +20,35 @@ const READONLY_ICONS = {
 }
 
 function Checkbox ({
+  style,
   inputStyle,
   variant,
-  value,
   readonly,
+  value,
   onChange,
-  // hoverStyle,
-  // activeStyle,
   ...props
-}) {
+}, ref) {
+  const Input = INPUT_COMPONENTS[variant]
+
+  useImperativeHandle(ref, () => ({
+    _onLabelPress: onPress
+  }), [value])
+
   function onPress () {
     onChange && onChange(!value)
   }
 
-  const Input = INPUT_COMPONENTS[variant]
-
-  if (readonly) {
-    return pug`
-      Row.checkbox-icon-wrap(
-        styleName=[variant]
-      )
-        Span.checkbox-icon(
-          styleName={readonly}
-        )=value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
-    `
-  }
-
   return pug`
-    Input(
-      style=inputStyle
-      value=value
-      onPress=onPress
-      ...props
-    )
-    //- hoverStyle=standalone ? hoverStyle : undefined
-    //- activeStyle=standalone ? activeStyle : undefined
+    Div(style=style)
+      if readonly
+        Span.readonly=props.value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
+      else
+        Input(
+          style=inputStyle
+          value=value
+          onPress=onPress
+          ...props
+        )
   `
 }
 
@@ -66,6 +60,7 @@ Checkbox.defaultProps = {
 }
 
 Checkbox.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['checkbox', 'switch']),
   value: PropTypes.bool,
@@ -76,15 +71,19 @@ Checkbox.propTypes = {
 }
 
 const ObservedCheckbox = observer(
-  themed('Checkbox', Checkbox)
+  themed('Checkbox', Checkbox),
+  { forwardRef: true }
 )
 const WrappedObservedCheckbox = wrapInput(
   ObservedCheckbox,
   {
-    rows: {
-      labelPosition: 'right',
-      descriptionPosition: 'bottom'
-    }
+    layoutOptions: {
+      rows: {
+        labelPosition: 'right',
+        descriptionPosition: 'bottom'
+      }
+    },
+    _isLabelClickable: true
   }
 )
 

@@ -3,6 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const Multiselect = ({
@@ -67,4 +68,4 @@ Multiselect.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(Multiselect)
+export default observer(themed('Multiselect', Multiselect))

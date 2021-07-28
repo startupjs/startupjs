@@ -1,7 +1,7 @@
 // ----- CONFIG: $UI.TextInput
 
 $this = merge({
-  caretColor: $UI.colors.primary,
+  caretColor: $UI.colors.mainText,
   borderWidth: 1,
   height: {
     l: 5u,
@@ -59,6 +59,7 @@ $inputFontSizeS = 1.75u
 
   &.disabled
     background-color $inputBgDisabled
+    cursor default
 
   &.focused
     border-color $focusedColor

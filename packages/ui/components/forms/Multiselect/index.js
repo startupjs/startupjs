@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Checkbox from './../Checkbox'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
+import themed from '../../../theming/themed'
 import wrapInput from './../wrapInput'
 import './index.styl'
 
@@ -125,4 +126,4 @@ Multiselect.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default wrapInput(observer(Multiselect))
+export default wrapInput(observer(themed('Multiselect', Multiselect)))

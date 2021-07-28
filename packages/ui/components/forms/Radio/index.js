@@ -7,47 +7,28 @@ import wrapInput from './../wrapInput'
 import './index.styl'
 
 function Radio ({
-  wrapperStyle,
+  style,
   inputStyle,
-  children,
   value,
   options,
-  onChange,
   _hasError,
   ...props
 }) {
-  function handleRadioPress (value) {
-    return onChange && onChange(value)
-  }
-
-  const radios = options.length
-    ? options.map((o) => {
-      const checked = o.value === value
-      const hasError = _hasError && (value ? checked : true)
-
-      return pug`
-        Input(
-          style=inputStyle
-          key=o.value
-          checked=checked
-          value=o.value
-          onPress=handleRadioPress
-          _hasError=hasError
-          ...props
-        )= o.label
-      `
-    })
-    : React.Children.toArray(children).map((child) => {
-      return React.cloneElement(child, {
-        style: inputStyle,
-        checked: child.props.value === value,
-        onPress: value => handleRadioPress(value),
-        ...props
-      })
-    })
-
   return pug`
-    Div(style=[wrapperStyle])= radios
+    Div(style=style)
+      each option in options
+        - const optionValue = option.value
+        - const checked = optionValue === value
+        - const error = _hasError && (value ? checked : true)
+
+        Input(
+          key=optionValue
+          style=inputStyle
+          checked=checked
+          value=optionValue
+          error=error
+          ...props
+        )= option.label
   `
 }
 
@@ -58,7 +39,7 @@ Radio.defaultProps = {
 }
 
 Radio.propTypes = {
-  wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   // TODO: Also support pure values like in Select. Api should be the same.
   options: PropTypes.arrayOf(PropTypes.shape({

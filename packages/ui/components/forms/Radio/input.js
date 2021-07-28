@@ -21,16 +21,12 @@ const RadioInput = function ({
   checked,
   disabled,
   readonly,
-  onPress,
-  _hasError
+  onChange,
+  error
 }) {
   const animation = useRef(
     new Animated.Value(checked ? MAX_SCALE_RATIO : MIN_SCALE_RATIO)
   ).current
-
-  const setChecked = () => {
-    onPress && onPress(value)
-  }
 
   useDidUpdate(() => {
     if (checked) {
@@ -61,20 +57,17 @@ const RadioInput = function ({
       style=style
       vAlign='center'
       disabled=disabled || readonly
-      onPress=setChecked
+      onPress=() => onChange && onChange(value)
     )
       Div.radio(
-        styleName=[{ checked, error: _hasError }]
+        styleName=[{ checked, error }]
       )
         Animated.View.circle(
           style={ transform: [{ scale: animation }] }
-          styleName={ error: _hasError }
+          styleName={ error }
         )
       Div.container
-        if typeof children === 'string'
-          Span= children
-        else
-          = children
+        Span.label= children
   `
 }
 

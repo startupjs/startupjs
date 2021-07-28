@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
 import DefaultInput from './defaultInput'
 import DefaultTag from './defaultTag'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function MultiselectInput ({
@@ -68,4 +69,4 @@ MultiselectInput.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(MultiselectInput)
+export default observer(themed('Multiselect', MultiselectInput))

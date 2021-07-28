@@ -7,25 +7,22 @@ import pick from 'lodash/pick'
 // import toFinite from 'lodash/toFinite'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
-import themed from '../../../theming/themed'
-// import Wrapper from './wrapper'
+import Wrapper from './wrapper'
 import './index.styl'
 
 // const IS_WEB = Platform.OS === 'web'
 
 function NumberInput ({
   buttonStyle,
-  buttons,
+  value,
+  size,
+  buttonsMode,
   disabled,
   max,
   min,
-  readonly,
-  size,
   step,
-  value,
-
-  onChange,
   onChangeNumber,
+  // onChange,
   ...props
 }, ref) {
   // const [stringValue, setStringValue] = useState()
@@ -90,34 +87,28 @@ function NumberInput ({
     console.log('on change', value)
     if (value === '-') {
       console.log('empty value? not triggered? or triggered empty?')
-    }
-
-    if (value % step) {
-      console.log('incorrect step')
       return
     }
 
-    if (value < min) {
-      console.log('less then min')
-      return
-    }
-    if (value > max) {
-      console.log('greater then max')
+    if (min && value < min) {
+      // display tip - must be less then min
       return
     }
 
-    // console.log(value)
-    // const newValue = getValidValue(value)
-    // console.log(value, 'value')
-    // if (newValue !== stringValue) {
-    //   setStringValue(newValue)
-    //   const num = newValue === '' || newValue === '-' ? undefined : toFinite(newValue)
-    //   onChangeNumber && onChangeNumber(num)
-    // }
+    if (max && value > max) {
+      // display tip - must be greater then max
+      return
+    }
+
+    if (step && value % step) {
+      // display tip - must be a multiple of step
+      return
+    }
+
     onChangeNumber && onChangeNumber(value)
   }
 
-  const inputExtraProps = {}
+  // const inputExtraProps = {}
   //
   // if (onChange) {
   //   inputExtraProps.onChange = event => {
@@ -134,36 +125,32 @@ function NumberInput ({
   //     }
   //   }
   // }
-  //
-  // const styleNames = [size, buttons, { disabled }]
 
-  // function renderWrapper ({ style }, children) {
-  //   return pug`
-  //     Wrapper(
-  //       style=style
-  //       buttonStyle=buttonStyle
-  //       size=size
-  //       disabled=disabled
-  //     )= children
-  //   `
-  // }
+  function renderWrapper ({ style }, children) {
+    return pug`
+      Wrapper(
+        style=style
+        buttonStyle=buttonStyle
+        buttonsMode=buttonsMode
+        size=size
+        disabled=disabled
+      )= children
+    `
+  }
 
   return pug`
-    //- inputStyleName=['input-input', ...styleNames]
     TextInput(
       ref=ref
-
-      readonly=readonly
+      test='number'
+      inputStyleName=['input-input', buttonsMode, size]
       value=value
-
       size=size
       disabled=disabled
       keyboardType='numeric'
       onChangeText=onChangeText
+      _renderWrapper=renderWrapper
       ...props
-      ...inputExtraProps
     )
-    //- _renderWrapper=renderWrapper
   `
 }
 
@@ -173,13 +160,12 @@ NumberInput.defaultProps = {
     [
       'size',
       'value',
+      'layoutOptions',
       'disabled',
       'readonly'
     ]
   ),
-  buttons: 'vertical',
-  max: Number.MAX_SAFE_INTEGER,
-  min: Number.MIN_SAFE_INTEGER,
+  buttonsMode: 'vertical',
   step: 1
 }
 
@@ -188,32 +174,31 @@ NumberInput.propTypes = {
     TextInput.propTypes,
     [
       'style',
-      'wrapperStyle',
       'inputStyle',
-      'label',
-      'description',
-      'layout',
-      'options',
       'placeholder',
       'value',
       'size',
+      'label',
+      'description',
+      'layout',
+      'layoutOptions',
+      'error',
       'disabled',
       'readonly',
       'onFocus',
-      'onBlur',
-      '_hasError'
+      'onBlur'
     ]
   ),
   buttonStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  buttons: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
+  buttonsMode: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
   max: PropTypes.number,
   min: PropTypes.number,
   step: PropTypes.number,
-  onChange: PropTypes.func,
+  // onChange: PropTypes.func,
   onChangeNumber: PropTypes.func
 }
 
 export default observer(
-  themed(NumberInput),
+  NumberInput,
   { forwardRef: true }
 )

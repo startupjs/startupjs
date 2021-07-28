@@ -11,113 +11,114 @@ import PasswordInput from '../PasswordInput'
 import Radio from '../Radio'
 import Select from '../Select'
 import TextInput from '../TextInput'
+import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
+import wrapInput from './wrapInput'
 
 function Input ({
+  input,
   type,
   $value,
   ...props
 }) {
-  const { inputs, types } = useMemo(() => {
-    // INFO: we can't move this code outside of the component because ObjectInput uses Input inside which generates error "minified react error"
-    const _inputs = {
-      array: {
-        Component: ArrayInput,
-        getProps: $value => ({
-          value: $value && $value.get()
-        })
-      },
-      checkbox: {
-        Component: Checkbox,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      date: {
-        Component: DateTimePicker,
-        getProps: $value => ({
-          date: $value && $value.get(),
-          onDateChange: value => $value && $value.setDiff(value),
-          mode: 'date'
-        })
-      },
-      datetime: {
-        Component: DateTimePicker,
-        getProps: $value => ({
-          date: $value && $value.get(),
-          onDateChange: value => $value && $value.setDiff(value),
-          mode: 'datetime'
-        })
-      },
-      multiselect: {
-        Component: Multiselect,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeNumber: value => $value && $value.setDiff(value)
-        })
-      },
-      number: {
-        Component: NumberInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeNumber: value => $value && $value.setDiff(value)
-        })
-      },
-      object: {
-        Component: ObjectInput,
-        getProps: $value => ({
-          value: $value && $value.get()
-        })
-      },
-      password: {
-        Component: PasswordInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeText: value => $value && $value.setDiff(value)
-        })
-      },
-      radio: {
-        Component: Radio,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      select: {
-        Component: Select,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      time: {
-        Component: DateTimePicker,
-        getProps: $value => ({
-          date: $value && $value.get(),
-          onDateChange: value => $value && $value.setDiff(value),
-          mode: 'time'
-        })
-      },
-      text: {
-        Component: TextInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          // TODO: Use stringInsert and stringRemove
-          onChangeText: value => $value && $value.setDiff(value)
-        })
-      }
+  const inputs = useMemo(() => ({
+    array: {
+      Component: ArrayInput,
+      getProps: $value => ({
+        value: $value && $value.get()
+      })
+    },
+    checkbox: {
+      Component: Checkbox,
+      getProps: $value => ({
+        value: $value && $value.get(),
+        onChange: value => $value && $value.setDiff(value)
+      })
+    },
+    date: {
+      Component: DateTimePicker,
+      getProps: $value => ({
+        date: $value && $value.get(),
+        onDateChange: value => $value && $value.setDiff(value),
+        mode: 'date'
+      })
+    },
+    datetime: {
+      Component: DateTimePicker,
+      getProps: $value => ({
+        date: $value && $value.get(),
+        onDateChange: value => $value && $value.setDiff(value),
+        mode: 'datetime'
+      })
+    },
+    multiselect: {
+      Component: Multiselect,
+      getProps: $value => ({
+        value: $value && $value.get(),
+        onChangeNumber: value => $value && $value.setDiff(value)
+      })
+    },
+    number: {
+      Component: NumberInput,
+      getProps: $value => ({
+        value: $value && $value.get(),
+        onChangeNumber: value => $value && $value.setDiff(value)
+      })
+    },
+    object: {
+      Component: ObjectInput,
+      getProps: $value => ({
+        value: $value && $value.get()
+      })
+    },
+    password: {
+      Component: PasswordInput,
+      getProps: $value => ({
+        value: $value && $value.get(),
+        onChangeText: value => $value && $value.setDiff(value)
+      })
+    },
+    radio: {
+      Component: Radio,
+      getProps: $value => ({
+        value: $value && $value.get(),
+        onChange: value => $value && $value.setDiff(value)
+      })
+    },
+    select: {
+      Component: Select,
+      getProps: $value => ({
+        value: $value && $value.get(),
+        onChange: value => $value && $value.setDiff(value)
+      })
+    },
+    time: {
+      Component: DateTimePicker,
+      getProps: $value => ({
+        date: $value && $value.get(),
+        onDateChange: value => $value && $value.setDiff(value),
+        mode: 'time'
+      })
+    },
+    text: {
+      Component: wrapInput(
+        TextInput,
+        {
+          layoutOptions: {
+            rows: {
+              descriptionPosition: 'bottom'
+            }
+          },
+          _isLabelColoredWhenFocusing: true,
+          _isLabelClickable: true
+        }
+      ),
+      getProps: $value => ({
+        value: $value && $value.get(),
+        // TODO: Use stringInsert and stringRemove
+        onChangeText: value => $value && $value.setDiff(value)
+      })
     }
-    return { inputs: _inputs, types: Object.keys(_inputs) }
-  }, [])
-
-  if (!type || !types.includes(type)) {
-    if (type) {
-      console.error(`[ui -> Input] Wrong type provided: ${type}. Available types: ${types}`)
-    } else {
-      console.error(`[ui -> Input] type property must be specified. Available types: ${types}`)
-    }
-    return null
-  }
+  }), [])
 
   if ($value && typeof $value === 'string') {
     if (/.+\..+/.test($value)) {
@@ -128,7 +129,10 @@ function Input ({
     }
   }
 
-  const { Component, getProps } = inputs[type]
+  input = input || type
+  input = SCHEMA_TYPE_TO_INPUT[input] || input
+
+  const { Component, getProps } = inputs[input]
   const bindingProps = $value ? getProps($value) : {}
 
   return pug`
@@ -140,21 +144,30 @@ function Input ({
   `
 }
 
+const possibleInputs = [
+  'array',
+  'checkbox',
+  'date',
+  'datetime',
+  'multiselect',
+  'number',
+  'object',
+  'password',
+  'radio',
+  'select',
+  'time',
+  'text'
+]
+const possibleTypes = Object.keys(SCHEMA_TYPE_TO_INPUT)
+
+Input.defaultProps = {
+  type: 'text'
+}
+
 Input.propTypes = {
-  type: PropTypes.oneOf([
-    'array',
-    'checkbox',
-    'date',
-    'datetime',
-    'multiselect',
-    'number',
-    'object',
-    'password',
-    'radio',
-    'select',
-    'time',
-    'text'
-  ]).isRequired,
+  input: PropTypes.oneOf(possibleInputs),
+  type: PropTypes.oneOf(possibleInputs.concat(possibleTypes)),
+  value: PropTypes.any,
   $value: PropTypes.any
 }
 

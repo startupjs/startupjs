@@ -2,22 +2,18 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
-import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
 import Button from '../../Button'
-import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
-import { useLayout } from './../../../hooks'
+import wrapInput from './../wrapInput'
 import './index.styl'
 
 function ArrayInput ({
   style,
   inputStyle,
   $value,
-  label,
-  description,
   layout,
   items
 }) {
@@ -25,18 +21,14 @@ function ArrayInput ({
     return null
   }
 
-  layout = useLayout({ layout, label, description })
-
   const pure = layout === 'pure'
   const value = $value.get()
 
   function getInputs () {
     return (value || []).map((_, index) => {
-      const { input, type, ...inputProps } = items
       return {
-        ...inputProps,
+        ...items,
         key: index,
-        type: input || SCHEMA_TYPE_TO_INPUT[type] || type,
         $value: $value.at(index)
       }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
@@ -45,23 +37,20 @@ function ArrayInput ({
 
   const inputs = getInputs()
 
+  if (inputs.length === 0) return null
+
   function renderContainer (children) {
     if (pure) {
       return pug`
-        Div(style=[style, inputStyle])= children
+        Div(style=inputStyle)= children
       `
     } else {
       return pug`
-        Div(style=style)
-          if label
-            Span.label= label
-          Card(
-            style=inputStyle
-            variant='outlined'
-          )
-            = children
-          if description
-            Span.description(description)= description
+        Card(
+          style=inputStyle
+          variant='outlined'
+        )
+          = children
       `
     }
   }
@@ -76,11 +65,7 @@ function ArrayInput ({
     each input, index in inputs
       Div.item(key=index styleName={ pushTop: index !== 0 })
         Div.input
-          - const { style, ...inputProps } = input
-          Input(
-            ...inputProps
-            style=style
-          )
+          Input(...input)
         Div.actions
           Button.remove(
             size='s'
@@ -98,13 +83,12 @@ function ArrayInput ({
 }
 
 ArrayInput.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   $value: PropTypes.any.isRequired,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
   items: PropTypes.object.isRequired
 }
 
-export default observer(themed(ArrayInput))
+const ObservedArrayInput = observer(themed('ArrayInput', ArrayInput))
+const WrappedObservedArrayInput = wrapInput(ObservedArrayInput)
+
+export default WrappedObservedArrayInput

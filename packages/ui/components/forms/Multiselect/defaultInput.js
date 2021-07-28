@@ -1,9 +1,11 @@
 import React from 'react'
+import { observer } from 'startupjs'
 import Row from './../../Row'
 import Span from './../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
-export default function DefaultInput ({
+function DefaultInput ({
   value = [],
   placeholder,
   disabled,
@@ -28,3 +30,5 @@ export default function DefaultInput ({
         = children
   `
 }
+
+export default observer(themed('Multiselect', DefaultInput))

@@ -3,7 +3,8 @@ import React, {
   useMemo,
   useLayoutEffect,
   useRef,
-  useImperativeHandle
+  useImperativeHandle,
+  useCallback
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate, useValue } from 'startupjs'
@@ -42,21 +43,17 @@ const ICON_SIZES = {
 function TextInputInput ({
   style,
   inputStyle,
+  iconStyle,
+  secondaryIconStyle,
   placeholder,
   value,
-  editable,
   size,
   disabled,
   resize,
   numberOfLines,
   icon,
-  secondaryIcon,
-  iconStyle,
-  secondaryIconStyle,
   iconPosition,
-  onBlur,
-  onFocus,
-  onChangeText,
+  secondaryIcon,
   onIconPress,
   onSecondaryIconPress,
   _renderWrapper,
@@ -66,17 +63,17 @@ function TextInputInput ({
   const inputRef = useRef()
   const [inputState, $inputState] = useValue({ focused: false })
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
-  const focusHandler = (...args) => {
+  const onFocus = useCallback((...args) => {
     if (inputState.focused || disabled) return
     inputRef.current.focus()
-    onFocus && onFocus(...args)
+    props.onFocus && props.onFocus(...args)
     $inputState.set('focused', true)
-  }
-  const blurHandler = (...args) => {
+  }, [])
+  const onBlur = useCallback((...args) => {
     if (!inputState.focused || disabled) return
-    onBlur && onBlur(...args)
+    props.onBlur && props.onBlur(...args)
     $inputState.set('focused', false)
-  }
+  }, [])
 
   if (!_renderWrapper) {
     _renderWrapper = ({ style }, children) => pug`
@@ -85,14 +82,11 @@ function TextInputInput ({
   }
 
   useImperativeHandle(ref, () => ({
-    focus: focusHandler,
-    blur: blurHandler,
-    clear: () => {
-      inputRef.current.clear()
-    },
-    isFocused: () => {
-      return inputState.focused
-    }
+    focus: onFocus,
+    blur: onBlur,
+    clear: () => inputRef.current.clear(),
+    isFocused: () => inputState.focused,
+    _onLabelPress: onFocus
   }), [])
 
   useLayoutEffect(() => {
@@ -107,7 +101,7 @@ function TextInputInput ({
   if (IS_WEB) {
     // repeat mobile behaviour on the web
     useLayoutEffect(() => {
-      if (inputState.focused && disabled) blurHandler()
+      if (inputState.focused && disabled) onBlur()
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
@@ -153,7 +147,7 @@ function TextInputInput ({
   // https://github.com/facebook/react-native/issues/10712
   if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
 
-  const inputExtraProps = {}
+  const inputExtraProps = { onFocus, onBlur }
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
   const inputStyleName = [
@@ -177,13 +171,9 @@ function TextInputInput ({
       placeholder=placeholder
       placeholderTextColor=DARK_LIGHTER_COLOR
       value=value
-      editable=editable && !disabled
+      editable=!disabled
       multiline=multiline
-      onFocus=focusHandler
-      onBlur=blurHandler
-      onChangeText=(value) => {
-        onChangeText && onChangeText(value)
-      }
+      selectTextOnFocus=false
       ...props
       ...inputExtraProps
     )

@@ -45,7 +45,6 @@ function DateTimePicker ({
   onBlur,
   onDateChange
 }, ref) {
-  console.log(ref, 'ref')
   // DatePicker doesn't accept "DD" or "D" day format
   const _format = format && format.replace(/D/g, 'd')
 
@@ -96,7 +95,10 @@ function DateTimePicker ({
       showYearDropdown
       timeIntervals=minuteInterval
       closeOnScroll= e => !scrollableClasses.includes(e.target.className)
-      onChange= date => onDateChange(+date)
+      onChange= date => {
+        onDateChange(+date)
+        console.log(moment(+date).seconds(), moment(+date).milliseconds())
+      }
       onFocus=onFocus
       onBlur=onBlur
       ...pickerProps

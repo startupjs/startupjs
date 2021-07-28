@@ -10,13 +10,8 @@ import './index.styl'
 const AnimatedView = Animated.View
 
 function CheckboxInput ({
-  style,
   value,
   icon,
-  disabled,
-  onPress,
-  onFocus, // IMPORTANT: skip prop because it is triggered when click on checkbox
-  onBlur, // IMPORTANT: skip prop because it is triggered when click outside checkbox after clicking on checkbox
   ...props
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
@@ -44,11 +39,8 @@ function CheckboxInput ({
 
   return pug`
     Div.checkbox(
-      style=style
       styleName=[checkedStyleName]
       accessibilityRole='checkbox'
-      disabled=disabled
-      onPress=onPress
       onLayout=(event) => setWidth(event.nativeEvent.layout.width)
       ...props
     )

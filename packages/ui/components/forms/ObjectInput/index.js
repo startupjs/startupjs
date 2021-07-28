@@ -1,21 +1,17 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
-import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
-import { useLayout } from './../../../hooks'
+import wrapInput from './../wrapInput'
 import './index.styl'
 
 function ObjectInput ({
   style,
   inputStyle,
   $value,
-  label,
-  description,
   layout,
   errors,
   properties,
@@ -25,8 +21,6 @@ function ObjectInput ({
     return null
   }
 
-  layout = useLayout({ layout, label, description })
-
   const pure = layout === 'pure'
   const value = $value.get()
 
@@ -34,13 +28,12 @@ function ObjectInput ({
 
   function getInputs () {
     return order.map((key, index) => {
-      const { input, type, dependsOn, dependsValue, ...inputProps } = properties[key] || {}
+      const { dependsOn, dependsValue, ...inputProps } = properties[key] || {}
 
       if (resolvesDeps(value, dependsOn, dependsValue)) {
         return {
           ...inputProps,
           key,
-          type: input || SCHEMA_TYPE_TO_INPUT[type] || type,
           $value: $value.at(key)
         }
       }
@@ -55,33 +48,26 @@ function ObjectInput ({
   function renderContainer (children) {
     if (pure) {
       return pug`
-        Div(style=[style, inputStyle])= children
+        Div(style=inputStyle)= children
       `
     } else {
       return pug`
-        Div(style=style)
-          if label
-            Span.label= label
-          Card(
-            style=inputStyle
-            variant='outlined'
-          )
-            = children
-          if description
-            Span.description(description)= description
+        Card(
+          style=inputStyle
+          variant='outlined'
+        )
+          = children
       `
     }
   }
 
   return renderContainer(pug`
     each input, index in inputs
-      - const { key, style, ...inputProps } = input
+      - const { ...inputProps } = input
       Input.input(
-        ...inputProps
-        key=key
-        style=style
+        ...input
         styleName={ pushTop: index !== 0 }
-        error=errors[key]
+        error=errors[input.key]
       )
   `)
 }
@@ -91,7 +77,6 @@ ObjectInput.defaultProps = {
 }
 
 ObjectInput.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   $value: PropTypes.any.isRequired,
   errors: PropTypes.object,
@@ -102,7 +87,11 @@ ObjectInput.propTypes = {
   properties: PropTypes.object.isRequired
 }
 
-export default observer(themed(ObjectInput))
+const ObservedObjectInput = observer(themed('ObjectInput', ObjectInput))
+
+const WrappedObservedObjectInput = wrapInput(ObservedObjectInput)
+
+export default WrappedObservedObjectInput
 
 function getOrder (order, properties) {
   return order != null ? order : Object.keys(properties)

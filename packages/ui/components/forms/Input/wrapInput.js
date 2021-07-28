@@ -8,12 +8,12 @@ import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import merge from 'lodash/merge'
-import Div from './../Div'
-import Icon from './../Icon'
-import Row from './../Row'
-import { Span } from './../typography'
-import { useLayout } from './../../hooks'
-import themed from '../../theming/themed'
+import Div from './../../Div'
+import Icon from './../../Icon'
+import Row from './../../Row'
+import { Span } from './../../typography'
+import { useLayout } from './../../../hooks'
+import themed from '../../../theming/themed'
 
 export default function wrapInput (Component, options) {
   options = merge(

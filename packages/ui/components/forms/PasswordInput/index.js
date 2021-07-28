@@ -3,14 +3,14 @@ import { observer } from 'startupjs'
 import pick from 'lodash/pick'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'
-import themed from '../../../theming/themed'
 
-function PasswordInput ({ ...props }) {
+function PasswordInput ({ ...props }, ref) {
   const [textHidden, setTextHidden] = useState(true)
 
   return pug`
     TextInput(
       ...props
+      ref=ref
       autoCompleteType='password'
       secureTextEntry=textHidden
       icon=textHidden ? faEye : faEyeSlash
@@ -29,8 +29,8 @@ PasswordInput.defaultProps = {
     [
       'size',
       'value',
-      'disabled',
-      'options'
+      'layoutOptions',
+      'disabled'
     ]
   )
 }
@@ -40,16 +40,15 @@ PasswordInput.propTypes = {
     TextInput.propTypes,
     [
       'style',
-      'wrapperStyle',
       'inputStyle',
+      'placeholder',
+      'value',
+      'size',
       'label',
       'description',
       'layout',
-      'options',
+      'layoutOptions',
       'error',
-      'value',
-      'placeholder',
-      'size',
       'disabled',
       'onFocus',
       'onBlur',
@@ -58,4 +57,4 @@ PasswordInput.propTypes = {
   )
 }
 
-export default observer(themed(PasswordInput))
+export default observer(PasswordInput, { forwardRef: true })
