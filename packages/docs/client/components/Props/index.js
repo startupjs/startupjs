@@ -20,13 +20,16 @@ function parseEntries (entries) {
   })
 }
 
-function useEntries ({ Component, props = {} }) {
+function useEntries ({ Component, props = {}, extraParams }) {
   return useMemo(() => {
     const entries = parseEntries(Object.entries(parsePropTypes(Component)))
       .reduce((acc, entry) => {
         if (entry.name[0] === '_') return acc // skip private properties
         if (props[entry.name] !== undefined) {
           entry.value = props[entry.name] // add property value to Renderer
+        }
+        if (extraParams?.[entry.name]) {
+          entry.extraParams = extraParams?.[entry.name]
         }
         acc.push(entry)
         return acc
@@ -57,6 +60,7 @@ export default observer(themed(function PComponent ({
   Component,
   $props,
   props,
+  extraParams,
   componentName,
   showGrid,
   style,
@@ -76,7 +80,7 @@ export default observer(themed(function PComponent ({
     }
   }, [$props])
 
-  const entries = useEntries({ Component, props })
+  const entries = useEntries({ Component, props, extraParams })
   useInitDefaultProps({ entries, $theProps })
 
   return pug`

@@ -3,6 +3,9 @@ import { observer, useValue } from 'startupjs'
 import { Br, Input, Span } from '@startupjs/ui'
 import debounce from 'lodash/debounce'
 import isPlainObject from 'lodash/isPlainObject'
+import keys from 'lodash/keys'
+import omit from 'lodash/omit'
+import * as icons from '@fortawesome/free-solid-svg-icons'
 import '../index.styl'
 
 const EDITABLE_TYPES = ['string', 'number', 'bool', 'oneOf', 'array', 'object']
@@ -151,14 +154,40 @@ const TypesSelect = observer(function ({ $props, entry: { name, possibleValues }
   `
 })
 
+const IconSelect = observer(function ({ $value, value }) {
+  const _icons = useMemo(
+    () =>
+      keys(omit(icons, ['fas', 'prefix'])).map(key => ({
+        label: key,
+        value: icons[key]
+      })),
+    []
+  )
+
+  return pug`
+    PropInput(
+      $value=$value
+      options=_icons
+      type='oneOf'
+      value=value
+    )
+  `
+})
+
 export default observer(function ValueCell ({ $props, entry }) {
-  const { name, type, possibleValues } = entry
+  const { name, type, possibleValues, extraParams } = entry
   const $value = $props.at(name)
   const value = $value.get()
 
   if (/^\$/.test(name)) { // hide Input for model prop
     return pug`
       Span.unsupported -
+    `
+  }
+
+  if (extraParams?.showIconSelect) {
+    return pug`
+      IconSelect($value=$value value=value)
     `
   }
 

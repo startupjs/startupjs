@@ -12,7 +12,7 @@ import './index.styl'
 
 const MODELS = new WeakMap()
 
-export default observer(function Sandbox ({ Component, props, block }) {
+export default observer(function Sandbox ({ Component, props, extraParams, block }) {
   const [showGrid] = useShowGrid()
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
@@ -33,6 +33,7 @@ export default observer(function Sandbox ({ Component, props, block }) {
       validateWidth=validateWidth
       $props=getUniqModel(Component)
       props=props
+      extraParams=extraParams
       block=block
     )
   `
