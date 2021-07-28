@@ -90,7 +90,7 @@ const PropInput = observer(function ({ $value, options, type, value }) {
       return pug`
         Input.checkbox(
           type='checkbox'
-          value=value
+          value=!!value
           onChange=value => $value.set(value)
         )
       `
@@ -109,7 +109,31 @@ const PropInput = observer(function ({ $value, options, type, value }) {
   }
 })
 
-const TypesSelect = observer(function ({ $props, entry: { name, possibleValues } }) {
+const IconSelect = observer(function ({ $value, value }) {
+  const _icons = useMemo(
+    () =>
+      keys(omit(icons, ['fas', 'prefix'])).map(key => ({
+        label: key,
+        value: icons[key]
+      })),
+    []
+  )
+
+  return pug`
+    Input(
+      options=_icons
+      size='s'
+      type='select'
+      value=value
+      onChange=value => $value.set(value)
+    )
+`
+})
+
+const TypesSelect = observer(function ({
+  $props,
+  entry: { name, possibleValues, extraParams = {} }
+}) {
   const { names, options } = useMemo(
     () =>
       possibleValues.reduce(
@@ -143,51 +167,30 @@ const TypesSelect = observer(function ({ $props, entry: { name, possibleValues }
         onChange=onChange
       )
       Br(half)
-      PropInput(
-        $value=$value
-        options=options[selectedValue]
-        type=selectedValue
-        value=value
-      )
+      // custom Select for icon objects instead of JSONInput
+      // when extraParams.showIconSelect is true
+      if extraParams.showIconSelect && selectedValue === 'object'
+        IconSelect($value=$value value=value)
+      else
+        PropInput(
+          $value=$value
+          options=options[selectedValue]
+          type=selectedValue
+          value=value
+        )
     else
       Span.unsupported -
   `
 })
 
-const IconSelect = observer(function ({ $value, value }) {
-  const _icons = useMemo(
-    () =>
-      keys(omit(icons, ['fas', 'prefix'])).map(key => ({
-        label: key,
-        value: icons[key]
-      })),
-    []
-  )
-
-  return pug`
-    PropInput(
-      $value=$value
-      options=_icons
-      type='oneOf'
-      value=value
-    )
-  `
-})
-
 export default observer(function ValueCell ({ $props, entry }) {
-  const { name, type, possibleValues, extraParams } = entry
+  const { name, type, possibleValues } = entry
   const $value = $props.at(name)
   const value = $value.get()
 
   if (/^\$/.test(name)) { // hide Input for model prop
     return pug`
       Span.unsupported -
-    `
-  }
-
-  if (extraParams?.showIconSelect) {
-    return pug`
-      IconSelect($value=$value value=value)
     `
   }
 
