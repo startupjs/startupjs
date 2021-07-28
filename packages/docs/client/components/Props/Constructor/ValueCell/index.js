@@ -10,6 +10,27 @@ import '../index.styl'
 
 const EDITABLE_TYPES = ['string', 'number', 'bool', 'oneOf', 'array', 'object']
 
+const IconSelect = observer(function ({ $value, value }) {
+  const _icons = useMemo(
+    () =>
+      keys(omit(icons, ['fas', 'prefix'])).map(key => ({
+        label: key,
+        value: icons[key]
+      })),
+    []
+  )
+
+  return pug`
+    Input(
+      options=_icons
+      size='s'
+      type='select'
+      value=value
+      onChange=value => $value.set(value)
+    )
+`
+})
+
 const JSONInput = observer(function ({ $value, type }) {
   const _JSONValue = useMemo(() => {
     let value = $value.get()
@@ -57,10 +78,17 @@ const JSONInput = observer(function ({ $value, type }) {
   `
 })
 
-const PropInput = observer(function ({ $value, options, type, value }) {
+const PropInput = observer(function ({ $value, extraParams, options, type, value }) {
   switch (type) {
     case 'array':
     case 'object':
+      // custom Select for icon objects instead of JSONInput
+      // when extraParams.showIconSelect is true
+      if (extraParams?.showIconSelect) {
+        return pug`
+          IconSelect($value=$value value=value)
+        `
+      }
       return pug`
         JSONInput(
           type=type
@@ -109,27 +137,6 @@ const PropInput = observer(function ({ $value, options, type, value }) {
   }
 })
 
-const IconSelect = observer(function ({ $value, value }) {
-  const _icons = useMemo(
-    () =>
-      keys(omit(icons, ['fas', 'prefix'])).map(key => ({
-        label: key,
-        value: icons[key]
-      })),
-    []
-  )
-
-  return pug`
-    Input(
-      options=_icons
-      size='s'
-      type='select'
-      value=value
-      onChange=value => $value.set(value)
-    )
-`
-})
-
 const TypesSelect = observer(function ({
   $props,
   entry: { name, defaultValue, possibleValues, extraParams = {} }
@@ -153,7 +160,7 @@ const TypesSelect = observer(function ({
 
   function onChange (value) {
     batch(() => {
-      if (defaultValue !== undefined) {
+      if (defaultValue !== undefined && validateByType(value, defaultValue)) {
         $value.set(defaultValue)
       } else {
         $value.del()
@@ -173,24 +180,20 @@ const TypesSelect = observer(function ({
         onChange=onChange
       )
       Br(half)
-      // custom Select for icon objects instead of JSONInput
-      // when extraParams.showIconSelect is true
-      if extraParams.showIconSelect && selectedValue === 'object'
-        IconSelect($value=$value value=value)
-      else
-        PropInput(
-          $value=$value
-          options=options[selectedValue]
-          type=selectedValue
-          value=value
-        )
+      PropInput(
+        $value=$value
+        extraParams=extraParams
+        options=options[selectedValue]
+        type=selectedValue
+        value=value
+      )
     else
       Span.unsupported -
   `
 })
 
 export default observer(function ValueCell ({ $props, entry }) {
-  const { name, type, possibleValues } = entry
+  const { extraParams, name, possibleValues, type } = entry
   const $value = $props.at(name)
   const value = $value.get()
 
@@ -204,6 +207,7 @@ export default observer(function ValueCell ({ $props, entry }) {
     if EDITABLE_TYPES.includes(type)
       PropInput(
         $value=$value
+        extraParams=extraParams
         options=possibleValues
         type=type
         value=value
@@ -221,6 +225,14 @@ function validateByType (type, value) {
       return Array.isArray(value)
     case 'object':
       return isPlainObject(value)
+    case 'bool':
+      return typeof value === 'boolean'
+    case 'number':
+      return typeof value === 'number'
+    case 'string':
+      return typeof value === 'string'
+    case 'oneOf':
+      return true
     default:
       return false
   }
