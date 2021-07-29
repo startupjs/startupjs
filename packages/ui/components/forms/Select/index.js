@@ -57,11 +57,12 @@ Select.defaultProps = {
 Select.propTypes = {
   label: PropTypes.string,
   description: PropTypes.string,
-  layout: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   options: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   showEmptyValue: PropTypes.bool,
+  value: PropTypes.any,
   onChange: PropTypes.func
 }
 
