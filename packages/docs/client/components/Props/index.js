@@ -23,17 +23,16 @@ function parseEntries (entries) {
 function useEntries ({ Component, props = {}, extraParams }) {
   return useMemo(() => {
     const entries = parseEntries(Object.entries(parsePropTypes(Component)))
-      .reduce((acc, entry) => {
-        if (entry.name[0] === '_') return acc // skip private properties
-        if (props[entry.name] !== undefined) {
-          entry.value = props[entry.name] // add property value to Renderer
+      .filter(entry => entry.name[0] !== '_') // skip private properties
+      .map(item => {
+        if (props[item.name] !== undefined) {
+          item.value = props[item.name] // add property value to Renderer
         }
-        if (extraParams?.[entry.name]) {
-          entry.extraParams = extraParams?.[entry.name]
+        if (extraParams?.[item.name]) {
+          item.extraParams = extraParams?.[item.name]
         }
-        acc.push(entry)
-        return acc
-      }, [])
+        return item
+      })
     return entries
   }, [])
 }
