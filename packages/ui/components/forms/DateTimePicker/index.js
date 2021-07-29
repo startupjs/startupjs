@@ -10,7 +10,6 @@ import Button from '../../Button'
 import Drawer from '../../popups/Drawer'
 import Row from '../../Row'
 import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import STYLES from './index.styl'
 
 const { colors: { mainText, secondaryText } } = STYLES
@@ -22,6 +21,7 @@ const FORMATS = {
 }
 
 function DateTimePicker ({
+  style,
   inputStyle,
   cancelButtonText,
   confirmButtonText,
@@ -29,9 +29,6 @@ function DateTimePicker ({
   disabled,
   format,
   is24Hour,
-  label,
-  description,
-  layout,
   maxDate,
   minDate,
   minuteInterval,
@@ -229,7 +226,7 @@ function DateTimePicker ({
             minuteInterval=minuteInterval
           )
     Button(
-      style=inputStyle
+      style=[style, inputStyle]
       textStyle={ color: date ? mainText : secondaryText }
       color=inputState.focused ? 'primary' : 'dark'
       size=size
@@ -247,6 +244,7 @@ DateTimePicker.defaultProps = {
 }
 
 DateTimePicker.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   cancelButtonText: PropTypes.string,
   confirmButtonText: PropTypes.string,
@@ -266,12 +264,7 @@ DateTimePicker.propTypes = {
   _hasError: PropTypes.bool // @private TODO: realize error view in new datetimepicker
 }
 
-const ObservedDateTimePicker = observer(
-  themed('DateTimePicker', DateTimePicker)
+export default observer(
+  themed('DateTimePicker', DateTimePicker),
+  { forwardRef: true }
 )
-const WrappedObservedDateTimePicker = wrapInput(
-  ObservedDateTimePicker,
-  { rows: { descriptionPosition: 'bottom' } }
-)
-
-export default WrappedObservedDateTimePicker

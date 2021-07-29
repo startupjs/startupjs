@@ -29,7 +29,6 @@ PasswordInput.defaultProps = {
     [
       'size',
       'value',
-      'layoutOptions',
       'disabled'
     ]
   )
@@ -44,15 +43,11 @@ PasswordInput.propTypes = {
       'placeholder',
       'value',
       'size',
-      'label',
-      'description',
-      'layout',
-      'layoutOptions',
-      'error',
       'disabled',
       'onFocus',
       'onBlur',
-      'onChangeText'
+      'onChangeText',
+      '_hasError'
     ]
   )
 }

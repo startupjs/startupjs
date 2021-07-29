@@ -7,6 +7,8 @@ import themed from '../../../theming/themed'
 import './index.styl'
 
 const Multiselect = ({
+  style,
+  inputStyle,
   options,
   value,
   placeholder,
@@ -26,6 +28,7 @@ const Multiselect = ({
 }) => {
   return pug`
     Popover.popover(
+      captionStyle=style
       visible=focused
       attachment='start'
       position='bottom'
@@ -34,6 +37,7 @@ const Multiselect = ({
     )
       Popover.Caption
         MultiselectInput(
+          style=inputStyle
           focused=focused
           value=value
           placeholder=placeholder
@@ -52,6 +56,8 @@ const Multiselect = ({
 }
 
 Multiselect.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
   onSelect: PropTypes.func,

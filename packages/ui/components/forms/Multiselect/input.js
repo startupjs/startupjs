@@ -8,6 +8,7 @@ import themed from '../../../theming/themed'
 import './index.styl'
 
 function MultiselectInput ({
+  style,
   value,
   placeholder,
   options,
@@ -29,6 +30,7 @@ function MultiselectInput ({
 
   return pug`
     Input(
+      style=style
       value=values
       placeholder=placeholder
       disabled=disabled
@@ -56,6 +58,7 @@ function MultiselectInput ({
 }
 
 MultiselectInput.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
   onOpen: PropTypes.func.isRequired,

@@ -1,8 +1,3 @@
-// 1. inputRef !???
-// number input value default '' ?
-// 2. refactor docs, radio remove examples, add new docs about label, description
-// number input
-
 import React, { useRef, useState, useCallback, useImperativeHandle } from 'react'
 import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -53,7 +48,7 @@ export default function wrapInput (Component, options) {
       description
     })
     options = merge(options, { layoutOptions: propLayoutOptions })
-    // layoutOptions = options.layoutOptions
+
     const {
       layoutOptions,
       _isLabelColoredWhenFocusing,

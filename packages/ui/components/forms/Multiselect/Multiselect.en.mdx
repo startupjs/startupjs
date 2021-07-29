@@ -37,28 +37,6 @@ return (
 )
 ```
 
-## Label and description
-
-```jsx example
-const OPTIONS = [
-  { label: 'New York', value: 'ny' },
-  { label: 'Los Angeles', value: 'la' },
-  { label: 'Tokyo', value: 'tk' },
-]
-
-const [cities, setCities] = useState([])
-
-return (
-  <Multiselect
-    label='City'
-    description='Select the cities you have visited'
-    value={cities}
-    onChange={setCities}
-    options={OPTIONS}
-  />
-)
-```
-
 ## Options
 
 You can pass array of objects { label, value } or primitives to options property.

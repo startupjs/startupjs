@@ -6,7 +6,6 @@ import Span from './../../typography/Span'
 import CheckboxInput from './checkbox'
 import SwitchInput from './switch'
 import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 const INPUT_COMPONENTS = {
@@ -70,21 +69,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func
 }
 
-const ObservedCheckbox = observer(
+export default observer(
   themed('Checkbox', Checkbox),
   { forwardRef: true }
 )
-const WrappedObservedCheckbox = wrapInput(
-  ObservedCheckbox,
-  {
-    layoutOptions: {
-      rows: {
-        labelPosition: 'right',
-        descriptionPosition: 'bottom'
-      }
-    },
-    _isLabelClickable: true
-  }
-)
-
-export default WrappedObservedCheckbox

@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'
 import * as locale from 'date-fns/locale'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 const localLanguage = window.navigator.language
@@ -26,14 +25,12 @@ const scrollableClasses = [
 ]
 
 function DateTimePicker ({
+  style,
   inputStyle,
   InputComponent,
   date,
   disabled,
   format,
-  label,
-  description,
-  layout,
   maxDate,
   minDate,
   minuteInterval,
@@ -77,7 +74,7 @@ function DateTimePicker ({
 
   return pug`
     DatePicker(
-      style=inputStyle
+      style=[style, inputStyle]
       className=size
       calendarClassName=mode
       calendarContainer=renderCalendarContainer
@@ -114,6 +111,7 @@ DateTimePicker.defaultProps = {
 }
 
 DateTimePicker.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   InputComponent: PropTypes.node,
   date: PropTypes.number,
@@ -129,12 +127,7 @@ DateTimePicker.propTypes = {
   _hasError: PropTypes.bool // @private TODO: realize error view in new datetimepicker
 }
 
-const ObservedDateTimePicker = observer(
-  themed('DateTimePicker', DateTimePicker)
+export default observer(
+  themed('DateTimePicker', DateTimePicker),
+  { forwardRef: true }
 )
-const WrappedObservedDateTimePicker = wrapInput(
-  ObservedDateTimePicker,
-  { rows: { descriptionPosition: 'bottom' } }
-)
-
-export default WrappedObservedDateTimePicker

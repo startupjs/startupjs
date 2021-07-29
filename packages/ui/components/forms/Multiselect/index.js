@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import Row from '../../Row'
+import Span from '../../typography/Span'
 import Checkbox from './../Checkbox'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
 import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 const Multiselect = ({
@@ -69,13 +70,15 @@ const Multiselect = ({
       return renderListItem(item, selected, onItemPress)
     }
 
+    const onPress = onItemPress(item.value)
+
     return pug`
-      Checkbox.checkbox(
-        key=item.value
-        label=item.label
-        value=selected
-        onChange=onItemPress(item.value)
+      Row(
+        vAlign='center'
+        onPress=() => onPress(!selected)
       )
+        Checkbox.checkbox(value=selected)
+        Span= item.label
     `
   }
 
@@ -109,6 +112,8 @@ Multiselect.defaultProps = {
 }
 
 Multiselect.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.array.isRequired,
   options: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
@@ -126,4 +131,7 @@ Multiselect.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default wrapInput(observer(themed('Multiselect', Multiselect)))
+export default observer(
+  themed('Multiselect', Multiselect),
+  { forwardRef: true }
+)

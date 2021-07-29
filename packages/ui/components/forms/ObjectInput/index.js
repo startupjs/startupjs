@@ -5,7 +5,6 @@ import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
 import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 function ObjectInput ({
@@ -48,15 +47,14 @@ function ObjectInput ({
   function renderContainer (children) {
     if (pure) {
       return pug`
-        Div(style=inputStyle)= children
+        Div(style=[style, inputStyle])= children
       `
     } else {
       return pug`
         Card(
-          style=inputStyle
+          style=[style, inputStyle]
           variant='outlined'
-        )
-          = children
+        )= children
       `
     }
   }
@@ -77,21 +75,18 @@ ObjectInput.defaultProps = {
 }
 
 ObjectInput.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   $value: PropTypes.any.isRequired,
   errors: PropTypes.object,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
   order: PropTypes.array,
   properties: PropTypes.object.isRequired
 }
 
-const ObservedObjectInput = observer(themed('ObjectInput', ObjectInput))
-
-const WrappedObservedObjectInput = wrapInput(ObservedObjectInput)
-
-export default WrappedObservedObjectInput
+export default observer(
+  themed('ObjectInput', ObjectInput),
+  { forwardRef: true }
+)
 
 function getOrder (order, properties) {
   return order != null ? order : Object.keys(properties)

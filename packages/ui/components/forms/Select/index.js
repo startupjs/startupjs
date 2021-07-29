@@ -60,20 +60,15 @@ Select.propTypes = {
     TextInput.propTypes,
     [
       'style',
-      'wrapperStyle',
       'inputStyle',
       'placeholder',
       'value',
       'size',
-      'label',
-      'description',
-      'layout',
-      'layoutOptions',
-      'error',
       'disabled',
       'readonly',
       'onFocus',
-      'onBlur'
+      'onBlur',
+      '_hasError'
     ]
   ),
   options: PropTypes.array,

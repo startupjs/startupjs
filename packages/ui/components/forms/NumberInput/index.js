@@ -1,16 +1,10 @@
-// import React, { useEffect, useMemo, useState } from 'react'
-import React from 'react'
-// import { Platform } from 'react-native'
+import React, { useState, useMemo } from 'react'
 import { observer } from 'startupjs'
 import pick from 'lodash/pick'
-// import cloneDeep from 'lodash/cloneDeep'
-// import toFinite from 'lodash/toFinite'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
-import Wrapper from './wrapper'
+import Buttons from './Buttons'
 import './index.styl'
-
-// const IS_WEB = Platform.OS === 'web'
 
 function NumberInput ({
   buttonStyle,
@@ -22,118 +16,66 @@ function NumberInput ({
   min,
   step,
   onChangeNumber,
-  // onChange,
   ...props
 }, ref) {
-  // const [stringValue, setStringValue] = useState()
-  //
-  // useEffect(() => {
-  //   if (typeof value === 'undefined') value = ''
-  //   if (
-  //     !isNaN(value) &&
-  //     (value === '' || typeof value === 'number') &&
-  //     stringValue !== value.toString()
-  //   ) {
-  //     setStringValue(value.toString())
-  //   }
-  // }, [stringValue, value])
-  //
-  // const validStep = useMemo(() => {
-  //   if (step === 1) return step
-  //   const floatStepRegexp = /^0\.(\d0*)?1$/
-  //   if (floatStepRegexp.test(String(step))) return step
-  //   console.error(`[ui -> NumberInput] Wrong step provided: ${step}. Step 1 is used instead`)
-  //   return 1
-  // }, [step])
-  //
-  // const stepCount = useMemo(() => validStep === 1 ? 0 : String(validStep).length - 2, [validStep])
-  //
-  // const coefficient = useMemo(() => Math.pow(10, stepCount), [stepCount])
-  //
-  // const validMax = useMemo(() => {
-  //   if (max * coefficient * 10 >= Number.MAX_SAFE_INTEGER) return max / coefficient / 10
-  //   return max
-  // }, [max, coefficient])
-  //
-  // const validMin = useMemo(() => {
-  //   if (min * coefficient * 10 <= Number.MIN_SAFE_INTEGER) return min / coefficient / 10
-  //   return min
-  // }, [min, coefficient])
-  //
-  // const isValidValue = value => {
-  //   const integerRegexp = /^-?\d*?$/
-  //   const floatRegexp = new RegExp('^-?\\d*(\\.(\\d{0,' + stepCount + '})?)?$')
-  //   let regexp = integerRegexp
-  //   if (stepCount > 0) {
-  //     regexp = floatRegexp
-  //   }
-  //   return regexp.test(value)
-  // }
-  //
-  // const getValidValue = value => {
-  //   if (isValidValue(value)) {
-  //     let newValue = value
-  //     if (newValue >= validMax) {
-  //       newValue = validMax.toString()
-  //     } else if (newValue <= validMin) {
-  //       newValue = validMin.toString()
-  //     }
-  //     return newValue
-  //   }
-  //   return stringValue
-  // }
+  const initialValue = useMemo(() => {
+    return value && typeof value === 'number'
+      ? value.toString()
+      : ''
+  }, [])
+  const [inputValue, setInputValue] = useState(initialValue)
+  const isStepInteger = useMemo(() => {
+    return Number.isInteger(step)
+  }, [step])
+  const regexp = useMemo(() => {
+    return isStepInteger
+      ? /^-?\d*$/
+      : /^(-?\d*)(\.\d*)?$/
+  }, [isStepInteger])
 
-  const onChangeText = value => {
-    console.log('on change', value)
-    if (value === '-') {
-      console.log('empty value? not triggered? or triggered empty?')
-      return
-    }
-
-    if (min && value < min) {
+  function onChangeText (newValue) {
+    if (min && newValue < min) {
       // display tip - must be less then min
       return
     }
 
-    if (max && value > max) {
+    if (max && newValue > max) {
       // display tip - must be greater then max
       return
     }
 
-    if (step && value % step) {
-      // display tip - must be a multiple of step
-      return
-    }
+    if (!regexp.test(newValue)) return
 
-    onChangeNumber && onChangeNumber(value)
+    setInputValue(newValue)
+
+    newValue = newValue && !isNaN(newValue)
+      ? Number(newValue)
+      : undefined
+
+    // prevent update for the same values
+    // for example
+    // when add dot (values NUMBER and NUMBER. are the same)
+    // when add -
+    // when change value from -NUMBER to -
+    if (newValue === value) return
+
+    onChangeNumber && onChangeNumber(newValue)
   }
 
-  // const inputExtraProps = {}
-  //
-  // if (onChange) {
-  //   inputExtraProps.onChange = event => {
-  //     let newValue = ''
-  //     if (IS_WEB) {
-  //       newValue = getValidValue(event.target.value)
-  //     } else {
-  //       newValue = getValidValue(event.nativeEvent.text)
-  //     }
-  //     if (newValue !== stringValue) {
-  //       const cloned = cloneDeep(event)
-  //       IS_WEB ? (cloned.target.value = newValue) : (cloned.nativeEvent.text = newValue)
-  //       onChange(cloned)
-  //     }
-  //   }
-  // }
+  function onIncrement (byNumber) {
+    const newValue = (value || 0) + byNumber
+    onChangeText(newValue)
+  }
 
   function renderWrapper ({ style }, children) {
     return pug`
-      Wrapper(
+      Buttons(
         style=style
         buttonStyle=buttonStyle
-        buttonsMode=buttonsMode
+        mode=buttonsMode
         size=size
         disabled=disabled
+        onIncrement=onIncrement
       )= children
     `
   }
@@ -143,7 +85,7 @@ function NumberInput ({
       ref=ref
       test='number'
       inputStyleName=['input-input', buttonsMode, size]
-      value=value
+      value=inputValue
       size=size
       disabled=disabled
       keyboardType='numeric'
@@ -159,8 +101,6 @@ NumberInput.defaultProps = {
     TextInput.defaultProps,
     [
       'size',
-      'value',
-      'layoutOptions',
       'disabled',
       'readonly'
     ]
@@ -178,15 +118,11 @@ NumberInput.propTypes = {
       'placeholder',
       'value',
       'size',
-      'label',
-      'description',
-      'layout',
-      'layoutOptions',
-      'error',
       'disabled',
       'readonly',
       'onFocus',
-      'onBlur'
+      'onBlur',
+      '_hasError'
     ]
   ),
   buttonStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -194,7 +130,6 @@ NumberInput.propTypes = {
   max: PropTypes.number,
   min: PropTypes.number,
   step: PropTypes.number,
-  // onChange: PropTypes.func,
   onChangeNumber: PropTypes.func
 }
 

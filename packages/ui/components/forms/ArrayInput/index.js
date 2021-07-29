@@ -2,12 +2,10 @@ import React from 'react'
 import { observer } from 'startupjs'
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
-import Input from '../Input'
 import Div from '../../Div'
 import Card from '../../Card'
 import Button from '../../Button'
 import themed from '../../../theming/themed'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 function ArrayInput ({
@@ -37,17 +35,15 @@ function ArrayInput ({
 
   const inputs = getInputs()
 
-  if (inputs.length === 0) return null
-
   function renderContainer (children) {
     if (pure) {
       return pug`
-        Div(style=inputStyle)= children
+        Div(style=[style, inputStyle])= children
       `
     } else {
       return pug`
         Card(
-          style=inputStyle
+          style=[style, inputStyle]
           variant='outlined'
         )
           = children
@@ -83,12 +79,17 @@ function ArrayInput ({
 }
 
 ArrayInput.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   $value: PropTypes.any.isRequired,
   items: PropTypes.object.isRequired
 }
 
-const ObservedArrayInput = observer(themed('ArrayInput', ArrayInput))
-const WrappedObservedArrayInput = wrapInput(ObservedArrayInput)
+export default observer(
+  themed('ArrayInput', ArrayInput),
+  { forwardRef: true }
+)
 
-export default WrappedObservedArrayInput
+// FIX circular imports https://stackoverflow.com/a/30390378
+// for unknown reasons ObjectInput that also have circular imports works well
+const Input = require('../Input')

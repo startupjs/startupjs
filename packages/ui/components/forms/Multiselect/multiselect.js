@@ -8,6 +8,8 @@ import themed from '../../../theming/themed'
 import styles from './index.styl'
 
 const Multiselect = ({
+  style,
+  inputStyle,
   options,
   value,
   placeholder,
@@ -25,6 +27,7 @@ const Multiselect = ({
 }) => {
   return pug`
     MultiselectInput(
+      style=inputStyle
       onOpen=onOpen
       focused=focused
       value=value
@@ -37,6 +40,7 @@ const Multiselect = ({
       _hasError=_hasError
     )
     Drawer.nativeListContent(
+      style=style
       visible=focused
       position='bottom'
       onDismiss=onHide
@@ -50,6 +54,8 @@ const Multiselect = ({
 }
 
 Multiselect.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
   onSelect: PropTypes.func,

@@ -3,7 +3,6 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../../Div'
 import Input from './input'
-import wrapInput from './../wrapInput'
 import './index.styl'
 
 function Radio ({
@@ -53,9 +52,4 @@ Radio.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-const ObservedRadio = observer(Radio)
-const WrappedObservedRadio = wrapInput(ObservedRadio)
-
-WrappedObservedRadio.Item = Input
-
-export default WrappedObservedRadio
+export default observer(Radio, { forwardRef: true })

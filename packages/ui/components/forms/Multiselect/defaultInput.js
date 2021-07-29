@@ -6,6 +6,7 @@ import themed from '../../../theming/themed'
 import './index.styl'
 
 function DefaultInput ({
+  style,
   value = [],
   placeholder,
   disabled,
@@ -20,7 +21,8 @@ function DefaultInput ({
       Span= value.join(', ')
     else
       Row.input(
-        styleName={ disabled, focused, readonly }
+        style=style
+        styleName={ disabled, focused, readonly, error: _hasError }
         onPress=disabled || readonly ? void 0 : onOpen
         wrap
       )
