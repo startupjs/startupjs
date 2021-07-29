@@ -131,4 +131,20 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Radio} />
+<Sandbox
+  Component={Radio}
+  props={{
+    options:[
+      {
+        value: 'red',
+        label: 'Red'
+      },
+      {
+        value: 'blue',
+        label: 'Blue'
+      }
+    ],
+    value: 'red',
+    onChange: value=> alert('Enter "' + value + '" in the value input')
+  }}
+/>
