@@ -3,12 +3,14 @@ import { observer, useValue } from 'startupjs'
 import { Button, Span, themed } from '@startupjs/ui'
 import '../index.styl'
 
+const MAX_ITEMS = 10
+
 export default observer(themed(function TypeCell ({ possibleValues, theme, type }) {
   const [collapsed, $collapsed] = useValue(true)
 
   const values = useMemo(() => {
     if (!Array.isArray(possibleValues)) return []
-    return collapsed ? possibleValues.slice(0, 10) : possibleValues
+    return collapsed ? possibleValues.slice(0, MAX_ITEMS) : possibleValues
   }, [collapsed, possibleValues])
 
   const toggleList = useCallback(() => {
@@ -16,7 +18,7 @@ export default observer(themed(function TypeCell ({ possibleValues, theme, type 
   }, [collapsed])
 
   const renderButton = useCallback(() => {
-    if (possibleValues?.length < 11) return null
+    if (possibleValues?.length <= MAX_ITEMS) return null
     return pug`
       Span &nbsp&nbsp
       Button(
