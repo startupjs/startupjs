@@ -101,7 +101,7 @@ const PropInput = observer(function ({ $value, extraParams, options, type, value
         Input(
           size='s'
           type='text'
-          value=value || ''
+          value=value
           onChangeText=value => $value.set(value)
         )
       `
