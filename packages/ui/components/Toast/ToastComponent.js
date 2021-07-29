@@ -1,58 +1,135 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { observer } from 'startupjs'
-import Alert from '../Alert'
-import './index.styl'
+import { observer, useModel } from 'startupjs'
+import { Div, Row, Span, Icon, Button } from '@startupjs/ui'
+import {
+  faExclamationCircle,
+  faTimes,
+  faCheckCircle,
+  faExclamationTriangle,
+  faInfoCircle
+} from '@fortawesome/free-solid-svg-icons'
+import STYLES from './index.styl'
+
+const MARGIN = 16
+const MAX_SHOW_LENGTH = 3
+
+const ICONS = {
+  info: faInfoCircle,
+  error: faExclamationCircle,
+  warning: faExclamationTriangle,
+  success: faCheckCircle
+}
+
+const TITLES = {
+  info: 'Info',
+  error: 'Error',
+  warning: 'Warning',
+  success: 'Success'
+}
 
 export default observer(function ToastComponent ({
   alert = false,
-  toastId,
-  children,
-  ...props
+  type = 'info',
+  icon,
+  text,
+  title,
+  closeLabel,
+  actionLabel,
+  onClose,
+  onAction,
+  _index,
+  _show,
+  _toastId,
+  _toastsLength
 }) {
-  const fullHeight = useRef(null)
-  const [isAnimate, setIsAnimate] = useState(false)
-  const [isShow, setIsShow] = useState(true)
+  const $toasts = useModel('_session.toasts')
+  const timer = useRef()
+
   const [animateStates] = useState({
-    opacity: new Animated.Value(1),
-    height: new Animated.Value(null)
+    opacity: new Animated.Value(0),
+    top: new Animated.Value(getTopPosition((_toastsLength - 1) - _index)),
+    right: new Animated.Value(-48)
   })
 
+  // change _show
   useEffect(() => {
-    if (!alert) setTimeout(onHide, 3000)
-  }, [])
+    if (_show) {
+      if (!alert) timer.current = setTimeout(onHide, 5000)
+      onShow()
+    } else {
+      onHide()
+    }
+  }, [_show])
+
+  // change index
+  useEffect(() => {
+    Animated.timing(animateStates.top, {
+      toValue: getTopPosition((_toastsLength - 1) - _index),
+      duration: 300
+    }).start()
+
+    if (MAX_SHOW_LENGTH === (_toastsLength - 1 - _index)) return onHide()
+  }, [_toastsLength])
+
+  function onShow () {
+    Animated.parallel([
+      Animated.timing(animateStates.opacity, { toValue: 1, duration: 300 }),
+      Animated.timing(animateStates.right, { toValue: MARGIN, duration: 300 })
+    ]).start()
+  }
 
   function onHide () {
-    animateStates.height.setValue(fullHeight.current)
-    setIsAnimate(true)
-
     Animated.parallel([
-      Animated.timing(animateStates.opacity, { toValue: 0, duration: 300 }),
-      Animated.timing(animateStates.height, { toValue: 0, duration: 300 })
-    ]).start(() => setIsShow(false))
+      Animated.timing(animateStates.opacity, { toValue: 0, duration: 300 })
+    ]).start(() => {
+      $toasts.at(_toastId).del()
+    })
   }
 
-  function onClose () {
-    if (props.onClose) props.onClose()
-    else onHide()
-  }
-
-  function onLayout ({ nativeEvent }) {
-    fullHeight.current = nativeEvent.layout.height
+  function _onClose () {
+    clearTimeout(timer.current)
+    timer.current = null
+    onClose && onClose()
+    onHide()
   }
 
   return pug`
-    if isShow
-      Animated.View.alert(
-        style={
-          opacity: animateStates.opacity,
-          height: isAnimate ? animateStates.height : 'auto'
-        }
-        onLayout=onLayout
-      )
-        Alert(
-          ...props
-          onClose=onClose
-        )
+    Animated.View.animate(style={
+      opacity: animateStates.opacity,
+      right: animateStates.right,
+      top: animateStates.top
+    })
+      Div.item(styleName=[type])
+        Row.header
+          Row.titleCase
+            Icon.icon(
+              icon=icon ? icon : ICONS[type]
+              styleName=[type]
+            )
+            Span.title(styleName=[type])
+              = title ? title : TITLES[type]
+
+          Div(onPress=_onClose)
+            Icon(icon=faTimes)
+
+        Span.text= text
+
+        Row.actions
+          Button(
+            size='s'
+            onPress=_onClose
+          )= closeLabel || 'Close'
+
+          if onAction
+            Button.actionView(
+              size='s'
+              styleName=[type]
+              onPress=onAction
+            )= actionLabel || 'View'
   `
 })
+
+function getTopPosition (index) {
+  return (index * STYLES.item.height) + (MARGIN * (index + 1))
+}

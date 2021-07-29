@@ -1,24 +1,22 @@
 import React from 'react'
 import { useLocal, observer } from 'startupjs'
-import Div from '../Div'
 import Portal from '../Portal'
 import Toast from './ToastComponent'
-import './index.styl'
 
-export default observer(function ToastProvider ({ children }) {
-  const [toasts = {}] = useLocal('_page.toasts')
+export default observer(function ToastProvider () {
+  const [toasts = {}] = useLocal('_session.toasts')
   const toastsKeys = Object.keys(toasts)
 
   return pug`
-    = children
-
     Portal
-      if toastsKeys.length
-        Div.toasts
-          each toastKey in toastsKeys
-            Toast(
-              ...toasts[toastKey]
-              toastId=toastKey
-            )= toasts[toastKey].content
+      each toastId, index in toastsKeys
+        Toast(
+          ...toasts[toastId]
+          key=toastId
+          _show=true
+          _index=index
+          _toastId=toastId
+          _toastsLength=toastsKeys.length
+        )
   `
 })

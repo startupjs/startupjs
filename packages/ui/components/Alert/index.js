@@ -23,7 +23,6 @@ const ICONS = {
 }
 
 function Alert ({
-  style,
   variant,
   icon,
   label,

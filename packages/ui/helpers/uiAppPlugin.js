@@ -10,7 +10,8 @@ export default {
     return pug`
       StyleContext.Provider(value=options.style)
         Portal.Provider
-          ToastProvider= children
+          ToastProvider
+          = children
     `
   })
 }
