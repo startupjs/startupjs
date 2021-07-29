@@ -42,9 +42,9 @@ function Alert ({
       styleName=[variant]
     )
       Row.information
-        if icon !== false
+        if icon
           Icon.icon(
-            icon=icon || ICONS[variant]
+            icon=icon === true ? ICONS[variant] : icon
             size='l'
             styleName=[variant]
           )
@@ -69,6 +69,7 @@ function Alert ({
 }
 
 Alert.defaultProps = {
+  icon: true,
   variant: 'info'
 }
 
@@ -77,7 +78,7 @@ Alert.propTypes = {
   variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
   title: PropTypes.string,
   label: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool, PropTypes.func]),
+  icon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.func]),
   renderActions: PropTypes.func,
   onClose: PropTypes.func
 }
