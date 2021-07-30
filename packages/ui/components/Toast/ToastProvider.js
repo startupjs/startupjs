@@ -13,7 +13,6 @@ export default observer(function ToastProvider () {
         Toast(
           ...toasts[toastId]
           key=toastId
-          _show=true
           _index=index
           _toastId=toastId
           _toastsLength=toastsKeys.length

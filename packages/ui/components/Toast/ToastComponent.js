@@ -39,7 +39,6 @@ export default observer(function ToastComponent ({
   onClose,
   onAction,
   _index,
-  _show,
   _toastId,
   _toastsLength
 }) {
@@ -52,15 +51,10 @@ export default observer(function ToastComponent ({
     right: new Animated.Value(-48)
   })
 
-  // change _show
   useEffect(() => {
-    if (_show) {
-      if (!alert) timer.current = setTimeout(onHide, 5000)
-      onShow()
-    } else {
-      onHide()
-    }
-  }, [_show])
+    if (!alert) timer.current = setTimeout(onHide, 5000)
+    onShow()
+  }, [])
 
   // change index
   useEffect(() => {
@@ -69,7 +63,9 @@ export default observer(function ToastComponent ({
       duration: 300
     }).start()
 
-    if (MAX_SHOW_LENGTH === (_toastsLength - 1 - _index)) return onHide()
+    if (MAX_SHOW_LENGTH === (_toastsLength - 1 - _index)) {
+      onHide()
+    }
   }, [_toastsLength])
 
   function onShow () {
