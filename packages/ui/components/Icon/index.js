@@ -27,9 +27,9 @@ function Icon ({
   size,
   ...props
 }) {
-  if (!icon) return null
-
   const _size = useMemo(() => SIZES[size] || size, [size])
+
+  if (!icon) return null
 
   // Pass color as part of style to allow color override from the outside
   style = StyleSheet.flatten([{ color: color }, style])
@@ -62,7 +62,7 @@ Icon.defaultProps = {
 
 Icon.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
   size: PropTypes.oneOfType([
     PropTypes.oneOf(Object.keys(SIZES)),
     PropTypes.number
