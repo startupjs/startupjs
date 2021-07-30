@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Collapse from '../Collapse'
 import Div from '../Div'
+import Span from '../typography/Span'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
@@ -127,11 +128,28 @@ return (
 
 ### Collapse
 
-<Sandbox Component={Collapse} />
+<Sandbox
+  Component={Collapse}
+  props={{
+    children: <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</Span>,
+    open: true
+  }}
+/>
 
 ### Collapse.Header
 
-<Sandbox Component={Collapse.Header} />
+<Sandbox
+  Component={Collapse.Header}
+    extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    children: <Span>Collapse Header Content</Span>,
+    open: true
+  }}
+/>
 
 ### Collapse.Content
 
