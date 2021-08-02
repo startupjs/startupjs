@@ -402,7 +402,7 @@ return (
 )
 ```
 
-If you need full customization of arrows or points, can be transferred ref, it will contain functions to switch: toLeft, toRight, toIndex
+If you need full customization of arrows or points, can be transferred ref, it will contain functions to switch: toBack, toNext, toIndex
 
 ```jsx example
 const ref = useRef()
@@ -447,10 +447,10 @@ const data = [
 return (
   <Div style={{ overflow: 'hidden' }}>
     <Row style={{ marginBottom: 4 }}>
-      <Div style={arrowStyle} onPress={()=> ref.current.toLeft()}>
+      <Div style={arrowStyle} onPress={()=> ref.current.toBack()}>
         <Text style={{ color: '#fff' }}>{'<'}</Text>
       </Div>
-      <Div style={arrowStyle} onPress={()=> ref.current.toRight()}>
+      <Div style={arrowStyle} onPress={()=> ref.current.toNext()}>
         <Text style={{ color: '#fff' }}>{'>'}</Text>
       </Div>
     </Row>
