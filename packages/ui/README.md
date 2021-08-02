@@ -14,7 +14,7 @@ yarn add @startupjs/ui
 @react-native-picker/picker: >=1.16.1
 react: 16.9 - 17
 react-native: >= 0.61.4 < 0.64.0
-react-native-collapsible: 1.5.2
+react-native-collapsible: >= 1.6.0
 react-native-pager-view: >= 5.1.2
 react-native-svg: >= 12.1.0
 react-native-tab-view: >= 3.0.0

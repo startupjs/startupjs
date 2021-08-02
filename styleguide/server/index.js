@@ -45,7 +45,8 @@ startupjsServer({
     ...getDocsRoutes(),
     ...getMainRoutes(),
     ...getPushNotificationsRoutes()
-  ]
+  ],
+  secure: false // turn on when we add plugins for access, schema in orm
 }, (ee, options) => {
   initApp(ee, {
     ios: conf.get('CRITICAL_VERSION_IOS'),
