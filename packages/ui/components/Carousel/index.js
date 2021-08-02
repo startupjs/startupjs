@@ -259,15 +259,18 @@ const Carousel = observer(({
     if (startDrag === endDrag) return
     setIsAnimate(true)
 
+    let _endDrag = endDrag
+    if (-endDrag > caseInfo[sideName]) {
+      _endDrag = -caseInfo[sideName]
+    }
+
     let activeElement = getClosest({
       childrenInfo: childrenInfo.current,
-      newPosition: -endDrag,
+      newPosition: -_endDrag,
       coardName,
       sideName
     })
-    let side = (startDrag > endDrag) ? 'next' : 'back'
-
-    console.log(endDrag)
+    let side = (startDrag > _endDrag) ? 'next' : 'back'
 
     if (activeElement.index === activeIndex) {
       if (side === 'next') {
