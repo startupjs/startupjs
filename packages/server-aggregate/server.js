@@ -25,9 +25,16 @@ module.exports = (backend, customCheck) => {
 
     const queryFunction = QUERIES[collection + '.' + queryName]
 
-    if (!queryFunction) throw new ShareDBAccessError(ERR_ACCESS_NO_SERVER_AGGREGATE_NAME, `there is no such server-query, name: '${queryName}', collection: '${collection}'`)
+    if (!queryFunction) {
+      throw new ShareDBAccessError(
+        ERR_ACCESS_NO_SERVER_AGGREGATE_NAME,
+        'there is no such server-query, name: ' +
+        `'${queryName}', collection: '${collection}'`
+      )
+    }
 
     let serverQuery
+
     try {
       serverQuery = await queryFunction(queryParams, shareRequest)
     } catch (err) {

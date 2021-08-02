@@ -44,6 +44,26 @@ _shadowLevels = ('1' '2' '3' '4')
       opacity 0.5
 
 // -----------------------------------------
+//   TOOLTIP
+// -----------------------------------------
+.tooltip
+  padding 1u 2u
+  background-color $UI.colors.dark
+  max-width 260px
+  radius()
+  shadow(3)
+
+  +tablet()
+    max-width 320px
+
+.tooltip
+  &-arrow
+    color $UI.colors.dark
+
+  &-text
+    color $UI.colors.white
+
+// -----------------------------------------
 //   JS EXPORTS
 // -----------------------------------------
 

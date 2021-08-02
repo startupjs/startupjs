@@ -4,14 +4,14 @@ import {
   ARROW_SIZE,
   POSITIONS_REVERSE,
   POPOVER_MARGIN
-} from './constants.json'
+} from '../constants.json'
 
 function Geometry ({
   placement,
   placements,
   contentInfo,
   captionInfo,
-  hasArrow,
+  arrow,
   dimensions
 }) {
   this.initPlacement = placement
@@ -20,8 +20,8 @@ function Geometry ({
   this.arrowLeftPositions = {}
   this.arrowTopPositions = {}
 
-  calcLeftPositions.call(this, { contentInfo, captionInfo, hasArrow, dimensions })
-  calcTopPositions.call(this, { contentInfo, captionInfo, hasArrow, dimensions })
+  calcLeftPositions.call(this, { contentInfo, captionInfo, arrow, dimensions })
+  calcTopPositions.call(this, { contentInfo, captionInfo, arrow, dimensions })
 
   calcLeftPositionsArrow.call(this, contentInfo, captionInfo, dimensions)
   calcTopPositionsArrow.call(this, contentInfo, captionInfo, dimensions)
@@ -38,7 +38,7 @@ function Geometry ({
   this.arrowTopPosition = this.arrowTopPositions[this.validPlacement]
 }
 
-function calcLeftPositions ({ contentInfo, captionInfo, hasArrow, dimensions }) {
+function calcLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
   const halfContent = contentInfo.width / 2
   const halfCaption = captionInfo.width / 2
 
@@ -74,26 +74,26 @@ function calcLeftPositions ({ contentInfo, captionInfo, hasArrow, dimensions }) 
     this.leftPositions['top-end'] = positionMinorRight
   }
 
-  const positionRootLeft = contentInfo.x - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootLeft = contentInfo.x - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.leftPositions['left-start'] = positionRootLeft
   this.leftPositions['left-center'] = positionRootLeft
   this.leftPositions['left-end'] = positionRootLeft
 
-  const positionRootRight = contentInfo.x + captionInfo.width + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootRight = contentInfo.x + captionInfo.width + (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.leftPositions['right-start'] = positionRootRight
   this.leftPositions['right-center'] = positionRootRight
   this.leftPositions['right-end'] = positionRootRight
 }
 
-function calcTopPositions ({ captionInfo, contentInfo, hasArrow, dimensions }) {
+function calcTopPositions ({ captionInfo, contentInfo, arrow, dimensions }) {
   const halfCaption = captionInfo.height / 2
   const halfContent = contentInfo.height / 2
-  const positionRootBottom = captionInfo.y + captionInfo.height + (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootBottom = captionInfo.y + captionInfo.height + (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.topPositions['bottom-start'] = positionRootBottom
   this.topPositions['bottom-center'] = positionRootBottom
   this.topPositions['bottom-end'] = positionRootBottom
 
-  const positionRootTop = captionInfo.y - (hasArrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootTop = captionInfo.y - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   this.topPositions['top-start'] = positionRootTop
   this.topPositions['top-center'] = positionRootTop
   this.topPositions['top-end'] = positionRootTop
@@ -255,9 +255,9 @@ function calcTopPositionsArrow (contentInfo, captionInfo, dimensions) {
     this.arrowTopPositions['right-end'] = positionEnd
   }
 
-  this.arrowTopPositions['top-start'] = '100%'
-  this.arrowTopPositions['top-center'] = '100%'
-  this.arrowTopPositions['top-end'] = '100%'
+  this.arrowTopPositions['top-start'] = contentInfo.height
+  this.arrowTopPositions['top-center'] = contentInfo.height
+  this.arrowTopPositions['top-end'] = contentInfo.height
 
   const dblArrow = ARROW_SIZE * 2
   this.arrowTopPositions['bottom-start'] = -dblArrow

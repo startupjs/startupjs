@@ -37,7 +37,10 @@ function Portal ({ children = {} }) {
 
   useEffect(() => {
     if (children) {
-      $data.set(componentId, children)
+      $data.set(componentId, React.cloneElement(children, {
+        ...children.props,
+        key: componentId
+      }))
     } else if (data[componentId]) {
       $data.del(componentId)
     }
