@@ -142,4 +142,9 @@ return pug`
 
 ## Sandbox
 
-<Sandbox Component={Avatar} />
+<Sandbox
+  Component={Avatar}
+  props={{
+    onPress: () => alert('"onPress" event on "Avatar" component'),
+  }}
+/>

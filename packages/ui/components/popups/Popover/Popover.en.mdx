@@ -23,6 +23,7 @@ Before use you need to configure [Portal](/docs/components/Portal)
 - onDismiss: prop callback function, called when closing
 - Popover.Caption - subcomponent, its content is what Popover is connected. Should always be the first
 - What should be displayed in the pop-up window should be written below Popover.Caption
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 
@@ -92,6 +93,7 @@ return (
 
 ## Dimensions
 - style={{ maxHeight: 100 }}: maximum possible height Popover
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -103,7 +105,7 @@ return (
     onDismiss={()=> setVisible(false)}
   >
     <Popover.Caption>
-      <Button onPress={()=> setVisible(true)}>Открыть</Button>
+      <Button onPress={()=> setVisible(true)}>Open</Button>
     </Popover.Caption>
     {content.map((item, index)=>(
       <View style={{ padding: 20 }} key={index}>
@@ -124,6 +126,7 @@ return (
 ```
 
 - style={{ height: 100 }}: fixed, constant height
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -156,6 +159,7 @@ return (
 ```
 
 - width: fixed, constant width (default 200px)
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -177,6 +181,7 @@ return (
 ```
 
 - hasWidthCaption: set the width by Caption (boolean)
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2])
@@ -198,6 +203,7 @@ return (
 ```
 
 If maxHeight and height are not set, the height is adjusted to the content
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 const [content, setContent] = useState([1, 2, 3])
@@ -232,6 +238,7 @@ return (
 ## Position
 - position: has 4 position variations (top, bottom, left, right)
 - attachment: an additional parameter for the offset (start, center, end)
+
 ```jsx example
 const blockStyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
@@ -288,6 +295,7 @@ return (
 ## Animations
 animateType - prop responsible for the animation type
 There are three types of animation when opening: opacity, scale
+
 ```jsx example
 const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
 
@@ -323,6 +331,7 @@ return (
 
 ## Styling
 - hasArrow: use arrow (default false)
+
 ```jsx example
 const [visible, setVisible] = useState(false)
 

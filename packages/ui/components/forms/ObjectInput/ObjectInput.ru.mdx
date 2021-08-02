@@ -12,7 +12,7 @@ ObjectInput позволяет создавать динамические фо�
 
 ObjectInput принимает в свойстве `properties` объект метаданных полей ввода с обязательным ключом `input` для указания типа отображаемого поля.
 
-Возможные типы: [array](/docs/forms/ArrayInput), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
+Возможные типы: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
 
 ```jsx
 import { ObjectInput } from from '@startupjs/ui'
@@ -21,11 +21,10 @@ import { ObjectInput } from from '@startupjs/ui'
 ## Простой пример
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
       email: {
@@ -47,11 +46,10 @@ return (
 ObjectInput принимает массив в свойстве `order`, чтобы указать, в каком порядке должны отображаться поля.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     order={['password', 'email']}
     properties={{
@@ -82,11 +80,10 @@ ObjectInput поддерживает `dependsOn` и `dependsValue` свойст�
 **Внимание**: Когда поле `dependsOn` изменяется и зависимое поле больше не видно, его предыдущее значение сохраняется.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
       email: {
@@ -97,7 +94,6 @@ return (
         input: 'text',
         label: 'Password',
         dependsOn: 'email',
-        dependsValue: value.email || undefined, // HACK: when you enter an email and then delete it the password input does not disappear because the default value on the first render of the email input is undefined and after delete it the empty string
         description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
@@ -110,11 +106,10 @@ return (
 Свойство `errors` принимает объект с текстами ошибок для полей ввода, где ключ является ключом поля вода из объекта `properties`, а его значением является текст ошибки.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     errors={{
       email: 'Email input error',

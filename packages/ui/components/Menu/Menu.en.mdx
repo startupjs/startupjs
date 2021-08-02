@@ -133,7 +133,7 @@ return (
 )
 ```
 
-## Сhange color of active item
+## Change color of active item
 
 By default, the active menu item has a `primary` color. Use the `activeColor` property to set the desired color for the active element. This property will also change the color of border and icon (if you passed an `activeBorder` property for a Menu or an `icon` for a Menu.Item). `activeColor` accepts color as a string which will be compatible with the CSS color property.(ex. `red`, `#fff`, `rgb(123, 23, 122)`)
 
@@ -193,7 +193,7 @@ return pug`
 `
 ```
 
-## Complex interaction (intergration with other components)
+## Complex interaction (integration with other components)
 
 An example of a collapsible menu with submenus nested in.
 
@@ -270,8 +270,40 @@ return (
 
 ### Menu
 
-<Sandbox Component={Menu} />
+<Sandbox
+  Component={Menu}
+  props={{
+    children: [
+        <Menu.Item
+          key='option-1'
+          icon={faHouseUser}
+          active={true}
+          onPress={() => alert('"onPress" event on "Option-1"')}
+        >
+          Option-1
+        </Menu.Item>,
+        <Menu.Item
+          key='option-2'
+          active={false}
+          onPress={() => alert('"onPress" event on "Option-2"')}
+        >
+          Option-2
+        </Menu.Item>
+    ]
+  }}
+/>
 
 ### Menu.Item
 
-<Sandbox Component={Menu.Item} />
+<Sandbox
+  Component={Menu.Item}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    children: 'Option-1',
+    onPress: () => alert('"onPress" event on "Option-1"')
+  }}
+/>

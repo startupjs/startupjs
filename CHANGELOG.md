@@ -1,3 +1,40 @@
+## [0.37.3](https://github.com/startupjs/startupjs/compare/v0.37.2...v0.37.3) (2021-07-30)
+
+
+### Bug Fixes
+
+* **auth:** replace `$where` to `$or` with all providers in register query to support mongo less 4.4 version and greater 4.4 version ([#724](https://github.com/startupjs/startupjs/issues/724)) ([47a1a75](https://github.com/startupjs/startupjs/commit/47a1a7514814bfd52d9aa9f1b1501bd7979fddb0))
+* **docs:** show 'page not found' for incorrect url ([45bacfb](https://github.com/startupjs/startupjs/commit/45bacfb11656277df89cd8605ce2e81584812a53))
+* **mdx:** fix link scrolling to anchor ([#732](https://github.com/startupjs/startupjs/issues/732)) ([27c0493](https://github.com/startupjs/startupjs/commit/27c0493859ce2a3685f81ec7119fb902e256b42b))
+* **orm:** remove unsued 'childrenName' in associations ([8f7ef37](https://github.com/startupjs/startupjs/commit/8f7ef37d0287654679e583413df84e1a0e1405ab))
+* **ui/SmartSidebar:** don't open desktop sidebar when disabled ([#731](https://github.com/startupjs/startupjs/issues/731)) ([1835623](https://github.com/startupjs/startupjs/commit/1835623e8c8b9c3a6786895a607f04aa46e46cd9))
+
+
+### Features
+
+* **ui/Modal:** add ability to pass default values for props ([#729](https://github.com/startupjs/startupjs/issues/729)) ([ac801e2](https://github.com/startupjs/startupjs/commit/ac801e2628aaf727bf0a781a3d7912ab978912e9))
+
+
+
+## [0.37.2](https://github.com/startupjs/startupjs/compare/v0.37.1...v0.37.2) (2021-07-06)
+
+
+### Bug Fixes
+
+* **ui/Modal:** pass missing `style` to modal content root element ([#720](https://github.com/startupjs/startupjs/issues/720)) ([b9abd57](https://github.com/startupjs/startupjs/commit/b9abd5785e26b55d460ccc86a85900ccd0ac5b5d))
+
+
+
+## [0.37.1](https://github.com/startupjs/startupjs/compare/v0.37.0...v0.37.1) (2021-07-01)
+
+
+### Bug Fixes
+
+* **auth strategies:** add default baseUrl from `@env` ([#718](https://github.com/startupjs/startupjs/issues/718)) ([52cc0b4](https://github.com/startupjs/startupjs/commit/52cc0b4fbdb3eaa684cc71084dcc2d0c94fcd3f7))
+* **ui/Alert:** fix broken styles for info alert ([a010d96](https://github.com/startupjs/startupjs/commit/a010d96b765cf26c28c4a5565d13a7b642b674c7))
+
+
+
 # [0.37.0](https://github.com/startupjs/startupjs/compare/v0.36.4...v0.37.0) (2021-06-30)
 
 

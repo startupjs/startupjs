@@ -1,7 +1,7 @@
+import Br from '../Br'
 import Breadcrumbs from '../Breadcrumbs'
 import Div from '../Div'
-import Br from '../Br'
-import { faRocket, faBook , faGift, faAnchor } from '@fortawesome/free-solid-svg-icons'
+import { faAnchor, faBook, faGift, faHome, faRocket } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs (хлебные крошки)
@@ -40,7 +40,7 @@ return (
 ```
 
 
-## Кастомный разделелитель
+## Кастомный разделитель
 
 Разделитель по умолчанию - `/`. Его можно изменить, передав строку в свойство `separator`.
 
@@ -109,7 +109,7 @@ return (
 
 ```jsx example
 return (
-  <View>
+  <Div>
     <Breadcrumbs
       size='l'
       routes={[
@@ -153,10 +153,33 @@ return (
         }
       ]}
     />
-  </View>
+  </Div>
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Breadcrumbs} />
+<Sandbox
+  Component={Breadcrumbs}
+  props={{
+    routes: [
+      {
+        icon: faHome,
+        to: '#',
+        name: 'Home'
+      },
+      {
+        to: '#',
+        name: 'Section'
+      },
+      {
+        to: '#',
+        name: 'Page'
+      },
+      {
+        to: '#sandbox',
+        name: 'Sandbox'
+      }
+    ]
+  }}
+/>

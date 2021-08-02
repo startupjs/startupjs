@@ -37,7 +37,7 @@ return (
 )
 ```
 
-## Label and description
+## Заголовок и описание
 
 ```jsx example
 const OPTIONS = [
@@ -50,8 +50,8 @@ const [cities, setCities] = useState([])
 
 return (
   <Multiselect
-    label='City'
-    description='Select the cities you have visited'
+    label='Город'
+    description='Выберите города, которые вы посетили'
     value={cities}
     onChange={setCities}
     options={OPTIONS}
@@ -135,7 +135,7 @@ return (
 
 ## Tag Component
 
-You can add custom tag
+Вы можете добавить собственный тег
 
 ```jsx example
 const OPTIONS = [
@@ -158,7 +158,7 @@ return (
 
 ## Input Component
 
-You can add custom input
+Вы можете добавить собственный input
 
 ```jsx example
 const OPTIONS = [
@@ -196,7 +196,7 @@ return (
 
 ## Tag limit
 
-You can add tag limit
+Вы можете ограничить количество отображаемых тегов
 
 ```jsx example
 const OPTIONS = [
@@ -217,6 +217,15 @@ return (
 )
 ```
 
-## Sandbox
+## Песочница
 
-<Sandbox Component={Multiselect} />
+<Sandbox
+  Component={Multiselect}
+  props={{
+    value: ['New York'],
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => alert('New value is ' + JSON.stringify(value)),
+    onSelect: value => alert('Value ' + value + ' is selected'),
+    onRemove: value => alert('Value ' + value + ' is removed'),
+  }}
+/>

@@ -138,4 +138,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Card} />
+<Sandbox
+  Component={Card}
+  props={{
+    children: [
+      <H4 key='header'>Card header</H4>,
+      <Br key='br'/>,
+      <Span key='body'>Card body</Span>
+    ],
+    onPress: () => alert('"onPress" event on "Card" component'),
+  }}
+/>

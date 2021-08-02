@@ -135,7 +135,7 @@ return (
 
 ## Tag
 
-Вы можете добавить кастомный компонент для тегов
+You can add a custom tag component
 
 ```jsx example
 const OPTIONS = [
@@ -158,7 +158,7 @@ return (
 
 ## Input Component
 
-Вы можете добавить кастомный компонент для input
+You can add a custom input component
 
 ```jsx example
 const OPTIONS = [
@@ -196,7 +196,7 @@ return (
 
 ## Tag limit
 
-Вы можете ограничить количество выводимых тегов
+You can limit the number of tags displayed
 
 ```jsx example
 const OPTIONS = [
@@ -219,4 +219,13 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Multiselect} />
+<Sandbox
+  Component={Multiselect}
+  props={{
+    value: ['New York'],
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => alert('New value is ' + JSON.stringify(value)),
+    onSelect: value => alert('Value ' + value + ' is selected'),
+    onRemove: value => alert('Value ' + value + ' is removed'),
+  }}
+/>
