@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { ToastProvider } from '../components/Toast'
+import { ToastProvider } from '../components/toasts'
 import Portal from '../components/Portal'
 import StyleContext from '../StyleContext'
 

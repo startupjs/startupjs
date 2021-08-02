@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { observer, useModel } from 'startupjs'
+import { observer } from 'startupjs'
 import { Div, Row, Span, Icon, Button } from '@startupjs/ui'
 import {
   faExclamationCircle,
@@ -12,7 +12,6 @@ import {
 import STYLES from './index.styl'
 
 const MARGIN = 16
-const MAX_SHOW_LENGTH = 3
 
 const ICONS = {
   info: faInfoCircle,
@@ -31,42 +30,39 @@ const TITLES = {
 export default observer(function ToastComponent ({
   alert = false,
   type = 'info',
+  index,
+  show,
   icon,
   text,
   title,
   closeLabel,
   actionLabel,
   onClose,
-  onAction,
-  _index,
-  _toastId,
-  _toastsLength
+  onAction
 }) {
-  const $toasts = useModel('_session.toasts')
   const timer = useRef()
 
   const [animateStates] = useState({
     opacity: new Animated.Value(0),
-    top: new Animated.Value(getTopPosition((_toastsLength - 1) - _index)),
+    top: new Animated.Value(getTopPosition(index)),
     right: new Animated.Value(-48)
   })
 
   useEffect(() => {
-    if (!alert) timer.current = setTimeout(onHide, 5000)
-    onShow()
-  }, [])
-
-  // change index
-  useEffect(() => {
     Animated.timing(animateStates.top, {
-      toValue: getTopPosition((_toastsLength - 1) - _index),
+      toValue: getTopPosition(index),
       duration: 300
     }).start()
+  }, [index])
 
-    if (MAX_SHOW_LENGTH === (_toastsLength - 1 - _index)) {
+  useEffect(() => {
+    if (show) {
+      if (!alert) timer.current = setTimeout(onHide, 5000)
+      onShow()
+    } else {
       onHide()
     }
-  }, [_toastsLength])
+  }, [show])
 
   function onShow () {
     Animated.parallel([
@@ -76,18 +72,14 @@ export default observer(function ToastComponent ({
   }
 
   function onHide () {
-    Animated.parallel([
-      Animated.timing(animateStates.opacity, { toValue: 0, duration: 300 })
-    ]).start(() => {
-      $toasts.at(_toastId).del()
-    })
-  }
-
-  function _onClose () {
     clearTimeout(timer.current)
     timer.current = null
-    onClose && onClose()
-    onHide()
+
+    Animated.parallel([
+      Animated.timing(animateStates.opacity, { toValue: 0, duration: 150 })
+    ]).start(() => {
+      onClose && onClose()
+    })
   }
 
   return pug`
@@ -106,7 +98,7 @@ export default observer(function ToastComponent ({
             Span.title(styleName=[type])
               = title ? title : TITLES[type]
 
-          Div(onPress=_onClose)
+          Div(onPress=onHide)
             Icon(icon=faTimes)
 
         Span.text= text
@@ -114,7 +106,7 @@ export default observer(function ToastComponent ({
         Row.actions
           Button(
             size='s'
-            onPress=_onClose
+            onPress=onHide
           )= closeLabel || 'Close'
 
           if onAction
