@@ -16,24 +16,20 @@ export default function toast ({
   const toastId = $root.id()
   const $toasts = $root.scope('_session.toasts')
 
-  const toasts = $toasts.get()
-  if (toasts?.length === MAX_SHOW_LENGTH) {
+  if ($toasts.get()?.length === MAX_SHOW_LENGTH) {
     $toasts.set('2.show', false)
   }
 
   function _onClose () {
-    $toasts.remove(toasts.length - 1)
-    onClose && onClose()
-  }
-
-  function _onAction () {
-    onAction && onAction()
+    // toastId ensures that the correct index is found at the current moment
+    const index = $toasts.get().findIndex(toast => toast.id === toastId)
+    $toasts.remove(index)
     onClose && onClose()
   }
 
   $toasts.unshift({
     show: true,
-    toastId,
+    id: toastId,
     alert,
     icon,
     type,
@@ -41,7 +37,7 @@ export default function toast ({
     title,
     actionLabel,
     closeLabel,
-    onAction: _onAction,
+    onAction,
     onClose: _onClose
   })
 }

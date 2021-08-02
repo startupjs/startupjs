@@ -82,6 +82,11 @@ export default observer(function ToastComponent ({
     })
   }
 
+  function _onAction () {
+    onAction && onAction()
+    onClose && onClose()
+  }
+
   return pug`
     Animated.View.animate(style={
       opacity: animateStates.opacity,
@@ -101,7 +106,8 @@ export default observer(function ToastComponent ({
           Div(onPress=onHide)
             Icon(icon=faTimes)
 
-        Span.text= text
+        Div.textCase
+          Span(numberOfLines=1)= text
 
         Row.actions
           Button(
@@ -113,7 +119,7 @@ export default observer(function ToastComponent ({
             Button.actionView(
               size='s'
               styleName=[type]
-              onPress=onAction
+              onPress=_onAction
             )= actionLabel || 'View'
   `
 })
