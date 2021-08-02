@@ -206,16 +206,16 @@ const Carousel = observer(({
     if (isResponsive) {
       activeElement.index = activeIndex + 1
     } else {
-      // if (childrenInfo.current[activeIndex][coardName] + childrenInfo.current[activeIndex][sideName] > rootInfo[sideName]) {
-      //   activeElement.index = activeIndex + 1
-      // } else {
-      activeElement = getClosest({
-        childrenInfo: childrenInfo.current,
-        newPosition: childrenInfo.current[activeIndex][coardName] + rootInfo[sideName],
-        coardName,
-        sideName
-      })
-      // }
+      if (childrenInfo.current[activeIndex][coardName] + childrenInfo.current[activeIndex][sideName] > rootInfo[sideName]) {
+        activeElement.index = activeIndex + 1
+      } else {
+        activeElement = getClosest({
+          childrenInfo: childrenInfo.current,
+          newPosition: childrenInfo.current[activeIndex][coardName] + rootInfo[sideName],
+          coardName,
+          sideName
+        })
+      }
     }
 
     let toValue = -activeElement[coardName]
@@ -259,13 +259,18 @@ const Carousel = observer(({
     if (startDrag === endDrag) return
     setIsAnimate(true)
 
+    let _endDrag = endDrag
+    if (-endDrag > caseInfo[sideName]) {
+      _endDrag = -caseInfo[sideName]
+    }
+
     let activeElement = getClosest({
       childrenInfo: childrenInfo.current,
-      newPosition: -endDrag,
+      newPosition: -_endDrag,
       coardName,
       sideName
     })
-    let side = (startDrag > endDrag) ? 'next' : 'back'
+    let side = (startDrag > _endDrag) ? 'next' : 'back'
 
     if (activeElement.index === activeIndex) {
       if (side === 'next') {
