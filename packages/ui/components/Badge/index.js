@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
@@ -30,8 +30,6 @@ function Badge ({
   variant,
   max
 }) {
-  if (!colors[color]) console.error('Badge component: Color for color property is incorrect. Use colors from $UI.colors')
-
   const [right, setRight] = useState(0)
 
   let _label = label
@@ -47,17 +45,19 @@ function Badge ({
 
   const _badgeStyle = { ...badgeStyle, backgroundColor: colors[color] }
 
+  const hasLabel = useMemo(() => variant === 'default' && label != null, [variant, label])
+
   return pug`
     Div.root(style=style)
       = children
-      if (variant === 'default' && label) || variant === 'dot'
+      if hasLabel || variant === 'dot'
         Row.badge(
           onLayout=onLayout
           styleName=[
             size,
             variant,
             position,
-            { withLabel: label, visible: right }
+            { hasLabel, visible: right }
           ]
           style=[
             _badgeStyle,
