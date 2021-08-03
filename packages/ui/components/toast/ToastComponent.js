@@ -84,7 +84,7 @@ export default observer(function ToastComponent ({
 
   function _onAction () {
     onAction && onAction()
-    onClose && onClose()
+    onHide()
   }
 
   return pug`
