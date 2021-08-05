@@ -50,16 +50,18 @@ grid(direction, color, size)
 
   &Units
     z-index 1
+    align-items center
+    justify-content center
+    margin .5u 0
 
   &Text
     font-size 10px
-    line-height 10px
-    min-width 20px
-    height 10px
-    transform rotate(-90deg)
     color $invalid
     background-color $bg
     text-align center
+    line-height 0
+    transform rotate(-90deg)
+
     &.valid
       color $valid
     &.dark

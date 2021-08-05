@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
 import { themed, Div, Span } from '@startupjs/ui'
 import './index.styl'
@@ -42,15 +42,23 @@ export default observer(function GridVisualizer ({
 })
 
 const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
+  const [textHeigt, setTextHeight] = useState(0)
   let [height = 0] = useLocal('_session.Renderer.componentSize.height')
   let units = toUnits(height)
   let valid = validate ? validateGrid(height, allowHalfUnit) : true
 
+  function onTextLayout ({ nativeEvent }) {
+    setTextHeight(nativeEvent.layout.width)
+  }
+
   return pug`
     Div.leftBar
       Div.leftBarLine(styleName=[theme, { valid }])
-      Div.leftBarUnits
-        Span.leftBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
+      Div.leftBarUnits(style={ height: textHeigt })
+        Span.leftBarText(
+          onLayout=onTextLayout
+          styleName=[theme, { valid }]
+        )= NBSP + units + NBSP
       Div.leftBarLine(styleName=[theme, { valid }])
   `
 }))
