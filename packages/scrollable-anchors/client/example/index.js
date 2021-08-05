@@ -22,17 +22,19 @@ function Example () {
   }
 
   return pug`
-    Div.anchors
-      Button(
-        onPress=() => setExtraContentVisibility(!extraContentVisibility)
+    Row.anchors
+      Button.extraButton(
+        onPress=()=> setExtraContentVisibility(!extraContentVisibility)
       )= extraContentVisibility ? 'Hide extra content' : 'Render extra content'
-      each anchorId in ANCHORS
-        Button.anchorBtn(
-          key=anchorId
-          variant='flat'
-          size='s'
-          onPress=() => scrollToAnchor({ anchorId })
-        )= anchorId
+      Row
+        each anchorId in ANCHORS
+          Button.anchorBtn(
+            key=anchorId
+            size='s'
+            variant='flat'
+            onPress=()=> scrollToAnchor({ anchorId })
+          )= anchorId
+
     Div.root
       Anchor(id=ANCHORS[0] Component=H1 bold)= ANCHORS[0]
       Span= LOREM
