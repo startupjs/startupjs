@@ -8,6 +8,7 @@ import Collapse from '../Collapse'
 import Span from '../typography/Span'
 import Div from '../Div'
 import { u } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import { Image } from 'react-native'
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
@@ -86,15 +87,14 @@ return (
 ## Сложное взаимодействие (интеграция с другими компонентами)
 
 ```jsx example
-const style = {
-  width: u(50)
-}
+const media = useMedia()
+const style = { width: !media.tablet ? '100%' : u(50) }
 const imageStyle = {
-  width: u(50),
+  width: !media.tablet ? '100%' : u(50),
+  marginLeft: !media.tablet ? 0 : u(-2),
+  marginTop:  !media.tablet ? 0 : u(-2),
   height: u(40),
-  resizeMode: 'cover',
-  marginLeft: u(-2),
-  marginTop: u(-2)
+  resizeMode: 'cover'
 }
 const [collapsed, setCollapsed] = useState(false)
 return (
