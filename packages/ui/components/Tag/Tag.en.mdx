@@ -33,11 +33,11 @@ Color is `primary` by default. It can be changed by passing color name from the 
 
 ```jsx example
 return (
-  <Row>
-    <Tag>Primary (default)</Tag>
-    <Tag color='success' pushed='s'>Success</Tag>
-    <Tag color='warning' pushed='s'>Warning</Tag>
-    <Tag color='error' pushed='s'>Error</Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag style={{ marginTop: 8, marginRight: 8 }}>Primary (default)</Tag>
+    <Tag style={{ marginTop: 8, marginRight: 8 }} color='success'>Success</Tag>
+    <Tag style={{ marginTop: 8, marginRight: 8 }} color='warning'>Warning</Tag>
+    <Tag style={{ marginTop: 8, marginRight: 8 }} color='error'>Error</Tag>
   </Row>
 )
 ```
@@ -62,9 +62,16 @@ Outlined tags offer an alternative style, in property `variant` need to pass `ou
 
 ```jsx example
 return (
-  <Row>
-    <Tag variant='outlined'>Outlined tag</Tag>
-    <Tag variant='outlined-bg' pushed='s' onPress={() => {}}>Outlined tag with a background</Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag
+      style={{ marginTop: 8, marginRight: 8 }}
+      variant='outlined'
+    >Outlined tag</Tag>
+    <Tag
+      style={{ marginTop: 8 }}
+      variant='outlined-bg'
+      onPress={() => {}}
+    >Outlined tag with a background</Tag>
   </Row>
 )
 ```
@@ -96,27 +103,24 @@ In `.styl` file
 
 ```jsx example
 return (
-  <Row>
-    <Tag icon={faStopCircle}>
-      Icon on the left
-    </Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag
+      icon={faStopCircle}
+      style={{ marginTop: 8, marginRight: 8 }}
+    >Icon on the left</Tag>
     <Tag
       secondaryIcon={faStopCircle}
       variant='outlined-bg'
-      pushed='s'
-    >
-      Icon on the right
-    </Tag>
+      style={{ marginTop: 8, marginRight: 8 }}
+    >Icon on the right</Tag>
     <Tag
       iconStyleName='icon'
+      style={{ marginTop: 8, marginRight: 8 }}
       secondaryIconStyleName='secondaryIcon'
       variant='outlined'
       icon={faStopCircle}
       secondaryIcon={faTimesCircle}
-      pushed='s'
-    >
-      Two icons
-    </Tag>
+    >Two icons</Tag>
   </Row>
 )
 ```

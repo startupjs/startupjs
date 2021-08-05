@@ -33,11 +33,11 @@ return (
 
 ```jsx example
 return (
-  <Row>
-    <Tag pushed='s'>Primary (default)</Tag>
-    <Tag color='success' pushed='s'>Success</Tag>
-    <Tag color='warning' pushed='s'>Warning</Tag>
-    <Tag color='error' pushed='s'>Error</Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag style={{ marginTop: 8, marginRight: 8 }}>Primary (default)</Tag>
+    <Tag style={{ marginTop: 8, marginRight: 8 }} color='success'>Success</Tag>
+    <Tag style={{ marginTop: 8, marginRight: 8 }} color='warning'>Warning</Tag>
+    <Tag style={{ marginTop: 8, marginRight: 8 }} color='error'>Error</Tag>
   </Row>
 )
 ```
@@ -62,9 +62,15 @@ return (
 
 ```jsx example
 return (
-  <Row>
-    <Tag variant='outlined'>Контурный тег</Tag>
-    <Tag variant='outlined-bg' pushed='s'>Контурный тег с фоном</Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag
+      style={{ marginTop: 8, marginRight: 8 }}
+      variant='outlined'
+    >Контурный тег</Tag>
+    <Tag
+      style={{ marginTop: 8 }}
+      variant='outlined-bg'
+    >Контурный тег с фоном</Tag>
   </Row>
 )
 ```
@@ -75,9 +81,14 @@ return (
 
 ```jsx example
 return (
-  <Row>
-    <Tag>Круглая форма (по умолчанию)</Tag>
-    <Tag shape='rounded' pushed='s'>Закругленная форма</Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag
+      style={{ marginTop: 8, marginRight: 8 }}
+    >Круглая форма (по умолчанию)</Tag>
+    <Tag
+    style={{ marginTop: 8, marginRight: 8 }}
+      shape='rounded'
+    >Закругленная форма</Tag>
   </Row>
 )
 ```
@@ -96,27 +107,24 @@ In `.styl` file
 
 ```jsx example
 return (
-  <Row>
-    <Tag icon={faStopCircle}>
-      Иконка слева
-    </Tag>
+  <Row style={{ flexGrow: 1, width: '100%', flexWrap: 'wrap' }}>
+    <Tag
+      icon={faStopCircle}
+      style={{ marginTop: 8, marginRight: 8 }}
+    >Иконка слева</Tag>
     <Tag
       secondaryIcon={faStopCircle}
       variant='outlined-bg'
-      pushed='s'
-    >
-      Иконка справа
-    </Tag>
+      style={{ marginTop: 8, marginRight: 8 }}
+    >Иконка справа</Tag>
     <Tag
       iconStyleName='icon'
       secondaryIconStyleName='secondaryIcon'
       variant='outlined'
       icon={faStopCircle}
       secondaryIcon={faTimesCircle}
-      pushed='s'
-    >
-      Две иконки
-    </Tag>
+      style={{ marginTop: 8, marginRight: 8 }}
+    >Две иконки</Tag>
   </Row>
 )
 ```
