@@ -1,5 +1,6 @@
 import React, { useMemo, memo } from 'react'
-import { Span } from '@startupjs/ui'
+import { ScrollView } from 'react-native'
+import { Span, Div } from '@startupjs/ui'
 import refractor from 'refractor/core.js'
 // Supported languages
 import languageJsx from 'refractor/lang/jsx.js'
@@ -39,6 +40,22 @@ function modifyAndGetLastBacktick (highlighted) {
   return lastClone
 }
 
+function getLines (code, language) {
+  return code.split('\n').reduce((acc, line) => {
+    const children = refractor.highlight(line, language)
+    const className = ['line']
+    const node = {
+      type: 'element',
+      tagName: 'span',
+      properties: { className },
+      children
+    }
+
+    acc.push(node)
+    return acc
+  }, []).slice(0, -1)
+}
+
 function highlight (code, language) {
   if (!code) return []
   if (language === 'jsx') {
@@ -60,7 +77,7 @@ function highlight (code, language) {
       ]
     }
   }
-  return refractor.highlight(code, language)
+  return getLines(code, language)
 }
 
 export default memo(function Code ({
@@ -72,13 +89,22 @@ export default memo(function Code ({
 }) {
   if (typeof children !== 'string') throw Error('[Code] Code must be a string')
   const code = useMemo(() => {
-    if (!language) return children
+    if (!language) {
+      return pug`
+        Span= children
+      `
+    }
 
     return renderer(highlight(children, language), textStyle)
   }, [children, language])
 
   return pug`
-    Span.root(...props style=[textStyle, style])= code
+    ScrollView(
+      ...props
+      horizontal
+      style=[textStyle, style]
+    ).scroll
+      Div= code
   `
 })
 
