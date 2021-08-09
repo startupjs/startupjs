@@ -22,7 +22,7 @@ function Example () {
   }
 
   return pug`
-    Row.anchors
+    Div.anchors
       Button.extraButton(
         onPress=()=> setExtraContentVisibility(!extraContentVisibility)
       )= extraContentVisibility ? 'Hide extra content' : 'Render extra content'
