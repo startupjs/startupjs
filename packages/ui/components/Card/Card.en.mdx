@@ -87,14 +87,8 @@ return (
 
 ```jsx example
 const media = useMedia()
-const style = { width: !media.tablet ? '100%' : u(50) }
-const imageStyle = {
-  width: !media.tablet ? '100%' : u(50),
-  marginLeft: !media.tablet ? 0 : u(-2),
-  marginTop:  !media.tablet ? 0 : u(-2),
-  height: u(40),
-  resizeMode: 'cover'
-}
+const style = { maxWidth: u(50) }
+const imageStyle = { height: u(40), resizeMode: 'cover' }
 const [collapsed, setCollapsed] = useState(false)
 return (
   <Card
