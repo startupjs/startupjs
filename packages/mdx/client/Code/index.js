@@ -99,11 +99,11 @@ export default memo(function Code ({
   }, [children, language])
 
   return pug`
-    ScrollView(
+    ScrollView.root(
       ...props
       horizontal
-      style=[textStyle, style]
-    ).scroll
+      style=style
+    )
       Div= code
   `
 })
