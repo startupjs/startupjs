@@ -1,20 +1,36 @@
 import { useEffect, useState } from 'react'
 import { faMinus } from '@fortawesome/free-solid-svg-icons'
-import Div from '../../Div'
-import Br from '../../Br'
-import Checkbox from '../Checkbox'
+import Div from '../../../Div'
+import Br from '../../../Br'
+import Checkbox from '../'
 import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import SandboxCheckbox from './SandboxCheckbox'
 
-# Checkbox
+# Checkbox (чекбокс)
 
-Checkboxes allow the user to select one or more items from a set.
+Чекбоксы позволяют пользователю выбрать один или несколько элементов из набора.
 
 ```jsx
 import { Checkbox } from from '@startupjs/ui'
 ```
 
-## Simple example
+## Простой пример
+
+```jsx example
+const [checked, setChecked] = useState(false)
+
+return (
+  <Checkbox
+    value={checked}
+    onChange={setChecked}
+  />
+)
+```
+
+## Разновидности
+
+Существует два вида отображения компонента: `checkbox` и `switch`. **Значение по умолчанию**: `checkbox`.
 
 ```jsx example
 const [checked, setChecked] = useState(false)
@@ -34,23 +50,6 @@ return (
   </Div>
 )
 ```
-
-## Variants
-
-There are two display variants of component: `checkbox` and `switch`. **Default**: `checkbox`.
-
-```jsx example
-const [checked, setChecked] = useState(false)
-
-return (
-  <Checkbox
-    variant='switch'
-    value={checked}
-    onChange={setChecked}
-  />
-)
-```
-
 
 ## Label and description
 
@@ -83,9 +82,9 @@ return (
 )
 ```
 
-## Checkbox with custom icon
+## Чекбокс со своей иконкой
 
-The `icon` property allows to change the default icon.
+Свойство `icon` позволяет заменить стандартную иконку.
 
 ```jsx example
 const [checked, setChecked] = useState(false)
@@ -101,14 +100,4 @@ return (
 
 ## Sandbox
 
-<Sandbox
-  Component={Checkbox}
-  extraParams={{
-    icon: {
-      showIconSelect: true
-    }
-  }}
-  props={{
-    onChange: value => alert('New value is ' + value)
-  }}
-/>
+<SandboxCheckbox />
