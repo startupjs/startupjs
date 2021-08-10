@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'startupjs'
 import { Div, Row, Span, Icon, Button } from '@startupjs/ui'
@@ -12,6 +12,8 @@ import {
 import STYLES from './index.styl'
 
 const MARGIN = 16
+const DURATION_OPEN = 300
+const DURATION_CLOSE = 150
 
 const ICONS = {
   info: faInfoCircle,
@@ -35,51 +37,34 @@ export default observer(function ToastComponent ({
   icon,
   text,
   title,
-  closeLabel,
   actionLabel,
-  onClose,
-  onAction
+  onAction,
+  onClose
 }) {
-  const timer = useRef()
-
-  const [animateStates] = useState({
-    opacity: new Animated.Value(0),
-    top: new Animated.Value(getTopPosition(index)),
-    right: new Animated.Value(-48)
-  })
+  const [showAnimation] = useState(new Animated.Value(0))
+  const [topAnimation] = useState(new Animated.Value(getTopPosition(index)))
 
   useEffect(() => {
-    Animated.timing(animateStates.top, {
+    Animated.timing(topAnimation, {
       toValue: getTopPosition(index),
-      duration: 300
+      duration: DURATION_OPEN
     }).start()
   }, [index])
 
   useEffect(() => {
-    if (show) {
-      if (!alert) timer.current = setTimeout(onHide, 5000)
-      onShow()
-    } else {
-      onHide()
-    }
+    show ? onShow() : onHide()
   }, [show])
 
   function onShow () {
-    Animated.parallel([
-      Animated.timing(animateStates.opacity, { toValue: 1, duration: 300 }),
-      Animated.timing(animateStates.right, { toValue: MARGIN, duration: 300 })
-    ]).start()
+    Animated
+      .timing(showAnimation, { toValue: 1, duration: DURATION_OPEN })
+      .start()
   }
 
   function onHide () {
-    clearTimeout(timer.current)
-    timer.current = null
-
-    Animated.parallel([
-      Animated.timing(animateStates.opacity, { toValue: 0, duration: 150 })
-    ]).start(() => {
-      onClose && onClose()
-    })
+    Animated
+      .timing(showAnimation, { toValue: 0, duration: DURATION_CLOSE })
+      .start(onClose)
   }
 
   function _onAction () {
@@ -89,9 +74,12 @@ export default observer(function ToastComponent ({
 
   return pug`
     Animated.View.animate(style={
-      opacity: animateStates.opacity,
-      right: animateStates.right,
-      top: animateStates.top
+      opacity: showAnimation,
+      right: showAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-48, MARGIN]
+      }),
+      top: topAnimation
     })
       Div.item(styleName=[type])
         Row.header
@@ -112,15 +100,8 @@ export default observer(function ToastComponent ({
         Row.actions
           Button(
             size='s'
-            onPress=onHide
-          )= closeLabel || 'Close'
-
-          if onAction
-            Button.actionView(
-              size='s'
-              styleName=[type]
-              onPress=_onAction
-            )= actionLabel || 'View'
+            onPress=_onAction
+          )= actionLabel || 'Close'
   `
 })
 

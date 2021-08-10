@@ -11,7 +11,6 @@ export default observer(function ToastProvider () {
       each toast, index in toasts
         Toast(
           ...toast
-          key=toast.id
           index=index
         )
   `

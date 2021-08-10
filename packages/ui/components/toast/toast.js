@@ -9,7 +9,6 @@ export default function toast ({
   type,
   title,
   actionLabel,
-  closeLabel,
   onAction,
   onClose
 }) {
@@ -17,26 +16,32 @@ export default function toast ({
   const $toasts = $root.scope('_session.toasts')
 
   if ($toasts.get()?.length === MAX_SHOW_LENGTH) {
-    $toasts.set('2.show', false)
+    $toasts.set(`${MAX_SHOW_LENGTH - 1}.show`, false)
+  }
+
+  if (!alert) {
+    setTimeout(() => {
+      const index = $toasts.get().findIndex(toast => toast.key === toastId)
+      $toasts.set(`${index}.show`, false)
+    }, 5000)
   }
 
   function _onClose () {
     // toastId ensures that the correct index is found at the current moment
-    const index = $toasts.get().findIndex(toast => toast.id === toastId)
+    const index = $toasts.get().findIndex(toast => toast.key === toastId)
     $toasts.remove(index)
     onClose && onClose()
   }
 
   $toasts.unshift({
     show: true,
-    id: toastId,
+    key: toastId,
     alert,
     icon,
     type,
     text,
     title,
     actionLabel,
-    closeLabel,
     onAction,
     onClose: _onClose
   })
