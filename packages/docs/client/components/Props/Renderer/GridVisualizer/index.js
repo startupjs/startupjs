@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
-import { themed, Div, Span } from '@startupjs/ui'
+import { themed, Div, Span, Row } from '@startupjs/ui'
 import './index.styl'
 
 const GRID_SIZE = 8
 const VALIDATE_WIDTH = false
 const VALIDATE_HEIGHT = true
 const ALLOW_HALF_UNIT = true
-const NBSP = ' '
 
 export default observer(function GridVisualizer ({
   validateWidth = VALIDATE_WIDTH,
@@ -29,10 +28,8 @@ export default observer(function GridVisualizer ({
   return pug`
     Div(style=style)
       Div.horizontal
-        Div.leftBarWrapper
-          // View.filler
-          LeftBar(allowHalfUnit=allowHalfUnit validate=validateHeight)
         Div.vertical(styleName={ block })
+          LeftBar(allowHalfUnit=allowHalfUnit validate=validateHeight)
           // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
           Div.content(onLayout=onLayout)
             | #{children}
@@ -42,24 +39,17 @@ export default observer(function GridVisualizer ({
 })
 
 const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
-  const [textHeigt, setTextHeight] = useState(0)
   let [height = 0] = useLocal('_session.Renderer.componentSize.height')
   let units = toUnits(height)
   let valid = validate ? validateGrid(height, allowHalfUnit) : true
 
-  function onTextLayout ({ nativeEvent }) {
-    setTextHeight(nativeEvent.layout.width)
-  }
-
   return pug`
     Div.leftBar
-      Div.leftBarLine(styleName=[theme, { valid }])
-      Div.leftBarUnits(style={ height: textHeigt })
-        Span.leftBarText(
-          onLayout=onTextLayout
-          styleName=[theme, { valid }]
-        )= NBSP + units + NBSP
-      Div.leftBarLine(styleName=[theme, { valid }])
+      Row.leftBarWrapper(style={ width: height })
+        Div.leftBarLine(styleName=[theme, { valid }])
+        Div.leftBarUnits
+          Span.leftBarText(styleName=[theme, { valid }])= units
+        Div.leftBarLine(styleName=[theme, { valid }])
   `
 }))
 

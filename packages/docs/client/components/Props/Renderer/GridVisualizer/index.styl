@@ -43,10 +43,20 @@ grid(direction, color, size)
   height $bar + $barMargin
   width $bar
 
+.content
+  margin-left 1u
+
 .leftBar
-  flex 1
-  width $bar
+  width 100%
+  height 100%
+  position absolute
   align-items center
+  justify-content center
+
+  &Wrapper
+    align-items center
+    transform rotate(-90deg)
+    left -50%
 
   &Units
     z-index 1
@@ -58,9 +68,7 @@ grid(direction, color, size)
     font-size 10px
     color $invalid
     background-color $bg
-    text-align center
-    line-height 0
-    transform rotate(-90deg)
+    margin 0 .5u
 
     &.valid
       color $valid
@@ -72,10 +80,10 @@ grid(direction, color, size)
 
   &Line
     flex 1
-    width 0.5u
+    height 0.5u
     background-color $invalid
     &.valid
-      width 1px
+      height 1px
       background-color $validLine
     &.dark
       background-color $darkInvalid
