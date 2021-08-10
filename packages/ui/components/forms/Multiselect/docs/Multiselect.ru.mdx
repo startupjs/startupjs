@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import Multiselect from '../Multiselect'
-import Div from '../../Div'
-import Span from '../../typography/Span'
-import Br from '../../Br'
+import Multiselect from '../'
+import Div from '../../../Div'
+import Span from '../../../typography/Span'
+import Br from '../../../Br'
 import { Sandbox } from '@startupjs/docs'
-import { useValue, observer } from 'startupjs'
+import MultiSelectSandbox from './MultiSelectSandbox'
 
 # Multiselect (множественный выбор)
 
@@ -219,21 +219,5 @@ return (
 ```
 
 ## Песочница
-
-export const MultiSelectSandbox = observer(()=> {
-  const [, $props] = useValue({
-    value: ['New York'],
-    options: ['New York', 'Los Angeles','Tokyo'],
-    onChange: v=> $props.set('value', v),
-    onSelect: value => alert('Value ' + value + ' is selected'),
-    onRemove: value => alert('Value ' + value + ' is removed'),
-  })
-  return pug`
-    Sandbox(
-      Component=Multiselect
-      $props=$props
-    )
-  `
-})
 
 <MultiSelectSandbox />
