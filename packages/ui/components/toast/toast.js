@@ -1,8 +1,9 @@
 import { $root } from 'startupjs'
+import _debounce from 'lodash/debounce'
 
 const MAX_SHOW_LENGTH = 3
 
-function updateMatrixPositions () {
+const updateMatrixPositions = _debounce(() => {
   const toasts = $root.scope('_session.toasts').get()
 
   const updateToasts = toasts.map((toast, index) => {
@@ -18,7 +19,7 @@ function updateMatrixPositions () {
   })
 
   $root.scope('_session.toasts').set(updateToasts)
-}
+}, 200)
 
 export default function toast ({
   alert,

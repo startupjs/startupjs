@@ -9,6 +9,7 @@ import {
   faExclamationTriangle,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
+import './index.styl'
 
 const DURATION_OPEN = 300
 const DURATION_CLOSE = 150
@@ -31,6 +32,7 @@ export default observer(function ToastComponent ({
   alert = false,
   type = 'info',
   topPosition,
+  height,
   show,
   icon,
   text,
@@ -50,8 +52,9 @@ export default observer(function ToastComponent ({
   }, [topPosition])
 
   useEffect(() => {
-    show ? onShow() : onHide()
-  }, [show])
+    if (show && height) onShow()
+    if (!show) onHide()
+  }, [show, height])
 
   function onShow () {
     Animated
