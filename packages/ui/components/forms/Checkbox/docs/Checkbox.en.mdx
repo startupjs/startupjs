@@ -5,6 +5,7 @@ import Br from '../../../Br'
 import Checkbox from '../'
 import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import SandboxCheckbox from './SandboxCheckbox'
 
 # Checkbox
 
@@ -101,14 +102,4 @@ return (
 
 ## Sandbox
 
-<Sandbox
-  Component={Checkbox}
-  extraParams={{
-    icon: {
-      showIconSelect: true
-    }
-  }}
-  props={{
-    onChange: value => alert('New value is ' + value)
-  }}
-/>
+<SandboxCheckbox />
