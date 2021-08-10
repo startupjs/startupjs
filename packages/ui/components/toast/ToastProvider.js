@@ -8,10 +8,7 @@ export default observer(function ToastProvider () {
 
   return pug`
     Portal
-      each toast, index in toasts
-        Toast(
-          ...toast
-          index=index
-        )
+      each toast in toasts
+        Toast(...toast)
   `
 })

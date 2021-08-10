@@ -9,9 +9,7 @@ import {
   faExclamationTriangle,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
-import STYLES from './index.styl'
 
-const MARGIN = 16
 const DURATION_OPEN = 300
 const DURATION_CLOSE = 150
 
@@ -32,24 +30,24 @@ const TITLES = {
 export default observer(function ToastComponent ({
   alert = false,
   type = 'info',
-  index,
+  topPosition,
   show,
   icon,
   text,
   title,
   actionLabel,
   onAction,
-  onClose
+  onClose,
+  onLayout
 }) {
   const [showAnimation] = useState(new Animated.Value(0))
-  const [topAnimation] = useState(new Animated.Value(getTopPosition(index)))
+  const [topAnimation] = useState(new Animated.Value(topPosition))
 
   useEffect(() => {
-    Animated.timing(topAnimation, {
-      toValue: getTopPosition(index),
-      duration: DURATION_OPEN
-    }).start()
-  }, [index])
+    Animated
+      .timing(topAnimation, { toValue: topPosition, duration: DURATION_OPEN })
+      .start()
+  }, [topPosition])
 
   useEffect(() => {
     show ? onShow() : onHide()
@@ -73,14 +71,17 @@ export default observer(function ToastComponent ({
   }
 
   return pug`
-    Animated.View.animate(style={
-      opacity: showAnimation,
-      right: showAnimation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [-48, MARGIN]
-      }),
-      top: topAnimation
-    })
+    Animated.View.root(
+      style={
+        opacity: showAnimation,
+        right: showAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [-48, 0]
+        }),
+        top: topAnimation
+      }
+      onLayout=e=> onLayout(e.nativeEvent.layout)
+    )
       Div.item(styleName=[type])
         Row.header
           Row.titleCase
@@ -94,8 +95,7 @@ export default observer(function ToastComponent ({
           Div(onPress=onHide)
             Icon(icon=faTimes)
 
-        Div.textCase
-          Span(numberOfLines=1)= text
+        Span.textCase= text
 
         Row.actions
           Button(
@@ -104,7 +104,3 @@ export default observer(function ToastComponent ({
           )= actionLabel || 'Close'
   `
 })
-
-function getTopPosition (index) {
-  return (index * STYLES.item.height) + (MARGIN * (index + 1))
-}

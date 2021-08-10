@@ -1,19 +1,18 @@
-.animate
+.root
   position absolute
-  padding-left 4u
   width 100%
 
   +from($UI.media.mobile)
-    padding-left 0
-    width auto
+    max-width 40u
+    min-width 30u
+    padding-right 2u
+    padding-top 2u
 
 .item
-  height 13u
   padding 2u
   justify-content center
   border-radius .5u
   background-color $UI.colors.white
-  width 100%
   border-top-width 4px
   border-top-style solid
   shadow(2)
@@ -26,10 +25,6 @@
     border-top-color $UI.colors.warning
   &.success
     border-top-color $UI.colors.success
-
-  +from($UI.media.mobile)
-    max-width 80u
-    min-width 30u
 
 .header
   align-items center
