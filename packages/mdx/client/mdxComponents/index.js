@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Image, Platform } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { observer, useValue } from 'startupjs'
+import { $root, observer, useValue } from 'startupjs'
 import {
   Div,
   H2,
@@ -22,7 +22,7 @@ import {
   Collapse,
   Tooltip
 } from '@startupjs/ui'
-import { Anchor } from '@startupjs/scrollable-anchors'
+import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
 import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
@@ -137,7 +137,7 @@ export default {
     }
 
     return pug`
-      Div.code
+      Div.code(styleName={ 'code-example': example })
         if example
           Collapse.code-collapse(open=open variant='pure')
             Collapse.Header.code-collapse-header(icon=false onPress=null)
@@ -230,8 +230,22 @@ export default {
   th: Th,
   delete: P,
   a: ({ children, href }) => {
+    function onPress (event) {
+      const { url, hash } = $root.get('$render')
+      const [_url, _hash] = href.split('#')
+      if (url === _url && hash === `#${_hash}`) {
+        event.preventDefault()
+        scrollTo({ anchorId: _hash })
+      }
+    }
+
     return pug`
-      Link.link(to=href size='l' color='primary')= children
+      Link.link(
+        to=href
+        size='l'
+        color='primary'
+        onPress=onPress
+      )= children
     `
   },
   img: ({ src }) => {

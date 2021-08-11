@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Row, H5, Content, Div, Span } from '@startupjs/ui'
+import { Row, Content, Div, Span } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import OrDivider from '../OrDivider'
@@ -67,9 +67,9 @@ function AuthForm ({
   return pug`
     Content
       if localActiveForm
-        H5.caption= DEFAULT_FORMS_CAPTIONS[slide]
+        Span.caption= DEFAULT_FORMS_CAPTIONS[slide]
 
-        Span.description(variant='description')
+        Span.description(description)
           = DEFAULT_FORMS_DESCRIPTIONS[slide]
 
       if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)

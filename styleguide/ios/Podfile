@@ -3,6 +3,8 @@ require_relative '../../node_modules/@react-native-community/cli-platform-ios/na
 
 platform :ios, '10.0'
 
+pod 'Firebase/Messaging'
+
 target 'styleguide' do
   config = use_native_modules!
 

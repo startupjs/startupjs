@@ -15,11 +15,12 @@ function TextInput ({
   iconStyle,
   className,
   label,
+  description,
   placeholder,
+  layout,
   value,
   size,
   editable,
-  layout,
   disabled,
   readonly,
   onBlur,
@@ -27,8 +28,9 @@ function TextInput ({
   renderWrapper, // @private - used by Select
   ...props
 }, ref) {
-  const _layout = useLayout(layout, label)
-  const pure = _layout === 'pure'
+  layout = useLayout({ layout, label, description })
+
+  const pure = layout === 'pure'
   const [focused, setFocused] = useState(false)
 
   function _onBlur () {
@@ -43,9 +45,7 @@ function TextInput ({
   function renderInput (standalone) {
     if (readonly) {
       return pug`
-        Span.readonly(
-          styleName=[size]
-        )= value
+        Span= value
       `
     }
 
@@ -78,12 +78,15 @@ function TextInput ({
 
   if (pure) return renderInput(true)
 
+  label = label || (value && placeholder) || ' '
+
   return pug`
     View.root(style=style)
-      Span.label(
-        styleName={focused}
-        variant='description'
-      )= label || (value && placeholder) || ' '
+      View.info
+        if label
+          Span.label(styleName={focused})= label
+        if description
+          Span.description(description)= description
       = renderInput()
   `
 }
@@ -107,10 +110,11 @@ ObservedTextInput.propTypes = {
   wrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   label: PropTypes.string,
+  description: PropTypes.string,
+  layout: PropTypes.oneOf(['pure', 'rows']),
   placeholder: PropTypes.string,
   value: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  layout: PropTypes.oneOf(['pure', 'rows']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   resize: PropTypes.bool,

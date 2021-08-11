@@ -23,12 +23,36 @@ return (
     onChange={(value) => setChecked(value)}
     options={[
       {
-        value: 'item1',
-        label: 'Item-1'
+        value: 'js',
+        label: 'JavaScript'
       },
       {
-        value: 'item2',
-        label: 'Item-2'
+        value: 'php',
+        label: 'PHP'
+      },
+    ]}
+  />
+)
+```
+
+## Label and description
+
+```jsx example
+const [checked, setChecked] = useState()
+return (
+  <Radio
+    value={checked}
+    label='Language'
+    description='Please select your programming language'
+    onChange={(value) => setChecked(value)}
+    options={[
+      {
+        value: 'js',
+        label: 'JavaScript'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
       },
     ]}
   />
@@ -43,27 +67,42 @@ const [checked, setChecked] = useState()
 return (
   <Radio
     value={checked}
-    onChange={setChecked}
-    disabled={checked === 'item2'}
+    onChange={(value) => setChecked(value)}
     options={[
       {
-        value: 'item1',
-        label: 'Item-1 label'
+        value: 'js',
+        label: 'JavaScript'
       },
       {
-        value: 'item2',
-        label: 'Disable items',
+        value: 'php',
+        label: 'PHP'
       },
-      {
-        value: 'item3',
-        label: 'Item-3 label',
-      },
-      {
-        value: 'item4',
-        label: 'Item 4 disabled item',
-        disabled: true
-      }
     ]}
+    disabled
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const [checked, setChecked] = useState('js')
+
+return (
+  <Radio
+    value={checked}
+    onChange={(value) => setChecked(value)}
+    options={[
+      {
+        value: 'js',
+        label: 'JavaScript'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
+      },
+    ]}
+    readonly
   />
 )
 ```
@@ -73,20 +112,18 @@ return (
 Компонент, используемый для добавления пользовательской разметки в `Radio` компонент.
 
 ```jsx example
-const [selectedItem, setSelectedItem] = useState('')
+const [selectedItem, setSelectedItem] = useState()
+
 return (
   <Radio
     value={selectedItem}
     onChange={(value) => setSelectedItem(value)}
   >
-    <Radio.Item value='item1'>
-      <Span>Item-1</Span>
+    <Radio.Item value='js'>
+      <Span>JavaScript</Span>
     </Radio.Item>
-    <Radio.Item value='item2'>
-      <Span>Item-2</Span>
-    </Radio.Item>
-    <Radio.Item value='item3'>
-      <Span>Item-3</Span>
+    <Radio.Item value='php'>
+      <Span>PHP</Span>
     </Radio.Item>
   </Radio>
 )
@@ -94,4 +131,20 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Radio} />
+<Sandbox
+  Component={Radio}
+  props={{
+    options:[
+      {
+        value: 'red',
+        label: 'Red'
+      },
+      {
+        value: 'blue',
+        label: 'Blue'
+      }
+    ],
+    value: 'red',
+    onChange: value=> alert('Enter "' + value + '" in the value input')
+  }}
+/>

@@ -27,13 +27,14 @@ return (
 )
 ```
 
-## Label
+## Label and description
 
 ```jsx example
 const [value, setValue] = useState()
 return (
   <TextInput
-    label='Label'
+    label='About me'
+    description='Tell us something about yourself'
     placeholder='TextInput'
     value={value}
     onChangeText={setValue}
@@ -57,8 +58,8 @@ return (
 ```jsx example
 return (
   <TextInput
-    readonly
     value='readonly'
+    readonly
   />
 )
 ```
@@ -159,10 +160,10 @@ return (
 
 ## Компоновка
 
-Сущесвтует две компоновки. Поведение по умолчанию - `rows` если `label` свойтсво задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
+Существует две компоновки. Поведение по умолчанию - `rows` если `label` или `description` свойство задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
 
-- `pure` отображает текстовое поле без `label`
-- `rows` отображает текстовое поле с `label` и если `label` не задан, то вместо нее используется `placeholder`
+- `pure` отображает текстовое поле без `label` и `description`
+- `rows` отображает текстовое поле с `label` и `description`. В случае если `label` не задан, то вместо нее используется `placeholder`
 
 ```jsx example
 const [pureValue, setPureValue] = useState()
@@ -197,4 +198,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={TextInput} />
+<Sandbox
+  Component={TextInput}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    onIconPress: () => alert('"onIconPress" event on "TextInput" component'),
+  }}
+/>

@@ -1,29 +1,47 @@
-_height = 4u
+_inputHeight = 4u
+_inputBg = $UI.colors.white
 _inputBorderWidth = 1px
+_inputBorderColor = $UI.colors.darkLighter
+_inputBgDisabled = $UI.colors.darkLightest
+_inputPlaceholderColor = $UI.colors.darkLighter
+_focusedColor = $UI.colors.primary
 _swipeZoneColor = #f5f5f5
-_errorColor = $UI.colors.error
-_primaryColor = $UI.colors.primary
+
+.info
+  margin-bottom 0.5u
+
+.label
+  margin-bottom 0.5u
+  font(body2)
+
+  &.focused
+    color _focusedColor
+
+.description
+  margin-bottom 0.5u
+  font(caption)
 
 .input
-  align-items center
-  background-color $UI.colors.white
-  width 100%
-  border _inputBorderWidth solid $UI.colors.darkLighter
-  padding 0.5u
+  padding 5px 1u
+  background-color _inputBg
+  border-width _inputBorderWidth
+  border-style solid
+  border-color _inputBorderColor
+  min-height 4u
+  min-width 8u
   radius()
-  +web()
-    overflow auto
 
   &.disabled
-    background-color $UI.colors.darkLightest
+    background-color _inputBgDisabled
+
   &.focused
-    border-color _primaryColor
-  &.error
-    border-color _errorColor
-  &.readonly
-    border none
-    background-color none
-    padding 0
+    border-color _focusedColor
+
+.placeholder
+  color _inputPlaceholderColor
+  padding-top 1px
+
+
 
 .tag
   margin-right 0.5u
@@ -34,9 +52,6 @@ _primaryColor = $UI.colors.primary
 .row
   padding-right 3u
   width 100%
-
-.placeholder
-  opacity .5
 
 .suggestions-web
   padding 0 .5u
@@ -61,30 +76,17 @@ _primaryColor = $UI.colors.primary
 
 .sugText
   color $UI.colors.mainText
-  font(xl)
+  font(h5)
 
   +desktop()
-    font(m)
+    font(body2)
 
 .checkbox
   margin 1u
 
-.label
-  margin-bottom 0.5u
-  font(s)
-
-  &.focused
-    color _primaryColor
-  &.error
-    color _errorColor
-
 .backdropStyle
   // Greater value than @startup/ui's Modal has
   z-index 1501
-
-.error
-  color _errorColor
-  font(s)
 
 .popover
   padding 0 .5u

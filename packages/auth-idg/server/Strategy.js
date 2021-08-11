@@ -16,7 +16,7 @@ function validateConfigs ({ clientId, clientSecret }) {
 export default function (config = {}) {
   this.config = {}
 
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig
       // Any defaults....
@@ -38,14 +38,15 @@ export default function (config = {}) {
         {
           clientID: clientId,
           clientSecret,
-          callbackURL: CALLBACK_URL
+          callbackURL: CALLBACK_URL,
+          passReqToCallback: true
         },
-        async (accessToken, refreshToken, profile, cb) => {
+        async (req, accessToken, refreshToken, profile, cb) => {
           let userId, err
 
           try {
             const provider = new Provider(model, profile, this.config)
-            userId = await provider.findOrCreateUser()
+            userId = await provider.findOrCreateUser({ req })
           } catch (e) {
             err = e
           }
@@ -55,4 +56,7 @@ export default function (config = {}) {
       )
     )
   }
+
+  func.providerName = 'idg'
+  return func
 }

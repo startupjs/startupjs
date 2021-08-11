@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocal } from 'startupjs'
 import Menu from '../Menu'
+import { MenuProvider } from './menuContext'
 import Content from '../Content'
 import Collapse from '../Collapse'
 import { u } from 'startupjs'
@@ -277,8 +278,40 @@ return (
 
 ### Menu
 
-<Sandbox Component={Menu} />
+<Sandbox
+  Component={Menu}
+  props={{
+    children: [
+        <Menu.Item
+          key='option-1'
+          icon={faHouseUser}
+          active={true}
+          onPress={() => alert('"onPress" event on "Option-1"')}
+        >
+          Option-1
+        </Menu.Item>,
+        <Menu.Item
+          key='option-2'
+          active={false}
+          onPress={() => alert('"onPress" event on "Option-2"')}
+        >
+          Option-2
+        </Menu.Item>
+    ]
+  }}
+/>
 
 ### Menu.Item
 
-<Sandbox Component={Menu.Item} />
+<Sandbox
+  Component={Menu.Item}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    children: 'Option-1',
+    onPress: () => alert('"onPress" event on "Option-1"')
+  }}
+/>

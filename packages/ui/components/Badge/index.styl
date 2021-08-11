@@ -1,13 +1,11 @@
-_s = 1u
-_m = 2u
-_l = 3u
-_sHalf = (_s / 2)
-_mHalf = (_m / 2)
-_lHalf = (_l / 2)
-_sMinusHalf = (_s / 2) * -1
-_mMinusHalf = (_m / 2) * -1
-_lMinusHalf = (_l / 2) * -1
 _white = $UI.colors.white
+
+_sizes = {
+  s: 2u,
+  m: 2.5u,
+  l: 3u,
+  dot: 1u
+}
 
 .root
   position relative
@@ -18,62 +16,51 @@ _white = $UI.colors.white
   justify-content center
   align-items center
   border 1px solid _white
+  opacity 0
 
-  &.s
-    min-width _s
-    height _s
-    border-radius _sHalf
+  &.visible
+    opacity 1
 
-    &.top
-      top _sMinusHalf
+  for size, unit in _sizes
+    _halfSize = unit / 2
 
-    &.bottom
-      bottom _sMinusHalf
+    &.{size}
+      min-width unit
+      height unit
+      border-radius _halfSize
 
-  &.m
-    min-width _m
-    height _m
-    border-radius _mHalf
+      &.top
+        top -(_halfSize)
+      &.bottom
+        bottom -(_halfSize)
 
-    &.withLabel
+  &.hasLabel
+    &.s
+    &.m
       padding 0 0.5u
-
-    &.top
-      top _mMinusHalf
-
-    &.bottom
-      bottom _mMinusHalf
-
-  &.l
-    min-width _l
-    height _l
-    border-radius _lHalf
-
-    &.withLabel
+    &.l
       padding 0 1u
-
-    &.top
-      top _lMinusHalf
-
-    &.bottom
-      bottom _lMinusHalf
 
 .label
   color _white
 
-  &.m
-    font-size 1u
+  &.s
+    font-size 1.25u
     line-height 1.5u
 
-  &.l
+  &.m
     font-size 1.5u
     line-height 2u
 
+  &.l
+    font-size 2u
+    line-height 2.5u
+
+  &.withIcon
+    margin-left 0.25u
+
 .icon
   color _white
-
-  &.withLabel
-    margin-right 0.25u
 
 // ----- JS EXPORTS
 :export

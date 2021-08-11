@@ -6,7 +6,11 @@ $readonlyColor = $UI.colors.mainText
 
 .label
   margin-left 1u
-  flex-shrink 1
+  font(body2)
+
+.description
+  margin-top 0.5u
+  font(caption)
 
 .checkbox
   width 2u
@@ -38,10 +42,10 @@ $readonlyColor = $UI.colors.mainText
 
   &.readonly
     display flex
-    font(l)
+    font(body1)
     line-height 2u
     color $readonlyColor
-    font-weight 900
+    fontFamily('normal', 900)
 
 // NOTE: opacity is workaround because display none and position absolute doesn't work right
 // https://github.com/facebook/react-native/issues/18415

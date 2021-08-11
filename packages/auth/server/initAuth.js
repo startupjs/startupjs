@@ -10,6 +10,7 @@ import {
 import initDefaultRoutes from './initDefaultRoutes'
 import { passportMiddleware } from './middlewares'
 import { SIGN_IN_URL } from '../isomorphic'
+import { auth } from './'
 
 const DEFAULT_EXPIRES_REDIRECT_URL = 5 * 60000 // 5 min in ms
 
@@ -44,6 +45,7 @@ export default function (ee, _config) {
   validateConfigs(config)
 
   const { strategies, ...rest } = config
+  auth.config = _config
   rest.expiresRedirectUrl = rest.expiresRedirectUrl || DEFAULT_EXPIRES_REDIRECT_URL
 
   passport.serializeUser(serializeUser)

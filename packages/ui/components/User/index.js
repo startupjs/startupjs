@@ -45,7 +45,7 @@ function User ({
           Span.description(
             style=descriptionStyle
             styleName=[size, avatarPosition]
-            variant='description'
+            description
           )= description
   `
 }
@@ -64,7 +64,10 @@ User.propTypes = {
   name: PropTypes.string,
   avatarPosition: PropTypes.oneOf(['left', 'right']),
   size: PropTypes.oneOf(['s', 'm', 'l']),
-  status: PropTypes.oneOf(['online', 'away']),
+  status: PropTypes.oneOfType([
+    PropTypes.oneOf(['online', 'away']),
+    PropTypes.string
+  ]),
   onPress: PropTypes.func
 }
 

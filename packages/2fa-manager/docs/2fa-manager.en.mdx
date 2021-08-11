@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Div, Button, Span, Br } from '@startupjs/ui'
-import { useProviders, ProvidersList2fa } from '@startupjs/2fa-manager'
+import { useProviders, ProvidersList2fa, ProvidersBlock } from '@startupjs/2fa-manager'
 import { CheckToken } from '@startupjs/2fa'
 
 # 2fa-manager
@@ -103,6 +103,17 @@ Now this `Provider` can be registered with `initTwoFaManager` and used by the na
 
 ### client
 
+- `ProvidersBlock(providerNames, onSubmit)` - The component implements the entire sequence for two-factor verification. Accepts the following props:
+  - `providerNames [Array]` - the names of the providers to be displayed (providers must be connected on the server side). If not passed, then all connected providers are displayed.
+
+  - `onSubmit [Function(twoFA)]` - callback, returns a `twoFA` object that contains the following fields:
+    - `selectedProvider [String]` - name of the selected provider
+    - `code [String]` - entered code
+
+**IMPORTANT** The callback is needed in order to provide the data that you need to transfer to the server. The validity check of the entered code should be checked only on the server, since the client code can be modified by an attacker. It is recommended to add a field with the name `twoFA` and the content as in the `twoFA` promise from the `onSubmit` function to the transmitted request.
+
+**IMPORTANT** `onSubmit` must return `true` in case of valid code and `false` in case of invalid code.
+
 - `ProvidersList2fa(providers, chooseProvider)` - Component for displaying a list of registered providers. Accepts the following props:
   - `providers` - array of provider names
   - `chooseProvider` - function, returns the name of the selected provider
@@ -135,8 +146,13 @@ import { CheckToken } from '@startupjs/2fa'
 const providers = useProviders()
 const [currentProvider, setCurrentProvider] = useState('')
 
+async function onSubmit(twoFA) {
+  console.log(twoFA.selectedProvider, twoFA.code)
+  return twoFA.code
+}
+
 return pug`
   Div
-    ProvidersBlock(onSubmit=(twoFA)=>console.log(twoFA.selectedProvider, twoFA.code))
+    ProvidersBlock(onSubmit=onSubmit)
 `
 ```

@@ -7,20 +7,11 @@ import { useValue } from 'startupjs'
 
 # ArrayInput
 
-ArrayInput позволяет создавать динамические формы, используя его декларативный апи.
-ArrayInput принимает объект в свойстве `items` с обязательным ключом` input`, чтобы указать, какой тип ввода отображать.
+ArrayInput позволяет создавать динамические формы, используя его декларативный api.
 
-Возможные типы:
+ArrayInput принимает в свойстве `items` объект метаданных поля ввода с обязательным ключом `input` для указания типа отображаемого поля.
 
-[сheckbox](/docs/forms/Checkbox)
-[text](/docs/forms/TextInput)
-[object](/docs/forms/ObjectInput)
-[select](/docs/forms/Select)
-[date](/docs/forms/DateTimePicker)
-[datetime](/docs/forms/DateTimePicker)
-[time](/docs/forms/DateTimePicker)
-
-Объект `items` также наследует любые свойства, переданные этим компонентам. 
+Возможные типы: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
 
 ```jsx
 import { ArrayInput } from '@startupjs/ui'
@@ -29,10 +20,9 @@ import { ArrayInput } from '@startupjs/ui'
 ## Простой пример
 
 ```jsx example
-const [value, $value] = useValue(['Green', 'Blue'])
+const [, $value] = useValue(['Green', 'Blue'])
 return (
   <ArrayInput
-    value={value}
     $value={$value}
     label='Colors'
     items={{

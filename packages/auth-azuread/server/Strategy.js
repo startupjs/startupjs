@@ -20,7 +20,7 @@ function validateConfigs ({ clientId, identityMetadata, tentantId }) {
 export default function (config = {}) {
   this.config = {}
 
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       allowHttpForRedirectUrl: false,
       ...authConfig
@@ -69,4 +69,7 @@ export default function (config = {}) {
       )
     )
   }
+
+  func.providerName = 'azuread'
+  return func
 }

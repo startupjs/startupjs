@@ -3,7 +3,6 @@ const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
 const Font = require('fonteditor-core').Font
-const link = require('./link')
 const CLI_VERSION = require('./package.json').version
 const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
 const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
@@ -335,7 +334,7 @@ const TEMPLATES = {
       // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@react-native-community/datetimepicker@^3.0.6',
-      '@react-native-picker/picker@^1.9.3',
+      '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@1.5.2',
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'
@@ -561,6 +560,8 @@ commander
   .command('link')
   .description('Links files')
   .action(async () => {
+    // this is important because ./link contains files that are initialized on require. Thus, 'glob' in ./linc/path does not work correctly when required in a header
+    const link = require('./link')
     link()
   })
 
@@ -569,6 +570,8 @@ commander
   .description('Links android files')
   .action(async () => {
     console.warn('"starupjs android-link" is deprecated. Use "startupjs link" instead.')
+    // this is important because ./link contains files that are initialized on require. Thus, 'glob' in ./linc/path does not work correctly when required in a header
+    const link = require('./link')
     link()
   })
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
-import { View, Text } from 'react-native'
-import { themed } from '@startupjs/ui'
+import { themed, Div, Span } from '@startupjs/ui'
 import './index.styl'
 
 const GRID_SIZE = 8
@@ -28,17 +27,17 @@ export default observer(function GridVisualizer ({
 
   // TODO: Bring back width check as an option. For now it's commented out.
   return pug`
-    View(style=style)
-      View.horizontal
-        View.leftBarWrapper
+    Div(style=style)
+      Div.horizontal
+        Div.leftBarWrapper
           // View.filler
           LeftBar(allowHalfUnit=allowHalfUnit validate=validateHeight)
-        View.vertical(styleName={ block })
+        Div.vertical(styleName={ block })
           // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
-          View.content(onLayout=onLayout)
+          Div.content(onLayout=onLayout)
             | #{children}
             if showGrid
-              View.gridVisualizer(pointerEvents='none')
+              Div.gridVisualizer(pointerEvents='none')
 `
 })
 
@@ -48,11 +47,11 @@ const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
   let valid = validate ? validateGrid(height, allowHalfUnit) : true
 
   return pug`
-    View.leftBar
-      View.leftBarLine(styleName=[theme, { valid }])
-      View.leftBarUnits
-        Text.leftBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
-      View.leftBarLine(styleName=[theme, { valid }])
+    Div.leftBar
+      Div.leftBarLine(styleName=[theme, { valid }])
+      Div.leftBarUnits
+        Span.leftBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
+      Div.leftBarLine(styleName=[theme, { valid }])
   `
 }))
 

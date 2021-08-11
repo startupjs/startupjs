@@ -4,6 +4,7 @@ import Span from '../typography/Span'
 import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Div (див)
 
@@ -44,7 +45,7 @@ return (
 )
 ```
 
-## Несколько дивов подряд
+## Отступы между несколькими Div
 
 При использовании нескольких дивов в [Row](/docs/components/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
 
@@ -61,13 +62,13 @@ return (
     <Div style={divStyle}>
       <Span>Div 1</Span>
     </Div>
-    <Div pushed='xs' style={divStyle}>
+    <Div pushed='s' style={divStyle}>
       <Span>Div 2</Span>
     </Div>
-    <Div pushed='s' style={divStyle}>
+    <Div pushed style={divStyle}>
       <Span>Div 3</Span>
     </Div>
-    <Div pushed style={divStyle}>
+    <Div pushed='l' style={divStyle}>
       <Span>Div 4</Span>
     </Div>
   </Row>
@@ -126,3 +127,15 @@ return (
   </Row>
 )
 ```
+
+## Песочница
+
+<Sandbox
+  Component={Div}
+  props={{
+    children: <Div styleName='child' />,
+    style: { width: 160, height: 160, backgroundColor: '#2962FF' },
+    onPress: () => alert('"onPress" event on "Div" component'),
+    onLongPress: () => alert('"onLongPress" event on "Div" component')
+  }}
+/>

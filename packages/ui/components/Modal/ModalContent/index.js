@@ -22,7 +22,7 @@ function ModalContent ({
   })
 
   return pug`
-    ContentComponent.root(styleName=[variant])= content
+    ContentComponent.root(style=style styleName=[variant])= content
   `
 }
 

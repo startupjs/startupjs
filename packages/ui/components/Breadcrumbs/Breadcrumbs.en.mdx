@@ -1,7 +1,7 @@
+import Br from '../Br'
 import Breadcrumbs from '../Breadcrumbs'
 import Div from '../Div'
-import Br from '../Br'
-import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
+import { faAnchor, faBook, faGift, faHome, faRocket } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs
@@ -12,8 +12,6 @@ import { Breadcrumbs } from 'startupjs/ui'
 ```
 
 ## Simple example
-
-Each route object accepts any prop given to the [Link](/docs/components/Link) component apart from the ones mentioned below.
 
 ```jsx example
 return (
@@ -30,6 +28,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -56,6 +58,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -85,6 +91,11 @@ return (
         to: '#component',
         name: 'Component',
         icon: faGift
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs',
+        icon: faAnchor
       }
     ]}
   />
@@ -112,6 +123,10 @@ return (
         {
           to: '#component',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />
@@ -130,6 +145,10 @@ return (
         {
           to: '#component',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />
@@ -139,4 +158,27 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Breadcrumbs} />
+<Sandbox
+  Component={Breadcrumbs}
+  props={{
+    routes: [
+      {
+        icon: faHome,
+        to: '#',
+        name: 'Home'
+      },
+      {
+        to: '#',
+        name: 'Section'
+      },
+      {
+        to: '#',
+        name: 'Page'
+      },
+      {
+        to: '#sandbox',
+        name: 'Sandbox'
+      }
+    ]
+  }}
+/>

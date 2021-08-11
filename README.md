@@ -136,7 +136,7 @@ The main things you'll need to know to get started with StartupJS are:
 1. [React Native](https://reactnative.dev/)
 1. [Racer's Model](https://derbyjs.com/docs/derby-0.10/models). You only need to read the `MODELS` section, ignore everything else.
 1. [React hooks for Model](/packages/react-sharedb-hooks)
-1. [StartupJS UI Components](https://startupjs-ui.dmapper.co)
+1. [StartupJS UI Components](https://startupjs-ui.dev.dmapper.co)
 
 For additional documentation on each StartupJS package see the [according readme](#sub-packages-documentation):
 
@@ -190,7 +190,7 @@ The following templates are available:
 
 1. `simple`
 2. `routing` - plugs in [`@startupjs/app`](/packages/app) which provides a `react-router` routing implementation
-3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dmapper.co)
+3. `ui` (default) - plugs in routing and [`@startupjs/ui`](https://startupjs-ui.dev.dmapper.co)
 
 By default `init` creates a project using the feature-rich `ui` template.
 
@@ -254,6 +254,22 @@ to the native installation when working with the large amount of files.
 The following guides are available to assist with migration to new major versions of StartupJS:
 
 - [Migration Guides](/docs/migration-guides)
+
+## Advanced usage
+
+You can configure your project to use [`vite`](https://github.com/vitejs/vite) in development for build process.
+
+```
+yarn add vite@0.20.3 vite-plugin-startupjs
+```
+
+And add the execution of vite patch to your `postinstall` script in `package.json`:
+
+```
+  "postinstall": "startupjs postinstall && npx patch-package --patch-dir ./node_modules/@startupjs/patches/vite"
+```
+
+Note that the vite version is required to be the outdated `0.20.3`. lUpgrade to the latest vite version is planned to be done soon.
 
 ## Contributing & Troubleshooting
 

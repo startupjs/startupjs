@@ -1,3 +1,203 @@
+## [0.37.4](https://github.com/startupjs/startupjs/compare/v0.37.3...v0.37.4) (2021-08-06)
+
+
+### Bug Fixes
+
+* **Alert:** fix icon property ([#735](https://github.com/startupjs/startupjs/issues/735)) ([e4ccbf6](https://github.com/startupjs/startupjs/commit/e4ccbf6a6b9edb1c6830057b40a7d1d30d8899ac))
+* **Avatar:** log an error instead of throw when no component for status ([#736](https://github.com/startupjs/startupjs/issues/736)) ([61bc68b](https://github.com/startupjs/startupjs/commit/61bc68b00dcb8d54cb2f12a9b421d4472c8b591f))
+* **Badge:** fix dot variant styles when redundant label exist ([#737](https://github.com/startupjs/startupjs/issues/737)) ([84d515e](https://github.com/startupjs/startupjs/commit/84d515edb354e5d41a1efccb4e8e9976075f68b1))
+* **Collapse:**  animate icon if exist ([#738](https://github.com/startupjs/startupjs/issues/738)) ([98fcc96](https://github.com/startupjs/startupjs/commit/98fcc968a55c4b3120459038db52da579d32fdd3))
+* **SmartSidebar:** fix typo in propType 'disabled'  ([#743](https://github.com/startupjs/startupjs/issues/743)) ([c58f55b](https://github.com/startupjs/startupjs/commit/c58f55bda0615237983d4f2979c3f12ae9ee5d3c))
+* **ui/Carousel:** prevent swipe outside ([#745](https://github.com/startupjs/startupjs/issues/745)) ([3c30184](https://github.com/startupjs/startupjs/commit/3c3018427c87c5936888190ee5dbe0746ad6efa1))
+* **ui/sidebars:** fix incorrect behaviour of 'disabled' property ([c050c00](https://github.com/startupjs/startupjs/commit/c050c00decf3340beeb5d840df62e601a4355040))
+* refactor usage of deprecated 'font' mixin ([bb716af](https://github.com/startupjs/startupjs/commit/bb716af905a695e9981d693a03a65dfc317c164c))
+
+
+### Features
+
+* **Sandbox:** improve constructor inputs ([#733](https://github.com/startupjs/startupjs/issues/733)) ([1030ad7](https://github.com/startupjs/startupjs/commit/1030ad73c99c4627e69052d6022547a7b35a9b87))
+
+
+
+## [0.37.3](https://github.com/startupjs/startupjs/compare/v0.37.2...v0.37.3) (2021-07-30)
+
+
+### Bug Fixes
+
+* **auth:** replace `$where` to `$or` with all providers in register query to support mongo less 4.4 version and greater 4.4 version ([#724](https://github.com/startupjs/startupjs/issues/724)) ([47a1a75](https://github.com/startupjs/startupjs/commit/47a1a7514814bfd52d9aa9f1b1501bd7979fddb0))
+* **docs:** show 'page not found' for incorrect url ([45bacfb](https://github.com/startupjs/startupjs/commit/45bacfb11656277df89cd8605ce2e81584812a53))
+* **mdx:** fix link scrolling to anchor ([#732](https://github.com/startupjs/startupjs/issues/732)) ([27c0493](https://github.com/startupjs/startupjs/commit/27c0493859ce2a3685f81ec7119fb902e256b42b))
+* **orm:** remove unsued 'childrenName' in associations ([8f7ef37](https://github.com/startupjs/startupjs/commit/8f7ef37d0287654679e583413df84e1a0e1405ab))
+* **ui/SmartSidebar:** don't open desktop sidebar when disabled ([#731](https://github.com/startupjs/startupjs/issues/731)) ([1835623](https://github.com/startupjs/startupjs/commit/1835623e8c8b9c3a6786895a607f04aa46e46cd9))
+
+
+### Features
+
+* **ui/Modal:** add ability to pass default values for props ([#729](https://github.com/startupjs/startupjs/issues/729)) ([ac801e2](https://github.com/startupjs/startupjs/commit/ac801e2628aaf727bf0a781a3d7912ab978912e9))
+
+
+
+## [0.37.2](https://github.com/startupjs/startupjs/compare/v0.37.1...v0.37.2) (2021-07-06)
+
+
+### Bug Fixes
+
+* **ui/Modal:** pass missing `style` to modal content root element ([#720](https://github.com/startupjs/startupjs/issues/720)) ([b9abd57](https://github.com/startupjs/startupjs/commit/b9abd5785e26b55d460ccc86a85900ccd0ac5b5d))
+
+
+
+## [0.37.1](https://github.com/startupjs/startupjs/compare/v0.37.0...v0.37.1) (2021-07-01)
+
+
+### Bug Fixes
+
+* **auth strategies:** add default baseUrl from `@env` ([#718](https://github.com/startupjs/startupjs/issues/718)) ([52cc0b4](https://github.com/startupjs/startupjs/commit/52cc0b4fbdb3eaa684cc71084dcc2d0c94fcd3f7))
+* **ui/Alert:** fix broken styles for info alert ([a010d96](https://github.com/startupjs/startupjs/commit/a010d96b765cf26c28c4a5565d13a7b642b674c7))
+
+
+
+# [0.37.0](https://github.com/startupjs/startupjs/compare/v0.36.4...v0.37.0) (2021-06-30)
+
+
+### Bug Fixes
+
+* **app:** move dialogs to ui library ([#707](https://github.com/startupjs/startupjs/issues/707)) ([4aae10a](https://github.com/startupjs/startupjs/commit/4aae10a03261a8fce3b90ecce69825a18aca9651))
+* **auth:** improve account linking ([#706](https://github.com/startupjs/startupjs/issues/706)) ([42a5115](https://github.com/startupjs/startupjs/commit/42a51159c0f059b1db0e45720b003dfd046499d5))
+
+
+### Features
+
+* **ui:** add ability to specify label and description for forms components ([#717](https://github.com/startupjs/startupjs/issues/717)) ([5756dc0](https://github.com/startupjs/startupjs/commit/5756dc01b003a7c1e539d3efdb66312bdefd4da5))
+* **ui/Carousel:** add component ([#715](https://github.com/startupjs/startupjs/issues/715)) ([674fd58](https://github.com/startupjs/startupjs/commit/674fd584249ead0bc60e076e5bdf5c04ab21adf8))
+
+
+### BREAKING CHANGES
+
+* **startupjs/ui/forms:** label font size was changed to smaller
+
+* **startupjs/ui/typography:** default text font weight was changed from `700` to `600`
+
+
+
+## [0.36.4](https://github.com/startupjs/startupjs/compare/v0.36.3...v0.36.4) (2021-06-21)
+
+
+### Bug Fixes
+
+* **themed:** fix accumulation of styles ([#710](https://github.com/startupjs/startupjs/issues/710)) ([0cc325d](https://github.com/startupjs/startupjs/commit/0cc325d47cc8b768a7456305250996c725ebc286))
+* **ui:** fix form components crashes ([#705](https://github.com/startupjs/startupjs/issues/705)) ([23e7092](https://github.com/startupjs/startupjs/commit/23e70922cda5998553d8b808ab206511ecc27c35))
+* **ui/NumberInput:** fix non-dynamic `value` property ([#709](https://github.com/startupjs/startupjs/issues/709)) ([9dd3417](https://github.com/startupjs/startupjs/commit/9dd3417421e12ce8ec8f69e4a997ac4034ede41e))
+
+
+
+## [0.36.3](https://github.com/startupjs/startupjs/compare/v0.36.2...v0.36.3) (2021-06-11)
+
+
+### Bug Fixes
+
+* use font family mixin in components ([874c6d2](https://github.com/startupjs/startupjs/commit/874c6d25f79b8be9ac820b715bb08eba2c79d911))
+* **ui/Alert:** fix popping actions ([d470c97](https://github.com/startupjs/startupjs/commit/d470c97fdeb30bf0e9dcd3da0c6c92d3ec582394))
+* **ui/Alert:** fix vertical align ([#691](https://github.com/startupjs/startupjs/issues/691)) ([923cc59](https://github.com/startupjs/startupjs/commit/923cc59c11b206f551ffe6729d66dd5825a80dc4))
+
+
+
+## [0.36.2](https://github.com/startupjs/startupjs/compare/v0.36.1...v0.36.2) (2021-06-08)
+
+
+### Bug Fixes
+
+* **mdx:** fix code example indents ([ffd7ae3](https://github.com/startupjs/startupjs/commit/ffd7ae3db3045a83a065e9a9d8e1c657f4e209df))
+* **Menu:** menu item can shrink ([9b46a42](https://github.com/startupjs/startupjs/commit/9b46a4278b9061eddb54318380f149af2673a351))
+* **typography/fonts:** fix detection of custom font ([154763d](https://github.com/startupjs/startupjs/commit/154763d563f962e76fa9b3b54afd228f587578b7))
+
+
+
+## [0.36.1](https://github.com/startupjs/startupjs/compare/v0.36.0...v0.36.1) (2021-06-08)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** add missing 'babel-plugin-i18n-extract' dependency ([b308596](https://github.com/startupjs/startupjs/commit/b308596ba786e764d89ae25787ee3a705b2f1d10))
+
+
+
+# [0.36.0](https://github.com/startupjs/startupjs/compare/v0.35.10...v0.36.0) (2021-06-08)
+
+
+### Bug Fixes
+
+* **mdx:** fix code block indents ([b2cc572](https://github.com/startupjs/startupjs/commit/b2cc572f6fed577f69ffead6fa3e5355ae3f551b))
+* **templates/ui:** fix require of i18n app ([29f1513](https://github.com/startupjs/startupjs/commit/29f151361d26119d3bc06cd11e87cddde0c2e551))
+* **typography/fonts:** add default font 'System' for android and ios ([bca528c](https://github.com/startupjs/startupjs/commit/bca528cdf89b95f13cd651ef46ac668307cc9b2c))
+* **ui:** add ui plugin to module map file ([2a73171](https://github.com/startupjs/startupjs/commit/2a7317176bc5d84045ddf86d8ac1bfb102476697))
+* **ui/Hr:** remove deprecated component ([#695](https://github.com/startupjs/startupjs/issues/695)) ([b9639af](https://github.com/startupjs/startupjs/commit/b9639afdf50aafe2bdbaae5c3fc8476ebe02e0b7))
+* **ui/Select:** fix Android crash with empty value ([#677](https://github.com/startupjs/startupjs/issues/677)) ([6bccb35](https://github.com/startupjs/startupjs/commit/6bccb35953a5de09bbb18d930bb7854ec007de12))
+* **ui/themed:** pass 'ref' to target component ([#699](https://github.com/startupjs/startupjs/issues/699)) ([3b79fa3](https://github.com/startupjs/startupjs/commit/3b79fa32af5e3a8f8b07e8e462b44d80654d8664))
+
+
+### Documentation
+
+* **ui:** improve docs ([#643](https://github.com/startupjs/startupjs/issues/643)) ([ca69839](https://github.com/startupjs/startupjs/commit/ca698396f94d71808bb61632c9e946e16776e878))
+
+
+### Features
+
+* **2fa-push-notification-provider:** add package ([#694](https://github.com/startupjs/startupjs/issues/694)) ([dccae3a](https://github.com/startupjs/startupjs/commit/dccae3af49c0ea60ada2815801ad90f113cc8266))
+* **i18n:** add package ([#698](https://github.com/startupjs/startupjs/issues/698)) ([f98768e](https://github.com/startupjs/startupjs/commit/f98768edace7e7b79ff3ae1b8045df4a30953743))
+* **typography/fonts:** split font families by platforms ([#675](https://github.com/startupjs/startupjs/issues/675)) ([f57f36d](https://github.com/startupjs/startupjs/commit/f57f36d18c6aeaaf3b1d87c716bf355d8b66fe88))
+
+
+### BREAKING CHANGES
+
+* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](https://startupjs-ui.dmapper.co/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
+
+* **ui/Breadcrumbs:** no longer supports `Link` component properties for `route`
+
+* **ui/Badge:** `size='s'` now shows content, if you don't want to show content, then use the `variant='dot'` property
+
+* **ui/Select:** fix error on Android with conditional rendering `Picker.Item` when using the `Select` property `showEmptyValue = {false}`. Need to update `@react-native-picker/picker` library to version 1.16.1.
+
+* **ui/Hr:** remove deprecated `Hr` component, use `Divider` instead
+
+
+
+## [0.35.10](https://github.com/startupjs/startupjs/compare/v0.35.9...v0.35.10) (2021-06-02)
+
+
+### Bug Fixes
+
+* **worker:** commit  version ([c0bef34](https://github.com/startupjs/startupjs/commit/c0bef34743ecb5128dd20ee51874f144e81cc0cb))
+
+
+### Features
+
+* **push-notifications:** add `push-notifications` package ([#656](https://github.com/startupjs/startupjs/issues/656)) ([7019c08](https://github.com/startupjs/startupjs/commit/7019c0881f53df89c73a8a13be3c4d36ad806de5))
+
+
+
+## [0.35.9](https://github.com/startupjs/startupjs/compare/v0.35.8...v0.35.9) (2021-06-02)
+
+
+### Bug Fixes
+
+* **bundler:** Move vite to peerDeps. TODO: upgrade vite and vite plugin to the latest version and test that it's actually working on the most recent code. ([a007a24](https://github.com/startupjs/startupjs/commit/a007a24b03e0908483d3522b704bd1ba4e454ea9))
+* **cli:** fix linking when init a new project ([#683](https://github.com/startupjs/startupjs/issues/683)) ([8f39684](https://github.com/startupjs/startupjs/commit/8f3968437c8447031c12f15ba2b3cb6c813e9372))
+* **typography/headers:** add missing font color ([#692](https://github.com/startupjs/startupjs/issues/692)) ([d616e60](https://github.com/startupjs/startupjs/commit/d616e60ddd0183b47553e808fd78d4f1643c6c8f))
+
+
+### Features
+
+* use `mongodb` 3.x ([#689](https://github.com/startupjs/startupjs/issues/689)) ([e9726ce](https://github.com/startupjs/startupjs/commit/e9726cef7d2184422645dc1373427540ef97a07a))
+
+
+
+## [0.35.8](https://github.com/startupjs/startupjs/compare/v0.35.7...v0.35.8) (2021-05-26)
+
+
+### Bug Fixes
+
+* **auth-idg:** pass `req` to `findOrCreateUser` function
+
 ## [0.35.7](https://github.com/startupjs/startupjs/compare/v0.35.6...v0.35.7) (2021-05-25)
 
 

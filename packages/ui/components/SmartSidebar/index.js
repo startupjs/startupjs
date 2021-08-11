@@ -16,6 +16,7 @@ const FIXED_LAYOUT_BREAKPOINT = 1024
 
 function SmartSidebar ({
   style,
+  sidebarStyle,
   defaultOpen,
   disabled,
   fixedLayoutBreakpoint,
@@ -44,13 +45,10 @@ function SmartSidebar ({
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
   useLayoutEffect(() => {
-    if (disabled) {
-      $open.setDiff(false)
-    } else if (fixedLayout) {
-      // or we can save open state before disabling
-      // to open it with this state when enabling
-      $open.setDiff(defaultOpen)
-    }
+    if (!fixedLayout) return
+    // or we can save open state before disabling
+    // to open it with this state when enabling
+    $open.setDiff(defaultOpen)
   }, [disabled])
 
   useLayoutEffect(() => {
@@ -81,9 +79,11 @@ function SmartSidebar ({
     if fixedLayout
       Sidebar(
         style=style
+        sidebarStyle=sidebarStyle
         $open=$open
         position=position
         width=width
+        disabled=disabled
         renderContent=renderContent
       )= children
     else
@@ -93,7 +93,7 @@ function SmartSidebar ({
         position=position
         width=width
         renderContent=renderContent
-        drawerLockMode=disabled ? 'locked-closed' : undefined
+        disabled=disabled
         ...props
       )= children
   `
@@ -101,7 +101,7 @@ function SmartSidebar ({
 
 SmartSidebar.defaultProps = {
   defaultOpen: false,
-  disalbed: false,
+  disabled: false,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
   width: 264
@@ -112,7 +112,7 @@ SmartSidebar.propTypes = {
   children: PropTypes.node,
   $open: PropTypes.object,
   defaultOpen: PropTypes.bool,
-  disalbed: PropTypes.bool,
+  disabled: PropTypes.bool,
   fixedLayoutBreakpoint: PropTypes.number,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
