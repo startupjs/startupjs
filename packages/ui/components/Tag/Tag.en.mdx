@@ -137,6 +137,10 @@ return (
 
 <Sandbox
   Component={Tag}
+  extraParams={{
+    icon: { showIconSelect: true },
+    secondaryIcon: { showIconSelect: true }
+  }}
   props={{
     children: 'Hello world!',
     onPress: () => alert('"onPress" event on Tag component'),
