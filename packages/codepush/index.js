@@ -20,7 +20,7 @@ const CodePushComponent = codePush(codePushOptions)(function CodePush ({
       await checkForUpdate()
     }
     setAppStateStore(nextAppState)
-  }, [appStateStore])
+  }, [appStateStore, checkForUpdate])
 
   useEffect(function () {
     (async function () {
