@@ -1,9 +1,11 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useRef, useEffect } from 'react'
 import { emit } from '@startupjs/react-sharedb'
 import { BackHandler } from 'react-native'
 
 export default function useBackPress (back) {
   if (!back) throw new Error('[useBackPress] Missing back parameter')
+
+  const previousHandler = useRef()
 
   const onBackPress = useCallback(function () {
     if (typeof back === 'function') {
@@ -14,12 +16,17 @@ export default function useBackPress (back) {
     } else {
       console.error('[useBackPress] Unsupported back parameter type', back)
     }
-  }, [])
+  }, [back])
 
   useEffect(() => {
+    if (previousHandler.current) {
+      BackHandler.removeEventListener('hardwareBackPress', previousHandler.current)
+    }
+    previousHandler.current = onBackPress
     BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', onBackPress)
     }
-  }, [])
+  }, [onBackPress])
 }

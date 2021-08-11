@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 import codePush from 'react-native-code-push'
 import { AppState, View, Text } from 'react-native'
 import './index.styl'
@@ -10,6 +10,7 @@ const codePushOptions = {
 const CodePushComponent = codePush(codePushOptions)(function CodePush ({
   children
 }) {
+  const previousHandler = useRef()
   const [appStateStore, setAppStateStore] = useState('')
   const [progress, setProgress] = useState()
 
@@ -25,12 +26,20 @@ const CodePushComponent = codePush(codePushOptions)(function CodePush ({
   useEffect(function () {
     (async function () {
       await checkForUpdate()
-      AppState.addEventListener('change', handleAppStateChange)
-      return () => {
-        AppState.removeEventListener('change', handleAppStateChange)
-      }
     })()
   }, [])
+
+  useEffect(function () {
+    if (previousHandler.current) {
+      AppState.removeEventListener('change', previousHandler.current)
+    }
+    AppState.addEventListener('change', handleAppStateChange)
+    previousHandler.current = handleAppStateChange
+
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange)
+    }
+  }, [handleAppStateChange])
 
   function codePushStatusDidChange (syncStatus) {
     switch (syncStatus) {
