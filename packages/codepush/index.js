@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import codePush from 'react-native-code-push'
 import { AppState, View, Text } from 'react-native'
 import './index.styl'
@@ -10,36 +10,27 @@ const codePushOptions = {
 const CodePushComponent = codePush(codePushOptions)(function CodePush ({
   children
 }) {
-  const previousHandler = useRef()
   const [appStateStore, setAppStateStore] = useState('')
   const [progress, setProgress] = useState()
 
-  const handleAppStateChange = useCallback(async function (nextAppState) {
-    if (
-      appStateStore.match(/inactive|background/) && nextAppState === 'active'
-    ) {
-      await checkForUpdate()
-    }
-    setAppStateStore(nextAppState)
-  }, [appStateStore, checkForUpdate])
-
   useEffect(function () {
-    (async function () {
-      await checkForUpdate()
-    })()
-  }, [])
+    checkForUpdate()
 
-  useEffect(function () {
-    if (previousHandler.current) {
-      AppState.removeEventListener('change', previousHandler.current)
+    function handleAppStateChange (nextAppState) {
+      if (
+        appStateStore.match(/inactive|background/) && nextAppState === 'active'
+      ) {
+        checkForUpdate()
+      }
+      setAppStateStore(nextAppState)
     }
+
     AppState.addEventListener('change', handleAppStateChange)
-    previousHandler.current = handleAppStateChange
 
     return () => {
       AppState.removeEventListener('change', handleAppStateChange)
     }
-  }, [handleAppStateChange])
+  }, [])
 
   function codePushStatusDidChange (syncStatus) {
     switch (syncStatus) {
