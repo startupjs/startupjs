@@ -10,6 +10,7 @@
     "@mdx-js/react": "~1.5.8",
     "@startupjs/scrollable-anchors": "^0.37.4",
     "@startupjs/ui": "^0.37.4",
+    "codemirror": "^5.62.2",
     "refractor": "^3.0.0"
   },
   "peerDependencies": {

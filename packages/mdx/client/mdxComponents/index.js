@@ -27,8 +27,9 @@ import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import { BASE_URL } from '@env'
-import './index.styl'
 import Code from '../Code'
+// import Editor from '../Editor'
+import './index.styl'
 
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
