@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, $root, useValue } from 'startupjs'
+import { observer, $root } from 'startupjs'
 import { H4 } from '@startupjs/ui'
 import Props from '../Props'
 import {
@@ -15,18 +15,12 @@ const MODELS = new WeakMap()
 export default observer(function Sandbox ({
   Component,
   $props,
-  extraParams,
-  block,
   ...otherProps
 }) {
   const [showGrid] = useShowGrid()
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
   const [darkTheme] = useDarkTheme()
-
-  if (Object.keys(otherProps).includes('props')) {
-    [, $props] = useValue(otherProps.props)
-  }
 
   if (!Component) {
     return pug`
@@ -42,8 +36,7 @@ export default observer(function Sandbox ({
       showSizes=showSizes
       showGrid=showGrid
       validateWidth=validateWidth
-      block=block
-      extraParams=extraParams
+      ...otherProps
     )
   `
 })
