@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'startupjs'
 import { Div, Row, Span, Icon, Button } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 import {
   faExclamationCircle,
   faTimes,
@@ -28,9 +29,8 @@ const TITLES = {
   success: 'Success'
 }
 
-export default observer(function ToastComponent ({
-  alert = false,
-  type = 'info',
+function ToastComponent ({
+  type,
   topPosition,
   height,
   show,
@@ -87,7 +87,7 @@ export default observer(function ToastComponent ({
     )
       Div.item(styleName=[type])
         Row.header
-          Row.titleCase
+          Row.caption
             Icon.icon(
               icon=icon ? icon : ICONS[type]
               styleName=[type]
@@ -98,12 +98,33 @@ export default observer(function ToastComponent ({
           Div(onPress=onHide)
             Icon(icon=faTimes)
 
-        Span.textCase= text
+        Span.text= text
 
         Row.actions
           Button(
             size='s'
             onPress=_onAction
-          )= actionLabel || 'Close'
+          )= actionLabel
   `
-})
+}
+
+ToastComponent.defaultProps = {
+  type: 'Info',
+  actionLabel: 'View'
+}
+
+ToastComponent.propTypes = {
+  type: PropTypes.string,
+  topPosition: PropTypes.number,
+  height: PropTypes.number,
+  show: PropTypes.bool,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  text: PropTypes.string,
+  title: PropTypes.string,
+  actionLabel: PropTypes.string,
+  onAction: PropTypes.func,
+  onClose: PropTypes.func,
+  onLayout: PropTypes.func
+}
+
+export default observer(ToastComponent)
