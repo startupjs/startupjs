@@ -1,9 +1,7 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import { themed, Row, Div } from '@startupjs/ui'
 import GridVisualizer from './GridVisualizer'
-import './index.styl'
 
 export default observer(themed(function Renderer ({
   Component,
@@ -30,19 +28,15 @@ export default observer(themed(function Renderer ({
   }
 
   return pug`
-    ScrollView.scroll(
-      contentContainerStyleName='scrollContent'
-      horizontal
+    Wrapper(
+      ...extraProps
+      style=style
+      validateWidth=validateWidth
+      validateHeight=validateHeight
+      allowHalfUnit=allowHalfUnit
+      showGrid=showGrid
     )
-      Wrapper(
-        ...extraProps
-        style=style
-        validateWidth=validateWidth
-        validateHeight=validateHeight
-        allowHalfUnit=allowHalfUnit
-        showGrid=showGrid
-      )
-        Component(...props)
-          = children
+      Component(...props)
+        = children
   `
 }))

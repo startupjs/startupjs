@@ -84,7 +84,7 @@ export default observer(themed(function PComponent ({
 
   return pug`
     Div.root(style=style)
-      ScrollView.top(styleName=[theme])
+      Div.top(styleName=[theme])
         Constructor(
           Component=Component
           $props=$theProps
@@ -92,16 +92,20 @@ export default observer(themed(function PComponent ({
           props=props
         )
 
-      ScrollView.bottom(styleName=[theme, { showSizes }])
-        Renderer(
-          Component=Component
-          props=$theProps.get()
-          showGrid=showGrid
-          validateWidth=validateWidth
-          showSizes=showSizes
-          block=block
+      Div.bottom(styleName=[theme])
+        ScrollView.scroll(
+          contentContainerStyleName='scrollContent'
+          horizontal
         )
-        Row(align='right').display
+          Renderer(
+            Component=Component
+            props=$theProps.get()
+            showGrid=showGrid
+            validateWidth=validateWidth
+            showSizes=showSizes
+            block=block
+          )
+        Row.display(align='right')
           Button(
             size='s'
             variant='text'
