@@ -1,23 +1,24 @@
 import { useState } from 'react'
-import Multiselect from '../Multiselect'
-import Div from '../../Div'
-import Span from '../../typography/Span'
-import Br from '../../Br'
+import Multiselect from '../'
+import Div from '../../../Div'
+import Span from '../../../typography/Span'
+import Br from '../../../Br'
 import { Sandbox } from '@startupjs/docs'
+import MultiSelectSandbox from './MultiSelectSandbox'
 
-# Multiselect
+# Multiselect (множественный выбор)
 
-Multiselect lets user pick multiple options.
+Multiselect позволяет пользователю выбирать несколько элементов из списка
 
 ```jsx
 import { Multiselect } from '@startupjs/ui'
 ```
 
-## Initialization
+## Инициализация
 
-Before use you need to configure [Portal](/docs/components/Portal)
+Перед использованием нужно настроить [Portal](/docs/components/Portal)
 
-## Simple example
+## Простой пример
 
 ```jsx example
 const OPTIONS = [
@@ -37,7 +38,7 @@ return (
 )
 ```
 
-## Label and description
+## Заголовок и описание
 
 ```jsx example
 const OPTIONS = [
@@ -50,8 +51,8 @@ const [cities, setCities] = useState([])
 
 return (
   <Multiselect
-    label='City'
-    description='Select the cities you have visited'
+    label='Город'
+    description='Выберите города, которые вы посетили'
     value={cities}
     onChange={setCities}
     options={OPTIONS}
@@ -59,9 +60,9 @@ return (
 )
 ```
 
-## Options
+## Опции
 
-You can pass array of objects { label, value } or primitives to options property.
+Вы можете добавить в опции массив объектов ```{ label, value }``` или примитивов
 
 ```jsx example
 const OBJECT_OPTIONS_EXAMPLE = [
@@ -133,9 +134,9 @@ return (
 )
 ```
 
-## Tag
+## Tag Component
 
-You can add a custom tag component
+Вы можете добавить собственный тег
 
 ```jsx example
 const OPTIONS = [
@@ -158,7 +159,7 @@ return (
 
 ## Input Component
 
-You can add a custom input component
+Вы можете добавить собственный input
 
 ```jsx example
 const OPTIONS = [
@@ -196,7 +197,7 @@ return (
 
 ## Tag limit
 
-You can limit the number of tags displayed
+Вы можете ограничить количество отображаемых тегов
 
 ```jsx example
 const OPTIONS = [
@@ -217,15 +218,6 @@ return (
 )
 ```
 
-## Sandbox
+## Песочница
 
-<Sandbox
-  Component={Multiselect}
-  props={{
-    value: ['New York'],
-    options: ['New York', 'Los Angeles','Tokyo'],
-    onChange: value => alert('New value is ' + JSON.stringify(value)),
-    onSelect: value => alert('Value ' + value + ' is selected'),
-    onRemove: value => alert('Value ' + value + ' is removed'),
-  }}
-/>
+<MultiSelectSandbox />
