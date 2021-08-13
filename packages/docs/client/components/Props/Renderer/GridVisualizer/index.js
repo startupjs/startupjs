@@ -26,15 +26,21 @@ export default observer(function GridVisualizer ({
 
   // TODO: Bring back width check as an option. For now it's commented out.
   return pug`
-    Div(style=style)
-      Div.horizontal
-        Div.vertical(styleName={ block })
-          LeftBar(allowHalfUnit=allowHalfUnit validate=validateHeight)
-          // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
-          Div.content(onLayout=onLayout)
-            | #{children}
-            if showGrid
-              Div.gridVisualizer(pointerEvents='none')
+    Row.vertical
+      LeftBar(
+        allowHalfUnit=allowHalfUnit
+        validate=validateHeight
+      )
+      // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
+      // it's style for component wrapper!!!
+      Div.content(
+        style=style
+        styleName={ block }
+        onLayout=onLayout
+      )
+        | #{children}
+        if showGrid
+          Div.gridVisualizer(pointerEvents='none')
 `
 })
 
@@ -47,8 +53,7 @@ const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
     Div.leftBar
       Row.leftBarWrapper(style={ width: height })
         Div.leftBarLine(styleName=[theme, { valid }])
-        Div.leftBarUnits
-          Span.leftBarText(styleName=[theme, { valid }])= units
+        Span.leftBarText(styleName=[theme, { valid }])= units
         Div.leftBarLine(styleName=[theme, { valid }])
   `
 }))

@@ -30,39 +30,24 @@ grid(direction, color, size)
     background-position 0 0, 0 0, $size $size, $size $size
     background-repeat repeat, repeat, repeat, repeat
 
-.horizontal
-  flex-direction row
-
-.vertical
-  flex-shrink 1
-
-  &.block
-    flex-grow 1
-
 .filler
   height $bar + $barMargin
   width $bar
 
 .content
-  margin-left 1u
+  margin-left 2u
+
+  &.block
+    flex-grow 1
 
 .leftBar
-  width 100%
-  height 100%
-  position absolute
   align-items center
   justify-content center
 
   &Wrapper
     align-items center
     transform rotate(-90deg)
-    left -50%
-
-  &Units
-    z-index 1
-    align-items center
-    justify-content center
-    margin .5u 0
+    position absolute
 
   &Text
     font-size 10px
