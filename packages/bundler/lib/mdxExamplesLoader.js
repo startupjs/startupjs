@@ -27,7 +27,7 @@ function replacer (match, p1, p2, p3) {
 
   p1 = p1Parts.join(' ')
 
-  const code = `\n\n${p1}${p2}${p3}`
+  const code = `\n\n${p1}\n${p2}${p3}`
 
   p2 = p2.trim().replace(/\n+/g, '\n')
   if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
