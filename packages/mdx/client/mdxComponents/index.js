@@ -159,11 +159,11 @@ export default {
   }),
   inlineCode: ({ children }) => pug`
     Span.inlineCodeWrapper
-      Span.inlineCodeSpacer= ' '
+      Span.inlineCodeSpacer &#160;
       Span.inlineCode(style={
         fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
       })= children
-      Span.inlineCodeSpacer= ' '
+      Span.inlineCodeSpacer &#160;
   `,
   hr: ({ children }) => pug`
     Divider(size='l')

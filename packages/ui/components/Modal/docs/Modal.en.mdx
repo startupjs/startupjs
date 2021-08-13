@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react'
 import { useValue } from 'startupjs'
-import Modal from '../Modal'
-import Button from '../Button'
-import Br from '../Br'
-import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import Modal from '../'
+import Button from '../../Button'
+import Br from '../../Br'
+import SandboxModal from './SandboxModal'
 
 # Modal
 
@@ -159,22 +159,7 @@ return (
 
 ### Modal
 
-<Sandbox
-  Component={Modal}
-  props={{
-    $visible: $root.scope('_session.Sandbox.Modal'),
-    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
-    onChange: val => $root.set('_session.Sandbox.Modal', val),
-    onCrossPress: () => $root.set('_session.Sandbox.Modal', false),
-    onDismiss: () => $root.set('_session.Sandbox.Modal', false),
-    onCancel: () => $root.set('_session.Sandbox.Modal', false),
-    onConfirm: () => $root.set('_session.Sandbox.Modal', false),
-  }}
-/>
-
-```jsx example
-<Button onPress={() => $root.set('_session.Sandbox.Modal', true)}>Open Sandbox Modal</Button>
-```
+<SandboxModal />
 
 ### Modal.Header
 
