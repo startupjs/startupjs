@@ -25,19 +25,22 @@ refractor.alias({ stylus: ['styl'] })
 // This method mutates highlighted array to remove the last template
 // backtick symbol and also returns it
 function modifyAndGetLastBacktick (highlighted) {
-  if (!(highlighted && highlighted.length)) return []
-  const last = highlighted[highlighted.length - 1]
-  if (!last?.properties?.className?.includes('template-string')) {
-    throw new Error(`
-      [@startupjs/mdx] Last symbol is not a template-string.
-      This should never happen.
-      Maybe refractor got updated or <Code> component is broken.
-    `)
-  }
-  const lastClone = JSON.parse(JSON.stringify(last))
-  last.children.pop()
-  lastClone.children.splice(0, lastClone.children.length - 1)
-  return lastClone
+  // if (!(highlighted && highlighted.length)) return []
+  // let last = highlighted[highlighted.length - 1]
+
+  // if (!last?.properties?.className?.includes('template-string')) {
+  //   throw new Error(`
+  //     [@startupjs/mdx] Last symbol is not a template-string.
+  //     This should never happen.
+  //     Maybe refractor got updated or <Code> component is broken.
+  //   `)
+  // }
+
+  // const lastClone = JSON.parse(JSON.stringify(last))
+  // last.children.pop()
+  // lastClone.children.splice(0, lastClone.children.length - 1)
+
+  return { type: 'text', value: '`' }
 }
 
 function getLines (code, language) {
@@ -67,8 +70,8 @@ function highlight (code, language) {
       const startJsx = start.replace(SUB_LANGUAGE_REGEX, '$1$2$3$5')
       const startSubLanguage = match[4]
       const subLanguage = match[2]
-      const startHighlightedJsx = refractor.highlight(startJsx, 'jsx')
-      const closingBacktick = modifyAndGetLastBacktick(startHighlightedJsx)
+      const startHighlightedJsx = getLines(startJsx, 'jsx')
+      const closingBacktick = modifyAndGetLastBacktick()
       return [
         ...startHighlightedJsx, // without trailing ` sign
         ...highlight(startSubLanguage, subLanguage),
