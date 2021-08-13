@@ -1,13 +1,12 @@
 import React from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
-import { themed, Div, Span } from '@startupjs/ui'
+import { themed, Div, Span, Row } from '@startupjs/ui'
 import './index.styl'
 
 const GRID_SIZE = 8
 const VALIDATE_WIDTH = false
 const VALIDATE_HEIGHT = true
 const ALLOW_HALF_UNIT = true
-const NBSP = ' '
 
 export default observer(function GridVisualizer ({
   validateWidth = VALIDATE_WIDTH,
@@ -27,17 +26,21 @@ export default observer(function GridVisualizer ({
 
   // TODO: Bring back width check as an option. For now it's commented out.
   return pug`
-    Div(style=style)
-      Div.horizontal
-        Div.leftBarWrapper
-          // View.filler
-          LeftBar(allowHalfUnit=allowHalfUnit validate=validateHeight)
-        Div.vertical(styleName={ block })
-          // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
-          Div.content(onLayout=onLayout)
-            | #{children}
-            if showGrid
-              Div.gridVisualizer(pointerEvents='none')
+    Row.vertical
+      LeftBar(
+        allowHalfUnit=allowHalfUnit
+        validate=validateHeight
+      )
+      // TopBar(allowHalfUnit=allowHalfUnit validate=validateWidth)
+      // it's style for component wrapper!!!
+      Div.content(
+        style=style
+        styleName={ block }
+        onLayout=onLayout
+      )
+        | #{children}
+        if showGrid
+          Div.gridVisualizer(pointerEvents='none')
 `
 })
 
@@ -48,10 +51,10 @@ const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
 
   return pug`
     Div.leftBar
-      Div.leftBarLine(styleName=[theme, { valid }])
-      Div.leftBarUnits
-        Span.leftBarText(styleName=[theme, { valid }])= NBSP + units + NBSP
-      Div.leftBarLine(styleName=[theme, { valid }])
+      Row.leftBarWrapper(style={ width: height })
+        Div.leftBarLine(styleName=[theme, { valid }])
+        Span.leftBarText(styleName=[theme, { valid }])= units
+        Div.leftBarLine(styleName=[theme, { valid }])
   `
 }))
 
