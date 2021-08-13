@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Image, Platform } from 'react-native'
+import { Image, Platform, ScrollView } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { $root, observer, useValue } from 'startupjs'
 import {
@@ -88,9 +88,15 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: ({ children }) => pug`
-    Div.example= children
-  `,
+  section: ({ children, ...props }) => {
+    const Wrapper = props.noscroll ? Div : ScrollView
+    return pug`
+      Wrapper.example(
+        contentContainerStyleName='exampleContent'
+        horizontal
+      )= children
+    `
+  },
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
