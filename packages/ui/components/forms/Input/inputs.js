@@ -9,6 +9,7 @@ import PasswordInput from '../PasswordInput'
 import Radio from '../Radio'
 import Select from '../Select'
 import TextInput from '../TextInput'
+import ColorPicker from '../ColorPicker'
 
 const WrappedArrayInput = wrapInput(ArrayInput)
 const WrappedCheckbox = wrapInput(
@@ -21,6 +22,16 @@ const WrappedCheckbox = wrapInput(
       }
     },
     _isLabelClickable: true
+  }
+)
+const WrappedColorPicker = wrapInput(
+  ColorPicker,
+  {
+    layoutOptions: {
+      rows: {
+        descriptionPosition: 'bottom'
+      }
+    }
   }
 )
 const WrappedDateTimePicker = wrapInput(
@@ -87,6 +98,14 @@ const inputs = {
   checkbox: {
     Component: WrappedCheckbox,
     getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
+  },
+  color: {
+    Component: WrappedColorPicker,
+    getProps: ({ value, $value, onChangeColor }) => ({
+      value,
+      $value,
+      onChangeColor
+    })
   },
   date: {
     Component: WrappedDateTimePicker,
