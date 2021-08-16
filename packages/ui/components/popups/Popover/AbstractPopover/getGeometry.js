@@ -6,49 +6,54 @@ import {
   POPOVER_MARGIN
 } from '../constants.json'
 
-export default function getGeometry ({
-  placement,
-  placements,
-  contentInfo,
-  captionInfo,
-  arrow,
-  dimensions
-}) {
-  let leftPositions = getLeftPositions({ contentInfo, captionInfo, arrow, dimensions })
-  let topPositions = getTopPositions({ contentInfo, captionInfo, arrow, dimensions })
-  let arrowLeftPositions = getLeftPositionsArrow({ contentInfo, captionInfo, dimensions })
-  let arrowTopPositions = getTopPositionsArrow({ contentInfo, captionInfo, dimensions })
-
-  placements = preparePlacements({ initPlacement: placement, placements })
-  const validPlacement = getValidPlacement({
-    contentInfo,
+export default function getGeometry (params) {
+  const {
     placement,
     placements,
+    matchAnchorWidth,
+    tetherMeasures,
+    anchorMeasures
+  } = params
+  const topPositions = getTopPositions(params)
+  const leftPositions = getLeftPositions(params)
+  const arrowTopPositions = getTopPositionsArrow(params)
+  const arrowLeftPositions = getLeftPositionsArrow(params)
+  const preparedPlacements = preparePlacements({ placement, placements })
+  const currentPlacement = findAvailablePlacement({
+    tetherMeasures,
+    placement,
+    placements: preparedPlacements,
     leftPositions,
     topPositions,
     initPlacement: placement
   })
 
-  return {
-    validPlacement,
-    captionInfo,
-    positionLeft: leftPositions[validPlacement],
-    positionTop: topPositions[validPlacement],
-    arrowLeftPosition: arrowLeftPositions[validPlacement],
-    arrowTopPosition: arrowTopPositions[validPlacement]
+  const [currentPosition, currentAttachment] = currentPlacement.split('-')
+
+  const geometry = {
+    placement: currentPlacement,
+    position: currentPosition,
+    attachment: currentAttachment,
+    top: topPositions[currentPlacement],
+    left: leftPositions[currentPlacement],
+    arrowTop: arrowTopPositions[currentPlacement],
+    arrowLeft: arrowLeftPositions[currentPlacement],
+    width: matchAnchorWidth ? anchorMeasures.width : undefined
   }
+
+  return geometry
 }
 
-function getLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
+function getLeftPositions ({ tetherMeasures, anchorMeasures, arrow, dimensions }) {
   const leftPositions = {}
 
-  const halfContent = contentInfo.width / 2
-  const halfCaption = captionInfo.width / 2
+  const halfContent = tetherMeasures.width / 2
+  const halfCaption = anchorMeasures.width / 2
 
-  const overRight = dimensions.width - contentInfo.width
+  const overRight = dimensions.width - tetherMeasures.width
 
-  const positionMinorLeft = captionInfo.x
-  if (positionMinorLeft + captionInfo.width > dimensions.width) {
+  const positionMinorLeft = anchorMeasures.pageX
+  if (positionMinorLeft + anchorMeasures.width > dimensions.width) {
     leftPositions['bottom-start'] = overRight
     leftPositions['top-start'] = overRight
   } else {
@@ -56,11 +61,11 @@ function getLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
     leftPositions['top-start'] = positionMinorLeft
   }
 
-  const positionMinorCenter = captionInfo.x - halfContent + halfCaption
+  const positionMinorCenter = anchorMeasures.pageX - halfContent + halfCaption
   if (positionMinorCenter < 0) {
     leftPositions['top-center'] = 0
     leftPositions['bottom-center'] = 0
-  } else if (positionMinorCenter + contentInfo.width > dimensions.width) {
+  } else if (positionMinorCenter + tetherMeasures.width > dimensions.width) {
     leftPositions['top-center'] = overRight
     leftPositions['bottom-center'] = overRight
   } else {
@@ -68,7 +73,7 @@ function getLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
     leftPositions['bottom-center'] = positionMinorCenter
   }
 
-  const positionMinorRight = captionInfo.x - contentInfo.width + captionInfo.width
+  const positionMinorRight = anchorMeasures.pageX - tetherMeasures.width + anchorMeasures.width
   if (positionMinorRight < 0) {
     leftPositions['bottom-end'] = 0
     leftPositions['top-end'] = 0
@@ -77,12 +82,12 @@ function getLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
     leftPositions['top-end'] = positionMinorRight
   }
 
-  const positionRootLeft = captionInfo.x - contentInfo.width - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootLeft = anchorMeasures.pageX - tetherMeasures.width - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   leftPositions['left-start'] = positionRootLeft
   leftPositions['left-center'] = positionRootLeft
   leftPositions['left-end'] = positionRootLeft
 
-  const positionRootRight = captionInfo.x + captionInfo.width + (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootRight = anchorMeasures.pageX + anchorMeasures.width + (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   leftPositions['right-start'] = positionRootRight
   leftPositions['right-center'] = positionRootRight
   leftPositions['right-end'] = positionRootRight
@@ -90,28 +95,28 @@ function getLeftPositions ({ contentInfo, captionInfo, arrow, dimensions }) {
   return leftPositions
 }
 
-function getTopPositions ({ captionInfo, contentInfo, arrow, dimensions }) {
+function getTopPositions ({ anchorMeasures, tetherMeasures, arrow, dimensions }) {
   const topPositions = {}
 
-  const halfCaption = captionInfo.height / 2
-  const halfContent = contentInfo.height / 2
+  const halfCaption = anchorMeasures.height / 2
+  const halfContent = tetherMeasures.height / 2
 
-  const positionRootBottom = captionInfo.y + captionInfo.height + (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootBottom = anchorMeasures.pageY + anchorMeasures.height + (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   topPositions['bottom-start'] = positionRootBottom
   topPositions['bottom-center'] = positionRootBottom
   topPositions['bottom-end'] = positionRootBottom
 
-  const positionRootTop = captionInfo.y - contentInfo.height - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
+  const positionRootTop = anchorMeasures.pageY - tetherMeasures.height - (arrow ? ARROW_SIZE + POPOVER_MARGIN : POPOVER_MARGIN)
   topPositions['top-start'] = positionRootTop
   topPositions['top-center'] = positionRootTop
   topPositions['top-end'] = positionRootTop
 
-  const positionMinorCenter = captionInfo.y + halfCaption - halfContent
+  const positionMinorCenter = anchorMeasures.pageY + halfCaption - halfContent
   if (positionMinorCenter < 0) {
     topPositions['left-center'] = 0
     topPositions['right-center'] = 0
-  } else if (captionInfo.y + halfContent > dimensions.height) {
-    const positionMinorCenterOverBottom = dimensions.height - contentInfo.height
+  } else if (anchorMeasures.pageY + halfContent > dimensions.height) {
+    const positionMinorCenterOverBottom = dimensions.height - tetherMeasures.height
     topPositions['left-center'] = positionMinorCenterOverBottom
     topPositions['right-center'] = positionMinorCenterOverBottom
   } else {
@@ -119,20 +124,20 @@ function getTopPositions ({ captionInfo, contentInfo, arrow, dimensions }) {
     topPositions['right-center'] = positionMinorCenter
   }
 
-  if (captionInfo.y + contentInfo.height > dimensions.height) {
-    const positionMinorStartOver = dimensions.height - contentInfo.height
+  if (anchorMeasures.pageY + tetherMeasures.height > dimensions.height) {
+    const positionMinorStartOver = dimensions.height - tetherMeasures.height
     topPositions['left-start'] = positionMinorStartOver
     topPositions['right-start'] = positionMinorStartOver
   } else {
-    topPositions['left-start'] = captionInfo.y
-    topPositions['right-start'] = captionInfo.y
+    topPositions['left-start'] = anchorMeasures.pageY
+    topPositions['right-start'] = anchorMeasures.pageY
   }
 
-  if (captionInfo.y + captionInfo.height - contentInfo.height < 0) {
-    topPositions['left-end'] = contentInfo.height
-    topPositions['right-end'] = contentInfo.height
+  if (anchorMeasures.pageY + anchorMeasures.height - tetherMeasures.height < 0) {
+    topPositions['left-end'] = tetherMeasures.height
+    topPositions['right-end'] = tetherMeasures.height
   } else {
-    const positionMinorEnd = captionInfo.y - captionInfo.height / 2
+    const positionMinorEnd = anchorMeasures.pageY - anchorMeasures.height / 2
     topPositions['left-end'] = positionMinorEnd
     topPositions['right-end'] = positionMinorEnd
   }
@@ -140,18 +145,18 @@ function getTopPositions ({ captionInfo, contentInfo, arrow, dimensions }) {
   return topPositions
 }
 
-function getLeftPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
+function getLeftPositionsArrow ({ tetherMeasures, anchorMeasures, dimensions }) {
   const arrowLeftPositions = {}
 
-  const halfContent = contentInfo.width / 2
-  const halfCaption = captionInfo.width / 2
+  const halfContent = tetherMeasures.width / 2
+  const halfCaption = anchorMeasures.width / 2
 
-  const overLeft = captionInfo.x + halfCaption - ARROW_SIZE
-  const overRight = contentInfo.width - (dimensions.width - captionInfo.x) + halfCaption - ARROW_SIZE
-  const minRight = contentInfo.width - (ARROW_SIZE * 3)
+  const overLeft = anchorMeasures.pageX + halfCaption - ARROW_SIZE
+  const overRight = tetherMeasures.width - (dimensions.width - anchorMeasures.pageX) + halfCaption - ARROW_SIZE
+  const minRight = tetherMeasures.width - (ARROW_SIZE * 3)
 
-  if (captionInfo.x + contentInfo.width > dimensions.width) {
-    if (captionInfo.x + captionInfo.width > dimensions.width) {
+  if (anchorMeasures.pageX + tetherMeasures.width > dimensions.width) {
+    if (anchorMeasures.pageX + anchorMeasures.width > dimensions.width) {
       arrowLeftPositions['top-start'] = minRight
       arrowLeftPositions['bottom-start'] = minRight
     } else {
@@ -163,8 +168,8 @@ function getLeftPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
     arrowLeftPositions['bottom-start'] = ARROW_SIZE
   }
 
-  if (captionInfo.x - contentInfo.width + captionInfo.width < 0) {
-    if (captionInfo.x < 0) {
+  if (anchorMeasures.pageX - tetherMeasures.width + anchorMeasures.width < 0) {
+    if (anchorMeasures.pageX < 0) {
       arrowLeftPositions['top-end'] = ARROW_SIZE
       arrowLeftPositions['bottom-end'] = ARROW_SIZE
     } else {
@@ -172,21 +177,21 @@ function getLeftPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
       arrowLeftPositions['bottom-end'] = overLeft
     }
   } else {
-    const positionEnd = contentInfo.width - (ARROW_SIZE * 3)
+    const positionEnd = tetherMeasures.width - (ARROW_SIZE * 3)
     arrowLeftPositions['top-end'] = positionEnd
     arrowLeftPositions['bottom-end'] = positionEnd
   }
 
-  if (captionInfo.x - halfContent + halfCaption < 0) {
-    if (captionInfo.x < 0) {
+  if (anchorMeasures.pageX - halfContent + halfCaption < 0) {
+    if (anchorMeasures.pageX < 0) {
       arrowLeftPositions['top-center'] = ARROW_SIZE
       arrowLeftPositions['bottom-center'] = ARROW_SIZE
     } else {
       arrowLeftPositions['top-center'] = overLeft
       arrowLeftPositions['bottom-center'] = overLeft
     }
-  } else if (captionInfo.x + halfContent > dimensions.width) {
-    if (captionInfo.x + captionInfo.width > dimensions.width) {
+  } else if (anchorMeasures.pageX + halfContent > dimensions.width) {
+    if (anchorMeasures.pageX + anchorMeasures.width > dimensions.width) {
       arrowLeftPositions['top-center'] = minRight
       arrowLeftPositions['bottom-center'] = minRight
     } else {
@@ -211,26 +216,26 @@ function getLeftPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
   return arrowLeftPositions
 }
 
-function getTopPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
+function getTopPositionsArrow ({ tetherMeasures, anchorMeasures, dimensions }) {
   const arrowTopPositions = {}
 
-  const halfCaption = captionInfo.height / 2
-  const halfContent = contentInfo.height / 2
+  const halfCaption = anchorMeasures.height / 2
+  const halfContent = tetherMeasures.height / 2
 
-  const overTop = captionInfo.y + halfCaption - ARROW_SIZE
-  const overBottom = contentInfo.height - (dimensions.height - captionInfo.y) + halfCaption - ARROW_SIZE
-  const minBottom = contentInfo.height - (ARROW_SIZE * 3)
+  const overTop = anchorMeasures.pageX + halfCaption - ARROW_SIZE
+  const overBottom = tetherMeasures.height - (dimensions.height - anchorMeasures.pageX) + halfCaption - ARROW_SIZE
+  const minBottom = tetherMeasures.height - (ARROW_SIZE * 3)
 
-  if (captionInfo.y + halfCaption - halfContent < 0) {
-    if (captionInfo.y < 0) {
+  if (anchorMeasures.pageX + halfCaption - halfContent < 0) {
+    if (anchorMeasures.pageX < 0) {
       arrowTopPositions['left-center'] = ARROW_SIZE
       arrowTopPositions['right-center'] = ARROW_SIZE
     } else {
       arrowTopPositions['left-center'] = overTop
       arrowTopPositions['right-center'] = overTop
     }
-  } else if (captionInfo.y + halfContent > dimensions.height) {
-    if (captionInfo.y + captionInfo.height > dimensions.height) {
+  } else if (anchorMeasures.pageX + halfContent > dimensions.height) {
+    if (anchorMeasures.pageX + anchorMeasures.height > dimensions.height) {
       arrowTopPositions['left-center'] = minBottom
       arrowTopPositions['right-center'] = minBottom
     } else {
@@ -243,8 +248,8 @@ function getTopPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
     arrowTopPositions['right-center'] = positionCenter
   }
 
-  if (captionInfo.y + contentInfo.height > dimensions.height) {
-    if (captionInfo.y + captionInfo.height > dimensions.height) {
+  if (anchorMeasures.pageX + tetherMeasures.height > dimensions.height) {
+    if (anchorMeasures.pageX + anchorMeasures.height > dimensions.height) {
       arrowTopPositions['left-start'] = minBottom
       arrowTopPositions['right-start'] = minBottom
     } else {
@@ -257,8 +262,8 @@ function getTopPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
     arrowTopPositions['right-start'] = positionStart
   }
 
-  if (captionInfo.y + captionInfo.height - contentInfo.height < 0) {
-    if (captionInfo.y < 0) {
+  if (anchorMeasures.pageX + anchorMeasures.height - tetherMeasures.height < 0) {
+    if (anchorMeasures.pageX < 0) {
       arrowTopPositions['left-end'] = ARROW_SIZE
       arrowTopPositions['right-end'] = ARROW_SIZE
     } else {
@@ -266,14 +271,14 @@ function getTopPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
       arrowTopPositions['right-end'] = overTop
     }
   } else {
-    const positionEnd = contentInfo.height - (ARROW_SIZE * 3)
+    const positionEnd = tetherMeasures.height - (ARROW_SIZE * 3)
     arrowTopPositions['left-end'] = positionEnd
     arrowTopPositions['right-end'] = positionEnd
   }
 
-  arrowTopPositions['top-start'] = contentInfo.height
-  arrowTopPositions['top-center'] = contentInfo.height
-  arrowTopPositions['top-end'] = contentInfo.height
+  arrowTopPositions['top-start'] = tetherMeasures.height
+  arrowTopPositions['top-center'] = tetherMeasures.height
+  arrowTopPositions['top-end'] = tetherMeasures.height
 
   const dblArrow = ARROW_SIZE * 2
   arrowTopPositions['bottom-start'] = -dblArrow
@@ -283,17 +288,19 @@ function getTopPositionsArrow ({ contentInfo, captionInfo, dimensions }) {
   return arrowTopPositions
 }
 
-function preparePlacements ({ initPlacement, placements }) {
+// TODO: This is unlogical behaviour.
+// We can always find a better position if the specified position does not fit
+function preparePlacements ({ placement, placements }) {
   if (placements.length !== PLACEMENTS_ORDER.length) {
     return PLACEMENTS_ORDER.filter(item => {
-      return placements.indexOf(item) !== -1
+      return placements.includes(item)
     })
   }
 
   let _preparePlacements = PLACEMENTS_ORDER
 
   const activeIndexPlacement = _preparePlacements.findIndex(item => {
-    return item === initPlacement
+    return item === placement
   })
 
   const [position, attachment] = _preparePlacements[activeIndexPlacement].split('-')
@@ -314,10 +321,12 @@ function preparePlacements ({ initPlacement, placements }) {
   return _preparePlacements
 }
 
-function getValidPlacement (options) {
+// TODO: This is unlogical behaviour.
+// We can always find a better position if the specified position does not fit
+function findAvailablePlacement (options) {
   const {
     counter = 1,
-    contentInfo,
+    tetherMeasures,
     placement,
     placements,
     leftPositions,
@@ -338,8 +347,8 @@ function getValidPlacement (options) {
 
   const _leftPosition = leftPositions[placement]
   if (_leftPosition < 0 ||
-      _leftPosition + contentInfo.width > Dimensions.get('window').width) {
-    return getValidPlacement({
+      _leftPosition + tetherMeasures.width > Dimensions.get('window').width) {
+    return findAvailablePlacement({
       ...options,
       counter: counter + 1,
       placement: placements[nextIndex]
@@ -348,8 +357,8 @@ function getValidPlacement (options) {
 
   const _topPosition = topPositions[placement]
   if (_topPosition < 0 ||
-    _topPosition + contentInfo.height > Dimensions.get('window').height) {
-    return getValidPlacement({
+    _topPosition + tetherMeasures.height > Dimensions.get('window').height) {
+    return findAvailablePlacement({
       ...options,
       counter: counter + 1,
       placement: placements[nextIndex]

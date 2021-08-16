@@ -1,9 +1,17 @@
-.position, .animate
+.root
   position absolute
 
-.stub
+.arrow
   position absolute
-  opacity 0
-  left -999
-  top -999
-  z-index -1
+  border-width 1u
+  border-style solid
+  border-color transparent
+
+  &.left
+    transform rotate(-90deg)
+
+  &.right
+    transform rotate(90deg)
+
+  &.bottom
+    transform rotate(180deg)

@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
+import PropTypes from 'prop-types'
 import AbstractPopover from './AbstractPopover'
 import DeprecatedPopover from './Deprecated'
 import Div from '../../Div'
@@ -23,28 +24,18 @@ function _Popover (props) {
 
 function Popover ({
   style,
-  arrowStyle,
-  contentStyle,
+  attachmentStyle,
   children,
   renderContent,
-  position,
-  attachment,
-  placements,
-  animateType,
-  durationOpen,
-  durationClose,
-  arrow,
-  matchCaptionWidth,
-  onRequestOpen,
-  onRequestClose
+  ...props
 }) {
-  const refCaption = useRef()
-  const [visible, setVisible] = useState(false)
+  const popoverRef = useRef()
+  const refAnchor = useRef()
 
   function renderWrapper (children) {
     return pug`
-      View.wrapper
-        TouchableWithoutFeedback(onPress=()=> setVisible(false))
+      View.root
+        TouchableWithoutFeedback(onPress=()=> popoverRef.current.close())
           View.overlay
         = children
     `
@@ -53,29 +44,25 @@ function Popover ({
   return pug`
     Div(
       style=style
-      ref=refCaption
-      onPress=()=> setVisible(true)
+      ref=refAnchor
+      onPress=()=> popoverRef.current.open()
     )= children
-    AbstractPopover.content(
-      style=[contentStyle]
-      arrowStyle=arrowStyle
-      visible=visible
-      refCaption=refCaption
-      position=position
-      arrow=arrow
-      matchCaptionWidth=matchCaptionWidth
-      attachment=attachment
-      placements=placements
-      animateType=animateType
-      durationOpen=durationOpen
-      durationClose=durationClose
+    AbstractPopover.attachment(
+      ...props
+      ref=popoverRef
+      style=[attachmentStyle]
+      refAnchor=refAnchor
       renderWrapper=renderWrapper
-      onRequestOpen=onRequestOpen
-      onRequestClose=()=> setVisible(false)
     )= renderContent()
   `
 }
 
 _Popover.Caption = DeprecatedPopover.Caption
+
+_Popover.defaultProps = AbstractPopover.defaultProps
+_Popover.propTypes = {
+  attachmentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  ...AbstractPopover.propTypes
+}
 
 export default _Popover

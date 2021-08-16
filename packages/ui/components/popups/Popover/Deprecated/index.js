@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
-import Arrow from '../Arrow'
+import Arrow from './Arrow'
 import Portal from '../../../Portal'
 import Geometry from './Geometry'
 import { PLACEMENTS_ORDER } from '../constants.json'
