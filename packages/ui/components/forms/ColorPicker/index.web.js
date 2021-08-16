@@ -43,8 +43,7 @@ function ColorPicker ({
         size=size
         textStyle={ color: getLabelColor(value) }
         onPress=() => pickerRef.current.click()
-      )
-        = value.toUpperCase()
+      )= value.toUpperCase()
 
   `
 }

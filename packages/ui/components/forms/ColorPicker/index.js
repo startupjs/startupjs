@@ -46,7 +46,6 @@ ColorPicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.string,
   disabled: PropTypes.bool,
-  label: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
   onChangeColor: PropTypes.func
 }
