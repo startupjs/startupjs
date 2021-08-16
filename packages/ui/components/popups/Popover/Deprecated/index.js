@@ -144,14 +144,15 @@ function Popover ({
         setValidPlacement(refGeometry.current.validPlacement)
         $step.set(STEPS.ANIMATE)
 
-        animate.show({
+        const _animate = animate.show({
           durationOpen,
           geometry: refGeometry.current,
           contentInfo,
           animateType,
           animateStates,
           hasArrow
-        }, () => {
+        })
+        _animate.start(() => {
           $step.set(STEPS.OPEN)
           onRequestOpen && onRequestOpen()
         })
@@ -173,14 +174,15 @@ function Popover ({
         const contentInfo = { width: popoverWidth, height: popoverHeight }
         $step.set(STEPS.ANIMATE)
 
-        animate.hide({
+        const _animate = animate.hide({
           durationClose,
           geometry: refGeometry.current,
           animateType,
           contentInfo,
           animateStates,
           hasArrow
-        }, _closeStep)
+        })
+        _animate.start(_closeStep)
       })
     }
   }

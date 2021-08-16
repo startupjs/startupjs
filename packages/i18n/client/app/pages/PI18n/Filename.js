@@ -19,6 +19,6 @@ export default observer(function Filename ({ style, meta }) {
       border-bottom-width 1px
       border-bottom color $UI.colors.dark
     .filename
-      font(l)
+      font(h6)
   `
 })
