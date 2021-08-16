@@ -7,7 +7,7 @@ export default function Arrow ({
   geometry,
   validPosition
 }) {
-  if (geometry) {
+  if (geometry && geometry.validPlacement) {
     [validPosition] = geometry.validPlacement.split('-')
   }
 
