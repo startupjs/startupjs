@@ -9,6 +9,7 @@ import './index.styl'
 function ModalContent ({
   style,
   children,
+  // IDEA: do we need to set flexGrow: 1 for contentContainerStyle of ScrollView?
   ContentComponent = ScrollView,
   variant // @private
 }) {

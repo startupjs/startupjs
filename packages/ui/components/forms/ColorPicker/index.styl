@@ -1,16 +1,15 @@
-.root
-  flex-grow 1
-  flex-shrink 1
-
-.picker
-  width 100%
-  height 33u
-
 .button
-  flex-grow 1
-  flex-shrink 1
   border-color: $UI.colors.darkLighter
   border-width 1px
 
-  +web()
-    min-height 100%
+.content
+  flex-grow 1
+  justify-content center
+
+.picker
+  height 50u
+  // we hacked height because react-native-color-picker has a strange logic of
+  // sizing and positioning of picker.
+  // https://github.com/instea/react-native-color-picker/blob/master/src/HoloColorPicker.tsx#L114
+  // https://github.com/instea/react-native-color-picker/blob/master/src/HoloColorPicker.tsx#L331
+  // TODO: make a PR with correct behaviour to react-native-color-picker library

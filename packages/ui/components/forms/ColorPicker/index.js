@@ -1,7 +1,8 @@
 import React, { useRef } from 'react'
 import { observer } from 'startupjs'
-import { Button, Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import Div from '../../Div'
+import Button from '../../Button'
 import { getLabelColor } from './helpers'
 import Picker from './picker'
 import themed from '../../../theming/themed'
@@ -17,7 +18,7 @@ function ColorPicker ({
   const pickerRef = useRef()
 
   return pug`
-    Div.root(style=style)
+    Div(style=style)
       Picker(ref=pickerRef onChangeColor=onChangeColor)
       Button.button(
         disabled=disabled
