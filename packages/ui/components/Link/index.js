@@ -128,4 +128,4 @@ Link.propTypes = {
   color: PropTypes.oneOf(['default', 'primary'])
 }
 
-export default observer(themed(Link))
+export default observer(themed('Link', Link))

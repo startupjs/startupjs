@@ -76,7 +76,7 @@ function Tabs ({
   `
 }
 
-const ObservedTabs = observer(themed(Tabs))
+const ObservedTabs = observer(themed('Tabs', Tabs))
 
 ObservedTabs.defaultProps = {}
 

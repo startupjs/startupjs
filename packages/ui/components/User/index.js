@@ -71,4 +71,4 @@ User.propTypes = {
   onPress: PropTypes.func
 }
 
-export default observer(themed(User))
+export default observer(themed('User', User))

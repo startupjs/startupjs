@@ -45,4 +45,4 @@ Rating.propTypes = {
   onChange: PropTypes.func
 }
 
-export default observer(themed(Rating))
+export default observer(themed('Rating', Rating))

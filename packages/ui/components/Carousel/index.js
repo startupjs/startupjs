@@ -15,9 +15,10 @@ import {
   faAngleUp,
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
+import themed from '../../theming/themed'
 import './index.styl'
 
-const Carousel = observer(({
+function Carousel ({
   style,
   arrowBackStyle,
   arrowNextStyle,
@@ -32,7 +33,7 @@ const Carousel = observer(({
   duration,
   children,
   onChange
-}, ref) => {
+}, ref) {
   arrowBackStyle = StyleSheet.flatten(arrowBackStyle)
   arrowNextStyle = StyleSheet.flatten(arrowNextStyle)
 
@@ -492,7 +493,7 @@ const Carousel = observer(({
               styleName={ dotActive: activeIndex === (isEndless ? (index + children.length) : index) }
             )
   `
-}, { forwardRef: true })
+}
 
 function getClosest ({
   childrenInfo,
@@ -576,4 +577,4 @@ Carousel.propTypes = {
   onChange: PropTypes.func
 }
 
-export default Carousel
+export default observer(themed('Carousel', Carousel), { forwardRef: true })

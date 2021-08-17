@@ -44,7 +44,7 @@ Menu.propTypes = {
   activeColor: PropTypes.string
 }
 
-const ObservedMenu = observer(themed(Menu))
+const ObservedMenu = observer(themed('Menu', Menu))
 
 ObservedMenu.Item = MenuItem
 

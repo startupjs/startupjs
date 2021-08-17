@@ -32,4 +32,4 @@ ModalHeader.propTypes = {
   onCrossPress: PropTypes.func
 }
 
-export default observer(themed(ModalHeader))
+export default observer(themed('ModalHeader', ModalHeader))

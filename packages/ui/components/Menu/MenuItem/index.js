@@ -83,4 +83,4 @@ MenuItem.propTypes = {
   activeColor: PropTypes.string
 }
 
-export default observer(themed(MenuItem))
+export default observer(themed('MenuItem', MenuItem))

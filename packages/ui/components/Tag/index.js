@@ -145,4 +145,4 @@ Tag.propTypes = {
   secondaryIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 }
 
-export default observer(themed(Tag))
+export default observer(themed('Tag', Tag))

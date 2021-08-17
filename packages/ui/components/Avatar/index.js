@@ -99,4 +99,4 @@ Avatar.propTypes = {
   onPress: Div.propTypes.onPress
 }
 
-export default observer(themed(Avatar))
+export default observer(themed('Avatar', Avatar))
