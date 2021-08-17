@@ -1,9 +1,9 @@
-import React from 'react'
-import { ColorPicker as Picker } from 'react-native-color-picker'
-import { observer, useValue } from 'startupjs'
-import { Modal, Button } from '@startupjs/ui'
+import React, { useRef } from 'react'
+import { observer } from 'startupjs'
+import { Button, Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { getLabelColor } from './helpers'
+import Picker from './picker'
 import themed from '../../../theming/themed'
 import './index.styl'
 
@@ -14,39 +14,34 @@ function ColorPicker ({
   disabled,
   onChangeColor
 }) {
-  const [, $visible] = useValue()
+  const pickerRef = useRef()
 
   return pug`
-    Button.button(
-      style=[style, { backgroundColor: value }]
-      variant='flat'
-      size=size
-      disabled=disabled
-      textStyle={ color: getLabelColor(value) }
-      onPress=() => $visible.set(true)
-    )= value.toUpperCase()
-    Modal($visible=$visible variant='fullscreen')
-      Picker.picker(
-        onColorSelected=color => {
-          onChangeColor(color)
-          $visible.set(false)
-        }
-      )
+    Div.root(style=style)
+      Picker(ref=pickerRef onChangeColor=onChangeColor)
+      Button.button(
+        disabled=disabled
+        style={ backgroundColor: value }
+        variant='flat'
+        size=size
+        textStyle={ color: getLabelColor(value) }
+        onPress=() => pickerRef.current.show()
+      )= value.toUpperCase()
+
   `
 }
 
 ColorPicker.defaultProps = {
   size: 'm',
   disabled: false,
-  value: '#fff',
-  onChangeColor: () => {}
+  value: '#fff'
 }
 
 ColorPicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.string,
   disabled: PropTypes.bool,
-  size: PropTypes.oneOf(['l', 'm', 's']),
+  size: PropTypes.oneOf(['s', 'm', 'l']),
   onChangeColor: PropTypes.func
 }
 
