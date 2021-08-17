@@ -1,0 +1,24 @@
+.case
+  width 32u
+  margin 0 auto
+
+  +from($UI.media.mobile)
+    width auto
+
+.cell
+  width 12u
+  height 5u
+  align-items center
+  justify-content center
+
+.cellActive
+  background-color $UI.colors.primary
+
+.cellHover
+  background-color $UI.colors.primaryLighter
+
+.labelActive
+  color $UI.colors.white
+
+:export
+  media: $UI.media
