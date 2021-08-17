@@ -1,5 +1,6 @@
 export { default as ArrayInput } from './ArrayInput'
 export { default as Checkbox } from './Checkbox'
+export { default as ColorPicker } from './ColorPicker'
 export { default as DateTimePicker } from './DateTimePicker'
 export { default as Input } from './Input'
 export { default as Multiselect } from './Multiselect'

@@ -18,6 +18,7 @@ react-native-collapsible: 1.5.2
 react-native-pager-view: >= 5.1.2
 react-native-svg: >= 12.1.0
 react-native-tab-view: >= 3.0.0
+react-native-color-picker: ^0.6.0
 startupjs: >= 0.33.0
 ```
 

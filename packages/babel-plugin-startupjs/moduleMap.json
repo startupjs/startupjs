@@ -34,6 +34,7 @@
     "User": "/components/User",
     "ArrayInput": "/components/forms/ArrayInput",
     "Checkbox": "/components/forms/Checkbox",
+    "ColorPicker": "/components/forms/ColorPicker",
     "DateTimePicker": "/components/forms/DateTimePicker",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
