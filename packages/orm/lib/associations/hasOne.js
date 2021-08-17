@@ -1,13 +1,14 @@
 import pluralize from 'pluralize'
 
-export default function hasOne (AssociatedOrmEntity, options) {
+export default function hasOne (AssociatedOrmEntity, options = {}) {
   return function (OrmEntity) {
+    const key = pluralize.singular(AssociatedOrmEntity.collection) + 'Id'
+
     OrmEntity.addAssociation(
       Object.assign({
         type: 'hasOne',
         orm: AssociatedOrmEntity,
-        key: pluralize.singular(AssociatedOrmEntity.collection) + 'Id',
-        childrenName: AssociatedOrmEntity.collection
+        key
       }, options)
     )
 
@@ -15,8 +16,7 @@ export default function hasOne (AssociatedOrmEntity, options) {
       Object.assign({
         type: 'oppositeHasOne',
         orm: OrmEntity,
-        key: pluralize.singular(AssociatedOrmEntity.collection) + 'Id',
-        childrenName: OrmEntity.collection,
+        key,
         opposite: true
       }, options)
     )

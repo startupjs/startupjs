@@ -44,4 +44,9 @@ return(
 
 ## Sandbox
 
-<Sandbox Component={Rating} />
+<Sandbox
+  Component={Rating}
+  props={{
+    onChange: value => alert('Value ' + value + ' selected.')
+  }}
+/>

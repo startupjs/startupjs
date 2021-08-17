@@ -182,4 +182,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Alert} />
+<Sandbox
+  Component={Alert}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    children: 'Message content'
+  }}
+/>

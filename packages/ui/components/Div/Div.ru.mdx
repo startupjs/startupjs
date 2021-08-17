@@ -4,6 +4,7 @@ import Span from '../typography/Span'
 import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Div (див)
 
@@ -142,4 +143,12 @@ return pug`
 
 ## Песочница
 
-<Sandbox Component={Div} />
+<Sandbox
+  Component={Div}
+  props={{
+    children: <Div styleName='child' />,
+    style: { width: 160, height: 160, backgroundColor: '#2962FF' },
+    onPress: () => alert('"onPress" event on "Div" component'),
+    onLongPress: () => alert('"onLongPress" event on "Div" component')
+  }}
+/>

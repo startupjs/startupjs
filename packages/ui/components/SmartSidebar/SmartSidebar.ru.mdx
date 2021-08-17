@@ -6,8 +6,9 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { useSession } from 'startupjs'
+import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # SmartSidebar (умный сайдбар)
 
@@ -151,7 +152,7 @@ return (
 
 ## Заблокированный умный сайдбар
 
-Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
+Указание свойства `disabled` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
 ```jsx example
 const [open, $open] = useSession('ExampleLockerSmartSidebar')
@@ -169,7 +170,7 @@ return (
           </Menu>
         </Div>
       )}
-      forceClosed
+      disabled
     >
       <Content
         padding
@@ -221,4 +222,26 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={SmartSidebar} />
+<Sandbox Component={SmartSidebar}
+  props={{
+    $open: $root.scope('_session.Sandbox.SmartSidebar'),
+    renderContent: () => (
+      <Div styleName='sidebar'>
+        <Span>Sidebar content</Span>
+      </Div>
+    ),
+    children: (
+      <Div styleName='content'>
+        <Button
+          styleName='button'
+          onPress={()=> {
+            const value = $root.get('_session.Sandbox.SmartSidebar')
+            $root.scope('_session.Sandbox.SmartSidebar').set(!value)
+          }}
+        >Open</Button>
+        <Br />
+        <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.</Span>
+      </Div>
+    )
+  }}
+/>

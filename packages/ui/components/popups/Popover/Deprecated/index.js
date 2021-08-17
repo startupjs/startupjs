@@ -9,9 +9,9 @@ import {
 } from 'react-native'
 import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
-import Arrow from '../Arrow'
+import Arrow from './Arrow'
 import Portal from '../../../Portal'
-import Geometry from '../Geometry'
+import Geometry from './Geometry'
 import { PLACEMENTS_ORDER } from '../constants.json'
 import animate from '../animate'
 import STYLES from './index.styl'
@@ -144,14 +144,15 @@ function Popover ({
         setValidPlacement(refGeometry.current.validPlacement)
         $step.set(STEPS.ANIMATE)
 
-        animate.show({
+        const _animate = animate.show({
           durationOpen,
           geometry: refGeometry.current,
           contentInfo,
           animateType,
           animateStates,
           hasArrow
-        }, () => {
+        })
+        _animate.start(() => {
           $step.set(STEPS.OPEN)
           onRequestOpen && onRequestOpen()
         })
@@ -173,14 +174,15 @@ function Popover ({
         const contentInfo = { width: popoverWidth, height: popoverHeight }
         $step.set(STEPS.ANIMATE)
 
-        animate.hide({
+        const _animate = animate.hide({
           durationClose,
           geometry: refGeometry.current,
           animateType,
           contentInfo,
           animateStates,
           hasArrow
-        }, _closeStep)
+        })
+        _animate.start(_closeStep)
       })
     }
   }

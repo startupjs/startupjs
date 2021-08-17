@@ -97,4 +97,11 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Select} />
+<Sandbox
+  Component={Select}
+  props={{
+    value: 'Los Angeles',
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => alert('Value ' + value + ' is selected')
+  }}
+/>

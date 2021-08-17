@@ -155,4 +155,9 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Pagination} />
+<Sandbox
+  Component={Pagination}
+  props={{
+    onChangePage: page => alert('Page ' + page + ' selected.')
+  }}
+/>

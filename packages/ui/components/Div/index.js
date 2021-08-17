@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Span from '../typography/Span'
 import AbstractPopover from '../popups/Popover/AbstractPopover'
-import useTooltipActions from '../Tooltip/useTooltipActions'
+import useTooltip from './useTooltip'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
@@ -59,8 +59,8 @@ function Div ({
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
 
-  const _ref = ref || useRef()
-  const [isShowPopover, setIsShowPopover] = useState(false)
+  const refAnchor = ref || useRef()
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -125,7 +125,8 @@ function Div ({
   }
 
   if (renderTooltip) {
-    const tooltipActions = useTooltipActions({ onChange: setIsShowPopover })
+    // TODO: Move all logic to useTooltip hook along with the tooltip html
+    const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
 
     if (isWeb) {
       const { onMouseOver, onMouseLeave } = props
@@ -179,7 +180,7 @@ function Div ({
   // so passing the extraStyle to the end is important in this case
   const div = maybeWrapToClickable(pug`
     View.root(
-      ref=_ref
+      ref=refAnchor
       style=[style, extraStyle]
       styleName=[
         {
@@ -200,18 +201,16 @@ function Div ({
 
     if renderTooltip
       AbstractPopover(
-        visible=isShowPopover
-        arrow
-        refCaption=_ref
-        animateType='scale'
-        arrowStyleName='tooltip-arrow'
-        styleName='tooltip'
+        refAnchor=refAnchor
         style=tooltipProps.style
+        styleName='tooltip'
+        arrowStyleName='tooltip-arrow'
+        visible=isTooltipVisible
         position=tooltipProps.position
         attachment=tooltipProps.attachment
         durationOpen=tooltipProps.durationOpen
         durationClose=tooltipProps.durationClose
-        onRequestClose=()=> setIsShowPopover(false)
+        arrow=tooltipProps.arrow
       )
         if typeof renderTooltip === 'function'
           = renderTooltip()
@@ -232,8 +231,9 @@ ObservedDiv.defaultProps = {
   tooltipProps: {
     position: 'top',
     attachment: 'center',
-    durationOpen: 200,
-    durationClose: 100
+    durationOpen: AbstractPopover.defaultProps.durationOpen,
+    durationClose: AbstractPopover.defaultProps.durationClose,
+    arrow: true
   },
   _preventEvent: true
 }
@@ -250,6 +250,18 @@ ObservedDiv.propTypes = {
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
+  tooltipProps: PropTypes.shape({
+    position: AbstractPopover.propTypes.position,
+    attachment: AbstractPopover.propTypes.attachment,
+    durationOpen: AbstractPopover.propTypes.durationOpen,
+    durationClose: AbstractPopover.propTypes.durationClose,
+    arrow: AbstractPopover.propTypes.arrow
+  }),
+  renderTooltip: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+    PropTypes.number
+  ]),
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,
   _preventEvent: PropTypes.bool

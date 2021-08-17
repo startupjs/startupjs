@@ -4,7 +4,7 @@ import {
   ARROW_SIZE,
   POSITIONS_REVERSE,
   POPOVER_MARGIN
-} from './constants.json'
+} from '../constants.json'
 
 function Geometry ({
   placement,

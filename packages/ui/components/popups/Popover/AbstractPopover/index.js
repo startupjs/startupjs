@@ -1,239 +1,186 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import {
-  View,
-  Animated,
-  Dimensions,
-  StyleSheet
-} from 'react-native'
-import { observer, useValue } from 'startupjs'
+import React, {
+  useState,
+  useImperativeHandle,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo
+} from 'react'
+import { Animated, Easing, Dimensions, StyleSheet } from 'react-native'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Arrow from '../Arrow'
+import Div from '../../../Div'
 import Portal from '../../../Portal'
-import Geometry from '../Geometry'
-import { PLACEMENTS_ORDER, STEPS } from '../constants.json'
-import animate from '../animate'
-import STYLES from './index.styl'
-
-function isMeasured (step) {
-  return step !== 'close' && step !== 'measure'
-}
+import getGeometry from './getGeometry'
+import { PLACEMENTS_ORDER } from '../constants.json'
+import './index.styl'
 
 function AbstractPopover ({
-  children,
+  visible,
+  ...props
+}, ref) {
+  const [localVisible, setLocalVisible] = useState(false)
+
+  useImperativeHandle(ref, () => ({
+    open: () => setLocalVisible(true),
+    close: () => setLocalVisible(false)
+  }), [])
+
+  const actualVisible = visible === undefined
+    ? localVisible
+    : visible
+
+  return pug`
+    BasePopover(
+      visible=actualVisible
+      ...props
+    )
+  `
+}
+
+const BasePopover = observer(function BasePopoverComponent (props) {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    if (props.visible) setVisible(true)
+  }, [props.visible])
+
+  const onCloseComplete = useCallback((finished) => {
+    setVisible(false)
+    props.onCloseComplete && props.onCloseComplete(finished)
+  }, [])
+
+  if (!visible) return null
+
+  return pug`
+    Tether(
+      ...props
+      onCompleteClose=onCloseComplete
+    )
+  `
+})
+
+const Tether = observer(function TetherComponent ({
   style,
   arrowStyle,
-  refCaption,
+  refAnchor,
   visible,
   position,
   attachment,
+  // IDEA: Is this property is redundant?
+  // We can always find a better position if the specified position does not fit
+  // Also we can use the same logic like in tether.io
   placements,
-  animateType,
+  arrow,
+  matchAnchorWidth,
   durationOpen,
   durationClose,
-  arrow,
-  matchCaptionWidth,
   renderWrapper,
   onRequestOpen,
-  onRequestClose
-}, ref) {
+  onRequestClose,
+  onCompleteOpen,
+  onCompleteClose,
+  children
+}) {
   style = StyleSheet.flatten([style])
+  if (!renderWrapper) renderWrapper = children => children
 
-  const refPopover = useRef()
-  const refGeometry = useRef({})
-  const captionInfo = useRef({})
-
-  const [step, $step] = useValue(STEPS.CLOSE)
-  const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
-  const [dimensions, $dimensions] = useValue({
+  const [geometry, setGeometry] = useState()
+  const fadeAnim = useRef(new Animated.Value(0)).current
+  const dimensions = useMemo(() => ({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height
-  })
+  }), [])
 
-  const [animateStates] = useState({
-    opacity: new Animated.Value(0),
-    height: new Animated.Value(0),
-    width: new Animated.Value(0),
-    scaleX: new Animated.Value(1),
-    scaleY: new Animated.Value(1),
-    translateX: new Animated.Value(0),
-    translateY: new Animated.Value(0)
-  })
+  useEffect(() => {
+    if (!geometry) return
 
-  // reset state after change dimensions
-  useLayoutEffect(() => {
-    let mounted = true
+    if (visible) {
+      animateIn()
+    } else {
+      animateOut()
+    }
+  }, [visible, !!geometry])
 
-    const handleDimensions = () => {
-      if (!mounted) return
-      $dimensions.setDiff({
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
+  const calculateGeometry = useCallback(({ nativeEvent }) => {
+    // IDEA: we can pass measures to this component
+    // instead of passing ref for the measurement
+    refAnchor.current.measure((x, y, width, height, pageX, pageY) => {
+      // IDEA: rewrite getGeometry in future
+      // we can make geometry behaviout like in tether.js
+      const geometry = getGeometry({
+        placement: position + '-' + attachment,
+        placements,
+        arrow,
+        matchAnchorWidth,
+        dimensions,
+        tetherMeasures: nativeEvent.layout,
+        anchorMeasures: { x, y, width, height, pageX, pageY }
       })
-      _closeStep()
-    }
-
-    Dimensions.addEventListener('change', handleDimensions)
-    return () => {
-      mounted = false
-      Dimensions.removeEventListener('change', handleDimensions)
-    }
+      setGeometry(geometry)
+    })
   }, [])
 
-  // -main
-  useEffect(() => {
-    if (step === STEPS.CLOSE && visible) {
-      $step.set(STEPS.MEASURE)
-      setTimeout(runShow, 0)
-    }
+  const animateIn = useCallback(() => {
+    onRequestOpen && onRequestOpen()
 
-    if (step !== STEPS.CLOSE && !visible) {
-      runHide()
-    }
-  }, [visible])
-  // -
-
-  function runShow () {
-    if (!refCaption.current) return
-
-    refCaption.current.measure((captionX, captionY, captionWidth, captionHeight, captionPageX, captionPageY) => {
-      if (!refPopover.current) return
-
-      refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight, popoverPageX, popoverPageY) => {
-        captionInfo.current = {
-          x: captionPageX,
-          y: captionPageY,
-          width: captionWidth,
-          height: captionHeight
-        }
-
-        const { height = 'auto', maxHeight } = style
-        let curHeight = (height === 'auto') ? popoverHeight : height
-        curHeight = (curHeight > maxHeight) ? maxHeight : curHeight
-
-        let curWidth = matchCaptionWidth ? captionWidth : popoverWidth
-        const contentInfo = {
-          x: captionPageX,
-          y: captionPageY,
-          height: curHeight,
-          width: curWidth
-        }
-
-        refGeometry.current = new Geometry({
-          placement: position + '-' + attachment,
-          captionInfo: captionInfo.current,
-          contentInfo,
-          placements,
-          dimensions,
-          arrow
-        })
-
-        setValidPlacement(refGeometry.current.validPlacement)
-        $step.set(STEPS.RENDER)
-
-        animate.show({
-          durationOpen,
-          geometry: refGeometry.current,
-          contentInfo,
-          animateType,
-          animateStates,
-          arrow
-        }, () => {
-          $step.set(STEPS.OPEN)
-          onRequestOpen && onRequestOpen()
-        })
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: durationOpen,
+        easing: Easing.linear,
+        useNativeDriver: true
       })
+    ]).start(({ finished }) => {
+      onCompleteOpen && onCompleteOpen(finished)
     })
-  }
+  }, [])
 
-  function runHide () {
-    if (!refPopover.current) {
-      _closeStep()
-    } else {
-      refPopover.current.measure((popoverX, popoverY, popoverWidth, popoverHeight) => {
-        const contentInfo = { width: popoverWidth, height: popoverHeight }
-        $step.set(STEPS.RENDER)
-
-        animate.hide({
-          durationClose,
-          geometry: refGeometry.current,
-          animateType,
-          contentInfo,
-          animateStates,
-          arrow
-        }, _closeStep)
-      })
-    }
-  }
-
-  function _closeStep () {
-    $step.set(STEPS.CLOSE)
+  const animateOut = useCallback(() => {
     onRequestClose && onRequestClose()
-  }
 
-  // styles
-  const positionStyle = StyleSheet.flatten([
-    STYLES.position,
-    {
-      left: refGeometry.current.positionLeft,
-      top: refGeometry.current.positionTop
-    }
-  ])
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: durationClose,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start(({ finished }) => {
+      onCompleteClose && onCompleteClose(finished)
+    })
+  }, [])
 
-  const animateStyle = StyleSheet.flatten([
-    isMeasured(step)
-      ? {
-        ...STYLES.animate,
-        opacity: animateStates.opacity,
-        transform: [
-          { scaleX: animateStates.scaleX },
-          { scaleY: animateStates.scaleY },
-          { translateX: animateStates.translateX },
-          { translateY: animateStates.translateY }
-        ]
-      }
-      : STYLES.stub
-  ])
-
-  // We make it possible to correctly expand the geometry of the component when changing its content, in all sides
-  const [validPosition] = validPlacement.split('-')
-  if (isMeasured(step) && validPosition === 'top') animateStyle.bottom = 0
-  if (isMeasured(step) && validPosition === 'left') animateStyle.right = 0
-  if (isMeasured(step) && validPlacement === 'left-end') animateStyle.bottom = 0
-  if (isMeasured(step) && validPlacement === 'right-end') animateStyle.bottom = 0
-
-  if (validPosition !== 'left') {
-    positionStyle.width = '100%'
-    positionStyle.maxWidth = Dimensions.get('window').width - (positionStyle.left || 0)
-  } else {
-    positionStyle.width = positionStyle.left
-    positionStyle.left = 0
-  }
-
-  if (matchCaptionWidth && captionInfo.current) {
-    animateStyle.width = captionInfo.current.width
+  const rootStyle = {
+    top: geometry ? geometry.top : -999,
+    left: geometry ? geometry.left : -999,
+    width: geometry ? geometry.width : 'auto',
+    opacity: fadeAnim
   }
 
   const popover = pug`
-    View(style=positionStyle)
-      Animated.View(
-        ref=refPopover
-        style=[style, animateStyle]
-      )
-        if arrow
-          Arrow(
-            style=arrowStyle
-            geometry=refGeometry.current
-            validPosition=validPosition
-          )
-        = children
+    Animated.View.root(
+      style=[style, rootStyle]
+      onLayout=calculateGeometry
+    )
+      if arrow && !!geometry
+        Div.arrow(
+          style=[
+            arrowStyle,
+            {
+              borderTopColor: style.backgroundColor,
+              left: geometry.arrowLeft,
+              top: geometry.arrowTop
+            }
+          ]
+          styleName=[geometry.position]
+        )
+      = children
   `
 
   return pug`
     Portal
-      if step !== STEPS.CLOSE
-        = renderWrapper(popover)
+      = renderWrapper(popover)
   `
-}
+})
 
 const ObservedAP = observer(AbstractPopover, { forwardRef: true })
 
@@ -241,27 +188,33 @@ ObservedAP.defaultProps = {
   position: 'bottom',
   attachment: 'start',
   placements: PLACEMENTS_ORDER,
-  animateType: 'opacity',
-  matchCaptionWidth: false,
   arrow: false,
-  durationOpen: 300,
-  durationClose: 300,
-  renderWrapper: children => children
+  matchAnchorWidth: false,
+  durationOpen: 100,
+  durationClose: 50
 }
 
 ObservedAP.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  refAnchor: PropTypes.shape({
+    current: PropTypes.instanceOf(React.element)
+  }),
+  visible: PropTypes.bool,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),
   placements: PropTypes.arrayOf(PropTypes.oneOf(PLACEMENTS_ORDER)),
-  animateType: PropTypes.oneOf(['opacity', 'scale']),
-  matchCaptionWidth: PropTypes.bool,
   arrow: PropTypes.bool,
+  matchAnchorWidth: PropTypes.bool,
   durationOpen: PropTypes.number,
   durationClose: PropTypes.number,
+  renderWrapper: PropTypes.func,
+  children: PropTypes.node,
   onRequestOpen: PropTypes.func,
-  onRequestClose: PropTypes.func
+  onRequestClose: PropTypes.func,
+  onCompleteOpen: PropTypes.func,
+  onCompleteClose: PropTypes.func
+
 }
 
 export default ObservedAP

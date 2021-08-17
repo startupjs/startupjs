@@ -1,13 +1,14 @@
-import DrawerSidebar from '../DrawerSidebar'
-import Row from '../Row'
-import Div from '../Div'
-import Menu from '../Menu'
+import Br from '../Br'
 import Button from '../Button'
 import Content from '../Content'
+import Div from '../Div'
+import DrawerSidebar from '../DrawerSidebar'
+import Menu from '../Menu'
+import Row from '../Row'
 import Span from '../typography/Span'
-import Br from '../Br'
-import { useSession } from 'startupjs'
+import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # DrawerSidebar (дровер)
 
@@ -108,4 +109,27 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={DrawerSidebar} />
+<Sandbox
+  Component={DrawerSidebar}
+  props={{
+    $open: $root.scope('_session.Sandbox.DrawerSidebar'),
+    renderContent: () => (
+      <Div styleName='sidebar'>
+        <Span>Sidebar content</Span>
+      </Div>
+    ),
+    children: (
+      <Div styleName='content'>
+        <Button
+          styleName='button'
+          onPress={()=> {
+            const value = $root.get('_session.Sandbox.DrawerSidebar')
+            $root.scope('_session.Sandbox.DrawerSidebar').set(!value)
+          }}
+        >Открыть</Button>
+        <Br />
+        <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.</Span>
+      </Div>
+    )
+  }}
+/>

@@ -135,4 +135,11 @@ return (
 
 ## Песочница
 
-<Sandbox Component={Tag} />
+<Sandbox
+  Component={Tag}
+  props={{
+    children: 'Hello world!',
+    onPress: () => alert('"onPress" event on Tag component'),
+    onLongPress: () => alert('"onLongPress" event on Tag component'),
+  }}
+/>

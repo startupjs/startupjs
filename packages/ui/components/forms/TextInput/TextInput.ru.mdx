@@ -198,4 +198,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={TextInput} />
+<Sandbox
+  Component={TextInput}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    onIconPress: () => alert('"onIconPress" event on "TextInput" component'),
+  }}
+/>
