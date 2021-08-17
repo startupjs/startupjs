@@ -81,7 +81,7 @@ Collapse.propTypes = {
   onChange: PropTypes.func
 }
 
-const ObserverCollapse = observer(themed(Collapse))
+const ObserverCollapse = observer(themed('Collapse', Collapse))
 ObserverCollapse.Header = CollapseHeader
 ObserverCollapse.Content = CollapseContent
 

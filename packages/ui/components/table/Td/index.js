@@ -46,4 +46,4 @@ Td.propTypes = {
   ellipsis: PropTypes.bool
 }
 
-export default observer(themed(Td))
+export default observer(themed('Td', Td))

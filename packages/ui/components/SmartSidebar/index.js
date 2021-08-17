@@ -46,18 +46,10 @@ function SmartSidebar ({
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
   useLayoutEffect(() => {
-    const newOpen = disabled ? false : open
-    $localOpen.setDiff(newOpen)
-  }, [open, disabled])
-
-  useLayoutEffect(() => {
-    if (disabled) {
-      $open.setDiff(false)
-    } else if (fixedLayout) {
-      // or we can save open state before disabling
-      // to open it with this state when enabling
-      $open.setDiff(defaultOpen)
-    }
+    if (!fixedLayout) return
+    // or we can save open state before disabling
+    // to open it with this state when enabling
+    $open.setDiff(defaultOpen)
   }, [disabled])
 
   useLayoutEffect(() => {
@@ -92,6 +84,7 @@ function SmartSidebar ({
         $open=$localOpen
         position=position
         width=width
+        disabled=disabled
         renderContent=renderContent
       )= children
     else
@@ -101,7 +94,7 @@ function SmartSidebar ({
         position=position
         width=width
         renderContent=renderContent
-        drawerLockMode=disabled ? 'locked-closed' : undefined
+        disabled=disabled
         ...props
       )= children
   `
@@ -127,7 +120,7 @@ SmartSidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(themed(SmartSidebar))
+export default observer(themed('SmartSidebar', SmartSidebar))
 
 function isFixedLayout (fixedLayoutBreakpoint) {
   let dim = Dimensions.get('window')

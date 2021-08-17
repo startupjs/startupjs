@@ -42,4 +42,4 @@ Content.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(Content))
+export default observer(themed('Content', Content))

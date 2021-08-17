@@ -15,9 +15,10 @@ import {
   faAngleUp,
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
+import themed from '../../theming/themed'
 import './index.styl'
 
-const Carousel = observer(({
+function Carousel ({
   style,
   arrowBackStyle,
   arrowNextStyle,
@@ -32,7 +33,7 @@ const Carousel = observer(({
   duration,
   children,
   onChange
-}, ref) => {
+}, ref) {
   arrowBackStyle = StyleSheet.flatten(arrowBackStyle)
   arrowNextStyle = StyleSheet.flatten(arrowNextStyle)
 
@@ -206,16 +207,16 @@ const Carousel = observer(({
     if (isResponsive) {
       activeElement.index = activeIndex + 1
     } else {
-      // if (childrenInfo.current[activeIndex][coardName] + childrenInfo.current[activeIndex][sideName] > rootInfo[sideName]) {
-      //   activeElement.index = activeIndex + 1
-      // } else {
-      activeElement = getClosest({
-        childrenInfo: childrenInfo.current,
-        newPosition: childrenInfo.current[activeIndex][coardName] + rootInfo[sideName],
-        coardName,
-        sideName
-      })
-      // }
+      if (childrenInfo.current[activeIndex][coardName] + childrenInfo.current[activeIndex][sideName] > rootInfo[sideName]) {
+        activeElement.index = activeIndex + 1
+      } else {
+        activeElement = getClosest({
+          childrenInfo: childrenInfo.current,
+          newPosition: childrenInfo.current[activeIndex][coardName] + rootInfo[sideName],
+          coardName,
+          sideName
+        })
+      }
     }
 
     let toValue = -activeElement[coardName]
@@ -259,13 +260,18 @@ const Carousel = observer(({
     if (startDrag === endDrag) return
     setIsAnimate(true)
 
+    let _endDrag = endDrag
+    if (-endDrag > caseInfo[sideName]) {
+      _endDrag = -caseInfo[sideName]
+    }
+
     let activeElement = getClosest({
       childrenInfo: childrenInfo.current,
-      newPosition: -endDrag,
+      newPosition: -_endDrag,
       coardName,
       sideName
     })
-    let side = (startDrag > endDrag) ? 'next' : 'back'
+    let side = (startDrag > _endDrag) ? 'next' : 'back'
 
     if (activeElement.index === activeIndex) {
       if (side === 'next') {
@@ -487,7 +493,7 @@ const Carousel = observer(({
               styleName={ dotActive: activeIndex === (isEndless ? (index + children.length) : index) }
             )
   `
-}, { forwardRef: true })
+}
 
 function getClosest ({
   childrenInfo,
@@ -571,4 +577,4 @@ Carousel.propTypes = {
   onChange: PropTypes.func
 }
 
-export default Carousel
+export default observer(themed('Carousel', Carousel), { forwardRef: true })

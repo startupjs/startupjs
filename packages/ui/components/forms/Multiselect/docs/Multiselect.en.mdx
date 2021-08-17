@@ -1,23 +1,23 @@
 import { useState } from 'react'
-import Multiselect from '../Multiselect'
-import Div from '../../Div'
-import Span from '../../typography/Span'
-import Br from '../../Br'
-import { Sandbox } from '@startupjs/docs'
+import Multiselect from '../'
+import Div from '../../../Div'
+import Span from '../../../typography/Span'
+import Br from '../../../Br'
+import MultiSelectSandbox from './MultiSelectSandbox'
 
-# Multiselect (множественный выбор)
+# Multiselect
 
-Multiselect позволяет пользователю выбирать несколько элементов из списка
+Multiselect lets user pick multiple options.
 
 ```jsx
 import { Multiselect } from '@startupjs/ui'
 ```
 
-## Инициализация
+## Initialization
 
-Перед использованием нужно настроить [Portal](/docs/components/Portal)
+Before use you need to configure [Portal](/docs/components/Portal)
 
-## Простой пример
+## Simple example
 
 ```jsx example
 const OPTIONS = [
@@ -37,7 +37,7 @@ return (
 )
 ```
 
-## Заголовок и описание
+## Label and description
 
 ```jsx example
 const OPTIONS = [
@@ -50,8 +50,8 @@ const [cities, setCities] = useState([])
 
 return (
   <Multiselect
-    label='Город'
-    description='Выберите города, которые вы посетили'
+    label='City'
+    description='Select the cities you have visited'
     value={cities}
     onChange={setCities}
     options={OPTIONS}
@@ -59,9 +59,9 @@ return (
 )
 ```
 
-## Опции
+## Options
 
-Вы можете добавить в опции массив объектов ```{ label, value }``` или примитивов
+You can pass array of objects { label, value } or primitives to options property.
 
 ```jsx example
 const OBJECT_OPTIONS_EXAMPLE = [
@@ -133,9 +133,9 @@ return (
 )
 ```
 
-## Tag Component
+## Tag
 
-Вы можете добавить собственный тег
+You can add a custom tag component
 
 ```jsx example
 const OPTIONS = [
@@ -158,7 +158,7 @@ return (
 
 ## Input Component
 
-Вы можете добавить собственный input
+You can add a custom input component
 
 ```jsx example
 const OPTIONS = [
@@ -196,7 +196,7 @@ return (
 
 ## Tag limit
 
-Вы можете ограничить количество отображаемых тегов
+You can limit the number of tags displayed
 
 ```jsx example
 const OPTIONS = [
@@ -217,15 +217,6 @@ return (
 )
 ```
 
-## Песочница
+## Sandbox
 
-<Sandbox
-  Component={Multiselect}
-  props={{
-    value: ['New York'],
-    options: ['New York', 'Los Angeles','Tokyo'],
-    onChange: value => alert('New value is ' + JSON.stringify(value)),
-    onSelect: value => alert('Value ' + value + ' is selected'),
-    onRemove: value => alert('Value ' + value + ' is removed'),
-  }}
-/>
+<MultiSelectSandbox />

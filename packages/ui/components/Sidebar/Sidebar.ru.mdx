@@ -7,6 +7,7 @@ import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
 import { $root, useSession } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
@@ -21,12 +22,14 @@ import { Sidebar } from '@startupjs/ui'
 ## Простой пример
 
 ```jsx example
+const media = useMedia()
 const [open, $open] = useSession('SimpleExampleSidebar')
 
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
       $open={$open}
+      width={media.tablet ? 264 : 120}
       renderContent={() => (
         <Span>
           Sidebar
@@ -46,10 +49,13 @@ return (
 Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
 ```jsx example
+const media = useMedia()
 const [open, $open] = useSession('ExampleRightSidebar')
+
 return (
     <Sidebar
       $open={$open}
+      width={media.tablet ? 264 : 120}
       position='right'
       renderContent={() => (
         <Menu>
@@ -89,11 +95,14 @@ return (
 ## Сложный пример
 
 ```jsx example
+const media = useMedia()
 const [open, $open] = useSession('ExampleSidebar')
+
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
       $open={$open}
+      width={media.tablet ? 264 : 120}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>

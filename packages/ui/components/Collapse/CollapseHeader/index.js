@@ -79,4 +79,4 @@ CollapseHeader.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(CollapseHeader))
+export default observer(themed('CollapseHeader', CollapseHeader))

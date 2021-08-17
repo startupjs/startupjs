@@ -1,3 +1,24 @@
+## [0.37.4](https://github.com/startupjs/startupjs/compare/v0.37.3...v0.37.4) (2021-08-06)
+
+
+### Bug Fixes
+
+* **Alert:** fix icon property ([#735](https://github.com/startupjs/startupjs/issues/735)) ([e4ccbf6](https://github.com/startupjs/startupjs/commit/e4ccbf6a6b9edb1c6830057b40a7d1d30d8899ac))
+* **Avatar:** log an error instead of throw when no component for status ([#736](https://github.com/startupjs/startupjs/issues/736)) ([61bc68b](https://github.com/startupjs/startupjs/commit/61bc68b00dcb8d54cb2f12a9b421d4472c8b591f))
+* **Badge:** fix dot variant styles when redundant label exist ([#737](https://github.com/startupjs/startupjs/issues/737)) ([84d515e](https://github.com/startupjs/startupjs/commit/84d515edb354e5d41a1efccb4e8e9976075f68b1))
+* **Collapse:**  animate icon if exist ([#738](https://github.com/startupjs/startupjs/issues/738)) ([98fcc96](https://github.com/startupjs/startupjs/commit/98fcc968a55c4b3120459038db52da579d32fdd3))
+* **SmartSidebar:** fix typo in propType 'disabled'  ([#743](https://github.com/startupjs/startupjs/issues/743)) ([c58f55b](https://github.com/startupjs/startupjs/commit/c58f55bda0615237983d4f2979c3f12ae9ee5d3c))
+* **ui/Carousel:** prevent swipe outside ([#745](https://github.com/startupjs/startupjs/issues/745)) ([3c30184](https://github.com/startupjs/startupjs/commit/3c3018427c87c5936888190ee5dbe0746ad6efa1))
+* **ui/sidebars:** fix incorrect behaviour of 'disabled' property ([c050c00](https://github.com/startupjs/startupjs/commit/c050c00decf3340beeb5d840df62e601a4355040))
+* refactor usage of deprecated 'font' mixin ([bb716af](https://github.com/startupjs/startupjs/commit/bb716af905a695e9981d693a03a65dfc317c164c))
+
+
+### Features
+
+* **Sandbox:** improve constructor inputs ([#733](https://github.com/startupjs/startupjs/issues/733)) ([1030ad7](https://github.com/startupjs/startupjs/commit/1030ad73c99c4627e69052d6022547a7b35a9b87))
+
+
+
 ## [0.37.3](https://github.com/startupjs/startupjs/compare/v0.37.2...v0.37.3) (2021-07-30)
 
 

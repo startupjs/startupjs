@@ -47,4 +47,4 @@ Th.propTypes = {
   ellipsis: PropTypes.bool
 }
 
-export default observer(themed(Th))
+export default observer(themed('Th', Th))

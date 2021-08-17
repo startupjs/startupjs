@@ -18,4 +18,4 @@ Tbody.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(Tbody))
+export default observer(themed('Tbody', Tbody))

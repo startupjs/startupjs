@@ -267,7 +267,7 @@ ObservedDiv.propTypes = {
   _preventEvent: PropTypes.bool
 }
 
-export default ObservedDiv
+export default observer(themed('Div', Div))
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {
