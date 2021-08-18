@@ -41,7 +41,6 @@ function SmartSidebar ({
   let open
   let onChange
   ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
-  const [, $localOpen] = useValue()
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
@@ -81,7 +80,7 @@ function SmartSidebar ({
       Sidebar(
         style=style
         sidebarStyle=sidebarStyle
-        $open=$localOpen
+        $open=$open
         position=position
         width=width
         disabled=disabled
@@ -90,7 +89,7 @@ function SmartSidebar ({
     else
       DrawerSidebar(
         style=style
-        $open=$localOpen
+        $open=$open
         position=position
         width=width
         renderContent=renderContent
