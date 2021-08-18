@@ -73,9 +73,7 @@ function ModalRoot ({
   `
 }
 
-const ObservedModal = observer(ModalRoot, { forwardRef: true })
-
-ObservedModal.defaultProps = {
+ModalRoot.defaultProps = {
   variant: 'window',
   cancelLabel: ModalActions.defaultProps.cancelLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
@@ -88,7 +86,7 @@ ObservedModal.defaultProps = {
   onRequestClose: () => {} // required prop in some platforms
 }
 
-ObservedModal.propTypes = {
+ModalRoot.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen']),
@@ -120,6 +118,8 @@ ObservedModal.propTypes = {
   onRequestClose: PropTypes.func,
   onDismiss: PropTypes.func
 }
+
+const ObservedModal = observer(ModalRoot, { forwardRef: true })
 
 ObservedModal.Header = ModalHeader
 ObservedModal.Content = ModalContent
