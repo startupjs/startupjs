@@ -12,7 +12,7 @@ function Menu ({ style, children, variant, activeBorder, iconPosition, activeCol
       React.Children.toArray(children).map(child =>
         child.type === MenuItem ||
         // INFO: specific case for mdx
-        child.props?.originalType?.name === MenuItem.name
+        child.props.originalType?.name === MenuItem.name
           ? React.cloneElement(child, { activeBorder, activeColor, iconPosition, ...child.props })
           : child
       ),
