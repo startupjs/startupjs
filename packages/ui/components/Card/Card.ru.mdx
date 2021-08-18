@@ -86,16 +86,8 @@ return (
 ## Сложное взаимодействие (интеграция с другими компонентами)
 
 ```jsx example
-const style = {
-  width: u(50)
-}
-const imageStyle = {
-  width: u(50),
-  height: u(40),
-  resizeMode: 'cover',
-  marginLeft: u(-2),
-  marginTop: u(-2)
-}
+const style = { maxWidth: u(50) }
+const imageStyle = { height: u(40), resizeMode: 'cover' }
 const [collapsed, setCollapsed] = useState(false)
 return (
   <Card
@@ -138,4 +130,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Card} />
+<Sandbox
+  Component={Card}
+  props={{
+    children: [
+      <H4 key='header'>Card header</H4>,
+      <Br key='br'/>,
+      <Span key='body'>Card body</Span>
+    ],
+    onPress: () => alert('"onPress" event on "Card" component'),
+  }}
+/>

@@ -175,4 +175,16 @@ It's a much better UX decision to use regular buttons by default and decide whic
 
 ## Sandbox
 
-<Sandbox Component={Button} />
+<Sandbox
+  Component={Button}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    children: 'Press me',
+    onPress: () => alert('"onPress" event on "Button" component'),
+    onLongPress: () => alert('"onLongPress" event on "Button" component')
+  }}
+/>

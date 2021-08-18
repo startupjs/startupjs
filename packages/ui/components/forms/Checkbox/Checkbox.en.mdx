@@ -3,6 +3,7 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons'
 import Div from '../../Div'
 import Br from '../../Br'
 import Checkbox from '../Checkbox'
+import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Checkbox
@@ -84,4 +85,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Checkbox} />
+<Sandbox
+  Component={Checkbox}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    onChange: value => alert('New value is ' + value)
+  }}
+/>

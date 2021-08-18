@@ -223,7 +223,8 @@ return (
 
 ## Swipe
 
-The ability to scroll with the mouse or finger is set by isSwipe (default is ture)
+The ability to scroll with the mouse or finger is set by isSwipe
+The default is true, and you can always turn it off:
 
 ```jsx example
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
@@ -401,7 +402,7 @@ return (
 )
 ```
 
-If you need full customization of arrows or points, can be transferred ref, it will contain functions to switch: toLeft, toRight, toIndex
+If you need full customization of arrows or points, can be transferred ref, it will contain functions to switch: toBack, toNext, toIndex
 
 ```jsx example
 const ref = useRef()
@@ -446,10 +447,10 @@ const data = [
 return (
   <Div style={{ overflow: 'hidden' }}>
     <Row style={{ marginBottom: 4 }}>
-      <Div style={arrowStyle} onPress={()=> ref.current.toLeft()}>
+      <Div style={arrowStyle} onPress={()=> ref.current.toBack()}>
         <Text style={{ color: '#fff' }}>{'<'}</Text>
       </Div>
-      <Div style={arrowStyle} onPress={()=> ref.current.toRight()}>
+      <Div style={arrowStyle} onPress={()=> ref.current.toNext()}>
         <Text style={{ color: '#fff' }}>{'>'}</Text>
       </Div>
     </Row>
@@ -482,5 +483,47 @@ return (
       }
     </Row>
   </Div>
+)
+```
+
+## Vertical mode
+
+```jsx example
+const carouselStyle = { marginLeft: 4, marginRight: 4 }
+const caseStyle = {
+  height: 56,
+  width: 72,
+  paddingLeft: 4,
+  paddingRight: 4
+}
+
+const itemStyle = {
+  width: '100%',
+  height: '100%',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+
+const textStyle = { color: '#fff' }
+
+const data = new Array(24).fill(true).map(Number)
+
+return (
+  <Carousel
+    style={{ height: 240, width: 72 }}
+    variant='vertical'
+    isEndless
+    hasArrows
+  >
+    {
+      data.map((item, index) => (
+        <Div style={caseStyle}>
+          <Div style={itemStyle}>
+            <Span>{index + 1}</Span>
+          </Div>
+        </Div>
+      ))
+    }
+  </Carousel>
 )
 ```

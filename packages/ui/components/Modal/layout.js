@@ -151,4 +151,4 @@ function Modal ({
   `
 }
 
-export default observer(themed(Modal))
+export default observer(themed('Modal', Modal))

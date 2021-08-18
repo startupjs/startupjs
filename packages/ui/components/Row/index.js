@@ -53,4 +53,4 @@ Row.propTypes = {
   vAlign: PropTypes.oneOf(['stretch', 'start', 'center', 'end'])
 }
 
-export default observer(themed(Row))
+export default observer(themed('Row', Row))

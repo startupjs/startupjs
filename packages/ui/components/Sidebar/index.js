@@ -18,9 +18,10 @@ function Sidebar ({
   sidebarStyle,
   contentStyle,
   children,
-  position,
   path,
   $open,
+  position,
+  disabled,
   width,
   renderContent,
   ...props
@@ -45,6 +46,8 @@ function Sidebar ({
     onChange
   }))
 
+  open = disabled ? false : open
+
   return pug`
     Div.root(style=style styleName=[position])
       ScrollView.sidebar(
@@ -58,6 +61,7 @@ function Sidebar ({
 
 Sidebar.defaultProps = {
   position: 'left',
+  disalbed: false,
   width: 264
 }
 
@@ -65,9 +69,10 @@ Sidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
+  disalbed: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func
 }
 
-export default observer(themed(Sidebar))
+export default observer(themed('Sidebar', Sidebar))

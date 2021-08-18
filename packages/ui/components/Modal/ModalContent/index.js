@@ -34,4 +34,4 @@ ModalContent.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(ModalContent))
+export default observer(themed('ModalContent', ModalContent))

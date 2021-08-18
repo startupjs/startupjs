@@ -4,6 +4,7 @@ import Span from '../typography/Span'
 import Br from '../Br'
 import { u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Content
 
@@ -158,4 +159,11 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Content} />
+<Sandbox
+  Component={Content}
+  props={{
+    style: { backgroundColor: '#2962FF' },
+    children: <Div styleName='child' />,
+  }}
+  block
+/>

@@ -65,7 +65,7 @@ const data = {
 }
 
 return (
-  <Row>
+  <Row style={{ width: '100%', flexWrap: 'wrap' }}>
     {
       Object.keys(data).map((key, index) => (
         <View key={index}>
@@ -81,7 +81,7 @@ return (
           </Drawer>
           <Button
             onPress={()=> setVisible(key)}
-            style={{ width: 120, marginRight: 16 }}
+            style={{ width: 120, marginRight: 16, marginTop: 16 }}
           >{data[key].name}</Button>
         </View>
       ))
@@ -96,7 +96,7 @@ The component has support for closing using a swipe
 const [visible, setVisible] = useState('')
 
 return (
-  <Row>
+  <Row style={{ width: '100%', flexWrap: 'wrap' }}>
     <Drawer
       visible={visible === 'zone'}
       onDismiss={()=> setVisible('')}
@@ -104,7 +104,7 @@ return (
       swipeStyle={{ backgroundColor: '#eeeeee' }}
     />
     <Button
-      style={{ width: 280, marginRight: 24 }}
+      style={{ width: 280, marginRight: 24, marginTop: 16 }}
       onPress={()=> setVisible('zone')}
     >Swipe zone</Button>
     <Drawer
@@ -115,7 +115,7 @@ return (
         height: 100, top: 30 }}
     />
     <Button
-      style={{ width: 280 }}
+      style={{ width: 280, marginTop: 16 }}
       onPress={()=> setVisible('custom')}
     >Custom swipe zone</Button>
   </Row>
@@ -142,7 +142,7 @@ const [onDismiss, setOnDismiss] = useDrawerDismiss({
 })
 
 return (
-  <Row>
+  <Row style={{ width: '100%', flexWrap: 'wrap' }}>
     <Drawer
       visible={rightDrawer}
       position='right'
@@ -162,7 +162,7 @@ return (
     </Drawer>
     <Button
       onPress={() => setLeftVisible(true)}
-      style={{ width: 280, marginRight: 24 }}
+      style={{ width: 280, marginRight: 24, marginTop: 16 }}
     >No hook</Button>
     <Drawer
       visible={leftDrawer}
@@ -182,7 +182,7 @@ return (
     </Drawer>
     <Button
       onPress={()=> setLeftDrawer(true)}
-      style={{ width: 280, marginRight: 24 }}
+      style={{ width: 280, marginRight: 24, marginTop: 16 }}
     >With hook</Button>
   </Row>
 )

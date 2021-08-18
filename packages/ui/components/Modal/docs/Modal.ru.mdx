@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react'
 import { useValue } from 'startupjs'
-import Modal from '../Modal'
-import Button from '../Button'
-import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
+import Modal from '../'
+import Button from '../../Button'
+import Br from '../../Br'
+import SandboxModal from './SandboxModal'
 
 # Modal (модалка)
 
@@ -158,16 +159,33 @@ return (
 
 ### Modal
 
-<Sandbox Component={Modal} />
+<SandboxModal />
 
 ### Modal.Header
 
-<Sandbox Component={Modal.Header} />
+<Sandbox
+  Component={Modal.Header}
+  props={{
+    children: 'Header content',
+    onCrossPress: () => alert('The "Cross" button was pressed')
+  }}
+/>
 
 ### Modal.Content
 
-<Sandbox Component={Modal.Content} />
+<Sandbox
+  Component={Modal.Content}
+  props={{
+    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.'
+  }}
+/>
 
 ### Modal.Actions
 
-<Sandbox Component={Modal.Actions} />
+<Sandbox
+  Component={Modal.Actions}
+  props={{
+    onCancel: () => alert('The "Cancel" button was pressed'),
+    onConfirm: () => alert('The "Confirm" button was pressed')
+  }}
+/>

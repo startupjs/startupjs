@@ -3,7 +3,7 @@ import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
 import Span from '../../typography/Span'
-import { useValue, u } from 'startupjs'
+import { $root, useValue, u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Input
@@ -116,4 +116,9 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Input} />
+<Sandbox
+  Component={Input}
+  props={{
+    $value: $root.scope('_session.Sandbox.Input')
+  }}
+/>

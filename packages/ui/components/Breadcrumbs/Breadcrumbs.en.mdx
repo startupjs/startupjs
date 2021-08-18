@@ -1,7 +1,7 @@
+import Br from '../Br'
 import Breadcrumbs from '../Breadcrumbs'
 import Div from '../Div'
-import Br from '../Br'
-import { faRocket, faBook ,faGift, faAnchor } from '@fortawesome/free-solid-svg-icons'
+import { faAnchor, faBook, faGift, faHome, faRocket } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs
@@ -158,4 +158,27 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Breadcrumbs} />
+<Sandbox
+  Component={Breadcrumbs}
+  props={{
+    routes: [
+      {
+        icon: faHome,
+        to: '#',
+        name: 'Home'
+      },
+      {
+        to: '#',
+        name: 'Section'
+      },
+      {
+        to: '#',
+        name: 'Page'
+      },
+      {
+        to: '#sandbox',
+        name: 'Sandbox'
+      }
+    ]
+  }}
+/>

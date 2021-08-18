@@ -34,4 +34,4 @@ CollapseContent.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(CollapseContent))
+export default observer(themed('CollapseContent', CollapseContent))

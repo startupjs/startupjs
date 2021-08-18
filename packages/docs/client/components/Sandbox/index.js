@@ -1,7 +1,7 @@
 import React from 'react'
-import { observer, $root } from 'startupjs'
-import Props from '../Props'
+import { observer, $root, useValue } from 'startupjs'
 import { H4 } from '@startupjs/ui'
+import Props from '../Props'
 import {
   useShowGrid,
   useShowSizes,
@@ -12,11 +12,21 @@ import './index.styl'
 
 const MODELS = new WeakMap()
 
-export default observer(function Sandbox ({ Component, block }) {
+export default observer(function Sandbox ({
+  Component,
+  $props,
+  extraParams,
+  block,
+  ...otherProps
+}) {
   const [showGrid] = useShowGrid()
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
   const [darkTheme] = useDarkTheme()
+
+  if (Object.keys(otherProps).includes('props')) {
+    [, $props] = useValue(otherProps.props)
+  }
 
   if (!Component) {
     return pug`
@@ -26,13 +36,14 @@ export default observer(function Sandbox ({ Component, block }) {
 
   return pug`
     Props.root(
-      theme=darkTheme ? 'dark' : undefined
       Component=Component
+      $props=$props || getUniqModel(Component)
+      theme=darkTheme ? 'dark' : undefined
       showSizes=showSizes
       showGrid=showGrid
       validateWidth=validateWidth
-      $props=getUniqModel(Component)
       block=block
+      extraParams=extraParams
     )
   `
 })

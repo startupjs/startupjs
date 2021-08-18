@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import Multiselect from '../Multiselect'
-import Div from '../../Div'
-import Span from '../../typography/Span'
-import Br from '../../Br'
+import Multiselect from '../'
+import Div from '../../../Div'
+import Span from '../../../typography/Span'
+import Br from '../../../Br'
 import { Sandbox } from '@startupjs/docs'
+import MultiSelectSandbox from './MultiSelectSandbox'
 
 # Multiselect (множественный выбор)
 
@@ -113,7 +114,7 @@ return (
 
 ## Tag Component
 
-You can add custom tag
+Вы можете добавить собственный тег
 
 ```jsx example
 const OPTIONS = [
@@ -136,7 +137,7 @@ return (
 
 ## Input Component
 
-You can add custom input
+Вы можете добавить собственный input
 
 ```jsx example
 const OPTIONS = [
@@ -174,7 +175,7 @@ return (
 
 ## Tag limit
 
-You can add tag limit
+Вы можете ограничить количество отображаемых тегов
 
 ```jsx example
 const OPTIONS = [
@@ -195,6 +196,6 @@ return (
 )
 ```
 
-## Sandbox
+## Песочница
 
-<Sandbox Component={Multiselect} />
+<MultiSelectSandbox />

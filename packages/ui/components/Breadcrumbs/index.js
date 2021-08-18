@@ -86,4 +86,4 @@ Breadcrumbs.propTypes = {
   replace: PropTypes.bool
 }
 
-export default observer(themed(Breadcrumbs))
+export default observer(themed('Breadcrumbs', Breadcrumbs))

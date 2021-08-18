@@ -49,4 +49,4 @@ ModalActions.propTypes = {
   onConfirm: PropTypes.func
 }
 
-export default observer(themed(ModalActions))
+export default observer(themed('ModalActions', ModalActions))

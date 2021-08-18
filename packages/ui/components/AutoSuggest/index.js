@@ -177,4 +177,4 @@ AutoSuggest.propTypes = {
   onScrollEnd: PropTypes.func
 }
 
-export default observer(themed(AutoSuggest))
+export default observer(themed('AutoSuggest', AutoSuggest))

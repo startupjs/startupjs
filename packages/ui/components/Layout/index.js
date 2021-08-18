@@ -36,4 +36,4 @@ Layout.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(Layout))
+export default observer(themed('Layout', Layout))
