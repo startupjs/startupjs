@@ -14,6 +14,7 @@ import Portal from '../../../Portal'
 import Geometry from './Geometry'
 import { PLACEMENTS_ORDER } from '../constants.json'
 import animate from '../animate'
+import themed from '../../../../theming/themed'
 import STYLES from './index.styl'
 
 const STEPS = {
@@ -324,7 +325,10 @@ Popover.propTypes = {
   onRequestClose: PropTypes.func
 }
 
-const ObservedPopover = observer(Popover, { forwardRef: true })
+const ObservedPopover = observer(
+  themed('Popover', Popover),
+  { forwardRef: true }
+)
 
 ObservedPopover.Caption = PopoverCaption
 
