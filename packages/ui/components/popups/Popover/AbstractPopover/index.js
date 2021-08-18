@@ -13,6 +13,7 @@ import Div from '../../../Div'
 import Portal from '../../../Portal'
 import getGeometry from './getGeometry'
 import { PLACEMENTS_ORDER } from '../constants.json'
+import themed from '../../../../theming/themed'
 import './index.styl'
 
 function AbstractPopover ({
@@ -182,9 +183,7 @@ const Tether = observer(function TetherComponent ({
   `
 })
 
-const ObservedAP = observer(AbstractPopover, { forwardRef: true })
-
-ObservedAP.defaultProps = {
+AbstractPopover.defaultProps = {
   position: 'bottom',
   attachment: 'start',
   placements: PLACEMENTS_ORDER,
@@ -194,7 +193,7 @@ ObservedAP.defaultProps = {
   durationClose: 50
 }
 
-ObservedAP.propTypes = {
+AbstractPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   refAnchor: PropTypes.shape({
@@ -214,7 +213,9 @@ ObservedAP.propTypes = {
   onRequestClose: PropTypes.func,
   onCompleteOpen: PropTypes.func,
   onCompleteClose: PropTypes.func
-
 }
 
-export default ObservedAP
+export default observer(
+  themed('AbstractPopover', AbstractPopover),
+  { forwardRef: true }
+)

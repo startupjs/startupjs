@@ -219,9 +219,7 @@ function Div ({
   `
 }
 
-const ObservedDiv = observer(themed(Div), { forwardRef: true })
-
-ObservedDiv.defaultProps = {
+Div.defaultProps = {
   variant: 'opacity',
   level: 0,
   feedback: true,
@@ -238,7 +236,7 @@ ObservedDiv.defaultProps = {
   _preventEvent: true
 }
 
-ObservedDiv.propTypes = {
+Div.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['opacity', 'highlight']),
@@ -267,7 +265,7 @@ ObservedDiv.propTypes = {
   _preventEvent: PropTypes.bool
 }
 
-export default observer(themed('Div', Div))
+export default observer(themed('Div', Div), { forwardRef: true })
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {
