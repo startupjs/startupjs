@@ -1,3 +1,23 @@
+## [0.37.5](https://github.com/startupjs/startupjs/compare/v0.37.4...v0.37.5) (2021-08-18)
+
+
+### Bug Fixes
+
+* **docs:** add horizontal scroll to `Sandbox` preview ([#761](https://github.com/startupjs/startupjs/issues/761)) ([88cf2fa](https://github.com/startupjs/startupjs/commit/88cf2fa8dfca48ebaedaebbb5b7f3b4df5ee75a4))
+* **docs:** fix re-rendering of the sidebar content when open/close it ([8005c32](https://github.com/startupjs/startupjs/commit/8005c32d3205bb4f9f360f699d0717d0a8ce9ab8))
+* **docs/Sandbox:** add two-way data binding for props ([#754](https://github.com/startupjs/startupjs/issues/754)) ([8528bad](https://github.com/startupjs/startupjs/commit/8528bad49c18ac2c6f152ff2d87367c721161041))
+* **mdx:** improve code block view ([#746](https://github.com/startupjs/startupjs/issues/746)) ([392c54a](https://github.com/startupjs/startupjs/commit/392c54a34b2f1cd00240f2b91fc7f15deb108e46))
+* **ui:** specify component name for themed in components ([f86e3cc](https://github.com/startupjs/startupjs/commit/f86e3cc3d1d7fc941a17164ed1347adf53000cc2))
+* memoize codepush and back handler listeners ([#758](https://github.com/startupjs/startupjs/issues/758)) ([f9f9252](https://github.com/startupjs/startupjs/commit/f9f92524b7bbf5c152565fa98d3b08222c13caf6))
+* **ui/Tag:** add missing propTypes ([#763](https://github.com/startupjs/startupjs/issues/763)) ([4ff5102](https://github.com/startupjs/startupjs/commit/4ff510269e176e13f31f328481ec768bbad99028))
+
+
+### Features
+
+* **bundler:** add ability to pass flag to mdx example ([3f82f0e](https://github.com/startupjs/startupjs/commit/3f82f0eede8ce962f06e574a419b9063e9d81183))
+
+
+
 ## [0.37.4](https://github.com/startupjs/startupjs/compare/v0.37.3...v0.37.4) (2021-08-06)
 
 
