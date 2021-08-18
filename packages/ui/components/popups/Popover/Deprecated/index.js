@@ -292,9 +292,7 @@ function PopoverCaption ({ children }) {
   return children
 }
 
-const ObservedPopover = observer(Popover, { forwardRef: true })
-
-ObservedPopover.defaultProps = {
+Popover.defaultProps = {
   position: 'bottom',
   attachment: 'start',
   placements: PLACEMENTS_ORDER,
@@ -307,7 +305,7 @@ ObservedPopover.defaultProps = {
   durationClose: 200
 }
 
-ObservedPopover.propTypes = {
+Popover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   visible: PropTypes.bool.isRequired,
@@ -326,5 +324,8 @@ ObservedPopover.propTypes = {
   onRequestClose: PropTypes.func
 }
 
+const ObservedPopover = observer(Popover, { forwardRef: true })
+
 ObservedPopover.Caption = PopoverCaption
+
 export default ObservedPopover
