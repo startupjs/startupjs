@@ -2,6 +2,7 @@ import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
 import { initI18n, getI18nRoutes } from 'startupjs/i18n/server'
+import initMdx from '@startupjs/mdx/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
@@ -63,6 +64,7 @@ startupjsServer({
       [PushProvider]
     ]
   })
+  initMdx(ee)
 
   try {
     initPushNotifications(ee)

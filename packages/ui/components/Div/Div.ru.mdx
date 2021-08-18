@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Br from '../Br'
@@ -16,33 +15,33 @@ import { Div } from '@startupjs/ui'
 
 ## Простой пример
 ```jsx example
-return (
-  <Div>
-    <Span>Div</Span>
-  </Div>
-)
+return pug`
+  Div
+    Span Div
+`
 ```
 
 ## Кликабельность
 
 ```jsx example
-const divStyle = {
-  width: 150,
-  height: 100,
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#00AED6'
-}
 const [counter, setCounter] = useState(0)
-return (
-  <Div
-    style={divStyle}
-    onLongPress={() => setCounter(counter + 10)}
-    onPress={() => setCounter(counter + 1)}
-  >
-    <Span>Clicked {counter} times</Span>
-  </Div>
-)
+
+return pug`
+  Div.div(
+    onLongPress=()=> setCounter(counter + 10)
+    onPress=()=> setCounter(counter + 1)
+  )
+    Span Clicked #{counter} times
+`
+
+styl`
+  .div
+    width 150
+    height 100
+    align-items center
+    justify-content center
+    background-color #00AED6
+`
 ```
 
 ## Отступы между несколькими Div
@@ -50,29 +49,26 @@ return (
 При использовании нескольких дивов в [Row](/docs/components/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
 
 ```jsx example
-const divStyle = {
-  width: 100,
-  height: 80,
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#00AED6'
-}
-return (
-  <Row>
-    <Div style={divStyle}>
-      <Span>Div 1</Span>
-    </Div>
-    <Div pushed='s' style={divStyle}>
-      <Span>Div 2</Span>
-    </Div>
-    <Div pushed style={divStyle}>
-      <Span>Div 3</Span>
-    </Div>
-    <Div pushed='l' style={divStyle}>
-      <Span>Div 4</Span>
-    </Div>
-  </Row>
-)
+return pug`
+  Row
+    Div.div
+      Span Div 1
+    Div.div(pushed='s')
+      Span Div 2
+    Div.div(pushed)
+      Span Div 3
+    Div.div(pushed='l')
+      Span Div 4
+`
+
+styl`
+  .div
+    width 100
+    height 80
+    align-items center
+    justify-content center
+    background-color #00AED6
+`
 ```
 
 ## Различные кликабельные состояния
@@ -84,23 +80,26 @@ return (
 `highlight` вариант - при нажатии, прозрачность фона компонента уменьшается.
 
 ```jsx example
-const divStyle = {
-  width: 100,
-  height: 80,
-  textAlign: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#00AED6'
-}
-return (
-  <Row>
-    <Div style={divStyle} onPress={() => {}}>
-      <Span>Div opacity variant</Span>
-    </Div>
-    <Div style={divStyle} variant='highlight' pushed onPress={() => {}}>
-      <Span>Div highlight variant</Span>
-    </Div>
-  </Row>
-)
+return pug`
+  Row
+    Div.div(onPress=()=> {})
+      Span Div opacity variant
+    Div.div(
+      pushed
+      variant='highlight'
+      onPress=()=> {}
+    )
+      Span Div highlight variant
+`
+
+styl`
+  .div
+    width 100
+    height 80
+    text-align center
+    justify-content center
+    background-color #00AED6
+`
 ```
 
 ## Уровни акцента
@@ -109,23 +108,22 @@ return (
 **ВАЖНО**: Тень не работает без цвета фона на мобильных устройствах.
 
 ```jsx example
-const divStyle = {
-  width: 100,
-  height: 80,
-  textAlign: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'white'
-}
-return (
-  <Row>
-    <Div style={divStyle} level={1}>
-      <Span>Div level 1</Span>
-    </Div>
-    <Div style={divStyle} level={4} pushed>
-      <Span>Div level 4</Span>
-    </Div>
-  </Row>
-)
+return pug`
+  Row
+    Div.div(level=1)
+      Span Div level 1
+    Div.div(level=4 pushed)
+      Span Div level 4
+`
+
+styl`
+  .div
+    width 100
+    height 80
+    text-align center
+    justify-content center
+    background-color white
+`
 ```
 
 ## Песочница
