@@ -224,12 +224,9 @@ return (
   Component={Multiselect}
   props={{
     value: ['New York'],
-    options: ['New York', 'Los Angeles', 'Tokyo'],
-    onChange: value => $root.scope('_session.Props.Multiselect').at('value').set(value),
-    onSelect: value => console.info('"onSelect" event on "Multiselect" component. "' + value + '" is selected.'),
-    onRemove: value => console.info('"onRemove" event on "Multiselect" component. "' + value + '" is removed.'),
-    onFocus: () => console.info('"onFocus" event on "Multiselect" component.'),
-    onBlur: () => console.info('"onBlur" event on "Multiselect" component.')
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => console.info('New value is ' + JSON.stringify(value)),
+    onSelect: value => console.info('Value "' + value + '" is selected'),
+    onRemove: value => console.info('Value "' + value + '" is removed'),
   }}
-  $props={$root.scope('_session.Props.Multiselect')}
 />
