@@ -32,10 +32,16 @@ $exampleBg = #f5f5f5
 
 .example
   margin-top 2u
-  padding 2u
   background-color $exampleBg
   border-top-left-radius 1u
   border-top-right-radius 1u
+
+  &Content
+    flex-direction column
+    flex-grow 1
+
+.padding
+  padding 2u
 
 .inlineCodeWrapper
   background-color $codeBg
@@ -75,7 +81,13 @@ $exampleBg = #f5f5f5
     border-bottom-right-radius 1u
 
     &-header
-      padding 0 2u 2u
+      padding-top 1u
+      padding-bottom 2u
+      padding-left 2u
+      padding-right 2u
+
+      +tablet()
+        padding-top 2u
 
     &-content
       padding 2u
