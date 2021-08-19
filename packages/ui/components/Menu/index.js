@@ -1,47 +1,43 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import MenuItem from './MenuItem'
-import { MenuProvider } from './menuContext'
 import themed from '../../theming/themed'
 import './index.styl'
 
-function Menu ({
-  style,
-  children,
-  variant,
-  activeBorder,
-  iconPosition,
-  activeColor
-}) {
-  const content = React.Children.toArray(children).map((child, index) => {
-    if (child.type === MenuItem) {
-      return React.cloneElement(child, { activeBorder, iconPosition, activeColor })
-    }
-    return child
-  })
+function Menu ({ style, children, variant, activeBorder, iconPosition, activeColor }) {
+  const content = useMemo(
+    () =>
+      React.Children.toArray(children).map(child =>
+        child.type === MenuItem ||
+        // INFO: specific case for mdx
+        child.props.originalType?.name === MenuItem.name
+          ? React.cloneElement(child, { activeBorder, activeColor, iconPosition, ...child.props })
+          : child
+      ),
+    [children, activeBorder, activeColor, iconPosition]
+  )
 
   return pug`
-    MenuProvider(value={iconPosition})
-      Div.root(style=style styleName=[variant])
-        = content
+    Div.root(style=style styleName=[variant])
+      = content
   `
 }
 
 Menu.defaultProps = {
   variant: 'vertical',
-  activeBorder: 'none',
-  iconPosition: 'left'
+  activeBorder: MenuItem.defaultProps.activeBorder,
+  iconPosition: MenuItem.defaultProps.iconPosition
 }
 
 Menu.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  variant: PropTypes.oneOf(['vertical', 'horizontal']),
-  activeBorder: PropTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
+  activeBorder: MenuItem.propTypes.activeBorder,
+  activeColor: MenuItem.propTypes.activeColor,
   iconPosition: MenuItem.propTypes.iconPosition,
-  activeColor: PropTypes.string
+  variant: PropTypes.oneOf(['vertical', 'horizontal'])
 }
 
 const ObservedMenu = observer(themed('Menu', Menu))
