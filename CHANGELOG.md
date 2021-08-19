@@ -1,3 +1,18 @@
+## [0.37.6](https://github.com/startupjs/startupjs/compare/v0.37.5...v0.37.6) (2021-08-19)
+
+
+### Bug Fixes
+
+* **i18n:** fix bug in 't' function related to missing filename in key param ([#771](https://github.com/startupjs/startupjs/issues/771)) ([6661905](https://github.com/startupjs/startupjs/commit/666190544cdfbcaba3837b0c8ebecfb7ca7ca851))
+* **ui/Menu:** fix parsing children for mdx ([#762](https://github.com/startupjs/startupjs/issues/762)) ([9ef1c8b](https://github.com/startupjs/startupjs/commit/9ef1c8bea589caf7a3083d496d2fe8e238419649))
+
+
+### Features
+
+* **mdx:** add horizontal scroll to example block ([#767](https://github.com/startupjs/startupjs/issues/767)) ([cd15259](https://github.com/startupjs/startupjs/commit/cd152592b43c4ad6b9890614cecd6c50b33f7c6e))
+
+
+
 ## [0.37.5](https://github.com/startupjs/startupjs/compare/v0.37.4...v0.37.5) (2021-08-18)
 
 
