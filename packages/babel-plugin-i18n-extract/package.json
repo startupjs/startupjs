@@ -13,7 +13,7 @@
     "i18n"
   ],
   "scripts": {
-    "test": "rm translations.json && jest"
+    "test": "rm -f translations.json && jest"
   },
   "author": "Pavel Zhukov",
   "license": "MIT",
