@@ -1,10 +1,9 @@
 import { useState, useRef } from 'react'
-import { useValue } from 'startupjs'
+import { $root, useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
-import Modal from '../'
-import Button from '../../Button'
-import Br from '../../Br'
-import SandboxModal from './SandboxModal'
+import Br from '../Br'
+import Button from '../Button'
+import Modal from './'
 
 # Modal (модалка)
 
@@ -21,15 +20,20 @@ import { Modal } from '@startupjs/ui'
 ```jsx example
 const [visible, setVisible] = useState(false)
 
-return pug`
-  Modal(
-    visible=visible
-    title='Текст в модалке'
-    onChange=setVisible
-  )
-    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-  Button(onPress=() => setVisible(true)) Открыть модалку
-`
+return (
+  <>
+    <Modal
+      visible={visible}
+      title='Текст в модалке'
+      onChange={setVisible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+    <Button onPress={() => setVisible(true)}>
+      Открыть модалку
+    </Button>
+  </>
+)
 ```
 
 ## Свойства
@@ -159,7 +163,23 @@ return (
 
 ### Modal
 
-<SandboxModal />
+<Sandbox
+  Component={Modal}
+  props={{
+    visible: false,
+    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
+    onChange: value => $root.scope('_session.Props.Modal').at('visible').set(value),
+    onCrossPress: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onDismiss: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onCancel: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onConfirm: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onShow: () => console.info('"onShow" event on "Modal" component'),
+    onBackdropPress: () => console.info('"onBackdropPress" event on "Modal" component'),
+    onOrientationChange: () => console.info('"onOrientationChange" event on "Modal" component'),
+    onRequestClose: () => console.info('"onRequestClose" event on "Modal" component'),
+  }}
+  $props={$root.scope('_session.Props.Modal')}
+/>
 
 ### Modal.Header
 
@@ -167,7 +187,7 @@ return (
   Component={Modal.Header}
   props={{
     children: 'Header content',
-    onCrossPress: () => alert('The "Cross" button was pressed')
+    onCrossPress: () => console.info('"onCrossPress" event on "Modal.Header" component')
   }}
 />
 
@@ -185,7 +205,7 @@ return (
 <Sandbox
   Component={Modal.Actions}
   props={{
-    onCancel: () => alert('The "Cancel" button was pressed'),
-    onConfirm: () => alert('The "Confirm" button was pressed')
+    onCancel: () => console.info('"onCancel" event on "Modal.Actions" component'),
+    onConfirm: () => console.info('"onConfirm" event on "Modal.Actions" component')
   }}
 />
