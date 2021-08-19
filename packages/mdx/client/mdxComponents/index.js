@@ -89,12 +89,18 @@ export default {
     Div= children
   `,
   section: ({ children, ...props }) => {
-    const Wrapper = props.noscroll ? Div : ScrollView
+    const Wrapper = props.noscroll
+      ? ({ children }) => pug`
+        Div.example.padding= children
+      `
+      : ({ children }) => pug`
+        ScrollView.example(
+          contentContainerStyleName=['exampleContent', 'padding']
+          horizontal
+        )= children
+      `
     return pug`
-      Wrapper.example(
-        contentContainerStyleName='exampleContent'
-        horizontal
-      )= children
+      Wrapper= children
     `
   },
   h1: ({ children }) => pug`
