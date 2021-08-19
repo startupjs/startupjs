@@ -55,13 +55,14 @@ async function useInitDefaultProps ({ entries, $theProps }) {
 }
 
 export default observer(themed(function PComponent ({
+  style,
+  rendererStyle,
   Component,
   $props,
   props,
   extraParams,
   componentName,
   showGrid,
-  style,
   validateWidth,
   showSizes,
   theme,
@@ -96,6 +97,7 @@ export default observer(themed(function PComponent ({
           horizontal
         )
           Renderer(
+            style=rendererStyle
             Component=Component
             props=$theProps.get()
             showGrid=showGrid
