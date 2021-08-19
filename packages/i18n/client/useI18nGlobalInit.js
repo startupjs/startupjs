@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { $root, useDoc, useModel, useSession } from 'startupjs'
+import { useDoc, useModel, useSession } from 'startupjs'
 import languageDetector from './languageDetector'
 import { useConfig } from './config'
 
@@ -28,14 +28,10 @@ export default function useI18nGlobalInit () {
     }
   }
 
-  const [translations, $translations] = useDoc('translations', lang)
-
-  if (!translations && lang !== defaultLang) {
-    throw $root.scope('i18nTranslations').addNew(lang)
-  }
+  const [, $i18nTranslations] = useDoc('i18nTranslations', lang)
 
   useMemo(() => {
-    $session.ref('translations', $translations)
+    $session.ref('i18nTranslations', $i18nTranslations)
   }, [])
 
   return true
