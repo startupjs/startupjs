@@ -1,60 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import AceEditor from 'react-ace'
+import { WebView } from 'react-native-webview'
 import axios from 'axios'
 
-// editor
-import 'ace-builds/src-noconflict/mode-jade'
-import 'ace-builds/src-noconflict/mode-stylus'
-import 'ace-builds/src-noconflict/mode-javascript'
-import './mode-startupjs'
-import 'ace-builds/src-noconflict/theme-chrome'
+import ace from './build/string'
+import mode from './build/mode'
 
-import scope from './scope'
-import '../mdxComponents/index.styl'
+import scope from './helpers/scope'
+import wrapCode from './helpers/wrapCode'
+import './index.styl'
 
-function wrapCode (code) {
-  return `
-    import axios from 'axios' // ------ need remove!!!
-    import { styl } from 'startupjs'
-
-    class ErrorBoundary extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = { hasError: false };
-      }
-    
-      static getDerivedStateFromError(error) {
-        return { hasError: true };
-      }
-    
-      componentDidCatch(error, errorInfo) {
-        console.log(error, errorInfo);
-      }
-    
-      render() {
-        if (this.state.hasError) {
-          return <h1>Something went wrong.</h1>;
-        }
-    
-        return this.props.children;
-      }
-    }
-
-    function getComponent () {
-      const Example = observer(()=> {
-        ${code}
-      })
-
-      return <ErrorBoundary><Example /></ErrorBoundary>
-    }
-  `
+function escapeRegExp (string) {
+  return string.replace(/[.*+?^$`{}()|[\]\\]/g, '\\$&')
 }
 
+// fix import to string modules?
+// fix scroll in WebView
+// write errors message
 export default function ({ value }) {
   const [code, setCode] = useState(value)
   const [jsx, setJsx] = useState(null)
 
+  // string code to jsx
   useEffect(() => {
     (async () => {
       try {
@@ -75,13 +42,48 @@ export default function ({ value }) {
     })()
   }, [code])
 
+  const html = `
+    <html>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no"
+        />
+      </head>
+      <body>
+        <div id="editor"></div>
+
+        <script>
+          ${ace}
+          \n\n${mode}
+          \n\n
+          var editor = ace.edit('editor');
+
+          editor.setOptions({
+            theme: 'ace/theme/chrome',
+            mode: 'ace/mode/javascript',
+            minLines: 2,
+            maxLines: 50
+          })
+
+          editor.session.on('change', function () {
+            var code = editor.session.getValue()
+            window.ReactNativeWebView.postMessage(code);
+          })
+
+          editor.session.setValue(\`${escapeRegExp(value)}\`);
+          editor.resize(true);
+        </script>
+      </body>
+    </html>
+  `
+
   return pug`
     View.example= jsx
-    AceEditor(
-      mode='startupjs'
-      theme='chrome'
-      value=code
-      onChange=setCode
+    WebView(
+      source={ html }
+      style={ height: 120, width: 300 }
+      onMessage=e=> setCode(e.nativeEvent.data)
     )
   `
 }

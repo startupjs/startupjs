@@ -89,9 +89,7 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: ({ children }) => pug`
-    // Div.example= children
-  `,
+  section: ({ children }) => null,
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
