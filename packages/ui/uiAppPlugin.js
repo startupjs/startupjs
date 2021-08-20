@@ -1,8 +1,8 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { ToastProvider } from '../components/toast'
-import Portal from '../components/Portal'
-import StyleContext from '../StyleContext'
+import { ToastProvider } from './components/toast'
+import Portal from './components/Portal'
+import StyleContext from './StyleContext'
 
 export default {
   name: 'ui',

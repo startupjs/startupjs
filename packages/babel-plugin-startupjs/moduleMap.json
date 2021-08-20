@@ -69,6 +69,6 @@
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
-    "uiAppPlugin": "/helpers/uiAppPlugin.js"
+    "uiAppPlugin": "/uiAppPlugin.js"
   }
 }
