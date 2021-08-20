@@ -60,12 +60,15 @@
     "H4": "/components/typography/headers/H4",
     "H5": "/components/typography/headers/H5",
     "H6": "/components/typography/headers/H6",
+    "ToastComponent": "/components/toast/ToastComponent.js",
+    "ToastProvider": "/components/toast/ToastProvider.js",
+    "toast": "/components/toast/toast.js",
     "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
     "useLayout": "/hooks/useLayout.js",
     "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
-    "uiAppPlugin": "/helpers/uiAppPlugin.js"
+    "uiAppPlugin": "/uiAppPlugin.js"
   }
 }
