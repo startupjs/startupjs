@@ -1,9 +1,8 @@
 import { $root } from 'startupjs'
-import _debounce from 'lodash/debounce'
 
 const MAX_SHOW_LENGTH = 3
 
-const updateMatrixPositions = _debounce(() => {
+const updateMatrixPositions = () => {
   const toasts = $root.scope('_session.toasts').get()
 
   const updateToasts = toasts.map((toast, index) => {
@@ -19,7 +18,7 @@ const updateMatrixPositions = _debounce(() => {
   })
 
   $root.scope('_session.toasts').set(updateToasts)
-}, 200)
+}
 
 export default function toast ({
   alert,
@@ -40,19 +39,23 @@ export default function toast ({
 
   if (!alert) {
     setTimeout(() => {
-      $toasts.set(`${getValidIndex()}.show`, false)
+      const index = getValidIndex()
+      if (index !== -1) $toasts.set(`${index}.show`, false)
     }, 5000)
+  }
+
+  function onRemove () {
+    const index = getValidIndex()
+    if (index === -1) return
+
+    $toasts.remove(index)
+    updateMatrixPositions()
+    onClose && onClose()
   }
 
   // toastId ensures that the correct index is found at the current moment
   function getValidIndex () {
     return $toasts.get().findIndex(toast => toast.key === toastId)
-  }
-
-  function onRemove () {
-    $toasts.remove(getValidIndex())
-    updateMatrixPositions()
-    onClose && onClose()
   }
 
   function onLayout (layout) {

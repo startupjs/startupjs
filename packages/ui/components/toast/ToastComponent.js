@@ -109,7 +109,7 @@ function ToastComponent ({
 }
 
 ToastComponent.defaultProps = {
-  type: 'Info',
+  type: 'info',
   actionLabel: 'View'
 }
 

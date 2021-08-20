@@ -1,10 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Linking, Platform } from 'react-native'
 import RNRestart from 'react-native-restart'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
 import { $root, observer, useSyncEffect } from 'startupjs'
-import { toast } from '@startupjs/ui'
 import { Slot } from '@startupjs/plugin'
 import { BASE_URL } from '@env'
 import axios from 'axios'
@@ -45,18 +44,6 @@ const AppsFactory = observer(function AppsFactoryComponent ({
       $root.removeListener('url', goTo)
       $root.removeListener('error', setErr)
     }
-  }, [])
-
-  useEffect(() => {
-    setTimeout(() => toast({
-      type: 'error',
-      text: 'Первый Первый Первый Первый Первый Первый Первый Первый Первый',
-      onAction: () => alert('123')
-    }), 0)
-    setTimeout(() => toast({ type: 'warning', text: 'Второй' }), 2000)
-    setTimeout(() => toast({ type: 'success', text: 'Третий' }), 4000)
-    setTimeout(() => toast({ text: 'Четвертый' }), 6000)
-    setTimeout(() => toast({ text: 'Пятый' }), 8000)
   }, [])
 
   useSyncEffect(() => {
