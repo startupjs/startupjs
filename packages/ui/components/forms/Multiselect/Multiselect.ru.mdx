@@ -1,24 +1,24 @@
 import { useState } from 'react'
-import Multiselect from '../'
-import Div from '../../../Div'
-import Span from '../../../typography/Span'
-import Br from '../../../Br'
+import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
-import MultiSelectSandbox from './MultiSelectSandbox'
+import Br from '../../Br'
+import Div from '../../Div'
+import Multiselect from './'
+import Span from '../../typography/Span'
 
-# Multiselect
+# Multiselect (множественный выбор)
 
-Multiselect lets user pick multiple options.
+Multiselect позволяет пользователю выбирать несколько элементов из списка
 
 ```jsx
 import { Multiselect } from '@startupjs/ui'
 ```
 
-## Initialization
+## Инициализация
 
-Before use you need to configure [Portal](/docs/components/Portal)
+Перед использованием нужно настроить [Portal](/docs/components/Portal)
 
-## Simple example
+## Простой пример
 
 ```jsx example
 const OPTIONS = [
@@ -38,9 +38,9 @@ return (
 )
 ```
 
-## Options
+## Опции
 
-You can pass array of objects { label, value } or primitives to options property.
+Вы можете добавить в опции массив объектов ```{ label, value }``` или примитивов
 
 ```jsx example
 const OBJECT_OPTIONS_EXAMPLE = [
@@ -112,9 +112,9 @@ return (
 )
 ```
 
-## Tag
+## Tag Component
 
-You can add a custom tag component
+Вы можете добавить собственный тег
 
 ```jsx example
 const OPTIONS = [
@@ -137,7 +137,7 @@ return (
 
 ## Input Component
 
-You can add a custom input component
+Вы можете добавить собственный input
 
 ```jsx example
 const OPTIONS = [
@@ -175,7 +175,7 @@ return (
 
 ## Tag limit
 
-You can limit the number of tags displayed
+Вы можете ограничить количество отображаемых тегов
 
 ```jsx example
 const OPTIONS = [
@@ -198,4 +198,13 @@ return (
 
 ## Sandbox
 
-<MultiSelectSandbox />
+<Sandbox
+  Component={Multiselect}
+  props={{
+    value: ['New York'],
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => console.info('New value is ' + JSON.stringify(value)),
+    onSelect: value => console.info('Value "' + value + '" is selected'),
+    onRemove: value => console.info('Value "' + value + '" is removed'),
+  }}
+/>

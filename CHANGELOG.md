@@ -1,3 +1,19 @@
+## [0.37.7](https://github.com/startupjs/startupjs/compare/v0.37.6...v0.37.7) (2021-08-20)
+
+
+### Bug Fixes
+
+* **docs/Sandbox:** fix crashing for circular structure of props ([#764](https://github.com/startupjs/startupjs/issues/764)) ([50f5b13](https://github.com/startupjs/startupjs/commit/50f5b1398c2e10a4506a1f8a4ff43a469624bfde))
+* **i18n:** fix updating the value of the 't' function when changing the language ([fd42d1f](https://github.com/startupjs/startupjs/commit/fd42d1f665a21ed87e8ac31c889aaedc5e2699a7))
+
+
+### Features
+
+* **cli:** replace `config.json` varaibles when generate a new project ([#772](https://github.com/startupjs/startupjs/issues/772)) ([6016fb3](https://github.com/startupjs/startupjs/commit/6016fb3bd929207c69745daa50e280a94953530c))
+* **docs/Sandbox:** add ability to pass styles for renderer ([#773](https://github.com/startupjs/startupjs/issues/773)) ([0c3e931](https://github.com/startupjs/startupjs/commit/0c3e931437db070b6252408561deafccf7ec0bff))
+
+
+
 ## [0.37.6](https://github.com/startupjs/startupjs/compare/v0.37.5...v0.37.6) (2021-08-19)
 
 

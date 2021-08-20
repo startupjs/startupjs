@@ -150,8 +150,9 @@ module.exports = function (babel, opts) {
           )
         }
 
-        keyNode.value = `${processedFilename}.${keyNode.value}`
+        if (!keyNode.value.indexOf(processedFilename)) return
 
+        keyNode.value = `${processedFilename}.${keyNode.value}`
         keys[key] = defaultValue
       }
     }

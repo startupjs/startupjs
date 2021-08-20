@@ -7,13 +7,16 @@ import Constructor from './Constructor'
 import Renderer from './Renderer'
 import './index.styl'
 
-function useEntries ({ Component, extraParams }) {
+function useEntries ({ Component, props, extraParams }) {
   return useMemo(() => {
     const propTypes = parsePropTypes(Component)
     const entries = Object.entries(propTypes)
     return parseEntries(entries)
       .filter(entry => entry.name[0] !== '_') // skip private properties
       .map(item => {
+        if (props?.[item.name] !== undefined) {
+          item.value = props?.[item.name] // add value from props to entries
+        }
         if (extraParams?.[item.name]) {
           item.extraParams = extraParams?.[item.name]
         }
@@ -41,25 +44,25 @@ async function useInitDefaultProps ({ entries, $theProps }) {
 
   const promises = []
 
-  for (const prop of entries) {
-    if (prop.defaultValue !== undefined) {
-      // NOTE: Due to a racer patch, last argument cannot be a function
-      // because it will be used as a callback of `$props.set`,
-      // so we use null to avoid this behavior when defaultValue is function
-      promises.push($theProps.set(prop.name, prop.defaultValue, null))
+  for (const { name, value, defaultValue } of entries) {
+    if (value !== undefined) {
+      promises.push($theProps.set(name, value, null))
+    } else if (defaultValue !== undefined) {
+      promises.push($theProps.set(name, defaultValue, null))
     }
   }
-
-  throw Promise.all(promises)
+  if (promises.length) throw await Promise.all(promises)
 }
 
 export default observer(themed(function PComponent ({
+  style,
+  rendererStyle,
   Component,
   $props,
+  props,
   extraParams,
   componentName,
   showGrid,
-  style,
   validateWidth,
   showSizes,
   theme,
@@ -76,7 +79,7 @@ export default observer(themed(function PComponent ({
     }
   }, [$props])
 
-  const entries = useEntries({ Component, extraParams })
+  const entries = useEntries({ Component, props, extraParams })
   useInitDefaultProps({ entries, $theProps })
 
   return pug`
@@ -94,6 +97,7 @@ export default observer(themed(function PComponent ({
           horizontal
         )
           Renderer(
+            style=rendererStyle
             Component=Component
             props=$theProps.get()
             showGrid=showGrid

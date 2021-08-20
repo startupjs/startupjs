@@ -121,15 +121,16 @@ return (
     children: (
       <Div styleName='content'>
         <Button
-          styleName='button'
           onPress={()=> {
             const value = $root.get('_session.Sandbox.DrawerSidebar')
             $root.scope('_session.Sandbox.DrawerSidebar').set(!value)
           }}
         >Open</Button>
         <Br />
-        <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.</Span>
+        <Span>Children content</Span>
       </Div>
     )
   }}
+  rendererStyleName='renderer'
+  block
 />
