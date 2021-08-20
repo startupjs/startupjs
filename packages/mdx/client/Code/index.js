@@ -25,26 +25,35 @@ refractor.alias({ stylus: ['styl'] })
 // This method mutates highlighted array to remove the last template
 // backtick symbol and also returns it
 function modifyAndGetLastBacktick (highlighted) {
-  // if (!(highlighted && highlighted.length)) return []
-  // let last = highlighted[highlighted.length - 1]
+  if (!(highlighted && highlighted.length)) return []
+  const lastLine = highlighted[highlighted.length - 1]
+  const lastSymbol = lastLine.children[lastLine.children.length - 1]
 
-  // if (!last?.properties?.className?.includes('template-string')) {
-  //   throw new Error(`
-  //     [@startupjs/mdx] Last symbol is not a template-string.
-  //     This should never happen.
-  //     Maybe refractor got updated or <Code> component is broken.
-  //   `)
-  // }
+  // check close backtick
+  if (lastSymbol?.value !== '`') {
+    throw new Error(`
+      [@startupjs/mdx] Last symbol is not a backtick.
+      This should never happen.
+      Maybe refractor got updated or <Code> component is broken.
+    `)
+  }
 
-  // const lastClone = JSON.parse(JSON.stringify(last))
-  // last.children.pop()
-  // lastClone.children.splice(0, lastClone.children.length - 1)
+  // remove last line with backtick
+  highlighted.pop()
 
-  return { type: 'text', value: '`' }
+  return {
+    type: 'element',
+    tagName: 'span',
+    properties: { className: ['line'] },
+    children: [{ type: 'text', value: '`' }]
+  }
 }
 
 function getLines (code, language) {
-  return code.split('\n').reduce((acc, line) => {
+  const lines = code.split('\n')
+  if (lines[lines.length - 1] === '') lines.pop()
+
+  return lines.reduce((acc, line) => {
     const children = refractor.highlight(line, language)
     const className = ['line']
     const node = {
@@ -56,28 +65,32 @@ function getLines (code, language) {
 
     acc.push(node)
     return acc
-  }, []).slice(0, -1)
+  }, [])
 }
 
 function highlight (code, language) {
-  if (!code) return []
   if (language === 'jsx') {
     const match = code.match(SUB_LANGUAGE_REGEX)
     if (match) {
       const splitIndex = match.index + match[0].length
       const start = code.slice(0, splitIndex)
-      const rest = code.slice(splitIndex)
-      const startJsx = start.replace(SUB_LANGUAGE_REGEX, '$1$2$3$5')
-      const startSubLanguage = match[4]
-      const subLanguage = match[2]
-      const startHighlightedJsx = getLines(startJsx, 'jsx')
-      const closingBacktick = modifyAndGetLastBacktick()
-      return [
-        ...startHighlightedJsx, // without trailing ` sign
-        ...highlight(startSubLanguage, subLanguage),
-        closingBacktick, // the trailing ` sign
-        ...highlight(rest, 'jsx')
+      const next = code.slice(splitIndex + 1)
+
+      const jsx = start.replace(SUB_LANGUAGE_REGEX, '$1$2$3$5')
+      const highlightedJsx = getLines(jsx, 'jsx')
+
+      const subLanguageName = match[2]
+      const bodySubLanguage = match[4]
+      const closingBacktick = modifyAndGetLastBacktick(highlightedJsx)
+
+      const merge = [
+        ...highlightedJsx, // without trailing ` sign
+        ...highlight(bodySubLanguage, subLanguageName),
+        closingBacktick // the trailing ` sign
       ]
+
+      if (next) merge.push(...highlight(next, 'jsx'))
+      return merge
     }
   }
   return getLines(code, language)
