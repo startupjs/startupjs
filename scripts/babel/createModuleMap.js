@@ -16,7 +16,7 @@ const MODULE_DIRS = {
     { source: path.join(PACKAGES_DIR, 'ui/components/toast'), includeFiles: true },
     { source: path.join(PACKAGES_DIR, 'ui/hooks'), includeFiles: true },
     { source: path.join(PACKAGES_DIR, 'ui/theming'), includeFiles: true },
-    { source: path.join(PACKAGES_DIR, 'ui/helpers/uiAppPlugin.js'), includeFiles: true }
+    { source: path.join(PACKAGES_DIR, 'ui/uiAppPlugin.js'), includeFiles: true }
   ]
 }
 

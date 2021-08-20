@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'startupjs'
-import { Div, Row, Span, Icon, Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import {
   faExclamationCircle,
@@ -10,6 +9,11 @@ import {
   faExclamationTriangle,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
+import Button from '../Button'
+import Div from '../Div'
+import Icon from '../Icon'
+import Row from '../Row'
+import Span from '../typography/Span'
 import './index.styl'
 
 const DURATION_OPEN = 300
