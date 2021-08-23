@@ -2,7 +2,8 @@ module.exports = {
   type: 'plugin',
   bundler: {
     forceCompile: {
-      web: true
+      web: true,
+      server: true
     }
   }
 }
