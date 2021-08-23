@@ -1,6 +1,7 @@
 $checkboxBorderColor = $UI.colors.darkLight
 $checkedColor = $UI.colors.primary
 $checkedIconColor = $UI.colors.white
+$errorColor = $UI.colors.attention
 $switchBg = $UI.colors.dark
 $height = 2u
 
@@ -19,6 +20,15 @@ $height = 2u
   // you can see white 1px boundary between border and background
   border-radius 2px
   overflow hidden
+
+  // NOTE:
+  // We do not change the background color for the error
+  // because this behavior is not possible
+  // but if it is necessary for some reason
+  // then we need to change it for the checkbox-animation class too
+  // IMPORTANT: checked modifier should overlaps error modifier
+  &.error
+    border-color $errorColor
 
   &.checked
     background-color $checkedColor
@@ -52,6 +62,10 @@ $height = 2u
   justify-content center
   background-color $switchBg
   padding 0 3px
+
+  // IMPORTANT: checked modifier should overlaps error modifier
+  &.error
+    background-color $errorColor
 
   &.checked
     background-color $checkedColor

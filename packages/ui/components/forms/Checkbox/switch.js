@@ -9,6 +9,7 @@ const AnimatedView = Animated.View
 
 function SwitchInput ({
   value,
+  _hasError,
   ...props
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
@@ -39,7 +40,7 @@ function SwitchInput ({
 
   return pug`
     Div.switch(
-      styleName=[{ checked: value }]
+      styleName=[{ checked: value, error: _hasError }]
       ...props
     )
       AnimatedView.switch-animation(

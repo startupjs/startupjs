@@ -1,3 +1,4 @@
+import React from 'react'
 import wrapInput from './wrapInput'
 import ArrayInput from '../ArrayInput'
 import Checkbox from '../Checkbox'
@@ -10,27 +11,40 @@ import Radio from '../Radio'
 import Select from '../Select'
 import TextInput from '../TextInput'
 import ColorPicker from '../ColorPicker'
+import Card from './../../Card'
 
-const WrappedArrayInput = wrapInput(ArrayInput)
+function cardWrapper (style, children) {
+  return pug`
+    Card(
+      style=style
+      variant='outlined'
+    )
+      = children
+  `
+}
+
+const WrappedArrayInput = wrapInput(
+  ArrayInput,
+  {
+    rows: { _renderWrapper: cardWrapper },
+    columns: { _renderWrapper: cardWrapper }
+  }
+)
 const WrappedCheckbox = wrapInput(
   Checkbox,
   {
-    layoutOptions: {
-      rows: {
-        labelPosition: 'right',
-        descriptionPosition: 'bottom'
-      }
+    rows: {
+      labelPosition: 'right',
+      descriptionPosition: 'bottom'
     },
-    _isLabelClickable: true
+    isLabelClickable: true
   }
 )
 const WrappedColorPicker = wrapInput(
   ColorPicker,
   {
-    layoutOptions: {
-      rows: {
-        descriptionPosition: 'bottom'
-      }
+    rows: {
+      descriptionPosition: 'bottom'
     }
   }
 )
@@ -42,51 +56,50 @@ const WrappedMultiselect = wrapInput(Multiselect)
 const WrappedNumberInput = wrapInput(
   NumberInput,
   {
-    layoutOptions: {
-      rows: {
-        descriptionPosition: 'bottom'
-      }
+    rows: {
+      descriptionPosition: 'bottom'
     },
-    _isLabelColoredWhenFocusing: true,
-    _isLabelClickable: true
+    isLabelColoredWhenFocusing: true,
+    isLabelClickable: true
   }
 )
-const WrappedObjectInput = wrapInput(ObjectInput)
+const WrappedObjectInput = wrapInput(
+  ObjectInput,
+  {
+    rows: { _renderWrapper: cardWrapper },
+    columns: { _renderWrapper: cardWrapper }
+  }
+)
+
 const WrappedPasswordInput = wrapInput(
   PasswordInput,
   {
-    layoutOptions: {
-      rows: {
-        descriptionPosition: 'bottom'
-      }
+    rows: {
+      descriptionPosition: 'bottom'
     },
-    _isLabelColoredWhenFocusing: true,
-    _isLabelClickable: true
+    isLabelColoredWhenFocusing: true,
+    isLabelClickable: true
   }
 )
 const WrappedRadio = wrapInput(Radio)
 const WrappedSelect = wrapInput(
   Select,
   {
-    layoutOptions: {
-      rows: {
-        descriptionPosition: 'bottom'
-      }
+    rows: {
+      descriptionPosition: 'bottom'
     },
-    _isLabelColoredWhenFocusing: true,
-    _isLabelClickable: true
+    isLabelColoredWhenFocusing: true,
+    isLabelClickable: true
   }
 )
 const WrappedTextInput = wrapInput(
   TextInput,
   {
-    layoutOptions: {
-      rows: {
-        descriptionPosition: 'bottom'
-      }
+    rows: {
+      descriptionPosition: 'bottom'
     },
-    _isLabelColoredWhenFocusing: true,
-    _isLabelClickable: true
+    isLabelColoredWhenFocusing: true,
+    isLabelClickable: true
   }
 )
 

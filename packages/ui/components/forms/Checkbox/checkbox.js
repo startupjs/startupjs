@@ -12,6 +12,7 @@ const AnimatedView = Animated.View
 function CheckboxInput ({
   value,
   icon,
+  _hasError,
   ...props
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
@@ -39,7 +40,7 @@ function CheckboxInput ({
 
   return pug`
     Div.checkbox(
-      styleName=[checkedStyleName]
+      styleName=[checkedStyleName, { error: _hasError }]
       accessibilityRole='checkbox'
       onLayout=(event) => setWidth(event.nativeEvent.layout.width)
       ...props

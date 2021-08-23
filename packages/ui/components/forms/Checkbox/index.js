@@ -66,7 +66,8 @@ Checkbox.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
 export default observer(

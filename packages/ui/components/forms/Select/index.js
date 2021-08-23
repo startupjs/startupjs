@@ -71,7 +71,15 @@ Select.propTypes = {
       '_hasError'
     ]
   ),
-  options: PropTypes.array,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ])
+  ),
   showEmptyValue: PropTypes.bool,
   onChange: PropTypes.func
 }

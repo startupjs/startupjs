@@ -5,6 +5,7 @@ import Row from '../../Row'
 import Div from '../../Div'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
+import { parseValue } from './helpers'
 import './index.styl'
 
 const IS_ANDROID = Platform.OS === 'android'
@@ -57,7 +58,7 @@ const RadioInput = function ({
       style=style
       vAlign='center'
       disabled=disabled || readonly
-      onPress=() => onChange && onChange(value)
+      onPress=() => onChange && onChange(parseValue(value))
     )
       Div.radio(
         styleName=[{ checked, error }]

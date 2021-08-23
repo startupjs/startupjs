@@ -13,14 +13,12 @@ import themed from '../../../theming/themed'
 export default function wrapInput (Component, options) {
   options = merge(
     {
-      layoutOptions: {
-        rows: {
-          labelPosition: 'top',
-          descriptionPosition: 'top'
-        }
+      rows: {
+        labelPosition: 'top',
+        descriptionPosition: 'top'
       },
-      _isLabelColoredWhenFocusing: false,
-      _isLabelClickable: false
+      isLabelColoredWhenFocusing: false,
+      isLabelClickable: false
     },
     options
   )
@@ -29,7 +27,7 @@ export default function wrapInput (Component, options) {
     label,
     description,
     layout,
-    layoutOptions: propLayoutOptions,
+    options: componentOptions,
     error,
     ...props
   }, ref) {
@@ -47,12 +45,16 @@ export default function wrapInput (Component, options) {
       label,
       description
     })
-    options = merge(options, { layoutOptions: propLayoutOptions })
+
+    options = merge(options, componentOptions)
+    options = merge(options, options[layout])
 
     const {
-      layoutOptions,
-      _isLabelColoredWhenFocusing,
-      _isLabelClickable
+      labelPosition,
+      descriptionPosition,
+      isLabelColoredWhenFocusing,
+      isLabelClickable,
+      ...inputProps
     } = options
 
     const [focused, setFocused] = useState(false)
@@ -72,13 +74,13 @@ export default function wrapInput (Component, options) {
         Span.label(
           styleName=[
             layout,
-            layout + '-' + layoutOptions.rows.labelPosition,
+            layout + '-' + labelPosition,
             {
-              focused: _isLabelColoredWhenFocusing ? focused : false,
+              focused: isLabelColoredWhenFocusing ? focused : false,
               error
             }
           ]
-          onPress=_isLabelClickable
+          onPress=isLabelClickable
             ? () => inputRef.current && inputRef.current._onLabelPress()
             : undefined
         )= label
@@ -88,7 +90,7 @@ export default function wrapInput (Component, options) {
         Span.description(
           styleName=[
             layout,
-            layout + '-' + layoutOptions.rows.descriptionPosition
+            layout + '-' + descriptionPosition
           ]
           description
         )= description
@@ -100,6 +102,7 @@ export default function wrapInput (Component, options) {
         layout=layout
         _hasError=!!error
         ...props
+        ...inputProps
         onFocus=onFocus
         onBlur=onBlur
       )
@@ -117,25 +120,25 @@ export default function wrapInput (Component, options) {
         styleName=[layout]
       )
         if layout === 'rows'
-          if layoutOptions.rows.labelPosition === 'top'
+          if labelPosition === 'top'
             = _label
-          if layoutOptions.rows.descriptionPosition === 'top'
+          if descriptionPosition === 'top'
             = _description
             = err
-          if layoutOptions.rows.labelPosition === 'right'
+          if labelPosition === 'right'
             Row(vAlign='center')
               = input
               = _label
           else
             = input
-          if layoutOptions.rows.descriptionPosition === 'bottom'
+          if descriptionPosition === 'bottom'
             = err
             = _description
         else if layout === 'columns'
-          Div.left
+          Div.leftBlock
             = _label
             = _description
-          Div.right
+          Div.rightBlock
             = input
             = err
         else if layout === 'pure'
@@ -159,11 +162,13 @@ export default function wrapInput (Component, options) {
     label: PropTypes.string,
     description: PropTypes.string,
     layout: PropTypes.oneOf(['pure', 'rows', 'columns']),
-    layoutOptions: PropTypes.shape({
+    options: PropTypes.shape({
       rows: PropTypes.shape({
         labelPosition: PropTypes.oneOf(['top', 'right']),
         descriptionPosition: PropTypes.oneOf(['top', 'bottom'])
-      })
+      }),
+      isLabelColoredWhenFocusing: PropTypes.bool,
+      isLabelClickable: PropTypes.bool
     }),
     error: PropTypes.string
   }, Component.propTypes)
@@ -224,14 +229,14 @@ styl`
         margin-top 0.5u
 
   // columns
-  .left
-  .right
+  .leftBlock
+  .rightBlock
     flex 1
 
-  .left
+  .leftBlock
     margin-right 1.5u
 
-  .right
+  .rightBlock
     margin-left 1.5u
 
   .columns

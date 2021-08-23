@@ -2,13 +2,12 @@ import useMedia from './useMedia'
 
 export default function useLayout ({
   layout,
-  preferredLayout,
   label,
   description
 } = {}) {
   const { tablet } = useMedia()
 
-  layout = layout || (label || description ? preferredLayout || 'rows' : 'pure')
+  layout = layout || (label || description ? 'rows' : 'pure')
   if (layout !== 'pure' && !tablet) layout = 'rows'
   return layout
 }

@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
-import Card from '../../Card'
+import Input from '../Input'
 import Button from '../../Button'
 import themed from '../../../theming/themed'
 import './index.styl'
@@ -12,14 +12,13 @@ function ArrayInput ({
   style,
   inputStyle,
   $value,
-  layout,
-  items
+  items,
+  _renderWrapper
 }) {
   if (!$value || !items) {
     return null
   }
 
-  const pure = layout === 'pure'
   const value = $value.get()
 
   function getInputs () {
@@ -35,18 +34,10 @@ function ArrayInput ({
 
   const inputs = getInputs()
 
-  function renderContainer (children) {
-    if (pure) {
+  if (!_renderWrapper) {
+    _renderWrapper = (style, children) => {
       return pug`
-        Div(style=[style, inputStyle])= children
-      `
-    } else {
-      return pug`
-        Card(
-          style=[style, inputStyle]
-          variant='outlined'
-        )
-          = children
+        Div(style=style)= children
       `
     }
   }
@@ -57,7 +48,9 @@ function ArrayInput ({
   //         - move down
   //         - add new item before
   //         - add new item after
-  return renderContainer(pug`
+  return _renderWrapper({
+    style: [style, inputStyle]
+  }, pug`
     each input, index in inputs
       Div.item(key=index styleName={ pushTop: index !== 0 })
         Div.input
@@ -89,7 +82,3 @@ export default observer(
   themed('ArrayInput', ArrayInput),
   { forwardRef: true }
 )
-
-// FIX circular imports https://stackoverflow.com/a/30390378
-// for unknown reasons ObjectInput that also have circular imports works well
-const Input = require('../Input')

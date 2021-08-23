@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { observer } from 'startupjs'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
@@ -18,15 +18,28 @@ function NumberInput ({
   onChangeNumber,
   ...props
 }, ref) {
-  const initialValue = useMemo(() => {
-    return value && typeof value === 'number'
-      ? value.toString()
-      : ''
-  }, [])
-  const [inputValue, setInputValue] = useState(initialValue)
+  const [inputValue, setInputValue] = useState()
+
+  useEffect(() => {
+    if (typeof value === 'undefined') {
+      setInputValue('')
+      return
+    }
+
+    if (!isNaN(value) && Number(inputValue) !== value) {
+      if (min && value < min) {
+        value = min
+      } else if (max && value > max) {
+        value = max
+      }
+      setInputValue(value.toString())
+    }
+  }, [value])
+
   const isStepInteger = useMemo(() => {
     return Number.isInteger(step)
   }, [step])
+
   const regexp = useMemo(() => {
     return isStepInteger
       ? /^-?\d*$/
@@ -34,21 +47,16 @@ function NumberInput ({
   }, [isStepInteger])
 
   function onChangeText (newValue) {
-    if (min && newValue < min) {
-      // display tip - must be less then min
-      return
-    }
-
-    if (max && newValue > max) {
-      // display tip - must be greater then max
-      return
-    }
-
     if (!regexp.test(newValue)) return
+
+    if ((min && newValue < min) || (max && newValue > max)) {
+      // TODO: display tip?
+      return
+    }
 
     setInputValue(newValue)
 
-    newValue = newValue && !isNaN(newValue)
+    newValue = newValue && newValue !== '-'
       ? Number(newValue)
       : undefined
 
@@ -116,7 +124,6 @@ NumberInput.propTypes = {
       'style',
       'inputStyle',
       'placeholder',
-      'value',
       'size',
       'disabled',
       'readonly',
@@ -125,6 +132,7 @@ NumberInput.propTypes = {
       '_hasError'
     ]
   ),
+  value: PropTypes.number,
   buttonStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   buttonsMode: PropTypes.oneOf(['none', 'horizontal', 'vertical']),
   max: PropTypes.number,

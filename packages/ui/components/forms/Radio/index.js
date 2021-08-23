@@ -3,6 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../../Div'
 import Input from './input'
+import { getOptionLabel, stringifyValue } from './helpers'
 import './index.styl'
 
 function Radio ({
@@ -16,8 +17,8 @@ function Radio ({
   return pug`
     Div(style=style)
       each option in options
-        - const optionValue = option.value
-        - const checked = optionValue === value
+        - const optionValue = stringifyValue(option)
+        - const checked = optionValue === stringifyValue(value)
         - const error = _hasError && (value ? checked : true)
 
         Input(
@@ -27,7 +28,7 @@ function Radio ({
           value=optionValue
           error=error
           ...props
-        )= option.label
+        )= getOptionLabel(option)
   `
 }
 
@@ -40,11 +41,15 @@ Radio.defaultProps = {
 Radio.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  // TODO: Also support pure values like in Select. Api should be the same.
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  })),
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ])
+  ),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,

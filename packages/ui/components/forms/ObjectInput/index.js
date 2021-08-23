@@ -3,7 +3,6 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from '../Input'
 import Div from '../../Div'
-import Card from '../../Card'
 import themed from '../../../theming/themed'
 import './index.styl'
 
@@ -11,16 +10,15 @@ function ObjectInput ({
   style,
   inputStyle,
   $value,
-  layout,
   errors,
   properties,
-  order
+  order,
+  _renderWrapper
 }) {
   if (!$value || !properties) {
     return null
   }
 
-  const pure = layout === 'pure'
   const value = $value.get()
 
   order = getOrder(order, properties)
@@ -44,22 +42,17 @@ function ObjectInput ({
 
   if (inputs.length === 0) return null
 
-  function renderContainer (children) {
-    if (pure) {
+  if (!_renderWrapper) {
+    _renderWrapper = (style, children) => {
       return pug`
-        Div(style=[style, inputStyle])= children
-      `
-    } else {
-      return pug`
-        Card(
-          style=[style, inputStyle]
-          variant='outlined'
-        )= children
+        Div(style=style)= children
       `
     }
   }
 
-  return renderContainer(pug`
+  return _renderWrapper({
+    style: [style, inputStyle]
+  }, pug`
     each input, index in inputs
       - const { ...inputProps } = input
       Input.input(
