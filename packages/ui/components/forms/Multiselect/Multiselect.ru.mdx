@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import Multiselect from '../Multiselect'
-import Div from '../../Div'
-import Span from '../../typography/Span'
-import Br from '../../Br'
+import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import Br from '../../Br'
+import Div from '../../Div'
+import Multiselect from './'
+import Span from '../../typography/Span'
 
 # Multiselect (множественный выбор)
 
@@ -217,15 +218,15 @@ return (
 )
 ```
 
-## Песочница
+## Sandbox
 
 <Sandbox
   Component={Multiselect}
   props={{
     value: ['New York'],
     options: ['New York', 'Los Angeles','Tokyo'],
-    onChange: value => alert('New value is ' + JSON.stringify(value)),
-    onSelect: value => alert('Value ' + value + ' is selected'),
-    onRemove: value => alert('Value ' + value + ' is removed'),
+    onChange: value => console.info('New value is ' + JSON.stringify(value)),
+    onSelect: value => console.info('Value "' + value + '" is selected'),
+    onRemove: value => console.info('Value "' + value + '" is removed'),
   }}
 />

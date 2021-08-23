@@ -46,4 +46,4 @@ Card.propTypes = {
   onPress: PropTypes.func
 }
 
-export default observer(themed(Card))
+export default observer(themed('Card', Card))

@@ -69,4 +69,4 @@ Icon.propTypes = {
   ])
 }
 
-export default observer(themed(Icon))
+export default observer(themed('Icon', Icon))

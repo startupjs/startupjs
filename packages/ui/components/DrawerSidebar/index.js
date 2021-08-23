@@ -91,4 +91,4 @@ DrawerSidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(themed(DrawerSidebar))
+export default observer(themed('DrawerSidebar', DrawerSidebar))

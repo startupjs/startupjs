@@ -1,10 +1,9 @@
 import { useState, useRef } from 'react'
-import { useValue } from 'startupjs'
-import Modal from '../Modal'
-import Button from '../Button'
-import Br from '../Br'
-import { $root } from 'startupjs'
+import { $root, useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import Br from '../Br'
+import Button from '../Button'
+import Modal from './'
 
 # Modal
 
@@ -21,15 +20,20 @@ import { Modal } from '@startupjs/ui'
 ```jsx example
 const [visible, setVisible] = useState(false)
 
-return pug`
-  Modal(
-    visible=visible
-    title='Text in modal'
-    onChange=setVisible
-  )
-    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-  Button(onPress=() => setVisible(true)) Open modal
-`
+return (
+  <>
+    <Modal
+      visible={visible}
+      title='Text in modal'
+      onChange={setVisible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+    <Button onPress={() => setVisible(true)}>
+      Open modal
+    </Button>
+  </>
+)
 ```
 
 ## Props
@@ -162,19 +166,20 @@ return (
 <Sandbox
   Component={Modal}
   props={{
-    $visible: $root.scope('_session.Sandbox.Modal'),
+    visible: false,
     children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
-    onChange: val => $root.set('_session.Sandbox.Modal', val),
-    onCrossPress: () => $root.set('_session.Sandbox.Modal', false),
-    onDismiss: () => $root.set('_session.Sandbox.Modal', false),
-    onCancel: () => $root.set('_session.Sandbox.Modal', false),
-    onConfirm: () => $root.set('_session.Sandbox.Modal', false),
+    onChange: value => $root.scope('_session.Props.Modal').at('visible').set(value),
+    onCrossPress: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onDismiss: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onCancel: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onConfirm: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onShow: () => console.info('"onShow" event on "Modal" component'),
+    onBackdropPress: () => console.info('"onBackdropPress" event on "Modal" component'),
+    onOrientationChange: () => console.info('"onOrientationChange" event on "Modal" component'),
+    onRequestClose: () => console.info('"onRequestClose" event on "Modal" component'),
   }}
+  $props={$root.scope('_session.Props.Modal')}
 />
-
-```jsx example
-<Button onPress={() => $root.set('_session.Sandbox.Modal', true)}>Open Sandbox Modal</Button>
-```
 
 ### Modal.Header
 
@@ -182,7 +187,7 @@ return (
   Component={Modal.Header}
   props={{
     children: 'Header content',
-    onCrossPress: () => alert('The "Cross" button was pressed')
+    onCrossPress: () => console.info('"onCrossPress" event on "Modal.Header" component')
   }}
 />
 
@@ -200,7 +205,7 @@ return (
 <Sandbox
   Component={Modal.Actions}
   props={{
-    onCancel: () => alert('The "Cancel" button was pressed'),
-    onConfirm: () => alert('The "Confirm" button was pressed')
+    onCancel: () => console.info('"onCancel" event on "Modal.Actions" component'),
+    onConfirm: () => console.info('"onConfirm" event on "Modal.Actions" component')
   }}
 />

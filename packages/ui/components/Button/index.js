@@ -176,4 +176,4 @@ Button.propTypes = {
   iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
-export default observer(themed(Button))
+export default observer(themed('Button', Button))

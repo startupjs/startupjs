@@ -10,7 +10,7 @@ import ace from '!raw-loader!ace-builds/src-noconflict/ace.js' /* eslint-disable
 import modeJade from '!raw-loader!ace-builds/src-noconflict/mode-jade.js' /* eslint-disable-line */
 import modeStylus from '!raw-loader!ace-builds/src-noconflict/mode-stylus.js' /* eslint-disable-line */
 import modeJavascript from '!raw-loader!ace-builds/src-noconflict/mode-javascript.js' /* eslint-disable-line */
-import modeStartupjs from '!raw-loader!@startupjs/mdx/client/Editor/helpers/mode-startupjs.js' /* eslint-disable-line */
+import modeStartupjs from '!raw-loader!@startupjs/mdx/client/Example/helpers/mode-startupjs.js' /* eslint-disable-line */
 
 export default function initMdx (ee) {
   ee.on('routes', expressApp => {

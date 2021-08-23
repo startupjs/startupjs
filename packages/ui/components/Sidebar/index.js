@@ -75,4 +75,4 @@ Sidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(themed(Sidebar))
+export default observer(themed('Sidebar', Sidebar))

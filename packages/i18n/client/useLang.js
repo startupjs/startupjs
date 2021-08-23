@@ -2,8 +2,8 @@ import { $root, useSession } from 'startupjs'
 import axios from 'axios'
 import { getConfig } from './config'
 
-export default async function useLang () {
-  const [lang] = useSession('_session.lang')
+export default function useLang () {
+  const [lang] = useSession('lang')
   return [lang, setLang]
 }
 
@@ -16,6 +16,6 @@ async function setLang (lang) {
     )
   }
 
-  await axios.post('/i18n/change-langauge', { lang })
+  await axios.post('/api/i18n/change-language', { lang })
   $root.set('_session.lang', lang)
 }

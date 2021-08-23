@@ -86,7 +86,7 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: ({ children }) => null,
+  section: () => null,
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
@@ -120,21 +120,25 @@ export default {
   code: observer(({ children, className, example }) => {
     const language = (className || '').replace(/language-/, '')
 
+    const exampleParams = typeof example === 'string'
+      ? JSON.parse(example)
+      : {}
+
     return pug`
       Div.code(styleName={ 'code-example': example })
         if example
-          Example(value=children)
+          Example(value=children ...exampleParams)
         else
           Code(language=language)= children
     `
   }),
   inlineCode: ({ children }) => pug`
     Span.inlineCodeWrapper
-      Span.inlineCodeSpacer= ' '
+      Span.inlineCodeSpacer &#160;
       Span.inlineCode(style={
         fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
       })= children
-      Span.inlineCodeSpacer= ' '
+      Span.inlineCodeSpacer &#160;
   `,
   hr: ({ children }) => pug`
     Divider(size='l')

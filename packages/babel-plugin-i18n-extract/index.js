@@ -16,33 +16,21 @@ module.exports = function (babel, opts) {
   let skip
   let tFunctionName
   let $program
-  let keys
+  let keys = {}
+  let processedFilename
+  let pluginOptions
 
   return {
-    pre () {
+    pre (state) {
       skip = true
       tFunctionName = undefined
       $program = undefined
       keys = {}
+      processedFilename = undefined
+      pluginOptions = this.opts
     },
     post (state) {
-      let { cwd, filename } = state.opts
-      const isTestEnv = process.env.NODE_ENV === 'test'
-
-      // workaround for tests
-      if (!filename && isTestEnv) {
-        filename = this.opts.filename
-      }
-
-      if (!filename) return
-
-      const key = filename
-        // HACK
-        // for linked packages in node_modules the state.opts.filename return
-        // linked path instead of path to node_modules
-        // we need this path to be correct to replace cwd
-        .replace('startupjs/packages', 'styleguide/node_modules')
-        .replace(cwd, '')
+      if (skip) return
 
       let fileContent
       const filePath = path.join(path.dirname(moduleLocation), FILENAME)
@@ -56,11 +44,11 @@ module.exports = function (babel, opts) {
       }
 
       if (!Object.keys(keys).length) {
-        if (fileContent[key]) delete fileContent[key]
+        if (fileContent[processedFilename]) delete fileContent[processedFilename]
         return
       }
 
-      fileContent[key] = keys
+      fileContent[processedFilename] = keys
 
       fs.writeFileSync(
         filePath,
@@ -69,20 +57,47 @@ module.exports = function (babel, opts) {
       )
     },
     visitor: {
-      Program: ($this) => {
+      Program: ($this, state) => {
         $program = $this
       },
-      ImportDeclaration: ($this) => {
+      ImportDeclaration: ($this, state) => {
+        let fnName
         const value = $this.node.source.value
         const hasImport = IMPORT_T_FUNCTION_LIBRARIES.includes(value)
+
         if (!hasImport) return
+
         for (const specifier of $this.node.specifiers) {
           if (specifier.imported.name !== T_FUNCTION_NAME) continue
-          tFunctionName = specifier.local.name
-          skip = false
+          fnName = specifier.local.name
         }
+
+        if (!fnName) return
+
+        tFunctionName = fnName
+        skip = false
+
+        let { cwd, filename } = state
+        const isTestEnv = process.env.NODE_ENV === 'test'
+        // workaround for tests
+        if (!filename && isTestEnv) {
+          filename = pluginOptions?.filename
+        }
+
+        // workaround for tests
+        if (!filename) return
+
+        filename = filename
+          // HACK
+          // for linked packages in node_modules the state.opts.filename return
+          // linked path instead of path to node_modules
+          // we need this path to be correct to replace cwd
+          .replace('startupjs/packages', 'styleguide/node_modules')
+          .replace(cwd, '')
+
+        processedFilename = filename.replace(/\./g, '%2E')
       },
-      CallExpression: ($this) => {
+      CallExpression: ($this, state) => {
         if (skip) return
 
         const tFunctionBinding = $this.scope.getBinding(tFunctionName)
@@ -135,6 +150,9 @@ module.exports = function (babel, opts) {
           )
         }
 
+        if (!keyNode.value.indexOf(processedFilename)) return
+
+        keyNode.value = `${processedFilename}.${keyNode.value}`
         keys[key] = defaultValue
       }
     }

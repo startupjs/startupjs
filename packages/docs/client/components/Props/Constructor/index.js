@@ -14,7 +14,6 @@ import './index.styl'
 export default observer(themed(function Constructor ({
   Component,
   entries,
-  props,
   $props,
   style,
   theme

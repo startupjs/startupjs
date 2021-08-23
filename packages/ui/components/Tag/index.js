@@ -134,9 +134,15 @@ Tag.defaultProps = {
 
 Tag.propTypes = {
   ...Div.propTypes,
+  textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
+  color: PropTypes.oneOf(Object.keys(colors)),
   shape: PropTypes.oneOf(['circle', 'rounded']),
-  size: PropTypes.oneOf(['s', 'm'])
+  size: PropTypes.oneOf(['s', 'm']),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  secondaryIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 }
 
-export default observer(themed(Tag))
+export default observer(themed('Tag', Tag))

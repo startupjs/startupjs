@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { observer, useSession, useLocal } from 'startupjs'
+import { observer, useModel, useSession, useLocal } from 'startupjs'
 import { pathFor } from 'startupjs/app'
 import { useMedia, Menu, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
@@ -33,7 +33,7 @@ const Docs = observer(function DocsComponent ({
   const [path] = useLocal('$render.params.path')
   const { desktop } = useMedia()
   const [, $openedCollapses] = useSession('SidebarCollapses')
-  const [, $mainSidebar] = useSession('Sidebar.mainSidebar')
+  const $mainSidebar = useModel('_session.Sidebar.mainSidebar')
 
   // HACK: open parent collapse on initial render
   useEffect(() => {
