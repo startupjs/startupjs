@@ -23,7 +23,6 @@ const [date, setDate] = useState()
 return (
   <DateTimePicker
     date={date}
-    label='Select a date'
     onDateChange={setDate}
   />
 )
@@ -35,9 +34,6 @@ return (
 - `onDateChange` - date and time selection handler, returns a timestamp,
 - `disabled` - disabled picker,
 - `format` - date formatting string,
-- `label` - label,
-- `description` - description,
-- `layout` - display layout,
 - `maxDate` - maximum available date in timestamp,
 - `minDate` - minimum available date in timestamp,
 - `minuteInterval` - the interval at which minutes can be selected, possible values are: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 (default 1, ignored in IOS 14),
@@ -68,7 +64,6 @@ return (
       date={dateTime}
       mode='date'
       format='MMMM / DD / yyyy'
-      label='Input as Button'
       onDateChange={setDateTime}
     />
   </Div>
@@ -83,7 +78,6 @@ return (
 ### Android only
 
 - `is24Hour` - if `true` allows changing of the time picker to a 24 hour format,
-
 
 ## Sandbox
 

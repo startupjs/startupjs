@@ -1,5 +1,5 @@
 /* @jsx unstable_createElement */
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 // eslint-disable-next-line
 import { unstable_createElement } from 'react-native-web'
 import DatePicker, { CalendarContainer, registerLocale } from 'react-datepicker'
@@ -8,9 +8,7 @@ import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import * as locale from 'date-fns/locale'
 import Div from '../../Div'
-import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
-import { useLayout } from './../../../hooks'
 import './index.styl'
 
 const localLanguage = window.navigator.language
@@ -28,13 +26,11 @@ const scrollableClasses = [
 
 function DateTimePicker ({
   style,
+  inputStyle,
   InputComponent,
   date,
   disabled,
   format,
-  label,
-  description,
-  layout,
   maxDate,
   minDate,
   minuteInterval,
@@ -42,13 +38,10 @@ function DateTimePicker ({
   placeholder,
   size,
   timeFormat,
+  onFocus,
+  onBlur,
   onDateChange
-}) {
-  layout = useLayout({ layout, label, description })
-
-  const pure = layout === 'pure'
-  const [focused, setFocused] = useState(false)
-
+}, ref) {
   // DatePicker doesn't accept "DD" or "D" day format
   const _format = format && format.replace(/D/g, 'd')
 
@@ -79,26 +72,9 @@ function DateTimePicker ({
     )
   }
 
-  function renderContainer (children) {
-    if (pure) {
-      return pug`
-        Div(style=style)= children
-      `
-    } else {
-      return pug`
-        Div(style=style)
-          Div.info
-            if label
-              Span.label(styleName={focused})= label
-            if description
-              Span.description(description)= description
-          = children
-      `
-    }
-  }
-
-  return renderContainer(pug`
+  return pug`
     DatePicker(
+      style=[style, inputStyle]
       className=size
       calendarClassName=mode
       calendarContainer=renderCalendarContainer
@@ -116,12 +92,15 @@ function DateTimePicker ({
       showYearDropdown
       timeIntervals=minuteInterval
       closeOnScroll= e => !scrollableClasses.includes(e.target.className)
-      onChange= date => onDateChange(+date)
-      onCalendarClose= () => setFocused(false)
-      onCalendarOpen= () => setFocused(true)
+      onChange= date => {
+        onDateChange(+date)
+        console.log(moment(+date).seconds(), moment(+date).milliseconds())
+      }
+      onFocus=onFocus
+      onBlur=onBlur
       ...pickerProps
     )
-  `)
+  `
 }
 
 DateTimePicker.defaultProps = {
@@ -133,18 +112,22 @@ DateTimePicker.defaultProps = {
 
 DateTimePicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   InputComponent: PropTypes.node,
   date: PropTypes.number,
   disabled: PropTypes.bool,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
   minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]),
   mode: PropTypes.oneOf(['date', 'time', 'datetime']),
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onDateChange: PropTypes.func
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onDateChange: PropTypes.func,
+  _hasError: PropTypes.bool // @private TODO: realize error view in new datetimepicker
 }
 
-export default observer(themed(DateTimePicker))
+export default observer(
+  themed('DateTimePicker', DateTimePicker),
+  { forwardRef: true }
+)

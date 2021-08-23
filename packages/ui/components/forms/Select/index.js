@@ -1,23 +1,20 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import pick from 'lodash/pick'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { getLabelFromValue } from './Wrapper/helpers'
 import TextInput from '../TextInput'
 import Wrapper from './Wrapper'
 
-// TODO: Refactor and move InputLayout into a separate component
-
 function Select ({
-  style,
   options,
   value,
   disabled,
-  readonly,
   showEmptyValue,
   onChange,
   ...props
-}) {
+}, ref) {
   function renderWrapper ({ style }, children) {
     return pug`
       Wrapper(
@@ -33,14 +30,12 @@ function Select ({
 
   return pug`
     TextInput(
-      style=style
-      readonly=readonly
+      ref=ref
       value=getLabelFromValue(value, options)
-      disabled=disabled,
+      disabled=disabled
       icon=faAngleDown
       iconPosition='right'
-      renderWrapper=renderWrapper
-      selection={start: 0, end: 0}
+      _renderWrapper=renderWrapper
       editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
       ...props
     )
@@ -49,20 +44,47 @@ function Select ({
 
 Select.defaultProps = {
   options: [],
-  disabled: false,
-  readonly: false,
+  ...pick(
+    TextInput.defaultProps,
+    [
+      'size',
+      'disabled',
+      'readonly'
+    ]
+  ),
   showEmptyValue: true
 }
 
 Select.propTypes = {
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.string,
-  options: PropTypes.array,
-  disabled: PropTypes.bool,
-  readonly: PropTypes.bool,
+  ...pick(
+    TextInput.propTypes,
+    [
+      'style',
+      'inputStyle',
+      'placeholder',
+      'value',
+      'size',
+      'disabled',
+      'readonly',
+      'onFocus',
+      'onBlur',
+      '_hasError'
+    ]
+  ),
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ])
+  ),
   showEmptyValue: PropTypes.bool,
   onChange: PropTypes.func
 }
 
-export default observer(Select)
+export default observer(
+  Select,
+  { forwardRef: true }
+)

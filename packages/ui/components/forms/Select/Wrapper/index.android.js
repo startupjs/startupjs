@@ -13,12 +13,12 @@ import themed from '../../../../theming/themed'
 import './index.styl'
 
 function SelectWrapper ({
-  children,
   style,
-  disabled,
-  options,
-  showEmptyValue,
+  children,
+  options = [],
   value,
+  disabled,
+  showEmptyValue,
   onChange
 }) {
   function onValueChange (value) {
