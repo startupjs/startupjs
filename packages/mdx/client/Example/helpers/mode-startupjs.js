@@ -1,8 +1,4 @@
 /*eslint-disable*/
-import 'ace-builds/src-noconflict/mode-jade'
-import 'ace-builds/src-noconflict/mode-stylus'
-import 'ace-builds/src-noconflict/mode-javascript'
-
 ace.define('ace/mode/startupjs_highlight_rules', ['require', 'exports', 'module', 'ace/lib/oop', 'ace/mode/text_highlight_rules', 'ace/mode/javascript_highlight_rules', 'ace/mode/jade_highlight_rules', 'ace/mode/stylus_highlight_rules'], function (require, exports, module) {
   'use strict'
 

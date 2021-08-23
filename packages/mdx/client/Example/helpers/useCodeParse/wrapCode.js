@@ -6,20 +6,29 @@ export default function wrapCode (code) {
     class ErrorBoundary extends React.Component {
       constructor(props) {
         super(props);
-        this.state = { hasError: false };
+        this.state = {
+          hasError: false,
+          errorMessage: ''
+        };
       }
 
       static getDerivedStateFromError(error) {
-        return { hasError: true };
+        return { hasError: true }
       }
 
-      componentDidCatch(error, errorInfo) {
-        console.log(error, errorInfo);
+      componentDidCatch(error) {
+        this.setState({
+          hasError: true,
+          errorMessage: error
+        })
       }
 
       render() {
         if (this.state.hasError) {
-          return <h1>Something went wrong.</h1>;
+          return pug\`
+            Span(style={ color: 'red' })
+              = this.state.errorMessage.toString()
+          \`;
         }
 
         return this.props.children;
@@ -31,7 +40,10 @@ export default function wrapCode (code) {
         ${code}
       })
 
-      return <ErrorBoundary><Example /></ErrorBoundary>
+      return pug\`
+        ErrorBoundary
+          Example
+      \`
     }
   `
 }

@@ -28,6 +28,7 @@
     "babel-preset-startupjs": "^0.37.0",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
+    "raw-loader": "^4.0.2",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "generic-names": "^1.0.3",
     "lodash": "^4.17.20",

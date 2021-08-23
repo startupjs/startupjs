@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { Image, Platform } from 'react-native'
-// import Clipboard from '@react-native-clipboard/clipboard'
 import { $root, observer } from 'startupjs'
 import {
   Div,
@@ -19,8 +18,6 @@ import {
   Th,
   Thead,
   Tr
-  // Collapse,
-  // Tooltip
 } from '@startupjs/ui'
 import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
@@ -28,7 +25,7 @@ import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import { BASE_URL } from '@env'
 import Code from '../Code'
-import Editor from '../Editor'
+import Example from '../Example'
 import './index.styl'
 
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
@@ -120,25 +117,13 @@ export default {
     Span.p(italic)= children
   `,
   pre: ({ children }) => children,
-  code: observer(({ children, className, editor, example }) => {
+  code: observer(({ children, className, example }) => {
     const language = (className || '').replace(/language-/, '')
-    // const [open, setOpen] = useState(false)
-    // const [copyText, $copyText] = useValue('Copy code')
-
-    // function copyHandler () {
-    //   Clipboard.setString(children)
-    //   $copyText.set('Copied')
-    // }
-
-    // function onMouseEnter () {
-    // we need to reutrn default text if it was copied
-    //   $copyText.setDiff('Copy code')
-    // }
 
     return pug`
       Div.code(styleName={ 'code-example': example })
         if example
-          Editor(value=children)
+          Example(value=children)
         else
           Code(language=language)= children
     `
