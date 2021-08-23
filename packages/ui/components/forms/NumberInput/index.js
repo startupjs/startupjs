@@ -34,7 +34,7 @@ function NumberInput ({
       }
       setInputValue(value.toString())
     }
-  }, [value])
+  }, [value, min, max])
 
   const isStepInteger = useMemo(() => {
     return Number.isInteger(step)
