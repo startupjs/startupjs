@@ -1,3 +1,19 @@
+## [0.37.8](https://github.com/startupjs/startupjs/compare/v0.37.7...v0.37.8) (2021-08-24)
+
+
+### Bug Fixes
+
+* **mdx:** fix highlighting of sublanguages (styl, css, pug) ([#765](https://github.com/startupjs/startupjs/issues/765)) ([8002081](https://github.com/startupjs/startupjs/commit/800208108a65cd6717b5fff3cae1f0ae05a2208f))
+* **ui/Input:** fix bug related to crash when use 'object' or 'array' inputs ([#777](https://github.com/startupjs/startupjs/issues/777)) ([b92f456](https://github.com/startupjs/startupjs/commit/b92f4566840de32d1c8d715afeb9004eb63eb587))
+* **ui/uiAppPlugin:** move to root from helpers ([#774](https://github.com/startupjs/startupjs/issues/774)) ([41e6b4f](https://github.com/startupjs/startupjs/commit/41e6b4f7445a440a34972c4e4b87ffc42661ad99))
+
+
+### Features
+
+* **ui/Toasts:** add component ([#687](https://github.com/startupjs/startupjs/issues/687)) ([8d93172](https://github.com/startupjs/startupjs/commit/8d93172c8358388a8d4bc383cf055eb80278fefc))
+
+
+
 ## [0.37.7](https://github.com/startupjs/startupjs/compare/v0.37.6...v0.37.7) (2021-08-20)
 
 
