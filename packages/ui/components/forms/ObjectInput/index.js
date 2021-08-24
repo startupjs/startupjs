@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Input from '../Input'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
 import './index.styl'
@@ -49,6 +48,10 @@ function ObjectInput ({
       `
     }
   }
+
+  // INFO: we use require because the Input component is undefined
+  // in circular imports https://stackoverflow.com/a/30390378
+  const Input = require('../Input').default
 
   return _renderWrapper({
     style: [style, inputStyle]
