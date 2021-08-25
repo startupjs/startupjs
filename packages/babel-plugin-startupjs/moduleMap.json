@@ -64,6 +64,7 @@
     "ToastProvider": "/components/toast/ToastProvider.js",
     "toast": "/components/toast/toast.js",
     "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
+    "useHover": "/hooks/useHover.js",
     "useLayout": "/hooks/useLayout.js",
     "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
