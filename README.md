@@ -289,8 +289,6 @@ There are 3 types of security mechanisms you must implement:
 - [Server-only MongoDB Aggregations](https://github.com/startupjs/startupjs/tree/master/packages/server-aggregate)
 - [Validation of MongoDB documents using JSON Schema](https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema)
 
-**NOTE**: All 3 mechanisms are integrated for their simpler use into the ORM system. We are working on the guide on how to use them with the ORM. If you want help properly integrating it into your production project, please file an issue or contact [cray0000](https://github.com/cray0000) directly via email.
-
 If you want to work on their implementation one by one, you can keep the `secure: false` flag and only add the ones you want to implement by specifying the following flags:
 
 ```js
@@ -298,6 +296,8 @@ accessControl: true,
 serverAggregate: true,
 validateSchema: true
 ```
+
+**NOTE**: All 3 mechanisms are integrated for their simpler use into the ORM system. We are working on the guide on how to use them with the ORM. If you want help properly integrating it into your production project, please file an issue or contact [cray0000](https://github.com/cray0000) directly via email.
 
 ## Contributing & Troubleshooting
 
