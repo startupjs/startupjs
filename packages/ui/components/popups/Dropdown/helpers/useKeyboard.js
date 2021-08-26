@@ -1,68 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Platform } from 'react-native'
+import { useValue } from 'startupjs'
 
-export default function useKeyboard ({
-  isShow,
-  renderContent,
-  value,
-  onChange,
-  onChangeShow
-}) {
-  const [selectIndexValue, setSelectIndexValue] = useState(-1)
+export default function ({ visible, value, options, onChange }) {
+  const [selectIndex, $selectIndex] = useValue(-1)
+
+  if (Platform.OS !== 'web') return [selectIndex, $selectIndex, null]
 
   useEffect(() => {
-    if (Platform.OS !== 'web') return
-
-    if (isShow) {
+    if (visible) {
       document.addEventListener('keydown', onKeyDown)
     } else {
       document.removeEventListener('keydown', onKeyDown)
-      setSelectIndexValue(-1)
+      $selectIndex.set(-1)
     }
-
     return () => document.removeEventListener('keydown', onKeyDown)
-  }, [isShow, selectIndexValue])
+  }, [visible, value])
 
   function onKeyDown (e) {
     e.preventDefault()
     e.stopPropagation()
 
-    let item, index
-    const keyName = e.key
+    const selectIndex = $selectIndex.get()
+    if (selectIndex === -1 && value) {
+      $selectIndex.set(options.findIndex(option => option.value === value))
+      return
+    }
 
-    switch (keyName) {
+    switch (e.key) {
       case 'ArrowUp':
-        if (selectIndexValue === 0 || (selectIndexValue === -1 && !value)) return
-
-        index = selectIndexValue - 1
-        if (selectIndexValue === -1 && value) {
-          index = renderContent.current.findIndex(item => item.props.value === value)
-          index--
-        }
-
-        setSelectIndexValue(index)
+        if (selectIndex <= 0) return
+        $selectIndex.set(selectIndex - 1)
         break
 
       case 'ArrowDown':
-        if (selectIndexValue === renderContent.current.length - 1) return
-
-        index = selectIndexValue + 1
-        if (selectIndexValue === -1 && value) {
-          index = renderContent.current.findIndex(item => item.props.value === value)
-          index++
-        }
-
-        setSelectIndexValue(index)
+        if (selectIndex === options.length - 1) return
+        $selectIndex.set(selectIndex + 1)
         break
 
       case 'Enter':
-        if (selectIndexValue === -1) return
-        item = renderContent.current.find((_, i) => i === selectIndexValue)
-        onChange && onChange(item.props.value)
-        onChangeShow(false)
+        if (selectIndex === -1) return
+        onChange(options[selectIndex].value)
         break
     }
   }
 
-  return [selectIndexValue]
+  return [selectIndex]
 }
