@@ -22,13 +22,7 @@
 
 ### BREAKING CHANGES
 
-* **ui/DatePicker:** ### `startupjs/ui/DateTimePicker`
-
-- prop `format` rename to `dateFormat`
-- prop `cancelButtonText` remove, so there is no more cancel button
-- prop `confirmButtonText` remove, so there is no more confirm button
-* **backend:** To change this behavior pass `secure: false` to the server initialization.
-* **ui:** Update `react-native-collapsible` version to `^1.6.0`
+* [See 0.38 migration guide](/docs/migration-guides/0.38.md)
 
 
 
