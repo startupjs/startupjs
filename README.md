@@ -297,7 +297,7 @@ serverAggregate: true,
 validateSchema: true
 ```
 
-**NOTE**: All 3 mechanisms are integrated for their simpler use into the ORM system. We are working on the guide on how to use them with the ORM. If you want help properly integrating it into your production project, please file an issue or contact [cray0000](https://github.com/cray0000) directly via email.
+**NOTE**: All 3 mechanisms are integrated for their simpler use into the ORM system. We are working on a guide on how to use them with the ORM. If you want help properly integrating it into your production project, please file an issue or contact [cray0000](https://github.com/cray0000) directly via email.
 
 ## Contributing & Troubleshooting
 
