@@ -33,6 +33,22 @@ export default {
   },
   icon: faSpellCheck,
   items: {
+    Input: {
+      type: 'mdx',
+      title: 'Input',
+      component: {
+        en: InputEn,
+        ru: InputRu
+      }
+    },
+    ObjectInput: {
+      type: 'mdx',
+      title: 'ObjectInput',
+      component: {
+        en: ObjectInputEn,
+        ru: ObjectInputRu
+      }
+    },
     Array: {
       type: 'mdx',
       title: 'ArrayInput',
@@ -65,14 +81,6 @@ export default {
         ru: DateTimePickerRu
       }
     },
-    Input: {
-      type: 'mdx',
-      title: 'Input',
-      component: {
-        en: InputEn,
-        ru: InputRu
-      }
-    },
     Multiselect: {
       type: 'mdx',
       title: 'Multiselect',
@@ -87,14 +95,6 @@ export default {
       component: {
         en: NumberInputEn,
         ru: NumberInputRu
-      }
-    },
-    ObjectInput: {
-      type: 'mdx',
-      title: 'ObjectInput',
-      component: {
-        en: ObjectInputEn,
-        ru: ObjectInputRu
       }
     },
     PasswordInput: {
