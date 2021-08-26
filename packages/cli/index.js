@@ -3,6 +3,7 @@ const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
 const Font = require('fonteditor-core').Font
+const template = require('lodash/template')
 const CLI_VERSION = require('./package.json').version
 const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
 const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
@@ -431,6 +432,9 @@ commander
       })
     }
 
+    console.log('> Update config.json')
+    updateConfigJson(projectPath, { projectName })
+
     console.log('> Patch package.json with additional scripts')
     patchScriptsInPackageJson(projectPath)
 
@@ -711,6 +715,43 @@ function appendGitignore (projectPath) {
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
+}
+
+function updateConfigJson (projectPath, options) {
+  const configJsonPath = path.join(projectPath, 'config.json')
+  let configJson = fs.readFileSync(configJsonPath).toString()
+
+  try {
+    const templateFn = template(configJson)
+    const sessionSecret = generateRandomString(32)
+    configJson = templateFn({ ...options, sessionSecret })
+  } catch (e) {
+    console.log(
+      '\x1b[31m' +
+      'config.json has not been updated, update it manually!' +
+      '\x1b[0m'
+    )
+  }
+
+  fs.writeFileSync(
+    configJsonPath,
+    configJson
+  )
+}
+
+function generateRandomString (length = 0) {
+  let result = ''
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  var charactersLength = characters.length
+
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(
+      Math.floor(
+        Math.random() * charactersLength
+      )
+    )
+  }
+  return result
 }
 
 function getSuccessInstructions (projectName) {

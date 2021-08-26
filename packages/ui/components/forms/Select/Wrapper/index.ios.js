@@ -15,13 +15,13 @@ import themed from '../../../../theming/themed'
 import './index.styl'
 
 function SelectWrapper ({
+  style,
+  children,
   options = [],
   value,
-  onChange,
   disabled,
   showEmptyValue,
-  style,
-  children
+  onChange
 }) {
   const [showModal, setShowModal] = useState(false)
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useDoc, useModel, useSession } from 'startupjs'
+import { $root, useDoc, useModel, useSession } from 'startupjs'
 import languageDetector from './languageDetector'
 import { useConfig } from './config'
 
@@ -28,11 +28,13 @@ export default function useI18nGlobalInit () {
     }
   }
 
-  const [, $i18nTranslations] = useDoc('i18nTranslations', lang)
+  useDoc('i18nTranslations', lang)
 
   useMemo(() => {
-    $session.ref('i18nTranslations', $i18nTranslations)
-  }, [])
+    // we dont remove previous ref
+    // because racer removes it itself when creating a new one
+    $session.ref('i18nTranslations', $root.at(`i18nTranslations.${lang}`))
+  }, [lang])
 
   return true
 }

@@ -5,6 +5,7 @@ import Row from '../../Row'
 import Div from '../../Div'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
+import { parseValue } from './helpers'
 import './index.styl'
 
 const IS_ANDROID = Platform.OS === 'android'
@@ -21,16 +22,12 @@ const RadioInput = function ({
   checked,
   disabled,
   readonly,
-  onPress,
-  ...props
+  onChange,
+  error
 }) {
   const animation = useRef(
     new Animated.Value(checked ? MAX_SCALE_RATIO : MIN_SCALE_RATIO)
   ).current
-
-  const setChecked = () => {
-    onPress && onPress(value)
-  }
 
   useDidUpdate(() => {
     if (checked) {
@@ -61,19 +58,17 @@ const RadioInput = function ({
       style=style
       vAlign='center'
       disabled=disabled || readonly
-      onPress=setChecked
+      onPress=() => onChange && onChange(parseValue(value))
     )
       Div.radio(
-        styleName=[{ checked }]
+        styleName=[{ checked, error }]
       )
         Animated.View.circle(
           style={ transform: [{ scale: animation }] }
+          styleName={ error }
         )
       Div.container
-        if typeof children === 'string'
-          Span= children
-        else
-          = children
+        Span.label= children
   `
 }
 
