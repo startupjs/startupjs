@@ -10,7 +10,7 @@ const PromptInput = observer(() => pug`
     err=$dialog.get('textInputError')
     type='text'
     value=$dialog.get('textInput')
-    onChangeText=t=> $dialog.set('textInput', t)
+    $value=$dialog.at('textInput')
   )
 `)
 
