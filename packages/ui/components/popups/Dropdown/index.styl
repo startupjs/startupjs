@@ -1,49 +1,12 @@
-.dropdown
-  &.list
-    padding 2u
-    padding-bottom 1u
+.selectItem
+  background-color #ddd
 
-  &.buttons
-    max-height 100%
+.drawerItem
+  padding 3u 0
+  border-top 1px solid #ddd
 
-.case
-  &.buttons
-    margin 1.5u 1.5u 2u
-    border-radius 1u
-    background-color $UI.colors.white
+.drawerItemContainer
+  align-items center
 
-.caption
-  align-self flex-start
-
-.captionText
-  &.list
-    padding 1u 2u 2u
-    font-size 21px
-
-    +web()
-      fontFamily('normal', 600)
-
-    +native()
-      fontFamily('normal', 600)
-
-.button
-  &.buttons
-    justify-content center
-    align-items center
-    margin -1u 1.5u 1.5u
-    padding 2u
-    border-radius 1u
-    background-color $UI.colors.white
-
-.popover
-  border-radius .5u
-  shadow(2)
-
-.drawerReset
-  background-color transparent
-  height auto
-  box-shadow none
-  border-radius 0
-
-:export
-  media: $UI.media
+.drawerCaption
+  padding 1u 2u

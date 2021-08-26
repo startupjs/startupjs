@@ -1,237 +1,170 @@
-import React, { useState, useRef, useImperativeHandle, useEffect } from 'react'
-import {
-  Dimensions,
-  NativeModules,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import React, { useRef, useImperativeHandle } from 'react'
+import { View, FlatList, TouchableOpacity } from 'react-native'
 import { observer, useValue } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import DropdownCaption from './components/Caption'
-import DropdownItem from './components/Item'
-import { useKeyboard } from './helpers'
+import Menu from '../../Menu'
+import H5 from '../../typography/headers/H5'
+import DeprecatedDropdown from './Deprecated'
+import AbstractPopover from '../Popover/AbstractPopover'
 import Drawer from '../Drawer'
-import Popover from '../Popover'
-import { PLACEMENTS_ORDER } from '../Popover/constants'
-import themed from '../../../theming/themed'
-import STYLES from './index.styl'
+import { DropdownPopover, DropdownDrawer } from './components'
+import { useKeyboard, useScroll } from './helpers'
+import './index.styl'
 
-const { UIManager } = NativeModules
-
-// TODO: key event change scroll
+// TODO: style for content ?
 function Dropdown ({
   style,
-  captionStyle,
-  activeItemStyle,
   children,
   value,
-  position,
-  attachment,
-  placements,
-  drawerVariant,
-  drawerListTitle,
-  drawerCancelLabel,
-  hasDrawer,
+  options,
+  renderItem,
+  popoverOnly,
+  popoverProps,
+  drawerProps,
   onChange,
-  onDismiss
+  ...props
 }, ref) {
-  const refScroll = useRef()
-  const renderContent = useRef([])
+  if (React.Children.toArray(children).find(child => child.type === DeprecatedDropdown.Item)) {
+    console.warn('[@startupjs/ui] Dropdown: Dropdown.Caption is DEPRECATED, use new api')
 
-  const [isShow, $isShow] = useValue(false)
-  const [activeInfo, setActiveInfo] = useState(null)
-  const [layoutWidth, $layoutWidth] = useValue(
-    Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
-  )
-  const [selectIndexValue] = useKeyboard({
-    value,
-    isShow,
-    renderContent,
-    onChange,
-    onChangeShow: v => $isShow.setDiff(v)
-  })
-  const isPopover = !hasDrawer || (layoutWidth > STYLES.media.tablet)
-
-  function handleWidthChange () {
-    $isShow.setDiff(false)
-    $layoutWidth.setDiff(Math.min(Dimensions.get('window').width, Dimensions.get('screen').width))
+    return pug`
+      DeprecatedDropdown(
+        ...props
+        style=style
+        value=value
+        onChange=onChange
+      )= children
+    `
   }
 
-  useEffect(() => {
-    Dimensions.addEventListener('change', handleWidthChange)
-    return () => {
-      $isShow.del()
-      Dimensions.removeEventListener('change', handleWidthChange)
-    }
-  }, [])
+  const media = useMedia()
+  const isDrawer = !media.tablet && !popoverOnly
+
+  const refScroll = useRef()
+  const [visible, $visible] = useValue(false)
+
+  const [selectIndex] = useKeyboard({
+    visible,
+    value,
+    options,
+    onChange: _onChange
+  })
+
+  const {
+    getItemLayout,
+    scrollToActive,
+    onLayoutItem
+  } = useScroll({ refScroll, value, options })
 
   useImperativeHandle(ref, () => ({
-    open: () => {
-      $isShow.setDiff(true)
-    },
-    close: () => {
-      $isShow.setDiff(false)
-    }
+    open: () => $visible.setDiff(true),
+    close: () => $visible.setDiff(false)
   }))
 
-  function onLayoutActive ({ nativeEvent }) {
-    setActiveInfo(nativeEvent.layout)
+  function _onChange (value) {
+    $visible.set(false)
+    onChange && onChange(value)
   }
 
-  function onCancel () {
-    onDismiss && onDismiss()
-    $isShow.setDiff(false)
-  }
-
-  function onRequestOpen () {
-    UIManager.measure(refScroll.current.getScrollableNode(), (x, y, width, curHeight) => {
-      if (activeInfo && activeInfo.y >= (curHeight - activeInfo.height)) {
-        refScroll.current.scrollTo({ y: activeInfo.y, animated: false })
-      }
-    })
-  }
-
-  let caption = null
-  let activeLabel = ''
-  renderContent.current = []
-  React.Children.toArray(children).forEach((child, index, arr) => {
-    if (child.type === DropdownCaption) {
-      if (index !== 0) Error('Caption need use first child')
-      if (child.props.children) {
-        caption = React.cloneElement(child, { variant: 'custom' })
-      } else {
-        caption = child
-      }
-      return
-    }
-
-    const _child = React.cloneElement(child, {
-      _variant: child.props.children
-        ? 'pure'
-        : (isPopover ? 'popover' : drawerVariant),
-      _styleActiveItem: activeItemStyle,
-      _activeValue: value,
-      _selectIndexValue: selectIndexValue,
-      _index: caption ? (index - 1) : index,
-      _childrenLength: caption ? (arr.length - 1) : arr.length,
-      _onDismissDropdown: () => $isShow.setDiff(false),
-      _onChange: v => {
-        onChange && onChange(v)
-        $isShow.setDiff(false)
-      }
-    })
-
-    if (value === child.props.value) {
-      activeLabel = child.props.label
-      renderContent.current.push(pug`
-        View(
+  function _renderItem ({ item, index }) {
+    if (renderItem) {
+      return pug`
+        TouchableOpacity(
           key=index
-          value=child.props.value
-          onLayout=onLayoutActive
-        )=_child
-      `)
-    } else {
-      renderContent.current.push(_child)
+          onPress=()=> _onChange(item)
+        )= renderItem({ item, index, selectIndex })
+      `
     }
-  })
 
-  if (!caption) {
-    caption = <DropdownCaption _activeLabel={activeLabel} />
-  } else {
-    caption = React.cloneElement(caption, { _activeLabel: activeLabel })
-  }
-
-  const _popoverStyle = StyleSheet.flatten(style)
-  if (caption.props.variant === 'button' || caption.props.variant === 'custom') {
-    _popoverStyle.minWidth = 160
-  }
-
-  if (isPopover) {
     return pug`
-      Popover.popover(
+      View(onLayout=e=> onLayoutItem(e, index))
+        Menu.Item(
+          to=item.to
+          icon=item.icon
+          active=value.value === item.value
+          styleName={
+            drawerItem: isDrawer,
+            selectItem: index === selectIndex
+          }
+          containerStyleName={ drawerItemContainer: isDrawer }
+          onPress=()=> item.onPress ? item.onPress() : _onChange(item)
+        )= item.label
+    `
+  }
+
+  function renderContent () {
+    return pug`
+      if isDrawer
+        H5.drawerCaption(bold)= drawerProps.listTitle
+      FlatList(
         ref=refScroll
-        captionStyle=captionStyle
-        style=_popoverStyle
-        position=position
-        attachment=attachment
-        placements=placements
-        visible=isShow
-        hasWidthCaption=(!_popoverStyle.width && !_popoverStyle.minWidth)
-        onDismiss=()=> $isShow.setDiff(false)
-        onRequestOpen=onRequestOpen
+        data=options
+        extraData={ selectIndex }
+        renderItem=_renderItem
+        keyExtractor=item=> item.value
+        getItemLayout=getItemLayout
+        scrollEventThrottle=500
       )
-        if caption
-          Popover.Caption
-            TouchableOpacity(onPress=()=> $isShow.set(!isShow))
-              = caption
-        = renderContent.current
+    `
+  }
+
+  if (isDrawer) {
+    return pug`
+      DropdownDrawer(
+        ...drawerProps
+        visible=visible
+        renderContent=renderContent
+        onChangeVisible=v=> $visible.set(v)
+        onRequestOpen=scrollToActive
+      )= children
     `
   }
 
   return pug`
-    if caption
-      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
-        = caption
-    Drawer(
-      visible=isShow
-      position='bottom'
-      style={ maxHeight: '100%' }
-      styleName={ drawerReset: drawerVariant === 'buttons' }
-      onDismiss=()=> $isShow.setDiff(false)
-      onRequestOpen=onRequestOpen
-    )
-      View.dropdown(styleName=drawerVariant)
-        if drawerVariant === 'list'
-          View.caption(styleName=drawerVariant)
-            Text.captionText(styleName=drawerVariant)= drawerListTitle
-        ScrollView.case(
-          ref=refScroll
-          showsVerticalScrollIndicator=false
-          style=_popoverStyle
-          styleName=drawerVariant
-        )= renderContent.current
-        if drawerVariant === 'buttons'
-          TouchableOpacity(onPress=onCancel)
-            View.button(styleName=drawerVariant)
-              Text= drawerCancelLabel
+    DropdownPopover(
+      ...popoverProps
+      visible=visible
+      renderContent=renderContent
+      onChangeVisible=v=> $visible.set(v)
+      onRequestOpen=scrollToActive
+    )= children
   `
 }
 
-Dropdown.defaultProps = {
-  style: [],
-  position: 'bottom',
-  attachment: 'start',
+const ObservedDropdown = observer(Dropdown, { forwardRef: true })
+
+ObservedDropdown.defaultProps = {
   value: '',
-  drawerVariant: 'buttons',
-  drawerListTitle: '',
-  drawerCancelLabel: 'Cancel',
-  hasDrawer: true
+  popoverOnly: false,
+  popoverProps: {
+    position: 'bottom',
+    attachment: 'start',
+    placements: AbstractPopover.defaultProps.placements
+  },
+  drawerProps: {
+    position: 'bottom',
+    listTitle: 'Select value'
+  }
 }
 
-Dropdown.propTypes = {
+ObservedDropdown.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
-  attachment: PropTypes.oneOf(['start', 'center', 'end']),
-  placements: PropTypes.oneOf(PLACEMENTS_ORDER),
-  drawerVariant: PropTypes.oneOf(['list', 'buttons', 'pure']),
-  drawerListTitle: PropTypes.string,
-  drawerCancelLabel: PropTypes.string,
-  hasDrawer: PropTypes.bool,
-  onChange: PropTypes.func,
-  onDismiss: PropTypes.func
+  popoverOnly: PropTypes.bool,
+  popoverProps: PropTypes.shape({
+    position: AbstractPopover.propTypes.position,
+    attachment: AbstractPopover.propTypes.attachment,
+    placements: AbstractPopover.propTypes.placements
+  }),
+  drawerProps: PropTypes.shape({
+    position: Drawer.propTypes.position,
+    listTitle: PropTypes.string
+  }),
+  onChange: PropTypes.func
 }
 
-const ObservedDropdown = observer(
-  themed('Dropdown', Dropdown),
-  { forwardRef: true }
-)
-
-ObservedDropdown.Caption = DropdownCaption
-ObservedDropdown.Item = DropdownItem
+ObservedDropdown.Caption = DeprecatedDropdown.Caption
+ObservedDropdown.Item = DeprecatedDropdown.Item
 
 export default ObservedDropdown

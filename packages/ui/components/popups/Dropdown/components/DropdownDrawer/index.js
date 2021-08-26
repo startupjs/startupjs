@@ -1,0 +1,30 @@
+import React from 'react'
+import Drawer from '../../../Drawer'
+import Div from '../../../../Div'
+import './index.styl'
+
+export default function DropdownDrawer ({
+  style,
+  children,
+  visible,
+  position,
+  listTitle,
+  renderContent,
+  onChangeVisible,
+  onRequestOpen
+}) {
+  return pug`
+    Div(
+      style=style
+      onPress=()=> onChangeVisible(true)
+    )= children
+    Drawer.attachment(
+      position=position
+      visible=visible
+      styleName='attachment-' + position
+      onDismiss=()=> onChangeVisible(false)
+      onRequestOpen=onRequestOpen
+    )
+      Div.content= renderContent()
+  `
+}

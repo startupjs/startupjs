@@ -6,7 +6,6 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from '../../../../Icon'
 import Menu from '../../../../Menu'
 import Link from '../../../../Link'
-import themed from '../../../../../theming/themed'
 import './index.styl'
 
 function DropdownItem ({
@@ -81,4 +80,4 @@ DropdownItem.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
-export default observer(themed('DropdownItem', DropdownItem))
+export default observer(DropdownItem)
