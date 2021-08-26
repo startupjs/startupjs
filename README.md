@@ -138,7 +138,11 @@ The main things you'll need to know to get started with StartupJS are:
 1. [React hooks for Model](/packages/react-sharedb-hooks)
 1. [StartupJS UI Components](https://startupjs-ui.dev.dmapper.co)
 
-For additional documentation on each StartupJS package see the [according readme](#sub-packages-documentation):
+Before launching your app to production you are strongly encouraged to implement:
+
+1. [Security](#security)
+
+For additional documentation on each StartupJS package see the [according readme](#sub-packages-documentation)
 
 ### Advanced
 
@@ -270,6 +274,28 @@ And add the execution of vite patch to your `postinstall` script in `package.jso
 ```
 
 Note that the vite version is required to be the outdated `0.20.3`. lUpgrade to the latest vite version is planned to be done soon.
+
+## Security
+
+StartupJS server is designed to be secure by default.
+
+For the same of simplifying quick prototyping, a new project you create with `startupjs init` will have security mechanisms turned off.
+
+You are strongly encouraged to implement security for your project as early as possible by removing `secure: false` flag from the server initialization in your `server/index.js` file.
+
+There are 3 types of security mechanisms you must implement:
+
+- [Access Control to MongoDB documents](https://github.com/startupjs/startupjs/tree/master/packages/sharedb-access)
+- [Server-only MongoDB Aggregations](https://github.com/startupjs/startupjs/tree/master/packages/server-aggregate)
+- [Validation of MongoDB documents using JSON Schema](https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema)
+
+If you want to work on their implementation one by one, you can keep the `secure: false` flag and only add the ones you want to implement by specifying the following flags:
+
+```js
+accessControl: true,
+serverAggregate: true,
+validateSchema: true
+```
 
 ## Contributing & Troubleshooting
 
