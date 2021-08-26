@@ -1,3 +1,37 @@
+# [0.38.0](https://github.com/startupjs/startupjs/compare/v0.37.8...v0.38.0) (2021-08-26)
+
+
+### Bug Fixes
+
+* **app:** move dialogs to ui library ([#714](https://github.com/startupjs/startupjs/issues/714)) ([ba66a1a](https://github.com/startupjs/startupjs/commit/ba66a1a0df43d9f96b261c18eda286e273ed8e1a))
+* **ui:** update `react-native-collapsible` ([040a945](https://github.com/startupjs/startupjs/commit/040a945f99436235e3b6b107f978792076275e8c))
+* **ui/Collapse:** remove default shadow ([cbfa85a](https://github.com/startupjs/startupjs/commit/cbfa85ae7c368b40467c8d8a8382f0921db5a7a7))
+
+
+### Features
+
+* **backend:** deny access to db by default ([#703](https://github.com/startupjs/startupjs/issues/703)) ([247d066](https://github.com/startupjs/startupjs/commit/247d066d322c2b66183e62f05b53dfea88bbec21))
+* **ui/Popover:** rework comonent api ([#684](https://github.com/startupjs/startupjs/issues/684)) ([eb1bada](https://github.com/startupjs/startupjs/commit/eb1bada098cd5db94557251e62fc0fdafddad512))
+* **ui/Tooltip:** deprecate popover and tooltip current api ([#768](https://github.com/startupjs/startupjs/issues/768)) ([002c60e](https://github.com/startupjs/startupjs/commit/002c60e8a6241b7f3fd3e1e19aacb57ab1ce1c8f))
+
+
+### ref
+
+* **ui/DatePicker:** timezone ([#701](https://github.com/startupjs/startupjs/issues/701)) ([8c95184](https://github.com/startupjs/startupjs/commit/8c951848b54afde18d6248b65df82aea58722bf9))
+
+
+### BREAKING CHANGES
+
+* **ui/DatePicker:** ### `startupjs/ui/DateTimePicker`
+
+- prop `format` rename to `dateFormat`
+- prop `cancelButtonText` remove, so there is no more cancel button
+- prop `confirmButtonText` remove, so there is no more confirm button
+* **backend:** To change this behavior pass `secure: false` to the server initialization.
+* **ui:** Update `react-native-collapsible` version to `^1.6.0`
+
+
+
 ## [0.37.8](https://github.com/startupjs/startupjs/compare/v0.37.7...v0.37.8) (2021-08-24)
 
 
