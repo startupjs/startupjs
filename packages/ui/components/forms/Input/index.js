@@ -33,7 +33,6 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  input: PropTypes.oneOf(possibleInputs),
   type: PropTypes.oneOf(possibleInputs.concat(possibleTypes)),
   value: PropTypes.any,
   $value: PropTypes.any
