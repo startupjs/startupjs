@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../typography/Span'
-import Br from '../Br'
+import Icon from '../Icon'
 import Row from '../Row'
-import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
 # Div
@@ -128,16 +130,21 @@ return (
 )
 ```
 
-## renderTooltip
+## Tooltip
+- renderTooltip (function: ReactNode | string | number): hidden part
+- tooltipProps (object): additional parameters identical [Popover](/docs/popups/Popover): style, position, attachment, durationOpen, durationClose, arrow
 
 ```jsx example
-const anchorStyle = { width: 36, height: 36, backgroundColor: '#333' }
-const content = 'Tooltip content'
+const content = 'Content'
+
 return pug`
-  Div(
-    style=anchorStyle
-    renderTooltip=content
-  )
+  Div.caption(renderTooltip=content)
+    Icon(icon=faInfoCircle size='xl')
+`
+
+styl`
+  .caption
+    width 3u
 `
 ```
 
