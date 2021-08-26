@@ -279,7 +279,7 @@ Note that the vite version is required to be the outdated `0.20.3`. lUpgrade to 
 
 StartupJS server is designed to be secure by default.
 
-For the same of simplifying quick prototyping, a new project you create with `startupjs init` will have security mechanisms turned off.
+For the sake of simplifying quick prototyping, a new project you create with `startupjs init` will have security mechanisms turned off.
 
 You are strongly encouraged to implement security for your project as early as possible by removing `secure: false` flag from the server initialization in your `server/index.js` file.
 
