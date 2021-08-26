@@ -1,0 +1,59 @@
+import { Dependencies } from './../../_helpers'
+import deps from '../package'
+
+# @dmapper/serve-static-promo
+
+Этот пакет предназначен для хостинга статической промо страницы из `.zip` файла внутри папки `/promo` в корне вашего проекта.
+
+## ## Требования
+
+<Dependencies deps={deps} />
+
+## Установка
+
+```
+yarn add @dmapper/serve-static-promo
+```
+
+## Использование
+
+1. Подключите модуль как мидлвару в ваше express.js приложение.
+
+  ```js
+  // server/index.js
+
+  import { serveStaticPromo } from '@dmapper/serve-static-promo/server'
+
+  // ...
+
+    ee.on('routes', expressApp => {
+      // ...
+      expressApp.use(serveStaticPromo())
+    })
+
+  ```
+
+2. Промо будет хостится по адресу `/promo`. Поэтому добавьте в ваш файл с роутами `main/routes.js` в путь `/` фильтр, который будет редиректить юзера на страницу `/promo`, если юзер не залогинен. Редирект будет происходить только на сервере и в вебе. На iOS и на Android он не возымеет никакого действия, так как промо хостится как обычный статический сайт.
+
+  ```js
+  // main/routes.js
+
+  import { redirectToPromoIfNotLoggedIn } from '@dmapper/serve-static-promo/isomorphic'
+
+  // ...
+  {
+    path: '/',
+    exact: true,
+    component: components.PHome,
+    filters: [redirectToPromoIfNotLoggedIn()]
+  },
+  // ...
+  ```
+
+`redirectToPromoIfNotLoggedIn` принимает объект со следующими настройками:
+
+- `redirectUrl` - на какой URL редиректить. Значение по-умолчанию: `/promo`
+
+## License
+
+Private

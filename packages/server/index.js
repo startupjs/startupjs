@@ -1,4 +1,5 @@
 // Initialize nconf with proper config
+// TODO: refactor to use .env everywhere
 require('./nconf')
 
 const defaults = require('lodash/defaults')

@@ -1,4 +1,5 @@
 const routesMiddleware = require('@startupjs/routes-middleware')
+const registry = require('@startupjs/registry/server')
 const _defaults = require('lodash/defaults')
 const _cloneDeep = require('lodash/cloneDeep')
 const conf = require('nconf')
@@ -13,6 +14,7 @@ const MongoStore = require('connect-mongo')
 const racerHighway = require('racer-highway')
 const hsts = require('hsts')
 const cors = require('cors')
+const m = registry.getModule('startupjs')
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
@@ -156,10 +158,12 @@ module.exports = (backend, appRoutes, error, options, done) => {
 
   // ----------------------------------------------------->    middleware    <#
   options.ee.emit('middleware', expressApp)
+  m.hook('middleware', expressApp)
 
   // Server routes
   // ----------------------------------------------------->      routes      <#
   options.ee.emit('routes', expressApp)
+  m.hook('api', expressApp)
 
   expressApp.use(routesMiddleware(appRoutes, options))
 

@@ -1,0 +1,59 @@
+import { Dependencies } from './../../_helpers'
+import deps from '../package'
+
+# @dmapper/serve-static-promo
+
+This package is used to serve static promo page from the `.zip` file inside `/promo` folder in the root of your project.
+
+## Requirements
+
+<Dependencies deps={deps} />
+
+## Installation
+
+```
+yarn add @dmapper/serve-static-promo
+```
+
+## Usage
+
+1. Plug it in as a middleware on your server:
+
+  ```js
+  // server/index.js
+
+  import { serveStaticPromo } from '@dmapper/serve-static-promo/server'
+
+  // ...
+
+    ee.on('routes', expressApp => {
+      // ...
+      expressApp.use(serveStaticPromo())
+    })
+
+  ```
+
+2. Promo is going to be hosted at url `/promo`. So you need to add redirect to that URL when user is not logged in. In your file with routes `main/routes.js` add a filter for the path `/` which is going to do such redirect. Redirect is only going to happen on server and on web. On iOS and Android it won't take any effect since promo is being hosted as a regular static website.
+
+  ```js
+  // main/routes.js
+
+  import { redirectToPromoIfNotLoggedIn } from '@dmapper/serve-static-promo/isomorphic'
+
+  // ...
+  {
+    path: '/',
+    exact: true,
+    component: components.PHome,
+    filters: [redirectToPromoIfNotLoggedIn()]
+  },
+  // ...
+  ```
+
+`redirectToPromoIfNotLoggedIn` accepts an object with the following settings:
+
+- `redirectUrl` - which URL to redirect to. Default: `/promo`
+
+## License
+
+Private

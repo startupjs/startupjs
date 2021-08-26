@@ -63,7 +63,12 @@ function setModuleConfig (packageName) {
 function getConfig (configPath) {
   if (!fs.existsSync(configPath)) return
   const config = require(configPath)
-  if (config?.type !== 'plugin') return
+  if (!config) return
+  if (!(
+    config.type === 'module' ||
+    // Old modules api used type: 'plugin' for modules, but it didn't have 'for'
+    (config.type === 'plugin' && !config.for))
+  ) return
   return config
 }
 
