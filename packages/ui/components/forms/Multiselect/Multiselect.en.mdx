@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import Multiselect from '../'
-import Div from '../../../Div'
-import Span from '../../../typography/Span'
-import Br from '../../../Br'
-import MultiSelectSandbox from './MultiSelectSandbox'
+import { $root } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+import Br from '../../Br'
+import Div from '../../Div'
+import Multiselect from './'
+import Span from '../../typography/Span'
 
 # Multiselect
 
@@ -30,28 +31,6 @@ const [cities, setCities] = useState([])
 
 return (
   <Multiselect
-    value={cities}
-    onChange={setCities}
-    options={OPTIONS}
-  />
-)
-```
-
-## Label and description
-
-```jsx example
-const OPTIONS = [
-  { label: 'New York', value: 'ny' },
-  { label: 'Los Angeles', value: 'la' },
-  { label: 'Tokyo', value: 'tk' },
-]
-
-const [cities, setCities] = useState([])
-
-return (
-  <Multiselect
-    label='City'
-    description='Select the cities you have visited'
     value={cities}
     onChange={setCities}
     options={OPTIONS}
@@ -219,4 +198,13 @@ return (
 
 ## Sandbox
 
-<MultiSelectSandbox />
+<Sandbox
+  Component={Multiselect}
+  props={{
+    value: ['New York'],
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => console.info('New value is ' + JSON.stringify(value)),
+    onSelect: value => console.info('Value "' + value + '" is selected'),
+    onRemove: value => console.info('Value "' + value + '" is removed'),
+  }}
+/>

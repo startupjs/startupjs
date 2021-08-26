@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer, useQueryDoc, useValue, useDoc, $root } from 'startupjs'
 import { useAuthHelper } from '@startupjs/auth-local'
-import { Span, Div, Button, PasswordInput, ErrorWrapper } from '@startupjs/ui'
+import { Alert, Br, Span, Div, Button, PasswordInput } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'
 import './index.styl'
@@ -77,6 +77,9 @@ export default observer(function ResetPasswordForm ({
     else
       Div.content
         if !feedback
+          if error
+            Alert(variant='error')= error
+            Br
           PasswordInput.input(
             label='Enter new password'
             name='password'
@@ -90,9 +93,6 @@ export default observer(function ResetPasswordForm ({
             value=form.confirm || ''
             onChangeText=t=> onInputChange('confirm', t)
           )
-
-          ErrorWrapper(err=error)
-
           Button.submit(
             variant='flat'
             color='primary'

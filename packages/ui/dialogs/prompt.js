@@ -1,17 +1,17 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import TextInput from '../../components/forms/TextInput'
-import Br from '../../components/Br'
-import Span from '../../components/typography/Span'
-import ErrorWrapper from '../../components/forms/ErrorWrapper'
+import Input from '../components/forms/Input'
+import Br from '../components/Br'
+import Span from '../components/typography/Span'
 import { $dialog, dialogOpen } from './helpers'
 
 const PromptInput = observer(() => pug`
-  ErrorWrapper(err=$dialog.get('textInputError'))
-    TextInput(
-      value=$dialog.get('textInput')
-      onChangeText=t=> $dialog.set('textInput', t)
-    )
+  Input(
+    err=$dialog.get('textInputError')
+    type='text'
+    value=$dialog.get('textInput')
+    $value=$dialog.at('textInput')
+  )
 `)
 
 export default async function prompt ({

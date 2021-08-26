@@ -1,50 +1,28 @@
 import React from 'react'
-import Div from './../../Div'
+import { observer } from 'startupjs'
 import Row from './../../Row'
 import Span from './../../typography/Span'
-import { useLayout } from './../../../hooks'
+import themed from '../../../theming/themed'
 import './index.styl'
 
-export default function DefaultInput ({
+function DefaultInput ({
+  style,
   value = [],
-  label,
-  description,
-  layout,
   placeholder,
   disabled,
   focused,
   readonly,
   children,
-  onOpen
+  onOpen,
+  _hasError
 }) {
-  layout = useLayout({ layout, label, description })
-
-  const pure = layout === 'pure'
-
-  function renderContainer (children) {
-    if (pure) {
-      return pug`
-        Div= children
-      `
-    } else {
-      return pug`
-        Div
-          Div.info
-            if label
-              Span.label(styleName={focused})= label
-            if description
-              Span.description(description)= description
-          = children
-      `
-    }
-  }
-
-  return renderContainer(pug`
+  return pug`
     if readonly
       Span= value.join(', ')
     else
       Row.input(
-        styleName={ disabled, focused, readonly }
+        style=style
+        styleName={ disabled, focused, readonly, error: _hasError }
         onPress=disabled || readonly ? void 0 : onOpen
         wrap
       )
@@ -52,5 +30,7 @@ export default function DefaultInput ({
           Span.placeholder= placeholder || '-'
 
         = children
-  `)
+  `
 }
+
+export default observer(themed('Multiselect', DefaultInput))

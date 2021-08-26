@@ -4,12 +4,14 @@ import ArrayInputEn from '../components/forms/ArrayInput/ArrayInput.en.mdx'
 import ArrayInputRu from '../components/forms/ArrayInput/ArrayInput.ru.mdx'
 import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'
 import CheckboxRu from '../components/forms/Checkbox/Checkbox.ru.mdx'
+import ColorPickerEn from '../components/forms/ColorPicker/ColorPicker.en.mdx'
+import ColorPickerRu from '../components/forms/ColorPicker/ColorPicker.ru.mdx'
 import DateTimePickerEn from '../components/forms/DateTimePicker/DateTimePicker.en.mdx'
 import DateTimePickerRu from '../components/forms/DateTimePicker/DateTimePicker.ru.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import InputRu from '../components/forms/Input/Input.ru.mdx'
-import MultiselectEn from '../components/forms/Multiselect/docs/Multiselect.en.mdx'
-import MultiselectRu from '../components/forms/Multiselect/docs/Multiselect.ru.mdx'
+import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
+import MultiselectRu from '../components/forms/Multiselect/Multiselect.ru.mdx'
 import NumberInputEn from '../components/forms/NumberInput/NumberInput.en.mdx'
 import NumberInputRu from '../components/forms/NumberInput/NumberInput.ru.mdx'
 import ObjectInputEn from '../components/forms/ObjectInput/ObjectInput.en.mdx'
@@ -45,6 +47,14 @@ export default {
       component: {
         en: CheckboxEn,
         ru: CheckboxRu
+      }
+    },
+    ColorPicker: {
+      type: 'mdx',
+      title: 'ColorPicker',
+      component: {
+        en: ColorPickerEn,
+        ru: ColorPickerRu
       }
     },
     DateTimePicker: {

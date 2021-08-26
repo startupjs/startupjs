@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError, useSession } from 'startupjs'
-import { Row, Div, Span, Button, ObjectInput, ErrorWrapper } from '@startupjs/ui'
+import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
 import { Recaptcha } from '@startupjs/recaptcha'
@@ -134,14 +134,15 @@ function RegisterForm ({
   )
 
   return pug`
+    if errors.server
+      Alert(variant='error')= errors.server
+      Br
     ObjectInput(
       value=form
       $value=$form
       errors=errors
       properties=_properties
     )
-
-    ErrorWrapper(err=errors.server)
 
     if renderActions
       = renderActions({ onSubmit, onChangeSlide })

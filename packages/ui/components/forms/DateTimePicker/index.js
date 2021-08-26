@@ -222,4 +222,7 @@ DateTimePicker.propTypes = {
   onChangeDate: PropTypes.func
 }
 
-export default observer(themed(DateTimePicker))
+export default observer(
+  themed('DateTimePicker', DateTimePicker),
+  { forwardRef: true }
+)
