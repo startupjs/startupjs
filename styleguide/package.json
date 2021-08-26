@@ -57,7 +57,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-native": "0.63.4",
-    "react-native-collapsible": "1.5.2",
+    "react-native-collapsible": "^1.6.0",
     "react-native-color-picker": "^0.6.0",
     "react-native-fbsdk": "^3.0.0",
     "react-native-pager-view": "^5.1.2",

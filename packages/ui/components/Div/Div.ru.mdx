@@ -128,6 +128,19 @@ return (
 )
 ```
 
+## renderTooltip
+
+```jsx example
+const captionStyle = { width: 36, height: 36, backgroundColor: '#333' }
+const content = 'Контент'
+return pug`
+  Div(
+    style=captionStyle
+    renderTooltip=content
+  )
+`
+```
+
 ## Песочница
 
 <Sandbox

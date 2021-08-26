@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useLocal } from 'startupjs'
 import Menu from '../Menu'
 import MenuItem from '../Menu/MenuItem'
-import Content from '../Content'
 import Collapse from '../Collapse'
 import { u } from 'startupjs'
 import { faShareAlt, faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
@@ -45,7 +44,7 @@ return (
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
-  <Menu style={{ width: u(15) }} activeBorder='left'>
+  <Menu activeBorder='left'>
     <Menu.Item
       active={active === 'option-1'}
       onPress={() => setActive('option-1')}
@@ -75,7 +74,7 @@ return (
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
-  <Menu style={{ width: u(15) }} variant='horizontal'>
+  <Menu variant='horizontal'>
     <Menu.Item
       active={active === 'option-1'}
       icon={faShareAlt}
@@ -108,7 +107,7 @@ return (
 ```jsx example
 const [active, setActive] = useState('option-1')
 return (
-  <Menu style={{ width: u(15) }} variant='horizontal'>
+  <Menu variant='horizontal'>
     <Menu.Item
       active={active === 'option-1'}
       icon={faShareAlt}
@@ -143,7 +142,6 @@ return (
 const [active, setActive] = useState('option-1')
 return (
   <Menu
-    style={{ width: u(15) }}
     activeBorder='bottom'
     variant='horizontal'
     activeColor='rgb(123, 23, 122)'
@@ -185,10 +183,7 @@ const components = [
   { label: 'Button', to: '/docs/components/Button' }
 ]
 return pug`
-  Menu(
-    style={ width: u(15) }
-    activeBorder='left'
-  )
+  Menu(activeBorder='left')
     each component, index in components
       - const to = component.to
       Menu.Item(
@@ -208,65 +203,67 @@ const [showMenu, setShowMenu] = useState(true)
 const [showSubMenu, setShowSubMenu] = useState(false)
 const [active, setActive] = useState('option-1')
 return (
-  <Content style={{ backgroundColor: 'white'}} padding >
-    <Collapse variant='pure' open={showMenu} onChange={() => setShowMenu(!showMenu)}>
-      <Collapse.Header>
+  <Collapse
+    variant='pure'
+    open={showMenu}
+    onChange={() => setShowMenu(!showMenu)}
+  >
+    <Collapse.Header>
+      <Menu.Item
+        style={{ paddingLeft: 0 }}
+        active={showMenu}
+      >
+        Main menu
+      </Menu.Item>
+    </Collapse.Header>
+    <Collapse.Content>
+      <Menu activeBorder='left'>
         <Menu.Item
-          style={{ paddingLeft: 0 }}
-          active={showMenu}
+          active={active === 'option-1'}
+          onPress={() => setActive('option-1')}
         >
-          Main menu
+          Option-1
         </Menu.Item>
-      </Collapse.Header>
-      <Collapse.Content>
-        <Menu activeBorder='left'>
-          <Menu.Item
-            active={active === 'option-1'}
-            onPress={() => setActive('option-1')}
-          >
-            Option-1
-          </Menu.Item>
-          <Menu.Item
-            active={active === 'option-2'}
-            onPress={() => setActive('option-2')}
-          >
-            Option-2
-          </Menu.Item>
-          <Collapse
-            style={{ marginLeft: u(2) }}
-            variant='pure'
-            open={showSubMenu}
-            onChange={() => setShowSubMenu(!showSubMenu)}
-          >
-            <Collapse.Header>
+        <Menu.Item
+          active={active === 'option-2'}
+          onPress={() => setActive('option-2')}
+        >
+          Option-2
+        </Menu.Item>
+        <Collapse
+          style={{ marginLeft: u(2) }}
+          variant='pure'
+          open={showSubMenu}
+          onChange={() => setShowSubMenu(!showSubMenu)}
+        >
+          <Collapse.Header>
+            <Menu.Item
+              style={{ paddingLeft: 0 }}
+              active={showSubMenu}
+            >
+              Option-3
+            </Menu.Item>
+          </Collapse.Header>
+          <Collapse.Content>
+            <Menu activeBorder='left'>
               <Menu.Item
-                style={{ paddingLeft: 0 }}
-                active={showSubMenu}
+                active={active === 'option-4'}
+                onPress={() => setActive('option-4')}
               >
-                Option-3
+                Option-4
               </Menu.Item>
-            </Collapse.Header>
-            <Collapse.Content>
-              <Menu activeBorder='left'>
-                <Menu.Item
-                  active={active === 'option-4'}
-                  onPress={() => setActive('option-4')}
-                >
-                  Option-4
-                </Menu.Item>
-                <Menu.Item
-                  active={active === 'option-5'}
-                  onPress={() => setActive('option-5')}
-                >
-                  Option-5
-                </Menu.Item>
-              </Menu>
-            </Collapse.Content>
-          </Collapse>
-        </Menu>
-      </Collapse.Content>
-    </Collapse>
-  </Content>
+              <Menu.Item
+                active={active === 'option-5'}
+                onPress={() => setActive('option-5')}
+              >
+                Option-5
+              </Menu.Item>
+            </Menu>
+          </Collapse.Content>
+        </Collapse>
+      </Menu>
+    </Collapse.Content>
+  </Collapse>
 )
 ```
 

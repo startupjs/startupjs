@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { PanResponder, View, StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const RESPONDER_STYLES = {
@@ -93,4 +94,4 @@ function Swipe ({
   `
 }
 
-export default observer(Swipe)
+export default observer(themed('Drawer', Swipe))

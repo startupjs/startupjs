@@ -1,84 +1,52 @@
-import { forwardRef, useState } from 'react'
-import Div from '../../Div'
-import Br from '../../Br'
-import Button from '../../Button'
-import DateTimePicker from '../DateTimePicker'
+import { useState } from 'react'
+import DateTimePicker from './'
 import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
 
-DateTimePicker allows to display and change the date and time (!works with timestamp).
-
-## Import
+DateTimePicker allows to display and change the date and time
 
 ```jsx
-import { DateTimePicker } from from '@startupjs/ui'
+import { DateTimePicker } from '@startupjs/ui'
 ```
 
 ## Simple example
 
 ```jsx example
-const [date, setDate] = useState()
+const [date, setDate] = useState(+new Date())
 
-return (
-  <DateTimePicker
-    date={date}
-    onDateChange={setDate}
-  />
-)
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=v=> setDate(v)
+  )
+`
 ```
 
 ## Props
 
-- `date` - initial date or time in timestamp,
-- `onDateChange` - date and time selection handler, returns a timestamp,
-- `disabled` - disabled picker,
-- `format` - date formatting string,
-- `maxDate` - maximum available date in timestamp,
-- `minDate` - minimum available date in timestamp,
-- `minuteInterval` - the interval at which minutes can be selected, possible values are: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 (default 1, ignored in IOS 14),
-- `mode` - defines the picker type: `datetime` - date and time, `date` - date, `time` - time (default `datetime`),
-- `placeholder` - placeholder for input on the web and button in the native application if the date is not selected,
-- `size` - the sizes of the input on the web and the button in the native application, possible values are: `l`, `m` и `s` (default `m`)
+**date** - initial date or time in timestamp
 
-### Web only
+**onChangeDate** - date and time selection handler, returns a timestamp
 
-- `timeFormat` - the format in which the time in the picker is displayed
-- `InputComponent` - custom component instead of the standard `Input`
+**disabled** - disabled picker
 
-```jsx example
-const [dateTime, setDateTime] = useState(Date.now())
+**dateFormat** - date formatting string from [moment](https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/)
 
-const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => {
-  return (
-    <Button color='primary' variant='flat' onPress={onClick}>
-      {value}
-    </Button>
-  )
-})
+**label** - label
 
-return (
-  <Div>
-    <DateTimePicker
-      InputComponent={<ExampleCustomInput />}
-      date={dateTime}
-      mode='date'
-      format='MMMM / DD / yyyy'
-      onDateChange={setDateTime}
-    />
-  </Div>
-)
-```
+**description** - description
 
-### IOS only
+**maxDate** - maximum available date in timestamp
 
-- `cancelButtonText` - the text of the button that closes the modal,
-- `confirmButtonText` - text of the button confirming the date change
+**minDate** - minimum available date in timestamp
 
-### Android only
+**timeInterval** - the interval at which minutes can be selected (default - 1)
 
-- `is24Hour` - if `true` allows changing of the time picker to a 24 hour format,
+**mode** - defines the picker type: datetime - date and time, date - date, time - time (default - datetime)
 
-## Sandbox
+**placeholder** - placeholder for input on the web and button in the native application if the date is not selected
+
+**size** - the sizes of the input on the web and the button in the native application, possible values are: l, m and s (default - m)
 
 <Sandbox Component={DateTimePicker} />

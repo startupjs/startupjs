@@ -1,84 +1,52 @@
-import { forwardRef, useState } from 'react'
-import Div from '../../Div'
-import Br from '../../Br'
-import Button from '../../Button'
-import DateTimePicker from '../DateTimePicker'
+import { useState } from 'react'
+import DateTimePicker from './'
 import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
 
-DateTimePicker позволяет отображать и изменять дату и время (!работает с временем в формате временной метки).
-
-## Импорт
+DateTimePicker позволяет отображать и изменять дату и время
 
 ```jsx
-import { DateTimePicker } from from '@startupjs/ui'
+import { DateTimePicker } from '@startupjs/ui'
 ```
 
 ## Простой пример
 
 ```jsx example
-const [date, setDate] = useState()
+const [date, setDate] = useState(+new Date())
 
-return (
-  <DateTimePicker
-    date={date}
-    onDateChange={setDate}
-  />
-)
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=v=> setDate(v)
+  )
+`
 ```
 
 ## Свойства
 
-- `date` - исходная дата или время в формате временной метки,
-- `onDateChange` - обработчик выбора даты и времени, возвращает временную метку,
-- `disabled` - отключенный пикер,
-- `format` - строка для форматирования даты,
-- `maxDate` - максимальная доступная дата в формате временной метки,
-- `minDate` - минимальная доступная дата в формате временной метки,
-- `minuteInterval` - интервал через который можно выбрать минуты, доступные значения: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 (по умолчанию 1, игнорируется в IOS 14),
-- `mode` - определяет тип пикера: `datetime` - дата и время, `date` - дата, `time` - время (по умолчанию `datetime`),
-- `placeholder` - плейсхолдер для инпута на вебе и кнопки в нативном приложении если дата не выбрана,
-- `size` - размеры инпута на вебе и кнопки в нативном приложении, доступные значения: `l`, `m` и `s` (по умолчанию `m`)
+**date** - исходная дата в формате временной метки
 
-### Только для веба
+**onChangeDate** - калбэк для изменения даты
 
-- `timeFormat` - формат в котором отображается время в пикере
-- `InputComponent` - свой компонент вместо стандартного `Input`
+**disabled** - отключенный пикер
 
-```jsx example
-const [dateTime, setDateTime] = useState(Date.now())
+**dateFormat** - строка для форматирования даты из [moment](https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/)
 
-const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => {
-  return (
-    <Button color='primary' variant='flat' onPress={onClick}>
-      {value}
-    </Button>
-  )
-})
+**label** - заголовок
 
-return (
-  <Div>
-    <DateTimePicker
-      InputComponent={<ExampleCustomInput />}
-      date={dateTime}
-      mode='date'
-      format='MMMM / DD / yyyy'
-      onDateChange={setDateTime}
-    />
-  </Div>
-)
-```
+**description** - описание
 
-### Только для IOS
+**maxDate** - максимальная доступная дата в формате временной метки
 
-- `cancelButtonText` - текст кнопки закрывающей модальное окно,
-- `confirmButtonText` - текст кнопки подтверждающей смену даты
+**minDate** - минимальная доступная дата в формате временной метки
 
-### Только для Android
+**timeInterval** - интервал через который можно выбрать минуты (по умолчанию - 1)
 
-- `is24Hour` - если `true` включает 24-часовой формат при выборе времени,
+**mode** - определяет тип пикера: datetime - дата и время, date - дата, time - время (по умолчанию - datetime)
 
-## Sandbox
+**placeholder** - плейсхолдер для инпута на вебе и кнопки в нативном приложении если дата не выбрана
+
+**size** - размеры инпута на вебе и кнопки в нативном приложении, доступные значения: l, m и s (по умолчанию - m)
 
 <Sandbox Component={DateTimePicker} />
