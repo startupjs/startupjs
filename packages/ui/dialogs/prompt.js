@@ -1,8 +1,8 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import Input from '../../components/forms/Input'
-import Br from '../../components/Br'
-import Span from '../../components/typography/Span'
+import Input from '../components/forms/Input'
+import Br from '../components/Br'
+import Span from '../components/typography/Span'
 import { $dialog, dialogOpen } from './helpers'
 
 const PromptInput = observer(() => pug`

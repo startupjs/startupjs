@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import { ToastProvider } from './components/toast'
+import Dialog from './components/Dialog'
 import Portal from './components/Portal'
 import StyleContext from './StyleContext'
 
@@ -12,6 +13,7 @@ export default {
         Portal.Provider
           ToastProvider
           = children
+        Dialog
     `
   })
 }
