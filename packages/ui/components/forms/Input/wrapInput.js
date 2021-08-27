@@ -10,8 +10,8 @@ import { Span } from './../../typography'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
 
-export default function wrapInput (Component, options) {
-  options = merge(
+export default function wrapInput (Component, _options) {
+  _options = merge(
     {
       rows: {
         labelPosition: 'top',
@@ -20,14 +20,14 @@ export default function wrapInput (Component, options) {
       isLabelColoredWhenFocusing: false,
       isLabelClickable: false
     },
-    options
+    _options
   )
 
   function InputWrapper ({
     label,
     description,
     layout,
-    options: componentOptions,
+    _options: componentOptions,
     error,
     ...props
   }, ref) {
@@ -46,8 +46,8 @@ export default function wrapInput (Component, options) {
       description
     })
 
-    options = merge(options, componentOptions)
-    options = merge(options, options[layout])
+    _options = merge(_options, componentOptions)
+    _options = merge(_options, _options[layout])
 
     const {
       labelPosition,
@@ -55,7 +55,7 @@ export default function wrapInput (Component, options) {
       isLabelColoredWhenFocusing,
       isLabelClickable,
       ...inputProps
-    } = options
+    } = _options
 
     const [focused, setFocused] = useState(false)
 
@@ -154,7 +154,7 @@ export default function wrapInput (Component, options) {
   InputWrapper.defaultProps = merge(
     {},
     Component.defaultProps,
-    options
+    _options
   )
 
   InputWrapper.propTypes = Object.assign({
@@ -162,7 +162,7 @@ export default function wrapInput (Component, options) {
     label: PropTypes.string,
     description: PropTypes.string,
     layout: PropTypes.oneOf(['pure', 'rows', 'columns']),
-    options: PropTypes.shape({
+    _options: PropTypes.shape({
       rows: PropTypes.shape({
         labelPosition: PropTypes.oneOf(['top', 'right']),
         descriptionPosition: PropTypes.oneOf(['top', 'bottom'])
