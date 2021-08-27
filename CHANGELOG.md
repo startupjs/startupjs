@@ -1,3 +1,14 @@
+## [0.38.1](https://github.com/startupjs/startupjs/compare/v0.38.0...v0.38.1) (2021-08-27)
+
+
+### Bug Fixes
+
+* **docs:** fix IconSelect ([#786](https://github.com/startupjs/startupjs/issues/786)) ([d5e3955](https://github.com/startupjs/startupjs/commit/d5e395570ea4b8592ece4eeb4543cfedf77e3c4d))
+* **ui/dialogs:** fix error displaying in prompt ([#783](https://github.com/startupjs/startupjs/issues/783)) ([7266baa](https://github.com/startupjs/startupjs/commit/7266baa5b8440e12ab2e79b6177111b1de6a6ab4))
+* **ui/Input:** fix types 'select', 'multiselect' ([#785](https://github.com/startupjs/startupjs/issues/785)) ([131a828](https://github.com/startupjs/startupjs/commit/131a828ab1ba3e6b24a3e5a750d1503dd81d457a))
+
+
+
 # [0.38.0](https://github.com/startupjs/startupjs/compare/v0.37.8...v0.38.0) (2021-08-26)
 
 
