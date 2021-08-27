@@ -7,7 +7,7 @@ import { $dialog, dialogOpen } from './helpers'
 
 const PromptInput = observer(() => pug`
   Input(
-    err=$dialog.get('textInputError')
+    error=$dialog.get('textInputError')
     type='text'
     value=$dialog.get('textInput')
     $value=$dialog.at('textInput')
