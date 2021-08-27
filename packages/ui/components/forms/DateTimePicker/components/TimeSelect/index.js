@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useRef, useImperativeHandle } from 'react'
 import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
-import { Div, Span } from '@startupjs/ui'
+import { Div, Span, useMedia } from '@startupjs/ui'
 import moment from 'moment'
 import STYLES from './index.styl'
 
 // TODO: add displayTimeVariant
 export default observer(function TimeSelect ({
   date,
-  layoutWidth,
   exactLocale,
   timezone,
   is24Hour,
@@ -17,7 +16,8 @@ export default observer(function TimeSelect ({
   timeInterval,
   onChangeDate
 }, ref) {
-  const refFlatList = useRef()
+  const media = useMedia()
+  const refScroll = useRef()
 
   // we are looking for 'a' in current locale
   // to figure out whether to apply 12 hour format
@@ -34,7 +34,7 @@ export default observer(function TimeSelect ({
     const date = +moment.tz(_date, timezone)
     const index = preparedData.findIndex(item => date === item.value)
     if (index === -1) return
-    refFlatList.current.scrollToIndex({ animated: false, index })
+    refScroll.current.scrollToIndex({ index, animated: false })
   }
 
   const preparedData = useMemo(() => {
@@ -74,15 +74,14 @@ export default observer(function TimeSelect ({
     `
   }
 
-  const isMobile = layoutWidth < STYLES.media.mobile
-  const length = isMobile ? STYLES.cell.width : STYLES.cell.height
+  const length = !media.tablet ? STYLES.cell.width : STYLES.cell.height
 
   return pug`
     FlatList.case(
-      ref=refFlatList
+      ref=refScroll
       data=preparedData
       renderItem=renderItem
-      horizontal=isMobile
+      horizontal=!media.tablet
       getItemLayout=(data, index) => ({
         offset: length * index,
         length,

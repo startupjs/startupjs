@@ -82,6 +82,7 @@ function TextInputInput ({
   }
 
   useImperativeHandle(ref, () => ({
+    ...inputRef.current,
     focus: onFocus,
     blur: onBlur,
     clear: () => inputRef.current.clear(),

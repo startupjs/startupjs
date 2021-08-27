@@ -3,24 +3,22 @@ import React, {
   useRef,
   useCallback,
   useState,
-  useEffect,
   useLayoutEffect
 } from 'react'
-import { Dimensions } from 'react-native'
 import { observer, useValue } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
+import 'moment/min/locales'
 import Div from '../../Div'
 import Divider from '../../Divider'
 import TextInput from '../TextInput'
-import Popover from '../../popups/Popover'
+import AbstractPopover from '../../popups/Popover/AbstractPopover'
 import Drawer from '../../popups/Drawer'
-import 'moment/min/locales'
-import getLocale from './getLocale'
-import Calendar from './Calendar'
-import TimeSelect from './TimeSelect'
+import { getLocale } from './helpers'
+import { Calendar, TimeSelect } from './components'
 import themed from '../../../theming/themed'
-import STYLES from './index.styl'
+import './index.styl'
 
 function DateTimePicker ({
   style,
@@ -42,26 +40,15 @@ function DateTimePicker ({
   minDate,
   onChangeDate
 }) {
+  const media = useMedia()
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
   const refInput = useRef()
 
-  const [layoutWidth, $layoutWidth] = useValue(
-    Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
-  )
-  const handleWidthChange = useCallback(() => {
-    $visible.set(false)
-    $layoutWidth.set(
-      Math.min(Dimensions.get('window').width, Dimensions.get('screen').width)
-    )
-  }, [])
-  useEffect(() => {
-    Dimensions.addEventListener('change', handleWidthChange)
-    return () => {
-      $visible.set(false)
-      Dimensions.removeEventListener('change', handleWidthChange)
-    }
+  // remove seconds and milliseconds from timestamp
+  useLayoutEffect(() => {
+    _onChangeDate(+moment.tz(date, timezone).seconds(0).milliseconds(0))
   }, [])
 
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
@@ -77,23 +64,19 @@ function DateTimePicker ({
     if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
   }, [dateFormat, timezone])
 
-  function getFormatDate (value = date) {
+  function getFormatDate (value) {
     return moment.tz(value, timezone).format(_dateFormat)
   }
 
-  useLayoutEffect(() => {
-    _onChangeDate(+moment.tz(date, timezone).seconds(0).milliseconds(0))
-  }, [])
-
   const _onChangeDate = useCallback(value => {
-    // interval
+    // check interval
     const interval = (timeInterval * 60 * 1000)
 
     const bottom = value - (value % interval)
     const top = bottom + interval
     value = top > bottom ? bottom : top
 
-    // min, max
+    // check min, max
     if (minDate != null && value < minDate) {
       value = minDate
     }
@@ -103,25 +86,20 @@ function DateTimePicker ({
     }
 
     setTextInput(getFormatDate(value))
-    refTimeSelect.current && refTimeSelect.current.scrollToIndex(value)
     onChangeDate && onChangeDate(value)
   }, [onChangeDate])
 
-  function onFocus () {
-    setTextInput(getFormatDate())
-    $visible.set(true)
-  }
-
   const onDismiss = useCallback(() => {
     $visible.set(false)
-    setTextInput('')
     refInput.current.blur()
   }, [textInput])
 
   function onChangeText (text) {
     const momentInstance = moment.tz(text, _dateFormat, true, timezone)
-    if (momentInstance.isValid()) _onChangeDate(+momentInstance)
-    else setTextInput(text)
+    if (momentInstance.isValid()) {
+      _onChangeDate(+momentInstance)
+      refTimeSelect.current && refTimeSelect.current.scrollToIndex(+momentInstance)
+    } else setTextInput(text)
   }
 
   const caption = pug`
@@ -135,54 +113,63 @@ function DateTimePicker ({
         label=label
         size=size
         placeholder=placeholder
-        value=visible ? textInput : getFormatDate()
-        onFocus=onFocus
+        value=visible ? textInput : getFormatDate(date)
+        onFocus=()=> $visible.set(true)
         onChangeText=onChangeText
       )
   `
 
-  const content = pug`
-    Div.content
-      if (mode === 'date') || (mode === 'datetime')
-        Calendar(
-          date=date
-          exactLocale=exactLocale
-          disabledDays=disabledDays
-          locale=locale
-          maxDate=maxDate
-          minDate=minDate
-          range=range
-          timezone=timezone
-          onChangeDate=_onChangeDate
-        )
+  function renderContent () {
+    return pug`
+      Div.content
+        if (mode === 'date') || (mode === 'datetime')
+          Calendar(
+            date=date
+            exactLocale=exactLocale
+            disabledDays=disabledDays
+            locale=locale
+            maxDate=maxDate
+            minDate=minDate
+            range=range
+            timezone=timezone
+            onChangeDate=_onChangeDate
+          )
 
-      if mode === 'datetime'
-        Divider.divider
+        if mode === 'datetime'
+          Divider.divider
 
-      if (mode === 'time') || (mode === 'datetime')
-        TimeSelect(
-          date=date
-          ref=refTimeSelect
-          maxDate=maxDate
-          minDate=minDate
-          layoutWidth=layoutWidth
-          timezone=timezone
-          exactLocale=exactLocale
-          is24Hour=is24Hour
-          timeInterval=timeInterval
-          onChangeDate=_onChangeDate
-        )
-  `
+        if (mode === 'time') || (mode === 'datetime')
+          TimeSelect(
+            date=date
+            ref=refTimeSelect
+            maxDate=maxDate
+            minDate=minDate
+            timezone=timezone
+            exactLocale=exactLocale
+            is24Hour=is24Hour
+            timeInterval=timeInterval
+            onChangeDate=_onChangeDate
+          )
+    `
+  }
 
-  // TODO: New API Popover
+  function renderWrapper (children) {
+    return pug`
+      Div.popoverWrapper
+        Div.popoverOverlay(feedback=false onPress=()=> $visible.set(false))
+        = children
+    `
+  }
+
   return pug`
-    if layoutWidth > STYLES.media.mobile
-      Popover(
+    if media.tablet
+      = caption
+      AbstractPopover.popover(
         visible=visible
-        onDismiss=onDismiss
-      )
-        Popover.Caption= caption
-        = content
+        refAnchor=refInput
+        renderWrapper=renderWrapper
+        onRequestClose=onDismiss
+      )= renderContent()
     else
       = caption
       Drawer.drawer(
@@ -190,7 +177,7 @@ function DateTimePicker ({
         position='bottom'
         swipeStyleName='swipe'
         onDismiss=onDismiss
-      )= content
+      )= renderContent()
   `
 }
 
