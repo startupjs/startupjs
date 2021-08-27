@@ -124,7 +124,6 @@ const inputs = {
     Component: WrappedDateTimePicker,
     getProps: ({ value, onChangeDate }) => ({
       date: value,
-      // TODO - $date: $value,
       mode: 'date',
       onChangeDate
     })
@@ -133,7 +132,6 @@ const inputs = {
     Component: WrappedDateTimePicker,
     getProps: ({ value, onChangeDate }) => ({
       date: value,
-      // TODO - $date: $value,
       mode: 'datetime',
       onChangeDate
     })
@@ -142,7 +140,6 @@ const inputs = {
     Component: WrappedDateTimePicker,
     getProps: ({ value, onChangeDate }) => ({
       date: value,
-      // TODO - $date: $value,
       mode: 'time',
       onChangeDate
     })
