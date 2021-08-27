@@ -72,7 +72,7 @@ function NumberInput ({
 
   function onIncrement (byNumber) {
     const newValue = (value || 0) + byNumber
-    onChangeText(newValue)
+    onChangeText(newValue.toString())
   }
 
   function renderWrapper ({ style }, children) {
