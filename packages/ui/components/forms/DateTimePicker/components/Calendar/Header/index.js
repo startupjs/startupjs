@@ -39,11 +39,8 @@ export default observer(function Header ({
       Row
         Div(onPress=()=> $slide.set('months'))
           Span.month(bold)= currentMonthName
-        Div(
-          pushed='xs'
-          onPress=()=> $slide.set('years')
-        )
-          Span.year(bold)= currentYear
+        Div.year(onPress=()=> $slide.set('years'))
+          Span.yearText(bold)= currentYear
 
       Row.actions
         // Button(
@@ -58,22 +55,19 @@ export default observer(function Header ({
           icon=faAngleLeft
           onPress=()=> onMove('month', -1)
         )
-        Button(
-          pushed='xs'
+        Button.button(
           color='darkLight'
           variant='text'
           icon=faCalendarDay
           onPress=toToday
         )
-        Button(
-          pushed='xs'
+        Button.button(
           color='darkLight'
           variant='text'
           icon=faAngleRight
           onPress=()=> onMove('month', 1)
         )
         // Button(
-        //  pushed='xs'
         //  color='darkLight'
         //  variant='text'
         //  icon=faAngleDoubleRight
