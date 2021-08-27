@@ -15,7 +15,7 @@ const IconSelect = observer(function ({ $value, value }) {
     () =>
       keys(omit(icons, ['fas', 'prefix'])).map(key => ({
         label: key,
-        value: icons[key]
+        value: JSON.stringify(icons[key])
       })),
     []
   )
@@ -25,8 +25,8 @@ const IconSelect = observer(function ({ $value, value }) {
       options=_icons
       size='s'
       type='select'
-      value=value
-      onChange=value => $value.set(value)
+      value=JSON.stringify(value)
+      onChange=value => $value.set(JSON.parse(value))
     )
 `
 })
