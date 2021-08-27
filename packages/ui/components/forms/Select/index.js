@@ -62,7 +62,6 @@ Select.propTypes = {
       'style',
       'inputStyle',
       'placeholder',
-      'value',
       'size',
       'disabled',
       'readonly',
@@ -71,9 +70,11 @@ Select.propTypes = {
       '_hasError'
     ]
   ),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.number,
       PropTypes.shape({
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
