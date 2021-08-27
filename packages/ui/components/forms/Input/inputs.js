@@ -122,20 +122,29 @@ const inputs = {
   },
   date: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onDateChange }) => ({
+    getProps: ({ value, onChangeDate }) => ({
       date: value,
-      $date: $value,
+      // TODO - $date: $value,
       mode: 'date',
-      onDateChange
+      onChangeDate
     })
   },
   datetime: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onDateChange }) => ({
+    getProps: ({ value, onChangeDate }) => ({
       date: value,
-      $date: $value,
+      // TODO - $date: $value,
       mode: 'datetime',
-      onDateChange
+      onChangeDate
+    })
+  },
+  time: {
+    Component: WrappedDateTimePicker,
+    getProps: ({ value, onChangeDate }) => ({
+      date: value,
+      // TODO - $date: $value,
+      mode: 'time',
+      onChangeDate
     })
   },
   multiselect: {
@@ -167,15 +176,6 @@ const inputs = {
   select: {
     Component: WrappedSelect,
     getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
-  },
-  time: {
-    Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onDateChange }) => ({
-      date: value,
-      $date: $value,
-      mode: 'time',
-      onDateChange
-    })
   },
   text: {
     Component: WrappedTextInput,
