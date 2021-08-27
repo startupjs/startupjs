@@ -19,8 +19,7 @@ import {
   Th,
   Thead,
   Tr,
-  Collapse,
-  Tooltip
+  Collapse
 } from '@startupjs/ui'
 import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
 import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
@@ -154,15 +153,17 @@ export default {
           Collapse.code-collapse(open=open variant='pure')
             Collapse.Header.code-collapse-header(icon=false onPress=null)
               Row.code-actions(align='right')
-                Tooltip(content=open ? 'Hide code' : 'Show code')
-                  Div.code-action(onPress=() => setOpen(!open))
-                    Icon.code-action-collapse(icon=faCode color='error')
-                Tooltip(content=copyText)
-                  Div.code-action(
-                    onPress=copyHandler
-                    onMouseEnter=onMouseEnter
-                  )
-                    Icon.code-action-copy(icon=faCopy)
+                Div.code-action(
+                  renderTooltip=open ? 'Hide code' : 'Show code'
+                  onPress=()=> setOpen(!open)
+                )
+                  Icon.code-action-collapse(icon=faCode color='error')
+                Div.code-action(
+                  renderTooltip=copyText
+                  onPress=copyHandler
+                  onMouseEnter=onMouseEnter
+                )
+                  Icon.code-action-copy(icon=faCopy)
             Collapse.Content.code-collapse-content
               Code(language=language)= children
         else

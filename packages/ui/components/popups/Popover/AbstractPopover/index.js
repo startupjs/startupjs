@@ -196,9 +196,10 @@ AbstractPopover.defaultProps = {
 AbstractPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  refAnchor: PropTypes.shape({
-    current: PropTypes.instanceOf(React.element)
-  }),
+  refAnchor: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.elementType })
+  ]),
   visible: PropTypes.bool,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),

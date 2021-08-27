@@ -25,5 +25,18 @@
 .swipe
   height 3u
 
-:export
-  media: $UI.media
+.popoverWrapper
+.popoverOverlay
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+
+  +web()
+    cursor default
+
+.popover
+  background-color $UI.colors.white
+  radius()
+  shadow(3)
