@@ -123,3 +123,47 @@ export default observer(function LanguageSelect () {
   `
 })
 ```
+
+## AutoCorrect words
+
+Create translations.json in the project folder, for example:
+
+```json
+{
+  "ru": {
+    "PAbout/index.js": {
+      "backToHome": "Назад на главную",
+      "defaultValue": "Back to Home"
+    },
+    "PHome/index.js": {
+      "listEmployees": "Список сотрудников",
+      "defaultValue": "A list of employees"
+    }
+  },
+  "ua": {
+    "PAbout/index.js": {
+      "backToHome": "Назад на головну",
+      "defaultValue": "Back to Home"
+    },
+    "PHome/index.js": {
+      "listEmployees": "Список сотрудников",
+      "defaultValue": "A list of employees"
+    }
+  }
+}
+```
+
+In the prescribed files, you need to use the function - t:
+
+```js
+import { t } from 'startupjs'
+
+...
+
+Div
+  Span= t('backToHome', 'Back to Home')
+```
+
+The first argument is the name of the tag for words, the second is the default
+
+Depending on the selected language, the text is replaced when compiling the code

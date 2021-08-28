@@ -124,3 +124,47 @@ export default observer(function LanguageSelect () {
   `
 })
 ```
+
+## Автозамена слов
+
+Создать translations.json в папке проекта, н-р:
+
+```json
+{
+  "ru": {
+    "PAbout/index.js": {
+      "backToHome": "Назад на главную",
+      "defaultValue": "Back to Home"
+    },
+    "PHome/index.js": {
+      "listEmployees": "Список сотрудников",
+      "defaultValue": "A list of employees"
+    }
+  },
+  "ua": {
+    "PAbout/index.js": {
+      "backToHome": "Назад на головну",
+      "defaultValue": "Back to Home"
+    },
+    "PHome/index.js": {
+      "listEmployees": "Список сотрудников",
+      "defaultValue": "A list of employees"
+    }
+  }
+}
+```
+
+В прописанных файлах нужно использовать функцию - t:
+
+```js
+import { t } from 'startupjs'
+
+...
+
+Div
+  Span= t('backToHome', 'Back to Home')
+```
+
+Первый аргумент - название тэга для слов, второй значение по умолчанию
+
+В зависимости от выбранного языка происходит замена текста при компиляции кода
