@@ -54,6 +54,7 @@ function NumberInput ({
       return
     }
 
+    if (typeof newValue === 'number') newValue = String(newValue)
     setInputValue(newValue)
 
     newValue = newValue && newValue !== '-'
@@ -70,9 +71,13 @@ function NumberInput ({
     onChangeNumber && onChangeNumber(newValue)
   }
 
+  const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
+
   function onIncrement (byNumber) {
-    const newValue = (value || 0) + byNumber
-    onChangeText(newValue.toString())
+    const newValue = precision > 0
+      ? +((value || 0) + byNumber * step).toFixed(precision)
+      : (value || 0) + byNumber * step
+    onChangeText(newValue)
   }
 
   function renderWrapper ({ style }, children) {
