@@ -6,6 +6,8 @@ import TextInput from '../TextInput'
 import Buttons from './Buttons'
 import './index.styl'
 
+const NUM_REGEXP = /^(-?\d*)(\.\d*)?$/
+
 function NumberInput ({
   buttonStyle,
   value,
@@ -36,25 +38,20 @@ function NumberInput ({
     }
   }, [value, min, max])
 
-  const isStepInteger = useMemo(() => {
-    return Number.isInteger(step)
-  }, [step])
-
-  const regexp = useMemo(() => {
-    return isStepInteger
-      ? /^-?\d*$/
-      : /^(-?\d*)(\.\d*)?$/
-  }, [isStepInteger])
-
   function onChangeText (newValue) {
-    if (!regexp.test(newValue)) return
+    // replace comma with dot for some locales
+    if (typeof newValue === 'string') newValue = newValue.replace(/,/g, '.')
+
+    // if newValue from onIncrement function
+    if (typeof newValue === 'number') newValue = String(newValue)
+
+    if (!NUM_REGEXP.test(newValue)) return
 
     if ((min && newValue < min) || (max && newValue > max)) {
       // TODO: display tip?
       return
     }
 
-    if (typeof newValue === 'number') newValue = String(newValue)
     setInputValue(newValue)
 
     newValue = newValue && newValue !== '-'
