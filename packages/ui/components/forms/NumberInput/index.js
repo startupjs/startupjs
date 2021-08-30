@@ -71,9 +71,7 @@ function NumberInput ({
   const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
 
   function onIncrement (byNumber) {
-    const newValue = precision > 0
-      ? +((value || 0) + byNumber * step).toFixed(precision)
-      : (value || 0) + byNumber * step
+    const newValue = +((value || 0) + byNumber * step).toFixed(precision)
     onChangeText(newValue)
   }
 
