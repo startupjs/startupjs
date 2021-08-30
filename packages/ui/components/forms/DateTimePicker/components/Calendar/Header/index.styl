@@ -1,7 +1,7 @@
 .header
   align-items center
   justify-content center
-  margin: 0 0 .5u 1u
+  margin 0 0 .5u 1u
 
   +from($UI.media.mobile)
     justify-content space-between
@@ -9,8 +9,8 @@
 .month
   font(xl)
 
-.year
-  color: $UI.colors.primary
+.yearText
+  color $UI.colors.primary
   font(xl)
 
 .actions
@@ -19,3 +19,6 @@
 
   +from($UI.media.mobile)
     margin-left 0
+
+.button, .year
+  margin-left .5u

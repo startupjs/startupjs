@@ -1,35 +1,36 @@
 import React, { useRef } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import AbstractPopover from './AbstractPopover'
 import DeprecatedPopover from './Deprecated'
 import Div from '../../Div'
 import './index.styl'
 
-function _Popover (props) {
+const _Popover = observer((props, ref) => {
   const { children } = props
 
   if (children[0]?.type?.name === DeprecatedPopover.Caption.name) {
     console.warn('[@startupjs/ui] Popover: Popover.Caption is DEPRECATED, use new api')
 
     return pug`
-      DeprecatedPopover(...props)
+      DeprecatedPopover(...props ref=ref)
     `
   }
 
   return pug`
-    Popover(...props)
+    Popover(...props ref=ref)
   `
-}
+}, { forwardRef: true })
 
-function Popover ({
+const Popover = observer(({
   style,
   attachmentStyle,
   children,
   renderContent,
   ...props
-}) {
-  const popoverRef = useRef()
+}, ref) => {
+  const popoverRef = ref || useRef()
   const refAnchor = useRef()
 
   function renderWrapper (children) {
@@ -55,7 +56,7 @@ function Popover ({
       renderWrapper=renderWrapper
     )= renderContent()
   `
-}
+}, { forwardRef: true })
 
 _Popover.Caption = DeprecatedPopover.Caption
 
