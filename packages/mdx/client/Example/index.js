@@ -8,6 +8,11 @@ import useCodeParse from './helpers/useCodeParse'
 import Editor from './Editor'
 import './index.styl'
 
+// TODO:
+// удалить делиметр
+// background to gray
+// add debounce
+// fix section: () => null
 export default observer(function ({ value, noScroll }) {
   const { jsx, code, setCode } = useCodeParse(value)
   const [isShowEditor, setIsShowEditor] = useState(false)
