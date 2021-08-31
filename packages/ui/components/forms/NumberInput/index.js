@@ -20,6 +20,14 @@ function NumberInput ({
 }, ref) {
   const [inputValue, setInputValue] = useState()
 
+  const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
+
+  const regexp = useMemo(() => {
+    return precision > 0
+      ? new RegExp('^-?\\d*(\\.(\\d{0,' + precision + '})?)?$')
+      : /^-?\d*$/
+  }, [precision])
+
   useEffect(() => {
     if (typeof value === 'undefined') {
       setInputValue('')
@@ -32,21 +40,17 @@ function NumberInput ({
       } else if (max && value > max) {
         value = max
       }
-      setInputValue(value.toString())
+      setInputValue(String(+value.toFixed(precision)))
     }
-  }, [value, min, max])
-
-  const isStepInteger = useMemo(() => {
-    return Number.isInteger(step)
-  }, [step])
-
-  const regexp = useMemo(() => {
-    return isStepInteger
-      ? /^-?\d*$/
-      : /^(-?\d*)(\.\d*)?$/
-  }, [isStepInteger])
+  }, [value, min, max, precision])
 
   function onChangeText (newValue) {
+    // replace comma with dot for some locales
+    if (typeof newValue === 'string' && precision > 0) newValue = newValue.replace(/,/g, '.')
+
+    // if newValue from onIncrement function
+    if (typeof newValue === 'number') newValue = String(newValue)
+
     if (!regexp.test(newValue)) return
 
     if ((min && newValue < min) || (max && newValue > max)) {
@@ -56,9 +60,10 @@ function NumberInput ({
 
     setInputValue(newValue)
 
-    newValue = newValue && newValue !== '-'
-      ? Number(newValue)
-      : undefined
+    // if newValue is just '-' or '.' will be NaN and therefore return undefined
+    newValue = isNaN(newValue)
+      ? undefined
+      : Number(newValue)
 
     // prevent update for the same values
     // for example
@@ -71,7 +76,7 @@ function NumberInput ({
   }
 
   function onIncrement (byNumber) {
-    const newValue = (value || 0) + byNumber
+    const newValue = +((value || 0) + byNumber * step).toFixed(precision)
     onChangeText(newValue)
   }
 
