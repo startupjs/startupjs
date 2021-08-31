@@ -6,8 +6,6 @@ import TextInput from '../TextInput'
 import Buttons from './Buttons'
 import './index.styl'
 
-const NUM_REGEXP = /^(-?\d*)(\.\d*)?$/
-
 function NumberInput ({
   buttonStyle,
   value,
@@ -22,6 +20,14 @@ function NumberInput ({
 }, ref) {
   const [inputValue, setInputValue] = useState()
 
+  const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
+
+  const regexp = useMemo(() => {
+    return precision > 0
+      ? new RegExp('^-?\\d*(\\.(\\d{0,' + precision + '})?)?$')
+      : /^-?\d*$/
+  }, [precision])
+
   useEffect(() => {
     if (typeof value === 'undefined') {
       setInputValue('')
@@ -34,18 +40,18 @@ function NumberInput ({
       } else if (max && value > max) {
         value = max
       }
-      setInputValue(value.toString())
+      setInputValue(String(+value.toFixed(precision)))
     }
-  }, [value, min, max])
+  }, [value, min, max, precision])
 
   function onChangeText (newValue) {
     // replace comma with dot for some locales
-    if (typeof newValue === 'string') newValue = newValue.replace(/,/g, '.')
+    if (typeof newValue === 'string' && precision > 0) newValue = newValue.replace(/,/g, '.')
 
     // if newValue from onIncrement function
     if (typeof newValue === 'number') newValue = String(newValue)
 
-    if (!NUM_REGEXP.test(newValue)) return
+    if (!regexp.test(newValue)) return
 
     if ((min && newValue < min) || (max && newValue > max)) {
       // TODO: display tip?
@@ -54,9 +60,10 @@ function NumberInput ({
 
     setInputValue(newValue)
 
-    newValue = newValue && newValue !== '-'
-      ? Number(newValue)
-      : undefined
+    // if newValue is just '-' or '.' will be NaN and therefore return undefined
+    newValue = isNaN(newValue)
+      ? undefined
+      : Number(newValue)
 
     // prevent update for the same values
     // for example
@@ -67,8 +74,6 @@ function NumberInput ({
 
     onChangeNumber && onChangeNumber(newValue)
   }
-
-  const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
 
   function onIncrement (byNumber) {
     const newValue = +((value || 0) + byNumber * step).toFixed(precision)
