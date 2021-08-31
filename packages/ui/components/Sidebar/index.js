@@ -61,7 +61,7 @@ function Sidebar ({
 
 Sidebar.defaultProps = {
   position: 'left',
-  disalbed: false,
+  disabled: false,
   width: 264
 }
 
@@ -69,7 +69,7 @@ Sidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
-  disalbed: PropTypes.bool,
+  disabled: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func
