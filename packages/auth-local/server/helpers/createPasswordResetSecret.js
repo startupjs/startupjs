@@ -1,5 +1,5 @@
 export default async function createPasswordResetSecret ({ model, email }) {
-  const $auths = model.query('auths', { email })
+  const $auths = model.query('auths', { 'providers.local.email': email })
   await $auths.fetch()
 
   const auth = $auths.get()[0]
@@ -7,13 +7,18 @@ export default async function createPasswordResetSecret ({ model, email }) {
   // Check if user exists in auths collection
   if (!auth) {
     await $auths.unfetch()
-    throw new Error('User is not found')
-  }
 
-  // Check if a local provider exist
-  if (!auth.providers?.local) {
-    await $auths.unfetch()
-    throw new Error('The user is registered through an external service')
+    // Check if another providers exist
+    const $rootAuth = model.query('auths', { email })
+    await $rootAuth.fetch()
+    const rootAuth = $rootAuth.get()[0]
+    await $rootAuth.unfetch()
+
+    if (rootAuth?.providers) {
+      throw new Error('The user is registered through an external service')
+    }
+
+    throw new Error('User is not found')
   }
 
   const $auth = model.scope('auths.' + auth.id)
