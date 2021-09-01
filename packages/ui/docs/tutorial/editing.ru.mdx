@@ -1,0 +1,117 @@
+import { useEffect } from 'react'
+import { Div, Span, Button, TextInput } from '@startupjs/ui'
+import { styl, useDoc, useModel, useValue } from 'startupjs'
+
+# Редактирование
+
+Иногда встречаются такие кейсы, где не нужно реалтайм сохранять данные в бд, а например, только после нажатия на кнопку.
+
+```jsx example
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $temp = useModel('temp')
+
+useEffect(()=> {
+  (async ()=> {
+    await $temp.at(docId).fetch()
+
+    if (!$temp.get(docId)) {
+      $temp.add({ id: docId, title: 'Title', message: 'Message' })
+    }
+  })()
+}, [])
+
+return 'Созданим тестовый документ, если его не существует'
+```
+
+## Локальная копия документа
+
+Если документ существует, но его данные нужно изменять только после нажатия на кнопку, можно использовать данный пример
+
+```jsx example
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const [doc, $doc] = useDoc('temp', docId)
+const [draft, $draft] = useValue({ ...doc })
+
+console.log('useValue', doc, draft)
+
+async function onSubmit () {
+  await $doc.set({ ...draft })
+}
+
+return pug`
+  Div
+    TextInput.line(
+      placeholder='Title'
+      value=draft.title
+      onChangeText=t=> $draft.set('title', t)
+    )
+
+    TextInput.line(
+      placeholder='Message'
+      value=draft.message
+      onChangeText=t=> $draft.set('message', t)
+    )
+
+    Button(
+      variant='flat'
+      onPress=onSubmit
+    ) Сохранить
+`
+
+styl`
+  .line
+    margin-bottom 1u
+`
+```
+
+## Документ-черновик
+
+Если нужно изменять данные только после нажатия на кнопку, но и все введенный данные не терялись при перезагрузке страницы
+
+```jsx example
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const [doc, $doc] = useDoc('temp', docId)
+const [draft = {}, $draft] = useDoc('temp', 'draft')
+const $temp = useModel('temp')
+
+console.log('useDoc', doc, draft)
+
+useEffect(()=> {
+  (async ()=> {
+    await $temp.at('draft').fetch()
+
+    if (!$temp.get('draft')) {
+      $temp.add({ id: 'draft', title: 'Title', message: 'Message' })
+    }
+  })()
+}, [])
+
+async function onSubmit () {
+  await $doc.set({ ...draft })
+}
+
+return pug`
+  Div
+    TextInput.line(
+      placeholder='Title'
+      value=draft.title
+      onChangeText=t=> $draft.set('title', t)
+    )
+
+    TextInput.line(
+      placeholder='Message'
+      value=draft.message
+      onChangeText=t=> $draft.set('message', t)
+    )
+
+    Button(
+      variant='flat'
+      onPress=onSubmit
+    ) Сохранить
+`
+
+styl`
+  .line
+    margin-bottom 1u
+`
+```
