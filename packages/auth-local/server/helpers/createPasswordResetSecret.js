@@ -15,7 +15,7 @@ export default async function createPasswordResetSecret ({ model, email }) {
     await $rootAuth.unfetch()
 
     if (rootAuth?.providers) {
-      throw new Error('The user is registered through an external service')
+      throw new Error('The user is registered through an external service and can\'t recover the password')
     }
 
     throw new Error('User is not found')
