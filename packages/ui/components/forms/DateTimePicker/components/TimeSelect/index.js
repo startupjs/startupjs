@@ -87,7 +87,7 @@ export default observer(function TimeSelect ({
         length,
         index
       })
-      keyExtractor=item=> item.value
+      keyExtractor=item=> String(item.value)
     )
   `
 }, { forwardRef: true })
