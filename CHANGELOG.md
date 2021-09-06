@@ -1,3 +1,20 @@
+## [0.38.2](https://github.com/startupjs/startupjs/compare/v0.38.1...v0.38.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* **app:** fix incorrect route update when change url ([8220ec3](https://github.com/startupjs/startupjs/commit/8220ec38f6cfccc9d978c0469a8374582952829f))
+* **auth:** change error messages for password recovery ([#793](https://github.com/startupjs/startupjs/issues/793)) ([3871103](https://github.com/startupjs/startupjs/commit/38711031db9095826aa67b8276644fcbfc4b026a))
+* **babel-plugin-rn-stylename-inline:** last imports ([#778](https://github.com/startupjs/startupjs/issues/778)) ([48c9261](https://github.com/startupjs/startupjs/commit/48c926129a9cf110fdee0bf09ff8884276516f64))
+* **Sidebar:** fix `disabled` prop ([#789](https://github.com/startupjs/startupjs/issues/789)) ([f3a4aa0](https://github.com/startupjs/startupjs/commit/f3a4aa0272d8769d34190629cc62520cb17eed4c))
+* **ui/Input:** add two-way data binding for `DateTimePicker` ([#795](https://github.com/startupjs/startupjs/issues/795)) ([68d1441](https://github.com/startupjs/startupjs/commit/68d1441855379111d641370cf1f6e39e8b40815e))
+* **ui/NumberInput:** fix `step` property and validation of initial value ([#787](https://github.com/startupjs/startupjs/issues/787)) ([6b5e4a7](https://github.com/startupjs/startupjs/commit/6b5e4a71356eba3d9f74107148aba64749ef503e))
+* **ui/NumberInput:** fix validation of `max` and `min` properties ([#794](https://github.com/startupjs/startupjs/issues/794)) ([79fd26e](https://github.com/startupjs/startupjs/commit/79fd26ec8594eb00b019cb0d66c3398a4fca82a2))
+* **ui/Select:** add ability to work with objects ([#797](https://github.com/startupjs/startupjs/issues/797)) ([da3374e](https://github.com/startupjs/startupjs/commit/da3374eece5066d90ce080fb02180f94589f5640))
+* docs after update ([#784](https://github.com/startupjs/startupjs/issues/784)) ([fa37cbe](https://github.com/startupjs/startupjs/commit/fa37cbe867d7141718139ad5e40afc3dfd1e145a))
+
+
+
 ## [0.38.1](https://github.com/startupjs/startupjs/compare/v0.38.0...v0.38.1) (2021-08-27)
 
 
