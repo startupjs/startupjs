@@ -15,7 +15,7 @@ const IconSelect = observer(function ({ $value, value }) {
     () =>
       keys(omit(icons, ['fas', 'prefix'])).map(key => ({
         label: key,
-        value: JSON.stringify(icons[key])
+        value: icons[key]
       })),
     []
   )
@@ -25,8 +25,8 @@ const IconSelect = observer(function ({ $value, value }) {
       options=_icons
       size='s'
       type='select'
-      value=JSON.stringify(value)
-      onChange=value => $value.set(JSON.parse(value))
+      value=value
+      onChange=value => $value.set(value)
     )
 `
 })
@@ -78,13 +78,13 @@ const JSONInput = observer(function ({ $value, type }) {
   `
 })
 
-const PropInput = observer(function ({ $value, extraParams, options, type, value }) {
+const PropInput = observer(function ({ $value, extraParams = {}, options, type, value }) {
   switch (type) {
     case 'array':
     case 'object':
       // custom Select for icon objects instead of JSONInput
       // when extraParams.showIconSelect is true
-      if (extraParams?.showIconSelect) {
+      if (extraParams.showIconSelect) {
         return pug`
           IconSelect($value=$value value=value)
         `
@@ -103,6 +103,7 @@ const PropInput = observer(function ({ $value, extraParams, options, type, value
           type='text'
           value=value
           onChangeText=value => $value.set(value)
+          ...extraParams
         )
       `
     case 'number':
@@ -112,6 +113,7 @@ const PropInput = observer(function ({ $value, extraParams, options, type, value
           type='number'
           value=value
           onChangeNumber=value => $value.set(value)
+          ...extraParams
         )
       `
     case 'bool':
@@ -125,12 +127,13 @@ const PropInput = observer(function ({ $value, extraParams, options, type, value
     case 'oneOf':
       return pug`
         Input(
-            options=options
-            size='s'
-            type='select'
-            value=value
-            onChange=value => $value.set(value)
-          )
+          options=options
+          size='s'
+          type='select'
+          value=value
+          onChange=value => $value.set(value)
+          ...extraParams
+        )
       `
     default:
       return null
