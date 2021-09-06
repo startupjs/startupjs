@@ -198,7 +198,7 @@ AbstractPopover.propTypes = {
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   refAnchor: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.shape({ current: PropTypes.elementType })
+    PropTypes.shape({ current: PropTypes.any })
   ]),
   visible: PropTypes.bool,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
