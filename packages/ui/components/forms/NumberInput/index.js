@@ -35,9 +35,9 @@ function NumberInput ({
     }
 
     if (!isNaN(value) && Number(inputValue) !== value) {
-      if (min && value < min) {
+      if (min != null && value < min) {
         value = min
-      } else if (max && value > max) {
+      } else if (max != null && value > max) {
         value = max
       }
       setInputValue(String(+value.toFixed(precision)))
@@ -48,20 +48,18 @@ function NumberInput ({
     // replace comma with dot for some locales
     if (typeof newValue === 'string' && precision > 0) newValue = newValue.replace(/,/g, '.')
 
-    // if newValue from onIncrement function
-    if (typeof newValue === 'number') newValue = String(newValue)
-
     if (!regexp.test(newValue)) return
 
-    if ((min && newValue < min) || (max && newValue > max)) {
+    if ((min != null && newValue < min) || (max != null && newValue > max)) {
       // TODO: display tip?
       return
     }
 
     setInputValue(newValue)
 
-    // if newValue is just '-' or '.' will be NaN and therefore return undefined
-    newValue = isNaN(newValue)
+    // first check for empty string and undefined
+    // second check for '-' or '.', this will be NaN and therefore return undefined
+    newValue = !newValue || isNaN(newValue)
       ? undefined
       : Number(newValue)
 
@@ -77,7 +75,8 @@ function NumberInput ({
 
   function onIncrement (byNumber) {
     const newValue = +((value || 0) + byNumber * step).toFixed(precision)
-    onChangeText(newValue)
+    // we use string because this is the value for TextInput
+    onChangeText(String(newValue))
   }
 
   function renderWrapper ({ style }, children) {
