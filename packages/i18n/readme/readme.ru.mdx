@@ -125,46 +125,40 @@ export default observer(function LanguageSelect () {
 })
 ```
 
-## Автозамена слов
+## Генерация переводов
 
-Создать translations.json в папке проекта, н-р:
+Чтобы не приходилось писать конфиг с переводами вручную можно использовать функцию - `t`
 
-```json
-{
-  "ru": {
-    "PAbout/index.js": {
-      "backToHome": "Назад на главную",
-      "defaultValue": "Back to Home"
-    },
-    "PHome/index.js": {
-      "listEmployees": "Список сотрудников",
-      "defaultValue": "A list of employees"
-    }
-  },
-  "ua": {
-    "PAbout/index.js": {
-      "backToHome": "Назад на головну",
-      "defaultValue": "Back to Home"
-    },
-    "PHome/index.js": {
-      "listEmployees": "Список працівників",
-      "defaultValue": "A list of employees"
-    }
-  }
-}
-```
-
-В прописанных файлах нужно использовать функцию - t:
-
-```js
+```jsx
+import React from 'react'
 import { t } from 'startupjs'
+import { Span } from '@startupjs/ui'
 
-...
-
-Div
-  Span= t('backToHome', 'Back to Home')
+export default function MyPage () {
+  return pug`
+    Div
+      Span= t('backToHome', 'Back to Home')
+  `
+}
 ```
 
 Первый аргумент - название тэга для слов, второй значение по умолчанию
 
-В зависимости от выбранного языка происходит замена текста при компиляции кода
+При компиляции проекта будут найдены все файлы которые используют данную функцию, и сгенерируется конфиг в формате:
+
+```json
+  "ru": {
+    "PAbout/index.js": {
+      "backToHome": "",
+      "defaultValue": "Back to Home",
+    },
+    "ua": {
+      "backToHome": "",
+      "defaultValue": "Back to Home",
+    }
+  }
+```
+
+Т.е. изначально заполняются слова только для дефолтного языка, остальные слова других языков можно изменять на странице - ${BASE_URL}/i18n
+
+В зависимости от выбранного языка, `t` функция будет подствалять значение в верстке
