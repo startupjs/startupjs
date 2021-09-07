@@ -38,28 +38,6 @@ return (
 )
 ```
 
-## Заголовок и описание
-
-```jsx example
-const OPTIONS = [
-  { label: 'New York', value: 'ny' },
-  { label: 'Los Angeles', value: 'la' },
-  { label: 'Tokyo', value: 'tk' },
-]
-
-const [cities, setCities] = useState([])
-
-return (
-  <Multiselect
-    label='Город'
-    description='Выберите города, которые вы посетили'
-    value={cities}
-    onChange={setCities}
-    options={OPTIONS}
-  />
-)
-```
-
 ## Опции
 
 Вы можете добавить в опции массив объектов ```{ label, value }``` или примитивов

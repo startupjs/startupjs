@@ -4,8 +4,21 @@ export default async function createPasswordResetSecret ({ model, email }) {
 
   const auth = $auths.get()[0]
 
+  // Check if user exists in auths collection
   if (!auth) {
-    throw new Error('User not found')
+    await $auths.unfetch()
+
+    // Check if another providers exist
+    const $rootAuth = model.query('auths', { email })
+    await $rootAuth.fetch()
+    const rootAuth = $rootAuth.get()[0]
+    await $rootAuth.unfetch()
+
+    if (rootAuth?.providers) {
+      throw new Error('The user is registered through an external service and can\'t recover the password')
+    }
+
+    throw new Error('User is not found')
   }
 
   const $auth = model.scope('auths.' + auth.id)
@@ -19,9 +32,9 @@ export default async function createPasswordResetSecret ({ model, email }) {
     timestamp: +new Date()
   }
 
-  await $local.setAsync('passwordResetMeta', passwordResetMeta)
+  await $local.set('passwordResetMeta', passwordResetMeta)
 
-  model.unfetch($auth)
+  await $auths.unfetch()
 
   return secret
 }

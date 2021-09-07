@@ -24,11 +24,7 @@ const [, $value] = useValue(['Green', 'Blue'])
 return (
   <ArrayInput
     $value={$value}
-    label='Colors'
-    description='Enter any colors you know'
-    items={{
-      input: 'text'
-    }}
+    items={{ type: 'text' }}
   />
 )
 ```

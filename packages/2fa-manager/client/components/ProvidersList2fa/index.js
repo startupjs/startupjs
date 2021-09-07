@@ -6,6 +6,7 @@ import './index.styl'
 
 function ProvidersList2fa ({ providers, chooseProvider }) {
   const [selectedProvider, setSelectedProvider] = useState('')
+  const options = providers.map(provider => ({ label: provider, value: provider }))
 
   return pug`
     Div.root
@@ -13,15 +14,10 @@ function ProvidersList2fa ({ providers, chooseProvider }) {
         Span Choose Provider:
         Div.chooseProvider
           Radio(
+            options=options
             value=selectedProvider
             onChange=(value) => setSelectedProvider(value)
           )
-            each provider in providers
-              Radio.Item(
-                key=provider
-                value=provider
-              )
-                Span= provider
       Div.buttons
         if selectedProvider
           Button.sendCodeButton(

@@ -227,7 +227,7 @@ return (
     $open: $root.scope('_session.Sandbox.SmartSidebar'),
     renderContent: () => (
       <Div styleName='sidebar'>
-        <Span>Sidebar content</Span>
+        <Span styleName='sidebar-text'>Sidebar content</Span>
       </Div>
     ),
     children: (
@@ -238,10 +238,12 @@ return (
             const value = $root.get('_session.Sandbox.SmartSidebar')
             $root.scope('_session.Sandbox.SmartSidebar').set(!value)
           }}
-        >Open</Button>
+        >Toggle</Button>
         <Br />
-        <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.</Span>
+        <Span>Children content</Span>
       </Div>
     )
   }}
+  rendererStyleName='renderer'
+  block
 />

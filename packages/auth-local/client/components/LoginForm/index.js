@@ -2,12 +2,13 @@ import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useSession, useError } from 'startupjs'
 import {
+  Alert,
+  Br,
   Row,
   Div,
   Span,
   Button,
-  ObjectInput,
-  ErrorWrapper
+  ObjectInput
 } from '@startupjs/ui'
 import {
   SIGN_UP_SLIDE,
@@ -133,14 +134,15 @@ function LoginForm ({
   )
 
   return pug`
+    if errors.server
+      Alert(variant='error')= errors.server
+      Br
     ObjectInput(
       value=form
       $value=$form
       errors=errors
       properties=_properties
     )
-
-    ErrorWrapper(err=errors.server)
 
     if renderActions
       = renderActions({ onSubmit, onChangeSlide })

@@ -89,7 +89,12 @@ function insertAfterImports ($program, expressionStatement) {
     .get('body')
     .filter($i => $i.isImportDeclaration())
     .pop()
-  lastImport.insertAfter(expressionStatement)
+
+  if (lastImport) {
+    lastImport.insertAfter(expressionStatement)
+  } else {
+    $program.unshift(expressionStatement)
+  }
 }
 
 function validateTemplate ($template, usedCompilers = {}) {

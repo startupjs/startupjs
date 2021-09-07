@@ -16,6 +16,7 @@ import { useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const { UIManager } = NativeModules
@@ -225,7 +226,10 @@ Dropdown.propTypes = {
   onDismiss: PropTypes.func
 }
 
-const ObservedDropdown = observer(Dropdown, { forwardRef: true })
+const ObservedDropdown = observer(
+  themed('Dropdown', Dropdown),
+  { forwardRef: true }
+)
 
 ObservedDropdown.Caption = DropdownCaption
 ObservedDropdown.Item = DropdownItem

@@ -95,7 +95,7 @@ module.exports = function (babel, opts) {
           .replace('startupjs/packages', 'styleguide/node_modules')
           .replace(cwd, '')
 
-        processedFilename = filename.replace(/\./g, '%2E')
+        processedFilename = encode(filename)
       },
       CallExpression: ($this, state) => {
         if (skip) return
@@ -152,9 +152,13 @@ module.exports = function (babel, opts) {
 
         if (!keyNode.value.indexOf(processedFilename)) return
 
-        keyNode.value = `${processedFilename}.${keyNode.value}`
+        keyNode.value = `${processedFilename}.${encode(keyNode.value)}`
         keys[key] = defaultValue
       }
     }
   }
+}
+
+function encode (str) {
+  return str.replace(/\./g, '%2E')
 }

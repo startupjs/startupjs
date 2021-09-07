@@ -1,167 +1,41 @@
-import React, { useMemo } from 'react'
-import { observer, $root } from 'startupjs'
+import React from 'react'
+import { observer, useBind } from 'startupjs'
 import PropTypes from 'prop-types'
-import ArrayInput from '../ArrayInput'
-import Checkbox from '../Checkbox'
-import DateTimePicker from '../DateTimePicker'
-import ErrorWrapper from '../ErrorWrapper'
-import Multiselect from '../Multiselect'
-import NumberInput from '../NumberInput'
-import ObjectInput from '../ObjectInput'
-import PasswordInput from '../PasswordInput'
-import Radio from '../Radio'
-import Select from '../Select'
-import TextInput from '../TextInput'
-import themed from '../../../theming/themed'
+import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
+import inputs from './inputs'
 
 function Input ({
-  style,
-  error,
+  input,
   type,
-  $value,
   ...props
 }) {
-  const { inputs, types } = useMemo(() => {
-    // INFO: we can't move this code outside of the component because ObjectInput uses Input inside which generates error "minified react error"
-    const _inputs = {
-      array: {
-        Component: ArrayInput,
-        getProps: $value => ({
-          value: $value && $value.get()
-        })
-      },
-      checkbox: {
-        Component: Checkbox,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      date: {
-        Component: DateTimePicker,
-        getProps: $value => ({
-          date: $value && $value.get(),
-          onDateChange: value => $value && $value.setDiff(value),
-          mode: 'date'
-        })
-      },
-      datetime: {
-        Component: DateTimePicker,
-        getProps: $value => ({
-          date: $value && $value.get(),
-          onDateChange: value => $value && $value.setDiff(value),
-          mode: 'datetime'
-        })
-      },
-      multiselect: {
-        Component: Multiselect,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeNumber: value => $value && $value.setDiff(value)
-        })
-      },
-      number: {
-        Component: NumberInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeNumber: value => $value && $value.setDiff(value)
-        })
-      },
-      object: {
-        Component: ObjectInput,
-        getProps: $value => ({
-          value: $value && $value.get()
-        })
-      },
-      password: {
-        Component: PasswordInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChangeText: value => $value && $value.setDiff(value)
-        })
-      },
-      radio: {
-        Component: Radio,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      select: {
-        Component: Select,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          onChange: value => $value && $value.setDiff(value)
-        })
-      },
-      time: {
-        Component: DateTimePicker,
-        getProps: $value => ({
-          date: $value && $value.get(),
-          onDateChange: value => $value && $value.setDiff(value),
-          mode: 'time'
-        })
-      },
-      text: {
-        Component: TextInput,
-        getProps: $value => ({
-          value: $value && $value.get(),
-          // TODO: Use stringInsert and stringRemove
-          onChangeText: value => $value && $value.setDiff(value)
-        })
-      }
-    }
-    return { inputs: _inputs, types: Object.keys(_inputs) }
-  }, [])
+  input = input || type
+  input = SCHEMA_TYPE_TO_INPUT[input] || input
 
-  if (!type || !types.includes(type)) {
-    if (type) {
-      console.error(`[ui -> Input] Wrong type provided: ${type}. Available types: ${types}`)
-    } else {
-      console.error(`[ui -> Input] type property must be specified. Available types: ${types}`)
-    }
-    return null
-  }
-  if ($value && typeof $value === 'string') {
-    if (/.+\..+/.test($value)) {
-      $value = $root.at($value)
-    } else {
-      console.error(`[ui -> Input] You can not specify the top-level absolute path in $value: ${$value}`)
-      $value = undefined
-    }
-  }
-  const { Component, getProps } = inputs[type]
-  const bindingProps = $value ? getProps($value) : {}
+  const { Component, getProps } = inputs[input]
+  const componentProps = getProps(props)
+  const bindingProps = useBind(componentProps)
+
   return pug`
-    ErrorWrapper(err=error)
-      Component(
-        ...bindingProps
-        ...props
-        style=style
-        $value=$value
-      )
+    Component(
+      ...props
+      ...componentProps
+      ...bindingProps
+    )
   `
 }
+
+const possibleInputs = Object.keys(inputs)
+const possibleTypes = Object.keys(SCHEMA_TYPE_TO_INPUT)
 
 Input.defaultProps = {
   type: 'text'
 }
 
 Input.propTypes = {
-  error: PropTypes.string,
-  type: PropTypes.oneOf([
-    'text',
-    'checkbox',
-    'object',
-    'select',
-    'number',
-    'date',
-    'datetime',
-    'time',
-    'array',
-    'password'
-  ]).isRequired,
+  type: PropTypes.oneOf(possibleInputs.concat(possibleTypes)),
+  value: PropTypes.any,
   $value: PropTypes.any
 }
 
-export default observer(themed(Input))
+export default observer(Input)

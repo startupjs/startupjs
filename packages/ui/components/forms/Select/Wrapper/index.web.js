@@ -14,13 +14,13 @@ import themed from '../../../../theming/themed'
 import './index.styl'
 
 function SelectWrapper ({
+  style,
+  children,
   options = [],
   value,
-  onChange,
   disabled,
   showEmptyValue,
-  style,
-  children
+  onChange
 }) {
   function onSelectChange (event) {
     const value = event.target.value
@@ -31,7 +31,10 @@ function SelectWrapper ({
     Div.root(style=style)
       = children
       if !disabled
-        select.overlay(value=stringifyValue(value) onChange=onSelectChange)
+        select.overlay(
+          value=stringifyValue(value)
+          onChange=onSelectChange
+        )
           if showEmptyValue
             option(key=-1 value=stringifyValue(NULL_OPTION))
               = getLabel(NULL_OPTION)

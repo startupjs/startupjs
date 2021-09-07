@@ -6,9 +6,8 @@ export default {
     contentInfo,
     durationOpen,
     animateType,
-    animateStates,
-    hasArrow
-  }, callback) {
+    animateStates
+  }) {
     const validPlacement = geometry.validPlacement
     const [position, attachment] = validPlacement.split('-')
 
@@ -36,7 +35,7 @@ export default {
           duration: durationOpen,
           useNativeDriver: false
         })
-      ]).start(callback)
+      ])
     }
 
     if (animateType === 'scale') {
@@ -86,7 +85,7 @@ export default {
           duration: durationOpen,
           useNativeDriver: false
         })
-      ]).start(callback)
+      ])
     }
   },
 
@@ -95,9 +94,16 @@ export default {
     contentInfo,
     durationClose,
     animateType,
-    animateStates,
-    hasArrow
-  }, callback) {
+    animateStates
+  }) {
+    if (!geometry) {
+      return Animated.timing(animateStates.opacity, {
+        toValue: 0,
+        duration: durationClose,
+        useNativeDriver: false
+      })
+    }
+
     animateStates.height.setValue(contentInfo.height)
     const [position, attachment] = (geometry.validPlacement || '').split('-')
 
@@ -125,7 +131,7 @@ export default {
           duration: durationClose,
           useNativeDriver: false
         })
-      ]).start(callback)
+      ])
     }
 
     if (animateType === 'scale') {
@@ -184,7 +190,7 @@ export default {
           duration: durationClose,
           useNativeDriver: false
         })
-      ]).start(callback)
+      ])
     }
   }
 }

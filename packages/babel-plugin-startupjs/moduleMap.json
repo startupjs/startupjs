@@ -12,6 +12,7 @@
     "Carousel": "/components/Carousel",
     "Collapse": "/components/Collapse",
     "Content": "/components/Content",
+    "Dialog": "/components/Dialog",
     "Div": "/components/Div",
     "Divider": "/components/Divider",
     "DrawerSidebar": "/components/DrawerSidebar",
@@ -34,8 +35,8 @@
     "User": "/components/User",
     "ArrayInput": "/components/forms/ArrayInput",
     "Checkbox": "/components/forms/Checkbox",
+    "ColorPicker": "/components/forms/ColorPicker",
     "DateTimePicker": "/components/forms/DateTimePicker",
-    "ErrorWrapper": "/components/forms/ErrorWrapper",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
     "NumberInput": "/components/forms/NumberInput",
@@ -69,6 +70,10 @@
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
-    "uiAppPlugin": "/uiAppPlugin.js"
+    "uiAppPlugin": "/uiAppPlugin.js",
+    "alert": "/dialogs/alert.js",
+    "confirm": "/dialogs/confirm.js",
+    "helpers": "/dialogs/helpers.js",
+    "prompt": "/dialogs/prompt.js"
   }
 }

@@ -1,3 +1,74 @@
+## [0.38.2](https://github.com/startupjs/startupjs/compare/v0.38.1...v0.38.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* **app:** fix incorrect route update when change url ([8220ec3](https://github.com/startupjs/startupjs/commit/8220ec38f6cfccc9d978c0469a8374582952829f))
+* **auth:** change error messages for password recovery ([#793](https://github.com/startupjs/startupjs/issues/793)) ([3871103](https://github.com/startupjs/startupjs/commit/38711031db9095826aa67b8276644fcbfc4b026a))
+* **babel-plugin-rn-stylename-inline:** prevent build crashing when there are no other imports except `styl` ([#778](https://github.com/startupjs/startupjs/issues/778)) ([48c9261](https://github.com/startupjs/startupjs/commit/48c926129a9cf110fdee0bf09ff8884276516f64))
+* **ui/Sidebar:** fix typo of incorrect name for `disabled` property in `propTypes` validation ([#789](https://github.com/startupjs/startupjs/issues/789)) ([f3a4aa0](https://github.com/startupjs/startupjs/commit/f3a4aa0272d8769d34190629cc62520cb17eed4c))
+* **ui/Input:** add two-way data binding for `date`, `datetime` and `time` types ([#795](https://github.com/startupjs/startupjs/issues/795)) ([68d1441](https://github.com/startupjs/startupjs/commit/68d1441855379111d641370cf1f6e39e8b40815e))
+* **ui/NumberInput:** fix `step` property and validation of initial value ([#787](https://github.com/startupjs/startupjs/issues/787)) ([6b5e4a7](https://github.com/startupjs/startupjs/commit/6b5e4a71356eba3d9f74107148aba64749ef503e))
+* **ui/NumberInput:** fix validation of `max` and `min` properties ([#794](https://github.com/startupjs/startupjs/issues/794)) ([79fd26e](https://github.com/startupjs/startupjs/commit/79fd26ec8594eb00b019cb0d66c3398a4fca82a2))
+* **ui/Select:** add ability to work with objects ([#797](https://github.com/startupjs/startupjs/issues/797)) ([da3374e](https://github.com/startupjs/startupjs/commit/da3374eece5066d90ce080fb02180f94589f5640))
+
+
+
+## [0.38.1](https://github.com/startupjs/startupjs/compare/v0.38.0...v0.38.1) (2021-08-27)
+
+
+### Bug Fixes
+
+* **docs:** fix IconSelect ([#786](https://github.com/startupjs/startupjs/issues/786)) ([d5e3955](https://github.com/startupjs/startupjs/commit/d5e395570ea4b8592ece4eeb4543cfedf77e3c4d))
+* **ui/dialogs:** fix error displaying in prompt ([#783](https://github.com/startupjs/startupjs/issues/783)) ([7266baa](https://github.com/startupjs/startupjs/commit/7266baa5b8440e12ab2e79b6177111b1de6a6ab4))
+* **ui/Input:** fix types 'select', 'multiselect' ([#785](https://github.com/startupjs/startupjs/issues/785)) ([131a828](https://github.com/startupjs/startupjs/commit/131a828ab1ba3e6b24a3e5a750d1503dd81d457a))
+
+
+
+# [0.38.0](https://github.com/startupjs/startupjs/compare/v0.37.8...v0.38.0) (2021-08-26)
+
+
+### Bug Fixes
+
+* **app:** move dialogs to ui library ([#714](https://github.com/startupjs/startupjs/issues/714)) ([ba66a1a](https://github.com/startupjs/startupjs/commit/ba66a1a0df43d9f96b261c18eda286e273ed8e1a))
+* **ui:** update `react-native-collapsible` ([040a945](https://github.com/startupjs/startupjs/commit/040a945f99436235e3b6b107f978792076275e8c))
+* **ui/Collapse:** remove default shadow ([cbfa85a](https://github.com/startupjs/startupjs/commit/cbfa85ae7c368b40467c8d8a8382f0921db5a7a7))
+
+
+### Features
+
+* **backend:** deny access to db by default ([#703](https://github.com/startupjs/startupjs/issues/703)) ([247d066](https://github.com/startupjs/startupjs/commit/247d066d322c2b66183e62f05b53dfea88bbec21))
+* **ui/Popover:** rework comonent api ([#684](https://github.com/startupjs/startupjs/issues/684)) ([eb1bada](https://github.com/startupjs/startupjs/commit/eb1bada098cd5db94557251e62fc0fdafddad512))
+* **ui/Tooltip:** deprecate popover and tooltip current api ([#768](https://github.com/startupjs/startupjs/issues/768)) ([002c60e](https://github.com/startupjs/startupjs/commit/002c60e8a6241b7f3fd3e1e19aacb57ab1ce1c8f))
+
+
+### ref
+
+* **ui/DatePicker:** timezone ([#701](https://github.com/startupjs/startupjs/issues/701)) ([8c95184](https://github.com/startupjs/startupjs/commit/8c951848b54afde18d6248b65df82aea58722bf9))
+
+
+### BREAKING CHANGES
+
+* [See 0.38 migration guide](/docs/migration-guides/0.38.md)
+
+
+
+## [0.37.8](https://github.com/startupjs/startupjs/compare/v0.37.7...v0.37.8) (2021-08-24)
+
+
+### Bug Fixes
+
+* **mdx:** fix highlighting of sublanguages (styl, css, pug) ([#765](https://github.com/startupjs/startupjs/issues/765)) ([8002081](https://github.com/startupjs/startupjs/commit/800208108a65cd6717b5fff3cae1f0ae05a2208f))
+* **ui/Input:** fix bug related to crash when use 'object' or 'array' inputs ([#777](https://github.com/startupjs/startupjs/issues/777)) ([b92f456](https://github.com/startupjs/startupjs/commit/b92f4566840de32d1c8d715afeb9004eb63eb587))
+* **ui/uiAppPlugin:** move to root from helpers ([#774](https://github.com/startupjs/startupjs/issues/774)) ([41e6b4f](https://github.com/startupjs/startupjs/commit/41e6b4f7445a440a34972c4e4b87ffc42661ad99))
+
+
+### Features
+
+* **ui/Toasts:** add component ([#687](https://github.com/startupjs/startupjs/issues/687)) ([8d93172](https://github.com/startupjs/startupjs/commit/8d93172c8358388a8d4bc383cf055eb80278fefc))
+
+
+
 ## [0.37.7](https://github.com/startupjs/startupjs/compare/v0.37.6...v0.37.7) (2021-08-20)
 
 
@@ -200,7 +271,7 @@
 
 ### BREAKING CHANGES
 
-* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](https://startupjs-ui.dmapper.co/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
+* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
 
 * **ui/Breadcrumbs:** no longer supports `Link` component properties for `route`
 
