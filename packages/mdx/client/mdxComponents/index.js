@@ -24,7 +24,6 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import { BASE_URL } from '@env'
-import Code from '../Code'
 import Example from '../Example'
 import './index.styl'
 
@@ -119,17 +118,10 @@ export default {
   pre: ({ children }) => children,
   code: observer(({ children, className, example }) => {
     const language = (className || '').replace(/language-/, '')
-
-    const exampleParams = typeof example === 'string'
-      ? JSON.parse(example)
-      : {}
+    const code = children.replace(/\n$/, '')
 
     return pug`
-      Div.code(styleName={ 'code-example': example })
-        if example
-          Example(value=children ...exampleParams)
-        else
-          Code(language=language)= children
+      Example(initCode=code language=language example=example)
     `
   }),
   inlineCode: ({ children }) => pug`

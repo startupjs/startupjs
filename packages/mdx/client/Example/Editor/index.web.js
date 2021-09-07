@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react'
 import { View } from 'react-native'
-import './index.styl'
 
 // editor
 import ace from 'ace-builds/src-noconflict/ace'
@@ -10,7 +9,7 @@ import 'ace-builds/src-noconflict/mode-stylus'
 import 'ace-builds/src-noconflict/mode-javascript'
 import '../helpers/mode-startupjs'
 
-export default function ({ initValue, onChangeCode }) {
+export default function ({ initValue, readOnly, onChangeCode }) {
   const refEditor = useRef()
 
   // init editor
@@ -23,8 +22,18 @@ export default function ({ initValue, onChangeCode }) {
       minLines: 2,
       maxLines: 25,
       value: initValue,
-      resize: true
+      resize: true,
+      showPrintMargin: false
     })
+
+    if (readOnly) {
+      editor.setOption('minLines', 1)
+      editor.setReadOnly(true)
+      editor.setHighlightActiveLine(false)
+      editor.setHighlightGutterLine(false)
+    }
+
+    editor.container.style.background = '#efefef'
 
     editor.session.on('change', function () {
       const code = editor.session.getValue()

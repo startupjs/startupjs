@@ -2,21 +2,20 @@ import React, { useState } from 'react'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ScrollView } from 'react-native'
 import { observer, useValue } from 'startupjs'
-import { Row, Collapse, Tooltip, Div, Icon } from '@startupjs/ui'
+import { Row, Collapse, Tooltip, Div, Icon, Loader } from '@startupjs/ui'
 import { faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import useCodeParse from './helpers/useCodeParse'
 import Editor from './Editor'
 import './index.styl'
 
-// TODO:
-// удалить делиметр
-// background to gray
-// add debounce
-// fix section: () => null
-export default observer(function ({ value, noScroll }) {
-  const { jsx, code, setCode } = useCodeParse(value)
+export default observer(function ({ initCode, language, example }) {
+  const { jsx, code, setCode } = useCodeParse(initCode)
   const [isShowEditor, setIsShowEditor] = useState(false)
   const [copyText, $copyText] = useValue('Copy code')
+
+  const { noScroll } = typeof example === 'string'
+    ? JSON.parse(example)
+    : {}
 
   function copyHandler () {
     Clipboard.setString(code)
@@ -28,14 +27,27 @@ export default observer(function ({ value, noScroll }) {
     $copyText.setDiff('Copy code')
   }
 
+  if (!example) {
+    return pug`
+      Div.example
+        Editor(
+          readOnly
+          language=language
+          initValue=initCode
+        )
+    `
+  }
+
+  const jsxFallback = jsx || <Loader />
+
   return pug`
     if noScroll
-      Div.example.examplePadding= jsx
+      Div.example.examplePadding= jsxFallback
     else
       ScrollView.example(
         contentContainerStyleName=['exampleContent', 'padding']
         horizontal
-      )= jsx
+      )= jsxFallback
 
     Collapse.collapse(open=isShowEditor variant='pure')
       Collapse.Header.collapseHeader(icon=false onPress=null)
@@ -51,9 +63,10 @@ export default observer(function ({ value, noScroll }) {
               Icon(icon=faCopy)
 
       Collapse.Content.collapseContent
-        Editor(
-          initValue=value
-          onChangeCode=code=> setCode(code)
-        )
+        if isShowEditor
+          Editor(
+            initValue=initCode
+            onChangeCode=code=> setCode(code)
+          )
   `
 })

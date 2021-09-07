@@ -1,19 +1,24 @@
-import React, { useState } from 'react'
-import { Dimensions } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Dimensions } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { observer, useApi } from 'startupjs'
+import { observer, useSession, useComponentId } from 'startupjs'
 import axios from 'axios'
-import './index.styl'
 
 function escapeRegExp (string) {
   return string.replace(/[.*+?^$`{}()|[\]\\]/g, '\\$&')
 }
 
-export default observer(function ({ initValue, onChangeCode }) {
-  const [webViewHeight, setWebViewHeight] = useState(100)
-  const [deps] = useApi(async () => {
-    const res = await axios.get('/api/get-deps-string')
-    return res.data
+export default observer(function ({ initValue, readOnly, onChangeCode }) {
+  const [webViewHeight, setWebViewHeight] = useState(1)
+  const [deps, $deps] = useSession('_editor.deps')
+  const componentId = useComponentId()
+
+  useEffect(() => {
+    if ($deps.get()) return
+    (async () => {
+      const res = await axios.get('/api/get-deps-string')
+      $deps.set(res.data)
+    })()
   }, [])
 
   const html = `
@@ -25,13 +30,13 @@ export default observer(function ({ initValue, onChangeCode }) {
         />
       </head>
       <body>
-        <div id='editor'></div>
+        <div id='editor_${componentId}'></div>
 
         <script>
           ${deps}
           \n\n
 
-          const editor = ace.edit('editor');
+          const editor = ace.edit('editor_${componentId}');
 
           editor.setOptions({
             theme: 'ace/theme/chrome',
@@ -42,6 +47,15 @@ export default observer(function ({ initValue, onChangeCode }) {
             resize: true
           })
 
+          if (${readOnly}) {
+            editor.setOption('minLines', 1)
+            editor.setReadOnly(true)
+            editor.setHighlightActiveLine(false)
+            editor.setHighlightGutterLine(false)
+          }
+
+          editor.container.style.background = "#efefef"
+
           editor.session.on('change', function () {
             window.ReactNativeWebView.postMessage(JSON.stringify({
               type: 'code',
@@ -51,33 +65,36 @@ export default observer(function ({ initValue, onChangeCode }) {
           })
 
           function updateHeight() {
-            const newHeight = editor.session.getLength() * 17;
+            const newHeight = editor.session.getLength() * 14;
             window.ReactNativeWebView.postMessage(JSON.stringify({
               type: 'height',
               height: newHeight
             }));
           }
 
-          updateHeight();
+          setTimeout(updateHeight, 300);
         </script>
+
+        <style>
+          * { padding: 0; margin: 0; }
+        </style>
       </body>
     </html>
   `
 
   function onMessage (e) {
     const data = JSON.parse(e.nativeEvent.data)
-    if (data.type === 'code') onChangeCode(data.code)
+    if (data.type === 'code') onChangeCode && onChangeCode(data.code)
     if (data.type === 'height') setWebViewHeight(data.height)
   }
 
+  if (!deps) return null
   return pug`
-    WebView(
-      source={ html }
-      style={
-        height: webViewHeight,
-        width: Dimensions.get('window').width
-      }
-      onMessage=onMessage
-    )
+    View(style={ height: webViewHeight })
+      WebView(
+        source={ html }
+        style={ width: Dimensions.get('window').width }
+        onMessage=onMessage
+      )
   `
 })
