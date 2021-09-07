@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ScrollView } from 'react-native'
 import { observer, useValue } from 'startupjs'
-import { Row, Collapse, Tooltip, Div, Icon, Loader } from '@startupjs/ui'
+import { Row, Collapse, Div, Icon, Loader } from '@startupjs/ui'
 import { faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import useCodeParse from './helpers/useCodeParse'
 import Editor from './Editor'
@@ -52,15 +52,17 @@ export default observer(function ({ initCode, language, example }) {
     Collapse.collapse(open=isShowEditor variant='pure')
       Collapse.Header.collapseHeader(icon=false onPress=null)
         Row(align='right')
-          Tooltip.collapseAction(content=isShowEditor ? 'Hide code' : 'Show code')
-            Div(onPress=()=> setIsShowEditor(!isShowEditor))
-              Icon(icon=faCode color='error')
-          Tooltip.collapseAction(content=copyText)
-            Div(
-              onPress=copyHandler
-              onMouseEnter=onMouseEnter
-            )
-              Icon(icon=faCopy)
+          Div.collapseAction(
+            renderTooltip=isShowEditor ? 'Hide code' : 'Show code'
+            onPress=()=> setIsShowEditor(!isShowEditor)
+          )
+            Icon(icon=faCode color='error')
+          Div.collapseAction(
+            renderTooltip=copyText
+            onPress=copyHandler
+            onMouseEnter=onMouseEnter
+          )
+            Icon(icon=faCopy)
 
       Collapse.Content.collapseContent
         if isShowEditor

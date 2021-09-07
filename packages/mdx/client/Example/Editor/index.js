@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Dimensions } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { observer, useSession, useComponentId } from 'startupjs'
+import { observer, useSession } from 'startupjs'
 import axios from 'axios'
 
 function escapeRegExp (string) {
@@ -11,7 +11,6 @@ function escapeRegExp (string) {
 export default observer(function ({ initValue, readOnly, onChangeCode }) {
   const [webViewHeight, setWebViewHeight] = useState(1)
   const [deps, $deps] = useSession('_editor.deps')
-  const componentId = useComponentId()
 
   useEffect(() => {
     if ($deps.get()) return
@@ -30,13 +29,13 @@ export default observer(function ({ initValue, readOnly, onChangeCode }) {
         />
       </head>
       <body>
-        <div id='editor_${componentId}'></div>
+        <div id='editor'></div>
 
         <script>
           ${deps}
           \n\n
 
-          const editor = ace.edit('editor_${componentId}');
+          const editor = ace.edit('editor');
 
           editor.setOptions({
             theme: 'ace/theme/chrome',
