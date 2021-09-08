@@ -75,7 +75,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
     }
 
     if (isWeb) {
-      window.location.href = '/'
+      window.location.reload(true)
     } else {
       RNRestart.Restart()
     }
