@@ -177,4 +177,14 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={NumberInput} />
+<Sandbox
+  Component={NumberInput}
+  extraParams={{
+    step: {
+      step: 0.0001
+    },
+    value: {
+      step: 0.0001
+    }
+  }}
+/>
