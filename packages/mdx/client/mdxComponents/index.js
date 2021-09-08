@@ -24,7 +24,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import { BASE_URL } from '@env'
-import Example from '../Example'
+import CodeViewer from '../CodeViewer'
 import './index.styl'
 
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
@@ -85,7 +85,19 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: () => null,
+  section: observer(({ initCode, pure, noScroll, children }) => {
+    initCode = initCode.replace(/&#9094/g, '\n').replace(/\n$/, '')
+
+    return pug`
+      CodeViewer(
+        initJsx=children
+        initCode=initCode
+        example=true
+        exampleOnly=pure
+        exampleDisableScroll=noScroll
+      )
+    `
+  }),
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
@@ -116,12 +128,15 @@ export default {
     Span.p(italic)= children
   `,
   pre: ({ children }) => children,
-  code: observer(({ children, className, example }) => {
+  code: observer(({ children, className }) => {
     const language = (className || '').replace(/language-/, '')
     const code = children.replace(/\n$/, '')
 
     return pug`
-      Example(initCode=code language=language example=example)
+      CodeViewer(
+        language=language
+        initCode=code
+      )
     `
   }),
   inlineCode: ({ children }) => pug`

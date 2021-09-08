@@ -7,10 +7,12 @@ import { transform } from '@babel/core'
 // import webPassClassnamePlugin from 'babel-plugin-react-native-web-pass-classname'
 
 import ace from '!raw-loader!ace-builds/src-noconflict/ace.js' /* eslint-disable-line */
+import themeChrome from '!raw-loader!ace-builds/src-noconflict/theme-chrome' /* eslint-disable-line */
 import modeJade from '!raw-loader!ace-builds/src-noconflict/mode-jade.js' /* eslint-disable-line */
 import modeStylus from '!raw-loader!ace-builds/src-noconflict/mode-stylus.js' /* eslint-disable-line */
 import modeJavascript from '!raw-loader!ace-builds/src-noconflict/mode-javascript.js' /* eslint-disable-line */
 import modeStartupjs from '!raw-loader!@startupjs/mdx/client/Example/helpers/mode-startupjs.js' /* eslint-disable-line */
+import modeText from '!raw-loader!ace-builds/src-noconflict/mode-text.js' /* eslint-disable-line */
 
 export default function initMdx (ee) {
   ee.on('routes', expressApp => {
@@ -39,10 +41,12 @@ export default function initMdx (ee) {
     expressApp.get('/api/get-deps-string', (req, res) => {
       const depsString = `
         ${ace}
+        \n\n${themeChrome}
         \n\n${modeJade}
         \n\n${modeStylus}
         \n\n${modeJavascript}
         \n\n${modeStartupjs}
+        \n\n${modeText}
       `
       res.send(depsString)
     })

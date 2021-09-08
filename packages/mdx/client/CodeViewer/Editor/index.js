@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { View, Dimensions } from 'react-native'
+import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { observer, useSession } from 'startupjs'
 import axios from 'axios'
+import escapeRegExp from '../helpers/escapeRegExp'
+import prepareLanguage from '../helpers/prepareLanguage'
 
-function escapeRegExp (string) {
-  return string.replace(/[.*+?^$`{}()|[\]\\]/g, '\\$&')
-}
-
-export default observer(function ({ initValue, readOnly, onChangeCode }) {
+function Editor ({
+  initValue,
+  language = '',
+  readOnly,
+  onChangeCode
+}) {
   const [webViewHeight, setWebViewHeight] = useState(1)
   const [deps, $deps] = useSession('_editor.deps')
 
@@ -39,7 +42,6 @@ export default observer(function ({ initValue, readOnly, onChangeCode }) {
 
           editor.setOptions({
             theme: 'ace/theme/chrome',
-            mode: 'ace/mode/startupjs',
             minLines: 2,
             maxLines: 1000,
             value: \`${escapeRegExp(initValue)}\`,
@@ -51,9 +53,14 @@ export default observer(function ({ initValue, readOnly, onChangeCode }) {
             editor.setReadOnly(true)
             editor.setHighlightActiveLine(false)
             editor.setHighlightGutterLine(false)
+            editor.setOption('showGutter', false)
+            editor.container.style.background = '#f5f5f5'
+            editor.renderer.$cursorLayer.element.style.display = 'none'
+            editor.setOption('mode', 'ace/mode/${prepareLanguage(language)}')
+          } else {
+            editor.container.style.background = "#efefef"
+            editor.setOption('mode', 'ace/mode/startupjs')
           }
-
-          editor.container.style.background = "#efefef"
 
           editor.session.on('change', function () {
             window.ReactNativeWebView.postMessage(JSON.stringify({
@@ -92,8 +99,9 @@ export default observer(function ({ initValue, readOnly, onChangeCode }) {
     View(style={ height: webViewHeight })
       WebView(
         source={ html }
-        style={ width: Dimensions.get('window').width }
         onMessage=onMessage
       )
   `
-})
+}
+
+export default observer(Editor)

@@ -4,6 +4,7 @@ import Span from '../typography/Span'
 import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
 import './index.mdx.styl'
 
 # Div (див)
@@ -130,13 +131,17 @@ styl`
 ## renderTooltip
 
 ```jsx example
-const captionStyle = { width: 36, height: 36, backgroundColor: '#333' }
 const content = 'Контент'
+
 return pug`
-  Div(
-    style=captionStyle
-    renderTooltip=content
-  )
+  Div.caption(renderTooltip=content)
+`
+
+styl`
+  .caption
+    width 4u
+    height: 4u
+    background-color #333333
 `
 ```
 

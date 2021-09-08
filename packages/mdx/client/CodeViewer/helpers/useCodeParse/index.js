@@ -4,15 +4,20 @@ import axios from 'axios'
 import wrapCode from './wrapCode'
 import scope from './scope'
 
-export default function useCodeParse (initCode) {
+export default function useCodeParse ({ initCode, initJsx }) {
   const debounce = useRef(null)
+  const isFirstRender = useRef(false)
   const [code, setCode] = useState(initCode)
-  const [jsx, setJsx] = useState(null)
+  const [jsx, setJsx] = useState(initJsx)
 
   // string code to jsx
   useEffect(() => {
-    clearTimeout(debounce.current)
-    debounce.current = setTimeout(codeParse, 200)
+    if (!isFirstRender.current) {
+      isFirstRender.current = true
+    } else {
+      clearTimeout(debounce.current)
+      debounce.current = setTimeout(codeParse, 200)
+    }
   }, [code.trim()])
 
   async function codeParse () {

@@ -41,7 +41,7 @@ return (
 
 The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/components/Sidebar) switches to a [drawer sidebar](/docs/components/DrawerSidebar). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
 
-```jsx example={"noScroll":true}
+```jsx example no-scroll
 const [open, $open] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -78,7 +78,7 @@ return (
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
-```jsx example={"noScroll":true}
+```jsx example no-scroll
 const [open, $open] = useSession('ExampleRightSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -188,7 +188,7 @@ return (
 
 ## Complex example
 
-```jsx example={"noScroll":true}
+```jsx example no-scroll
 const [open, $open] = useSession('ExampleSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>

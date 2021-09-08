@@ -1,15 +1,23 @@
 import React, { useRef, useEffect } from 'react'
 import { View } from 'react-native'
+import { observer } from 'startupjs'
+import ace from 'ace-builds/src-noconflict/ace'
+import prepareLanguage from '../helpers/prepareLanguage'
 
 // editor
-import ace from 'ace-builds/src-noconflict/ace'
 import 'ace-builds/src-noconflict/theme-chrome'
 import 'ace-builds/src-noconflict/mode-jade'
 import 'ace-builds/src-noconflict/mode-stylus'
 import 'ace-builds/src-noconflict/mode-javascript'
+import 'ace-builds/src-noconflict/mode-text'
 import '../helpers/mode-startupjs'
 
-export default function ({ initValue, readOnly, onChangeCode }) {
+function Editor ({
+  initValue,
+  language = '',
+  readOnly,
+  onChangeCode
+}) {
   const refEditor = useRef()
 
   // init editor
@@ -18,7 +26,6 @@ export default function ({ initValue, readOnly, onChangeCode }) {
 
     editor.setOptions({
       theme: 'ace/theme/chrome',
-      mode: 'ace/mode/startupjs',
       minLines: 2,
       maxLines: 25,
       value: initValue,
@@ -31,9 +38,14 @@ export default function ({ initValue, readOnly, onChangeCode }) {
       editor.setReadOnly(true)
       editor.setHighlightActiveLine(false)
       editor.setHighlightGutterLine(false)
+      editor.setOption('showGutter', false)
+      editor.container.style.background = '#f5f5f5'
+      editor.renderer.$cursorLayer.element.style.display = 'none'
+      editor.setOption('mode', `ace/mode/${prepareLanguage(language)}`)
+    } else {
+      editor.container.style.background = '#efefef'
+      editor.setOption('mode', 'ace/mode/startupjs')
     }
-
-    editor.container.style.background = '#efefef'
 
     editor.session.on('change', function () {
       const code = editor.session.getValue()
@@ -45,3 +57,5 @@ export default function ({ initValue, readOnly, onChangeCode }) {
     View(ref=refEditor)
   `
 }
+
+export default observer(Editor)
