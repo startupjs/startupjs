@@ -25,10 +25,11 @@ import { Button } from '@startupjs/ui'
 ```jsx example
 const [counter, setCounter] = useState(0)
 
-return pug`
-  Button(onPress=()=> setCounter(counter + 1))
-    | Нажато #{counter} раз
-`
+return (
+  <Button onPress={() => setCounter(counter + 1)}>
+    Нажато {counter} раз
+  </Button>
+)
 ```
 
 ## Async кнопка
@@ -42,9 +43,11 @@ async function onPress() {
   })
 }
 
-return pug`
-  Button(onPress=onPress) Async button
-`
+return (
+  <Button onPress={onPress}>
+    Async button
+  </Button>
+)
 ```
 
 ## Разновидности
@@ -52,14 +55,21 @@ return pug`
 Свойство `variant` отвечает за внешнее отображение кнопки (влияет на цвет иконки и текста кнопки). Значение по умолчанию - `outlined`.
 
 ```jsx example
-return pug`
-  Div
-    Button(icon=faCoffee) Контурная
-    Br
-    Button(variant='flat' icon=faCoffee) Плоская
-    Br
-    Button(variant='text' icon=faCoffee) Текстовая
-`
+return (
+  <Div>
+    <Button icon={faCoffee}>
+      Контурная
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCoffee}>
+      Плоская
+    </Button>
+    <Br />
+    <Button variant='text' icon={faCoffee}>
+      Текстовая
+    </Button>
+  </Div>
+)
 ```
 
 ## Цвета
@@ -67,14 +77,21 @@ return pug`
 Цвет по умолчанию `dark`. Его можно изменить, передав имя цвета из списка цветов конфигурации в свойство `color`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
 
 ```jsx example
-return pug`
-  Div
-    Button(variant='flat') Default dark
-    Br
-    Button(color='primary' variant='flat') Primary
-    Br
-    Button(color='success' variant='flat') Success
-`
+return (
+  <Div>
+    <Button variant='flat'>
+      Default dark
+    </Button>
+    <Br />
+    <Button color='primary' variant='flat'>
+      Primary
+    </Button>
+    <Br />
+    <Button color='success' variant='flat'>
+      Success
+    </Button>
+  </Div>
+)
 ```
 
 ## Размеры
@@ -83,35 +100,45 @@ return pug`
 Размер по умолчанию - `m`. Возможные значения свойства можно найти в разделе `Sandbox` внизу страницы.
 
 ```jsx example
-return pug`
-  Div
-    Button(variant='flat' size='s' icon=faCheck) Small
-    Br
-    Button(variant='flat' icon=faCheck) Default
-    Br
-    Button(variant='flat' size='l' icon=faCheck) Large
-`
+return (
+  <Div>
+    <Button variant='flat' size='s' icon={faCheck}>
+      Small
+    </Button>
+    <Br />
+    <Button variant='flat' icon={faCheck}>
+      Default
+    </Button>
+    <Br />
+    <Button variant='flat' size='l' icon={faCheck}>
+      Large
+    </Button>
+  </Div>
+)
 ```
 
 ## Иконки
 
 Иконка может быть добавлена используя `icon` свойство. Положение иконки можно изменить, передав в компонент `iconPosition` (`left` по умолчанию). Чтобы изменить цвет иконки используйте `iconStyleName` свойство.
 
-```jsx example
-return pug`
-  Div
-    Button.button(icon=faCoffee iconStyleName='icon')
-      | Иконка слева (по умолчанию) с измененным цветом
-    Br
-    Button(icon=faCoffee iconPosition='right')
-      | Иконка справа
-`
+В `.styl` файле
+```stylus
+.icon
+  color $UI.colors.success
+```
 
-styl`
-  .button
-    &:part(icon)
-      color $UI.colors.success
-`
+```jsx example
+return (
+  <Div>
+    <Button icon={faCoffee} iconStyleName='icon'>
+      Иконка слева (по умолчанию) с измененным цветом
+    </Button>
+    <Br />
+    <Button icon={faCoffee} iconPosition='right'>
+      Иконка справа
+    </Button>
+  </Div>
+)
 ```
 
 ## Призыв к Действию
@@ -123,10 +150,9 @@ __Никогда__ не ставьте несколько кнопок `Приз
 Поэтому правильное решение при разработке любого UX — это всегда по-умолчанию использовать обычную кнопку без каких-либо опций. И лишь потом решать вместе с UX специалистами какую **одну** из кнопок сделать `Призывом к Действию` — `primary` `flat`.
 
 ```jsx example
-return pug`
-  Button(color='primary' variant='flat')
-    | Уничтожить Звезду Смерти!
-`
+<Button color='primary' variant='flat'>
+  Уничтожить Звезду Смерти!
+</Button>
 ```
 
 ## Порядок кнопок
@@ -134,11 +160,14 @@ return pug`
 Когда вы ставите несколько кнопок в ряд, придерживайтесь такого их порядка, к которому привыкли пользователи в операционных системах. Сначала должна идти кнопка `Отмена` и после нее — `OK`
 
 ```jsx example
-return pug`
-  Row(align='right')
-    Button Cancel
-    Button(pushed color='primary' variant='flat') OK
-`
+<Row align='right'>
+  <Button>
+    Cancel
+  </Button>
+  <Button pushed color='primary' variant='flat'>
+    OK
+  </Button>
+</Row>
 ```
 
 ## Песочница
