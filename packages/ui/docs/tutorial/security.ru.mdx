@@ -1,0 +1,160 @@
+# Безопасность
+
+Поскольку мы используем racer, изначально все документы в бд полностью открыты для чтения, записи, удаления. Т.е. залогинен юзер или нет, какие у него права, какие поля должны быть в документе по задуманной архитектуре проекта - это все не учитывается и по сути с документом можно делать все что угодно.
+
+Чтобы избежать неприятностей с полностью открытыми возможностями для изменения бд, естественно нужно как-то это коррелировать.
+
+## @startupjs/sharedb-access
+
+Добавляет возможность разрешать/запрещать создание, чтение, обновление, удаление определенного документа(ов)
+
+Для подключения нужно прописать `accessControl: true` в server/index.js -> startupjsServer
+
+Пример racer модели с данной библиотекой:
+
+```js
+export default class NewsModel extends basePermissions(BaseModel) {
+  static access = {
+    create: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    read: async (model, collection, docId, doc, session) => {
+      return true
+    },
+    update: async (model, collection, docId, oldDoc, session, ops, newDoc) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    delete: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    }
+  }
+}
+```
+
+hasPermission - функция для проверки прав пользователя
+
+## @startupjs/sharedb-schema
+
+Позволяет указывать какие поля должна использовать модель и описывать правила для них, чтобы нельзя было прокидывать в бд что-то лишнее, или неправильно изменять какие-либо поля.
+
+Для подключения нужно прописать `validateSchema: true` в server/index.js -> startupjsServer
+
+Например, коллекция `users` может иметь такое описание:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class UserModel extends BaseModel {
+  static schema = {
+    type: 'object',
+    properties: {
+      // поле `username`, которое должно быть только строкой,
+      // с минимальной длинной и максимальной 10
+      username: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 10
+      },
+      // поле `email`, которое проверяется регулярным выражением через парметр format
+      email: {
+        type: 'string',
+        format: 'email'
+      },
+      // поле `age`, которое может быть только числом, с минимальным значением 1
+      age: {
+        description: 'Age in years',
+        type: 'integer',
+        minimum: 1
+      },
+      roleId: {
+        type: 'string'
+      },
+      // поле `hobbies`, которое может быть только массивом с сроковоми значениями,
+      // минимальной длинной 3 и со всеми уникальными значениями
+      hobbies: {
+        type: 'array',
+        maxItems: 3,
+        items: { type: 'string' },
+        uniqueItems: true
+      }
+    }
+  }
+}
+```
+
+Для подключения нужно прописать `validateSchema: true` в server/index.js -> startupjsServer
+
+Подробнее про API - https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema
+
+## @startupjs/server-aggregate
+
+Агрегации изначально так же не защищены
+
+Для подключения нужно прописать `serverAggregate: true` в server/index.js -> startupjsServer
+
+
+
+## Валидация роутов
+
+Для некоторых роутов бывает нужно запретить доступ как на сервере, так и на клиенте
+
+Пример валидации для админки на клиенте:
+
+```js
+async function isAdmin (model, next, redirect) {
+  const userId = model.get('_session.userId')
+
+  const $user = model.scope(`users.${userId}`)
+  await $user.fetch()
+
+  // проверка является ли пользователь админом из метода в модели
+  const isAdmin = await $user.isSuperAdmin()
+  await $user.unfetch()
+
+  if (isAdmin) return next()
+  return redirect('/403')
+}
+
+export default (components = {}) => [
+  {
+    path: '/admin/users',
+    exact: true,
+    component: components.PUsers,
+    filters: [isAdmin] // передача функций для проверки разрешен ли доступ
+  },
+  {
+    path: '/admin/transactions',
+    exact: true,
+    component: components.PTransactions,
+    filters: [isAdmin] // передача функций для проверки разрешен ли доступ
+  }
+]
+```
+
+Пример валидации роутов для админов на сервере:
+
+```js
+import express from 'express'
+
+async function isAdmin (req, res, next) {
+  const { model } = req
+  const userId = model.get('_session.userId')
+
+  const $user = model.scope(`users.${userId}`)
+  await $user.fetch()
+
+  // проверка является ли пользователь админом из метода в модели
+  const isAdmin = await $user.isSuperAdmin()
+  await $user.unfetch()
+
+  if (isAdmin) return next()
+  return res.sendStatus(403)
+}
+
+const adminRouter = express.Router()
+adminRouter.use(isAdmin)
+
+adminRouter.get('/tasks', getTasksList)
+
+export default adminRouter
+```

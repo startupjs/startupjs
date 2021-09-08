@@ -10,6 +10,7 @@ import ShareDBRu from './sharedbHooks.ru.mdx'
 import ShareDBEn from './sharedbHooks.en.mdx'
 import RacerModelRu from './racerModel.ru.mdx'
 import RacerModelEn from './racerModel.en.mdx'
+import SecurityRu from './security.ru.mdx'
 import FileStructureRu from './fileStructure.ru.mdx'
 import FileStructureEn from './fileStructure.en.mdx'
 import PugRu from './pug.ru.mdx'
@@ -81,6 +82,11 @@ export default {
         en: RacerModelEn,
         ru: RacerModelRu
       }
+    },
+    Security: {
+      type: 'mdx',
+      title: 'Безопасность',
+      component: SecurityRu
     },
     FileStructure: {
       type: 'mdx',
