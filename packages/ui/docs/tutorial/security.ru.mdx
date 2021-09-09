@@ -92,7 +92,28 @@ export default class UserModel extends BaseModel {
 
 Для подключения нужно прописать `serverAggregate: true` в server/index.js -> startupjsServer
 
+Далее в модели нужно описывать агрегации:
 
+```
+static aggregations = {
+  example: async (model, params, session) => {
+    return [
+      { $match: { status: params.status } }
+    ]
+  }
+}
+```
+
+И использовать в запросе таким образом:
+
+```
+model.query('events', {
+  $aggregationName: 'example',
+  $params: {}
+})
+```
+
+Такой подход запрещает формировать любые агрегации, с получением любых данных, и вынуждает работать только с агрегациями по заданном шаблону
 
 ## Валидация роутов
 
