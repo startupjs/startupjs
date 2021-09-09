@@ -85,13 +85,14 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: observer(({ initCode, pure, noScroll, children }) => {
+  section: observer(({ initCode, globals, pure, noScroll, children }) => {
     initCode = initCode.replace(/&#9094/g, '\n').replace(/\n$/, '')
 
     return pug`
       CodeViewer(
         initJsx=children
         initCode=initCode
+        globals=globals
         example=true
         exampleOnly=pure
         exampleDisableScroll=noScroll

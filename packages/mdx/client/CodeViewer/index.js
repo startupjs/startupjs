@@ -11,12 +11,13 @@ import './index.styl'
 export default observer(function CodeViewer ({
   initCode,
   initJsx,
+  globals,
   language,
   example,
   exampleOnly,
   exampleDisableScroll
 }) {
-  const { jsx, code, setCode } = useCodeParse({ initCode, initJsx })
+  const { jsx, code, setCode } = useCodeParse({ initCode, initJsx, globals })
   const [isRenderEditor, setIsRenderEditor] = useState(false)
   const [isShowEditor, setIsShowEditor] = useState(false)
   const [copyText, $copyText] = useValue('Copy code')
