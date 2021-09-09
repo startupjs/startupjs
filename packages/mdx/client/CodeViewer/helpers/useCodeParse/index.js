@@ -4,6 +4,9 @@ import axios from 'axios'
 import wrapCode from './wrapCode'
 import scope from './scope'
 
+// eslint-disable-next-line
+const REGEX_ANSI = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g
+
 export default function useCodeParse ({ initCode, initJsx }) {
   const debounce = useRef(null)
   const isFirstRender = useRef(false)
@@ -30,7 +33,8 @@ export default function useCodeParse ({ initCode, initJsx }) {
 
     if (res.data.error) {
       setJsx(pug`
-        Span(style={ color: 'red' })= res.data.error
+        Span(style={ color: 'red', fontFamily: 'monospace' })
+          = res.data.error.replace(REGEX_ANSI, '')
       `)
     } else {
       // eslint-disable-next-line

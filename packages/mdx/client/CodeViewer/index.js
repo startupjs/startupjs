@@ -12,9 +12,9 @@ export default observer(function CodeViewer ({
   initCode,
   initJsx,
   language,
-  noScroll,
   example,
-  exampleOnly
+  exampleOnly,
+  exampleDisableScroll
 }) {
   const { jsx, code, setCode } = useCodeParse({ initCode, initJsx })
   const [isRenderEditor, setIsRenderEditor] = useState(false)
@@ -44,7 +44,7 @@ export default observer(function CodeViewer ({
   }
 
   return pug`
-    if noScroll
+    if exampleDisableScroll
       Div.example.examplePadding= jsx
     else
       ScrollView.example(
