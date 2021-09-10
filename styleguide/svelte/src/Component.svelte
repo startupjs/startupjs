@@ -1,7 +1,7 @@
 <script>
-  import { storeQuery } from './storesApi.js';
+  import { storeQuery } from './storesApi';
 
-  const temps = storeQuery('temp', {})
+  const storeTemp = storeQuery('temp', {})
 </script>
 
-<div>length: {$temps.length}</div>
+<div>length: {$storeTemp.length}</div>
