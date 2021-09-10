@@ -1,14 +1,14 @@
 import model from '@startupjs/model'
 import { writable } from 'svelte/store'
-import stories from './stores'
+import stores from './stores'
 
-export function queryStore (collectionName, options) {
+export function storeQuery (collectionName, options) {
   // add options ?
   const storePath = '_queries.' + collectionName
 
-  if (!stories[storePath]) stories[storePath] = writable([])
+  if (!stores[storePath]) stores[storePath] = writable([])
 
-  const { subscribe, set } = stories[storePath]
+  const { subscribe, set } = stores[storePath]
 
   setTimeout(() => {
     const query = model.root.connection.createSubscribeQuery(collectionName, options)

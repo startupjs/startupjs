@@ -1,2 +1,2 @@
-const stories = {}
-export default stories
+const stores = {}
+export default stores
