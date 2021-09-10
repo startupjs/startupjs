@@ -1,12 +1,17 @@
 import model from '@startupjs/model'
 import { writable } from 'svelte/store'
+import stories from './stores'
 
-function createTemp () {
-  // subscribe, set, update
-  const { subscribe, set } = writable([])
+export function queryStore (collectionName, options) {
+  // add options ?
+  const storePath = '_queries.' + collectionName
+
+  if (!stories[storePath]) stories[storePath] = writable([])
+
+  const { subscribe, set } = stories[storePath]
 
   setTimeout(() => {
-    const query = model.root.connection.createSubscribeQuery('temp', {})
+    const query = model.root.connection.createSubscribeQuery(collectionName, options)
 
     query.on('ready', () => {
       set(query.results.map(item => item.data))
@@ -26,8 +31,6 @@ function createTemp () {
         model.scope(`temp.${item.id}`).setDiff({ ...item })
       })
     },
-    reset: () => set({})
+    reset: () => set([])
   }
 }
-
-export const temps = createTemp()

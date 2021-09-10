@@ -1,5 +1,8 @@
 <script>
-  import { temps } from './stories.js';
+  import Component from './Component'
+  import { queryStore } from './storesApi.js';
+
+  const temps = queryStore('temp', {})
 </script>
 
 <div>
@@ -8,3 +11,5 @@
     <input bind:value={temp.title} />
   {/each}
 </div>
+
+<Component />
