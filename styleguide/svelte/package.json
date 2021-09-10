@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.config.js --env=development --mode development --open --hot"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "html-webpack-plugin": "^4.3.0",
+    "svelte-loader": "^3.1.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "svelte": "^3.42.4"
+  }
+}
