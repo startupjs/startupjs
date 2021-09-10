@@ -4,4 +4,10 @@
   const storeTemp = storeQuery('temp', {})
 </script>
 
-<div>length: {$storeTemp.length}</div>
+<div class="root">length: {$storeTemp.length}</div>
+
+<style>
+  .root {
+    margin-top: 16px;
+  }
+</style>
