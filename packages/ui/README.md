@@ -10,7 +10,6 @@ yarn add @startupjs/ui
 ### Requirements
 
 ```
-@react-native-community/datetimepicker: ^3.0.6
 @react-native-picker/picker: >=1.16.1
 react: 16.9 - 17
 react-native: >= 0.61.4 < 0.64.0

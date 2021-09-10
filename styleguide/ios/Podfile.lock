@@ -404,8 +404,6 @@ PODS:
     - React-Core
   - RNCPushNotificationIOS (1.8.0):
     - React-Core
-  - RNDateTimePicker (3.4.0):
-    - React-Core
   - RNGoogleSignin (6.0.0):
     - GoogleSignIn (~> 5.0.0)
     - React-Core
@@ -472,7 +470,6 @@ DEPENDENCIES:
   - "RNCClipboard (from `../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../../node_modules/@react-native-picker/picker`)"
   - "RNCPushNotificationIOS (from `../../node_modules/@react-native-community/push-notification-ios`)"
-  - "RNDateTimePicker (from `../../node_modules/@react-native-community/datetimepicker`)"
   - "RNGoogleSignin (from `../../node_modules/@react-native-google-signin/google-signin`)"
   - RNSVG (from `../../node_modules/react-native-svg`)
   - Yoga (from `../../node_modules/react-native/ReactCommon/yoga`)
@@ -577,8 +574,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@react-native-picker/picker"
   RNCPushNotificationIOS:
     :path: "../../node_modules/@react-native-community/push-notification-ios"
-  RNDateTimePicker:
-    :path: "../../node_modules/@react-native-community/datetimepicker"
   RNGoogleSignin:
     :path: "../../node_modules/@react-native-google-signin/google-signin"
   RNSVG:
@@ -648,7 +643,6 @@ SPEC CHECKSUMS:
   RNCClipboard: 245417a78ab585e0d4d83926c28907e7b2bc24bd
   RNCPicker: 61c7a0645b9e4ac67960aa7f22a3effcecfdfb8d
   RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
-  RNDateTimePicker: f7e5a5e88ad9081367b884e924358f4629e029d4
   RNGoogleSignin: 111fd4792913208f338fe3178005f7a22e490ff9
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
