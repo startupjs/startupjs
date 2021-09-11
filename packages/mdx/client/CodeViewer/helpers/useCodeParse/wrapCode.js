@@ -26,7 +26,7 @@ export default function wrapCode (code) {
       render() {
         if (this.state.hasError) {
           return pug\`
-            Span(style={ color: 'red', fontFamily: 'monospace' })
+            Text(style={ color: 'red', fontFamily: 'monospace' })
               = this.state.errorMessage.toString()
           \`;
         }

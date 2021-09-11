@@ -1,4 +1,5 @@
 import React from 'react'
+import { Text } from 'react-native'
 import { observer } from 'startupjs'
 
 import { process } from '@startupjs/babel-plugin-rn-stylename-to-style/process'
@@ -8,6 +9,7 @@ export default {
   // important
   React: React,
   observer: observer,
+  Text: Text,
 
   // hacks
   require: () => ({ process }), // "import { styl }" transpile to require('...').process
