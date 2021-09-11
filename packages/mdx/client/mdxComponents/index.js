@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { Image, Platform, ScrollView } from 'react-native'
-import Clipboard from '@react-native-clipboard/clipboard'
-import { $root, observer, useValue } from 'startupjs'
+import { Image, Platform } from 'react-native'
+import { $root, observer } from 'startupjs'
 import {
   Div,
   H2,
@@ -18,16 +17,15 @@ import {
   Td,
   Th,
   Thead,
-  Tr,
-  Collapse
+  Tr
 } from '@startupjs/ui'
 import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
-import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import { BASE_URL } from '@env'
+import CodeViewer from '../CodeViewer'
 import './index.styl'
-import Code from '../Code'
 
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
@@ -87,21 +85,20 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: ({ children, ...props }) => {
-    const Wrapper = props.noscroll
-      ? ({ children }) => pug`
-        Div.example.padding= children
-      `
-      : ({ children }) => pug`
-        ScrollView.example(
-          contentContainerStyleName=['exampleContent', 'padding']
-          horizontal
-        )= children
-      `
+  section: observer(({ initCode, globals, pure, noScroll, children }) => {
+    initCode = initCode.replace(/&#9094/g, '\n').replace(/\n$/, '')
+
     return pug`
-      Wrapper= children
+      CodeViewer(
+        initJsx=children
+        initCode=initCode
+        globals=globals
+        example=true
+        exampleOnly=pure
+        exampleDisableScroll=noScroll
+      )
     `
-  },
+  }),
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
@@ -132,42 +129,15 @@ export default {
     Span.p(italic)= children
   `,
   pre: ({ children }) => children,
-  code: observer(({ children, className, example }) => {
+  code: observer(({ children, className }) => {
     const language = (className || '').replace(/language-/, '')
-    const [open, setOpen] = useState(false)
-    const [copyText, $copyText] = useValue('Copy code')
-
-    function copyHandler () {
-      Clipboard.setString(children)
-      $copyText.set('Copied')
-    }
-
-    function onMouseEnter () {
-      // we need to reutrn default text if it was copied
-      $copyText.setDiff('Copy code')
-    }
+    const code = children.replace(/\n$/, '')
 
     return pug`
-      Div.code(styleName={ 'code-example': example })
-        if example
-          Collapse.code-collapse(open=open variant='pure')
-            Collapse.Header.code-collapse-header(icon=false onPress=null)
-              Row.code-actions(align='right')
-                Div.code-action(
-                  renderTooltip=open ? 'Hide code' : 'Show code'
-                  onPress=()=> setOpen(!open)
-                )
-                  Icon.code-action-collapse(icon=faCode color='error')
-                Div.code-action(
-                  renderTooltip=copyText
-                  onPress=copyHandler
-                  onMouseEnter=onMouseEnter
-                )
-                  Icon.code-action-copy(icon=faCopy)
-            Collapse.Content.code-collapse-content
-              Code(language=language)= children
-        else
-          Code(language=language)= children
+      CodeViewer(
+        language=language
+        initCode=code
+      )
     `
   }),
   inlineCode: ({ children }) => pug`

@@ -14,7 +14,7 @@ import Carousel from '@dmapper/carousel'
 All you need to use is to transfer children in Carousel
 Such an example of a carousel, used on instagram or vk for stories, children have no clear boundaries, such a carousel should be adaptive for all extensions and devices
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -44,7 +44,7 @@ return (
 
 You can also set different widths for children, the component knows how to handle this case
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -86,7 +86,7 @@ In conjunction with this property, each children needs to minWidth and maxWidth
 The component itself will calculate how many blocks need to be displayed for a specific resolution
 For example, when minWidth 100 and maxWidth 500, on the desktop extension there will be 2 blocks, on mobile 1
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -117,7 +117,7 @@ return (
 
 To use 1 visible block, children minWidth to be 100%
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -150,7 +150,7 @@ return (
 Set by isEndless property (default is false)
 Without isResponsive property, infinite scrolling works only on arrow clicks
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -187,7 +187,7 @@ return (
 
 With isResponsive property, works also through swipe
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -226,7 +226,7 @@ return (
 The ability to scroll with the mouse or finger is set by isSwipe
 The default is true, and you can always turn it off:
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -254,7 +254,7 @@ return (
 Set by properties hasArrows (default is true) and hasDots (default is false)
 Without isResponsive - hasDots always false
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { minWidth: '100%', height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -286,7 +286,7 @@ return (
 
 Set by isLoop property (default is false)
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { minWidth: '100%', height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -319,7 +319,7 @@ return (
 
 Set by startIndex (Number) property
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { minWidth: '100%', height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -357,7 +357,7 @@ return (
 
 Set with arrowBackStyle and arrowNextStyle
 
-```jsx example noscroll
+```jsx example no-scroll
 const carouselStyle = { width: '80%', alignSelf: 'center' }
 const caseStyle = { width: 200, height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -404,7 +404,7 @@ return (
 
 If you need full customization of arrows or points, can be transferred ref, it will contain functions to switch: toBack, toNext, toIndex
 
-```jsx example noscroll
+```jsx example no-scroll
 const ref = useRef()
 const [slide, setSlide] = useState(0)
 const carouselStyle = { width: '100%', marginLeft: 4, marginRight: 4 }

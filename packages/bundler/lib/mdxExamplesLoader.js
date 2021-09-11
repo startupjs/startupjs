@@ -1,59 +1,100 @@
-const REGEX = /(```jsx +example[\s\S]*?\n)([\s\S]*?)(```)/g
-const PURE_REGEX = /(```jsx) +pure-example([\s\S]*?)(```)/g
+const { parse } = require('@babel/parser')
+const traverse = require('@babel/traverse').default
+const REGEX_EXAMPLE = /(```jsx +example[\s\S]*?\n)([\s\S]*?)(```)/g
 
 const EXAMPLE_FLAGS = [
-  'noscroll'
+  'no-scroll',
+  'pure'
 ]
 
 module.exports = function mdxExamplesLoader (source) {
   const observer = "import { observer as __observer } from 'startupjs'"
-  // NOTE: Two line breaks prevent crashing docs without imports
-  // when the text starts from the first line
-  return observer + '\n\n' + source.replace(REGEX, replacer).replace(PURE_REGEX, pureReplacer)
-}
 
-function replacer (match, p1, p2, p3) {
-  const parts = p1.trim().split(' ')
-  const sectionParts = []
-  const p1Parts = []
+  if (source.match(REGEX_EXAMPLE)) {
+    let globals = {}
+    const imports = getImports(source)
 
-  for (const part of parts) {
-    if (EXAMPLE_FLAGS.includes(part)) {
-      sectionParts.push(part)
-      continue
+    if (imports) {
+      const ast = parse(imports, { sourceType: 'module', plugins: ['jsx'] })
+      traverse(ast, {
+        ImportDeclaration (pathNode) {
+          pathNode.node.specifiers.forEach(node => {
+            if (node.local.name === 'styl') return
+            globals[node.local.name] = node.local.name
+          })
+        }
+      })
     }
-    p1Parts.push(part)
+
+    return observer + '\n\n' + replacer(source, globals)
   }
 
-  p1 = p1Parts.join(' ')
-
-  const code = `\n\n${p1}\n${p2}${p3}`
-
-  p2 = p2.trim().replace(/\n+/g, '\n')
-  if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
-
-  return (
-    `<section ${sectionParts.join(' ')}>
-      <React.Fragment>
-        {React.createElement(__observer(function Example () {
-          ${p2}
-        }))}
-      </React.Fragment>
-    </section>` + code
-  )
+  return observer + '\n\n' + source
 }
 
-function pureReplacer (match, p1, p2, p3) {
-  p2 = p2.trim().replace(/\n+/g, '\n')
-  if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
+function replacer (source, globals) {
+  return source.replace(REGEX_EXAMPLE, function (match, p1, p2) {
+    const parts = p1.trim().split(' ')
+    const sectionParts = []
 
-  return (
-    `<section>
-      <React.Fragment>
-        {React.createElement(__observer(function Example () {
-          ${p2}
-        }))}
-      </React.Fragment>
-    </section>`
-  )
+    for (const part of parts) {
+      if (EXAMPLE_FLAGS.includes(part)) {
+        sectionParts.push(camelize(part))
+        continue
+      }
+    }
+
+    let jsxCode = p2.trim().replace(/\n+/g, '\n')
+    if (/^</.test(jsxCode)) jsxCode = 'return (<React.Fragment>' + jsxCode + '</React.Fragment>)'
+
+    let stringCode = p2.replace(/\n/g, '&#9094')
+    stringCode = escapeRegExp(stringCode)
+
+    globals = JSON.stringify(globals).replace(/"/gi, '')
+
+    return (
+      `<section ${sectionParts.join(' ')} initCode={\`${stringCode}\`} globals={${globals}}>
+        <React.Fragment>
+          {React.createElement(__observer(function Example () {
+            ${jsxCode}
+          }))}
+        </React.Fragment>
+      </section>`
+    )
+  })
+}
+
+function getImports (source) {
+  const lines = source.replace(/\n+/g, '\n').split('\n')
+  let startImport = false
+  let lastImportIndex = 0
+
+  for (let index = 0; lines.length; index++) {
+    const line = lines[index]
+    lastImportIndex = index
+
+    if (line.includes('import')) {
+      if (line.includes('{') && !line.includes('}')) {
+        startImport = true
+      }
+      continue
+    }
+    if (startImport && line.includes('}')) {
+      startImport = false
+      continue
+    }
+    if (!line.includes('import') && !startImport) {
+      break
+    }
+  }
+
+  return lines.slice(0, lastImportIndex).join('\n')
+}
+
+function escapeRegExp (string) {
+  return string.replace(/[.*+?^$`{}()|[\]\\]/g, '\\$&')
+}
+
+function camelize (string) {
+  return string.replace(/-./g, x => x.toUpperCase()[1])
 }

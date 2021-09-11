@@ -57,6 +57,10 @@ module.exports = function getConfig (env, {
         {
           test: /\.[cm]?[jt]sx?$/,
           loader: 'babel-loader'
+        },
+        {
+          test: /\.txt$/,
+          use: 'raw-loader'
         }
       ]
     },

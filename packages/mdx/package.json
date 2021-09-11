@@ -1,5 +1,6 @@
 {
   "name": "@startupjs/mdx",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -10,10 +11,12 @@
     "@mdx-js/react": "~1.5.8",
     "@startupjs/scrollable-anchors": "^0.38.2",
     "@startupjs/ui": "^0.38.2",
+    "ace-builds": "^1.4.12",
     "refractor": "^3.0.0"
   },
   "peerDependencies": {
     "@react-native-clipboard/clipboard": "^1.7.0",
-    "react": "16.9 - 17"
+    "react": "16.9 - 17",
+    "react-native-webview": "10.10.2"
   }
 }
