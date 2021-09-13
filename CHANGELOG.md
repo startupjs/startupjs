@@ -1,3 +1,23 @@
+## [0.38.3](https://github.com/startupjs/startupjs/compare/v0.38.2...v0.38.3) (2021-09-13)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** add i18n plugin for native mobiles and collect translations only for web build ([26edfe6](https://github.com/startupjs/startupjs/commit/26edfe6a3e3683729dccdfff27a7e30bd500f95f))
+* **i18n:** encode dot in key param of 't' function ([0864cee](https://github.com/startupjs/startupjs/commit/0864cee3d7c1cbf0d1138f0de7d013c393e991ab))
+* **i18n:** fix broken usage of 'languageDetector' ([23360d8](https://github.com/startupjs/startupjs/commit/23360d8f22caa4a495e21663349077eba75ac5ae))
+* **i18n:** reload a page when change language ([00deb80](https://github.com/startupjs/startupjs/commit/00deb80837a843cec5e954b8e13fdd5f98aeb758))
+* **ui/DateTimePicker:** remove redundant label property ([122fc2c](https://github.com/startupjs/startupjs/commit/122fc2cfcc20dcacfdd277cb3467fd4bfa8ebbe7))
+* **ui/Popover:** remove redundant padding ([04fa3aa](https://github.com/startupjs/startupjs/commit/04fa3aa5dd8543e2db7b90b862f4ea78a8cd8791))
+
+
+### Features
+
+* **babel-plugin-i18n-extract:** collect translations for all extensions ([769978c](https://github.com/startupjs/startupjs/commit/769978c6d8bf081466f2fb77c09341e3f94bae4f))
+* **docs:** add ability to pass extra parameters to `Sandbox` for comonent properties ([#799](https://github.com/startupjs/startupjs/issues/799)) ([f54f5ac](https://github.com/startupjs/startupjs/commit/f54f5ac23378baf5feb512fd8b5ee763311e8165))
+
+
+
 ## [0.38.2](https://github.com/startupjs/startupjs/compare/v0.38.1...v0.38.2) (2021-09-06)
 
 
