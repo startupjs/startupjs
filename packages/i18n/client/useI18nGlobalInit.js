@@ -15,7 +15,7 @@ export default function useI18nGlobalInit () {
   }
 
   if (!lang) {
-    const _languageDetector = config.languageDetector === 'function'
+    const _languageDetector = typeof config.languageDetector === 'function'
       ? config.languageDetector
       : languageDetector
 
