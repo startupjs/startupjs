@@ -27,7 +27,8 @@ function DateTimePicker ({
   is24Hour,
   size,
   mode,
-  renderCaption, // replace InputComponent
+  renderCaption, // DEPRECATED replace InputComponent
+  renderContent,
   locale,
   range,
   timezone,
@@ -39,6 +40,8 @@ function DateTimePicker ({
   minDate,
   onChangeDate
 }) {
+  renderContent = renderContent || renderCaption
+
   const media = useMedia()
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
@@ -102,8 +105,8 @@ function DateTimePicker ({
   }
 
   const caption = pug`
-    if renderCaption
-      = renderCaption()
+    if renderContent
+      = renderContent()
     else
       TextInput(
         ref=refInput
@@ -117,7 +120,7 @@ function DateTimePicker ({
       )
   `
 
-  function renderContent () {
+  function renderPopoverContent () {
     return pug`
       Div.content
         if (mode === 'date') || (mode === 'datetime')
@@ -167,7 +170,7 @@ function DateTimePicker ({
         refAnchor=refInput
         renderWrapper=renderWrapper
         onRequestClose=onDismiss
-      )= renderContent()
+      )= renderPopoverContent()
     else
       = caption
       Drawer.drawer(
@@ -175,7 +178,7 @@ function DateTimePicker ({
         position='bottom'
         swipeStyleName='swipe'
         onDismiss=onDismiss
-      )= renderContent()
+      )= renderPopoverContent()
   `
 }
 
