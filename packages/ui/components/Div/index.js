@@ -200,10 +200,11 @@ function Div ({
     = div
 
     if renderTooltip
-      AbstractPopover(
+      - const simple = typeof renderTooltip === 'string' || typeof renderTooltip === 'number'
+      AbstractPopover.tooltip(
         refAnchor=refAnchor
         style=tooltipProps.style
-        styleName='tooltip'
+        styleName={ simple }
         arrowStyleName='tooltip-arrow'
         visible=isTooltipVisible
         position=tooltipProps.position
@@ -214,7 +215,7 @@ function Div ({
       )
         if typeof renderTooltip === 'function'
           = renderTooltip()
-        else if (typeof renderTooltip === 'string') || (typeof renderTooltip === 'number')
+        else if simple
           Span.tooltip-text= renderTooltip
   `
 }
