@@ -29,5 +29,8 @@
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
   }
 }

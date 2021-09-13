@@ -2,6 +2,8 @@ const pluginTester = require('babel-plugin-tester').default
 const plugin = require('../index')
 const { name: pluginName } = require('../package.json')
 
+// TODO: Add test that tests merge extensions
+
 pluginTester({
   plugin,
   pluginName,
