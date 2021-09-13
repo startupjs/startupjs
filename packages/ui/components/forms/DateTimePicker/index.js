@@ -34,7 +34,6 @@ function DateTimePicker ({
   disabledDays = [],
   date,
   disabled,
-  label,
   placeholder,
   maxDate,
   minDate,
@@ -110,7 +109,6 @@ function DateTimePicker ({
         ref=refInput
         style=style
         disabled=disabled
-        label=label
         size=size
         placeholder=placeholder
         value=visible ? textInput : getFormatDate(date)
@@ -194,7 +192,6 @@ DateTimePicker.propTypes = {
   is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
-  label: PropTypes.string,
   placeholder: PropTypes.string,
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
