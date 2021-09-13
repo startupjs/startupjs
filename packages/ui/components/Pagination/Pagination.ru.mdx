@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useValue } from 'startupjs'
+import { $root, useValue } from 'startupjs'
 import Pagination from '../Pagination'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
@@ -158,6 +158,8 @@ return (
 <Sandbox
   Component={Pagination}
   props={{
-    onChangePage: page => alert('Page ' + page + ' selected.')
+    page: $root.get('_session.Props.Pagination.page'),
+    onChangePage: page => $root.scope('_session.Props.Pagination').at('page').set(page)
   }}
+  $props={$root.scope('_session.Props.Pagination')}
 />
