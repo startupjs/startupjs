@@ -95,7 +95,6 @@ function NumberInput ({
   return pug`
     TextInput(
       ref=ref
-      test='number'
       inputStyleName=['input-input', buttonsMode, size]
       value=inputValue
       size=size
