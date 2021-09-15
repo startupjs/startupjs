@@ -60,36 +60,62 @@ If you want to cancel the default closing of the modal when `onCancel`, `onConfi
   }
 ```
 
-### There are two options for managing the state of a modal:
-  1. By passing the scoped model to the `$visible ' property from the state of which visibility is controlled.
-  2. By passing `ref`, which will receive the `open()` and `close()` methods to control visibility.
+### There are three options for managing the state of a modal:
+
+1. By passing the scoped model to the `$visible` property from the state of which visibility is controlled.
 
 ```jsx example
-const [visible, $visible] = useValue()
-const modalRef = useRef()
+const [, $visible] = useValue()
 
 return (
   <React.Fragment>
     <Button onPress={() => $visible.set(true)}>
-      Open modal via useValue
+      Open
     </Button>
-    <Br/>
+    <Modal
+      title='Example'
+      $visible={$visible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+2. By passing the `visible` property and `onChange` function that will be run when the `Modal` needs to change its visibility.
+
+```jsx example
+const [visible, setVisible] = useState(false)
+
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open
+    </Button>
+    <Modal
+      title='Example'
+      visible={visible}
+      onChange={setVisible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+3. By passing `ref`, which will receive the `open()` and `close()` methods to control visibility.
+
+```jsx example
+const modalRef = useRef()
+
+return (
+  <React.Fragment>
     <Button onPress={() => modalRef.current.open()}>
-      Open modal via useRef
+      Open
     </Button>
     <Modal
       title='Example'
       ref={modalRef}
-      $visible={$visible}
-      cancelLabel='Close'
-      confirmLabel='Accept'
-      onCrossPress={() => console.log('onCrossPress')}
-      onCancel={() => console.log('onCancel')}
-      onConfirm={() => console.log('onConfirm')}
-      onShow={() => console.log('onShow')}
-      onBackdropPress={() => console.log('onBackdropPress')}
-      onDismiss={() => console.log('onDismiss')}
-      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
