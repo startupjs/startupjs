@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react'
+import React, { useMemo, useImperativeHandle } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
 import { observer, useDidUpdate, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -11,6 +11,7 @@ import Portal from '../Portal'
 function ModalRoot ({
   style,
   modalStyle,
+  visible,
   $visible,
   transparent,
   supportedOrientations,
@@ -23,14 +24,24 @@ function ModalRoot ({
   onOrientationChange,
   ...props
 }, ref) {
-  if (!Object.keys(props).includes('visible') && !$visible) {
-    [, $visible] = useValue(false)
+  const isUsedViaRef = useMemo(() => {
+    const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
+    const isUsedViaState = typeof visible !== 'undefined' && typeof onChange === 'function'
+    return !(isUsedViaTwoWayDataBinding || isUsedViaState)
+  }, [])
+
+  if (isUsedViaRef) {
+    useImperativeHandle(ref, () => ({
+      open: () => $visible.setDiff(true),
+      close: () => $visible.setDiff(false)
+    }))
+    ;[, $visible] = useValue(false)
   }
 
-  let visible = props.visible
-
+  // WORKAROUND
+  // we pass default value
+  // because modal window appears for undefined value on web
   ;({ visible, onChange } = useBind({ visible, $visible, onChange, default: false }))
-  const _visible = !!visible
 
   function closeFallback () {
     onChange && onChange(false)
@@ -40,7 +51,7 @@ function ModalRoot ({
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
   // It fixed in 0.64
   useDidUpdate(() => {
-    if (!_visible) onDismiss && onDismiss()
+    if (!visible) onDismiss && onDismiss()
   }, [visible])
 
   useImperativeHandle(ref, () => ({
@@ -49,11 +60,8 @@ function ModalRoot ({
   }), [])
 
   return pug`
-    //- WORKAROUND
-    //- we pass boolean value to visible property
-    //- because modal window appears for undefined value
     RNModal(
-      visible=_visible
+      visible=visible
       transparent=transparent
       supportedOrientations=supportedOrientations
       animationType=animationType
@@ -62,7 +70,7 @@ function ModalRoot ({
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
-      if _visible
+      if visible
         Portal.Provider
           Layout(
             style=style

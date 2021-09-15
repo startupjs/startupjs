@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useMemo, useRef, useImperativeHandle } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
-import { observer } from 'startupjs'
+import { observer, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import AbstractPopover from './AbstractPopover'
 import DeprecatedPopover from './Deprecated'
@@ -26,17 +26,35 @@ const _Popover = observer((props, ref) => {
 const Popover = observer(({
   style,
   attachmentStyle,
+  visible,
+  $visible,
   children,
   renderContent,
+  onChange,
   ...props
 }, ref) => {
-  const popoverRef = ref || useRef()
   const refAnchor = useRef()
+
+  const isUncontrolled = useMemo(() => {
+    const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
+    const isUsedViaState = typeof visible !== 'undefined' && typeof onChange === 'function'
+    return !(isUsedViaTwoWayDataBinding || isUsedViaState)
+  }, [])
+
+  if (isUncontrolled) {
+    useImperativeHandle(ref, () => ({
+      open: () => $visible.setDiff(true),
+      close: () => $visible.setDiff(false)
+    }))
+    ;[, $visible] = useValue(false)
+  }
+
+  ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
 
   function renderWrapper (children) {
     return pug`
       View.root
-        TouchableWithoutFeedback(onPress=()=> popoverRef.current.close())
+        TouchableWithoutFeedback(onPress=()=> onChange(false))
           View.overlay
         = children
     `
@@ -46,11 +64,11 @@ const Popover = observer(({
     Div(
       style=style
       ref=refAnchor
-      onPress=()=> popoverRef.current.open()
+      onPress=()=> onChange(true)
     )= children
     AbstractPopover.attachment(
       ...props
-      ref=popoverRef
+      visible=visible
       style=[attachmentStyle]
       refAnchor=refAnchor
       renderWrapper=renderWrapper
@@ -63,7 +81,9 @@ _Popover.Caption = DeprecatedPopover.Caption
 _Popover.defaultProps = AbstractPopover.defaultProps
 _Popover.propTypes = {
   attachmentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  ...AbstractPopover.propTypes
+  ...AbstractPopover.propTypes,
+  $visible: PropTypes.any,
+  onChange: PropTypes.func
 }
 
 export default _Popover
