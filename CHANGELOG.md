@@ -1,3 +1,16 @@
+## [0.38.5](https://github.com/startupjs/startupjs/compare/v0.38.4...v0.38.5) (2021-09-15)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** pass options to babel-plugin-i18n-extract ([e42c87b](https://github.com/startupjs/startupjs/commit/e42c87b6ee497729e5a289f778c89768cb6a4b8d))
+* **ui/AbstractPopover:** fix geometry calculation ([1e93ed2](https://github.com/startupjs/startupjs/commit/1e93ed2b4db9166e2525e35e78f46c19d7c5a5c2))
+* **ui/Modal:** standardize usage ways ([b070c48](https://github.com/startupjs/startupjs/commit/b070c48d656c0972b8c9619094546147e2ba5d13))
+* **ui/Popover:** standardize usage ways ([c4496b3](https://github.com/startupjs/startupjs/commit/c4496b3821e0281e169ff06bb3f750cc7deb01a8))
+* **ui/useBind:** fix check of empty value ([9a9fbdd](https://github.com/startupjs/startupjs/commit/9a9fbdd89b477ffb8751b5b34364b4d5dfc4a4f8))
+
+
+
 ## [0.38.4](https://github.com/startupjs/startupjs/compare/v0.38.3...v0.38.4) (2021-09-13)
 
 * **ui/DateTimePicker:** deprecate `renderCaption`, use `renderContent` instead
