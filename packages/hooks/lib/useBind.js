@@ -30,13 +30,17 @@ export default function useBind (props) {
     if (getterName) {
       if ($aValue != null) {
         useLayoutEffect(() => {
-          if ($aValue) $aValue.setNull(props.default)
+          if ($aValue && typeof $aValue.get() === 'undefined') {
+            $aValue.setNull(props.default)
+          }
         }, [])
         res[getterName] = $aValue.get()
       } else {
         res[getterName] = props[getterName]
         useMemo(() => {
-          if (res[getterName] == null) res[getterName] = props.default
+          if (typeof res[getterName] === 'undefined') {
+            res[getterName] = props.default
+          }
         }, [])
       }
     }
