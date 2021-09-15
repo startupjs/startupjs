@@ -53,7 +53,7 @@ function getLeftPositions ({ tetherMeasures, anchorMeasures, arrow, dimensions }
   const overRight = dimensions.width - tetherMeasures.width
 
   const positionMinorLeft = anchorMeasures.pageX
-  if (positionMinorLeft + anchorMeasures.width > dimensions.width) {
+  if (positionMinorLeft + tetherMeasures.width > dimensions.width) {
     leftPositions['bottom-start'] = overRight
     leftPositions['top-start'] = overRight
   } else {
@@ -134,10 +134,10 @@ function getTopPositions ({ anchorMeasures, tetherMeasures, arrow, dimensions })
   }
 
   if (anchorMeasures.pageY + anchorMeasures.height - tetherMeasures.height < 0) {
-    topPositions['left-end'] = tetherMeasures.height
-    topPositions['right-end'] = tetherMeasures.height
+    topPositions['left-end'] = 0
+    topPositions['right-end'] = 0
   } else {
-    const positionMinorEnd = anchorMeasures.pageY - anchorMeasures.height / 2
+    const positionMinorEnd = anchorMeasures.pageY + anchorMeasures.height - tetherMeasures.height
     topPositions['left-end'] = positionMinorEnd
     topPositions['right-end'] = positionMinorEnd
   }
