@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useImperativeHandle,
   useCallback,
   useEffect,
   useRef,
@@ -16,30 +15,7 @@ import { PLACEMENTS_ORDER } from '../constants.json'
 import themed from '../../../../theming/themed'
 import './index.styl'
 
-function AbstractPopover ({
-  visible,
-  ...props
-}, ref) {
-  const [localVisible, setLocalVisible] = useState(false)
-
-  useImperativeHandle(ref, () => ({
-    open: () => setLocalVisible(true),
-    close: () => setLocalVisible(false)
-  }), [])
-
-  const actualVisible = visible === undefined
-    ? localVisible
-    : visible
-
-  return pug`
-    BasePopover(
-      visible=actualVisible
-      ...props
-    )
-  `
-}
-
-const BasePopover = observer(function BasePopoverComponent (props) {
+function AbstractPopover (props) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -59,7 +35,7 @@ const BasePopover = observer(function BasePopoverComponent (props) {
       onCompleteClose=onCloseComplete
     )
   `
-})
+}
 
 const Tether = observer(function TetherComponent ({
   style,
@@ -216,7 +192,4 @@ AbstractPopover.propTypes = {
   onCompleteClose: PropTypes.func
 }
 
-export default observer(
-  themed('AbstractPopover', AbstractPopover),
-  { forwardRef: true }
-)
+export default observer(themed('AbstractPopover', AbstractPopover))
