@@ -46,8 +46,8 @@ const dotenvPlugin = ({ production, mockBaseUrl, envName = APP_ENV } = {}) => {
   return [require('@startupjs/babel-plugin-dotenv'), options]
 }
 
-const i18nPlugin = () => {
-  return [require('@startupjs/babel-plugin-i18n-extract')]
+const i18nPlugin = (options) => {
+  return [require('@startupjs/babel-plugin-i18n-extract'), options]
 }
 
 const webReactCssModulesPlugin = ({ production } = {}) =>
