@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
+import pick from 'lodash/pick'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Span from '../typography/Span'
 import AbstractPopover from '../popups/Popover/AbstractPopover'
@@ -203,15 +204,10 @@ function Div ({
       - const simple = typeof renderTooltip === 'string' || typeof renderTooltip === 'number'
       AbstractPopover.tooltip(
         refAnchor=refAnchor
-        style=tooltipProps.style
         styleName={ simple }
         arrowStyleName='tooltip-arrow'
         visible=isTooltipVisible
-        position=tooltipProps.position
-        attachment=tooltipProps.attachment
-        durationOpen=tooltipProps.durationOpen
-        durationClose=tooltipProps.durationClose
-        arrow=tooltipProps.arrow
+        ...tooltipProps
       )
         if typeof renderTooltip === 'function'
           = renderTooltip()
@@ -249,13 +245,27 @@ Div.propTypes = {
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
-  tooltipProps: PropTypes.shape({
-    position: AbstractPopover.propTypes.position,
-    attachment: AbstractPopover.propTypes.attachment,
-    durationOpen: AbstractPopover.propTypes.durationOpen,
-    durationClose: AbstractPopover.propTypes.durationClose,
-    arrow: AbstractPopover.propTypes.arrow
-  }),
+  tooltipProps: PropTypes.shape(
+    pick(
+      AbstractPopover.propTypes,
+      [
+        'style',
+        'arrowStyle',
+        'position',
+        'attachment',
+        'placements',
+        'arrow',
+        'matchAnchorWidth',
+        'durationOpen',
+        'durationClose',
+        'renderWrapper',
+        'onRequestOpen',
+        'onRequestClose',
+        'onCompleteOpen',
+        'onCompleteClose'
+      ]
+    )
+  ),
   renderTooltip: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,
