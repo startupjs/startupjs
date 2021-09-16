@@ -38,10 +38,12 @@ function ModalRoot ({
     ;[, $visible] = useValue(false)
   }
 
+  ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
+
   // WORKAROUND
-  // we pass default value
+  // convert 'visible' to boolean
   // because modal window appears for undefined value on web
-  ;({ visible, onChange } = useBind({ visible, $visible, onChange, default: false }))
+  visible = !!visible
 
   function closeFallback () {
     onChange && onChange(false)
