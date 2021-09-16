@@ -10,7 +10,7 @@ import './index.styl'
 const _Popover = observer((props, ref) => {
   const { children } = props
 
-  if (children[0]?.type?.name === DeprecatedPopover.Caption.name) {
+  if (children && children[0]?.type?.name === DeprecatedPopover.Caption.name) {
     console.warn('[@startupjs/ui] Popover: Popover.Caption is DEPRECATED, use new api')
 
     return pug`
@@ -37,7 +37,7 @@ const Popover = observer(({
 
   const isUncontrolled = useMemo(() => {
     const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
-    const isUsedViaState = typeof visible !== 'undefined' && typeof onChange === 'function'
+    const isUsedViaState = typeof onChange === 'function'
     return !(isUsedViaTwoWayDataBinding || isUsedViaState)
   }, [])
 
