@@ -116,8 +116,8 @@ function Drawer ({
   ])
 
   return pug`
-    Portal
-      if isShow
+    if isShow
+      Portal
         SafeAreaView.area
           View.case(style=_styleCase)
             if hasOverlay
