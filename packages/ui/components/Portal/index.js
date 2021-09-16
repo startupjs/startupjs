@@ -1,57 +1,53 @@
 import React, { useContext, useEffect } from 'react'
 import { useComponentId, useValue, observer } from 'startupjs'
 
-const PortalContext = React.createContext([])
+const PortalContext = React.createContext()
 
-const Provider = ({ children }) => {
-  const [data, $data] = useValue({})
-
+const Provider = observer(({ children }) => {
+  const [, $state] = useValue({ order: [], nodes: {} })
   return pug`
-    PortalContext.Provider(value=[data, $data])
+    PortalContext.Provider(value=$state)
       = children
-      Listener
+      Host($state=$state)
   `
-}
-
-function Listener () {
-  return pug`
-    PortalContext.Consumer
-      = renderChildren
-  `
-}
-
-function renderChildren (state) {
-  return pug`
-    Manager(state=state)
-  `
-}
-
-const Manager = observer(({ state }) => {
-  const [data] = state
-  return Object.values(data).map(item => item)
 })
 
-function Portal ({ children = {} }) {
+const Host = observer(({ $state }) => {
+  const { order, nodes } = $state.get()
+
+  return pug`
+    each componentId in order
+      React.Fragment(key=componentId)
+        = nodes[componentId]
+  `
+})
+
+function Portal ({ children }) {
   const componentId = useComponentId()
-  const [data, $data] = useContext(PortalContext)
+  const $state = useContext(PortalContext)
 
   useEffect(() => {
-    if (children) {
-      $data.set(componentId, children)
-    } else if (data[componentId]) {
-      $data.del(componentId)
-    }
+    $state.set(`nodes.${componentId}`, children)
+    const $order = $state.at('order')
+    const order = $order.get()
+    if (!order.includes(componentId)) $order.push(componentId)
   }, [children])
 
   useEffect(() => {
     return () => {
-      $data.del(componentId)
+      $state.del(`nodes.${componentId}`)
+      const $order = $state.at('order')
+      const order = $order.get()
+      const index = order.indexOf(componentId)
+      $order.remove(index)
     }
   }, [])
 
   return null
 }
 
-Portal.Provider = Provider
+const ObservedPortal = observer(Portal)
 
-export default Portal
+ObservedPortal.Provider = Provider
+
+export default ObservedPortal
