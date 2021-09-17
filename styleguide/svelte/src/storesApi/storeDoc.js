@@ -1,16 +1,17 @@
-import { writable } from 'svelte/store'
-import stores from './stores'
+import model from '@startupjs/model'
 
 export default function storeDoc (collectionName, docId) {
-  const storePath = `_sharedb.${collectionName}.${docId}`
-  let store = stores[storePath]
+  const doc$ = model.scope(`${collectionName}.${docId}`)
 
-  if (!store) {
-    store = writable({})
-    // doc
+  doc$.subscribe = setter => {
+    model.subscribe(doc$)
+
+    setter(doc$.get())
+
+    doc$.on('all', () => setter(doc$.get()))
+
+    return () => model.unsubscribe(doc$)
   }
 
-  return {
-    subscribe: store.subscribe
-  }
+  return doc$
 }
