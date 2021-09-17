@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useImperativeHandle } from 'react'
+import React, { useRef, useState, useImperativeHandle } from 'react'
 import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +29,8 @@ export default function wrapInput (Component, _options) {
     layout,
     _options: componentOptions,
     error,
+    onFocus,
+    onBlur,
     ...props
   }, ref) {
     const inputRef = useRef({})
@@ -59,15 +61,15 @@ export default function wrapInput (Component, _options) {
 
     const [focused, setFocused] = useState(false)
 
-    const onFocus = useCallback((...args) => {
+    function handleFocus (...args) {
       setFocused(true)
-      props.onFocus && props.onFocus(...args)
-    }, [])
+      onFocus && onFocus(...args)
+    }
 
-    const onBlur = useCallback((...args) => {
+    function handleBlur (...args) {
       setFocused(false)
-      props.onBlur && props.onBlur(...args)
-    }, [])
+      onBlur && onBlur(...args)
+    }
 
     const _label = pug`
       if label
@@ -101,10 +103,10 @@ export default function wrapInput (Component, _options) {
         ref=inputRef
         layout=layout
         _hasError=!!error
+        onFocus=handleFocus
+        onBlur=handleBlur
         ...props
         ...inputProps
-        onFocus=onFocus
-        onBlur=onBlur
       )
     `
     const err = pug`

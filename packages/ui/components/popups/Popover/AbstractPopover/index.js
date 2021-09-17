@@ -22,10 +22,10 @@ function AbstractPopover (props) {
     if (props.visible) setVisible(true)
   }, [props.visible])
 
-  const onCloseComplete = useCallback((finished) => {
+  function onCloseComplete (finished) {
     setVisible(false)
     props.onCloseComplete && props.onCloseComplete(finished)
-  }, [])
+  }
 
   if (!visible) return null
 
@@ -98,7 +98,7 @@ const Tether = observer(function TetherComponent ({
     })
   }, [])
 
-  const animateIn = useCallback(() => {
+  function animateIn () {
     onRequestOpen && onRequestOpen()
 
     Animated.parallel([
@@ -111,9 +111,9 @@ const Tether = observer(function TetherComponent ({
     ]).start(({ finished }) => {
       onCompleteOpen && onCompleteOpen(finished)
     })
-  }, [])
+  }
 
-  const animateOut = useCallback(() => {
+  function animateOut () {
     onRequestClose && onRequestClose()
 
     Animated.timing(fadeAnim, {
@@ -124,7 +124,7 @@ const Tether = observer(function TetherComponent ({
     }).start(({ finished }) => {
       onCompleteClose && onCompleteClose(finished)
     })
-  }, [])
+  }
 
   const rootStyle = {
     top: geometry ? geometry.top : -999,

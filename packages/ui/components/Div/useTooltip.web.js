@@ -1,10 +1,10 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import useTooltipCommon from './useTooltip.common'
 
 export default function useTooltipWeb (props) {
-  const onClose = useCallback(() => {
+  function onClose () {
     props.onChange(false)
-  }, [])
+  }
 
   useEffect(() => {
     window.addEventListener('wheel', onClose, true)

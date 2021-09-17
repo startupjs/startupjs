@@ -70,7 +70,7 @@ function DateTimePicker ({
     return moment.tz(value, timezone).format(_dateFormat)
   }
 
-  const _onChangeDate = useCallback(value => {
+  function _onChangeDate (value) {
     // check interval
     const interval = (timeInterval * 60 * 1000)
 
@@ -89,7 +89,7 @@ function DateTimePicker ({
 
     setTextInput(getFormatDate(value))
     onChangeDate && onChangeDate(value)
-  }, [onChangeDate])
+  }
 
   const onDismiss = useCallback(() => {
     $visible.set(false)
