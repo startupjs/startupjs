@@ -53,6 +53,8 @@ function TextInputInput ({
   icon,
   iconPosition,
   secondaryIcon,
+  onFocus,
+  onBlur,
   onIconPress,
   onSecondaryIconPress,
   _renderWrapper,
@@ -66,12 +68,12 @@ function TextInputInput ({
   function handleFocus (...args) {
     if (inputState.focused || disabled) return
     inputRef.current.focus()
-    props.onFocus && props.onFocus(...args)
+    onFocus && onFocus(...args)
     $inputState.set('focused', true)
   }
   function handleBlur (...args) {
     if (!inputState.focused || disabled) return
-    props.onBlur && props.onBlur(...args)
+    onBlur && onBlur(...args)
     $inputState.set('focused', false)
   }
 
