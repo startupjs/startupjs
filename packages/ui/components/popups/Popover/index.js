@@ -72,7 +72,7 @@ const Popover = observer(({
       style=[attachmentStyle]
       refAnchor=refAnchor
       renderWrapper=renderWrapper
-    )= renderContent()
+    )= renderContent && renderContent()
   `
 }, { forwardRef: true })
 
