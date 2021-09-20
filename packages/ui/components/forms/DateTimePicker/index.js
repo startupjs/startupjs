@@ -104,19 +104,23 @@ function DateTimePicker ({
     } else setTextInput(text)
   }
 
+  const inputProps = {
+    style,
+    ref: refInput,
+    disabled,
+    size,
+    placeholder,
+    value: visible ? textInput : getFormatDate(date),
+    onChangeText
+  }
+
   const caption = pug`
     if renderContent
-      = renderContent()
+      = renderContent(Object.assign({ $visible }, inputProps))
     else
       TextInput(
-        ref=refInput
-        style=style
-        disabled=disabled
-        size=size
-        placeholder=placeholder
-        value=visible ? textInput : getFormatDate(date)
+        ...inputProps
         onFocus=()=> $visible.set(true)
-        onChangeText=onChangeText
       )
   `
 
