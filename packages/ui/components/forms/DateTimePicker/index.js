@@ -1,9 +1,8 @@
 import React, {
   useMemo,
   useRef,
-  useCallback,
   useState,
-  useLayoutEffect
+  useEffect
 } from 'react'
 import { observer, useValue } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
@@ -48,10 +47,16 @@ function DateTimePicker ({
   const refTimeSelect = useRef()
   const refInput = useRef()
 
-  // remove seconds and milliseconds from timestamp
-  useLayoutEffect(() => {
-    _onChangeDate(+moment.tz(date, timezone).seconds(0).milliseconds(0))
-  }, [])
+  useEffect(() => {
+    if (typeof date === 'undefined') {
+      setTextInput('')
+      return
+    }
+
+    let value = getDate(date)
+    value = +moment.tz(date, timezone).seconds(0).milliseconds(0)
+    setTextInput(getFormatDate(value))
+  }, [date])
 
   const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
 
@@ -70,7 +75,7 @@ function DateTimePicker ({
     return moment.tz(value, timezone).format(_dateFormat)
   }
 
-  function _onChangeDate (value) {
+  function getDate (value) {
     // check interval
     const interval = (timeInterval * 60 * 1000)
 
@@ -87,21 +92,18 @@ function DateTimePicker ({
       value = maxDate
     }
 
+    return value
+  }
+
+  function _onChangeDate (value) {
+    value = getDate(value)
     setTextInput(getFormatDate(value))
     onChangeDate && onChangeDate(value)
   }
 
-  const onDismiss = useCallback(() => {
+  function onDismiss () {
     $visible.set(false)
     refInput.current.blur()
-  }, [textInput])
-
-  function onChangeText (text) {
-    const momentInstance = moment.tz(text, _dateFormat, true, timezone)
-    if (momentInstance.isValid()) {
-      _onChangeDate(+momentInstance)
-      refTimeSelect.current && refTimeSelect.current.scrollToIndex(+momentInstance)
-    } else setTextInput(text)
   }
 
   const inputProps = {
@@ -110,8 +112,8 @@ function DateTimePicker ({
     disabled,
     size,
     placeholder,
-    value: visible ? textInput : getFormatDate(date),
-    onChangeText
+    value: textInput,
+    editable: false
   }
 
   const caption = pug`
