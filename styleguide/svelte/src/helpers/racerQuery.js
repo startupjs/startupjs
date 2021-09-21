@@ -1,6 +1,6 @@
 import model from '@startupjs/model'
 
-export default function storeQuery (collectionName, options) {
+export default function racerQuery (collectionName, options) {
   const scope$ = model.scope(collectionName)
   const query$ = model.query(collectionName, options)
 
@@ -26,11 +26,18 @@ export default function storeQuery (collectionName, options) {
 
       // event remove docs
       query$.shareQuery.on('remove', () => {
+        console.log('remove')
         setter(query$.get())
       })
     })
 
     return () => query$.unsubscribe()
+  }
+
+  scope$.set = data => {
+    data.forEach(item => {
+      model.scope(`${collectionName}.${item.id}`).setDiff({ ...item })
+    })
   }
 
   return scope$

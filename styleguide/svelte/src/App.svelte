@@ -1,47 +1,36 @@
 <script>
-  import Query from './Query'
-  import Doc from './Doc'
+  import { setContext } from 'svelte'
+  import { Router, Route, navigate } from 'svelte-routing'
+  import { Rooms, CreateRoom, Room, Login } from './pages'
+  import { Header, Content } from './components'
 
-  const pathname = window.location.pathname;
+  export let url = ''
 
-  const components = {
-    '/': Query,
-    '/doc': Doc
-  }
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  if (!user.id) navigate('/login')
+
+  setContext('user', user)
 </script>
 
-<div>
-  <div class="menu">
-    <div
-      class="menuItem"
-      class:menuItemActive={pathname === '/'}
-      on:click={()=> window.location.pathname = '/'}
-    >Query</div>
-    <div
-      class="menuItem"
-      class:menuItemActive={pathname === '/doc'}
-      on:click={()=> window.location.pathname = '/doc'}
-    >Doc</div>
-  </div>
-
-  <svelte:component this={components[pathname]} />
-</div>
+<Router url={url}>
+  {#if user.id}
+    <Header />
+    <main>
+      <Content>
+        <Route path="/" component={Rooms} />
+        <Route path="/rooms/:roomId" component={Room} />
+        <Route path="/rooms/create" component={CreateRoom} />
+      </Content>
+    </main>
+  {:else}
+    <Route path="/login" component={Login} />
+  {/if}
+</Router>
 
 <style>
-  * {
+  :global(*) {
     margin: 0;
     padding: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-  .menu {
-    display: flex;
-  }
-  .menuItem {
-    padding: 8px;
-    cursor: pointer;
-  }
-  .menuItemActive {
-    background-color: red;
-    color: #fff;
   }
 </style>
