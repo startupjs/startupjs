@@ -112,8 +112,7 @@ function DateTimePicker ({
     disabled,
     size,
     placeholder,
-    value: textInput,
-    editable: false
+    value: textInput
   }
 
   const caption = pug`
