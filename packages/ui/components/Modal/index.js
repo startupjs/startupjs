@@ -72,8 +72,8 @@ function ModalRoot ({
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
-      if visible
-        Portal.Provider
+      Portal.Provider
+        if visible
           Layout(
             style=style
             modalStyle=modalStyle
