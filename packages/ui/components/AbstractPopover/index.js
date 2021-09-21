@@ -8,11 +8,11 @@ import React, {
 import { Animated, Easing, Dimensions, StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Div from '../../../Div'
-import Portal from '../../../Portal'
+import Div from '../Div'
+import Portal from '../Portal'
 import getGeometry from './getGeometry'
-import { PLACEMENTS_ORDER } from '../constants.json'
-import themed from '../../../../theming/themed'
+import { PLACEMENTS_ORDER } from './constants.json'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function AbstractPopover (props) {
