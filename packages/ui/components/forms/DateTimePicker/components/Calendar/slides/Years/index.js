@@ -20,8 +20,8 @@ export default observer(function Years ({
       for (let i = 0; i < 3; i++) {
         line.push({
           label: currentYear.format('YYYY'),
-          disabled: moment.tz(currentYear, timezone).isAfter(maxDate) ||
-            moment.tz(currentYear, timezone).endOf('Y').isBefore(minDate)
+          disabled: (maxDate != null && moment.tz(currentYear, timezone).isAfter(maxDate)) ||
+            (minDate != null && moment.tz(currentYear, timezone).endOf('Y').isBefore(minDate))
         })
         currentYear.add(1, 'Y')
       }
