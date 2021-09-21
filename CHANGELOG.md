@@ -1,3 +1,31 @@
+# [0.39.0](https://github.com/startupjs/startupjs/compare/v0.38.5...v0.39.0) (2021-09-21)
+
+
+### Bug Fixes
+
+* **hooks/useBind:** remove `default` property ([73ea6ec](https://github.com/startupjs/startupjs/commit/73ea6ec2efcf07197f1cb7e29b8077df394ed91f))
+* **mdx:** fix warning of broken styles ([31c41b4](https://github.com/startupjs/startupjs/commit/31c41b451cb9220bbfaf2ccab4ddc65e7a32fdb4))
+* **Popover:** fix detection of usage method ([996afbe](https://github.com/startupjs/startupjs/commit/996afbedbcdc251e160672636e2e303844c6d030))
+* **ui:** remove breaking 'useCallback' from components ([581c5c7](https://github.com/startupjs/startupjs/commit/581c5c7decee49fa076ad349f174eff28f9393a4))
+* **ui/AbstractPopover:** add z-index ([b3327ca](https://github.com/startupjs/startupjs/commit/b3327ca135ae254367186865261d969994314719))
+* **ui/DateTimepicker:** display placeholder if not value and prevent editable input ([9423cad](https://github.com/startupjs/startupjs/commit/9423cad366190778cbe475412d004cf04f60714d))
+* **ui/DateTimePicker:** fix opening on native ([c090881](https://github.com/startupjs/startupjs/commit/c090881b26914d96d365b0b0947af409f0ab8f90))
+* **ui/DateTimePicker:** fix the bug related to inability to switch years ([d04e34f](https://github.com/startupjs/startupjs/commit/d04e34f6444bdbc38fbb00ff7ac0ca5887f5f5ea))
+* **ui/DateTimePicker:** pass props to render content function ([fb61dd9](https://github.com/startupjs/startupjs/commit/fb61dd98f195439f65ea578c25707c8c9fac4c6d))
+* **ui/DeprecatedPopover:** fix portal crashing when component is unmounted ([6e81fe4](https://github.com/startupjs/startupjs/commit/6e81fe4571169188aa81f2c895ba4c311f53e492))
+* **ui/Div:** extend tooltip properties ([18a78a2](https://github.com/startupjs/startupjs/commit/18a78a20ca51be8ffd89ae9a1c9db8ef3bdc518e))
+* **ui/Modal:** fix crashing app when close modal without closing popups ([6312625](https://github.com/startupjs/startupjs/commit/6312625cff5768cb761b5a78936652085986706c))
+* **ui/Popover:** prevent crashing when 'renderContent' is not passed ([50b12f9](https://github.com/startupjs/startupjs/commit/50b12f9bffc4602dfcd28d5ebbbd43303eadc835))
+* **ui/Portal:** fix elements order ([#806](https://github.com/startupjs/startupjs/issues/806)) ([fea800b](https://github.com/startupjs/startupjs/commit/fea800bf5a6cdaa3219c0e664c4e25964d1b82c6))
+* **ui/TextInput:** fix focus and blur handlers ([4652ee5](https://github.com/startupjs/startupjs/commit/4652ee56a7a1bff079291c8fccb300e618023190))
+
+
+### BREAKING CHANGES
+
+* **hooks/useBind:** The `default` property was removed because it does not make any sense considering that it also worked incorrectly. If you used it then fix it by declaring the value manually after calling the hook.
+
+
+
 ## [0.38.5](https://github.com/startupjs/startupjs/compare/v0.38.4...v0.38.5) (2021-09-15)
 
 
