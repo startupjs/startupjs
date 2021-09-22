@@ -1,3 +1,12 @@
+## [0.39.1](https://github.com/startupjs/startupjs/compare/v0.39.0...v0.39.1) (2021-09-22)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix passing ref to target input component ([5a5bb9c](https://github.com/startupjs/startupjs/commit/5a5bb9cc8a369fa7e83b3d15d4b3b4c2e678ef19))
+
+
+
 # [0.39.0](https://github.com/startupjs/startupjs/compare/v0.38.5...v0.39.0) (2021-09-21)
 
 
