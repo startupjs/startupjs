@@ -1,3 +1,4 @@
+export { default as _0_39 } from './0.39.md'
 export { default as _0_38 } from './0.38.md'
 export { default as _0_37 } from './0.37.md'
 export { default as _0_36 } from './0.36.md'
