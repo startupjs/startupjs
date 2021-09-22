@@ -36,6 +36,7 @@ export default function wrapInput (Component, _options) {
     const inputRef = useRef({})
 
     useImperativeHandle(ref, () => ({
+      ...inputRef.current,
       focus: () => inputRef.current.focus && inputRef.current.focus(),
       blur: () => inputRef.current.blur && inputRef.current.blur(),
       clear: () => inputRef.current.clear && inputRef.current.clear(),
