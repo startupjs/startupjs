@@ -1,3 +1,12 @@
+## [0.39.2](https://github.com/startupjs/startupjs/compare/v0.39.1...v0.39.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** fix using a broken focus handler ([e49a786](https://github.com/startupjs/startupjs/commit/e49a7867bf9c104da4b5564386fd4e9d2ba2e730))
+
+
+
 ## [0.39.1](https://github.com/startupjs/startupjs/compare/v0.39.0...v0.39.1) (2021-09-22)
 
 
