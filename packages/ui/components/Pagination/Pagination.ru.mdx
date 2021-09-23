@@ -159,7 +159,7 @@ return (
   Component={Pagination}
   props={{
     page: $root.get('_session.Props.Pagination.page'),
-    onChangePage: page => $root.scope('_session.Props.Pagination').at('page').set(page)
+    onChangePage: page => $root.set('_session.Props.Pagination.page', page)
   }}
   $props={$root.scope('_session.Props.Pagination')}
 />
