@@ -124,9 +124,9 @@ export default observer(function LanguageSelect () {
 })
 ```
 
-## Generation of translations
+## Working with translations
 
-To avoid having to write a config with translations manually, you can use the `t` function
+To work correctly with translations, you need to use the function - `t`
 
 ```jsx
 import React from 'react'
@@ -141,23 +141,8 @@ export default function MyPage () {
 }
 ```
 
-The first argument is the name of the tag for words, the second is the default
+The first argument is the name of the tag for translations, the second is the default
 
-When compiling the project, all files that use this function will be found, and a config will be generated in the format:
-
-```json
-  "ru": {
-    "PAbout/index.js": {
-      "backToHome": "",
-      "defaultValue": "Back to Home",
-    },
-    "ua": {
-      "backToHome": "",
-      "defaultValue": "Back to Home",
-    }
-  }
-```
-
-Initially, words are filled only for the default language, the rest of the words of other languages ​​can be changed on the page - $ {BASE_URL} / i18n
+Initially, words are used only for the default language, the rest of the words of other languages ​​can be changed on the page - ${BASE_URL}/i18n
 
 Depending on the selected language, the `t` function will match the value in the layout
