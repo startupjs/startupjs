@@ -85,11 +85,11 @@ function TextInputInput ({
 
   useImperativeHandle(ref, () => ({
     ...inputRef.current,
-    focus: handleBlur,
+    focus: handleFocus,
     blur: handleBlur,
     clear: () => inputRef.current.clear(),
     isFocused: () => inputState.focused,
-    _onLabelPress: handleBlur
+    _onLabelPress: handleFocus
   }), [])
 
   useLayoutEffect(() => {
