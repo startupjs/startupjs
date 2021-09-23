@@ -125,46 +125,25 @@ export default observer(function LanguageSelect () {
 })
 ```
 
-## Автозамена слов
+## Работа с переводами
 
-Создать translations.json в папке проекта, н-р:
+Чтобы правильно работать с переводами нужно использовать функцию - `t`
 
-```json
-{
-  "ru": {
-    "PAbout/index.js": {
-      "backToHome": "Назад на главную",
-      "defaultValue": "Back to Home"
-    },
-    "PHome/index.js": {
-      "listEmployees": "Список сотрудников",
-      "defaultValue": "A list of employees"
-    }
-  },
-  "ua": {
-    "PAbout/index.js": {
-      "backToHome": "Назад на головну",
-      "defaultValue": "Back to Home"
-    },
-    "PHome/index.js": {
-      "listEmployees": "Список працівників",
-      "defaultValue": "A list of employees"
-    }
-  }
+```jsx
+import React from 'react'
+import { t } from 'startupjs'
+import { Span } from '@startupjs/ui'
+
+export default function MyPage () {
+  return pug`
+    Div
+      Span= t('backToHome', 'Back to Home')
+  `
 }
 ```
 
-В прописанных файлах нужно использовать функцию - t:
+Первый аргумент - название тэга для переводов, второй значение по умолчанию
 
-```js
-import { t } from 'startupjs'
+Т.е. изначально используются слова только для дефолтного языка, остальные слова других языков можно изменять на странице - ${BASE_URL}/i18n
 
-...
-
-Div
-  Span= t('backToHome', 'Back to Home')
-```
-
-Первый аргумент - название тэга для слов, второй значение по умолчанию
-
-В зависимости от выбранного языка происходит замена текста при компиляции кода
+В зависимости от выбранного языка, `t` функция будет подствалять значение в верстке
