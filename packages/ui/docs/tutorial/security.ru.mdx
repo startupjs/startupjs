@@ -124,14 +124,14 @@ model.query('events', {
 
 Такой подход запрещает формировать любые агрегации, с получением любых данных, и вынуждает работать только с агрегациями по заданном шаблону
 
-## Валидация роутов
+## Валидация клиентских роутов
 
-Для некоторых роутов бывает нужно запретить доступ как на сервере, так и на клиенте
+Часто надо запретить рендеринг каких-то страниц на клиенте. Для этого надо писать специальный изоморфные функции-фильры и использовать их в `routes.js` в вашем приложении. В этом случае и при клиентском и при серверном переходе на страницу, будут запущены все функции-фильры этой страницы, чтобы решить можно ли показывать ее юзеру.
 
-Пример изоморфной валидации для показа страницы админки, который отработает и при клиентском переходе на страницу и при серверном:
+Пример изоморфной валидации для показа страницы админки:
 
 ```js
-async function isAdmin (model, next, redirect) {
+return async function isAdmin (model, next, redirect) {
   const userId = model.get('_session.userId')
 
   const $user = model.scope(`users.${userId}`)
@@ -161,10 +161,29 @@ export default (components = {}) => [
 ]
 ```
 
-Пример валидации POST запросов REST API роутов на сервере:
+## Валидация REST API на сервере (POST и GET запросы)
+
+При разработке REST API на сервере, все POST и GET запросы необходимо обязательно проверять.
+
+Например какие-то запросы могут быть полностью публичными, тогда проверок не будет.
+
+Некоторые могут быть обработаны только от залогиненных юзеров, и тогда обязательно сделать эту проверку.
+
+Некоторые могут быть доступны лишь для определенных ролей пользователей, например для админов.
+
+К счастью, Express.js позволяет легко добавить серверные функции-фильтры для проверки доступа, которые являются по сути обычными мидлварами. Для этого вы пишете мидлвары типа `isLoggedIn`, `isAdmin` и затем при подключении конкретного REST API роута через `.post` или `.get` вместо прямого указания обработчика запроса, вам надо передать внутри массива. При этом первыми элементами массива будут функции-фильтры:
 
 ```js
 import express from 'express'
+import addAdminTask from './addAdminTask'
+import getAdminTasks from './getAdminTasks'
+
+async function isLoggedIn {
+  const { model } = req
+  const loggedIn = model.get('_session.loggedIn')
+  if (!loggedIn) return res.sendStatus(403)
+  next()
+}
 
 async function isAdmin (req, res, next) {
   const { model } = req
@@ -177,15 +196,16 @@ async function isAdmin (req, res, next) {
   const isAdmin = await $user.isSuperAdmin()
   await $user.unfetch()
 
-  if (isAdmin) return next()
-  return res.sendStatus(403)
+  if (!isAdmin) return res.sendStatus(403)
+  next()
 }
 
 const adminRouter = express.Router()
 
 // вместо передачи обработчика постзапроса напрямую, мы передаем
-// массив с обработчиками, где первым будет мидлвара с проверкой.
-adminRouter.post('/api/add-admin-task', [isAdmin, addAdminTask])
+// массив с обработчиками, где первыми идут мидлвары с проверкой.
+adminRouter.post('/api/add-admin-task', [isLoggedIn, isAdmin, addAdminTask])
+adminRouter.get('/api/get-admin-tasks', [isLoggedIn, isAdmin, getAdminTasks])
 
 export default adminRouter
 ```
