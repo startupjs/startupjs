@@ -4,6 +4,7 @@ import FoundationRu from './foundation.ru.mdx'
 import FoundationEn from './foundation.en.mdx'
 import BasicsRu from './basics.ru.mdx'
 import BasicsEn from './basics.en.mdx'
+import EditingRu from './editing.ru.mdx'
 import ObserverRu from './observer.ru.mdx'
 import ObserverEn from './observer.en.mdx'
 import ShareDBRu from './sharedbHooks.ru.mdx'
@@ -125,6 +126,11 @@ export default {
         en: TricksWithStylesEn,
         ru: TricksWithStylesRu
       }
+    },
+    Editing: {
+      type: 'mdx',
+      title: 'Редактирование',
+      component: EditingRu
     }
   }
 }
