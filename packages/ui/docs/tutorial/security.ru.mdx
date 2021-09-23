@@ -128,7 +128,7 @@ model.query('events', {
 
 Для некоторых роутов бывает нужно запретить доступ как на сервере, так и на клиенте
 
-Пример валидации для админки на клиенте:
+Пример изоморфной валидации для показа страницы админки, который отработает и при клиентском переходе на страницу и при серверном:
 
 ```js
 async function isAdmin (model, next, redirect) {
@@ -161,7 +161,7 @@ export default (components = {}) => [
 ]
 ```
 
-Пример валидации роутов для админов на сервере:
+Пример валидации POST запросов REST API роутов на сервере:
 
 ```js
 import express from 'express'
@@ -182,9 +182,10 @@ async function isAdmin (req, res, next) {
 }
 
 const adminRouter = express.Router()
-adminRouter.use(isAdmin)
 
-adminRouter.get('/tasks', getTasksList)
+// вместо передачи обработчика постзапроса напрямую, мы передаем
+// массив с обработчиками, где первым будет мидлвара с проверкой.
+adminRouter.post('/api/add-admin-task', [isAdmin, addAdminTask])
 
 export default adminRouter
 ```
