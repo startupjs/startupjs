@@ -97,7 +97,7 @@ static aggregations = {
   example: async (model, params, session) => {
     const { status } = params
   
-    // let's imagine this returns statuses you can access.
+    // предположим, что функция вернет статусы, к которым у нашего юзера есть доступ
     const availableStatuses = getAvailableStatuses(model, session.userId)
 
     if (!availableStatuses.includes(status)) {
