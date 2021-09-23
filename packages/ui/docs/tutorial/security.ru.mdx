@@ -95,8 +95,17 @@ export default class UserModel extends BaseModel {
 ```
 static aggregations = {
   example: async (model, params, session) => {
+    const { status } = params
+  
+    // let's imagine this returns statuses you can access.
+    const availableStatuses = getAvailableStatuses(model, session.userId)
+
+    if (!availableStatuses.includes(status)) {
+      throw Error("403: Can't query docs with status " + status)
+    }
+
     return [
-      { $match: { status: params.status } }
+      { $match: { status: status } }
     ]
   }
 }
@@ -107,7 +116,9 @@ static aggregations = {
 ```
 model.query('events', {
   $aggregationName: 'example',
-  $params: {}
+  $params: {
+    status: 'published'
+  }
 })
 ```
 
