@@ -92,7 +92,7 @@ export default class UserModel extends BaseModel {
 
 Далее в модели нужно описывать агрегации:
 
-```
+```js
 static aggregations = {
   example: async (model, params, session) => {
     const { status } = params
@@ -113,7 +113,7 @@ static aggregations = {
 
 И использовать в запросе таким образом:
 
-```
+```js
 model.query('events', {
   $aggregationName: 'example',
   $params: {
