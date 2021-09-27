@@ -1,11 +1,10 @@
 import React from 'react'
-import Drawer from '../../../Drawer'
-import Div from '../../../../Div'
+import Drawer from '../../../popups/Drawer'
+import Div from '../../../Div'
 import './index.styl'
 
 export default function DropdownDrawer ({
   style,
-  children,
   visible,
   position,
   listTitle,
@@ -14,10 +13,6 @@ export default function DropdownDrawer ({
   onRequestOpen
 }) {
   return pug`
-    Div(
-      style=style
-      onPress=()=> onChangeVisible(true)
-    )= children
     Drawer.attachment(
       position=position
       visible=visible

@@ -94,6 +94,8 @@ const Tether = observer(function TetherComponent ({
   }), [])
 
   useEffect(() => {
+    console.log(visible, geometry)
+
     if (!geometry) return
 
     if (visible) {
@@ -123,8 +125,11 @@ const Tether = observer(function TetherComponent ({
   }, [])
 
   const animateIn = useCallback(() => {
+    console.log('animateIn')
+
     onRequestOpen && onRequestOpen()
 
+    console.log('onRequestOpen')
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -177,6 +182,8 @@ const Tether = observer(function TetherComponent ({
       = children
   `
 
+  console.log(renderWrapper(popover))
+
   return pug`
     Portal
       = renderWrapper(popover)
@@ -196,9 +203,7 @@ AbstractPopover.defaultProps = {
 AbstractPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  refAnchor: PropTypes.shape({
-    current: PropTypes.instanceOf(React.element)
-  }),
+  refAnchor: PropTypes.any,
   visible: PropTypes.bool,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   attachment: PropTypes.oneOf(['start', 'center', 'end']),

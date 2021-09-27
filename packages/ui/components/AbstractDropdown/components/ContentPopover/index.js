@@ -1,13 +1,12 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
-import AbstractPopover from '../../../Popover/AbstractPopover'
-import Div from '../../../../Div'
+import AbstractPopover from '../../../popups/Popover/AbstractPopover'
 import './index.styl'
 
 export default function DropdownPopover ({
   style,
+  refAnchor,
   visible,
-  children,
   position,
   attachment,
   placements,
@@ -15,8 +14,6 @@ export default function DropdownPopover ({
   onChangeVisible,
   onRequestOpen
 }) {
-  const refAnchor = useRef()
-
   function renderWrapper (children) {
     return pug`
       View.root
@@ -26,12 +23,8 @@ export default function DropdownPopover ({
     `
   }
 
+  console.log(renderContent())
   return pug`
-    Div.anchor(
-      style=style
-      ref=refAnchor
-      onPress=()=> onChangeVisible(true)
-    )= children
     AbstractPopover.attachment(
       visible=visible
       refAnchor=refAnchor

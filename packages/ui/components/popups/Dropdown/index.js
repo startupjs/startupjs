@@ -1,32 +1,22 @@
-import React, { useRef, useImperativeHandle } from 'react'
-import { View, FlatList, TouchableOpacity } from 'react-native'
-import { observer, useValue } from 'startupjs'
-import { useMedia } from '@startupjs/ui'
+import React, { useRef } from 'react'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Menu from '../../Menu'
-import H5 from '../../typography/headers/H5'
-import DeprecatedDropdown from './Deprecated'
-import AbstractPopover from '../Popover/AbstractPopover'
+import Div from '../../Div'
 import Drawer from '../Drawer'
-import { DropdownPopover, DropdownDrawer } from './components'
-import { useKeyboard, useScroll } from './helpers'
+import AbstractPopover from '../Popover/AbstractPopover'
+import AbstractDropdown from '../../AbstractDropdown'
+import DeprecatedDropdown from './Deprecated'
 import './index.styl'
 
-// TODO: style for content ?
 function Dropdown ({
   style,
-  children,
   value,
-  options,
-  renderItem,
-  popoverOnly,
-  popoverProps,
-  drawerProps,
+  children,
   onChange,
   ...props
 }, ref) {
   if (React.Children.toArray(children).find(child => child.type === DeprecatedDropdown.Item)) {
-    console.warn('[@startupjs/ui] Dropdown: Dropdown.Caption is DEPRECATED, use new api')
+    console.warn('[@startupjs/ui] Dropdown: Dropdown.Item is DEPRECATED, use new api')
 
     return pug`
       DeprecatedDropdown(
@@ -38,97 +28,20 @@ function Dropdown ({
     `
   }
 
-  const media = useMedia()
-  const isDrawer = !media.tablet && !popoverOnly
-
-  const refScroll = useRef()
-  const [visible, $visible] = useValue(false)
-
-  const [selectIndex] = useKeyboard({
-    visible,
-    value,
-    options,
-    onChange: _onChange
-  })
-
-  const {
-    getItemLayout,
-    scrollToActive,
-    onLayoutItem
-  } = useScroll({ refScroll, value, options })
-
-  useImperativeHandle(ref, () => ({
-    open: () => $visible.setDiff(true),
-    close: () => $visible.setDiff(false)
-  }))
-
-  function _onChange (value) {
-    $visible.set(false)
-    onChange && onChange(value)
-  }
-
-  function _renderItem ({ item, index }) {
-    if (renderItem) {
-      return pug`
-        TouchableOpacity(
-          key=index
-          onPress=()=> _onChange(item)
-        )= renderItem({ item, index, selectIndex })
-      `
-    }
-
-    return pug`
-      View(onLayout=e=> onLayoutItem(e, index))
-        Menu.Item(
-          to=item.to
-          icon=item.icon
-          active=value.value === item.value
-          styleName={
-            drawerItem: isDrawer,
-            selectItem: index === selectIndex
-          }
-          containerStyleName={ drawerItemContainer: isDrawer }
-          onPress=()=> item.onPress ? item.onPress() : _onChange(item)
-        )= item.label
-    `
-  }
-
-  function renderContent () {
-    return pug`
-      if isDrawer
-        H5.drawerCaption(bold)= drawerProps.listTitle
-      FlatList(
-        ref=refScroll
-        data=options
-        extraData={ selectIndex }
-        renderItem=_renderItem
-        keyExtractor=item=> item.value
-        getItemLayout=getItemLayout
-        scrollEventThrottle=500
-      )
-    `
-  }
-
-  if (isDrawer) {
-    return pug`
-      DropdownDrawer(
-        ...drawerProps
-        visible=visible
-        renderContent=renderContent
-        onChangeVisible=v=> $visible.set(v)
-        onRequestOpen=scrollToActive
-      )= children
-    `
-  }
+  const refAnchor = useRef()
+  const refDropdown = useRef()
 
   return pug`
-    DropdownPopover(
-      ...popoverProps
-      visible=visible
-      renderContent=renderContent
-      onChangeVisible=v=> $visible.set(v)
-      onRequestOpen=scrollToActive
+    Div(
+      ref=refAnchor
+      onPress=()=> refDropdown.current.open()
     )= children
+    AbstractDropdown(
+      ...props
+      value=value
+      ref=refDropdown
+      refAnchor=refAnchor
+    )
   `
 }
 
