@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
-import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
+import { AutoSuggest, Button, Div, Layout, Item, Row, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -30,9 +30,7 @@ function getItems (item, lang, subpath) {
 function renderItem (item, path) {
   const active = item.value === path
   return pug`
-    Menu.Item(
-      key=item.value
-    )
+    Item(key=item.value)
       Span(
         styleName={active}
         numberOfLines=1
@@ -52,7 +50,7 @@ const Search = observer(function Search () {
 
   function onChange (value) {
     setValue({})
-    // TODO: replaced from Menu.Item 'to' property
+    // TODO: replaced from Item 'to' property
     emit('url', value.value)
   }
 
