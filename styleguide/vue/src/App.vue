@@ -1,5 +1,6 @@
 <script>
-  import VueRouter from 'vue-router';
+  import Vuex from 'vuex'
+  import VueRouter from 'vue-router'
   import { CreateRoom, Rooms, Room, Login } from './pages'
   import { Header, Content } from './components'
 
@@ -20,6 +21,8 @@
     if (to.name === 'login' && user.id) next({ name: 'home' })
     else next()
   })
+
+  // store
 
   export default {
     router,
