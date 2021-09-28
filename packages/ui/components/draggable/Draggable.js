@@ -24,11 +24,9 @@ export default observer(function Draggable ({
     top: new Animated.Value(0)
   }
 
+  // init
   useEffect(() => {
-    $dndContext.set(`drags.${dragId}`, {
-      ref,
-      style: {}
-    })
+    $dndContext.set(`drags.${dragId}`, { ref, style: {} })
   }, [
     _dropId,
     _index,
