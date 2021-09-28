@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import Row from '../../Row'
+import Span from '../../typography/Span'
 import Checkbox from './../Checkbox'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const Multiselect = ({
   options,
   value,
   placeholder,
-  label,
   disabled,
   readonly,
   tagLimit,
-  error,
   TagComponent,
   InputComponent,
   hasWidthCaption,
@@ -40,18 +41,18 @@ const Multiselect = ({
     onChange && onChange([...value, _value])
   }
 
-  function _onFocus () {
+  function focusHandler () {
     setFocused(true)
     onFocus && onFocus()
   }
 
-  function _onBlur () {
+  function blurHandler () {
     setFocused(false)
     onBlur && onBlur()
   }
 
   function onHide () {
-    _onBlur(false)
+    blurHandler(false)
   }
 
   const onItemPress = value => checked => {
@@ -69,8 +70,15 @@ const Multiselect = ({
       return renderListItem(item, selected, onItemPress)
     }
 
+    const onPress = onItemPress(item.value)
+
     return pug`
-      Checkbox.checkbox(key=item.value label=item.label value=selected onChange=onItemPress(item.value))
+      Row(
+        vAlign='center'
+        onPress=() => onPress(!selected)
+      )
+        Checkbox.checkbox(value=selected)
+        Span= item.label
     `
   }
 
@@ -79,39 +87,18 @@ const Multiselect = ({
       options=_options
       value=value
       placeholder=placeholder
-      label=label
       focused=focused
       disabled=disabled
       tagLimit=tagLimit
       readonly=readonly
-      error=error
       InputComponent=InputComponent
       TagComponent=TagComponent
       hasWidthCaption=hasWidthCaption
       renderListItem=_renderListItem
-      onOpen=_onFocus
+      onOpen=focusHandler
       onHide=onHide
     )
   `
-}
-
-Multiselect.propTypes = {
-  value: PropTypes.array.isRequired,
-  options: PropTypes.array.isRequired,
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  readonly: PropTypes.bool,
-  tagLimit: PropTypes.number,
-  error: PropTypes.string,
-  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  hasWidthCaption: PropTypes.bool,
-  renderListItem: PropTypes.func,
-  onChange: PropTypes.func,
-  onSelect: PropTypes.func,
-  onRemove: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func
 }
 
 Multiselect.defaultProps = {
@@ -124,4 +111,27 @@ Multiselect.defaultProps = {
   TagComponent: DefaultTag
 }
 
-export default observer(Multiselect)
+Multiselect.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  value: PropTypes.array.isRequired,
+  options: PropTypes.array.isRequired,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  tagLimit: PropTypes.number,
+  TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  hasWidthCaption: PropTypes.bool,
+  renderListItem: PropTypes.func,
+  onChange: PropTypes.func,
+  onSelect: PropTypes.func,
+  onRemove: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  _hasError: PropTypes.bool // @private
+}
+
+export default observer(
+  themed('Multiselect', Multiselect),
+  { forwardRef: true }
+)

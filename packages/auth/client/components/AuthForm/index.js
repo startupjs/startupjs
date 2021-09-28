@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
-import { Row, H5, Content, Div, Span } from '@startupjs/ui'
+import { Row, Content, Div, Span } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import OrDivider from '../OrDivider'
@@ -27,9 +27,14 @@ function AuthForm ({
   const localActiveForm = localForms ? localForms[slide] : null
 
   const prepereSocialButtons = socialButtons.map((component, index) => {
+    const prepereButton = React.cloneElement(component, {
+      baseUrl,
+      redirectUrl,
+      ...component.props
+    })
+
     return pug`
-      Div.button(key=index)
-        = component
+      Div.button(key=index)= prepereButton
     `
   })
 
@@ -39,11 +44,13 @@ function AuthForm ({
   let prepereLocalActiveForm = null
   if (localActiveForm) {
     prepereLocalActiveForm = React.cloneElement(localActiveForm, {
-      ...localActiveForm.props,
+      baseUrl,
+      redirectUrl,
       onSuccess,
       onError,
       onHandleError,
-      onChangeSlide
+      onChangeSlide,
+      ...localActiveForm.props
     })
   }
 
@@ -60,9 +67,9 @@ function AuthForm ({
   return pug`
     Content
       if localActiveForm
-        H5.caption= DEFAULT_FORMS_CAPTIONS[slide]
+        Span.caption= DEFAULT_FORMS_CAPTIONS[slide]
 
-        Span.description(variant='description')
+        Span.description(description)
           = DEFAULT_FORMS_DESCRIPTIONS[slide]
 
       if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)

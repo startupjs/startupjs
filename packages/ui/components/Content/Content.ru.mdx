@@ -4,13 +4,23 @@ import Span from '../typography/Span'
 import Br from '../Br'
 import { u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Content (контент)
 
-Контент используется в качестве родительского контейра для элементов.
+Контент используется в качестве родительского контейнера для элементов.
 
 ```jsx
 import { Content } from '@startupjs/ui'
+```
+
+## Простой пример
+```jsx example
+return (
+  <Content>
+    <Span>Content</Span>
+  </Content>
+)
 ```
 
 ## Пример
@@ -30,7 +40,7 @@ const divStyle = {
 return (
   <Content style={contentStyle}>
     <Div style={divStyle}>
-      <Span size='xl'>content</Span>
+      <Span>content</Span>
     </Div>
   </Content>
 )
@@ -53,7 +63,7 @@ const divStyle = {
 return (
   <Content style={contentStyle} padding>
     <Div style={divStyle}>
-      <Span size='xl'>content</Span>
+      <Span>content</Span>
     </Div>
   </Content>
 )
@@ -77,13 +87,13 @@ return (
   <Div>
     <Div style={divStyle}>
       <Content style={contentStyle}>
-        <Span size='xl'>Content without full</Span>
+        <Span>Content without full</Span>
       </Content>
     </Div>
     <Br />
     <Div style={divStyle}>
       <Content style={contentStyle} full>
-        <Span size='xl'>Content with full</Span>
+        <Span>Content with full</Span>
       </Content>
     </Div>
   </Div>
@@ -111,7 +121,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Mobile (default)</Span>
+        <Span>Mobile (default)</Span>
       </Div>
     </Content>
     <Br />
@@ -121,7 +131,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Tablet</Span>
+        <Span>Tablet</Span>
       </Div>
     </Content>
     <Br />
@@ -131,7 +141,7 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Desktop</Span>
+        <Span>Desktop</Span>
       </Div>
     </Content>
     <Br />
@@ -141,9 +151,21 @@ return (
       style={contentStyle}
     >
       <Div style={divStyle}>
-        <Span size='xl'>Full Width</Span>
+        <Span>Full Width</Span>
       </Div>
     </Content>
   </Div>
 )
 ```
+
+## Песочница
+
+<Sandbox
+  Component={Content}
+  props={{
+    style: { backgroundColor: '#2962FF' },
+    children: <Div styleName='child' />,
+  }}
+  rendererStyleName='renderer'
+  block
+/>

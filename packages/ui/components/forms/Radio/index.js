@@ -1,55 +1,34 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Input from './input'
 import Div from './../../Div'
+import Input from './input'
+import { getOptionLabel, stringifyValue } from './helpers'
 import './index.styl'
 
-const Radio = function ({
+function Radio ({
   style,
-  children,
+  inputStyle,
   value,
   options,
-  data, // DEPRECATED
-  disabled,
-  readonly,
-  onChange
+  _hasError,
+  ...props
 }) {
-  // TODO: DEPRECATED! Remove!
-  if (data) {
-    options = data
-    console.warn('DEPRECATION ERROR! [@startupjs/ui -> Radio] Use "options" instead of "data"')
-  }
-
-  function handleRadioPress (value) {
-    return onChange && onChange(value)
-  }
-
-  const _children = options.length
-    ? options.map((o) => {
-      return pug`
-        Input(
-          readonly=readonly
-          key=o.value
-          checked=o.value === value
-          value=o.value
-          disabled=disabled || o.disabled
-          onPress=handleRadioPress
-        )= o.label
-      `
-    })
-    : React.Children.toArray(children).map((child) => {
-      return React.cloneElement(child, {
-        checked: child.props.value === value,
-        disabled,
-        readonly,
-        onPress: value => handleRadioPress(value)
-      })
-    })
-
   return pug`
     Div(style=style)
-      = _children
+      each option in options
+        - const optionValue = stringifyValue(option)
+        - const checked = optionValue === stringifyValue(value)
+        - const error = _hasError && (value ? checked : true)
+
+        Input(
+          key=optionValue
+          style=inputStyle
+          checked=checked
+          value=optionValue
+          error=error
+          ...props
+        )= getOptionLabel(option)
   `
 }
 
@@ -61,18 +40,21 @@ Radio.defaultProps = {
 
 Radio.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  // TODO: Also support pure values like in Select. Api should be the same.
-  data: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  })),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ])
+  ),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
-const ObservedRadio = observer(Radio)
-ObservedRadio.Item = Input
-export default ObservedRadio
+export default observer(Radio, { forwardRef: true })

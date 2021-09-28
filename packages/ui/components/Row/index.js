@@ -1,8 +1,9 @@
 import React from 'react'
+import { Platform, StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { Platform, StyleSheet } from 'react-native'
 import Div from './../Div'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const isNative = Platform.OS !== 'web'
@@ -50,7 +51,6 @@ Row.propTypes = {
   reverse: PropTypes.bool,
   align: PropTypes.oneOf(['left', 'center', 'right', 'around', 'between']),
   vAlign: PropTypes.oneOf(['stretch', 'start', 'center', 'end'])
-  // TODO: may be we need add align-content
 }
 
-export default observer(Row)
+export default observer(themed('Row', Row))

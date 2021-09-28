@@ -29,7 +29,7 @@ function validateConfigs ({
 }
 
 export default function (config = {}) {
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(config, {
       ...authConfig
       // Any defaults....
@@ -47,6 +47,9 @@ export default function (config = {}) {
     } = config
 
     initRoutes({ router, config })
+
+    // Append required configs to client session
+    updateClientSession({ [providerName]: { clientId } })
 
     console.log('++++++++++ Initialization of Common auth strategy ' +
     `for ${providerName} ++++++++++\n`)
@@ -90,4 +93,7 @@ export default function (config = {}) {
 
     passport.use(providerName, strategy)
   }
+
+  func.providerName = config.providerName
+  return func
 }

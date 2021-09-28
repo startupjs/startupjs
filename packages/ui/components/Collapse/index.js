@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import CollapseHeader from './CollapseHeader'
 import CollapseContent from './CollapseContent'
+import themed from '../../theming/themed'
 import './index.styl'
 
 // TODO: hover, active states
@@ -14,6 +15,7 @@ function Collapse ({
   open,
   $open,
   variant,
+  icon,
   onChange,
   ...props
 }) {
@@ -48,7 +50,7 @@ function Collapse ({
     : React.createElement(CollapseContent, contentProps, contentChildren)
 
   // Handle <Collapse.Header>
-  const headerProps = { open, variant, onPress }
+  const headerProps = { open, variant, icon, onPress }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
     : React.createElement(CollapseHeader, headerProps, title || '')
@@ -57,13 +59,8 @@ function Collapse ({
     onChange && onChange(!open)
   }
 
-  const extraProps = {}
-  if (variant === 'full') {
-    extraProps.level = 1
-  }
-
   return pug`
-    Div.root(style=style ...extraProps ...props)
+    Div.root(style=style ...props)
       = header
       = content
   `
@@ -71,7 +68,8 @@ function Collapse ({
 
 Collapse.defaultProps = {
   open: false,
-  variant: 'full'
+  variant: 'full',
+  icon: CollapseHeader.defaultProps.icon
 }
 
 Collapse.propTypes = {
@@ -79,10 +77,11 @@ Collapse.propTypes = {
   children: PropTypes.node,
   open: PropTypes.bool,
   variant: PropTypes.oneOf(['full', 'pure']),
+  icon: CollapseHeader.propTypes.icon,
   onChange: PropTypes.func
 }
 
-const ObserverCollapse = observer(Collapse)
+const ObserverCollapse = observer(themed('Collapse', Collapse))
 ObserverCollapse.Header = CollapseHeader
 ObserverCollapse.Content = CollapseContent
 

@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import DrawerLayout from 'react-native-drawer-layout-polyfill'
 import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -13,6 +14,7 @@ function DrawerSidebar ({
   path,
   $open,
   position,
+  disabled,
   width,
   renderContent,
   ...props
@@ -40,6 +42,7 @@ function DrawerSidebar ({
   let drawerRef = useRef()
 
   useDidUpdate(() => {
+    if (disabled) return
     let drawer = drawerRef.current
 
     if (open) {
@@ -55,6 +58,7 @@ function DrawerSidebar ({
         = renderContent && renderContent()
     `
   }
+
   return pug`
     DrawerLayout.root(
       style=style
@@ -65,6 +69,7 @@ function DrawerSidebar ({
       renderNavigationView=_renderContent
       onDrawerClose=() => onChange(false)
       onDrawerOpen=() => onChange(true)
+      drawerLockMode=disabled ? 'locked-closed' : undefined
       ...props
     )= children
   `
@@ -72,6 +77,7 @@ function DrawerSidebar ({
 
 DrawerSidebar.defaultProps = {
   position: 'left',
+  disabled: false,
   width: 264
 }
 
@@ -80,8 +86,9 @@ DrawerSidebar.propTypes = {
   children: PropTypes.node,
   $open: PropTypes.object,
   position: PropTypes.oneOf(['left', 'right']),
+  disabled: PropTypes.bool,
   width: PropTypes.number,
   renderContent: PropTypes.func
 }
 
-export default observer(DrawerSidebar)
+export default observer(themed('DrawerSidebar', DrawerSidebar))

@@ -14,7 +14,7 @@ $type = $UI.colors.additional1
 .header
   font-size 12px
   letter-spacing 1px
-  font-weight bold
+  fontFamily('normal', 600)
   color $header
   &.right
     text-align right
@@ -43,7 +43,6 @@ $type = $UI.colors.additional1
 
 .unsupported
   color $UI.colors.secondaryText
-  flex 1
   text-align right
 
 .separator
@@ -51,3 +50,10 @@ $type = $UI.colors.additional1
 
 .vCenter
   justify-content center
+
+.required
+  margin-top 0.5u
+  align-self flex-start
+
+.badJSON
+  color: $UI.colors.error

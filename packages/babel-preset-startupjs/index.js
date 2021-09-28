@@ -46,6 +46,10 @@ const dotenvPlugin = ({ production, mockBaseUrl, envName = APP_ENV } = {}) => {
   return [require('@startupjs/babel-plugin-dotenv'), options]
 }
 
+const i18nPlugin = (options) => {
+  return [require('@startupjs/babel-plugin-i18n-extract'), options]
+}
+
 const webReactCssModulesPlugin = ({ production } = {}) =>
   [require('@startupjs/babel-plugin-react-css-modules'), {
     handleMissingStyleName: 'ignore',
@@ -83,7 +87,8 @@ const CONFIG_NATIVE_DEVELOPMENT = {
   plugins: [
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
-    ...nativeReactCssModulesPlugins()
+    ...nativeReactCssModulesPlugins(),
+    i18nPlugin()
   ]
 }
 
@@ -94,7 +99,8 @@ const CONFIG_NATIVE_PRODUCTION = {
   plugins: [
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlatformExtensionsPlugin(),
-    ...nativeReactCssModulesPlugins()
+    ...nativeReactCssModulesPlugins(),
+    i18nPlugin()
   ]
 }
 
@@ -113,7 +119,8 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' })
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
+    i18nPlugin({ collectTranslations: true })
   ]
 }
 
@@ -144,7 +151,8 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' })
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
+    i18nPlugin({ collectTranslations: true })
   ].filter(Boolean)
 }
 
@@ -163,7 +171,8 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin()
+    webPassClassnamePlugin(),
+    i18nPlugin({ collectTranslations: true })
   ]
 }
 
@@ -176,7 +185,8 @@ const CONFIG_WEB_PURE_PRODUCTION = {
   plugins: [
     dotenvPlugin({ production: true, mockBaseUrl: true }),
     webReactCssModulesPlugin({ production: true }),
-    webPassClassnamePlugin()
+    webPassClassnamePlugin(),
+    i18nPlugin({ collectTranslations: true })
   ]
 }
 

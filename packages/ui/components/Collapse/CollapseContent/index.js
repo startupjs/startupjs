@@ -1,9 +1,10 @@
 import React from 'react'
-import { observer } from 'startupjs'
-import PropTypes from 'prop-types'
 import { View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
+import { observer } from 'startupjs'
+import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function CollapseContent ({
@@ -33,4 +34,4 @@ CollapseContent.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(CollapseContent)
+export default observer(themed('CollapseContent', CollapseContent))

@@ -10,7 +10,8 @@ import Tabs from '../Tabs'
   - `routes` имеет ту же структуру, что и `navigationState.routes`
   - `$value` скоуп модель, чтобы сделать вкладки контролируемыми (если опустить это свойство вкладки будут неконтролируемыми)
 - добавлено свойство `initialKey` для установки вкладки по умолчанию
-- добавлен свойство `onChange` которое реагирует на смену вкладки вместо `onIndexChange`
+- добавлено свойство `onChange` которое реагирует на смену вкладки вместо `onIndexChange`
+- все пропсы для [TabBar](https://github.com/satya164/react-native-tab-view#tabbar) можно задвавать компоненту Tabs
 
 Вкладки позволяют переключаться между различными видами.
 
@@ -18,9 +19,12 @@ import Tabs from '../Tabs'
 import { Tabs } from '@startupjs/ui'
 ```
 
-## Пример
+## Tabs.Bar
+Используйте компонент `Tabs.Bar` в функции `renderTabBar`, если хотите сделать кастомный `TabBar`
 
-```jsx example
+## Простой пример
+
+```jsx example noscroll
 const [routes] = useState([
   { key: 'first', title: 'First' },
   { key: 'second', title: 'Second' },
@@ -48,7 +52,6 @@ return (
     style={{ height: 250 }}
     routes={routes}
     renderScene={renderScene}
-
   />
 )
 ```

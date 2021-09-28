@@ -30,36 +30,31 @@ grid(direction, color, size)
     background-position 0 0, 0 0, $size $size, $size $size
     background-repeat repeat, repeat, repeat, repeat
 
-.horizontal
-  flex-direction row
-
-.vertical
-  flex-shrink 1
-
-  &.block
-    flex-grow 1
-
 .filler
   height $bar + $barMargin
   width $bar
 
-.leftBar
-  flex 1
-  width $bar
-  align-items center
+.content
+  margin-left 2u
 
-  &Units
-    z-index 1
+  &.block
+    flex-grow 1
+
+.leftBar
+  align-items center
+  justify-content center
+
+  &Wrapper
+    align-items center
+    transform rotate(-90deg)
+    position absolute
 
   &Text
     font-size 10px
-    line-height 10px
-    min-width 20px
-    height 10px
-    transform rotate(-90deg)
     color $invalid
     background-color $bg
-    text-align center
+    margin 0 .5u
+
     &.valid
       color $valid
     &.dark
@@ -70,10 +65,10 @@ grid(direction, color, size)
 
   &Line
     flex 1
-    width 0.5u
+    height 0.5u
     background-color $invalid
     &.valid
-      width 1px
+      height 1px
       background-color $validLine
     &.dark
       background-color $darkInvalid

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Span from '../typography/Span'
 import Div from '../Div'
 import Filler from './filler'
+import themed from '../../theming/themed'
 import './index.styl'
 
 function Progress ({
@@ -45,4 +46,4 @@ Progress.propTypes = {
   variant: PropTypes.oneOf(['linear', 'circular']) // TODO: Add circular progress
 }
 
-export default observer(Progress)
+export default observer(themed('Progress', Progress))

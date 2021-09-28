@@ -1,18 +1,23 @@
 import React from 'react'
+import { observer } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { BASE_URL } from '@env'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { BASE_URL } from '@env'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ baseUrl, style, label, redirectUrl }) {
+function AuthButton ({
+  style,
+  label,
+  ...options
+}) {
   return pug`
     Button.button(
       style=style
-      onPress=() => onLogin(baseUrl, redirectUrl)
       icon=faGoogle
       variant='flat'
+      onPress=() => onLogin(options)
     )= label
   `
 }
@@ -28,4 +33,4 @@ AuthButton.propTypes = {
   baseUrl: PropTypes.string.isRequired
 }
 
-export default AuthButton
+export default observer(AuthButton)

@@ -13,87 +13,92 @@ Radio button allows the user to select one option from a list.
 import { Radio } from from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 const [checked, setChecked] = useState()
 return (
-  <Div>
-    <Radio
-      value={checked}
-      onChange={(value) => setChecked(value)}
-      disabled={checked === 'item2'}
-      options={[
-        {
-          value: 'item1',
-          label: 'Item-1 label'
-        },
-        {
-          value: 'item2',
-          label: 'Disable items'
-        },
-        {
-          value: 'item3',
-          label: 'Item-3 label',
-        },
-        {
-          value: 'item4',
-          label: 'Item-4 disabled item',
-          disabled: true
-        }
-      ]}
-    />
-    <Br />
-    <Radio
-      readonly
-      value={checked}
-      options={[
-        {
-          value: 'item1',
-          label: 'Item-1 label'
-        },
-        {
-          value: 'item2',
-          label: 'Disable items'
-        },
-        {
-          value: 'item3',
-          label: 'Item-3 label'
-        },
-        {
-          value: 'item4',
-          label: 'Item-4 disabled item'
-        }
-      ]}
-    />
-  </Div>
+  <Radio
+    value={checked}
+    onChange={(value) => setChecked(value)}
+    options={[
+      {
+        value: 'js',
+        label: 'JavaScript'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
+      },
+    ]}
+  />
 )
 ```
 
-## Radio.Item
-
-A component used to add custom markup in `Radio` component.
+## Disabled
 
 ```jsx example
-const [selectedItem, setSelectedItem] = useState('')
+const [checked, setChecked] = useState()
+
 return (
   <Radio
-    value={selectedItem}
-    onChange={(value) => setSelectedItem(value)}
-  >
-    <Radio.Item value='item1'>
-      <Span>Item-1</Span>
-    </Radio.Item>
-    <Radio.Item value='item2'>
-      <Span>Item-2</Span>
-    </Radio.Item>
-    <Radio.Item value='item3'>
-      <Span>Item-3</Span>
-    </Radio.Item>
-  </Radio>
+    value={checked}
+    onChange={(value) => setChecked(value)}
+    options={[
+      {
+        value: 'js',
+        label: 'JavaScript'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
+      },
+    ]}
+    disabled
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const [checked, setChecked] = useState('js')
+
+return (
+  <Radio
+    value={checked}
+    onChange={(value) => setChecked(value)}
+    options={[
+      {
+        value: 'js',
+        label: 'JavaScript'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
+      },
+    ]}
+    readonly
+  />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Radio} />
+<Sandbox
+  Component={Radio}
+  props={{
+    options:[
+      {
+        value: 'red',
+        label: 'Red'
+      },
+      {
+        value: 'blue',
+        label: 'Blue'
+      }
+    ],
+    value: 'red',
+    onChange: value=> alert('Enter "' + value + '" in the value input')
+  }}
+/>

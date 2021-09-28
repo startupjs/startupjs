@@ -3,6 +3,7 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons'
 import Div from '../../Div'
 import Br from '../../Br'
 import Checkbox from '../Checkbox'
+import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Checkbox
@@ -13,30 +14,56 @@ Checkboxes allow the user to select one or more items from a set.
 import { Checkbox } from from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 const [checked, setChecked] = useState(false)
+
 return (
   <Div>
     <Checkbox
-      label='Example'
       value={checked}
       onChange={setChecked}
     />
     <Br />
     <Checkbox
-      label='Disabled example'
-      value={true}
-      disabled
-    />
-    <Br />
-    <Checkbox
-      label='Readonly example'
-      value={true}
-      readonly
+      variant='switch'
+      value={checked}
+      onChange={setChecked}
     />
   </Div>
+)
+```
+
+## Variants
+
+There are two display variants of component: `checkbox` and `switch`. **Default**: `checkbox`.
+
+```jsx example
+const [checked, setChecked] = useState(false)
+
+return (
+  <Checkbox
+    variant='switch'
+    value={checked}
+    onChange={setChecked}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <Checkbox disabled />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <Checkbox readonly />
 )
 ```
 
@@ -45,93 +72,27 @@ return (
 The `icon` property allows to change the default icon.
 
 ```jsx example
-const [checkedAll, setCheckedAll] = useState(false)
-const [selected, setSelected] = useState([])
-const [intermediate, setIntermediate] = useState(false)
-
-const checkboxes = ['One', 'Two', 'Three']
-
-useEffect(() => {
-  setIntermediate(selected.length > 0 && selected.length < checkboxes.length)
-  setCheckedAll(selected.length === checkboxes.length)
-}, [selected])
-
-function onChangeAll(value) {
-  setCheckedAll(value)
-  if (value) {
-    setSelected(checkboxes)
-  } else {
-    setSelected([])
-  }
-}
-
-function onChange (value, id) {
-  if (value){
-    setSelected(prevState => [...prevState, id])
-  } else {
-    setSelected(prevState => prevState.filter(item => item !== id))
-  }
-}
-
-const extraProps = {}
-if (intermediate) extraProps.icon = faMinus
-
-return (
-  <Div>
-    <Checkbox
-      label='Check all'
-      value={checkedAll || intermediate}
-      onChange={onChangeAll}
-      {...extraProps}
-    />
-    <Div pushed>
-      {checkboxes.map(item => (
-        <Div key={item}>
-          <Br />
-          <Checkbox
-            label={item}
-            value={selected.includes(item)}
-            onChange={value => onChange(value, item)}
-          />
-        </Div>
-      ))}
-    </Div>
-  </Div>
-)
-```
-
-## Switch
-
-To display component as the switch pass `variant='switch'` to it.
-
-```jsx example
 const [checked, setChecked] = useState(false)
+
 return (
-  <Div>
-    <Checkbox
-      variant='switch'
-      label='Switch example'
-      value={checked}
-      onChange={setChecked}
-    />
-    <Br />
-    <Checkbox
-      variant='switch'
-      label='Switch disbabled example'
-      value={true}
-      disabled
-    />
-    <Br />
-    <Checkbox
-      variant='switch'
-      label='Switch readonly example'
-      value={true}
-      readonly
-    />
-  </Div>
+  <Checkbox
+    value={checked}
+    icon={faMinus}
+    onChange={setChecked}
+  />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Checkbox} />
+<Sandbox
+  Component={Checkbox}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    onChange: value => alert('New value is ' + value)
+  }}
+/>

@@ -1,9 +1,12 @@
 .root
-  radius()
   padding 1u 2u
-  border-color: $UI.colors.primary
   border-width 1px
-  background-color: $UI.colors.primaryLightest
+  justify-content space-between
+  radius()
+
+  &.info
+    border-color: $UI.colors.primary
+    background-color: $UI.colors.primaryLightest
 
   &.error
     border-color: $UI.colors.error
@@ -17,9 +20,17 @@
     border-color: $UI.colors.success
     background-color: $UI.colors.successLightest
 
+// we align height by actions
+// since info block has height less small button
+.information
+  padding 2px 0
+  flex-shrink 1
+
 .icon
-  color: $UI.colors.primary
   flex-shrink 0
+
+  &.info
+    color: $UI.colors.primary
 
   &.error
     color: $UI.colors.error
@@ -30,13 +41,12 @@
   &.success
     color: $UI.colors.success
 
-.actions
-  flex-shrink 0
-  margin-left 2u
-
 .content
   flex-shrink 1
-  flex-grow 1
 
   &.indent
     margin-left 1.5u
+
+.actions
+  flex-shrink 0
+  margin-left 2u

@@ -1,7 +1,8 @@
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -41,4 +42,4 @@ Content.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(Content)
+export default observer(themed('Content', Content))

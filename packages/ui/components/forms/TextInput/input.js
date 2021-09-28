@@ -6,11 +6,11 @@ import React, {
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
-import PropTypes from 'prop-types'
+import { observer, useDidUpdate, useValue } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -39,48 +39,58 @@ const ICON_SIZES = {
   l: 'l'
 }
 
-function Input ({
+function TextInputInput ({
   style,
   inputStyle,
-  className,
+  iconStyle,
+  secondaryIconStyle,
   placeholder,
   value,
-  editable,
   size,
-  focused,
   disabled,
   resize,
   numberOfLines,
   icon,
-  secondaryIcon,
-  iconStyle,
-  secondaryIconStyle,
   iconPosition,
-  onBlur,
+  secondaryIcon,
   onFocus,
-  onChangeText,
+  onBlur,
   onIconPress,
   onSecondaryIconPress,
-  renderWrapper,
+  _renderWrapper,
+  _hasError,
   ...props
 }, ref) {
   const inputRef = useRef()
+  const [inputState, $inputState] = useValue({ focused: false })
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
 
-  if (!renderWrapper) {
-    renderWrapper = ({ style }, children) => pug`
+  function handleFocus (...args) {
+    if (inputState.focused || disabled) return
+    inputRef.current.focus()
+    onFocus && onFocus(...args)
+    $inputState.set('focused', true)
+  }
+  function handleBlur (...args) {
+    if (!inputState.focused || disabled) return
+    onBlur && onBlur(...args)
+    $inputState.set('focused', false)
+  }
+
+  if (!_renderWrapper) {
+    _renderWrapper = ({ style }, children) => pug`
       Div(style=style)= children
     `
   }
 
   useImperativeHandle(ref, () => ({
-    blur: () => {
-      inputRef.current.blur()
-    },
-    focus: () => {
-      inputRef.current.focus()
-    }
-  }))
+    ...inputRef.current,
+    focus: handleFocus,
+    blur: handleBlur,
+    clear: () => inputRef.current.clear(),
+    isFocused: () => inputState.focused,
+    _onLabelPress: handleFocus
+  }), [])
 
   useLayoutEffect(() => {
     if (resize) {
@@ -94,7 +104,7 @@ function Input ({
   if (IS_WEB) {
     // repeat mobile behaviour on the web
     useLayoutEffect(() => {
-      if (focused && disabled) inputRef.current.blur()
+      if (inputState.focused && disabled) handleBlur()
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
@@ -145,56 +155,57 @@ function Input ({
 
   const inputStyleName = [
     size,
-    { disabled, focused, [`icon-${iconPosition}`]: !!icon }
+    {
+      disabled,
+      focused: inputState.focused,
+      [`icon-${iconPosition}`]: !!icon,
+      error: _hasError
+    }
   ]
 
-  return renderWrapper({
+  return _renderWrapper({
     style: [{ height: fullHeight }, style]
   }, pug`
-    React.Fragment
-      TextInput.input-input(
-        ref=inputRef
-        style=inputStyle
-        styleName=[inputStyleName]
-        selectionColor=caretColor
-        placeholder=placeholder
-        placeholderTextColor=DARK_LIGHTER_COLOR
-        value=value
-        editable=editable && !disabled
-        multiline=multiline
-        onBlur=onBlur
-        onFocus=onFocus
-        onChangeText=(value) => {
-          onChangeText && onChangeText(value)
-        }
-        ...props
-        ...inputExtraProps
+    TextInput.input-input(
+      style=inputStyle
+      ref=inputRef
+      styleName=[inputStyleName]
+      selectionColor=caretColor
+      placeholder=placeholder
+      placeholderTextColor=DARK_LIGHTER_COLOR
+      value=value
+      editable=!disabled
+      multiline=multiline
+      selectTextOnFocus=false
+      onFocus=handleFocus
+      onBlur=handleBlur
+      ...props
+      ...inputExtraProps
+    )
+    if icon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, iconPosition]
+        onPress=onIconPress
       )
-      if icon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, iconPosition]
-          onPress=onIconPress
+        Icon(
+          icon=icon
+          style=iconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=icon
-            style=iconStyle
-            size=ICON_SIZES[size]
-          )
-      if secondaryIcon
-        Div.input-icon(
-          accessible=false
-          onLayout=onLayoutIcon
-          styleName=[size, getOppositePosition(iconPosition)]
-          onPress=onSecondaryIconPress
+    if secondaryIcon
+      Div.input-icon(
+        accessible=false
+        onLayout=onLayoutIcon
+        styleName=[size, getOppositePosition(iconPosition)]
+        onPress=onSecondaryIconPress
+      )
+        Icon(
+          icon=secondaryIcon
+          style=secondaryIconStyle
+          size=ICON_SIZES[size]
         )
-          Icon(
-            icon=secondaryIcon
-            style=secondaryIconStyle
-            size=ICON_SIZES[size]
-          )
-
   `)
 }
 
@@ -202,15 +213,9 @@ function getOppositePosition (position) {
   return position === 'left' ? 'right' : 'left'
 }
 
-const ObservedInput = observer(Input, { forwardRef: true })
-
-ObservedInput.defaultProps = {
-  editable: true,
-  numberOfLines: 1
-}
-
-ObservedInput.propTypes = {
-  editable: PropTypes.bool
-}
+const ObservedInput = observer(
+  themed('TextInput', TextInputInput),
+  { forwardRef: true }
+)
 
 export default ObservedInput

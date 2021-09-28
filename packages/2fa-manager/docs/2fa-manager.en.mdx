@@ -1,0 +1,158 @@
+import { useState } from 'react'
+import { Div, Button, Span, Br } from '@startupjs/ui'
+import { useProviders, ProvidersList2fa, ProvidersBlock } from '@startupjs/2fa-manager'
+import { CheckToken } from '@startupjs/2fa'
+
+# 2fa-manager
+
+Component for using various two-factor authentication methods.
+
+## Installation
+
+```js
+  yarn add @startupjs/2fa-manager
+```
+
+## Connecting to startupjs
+
+### server
+
+Add the following lines to `server/index.js`:
+
+```js
+import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+```
+
+Add function to `startupjsServer`:
+
+```js
+initTwoFAManager(ee, {
+  providers: [
+    [YOUR_PROVIDER1, YOUR_PROVIDER1_OPTIONS]
+    [YOUR_PROVIDER2, YOUR_PROVIDER2_OPTIONS]
+  ]
+})
+```
+
+### Creating custom providers
+
+You can create your own providers using the `Provider` class from `@startupjs/2fa-manager/Provider`.
+
+Class `Provider(name, send, check)` where:
+
+- `name` - string, provider name.
+- `send()` - function of sending a message with a code.
+- `check(code)` - function for checking the validity of the code.
+  - `code` - the code to check.
+
+**Example**
+
+```js
+import { Provider } from '@startupjs/2fa-manager/Provider'
+
+export default class CustomProvider extends Provider {
+  constructor (ee, options) {
+    super('testProvider')
+    this.init(ee, options)
+  }
+
+  init (ee, options) {
+    // your init, for example
+    init2fa(ee, options)
+  }
+
+  send () {
+    console.log('test code')
+  }
+
+  check (model, session, token) {
+    if (token === 'test code') {
+      console.log('Right code')
+      return true
+    } else {
+      console.log('Wrong code')
+      return false
+    }
+  }
+}
+```
+
+Now this `Provider` can be registered with `initTwoFaManager` and used by the name `testProvider`.
+
+## API
+
+### server
+
+- `initTwoFaManager(ee, options)`
+  - `ee` - eventEmitter of server.
+  - `options [Object]` - options object. Contains a list of providers:
+    - `providers [Array]` - array of arrays with providers.
+
+- `checkToken (model, session, { data = {}, providerName = '', token = '' })` - Function for checking the code on the server. Parameters:
+  - `model` - model
+  - `session` - session
+  - `options [Object]` - options
+    - `data [Object] default {}` - the request body, used if you added the `twoFA` field to the request body, as recommended in `ProvidersBlock`, takes precedence over the `providerName` and `token` parameters.
+    - `providerName [String] default ''` - provider name, if you set this field, then do not pass the `data` value in the options
+    - `token [String] default ''` - the key that needs to be checked, if you set this field, then do not pass the `data` value in the options
+
+- `TwoFAManager` - Singleton class that contains the following methods:
+  - `send(model, session, providerName)` - calls the `send` method of the provider `providerName`.
+  - `check(model, session, token, providerName)` - calls the `check` method of the provider `providerName`.
+  - `getProviders()` - returns an array of the names of the registered providers.
+
+### client
+
+- `ProvidersBlock(providerNames, onSubmit)` - The component implements the entire sequence for two-factor verification. Accepts the following props:
+  - `providerNames [Array]` - the names of the providers to be displayed (providers must be connected on the server side). If not passed, then all connected providers are displayed.
+
+  - `onSubmit [Function(twoFA)]` - callback, returns a `twoFA` object that contains the following fields:
+    - `selectedProvider [String]` - name of the selected provider
+    - `code [String]` - entered code
+
+**IMPORTANT** The callback is needed in order to provide the data that you need to transfer to the server. The validity check of the entered code should be checked only on the server, since the client code can be modified by an attacker. It is recommended to add a field with the name `twoFA` and the content as in the `twoFA` promise from the `onSubmit` function to the transmitted request.
+
+**IMPORTANT** `onSubmit` must return `true` in case of valid code and `false` in case of invalid code.
+
+- `ProvidersList2fa(providers, chooseProvider)` - Component for displaying a list of registered providers. Accepts the following props:
+  - `providers` - array of provider names
+  - `chooseProvider` - function, returns the name of the selected provider
+
+```js
+import { useProviders } from '@startupjs/2fa-manager'
+```
+
+```jsx example
+const providers = useProviders()
+const [currentProvider, setCurrentProvider] = useState('')
+return pug`
+  ProvidersList2fa(
+    providers=providers
+    chooseProvider=setCurrentProvider
+  )
+  Br
+  if currentProvider
+    Span= 'You chose the ' + currentProvider
+`
+```
+
+## Example
+
+```js
+import { CheckToken } from '@startupjs/2fa'
+```
+
+```jsx example
+const providers = useProviders()
+const [currentProvider, setCurrentProvider] = useState('')
+
+async function onSubmit(twoFA) {
+  console.log(twoFA.selectedProvider, twoFA.code)
+  return twoFA.code
+}
+
+return pug`
+  Div
+    ProvidersBlock(onSubmit=onSubmit)
+`
+```

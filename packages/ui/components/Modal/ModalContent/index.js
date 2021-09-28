@@ -1,14 +1,17 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ScrollView } from 'react-native'
 import Span from './../../typography/Span'
-import './index.styl'
+import themed from '../../../theming/themed'
+import STYLES from './index.styl'
+
+const { padding } = STYLES
 
 function ModalContent ({
   style,
   children,
-  ContentComponent = ScrollView,
+  ContentComponent,
   variant // @private
 }) {
   const content = React.Children.map(children, (child, index) => {
@@ -20,8 +23,18 @@ function ModalContent ({
     return child
   })
 
+  const extraProps = {}
+
+  if (!ContentComponent) {
+    ContentComponent = ScrollView
+    extraProps.contentContainerStyle = { padding }
+  }
+
   return pug`
-    ContentComponent.root(styleName=[variant])= content
+    ContentComponent(
+      style=style
+      ...extraProps
+    )= content
   `
 }
 
@@ -33,4 +46,4 @@ ModalContent.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(ModalContent)
+export default observer(themed('ModalContent', ModalContent))

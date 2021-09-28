@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue } from 'startupjs'
-import { Span, Button, TextInput, ErrorWrapper } from '@startupjs/ui'
+import { observer, useValue, useSession } from 'startupjs'
+import { Alert, Br, Span, Button, TextInput } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
+import { Recaptcha } from '@startupjs/recaptcha'
 import _get from 'lodash/get'
 import _merge from 'lodash/merge'
 import PropTypes from 'prop-types'
@@ -26,10 +27,12 @@ function RecoverForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
+  const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
 
   const [form, $form] = useValue({ email: '' })
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState('')
+  const recaptchaRef = useRef()
 
   useEffect(() => {
     if (IS_WEB) {
@@ -44,17 +47,18 @@ function RecoverForm ({
   }, [])
 
   function onKeyPress (e) {
-    if (e.key === 'Enter') createRecoverySecret()
+    if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
   }
 
-  async function createRecoverySecret () {
+  async function createRecoverySecret (recaptcha) {
     try {
-      await authHelper.createPassResetSecret(form)
+      await authHelper.createPassResetSecret({ ...form, recaptcha })
       onSuccess && onSuccess(null, RECOVER_PASSWORD_SLIDE)
       setMessage('Check your email for instructions')
       setErrors({})
     } catch (error) {
       setErrors({ server: _get(error, 'response.data.message', error.message) })
+      recaptchaEnabled && recaptchaRef.current.close()
       onError && onError(error)
     }
   }
@@ -63,19 +67,28 @@ function RecoverForm ({
 
   return pug`
     if !message
-      ErrorWrapper(err=errors.server)
-        TextInput(
-          name='email'
-          label=_config.emailInputLabel
-          placeholder=_config.emailInputPlaceholder
-          value=form.email
-          onChangeText=t => $form.set('email', t)
+      if errors.server
+        Alert(variant='error')= errors.server
+        Br
+      TextInput(
+        name='email'
+        label=_config.emailInputLabel
+        placeholder=_config.emailInputPlaceholder
+        value=form.email
+        onChangeText=t => $form.set('email', t)
+        testID='recover-email-input'
+      )
+      if recaptchaEnabled
+        Recaptcha(
+          id='recover-form-captcha'
+          ref=recaptchaRef
+          onVerify=createRecoverySecret
         )
-
       Button.button(
         color='primary'
         variant='flat'
-        onPress=createRecoverySecret
+        onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
+        testID='recover-pass-button'
       )= _config.resetButtonLabel
     else
       Span.text= message
@@ -84,6 +97,7 @@ function RecoverForm ({
       variant='text'
       color='primary'
       onPress=() => onChangeSlide(SIGN_IN_SLIDE)
+      testID='back-to-signin-button'
     )= _config.backButtonLabel
   `
 }

@@ -4,28 +4,30 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Drawer from './../../popups/Drawer'
 import MultiselectInput from './input'
+import themed from '../../../theming/themed'
 import styles from './index.styl'
 
 const Multiselect = ({
+  style,
+  inputStyle,
   options,
   value,
   placeholder,
-  label,
   focused,
   disabled,
   tagLimit,
-  error,
   InputComponent,
   TagComponent,
   renderListItem,
   onSelect,
   onRemove,
   onOpen,
-  onHide
+  onHide,
+  _hasError
 }) => {
   return pug`
     MultiselectInput(
-      label=label
+      style=inputStyle
       onOpen=onOpen
       focused=focused
       value=value
@@ -33,11 +35,12 @@ const Multiselect = ({
       tagLimit=tagLimit
       options=options
       disabled=disabled
-      error=error
       InputComponent=InputComponent
       TagComponent=TagComponent
+      _hasError=_hasError
     )
     Drawer.nativeListContent(
+      style=style
       visible=focused
       position='bottom'
       onDismiss=onHide
@@ -51,21 +54,22 @@ const Multiselect = ({
 }
 
 Multiselect.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
   onSelect: PropTypes.func,
   onRemove: PropTypes.func,
   placeholder: PropTypes.string,
-  label: PropTypes.string,
   onOpen: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   focused: PropTypes.bool.isRequired,
   tagLimit: PropTypes.number,
   disabled: PropTypes.bool,
-  error: PropTypes.string,
   InputComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  renderListItem: PropTypes.func
+  renderListItem: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
-export default observer(Multiselect)
+export default observer(themed('Multiselect', Multiselect))

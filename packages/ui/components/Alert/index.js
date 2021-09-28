@@ -12,6 +12,7 @@ import Div from '../Div'
 import Span from '../typography/Span'
 import Row from '../Row'
 import Icon from '../Icon'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const ICONS = {
@@ -36,22 +37,24 @@ function Alert ({
   }
 
   return pug`
-    Row.root(styleName=[variant])
-      if icon !== false
-        Icon.icon(
-          icon=icon || ICONS[variant]
-          size='l'
-          styleName=[variant]
-        )
-      Div.content(styleName={ indent: icon !== false })
-        if title
-          Span(bold)
-            = title
-        if typeof children === 'string'
-          Span
+    Row.root(
+      vAlign='center'
+      styleName=[variant]
+    )
+      Row.information
+        if icon
+          Icon.icon(
+            icon=icon === true ? ICONS[variant] : icon
+            size='l'
+            styleName=[variant]
+          )
+        Div.content(styleName={ indent: icon !== false })
+          if title
+            Span(bold)= title
+          if typeof children === 'string'
+            Span= children
+          else
             = children
-        else
-          = children
       if renderActions
         Div.actions
           = renderActions()
@@ -66,6 +69,7 @@ function Alert ({
 }
 
 Alert.defaultProps = {
+  icon: true,
   variant: 'info'
 }
 
@@ -74,9 +78,9 @@ Alert.propTypes = {
   variant: PropTypes.oneOf(['info', 'error', 'warning', 'success']),
   title: PropTypes.string,
   label: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool, PropTypes.func]),
+  icon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.func]),
   renderActions: PropTypes.func,
   onClose: PropTypes.func
 }
 
-export default observer(Alert)
+export default observer(themed('Alert', Alert))

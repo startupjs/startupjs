@@ -15,6 +15,7 @@ import CommonLayout from './Layout'
 
 export default function initAuthApp ({
   baseUrl = BASE_URL,
+  redirectUrl,
   Layout = CommonLayout,
   localForms,
   socialButtons,
@@ -53,6 +54,7 @@ export default function initAuthApp ({
       return pug`
         Page(
           baseUrl=baseUrl
+          redirectUrl=redirectUrl
           localForms=localForms
           socialButtons=socialButtons
           renderForm=renderForm

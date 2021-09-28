@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Avatar from '../Avatar'
 import Row from '../Row'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
 
 # Avatar
 Avatars can be used to represent people. When used with a specific logo, avatars can also be used to represent a brand. They also can be a placeholder when there is no image or image can't be loaded by some reason to be shown, showing an alternative in this case.
@@ -13,7 +14,7 @@ Avatars can be used to represent people. When used with a specific logo, avatars
 import { Avatar } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 return pug`
@@ -22,17 +23,12 @@ return pug`
 ```
 
 ## Sizes
-Size is `m` by default. It can be changed by changing `size` prop. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
+Size is `m` by default. It can be changed by changing the `size` property by setting it to one of the values ​​('s', 'm', 'l') or by specifying the size in pixels.
 
 ```jsx example
 return pug`
   Row
     Div
-      Avatar(
-        size='xs'
-        src='/img/avatar1.jpeg'
-      )
-    Div(pushed)
       Avatar(
         size='s'
         src='/img/avatar2.jpeg'
@@ -49,12 +45,7 @@ return pug`
       )
     Div(pushed)
       Avatar(
-        size='xl'
-        src='/img/avatar2.jpeg'
-      )
-    Div(pushed)
-      Avatar(
-        size='xxl'
+        size=60
         src='/img/avatar3.jpeg'
       )
 `
@@ -76,6 +67,44 @@ return pug`
         status='away'
         src='/img/avatar2.jpeg'
       )
+`
+```
+
+Also you can provide custom components for the status icon using `statusComponents` prop.
+
+```jsx example
+const AbsentStatus = useCallback(({ style }) => (
+  <Div style={style} styleName='absent'>
+    <Div styleName='absent-line absent-line-1' />
+    <Div styleName='absent-line absent-line-2' />
+  </Div>
+))
+
+return pug`
+  Avatar(
+    pushed
+    src='/img/avatar2.jpeg'
+    status='absent'
+    statusComponents={
+      absent: AbsentStatus
+    }
+  )
+`
+
+styl`
+  .absent
+    background-color white
+    justify-content center
+    &-line
+      position absolute
+      height 2px
+      left 0
+      right 0
+      background-color red
+      &-1
+        transform rotate(45deg)
+      &-2
+        transform rotate(-45deg)
 `
 ```
 
@@ -113,4 +142,9 @@ return pug`
 
 ## Sandbox
 
-<Sandbox Component={Avatar} />
+<Sandbox
+  Component={Avatar}
+  props={{
+    onPress: () => alert('"onPress" event on "Avatar" component'),
+  }}
+/>

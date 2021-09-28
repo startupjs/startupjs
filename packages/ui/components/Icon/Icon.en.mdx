@@ -21,25 +21,17 @@ Icons are visual symbols used to represent ideas, objects, or actions. They comm
 import { Icon } from '@startupjs/ui'
 ```
 
-## Fontawesome icons
+## Simple example
 
 Component uses `@fortawesome/react-native-fontawesome` library to implement icons.
 
 ```jsx
-import {
-  faHouseUser,
-  faTable,
-  faShareAlt
-} from '@fortawesome/free-solid-svg-icons'
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons'
 ```
 
 ```jsx example
 return (
-  <Row align='around'>
-    <Icon icon={faShareAlt} />
-    <Icon icon={faHouseUser} />
-    <Icon icon={faTable} />
-  </Row>
+  <Icon icon={faHouseUser} />
 )
 ```
 
@@ -134,4 +126,11 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Icon} />
+<Sandbox
+  Component={Icon}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+/>

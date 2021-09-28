@@ -1,9 +1,9 @@
-import { useRef } from 'react'
-import { useValue } from 'startupjs'
-import Modal from '../Modal'
-import Button from '../Button'
-import Br from '../Br'
+import { useState, useRef } from 'react'
+import { $root, useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import Br from '../Br'
+import Button from '../Button'
+import Modal from './'
 
 # Modal
 
@@ -15,9 +15,31 @@ Modal can be used when the user needs to inform about ciritcal information, requ
 import { Modal } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
+
+```jsx example
+const [visible, setVisible] = useState(false)
+
+return (
+  <>
+    <Modal
+      visible={visible}
+      title='Text in modal'
+      onChange={setVisible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+    <Button onPress={() => setVisible(true)}>
+      Open modal
+    </Button>
+  </>
+)
+```
+
+## Props
 
 - `showCross` boolean value, sets the display of a cross in the header (by default `true`)
+- `onChange` function that will be run when the `Modal` needs to change the visibility state (optional when using the `$visible` two-way data binding)
 - `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`, by default, closes the modal)
 - `onCancel` displays cancel button that uses this handler (by default, closes the modal)
 - `onConfirm` displays confirm button that uses this handler (by default, closes the modal)
@@ -28,45 +50,72 @@ import { Modal } from '@startupjs/ui'
 - `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
 
 ### Closing by default
-  If you want to cancel the default closing of the modal when `onCancel`, `onConfirm`, `onBackdropPress` and `onCrossPress` are triggered, add `event.preventDefault()` to your callback:
 
-  ```js
-    const myOnPress = event => {
-      event.preventDefault()
-      // your code
-    }
-  ```
+If you want to cancel the default closing of the modal when `onCancel`, `onConfirm`, `onBackdropPress` and `onCrossPress` are triggered, add `event.preventDefault()` to your callback:
 
-### There are two options for managing the state of a modal:
-  1. By passing the scoped model to the `$visible ' property from the state of which visibility is controlled.
-  2. By passing `ref`, which will receive the `open()` and `close()` methods to control visibility.
+```js
+  const myOnPress = event => {
+    event.preventDefault()
+    // your code
+  }
+```
+
+### There are three options for managing the state of a modal:
+
+1. By passing the scoped model to the `$visible` property from the state of which visibility is controlled.
 
 ```jsx example
-const [visible, $visible] = useValue()
-const modalRef = useRef()
+const [, $visible] = useValue()
 
 return (
   <React.Fragment>
     <Button onPress={() => $visible.set(true)}>
-      Open modal via useValue
+      Open
     </Button>
-    <Br/>
+    <Modal
+      title='Example'
+      $visible={$visible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+2. By passing the `visible` property and `onChange` function that will be run when the `Modal` needs to change its visibility.
+
+```jsx example
+const [visible, setVisible] = useState(false)
+
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open
+    </Button>
+    <Modal
+      title='Example'
+      visible={visible}
+      onChange={setVisible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+3. By passing `ref`, which will receive the `open()` and `close()` methods to control visibility.
+
+```jsx example
+const modalRef = useRef()
+
+return (
+  <React.Fragment>
     <Button onPress={() => modalRef.current.open()}>
-      Open modal via useRef
+      Open
     </Button>
     <Modal
       title='Example'
       ref={modalRef}
-      $visible={$visible}
-      dismissLabel='Close'
-      confirmLabel='Accept'
-      onCrossPress={() => console.log('onCrossPress')}
-      onCancel={() => console.log('onCancel')}
-      onConfirm={() => console.log('onConfirm')}
-      onShow={() => console.log('onShow')}
-      onBackdropPress={() => console.log('onBackdropPress')}
-      onDismiss={() => console.log('onDismiss')}
-      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -140,16 +189,49 @@ return (
 
 ### Modal
 
-<Sandbox Component={Modal} />
+<Sandbox
+  Component={Modal}
+  props={{
+    visible: false,
+    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
+    onChange: value => $root.scope('_session.Props.Modal').at('visible').set(value),
+    onCrossPress: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onDismiss: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onCancel: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onConfirm: () => $root.scope('_session.Props.Modal').at('visible').set(false),
+    onShow: () => console.info('"onShow" event on "Modal" component'),
+    onBackdropPress: () => console.info('"onBackdropPress" event on "Modal" component'),
+    onOrientationChange: () => console.info('"onOrientationChange" event on "Modal" component'),
+    onRequestClose: () => console.info('"onRequestClose" event on "Modal" component'),
+  }}
+  $props={$root.scope('_session.Props.Modal')}
+/>
 
 ### Modal.Header
 
-<Sandbox Component={Modal.Header} />
+<Sandbox
+  Component={Modal.Header}
+  props={{
+    children: 'Header content',
+    onCrossPress: () => console.info('"onCrossPress" event on "Modal.Header" component')
+  }}
+/>
 
 ### Modal.Content
 
-<Sandbox Component={Modal.Content} />
+<Sandbox
+  Component={Modal.Content}
+  props={{
+    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.'
+  }}
+/>
 
 ### Modal.Actions
 
-<Sandbox Component={Modal.Actions} />
+<Sandbox
+  Component={Modal.Actions}
+  props={{
+    onCancel: () => console.info('"onCancel" event on "Modal.Actions" component'),
+    onConfirm: () => console.info('"onConfirm" event on "Modal.Actions" component')
+  }}
+/>

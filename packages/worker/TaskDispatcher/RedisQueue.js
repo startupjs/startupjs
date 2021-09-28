@@ -22,14 +22,11 @@ export default class RedisQueue {
 
   async doLoop () {
     const tasks = await this.getTaskList() || []
-    // console.log('redis loop', this.dispatcherNum, tasks.length)
     await this.handleTasks(tasks)
   }
 
   async handleTask (task) {
     const taskId = task._id
-    // console.log('handle task', this.dispatcherNum, taskId)
-
     const { options = {} } = task
     const locks = {}
     let runFlag
@@ -41,29 +38,26 @@ export default class RedisQueue {
         const timeout = Number(env.WORKER_TASK_DEFAULT_TIMEOUT) + Number(env.WORKER_MONGO_QUERY_TIMEOUT)
         locks.taskLock = await this.redlock.lock(taskLockKey, timeout)
       } catch (err) {
-        // console.log('task lock', this.dispatcherNum, taskId)
         throw new Error('task skip')
       }
     }
 
     const singletonLockHandler = async () => {
+      if (!options.singleton) return
       await delay(0)
       const timeout = Number(env.WORKER_TASK_DEFAULT_TIMEOUT)
-      if (!options.singleton) return
       const taskSingletonLockKey = 'tasks:singleton:' + task.uniqId
       try {
         locks.singletonLock = await this.redlock.lock(taskSingletonLockKey, timeout)
-        // console.log('singleton lock', taskSingletonLockKey)
       } catch (err) {
-        // console.log('task singleton lock failed', this.dispatcherNum, taskId, taskSingletonLockKey)
         throw new Error('singleton skip')
       }
     }
 
     const throttleLockHandler = async () => {
+      if (!options.throttle) return
       await delay(0)
       const timeout = options.throttleTimeout || Number(env.WORKER_THROTTLE_TIMEOUT)
-      if (!options.throttle) return
       const taskThrottleLockKey = 'tasks:throttle:' + task.uniqId
       try {
         locks.throttleLock = await this.redlock.lock(taskThrottleLockKey, timeout)
@@ -83,7 +77,6 @@ export default class RedisQueue {
       await throttleLockHandler()
       await singletonLockHandler()
 
-      // console.log('run task')
       runFlag = true
 
       await this.runTask(taskId, 'executing')

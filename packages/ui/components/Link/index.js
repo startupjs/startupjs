@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import Button from './../Button'
 import Span from './../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
@@ -68,6 +69,7 @@ function Link ({
 
   if (isBlock) {
     extraProps.variant = variant
+    extraProps._preventEvent = false
 
     try {
       // it throws an error if children has more then one child
@@ -82,7 +84,7 @@ function Link ({
         // which is what the function itself does on web
         children = React.cloneElement(
           children,
-          { onPress: handlePress }
+          { onPress: handlePress, _preventEvent: false }
         )
       }
     } catch (e) {}
@@ -126,4 +128,4 @@ Link.propTypes = {
   color: PropTypes.oneOf(['default', 'primary'])
 }
 
-export default observer(Link)
+export default observer(themed('Link', Link))

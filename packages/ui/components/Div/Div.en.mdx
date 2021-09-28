@@ -4,6 +4,7 @@ import Span from '../typography/Span'
 import Br from '../Br'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Div
 
@@ -13,7 +14,16 @@ Div is a wrapper for a group of components, which can be clickable when getting 
 import { Div } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
+```jsx example
+return (
+  <Div>
+    <Span>Div</Span>
+  </Div>
+)
+```
+
+## Clickable
 
 ```jsx example
 const divStyle = {
@@ -25,25 +35,19 @@ const divStyle = {
 }
 const [counter, setCounter] = useState(0)
 return (
-  <Div>
-    <Div style={divStyle}>
-      <Span>Not clickable</Span>
-    </Div>
-    <Br />
-    <Div
-      style={divStyle}
-      onLongPress={() => setCounter(counter + 10)}
-      onPress={() => setCounter(counter + 1)}
-    >
-      <Span>Clicked {counter} times</Span>
-    </Div>
+  <Div
+    style={divStyle}
+    onLongPress={() => setCounter(counter + 10)}
+    onPress={() => setCounter(counter + 1)}
+  >
+    <Span>Clicked {counter} times</Span>
   </Div>
 )
 ```
 
-## Multiple Div in a Row
+## Indentation between multiple Div
 
-When multiple Div(s) are used in a [Row](/docs/components/Row) spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of the page. The `true` value of prop is equivalent to `m` value.
+When displaying multiple Div(s) in a line spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of the page. The `true` value of prop is equivalent to `m` value.
 
 ```jsx example
 const divStyle = {
@@ -58,13 +62,13 @@ return (
     <Div style={divStyle}>
       <Span>Div 1</Span>
     </Div>
-    <Div pushed='xs' style={divStyle}>
+    <Div pushed='s' style={divStyle}>
       <Span>Div 2</Span>
     </Div>
-    <Div pushed='s' style={divStyle}>
+    <Div pushed style={divStyle}>
       <Span>Div 3</Span>
     </Div>
-    <Div pushed style={divStyle}>
+    <Div pushed='l' style={divStyle}>
       <Span>Div 4</Span>
     </Div>
   </Row>
@@ -124,6 +128,27 @@ return (
 )
 ```
 
+## renderTooltip
+
+```jsx example
+const anchorStyle = { width: 36, height: 36, backgroundColor: '#333' }
+const content = 'Tooltip content'
+return pug`
+  Div(
+    style=anchorStyle
+    renderTooltip=content
+  )
+`
+```
+
 ## Sandbox
 
-<Sandbox Component={Div} />
+<Sandbox
+  Component={Div}
+  props={{
+    children: <Div styleName='child' />,
+    style: { width: 160, height: 160, backgroundColor: '#2962FF' },
+    onPress: () => alert('"onPress" event on "Div" component'),
+    onLongPress: () => alert('"onLongPress" event on "Div" component')
+  }}
+/>

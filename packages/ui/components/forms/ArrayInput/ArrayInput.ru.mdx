@@ -1,0 +1,30 @@
+import { useState } from 'react'
+import Content from '../../Content'
+import Br from '../../Br'
+import Span from '../../typography/Span'
+import ArrayInput from '../ArrayInput'
+import { useValue } from 'startupjs'
+
+# ArrayInput
+
+ArrayInput позволяет создавать динамические формы, используя его декларативный api.
+
+ArrayInput принимает в свойстве `items` объект метаданных поля ввода с обязательным ключом `input` для указания типа отображаемого поля.
+
+Возможные типы: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
+
+```jsx
+import { ArrayInput } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const [, $value] = useValue(['Green', 'Blue'])
+return (
+  <ArrayInput
+    $value={$value}
+    items={{ type: 'text' }}
+  />
+)
+```

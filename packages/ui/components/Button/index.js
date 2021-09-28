@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
-import { colorToRGBA } from '../../helpers'
+import colorToRGBA from '../../helpers/colorToRGBA'
 import Icon from '../Icon'
 import Row from '../Row'
 import Div from '../Div'
 import Loader from '../Loader'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -83,10 +84,6 @@ function Button ({
     case 'text':
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
-      break
-    case 'shadowed':
-      rootStyle.backgroundColor = colors.white
-      rootExtraProps.level = 2
       break
   }
 
@@ -172,11 +169,11 @@ Button.propTypes = {
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   color: PropTypes.oneOf(Object.keys(colors)),
   children: PropTypes.node,
-  variant: PropTypes.oneOf(['flat', 'outlined', 'text', 'shadowed']),
+  variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
   shape: Div.propTypes.shape,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
-export default observer(Button)
+export default observer(themed('Button', Button))

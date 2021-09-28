@@ -1,73 +1,53 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Dimensions } from 'react-native'
-import { useComponentId } from 'startupjs'
+import React, { useContext, useEffect } from 'react'
+import { useComponentId, useValue, observer } from 'startupjs'
 
-const PortalContext = React.createContext([])
+const PortalContext = React.createContext()
 
-function Provider ({ children }) {
-  const [data, setData] = useState({})
+const Provider = observer(({ children }) => {
+  const [, $state] = useValue({ order: [], nodes: {} })
+  return pug`
+    PortalContext.Provider(value=$state)
+      = children
+      Host($state=$state)
+  `
+})
 
-  // TODO: In many cases, when Dimensions change, the components change, but the previous old ones remain in the context.
-  // Need to add possibility manually remove components from context, but right now when connecting to PortalContext we get an infinite re-render.
-  function resetData () {
-    setData({})
-  }
-
-  useEffect(() => {
-    Dimensions.addEventListener('change', resetData)
-    return () => {
-      Dimensions.removeEventListener('change', resetData)
-    }
-  }, [])
+const Host = observer(({ $state }) => {
+  const { order, nodes } = $state.get()
 
   return pug`
-    PortalContext.Provider(value=[data, setData])
-      = children
-      Listener
+    each componentId in order
+      React.Fragment(key=componentId)
+        = nodes[componentId]
   `
-}
+})
 
-// getter for children from context
-function Listener () {
-  const manager = state => {
-    const [data] = state
-    return Object.values(data).map(item => item)
-  }
-
-  return (
-    <PortalContext.Consumer>
-      {manager}
-    </PortalContext.Consumer>
-  )
-}
-
-// setter for children to context
-function Portal ({ children = {} }) {
+function Portal ({ children }) {
   const componentId = useComponentId()
-  const [, setData] = useContext(PortalContext)
+  const $state = useContext(PortalContext)
 
   useEffect(() => {
-    setData(state => {
-      if (children) {
-        state[componentId] = children
-      } else {
-        delete state[componentId]
-      }
-      return { ...state }
-    })
+    $state.set(`nodes.${componentId}`, children)
+    const $order = $state.at('order')
+    const order = $order.get()
+    if (!order.includes(componentId)) $order.push(componentId)
   }, [children])
 
   useEffect(() => {
     return () => {
-      setData(state => {
-        delete state[componentId]
-        return { ...state }
-      })
+      $state.del(`nodes.${componentId}`)
+      const $order = $state.at('order')
+      const order = $order.get()
+      const index = order.indexOf(componentId)
+      $order.remove(index)
     }
   }, [])
 
   return null
 }
 
-Portal.Provider = Provider
-export default Portal
+const ObservedPortal = observer(Portal)
+
+ObservedPortal.Provider = Provider
+
+export default ObservedPortal

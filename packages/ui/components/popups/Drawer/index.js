@@ -116,8 +116,8 @@ function Drawer ({
   ])
 
   return pug`
-    Portal
-      if isShow
+    if isShow
+      Portal
         SafeAreaView.area
           View.case(style=_styleCase)
             if hasOverlay
@@ -126,13 +126,13 @@ function Drawer ({
 
             Animated.View.content(
               ref=refContent
-              style=_styleContent
               styleName={
                 contentDefault: isShow,
                 contentBottom: isShow && position === 'bottom',
                 fullHorizontal: isShow && isHorizontal,
                 fullVertical: isShow && !isHorizontal
               }
+              style=_styleContent
             )
               Swipe(
                 position=position

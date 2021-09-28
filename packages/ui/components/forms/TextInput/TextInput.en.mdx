@@ -14,39 +14,38 @@ TextInput lets user enter or edit text.
 import { TextInput } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 ```jsx example
 const [value, setValue] = useState()
-const [value1, setValue1] = useState()
 return (
-  <Div>
-    <TextInput
-      label='Example'
-      placeholder='placeholder'
-      value={value}
-      onChangeText={setValue}
-      onFocus={(e) => console.log('focused', e)}
-      onBlur={(e) => console.log('blurred', e)}
-    />
-    <Br />
-    <TextInput
-      disabled
-      label='Disabled input example'
-      value='Disabled value'
-    />
-    <Br />
-    <TextInput
-      readonly
-      label='Readonly input with label example'
-      value='Readonly value'
-    />
-    <Br />
-    <TextInput
-      readonly
-      value='Readonly input without label example'
-    />
-  </Div>
+  <TextInput
+    placeholder='TextInput'
+    value={value}
+    onChangeText={setValue}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <TextInput
+    disabled
+    value='disabled'
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <TextInput
+    value='readonly'
+    readonly
+  />
 )
 ```
 
@@ -62,21 +61,18 @@ return (
   <Div>
     <TextInput
       size='s'
-      label='Size s example'
       value={valueS}
       onChangeText={setValueS}
     />
     <Br />
     <TextInput
       size='m'
-      label='Size m (default) example'
       value={valueM}
       onChangeText={setValueM}
     />
     <Br />
     <TextInput
       size='l'
-      label='Size l example'
       value={valueL}
       onChangeText={setValueL}
     />
@@ -103,7 +99,6 @@ return (
       icon={faSearch}
       secondaryIcon={faTimesCircle}
       secondaryIconStyleName='icon'
-      label='Example icon left'
       value={valueLeft}
       onChangeText={setLeftValue}
       onSecondaryIconPress={() => setLeftValue()}
@@ -112,7 +107,6 @@ return (
     <TextInput
       icon={faTimesCircle}
       iconPosition='right'
-      label='Example icon right'
       value={valueRight}
       onChangeText={setRightValue}
       onIconPress={() => setRightValue()}
@@ -136,7 +130,6 @@ return (
     multiline
     resize
     numberOfLines={4}
-    label='Multiline example'
     placeholder='Multiline placeholder'
     value={value}
     onChangeText={setValue}
@@ -144,44 +137,16 @@ return (
 )
 ```
 
-## Layout
-
-There are two layouts. The default behavior is `rows` if `label` property provided and `pure` if not. To change the layout pass the property `layout`.
-
-- `pure` displays text input without `label`
-- `rows` displays text input with `label` and if `label` not set it using placeholder instead
-
-```jsx example
-const [pureValue, setPureValue] = useState()
-const [rowValueWithLabel, setRowValueWithLabelValue] = useState()
-const [rowValueWithoutLabel, setRowValueWithoutLabel] = useState()
-return (
-  <Div>
-    <TextInput
-      layout='pure'
-      label='Pure layout example'
-      placeholder='Pure layout placeholder'
-      value={pureValue}
-      onChangeText={setPureValue}
-    />
-    <Br />
-    <TextInput
-      label='Row layout bacause label provided'
-      placeholder='Row layout placeholder with label'
-      value={rowValueWithLabel}
-      onChangeText={setRowValueWithLabelValue}
-    />
-    <Br />
-    <TextInput
-      layout='rows'
-      placeholder='Row layout placeholder without label'
-      value={rowValueWithoutLabel}
-      onChangeText={setRowValueWithoutLabel}
-    />
-  </Div>
-)
-```
-
 ## Sandbox
 
-<Sandbox Component={TextInput} />
+<Sandbox
+  Component={TextInput}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    onIconPress: () => alert('"onIconPress" event on "TextInput" component'),
+  }}
+/>

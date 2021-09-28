@@ -2,19 +2,22 @@ import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useSession, useError } from 'startupjs'
 import {
+  Alert,
+  Br,
   Row,
   Div,
   Span,
   Button,
-  ObjectInput,
-  ErrorWrapper
+  ObjectInput
 } from '@startupjs/ui'
 import {
   SIGN_UP_SLIDE,
   SIGN_IN_SLIDE,
   RECOVER_PASSWORD_SLIDE
 } from '@startupjs/auth/isomorphic'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
+import { BASE_URL } from '@env'
+import moment from 'moment'
 import _get from 'lodash/get'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
@@ -31,13 +34,15 @@ const LOGIN_DEFAULT_INPUTS = {
     input: 'text',
     label: 'Email',
     placeholder: 'Enter your email',
-    testID: 'auth-email-input'
+    testID: 'auth-email-input',
+    autoCapitalize: 'none'
   },
   password: {
     input: 'password',
     label: 'Password',
     placeholder: 'Enter your password',
-    testID: 'auth-password-input'
+    testID: 'auth-password-input',
+    autoCapitalize: 'none'
   }
 }
 
@@ -55,6 +60,7 @@ function LoginForm ({
   const authHelper = useAuthHelper(baseUrl)
 
   const [localSignUpEnabled] = useSession('auth.local.localSignUpEnabled')
+  const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
@@ -87,10 +93,21 @@ function LoginForm ({
     if (errors.check(fullSchema, form)) return
 
     try {
+      if (redirectUrl) {
+        await CookieManager.set({
+          baseUrl,
+          name: 'authRedirectUrl',
+          value: redirectUrl,
+          expires: moment().add(expiresRedirectUrl, 'milliseconds')
+        })
+      }
+
       const res = await authHelper.login(form)
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_IN_SLIDE) : finishAuth(redirectUrl)
+        onSuccess
+          ? onSuccess(res.data, SIGN_IN_SLIDE)
+          : clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
       }
     } catch (error) {
       if (onHandleError) {
@@ -109,21 +126,23 @@ function LoginForm ({
 
   const _properties = _pickBy(
     _mergeWith(
-      LOGIN_DEFAULT_INPUTS, properties,
+      { ...LOGIN_DEFAULT_INPUTS },
+      properties,
       (a, b) => (b === null) ? null : undefined
     ),
     _identity
   )
 
   return pug`
+    if errors.server
+      Alert(variant='error')= errors.server
+      Br
     ObjectInput(
       value=form
       $value=$form
       errors=errors
       properties=_properties
     )
-
-    ErrorWrapper(err=errors.server)
 
     if renderActions
       = renderActions({ onSubmit, onChangeSlide })
@@ -163,6 +182,10 @@ function initForm (properties) {
     }
   })
   return initData
+}
+
+LoginForm.defaultProps = {
+  baseUrl: BASE_URL
 }
 
 LoginForm.propTypes = {

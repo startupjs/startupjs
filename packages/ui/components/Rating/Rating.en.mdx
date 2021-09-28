@@ -10,9 +10,17 @@ Rating provides an ability for user to leave his opinion and view opinion of oth
 import { Rating } from '@startupjs/ui'
 ```
 
-## Example
+## Simple example
 
 Rating component provides five-star rating system. The `value` prop gets rounded to the nearest integer.
+
+```jsx example
+return (
+  <Rating value={3} />
+)
+```
+
+## Controlled
 
 ```jsx example
 const [rated, setRated] = useState(0)
@@ -36,4 +44,9 @@ return(
 
 ## Sandbox
 
-<Sandbox Component={Rating} />
+<Sandbox
+  Component={Rating}
+  props={{
+    onChange: value => alert('Value ' + value + ' selected.')
+  }}
+/>

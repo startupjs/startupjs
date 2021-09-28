@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-i18n-extract Call only with 'key' argument: Call only with 'key' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments passed to the function t
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call with custom name: Call with custom name 1`] = `
+
+import { observer, t as myT } from 'startupjs'
+const key = 'key'
+
+export default observer(function App () {
+  return (
+    <span>
+      {myT(key, 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'key' of myT should be a string literal
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call with empty 'defaultValue' argument: Call with empty 'defaultValue' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key', '')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'defaultValue' of t cannot be an empty string
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call with empty 'key' argument: Call with empty 'key' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'key' of t cannot be an empty string
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Call without arguments: Call without arguments 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t()}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Not enough arguments passed to the function t
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Correct call: Correct call 1`] = `
+
+import { observer, t } from 'startupjs'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, t } from "startupjs";
+export default observer(function App() {
+  return <span>{t("correct%2Ejs.key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Ignore if not import: Ignore if not import 1`] = `
+
+import { observer } from 'startupjs'
+export default observer(function App () {
+  const t = useTranslation()
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+export default observer(function App() {
+  const t = useTranslation();
+  return <span>{t("key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Ignore if not used import with custom name: Ignore if not used import with custom name 1`] = `
+
+import { observer, t as myT } from 'startupjs'
+export default observer(function App () {
+  const t = useTranslation()
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, t as myT } from "startupjs";
+export default observer(function App() {
+  const t = useTranslation();
+  return <span>{t("key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract Ignore shadowing: Ignore shadowing 1`] = `
+
+import { observer, t } from 'startupjs'
+export default observer(function App () {
+  const t = useTranslation()
+  return (
+    <span>
+      {t('key', 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, t } from "startupjs";
+export default observer(function App() {
+  const t = useTranslation();
+  return <span>{t("key", "defaultValue")}</span>;
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'defaultValue' argument: String literal is not passed to the 'defaultValue' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+const defaultValue = 'defaultValue'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t('key', defaultValue)}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'defaultValue' of t should be a string literal
+
+`;
+
+exports[`@startupjs/babel-plugin-i18n-extract String literal is not passed to the 'key' argument: String literal is not passed to the 'key' argument 1`] = `
+
+import { observer, t } from 'startupjs'
+const key = 'key'
+
+export default observer(function App () {
+  return (
+    <span>
+      {t(key, 'defaultValue')}
+    </span>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown: [@startupjs/babel-plugin-i18n-extract]: Argument 'key' of t should be a string literal
+
+`;

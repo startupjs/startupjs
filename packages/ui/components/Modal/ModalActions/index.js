@@ -3,12 +3,13 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Row from './../../Row'
 import Button from './../../Button'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function ModalActions ({
   style,
   children,
-  dismissLabel,
+  cancelLabel,
   confirmLabel,
   onCancel,
   onConfirm
@@ -23,7 +24,7 @@ function ModalActions ({
             color='primary'
             _preventEvent=false
             onPress=onCancel
-          )= dismissLabel
+          )= cancelLabel
         if onConfirm
           Button.action(
             color='primary'
@@ -35,17 +36,17 @@ function ModalActions ({
 }
 
 ModalActions.defaultProps = {
-  dismissLabel: 'Cancel',
+  cancelLabel: 'Cancel',
   confirmLabel: 'Confirm'
 }
 
 ModalActions.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  dismissLabel: PropTypes.string,
+  cancelLabel: PropTypes.string,
   confirmLabel: PropTypes.string,
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func
 }
 
-export default observer(ModalActions)
+export default observer(themed('ModalActions', ModalActions))

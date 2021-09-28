@@ -1,17 +1,18 @@
 import React from 'react'
-import usePagination from './usePagination'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Span from './../typography/Span'
-import Row from './../Row'
-import Div from './../Div'
-import Icon from './../Icon'
 import {
   faAngleLeft,
   faAngleDoubleLeft,
   faAngleRight,
   faAngleDoubleRight
 } from '@fortawesome/free-solid-svg-icons'
+import usePagination from './usePagination'
+import Span from './../typography/Span'
+import Row from './../Row'
+import Div from './../Div'
+import Icon from './../Icon'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const ICONS = {
@@ -91,4 +92,4 @@ Pagination.propTypes = {
   // onChangeLimit: propTypes.func TODO: Add selectbox to component to change limit
 }
 
-export default observer(Pagination)
+export default observer(themed('Pagination', Pagination))

@@ -77,7 +77,6 @@
   $todos.unsubscribe()
 ```
 
-
 ## Модель коллекции
 
 Давайте рассмотрим несколько базовых примеров. Startupjs использует MongoDB в качестве бызы данных. Поэтому все примеры используют синтаксис этой базы данных.
@@ -176,93 +175,91 @@ function Todo({id}) {
   }
 ```
 
-
 Или удалить его.
 
 ```js
   $todo.del()
 ```
 
-## Потренируемся(model)
+## Потренируемся
 
-1. НЕ ПОЛЬЗУЙТЕСЬ КАСТОМНЫМИ ХУКАМИ В ЭТОМ ЗАДАНИИ! Необходимо использовать `model` из startupjs, который предоставляет нам доступ к глобальной модели. У вас есть переменная `userId` в которой содержится `id` юзера из коллекции `users`. Подпишитесь на него, выведите поля `name` и `age`, а затем добавьте новое поле `hobby=football`.
+1. **НЕ ПОЛЬЗУЙТЕСЬ КАСТОМНЫМИ ХУКАМИ В ЭТОМ ЗАДАНИИ!** Необходимо использовать `model` из startupjs, который предоставляет нам доступ к глобальной модели. У вас есть переменная `userId` в которой содержится `id` юзера из коллекции `users`. Подпишитесь на него, выведите поля `name` и `age`, а затем добавьте новое поле `hobby=football`.
 
-```jsx
-  const [user, setUser] = useState()
-  const userId = '123123123'
+  ```jsx
+    const [user, setUser] = useState()
+    const userId = '123123123'
 
-  function getUser() {
-    const $user = model.at('users.'+userId)
-    await $user.subscribe()
-    const user = $user.get()
-    console.log({...user})
-    $user.set('hobby', 'football')
-    $user.unsubscribe()
-    setUser(user)
-  }
+    function getUser() {
+      const $user = model.at('users.'+userId)
+      await $user.subscribe()
+      const user = $user.get()
+      console.log({...user})
+      $user.set('hobby', 'football')
+      $user.unsubscribe()
+      setUser(user)
+    }
 
-
-  return pug`
-    Div
-      Button(onPress=getUser) Get User
+    return pug`
       Div
-        Span= user.name
-        Span= user.age
-  `
-```
-
-2. Есть коллекция `users`. Реализуйте функции `addUser`, `removeUser`.
-
-```jsx
-  const [name, setName] = useState('')
-  const [age, setAge] = useState('')
-  const [users, $users] = useQuery('users', {})
-
-  function addUser() {
-    // write here
-  }
-
-  function removeUser() {
-    // write here
-  }
-
-  return pug`
-    Div
-      each user in users
+        Button(onPress=getUser) Get User
         Div
-        Span= user.name
-        Span= user.age
-        Button(onPress=removeUser) Remove user
+          Span= user.name
+          Span= user.age
+    `
+  ```
+
+1. Есть коллекция `users`. Реализуйте функции `addUser`, `removeUser`.
+
+  ```jsx
+    const [name, setName] = useState('')
+    const [age, setAge] = useState('')
+    const [users, $users] = useQuery('users', {})
+
+    function addUser() {
+      // write here
+    }
+
+    function removeUser() {
+      // write here
+    }
+
+    return pug`
       Div
-        TextInput(value=name label='name' onChangeText=setName)
-        TextInput(value=age label='age' onChangeText=setAge)
-        Button(onPress=addUser) Add user
-  `
-```
+        each user in users
+          Div
+          Span= user.name
+          Span= user.age
+          Button(onPress=removeUser) Remove user
+        Div
+          TextInput(value=name label='name' onChangeText=setName)
+          TextInput(value=age label='age' onChangeText=setAge)
+          Button(onPress=addUser) Add user
+    `
+  ```
 
-3. Теперь давайте реализуем простой пример счетчика, чтобы отработать методы модели для числа. Напишите функции addCounter, reduceCounter. Но так как это 3е задание, то давайте еще реализуем функцию addAsync, которая будет увеличивать счетчик на 1 через 2 секунды после нажатия.
+1. Теперь давайте реализуем простой пример счетчика, чтобы отработать методы модели для числа. Напишите функции addCounter, reduceCounter. Но так как это 3е задание, то давайте еще реализуем функцию addAsync, которая будет увеличивать счетчик на 1 через 2 секунды после нажатия.
 
-```jsx
-  const [counter, $counter] = useValue()
+  ```jsx
+    const [counter, $counter] = useValue()
 
-  function addCounter() {
-    // write here
-  }
+    function addCounter() {
+      // write here
+    }
 
-  function reduceCounter() {
-    // write here
-  }
+    function reduceCounter() {
+      // write here
+    }
 
-  function addAsync() {
-    // write here
-  }
+    function addAsync() {
+      // write here
+    }
 
-  return pug`
-    Div
-      Span= counter
-      Row
-        Button(onPress=addCounter) Add
-        Button(onPress=reduceCounter) Reduce
-        Button(onPress=addUser) Add async
-  `
-```
+    return pug`
+      Div
+        Span= counter
+        Row
+          Button(onPress=addCounter) Add
+          Button(onPress=reduceCounter) Reduce
+          Button(onPress=addUser) Add async
+    `
+  ```

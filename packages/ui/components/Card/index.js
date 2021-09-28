@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { shadows: SHADOWS } = STYLES
@@ -45,4 +46,4 @@ Card.propTypes = {
   onPress: PropTypes.func
 }
 
-export default observer(Card)
+export default observer(themed('Card', Card))

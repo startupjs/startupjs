@@ -26,11 +26,17 @@ observer.__makeObserver = makeObserver
 
 export { observer }
 
-function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+function pipeComponentDisplayName (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
   const displayName = SourceComponent.displayName || SourceComponent.name
+
   if (!TargetComponent.displayName) {
     TargetComponent.displayName = displayName ? (displayName + suffix) : defaultName
   }
+}
+
+function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defaultName = 'StartupjsWrapper') {
+  pipeComponentDisplayName(SourceComponent, TargetComponent, suffix, defaultName)
+
   if (!TargetComponent.propTypes && SourceComponent.propTypes) {
     TargetComponent.propTypes = SourceComponent.propTypes
   }
@@ -76,10 +82,13 @@ function makeObserver (baseComponent, options = {}) {
     return observedComponent(...args)
   }
 
-  pipeComponentMeta(baseComponent, WrappedComponent)
-  return forwardRef
+  const Component = forwardRef
     ? React.forwardRef(WrappedComponent)
     : WrappedComponent
+
+  pipeComponentMeta(baseComponent, Component)
+
+  return Component
 }
 
 function wrapObserverMeta (
@@ -88,7 +97,10 @@ function wrapObserverMeta (
 ) {
   const { forwardRef, suspenseProps } = Object.assign({}, DEFAULT_OPTIONS, options)
   if (!(suspenseProps && suspenseProps.fallback)) {
-    throw Error('[observer()] You must pass at least a fallback parameter to suspenseProps')
+    throw Error(
+      '[observer()] You must pass at least ' +
+      'a fallback parameter to suspenseProps'
+    )
   }
 
   function ObserverWrapper (props, ref) {
@@ -111,16 +123,18 @@ function wrapObserverMeta (
     )
   }
 
-  let memoComponent
-  pipeComponentMeta(Component, ObserverWrapper, 'Observer', 'StartupjsWrapperObserver')
+  // pipe only displayName because forwardRef render function
+  // do not support propTypes or defaultProps
+  pipeComponentDisplayName(Component, ObserverWrapper, 'StartupjsObserverWrapper')
 
-  if (forwardRef) {
-    memoComponent = React.memo(React.forwardRef(ObserverWrapper))
-  } else {
-    memoComponent = React.memo(ObserverWrapper)
-  }
+  const memoComponent = React.memo(
+    forwardRef
+      ? React.forwardRef(ObserverWrapper)
+      : ObserverWrapper
+  )
 
   pipeComponentMeta(Component, memoComponent)
+
   return memoComponent
 }
 

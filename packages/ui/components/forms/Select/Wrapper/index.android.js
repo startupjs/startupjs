@@ -9,15 +9,16 @@ import {
   NULL_OPTION
 } from './helpers'
 import Div from '../../../Div'
+import themed from '../../../../theming/themed'
 import './index.styl'
 
-export default observer(function SelectWrapper ({
-  children,
+function SelectWrapper ({
   style,
-  disabled,
-  options,
-  showEmptyValue,
+  children,
+  options = [],
   value,
+  disabled,
+  showEmptyValue,
   onChange
 }) {
   function onValueChange (value) {
@@ -45,4 +46,6 @@ export default observer(function SelectWrapper ({
               label=getLabel(item)
             )
   `
-})
+}
+
+export default observer(themed('Select', SelectWrapper))

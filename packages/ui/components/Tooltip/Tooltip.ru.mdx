@@ -7,7 +7,7 @@ import Span from '../typography/Span'
 import Div from '../Div'
 import Tooltip from './'
 
-# Tooltip
+# Tooltip (deprecated)
 
 ```jsx
 import { Tooltip } from '@startupjs/ui'
@@ -22,29 +22,13 @@ import { Tooltip } from '@startupjs/ui'
 - content: скрытая часть, может быть string или jsx
 - children: видимая часть
 
-## Пример с текстом
+## Простой пример
 
 ```jsx example
-const wrapperStyle = { backgroundColor: '#dddddd', height: 40, borderRadius: 6, width: 120, alignItems: 'center', justifyContent: 'center' }
-
-const content = 'Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения новых предложений'
-
 return (
   <Row>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Заголовок 1</Span>
-      </Div>
-    </Tooltip>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-      <Div style={wrapperStyle}>
-        <Span>Заголовок 2</Span>
-      </Div>
-    </Tooltip>
-    <Tooltip content={content} style={{ marginRight: 8 }}>
-       <Div style={wrapperStyle}>
-        <Span>Заголовок 3</Span>
-      </Div>
+    <Tooltip content="tooltip">
+      <Span>Content</Span>
     </Tooltip>
   </Row>
 )
@@ -88,9 +72,10 @@ return (
       <Div style={{ marginTop: 8 }}>
         <Alert
           variant='success'
-          label={`onPress event`}
           onClose={()=> setIsClick(false)}
-        />
+        >
+          onPress event
+        </Alert>
       </Div>
     )}
   </Div>

@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
-import { observer, u } from 'startupjs'
-import PropTypes from 'prop-types'
 import { StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { observer, u } from 'startupjs'
+import PropTypes from 'prop-types'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -26,9 +27,9 @@ function Icon ({
   size,
   ...props
 }) {
-  if (!icon) return null
-
   const _size = useMemo(() => SIZES[size] || size, [size])
+
+  if (!icon) return null
 
   // Pass color as part of style to allow color override from the outside
   style = StyleSheet.flatten([{ color: color }, style])
@@ -61,11 +62,11 @@ Icon.defaultProps = {
 
 Icon.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
   size: PropTypes.oneOfType([
     PropTypes.oneOf(Object.keys(SIZES)),
     PropTypes.number
   ])
 }
 
-export default observer(Icon)
+export default observer(themed('Icon', Icon))

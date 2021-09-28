@@ -1,0 +1,42 @@
+# @startupjs/2fa-totp-authentication-provider
+
+Провайдер для верификации через приложение google authenticator.
+
+## Зависимости
+
+```js
+@startupjs/2fa-manager >= 0.34.0,
+@startupjs/2fa-totp-authentication >= 0.34.0
+```
+
+## Установка
+
+```js
+  yarn add @startupjs/2fa-totp-authentication-provider
+```
+
+**ВАЖНО**: Для использования данного метода, заранее, юзеру необходимо предоставить секрет в виде QR кода, который он добавит в google-authenticator. Подробней об этом в [документации google-authenticator](/docs/libraries/2fa/2fa-totp-authentication)
+
+## Использование
+
+Необходимо импортировать компонент `GAProvider` из @startupjs/2fa-totp-authentication-provider.
+
+```js
+import { GAProvider } from '@startupjs/2fa-totp-authentication-provider'
+```
+
+Затем нужно добавить `GAProvider` в массив `providers` у `initTwoFAManager`. Второй аргумент массива - это опции для провайдера. `TotpProvider` ожидает имя приложения, это имя будут отображаться в интерфейсе `google authenticator`. 
+
+Получить имя приложения можно из `app.json`, обычно этот файл находится в корне проекта:
+
+```js
+import app from 'path/to/your/app.json'
+
+...
+
+initTwoFAManager(ee, {
+  providers: [
+    [TotpProvider, { appName: app.name }]
+  ]
+})
+```

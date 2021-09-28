@@ -14,7 +14,6 @@ let isLoadApp = false
 
 export default observer(function Routes ({
   routes,
-  onRouteError,
   ...props
 }) {
   const location = useLocation()
@@ -38,9 +37,14 @@ export default observer(function Routes ({
           Redirect(to=route.redirect)
         `
         : pug`
+          //- DEPRECATED
           //- TODO: We can remove passing props because
           //- in pages we can use react-router hooks for this
-          RouteComponent(...props route=route onError=onRouteError)
+          RouteComponent(
+            key=props.match.url
+            route=route
+            ...props
+          )
         `
     }
 
@@ -68,7 +72,6 @@ const RouteComponent = observer(function RCComponent ({
   route,
   location,
   match,
-  onError,
   ...props
 }) {
   const [render, setRender] = useState()
@@ -96,15 +99,15 @@ const RouteComponent = observer(function RCComponent ({
 
   if (!render) return null
 
-  // Don't render anything if the route is just a redirect
-  if (route.redirect) return null
-
   const RC = route.component
   if (!RC) throw new Error('No route.component specified for route "' + route.path + '"')
 
   return pug`
+    //- DEPRECATED
+    //- TODO: We can remove passing match, location and props because
+    //- in pages we can use react-router hooks for this
+    //- Think about remove params=route.params
     RC(
-      key=match.url
       params=route.params
       match=match
       location=location

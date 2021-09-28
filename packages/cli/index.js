@@ -3,7 +3,7 @@ const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
 const Font = require('fonteditor-core').Font
-const link = require('./link')
+const template = require('lodash/template')
 const CLI_VERSION = require('./package.json').version
 const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
 const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
@@ -334,12 +334,11 @@ const TEMPLATES = {
 
       // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
-      '@react-native-community/datetimepicker@^3.0.6',
-      '@react-native-picker/picker@^1.9.3',
-      'react-native-collapsible@1.5.2',
-      'react-native-gesture-handler@1.9.0',
-      'react-native-reanimated@^1.13.2',
-      'react-native-tab-view@^2.15.2'
+      '@react-native-picker/picker@^1.16.1',
+      'react-native-collapsible@^1.6.0',
+      'react-native-color-picker@^0.6.0',
+      'react-native-pager-view@^5.1.2',
+      'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
     ]
   }
@@ -433,6 +432,9 @@ commander
       })
     }
 
+    console.log('> Update config.json')
+    updateConfigJson(projectPath, { projectName })
+
     console.log('> Patch package.json with additional scripts')
     patchScriptsInPackageJson(projectPath)
 
@@ -453,7 +455,7 @@ commander
     }
 
     if (template === 'ui') {
-      await execa('startupjs', ['android-link'], {
+      await execa('startupjs', ['link'], {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -559,9 +561,21 @@ commander
   })
 
 commander
+  .command('link')
+  .description('Links files')
+  .action(async () => {
+    // this is important because ./link contains files that are initialized on require. Thus, 'glob' in ./linc/path does not work correctly when required in a header
+    const link = require('./link')
+    link()
+  })
+
+commander
   .command('android-link')
   .description('Links android files')
   .action(async () => {
+    console.warn('"starupjs android-link" is deprecated. Use "startupjs link" instead.')
+    // this is important because ./link contains files that are initialized on require. Thus, 'glob' in ./linc/path does not work correctly when required in a header
+    const link = require('./link')
     link()
   })
 
@@ -701,6 +715,43 @@ function appendGitignore (projectPath) {
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
+}
+
+function updateConfigJson (projectPath, options) {
+  const configJsonPath = path.join(projectPath, 'config.json')
+  let configJson = fs.readFileSync(configJsonPath).toString()
+
+  try {
+    const templateFn = template(configJson)
+    const sessionSecret = generateRandomString(32)
+    configJson = templateFn({ ...options, sessionSecret })
+  } catch (e) {
+    console.log(
+      '\x1b[31m' +
+      'config.json has not been updated, update it manually!' +
+      '\x1b[0m'
+    )
+  }
+
+  fs.writeFileSync(
+    configJsonPath,
+    configJson
+  )
+}
+
+function generateRandomString (length = 0) {
+  let result = ''
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  var charactersLength = characters.length
+
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(
+      Math.floor(
+        Math.random() * charactersLength
+      )
+    )
+  }
+  return result
 }
 
 function getSuccessInstructions (projectName) {

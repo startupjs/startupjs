@@ -7,7 +7,10 @@ import api from './api'
 init({ orm })
 
 // Check '@startupjs/server' readme for the full API
-startupjsServer({ getHead }, ee => {
+startupjsServer({
+  secure: false, // TODO: https://github.com/startupjs/startupjs#security
+  getHead
+}, ee => {
   ee.on('routes', expressApp => {
     expressApp.use('/api', api)
   })

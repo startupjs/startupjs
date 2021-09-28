@@ -4,17 +4,15 @@ import { observer, useDidUpdate } from 'startupjs'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
 import Div from './../../Div'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const AnimatedView = Animated.View
 
-export default observer(function Checkbox ({
-  style,
-  className,
+function CheckboxInput ({
   value,
   icon,
-  disabled,
-  onPress,
+  _hasError,
   ...props
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
@@ -42,11 +40,8 @@ export default observer(function Checkbox ({
 
   return pug`
     Div.checkbox(
-      style=style
-      styleName=[checkedStyleName]
+      styleName=[checkedStyleName, { error: _hasError }]
       accessibilityRole='checkbox'
-      disabled=disabled
-      onPress=onPress
       onLayout=(event) => setWidth(event.nativeEvent.layout.width)
       ...props
     )
@@ -67,4 +62,6 @@ export default observer(function Checkbox ({
         }
       )
   `
-})
+}
+
+export default observer(themed('Checkbox', CheckboxInput))

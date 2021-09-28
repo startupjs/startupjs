@@ -1,9 +1,10 @@
 import React from 'react'
 import { WebView } from 'react-native-webview'
 import { Image } from 'react-native'
-import { observer, u, useValue } from 'startupjs'
+import { observer, u, useValue, useSession } from 'startupjs'
 import { Modal, Span, Div } from '@startupjs/ui'
-import { finishAuth } from '@startupjs/auth'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
+import moment from 'moment'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import './index.styl'
@@ -17,15 +18,26 @@ function AuthButton ({
   redirectUrl
 }) {
   const [, $showModal] = useValue(false)
+  const [authConfig] = useSession('auth')
+  const { expiresRedirectUrl } = authConfig
 
-  function showLoginModal () {
+  async function showLoginModal () {
+    if (redirectUrl) {
+      await CookieManager.set({
+        baseUrl,
+        name: 'authRedirectUrl',
+        value: redirectUrl,
+        expires: moment().add(expiresRedirectUrl, 'milliseconds')
+      })
+    }
+
     $showModal.set(true)
   }
 
   function onNavigationStateChange ({ url }) {
     if (url.includes(baseUrl) && !url.includes('auth')) {
       $showModal.set(false)
-      finishAuth()
+      setTimeout(() => clientFinishAuth(url.replace(baseUrl, '')), 100)
     }
   }
 
@@ -65,9 +77,9 @@ AuthButton.defaultProps = {
 
 AuthButton.propTypes = {
   imageUrl: PropTypes.string,
+  redirectUrl: PropTypes.string,
   providerName: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  redirectUrl: PropTypes.string,
   baseUrl: PropTypes.string.isRequired
 }
 

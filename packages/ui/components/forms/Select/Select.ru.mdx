@@ -14,51 +14,49 @@ import { Sandbox } from '@startupjs/docs'
 import { Select } from '@startupjs/ui'
 ```
 
-## Пример
+## Простой пример
 
 ```jsx example
 const [color, setColor] = useState()
-const [city, setCity] = useState('la')
 return (
-  <Div>
-    <Select
-      label='Example'
-      placeholder='placeholder'
-      value={color}
-      onChange={setColor}
-      onFocus={(e) => console.log('focused', e)}
-      onBlur={(e) => console.log('blurred', e)}
-      options={[
-        'red',
-        'yellow',
-        'blue'
-      ]}
-    />
-    <Br />
-    <Select
-      label='Custom labels example'
-      value={city}
-      showEmptyValue={false}
-      options={[
-        { label: 'New York', value: 'ny' },
-        { label: 'Los Angeles', value: 'la' },
-        { label: 'Tokyo', value: 'tk' }
-      ]}
-      onChange={setCity}
-    />
-    <Br />
-    <Select
-      label='Readonly Select example'
-      value={city}
-      readonly
-      showEmptyValue={false}
-      options={[
-        { label: 'New York', value: 'ny' },
-        { label: 'Los Angeles', value: 'la' },
-        { label: 'Tokyo', value: 'tk' }
-      ]}
-    />
-  </Div>
+  <Select
+    value={color}
+    onChange={setColor}
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+return (
+  <Select
+    disabled
+    value='red'
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+return (
+  <Select
+    readonly
+    value='red'
+    options={[
+      'red',
+      'yellow',
+    ]}
+  />
 )
 ```
 
@@ -70,7 +68,6 @@ return (
 const [color, setColor] = useState('red')
 return (
   <Select
-    label='Choose color'
     value={color}
     onChange={setColor}
     options={['red', 'yellow', 'blue']}
@@ -81,4 +78,11 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Select} />
+<Sandbox
+  Component={Select}
+  props={{
+    value: 'Los Angeles',
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => alert('Value ' + value + ' is selected')
+  }}
+/>

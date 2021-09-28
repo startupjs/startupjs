@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
@@ -7,8 +7,15 @@ import {
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
-import { colorToRGBA } from '../../helpers'
+import pick from 'lodash/pick'
+import colorToRGBA from '../../helpers/colorToRGBA'
+import Span from '../typography/Span'
+import AbstractPopover from '../AbstractPopover'
+import useTooltip from './useTooltip'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
+
+const DEPRECATED_PUSHED_VALUES = ['xs', 'xl', 'xxl']
 
 const isWeb = Platform.OS === 'web'
 
@@ -33,20 +40,28 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  renderTooltip,
+  tooltipProps,
   onPress,
   onLongPress,
-  onClick,
+  _preventEvent,
   ...props
-}) {
-  const handlePress = onClick || onPress
-  const isClickable = handlePress || onLongPress
+}, ref) {
+  if (DEPRECATED_PUSHED_VALUES.includes(pushed)) {
+    console.warn(`[@startupjs/ui] Div: variant='${pushed}' is DEPRECATED, use one of 's', 'm', 'l' instead.`)
+  }
+
+  const isClickable = onPress || onLongPress
   const [hover, setHover] = useState()
   const [active, setActive] = useState()
+
   let extraStyle = {}
-  const extraProps = {}
   const wrapperProps = { accessible }
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
+
+  const refAnchor = ref || useRef()
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -60,21 +75,21 @@ function Div ({
     wrapperProps.onPress = (e) => {
       // prevent bubbling event (default browser behavior)
       // make it consistent with native mobiles
-      if (disabled) {
+      if (_preventEvent || disabled) {
         e.persist() // TODO: remove in react 17
         e.preventDefault()
-        return
       }
-      handlePress && handlePress(e)
+      if (disabled) return
+      onPress && onPress(e)
     }
     wrapperProps.onLongPress = (e) => {
       // prevent bubbling event (default browser behavior)
       // make it consistent with native mobiles
-      if (disabled) {
+      if (_preventEvent || disabled) {
         e.persist() // TODO: remove in react 17
         e.preventDefault()
-        return
       }
+      if (disabled) return
       onLongPress && onLongPress(e)
     }
 
@@ -110,6 +125,39 @@ function Div ({
     }
   }
 
+  if (renderTooltip) {
+    // TODO: Move all logic to useTooltip hook along with the tooltip html
+    const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
+
+    if (isWeb) {
+      const { onMouseOver, onMouseLeave } = props
+
+      props.onMouseOver = (...args) => {
+        tooltipActions.onOpen()
+        onMouseOver && onMouseOver(...args)
+      }
+      props.onMouseLeave = (...args) => {
+        tooltipActions.onClose()
+        onMouseLeave && onMouseLeave(...args)
+      }
+    } else {
+      const { onPress, onLongPress } = wrapperProps
+
+      wrapperProps.onPress = (...args) => {
+        if (onLongPress && !onPress) onLongPress(...args)
+        if (onPress) onPress(...args)
+      }
+
+      wrapperProps.onLongPress = () => {
+        tooltipActions.onOpen()
+      }
+
+      wrapperProps.onPressOut = () => {
+        tooltipActions.onClose()
+      }
+    }
+  }
+
   let pushedModifier
   let levelModifier
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
@@ -119,11 +167,9 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable) {
+    if (isClickable || (renderTooltip && !isWeb)) {
       return pug`
-        TouchableWithoutFeedback(
-          ...wrapperProps
-        )
+        TouchableWithoutFeedback(...wrapperProps)
           = children
       `
     } else {
@@ -133,8 +179,9 @@ function Div ({
 
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
-  return maybeWrapToClickable(pug`
+  const div = maybeWrapToClickable(pug`
     View.root(
+      ref=refAnchor
       style=[style, extraStyle]
       styleName=[
         {
@@ -146,11 +193,27 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
-      ...extraProps
       ...props
-    )
-      = children
+    )= children
   `)
+
+  return pug`
+    = div
+
+    if renderTooltip
+      - const simple = typeof renderTooltip === 'string' || typeof renderTooltip === 'number'
+      AbstractPopover.tooltip(
+        refAnchor=refAnchor
+        styleName={ simple }
+        arrowStyleName='tooltip-arrow'
+        visible=isTooltipVisible
+        ...tooltipProps
+      )
+        if typeof renderTooltip === 'function'
+          = renderTooltip()
+        else if simple
+          Span.tooltip-text= renderTooltip
+  `
 }
 
 Div.defaultProps = {
@@ -159,7 +222,15 @@ Div.defaultProps = {
   feedback: true,
   disabled: false,
   bleed: false,
-  pushed: false
+  pushed: false,
+  tooltipProps: {
+    position: 'top',
+    attachment: 'center',
+    durationOpen: AbstractPopover.defaultProps.durationOpen,
+    durationClose: AbstractPopover.defaultProps.durationClose,
+    arrow: true
+  },
+  _preventEvent: true
 }
 
 Div.propTypes = {
@@ -172,14 +243,40 @@ Div.propTypes = {
   disabled: PropTypes.bool,
   level: PropTypes.oneOf(Object.keys(SHADOWS).map(i => ~~i)),
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
-  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])]),
+  pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
+  tooltipProps: PropTypes.shape(
+    pick(
+      AbstractPopover.propTypes,
+      [
+        'style',
+        'arrowStyle',
+        'position',
+        'attachment',
+        'placements',
+        'arrow',
+        'matchAnchorWidth',
+        'durationOpen',
+        'durationClose',
+        'renderWrapper',
+        'onRequestOpen',
+        'onRequestClose',
+        'onCompleteOpen',
+        'onCompleteClose'
+      ]
+    )
+  ),
+  renderTooltip: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+    PropTypes.number
+  ]),
   onPress: PropTypes.func,
-  onClick: PropTypes.func,
-  onLongPress: PropTypes.func
+  onLongPress: PropTypes.func,
+  _preventEvent: PropTypes.bool
 }
 
-export default observer(Div)
+export default observer(themed('Div', Div), { forwardRef: true })
 
 function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {

@@ -1,17 +1,15 @@
 import React, { useRef } from 'react'
-import { observer, useDidUpdate } from 'startupjs'
 import { Animated, Easing } from 'react-native'
+import { observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 const AnimatedView = Animated.View
 
-export default observer(function Switch ({
-  style,
-  className,
+function SwitchInput ({
   value,
-  disabled,
-  onPress,
+  _hasError,
   ...props
 }) {
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
@@ -42,10 +40,7 @@ export default observer(function Switch ({
 
   return pug`
     Div.switch(
-      style=style
-      styleName=[{ checked: value }]
-      disabled=disabled
-      onPress=onPress
+      styleName=[{ checked: value, error: _hasError }]
       ...props
     )
       AnimatedView.switch-animation(
@@ -59,4 +54,5 @@ export default observer(function Switch ({
         }
       )
   `
-})
+}
+export default observer(themed('Checkbox', SwitchInput))

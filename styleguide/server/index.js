@@ -1,12 +1,17 @@
 import init from 'startupjs/init'
 import startupjsServer from 'startupjs/server'
 import { initApp } from 'startupjs/app/server'
+import { initI18n, getI18nRoutes } from 'startupjs/i18n/server'
 import { getAuthRoutes } from '@startupjs/auth/isomorphic'
 import getDocsRoutes from '@startupjs/docs/routes'
 import { getUiHead, initUi } from '@startupjs/ui/server'
 import { initAuth } from '@startupjs/auth/server'
-import { init2fa } from '@startupjs/2fa/server'
-import { initRecaptcha } from '@startupjs/recaptcha/server'
+import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
+import { PushProvider } from '@startupjs/2fa-push-notification-provider'
+import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
+import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server'
+import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
 import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
 import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
@@ -27,14 +32,21 @@ import getMainRoutes from '../main/routes'
 // Init startupjs ORM.
 init({ orm })
 
+const serviceAccountPath = path.join(process.cwd(), 'server/serviceAccountKey.private.json')
+const isServiceAccountExists = fs.existsSync(serviceAccountPath)
+isServiceAccountExists && initFirebaseApp(serviceAccountPath)
+
 // Check '@startupjs/server' readme for the full API
 startupjsServer({
   getHead,
   appRoutes: [
-    ...getMainRoutes(),
+    ...getAuthRoutes(),
+    ...getI18nRoutes(),
     ...getDocsRoutes(),
-    ...getAuthRoutes()
-  ]
+    ...getMainRoutes(),
+    ...getPushNotificationsRoutes()
+  ],
+  secure: false // turn on when we add plugins for access, schema in orm
 }, (ee, options) => {
   initApp(ee, {
     ios: conf.get('CRITICAL_VERSION_IOS'),
@@ -43,13 +55,30 @@ startupjsServer({
   })
   const rootPath = options.dirname.replace(/\/styleguide/g, '')
   initUi(ee, { dirname: rootPath })
-  init2fa(ee, { appName: app.name })
+  initI18n(ee)
   initRecaptcha(ee)
   initRecaptchaDoc(ee)
+  initTwoFAManager(ee, {
+    providers: [
+      [TotpProvider, { appName: app.name }],
+      [PushProvider]
+    ]
+  })
+
+  try {
+    initPushNotifications(ee)
+  } catch (err) {
+    console.error(err.message)
+    console.error('Push Notifications will not work!')
+  }
 
   initAuth(ee, {
-    successRedirectUrl: '/profile',
-    strategies: getAuthStrategies()
+    onBeforeLoginHook: ({ userId }, req, res, next) => {
+      // req.cookies.authRedirectUrl = '/custom-redirect-path'
+      next()
+    },
+    strategies: getAuthStrategies(),
+    recaptchaEnabled: true
   })
 })
 
@@ -76,7 +105,17 @@ function getAuthStrategies () {
       clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
       clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
     }),
-    new LocalStrategy(),
+    new LocalStrategy({
+      getUserData: function () {
+        return {
+          email: this.getEmail(),
+          firstName: this.getFirstName(),
+          lastName: this.getLastName(),
+          avatarUrl: this.getAvatarUrl(),
+          age: this.profile.age
+        }
+      }
+    }),
     new IDGStrategy({
       clientId: conf.get('IDG_CLIENT_ID'),
       clientSecret: conf.get('IDG_CLIENT_SECRET')
@@ -108,11 +147,11 @@ function getAuthStrategies () {
   return strategies
 }
 
-function getHead (appName) {
+function getHead (appName, req) {
   return `
     ${getUiHead()}
+    ${getRecaptchaHead(req)}
     <title>StartupJS UI</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Put vendor JS and CSS here -->
   `
 }

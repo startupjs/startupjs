@@ -1,7 +1,7 @@
+import Br from '../Br'
 import Breadcrumbs from '../Breadcrumbs'
 import Div from '../Div'
-import Br from '../Br'
-import { faRocket, faBook ,faGift } from '@fortawesome/free-solid-svg-icons'
+import { faAnchor, faBook, faGift, faHome, faRocket } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Breadcrumbs (хлебные крошки)
@@ -12,9 +12,7 @@ import { Sandbox } from '@startupjs/docs'
 import { Breadcrumbs } from 'startupjs/ui'
 ```
 
-## Пример
-
-Каждый объект маршрута принимает любые свойства компонента [Link](/docs/components/Link) кроме тех что упомянуты ниже.
+## Простой пример
 
 ```jsx example
 return (
@@ -31,6 +29,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -38,7 +40,7 @@ return (
 ```
 
 
-## Кастомный разделелитель
+## Кастомный разделитель
 
 Разделитель по умолчанию - `/`. Его можно изменить, передав строку в свойство `separator`.
 
@@ -58,6 +60,10 @@ return (
       {
         to: '#component',
         name: 'Component'
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs'
       }
     ]}
   />
@@ -86,6 +92,11 @@ return (
         to: '#component',
         name: 'Component',
         icon: faGift
+      },
+      {
+        to: '#Breadcrumbs',
+        name: 'Breadcrumbs',
+        icon: faAnchor
       }
     ]}
   />
@@ -98,7 +109,7 @@ return (
 
 ```jsx example
 return (
-  <View>
+  <Div>
     <Breadcrumbs
       size='l'
       routes={[
@@ -113,6 +124,10 @@ return (
         {
           to: '#component',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />
@@ -131,13 +146,40 @@ return (
         {
           to: '#',
           name: 'Component'
+        },
+        {
+          to: '#Breadcrumbs',
+          name: 'Breadcrumbs'
         }
       ]}
     />
-  </View>
+  </Div>
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Breadcrumbs} />
+<Sandbox
+  Component={Breadcrumbs}
+  props={{
+    routes: [
+      {
+        icon: faHome,
+        to: '#',
+        name: 'Home'
+      },
+      {
+        to: '#',
+        name: 'Section'
+      },
+      {
+        to: '#',
+        name: 'Page'
+      },
+      {
+        to: '#sandbox',
+        name: 'Sandbox'
+      }
+    ]
+  }}
+/>

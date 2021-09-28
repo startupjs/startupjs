@@ -1,131 +1,130 @@
-import { useState } from 'react'
 import Badge from '../Badge'
-import Tag from '../Tag'
-import Content from '../Content'
+import Button from '../Button'
 import Div from '../Div'
+import Icon from '../Icon'
 import Row from '../Row'
-import { faBan, faExclamationTriangle, faTimes, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
 # Badge
 
-Badge is small status descriptors for UI elements. Badges should have a label for accessibility and clear comprehension. When the label is not defined, a badge becomes icon-only.
+Badge is small state descriptors for UI elements.
 
-## Usage
-
-```jsx
+```js
 import { Badge } from '@startupjs/ui'
-
-return <Badge>{children}</Badge>
 ```
 
-## Options
+## Simple example
 
-### Labels
+```jsx example
+return (
+  <Badge label='10'>
+    <Icon icon={faEnvelope} size={40} />
+  </Badge>
+)
+```
 
-Short text content.
+## Sizes
+
+Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the default and most frequently used. The other sizes should be used with care so as not to break the hierarchy of importance on the page.
 
 ```jsx example
 return (
   <Row>
-    <Badge label='#'>
-      <Div styleName='child' pushed/>
+    <Badge label='16' size='s'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
+    <Badge style={{ marginLeft: 16 }} label='20'>
+      <Icon icon={faEnvelope} size={40} />
+    </Badge>
+    <Badge style={{ marginLeft: 16 }} label='24' size='l'>
+      <Icon icon={faEnvelope} size={40} />
+    </Badge>
+  </Row>
+)
+```
+
+## Variants
+
+There are two types of Badges: `default` and `dot`. `default` it is the most frequently used and the default specified. `dot` turns the badge into a small dot, this can be used as a message that something has changed. If the property is `variant='dot'`, the `size` property will be ignored.
+
+```jsx example
+return (
+  <Row>
     <Badge label='10'>
-      <Div styleName='child' pushed/>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge label='Label'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
-)
-```
-
-### Sizes
-
-Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the default and most frequently used. The other sizes should be used sparingly to create a hierarchy of importance on a page. When the size `s` content is not displayed.
-
-```jsx example
-return (
-  <Row>
-    <Badge size='s'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge label='M'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge size='l' label='L'>
-      <Div styleName='child' pushed/>
+    <Badge style={{ marginLeft: 16 }} variant='dot'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
   </Row>
 )
 ```
 
-### Colors
+## Colors
 
 Color is `primary` by default. It can be changed by passing color name from the config colors to `color` property. Possible values of property can be found in the `Sandbox` section at the bottom of the page.
 
 ```jsx example
 return (
-  <Row>
-    <Badge>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='success'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='warning'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge color='error'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
+  <Badge color='error' label='10'>
+    <Icon icon={faEnvelope} size={40}/>
+  </Badge>
 )
 ```
 
-### Position
+## Position
 
-Badges come in two positions: `top` and `bottom`. Default value is `top`.
+Badge can be in two positions: `top` and `bottom`. **Default value:** `top`.
 
 ```jsx example
 return (
   <Row>
-    <Badge>
-      <Div styleName='child' pushed/>
+    <Badge label='10'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
-    <Badge position='bottom'>
-      <Div styleName='child' pushed/>
+    <Badge style={{ marginLeft: 16 }} position='bottom' label='10'>
+      <Icon icon={faEnvelope} size={40} />
     </Badge>
   </Row>
 )
 ```
 
-### Icons
+## Icons
 
 Icon can be added using `icon` property.
 
+```jsx example
+return (
+  <Badge icon={faThumbsUp} label='10+' color='success'>
+    <Icon icon={faEnvelope} size={40} />
+  </Badge>
+)
+```
+
+## Counter
+
+If `label` property takes a numeric value, then the `max` property can be used to limit the maximum displayed number in the label.
 
 ```jsx example
 return (
-  <Row>
-    <Badge icon={faThumbsUp} label='10+' color='success'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faExclamationTriangle} color='warning'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faTimes} size='l' color='error'>
-      <Div styleName='child' pushed/>
-    </Badge>
-    <Badge icon={faBan} size='l' color='dark'>
-      <Div styleName='child' pushed/>
-    </Badge>
-  </Row>
+  <Badge label={1000} max={100}>
+    <Icon icon={faEnvelope} size={40} />
+  </Badge>
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Badge} />
+<Sandbox
+  Component={Badge}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    children: <Div styleName='child' />
+  }} 
+/>

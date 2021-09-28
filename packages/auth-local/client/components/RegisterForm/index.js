@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useError } from 'startupjs'
-import { Row, Div, Span, Button, ObjectInput, ErrorWrapper } from '@startupjs/ui'
-import { finishAuth } from '@startupjs/auth'
+import { observer, useValue, useError, useSession } from 'startupjs'
+import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
+import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import { Recaptcha } from '@startupjs/recaptcha'
+import moment from 'moment'
+import { BASE_URL } from '@env'
 import _get from 'lodash/get'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
@@ -24,16 +27,19 @@ const REGISTER_DEFAULT_INPUTS = {
   email: {
     input: 'text',
     label: 'Email',
-    placeholder: 'Enter your email'
+    placeholder: 'Enter your email',
+    autoCapitalize: 'none'
   },
   password: {
     input: 'password',
     label: 'Password',
-    placeholder: 'Enter your password'
+    placeholder: 'Enter your password',
+    autoCapitalize: 'none'
   },
   confirm: {
     input: 'password',
-    placeholder: 'Confirm your password'
+    placeholder: 'Confirm your password',
+    autoCapitalize: 'none'
   }
 }
 
@@ -48,9 +54,13 @@ function RegisterForm ({
   onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
+  const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
+  const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
+
+  const recaptchaRef = useRef()
 
   useEffect(() => {
     if (IS_WEB) {
@@ -66,10 +76,10 @@ function RegisterForm ({
 
   // TODO: next input
   function onKeyPress (e) {
-    if (e.key === 'Enter') onSubmit()
+    if (e.key === 'Enter') recaptchaEnabled ? recaptchaRef.current.open() : onSubmit()
   }
 
-  async function onSubmit () {
+  async function onSubmit (recaptcha) {
     setErrors({})
 
     let fullSchema = commonSchema
@@ -77,9 +87,10 @@ function RegisterForm ({
       fullSchema = fullSchema.keys(validateSchema)
     }
 
-    if (errors.check(fullSchema, form)) return
+    if (recaptchaEnabled && errors.check(fullSchema, form)) return recaptchaRef.current.close()
 
     const formClone = { ...form }
+    if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
       formClone.lastName = form.name.split(' ').pop()
@@ -87,6 +98,15 @@ function RegisterForm ({
     }
 
     try {
+      if (redirectUrl) {
+        await CookieManager.set({
+          baseUrl,
+          name: 'authRedirectUrl',
+          value: redirectUrl,
+          expires: moment().add(expiresRedirectUrl, 'milliseconds')
+        })
+      }
+
       await authHelper.register(formClone)
       const res = await authHelper.login({
         email: form.email,
@@ -94,7 +114,9 @@ function RegisterForm ({
       })
 
       if (res.data) {
-        onSuccess ? onSuccess(res.data, SIGN_UP_SLIDE) : finishAuth(redirectUrl)
+        onSuccess
+          ? onSuccess(res.data, SIGN_UP_SLIDE)
+          : clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
       }
     } catch (error) {
       onError && onError(error)
@@ -104,13 +126,17 @@ function RegisterForm ({
 
   const _properties = _pickBy(
     _mergeWith(
-      REGISTER_DEFAULT_INPUTS, properties,
+      { ...REGISTER_DEFAULT_INPUTS },
+      properties,
       (a, b) => (b === null) ? null : undefined
     ),
     _identity
   )
 
   return pug`
+    if errors.server
+      Alert(variant='error')= errors.server
+      Br
     ObjectInput(
       value=form
       $value=$form
@@ -118,14 +144,18 @@ function RegisterForm ({
       properties=_properties
     )
 
-    ErrorWrapper(err=errors.server)
-
     if renderActions
       = renderActions({ onSubmit, onChangeSlide })
     else
       Div.actions
+        if recaptchaEnabled
+          Recaptcha(
+            id='register-form-captcha'
+            ref=recaptchaRef
+            onVerify=onSubmit
+          )
         Button(
-          onPress=onSubmit
+          onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : onSubmit()
           variant='flat'
           color='primary'
         ) Sign Up
@@ -147,6 +177,10 @@ function initForm (properties) {
     }
   })
   return initData
+}
+
+RegisterForm.defaultProps = {
+  baseUrl: BASE_URL
 }
 
 RegisterForm.propTypes = {

@@ -1,18 +1,35 @@
 import React from 'react'
+import { observer, useSession } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { BASE_URL } from '@env'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
+import { BASE_URL } from '@env'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
-function AuthButton ({ baseUrl, style, label, redirectUrl }) {
+function AuthButton ({
+  style,
+  baseUrl,
+  redirectUrl,
+  label
+}) {
+  const [authConfig] = useSession('auth')
+  const { expiresRedirectUrl } = authConfig
+
+  function _onLogin () {
+    onLogin({
+      baseUrl,
+      redirectUrl,
+      expiresRedirectUrl
+    })
+  }
+
   return pug`
     Button.button(
       style=style
-      onPress=() => onLogin(baseUrl, redirectUrl)
       icon=faFacebook
       variant='flat'
+      onPress=_onLogin
     )= label
   `
 }
@@ -28,4 +45,4 @@ AuthButton.propTypes = {
   baseUrl: PropTypes.string.isRequired
 }
 
-export default AuthButton
+export default observer(AuthButton)

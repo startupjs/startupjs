@@ -5,7 +5,7 @@ import Div from './../../Div'
 import Link from './../../Link'
 import Icon from './../../Icon'
 import Span from './../../typography/Span'
-import { useMenuContext } from './../menuContext'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -25,13 +25,11 @@ function MenuItem ({
   ...props
 }) {
   // TODO: prevent click if already active (for link and for div)
-  const parentProps = useMenuContext()
-  const _iconPosition = iconPosition || parentProps.iconPosition
   const activeItemColor = activeColor || colors.primary
   const color = active ? activeItemColor : colors.mainText
   const borderStyle = { backgroundColor: activeItemColor }
   const extraProps = {}
-  const reverse = _iconPosition === 'right'
+  const reverse = iconPosition === 'right'
   let Wrapper
 
   if (to) {
@@ -54,11 +52,11 @@ function MenuItem ({
       if activeBorder !== 'none' && active
         Div.border(styleName=[activeBorder] style=borderStyle)
       if icon
-        Icon.icon(styleName=[_iconPosition] icon=icon style={color})
+        Icon.icon(styleName=[iconPosition] icon=icon style={color})
 
       Div.container(style=containerStyle)
         if typeof children === 'string'
-          Span(style={color} bold=bold)= children
+          Span(style={color} bold=bold numberOfLines=1)= children
         else
           = children
   `
@@ -66,20 +64,22 @@ function MenuItem ({
 
 MenuItem.defaultProps = {
   active: false,
+  activeBorder: 'none',
   iconPosition: 'left'
 }
 
 MenuItem.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  to: PropTypes.string,
   children: PropTypes.node,
   active: PropTypes.bool,
+  activeBorder: PropTypes.oneOf(['top', 'bottom', 'left', 'right', 'none']),
+  activeColor: PropTypes.string,
   bold: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   iconPosition: PropTypes.oneOf(['left', 'right']),
-  onPress: PropTypes.func,
-  activeColor: PropTypes.string
+  to: PropTypes.string,
+  onPress: PropTypes.func
 }
 
-export default observer(MenuItem)
+export default observer(themed('MenuItem', MenuItem))

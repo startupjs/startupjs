@@ -1,7 +1,8 @@
 import React from 'react'
+import { View } from 'react-native'
 import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const {
@@ -55,4 +56,4 @@ Divider.propTypes = {
   lines: PropTypes.number
 }
 
-export default observer(Divider)
+export default observer(themed('Divider', Divider))

@@ -1,6 +1,5 @@
 .root
   padding 5u 3u
-  position relative
   border 1px dashed $UI.colors.darkLight
   +desktop()
     margin 10u auto
@@ -12,9 +11,8 @@
   height 50u
 
 .anchors
-  position absolute
-  flex-direction row
   justify-content flex-end
+  align-items center
   top 0
   left 0
   right 0
@@ -23,6 +21,15 @@
   background-color $UI.colors.white
   border-bottom 1px solid $UI.colors.darkLight
   padding-top 3u
+
+  +tablet()
+    flex-direction row
+
+.extraButton
+  margin-bottom 1u
+
+  +tablet()
+    margin-bottom 0
 
 .myAnchors
   flex-direction row

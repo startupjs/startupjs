@@ -1,0 +1,174 @@
+import Span from './Span'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
+
+# Шрифты
+
+Система шрифтов - одна из основополагающих частей любого дизайна интерфейса.
+
+Хорошо спроектированная система шрифтов значительно повышает удобочитаемость и эффективность работы пользователя, поскольку текст помогает пользователям понимать содержимое приложения и выполнять свою работу.
+
+## Cемейство шрифтов
+
+В StartupJS мы предпочитаем использовать семейство системных шрифтов и предоставляем возможность переопределять их на свои собственные.
+
+Объект `$UI.fontFamilies` принимает ключи зависящие от платформы `web`, `android`, `ios`, `windows`, `macos`, `native` для переопределения шрифтов на определенной платформе и один специальный ключ `default` для переопределения шрифтов одновременно для всех платформ.
+
+```styl
+$UI.fontFamilies = {
+  default: {
+    normal: 'Lato',
+    heading: 'Roboto'
+  },
+  android: {
+    normal: 'sans-serif'
+  },
+  ios: {
+    normal: 'San Francisco'
+  },
+}
+```
+
+где:
+
+* `normal` семейство шрифтов для основного текста (используется компонентом `Span`)
+* `heading` семейство шрифтов для текста заголовков (используется для компонентов `H1-H6`)
+
+**ПРИМЕЧАНИЕ:** Вы также можете добавить дополнительные семантические имена с вашим собственным семейством шрифтов.
+
+## Размер шрифта
+
+Для изменения размера текста используйте миксин `font(scale)`, где `scale` - масштаб из таблицы размеров. **Значение по умолчанию:** `body2`.
+
+```stylus
+.text
+  font(h2)
+```
+
+```jsx pure-example
+return (
+  <Table styleName='table'>
+    <Thead>
+      <Tr>
+        <Th styleName='th'>Масштаб</Th>
+        <Th styleName='th'>font-size</Th>
+        <Th styleName='th'>line-height</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h1</Td>
+        <Td styleName='td'>72px</Td>
+        <Td styleName='td'>96px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h2</Td>
+        <Td styleName='td'>48px</Td>
+        <Td styleName='td'>64px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h3</Td>
+        <Td styleName='td'>36px</Td>
+        <Td styleName='td'>48px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h4</Td>
+        <Td styleName='td'>24px</Td>
+        <Td styleName='td'>32px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h5</Td>
+        <Td styleName='td'>20px</Td>
+        <Td styleName='td'>28px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h6</Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>24px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>body1</Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>
+          24px
+        </Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>body2</Td>
+        <Td styleName='td'>14px</Td>
+        <Td styleName='td'>20px</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
+
+## Толщина шрифта
+
+Переменная `$UI.fontWeights` определяет толщину шрифта по умолчанию для семейств шрифтов, при необходимости их можно переопределить
+
+```stylus
+$UI.fontWeights = {
+  normal: 400,
+  normalBold: 600,
+  heading: 400,
+  headingBold: 600
+}
+```
+
+## Как установить шрифт для элемента?
+
+Чтобы установить семейство шрифтов для элемента, вам нужно использовать миксин `fontFamily(name, weight, style)` в ваших стилях, где:
+
+* `name` - имя шрифта, принимает имя семейства шрифтов или имя семантического шрифта из `$UI.fontFamilies` в виде значения или строки. **Значение по умолчанию:** `normal`.
+
+* `weight` - вес шрифта, принимает значения `normal`, `bold` и любые значения от 100 до 900 с шагом 100. **Значение по умолчанию:** `$UI.fontWeights.normal`.
+
+* `style` - стиль шрифта, принимает значения `normal` или `italic`. **Значение по умолчанию:** `normal`.
+
+
+```stylus
+.text
+  fontFamily('normal')
+
+  &.bold
+    fontFamily('normal', 600)
+
+  &.italic
+    fontFamily('normal', undefined, italic)
+
+  &.bold.italic
+    fontFamily('normal', 600, italic)
+
+.textWithAdditionalFont
+  fontFamily('myFont')
+```
+
+## Кастомные шрифты
+
+Для добавления кастомных шрифтов необходимо:
+
+1. Загрузите файлы шрифтов и поместите их в папку `public/fonts`. Затем запустите команду `yarn fonts`, которая настроит шрифты для дальнейшего их использования. Имя файлов шрифтов должно соответствовать правилам Google Fonts - `{Font name}-{Thickness}{Style}`, например `Roboto-Regular`, `BaiJumjuree-BoldItalic`. **ПРИМЕЧАНИЕ**: для обычного курсивного текста Google опускает слово `Regular` в названии шрифта.
+
+1. Добавьте ваш кастомный `Font name` (только название шрифта без толщины и стиля) в [список](https://stylus-lang.com/docs/iteration.html) `$UI.customFontFamilies`.
+
+1. Затем вы можете переопределить любое семантическое имя шрифта или добавить дополнительное семантическое имя с вашим пользовательским шрифтом.
+
+Например, если вы хотите изменить шрифт основного текста приложения на `Lato` для всех платформ, вам необходимо:
+
+* добавить `Lato-Regular` шрифт для обычного текста
+
+* добавить шрифты `Lato-RegularItalic`, `Lato-Bold`, `Lato-BoldItalic`, так как компонент `Span` имеет модификаторы `bold` и `italic` для выделения текста жирным и курсивным соотвественно
+
+* добавить шрифт в [список](https://stylus-lang.com/docs/iteration.html) `$UI.customFontFamilies` и задать переменную `$UI.fontFamilies.default.normal` (`default` используется для всех платформ) в файле `styles/index.styl`
+
+```stylus
+@require '../../node_modules/@startupjs/ui/styles/index.styl'
+$UI.fontFamilies.default.normal = 'Lato'
+$UI.customFontFamilies = 'Lato'
+```

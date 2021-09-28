@@ -8,6 +8,7 @@ import {
 } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
+import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
@@ -17,9 +18,10 @@ function Sidebar ({
   sidebarStyle,
   contentStyle,
   children,
-  position,
   path,
   $open,
+  position,
+  disabled,
   width,
   renderContent,
   ...props
@@ -44,6 +46,8 @@ function Sidebar ({
     onChange
   }))
 
+  open = disabled ? false : open
+
   return pug`
     Div.root(style=style styleName=[position])
       ScrollView.sidebar(
@@ -57,6 +61,7 @@ function Sidebar ({
 
 Sidebar.defaultProps = {
   position: 'left',
+  disabled: false,
   width: 264
 }
 
@@ -64,9 +69,10 @@ Sidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   $open: PropTypes.object,
+  disabled: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
   width: PropTypes.number,
   renderContent: PropTypes.func
 }
 
-export default observer(Sidebar)
+export default observer(themed('Sidebar', Sidebar))

@@ -1,18 +1,14 @@
-import H1 from './H1'
-import H2 from './H2'
-import H3 from './H3'
-import H4 from './H4'
-import H5 from './H5'
-import H6 from './H6'
+import { H1, H2, H3, H4, H5, H6 } from './headers'
 import Span from './Span'
 import Br from '../Br'
 import Div from '../Div'
 import { Sandbox } from '@startupjs/docs'
-import './index.styl'
 
-# Typography (типография)
+# Компоненты типографии
 
-Набор компонентов, чтобы сделать текст понятным и легко читаемым для конечного пользователя. Базовый компонент типографики - это `Span`, что означает, что все остальные компоненты используют его в различных вариациях, например заголовки.
+Наследует [Text props](https://reactnative.dev/docs/next/text).
+
+Набор компонентов, чтобы сделать текст понятным и легко читаемым для конечного пользователя.
 
 ```jsx
 import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
@@ -20,76 +16,15 @@ import { Span, H1, H2, H3, H4, H5, H6 } from '@startupjs/ui'
 
 ## Span (спан)
 
+Базовый компонент типографики - это `Span`, он используется для обычного текста.
+
 ```jsx example
   <Span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</Span>
 ```
 
-## Размеры
-
-Для изменения размера текста используйте глобальный миксин `font(size)`. Возможные значения `size` (`xs`, `s`, `m`, `l`, `xl`, `xxl`, `xxxl`, `xxxxl`, `xxxxxl`). `m` - это стандартный размер `Span`.
-
-В `.styl` файле
-```stylus
-.text
-  font(xxl)
-```
-
-```jsx example
-  <Span styleName='text'>Text size - xxl.</Span>
-```
-
-## Разновидности
-
-Свойство `variant` означает **"сделать текст как"** и использует `text(key)` глобальный миксин под капотом. Возможные значения `key` (`default`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `description`). **Мы не рекомендуем использовать миксин без необходимости вместо свойства `variant`**.
-
-```jsx example
-return (
-  <Div>
-    <Span>
-      Default (размер - m, цвет - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='description'>
-      Description (используйте для уменьшения значимости текста, размер - m, цвет - $UI.colors.secondaryText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h1'>
-      H1 (размер - xxxxxl, цвет - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h2'>
-      H2 (размер - xxxxl, цвет - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h3'>
-      H3 (размер - xxxl, цвет - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h4'>
-      H4 (размер - xxl, цвет - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h5'>
-      H5 (размер - xl, цвет - $UI.colors.mainText)
-    </Span>
-    <Br />
-    <Br />
-    <Span variant='h6'>
-      H6 (размер - l, цвет - $UI.colors.mainText)
-    </Span>
-  </Div>
-)
-```
-
 ## Заголовки
 
-`H*` комопненты используются для заголовок или подзаголовков раздела или страницы. Основное отличие от компонента `Span` с свойством `variant` заключается в том, что `H*` вставляют семантические теги в DOM на вебе.
+`H*` комопненты используются для заголовков или подзаголовков раздела или страницы, а также вставляют семантические теги в DOM на вебе.
 
 ```jsx example
 return (
@@ -139,8 +74,18 @@ return (
 
 ### Span
 
-<Sandbox Component={Span} />
+<Sandbox
+  Component={Span}
+    props={{
+    children: 'Test text'
+  }}
+/>
 
 ### Header
 
-<Sandbox Component={H1} />
+<Sandbox
+  Component={H1}
+  props={{
+    children: 'Test text'
+  }}
+/>

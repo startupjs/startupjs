@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Tag from './../../Tag'
+import themed from '../../../theming/themed'
 import './index.styl'
 
 function DefaultTag ({
@@ -12,6 +13,7 @@ function DefaultTag ({
   return pug`
     Tag.tag(
       styleName={last: isLast}
+      size='s'
       variant='flat'
       color='primary'
     )= record.label
@@ -23,4 +25,4 @@ DefaultTag.propTypes = {
   record: PropTypes.object
 }
 
-export default observer(DefaultTag)
+export default observer(themed('Multiselect', DefaultTag))

@@ -1,0 +1,181 @@
+import Span from './Span'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
+
+# Fonts
+
+The font system is one of the most foundational parts of any interface design.
+
+A well-designed font system greatly enhances the user's readability and efficiency, because text helps users understand application content and do their work.
+
+## Font family
+
+In StartupS, we prefer to use the default font family and provide the possibility to override them to your own.
+
+The `$UI.fontFamilies` object accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms.
+
+```styl
+$UI.fontFamilies = {
+  default: {
+    normal: 'Lato',
+    heading: 'Roboto'
+  },
+  android: {
+    normal: 'sans-serif'
+  },
+  ios: {
+    normal: 'San Francisco'
+  },
+}
+```
+
+where:
+
+* `normal` font family for body text (used for `Span` component)
+* `heading` font family for headers text (used for components `H1-H6`)
+
+**NOTE:** Also you can add additional semantic names with your own font family.
+
+## Font size
+
+To change text size use `font(scale)` global mixin, where `scale` is the scale from the size table. **Default:** `body2`.
+
+```stylus
+.text
+  font(h2)
+```
+
+```jsx pure-example
+return (
+  <Table styleName='table'>
+    <Thead>
+      <Tr>
+        <Th styleName='th'>Scale</Th>
+        <Th styleName='th'>font-size</Th>
+        <Th styleName='th'>line-height</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h1</Td>
+        <Td styleName='td'>72px</Td>
+        <Td styleName='td'>96px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h2</Td>
+        <Td styleName='td'>48px</Td>
+        <Td styleName='td'>64px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h3</Td>
+        <Td styleName='td'>36px</Td>
+        <Td styleName='td'>48px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h4</Td>
+        <Td styleName='td'>24px</Td>
+        <Td styleName='td'>32px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h5</Td>
+        <Td styleName='td'>20px</Td>
+        <Td styleName='td'>28px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>h6</Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>24px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>body1</Td>
+        <Td styleName='td'>16px</Td>
+        <Td styleName='td'>
+          24px
+        </Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>body2</Td>
+        <Td styleName='td'>14px</Td>
+        <Td styleName='td'>20px</Td>
+      </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>caption</Td>
+        <Td styleName='td'>12px</Td>
+        <Td styleName='td'>16px</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
+
+## Font weight
+
+The `$UI.fontWeights` variable defines the default font weight for font families, you can override them if necessary
+
+```stylus
+$UI.fontWeights = {
+  normal: 400,
+  normalBold: 600,
+  heading: 400,
+  headingBold: 600
+}
+```
+
+## How to set the font for an element?
+
+To set the font family for an element you need to use `fontFamily(name, weight, style)` mixin in your styles, where:
+
+* `name` is font name, takes the name of the font family or semantic font name from `$UI.fontFamilies`. **Default:**  `normal`.
+
+* `weight` is font's weight, takes the values `normal`, `bold` and any values from 100 to 900 in increments of 100. **Default:** `$UI.fontWeights.normal`.
+
+* `style` is font's style, takes the values `normal` or `italic`. **Default:** `normal`.
+
+
+```stylus
+.text
+  fontFamily('normal')
+
+  &.bold
+    fontFamily('normal', 600)
+
+  &.italic
+    fontFamily('normal', undefined, italic)
+
+  &.bold.italic
+    fontFamily('normal', 600, italic)
+
+.textWithAdditionalFont
+  fontFamily('myFont')
+```
+
+## Custom fonts
+
+To add custom fonts you need:
+
+The name of the font files must be in accordance with the Google Fonts rules
+
+1. Download the font files and place them to the `public/fonts` folder. Then run `yarn fonts` command that will configure the fonts for further use. The name of the font files must comply with the Google Fonts rules - `{Font name}-{Thickness}{Style}`, for example `Roboto-Regular`, `Roboto-Italic`, `BaiJumjuree-BoldItalic`. **NOTE**: for regular italic text google omits thickness word `Regular` in font name.
+
+1. Add your custom `Font name` (only font name without thickness and style) to the `$UI.customFontFamilies` [list](https://stylus-lang.com/docs/iteration.html).
+
+1. Then you can override any semantic font name or add an additional semantic name with your custom font.
+
+As an example, if you want to change the font for body text of the application to `Lato` for all platforms, you need:
+
+* add `Lato-Regular` font for regular text
+
+* add `Lato-RegularItalic`, `Lato-Bold`, `Lato-BoldItalic` fonts since the `Span` component has `bold` and `italic` modifiers to make text bold and italic accordingly
+
+* add font to `$UI.customFontFamilies` [list](https://stylus-lang.com/docs/iteration.html) and set the `$UI.fontFamilies.default.normal` variable (`default` is used for all platforms) in the `styles/index.styl` file
+
+```stylus
+@require '../../node_modules/@startupjs/ui/styles/index.styl'
+$UI.fontFamilies.default.normal = 'Lato'
+$UI.customFontFamilies = 'Lato'
+```

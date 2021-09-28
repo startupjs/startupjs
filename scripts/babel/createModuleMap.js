@@ -13,8 +13,11 @@ const MODULE_MAP_FILE = path.join(PACKAGES_DIR, 'babel-plugin-startupjs/moduleMa
 const MODULE_DIRS = {
   '@startupjs/ui': [
     { source: path.join(PACKAGES_DIR, 'ui/components') },
+    { source: path.join(PACKAGES_DIR, 'ui/components/toast'), includeFiles: true },
     { source: path.join(PACKAGES_DIR, 'ui/hooks'), includeFiles: true },
-    { source: path.join(PACKAGES_DIR, 'ui/theming'), includeFiles: true }
+    { source: path.join(PACKAGES_DIR, 'ui/theming'), includeFiles: true },
+    { source: path.join(PACKAGES_DIR, 'ui/uiAppPlugin.js'), includeFiles: true },
+    { source: path.join(PACKAGES_DIR, 'ui/dialogs'), includeFiles: true }
   ]
 }
 

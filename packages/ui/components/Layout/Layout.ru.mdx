@@ -1,7 +1,9 @@
+import Div from '../Div'
 import Layout from '../Layout'
 import Span from '../typography/Span'
 import { u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Layout (лаяут)
 
@@ -11,7 +13,7 @@ import { Sandbox } from '@startupjs/docs'
 import { Layout } from '@startupjs/ui'
 ```
 
-## Example
+## Простой пример
 
 ```jsx example
 return (
@@ -21,11 +23,27 @@ return (
     alignItems: 'center',
     justifyContent: 'center'
   }}>
-    <Span size='xxl'>Layout area</Span>
+    <Span>Layout area</Span>
   </Layout>
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Layout} />
+<Sandbox
+  Component={Layout}
+  props={{
+    style: {
+      backgroundColor: '#f1f1f1',
+      height: u(25),
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    children: (
+      <Div styleName='child'>
+        <Span>Lorem ipsum</Span>
+      </Div>
+    )
+  }}
+  block
+/>
