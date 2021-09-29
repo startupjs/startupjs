@@ -1,31 +1,9 @@
 <script>
-  import Vuex from 'vuex'
-  import VueRouter from 'vue-router'
-  import { CreateRoom, Rooms, Room, Login } from './pages'
   import { Header, Content } from './components'
 
   const user = JSON.parse(localStorage.getItem('user') || '{}')
 
-  const router = new VueRouter({
-    mode: 'history',
-    routes: [
-      { path: '/', name: 'home', component: Rooms },
-      { path: '/rooms/create', name: 'rooms_create', component: CreateRoom },
-      { path: '/rooms/:roomId', name: 'room', component: Room },
-      { path: '/login', name: 'login', component: Login }
-    ]
-  })
-
-  router.beforeEach((to, from, next) => {
-    if (to.name !== 'login' && !user.id) next({ name: 'login' })
-    if (to.name === 'login' && user.id) next({ name: 'home' })
-    else next()
-  })
-
-  // store
-
   export default {
-    router,
     name: 'app',
     components: { Header, Content },
     data: ()=> ({ user })

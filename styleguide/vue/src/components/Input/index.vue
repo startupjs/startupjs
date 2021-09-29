@@ -2,17 +2,18 @@
   export default {
     props: {
       placeholder: String,
-      value: String
-    }
+      modelValue: String
+    },
+    emits: ['update:modelValue']
   }
 </script>
 
 <template>
   <input
-    :value="value"
+    :value="modelValue"
     :placeholder="placeholder"
     :class="$style.input"
-    @input="$emit('input', $event.target.value)"
+    @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
 
