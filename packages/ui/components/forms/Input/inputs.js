@@ -110,7 +110,13 @@ const inputs = {
   },
   checkbox: {
     Component: WrappedCheckbox,
-    getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
+    getProps: ({ disabled, value, $value, onChange }) => ({
+      disabled,
+      _options: { isLabelClickable: !disabled },
+      value,
+      $value,
+      onChange
+    })
   },
   color: {
     Component: WrappedColorPicker,
