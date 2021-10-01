@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.39.2",
+  "version": "0.39.3",
   "engines": {
     "node": ">= 14"
   },
@@ -10,7 +10,7 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/app": "^0.39.0",
+    "@startupjs/app": "^0.39.3",
     "@startupjs/backend": "^0.39.0",
     "@startupjs/bundler": "^0.39.0",
     "@startupjs/cli": "^0.39.0",

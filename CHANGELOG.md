@@ -1,3 +1,17 @@
+## [0.39.3](https://github.com/startupjs/startupjs/compare/v0.39.2...v0.39.3) (2021-10-01)
+
+
+### Bug Fixes
+
+* **ui/Input:** prevent checkbox label click when disabled ([0eea489](https://github.com/startupjs/startupjs/commit/0eea4899df55b3c271efc5310fe080e127eede4b))
+
+
+### Features
+
+* **app:** add prevUrl to '' ([004067a](https://github.com/startupjs/startupjs/commit/004067a969a32bd84f1d2957990e947c3c94ca30))
+
+
+
 ## [0.39.2](https://github.com/startupjs/startupjs/compare/v0.39.1...v0.39.2) (2021-09-23)
 
 
