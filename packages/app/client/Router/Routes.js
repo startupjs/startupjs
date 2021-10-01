@@ -126,6 +126,7 @@ function initRoute (location, routeParams) {
   const hash = location.hash
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
   if (url === prevUrl && search === prevSearch && hash === prevHash) return
+  $root.setDiff('$render.prevUrl', prevUrl)
   $root.setDiff('$render.url', url)
   $root.setDiff('$render.hash', location.hash)
   $root.setDiff('$render.search', search)
