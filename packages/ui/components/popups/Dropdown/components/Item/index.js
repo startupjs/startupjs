@@ -4,7 +4,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from '../../../../Icon'
-import Menu from '../../../../Menu'
+import Item from '../../../../Item'
 import Link from '../../../../Link'
 import themed from '../../../../../theming/themed'
 import './index.styl'
@@ -39,7 +39,7 @@ function DropdownItem ({
 
   if (_variant === 'popover' && !isPure) {
     return pug`
-      Menu.Item(
+      Item(
         to=to
         style=style
         active=_activeValue === value

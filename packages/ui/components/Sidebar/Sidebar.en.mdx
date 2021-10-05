@@ -1,7 +1,8 @@
 import Sidebar from '../Sidebar'
 import Row from '../Row'
 import Div from '../Div'
-import Menu from '../Menu'
+import List from '../List'
+import Item from '../Item'
 import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
@@ -58,14 +59,14 @@ return (
       width={media.tablet ? 264 : 120}
       position='right'
       renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
+        <List>
+          <Item onPress={() => null}>Nav-1</Item>
+          <Item onPress={() => null}>Nav-2</Item>
+          <Item onPress={() => null}>Nav-3</Item>
+          <Item onPress={() => null}>Nav-4</Item>
+          <Item onPress={() => null}>Nav-5</Item>
+          <Item onPress={() => null}>Nav-6</Item>
+        </List>
       )}
     >
       <Content
@@ -104,14 +105,14 @@ return (
       $open={$open}
       width={media.tablet ? 264 : 120}
       renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
+        <List>
+          <Item onPress={() => null}>Nav-1</Item>
+          <Item onPress={() => null}>Nav-2</Item>
+          <Item onPress={() => null}>Nav-3</Item>
+          <Item onPress={() => null}>Nav-4</Item>
+          <Item onPress={() => null}>Nav-5</Item>
+          <Item onPress={() => null}>Nav-6</Item>
+        </List>
       )}
     >
       <Content
