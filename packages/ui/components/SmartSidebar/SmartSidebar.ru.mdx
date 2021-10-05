@@ -1,7 +1,8 @@
 import SmartSidebar from '../SmartSidebar'
 import Row from '../Row'
 import Div from '../Div'
-import Menu from '../Menu'
+import List from '../List'
+import Item from '../Item'
 import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
@@ -48,11 +49,11 @@ return (
     <SmartSidebar
       $open={$open}
       renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-        </Menu>
+        <List>
+          <Item onPress={() => null}>Nav-1</Item>
+          <Item onPress={() => null}>Nav-2</Item>
+          <Item onPress={() => null}>Nav-3</Item>
+        </List>
       )}
       fixedLayoutBreakpoint={10000}
     >
@@ -87,11 +88,11 @@ return (
       renderContent={() => (
         <Div>
           <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          </Menu>
+          <List>
+            <Item onPress={() => null}>Nav-1</Item>
+            <Item onPress={() => null}>Nav-2</Item>
+            <Item onPress={() => null}>Nav-3</Item>
+          </List>
         </Div>
       )}
       position={'right'}
@@ -127,11 +128,11 @@ return (
       renderContent={() => (
         <Div>
           <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          </Menu>
+          <List>
+            <Item onPress={() => null}>Nav-1</Item>
+            <Item onPress={() => null}>Nav-2</Item>
+            <Item onPress={() => null}>Nav-3</Item>
+          </List>
         </Div>
       )}
       defaultOpen
@@ -163,11 +164,11 @@ return (
       renderContent={() => (
         <Div>
           <Br />
-          <Menu>
-            <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-            <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          </Menu>
+          <List>
+            <Item onPress={() => null}>Nav-1</Item>
+            <Item onPress={() => null}>Nav-2</Item>
+            <Item onPress={() => null}>Nav-3</Item>
+          </List>
         </Div>
       )}
       disabled
@@ -195,11 +196,11 @@ return (
     <SmartSidebar
       $open={$open}
       renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-        </Menu>
+        <List>
+          <Item onPress={() => null}>Nav-1</Item>
+          <Item onPress={() => null}>Nav-2</Item>
+          <Item onPress={() => null}>Nav-3</Item>
+        </List>
       )}
     >
       <Content

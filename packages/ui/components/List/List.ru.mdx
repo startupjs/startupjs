@@ -1,0 +1,249 @@
+import { useState } from 'react'
+import { useLocal } from 'startupjs'
+import List from '../List'
+import Item from '../Item'
+import Collapse from '../Collapse'
+import { u } from 'startupjs'
+import { faShareAlt, faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
+
+# List (список)
+
+Отображает список вариантов, а также может быть использовано для навигации.
+
+```jsx
+import { List } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List
+    Item(
+      active=active === 'option-1'
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      onPress=()=> setActive('option-2')
+    ) Option-2
+`
+```
+
+## Подсвеченный активный элемент
+
+По умолчанию активный пункт меню не подсвечивается. Чтобы подсветить его, используйте свойство `activeBorder`.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(activeBorder='left')
+    Item(
+      active=active === 'option-1'
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Горизонтальное меню
+
+По умолчанию меню отображается вертикально. Чтобы сделать его горизонтальным, нужно передать строку `horizontal` в свойство `variant`.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(variant='horizontal')
+    Item(
+      active=active === 'option-1'
+      icon=faShareAlt
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Иконка пункта меню
+
+Для отображения иконки в пункте меню передайте ему свойство `icon`. Положение иконки может быть изменено путем передачи `iconPosition` в компонент `List` (`left` по умолчанию) и может быть переопределено в пункте меню.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(variant='horizontal')
+    Item(
+      active=active === 'option-1'
+      icon=faShareAlt
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      icon=faHouseUser
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      icon=faTable
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Изменение цвета активного пункта меню
+
+По умолчанию активный пункт меню имеет `primary` цвет. Используйте свойство `activeColor`, чтобы установить желаемый цвет для активного пункта меню. Это свойство также изменит цвет бордера и иконки (если вы передали свойство `activeBorder` для List или `icon` для Item). `activeColor` принимает цвет как строку, которая будет совместима со свойством цвета в CSS. (напр. `red`, `#fff`, `rgb(123, 23, 122)`)
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(
+    activeBorder='bottom'
+    variant='horizontal'
+    activeColor='rgb(123, 23, 122)'
+  )
+    Item(
+      active=active === 'option-1'
+      icon=faShareAlt
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      icon=faHouseUser
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      icon=faTable
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Пункт меню в роли ссылки
+
+Иногда вы хотите использовать пункт меню в качестве ссылки, например, в меню навигации. Смотрите ниже, как вы можете это сделать.
+
+```jsx example
+const [url] = useLocal('$render.url')
+
+const components = [
+  { label: 'List', to: '/docs/components/List' },
+  { label: 'Div', to: '/docs/components/Div' },
+  { label: 'Button', to: '/docs/components/Button' }
+]
+
+return pug`
+  List(activeBorder='left')
+    each component, index in components
+      - const to = component.to
+      Item(
+        key=index
+        active=to === url
+        to=to
+      )= component.label
+`
+```
+
+## Сложное взаимодействие (интеграция с другими компонентами)
+
+Пример раскрывающегося меню с вложенным в него подменю.
+
+```jsx example
+const [showMenu, setShowMenu] = useState(true)
+const [showSubMenu, setShowSubMenu] = useState(false)
+const [active, setActive] = useState('option-1')
+
+return pug`
+  Collapse(
+    variant='pure'
+    open=showMenu
+    onChange=()=> setShowMenu(!showMenu)
+  )
+    Collapse.Header
+      Item(
+        style={ paddingLeft: 0 }
+        active=showMenu
+      ) Main menu
+
+    Collapse.Content
+      List(activeBorder='left')
+        Item(
+          active=active === 'option-1'
+          onPress=()=> setActive('option-1')
+        ) Option-1
+        Item(
+          active=active === 'option-2'
+          onPress=()=> setActive('option-2')
+        ) Option-2
+        Collapse(
+          style={ marginLeft: u(2) }
+          variant='pure'
+          open=showSubMenu
+          onChange=()=> setShowSubMenu(!showSubMenu)
+        )
+          Collapse.Header
+            Item(
+              style={ paddingLeft: 0 }
+              active=showSubMenu
+              activeBorder='none'
+            ) Option-3
+          Collapse.Content
+            List(activeBorder='left')
+              Item(
+                active=active === 'option-4'
+                onPress=()=> setActive('option-4')
+              ) Option-4
+              Item(
+                active=active === 'option-5'
+                onPress=()=> setActive('option-5')
+              ) Option-5
+`
+```
+
+## Sandbox
+
+### List
+
+<Sandbox
+  Component={List}
+  props={{
+    children: [
+      <Item
+        key='option-1'
+        icon={faHouseUser}
+        active={true}
+        onPress={() => alert('"onPress" event on "Option-1"')}
+      >
+        Option-1
+      </Item>,
+      <Item
+        key='option-2'
+        active={false}
+        onPress={() => alert('"onPress" event on "Option-2"')}
+      >
+        Option-2
+      </Item>
+    ]
+  }}
+/>

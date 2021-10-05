@@ -1,0 +1,166 @@
+import { useState } from 'react'
+import { useLocal } from 'startupjs'
+import List from '../List'
+import Item from '../Item'
+import Collapse from '../Collapse'
+import { u } from 'startupjs'
+import { faShareAlt, faHouseUser, faTable } from '@fortawesome/free-solid-svg-icons'
+import { Sandbox } from '@startupjs/docs'
+
+# List
+
+Menu displays a list of choices and also can be used for navigation.
+
+```jsx
+import { List } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List
+    Item(
+      active=active === 'option-1'
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      onPress=()=> setActive('option-2')
+    ) Option-2
+`
+```
+
+## Highlighted active item
+
+By default the active menu item is not highlighted. To highlight it use the `activeBorder` property.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(activeBorder='left')
+    Item(
+      active=active === 'option-1'
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Horizontal menu
+
+By default the menu shows vertically. To make it horizontal, you need pass the string `horizontal` to the `variant` property.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(variant='horizontal')
+    Item(
+      active=active === 'option-1'
+      icon=faShareAlt
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Menu item icon
+
+To display icon in menu item pass the `icon` property to it. Position of icon can be changed by passing `iconPosition` to `Menu` component (`left` by default) and can be override in menu item.
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(variant='horizontal')
+    Item(
+      active=active === 'option-1'
+      icon=faShareAlt
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      icon=faHouseUser
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      icon=faTable
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Change color of active item
+
+By default, the active menu item has a `primary` color. Use the `activeColor` property to set the desired color for the active element. This property will also change the color of border and icon (if you passed an `activeBorder` property for a Menu or an `icon` for a Menu.Item). `activeColor` accepts color as a string which will be compatible with the CSS color property.(ex. `red`, `#fff`, `rgb(123, 23, 122)`)
+
+```jsx example
+const [active, setActive] = useState('option-1')
+
+return pug`
+  List(
+    activeBorder='bottom'
+    variant='horizontal'
+    activeColor='rgb(123, 23, 122)'
+  )
+    Item(
+      active=active === 'option-1'
+      icon=faShareAlt
+      onPress=()=> setActive('option-1')
+    ) Option-1
+    Item(
+      active=active === 'option-2'
+      icon=faHouseUser
+      onPress=()=> setActive('option-2')
+    ) Option-2
+    Item(
+      active=active === 'option-3'
+      icon=faTable
+      onPress=()=> setActive('option-3')
+    ) Option-3
+`
+```
+
+## Menu item as link
+
+Sometimes you want using menu item as link, for example in navigation menu. See below how you can do this.
+
+```jsx example
+const [url] = useLocal('$render.url')
+
+const components = [
+  { label: 'List', to: '/docs/components/List' },
+  { label: 'Div', to: '/docs/components/Div' },
+  { label: 'Button', to: '/docs/components/Button' }
+]
+
+return pug`
+  List(activeBorder='left')
+    each component, index in components
+      - const to = component.to
+      Item(
+        key=index
+        active=to === url
+        to=to
+      )= component.label
+`
+```

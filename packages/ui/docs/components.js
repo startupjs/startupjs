@@ -36,8 +36,8 @@ import LinkEn from '../components/Link/Link.en.mdx'
 import LinkRu from '../components/Link/Link.ru.mdx'
 import LoaderEn from '../components/Loader/Loader.en.mdx'
 import LoaderRu from '../components/Loader/Loader.ru.mdx'
-import MenuEn from '../components/Menu/Menu.en.mdx'
-import MenuRu from '../components/Menu/Menu.ru.mdx'
+import ListEn from '../components/List/List.en.mdx'
+import ListRu from '../components/List/List.ru.mdx'
 import ModalEn from '../components/Modal/Modal.en.mdx'
 import ModalRu from '../components/Modal/Modal.ru.mdx'
 import PaginationEn from '../components/Pagination/Pagination.en.mdx'
@@ -219,12 +219,12 @@ export default {
         ru: LoaderRu
       }
     },
-    Menu: {
+    List: {
       type: 'mdx',
-      title: 'Menu',
+      title: 'List',
       component: {
-        en: MenuEn,
-        ru: MenuRu
+        en: ListEn,
+        ru: ListRu
       }
     },
     Modal: {
