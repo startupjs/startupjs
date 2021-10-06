@@ -76,6 +76,28 @@ return (
 )
 ```
 
+## Dropdown
+
+```jsx example
+const [value, setValue] = useState([])
+
+const options = [
+  { value: '1', label: 'Harry' },
+  { value: '2', label: 'Alfie' },
+  { value: '3', label: 'Jacob' },
+]
+
+return pug`
+  Select(
+    search
+    multiSelect
+    value=value
+    options=options
+    onChange=v=> setValue(v)
+  )
+`
+```
+
 ## Sandbox
 
 <Sandbox

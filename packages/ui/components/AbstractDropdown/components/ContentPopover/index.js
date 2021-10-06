@@ -30,6 +30,7 @@ export default function DropdownPopover ({
       position=position
       attachment=attachment
       placements=placements
+      durationClose=200
       renderWrapper=renderWrapper
       onRequestOpen=onRequestOpen
     )= renderContent()

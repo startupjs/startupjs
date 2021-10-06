@@ -7,9 +7,9 @@ import {
   getLabel,
   parseValue,
   NULL_OPTION
-} from './helpers'
-import Div from '../../../Div'
-import themed from '../../../../theming/themed'
+} from '../../helpers'
+import Div from '../../../../Div'
+import themed from '../../../../../theming/themed'
 import './index.styl'
 
 function SelectWrapper ({

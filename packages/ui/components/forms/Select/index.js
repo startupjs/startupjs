@@ -3,7 +3,8 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-import { getLabelFromValue } from './Wrapper/helpers'
+import { getLabelFromValue } from './helpers'
+import AdvancedSelect from './AdvancedSelect'
 import TextInput from '../TextInput'
 import Wrapper from './Wrapper'
 
@@ -12,9 +13,27 @@ function Select ({
   value,
   disabled,
   showEmptyValue,
+  search,
+  advanced,
+  multiSelect,
   onChange,
   ...props
 }, ref) {
+  if (search || advanced || multiSelect) {
+    return pug`
+      AdvancedSelect(
+        options=options
+        value=value
+        disabled=disabled
+        showEmptyValue=showEmptyValue
+        search=search
+        multiSelect=multiSelect
+        onChange=onChange
+        ...props
+      )
+    `
+  }
+
   function renderWrapper ({ style }, children) {
     return pug`
       Wrapper(
@@ -22,8 +41,9 @@ function Select ({
         options=options
         disabled=disabled
         value=value
-        onChange=onChange
+        search=search
         showEmptyValue=showEmptyValue
+        onChange=onChange
       )= children
     `
   }

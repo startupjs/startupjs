@@ -1,6 +1,6 @@
 import React, { useRef, useImperativeHandle } from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { observer, useBind } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import Item from '../Item'
@@ -14,6 +14,7 @@ import './index.styl'
 function AbstractDropdown ({
   style,
   children,
+  visible,
   refAnchor,
   value,
   options,
@@ -22,13 +23,14 @@ function AbstractDropdown ({
   popoverProps,
   drawerProps,
   onChange,
+  onChangeVisible,
   ...props
 }, ref) {
   const media = useMedia()
   const isDrawer = !media.tablet && !popoverOnly
 
   const refScroll = useRef()
-  const [visible, $visible] = useValue(false)
+  ;({ visible, onChangeVisible } = useBind({ visible, onChangeVisible }))
 
   const [selectIndex] = useKeyboard({
     visible,
@@ -44,12 +46,12 @@ function AbstractDropdown ({
   } = useScroll({ refScroll, value, options })
 
   useImperativeHandle(ref, () => ({
-    open: () => $visible.setDiff(true),
-    close: () => $visible.setDiff(false)
+    open: () => onChangeVisible(true),
+    close: () => onChangeVisible(false)
   }))
 
   function _onChange (value) {
-    $visible.set(false)
+    onChangeVisible(false)
     onChange && onChange(value)
   }
 
@@ -88,6 +90,7 @@ function AbstractDropdown ({
         data=options
         extraData={ selectIndex }
         renderItem=_renderItem
+        keyboardShouldPersistTaps='always'
         keyExtractor=item=> item.value
         getItemLayout=getItemLayout
         scrollEventThrottle=500
@@ -101,7 +104,7 @@ function AbstractDropdown ({
         ...drawerProps
         visible=visible
         renderContent=renderContent
-        onChangeVisible=v=> $visible.set(v)
+        onChangeVisible=onChangeVisible
         onRequestOpen=scrollToActive
       )= children
     `
@@ -113,7 +116,7 @@ function AbstractDropdown ({
       visible=visible
       refAnchor=refAnchor
       renderContent=renderContent
-      onChangeVisible=v=> $visible.set(v)
+      onChangeVisible=onChangeVisible
       onRequestOpen=scrollToActive
     )= children
   `

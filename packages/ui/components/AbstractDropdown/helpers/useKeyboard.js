@@ -18,12 +18,14 @@ export default function ({ visible, value, options, onChange }) {
   }, [visible, value])
 
   function onKeyDown (e) {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Enter') return
+
     e.preventDefault()
     e.stopPropagation()
 
     const selectIndex = $selectIndex.get()
-    if (selectIndex === -1 && value) {
-      $selectIndex.set(options.findIndex(option => option.value === value))
+    if (selectIndex === -1 && value.value) {
+      $selectIndex.set(options.findIndex(option => option.value === value.value))
       return
     }
 
@@ -40,7 +42,7 @@ export default function ({ visible, value, options, onChange }) {
 
       case 'Enter':
         if (selectIndex === -1) return
-        onChange(options[selectIndex].value)
+        onChange(options[selectIndex])
         break
     }
   }
