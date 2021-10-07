@@ -1,11 +1,11 @@
 import model from '@startupjs/model'
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 
 export default function useQuery (collectionName, options) {
   const $query = model.query(collectionName, options)
   const $scope = model.scope(collectionName)
-  const result = ref(null)
 
+  const result = ref(null)
   function setter (data) {
     result.value = injectScope([...data], $scope)
   }
@@ -33,6 +33,11 @@ export default function useQuery (collectionName, options) {
     $query.shareQuery.on('remove', () => {
       setter($query.get())
     })
+  })
+
+  onUnmounted(() => {
+    $query.unsubscribe()
+    // removeListeners
   })
 
   return result

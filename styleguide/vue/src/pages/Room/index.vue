@@ -14,9 +14,8 @@
         _id: { $in: room.value?.userIds }
       }))
 
-      onMounted(()=> {
-        setTimeout(()=> onReset(), 5000)
-      })
+      // remove userId, test case
+      onMounted(()=> setTimeout(()=> onReset(), 5000))
       onUnmounted(()=> onReset())
       function onReset () {
         const userIndex = room.value.userIds.findIndex(id => id === user.id)
@@ -24,6 +23,7 @@
         room.value.$.remove('userIds', userIndex)
       }
 
+      // add userId, after init room
       watch(room, (room, prev) => {
         if (prev === null && room) {
           if (!room.userIds) room.$.set('userIds', [])
