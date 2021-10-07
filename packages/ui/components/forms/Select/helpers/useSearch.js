@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
+import { useValue } from 'startupjs'
 import escapeRegExp from 'lodash/escapeRegExp'
 
 export default function useSearch ({ options, onChangeText }) {
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, $searchValue] = useValue('')
 
   function onChangeSearch (text) {
-    setSearchValue(text)
+    $searchValue.set(text)
     onChangeText && onChangeText(text)
   }
 
@@ -17,6 +18,7 @@ export default function useSearch ({ options, onChangeText }) {
 
   return {
     searchValue,
+    $searchValue,
     prepareOptions,
     onChangeSearch
   }

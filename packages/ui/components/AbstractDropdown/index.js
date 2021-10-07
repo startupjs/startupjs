@@ -23,6 +23,7 @@ function AbstractDropdown ({
   popoverProps,
   drawerProps,
   onChange,
+  onBackspace,
   onChangeVisible,
   ...props
 }, ref) {
@@ -36,6 +37,7 @@ function AbstractDropdown ({
     visible,
     value,
     options,
+    onBackspace,
     onChange: _onChange
   })
 
@@ -50,9 +52,15 @@ function AbstractDropdown ({
     close: () => onChangeVisible(false)
   }))
 
-  function _onChange (value) {
-    onChangeVisible(false)
-    onChange && onChange(value)
+  function _onChange (item) {
+    if (!(value instanceof Array)) onChangeVisible(false)
+    onChange && onChange(item)
+  }
+
+  function isActiveItem (item) {
+    return value instanceof Array
+      ? value.find(iter => iter.value === item.value)
+      : item.value === value.value
   }
 
   function _renderItem ({ item, index }) {
@@ -69,7 +77,7 @@ function AbstractDropdown ({
       Item(
         to=item.to
         icon=item.icon
-        active=value.value === item.value
+        active=isActiveItem(item)
         styleName={
           drawerItem: isDrawer,
           selectItem: index === selectIndex

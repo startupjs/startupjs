@@ -1,5 +1,4 @@
 import React from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
 import AbstractPopover from '../../../AbstractPopover'
 import './index.styl'
 
@@ -14,15 +13,6 @@ export default function DropdownPopover ({
   onChangeVisible,
   onRequestOpen
 }) {
-  function renderWrapper (children) {
-    return pug`
-      View.root
-        TouchableWithoutFeedback(onPress=()=> onChangeVisible(false))
-          View.overlay
-        = children
-    `
-  }
-
   return pug`
     AbstractPopover.attachment(
       visible=visible
@@ -31,7 +21,6 @@ export default function DropdownPopover ({
       attachment=attachment
       placements=placements
       durationClose=200
-      renderWrapper=renderWrapper
       onRequestOpen=onRequestOpen
     )= renderContent()
   `

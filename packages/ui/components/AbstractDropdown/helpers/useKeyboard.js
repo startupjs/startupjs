@@ -2,7 +2,13 @@ import { useEffect } from 'react'
 import { Platform } from 'react-native'
 import { useValue } from 'startupjs'
 
-export default function ({ visible, value, options, onChange }) {
+export default function ({
+  visible,
+  value,
+  options,
+  onBackspace,
+  onChange
+}) {
   const [selectIndex, $selectIndex] = useValue(-1)
 
   if (Platform.OS !== 'web') return [selectIndex, $selectIndex, null]
@@ -18,11 +24,6 @@ export default function ({ visible, value, options, onChange }) {
   }, [visible, value])
 
   function onKeyDown (e) {
-    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Enter') return
-
-    e.preventDefault()
-    e.stopPropagation()
-
     const selectIndex = $selectIndex.get()
     if (selectIndex === -1 && value.value) {
       $selectIndex.set(options.findIndex(option => option.value === value.value))
@@ -38,6 +39,10 @@ export default function ({ visible, value, options, onChange }) {
       case 'ArrowDown':
         if (selectIndex === options.length - 1) return
         $selectIndex.set(selectIndex + 1)
+        break
+
+      case 'Backspace':
+        onBackspace()
         break
 
       case 'Enter':

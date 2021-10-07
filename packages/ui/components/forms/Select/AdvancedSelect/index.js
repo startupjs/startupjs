@@ -1,8 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { TextInput } from 'react-native'
-import { observer, u } from 'startupjs'
+import { observer, u, useValue } from 'startupjs'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useSearch } from '../helpers'
 import Div from '../../../Div'
+import Row from '../../../Row'
+import Icon from '../../../Icon'
 import Span from '../../../typography/Span'
 import AbstractDropdown from '../../../AbstractDropdown'
 import './index.styl'
@@ -21,18 +24,15 @@ function AdvancedSelect ({
 }, ref) {
   const refAnchor = useRef()
   const refInput = useRef()
+  const changeShowTimer = useRef()
 
-  const [visible, setVisible] = useState(false)
+  const [visible, $visible] = useValue(false)
   const {
     searchValue,
+    $searchValue,
     prepareOptions,
     onChangeSearch
   } = useSearch({ options, onChangeText })
-
-  function onChangeShow () {
-    setVisible(true)
-    if (search) refInput.current.focus()
-  }
 
   function _onChange (item) {
     onChangeSearch('')
@@ -44,20 +44,37 @@ function AdvancedSelect ({
       else value.push(item)
 
       onChange && onChange([...value])
+
+      if (visible) onShow()
     } else {
       onChange && onChange(item)
     }
   }
 
+  function onBackspace () {
+    if (!$searchValue.get()) _onChange(value[value.length - 1])
+  }
+
+  function onBlur () {
+    changeShowTimer.current = setTimeout(() => $visible.set(false), 100)
+  }
+
+  function onShow () {
+    clearTimeout(changeShowTimer.current)
+    refInput.current.focus()
+  }
+
   return pug`
     Div.wrapper(
       ref=refAnchor
-      onPress=onChangeShow
+      onPress=onShow
     )
       if multiSelect
         each item, index in value
-          Div.tag
+          Row.tag
             Span= item.label
+            Div(onPress=()=> _onChange(item))
+              Icon.tagIcon(icon=faTimes)
       else if !visible
         Span= value.label
 
@@ -67,6 +84,8 @@ function AdvancedSelect ({
           value=searchValue
           style=[style, { width: searchValue.length * u(1) }]
           onChangeText=t=> onChangeSearch(t)
+          onFocus=()=> $visible.set(true)
+          onBlur=onBlur
         )
 
     AbstractDropdown(
@@ -75,7 +94,8 @@ function AdvancedSelect ({
       options=prepareOptions
       refAnchor=refAnchor
       onChange=_onChange
-      onChangeVisible=v=> setVisible(v)
+      onBackspace=onBackspace
+      onChangeVisible=v=> $visible.set(v)
     )
   `
 }
