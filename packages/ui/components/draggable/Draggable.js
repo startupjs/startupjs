@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { Animated, View, StyleSheet } from 'react-native'
 import { State, PanGestureHandler } from 'react-native-gesture-handler'
-import { observer, $root } from 'startupjs'
+import { observer } from 'startupjs'
 import { Portal } from '@startupjs/ui'
 import { DragDropContext } from './DragDropContext'
 import './index.styl'
@@ -24,7 +24,7 @@ export default observer(function Draggable ({
     top: new Animated.Value(0)
   }
 
-  // init
+  // init drags.dragId
   useEffect(() => {
     $dndContext.set(`drags.${dragId}`, { ref, style: {} })
   }, [
@@ -50,15 +50,19 @@ export default observer(function Draggable ({
         data.dragStyle.height = dragHeight
 
         dndContext.drops[_dropId].ref.current.measure((dx, dy, dw, dropHeight) => {
-          animateStates.left.setValue(nativeEvent.absoluteX - data.startPosition.x)
-          animateStates.top.setValue(nativeEvent.absoluteY - data.startPosition.y)
+          // init states
+          $dndContext.set(`drags.${dragId}.style`, { display: 'none' })
+          $dndContext.setEach({
+            activeData: data,
+            dropHoverId: _dropId,
+            dragHoverIndex: _index
+          })
 
-          $root.batch(() => {
-            $dndContext.set(`drags.${dragId}.style`, { display: 'none' })
-            $dndContext.set('activeData', data)
-            $dndContext.set('dropHoverId', _dropId)
-            $dndContext.set('dragHoverIndex', _index)
-            onDragBegin && onDragBegin() // TODO
+          onDragBegin && onDragBegin({
+            dragId: data.dragId,
+            dropId: data.dropId,
+            dropHoverId: _dropId,
+            hoverIndex: _index
           })
         })
       })
@@ -75,11 +79,14 @@ export default observer(function Draggable ({
         hoverIndex: dndContext.dragHoverIndex
       })
 
-      $root.batch(() => {
-        $dndContext.set(`drags.${dragId}.style`, {})
-        $dndContext.set('activeData', {})
-        $dndContext.set('dropHoverId', '')
-        $dndContext.set('dragHoverIndex', null)
+      // reset states
+      $dndContext.setEach({
+        drags: {
+          [dragId]: { style: {} }
+        },
+        activeData: {},
+        dropHoverId: '',
+        dragHoverIndex: null
       })
     }
   }
@@ -148,10 +155,7 @@ export default observer(function Draggable ({
   }
 
   const contextStyle = dndContext.drags[dragId]?.style || {}
-  const _style = StyleSheet.flatten([
-    style,
-    animateStates
-  ])
+  const _style = StyleSheet.flatten([style, animateStates])
 
   const isShowPlaceholder = dndContext.activeData &&
     dndContext.dropHoverId === _dropId &&
@@ -162,15 +166,20 @@ export default observer(function Draggable ({
     dndContext.drops[_dropId].items.length - 1 === _index &&
     dndContext.dragHoverIndex === _index + 1
 
+  const placeholder = (
+    <View
+      styleName='placeholder'
+      style={{
+        height: dndContext.activeData?.dragStyle?.height,
+        marginTop: dndContext.activeData?.dragStyle?.marginTop,
+        marginBottom: dndContext.activeData?.dragStyle?.marginBottom
+      }}
+    />
+  )
+
   return pug`
     if isShowPlaceholder
-      View.placeholder(
-        style={
-          height: dndContext.activeData.dragStyle.height,
-          marginTop: dndContext.activeData.dragStyle.marginTop,
-          marginBottom: dndContext.activeData.dragStyle.marginBottom
-        }
-      )
+      = placeholder
 
     Portal
       if dndContext.activeData.dragId === dragId
@@ -189,12 +198,6 @@ export default observer(function Draggable ({
       )= children
 
     if isShowLastPlaceholder
-      View.placeholder(
-        style={
-          height: dndContext.activeData.dragStyle.height,
-          marginTop: dndContext.activeData.dragStyle.marginTop,
-          marginBottom: dndContext.activeData.dragStyle.marginBottom
-        }
-      )
+      = placeholder
   `
 })

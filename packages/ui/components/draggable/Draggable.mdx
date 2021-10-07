@@ -87,11 +87,13 @@ return pug`
       Row
         each drop in data
           Droppable(
+            key=drop.id
             style=dropStyle
             dropId=drop.id
           )
             each drag in drop.items
               Draggable(
+                key=drag.id
                 style=dragStyle
                 dragId=drag.id
                 onDragEnd=onDragEnd

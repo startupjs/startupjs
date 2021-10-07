@@ -18,7 +18,9 @@ export default observer(function Droppable ({
   useEffect(() => {
     $dndContext.set(`drops.${dropId}`, {
       ref,
-      items: children.map(child => child.props.dragId)
+      items: React.Children.map(children, child => {
+        return child.props.dragId
+      })
     })
   }, [children])
 
