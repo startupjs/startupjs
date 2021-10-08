@@ -4,14 +4,12 @@ import FoundationRu from './foundation.ru.mdx'
 import FoundationEn from './foundation.en.mdx'
 import BasicsRu from './basics.ru.mdx'
 import BasicsEn from './basics.en.mdx'
-import EditingRu from './editing.ru.mdx'
 import ObserverRu from './observer.ru.mdx'
 import ObserverEn from './observer.en.mdx'
 import ShareDBRu from './sharedbHooks.ru.mdx'
 import ShareDBEn from './sharedbHooks.en.mdx'
 import RacerModelRu from './racerModel.ru.mdx'
 import RacerModelEn from './racerModel.en.mdx'
-import SecurityRu from './security.ru.mdx'
 import FileStructureRu from './fileStructure.ru.mdx'
 import FileStructureEn from './fileStructure.en.mdx'
 import PugRu from './pug.ru.mdx'
@@ -84,11 +82,6 @@ export default {
         ru: RacerModelRu
       }
     },
-    Security: {
-      type: 'mdx',
-      title: 'Безопасность',
-      component: SecurityRu
-    },
     FileStructure: {
       type: 'mdx',
       title: {
@@ -132,11 +125,6 @@ export default {
         en: TricksWithStylesEn,
         ru: TricksWithStylesRu
       }
-    },
-    Editing: {
-      type: 'mdx',
-      title: 'Редактирование',
-      component: EditingRu
     }
   }
 }
