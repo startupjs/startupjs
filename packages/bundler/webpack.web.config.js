@@ -194,9 +194,6 @@ module.exports = function getConfig (env, {
           use: [
             pick(getJsxRule(), ['loader', 'options']),
             {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            },
-            {
               loader: '@mdx-js/loader'
             },
             {
