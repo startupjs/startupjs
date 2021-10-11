@@ -2,8 +2,9 @@ import React, { useState, useMemo } from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import {
-  Menu,
   Span,
+  List,
+  Item,
   Div
 } from '@startupjs/ui'
 import Accounts from '../../../components/Accounts'
@@ -29,10 +30,10 @@ function PNotificationDashboard () {
   return pug`
     ScrollView
       Div.root
-        Menu.tabs(variant='horizontal' activeBorder='bottom')
+        List.tabs(variant='horizontal' activeBorder='bottom')
           each tab in tabs
             - const tabValue = TABS[tab].value
-            Menu.Item.tab(
+            Item.tab(
               key=tabValue
               active= active === tabValue
               onPress=() => setActive(tabValue)

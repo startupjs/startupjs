@@ -1,0 +1,42 @@
+.wrapper
+  position relative
+  width 100%
+  background-color $UI.colors.white
+  border-radius .5u
+  cursor text
+  border 1px solid rgba(62, 70, 87, .25)
+  min-height 4u
+  align-items center
+  flex-direction row
+
+.input
+  outline none
+  min-width .5u
+  margin-left 1u
+
+.overlay
+  width 100%
+
+  +web()
+    appearance none
+    border-width 0
+    cursor pointer
+
+.tagList
+  flex-direction row
+  min-height 4u
+  align-items center
+  flex-wrap wrap
+  width 100%
+  cursor text
+  padding .5u
+
+.tag
+  background-color #ddd
+  margin 0px 0px 0px .5u
+  padding 0px 1u
+  border-radius 2px
+  align-items center
+
+.tagIcon
+  margin-left .5u

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { observer, useModel, useLocal } from 'startupjs'
 import { pathFor } from 'startupjs/app'
-import { useMedia, Menu, Collapse } from '@startupjs/ui'
+import { useMedia, List, Item, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { getTitle, useLang } from '../../../../../clientHelpers'
 import { useDocsContext } from '../../../../../../docsContext'
@@ -35,7 +35,7 @@ const MenuItem = observer(function MenuItemComponent ({
           icon=faAngleRight
           iconStyleName='collapse-icon'
         )
-          Menu.Item.item(
+          Item.item(
             style=menuItemStyle
             active=active
             to=doc.component ? rootPath : null
@@ -52,7 +52,7 @@ const MenuItem = observer(function MenuItemComponent ({
   }
 
   return pug`
-    Menu.Item.item(
+    Item.item(
       style=menuItemStyle
       active=active
       to=rootPath
@@ -87,7 +87,7 @@ const Docs = observer(function DocsComponent ({ docs, superPath, nestingLevel = 
   )
 
   return pug`
-    Menu
+    List
       each docName in Object.keys(docs)
         MenuItem(
           key=docName

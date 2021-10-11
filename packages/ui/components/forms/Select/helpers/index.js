@@ -53,3 +53,5 @@ export function getLabelFromValue (value, options) {
   }
   return getLabel(NULL_OPTION)
 }
+
+export { default as useSearch } from './useSearch'

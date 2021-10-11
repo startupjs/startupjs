@@ -1,29 +1,33 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Div from './../../Div'
-import Link from './../../Link'
-import Icon from './../../Icon'
-import Span from './../../typography/Span'
-import themed from '../../../theming/themed'
+import Div from '../Div'
+import Link from '../Link'
+import Icon from '../Icon'
+import Span from '../typography/Span'
+import themed from '../../theming/themed'
+import ListContext from '../List/context'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
 
-function MenuItem ({
+function Item ({
   style,
   containerStyle,
   children,
   to,
   active,
-  activeBorder,
   bold,
   icon,
-  iconPosition,
   onPress,
-  activeColor,
   ...props
 }) {
+  const context = useContext(ListContext)
+
+  const activeColor = props.activeColor || context.activeColor
+  const activeBorder = props.activeBorder || context.activeBorder
+  const iconPosition = props.iconPosition || context.iconPosition
+
   // TODO: prevent click if already active (for link and for div)
   const activeItemColor = activeColor || colors.primary
   const color = active ? activeItemColor : colors.mainText
@@ -62,13 +66,11 @@ function MenuItem ({
   `
 }
 
-MenuItem.defaultProps = {
-  active: false,
-  activeBorder: 'none',
-  iconPosition: 'left'
+Item.defaultProps = {
+  active: false
 }
 
-MenuItem.propTypes = {
+Item.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
@@ -82,4 +84,4 @@ MenuItem.propTypes = {
   onPress: PropTypes.func
 }
 
-export default observer(themed('MenuItem', MenuItem))
+export default observer(themed('Item', Item))

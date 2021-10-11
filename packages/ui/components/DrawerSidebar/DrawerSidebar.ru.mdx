@@ -3,8 +3,9 @@ import Button from '../Button'
 import Content from '../Content'
 import Div from '../Div'
 import DrawerSidebar from '../DrawerSidebar'
-import Menu from '../Menu'
 import Row from '../Row'
+import List from '../List'
+import Item from '../Item'
 import Span from '../typography/Span'
 import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
@@ -46,12 +47,12 @@ return (
       $open={$open}
       position='right'
       renderContent={() => (
-        <Menu>
-          <Menu.Item>Nav-1</Menu.Item>
-          <Menu.Item>Nav-2</Menu.Item>
-          <Menu.Item>Nav-3</Menu.Item>
-          <Menu.Item>Nav-4</Menu.Item>
-        </Menu>
+        <List>
+          <Item>Nav-1</Item>
+          <Item>Nav-2</Item>
+          <Item>Nav-3</Item>
+          <Item>Nav-4</Item>
+        </List>
       )}
     >
       <Content
@@ -81,12 +82,12 @@ return (
     <DrawerSidebar
       $open={$open}
       renderContent={() => (
-        <Menu>
-          <Menu.Item>Nav-1</Menu.Item>
-          <Menu.Item>Nav-2</Menu.Item>
-          <Menu.Item>Nav-3</Menu.Item>
-          <Menu.Item>Nav-4</Menu.Item>
-        </Menu>
+        <List>
+          <Item>Nav-1</Item>
+          <Item>Nav-2</Item>
+          <Item>Nav-3</Item>
+          <Item>Nav-4</Item>
+        </List>
       )}
     >
       <Content

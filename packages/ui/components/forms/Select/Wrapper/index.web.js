@@ -8,7 +8,7 @@ import {
   getLabel,
   parseValue,
   NULL_OPTION
-} from './helpers'
+} from '../helpers'
 import Div from '../../../Div'
 import themed from '../../../../theming/themed'
 import './index.styl'

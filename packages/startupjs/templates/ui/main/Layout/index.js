@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer, emit, useValue, useLocal } from 'startupjs'
-import { Button, Div, H1, Layout, Menu, Row, SmartSidebar } from '@startupjs/ui'
+import { Button, Div, H1, Layout, List, Item, Row, SmartSidebar } from '@startupjs/ui'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import APP from '../../app.json'
 import './index.styl'
@@ -12,7 +12,7 @@ const APP_NAME = displayName.charAt(0).toUpperCase() + displayName.slice(1)
 const MenuItem = observer(({ url, children }) => {
   const [currentUrl] = useLocal('$render.url')
   return pug`
-    Menu.Item(
+    Item(
       active=currentUrl === url
       onPress=() => emit('url', url)
     )= children
@@ -24,7 +24,7 @@ export default observer(function ({ children }) {
 
   function renderSidebar () {
     return pug`
-      Menu.sidebar-menu
+      List.sidebar-menu
         MenuItem(url='/') App
         MenuItem(url='/about') About
     `
