@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
-import Popover from '../popups/Popover'
+import AbstractPopover from '../AbstractPopover'
 import Loader from '../Loader'
 import useKeyboard from './useKeyboard'
 import themed from '../../theming/themed'
@@ -110,28 +110,26 @@ function AutoSuggest ({
   }
 
   return pug`
-    Popover(
+    TextInput(
+      ref=refInput
+      style=captionStyle
+      value=(!isShow && value.label) || inputValue
+      placeholder=placeholder
+      onChangeText=_onChangeText
+      onFocus=()=> setIsShow(true)
+      onBlur=()=> setIsShow(false)
+      onKeyPress=onKeyPress
+      testID=testID
+    )
+
+    AbstractPopover(
       visible=(isShow || isLoading)
-      hasWidthCaption=(!style.width && !style.maxWidth)
+      refAnchor=refInput
+      matchAnchorWidth=(!style.width && !style.maxWidth)
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
-      animateType='opacity'
-      hasDefaultWrapper=false
-      onDismiss=onClose
     )
-      Popover.Caption.caption
-        TextInput(
-          ref=refInput
-          style=captionStyle
-          value=(!isShow && value.label) || inputValue
-          placeholder=placeholder
-          onChangeText=_onChangeText
-          onFocus=()=> setIsShow(true)
-          onKeyPress=onKeyPress
-          testID=testID
-        )
-
       if isLoading
         View.loaderCase
           Loader(size='s')
@@ -144,6 +142,7 @@ function AutoSuggest ({
             renderItem=_renderItem
             keyExtractor=item=> item.value
             scrollEventThrottle=500
+            keyboardShouldPersistTaps="always"
             onScroll=onScroll
             onLayout=onLayoutWrapper
             onContentSizeChange=onChangeSizeScroll
