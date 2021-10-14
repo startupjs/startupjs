@@ -11,19 +11,21 @@ function Radio ({
   inputStyle,
   value,
   options,
+  row,
   _hasError,
   ...props
 }) {
   return pug`
-    Div(style=style)
-      each option in options
+    Div.root(style=style styleName={ row })
+      each option, index in options
         - const optionValue = stringifyValue(option)
         - const checked = optionValue === stringifyValue(value)
         - const error = _hasError && (value ? checked : true)
 
-        Input(
+        Input.input(
           key=optionValue
           style=inputStyle
+          styleName={ row, first: !index }
           checked=checked
           value=optionValue
           error=error
@@ -34,6 +36,7 @@ function Radio ({
 
 Radio.defaultProps = {
   options: [],
+  row: false,
   disabled: false,
   readonly: false
 }
@@ -51,6 +54,7 @@ Radio.propTypes = {
     ])
   ),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  row: PropTypes.bool,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   onChange: PropTypes.func,
