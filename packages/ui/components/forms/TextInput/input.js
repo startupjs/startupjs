@@ -61,13 +61,12 @@ function TextInputInput ({
   _hasError,
   ...props
 }, ref) {
-  const inputRef = useRef()
+  const inputRef = ref || useRef()
   const [inputState, $inputState] = useValue({ focused: false })
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
 
   function handleFocus (...args) {
     if (inputState.focused || disabled) return
-    inputRef.current.focus()
     onFocus && onFocus(...args)
     $inputState.set('focused', true)
   }
