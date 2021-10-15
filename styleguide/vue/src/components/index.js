@@ -1,4 +1,2 @@
-export { default as Button } from './Button'
-export { default as Content } from './Content'
-export { default as Header } from './Header'
-export { default as Input } from './Input'
+export { default as CardGame } from './CardGame'
+export { default as HistoryGame } from './HistoryGame'

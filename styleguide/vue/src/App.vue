@@ -1,28 +1,50 @@
 <script>
-  import { Header, Content } from './components'
-
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  import { onBeforeMount } from 'vue'
+  import { useRouter, useRoute } from 'vue-router'
+  import { initSession, useSession } from 'helpers'
 
   export default {
     name: 'app',
-    components: { Header, Content },
-    data: ()=> ({ user })
+    setup() {
+      const session = useSession()
+      const router = useRouter()
+      const route = useRoute()
+
+      onBeforeMount(async ()=> {
+        await initSession()
+
+        if (route.meta.isAuth && !session.value.user) {
+          return router.push({ name: 'sign-in' })
+        }
+
+        if (!route.meta.isAuth && session.value.user) {
+          return router.push({ name: 'games' })
+        }
+      })
+
+      return { session }
+    }
   }
 </script>
 
 <template>
-  <div>
-    <Header v-if="user.id" />
-    <Content>
-      <router-view />
-    </Content>
+  <router-view v-if="session" />
+  <div v-else :class="$style.loader">
+    <n-spin size="large" />
   </div>
 </template>
 
-<style>
+<style module>
   * {
     margin: 0;
     padding: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .loader {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
   }
 </style>

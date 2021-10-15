@@ -31,7 +31,12 @@ module.exports = env => {
       publicPath: '/'
     },
     resolve: {
-      extensions: ['.js', '.vue', '.json']
+      extensions: ['.js', '.vue', '.json'],
+      alias: {
+        apps: path.join(__dirname, './src/apps'),
+        components: path.join(__dirname, './src/components'),
+        helpers: path.join(__dirname, './src/helpers')
+      }
     },
     module: {
       rules: [
@@ -52,7 +57,7 @@ module.exports = env => {
               loader: 'css-loader',
               options: {
                 modules: true,
-                localIdentName: '[local]__[hash:base64:5]'
+                localIdentName: '[name]__[hash:base64:5]'
               }
             }
           ]
