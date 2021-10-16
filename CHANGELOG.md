@@ -1,3 +1,19 @@
+## [0.39.4](https://github.com/startupjs/startupjs/compare/v0.39.3...v0.39.4) (2021-10-16)
+
+
+### Bug Fixes
+
+* **bundler:** Remove observer replacer from .mdx chain in 'web' webpack since state of components in .mdx is lost on hot reloading in any case, so there is no benefit in having it. ([520f2ca](https://github.com/startupjs/startupjs/commit/520f2ca135d69b2574658da5070f7c5031da1b40))
+* **ui/AutoSuggest:** prevent automatically dismiss keyboard  ([#810](https://github.com/startupjs/startupjs/issues/810)) ([7e4b0dd](https://github.com/startupjs/startupjs/commit/7e4b0dd33a0bb71a3c74400bbb0375482c914716))
+
+
+### Features
+
+* **babel-plugin-rn-stylename-to-style:** do JSON.parse() When styles are imported as a JSON string (for example in Vite) ([#813](https://github.com/startupjs/startupjs/issues/813)) ([ee34332](https://github.com/startupjs/startupjs/commit/ee343328fcbf8ea08e6dad416c0909feb6624ac5))
+* **ui/Radio:** add ability to display radio button in row ([38b0397](https://github.com/startupjs/startupjs/commit/38b03977c5fbdf90bc97161ada044f8065fa7f19))
+
+
+
 ## [0.39.3](https://github.com/startupjs/startupjs/compare/v0.39.2...v0.39.3) (2021-10-01)
 
 
