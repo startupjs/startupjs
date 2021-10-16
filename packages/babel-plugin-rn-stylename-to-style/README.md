@@ -99,6 +99,27 @@ You must give one or more file extensions inside an array in the plugin options.
 }
 ```
 
+### Plugin Options
+
+#### `extensions`
+
+**Required**
+
+List of css extensions to process (`css`, `styl`, `sass`, etc.)
+
+#### `useImport`
+
+**Default:** `false`
+
+Whether to generate ESM `import` instead of CJS `require`.
+
+#### `parseJson`
+
+**Default:** `false`
+
+Whether the imported css is expected to be a JSON string or an object.
+If this flag is specified then JSON string is expected and it will do `JSON.parse` on it.
+
 ## Syntax
 
 ## Anonymous reference
