@@ -1,5 +1,193 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style "parseJson" option with default import: "parseJson" option with default import 1`] = `
+
+import STYLES from './index.styl'
+console.log(STYLES)
+function Test () {
+  return (
+    <div styleName='root active'>
+      <span styleName='title'>Title</span>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _jsonCss from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+const STYLES = JSON.parse(_jsonCss);
+console.log(STYLES);
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root active",
+        STYLES,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    >
+      <span
+        {..._processStyleName(
+          "title",
+          STYLES,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Title
+      </span>
+    </div>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style "parseJson" option. Used when we receive compiled css as a json string: "parseJson" option. Used when we receive compiled css as a json string 1`] = `
+
+import './index.styl'
+function Test () {
+  return (
+    <div styleName='root active'>
+      <span styleName='title'>Title</span>
+      <span styleName='description'>Description</span>
+      <button styleName='submit disabled'>Submit</button>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _jsonCss from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+const _css = JSON.parse(_jsonCss);
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root active",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    >
+      <span
+        {..._processStyleName(
+          "title",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Title
+      </span>
+      <span
+        {..._processStyleName(
+          "description",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Description
+      </span>
+      <button
+        {..._processStyleName(
+          "submit disabled",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Submit
+      </button>
+    </div>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style "useImport" option. Used for ESM.: "useImport" option. Used for ESM. 1`] = `
+
+import './index.styl'
+function Test () {
+  return (
+    <div styleName='root active'>
+      <span styleName='title'>Title</span>
+      <span styleName='description'>Description</span>
+      <button styleName='submit disabled'>Submit</button>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root active",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    >
+      <span
+        {..._processStyleName(
+          "title",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Title
+      </span>
+      <span
+        {..._processStyleName(
+          "description",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Description
+      </span>
+      <button
+        {..._processStyleName(
+          "submit disabled",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Submit
+      </button>
+    </div>
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style Arrays and objects: Arrays and objects 1`] = `
 
 import './index.styl'
@@ -633,12 +821,12 @@ SyntaxError: unknown:
         'part' attribute only supports literal or string keys in object.
         Dynamic keys or spreads are not supported.
       
-[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
-[0m [90m 3 | [39m  [36mreturn[39m ([0m
-[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{{[variant][33m:[39m [36mtrue[39m}} [33m/[39m[33m>[39m[0m
-[0m [90m   | [39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 5 | [39m  )[0m
-[0m [90m 6 | [39m}[0m
+[0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m     [33m<[39m[33mCard[39m part[33m=[39m{{[variant][33m:[39m [36mtrue[39m}} [33m/[39m[33m>[39m[0m
+[0m [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m   )[0m
+[0m [90m 6 |[39m }[0m
 
 `;
 
@@ -656,12 +844,12 @@ function Test ({ variant }) {
 SyntaxError: unknown: 
       'part' attribute only supports static strings or objects inside an array.
     
-[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
-[0m [90m 3 | [39m  [36mreturn[39m ([0m
-[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{[[32m'card'[39m[33m,[39m variant]} [33m/[39m[33m>[39m[0m
-[0m [90m   | [39m                         [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 5 | [39m  )[0m
-[0m [90m 6 | [39m}[0m
+[0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m     [33m<[39m[33mCard[39m part[33m=[39m{[[32m'card'[39m[33m,[39m variant]} [33m/[39m[33m>[39m[0m
+[0m [90m   |[39m                          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m   )[0m
+[0m [90m 6 |[39m }[0m
 
 `;
 
@@ -684,12 +872,12 @@ SyntaxError: unknown:
     Basically the rule is that the name of the part must be static so that
     it is possible to determine at compile time which parts are being used.
   
-[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
-[0m [90m 3 | [39m  [36mreturn[39m ([0m
-[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{variant} [33m/[39m[33m>[39m[0m
-[0m [90m   | [39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 5 | [39m  )[0m
-[0m [90m 6 | [39m}[0m
+[0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m     [33m<[39m[33mCard[39m part[33m=[39m{variant} [33m/[39m[33m>[39m[0m
+[0m [90m   |[39m           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m   )[0m
+[0m [90m 6 |[39m }[0m
 
 `;
 
