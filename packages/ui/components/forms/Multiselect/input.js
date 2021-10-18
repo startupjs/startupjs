@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, $root } from 'startupjs'
 import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
 import DefaultInput from './defaultInput'
@@ -40,10 +40,10 @@ function MultiselectInput ({
       _hasError=_hasError
     )
       each value, index in values
-        - const record = options.find(r => r.value === value)
+        - const record = options.find(r => r.value === value) || {}
         - const isLast = index + 1 === values.length
         TagComponent(
-          key=record.value
+          key=record.value || $root.id()
           index=index
           isLast=isLast
           record=record
