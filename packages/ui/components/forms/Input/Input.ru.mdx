@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
@@ -79,7 +79,16 @@ return (
 
 <Sandbox
   Component={Input}
-  props={{
-    $value: $root.scope('_session.Sandbox.Input')
-  }}
+  $props={$root.scope('_session.Sandbox.Input')}
 />
+
+export function SandboxEvent () {
+  useEffect(()=> {
+    $root.scope('_session.Sandbox.Input.type').on('change', ()=> {
+      $root.set('_session.Sandbox.Input.value', undefined)
+    })
+  }, [])
+  return null
+}
+
+<SandboxEvent />
