@@ -43,7 +43,7 @@ function MultiselectInput ({
         - const record = options.find(r => r.value === value) || {}
         - const isLast = index + 1 === values.length
         TagComponent(
-          key=record.value
+          key=value
           index=index
           isLast=isLast
           record=record
