@@ -86,4 +86,23 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Divider} block />
+<Sandbox
+  Component={Divider}
+  $props={$root.scope('_session.Props.Divider')}
+  block
+/>
+
+export function SandboxEvents () {
+  useEffect(()=> {
+    $root.scope('_session.Props.Divider.variant').on('change', variant=> {
+      if (variant === 'horizontal') {
+        $root.set('_session.Props.Divider.style', { width: '100%' })
+      } else{
+        $root.set('_session.Props.Divider.style', { height: 48 })
+      }
+    })
+  }, [])
+  return null
+}
+
+<SandboxEvents />
