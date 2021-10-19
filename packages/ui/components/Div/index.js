@@ -125,7 +125,7 @@ function Div ({
     }
   }
 
-  if (renderTooltip) {
+  if (typeof renderTooltip !== 'undefined') {
     // TODO: Move all logic to useTooltip hook along with the tooltip html
     const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
 
