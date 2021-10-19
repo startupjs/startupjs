@@ -1,8 +1,10 @@
+import { useEffect } from 'react'
 import Divider from '../Divider'
 import Span from '../typography/Span'
 import Row from '../Row'
 import Content from '../Content'
 import { Sandbox } from '@startupjs/docs'
+import { $root } from 'startupjs'
 
 # Divider (разделитель)
 
@@ -86,4 +88,23 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Divider} block />
+<Sandbox
+  Component={Divider}
+  $props={$root.scope('_session.Props.Divider')}
+  block
+/>
+
+export function SandboxEvents () {
+  useEffect(()=> {
+    $root.scope('_session.Props.Divider.variant').on('change', variant=> {
+      if (variant === 'horizontal') {
+        $root.set('_session.Props.Divider.style', { width: '100%' })
+      } else{
+        $root.set('_session.Props.Divider.style', { height: 48 })
+      }
+    })
+  }, [])
+  return null
+}
+
+<SandboxEvents />
