@@ -6,7 +6,7 @@ let initPromise
 let shareMongo
 let { MONGO_URL, MONGO_SSL_CERT_PATH, MONGO_SSL_KEY_PATH } = process.env
 
-module.exports = async function getMongo () {
+module.exports = async function getShareMongo () {
   if (shareMongo) return shareMongo
   if (initPromise) return initPromise
 
