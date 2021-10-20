@@ -119,7 +119,7 @@ SmartSidebar.propTypes = {
   renderContent: PropTypes.func
 }
 
-export default observer(themed(SmartSidebar))
+export default observer(themed('SmartSidebar', SmartSidebar))
 
 function isFixedLayout (fixedLayoutBreakpoint) {
   let dim = Dimensions.get('window')

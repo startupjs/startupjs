@@ -1,51 +1,42 @@
-_focusedColor = $UI.colors.primary
-
-.info
-  margin-bottom 0.5u
-
-.label
-  margin-bottom 0.5u
-  font(body2)
-
-  &.focused
-    color _focusedColor
-
-.description
-  margin-bottom 0.5u
-  font(caption)
-
-.drawer
-  height 32.5u
-
-.swipe
-  height 0
-
-.buttons
+.content
+  flex-direction column
   padding 1u
 
-.button
-  flex 1
+  +from($UI.media.mobile)
+    flex-direction row
+    height 42u
 
-.cancelButton
-  justify-content flex-start
+.divider
+  align-self center
+  width 60%
+  height 1px
+  margin 1u 0
 
-.confirmButton
-  justify-content flex-end
+  +from($UI.media.mobile)
+    height 95%
+    width 1px
+    margin 0 2u
 
-.cancelButtonText
-  color: $UI.colors.secondaryText
+.drawer
+  height 95%
+  border-radius 0
+  padding-top 3u
 
-.confirmButtonText
-  color: $UI.colors.success
+.swipe
+  height 3u
 
-.picker
-  margin 5u 2u 0
+.popoverWrapper
+.popoverOverlay
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
 
-.container
-  overflow hidden
-  border 1px solid $UI.colors.darkLighter
-  border-radius 0.3rem
-  background-color: $UI.colors.white
+  +web()
+    cursor default
 
-:export
-  colors: $UI.colors
+.popover
+  background-color $UI.colors.white
+  radius()
+  shadow(3)

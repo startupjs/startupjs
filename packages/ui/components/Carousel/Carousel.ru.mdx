@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 import Carousel from '../Carousel'
 import { Div, Span, Row } from '@startupjs/ui'
 
-# Сarousel
+# Carousel
 
 ```js
 import Carousel from '@dmapper/carousel'
@@ -14,7 +14,7 @@ import Carousel from '@dmapper/carousel'
 Все что нужно для использования - закинуть в Carousel children
 Такой пример карусели, используется в инстаграме для сторис, у чилдренов нет четких границ, такая карусель должна быть адаптивна для всех расшириниях и устройствах
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -44,7 +44,7 @@ return (
 
 Так же можно задавать чилдренам разнное значение ширины, компонент знает как обработать данный кейс
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -86,7 +86,7 @@ return (
 Компонент сам рассчитает сколько блоков нужно отобразить для конкретного разрешения
 К примеру при minWidth 100 и maxWidth 500, на десктопе будет 2 блока, на мобильных разрешениях 1
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -117,7 +117,7 @@ return (
 
 Чтобы всегда испольвовать 1 блок, в minWidth чилдренов можно предать 100%
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -150,7 +150,7 @@ return (
 Задается свойством isEndless (по умолчанию - false)
 Без свойства isResponsive, бесконечная прокрутка работает только на нажатия стрелками
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -187,7 +187,7 @@ return (
 
 Со свойством isResponsive, работает и через swipe
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = {
   height: 180,
@@ -226,7 +226,7 @@ return (
 Возможность прокручивать мышкой/пальцем задается свойством isSwipe
 По умолчанию - true, и его всегда можно отключить:
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -254,7 +254,7 @@ return (
 Задается свойствами hasArrows (по умолчанию - true) и hasDots (по умолчанию - false)
 Без isResponsive - hasDots всегда false
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { minWidth: '100%', height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -286,7 +286,7 @@ return (
 
 Задается свойством isLoop (по умолчанию - false)
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { minWidth: '100%', height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -319,7 +319,7 @@ return (
 
 Задается свойством startIndex (Number)
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { marginLeft: 4, marginRight: 4 }
 const caseStyle = { minWidth: '100%', height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -357,7 +357,7 @@ return (
 
 Задается с помощью - arrowBackStyle, arrowNextStyle
 
-```jsx example
+```jsx example noscroll
 const carouselStyle = { width: '80%', alignSelf: 'center' }
 const caseStyle = { width: 200, height: 180, paddingLeft: 4, paddingRight: 4 }
 const itemStyle = { width: '100%', height: '100%' }
@@ -404,7 +404,7 @@ return (
 
 Если нужна полная кастомизация стрелок или точек, можно передать ref, в нем будут содержаться функции для переключения: toBack, toNext, toIndex
 
-```jsx example
+```jsx example noscroll
 const ref = useRef()
 const [slide, setSlide] = useState(0)
 const carouselStyle = { width: '100%', marginLeft: 4, marginRight: 4 }
@@ -462,8 +462,8 @@ return (
       onChange={v => setSlide(v)}
     >
       {
-        data.map(item => (
-          <Div style={caseStyle}>
+        data.map((item, index) => (
+          <Div key={index} style={caseStyle}>
             <Div style={{ ...itemStyle, ...item }} />
           </Div>
         ))
@@ -473,11 +473,12 @@ return (
       {
         data.map((item, index) => (
           <Div
-            onPress={()=> ref.current.toIndex(index)}
+            key={index}
             style={{
               ...dotStyle,
               ...(slide === index ? { backgroundColor: '#fff' } : {})
             }}
+            onPress={()=> ref.current.toIndex(index)}
           />
         ))
       }
@@ -517,7 +518,7 @@ return (
   >
     {
       data.map((item, index) => (
-        <Div style={caseStyle}>
+        <Div key={index} style={caseStyle}>
           <Div style={itemStyle}>
             <Span>{index + 1}</Span>
           </Div>

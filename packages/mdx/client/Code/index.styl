@@ -9,7 +9,12 @@ monospace()
   padding 2u
   background-color $bg
   border-radius 1u
+
+.line
+  min-height 2.5u
   monospace()
+  +web()
+    white-space pre
 
 .token
   monospace()

@@ -47,7 +47,7 @@ return (
 
 ## Отступы между несколькими Div
 
-При использовании нескольких дивов в [Row](/docs/components/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
+При отображении нескольких дивов в строчку ("flex-direction: row") расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
 
 ```jsx example
 const divStyle = {
@@ -128,12 +128,26 @@ return (
 )
 ```
 
+## renderTooltip
+
+```jsx example
+const captionStyle = { width: 36, height: 36, backgroundColor: '#333' }
+const content = 'Контент'
+return pug`
+  Div(
+    style=captionStyle
+    renderTooltip=content
+  )
+`
+```
+
 ## Песочница
 
 <Sandbox
   Component={Div}
   props={{
     children: <Div styleName='child' />,
+    renderTooltip: '',
     style: { width: 160, height: 160, backgroundColor: '#2962FF' },
     onPress: () => alert('"onPress" event on "Div" component'),
     onLongPress: () => alert('"onLongPress" event on "Div" component')

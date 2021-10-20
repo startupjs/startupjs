@@ -30,24 +30,6 @@ return (
 )
 ```
 
-## Label and description
-
-```jsx example
-const [color, setColor] = useState()
-return (
-  <Select
-    label='Select car color'
-    description='Skip this question, if the color you want is not listed'
-    value={color}
-    onChange={setColor}
-    options={[
-      'red',
-      'yellow'
-    ]}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -86,7 +68,6 @@ By default the empty value is shown. If you want to prevent users from being abl
 const [color, setColor] = useState('red')
 return (
   <Select
-    label='Choose color'
     value={color}
     onChange={setColor}
     options={['red', 'yellow', 'blue']}
@@ -104,4 +85,5 @@ return (
     options: ['New York', 'Los Angeles','Tokyo'],
     onChange: value => alert('Value ' + value + ' is selected')
   }}
+  block
 />

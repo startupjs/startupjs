@@ -97,4 +97,4 @@ Badge.propTypes = {
   max: PropTypes.number
 }
 
-export default observer(themed(Badge))
+export default observer(themed('Badge', Badge))

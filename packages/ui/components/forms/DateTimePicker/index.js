@@ -1,275 +1,220 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Keyboard, Platform } from 'react-native'
-import RNCDateTimePicker from '@react-native-community/datetimepicker'
-import TimePickerAndroid from '@react-native-community/datetimepicker/src/timepicker.android'
-import DatePickerAndroid from '@react-native-community/datetimepicker/src/datepicker.android'
-import { observer } from 'startupjs'
-import moment from 'moment-timezone'
+import React, {
+  useMemo,
+  useRef,
+  useState,
+  useEffect
+} from 'react'
+import { observer, useValue } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import Button from '../../Button'
+import moment from 'moment-timezone'
+import 'moment/min/locales'
 import Div from '../../Div'
+import Divider from '../../Divider'
+import TextInput from '../TextInput'
+import AbstractPopover from '../../AbstractPopover'
 import Drawer from '../../popups/Drawer'
-import Row from '../../Row'
-import Span from '../../typography/Span'
+import { getLocale } from './helpers'
+import { Calendar, TimeSelect } from './components'
 import themed from '../../../theming/themed'
-import { useLayout } from './../../../hooks'
-import STYLES from './index.styl'
-
-const { colors: { mainText, secondaryText } } = STYLES
-
-const FORMATS = {
-  date: 'YYYY-MM-DD',
-  datetime: 'YYYY-MM-DD HH:mm',
-  time: 'HH:mm'
-}
+import './index.styl'
 
 function DateTimePicker ({
   style,
-  cancelButtonText,
-  confirmButtonText,
+  dateFormat,
+  timeInterval,
+  is24Hour,
+  size,
+  mode,
+  renderCaption, // DEPRECATED replace InputComponent
+  renderContent,
+  locale,
+  range,
+  timezone,
+  disabledDays = [],
   date,
   disabled,
-  format,
-  is24Hour,
-  label,
-  description,
-  layout,
+  placeholder,
   maxDate,
   minDate,
-  minuteInterval,
-  mode,
-  placeholder,
-  size,
-  onDateChange
+  onChangeDate
 }) {
-  layout = useLayout({ layout, label, description })
+  renderContent = renderContent || renderCaption
 
-  const pure = layout === 'pure'
-  const [inputDate, setInputDate] = useState()
-  const [visible, setVisible] = useState(false)
-  const [focused, setFocused] = useState(false)
-
-  const _format = useMemo(() => format || FORMATS[mode], [format])
-  const _is24Hour = useMemo(() => (typeof is24Hour === 'boolean' ? is24Hour : !_format.match(/h|a/g)), [
-    is24Hour,
-    _format
-  ])
-
-  function getDate (_date = inputDate) {
-    if (!_date) {
-      let now = new Date()
-      if (minDate) {
-        let _minDate = getDate(minDate)
-
-        if (now < _minDate) {
-          return _minDate
-        }
-      }
-
-      if (maxDate) {
-        let _maxDate = getDate(maxDate)
-
-        if (now > _maxDate) {
-          return _maxDate
-        }
-      }
-
-      return now
-    }
-
-    if (_date instanceof Date) {
-      return _date
-    }
-
-    return moment(_date).toDate()
-  }
+  const media = useMedia()
+  const [visible, $visible] = useValue(false)
+  const [textInput, setTextInput] = useState('')
+  const refTimeSelect = useRef()
+  const refInput = useRef()
 
   useEffect(() => {
-    if (!date) return
-    moment(inputDate).valueOf() !== date && setInputDate(getDate(date))
+    if (typeof date === 'undefined') {
+      setTextInput('')
+      return
+    }
+
+    let value = getDate(date)
+    value = +moment.tz(date, timezone).seconds(0).milliseconds(0)
+    setTextInput(getFormatDate(value))
   }, [date])
 
-  function onPressCancel () {
-    setFocused(false)
-    onToggleModal(false)
-  }
+  const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
 
-  function onPressConfirm () {
-    datePicked()
-    onToggleModal(false)
-  }
-
-  function onToggleModal (visible) {
-    setVisible(visible)
-  }
-
-  function getDateStr () {
-    return moment(date).format(_format)
-  }
-
-  function datePicked (_date) {
-    setFocused(false)
-    onDateChange && onDateChange(moment(_date || inputDate).valueOf())
-  }
-
-  function onDatePicked ({ action, year, month, day }) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      const newDate = new Date(year, month, day)
-      setInputDate(newDate)
-      datePicked(newDate)
-    } else {
-      onPressCancel()
+  const _dateFormat = useMemo(() => {
+    if (dateFormat) return dateFormat
+    if (mode === 'datetime') {
+      return moment().locale(exactLocale)._locale._longDateFormat.L + ' ' +
+      moment().locale(exactLocale)._locale._longDateFormat.LT
     }
+
+    if (mode === 'date') return moment().locale(exactLocale)._locale._longDateFormat.L
+    if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
+  }, [dateFormat, timezone])
+
+  function getFormatDate (value) {
+    return moment.tz(value, timezone).format(_dateFormat)
   }
 
-  function onTimePicked ({ action, hour, minute }) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      const newDate = moment().hour(hour).minute(minute).toDate()
-      setInputDate(newDate)
-      datePicked(newDate)
-    } else {
-      onPressCancel()
+  function getDate (value) {
+    // check interval
+    const interval = (timeInterval * 60 * 1000)
+
+    const bottom = value - (value % interval)
+    const top = bottom + interval
+    value = top > bottom ? bottom : top
+
+    // check min, max
+    if (minDate != null && value < minDate) {
+      value = minDate
     }
-  }
 
-  function onDatetimeTimePicked ({ action, hour, minute }, year, month, day) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      const newDate = new Date(year, month, day, hour, minute)
-      setInputDate(newDate)
-      datePicked(newDate)
-    } else {
-      onPressCancel()
+    if (maxDate != null && value > maxDate) {
+      value = maxDate
     }
+
+    return value
   }
 
-  function onDatetimePicked ({ action, year, month, day }) {
-    if (action !== DatePickerAndroid.dismissedAction) {
-      let timeMoment = moment(inputDate)
-      const newDate = new Date(year, month, day, timeMoment.hour(), timeMoment.minutes())
-      TimePickerAndroid.open({
-        value: newDate,
-        is24Hour: _is24Hour
-      }).then(e => onDatetimeTimePicked(e, year, month, day))
-    } else {
-      onPressCancel()
-    }
+  function _onChangeDate (value) {
+    value = getDate(value)
+    setTextInput(getFormatDate(value))
+    onChangeDate && onChangeDate(value)
   }
 
-  function onPressDate () {
-    setFocused(true)
-    Keyboard.dismiss()
-
-    setInputDate(getDate())
-
-    if (Platform.OS === 'ios') {
-      onToggleModal(true)
-    } else {
-      if (mode === 'date') {
-        DatePickerAndroid.open({
-          value: inputDate,
-          minimumDate: minDate && getDate(minDate),
-          maximumDate: maxDate && getDate(maxDate)
-        }).then(onDatePicked)
-      } else if (mode === 'time') {
-        TimePickerAndroid.open({
-          value: inputDate,
-          is24Hour: _is24Hour,
-          minuteInterval: minuteInterval
-        }).then(onTimePicked)
-      } else {
-        DatePickerAndroid.open({
-          value: inputDate,
-          minimumDate: minDate && getDate(minDate),
-          maximumDate: maxDate && getDate(maxDate),
-          is24Hour: _is24Hour,
-          minuteInterval: minuteInterval
-        }).then(onDatetimePicked)
-      }
-    }
+  function onDismiss () {
+    $visible.set(false)
+    refInput.current.blur()
   }
 
-  function renderContainer (children) {
+  const inputProps = {
+    style,
+    ref: refInput,
+    disabled,
+    size,
+    placeholder,
+    value: textInput
+  }
+
+  const caption = pug`
+    if renderContent
+      = renderContent(Object.assign({ $visible }, inputProps))
+    else
+      TextInput(
+        ...inputProps
+        onFocus=()=> $visible.set(true)
+      )
+  `
+
+  function renderPopoverContent () {
     return pug`
-      Div(style=style)
-        if pure
-          = children
-        else
-          Div.info
-            if label
-              Span.label(styleName={focused})= label
-            if description
-              Span.description(description)= description
-          = children
-      if Platform.OS === 'ios'
-        Drawer.drawer(
-          swipeStyleName='swipe'
-          visible=visible
-          position='bottom'
-          onDismiss=onPressCancel
-        )
-          Row.buttons(
-            align='between'
-            vAlign='center'
+      Div.content
+        if (mode === 'date') || (mode === 'datetime')
+          Calendar(
+            date=date
+            exactLocale=exactLocale
+            disabledDays=disabledDays
+            locale=locale
+            maxDate=maxDate
+            minDate=minDate
+            range=range
+            timezone=timezone
+            onChangeDate=_onChangeDate
           )
-            Button.button.cancelButton(
-              textStyleName='cancelButtonText'
-              variant='text'
-              onPress=onPressCancel
-            )= cancelButtonText
-            Button.button.confirmButton(
-              textStyleName='confirmButtonText'
-              variant='text'
-              onPress=onPressConfirm
-            )= confirmButtonText
-          // DateTimePicker cannot get its dimensions when rendering starts
-          if visible
-            RNCDateTimePicker.picker(
-              value=getDate()
-              mode=mode
-              minimumDate=minDate && getDate(minDate)
-              maximumDate=maxDate && getDate(maxDate)
-              onChange= (event, date) => setInputDate(date)
-              minuteInterval=minuteInterval
-            )
+
+        if mode === 'datetime'
+          Divider.divider
+
+        if (mode === 'time') || (mode === 'datetime')
+          TimeSelect(
+            date=date
+            ref=refTimeSelect
+            maxDate=maxDate
+            minDate=minDate
+            timezone=timezone
+            exactLocale=exactLocale
+            is24Hour=is24Hour
+            timeInterval=timeInterval
+            onChangeDate=_onChangeDate
+          )
     `
   }
 
-  return renderContainer(pug`
-    Button(
-      textStyle={ color: date ? mainText : secondaryText }
-      color= focused ? 'primary' : 'dark'
-      size=size
-      disabled=disabled
-      onPress=onPressDate
-    )= placeholder && !date ? placeholder : getDateStr()
-  `)
+  function renderWrapper (children) {
+    return pug`
+      Div.popoverWrapper
+        Div.popoverOverlay(feedback=false onPress=()=> $visible.set(false))
+        = children
+    `
+  }
+
+  return pug`
+    if media.tablet
+      = caption
+      AbstractPopover.popover(
+        visible=visible
+        refAnchor=refInput
+        renderWrapper=renderWrapper
+        onRequestClose=onDismiss
+      )= renderPopoverContent()
+    else
+      = caption
+      Drawer.drawer(
+        visible=visible
+        position='bottom'
+        swipeStyleName='swipe'
+        onDismiss=onDismiss
+      )= renderPopoverContent()
+  `
 }
 
 DateTimePicker.defaultProps = {
-  cancelButtonText: 'Cancel',
-  confirmButtonText: 'Ok',
   mode: 'datetime',
-  size: 'm'
+  size: 'm',
+  timeInterval: 5,
+  timezone: moment.tz.guess()
 }
 
 DateTimePicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  cancelButtonText: PropTypes.string,
-  confirmButtonText: PropTypes.string,
+  timeInterval: PropTypes.number,
+  is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
-  format: PropTypes.string,
-  is24Hour: PropTypes.bool,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  layout: PropTypes.oneOf(['pure', 'rows']),
+  placeholder: PropTypes.string,
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
-  minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]),
   mode: PropTypes.oneOf(['date', 'time', 'datetime']),
-  placeholder: PropTypes.string,
+  renderCaption: PropTypes.func,
+  range: PropTypes.array,
+  locale: PropTypes.string,
+  timezone: PropTypes.string,
+  disabledDays: PropTypes.array,
+  dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onDateChange: PropTypes.func
+  onChangeDate: PropTypes.func
 }
 
-export default observer(themed(DateTimePicker))
+export default observer(
+  themed('DateTimePicker', DateTimePicker),
+  { forwardRef: true }
+)

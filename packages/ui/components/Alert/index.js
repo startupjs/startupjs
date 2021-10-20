@@ -83,4 +83,4 @@ Alert.propTypes = {
   onClose: PropTypes.func
 }
 
-export default observer(themed(Alert))
+export default observer(themed('Alert', Alert))

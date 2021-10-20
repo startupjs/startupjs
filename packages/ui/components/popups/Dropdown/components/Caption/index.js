@@ -6,6 +6,7 @@ import Row from '../../../../Row'
 import Span from '../../../../typography/Span'
 import Icon from '../../../../Icon'
 import Button from '../../../../Button'
+import themed from '../../../../../theming/themed'
 import './index.styl'
 
 function DropdownCaption ({
@@ -46,4 +47,4 @@ DropdownCaption.propTypes = {
   variant: propTypes.oneOf(['select', 'button', 'custom'])
 }
 
-export default observer(DropdownCaption)
+export default observer(themed('DropdownCaption', DropdownCaption))

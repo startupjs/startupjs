@@ -76,11 +76,9 @@ function Tabs ({
   `
 }
 
-const ObservedTabs = observer(themed(Tabs))
+Tabs.defaultProps = {}
 
-ObservedTabs.defaultProps = {}
-
-ObservedTabs.propTypes = {
+Tabs.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     title: PropTypes.string
@@ -104,6 +102,8 @@ ObservedTabs.propTypes = {
   swipeEnabled: PropTypes.bool,
   tabBarPosition: PropTypes.string
 }
+
+const ObservedTabs = observer(themed('Tabs', Tabs))
 
 ObservedTabs.Bar = Bar
 

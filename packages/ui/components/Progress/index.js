@@ -46,4 +46,4 @@ Progress.propTypes = {
   variant: PropTypes.oneOf(['linear', 'circular']) // TODO: Add circular progress
 }
 
-export default observer(themed(Progress))
+export default observer(themed('Progress', Progress))

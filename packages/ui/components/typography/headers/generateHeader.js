@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import themed from '../../../theming/themed'
 
 export default function generateHeader (tag) {
-  const header = observer(themed(
+  const header = observer(themed(tag.toUpperCase(),
     function Header ({ children, style, bold, italic, ...props }) {
       const isWeb = Platform.OS === 'web'
       const role = isWeb

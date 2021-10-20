@@ -92,4 +92,4 @@ Pagination.propTypes = {
   // onChangeLimit: propTypes.func TODO: Add selectbox to component to change limit
 }
 
-export default observer(themed(Pagination))
+export default observer(themed('Pagination', Pagination))

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
@@ -20,23 +20,28 @@ import { ObjectInput } from from '@startupjs/ui'
 
 ## Simple example
 
+It's important to have `properties` object defined as a constant either outside of your component or cached with `useMemo()`, otherwise component is going to re-render the whole form tree whenever you are editing one of the field.
+
 ```jsx example
 const [, $value] = useValue({})
+const properties = useMemo(() => {
+  return {
+    email: {
+      input: 'text',
+      label: 'Email'
+    },
+    password: {
+      input: 'text',
+      label: 'Password',
+      description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+    }
+  }
+}, [])
 
 return (
   <ObjectInput
     $value={$value}
-    properties={{
-      email: {
-        input: 'text',
-        label: 'Email'
-      },
-      password: {
-        input: 'text',
-        label: 'Password',
-        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
-      }
-    }}
+    properties={properties}
   />
 )
 ```

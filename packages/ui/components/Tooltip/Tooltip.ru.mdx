@@ -7,7 +7,7 @@ import Span from '../typography/Span'
 import Div from '../Div'
 import Tooltip from './'
 
-# Tooltip
+# Tooltip (deprecated)
 
 ```jsx
 import { Tooltip } from '@startupjs/ui'
@@ -72,9 +72,10 @@ return (
       <Div style={{ marginTop: 8 }}>
         <Alert
           variant='success'
-          label={`onPress event`}
           onClose={()=> setIsClick(false)}
-        />
+        >
+          onPress event
+        </Alert>
       </Div>
     )}
   </Div>

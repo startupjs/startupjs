@@ -44,7 +44,7 @@ Span.propTypes = {
   description: PropTypes.bool
 }
 
-export default observer(themed(Span))
+export default observer(themed('Span', Span))
 
 styl`
   // ----- CONFIG: $UI.Span

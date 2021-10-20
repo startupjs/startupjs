@@ -7,6 +7,7 @@ import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
 import { $root, useSession } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
 
@@ -21,12 +22,14 @@ import { Sidebar } from '@startupjs/ui'
 ## Simple example
 
 ```jsx example
+const media = useMedia()
 const [open, $open] = useSession('SimpleExampleSidebar')
 
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
       $open={$open}
+      width={media.tablet ? 264 : 120}
       renderContent={() => (
         <Span>
           Sidebar
@@ -45,11 +48,14 @@ return (
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
-```jsx example
+```jsx example noscroll
+const media = useMedia()
 const [open, $open] = useSession('ExampleRightSidebar')
+
 return (
     <Sidebar
       $open={$open}
+      width={media.tablet ? 264 : 120}
       position='right'
       renderContent={() => (
         <Menu>
@@ -88,12 +94,15 @@ return (
 
 ## Complex example
 
-```jsx example
+```jsx example noscroll
+const media = useMedia()
 const [open, $open] = useSession('ExampleSidebar')
+
 return (
   <Div style={{overflow: 'hidden'}}>
     <Sidebar
       $open={$open}
+      width={media.tablet ? 264 : 120}
       renderContent={() => (
         <Menu>
           <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
@@ -134,7 +143,7 @@ return (
     $open: $root.scope('_session.Sandbox.Sidebar'),
     renderContent: () => (
       <Div styleName='sidebar'>
-        <Span>Sidebar content</Span>
+        <Span styleName='sidebar-text'>Sidebar content</Span>
       </Div>
     ),
     children: (
@@ -145,10 +154,11 @@ return (
             const value = $root.get('_session.Sandbox.Sidebar')
             $root.scope('_session.Sandbox.Sidebar').set(!value)
           }}
-        >Open</Button>
+        >Toggle</Button>
         <Br />
-        <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.</Span>
+        <Span>Children content</Span>
       </Div>
     )
   }}
+  block
 />

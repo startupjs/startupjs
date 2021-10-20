@@ -16,6 +16,7 @@ import { useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
 import { PLACEMENTS_ORDER } from '../Popover/constants'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const { UIManager } = NativeModules
@@ -199,9 +200,7 @@ function Dropdown ({
   `
 }
 
-const ObservedDropdown = observer(Dropdown, { forwardRef: true })
-
-ObservedDropdown.defaultProps = {
+Dropdown.defaultProps = {
   style: [],
   position: 'bottom',
   attachment: 'start',
@@ -212,7 +211,7 @@ ObservedDropdown.defaultProps = {
   hasDrawer: true
 }
 
-ObservedDropdown.propTypes = {
+Dropdown.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -227,6 +226,12 @@ ObservedDropdown.propTypes = {
   onDismiss: PropTypes.func
 }
 
+const ObservedDropdown = observer(
+  themed('Dropdown', Dropdown),
+  { forwardRef: true }
+)
+
 ObservedDropdown.Caption = DropdownCaption
 ObservedDropdown.Item = DropdownItem
+
 export default ObservedDropdown

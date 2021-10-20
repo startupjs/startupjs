@@ -35,30 +35,6 @@ return (
 )
 ```
 
-## Label and description
-
-```jsx example
-const [checked, setChecked] = useState()
-return (
-  <Radio
-    value={checked}
-    label='Language'
-    description='Please select your programming language'
-    onChange={(value) => setChecked(value)}
-    options={[
-      {
-        value: 'js',
-        label: 'JavaScript'
-      },
-      {
-        value: 'php',
-        label: 'PHP'
-      },
-    ]}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -104,28 +80,6 @@ return (
     ]}
     readonly
   />
-)
-```
-
-## Radio.Item
-
-Компонент, используемый для добавления пользовательской разметки в `Radio` компонент.
-
-```jsx example
-const [selectedItem, setSelectedItem] = useState()
-
-return (
-  <Radio
-    value={selectedItem}
-    onChange={(value) => setSelectedItem(value)}
-  >
-    <Radio.Item value='js'>
-      <Span>JavaScript</Span>
-    </Radio.Item>
-    <Radio.Item value='php'>
-      <Span>PHP</Span>
-    </Radio.Item>
-  </Radio>
 )
 ```
 

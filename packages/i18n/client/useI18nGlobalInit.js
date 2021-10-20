@@ -15,7 +15,7 @@ export default function useI18nGlobalInit () {
   }
 
   if (!lang) {
-    const _languageDetector = config.languageDetector === 'function'
+    const _languageDetector = typeof config.languageDetector === 'function'
       ? config.languageDetector
       : languageDetector
 
@@ -28,15 +28,13 @@ export default function useI18nGlobalInit () {
     }
   }
 
-  const [translations, $translations] = useDoc('translations', lang)
-
-  if (!translations && lang !== defaultLang) {
-    throw $root.scope('i18nTranslations').addNew(lang)
-  }
+  useDoc('i18nTranslations', lang)
 
   useMemo(() => {
-    $session.ref('translations', $translations)
-  }, [])
+    // we dont remove previous ref
+    // because racer removes it itself when creating a new one
+    $session.ref('i18nTranslations', $root.at(`i18nTranslations.${lang}`))
+  }, [lang])
 
   return true
 }

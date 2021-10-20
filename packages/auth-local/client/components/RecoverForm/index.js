@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useSession } from 'startupjs'
-import { Span, Button, TextInput, ErrorWrapper } from '@startupjs/ui'
+import { Alert, Br, Span, Button, TextInput } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import { Recaptcha } from '@startupjs/recaptcha'
 import _get from 'lodash/get'
@@ -67,15 +67,17 @@ function RecoverForm ({
 
   return pug`
     if !message
-      ErrorWrapper(err=errors.server)
-        TextInput(
-          name='email'
-          label=_config.emailInputLabel
-          placeholder=_config.emailInputPlaceholder
-          value=form.email
-          onChangeText=t => $form.set('email', t)
-          testID='recover-email-input'
-        )
+      if errors.server
+        Alert(variant='error')= errors.server
+        Br
+      TextInput(
+        name='email'
+        label=_config.emailInputLabel
+        placeholder=_config.emailInputPlaceholder
+        value=form.email
+        onChangeText=t => $form.set('email', t)
+        testID='recover-email-input'
+      )
       if recaptchaEnabled
         Recaptcha(
           id='recover-form-captcha'

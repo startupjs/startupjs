@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Image, Platform } from 'react-native'
+import { Image, Platform, ScrollView } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { $root, observer, useValue } from 'startupjs'
 import {
@@ -19,8 +19,7 @@ import {
   Th,
   Thead,
   Tr,
-  Collapse,
-  Tooltip
+  Collapse
 } from '@startupjs/ui'
 import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
 import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
@@ -88,9 +87,21 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: ({ children }) => pug`
-    Div.example= children
-  `,
+  section: ({ children, ...props }) => {
+    const Wrapper = props.noscroll
+      ? ({ children }) => pug`
+        Div.example.padding= children
+      `
+      : ({ children }) => pug`
+        ScrollView.example(
+          contentContainerStyleName=['exampleContent', 'padding']
+          horizontal
+        )= children
+      `
+    return pug`
+      Wrapper= children
+    `
+  },
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
@@ -142,15 +153,17 @@ export default {
           Collapse.code-collapse(open=open variant='pure')
             Collapse.Header.code-collapse-header(icon=false onPress=null)
               Row.code-actions(align='right')
-                Tooltip(content=open ? 'Hide code' : 'Show code')
-                  Div.code-action(onPress=() => setOpen(!open))
-                    Icon.code-action-collapse(icon=faCode color='error')
-                Tooltip(content=copyText)
-                  Div.code-action(
-                    onPress=copyHandler
-                    onMouseEnter=onMouseEnter
-                  )
-                    Icon.code-action-copy(icon=faCopy)
+                Div.code-action(
+                  renderTooltip=open ? 'Hide code' : 'Show code'
+                  onPress=()=> setOpen(!open)
+                )
+                  Icon.code-action-collapse(icon=faCode color='error')
+                Div.code-action(
+                  renderTooltip=copyText
+                  onPress=copyHandler
+                  onMouseEnter=onMouseEnter
+                )
+                  Icon.code-action-copy(icon=faCopy)
             Collapse.Content.code-collapse-content
               Code(language=language)= children
         else
@@ -159,11 +172,11 @@ export default {
   }),
   inlineCode: ({ children }) => pug`
     Span.inlineCodeWrapper
-      Span.inlineCodeSpacer= ' '
+      Span.inlineCodeSpacer &#160;
       Span.inlineCode(style={
         fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
       })= children
-      Span.inlineCodeSpacer= ' '
+      Span.inlineCodeSpacer &#160;
   `,
   hr: ({ children }) => pug`
     Divider(size='l')

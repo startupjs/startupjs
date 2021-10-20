@@ -30,7 +30,7 @@ function Layout ({ children }) {
 ## Простой пример
 
 ```jsx example
-const [isShow, setIsShow] = useState(false)
+const [visible, setVisible] = useState(false)
 
 const contentStyle = {
   position: 'absolute',
@@ -51,19 +51,18 @@ const textStyle = {
 
 return (
   <Div>
-    <Button onPress={()=> setIsShow(true)}>Open</Button>
-    <Portal>
-      {
-        isShow &&
+    <Button onPress={()=> setVisible(true)}>Open</Button>
+    {visible &&
+      <Portal>
         <Div style={contentStyle}>
           <Span style={textStyle}>Content</Span>
           <Button
             variant='flat'
-            onPress={()=> setIsShow(false)}
+            onPress={()=> setVisible(false)}
           >Close</Button>
         </Div>
-      }
-    </Portal>
+      </Portal>
+    }
   </Div>
 )
 ```
