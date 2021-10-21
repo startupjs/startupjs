@@ -1,0 +1,57 @@
+import Item from './'
+import { Image } from 'react-native'
+import { u } from 'startupjs'
+import Span from '../typography/Span'
+import TextInput from '../forms/TextInput'
+import Icon from '../Icon'
+import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
+
+# Item
+
+## Простой пример
+
+Item можно использовать с пропсами url, icon, to, onPress
+
+```jsx example
+return pug`
+  Item(icon=faTrashAlt) Icon
+  Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
+  Item(to="/docs/components/Item") To url
+  Item(onPress=()=> alert('click')) Click
+`
+```
+
+Так же можно собирать Item из частей Left, Content, Right
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click'))
+    Item.Left
+      Image(
+        style={ width: u(3), height: u(3) }
+        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
+      )
+    Item.Content
+      Span Content
+    Item.Right
+      Icon(icon=faShareAlt)
+`
+```
+
+Все что записывается без приставки Item.Content - попдает в Content контейнер
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click'))
+    Item.Left
+      Image(
+        style={ width: u(3), height: u(3) }
+        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
+      )
+    Span(style={ color: 'red', marginRight: u(1) }) Content 1
+    Span(style={ color: 'blue', marginRight: u(1) }) 2
+    Span(style={ color: 'green', marginRight: u(1) }) 3
+    Item.Right
+      Icon(icon=faShareAlt)
+`
+```

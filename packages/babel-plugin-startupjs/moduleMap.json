@@ -18,6 +18,7 @@
     "Divider": "/components/Divider",
     "DrawerSidebar": "/components/DrawerSidebar",
     "Icon": "/components/Icon",
+    "Item": "/components/Item",
     "Layout": "/components/Layout",
     "Link": "/components/Link",
     "Loader": "/components/Loader",
