@@ -1,3 +1,21 @@
+## [0.39.5](https://github.com/startupjs/startupjs/compare/v0.39.4...v0.39.5) (2021-10-21)
+
+
+### Bug Fixes
+
+* **ui/Div:** better check of `renderTooltip` ([#819](https://github.com/startupjs/startupjs/issues/819)) ([1ab951b](https://github.com/startupjs/startupjs/commit/1ab951b64820882eeea72cfd850aa687abd625e4))
+* **ui/Modal:** fix height of `fullscreen` variant ([#823](https://github.com/startupjs/startupjs/issues/823)) ([13ab19f](https://github.com/startupjs/startupjs/commit/13ab19f13682812db3a5d12cbd0b3bf3d620db5c))
+* **ui/Multiselect:** fix option `key` prop value ([#815](https://github.com/startupjs/startupjs/issues/815)) ([3312853](https://github.com/startupjs/startupjs/commit/3312853f6eca8688a66263ef0317c5e1ffef2379))
+* **ui/NumberInput:** check if value is null or undefined ([b679cc9](https://github.com/startupjs/startupjs/commit/b679cc9262a33ca77becbe2cdbd278eeb51e0453))
+
+
+### Features
+
+* **backend:** add 'pollDebounce' option to reduce load on the database ([8c5cd9f](https://github.com/startupjs/startupjs/commit/8c5cd9f36c7f8857f0dce5f25f0a17f32c5a237e))
+* **dnd:** add basic support ([#600](https://github.com/startupjs/startupjs/issues/600)) ([9f273e1](https://github.com/startupjs/startupjs/commit/9f273e1a73420ac1006ab4530d5d273fb2224211))
+
+
+
 ## [0.39.4](https://github.com/startupjs/startupjs/compare/v0.39.3...v0.39.4) (2021-10-16)
 
 
