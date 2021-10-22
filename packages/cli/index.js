@@ -337,6 +337,7 @@ const TEMPLATES = {
       '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@^1.6.0',
       'react-native-color-picker@^0.6.0',
+      'react-native-gesture-handler@^1.10.3',
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
