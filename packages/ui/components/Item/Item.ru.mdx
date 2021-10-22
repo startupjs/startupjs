@@ -10,16 +10,61 @@ import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
 
 ## Простой пример
 
-Item можно использовать с пропсами url, icon, to, onPress
+```jsx example
+return pug`
+  Item Example
+`
+```
+
+## Icon
+
+Если прокинуть icon как пропс, она будет отображаться с левой части
 
 ```jsx example
 return pug`
   Item(icon=faTrashAlt) Icon
+  // Item(to="/docs/components/Item") To url
+  // Item(onPress=()=> alert('click')) Click
+`
+```
+
+## Url (image)
+
+Проп url отвечает за отображение картинки в левой части
+Если указать картинку и иконку вместе и картинки будет приоритет выше
+
+```jsx example
+return pug`
   Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
-  Item(to="/docs/components/Item") To url
+  Item(
+    icon=faTrashAlt
+    url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg"
+  ) Image and icon
+  // Item(onPress=()=> alert('click')) Click
+`
+```
+
+## To (link)
+
+С помощью пропа `to` - можно обернуть Item в ссылку
+
+```jsx example
+return pug`
+  Item(to='/docs/components/Avatar') To Avatar
+`
+```
+
+## OnPress
+
+Чтобы использовать калбэк при нажатии нужно использовать - `onPress`
+
+```jsx example
+return pug`
   Item(onPress=()=> alert('click')) Click
 `
 ```
+
+## Slots
 
 Так же можно собирать Item из частей Left, Content, Right
 
@@ -38,7 +83,7 @@ return pug`
 `
 ```
 
-Все что записывается без приставки Item.Content - попдает в Content контейнер
+Все что записывается без приставки Item.Content - попадает в Content контейнер
 
 ```jsx example
 return pug`

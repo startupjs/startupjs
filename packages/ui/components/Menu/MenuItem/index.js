@@ -33,6 +33,10 @@ function MenuItem ({
   return pug`
     Div
       Item(...props)
+        if icon && iconPosition === 'left'
+          Item.Left
+            Icon(icon=icon styleName={ color })
+
         Item.Content(style=[containerStyle])
           Span(bold=bold style={ color })= children
 

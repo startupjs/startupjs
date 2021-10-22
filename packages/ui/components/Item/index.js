@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Div from '../Div'
 import Link from '../Link'
 import Icon from '../Icon'
+import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import './index.styl'
 
@@ -28,21 +29,20 @@ function Item ({
     Wrapper = Div
   }
 
-  let leftPart = null
-  let contentPart = []
-  let rightPart = null
-
-  if (url) {
-    leftPart = pug`
-      ItemLeft
-        Image.image(source={ uri: url })
-    `
-  }
+  let leftPart = null; let contentPart = null; let rightPart = null
+  let contentChildren = []
 
   if (icon) {
     leftPart = pug`
       ItemLeft
         Icon(icon=icon)
+    `
+  }
+
+  if (url) {
+    leftPart = pug`
+      ItemLeft
+        Image.image(source={ uri: url })
     `
   }
 
@@ -62,8 +62,20 @@ function Item ({
       return
     }
 
-    contentPart.push(child)
+    contentChildren.push(child)
   })
+
+  if (!contentPart && contentChildren.length) {
+    if (contentChildren.length === 1) {
+      contentPart = pug`
+        ItemContent= contentChildren[0]
+      `
+    } else {
+      contentPart = pug`
+        ItemContent= contentChildren
+      `
+    }
+  }
 
   return pug`
     Wrapper.root(
@@ -98,7 +110,10 @@ function ItemLeft ({ style, children }) {
 
 function ItemContent ({ style, children }) {
   return pug`
-    Div.content(style=style)= children
+    if typeof children === 'string'
+      Span.content(style=style)= children
+    else
+      Div.content(style=style)= children
   `
 }
 
