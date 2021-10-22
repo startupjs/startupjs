@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Item from '../../Item'
 import Div from '../../Div'
 import Icon from '../../Icon'
+import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
 import MenuContext from '../context'
 import STYLES from './index.styl'
@@ -32,10 +33,8 @@ function MenuItem ({
   return pug`
     Div
       Item(...props)
-        Item.Content(
-          bold=bold
-          style=[containerStyle, { color }]
-        )= children
+        Item.Content(style=[containerStyle])
+          Span(bold=bold style={ color })= children
 
         if icon && iconPosition === 'right'
           Item.Right

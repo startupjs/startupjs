@@ -3,10 +3,8 @@ import { Image } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
-import Row from '../Row'
 import Link from '../Link'
 import Icon from '../Icon'
-import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import './index.styl'
 
@@ -27,12 +25,26 @@ function Item ({
     extraProps.to = to
     extraProps.block = true
   } else {
-    Wrapper = Row
+    Wrapper = Div
   }
 
   let leftPart = null
   let contentPart = []
   let rightPart = null
+
+  if (url) {
+    leftPart = pug`
+      ItemLeft
+        Image.image(source={ uri: url })
+    `
+  }
+
+  if (icon) {
+    leftPart = pug`
+      ItemLeft
+        Icon(icon=icon)
+    `
+  }
 
   React.Children.toArray(children).forEach(child => {
     if (ItemLeft === child.type) {
@@ -45,29 +57,13 @@ function Item ({
       return
     }
 
-    if (typeof child === 'string') {
-      contentPart.push(pug`
-        ItemContent= child
-      `)
+    if (ItemContent === child.type) {
+      contentPart = child
       return
     }
 
     contentPart.push(child)
   })
-
-  if (icon) {
-    leftPart = pug`
-      ItemLeft
-        Icon(icon=icon)
-    `
-  }
-
-  if (url) {
-    leftPart = pug`
-      ItemLeft
-        Image.image(source={ uri: url })
-    `
-  }
 
   return pug`
     Wrapper.root(
@@ -77,9 +73,8 @@ function Item ({
       ...extraProps
       ...props
     )
-      Row.mainPart
-        = leftPart
-        = contentPart
+      = leftPart
+      = contentPart
       = rightPart
   `
 }
@@ -97,28 +92,19 @@ const ObservedItem = observer(themed('Item', Item))
 
 function ItemLeft ({ style, children }) {
   return pug`
-    if typeof children === 'string'
-      Span.left(style=style)= children
-    else
-      Div.left(style=style)= children
+    Div.left(style=style)= children
   `
 }
 
-function ItemContent ({ style, bold, children }) {
+function ItemContent ({ style, children }) {
   return pug`
-    if typeof children === 'string'
-      Span.content(style=style bold=bold)= children
-    else
-      Div.content(style=style)= children
+    Div.content(style=style)= children
   `
 }
 
 function ItemRight ({ style, children }) {
   return pug`
-    if typeof children === 'string'
-      Span.right(style=style)= children
-    else
-      Div.right(style=style)= children
+    Div.right(style=style)= children
   `
 }
 
