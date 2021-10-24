@@ -1,3 +1,12 @@
+## [0.39.6](https://github.com/startupjs/startupjs/compare/v0.39.5...v0.39.6) (2021-10-24)
+
+
+### Bug Fixes
+
+* add 'react-native-gesture-handler' to peer dependencies of ui and to cli ([bce4099](https://github.com/startupjs/startupjs/commit/bce40995be1e71e489be6e3c2102630504b8c7b7))
+
+
+
 ## [0.39.5](https://github.com/startupjs/startupjs/compare/v0.39.4...v0.39.5) (2021-10-21)
 
 
