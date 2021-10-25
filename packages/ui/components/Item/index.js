@@ -29,53 +29,51 @@ function Item ({
     Wrapper = Div
   }
 
-  let leftPart = null; let contentPart = null; let rightPart = null
+  let left = null; let content = null; let right = null
   let contentChildren = []
-
-  if (icon) {
-    leftPart = pug`
-      ItemLeft
-        Icon(icon=icon)
-    `
-  }
-
-  if (url) {
-    leftPart = pug`
-      ItemLeft
-        Image.image(source={ uri: url })
-    `
-  }
 
   React.Children.toArray(children).forEach(child => {
     if (ItemLeft === child.type) {
-      leftPart = child
+      left = child
       return
     }
 
     if (ItemRight === child.type) {
-      rightPart = child
+      right = child
       return
     }
 
     if (ItemContent === child.type) {
-      contentPart = child
+      content = child
       return
     }
 
     contentChildren.push(child)
   })
 
-  if (!contentPart && contentChildren.length) {
-    if (contentChildren.length === 1) {
-      contentPart = pug`
-        ItemContent= contentChildren[0]
+  if (!left) {
+    if (icon) {
+      left = pug`
+        ItemLeft
+          Icon(icon=icon)
       `
-    } else {
-      contentPart = pug`
-        ItemContent= contentChildren
+    } else if (url) {
+      left = pug`
+        ItemLeft
+          Image.image(source={ uri: url })
       `
     }
   }
+
+  content = content ||
+    (contentChildren.length === 1
+      ? pug`
+        ItemContent= contentChildren[0]
+      `
+      : pug`
+        ItemContent= contentChildren
+      `
+    )
 
   return pug`
     Wrapper.root(
@@ -85,9 +83,9 @@ function Item ({
       ...extraProps
       ...props
     )
-      = leftPart
-      = contentPart
-      = rightPart
+      = left
+      = content
+      = right
   `
 }
 

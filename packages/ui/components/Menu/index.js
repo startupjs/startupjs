@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
@@ -8,8 +8,12 @@ import Context from './context'
 import './index.styl'
 
 function Menu ({ style, children, variant, activeBorder, iconPosition, activeColor }) {
+  const value = useMemo(() => {
+    return { activeBorder, activeColor, iconPosition }
+  }, [activeBorder, activeColor, iconPosition])
+
   return pug`
-    Context.Provider(value={ activeBorder, activeColor, iconPosition })
+    Context.Provider(value=value)
       Div.root(
         style=style
         styleName=[variant]

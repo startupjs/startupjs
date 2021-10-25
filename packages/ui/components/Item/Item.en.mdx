@@ -10,18 +10,60 @@ import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
 
 ## Simple example
 
-Item can be used with url, icon, to, onPress props
+```jsx example
+return pug`
+  Item Example
+`
+```
+
+## Icon
+
+If you drop the icon as a props, it will be displayed on the left side
 
 ```jsx example
 return pug`
   Item(icon=faTrashAlt) Icon
+`
+```
+
+## Url (image)
+
+The url prop is responsible for displaying the image on the left side
+If you specify a picture and an icon together and pictures, the priority will be higher
+
+```jsx example
+return pug`
   Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
-  Item(to="/docs/components/Item") To url
+  Item(
+    icon=faTrashAlt
+    url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg"
+  ) Image and icon
+`
+```
+
+## To (link)
+
+Using the `to` prop - you can wrap the Item in a link
+
+```jsx example
+return pug`
+  Item(to='/docs/components/Avatar') To Avatar
+`
+```
+
+## OnPress
+
+Чтобы использовать калбэк при нажатии нужно использовать - `onPress`
+
+```jsx example
+return pug`
   Item(onPress=()=> alert('click')) Click
 `
 ```
 
-You can also collect Item from the Left, Content, Right parts
+## Slots
+
+Так же можно собирать Item из частей Left, Content, Right
 
 ```jsx example
 return pug`
@@ -38,7 +80,7 @@ return pug`
 `
 ```
 
-Everything that is written without the Item.Content prefix goes to the Content container
+Все что записывается без приставки Item.Content - попадает в Content контейнер
 
 ```jsx example
 return pug`
