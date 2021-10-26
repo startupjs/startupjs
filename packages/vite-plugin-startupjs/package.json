@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/vite-plugin-startupjs",
-  "version": "0.39.7",
+  "version": "0.39.8",
   "type": "module",
   "publishConfig": {
     "access": "public"

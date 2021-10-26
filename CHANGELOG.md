@@ -1,3 +1,17 @@
+## [0.39.8](https://github.com/startupjs/startupjs/compare/v0.39.6...v0.39.8) (2021-10-26)
+
+
+### Bug Fixes
+
+* **ui/Modal:** fix condition that checks usage way of component ([#826](https://github.com/startupjs/startupjs/issues/826)) ([399e2b3](https://github.com/startupjs/startupjs/commit/399e2b368a717233cd66e888349633fc5dfb97ed))
+
+
+### Features
+
+* **vite-plugin-startupjs:** Rewrite vite plugin for the latest stable vite version ([#827](https://github.com/startupjs/startupjs/issues/827)) ([bc556b0](https://github.com/startupjs/startupjs/commit/bc556b0961ab7616eb6a4e1731cb4900114fed07))
+
+
+
 ## [0.39.6](https://github.com/startupjs/startupjs/compare/v0.39.5...v0.39.6) (2021-10-24)
 
 
