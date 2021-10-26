@@ -26,7 +26,7 @@ function ModalRoot ({
 }, ref) {
   const isUsedViaRef = useMemo(() => {
     const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
-    const isUsedViaState = typeof visible !== 'undefined' && typeof onChange === 'function'
+    const isUsedViaState = typeof onChange === 'function'
     return !(isUsedViaTwoWayDataBinding || isUsedViaState)
   }, [])
 
