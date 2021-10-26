@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-startupjs",
+  "name": "@startupjs/vite-plugin-startupjs",
   "version": "0.39.6",
   "type": "module",
   "engines": {

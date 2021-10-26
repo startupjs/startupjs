@@ -14,7 +14,7 @@
 
     ```js
     import { defineConfig } from 'vite'
-    import startupjsPlugin from 'vite-plugin-startupjs'
+    import startupjsPlugin from '@startupjs/vite-plugin-startupjs'
 
     // https://vitejs.dev/config/
     export default defineConfig({
