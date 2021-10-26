@@ -49,3 +49,13 @@ If you want to run server and web compilation separately:
 ## **IMPORTANT** things to follow when writing code:
 
 1. You **CAN NOT** use `.js`/`.ts` for files which have `JSX` (or use Pug). You **MUST** name them `.jsx`/`.tsx`.
+
+2. To leverage Vite's power of compiling only the pages you currently look at, you have to be using async imports on the router level.
+
+    Make sure that `pages/index.jsx` (it might also be `pages/index.js`) in all of your apps have the following comment specified at the top of the file:
+
+    ```
+    /* @asyncImports */
+    ```
+
+    This will automatically transform all imports in this file into react lazy async imports.

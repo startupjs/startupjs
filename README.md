@@ -259,21 +259,15 @@ The following guides are available to assist with migration to new major version
 
 - [Migration Guides](/docs/migration-guides)
 
-## Advanced usage
+## Vite
 
-You can configure your project to use [`vite`](https://github.com/vitejs/vite) in development for build process.
+You can configure your project to use [`vite`](https://github.com/vitejs/vite) in development for web client instead of Webpack.
 
-```
-yarn add vite@0.20.3 vite-plugin-startupjs
-```
+Vite provides faster compilation times since it uses native ES Modules and compiles only the files which are actually being used on the page you are viewing.
 
-And add the execution of vite patch to your `postinstall` script in `package.json`:
+Follow instructions in the according plugin package:
 
-```
-  "postinstall": "startupjs postinstall && npx patch-package --patch-dir ./node_modules/@startupjs/patches/vite"
-```
-
-Note that the vite version is required to be the outdated `0.20.3`. lUpgrade to the latest vite version is planned to be done soon.
+- [@startupjs/vite-plugin-startupjs](/packages/vite-plugin-startupjs)
 
 ## Security
 
