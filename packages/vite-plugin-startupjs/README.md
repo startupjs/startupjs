@@ -1,4 +1,4 @@
-# vite-plugin-startupjs
+# @startupjs/vite-plugin-startupjs
 
 > Compile web client in development using vite
 
@@ -7,7 +7,7 @@
 1. Install vite and this plugin
 
     ```
-    yarn add vite vite-plugin-startupjs
+    yarn add vite @startupjs/vite-plugin-startupjs
     ```
 
 2. Add `vite.config.mjs` to the root of your project:
