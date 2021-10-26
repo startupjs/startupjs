@@ -1,6 +1,7 @@
 {
-  "name": "vite-plugin-startupjs",
+  "name": "@startupjs/vite-plugin-startupjs",
   "version": "0.39.6",
+  "type": "module",
   "engines": {
     "node": ">= 14"
   },
@@ -8,26 +9,13 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "@mdx-js/mdx": "^1.5.8",
-    "@pika/react": "16.13.1",
-    "@pika/react-dom": "16.13.1",
     "@startupjs/babel-plugin-dotenv": "^0.39.0",
     "@startupjs/babel-plugin-react-pug-classnames": "^0.39.0",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.39.4",
+    "@startupjs/babel-plugin-rn-stylename-inline": "^0.39.0",
+    "@startupjs/babel-plugin-import-to-react-lazy": "^0.39.0",
     "@startupjs/bundler": "^0.39.6",
-    "@startupjs/prop-types": "^15.7.2-2",
-    "@startupjs/racer": "0.9.15",
-    "@startupjs/react-is": "^16.13.1-1",
-    "@startupjs/react-native-fontawesome": "^0.2.5-3",
     "babel-plugin-transform-react-pug": "^7.0.1",
-    "eventemitter3": "^3.0.0",
-    "lodash-es": "^4.17.15",
-    "vite-plugin-react": "2.0.3"
-  },
-  "peerDependencies": {
-    "stylus": ">= 0.54.7",
-    "vite": "*"
+    "@vitejs/plugin-react": "^1.0.6"
   }
 }
