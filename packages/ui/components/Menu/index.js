@@ -4,31 +4,27 @@ import PropTypes from 'prop-types'
 import Div from './../Div'
 import MenuItem from './MenuItem'
 import themed from '../../theming/themed'
+import Context from './context'
 import './index.styl'
 
 function Menu ({ style, children, variant, activeBorder, iconPosition, activeColor }) {
-  const content = useMemo(
-    () =>
-      React.Children.toArray(children).map(child =>
-        child.type === MenuItem ||
-        // INFO: specific case for mdx
-        child.props.originalType?.name === MenuItem.name
-          ? React.cloneElement(child, { activeBorder, activeColor, iconPosition, ...child.props })
-          : child
-      ),
-    [children, activeBorder, activeColor, iconPosition]
-  )
+  const value = useMemo(() => {
+    return { activeBorder, activeColor, iconPosition }
+  }, [activeBorder, activeColor, iconPosition])
 
   return pug`
-    Div.root(style=style styleName=[variant])
-      = content
+    Context.Provider(value=value)
+      Div.root(
+        style=style
+        styleName=[variant]
+      )= children
   `
 }
 
 Menu.defaultProps = {
   variant: 'vertical',
-  activeBorder: MenuItem.defaultProps.activeBorder,
-  iconPosition: MenuItem.defaultProps.iconPosition
+  activeBorder: 'none',
+  iconPosition: 'left'
 }
 
 Menu.propTypes = {

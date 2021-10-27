@@ -1,0 +1,99 @@
+import Item from './'
+import { Image } from 'react-native'
+import { u } from 'startupjs'
+import Span from '../typography/Span'
+import TextInput from '../forms/TextInput'
+import Icon from '../Icon'
+import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
+
+# Item
+
+## Простой пример
+
+```jsx example
+return pug`
+  Item Example
+`
+```
+
+## Icon
+
+Если прокинуть icon как пропс, она будет отображаться с левой части
+
+```jsx example
+return pug`
+  Item(icon=faTrashAlt) Icon
+`
+```
+
+## Url (image)
+
+Проп url отвечает за отображение картинки в левой части
+Если указать картинку и иконку вместе и картинки будет приоритет выше
+
+```jsx example
+return pug`
+  Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
+  Item(
+    icon=faTrashAlt
+    url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg"
+  ) Image and icon
+`
+```
+
+## To (link)
+
+С помощью пропа `to` - можно обернуть Item в ссылку
+
+```jsx example
+return pug`
+  Item(to='/docs/components/Avatar') To Avatar
+`
+```
+
+## OnPress
+
+Чтобы использовать калбэк при нажатии нужно использовать - `onPress`
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click')) Click
+`
+```
+
+## Slots
+
+Так же можно собирать Item из частей Left, Content, Right
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click'))
+    Item.Left
+      Image(
+        style={ width: u(3), height: u(3) }
+        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
+      )
+    Item.Content
+      Span Content
+    Item.Right
+      Icon(icon=faShareAlt)
+`
+```
+
+Все что записывается без приставки Item.Content - попадает в Content контейнер
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click'))
+    Item.Left
+      Image(
+        style={ width: u(3), height: u(3) }
+        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
+      )
+    Span(style={ color: 'red', marginRight: u(1) }) Content 1
+    Span(style={ color: 'blue', marginRight: u(1) }) 2
+    Span(style={ color: 'green', marginRight: u(1) }) 3
+    Item.Right
+      Icon(icon=faShareAlt)
+`
+```
