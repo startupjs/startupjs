@@ -8,6 +8,8 @@ import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
 
 # Item
 
+Item is a basic component that is a wrapper over the content with the ability to position it and the ability to display an icon or image.
+
 ## Simple example
 
 ```jsx example
@@ -18,7 +20,7 @@ return pug`
 
 ## Icon
 
-If you drop the icon as a props, it will be displayed on the left side
+The icon can be added using the `icon` property, which will be displayed on the left side of the component.
 
 ```jsx example
 return pug`
@@ -26,44 +28,45 @@ return pug`
 `
 ```
 
-## Url (image)
+## Image
 
-The url prop is responsible for displaying the image on the left side
-If you specify a picture and an icon together and pictures, the priority will be higher
+The image can be added using the `url` property, which will be displayed on the left side of the component. The `url` property takes precedence over the `icon` property if both are passed.
 
 ```jsx example
 return pug`
   Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
-  Item(
-    icon=faTrashAlt
-    url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg"
-  ) Image and icon
 `
 ```
 
-## To (link)
+## Item as link
 
-Using the `to` prop - you can wrap the Item in a link
+By passing the url to the `to` property, the component will behave like a link.
 
 ```jsx example
 return pug`
-  Item(to='/docs/components/Avatar') To Avatar
+  Item(to='/docs/components/Icon') Icon component
 `
 ```
 
-## OnPress
+## Actions
 
-Чтобы использовать калбэк при нажатии нужно использовать - `onPress`
+Passed handler to `onPress` property will be called when the user taps the component.
 
 ```jsx example
 return pug`
-  Item(onPress=()=> alert('click')) Click
+  Item(onPress=()=> alert('click')) Click me
 `
 ```
 
-## Slots
+## Advanced usage
 
-Так же можно собирать Item из частей Left, Content, Right
+Item consists of three parts - `Left`, `Content` and `Right`. These parts can be used to add custom markup, where:
+
+- `Left` part is used instead of `icon` and `url` properties and inserts its content into the left side of the component.
+
+- `Content` part is used instead of `children` and inserts its content between `Left` and `Right` parts.
+
+- `Right` part inserts its content into the right side of the component.
 
 ```jsx example
 return pug`
@@ -75,24 +78,6 @@ return pug`
       )
     Item.Content
       Span Content
-    Item.Right
-      Icon(icon=faShareAlt)
-`
-```
-
-Все что записывается без приставки Item.Content - попадает в Content контейнер
-
-```jsx example
-return pug`
-  Item(onPress=()=> alert('click'))
-    Item.Left
-      Image(
-        style={ width: u(3), height: u(3) }
-        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
-      )
-    Span(style={ color: 'red', marginRight: u(1) }) Content 1
-    Span(style={ color: 'blue', marginRight: u(1) }) 2
-    Span(style={ color: 'green', marginRight: u(1) }) 3
     Item.Right
       Icon(icon=faShareAlt)
 `

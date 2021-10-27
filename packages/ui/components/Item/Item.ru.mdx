@@ -6,7 +6,9 @@ import TextInput from '../forms/TextInput'
 import Icon from '../Icon'
 import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
 
-# Item
+# Item (элемент)
+
+Элемент - это базовый компонент, который представляет собой оболочку над контентом с возможностью его позиционирования и возможностью отображения иконки или изображения.
 
 ## Простой пример
 
@@ -16,54 +18,55 @@ return pug`
 `
 ```
 
-## Icon
+## Иконка
 
-Если прокинуть icon как пропс, она будет отображаться с левой части
+Значок можно добавить с помощью свойства `icon`, который будет отображаться в левой части компонента.
 
 ```jsx example
 return pug`
-  Item(icon=faTrashAlt) Icon
+  Item(icon=faTrashAlt) Иконка
 `
 ```
 
-## Url (image)
+## Изображение
 
-Проп url отвечает за отображение картинки в левой части
-Если указать картинку и иконку вместе и картинки будет приоритет выше
+Изображение можно добавить с помощью свойства `url`, которое будет отображаться в левой части компонента. Свойство `url` имеет приоритет над свойством `icon`, если они оба будут переданы.
 
 ```jsx example
 return pug`
-  Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
-  Item(
-    icon=faTrashAlt
-    url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg"
-  ) Image and icon
+  Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Изображение
 `
 ```
 
 ## To (link)
 
-С помощью пропа `to` - можно обернуть Item в ссылку
+Передав URL-адрес в свойство `to`, компонент будет вести себя как ссылка.
 
 ```jsx example
 return pug`
-  Item(to='/docs/components/Avatar') To Avatar
+  Item(to='/docs/components/Icon') Иконка
 `
 ```
 
-## OnPress
+## Действия
 
-Чтобы использовать калбэк при нажатии нужно использовать - `onPress`
+Переданный обработчик в `onPress` свойство будет вызван когда пользователь нажмет на компонент.
 
 ```jsx example
 return pug`
-  Item(onPress=()=> alert('click')) Click
+  Item(onPress=()=> alert('click')) Нажми на меня
 `
 ```
 
-## Slots
+## Продвинутое использование
 
-Так же можно собирать Item из частей Left, Content, Right
+Элемент состоит из трех частей - `Left`, `Content` и `Right`. Эти части можно использовать для добавления пользовательской разметки, где:
+
+- `Left` часть используется вместо свойств `icon` и `url` и вставляет свое содержимое в левую часть компонента.
+
+- `Content` часть используется вместо `children` и вставляет свое содержимое между `Left` и `Right` частями.
+
+- `Правая` часть вставляет свое содержимое в правую часть компонента.
 
 ```jsx example
 return pug`
@@ -75,24 +78,6 @@ return pug`
       )
     Item.Content
       Span Content
-    Item.Right
-      Icon(icon=faShareAlt)
-`
-```
-
-Все что записывается без приставки Item.Content - попадает в Content контейнер
-
-```jsx example
-return pug`
-  Item(onPress=()=> alert('click'))
-    Item.Left
-      Image(
-        style={ width: u(3), height: u(3) }
-        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
-      )
-    Span(style={ color: 'red', marginRight: u(1) }) Content 1
-    Span(style={ color: 'blue', marginRight: u(1) }) 2
-    Span(style={ color: 'green', marginRight: u(1) }) 3
     Item.Right
       Icon(icon=faShareAlt)
 `
