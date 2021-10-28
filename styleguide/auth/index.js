@@ -23,16 +23,6 @@ function getCaptionForm (slide) {
   if (slide === 'sign-up') return 'Регистрация'
 }
 
-const loginForm = pug`
-  LoginForm(
-    properties={
-      email: {
-        initValue: 'test@gmail.com'
-      }
-    }
-  )
-`
-
 const registerForm = pug`
   RegisterForm(
     properties={
@@ -57,9 +47,13 @@ export default initAuthApp({
   Layout,
   redirectUrl: '/profile?customParam=dummy',
   localForms: {
-    'sign-in': loginForm,
+    'sign-in': pug`
+      LoginForm
+    `,
     'sign-up': registerForm,
-    recover: <RecoverForm />
+    recover: pug`
+      RecoverForm
+    `
   },
 
   socialButtons: [
