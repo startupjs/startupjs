@@ -40,7 +40,7 @@ function Checkbox ({
   return pug`
     Div(style=style)
       if readonly
-        Span.readonly=props.value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
+        Span.readonly=value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
       else
         Input(
           style=inputStyle
