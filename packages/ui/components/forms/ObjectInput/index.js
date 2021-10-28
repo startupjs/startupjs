@@ -68,7 +68,6 @@ function ObjectInput ({
     FlatList(
       data=inputs
       renderItem=renderItem
-      keyExtractor=item => item.key
     )
   `)
 }
