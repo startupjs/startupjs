@@ -265,7 +265,15 @@ You can configure your project to use [`vite`](https://github.com/vitejs/vite) i
 
 Vite provides faster compilation times since it uses native ES Modules and compiles only the files which are actually being used on the page you are viewing.
 
-Follow instructions in the according plugin package:
+**IMPORTANT things to note:**
+
+1. Only the `simple` template is supported out of the box by our Vite plugin.
+
+2. Most react-native libraries name files containing JSX as simply `.js`, while Vite expects such files to be named `.jsx`. Because of that you might need to alter Vite config to force it to compile `.js` files in `node_modules` the same as `.jsx`.
+
+**How to use:**
+
+Install `simple` starter project with `npx startupjs init myapp -t simple` and follow instructions in the according plugin package:
 
 - [@startupjs/vite-plugin-startupjs](/packages/vite-plugin-startupjs)
 
