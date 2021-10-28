@@ -21,11 +21,15 @@ export default class BaseProvider {
     // We can't use $where because of it supports in mongodb < 4.4
     // and can't use $function because of it supports in mongodb > 4.4
     // use $function when all our libraries use mongodb > 4.4
-    auth.config.strategies.forEach(func => {
-      query.$or.push({
-        [`providers.${func.providerName}.email`]: this.getEmail()
+    const email = this.getEmail()
+
+    if (email) {
+      auth.config.strategies.forEach(func => {
+        query.$or.push({
+          [`providers.${func.providerName}.email`]: this.getEmail()
+        })
       })
-    })
+    }
 
     return query
   }

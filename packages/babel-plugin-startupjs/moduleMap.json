@@ -39,7 +39,6 @@
     "Checkbox": "/components/forms/Checkbox",
     "ColorPicker": "/components/forms/ColorPicker",
     "DateTimePicker": "/components/forms/DateTimePicker",
-    "DateTimePicker2": "/components/forms/DateTimePicker2",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
     "NumberInput": "/components/forms/NumberInput",
