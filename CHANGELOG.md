@@ -1,3 +1,18 @@
+## [0.39.10](https://github.com/startupjs/startupjs/compare/v0.39.9...v0.39.10) (2021-10-28)
+
+
+### Bug Fixes
+
+* **auth:** fix find user by email ([0d3b9e5](https://github.com/startupjs/startupjs/commit/0d3b9e5e747494e52a2cbf5f9c7f404baf4b02c7))
+* **ui/Input:** prevent checkbox label click when disabled ([78e7b40](https://github.com/startupjs/startupjs/commit/78e7b40e0d25b1236dec77f2c591537c46040308))
+
+
+### Features
+
+* **ui/Item:** add component ([#808](https://github.com/startupjs/startupjs/issues/808)) ([2e44540](https://github.com/startupjs/startupjs/commit/2e44540ca543a6aa26458c7bc0f8c326a8699d76))
+
+
+
 ## [0.39.9](https://github.com/startupjs/startupjs/compare/v0.39.8...v0.39.9) (2021-10-26)
 
 
