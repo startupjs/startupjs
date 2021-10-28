@@ -1,4 +1,5 @@
 import React from 'react'
+import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
@@ -53,16 +54,22 @@ function ObjectInput ({
   // in circular imports https://stackoverflow.com/a/30390378
   const Input = require('../Input').default
 
-  return _renderWrapper({
-    style: [style, inputStyle]
-  }, pug`
-    each input, index in inputs
-      - const { ...inputProps } = input
+  function renderItem ({ item, index }) {
+    return pug`
       Input.input(
-        ...input
+        ...item
         styleName={ pushTop: index !== 0 }
-        error=errors[input.key]
+        error=errors[item.key]
       )
+    `
+  }
+
+  return _renderWrapper({ style: [style, inputStyle] }, pug`
+    FlatList(
+      data=inputs
+      renderItem=renderItem
+      keyExtractor=item => item.key
+    )
   `)
 }
 
