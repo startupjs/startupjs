@@ -8,7 +8,7 @@ export default observer(function Dialog () {
 
   return pug`
     Modal(
-      visible=dialog.visible
+      visible=!!dialog.visible
       onChange=()=> $dialog.set('visible', !dialog.visible)
       ...dialog
     )= dialog.children

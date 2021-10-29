@@ -29,7 +29,7 @@ function NumberInput ({
   }, [precision])
 
   useEffect(() => {
-    if (typeof value === 'undefined') {
+    if (value == null) {
       setInputValue('')
       return
     }

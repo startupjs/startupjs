@@ -1,3 +1,63 @@
+## [0.39.10](https://github.com/startupjs/startupjs/compare/v0.39.9...v0.39.10) (2021-10-28)
+
+
+### Bug Fixes
+
+* **auth:** fix find user by email ([0d3b9e5](https://github.com/startupjs/startupjs/commit/0d3b9e5e747494e52a2cbf5f9c7f404baf4b02c7))
+* **ui/Input:** prevent checkbox label click when disabled ([78e7b40](https://github.com/startupjs/startupjs/commit/78e7b40e0d25b1236dec77f2c591537c46040308))
+
+
+### Features
+
+* **ui/Item:** add component ([#808](https://github.com/startupjs/startupjs/issues/808)) ([2e44540](https://github.com/startupjs/startupjs/commit/2e44540ca543a6aa26458c7bc0f8c326a8699d76))
+
+
+
+## [0.39.9](https://github.com/startupjs/startupjs/compare/v0.39.8...v0.39.9) (2021-10-26)
+
+
+
+## [0.39.8](https://github.com/startupjs/startupjs/compare/v0.39.6...v0.39.8) (2021-10-26)
+
+
+### Bug Fixes
+
+* **ui/Modal:** fix condition that checks usage way of component ([#826](https://github.com/startupjs/startupjs/issues/826)) ([399e2b3](https://github.com/startupjs/startupjs/commit/399e2b368a717233cd66e888349633fc5dfb97ed))
+
+
+### Features
+
+* **vite-plugin-startupjs:** Rewrite vite plugin for the latest stable vite version ([#827](https://github.com/startupjs/startupjs/issues/827)) ([bc556b0](https://github.com/startupjs/startupjs/commit/bc556b0961ab7616eb6a4e1731cb4900114fed07))
+
+
+
+## [0.39.6](https://github.com/startupjs/startupjs/compare/v0.39.5...v0.39.6) (2021-10-24)
+
+
+### Bug Fixes
+
+* add 'react-native-gesture-handler' to peer dependencies of ui and to cli ([bce4099](https://github.com/startupjs/startupjs/commit/bce40995be1e71e489be6e3c2102630504b8c7b7))
+
+
+
+## [0.39.5](https://github.com/startupjs/startupjs/compare/v0.39.4...v0.39.5) (2021-10-21)
+
+
+### Bug Fixes
+
+* **ui/Div:** better check of `renderTooltip` ([#819](https://github.com/startupjs/startupjs/issues/819)) ([1ab951b](https://github.com/startupjs/startupjs/commit/1ab951b64820882eeea72cfd850aa687abd625e4))
+* **ui/Modal:** fix height of `fullscreen` variant ([#823](https://github.com/startupjs/startupjs/issues/823)) ([13ab19f](https://github.com/startupjs/startupjs/commit/13ab19f13682812db3a5d12cbd0b3bf3d620db5c))
+* **ui/Multiselect:** fix option `key` prop value ([#815](https://github.com/startupjs/startupjs/issues/815)) ([3312853](https://github.com/startupjs/startupjs/commit/3312853f6eca8688a66263ef0317c5e1ffef2379))
+* **ui/NumberInput:** check if value is null or undefined ([b679cc9](https://github.com/startupjs/startupjs/commit/b679cc9262a33ca77becbe2cdbd278eeb51e0453))
+
+
+### Features
+
+* **backend:** add 'pollDebounce' option to reduce load on the database ([8c5cd9f](https://github.com/startupjs/startupjs/commit/8c5cd9f36c7f8857f0dce5f25f0a17f32c5a237e))
+* **dnd:** add basic support ([#600](https://github.com/startupjs/startupjs/issues/600)) ([9f273e1](https://github.com/startupjs/startupjs/commit/9f273e1a73420ac1006ab4530d5d273fb2224211))
+
+
+
 ## [0.39.4](https://github.com/startupjs/startupjs/compare/v0.39.3...v0.39.4) (2021-10-16)
 
 

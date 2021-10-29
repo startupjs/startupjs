@@ -10,8 +10,8 @@ import { Span } from './../../typography'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
 
-export default function wrapInput (Component, _options) {
-  _options = merge(
+export default function wrapInput (Component, configuration) {
+  configuration = merge(
     {
       rows: {
         labelPosition: 'top',
@@ -20,14 +20,14 @@ export default function wrapInput (Component, _options) {
       isLabelColoredWhenFocusing: false,
       isLabelClickable: false
     },
-    _options
+    configuration
   )
 
   function InputWrapper ({
     label,
     description,
     layout,
-    _options: componentOptions,
+    configuration: componentConfiguration,
     error,
     onFocus,
     onBlur,
@@ -49,16 +49,15 @@ export default function wrapInput (Component, _options) {
       description
     })
 
-    _options = merge(_options, componentOptions)
-    _options = merge(_options, _options[layout])
+    configuration = merge(configuration, componentConfiguration)
+    configuration = merge(configuration, configuration[layout])
 
     const {
       labelPosition,
       descriptionPosition,
       isLabelColoredWhenFocusing,
-      isLabelClickable,
-      ...inputProps
-    } = _options
+      isLabelClickable
+    } = configuration
 
     const [focused, setFocused] = useState(false)
 
@@ -107,7 +106,6 @@ export default function wrapInput (Component, _options) {
         onFocus=handleFocus
         onBlur=handleBlur
         ...props
-        ...inputProps
       )
     `
     const err = pug`
@@ -157,7 +155,7 @@ export default function wrapInput (Component, _options) {
   InputWrapper.defaultProps = merge(
     {},
     Component.defaultProps,
-    _options
+    configuration
   )
 
   InputWrapper.propTypes = Object.assign({
@@ -165,7 +163,7 @@ export default function wrapInput (Component, _options) {
     label: PropTypes.string,
     description: PropTypes.string,
     layout: PropTypes.oneOf(['pure', 'rows', 'columns']),
-    _options: PropTypes.shape({
+    configuration: PropTypes.shape({
       rows: PropTypes.shape({
         labelPosition: PropTypes.oneOf(['top', 'right']),
         descriptionPosition: PropTypes.oneOf(['top', 'bottom'])

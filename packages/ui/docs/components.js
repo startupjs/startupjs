@@ -26,10 +26,13 @@ import DivEn from '../components/Div/Div.en.mdx'
 import DivRu from '../components/Div/Div.ru.mdx'
 import DividerEn from '../components/Divider/Divider.en.mdx'
 import DividerRu from '../components/Divider/Divider.ru.mdx'
+import Draggable from '../components/draggable/Draggable.mdx'
 import DrawerSidebarEn from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import DrawerSidebarRu from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
 import IconEn from '../components/Icon/Icon.en.mdx'
 import IconRu from '../components/Icon/Icon.ru.mdx'
+import ItemEn from '../components/Item/Item.en.mdx'
+import ItemRu from '../components/Item/Item.ru.mdx'
 import LayoutEn from '../components/Layout/Layout.en.mdx'
 import LayoutRu from '../components/Layout/Layout.ru.mdx'
 import LinkEn from '../components/Link/Link.en.mdx'
@@ -179,6 +182,11 @@ export default {
         ru: DividerRu
       }
     },
+    draggable: {
+      type: 'mdx',
+      title: 'draggable',
+      component: Draggable
+    },
     DrawerSidebar: {
       type: 'mdx',
       title: 'DrawerSidebar',
@@ -193,6 +201,14 @@ export default {
       component: {
         en: IconEn,
         ru: IconRu
+      }
+    },
+    Item: {
+      type: 'mdx',
+      title: 'Item',
+      component: {
+        en: ItemEn,
+        ru: ItemRu
       }
     },
     Layout: {

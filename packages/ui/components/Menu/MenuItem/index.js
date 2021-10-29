@@ -1,71 +1,56 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Div from './../../Div'
-import Link from './../../Link'
-import Icon from './../../Icon'
-import Span from './../../typography/Span'
+import Item from '../../Item'
+import Div from '../../Div'
+import Icon from '../../Icon'
+import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
+import MenuContext from '../context'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
 
 function MenuItem ({
-  style,
-  containerStyle,
   children,
-  to,
+  containerStyle,
   active,
-  activeBorder,
   bold,
   icon,
-  iconPosition,
-  onPress,
-  activeColor,
   ...props
 }) {
+  const context = useContext(MenuContext)
+
+  const activeColor = props.activeColor || context.activeColor
+  const activeBorder = props.activeBorder || context.activeBorder
+  const iconPosition = props.iconPosition || context.iconPosition
+
   // TODO: prevent click if already active (for link and for div)
   const activeItemColor = activeColor || colors.primary
   const color = active ? activeItemColor : colors.mainText
   const borderStyle = { backgroundColor: activeItemColor }
-  const extraProps = {}
-  const reverse = iconPosition === 'right'
-  let Wrapper
-
-  if (to) {
-    Wrapper = Link
-    extraProps.to = to
-    extraProps.block = true
-  } else {
-    Wrapper = Div
-  }
 
   return pug`
-    Wrapper.root(
-      style=style
-      styleName={reverse}
-      variant='highlight'
-      onPress=onPress
-      ...extraProps
-      ...props
-    )
+    Div
+      Item(...props)
+        if icon && iconPosition === 'left'
+          Item.Left
+            Icon(icon=icon styleName={ color })
+
+        Item.Content(style=[containerStyle])
+          Span(bold=bold style={ color })= children
+
+        if icon && iconPosition === 'right'
+          Item.Right
+            Icon(icon=icon styleName={ color })
+
       if activeBorder !== 'none' && active
         Div.border(styleName=[activeBorder] style=borderStyle)
-      if icon
-        Icon.icon(styleName=[iconPosition] icon=icon style={color})
-
-      Div.container(style=containerStyle)
-        if typeof children === 'string'
-          Span(style={color} bold=bold numberOfLines=1)= children
-        else
-          = children
   `
 }
 
 MenuItem.defaultProps = {
-  active: false,
-  activeBorder: 'none',
-  iconPosition: 'left'
+  active: false
 }
 
 MenuItem.propTypes = {

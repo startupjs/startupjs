@@ -259,21 +259,23 @@ The following guides are available to assist with migration to new major version
 
 - [Migration Guides](/docs/migration-guides)
 
-## Advanced usage
+## Vite
 
-You can configure your project to use [`vite`](https://github.com/vitejs/vite) in development for build process.
+You can configure your project to use [`vite`](https://github.com/vitejs/vite) in development for web client instead of Webpack.
 
-```
-yarn add vite@0.20.3 vite-plugin-startupjs
-```
+Vite provides faster compilation times since it uses native ES Modules and compiles only the files which are actually being used on the page you are viewing.
 
-And add the execution of vite patch to your `postinstall` script in `package.json`:
+**IMPORTANT things to note:**
 
-```
-  "postinstall": "startupjs postinstall && npx patch-package --patch-dir ./node_modules/@startupjs/patches/vite"
-```
+1. Only the `simple` template is supported out of the box by our Vite plugin.
 
-Note that the vite version is required to be the outdated `0.20.3`. lUpgrade to the latest vite version is planned to be done soon.
+2. Most react-native libraries name files containing JSX as simply `.js`, while Vite expects such files to be named `.jsx`. Because of that you might need to alter Vite config to force it to compile `.js` files in `node_modules` the same as `.jsx`.
+
+**How to use:**
+
+Install `simple` starter project with `npx startupjs init myapp -t simple` and follow instructions in the according plugin package:
+
+- [@startupjs/vite-plugin-startupjs](/packages/vite-plugin-startupjs)
 
 ## Security
 
