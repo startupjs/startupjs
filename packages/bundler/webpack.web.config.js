@@ -66,7 +66,8 @@ module.exports = function getConfig (env, {
     },
     cache: !PROD && {
       type: 'filesystem',
-      memoryCacheUnaffected: true
+      memoryCacheUnaffected: true,
+      compression: 'brotli'
     },
     experiments: !PROD && {
       cacheUnaffected: true
