@@ -106,12 +106,12 @@ const itemStyle = {
   justifyContent: 'center'
 }
 const vAlignOptions = [
-  { value: null, label: 'stretch (default)' },
+  { value: 'stretch', label: 'stretch (default)' },
   { value: 'start', label: 'start' },
   { value: 'center', label: 'center' },
   { value: 'end', label: 'end' }
 ]
-const [vAlign, setVAlign] = useState(null)
+const [vAlign, setVAlign] = useState('stretch')
 return (
   <Div>
     <Span>Please select a value for `vAlign` prop</Span>

@@ -1,46 +1,31 @@
-_overlayBg = $UI.colors.darkLighter
-_modalBg = $UI.colors.white
-_gutter = $UI.gutters.m
+$overlayBg = $UI.colors.darkLighter
+$modalBg = $UI.colors.white
+$gutter = $UI.gutters.m
 
-// layout styles
 .root
   height 100%
 
-  +android()
-    z-index 0 // android only: popover does not display without this property
-
   &.window
-    padding 0 _gutter
-    // margin auto does not work for .modal class without row direction
-    flex-direction row
-
-  +web()
-    position fixed
-    top 0
-    right 0
-    left 0
-    z-index 1500
+    padding 0 $gutter
 
 .overlay
   position absolute
   top 0
   right 0
   left 0
-  height 100%
-  background-color _overlayBg
+  bottom 0
+  background-color $overlayBg
 
   +web()
     cursor pointer
 
 .modal
-  // override flex-shrink to work .root class paddings
   flex-shrink 1
-  background-color _modalBg
-  overflow hidden
+  background-color $modalBg
 
   &.window
     margin auto
-    max-height 90vh
+    max-height 90%
     max-width 776px
     min-width 280px
     border-radius 4px

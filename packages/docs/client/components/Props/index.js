@@ -66,6 +66,7 @@ export default observer(themed(function PComponent ({
   validateWidth,
   showSizes,
   theme,
+  noScroll,
   block: defaultBlock
 }) {
   const [block, setBlock] = useState(!!defaultBlock)
@@ -82,6 +83,22 @@ export default observer(themed(function PComponent ({
   const entries = useEntries({ Component, props, extraParams })
   useInitDefaultProps({ entries, $theProps })
 
+  function Wrapper ({ children }) {
+    if (noScroll) {
+      return pug`
+        Div.scroll.scrollContent
+          = children
+      `
+    }
+
+    return pug`
+      ScrollView.scroll(
+        contentContainerStyleName='scrollContent'
+        horizontal
+      )= children
+    `
+  }
+
   return pug`
     Div.root(style=style)
       Div.top(styleName=[theme])
@@ -92,10 +109,7 @@ export default observer(themed(function PComponent ({
         )
 
       Div.bottom(styleName=[theme])
-        ScrollView.scroll(
-          contentContainerStyleName='scrollContent'
-          horizontal
-        )
+        Wrapper
           Renderer(
             style=rendererStyle
             Component=Component

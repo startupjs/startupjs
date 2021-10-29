@@ -8,7 +8,7 @@ function Input ({
   input,
   type,
   ...props
-}) {
+}, ref) {
   input = input || type
   input = SCHEMA_TYPE_TO_INPUT[input] || input
 
@@ -18,6 +18,7 @@ function Input ({
 
   return pug`
     Component(
+      ref=ref
       ...props
       ...componentProps
       ...bindingProps
@@ -33,10 +34,9 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  input: PropTypes.oneOf(possibleInputs),
   type: PropTypes.oneOf(possibleInputs.concat(possibleTypes)),
   value: PropTypes.any,
   $value: PropTypes.any
 }
 
-export default observer(Input)
+export default observer(Input, { forwardRef: true })

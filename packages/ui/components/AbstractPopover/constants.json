@@ -1,0 +1,30 @@
+{
+  "POPOVER_MARGIN": 8,
+  "ARROW_SIZE": 8,
+  "STEPS": {
+    "CLOSE": "close",
+    "MEASURE": "measure",
+    "RENDER": "render",
+    "OPEN": "open"
+  },
+  "PLACEMENTS_ORDER": [
+    "top-start",
+    "top-center",
+    "top-end",
+    "right-start",
+    "right-center",
+    "right-end",
+    "bottom-end",
+    "bottom-center",
+    "bottom-start",
+    "left-end",
+    "left-center",
+    "left-start"
+  ],
+  "POSITIONS_REVERSE": {
+    "top": "bottom",
+    "bottom": "top",
+    "left": "right",
+    "right": "left"
+  }
+}

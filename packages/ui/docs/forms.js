@@ -6,8 +6,8 @@ import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'
 import CheckboxRu from '../components/forms/Checkbox/Checkbox.ru.mdx'
 import ColorPickerEn from '../components/forms/ColorPicker/ColorPicker.en.mdx'
 import ColorPickerRu from '../components/forms/ColorPicker/ColorPicker.ru.mdx'
-import DateTimePickerEn from '../components/forms/DateTimePicker/DateTimePicker.en.mdx'
-import DateTimePickerRu from '../components/forms/DateTimePicker/DateTimePicker.ru.mdx'
+import DateTimePickerEn from '../components/forms/DateTimePicker/docs/DateTimePicker.en.mdx'
+import DateTimePickerRu from '../components/forms/DateTimePicker/docs/DateTimePicker.ru.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import InputRu from '../components/forms/Input/Input.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
@@ -33,6 +33,22 @@ export default {
   },
   icon: faSpellCheck,
   items: {
+    Input: {
+      type: 'mdx',
+      title: 'Input',
+      component: {
+        en: InputEn,
+        ru: InputRu
+      }
+    },
+    ObjectInput: {
+      type: 'mdx',
+      title: 'ObjectInput',
+      component: {
+        en: ObjectInputEn,
+        ru: ObjectInputRu
+      }
+    },
     Array: {
       type: 'mdx',
       title: 'ArrayInput',
@@ -65,14 +81,6 @@ export default {
         ru: DateTimePickerRu
       }
     },
-    Input: {
-      type: 'mdx',
-      title: 'Input',
-      component: {
-        en: InputEn,
-        ru: InputRu
-      }
-    },
     Multiselect: {
       type: 'mdx',
       title: 'Multiselect',
@@ -87,14 +95,6 @@ export default {
       component: {
         en: NumberInputEn,
         ru: NumberInputRu
-      }
-    },
-    ObjectInput: {
-      type: 'mdx',
-      title: 'ObjectInput',
-      component: {
-        en: ObjectInputEn,
-        ru: ObjectInputRu
       }
     },
     PasswordInput: {

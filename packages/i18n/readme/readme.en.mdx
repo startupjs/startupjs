@@ -123,3 +123,26 @@ export default observer(function LanguageSelect () {
   `
 })
 ```
+
+## Working with translations
+
+To work correctly with translations, you need to use the function - `t`
+
+```jsx
+import React from 'react'
+import { t } from 'startupjs'
+import { Span } from '@startupjs/ui'
+
+export default function MyPage () {
+  return pug`
+    Div
+      Span= t('backToHome', 'Back to Home')
+  `
+}
+```
+
+The first argument is the name of the tag for translations, the second is the default
+
+Initially, words are used only for the default language, the rest of the words of other languages ​​can be changed on the page - ${BASE_URL}/i18n
+
+Depending on the selected language, the `t` function will match the value in the layout

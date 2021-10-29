@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-i18n-extract",
-  "version": "0.37.7",
+  "version": "0.39.0",
   "description": "Extract translation keys",
   "main": "index.js",
   "publishConfig": {
@@ -29,5 +29,8 @@
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
   }
 }

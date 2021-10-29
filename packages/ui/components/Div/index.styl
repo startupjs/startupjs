@@ -49,7 +49,6 @@ _shadowLevels = ('1' '2' '3' '4')
 //   TOOLTIP
 // -----------------------------------------
 .tooltip
-  padding 1u 2u
   background-color $UI.colors.dark
   max-width 260px
   radius()
@@ -58,7 +57,9 @@ _shadowLevels = ('1' '2' '3' '4')
   +tablet()
     max-width 320px
 
-.tooltip
+  &.simple
+    padding 1u 2u
+
   &-arrow
     color $UI.colors.dark
 

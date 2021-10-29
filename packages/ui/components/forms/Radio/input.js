@@ -54,7 +54,7 @@ const RadioInput = function ({
   }, [checked])
 
   return pug`
-    Row.input(
+    Row.input-input(
       style=style
       vAlign='center'
       disabled=disabled || readonly

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { observer, useModel, useSession, useLocal } from 'startupjs'
+import React, { useCallback, useEffect, useMemo } from 'react'
+import { observer, useModel, useLocal } from 'startupjs'
 import { pathFor } from 'startupjs/app'
 import { useMedia, Menu, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
@@ -7,9 +7,102 @@ import { getTitle, useLang } from '../../../../../clientHelpers'
 import { useDocsContext } from '../../../../../../docsContext'
 import './index.styl'
 
+const MenuItem = observer(function MenuItemComponent ({
+  active,
+  doc,
+  docName,
+  docPath,
+  nestingLevel,
+  superPath
+}) {
+  const [lang] = useLang()
+  const { desktop } = useMedia()
+  const $mainSidebar = useModel('_session.Sidebar.mainSidebar')
+  const $openedCollapses = useModel('_session.SidebarCollapses')
+
+  const menuItemStyle = useMemo(() => ({ paddingLeft: nestingLevel * 24 }), [nestingLevel])
+  const title = useMemo(() => getTitle(doc, lang), [doc, lang])
+  const rootPath = useMemo(() => pathFor('docs:doc', { lang, path: docPath }), [lang, docPath])
+
+  if (doc.type === 'collapse') {
+    return pug`
+      Collapse(
+        variant='pure'
+        $open=$openedCollapses.at(docPath)
+      )
+        Collapse.Header.header(
+          iconPosition='right'
+          icon=faAngleRight
+          iconStyleName='collapse-icon'
+        )
+          Menu.Item.item(
+            style=menuItemStyle
+            active=active
+            to=doc.component ? rootPath : null
+            bold
+            icon=doc.icon
+          )= title
+        Collapse.Content
+          Docs(
+            docs=doc.items
+            superPath=docPath
+            nestingLevel=nestingLevel + 1
+          )
+    `
+  }
+
+  return pug`
+    Menu.Item.item(
+      style=menuItemStyle
+      active=active
+      to=rootPath
+      onPress=desktop ? undefined : () => $mainSidebar.set(false)
+    )= title
+  `
+})
+
+const Docs = observer(function DocsComponent ({ docs, superPath, nestingLevel = 1 }) {
+  const [path] = useLocal('$render.params.path')
+  const $openedCollapses = useModel('_session.SidebarCollapses')
+
+  // HACK: open parent collapse on initial render
+  useEffect(() => {
+    if (superPath && path.startsWith(superPath)) {
+      $openedCollapses.setDiff(superPath, true)
+    }
+  }, [])
+
+  const getDocPath = useCallback(
+    docName => {
+      return superPath ? superPath + '/' + docName : docName
+    },
+    [superPath]
+  )
+
+  const getActive = useCallback(
+    docName => {
+      return getDocPath(docName) === path
+    },
+    [path]
+  )
+
+  return pug`
+    Menu
+      each docName in Object.keys(docs)
+        MenuItem(
+          key=docName
+          active=getActive(docName)
+          doc=docs[docName]
+          docName=docName
+          docPath=getDocPath(docName)
+          nestingLevel=nestingLevel
+          superPath=superPath
+        )
+  `
+})
+
 export default observer(function DocsRoot () {
   const docs = useDocsContext()
-  const [lang] = useLang()
   const [path] = useLocal('$render.params.path')
 
   // NOTE
@@ -20,69 +113,6 @@ export default observer(function DocsRoot () {
   if (!path) return null
 
   return pug`
-    Docs(docs=docs lang=lang)
-  `
-})
-
-const Docs = observer(function DocsComponent ({
-  docs,
-  lang,
-  superPath,
-  nestingLevel = 1
-}) {
-  const [path] = useLocal('$render.params.path')
-  const { desktop } = useMedia()
-  const [, $openedCollapses] = useSession('SidebarCollapses')
-  const $mainSidebar = useModel('_session.Sidebar.mainSidebar')
-
-  // HACK: open parent collapse on initial render
-  useEffect(() => {
-    if (superPath && path.startsWith(superPath)) {
-      $openedCollapses.setDiff(superPath, true)
-    }
-  }, [])
-
-  const menuItemStyle = { paddingLeft: nestingLevel * 24 }
-
-  return pug`
-    Menu
-      each aDocName in Object.keys(docs)
-        React.Fragment(key=aDocName)
-          - const doc = docs[aDocName]
-          - const title = getTitle(doc, lang)
-          - const docPath = superPath ? superPath + '/' + aDocName : aDocName
-          - const rootPath = pathFor('docs:doc', { lang, path: docPath })
-          - const isActive = docPath === path
-          if ['mdx', 'sandbox'].includes(doc.type)
-            Menu.Item.item(
-              style=menuItemStyle
-              active=isActive
-              to=rootPath
-              onPress=desktop ? undefined : () => $mainSidebar.set(false)
-            )= title
-          if doc.type === 'collapse'
-            Collapse(
-              variant='pure'
-              $open=$openedCollapses.at(docPath)
-            )
-              Collapse.Header.header(
-                iconPosition='right'
-                icon=faAngleRight
-                iconStyleName='collapse-icon'
-              )
-                Menu.Item.item(
-                  style=menuItemStyle
-                  active=isActive
-                  to=doc.component ? rootPath : null
-                  bold
-                  icon=doc.icon
-                )= title
-              Collapse.Content
-                Docs(
-                  docs=doc.items
-                  superPath=docPath
-                  lang=lang
-                  nestingLevel=nestingLevel + 1
-                )
+    Docs(docs=docs)
   `
 })

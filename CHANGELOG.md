@@ -1,3 +1,232 @@
+## [0.39.10](https://github.com/startupjs/startupjs/compare/v0.39.9...v0.39.10) (2021-10-28)
+
+
+### Bug Fixes
+
+* **auth:** fix find user by email ([0d3b9e5](https://github.com/startupjs/startupjs/commit/0d3b9e5e747494e52a2cbf5f9c7f404baf4b02c7))
+* **ui/Input:** prevent checkbox label click when disabled ([78e7b40](https://github.com/startupjs/startupjs/commit/78e7b40e0d25b1236dec77f2c591537c46040308))
+
+
+### Features
+
+* **ui/Item:** add component ([#808](https://github.com/startupjs/startupjs/issues/808)) ([2e44540](https://github.com/startupjs/startupjs/commit/2e44540ca543a6aa26458c7bc0f8c326a8699d76))
+
+
+
+## [0.39.9](https://github.com/startupjs/startupjs/compare/v0.39.8...v0.39.9) (2021-10-26)
+
+
+
+## [0.39.8](https://github.com/startupjs/startupjs/compare/v0.39.6...v0.39.8) (2021-10-26)
+
+
+### Bug Fixes
+
+* **ui/Modal:** fix condition that checks usage way of component ([#826](https://github.com/startupjs/startupjs/issues/826)) ([399e2b3](https://github.com/startupjs/startupjs/commit/399e2b368a717233cd66e888349633fc5dfb97ed))
+
+
+### Features
+
+* **vite-plugin-startupjs:** Rewrite vite plugin for the latest stable vite version ([#827](https://github.com/startupjs/startupjs/issues/827)) ([bc556b0](https://github.com/startupjs/startupjs/commit/bc556b0961ab7616eb6a4e1731cb4900114fed07))
+
+
+
+## [0.39.6](https://github.com/startupjs/startupjs/compare/v0.39.5...v0.39.6) (2021-10-24)
+
+
+### Bug Fixes
+
+* add 'react-native-gesture-handler' to peer dependencies of ui and to cli ([bce4099](https://github.com/startupjs/startupjs/commit/bce40995be1e71e489be6e3c2102630504b8c7b7))
+
+
+
+## [0.39.5](https://github.com/startupjs/startupjs/compare/v0.39.4...v0.39.5) (2021-10-21)
+
+
+### Bug Fixes
+
+* **ui/Div:** better check of `renderTooltip` ([#819](https://github.com/startupjs/startupjs/issues/819)) ([1ab951b](https://github.com/startupjs/startupjs/commit/1ab951b64820882eeea72cfd850aa687abd625e4))
+* **ui/Modal:** fix height of `fullscreen` variant ([#823](https://github.com/startupjs/startupjs/issues/823)) ([13ab19f](https://github.com/startupjs/startupjs/commit/13ab19f13682812db3a5d12cbd0b3bf3d620db5c))
+* **ui/Multiselect:** fix option `key` prop value ([#815](https://github.com/startupjs/startupjs/issues/815)) ([3312853](https://github.com/startupjs/startupjs/commit/3312853f6eca8688a66263ef0317c5e1ffef2379))
+* **ui/NumberInput:** check if value is null or undefined ([b679cc9](https://github.com/startupjs/startupjs/commit/b679cc9262a33ca77becbe2cdbd278eeb51e0453))
+
+
+### Features
+
+* **backend:** add 'pollDebounce' option to reduce load on the database ([8c5cd9f](https://github.com/startupjs/startupjs/commit/8c5cd9f36c7f8857f0dce5f25f0a17f32c5a237e))
+* **dnd:** add basic support ([#600](https://github.com/startupjs/startupjs/issues/600)) ([9f273e1](https://github.com/startupjs/startupjs/commit/9f273e1a73420ac1006ab4530d5d273fb2224211))
+
+
+
+## [0.39.4](https://github.com/startupjs/startupjs/compare/v0.39.3...v0.39.4) (2021-10-16)
+
+
+### Bug Fixes
+
+* **bundler:** Remove observer replacer from .mdx chain in 'web' webpack since state of components in .mdx is lost on hot reloading in any case, so there is no benefit in having it. ([520f2ca](https://github.com/startupjs/startupjs/commit/520f2ca135d69b2574658da5070f7c5031da1b40))
+* **ui/AutoSuggest:** prevent automatically dismiss keyboard  ([#810](https://github.com/startupjs/startupjs/issues/810)) ([7e4b0dd](https://github.com/startupjs/startupjs/commit/7e4b0dd33a0bb71a3c74400bbb0375482c914716))
+
+
+### Features
+
+* **babel-plugin-rn-stylename-to-style:** do JSON.parse() When styles are imported as a JSON string (for example in Vite) ([#813](https://github.com/startupjs/startupjs/issues/813)) ([ee34332](https://github.com/startupjs/startupjs/commit/ee343328fcbf8ea08e6dad416c0909feb6624ac5))
+* **ui/Radio:** add ability to display radio button in row ([38b0397](https://github.com/startupjs/startupjs/commit/38b03977c5fbdf90bc97161ada044f8065fa7f19))
+
+
+
+## [0.39.3](https://github.com/startupjs/startupjs/compare/v0.39.2...v0.39.3) (2021-10-01)
+
+
+### Bug Fixes
+
+* **ui/Input:** prevent checkbox label click when disabled ([0eea489](https://github.com/startupjs/startupjs/commit/0eea4899df55b3c271efc5310fe080e127eede4b))
+
+
+### Features
+
+* **app:** add prevUrl to '' ([004067a](https://github.com/startupjs/startupjs/commit/004067a969a32bd84f1d2957990e947c3c94ca30))
+
+
+
+## [0.39.2](https://github.com/startupjs/startupjs/compare/v0.39.1...v0.39.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** fix using a broken focus handler ([e49a786](https://github.com/startupjs/startupjs/commit/e49a7867bf9c104da4b5564386fd4e9d2ba2e730))
+
+
+
+## [0.39.1](https://github.com/startupjs/startupjs/compare/v0.39.0...v0.39.1) (2021-09-22)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix passing ref to target input component ([5a5bb9c](https://github.com/startupjs/startupjs/commit/5a5bb9cc8a369fa7e83b3d15d4b3b4c2e678ef19))
+
+
+
+# [0.39.0](https://github.com/startupjs/startupjs/compare/v0.38.5...v0.39.0) (2021-09-21)
+
+
+### Bug Fixes
+
+* **hooks/useBind:** remove `default` property ([73ea6ec](https://github.com/startupjs/startupjs/commit/73ea6ec2efcf07197f1cb7e29b8077df394ed91f))
+* **mdx:** fix warning of broken styles ([31c41b4](https://github.com/startupjs/startupjs/commit/31c41b451cb9220bbfaf2ccab4ddc65e7a32fdb4))
+* **Popover:** fix detection of usage method ([996afbe](https://github.com/startupjs/startupjs/commit/996afbedbcdc251e160672636e2e303844c6d030))
+* **ui:** remove breaking 'useCallback' from components ([581c5c7](https://github.com/startupjs/startupjs/commit/581c5c7decee49fa076ad349f174eff28f9393a4))
+* **ui/AbstractPopover:** add z-index ([b3327ca](https://github.com/startupjs/startupjs/commit/b3327ca135ae254367186865261d969994314719))
+* **ui/DateTimepicker:** display placeholder if not value and prevent editable input ([9423cad](https://github.com/startupjs/startupjs/commit/9423cad366190778cbe475412d004cf04f60714d))
+* **ui/DateTimePicker:** fix opening on native ([c090881](https://github.com/startupjs/startupjs/commit/c090881b26914d96d365b0b0947af409f0ab8f90))
+* **ui/DateTimePicker:** fix the bug related to inability to switch years ([d04e34f](https://github.com/startupjs/startupjs/commit/d04e34f6444bdbc38fbb00ff7ac0ca5887f5f5ea))
+* **ui/DateTimePicker:** pass props to render content function ([fb61dd9](https://github.com/startupjs/startupjs/commit/fb61dd98f195439f65ea578c25707c8c9fac4c6d))
+* **ui/DeprecatedPopover:** fix portal crashing when component is unmounted ([6e81fe4](https://github.com/startupjs/startupjs/commit/6e81fe4571169188aa81f2c895ba4c311f53e492))
+* **ui/Div:** extend tooltip properties ([18a78a2](https://github.com/startupjs/startupjs/commit/18a78a20ca51be8ffd89ae9a1c9db8ef3bdc518e))
+* **ui/Modal:** fix crashing app when close modal without closing popups ([6312625](https://github.com/startupjs/startupjs/commit/6312625cff5768cb761b5a78936652085986706c))
+* **ui/Popover:** prevent crashing when 'renderContent' is not passed ([50b12f9](https://github.com/startupjs/startupjs/commit/50b12f9bffc4602dfcd28d5ebbbd43303eadc835))
+* **ui/Portal:** fix elements order ([#806](https://github.com/startupjs/startupjs/issues/806)) ([fea800b](https://github.com/startupjs/startupjs/commit/fea800bf5a6cdaa3219c0e664c4e25964d1b82c6))
+* **ui/TextInput:** fix focus and blur handlers ([4652ee5](https://github.com/startupjs/startupjs/commit/4652ee56a7a1bff079291c8fccb300e618023190))
+
+
+### BREAKING CHANGES
+
+* **hooks/useBind:** The `default` property was removed because it does not make any sense considering that it also worked incorrectly. If you used it then fix it by declaring the value manually after calling the hook.
+
+
+
+## [0.38.5](https://github.com/startupjs/startupjs/compare/v0.38.4...v0.38.5) (2021-09-15)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** pass options to babel-plugin-i18n-extract ([e42c87b](https://github.com/startupjs/startupjs/commit/e42c87b6ee497729e5a289f778c89768cb6a4b8d))
+* **ui/AbstractPopover:** fix geometry calculation ([1e93ed2](https://github.com/startupjs/startupjs/commit/1e93ed2b4db9166e2525e35e78f46c19d7c5a5c2))
+* **ui/Modal:** standardize usage ways ([b070c48](https://github.com/startupjs/startupjs/commit/b070c48d656c0972b8c9619094546147e2ba5d13))
+* **ui/Popover:** standardize usage ways ([c4496b3](https://github.com/startupjs/startupjs/commit/c4496b3821e0281e169ff06bb3f750cc7deb01a8))
+* **ui/useBind:** fix check of empty value ([9a9fbdd](https://github.com/startupjs/startupjs/commit/9a9fbdd89b477ffb8751b5b34364b4d5dfc4a4f8))
+
+
+
+## [0.38.4](https://github.com/startupjs/startupjs/compare/v0.38.3...v0.38.4) (2021-09-13)
+
+* **ui/DateTimePicker:** deprecate `renderCaption`, use `renderContent` instead
+
+
+## [0.38.3](https://github.com/startupjs/startupjs/compare/v0.38.2...v0.38.3) (2021-09-13)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** add i18n plugin for native mobiles and collect translations only for web build ([26edfe6](https://github.com/startupjs/startupjs/commit/26edfe6a3e3683729dccdfff27a7e30bd500f95f))
+* **i18n:** encode dot in key param of 't' function ([0864cee](https://github.com/startupjs/startupjs/commit/0864cee3d7c1cbf0d1138f0de7d013c393e991ab))
+* **i18n:** fix broken usage of 'languageDetector' ([23360d8](https://github.com/startupjs/startupjs/commit/23360d8f22caa4a495e21663349077eba75ac5ae))
+* **i18n:** reload a page when change language ([00deb80](https://github.com/startupjs/startupjs/commit/00deb80837a843cec5e954b8e13fdd5f98aeb758))
+* **ui/DateTimePicker:** remove redundant label property ([122fc2c](https://github.com/startupjs/startupjs/commit/122fc2cfcc20dcacfdd277cb3467fd4bfa8ebbe7))
+* **ui/Popover:** remove redundant padding ([04fa3aa](https://github.com/startupjs/startupjs/commit/04fa3aa5dd8543e2db7b90b862f4ea78a8cd8791))
+
+
+### Features
+
+* **babel-plugin-i18n-extract:** collect translations for all extensions ([769978c](https://github.com/startupjs/startupjs/commit/769978c6d8bf081466f2fb77c09341e3f94bae4f))
+* **docs:** add ability to pass extra parameters to `Sandbox` for comonent properties ([#799](https://github.com/startupjs/startupjs/issues/799)) ([f54f5ac](https://github.com/startupjs/startupjs/commit/f54f5ac23378baf5feb512fd8b5ee763311e8165))
+
+
+
+## [0.38.2](https://github.com/startupjs/startupjs/compare/v0.38.1...v0.38.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* **app:** fix incorrect route update when change url ([8220ec3](https://github.com/startupjs/startupjs/commit/8220ec38f6cfccc9d978c0469a8374582952829f))
+* **auth:** change error messages for password recovery ([#793](https://github.com/startupjs/startupjs/issues/793)) ([3871103](https://github.com/startupjs/startupjs/commit/38711031db9095826aa67b8276644fcbfc4b026a))
+* **babel-plugin-rn-stylename-inline:** prevent build crashing when there are no other imports except `styl` ([#778](https://github.com/startupjs/startupjs/issues/778)) ([48c9261](https://github.com/startupjs/startupjs/commit/48c926129a9cf110fdee0bf09ff8884276516f64))
+* **ui/Sidebar:** fix typo of incorrect name for `disabled` property in `propTypes` validation ([#789](https://github.com/startupjs/startupjs/issues/789)) ([f3a4aa0](https://github.com/startupjs/startupjs/commit/f3a4aa0272d8769d34190629cc62520cb17eed4c))
+* **ui/Input:** add two-way data binding for `date`, `datetime` and `time` types ([#795](https://github.com/startupjs/startupjs/issues/795)) ([68d1441](https://github.com/startupjs/startupjs/commit/68d1441855379111d641370cf1f6e39e8b40815e))
+* **ui/NumberInput:** fix `step` property and validation of initial value ([#787](https://github.com/startupjs/startupjs/issues/787)) ([6b5e4a7](https://github.com/startupjs/startupjs/commit/6b5e4a71356eba3d9f74107148aba64749ef503e))
+* **ui/NumberInput:** fix validation of `max` and `min` properties ([#794](https://github.com/startupjs/startupjs/issues/794)) ([79fd26e](https://github.com/startupjs/startupjs/commit/79fd26ec8594eb00b019cb0d66c3398a4fca82a2))
+* **ui/Select:** add ability to work with objects ([#797](https://github.com/startupjs/startupjs/issues/797)) ([da3374e](https://github.com/startupjs/startupjs/commit/da3374eece5066d90ce080fb02180f94589f5640))
+
+
+
+## [0.38.1](https://github.com/startupjs/startupjs/compare/v0.38.0...v0.38.1) (2021-08-27)
+
+
+### Bug Fixes
+
+* **docs:** fix IconSelect ([#786](https://github.com/startupjs/startupjs/issues/786)) ([d5e3955](https://github.com/startupjs/startupjs/commit/d5e395570ea4b8592ece4eeb4543cfedf77e3c4d))
+* **ui/dialogs:** fix error displaying in prompt ([#783](https://github.com/startupjs/startupjs/issues/783)) ([7266baa](https://github.com/startupjs/startupjs/commit/7266baa5b8440e12ab2e79b6177111b1de6a6ab4))
+* **ui/Input:** fix types 'select', 'multiselect' ([#785](https://github.com/startupjs/startupjs/issues/785)) ([131a828](https://github.com/startupjs/startupjs/commit/131a828ab1ba3e6b24a3e5a750d1503dd81d457a))
+
+
+
+# [0.38.0](https://github.com/startupjs/startupjs/compare/v0.37.8...v0.38.0) (2021-08-26)
+
+
+### Bug Fixes
+
+* **app:** move dialogs to ui library ([#714](https://github.com/startupjs/startupjs/issues/714)) ([ba66a1a](https://github.com/startupjs/startupjs/commit/ba66a1a0df43d9f96b261c18eda286e273ed8e1a))
+* **ui:** update `react-native-collapsible` ([040a945](https://github.com/startupjs/startupjs/commit/040a945f99436235e3b6b107f978792076275e8c))
+* **ui/Collapse:** remove default shadow ([cbfa85a](https://github.com/startupjs/startupjs/commit/cbfa85ae7c368b40467c8d8a8382f0921db5a7a7))
+
+
+### Features
+
+* **backend:** deny access to db by default ([#703](https://github.com/startupjs/startupjs/issues/703)) ([247d066](https://github.com/startupjs/startupjs/commit/247d066d322c2b66183e62f05b53dfea88bbec21))
+* **ui/Popover:** rework comonent api ([#684](https://github.com/startupjs/startupjs/issues/684)) ([eb1bada](https://github.com/startupjs/startupjs/commit/eb1bada098cd5db94557251e62fc0fdafddad512))
+* **ui/Tooltip:** deprecate popover and tooltip current api ([#768](https://github.com/startupjs/startupjs/issues/768)) ([002c60e](https://github.com/startupjs/startupjs/commit/002c60e8a6241b7f3fd3e1e19aacb57ab1ce1c8f))
+
+
+### ref
+
+* **ui/DatePicker:** timezone ([#701](https://github.com/startupjs/startupjs/issues/701)) ([8c95184](https://github.com/startupjs/startupjs/commit/8c951848b54afde18d6248b65df82aea58722bf9))
+
+
+### BREAKING CHANGES
+
+* [See 0.38 migration guide](/docs/migration-guides/0.38.md)
+
+
+
 ## [0.37.8](https://github.com/startupjs/startupjs/compare/v0.37.7...v0.37.8) (2021-08-24)
 
 
@@ -216,7 +445,7 @@
 
 ### BREAKING CHANGES
 
-* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](https://startupjs-ui.dmapper.co/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
+* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
 
 * **ui/Breadcrumbs:** no longer supports `Link` component properties for `route`
 

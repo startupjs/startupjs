@@ -1,3 +1,5 @@
+// TODO: create logic for objects with circular structure like jsx components
+
 // Stringify values to omit bugs in Android/iOS Picker implementation
 
 // Force undefined to be a special value to
@@ -6,21 +8,29 @@ export const PICKER_NULL = '-\u00A0\u00A0\u00A0\u00A0\u00A0'
 export const NULL_OPTION = undefined
 
 export function stringifyValue (option) {
-  let value
-  if (option && option.value != null) {
-    value = option.value
-  } else {
-    value = option
+  try {
+    let value
+    if (option && option.value != null) {
+      value = option.value
+    } else {
+      value = option
+    }
+    if (value == null) return PICKER_NULL
+    return JSON.stringify(value)
+  } catch (error) {
+    console.warn('[@startupjs/ui] Select: ' + error)
   }
-  if (value == null) return PICKER_NULL
-  return JSON.stringify(value)
 }
 
 export function parseValue (value) {
-  if (value === PICKER_NULL || value == null) {
-    return undefined
-  } else {
-    return JSON.parse(value)
+  try {
+    if (value === PICKER_NULL || value == null) {
+      return undefined
+    } else {
+      return JSON.parse(value)
+    }
+  } catch (error) {
+    console.warn('[@startupjs/ui] Select: ' + error)
   }
 }
 

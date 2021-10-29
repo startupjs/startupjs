@@ -43,10 +43,43 @@ styl`
 - placements (array): what positions can be used for auto-fix
 
 ```jsx example
-function renderContent () {
-  return pug`
-    Span Content
-  `
+const blockStyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
+const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
+
+const placements = [
+  ['', 'top-start', 'top-center', 'top-end', ''],
+  ['left-start', '', '', '', 'right-start'],
+  ['left-center', '', '', '', 'right-center'],
+  ['left-end', '', '', '', 'right-end'],
+  ['', 'bottom-start', 'bottom-center', 'bottom-end', '']
+]
+
+const [visible, setVisible] = useState('')
+
+function getPopover(placement, index) {
+  if (!placement) return <View key={index} style={blockStyle} />
+
+  const [position, attachment] = placement.split('-')
+  const initials = (position[0] + attachment[0]).toUpperCase()
+
+  return (
+    <Popover
+      key={index}
+      hasArrow={true}
+      animateType='scale'
+      visible={visible === placement}
+      position={position}
+      attachment={attachment}
+      onDismiss={()=> setVisible('')}
+    >
+      <Popover.Caption style={blockStyle}>
+        <Button onPress={()=> setVisible(placement)}>{initials}</Button>
+      </Popover.Caption>
+      <View style={contentStyle}>
+        <Text>Content</Text>
+      </View>
+    </Popover>
+  )
 }
 
 return pug`
@@ -86,7 +119,7 @@ return pug`
 styl`
   .caption
     alignSelt flex-start
-  
+
   .text
     color #fff
 `

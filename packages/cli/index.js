@@ -88,7 +88,7 @@ SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
 SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
   ${reset ? 'rm -rf node_modules/.vite_opt_cache &&' : ''}
   VITE_WEB=1
-  vite --port=3010 -c vite.config.cjs
+  vite
 `)
 
 SCRIPTS_ORIG.webWebpack = oneLine(`
@@ -334,10 +334,10 @@ const TEMPLATES = {
 
       // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
-      '@react-native-community/datetimepicker@^3.0.6',
       '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@^1.6.0',
       'react-native-color-picker@^0.6.0',
+      'react-native-gesture-handler@^1.10.3',
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===

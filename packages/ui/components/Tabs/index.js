@@ -65,6 +65,7 @@ function Tabs ({
 
   return pug`
     //- remove Div when issue will be fixed https://github.com/satya164/react-native-tab-view/issues/1110
+    //- remove Div when issue 2 will be fixed https://github.com/satya164/react-native-tab-view/pull/1252
     Div.root(style=style)
       TabView(
         style=tabsStyle
@@ -99,6 +100,7 @@ Tabs.propTypes = {
   renderTabBar: PropTypes.func,
   sceneContainerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  tabsStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   swipeEnabled: PropTypes.bool,
   tabBarPosition: PropTypes.string
 }

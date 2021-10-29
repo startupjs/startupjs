@@ -31,6 +31,8 @@ module.exports = async options => {
   // ShareDB Setup
   const shareMongo = await getShareMongo()
 
+  if (options.pollDebounce) shareMongo.pollDebounce = options.pollDebounce
+
   let backend = (() => {
     // For horizontal scaling, in production, redis is required.
     if (conf.get('REDIS_URL') && !conf.get('NO_REDIS')) {

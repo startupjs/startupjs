@@ -3,7 +3,18 @@ $checkedColor = $UI.colors.primary
 $errorColor = $UI.colors.attention
 $radioSize = 2u
 
+.root
+  &.row
+    flex-direction row
+
 .input
+  &.row
+    margin-left 2u
+
+  &.first
+    margin-left 0
+
+.input-input
   align-self flex-start
   padding-top 1u
   padding-bottom @padding-top

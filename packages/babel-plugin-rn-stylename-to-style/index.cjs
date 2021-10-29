@@ -21,13 +21,18 @@ const buildRequire = template(`
   const %%name%% = require('${PROCESS_PATH}').process
 `)
 
+const buildJsonParse = template(`
+  const %%name%% = JSON.parse(%%jsonStyle%%)
+`)
+
 module.exports = function (babel) {
   let styleHash = {}
-  let specifier
+  let cssIdentifier
+  let $program
 
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
-    const cssStyles = specifier.local.name
+    const cssStyles = cssIdentifier.name
     const processCall = t.callExpression(
       state.reqName,
       [expression, t.identifier(cssStyles)]
@@ -165,8 +170,8 @@ module.exports = function (babel) {
             ? styleName.node.value
             : styleName.node.value.expression
         ) : t.stringLiteral(''),
-        specifier
-          ? t.identifier(specifier.local.name)
+        cssIdentifier
+          ? t.identifier(cssIdentifier.name)
           : t.objectExpression([]),
         buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }),
         buildSafeVar({ variable: t.identifier(LOCAL_NAME) }),
@@ -199,7 +204,7 @@ module.exports = function (babel) {
 
     if (
       styleName == null ||
-      specifier == null ||
+      cssIdentifier == null ||
       !(
         t.isStringLiteral(styleName.node.value) ||
         t.isJSXExpressionContainer(styleName.node.value)
@@ -243,7 +248,8 @@ module.exports = function (babel) {
   return {
     post () {
       styleHash = {}
-      specifier = undefined
+      cssIdentifier = undefined
+      $program = undefined
     },
     visitor: {
       Program: {
@@ -251,6 +257,7 @@ module.exports = function (babel) {
           state.reqName = $this.scope.generateUidIdentifier(
             'processStyleName'
           )
+          $program = $this
         },
         exit ($this, state) {
           if (!state.hasTransformedClassName) {
@@ -302,13 +309,35 @@ module.exports = function (babel) {
           )
         }
 
-        specifier = node.specifiers[0]
+        let specifier = node.specifiers[0]
 
         if (!specifier) {
           specifier = t.ImportDefaultSpecifier(
             $this.scope.generateUidIdentifier('css')
           )
           node.specifiers = [specifier]
+        }
+
+        cssIdentifier = specifier.local
+
+        // Do JSON.parse() on the css file if we receive it as a json string:
+        // import css from './index.styl'
+        //   v v v
+        // import jsonCss from './index.styl'
+        // const css = JSON.parse(jsonCss)
+        if (state.opts.parseJson) {
+          const lastImportOrRequire = $program
+            .get('body')
+            .filter(p => p.isImportDeclaration() || isRequire(p.node))
+            .pop()
+          const tempCssIdentifier = $this.scope.generateUidIdentifier('jsonCss')
+          node.specifiers[0].local = tempCssIdentifier
+          lastImportOrRequire.insertAfter(
+            buildJsonParse({
+              name: cssIdentifier,
+              jsonStyle: tempCssIdentifier
+            })
+          )
         }
       },
       JSXOpeningElement: {

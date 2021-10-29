@@ -1,4 +1,4 @@
-import { $root, useSession } from 'startupjs'
+import { $root, emit, useSession } from 'startupjs'
 import axios from 'axios'
 import { getConfig } from './config'
 
@@ -17,5 +17,5 @@ async function setLang (lang) {
   }
 
   await axios.post('/api/i18n/change-language', { lang })
-  $root.set('_session.lang', lang)
+  emit('restart', $root.get('$render.url'))
 }

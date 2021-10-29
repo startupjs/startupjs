@@ -124,3 +124,26 @@ export default observer(function LanguageSelect () {
   `
 })
 ```
+
+## Работа с переводами
+
+Чтобы правильно работать с переводами нужно использовать функцию - `t`
+
+```jsx
+import React from 'react'
+import { t } from 'startupjs'
+import { Span } from '@startupjs/ui'
+
+export default function MyPage () {
+  return pug`
+    Div
+      Span= t('backToHome', 'Back to Home')
+  `
+}
+```
+
+Первый аргумент - название тэга для переводов, второй значение по умолчанию
+
+Т.е. изначально используются слова только для дефолтного языка, остальные слова других языков можно изменять на странице - ${BASE_URL}/i18n
+
+В зависимости от выбранного языка, `t` функция будет подствалять значение в верстке

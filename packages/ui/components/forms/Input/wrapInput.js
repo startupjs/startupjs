@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useImperativeHandle } from 'react'
+import React, { useRef, useState, useImperativeHandle } from 'react'
 import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -10,8 +10,8 @@ import { Span } from './../../typography'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
 
-export default function wrapInput (Component, options) {
-  options = merge(
+export default function wrapInput (Component, configuration) {
+  configuration = merge(
     {
       rows: {
         labelPosition: 'top',
@@ -20,20 +20,23 @@ export default function wrapInput (Component, options) {
       isLabelColoredWhenFocusing: false,
       isLabelClickable: false
     },
-    options
+    configuration
   )
 
   function InputWrapper ({
     label,
     description,
     layout,
-    options: componentOptions,
+    configuration: componentConfiguration,
     error,
+    onFocus,
+    onBlur,
     ...props
   }, ref) {
     const inputRef = useRef({})
 
     useImperativeHandle(ref, () => ({
+      ...inputRef.current,
       focus: () => inputRef.current.focus && inputRef.current.focus(),
       blur: () => inputRef.current.blur && inputRef.current.blur(),
       clear: () => inputRef.current.clear && inputRef.current.clear(),
@@ -46,28 +49,27 @@ export default function wrapInput (Component, options) {
       description
     })
 
-    options = merge(options, componentOptions)
-    options = merge(options, options[layout])
+    configuration = merge(configuration, componentConfiguration)
+    configuration = merge(configuration, configuration[layout])
 
     const {
       labelPosition,
       descriptionPosition,
       isLabelColoredWhenFocusing,
-      isLabelClickable,
-      ...inputProps
-    } = options
+      isLabelClickable
+    } = configuration
 
     const [focused, setFocused] = useState(false)
 
-    const onFocus = useCallback((...args) => {
+    function handleFocus (...args) {
       setFocused(true)
-      props.onFocus && props.onFocus(...args)
-    }, [])
+      onFocus && onFocus(...args)
+    }
 
-    const onBlur = useCallback((...args) => {
+    function handleBlur (...args) {
       setFocused(false)
-      props.onBlur && props.onBlur(...args)
-    }, [])
+      onBlur && onBlur(...args)
+    }
 
     const _label = pug`
       if label
@@ -101,10 +103,9 @@ export default function wrapInput (Component, options) {
         ref=inputRef
         layout=layout
         _hasError=!!error
+        onFocus=handleFocus
+        onBlur=handleBlur
         ...props
-        ...inputProps
-        onFocus=onFocus
-        onBlur=onBlur
       )
     `
     const err = pug`
@@ -154,7 +155,7 @@ export default function wrapInput (Component, options) {
   InputWrapper.defaultProps = merge(
     {},
     Component.defaultProps,
-    options
+    configuration
   )
 
   InputWrapper.propTypes = Object.assign({
@@ -162,7 +163,7 @@ export default function wrapInput (Component, options) {
     label: PropTypes.string,
     description: PropTypes.string,
     layout: PropTypes.oneOf(['pure', 'rows', 'columns']),
-    options: PropTypes.shape({
+    configuration: PropTypes.shape({
       rows: PropTypes.shape({
         labelPosition: PropTypes.oneOf(['top', 'right']),
         descriptionPosition: PropTypes.oneOf(['top', 'bottom'])

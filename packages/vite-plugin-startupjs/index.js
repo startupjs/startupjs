@@ -1,29 +1,15 @@
-const resolver = require('./resolver')
-const transformMdx = require('./transformMdx')
-const transformMdxHmr = require('./transformMdxHmr')
-const transformStyl = require('./transformStyl')
-const transformBabel = require('./transformBabel')
-const transformObserver = require('./transformObserver')
-const { startupjsServerPlugin } = require('./serverPlugin')
-// const { addBeforeTransforms } = require('./patches/patchBeforeTransforms')
-const applyPatches = require('./patches')
-const { include, exclude } = require('./includeExclude')
+import jsPlugin from './jsPlugin.js'
+import stylPlugin from './stylPlugin.js'
+import configPlugin from './configPlugin.js'
+import observerPlugin from './observerPlugin.js'
+import htmlPlugin from './htmlPlugin.js'
 
-// HACK: Monkey patch various things in vite for the plugin to work.
-// TODO: implement PR
-applyPatches()
-
-// HACK: Custom 'before' transforms implementation. Runs before esbuild
-// TODO: implement PR
-// addBeforeTransforms([transformBabel, transformMdx])
-
-// TODO VITE move webpack-loaders out into a separate library and use them
-module.exports = {
-  configureServer: startupjsServerPlugin,
-  resolvers: [resolver],
-  transforms: [transformMdx, transformObserver, transformBabel, transformStyl, transformMdxHmr],
-  optimizeDeps: {
-    include,
-    exclude
-  }
+export default function viteTransformStartupjs (options) {
+  return [
+    configPlugin(),
+    htmlPlugin(),
+    observerPlugin(),
+    jsPlugin(options),
+    stylPlugin()
+  ]
 }

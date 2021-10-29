@@ -7,9 +7,10 @@ import {
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
+import pick from 'lodash/pick'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Span from '../typography/Span'
-import AbstractPopover from '../popups/Popover/AbstractPopover'
+import AbstractPopover from '../AbstractPopover'
 import useTooltip from './useTooltip'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
@@ -124,7 +125,7 @@ function Div ({
     }
   }
 
-  if (renderTooltip) {
+  if (typeof renderTooltip !== 'undefined') {
     // TODO: Move all logic to useTooltip hook along with the tooltip html
     const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
 
@@ -200,21 +201,17 @@ function Div ({
     = div
 
     if renderTooltip
-      AbstractPopover(
+      - const simple = typeof renderTooltip === 'string' || typeof renderTooltip === 'number'
+      AbstractPopover.tooltip(
         refAnchor=refAnchor
-        style=tooltipProps.style
-        styleName='tooltip'
+        styleName={ simple }
         arrowStyleName='tooltip-arrow'
         visible=isTooltipVisible
-        position=tooltipProps.position
-        attachment=tooltipProps.attachment
-        durationOpen=tooltipProps.durationOpen
-        durationClose=tooltipProps.durationClose
-        arrow=tooltipProps.arrow
+        ...tooltipProps
       )
         if typeof renderTooltip === 'function'
           = renderTooltip()
-        else if (typeof renderTooltip === 'string') || (typeof renderTooltip === 'number')
+        else if simple
           Span.tooltip-text= renderTooltip
   `
 }
@@ -248,13 +245,27 @@ Div.propTypes = {
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
-  tooltipProps: PropTypes.shape({
-    position: AbstractPopover.propTypes.position,
-    attachment: AbstractPopover.propTypes.attachment,
-    durationOpen: AbstractPopover.propTypes.durationOpen,
-    durationClose: AbstractPopover.propTypes.durationClose,
-    arrow: AbstractPopover.propTypes.arrow
-  }),
+  tooltipProps: PropTypes.shape(
+    pick(
+      AbstractPopover.propTypes,
+      [
+        'style',
+        'arrowStyle',
+        'position',
+        'attachment',
+        'placements',
+        'arrow',
+        'matchAnchorWidth',
+        'durationOpen',
+        'durationClose',
+        'renderWrapper',
+        'onRequestOpen',
+        'onRequestClose',
+        'onCompleteOpen',
+        'onCompleteClose'
+      ]
+    )
+  ),
   renderTooltip: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,

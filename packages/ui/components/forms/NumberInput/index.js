@@ -20,45 +20,48 @@ function NumberInput ({
 }, ref) {
   const [inputValue, setInputValue] = useState()
 
+  const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
+
+  const regexp = useMemo(() => {
+    return precision > 0
+      ? new RegExp('^-?\\d*(\\.(\\d{0,' + precision + '})?)?$')
+      : /^-?\d*$/
+  }, [precision])
+
   useEffect(() => {
-    if (typeof value === 'undefined') {
+    if (value == null) {
       setInputValue('')
       return
     }
 
     if (!isNaN(value) && Number(inputValue) !== value) {
-      if (min && value < min) {
+      if (min != null && value < min) {
         value = min
-      } else if (max && value > max) {
+      } else if (max != null && value > max) {
         value = max
       }
-      setInputValue(value.toString())
+      setInputValue(String(+value.toFixed(precision)))
     }
-  }, [value, min, max])
-
-  const isStepInteger = useMemo(() => {
-    return Number.isInteger(step)
-  }, [step])
-
-  const regexp = useMemo(() => {
-    return isStepInteger
-      ? /^-?\d*$/
-      : /^(-?\d*)(\.\d*)?$/
-  }, [isStepInteger])
+  }, [value, min, max, precision])
 
   function onChangeText (newValue) {
+    // replace comma with dot for some locales
+    if (typeof newValue === 'string' && precision > 0) newValue = newValue.replace(/,/g, '.')
+
     if (!regexp.test(newValue)) return
 
-    if ((min && newValue < min) || (max && newValue > max)) {
+    if ((min != null && newValue < min) || (max != null && newValue > max)) {
       // TODO: display tip?
       return
     }
 
     setInputValue(newValue)
 
-    newValue = newValue && newValue !== '-'
-      ? Number(newValue)
-      : undefined
+    // first check for empty string and undefined
+    // second check for '-' or '.', this will be NaN and therefore return undefined
+    newValue = !newValue || isNaN(newValue)
+      ? undefined
+      : Number(newValue)
 
     // prevent update for the same values
     // for example
@@ -71,8 +74,9 @@ function NumberInput ({
   }
 
   function onIncrement (byNumber) {
-    const newValue = (value || 0) + byNumber
-    onChangeText(newValue)
+    const newValue = +((value || 0) + byNumber * step).toFixed(precision)
+    // we use string because this is the value for TextInput
+    onChangeText(String(newValue))
   }
 
   function renderWrapper ({ style }, children) {
@@ -91,7 +95,6 @@ function NumberInput ({
   return pug`
     TextInput(
       ref=ref
-      test='number'
       inputStyleName=['input-input', buttonsMode, size]
       value=inputValue
       size=size

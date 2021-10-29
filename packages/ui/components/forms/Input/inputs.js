@@ -110,7 +110,13 @@ const inputs = {
   },
   checkbox: {
     Component: WrappedCheckbox,
-    getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
+    getProps: ({ disabled, value, $value, onChange }) => ({
+      disabled,
+      configuration: { isLabelClickable: !disabled },
+      value,
+      $value,
+      onChange
+    })
   },
   color: {
     Component: WrappedColorPicker,
@@ -122,20 +128,29 @@ const inputs = {
   },
   date: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onDateChange }) => ({
-      date: value,
-      $date: $value,
+    getProps: ({ value, $value, onChangeDate }) => ({
       mode: 'date',
-      onDateChange
+      date: value,
+      $value: $value,
+      onChangeDate
     })
   },
   datetime: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onDateChange }) => ({
-      date: value,
-      $date: $value,
+    getProps: ({ value, $value, onChangeDate }) => ({
       mode: 'datetime',
-      onDateChange
+      date: value,
+      $value: $value,
+      onChangeDate
+    })
+  },
+  time: {
+    Component: WrappedDateTimePicker,
+    getProps: ({ value, $value, onChangeDate }) => ({
+      mode: 'time',
+      date: value,
+      $value: $value,
+      onChangeDate
     })
   },
   multiselect: {
@@ -167,15 +182,6 @@ const inputs = {
   select: {
     Component: WrappedSelect,
     getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
-  },
-  time: {
-    Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onDateChange }) => ({
-      date: value,
-      $date: $value,
-      mode: 'time',
-      onDateChange
-    })
   },
   text: {
     Component: WrappedTextInput,
