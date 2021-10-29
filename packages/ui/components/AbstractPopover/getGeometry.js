@@ -1,10 +1,12 @@
 import { Dimensions } from 'react-native'
-import {
+import CONSTANTS from './constants.json'
+
+const {
   PLACEMENTS_ORDER,
   ARROW_SIZE,
   POSITIONS_REVERSE,
   POPOVER_MARGIN
-} from './constants.json'
+} = CONSTANTS
 
 export default function getGeometry (params) {
   const {

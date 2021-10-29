@@ -4,15 +4,12 @@ const pick = require('lodash/pick')
 const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const autoprefixer = require('autoprefixer')
-const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
@@ -67,14 +64,19 @@ module.exports = function getConfig (env, {
     entry: {
       [BUNDLE_NAME]: DEFAULT_ENTRIES.concat(['./index.web.js'])
     },
+    cache: !PROD && {
+      type: 'filesystem',
+      memoryCacheUnaffected: true
+    },
+    experiments: !PROD && {
+      cacheUnaffected: true
+    },
     optimization: (PROD || ASYNC) && pickBy({
       minimizer: PROD && [
         new TerserPlugin({
-          cache: false,
-          parallel: true,
-          sourceMap: false // set to true if you want JS source maps
+          parallel: true
         }),
-        new OptimizeCSSAssetsPlugin({})
+        new CssMinimizerPlugin()
       ],
       splitChunks: ASYNC && {
         maxInitialRequests: Infinity,
@@ -142,7 +144,7 @@ module.exports = function getConfig (env, {
       }
     }, Boolean),
     plugins: [
-      !VERBOSE && !PROD && new FriendlyErrorsWebpackPlugin(),
+      new webpack.ProgressPlugin(),
       new MomentLocalesPlugin(), // strip all locales except 'en'
       !PROD && new ReactRefreshWebpackPlugin({ forceEnable: true, overlay: { sockPort: DEV_PORT } }),
       PROD && new MiniCssExtractPlugin({
@@ -154,11 +156,12 @@ module.exports = function getConfig (env, {
         fullPath: false,
         path: BUILD_PATH
       }),
-      new ProgressBarPlugin({
-        format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
-      }),
       new webpack.DefinePlugin({
-        __DEV__: !PROD
+        __DEV__: !PROD,
+        global: 'window'
+      }),
+      new webpack.ProvidePlugin({
+        process: 'process/browser'
       })
     ].filter(Boolean),
     output: {
@@ -170,6 +173,9 @@ module.exports = function getConfig (env, {
       rules: [
         {
           test: getJsxRule().test,
+          resolve: {
+            fullySpecified: false
+          },
           exclude: /node_modules/,
           use: [
             pick(getJsxRule(), ['loader', 'options']),
@@ -180,6 +186,9 @@ module.exports = function getConfig (env, {
         },
         {
           test: getJsxRule().test,
+          resolve: {
+            fullySpecified: false
+          },
           include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
           use: [
             pick(getJsxRule(), ['loader', 'options']),
@@ -228,8 +237,9 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                localIdentName: LOCAL_IDENT_NAME
+                modules: {
+                  localIdentName: LOCAL_IDENT_NAME
+                }
               }
             },
             {
@@ -241,10 +251,12 @@ module.exports = function getConfig (env, {
             {
               loader: 'stylus-loader',
               options: {
-                use: [],
-                import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
-                define: {
-                  __WEB__: true
+                stylusOptions: {
+                  use: [],
+                  import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
+                  define: {
+                    __WEB__: true
+                  }
                 }
               }
             }
@@ -271,8 +283,9 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                localIdentName: LOCAL_IDENT_NAME
+                modules: {
+                  localIdentName: LOCAL_IDENT_NAME
+                }
               }
             }
           ] : [
@@ -300,7 +313,8 @@ module.exports = function getConfig (env, {
     resolve: {
       alias: {
         ...DEFAULT_ALIAS,
-        ...alias
+        ...alias,
+        process: 'process/browser'
       },
       extensions: EXTENSIONS,
       mainFields: ['jsnext:main', 'browser', 'main']
@@ -312,7 +326,9 @@ module.exports = function getConfig (env, {
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-      publicPath: '/build/client/'
+      devMiddleware: {
+        publicPath: '/build/client/'
+      }
     }
   }, Boolean)
 }
