@@ -69,6 +69,16 @@ module.exports = function getConfig (env, {
       memoryCacheUnaffected: true,
       compression: 'brotli'
     },
+    snapshot: !PROD && {
+      // By default it's ['./node_modules'] which prevents us from updating
+      // node_modules directly. We do it pretty often though, so that's why
+      // we override managedPaths to an empty array here.
+      //
+      // TODO: Think whether it makes more sense to have node_modules
+      //       be ignored by default but provide an additional option
+      //       when you don't want to ignore them.
+      managedPaths: []
+    },
     experiments: !PROD && {
       cacheUnaffected: true
     },
