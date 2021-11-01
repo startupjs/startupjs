@@ -95,11 +95,11 @@ return (
 />
 
 export function SandboxEvents () {
-  const $divider = $root.scope('_session.Props.Divider')
   useEffect(()=> {
+    const $divider = $root.scope('_session.Props.Divider')
     $divider.at('variant').on('change', variant => {
       if (variant === 'horizontal') {
-        if ($divider.get('style')) $divider.del('style')
+        $divider.set('style', { minWidth: 48 })
       } else{
         $divider.set('style', { height: 48 })
       }
