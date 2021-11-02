@@ -50,7 +50,8 @@ function MenuItem ({
 }
 
 MenuItem.defaultProps = {
-  active: false
+  active: false,
+  iconPosition: 'left'
 }
 
 MenuItem.propTypes = {
