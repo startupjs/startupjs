@@ -22,8 +22,8 @@ function MenuItem ({
   const context = useContext(MenuContext)
 
   const activeColor = props.activeColor || context.activeColor
-  const activeBorder = props.activeBorder || context.activeBorder || 'none'
-  const iconPosition = props.iconPosition || context.iconPosition || 'left'
+  const activeBorder = props.activeBorder || context.activeBorder
+  const iconPosition = props.iconPosition || context.iconPosition
 
   // TODO: prevent click if already active (for link and for div)
   const activeItemColor = activeColor || colors.primary

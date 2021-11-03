@@ -1,19 +1,29 @@
 import React from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
 import AbstractPopover from '../../../AbstractPopover'
+import { useKeyboard } from '../../helpers'
 import './index.styl'
 
 export default function DropdownPopover ({
   style,
   refAnchor,
   visible,
+  data,
   position,
   attachment,
   placements,
   renderContent,
-  onChangeVisible,
-  onRequestOpen
+  onSelectIndex,
+  onEnterIndex,
+  onRequestOpen,
+  onChangeVisible
 }) {
+  useKeyboard({
+    itemsLength: data.length,
+    onChange: onSelectIndex,
+    onEnter: onEnterIndex
+  })
+
   function renderWrapper (children) {
     return pug`
       View.root

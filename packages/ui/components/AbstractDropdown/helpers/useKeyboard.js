@@ -1,49 +1,44 @@
-import { useEffect } from 'react'
+import { useRef, useEffect } from 'react'
+
 import { Platform } from 'react-native'
-import { useValue } from 'startupjs'
 
-export default function ({ visible, value, options, onChange }) {
-  const [selectIndex, $selectIndex] = useValue(-1)
+export default function useKeyboard ({ itemsLength, onChange, onEnter }) {
+  if (Platform.OS !== 'web') return
 
-  if (Platform.OS !== 'web') return [selectIndex, $selectIndex, null]
+  const scope = useRef(-1)
 
   useEffect(() => {
-    if (visible) {
-      document.addEventListener('keydown', onKeyDown)
-    } else {
+    document.addEventListener('keydown', onKeyDown)
+
+    return () => {
       document.removeEventListener('keydown', onKeyDown)
-      $selectIndex.set(-1)
+      onChange(-1)
     }
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [visible, value])
+  }, [])
 
   function onKeyDown (e) {
     e.preventDefault()
     e.stopPropagation()
 
-    const selectIndex = $selectIndex.get()
-    if (selectIndex === -1 && value) {
-      $selectIndex.set(options.findIndex(option => option.value === value))
-      return
-    }
+    if (scope.current === -1) onChange(0)
 
     switch (e.key) {
       case 'ArrowUp':
-        if (selectIndex <= 0) return
-        $selectIndex.set(selectIndex - 1)
+        if (scope.current - 1 < 0) return
+        scope.current -= 1
+        onChange(scope.current)
         break
 
       case 'ArrowDown':
-        if (selectIndex === options.length - 1) return
-        $selectIndex.set(selectIndex + 1)
+        if (scope.current + 1 === itemsLength) return
+        scope.current += 1
+        onChange(scope.current)
         break
 
       case 'Enter':
-        if (selectIndex === -1) return
-        onChange(options[selectIndex].value)
+        if (scope.current === -1) return
+        onEnter(scope.current)
         break
     }
   }
-
-  return [selectIndex]
 }

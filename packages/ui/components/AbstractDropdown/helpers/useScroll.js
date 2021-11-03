@@ -1,10 +1,6 @@
 import { useRef } from 'react'
 
-export default function useScroll ({
-  refScroll,
-  value,
-  options
-}) {
+export default function useScroll ({ ref, value, data }) {
   const itemHeights = useRef([])
 
   function onLayoutItem (e, index) {
@@ -18,9 +14,9 @@ export default function useScroll ({
   }
 
   function scrollToActive () {
-    const activeIndex = options.findIndex(option => option.value === value.value)
+    const activeIndex = data.findIndex(item => item.value === value)
     if (activeIndex === -1) return
-    refScroll.current.scrollToIndex({ index: activeIndex, animated: false })
+    ref.current.scrollToIndex({ index: activeIndex, animated: false })
   }
 
   return {

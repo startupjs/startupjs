@@ -26,7 +26,7 @@ import { Dropdown } from '@startupjs/ui'
 - onChange: калбэк функция, вызывается после выбора значения, принимает выбранное значение первым параметром
 
 ```jsx example
-const [sort, setSort] = useState({})
+const [sort, setSort] = useState('')
 
 const options = [
   { value: 'popular', label: 'Popular' },
@@ -43,8 +43,7 @@ return pug`
   )
     Row
       Span.title(bold) Sort by:
-      if sort
-        Span= sort.label
+      Span= sort
 `
 
 styl`

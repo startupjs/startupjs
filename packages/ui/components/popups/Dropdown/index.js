@@ -1,19 +1,22 @@
 import React, { useRef } from 'react'
-import { observer } from 'startupjs'
+import { observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Drawer from '../Drawer'
 import AbstractPopover from '../../AbstractPopover'
 import AbstractDropdown from '../../AbstractDropdown'
+import { useScroll } from '../../AbstractDropdown/helpers'
 import DeprecatedDropdown from './Deprecated'
+import Menu from '../../Menu'
+import './index.styl'
 
-function Dropdown ({
+const _Dropdown = observer(({
   style,
   value,
   children,
   onChange,
   ...props
-}, ref) {
+}) => {
   if (React.Children.toArray(children).find(child => child.type === DeprecatedDropdown.Item)) {
     console.warn('[@startupjs/ui] Dropdown: Dropdown.Item is DEPRECATED, use new api')
 
@@ -27,27 +30,84 @@ function Dropdown ({
     `
   }
 
+  return pug`
+    Dropdown(
+      ...props
+      style=style
+      value=value
+      onChange=onChange
+    )= children
+  `
+})
+
+const Dropdown = observer(({
+  style,
+  children,
+  value,
+  options,
+  popoverOnly,
+  popoverProps,
+  drawerProps,
+  onChange
+}) => {
   const refAnchor = useRef()
   const refDropdown = useRef()
 
+  const [visible, $visible] = useValue(false)
+  const [selectIndex, $selectIndex] = useValue(-1)
+
+  const { scrollToActive, getItemLayout, onLayoutItem } = useScroll({
+    value,
+    ref: refDropdown,
+    data: options
+  })
+
+  function _onChange (value) {
+    onChange(value)
+    $visible.set(false)
+    $selectIndex.set(-1)
+  }
+
+  function renderItem ({ item, index }) {
+    console.log(item)
+    return pug`
+      Menu.Item(
+        to=item.to
+        icon=item.icon
+        active=value === item.value
+        styleName={ selectItem: index === selectIndex }
+        onLayout=e=> onLayoutItem(e, index)
+        onPress=()=> item.onPress ? item.onPress() : _onChange(item.value)
+      )= item.label
+    `
+  }
+
   return pug`
-    Div(
+    Div.anchor(
+      style=style
       ref=refAnchor
-      onPress=()=> refDropdown.current.open()
+      onPress=()=> $visible.set(true)
     )= children
     AbstractDropdown(
-      ...props
       ref=refDropdown
       refAnchor=refAnchor
-      value=value
-      onChange=onChange
+      visible=visible
+      data=options
+      extraData={ selectIndex }
+      renderItem=renderItem
+      popoverOnly=popoverOnly
+      popoverProps=popoverProps
+      drawerProps=drawerProps
+      getItemLayout=getItemLayout
+      onEnterIndex=index=> _onChange(options[index].value)
+      onSelectIndex=index=> $selectIndex.set(index)
+      onRequestOpen=scrollToActive
+      onChangeVisible=v=> $visible.set(v)
     )
   `
-}
+})
 
-const ObservedDropdown = observer(Dropdown, { forwardRef: true })
-
-ObservedDropdown.defaultProps = {
+_Dropdown.defaultProps = {
   value: '',
   popoverOnly: false,
   popoverProps: {
@@ -56,13 +116,11 @@ ObservedDropdown.defaultProps = {
     placements: AbstractPopover.defaultProps.placements
   },
   drawerProps: {
-    position: 'bottom',
-    listTitle: 'Select value'
+    position: 'bottom'
   }
 }
 
-ObservedDropdown.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+_Dropdown.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   popoverOnly: PropTypes.bool,
   popoverProps: PropTypes.shape({
@@ -71,13 +129,12 @@ ObservedDropdown.propTypes = {
     placements: AbstractPopover.propTypes.placements
   }),
   drawerProps: PropTypes.shape({
-    position: Drawer.propTypes.position,
-    listTitle: PropTypes.string
+    position: Drawer.propTypes.position
   }),
   onChange: PropTypes.func
 }
 
-ObservedDropdown.Caption = DeprecatedDropdown.Caption
-ObservedDropdown.Item = DeprecatedDropdown.Item
+_Dropdown.Caption = DeprecatedDropdown.Caption
+_Dropdown.Item = DeprecatedDropdown.Item
 
-export default ObservedDropdown
+export default _Dropdown
