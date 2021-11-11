@@ -11,17 +11,29 @@ function useEntries ({ Component, props, extraParams }) {
   return useMemo(() => {
     const propTypes = parsePropTypes(Component)
     const entries = Object.entries(propTypes)
-    return parseEntries(entries)
+
+    const res = parseEntries(entries)
       .filter(entry => entry.name[0] !== '_') // skip private properties
-      .map(item => {
-        if (props?.[item.name] !== undefined) {
-          item.value = props?.[item.name] // add value from props to entries
-        }
-        if (extraParams?.[item.name]) {
-          item.extraParams = extraParams?.[item.name]
-        }
-        return item
-      })
+
+    for (const key in props) {
+      const item = res.find(item => item.name === key)
+      if (item) {
+        item.value = props[key]
+      } else {
+        res.push({
+          name: key,
+          type: typeof props[key],
+          value: props[key]
+        })
+      }
+    }
+
+    for (const key in extraParams) {
+      const item = res.find(item => item.name === key)
+      if (item) item.extraParams = extraParams[key]
+    }
+
+    return res
   }, [])
 }
 

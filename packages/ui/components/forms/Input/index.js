@@ -36,11 +36,7 @@ Input.defaultProps = {
 Input.propTypes = {
   type: PropTypes.oneOf(possibleInputs.concat(possibleTypes)),
   value: PropTypes.any,
-  $value: PropTypes.any,
-
-  options: PropTypes.any, // Select, MultiSelect, Radio
-  onChange: PropTypes.func, // Select, MultiSelect, Radio
-  onChangeText: PropTypes.func // TextInput
+  $value: PropTypes.any
 }
 
 export default observer(Input, { forwardRef: true })
