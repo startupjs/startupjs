@@ -4,7 +4,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
 import TextInput from '../forms/TextInput'
-import Menu from '../Menu'
+import Item from '../Item'
 import AbstractPopover from '../AbstractPopover'
 import Loader from '../Loader'
 import useKeyboard from './useKeyboard'
@@ -83,7 +83,7 @@ function AutoSuggest ({
     }
 
     return pug`
-      Menu.Item.item(
+      Item.item(
         key=index
         styleName={ selectMenu: selectIndexValue === index }
         onPress=e=> {
