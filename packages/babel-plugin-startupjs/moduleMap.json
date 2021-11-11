@@ -71,7 +71,6 @@
     "Droppable": "/components/draggable/Droppable.js",
     "__useStyleStates": "/hooks/__useStyleStates.js",
     "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
-    "useHover": "/hooks/useHover.js",
     "useLayout": "/hooks/useLayout.js",
     "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
