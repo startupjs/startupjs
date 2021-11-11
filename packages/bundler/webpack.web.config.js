@@ -182,6 +182,9 @@ module.exports = function getConfig (env, {
           test: getJsxRule().test,
           include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
           use: [
+            {
+              loader: require.resolve('./lib/cssDecoratorsLoader.js')
+            },
             pick(getJsxRule(), ['loader', 'options']),
             {
               loader: require.resolve('./lib/replaceObserverLoader.js')

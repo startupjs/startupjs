@@ -70,6 +70,7 @@
     "Draggable": "/components/draggable/Draggable.js",
     "Droppable": "/components/draggable/Droppable.js",
     "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
+    "useHover": "/hooks/useHover.js",
     "useLayout": "/hooks/useLayout.js",
     "useMedia": "/hooks/useMedia.js",
     "ThemeContext": "/theming/ThemeContext.js",
