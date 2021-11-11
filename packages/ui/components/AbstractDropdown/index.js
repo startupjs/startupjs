@@ -11,42 +11,38 @@ function AbstractDropdown ({
   refAnchor,
   data,
   renderItem,
-  keyExtractor,
-  onChangeVisible
+  onChange
 }, ref) {
   const media = useMedia()
+
+  if (!visible) return null
+
   const isDrawer = !media.tablet
+  const Component = isDrawer ? ContentDrawer : ContentPopover
+
+  function getOption (item) {
+    if (typeof item === 'string') return item
+    if (typeof item === 'object') return item.value
+  }
 
   function renderContent () {
     return pug`
       FlatList(
         ref=ref
         data=data
-        renderItem=renderItem
-        keyExtractor=keyExtractor
+        keyExtractor=item => getOption(item)
+        renderItem=(item, index) => renderItem(getOption(item), index)
       )
     `
   }
 
-  if (!visible) return null
-
-  if (isDrawer) {
-    return pug`
-      ContentDrawer(
-        visible=visible
-        renderContent=renderContent
-        onChangeVisible=onChangeVisible
-      )= children
-    `
-  }
-
   return pug`
-    ContentPopover(
+    Component(
       visible=visible
       refAnchor=refAnchor
       renderContent=renderContent
-      onChangeVisible=onChangeVisible
-    )= children
+      onChange=onChange
+    )
   `
 }
 
@@ -56,8 +52,7 @@ ObservedAD.propTypes = {
   visible: PropTypes.bool,
   data: PropTypes.array,
   renderItem: PropTypes.func,
-  keyExtractor: PropTypes.func,
-  onChangeVisible: PropTypes.func
+  onChange: PropTypes.func
 }
 
 export default ObservedAD

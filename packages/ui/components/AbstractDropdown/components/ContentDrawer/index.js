@@ -6,12 +6,12 @@ import './index.styl'
 export default function DropdownDrawer ({
   visible,
   renderContent,
-  onChangeVisible
+  onChange
 }) {
   return pug`
     Drawer.attachment(
       visible=visible
-      onDismiss=()=> onChangeVisible(false)
+      onDismiss=()=> onChange(false)
     )
       Div.content= renderContent()
   `

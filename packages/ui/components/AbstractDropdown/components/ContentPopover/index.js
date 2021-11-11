@@ -7,12 +7,12 @@ export default function DropdownPopover ({
   refAnchor,
   visible,
   renderContent,
-  onChangeVisible
+  onChange
 }) {
   function renderWrapper (children) {
     return pug`
       View.root
-        TouchableWithoutFeedback(onPress=()=> onChangeVisible(false))
+        TouchableWithoutFeedback(onPress=()=> onChange(false))
           View.overlay
         = children
     `
