@@ -2,12 +2,14 @@ import assert from 'assert'
 import matcher from '../matcher.js'
 import css2rn from '@startupjs/css-to-react-native-transform'
 
+const VALID_SELECTORS = ['part', 'hover']
+
 function p (styleName, cssStyles, globalStyles, localStyles, inlineStyles) {
   return matcher(
     styleName,
-    css2rn.default(cssStyles, { parseMediaQueries: true, parsePartSelectors: true }),
-    globalStyles && css2rn.default(globalStyles, { parseMediaQueries: true, parsePartSelectors: true }),
-    localStyles && css2rn.default(localStyles, { parseMediaQueries: true, parsePartSelectors: true }),
+    css2rn.default(cssStyles, { parseMediaQueries: true, parseSelectors: VALID_SELECTORS }),
+    globalStyles && css2rn.default(globalStyles, { parseMediaQueries: true, parseSelectors: VALID_SELECTORS }),
+    localStyles && css2rn.default(localStyles, { parseMediaQueries: true, parseSelectors: VALID_SELECTORS }),
     inlineStyles
   )
 }

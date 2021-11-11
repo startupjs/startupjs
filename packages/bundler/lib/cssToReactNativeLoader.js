@@ -2,10 +2,11 @@
 const css2rn = require('@startupjs/css-to-react-native-transform').default
 
 const EXPORT_REGEX = /:export\s*\{/
+const VALID_SELECTORS = ['part', 'hover']
 
 module.exports = function cssToReactNative (source) {
   source = escapeExport(source)
-  const cssObject = css2rn(source, { parseMediaQueries: true, parsePartSelectors: true })
+  const cssObject = css2rn(source, { parseMediaQueries: true, parseSelectors: VALID_SELECTORS })
   for (const key in cssObject.__exportProps || {}) {
     cssObject[key] = parseStylValue(cssObject.__exportProps[key])
   }

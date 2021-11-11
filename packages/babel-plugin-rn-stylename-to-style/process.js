@@ -7,14 +7,26 @@ export function process (
   cssStyles,
   globalStyles,
   localStyles,
-  inlineStyleProps
+  inlineStyleProps,
+
+  jsxId,
+  styleStates,
+  setStyleStates
 ) {
   cssStyles = transformStyles(cssStyles)
   globalStyles = transformStyles(globalStyles)
   localStyles = transformStyles(localStyles)
 
   return matcher(
-    styleName, cssStyles, globalStyles, localStyles, inlineStyleProps
+    styleName,
+    cssStyles,
+    globalStyles,
+    localStyles,
+    inlineStyleProps,
+
+    jsxId,
+    styleStates,
+    setStyleStates
   )
 }
 
