@@ -1,12 +1,15 @@
 import React, { useRef } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
-import DrawerLayout from 'react-native-drawer-layout-polyfill'
+import DrawerLayoutModule from 'react-native-drawer-layout-polyfill'
 import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const { colors } = STYLES
+
+const DrawerLayout = DrawerLayoutModule.default || DrawerLayoutModule
+if (!DrawerLayout) throw Error('> Can\'t load DrawerLayout module. Issues with bundling.')
 
 function DrawerSidebar ({
   style = [],
