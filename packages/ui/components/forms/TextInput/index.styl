@@ -59,7 +59,9 @@ $inputFontSizeS = 1.75u
 
   &.disabled
     background-color $inputBgDisabled
-    cursor default
+
+    +web()
+      cursor default
 
   &.focused
     border-color $focusedColor

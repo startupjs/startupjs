@@ -42,8 +42,10 @@ _shadowLevels = ('1' '2' '3' '4')
     user-select none
 
     &.disabled
-      cursor default
       opacity 0.5
+
+      +web()
+        cursor default
 
 // -----------------------------------------
 //   TOOLTIP
