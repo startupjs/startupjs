@@ -314,7 +314,7 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
-  - react-native-cookies (6.0.5):
+  - react-native-cookies (6.0.11):
     - React-Core
   - react-native-fbsdk (3.0.0):
     - React
@@ -330,7 +330,7 @@ PODS:
   - react-native-fbsdk/Share (3.0.0):
     - FBSDKShareKit (~> 8.1)
     - React
-  - react-native-pager-view (5.1.2):
+  - react-native-pager-view (5.4.9):
     - React-Core
   - react-native-restart (0.0.22):
     - React-Core
@@ -396,20 +396,20 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - RNAppleAuthentication (2.1.1):
+  - RNAppleAuthentication (2.1.5):
     - React-Core
-  - RNCClipboard (1.7.0):
+  - RNCClipboard (1.9.0):
     - React-Core
-  - RNCPicker (1.16.1):
+  - RNCPicker (1.16.8):
     - React-Core
-  - RNCPushNotificationIOS (1.8.0):
+  - RNCPushNotificationIOS (1.10.1):
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNGoogleSignin (6.0.0):
+  - RNGoogleSignin (6.0.1):
     - GoogleSignIn (~> 5.0.0)
     - React-Core
-  - RNSVG (12.1.0):
+  - RNSVG (12.1.1):
     - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -629,9 +629,9 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-cookies: dd3fe2fd198f54d016fb6875cb8c2fb767170fdc
+  react-native-cookies: cd92f3824ed1e32a20802e8185101e14bb5b76da
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
-  react-native-pager-view: c1ec84a464024641ccb1102e9ec12be020d3d74c
+  react-native-pager-view: 3ee7d4c7697fb3ef788346e834a60cca97ed8540
   react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979
   react-native-webview: 0aa2cde4ee7e3e1c5fffdf64dbce9c709aa18155
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
@@ -644,13 +644,13 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  RNAppleAuthentication: f4cc93d710f1337f66550d04d84bf47553bc0eae
-  RNCClipboard: 245417a78ab585e0d4d83926c28907e7b2bc24bd
-  RNCPicker: 61c7a0645b9e4ac67960aa7f22a3effcecfdfb8d
-  RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
+  RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
+  RNCClipboard: 99fc8ad669a376b756fbc8098ae2fd05c0ed0668
+  RNCPicker: 0991c56da7815c0cf946d6f63cf920b25296e5f6
+  RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNGoogleSignin: 111fd4792913208f338fe3178005f7a22e490ff9
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNGoogleSignin: e64616a4080cf7d83f4b292fad82d174587444e2
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
