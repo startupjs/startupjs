@@ -45,6 +45,7 @@ const REGISTER_DEFAULT_INPUTS = {
 
 function RegisterForm ({
   baseUrl,
+  recaptchaBadgePosition,
   redirectUrl,
   properties,
   validateSchema,
@@ -151,6 +152,7 @@ function RegisterForm ({
         if recaptchaEnabled
           Recaptcha(
             id='register-form-captcha'
+            badge=recaptchaBadgePosition
             ref=recaptchaRef
             onVerify=onSubmit
           )
@@ -185,6 +187,7 @@ RegisterForm.defaultProps = {
 
 RegisterForm.propTypes = {
   baseUrl: PropTypes.string,
+  recaptchaBadgePosition: Recaptcha.propTypes.badge,
   redirectUrl: PropTypes.string,
   properties: PropTypes.object,
   validateSchema: PropTypes.object,
