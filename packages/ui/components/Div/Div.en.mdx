@@ -152,4 +152,12 @@ return pug`
     onPress: () => alert('"onPress" event on "Div" component'),
     onLongPress: () => alert('"onLongPress" event on "Div" component')
   }}
+  extraParams={{
+    renderTooltip: {
+      defaultValue: {
+        string: '',
+        number: 0
+      }
+    }
+  }}
 />

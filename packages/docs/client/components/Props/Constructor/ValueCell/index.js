@@ -163,7 +163,9 @@ const TypesSelect = observer(function ({
 
   function onChange (value) {
     batch(() => {
-      if (defaultValue !== undefined && validateByType(value, defaultValue)) {
+      if (extraParams.defaultValue[value] !== undefined) {
+        $value.set(extraParams.defaultValue[value])
+      } else if (defaultValue !== undefined && validateByType(value, defaultValue)) {
         $value.set(defaultValue)
       } else {
         $value.del()
