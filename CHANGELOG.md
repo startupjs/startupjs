@@ -1,3 +1,17 @@
+## [0.39.11](https://github.com/startupjs/startupjs/compare/v0.39.10...v0.39.11) (2021-11-12)
+
+
+### Bug Fixes
+
+* **ui/Checkbox:** fix incorrect usage of 'readonly' property ([#830](https://github.com/startupjs/startupjs/issues/830)) ([1f65b7a](https://github.com/startupjs/startupjs/commit/1f65b7aa138f867a95573d72b1b19fd05c069f71))
+
+
+### Features
+
+* **auth-telegram:** implement authentication on web ([#840](https://github.com/startupjs/startupjs/issues/840)) ([283b745](https://github.com/startupjs/startupjs/commit/283b74548a1f1c007a2bd34c31a26fd84ecf5b5d))
+
+
+
 ## [0.39.10](https://github.com/startupjs/startupjs/compare/v0.39.9...v0.39.10) (2021-10-28)
 
 
