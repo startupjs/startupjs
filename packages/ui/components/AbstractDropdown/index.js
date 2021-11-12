@@ -3,13 +3,15 @@ import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import PropTypes from 'prop-types'
+import Select from '../forms/Select'
+import { getLabel } from '../forms/Select/Wrapper/helpers'
 import { ContentPopover, ContentDrawer } from './components'
 
 function AbstractDropdown ({
   children,
   visible,
   refAnchor,
-  data,
+  options,
   renderItem,
   onChange
 }, ref) {
@@ -20,18 +22,13 @@ function AbstractDropdown ({
   const isDrawer = !media.tablet
   const Component = isDrawer ? ContentDrawer : ContentPopover
 
-  function getOption (item) {
-    if (typeof item === 'string') return item
-    if (typeof item === 'object') return item.value
-  }
-
   function renderContent () {
     return pug`
       FlatList(
         ref=ref
-        data=data
-        keyExtractor=item => getOption(item)
-        renderItem=(item, index) => renderItem(getOption(item), index)
+        data=options
+        keyExtractor=item=> getLabel(item)
+        renderItem=({ item, index })=> renderItem(getLabel(item), index)
       )
     `
   }
@@ -50,7 +47,7 @@ const ObservedAD = observer(AbstractDropdown, { forwardRef: true })
 
 ObservedAD.propTypes = {
   visible: PropTypes.bool,
-  data: PropTypes.array,
+  options: Select.propTypes.options,
   renderItem: PropTypes.func,
   onChange: PropTypes.func
 }
