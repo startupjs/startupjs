@@ -15,7 +15,7 @@ Dummy patch that publish v0.40.0 version because we forgot to merge the `next` b
 
 ### BREAKING CHANGES
 
-* 1. You can't use named imports from `.json` files anymore. Instead import the whole json file and then do the manual destructuring:
+1. You can't use named imports from `.json` files anymore. Instead import the whole json file and then do the manual destructuring:
 
     ```js
     // OLD
