@@ -1,3 +1,61 @@
+## [0.40.1](https://github.com/startupjs/startupjs/compare/v0.40.0...v0.40.1) (2021-11-12)
+
+
+Dummy patch that publish v0.40.0 version because we forgot to merge the `next` branch before publish v0.40.0.
+
+
+
+# [0.40.0](https://github.com/startupjs/startupjs/compare/v0.39.11...v0.40.0) (2021-11-12)
+
+
+### Features
+
+* upgrade to webpack 5 ([#831](https://github.com/startupjs/startupjs/issues/831)) ([23308c5](https://github.com/startupjs/startupjs/commit/23308c5de150fba478110da5fdc9d7f614bd234c))
+
+
+### BREAKING CHANGES
+
+1. You can't use named imports from `.json` files anymore. Instead import the whole json file and then do the manual destructuring:
+
+    ```js
+    // OLD
+    import { BORDER_WIDTH, STRIPE_PUBLIC_KEY } from './constants.json'
+    
+    // NEW
+    import CONSTANTS from './constants.json'
+    const { BORDER_WIDTH, STRIPE_PUBLIC_KEY } = CONSTANTS
+    ```
+
+2. Webpack 5 changed the way it parses modules to use ESM modules wherever possible. Because of this some `default` imports from old CommonJS modules might be imported not directly but inside the `.default` field.
+
+    If you receive errors from React that it can't render something because it received an `object` -- this probably means that you need to get your default import from `.default` field manually:
+
+    ```js
+    // OLD
+    import DrawerLayout from 'react-native-drawer-layout-polyfill'
+
+    // NEW
+    import DrawerLayoutModule from 'react-native-drawer-layout-polyfill'
+    const DrawerLayout = DrawerLayoutModule.default || DrawerLayoutModule
+    ```
+
+    Same goes for errors like `object is not a function` when your default import is actually expected to be a function. You'll have to do the same trick as above.
+
+
+## [0.39.11](https://github.com/startupjs/startupjs/compare/v0.39.10...v0.39.11) (2021-11-12)
+
+
+### Bug Fixes
+
+* **ui/Checkbox:** fix incorrect usage of 'readonly' property ([#830](https://github.com/startupjs/startupjs/issues/830)) ([1f65b7a](https://github.com/startupjs/startupjs/commit/1f65b7aa138f867a95573d72b1b19fd05c069f71))
+
+
+### Features
+
+* **auth-telegram:** implement authentication on web ([#840](https://github.com/startupjs/startupjs/issues/840)) ([283b745](https://github.com/startupjs/startupjs/commit/283b74548a1f1c007a2bd34c31a26fd84ecf5b5d))
+
+
+
 ## [0.39.10](https://github.com/startupjs/startupjs/compare/v0.39.9...v0.39.10) (2021-10-28)
 
 
@@ -15,6 +73,10 @@
 
 ## [0.39.9](https://github.com/startupjs/startupjs/compare/v0.39.8...v0.39.9) (2021-10-26)
 
+
+### Bug Fixes
+
+* **vite:** fix `vite-plugin-startupjs` extensions
 
 
 ## [0.39.8](https://github.com/startupjs/startupjs/compare/v0.39.6...v0.39.8) (2021-10-26)

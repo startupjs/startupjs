@@ -69,4 +69,4 @@ export default observer(() => {
 })
 
 // HACK. Described above. Prevent tree shaking from removing the parsePropTypes import
-;(() => parsePropTypes)()
+if (parsePropTypes) (() => {})()
