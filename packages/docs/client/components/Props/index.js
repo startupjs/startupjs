@@ -2,10 +2,13 @@ import React, { useMemo, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { observer, $root, useComponentId } from 'startupjs'
 import { themed, Button, Row, Div } from '@startupjs/ui'
-import parsePropTypes from 'parse-prop-types'
+import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
 import './index.styl'
+
+const parsePropTypes = parsePropTypesModule.default || parsePropTypesModule
+if (!parsePropTypes) throw Error('> Can\'t load parse-prop-types module. Issues with bundling')
 
 function useEntries ({ Component, props, extraParams }) {
   return useMemo(() => {

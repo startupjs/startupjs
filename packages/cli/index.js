@@ -212,6 +212,7 @@ SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
 `)
 
 SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
+  rm -f ./build/server.dev.cjs &&
   just-wait -t 1000 --pattern ./build/server.dev.cjs &&
   ${vite ? 'VITE=1' : ''}
   nodemon

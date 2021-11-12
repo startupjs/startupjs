@@ -11,9 +11,11 @@ import PropTypes from 'prop-types'
 import Div from '../Div'
 import Portal from '../Portal'
 import getGeometry from './getGeometry'
-import { PLACEMENTS_ORDER } from './constants.json'
+import CONSTANTS from './constants.json'
 import themed from '../../theming/themed'
 import './index.styl'
+
+const { PLACEMENTS_ORDER } = CONSTANTS
 
 function AbstractPopover (props) {
   const [visible, setVisible] = useState(false)
