@@ -1,6 +1,13 @@
 ## [0.40.1](https://github.com/startupjs/startupjs/compare/v0.40.0...v0.40.1) (2021-11-12)
 
 
+Dummy patch that publish v0.40.0 version because we forgot to merge the `next` branch before publish v0.40.0.
+
+
+
+# [0.40.0](https://github.com/startupjs/startupjs/compare/v0.39.11...v0.40.0) (2021-11-12)
+
+
 ### Features
 
 * upgrade to webpack 5 ([#831](https://github.com/startupjs/startupjs/issues/831)) ([23308c5](https://github.com/startupjs/startupjs/commit/23308c5de150fba478110da5fdc9d7f614bd234c))
@@ -8,7 +15,7 @@
 
 ### BREAKING CHANGES
 
-* 1. You can't use named imports from `.json` files anymore. Instead import the whole json file and then do the manual destructuring:
+1. You can't use named imports from `.json` files anymore. Instead import the whole json file and then do the manual destructuring:
 
     ```js
     // OLD
@@ -33,11 +40,6 @@
     ```
 
     Same goes for errors like `object is not a function` when your default import is actually expected to be a function. You'll have to do the same trick as above.
-
-
-
-# [0.40.0](https://github.com/startupjs/startupjs/compare/v0.39.11...v0.40.0) (2021-11-12)
-
 
 
 ## [0.39.11](https://github.com/startupjs/startupjs/compare/v0.39.10...v0.39.11) (2021-11-12)
@@ -71,6 +73,10 @@
 
 ## [0.39.9](https://github.com/startupjs/startupjs/compare/v0.39.8...v0.39.9) (2021-10-26)
 
+
+### Bug Fixes
+
+* **vite:** fix `vite-plugin-startupjs` extensions
 
 
 ## [0.39.8](https://github.com/startupjs/startupjs/compare/v0.39.6...v0.39.8) (2021-10-26)
