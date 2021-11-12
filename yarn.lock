@@ -16226,6 +16226,14 @@ passport-strategy@1.x.x, passport-strategy@^1.0.0:
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
 
+passport-telegram-official@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/passport-telegram-official/-/passport-telegram-official-1.1.0.tgz#bba56290f44a161b716c8a95a4411682662ac53a"
+  integrity sha512-gSagYDZvPMYyGgYazyz4pltGw64ldISn9A/HspvvbL9aIV/z8WW0cp6Ghbx/Klf9I1drywAQGNKEySFOyj+6Iw==
+  dependencies:
+    lodash "^4.17.11"
+    passport-strategy "^1.0.0"
+
 passport@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/passport/-/passport-0.3.2.tgz#9dd009f915e8fe095b0124a01b8f82da07510102"
