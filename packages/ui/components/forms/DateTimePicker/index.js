@@ -73,7 +73,7 @@ function DateTimePicker ({
 
     if (mode === 'date') return moment().locale(exactLocale)._locale._longDateFormat.L
     if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
-  }, [dateFormat, timezone])
+  }, [mode, dateFormat, timezone])
 
   function getFormatDate (value) {
     return moment.tz(value, timezone).format(_dateFormat)
