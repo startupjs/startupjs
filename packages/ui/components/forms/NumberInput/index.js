@@ -40,7 +40,7 @@ function NumberInput ({
       } else if (max != null && value > max) {
         value = max
       }
-      setInputValue(String((+value).toFixed(precision)))
+      setInputValue(String(+value.toFixed(precision)))
     }
   }, [value, min, max, precision])
 
@@ -74,8 +74,7 @@ function NumberInput ({
   }
 
   function onIncrement (byNumber) {
-    let newValue = +(value || 0) + byNumber * step
-    newValue = newValue.toFixed(precision)
+    const newValue = +((value || 0) + byNumber * step).toFixed(precision)
     // we use string because this is the value for TextInput
     onChangeText(String(newValue))
   }

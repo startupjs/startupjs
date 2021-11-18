@@ -4,6 +4,7 @@ import Div from '../../Div'
 import Br from '../../Br'
 import Span from '../../typography/Span'
 import { $root, useValue, u } from 'startupjs'
+import { getPropsForType, getDefaultValueForType } from './docsHelpers'
 import { Sandbox } from '@startupjs/docs'
 
 # Input (инпут)
@@ -77,40 +78,21 @@ return (
 
 ## Sandbox
 
-<Sandbox
-  Component={Input}
-  props={{
-    value: $root.get('_session.Sandbox.Input.value'), // Common
-    $value: $root.scope('_session.Sandbox.Input.value'), // Common
-    options: ['New York', 'Los Angeles', 'Tokyo'], // MultiSelect
-    items: { type: 'text' }, // ArrayInput
-    properties: {
-      email: { input: 'text', label: 'Email' },
-      password: {
-        input: 'text',
-        label: 'Password',
-        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
-      }
-    }, // ObjectInput
-    onChange: value => $root.set('_session.Sandbox.Input.value', value), // Common
-    onChangeText: value => $root.set('_session.Sandbox.Input.value', value), // TextInput
-    onChangeDate: value => $root.set('_session.Sandbox.Input.value', value), // DateTimePicker
-    onChangeNumber: value => $root.set('_session.Sandbox.Input.value', value) // NumberInput
-  }}
-  $props={$root.scope('_session.Sandbox.Input')}
-  block
-/>
-
-export function SandboxEvent () {
+export function SandboxWrapper () {
+  const $input = $root.scope('_session.Sandbox.Input')
   useEffect(()=> {
-    $root.scope('_session.Sandbox.Input.type').on('change', type=> {
-      if (type === 'array') {
-        return $root.set('_session.Sandbox.Input.value', ['Green', 'Blue'])
-      }
-      $root.set('_session.Sandbox.Input.value', undefined)
+    $input.at('type').on('change', type=> {
+      $input.set(getPropsForType())
+      $input.set('value', getDefaultValueForType())
     })
   }, [])
-  return null
+  return (
+    <Sandbox
+      Component={Input}
+      $props={$input}
+      block
+    />
+  )
 }
 
-<SandboxEvent />
+<SandboxWrapper />
