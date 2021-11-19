@@ -1,3 +1,25 @@
+## [0.40.2](https://github.com/startupjs/startupjs/compare/v0.40.1...v0.40.2) (2021-11-19)
+
+
+### Bug Fixes
+
+* **auth-local:** add indent before recaptcha ([fe38c7d](https://github.com/startupjs/startupjs/commit/fe38c7d910ce31ad339b6a6fe2ab696ea5c980f4))
+* **ui/Alert:** pipe 'style' to root element ([b2b4b5a](https://github.com/startupjs/startupjs/commit/b2b4b5a1a0cbba2b09f0131bf84430e43a9ef0e5))
+* **ui/DateTimePicker:** fix date format memoization ([90f63a6](https://github.com/startupjs/startupjs/commit/90f63a6248ba7e5ebbbdd3eeaaafe7e84bb44fa8))
+* **ui/DateTimePicker:** remove horizontal time select for mobile devices ([36fb412](https://github.com/startupjs/startupjs/commit/36fb41261a343b2b43174224a88229863ae861ee))
+* **ui/Div:** remove the ability to pass number type for 'renderTooltip' property ([#842](https://github.com/startupjs/startupjs/issues/842)) ([28e4045](https://github.com/startupjs/startupjs/commit/28e4045f429da310b1ccbaad14a964074be83588))
+* **ui:** skip changing cursor style for native mobiles ([8eae554](https://github.com/startupjs/startupjs/commit/8eae55444efbb4dff6e35a7bfe1dbf27bf7dfba5))
+* upgrade packages for webpack 5 ([e1f87e8](https://github.com/startupjs/startupjs/commit/e1f87e8cc15b5e63e8e648f228559532705220ea))
+
+
+### Features
+
+* **auth-local:** add ability to reposition the reCAPTCHA badge for RegisterForm ([4f25d60](https://github.com/startupjs/startupjs/commit/4f25d60f44b82ab0aeeddc10f4d4abcb1d99e06d))
+* **recaptcha:** add ability to reposiion the reCAPTCHA badge ([e751964](https://github.com/startupjs/startupjs/commit/e751964c095db926187f2ab2754cd4a4a1998150))
+* **ui/User:** add prop that controls number of description lines ([7b7adac](https://github.com/startupjs/startupjs/commit/7b7adaca8990c4ea368bd6d8a0f235b008eef785))
+
+
+
 ## [0.40.1](https://github.com/startupjs/startupjs/compare/v0.40.0...v0.40.1) (2021-11-12)
 
 

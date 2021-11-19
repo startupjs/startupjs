@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "0.40.1",
+  "version": "0.40.2",
   "description": "start, watch and build startupjs project",
   "main": "index.js",
   "scripts": {},
