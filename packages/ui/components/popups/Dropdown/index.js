@@ -15,10 +15,11 @@ import DropdownItem from './components/Item'
 import { useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
-import { PLACEMENTS_ORDER } from '../Popover/constants'
+import CONSTANTS from '../Popover/constants.json'
 import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
+const { PLACEMENTS_ORDER } = CONSTANTS
 const { UIManager } = NativeModules
 
 // TODO: key event change scroll

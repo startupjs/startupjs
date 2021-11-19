@@ -107,6 +107,7 @@ import { RegisterForm } from '@startupjs/auth-local'
 
 Accepts props:
 - **baseUrl**: set base url for the form
+- **recaptchaBadgePosition**: reposition the reCAPTCHA badge
 - **redirectUrl**: set redirect url after authorization
 - **onSuccess**: called after successful authorization
 - **onError**: called when an authorization error occurs

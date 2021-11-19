@@ -2,26 +2,41 @@ import React, { useMemo, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { observer, $root, useComponentId } from 'startupjs'
 import { themed, Button, Row, Div } from '@startupjs/ui'
-import parsePropTypes from 'parse-prop-types'
+import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
 import './index.styl'
+
+const parsePropTypes = parsePropTypesModule.default || parsePropTypesModule
+if (!parsePropTypes) throw Error('> Can\'t load parse-prop-types module. Issues with bundling')
 
 function useEntries ({ Component, props, extraParams }) {
   return useMemo(() => {
     const propTypes = parsePropTypes(Component)
     const entries = Object.entries(propTypes)
-    return parseEntries(entries)
+
+    const res = parseEntries(entries)
       .filter(entry => entry.name[0] !== '_') // skip private properties
-      .map(item => {
-        if (props?.[item.name] !== undefined) {
-          item.value = props?.[item.name] // add value from props to entries
-        }
-        if (extraParams?.[item.name]) {
-          item.extraParams = extraParams?.[item.name]
-        }
-        return item
-      })
+
+    for (const key in props) {
+      const item = res.find(item => item.name === key)
+      if (item) {
+        item.value = props[key]
+      } else {
+        res.push({
+          name: key,
+          type: typeof props[key],
+          value: props[key]
+        })
+      }
+    }
+
+    for (const key in extraParams) {
+      const item = res.find(item => item.name === key)
+      if (item) item.extraParams = extraParams[key]
+    }
+
+    return res
   }, [])
 }
 

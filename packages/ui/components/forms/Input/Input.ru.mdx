@@ -79,6 +79,12 @@ return (
 
 <Sandbox
   Component={Input}
+  props={{
+    value: $root.get('_session.Sandbox.Input.value'),
+    options: ['New York', 'Los Angeles', 'Tokyo'],
+    onChange: value => $root.set('_session.Sandbox.Input.value', value),
+    onChangeText: value => $root.set('_session.Sandbox.Input.value', value)
+  }}
   $props={$root.scope('_session.Sandbox.Input')}
   block
 />

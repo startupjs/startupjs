@@ -79,6 +79,7 @@ function RecoverForm ({
         testID='recover-email-input'
       )
       if recaptchaEnabled
+        Br
         Recaptcha(
           id='recover-form-captcha'
           ref=recaptchaRef

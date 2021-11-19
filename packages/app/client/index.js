@@ -9,7 +9,9 @@ import axios from 'axios'
 import { Blocked, UpdateApp } from './components'
 import { useMediaUpdate, useNeedUpdate } from './helpers'
 import Router from './Router'
-import { name as packageName } from '../package.json'
+import packageJson from '../package.json'
+
+const { name: packageName } = packageJson
 
 const routesGlobal = []
 

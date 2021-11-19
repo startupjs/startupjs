@@ -1,5 +1,5 @@
 import model from '@startupjs/model'
-import { initLocalCollection } from './util'
+import { initLocalCollection } from './util.js'
 
 const OBSERVABLE_COLLECTIONS = [
   '$connection',
