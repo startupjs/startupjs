@@ -4,12 +4,12 @@ import {
   useRef,
   useCallback
 } from 'react'
-import Doc from '../types/Doc'
-import Query from '../types/Query'
-import QueryExtra from '../types/QueryExtra'
-import Local from '../types/Local'
-import Value from '../types/Value'
-import Api from '../types/Api'
+import Doc from '../types/Doc.js'
+import Query from '../types/Query.js'
+import QueryExtra from '../types/QueryExtra.js'
+import Local from '../types/Local.js'
+import Value from '../types/Value.js'
+import Api from '../types/Api.js'
 import { batching } from '@startupjs/react-sharedb-util'
 
 import {
@@ -18,11 +18,11 @@ import {
   subValue,
   subQuery,
   subApi
-} from '../subscriptionTypeFns'
+} from '../subscriptionTypeFns.js'
 import $root from '@startupjs/model'
-import destroyer from './destroyer'
-import isArray from 'lodash/isArray'
-import promiseBatcher from './promiseBatcher'
+import destroyer from './destroyer.js'
+import isArray from 'lodash/isArray.js'
+import promiseBatcher from './promiseBatcher.js'
 
 const HOOKS_COLLECTION = '$hooks'
 const $hooks = $root.scope(HOOKS_COLLECTION)

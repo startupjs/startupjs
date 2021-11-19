@@ -50,9 +50,6 @@
     "lerna": "^3.22.1",
     "lint-staged": "^9.5.0"
   },
-  "resolutions": {
-    "**/react-refresh": "^0.10.0"
-  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --fix",

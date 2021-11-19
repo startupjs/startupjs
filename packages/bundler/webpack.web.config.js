@@ -172,7 +172,7 @@ module.exports = function getConfig (env, {
         global: 'window'
       }),
       new webpack.ProvidePlugin({
-        process: 'process/browser'
+        process: 'process/browser.js'
       })
     ].filter(Boolean),
     output: {
@@ -325,7 +325,7 @@ module.exports = function getConfig (env, {
       alias: {
         ...DEFAULT_ALIAS,
         ...alias,
-        process: 'process/browser'
+        process: 'process/browser.js'
       },
       extensions: EXTENSIONS,
       mainFields: ['jsnext:main', 'browser', 'main']

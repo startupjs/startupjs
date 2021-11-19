@@ -1,7 +1,7 @@
 import model from '@startupjs/model'
 import { observable, isObservable } from '@nx-js/observer-util'
-import get from 'lodash/get'
-import semaphore from './semaphore'
+import get from 'lodash/get.js'
+import semaphore from './semaphore.js'
 
 export function observablePath (path) {
   const segments = model._splitPath(path)

@@ -2,10 +2,10 @@
 import * as React from 'react'
 import { observe, unobserve } from '@nx-js/observer-util'
 import { batching } from '@startupjs/react-sharedb-util'
-import destroyer from './destroyer'
-import promiseBatcher from './promiseBatcher'
+import destroyer from './destroyer.js'
+import promiseBatcher from './promiseBatcher.js'
 import $root from '@startupjs/model'
-import { ComponentMetaContext } from './meta'
+import { ComponentMetaContext } from './meta.js'
 
 const DEFAULT_OPTIONS = {
   forwardRef: false,
