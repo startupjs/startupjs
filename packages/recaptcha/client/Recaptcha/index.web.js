@@ -11,6 +11,7 @@ import {
 
 function RecaptchaComponent ({
   theme,
+  badge,
   variant,
   lang,
   onVerify,
@@ -127,6 +128,7 @@ Recaptcha.defaultProps = {
 
 Recaptcha.propTypes = {
   theme: PropTypes.oneOf(['light', 'dark']),
+  badge: PropTypes.oneOf(['bottomright', 'bottomleft', 'inline']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,
   onVerify: PropTypes.func,

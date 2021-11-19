@@ -1,6 +1,6 @@
 import { useMemo, useLayoutEffect } from 'react'
 import $root from '@startupjs/model'
-import { useQuery, useLocal, useBatchQuery, useAsyncQuery } from './types'
+import { useQuery, useLocal, useBatchQuery, useAsyncQuery } from './types.js'
 
 export const emit = $root.emit.bind($root)
 

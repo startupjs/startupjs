@@ -107,6 +107,7 @@ import { RegisterForm } from '@startupjs/auth-local'
 
 Принимает пропсы:
 - **baseUrl**: задать base url для формы
+- **recaptchaBadgePosition**: переместить значок reCAPTCHA
 - **redirectUrl**: задать redirect url после авторизации
 - **onSuccess**: callback вызывается после успешной авторизации
 - **onError**: callback вызывается при ошибке авторизации

@@ -119,7 +119,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' }),
+    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -151,7 +151,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' }),
+    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
     i18nPlugin({ collectTranslations: true })
   ].filter(Boolean)
 }

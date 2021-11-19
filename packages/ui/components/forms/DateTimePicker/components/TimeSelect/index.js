@@ -74,14 +74,13 @@ export default observer(function TimeSelect ({
     `
   }
 
-  const length = !media.tablet ? STYLES.cell.width : STYLES.cell.height
+  const length = media.tablet ? STYLES.cell.width : STYLES.cell.height
 
   return pug`
-    FlatList.case(
+    FlatList(
       ref=refScroll
       data=preparedData
       renderItem=renderItem
-      horizontal=!media.tablet
       getItemLayout=(data, index) => ({
         offset: length * index,
         length,

@@ -12,10 +12,12 @@ import PropTypes from 'prop-types'
 import Arrow from './Arrow'
 import Portal from '../../../Portal'
 import Geometry from './Geometry'
-import { PLACEMENTS_ORDER } from '../constants.json'
+import CONSTANTS from '../constants.json'
 import animate from '../animate'
 import themed from '../../../../theming/themed'
 import STYLES from './index.styl'
+
+const { PLACEMENTS_ORDER } = CONSTANTS
 
 const STEPS = {
   CLOSE: 'close',

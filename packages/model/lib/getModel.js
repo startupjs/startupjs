@@ -1,5 +1,5 @@
 import racer from 'racer'
-import Socket from 'racer-highway/lib/browser/socket'
+import Socket from 'racer-highway/lib/browser/socket.js'
 
 var isServer = typeof window === 'undefined'
 var DEFAULT_CLIENT_OPTIONS = {

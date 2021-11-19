@@ -21,6 +21,9 @@ function MenuItem ({
 }) {
   const context = useContext(MenuContext)
 
+  // TODO
+  // we should think about a better api
+  // and remove activeColor, activeBorder props
   const activeColor = props.activeColor || context.activeColor
   const activeBorder = props.activeBorder || context.activeBorder
   const iconPosition = props.iconPosition || context.iconPosition

@@ -1,5 +1,5 @@
-export { observer } from './hooks/observer'
-export { default as destroyer } from './hooks/destroyer'
+export { observer } from './hooks/observer.js'
+export { default as destroyer } from './hooks/destroyer.js'
 export {
   useDoc,
   useBatchDoc,
@@ -13,7 +13,7 @@ export {
   useLocal,
   useValue,
   useBatch
-} from './hooks/types'
+} from './hooks/types.js'
 export {
   emit,
   useModel,
@@ -28,9 +28,9 @@ export {
   useAsyncQueryDoc,
   useSession,
   usePage
-} from './hooks/helpers'
+} from './hooks/helpers.js'
 export {
   ComponentMetaContext,
   useComponentId,
   useNow
-} from './hooks/meta'
+} from './hooks/meta.js'
