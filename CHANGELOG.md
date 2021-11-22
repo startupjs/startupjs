@@ -1,3 +1,15 @@
+## [0.40.3](https://github.com/startupjs/startupjs/compare/v0.40.2...v0.40.3) (2021-11-22)
+
+
+### Bug Fixes
+
+* **auth-telegram:** add ability to pass custom callback url  ([#847](https://github.com/startupjs/startupjs/issues/847)) ([440b85e](https://github.com/startupjs/startupjs/commit/440b85e64ae3ecc503df3241cc72a189bc0b173b))
+* **recaptcha:** add 'badge' to propType for mobile devices ([2fc0f66](https://github.com/startupjs/startupjs/commit/2fc0f66e4204cb3a19d4ae13449cd1082d5efb64))
+* **ui/NumberInput:** change value if provided value is invalid ([3c5d74e](https://github.com/startupjs/startupjs/commit/3c5d74e4c0c0ad252681ed24305ab63b05bd4efa))
+* **ui/Popover:** make vertical paddings bigger ([02d1b12](https://github.com/startupjs/startupjs/commit/02d1b121d78403a7b78719100102f5816ddca1fb))
+
+
+
 ## [0.40.2](https://github.com/startupjs/startupjs/compare/v0.40.1...v0.40.2) (2021-11-19)
 
 
