@@ -3,7 +3,6 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Popover from './'
 import Icon from '../../Icon'
 import Button from '../../Button'
-import Div from '../../Div'
 import Span from '../../typography/Span'
 
 # Popover
@@ -23,8 +22,7 @@ Before use you need to configure [Portal](/docs/components/Portal)
 ```jsx example
 function renderContent () {
   return pug`
-    Div.content
-      Span Content
+    Span Content
   `
 }
 
@@ -34,8 +32,6 @@ return pug`
 `
 
 styl`
-  .content
-    padding 1u 2u
   .caption
     width 3u
 `
@@ -49,8 +45,7 @@ styl`
 ```jsx example
 function renderContent () {
   return pug`
-    Div.content
-      Span Content
+    Span Content
   `
 }
 
@@ -61,11 +56,6 @@ return pug`
     renderContent=renderContent
   )
     Button Open
-`
-
-styl`
-  .content
-    padding 1u 2u
 `
 ```
 
@@ -79,8 +69,7 @@ styl`
 ```jsx example
 function renderContent () {
   return pug`
-    Div.content
-      Span.text Content
+    Span.text Content
   `
 }
 
@@ -96,8 +85,6 @@ return pug`
 `
 
 styl`
-  .content
-    padding 1u 2u
   .caption
     alignSelt flex-start
   .text

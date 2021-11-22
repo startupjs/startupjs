@@ -3,7 +3,6 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Popover from './'
 import Icon from '../../Icon'
 import Button from '../../Button'
-import Div from '../../Div'
 import Span from '../../typography/Span'
 
 # Popover
@@ -23,8 +22,7 @@ import { Popover } from '@startupjs/ui'
 ```jsx example
 function renderContent () {
   return pug`
-    Div.content
-      Span Контент
+    Span Контент
   `
 }
 
@@ -34,8 +32,6 @@ return pug`
 `
 
 styl`
-  .content
-    padding 1u 2u
   .caption
     width 3u
 `
@@ -49,8 +45,7 @@ styl`
 ```jsx example
 function renderContent () {
   return pug`
-    Div.content
-      Span Контент
+    Span Контент
   `
 }
 
@@ -61,11 +56,6 @@ return pug`
     renderContent=renderContent
   )
     Button Открыть
-`
-
-styl`
-  .content
-    padding 1u 2u
 `
 ```
 
@@ -79,8 +69,7 @@ styl`
 ```jsx example
 function renderContent () {
   return pug`
-    Div.content
-      Span.text Контент
+    Span.text Контент
   `
 }
 
@@ -96,8 +85,6 @@ return pug`
 `
 
 styl`
-  .content
-    padding 1u 2u
   .caption
     alignSelt flex-start
   .text
