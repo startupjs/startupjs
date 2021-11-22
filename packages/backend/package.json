@@ -13,7 +13,7 @@
     "@startupjs/sharedb-access": "^0.40.0",
     "@startupjs/sharedb-schema": "^0.40.0",
     "racer": "1.0.0",
-    "redis": "^2.2.0",
+    "redis": "^3.1.1",
     "redis-url": "^1.2.0",
     "sharedb": "^1.0.0",
     "sharedb-hooks": "~4.0.0",

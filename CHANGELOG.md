@@ -529,7 +529,7 @@ Dummy patch that publish v0.40.0 version because we forgot to merge the `next` b
 
 ### BREAKING CHANGES
 
-* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](/docs/foundation/Typography/Fonts#font-family) to understand how to migrate your config.
+* **typography/fonts:** The structure of `$UI.fontFamilies` was changed. Now it accepts platform-specific keys `web`, `android`, `ios`, `windows`, `macos`, `native` to override fonts on a particular platform and one special key `default` to override fonts simultaneously for all platforms. If you are using fonts in your project then [see docs](/docs/foundation/Fonts#font-family) to understand how to migrate your config.
 
 * **ui/Breadcrumbs:** no longer supports `Link` component properties for `route`
 
