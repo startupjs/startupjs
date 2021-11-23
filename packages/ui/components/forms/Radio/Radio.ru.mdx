@@ -89,14 +89,10 @@ return (
   Component={Radio}
   props={{
     options:[
-      {
-        value: 'red',
-        label: 'Red'
-      },
-      {
-        value: 'blue',
-        label: 'Blue'
-      }
+      { value: 'red', label: 'Red' },
+      { value: 'blue', label: 'Blue' },
+      { value: 1, label: '1' },
+      { value: 2, label: '2' }
     ],
     value: 'red',
     onChange: value=> alert('Enter "' + value + '" in the value input')
