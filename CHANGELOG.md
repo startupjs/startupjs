@@ -1,3 +1,12 @@
+## [0.40.4](https://github.com/startupjs/startupjs/compare/v0.40.3...v0.40.4) (2021-11-24)
+
+
+### Bug Fixes
+
+* **recaptcha:** pass missing prop badge to render function ([54ee897](https://github.com/startupjs/startupjs/commit/54ee897b9877e4ef02118e0ca15d493104c2e2ee))
+
+
+
 ## [0.40.3](https://github.com/startupjs/startupjs/compare/v0.40.2...v0.40.3) (2021-11-22)
 
 
