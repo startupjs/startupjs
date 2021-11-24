@@ -1,3 +1,12 @@
+## [0.40.5](https://github.com/startupjs/startupjs/compare/v0.40.4...v0.40.5) (2021-11-24)
+
+
+### Bug Fixes
+
+* **MenuItem:** add ability to change text color ([6ab7232](https://github.com/startupjs/startupjs/commit/6ab7232826ecdca3e87c2f2e8ed1ac2b537237eb))
+
+
+
 ## [0.40.4](https://github.com/startupjs/startupjs/compare/v0.40.3...v0.40.4) (2021-11-24)
 
 
