@@ -70,6 +70,7 @@ function RecaptchaComponent ({
       sitekey: getSiteKey(variant),
       size: variant,
       theme,
+      badge,
       hl: lang,
       callback: token => onVerify({ type: getRecaptchaType(), token, variant }),
       'expired-callback': onExpire,
