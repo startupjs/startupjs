@@ -83,9 +83,7 @@ module.exports = async options => {
           // In production we flush redis db once a day using locking in redis itself.
           const redlock = new Redlock([redisClient], {
             driftFactor: 0.01,
-            retryCount: 1,
-            retryDelay: 10,
-            retryJitter: 10
+            retryCount: 0
           })
           const ONE_DAY = 1000 * 60 * 60 * 24
           const LOCK_FLUSH_DB_KEY = 'startupjs_service_flushdb'
