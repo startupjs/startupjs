@@ -8,7 +8,7 @@ const isArray = require('lodash/isArray')
 const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
-const redis = require('redis-url')
+const redis = require('redis')
 const Redlock = require('redlock')
 const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
@@ -38,6 +38,7 @@ module.exports = async options => {
   // it's run on localhost or on the production server.
   // ref: https://github.com/share/sharedb/issues/420
   const REDIS_PREFIX = '_' + simpleNumericHash(conf.get('MONGO_URL') + conf.get('BASE_URL'))
+  const REDIS_URL = conf.get('REDIS_URL')
   let redisClient
 
   options = Object.assign({ secure: true }, options)
@@ -52,9 +53,9 @@ module.exports = async options => {
 
   let backend = (() => {
     // For horizontal scaling, in production, redis is required.
-    if (conf.get('REDIS_URL') && !conf.get('NO_REDIS')) {
-      redisClient = redis.connect()
-      let redisObserver = redis.connect()
+    if (REDIS_URL && !conf.get('NO_REDIS')) {
+      redisClient = redis.createClient({ url: REDIS_URL })
+      let redisObserver = redis.createClient({ url: REDIS_URL })
 
       // Flush redis when starting the app.
       // When running in cluster this should only run on the first instance.
@@ -278,7 +279,12 @@ module.exports = async options => {
     shareMongo, // you can get mongo client from shareMongo.mongo
     redisClient, // you can directly pass this redis client to redlock
     redisPrefix: REDIS_PREFIX, // use this for you redis prefixes (and redlock prefixes)
-    redis // this is just a reexport of 'redis-url' to omit an explicit dependency in the end-user project
+    // mock old redis-url api. TODO: get rid of this after we refactor other libs to use redisClient directly
+    redis: {
+      connect () {
+        return redis.createClient({ url: REDIS_URL })
+      }
+    }
   }
 }
 

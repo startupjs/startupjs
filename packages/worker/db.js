@@ -100,6 +100,9 @@ export const getDbs = () => {
 
   let pubsub = redisPubSub({ client: redis1, observer: redis2 })
 
+  // TODO: Refactor this! worker should use @startupjs/backend to create a backend.
+  //       AND this implementation of ioredis is actually better, so use ioredis
+  //       instead of pure redis for TLS support in @startupjs/backend
   let backend = racer.createBackend({ db: shareMongo, pubsub })
 
   return { backend, shareMongo, redis1, redis2, redlock }
