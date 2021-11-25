@@ -158,6 +158,7 @@ function TextInputInput ({
       disabled,
       focused: inputState.focused,
       [`icon-${iconPosition}`]: !!icon,
+      [`icon-${getOppositePosition(iconPosition)}`]: !!secondaryIcon,
       error: _hasError
     }
   ]
