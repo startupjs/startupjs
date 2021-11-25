@@ -236,16 +236,17 @@ SCRIPTS_ORIG.start = (options = {}) => {
 
 SCRIPTS_ORIG.startPure = (...args) => oneLine(`
   concurrently
-    -r -s first -k -n 'S,W'
-    -c black.bgWhite,cyan.bgBlue
+    -s first -k -n 'Server,compile Web'
+    -c cyan.bgBlue,gray
     "${SCRIPTS_ORIG.server(...args)}"
     "${SCRIPTS_ORIG.web(...args)}"
 `)
 
 SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
   concurrently
-    -r -s first -k -n 'S,B,W'
-    -c black.bgWhite,black.bgWhite,cyan.bgBlue
+    -p "{name}:"
+    -s first -k -n 'Server,compile Server,compile Web'
+    -c cyan.bgBlue.bold,gray,gray
     "${SCRIPTS_ORIG.serverWebpackRun(options)}"
     "${SCRIPTS_ORIG.serverWebpackBuild}"
     "${SCRIPTS_ORIG.web(options)}"

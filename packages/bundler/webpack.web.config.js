@@ -155,7 +155,9 @@ module.exports = function getConfig (env, {
       }
     }, Boolean),
     plugins: [
-      new webpack.ProgressPlugin(),
+      // TODO: Reenable progress plugin if the following issue gets fixed:
+      //       https://github.com/open-cli-tools/concurrently/issues/85
+      // new webpack.ProgressPlugin(),
       new MomentLocalesPlugin(), // strip all locales except 'en'
       !PROD && new ReactRefreshWebpackPlugin({ forceEnable: true, overlay: { sockPort: DEV_PORT } }),
       PROD && new MiniCssExtractPlugin({

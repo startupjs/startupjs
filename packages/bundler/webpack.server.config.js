@@ -2,7 +2,6 @@ const { getPluginConfigs } = require('@startupjs/plugin/manager.cjs')
 const pickBy = require('lodash/pickBy')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
-const webpack = require('webpack')
 const PROD = !process.env.WEBPACK_DEV
 const BUILD_DIR = '/build/'
 const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
@@ -44,7 +43,9 @@ module.exports = function getConfig (env, {
       server: ['@babel/polyfill', './server.js']
     },
     plugins: [
-      new webpack.ProgressPlugin()
+      // TODO: Reenable progress plugin if the following issue gets fixed:
+      //       https://github.com/open-cli-tools/concurrently/issues/85
+      // new webpack.ProgressPlugin()
     ],
     output: {
       path: BUILD_PATH,
