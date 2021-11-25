@@ -9,6 +9,7 @@ const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
 const redis = require('redis-url')
+const Redlock = require('redlock')
 const shareDbHooks = require('sharedb-hooks')
 const getShareMongo = require('./getShareMongo')
 
@@ -22,7 +23,23 @@ try {
   wsbusPubSub = require('sharedb-wsbus-pubsub')
 } catch (e) { }
 
+/*
+  IMPORTANT:
+    If you use Redis in your business logic (for example to implement locking with `redlock`)
+    you should use `redisPrefix` which is returned by this function for all
+    your redis keys and lock keys. This will prevent bugs when you have multiple staging
+    apps using the same redis DB.
+*/
 module.exports = async options => {
+  // Use prefix for ShareDB's pubsub. This prevents issues with multiple
+  // projects using the same redis db.
+  // We use a combination of MONGO_URL and BASE_URL to generate a simple
+  // hash because together they are going to be unique no matter whether
+  // it's run on localhost or on the production server.
+  // ref: https://github.com/share/sharedb/issues/420
+  const REDIS_PREFIX = '_' + simpleNumericHash(conf.get('MONGO_URL') + conf.get('BASE_URL'))
+  let redisClient
+
   options = Object.assign({ secure: true }, options)
 
   // ------------------------------------------------------->     storeUse    <#
@@ -36,7 +53,7 @@ module.exports = async options => {
   let backend = (() => {
     // For horizontal scaling, in production, redis is required.
     if (conf.get('REDIS_URL') && !conf.get('NO_REDIS')) {
-      let redisClient = redis.connect()
+      redisClient = redis.connect()
       let redisObserver = redis.connect()
 
       // Flush redis when starting the app.
@@ -45,23 +62,58 @@ module.exports = async options => {
       // is supported.
       // TODO: Implement detection of the first instance on kubernetes and azure
       if (options.flushRedis !== false) {
-        redisClient.on('connect', () => {
-          let [, , , instance] = (process.env.HOSTNAME || '').split('.')
-          if (instance == null || instance === '1') {
+        const flushRedis = () => {
+          return new Promise(resolve => {
             redisClient.flushdb((err, didSucceed) => {
               if (err) {
-                console.log('Redis flushdb err:', err)
+                console.error('Redis flushdb err:', err)
               } else {
                 console.log('Redis flushdb success:', didSucceed)
               }
+              resolve()
             })
+          })
+        }
+        redisClient.on('connect', () => {
+          // Always flush redis db in development or if a force env flag is specified.
+          if (conf.get('NODE_ENV') !== 'production' || conf.get('FORCE_REDIS_FLUSH')) {
+            flushRedis()
+            return
           }
+          // In production we flush redis db once a day using locking in redis itself.
+          const redlock = new Redlock([redisClient], {
+            driftFactor: 0.01,
+            retryCount: 1,
+            retryDelay: 10,
+            retryJitter: 10
+          })
+          const ONE_DAY = 1000 * 60 * 60 * 24
+          const LOCK_FLUSH_DB_KEY = 'startupjs_service_flushdb'
+          redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
+            .then(() => {
+              console.log('>>> FLUSHING REDIS DB (this should happen only once a day)')
+              return flushRedis()
+            })
+            .then(() => {
+              // Re-lock right away.
+              console.log('>>> RE-LOCK REDIS DB FLUSH CHECK (for one day)')
+              redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
+                .catch(err => console.error('Error while re-locking flushdb redis lock!\n' + err))
+            })
+            .catch(err => {
+              if (err instanceof Redlock.LockError) {
+                console.log('>> No need to do Redis Flush DB yet (lock for one day is still present)')
+              } else {
+                console.error('Error while checking flushdb redis lock!\n' + err)
+              }
+            })
         })
       }
 
       let pubsub = redisPubSub({
         client: redisClient,
-        observer: redisObserver
+        observer: redisObserver,
+        prefix: REDIS_PREFIX
       })
 
       return racer.createBackend({
@@ -223,7 +275,13 @@ module.exports = async options => {
     })
   }
 
-  return { backend, shareMongo, redis }
+  return {
+    backend,
+    shareMongo, // you can get mongo client from shareMongo.mongo
+    redisClient, // you can directly pass this redis client to redlock
+    redisPrefix: REDIS_PREFIX, // use this for you redis prefixes (and redlock prefixes)
+    redis // this is just a reexport of 'redis-url' to omit an explicit dependency in the end-user project
+  }
 }
 
 function pathQueryMongo (request, next) {
@@ -232,4 +290,16 @@ function pathQueryMongo (request, next) {
   if (!isArray(query)) query = [query]
   request.query = { _id: { $in: query } }
   next()
+}
+
+// ref: https://stackoverflow.com/a/8831937
+function simpleNumericHash (source) {
+  let hash = 0
+  if (source.length === 0) return hash
+  for (let i = 0; i < source.length; i++) {
+    const char = source.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // Convert to 32bit integer
+  }
+  return hash
 }
