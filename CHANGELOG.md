@@ -1,3 +1,19 @@
+## [0.40.6](https://github.com/startupjs/startupjs/compare/v0.40.5...v0.40.6) (2021-11-25)
+
+
+### Bug Fixes
+
+* **backend:** Use pure redis instead of redis-url. Update sharedb-redis-pubsub to latest ([7acb1bf](https://github.com/startupjs/startupjs/commit/7acb1bfaf9a99b0181d3e58d4ac02c79a1429a43))
+* bring back process prefixes for 'npm start'. Had to disable webpack 'Progress' because of this though ([9f797e1](https://github.com/startupjs/startupjs/commit/9f797e1f43aa55b1b76478ca9c06ec175dc3da30))
+* **ui/TextInput:** fix indent of secondary icon ([#851](https://github.com/startupjs/startupjs/issues/851)) ([db9b1cd](https://github.com/startupjs/startupjs/commit/db9b1cd566539fd9fc8ce3bde1e970a66a23849b))
+
+
+### Features
+
+* **backend:** Implement proper flushing of redis db, use prefix for redis keys in sharedb ([#852](https://github.com/startupjs/startupjs/issues/852)) ([964e33b](https://github.com/startupjs/startupjs/commit/964e33b8d430d592cb22645f13eb7e6a8ab190e2))
+
+
+
 ## [0.40.5](https://github.com/startupjs/startupjs/compare/v0.40.4...v0.40.5) (2021-11-24)
 
 
