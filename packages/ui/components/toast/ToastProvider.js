@@ -4,7 +4,7 @@ import Portal from '../Portal'
 import Toast from './ToastComponent'
 
 export default observer(function ToastProvider () {
-  const [toasts = []] = useLocal('_session.toasts')
+  const [toasts = []] = useLocal('_session.ui.toasts')
 
   if (!toasts.length) return null
 

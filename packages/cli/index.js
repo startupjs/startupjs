@@ -212,6 +212,7 @@ SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
 `)
 
 SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
+  rm -f ./build/server.dev.cjs &&
   just-wait -t 1000 --pattern ./build/server.dev.cjs &&
   ${vite ? 'VITE=1' : ''}
   nodemon
@@ -235,16 +236,17 @@ SCRIPTS_ORIG.start = (options = {}) => {
 
 SCRIPTS_ORIG.startPure = (...args) => oneLine(`
   concurrently
-    -r -s first -k -n 'S,W'
-    -c black.bgWhite,cyan.bgBlue
+    -s first -k -n 'Server,compile Web'
+    -c cyan.bgBlue,gray
     "${SCRIPTS_ORIG.server(...args)}"
     "${SCRIPTS_ORIG.web(...args)}"
 `)
 
 SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
   concurrently
-    -r -s first -k -n 'S,B,W'
-    -c black.bgWhite,black.bgWhite,cyan.bgBlue
+    -p "{name}:"
+    -s first -k -n 'Server,compile Server,compile Web'
+    -c cyan.bgBlue.bold,gray,gray
     "${SCRIPTS_ORIG.serverWebpackRun(options)}"
     "${SCRIPTS_ORIG.serverWebpackBuild}"
     "${SCRIPTS_ORIG.web(options)}"
@@ -476,6 +478,14 @@ commander
   .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite and --pure option.')
   .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
   .action(async (options) => {
+    if (options.inspect) {
+      console.log(
+        '\x1b[31m' +
+        '[@startupjs/cli] option -i, --inspect is DEPRECATED, use NODE_OPTIONS instead.' +
+        '\x1b[0m'
+      )
+    }
+
     await execa.command(
       SCRIPTS_ORIG.start(options),
       { stdio: 'inherit', shell: true }
@@ -509,6 +519,13 @@ commander
   .option('-w, --webpack', 'Force use Webpack for server build. This takes priority over --pure option')
   .option('-v, --vite', 'Automatically redirect to the web bundle served by Vite. Use this when running Vite for web client')
   .action(async (options) => {
+    if (options.inspect) {
+      console.log(
+        '\x1b[31m' +
+        '[@startupjs/cli] option -i, --inspect is DEPRECATED, use NODE_OPTIONS instead.' +
+        '\x1b[0m'
+      )
+    }
     await execa.command(
       SCRIPTS_ORIG.server(options),
       { stdio: 'inherit', shell: true }

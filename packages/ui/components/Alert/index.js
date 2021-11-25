@@ -23,6 +23,7 @@ const ICONS = {
 }
 
 function Alert ({
+  style,
   variant,
   icon,
   label,
@@ -38,6 +39,7 @@ function Alert ({
 
   return pug`
     Row.root(
+      style=style
       vAlign='center'
       styleName=[variant]
     )

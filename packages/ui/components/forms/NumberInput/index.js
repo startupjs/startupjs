@@ -34,19 +34,27 @@ function NumberInput ({
       return
     }
 
+    // TODO
+    // Display a tip instead of permanently change a value
     if (!isNaN(value) && Number(inputValue) !== value) {
       if (min != null && value < min) {
         value = min
       } else if (max != null && value > max) {
         value = max
       }
-      setInputValue(String(+value.toFixed(precision)))
+
+      value = +value.toFixed(precision)
+
+      setInputValue(String(value))
+      onChangeNumber && onChangeNumber(value)
     }
-  }, [value, min, max, precision])
+  }, [value, min, max, precision, onChangeNumber])
 
   function onChangeText (newValue) {
     // replace comma with dot for some locales
-    if (typeof newValue === 'string' && precision > 0) newValue = newValue.replace(/,/g, '.')
+    if (typeof newValue === 'string' && precision > 0) {
+      newValue = newValue.replace(/,/g, '.')
+    }
 
     if (!regexp.test(newValue)) return
 

@@ -14,6 +14,7 @@ const originWhitelist = ['*']
 function RecaptchaComponent ({
   style,
   theme,
+  badge,
   variant,
   baseUrl,
   lang,
@@ -36,6 +37,7 @@ function RecaptchaComponent ({
       siteKey: getSiteKey(),
       variant,
       theme,
+      badge,
       lang,
       id
     })
@@ -171,6 +173,7 @@ Recaptcha.defaultProps = {
 Recaptcha.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   theme: PropTypes.oneOf(['light', 'dark']),
+  badge: PropTypes.oneOf(['bottomright', 'bottomleft', 'inline']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,
   baseUrl: PropTypes.string,

@@ -3,7 +3,7 @@ import { $root } from 'startupjs'
 const MAX_SHOW_LENGTH = 3
 
 const updateMatrixPositions = () => {
-  const toasts = $root.scope('_session.toasts').get()
+  const toasts = $root.scope('_session.ui.toasts').get()
 
   const updateToasts = toasts.map((toast, index) => {
     const prevToast = toasts[index - 1]
@@ -17,7 +17,7 @@ const updateMatrixPositions = () => {
     return toast
   })
 
-  $root.scope('_session.toasts').set(updateToasts)
+  $root.scope('_session.ui.toasts').set(updateToasts)
 }
 
 export default function toast ({
@@ -31,7 +31,7 @@ export default function toast ({
   onClose
 }) {
   const toastId = $root.id()
-  const $toasts = $root.scope('_session.toasts')
+  const $toasts = $root.scope('_session.ui.toasts')
 
   if ($toasts.get()?.length === MAX_SHOW_LENGTH) {
     $toasts.set(`${MAX_SHOW_LENGTH - 1}.show`, false)

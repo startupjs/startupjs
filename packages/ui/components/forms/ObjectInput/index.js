@@ -5,6 +5,8 @@ import Div from '../../Div'
 import themed from '../../../theming/themed'
 import './index.styl'
 
+const Input = React.lazy(() => import('../Input'))
+
 function ObjectInput ({
   style,
   inputStyle,
@@ -48,10 +50,6 @@ function ObjectInput ({
       `
     }
   }
-
-  // INFO: we use require because the Input component is undefined
-  // in circular imports https://stackoverflow.com/a/30390378
-  const Input = require('../Input').default
 
   return _renderWrapper({
     style: [style, inputStyle]

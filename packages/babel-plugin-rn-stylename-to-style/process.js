@@ -1,6 +1,6 @@
-import { process as dynamicProcess } from 'react-native-dynamic-style-processor/src'
-import dimensions from './dimensions'
-import matcher from './matcher'
+import { process as dynamicProcess } from 'react-native-dynamic-style-processor/src/index.js'
+import dimensions from './dimensions.js'
+import matcher from './matcher.js'
 
 export function process (
   styleName,

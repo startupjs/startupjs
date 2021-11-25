@@ -133,6 +133,11 @@ return (
       <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</Span>
     </Div>
   }}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
   noScroll
 />
 
@@ -140,14 +145,14 @@ return (
 
 <Sandbox
   Component={Collapse.Header}
-    extraParams={{
-    icon: {
-      showIconSelect: true
-    }
-  }}
   props={{
     children: <Span>Collapse Header Content</Span>,
     open: true
+  }}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
   }}
 />
 

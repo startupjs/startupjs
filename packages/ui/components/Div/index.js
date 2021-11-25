@@ -201,7 +201,7 @@ function Div ({
     = div
 
     if renderTooltip
-      - const simple = typeof renderTooltip === 'string' || typeof renderTooltip === 'number'
+      - const simple = typeof renderTooltip === 'string'
       AbstractPopover.tooltip(
         refAnchor=refAnchor
         styleName={ simple }
@@ -268,8 +268,7 @@ Div.propTypes = {
   ),
   renderTooltip: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.string,
-    PropTypes.number
+    PropTypes.string
   ]),
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,

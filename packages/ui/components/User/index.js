@@ -14,6 +14,7 @@ function User ({
   descriptionStyle,
   avatarUrl,
   description,
+  descriptionNumberOfLines,
   name,
   avatarPosition,
   size,
@@ -45,6 +46,7 @@ function User ({
           Span.description(
             style=descriptionStyle
             styleName=[size, avatarPosition]
+            numberOfLines=descriptionNumberOfLines
             description
           )= description
   `

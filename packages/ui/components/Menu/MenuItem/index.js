@@ -21,13 +21,17 @@ function MenuItem ({
 }) {
   const context = useContext(MenuContext)
 
+  // TODO
+  // we should think about a better api
+  // and remove color, activeColor, activeBorder props
+  let color = props.color || context.color
   const activeColor = props.activeColor || context.activeColor
   const activeBorder = props.activeBorder || context.activeBorder
   const iconPosition = props.iconPosition || context.iconPosition
 
   // TODO: prevent click if already active (for link and for div)
   const activeItemColor = activeColor || colors.primary
-  const color = active ? activeItemColor : colors.mainText
+  color = active ? activeItemColor : color || colors.mainText
   const borderStyle = { backgroundColor: activeItemColor }
 
   return pug`

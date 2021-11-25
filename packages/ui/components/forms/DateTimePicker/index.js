@@ -58,7 +58,11 @@ function DateTimePicker ({
     setTextInput(getFormatDate(value))
   }, [date])
 
-  const exactLocale = useMemo(() => locale || getLocale() || 'en-US', [locale])
+  const exactLocale = useMemo(() => {
+    const locales = moment.locales()
+    const _locale = locale || getLocale()
+    return locales.includes(_locale) ? _locale : 'en'
+  }, [locale])
 
   const _dateFormat = useMemo(() => {
     if (dateFormat) return dateFormat
@@ -69,7 +73,7 @@ function DateTimePicker ({
 
     if (mode === 'date') return moment().locale(exactLocale)._locale._longDateFormat.L
     if (mode === 'time') return moment().locale(exactLocale)._locale._longDateFormat.LT
-  }, [dateFormat, timezone])
+  }, [mode, dateFormat, timezone])
 
   function getFormatDate (value) {
     return moment.tz(value, timezone).format(_dateFormat)

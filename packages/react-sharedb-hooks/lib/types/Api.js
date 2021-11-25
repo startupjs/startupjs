@@ -1,6 +1,6 @@
-import Base from './Base'
+import Base from './Base.js'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
-import promiseBatcher from '../hooks/promiseBatcher'
+import promiseBatcher from '../hooks/promiseBatcher.js'
 
 export default class Local extends Base {
   constructor (...args) {
