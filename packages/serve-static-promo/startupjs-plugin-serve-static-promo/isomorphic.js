@@ -19,7 +19,7 @@ export default ({
       path: '/promo',
       source: {
         type: 'module',
-        moduleName: 'server-static-promo'
+        moduleName: 'serve-static-promo'
       },
       exact: true,
       filters: [permissionsFilter],
