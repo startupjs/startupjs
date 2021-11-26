@@ -22,24 +22,28 @@ const REGISTER_DEFAULT_INPUTS = {
   name: {
     input: 'text',
     label: 'Full name',
-    placeholder: 'Enter your full name'
+    placeholder: 'Enter your full name',
+    autoComplete: 'username'
   },
   email: {
     input: 'text',
     label: 'Email',
     placeholder: 'Enter your email',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'email'
   },
   password: {
     input: 'password',
     label: 'Password',
     placeholder: 'Enter your password',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'password'
   },
   confirm: {
     input: 'password',
     placeholder: 'Confirm your password',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'password-new'
   }
 }
 
