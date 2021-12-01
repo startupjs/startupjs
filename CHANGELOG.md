@@ -1,3 +1,17 @@
+## [0.40.7](https://github.com/startupjs/startupjs/compare/v0.40.6...v0.40.7) (2021-12-01)
+
+
+### Bug Fixes
+
+* **auth-local:** make autocomplete better for login and register forms ([#828](https://github.com/startupjs/startupjs/issues/828)) ([70edbed](https://github.com/startupjs/startupjs/commit/70edbedfb59d2b2688a9a524d2be37987f5ba7c1))
+
+
+### Features
+
+* **ui/Radio:** add ability to display description for radio input option ([#853](https://github.com/startupjs/startupjs/issues/853)) ([4315c10](https://github.com/startupjs/startupjs/commit/4315c10ae242b2e4daacb773e39764271104046f))
+
+
+
 ## [0.40.6](https://github.com/startupjs/startupjs/compare/v0.40.5...v0.40.6) (2021-11-25)
 
 
