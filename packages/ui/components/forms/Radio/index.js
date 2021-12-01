@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../../Div'
 import Input from './input'
-import { getOptionLabel, stringifyValue } from './helpers'
+import { getOptionLabel, getOptionDescription, stringifyValue } from './helpers'
 import './index.styl'
 
 function Radio ({
@@ -28,6 +28,7 @@ function Radio ({
           styleName={ row, first: !index }
           checked=checked
           value=optionValue
+          description=getOptionDescription(option)
           error=error
           ...props
         )= getOptionLabel(option)
@@ -48,8 +49,9 @@ Radio.propTypes = {
     PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        value: PropTypes.any,
+        label: PropTypes.oneOfType([PropTypes.string]),
+        description: PropTypes.oneOfType([PropTypes.string])
       })
     ])
   ),
