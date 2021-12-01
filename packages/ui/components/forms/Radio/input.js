@@ -18,6 +18,7 @@ const MAX_SCALE_RATIO = 1
 const RadioInput = function ({
   style,
   value,
+  description,
   children,
   checked,
   disabled,
@@ -69,6 +70,8 @@ const RadioInput = function ({
         )
       Div.container
         Span.label= children
+        if description
+          Span.description(description)= description
   `
 }
 
