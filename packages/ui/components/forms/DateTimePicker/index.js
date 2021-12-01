@@ -27,7 +27,8 @@ function DateTimePicker ({
   size,
   mode,
   renderCaption, // DEPRECATED replace InputComponent
-  renderContent,
+  renderContent, // DEPRECATED replace renderCaption
+  renderInput, // replace renderContent
   locale,
   range,
   timezone,
@@ -39,7 +40,15 @@ function DateTimePicker ({
   minDate,
   onChangeDate
 }) {
-  renderContent = renderContent || renderCaption
+  if (renderCaption) {
+    console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
+  }
+
+  if (renderContent) {
+    console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
+  }
+
+  renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
   const [visible, $visible] = useValue(false)
@@ -120,8 +129,8 @@ function DateTimePicker ({
   }
 
   const caption = pug`
-    if renderContent
-      = renderContent(Object.assign({ $visible }, inputProps))
+    if renderInput
+      = renderInput(Object.assign({ $visible }, inputProps))
     else
       TextInput(
         ...inputProps
