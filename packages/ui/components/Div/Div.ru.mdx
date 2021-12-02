@@ -131,20 +131,16 @@ return (
 ```
 
 ## Всплывающая подсказка
-- renderTooltip (function: ReactNode | string | number): рендер-функция, возвращающая содержимое тултипа (JSX, строка или число)
-- tooltipProps (object): дополнительные параметры, идентичные [Popover](/docs/popups/Popover): style, position, attachment, durationOpen, durationClose, arrow
 
 ```jsx example
-const content = 'Контент'
-
 return pug`
-  Div.caption(renderTooltip=content)
+  Div.root(tooltip='Содержимое подсказки')
     Icon(icon=faInfoCircle size='xl')
 `
 
 styl`
-  .caption
-    width 3u
+  .root
+    align-self flex-start
 `
 ```
 
