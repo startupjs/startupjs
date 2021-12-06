@@ -41,7 +41,6 @@ function AbstractPopover (props) {
 
 const Tether = observer(function TetherComponent ({
   style,
-  arrowStyle,
   refAnchor,
   visible,
   position,
@@ -131,8 +130,11 @@ const Tether = observer(function TetherComponent ({
   const rootStyle = {
     top: geometry ? geometry.top : -999,
     left: geometry ? geometry.left : -999,
-    width: geometry ? geometry.width : 'auto',
     opacity: fadeAnim
+  }
+
+  if (geometry) {
+    rootStyle.width = geometry.width
   }
 
   const popover = pug`
@@ -142,14 +144,11 @@ const Tether = observer(function TetherComponent ({
     )
       if arrow && !!geometry
         Div.arrow(
-          style=[
-            arrowStyle,
-            {
-              borderTopColor: style.backgroundColor,
-              left: geometry.arrowLeft,
-              top: geometry.arrowTop
-            }
-          ]
+          style={
+            borderTopColor: style.backgroundColor,
+            left: geometry.arrowLeft,
+            top: geometry.arrowTop
+          }
           styleName=[geometry.position]
         )
       = children
@@ -173,7 +172,6 @@ AbstractPopover.defaultProps = {
 
 AbstractPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   refAnchor: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })

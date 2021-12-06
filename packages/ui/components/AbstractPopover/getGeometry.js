@@ -40,7 +40,7 @@ export default function getGeometry (params) {
     left: leftPositions[currentPlacement],
     arrowTop: arrowTopPositions[currentPlacement],
     arrowLeft: arrowLeftPositions[currentPlacement],
-    width: matchAnchorWidth ? anchorMeasures.width : undefined
+    width: matchAnchorWidth ? anchorMeasures.width : tetherMeasures.width
   }
 
   return geometry

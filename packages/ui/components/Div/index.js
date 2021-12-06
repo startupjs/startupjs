@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
-import pick from 'lodash/pick'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Span from '../typography/Span'
 import AbstractPopover from '../AbstractPopover'
@@ -16,7 +15,11 @@ import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
 const DEPRECATED_PUSHED_VALUES = ['xs', 'xl', 'xxl']
-
+const DEFAULT_TOOLTIP_PROPS = {
+  position: 'top',
+  attachment: 'center',
+  arrow: true
+}
 const isWeb = Platform.OS === 'web'
 
 const {
@@ -40,8 +43,9 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   accessible,
+  tooltip,
+  tooltipStyle,
   renderTooltip,
-  tooltipProps,
   onPress,
   onLongPress,
   _preventEvent,
@@ -49,6 +53,10 @@ function Div ({
 }, ref) {
   if (DEPRECATED_PUSHED_VALUES.includes(pushed)) {
     console.warn(`[@startupjs/ui] Div: variant='${pushed}' is DEPRECATED, use one of 's', 'm', 'l' instead.`)
+  }
+
+  if (renderTooltip) {
+    console.warn('[@startupjs/ui] Div: renderTooltip is DEPRECATED, use \'tooltip\' property instead.')
   }
 
   const isClickable = onPress || onLongPress
@@ -125,7 +133,9 @@ function Div ({
     }
   }
 
-  if (typeof renderTooltip !== 'undefined') {
+  tooltip = tooltip || renderTooltip
+
+  if (typeof tooltip !== 'undefined') {
     // TODO: Move all logic to useTooltip hook along with the tooltip html
     const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
 
@@ -167,7 +177,7 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable || (renderTooltip && !isWeb)) {
+    if (isClickable || (tooltip && !isWeb)) {
       return pug`
         TouchableWithoutFeedback(...wrapperProps)
           = children
@@ -200,19 +210,18 @@ function Div ({
   return pug`
     = div
 
-    if renderTooltip
-      - const simple = typeof renderTooltip === 'string'
+    if tooltip
       AbstractPopover.tooltip(
+        style=tooltipStyle
         refAnchor=refAnchor
-        styleName={ simple }
-        arrowStyleName='tooltip-arrow'
         visible=isTooltipVisible
-        ...tooltipProps
+        ...DEFAULT_TOOLTIP_PROPS
       )
-        if typeof renderTooltip === 'function'
-          = renderTooltip()
-        else if simple
-          Span.tooltip-text= renderTooltip
+        //- case for DEPRECATED renderTooltip property
+        if typeof tooltip === 'function'
+          = tooltip()
+        else
+          Span.tooltip-text= tooltip
   `
 }
 
@@ -223,13 +232,6 @@ Div.defaultProps = {
   disabled: false,
   bleed: false,
   pushed: false,
-  tooltipProps: {
-    position: 'top',
-    attachment: 'center',
-    durationOpen: AbstractPopover.defaultProps.durationOpen,
-    durationClose: AbstractPopover.defaultProps.durationClose,
-    arrow: true
-  },
   _preventEvent: true
 }
 
@@ -245,31 +247,8 @@ Div.propTypes = {
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
-  tooltipProps: PropTypes.shape(
-    pick(
-      AbstractPopover.propTypes,
-      [
-        'style',
-        'arrowStyle',
-        'position',
-        'attachment',
-        'placements',
-        'arrow',
-        'matchAnchorWidth',
-        'durationOpen',
-        'durationClose',
-        'renderWrapper',
-        'onRequestOpen',
-        'onRequestClose',
-        'onCompleteOpen',
-        'onCompleteClose'
-      ]
-    )
-  ),
-  renderTooltip: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string
-  ]),
+  tooltip: PropTypes.string,
+  tooltipStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,
   _preventEvent: PropTypes.bool
