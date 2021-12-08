@@ -83,10 +83,7 @@ export default function wrapInput (Component, configuration) {
             }
           ]
           onPress=isLabelClickable
-            ? () => {
-              inputRef.current.focus && inputRef.current.focus()
-              inputRef.current && inputRef.current._onLabelPress()
-            }
+            ? () => inputRef.current && inputRef.current._onLabelPress()
             : undefined
         )= label
     `
