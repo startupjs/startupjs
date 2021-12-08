@@ -185,9 +185,10 @@ const inputs = {
   },
   text: {
     Component: WrappedTextInput,
-    getProps: ({ value, $value, onChangeText }) => ({
+    getProps: ({ value, $value, readonly, onChangeText }) => ({
       value,
       $value,
+      configuration: { isLabelClickable: !readonly },
       // TODO: Use stringInsert and stringRemove
       onChangeText
     })
