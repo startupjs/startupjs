@@ -106,7 +106,7 @@ const inputs = {
     Component: WrappedCheckbox,
     getProps: ({ disabled, value, $value, onChange }) => ({
       disabled,
-      configuration: { isLabelClickable: !disabled },
+      configuration: { isLabelClickable: !disabled && !readonly },
       value,
       $value,
       onChange
@@ -152,7 +152,7 @@ const inputs = {
     getProps: ({ value, $value, disabled, readonly, onChange }) => ({
       value,
       $value,
-      configuration: { isLabelClickable: !disabled || !readonly },
+      configuration: { isLabelClickable: !disabled && !readonly },
       onChange
     })
   },
@@ -161,7 +161,7 @@ const inputs = {
     getProps: ({ value, $value, disabled, onChangeNumber }) => ({
       value,
       $value,
-      configuration: { isLabelClickable: !disabled },
+      configuration: { isLabelClickable: !disabled && !readonly },
       onChangeNumber
     })
   },
@@ -174,7 +174,7 @@ const inputs = {
     getProps: ({ value, $value, disabled, readonly, onChangeText }) => ({
       value,
       $value,
-      configuration: { isLabelClickable: !disabled || !readonly },
+      configuration: { isLabelClickable: !disabled && !readonly },
       onChangeText
     })
   },
@@ -191,7 +191,7 @@ const inputs = {
     getProps: ({ value, $value, readonly, disabled, onChangeText }) => ({
       value,
       $value,
-      configuration: { isLabelClickable: !readonly || !disabled },
+      configuration: { isLabelClickable: !disabled && !readonly },
       // TODO: Use stringInsert and stringRemove
       onChangeText
     })
