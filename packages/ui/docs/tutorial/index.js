@@ -41,8 +41,8 @@ export default {
     Basics: {
       type: 'mdx',
       title: {
-        en: 'UI-components library',
-        ru: 'Библиотека UI-компонентов'
+        en: 'To-Do app',
+        ru: 'To-Do приложение'
       },
       component: {
         en: BasicsEn,
