@@ -37,18 +37,23 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 
   useSyncEffect(() => {
     $root.on('url', goTo)
-    $root.on('error', setErr)
+    $root.on('error', handleError)
     $root.on('restart', restart)
 
     return () => {
       $root.removeListener('url', goTo)
-      $root.removeListener('error', setErr)
+      $root.removeListener('error', handleError)
     }
   }, [])
 
   useSyncEffect(() => {
     if (err) setErr()
   }, [location.pathname])
+
+  function handleError (err) {
+    if (err?.code === 'ERR_DOC_ALREADY_CREATED') return
+    setErr(err)
+  }
 
   function goTo (url, options) {
     typeof goToHandler === 'function'
