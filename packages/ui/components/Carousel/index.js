@@ -44,8 +44,16 @@ function Carousel ({
   const coardName = variant === 'horizontal' ? 'x' : 'y'
   const sideName = variant === 'horizontal' ? 'width' : 'height'
 
+  const childrenRefs = useMemo(() => {
+    const _refs = {}
+    children.forEach((c, i) => {
+      _refs[i] = React.createRef()
+    })
+    return _refs
+  }, [children.length])
+
   const validChildren = useMemo(() => {
-    return getValidChildren({ children, isEndless, isResponsive })
+    return getValidChildren({ children, isEndless, isResponsive, childrenRefs })
   }, [children])
 
   const [activeIndex, setActiveIndex] = useState(startIndex)
@@ -59,13 +67,21 @@ function Carousel ({
   const [isRender, setIsRender] = useState(false)
   const [isAnimate, setIsAnimate] = useState(false)
 
-  useImperativeHandle(ref, () => {
-    return {
-      element: refRoot.current,
-      toBack: onBack,
-      toNext: onNext,
-      toIndex
-    }
+  useImperativeHandle (ref, () => {
+    return new Proxy(refRoot.current, {
+      get(target, prop) {
+        const actualChildIndex = activeIndex % children.length
+        const activeRef = childrenRefs[actualChildIndex].current
+        if (prop === 'getChildByIndex') return getChildByIndex
+        if (prop === 'activeChild') return activeRef
+        if (prop === 'element') return refRoot.current
+        if (prop === 'toBack') return onBack
+        if (prop === 'toNext') return onNext
+        if (prop === 'toIndex') return toIndex
+        if (target[prop]) return target.prop
+        return activeRef[prop]
+      }
+    })
   }, [
     activeIndex,
     rootInfo,
@@ -82,6 +98,10 @@ function Carousel ({
       clearTimeout(refTimeout.current)
     }
   }, [isRender, isLoop, isAnimate, activeIndex])
+
+  function getChildByIndex(index) {
+    return childrenRefs[index].current
+  }
 
   function onLayoutChild ({ nativeEvent }, index) {
     childrenInfo.current[index] = {
@@ -135,7 +155,7 @@ function Carousel ({
     }
 
     setActiveIndex(activeElement.index)
-    onChange && onChange(activeElement.index)
+    onChange && onChange(activeElement.index % children.length)
     Animated.timing(animateTranslate, { toValue, duration }).start(() => {
       setIsAnimate(false)
     })
@@ -178,11 +198,12 @@ function Carousel ({
 
     // swap
     if (isEndless && isResponsive && (activeIndex - 1 < children.length)) {
-      setActiveIndex(activeElement.index * 2 + 1)
-      onChange && onChange(activeElement.index * 2 + 1)
+      const index = activeElement.index * 2 + 1
+      setActiveIndex(index)
+      onChange && onChange(index % children.length)
     } else {
       setActiveIndex(activeElement.index)
-      onChange && onChange(activeElement.index)
+      onChange && onChange(activeElement.index % children.length)
     }
 
     Animated.timing(animateTranslate, { toValue, duration }).start(() => {
@@ -240,10 +261,10 @@ function Carousel ({
     // swap
     if (isEndless && isResponsive && activeIndex + 1 >= (children.length * 2)) {
       setActiveIndex(children.length)
-      onChange && onChange(children.length)
+      onChange && onChange(0)
     } else {
       setActiveIndex(activeElement.index)
-      onChange && onChange(activeElement.index)
+      onChange && onChange(activeElement.index % children.length)
     }
 
     Animated.timing(animateTranslate, { toValue, duration }).start(() => {
@@ -300,14 +321,15 @@ function Carousel ({
 
     // swap
     if (side === 'back' && isEndless && isResponsive && (activeIndex - 1 < children.length)) {
-      setActiveIndex(activeElement.index * 2 + 1)
-      onChange && onChange(activeElement.index * 2 + 1)
+      const index = activeElement.index * 2 + 1
+      setActiveIndex(index)
+      onChange && onChange(index % children.length)
     } else if (side === 'next' && isEndless && isResponsive && (activeIndex + 1 >= (children.length * 2))) {
       setActiveIndex(children.length)
-      onChange && onChange(children.length)
+      onChange && onChange(0)
     } else {
       setActiveIndex(activeElement.index)
-      onChange && onChange(activeElement.index)
+      onChange && onChange(activeElement.index % children.length)
     }
 
     Animated.timing(animateTranslate, { toValue, duration }).start(() => {
@@ -539,12 +561,17 @@ function getDotsArray ({
   })
 }
 
-function getValidChildren ({ children, isEndless, isResponsive }) {
+function getValidChildren ({ children, isEndless, isResponsive, childrenRefs }) {
+  const childrenWithRefs = React.Children.toArray(children)
+    .map((child, index) => {
+      const childRef = childrenRefs[index]
+      return React.cloneElement(child, { ref: childRef })
+    })
   if (isEndless && isResponsive) {
-    return [...children, ...children, ...children]
+    return [...children, ...childrenWithRefs, ...children]
   }
 
-  return children
+  return childrenWithRefs
 }
 
 Carousel.defaultProps = {
