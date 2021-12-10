@@ -1,20 +1,85 @@
-# What is StartupJS
+# StartupJS
 
-StartupJS is a cross-platform full stack framework for building reactive applications within minutes. From the name itself, you can understand that the main idea of this product is to simplify the creation of your startup. It often happens that there is an idea and you want to implement it now while it is still relevant, but then you face a heavy stack of technologies that need to be mastered to create any viable application. And if you need some more specific functionality, then the idea can simply sink into oblivion. This is because you often have to seek developers, explain the idea to them and it is not a given that they will form an image similar to yours. This is the moment of StartupJS to come into play, since it is enough for you to know javaScript and React to create a prototype for your startup and it will be reactive, cross-platform and adaptive. Moreover, there is an out-of-the-box library of high-quality UI components to allow you to build your application just like a Lego constructor.
+> **StartupJS** is a cross-platform full stack framework for building reactive and collaborative applications in a matter of hours.
 
-## How to use the course
+Just imagine what you can do with a tool which lets you create a prototype of *Google Docs* or *Discord* in a day...
+
+## Creating a new project
+
+Before you can create and run a new project, StartupJS requires you to install several dependencies. Below is the list of them and the installation commands for MacOS using [Homebrew](https://brew.sh/) (for other OS'es follow the installation instructions on the according websites):
+
+1. [NodeJS](https://nodejs.org/en/download/package-manager/)
+
+    ```
+    brew install node
+    ```
+
+1. [MongoDB](https://docs.mongodb.com/manual/administration/install-community/)
+
+    ```
+    brew tap mongodb/brew
+    brew install mongodb-community
+    brew services start mongodb-community
+    ```
+
+1. [Redis](https://redis.io/download)
+
+    ```
+    brew install redis
+    brew services start redis
+    ```
+
+1.  [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+
+    ```
+    brew install yarn
+    ```
+
+After that you can create a new project with:
+
+```
+npx startupjs init myapp
+```
+
+Don't freak out if it shows an error during Cocoapods installation. These are required to run iOS but not needed to quickstart development on the web. And since the code is fully cross-platform you can get to testing your iOS and Android apps later.
+
+After the initialization is finished, go to the newly created folder, run `npm start` and open [localhost:3000](http://localhost:3000).
+
+Edit the file `main/pages/PHome/index.jsx` to see changes.
+
+## Why StartupJS?
+
+The name itself suggests that the main idea behind this framework is to simplify creation of a startup.
+
+Often times you have a new cool idea, but it has to be implemented and delivered to production **NOW** while it is still relevant. But as soon as you get into the action you are faced with a bunch of technologies which need to be mastered and dealt with to get even a Proof of Concept to your alpha users. And rather than focusing on implementing some creative business logic which actually brings value, you end up fighting your tech stack.
+
+Meet `StartupJS`!
+
+- It's fully and natively crossplatform thanks to the use of [React Native](https://reactnative.dev/) -- Web, iOS, Android.
+
+- It has a full-stack DB system and an ORM which lets you easily query data directly from the client-side and subscribe for updates. And all of this through WebSockets!
+
+- It has reactivity and collaboration built-in. You can build things like a simple `Google Docs` editor or a chat system within an hour!
+
+- It builds on top of existing libraries and technologies which are well-supported and will get your idea all the way from a garage startup level to an enterprise!
+
+- It has a built-in high-quality library of UI components which were designed from the ground up to be fully cross-platform on both Web and Native Mobile. You can construct your application UI like a Lego. And with the same exact reusable code you will get the app which runs as a responsive website as well as a native iOS and Android app.
+
+- It provides you all the required security mechanisms when you need to get serious and uplift your app to the enterprise level. It includes built-in libraries for Authentication, Authorization, RBAC, Multi-Tenancy, sophisticated Access Control, Schema-validation and others.
+
+## How to use this tutorial
 
 You need to have a basic knowledge of HTML, CSS, JavaScript and React to understand StartupJS.
 
 As you progress through the course, you will come across mini-exercises to illustrate library capabilities. The following modules are based on the knowledge discussed earlier, so it is recommended to study StartupJS in chapter order.
 
-Each chapter of the tutorial will have a 'Show me' button, which you can click, if you have difficulties while doing tasks. Try to use it as little as possible. You will learn faster if you understand where needed block of code should be inserted to and type it yourself in the editor. So try to write the code at every stage yourself. It is also a great practice to come up with something of your own to put the acquired skills to a test. For example, assume that there is a module about a button handler in which you are given a task of implementing a button with the specified functionality. Try to think about how you would use this button in your own project, what functionality you would require, and try to implement it within the sandbox. This approach allows you to understand how one or the other component actually works instead of simply memorizing it.
+You will learn faster if you understand where needed block of code should be inserted to and type it yourself in the your code editor. So try to write the code at every stage yourself. It is also a great practice to come up with something of your own to put the acquired skills to a test. For example, assume that there is a lesson about a button handler in which you are given a task of implementing a button with the specified functionality. Try to think about how you would use this button in your own project, what functionality you would require, and try to implement it. This approach allows you to understand how one or the other component actually works instead of simply memorizing it.
 
 ## Application structure
 
 Since StartupJS is based on React, the approach to development is component-based. It means that an application consists of one or more components. A component is a reusable, stand-alone block of code that isolates markup, styles, and behavior that are coupled together.
 
-Look at the ‘Hello, world!’ example in the code editor, this is how a simple component looks like.
+Look at the ‘Hello, world!’ example below, this is how a simple component looks like.
 
 ```jsx
 import React from 'react'
@@ -22,7 +87,7 @@ import { observer } from 'startupjs'
 import { H1 } from '@startupjs/ui'
 
 export default observer(function FirstExample () {
-  return(
+  return (
     <H1>
       Hello, world!
     </H1>
@@ -30,10 +95,6 @@ export default observer(function FirstExample () {
 })
 ```
 
-## Why StarpupJS?
+StartupJS provides you a sophisticated system for building custom applications quick. There is no necessity to have a thorough knowledge of how to make the server work, how to organize the interaction with the database or how to display it to the user.
 
-StartupJS provides you with an independent system for building custom applications. There is no necessity to have a thorough knowledge of how to make the server work, how to organize the interaction with the database or how to display it to the user. StartupJS has useful and quick components to implement each of these steps.
-
-If you choose StartupJS, you get an application that works on web, ios, android platforms in the same reactive way.
-
-Let us analyze the step-by-step creation of a TODO List application in StartupJS.
+Proceed to the next chapter to start the step-by-step guide on making a TODO List application in StartupJS.
