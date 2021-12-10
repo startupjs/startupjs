@@ -3,6 +3,7 @@ import { Image, Platform, ScrollView } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { $root, observer, useValue } from 'startupjs'
 import {
+  Alert,
   Div,
   H2,
   H5,
@@ -31,6 +32,7 @@ import Code from '../Code'
 
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
+const BlockquoteContext = React.createContext()
 
 function getOrderedListMark (index, level) {
   switch (level) {
@@ -117,10 +119,16 @@ export default {
       H6(bold)= children
   `,
   p: ({ children }) => {
+    const inBlockquote = useContext(BlockquoteContext)
     // TODO: HACK: Image does not work as need in Text on Android and IOS.
     // Check after the release of react-native v0.64 with this commit
     // https://github.com/facebook/react-native/commit/a0268a7bfc8000b5297d2b50f81e000d1f479c76
     if (children?.props?.mdxType === 'img') return children
+    if (inBlockquote) {
+      return pug`
+        Span.blockquoteP= children
+      `
+    }
     return pug`
       P= children
     `
@@ -193,7 +201,12 @@ export default {
   },
   br: Br,
   thematicBreak: P,
-  blockquote: P,
+  blockquote: ({ children }) => {
+    return pug`
+      BlockquoteContext.Provider(value=true)
+        Alert.alert= children
+    `
+  },
   ul: ({ children }) => children,
   ol: ({ children }) => {
     const currentLevel = useContext(ListLevelContext)
