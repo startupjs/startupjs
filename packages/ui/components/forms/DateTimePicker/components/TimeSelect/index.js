@@ -74,7 +74,7 @@ export default observer(function TimeSelect ({
     `
   }
 
-  const length = media.tablet ? STYLES.cell.width : STYLES.cell.height
+  const length = STYLES.cell.height
 
   return pug`
     FlatList(
