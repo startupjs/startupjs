@@ -92,10 +92,11 @@ const App = observer(function AppComponent ({
   }
 
   return pug`
-    if renderBlocked
-      = renderBlocked
-    else if user && user.blocked
-      Blocked
+    if user && user.blocked
+      if renderBlocked
+        = renderBlocked(Blocked)
+      else 
+        Blocked
     else
       Suspense(fallback=null)
         PluginsProvider(
