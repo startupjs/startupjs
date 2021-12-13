@@ -52,6 +52,7 @@ const App = observer(function AppComponent ({
   androidUpdateLink,
   iosUpdateLink,
   supportEmail,
+  renderBlocked,
   ...props
 }) {
   // Dynamically update @media queries in CSS whenever window width changes
@@ -91,7 +92,9 @@ const App = observer(function AppComponent ({
   }
 
   return pug`
-    if user && user.blocked
+    if renderBlocked
+      = renderBlocked
+    else if user && user.blocked
       Blocked
     else
       Suspense(fallback=null)
