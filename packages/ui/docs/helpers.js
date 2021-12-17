@@ -1,7 +1,7 @@
 /* @asyncImports */
 import { faCode } from '@fortawesome/free-solid-svg-icons'
-import DialogEn from '../components/Dialog/Dialog.en.mdx'
-import DialogRu from '../components/Dialog/Dialog.ru.mdx'
+import DialogsEn from '../components/dialogs/dialogs.en.mdx'
+import DialogsRu from '../components/dialogs//dialogs.ru.mdx'
 import useMediaEn from '../hooks/useMedia.en.mdx'
 import useMediaRu from '../hooks/useMedia.ru.mdx'
 
@@ -13,12 +13,12 @@ export default {
   },
   icon: faCode,
   items: {
-    Dialog: {
+    Dialogs: {
       type: 'mdx',
-      title: 'dialogs',
+      title: 'Dialogs',
       component: {
-        en: DialogEn,
-        ru: DialogRu
+        en: DialogsEn,
+        ru: DialogsRu
       }
     },
     useMedia: {

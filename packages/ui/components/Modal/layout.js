@@ -19,7 +19,7 @@ function Modal ({
   ModalElement,
   showCross,
   enableBackdropPress,
-  closeFallback,
+  onRequestClose,
   onCrossPress,
   onBackdropPress,
   onCancel,
@@ -36,8 +36,11 @@ function Modal ({
   // Deconstruct template variables
   let header, actions, content
   const contentChildren = []
+
   React.Children.forEach(children, child => {
-    switch (child && child.type) {
+    if (!child) return
+
+    switch (child.type) {
       case ModalHeader:
         if (header) throw Error('[ui -> Modal] You must specify a single <Modal.Header>')
         header = child
@@ -54,49 +57,22 @@ function Modal ({
         contentChildren.push(child)
     }
   })
+
   if (content && contentChildren.length > 0) {
     throw Error('[ui -> Modal] React elements found directly within <Modal>. ' +
       'If <Modal.Content> is specified, you have to put all your content inside it')
   }
 
-  // Handle <Modal.Content>
-  content = content || (contentChildren.length > 0
-    ? React.createElement(ModalContent, { variant }, contentChildren)
-    : null)
-
   let _onConfirm
   let _onCancel
-
-  if (onConfirm) {
-    _onConfirm = async event => {
-      event.persist() // TODO: remove in react 17
-      const promise = onConfirm(event)
-      if (promise?.then) await promise
-      if (event.defaultPrevented) return
-      closeFallback()
-    }
-  }
-
-  if (onCancel || onConfirm) {
-    if (!onConfirm && cancelLabel === ModalActions.defaultProps.cancelLabel) {
-      cancelLabel = 'OK'
-    }
-
-    _onCancel = async event => {
-      event.persist() // TODO: remove in react 17
-      const promise = onCancel && onCancel(event)
-      if (promise?.then) await promise
-      if (event.defaultPrevented) return
-      closeFallback()
-    }
-  }
+  const isWindowLayout = variant === 'window'
 
   const _onCrossPress = async event => {
     event.persist() // TODO: remove in react 17
     const promise = onCrossPress && onCrossPress(event)
     if (promise?.then) await promise
     if (event.defaultPrevented) return
-    closeFallback()
+    onRequestClose()
   }
 
   const _onBackdropPress = async event => {
@@ -104,35 +80,71 @@ function Modal ({
     const promise = onBackdropPress && onBackdropPress(event)
     if (promise?.then) await promise
     if (event.defaultPrevented) return
-    closeFallback()
+    onRequestClose()
   }
 
-  // Handle <Modal.Actions>
-  const actionsProps = {
-    cancelLabel,
-    confirmLabel,
-    style: content ? { paddingTop: 0 } : null,
-    onCancel: _onCancel,
-    onConfirm: _onConfirm
+  if (onConfirm) {
+    _onConfirm = async event => {
+      event.persist() // TODO: remove in react 17
+      const promise = onConfirm(event)
+      if (promise?.then) await promise
+      if (event.defaultPrevented) return
+      onRequestClose()
+    }
   }
-  actions = actions
-    ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
-    : onCancel || onConfirm
-      ? React.createElement(ModalActions, actionsProps)
-      : null
+
+  if (onCancel || onConfirm) {
+    _onCancel = async event => {
+      event.persist() // TODO: remove in react 17
+      const promise = onCancel && onCancel(event)
+      if (promise?.then) await promise
+      if (event.defaultPrevented) return
+      onRequestClose()
+    }
+  }
+
+  if (!onConfirm && cancelLabel === ModalActions.defaultProps.cancelLabel) {
+    cancelLabel = 'OK'
+  }
 
   // Handle <Modal.Header>
   const headerProps = {
-    style: content || actions ? { paddingBottom: 0 } : null,
     onCrossPress: showCross ? _onCrossPress : undefined
   }
+
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
     : title || showCross
       ? React.createElement(ModalHeader, headerProps, title)
       : null
 
-  const isWindowLayout = variant === 'window'
+  // Handle <Modal.Actions>
+  const actionsProps = {
+    cancelLabel,
+    confirmLabel,
+    onCancel: _onCancel,
+    onConfirm: _onConfirm
+  }
+
+  actions = actions
+    ? React.cloneElement(actions, { ...actionsProps, ...actions.props })
+    : onCancel || onConfirm
+      ? React.createElement(ModalActions, actionsProps)
+      : null
+
+  // Handle <Modal.Content>
+  const contentStyle = {}
+
+  if (header) contentStyle.paddingTop = 0
+  if (actions) contentStyle.paddingBottom = 0
+
+  // content part should always present
+  content = content ||
+    React.createElement(
+      ModalContent,
+      { variant, style: contentStyle },
+      contentChildren
+    )
 
   return pug`
     View.root(style=style styleName=[variant])

@@ -8,6 +8,14 @@ import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
 import Portal from '../Portal'
 
+const SUPPORTED_ORIENTATIONS = [
+  'portrait',
+  'portrait-upside-down',
+  'landscape',
+  'landscape-left',
+  'landscape-right'
+]
+
 function ModalRoot ({
   style,
   modalStyle,
@@ -17,16 +25,20 @@ function ModalRoot ({
   supportedOrientations,
   statusBarTranslucent,
   animationType,
-  onChange,
+  onChange, // DEPRECATED
   onDismiss,
   onRequestClose,
   onShow,
   onOrientationChange,
   ...props
 }, ref) {
+  if (onChange) {
+    console.warn('[@startupjs/ui] Modal: onChange is DEPRECATED, use onRequestClose instead.')
+  }
+
   const isUsedViaRef = useMemo(() => {
     const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
-    const isUsedViaState = typeof onChange === 'function'
+    const isUsedViaState = typeof visible !== 'undefined'
     return !(isUsedViaTwoWayDataBinding || isUsedViaState)
   }, [])
 
@@ -45,8 +57,9 @@ function ModalRoot ({
   // because modal window appears for undefined value on web
   visible = !!visible
 
-  function closeFallback () {
-    onChange && onChange(false)
+  function _onRequestClose () {
+    onChange && onChange(false) // DEPRECATED
+    onRequestClose()
   }
 
   // TODO: This hack is used to make onDismiss work correctly.
@@ -68,7 +81,7 @@ function ModalRoot ({
       supportedOrientations=supportedOrientations
       animationType=animationType
       statusBarTranslucent=statusBarTranslucent
-      onRequestClose=onRequestClose
+      onRequestClose=_onRequestClose
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
@@ -77,7 +90,7 @@ function ModalRoot ({
           Layout(
             style=style
             modalStyle=modalStyle
-            closeFallback=closeFallback
+            onRequestClose=_onRequestClose
             ...props
           )
   `
@@ -92,8 +105,10 @@ ModalRoot.defaultProps = {
   transparent: true,
   showCross: true,
   enableBackdropPress: true,
-  supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right'],
-  onRequestClose: () => {} // required prop in some platforms
+  supportedOrientations: SUPPORTED_ORIENTATIONS,
+  // default value is needed to avoid crash pages
+  // because this property is required in some platforms
+  onRequestClose: () => {}
 }
 
 ModalRoot.propTypes = {
@@ -103,22 +118,17 @@ ModalRoot.propTypes = {
   visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
-  cancelLabel: ModalActions.propTypes.cancelLabel,
-  confirmLabel: ModalActions.propTypes.confirmLabel,
+  cancelLabel: ModalActions.propTypes.cancelLabel, // ??
+  confirmLabel: ModalActions.propTypes.confirmLabel, // ??
   showCross: PropTypes.bool,
   enableBackdropPress: PropTypes.bool,
   ModalElement: PropTypes.any,
   animationType: PropTypes.oneOf(['slide', 'fade', 'none']),
   transparent: PropTypes.bool,
   statusBarTranslucent: PropTypes.bool,
-  supportedOrientations: PropTypes.arrayOf(PropTypes.oneOf([
-    'portrait',
-    'portrait-upside-down',
-    'landscape',
-    'landscape-left',
-    'landscape-right'
-  ])),
-  onChange: PropTypes.func,
+  supportedOrientations: PropTypes.arrayOf(
+    PropTypes.oneOf(SUPPORTED_ORIENTATIONS)
+  ),
   onShow: PropTypes.func,
   onCrossPress: PropTypes.func,
   onCancel: PropTypes.func,

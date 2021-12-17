@@ -1,5 +1,5 @@
 import components from './components'
-import hooksAndHelpers from './hooksAndHelpers'
+import helpers from './helpers'
 import foundation from './foundation'
 import forms from './forms'
 import popups from './popups'
@@ -11,5 +11,5 @@ export default {
   components,
   forms,
   popups,
-  hooksAndHelpers
+  helpers
 }
