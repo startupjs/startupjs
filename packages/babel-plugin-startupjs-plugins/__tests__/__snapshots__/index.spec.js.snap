@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-startupjs-plugins Ignores files without a magic import: Ignores files without a magic import 1`] = `
+
+import something from 'startupjs/something'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import something from "startupjs/something";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import: Processes files with a magic import 1`] = `
+
+import plugins from 'startupjs/plugins'
+import init from 'startupjs/init'
+import orm from '../model'
+
+init({ orm, plugins })
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import init from "startupjs/init";
+import orm from "../model";
+import _default from "/Users/cray0000/ws/www/startupjs/packages/babel-plugin-startupjs-plugins/fixtures/node_modules/module-1/startupjs-plugin-module-1/isomorphic.js";
+import _default2 from "/Users/cray0000/ws/www/startupjs/packages/babel-plugin-startupjs-plugins/fixtures/node_modules/module-1/startupjs-plugin-module-1/server.js";
+import _default3 from "/Users/cray0000/ws/www/startupjs/packages/babel-plugin-startupjs-plugins/fixtures/startupjs.config/startupjs-plugin-module-1/server.js";
+const plugins = [
+  {
+    type: "module",
+    name: "module-1",
+  },
+  {
+    type: "plugin",
+    name: "startupjs-plugin-module-1",
+    for: "startupjs",
+    inits: [
+      {
+        env: "isomorphic",
+        init: _default,
+        config: {},
+      },
+      {
+        env: "server",
+        init: _default2,
+        config: _default3,
+      },
+    ],
+  },
+];
+init({
+  orm,
+  plugins,
+});
+
+
+`;

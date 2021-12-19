@@ -1,6 +1,6 @@
 import { serveStaticPromo } from '../server'
 
-export default (serverContext, options) => ({
+export default (options) => ({
   api (expressApp) {
     expressApp.use(serveStaticPromo())
   }

@@ -77,7 +77,7 @@ function resolveNodeModuleDir (root, packageName) {
   try {
     return path.dirname(
       resolve.sync(path.join(packageName, 'package.json'), {
-        paths: [ROOT]
+        basedir: ROOT
       })
     )
   } catch (err) {

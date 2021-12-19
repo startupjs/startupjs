@@ -109,7 +109,7 @@ function resolveNodeModuleDir (root, packageName) {
   try {
     return fsPath.dirname(
       resolve.sync(fsPath.join(packageName, 'package.json'), {
-        paths: [ROOT]
+        basedir: ROOT
       })
     )
   } catch (err) {

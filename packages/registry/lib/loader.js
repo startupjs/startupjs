@@ -4,16 +4,20 @@ const fsPath = require('path')
 const resolve = require('resolve')
 
 const ROOT = process.cwd()
-const CONFIG_NAME = 'startupjs.json'
+const METADATA_FILENAME = 'startupjs.json'
 
-const getPluginConfigFilename = env => `${env}.js`
+const getParentEnvs = env => {
+  switch (env) {
+    case 'server': return ['isomorphic']
+    case 'client': return ['isomorphic']
+    default: return []
+  }
+}
 
-const getParentEnvs = env => [] // Some envs might load multiple files
-
-exports.getPackages = function (env) {
+exports.getPackages = function (env, root = ROOT) {
   if (!env) throw Error('You must pass the env')
-  const packagePaths = getPackagePathsFromPackageJson(fsPath.join(ROOT, 'package.json'))
-  return removeDuplicates(findPackages(packagePaths, env))
+  const packagePaths = getPackagePathsFromPackageJson(root, fsPath.join(root, 'package.json'))
+  return removeDuplicates(findPackages(root, packagePaths, env))
 }
 
 function removeDuplicates (packagesMeta) {
@@ -29,42 +33,43 @@ function removeDuplicates (packagesMeta) {
 }
 
 // Parses list of folder paths and loads all modules/plugins found there
-// (the ones which have CONFIG_NAME in the root)
-function findPackages (packagePaths, env) {
+// (the ones which have METADATA_FILENAME in the root)
+function findPackages (root, packagePaths, env) {
   if (!Array.isArray(packagePaths)) throw Error('packagePaths is not an array. This should never happen.')
   if (!env) throw Error('You must pass the env')
-  return packagePaths.map(i => parsePackage(i, env)).flat(Infinity)
+  return packagePaths.map(i => parsePackage(root, i, env)).flat(Infinity)
 }
 
-function parsePackage (packagePath, env) {
+function parsePackage (root, packagePath, env) {
   if (!env) throw Error('You must pass the env')
-  const configPath = fsPath.join(packagePath, CONFIG_NAME)
-  const config = getConfig(configPath)
-  if (!config) return []
+  const metaPath = fsPath.join(packagePath, METADATA_FILENAME)
+  const meta = getMeta(metaPath)
+  if (!meta) return []
 
   const res = []
 
-  if (config.type === 'module') {
+  if (meta.type === 'module') {
     // Load module itself
-    if (!config.name) throw Error(`Loading ${configPath}: 'name' is required`)
+    if (!meta.name) throw Error(`Loading ${metaPath}: 'name' is required`)
     res.push({
       type: 'module',
-      name: config.name,
-      configPaths: [configPath]
+      name: meta.name,
+      meta
     })
 
     // Load explicitly defined dependencies
-    if (config.imports) {
-      const packagePaths = config.imports.map(path => {
+    if (meta.imports) {
+      const packagePaths = meta.imports.map(path => {
         if (!/^\.\//.test(path)) {
           throw Error(`
-            Loading ${configPath}: 'imports' only supports relative paths (starting with ./).
+            Loading ${metaPath}: 'imports' only supports relative paths (starting with ./).
             If you need to load a global package or plugin just specify it in your package.json
           `)
         }
         return fsPath.join(packagePath, path)
       })
-      res.push(findPackages(packagePaths, env))
+      const x = findPackages(root, packagePaths, env)
+      res.push(x)
     }
 
     // Traverse package.json dependencies.
@@ -72,19 +77,20 @@ function parsePackage (packagePath, env) {
     // from the project's package.json file.
     const packageJsonPath = fsPath.join(packagePath, 'package.json')
     if (fs.existsSync(packageJsonPath)) {
-      const packagePaths = getPackagePathsFromPackageJson(packageJsonPath)
-      res.push(findPackages(packagePaths, env))
+      const packagePaths = getPackagePathsFromPackageJson(root, packageJsonPath)
+      res.push(findPackages(root, packagePaths, env))
     }
-  } else if (config.type === 'plugin' && config.for) {
+  } else if (meta.type === 'plugin' && meta.for) {
     // Load plugin itself
-    if (!config.name) throw Error(`[loader] 'name' is required: ${configPath}`)
-    const pluginConfigPaths = getPluginConfigPaths(packagePath, env)
-    if (pluginConfigPaths && pluginConfigPaths.length > 0) {
+    if (!meta.name) throw Error(`[loader] 'name' is required: ${metaPath}`)
+    const pluginInits = getPluginInits(root, packagePath, meta.name, env)
+    if (pluginInits.length > 0) {
       res.push({
         type: 'plugin',
-        name: config.name,
-        for: config.for,
-        configPaths: pluginConfigPaths
+        name: meta.name,
+        for: meta.for,
+        meta,
+        inits: pluginInits
       })
     }
   }
@@ -92,16 +98,16 @@ function parsePackage (packagePath, env) {
   return res
 }
 
-function getConfig (configPath) {
-  if (!fs.existsSync(configPath)) return
-  const config = require(configPath)
-  if (!config) return
+function getMeta (metaPath) {
+  if (!fs.existsSync(metaPath)) return
+  const meta = require(metaPath)
+  if (!meta) return
   if (!(
-    config.type === 'module' ||
+    meta.type === 'module' ||
     // Old modules api used type: 'plugin' for modules, but it didn't have 'for'
-    (config.type === 'plugin' && config.for))
+    (meta.type === 'plugin' && meta.for))
   ) return
-  return config
+  return meta
 }
 
 // ref: react-native-community/cli
@@ -109,14 +115,14 @@ function resolveNodeModuleDir (root, packageName) {
   try {
     return fsPath.dirname(
       resolve.sync(fsPath.join(packageName, 'package.json'), {
-        paths: [ROOT]
+        basedir: root
       })
     )
   } catch (err) {
   }
 }
 
-function getPackagePathsFromPackageJson (packageJsonPath) {
+function getPackagePathsFromPackageJson (root, packageJsonPath) {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   const packages = [
     ...Object.keys(packageJson.dependencies || {}),
@@ -124,19 +130,61 @@ function getPackagePathsFromPackageJson (packageJsonPath) {
   ]
   const res = []
   for (const packageName of packages) {
-    const packagePath = resolveNodeModuleDir(ROOT, packageName)
+    const packagePath = resolveNodeModuleDir(root, packageName)
     if (!packagePath) continue
     res.push(packagePath)
   }
   return res
 }
 
-function getPluginConfigPaths (packagePath, env) {
-  // exit if the actual env config does not exist
-  if (!fs.existsSync(fsPath.join(packagePath, getPluginConfigFilename(env)))) return
+function getPluginInits (root, pluginPath, pluginName, env) {
   const envs = getParentEnvs(env).concat([env])
   return envs.map(env => {
-    const configPath = fsPath.join(packagePath, getPluginConfigFilename(env))
-    if (fs.existsSync(configPath)) return configPath
+    const initPath = resolvePluginInitPath(pluginPath, env)
+    if (!initPath) return
+    const configPath = resolvePluginConfigPath(root, pluginName, env)
+    return {
+      env,
+      init: initPath,
+      config: configPath || {}
+    }
   }).filter(Boolean)
 }
+
+// TODO: This resolution is very inefficient because of checking multiple extensions.
+//       It needs to be rewritten to read the whole tree structure once and then just
+//       checking for the files existence.
+function resolvePluginInitPath (pluginPath, env) {
+  for (const testPath of getPluginInitFilenames(env)) {
+    const fullPath = fsPath.join(pluginPath, testPath)
+    if (fs.existsSync(fullPath)) return fullPath
+  }
+}
+
+// TODO: This resolution is very inefficient because of checking multiple extensions.
+//       It needs to be rewritten to read the whole tree structure once and then just
+//       checking for the files existence.
+function resolvePluginConfigPath (root, pluginName, env) {
+  for (const testPath of getPluginConfigFilenames(pluginName, env)) {
+    const fullPath = fsPath.join(root, 'startupjs.config', testPath)
+    if (fs.existsSync(fullPath)) return fullPath
+  }
+}
+
+const extensions = [
+  '.js'
+  // TODO: Support this extensions too. This will need a more efficient rewrite
+  //       for checking for file existence instead of the default sync checking.
+  // '.tsx', '.ts', '.jsx', '.cjs', '.mjs',
+]
+
+const getPluginInitFilenames = env => [
+  ...extensions.map(i => `${env}${i}`),
+  ...extensions.map(i => `${env}/index${i}`)
+]
+
+const getPluginConfigFilenames = (pluginName, env) => [
+  ...extensions.map(i => `${pluginName}.${env}${i}`),
+  ...extensions.map(i => `${pluginName}/${env}${i}`),
+  ...extensions.map(i => `${pluginName}/${env}/index${i}`)
+]

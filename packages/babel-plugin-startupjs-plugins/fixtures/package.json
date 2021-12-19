@@ -1,0 +1,6 @@
+{
+  "name": "dummy",
+  "dependencies": {
+    "module-1": "0.0.0"
+  }
+}
