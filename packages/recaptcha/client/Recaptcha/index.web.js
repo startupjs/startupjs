@@ -31,6 +31,7 @@ function RecaptchaComponent ({
 
   useImperativeHandle(ref, () => ({
     open: () => {
+      variant === 'invisible' && grecaptcha.reset(widget)
       onClose && _registerOnCloseListener()
       variant === 'invisible' && grecaptcha.execute(widget)
     },
