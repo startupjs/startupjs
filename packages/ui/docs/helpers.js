@@ -1,7 +1,7 @@
 /* @asyncImports */
 import { faCode } from '@fortawesome/free-solid-svg-icons'
 import DialogsEn from '../components/dialogs/dialogs.en.mdx'
-import DialogsRu from '../components/dialogs//dialogs.ru.mdx'
+import DialogsRu from '../components/dialogs/dialogs.ru.mdx'
 import useMediaEn from '../hooks/useMedia.en.mdx'
 import useMediaRu from '../hooks/useMedia.ru.mdx'
 
