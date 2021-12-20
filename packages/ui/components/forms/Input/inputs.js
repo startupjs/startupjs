@@ -74,7 +74,8 @@ const WrappedPasswordInput = wrapInput(
   {
     rows: {
       descriptionPosition: 'bottom'
-    }
+    },
+    isLabelColoredWhenFocusing: true
   }
 )
 const WrappedRadio = wrapInput(Radio)
