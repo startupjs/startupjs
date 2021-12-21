@@ -105,7 +105,7 @@ const inputs = {
   },
   checkbox: {
     Component: WrappedCheckbox,
-    getProps: ({ disabled, value, $value, onChange }) => ({
+    getProps: ({ disabled, value, readonly, $value, onChange }) => ({
       disabled,
       configuration: { isLabelClickable: !disabled && !readonly },
       value,
@@ -159,7 +159,7 @@ const inputs = {
   },
   number: {
     Component: WrappedNumberInput,
-    getProps: ({ value, $value, disabled, onChangeNumber }) => ({
+    getProps: ({ value, $value, disabled, readonly, onChangeNumber }) => ({
       value,
       $value,
       configuration: { isLabelClickable: !disabled && !readonly },
