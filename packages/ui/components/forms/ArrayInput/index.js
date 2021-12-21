@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Button from '../../Button'
 import themed from '../../../theming/themed'
+import Input from '../Input'
 import './index.styl'
 
 function ArrayInput ({
@@ -40,10 +41,6 @@ function ArrayInput ({
       `
     }
   }
-
-  // INFO: we use require because the Input component is undefined
-  // in circular imports https://stackoverflow.com/a/30390378
-  const Input = require('../Input').default
 
   // TODO: Instead of just a delete icon, make a three dots menu with things like:
   //         - delete
