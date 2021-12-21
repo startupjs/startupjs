@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useImperativeHandle } from 'react'
 import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
-import { Div, Span, useMedia } from '@startupjs/ui'
+import { Div, Span } from '@startupjs/ui'
 import moment from 'moment'
 import STYLES from './index.styl'
 
@@ -16,7 +16,6 @@ export default observer(function TimeSelect ({
   timeInterval,
   onChangeDate
 }, ref) {
-  const media = useMedia()
   const refScroll = useRef()
 
   // we are looking for 'a' in current locale
@@ -74,7 +73,7 @@ export default observer(function TimeSelect ({
     `
   }
 
-  const length = media.tablet ? STYLES.cell.width : STYLES.cell.height
+  const length = STYLES.cell.height
 
   return pug`
     FlatList(

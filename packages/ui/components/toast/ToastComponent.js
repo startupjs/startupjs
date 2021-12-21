@@ -14,6 +14,7 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Row from '../Row'
 import Span from '../typography/Span'
+import themed from '../../theming/themed'
 import './index.styl'
 
 const DURATION_OPEN = 300
@@ -72,11 +73,6 @@ function ToastComponent ({
       .start(onClose)
   }
 
-  function _onAction () {
-    onAction && onAction()
-    onHide()
-  }
-
   return pug`
     Animated.View.root(
       style={
@@ -89,26 +85,32 @@ function ToastComponent ({
       }
       onLayout=e=> onLayout(e.nativeEvent.layout)
     )
-      Div.item(styleName=[type])
-        Row.header
-          Row.caption
+      Div.toast(styleName=[type])
+        Row(
+          align='between'
+          vAlign='center'
+        )
+          Row(vAlign='center')
             Icon.icon(
               icon=icon ? icon : ICONS[type]
               styleName=[type]
             )
             Span.title(styleName=[type])
               = title ? title : TITLES[type]
-
           Div(onPress=onHide)
             Icon(icon=faTimes)
 
         Span.text= text
 
-        Row.actions
-          Button(
-            size='s'
-            onPress=_onAction
-          )= actionLabel
+        if onAction
+          Row.actions
+            Button(
+              size='s'
+              onPress=() => {
+                onAction()
+                onHide()
+              }
+            )= actionLabel
   `
 }
 
@@ -131,4 +133,4 @@ ToastComponent.propTypes = {
   onLayout: PropTypes.func
 }
 
-export default observer(ToastComponent)
+export default observer(themed(ToastComponent, 'Toast'))

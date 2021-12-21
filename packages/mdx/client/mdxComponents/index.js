@@ -242,16 +242,7 @@ export default {
   },
   thead: Thead,
   tbody: Tbody,
-  tr: ({ children }) => {
-    return pug`
-      Tr(
-        style={cursor: 'default'}
-        hoverStyle={backgroundColor: '#ebf8fd'}
-        activeStyle={backgroundColor: '#ebf8fd'}
-        onPress=() => null
-      )= children
-    `
-  },
+  tr: Tr,
   td: Td,
   th: Th,
   delete: P,
