@@ -1,4 +1,4 @@
-FROM node:14.12-alpine
+FROM node:14-alpine
 
 # REQUIRED ENV VARS:
 # - STAGE

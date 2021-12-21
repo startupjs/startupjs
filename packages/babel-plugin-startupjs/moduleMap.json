@@ -13,7 +13,6 @@
     "Carousel": "/components/Carousel",
     "Collapse": "/components/Collapse",
     "Content": "/components/Content",
-    "Dialog": "/components/Dialog",
     "Div": "/components/Div",
     "Divider": "/components/Divider",
     "DrawerSidebar": "/components/DrawerSidebar",
@@ -76,9 +75,9 @@
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
     "uiAppPlugin": "/uiAppPlugin.js",
-    "alert": "/dialogs/alert.js",
-    "confirm": "/dialogs/confirm.js",
-    "helpers": "/dialogs/helpers.js",
-    "prompt": "/dialogs/prompt.js"
+    "DialogsProvider": "/components/dialogs/DialogsProvider.js",
+    "alert": "/components/dialogs/alert.js",
+    "confirm": "/components/dialogs/confirm.js",
+    "prompt": "/components/dialogs/prompt.js"
   }
 }

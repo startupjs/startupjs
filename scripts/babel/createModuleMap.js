@@ -18,7 +18,7 @@ const MODULE_DIRS = {
     { source: path.join(PACKAGES_DIR, 'ui/hooks'), includeFiles: true },
     { source: path.join(PACKAGES_DIR, 'ui/theming'), includeFiles: true },
     { source: path.join(PACKAGES_DIR, 'ui/uiAppPlugin.js'), includeFiles: true },
-    { source: path.join(PACKAGES_DIR, 'ui/dialogs'), includeFiles: true }
+    { source: path.join(PACKAGES_DIR, 'ui/components/dialogs'), includeFiles: true }
   ]
 }
 
@@ -46,7 +46,8 @@ function getModuleMap ({ source, includeFiles }) {
     // if directory starts at small letter -- this is a subdirectory
     // with components, go inside it
     if (/^[a-z]/.test(baseName)) {
-      return fs.readdirSync(source).reduce((map, baseName) => ({
+      const s = fs.readdirSync(source)
+      return s.reduce((map, baseName) => ({
         ...map,
         ...getModuleMap({ source: path.join(source, baseName), includeFiles })
       }), {})
@@ -56,7 +57,7 @@ function getModuleMap ({ source, includeFiles }) {
   } else if (
     includeFiles &&
     /\.jsx?$/.test(baseName) &&
-    !/^index/.test(baseName)
+    !/^index|helpers/.test(baseName)
   ) {
     const name = baseName.replace(/\.jsx?$/, '')
     return { [name]: relativePath(source) }

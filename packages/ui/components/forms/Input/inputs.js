@@ -36,8 +36,7 @@ const WrappedCheckbox = wrapInput(
     rows: {
       labelPosition: 'right',
       descriptionPosition: 'bottom'
-    },
-    isLabelClickable: true
+    }
   }
 )
 const WrappedColorPicker = wrapInput(
@@ -59,8 +58,7 @@ const WrappedNumberInput = wrapInput(
     rows: {
       descriptionPosition: 'bottom'
     },
-    isLabelColoredWhenFocusing: true,
-    isLabelClickable: true
+    isLabelColoredWhenFocusing: true
   }
 )
 const WrappedObjectInput = wrapInput(
@@ -77,8 +75,7 @@ const WrappedPasswordInput = wrapInput(
     rows: {
       descriptionPosition: 'bottom'
     },
-    isLabelColoredWhenFocusing: true,
-    isLabelClickable: true
+    isLabelColoredWhenFocusing: true
   }
 )
 const WrappedRadio = wrapInput(Radio)
@@ -88,8 +85,7 @@ const WrappedSelect = wrapInput(
     rows: {
       descriptionPosition: 'bottom'
     },
-    isLabelColoredWhenFocusing: true,
-    isLabelClickable: true
+    isLabelColoredWhenFocusing: true
   }
 )
 const WrappedTextInput = wrapInput(
@@ -98,8 +94,7 @@ const WrappedTextInput = wrapInput(
     rows: {
       descriptionPosition: 'bottom'
     },
-    isLabelColoredWhenFocusing: true,
-    isLabelClickable: true
+    isLabelColoredWhenFocusing: true
   }
 )
 
@@ -110,9 +105,9 @@ const inputs = {
   },
   checkbox: {
     Component: WrappedCheckbox,
-    getProps: ({ disabled, value, $value, onChange }) => ({
+    getProps: ({ disabled, value, readonly, $value, onChange }) => ({
       disabled,
-      configuration: { isLabelClickable: !disabled },
+      configuration: { isLabelClickable: !disabled && !readonly },
       value,
       $value,
       onChange
@@ -155,12 +150,20 @@ const inputs = {
   },
   multiselect: {
     Component: WrappedMultiselect,
-    getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
+    getProps: ({ value, $value, disabled, readonly, onChange }) => ({
+      value,
+      $value,
+      configuration: { isLabelClickable: !disabled && !readonly },
+      onChange
+    })
   },
   number: {
     Component: WrappedNumberInput,
-    getProps: ({ value, $value, onChangeNumber }) => ({
-      value, $value, onChangeNumber
+    getProps: ({ value, $value, disabled, readonly, onChangeNumber }) => ({
+      value,
+      $value,
+      configuration: { isLabelClickable: !disabled && !readonly },
+      onChangeNumber
     })
   },
   object: {
@@ -169,9 +172,10 @@ const inputs = {
   },
   password: {
     Component: WrappedPasswordInput,
-    getProps: ({ value, $value, onChangeText }) => ({
+    getProps: ({ value, $value, disabled, readonly, onChangeText }) => ({
       value,
       $value,
+      configuration: { isLabelClickable: !disabled && !readonly },
       onChangeText
     })
   },
@@ -185,9 +189,10 @@ const inputs = {
   },
   text: {
     Component: WrappedTextInput,
-    getProps: ({ value, $value, onChangeText }) => ({
+    getProps: ({ value, $value, readonly, disabled, onChangeText }) => ({
       value,
       $value,
+      configuration: { isLabelClickable: !disabled && !readonly },
       // TODO: Use stringInsert and stringRemove
       onChangeText
     })

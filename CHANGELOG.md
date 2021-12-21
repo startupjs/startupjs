@@ -1,3 +1,20 @@
+## [0.40.8](https://github.com/startupjs/startupjs/compare/v0.40.7...v0.40.8) (2021-12-10)
+
+
+### Bug Fixes
+
+* **app:** do not set client error when `ERR_DOC_ALREADY_CREATED` sharedb error occurs ([#858](https://github.com/startupjs/startupjs/issues/858)) ([f70f87f](https://github.com/startupjs/startupjs/commit/f70f87f58945095a703b1d737f6c3d2f0626db66))
+* **mdx:** implement support for blockquotes ([c83c145](https://github.com/startupjs/startupjs/commit/c83c145526153b7af0e18bd50290651ba1c6fa93))
+* **ui/Tooltip:** DEPRECATE `renderTooltip` and remove redundant props ([#854](https://github.com/startupjs/startupjs/issues/854)) ([a071816](https://github.com/startupjs/startupjs/commit/a0718164b50981303a5bd5caf29344f5906f4e49))
+* **ui:** add refs to `Carousel` children ([#857](https://github.com/startupjs/startupjs/issues/857)) ([428334a](https://github.com/startupjs/startupjs/commit/428334a57e748080e632a1c8ebfa96ffd7639d73))
+
+
+### Features
+
+* **ui/DateTimepicker:** deprecate renderContent propert, use renderInput property to customize input ([1453348](https://github.com/startupjs/startupjs/commit/145334879aad540c78e497ddf47de1db50af8297))
+
+
+
 ## [0.40.7](https://github.com/startupjs/startupjs/compare/v0.40.6...v0.40.7) (2021-12-01)
 
 

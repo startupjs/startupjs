@@ -1,15 +1,22 @@
 import { useState, useRef } from 'react'
 import { $root, useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
-import Br from '../Br'
 import Button from '../Button'
+import Span from '../typography/Span'
 import Modal from './'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
 
 # Modal
 
 Inherits [React Native Modal](https://reactnative.dev/docs/modal).
 
-Modal can be used when the user needs to inform about ciritcal information, require decisions or interact a complex sub-application without navigating to a new page or interrupting the workflow.
+Modal can be used when the user needs to inform about critical information, require decisions or interact a complex sub-application without navigating to a new page or interrupting the workflow.
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -25,7 +32,7 @@ return (
     <Modal
       visible={visible}
       title='Text in modal'
-      onChange={setVisible}
+      onRequestClose={setVisible}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -36,31 +43,9 @@ return (
 )
 ```
 
-## Props
+## Managing visibility
 
-- `showCross` boolean value, sets the display of a cross in the header (by default `true`)
-- `onChange` function that will be run when the `Modal` needs to change the visibility state (optional when using the `$visible` two-way data binding)
-- `onCrossPress` callback that is executed when you click on the cross in the header (it has a higher priority than `onCancel`, by default, closes the modal)
-- `onCancel` displays cancel button that uses this handler (by default, closes the modal)
-- `onConfirm` displays confirm button that uses this handler (by default, closes the modal)
-- `enableBackdropPress` boolean, sets whether the area around the modal will be clickable (default is `true`)
-- `onBackdropPress` callback, which is executed when clicking on the area around the modal (by default, closes the modal)
-- `onRequestClose` callback, which is executed when the physical `Home` key on Android is pressed, the `Esc` key in the browser (by default, closes the modal)
-- `onDismiss` callback, which is executed after closing the modal in any way
-- `onOrientationChange` callback, which is executed when the orientation of the mobile device is changed.
-
-### Closing by default
-
-If you want to cancel the default closing of the modal when `onCancel`, `onConfirm`, `onBackdropPress` and `onCrossPress` are triggered, add `event.preventDefault()` to your callback:
-
-```js
-  const myOnPress = event => {
-    event.preventDefault()
-    // your code
-  }
-```
-
-### There are three options for managing the state of a modal:
+There are three options for managing the state of a modal:
 
 1. By passing the scoped model to the `$visible` property from the state of which visibility is controlled.
 
@@ -82,7 +67,7 @@ return (
 )
 ```
 
-2. By passing the `visible` property and `onChange` function that will be run when the `Modal` needs to change its visibility.
+2. By passing the `visible` property that determines whether modal is visible.
 
 ```jsx example
 const [visible, setVisible] = useState(false)
@@ -95,7 +80,7 @@ return (
     <Modal
       title='Example'
       visible={visible}
-      onChange={setVisible}
+      onRequestClose={() => setVisible(false)}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -185,25 +170,111 @@ return (
 )
 ```
 
+## Props
+
+```jsx pure-example noscroll
+return (
+  <Table styleName='table'>
+    <Thead>
+      <Tr>
+        <Th>Name</Th>
+        <Th>Type</Th>
+        <Th>Description</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr>
+        <Td>showCross</Td>
+        <Td>bool</Td>
+        <Td>
+          <Span>
+            Show a cross in the header.
+            <Span bold> Default: </Span>
+            `true`.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>enableBackdropPress</Td>
+        <Td>bool</Td>
+        <Td>
+          <Span>
+            Makes the backdrop clickable.
+            <Span bold> Default: </Span>
+            `true`.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onBackdropPress</Td>
+        <Td>function</Td>
+        <Td>
+          A callback function that will be called when the user clicks on the
+          backdrop (requires `enableBackdropPress` to be set to `true`).
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onCrossPress</Td>
+        <Td>function</Td>
+        <Td>
+          A callback function that will be called when user clicks on the cross.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onDismiss</Td>
+        <Td>function</Td>
+        <Td>
+          A callback function that will be called once the modal has been dismissed.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onOrientationChange</Td>
+        <Td>function</Td>
+        <Td>
+          A callback function that will be called when the orientation changes
+          while the component is being displayed.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onCancel</Td>
+        <Td>function</Td>
+        <Td>
+          Show only the one `OK` button that uses this handler.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onConfirm</Td>
+        <Td>function</Td>
+        <Td>
+          Show two buttons: `OK` which uses this handler and `Cancel` which uses the `onCancel` handler.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onRequestClose</Td>
+        <Td>function</Td>
+        <Td>
+          A callback function that will be called when user requests to close
+          the modal, for example, taps the hardware back button
+          on Android, the menu button on Apple TV or `Esc` on browser.
+          It will also be called at the end of handlers: `onCrossPress`,
+          `onBackdropPress`, `onCancel` and `onConfirm`. If you want to
+          change this default behavior for handlers, pass a function for the
+          corresponding handler in which call the `event.preventDefault()`
+          at the beginning of the function.
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
+
 ## Sandbox
 
 ### Modal
 
 <Sandbox
   Component={Modal}
-  props={{
-    visible: false,
-    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
-    onChange: value => $root.scope('_session.Props.Modal').at('visible').set(value),
-    onCrossPress: () => $root.scope('_session.Props.Modal').at('visible').set(false),
-    onDismiss: () => $root.scope('_session.Props.Modal').at('visible').set(false),
-    onCancel: () => $root.scope('_session.Props.Modal').at('visible').set(false),
-    onConfirm: () => $root.scope('_session.Props.Modal').at('visible').set(false),
-    onShow: () => console.info('"onShow" event on "Modal" component'),
-    onBackdropPress: () => console.info('"onBackdropPress" event on "Modal" component'),
-    onOrientationChange: () => console.info('"onOrientationChange" event on "Modal" component'),
-    onRequestClose: () => console.info('"onRequestClose" event on "Modal" component'),
-  }}
+  props={{ $visible: $root.scope('_session.Props.Modal.visible') }} // HACK to make alive sandbox when user click on 'visible' checkbox
   $props={$root.scope('_session.Props.Modal')}
 />
 
@@ -211,25 +282,16 @@ return (
 
 <Sandbox
   Component={Modal.Header}
-  props={{
-    children: 'Header content',
-    onCrossPress: () => console.info('"onCrossPress" event on "Modal.Header" component')
-  }}
 />
 
 ### Modal.Content
 
 <Sandbox
   Component={Modal.Content}
-  props={{ children: 'Lorem ipsum dolor sit amet' }}
 />
 
 ### Modal.Actions
 
 <Sandbox
   Component={Modal.Actions}
-  props={{
-    onCancel: () => console.info('"onCancel" event on "Modal.Actions" component'),
-    onConfirm: () => console.info('"onConfirm" event on "Modal.Actions" component')
-  }}
 />
