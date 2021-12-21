@@ -1,7 +1,9 @@
 $uncheckedColor = $UI.colors.dark
 $checkedColor = $UI.colors.primary
 $errorColor = $UI.colors.attention
-$radioSize = 2u
+// because of can't export variables that has 'u'
+$circleSize = 8
+$radioSize = 2 * 8
 
 .root
   &.row
@@ -36,13 +38,12 @@ $radioSize = 2u
     border-color $errorColor
 
 .circle
-  radius(circle)
-  width ($radioSize / 2)
+  color $checkedColor
+  width $radioSize / 2
   height @width
-  background-color $checkedColor
 
   &.error
-    background-color $errorColor
+    color $errorColor
 
 .container
   margin-left 1u
@@ -50,3 +51,6 @@ $radioSize = 2u
 
 .description
   font(caption)
+
+:export
+  circleSize: $circleSize

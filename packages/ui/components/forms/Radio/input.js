@@ -1,13 +1,16 @@
 import React, { useRef } from 'react'
 import { Animated, Easing, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
+import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import Row from '../../Row'
 import Div from '../../Div'
+import Icon from '../../Icon'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
 import { parseValue } from './helpers'
-import './index.styl'
+import STYLES from './index.styl'
 
+const { circleSize } = STYLES
 const IS_ANDROID = Platform.OS === 'android'
 const ANIMATION_TIMING = 100
 // workaround for android
@@ -64,10 +67,8 @@ const RadioInput = function ({
       Div.radio(
         styleName=[{ checked, error }]
       )
-        Animated.View.circle(
-          style={ transform: [{ scale: animation }] }
-          styleName={ error }
-        )
+        Animated.View(style={ transform: [{ scale: animation }] })
+          Icon.circle(styleName={ error } icon=faCircle size=circleSize)
       Div.container
         Span.label= children
         if description
