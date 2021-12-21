@@ -7,8 +7,6 @@ import Button from '../../Button'
 import themed from '../../../theming/themed'
 import './index.styl'
 
-const Input = React.lazy(() => import('../Input'))
-
 function ArrayInput ({
   style,
   inputStyle,
@@ -42,6 +40,10 @@ function ArrayInput ({
       `
     }
   }
+
+  // INFO: we use require because the Input component is undefined
+  // in circular imports https://stackoverflow.com/a/30390378
+  const Input = require('../Input').default
 
   // TODO: Instead of just a delete icon, make a three dots menu with things like:
   //         - delete

@@ -3,9 +3,8 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
+import Input from '../Input'
 import './index.styl'
-
-const Input = React.lazy(() => import('../Input'))
 
 function ObjectInput ({
   style,
