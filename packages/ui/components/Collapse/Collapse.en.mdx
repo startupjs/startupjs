@@ -1,3 +1,4 @@
+import { $root } from 'startupjs'
 import { useState } from 'react'
 import Collapse from '../Collapse'
 import Div from '../Div'
@@ -5,6 +6,8 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Collapse
+
+Inherits [react-native-collapsible](https://github.com/oblador/react-native-collapsible).
 
 Collapse allows to toggle the visibility of content.
 
@@ -128,33 +131,13 @@ return (
 
 <Sandbox
   Component={Collapse}
-  props={{
-    children: <Div style={{ width: 400 }}>
-      <Span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</Span>
-    </Div>
-  }}
-  extraParams={{
-    icon: {
-      showIconSelect: true
-    }
-  }}
-  noScroll
+  props={{ $open: $root.scope('_session.Props.Collapse.open') }} // HACK to make alive sandbox when user click on 'open' checkbox
+  $props={$root.scope('_session.Props.Collapse')}
 />
 
 ### Collapse.Header
 
-<Sandbox
-  Component={Collapse.Header}
-  props={{
-    children: <Span>Collapse Header Content</Span>,
-    open: true
-  }}
-  extraParams={{
-    icon: {
-      showIconSelect: true
-    }
-  }}
-/>
+<Sandbox Component={Collapse.Header} />
 
 ### Collapse.Content
 
