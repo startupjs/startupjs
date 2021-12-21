@@ -1,3 +1,21 @@
+## [0.40.9](https://github.com/startupjs/startupjs/compare/v0.40.8...v0.40.9) (2021-12-21)
+
+
+### Bug Fixes
+
+* **ui/Badge:** dont display badge when label is typeof string with value 0 ([ac1c662](https://github.com/startupjs/startupjs/commit/ac1c6623bf99f889450e1e352c9f4ec22f46fe8e))
+* **ui/DateTimePicker:** fix disappearing time items when scrolling ([#860](https://github.com/startupjs/startupjs/issues/860)) ([8d6fc42](https://github.com/startupjs/startupjs/commit/8d6fc425fc199bcfa12cbb03c7a01b290151c563))
+* **ui/Input:** improve `onLabelPress` for inputs that have label   ([#855](https://github.com/startupjs/startupjs/issues/855)) ([2fd5178](https://github.com/startupjs/startupjs/commit/2fd51782b644c4043702e0ae43db79e295863386))
+* **ui/Popover:** cut off outside content ([d3c9d41](https://github.com/startupjs/startupjs/commit/d3c9d4142986985d54e61c6cba0d5a12da4094c1))
+
+
+### Features
+
+* **app:** add ability to change blocked user view using `renderBlocked` property ([#859](https://github.com/startupjs/startupjs/issues/859)) ([71c37ca](https://github.com/startupjs/startupjs/commit/71c37cadf78463a74c8f10e74ee83e3b3efff7e0))
+* **ui/Collapse:** inherit `react-native-collapsible` props ([#864](https://github.com/startupjs/startupjs/issues/864)) ([8edd897](https://github.com/startupjs/startupjs/commit/8edd8978c8a9aa80aaadcbc5b0ff872d9aba9e62))
+
+
+
 ## [0.40.8](https://github.com/startupjs/startupjs/compare/v0.40.7...v0.40.8) (2021-12-10)
 
 
