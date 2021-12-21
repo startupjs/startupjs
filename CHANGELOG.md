@@ -3,6 +3,7 @@
 
 ### Bug Fixes
 
+* **ui/Modal:** DEPRECATE `onChange` property
 * **ui/Badge:** dont display badge when label is typeof string with value 0 ([ac1c662](https://github.com/startupjs/startupjs/commit/ac1c6623bf99f889450e1e352c9f4ec22f46fe8e))
 * **ui/DateTimePicker:** fix disappearing time items when scrolling ([#860](https://github.com/startupjs/startupjs/issues/860)) ([8d6fc42](https://github.com/startupjs/startupjs/commit/8d6fc425fc199bcfa12cbb03c7a01b290151c563))
 * **ui/Input:** improve `onLabelPress` for inputs that have label   ([#855](https://github.com/startupjs/startupjs/issues/855)) ([2fd5178](https://github.com/startupjs/startupjs/commit/2fd51782b644c4043702e0ae43db79e295863386))
