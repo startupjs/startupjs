@@ -1,5 +1,5 @@
 const REGEX = /(```jsx +example[\s\S]*?\n)([\s\S]*?)(```)/g
-const PURE_REGEX = /(```jsx) +pure-example([\s\S]*?)(```)/g
+const PURE_REGEX = /(```jsx +pure-example[\s\S]*?\n)([\s\S]*?)(```)/g
 
 const EXAMPLE_FLAGS = [
   'noscroll'
@@ -44,11 +44,21 @@ function replacer (match, p1, p2, p3) {
 }
 
 function pureReplacer (match, p1, p2, p3) {
+  const parts = p1.trim().split(' ')
+  const sectionParts = []
+
+  for (const part of parts) {
+    if (EXAMPLE_FLAGS.includes(part)) {
+      sectionParts.push(part)
+      continue
+    }
+  }
+
   p2 = p2.trim().replace(/\n+/g, '\n')
   if (/^</.test(p2)) p2 = 'return (<React.Fragment>' + p2 + '</React.Fragment>)'
 
   return (
-    `<section>
+    `<section ${sectionParts.join(' ')}>
       <React.Fragment>
         {React.createElement(__observer(function Example () {
           ${p2}
