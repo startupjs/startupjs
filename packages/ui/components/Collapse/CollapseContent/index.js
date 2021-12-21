@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -11,7 +10,8 @@ function CollapseContent ({
   style,
   children,
   open, // @private
-  variant // @private
+  variant, // @private
+  ...props
 }) {
   const content = React.Children.map(children, (child, index) => {
     if (typeof child === 'string') {
@@ -23,9 +23,8 @@ function CollapseContent ({
   })
 
   return pug`
-    Collapsible(collapsed=!open)
-      View.root(style=style styleName=[variant])
-        = content
+    Collapsible.root(style=style styleName=[variant] collapsed=!open ...props)
+      = content
   `
 }
 
