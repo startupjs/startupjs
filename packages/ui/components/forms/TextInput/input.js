@@ -61,7 +61,7 @@ function TextInputInput ({
   _hasError,
   ...props
 }, ref) {
-  const inputRef = ref || useRef()
+  const inputRef = useRef()
   const [inputState, $inputState] = useValue({ focused: false })
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
 
@@ -88,7 +88,10 @@ function TextInputInput ({
     blur: handleBlur,
     clear: () => inputRef.current.clear(),
     isFocused: () => inputState.focused,
-    _onLabelPress: handleFocus
+    _onLabelPress: () => {
+      inputRef.current.focus()
+      handleFocus()
+    }
   }), [])
 
   useLayoutEffect(() => {
