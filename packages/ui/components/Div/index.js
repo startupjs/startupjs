@@ -133,7 +133,7 @@ function Div ({
     }
   }
 
-  tooltip = tooltip || renderTooltip
+  tooltip = renderTooltip || tooltip
 
   if (typeof tooltip !== 'undefined') {
     // TODO: Move all logic to useTooltip hook along with the tooltip html
