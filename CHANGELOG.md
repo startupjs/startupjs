@@ -1,3 +1,12 @@
+## [0.40.10](https://github.com/startupjs/startupjs/compare/v0.40.9...v0.40.10) (2021-12-22)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix getting wrong property for input getter ([#867](https://github.com/startupjs/startupjs/issues/867)) ([6241dfb](https://github.com/startupjs/startupjs/commit/6241dfb1ec1749ba22e034ec3698444e90eacf00))
+
+
+
 ## [0.40.9](https://github.com/startupjs/startupjs/compare/v0.40.8...v0.40.9) (2021-12-21)
 
 
