@@ -1,4 +1,5 @@
 import React from 'react'
+import { useBind } from 'startupjs'
 import wrapInput from './wrapInput'
 import ArrayInput from '../ArrayInput'
 import Checkbox from '../Checkbox'
@@ -101,101 +102,106 @@ const WrappedTextInput = wrapInput(
 const inputs = {
   array: {
     Component: WrappedArrayInput,
-    getProps: ({ $value }) => ({ $value })
+    useProps: ({ $value }) => ({ $value })
   },
   checkbox: {
     Component: WrappedCheckbox,
-    getProps: ({ disabled, value, readonly, $value, onChange }) => ({
-      disabled,
-      configuration: { isLabelClickable: !disabled && !readonly },
-      value,
-      $value,
-      onChange
-    })
+    useProps: ({ disabled, value, readonly, $value, onChange }) => {
+      const bindingProps = useBind({ value, $value, onChange })
+      return {
+        configuration: { isLabelClickable: !disabled && !readonly },
+        ...bindingProps
+      }
+    }
   },
   color: {
     Component: WrappedColorPicker,
-    getProps: ({ value, $value, onChangeColor }) => ({
-      value,
-      $value,
-      onChangeColor
-    })
+    useProps: ({ value, $value, onChangeColor }) => {
+      const bindingProps = useBind({ value, $value, onChangeColor })
+      return bindingProps
+    }
   },
   date: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onChangeDate }) => ({
-      mode: 'date',
-      date: value,
-      $value: $value,
-      onChangeDate
-    })
+    useProps: ({ value, $value, onChangeDate }) => {
+      const bindingProps = useBind({ value, $value, onChangeDate })
+      return {
+        mode: 'date',
+        ...bindingProps
+      }
+    }
   },
   datetime: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onChangeDate }) => ({
-      mode: 'datetime',
-      date: value,
-      $value: $value,
-      onChangeDate
-    })
+    useProps: ({ value, $value, onChangeDate }) => {
+      const bindingProps = useBind({ value, $value, onChangeDate })
+      return {
+        mode: 'datetime',
+        ...bindingProps
+      }
+    }
   },
   time: {
     Component: WrappedDateTimePicker,
-    getProps: ({ value, $value, onChangeDate }) => ({
-      mode: 'time',
-      date: value,
-      $value: $value,
-      onChangeDate
-    })
+    useProps: ({ value, $value, onChangeDate }) => {
+      const bindingProps = useBind({ value, $value, onChangeDate })
+      return {
+        mode: 'time',
+        ...bindingProps
+      }
+    }
   },
   multiselect: {
     Component: WrappedMultiselect,
-    getProps: ({ value, $value, disabled, readonly, onChange }) => ({
-      value,
-      $value,
-      configuration: { isLabelClickable: !disabled && !readonly },
-      onChange
-    })
+    useProps: ({ value, $value, disabled, readonly, onChange }) => {
+      const bindingProps = useBind({ value, $value, onChange })
+      return {
+        configuration: { isLabelClickable: !disabled && !readonly },
+        ...bindingProps
+      }
+    }
   },
   number: {
     Component: WrappedNumberInput,
-    getProps: ({ value, $value, disabled, readonly, onChangeNumber }) => ({
-      value,
-      $value,
-      configuration: { isLabelClickable: !disabled && !readonly },
-      onChangeNumber
-    })
+    useProps: ({ value, $value, disabled, readonly, onChangeNumber }) => {
+      const bindingProps = useBind({ value, $value, onChangeNumber })
+      return {
+        configuration: { isLabelClickable: !disabled && !readonly },
+        ...bindingProps
+      }
+    }
   },
   object: {
     Component: WrappedObjectInput,
-    getProps: ({ $value }) => ({ $value })
+    useProps: ({ $value }) => ({ $value })
   },
   password: {
     Component: WrappedPasswordInput,
-    getProps: ({ value, $value, disabled, readonly, onChangeText }) => ({
-      value,
-      $value,
-      configuration: { isLabelClickable: !disabled && !readonly },
-      onChangeText
-    })
+    useProps: ({ value, $value, disabled, readonly, onChangeText }) => {
+      const bindingProps = useBind({ value, $value, onChangeText })
+      return {
+        configuration: { isLabelClickable: !disabled && !readonly },
+        ...bindingProps
+      }
+    }
   },
   radio: {
     Component: WrappedRadio,
-    getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
+    useProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
   },
   select: {
     Component: WrappedSelect,
-    getProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
+    useProps: ({ value, $value, onChange }) => ({ value, $value, onChange })
   },
   text: {
     Component: WrappedTextInput,
-    getProps: ({ value, $value, readonly, disabled, onChangeText }) => ({
-      value,
-      $value,
-      configuration: { isLabelClickable: !disabled && !readonly },
-      // TODO: Use stringInsert and stringRemove
-      onChangeText
-    })
+    useProps: ({ value, $value, readonly, disabled, onChangeText }) => {
+      const bindingProps = useBind({ value, $value, onChangeText })
+      return {
+        configuration: { isLabelClickable: !disabled && !readonly },
+        ...bindingProps
+      }
+    }
   }
 }
 

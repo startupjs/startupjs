@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useBind } from 'startupjs'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import inputs from './inputs'
@@ -12,16 +12,14 @@ function Input ({
   input = input || type
   input = SCHEMA_TYPE_TO_INPUT[input] || input
 
-  const { Component, getProps } = inputs[input]
-  const componentProps = getProps(props)
-  const bindingProps = useBind(componentProps)
+  const { Component, useProps } = inputs[input]
+  const componentProps = useProps(props)
 
   return pug`
     Component(
       ref=ref
       ...props
       ...componentProps
-      ...bindingProps
     )
   `
 }
