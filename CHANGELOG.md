@@ -1,3 +1,12 @@
+## [0.40.11](https://github.com/startupjs/startupjs/compare/v0.40.10...v0.40.11) (2021-12-22)
+
+
+### Bug Fixes
+
+* **ui/Div:** fix tooltip selection typo ([1250395](https://github.com/startupjs/startupjs/commit/12503951c41ee663b0ba033bda42e89186fbeefb))
+
+
+
 ## [0.40.10](https://github.com/startupjs/startupjs/compare/v0.40.9...v0.40.10) (2021-12-22)
 
 
