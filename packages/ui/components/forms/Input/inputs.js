@@ -124,30 +124,36 @@ const inputs = {
   date: {
     Component: WrappedDateTimePicker,
     useProps: ({ value, $value, onChangeDate }) => {
-      const bindingProps = useBind({ value, $value, onChangeDate })
+      ;({ value, onChangeDate } = useBind({ value, $value, onChangeDate }))
+
       return {
         mode: 'date',
-        ...bindingProps
+        date: value,
+        onChangeDate
       }
     }
   },
   datetime: {
     Component: WrappedDateTimePicker,
     useProps: ({ value, $value, onChangeDate }) => {
-      const bindingProps = useBind({ value, $value, onChangeDate })
+      ;({ value, onChangeDate } = useBind({ value, $value, onChangeDate }))
+
       return {
         mode: 'datetime',
-        ...bindingProps
+        date: value,
+        onChangeDate
       }
     }
   },
   time: {
     Component: WrappedDateTimePicker,
     useProps: ({ value, $value, onChangeDate }) => {
-      const bindingProps = useBind({ value, $value, onChangeDate })
+      ;({ value, onChangeDate } = useBind({ value, $value, onChangeDate }))
+
       return {
         mode: 'time',
-        ...bindingProps
+        date: value,
+        onChangeDate
       }
     }
   },

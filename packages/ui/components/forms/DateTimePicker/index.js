@@ -19,6 +19,8 @@ import { Calendar, TimeSelect } from './components'
 import themed from '../../../theming/themed'
 import './index.styl'
 
+// NOTE
+// What about rename date property to value property like in other inputs?
 function DateTimePicker ({
   style,
   dateFormat,
