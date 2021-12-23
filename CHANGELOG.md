@@ -1,3 +1,12 @@
+## [0.40.12](https://github.com/startupjs/startupjs/compare/v0.40.11...v0.40.12) (2021-12-23)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix passing value for date inputs ([48de38f](https://github.com/startupjs/startupjs/commit/48de38f7d176f6787e9d3494a04563f21bd6a2bf))
+
+
+
 ## [0.40.11](https://github.com/startupjs/startupjs/compare/v0.40.10...v0.40.11) (2021-12-22)
 
 
