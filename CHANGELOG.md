@@ -1,3 +1,12 @@
+## [0.40.13](https://github.com/startupjs/startupjs/compare/v0.40.12...v0.40.13) (2021-12-24)
+
+
+### Bug Fixes
+
+* **ui/DrawerSidebar:** prevent infinite loop when open state chages several times in a short period of time ([102d92e](https://github.com/startupjs/startupjs/commit/102d92e4d93f894a13441d35e75f00724fa93e6b))
+
+
+
 ## [0.40.12](https://github.com/startupjs/startupjs/compare/v0.40.11...v0.40.12) (2021-12-23)
 
 
