@@ -36,6 +36,7 @@ Here is the script:
 
 ```sh
 #!/bin/sh
+# test_deploy.sh
 
 # You must specify the following 3 ENV vars:
 
@@ -73,3 +74,5 @@ docker run -ti --rm \
 Since everything is encapsulated into one docker image it's very easy to get this running on any CI/CD provider which supports `docker run` or any other way of running docker containers.
 
 You can find some sample integrations in the `sample-cicd` folder.
+
+To integrate with a missing CI/CD provider just get familiar with the `test_deploy.sh` script source code from the previous section.
