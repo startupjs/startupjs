@@ -1,0 +1,46 @@
+name: Publish Docker images
+
+on:
+  push:
+    branches:
+      - 'deploy-aks'
+    tags:
+      - 'v*.*.*'
+    # branches:
+    #   - "!*"
+    # tags:
+    #   - "v*"
+
+jobs:
+  deploy-aks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            startupjs/deploy-aks
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action
+        with:
+          context: ./docker/deploy-aks
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
