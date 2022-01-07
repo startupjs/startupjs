@@ -5,9 +5,8 @@ import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Button from '../../Button'
 import themed from '../../../theming/themed'
+import Input from '../Input'
 import './index.styl'
-
-const Input = React.lazy(() => import('../Input'))
 
 function ArrayInput ({
   style,

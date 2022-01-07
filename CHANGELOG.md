@@ -1,3 +1,12 @@
+## [0.40.14](https://github.com/startupjs/startupjs/compare/v0.40.13...v0.40.14) (2021-12-30)
+
+
+### Bug Fixes
+
+* **ObjectInput/ArrayInput:** fix crashing native mobiles because of lazy import ([#865](https://github.com/startupjs/startupjs/issues/865)) ([e49b2c7](https://github.com/startupjs/startupjs/commit/e49b2c7636a745dc4717f28a1fea83770644e59c))
+
+
+
 ## [0.40.13](https://github.com/startupjs/startupjs/compare/v0.40.12...v0.40.13) (2021-12-24)
 
 
