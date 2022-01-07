@@ -232,7 +232,7 @@ update_secret () {
   echo "$_secrets_yaml" | kubectl apply -f -
 }
 
-# TODO: Refactor to POSIX
+# TODO: Make keyvault update optional -- just ignore it if it doesn't exist
 _get_keyvault_secrets_yaml () {
   _cluster_name_hash=$(printf "$CLUSTER_NAME" | md5sum | awk '{print $1}' | grep -o '.....$')
   _vault_name="${APP}-${_cluster_name_hash}"
