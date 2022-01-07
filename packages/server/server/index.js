@@ -2,7 +2,6 @@ const getBackend = require('@startupjs/backend')
 const http = require('http')
 const https = require('https')
 const conf = require('nconf')
-const start = Date.now()
 let server = null
 let wsServer = null
 
@@ -39,9 +38,7 @@ module.exports = async (options) => {
             console.error('Server failed to start. Exiting...')
             return process.exit()
           }
-          const time = (Date.now() - start) / 1000
-          console.log('%d listening. Go to: http://localhost:%d/ in %d sec',
-            process.pid, conf.get('PORT'), time)
+          printStarted()
           // ----------------------------------------------->       done       <#
           options.ee.emit('done')
         })
@@ -75,6 +72,22 @@ function gracefulShutdown (code) {
   setTimeout(() => {
     process.exit(code)
   }, 3000)
+}
+
+function printStarted () {
+  const port = conf.get('PORT')
+  // Support for the `dev` shell script which runs startupjs app inside a Docker container
+  const dockerHostPort = conf.get('DOCKER_HOST_PORT')
+  if (dockerHostPort) {
+    console.log('Server started. Running inside Docker.')
+    console.log(
+      `Go to: http://localhost:${dockerHostPort} on your host machine ` +
+      `(inside docker it's on port ${port})`
+    )
+  } else {
+    console.log('Server started.')
+    console.log(`Go to: http://localhost:${port}`)
+  }
 }
 
 process.on('SIGTERM', gracefulShutdown)

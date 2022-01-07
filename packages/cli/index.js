@@ -730,6 +730,8 @@ function appendGitignore (projectPath) {
     # Detox
     /artifacts/
     /e2e/__diff_output__
+    # Mongo data when running in a docker dev container
+    /.mongo
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
