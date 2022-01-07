@@ -44,3 +44,4 @@ jobs:
           context: ./docker/deploy-aks
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
