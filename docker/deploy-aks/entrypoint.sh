@@ -236,6 +236,7 @@ update_secret () {
 _get_keyvault_secrets_yaml () {
   _cluster_name_hash=$(printf "$CLUSTER_NAME" | md5sum | awk '{print $1}' | grep -o '.....$')
   _vault_name="${APP}-${_cluster_name_hash}"
+  touch ./secrets.env
   for _name in $(az keyvault secret list --vault-name "$_vault_name" --query "[].name" -o tsv); do
     _value=$(az keyvault secret show --vault-name "$_vault_name" -n "$_name" --query "value" -o tsv)
     _name=$(echo "$_name" | sed 's/-/_/g')

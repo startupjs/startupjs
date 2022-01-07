@@ -1,4 +1,7 @@
-# You have to provide as GitHub Secrets:
+# Copy this file to .github/workflows/production.yml
+# It will perform the deploy whenever you push to 'production' branch.
+#
+# You have to provide the following as GitHub Secrets:
 # 1. APP - name of your application in kube cluster
 # 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
 
@@ -16,17 +19,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+
       # Check out project under github.workspace
       - uses: actions/checkout@v2
-      # Get version of startupjs from source code. Use minor version, same as ~
-      - id: version
-        run: |
-          VERSION=$( sed -n 's/.*"startupjs"[^"]*"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < ${{ github.workspace }}/package.json )
-          echo "::set-output name=version::$VERSION"
-      # Deploy using the image version matching startupjs version
-      - uses: docker://startupjs/deploy-aks:${{ steps.version.outputs.version }}
-        env:
+
+      # Deploy using the image version matching startupjs version.
+      # Get version of startupjs from package.json in source code
+      # (use minor version, same as ~)
+      - env:
           APP: ${{ secrets.APP }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
           COMMIT_SHA: ${{ github.sha }}
           PROJECT_PATH: ${{ github.workspace }}
+        run: |
+          VERSION=$( sed -n 's/.*"startupjs"[^"]*"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$PROJECT_PATH/package.json" )
+          docker run --rm \
+            -v "${PROJECT_PATH}:/project" \
+            -e "APP=${APP}" \
+            -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
+            -e "COMMIT_SHA=${COMMIT_SHA}" \
+            startupjs/deploy-aks:${VERSION}
