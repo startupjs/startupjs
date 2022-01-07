@@ -1,0 +1,127 @@
+#!/bin/sh
+# shellcheck disable=SC2059
+
+# Exit on first failed command
+set -e
+
+# Run startupjs project using only Docker
+#
+# Version: 0.1.0
+#
+# Suports Mac, Linux, Windows WSL2
+#
+# Usage:
+#   ./dev - universal command to run the main terminal or spawn additional terminals.
+#           It tries to do the following:
+#           1. Run the dev docker image of the same version of startupjs as in package.json.
+#           2. If dev image is already running -- exec into it.
+
+# Use current folder name as the name for container and the image by default
+# ref: https://stackoverflow.com/a/43919044
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; SCRIPT_DIR=$(cd "$a"; pwd)
+FOLDER_NAME=$( basename "$SCRIPT_DIR" )
+
+IMAGE_NAME="startupjs/dev"
+CONTAINER_NAME="$FOLDER_NAME"
+
+# Get startupjs version from package.json
+STARTUPJS_VERSION=$( [ -f ./package.json ] && (grep -m 1 '"startupjs"' < ./package.json | sed -n 's/^[^"]*"[^"]*"[^"]*"//p' | sed -n 's/"[^"]*$//p') || echo '' )
+STARTUPJS_VERSION=${STARTUPJS_VERSION:-latest}
+# Remove leading ^ or ~ and remove the last patch number.
+# This way ^0.40.2 will be converted to 0.40
+# TODO: if yarn.lock exists, get the exact patch version from there
+STARTUPJS_VERSION=$( echo "$STARTUPJS_VERSION" | sed -n 's/^[\^\~]*//p' | sed -n 's/\.*[0-9]*$//p' )
+
+# Helper constants
+ROOT="${PWD}"
+# folder to store the MongoDB data
+DB_FOLDER="${ROOT}/.mongo"
+OS_NAME=$( uname -s | tr A-Z a-z )
+# on Mac OS we use a faster driver for volume mounts
+VOLUME_MODE=$( [ "$OS_NAME" = "darwin" ] && echo ":delegated" || echo "" )
+
+# Colors
+COLOR_NONE='\033[0m'
+COLOR_LIGHT_GREEN='\033[1;32m'
+COLOR_LIGHT_RED='\033[1;31m'
+
+main () {
+  if docker ps | grep "\s${CONTAINER_NAME}$"; then
+    printf "${COLOR_LIGHT_GREEN}EXEC into the running container '${CONTAINER_NAME}'...${COLOR_NONE}\n"
+    _exec
+  else
+    printf "${COLOR_LIGHT_GREEN}RUN a new dev container '${CONTAINER_NAME}'...${COLOR_NONE}\n"
+    _cleanup
+    _run
+  fi
+}
+
+_exec () {
+  printf "${COLOR_LIGHT_GREEN}You are now inside the dev environment. Run your commands here:${COLOR_NONE}\n"
+  docker exec -it \
+    -e "CONTAINER_NAME=${CONTAINER_NAME}" \
+    "${CONTAINER_NAME}" \
+    bash
+}
+
+_run () {
+  PORT="${PORT:-$( _find_open_PORT )}"
+  DEV_PORT="${DEV_PORT:-$( _find_open_DEV_PORT )}"
+  if [ "$PORT" != "3000" ]; then
+    printf "${COLOR_LIGHT_RED}IMPORTANT: Default port 3000 was occupied. Your app got assigned the port ${PORT}${COLOR_NONE}!\n"
+  fi
+  printf "${COLOR_LIGHT_GREEN}You are now inside the dev environment. Run your commands here:${COLOR_NONE}\n"
+  echo "CONTAINER_NAME: $CONTAINER_NAME"
+  echo "PORT: $PORT"
+  echo "DEV_PORT: $DEV_PORT"
+  echo "ROOT: $ROOT"
+  echo "VOLUME_MODE: $VOLUME_MODE"
+  echo "HOME: $HOME"
+  echo "DB_FOLDER: $DB_FOLDER"
+  echo "IMAGE_NAME: $IMAGE_NAME"
+  echo "STARTUPJS_VERSION: $STARTUPJS_VERSION"
+  docker run --rm -it \
+    --name "${CONTAINER_NAME}" \
+    --pull=always \
+    -e "CONTAINER_NAME=${CONTAINER_NAME}" \
+    -e "DOCKER_HOST_PORT=${PORT}" \
+    --ulimit nofile=65535:65535 \
+    -p "${PORT}:3000" \
+    -p "${DEV_PORT}:3010" \
+    -v "${ROOT}:/ws${VOLUME_MODE}" \
+    -v "${HOME}/.ssh:/root/.ssh" \
+    -v "${HOME}/.gitconfig:/root/.gitconfig" \
+    -v "${DB_FOLDER}:/data/db${VOLUME_MODE}" \
+    "${IMAGE_NAME}:${STARTUPJS_VERSION}"
+}
+
+# Keep only 5 latest startupjs images you pulled. Remove older ones
+# ref: https://stackoverflow.com/a/40892314
+_cleanup () {
+  # shellcheck disable=SC2046
+  docker rmi $(docker images -q ${IMAGE_NAME} | tail -n +6) || true
+}
+
+# a bit hardcody way to get available port for the app. Start with 3000 and go up to 3009
+_find_open_PORT () {
+  for iterator in 0 1 2 3 4 5 6 7 8 9; do
+    a_port="300${iterator}"
+    if ! lsof -n -i tcp:$a_port; then
+      echo $a_port
+      break
+    fi
+  done
+}
+
+# the same hardcody way as above to get available port for webpack devserver. Start with 3010 and go up to 3019
+_find_open_DEV_PORT () {
+  for iterator in 0 1 2 3 4 5 6 7 8 9; do
+    a_port="301${iterator}"
+    if ! lsof -n -i tcp:$a_port; then
+      echo $a_port
+      break
+    fi
+  done
+}
+
+main "$@"; exit
