@@ -2,7 +2,7 @@
 # 1. APP - name of your application in kube cluster
 # 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
 
-name: Azure Test
+name: deploy-production
 
 on:
   push:
@@ -18,8 +18,13 @@ jobs:
     steps:
       # Check out project under github.workspace
       - uses: actions/checkout@v2
-      # Deploy using the latest startupjs version of major v0.*.*
-      - uses: docker://startupjs/deploy-aks:0
+      # Get version of startupjs from source code
+      - id: version
+        run: |
+          VERSION=$( sed -n 's/.*"startupjs"[^"]*"[^0-9]*\([^"]*\).*/\1/p' < ${{ github.workspace }}/package.json )
+          echo "::set-output name=version::$VERSION"
+      # Deploy using the image version matching startupjs version
+      - uses: docker://startupjs/deploy-aks:${{ steps.version.outputs.version }}
         env:
           APP: ${{ secrets.APP }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
