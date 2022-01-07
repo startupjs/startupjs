@@ -1,0 +1,27 @@
+# You have to provide as GitHub Secrets:
+# 1. APP - name of your application in kube cluster
+# 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
+
+name: Azure Test
+
+on:
+  push:
+    branches:
+      - production
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out project under github.workspace
+      - uses: actions/checkout@v2
+      # Deploy using the latest startupjs version of major v0.*.*
+      - uses: docker://startupjs/deploy-aks:0
+        env:
+          APP: ${{ secrets.APP }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          COMMIT_SHA: ${{ github.sha }}
+          PROJECT_PATH: ${{ github.workspace }}
