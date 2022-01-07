@@ -1,3 +1,13 @@
+## [0.40.15](https://github.com/startupjs/startupjs/compare/v0.40.14...v0.40.15) (2022-01-07)
+
+
+### Features
+
+* **deploy:** Implement universal docker container for CI/CD to deploy to AKS ([#870](https://github.com/startupjs/startupjs/issues/870)) ([2b8e586](https://github.com/startupjs/startupjs/commit/2b8e586650a7e312b7dd5e73ba3f07172d52bed8))
+* improve docker workflow for local development ([#869](https://github.com/startupjs/startupjs/issues/869)) ([e38137e](https://github.com/startupjs/startupjs/commit/e38137ebc637dea181b93ec725be3dd30922d159))
+
+
+
 ## [0.40.14](https://github.com/startupjs/startupjs/compare/v0.40.13...v0.40.14) (2021-12-30)
 
 
