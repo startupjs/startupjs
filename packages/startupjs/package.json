@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.40.15",
+  "version": "0.40.16",
   "engines": {
     "node": ">= 14"
   },

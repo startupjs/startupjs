@@ -1,3 +1,12 @@
+## [0.40.16](https://github.com/startupjs/startupjs/compare/v0.40.15...v0.40.16) (2022-01-07)
+
+
+### Bug Fixes
+
+* **templates/simple:** use python3 in Dockerfile because there is no python in alpine anymore ([8acd46f](https://github.com/startupjs/startupjs/commit/8acd46f3e5973b25e4aa5b7bb5b7fffca87d5b45))
+
+
+
 ## [0.40.15](https://github.com/startupjs/startupjs/compare/v0.40.14...v0.40.15) (2022-01-07)
 
 
