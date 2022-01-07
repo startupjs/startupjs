@@ -1,0 +1,32 @@
+# You have to provide as GitHub Secrets:
+# 1. APP - name of your application in kube cluster
+# 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
+
+name: deploy-production
+
+on:
+  push:
+    branches:
+      - production
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out project under github.workspace
+      - uses: actions/checkout@v2
+      # Get version of startupjs from source code
+      - id: version
+        run: |
+          VERSION=$( sed -n 's/.*"startupjs"[^"]*"[^0-9]*\([^"]*\).*/\1/p' < ${{ github.workspace }}/package.json )
+          echo "::set-output name=version::$VERSION"
+      # Deploy using the image version matching startupjs version
+      - uses: docker://startupjs/deploy-aks:${{ steps.version.outputs.version }}
+        env:
+          APP: ${{ secrets.APP }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          COMMIT_SHA: ${{ github.sha }}
+          PROJECT_PATH: ${{ github.workspace }}
