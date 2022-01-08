@@ -217,6 +217,7 @@ run_step_apply () {
   _log "login_kubectl" && login_kubectl
   _log "update_secret" && update_secret
   _log "update_deployments" && update_deployments
+  maybe_delete_env
 }
 
 validate_step_apply () {
@@ -295,6 +296,11 @@ maybe_import_env () {
   if [ ! -n "$TENANT_ID" ]; then echo "TENANT_ID env var is required" && exit 1; fi
   if [ ! -n "$APP" ]; then echo "APP env var is required" && exit 1; fi
   if [ ! -n "$COMMIT_SHA" ]; then echo "COMMIT_SHA env var is required" && exit 1; fi
+}
+
+maybe_delete_env () {
+  if [ ! -n "$PASS_ENV" ]; then return 0; fi
+  rm -f "$ENV_VARS_FILE"
 }
 
 # ----- helpers -----
