@@ -40,7 +40,8 @@ function DateTimePicker ({
   placeholder,
   maxDate,
   minDate,
-  onChangeDate
+  onChangeDate,
+  _hasError
 }) {
   if (renderCaption) {
     console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
@@ -127,6 +128,7 @@ function DateTimePicker ({
     disabled,
     size,
     placeholder,
+    _hasError,
     value: textInput
   }
 
@@ -226,7 +228,8 @@ DateTimePicker.propTypes = {
   disabledDays: PropTypes.array,
   dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onChangeDate: PropTypes.func
+  onChangeDate: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
 export default observer(
