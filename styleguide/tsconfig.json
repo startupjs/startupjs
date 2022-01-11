@@ -8,7 +8,6 @@
     "lib": ["es6"],
     "moduleResolution": "node",
     "noEmit": true,
-    "onlyRemoveTypeImports": true,
     "strict": true,
     "target": "esnext"
   },
