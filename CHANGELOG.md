@@ -1,3 +1,12 @@
+## [0.40.18](https://github.com/startupjs/startupjs/compare/v0.40.17...v0.40.18) (2022-01-11)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** reset seconds and milliseconds ([f475c47](https://github.com/startupjs/startupjs/commit/f475c4777268e3da36239fc9202a4ea836f55b1c))
+
+
+
 ## [0.40.17](https://github.com/startupjs/startupjs/compare/v0.40.16...v0.40.17) (2022-01-11)
 
 
