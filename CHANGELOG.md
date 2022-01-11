@@ -10,15 +10,28 @@
 
 * Improve TypeScript support ([#871](https://github.com/startupjs/startupjs/issues/871)) ([b1c9bf0](https://github.com/startupjs/startupjs/commit/b1c9bf043a45d4710e75cf69a3e36f275d57d94a))
 
+### DEPRECATED
+
+* You should not use `pug` function without importing it anymore. Import it from `startupjs` module:
+
+    ```js
+    import React from 'react'
+    import { pug, observer } from 'startupjs'
+    import { Span } from '@startupjs/ui'
+
+    export default observer(() => pug`
+      Span Hello World
+    `)
+    ```
 
 ### BREAKING CHANGES
 
-* 1. Update linter configuration to use new babel parser module
+* Update linter configuration to use new babel parser module
 
     Migration guide:
 
     1. Replace `babel-eslint` dependency with a new one. Run:
-    
+
     ```bash
     yarn remove babel-eslint && yarn add -D @babel/eslint-parser
     ```
@@ -263,7 +276,7 @@ Dummy patch that publish v0.40.0 version because we forgot to merge the `next` b
     ```js
     // OLD
     import { BORDER_WIDTH, STRIPE_PUBLIC_KEY } from './constants.json'
-    
+
     // NEW
     import CONSTANTS from './constants.json'
     const { BORDER_WIDTH, STRIPE_PUBLIC_KEY } = CONSTANTS
