@@ -12,7 +12,7 @@
 
 ### DEPRECATED
 
-* You should not use `pug` function without importing it anymore. Import it from `startupjs` module:
+1. You should not use `pug` function without importing it anymore. Import it from `startupjs` module:
 
     ```js
     import React from 'react'
@@ -26,25 +26,26 @@
 
 ### BREAKING CHANGES
 
-* Update linter configuration to use new babel parser module
-
-    Migration guide:
+1. Update linter configuration to use new babel parser module
 
     1. Replace `babel-eslint` dependency with a new one. Run:
 
-    ```bash
-    yarn remove babel-eslint && yarn add -D @babel/eslint-parser
-    ```
+        ```bash
+        yarn remove babel-eslint && yarn add -D @babel/eslint-parser
+        ```
 
     2. Replace `"parser"` in your `.eslintrc.json`:
 
-    ```js
-    // replace line:
-    "parser": "babel-eslint",
-    // with the following:
-    "parser": "@babel/eslint-parser",
-    ```
+        ```js
+        // replace line:
+        "parser": "babel-eslint",
+        // with the following:
+        "parser": "@babel/eslint-parser",
+        ```
 
+1. For proper TypeScript support copy the following `tsconfig.json` file to the root of your project:
+
+    [startupjs/packages/startupjs/templates/simple/tsconfig.json](https://github.com/startupjs/startupjs/blob/v0.41.0/packages/startupjs/templates/simple/tsconfig.json)
 
 
 ## [0.40.18](https://github.com/startupjs/startupjs/compare/v0.40.17...v0.40.18) (2022-01-11)
