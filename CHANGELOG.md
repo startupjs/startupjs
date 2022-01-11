@@ -1,3 +1,22 @@
+## [0.40.16](https://github.com/startupjs/startupjs/compare/v0.40.15...v0.40.16) (2022-01-07)
+
+
+### Bug Fixes
+
+* **templates/simple:** use python3 in Dockerfile because there is no python in alpine anymore ([8acd46f](https://github.com/startupjs/startupjs/commit/8acd46f3e5973b25e4aa5b7bb5b7fffca87d5b45))
+
+
+
+## [0.40.15](https://github.com/startupjs/startupjs/compare/v0.40.14...v0.40.15) (2022-01-07)
+
+
+### Features
+
+* **deploy:** Implement universal docker container for CI/CD to deploy to AKS ([#870](https://github.com/startupjs/startupjs/issues/870)) ([2b8e586](https://github.com/startupjs/startupjs/commit/2b8e586650a7e312b7dd5e73ba3f07172d52bed8))
+* improve docker workflow for local development ([#869](https://github.com/startupjs/startupjs/issues/869)) ([e38137e](https://github.com/startupjs/startupjs/commit/e38137ebc637dea181b93ec725be3dd30922d159))
+
+
+
 ## [0.40.14](https://github.com/startupjs/startupjs/compare/v0.40.13...v0.40.14) (2021-12-30)
 
 

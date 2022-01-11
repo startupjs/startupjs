@@ -15,7 +15,7 @@ RUN \
   # optionally use a custom npm token (if defined above)
   echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc && \
   # install build tools
-  apk add --no-cache make gcc g++ python git && \
+  apk add --no-cache make gcc g++ python3 git && \
   # ffmpeg is required at runtime for video & audio conversion libraries
   apk add --no-cache ffmpeg && \
   # install dependencies
@@ -25,7 +25,7 @@ RUN \
   # cleanup yarn
   yarn cache clean && \
   # cleanup build tools
-  apk del make gcc g++ python git
+  apk del make gcc g++ python3 git
 
 CMD yarn start-production
 
