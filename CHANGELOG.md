@@ -1,3 +1,19 @@
+## [0.40.17](https://github.com/startupjs/startupjs/compare/v0.40.16...v0.40.17) (2022-01-11)
+
+
+### Bug Fixes
+
+* **docker/deploy-aks:** remove env file on the last step if it was used ([b00a0d9](https://github.com/startupjs/startupjs/commit/b00a0d9109dfddddc6d2cfd8994e35e2ee046ec4))
+* **ui/DateTimePicker:** add ability years dropdown, remove months and years views ([fdcda7a](https://github.com/startupjs/startupjs/commit/fdcda7a6d6cdd8702b40dcf10e9e86ff1f978d9a))
+* **ui/DateTimePicker:** pass error to input component ([6b64c9a](https://github.com/startupjs/startupjs/commit/6b64c9ad60586173e9471e299a20a478a217f952))
+
+
+### Features
+
+* **docker/deploy-aks:** add bitbucket-pipelines.yml sample ([c06ae4a](https://github.com/startupjs/startupjs/commit/c06ae4a5121cde3237d840a43613854e02accc71))
+
+
+
 ## [0.40.16](https://github.com/startupjs/startupjs/compare/v0.40.15...v0.40.16) (2022-01-07)
 
 
