@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { observer, model } from 'startupjs'
+import { pug, observer, model } from 'startupjs'
 import init from 'startupjs/init'
 import { BASE_URL } from '@env'
 import { TestComponent } from 'components'

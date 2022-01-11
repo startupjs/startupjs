@@ -42,7 +42,7 @@ const DEPENDENCIES = [
 ]
 
 const DEV_DEPENDENCIES = [
-  'babel-eslint',
+  '@babel/eslint-parser',
   'eslint@latest',
   'eslint-config-standard',
   'eslint-config-standard-react',

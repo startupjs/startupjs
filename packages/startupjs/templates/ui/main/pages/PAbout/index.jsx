@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, ScrollView } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Content } from '@startupjs/ui'
 import './index.styl'
 
