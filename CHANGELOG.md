@@ -1,3 +1,12 @@
+## [0.41.1](https://github.com/startupjs/startupjs/compare/v0.41.0...v0.41.1) (2022-01-11)
+
+
+### Features
+
+* **mdx:** add 'bash' and 'sh' languages support to code blocks. Treat code blocks without language specified as 'txt' ([944fed8](https://github.com/startupjs/startupjs/commit/944fed86dceca663f84073236013646fe6d43d7a))
+
+
+
 # [0.41.0](https://github.com/startupjs/startupjs/compare/v0.40.18...v0.41.0) (2022-01-11)
 
 
