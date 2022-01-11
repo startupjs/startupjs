@@ -1,3 +1,39 @@
+# [0.41.0](https://github.com/startupjs/startupjs/compare/v0.40.18...v0.41.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** improve 'name' field error message ([370d474](https://github.com/startupjs/startupjs/commit/370d474cefb73311c1a9856607363cbc9f351de0))
+
+
+### Features
+
+* Improve TypeScript support ([#871](https://github.com/startupjs/startupjs/issues/871)) ([b1c9bf0](https://github.com/startupjs/startupjs/commit/b1c9bf043a45d4710e75cf69a3e36f275d57d94a))
+
+
+### BREAKING CHANGES
+
+* 1. Update linter configuration to use new babel parser module
+
+    Migration guide:
+
+    1. Replace `babel-eslint` dependency with a new one. Run:
+    
+    ```bash
+    yarn remove babel-eslint && yarn add -D @babel/eslint-parser
+    ```
+
+    2. Replace `"parser"` in your `.eslintrc.json`:
+
+    ```js
+    // replace line:
+    "parser": "babel-eslint",
+    // with the following:
+    "parser": "@babel/eslint-parser",
+    ```
+
+
+
 ## [0.40.18](https://github.com/startupjs/startupjs/compare/v0.40.17...v0.40.18) (2022-01-11)
 
 
