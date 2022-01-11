@@ -22,7 +22,6 @@
     "test:build:ios": "startupjs test --build"
   },
   "dependencies": {
-    "@dmapper/dm-derby-server": "^15.0.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@invertase/react-native-apple-authentication": "^2.1.0",
     "@react-native-clipboard/clipboard": "^1.7.0",
