@@ -5,6 +5,7 @@ import moment from 'moment'
 import './index.styl'
 
 export default observer(function Days ({
+  date,
   uiDate,
   exactLocale,
   timezone,
@@ -75,7 +76,7 @@ export default observer(function Days ({
     return range
       ? moment.tz(value, timezone).isSame(range[0], 'd') ||
         moment.tz(value, timezone).isSame(range[1], 'd')
-      : moment.tz(value, timezone).isSame(uiDate, 'd')
+      : moment.tz(value, timezone).isSame(date, 'd')
   }
 
   return pug`
@@ -90,7 +91,7 @@ export default observer(function Days ({
           Div.cell(
             key=weekIndex + '-' + dayIndex
             styleName={
-              cellActive: !range && moment.tz(day.value, timezone).isSame(uiDate, 'd'),
+              cellActive: !range && moment.tz(day.value, timezone).isSame(date, 'd'),
               cellActiveRangeStart: range && moment.tz(day.value, timezone).isSame(range[0], 'd'),
               cellActiveRange: range && moment.tz(day.value, timezone).isBetween(range[0], range[1], 'd'),
               cellActiveRangeEnd: range && moment.tz(day.value, timezone).isSame(range[1], 'd')

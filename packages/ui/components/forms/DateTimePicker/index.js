@@ -147,7 +147,7 @@ function DateTimePicker ({
       Div.content
         if (mode === 'date') || (mode === 'datetime')
           Calendar(
-            date=date
+            date=textInput
             exactLocale=exactLocale
             disabledDays=disabledDays
             locale=locale
@@ -163,7 +163,7 @@ function DateTimePicker ({
 
         if (mode === 'time') || (mode === 'datetime')
           TimeSelect(
-            date=date
+            date=textInput
             ref=refTimeSelect
             maxDate=maxDate
             minDate=minDate
