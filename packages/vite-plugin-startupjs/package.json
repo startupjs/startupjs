@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/vite-plugin-startupjs",
-  "version": "0.40.9",
+  "version": "0.41.0",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -12,12 +12,12 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/babel-plugin-dotenv": "^0.40.0",
-    "@startupjs/babel-plugin-import-to-react-lazy": "^0.40.0",
-    "@startupjs/babel-plugin-react-pug-classnames": "^0.40.0",
-    "@startupjs/babel-plugin-rn-stylename-inline": "^0.40.9",
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.40.2",
-    "@startupjs/bundler": "^0.40.9",
+    "@startupjs/babel-plugin-dotenv": "^0.41.0",
+    "@startupjs/babel-plugin-import-to-react-lazy": "^0.41.0",
+    "@startupjs/babel-plugin-react-pug-classnames": "^0.41.0",
+    "@startupjs/babel-plugin-rn-stylename-inline": "^0.41.0",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.41.0",
+    "@startupjs/bundler": "^0.41.0",
     "@vitejs/plugin-react": "^1.0.6",
     "babel-plugin-transform-react-pug": "^7.0.1"
   }

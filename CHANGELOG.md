@@ -1,3 +1,62 @@
+## [0.41.1](https://github.com/startupjs/startupjs/compare/v0.41.0...v0.41.1) (2022-01-11)
+
+
+### Features
+
+* **mdx:** add 'bash' and 'sh' languages support to code blocks. Treat code blocks without language specified as 'txt' ([944fed8](https://github.com/startupjs/startupjs/commit/944fed86dceca663f84073236013646fe6d43d7a))
+
+
+
+# [0.41.0](https://github.com/startupjs/startupjs/compare/v0.40.18...v0.41.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** improve 'name' field error message ([370d474](https://github.com/startupjs/startupjs/commit/370d474cefb73311c1a9856607363cbc9f351de0))
+
+
+### Features
+
+* Improve TypeScript support ([#871](https://github.com/startupjs/startupjs/issues/871)) ([b1c9bf0](https://github.com/startupjs/startupjs/commit/b1c9bf043a45d4710e75cf69a3e36f275d57d94a))
+
+### DEPRECATED
+
+1. You should not use `pug` function without importing it anymore. Import it from `startupjs` module:
+
+    ```js
+    import React from 'react'
+    import { pug, observer } from 'startupjs'
+    import { Span } from '@startupjs/ui'
+
+    export default observer(() => pug`
+      Span Hello World
+    `)
+    ```
+
+### BREAKING CHANGES
+
+1. Update linter configuration to use new babel parser module
+
+    1. Replace `babel-eslint` dependency with a new one. Run:
+
+        ```bash
+        yarn remove babel-eslint && yarn add -D @babel/eslint-parser
+        ```
+
+    2. Replace `"parser"` in your `.eslintrc.json`:
+
+        ```js
+        // replace line:
+        "parser": "babel-eslint",
+        // with the following:
+        "parser": "@babel/eslint-parser",
+        ```
+
+1. For proper TypeScript support copy the following `tsconfig.json` file to the root of your project:
+
+    [startupjs/packages/startupjs/templates/simple/tsconfig.json](https://github.com/startupjs/startupjs/blob/v0.41.0/packages/startupjs/templates/simple/tsconfig.json)
+
+
 ## [0.40.18](https://github.com/startupjs/startupjs/compare/v0.40.17...v0.40.18) (2022-01-11)
 
 
@@ -227,7 +286,7 @@ Dummy patch that publish v0.40.0 version because we forgot to merge the `next` b
     ```js
     // OLD
     import { BORDER_WIDTH, STRIPE_PUBLIC_KEY } from './constants.json'
-    
+
     // NEW
     import CONSTANTS from './constants.json'
     const { BORDER_WIDTH, STRIPE_PUBLIC_KEY } = CONSTANTS

@@ -8,6 +8,7 @@ import languageStyl from 'refractor/lang/stylus.js'
 import languagePug from 'refractor/lang/pug.js'
 import languageMarkdown from 'refractor/lang/markdown.js'
 import languageJson from 'refractor/lang/json.js'
+import languageBash from 'refractor/lang/bash.js'
 import './index.styl'
 
 const SUB_LANGUAGE_REGEX = /(^|\W)(pug|styl|css)(`\s*\n)([^`]*\s*\n)(`)/
@@ -18,9 +19,11 @@ refractor.register(languageStyl)
 refractor.register(languagePug)
 refractor.register(languageMarkdown)
 refractor.register(languageJson)
+refractor.register(languageBash)
 
 // Register aliases
 refractor.alias({ stylus: ['styl'] })
+refractor.alias({ bash: ['sh'] })
 
 // This method mutates highlighted array to remove the last template
 // backtick symbol and also returns it
@@ -98,7 +101,7 @@ function highlight (code, language) {
 
 export default memo(function Code ({
   children = '',
-  language = 'jsx',
+  language = 'txt',
   style,
   textStyle,
   ...props

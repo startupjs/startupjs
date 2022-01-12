@@ -2,7 +2,7 @@ import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
-import { observer, model } from 'startupjs'
+import { pug, observer, model } from 'startupjs'
 import { BASE_URL } from '@env'
 import orm from '../model'
 

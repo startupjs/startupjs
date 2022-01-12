@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, TouchableOpacity, Text } from 'react-native'
-import { observer, emit } from 'startupjs'
+import { pug, observer, emit } from 'startupjs'
 import './index.styl'
 
 export default observer(function ({ children }) {

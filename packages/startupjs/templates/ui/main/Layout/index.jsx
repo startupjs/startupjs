@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, emit, useValue, useLocal } from 'startupjs'
+import { pug, observer, emit, useValue, useLocal } from 'startupjs'
 import { Button, Div, H1, Layout, Menu, Row, SmartSidebar } from '@startupjs/ui'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import APP from '../../app.json'

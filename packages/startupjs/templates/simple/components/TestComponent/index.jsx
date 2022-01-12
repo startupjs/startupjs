@@ -5,6 +5,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 import {
+  pug,
   observer,
   useDoc,
   useApi
