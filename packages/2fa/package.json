@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/2fa",
-  "version": "0.41.0",
+  "version": "0.41.2",
   "type": "module",
   "description": "Two factor authentication module",
   "main": "index.js",

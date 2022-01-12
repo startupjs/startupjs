@@ -1,3 +1,12 @@
+## [0.41.2](https://github.com/startupjs/startupjs/compare/v0.41.1...v0.41.2) (2022-01-12)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** fix bug related to not clickable submit button when error happens ([1259bba](https://github.com/startupjs/startupjs/commit/1259bba9e411f70fe99feb549041bcb3137c99be))
+
+
+
 ## [0.41.1](https://github.com/startupjs/startupjs/compare/v0.41.0...v0.41.1) (2022-01-11)
 
 

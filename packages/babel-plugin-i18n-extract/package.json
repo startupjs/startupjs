@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-i18n-extract",
-  "version": "0.41.0",
+  "version": "0.41.2",
   "description": "Extract translation keys",
   "main": "index.js",
   "publishConfig": {
