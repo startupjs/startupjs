@@ -1,3 +1,13 @@
+## [0.41.5](https://github.com/startupjs/startupjs/compare/v0.41.4...v0.41.5) (2022-01-12)
+
+
+### Bug Fixes
+
+* **routes-middleware:** add missing styles to page <head> for mode 'web' ([35a249c](https://github.com/startupjs/startupjs/commit/35a249cd3d85cdb10b37871fca7dfdf9e494ae27))
+* **ui/Input:** fix setting value for broken inputs ([310a250](https://github.com/startupjs/startupjs/commit/310a2503287a8a79ea576d1e8be0ac3e7c1fc3ee))
+
+
+
 ## [0.41.4](https://github.com/startupjs/startupjs/compare/v0.41.3...v0.41.4) (2022-01-12)
 
 
