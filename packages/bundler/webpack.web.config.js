@@ -258,7 +258,9 @@ module.exports = function getConfig (env, {
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [autoprefixer]
+                postcssOptions: {
+                  plugins: [autoprefixer]
+                }
               }
             },
             {
