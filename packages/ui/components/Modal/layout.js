@@ -138,13 +138,12 @@ function Modal ({
   if (header) contentStyle.paddingTop = 0
   if (actions) contentStyle.paddingBottom = 0
 
+  const contentProps = { variant, style: contentStyle }
+
   // content part should always present
-  content = content ||
-    React.createElement(
-      ModalContent,
-      { variant, style: contentStyle },
-      contentChildren
-    )
+  content = content
+    ? React.cloneElement(content, { ...contentProps, ...content.props })
+    : React.createElement(ModalContent, contentProps, contentChildren)
 
   return pug`
     View.root(style=style styleName=[variant])
