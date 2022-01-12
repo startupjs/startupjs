@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-startupjs",
-  "version": "0.41.2",
+  "version": "0.41.4",
   "description": "Babel preset for compiling StartupJS app on server, web, native",
   "main": "index.js",
   "publishConfig": {
@@ -28,7 +28,7 @@
     "@startupjs/babel-plugin-import-to-react-lazy": "^0.41.2",
     "@startupjs/babel-plugin-react-css-modules": "1701.0.1",
     "@startupjs/babel-plugin-react-pug-classnames": "^0.41.2",
-    "@startupjs/babel-plugin-rn-stylename-inline": "^0.41.2",
+    "@startupjs/babel-plugin-rn-stylename-inline": "^0.41.4",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.41.2",
     "@startupjs/babel-plugin-startupjs": "^0.41.2",
     "babel-plugin-module-resolver": "^3.2.0",

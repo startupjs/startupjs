@@ -1,3 +1,12 @@
+## [0.41.4](https://github.com/startupjs/startupjs/compare/v0.41.3...v0.41.4) (2022-01-12)
+
+
+### Bug Fixes
+
+* **bundler:** fix incorrect postcss plugin usage ([6e6203d](https://github.com/startupjs/startupjs/commit/6e6203d6a4b5bbb229784a054d8130b99fa48225))
+
+
+
 ## [0.41.3](https://github.com/startupjs/startupjs/compare/v0.41.2...v0.41.3) (2022-01-12)
 
 
