@@ -1,3 +1,12 @@
+## [0.41.3](https://github.com/startupjs/startupjs/compare/v0.41.2...v0.41.3) (2022-01-12)
+
+
+### Bug Fixes
+
+* **ui/Modal:** pass missing props to content when use Modal.Content ([aebaef9](https://github.com/startupjs/startupjs/commit/aebaef9e8fcaa4044906ff326a65a1ee6211f133))
+
+
+
 ## [0.41.2](https://github.com/startupjs/startupjs/compare/v0.41.1...v0.41.2) (2022-01-12)
 
 
