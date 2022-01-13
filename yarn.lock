@@ -14185,6 +14185,11 @@ mingo@^0.2.5:
   dependencies:
     underscore ">=1.5.2"
 
+mingo@^4.1.5:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/mingo/-/mingo-4.4.1.tgz#76ce40f9b7a909d704320cdb0ad2444155a74c12"
+  integrity sha512-aig/3anjeJ8VcXLqDQmB/iO8Z8BVzln2BeWcyeI5NtOiLMAQ5xX00QHX9piy8OBAC9pSDYWErY8MHoh8nlCHig==
+
 mini-create-react-context@^0.4.0:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/mini-create-react-context/-/mini-create-react-context-0.4.1.tgz#072171561bfdc922da08a60c2197a497cc2d1d5e"
@@ -18318,6 +18323,14 @@ sharedb-hooks@~4.0.0:
   integrity sha512-aEMntx3cB0l/rxxzXvBHa6yPzW/nIKym3TDDY8bZBpX9oB1L/zPYrfCqt3tWgqMCYs8Jin2vIWHRzBRnzbVcmA==
   dependencies:
     lodash "^4.17.10"
+
+sharedb-mingo-memory@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/sharedb-mingo-memory/-/sharedb-mingo-memory-1.2.0.tgz#5b7a14e55e829c2d1881ecda5c0156e78aa9e677"
+  integrity sha512-KXGiSQbhfu+s/q7slBBjQrRaNJ85D4qdK+fOj89TE989A3E3dG4RUEmDpYXQRQmLOeE0ZvfAjmkIH11z344WrQ==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+    mingo "^4.1.5"
 
 sharedb-mingo@^3.0.7:
   version "3.0.7"

@@ -47,7 +47,7 @@ module.exports = (backend, appRoutes, error, options, done) => {
     }
   }
 
-  const sessionStore = MongoStore.create(connectMongoOptions)
+  const sessionStore = (mongoUrl && !conf.get('NO_MONGO')) ? MongoStore.create(connectMongoOptions) : undefined
 
   const session = expressSession({
     secret: conf.get('SESSION_SECRET'),

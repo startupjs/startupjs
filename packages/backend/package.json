@@ -17,6 +17,7 @@
     "redlock": "^4.2.0",
     "sharedb": "^1.0.0",
     "sharedb-hooks": "~4.0.0",
+    "sharedb-mingo-memory": "^1.2.0",
     "sharedb-mongo": "1.0.0-beta.15",
     "sharedb-redis-pubsub": "^2.0.1"
   },

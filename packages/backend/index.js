@@ -11,6 +11,7 @@ const racer = require('racer')
 const redis = require('redis')
 const Redlock = require('redlock')
 const shareDbHooks = require('sharedb-hooks')
+const ShareDBMingo = require('sharedb-mingo-memory')
 const getShareMongo = require('./getShareMongo')
 
 global.__clients = {}
@@ -47,7 +48,7 @@ module.exports = async options => {
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
-  const shareMongo = await getShareMongo()
+  const shareMongo = (conf.get('MONGO_URL') && !conf.get('NO_MONGO')) ? await getShareMongo() : new ShareDBMingo()
 
   if (options.pollDebounce) shareMongo.pollDebounce = options.pollDebounce
 
