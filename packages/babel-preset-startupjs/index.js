@@ -1,4 +1,6 @@
+var stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
 const genericNames = require('generic-names')
+const { generateScopedNameFactory } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const { LOCAL_IDENT_NAME } = require('./constants')
 const ASYNC = process.env.ASYNC
 const APP_ENV = process.env.APP_ENV
@@ -51,13 +53,17 @@ const i18nPlugin = (options) => {
 }
 
 const webReactCssModulesPlugin = ({ production } = {}) =>
-  [require('@startupjs/babel-plugin-react-css-modules'), {
+  ['@startupjs/babel-plugin-react-css-modules', {
     handleMissingStyleName: 'ignore',
+    webpackHotModuleReloading: true,
     filetypes: {
       '.styl': {}
     },
-    generateScopedName,
-    webpackHotModuleReloading: !production
+    transform: (src, filepath) => {
+      if (!/\.styl$/.test(filepath)) return src
+      return stylusToCssLoader(src, filepath)
+    },
+    generateScopedName
   }]
 
 const nativeReactCssModulesPlatformExtensionsPlugin = () =>
@@ -74,9 +80,6 @@ const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
     platform
   }]
 ]
-
-const webPassClassnamePlugin = () =>
-  require('babel-plugin-react-native-web-pass-classname')
 
 // react-native config
 
@@ -165,13 +168,17 @@ if (ASYNC) {
 
 const CONFIG_WEB_PURE_DEVELOPMENT = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    [require('./esNextPreset'), { debugJsx: true }]
+    // NOTE: If we start to face unknown errors in development or
+    //       want to sync the whole presets/plugins stack with RN,
+    //       just replace the optimized esNext preset above with the
+    //       regular metro preset below:
+    // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin(),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -185,7 +192,6 @@ const CONFIG_WEB_PURE_PRODUCTION = {
   plugins: [
     dotenvPlugin({ production: true, mockBaseUrl: true }),
     webReactCssModulesPlugin({ production: true }),
-    webPassClassnamePlugin(),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -262,5 +268,5 @@ function generateScopedName (name, filename/* , css */) {
   }
   hashSize = Number(hashSize[1])
   if (new RegExp(`_.{${hashSize}}_$`).test(name)) return name
-  return genericNames(LOCAL_IDENT_NAME)(name, filename)
+  return genericNames(generateScopedNameFactory(LOCAL_IDENT_NAME))(name, filename)
 }

@@ -10,6 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const autoprefixer = require('autoprefixer')
+const { getLocalIdent } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
@@ -251,6 +252,7 @@ module.exports = function getConfig (env, {
               loader: 'css-loader',
               options: {
                 modules: {
+                  getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME
                 }
               }

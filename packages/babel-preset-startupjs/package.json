@@ -26,7 +26,7 @@
     "@startupjs/babel-plugin-dotenv": "^0.41.2",
     "@startupjs/babel-plugin-i18n-extract": "^0.41.2",
     "@startupjs/babel-plugin-import-to-react-lazy": "^0.41.2",
-    "@startupjs/babel-plugin-react-css-modules": "1701.0.1",
+    "@startupjs/babel-plugin-react-css-modules": "6.5.4-0",
     "@startupjs/babel-plugin-react-pug-classnames": "^0.41.2",
     "@startupjs/babel-plugin-rn-stylename-inline": "^0.41.4",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.41.2",
