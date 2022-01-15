@@ -191,6 +191,7 @@ function TextInputInput ({
         onLayout=onLayoutIcon
         styleName=[size, iconPosition]
         onPress=onIconPress
+        pointerEvents=onIconPress ? undefined : 'none'
       )
         Icon(
           icon=icon
@@ -203,6 +204,7 @@ function TextInputInput ({
         onLayout=onLayoutIcon
         styleName=[size, getOppositePosition(iconPosition)]
         onPress=onSecondaryIconPress
+        pointerEvents=onSecondaryIconPress ? undefined : 'none'
       )
         Icon(
           icon=secondaryIcon
