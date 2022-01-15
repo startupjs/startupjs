@@ -4,7 +4,7 @@ import { pathFor, useLocation } from 'startupjs/app'
 import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { APP_ENV } from '@env'
 import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import { useDocsContext } from '../../../docsContext'
@@ -70,6 +70,7 @@ const Search = observer(function Search () {
       value=value
       options=options
       placeholder='Search...'
+      inputIcon=faSearch
       renderItem=item => renderItem(item, pathname)
       onChange=onChange
       onChangeText=APP_ENV === 'detox' ? onChangeText : undefined
@@ -86,7 +87,7 @@ const Topbar = observer(function Topbar () {
 
   return pug`
     Row.topbar
-      Button(testID='button' icon=faBars onPress=toggleSidebar color='darkLight')
+      Button(testID='button' variant='text' icon=faBars onPress=toggleSidebar color='darkLight')
       Div.searchWrapper
         Search
   `
