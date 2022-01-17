@@ -3081,10 +3081,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@startupjs/babel-plugin-react-css-modules@6.5.4-0":
-  version "6.5.4-0"
-  resolved "https://registry.yarnpkg.com/@startupjs/babel-plugin-react-css-modules/-/babel-plugin-react-css-modules-6.5.4-0.tgz#dae9df72151d13945120e8b61f9ef6fc39351f45"
-  integrity sha512-+1ey1Rb9PXFpedxMWTfjJZOW3qByZKscv/PorFTvxo1cgzaDJf/c7BPq+xVIZzf6Moyi4soO9X/A98GENi3cpw==
+"@startupjs/babel-plugin-react-css-modules@^6.5.4-1":
+  version "6.5.4-1"
+  resolved "https://registry.yarnpkg.com/@startupjs/babel-plugin-react-css-modules/-/babel-plugin-react-css-modules-6.5.4-1.tgz#254299a96933d3bb46421b5312cd3baa7c7077e6"
+  integrity sha512-zAIxr/3zr0mzOJ9YNKw4y/onK0At/lAwaBwe5npWivNuq0dLts71wLGxPu/gJPPCA/KdSEy/PlH8XoU61NNmgg==
   dependencies:
     "@babel/plugin-syntax-jsx" "^7.16.0"
     "@babel/types" "^7.15.6"

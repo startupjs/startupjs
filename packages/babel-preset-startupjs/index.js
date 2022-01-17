@@ -54,7 +54,7 @@ const i18nPlugin = (options) => {
 const webReactCssModulesPlugin = ({ production } = {}) =>
   ['@startupjs/babel-plugin-react-css-modules', {
     handleMissingStyleName: 'ignore',
-    webpackHotModuleReloading: true,
+    webpackHotModuleReloading: !production,
     filetypes: {
       '.styl': {}
     },
