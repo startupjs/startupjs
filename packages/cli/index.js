@@ -710,7 +710,7 @@ function patchScriptsInPackageJson (projectPath) {
   // FIXME: We can't use type=module now, because metro does not support ESM
   // and does not provide ability to pass .cjs config.
   // packageJSON.type = 'module'
-  packageJSON.sideEffects = []
+  packageJSON.sideEffects = ['*.css', '*.styl']
 
   fs.writeFileSync(
     packageJSONPath,
