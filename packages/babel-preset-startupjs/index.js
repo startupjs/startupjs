@@ -1,5 +1,4 @@
 var stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
-const genericNames = require('generic-names')
 const { generateScopedNameFactory } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const { LOCAL_IDENT_NAME } = require('./constants')
 const ASYNC = process.env.ASYNC
@@ -268,5 +267,5 @@ function generateScopedName (name, filename/* , css */) {
   }
   hashSize = Number(hashSize[1])
   if (new RegExp(`_.{${hashSize}}_$`).test(name)) return name
-  return genericNames(generateScopedNameFactory(LOCAL_IDENT_NAME))(name, filename)
+  return generateScopedNameFactory(LOCAL_IDENT_NAME)(name, filename)
 }
