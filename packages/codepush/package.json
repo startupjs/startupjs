@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Dynamically push JS-only updates to the React Native apps",
-  "version": "0.41.2",
+  "version": "0.42.0",
   "main": "index.js",
   "peerDependencies": {
     "react": "16.9 - 17",

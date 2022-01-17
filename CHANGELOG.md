@@ -1,3 +1,13 @@
+# [0.42.0](https://github.com/startupjs/startupjs/compare/v0.41.5...v0.42.0) (2022-01-17)
+
+
+### Bug Fixes
+
+* fix compilation for mode 'web' ([#876](https://github.com/startupjs/startupjs/issues/876)) ([548bbe0](https://github.com/startupjs/startupjs/commit/548bbe066f465f3bfb571154f237990a04ec78d5))
+* **ui/TextInput:** Click through the icon if it doesn't have a handler ([d55f395](https://github.com/startupjs/startupjs/commit/d55f39528c0a1c7a8b2c4cb5145bf232866b91b1))
+
+
+
 ## [0.41.5](https://github.com/startupjs/startupjs/compare/v0.41.4...v0.41.5) (2022-01-12)
 
 
