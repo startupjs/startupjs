@@ -3,8 +3,11 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Row from '../../Row'
 import Span from '../../typography/Span'
+import Div from '../../Div'
 import Checkbox from './../Checkbox'
+import Icon from './../../Icon'
 import MultiselectComponent from './multiselect'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import DefaultTag from './defaultTag'
 import themed from '../../../theming/themed'
 import './index.styl'
@@ -73,12 +76,14 @@ const Multiselect = ({
     const onPress = onItemPress(item.value)
 
     return pug`
-      Row(
+      Row.suggestionItem(
         vAlign='center'
         onPress=() => onPress(!selected)
       )
-        Checkbox.checkbox(value=selected)
-        Span= item.label
+        Span.label= item.label
+        Div.check
+          if selected
+            Icon(icon=faCheck styleName='checkIcon')
     `
   }
 
