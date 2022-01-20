@@ -3,6 +3,9 @@ import { observer } from 'startupjs'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
+import Div from './../../Div'
+import Row from './../../Row'
+import Span from './../../typography/Span'
 import Buttons from './Buttons'
 import './index.styl'
 
@@ -15,6 +18,7 @@ function NumberInput ({
   max,
   min,
   step,
+  units,
   onChangeNumber,
   ...props
 }, ref) {
@@ -89,14 +93,18 @@ function NumberInput ({
 
   function renderWrapper ({ style }, children) {
     return pug`
-      Buttons(
-        style=style
-        buttonStyle=buttonStyle
-        mode=buttonsMode
-        size=size
-        disabled=disabled
-        onIncrement=onIncrement
-      )= children
+      Row(style=style vAlign='center')
+        if units
+          Span.input-units(styleName=[size])= units
+        Div.input-container(pushed='s')
+          Buttons(
+            buttonStyle=buttonStyle
+            mode=buttonsMode
+            size=size
+            disabled=disabled
+            onIncrement=onIncrement
+          )
+          = children
     `
   }
 
@@ -149,6 +157,7 @@ NumberInput.propTypes = {
   max: PropTypes.number,
   min: PropTypes.number,
   step: PropTypes.number,
+  units: PropTypes.string,
   onChangeNumber: PropTypes.func
 }
 
