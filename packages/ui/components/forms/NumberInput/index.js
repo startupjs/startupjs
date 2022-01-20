@@ -19,6 +19,7 @@ function NumberInput ({
   min,
   step,
   units,
+  unitsPosition,
   onChangeNumber,
   ...props
 }, ref) {
@@ -93,10 +94,14 @@ function NumberInput ({
 
   function renderWrapper ({ style }, children) {
     return pug`
-      Row(style=style vAlign='center')
+      Row.input(
+        style=style
+        styleName=[unitsPosition]
+        vAlign='center'
+      )
         if units
           Span.input-units(styleName=[size])= units
-        Div.input-container(pushed='s')
+        Div.input-container(styleName=[unitsPosition])
           Buttons(
             buttonStyle=buttonStyle
             mode=buttonsMode
@@ -133,7 +138,8 @@ NumberInput.defaultProps = {
     ]
   ),
   buttonsMode: 'vertical',
-  step: 1
+  step: 1,
+  unitsPosition: 'left'
 }
 
 NumberInput.propTypes = {
@@ -158,6 +164,7 @@ NumberInput.propTypes = {
   min: PropTypes.number,
   step: PropTypes.number,
   units: PropTypes.string,
+  unitsPosition: PropTypes.oneOf(['left', 'right']),
   onChangeNumber: PropTypes.func
 }
 
