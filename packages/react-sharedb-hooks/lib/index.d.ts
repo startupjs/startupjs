@@ -1,11 +1,6 @@
 import React from 'react';
 
-interface EnumResultHook {
-  value: any
-  scope: any
-  initCount: number
-}
-export interface ResultHook extends Array<EnumResultHook>{}
+export type ResultHook<V = any> = [value: V, scope: any, initCount: number]
 
 // destroyer
 interface Destroyer {
@@ -42,27 +37,27 @@ export function useOn(
   fn: Function
 ): Function;
 
-export const useQueryIds: (collection: string, ids: string[], options?: {}) => ResultHook;
-export const useBatchQueryIds: (collection: string, ids: string[], options?: {}) => ResultHook;
-export const useAsyncQueryIds: (collection: string, ids: string[], options?: {}) => ResultHook;
+export const useQueryIds: <V = any>(collection: string, ids: string[], options?: {}) => ResultHook<V>;
+export const useBatchQueryIds: <V = any>(collection: string, ids: string[], options?: {}) => ResultHook<V>;
+export const useAsyncQueryIds: <V = any>(collection: string, ids: string[], options?: {}) => ResultHook<V>;
 
-export const useQueryDoc: (collection: string, query: {}) => ResultHook;
-export const useBatchQueryDoc: (collection: string, query: {}) => ResultHook;
-export const useAsyncQueryDoc: (collection: string, query: {}) => ResultHook;
+export const useQueryDoc: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useBatchQueryDoc: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useAsyncQueryDoc: <V = any>(collection: string, query: {}) => ResultHook<V>;
 
-export function useLocalDoc(collection: string, docId: string): ResultHook;
-export function useSession(path: string): ResultHook;
-export function usePage(path: string): ResultHook;
+export function useLocalDoc<V = any>(collection: string, docId: string): ResultHook<V>;
+export function useSession<V = any>(path: string): ResultHook<V>;
+export function usePage<V = any>(path: string): ResultHook<V>;
 
-export function generateUseQueryDoc({ batch, optional }?: {
+export function generateUseQueryDoc<V = any>({ batch, optional }?: {
   batch: boolean;
   optional: boolean;
-}): (collection: string, query: {}) => ResultHook;
+}): (collection: string, query: {}) => ResultHook<V>;
 
-export function generateUseQueryIds({ batch, optional }?: {
+export function generateUseQueryIds<V = any>({ batch, optional }?: {
   batch: boolean;
   optional: boolean;
-}): (collection: string, ids: any[], options?: {}) => ResultHook;
+}): (collection: string, ids: any[], options?: {}) => ResultHook<V>;
 
 // meta
 export const ComponentMetaContext: {};
@@ -70,32 +65,32 @@ export function useNow (): number;
 export function useComponentId (): string;
 
 // observer
-export function observer(Component: React.FC, options?: {
+export function observer(Component: React.FC<any>, options?: {
   forwardRef?: boolean,
   suspenseProps?: {
     fallback: React.ReactElement
   }
-}): React.ReactElement;
+}): React.FC<any>;
 
 // types
-export const useDoc: (collection: string, docId: string) => ResultHook;
-export const useBatchDoc: (collection: string, docId: string)=> ResultHook;
-export const useAsyncDoc: (collection: string, docId: string) => ResultHook;
+export const useDoc: <V = any>(collection: string, docId: string) => ResultHook<V>;
+export const useBatchDoc: <V = any>(collection: string, docId: string)=> ResultHook<V>;
+export const useAsyncDoc: <V = any>(collection: string, docId: string) => ResultHook<V>;
 
-export const useQuery: (collection: string, query: {}) => ResultHook;
-export const useBatchQuery: (collection: string, query: {}) => ResultHook;
-export const useAsyncQuery: (collection: string, query: {}) => ResultHook;
+export const useQuery: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useBatchQuery: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useAsyncQuery: <V = any>(collection: string, query: {}) => ResultHook<V>;
 
-export function useApi (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook;
-export function useApi (fn: Function, inputs?: any[], options?: {}): ResultHook;
+export function useApi<V = any> (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
+export function useApi<V = any> (fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
 
-export function useBatchApi (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook;
-export function useBatchApi (fn: Function, inputs?: any[], options?: {}): ResultHook;
+export function useBatchApi<V = any> (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
+export function useBatchApi<V = any> (fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
 
-export function useAsyncApi (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook;
-export function useAsyncApi (fn: Function, inputs?: any[], options?: {}): ResultHook;
+export function useAsyncApi<V = any> (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
+export function useAsyncApi<V = any> (fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
 
-export const useLocal: (path: string) => ResultHook;
-export const useValue: (value?: any) => ResultHook;
+export const useLocal: <V = any>(path: string) => ResultHook<V>;
+export const useValue: <V = any>(value?: V) => ResultHook<V>;
 
 export function useBatch (): void;
