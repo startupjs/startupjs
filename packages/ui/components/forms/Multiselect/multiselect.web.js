@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
+import { ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
@@ -50,8 +51,9 @@ const Multiselect = ({
           onOpen=onOpen
           _hasError=_hasError
         )
-      each opt in options
-        = renderListItem(opt)
+      ScrollView.suggestions-web
+        each opt in options
+          = renderListItem(opt)
   `
 }
 
