@@ -1,3 +1,19 @@
+## [0.42.1](https://github.com/startupjs/startupjs/compare/v0.42.0...v0.42.1) (2022-01-21)
+
+
+### Bug Fixes
+
+* **react-shraredb-hooks:** fix ts types ([#879](https://github.com/startupjs/startupjs/issues/879)) ([8593fa7](https://github.com/startupjs/startupjs/commit/8593fa773c9fbc88e2f830230fde9cf86caf4733))
+* **ui/Multiselect:** remove non-working checkbox and add icon instead, fix suggestions scroll ([#878](https://github.com/startupjs/startupjs/issues/878)) ([b718b06](https://github.com/startupjs/startupjs/commit/b718b06b3c632c43275be028aefaedb491703815))
+
+
+### Features
+
+* **ui/NumberInput:** add ability to display units ([#877](https://github.com/startupjs/startupjs/issues/877)) ([58d6056](https://github.com/startupjs/startupjs/commit/58d60563fd8119465d304d88809bf5c1ed83794d))
+* **ui/Tag:** add `onIconPress` and `onSecondaryIconPress` props ([#868](https://github.com/startupjs/startupjs/issues/868)) ([9988a24](https://github.com/startupjs/startupjs/commit/9988a24aff0fce697863a4513e3de339d3172022))
+
+
+
 # [0.42.0](https://github.com/startupjs/startupjs/compare/v0.41.5...v0.42.0) (2022-01-17)
 
 
