@@ -13,7 +13,7 @@ set -e
 #
 # BATCH mode:
 #
-#   Just run the the script without sepcifying any param. It will execute
+#   Just run the script without sepcifying any param. It will execute
 #   all steps one after another.
 #
 #   Requirements:
