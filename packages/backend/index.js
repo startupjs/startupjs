@@ -164,12 +164,11 @@ module.exports = async options => {
       }
     }
 
-    console.log('sharedb-access is working', options)
+    console.log('sharedb-access is working')
   }
 
   // server aggregate
   if (options.secure || options.serverAggregate) {
-    console.log('run server aggregate')
     const { customCheck } = options.serverAggregate || {}
     serverAggregate(backend, customCheck)
 

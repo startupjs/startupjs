@@ -53,11 +53,7 @@ export default class MongoQueue {
     // the list will be there only 1 second
     // after that it will expire
     const ttl = 1 // sec
-    try {
-      this.redis.setex('tasks:list', ttl, JSON.stringify(tasks))
-    } catch (e) {
-      console.log('HANDLE TASKS')
-    }
+    this.redis.setex('tasks:list', ttl, JSON.stringify(tasks))
   }
 
   getMongoQuery (now) {
