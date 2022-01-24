@@ -8,13 +8,11 @@ export default class MongoQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redis1
+    this.redis = dbs.redisClient
   }
 
   async lock (key, ttl) {
-    try {
-      return await this.redlock.lock(key, ttl)
-    } catch (e) {}
+    return await this.redlock.lock(key, ttl)
   }
 
   unlockQuery (lock) {
@@ -55,7 +53,11 @@ export default class MongoQueue {
     // the list will be there only 1 second
     // after that it will expire
     const ttl = 1 // sec
-    this.redis.setex('tasks:list', ttl, JSON.stringify(tasks))
+    try {
+      this.redis.setex('tasks:list', ttl, JSON.stringify(tasks))
+    } catch (e) {
+      console.log('HANDLE TASKS')
+    }
   }
 
   getMongoQuery (now) {

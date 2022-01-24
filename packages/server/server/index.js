@@ -1,4 +1,4 @@
-const getBackend = require('@startupjs/backend')
+const createBackend = require('@startupjs/backend')
 const http = require('http')
 const https = require('https')
 const conf = require('nconf')
@@ -11,7 +11,7 @@ module.exports = async (options) => {
   const appRoutes = options.appRoutes
 
   // Init backend and all apps
-  const { backend } = await getBackend(options)
+  const { backend } = await createBackend(options)
 
   // Init error handling route
   const error = options.error(options)

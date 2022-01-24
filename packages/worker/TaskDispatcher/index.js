@@ -1,11 +1,12 @@
 import random from 'lodash/random.js'
 import AutoStop from './utils/autoStop.js'
 import { delay } from '../utils.js'
-import { getDbs } from '../db.js'
 import MongoQueue from './MongoQueue.js'
 import RedisQueue from './RedisQueue.js'
 import WorkerManager from '../WorkerManager/index.js'
 import './utils/defaults.js'
+// order of import getDbs is important since /utils/defaults configures env vars
+import { getDbs } from '../db.js'
 
 const env = process.env
 
@@ -17,15 +18,20 @@ export default class TaskDispatcher {
     AutoStop.once('exit', async () => {
       await this.stop()
     })
+  }
 
-    this.dbs = getDbs()
-    this.mongoQueue = new MongoQueue(this.dbs, num)
-    this.redisQueue = new RedisQueue(this.dbs, this.executeTask.bind(this), num)
+  async init () {
+    // TODO
+    // Do we need to pass options to getDbs?
+    this.dbs = await getDbs({ secure: false })
+    this.mongoQueue = new MongoQueue(this.dbs, this.num)
+    this.redisQueue = new RedisQueue(this.dbs, this.executeTask.bind(this), this.num)
   }
 
   async start () {
     if (this.started) return
-    this.workerManager = new WorkerManager(this.num)
+    await this.init()
+    this.workerManager = new WorkerManager(this.num, this.options)
     await this.workerManager.start()
     this.started = true
     this._startLoops()

@@ -29,6 +29,11 @@ function initNconf (dirname) {
   nconf.file('private', dirname + '/config.private.json')
   nconf.defaults(require(dirname + '/config.json'))
 
+  // Copy BASE_URL into env if present
+  if (!process.env.BASE_URL && nconf.get('BASE_URL')) {
+    process.env.BASE_URL = nconf.get('BASE_URL')
+  }
+
   // Copy REDIS_URL into env if present (it'll be used by redis-url module)
   if (!process.env.REDIS_URL && nconf.get('REDIS_URL')) {
     process.env.REDIS_URL = nconf.get('REDIS_URL')

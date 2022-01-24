@@ -61,7 +61,6 @@ Select.propTypes = {
     [
       'style',
       'inputStyle',
-      'placeholder',
       'size',
       'disabled',
       'readonly',

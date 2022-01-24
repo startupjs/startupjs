@@ -13,14 +13,10 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.7.2",
-    "ioredis": "^4.8.0",
     "lodash": "^4.17.20",
-    "mongodb": "^3.6.9",
     "racer": "1.0.0",
     "redlock": "^3.0.0",
-    "resolve": "^1.20.0",
-    "sharedb-mongo": "1.0.0-beta.15",
-    "sharedb-redis-pubsub": "^2.0.1"
+    "resolve": "^1.20.0"
   },
   "devDependencies": {
     "mocha": "^8.1.3"
