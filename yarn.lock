@@ -10884,10 +10884,10 @@ invert-kv@^1.0.0:
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
   integrity sha1-EEqOSqym09jNFXqO+L+rLXo//bY=
 
-ioredis@^4.8.0:
-  version "4.28.2"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.28.2.tgz#493ccd5d869fd0ec86c96498192718171f6c9203"
-  integrity sha512-kQ+Iv7+c6HsDdPP2XUHaMv8DhnSeAeKEwMbaoqsXYbO+03dItXt7+5jGQDRyjdRUV2rFJbzg7P4Qt1iX2tqkOg==
+ioredis@^4.28.2, ioredis@^4.8.0:
+  version "4.28.3"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.28.3.tgz#b13fce8a6a7c525ba22e666d72980a3c0ba799aa"
+  integrity sha512-9JOWVgBnuSxpIgfpjc1OeY1OLmA4t2KOWWURTDRXky+eWO0LZhI33pQNT9gYxANUXfh5p/zYephYni6GPRsksQ==
   dependencies:
     cluster-key-slot "^1.1.0"
     debug "^4.3.1"
@@ -17392,7 +17392,7 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
-"redis@^2.6.0 || ^3.0.0", redis@^3.1.2:
+"redis@^2.6.0 || ^3.0.0":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/redis/-/redis-3.1.2.tgz#766851117e80653d23e0ed536254677ab647638c"
   integrity sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw==
@@ -18243,9 +18243,9 @@ sharedb@^1.0.0, sharedb@^1.0.0-beta:
     ot-json0 "^1.0.1"
 
 "sharedb@^1.0.0 || ^2.0.0":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/sharedb/-/sharedb-2.2.1.tgz#f49fe8b8dcf911171df33d530f332ad11f2711e4"
-  integrity sha512-dnnxfG5fWdrRy8WV1j0rG76RNYpYtM7ii3W+8lzzy7RpQ4H6n5bEx76gfX+vUU3Y/payk39R45gNt5YgDiRrIQ==
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/sharedb/-/sharedb-2.2.3.tgz#e4cafba590517214853f3fd24ee1dd4c10b27d7a"
+  integrity sha512-UkyNb3zSwmwi/GRcv6ek/8PAHAbpwgJiS5zjJ8lgv3o4YJbevgXPhvf8KfzPh2u+PTXhTKhv3m9NIhx0HxjOxA==
   dependencies:
     arraydiff "^0.1.1"
     async "^2.6.3"

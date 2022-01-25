@@ -1,11 +1,13 @@
 import isPlainObject from 'lodash/isPlainObject.js'
 import { delay } from '../utils.js'
-import { getDbs } from '../db.js'
 import TaskDispatcher from '../TaskDispatcher/index.js'
+// order of import getDbs is important since TaskDispatcher configures env vars
+import { getDbs } from './../db.js'
 
 export default class DispatcherRunner {
-  constructor () {
-    this.dbs = getDbs()
+  async init () {
+    if (this.dbs) return
+    this.dbs = await getDbs({ secure: false })
   }
 
   async start (num) {
@@ -18,7 +20,9 @@ export default class DispatcherRunner {
       console.log('Dispatcher', i, 'is started')
     }
     const { backend } = this.dbs
-    this.model = backend.createModel()
+    // pass 'fetchOnly: false' because of @startupjs/backend that
+    // patches racer's model creation with 'fetchOnly: true'
+    this.model = backend.createModel({ fetchOnly: false })
   }
 
   async stop () {
@@ -138,8 +142,8 @@ export default class DispatcherRunner {
 
   dropRedisDatabase () {
     return new Promise((resolve, reject) => {
-      const { redis1 } = this.dbs
-      redis1.flushdb((err) => {
+      const { redisClient } = this.dbs
+      redisClient.flushdb((err) => {
         // eslint-disable-next-line prefer-promise-reject-errors
         if (err) return reject()
         console.log('Drop redis db')

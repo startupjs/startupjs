@@ -1,4 +1,4 @@
-const getBackend = require('@startupjs/backend')
+const createBackend = require('@startupjs/backend')
 const http = require('http')
 const https = require('https')
 const conf = require('nconf')
@@ -11,13 +11,18 @@ module.exports = async (options) => {
   const appRoutes = options.appRoutes
 
   // Init backend and all apps
-  const { backend } = await getBackend(options)
+  const { backend, shareDbMongo } = await createBackend(options)
 
   // Init error handling route
   const error = options.error(options)
 
-  require('./express')(backend, appRoutes, error, options
-    , ({ expressApp, upgrade, wss }) => {
+  require('./express')(
+    backend,
+    shareDbMongo._mongoClient,
+    appRoutes,
+    error,
+    options,
+    ({ expressApp, upgrade, wss }) => {
       wsServer = wss
 
       // Create server and setup websockets connection

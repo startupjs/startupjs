@@ -1,10 +1,17 @@
 import cluster from 'cluster'
-import { getDbs } from '../db.js'
+// import { getDbs } from '../db.js'
 import { isPromise } from '../utils.js'
+import { getDbs } from './../db.js'
 
 const env = process.env
 const collection = env.WORKER_TASK_COLLECTION
-const dbs = getDbs()
+
+let dbs
+(async () => {
+  // TODO
+  // Do we need to pass options to getDbs?
+  dbs = await getDbs({ secure: false })
+})()
 
 let actions;
 (async () => {
