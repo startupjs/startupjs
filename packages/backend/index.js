@@ -34,6 +34,7 @@ module.exports = async options => {
 
   let redisClient
   let redisPrefix
+
   let backend = (() => {
     if (!conf.get('NO_REDIS')) {
       const redis = getRedis()
@@ -252,8 +253,13 @@ module.exports = async options => {
 
   // ------------------------------------------------------->      backend       <#
   if (options.ee != null) {
+    // should to deprecate first parameter in future
     options.ee.emit('backend', backend, {
-      mongo: shareDbMongo.mongo
+      mongo: shareDbMongo.mongo,
+      backend,
+      shareDbMongo,
+      redisClient,
+      redisPrefix
     })
   }
 
