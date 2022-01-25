@@ -3,7 +3,6 @@ const _defaults = require('lodash/defaults')
 const _cloneDeep = require('lodash/cloneDeep')
 const conf = require('nconf')
 const express = require('express')
-const fs = require('fs')
 const expressSession = require('express-session')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
@@ -27,24 +26,12 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, appRoutes, error, options, done) => {
-  const mongoUrl = conf.get('MONGO_URL')
+module.exports = (backend, mongoClient, appRoutes, error, options, done) => {
+  const connectMongoOptions = { client: mongoClient }
 
-  const connectMongoOptions = { mongoUrl }
   if (options.sessionMaxAge) {
     connectMongoOptions.touchAfter = options.sessionUpdateInterval ||
         getDefaultSessionUpdateInterval(options.sessionMaxAge)
-  }
-  if (process.env.MONGO_SSL_CERT_PATH && process.env.MONGO_SSL_KEY_PATH) {
-    const sslCert = fs.readFileSync(process.env.MONGO_SSL_CERT_PATH)
-    const sslKey = fs.readFileSync(process.env.MONGO_SSL_KEY_PATH)
-    connectMongoOptions.mongoOptions = {
-      server: {
-        sslValidate: false,
-        sslKey: sslKey,
-        sslCert: sslCert
-      }
-    }
   }
 
   const sessionStore = MongoStore.create(connectMongoOptions)
