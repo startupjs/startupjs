@@ -1,3 +1,12 @@
+## [0.42.4](https://github.com/startupjs/startupjs/compare/v0.42.3...v0.42.4) (2022-01-25)
+
+
+### Bug Fixes
+
+* **worker:** init executor sync ([398b3bd](https://github.com/startupjs/startupjs/commit/398b3bdeb5ffc20191eb7f16655e1c878939c761))
+
+
+
 ## [0.42.3](https://github.com/startupjs/startupjs/compare/v0.42.2...v0.42.3) (2022-01-25)
 
 
