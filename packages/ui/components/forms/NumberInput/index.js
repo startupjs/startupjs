@@ -92,16 +92,22 @@ function NumberInput ({
     onChangeText(String(newValue))
   }
 
+  const extraStyleName = {}
+
+  if (units) {
+    extraStyleName[unitsPosition] = unitsPosition
+  }
+
   function renderWrapper ({ style }, children) {
     return pug`
       Row.input(
         style=style
-        styleName=[unitsPosition]
+        styleName=[extraStyleName]
         vAlign='center'
       )
         if units
           Span.input-units(styleName=[size])= units
-        Div.input-container(styleName=[unitsPosition])
+        Div.input-container(styleName=[extraStyleName])
           Buttons(
             buttonStyle=buttonStyle
             mode=buttonsMode
