@@ -1,3 +1,12 @@
+## [0.42.3](https://github.com/startupjs/startupjs/compare/v0.42.2...v0.42.3) (2022-01-25)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** add margin only if units exist ([460be2e](https://github.com/startupjs/startupjs/commit/460be2e7fd67594b6d60556c12e555d9ed12faaa))
+
+
+
 ## [0.42.2](https://github.com/startupjs/startupjs/compare/v0.42.1...v0.42.2) (2022-01-25)
 
 
