@@ -1,4 +1,4 @@
-![Cover](https://user-images.githubusercontent.com/62799316/150553274-c33acb64-a1cd-4248-8afc-7e12421b12fb.png)
+![Cover](https://user-images.githubusercontent.com/62799316/150987762-a6c2ef75-1396-4817-aab7-d4ee7a87b27b.png)
 
 <div align="center">
   <h1>
