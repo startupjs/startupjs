@@ -1,3 +1,12 @@
+## [0.42.5](https://github.com/startupjs/startupjs/compare/v0.42.4...v0.42.5) (2022-01-25)
+
+
+### Features
+
+* **backend:** pass more params to 'backend' event ([e908bc8](https://github.com/startupjs/startupjs/commit/e908bc8a191dd700b68aa19dbc1ddbefc3b82b37))
+
+
+
 ## [0.42.4](https://github.com/startupjs/startupjs/compare/v0.42.3...v0.42.4) (2022-01-25)
 
 
