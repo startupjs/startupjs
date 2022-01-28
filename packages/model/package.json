@@ -11,6 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "racer": "1.0.1",
-    "racer-highway": "^8.1.0"
+    "racer-highway": "^10.0.1"
   }
 }

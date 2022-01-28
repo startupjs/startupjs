@@ -47,7 +47,7 @@
     "js-yaml": "^3.10.0",
     "jsdom": "^11.3.0",
     "mocha": "^3.5.3",
-    "racer-highway": "^8.1.0",
+    "racer-highway": "^10.0.1",
     "racer-rpc": "0.1.9",
     "raf": "^3.4.1",
     "react": "^16.9.0",

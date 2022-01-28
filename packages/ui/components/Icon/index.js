@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -31,10 +31,8 @@ function Icon ({
 
   if (!icon) return null
 
-  // Pass color as part of style to allow color override from the outside
-  style = StyleSheet.flatten([{ color: color }, style])
+  style = StyleSheet.flatten([{ color }, style])
 
-  // TODO VITE fix custom svg
   if (typeof icon === 'function') {
     const CustomIcon = icon
     return pug`
@@ -43,6 +41,17 @@ function Icon ({
         width=_size
         height=_size
         fill=style.color
+      )
+    `
+  }
+
+  if (Platform.OS === 'web') {
+    style.width = _size
+    style.height = _size
+    return pug`
+      FontAwesomeIcon(
+        style=style
+        icon=icon
       )
     `
   }

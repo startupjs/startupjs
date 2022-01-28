@@ -35,7 +35,8 @@ const DEFAULT_ALIAS = {
   // fix warning requiring './locale': https://github.com/moment/moment/issues/1435
   moment$: 'moment/moment.js',
   'react-native': 'react-native-web',
-  'react-router-native': 'react-router-dom'
+  'react-router-native': 'react-router-dom',
+  '@fortawesome/react-native-fontawesome': '@fortawesome/react-fontawesome'
 }
 
 let DEFAULT_ENTRIES = [

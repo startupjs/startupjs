@@ -9,7 +9,6 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const MongoStore = require('connect-mongo')
-const racerHighway = require('racer-highway')
 const hsts = require('hsts')
 const cors = require('cors')
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
@@ -26,7 +25,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, mongoClient, appRoutes, error, options, done) => {
+module.exports = (backend, mongoClient, appRoutes, error, options) => {
   const connectMongoOptions = { client: mongoClient }
 
   if (options.sessionMaxAge) {
@@ -49,12 +48,6 @@ module.exports = (backend, mongoClient, appRoutes, error, options, done) => {
     // on each request
     rolling: !!options.sessionMaxAge
   })
-
-  const clientOptions = {
-    timeout: 5000,
-    timeoutIncrement: 8000
-  }
-  const hwHandlers = racerHighway(backend, { session }, clientOptions)
 
   const expressApp = express()
 
@@ -139,8 +132,6 @@ module.exports = (backend, mongoClient, appRoutes, error, options, done) => {
     next()
   })
 
-  expressApp.use(hwHandlers.middleware)
-
   // ----------------------------------------------------->    middleware    <#
   options.ee.emit('middleware', expressApp)
 
@@ -160,11 +151,7 @@ module.exports = (backend, mongoClient, appRoutes, error, options, done) => {
     })
     .use(error)
 
-  done({
-    expressApp: expressApp,
-    upgrade: hwHandlers.upgrade,
-    wss: hwHandlers.wss
-  })
+  return { expressApp, session }
 }
 
 function getBodyParserOptionsByType (type, options = {}) {
