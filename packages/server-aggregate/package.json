@@ -7,7 +7,7 @@
     "access": "public"
   },
   "dependencies": {
-    "racer": "1.0.0"
+    "racer": "1.0.1"
   },
   "license": "MIT"
 }

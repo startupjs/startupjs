@@ -23,7 +23,7 @@
     "@startupjs/react-sharedb-util": "^0.42.0",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.17.20",
-    "racer": "1.0.0",
+    "racer": "1.0.1",
     "rich-text": "^4.0.0"
   },
   "devDependencies": {
@@ -53,7 +53,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-test-renderer": "^16.9.0",
-    "sharedb-mongo": "1.0.0-beta.15",
+    "sharedb-mongo": "1.0.0-beta.21",
     "wait-for-expect": "^0.6.2",
     "ws": "^3.1.0"
   },
