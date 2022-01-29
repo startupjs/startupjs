@@ -16,7 +16,7 @@
 
 ### Bug Fixes
 
-* **ui:** use web version of fontawesome in Icon. This fixes errors in console about unsupported attributes. ([624c85d](https://github.com/startupjs/startupjs/commit/624c85de381422d61a7009ebdc5477dc877376a5))
+* **ui/Icon:** use pure react version of fontawesome on web. This fixes errors in console about unsupported attributes. ([624c85d](https://github.com/startupjs/startupjs/commit/624c85de381422d61a7009ebdc5477dc877376a5))
 
 
 
