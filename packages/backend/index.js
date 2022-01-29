@@ -29,7 +29,13 @@ module.exports = async options => {
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
-  const shareDbMongo = await getShareDbMongo()
+  let shareDbMongo
+  if (conf.get('MONGO_URL') && !conf.get('NO_MONGO')) {
+    shareDbMongo = await getShareDbMongo()
+  } else {
+    console.log('>>> WARNING! Using temporary Mingo storage for the DB. All data will be lost on server restart.\n')
+    shareDbMongo = getMingo()
+  }
   if (options.pollDebounce) shareDbMongo.pollDebounce = options.pollDebounce
 
   let redisClient
@@ -284,4 +290,9 @@ function pathQueryMongo (request, next) {
   if (!isArray(query)) query = [query]
   request.query = { _id: { $in: query } }
   next()
+}
+
+function getMingo () {
+  const ShareDBMingo = require('sharedb-mingo-memory')
+  return new ShareDBMingo()
 }
