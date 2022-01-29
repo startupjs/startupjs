@@ -373,7 +373,7 @@ So please batch queries wherever possible.
 
 When using 2-way bindings (`@startupjs/ui` provides a lot of such components) you frequently face situations when you need to put something in the model but you don't need to get the data itself. Sometimes you are only interested in passing the model further down to some other component.
 
-Lets say you want to render a simple `Modal` dialog from `@startupjs/ui`. It provides a 2-way binding API for this -- you just need to pass `$value` to it:
+Lets say you want to render a simple `Modal` dialog from `@startupjs/ui`. It provides a 2-way binding API for this -- you just need to pass `$visible` to it:
 
 ```jsx
 import { Modal, Button } from '@startupjs/ui'
