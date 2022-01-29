@@ -1,3 +1,12 @@
+## [0.42.7](https://github.com/startupjs/startupjs/compare/v0.42.6...v0.42.7) (2022-01-29)
+
+
+### Features
+
+* support running without MongoDB when no MONGO_URL specified or when NO_MONGO is passed. Mingo is used instead ([9b71429](https://github.com/startupjs/startupjs/commit/9b7142930e0c78b6468c99ad9d8d2ee983dc34b1))
+
+
+
 ## [0.42.6](https://github.com/startupjs/startupjs/compare/v0.42.5...v0.42.6) (2022-01-29)
 
 
