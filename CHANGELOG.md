@@ -3,7 +3,7 @@
 
 ### Features
 
-* **react-sharedb-hooks:** Add model-only hooks alternatives for each hook which returns scoped model as a second param. See react-sharedb-hooks readme for documentation. ([29ee41c](https://github.com/startupjs/startupjs/commit/29ee41c3bf85d942da7febb0bdedb6315a20f827))
+* **react-sharedb-hooks:** Add model-only hooks alternatives for each hook which returns scoped model as a second param. See [react-sharedb-hooks readme](https://github.com/startupjs/startupjs/tree/master/packages/react-sharedb-hooks#optimizing-rerenders-with--hooks) for documentation. ([29ee41c](https://github.com/startupjs/startupjs/commit/29ee41c3bf85d942da7febb0bdedb6315a20f827))
 
     Before (leads to re-renders):
 
