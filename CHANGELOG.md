@@ -10,10 +10,13 @@
 ## [0.42.6](https://github.com/startupjs/startupjs/compare/v0.42.5...v0.42.6) (2022-01-29)
 
 
-### Bug Fixes
+### Dependencies
 
 * upgrade racer, sharedb, sharedb-mongo, racer-highway to newer version. Upgrade mongodb driver to v4 ([11bcc46](https://github.com/startupjs/startupjs/commit/11bcc4676d3575da6bb42147e2d71f93be3b2cf9))
-* use web version of fontawesome in Icon ([624c85d](https://github.com/startupjs/startupjs/commit/624c85de381422d61a7009ebdc5477dc877376a5))
+
+### Bug Fixes
+
+* **ui:** use web version of fontawesome in Icon. This fixes errors in console about unsupported attributes. ([624c85d](https://github.com/startupjs/startupjs/commit/624c85de381422d61a7009ebdc5477dc877376a5))
 
 
 
