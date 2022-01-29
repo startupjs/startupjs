@@ -1,3 +1,12 @@
+## [0.42.6](https://github.com/startupjs/startupjs/compare/v0.42.5...v0.42.6) (2022-01-29)
+
+
+### Bug Fixes
+
+* upgrade racer-highway to newer version. Use web version of fontawesome in Icon ([624c85d](https://github.com/startupjs/startupjs/commit/624c85de381422d61a7009ebdc5477dc877376a5))
+
+
+
 ## [0.42.5](https://github.com/startupjs/startupjs/compare/v0.42.4...v0.42.5) (2022-01-25)
 
 
