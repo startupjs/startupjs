@@ -33,7 +33,10 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
         getDefaultSessionUpdateInterval(options.sessionMaxAge)
   }
 
-  const sessionStore = MongoStore.create(connectMongoOptions)
+  let sessionStore
+  if (conf.get('MONGO_URL') && !conf.get('NO_MONGO')) {
+    sessionStore = MongoStore.create(connectMongoOptions)
+  }
 
   const session = expressSession({
     secret: conf.get('SESSION_SECRET'),
