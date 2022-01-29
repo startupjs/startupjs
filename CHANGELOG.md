@@ -1,3 +1,12 @@
+## [0.42.9](https://github.com/startupjs/startupjs/compare/v0.42.8...v0.42.9) (2022-01-29)
+
+
+### Bug Fixes
+
+* **react-sharedb-hooks:** re-import model-hooks. This fixes previous patch version. ([5d38fd6](https://github.com/startupjs/startupjs/commit/5d38fd6166e5870bf4e22166a5d2f740b3806c93))
+
+
+
 ## [0.42.8](https://github.com/startupjs/startupjs/compare/v0.42.7...v0.42.8) (2022-01-29)
 
 
