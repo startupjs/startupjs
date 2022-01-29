@@ -1,3 +1,12 @@
+## [0.42.10](https://github.com/startupjs/startupjs/compare/v0.42.9...v0.42.10) (2022-01-29)
+
+
+### Bug Fixes
+
+* **ui/Item:** fix missing Item -- re-export it in @startupjs/ui ([3857beb](https://github.com/startupjs/startupjs/commit/3857bebdd7876370264a2d064d378d8d5c95aa32))
+
+
+
 ## [0.42.9](https://github.com/startupjs/startupjs/compare/v0.42.8...v0.42.9) (2022-01-29)
 
 
