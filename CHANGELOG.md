@@ -1,3 +1,12 @@
+## [0.42.8](https://github.com/startupjs/startupjs/compare/v0.42.7...v0.42.8) (2022-01-29)
+
+
+### Features
+
+* **react-sharedb-hooks:** Add model-only hooks alternatives for each hook which returns scoped model as a second param. See react-sharedb-hooks readme for documentation. ([29ee41c](https://github.com/startupjs/startupjs/commit/29ee41c3bf85d942da7febb0bdedb6315a20f827))
+
+
+
 ## [0.42.7](https://github.com/startupjs/startupjs/compare/v0.42.6...v0.42.7) (2022-01-29)
 
 
