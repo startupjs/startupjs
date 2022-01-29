@@ -379,7 +379,7 @@ Lets say you want to render a simple `Modal` dialog from `@startupjs/ui`. It pro
 import { Modal, Button } from '@startupjs/ui'
 import { observer, useValue } from 'startupjs'
 observer(function SaveChanges () {
-  const [, $visible] = useValue(false)
+  const [, $visible] = useValue(false) // this leads to re-renders
   return (
     <>
       <Button onPress={() => $visible.set(true)}>Open</Button>
@@ -403,7 +403,7 @@ So to optimize the example above we just need to replace `useValue` with `useVal
 import { Modal, Button } from '@startupjs/ui'
 import { observer, useValue$ } from 'startupjs'
 observer(function SaveChanges () {
-  const $visible = useValue$(false)
+  const $visible = useValue$(false) // NO re-renders anymore
   return (
     <>
       <Button onPress={() => $visible.set(true)}>Open</Button>
