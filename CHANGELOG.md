@@ -1,3 +1,12 @@
+## [0.42.13](https://github.com/startupjs/startupjs/compare/v0.42.12...v0.42.13) (2022-01-30)
+
+
+### Features
+
+* **ui/Div, ui/Span:** Add 'full' convenience-prop which gives 'flex: 1' to the element. Useful for quickly building layouts together with Row. ([fa1b3e5](https://github.com/startupjs/startupjs/commit/fa1b3e53362a3c760bc68809481f85042d733dc4))
+
+
+
 ## [0.42.12](https://github.com/startupjs/startupjs/compare/v0.42.11...v0.42.12) (2022-01-30)
 
 
