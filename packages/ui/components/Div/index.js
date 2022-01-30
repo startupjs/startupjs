@@ -42,6 +42,7 @@ function Div ({
   shape,
   pushed, // By some reason prop 'push' was ignored
   bleed,
+  full,
   accessible,
   tooltip,
   tooltipStyle,
@@ -197,6 +198,7 @@ function Div ({
         {
           clickable: isWeb && isClickable,
           bleed,
+          full,
           disabled
         },
         shape,
@@ -247,6 +249,7 @@ Div.propTypes = {
   shape: PropTypes.oneOf(['squared', 'rounded', 'circle']),
   pushed: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['s', 'm', 'l'])]),
   bleed: PropTypes.bool,
+  full: PropTypes.bool,
   tooltip: PropTypes.string,
   tooltipStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onPress: PropTypes.func,

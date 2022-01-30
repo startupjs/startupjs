@@ -2,6 +2,7 @@ import { H1, H2, H3, H4, H5, H6 } from './headers'
 import Span from './Span'
 import Br from '../Br'
 import Div from '../Div'
+import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
 
 # Typography components
@@ -68,6 +69,21 @@ return (
     <Span italic>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Span>
     <H4 italic>H4 Heading</H4>
   </Div>
+)
+```
+
+## Full width (or height)
+
+To make text element take all remaining space in the parent container (according to its `flex-direction`), pass the `full` property.
+
+This property just sets `flex: 1` to it.
+
+```jsx example
+return (
+  <Row vAlign='center'>
+    <H4 full>Tesla Model S</H4>
+    <Span description>1000 HP</Span>
+  </Row>
 )
 ```
 
