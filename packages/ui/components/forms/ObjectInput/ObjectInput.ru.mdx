@@ -46,6 +46,35 @@ return (
 )
 ```
 
+## Показать в ряд
+
+Вы можете показать вложенные поля в ряд передав флаг `row`.
+
+```jsx example
+const [, $value] = useValue({})
+const properties = useMemo(() => {
+  return {
+    email: {
+      input: 'text',
+      label: 'Email'
+    },
+    password: {
+      input: 'text',
+      label: 'Password',
+      description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+    }
+  }
+}, [])
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={properties}
+    row
+  />
+)
+```
+
 ## Порядок полей
 
 ObjectInput принимает массив в свойстве `order`, чтобы указать, в каком порядке должны отображаться поля.
