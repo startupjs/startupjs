@@ -1,3 +1,12 @@
+## [0.42.14](https://github.com/startupjs/startupjs/compare/v0.42.13...v0.42.14) (2022-01-30)
+
+
+### Features
+
+* **ui/Content:** change default max-width to 'tablet' ([48ec823](https://github.com/startupjs/startupjs/commit/48ec823bf69cee31beb346a1979346874673b8f6))
+
+
+
 ## [0.42.13](https://github.com/startupjs/startupjs/compare/v0.42.12...v0.42.13) (2022-01-30)
 
 
