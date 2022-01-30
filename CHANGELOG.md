@@ -1,3 +1,12 @@
+## [0.42.12](https://github.com/startupjs/startupjs/compare/v0.42.11...v0.42.12) (2022-01-30)
+
+
+### Features
+
+* **ui/ObjectInput:** Add 'row' flag to show nested inputs in a row ([b784b4d](https://github.com/startupjs/startupjs/commit/b784b4d7a6f0d0647a7fa73d47e46ebd1622b189))
+
+
+
 ## [0.42.11](https://github.com/startupjs/startupjs/compare/v0.42.10...v0.42.11) (2022-01-30)
 
 
