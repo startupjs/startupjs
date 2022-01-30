@@ -1,3 +1,12 @@
+## [0.42.11](https://github.com/startupjs/startupjs/compare/v0.42.10...v0.42.11) (2022-01-30)
+
+
+### Bug Fixes
+
+* **ui/Menu:** pass props to the underlying Div ([fe98ec5](https://github.com/startupjs/startupjs/commit/fe98ec5ebd8dfcac6f8e97bb5645358039568b2d))
+
+
+
 ## [0.42.10](https://github.com/startupjs/startupjs/compare/v0.42.9...v0.42.10) (2022-01-29)
 
 
