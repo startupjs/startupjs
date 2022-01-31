@@ -1,3 +1,12 @@
+## [0.42.15](https://github.com/startupjs/startupjs/compare/v0.42.14...v0.42.15) (2022-01-31)
+
+
+### Bug Fixes
+
+* **ui/Menu:** Allow using Menu.Item without wrapping it into Menu. Fix icon color of Menu.Item ([8442915](https://github.com/startupjs/startupjs/commit/8442915c9c9012b671eef7a44212f63abd4c1809))
+
+
+
 ## [0.42.14](https://github.com/startupjs/startupjs/compare/v0.42.13...v0.42.14) (2022-01-30)
 
 
