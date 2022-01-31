@@ -24,9 +24,7 @@ function Menu ({ style, children, variant, activeBorder, iconPosition, activeCol
 
 Menu.defaultProps = {
   ...Div.defaultProps,
-  variant: 'vertical',
-  activeBorder: 'none',
-  iconPosition: 'left'
+  variant: 'vertical'
 }
 
 Menu.propTypes = {
