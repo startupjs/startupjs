@@ -150,7 +150,7 @@ function RegisterForm ({
     )
 
     if renderActions
-      = renderActions({ onSubmit, onChangeSlide })
+      = renderActions({ onSubmit, onChangeSlide, recaptchaRef })
     else
       Div.actions
         if recaptchaEnabled
