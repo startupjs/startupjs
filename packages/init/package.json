@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/init",
   "type": "module",
-  "version": "0.42.1",
+  "version": "0.42.12",
   "engines": {
     "node": ">= 14"
   },
@@ -13,10 +13,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/react-sharedb": "^0.42.1",
-    "racer": "1.0.0",
+    "@startupjs/react-sharedb": "^0.42.12",
+    "racer": "1.0.1",
     "rich-text": "^4.0.0",
-    "sharedb": "^1.0.0"
+    "sharedb": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

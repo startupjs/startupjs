@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/orm",
   "type": "module",
-  "version": "0.42.0",
+  "version": "0.42.6",
   "description": "ORM system for Racer.js and ShareDB",
   "main": "lib/index.js",
   "publishConfig": {
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "pluralize": "^8.0.0",
-    "racer": "1.0.0"
+    "racer": "1.0.1"
   },
   "author": "cray0000 <cray0000@gmail.com>",
   "license": "MIT",

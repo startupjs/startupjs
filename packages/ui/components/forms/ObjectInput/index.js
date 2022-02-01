@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
+import Row from '../../Row'
 import themed from '../../../theming/themed'
 import Input from '../Input'
 import './index.styl'
@@ -13,6 +14,7 @@ function ObjectInput ({
   errors,
   properties,
   order,
+  row,
   _renderWrapper
 }) {
   if (!$value || !properties) {
@@ -44,8 +46,9 @@ function ObjectInput ({
 
   if (!_renderWrapper) {
     _renderWrapper = (style, children) => {
+      const Container = row ? Row : Div
       return pug`
-        Div(style=style)= children
+        Container(style=style)= children
       `
     }
   }
@@ -57,7 +60,7 @@ function ObjectInput ({
       - const { ...inputProps } = input
       Input.input(
         ...input
-        styleName={ pushTop: index !== 0 }
+        styleName={ push: index !== 0, row, column: !row }
         error=errors[input.key]
       )
   `)
@@ -68,6 +71,7 @@ ObjectInput.defaultProps = {
 }
 
 ObjectInput.propTypes = {
+  row: PropTypes.bool,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   $value: PropTypes.any.isRequired,

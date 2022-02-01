@@ -26,8 +26,8 @@ function MenuItem ({
   // and remove color, activeColor, activeBorder props
   let color = props.color || context.color
   const activeColor = props.activeColor || context.activeColor
-  const activeBorder = props.activeBorder || context.activeBorder
-  const iconPosition = props.iconPosition || context.iconPosition
+  const activeBorder = props.activeBorder || context.activeBorder || 'none'
+  const iconPosition = props.iconPosition || context.iconPosition || 'left'
 
   // TODO: prevent click if already active (for link and for div)
   const activeItemColor = activeColor || colors.primary
@@ -39,14 +39,14 @@ function MenuItem ({
       Item(...props)
         if icon && iconPosition === 'left'
           Item.Left
-            Icon(icon=icon styleName={ color })
+            Icon(icon=icon style={ color })
 
         Item.Content(style=[containerStyle])
           Span(bold=bold style={ color })= children
 
         if icon && iconPosition === 'right'
           Item.Right
-            Icon(icon=icon styleName={ color })
+            Icon(icon=icon style={ color })
 
       if activeBorder !== 'none' && active
         Div.border(styleName=[activeBorder] style=borderStyle)

@@ -4,7 +4,8 @@ const CWD = process.cwd()
 
 const LIBS = {
   'react-native': 'react-native-web',
-  'startupjs/init': '@startupjs/init/lib/native'
+  'startupjs/init': '@startupjs/init/lib/native',
+  '@fortawesome/react-native-fontawesome': '@fortawesome/react-fontawesome'
 }
 
 const FOLDERS = [

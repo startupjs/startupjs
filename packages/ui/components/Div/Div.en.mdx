@@ -47,6 +47,23 @@ return (
 )
 ```
 
+## Full width (or height)
+
+To make `Div` take all remaining space in the parent container (according to its `flex-direction`), pass the `full` property.
+
+This property just sets `flex: 1` to it.
+
+```jsx example
+return (
+  <Row vAlign='center'>
+    <Div full>
+      <Span>Tesla Model S</Span>
+    </Div>
+    <Span description>1000 HP</Span>
+  </Row>
+)
+```
+
 ## Indentation between multiple Div
 
 When displaying multiple Div(s) in a line spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of the page. The `true` value of prop is equivalent to `m` value.

@@ -6,7 +6,7 @@ import themed from '../../../theming/themed'
 
 export default function generateHeader (tag) {
   const header = observer(themed(tag.toUpperCase(),
-    function Header ({ children, style, bold, italic, ...props }) {
+    function Header ({ children, style, bold, italic, full, ...props }) {
       const isWeb = Platform.OS === 'web'
       const role = isWeb
         ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') }
@@ -14,7 +14,7 @@ export default function generateHeader (tag) {
 
       return pug`
         Text.root(
-          styleName=[tag, { bold, italic }]
+          styleName=[tag, { bold, italic, full }]
           style=style
           ...role
           ...props
@@ -31,6 +31,7 @@ export default function generateHeader (tag) {
   header.propTypes = {
     style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     children: PropTypes.node,
+    full: PropTypes.bool,
     bold: PropTypes.bool,
     italic: PropTypes.bool
   }
@@ -57,4 +58,7 @@ styl`
 
     &.bold.italic
       fontFamily('heading', $UI.fontWeights.headingBold, italic)
+
+    &.full
+      flex: 1
 `

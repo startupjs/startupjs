@@ -1,3 +1,107 @@
+## [0.42.15](https://github.com/startupjs/startupjs/compare/v0.42.14...v0.42.15) (2022-01-31)
+
+
+### Bug Fixes
+
+* **ui/Menu:** Allow using Menu.Item without wrapping it into Menu. Fix icon color of Menu.Item ([8442915](https://github.com/startupjs/startupjs/commit/8442915c9c9012b671eef7a44212f63abd4c1809))
+
+
+
+## [0.42.14](https://github.com/startupjs/startupjs/compare/v0.42.13...v0.42.14) (2022-01-30)
+
+
+### Features
+
+* **ui/Content:** change default max-width to 'tablet' ([48ec823](https://github.com/startupjs/startupjs/commit/48ec823bf69cee31beb346a1979346874673b8f6))
+
+
+
+## [0.42.13](https://github.com/startupjs/startupjs/compare/v0.42.12...v0.42.13) (2022-01-30)
+
+
+### Features
+
+* **ui/Div, ui/Span:** Add 'full' convenience-prop which gives 'flex: 1' to the element. Useful for quickly building layouts together with Row. ([fa1b3e5](https://github.com/startupjs/startupjs/commit/fa1b3e53362a3c760bc68809481f85042d733dc4))
+
+
+
+## [0.42.12](https://github.com/startupjs/startupjs/compare/v0.42.11...v0.42.12) (2022-01-30)
+
+
+### Features
+
+* **ui/ObjectInput:** Add 'row' flag to show nested inputs in a row ([b784b4d](https://github.com/startupjs/startupjs/commit/b784b4d7a6f0d0647a7fa73d47e46ebd1622b189))
+
+
+
+## [0.42.11](https://github.com/startupjs/startupjs/compare/v0.42.10...v0.42.11) (2022-01-30)
+
+
+### Bug Fixes
+
+* **ui/Menu:** pass props to the underlying Div ([fe98ec5](https://github.com/startupjs/startupjs/commit/fe98ec5ebd8dfcac6f8e97bb5645358039568b2d))
+
+
+
+## [0.42.10](https://github.com/startupjs/startupjs/compare/v0.42.9...v0.42.10) (2022-01-29)
+
+
+### Bug Fixes
+
+* **ui/Item:** fix missing Item -- re-export it in @startupjs/ui ([3857beb](https://github.com/startupjs/startupjs/commit/3857bebdd7876370264a2d064d378d8d5c95aa32))
+
+
+
+## [0.42.9](https://github.com/startupjs/startupjs/compare/v0.42.8...v0.42.9) (2022-01-29)
+
+
+### Bug Fixes
+
+* **react-sharedb-hooks:** re-import model-hooks. This fixes previous patch version. ([5d38fd6](https://github.com/startupjs/startupjs/commit/5d38fd6166e5870bf4e22166a5d2f740b3806c93))
+
+
+
+## [0.42.8](https://github.com/startupjs/startupjs/compare/v0.42.7...v0.42.8) (2022-01-29)
+
+
+### Features
+
+* **react-sharedb-hooks:** Add model-only hooks alternatives for each hook which returns scoped model as a second param. See [react-sharedb-hooks readme](https://github.com/startupjs/startupjs/tree/master/packages/react-sharedb-hooks#optimizing-rerenders-with--hooks) for documentation. ([29ee41c](https://github.com/startupjs/startupjs/commit/29ee41c3bf85d942da7febb0bdedb6315a20f827))
+
+    Before (leads to re-renders):
+
+    ```js
+    const [, $visible] = useValue(false)
+    ```
+
+    After (no extra re-renders anymore):
+
+    ```js
+    const $visible = useValue$(false)
+    ```
+
+## [0.42.7](https://github.com/startupjs/startupjs/compare/v0.42.6...v0.42.7) (2022-01-29)
+
+
+### Features
+
+* support running without MongoDB when no MONGO_URL specified or when NO_MONGO is passed. Mingo is used instead ([9b71429](https://github.com/startupjs/startupjs/commit/9b7142930e0c78b6468c99ad9d8d2ee983dc34b1))
+
+
+
+## [0.42.6](https://github.com/startupjs/startupjs/compare/v0.42.5...v0.42.6) (2022-01-29)
+
+
+### Dependencies
+
+* upgrade racer, sharedb, sharedb-mongo, racer-highway to newer version. Upgrade mongodb driver to v4 ([11bcc46](https://github.com/startupjs/startupjs/commit/11bcc4676d3575da6bb42147e2d71f93be3b2cf9))
+
+### Bug Fixes
+
+* **ui/Icon:** use pure react version of fontawesome on web. This fixes errors in console about unsupported attributes. ([624c85d](https://github.com/startupjs/startupjs/commit/624c85de381422d61a7009ebdc5477dc877376a5))
+
+
+
 ## [0.42.5](https://github.com/startupjs/startupjs/compare/v0.42.4...v0.42.5) (2022-01-25)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb",
   "type": "module",
-  "version": "0.42.1",
+  "version": "0.42.12",
   "engines": {
     "node": ">= 14"
   },
@@ -17,13 +17,13 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.42.0",
-    "@startupjs/react-sharedb-classes": "^0.42.0",
-    "@startupjs/react-sharedb-hooks": "^0.42.1",
-    "@startupjs/react-sharedb-util": "^0.42.0",
+    "@startupjs/model": "^0.42.6",
+    "@startupjs/react-sharedb-classes": "^0.42.6",
+    "@startupjs/react-sharedb-hooks": "^0.42.12",
+    "@startupjs/react-sharedb-util": "^0.42.6",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.17.20",
-    "racer": "1.0.0",
+    "racer": "1.0.1",
     "rich-text": "^4.0.0"
   },
   "devDependencies": {
@@ -47,13 +47,13 @@
     "js-yaml": "^3.10.0",
     "jsdom": "^11.3.0",
     "mocha": "^3.5.3",
-    "racer-highway": "^8.1.0",
+    "racer-highway": "^10.0.1",
     "racer-rpc": "0.1.9",
     "raf": "^3.4.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-test-renderer": "^16.9.0",
-    "sharedb-mongo": "1.0.0-beta.15",
+    "sharedb-mongo": "1.0.0-beta.21",
     "wait-for-expect": "^0.6.2",
     "ws": "^3.1.0"
   },
