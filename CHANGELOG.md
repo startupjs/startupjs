@@ -1,3 +1,13 @@
+## [0.42.16](https://github.com/startupjs/startupjs/compare/v0.42.15...v0.42.16) (2022-02-02)
+
+
+### Bug Fixes
+
+* **app:** fix back button redirect url ([#881](https://github.com/startupjs/startupjs/issues/881)) ([52b0d89](https://github.com/startupjs/startupjs/commit/52b0d8965c81b33accba500844931701c664e1a4))
+* **auth-local:** prevent crashing app because of missing `recaptchaRef` on `onSubmit` method when use `renderActions` ([#884](https://github.com/startupjs/startupjs/issues/884)) ([bab8b87](https://github.com/startupjs/startupjs/commit/bab8b8775a72e19436c6f2afc3fd74d1e3f7e476))
+
+
+
 ## [0.42.15](https://github.com/startupjs/startupjs/compare/v0.42.14...v0.42.15) (2022-01-31)
 
 
