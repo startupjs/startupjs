@@ -142,14 +142,16 @@ function DateTimePicker ({
       )
   `
 
-  date = +moment.tz(date, timezone).seconds(0).milliseconds(0)
+  const _date = date
+    ? +moment.tz(date, timezone).seconds(0).milliseconds(0)
+    : undefined
 
   function renderPopoverContent () {
     return pug`
       Div.content
         if (mode === 'date') || (mode === 'datetime')
           Calendar(
-            date=date
+            date=_date
             exactLocale=exactLocale
             disabledDays=disabledDays
             locale=locale
@@ -165,7 +167,7 @@ function DateTimePicker ({
 
         if (mode === 'time') || (mode === 'datetime')
           TimeSelect(
-            date=date
+            date=_date
             ref=refTimeSelect
             maxDate=maxDate
             minDate=minDate
