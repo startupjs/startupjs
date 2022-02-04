@@ -1,3 +1,12 @@
+## [0.42.17](https://github.com/startupjs/startupjs/compare/v0.42.16...v0.42.17) (2022-02-04)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** don't show the date in the text input, when it is `undefined` ([#886](https://github.com/startupjs/startupjs/issues/886)) ([450304a](https://github.com/startupjs/startupjs/commit/450304acfaaa3ec0323360cae8575636778fd286))
+
+
+
 ## [0.42.16](https://github.com/startupjs/startupjs/compare/v0.42.15...v0.42.16) (2022-02-02)
 
 
