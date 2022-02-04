@@ -3,7 +3,6 @@ const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const serverAggregate = require('@startupjs/server-aggregate')
-const conf = require('nconf')
 const isArray = require('lodash/isArray')
 const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
@@ -30,7 +29,7 @@ module.exports = async options => {
 
   // ShareDB Setup
   let shareDbMongo
-  if (conf.get('MONGO_URL') && !conf.get('NO_MONGO')) {
+  if (process.env.MONGO_URL && !process.env.NO_MONGO) {
     shareDbMongo = await getShareDbMongo()
   } else {
     console.log('>>> WARNING! Using temporary Mingo storage for the DB. All data will be lost on server restart.\n')
@@ -42,7 +41,7 @@ module.exports = async options => {
   let redisPrefix
 
   let backend = (() => {
-    if (!conf.get('NO_REDIS')) {
+    if (!process.env.NO_REDIS) {
       const redis = getRedis()
       const redisObserver = redis.observer
 
@@ -69,7 +68,7 @@ module.exports = async options => {
         }
         redisClient.on('connect', () => {
           // Always flush redis db in development or if a force env flag is specified.
-          if (conf.get('NODE_ENV') !== 'production' || conf.get('FORCE_REDIS_FLUSH')) {
+          if (process.env.NODE_ENV !== 'production' || process.env.FORCE_REDIS_FLUSH) {
             flushRedis()
             return
           }
@@ -112,13 +111,13 @@ module.exports = async options => {
         extraDbs: options.extraDbs
       })
     // redis alternative
-    } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
+    } else if (process.env.WSBUS_URL && !process.env.NO_WSBUS) {
       if (!wsbusPubSub) {
         throw new Error(
           "Please install the 'sharedb-wsbus-pubsub' package to use it"
         )
       }
-      let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
+      let pubsub = wsbusPubSub(process.env.WSBUS_URL)
 
       return racer.createBackend({
         db: shareDbMongo,

@@ -29,6 +29,10 @@ function initNconf (dirname) {
   nconf.file('private', dirname + '/config.private.json')
   nconf.defaults(require(dirname + '/config.json'))
 
+  if (!process.env.NODE_ENV && nconf.get('NODE_ENV')) {
+    process.env.NODE_ENV = nconf.get('NODE_ENV')
+  }
+
   // Copy BASE_URL into env if present
   if (!process.env.BASE_URL && nconf.get('BASE_URL')) {
     process.env.BASE_URL = nconf.get('BASE_URL')
