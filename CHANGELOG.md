@@ -1,3 +1,12 @@
+## [0.42.18](https://github.com/startupjs/startupjs/compare/v0.42.17...v0.42.18) (2022-02-04)
+
+
+### Bug Fixes
+
+* **backend:** replace used conf vars to process vars ([#885](https://github.com/startupjs/startupjs/issues/885)) ([69aba6b](https://github.com/startupjs/startupjs/commit/69aba6b4f895c53e9e05a5c4e737276ebdc03e81))
+
+
+
 ## [0.42.17](https://github.com/startupjs/startupjs/compare/v0.42.16...v0.42.17) (2022-02-04)
 
 
