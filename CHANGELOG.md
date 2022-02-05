@@ -1,3 +1,12 @@
+## [0.42.19](https://github.com/startupjs/startupjs/compare/v0.42.18...v0.42.19) (2022-02-05)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix whitespace of description and error when description is on 'top' in 'rows' -- in ObjectInput and ArrayInput ([0a9f900](https://github.com/startupjs/startupjs/commit/0a9f900cb27cfd14d877d16befdbf519b78f19c8))
+
+
+
 ## [0.42.18](https://github.com/startupjs/startupjs/compare/v0.42.17...v0.42.18) (2022-02-04)
 
 
