@@ -1,3 +1,13 @@
+## [0.42.20](https://github.com/startupjs/startupjs/compare/v0.42.19...v0.42.20) (2022-02-08)
+
+
+### Bug Fixes
+
+* **auth-local:** fix lastname setter ([#887](https://github.com/startupjs/startupjs/issues/887)) ([04bc442](https://github.com/startupjs/startupjs/commit/04bc4428d39b3f01bbee78044214a19f99d208e8))
+* **bundler:** make alive css-modules for .css files ([#888](https://github.com/startupjs/startupjs/issues/888)) ([2215b51](https://github.com/startupjs/startupjs/commit/2215b5159e8d760ce7a68db769a0ab9f7faf6266))
+
+
+
 ## [0.42.19](https://github.com/startupjs/startupjs/compare/v0.42.18...v0.42.19) (2022-02-05)
 
 
