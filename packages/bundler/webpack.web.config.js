@@ -302,6 +302,7 @@ module.exports = function getConfig (env, {
               loader: 'css-loader',
               options: {
                 modules: {
+                  getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME
                 }
               }
