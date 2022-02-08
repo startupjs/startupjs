@@ -98,7 +98,7 @@ function RegisterForm ({
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').pop()
+      formClone.lastName = form.name.split(' ').slice(1).join(' ')
       delete formClone.name
     }
 
