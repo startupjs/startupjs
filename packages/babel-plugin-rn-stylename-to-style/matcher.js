@@ -1,3 +1,5 @@
+import _set from 'lodash/set'
+
 const ROOT_STYLE_PROP_NAME = 'style'
 const PART_REGEX = /::?part\(([^)]+)\)/
 
@@ -10,7 +12,11 @@ export default function matcher (
   cssStyles,
   globalStyles,
   localStyles,
-  inlineStyleProps
+  inlineStyleProps,
+
+  jsxId,
+  styleStates,
+  setStyleStates
 ) {
   // inlineStyleProps is used as an implicit indication of:
   // w/ inlineStyleProps -- process all styles and return an object with style props
@@ -24,7 +30,14 @@ export default function matcher (
   styleName = cc(styleName)
 
   const htmlClasses = (styleName || '').split(' ').filter(Boolean)
-  const resProps = getStyleProps(htmlClasses, cssStyles, legacy)
+  const resProps = getStyleProps({
+    htmlClasses,
+    cssStyles,
+    legacyRootOnly: legacy,
+    jsxId,
+    styleStates,
+    setStyleStates
+  })
 
   // In the legacy mode, return root styles right away
   if (legacy) return resProps[ROOT_STYLE_PROP_NAME]
@@ -55,14 +68,40 @@ function appendStyleProps (target, appendProps) {
 }
 
 // Process all styles, including the ::part() ones.
-function getStyleProps (htmlClasses, cssStyles, legacyRootOnly) {
+function getStyleProps ({
+  htmlClasses,
+  cssStyles,
+  legacyRootOnly,
+
+  jsxId,
+  styleStates,
+  setStyleStates
+}) {
   const res = {
     [ROOT_STYLE_PROP_NAME]: []
   }
+
   for (const selector in cssStyles) {
     // Find out which part (or root) this selector is targeting
     const match = selector.match(PART_REGEX)
     const attr = match ? getPropName(match[1]) : ROOT_STYLE_PROP_NAME
+
+    const isHover = selector.includes(':hover')
+    const _puseSelector = selector.replace(':hover', '')
+    if (isHover) {
+      res.onMouseMove = () => {
+        setStyleStates(styleStates => {
+          _set(styleStates, `${jsxId}.${_puseSelector}.hover`, true)
+          return { ...styleStates }
+        })
+      }
+      res.onMouseLeave = () => {
+        setStyleStates(styleStates => {
+          _set(styleStates, `${jsxId}.${_puseSelector}.hover`, false)
+          return { ...styleStates }
+        })
+      }
+    }
 
     // Don't process part if legacyRootOnly is specified
     if (legacyRootOnly && attr !== ROOT_STYLE_PROP_NAME) continue
@@ -88,7 +127,14 @@ function getStyleProps (htmlClasses, cssStyles, legacyRootOnly) {
     if (!res[attr]) res[attr] = []
     if (!res[attr][specificity]) res[attr][specificity] = []
     res[attr][specificity].push(cssStyles[selector])
+
+    if (styleStates && styleStates[jsxId] && styleStates[jsxId][_puseSelector]) {
+      if (styleStates[jsxId][_puseSelector].hover) {
+        res[attr][specificity].push(cssStyles[`${_puseSelector}:hover`])
+      }
+    }
   }
+
   return res
 }
 

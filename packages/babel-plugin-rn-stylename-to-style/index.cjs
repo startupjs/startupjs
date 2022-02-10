@@ -1,3 +1,4 @@
+const uuidv4 = require('uuid/v4')
 const nodePath = require('path')
 const t = require('@babel/types')
 const template = require('@babel/template').default
@@ -9,24 +10,21 @@ const ROOT_STYLE_PROP_NAME = 'style'
 
 const { GLOBAL_NAME, LOCAL_NAME } = require('./constants.cjs')
 
-const buildSafeVar = template.expression(`
-  typeof %%variable%% !== 'undefined' && %%variable%%
-`)
+const buildSafeVar = template.expression(`typeof %%variable%% !== 'undefined' && %%variable%%`)
 
-const buildImport = template(`
-  import { process as %%name%% } from '${PROCESS_PATH}'
-`)
+const buildImport = template(`import { process as %%name%% } from '${PROCESS_PATH}'`)
 
-const buildRequire = template(`
-  const %%name%% = require('${PROCESS_PATH}').process
-`)
+const buildRequire = template(`const %%name%% = require('${PROCESS_PATH}').process`)
 
-const buildJsonParse = template(`
-  const %%name%% = JSON.parse(%%jsonStyle%%)
-`)
+const buildJsonParse = template(`const %%name%% = JSON.parse(%%jsonStyle%%)`)
+
+const importDeclarationHook = template('import { __useStyleStates } from \'@startupjs/ui/hooks\'')
+
+const hookDeclaration = template('const [__styleStates, __setStyleStates] = __useStyleStates()')
 
 module.exports = function (babel) {
   let styleHash = {}
+  const componentHash = new Set();
   let cssIdentifier
   let $program
 
@@ -38,6 +36,22 @@ module.exports = function (babel) {
       [expression, t.identifier(cssStyles)]
     )
     return processCall
+  }
+
+  function getConflictProps () {
+    // get all spread variables from props
+    // onMouseLeave callback from props
+    // onMouseMove callback from props
+    // учитывать последовательность ???
+
+    /*
+      maybeConflictProps={
+        ...spread1,
+        ...spread2,
+        onMouseLeave={// link //}
+        onMouseMove={// link //}
+      }
+    */
   }
 
   function addPartStyleToProps ($jsxAttribute) {
@@ -114,6 +128,31 @@ module.exports = function (babel) {
     return styleProps
   }
 
+  function addHookToComponent (path) {
+    let parent = path;
+    let componentPath;
+
+    while (true) {
+      parent = parent.getFunctionParent();
+      if (!parent) break;
+      if (
+        parent.node.id &&
+        parent.node.id.name &&
+        /^[A-Z]/.test(parent.node.id.name)
+      ) componentPath = parent;
+    }
+    if (!componentPath) return
+
+    if (!componentHash.has(componentPath)) {
+      componentHash.add(componentPath);
+      if (componentPath.node.body.type === 'JSXElement') return
+      if (!componentPath.node.body.body.unshift) return
+      componentPath.node.body.body.unshift(hookDeclaration());
+    }
+
+    return true
+  }
+
   function handleStyleNames (jsxOpeningElementPath, state) {
     if (!styleHash[ROOT_STYLE_PROP_NAME]) return
     const styleName = styleHash[ROOT_STYLE_PROP_NAME].styleName
@@ -162,22 +201,30 @@ module.exports = function (babel) {
 
     // Create a `process` function call
     state.hasTransformedClassName = true
-    const processCall = t.callExpression(
-      state.reqName,
-      [
-        styleName ? (
-          t.isStringLiteral(styleName.node.value)
-            ? styleName.node.value
-            : styleName.node.value.expression
-        ) : t.stringLiteral(''),
-        cssIdentifier
-          ? t.identifier(cssIdentifier.name)
-          : t.objectExpression([]),
-        buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }),
-        buildSafeVar({ variable: t.identifier(LOCAL_NAME) }),
-        t.objectExpression(inlineStyles)
-      ]
-    )
+
+    const status = addHookToComponent(jsxOpeningElementPath)
+    const args = [
+      styleName ? (
+        t.isStringLiteral(styleName.node.value)
+          ? styleName.node.value
+          : styleName.node.value.expression
+      ) : t.stringLiteral(''),
+      cssIdentifier
+        ? t.identifier(cssIdentifier.name)
+        : t.objectExpression([]),
+      buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }),
+      buildSafeVar({ variable: t.identifier(LOCAL_NAME) }),
+      t.objectExpression(inlineStyles)
+    ]
+    if (status) {
+      args.push(
+        t.identifier(`"${uuidv4()}"`),
+        t.identifier('__styleStates'),
+        t.identifier('__setStyleStates')
+      )
+    }
+
+    const processCall = t.callExpression(state.reqName, args)
 
     jsxOpeningElementPath.node.attributes.push(
       t.jsxSpreadAttribute(processCall)
@@ -275,6 +322,8 @@ module.exports = function (babel) {
                 ? buildImport({ name: state.reqName })
                 : buildRequire({ name: state.reqName })
             )
+
+            lastImportOrRequire.insertAfter(importDeclarationHook())
           }
         }
       },

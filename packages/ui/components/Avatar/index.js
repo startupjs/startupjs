@@ -35,11 +35,16 @@ function Avatar ({
   const StatusComponent = getStatusComponent(statusComponents, status)
 
   return pug`
+    Div.test
+      Span= 1
+    Div.test
+      Span= 2
+
     Div.root(
       style=StyleSheet.flatten([style, rootStyle])
       ...props
     )
-      Div.avatarWrapper(shape=shape)
+      Div.avatarWrapper(shape=shape renderTooltip="check")
         if src && !error
           Image.avatar(
             source={ uri: src }
