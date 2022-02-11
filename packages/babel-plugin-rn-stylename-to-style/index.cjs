@@ -270,8 +270,9 @@ module.exports = function (babel) {
             .pop()
 
           if (lastImportOrRequire) {
+            const useImport = state.opts.useImport == null ? true : state.opts.useImport
             lastImportOrRequire.insertAfter(
-              state.opts.useImport
+              useImport
                 ? buildImport({ name: state.reqName })
                 : buildRequire({ name: state.reqName })
             )

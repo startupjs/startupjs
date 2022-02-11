@@ -9,8 +9,7 @@ pluginTester({
   pluginName,
   snapshot: true,
   pluginOptions: {
-    extensions: ['styl', 'css'],
-    useImport: true
+    extensions: ['styl', 'css']
   },
   babelOptions: {
     plugins: ['@babel/plugin-syntax-jsx']
@@ -279,7 +278,6 @@ pluginTester({
   snapshot: true,
   pluginOptions: {
     extensions: ['styl', 'css'],
-    useImport: true,
     parseJson: true
   },
   babelOptions: {

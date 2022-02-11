@@ -70,10 +70,9 @@ const nativeReactCssModulesPlatformExtensionsPlugin = () =>
     extensions: ['styl', 'css']
   }]
 
-const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
+const nativeReactCssModulesPlugins = ({ platform } = {}) => [
   [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
-    extensions: ['styl', 'css'],
-    useImport
+    extensions: ['styl', 'css']
   }],
   [require('@startupjs/babel-plugin-rn-stylename-inline'), {
     platform
@@ -121,7 +120,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   plugins: [
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -139,7 +138,7 @@ const CONFIG_WEB_SNOWPACK = {
     require('@startupjs/babel-plugin-startupjs'),
     require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true })
+    ...nativeReactCssModulesPlugins({ platform: 'web' })
   ]
 }
 
@@ -153,7 +152,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
   ].filter(Boolean)
 }
