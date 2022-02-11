@@ -1,22 +1,51 @@
+import css2rn from '@startupjs/css-to-react-native-transform'
 import assert from 'assert'
 import matcher from '../matcher.js'
-import css2rn from '@startupjs/css-to-react-native-transform'
 
-function p (styleName, cssStyles, globalStyles, localStyles, inlineStyles) {
+function p ({ styleName, fileStyles, globalStyles, localStyles, inlineStyleProps, legacy }) {
+  if (!legacy) inlineStyleProps = inlineStyleProps || {}
   return matcher(
     styleName,
-    css2rn.default(cssStyles, { parseMediaQueries: true, parsePartSelectors: true }),
+    css2rn.default(fileStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     globalStyles && css2rn.default(globalStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     localStyles && css2rn.default(localStyles, { parseMediaQueries: true, parsePartSelectors: true }),
-    inlineStyles
+    inlineStyleProps
   )
 }
 
 describe('Pure usage without attributes', () => {
   it('simple', () => {
-    assert.deepStrictEqual(p(
-      'root',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: 'root',
+      fileStyles: /* css */`
+        .root {
+          color: red;
+          font-weight: bold;
+          padding-left: 10px;
+        }
+        .dummy {
+          color: green;
+        }
+        .root.dummy {
+          color: red;
+        }
+      `,
+      legacy: true
+    }), [
+      [{ // specificity 0 selectors (same as specificity 10 in CSS)
+        color: 'red',
+        fontWeight: 'bold',
+        paddingLeft: 10
+      }]
+    ])
+  })
+})
+
+describe('Root styles only', () => {
+  it('simple', () => {
+    assert.deepStrictEqual(p({
+      styleName: 'root',
+      fileStyles: /* css */`
         .root {
           color: red;
           font-weight: bold;
@@ -29,37 +58,7 @@ describe('Pure usage without attributes', () => {
           color: red;
         }
       `
-    ), [
-      [{ // specificity 0 selectors (same as specificity 10 in CSS)
-        color: 'red',
-        fontWeight: 'bold',
-        paddingLeft: 10
-      }]
-    ])
-  })
-})
-
-describe('Root styles only', () => {
-  it('simple', () => {
-    assert.deepStrictEqual(p(
-      'root',
-      /* css */`
-        .root {
-          color: red;
-          font-weight: bold;
-          padding-left: 10px;
-        }
-        .dummy {
-          color: green;
-        }
-        .root.dummy {
-          color: red;
-        }
-      `,
-      '',
-      '',
-      {}
-    ), {
+    }), {
       style: [
         [{ // specificity 0 selectors (same as specificity 10 in CSS)
           color: 'red',
@@ -70,9 +69,9 @@ describe('Root styles only', () => {
     })
   })
   it('with inline styles', () => {
-    assert.deepStrictEqual(p(
-      'root',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: 'root',
+      fileStyles: /* css */`
         .root {
           color: red;
           font-weight: bold;
@@ -85,14 +84,12 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
-      '',
-      '',
-      {
+      inlineStyleProps: {
         style: {
           marginLeft: 10
         }
       }
-    ), {
+    }), {
       style: [
         [{ // specificity 0
           color: 'red',
@@ -106,9 +103,9 @@ describe('Root styles only', () => {
     })
   })
   it('empty root. Pipe inline styles only', () => {
-    assert.deepStrictEqual(p(
-      '',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: '',
+      fileStyles: /* css */`
         .root {
           color: red;
           font-weight: bold;
@@ -121,9 +118,7 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
-      '',
-      '',
-      {
+      inlineStyleProps: {
         style: [
           {
             marginLeft: 10
@@ -135,7 +130,7 @@ describe('Root styles only', () => {
           marginRight: 10
         }
       }
-    ), {
+    }), {
       style: [
         // inline styles
         {
@@ -150,9 +145,9 @@ describe('Root styles only', () => {
     })
   })
   it('multiple classes', () => {
-    assert.deepStrictEqual(p(
-      'root active card',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: 'root active card',
+      fileStyles: /* css */`
         .active {
           opacity: 0.8;
         }
@@ -183,14 +178,12 @@ describe('Root styles only', () => {
           color: red;
         }
       `,
-      '',
-      '',
-      {
+      inlineStyleProps: {
         style: {
           marginLeft: 10
         }
       }
-    ), {
+    }), {
       style: [
         [{ // specificity 0 (1 class)
           opacity: 0.8
@@ -219,9 +212,9 @@ describe('Root styles only', () => {
 
 describe('Parts', () => {
   it('simple', () => {
-    assert.deepStrictEqual(p(
-      'root',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: 'root',
+      fileStyles: /* css */`
         .root {
           color: red;
           font-weight: bold;
@@ -231,11 +224,8 @@ describe('Parts', () => {
           background-color: black;
           color: blue;
         }
-      `,
-      '',
-      '',
-      {}
-    ), {
+      `
+    }), {
       style: [
         [{
           color: 'red',
@@ -252,9 +242,9 @@ describe('Parts', () => {
     })
   })
   it('multiple classes', () => {
-    assert.deepStrictEqual(p(
-      'root active card',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: 'root active card',
+      fileStyles: /* css */`
         .active {
           opacity: 0.8;
         }
@@ -309,9 +299,7 @@ describe('Parts', () => {
           color: red;
         }
       `,
-      '',
-      '',
-      {
+      inlineStyleProps: {
         style: {
           marginLeft: 10
         },
@@ -325,7 +313,7 @@ describe('Parts', () => {
           marginLeft: 16
         }
       }
-    ), {
+    }), {
       style: [
         [{ // specificity 0 (1 class)
           opacity: 0.8
@@ -386,9 +374,9 @@ describe('Parts', () => {
 
 describe('External and global and local styles', () => {
   it('inline > local > global > external. No matter the specificity', () => {
-    assert.deepStrictEqual(p(
-      'root active',
-      /* css */`
+    assert.deepStrictEqual(p({
+      styleName: 'root active',
+      fileStyles: /* css */`
         .root {
           color: red;
           font-weight: bold;
@@ -406,7 +394,7 @@ describe('External and global and local styles', () => {
           color: red;
         }
       `,
-      /* css */`
+      globalStyles: /* css */`
         .root {
           color: blue;
           padding-left: 15px;
@@ -419,7 +407,7 @@ describe('External and global and local styles', () => {
           padding-left: 50px;
         }
       `,
-      /* css */`
+      localStyles: /* css */`
         .root {
           color: violet;
         }
@@ -430,12 +418,12 @@ describe('External and global and local styles', () => {
           padding-top: 10px;
         }
       `,
-      {
+      inlineStyleProps: {
         style: {
           marginLeft: 10
         }
       }
-    ), {
+    }), {
       style: [
         [{ // external specificity 0
           color: 'red',

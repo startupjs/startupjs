@@ -9,7 +9,8 @@ pluginTester({
   pluginName,
   snapshot: true,
   pluginOptions: {
-    extensions: ['styl', 'css']
+    extensions: ['styl', 'css'],
+    useImport: true
   },
   babelOptions: {
     plugins: ['@babel/plugin-syntax-jsx']
@@ -251,13 +252,13 @@ pluginTester({
   snapshot: true,
   pluginOptions: {
     extensions: ['styl', 'css'],
-    useImport: true
+    useImport: false
   },
   babelOptions: {
     plugins: ['@babel/plugin-syntax-jsx']
   },
   tests: {
-    '"useImport" option. Used for ESM.': /* js */`
+    'DEPRECATED! Legacy CJS version when "useImport: false".': /* js */`
       import './index.styl'
       function Test () {
         return (
