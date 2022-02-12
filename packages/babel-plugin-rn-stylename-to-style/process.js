@@ -4,22 +4,22 @@ import matcher from './matcher.js'
 
 export function process (
   styleName,
-  cssStyles,
+  fileStyles,
   globalStyles,
   localStyles,
   inlineStyleProps
 ) {
-  cssStyles = transformStyles(cssStyles)
+  fileStyles = transformStyles(fileStyles)
   globalStyles = transformStyles(globalStyles)
   localStyles = transformStyles(localStyles)
 
   return matcher(
-    styleName, cssStyles, globalStyles, localStyles, inlineStyleProps
+    styleName, fileStyles, globalStyles, localStyles, inlineStyleProps
   )
 }
 
-function hasMedia (cssStyles) {
-  for (const selector in cssStyles) {
+function hasMedia (styles) {
+  for (const selector in styles) {
     if (/^@media/.test(selector)) {
       return true
     }
