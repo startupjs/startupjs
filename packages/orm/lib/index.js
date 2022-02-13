@@ -1,5 +1,6 @@
 import racer from 'racer'
 import promisifyRacer from './promisifyRacer'
+import { singletonMemoize } from '@startupjs/cache'
 
 const Model = racer.Model
 
@@ -37,7 +38,9 @@ export default function (racer) {
     return model
   }
 
-  Model.prototype.scope = function (path, alias) {
+  // TODO: do NOT cache within built-in use* hooks from react-sharedb
+  //       because they already handle caching internally
+  Model.prototype.scope = singletonMemoize(function (path, alias) {
     if (alias) {
       if (global.STARTUP_JS_ORM[alias]) {
         return this.__createScopedModel(path, global.STARTUP_JS_ORM[alias].OrmEntity)
@@ -69,7 +72,10 @@ export default function (racer) {
     }
 
     return this._scope(path)
-  }
+  }, {
+    cacheName: 'model',
+    nestedThis: true
+  })
 
   Model.prototype.__createScopedModel = function (path, OrmEntity) {
     var model

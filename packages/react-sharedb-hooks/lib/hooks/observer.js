@@ -115,7 +115,7 @@ function wrapObserverMeta (
   function ObserverWrapper (props, ref) {
     const cache = React.useMemo(() => {
       __increment('ObserverWrapper.cache')
-      return createCaches(['styles'])
+      return createCaches(['styles', 'model'])
     }, [])
     // TODO: using useState instead of useMemo will keep this intact during Fast Refresh
     //       Research if we can change it to use it.

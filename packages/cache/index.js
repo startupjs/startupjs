@@ -22,7 +22,7 @@ export function createCaches (cacheNames) {
   if (typeof cacheNames === 'string') cacheNames = [cacheNames]
   let caches = {}
   for (const cacheName of cacheNames) {
-    caches[cacheName] = {}
+    caches[cacheName] = new Map()
     __increment(`cache.${cacheName}`)
   }
   return {
@@ -39,7 +39,10 @@ export function createCaches (cacheNames) {
     clear () {
       if (!caches) return console.error(ERROR_CACHE_CLEARED)
       for (const cacheName of cacheNames) {
-        for (const i in caches[cacheName]) delete caches[cacheName][i]
+        if (caches[cacheName].__isNested) {
+          caches[cacheName].forEach(nestedMap => nestedMap instanceof Map && nestedMap.clear())
+        }
+        caches[cacheName].clear()
         if (activeCaches[cacheName] === caches[cacheName]) activeCaches[cacheName] = undefined
         delete caches[cacheName]
         __decrement(`cache.${cacheName}`)
@@ -49,15 +52,38 @@ export function createCaches (cacheNames) {
   }
 }
 
-export function singletonMemoize (fn, { cacheName, active = true, normalizer = defaultNormalizer } = {}) {
+export function singletonMemoize (
+  fn,
+  {
+    cacheName,
+    active = true,
+    // NOTE: if firstArgWeakMap is enabled you would want to ignore the first argument completely
+    //       in the normalizer
+    normalizer = defaultNormalizer,
+    nestedThis = false
+  } = {}
+) {
   if (!(DEBUG_CACHE_ACTIVE && active)) return fn
   if (!cacheName) throw Error(ERROR_NO_CACHE_NAME)
-  return (...args) => {
-    if (!activeCaches[cacheName]) return fn(...args)
+
+  function getFromCache (cache, args) {
     const id = normalizer(...args)
-    // eslint-disable-next-line no-prototype-builtins
-    if (activeCaches[cacheName].hasOwnProperty(id)) return activeCaches[cacheName][id]
-    return (activeCaches[cacheName][id] = fn(...args))
+    if (!cache.has(id)) cache.set(id, fn.call(this, ...args))
+    return cache.get(id)
+  }
+
+  if (nestedThis) {
+    return function (...args) {
+      if (!activeCaches[cacheName]) return fn.call(this, ...args)
+      if (!activeCaches[cacheName].__isNested) activeCaches[cacheName].__isNested = true
+      if (!activeCaches[cacheName].has(this)) activeCaches[cacheName].set(this, new Map())
+      return getFromCache.call(this, activeCaches[cacheName].get(this), args)
+    }
+  } else {
+    return function (...args) {
+      if (!activeCaches[cacheName]) return fn.call(this, ...args)
+      return getFromCache.call(this, activeCaches[cacheName], args)
+    }
   }
 }
 
