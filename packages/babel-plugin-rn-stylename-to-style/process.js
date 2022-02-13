@@ -1,8 +1,12 @@
 import { process as dynamicProcess } from 'react-native-dynamic-style-processor/src/index.js'
+import { singletonMemoize } from '@startupjs/cache'
 import dimensions from './dimensions.js'
 import matcher from './matcher.js'
 
-export function process (
+// IMPORTANT:
+//   The args of this function affect the cache setup in @startupjs/react-sharedb-util/cache/styles.js
+//   So if you change it then you also have to change the cache there.
+export const process = singletonMemoize(function _process (
   styleName,
   fileStyles,
   globalStyles,
@@ -16,7 +20,9 @@ export function process (
   return matcher(
     styleName, fileStyles, globalStyles, localStyles, inlineStyleProps
   )
-}
+}, {
+  cacheName: 'styles'
+})
 
 function hasMedia (styles) {
   for (const selector in styles) {

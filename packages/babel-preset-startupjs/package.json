@@ -23,6 +23,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/plugin-transform-typescript": "^7.5.0",
     "@babel/runtime": "^7.9.0",
+    "@startupjs/babel-plugin-startupjs-debug": "^0.42.0",
     "@startupjs/babel-plugin-dotenv": "^0.42.0",
     "@startupjs/babel-plugin-i18n-extract": "^0.42.0",
     "@startupjs/babel-plugin-import-to-react-lazy": "^0.42.0",
