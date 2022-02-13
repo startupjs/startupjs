@@ -81,6 +81,9 @@ function makeObserver (baseComponent, options = {}) {
 
     // clean up observer on unmount
     useUnmount(() => {
+      // TODO: this does not execute the same amount of times as observe() does,
+      //       probably because of throw's of the async hooks.
+      //       So there probably are memory leaks here. Research this.
       unobserve(observedComponent)
     })
 
