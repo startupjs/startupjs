@@ -29,26 +29,26 @@ export default class Local extends Base {
     return this._fetch(firstItem, { optional, batch })
   }
 
+  getData () {
+    return this.$root.get(this.path)
+  }
+
+  getModelPath () {
+    return this.path
+  }
+
+  getModel () {
+    return this.$root.scope(this.path)
+  }
+
   refModel () {
     if (this.cancelled) return
-    const { key } = this
-    if (this.path) {
-      this.model.root.setDiff(this.path, this.data)
-      observablePath(this.path)
-      this.model.ref(key, this.model.root.scope(this.path))
-    } else {
-      this.model.setDiff(key, this.data)
-    }
+    this.$root.setDiff(this.path, this.data)
+    observablePath(this.path)
   }
 
   unrefModel () {
-    const { key } = this
-    if (this.path) {
-      this.model.removeRef(key)
-      this.model.root.del(this.path)
-    } else {
-      this.model.del(key)
-    }
+    this.$root.del(this.path)
   }
 
   _fetch (firstItem, { optional, batch } = {}) {
@@ -56,16 +56,16 @@ export default class Local extends Base {
     if (!(promise && typeof promise.then === 'function')) {
       throw new Error('[react-sharedb] Api: fn must return promise')
     }
-    if (this.model.get(this.path)) {
-      this.data = this.model.get(this.path)
+    if (this.$root.get(this.path)) {
+      this.data = this.$root.get(this.path)
       return
     }
 
     if (firstItem && !optional) {
-      const model = this.model
+      const $root = this.$root
       const path = this.path
       const newPromise = promise.then(data => {
-        model.set(path, data)
+        $root.set(path, data)
       })
       if (batch) {
         promiseBatcher.add(newPromise)
@@ -77,7 +77,7 @@ export default class Local extends Base {
       return promise.then(data => {
         if (this.cancelled) return
         this.data = data
-        this.model.set(this.path, data)
+        this.$root.set(this.path, data)
       })
     }
   }

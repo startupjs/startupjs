@@ -8,15 +8,19 @@ export default class Local extends Base {
   }
 
   refModel () {
-    if (this.cancelled) return
-    const { key } = this
     observablePath(this.path)
-    this.model.ref(key, this.model.root.scope(this.path))
   }
 
-  unrefModel () {
-    const { key } = this
-    this.model.removeRef(key)
+  getData () {
+    return this.$root.get(this.path)
+  }
+
+  getModelPath () {
+    return this.path
+  }
+
+  getModel () {
+    return this.$root.scope(this.path)
   }
 
   destroy () {

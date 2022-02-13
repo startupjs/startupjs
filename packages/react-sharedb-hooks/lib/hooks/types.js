@@ -56,8 +56,7 @@ export const useValue = generateUseItemOfType(subValue)
 export const useValue$ = generateUseItemOfType(subValue, { modelOnly: true })
 
 function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
-  const isQuery = typeFn === subQuery
-  const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
+  const asyncModel = typeFn === subDoc || typeFn === subApi
   const isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
     const hookId = useMemo(() => $root.id(), [])
@@ -84,7 +83,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     useSync(() => destroyer.add(destroy), [])
 
     const params = useMemo(() => typeFn(...args), [hashedArgs])
-
+    console.log('> inits 1', initsCountRef.current)
     function finishInit () {
       // destroy the previous item and all unsuccessful item inits which happened until now.
       // Unsuccessful inits means the inits of those items which were cancelled, because
@@ -99,14 +98,16 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       destructorsRef.current.splice(0, destructorsRef.current.length - 1)
 
       // Mark that initialization completed
+      console.log('> inits 2', initsCountRef.current)
       initsCountRef.current++
+      console.log('> inits 3', initsCountRef.current)
 
       // Reference the new item data
       itemRef.current && itemRef.current.refModel()
     }
 
     function initItem (params) {
-      const item = getItemFromParams(params, $hooks, hookId)
+      const item = getItemFromParams($hooks, hookId, params)
       destructorsRef.current.push(() => {
         item.unrefModel()
         item.destroy()
@@ -172,39 +173,38 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       }
     }
 
+    console.log('> inits 4', initsCountRef.current)
+
     useSync(() => initItem(params), [hashedArgs])
+
+    console.log('> inits 5', initsCountRef.current)
 
     // ----- model -----
 
-    // For Query and QueryExtra return the scoped model targeting the actual collection path.
-    // This is much more useful since you can use that use this returned model
-    // to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
-    const collectionName = useMemo(
-      () => (isQuery ? getCollectionName(params) : undefined),
-      [hashedArgs]
-    )
-    const $queryCollection = useMemo(
-      () => (isQuery ? $root.scope(collectionName) : undefined),
-      [collectionName]
-    )
-
-    // For Doc, Local, Value return the model scoped to the hook path
-    // But only after the initialization actually finished, otherwise
-    // the ORM won't be able to properly resolve the path which was not referenced yet
+    // Query, QueryExtra:
+    //   return the scoped model targeting the actual collection path.
+    //   This is much more useful since you can use that use this returned model
+    //   to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
+    //
+    // Doc, API:
+    //   return the model scoped to the passed path
+    //   But only after the initialization actually finished, otherwise
+    //   the ORM won't be able to properly resolve the path which was not referenced yet
+    //
+    // Local:
+    //   return model scoped to the passed path
+    //
+    // Value:
+    //   return model scoped to the hook path
     const $model = useMemo(
       () => {
-        if (isQuery || !initsCountRef.current) return
-        // For Doc and Local return original path
-        // TODO: Maybe add Api here too
-        if (takeOriginalModel) {
-          return $root.scope(getPath(params))
-        // For Value, Api return hook's path since it's only stored there
-        } else {
-          return $hooks.at(hookId)
-        }
+        if (asyncModel && !initsCountRef.current) return
+        return $root.scope(itemRef.current.getModelPath())
       },
-      [initsCountRef.current]
+      [asyncModel ? initsCountRef.current : (itemRef.current && itemRef.current.getModelPath())]
     )
+
+    console.log('> inits 6', initsCountRef.current)
 
     // if modelOnly was passed, we return just the model.
     // Using model-only hooks when you don't need data is important for optimization
@@ -213,12 +213,15 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     // (when component itself accepts a writable model for one of its attributes)
 
     if (modelOnly) {
-      return $queryCollection || $model
+      return $model
     } else {
       // ----- data -----
 
+      console.log('> inits 7', initsCountRef.current)
+
       // In any situation force access data through the object key to let observer know that the data was accessed
-      const data = $hooks.get()[hookId]
+      const data = itemRef.current && itemRef.current.getData()
+      console.log({ data, inits: initsCountRef.current })
 
       // ----- return -----
 
@@ -227,10 +230,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
           ? (typeFn === subQuery && isArray(data) ? data.filter(Boolean) : data)
           : undefined,
 
-        // Query, QueryExtra: return scoped model to collection path.
-        // Everything else: return the 'hooks.<randomHookId>' scoped model.
-        // TODO: don't create hooks.* for hooks where we can return an original reference (useDoc, useLocal, etc.)
-        $queryCollection || $model,
+        $model,
 
         // explicit ready flag, has a second meaning as the inits counter (for each time query params change)
         initsCountRef.current
@@ -263,11 +263,11 @@ export function getPath (params) {
   }
 }
 
-export function getItemFromParams (params, model, key) {
+export function getItemFromParams ($component, hookId, params) {
   const explicitType = params && params.__subscriptionType
   const subscriptionParams = params.params
   const constructor = getItemConstructor(explicitType)
-  return new constructor(model, key, subscriptionParams)
+  return new constructor($component, hookId, subscriptionParams)
 }
 
 function getItemConstructor (type) {

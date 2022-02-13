@@ -1,8 +1,9 @@
 export default class Base {
-  constructor (model, key, params) {
-    this.key = key
+  constructor ($component, hookId, params) {
+    this.hookId = hookId
     this.params = params
-    this.model = model
+    this.$component = $component
+    this.$root = $component.root
   }
 
   refModel () {}
@@ -11,9 +12,10 @@ export default class Base {
 
   destroy () {
     this.cancel()
-    delete this.model
+    delete this.$root
+    delete this.$component
     delete this.params
-    delete this.key
+    delete this.hookId
   }
 
   // Cancel initialization process

@@ -15,21 +15,23 @@ export default class Doc extends Base {
     return this._subscribe(firstItem, { optional, batch })
   }
 
-  refModel () {
-    if (this.cancelled) return
-    const { key } = this
-    this.model.ref(key, this.subscription)
+  getData () {
+    return this.$doc && this.$doc.get()
   }
 
-  unrefModel () {
-    const { key } = this
-    this.model.removeRef(key)
+  getModelPath () {
+    const { collection, docId } = this
+    return `${collection}.${docId}`
+  }
+
+  getModel () {
+    return this.$doc
   }
 
   _subscribe (firstItem, { optional, batch } = {}) {
     const { collection, docId } = this
-    this.subscription = this.model.root.scope(`${collection}.${docId}`)
-    const promise = this.model.root.subscribeSync(this.subscription)
+    this.$doc = this.$root.scope(`${collection}.${docId}`)
+    const promise = this.$root.subscribeSync(this.$doc)
 
     // if promise wasn't resolved synchronously it means that we have to wait
     // for the subscription to finish, in that case we unsubscribe from the data
@@ -52,12 +54,12 @@ export default class Doc extends Base {
     const finish = () => {
       if (this.cancelled) return
       // TODO: if (err) return reject(err)
-      const shareDoc = this.model.root.connection.get(collection, docId)
+      const shareDoc = this.$root.connection.get(collection, docId)
       shareDoc.data = observable(shareDoc.data)
 
       // Listen for doc creation, intercept it and make observable
       const createFn = () => {
-        const shareDoc = this.model.root.connection.get(collection, docId)
+        const shareDoc = this.$root.connection.get(collection, docId)
         shareDoc.data = observable(shareDoc.data)
       }
       // Add listener to the top of the queue, since we want
@@ -88,9 +90,9 @@ export default class Doc extends Base {
   }
 
   _unsubscribe () {
-    if (!this.subscription) return
-    this.model.root.unsubscribe(this.subscription)
-    delete this.subscription
+    if (!this.$doc) return
+    this.$doc.unsubscribe()
+    delete this.$doc
   }
 
   destroy () {

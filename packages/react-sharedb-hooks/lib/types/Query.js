@@ -19,24 +19,23 @@ export default class Query extends Base {
     return this._subscribe(firstItem, { optional, batch })
   }
 
-  refModel () {
-    if (this.cancelled) return
-    const { key } = this
-    this.subscription.ref(this.model.at(key))
-    observablePath(this.model.path(key))
-    this.subscription.refIds(this.model.at(getIdsName(key)))
+  getData () {
+    return this.$$query && this.$$query.get()
   }
 
-  unrefModel () {
-    const { key } = this
-    this.model.removeRef(getIdsName(key))
-    this.model.removeRef(key)
+  getModelPath () {
+    return this.collection
+  }
+
+  getModel () {
+    return this.$collection
   }
 
   _subscribe (firstItem, { optional, batch } = {}) {
     const { collection, query } = this
-    this.subscription = this.model.root.query(collection, query)
-    const promise = this.model.root.subscribeSync(this.subscription)
+    this.$$query = this.$root.query(collection, query)
+    this.$collection = this.$root.scope(collection)
+    const promise = this.$root.subscribeSync(this.$$query)
 
     // if promise wasn't resolved synchronously it means that we have to wait
     // for the subscription to finish, in that case we unsubscribe from the data
@@ -63,30 +62,30 @@ export default class Query extends Base {
       if (this.cancelled) return
       // TODO: if (err) return reject(err)
       // observe ids and extra
-      const path = `$queries.${this.subscription.hash}`
+      const path = `$queries.${this.$$query.hash}`
       observablePath(path)
 
       // observe initial docs
-      const docIds = this.subscription.getIds()
+      const docIds = this.$$query.getIds()
       for (const docId of docIds) {
-        const shareDoc = this.model.root.connection.get(collection, docId)
+        const shareDoc = this.$root.connection.get(collection, docId)
         shareDoc.data = observable(shareDoc.data)
       }
       // Increase the listeners cap
-      this.subscription.shareQuery.setMaxListeners(MAX_LISTENERS)
+      this.$$query.shareQuery.setMaxListeners(MAX_LISTENERS)
 
       // [insert]
       const insertFn = shareDocs => {
         // observe new docs
         const ids = getShareResultsIds(shareDocs)
         ids.forEach(docId => {
-          const shareDoc = this.model.root.connection.get(collection, docId)
+          const shareDoc = this.$root.connection.get(collection, docId)
           shareDoc.data = observable(shareDoc.data)
         })
       }
-      this.subscription.shareQuery.on('insert', insertFn)
+      this.$$query.shareQuery.on('insert', insertFn)
       this.listeners.push({
-        ee: this.subscription.shareQuery,
+        ee: this.$$query.shareQuery,
         eventName: 'insert',
         fn: insertFn
       })
@@ -110,13 +109,14 @@ export default class Query extends Base {
   }
 
   _unsubscribe () {
-    if (!this.subscription) return
-    this.model.root.unsubscribe(this.subscription)
+    if (!this.$$query) return
+    this.$root.unsubscribe(this.$$query)
     // setTimeout(() => {
     //   console.log('>> unsubscribe')
     //   model.unsubscribe(subscription)
     // }, 3000)
-    delete this.subscription
+    delete this.$collection
+    delete this.$$query
   }
 
   destroy () {

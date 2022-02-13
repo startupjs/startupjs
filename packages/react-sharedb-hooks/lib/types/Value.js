@@ -6,15 +6,25 @@ export default class Value extends Base {
     this.value = this.params
   }
 
+  getData () {
+    return this.$component.get(this.hookId)
+  }
+
+  getModelPath () {
+    return this.$component.path(this.hookId)
+  }
+
+  getModel () {
+    return this.$component.at(this.hookId)
+  }
+
   refModel () {
     if (this.cancelled) return
-    const { key } = this
-    this.model.setDiff(key, this.value)
+    this.$component.setDiff(this.hookId, this.value)
   }
 
   unrefModel () {
-    const { key } = this
-    this.model.del(key)
+    this.$component.del(this.hookId)
   }
 
   destroy () {
