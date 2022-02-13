@@ -14,9 +14,7 @@ const promise = new Promise(resolve => {
 
 export default function useNeedUpdate (criticalVersion) {
   if (!resolved) throw promise
-  console.log('>>> useNeedUpdate')
-  const [version, $version] = useDoc('service', 'version')
-  console.log('>>>>>>> GOT DATA', { $version, version })
+  const [, $version] = useDoc('service', 'version')
   const newOsVersion = $version.get(`criticalVersion.${OS}`)
   const currentOsVersion = criticalVersion && criticalVersion[OS]
   return currentOsVersion < newOsVersion
