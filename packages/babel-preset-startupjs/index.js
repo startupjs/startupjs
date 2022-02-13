@@ -119,7 +119,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
     // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
-    // [require('@startupjs/babel-plugin-startupjs-debug')],
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     ...nativeReactCssModulesPlugins({ platform: 'web' }),
