@@ -39,6 +39,7 @@ const Sub = observer(({ $value }) => {
   ++renderRef.current
   return pug`
     Button(onPress=() => $value.set($value.get() + 1)) Increase magicCounter.value from Sub
+    Sub2($value=$value)
     Row(
       part='root'
       align='center'
@@ -48,6 +49,13 @@ const Sub = observer(({ $value }) => {
       }
     )
       Span Renders: #{renderRef.current}.
+  `
+  /* eslint-disable-line */styl``
+})
+
+const Sub2 = observer(({ $value }) => {
+  return pug`
+    Span Sub2 magicCounter.value: #{ $value.get() }
   `
   /* eslint-disable-line */styl``
 })
