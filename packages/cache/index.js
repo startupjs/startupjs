@@ -17,7 +17,7 @@ export const DEBUG_CACHE_ACTIVE = true
 const activeCaches = {}
 
 export function createCaches (cacheNames) {
-  if (!DEBUG_CACHE_ACTIVE) return { activate: () => {}, clear: () => {} }
+  if (!DEBUG_CACHE_ACTIVE) return { activate: () => {}, deactivate: () => {}, clear: () => {} }
   if (!cacheNames) throw Error(ERROR_NO_CACHE_NAMES)
   if (typeof cacheNames === 'string') cacheNames = [cacheNames]
   let caches = {}
@@ -29,6 +29,12 @@ export function createCaches (cacheNames) {
     activate () {
       if (!caches) return console.error(ERROR_CACHE_CLEARED)
       for (const cacheName of cacheNames) activeCaches[cacheName] = caches[cacheName]
+    },
+    deactivate () {
+      if (!caches) return console.error(ERROR_CACHE_CLEARED)
+      for (const cacheName of cacheNames) {
+        if (activeCaches[cacheName] === caches[cacheName]) activeCaches[cacheName] = undefined
+      }
     },
     clear () {
       if (!caches) return console.error(ERROR_CACHE_CLEARED)

@@ -175,6 +175,7 @@ function wrapBaseComponent (baseComponent, blockUpdate, cache) {
       promiseBatcher.reset()
       res = baseComponent(...args)
     } catch (err) {
+      cache.deactivate()
       if (!err.then) throw err
       // If the Promise was thrown, we catch it before Suspense does.
       // And we run destructors for each hook previous to the one
@@ -185,6 +186,7 @@ function wrapBaseComponent (baseComponent, blockUpdate, cache) {
       const destroy = destroyer.getDestructor()
       throw err.then(destroy)
     }
+    cache.deactivate()
     blockUpdate.value = false
     if (promiseBatcher.isActive()) {
       throw Error('[react-sharedb] useBatch* hooks were used without a closing useBatch() call.')

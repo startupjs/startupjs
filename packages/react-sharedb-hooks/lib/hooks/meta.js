@@ -14,7 +14,7 @@ export function useComponentId () {
 }
 
 export function useCache () {
-  if (!DEBUG_CACHE_ACTIVE) return useMemo(() => ({ activate: () => {}, clear: () => {} }), [])
+  if (!DEBUG_CACHE_ACTIVE) return useMemo(() => ({ activate: () => {}, deactivate: () => {}, clear: () => {} }), [])
   const { cache } = useContext(ComponentMetaContext)
   return cache
 }
