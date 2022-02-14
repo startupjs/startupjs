@@ -77,7 +77,7 @@ So this change alone will save you from making extra queries in many situations 
 
 ### Features
 
-* implement caching for styles (TODO for model). Rewrite observer loader to babel. Add debug module and debug babel plugin to debug memory leaks in observer() ([533a609](https://github.com/startupjs/startupjs/commit/533a6094fc21172fba4516971251ec16c517e882))
+* implement caching for styles (TODO for model). Rewrite observer loader to babel. Add debug module and debug babel plugin to debug memory leaks in observer() ([#890](https://github.com/startupjs/startupjs/issues/890))
 
 
 
