@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import { DEBUG_CACHE_ACTIVE } from '@startupjs/cache'
+import { CACHE_ACTIVE } from '@startupjs/cache'
 
 export const ComponentMetaContext = React.createContext({})
 
@@ -14,7 +14,7 @@ export function useComponentId () {
 }
 
 export function useCache () {
-  if (!DEBUG_CACHE_ACTIVE) return useMemo(() => ({ activate: () => {}, deactivate: () => {}, clear: () => {} }), [])
+  if (!CACHE_ACTIVE.value) return useMemo(() => ({ activate: () => {}, deactivate: () => {}, clear: () => {} }), [])
   const { cache } = useContext(ComponentMetaContext)
   return cache
 }

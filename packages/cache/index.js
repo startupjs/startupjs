@@ -12,12 +12,12 @@
  */
 import { __increment, __decrement } from '@startupjs/debug'
 
-export const DEBUG_CACHE_ACTIVE = true
+export const CACHE_ACTIVE = { value: true }
 
 const activeCaches = {}
 
 export function createCaches (cacheNames) {
-  if (!DEBUG_CACHE_ACTIVE) return { activate: () => {}, deactivate: () => {}, clear: () => {} }
+  if (!CACHE_ACTIVE.value) return { activate: () => {}, deactivate: () => {}, clear: () => {} }
   if (!cacheNames) throw Error(ERROR_NO_CACHE_NAMES)
   if (typeof cacheNames === 'string') cacheNames = [cacheNames]
   let caches = {}
@@ -63,7 +63,7 @@ export function singletonMemoize (
     nestedThis = false
   } = {}
 ) {
-  if (!(DEBUG_CACHE_ACTIVE && active)) return fn
+  if (!(CACHE_ACTIVE.value && active)) return fn
   if (!cacheName) throw Error(ERROR_NO_CACHE_NAME)
 
   function getFromCache (cache, args) {
