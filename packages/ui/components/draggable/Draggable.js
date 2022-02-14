@@ -166,16 +166,15 @@ export default observer(function Draggable ({
     dndContext.drops[_dropId].items.length - 1 === _index &&
     dndContext.dragHoverIndex === _index + 1
 
-  const placeholder = (
-    <View
-      styleName='placeholder'
-      style={{
-        height: dndContext.activeData?.dragStyle?.height,
-        marginTop: dndContext.activeData?.dragStyle?.marginTop,
-        marginBottom: dndContext.activeData?.dragStyle?.marginBottom
-      }}
-    />
-  )
+  const placeholder = pug`
+    View.placeholder(
+      style={
+        height: dndContext.activeData && dndContext.activeData.dragStyle && dndContext.activeData.dragStyle.height,
+        marginTop: dndContext.activeData && dndContext.activeData.dragStyle && dndContext.activeData.dragStyle.marginTop,
+        marginBottom: dndContext.activeData && dndContext.activeData.dragStyle && dndContext.activeData.dragStyle.marginBottom
+      }
+    )
+  `
 
   return pug`
     if isShowPlaceholder
@@ -200,4 +199,4 @@ export default observer(function Draggable ({
     if isShowLastPlaceholder
       = placeholder
   `
-})
+}, { cache: false })

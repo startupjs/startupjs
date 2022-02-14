@@ -59,7 +59,7 @@ function makeObserver (baseComponent, options = {}) {
   const WrappedComponent = (...args) => {
     // forceUpdate 2.0
     const forceUpdate = useForceUpdate()
-    const cache = useCache()
+    const cache = useCache(options.cache != null ? options.cache : true)
 
     // wrap the baseComponent into an observe decorator once.
     // This way it will track any observable changes and will trigger rerender

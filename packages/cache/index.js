@@ -28,8 +28,20 @@ export function unblockCache () {
   if (BLOCK_CACHE.value) BLOCK_CACHE.value = false
 }
 
+export function getDummyCache () {
+  return {
+    activate () {
+      for (const cacheName in activeCaches) activeCaches[cacheName] = undefined
+    },
+    deactivate () {
+      for (const cacheName in activeCaches) activeCaches[cacheName] = undefined
+    },
+    clear () {}
+  }
+}
+
 export function createCaches (cacheNames) {
-  if (!CACHE_ACTIVE.value) return { activate: () => {}, deactivate: () => {}, clear: () => {} }
+  if (!CACHE_ACTIVE.value) return getDummyCache()
   if (!cacheNames) throw Error(ERROR_NO_CACHE_NAMES)
   if (typeof cacheNames === 'string') cacheNames = [cacheNames]
   let caches = {}
