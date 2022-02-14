@@ -12,9 +12,21 @@
  */
 import { __increment, __decrement } from '@startupjs/debug'
 
+// global setting to disable cache
 export const CACHE_ACTIVE = { value: true }
 
+// a global semaphore used to temporarily block cache
+const BLOCK_CACHE = { value: false }
+
 const activeCaches = {}
+
+export function blockCache () {
+  if (!BLOCK_CACHE.value) BLOCK_CACHE.value = true
+}
+
+export function unblockCache () {
+  if (BLOCK_CACHE.value) BLOCK_CACHE.value = false
+}
 
 export function createCaches (cacheNames) {
   if (!CACHE_ACTIVE.value) return { activate: () => {}, deactivate: () => {}, clear: () => {} }
@@ -28,6 +40,7 @@ export function createCaches (cacheNames) {
   return {
     activate () {
       if (!caches) return console.error(ERROR_CACHE_CLEARED)
+      unblockCache()
       for (const cacheName of cacheNames) activeCaches[cacheName] = caches[cacheName]
     },
     deactivate () {
@@ -74,14 +87,14 @@ export function singletonMemoize (
 
   if (nestedThis) {
     return function (...args) {
-      if (!activeCaches[cacheName]) return fn.call(this, ...args)
+      if (!activeCaches[cacheName] || BLOCK_CACHE.value) return fn.call(this, ...args)
       if (!activeCaches[cacheName].__isNested) activeCaches[cacheName].__isNested = true
       if (!activeCaches[cacheName].has(this)) activeCaches[cacheName].set(this, new Map())
       return getFromCache.call(this, activeCaches[cacheName].get(this), args)
     }
   } else {
     return function (...args) {
-      if (!activeCaches[cacheName]) return fn.call(this, ...args)
+      if (!activeCaches[cacheName] || BLOCK_CACHE.value) return fn.call(this, ...args)
       return getFromCache.call(this, activeCaches[cacheName], args)
     }
   }

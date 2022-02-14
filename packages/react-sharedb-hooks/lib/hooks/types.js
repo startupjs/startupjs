@@ -11,6 +11,7 @@ import Local from '../types/Local.js'
 import Value from '../types/Value.js'
 import Api from '../types/Api.js'
 import { batching } from '@startupjs/react-sharedb-util'
+import { blockCache, unblockCache } from '@startupjs/cache'
 
 import {
   subDoc,
@@ -60,6 +61,10 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
   const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
   const isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
+    // block caching of 'model.at' and 'model.scope' since the caching of model
+    // is handled on its own by these hooks
+    blockCache()
+
     const hookId = useMemo(() => $root.id(), [])
     const hashedArgs = useMemo(() => JSON.stringify(args), args)
 
@@ -205,6 +210,9 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       },
       [initsCountRef.current]
     )
+
+    // unblock caching 'model.at' and 'model.scope'
+    unblockCache()
 
     // if modelOnly was passed, we return just the model.
     // Using model-only hooks when you don't need data is important for optimization
