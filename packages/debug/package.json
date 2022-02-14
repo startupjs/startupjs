@@ -1,0 +1,16 @@
+{
+  "name": "@startupjs/debug",
+  "type": "module",
+  "version": "0.42.6",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "Debugging helpers",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "license": "MIT",
+  "dependencies": {}
+}

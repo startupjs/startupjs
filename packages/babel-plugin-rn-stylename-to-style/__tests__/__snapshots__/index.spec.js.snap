@@ -364,6 +364,146 @@ function Test({ style, active, submit, disabled, titleStyle }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Failed test 1: Failed test 1 1`] = `
+
+import { observer, useBackPress } from 'startupjs'
+
+function Layout ({ style, children }) {
+  return (
+    <SafeAreaView styleName='root' style={style}>
+      <StatusBar
+        backgroundColor={bgColor}
+        barStyle='dark-content'
+      >
+        {children}
+      </StatusBar>
+    </SafeAreaView>
+  )
+}
+
+export default observer(Layout)
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, useBackPress } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Layout({ style, children }) {
+  return (
+    <SafeAreaView
+      {..._processStyleName(
+        "root",
+        {},
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: style,
+        }
+      )}
+    >
+      <StatusBar backgroundColor={bgColor} barStyle="dark-content">
+        {children}
+      </StatusBar>
+    </SafeAreaView>
+  );
+}
+
+export default observer(Layout);
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Failed test 2: Failed test 2 1`] = `
+
+import { observer, useBackPress } from 'startupjs'
+
+function Menu ({ style, children, value, variant, activeBorder, iconPosition, activeColor, ...props }) {
+  return (
+    <Context.Provider value={value}>
+      <Div style={style} />
+      <Div
+        style={style}
+        styleName={['root', [variant]]}
+        {...props}
+      >{children}</Div>
+    </Context.Provider>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, useBackPress } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Menu({
+  style,
+  children,
+  value,
+  variant,
+  activeBorder,
+  iconPosition,
+  activeColor,
+  ...props
+}) {
+  return (
+    <Context.Provider value={value}>
+      <Div
+        {..._processStyleName(
+          "",
+          {},
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: style,
+          }
+        )}
+      />
+      <Div
+        {...props}
+        {..._processStyleName(
+          ["root", [variant]],
+          {},
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: style,
+          }
+        )}
+      >
+        {children}
+      </Div>
+    </Context.Provider>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style No styles file: No styles file 1`] = `
+
+function Test () {
+  return <div styleName='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root",
+        {},
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    />
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style Puts compiled attribute to the end of attributes list: Puts compiled attribute to the end of attributes list 1`] = `
 
 import './index.styl'
@@ -570,6 +710,128 @@ function Test() {
       >
         Submit
       </button>
+    </div>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Style with observer. Should transform for caching: Style with observer. Should transform for caching 1`] = `
+
+import { observer } from 'startupjs'
+export default observer(function Test () {
+  return (
+    <div style={{ backgroundColor: 'red' }}>
+      <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+      <div>
+        <span headerStyle={{ color: 'yellow' }}>Hello</span>
+      </div>
+    </div>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export default observer(function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "",
+        {},
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: {
+            backgroundColor: "red",
+          },
+        }
+      )}
+    >
+      <div
+        {..._processStyleName(
+          "",
+          {},
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: {
+              color: "green",
+            },
+            titleStyle: {
+              color: "blue",
+            },
+          }
+        )}
+      />
+      <div>
+        <span
+          {..._processStyleName(
+            "",
+            {},
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              headerStyle: {
+                color: "yellow",
+              },
+            }
+          )}
+        >
+          Hello
+        </span>
+      </div>
+    </div>
+  );
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Style without observer. Shouldn't transform: Style without observer. Shouldn't transform 1`] = `
+
+import { useLocal } from 'startupjs'
+function Test () {
+  return (
+    <div style={{ backgroundColor: 'red' }}>
+      <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+      <div>
+        <span headerStyle={{ color: 'yellow' }}>Hello</span>
+      </div>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { useLocal } from "startupjs";
+
+function Test() {
+  return (
+    <div
+      style={{
+        backgroundColor: "red",
+      }}
+    >
+      <div
+        style={{
+          color: "green",
+        }}
+        titleStyle={{
+          color: "blue",
+        }}
+      />
+      <div>
+        <span
+          headerStyle={{
+            color: "yellow",
+          }}
+        >
+          Hello
+        </span>
+      </div>
     </div>
   );
 }

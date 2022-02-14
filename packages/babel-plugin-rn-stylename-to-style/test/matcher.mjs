@@ -6,7 +6,7 @@ function p ({ styleName, fileStyles, globalStyles, localStyles, inlineStyleProps
   if (!legacy) inlineStyleProps = inlineStyleProps || {}
   return matcher(
     styleName,
-    css2rn.default(fileStyles, { parseMediaQueries: true, parsePartSelectors: true }),
+    fileStyles && css2rn.default(fileStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     globalStyles && css2rn.default(globalStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     localStyles && css2rn.default(localStyles, { parseMediaQueries: true, parsePartSelectors: true }),
     inlineStyleProps
@@ -142,6 +142,32 @@ describe('Root styles only', () => {
       cardStyle: {
         marginRight: 10
       }
+    })
+  })
+  it('empty everything. Pipe inline styles only', () => {
+    assert.deepStrictEqual(p({
+      styleName: '',
+      inlineStyleProps: {
+        style: {
+          marginLeft: 10
+        }
+      }
+    }), {
+      style: {
+        marginLeft: 10
+      }
+    })
+  })
+  it('pass inline styles as is if it\'s a string', () => {
+    assert.deepStrictEqual(p({
+      styleName: '',
+      inlineStyleProps: {
+        style: 'my-magic-style',
+        barStyle: 'magic-bar-style'
+      }
+    }), {
+      style: 'my-magic-style',
+      barStyle: 'magic-bar-style'
     })
   })
   it('multiple classes', () => {

@@ -15,7 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias } = {}) => [
+const basePlugins = ({ alias, observerCache } = {}) => [
+  [require('@startupjs/babel-plugin-startupjs-utils'), {
+    observerCache
+  }],
   [require('babel-plugin-module-resolver'), {
     alias: {
       ...DIRECTORY_ALIASES,
@@ -86,6 +89,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
     [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
     ...nativeReactCssModulesPlugins(),
@@ -118,6 +122,7 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
     // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     ...nativeReactCssModulesPlugins({ platform: 'web' }),
@@ -174,6 +179,7 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
     // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),

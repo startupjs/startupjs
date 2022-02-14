@@ -1,8 +1,12 @@
 import { process as dynamicProcess } from 'react-native-dynamic-style-processor/src/index.js'
+import { singletonMemoize } from '@startupjs/cache'
 import dimensions from './dimensions.js'
 import matcher from './matcher.js'
 
-export function process (
+// IMPORTANT:
+//   The args of this function affect the cache setup in @startupjs/react-sharedb-util/cache/styles.js
+//   So if you change it then you also have to change the cache there.
+export const process = singletonMemoize(function _process (
   styleName,
   fileStyles,
   globalStyles,
@@ -16,7 +20,16 @@ export function process (
   return matcher(
     styleName, fileStyles, globalStyles, localStyles, inlineStyleProps
   )
-}
+}, {
+  cacheName: 'styles',
+  normalizer: (styleName, fileStyles, globalStyles, localStyles, inlineStyleProps) => simpleNumericHash(JSON.stringify([
+    styleName,
+    fileStyles?.__hash__ || fileStyles,
+    globalStyles?.__hash__ || globalStyles,
+    localStyles?.__hash__ || localStyles,
+    inlineStyleProps
+  ]))
+})
 
 function hasMedia (styles) {
   for (const selector in styles) {
@@ -41,4 +54,10 @@ function transformStyles (styles) {
   } else {
     return {}
   }
+}
+
+// ref: https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0?permalink_comment_id=2694461#gistcomment-2694461
+function simpleNumericHash (s) {
+  for (var i = 0, h = 0; i < s.length; i++) h = Math.imul(31, h) + s.charCodeAt(i) | 0
+  return h
 }

@@ -15,6 +15,71 @@ pluginTester({
     plugins: ['@babel/plugin-syntax-jsx']
   },
   tests: {
+    'Failed test 2': /* js */`
+      import { observer, useBackPress } from 'startupjs'
+
+      function Menu ({ style, children, value, variant, activeBorder, iconPosition, activeColor, ...props }) {
+        return (
+          <Context.Provider value={value}>
+            <Div style={style} />
+            <Div
+              style={style}
+              styleName={['root', [variant]]}
+              {...props}
+            >{children}</Div>
+          </Context.Provider>
+        )
+      }
+    `,
+    'Failed test 1': /* js */`
+      import { observer, useBackPress } from 'startupjs'
+
+      function Layout ({ style, children }) {
+        return (
+          <SafeAreaView styleName='root' style={style}>
+            <StatusBar
+              backgroundColor={bgColor}
+              barStyle='dark-content'
+            >
+              {children}
+            </StatusBar>
+          </SafeAreaView>
+        )
+      }
+
+      export default observer(Layout)
+    `,
+    'No styles file': /* js */`
+      function Test () {
+        return <div styleName='root' />
+      }
+    `,
+    'Style without observer. Shouldn\'t transform': /* js */`
+      import { useLocal } from 'startupjs'
+      function Test () {
+        return (
+          <div style={{ backgroundColor: 'red' }}>
+            <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+            <div>
+              <span headerStyle={{ color: 'yellow' }}>Hello</span>
+            </div>
+          </div>
+        )
+      }
+    `,
+    'Style with observer. Should transform for caching': /* js */`
+      import { observer } from 'startupjs'
+      export default observer(function Test () {
+        return (
+          <div style={{ backgroundColor: 'red' }}>
+            <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+            <div>
+              <span headerStyle={{ color: 'yellow' }}>Hello</span>
+            </div>
+          </div>
+        )
+      })
+    `,
     'Regular string': /* js */`
       import './index.styl'
       function Test () {
