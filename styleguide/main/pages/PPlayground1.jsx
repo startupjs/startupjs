@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react'
 import { pug, styl, observer, useValue, useComponentId } from 'startupjs'
-import { Content, Button, Link, Row, Span } from '@startupjs/ui'
+import { Content, Button, Link, Row, Span, Card, H5 } from '@startupjs/ui'
 
 export default observer(function PPlayground () {
   const [count, setCount] = useState(0)
@@ -16,7 +16,8 @@ export default observer(function PPlayground () {
 
   return pug`
     Content(width='mobile')
-      Sub.sub($value=$magicCounter.at('value'))
+      Sub($value=$magicCounter.at('value') style={ backgroundColor: 'red', height: 100 } title='Sub inline styles')
+      Sub.sub($value=$magicCounter.at('value') title='Sub class styles')
       Button(onPress=onPress) Button 1 - #{count} - #{magicCounter.value}
       Link(to='/playground2') Go to Playground 2
       Span
@@ -33,22 +34,24 @@ export default observer(function PPlayground () {
   `
 })
 
-const Sub = observer(({ $value }) => {
+const Sub = observer(({ $value, title }) => {
   const renderRef = useRef(0)
   const [, setForceRerender] = useState()
   ++renderRef.current
   return pug`
-    Button(onPress=() => $value.set($value.get() + 1)) Increase magicCounter.value from Sub
-    Sub2($value=$value)
-    Row(
-      part='root'
-      align='center'
-      vAlign='center'
-      onPress=() => {
-        setForceRerender(Math.random())
-      }
-    )
-      Span Renders: #{renderRef.current}.
+    Card
+      H5= title
+      Button(onPress=() => $value.set($value.get() + 1)) Increase magicCounter.value from Sub
+      Sub2($value=$value)
+      Row(
+        part='root'
+        align='center'
+        vAlign='center'
+        onPress=() => {
+          setForceRerender(Math.random())
+        }
+      )
+        Span Renders: #{renderRef.current}.
   `
   /* eslint-disable-line */styl``
 })

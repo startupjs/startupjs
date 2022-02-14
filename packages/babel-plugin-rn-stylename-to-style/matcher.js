@@ -43,7 +43,7 @@ export default function matcher (
 function appendStyleProps (target, appendProps) {
   for (const propName in appendProps) {
     if (target[propName]) {
-      if (isArray(target[propName])) {
+      if (isArray(appendProps[propName])) {
         target[propName] = target[propName].concat(appendProps[propName])
       } else {
         target[propName].push(appendProps[propName])
@@ -56,9 +56,7 @@ function appendStyleProps (target, appendProps) {
 
 // Process all styles, including the ::part() ones.
 function getStyleProps (htmlClasses, styles, legacyRootOnly) {
-  const res = {
-    [ROOT_STYLE_PROP_NAME]: []
-  }
+  const res = {}
   for (const selector in styles) {
     // Find out which part (or root) this selector is targeting
     const match = selector.match(PART_REGEX)

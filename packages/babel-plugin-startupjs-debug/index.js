@@ -7,7 +7,7 @@
 const template = require('@babel/template').default
 const t = require('@babel/types')
 
-const GLOBAL_MAGIC_LIBRARY = 'startupjs'
+const GLOBAL_OBSERVER_LIBRARY = 'startupjs'
 const GLOBAL_OBSERVER_DEFAULT_NAME = 'observer'
 
 const buildFixedObserver = template(`
@@ -56,10 +56,10 @@ module.exports = function (babel, opts) {
 }
 
 function maybeGetObserverName ($import, {
-  magicLibrary = GLOBAL_MAGIC_LIBRARY,
+  observerLibrary = GLOBAL_OBSERVER_LIBRARY,
   observerDefaultName = GLOBAL_OBSERVER_DEFAULT_NAME
 } = {}) {
-  if ($import.node.source.value !== magicLibrary) return
+  if ($import.node.source.value !== observerLibrary) return
   for (const $specifier of $import.get('specifiers')) {
     if (!$specifier.isImportSpecifier()) continue
     const { local, imported } = $specifier.node
