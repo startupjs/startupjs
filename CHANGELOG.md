@@ -1,3 +1,17 @@
+# [0.43.0](https://github.com/startupjs/startupjs/compare/v0.42.20...v0.43.0) (2022-02-14)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-styrename-to-style:** default useImport to true ([c5e312e](https://github.com/startupjs/startupjs/commit/c5e312e773c712244941fe84ef13e1cac531c829))
+
+
+### Features
+
+* implement caching for styles (TODO for model). Rewrite observer loader to babel. Add debug module and debug babel plugin to debug memory leaks in observer() ([533a609](https://github.com/startupjs/startupjs/commit/533a6094fc21172fba4516971251ec16c517e882))
+
+
+
 ## [0.42.20](https://github.com/startupjs/startupjs/compare/v0.42.19...v0.42.20) (2022-02-08)
 
 

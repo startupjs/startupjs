@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/debug",
   "type": "module",
-  "version": "0.42.6",
+  "version": "0.43.0",
   "engines": {
     "node": ">= 14"
   },
@@ -11,6 +11,5 @@
     "access": "public"
   },
   "scripts": {},
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }
