@@ -10,10 +10,13 @@
  *
  * IMPORTANT: You must do cache.clear() when you don't need it anymore otherwise you'll have HUGE memory leaks
  */
-import { __increment, __decrement } from '@startupjs/debug'
+import cacheEnabled from '@startupjs/cache/enabled'
+import { __increment, __decrement, setDebugVar } from '@startupjs/debug'
 
 // global setting to disable cache
-export const CACHE_ACTIVE = { value: true }
+export const CACHE_ACTIVE = { value: cacheEnabled }
+
+setDebugVar('cacheEnabled', cacheEnabled)
 
 // a global semaphore used to temporarily block cache
 const BLOCK_CACHE = { value: false }
