@@ -20,6 +20,16 @@ To turn in `ON`, pass `observerCache: true` to the `startupjs` preset in `babel.
 
 To make sure caching is enabled, check the value of `window.__startupjs__.DEBUG.cacheEnabled` in browser console.
 
+Cache will be enabled for all components. You can explicitly prohibit a specific component from using cache by passing `{ cache: false }` to its `observer()`:
+
+```js
+export default observer(function Test ({ frequentlyChangedRandomColor }) {
+  return pug`
+    Div(style={ backgroundColor: frequentlyChangedRandomColor })
+  `
+}, { cache: false })
+```
+
 After enabling caching you must carefully test your whole application because some components might have been relying on excessive renderings to function properly. So you might have to fix some things in your codebase to account for optimized rerenders.
 
 Examples:
