@@ -1,3 +1,96 @@
+# [0.43.0](https://github.com/startupjs/startupjs/compare/v0.42.20...v0.43.0) (2022-02-14)
+
+
+### Release Notes
+
+**No** breaking changes
+
+Added automatic caching for styles and creation of scoped models during react render.
+
+This is considered to be an experimental feature. By default it's turned `OFF` so nothing should break whatsoever.
+
+To turn in `ON`, pass `observerCache: true` to the `startupjs` preset in `babel.config.js`:
+
+```js
+    ['startupjs/babel.cjs', {
+      ...,
+      observerCache: true
+    }]
+```
+
+To make sure caching is enabled, check the value of `window.__startupjs__.DEBUG.cacheEnabled` in browser console.
+
+Cache will be enabled for all components. You can explicitly prohibit a specific component from using cache by passing `{ cache: false }` to its `observer()`:
+
+```js
+export default observer(function Test ({ frequentlyChangedRandomColor }) {
+  return pug`
+    Div(style={ backgroundColor: frequentlyChangedRandomColor })
+  `
+}, { cache: false })
+```
+
+After enabling caching you must carefully test your whole application because some components might have been relying on excessive renderings to function properly. So you might have to fix some things in your codebase to account for optimized rerenders.
+
+Examples:
+
+1. cache pure `style`. This will only work if you have `observer` imported in the current file, this way we don't screw up the 3rd-party libraries which don't use startupjs.
+    ```js
+    export default observer(function Test () {
+      return pug`
+        Div(style={ backgroundColor: 'red' })
+      `
+    })
+    ```
+
+1. cache pure `styleName` or any combination of `part`, `style`, `*Style`, `*StyleName`
+    ```js
+    export default observer(function Test () {
+      return pug`
+        Div.div
+      `
+      styl`
+        .div
+          background-color red
+      `
+    })
+    ```
+
+1. cache scoped model created with `.at()` and `.scope()`
+    ```js
+    export default observer(function Games () {
+      const [games, $games] = useQuery('games', { active: true })
+      return pug`
+        each game in games
+          Game($game=$games.at(game.id))
+      `
+    })
+    const Game = observer(({ $game }) => {
+      const game = $game.get()
+      return pug`
+        Span= game.title
+      `
+    })
+    ```
+
+The last example is especially important since writing code in this way simplifies code a lot in many places. Now you can (and should) pass models whenever possible to child components as arguments, instead of passing an `id` and using `useDoc` or `useLocalDoc`.
+
+Earlier in situations when you run `useQuery` in the parent component and then render each item as a separate component the only way to do it easily and properly was to pass an item id and then do a `useLocalDoc`. And you had to use `useLocalDoc`, otherwise `useDoc` will create an additional doc-only subscription and wait for it. Now this usecase is handled for you automatically, you just create a scoped model for the item inline using `$items.at(item.id)` and pass it as `$item` into the child component.
+
+So this change alone will save you from making extra queries in many situations and will make the code easier to follow and more performant overall.
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-styrename-to-style:** default useImport to true ([c5e312e](https://github.com/startupjs/startupjs/commit/c5e312e773c712244941fe84ef13e1cac531c829))
+
+
+### Features
+
+* implement caching for styles (TODO for model). Rewrite observer loader to babel. Add debug module and debug babel plugin to debug memory leaks in observer() ([#890](https://github.com/startupjs/startupjs/issues/890))
+
+
+
 ## [0.42.20](https://github.com/startupjs/startupjs/compare/v0.42.19...v0.42.20) (2022-02-08)
 
 
@@ -197,6 +290,13 @@
 
 
 # [0.42.0](https://github.com/startupjs/startupjs/compare/v0.41.5...v0.42.0) (2022-01-17)
+
+
+### Release Notes
+
+**No** breaking changes
+
+Fix compilation of `web` mode for pure web projects
 
 
 ### Bug Fixes

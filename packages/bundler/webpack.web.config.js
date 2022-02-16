@@ -1,6 +1,6 @@
 const { getPluginConfigs } = require('@startupjs/plugin/manager.cjs')
+const { getLocalIdent } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const pickBy = require('lodash/pickBy')
-const pick = require('lodash/pick')
 const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
@@ -10,7 +10,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const autoprefixer = require('autoprefixer')
-const { getLocalIdent } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
@@ -19,7 +18,6 @@ const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const webpack = require('webpack')
-const { getJsxRule } = require('./helpers')
 const DEFAULT_MODE = 'react-native'
 const PLUGINS = getPluginConfigs()
 
@@ -187,36 +185,30 @@ module.exports = function getConfig (env, {
     module: {
       rules: [
         {
-          test: getJsxRule().test,
+          test: /\.[mc]?[jt]sx?$/,
           resolve: {
             fullySpecified: false
           },
           exclude: /node_modules/,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
-            {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            }
+            { loader: 'babel-loader' }
           ]
         },
         {
-          test: getJsxRule().test,
+          test: /\.[mc]?[jt]sx?$/,
           resolve: {
             fullySpecified: false
           },
           include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
-            {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            }
+            { loader: 'babel-loader' }
           ]
         },
         {
           test: /\.mdx?$/,
           exclude: /node_modules/,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: '@mdx-js/loader'
             },
@@ -279,7 +271,7 @@ module.exports = function getConfig (env, {
               }
             }
           ] : [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             },
@@ -308,7 +300,7 @@ module.exports = function getConfig (env, {
               }
             }
           ] : [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             }

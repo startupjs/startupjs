@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-to-style",
-  "version": "0.42.0",
+  "version": "0.43.0",
   "publishConfig": {
     "access": "public"
   },
@@ -27,6 +27,7 @@
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
     "@nx-js/observer-util": "^4.1.3",
+    "@startupjs/cache": "^0.43.0",
     "react-native-dynamic-style-processor": "^0.21.0"
   },
   "devDependencies": {

@@ -15,7 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias } = {}) => [
+const basePlugins = ({ alias, observerCache } = {}) => [
+  [require('@startupjs/babel-plugin-startupjs-utils'), {
+    observerCache
+  }],
   [require('babel-plugin-module-resolver'), {
     alias: {
       ...DIRECTORY_ALIASES,
@@ -70,10 +73,9 @@ const nativeReactCssModulesPlatformExtensionsPlugin = () =>
     extensions: ['styl', 'css']
   }]
 
-const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
+const nativeReactCssModulesPlugins = ({ platform } = {}) => [
   [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
-    extensions: ['styl', 'css'],
-    useImport
+    extensions: ['styl', 'css']
   }],
   [require('@startupjs/babel-plugin-rn-stylename-inline'), {
     platform
@@ -87,6 +89,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
     [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
     ...nativeReactCssModulesPlugins(),
@@ -119,9 +122,10 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
     // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -139,7 +143,7 @@ const CONFIG_WEB_SNOWPACK = {
     require('@startupjs/babel-plugin-startupjs'),
     require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true })
+    ...nativeReactCssModulesPlugins({ platform: 'web' })
   ]
 }
 
@@ -153,7 +157,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
   ].filter(Boolean)
 }
@@ -175,6 +179,7 @@ const CONFIG_WEB_PURE_DEVELOPMENT = {
     // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),

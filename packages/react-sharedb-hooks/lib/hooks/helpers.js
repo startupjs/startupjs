@@ -1,11 +1,15 @@
 import { useMemo, useLayoutEffect } from 'react'
 import $root from '@startupjs/model'
+import { blockCache, unblockCache } from '@startupjs/cache'
 import { useQuery, useLocal, useBatchQuery, useAsyncQuery, useLocal$ } from './types.js'
 
 export const emit = $root.emit.bind($root)
 
 export function useModel (...args) {
-  return useMemo(() => $root.scope(...args), [...args])
+  blockCache() // block model.at, model.scope caching since it's handled manually here
+  const res = useMemo(() => $root.scope(...args), [...args])
+  unblockCache() // unblock model caching
+  return res
 }
 
 export function useOn (...args) {
@@ -53,6 +57,7 @@ export function generateUseQueryDoc ({ batch, optional, modelOnly } = {}) {
       ? useAsyncQuery
       : useQuery
   return (collection, query) => {
+    blockCache() // block model.at, model.scope caching since it's handled manually here
     query = Object.assign({}, query, { $limit: 1 })
     if (!query.$sort) query.$sort = { createdAt: -1 }
     const [items = [], , ready] = useFn(collection, query)
@@ -64,6 +69,7 @@ export function generateUseQueryDoc ({ batch, optional, modelOnly } = {}) {
       },
       [itemId]
     )
+    unblockCache() // unblock model caching
     if (!ready || !itemId) {
       if (modelOnly) return undefined
       return [undefined, undefined, ready]

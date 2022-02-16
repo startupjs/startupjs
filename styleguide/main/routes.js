@@ -18,5 +18,15 @@ export default (components = {}) => [
     path: '/test/:componentName',
     exact: true,
     component: components.PTestComponent
+  },
+  {
+    path: '/playground1',
+    exact: true,
+    component: components.PPlayground1
+  },
+  {
+    path: '/playground2',
+    exact: true,
+    component: components.PPlayground2
   }
 ]

@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-startupjs-debug Advanced. Multiple components, with options and with another name: Advanced. Multiple components, with options and with another name 1`] = `
+
+import { observer as myObserver } from 'startupjs'
+
+export default myObserver(function Main ({ title }) {
+  return <span>Hello</span>
+})
+
+const Sub = myObserver(function ({ title }) {
+  return <span>Hello</span>
+})
+
+const Sub2 = myObserver(({ title }) => {
+  console.log(/)/.test(title)) // Test for ) here
+  return <span>Hello</span>
+}, { forwardRef: true, suspenseProps: { loader: <span>Loading</span> } })
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer as myObserver } from "startupjs";
+export default myObserver.__wrapObserverMeta(
+  myObserver.__makeObserver(
+    function Main({ title }) {
+      return <span>Hello</span>;
+    },
+    {
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+const Sub = myObserver.__wrapObserverMeta(
+  myObserver.__makeObserver(
+    function ({ title }) {
+      return <span>Hello</span>;
+    },
+    {
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+const Sub2 = myObserver.__wrapObserverMeta(
+  myObserver.__makeObserver(
+    ({ title }) => {
+      console.log(/)/.test(title)); // Test for ) here
+
+      return <span>Hello</span>;
+    },
+    {
+      forwardRef: true,
+      suspenseProps: {
+        loader: <span>Loading</span>,
+      },
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-debug Advanced. With options: Advanced. With options 1`] = `
+
+import { observer } from 'startupjs'
+
+export default observer(function Main ({ title }) {
+  return <span>Hello</span>
+}, { forwardRef: true, suspenseProps: { loader: <span>Loading</span> } })
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+export default observer.__wrapObserverMeta(
+  observer.__makeObserver(
+    function Main({ title }) {
+      return <span>Hello</span>;
+    },
+    {
+      forwardRef: true,
+      suspenseProps: {
+        loader: <span>Loading</span>,
+      },
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-debug Doesn't execute without magic observer import: Doesn't execute without magic observer import 1`] = `
+
+import { observer } from 'foobar'
+
+export default observer(() => {})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "foobar";
+export default observer(() => {});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-debug Simple. Default export with extra parens in code: Simple. Default export with extra parens in code 1`] = `
+
+import { observer } from 'startupjs'
+
+export default observer(function Main ({ title }) {
+  console.log(/)/.test(title)) // Test for ) here
+  return <span>Hello</span>
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+export default observer.__wrapObserverMeta(
+  observer.__makeObserver(
+    function Main({ title }) {
+      console.log(/)/.test(title)); // Test for ) here
+
+      return <span>Hello</span>;
+    },
+    {
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-debug Simple. Default export: Simple. Default export 1`] = `
+
+import { observer } from 'startupjs'
+
+export default observer(function Main () {
+  return <span>Hello</span>
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+export default observer.__wrapObserverMeta(
+  observer.__makeObserver(
+    function Main() {
+      return <span>Hello</span>;
+    },
+    {
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-debug Simple. Export named const: Simple. Export named const 1`] = `
+
+import { observer } from 'startupjs'
+
+export const Main = observer(({ title }) => {
+  console.log(/)/.test(title)) // Test for ) here
+  return <span>Hello</span>
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+export const Main = observer.__wrapObserverMeta(
+  observer.__makeObserver(
+    ({ title }) => {
+      console.log(/)/.test(title)); // Test for ) here
+
+      return <span>Hello</span>;
+    },
+    {
+      filename: "/ws/dummy-project/component.js",
+    }
+  )
+);
+
+
+`;

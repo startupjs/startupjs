@@ -7,6 +7,9 @@ const STYLE_NAME_REGEX = /(?:^s|S)tyleName$/
 const STYLE_REGEX = /(?:^s|S)tyle$/
 const ROOT_STYLE_PROP_NAME = 'style'
 
+const GLOBAL_OBSERVER_LIBRARY = 'startupjs'
+const GLOBAL_OBSERVER_DEFAULT_NAME = 'observer'
+
 const { GLOBAL_NAME, LOCAL_NAME } = require('./constants.cjs')
 
 const buildSafeVar = template.expression(`
@@ -28,6 +31,7 @@ const buildJsonParse = template(`
 module.exports = function (babel) {
   let styleHash = {}
   let cssIdentifier
+  let hasObserver
   let $program
 
   function getStyleFromExpression (expression, state) {
@@ -115,13 +119,15 @@ module.exports = function (babel) {
   }
 
   function handleStyleNames (jsxOpeningElementPath, state) {
-    if (!styleHash[ROOT_STYLE_PROP_NAME]) return
-    const styleName = styleHash[ROOT_STYLE_PROP_NAME].styleName
-    const partStyle = styleHash[ROOT_STYLE_PROP_NAME].partStyle
+    if (!Object.keys(styleHash).length) return
+    const styleName = styleHash[ROOT_STYLE_PROP_NAME]?.styleName
+    const partStyle = styleHash[ROOT_STYLE_PROP_NAME]?.partStyle
     const inlineStyles = []
 
-    // Don't process this element if neither styleName or part found.
-    if (!styleName && !partStyle) return
+    // Always process if 'observer' import is found in the file
+    // which is needed for styles caching.
+    // Otherwise, if no 'observer' found and no 'styleName' or 'part' found then skip
+    if (!(hasObserver || styleName || partStyle)) return
 
     // Check if styleName exists and if it can be processed
     if (styleName != null) {
@@ -249,6 +255,7 @@ module.exports = function (babel) {
     post () {
       styleHash = {}
       cssIdentifier = undefined
+      hasObserver = undefined
       $program = undefined
     },
     visitor: {
@@ -270,8 +277,9 @@ module.exports = function (babel) {
             .pop()
 
           if (lastImportOrRequire) {
+            const useImport = state.opts.useImport == null ? true : state.opts.useImport
             lastImportOrRequire.insertAfter(
-              state.opts.useImport
+              useImport
                 ? buildImport({ name: state.reqName })
                 : buildRequire({ name: state.reqName })
             )
@@ -279,6 +287,8 @@ module.exports = function (babel) {
         }
       },
       ImportDeclaration: ($this, state) => {
+        if (!hasObserver) hasObserver = checkObserverImport($this)
+
         const extensions =
           Array.isArray(state.opts.extensions) &&
           state.opts.extensions
@@ -364,7 +374,9 @@ module.exports = function (babel) {
           const convertedName = convertStyleName(name)
           if (!styleHash[convertedName]) styleHash[convertedName] = {}
           styleHash[convertedName].styleName = $this
-        } else if (STYLE_REGEX.test(name)) {
+        // Some react-native built-in stuff might have props like 'barStyle' which
+        // is a string. We skip those.
+        } else if (STYLE_REGEX.test(name) && !$this.get('value').isStringLiteral()) {
           if (!styleHash[name]) styleHash[name] = {}
           styleHash[name].style = $this
         } else if (name === 'part') {
@@ -467,5 +479,17 @@ function buildDynamicPart (expr, part) {
     )
   } else {
     return expr
+  }
+}
+
+function checkObserverImport ($import, {
+  observerLibrary = GLOBAL_OBSERVER_LIBRARY,
+  observerDefaultName = GLOBAL_OBSERVER_DEFAULT_NAME
+} = {}) {
+  if ($import.node.source.value !== observerLibrary) return
+  for (const $specifier of $import.get('specifiers')) {
+    if (!$specifier.isImportSpecifier()) continue
+    const { imported } = $specifier.node
+    if (imported.name === observerDefaultName) return true
   }
 }
