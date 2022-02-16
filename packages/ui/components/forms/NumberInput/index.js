@@ -41,7 +41,7 @@ function NumberInput ({
 
     // TODO
     // Display a tip instead of permanently change a value
-    if (!isNaN(value) && Number(inputValue) !== value) {
+    if (!isNaN(value) && (Number(inputValue) !== value || inputValue === '')) {
       if (min != null && value < min) {
         value = min
       } else if (max != null && value > max) {
