@@ -1,3 +1,12 @@
+## [0.43.1](https://github.com/startupjs/startupjs/compare/v0.43.0...v0.43.1) (2022-02-16)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** fix bug related to set zero when value is empty string ([5b6ca14](https://github.com/startupjs/startupjs/commit/5b6ca1464a17f4faf3e9a2573b316217b4648555))
+
+
+
 # [0.43.0](https://github.com/startupjs/startupjs/compare/v0.42.20...v0.43.0) (2022-02-14)
 
 
