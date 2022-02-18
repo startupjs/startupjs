@@ -18,7 +18,8 @@ function Picker ({ onChangeColor }, ref) {
   const [, $visible] = useValue()
 
   useImperativeHandle(ref, () => ({
-    show: () => $visible.set(true)
+    show: () => $visible.set(true),
+    hide: () => $visible.set(false)
   }))
 
   return pug`

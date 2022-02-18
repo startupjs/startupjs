@@ -2,7 +2,8 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useEffect
+  useEffect,
+  useImperativeHandle
 } from 'react'
 import { observer, useValue } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
@@ -37,12 +38,15 @@ function DateTimePicker ({
   disabledDays = [],
   date,
   disabled,
+  readonly,
   placeholder,
   maxDate,
   minDate,
+  onFocus,
+  onBlur,
   onChangeDate,
   _hasError
-}) {
+}, ref) {
   if (renderCaption) {
     console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
   }
@@ -57,7 +61,9 @@ function DateTimePicker ({
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
-  const refInput = useRef()
+  const inputRef = useRef()
+
+  useImperativeHandle(ref, () => inputRef.current, [])
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -119,13 +125,13 @@ function DateTimePicker ({
 
   function onDismiss () {
     $visible.set(false)
-    refInput.current.blur()
   }
 
   const inputProps = {
     style,
-    ref: refInput,
+    ref: inputRef,
     disabled,
+    readonly,
     size,
     placeholder,
     _hasError,
@@ -134,11 +140,18 @@ function DateTimePicker ({
 
   const caption = pug`
     if renderInput
-      = renderInput(Object.assign({ $visible }, inputProps))
+      = renderInput(Object.assign({ $visible, onFocus, onBlur }, inputProps))
     else
       TextInput(
         ...inputProps
-        onFocus=()=> $visible.set(true)
+        onFocus=(...args) => {
+          $visible.set(true)
+          onFocus && onFocus(...args)
+        }
+        onBlur=(...args) => {
+          $visible.set(false)
+          onBlur && onBlur(...args)
+        }
       )
   `
 
@@ -193,7 +206,7 @@ function DateTimePicker ({
       = caption
       AbstractPopover.popover(
         visible=visible
-        refAnchor=refInput
+        refAnchor=inputRef
         renderWrapper=renderWrapper
         onRequestClose=onDismiss
       )= renderPopoverContent()
@@ -221,6 +234,7 @@ DateTimePicker.propTypes = {
   is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   placeholder: PropTypes.string,
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
@@ -232,6 +246,8 @@ DateTimePicker.propTypes = {
   disabledDays: PropTypes.array,
   dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   onChangeDate: PropTypes.func,
   _hasError: PropTypes.bool // @private
 }

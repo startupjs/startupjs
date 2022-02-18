@@ -1,6 +1,6 @@
 import React from 'react'
-import { observer } from 'startupjs'
 import { ScrollView } from 'react-native'
+import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from './../../popups/Popover'
 import MultiselectInput from './input'
@@ -26,7 +26,7 @@ const Multiselect = ({
   onOpen,
   onHide,
   _hasError
-}) => {
+}, ref) => {
   return pug`
     Popover.popover(
       captionStyle=style
@@ -38,6 +38,7 @@ const Multiselect = ({
     )
       Popover.Caption
         MultiselectInput(
+          ref=ref
           style=inputStyle
           focused=focused
           value=value
@@ -49,6 +50,7 @@ const Multiselect = ({
           InputComponent=InputComponent
           TagComponent=TagComponent
           onOpen=onOpen
+          onHide=onHide
           _hasError=_hasError
         )
       ScrollView.suggestions-web
@@ -76,4 +78,7 @@ Multiselect.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(themed('Multiselect', Multiselect))
+export default observer(
+  themed('Multiselect', Multiselect),
+  { forwardRef: true }
+)
