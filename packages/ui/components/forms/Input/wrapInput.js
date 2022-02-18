@@ -53,13 +53,11 @@ export default function wrapInput (Component, configuration) {
     const [focused, setFocused] = useState(false)
 
     function handleFocus (...args) {
-      console.log('handle focus')
       setFocused(true)
       onFocus && onFocus(...args)
     }
 
     function handleBlur (...args) {
-      console.log('handle blur')
       setFocused(false)
       onBlur && onBlur(...args)
     }
