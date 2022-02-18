@@ -1,3 +1,12 @@
+## [0.43.2](https://github.com/startupjs/startupjs/compare/v0.43.1...v0.43.2) (2022-02-18)
+
+
+### Bug Fixes
+
+* **ui/forms:** improve interaction ([#904](https://github.com/startupjs/startupjs/issues/904)) ([640115c](https://github.com/startupjs/startupjs/commit/640115c91ecc6acf349624de4b6370da5dbaacb6))
+
+
+
 ## [0.43.1](https://github.com/startupjs/startupjs/compare/v0.43.0...v0.43.1) (2022-02-16)
 
 
