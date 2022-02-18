@@ -6,7 +6,7 @@ import React, {
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate, useValue } from 'startupjs'
+import { observer, useDidUpdate } from 'startupjs'
 import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
@@ -61,19 +61,19 @@ function TextInputInput ({
   _hasError,
   ...props
 }, ref) {
-  const inputRef = useRef()
-  const [inputState, $inputState] = useValue({ focused: false })
+  const [focused, setFocused] = useState(false)
   const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  const inputRef = useRef()
+
+  useImperativeHandle(ref, () => inputRef.current, [])
 
   function handleFocus (...args) {
-    if (inputState.focused || disabled) return
     onFocus && onFocus(...args)
-    $inputState.set('focused', true)
+    setFocused(true)
   }
   function handleBlur (...args) {
-    if (!inputState.focused || disabled) return
     onBlur && onBlur(...args)
-    $inputState.set('focused', false)
+    setFocused(false)
   }
 
   if (!_renderWrapper) {
@@ -81,18 +81,6 @@ function TextInputInput ({
       Div(style=style)= children
     `
   }
-
-  useImperativeHandle(ref, () => ({
-    ...inputRef.current,
-    focus: handleFocus,
-    blur: handleBlur,
-    clear: () => inputRef.current.clear(),
-    isFocused: () => inputState.focused,
-    _onLabelPress: () => {
-      inputRef.current.focus()
-      handleFocus()
-    }
-  }), [])
 
   useLayoutEffect(() => {
     if (resize) {
@@ -105,14 +93,16 @@ function TextInputInput ({
 
   if (IS_WEB) {
     // repeat mobile behaviour on the web
+    // TODO
+    // test mobile device behaviour
     useLayoutEffect(() => {
-      if (inputState.focused && disabled) handleBlur()
+      if (focused && disabled) handleBlur()
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
     useLayoutEffect(() => {
       inputRef.current.setNativeProps({ size: '1' })
-    })
+    }, [])
   }
 
   useDidUpdate(() => {
@@ -159,7 +149,7 @@ function TextInputInput ({
     size,
     {
       disabled,
-      focused: inputState.focused,
+      focused,
       [`icon-${iconPosition}`]: !!icon,
       [`icon-${getOppositePosition(iconPosition)}`]: !!secondaryIcon,
       error: _hasError
@@ -170,8 +160,8 @@ function TextInputInput ({
     style: [{ height: fullHeight }, style]
   }, pug`
     TextInput.input-input(
-      style=inputStyle
       ref=inputRef
+      style=inputStyle
       styleName=[inputStyleName]
       selectionColor=caretColor
       placeholder=placeholder

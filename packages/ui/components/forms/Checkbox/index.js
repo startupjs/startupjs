@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../../Div'
@@ -25,13 +25,11 @@ function Checkbox ({
   readonly,
   value,
   onChange,
+  onFocus, // skip due to pointless triggering when clicked on the View
+  onBlur, // skip due to pointless triggering when clicked on the View
   ...props
-}, ref) {
+}) {
   const Input = INPUT_COMPONENTS[variant]
-
-  useImperativeHandle(ref, () => ({
-    _onLabelPress: onPress
-  }), [value])
 
   function onPress () {
     onChange && onChange(!value)
@@ -70,7 +68,4 @@ Checkbox.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(
-  themed('Checkbox', Checkbox),
-  { forwardRef: true }
-)
+export default observer(themed('Checkbox', Checkbox))

@@ -24,11 +24,13 @@ const Multiselect = ({
   onOpen,
   onHide,
   _hasError
-}) => {
+}, ref) => {
   return pug`
     MultiselectInput(
+      ref=ref
       style=inputStyle
       onOpen=onOpen
+      onHide=onHide
       focused=focused
       value=value
       placeholder=placeholder
@@ -72,4 +74,7 @@ Multiselect.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(themed('Multiselect', Multiselect))
+export default observer(
+  themed('Multiselect', Multiselect),
+  { forwardRef: true }
+)

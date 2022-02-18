@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle } from 'react'
+import React, { useState } from 'react'
 import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -31,18 +31,9 @@ export default function wrapInput (Component, configuration) {
     error,
     onFocus,
     onBlur,
+    _onLabelPress,
     ...props
   }, ref) {
-    const inputRef = useRef({})
-
-    useImperativeHandle(ref, () => ({
-      ...inputRef.current,
-      focus: () => inputRef.current.focus && inputRef.current.focus(),
-      blur: () => inputRef.current.blur && inputRef.current.blur(),
-      clear: () => inputRef.current.clear && inputRef.current.clear(),
-      isFocused: () => inputRef.current.isFocused && inputRef.current.isFocused()
-    }), [])
-
     layout = useLayout({
       layout,
       label,
@@ -62,11 +53,13 @@ export default function wrapInput (Component, configuration) {
     const [focused, setFocused] = useState(false)
 
     function handleFocus (...args) {
+      console.log('handle focus')
       setFocused(true)
       onFocus && onFocus(...args)
     }
 
     function handleBlur (...args) {
+      console.log('handle blur')
       setFocused(false)
       onBlur && onBlur(...args)
     }
@@ -83,7 +76,7 @@ export default function wrapInput (Component, configuration) {
             }
           ]
           onPress=isLabelClickable
-            ? () => inputRef.current && inputRef.current._onLabelPress()
+            ? _onLabelPress
             : undefined
         )= label
     `
@@ -100,7 +93,7 @@ export default function wrapInput (Component, configuration) {
     const input = pug`
       Component(
         part='wrapper'
-        ref=inputRef
+        ref=ref
         layout=layout
         _hasError=!!error
         onFocus=handleFocus

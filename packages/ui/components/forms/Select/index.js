@@ -36,6 +36,7 @@ function Select ({
       icon=faAngleDown
       iconPosition='right'
       _renderWrapper=renderWrapper
+      selection={start: 0, end: 0} /* Prevent select text on input when hit the 'Tab' key on web */
       editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
       ...props
     )

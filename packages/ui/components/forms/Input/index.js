@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useImperativeHandle } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
@@ -12,12 +12,15 @@ function Input ({
   input = input || type
   input = SCHEMA_TYPE_TO_INPUT[input] || input
 
+  const inputRef = useRef()
+  useImperativeHandle(ref, () => inputRef.current, [])
+
   const { Component, useProps } = inputs[input]
-  const componentProps = useProps(props)
+  const componentProps = useProps(props, inputRef)
 
   return pug`
     Component(
-      ref=ref
+      ref=inputRef
       ...props
       ...componentProps
     )

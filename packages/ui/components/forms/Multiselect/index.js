@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Row from '../../Row'
 import Span from '../../typography/Span'
 import Div from '../../Div'
-import Checkbox from './../Checkbox'
 import Icon from './../../Icon'
 import MultiselectComponent from './multiselect'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import DefaultTag from './defaultTag'
 import themed from '../../../theming/themed'
 import './index.styl'
@@ -28,7 +27,7 @@ const Multiselect = ({
   onRemove,
   onFocus,
   onBlur
-}) => {
+}, ref) => {
   const [focused, setFocused] = useState(false)
   // Map array if user pass options pass an array of primitives
   // Convert it into { label, value } items for consistency
@@ -52,10 +51,6 @@ const Multiselect = ({
   function blurHandler () {
     setFocused(false)
     onBlur && onBlur()
-  }
-
-  function onHide () {
-    blurHandler(false)
   }
 
   const onItemPress = value => checked => {
@@ -89,6 +84,7 @@ const Multiselect = ({
 
   return pug`
     MultiselectComponent(
+      ref=ref
       options=_options
       value=value
       placeholder=placeholder
@@ -101,7 +97,7 @@ const Multiselect = ({
       hasWidthCaption=hasWidthCaption
       renderListItem=_renderListItem
       onOpen=focusHandler
-      onHide=onHide
+      onHide=blurHandler
     )
   `
 }
