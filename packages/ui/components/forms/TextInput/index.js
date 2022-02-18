@@ -3,23 +3,35 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from './input'
 import Span from './../../typography/Span'
+import Div from './../../Div'
 import './index.styl'
 
 function TextInput ({
+  style,
   value,
   readonly,
+  _renderWrapper,
   ...props
 }, ref) {
-  if (readonly) {
-    return pug`
-      Span= value
+  if (!_renderWrapper) {
+    _renderWrapper = ({ style }, children) => pug`
+      Div(style=style)= children
     `
+  }
+
+  if (readonly) {
+    return _renderWrapper({
+      style: [style]
+    }, pug`
+      Span= value
+    `)
   }
 
   return pug`
     Input(
       ref=ref
       value=value
+      _renderWrapper=_renderWrapper
       ...props
     )
   `

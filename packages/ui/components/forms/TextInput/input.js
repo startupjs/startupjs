@@ -76,11 +76,11 @@ function TextInputInput ({
     $inputState.set('focused', false)
   }
 
-  if (!_renderWrapper) {
-    _renderWrapper = ({ style }, children) => pug`
-      Div(style=style)= children
-    `
-  }
+  // if (!_renderWrapper) {
+  //   _renderWrapper = ({ style }, children) => pug`
+  //     Div(style=style)= children
+  //   `
+  // }
 
   useImperativeHandle(ref, () => ({
     ...inputRef.current,

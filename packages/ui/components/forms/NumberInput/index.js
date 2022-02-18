@@ -15,6 +15,7 @@ function NumberInput ({
   size,
   buttonsMode,
   disabled,
+  readonly,
   max,
   min,
   step,
@@ -100,22 +101,32 @@ function NumberInput ({
 
   function renderWrapper ({ style }, children) {
     return pug`
-      Row.input(
-        style=style
-        styleName=[extraStyleName]
-        vAlign='center'
-      )
-        if units
-          Span.input-units(styleName=[size])= units
-        Div.input-container(styleName=[extraStyleName])
-          Buttons(
-            buttonStyle=buttonStyle
-            mode=buttonsMode
-            size=size
-            disabled=disabled
-            onIncrement=onIncrement
-          )
+      if readonly
+        Row.input-readonly(
+          style=style
+          styleName=[extraStyleName]
+          vAlign='center'
+        )
+          if units
+            Span.input-units(styleName=[size])= units
           = children
+      else
+        Row.input(
+          style=style
+          styleName=[extraStyleName]
+          vAlign='center'
+        )
+          if units
+            Span.input-units(styleName=[size])= units
+          Div.input-container(styleName=[extraStyleName])
+            Buttons(
+              buttonStyle=buttonStyle
+              mode=buttonsMode
+              size=size
+              disabled=disabled
+              onIncrement=onIncrement
+            )
+            = children
     `
   }
 
@@ -126,6 +137,7 @@ function NumberInput ({
       value=inputValue
       size=size
       disabled=disabled
+      readonly=readonly
       keyboardType='numeric'
       onChangeText=onChangeText
       _renderWrapper=renderWrapper

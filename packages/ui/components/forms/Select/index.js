@@ -11,20 +11,24 @@ function Select ({
   options,
   value,
   disabled,
+  readonly,
   showEmptyValue,
   onChange,
   ...props
 }, ref) {
   function renderWrapper ({ style }, children) {
     return pug`
-      Wrapper(
-        style=style
-        options=options
-        disabled=disabled
-        value=value
-        onChange=onChange
-        showEmptyValue=showEmptyValue
-      )= children
+      if readonly
+        = children
+      else
+        Wrapper(
+          style=style
+          options=options
+          disabled=disabled
+          value=value
+          onChange=onChange
+          showEmptyValue=showEmptyValue
+        )= children
     `
   }
 
@@ -33,6 +37,7 @@ function Select ({
       ref=ref
       value=getLabelFromValue(value, options)
       disabled=disabled
+      readonly=readonly
       icon=faAngleDown
       iconPosition='right'
       _renderWrapper=renderWrapper
