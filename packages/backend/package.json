@@ -15,7 +15,7 @@
     "ioredis": "^4.28.2",
     "mongodb": "^4.0.0",
     "racer": "1.0.1",
-    "redlock": "^4.2.0",
+    "redlock": "^3.0.0",
     "sharedb": "^2.0.0",
     "sharedb-hooks": "~4.0.0",
     "sharedb-mingo-memory": "^1.2.0",
