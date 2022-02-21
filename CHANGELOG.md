@@ -1,3 +1,12 @@
+## [0.43.3](https://github.com/startupjs/startupjs/compare/v0.43.2...v0.43.3) (2022-02-21)
+
+
+### Bug Fixes
+
+* **backend:** downgrade 'redlock' version because of issue [#65](https://github.com/startupjs/startupjs/issues/65) in 'redlock' library ([6adacbb](https://github.com/startupjs/startupjs/commit/6adacbb8c324add74aea2d23c74067b820ef9831))
+
+
+
 ## [0.43.2](https://github.com/startupjs/startupjs/compare/v0.43.1...v0.43.2) (2022-02-18)
 
 
