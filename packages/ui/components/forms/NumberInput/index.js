@@ -15,6 +15,7 @@ function NumberInput ({
   size,
   buttonsMode,
   disabled,
+  readonly,
   max,
   min,
   step,
@@ -96,6 +97,18 @@ function NumberInput ({
 
   if (units) {
     extraStyleName[unitsPosition] = unitsPosition
+  }
+
+  if (readonly) {
+    return pug`
+      Row.input-readonly(
+        styleName=[extraStyleName]
+        vAlign='center'
+      )
+        if units
+          Span.input-units(styleName=[size])= units
+        Span= value
+  `
   }
 
   function renderWrapper ({ style }, children) {
