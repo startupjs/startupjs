@@ -10,6 +10,7 @@ import Buttons from './Buttons'
 import './index.styl'
 
 function NumberInput ({
+  style,
   buttonStyle,
   value,
   size,
@@ -99,19 +100,7 @@ function NumberInput ({
     extraStyleName[unitsPosition] = unitsPosition
   }
 
-  if (readonly) {
-    return pug`
-      Row.input-readonly(
-        styleName=[extraStyleName]
-        vAlign='center'
-      )
-        if units
-          Span.input-units(styleName=[size])= units
-        Span= value
-  `
-  }
-
-  function renderWrapper ({ style }, children) {
+  const renderWrapper = ({ style }, children) => {
     return pug`
       Row.input(
         style=style
@@ -120,6 +109,22 @@ function NumberInput ({
       )
         if units
           Span.input-units(styleName=[size])= units
+        = children
+    `
+  }
+
+  if (readonly) {
+    return renderWrapper({
+      style: [{ alignSelf: 'flex-start' }, style]
+    }, pug`
+      Span= value
+    `)
+  }
+
+  function renderInputWrapper (props, children) {
+    return renderWrapper(
+      props,
+      pug`
         Div.input-container(styleName=[extraStyleName])
           Buttons(
             buttonStyle=buttonStyle
@@ -129,11 +134,12 @@ function NumberInput ({
             onIncrement=onIncrement
           )
           = children
-    `
+      `)
   }
 
   return pug`
     TextInput(
+      style=style
       ref=ref
       inputStyleName=['input-input', buttonsMode, size]
       value=inputValue
@@ -141,7 +147,7 @@ function NumberInput ({
       disabled=disabled
       keyboardType='numeric'
       onChangeText=onChangeText
-      _renderWrapper=renderWrapper
+      _renderWrapper=renderInputWrapper
       ...props
     )
   `
