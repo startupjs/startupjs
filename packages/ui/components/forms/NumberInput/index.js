@@ -102,20 +102,20 @@ function NumberInput ({
 
   const renderWrapper = ({ style }, children) => {
     return pug`
-      Row.input(
-        style=style
-        styleName=[extraStyleName]
-        vAlign='center'
-      )
-        if units
-          Span.input-units(styleName=[size])= units
-        = children
+      Div(style=style)
+        Row.input(
+          styleName=[extraStyleName, { readonly }]
+          vAlign='center'
+        )
+          if units
+            Span.input-units(styleName=[size])= units
+          = children
     `
   }
 
   if (readonly) {
     return renderWrapper({
-      style: [{ alignSelf: 'flex-start' }, style]
+      style: [style]
     }, pug`
       Span= value
     `)
