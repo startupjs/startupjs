@@ -103,7 +103,7 @@ function NumberInput ({
   const renderWrapper = ({ style }, children) => {
     return pug`
       Div(style=style)
-        Row.input(
+        Row.input-wrapper(
           styleName=[extraStyleName, { readonly }]
           vAlign='center'
         )
