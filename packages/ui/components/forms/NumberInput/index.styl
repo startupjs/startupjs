@@ -9,9 +9,12 @@ $padding = {
   s: 4u
 }
 
-.input
+.input-wrapper
   &.right
     flex-direction row-reverse
+
+  &.readonly
+    align-self flex-start
 
 .input-units
   &.l
@@ -25,7 +28,6 @@ $padding = {
 
   &.right
     margin-right 1u
-
 
 .input-input
   for size in $sizes

@@ -10,11 +10,13 @@ import Buttons from './Buttons'
 import './index.styl'
 
 function NumberInput ({
+  style,
   buttonStyle,
   value,
   size,
   buttonsMode,
   disabled,
+  readonly,
   max,
   min,
   step,
@@ -98,15 +100,31 @@ function NumberInput ({
     extraStyleName[unitsPosition] = unitsPosition
   }
 
-  function renderWrapper ({ style }, children) {
+  const renderWrapper = ({ style }, children) => {
     return pug`
-      Row.input(
-        style=style
-        styleName=[extraStyleName]
-        vAlign='center'
-      )
-        if units
-          Span.input-units(styleName=[size])= units
+      Div(style=style)
+        Row.input-wrapper(
+          styleName=[extraStyleName, { readonly }]
+          vAlign='center'
+        )
+          if units
+            Span.input-units(styleName=[size])= units
+          = children
+    `
+  }
+
+  if (readonly) {
+    return renderWrapper({
+      style: [style]
+    }, pug`
+      Span= value
+    `)
+  }
+
+  function renderInputWrapper (props, children) {
+    return renderWrapper(
+      props,
+      pug`
         Div.input-container(styleName=[extraStyleName])
           Buttons(
             buttonStyle=buttonStyle
@@ -116,11 +134,12 @@ function NumberInput ({
             onIncrement=onIncrement
           )
           = children
-    `
+      `)
   }
 
   return pug`
     TextInput(
+      style=style
       ref=ref
       inputStyleName=['input-input', buttonsMode, size]
       value=inputValue
@@ -128,7 +147,7 @@ function NumberInput ({
       disabled=disabled
       keyboardType='numeric'
       onChangeText=onChangeText
-      _renderWrapper=renderWrapper
+      _renderWrapper=renderInputWrapper
       ...props
     )
   `
