@@ -1,3 +1,12 @@
+## [0.43.4](https://github.com/startupjs/startupjs/compare/v0.43.3...v0.43.4) (2022-02-22)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** add readonly view ([#912](https://github.com/startupjs/startupjs/issues/912)) ([63e3a0f](https://github.com/startupjs/startupjs/commit/63e3a0fe202680e59a0c70729fb99dc8768b5ebf))
+
+
+
 ## [0.43.3](https://github.com/startupjs/startupjs/compare/v0.43.2...v0.43.3) (2022-02-21)
 
 
