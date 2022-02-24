@@ -1,3 +1,13 @@
+## [0.43.5](https://github.com/startupjs/startupjs/compare/v0.43.4...v0.43.5) (2022-02-24)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** don't close the picker when the blur event is fired ([554449d](https://github.com/startupjs/startupjs/commit/554449dbad4269ee497e9c7c79730698c7e37b04))
+* **ui/NumberInput:** add indent for 'units' on readonly mode ([#916](https://github.com/startupjs/startupjs/issues/916)) ([3c98190](https://github.com/startupjs/startupjs/commit/3c981901332d291848696371be558794fe313cdb))
+
+
+
 ## [0.43.4](https://github.com/startupjs/startupjs/compare/v0.43.3...v0.43.4) (2022-02-22)
 
 
