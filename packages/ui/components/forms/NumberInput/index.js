@@ -108,7 +108,10 @@ function NumberInput ({
           vAlign='center'
         )
           if units
-            Span.input-units(styleName=[size])= units
+            Span.input-units(
+              styleName=[size, extraStyleName, { readonly }]
+            )
+              = units
           = children
     `
   }
