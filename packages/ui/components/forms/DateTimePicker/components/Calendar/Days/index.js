@@ -98,7 +98,7 @@ export default observer(function Days ({
             }
             hoverStyleName='cellHover'
             disabled=isDisableDay(day.value)
-            onPress=()=> _onChangeDay(day)
+            onPress=() => _onChangeDay(day)
           )
             Span.label(
               bold=getLabelActive(day.value)

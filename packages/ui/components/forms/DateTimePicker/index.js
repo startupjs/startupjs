@@ -121,6 +121,7 @@ function DateTimePicker ({
     value = getDate(value)
     setTextInput(getFormatDate(value))
     onChangeDate && onChangeDate(value)
+    $visible.set(false)
   }
 
   function onDismiss () {
@@ -149,7 +150,6 @@ function DateTimePicker ({
           onFocus && onFocus(...args)
         }
         onBlur=(...args) => {
-          $visible.set(false)
           onBlur && onBlur(...args)
         }
       )

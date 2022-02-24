@@ -28,7 +28,7 @@ function Checkbox ({
   onFocus, // skip due to pointless triggering when clicked on the View
   onBlur, // skip due to pointless triggering when clicked on the View
   ...props
-}) {
+}, ref) {
   const Input = INPUT_COMPONENTS[variant]
 
   function onPress () {
@@ -68,4 +68,7 @@ Checkbox.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(themed('Checkbox', Checkbox))
+export default observer(
+  themed('Checkbox', Checkbox),
+  { forwardRef: true }
+)
