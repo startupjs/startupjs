@@ -174,8 +174,10 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
-        = caption
+      TouchableOpacity.caption(
+        style=captionStyle
+        onPress=()=> $isShow.set(!isShow)
+      )= caption
     Drawer(
       visible=isShow
       position='bottom'
