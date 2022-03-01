@@ -70,7 +70,6 @@ function Div ({
   // prop while hover or active, state wouldn't update without this effect
 
   const refAnchor = ref || useRef()
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
   // TODO disabled
   useDidUpdate(() => {
@@ -134,41 +133,6 @@ function Div ({
     }
   }
 
-  tooltip = renderTooltip || tooltip
-
-  if (typeof tooltip !== 'undefined') {
-    // TODO: Move all logic to useTooltip hook along with the tooltip html
-    const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
-
-    if (isWeb) {
-      const { onMouseOver, onMouseLeave } = props
-
-      props.onMouseOver = (...args) => {
-        tooltipActions.onOpen()
-        onMouseOver && onMouseOver(...args)
-      }
-      props.onMouseLeave = (...args) => {
-        tooltipActions.onClose()
-        onMouseLeave && onMouseLeave(...args)
-      }
-    } else {
-      const { onPress, onLongPress } = wrapperProps
-
-      wrapperProps.onPress = (...args) => {
-        if (onLongPress && !onPress) onLongPress(...args)
-        if (onPress) onPress(...args)
-      }
-
-      wrapperProps.onLongPress = () => {
-        tooltipActions.onOpen()
-      }
-
-      wrapperProps.onPressOut = () => {
-        tooltipActions.onClose()
-      }
-    }
-  }
-
   let pushedModifier
   let levelModifier
   const pushedSize = typeof pushed === 'boolean' && pushed ? 'm' : pushed
@@ -178,7 +142,7 @@ function Div ({
   if (level) levelModifier = `shadow-${level}`
 
   function maybeWrapToClickable (children) {
-    if (isClickable || (tooltip && !isWeb)) {
+    if (isClickable) {
       return pug`
         TouchableWithoutFeedback(...wrapperProps)
           = children
@@ -188,9 +152,24 @@ function Div ({
     }
   }
 
+  function maybeWrapToTooltip (children) {
+    if (tooltip) {
+      return pug`
+        TooltipWrapper(
+          style=tooltipStyle
+          refAnchor=refAnchor
+          tooltip=tooltip
+        )
+          = children
+      `
+    } else {
+      return children
+    }
+  }
+
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
-  const div = maybeWrapToClickable(pug`
+  const div = maybeWrapToClickable(maybeWrapToTooltip(pug`
     View.root(
       ref=refAnchor
       style=[style, extraStyle]
@@ -207,23 +186,65 @@ function Div ({
       ]
       ...props
     )= children
-  `)
+  `))
+
+  return div
+}
+
+const TooltipWrapper = ({
+  style,
+  refAnchor,
+  tooltip,
+  children,
+  ...props
+}) => {
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+  const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
+
+  if (isWeb) {
+    const { onMouseOver, onMouseLeave } = props
+
+    props.onMouseOver = (...args) => {
+      tooltipActions.onOpen()
+      onMouseOver && onMouseOver(...args)
+    }
+    props.onMouseLeave = (...args) => {
+      tooltipActions.onClose()
+      onMouseLeave && onMouseLeave(...args)
+    }
+  } else {
+    const { onPress, onLongPress } = props
+
+    props.onPress = (...args) => {
+      if (onLongPress && !onPress) onLongPress(...args)
+      if (onPress) onPress(...args)
+    }
+
+    props.onLongPress = () => {
+      tooltipActions.onOpen()
+    }
+
+    props.onPressOut = () => {
+      tooltipActions.onClose()
+    }
+  }
+
+  const div = React.cloneElement(children, props)
 
   return pug`
     = div
 
-    if tooltip
-      AbstractPopover.tooltip(
-        style=tooltipStyle
-        refAnchor=refAnchor
-        visible=isTooltipVisible
-        ...DEFAULT_TOOLTIP_PROPS
-      )
-        //- case for DEPRECATED renderTooltip property
-        if typeof tooltip === 'function'
-          = tooltip()
-        else
-          Span.tooltip-text= tooltip
+    AbstractPopover.tooltip(
+      style=style
+      refAnchor=refAnchor
+      visible=isTooltipVisible
+      ...DEFAULT_TOOLTIP_PROPS
+    )
+      //- case for DEPRECATED renderTooltip property
+      if typeof tooltip === 'function'
+        = tooltip()
+      else
+        Span.tooltip-text= tooltip
   `
 }
 
