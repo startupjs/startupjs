@@ -191,13 +191,13 @@ function Div ({
   return div
 }
 
-const TooltipWrapper = ({
+const TooltipWrapper = React.forwardRef(({
   style,
   refAnchor,
   tooltip,
   children,
   ...props
-}) => {
+}, ref) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
   const tooltipActions = useTooltip({ onChange: setIsTooltipVisible })
 
@@ -246,7 +246,7 @@ const TooltipWrapper = ({
       else
         Span.tooltip-text= tooltip
   `
-}
+})
 
 Div.defaultProps = {
   variant: 'opacity',
