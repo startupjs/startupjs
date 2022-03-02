@@ -23,10 +23,6 @@ function DefaultInput ({
   }), [])
 
   useEffect(() => {
-    if (focused && readonly) onHide()
-  }, [readonly])
-
-  useEffect(() => {
     if (focused && disabled) onHide()
   }, [disabled])
 

@@ -46,25 +46,12 @@ const WrappedColorPicker = wrapInput(
 )
 const WrappedDateTimePicker = wrapInput(
   DateTimePicker,
-  {
-    rows: { descriptionPosition: 'bottom' },
-    isLabelColoredWhenFocusing: true
-  }
+  { rows: { descriptionPosition: 'bottom' } }
 )
-const WrappedMultiselect = wrapInput(
-  Multiselect,
-  {
-    isLabelColoredWhenFocusing: true
-  }
-)
+const WrappedMultiselect = wrapInput(Multiselect)
 const WrappedNumberInput = wrapInput(
   NumberInput,
-  {
-    rows: {
-      descriptionPosition: 'bottom'
-    },
-    isLabelColoredWhenFocusing: true
-  }
+  { rows: { descriptionPosition: 'bottom' } }
 )
 const WrappedObjectInput = wrapInput(
   ObjectInput,
@@ -76,31 +63,16 @@ const WrappedObjectInput = wrapInput(
 
 const WrappedPasswordInput = wrapInput(
   PasswordInput,
-  {
-    rows: {
-      descriptionPosition: 'bottom'
-    },
-    isLabelColoredWhenFocusing: true
-  }
+  { rows: { descriptionPosition: 'bottom' } }
 )
 const WrappedRadio = wrapInput(Radio)
 const WrappedSelect = wrapInput(
   Select,
-  {
-    rows: {
-      descriptionPosition: 'bottom'
-    },
-    isLabelColoredWhenFocusing: true
-  }
+  { rows: { descriptionPosition: 'bottom' } }
 )
 const WrappedTextInput = wrapInput(
   TextInput,
-  {
-    rows: {
-      descriptionPosition: 'bottom'
-    },
-    isLabelColoredWhenFocusing: true
-  }
+  { rows: { descriptionPosition: 'bottom' } }
 )
 
 const inputs = {
@@ -140,7 +112,10 @@ const inputs = {
       return {
         mode: 'date',
         date: value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: {
+          isLabelClickable: !disabled && !readonly,
+          isLabelColoredWhenFocusing: !readonly
+        },
         _onLabelPress: () => ref.current && ref.current.focus(),
         onChangeDate
       }
@@ -179,7 +154,10 @@ const inputs = {
     useProps: ({ value, $value, disabled, readonly, onChange }, ref) => {
       const bindingProps = useBind({ value, $value, onChange })
       return {
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: {
+          isLabelClickable: !disabled && !readonly,
+          isLabelColoredWhenFocusing: !readonly
+        },
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...bindingProps
       }
@@ -190,7 +168,10 @@ const inputs = {
     useProps: ({ value, $value, disabled, readonly, onChangeNumber }, ref) => {
       const bindingProps = useBind({ value, $value, onChangeNumber })
       return {
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: {
+          isLabelClickable: !disabled && !readonly,
+          isLabelColoredWhenFocusing: !readonly
+        },
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...bindingProps
       }
@@ -205,7 +186,10 @@ const inputs = {
     useProps: ({ value, $value, disabled, readonly, onChangeText }, ref) => {
       const bindingProps = useBind({ value, $value, onChangeText })
       return {
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: {
+          isLabelClickable: !disabled && !readonly,
+          isLabelColoredWhenFocusing: !readonly
+        },
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...bindingProps
       }
@@ -217,14 +201,25 @@ const inputs = {
   },
   select: {
     Component: WrappedSelect,
-    useProps: ({ value, $value, onChange }) => useBind({ value, $value, onChange })
+    useProps: ({ value, $value, readonly, onChange }) => {
+      const bindingProps = useBind({ value, $value, onChange })
+      return {
+        configuration: {
+          isLabelColoredWhenFocusing: !readonly
+        },
+        ...bindingProps
+      }
+    }
   },
   text: {
     Component: WrappedTextInput,
     useProps: ({ value, $value, readonly, disabled, onChangeText }, ref) => {
       const bindingProps = useBind({ value, $value, onChangeText })
       return {
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: {
+          isLabelClickable: !disabled && !readonly,
+          isLabelColoredWhenFocusing: !readonly
+        },
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...bindingProps
       }
