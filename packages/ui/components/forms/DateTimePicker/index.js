@@ -38,7 +38,11 @@ function DateTimePicker ({
   placeholder,
   maxDate,
   minDate,
-  onChangeDate
+  icon,
+  iconPosition,
+  iconStyle,
+  onChangeDate,
+  onIconPress
 }) {
   if (renderCaption) {
     console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
@@ -125,7 +129,11 @@ function DateTimePicker ({
     disabled,
     size,
     placeholder,
-    value: textInput
+    value: textInput,
+    icon,
+    iconStyle,
+    iconPosition,
+    onIconPress
   }
 
   const caption = pug`
