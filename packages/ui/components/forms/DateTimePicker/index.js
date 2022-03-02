@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { observer, useValue } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
 import 'moment/min/locales'
@@ -42,14 +43,11 @@ function DateTimePicker ({
   placeholder,
   maxDate,
   minDate,
-  icon,
-  iconPosition,
-  iconStyle,
-  onIconPress,
   onFocus,
   onBlur,
   onChangeDate,
-  _hasError
+  _hasError,
+  $value
 }, ref) {
   if (renderCaption) {
     console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
@@ -141,10 +139,9 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    icon,
-    iconStyle,
-    iconPosition,
-    onIconPress
+    icon: textInput && faTimesCircle,
+    iconPosition: 'right',
+    onIconPress: () => $value ? $value.del() : onChangeDate()
   }
 
   const caption = pug`
