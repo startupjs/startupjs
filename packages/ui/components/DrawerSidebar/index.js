@@ -11,6 +11,8 @@ const { colors } = STYLES
 const DrawerLayout = DrawerLayoutModule.default || DrawerLayoutModule
 if (!DrawerLayout) throw Error('> Can\'t load DrawerLayout module. Issues with bundling.')
 
+let isEffectCall
+
 function DrawerSidebar ({
   style = [],
   children,
@@ -48,6 +50,8 @@ function DrawerSidebar ({
     if (disabled) return
     let drawer = drawerRef.current
 
+    isEffectCall = true
+
     if (open) {
       drawer.openDrawer()
     } else {
@@ -62,6 +66,14 @@ function DrawerSidebar ({
     `
   }
 
+  // drawer callback's are scheduled and not called synchronously
+  // and when the open state changes several times in a short period of time
+  // these scheduled callback's can create an infinite loop
+  function onDrawerCallback (open) {
+    if (typeof isEffectCall === 'undefined') onChange(open)
+    isEffectCall = undefined
+  }
+
   return pug`
     DrawerLayout.root(
       style=style
@@ -70,8 +82,8 @@ function DrawerSidebar ({
       drawerBackgroundColor=backgroundColor
       ref=drawerRef
       renderNavigationView=_renderContent
-      onDrawerClose=() => onChange(false)
-      onDrawerOpen=() => onChange(true)
+      onDrawerClose=() => onDrawerCallback(false)
+      onDrawerOpen=() => onDrawerCallback(true)
       drawerLockMode=disabled ? 'locked-closed' : undefined
       ...props
     )= children

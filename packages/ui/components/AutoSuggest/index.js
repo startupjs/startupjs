@@ -24,6 +24,9 @@ const SUPPORT_PLACEMENTS = [
 function AutoSuggest ({
   style,
   captionStyle,
+  inputStyle,
+  iconStyle,
+  inputIcon,
   options,
   value,
   placeholder,
@@ -113,6 +116,9 @@ function AutoSuggest ({
     TextInput(
       ref=refInput
       style=captionStyle
+      inputStyle=inputStyle
+      iconStyle=iconStyle
+      icon=inputIcon
       value=(!isShow && value.label) || inputValue
       placeholder=placeholder
       onChangeText=_onChangeText

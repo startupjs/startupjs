@@ -42,7 +42,7 @@ const DEPENDENCIES = [
 ]
 
 const DEV_DEPENDENCIES = [
-  'babel-eslint',
+  '@babel/eslint-parser',
   'eslint@latest',
   'eslint-config-standard',
   'eslint-config-standard-react',
@@ -710,7 +710,7 @@ function patchScriptsInPackageJson (projectPath) {
   // FIXME: We can't use type=module now, because metro does not support ESM
   // and does not provide ability to pass .cjs config.
   // packageJSON.type = 'module'
-  packageJSON.sideEffects = []
+  packageJSON.sideEffects = ['*.css', '*.styl']
 
   fs.writeFileSync(
     packageJSONPath,
@@ -730,6 +730,8 @@ function appendGitignore (projectPath) {
     # Detox
     /artifacts/
     /e2e/__diff_output__
+    # Mongo data when running in a docker dev container
+    /.mongo
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)

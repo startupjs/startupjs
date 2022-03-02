@@ -31,6 +31,8 @@ function Tag ({
   hoverStyle,
   activeStyle,
   onPress,
+  onIconPress,
+  onSecondaryIconPress,
   ...props
 }) {
   if (!colors[color]) {
@@ -94,6 +96,7 @@ function Tag ({
       if icon
         Div.iconWrapper.left(
           styleName=[size]
+          onPress=onIconPress
         )
           Icon.icon(
             style=iconStyle
@@ -114,6 +117,7 @@ function Tag ({
       if secondaryIcon
         Div.iconWrapper.right(
           styleName=[size]
+          onPress=onSecondaryIconPress
         )
           Icon.icon(
             style=secondaryIconStyle
@@ -142,7 +146,9 @@ Tag.propTypes = {
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['s', 'm']),
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  secondaryIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  secondaryIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  onIconPress: PropTypes.func,
+  onSecondaryIconPress: PropTypes.func
 }
 
 export default observer(themed('Tag', Tag))

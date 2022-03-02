@@ -3,7 +3,6 @@ const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const serverAggregate = require('@startupjs/server-aggregate')
-const conf = require('nconf')
 const isArray = require('lodash/isArray')
 const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
@@ -11,7 +10,8 @@ const racer = require('racer')
 const redis = require('redis')
 const Redlock = require('redlock')
 const shareDbHooks = require('sharedb-hooks')
-const getShareMongo = require('./getShareMongo')
+const getShareDbMongo = require('./getShareDbMongo')
+const getRedis = require('./getRedis')
 
 global.__clients = {}
 const usersConnectionCounter = {}
@@ -23,39 +23,30 @@ try {
   wsbusPubSub = require('sharedb-wsbus-pubsub')
 } catch (e) { }
 
-/*
-  IMPORTANT:
-    If you use Redis in your business logic (for example to implement locking with `redlock`)
-    you should use `redisPrefix` which is returned by this function for all
-    your redis keys and lock keys. This will prevent bugs when you have multiple staging
-    apps using the same redis DB.
-*/
 module.exports = async options => {
-  // Use prefix for ShareDB's pubsub. This prevents issues with multiple
-  // projects using the same redis db.
-  // We use a combination of MONGO_URL and BASE_URL to generate a simple
-  // hash because together they are going to be unique no matter whether
-  // it's run on localhost or on the production server.
-  // ref: https://github.com/share/sharedb/issues/420
-  const REDIS_PREFIX = '_' + simpleNumericHash(conf.get('MONGO_URL') + conf.get('BASE_URL'))
-  const REDIS_URL = conf.get('REDIS_URL')
-  let redisClient
-
   options = Object.assign({ secure: true }, options)
-
-  // ------------------------------------------------------->     storeUse    <#
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
-  const shareMongo = await getShareMongo()
+  let shareDbMongo
+  if (process.env.MONGO_URL && !process.env.NO_MONGO) {
+    shareDbMongo = await getShareDbMongo()
+  } else {
+    console.log('>>> WARNING! Using temporary Mingo storage for the DB. All data will be lost on server restart.\n')
+    shareDbMongo = getMingo()
+  }
+  if (options.pollDebounce) shareDbMongo.pollDebounce = options.pollDebounce
 
-  if (options.pollDebounce) shareMongo.pollDebounce = options.pollDebounce
+  let redisClient
+  let redisPrefix
 
   let backend = (() => {
-    // For horizontal scaling, in production, redis is required.
-    if (REDIS_URL && !conf.get('NO_REDIS')) {
-      redisClient = redis.createClient({ url: REDIS_URL })
-      let redisObserver = redis.createClient({ url: REDIS_URL })
+    if (!process.env.NO_REDIS) {
+      const redis = getRedis()
+      const redisObserver = redis.observer
+
+      redisClient = redis.client
+      redisPrefix = redis.prefix
 
       // Flush redis when starting the app.
       // When running in cluster this should only run on the first instance.
@@ -77,7 +68,7 @@ module.exports = async options => {
         }
         redisClient.on('connect', () => {
           // Always flush redis db in development or if a force env flag is specified.
-          if (conf.get('NODE_ENV') !== 'production' || conf.get('FORCE_REDIS_FLUSH')) {
+          if (process.env.NODE_ENV !== 'production' || process.env.FORCE_REDIS_FLUSH) {
             flushRedis()
             return
           }
@@ -111,34 +102,32 @@ module.exports = async options => {
 
       let pubsub = redisPubSub({
         client: redisClient,
-        observer: redisObserver,
-        prefix: REDIS_PREFIX
+        observer: redisObserver
       })
 
       return racer.createBackend({
-        db: shareMongo,
+        db: shareDbMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
-
-      // redis alternative
-    } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
+    // redis alternative
+    } else if (process.env.WSBUS_URL && !process.env.NO_WSBUS) {
       if (!wsbusPubSub) {
         throw new Error(
           "Please install the 'sharedb-wsbus-pubsub' package to use it"
         )
       }
-      let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
+      let pubsub = wsbusPubSub(process.env.WSBUS_URL)
 
       return racer.createBackend({
-        db: shareMongo,
+        db: shareDbMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
       // For development
     } else {
       return racer.createBackend({
-        db: shareMongo,
+        db: shareDbMongo,
         extraDbs: options.extraDbs
       })
     }
@@ -269,20 +258,26 @@ module.exports = async options => {
 
   // ------------------------------------------------------->      backend       <#
   if (options.ee != null) {
+    // should to deprecate first parameter in future
     options.ee.emit('backend', backend, {
-      mongo: shareMongo.mongo
+      mongo: shareDbMongo.mongo,
+      backend,
+      shareDbMongo,
+      redisClient,
+      redisPrefix
     })
   }
 
   return {
     backend,
-    shareMongo, // you can get mongo client from shareMongo.mongo
+    shareMongo: shareDbMongo, // mock old name of shareDbMongo
+    shareDbMongo, // you can get mongo client from shareDbMongo.mongo
     redisClient, // you can directly pass this redis client to redlock
-    redisPrefix: REDIS_PREFIX, // use this for you redis prefixes (and redlock prefixes)
+    redisPrefix, // use this for you redis prefixes (and redlock prefixes)
     // mock old redis-url api. TODO: get rid of this after we refactor other libs to use redisClient directly
     redis: {
       connect () {
-        return redis.createClient({ url: REDIS_URL })
+        return redis.createClient({ url: process.env.REDIS_URL })
       }
     }
   }
@@ -296,14 +291,7 @@ function pathQueryMongo (request, next) {
   next()
 }
 
-// ref: https://stackoverflow.com/a/8831937
-function simpleNumericHash (source) {
-  let hash = 0
-  if (source.length === 0) return hash
-  for (let i = 0; i < source.length; i++) {
-    const char = source.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
-    hash = hash & hash // Convert to 32bit integer
-  }
-  return hash
+function getMingo () {
+  const ShareDBMingo = require('sharedb-mingo-memory')
+  return new ShareDBMingo()
 }

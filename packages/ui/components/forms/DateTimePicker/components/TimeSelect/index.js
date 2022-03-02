@@ -61,6 +61,7 @@ export default observer(function TimeSelect ({
 
   function renderItem ({ item }) {
     const isActive = +moment(date) === item.value
+
     return pug`
       Div.cell(
         styleName={ cellActive: isActive }

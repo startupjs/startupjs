@@ -1,6 +1,6 @@
 const { getPluginConfigs } = require('@startupjs/plugin/manager.cjs')
+const { getLocalIdent } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const pickBy = require('lodash/pickBy')
-const pick = require('lodash/pick')
 const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
@@ -18,7 +18,6 @@ const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const webpack = require('webpack')
-const { getJsxRule } = require('./helpers')
 const DEFAULT_MODE = 'react-native'
 const PLUGINS = getPluginConfigs()
 
@@ -34,7 +33,8 @@ const DEFAULT_ALIAS = {
   // fix warning requiring './locale': https://github.com/moment/moment/issues/1435
   moment$: 'moment/moment.js',
   'react-native': 'react-native-web',
-  'react-router-native': 'react-router-dom'
+  'react-router-native': 'react-router-dom',
+  '@fortawesome/react-native-fontawesome': '@fortawesome/react-fontawesome'
 }
 
 let DEFAULT_ENTRIES = [
@@ -185,36 +185,30 @@ module.exports = function getConfig (env, {
     module: {
       rules: [
         {
-          test: getJsxRule().test,
+          test: /\.[mc]?[jt]sx?$/,
           resolve: {
             fullySpecified: false
           },
           exclude: /node_modules/,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
-            {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            }
+            { loader: 'babel-loader' }
           ]
         },
         {
-          test: getJsxRule().test,
+          test: /\.[mc]?[jt]sx?$/,
           resolve: {
             fullySpecified: false
           },
           include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
-            {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            }
+            { loader: 'babel-loader' }
           ]
         },
         {
           test: /\.mdx?$/,
           exclude: /node_modules/,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: '@mdx-js/loader'
             },
@@ -251,6 +245,7 @@ module.exports = function getConfig (env, {
               loader: 'css-loader',
               options: {
                 modules: {
+                  getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME
                 }
               }
@@ -258,7 +253,9 @@ module.exports = function getConfig (env, {
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [autoprefixer]
+                postcssOptions: {
+                  plugins: [autoprefixer]
+                }
               }
             },
             {
@@ -274,7 +271,7 @@ module.exports = function getConfig (env, {
               }
             }
           ] : [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             },
@@ -297,12 +294,13 @@ module.exports = function getConfig (env, {
               loader: 'css-loader',
               options: {
                 modules: {
+                  getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME
                 }
               }
             }
           ] : [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             }

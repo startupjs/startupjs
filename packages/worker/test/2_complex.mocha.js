@@ -11,6 +11,7 @@ describe('tasks', function () {
     process.env.WORKER_TASK_DEFAULT_TIMEOUT = '5000'
     process.env.WORKER_ACTIONS_PATH = path.join(__dirname, './workerActions.js')
     process.env.WORKER_INIT_PATH = path.join(__dirname, './workerInit.js')
+    await runner.init()
     await runner.dropMongoDatabase()
     await runner.dropRedisDatabase()
     await runner.start(3)

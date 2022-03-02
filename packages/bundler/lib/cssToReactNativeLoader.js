@@ -9,6 +9,8 @@ module.exports = function cssToReactNative (source) {
   for (const key in cssObject.__exportProps || {}) {
     cssObject[key] = parseStylValue(cssObject.__exportProps[key])
   }
+  // save hash to use with the caching system of @startupjs/cache
+  cssObject.__hash__ = simpleNumericHash(JSON.stringify(cssObject))
   return 'module.exports = ' + JSON.stringify(cssObject)
 }
 
@@ -75,4 +77,10 @@ function escapeExport (source) {
   source = source.slice(0, start) + properties + source.slice(end)
 
   return source
+}
+
+// ref: https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0?permalink_comment_id=2694461#gistcomment-2694461
+function simpleNumericHash (s) {
+  for (var i = 0, h = 0; i < s.length; i++) h = Math.imul(31, h) + s.charCodeAt(i) | 0
+  return h
 }

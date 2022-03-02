@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
@@ -32,10 +33,21 @@ function Badge ({
 }) {
   const [right, setRight] = useState(0)
 
-  let _label = label
+  badgeStyle = StyleSheet.flatten([
+    { right, backgroundColor: colors[color] },
+    badgeStyle
+  ])
 
-  if (label > max) {
-    _label = max + '+'
+  const hasLabel = useMemo(() => {
+    return variant === 'default'
+      ? typeof label === 'string'
+        ? +label !== 0
+        : !!label
+      : false
+  }, [variant, label])
+
+  function getLabel (label, max) {
+    return max && label > max ? max + '+' : label
   }
 
   function onLayout (event) {
@@ -43,25 +55,18 @@ function Badge ({
     setRight(Math.ceil(width / 2) * -1)
   }
 
-  const _badgeStyle = { ...badgeStyle, backgroundColor: colors[color] }
-
-  const hasLabel = useMemo(() => variant === 'default' && label != null, [variant, label])
-
   return pug`
     Div.root(style=style)
       = children
       if hasLabel || variant === 'dot'
         Row.badge(
+          style=badgeStyle
           onLayout=onLayout
           styleName=[
             size,
             variant,
             position,
-            { hasLabel, visible: right }
-          ]
-          style=[
-            _badgeStyle,
-            { right }
+            { hasLabel, visible: !!right }
           ]
         )
           if variant === 'default'
@@ -70,10 +75,7 @@ function Badge ({
                 icon=icon
                 size=ICON_SIZES[size]
               )
-            if label
-              Span.label(
-                styleName=[size, { withIcon: icon }]
-              )= _label
+            Span.label(styleName=[size, { icon }])= getLabel(label, max)
   `
 }
 

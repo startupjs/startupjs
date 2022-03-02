@@ -4,11 +4,11 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.40.6",
+  "version": "0.43.3",
   "main": "index.js",
   "dependencies": {
-    "@startupjs/backend": "^0.40.6",
-    "@startupjs/routes-middleware": "^0.40.0",
+    "@startupjs/backend": "^0.43.3",
+    "@startupjs/routes-middleware": "^0.43.1",
     "body-parser": "~1.6.7",
     "compression": "^1.6.0",
     "connect-mongo": "^4.4.1",
@@ -18,7 +18,7 @@
     "hsts": "^2.1.0",
     "lodash": "^4.17.20",
     "method-override": "~2.3.10",
-    "racer-highway": "^8.1.0"
+    "racer-highway": "^10.0.1"
   },
   "peerDependencies": {
     "express": "4.x",

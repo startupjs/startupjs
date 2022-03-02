@@ -60,7 +60,6 @@ async function initServer () {
 
   let expressApp = express()
   expressApp.use(backend.modelMiddleware())
-  expressApp.use(hwHandlers.middleware)
 
   let server = http.createServer(expressApp)
   server.on('upgrade', hwHandlers.upgrade)

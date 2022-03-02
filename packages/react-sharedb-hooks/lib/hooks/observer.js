@@ -2,10 +2,12 @@
 import * as React from 'react'
 import { observe, unobserve } from '@nx-js/observer-util'
 import { batching } from '@startupjs/react-sharedb-util'
+import { createCaches } from '@startupjs/cache'
+import { __increment, __decrement } from '@startupjs/debug'
 import destroyer from './destroyer.js'
 import promiseBatcher from './promiseBatcher.js'
 import $root from '@startupjs/model'
-import { ComponentMetaContext } from './meta.js'
+import { ComponentMetaContext, useCache } from './meta.js'
 
 const DEFAULT_OPTIONS = {
   forwardRef: false,
@@ -17,8 +19,7 @@ const DEFAULT_OPTIONS = {
 // TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
 function observer (Component, options) {
-  const _options = Object.assign({}, DEFAULT_OPTIONS, options)
-  return wrapObserverMeta(makeObserver(Component, _options), _options)
+  return wrapObserverMeta(makeObserver(Component, options))
 }
 
 observer.__wrapObserverMeta = wrapObserverMeta
@@ -47,7 +48,8 @@ function pipeComponentMeta (SourceComponent, TargetComponent, suffix = '', defau
 }
 
 function makeObserver (baseComponent, options = {}) {
-  const { forwardRef } = Object.assign({}, DEFAULT_OPTIONS, options)
+  options = Object.assign({}, DEFAULT_OPTIONS, options)
+  const { forwardRef } = options
   // MAGIC. This fixes hot-reloading. TODO: figure out WHY it fixes it
   const random = Math.random()
 
@@ -57,6 +59,7 @@ function makeObserver (baseComponent, options = {}) {
   const WrappedComponent = (...args) => {
     // forceUpdate 2.0
     const forceUpdate = useForceUpdate()
+    const cache = useCache(options.cache != null ? options.cache : true)
 
     // wrap the baseComponent into an observe decorator once.
     // This way it will track any observable changes and will trigger rerender
@@ -70,14 +73,19 @@ function makeObserver (baseComponent, options = {}) {
         if (!blockUpdate.value) forceUpdate()
       }
       const batchedUpdate = () => batching.add(update)
-      return observe(wrapBaseComponent(baseComponent, blockUpdate), {
+      return observe(wrapBaseComponent(baseComponent, blockUpdate, cache), {
         scheduler: batchedUpdate,
         lazy: true
       })
     }, [random])
 
     // clean up observer on unmount
-    useUnmount(() => unobserve(observedComponent))
+    useUnmount(() => {
+      // TODO: this does not execute the same amount of times as observe() does,
+      //       probably because of throw's of the async hooks.
+      //       So there probably are memory leaks here. Research this.
+      unobserve(observedComponent)
+    })
 
     return observedComponent(...args)
   }
@@ -88,14 +96,15 @@ function makeObserver (baseComponent, options = {}) {
 
   pipeComponentMeta(baseComponent, Component)
 
+  Component.__observerOptions = options
+
   return Component
 }
 
 function wrapObserverMeta (
-  Component,
-  options = {}
+  Component
 ) {
-  const { forwardRef, suspenseProps } = Object.assign({}, DEFAULT_OPTIONS, options)
+  const { forwardRef, suspenseProps } = Component.__observerOptions
   if (!(suspenseProps && suspenseProps.fallback)) {
     throw Error(
       '[observer()] You must pass at least ' +
@@ -104,12 +113,30 @@ function wrapObserverMeta (
   }
 
   function ObserverWrapper (props, ref) {
+    const cache = React.useMemo(() => {
+      __increment('ObserverWrapper.cache')
+      return createCaches(['styles', 'model'])
+    }, [])
+    // TODO: using useState instead of useMemo will keep this intact during Fast Refresh
+    //       Research if we can change it to use it.
+    // const [componentMeta] = React.useState({
+    //   componentId: $root.id(),
+    //   createdAt: Date.now(),
+    //   cache
+    // })
     var componentMeta = React.useMemo(function () {
       return {
         componentId: $root.id(),
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        cache: cache
       }
     }, [])
+
+    useUnmount(() => {
+      __decrement('ObserverWrapper.cache')
+      cache.clear()
+    })
+
     return React.createElement(
       ComponentMetaContext.Provider,
       { value: componentMeta },
@@ -138,15 +165,17 @@ function wrapObserverMeta (
   return memoComponent
 }
 
-function wrapBaseComponent (baseComponent, blockUpdate) {
+function wrapBaseComponent (baseComponent, blockUpdate, cache) {
   return (...args) => {
     blockUpdate.value = true
+    cache.activate()
     let res
     try {
       destroyer.reset()
       promiseBatcher.reset()
       res = baseComponent(...args)
     } catch (err) {
+      cache.deactivate()
       if (!err.then) throw err
       // If the Promise was thrown, we catch it before Suspense does.
       // And we run destructors for each hook previous to the one
@@ -157,6 +186,7 @@ function wrapBaseComponent (baseComponent, blockUpdate) {
       const destroy = destroyer.getDestructor()
       throw err.then(destroy)
     }
+    cache.deactivate()
     blockUpdate.value = false
     if (promiseBatcher.isActive()) {
       throw Error('[react-sharedb] useBatch* hooks were used without a closing useBatch() call.')

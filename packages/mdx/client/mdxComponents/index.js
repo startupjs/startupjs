@@ -141,7 +141,7 @@ export default {
   `,
   pre: ({ children }) => children,
   code: observer(({ children, className, example }) => {
-    const language = (className || '').replace(/language-/, '')
+    const language = (className || 'language-txt').replace(/language-/, '')
     const [open, setOpen] = useState(false)
     const [copyText, $copyText] = useValue('Copy code')
 

@@ -5,6 +5,11 @@ import Worker from '../Worker/index.js'
 const env = process.env
 
 export default class WorkerManager {
+  // TODO
+  // we should refactor code to use one 'num' param everywhere
+  // problem is:
+  // class accepts 'num' param in constructor
+  // this param is the same as env.WORKER_CHILDREN_NUM
   constructor () {
     this.children = []
     this.started = false

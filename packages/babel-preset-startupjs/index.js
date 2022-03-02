@@ -1,4 +1,5 @@
-const genericNames = require('generic-names')
+var stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
+const { generateScopedNameFactory } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const { LOCAL_IDENT_NAME } = require('./constants')
 const ASYNC = process.env.ASYNC
 const APP_ENV = process.env.APP_ENV
@@ -14,7 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias } = {}) => [
+const basePlugins = ({ alias, observerCache } = {}) => [
+  [require('@startupjs/babel-plugin-startupjs-utils'), {
+    observerCache
+  }],
   [require('babel-plugin-module-resolver'), {
     alias: {
       ...DIRECTORY_ALIASES,
@@ -51,13 +55,17 @@ const i18nPlugin = (options) => {
 }
 
 const webReactCssModulesPlugin = ({ production } = {}) =>
-  [require('@startupjs/babel-plugin-react-css-modules'), {
+  ['@startupjs/babel-plugin-react-css-modules', {
     handleMissingStyleName: 'ignore',
+    webpackHotModuleReloading: !production,
     filetypes: {
       '.styl': {}
     },
-    generateScopedName,
-    webpackHotModuleReloading: !production
+    transform: (src, filepath) => {
+      if (!/\.styl$/.test(filepath)) return src
+      return stylusToCssLoader(src, filepath)
+    },
+    generateScopedName
   }]
 
 const nativeReactCssModulesPlatformExtensionsPlugin = () =>
@@ -65,18 +73,14 @@ const nativeReactCssModulesPlatformExtensionsPlugin = () =>
     extensions: ['styl', 'css']
   }]
 
-const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
+const nativeReactCssModulesPlugins = ({ platform } = {}) => [
   [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
-    extensions: ['styl', 'css'],
-    useImport
+    extensions: ['styl', 'css']
   }],
   [require('@startupjs/babel-plugin-rn-stylename-inline'), {
     platform
   }]
 ]
-
-const webPassClassnamePlugin = () =>
-  require('babel-plugin-react-native-web-pass-classname')
 
 // react-native config
 
@@ -85,6 +89,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
     [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
     ...nativeReactCssModulesPlugins(),
@@ -117,9 +122,10 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
     // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -137,7 +143,7 @@ const CONFIG_WEB_SNOWPACK = {
     require('@startupjs/babel-plugin-startupjs'),
     require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true })
+    ...nativeReactCssModulesPlugins({ platform: 'web' })
   ]
 }
 
@@ -151,7 +157,7 @@ const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
     ASYNC && require('@startupjs/babel-plugin-startupjs'),
     ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
     dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web', useImport: true }),
+    ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
   ].filter(Boolean)
 }
@@ -165,13 +171,18 @@ if (ASYNC) {
 
 const CONFIG_WEB_PURE_DEVELOPMENT = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    [require('./esNextPreset'), { debugJsx: true }]
+    // NOTE: If we start to face unknown errors in development or
+    //       want to sync the whole presets/plugins stack with RN,
+    //       just replace the optimized esNext preset above with the
+    //       regular metro preset below:
+    // [require('./metroPresetWithTypescript')]
   ],
   plugins: [
+    [require('@startupjs/babel-plugin-startupjs-debug')],
     [require('react-refresh/babel'), { skipEnvCheck: true }],
     dotenvPlugin({ mockBaseUrl: true }),
     webReactCssModulesPlugin(),
-    webPassClassnamePlugin(),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -185,7 +196,6 @@ const CONFIG_WEB_PURE_PRODUCTION = {
   plugins: [
     dotenvPlugin({ production: true, mockBaseUrl: true }),
     webReactCssModulesPlugin({ production: true }),
-    webPassClassnamePlugin(),
     i18nPlugin({ collectTranslations: true })
   ]
 }
@@ -262,5 +272,5 @@ function generateScopedName (name, filename/* , css */) {
   }
   hashSize = Number(hashSize[1])
   if (new RegExp(`_.{${hashSize}}_$`).test(name)) return name
-  return genericNames(LOCAL_IDENT_NAME)(name, filename)
+  return generateScopedNameFactory(LOCAL_IDENT_NAME)(name, filename)
 }

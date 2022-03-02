@@ -95,7 +95,7 @@ const App = observer(function AppComponent ({
     if user && user.blocked
       if renderBlocked
         = renderBlocked(Blocked)
-      else 
+      else
         Blocked
     else
       Suspense(fallback=null)

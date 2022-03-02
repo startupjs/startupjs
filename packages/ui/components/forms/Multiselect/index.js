@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Row from '../../Row'
 import Span from '../../typography/Span'
-import Checkbox from './../Checkbox'
+import Div from '../../Div'
+import Icon from './../../Icon'
 import MultiselectComponent from './multiselect'
 import DefaultTag from './defaultTag'
 import themed from '../../../theming/themed'
@@ -25,7 +27,7 @@ const Multiselect = ({
   onRemove,
   onFocus,
   onBlur
-}) => {
+}, ref) => {
   const [focused, setFocused] = useState(false)
   // Map array if user pass options pass an array of primitives
   // Convert it into { label, value } items for consistency
@@ -51,10 +53,6 @@ const Multiselect = ({
     onBlur && onBlur()
   }
 
-  function onHide () {
-    blurHandler(false)
-  }
-
   const onItemPress = value => checked => {
     if (!checked) {
       _onRemove(value)
@@ -73,17 +71,20 @@ const Multiselect = ({
     const onPress = onItemPress(item.value)
 
     return pug`
-      Row(
+      Row.suggestionItem(
         vAlign='center'
         onPress=() => onPress(!selected)
       )
-        Checkbox.checkbox(value=selected)
-        Span= item.label
+        Span.label= item.label
+        Div.check
+          if selected
+            Icon(icon=faCheck styleName='checkIcon')
     `
   }
 
   return pug`
     MultiselectComponent(
+      ref=ref
       options=_options
       value=value
       placeholder=placeholder
@@ -96,7 +97,7 @@ const Multiselect = ({
       hasWidthCaption=hasWidthCaption
       renderListItem=_renderListItem
       onOpen=focusHandler
-      onHide=onHide
+      onHide=blurHandler
     )
   `
 }

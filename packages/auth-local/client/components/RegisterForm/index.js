@@ -98,7 +98,7 @@ function RegisterForm ({
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').pop()
+      formClone.lastName = form.name.split(' ').slice(1).join(' ')
       delete formClone.name
     }
 
@@ -126,6 +126,7 @@ function RegisterForm ({
     } catch (error) {
       onError && onError(error)
       setErrors({ server: _get(error, 'response.data.message', error.message) })
+      recaptchaRef.current.close()
     }
   }
 
@@ -150,7 +151,7 @@ function RegisterForm ({
     )
 
     if renderActions
-      = renderActions({ onSubmit, onChangeSlide })
+      = renderActions({ onSubmit, onChangeSlide, recaptchaRef })
     else
       Div.actions
         if recaptchaEnabled

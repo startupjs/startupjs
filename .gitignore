@@ -37,3 +37,6 @@ package-lock.json
 
 # Test application initialized with `yarn init-local` command.
 /testapp
+
+# Mongo for docker
+/.mongo

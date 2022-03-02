@@ -175,6 +175,21 @@ return (
 )
 ```
 
+## Единицы измерения
+
+Свойство `units` отображает единицы измерения поля. По умолчанию единицы измерения отображаются слева от поля. Используйте `unitsPosition='right'` для отображения единиц измерения в правой части поля.
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <NumberInput
+    value={value}
+    units='$'
+    onChangeNumber={setValue}
+  />
+)
+```
+
 ## Sandbox
 
 <Sandbox

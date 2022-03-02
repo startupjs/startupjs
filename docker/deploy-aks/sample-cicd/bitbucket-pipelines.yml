@@ -1,0 +1,34 @@
+# Copy this file to bitbucket-pipelines.yml in the root of your project.
+# It will perform the deploy whenever you push to 'production' branch.
+#
+# You have to provide the following in
+# Repository Settings -> Pipelines -> Repository variables
+# (enable pipelines if it asks you to, and add them with 'Secured' checkbox enabled):
+#
+# 1. APP - name of your application in kube cluster
+# 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
+
+image: atlassian/default-image:2
+options:
+  docker: true
+  size: 2x
+definitions:
+  services:
+    docker:
+      memory: 7128
+pipelines:
+  branches:
+    production:
+      - step:
+          name: 'Deploy'
+          services: ['docker']
+          caches: ['docker']
+          script:
+            - |
+              VERSION=$( sed -n 's/.*"startupjs"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$BITBUCKET_CLONE_DIR/package.json" )
+              docker run --rm \
+                -v "${BITBUCKET_CLONE_DIR}:/project" \
+                -e "APP=${APP}" \
+                -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
+                -e "COMMIT_SHA=${BITBUCKET_COMMIT}" \
+                startupjs/deploy-aks:${VERSION}

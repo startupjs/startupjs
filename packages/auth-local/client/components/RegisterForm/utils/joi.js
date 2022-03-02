@@ -6,7 +6,7 @@ export default Joi.object().keys({
     .messages({
       'any.required': 'Fill in the field',
       'string.empty': 'Fill in the field',
-      'string.pattern.base': 'Please enter your name'
+      'string.pattern.base': 'Please enter your full name'
     }),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: false } })

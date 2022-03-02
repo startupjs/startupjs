@@ -9,6 +9,33 @@ $padding = {
   s: 4u
 }
 
+.input-wrapper
+  &.right
+    flex-direction row-reverse
+
+  &.readonly
+    align-self flex-start
+
+.input-units
+  &.l
+    font(body1)
+
+  &.readonly
+    &.left
+      margin-right 0.5u
+
+    &.right
+      margin-left 0.5u
+
+.input-container
+  flex-grow 1
+
+  &.left
+    margin-left 1u
+
+  &.right
+    margin-right 1u
+
 .input-input
   for size in $sizes
     padding = $padding[size]

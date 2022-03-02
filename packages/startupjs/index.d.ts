@@ -4,5 +4,6 @@ export * from '@startupjs/hooks'
 //        on the server and on the client
 export * from '@startupjs/isomorphic-helpers'
 // dummy babel macro functions for @startupjs/babel-plugin-rn-stylename-inline
-export function css (): void
-export function styl (): void
+export function css (css: TemplateStringsArray): any
+export function styl (styl: TemplateStringsArray): any
+export function pug (pug: TemplateStringsArray): any

@@ -1,13 +1,13 @@
 {
   "name": "@startupjs/server-aggregate",
-  "version": "0.40.0",
+  "version": "0.43.1",
   "description": "Module for describing aggregations on the server",
   "main": "server.js",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "racer": "1.0.0"
+    "racer": "1.0.1"
   },
   "license": "MIT"
 }

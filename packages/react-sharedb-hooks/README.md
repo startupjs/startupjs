@@ -320,7 +320,106 @@ const Sidebar = observer(() => {
 render(<Main />, document.body.appendChild(document.createElement('div')))
 ```
 
-### Batching
+### Batching queries
+
+Some hooks are returning data synchronously (like `useLocal`, `useValue`), others will asynchronously query your DB to fetch data (`useDoc`, `useQuery`, `useApi`, etc.).
+
+Sometimes, when the second query depends on the results of the first one, there is no other option but to query them in a chain.
+
+Let's imagine you have a `Game` which stores `playerIds` with an array of `Players` playing it:
+
+```js
+// Lets imagine each query takes 1 seconds to execute.
+observer(function PlayersInGame (gameId) {
+  const [game] = useDoc('games', gameId)
+  // waits until game is fetched from DB (1 second)
+  const [players] = useQueryIds('players', game.playerIds)
+  // waits until players are fetched from DB (1 second)
+  return game.name + ' players: ' + players.map(i => i.name).join(', ')
+})
+```
+
+In the example above we had to:
+
+1. Query the game by id
+2. Wait for it to be fetched from DB and all the way to client - 1 second.
+3. Get `playerIds` from the game and query players
+4. Wait for players to be fetched from DB and all the way to client - 1 second.
+5. Render
+
+Because we did it in a chain we had to wait for 2 seconds total.
+
+Now lets say we change our DB relationship structure between Game and Players from `has-many` to `belongs-to`.
+
+Player documents will now have the `gameId` they belong to which we can use to optimize our querying logic and execute both queries in parallel:
+
+```js
+observer(function PlayersInGame (gameId) {
+  const [game] = useBatchDoc('games', gameId) // remember query but don't execute it yet
+  const [players] = useBatchQueryIds('players', game.playerIds) // remember query but don't execute it yet
+  useBatch() // execute all *Batch queries in parallel
+  // waits until all batched queries fetch their data from DB (1 second)
+  return game.name + ' players: ' + players.map(i => i.name).join(', ')
+})
+```
+
+Hooray! We cut the time to fetch data and render it twice, from 2 seconds to 1 second!
+
+Batching queries can sometimes save time dramatically, especially when you serve users from all around the world and data roundtrip (ping time) from them to your server can be hundreds of milliseconds. Without batching queries wherever possible you might end up with your application taking several seconds until it finally fetches all data in a chain and can render the page.
+
+So please batch queries wherever possible.
+
+### Optimizing rerenders with `$`-hooks
+
+When using 2-way bindings (`@startupjs/ui` provides a lot of such components) you frequently face situations when you need to put something in the model but you don't need to get the data itself. Sometimes you are only interested in passing the model further down to some other component.
+
+Lets say you want to render a simple `Modal` dialog from `@startupjs/ui`. It provides a 2-way binding API for this -- you just need to pass `$visible` to it:
+
+```jsx
+import { Modal, Button } from '@startupjs/ui'
+import { observer, useValue } from 'startupjs'
+observer(function SaveChanges () {
+  const [, $visible] = useValue(false) // this leads to re-renders
+  return (
+    <>
+      <Button onPress={() => $visible.set(true)}>Open</Button>
+      <Modal $visible={$visible} title='Confirm'>
+        Are you sure you want to save?
+      </Modal>
+    </>
+  )
+})
+```
+
+In example above we need to make a temporary value and pass it as a 2-way binding to `Modal`. We don't have use for the actual value itself, we only need a scoped model which targets it.
+
+But, even though we just skipped getting the value in the array destructuring, under the hood `react-sharedb` Observable engine still tracks it as being accessed. And whenever the value changes it will trigger rerendering of the whole component.
+
+To optimize such usecases and prevent extra rerenders from happening you should use the same hook with the `$` at the end of its name. It will do exactly the same thing, but will only return the model as a result and it won't trigger access to data through observables.
+
+So to optimize the example above we just need to replace `useValue` with `useValue$` and don't do array destructuring anymore:
+
+```jsx
+import { Modal, Button } from '@startupjs/ui'
+import { observer, useValue$ } from 'startupjs'
+observer(function SaveChanges () {
+  const $visible = useValue$(false) // NO re-renders anymore
+  return (
+    <>
+      <Button onPress={() => $visible.set(true)}>Open</Button>
+      <Modal $visible={$visible} title='Confirm'>
+        Are you sure you want to save?
+      </Modal>
+    </>
+  )
+})
+```
+
+`$`-variants of hooks are available for all hooks where they make sense (`useDoc$`, `useBatchDoc$`, `useAsyncDoc$`, `useSession$`, etc.).
+
+Please use `$`-hooks wherever you don't need the actual data but only interested in getting the scoped model. Which happens frequently when you only want to execute some ORM methods or pass this scoped model on to a child component.
+
+### Batching rerenders
 
 By default, React batches updates made in a known method like the lifecycle methods or event handlers, but doesn’t do the same when the updates are within callbacks like in SetTimeout, Promises, etc. This means that if you have multiple calls to update the state, React re-renders the component each time the call is made.
 
