@@ -21,7 +21,6 @@ function Input ({
   return pug`
     Component(
       ref=inputRef
-      ...props
       ...componentProps
     )
   `

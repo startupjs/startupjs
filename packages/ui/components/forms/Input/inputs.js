@@ -46,12 +46,25 @@ const WrappedColorPicker = wrapInput(
 )
 const WrappedDateTimePicker = wrapInput(
   DateTimePicker,
-  { rows: { descriptionPosition: 'bottom' } }
+  {
+    rows: { descriptionPosition: 'bottom' },
+    isLabelColoredWhenFocusing: true
+  }
 )
-const WrappedMultiselect = wrapInput(Multiselect)
+const WrappedMultiselect = wrapInput(
+  Multiselect,
+  {
+    isLabelColoredWhenFocusing: true
+  }
+)
 const WrappedNumberInput = wrapInput(
   NumberInput,
-  { rows: { descriptionPosition: 'bottom' } }
+  {
+    rows: {
+      descriptionPosition: 'bottom'
+    },
+    isLabelColoredWhenFocusing: true
+  }
 )
 const WrappedObjectInput = wrapInput(
   ObjectInput,
@@ -63,165 +76,261 @@ const WrappedObjectInput = wrapInput(
 
 const WrappedPasswordInput = wrapInput(
   PasswordInput,
-  { rows: { descriptionPosition: 'bottom' } }
+  {
+    rows: {
+      descriptionPosition: 'bottom'
+    },
+    isLabelColoredWhenFocusing: true
+  }
 )
 const WrappedRadio = wrapInput(Radio)
 const WrappedSelect = wrapInput(
   Select,
-  { rows: { descriptionPosition: 'bottom' } }
+  {
+    rows: {
+      descriptionPosition: 'bottom'
+    },
+    isLabelColoredWhenFocusing: true
+  }
 )
 const WrappedTextInput = wrapInput(
   TextInput,
-  { rows: { descriptionPosition: 'bottom' } }
+  {
+    rows: {
+      descriptionPosition: 'bottom'
+    },
+    isLabelColoredWhenFocusing: true
+  }
 )
 
 const inputs = {
   array: {
     Component: WrappedArrayInput,
-    useProps: ({ $value }) => useBind({ $value })
+    useProps: ({ $value, ...props }) => {
+      ;({ $value } = useBind({ $value }))
+
+      return {
+        $value,
+        ...props
+      }
+    }
   },
   checkbox: {
     Component: WrappedCheckbox,
-    useProps: ({ disabled, value, readonly, $value, onChange }) => {
+    useProps: ({ disabled, value, readonly, $value, onChange, ...props }) => {
       ;({ value, onChange } = useBind({ value, $value, onChange }))
 
       return {
         value,
         configuration: { isLabelClickable: !disabled && !readonly },
+        onChange,
         _onLabelPress: () => { onChange(!value) },
-        onChange
+        ...props
       }
     }
   },
   color: {
     Component: WrappedColorPicker,
-    useProps: ({ value, $value, disabled, onChangeColor }, ref) => {
-      const bindingProps = useBind({ value, $value, onChangeColor })
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      onChangeColor,
+      ...props
+    }, ref) => {
+      ;({ value, onChangeColor } = useBind({ value, $value, onChangeColor }))
+
       return {
+        value,
         configuration: { isLabelClickable: !disabled },
+        onChangeColor,
         _onLabelPress: () => { ref.current && ref.current.show() },
-        ...bindingProps
+        ...props
       }
     }
   },
   date: {
     Component: WrappedDateTimePicker,
-    useProps: ({ value, $value, disabled, readonly, onChangeDate }, ref) => {
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      readonly,
+      onChangeDate,
+      ...props
+    }, ref) => {
       ;({ value, onChangeDate } = useBind({ value, $value, onChangeDate }))
 
       return {
         mode: 'date',
         date: value,
-        configuration: {
-          isLabelClickable: !disabled && !readonly,
-          isLabelColoredWhenFocusing: !readonly
-        },
+        configuration: { isLabelClickable: !disabled && !readonly },
+        onChangeDate,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        onChangeDate
+        ...props
       }
     }
   },
   datetime: {
     Component: WrappedDateTimePicker,
-    useProps: ({ value, $value, disabled, readonly, onChangeDate }, ref) => {
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      readonly,
+      onChangeDate,
+      ...props
+    }, ref) => {
       ;({ value, onChangeDate } = useBind({ value, $value, onChangeDate }))
 
       return {
         mode: 'datetime',
         date: value,
         configuration: { isLabelClickable: !disabled && !readonly },
+        onChangeDate,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        onChangeDate
+        ...props
       }
     }
   },
   time: {
     Component: WrappedDateTimePicker,
-    useProps: ({ value, $value, disabled, readonly, onChangeDate }, ref) => {
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      readonly,
+      onChangeDate,
+      ...props
+    }, ref) => {
       ;({ value, onChangeDate } = useBind({ value, $value, onChangeDate }))
 
       return {
         mode: 'time',
         date: value,
         configuration: { isLabelClickable: !disabled && !readonly },
+        onChangeDate,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        onChangeDate
+        ...props
       }
     }
   },
   multiselect: {
     Component: WrappedMultiselect,
-    useProps: ({ value, $value, disabled, readonly, onChange }, ref) => {
-      const bindingProps = useBind({ value, $value, onChange })
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      readonly,
+      onChange,
+      ...props
+    }, ref) => {
+      ;({ value, onChange } = useBind({ value, $value, onChange }))
+
       return {
-        configuration: {
-          isLabelClickable: !disabled && !readonly,
-          isLabelColoredWhenFocusing: !readonly
-        },
+        value,
+        configuration: { isLabelClickable: !disabled && !readonly },
+        onChange,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        ...bindingProps
+        ...props
       }
     }
   },
   number: {
     Component: WrappedNumberInput,
-    useProps: ({ value, $value, disabled, readonly, onChangeNumber }, ref) => {
-      const bindingProps = useBind({ value, $value, onChangeNumber })
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      readonly,
+      onChangeNumber,
+      ...props
+    }, ref) => {
+      ;({ value, onChangeNumber } = useBind({ value, $value, onChangeNumber }))
+
       return {
-        configuration: {
-          isLabelClickable: !disabled && !readonly,
-          isLabelColoredWhenFocusing: !readonly
-        },
+        value,
+        configuration: { isLabelClickable: !disabled && !readonly },
+        onChangeNumber,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        ...bindingProps
+        ...props
       }
     }
   },
   object: {
     Component: WrappedObjectInput,
-    useProps: ({ $value }) => useBind({ $value })
+    useProps: ({ $value, ...props }) => {
+      ;({ $value } = useBind({ $value }))
+
+      return {
+        $value,
+        ...props
+      }
+    }
   },
   password: {
     Component: WrappedPasswordInput,
-    useProps: ({ value, $value, disabled, readonly, onChangeText }, ref) => {
-      const bindingProps = useBind({ value, $value, onChangeText })
+    useProps: ({
+      value,
+      $value,
+      disabled,
+      readonly,
+      onChangeText,
+      ...props
+    }, ref) => {
+      ;({ value, onChangeText } = useBind({ value, $value, onChangeText }))
+
       return {
-        configuration: {
-          isLabelClickable: !disabled && !readonly,
-          isLabelColoredWhenFocusing: !readonly
-        },
+        value,
+        configuration: { isLabelClickable: !disabled && !readonly },
+        onChangeText,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        ...bindingProps
+        ...props
       }
     }
   },
   radio: {
     Component: WrappedRadio,
-    useProps: ({ value, $value, onChange }) => useBind({ value, $value, onChange })
+    useProps: ({ value, $value, onChange, ...props }) => {
+      ;({ value, onChange } = useBind({ value, $value, onChange }))
+
+      return {
+        value,
+        onChange,
+        ...props
+      }
+    }
   },
   select: {
     Component: WrappedSelect,
-    useProps: ({ value, $value, readonly, onChange }) => {
-      const bindingProps = useBind({ value, $value, onChange })
+    useProps: ({ value, $value, onChange, ...props }) => {
+      ;({ value, onChange } = useBind({ value, $value, onChange }))
+
       return {
-        configuration: {
-          isLabelColoredWhenFocusing: !readonly
-        },
-        ...bindingProps
+        value,
+        onChange,
+        ...props
       }
     }
   },
   text: {
     Component: WrappedTextInput,
-    useProps: ({ value, $value, readonly, disabled, onChangeText }, ref) => {
-      const bindingProps = useBind({ value, $value, onChangeText })
+    useProps: ({
+      value,
+      $value,
+      readonly,
+      disabled,
+      onChangeText,
+      ...props
+    }, ref) => {
+      ;({ value, onChangeText } = useBind({ value, $value, onChangeText }))
+
       return {
-        configuration: {
-          isLabelClickable: !disabled && !readonly,
-          isLabelColoredWhenFocusing: !readonly
-        },
+        value,
+        configuration: { isLabelClickable: !disabled && !readonly },
+        onChangeText,
         _onLabelPress: () => ref.current && ref.current.focus(),
-        ...bindingProps
+        ...props
       }
     }
   }
