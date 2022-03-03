@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { observer, useValue } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
-import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
 import 'moment/min/locales'
