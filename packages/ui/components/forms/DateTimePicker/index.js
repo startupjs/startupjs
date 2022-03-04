@@ -46,8 +46,7 @@ function DateTimePicker ({
   onFocus,
   onBlur,
   onChangeDate,
-  _hasError,
-  $value
+  _hasError
 }, ref) {
   if (renderCaption) {
     console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
@@ -139,9 +138,9 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    icon: textInput && faTimesCircle,
-    iconPosition: 'right',
-    onIconPress: () => $value ? $value.del() : onChangeDate()
+    secondaryIcon: textInput ? faTimesCircle : undefined,
+    secondaryIconPosition: 'right',
+    onSecondaryIconPress: () => _onChangeDate(undefined)
   }
 
   const caption = pug`
