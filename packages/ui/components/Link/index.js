@@ -21,30 +21,24 @@ function Link ({
   to,
   color,
   theme,
-  bold,
-  italic,
   display,
   replace,
-  variant,
   children,
   onPress,
   ...props
 }) {
   if (!display) display = typeof children === 'string' ? 'inline' : 'block'
-  const isBlock = display === 'block'
 
+  const isBlock = display === 'block'
   const Component = isBlock ? Div : Span
-  const extraProps = { accessibilityRole: 'link' }
+  const extraProps = { accessibilityRole: 'link', onPress: handlePress }
   const history = useHistory()
 
+  // modifier keys does not work without href attribute
+  if (isWeb) extraProps.href = to
+
   function handlePress (event) {
-    event.persist() // TODO: remove in react 17
-    try {
-      if (onPress) onPress(event)
-    } catch (err) {
-      event.preventDefault()
-      throw err
-    }
+    if (onPress) onPress(event)
 
     if (!event.defaultPrevented) {
       if (isWeb) {
@@ -67,41 +61,24 @@ function Link ({
     }
   }
 
+  // when children is Button component
   if (isBlock) {
-    extraProps.variant = variant
-    extraProps._preventEvent = false
-
     try {
       // it throws an error if children has more then one child
       React.Children.only(children)
       // originalType is using for component in MDX docs
       if (children.props.originalType === Button || children.type === Button) {
-        extraProps.hoverStyle = {}
-        extraProps.activeStyle = {}
-        // we pass the duplicate of `handlePress` instead of empty function
-        // because event doesn't bubble up on phones
-        // and for the web we need to prevent standard behavior
-        // which is what the function itself does on web
-        children = React.cloneElement(
-          children,
-          { onPress: handlePress, _preventEvent: false }
-        )
+        return React.cloneElement(children, { style, ...props, ...extraProps })
       }
     } catch (e) {}
   }
-
-  // modifier keys does not work without href attribute
-  if (isWeb) extraProps.href = to
 
   return pug`
     Component.root(
       style=style
       styleName=[theme, color, display]
-      bold=bold
-      italic=italic
-      onPress=handlePress
-      ...extraProps
       ...props
+      ...extraProps
     )= children
   `
 }

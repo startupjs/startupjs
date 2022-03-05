@@ -33,7 +33,7 @@ const Popover = observer(({
   onChange,
   ...props
 }, ref) => {
-  const refAnchor = useRef()
+  const anchorRef = useRef()
 
   const isUncontrolled = useMemo(() => {
     const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
@@ -63,14 +63,14 @@ const Popover = observer(({
   return pug`
     Div(
       style=style
-      ref=refAnchor
+      ref=anchorRef
       onPress=()=> onChange(true)
     )= children
     AbstractPopover.attachment(
       ...props
       visible=visible
       style=[attachmentStyle]
-      refAnchor=refAnchor
+      anchorRef=anchorRef
       renderWrapper=renderWrapper
     )= renderContent && renderContent()
   `
