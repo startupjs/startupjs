@@ -43,6 +43,7 @@ function DateTimePicker ({
   placeholder,
   maxDate,
   minDate,
+  popoverVisible = false,
   onFocus,
   onBlur,
   onChangeDate,
@@ -59,7 +60,7 @@ function DateTimePicker ({
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
-  const [visible, $visible] = useValue(false)
+  const [visible, $visible] = useValue(popoverVisible)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
   const inputRef = useRef()
@@ -139,7 +140,6 @@ function DateTimePicker ({
     _hasError,
     value: textInput,
     secondaryIcon: textInput ? faTimesCircle : undefined,
-    secondaryIconPosition: 'right',
     onSecondaryIconPress: () => _onChangeDate(undefined)
   }
 
