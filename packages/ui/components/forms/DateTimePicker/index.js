@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, useBind } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
@@ -43,7 +43,8 @@ function DateTimePicker ({
   placeholder,
   maxDate,
   minDate,
-  popoverVisible = false,
+  visible,
+  $visible,
   onFocus,
   onBlur,
   onChangeDate,
@@ -60,12 +61,25 @@ function DateTimePicker ({
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
-  const [visible, $visible] = useValue(popoverVisible)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
   const inputRef = useRef()
 
-  useImperativeHandle(ref, () => inputRef.current, [])
+  const isUncontrolled = useMemo(() => {
+    const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
+    const isUsedViaState = typeof onChangeDate === 'function'
+    return !(isUsedViaTwoWayDataBinding || isUsedViaState)
+  }, [])
+
+  if (isUncontrolled) {
+    useImperativeHandle(ref, () => ({
+      open: () => $visible.set(true),
+      close: () => $visible.set(false)
+    }))
+    ;[, $visible] = useValue(false)
+  }
+
+  ;({ visible } = useBind({ $visible, visible }))
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -120,8 +134,6 @@ function DateTimePicker ({
   }
 
   function _onChangeDate (value) {
-    value = getDate(value)
-    setTextInput(getFormatDate(value))
     onChangeDate && onChangeDate(value)
     $visible.set(false)
   }
@@ -140,7 +152,7 @@ function DateTimePicker ({
     _hasError,
     value: textInput,
     secondaryIcon: textInput ? faTimesCircle : undefined,
-    onSecondaryIconPress: () => _onChangeDate(undefined)
+    onSecondaryIconPress: () => onChangeDate && onChangeDate(undefined)
   }
 
   const caption = pug`
