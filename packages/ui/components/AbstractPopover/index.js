@@ -41,7 +41,7 @@ function AbstractPopover (props) {
 
 const Tether = observer(function TetherComponent ({
   style,
-  refAnchor,
+  anchorRef,
   visible,
   position,
   attachment,
@@ -83,7 +83,7 @@ const Tether = observer(function TetherComponent ({
   const calculateGeometry = useCallback(({ nativeEvent }) => {
     // IDEA: we can pass measures to this component
     // instead of passing ref for the measurement
-    refAnchor.current.measure((x, y, width, height, pageX, pageY) => {
+    anchorRef.current.measure((x, y, width, height, pageX, pageY) => {
       // IDEA: rewrite getGeometry in future
       // we can make geometry behaviout like in tether.js
       const geometry = getGeometry({
@@ -172,7 +172,7 @@ AbstractPopover.defaultProps = {
 
 AbstractPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  refAnchor: PropTypes.oneOfType([
+  anchorRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })
   ]),

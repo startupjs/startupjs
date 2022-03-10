@@ -206,7 +206,7 @@ function DateTimePicker ({
       = caption
       AbstractPopover.popover(
         visible=visible
-        refAnchor=inputRef
+        anchorRef=inputRef
         renderWrapper=renderWrapper
         onRequestClose=onDismiss
       )= renderPopoverContent()
