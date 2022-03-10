@@ -1,3 +1,18 @@
+## [0.43.6](https://github.com/startupjs/startupjs/compare/v0.43.5...v0.43.6) (2022-03-10)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix 'readonly' view of label ([5ca66e6](https://github.com/startupjs/startupjs/commit/5ca66e6425e9043b71b383e86046c2e2592650a2))
+* **ui/Input:** prevent passing redundant props to inputs ([41664a4](https://github.com/startupjs/startupjs/commit/41664a444ece560369ddbb88987d1afd2388c33a))
+
+
+### Features
+
+* **ui/Div:** move tooltip to separate hook ([#918](https://github.com/startupjs/startupjs/issues/918)) ([74dac21](https://github.com/startupjs/startupjs/commit/74dac2193b058cfff6341fc39574447c5ddb24d6))
+
+
+
 ## [0.43.5](https://github.com/startupjs/startupjs/compare/v0.43.4...v0.43.5) (2022-02-24)
 
 
