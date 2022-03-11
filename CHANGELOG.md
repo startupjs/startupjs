@@ -1,3 +1,13 @@
+## [0.43.7](https://github.com/startupjs/startupjs/compare/v0.43.6...v0.43.7) (2022-03-11)
+
+
+### Bug Fixes
+
+* **routes-middleware:** fix duplicating websocket connection ([#920](https://github.com/startupjs/startupjs/issues/920)) ([d6a4e24](https://github.com/startupjs/startupjs/commit/d6a4e24fa69abc965ec4b036aeb93d0b98f65310))
+* **ui/Div:** pass missing 'event' to press handlers ([13c8d35](https://github.com/startupjs/startupjs/commit/13c8d35e510a4086e4c2789f183cb80a9fa2e567))
+
+
+
 ## [0.43.6](https://github.com/startupjs/startupjs/compare/v0.43.5...v0.43.6) (2022-03-10)
 
 
