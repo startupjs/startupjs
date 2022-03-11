@@ -104,7 +104,7 @@ function Div ({
       if (!pressHandler) continue
       props[prop] = (...args) => {
         if (disabled) return
-        pressHandler()
+        pressHandler(...args)
       }
     }
   }
