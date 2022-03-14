@@ -1,9 +1,21 @@
 # [0.44.0](https://github.com/startupjs/startupjs/compare/v0.43.8...v0.44.0) (2022-03-14)
 
 
-### Bug Fixes
+## RELEASE NOTES
 
-* **react-sharedb-hooks:** do initialization once for 'useValue' hook to make it work like 'useState' in react ([#921](https://github.com/startupjs/startupjs/issues/921)) ([958d6c8](https://github.com/startupjs/startupjs/commit/958d6c8a4c8b339b53192ad713838f8f836c40be))
+**No** breaking changes
+
+Fix multiple `useValue` hook initialization at each rendering. Now the hook works like `useState` in react.
+
+```js
+const [value, $value] = useValue(Math.random())
+
+return pug`
+  Button(onPress=() => $value.set(value + 1)) Increment
+`
+```
+
+In this example, the `value` did not increase when the button was clicked because the next initialization was performed with a new `Math.random()` value.
 
 
 
