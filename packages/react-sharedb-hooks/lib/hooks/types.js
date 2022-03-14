@@ -66,7 +66,11 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     blockCache()
 
     const hookId = useMemo(() => $root.id(), [])
-    const hashedArgs = useMemo(() => JSON.stringify(args), args)
+    const hashedArgs = useMemo(() => {
+      // do initialization once for 'subValue' typeFn
+      // to make it work like useState in react
+      return typeFn === subValue ? '' : JSON.stringify(args)
+    }, args)
 
     const initsCountRef = useRef(0)
     const cancelInitRef = useRef()
