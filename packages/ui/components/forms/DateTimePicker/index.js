@@ -75,7 +75,9 @@ function DateTimePicker ({
   const refTimeSelect = useRef()
   const inputRef = useRef()
 
-  const isUncontrolled = useMemo(() => typeof $visible === 'undefined', [])
+  const isUncontrolled = useMemo(() => {
+    return typeof $visible === 'undefined' && typeof visible === 'undefined'
+  }, [])
 
   if (isUncontrolled) {
     useImperativeHandle(ref, () => ({
@@ -154,7 +156,7 @@ function DateTimePicker ({
     onOpen && onOpen(...args)
   }
 
-  function _onCLose (args) {
+  function _onClose (args) {
     onBlur && onBlur(...args)
     onClose && onClose(...args)
   }
@@ -178,8 +180,8 @@ function DateTimePicker ({
     else
       TextInput(
         ...inputProps
-        onFocus=(...args) => _onOpen(args)
-        onBlur=(...args) => _onCLose(args)
+        onFocus=(...args) =>  _onOpen(args)
+        onBlur=(...args) => _onClose(args)
       )
   `
 

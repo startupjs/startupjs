@@ -54,12 +54,12 @@ export default function wrapInput (Component, configuration) {
 
     function handleFocus (...args) {
       setFocused(true)
-      onFocus && onFocus(...args)
+      onFocus(...args)
     }
 
     function handleBlur (...args) {
       setFocused(false)
-      onBlur && onBlur(...args)
+      onBlur(...args)
     }
 
     const _label = pug`
@@ -94,8 +94,8 @@ export default function wrapInput (Component, configuration) {
         ref=ref
         layout=layout
         _hasError=!!error
-        onFocus=handleFocus
-        onBlur=handleBlur
+        onFocus=onFocus && handleFocus
+        onBlur=onBlur && handleBlur
         ...props
       )
     `
