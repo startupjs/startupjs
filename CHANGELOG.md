@@ -1,3 +1,12 @@
+# [0.44.0](https://github.com/startupjs/startupjs/compare/v0.43.8...v0.44.0) (2022-03-14)
+
+
+### Bug Fixes
+
+* **react-sharedb-hooks:** do initialization once for 'useValue' hook to make it work like 'useState' in react ([#921](https://github.com/startupjs/startupjs/issues/921)) ([958d6c8](https://github.com/startupjs/startupjs/commit/958d6c8a4c8b339b53192ad713838f8f836c40be))
+
+
+
 ## [0.43.8](https://github.com/startupjs/startupjs/compare/v0.43.7...v0.43.8) (2022-03-14)
 
 

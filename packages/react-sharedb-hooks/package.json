@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb-hooks",
   "type": "module",
-  "version": "0.43.7",
+  "version": "0.44.0",
   "engines": {
     "node": ">= 14"
   },
@@ -14,10 +14,10 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/cache": "^0.43.1",
-    "@startupjs/debug": "^0.43.1",
-    "@startupjs/model": "^0.43.7",
-    "@startupjs/react-sharedb-util": "^0.43.7",
+    "@startupjs/cache": "^0.44.0",
+    "@startupjs/debug": "^0.44.0",
+    "@startupjs/model": "^0.44.0",
+    "@startupjs/react-sharedb-util": "^0.44.0",
     "co": "~4.6.0",
     "lodash": "^4.17.20"
   },
