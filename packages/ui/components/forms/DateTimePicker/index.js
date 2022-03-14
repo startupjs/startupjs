@@ -47,6 +47,8 @@ function DateTimePicker ({
   $visible,
   onFocus,
   onBlur,
+  onOpen,
+  onClose,
   onChangeDate,
   _hasError
 }, ref) {
@@ -58,6 +60,14 @@ function DateTimePicker ({
     console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
   }
 
+  if (onFocus) {
+    console.log('[@startupjs/ui] DateTimePicker: onFocus is deprecated, use onOpen instead')
+  }
+
+  if (onBlur) {
+    console.log('[@startupjs/ui] DateTimePicker: onBlur is deprecated, use onClose instead')
+  }
+
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
@@ -65,11 +75,7 @@ function DateTimePicker ({
   const refTimeSelect = useRef()
   const inputRef = useRef()
 
-  const isUncontrolled = useMemo(() => {
-    const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
-    const isUsedViaState = typeof onChangeDate === 'function'
-    return !(isUsedViaTwoWayDataBinding || isUsedViaState)
-  }, [])
+  const isUncontrolled = useMemo(() => typeof $visible === 'undefined', [])
 
   if (isUncontrolled) {
     useImperativeHandle(ref, () => ({
@@ -142,6 +148,17 @@ function DateTimePicker ({
     $visible.set(false)
   }
 
+  function _onOpen (args) {
+    $visible.set(true)
+    onFocus && onFocus(...args)
+    onOpen && onOpen(...args)
+  }
+
+  function _onCLose (args) {
+    onBlur && onBlur(...args)
+    onClose && onClose(...args)
+  }
+
   const inputProps = {
     style,
     ref: inputRef,
@@ -161,13 +178,8 @@ function DateTimePicker ({
     else
       TextInput(
         ...inputProps
-        onFocus=(...args) => {
-          $visible.set(true)
-          onFocus && onFocus(...args)
-        }
-        onBlur=(...args) => {
-          onBlur && onBlur(...args)
-        }
+        onFocus=(...args) => _onOpen(args)
+        onBlur=(...args) => _onCLose(args)
       )
   `
 
