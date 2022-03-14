@@ -1,3 +1,12 @@
+## [0.43.8](https://github.com/startupjs/startupjs/compare/v0.43.7...v0.43.8) (2022-03-14)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix passing  to object and array inputs ([5617601](https://github.com/startupjs/startupjs/commit/5617601c6478a48109171bcf81dd2e8347e03413))
+
+
+
 ## [0.43.7](https://github.com/startupjs/startupjs/compare/v0.43.6...v0.43.7) (2022-03-11)
 
 
