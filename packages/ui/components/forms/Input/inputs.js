@@ -106,13 +106,8 @@ const WrappedTextInput = wrapInput(
 const inputs = {
   array: {
     Component: WrappedArrayInput,
-    useProps: ({ $value, ...props }) => {
-      ;({ $value } = useBind({ $value }))
-
-      return {
-        $value,
-        ...props
-      }
+    useProps: (props) => {
+      return props
     }
   },
   checkbox: {
@@ -259,13 +254,8 @@ const inputs = {
   },
   object: {
     Component: WrappedObjectInput,
-    useProps: ({ $value, ...props }) => {
-      ;({ $value } = useBind({ $value }))
-
-      return {
-        $value,
-        ...props
-      }
+    useProps: (props) => {
+      return props
     }
   },
   password: {
