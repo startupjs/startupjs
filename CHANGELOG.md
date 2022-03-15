@@ -1,3 +1,12 @@
+## [0.44.1](https://github.com/startupjs/startupjs/compare/v0.44.0...v0.44.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* **ui/Input:** pass 'readonly' and 'disabled' props to the target input ([818279e](https://github.com/startupjs/startupjs/commit/818279efdf3ae76efb720c7a32b14884914963f4))
+
+
+
 # [0.44.0](https://github.com/startupjs/startupjs/compare/v0.43.8...v0.44.0) (2022-03-14)
 
 
