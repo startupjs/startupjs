@@ -112,12 +112,12 @@ const inputs = {
   },
   checkbox: {
     Component: WrappedCheckbox,
-    useProps: ({ disabled, value, readonly, $value, onChange, ...props }) => {
+    useProps: ({ value, $value, onChange, ...props }) => {
       ;({ value, onChange } = useBind({ value, $value, onChange }))
 
       return {
         value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChange,
         _onLabelPress: () => { onChange(!value) },
         ...props
@@ -129,7 +129,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
       onChangeColor,
       ...props
     }, ref) => {
@@ -137,7 +136,7 @@ const inputs = {
 
       return {
         value,
-        configuration: { isLabelClickable: !disabled },
+        configuration: { isLabelClickable: !props.disabled },
         onChangeColor,
         _onLabelPress: () => { ref.current && ref.current.show() },
         ...props
@@ -149,8 +148,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
-      readonly,
       onChangeDate,
       ...props
     }, ref) => {
@@ -159,7 +156,7 @@ const inputs = {
       return {
         mode: 'date',
         date: value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeDate,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
@@ -171,8 +168,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
-      readonly,
       onChangeDate,
       ...props
     }, ref) => {
@@ -181,7 +176,7 @@ const inputs = {
       return {
         mode: 'datetime',
         date: value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeDate,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
@@ -193,8 +188,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
-      readonly,
       onChangeDate,
       ...props
     }, ref) => {
@@ -203,7 +196,7 @@ const inputs = {
       return {
         mode: 'time',
         date: value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeDate,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
@@ -215,8 +208,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
-      readonly,
       onChange,
       ...props
     }, ref) => {
@@ -224,7 +215,7 @@ const inputs = {
 
       return {
         value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChange,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
@@ -236,8 +227,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
-      readonly,
       onChangeNumber,
       ...props
     }, ref) => {
@@ -245,7 +234,7 @@ const inputs = {
 
       return {
         value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeNumber,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
@@ -263,8 +252,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      disabled,
-      readonly,
       onChangeText,
       ...props
     }, ref) => {
@@ -272,7 +259,7 @@ const inputs = {
 
       return {
         value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeText,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
@@ -308,8 +295,6 @@ const inputs = {
     useProps: ({
       value,
       $value,
-      readonly,
-      disabled,
       onChangeText,
       ...props
     }, ref) => {
@@ -317,7 +302,7 @@ const inputs = {
 
       return {
         value,
-        configuration: { isLabelClickable: !disabled && !readonly },
+        configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeText,
         _onLabelPress: () => ref.current && ref.current.focus(),
         ...props
