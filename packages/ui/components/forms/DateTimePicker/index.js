@@ -47,8 +47,8 @@ function DateTimePicker ({
   $visible,
   onFocus,
   onBlur,
-  onOpen,
-  onClose,
+  onRequestOpen,
+  onRequestClose,
   onChangeDate,
   _hasError
 }, ref) {
@@ -60,14 +60,6 @@ function DateTimePicker ({
     console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
   }
 
-  if (onFocus) {
-    console.log('[@startupjs/ui] DateTimePicker: onFocus is deprecated, use onOpen instead')
-  }
-
-  if (onBlur) {
-    console.log('[@startupjs/ui] DateTimePicker: onBlur is deprecated, use onClose instead')
-  }
-
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
@@ -75,19 +67,27 @@ function DateTimePicker ({
   const refTimeSelect = useRef()
   const inputRef = useRef()
 
-  const isUncontrolled = useMemo(() => {
-    return typeof $visible === 'undefined' && typeof visible === 'undefined'
+  useImperativeHandle(ref, () => inputRef.current, [])
+
+  useImperativeHandle(ref, () => inputRef.current, [])
+
+  let bindProps = useMemo(() => {
+    // controlled via two way data binding
+    if (typeof $visible !== 'undefined') return { $visible }
+    // controlled via state
+    if (typeof onRequestOpen === 'function' && typeof onRequestClose === 'function') {
+      return { visible, onChangeVisible: value => value ? onRequestOpen() : onRequestClose() }
+    }
   }, [])
 
-  if (isUncontrolled) {
-    useImperativeHandle(ref, () => ({
-      open: () => $visible.set(true),
-      close: () => $visible.set(false)
-    }))
+  // if no bindProps then uncontrolled
+  if (!bindProps) {
     ;[, $visible] = useValue(false)
+    bindProps = { $visible }
   }
 
-  ;({ visible } = useBind({ $visible, visible }))
+  let { onChangeVisible } = bindProps
+  ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -143,22 +143,11 @@ function DateTimePicker ({
 
   function _onChangeDate (value) {
     onChangeDate && onChangeDate(value)
-    $visible.set(false)
+    onChangeVisible()
   }
 
   function onDismiss () {
-    $visible.set(false)
-  }
-
-  function _onOpen (args) {
-    $visible.set(true)
-    onFocus && onFocus(...args)
-    onOpen && onOpen(...args)
-  }
-
-  function _onClose (args) {
-    onBlur && onBlur(...args)
-    onClose && onClose(...args)
+    onChangeVisible()
   }
 
   const inputProps = {
@@ -170,18 +159,23 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    secondaryIcon: textInput ? faTimesCircle : undefined,
+    secondaryIcon: textInput && !renderInput ? faTimesCircle : undefined,
     onSecondaryIconPress: () => onChangeDate && onChangeDate(undefined)
   }
 
   const caption = pug`
     if renderInput
-      = renderInput(Object.assign({ $visible, onFocus, onBlur }, inputProps))
+      = renderInput(Object.assign({ onFocus, onBlur }, inputProps))
     else
       TextInput(
         ...inputProps
-        onFocus=(...args) =>  _onOpen(args)
-        onBlur=(...args) => _onClose(args)
+        onFocus=(...args) => {
+          onChangeVisible(true)
+          onFocus && onFocus(...args)
+        }
+        onBlur=(...args) => {
+          onBlur && onBlur(...args)
+        }
       )
   `
 
@@ -226,7 +220,7 @@ function DateTimePicker ({
   function renderWrapper (children) {
     return pug`
       Div.popoverWrapper
-        Div.popoverOverlay(feedback=false onPress=()=> $visible.set(false))
+        Div.popoverOverlay(feedback=false onPress=()=> onChangeVisible())
         = children
     `
   }
@@ -236,7 +230,7 @@ function DateTimePicker ({
       = caption
       AbstractPopover.popover(
         visible=visible
-        refAnchor=inputRef
+        anchorRef=inputRef
         renderWrapper=renderWrapper
         onRequestClose=onDismiss
       )= renderPopoverContent()
