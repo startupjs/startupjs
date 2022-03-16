@@ -30,3 +30,5 @@ export const LINKED_PROVIDER_ERROR = 'Another account with same provider already
 export const ACCOUNT_LINKED_INFO = 'Account linked successful!'
 export const ACCOUNT_ALREADY_LINKED_ERROR = 'Account is already linked to your profile.'
 export const ACCOUNT_ALREADY_LINKED_TO_ANOHER_PROFILE_ERROR = 'Account is already linked to another profile.'
+
+export const GOOGLE_AUTH_TOKEN_ERROR = 'Token used too (late/early)'

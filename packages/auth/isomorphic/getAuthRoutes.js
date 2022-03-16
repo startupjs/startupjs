@@ -24,5 +24,11 @@ export default (components = {}) => [
     exact: true,
     component: components.PResetPassword,
     filters: [filters.isNotLoggedIn()]
+  },
+  {
+    path: '/auth/error',
+    exact: true,
+    component: components.PError,
+    filters: [filters.isNotLoggedIn()]
   }
 ]
