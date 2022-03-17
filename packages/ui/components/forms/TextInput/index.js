@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useEffect
-} from 'react'
+import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Input from './input'
@@ -11,26 +8,8 @@ import './index.styl'
 function TextInput ({
   value,
   readonly,
-  onFocus,
-  onBlur,
   ...props
 }, ref) {
-  const [focused, setFocused] = useState(false)
-
-  function handleFocus (...args) {
-    onFocus && onFocus(...args)
-    setFocused(true)
-  }
-
-  function handleBlur (...args) {
-    onBlur && onBlur(...args)
-    setFocused(false)
-  }
-
-  useEffect(() => {
-    if (focused && readonly) handleBlur()
-  }, [readonly])
-
   if (readonly) {
     return pug`
       Span= value
@@ -41,8 +20,6 @@ function TextInput ({
     Input(
       ref=ref
       value=value
-      onFocus=handleFocus
-      onBlur=handleBlur
       ...props
     )
   `

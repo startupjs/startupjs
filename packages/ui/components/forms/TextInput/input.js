@@ -96,7 +96,7 @@ function TextInputInput ({
     // TODO
     // test mobile device behaviour
     useLayoutEffect(() => {
-      if (focused && disabled) handleBlur()
+      if (focused && disabled) inputRef.current.blur()
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491

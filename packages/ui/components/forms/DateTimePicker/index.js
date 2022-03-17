@@ -160,7 +160,7 @@ function DateTimePicker ({
     _hasError,
     value: textInput,
     secondaryIcon: textInput && !renderInput ? faTimesCircle : undefined,
-    onSecondaryIconPress: () => onChangeDate && onChangeDate(undefined)
+    onSecondaryIconPress: () => _onChangeDate(undefined)
   }
 
   const caption = pug`

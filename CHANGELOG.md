@@ -1,3 +1,67 @@
+## [0.44.1](https://github.com/startupjs/startupjs/compare/v0.44.0...v0.44.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* **ui/Input:** pass 'readonly' and 'disabled' props to the target input ([818279e](https://github.com/startupjs/startupjs/commit/818279efdf3ae76efb720c7a32b14884914963f4))
+
+
+
+# [0.44.0](https://github.com/startupjs/startupjs/compare/v0.43.8...v0.44.0) (2022-03-14)
+
+
+## RELEASE NOTES
+
+**No** breaking changes
+
+Fix multiple `useValue` hook initialization at each rendering. Now the hook works like `useState` in react.
+
+```js
+const [value, $value] = useValue(Math.random())
+
+return pug`
+  Button(onPress=() => $value.set(value + 1)) Increment
+`
+```
+
+In this example, the `value` did not increase when the button was clicked because the next initialization was performed with a new `Math.random()` value.
+
+
+
+## [0.43.8](https://github.com/startupjs/startupjs/compare/v0.43.7...v0.43.8) (2022-03-14)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix passing  to object and array inputs ([5617601](https://github.com/startupjs/startupjs/commit/5617601c6478a48109171bcf81dd2e8347e03413))
+
+
+
+## [0.43.7](https://github.com/startupjs/startupjs/compare/v0.43.6...v0.43.7) (2022-03-11)
+
+
+### Bug Fixes
+
+* **routes-middleware:** fix duplicating websocket connection ([#920](https://github.com/startupjs/startupjs/issues/920)) ([d6a4e24](https://github.com/startupjs/startupjs/commit/d6a4e24fa69abc965ec4b036aeb93d0b98f65310))
+* **ui/Div:** pass missing 'event' to press handlers ([13c8d35](https://github.com/startupjs/startupjs/commit/13c8d35e510a4086e4c2789f183cb80a9fa2e567))
+
+
+
+## [0.43.6](https://github.com/startupjs/startupjs/compare/v0.43.5...v0.43.6) (2022-03-10)
+
+
+### Bug Fixes
+
+* **ui/Input:** fix 'readonly' view of label ([5ca66e6](https://github.com/startupjs/startupjs/commit/5ca66e6425e9043b71b383e86046c2e2592650a2))
+* **ui/Input:** prevent passing redundant props to inputs ([41664a4](https://github.com/startupjs/startupjs/commit/41664a444ece560369ddbb88987d1afd2388c33a))
+
+
+### Features
+
+* **ui/Div:** move tooltip to separate hook ([#918](https://github.com/startupjs/startupjs/issues/918)) ([74dac21](https://github.com/startupjs/startupjs/commit/74dac2193b058cfff6341fc39574447c5ddb24d6))
+
+
+
 ## [0.43.5](https://github.com/startupjs/startupjs/compare/v0.43.4...v0.43.5) (2022-02-24)
 
 

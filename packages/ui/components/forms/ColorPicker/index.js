@@ -13,8 +13,7 @@ function ColorPicker ({
   size,
   value,
   disabled,
-  onChangeColor,
-  onFocus
+  onChangeColor
 }, ref) {
   const [shown, setShown] = useState(false)
   const pickerRef = useRef()
@@ -44,7 +43,6 @@ function ColorPicker ({
           pickerRef.current.show()
           setShown(true)
         }
-        onFocus=onFocus
       )= value.toUpperCase()
 
   `

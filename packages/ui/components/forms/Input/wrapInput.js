@@ -54,7 +54,7 @@ export default function wrapInput (Component, configuration) {
 
     function handleFocus (...args) {
       setFocused(true)
-      onFocus(...args)
+      onFocus && onFocus(...args)
     }
 
     function handleBlur (...args) {
