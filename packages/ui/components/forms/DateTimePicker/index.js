@@ -70,8 +70,6 @@ function DateTimePicker ({
 
   useImperativeHandle(ref, () => inputRef.current, [])
 
-  useImperativeHandle(ref, () => inputRef.current, [])
-
   let bindProps = useMemo(() => {
     // controlled via two way data binding
     if (typeof $visible !== 'undefined') return { $visible }
@@ -164,12 +162,12 @@ function DateTimePicker ({
 
   const caption = pug`
     if renderInput
-      = renderInput(Object.assign({ onFocus, onBlur }, inputProps))
+      = renderInput(Object.assign({ onChangeVisible, onFocus, onBlur }, inputProps))
     else
       TextInput(
         ...inputProps
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
-        onSecondaryIconPress=() => _onChangeDate()
+        onSecondaryIconPress=() => onChangeDate && onChangeDate()
         onFocus=(...args) => {
           onChangeVisible(true)
           onFocus && onFocus(...args)
@@ -233,7 +231,6 @@ function DateTimePicker ({
         visible=visible
         anchorRef=inputRef
         renderWrapper=renderWrapper
-        onRequestClose=onDismiss
       )= renderPopoverContent()
     else
       = caption
