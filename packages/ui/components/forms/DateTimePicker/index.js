@@ -60,6 +60,7 @@ function DateTimePicker ({
     console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
   }
 
+  // Do we need to pass properties to 'renderInput' at all?
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
@@ -143,11 +144,11 @@ function DateTimePicker ({
 
   function _onChangeDate (value) {
     onChangeDate && onChangeDate(value)
-    onChangeVisible()
+    onChangeVisible(false)
   }
 
   function onDismiss () {
-    onChangeVisible()
+    onChangeVisible(false)
   }
 
   const inputProps = {
@@ -158,9 +159,7 @@ function DateTimePicker ({
     size,
     placeholder,
     _hasError,
-    value: textInput,
-    secondaryIcon: textInput && !renderInput ? faTimesCircle : undefined,
-    onSecondaryIconPress: () => _onChangeDate(undefined)
+    value: textInput
   }
 
   const caption = pug`
@@ -169,6 +168,8 @@ function DateTimePicker ({
     else
       TextInput(
         ...inputProps
+        secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
+        onSecondaryIconPress=() => onChangeDate && onChangeDate()
         onFocus=(...args) => {
           onChangeVisible(true)
           onFocus && onFocus(...args)
@@ -220,7 +221,7 @@ function DateTimePicker ({
   function renderWrapper (children) {
     return pug`
       Div.popoverWrapper
-        Div.popoverOverlay(feedback=false onPress=()=> onChangeVisible())
+        Div.popoverOverlay(feedback=false onPress=()=> onChangeVisible(false))
         = children
     `
   }
