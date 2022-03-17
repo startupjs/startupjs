@@ -47,9 +47,9 @@ function DateTimePicker ({
   $visible,
   onFocus,
   onBlur,
+  onChangeDate,
   onRequestOpen,
   onRequestClose,
-  onChangeDate,
   _hasError
 }, ref) {
   if (renderCaption) {
