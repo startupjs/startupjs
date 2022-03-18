@@ -41,8 +41,10 @@ export default async function loginCallback (req, res, next, config) {
     }
   } catch (err) {
     // TODO: http://lalverma.blogspot.com/2016/02/token-used-too-early.html
-    if (err.message.indexOf('Token used too') !== -1) {
-      res.redirect('/auth/error')
+    const regExp = /^Token used too (early|late)/
+    const matches = regExp.exec(err.message)
+    if (matches) {
+      res.redirect('/auth/error?err=' + matches[0])
     }
   }
 }

@@ -1,22 +1,14 @@
 import React from 'react'
-import { observer, emit } from 'startupjs'
+import { observer, emit, useLocal } from 'startupjs'
 import { Span, Card, Button } from '@startupjs/ui'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { GOOGLE_AUTH_TOKEN_ERROR } from '../../../../isomorphic'
 import './index.styl'
 
-function PError ({
-  baseUrl,
-  redirectUrl,
-  localForms,
-  renderForm,
-  onError,
-  onSuccess,
-  onHandleError
-}) {
+function PError () {
+  const [query] = useLocal('$render.query')
+  if (!query.err) return
   return pug`
     Card.root(variant='outlined')
-      Span.title= GOOGLE_AUTH_TOKEN_ERROR
+      Span.title= query.err
       Button.btn(onPress=() => emit('url', '/')) ◀︎  Go back
   `
 }
