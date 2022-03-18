@@ -60,7 +60,6 @@ function DateTimePicker ({
     console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
   }
 
-  // Do we need to pass properties to 'renderInput' at all?
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
@@ -162,6 +161,7 @@ function DateTimePicker ({
 
   const caption = pug`
     if renderInput
+      // Do we need to pass properties to 'renderInput' at all?
       = renderInput(Object.assign({ onChangeVisible, onFocus, onBlur }, inputProps))
     else
       TextInput(
