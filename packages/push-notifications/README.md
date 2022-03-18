@@ -15,7 +15,6 @@ react-native-push-notification >= 7.2.3
 yarn add @startupjs/push-notifications @react-native-community/push-notification-ios react-native-push-notification
 ```
 
-
 ## Connecting certificates
 
 ### Create p8 certificate
@@ -159,7 +158,7 @@ The function of sending push notifications. Same as [client function](/docs/libr
 ## Usage client API
 
 ### `initPushNotifications (options)`
-function of initializing push notifications. 
+function of initializing push notifications.
 
 **Arguments**
   `options [Object]` - an options object for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and` onNotification [Function]` fields as this may break the package's behavior.

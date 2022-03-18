@@ -5,7 +5,7 @@ import App from 'startupjs/app'
 import { pug, observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
-import { BASE_URL } from '@env'
+import BASE_URL from './../BASE_URL'
 import i18n, { useI18nGlobalInit } from '../i18n'
 import orm from '../model'
 

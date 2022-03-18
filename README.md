@@ -210,12 +210,12 @@ To create a new project using an alpha version of startupjs, append `@next` to t
 npx startupjs@next init myapp
 ```
 
-Each template initializes on top of a default `react-native init` application.
+Each template initializes on top of a default `expo init` application.
 
-If you want to use an RC version (`next`) of `react-native`, specify it using the `-rn` option:
+If you want to use a specific version of `expo`, specify it using the `-e` option:
 
 ```
-npx startupjs init myapp -rn next
+npx startupjs init myapp -e next
 ```
 
 ## Docker development Quick Start

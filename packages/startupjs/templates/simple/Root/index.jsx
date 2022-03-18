@@ -2,8 +2,8 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { pug, observer, model } from 'startupjs'
 import init from 'startupjs/init'
-import { BASE_URL } from '@env'
 import { TestComponent } from 'components'
+import BASE_URL from './../BASE_URL'
 import orm from '../model'
 
 if (Platform.OS === 'web') window.model = model

@@ -215,13 +215,9 @@ const CONFIG_SERVER = {
 }
 
 module.exports = (api, options) => {
-  api.cache(true)
+  const { BABEL_ENV, MODE = DEFAULT_MODE, VITE_WEB, SNOWPACK_WEB } = process.env
 
-  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE, VITE_WEB, SNOWPACK_WEB } = process.env
-
-  // There is a bug in metro when BABEL_ENV is a string "undefined".
-  // We have to workaround it and use NODE_ENV.
-  let env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
+  let env = BABEL_ENV
   if (VITE_WEB) env = 'web_vite'
   if (SNOWPACK_WEB) env = 'web_snowpack'
 

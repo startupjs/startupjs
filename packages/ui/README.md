@@ -22,14 +22,8 @@ react-native-tab-view: >= 3.0.0
 startupjs: >= 0.33.0
 ```
 
-### Linking
-Link startupjs library (required for all React Native versions)
-
-```
-  npx startupjs link
-```
-
 ## Configuration
+
 1. Import UI styles in your root style file `styles/index.styl`. You can also override any default configuration here (palette, colors, variables, etc.):
 ```styl
 @require('../node_modules/@startupjs/ui/styles/index.styl')
