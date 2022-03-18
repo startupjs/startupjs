@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useImperativeHandle } from 'react'
 import { observer } from 'startupjs'
 import Row from './../../Row'
 import Span from './../../typography/Span'
@@ -14,8 +14,18 @@ function DefaultInput ({
   readonly,
   children,
   onOpen,
+  onHide,
   _hasError
-}) {
+}, ref) {
+  useImperativeHandle(ref, () => ({
+    focus: onOpen,
+    blur: onHide
+  }), [])
+
+  useEffect(() => {
+    if (focused && disabled) onHide()
+  }, [disabled])
+
   return pug`
     if readonly
       Span= value.join(', ')
@@ -33,4 +43,7 @@ function DefaultInput ({
   `
 }
 
-export default observer(themed('Multiselect', DefaultInput))
+export default observer(
+  themed('Multiselect', DefaultInput),
+  { forwardRef: true }
+)

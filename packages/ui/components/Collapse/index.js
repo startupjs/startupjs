@@ -17,6 +17,16 @@ function Collapse ({
   variant,
   icon,
   onChange,
+  // === start react-native-collapsible properties ===
+  collapsibleContainerStyle,
+  align,
+  collapsedHeight,
+  enablePointerEvents,
+  duration,
+  easing,
+  renderChildrenCollapsed,
+  onAnimationEnd,
+  // === end react-native-collapsible properties ===
   ...props
 }) {
   ({ open, onChange } = useBind({ $open, open, onChange }))
@@ -44,7 +54,19 @@ function Collapse ({
   }
 
   // Handle <Collapse.Content>
-  const contentProps = { open, variant }
+  const contentProps = {
+    open,
+    variant,
+    // react-native-collapsible properties
+    style: collapsibleContainerStyle,
+    align,
+    collapsedHeight,
+    enablePointerEvents,
+    duration,
+    easing,
+    renderChildrenCollapsed,
+    onAnimationEnd
+  }
   content = content
     ? React.cloneElement(content, { ...contentProps, ...content.props })
     : React.createElement(CollapseContent, contentProps, contentChildren)
@@ -78,7 +100,17 @@ Collapse.propTypes = {
   open: PropTypes.bool,
   variant: PropTypes.oneOf(['full', 'pure']),
   icon: CollapseHeader.propTypes.icon,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  // === start react-native-collapsible properties ===
+  collapsibleContainerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  align: PropTypes.oneOf(['top', 'center', 'bottom']),
+  collapsedHeight: PropTypes.number,
+  enablePointerEvents: PropTypes.bool,
+  duration: PropTypes.number,
+  easing: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  renderChildrenCollapsed: PropTypes.bool,
+  onAnimationEnd: PropTypes.func
+  // === end react-native-collapsible properties ===
 }
 
 const ObserverCollapse = observer(themed('Collapse', Collapse))

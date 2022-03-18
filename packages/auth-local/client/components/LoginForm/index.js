@@ -35,14 +35,16 @@ const LOGIN_DEFAULT_INPUTS = {
     label: 'Email',
     placeholder: 'Enter your email',
     testID: 'auth-email-input',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'email'
   },
   password: {
     input: 'password',
     label: 'Password',
     placeholder: 'Enter your password',
     testID: 'auth-password-input',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'password'
   }
 }
 

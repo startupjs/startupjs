@@ -7,7 +7,7 @@ const isArray = Array.isArray || function (arg) {
 
 export default function matcher (
   styleName,
-  cssStyles,
+  fileStyles,
   globalStyles,
   localStyles,
   inlineStyleProps
@@ -24,7 +24,7 @@ export default function matcher (
   styleName = cc(styleName)
 
   const htmlClasses = (styleName || '').split(' ').filter(Boolean)
-  const resProps = getStyleProps(htmlClasses, cssStyles, legacy)
+  const resProps = getStyleProps(htmlClasses, fileStyles, legacy)
 
   // In the legacy mode, return root styles right away
   if (legacy) return resProps[ROOT_STYLE_PROP_NAME]
@@ -43,7 +43,7 @@ export default function matcher (
 function appendStyleProps (target, appendProps) {
   for (const propName in appendProps) {
     if (target[propName]) {
-      if (isArray(target[propName])) {
+      if (isArray(appendProps[propName])) {
         target[propName] = target[propName].concat(appendProps[propName])
       } else {
         target[propName].push(appendProps[propName])
@@ -55,11 +55,9 @@ function appendStyleProps (target, appendProps) {
 }
 
 // Process all styles, including the ::part() ones.
-function getStyleProps (htmlClasses, cssStyles, legacyRootOnly) {
-  const res = {
-    [ROOT_STYLE_PROP_NAME]: []
-  }
-  for (const selector in cssStyles) {
+function getStyleProps (htmlClasses, styles, legacyRootOnly) {
+  const res = {}
+  for (const selector in styles) {
     // Find out which part (or root) this selector is targeting
     const match = selector.match(PART_REGEX)
     const attr = match ? getPropName(match[1]) : ROOT_STYLE_PROP_NAME
@@ -87,7 +85,7 @@ function getStyleProps (htmlClasses, cssStyles, legacyRootOnly) {
     const specificity = cssClasses.length - 1
     if (!res[attr]) res[attr] = []
     if (!res[attr][specificity]) res[attr][specificity] = []
-    res[attr][specificity].push(cssStyles[selector])
+    res[attr][specificity].push(styles[selector])
   }
   return res
 }

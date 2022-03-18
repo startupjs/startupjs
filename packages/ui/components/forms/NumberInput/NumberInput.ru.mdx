@@ -155,23 +155,38 @@ return (
 const [value, setValue] = useState()
 
 return (
-    <NumberInput
-      style={{
-        width: 250
-      }}
-      buttonStyle={{
-        borderWidth: 0
-      }}
-      inputStyle={{
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderRadius: 0
-      }}
-      placeholder='Enter number'
-      value={value}
-      onChangeNumber={setValue}
-    />
+  <NumberInput
+    style={{
+      width: 250
+    }}
+    buttonStyle={{
+      borderWidth: 0
+    }}
+    inputStyle={{
+      borderTopWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+      borderRadius: 0
+    }}
+    placeholder='Enter number'
+    value={value}
+    onChangeNumber={setValue}
+  />
+)
+```
+
+## Единицы измерения
+
+Свойство `units` отображает единицы измерения поля. По умолчанию единицы измерения отображаются слева от поля. Используйте `unitsPosition='right'` для отображения единиц измерения в правой части поля.
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <NumberInput
+    value={value}
+    units='$'
+    onChangeNumber={setValue}
+  />
 )
 ```
 

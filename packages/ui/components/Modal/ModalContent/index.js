@@ -4,15 +4,12 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
-import STYLES from './index.styl'
-
-const { padding } = STYLES
+import './index.styl'
 
 function ModalContent ({
   style,
   children,
-  ContentComponent,
-  variant // @private
+  ContentComponent
 }) {
   const content = React.Children.map(children, (child, index) => {
     if (typeof child === 'string') {
@@ -25,13 +22,10 @@ function ModalContent ({
 
   const extraProps = {}
 
-  if (!ContentComponent) {
-    ContentComponent = ScrollView
-    extraProps.contentContainerStyle = { padding }
-  }
+  if (!ContentComponent) ContentComponent = ScrollView
 
   return pug`
-    ContentComponent(
+    ContentComponent.root(
       style=style
       ...extraProps
     )= content

@@ -13,7 +13,6 @@
     "Carousel": "/components/Carousel",
     "Collapse": "/components/Collapse",
     "Content": "/components/Content",
-    "Dialog": "/components/Dialog",
     "Div": "/components/Div",
     "Divider": "/components/Divider",
     "DrawerSidebar": "/components/DrawerSidebar",
@@ -66,6 +65,9 @@
     "ToastComponent": "/components/toast/ToastComponent.js",
     "ToastProvider": "/components/toast/ToastProvider.js",
     "toast": "/components/toast/toast.js",
+    "DragDropContext": "/components/draggable/DragDropContext.js",
+    "Draggable": "/components/draggable/Draggable.js",
+    "Droppable": "/components/draggable/Droppable.js",
     "useDrawerDismiss": "/hooks/useDrawerDismiss.js",
     "useLayout": "/hooks/useLayout.js",
     "useMedia": "/hooks/useMedia.js",
@@ -73,9 +75,9 @@
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
     "uiAppPlugin": "/uiAppPlugin.js",
-    "alert": "/dialogs/alert.js",
-    "confirm": "/dialogs/confirm.js",
-    "helpers": "/dialogs/helpers.js",
-    "prompt": "/dialogs/prompt.js"
+    "DialogsProvider": "/components/dialogs/DialogsProvider.js",
+    "alert": "/components/dialogs/alert.js",
+    "confirm": "/components/dialogs/confirm.js",
+    "prompt": "/components/dialogs/prompt.js"
   }
 }

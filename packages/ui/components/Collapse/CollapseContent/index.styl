@@ -1,5 +1,7 @@
-_gutter = $UI.gutters.m
-
 .root
   &.full
-    padding 0 _gutter _gutter
+    // NOTE
+    // Collapse with text is almost never used.
+    // Developers pass its own components to children.
+    // Therefore, does the content need paddings ?
+    padding 0 2u 2u

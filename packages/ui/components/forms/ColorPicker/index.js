@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef, useEffect, useImperativeHandle } from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
@@ -14,19 +14,35 @@ function ColorPicker ({
   value,
   disabled,
   onChangeColor
-}) {
+}, ref) {
+  const [shown, setShown] = useState(false)
   const pickerRef = useRef()
+
+  useImperativeHandle(ref, () => pickerRef.current, [])
+
+  useEffect(() => {
+    if (shown && disabled) pickerRef.current.hide()
+  }, [disabled])
 
   return pug`
     Div(style=style)
-      Picker(ref=pickerRef onChangeColor=onChangeColor)
+      Picker(
+        ref=pickerRef
+        onChangeColor=(color) => {
+          onChangeColor(color)
+          setShown(false)
+        }
+      )
       Button.button(
         disabled=disabled
         style={ backgroundColor: value }
         variant='flat'
         size=size
         textStyle={ color: getLabelColor(value) }
-        onPress=() => pickerRef.current.show()
+        onPress=() => {
+          pickerRef.current.show()
+          setShown(true)
+        }
       )= value.toUpperCase()
 
   `

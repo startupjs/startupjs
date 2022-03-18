@@ -1,9 +1,16 @@
 import { $root } from 'startupjs'
+import { getToastsModel } from './helpers'
 
 const MAX_SHOW_LENGTH = 3
 
+// NOTE
+// Is this the best way to update position of toasts?
+// Is there a better way to do this?
+// We want to remove unnecessary props from toast
+// component that are added by these calculations.
 const updateMatrixPositions = () => {
-  const toasts = $root.scope('_session.ui.toasts').get()
+  const $toasts = getToastsModel()
+  const toasts = $toasts.get()
 
   const updateToasts = toasts.map((toast, index) => {
     const prevToast = toasts[index - 1]
@@ -17,7 +24,7 @@ const updateMatrixPositions = () => {
     return toast
   })
 
-  $root.scope('_session.ui.toasts').set(updateToasts)
+  $toasts.set(updateToasts)
 }
 
 export default function toast ({
@@ -31,7 +38,7 @@ export default function toast ({
   onClose
 }) {
   const toastId = $root.id()
-  const $toasts = $root.scope('_session.ui.toasts')
+  const $toasts = getToastsModel()
 
   if ($toasts.get()?.length === MAX_SHOW_LENGTH) {
     $toasts.set(`${MAX_SHOW_LENGTH - 1}.show`, false)
@@ -58,6 +65,10 @@ export default function toast ({
     return $toasts.get().findIndex(toast => toast.key === toastId)
   }
 
+  // NOTE
+  // Think about using context instead of model
+  // We can provide registerToast function in context
+  // Which will be better? model or context?
   function onLayout (layout) {
     $toasts.set(`${getValidIndex()}.height`, layout.height)
     updateMatrixPositions()

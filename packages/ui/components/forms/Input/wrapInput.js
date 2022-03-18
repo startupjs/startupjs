@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle } from 'react'
+import React, { useState } from 'react'
 import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -31,18 +31,9 @@ export default function wrapInput (Component, configuration) {
     error,
     onFocus,
     onBlur,
+    _onLabelPress,
     ...props
   }, ref) {
-    const inputRef = useRef({})
-
-    useImperativeHandle(ref, () => ({
-      ...inputRef.current,
-      focus: () => inputRef.current.focus && inputRef.current.focus(),
-      blur: () => inputRef.current.blur && inputRef.current.blur(),
-      clear: () => inputRef.current.clear && inputRef.current.clear(),
-      isFocused: () => inputRef.current.isFocused && inputRef.current.isFocused()
-    }), [])
-
     layout = useLayout({
       layout,
       label,
@@ -83,7 +74,7 @@ export default function wrapInput (Component, configuration) {
             }
           ]
           onPress=isLabelClickable
-            ? () => inputRef.current && inputRef.current._onLabelPress()
+            ? _onLabelPress
             : undefined
         )= label
     `
@@ -100,7 +91,7 @@ export default function wrapInput (Component, configuration) {
     const input = pug`
       Component(
         part='wrapper'
-        ref=inputRef
+        ref=ref
         layout=layout
         _hasError=!!error
         onFocus=handleFocus
@@ -110,7 +101,13 @@ export default function wrapInput (Component, configuration) {
     `
     const err = pug`
       if error
-        Row.errorContainer(vAlign='center')
+        Row.errorContainer(
+          styleName=[
+            layout,
+            layout + '-' + descriptionPosition,
+          ]
+          vAlign='center'
+        )
           Icon.errorContainer-icon(icon=faExclamationCircle)
           Span.errorContainer-text= error
     `
@@ -219,7 +216,11 @@ styl`
         margin-bottom 0.5u
 
       .description&
-        margin-bottom 0.5u
+        margin-bottom 1u
+
+      .errorContainer&
+        margin-top 0
+        margin-bottom 1u
 
     &-right
       .label&

@@ -1,0 +1,50 @@
+#!/bin/sh
+# shellcheck disable=SC2059
+
+# Run startupjs project using only Docker
+#
+# Version: 0.1.0
+#
+# Suports Mac, Linux, Windows WSL2
+#
+# Usage:
+#   ./dev - universal command to run the main terminal or spawn additional terminals.
+#           It tries to do the following:
+#           1. Run the dev docker image of the same version of startupjs as in package.json.
+#           2. If dev image is already running -- exec into it.
+#
+# Note:
+#   This is a self-updating script, it will run the version of itself according to
+#   the startupjs version you have in your package.json
+
+# Exit on first failed command
+set -e
+
+TMP_FILE=/tmp/startupjs.dev.sh
+
+if [ -f ./node_modules/startupjs/dev ]; then
+  # if node_modules are already installed, run dev script from there
+  # TODO: Check if the startupjs version in node_modules matches the one in package.json, otherwise download script.
+  # shellcheck disable=SC1091
+  . ./node_modules/startupjs/dev
+else
+  # otherwise try to download the according version (from package.json) from github and run it dynamically
+  if which curl; then
+    mkdir -p node_modules
+    STARTUPJS_VERSION=$( [ -f ./package.json ] && (grep -m 1 '"startupjs"' < ./package.json | sed -n 's/^[^"]*"[^"]*"[^"]*"//p' | sed -n 's/"[^"]*$//p') || echo 'latest' )
+    # Remove leading ^ or ~
+    STARTUPJS_VERSION=$( echo "$STARTUPJS_VERSION" | sed -n 's/^[\^\~]*//p' )
+    if [ "$STARTUPJS_VERSION" = "latest" ]; then
+      STARTUPJS_VERSION="master"
+    else
+      STARTUPJS_VERSION="v${STARTUPJS_VERSION}"
+    fi
+    printf "Downloading dev shell script from startupjs '${STARTUPJS_VERSION}' on github to ${TMP_FILE}\n"
+    curl -L "https://raw.githubusercontent.com/startupjs/startupjs/${STARTUPJS_VERSION}/packages/startupjs/dev" > $TMP_FILE
+    # shellcheck source=/dev/null
+    . $TMP_FILE
+  else
+    printf "ERROR! 'curl' not found. Please install it and run './dev' again\n"
+    exit 1
+  fi
+fi

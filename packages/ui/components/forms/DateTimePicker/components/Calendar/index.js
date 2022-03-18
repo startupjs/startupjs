@@ -1,16 +1,10 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { observer, useValue } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import moment from 'moment'
 import Header from './Header'
-import { Days, Months, Years } from './slides'
+import Days from './Days'
 import 'moment/min/locales'
-
-const SLIDES = {
-  days: Days,
-  months: Months,
-  years: Years
-}
 
 function Calendar ({
   date,
@@ -22,19 +16,7 @@ function Calendar ({
   range,
   onChangeDate
 }) {
-  const [uiDate, $uiDate] = useValue(date)
-  const [slide, $slide] = useValue('days')
-
-  const onJump = useCallback((unitKey, value) => {
-    const timestamp = +moment
-      .tz(uiDate, timezone)
-      .set(unitKey, value)
-
-    $uiDate.set(timestamp)
-    $slide.set('days')
-  }, [uiDate, timezone])
-
-  const Slide = SLIDES[slide]
+  const [uiDate, $uiDate] = useValue(+moment(date).seconds(0).milliseconds(0))
 
   return pug`
     Div
@@ -42,11 +24,12 @@ function Calendar ({
         uiDate=uiDate
         exactLocale=exactLocale
         timezone=timezone
-        $slide=$slide
+        minDate=minDate
+        maxDate=maxDate
         $uiDate=$uiDate
       )
-
-      Slide(
+      Days(
+        date=date
         uiDate=uiDate
         exactLocale=exactLocale
         timezone=timezone
@@ -54,7 +37,6 @@ function Calendar ({
         minDate=minDate
         maxDate=maxDate
         disabledDays=disabledDays
-        onJump=onJump
         onChangeDate=onChangeDate
       )
   `

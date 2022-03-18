@@ -1,4 +1,4 @@
-# UI-components library
+# To-Do app
 
 StartupJs already has a full-fledged UI component library built in **@starupjs/ui**. You have the opportunity either to use ready-made components or to create your own (based on ready-made components as well).
 
@@ -6,6 +6,22 @@ StartupJs already has a full-fledged UI component library built in **@starupjs/u
 ## Your first complete application with StartupJS
 
 In this section of the tutorial, we will create a complete **TODO List** application step by step. Let us see how to add ready-made components to the page, style them, create a query in the database, fetch documents from the database and display them on the page. We will learn how to add the documents to the database and how to delete them from the database as well. And all of this will be reactive!
+
+## Create a new project
+
+Follow the instructions from [Quickstart](./Quickstart) to create a new project.
+
+Go to the file `main/pages/PHome/index.jsx` and replace the whole `return` block there with just an empty block:
+
+```js
+return (
+  <>
+    {/* Content goes here */}
+  </>
+)
+```
+
+Going forward you will be doing edits in this file.
 
 ## Key components of the wrapper
 
@@ -23,16 +39,21 @@ Since **StartupJS** is based on React Native, all the elements by default have s
 
 Let us add the first component to the page.
 This will be the `Content` component from our UI library. `Content` component is used as the parent container for elements.
-First, you need to import it into our file. Enter the following code in the field on the right instead of line 111:
+
+First, you need to import it into our file:
 
 ```js
 import { Content } from '@startupjs/ui'
 ```
 
-And the following code instead of line 888:
+Then add the following JSX to be returned from your component:
 
 ```js
-<Content></Content>
+return (
+  <>
+    <Content></Content>
+  </>
+)
 ```
 
 > Please note that the UI-component are capitalized to distinguish them from ordinary HTML tags
@@ -92,7 +113,7 @@ Remove the `style` prop from the `H1` component and add the `styleName` prop ins
 ```js
 <H1 styleName={'title'}>TODO List</H1>
 ```
-Thus, you gave the title H1 a `title` class and now in the css file `index.css` you can refer to it by the `.title` selector, adding the necessary styles to it
+Thus, you gave the title H1 a `title` class and now in the css file `index.styl` (in the same folder as the `.jsx` file) you can refer to it by the `.title` selector, adding the necessary styles to it
 
 ```css
 .title {

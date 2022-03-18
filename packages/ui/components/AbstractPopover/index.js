@@ -41,8 +41,7 @@ function AbstractPopover (props) {
 
 const Tether = observer(function TetherComponent ({
   style,
-  arrowStyle,
-  refAnchor,
+  anchorRef,
   visible,
   position,
   attachment,
@@ -84,7 +83,7 @@ const Tether = observer(function TetherComponent ({
   const calculateGeometry = useCallback(({ nativeEvent }) => {
     // IDEA: we can pass measures to this component
     // instead of passing ref for the measurement
-    refAnchor.current.measure((x, y, width, height, pageX, pageY) => {
+    anchorRef.current.measure((x, y, width, height, pageX, pageY) => {
       // IDEA: rewrite getGeometry in future
       // we can make geometry behaviout like in tether.js
       const geometry = getGeometry({
@@ -131,8 +130,11 @@ const Tether = observer(function TetherComponent ({
   const rootStyle = {
     top: geometry ? geometry.top : -999,
     left: geometry ? geometry.left : -999,
-    width: geometry ? geometry.width : 'auto',
     opacity: fadeAnim
+  }
+
+  if (geometry) {
+    rootStyle.width = geometry.width
   }
 
   const popover = pug`
@@ -142,14 +144,11 @@ const Tether = observer(function TetherComponent ({
     )
       if arrow && !!geometry
         Div.arrow(
-          style=[
-            arrowStyle,
-            {
-              borderTopColor: style.backgroundColor,
-              left: geometry.arrowLeft,
-              top: geometry.arrowTop
-            }
-          ]
+          style={
+            borderTopColor: style.backgroundColor,
+            left: geometry.arrowLeft,
+            top: geometry.arrowTop
+          }
           styleName=[geometry.position]
         )
       = children
@@ -173,8 +172,7 @@ AbstractPopover.defaultProps = {
 
 AbstractPopover.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  arrowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  refAnchor: PropTypes.oneOfType([
+  anchorRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })
   ]),

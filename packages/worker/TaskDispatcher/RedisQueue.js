@@ -7,7 +7,7 @@ export default class RedisQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redis1
+    this.redis = dbs.redisClient
     this.runTask = runTask
   }
 

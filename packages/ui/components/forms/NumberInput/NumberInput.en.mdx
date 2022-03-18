@@ -143,6 +143,21 @@ return (
 )
 ```
 
+## Units
+
+The `units` property displays the units of the input. By default, units are displayed to the left of the input. Use `unitsPosition='right'` to display the units on the right side of the input.
+
+```jsx example
+const [value, setValue] = useState()
+return (
+  <NumberInput
+    value={value}
+    units='$'
+    onChangeNumber={setValue}
+  />
+)
+```
+
 ## Stylization
 
 For stylization can apply the properties:
@@ -155,23 +170,23 @@ For stylization can apply the properties:
 const [value, setValue] = useState()
 
 return (
-    <NumberInput
-      style={{
-        width: 250
-      }}
-      buttonStyle={{
-        borderWidth: 0
-      }}
-      inputStyle={{
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderRadius: 0
-      }}
-      placeholder='Enter number'
-      value={value}
-      onChangeNumber={setValue}
-    />
+  <NumberInput
+    style={{
+      width: 250
+    }}
+    buttonStyle={{
+      borderWidth: 0
+    }}
+    inputStyle={{
+      borderTopWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+      borderRadius: 0
+    }}
+    placeholder='Enter number'
+    value={value}
+    onChangeNumber={setValue}
+  />
 )
 ```
 

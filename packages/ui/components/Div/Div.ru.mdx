@@ -47,6 +47,23 @@ return (
 )
 ```
 
+## Полная ширина (или высота)
+
+Вы можете сказать диву занять всё доступное место в родительстком контейнере (в зависимости от его `flex-direction`). Для этого передайте свойство `full`.
+
+Это свойство просто поставит элементу `flex: 1`.
+
+```jsx example
+return (
+  <Row vAlign='center'>
+    <Div full>
+      <Span>Tesla Model S</Span>
+    </Div>
+    <Span description>1000 HP</Span>
+  </Row>
+)
+```
+
 ## Отступы между несколькими Div
 
 При отображении нескольких дивов в строчку ("flex-direction: row") расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
@@ -131,20 +148,16 @@ return (
 ```
 
 ## Всплывающая подсказка
-- renderTooltip (function: ReactNode | string | number): рендер-функция, возвращающая содержимое тултипа (JSX, строка или число)
-- tooltipProps (object): дополнительные параметры, идентичные [Popover](/docs/popups/Popover): style, position, attachment, durationOpen, durationClose, arrow
 
 ```jsx example
-const content = 'Контент'
-
 return pug`
-  Div.caption(renderTooltip=content)
+  Div.root(tooltip='Содержимое подсказки')
     Icon(icon=faInfoCircle size='xl')
 `
 
 styl`
-  .caption
-    width 3u
+  .root
+    align-self flex-start
 `
 ```
 

@@ -1,8 +1,9 @@
 import { $root, useLocal } from 'startupjs'
 
-function generatePath (subpath = '') {
-  let path = '_page._ui'
+const PAGE_PATH = '_page.ui'
+const SESSION_PATH = '_session.ui'
 
+function generatePath (path, subpath = '') {
   if (subpath) {
     if (typeof subpath !== 'string') {
       throw new Error('[@startupjs/ui] generatePath: path must be a string')
@@ -13,10 +14,18 @@ function generatePath (subpath = '') {
   return path
 }
 
-export function getScope (path) {
-  return $root.at(generatePath(path))
+export function getSessionUI (path) {
+  return $root.at(generatePath(SESSION_PATH, path))
 }
 
-export function usePath (path) {
-  return useLocal(generatePath(path))
+export function useSessionUI (path) {
+  return useLocal(generatePath(SESSION_PATH, path))
+}
+
+export function getPageUI (path) {
+  return $root.at(generatePath(PAGE_PATH, path))
+}
+
+export function usePageUI (path) {
+  return useLocal(generatePath(PAGE_PATH, path))
 }

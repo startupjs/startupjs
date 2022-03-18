@@ -3,18 +3,25 @@ import { observer } from 'startupjs'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
+import Div from './../../Div'
+import Row from './../../Row'
+import Span from './../../typography/Span'
 import Buttons from './Buttons'
 import './index.styl'
 
 function NumberInput ({
+  style,
   buttonStyle,
   value,
   size,
   buttonsMode,
   disabled,
+  readonly,
   max,
   min,
   step,
+  units,
+  unitsPosition,
   onChangeNumber,
   ...props
 }, ref) {
@@ -34,19 +41,27 @@ function NumberInput ({
       return
     }
 
-    if (!isNaN(value) && Number(inputValue) !== value) {
+    // TODO
+    // Display a tip instead of permanently change a value
+    if (!isNaN(value) && (Number(inputValue) !== value || inputValue === '')) {
       if (min != null && value < min) {
         value = min
       } else if (max != null && value > max) {
         value = max
       }
-      setInputValue(String(+value.toFixed(precision)))
+
+      value = +value.toFixed(precision)
+
+      setInputValue(String(value))
+      onChangeNumber && onChangeNumber(value)
     }
-  }, [value, min, max, precision])
+  }, [value, min, max, precision, onChangeNumber])
 
   function onChangeText (newValue) {
     // replace comma with dot for some locales
-    if (typeof newValue === 'string' && precision > 0) newValue = newValue.replace(/,/g, '.')
+    if (typeof newValue === 'string' && precision > 0) {
+      newValue = newValue.replace(/,/g, '.')
+    }
 
     if (!regexp.test(newValue)) return
 
@@ -79,21 +94,55 @@ function NumberInput ({
     onChangeText(String(newValue))
   }
 
-  function renderWrapper ({ style }, children) {
+  const extraStyleName = {}
+
+  if (units) {
+    extraStyleName[unitsPosition] = unitsPosition
+  }
+
+  const renderWrapper = ({ style }, children) => {
     return pug`
-      Buttons(
-        style=style
-        buttonStyle=buttonStyle
-        mode=buttonsMode
-        size=size
-        disabled=disabled
-        onIncrement=onIncrement
-      )= children
+      Div(style=style)
+        Row.input-wrapper(
+          styleName=[extraStyleName, { readonly }]
+          vAlign='center'
+        )
+          if units
+            Span.input-units(
+              styleName=[size, extraStyleName, { readonly }]
+            )
+              = units
+          = children
     `
+  }
+
+  if (readonly) {
+    return renderWrapper({
+      style: [style]
+    }, pug`
+      Span= value
+    `)
+  }
+
+  function renderInputWrapper (props, children) {
+    return renderWrapper(
+      props,
+      pug`
+        Div.input-container(styleName=[extraStyleName])
+          Buttons(
+            buttonStyle=buttonStyle
+            mode=buttonsMode
+            size=size
+            disabled=disabled
+            onIncrement=onIncrement
+          )
+          = children
+      `)
   }
 
   return pug`
     TextInput(
+      style=style
       ref=ref
       inputStyleName=['input-input', buttonsMode, size]
       value=inputValue
@@ -101,7 +150,7 @@ function NumberInput ({
       disabled=disabled
       keyboardType='numeric'
       onChangeText=onChangeText
-      _renderWrapper=renderWrapper
+      _renderWrapper=renderInputWrapper
       ...props
     )
   `
@@ -117,7 +166,8 @@ NumberInput.defaultProps = {
     ]
   ),
   buttonsMode: 'vertical',
-  step: 1
+  step: 1,
+  unitsPosition: 'left'
 }
 
 NumberInput.propTypes = {
@@ -141,6 +191,8 @@ NumberInput.propTypes = {
   max: PropTypes.number,
   min: PropTypes.number,
   step: PropTypes.number,
+  units: PropTypes.string,
+  unitsPosition: PropTypes.oneOf(['left', 'right']),
   onChangeNumber: PropTypes.func
 }
 

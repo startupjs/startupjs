@@ -24,6 +24,9 @@ const SUPPORT_PLACEMENTS = [
 function AutoSuggest ({
   style,
   captionStyle,
+  inputStyle,
+  iconStyle,
+  inputIcon,
   options,
   value,
   placeholder,
@@ -36,7 +39,7 @@ function AutoSuggest ({
   testID
 }) {
   const _data = useRef([])
-  const refInput = useRef()
+  const inputRef = useRef()
 
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -59,7 +62,7 @@ function AutoSuggest ({
   function onClose (e) {
     setIsShow(false)
     setSelectIndexValue(-1)
-    refInput.current.blur()
+    inputRef.current.blur()
     onDismiss && onDismiss()
   }
 
@@ -111,8 +114,11 @@ function AutoSuggest ({
 
   return pug`
     TextInput(
-      ref=refInput
+      ref=inputRef
       style=captionStyle
+      inputStyle=inputStyle
+      iconStyle=iconStyle
+      icon=inputIcon
       value=(!isShow && value.label) || inputValue
       placeholder=placeholder
       onChangeText=_onChangeText
@@ -124,7 +130,7 @@ function AutoSuggest ({
 
     AbstractPopover(
       visible=(isShow || isLoading)
-      refAnchor=refInput
+      anchorRef=inputRef
       matchAnchorWidth=(!style.width && !style.maxWidth)
       placements=SUPPORT_PLACEMENTS
       durationOpen=200

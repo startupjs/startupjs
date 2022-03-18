@@ -1,0 +1,26 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": [
+    "standard"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": false,
+      "jsx": false
+    },
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "plugins": [],
+  "rules": {}
+}

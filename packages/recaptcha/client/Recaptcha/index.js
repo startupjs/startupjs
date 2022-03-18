@@ -14,6 +14,7 @@ const originWhitelist = ['*']
 function RecaptchaComponent ({
   style,
   theme,
+  badge,
   variant,
   baseUrl,
   lang,
@@ -36,6 +37,7 @@ function RecaptchaComponent ({
       siteKey: getSiteKey(),
       variant,
       theme,
+      badge,
       lang,
       id
     })

@@ -6,7 +6,12 @@ function Picker ({ onChangeColor }, ref) {
   const pickerRef = useRef()
 
   useImperativeHandle(ref, () => ({
-    show: () => pickerRef.current.click()
+    show: () => pickerRef.current.click(),
+    hide: () => {
+      // hacky way to close the color picker
+      pickerRef.current.setAttribute('type', 'text')
+      pickerRef.current.setAttribute('type', 'color')
+    }
   }))
 
   function onChange (e) {

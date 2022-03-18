@@ -2,7 +2,8 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useEffect
+  useEffect,
+  useImperativeHandle
 } from 'react'
 import { observer, useValue } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
@@ -19,6 +20,8 @@ import { Calendar, TimeSelect } from './components'
 import themed from '../../../theming/themed'
 import './index.styl'
 
+// NOTE
+// What about rename date property to value property like in other inputs?
 function DateTimePicker ({
   style,
   dateFormat,
@@ -27,25 +30,40 @@ function DateTimePicker ({
   size,
   mode,
   renderCaption, // DEPRECATED replace InputComponent
-  renderContent,
+  renderContent, // DEPRECATED replace renderCaption
+  renderInput, // replace renderContent
   locale,
   range,
   timezone,
   disabledDays = [],
   date,
   disabled,
+  readonly,
   placeholder,
   maxDate,
   minDate,
-  onChangeDate
-}) {
-  renderContent = renderContent || renderCaption
+  onFocus,
+  onBlur,
+  onChangeDate,
+  _hasError
+}, ref) {
+  if (renderCaption) {
+    console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
+  }
+
+  if (renderContent) {
+    console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
+  }
+
+  renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
   const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
-  const refInput = useRef()
+  const inputRef = useRef()
+
+  useImperativeHandle(ref, () => inputRef.current, [])
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -103,38 +121,50 @@ function DateTimePicker ({
     value = getDate(value)
     setTextInput(getFormatDate(value))
     onChangeDate && onChangeDate(value)
+    $visible.set(false)
   }
 
   function onDismiss () {
     $visible.set(false)
-    refInput.current.blur()
   }
 
   const inputProps = {
     style,
-    ref: refInput,
+    ref: inputRef,
     disabled,
+    readonly,
     size,
     placeholder,
+    _hasError,
     value: textInput
   }
 
   const caption = pug`
-    if renderContent
-      = renderContent(Object.assign({ $visible }, inputProps))
+    if renderInput
+      = renderInput(Object.assign({ $visible, onFocus, onBlur }, inputProps))
     else
       TextInput(
         ...inputProps
-        onFocus=()=> $visible.set(true)
+        onFocus=(...args) => {
+          $visible.set(true)
+          onFocus && onFocus(...args)
+        }
+        onBlur=(...args) => {
+          onBlur && onBlur(...args)
+        }
       )
   `
+
+  const _date = date
+    ? +moment.tz(date, timezone).seconds(0).milliseconds(0)
+    : undefined
 
   function renderPopoverContent () {
     return pug`
       Div.content
         if (mode === 'date') || (mode === 'datetime')
           Calendar(
-            date=date
+            date=_date
             exactLocale=exactLocale
             disabledDays=disabledDays
             locale=locale
@@ -150,7 +180,7 @@ function DateTimePicker ({
 
         if (mode === 'time') || (mode === 'datetime')
           TimeSelect(
-            date=date
+            date=_date
             ref=refTimeSelect
             maxDate=maxDate
             minDate=minDate
@@ -176,7 +206,7 @@ function DateTimePicker ({
       = caption
       AbstractPopover.popover(
         visible=visible
-        refAnchor=refInput
+        anchorRef=inputRef
         renderWrapper=renderWrapper
         onRequestClose=onDismiss
       )= renderPopoverContent()
@@ -204,6 +234,7 @@ DateTimePicker.propTypes = {
   is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   placeholder: PropTypes.string,
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
@@ -215,7 +246,10 @@ DateTimePicker.propTypes = {
   disabledDays: PropTypes.array,
   dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onChangeDate: PropTypes.func
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChangeDate: PropTypes.func,
+  _hasError: PropTypes.bool // @private
 }
 
 export default observer(

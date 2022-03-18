@@ -37,6 +37,9 @@ _shadowLevels = ('1' '2' '3' '4')
   &.bleed
     bleed()
 
+  &.full
+    flex 1
+
   &.clickable
     cursor pointer
     user-select none
@@ -46,27 +49,6 @@ _shadowLevels = ('1' '2' '3' '4')
 
       +web()
         cursor default
-
-// -----------------------------------------
-//   TOOLTIP
-// -----------------------------------------
-.tooltip
-  background-color $UI.colors.dark
-  max-width 260px
-  radius()
-  shadow(3)
-
-  +tablet()
-    max-width 320px
-
-  &.simple
-    padding 1u 2u
-
-  &-arrow
-    color $UI.colors.dark
-
-  &-text
-    color $UI.colors.white
 
 // -----------------------------------------
 //   JS EXPORTS

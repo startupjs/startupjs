@@ -11,6 +11,7 @@ import Local from '../types/Local.js'
 import Value from '../types/Value.js'
 import Api from '../types/Api.js'
 import { batching } from '@startupjs/react-sharedb-util'
+import { blockCache, unblockCache } from '@startupjs/cache'
 
 import {
   subDoc,
@@ -31,27 +32,45 @@ const WARNING_MESSAGE = "[react-sharedb] Warning. Item couldn't initialize. " +
   'quickly one after another. Error:'
 
 export const useDoc = generateUseItemOfType(subDoc)
+export const useDoc$ = generateUseItemOfType(subDoc, { modelOnly: true })
 export const useBatchDoc = generateUseItemOfType(subDoc, { batch: true })
+export const useBatchDoc$ = generateUseItemOfType(subDoc, { batch: true, modelOnly: true })
 export const useAsyncDoc = generateUseItemOfType(subDoc, { optional: true })
+export const useAsyncDoc$ = generateUseItemOfType(subDoc, { optional: true, modelOnly: true })
 
+// NOTE: useQuery$ doesn't make sense because the returned model simply targets collection,
+//       so instead just a simple useModel(collection) should be used.
 export const useQuery = generateUseItemOfType(subQuery)
 export const useBatchQuery = generateUseItemOfType(subQuery, { batch: true })
 export const useAsyncQuery = generateUseItemOfType(subQuery, { optional: true })
 
 export const useApi = generateUseItemOfType(subApi)
+export const useApi$ = generateUseItemOfType(subApi, { modelOnly: true })
 export const useBatchApi = generateUseItemOfType(subApi, { batch: true })
+export const useBatchApi$ = generateUseItemOfType(subApi, { batch: true, modelOnly: true })
 export const useAsyncApi = generateUseItemOfType(subApi, { optional: true })
+export const useAsyncApi$ = generateUseItemOfType(subApi, { optional: true, modelOnly: true })
 
 export const useLocal = generateUseItemOfType(subLocal)
+export const useLocal$ = generateUseItemOfType(subLocal, { modelOnly: true })
 export const useValue = generateUseItemOfType(subValue)
+export const useValue$ = generateUseItemOfType(subValue, { modelOnly: true })
 
-function generateUseItemOfType (typeFn, { optional, batch } = {}) {
+function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
   const isQuery = typeFn === subQuery
   const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
   const isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
+    // block caching of 'model.at' and 'model.scope' since the caching of model
+    // is handled on its own by these hooks
+    blockCache()
+
     const hookId = useMemo(() => $root.id(), [])
-    const hashedArgs = useMemo(() => JSON.stringify(args), args)
+    const hashedArgs = useMemo(() => {
+      // do initialization once for 'subValue' typeFn
+      // to make it work like useState in react
+      return typeFn === subValue ? '' : JSON.stringify(args)
+    }, args)
 
     const initsCountRef = useRef(0)
     const cancelInitRef = useRef()
@@ -196,25 +215,39 @@ function generateUseItemOfType (typeFn, { optional, batch } = {}) {
       [initsCountRef.current]
     )
 
-    // ----- data -----
+    // unblock caching 'model.at' and 'model.scope'
+    unblockCache()
 
-    // In any situation force access data through the object key to let observer know that the data was accessed
-    const data = $hooks.get()[hookId]
+    // if modelOnly was passed, we return just the model.
+    // Using model-only hooks when you don't need data is important for optimization
+    // because it won't trigger extra rerenders when the data itself changes.
+    // And in many situations we don't need the data itself because of 2-way bindings
+    // (when component itself accepts a writable model for one of its attributes)
 
-    // ----- return -----
+    if (modelOnly) {
+      return $queryCollection || $model
+    } else {
+      // ----- data -----
 
-    return [
-      initsCountRef.current
-        ? (typeFn === subQuery && isArray(data) ? data.filter(Boolean) : data)
-        : undefined,
+      // In any situation force access data through the object key to let observer know that the data was accessed
+      const data = $hooks.get()[hookId]
 
-      // Query, QueryExtra: return scoped model to collection path.
-      // Everything else: return the 'hooks.<randomHookId>' scoped model.
-      $queryCollection || $model,
+      // ----- return -----
 
-      // explicit ready flag
-      initsCountRef.current
-    ]
+      return [
+        initsCountRef.current
+          ? (typeFn === subQuery && isArray(data) ? data.filter(Boolean) : data)
+          : undefined,
+
+        // Query, QueryExtra: return scoped model to collection path.
+        // Everything else: return the 'hooks.<randomHookId>' scoped model.
+        // TODO: don't create hooks.* for hooks where we can return an original reference (useDoc, useLocal, etc.)
+        $queryCollection || $model,
+
+        // explicit ready flag, has a second meaning as the inits counter (for each time query params change)
+        initsCountRef.current
+      ]
+    }
   }
 }
 

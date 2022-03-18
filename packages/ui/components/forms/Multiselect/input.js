@@ -19,8 +19,9 @@ function MultiselectInput ({
   TagComponent,
   InputComponent,
   onOpen,
+  onHide,
   _hasError
-}) {
+}, ref) {
   const values = tagLimit ? value.slice(0, tagLimit) : value
   const hiddenTagsLength = tagLimit
     ? value.slice(tagLimit, value.length).length
@@ -30,6 +31,7 @@ function MultiselectInput ({
 
   return pug`
     Input(
+      ref=ref
       style=style
       value=values
       placeholder=placeholder
@@ -37,6 +39,7 @@ function MultiselectInput ({
       focused=focused
       readonly=readonly
       onOpen=onOpen
+      onHide=onHide
       _hasError=_hasError
     )
       each value, index in values
@@ -72,4 +75,7 @@ MultiselectInput.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(themed('Multiselect', MultiselectInput))
+export default observer(
+  themed('Multiselect', MultiselectInput),
+  { forwardRef: true }
+)

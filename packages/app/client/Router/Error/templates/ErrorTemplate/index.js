@@ -1,9 +1,11 @@
 import React from 'react'
 import { Linking, Text, TouchableOpacity, View } from 'react-native'
-import { observer, emit } from 'startupjs'
+import { useHistory } from 'react-router-native'
+import { observer } from 'startupjs'
 import './index.styl'
 
 export default observer(function ErrorTemplate ({ title, description, supportEmail }) {
+  const history = useHistory()
   return pug`
     View.root
       View.card
@@ -16,7 +18,7 @@ export default observer(function ErrorTemplate ({ title, description, supportEma
             Text= ' '
             Text.email(onPress=() => Linking.openURL('mailto:' + supportEmail))= supportEmail
             Text.text .
-        TouchableOpacity.backButton(onPress=() => emit('error'))
+        TouchableOpacity.backButton(onPress=() => history.goBack())
           Text.text.label ◀︎  Go back
   `
 })

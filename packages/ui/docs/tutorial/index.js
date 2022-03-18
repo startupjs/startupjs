@@ -27,10 +27,10 @@ export default {
   },
   icon: faBook,
   items: {
-    Foundation: {
+    Quickstart: {
       type: 'mdx',
       title: {
-        en: 'What is StartupJS',
+        en: 'Quickstart',
         ru: 'Что такое StartupJS'
       },
       component: {
@@ -41,8 +41,8 @@ export default {
     Basics: {
       type: 'mdx',
       title: {
-        en: 'UI-components library',
-        ru: 'Библиотека UI-компонентов'
+        en: 'To-Do app',
+        ru: 'To-Do приложение'
       },
       component: {
         en: BasicsEn,

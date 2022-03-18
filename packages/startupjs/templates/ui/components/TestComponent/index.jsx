@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  observer,
-  useApi,
-  useDoc
-} from 'startupjs'
+import { pug, observer, useApi, useDoc } from 'startupjs'
 import { Br, Button, Card, Div, Row, Span } from '@startupjs/ui'
 import axios from 'axios'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'

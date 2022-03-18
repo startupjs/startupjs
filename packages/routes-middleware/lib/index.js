@@ -32,6 +32,9 @@ module.exports = function (appRoutes, options = {}) {
     if (matched.redirect) return res.redirect(307, matched.redirect)
     const model = req.model
     const [url, search] = req.url.split('?')
+    // reproduce '$render' collection
+    // because filters are isomorphic
+    // and can use '$render' on the client from @startupjs/app
     model.set('$render.url', url)
     model.set('$render.search', search ? '?' + search : '')
     model.set('$render.query', req.query)
@@ -52,21 +55,17 @@ module.exports = function (appRoutes, options = {}) {
     }
 
     renderApp(matched, (err) => {
-      if (err) return next(err)
+      if (err) return next('500: ' + req.url + '. Error: ' + err)
       const appName = matched.appName
-      model.silent().destroy('$render')
-      model.bundle((err, bundle) => {
-        if (err) return next('500: ' + req.url + '. Error: ' + err)
-        const html = (options.getClientLayout || defaultClientLayout)({
-          head: getHead(appName, req),
-          modelBundle: bundle,
-          jsBundle: resourceManager.getResourcePath('bundle', appName, options),
-          env: model.get('_session.env') || {},
-          mode: options.mode || DEFAULT_MODE,
-          fontsStyles: getFontsStyles() || ''
-        })
-        res.status(200).send(html)
+      const html = (options.getClientLayout || defaultClientLayout)({
+        head: getHead(appName, req),
+        styles: process.env.NODE_ENV === 'production' && options.mode === 'web'
+          ? resourceManager.getProductionStyles(appName, options) : '',
+        jsBundle: resourceManager.getResourcePath('bundle', appName, options),
+        mode: options.mode || DEFAULT_MODE,
+        fontsStyles: getFontsStyles() || ''
       })
+      res.status(200).send(html)
     })
   }
 }

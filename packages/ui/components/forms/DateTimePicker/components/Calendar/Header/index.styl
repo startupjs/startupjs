@@ -20,5 +20,20 @@
   +from($UI.media.tablet)
     margin-left 0
 
-.button, .year
+.button, .years
   margin-left .5u
+
+.years
+  &-popover
+    padding 0
+    max-height 27u
+
+  &-item
+    height 4.5u
+    align-items center
+    justify-content center
+    padding-right 2u
+    padding-left @padding-right
+
+.year
+  font(h5)

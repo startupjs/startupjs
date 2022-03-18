@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/model",
-  "version": "0.40.2",
+  "version": "0.44.0",
   "description": "Initializes model connection and retrieves the singleton client-side model",
   "main": "lib/index.js",
   "type": "module",
@@ -10,7 +10,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "racer": "1.0.0",
-    "racer-highway": "^8.1.0"
+    "racer": "1.0.1",
+    "racer-highway": "^10.0.1"
   }
 }

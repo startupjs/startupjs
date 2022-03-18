@@ -4,6 +4,7 @@ import Div from '../../Div'
 import Br from '../../Br'
 import Span from '../../typography/Span'
 import { $root, useValue, u } from 'startupjs'
+import { getPropsForType, getDefaultValueForType } from './docsHelpers'
 import { Sandbox } from '@startupjs/docs'
 
 # Input (инпут)
@@ -77,25 +78,21 @@ return (
 
 ## Sandbox
 
-<Sandbox
-  Component={Input}
-  props={{
-    value: $root.get('_session.Sandbox.Input.value'),
-    options: ['New York', 'Los Angeles', 'Tokyo'],
-    onChange: value => $root.set('_session.Sandbox.Input.value', value),
-    onChangeText: value => $root.set('_session.Sandbox.Input.value', value)
-  }}
-  $props={$root.scope('_session.Sandbox.Input')}
-  block
-/>
-
-export function SandboxEvent () {
+export function SandboxWrapper () {
+  const $input = $root.scope('_session.Sandbox.Input')
   useEffect(()=> {
-    $root.scope('_session.Sandbox.Input.type').on('change', ()=> {
-      $root.set('_session.Sandbox.Input.value', undefined)
+    $input.at('type').on('change', type=> {
+      $input.set(getPropsForType())
+      $input.set('value', getDefaultValueForType())
     })
   }, [])
-  return null
+  return (
+    <Sandbox
+      Component={Input}
+      $props={$input}
+      block
+    />
+  )
 }
 
-<SandboxEvent />
+<SandboxWrapper />

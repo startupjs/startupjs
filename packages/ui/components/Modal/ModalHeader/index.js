@@ -21,7 +21,7 @@ function ModalHeader ({
       else
         = children
       if onCrossPress
-        Div.close(onPress=onCrossPress _preventEvent=false)
+        Div.close(onPress=onCrossPress)
           Icon.icon(icon=faTimes size='xl')
   `
 }

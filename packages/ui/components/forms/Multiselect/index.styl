@@ -7,6 +7,7 @@ _inputPlaceholderColor = $UI.colors.darkLighter
 _focusedColor = $UI.colors.primary
 _errorColor = $UI.colors.error
 _swipeZoneColor = #f5f5f5
+_suggestionsPopoverMaxHeight = 25u
 
 .input
   padding 5px 1u
@@ -31,8 +32,6 @@ _swipeZoneColor = #f5f5f5
   color _inputPlaceholderColor
   padding-top 1px
 
-
-
 .tag
   margin-right 0.5u
 
@@ -44,8 +43,8 @@ _swipeZoneColor = #f5f5f5
   width 100%
 
 .suggestions-web
-  padding 0 .5u
-  radius()
+  padding 0 1u
+  max-height _suggestionsPopoverMaxHeight
 
 .suggestions-native
   padding 1u 0
@@ -71,17 +70,27 @@ _swipeZoneColor = #f5f5f5
   +desktop()
     font(body2)
 
-.checkbox
-  margin 1u
-
 .backdropStyle
   // Greater value than @startup/ui's Modal has
   z-index 1501
 
 .popover
   padding 0 .5u
-  max-height 25u
+  max-height _suggestionsPopoverMaxHeight
   min-width 20u
 
 .ellipsis
   margin 0 1u
+
+.suggestionItem
+  padding 1u 0
+
+.check
+  width 2u
+
+.checkIcon
+  color $UI.colors.primary
+
+.label
+  margin-right 1u
+  flex-grow 1

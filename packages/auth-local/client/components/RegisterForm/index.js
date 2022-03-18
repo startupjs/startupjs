@@ -22,24 +22,28 @@ const REGISTER_DEFAULT_INPUTS = {
   name: {
     input: 'text',
     label: 'Full name',
-    placeholder: 'Enter your full name'
+    placeholder: 'Enter your full name',
+    autoComplete: 'username'
   },
   email: {
     input: 'text',
     label: 'Email',
     placeholder: 'Enter your email',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'email'
   },
   password: {
     input: 'password',
     label: 'Password',
     placeholder: 'Enter your password',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'password'
   },
   confirm: {
     input: 'password',
     placeholder: 'Confirm your password',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'password-new'
   }
 }
 
@@ -94,7 +98,7 @@ function RegisterForm ({
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
       formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').pop()
+      formClone.lastName = form.name.split(' ').slice(1).join(' ')
       delete formClone.name
     }
 
@@ -122,6 +126,7 @@ function RegisterForm ({
     } catch (error) {
       onError && onError(error)
       setErrors({ server: _get(error, 'response.data.message', error.message) })
+      recaptchaRef.current.close()
     }
   }
 
@@ -146,7 +151,7 @@ function RegisterForm ({
     )
 
     if renderActions
-      = renderActions({ onSubmit, onChangeSlide })
+      = renderActions({ onSubmit, onChangeSlide, recaptchaRef })
     else
       Div.actions
         if recaptchaEnabled
