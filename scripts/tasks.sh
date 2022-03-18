@@ -55,7 +55,6 @@ fn_local_init () {
   echo "You can run 'yarn' commands of testapp without going into its directory using 'yarn testapp'"
   echo "For example:"
   echo "  start:   'yarn testapp start'"
-  echo "  metro:   'yarn testapp metro'"
   echo "  ios:     'yarn testapp ios'"
   echo "  android: 'yarn testapp android'"
   echo "  etc."

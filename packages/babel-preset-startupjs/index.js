@@ -86,7 +86,7 @@ const nativeReactCssModulesPlugins = ({ platform } = {}) => [
 
 const CONFIG_NATIVE_DEVELOPMENT = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    ['babel-preset-expo']
   ],
   plugins: [
     [require('@startupjs/babel-plugin-startupjs-debug')],
@@ -99,7 +99,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
 
 const CONFIG_NATIVE_PRODUCTION = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    ['babel-preset-expo']
   ],
   plugins: [
     dotenvPlugin({ production: true }),
