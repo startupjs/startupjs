@@ -279,7 +279,7 @@ SCRIPTS_ORIG.patchPackage = () => oneLine(`
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()}}
+  ${SCRIPTS_ORIG.patchPackage()}
 `)
 
 const SCRIPTS = {
