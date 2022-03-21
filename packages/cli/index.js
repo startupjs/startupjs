@@ -417,7 +417,7 @@ commander
     updateConfigJson(projectPath, { projectName })
 
     console.log('> Patch package.json with additional scripts')
-    patchScriptsInPackageJson(projectPath)
+    patchPackageJson(projectPath)
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -579,10 +579,11 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
   }
 }
 
-function patchScriptsInPackageJson (projectPath) {
+function patchPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
 
+  delete packageJSON.main // remove default 'Expo' entry point
   delete packageJSON.scripts.eject
 
   packageJSON.scripts = {
