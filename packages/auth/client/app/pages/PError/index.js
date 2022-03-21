@@ -5,7 +5,6 @@ import './index.styl'
 
 function PError () {
   const [query] = useLocal('$render.query')
-  if (!query.err) return
   return pug`
     Card.root(variant='outlined')
       Span.title= query.err

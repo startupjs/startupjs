@@ -29,6 +29,10 @@ export default (components = {}) => [
     path: '/auth/error',
     exact: true,
     component: components.PError,
-    filters: [filters.isNotLoggedIn()]
+    filters: [filters.isNotLoggedIn(), (model, next, redirect) => {
+      const query = model.at('$render.query').get()
+      if (!query.err) return redirect('/')
+      next()
+    }]
   }
 ]
