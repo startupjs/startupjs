@@ -25,7 +25,7 @@ return pug`
 
 ## Managing visibility
 
-There are three options for managing the state of a DateTimePicker:
+There are three options for managing visiblity of a `DateTimePicker`:
 
 1. By passing the scoped model to the `$visible` property from the state of which visibility is controlled.
 
@@ -40,7 +40,7 @@ return pug`
 `
 ```
 
-2. By passing the `visible` property that determines whether DateTimePicker is visible.
+2. By passing the `visible`, `onRequestOpen` and `onRequestClose` properties that determines whether `DateTimePicker` is visible.
 
 ```jsx example
 const [visible, $visible] = useValue()
@@ -55,12 +55,15 @@ return pug`
 `
 ```
 
-3. Not passing the `visible` property.
+3. Uncontrolled.
 
 ```jsx example
+const [date, onChangeDate] = useState()
+
 return pug`
   DateTimePicker(
     date=date
+    onChangeDate=onChangeDate
   )
 `
 ```
