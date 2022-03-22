@@ -1,4 +1,4 @@
-import { Strategy as LTIStrategy } from '@dmapper/passport-idg-lti'
+import { Strategy as LTIStrategy } from 'passport-idg-lti'
 import passport from 'passport'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL } from '../isomorphic'
