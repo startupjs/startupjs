@@ -1,16 +1,10 @@
-import { Strategy as LTIStrategy } from 'passport-idg-lti'
+import { Strategy as LTIStrategy } from '@dmapper/passport-idg-lti'
 import passport from 'passport'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL } from '../isomorphic'
 import Provider from './Provider'
 
-function validateConfigs ({ clientId, clientSecret, schools }) {
-  // if (!clientId) {
-  //   throw new Error('[@dmapper/auth-lti] Error:', 'Provide Client Id')
-  // }
-  // if (!clientSecret) {
-  //   throw new Error('[@dmapper/auth-lti] Error:', 'Provide Client Secret')
-  // }
+function validateConfigs ({ schools }) {
   if (!schools) {
     throw new Error('[@dmapper/auth-lti] Error:', 'Provide schools')
   }

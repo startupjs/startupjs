@@ -4,7 +4,7 @@ import { login, loginCallback } from './api'
 export default function (options) {
   const { router, config } = options
 
-  router.post(LOGIN_URL, login, config)
+  router.post(LOGIN_URL, login(config))
 
   router.get(
     CALLBACK_URL,

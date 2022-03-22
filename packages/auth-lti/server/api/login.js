@@ -1,3 +1,5 @@
 import passport from 'passport'
 
-export default passport.authenticate('lti')
+export default function (config) {
+  return passport.authenticate('lti', config)
+}
