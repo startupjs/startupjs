@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth",
-  "version": "0.44.0",
+  "version": "0.44.2",
   "type": "module",
   "description": "Auth module for StartupJS apps",
   "main": "index.js",
