@@ -1,12 +1,15 @@
 {
   "name": "@startupjs/auth-lti",
-  "version": "0.44.1",
+  "version": "0.44.3",
   "type": "module",
   "description": "LTI auth plugin for StartupJS auth module",
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["lti", "auth"],
+  "keywords": [
+    "lti",
+    "auth"
+  ],
   "scripts": {},
   "license": "MIT",
   "dependencies": {
