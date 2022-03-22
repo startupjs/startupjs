@@ -25,8 +25,7 @@ import conf from 'nconf'
 initAuth(ee, {
   strategies: [
     new LTIStrategy({
-      schools: conf.get('LTI_SCHOOLS'),
-      callbackUrl: conf.get('LTI_CALLBACK_URL')
+      schools: conf.get('LTI_SCHOOLS')
     })
   ]
 })
