@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -61,6 +61,12 @@ export default function wrapInput (Component, configuration) {
       setFocused(false)
       onBlur && onBlur(...args)
     }
+
+    // NOTE
+    useEffect(() => {
+      if (!isLabelColoredWhenFocusing) return
+      if (focused && (props.readonly || props.disabled)) setFocused(false)
+    }, [props.readonly, props.disabled])
 
     const _label = pug`
       if label
