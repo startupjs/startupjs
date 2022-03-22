@@ -1,3 +1,18 @@
+## [0.44.2](https://github.com/startupjs/startupjs/compare/v0.44.1...v0.44.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **ui/Input:** change 'focus' state when input becomes readonly or disabled ([7c3a07f](https://github.com/startupjs/startupjs/commit/7c3a07f7bd2f1cc678bc32e6388409a6181c487a))
+
+
+### Features
+
+* **auth:** handling google auth token error ([#922](https://github.com/startupjs/startupjs/issues/922)) ([259cbf2](https://github.com/startupjs/startupjs/commit/259cbf2aff51f211c58dc33ef177ef9ac4f89d2b))
+* **ui/DateTimePicker:** add ability to controll visibility ([#919](https://github.com/startupjs/startupjs/issues/919)) ([2d1f4d9](https://github.com/startupjs/startupjs/commit/2d1f4d98b929988cf9fcfa8bd5d56eaa1a14ba7b))
+
+
+
 ## [0.44.1](https://github.com/startupjs/startupjs/compare/v0.44.0...v0.44.1) (2022-03-15)
 
 
