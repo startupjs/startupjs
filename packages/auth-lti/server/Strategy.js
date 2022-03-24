@@ -39,17 +39,16 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           passReqToCallback: true
         },
-        async (req, accessToken, refreshToken, profile, cb) => {
-          let userId, err
+        (req, accessToken, refreshToken, profile, cb) => {
+          let provider, err
 
           try {
-            const provider = new Provider(model, profile, this.config)
-            userId = await provider.findOrCreateUser({ req })
+            provider = new Provider(model, profile, this.config)
           } catch (e) {
             err = e
           }
 
-          return cb(err, userId)
+          return cb(err, provider)
         }
       )
     )
