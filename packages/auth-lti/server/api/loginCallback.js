@@ -1,13 +1,20 @@
 import { finishAuth, linkAccount } from '@startupjs/auth/server'
 import passport from 'passport'
+import Provider from '../Provider'
 
 export default function loginWebCallback (req, res, next, config) {
   const { onBeforeLoginHook } = config
 
-  passport.authenticate('lti', async function (err, provider) {
-    if (err) {
-      console.log('[@startup/auth-lti] Error:', err)
-      res.status(500).json({ error: err })
+  const profile = req.session.ltiProfile
+
+  passport.authenticate('lti', async function () {
+    let provider
+
+    try {
+      provider = new Provider(req.model, profile, config)
+    } catch (e) {
+      console.log('[@startup/auth-lti] Error:', e)
+      return res.status(500).json({ error: e })
     }
 
     // If request came along with authorized session -> link new account to existing auth.providers doc

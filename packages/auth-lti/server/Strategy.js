@@ -2,7 +2,6 @@ import { Strategy as LTIStrategy } from 'passport-idg-lti'
 import passport from 'passport'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL } from '../isomorphic'
-import Provider from './Provider'
 
 function validateConfigs ({ schools }) {
   if (!schools) {
@@ -39,16 +38,8 @@ export default function (config = {}) {
           callbackURL: CALLBACK_URL,
           passReqToCallback: true
         },
-        (req, accessToken, refreshToken, profile, cb) => {
-          let provider, err
-
-          try {
-            provider = new Provider(model, profile, this.config)
-          } catch (e) {
-            err = e
-          }
-
-          return cb(err, provider)
+        (accessToken, refreshToken, profile, cb) => {
+          return cb(null, {})
         }
       )
     )
