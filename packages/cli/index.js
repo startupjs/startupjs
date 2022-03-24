@@ -89,7 +89,7 @@ SCRIPTS_ORIG.webWebpack = oneLine(`
 // Detox test
 
 SCRIPTS_ORIG.test = ({ ios, init, build, artifacts, updateScreenshot } = {}) => {
-  const appName = require(APP_JSON_PATH).name
+  const appName = require(APP_JSON_PATH).expo.name
 
   if (init) {
     try {
@@ -286,9 +286,11 @@ const SCRIPTS = {
   start: 'startupjs start',
   web: 'startupjs web',
   server: 'startupjs server',
+  android: 'expo start --android --clear',
+  ios: 'expo start --ios --clear',
+  'android-release': 'expo start --android --no-dev --clear',
+  'ios-release': 'expo start --ios --no-dev --clear',
   postinstall: 'startupjs postinstall',
-  android: 'expo start --android',
-  ios: 'expo start --ios',
   build: 'startupjs build --async',
   'start-production': 'startupjs start-production'
 }
@@ -584,12 +586,8 @@ function patchPackageJson (projectPath) {
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
 
   delete packageJSON.main // remove default 'Expo' entry point
-  delete packageJSON.scripts.eject
 
-  packageJSON.scripts = {
-    ...packageJSON.scripts,
-    ...SCRIPTS
-  }
+  packageJSON.scripts = SCRIPTS
 
   packageJSON['lint-staged'] = {
     '*.{js,jsx}': [

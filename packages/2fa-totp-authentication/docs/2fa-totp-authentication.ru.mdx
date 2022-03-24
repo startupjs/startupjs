@@ -20,13 +20,13 @@ import { createSecret, checkToken, getSecret, QRSecret, CheckToken } from '../cl
 
 В `server/index.js` добавить следующие строки:
 ```js
-  import { init2fa } from '@startupjs/2fa-totp-authentication/server'
-  import app from '../app.json'
+import { init2fa } from '@startupjs/2fa-totp-authentication/server'
+import app from '../app.json'
 ```
 
 В `startupjsServer` функцию добавить:
 ```js
-  init2fa(ee, { appName: app.name })
+init2fa(ee, { appName: app.expo.name })
 ```
 
 ## !!! ВАЖНО !!!

@@ -19,7 +19,7 @@ import app from '../app.json'
 
 In `startupjsServer` function add:
 ```js
-init2fa(ee, { appName: app.name })
+init2fa(ee, { appName: app.expo.name })
 ```
 
 ### client

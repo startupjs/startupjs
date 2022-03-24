@@ -5,8 +5,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import APP from '../../app.json'
 import './index.styl'
 
-const { displayName } = APP
-
+const displayName = APP.expo.name
 const APP_NAME = displayName.charAt(0).toUpperCase() + displayName.slice(1)
 
 const MenuItem = observer(({ url, children }) => {

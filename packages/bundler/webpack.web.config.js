@@ -62,7 +62,7 @@ module.exports = function getConfig (env, {
   return pickBy({
     mode: PROD ? 'production' : 'development',
     entry: {
-      [BUNDLE_NAME]: DEFAULT_ENTRIES.concat(['./index.web.js'])
+      [BUNDLE_NAME]: DEFAULT_ENTRIES.concat(['./index.js'])
     },
     cache: !PROD && {
       type: 'filesystem',

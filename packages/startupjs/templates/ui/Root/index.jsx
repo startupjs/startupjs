@@ -4,8 +4,8 @@ import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { pug, observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
+import baseUrl from 'startupjs/baseUrl'
 import { uiAppPlugin } from '@startupjs/ui'
-import BASE_URL from './../BASE_URL'
 import i18n, { useI18nGlobalInit } from '../i18n'
 import orm from '../model'
 
@@ -18,7 +18,7 @@ if (Platform.OS === 'web') window.model = model
 // baseUrl option is required for the native to work - it's used
 // to init the websocket connection and axios.
 // Initialization must start before doing any subscribes to data.
-init({ baseUrl: BASE_URL, orm })
+init({ baseUrl, orm })
 
 registerPlugins({
   '@startupjs/app': [

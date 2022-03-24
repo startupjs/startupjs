@@ -25,7 +25,7 @@
 import { GAProvider } from '@startupjs/2fa-totp-authentication-provider'
 ```
 
-Затем нужно добавить `GAProvider` в массив `providers` у `initTwoFAManager`. Второй аргумент массива - это опции для провайдера. `TotpProvider` ожидает имя приложения, это имя будут отображаться в интерфейсе `google authenticator`. 
+Затем нужно добавить `GAProvider` в массив `providers` у `initTwoFAManager`. Второй аргумент массива - это опции для провайдера. `TotpProvider` ожидает имя приложения, это имя будут отображаться в интерфейсе `google authenticator`.
 
 Получить имя приложения можно из `app.json`, обычно этот файл находится в корне проекта:
 
@@ -36,7 +36,7 @@ import app from 'path/to/your/app.json'
 
 initTwoFAManager(ee, {
   providers: [
-    [TotpProvider, { appName: app.name }]
+    [TotpProvider, { appName: app.expo.name }]
   ]
 })
 ```

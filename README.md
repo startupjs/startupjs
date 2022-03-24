@@ -69,34 +69,24 @@ to also run `server` and `web` separately instead of using the `yarn start`.
 Here is the list of commands to run all platforms at the same time:
 
 1. Start **server** (required) *in a separate terminal tab*
+  ```
+  yarn server
+  ```
 
-    ```
-    yarn server
-    ```
+1. Start **web** (optional) *in a separate terminal tab*
+  ```
+  yarn web
+  ```
 
-2. Start **web** (optional) *in a separate terminal tab*
+1. Run **android** (optional) *in a separate terminal tab*
+  ```
+  yarn android
+  ```
 
-    ```
-    yarn web
-    ```
-
-3. Start **metro** (required for Android and/or iOS) *in a separate terminal tab*
-
-    ```
-    yarn metro
-    ```
-
-4. Run **android** (optional) *in a separate terminal tab*
-
-    ```
-    yarn android
-    ```
-
-5. Run **ios** (optional) *in a separate terminal tab*
-
-    ```
-    yarn ios
-    ```
+1. Run **ios** (optional) *in a separate terminal tab*
+  ```
+  yarn ios
+  ```
 
 ## IDE configuration
 

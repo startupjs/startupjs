@@ -32,7 +32,6 @@
     "file-loader": "^6.2.0",
     "generic-names": "^1.0.3",
     "lodash": "^4.17.20",
-    "metro-config": "*",
     "mini-css-extract-plugin": "^2.4.3",
     "moment": "^2.0.0",
     "moment-locales-webpack-plugin": "^1.0.7",

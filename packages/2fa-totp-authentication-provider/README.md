@@ -36,7 +36,7 @@ import app from 'path/to/your/app.json'
 
 initTwoFAManager(ee, {
   providers: [
-    [TotpProvider, { appName: app.name }]
+    [TotpProvider, { appName: app.expo.name }]
   ]
 })
 ```

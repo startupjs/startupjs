@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { pug, observer, model } from 'startupjs'
-import BASE_URL from './../BASE_URL'
+import baseUrl from 'startupjs/baseUrl'
 import orm from '../model'
 
 // Frontend micro-services
@@ -15,7 +15,7 @@ if (Platform.OS === 'web') window.model = model
 // baseUrl option is required for the native to work - it's used
 // to init the websocket connection and axios.
 // Initialization must start before doing any subscribes to data.
-init({ baseUrl: BASE_URL, orm })
+init({ baseUrl, orm })
 
 export default observer(() => {
   return pug`

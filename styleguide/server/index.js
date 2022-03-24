@@ -60,7 +60,7 @@ startupjsServer({
   initRecaptchaDoc(ee)
   initTwoFAManager(ee, {
     providers: [
-      [TotpProvider, { appName: app.name }],
+      [TotpProvider, { appName: app.expo.name }],
       [PushProvider]
     ]
   })

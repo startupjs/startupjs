@@ -1,4 +1,4 @@
-module.exports = `const { name } = require('./app.json')
+module.exports = `const { expo: { name } } = require('./app.json')
 const { configPath } = require('@startupjs/e2e')
 
 module.exports = {
