@@ -1,3 +1,12 @@
+## [0.44.3](https://github.com/startupjs/startupjs/compare/v0.44.2...v0.44.3) (2022-03-22)
+
+
+### Features
+
+* **auth-lti:** add auth lti strategy ([#925](https://github.com/startupjs/startupjs/issues/925)) ([abd53f6](https://github.com/startupjs/startupjs/commit/abd53f6c40818128e47ce3c6c9ca72ce76a5422c))
+
+
+
 ## [0.44.2](https://github.com/startupjs/startupjs/compare/v0.44.1...v0.44.2) (2022-03-22)
 
 
