@@ -5,8 +5,9 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { observer, useValue } from 'startupjs'
+import { observer, useValue, useBind } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
 import 'moment/min/locales'
@@ -42,9 +43,13 @@ function DateTimePicker ({
   placeholder,
   maxDate,
   minDate,
+  visible,
+  $visible,
   onFocus,
   onBlur,
   onChangeDate,
+  onRequestOpen,
+  onRequestClose,
   _hasError
 }, ref) {
   if (renderCaption) {
@@ -58,12 +63,29 @@ function DateTimePicker ({
   renderInput = renderInput || renderContent || renderCaption
 
   const media = useMedia()
-  const [visible, $visible] = useValue(false)
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
   const inputRef = useRef()
 
   useImperativeHandle(ref, () => inputRef.current, [])
+
+  let bindProps = useMemo(() => {
+    // controlled via two way data binding
+    if (typeof $visible !== 'undefined') return { $visible }
+    // controlled via state
+    if (typeof onRequestOpen === 'function' && typeof onRequestClose === 'function') {
+      return { visible, onChangeVisible: value => value ? onRequestOpen() : onRequestClose() }
+    }
+  }, [])
+
+  // if no bindProps then uncontrolled
+  if (!bindProps) {
+    ;[, $visible] = useValue(false)
+    bindProps = { $visible }
+  }
+
+  let { onChangeVisible } = bindProps
+  ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -118,14 +140,12 @@ function DateTimePicker ({
   }
 
   function _onChangeDate (value) {
-    value = getDate(value)
-    setTextInput(getFormatDate(value))
     onChangeDate && onChangeDate(value)
-    $visible.set(false)
+    onChangeVisible(false)
   }
 
   function onDismiss () {
-    $visible.set(false)
+    onChangeVisible(false)
   }
 
   const inputProps = {
@@ -141,12 +161,15 @@ function DateTimePicker ({
 
   const caption = pug`
     if renderInput
-      = renderInput(Object.assign({ $visible, onFocus, onBlur }, inputProps))
+      // Do we need to pass properties to 'renderInput' at all?
+      = renderInput(Object.assign({ onChangeVisible, onFocus, onBlur }, inputProps))
     else
       TextInput(
         ...inputProps
+        secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
+        onSecondaryIconPress=() => onChangeDate && onChangeDate()
         onFocus=(...args) => {
-          $visible.set(true)
+          onChangeVisible(true)
           onFocus && onFocus(...args)
         }
         onBlur=(...args) => {
@@ -196,7 +219,7 @@ function DateTimePicker ({
   function renderWrapper (children) {
     return pug`
       Div.popoverWrapper
-        Div.popoverOverlay(feedback=false onPress=()=> $visible.set(false))
+        Div.popoverOverlay(feedback=false onPress=()=> onChangeVisible(false))
         = children
     `
   }
@@ -208,7 +231,6 @@ function DateTimePicker ({
         visible=visible
         anchorRef=inputRef
         renderWrapper=renderWrapper
-        onRequestClose=onDismiss
       )= renderPopoverContent()
     else
       = caption

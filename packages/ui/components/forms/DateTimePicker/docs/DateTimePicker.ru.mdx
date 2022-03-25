@@ -23,6 +23,51 @@ return pug`
 `
 ```
 
+## Управление видимостью
+
+Для управления видимостью `DateTimePicker` есть три варианта:
+
+1.  Передав скоуп модель в свойство `$visible`, из состояния которой идет управление видимостью.
+
+```jsx example
+const [, $visible] = useValue()
+
+return pug`
+  DateTimePicker(
+    date=date
+    $visible=$visible
+  )
+`
+```
+
+2. Передав свойства `visible`, `onRequestOpen` и `onRequestClose`, которые определяют является ли `DateTimePicker` видимым.
+
+```jsx example
+const [visible, $visible] = useValue()
+
+return pug`
+  DateTimePicker(
+    date=date
+    visible=visible
+    onRequestOpen=() => $visible.set(true)
+    onRequestClose=() => $visible.del()
+  )
+`
+```
+
+3. Неконтролируемый.
+
+```jsx example
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=onChangeDate
+  )
+`
+```
+
 ## Свойства
 
 **date** - исходная дата в формате временной метки

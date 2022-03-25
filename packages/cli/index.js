@@ -444,14 +444,6 @@ commander
   .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite and --pure option.')
   .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
   .action(async (options) => {
-    if (options.inspect) {
-      console.log(
-        '\x1b[31m' +
-        '[@startupjs/cli] option -i, --inspect is DEPRECATED, use NODE_OPTIONS instead.' +
-        '\x1b[0m'
-      )
-    }
-
     await execa.command(
       SCRIPTS_ORIG.start(options),
       { stdio: 'inherit', shell: true }
@@ -485,13 +477,6 @@ commander
   .option('-w, --webpack', 'Force use Webpack for server build. This takes priority over --pure option')
   .option('-v, --vite', 'Automatically redirect to the web bundle served by Vite. Use this when running Vite for web client')
   .action(async (options) => {
-    if (options.inspect) {
-      console.log(
-        '\x1b[31m' +
-        '[@startupjs/cli] option -i, --inspect is DEPRECATED, use NODE_OPTIONS instead.' +
-        '\x1b[0m'
-      )
-    }
     await execa.command(
       SCRIPTS_ORIG.server(options),
       { stdio: 'inherit', shell: true }

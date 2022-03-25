@@ -1,3 +1,42 @@
+## [0.44.4](https://github.com/startupjs/startupjs/compare/v0.44.3...v0.44.4) (2022-03-25)
+
+
+### Bug Fixes
+
+* **auth-lti:** add ability to pass redirect url ([#928](https://github.com/startupjs/startupjs/issues/928)) ([2c0dd60](https://github.com/startupjs/startupjs/commit/2c0dd60ef4f7db9917bc7a47412ec956fa84e5b6))
+* **cli:** delete the deprecated '--inspect' log because the package cannot use `NODE_OPTIONS` ([bfde808](https://github.com/startupjs/startupjs/commit/bfde80819222fbc2a9d1b955657b92bb27b50c2b))
+
+
+### Features
+
+* **auth-lti:** add ability to link account ([#927](https://github.com/startupjs/startupjs/issues/927)) ([f204fa8](https://github.com/startupjs/startupjs/commit/f204fa8ebe127410f756515a142bb1542bc36b40))
+
+
+
+## [0.44.3](https://github.com/startupjs/startupjs/compare/v0.44.2...v0.44.3) (2022-03-22)
+
+
+### Features
+
+* **auth-lti:** add auth lti strategy ([#925](https://github.com/startupjs/startupjs/issues/925)) ([abd53f6](https://github.com/startupjs/startupjs/commit/abd53f6c40818128e47ce3c6c9ca72ce76a5422c))
+
+
+
+## [0.44.2](https://github.com/startupjs/startupjs/compare/v0.44.1...v0.44.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **ui/Input:** change 'focus' state when input becomes readonly or disabled ([7c3a07f](https://github.com/startupjs/startupjs/commit/7c3a07f7bd2f1cc678bc32e6388409a6181c487a))
+
+
+### Features
+
+* **auth:** handling google auth token error ([#922](https://github.com/startupjs/startupjs/issues/922)) ([259cbf2](https://github.com/startupjs/startupjs/commit/259cbf2aff51f211c58dc33ef177ef9ac4f89d2b))
+* **ui/DateTimePicker:** add ability to controll visibility ([#919](https://github.com/startupjs/startupjs/issues/919)) ([2d1f4d9](https://github.com/startupjs/startupjs/commit/2d1f4d98b929988cf9fcfa8bd5d56eaa1a14ba7b))
+
+
+
 ## [0.44.1](https://github.com/startupjs/startupjs/compare/v0.44.0...v0.44.1) (2022-03-15)
 
 
