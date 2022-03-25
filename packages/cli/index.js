@@ -602,9 +602,6 @@ function patchPackageJson (projectPath) {
     }
   }
 
-  // FIXME: We can't use type=module now, because metro does not support ESM
-  // and does not provide ability to pass .cjs config.
-  // packageJSON.type = 'module'
   // TODO
   // sideEffects is needed for mode 'web'
   // think about how to get rid of this

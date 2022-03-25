@@ -15,7 +15,7 @@ function getClientLayoutFn () {
   }
 }
 
-function getDefaultLayout ({ head, styles, jsBundle, mode, fontsStyles }) {
+function getDefaultLayout ({ head, styles, jsBundle, mode }) {
   return /* html */`
     <html>
       <head>
@@ -23,7 +23,6 @@ function getDefaultLayout ({ head, styles, jsBundle, mode, fontsStyles }) {
         ${head || ''}
         <style>${defaultStyles}${mode === 'react-native' ? rnwPolyfill : ''}</style>
         ${styles || ''}
-        <style>${fontsStyles}</style>
       </head>
       <body>
         <div id='app'></div>
@@ -38,7 +37,7 @@ function getIndexLayoutFn (html) {
   const [beforeHeadEnd, afterHeadEnd] = html.split(headEnd)
   if (!(beforeHeadEnd && afterHeadEnd)) throw new Error('</head> wasn\'t found in index.html')
 
-  return ({ head = '', styles = '', jsBundle, fontsStyles }) => {
+  return ({ head = '', styles = '', jsBundle }) => {
     let _beforeHeadEnd = beforeHeadEnd
     let _afterHeadEnd = afterHeadEnd
     // If dynamic head already specifies <title>, remove the static one
@@ -49,14 +48,13 @@ function getIndexLayoutFn (html) {
     return _beforeHeadEnd +
       head +
       '<style>' + defaultStyles + '</style>' +
-      '<style>' + fontsStyles + '</style>' +
       styles +
       headEnd +
       _afterHeadEnd
   }
 }
 
-const BUNDLE_REGEX = /(?:type=['"]module['"]\s+)src=['"]\.?\/?index(?:\.web)\.js['"]/
+const BUNDLE_REGEX = /(?:type=['"]module['"]\s+)src=['"]\.?\/?index\.js['"]/
 
 function replaceJsBundle (html, jsBundle) {
   return html.replace(BUNDLE_REGEX, `defer src='${jsBundle}'`)

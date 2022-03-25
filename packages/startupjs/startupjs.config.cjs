@@ -6,7 +6,8 @@ module.exports = {
         'startupjs/app',
         'startupjs/i18n',
         'startupjs/init',
-        'startupjs/plugin'
+        'startupjs/plugin',
+        'startupjs/baseUrl'
       ],
       server: [
         'startupjs/app',
