@@ -17,6 +17,10 @@ export default function loginWebCallback (req, res, next, config) {
       return res.status(500).json({ error: e })
     }
 
+    if (req.query.redirect) {
+      req.cookies.authRedirectUrl = req.query.redirect
+    }
+
     // If request came along with authorized session -> link new account to existing auth.providers doc
     if (req.session.loggedIn) {
       const response = await linkAccount(req, provider)
