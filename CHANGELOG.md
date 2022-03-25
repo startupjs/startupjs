@@ -1,3 +1,18 @@
+## [0.44.4](https://github.com/startupjs/startupjs/compare/v0.44.3...v0.44.4) (2022-03-25)
+
+
+### Bug Fixes
+
+* **auth-lti:** add ability to pass redirect url ([#928](https://github.com/startupjs/startupjs/issues/928)) ([2c0dd60](https://github.com/startupjs/startupjs/commit/2c0dd60ef4f7db9917bc7a47412ec956fa84e5b6))
+* **cli:** delete the deprecated '--inspect' log because the package cannot use `NODE_OPTIONS` ([bfde808](https://github.com/startupjs/startupjs/commit/bfde80819222fbc2a9d1b955657b92bb27b50c2b))
+
+
+### Features
+
+* **auth-lti:** add ability to link account ([#927](https://github.com/startupjs/startupjs/issues/927)) ([f204fa8](https://github.com/startupjs/startupjs/commit/f204fa8ebe127410f756515a142bb1542bc36b40))
+
+
+
 ## [0.44.3](https://github.com/startupjs/startupjs/compare/v0.44.2...v0.44.3) (2022-03-22)
 
 
