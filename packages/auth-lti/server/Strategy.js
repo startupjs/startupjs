@@ -3,46 +3,30 @@ import passport from 'passport'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL } from '../isomorphic'
 
-function validateConfigs ({ schools }) {
-  if (!schools) {
-    throw new Error('[@dmapper/auth-lti] Error:', 'Provide schools')
+function validateConfigs ({ schools, collectionName }) {
+  if (!collectionName && !schools) {
+    throw new Error('[@dmapper/auth-lti] Error: Provide schools or collection name')
   }
 }
 
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = async ({ router, authConfig }) => {
     Object.assign(this.config, {
-      ...authConfig
-      // Any defaults....
+      ...authConfig,
+      callbackUrl: CALLBACK_URL
     }, config)
 
     validateConfigs(this.config)
 
-    const { clientId, clientSecret, schools } = this.config
+    const { schools, callbackUrl } = this.config
 
     initRoutes({ router, config: this.config })
 
-    // Append required configs to client session
-    updateClientSession({ lti: { clientId } })
-
     console.log('++++++++++ Initialization of LTI auth strategy ++++++++++\n')
 
-    passport.use(
-      new LTIStrategy(
-        {
-          clientID: clientId,
-          clientSecret,
-          schools: schools,
-          callbackURL: CALLBACK_URL,
-          passReqToCallback: true
-        },
-        (accessToken, refreshToken, profile, cb) => {
-          return cb(null, {})
-        }
-      )
-    )
+    passport.use(new LTIStrategy({ schools, callbackUrl }))
   }
 
   func.providerName = 'lti'

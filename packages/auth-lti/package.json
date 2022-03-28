@@ -13,7 +13,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "passport-idg-lti": "^3.0.0"
+    "@dmapper@passport-lms-lti": "^2.0.0"
   },
   "peerDependencies": {
     "@startupjs/auth": ">= 0.33.0"
