@@ -24,7 +24,7 @@
 
 StartupJS is a **full-stack framework** that consists of:
 
-- **Frontend**: Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://github.com/necolas/react-native-web)
+- **Frontend**: [Expo](https://expo.dev/)
 - **Backend**: [ExpressJS](https://expressjs.com/)
 - **Collaborative Database**: [MongoDB](https://www.mongodb.com/) which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server observable [ORM](https://derbyjs.com/docs/derby-0.10/models)
 
@@ -138,8 +138,7 @@ For additional documentation on each StartupJS package see the [according readme
 
 To gain further deep knowledge of StartupJS stack you'll need get familiar with the following technologies it's built on:
 
-1. [React](https://reactjs.org/) and/or [react-native-web](https://github.com/necolas/react-native-web) for the Web-frontend.
-1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
+1. [Expo](https://expo.dev/)
 1. [Pug](https://pugjs.org/) which is used besides JSX for templating.
 1. [Stylus](https://stylus-lang.com/) which is used besides CSS for stylesheets.
 1. [React-ShareDB](/packages/react-sharedb):

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
-import App from 'startupjs/app'
-import { pug, observer, model } from 'startupjs'
 import baseUrl from 'startupjs/baseUrl'
+import { pug, observer, model } from 'startupjs'
+import App from 'startupjs/app'
 import orm from '../model'
 
 // Frontend micro-services

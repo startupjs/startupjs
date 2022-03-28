@@ -5,13 +5,13 @@ import parsePropTypes from 'parse-prop-types' // eslint-disable-line
 import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
+import baseUrl from 'startupjs/baseUrl'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
 import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 import {
-  BASE_URL,
   SUPPORT_EMAIL,
   UPDATE_LINK_IOS,
   UPDATE_LINK_ANDROID,
@@ -37,7 +37,7 @@ if (Platform.OS === 'web') window.model = model
 // baseUrl option is required for the native to work - it's used
 // to init the websocket connection and axios.
 // Initialization must start before doing any subscribes to data.
-init({ baseUrl: BASE_URL, orm })
+init({ baseUrl, orm })
 
 registerPlugins({
   '@startupjs/app': [

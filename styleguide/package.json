@@ -1,26 +1,18 @@
 {
   "name": "@startupjs/styleguide",
   "version": "0.44.4",
-  "sideEffects": [
-    "*.css",
-    "*.styl"
-  ],
   "private": true,
   "scripts": {
     "start": "startupjs start",
-    "android": "react-native run-android && (npm run adb || true) && npm run log-android",
-    "android-release": "react-native run-android --variant=release",
-    "ios": "react-native run-ios",
-    "ios-release": "react-native run-ios --configuration Release",
     "web": "startupjs web",
     "server": "startupjs server",
-    "adb": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:3010 tcp:3010",
-    "log-android": "hash ccze 2>/dev/null && npm run log-android-color || (echo \"WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze\" && react-native log-android)",
-    "log-android-color": "react-native log-android | ccze -m ansi -C -o nolookups",
+    "android": "expo start --android --clear",
+    "ios": "expo start --ios --clear",
+    "android-release": "expo start --android --no-dev --clear",
+    "ios-release": "expo start --ios --no-dev --clear",
+    "postinstall": "startupjs postinstall",
     "build": "startupjs build --async",
-    "start-production": "startupjs start-production",
-    "test:ios": "APP_ENV=detox startupjs test --ios --artifacts",
-    "test:build:ios": "startupjs test --build"
+    "start-production": "startupjs start-production"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
@@ -52,6 +44,8 @@
     "@startupjs/scrollable-anchors": "^0.44.4",
     "@startupjs/ui": "^0.44.3",
     "axios": "^0.21.1",
+    "expo": "~44.0.0",
+    "expo-status-bar": "~1.2.0",
     "js-cookie": "^2.2.1",
     "nconf": "^0.10.0",
     "react": "^16.9.0",
@@ -66,8 +60,13 @@
     "react-native-restart": "^0.0.22",
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^3.0.0",
+    "react-native-web": "0.17.1",
     "react-native-webview": "10.10.2",
     "startupjs": "^0.44.4",
     "text-encoding-polyfill": "^0.6.7"
-  }
+  },
+  "sideEffects": [
+    "*.css",
+    "*.styl"
+  ]
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { pug, observer, model } from 'startupjs'
 import init from 'startupjs/init'
 import baseUrl from 'startupjs/baseUrl'
+import { pug, observer, model } from 'startupjs'
 import { TestComponent } from 'components'
 import orm from '../model'
 

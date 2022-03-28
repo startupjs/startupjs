@@ -40,6 +40,8 @@ const DEPENDENCIES = [
 
 const DEV_DEPENDENCIES = [
   '@babel/eslint-parser',
+  '@types/react',
+  '@types/react-native',
   'eslint@latest',
   'eslint-config-standard',
   'eslint-config-standard-react',
