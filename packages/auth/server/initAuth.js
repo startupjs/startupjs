@@ -35,6 +35,8 @@ export default function (ee, _config) {
   Object.assign(config, {
     signInPageUrl: SIGN_IN_URL,
     parseUserCreationData,
+    getCreationAuthData: _config.getCreationAuthData,
+    patchFindUserQuery: _config.patchFindUserQuery,
     onBeforeLogoutHook,
     onBeforeLoginHook,
     onAfterUserCreationHook,
