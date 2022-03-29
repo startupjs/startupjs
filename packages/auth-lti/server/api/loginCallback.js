@@ -5,9 +5,11 @@ import Provider from '../Provider'
 export default function loginWebCallback (req, res, next, config) {
   const { onBeforeLoginHook } = config
 
-  const profile = req.session.ltiProfile
+  passport.authenticate('lti', async function (err, profile) {
+    if (err) {
+      return res.status(500).json({ error: err })
+    }
 
-  passport.authenticate('lti', async function () {
     let provider
 
     try {
@@ -21,13 +23,7 @@ export default function loginWebCallback (req, res, next, config) {
       req.cookies.authRedirectUrl = req.query.redirect
     }
 
-    // If request came along with authorized session -> link new account to existing auth.providers doc
-    if (req.session.loggedIn) {
-      const response = await linkAccount(req, provider)
-      return res.send(response)
-    } else {
-      const userId = await provider.findOrCreateUser({ req })
-      finishAuth(req, res, { userId, onBeforeLoginHook })
-    }
+    const userId = await provider.findOrCreateUser({ req })
+    finishAuth(req, res, { userId, onBeforeLoginHook })
   })(req, res, next)
 }
