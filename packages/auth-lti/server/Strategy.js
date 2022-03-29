@@ -1,11 +1,11 @@
 import { Strategy as LTIStrategy } from '@dmapper/passport-lms-lti'
 import passport from 'passport'
 import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic'
+import { CALLBACK_URL, DB_COLLECTION_NAME } from '../isomorphic'
 import { getDbSchools } from './helpers'
 
-function validateConfigs ({ schools, collectionName }) {
-  if (!collectionName && !schools) {
+function validateConfigs ({ schools, collectionName, dbSchools }) {
+  if ((dbSchools && !collectionName) || (!dbSchools && !schools)) {
     throw new Error('[@dmapper/auth-lti] Error: Provide schools or collection name')
   }
 }
@@ -16,14 +16,16 @@ export default function (config = {}) {
   const func = async ({ model, router, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig,
-      callbackUrl: CALLBACK_URL
+      callbackUrl: CALLBACK_URL,
+      collectionName: DB_COLLECTION_NAME,
+      dbSchools: false
     }, config)
 
     validateConfigs(this.config)
 
-    const { collectionName } = this.config
+    const { dbSchools, collectionName } = this.config
 
-    if (collectionName) {
+    if (dbSchools && collectionName) {
       this.config.schools = async function() {
         return await getDbSchools(model, collectionName)
       }
