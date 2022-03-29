@@ -3,14 +3,11 @@ import { $root, observer, useValue } from 'startupjs'
 import {
   Button,
   Br,
-  Content,
-  Div,
-  H4,
   ObjectInput,
   Modal,
   Row,
 } from '@startupjs/ui'
-export { SmartTable } from '@dmapper/smart-table/client'
+import { SmartTable } from '@dmapper/smart-table/client'
 import { DB_COLLECTION_NAME, TABLE_ID } from '../../../isomorphic/constants'
 
 import './index.styl'
