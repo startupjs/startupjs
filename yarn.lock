@@ -10819,6 +10819,15 @@ import-local@^3.0.2:
     pkg-dir "^4.2.0"
     resolve-cwd "^3.0.0"
 
+ims-lti@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/ims-lti/-/ims-lti-3.0.2.tgz#8a7381c622ab813be3bf18a5aa24ebca8cb2860b"
+  integrity sha1-inOBxiKrgTvjvxilqiTryoyyhgs=
+  dependencies:
+    node-uuid "~1.4.0"
+    xml2js "~0.4.0"
+    xmlbuilder "~2.4.0"
+
 imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
@@ -13054,6 +13063,11 @@ lockfile@^1.0.4:
   dependencies:
     signal-exit "^3.0.2"
 
+lodash-node@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash-node/-/lodash-node-2.4.1.tgz#ea82f7b100c733d1a42af76801e506105e2a80ec"
+  integrity sha1-6oL3sQDHM9GkKvdoAeUGEF4qgOw=
+
 lodash._baseassign@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz#8c38a099500f215ad09e59f1722fd0c52bfe0a4e"
@@ -14825,6 +14839,11 @@ node-stream-zip@^1.9.1:
   resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.15.0.tgz#158adb88ed8004c6c49a396b50a6a5de3bca33ea"
   integrity sha512-LN4fydt9TqhZhThkZIVQnF9cwjU3qmUH9h78Mx/K7d3VvfRqqwthLwJEUOEL0QPZ0XQmNN7be5Ggit5+4dq3Bw==
 
+node-uuid@~1.4.0:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.8.tgz#b040eb0923968afabf8d32fb1f17f1167fdab907"
+  integrity sha1-sEDrCSOWivq/jTL7HxfxFn/auQc=
+
 node-version@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/node-version/-/node-version-1.2.0.tgz#34fde3ffa8e1149bd323983479dda620e1b5060d"
@@ -15866,6 +15885,14 @@ passport-google-oauth20@^2.0.0:
   dependencies:
     passport-oauth2 "1.x.x"
 
+passport-idg-lti@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/passport-idg-lti/-/passport-idg-lti-3.0.0.tgz#136629e8dcc31d159bdc73b69a99bd3179e92e3b"
+  integrity sha512-ydCSdncGabUSLH+Cxt7yJl/NU/puqC/RTYNN2nzDOBw9siK1Fci3VaF3hg5CmfwMg6ysIQnyZ9/NPUyMDbbgjw==
+  dependencies:
+    ims-lti "^3.0.2"
+    passport-strategy "1.0.x"
+
 passport-linkedin-oauth2@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/passport-linkedin-oauth2/-/passport-linkedin-oauth2-2.0.0.tgz#c320374baa44c1412a9b023590d1d0c1c77cfe73"
@@ -15891,7 +15918,7 @@ passport-oauth2@1.x.x, passport-oauth2@^1.5.0:
     uid2 "0.0.x"
     utils-merge "1.x.x"
 
-passport-strategy@1.x.x, passport-strategy@^1.0.0:
+passport-strategy@1.0.x, passport-strategy@1.x.x, passport-strategy@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
@@ -18088,7 +18115,7 @@ saslprep@^1.0.3:
   dependencies:
     sparse-bitfield "^3.0.3"
 
-sax@^1.2.1, sax@^1.2.4, sax@~1.2.4:
+sax@>=0.6.0, sax@^1.2.1, sax@^1.2.4, sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
@@ -20839,10 +20866,30 @@ xml-name-validator@^3.0.0:
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
   integrity sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==
 
+xml2js@~0.4.0:
+  version "0.4.23"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.23.tgz#a0c69516752421eb2ac758ee4d4ccf58843eac66"
+  integrity sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==
+  dependencies:
+    sax ">=0.6.0"
+    xmlbuilder "~11.0.0"
+
 xmlbuilder@^9.0.7:
   version "9.0.7"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
   integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
+
+xmlbuilder@~11.0.0:
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-11.0.1.tgz#be9bae1c8a046e76b31127726347d0ad7002beb3"
+  integrity sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==
+
+xmlbuilder@~2.4.0:
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-2.4.6.tgz#42c664f1358864e5beb1461b4346aec87b63450f"
+  integrity sha1-QsZk8TWIZOW+sUYbQ0auyHtjRQ8=
+  dependencies:
+    lodash-node "~2.4.1"
 
 xmlchars@^2.2.0:
   version "2.2.0"
