@@ -2,6 +2,7 @@ import { Strategy as LTIStrategy } from 'passport-idg-lti'
 import passport from 'passport'
 import initRoutes from './initRoutes'
 import { CALLBACK_URL } from '../isomorphic'
+import { getDbSchools } from './helpers'
 
 function validateConfigs ({ schools, collectionName }) {
   if (!collectionName && !schools) {
@@ -12,7 +13,7 @@ function validateConfigs ({ schools, collectionName }) {
 export default function (config = {}) {
   this.config = {}
 
-  const func = async ({ router, authConfig }) => {
+  const func = async ({ model, router, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig,
       callbackUrl: CALLBACK_URL
@@ -20,7 +21,15 @@ export default function (config = {}) {
 
     validateConfigs(this.config)
 
-    const { schools, callbackUrl } = this.config
+    const { collectionName } = this.config
+
+    if (collectionName) {
+      this.config.schools = async function() {
+        return await getDbSchools(model, collectionName)
+      }
+    }
+
+    const { schools, callbackUrl} = this.config
 
     initRoutes({ router, config: this.config })
 

@@ -6,6 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "main": "index.js",
   "keywords": [
     "lti",
     "auth"
@@ -16,6 +17,8 @@
     "@dmapper@passport-lms-lti": "^2.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0"
+    "startupjs": ">= 0.44.0",
+    "@startupjs/auth": ">= 0.33.0",
+    "@startupjs/ui": ">= 0.44.0"
   }
 }
