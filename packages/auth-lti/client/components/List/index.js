@@ -8,9 +8,9 @@ import {
   H4,
   ObjectInput,
   Modal,
-  SmartTable,
   Row,
 } from '@startupjs/ui'
+export { SmartTable } from '@dmapper/smart-table/client'
 import { DB_COLLECTION_NAME, TABLE_ID } from '../../../isomorphic/constants'
 
 import './index.styl'
@@ -76,7 +76,6 @@ export default observer(function PLTISchools ({
   const [, $visible] = useValue(false)
   const [school, $school] = useValue({})
   const [errors, $errors] = useValue({})
-
 
   async function save () {
     const _errors = {}
