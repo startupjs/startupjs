@@ -6,7 +6,10 @@
 ## Требования
 
 ```
+startupjs: >= 0.44.0,
 @startupjs/auth: >= 0.33.0
+@startupjs/ui: >= 0.44.0,
+@dmapper/smart-table: >= 0.18.4
 ```
 
 ## Инициализация на сервере
