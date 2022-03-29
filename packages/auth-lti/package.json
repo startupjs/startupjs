@@ -1,5 +1,5 @@
 {
-  "name": "@dmapper/auth-lti",
+  "name": "@starupjs/auth-lti",
   "version": "0.44.4",
   "type": "module",
   "description": "LTI auth plugin for StartupJS auth module",
