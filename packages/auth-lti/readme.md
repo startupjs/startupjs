@@ -6,10 +6,9 @@
 ## Требования
 
 ```
-startupjs: >= 0.44.0,
+startupjs: >= 0.44.0
 @startupjs/auth: >= 0.33.0
-@startupjs/ui: >= 0.44.0,
-@dmapper/smart-table: >= 0.18.4
+@startupjs/ui: >= 0.44.0
 ```
 
 ## Инициализация на сервере
@@ -93,7 +92,6 @@ import { List } from '@dmapper/auth-lti'
 
 ```
 collection: <string> - опционально, дефолтное значение: 'authLTISchools'
-tableId: <string> - опционально, дефолтное значение: 'authLTISchools'
 ```
 
 Если вы нуждаетесь в другом названии коллекции для хранения школ, то вы должны указать это соответсвующей опцией в стратегии и в компоненте:
