@@ -50,20 +50,24 @@ function getBaseQuery() {
 const properties = {
   name: {
     input: 'text',
-    label: 'Uniq name'
+    label: 'Uniq name (required)'
   },
   key: {
     input: 'text',
-    label: 'Key',
+    label: 'Key (required)',
   },
   secret: {
     input: 'text',
-    label: 'Secret',
+    label: 'Secret (required)',
   },
   redirect: {
     input: 'text',
     label: 'Redirect',
   }
+}
+
+function getRandomString() {
+  return $root.id().replaceAll('-', '')
 }
 
 export default observer(function PLTISchools ({
@@ -106,6 +110,14 @@ export default observer(function PLTISchools ({
     $school.set({})
   }
 
+  function openModal () {
+    $visible.set(true)
+    $school.setEach({
+      key: getRandomString(),
+      secret: getRandomString()
+    })
+  }
+
   const renderMenu = useCallback(row => {
     const { _id } = row
     const actions = {
@@ -124,7 +136,7 @@ export default observer(function PLTISchools ({
       Button(
         variant='flat'
         color='primary'
-        onPress=() => $visible.set(true)
+        onPress=openModal
       ) Add a school
     Br
     SmartTable(
