@@ -116,5 +116,9 @@ import { List } from '@dmapper/auth-lti'
 
 ```
 
+### Configuring third party LMSs
+
+- [Canvas](https://docs.google.com/document/d/1ZbxnYOnnsIybzr2RXwenYi5f2QeXc35wrnclWAsBE3Y/edit?usp=sharing)
+
 
 
