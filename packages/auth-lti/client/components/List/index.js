@@ -19,8 +19,8 @@ function List ({ collection, tableId }) {
   const [showModal, setShowModal] = useState(false)
   const [schools] = useQuery(collection, {})
 
-  async function deleteSchool(id) {
-    if (!confirm('Are you shoore you want to delete the school')) return
+  async function delSchool(id) {
+    if (!await confirm('Are you sure you want to delete the school')) return
     await $root.del(`${collection}.${id}`)
   }
 
@@ -43,7 +43,7 @@ function List ({ collection, tableId }) {
           Div.itemSecret
             Span(bold) Consumer secret:
             Span= school.secret
-          Button.itemDelete(onPress=() => deleteSchool(school.id)) Remove
+          Button.itemDelete(onPress=() => delSchool(school.id)) Remove
     if showModal
       SchoolModal(onClose=() => setShowModal(false) collection=collection)
   `
