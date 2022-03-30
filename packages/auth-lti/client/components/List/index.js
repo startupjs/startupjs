@@ -41,7 +41,7 @@ function getBaseQuery() {
   return {
     $aggregate: [{
       $match: {
-        _id: { $ne: null }
+        _type: { $ne: null }
       }
     }]
   }
