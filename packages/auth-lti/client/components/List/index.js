@@ -45,7 +45,7 @@ function List ({ collection, tableId }) {
             Span= school.secret
           Button.itemDelete(onPress=() => delSchool(school.id)) Remove
     if showModal
-      SchoolModal(onClose=() => setShowModal(false) collection=collection)
+      SchoolModal(collection=collection onClose=() => setShowModal(false))
   `
 }
 
