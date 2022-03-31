@@ -1,3 +1,17 @@
+## [0.44.5](https://github.com/startupjs/startupjs/compare/v0.44.4...v0.44.5) (2022-03-31)
+
+
+### Bug Fixes
+
+* **auth-lti:** fix package name in package.json ([704175b](https://github.com/startupjs/startupjs/commit/704175b048a4d065aeeb10868930d8f489deb4ba))
+
+
+### Features
+
+* **auth-lti:** add page to manage schools ([#930](https://github.com/startupjs/startupjs/issues/930)) ([1a8749f](https://github.com/startupjs/startupjs/commit/1a8749f9f7e89befb0410ccb17fec14c13efd31d))
+
+
+
 ## [0.44.4](https://github.com/startupjs/startupjs/compare/v0.44.3...v0.44.4) (2022-03-25)
 
 
