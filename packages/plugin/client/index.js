@@ -1,4 +1,6 @@
 export { default as registerPlugins } from './registerPlugins'
+export { default as registerPluginsNew } from './registerPluginsNew'
 export { default as Slot } from './Slot'
 export { default as usePluginHook } from './usePluginHook'
 export { PluginsProvider } from './PluginsProvider'
+export { PluginsProviderNew } from './PluginsProviderNew'

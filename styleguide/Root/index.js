@@ -7,7 +7,7 @@ import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { observer, model } from 'startupjs'
-import { registerPlugins } from 'startupjs/plugin'
+import { registerPlugins, registerPluginsNew } from 'startupjs/plugin'
 import { uiAppPlugin } from '@startupjs/ui'
 import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 import {
@@ -45,6 +45,12 @@ registerPlugins({
       uiAppPlugin,
       { defaultEnable: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }
     ]
+  ]
+})
+
+registerPluginsNew({
+  '@startupjs/app': [
+    uiAppPlugin
   ]
 })
 
