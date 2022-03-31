@@ -1,13 +1,13 @@
-import { LOGIN_URL, CALLBACK_URL } from '../isomorphic'
+import { LOGIN_URL } from '../isomorphic'
 import { login, loginCallback } from './api'
 
 export default function (options) {
   const { router, config } = options
 
-  router.post(LOGIN_URL, login(config))
+  router.post(LOGIN_URL, (req, res, next) => login(req, res, next, config))
 
   router.get(
-    CALLBACK_URL,
+    config.callbackUrl,
     (req, res, next) => loginCallback(req, res, next, config)
   )
 }
