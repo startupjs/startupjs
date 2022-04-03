@@ -73,9 +73,10 @@ const nativeReactCssModulesPlatformExtensionsPlugin = () =>
     extensions: ['styl', 'css']
   }]
 
-const nativeReactCssModulesPlugins = ({ platform } = {}) => [
+const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
   [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
-    extensions: ['styl', 'css']
+    extensions: ['styl', 'css'],
+    useImport
   }],
   [require('@startupjs/babel-plugin-rn-stylename-inline'), {
     platform
@@ -92,7 +93,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
     [require('@startupjs/babel-plugin-startupjs-debug')],
     dotenvPlugin(),
     nativeReactCssModulesPlatformExtensionsPlugin(),
-    ...nativeReactCssModulesPlugins(),
+    ...nativeReactCssModulesPlugins({ useImport: false }),
     i18nPlugin()
   ]
 }
@@ -104,7 +105,7 @@ const CONFIG_NATIVE_PRODUCTION = {
   plugins: [
     dotenvPlugin({ production: true }),
     nativeReactCssModulesPlatformExtensionsPlugin(),
-    ...nativeReactCssModulesPlugins(),
+    ...nativeReactCssModulesPlugins({ useImport: false }),
     i18nPlugin()
   ]
 }
