@@ -126,7 +126,7 @@ function RegisterForm ({
     } catch (error) {
       onError && onError(error)
       setErrors({ server: _get(error, 'response.data.message', error.message) })
-      recaptchaRef.current.close()
+      if (recaptchaEnabled) recaptchaRef.current.close()
     }
   }
 
