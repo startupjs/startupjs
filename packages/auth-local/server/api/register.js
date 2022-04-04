@@ -44,7 +44,7 @@ async function register (req, config, done) {
     profile.salt = salt
 
     const provider = new Provider(model, profile, config)
-    const authData = await provider.options.loadAuthData({ req })
+    const authData = await provider.loadAuthData({ req })
     if (authData) {
       return done('User already exists')
     }

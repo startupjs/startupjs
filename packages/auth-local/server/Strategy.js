@@ -3,7 +3,6 @@ import _get from 'lodash/get'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
-  loadAuthData,
   onBeforeCreatePasswordResetSecret,
   onCreatePasswordResetSecret,
   onBeforeRegister,
@@ -26,7 +25,6 @@ export default function (config = {}) {
 
   const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
-      loadAuthData,
       resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
       localSignUpEnabled: true,
       onBeforeCreatePasswordResetSecret,
@@ -61,7 +59,7 @@ export default function (config = {}) {
           email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
-          const authData = await provider.options.loadAuthData({ req })
+          const authData = await provider.loadAuthData({ req })
           if (!authData) return cb(null, false, { message: 'User not found' })
 
           const hash = _get(authData, 'providers.local.hash', '')
