@@ -34,6 +34,28 @@ export default class LocalProvider extends BaseProvider {
     return null
   }
 
+  getName () {
+    const firstName = this.getFirstName()
+    const lastName = this.getLastName()
+    const name = [firstName, lastName].filter(Boolean).join(' ')
+    return name
+  }
+
+  getAvatarUrl () {
+    return ''
+  }
+
+  getProviderData () {
+    const { hash, salt, unconfirmed } = this.profile
+    const data = {
+      hash,
+      salt,
+      email: this.getEmail()
+    }
+    if (unconfirmed) data.unconfirmed = true
+    return data
+  }
+
   async loadAuthData ({ req }) {
     let data
     if (this.options.loadAuthData) {
@@ -62,28 +84,6 @@ export default class LocalProvider extends BaseProvider {
     let data = $root.scope('auths.' + id)
     data = data.get()
     authQuery.unfetch()
-    return data
-  }
-
-  getName () {
-    const firstName = this.getFirstName()
-    const lastName = this.getLastName()
-    const name = [firstName, lastName].filter(Boolean).join(' ')
-    return name
-  }
-
-  getAvatarUrl () {
-    return ''
-  }
-
-  getProviderData () {
-    const { hash, salt, unconfirmed } = this.profile
-    const data = {
-      hash,
-      salt,
-      email: this.getEmail()
-    }
-    if (unconfirmed) data.unconfirmed = true
     return data
   }
 }
