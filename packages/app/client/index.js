@@ -2,7 +2,7 @@ import React, { useMemo, Suspense } from 'react'
 import { Platform } from 'react-native'
 import { generatePath } from 'react-router-native'
 import { useLocal, observer, useDoc, useModel, useSession, useApi, $root } from 'startupjs'
-import { PluginsProvider } from '@startupjs/plugin'
+import { PluginsProviderNew } from '@startupjs/plugin'
 import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
@@ -99,8 +99,8 @@ const App = observer(function AppComponent ({
         Blocked
     else
       Suspense(fallback=null)
-        PluginsProvider(
-          name=packageName
+        PluginsProviderNew(
+          moduleName=packageName
           plugins=plugins
         )
           Router(

@@ -7,7 +7,8 @@ import StyleContext from './StyleContext'
 
 export default {
   name: 'ui',
-  LayoutWrapper: observer(({ children, options = {} }) => {
+  LayoutWrapper: observer(({ children, useOptions }) => {
+    const options = useOptions()
     return pug`
       StyleContext.Provider(value=options.style)
         Portal.Provider
