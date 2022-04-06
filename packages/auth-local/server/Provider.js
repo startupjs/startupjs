@@ -56,7 +56,17 @@ export default class LocalProvider extends BaseProvider {
     return data
   }
 
-  async loadAuthData () {
+  async loadAuthData ({ req }) {
+    let data
+    if (this.options.loadAuthData) {
+      data = await this.options.loadAuthData({ req })
+    } else {
+      data = await this._loadAuthData()
+    }
+    return data
+  }
+
+  async _loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
       $or: [
