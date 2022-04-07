@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import pluginsSingleton from './pluginsSingleton'
 import PluginsContext from './context'
 
-export function PluginsProviderNew ({
+export function PluginsProvider ({
   moduleName,
   plugins = {},
   children

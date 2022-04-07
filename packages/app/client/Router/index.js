@@ -4,7 +4,7 @@ import RNRestart from 'react-native-restart'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
 import { $root, observer, useSyncEffect } from 'startupjs'
-import { SlotNew } from '@startupjs/plugin'
+import { Slot } from '@startupjs/plugin'
 import { BASE_URL } from '@env'
 import axios from 'axios'
 import RouterComponent from './RouterComponent'
@@ -108,7 +108,7 @@ const RenderApp = observer(function RenderAppComponent ({
   }
 
   return pug`
-    SlotNew(name='LayoutWrapper' type='nested')
+    Slot(name='LayoutWrapper' type='nested')
       Layout
         Routes(...props)
   `
