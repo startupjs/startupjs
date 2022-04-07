@@ -48,9 +48,9 @@
     "expo-status-bar": "~1.2.0",
     "js-cookie": "^2.2.1",
     "nconf": "^0.10.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-native": "0.63.4",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
     "react-native-collapsible": "^1.6.0",
     "react-native-color-picker": "^0.6.0",
     "react-native-fbsdk": "^3.0.0",
@@ -68,5 +68,9 @@
   "sideEffects": [
     "*.css",
     "*.styl"
-  ]
+  ],
+  "devDependencies": {
+    "@types/react": "~17.0.21",
+    "@types/react-native": "~0.64.12"
+  }
 }
