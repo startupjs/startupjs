@@ -6,9 +6,9 @@
 ## Требования
 
 ```
-startupjs: >= 0.44.0
-@startupjs/auth: >= 0.33.0
-@startupjs/ui: >= 0.44.0
+startupjs: *
+@startupjs/auth: *
+@startupjs/ui: *
 prop-types *
 ```
 
@@ -76,7 +76,7 @@ initAuth(ee, {
 ## Инициализация в верстке
 Отсутствует
 
-## Использование школ из базы данных 
+## Использование школ из базы данных
 
 ### Компонент для редактирования списка школ
 
@@ -110,7 +110,7 @@ initAuth(ee, {
 ```
 import { List } from '@dmapper/auth-lti'
 ...
-<List 
+<List
   collection="anotherName" <---
 />
 
@@ -119,6 +119,3 @@ import { List } from '@dmapper/auth-lti'
 ### Configuring third party LMSs
 
 - [Canvas](https://docs.google.com/document/d/1ZbxnYOnnsIybzr2RXwenYi5f2QeXc35wrnclWAsBE3Y/edit?usp=sharing)
-
-
-
