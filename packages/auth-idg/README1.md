@@ -6,8 +6,8 @@
 ## Требования
 
 ```
-@startupjs/auth: >= 0.33.0
-react-native-webview: 10.10.2
+@startupjs/auth: *
+react-native-webview: 11.15.0
 ```
 
 ## Инициализация на сервере
