@@ -16,7 +16,7 @@
     "passport-local": "^1.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0",
+    "@startupjs/auth": "*",
     "text-encoding-polyfill": ">= 0.6.7"
   }
 }

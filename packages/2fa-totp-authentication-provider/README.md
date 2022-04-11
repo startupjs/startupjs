@@ -5,8 +5,8 @@ Provider for verification via google authenticator app.
 ## Dependencies
 
 ```js
-@startupjs/2fa-manager >= 0.34.0,
-@startupjs/2fa-totp-authentication >= 0.34.0
+@startupjs/2fa-manager: *
+@startupjs/2fa-totp-authentication: *
 ```
 
 ## Installation

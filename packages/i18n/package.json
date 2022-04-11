@@ -15,11 +15,11 @@
     "resolve": "^1.20.0"
   },
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.34.0",
+    "@startupjs/ui": "*",
     "axios": "*",
     "express": "4.x",
-    "react": "16.9 - 17",
-    "react-native": ">= 0.61.4 < 0.64.0",
-    "startupjs": ">= 0.34.0"
+    "react": "*",
+    "react-native": "*",
+    "startupjs": "*"
   }
 }

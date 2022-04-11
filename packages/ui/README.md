@@ -10,16 +10,16 @@ yarn add @startupjs/ui
 ### Requirements
 
 ```
-@react-native-picker/picker: >=1.16.1
-react: 16.9 - 17
-react-native: >= 0.61.4 < 0.64.0
+@react-native-picker/picker: 2.2.1
+react: *
+react-native: *
 react-native-color-picker: ^0.6.0
 react-native-collapsible: >= 1.6.0
-react-native-gesture-handler: >= 1.10.3
-react-native-pager-view: >= 5.1.2
+react-native-gesture-handler: >= ~2.1.0
+react-native-pager-view: >= 5.4.9
 react-native-svg: >= 12.1.0
 react-native-tab-view: >= 3.0.0
-startupjs: >= 0.33.0
+startupjs: *
 ```
 
 ## Configuration

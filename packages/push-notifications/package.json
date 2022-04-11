@@ -14,8 +14,8 @@
   },
   "peerDependencies": {
     "@react-native-community/push-notification-ios": ">= 1.8.0",
-    "@startupjs/ui": ">= 0.33.0 < 0.45.0",
+    "@startupjs/ui": "*",
     "react-native-push-notification": ">= 7.2.3",
-    "startupjs": ">= 0.33.0 < 0.45.0"
+    "startupjs": "*"
   }
 }

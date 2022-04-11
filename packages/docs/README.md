@@ -16,9 +16,9 @@ yarn add @startupjs/docs
 ## Requirements
 
 ```
-react: 16.9 - 17
-react-native: >= 0.61.4 < 0.64.0
-startupjs: >= 0.33.0
+react: *
+react-native: *
+startupjs: *
 ```
 
 ## Usage

@@ -5,8 +5,8 @@ Provider for verification via `@startupjs/push-notification`.
 ## Dependencies
 
 ```js
-@startupjs/2fa-manager >= 0.35.10,
-@startupjs/push-notification >= 0.35.10
+@startupjs/2fa-manager: *
+@startupjs/push-notification: *
 ```
 
 ## Installation

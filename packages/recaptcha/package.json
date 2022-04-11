@@ -8,12 +8,12 @@
     "access": "public"
   },
   "dependencies": {
-    "react-native-webview": "10.10.2"
+    "react-native-webview": "11.15.0"
   },
   "peerDependencies": {
     "prop-types": "*",
-    "react": ">=16.9.0",
-    "react-native": ">=0.60.0"
+    "react": "*",
+    "react-native": "*"
   },
   "license": "MIT",
   "readmeFilename": "README.md"

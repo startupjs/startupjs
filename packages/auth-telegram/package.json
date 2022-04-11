@@ -13,6 +13,6 @@
     "passport-telegram-official": "^1.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0"
+    "@startupjs/auth": "*"
   }
 }

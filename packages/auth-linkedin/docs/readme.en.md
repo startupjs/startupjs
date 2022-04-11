@@ -6,7 +6,7 @@
 ## Requirements
 ```
 @startupjs/auth: >= 0.33.0
-react-native-webview: 10.10.2
+react-native-webview: 11.15.0
 ```
 
 ## Setting up app

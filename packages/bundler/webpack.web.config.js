@@ -49,6 +49,8 @@ module.exports = function getConfig (env, {
   process.env.BABEL_ENV = PROD ? 'web_production' : 'web_development'
   process.env.MODE = mode
 
+  console.log('webpack web!')
+
   if (typeof forceCompileModules === 'string') {
     forceCompileModules = JSON.parse(forceCompileModules)
   }

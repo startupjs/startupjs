@@ -22,7 +22,7 @@ For instructions on standalone usage in a pure React project refer to [`react-sh
 ## Requirements
 
 ```
-react: 16.9 - 17
+react: *
 ```
 
 ## Usage with Classes

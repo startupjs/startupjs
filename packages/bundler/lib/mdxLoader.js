@@ -1,6 +1,7 @@
 const mdx = require('@mdx-js/mdx')
 
 const DEFAULT_MDX_RENDERER = `
+/** @jsxRuntime automatic */
 import React from 'react'
 import { mdx } from '@mdx-js/react'
 `

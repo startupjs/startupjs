@@ -33,7 +33,7 @@ const LOCAL_DIR = process.env.LOCAL_DIR || '.'
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'react-native-svg@^12.1.0',
+  'react-native-svg@12.1.1',
   'nconf@^0.10.0',
   'axios' // For making AJAX requests
 ]
@@ -57,7 +57,10 @@ const DEV_DEPENDENCIES = [
 ]
 
 const REMOVE_DEPENDENCIES = [
-  '@babel/core'
+  '@babel/core',
+  // don't make sense in latest react-native versions
+  // react-native status bar works well
+  'expo-status-bar'
 ]
 
 const REMOVE_FILES = [
@@ -319,11 +322,11 @@ const TEMPLATES = {
 
       // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
-      '@react-native-picker/picker@^1.16.1',
+      '@react-native-picker/picker@2.2.1',
       'react-native-collapsible@^1.6.0',
       'react-native-color-picker@^0.6.0',
-      'react-native-gesture-handler@^1.10.3',
-      'react-native-pager-view@^5.1.2',
+      'react-native-gesture-handler@~2.1.0',
+      'react-native-pager-view@5.4.9',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
     ]

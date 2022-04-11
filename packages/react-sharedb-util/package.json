@@ -19,6 +19,6 @@
     "racer": "1.0.1"
   },
   "peerDependencies": {
-    "react": "16.9 - 17"
+    "react": "*"
   }
 }

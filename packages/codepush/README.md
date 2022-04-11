@@ -10,7 +10,7 @@ yarn add @startupjs/codepush
 ## Requirements
 
 ```
-react: 16.9 - 17
+react: *
 react-native-code-push: >= 5.7.0 < 6
 ```
 

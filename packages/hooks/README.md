@@ -10,7 +10,7 @@ yarn add @startupjs/hooks
 ## Requirements
 
 ```
-react: 16.9 - 17
+react: *
 ```
 
 ## Usage

@@ -87,7 +87,7 @@ const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
 
 const CONFIG_NATIVE_DEVELOPMENT = {
   presets: [
-    ['babel-preset-expo']
+    ['babel-preset-expo', { jsxRuntime: 'classic' }]
   ],
   plugins: [
     [require('@startupjs/babel-plugin-startupjs-debug')],
@@ -100,7 +100,7 @@ const CONFIG_NATIVE_DEVELOPMENT = {
 
 const CONFIG_NATIVE_PRODUCTION = {
   presets: [
-    ['babel-preset-expo']
+    ['babel-preset-expo', { jsxRuntime: 'classic' }]
   ],
   plugins: [
     dotenvPlugin({ production: true }),

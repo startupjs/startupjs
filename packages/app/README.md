@@ -10,10 +10,10 @@ yarn add @startupjs/app
 ## Requirements
 
 ```
-react: 16.9 - 17
-react-native: >= 0.61.4 < 0.64.0
+react: *
+react-native: *
 react-native-restart: >= 0.0.22
-startupjs: >= 0.33.0
+startupjs: *
 ```
 
 ### Critical Version

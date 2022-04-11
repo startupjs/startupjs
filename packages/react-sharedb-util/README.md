@@ -5,7 +5,7 @@
 ## Requirements
 
 ```
-react: 16.9 - 17
+react: *
 ```
 
 ## Licence

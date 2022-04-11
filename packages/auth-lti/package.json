@@ -17,9 +17,9 @@
     "@dmapper/passport-lms-lti": "^3.1.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0",
-    "@startupjs/ui": ">= 0.44.0",
+    "@startupjs/auth": "*",
+    "@startupjs/ui": "*",
     "prop-types": "*",
-    "startupjs": ">= 0.44.0"
+    "startupjs": "*"
   }
 }

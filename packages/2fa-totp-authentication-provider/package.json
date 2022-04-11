@@ -10,8 +10,8 @@
   "scripts": {},
   "license": "MIT",
   "peerDependencies": {
-    "@startupjs/2fa-manager": ">= 0.34.0",
-    "@startupjs/2fa-totp-authentication": ">= 0.34.0",
-    "startupjs": ">= 0.34.0"
+    "@startupjs/2fa-manager": "*",
+    "@startupjs/2fa-totp-authentication": "*",
+    "startupjs": "*"
   }
 }
