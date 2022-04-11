@@ -49,6 +49,10 @@
     "lerna": "^3.22.1",
     "lint-staged": "^9.5.0"
   },
+  "resolutions": {
+    "react-dom": "17.0.1",
+    "react-native-web": "0.17.1"
+  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --fix",

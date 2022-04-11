@@ -1,12 +1,16 @@
+<!-- NOTE -->
+<!-- We can delete this file when we get rid of routing on the server. -->
+<!-- Also when we get rid of routing and by some reason want this file to save, -->
+<!-- can move it to web/index.html that expo uses. -->
 <!DOCTYPE html>
 <html lang='en'>
 <head>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   <meta charset='UTF-8'>
-  <title>StartupJS UI</title>
+  <title>Startupjs App</title>
   <style>
     /* Polyfill root dom elements to work nicely with react-native-web */
-    html, body, #app {
+    html, body, #root {
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -15,7 +19,8 @@
   </style>
 </head>
 <body>
-  <div id='app'></div>
+  <!-- Expo makes a search by two harcoded ids - 'root', 'main' -->
+  <div id='root'></div>
   <script type='module' src='./index.js'></script>
 </body>
 </html>

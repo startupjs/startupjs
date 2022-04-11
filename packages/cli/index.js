@@ -327,6 +327,9 @@ const TEMPLATES = {
       'react-native-color-picker@^0.6.0',
       'react-native-gesture-handler@~2.1.0',
       'react-native-pager-view@5.4.9',
+      // required for yarn web
+      // on native expo install this module itself
+      'react-native-reanimated@~2.3.1',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
     ]
