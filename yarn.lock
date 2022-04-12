@@ -1190,6 +1190,14 @@
   dependencies:
     passport-oauth2 "^1.5.0"
 
+"@dmapper/passport-lms-lti@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@dmapper/passport-lms-lti/-/passport-lms-lti-3.1.0.tgz#01dbded614f797f38491390b132c23d2a9d17c7d"
+  integrity sha512-YNGh67kBc2jeryr69hkBHsRMKeyjdz8ciF/zzGOKY6W/g7EkmBjsp9cSDGwdtgAaE0n/HpzRaCp2g/EQACoaeQ==
+  dependencies:
+    ims-lti "^3.0.2"
+    passport-strategy "1.0.x"
+
 "@dr.pogodin/postcss-modules-parser@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@dr.pogodin/postcss-modules-parser/-/postcss-modules-parser-1.2.4.tgz#738b765644c6c5c5198b5898b84c152e0d902482"
@@ -15884,14 +15892,6 @@ passport-google-oauth20@^2.0.0:
   integrity sha512-KSk6IJ15RoxuGq7D1UKK/8qKhNfzbLeLrG3gkLZ7p4A6DBCcv7xpyQwuXtWdpyR0+E0mwkpjY1VfPOhxQrKzdQ==
   dependencies:
     passport-oauth2 "1.x.x"
-
-passport-idg-lti@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/passport-idg-lti/-/passport-idg-lti-3.0.0.tgz#136629e8dcc31d159bdc73b69a99bd3179e92e3b"
-  integrity sha512-ydCSdncGabUSLH+Cxt7yJl/NU/puqC/RTYNN2nzDOBw9siK1Fci3VaF3hg5CmfwMg6ysIQnyZ9/NPUyMDbbgjw==
-  dependencies:
-    ims-lti "^3.0.2"
-    passport-strategy "1.0.x"
 
 passport-linkedin-oauth2@^2.0.0:
   version "2.0.0"
