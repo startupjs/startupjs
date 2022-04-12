@@ -37,10 +37,7 @@ export default class BaseProvider {
   async findOrCreateUser ({ req }) {
     const { $root } = this
 
-    let findUserQuery = await this.getFindUserQuery()
-    if (this.options.patchFindUserQuery) {
-      findUserQuery = this.options.patchFindUserQuery({ req }, findUserQuery)
-    }
+    const findUserQuery = await this.getFindUserQuery()
     const $auths = $root.query('auths', findUserQuery)
     await $auths.fetch()
 
@@ -89,8 +86,7 @@ export default class BaseProvider {
       id: userId,
       email: this.getEmail(),
       createdAt: Date.now(),
-      ...this.getAuthData(),
-      ...(this.options.getCreationAuthData ? this.options.getCreationAuthData({ req }) : {})
+      ...this.getAuthData()
     }
 
     await $root.addAsync('auths', authData)

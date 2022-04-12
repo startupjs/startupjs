@@ -59,7 +59,7 @@ export default function (config = {}) {
           email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
-          const authData = await provider.loadAuthData({ req })
+          const authData = await provider.loadAuthData()
           if (!authData) return cb(null, false, { message: 'User not found' })
 
           const hash = _get(authData, 'providers.local.hash', '')
