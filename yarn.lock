@@ -1190,10 +1190,10 @@
   dependencies:
     passport-oauth2 "^1.5.0"
 
-"@dmapper/passport-lms-lti@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@dmapper/passport-lms-lti/-/passport-lms-lti-3.1.0.tgz#01dbded614f797f38491390b132c23d2a9d17c7d"
-  integrity sha512-YNGh67kBc2jeryr69hkBHsRMKeyjdz8ciF/zzGOKY6W/g7EkmBjsp9cSDGwdtgAaE0n/HpzRaCp2g/EQACoaeQ==
+"@dmapper/passport-lms-lti@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@dmapper/passport-lms-lti/-/passport-lms-lti-3.1.1.tgz#fe5f8d4f532d6c97aacf1b6b0ca959b81cf389e8"
+  integrity sha512-Utr77CKBYTWTulW47eOseQPTv6/J9BP1MIkg+CQVVoqxpDFFWiOuOP1KFMvHsyxSRb6ZjScNG/Xcz+pi5xnGEg==
   dependencies:
     ims-lti "^3.0.2"
     passport-strategy "1.0.x"
