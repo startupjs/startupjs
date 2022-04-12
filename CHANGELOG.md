@@ -1,3 +1,23 @@
+## [0.44.6](https://github.com/startupjs/startupjs/compare/v0.44.5...v0.44.6) (2022-04-12)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** close recaptcha only when it's enabled ([d560344](https://github.com/startupjs/startupjs/commit/d560344d7ddf049bd91dc057b445a7fa8615edfb))
+* **recaptcha:** reset recaptcha with some delay because of bug in google script ([bd7b412](https://github.com/startupjs/startupjs/commit/bd7b412e946637e20dde6b53e71f1888a4e2894a))
+
+
+### Features
+
+* **auth:** add ability to override provider methods ([#929](https://github.com/startupjs/startupjs/issues/929)) ([efc6a36](https://github.com/startupjs/startupjs/commit/efc6a364374dee4c0da944e566f543e3bab63b3e))
+
+
+### Reverts
+
+* Revert "feat(auth): add ability to override provider methods (#929)" (#934) ([18a84b2](https://github.com/startupjs/startupjs/commit/18a84b27999869c641a7fff38089f2f0e71eaefc)), closes [#929](https://github.com/startupjs/startupjs/issues/929) [#934](https://github.com/startupjs/startupjs/issues/934)
+
+
+
 ## [0.44.5](https://github.com/startupjs/startupjs/compare/v0.44.4...v0.44.5) (2022-03-31)
 
 
