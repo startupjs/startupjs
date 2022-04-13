@@ -68,10 +68,9 @@ const RadioInput = function ({
           style={ transform: [{ scale: animation }] }
           styleName={ error }
         )
-      if children || description
+      if children
         Div.container
-          if children
-            Span.label= children
+          Span.label= children
           if description
             Span.description(description)= description
   `
