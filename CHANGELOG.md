@@ -1,3 +1,12 @@
+## [0.44.7](https://github.com/startupjs/startupjs/compare/v0.44.6...v0.44.7) (2022-04-13)
+
+
+### Features
+
+* **ui/Radio:** do not render info block if there is no label ([#936](https://github.com/startupjs/startupjs/issues/936)) ([001a932](https://github.com/startupjs/startupjs/commit/001a932df739ae18a7f6af420dee2f27f61305d8))
+
+
+
 ## [0.44.6](https://github.com/startupjs/startupjs/compare/v0.44.5...v0.44.6) (2022-04-12)
 
 
