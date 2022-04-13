@@ -70,7 +70,8 @@ const RadioInput = function ({
         )
       if children || description
         Div.container
-          Span.label= children
+          if children
+            Span.label= children
           if description
             Span.description(description)= description
   `
