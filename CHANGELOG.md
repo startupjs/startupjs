@@ -1,3 +1,18 @@
+## [0.44.8](https://github.com/startupjs/startupjs/compare/v0.44.7...v0.44.8) (2022-04-14)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** fix validation ([1325cf3](https://github.com/startupjs/startupjs/commit/1325cf381c6b5a63c1f1398212f0d0916bfda474))
+* change mongo url from localhost to 127.0.0.1 (node 17+) ([3eef903](https://github.com/startupjs/startupjs/commit/3eef9036c6161de6bfc7937a4557cf10b174a080))
+
+
+### Features
+
+* **auth:** add more hooks ([#937](https://github.com/startupjs/startupjs/issues/937)) ([ce8ae58](https://github.com/startupjs/startupjs/commit/ce8ae58f6e37aaf8f10b74b5b0664b98ef4823b2))
+
+
+
 ## [0.44.7](https://github.com/startupjs/startupjs/compare/v0.44.6...v0.44.7) (2022-04-13)
 
 
