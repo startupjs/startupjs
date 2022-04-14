@@ -1,11 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { $root, observer, useValue } from 'startupjs'
 import {
   Button,
   ObjectInput,
-  Modal,
+  Modal
 } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 
 import './index.styl'
 
@@ -16,19 +16,19 @@ const properties = {
   },
   key: {
     input: 'text',
-    label: 'Key (required)',
+    label: 'Key (required)'
   },
   secret: {
     input: 'text',
-    label: 'Secret (required)',
+    label: 'Secret (required)'
   },
   redirect: {
     input: 'text',
-    label: 'Redirect',
+    label: 'Redirect'
   }
 }
 
-function getRandomString() {
+function getRandomString () {
   return $root.id().replaceAll('-', '')
 }
 
