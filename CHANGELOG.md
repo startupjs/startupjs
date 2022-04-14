@@ -1,3 +1,61 @@
+## [0.44.7](https://github.com/startupjs/startupjs/compare/v0.44.6...v0.44.7) (2022-04-13)
+
+
+### Features
+
+* **ui/Radio:** do not render info block if there is no label ([#936](https://github.com/startupjs/startupjs/issues/936)) ([001a932](https://github.com/startupjs/startupjs/commit/001a932df739ae18a7f6af420dee2f27f61305d8))
+
+
+
+## [0.44.6](https://github.com/startupjs/startupjs/compare/v0.44.5...v0.44.6) (2022-04-12)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** close recaptcha only when it's enabled ([d560344](https://github.com/startupjs/startupjs/commit/d560344d7ddf049bd91dc057b445a7fa8615edfb))
+* **recaptcha:** reset recaptcha with some delay because of bug in google script ([bd7b412](https://github.com/startupjs/startupjs/commit/bd7b412e946637e20dde6b53e71f1888a4e2894a))
+
+
+### Features
+
+* **auth:** add ability to override provider methods ([#929](https://github.com/startupjs/startupjs/issues/929)) ([efc6a36](https://github.com/startupjs/startupjs/commit/efc6a364374dee4c0da944e566f543e3bab63b3e))
+
+
+### Reverts
+
+* Revert "feat(auth): add ability to override provider methods (#929)" (#934) ([18a84b2](https://github.com/startupjs/startupjs/commit/18a84b27999869c641a7fff38089f2f0e71eaefc)), closes [#929](https://github.com/startupjs/startupjs/issues/929) [#934](https://github.com/startupjs/startupjs/issues/934)
+
+
+
+## [0.44.5](https://github.com/startupjs/startupjs/compare/v0.44.4...v0.44.5) (2022-03-31)
+
+
+### Bug Fixes
+
+* **auth-lti:** fix package name in package.json ([704175b](https://github.com/startupjs/startupjs/commit/704175b048a4d065aeeb10868930d8f489deb4ba))
+
+
+### Features
+
+* **auth-lti:** add page to manage schools ([#930](https://github.com/startupjs/startupjs/issues/930)) ([1a8749f](https://github.com/startupjs/startupjs/commit/1a8749f9f7e89befb0410ccb17fec14c13efd31d))
+
+
+
+## [0.44.4](https://github.com/startupjs/startupjs/compare/v0.44.3...v0.44.4) (2022-03-25)
+
+
+### Bug Fixes
+
+* **auth-lti:** add ability to pass redirect url ([#928](https://github.com/startupjs/startupjs/issues/928)) ([2c0dd60](https://github.com/startupjs/startupjs/commit/2c0dd60ef4f7db9917bc7a47412ec956fa84e5b6))
+* **cli:** delete the deprecated '--inspect' log because the package cannot use `NODE_OPTIONS` ([bfde808](https://github.com/startupjs/startupjs/commit/bfde80819222fbc2a9d1b955657b92bb27b50c2b))
+
+
+### Features
+
+* **auth-lti:** add ability to link account ([#927](https://github.com/startupjs/startupjs/issues/927)) ([f204fa8](https://github.com/startupjs/startupjs/commit/f204fa8ebe127410f756515a142bb1542bc36b40))
+
+
+
 ## [0.44.3](https://github.com/startupjs/startupjs/compare/v0.44.2...v0.44.3) (2022-03-22)
 
 

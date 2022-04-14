@@ -35,7 +35,11 @@ function RecaptchaComponent ({
       variant === 'invisible' && grecaptcha.execute(widget)
     },
     close: () => {
-      variant === 'invisible' && grecaptcha.reset(widget)
+      // https://github.com/sarneeh/reaptcha/issues/218#issuecomment-1072293872
+      variant === 'invisible' &&
+        setTimeout(() => {
+          grecaptcha.reset(widget)
+        }, 300)
     }
   }))
 

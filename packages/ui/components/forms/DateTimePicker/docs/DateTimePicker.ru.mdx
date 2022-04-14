@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import DateTimePicker from '../'
+import { useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
@@ -31,11 +32,13 @@ return pug`
 
 ```jsx example
 const [, $visible] = useValue()
+const [date, onChangeDate] = useState()
 
 return pug`
   DateTimePicker(
     date=date
     $visible=$visible
+    onChangeDate=onChangeDate
   )
 `
 ```
@@ -44,6 +47,7 @@ return pug`
 
 ```jsx example
 const [visible, $visible] = useValue()
+const [date, onChangeDate] = useState()
 
 return pug`
   DateTimePicker(
@@ -51,6 +55,7 @@ return pug`
     visible=visible
     onRequestOpen=() => $visible.set(true)
     onRequestClose=() => $visible.del()
+    onChangeDate=onChangeDate
   )
 `
 ```
