@@ -29,7 +29,10 @@ export default function (config = {}) {
 
     if (dbSchools && collectionName) {
       this.config.schools = async function () {
-        return await getDbSchools(model, collectionName)
+        const model = backend.createModel()
+        const schools = await getDbSchools(model, collectionName)
+        model.close()
+        return schools
       }
     }
 
