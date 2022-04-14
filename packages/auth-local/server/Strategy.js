@@ -23,7 +23,7 @@ import { DEFAULT_PASS_RESET_TIME_LIMIT } from '../isomorphic'
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
       localSignUpEnabled: true,
@@ -57,9 +57,10 @@ export default function (config = {}) {
         },
         async (req, email = '', password, cb) => {
           email = email.trim().toLowerCase()
+          const model = req.model
           const provider = new Provider(model, { email }, this.config)
 
-          const authData = await provider.loadAuthData({ req })
+          const authData = await provider.loadAuthData()
           if (!authData) return cb(null, false, { message: 'User not found' })
 
           const hash = _get(authData, 'providers.local.hash', '')

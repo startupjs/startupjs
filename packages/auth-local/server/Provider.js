@@ -56,10 +56,10 @@ export default class LocalProvider extends BaseProvider {
     return data
   }
 
-  async loadAuthData ({ req }) {
+  async loadAuthData () {
     let data
     if (this.options.loadAuthData) {
-      data = await this.options.loadAuthData({ req })
+      data = await this.options.loadAuthData.call(this)
     } else {
       data = await this._loadAuthData()
     }

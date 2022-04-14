@@ -72,12 +72,9 @@ export default function (ee, _config) {
   }
 
   ee.on('backend', backend => {
-    const model = backend.createModel()
-
     // Init each strategy
     for (const initFn of strategies) {
       initFn({
-        model,
         router,
         updateClientSession,
         authConfig: rest

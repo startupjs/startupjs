@@ -24,7 +24,7 @@ function validateConfigs ({ clientId, teamId, keyId, privateKeyLocation }) {
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig
       // Any defaults....
@@ -49,12 +49,14 @@ export default function (config = {}) {
         key: fs.readFileSync(privateKeyLocation),
         scope: ['name', 'email'],
         // TODO: make multitentant
-        callbackURL: (testBaseUrl || nconf.get('BASE_URL')) + CALLBACK_URL
+        callbackURL: (testBaseUrl || nconf.get('BASE_URL')) + CALLBACK_URL,
+        passReqToCallback: true
       },
-      async (accessToken, refreshToken, profile, cb) => {
+      async (req, accessToken, refreshToken, profile, cb) => {
         let provider, err
 
         try {
+          const model = req.model
           provider = new Provider(model, profile, this.config)
         } catch (e) {
           err = e

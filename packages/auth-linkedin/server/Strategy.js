@@ -18,7 +18,7 @@ function validateConfigs ({ clientId, clientSecret }) {
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig
       // Any defaults....
@@ -59,6 +59,7 @@ export default function (config = {}) {
               picture: photos.pop()
             }
 
+            const model = req.model
             const provider = new Provider(model, _profile, this.config)
             userId = await provider.findOrCreateUser({ req })
           } catch (e) {
