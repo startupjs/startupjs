@@ -29,7 +29,7 @@ function validateConfigs ({
 }
 
 export default function (config = {}) {
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(config, {
       ...authConfig
       // Any defaults....
@@ -66,6 +66,7 @@ export default function (config = {}) {
       let userId, err
 
       try {
+        const model = req.model
         const provider = new Provider(model, profile, config)
         userId = await provider.findOrCreateUser({ req })
       } catch (e) {

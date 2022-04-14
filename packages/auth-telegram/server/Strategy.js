@@ -6,7 +6,7 @@ import Provider from './Provider'
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig
       // Any defaults....
@@ -24,11 +24,13 @@ export default function (config = {}) {
 
     passport.use(
       new Strategy({
-        botToken
+        botToken,
+        passReqToCallback: true
       },
-      async (profile, cb) => {
+      async (req, profile, cb) => {
         let provider, err
         try {
+          const model = req.model
           provider = new Provider(model, profile, this.config)
         } catch (e) {
           err = e
