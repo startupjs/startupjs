@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { $root, observer, useQuery } from 'startupjs'
 import {
   Button,
@@ -9,6 +8,7 @@ import {
   Row,
   Span
 } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 import { confirm } from 'clientHelpers'
 import { DB_COLLECTION_NAME } from '../../../isomorphic/constants'
 import SchoolModal from './SchoolModal'
@@ -19,7 +19,7 @@ function List ({ collection, tableId }) {
   const [showModal, setShowModal] = useState(false)
   const [schools] = useQuery(collection, {})
 
-  async function delSchool(id) {
+  async function delSchool (id) {
     if (!await confirm('Are you sure you want to delete the school')) return
     await $root.del(`${collection}.${id}`)
   }

@@ -73,9 +73,9 @@ export default function (ee, _config) {
 
   ee.on('backend', backend => {
     // Init each strategy
-    console.log(strategies, 'strategies');
     for (const initFn of strategies) {
       initFn({
+        backend,
         router,
         updateClientSession,
         authConfig: rest
