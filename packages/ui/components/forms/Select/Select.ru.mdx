@@ -76,6 +76,20 @@ return (
 )
 ```
 
+Вы можете задать своё имя для пустого значения используя параметр `emptyLabel`
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    value={color}
+    onChange={setColor}
+    options={['red', 'yellow', 'blue']}
+    emptyLabel='Default'
+  />
+)
+```
+
 ## Sandbox
 
 <Sandbox

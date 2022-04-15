@@ -6,8 +6,7 @@ import { observer } from 'startupjs'
 import {
   stringifyValue,
   getLabel,
-  parseValue,
-  NULL_OPTION
+  parseValue
 } from './helpers'
 import Div from '../../../Div'
 import themed from '../../../../theming/themed'
@@ -35,9 +34,6 @@ function SelectWrapper ({
           value=stringifyValue(value)
           onChange=onSelectChange
         )
-          if showEmptyValue
-            option(key=-1 value=stringifyValue(NULL_OPTION))
-              = getLabel(NULL_OPTION)
           each item, index in options
             option(key=index value=stringifyValue(item))
               = getLabel(item)
