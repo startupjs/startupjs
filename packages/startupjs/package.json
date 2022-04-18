@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.44.8",
+  "version": "0.44.9",
   "engines": {
     "node": ">= 14"
   },
@@ -16,11 +16,11 @@
     "@startupjs/cli": "^0.44.4",
     "@startupjs/hooks": "^0.44.0",
     "@startupjs/i18n": "^0.44.0",
-    "@startupjs/init": "^0.44.0",
+    "@startupjs/init": "^0.44.9",
     "@startupjs/isomorphic-helpers": "^0.44.0",
     "@startupjs/orm": "^0.44.0",
     "@startupjs/patches": "^0.44.0",
-    "@startupjs/react-sharedb": "^0.44.0",
+    "@startupjs/react-sharedb": "^0.44.9",
     "@startupjs/server": "^0.44.0",
     "babel-preset-startupjs": "^0.44.6",
     "react-native-web": "^0.14.3"

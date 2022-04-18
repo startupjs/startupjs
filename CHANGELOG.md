@@ -1,3 +1,12 @@
+## [0.44.9](https://github.com/startupjs/startupjs/compare/v0.44.8...v0.44.9) (2022-04-18)
+
+
+### Bug Fixes
+
+* return back localhost instead of 127.0.0.1 ([0501f6d](https://github.com/startupjs/startupjs/commit/0501f6dd0341eafdab0ca8991210846faa9bee75))
+
+
+
 ## [0.44.8](https://github.com/startupjs/startupjs/compare/v0.44.7...v0.44.8) (2022-04-14)
 
 
