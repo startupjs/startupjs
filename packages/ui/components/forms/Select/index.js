@@ -2,7 +2,6 @@ import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
-import isPlainObject from 'lodash/isPlainObject'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { getLabelFromValue, PICKER_NULL, NULL_OPTION } from './Wrapper/helpers'
 import TextInput from '../TextInput'
@@ -19,12 +18,7 @@ function Select ({
 }, ref) {
   const _options = (
     showEmptyValue ? [{ label: emptyLabel || PICKER_NULL, value: NULL_OPTION }] : []
-  ).concat(
-    options.map(option => {
-      if (isPlainObject(option)) return option
-      return { label: option, value: option }
-    })
-  )
+  ).concat(options)
 
   function renderWrapper ({ style }, children) {
     return pug`

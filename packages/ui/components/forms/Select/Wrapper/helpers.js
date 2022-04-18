@@ -1,5 +1,3 @@
-import isPlainObject from 'lodash/isPlainObject'
-
 // TODO: create logic for objects with circular structure like jsx components
 
 // Stringify values to omit bugs in Android/iOS Picker implementation
@@ -12,11 +10,12 @@ export const NULL_OPTION = undefined
 export function stringifyValue (option) {
   try {
     let value
-    if (isPlainObject(option)) {
+    if (option && option.value != null) {
       value = option.value
     } else {
       value = option
     }
+    if (value == null) return PICKER_NULL
     return JSON.stringify(value)
   } catch (error) {
     console.warn('[@startupjs/ui] Select: ' + error)
@@ -36,7 +35,14 @@ export function parseValue (value) {
 }
 
 export function getLabel (option) {
-  return '' + option?.label || option
+  let label
+  if (option && option.label != null) {
+    label = option.label
+  } else {
+    label = option
+  }
+  if (label == null) return PICKER_NULL
+  return '' + label
 }
 
 export function getLabelFromValue (value, options) {
@@ -45,5 +51,5 @@ export function getLabelFromValue (value, options) {
       return getLabel(option)
     }
   }
-  return getLabel(PICKER_NULL)
+  return getLabel(NULL_OPTION)
 }
