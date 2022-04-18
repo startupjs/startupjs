@@ -5,8 +5,7 @@ import { observer } from 'startupjs'
 import {
   stringifyValue,
   getLabel,
-  parseValue,
-  NULL_OPTION
+  parseValue
 } from './helpers'
 import Div from '../../../Div'
 import themed from '../../../../theming/themed'
@@ -33,12 +32,6 @@ function SelectWrapper ({
           selectedValue=stringifyValue(value)
           onValueChange=onValueChange
         )
-          if showEmptyValue
-            Picker.Item(
-              key=-1
-              value=stringifyValue(NULL_OPTION)
-              label=getLabel(NULL_OPTION)
-            )
           each item, index in options
             Picker.Item(
               key=index
