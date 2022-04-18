@@ -3,7 +3,7 @@ import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-import { getLabelFromValue, PICKER_NULL, NULL_OPTION } from './Wrapper/helpers'
+import { getLabelFromValue } from './Wrapper/helpers'
 import TextInput from '../TextInput'
 import Wrapper from './Wrapper'
 
@@ -12,19 +12,14 @@ function Select ({
   value,
   disabled,
   showEmptyValue,
-  emptyLabel,
   onChange,
   ...props
 }, ref) {
-  const _options = (
-    showEmptyValue ? [{ label: emptyLabel || PICKER_NULL, value: NULL_OPTION }] : []
-  ).concat(options)
-
   function renderWrapper ({ style }, children) {
     return pug`
       Wrapper(
         style=style
-        options=_options
+        options=options
         disabled=disabled
         value=value
         onChange=onChange
@@ -36,7 +31,7 @@ function Select ({
   return pug`
     TextInput(
       ref=ref
-      value=getLabelFromValue(value, _options)
+      value=getLabelFromValue(value, options)
       disabled=disabled
       icon=faAngleDown
       iconPosition='right'
@@ -87,7 +82,6 @@ Select.propTypes = {
     ])
   ),
   showEmptyValue: PropTypes.bool,
-  emptyLabel: PropTypes.string,
   onChange: PropTypes.func
 }
 
