@@ -76,6 +76,22 @@ return (
 )
 ```
 
+## Изменить метку пустого значения
+
+Вы можете изменить метку пустого значения, используя свойство `emptyValueLabel`.
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    value={color}
+    onChange={setColor}
+    options={['red', 'yellow', 'blue']}
+    emptyValueLabel='none'
+  />
+)
+```
+
 ## Sandbox
 
 <Sandbox

@@ -21,6 +21,7 @@ function SelectWrapper ({
   value,
   disabled,
   showEmptyValue,
+  emptyValueLabel,
   onChange
 }) {
   const [showModal, setShowModal] = useState(false)
@@ -58,7 +59,7 @@ function SelectWrapper ({
                 Picker.Item(
                   key=-1
                   value=stringifyValue(NULL_OPTION)
-                  label=getLabel(NULL_OPTION)
+                  label=emptyValueLabel || getLabel(NULL_OPTION)
                 )
               each item, index in options
                 Picker.Item(

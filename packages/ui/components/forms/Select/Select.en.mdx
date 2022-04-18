@@ -76,6 +76,22 @@ return (
 )
 ```
 
+## Change empty value label
+
+You can change label of an empty value by using `emptyValueLabel` property.
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    value={color}
+    onChange={setColor}
+    options={['red', 'yellow', 'blue']}
+    emptyValueLabel='none'
+  />
+)
+```
+
 ## Sandbox
 
 <Sandbox

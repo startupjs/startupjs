@@ -45,11 +45,11 @@ export function getLabel (option) {
   return '' + label
 }
 
-export function getLabelFromValue (value, options) {
+export function getLabelFromValue (value, options, emptyValueLabel = NULL_OPTION) {
   for (const option of options) {
     if (stringifyValue(value) === stringifyValue(option)) {
       return getLabel(option)
     }
   }
-  return getLabel(NULL_OPTION)
+  return getLabel(emptyValueLabel)
 }

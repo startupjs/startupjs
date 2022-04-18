@@ -12,6 +12,7 @@ function Select ({
   value,
   disabled,
   showEmptyValue,
+  emptyValueLabel,
   onChange,
   ...props
 }, ref) {
@@ -24,6 +25,7 @@ function Select ({
         value=value
         onChange=onChange
         showEmptyValue=showEmptyValue
+        emptyValueLabel=emptyValueLabel
       )= children
     `
   }
@@ -31,7 +33,7 @@ function Select ({
   return pug`
     TextInput(
       ref=ref
-      value=getLabelFromValue(value, options)
+      value=getLabelFromValue(value, options, emptyValueLabel)
       disabled=disabled
       icon=faAngleDown
       iconPosition='right'

@@ -20,6 +20,7 @@ function SelectWrapper ({
   value,
   disabled,
   showEmptyValue,
+  emptyValueLabel,
   onChange
 }) {
   function onSelectChange (event) {
@@ -37,7 +38,7 @@ function SelectWrapper ({
         )
           if showEmptyValue
             option(key=-1 value=stringifyValue(NULL_OPTION))
-              = getLabel(NULL_OPTION)
+              = emptyValueLabel || getLabel(NULL_OPTION)
           each item, index in options
             option(key=index value=stringifyValue(item))
               = getLabel(item)
