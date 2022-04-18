@@ -1,3 +1,7 @@
+## [0.44.10](https://github.com/startupjs/startupjs/compare/v0.44.9...v0.44.10) (2022-04-18)
+
+
+
 ## [0.44.9](https://github.com/startupjs/startupjs/compare/v0.44.8...v0.44.9) (2022-04-18)
 
 
