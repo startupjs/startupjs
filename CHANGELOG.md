@@ -1,3 +1,18 @@
+## [0.44.11](https://github.com/startupjs/startupjs/compare/v0.44.10...v0.44.11) (2022-04-19)
+
+
+### Features
+
+* **select:** add ability to change empty item label ([#938](https://github.com/startupjs/startupjs/issues/938)) ([f89ea01](https://github.com/startupjs/startupjs/commit/f89ea019f3129a03cce56e33a7a9f2a08b3c5db4))
+* **ui/Select:** add ability to change empty value label ([#940](https://github.com/startupjs/startupjs/issues/940)) ([91ed975](https://github.com/startupjs/startupjs/commit/91ed975e9e4b12a0e220f1cb4a51257a9a7ff0f0))
+
+
+### Reverts
+
+* Revert "feat(select): add ability to change empty item label (#938)" (#939) ([b0bb7a0](https://github.com/startupjs/startupjs/commit/b0bb7a0a9d7be3aa9c411ffd9db9f9f4a9c8470d)), closes [#938](https://github.com/startupjs/startupjs/issues/938) [#939](https://github.com/startupjs/startupjs/issues/939)
+
+
+
 ## [0.44.10](https://github.com/startupjs/startupjs/compare/v0.44.9...v0.44.10) (2022-04-18)
 
 
