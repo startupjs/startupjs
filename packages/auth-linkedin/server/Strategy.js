@@ -41,7 +41,7 @@ export default function (config = {}) {
           clientID: clientId,
           clientSecret,
           // TODO: make multitentant
-          callbackURL: nconf.get('BASE_URL') + CALLBACK_LINKEDIN_URL,
+          callbackURL: CALLBACK_LINKEDIN_URL,
           profileFields: ['first-name', 'last-name', 'email-address', 'profile-picture'],
           scope: ['r_emailaddress', 'r_liteprofile'],
           state: true,
