@@ -1,3 +1,13 @@
+## [0.44.12](https://github.com/startupjs/startupjs/compare/v0.44.11...v0.44.12) (2022-04-21)
+
+
+### Bug Fixes
+
+* **auth:** add better validatation for email field when user reset a password ([5e449b7](https://github.com/startupjs/startupjs/commit/5e449b7cbcbd60b5bd5ce887116412cbbb9edfb4))
+* **ui/NumberInput:** fix responsiveness of input wrapper ([660b714](https://github.com/startupjs/startupjs/commit/660b7149fd9373e51e844205acfad4cc77727514))
+
+
+
 ## [0.44.11](https://github.com/startupjs/startupjs/compare/v0.44.10...v0.44.11) (2022-04-19)
 
 
