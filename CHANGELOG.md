@@ -1,3 +1,12 @@
+## [0.44.13](https://github.com/startupjs/startupjs/compare/v0.44.12...v0.44.13) (2022-04-21)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** fix input responsiveness ([1f55bfe](https://github.com/startupjs/startupjs/commit/1f55bfec0ade49b4f9364b3a3b8f36318d199c84))
+
+
+
 ## [0.44.12](https://github.com/startupjs/startupjs/compare/v0.44.11...v0.44.12) (2022-04-21)
 
 
