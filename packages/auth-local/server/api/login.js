@@ -1,22 +1,23 @@
 import { finishAuth } from '@startupjs/auth/server'
 import passport from 'passport'
 
-export default async function login (req, res, next, config) {
-  const { onBeforeLoginHook, onAfterLoginHook } = config
+export default function login (config) {
+  return async function (req, res, next) {
+    const { onBeforeLoginHook, onAfterLoginHook } = config
 
-  passport.authenticate('local', async function (err, userId, info) {
-    if (err) {
-      console.log('[@startup/auth-local] Error:', err)
-      return next(err)
-    }
+    passport.authenticate('local', async function (err, userId, info) {
+      if (err) {
+        return res.status(400).json({ message: err })
+      }
 
-    const _onAfterLoginHook = async function (userId) {
-      onAfterLoginHook && await onAfterLoginHook({ userId }, req)
-      await clearLoginAttempts(userId, req.model)
-    }
+      const _onAfterLoginHook = async function (userId) {
+        onAfterLoginHook && await onAfterLoginHook({ userId }, req)
+        await clearLoginAttempts(userId, req.model)
+      }
 
-    finishAuth(req, res, { userId, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })
-  })(req, res, next)
+      finishAuth(req, res, { userId, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })
+    })(req, res, next)
+  }
 }
 
 async function clearLoginAttempts (userId, model) {

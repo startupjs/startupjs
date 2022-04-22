@@ -3,42 +3,58 @@ import _get from 'lodash/get'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
+  confirmEmail,
+  onAfterEmailChange,
+  onAfterPasswordChange,
+  onAfterPasswordReset,
+  onAfterRegister,
+  onBeforeConfirmRegistration,
+  onBeforeCreateEmailChangeSecret,
   onBeforeCreatePasswordResetSecret,
+  onBeforeEmailChange,
+  onCreateEmailChangeSecret,
+  onBeforePasswordChange,
+  onBeforePasswordReset,
   onCreatePasswordResetSecret,
   onBeforeRegister,
-  onAfterRegister,
-  onBeforePasswordReset,
-  onAfterPasswordReset,
-  onBeforePasswordChange,
-  onAfterPasswordChange,
-  onCreateEmailChangeSecret,
-  onBeforeCreateEmailChangeSecret,
-  onBeforeEmailChange,
-  onAfterEmailChange
+  sendRegistrationConfirmation,
+  sendRegistrationConfirmationComplete,
+  sendRegistrationInfo
 } from './helpers'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
-import { DEFAULT_PASS_RESET_TIME_LIMIT } from '../isomorphic'
+import {
+  DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
+  DEFAULT_PASS_RESET_TIME_LIMIT
+} from '../isomorphic'
 
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
-      resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      confirmEmailTimeLimit: DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
+      confirmRegistration: false,
       localSignUpEnabled: true,
-      onBeforeCreatePasswordResetSecret,
-      onCreatePasswordResetSecret,
-      onBeforeRegister,
-      onAfterRegister,
-      onAfterPasswordReset,
-      onBeforePasswordReset,
-      onBeforePasswordChange,
-      onAfterPasswordChange,
-      onBeforeCreateEmailChangeSecret,
-      onCreateEmailChangeSecret,
-      onBeforeEmailChange,
+      registrationConfirmedUrl: '/registrationconfirmed',
+      resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      confirmEmail,
       onAfterEmailChange,
+      onAfterPasswordChange,
+      onAfterPasswordReset,
+      onAfterRegister,
+      onBeforeConfirmRegistration,
+      onBeforeCreateEmailChangeSecret,
+      onBeforeCreatePasswordResetSecret,
+      onBeforeEmailChange,
+      onBeforePasswordChange,
+      onBeforePasswordReset,
+      onBeforeRegister,
+      onCreateEmailChangeSecret,
+      onCreatePasswordResetSecret,
+      sendRegistrationConfirmation,
+      sendRegistrationConfirmationComplete,
+      sendRegistrationInfo,
       ...authConfig
     }, config)
 
@@ -47,7 +63,10 @@ export default function (config = {}) {
     initRoutes({ router, config: this.config })
 
     // Append required configs to client session
-    updateClientSession({ local: { localSignUpEnabled: this.config.localSignUpEnabled } })
+    updateClientSession({ local: {
+      localSignUpEnabled: this.config.localSignUpEnabled,
+      confirmRegistration: this.config.confirmRegistration
+    } })
 
     passport.use(
       new Strategy(
@@ -57,11 +76,14 @@ export default function (config = {}) {
         },
         async (req, email = '', password, cb) => {
           email = email.trim().toLowerCase()
-          const model = req.model
           const provider = new Provider(model, { email }, this.config)
 
           const authData = await provider.loadAuthData()
-          if (!authData) return cb(null, false, { message: 'User not found' })
+          if (!authData) return cb('User not found')
+
+          if (this.config.confirmRegistration && authData.providers.local.unconfirmed) {
+            return cb('User email not confirmed. Check your email and confirm registration')
+          }
 
           const hash = _get(authData, 'providers.local.hash', '')
           const userId = await provider.findOrCreateUser({ req })
@@ -71,7 +93,7 @@ export default function (config = {}) {
           bcrypt.compare(password, hash, function (err, res) {
             if (err) return cb(err)
             if (res === false) {
-              return cb(null, false, { message: 'Invalid email or password' })
+              return cb('Invalid email or password')
             }
             return cb(null, userId)
           })

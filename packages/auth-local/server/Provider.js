@@ -46,13 +46,14 @@ export default class LocalProvider extends BaseProvider {
   }
 
   getProviderData () {
-    const { hash, salt, unconfirmed } = this.profile
+    const { hash, salt, unconfirmed, confirmEmail } = this.profile
     const data = {
       hash,
       salt,
       email: this.getEmail()
     }
     if (unconfirmed) data.unconfirmed = true
+    if (confirmEmail) data.confirmEmail = confirmEmail
     return data
   }
 
