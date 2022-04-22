@@ -1,3 +1,12 @@
+## [0.44.14](https://github.com/startupjs/startupjs/compare/v0.44.13...v0.44.14) (2022-04-22)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** Fix search for the react component function. This fixes using css part attribute within loops and nested arrow functions ([d860627](https://github.com/startupjs/startupjs/commit/d860627a494145d9d6f212debc8441b2f6b0ee0d))
+
+
+
 ## [0.44.13](https://github.com/startupjs/startupjs/compare/v0.44.12...v0.44.13) (2022-04-21)
 
 
