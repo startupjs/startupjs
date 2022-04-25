@@ -1,3 +1,12 @@
+## [0.44.15](https://github.com/startupjs/startupjs/compare/v0.44.14...v0.44.15) (2022-04-25)
+
+
+### Bug Fixes
+
+* **cli:** fix axios version. New one requires a webpack polyfill for 'url', we'll deal with it later. ([17d8c7d](https://github.com/startupjs/startupjs/commit/17d8c7d34d11476416c30aea12935e9f3529926e))
+
+
+
 ## [0.44.14](https://github.com/startupjs/startupjs/compare/v0.44.13...v0.44.14) (2022-04-22)
 
 
