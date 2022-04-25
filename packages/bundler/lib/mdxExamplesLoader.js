@@ -50,7 +50,6 @@ function pureReplacer (match, p1, p2, p3) {
   for (const part of parts) {
     if (EXAMPLE_FLAGS.includes(part)) {
       sectionParts.push(part)
-      continue
     }
   }
 
