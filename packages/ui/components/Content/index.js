@@ -1,7 +1,7 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import Div from './../Div'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
@@ -15,14 +15,13 @@ function Content ({
   style,
   children,
   padding,
-  full,
   width,
   ...props
 }) {
   return pug`
-    View.root(
+    Div.root(
       style=style
-      styleName=['width-' + width, { padding, full }]
+      styleName=['width-' + width, { padding }]
       ...props
     )= children
   `
