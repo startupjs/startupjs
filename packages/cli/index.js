@@ -38,7 +38,7 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react',
   'react-dom',
-  'axios' // For making AJAX requests
+  'axios@^0.26.0' // For making AJAX requests
 ]
 
 const DEV_DEPENDENCIES = [
