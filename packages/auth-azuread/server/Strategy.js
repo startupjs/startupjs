@@ -20,7 +20,7 @@ function validateConfigs ({ clientId, identityMetadata, tentantId }) {
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       allowHttpForRedirectUrl: false,
       ...authConfig
@@ -34,7 +34,7 @@ export default function (config = {}) {
 
     // TODO: make multitentant
     const redirectUrl = `${nconf.get('BASE_URL')}${CALLBACK_AZUREAD_URL}`
-    const cookieEncryptionKeys = [{ key: model.id().substring(0, 32), iv: model.id().substring(0, 12) }]
+    const cookieEncryptionKeys = [{ key: generateRandomString(32), iv: generateRandomString(12) }]
 
     initRoutes({ router, config: this.config })
 
@@ -59,6 +59,7 @@ export default function (config = {}) {
         async (req, iss, sub, profile, accessToken, refreshToken, done) => {
           let userId, err
           try {
+            const model = req.model
             const provider = new Provider(model, profile, this.config)
             userId = await provider.findOrCreateUser({ req })
           } catch (e) {
@@ -72,4 +73,19 @@ export default function (config = {}) {
 
   func.providerName = 'azuread'
   return func
+}
+
+function generateRandomString (length = 0) {
+  let result = ''
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let charactersLength = characters.length
+
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(
+      Math.floor(
+        Math.random() * charactersLength
+      )
+    )
+  }
+  return result
 }

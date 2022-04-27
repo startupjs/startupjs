@@ -15,7 +15,7 @@ function validateConfigs ({ clientId, clientSecret }) {
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig
       // Any defaults....

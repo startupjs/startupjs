@@ -13,7 +13,7 @@ function validateConfigs ({ schools, collectionName, dbSchools }) {
 export default function (config = {}) {
   this.config = {}
 
-  const func = async ({ model, router, authConfig }) => {
+  const func = async ({ backend, router, authConfig }) => {
     Object.assign(this.config, {
       ...authConfig,
       callbackUrl: CALLBACK_URL,
@@ -21,15 +21,22 @@ export default function (config = {}) {
       dbSchools: false
     }, config)
 
+    const model = backend.createModel()
+
     validateConfigs(this.config)
 
     const { dbSchools, collectionName } = this.config
 
     if (dbSchools && collectionName) {
       this.config.schools = async function () {
-        return await getDbSchools(model, collectionName)
+        const model = backend.createModel()
+        const schools = await getDbSchools(model, collectionName)
+        model.close()
+        return schools
       }
     }
+
+    model.close()
 
     const { schools, callbackUrl } = this.config
 

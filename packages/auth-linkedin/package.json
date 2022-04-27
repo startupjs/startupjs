@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-linkedin",
-  "version": "0.44.0",
+  "version": "0.44.8",
   "type": "module",
   "description": "LinkedIn auth plugin for StartupJS auth module",
   "main": "index.js",

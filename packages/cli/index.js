@@ -35,7 +35,7 @@ const DEPENDENCIES = [
   `startupjs@${STARTUPJS_VERSION}`,
   'react-native-svg@12.1.1',
   'nconf@^0.10.0',
-  'axios' // For making AJAX requests
+  'axios@^0.26.0' // For making AJAX requests
 ]
 
 const DEV_DEPENDENCIES = [
@@ -649,10 +649,10 @@ function updateConfigJson (projectPath, options) {
 
 function generateRandomString (length = 0) {
   let result = ''
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  var charactersLength = characters.length
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let charactersLength = characters.length
 
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(
       Math.floor(
         Math.random() * charactersLength

@@ -140,7 +140,9 @@ function Dropdown ({
   })
 
   if (!caption) {
-    caption = <DropdownCaption _activeLabel={activeLabel} />
+    caption = pug`
+      DropdownCaption(_activeLabel=activeLabel)
+    `
   } else {
     caption = React.cloneElement(caption, { _activeLabel: activeLabel })
   }

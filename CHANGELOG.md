@@ -1,3 +1,112 @@
+## [0.44.15](https://github.com/startupjs/startupjs/compare/v0.44.14...v0.44.15) (2022-04-25)
+
+
+### Bug Fixes
+
+* **cli:** fix axios version. New one requires a webpack polyfill for 'url', we'll deal with it later. ([17d8c7d](https://github.com/startupjs/startupjs/commit/17d8c7d34d11476416c30aea12935e9f3529926e))
+
+
+
+## [0.44.14](https://github.com/startupjs/startupjs/compare/v0.44.13...v0.44.14) (2022-04-22)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** Fix search for the react component function. This fixes using css part attribute within loops and nested arrow functions ([d860627](https://github.com/startupjs/startupjs/commit/d860627a494145d9d6f212debc8441b2f6b0ee0d))
+
+
+
+## [0.44.13](https://github.com/startupjs/startupjs/compare/v0.44.12...v0.44.13) (2022-04-21)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** fix input responsiveness ([1f55bfe](https://github.com/startupjs/startupjs/commit/1f55bfec0ade49b4f9364b3a3b8f36318d199c84))
+
+
+
+## [0.44.12](https://github.com/startupjs/startupjs/compare/v0.44.11...v0.44.12) (2022-04-21)
+
+
+### Bug Fixes
+
+* **auth:** add better validatation for email field when user reset a password ([5e449b7](https://github.com/startupjs/startupjs/commit/5e449b7cbcbd60b5bd5ce887116412cbbb9edfb4))
+* **ui/NumberInput:** fix responsiveness of input wrapper ([660b714](https://github.com/startupjs/startupjs/commit/660b7149fd9373e51e844205acfad4cc77727514))
+
+
+
+## [0.44.11](https://github.com/startupjs/startupjs/compare/v0.44.10...v0.44.11) (2022-04-19)
+
+
+### Features
+
+* **select:** add ability to change empty item label ([#938](https://github.com/startupjs/startupjs/issues/938)) ([f89ea01](https://github.com/startupjs/startupjs/commit/f89ea019f3129a03cce56e33a7a9f2a08b3c5db4))
+* **ui/Select:** add ability to change empty value label ([#940](https://github.com/startupjs/startupjs/issues/940)) ([91ed975](https://github.com/startupjs/startupjs/commit/91ed975e9e4b12a0e220f1cb4a51257a9a7ff0f0))
+
+
+### Reverts
+
+* Revert "feat(select): add ability to change empty item label (#938)" (#939) ([b0bb7a0](https://github.com/startupjs/startupjs/commit/b0bb7a0a9d7be3aa9c411ffd9db9f9f4a9c8470d)), closes [#938](https://github.com/startupjs/startupjs/issues/938) [#939](https://github.com/startupjs/startupjs/issues/939)
+
+
+
+## [0.44.10](https://github.com/startupjs/startupjs/compare/v0.44.9...v0.44.10) (2022-04-18)
+
+
+
+## [0.44.9](https://github.com/startupjs/startupjs/compare/v0.44.8...v0.44.9) (2022-04-18)
+
+
+### Bug Fixes
+
+* return back localhost instead of 127.0.0.1 ([0501f6d](https://github.com/startupjs/startupjs/commit/0501f6dd0341eafdab0ca8991210846faa9bee75))
+
+
+
+## [0.44.8](https://github.com/startupjs/startupjs/compare/v0.44.7...v0.44.8) (2022-04-14)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** fix validation ([1325cf3](https://github.com/startupjs/startupjs/commit/1325cf381c6b5a63c1f1398212f0d0916bfda474))
+* change mongo url from localhost to 127.0.0.1 (node 17+) ([3eef903](https://github.com/startupjs/startupjs/commit/3eef9036c6161de6bfc7937a4557cf10b174a080))
+
+
+### Features
+
+* **auth:** add more hooks ([#937](https://github.com/startupjs/startupjs/issues/937)) ([ce8ae58](https://github.com/startupjs/startupjs/commit/ce8ae58f6e37aaf8f10b74b5b0664b98ef4823b2))
+
+
+
+## [0.44.7](https://github.com/startupjs/startupjs/compare/v0.44.6...v0.44.7) (2022-04-13)
+
+
+### Features
+
+* **ui/Radio:** do not render info block if there is no label ([#936](https://github.com/startupjs/startupjs/issues/936)) ([001a932](https://github.com/startupjs/startupjs/commit/001a932df739ae18a7f6af420dee2f27f61305d8))
+
+
+
+## [0.44.6](https://github.com/startupjs/startupjs/compare/v0.44.5...v0.44.6) (2022-04-12)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** close recaptcha only when it's enabled ([d560344](https://github.com/startupjs/startupjs/commit/d560344d7ddf049bd91dc057b445a7fa8615edfb))
+* **recaptcha:** reset recaptcha with some delay because of bug in google script ([bd7b412](https://github.com/startupjs/startupjs/commit/bd7b412e946637e20dde6b53e71f1888a4e2894a))
+
+
+### Features
+
+* **auth:** add ability to override provider methods ([#929](https://github.com/startupjs/startupjs/issues/929)) ([efc6a36](https://github.com/startupjs/startupjs/commit/efc6a364374dee4c0da944e566f543e3bab63b3e))
+
+
+### Reverts
+
+* Revert "feat(auth): add ability to override provider methods (#929)" (#934) ([18a84b2](https://github.com/startupjs/startupjs/commit/18a84b27999869c641a7fff38089f2f0e71eaefc)), closes [#929](https://github.com/startupjs/startupjs/issues/929) [#934](https://github.com/startupjs/startupjs/issues/934)
+
+
+
 ## [0.44.5](https://github.com/startupjs/startupjs/compare/v0.44.4...v0.44.5) (2022-03-31)
 
 
