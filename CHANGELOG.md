@@ -1,3 +1,40 @@
+## [0.44.15](https://github.com/startupjs/startupjs/compare/v0.44.14...v0.44.15) (2022-04-25)
+
+
+### Bug Fixes
+
+* **cli:** fix axios version. New one requires a webpack polyfill for 'url', we'll deal with it later. ([17d8c7d](https://github.com/startupjs/startupjs/commit/17d8c7d34d11476416c30aea12935e9f3529926e))
+
+
+
+## [0.44.14](https://github.com/startupjs/startupjs/compare/v0.44.13...v0.44.14) (2022-04-22)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** Fix search for the react component function. This fixes using css part attribute within loops and nested arrow functions ([d860627](https://github.com/startupjs/startupjs/commit/d860627a494145d9d6f212debc8441b2f6b0ee0d))
+
+
+
+## [0.44.13](https://github.com/startupjs/startupjs/compare/v0.44.12...v0.44.13) (2022-04-21)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** fix input responsiveness ([1f55bfe](https://github.com/startupjs/startupjs/commit/1f55bfec0ade49b4f9364b3a3b8f36318d199c84))
+
+
+
+## [0.44.12](https://github.com/startupjs/startupjs/compare/v0.44.11...v0.44.12) (2022-04-21)
+
+
+### Bug Fixes
+
+* **auth:** add better validatation for email field when user reset a password ([5e449b7](https://github.com/startupjs/startupjs/commit/5e449b7cbcbd60b5bd5ce887116412cbbb9edfb4))
+* **ui/NumberInput:** fix responsiveness of input wrapper ([660b714](https://github.com/startupjs/startupjs/commit/660b7149fd9373e51e844205acfad4cc77727514))
+
+
+
 ## [0.44.11](https://github.com/startupjs/startupjs/compare/v0.44.10...v0.44.11) (2022-04-19)
 
 

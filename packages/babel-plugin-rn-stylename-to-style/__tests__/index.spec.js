@@ -374,3 +374,99 @@ pluginTester({
     `
   }
 })
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    extensions: ['styl', 'css']
+  },
+  babelOptions: {
+    plugins: [
+      '@babel/plugin-syntax-jsx'
+    ]
+  },
+  tests: {
+    'Find proper react component. Simplest': /* js */`
+      import './index.styl'
+      export default function Test () {
+        return <Div part='root' />
+      }
+    `,
+    'Find proper react component. With const and anonymous': /* js */`
+      import './index.styl'
+      export const Test = function () {
+        return <Div part='root' />
+      }
+    `,
+    'Find proper react component. With const and arrow': /* js */`
+      import './index.styl'
+      export const Test = () => {
+        return <Div part='root' />
+      }
+    `,
+    'Find proper react component. With arrow and wrapped into named function': /* js */`
+      import './index.styl'
+      export const Test = () => {
+        function renderItem () {
+          return <Div part='item' />
+        }
+        return <Div part='root'>{renderItem()}</Div>
+      }
+    `,
+    'Find proper react component. With arrow and wrapped into arrow function': /* js */`
+      import './index.styl'
+      export const Test = () => {
+        const renderItem = () => {
+          return <Div part='item' />
+        }
+        return <Div part='root'>{renderItem()}</Div>
+      }
+    `,
+    'Find proper react component. First capital letter function must be returned': /* js */`
+      import './index.styl'
+      export default function ComponentFactory (title) {
+        return function Component () {
+          function renderItem () {
+            return <Span part='item'>{title}</Span>
+          }
+          const renderFooter = () => <Div part='footer' />
+          return <Div part='root'>{renderItem()}{renderFooter()}</Div>
+        }
+      }
+    `
+  }
+})
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    extensions: ['styl', 'css']
+  },
+  babelOptions: {
+    plugins: [
+      ['babel-plugin-transform-react-pug', {
+        classAttribute: 'styleName'
+      }],
+      '@babel/plugin-syntax-jsx'
+    ]
+  },
+  tests: {
+    '::part() in pug loop': /* js */`
+      import './index.styl'
+      function Test ({ items, ...props }) {
+        return pug\`
+          Card(
+            part='root'
+            style={ color: 'blue' }
+          )
+            each item in items
+              Content(part='item')= item
+        \`
+      }
+    `
+  }
+})

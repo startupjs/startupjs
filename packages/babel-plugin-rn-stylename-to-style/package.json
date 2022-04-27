@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-to-style",
-  "version": "0.44.0",
+  "version": "0.44.14",
   "publishConfig": {
     "access": "public"
   },
@@ -34,6 +34,7 @@
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@startupjs/css-to-react-native-transform": "^1.9.0-1",
     "babel-plugin-tester": "^9.1.0",
+    "babel-plugin-transform-react-pug": "^7.0.1",
     "jest": "^26.0.1",
     "mocha": "^8.1.1"
   }
