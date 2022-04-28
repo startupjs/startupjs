@@ -1,3 +1,4 @@
+import { CONFIRMED_EMAIL_URL } from '@startupjs/auth/isomorphic'
 import { Strategy } from 'passport-local'
 import _get from 'lodash/get'
 import passport from 'passport'
@@ -15,8 +16,9 @@ import {
   onCreateEmailChangeSecret,
   onBeforePasswordChange,
   onBeforePasswordReset,
-  onCreatePasswordResetSecret,
   onBeforeRegister,
+  onBeforeResendConfirmation,
+  onCreatePasswordResetSecret,
   sendRegistrationConfirmation,
   sendRegistrationConfirmationComplete,
   sendRegistrationInfo
@@ -25,7 +27,10 @@ import initRoutes from './initRoutes'
 import Provider from './Provider'
 import {
   DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
-  DEFAULT_PASS_RESET_TIME_LIMIT
+  DEFAULT_PASS_RESET_TIME_LIMIT,
+  ERROR_USER_INVALID_CREDENTIALS,
+  ERROR_USER_NOT_CONFIRMED,
+  ERROR_USER_NOT_FOUND
 } from '../isomorphic'
 
 export default function (config = {}) {
@@ -36,7 +41,7 @@ export default function (config = {}) {
       confirmEmailTimeLimit: DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
       confirmRegistration: false,
       localSignUpEnabled: true,
-      registrationConfirmedUrl: '/registrationconfirmed',
+      registrationConfirmedUrl: CONFIRMED_EMAIL_URL,
       resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
       confirmEmail,
       onAfterEmailChange,
@@ -50,6 +55,7 @@ export default function (config = {}) {
       onBeforePasswordChange,
       onBeforePasswordReset,
       onBeforeRegister,
+      onBeforeResendConfirmation,
       onCreateEmailChangeSecret,
       onCreatePasswordResetSecret,
       sendRegistrationConfirmation,
@@ -75,25 +81,28 @@ export default function (config = {}) {
           passReqToCallback: true
         },
         async (req, email = '', password, cb) => {
+          const model = req.model
           email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
           const authData = await provider.loadAuthData()
-          if (!authData) return cb('User not found')
-
-          if (this.config.confirmRegistration && authData.providers.local.unconfirmed) {
-            return cb('User email not confirmed. Check your email and confirm registration')
-          }
+          if (!authData) return cb(ERROR_USER_NOT_FOUND)
 
           const hash = _get(authData, 'providers.local.hash', '')
           const userId = await provider.findOrCreateUser({ req })
 
           await normalizeProvider(userId, model)
 
-          bcrypt.compare(password, hash, function (err, res) {
+          bcrypt.compare(password, hash, (err, res) => {
             if (err) return cb(err)
             if (res === false) {
-              return cb('Invalid email or password')
+              return cb(ERROR_USER_INVALID_CREDENTIALS)
+            }
+            if (
+              this.config.confirmRegistration
+              && authData.providers.local.unconfirmed
+            ) {
+              return cb(ERROR_USER_NOT_CONFIRMED)
             }
             return cb(null, userId)
           })

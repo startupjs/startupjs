@@ -1,5 +1,6 @@
 import { checkRecaptcha } from '@startupjs/recaptcha/server'
 import bcrypt from 'bcrypt'
+import setConfirmRegistrationData from './setConfirmRegistrationData'
 import Provider from '../Provider'
 
 export default function (config) {
@@ -9,12 +10,16 @@ export default function (config) {
     onBeforeRegister(req, res, async function (err, userData) {
       if (err) return res.status(403).json({ message: err })
 
-      if (config.confirmRegistration) userData.unconfirmed = true
-
-      register(req, userData, config, function (err, userId) {
+      register(req, userData, config, async function (err, userId) {
         if (err) return res.status(403).json({ message: err })
 
         if (config.confirmRegistration) {
+          try {
+            await setConfirmRegistrationData(req.model, userId, config.confirmEmailTimeLimit)
+          } catch (e) {
+            return res.status(403).json({ message: e.message })
+          }
+
           config.sendRegistrationConfirmation(req, userId, async function (err) {
             if (err) return next(err)
 
@@ -22,15 +27,11 @@ export default function (config) {
             return res.json(userId)
           })
         } else {
-          config.sendRegistrationInfo(req, userId, function (err) {
+          config.sendRegistrationInfo(req, userId, async function (err) {
             if (err) return next(err)
 
-            config.confirmEmail(userId, async function (err) {
-              if (err) return next(err)
-
-              await onAfterRegister({ userId }, req)
-              return res.json(userId)
-            })
+            await onAfterRegister({ userId }, req)
+            return res.json(userId)
           })
         }
 
@@ -62,13 +63,6 @@ async function register (req, userData, config, next) {
     const hash = await bcrypt.hash(password, salt)
     profile.hash = hash
     profile.salt = salt
-
-    if (config.confirmRegistration) {
-      profile.unconfirmed = true
-      profile.confirmEmail = {
-        expiresAt: Date.now() + config.confirmEmailTimeLimit
-      }
-    }
 
     const provider = new Provider(model, profile, config)
     const authData = await provider.loadAuthData()

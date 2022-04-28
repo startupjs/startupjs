@@ -1,14 +1,13 @@
 import { finishAuth } from '@startupjs/auth/server'
 import passport from 'passport'
+import { sendError } from '../helpers'
 
 export default function login (config) {
   return async function (req, res, next) {
     const { onBeforeLoginHook, onAfterLoginHook } = config
 
     passport.authenticate('local', async function (err, userId, info) {
-      if (err) {
-        return res.status(400).json({ message: err })
-      }
+      if (err) return sendError(res, err)
 
       const _onAfterLoginHook = async function (userId) {
         onAfterLoginHook && await onAfterLoginHook({ userId }, req)

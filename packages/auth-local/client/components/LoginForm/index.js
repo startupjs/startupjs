@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useSession, useError } from 'startupjs'
 import {
@@ -25,6 +25,7 @@ import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
 import commonSchema from './utils/joi'
+import { ERROR_USER_NOT_CONFIRMED } from '../../../isomorphic'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -66,6 +67,7 @@ function LoginForm ({
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
+  const [successAlert, setSuccessAlert] = useState()
 
   useEffect(() => {
     if (IS_WEB) {
@@ -120,7 +122,8 @@ function LoginForm ({
         if (error.response && error.response.status === 403) {
           setErrors({ server: 'The email or password you entered is incorrect' })
         } else {
-          setErrors({ server: _get(error, 'response.data.message', error.message) })
+          const { message, code } = _get(error, 'response.data', error.message, {})
+          setErrors({ server: { message, code } })
         }
       }
     }
@@ -135,9 +138,37 @@ function LoginForm ({
     _identity
   )
 
+  const renderCustomCloseButton = () => {
+    if (errors.server.code !== ERROR_USER_NOT_CONFIRMED) return null
+
+    async function onPress () {
+      try {
+        await authHelper.resendEmailConfirmation(form.email)
+      } catch (error) {
+        const { message } = error.response.data
+        setErrors({ server: { message }})
+      }
+      setErrors({})
+      setSuccessAlert('Confirmation email has been sent to your email')
+    }
+
+    return pug`
+      Button(
+        size='s'
+        onPress=onPress
+      ) Resend confirmation
+    `
+  }
+
   return pug`
+    if successAlert
+      Alert(variant='success')= successAlert
+      Br
     if errors.server
-      Alert(variant='error')= errors.server
+      Alert(
+        variant='error'
+        renderActions=renderCustomCloseButton
+      )= errors.server.message
       Br
     ObjectInput(
       value=form

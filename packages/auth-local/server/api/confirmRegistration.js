@@ -1,3 +1,5 @@
+import { sendError, ERROR_FORMAT_REDIRECT } from '../helpers'
+
 export default function confirmRegistration (config) {
   return function (req, res) {
     const {
@@ -8,19 +10,21 @@ export default function confirmRegistration (config) {
     } = config
 
     onBeforeConfirmRegistration(req, res, function(err, userId) {
-      if (err) return res.send(err)
+      if (err) return _sendError(err)
 
       sendRegistrationConfirmationComplete(userId, function(err){
-        if (err) return res.send(err)
+        if (err) return _sendError(err)
 
         confirmEmail(req.model, userId, config, function(err) {
-          if (err) return res.send(err)
+          if (err) return _sendError(err)
 
-          req.login(userId, function () {
-            res.redirect(registrationConfirmedUrl)
-          })
+          res.redirect(registrationConfirmedUrl)
         })
       })
     })
+
+    function _sendError (err) {
+      sendError(res, err, { type: ERROR_FORMAT_REDIRECT })
+    }
   }
 }

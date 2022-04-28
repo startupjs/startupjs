@@ -52,7 +52,7 @@ export default class LocalProvider extends BaseProvider {
       salt,
       email: this.getEmail()
     }
-    if (unconfirmed) data.unconfirmed = true
+    if (unconfirmed) data.unconfirmed = unconfirmed
     if (confirmEmail) data.confirmEmail = confirmEmail
     return data
   }

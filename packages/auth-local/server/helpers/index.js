@@ -10,6 +10,7 @@ export { default as onBeforeEmailChange } from './onBeforeEmailChange'
 export { default as onBeforePasswordChange } from './onBeforePasswordChange'
 export { default as onBeforePasswordReset } from './onBeforePasswordReset'
 export { default as onBeforeRegister } from './onBeforeRegister'
+export { default as onBeforeResendConfirmation } from './onBeforeResendConfirmation'
 export { default as onCreatePasswordResetSecret } from './onCreatePasswordResetSecret'
 export { default as onCreateEmailChangeSecret } from './onCreateEmailChangeSecret'
 
@@ -22,3 +23,4 @@ export { default as createPasswordResetSecret } from './createPasswordResetSecre
 export { default as sendRegistrationConfirmation } from './sendRegistrationConfirmation'
 export { default as sendRegistrationConfirmationComplete } from './sendRegistrationConfirmationComplete'
 export { default as sendRegistrationInfo } from './sendRegistrationInfo'
+export * from './sendError'
