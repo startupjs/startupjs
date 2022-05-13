@@ -4,12 +4,12 @@
     "access": "public"
   },
   "description": "MDX provider with a set of custom components for react-native support and syntax highlighting",
-  "version": "0.44.15",
+  "version": "0.44.16",
   "main": "index.js",
   "dependencies": {
     "@mdx-js/react": "~1.5.8",
-    "@startupjs/scrollable-anchors": "^0.44.15",
-    "@startupjs/ui": "^0.44.13",
+    "@startupjs/scrollable-anchors": "^0.44.16",
+    "@startupjs/ui": "^0.44.16",
     "refractor": "^3.0.0"
   },
   "peerDependencies": {

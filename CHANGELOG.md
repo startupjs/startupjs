@@ -1,3 +1,14 @@
+## [0.44.16](https://github.com/startupjs/startupjs/compare/v0.44.15...v0.44.16) (2022-05-13)
+
+
+### Bug Fixes
+
+* **babel-plugin-dotenv:** return condition ([#944](https://github.com/startupjs/startupjs/issues/944)) ([bc45a02](https://github.com/startupjs/startupjs/commit/bc45a025ff7f206206f0c1be790f3cf63ee0e463))
+* **react-native-gesture-handler:** fix crashing of ios app because of cycle imports ([#856](https://github.com/startupjs/startupjs/issues/856)) ([1e22da0](https://github.com/startupjs/startupjs/commit/1e22da0c4892ee2cbce54c08785f528e89b3becf))
+* **ui/Content:** use `Div` component as root instead of react-native `View` ([#945](https://github.com/startupjs/startupjs/issues/945)) ([212e880](https://github.com/startupjs/startupjs/commit/212e880625fb475736371c5a09bda2b1fb3246f8))
+
+
+
 ## [0.44.15](https://github.com/startupjs/startupjs/compare/v0.44.14...v0.44.15) (2022-04-25)
 
 
