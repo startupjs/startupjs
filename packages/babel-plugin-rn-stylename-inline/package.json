@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-inline",
-  "version": "0.44.16",
+  "version": "0.44.17",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.44.14",
-    "@startupjs/bundler": "^0.44.16"
+    "@startupjs/bundler": "^0.44.17"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",

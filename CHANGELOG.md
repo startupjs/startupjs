@@ -1,3 +1,12 @@
+## [0.44.17](https://github.com/startupjs/startupjs/compare/v0.44.16...v0.44.17) (2022-05-13)
+
+
+### Bug Fixes
+
+* **bundler:** fix rare usecase of npm module in web production being not inside node_modules ([38b21dd](https://github.com/startupjs/startupjs/commit/38b21ddab0a207a6111e688f95fca9a978281146))
+
+
+
 ## [0.44.16](https://github.com/startupjs/startupjs/compare/v0.44.15...v0.44.16) (2022-05-13)
 
 
