@@ -112,7 +112,7 @@ function getAuthStrategies () {
           firstName: this.getFirstName(),
           lastName: this.getLastName(),
           avatarUrl: this.getAvatarUrl(),
-          age: this.profile.age
+          type: this.profile.type
         }
       }
     }),

@@ -91,6 +91,13 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
   // ----------------------------------------------------->    static    <#
   options.ee.emit('static', expressApp)
 
+  // TODO
+  expressApp.use(cors({
+    credentials: true,
+    exposedHeaders: ['set-cookie'],
+    origin: ['http://localhost:4000']
+  }))
+
   if (process.env.NODE_ENV !== 'production' && process.env.VITE) {
     // Enable cors requests from localhost in dev
     expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
