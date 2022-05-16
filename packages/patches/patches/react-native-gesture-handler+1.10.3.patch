@@ -1,0 +1,46 @@
+diff --git a/node_modules/react-native-gesture-handler/src/components/touchables/GenericTouchable.tsx b/node_modules/react-native-gesture-handler/src/components/touchables/GenericTouchable.tsx
+index 2072586..e451570 100644
+--- a/node_modules/react-native-gesture-handler/src/components/touchables/GenericTouchable.tsx
++++ b/node_modules/react-native-gesture-handler/src/components/touchables/GenericTouchable.tsx
+@@ -16,7 +16,7 @@ import {
+   HandlerStateChangeEvent,
+ } from '../../handlers/gestureHandlers';
+ import { NativeViewGestureHandlerPayload } from '../../handlers/NativeViewGestureHandler';
+-import { TouchableNativeFeedbackExtraProps } from './TouchableNativeFeedback.android';
++import { TouchableNativeFeedbackExtraProps } from './fixCycle';
+ 
+ /**
+  * Each touchable is a states' machine which preforms transitions.
+diff --git a/node_modules/react-native-gesture-handler/src/components/touchables/TouchableNativeFeedback.android.tsx b/node_modules/react-native-gesture-handler/src/components/touchables/TouchableNativeFeedback.android.tsx
+index 69b9209..e03798f 100644
+--- a/node_modules/react-native-gesture-handler/src/components/touchables/TouchableNativeFeedback.android.tsx
++++ b/node_modules/react-native-gesture-handler/src/components/touchables/TouchableNativeFeedback.android.tsx
+@@ -5,7 +5,7 @@ import {
+ } from 'react-native';
+ import * as React from 'react';
+ import { Component } from 'react';
+-import GenericTouchable, { GenericTouchableProps } from './GenericTouchable';
++import GenericTouchable, { GenericTouchableProps } from './fixCycle';
+ 
+ export type TouchableNativeFeedbackExtraProps = {
+   borderless?: boolean;
+diff --git a/node_modules/react-native-gesture-handler/src/components/touchables/TouchableWithoutFeedback.tsx b/node_modules/react-native-gesture-handler/src/components/touchables/TouchableWithoutFeedback.tsx
+index 7ece5e6..c4d4006 100644
+--- a/node_modules/react-native-gesture-handler/src/components/touchables/TouchableWithoutFeedback.tsx
++++ b/node_modules/react-native-gesture-handler/src/components/touchables/TouchableWithoutFeedback.tsx
+@@ -1,6 +1,6 @@
+ import * as React from 'react';
+ import { PropsWithChildren } from 'react';
+-import GenericTouchable, { GenericTouchableProps } from './GenericTouchable';
++import GenericTouchable, { GenericTouchableProps } from './fixCycle';
+ 
+ const TouchableWithoutFeedback = React.forwardRef<
+   GenericTouchable,
+diff --git a/node_modules/react-native-gesture-handler/src/components/touchables/fixCycle.tsx b/node_modules/react-native-gesture-handler/src/components/touchables/fixCycle.tsx
+new file mode 100644
+index 0000000..948ee97
+--- /dev/null
++++ b/node_modules/react-native-gesture-handler/src/components/touchables/fixCycle.tsx
+@@ -0,0 +1,2 @@
++export { default, GenericTouchableProps } from './GenericTouchable';
++export { TouchableNativeFeedbackExtraProps } from './TouchableNativeFeedback.android';

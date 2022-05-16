@@ -35,12 +35,14 @@ function Icon ({
 
   if (typeof icon === 'function') {
     const CustomIcon = icon
+    const { color: fill, width = _size, height = _size, ...iconStyle } = style
+
     return pug`
       CustomIcon(
-        style=style
-        width=_size
-        height=_size
-        fill=style.color
+        style=iconStyle
+        width=width
+        height=height
+        fill=fill
       )
     `
   }

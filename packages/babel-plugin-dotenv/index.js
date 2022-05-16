@@ -62,7 +62,7 @@ module.exports = ({ types: t }) => {
     visitor: {
       Program: {
         exit (path) {
-          if (Object.keys(this.vars) === 0) return
+          if (Object.keys(this.vars).length === 0) return
 
           const lastImport = path
             .get('body')
