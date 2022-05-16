@@ -1,3 +1,12 @@
+## [0.44.18](https://github.com/startupjs/startupjs/compare/v0.44.17...v0.44.18) (2022-05-16)
+
+
+### Features
+
+* **ui/Icon:** add ability to pass custom width and height for custom icon ([066023a](https://github.com/startupjs/startupjs/commit/066023a49e99d59e4468d62f1ae43b65eeef1fd3))
+
+
+
 ## [0.44.17](https://github.com/startupjs/startupjs/compare/v0.44.16...v0.44.17) (2022-05-13)
 
 
