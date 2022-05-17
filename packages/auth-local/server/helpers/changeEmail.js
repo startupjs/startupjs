@@ -41,5 +41,5 @@ export default async function changeEmail ({ email, userId, model, config }) {
     await $auth.set('providers.local.id', email)
   }
 
-  model.unfetch($user, $auth, $existingUser)
+  model.unfetch($user, $auth)
 }
