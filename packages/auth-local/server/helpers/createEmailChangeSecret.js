@@ -43,7 +43,7 @@ export default async function createEmailChangeSecret ({ email, userId, model, c
   const $local = $auth.at('providers.local')
   await $local.setAsync('emailChangeMeta', emailChangeMeta)
 
-  model.unfetch($auth, $existingUser)
+  model.unfetch($auth)
 
   return secret
 }

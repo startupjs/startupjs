@@ -6,7 +6,10 @@ export default async function setConfirmRegistrationData (model, userId, confirm
     throw Error('User does not exist')
   }
 
-  await $auth.set('providers.local.confirmationExpiresAt', confirmEmailTimeLimit)
+  await $auth.set(
+    'providers.local.confirmationExpiresAt',
+    Date.now() + confirmEmailTimeLimit
+  )
 
   $auth.unsubscribe()
 }

@@ -23,7 +23,5 @@ export default async function createPasswordResetSecret ({ model, email, config 
 
   await $local.set('passwordResetMeta', passwordResetMeta)
 
-  await $auths.unfetch()
-
   return secret
 }
