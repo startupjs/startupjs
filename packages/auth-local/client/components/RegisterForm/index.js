@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
@@ -60,10 +60,11 @@ function RegisterForm ({
 }) {
   const authHelper = useAuthHelper(baseUrl)
   const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
-
+  const [showConfirmMessage, setShowConfirmMessage] = useState(false)
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
   const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
+  const [confirmRegistration] = useSession('auth.local.confirmRegistration')
 
   const recaptchaRef = useRef()
 
@@ -118,6 +119,11 @@ function RegisterForm ({
       }
 
       await authHelper.register(formClone)
+
+      if (confirmRegistration) {
+        return setShowConfirmMessage(true)
+      }
+
       const res = await authHelper.login({
         email: form.email,
         password: form.password
@@ -143,6 +149,15 @@ function RegisterForm ({
     ),
     _identity
   )
+
+  if (showConfirmMessage) {
+    return pug`
+      Alert(
+        variant='warning'
+        onClose=() => setShowConfirmMessage(false)
+      ) We have sent you an email. Please follow the link in it to confirm your email and complete your registration.
+    `
+  }
 
   return pug`
     if errors.server

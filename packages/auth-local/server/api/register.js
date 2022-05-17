@@ -1,26 +1,47 @@
 import { checkRecaptcha } from '@startupjs/recaptcha/server'
 import bcrypt from 'bcrypt'
+import setConfirmRegistrationData from './setConfirmRegistrationData'
 import Provider from '../Provider'
 
-export default function (req, res, done, config) {
-  const { onBeforeRegister, onAfterRegister, emailRegistrationRegexp } = config
+export default function (config) {
+  return function (req, res, next) {
+    const { onBeforeRegister, onAfterRegister, emailRegistrationRegexp } = config
 
-  function _done (err) {
-    if (err) return res.status(403).json({ message: err })
-
-    register(req, config, async function (err, userId) {
+    onBeforeRegister(req, res, async function (err, userData) {
       if (err) return res.status(403).json({ message: err })
 
-      await onAfterRegister({ userId }, req)
+      register(req, userData, config, async function (err, userId) {
+        if (err) return res.status(403).json({ message: err })
 
-      return res.json(userId)
-    })
+        if (config.confirmRegistration) {
+          try {
+            await setConfirmRegistrationData(req.model, userId, config.confirmEmailTimeLimit)
+          } catch (e) {
+            return res.status(403).json({ message: e.message })
+          }
+
+          config.sendRegistrationConfirmation(req, userId, async function (err) {
+            if (err) return next(err)
+
+            await onAfterRegister({ userId }, req)
+            return res.json(userId)
+          })
+        } else {
+          config.sendRegistrationInfo(req, userId, async function (err) {
+            if (err) return next(err)
+
+            await onAfterRegister({ userId }, req)
+            return res.json(userId)
+          })
+        }
+
+
+      })
+    }, { emailRegistrationRegexp })
   }
-
-  onBeforeRegister(req, res, _done, { emailRegistrationRegexp })
 }
 
-async function register (req, config, done) {
+async function register (req, userData, config, next) {
   const { model } = req
   const email = req.body.email.toLowerCase()
   const password = req.body.password
@@ -28,13 +49,13 @@ async function register (req, config, done) {
 
   if (recaptchaEnabled) {
     const checkTokenResponse = await checkRecaptcha(req.body.recaptcha)
-    if (!checkTokenResponse) return done('Recaptcha token is invalid')
+    if (!checkTokenResponse) return next('Recaptcha token is invalid')
   }
   delete req.body.recaptcha
 
   // You can pass custom values to new user with help of userData parameter
   // For example we can pass userId from session
-  const profile = req.body || {}
+  const profile = Object.assign({}, req.body, userData)
 
   try {
     profile.email = email.toLowerCase()
@@ -46,14 +67,14 @@ async function register (req, config, done) {
     const provider = new Provider(model, profile, config)
     const authData = await provider.loadAuthData()
     if (authData) {
-      return done('User already exists')
+      return next('User already exists')
     }
 
     const userId = await provider.findOrCreateUser({ req })
 
-    done(null, userId)
+    next(null, userId)
   } catch (err) {
     console.log('[startupjs/auth] Error', err)
-    done(err)
+    next(err)
   }
 }

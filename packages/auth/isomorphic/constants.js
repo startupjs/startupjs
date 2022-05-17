@@ -2,6 +2,10 @@ export const LOGOUT_URL = '/auth/logout'
 export const SIGN_IN_URL = '/auth/sign-in'
 export const SIGN_UP_URL = '/auth/sign-up'
 export const RECOVER_PASS_URL = '/auth/recover'
+export const RESET_PASS_URL = '/auth/reset-password'
+export const ERROR_URL = '/auth/error'
+export const CONFIRMED_EMAIL_URL = '/auth/confirmed-email'
+
 export const LOGIN_LOCK_TIME = 60 * 1000
 
 export const SIGN_IN_SLIDE = 'sign-in'

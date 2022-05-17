@@ -1,44 +1,66 @@
+import { CONFIRMED_EMAIL_URL } from '@startupjs/auth/isomorphic'
 import { Strategy } from 'passport-local'
 import _get from 'lodash/get'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
-  onBeforeCreatePasswordResetSecret,
-  onCreatePasswordResetSecret,
-  onBeforeRegister,
-  onAfterRegister,
-  onBeforePasswordReset,
-  onAfterPasswordReset,
-  onBeforePasswordChange,
+  confirmEmail,
+  onAfterEmailChange,
   onAfterPasswordChange,
-  onCreateEmailChangeSecret,
+  onAfterPasswordReset,
+  onAfterRegister,
+  onBeforeConfirmRegistration,
   onBeforeCreateEmailChangeSecret,
+  onBeforeCreatePasswordResetSecret,
   onBeforeEmailChange,
-  onAfterEmailChange
+  onCreateEmailChangeSecret,
+  onBeforePasswordChange,
+  onBeforePasswordReset,
+  onBeforeRegister,
+  onBeforeResendConfirmation,
+  onCreatePasswordResetSecret,
+  sendRegistrationConfirmation,
+  sendRegistrationConfirmationComplete,
+  sendRegistrationInfo
 } from './helpers'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
-import { DEFAULT_PASS_RESET_TIME_LIMIT } from '../isomorphic'
+import {
+  DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
+  DEFAULT_PASS_RESET_TIME_LIMIT,
+  ERROR_USER_INVALID_CREDENTIALS,
+  ERROR_USER_NOT_CONFIRMED,
+  ERROR_USER_NOT_FOUND
+} from '../isomorphic'
 
 export default function (config = {}) {
   this.config = {}
 
-  const func = ({ router, updateClientSession, authConfig }) => {
+  const func = ({ model, router, updateClientSession, authConfig }) => {
     Object.assign(this.config, {
-      resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      confirmEmailTimeLimit: DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
+      confirmRegistration: false,
       localSignUpEnabled: true,
-      onBeforeCreatePasswordResetSecret,
-      onCreatePasswordResetSecret,
-      onBeforeRegister,
-      onAfterRegister,
-      onAfterPasswordReset,
-      onBeforePasswordReset,
-      onBeforePasswordChange,
-      onAfterPasswordChange,
-      onBeforeCreateEmailChangeSecret,
-      onCreateEmailChangeSecret,
-      onBeforeEmailChange,
+      registrationConfirmedUrl: CONFIRMED_EMAIL_URL,
+      resetPasswordTimeLimit: DEFAULT_PASS_RESET_TIME_LIMIT,
+      confirmEmail,
       onAfterEmailChange,
+      onAfterPasswordChange,
+      onAfterPasswordReset,
+      onAfterRegister,
+      onBeforeConfirmRegistration,
+      onBeforeCreateEmailChangeSecret,
+      onBeforeCreatePasswordResetSecret,
+      onBeforeEmailChange,
+      onBeforePasswordChange,
+      onBeforePasswordReset,
+      onBeforeRegister,
+      onBeforeResendConfirmation,
+      onCreateEmailChangeSecret,
+      onCreatePasswordResetSecret,
+      sendRegistrationConfirmation,
+      sendRegistrationConfirmationComplete,
+      sendRegistrationInfo,
       ...authConfig
     }, config)
 
@@ -47,7 +69,10 @@ export default function (config = {}) {
     initRoutes({ router, config: this.config })
 
     // Append required configs to client session
-    updateClientSession({ local: { localSignUpEnabled: this.config.localSignUpEnabled } })
+    updateClientSession({ local: {
+      localSignUpEnabled: this.config.localSignUpEnabled,
+      confirmRegistration: this.config.confirmRegistration
+    } })
 
     passport.use(
       new Strategy(
@@ -56,22 +81,28 @@ export default function (config = {}) {
           passReqToCallback: true
         },
         async (req, email = '', password, cb) => {
-          email = email.trim().toLowerCase()
           const model = req.model
+          email = email.trim().toLowerCase()
           const provider = new Provider(model, { email }, this.config)
 
           const authData = await provider.loadAuthData()
-          if (!authData) return cb(null, false, { message: 'User not found' })
+          if (!authData) return cb(ERROR_USER_NOT_FOUND)
 
           const hash = _get(authData, 'providers.local.hash', '')
           const userId = await provider.findOrCreateUser({ req })
 
           await normalizeProvider(userId, model)
 
-          bcrypt.compare(password, hash, function (err, res) {
+          bcrypt.compare(password, hash, (err, res) => {
             if (err) return cb(err)
             if (res === false) {
-              return cb(null, false, { message: 'Invalid email or password' })
+              return cb(ERROR_USER_INVALID_CREDENTIALS)
+            }
+            if (
+              this.config.confirmRegistration
+              && authData.providers.local.confirmationExpiresAt
+            ) {
+              return cb(ERROR_USER_NOT_CONFIRMED)
             }
             return cb(null, userId)
           })

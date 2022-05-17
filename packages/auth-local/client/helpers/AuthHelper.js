@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { BASE_URL } from '@env'
 import {
-  LOCAL_LOGIN_URL,
+  CHANGE_PASSWORD_URL,
   CREATE_PASS_RESET_SECRET_URL,
-  RESET_PASSWORD_URL,
+  LOCAL_LOGIN_URL,
   REGISTER_URL,
-  CHANGE_PASSWORD_URL
+  RESEND_EMAIL_CONFIRMATION,
+  RESET_PASSWORD_URL
 } from '../../isomorphic'
 
 export default function AuthHelper (baseUrl) {
@@ -38,5 +39,9 @@ export default function AuthHelper (baseUrl) {
   // data: { email, password, confirm, userData(firstName, lastName, ...) }
   this.register = function (data) {
     return this._axios.post(REGISTER_URL, data)
+  }
+
+  this.resendEmailConfirmation = function (email) {
+    return this._axios.post(RESEND_EMAIL_CONFIRMATION, { email })
   }
 }
