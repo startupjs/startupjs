@@ -5,7 +5,7 @@ export default function resendEmailConfirmation (config) {
   return async function (req, res) {
     const { sendRegistrationConfirmation, onBeforeResendConfirmation } = config
 
-    onBeforeResendConfirmation(req, res, async function (err, userId) {
+    onBeforeResendConfirmation(req, res, config, async function (err, userId) {
       if (err) return sendError(res, err)
 
       try {

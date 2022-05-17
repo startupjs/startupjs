@@ -26,7 +26,7 @@ import { setLoginAttempts } from './middlewares'
 export default function (options) {
   const { router, config } = options
 
-  router.get(CONFIRM_REGISTRATION_URL, confirmRegistration(config))
+  router.get(CONFIRM_REGISTRATION_URL, confirmRegistration(config)) // web route
   router.post(CHANGE_EMAIL_URL, changeEmail(config))
   router.post(CHANGE_PASSWORD_URL, changePassword(config))
   router.post(CREATE_EMAIL_CHANGE_SECRET_URL, createEmailChangeSecret(config))

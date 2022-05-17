@@ -13,7 +13,7 @@ export default function createEmailChangeSecret (config) {
       const { model } = req
 
       try {
-        const secret = await _createEmailChangeSecret({ model, email, userId })
+        const secret = await _createEmailChangeSecret({ model, email, userId, config })
 
         const hookRes = onCreateEmailChangeSecret({ userId, secret }, req)
         hookRes && hookRes.then && await hookRes

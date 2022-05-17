@@ -1,5 +1,6 @@
 import { checkRecaptcha } from '@startupjs/recaptcha/server'
 import { createPasswordResetSecret as _createPasswordResetSecret } from '../helpers'
+import Provider from '../Provider'
 
 export default function createPasswordResetSecret (config) {
   return function (req, res) {
@@ -23,14 +24,10 @@ export default function createPasswordResetSecret (config) {
       delete req.body.recaptcha
 
       try {
-        const secret = await _createPasswordResetSecret({ model, email })
+        const secret = await _createPasswordResetSecret({ model, email, config })
 
-        const $auths = model.query('auths', { email })
-        await model.fetch($auths)
-
-        const auth = $auths.get()[0]
-
-        model.unfetch($auths)
+        const provider = new Provider(model, { email }, config)
+        const auth = await provider.loadAuthData()
 
         const hookRes = onCreatePasswordResetSecret({ userId: auth.id, secret }, req)
         hookRes && hookRes.then && await hookRes

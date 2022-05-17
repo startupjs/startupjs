@@ -27,7 +27,7 @@ export default function changeEmail (config) {
           throw new Error('Provided email secret not found')
         }
 
-        await _changeEmail({ model, email: emailChangeMeta.email, userId })
+        await _changeEmail({ model, email: emailChangeMeta.email, userId, config })
 
         const hookRes = onAfterEmailChange({ userId }, req)
         hookRes && hookRes.then && await hookRes
