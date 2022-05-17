@@ -100,7 +100,7 @@ export default function (config = {}) {
             }
             if (
               this.config.confirmRegistration
-              && authData.providers.local.unconfirmed
+              && authData.providers.local.confirmationExpiresAt
             ) {
               return cb(ERROR_USER_NOT_CONFIRMED)
             }

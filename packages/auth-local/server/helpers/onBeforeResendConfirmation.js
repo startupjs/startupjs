@@ -13,7 +13,7 @@ export default async function onBeforeResendConfirmation (req, res, config, next
   const provider = new Provider(model, { email }, config)
   const auth = await provider.loadAuthData()
 
-  if (!auth?.providers?.local?.unconfirmed) {
+  if (!auth?.providers?.local?.confirmationExpiresAt) {
     return next('User is already confirmed')
   }
 

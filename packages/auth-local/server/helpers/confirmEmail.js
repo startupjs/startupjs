@@ -10,16 +10,16 @@ export default async function confirmEmail (model, userId, config, next) {
     return next('User is not registered with email/password')
   }
 
-  const unconfirmed = $auth.get('providers.local.unconfirmed')
+  const confirmationExpiresAt = $auth.get('providers.local.confirmationExpiresAt')
 
-  if (!unconfirmed) {
+  if (!confirmationExpiresAt) {
     return next('User is already confirmed')
   }
 
-  if (unconfirmed.expiresAt < Date.now()) {
+  if (confirmationExpiresAt < Date.now()) {
     return next('Confirmation is expired')
   }
 
-  $auth.del('providers.local.unconfirmed')
+  $auth.del('providers.local.confirmationExpiresAt')
   next()
 }
