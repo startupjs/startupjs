@@ -13,7 +13,8 @@ $this = merge({
     l: 3u,
     m: 2.5u,
     s: 2.5u
-  }
+  },
+  placeholderTextColor: $UI.colors.darkLighter
 }, $UI.TextInput, true)
 
 // ----- COMPONENT
@@ -36,7 +37,8 @@ $inputFontSizeS = 1.75u
   // padding-top, padding-bottom is important
   // for android because it has invisible paddings
   // on the web is important for textarea (override default paddings)
-  padding 0 1u
+  padding-left 1u
+  padding-right @padding-left
   color $inputTextColor
   background-color $inputBg
   border-width $inputBorderWidth
@@ -98,4 +100,3 @@ $inputFontSizeS = 1.75u
 
 :export
   config: $this
-  colors: $UI.colors
