@@ -46,35 +46,17 @@ module.exports = function (babel) {
 
   function addPartStyleToProps ($jsxAttribute) {
     const parts = getParts($jsxAttribute.get('value'))
-    let closestFnPath = $jsxAttribute
-    // find react functional component declaration.
-    // While searching, skip named functions which start from lowercase
-    while (true) {
-      closestFnPath = closestFnPath.getFunctionParent()
-      if (!closestFnPath) break // if we reached Program
-      if (!(
-        (
-          t.isFunctionDeclaration(closestFnPath.node) ||
-          t.isFunctionExpression(closestFnPath.node)
-        ) && (
-          closestFnPath.node.id &&
-          closestFnPath.node.id.name &&
-          /^[a-z]/.test(closestFnPath.node.id.name)
-        )
-      )) {
-        break
-      }
-    }
-    if (!closestFnPath) {
+    const $fnComponent = findReactFnComponent($jsxAttribute)
+    if (!$fnComponent) {
       throw $jsxAttribute.buildCodeFrameError(`
         Closest react functional component not found for 'part' attribute.
         Or your component is named lowercase.'
       `)
     }
-    let props = closestFnPath.node.params[0]
+    let props = $fnComponent.node.params[0]
     if (!props) {
       props = $jsxAttribute.scope.generateUidIdentifier('props')
-      closestFnPath.node.params[0] = props
+      $fnComponent.node.params[0] = props
     }
     if (t.isAssignmentPattern(props)) {
       props = props.left
@@ -492,4 +474,26 @@ function checkObserverImport ($import, {
     const { imported } = $specifier.node
     if (imported.name === observerDefaultName) return true
   }
+}
+
+// find topmost function (which is not a lowercase named one).
+// .getFunctionParent() returns undefined when we reach Program
+function findReactFnComponent ($jsxAttribute) {
+  let $current = $jsxAttribute.getFunctionParent()
+  let $potentialComponentFn
+
+  while ($current) {
+    // if function is named and starts with a capital letter then it's definitely a component
+    // and we return it right away
+    if ($current.node.id?.name && /^[A-Z]/.test($current.node.id.name)) return $current
+    // set function as component candidate,
+    // BUT ignore it if it's named function which starts from a lowercase or underscore,
+    // because such function can never be a react component
+    if (!($current.node.id?.name && /^[a-z_]/.test($current.node.id.name))) {
+      $potentialComponentFn = $current
+    }
+    // and get the parent function definition
+    $current = $current.getFunctionParent()
+  }
+  return $potentialComponentFn
 }

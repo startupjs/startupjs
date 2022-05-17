@@ -41,7 +41,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 1. Initialize a default [`ui` template](#official-app-templates) project, change `myapp` to your project name (use lower case):
 
     ```
-    npx startupjs init myapp
+    npx startupjs@latest init myapp
     ```
 
 2. Go into the created project folder and start the web application with:

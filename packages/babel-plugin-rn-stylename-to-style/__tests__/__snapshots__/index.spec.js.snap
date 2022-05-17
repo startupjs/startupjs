@@ -119,6 +119,67 @@ function Test() {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style ::part() in pug loop: ::part() in pug loop 1`] = `
+
+import './index.styl'
+function Test ({ items, ...props }) {
+  return pug\`
+    Card(
+      part='root'
+      style={ color: 'blue' }
+    )
+      each item in items
+        Content(part='item')= item
+  \`
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Test({ itemStyle: _itemStyle, style: _style, items, ...props }) {
+  return (
+    <Card
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: [
+            {
+              color: "blue",
+            },
+            _style,
+          ],
+        }
+      )}
+    >
+      {items.map((item) => {
+        return (
+          <Content
+            {..._processStyleName(
+              "",
+              _css,
+              typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+              typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+              {
+                style: _itemStyle,
+              }
+            )}
+          >
+            {item}
+          </Content>
+        );
+      })}
+    </Card>
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style Arrays and objects: Arrays and objects 1`] = `
 
 import './index.styl'
@@ -475,6 +536,271 @@ function Menu({
     </Context.Provider>
   );
 }
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. First capital letter function must be returned: Find proper react component. First capital letter function must be returned 1`] = `
+
+import './index.styl'
+export default function ComponentFactory (title) {
+  return function Component () {
+    function renderItem () {
+      return <Span part='item'>{title}</Span>
+    }
+    const renderFooter = () => <Div part='footer' />
+    return <Div part='root'>{renderItem()}{renderFooter()}</Div>
+  }
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export default function ComponentFactory(title) {
+  return function Component(_props) {
+    function renderItem() {
+      return (
+        <Span
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: _props.itemStyle,
+            }
+          )}
+        >
+          {title}
+        </Span>
+      );
+    }
+
+    const renderFooter = () => (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.footerStyle,
+          }
+        )}
+      />
+    );
+
+    return (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.style,
+          }
+        )}
+      >
+        {renderItem()}
+        {renderFooter()}
+      </Div>
+    );
+  };
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. Simplest: Find proper react component. Simplest 1`] = `
+
+import './index.styl'
+export default function Test () {
+  return <Div part='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export default function Test(_props) {
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    />
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With arrow and wrapped into arrow function: Find proper react component. With arrow and wrapped into arrow function 1`] = `
+
+import './index.styl'
+export const Test = () => {
+  const renderItem = () => {
+    return <Div part='item' />
+  }
+  return <Div part='root'>{renderItem()}</Div>
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = (_props) => {
+  const renderItem = () => {
+    return (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.itemStyle,
+          }
+        )}
+      />
+    );
+  };
+
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    >
+      {renderItem()}
+    </Div>
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With arrow and wrapped into named function: Find proper react component. With arrow and wrapped into named function 1`] = `
+
+import './index.styl'
+export const Test = () => {
+  function renderItem () {
+    return <Div part='item' />
+  }
+  return <Div part='root'>{renderItem()}</Div>
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = (_props) => {
+  function renderItem() {
+    return (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.itemStyle,
+          }
+        )}
+      />
+    );
+  }
+
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    >
+      {renderItem()}
+    </Div>
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With const and anonymous: Find proper react component. With const and anonymous 1`] = `
+
+import './index.styl'
+export const Test = function () {
+  return <Div part='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = function (_props) {
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    />
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With const and arrow: Find proper react component. With const and arrow 1`] = `
+
+import './index.styl'
+export const Test = () => {
+  return <Div part='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = (_props) => {
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    />
+  );
+};
 
 
 `;

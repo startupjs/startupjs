@@ -105,7 +105,6 @@ function NumberInput ({
       Div(style=style)
         Row.input-wrapper(
           styleName=[extraStyleName, { readonly }]
-          vAlign='center'
         )
           if units
             Span.input-units(

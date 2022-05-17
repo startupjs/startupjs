@@ -17,7 +17,7 @@ react-native-webview: 10.10.2
 5 - Then **New registration**, fill in the fields
 6 - Copy **Client ID** as `AZUREAD_CLIENT_ID` in config.json
 7 - Copy **Tentant ID** as `AZUREAD_TENTANT_ID` in config.json
-8 - Go to the tab **Endpoints**, copy **Idenitty metadata** as `AZUREAD_IDENTITY_METADATA` in config.json. Instead of **common/organizations** must stand **Tentant ID**.
+8 - Go to the tab **Endpoints**, copy **Identity metadata** as `AZUREAD_IDENTITY_METADATA` in config.json. Instead of **common/organizations** must stand **Tentant ID**.
 9 - In the tab **Certificates and secrets**, create client secret, copy as `AZUREAD_CLIENT_SECRET` in config.json.
 10 - Next, you need to configure URI redirects, to do this, go to the tab with the redirect URI settings. Create platforms with links:
 SPA platform - `http://localhost:3000/auth/azuread/callback`

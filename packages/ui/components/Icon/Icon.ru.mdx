@@ -35,9 +35,29 @@ return (
 )
 ```
 
+## Кастомная иконка
+
+Чтобы использовать свою собственную иконку необходимо передать валидную `svg` иконку в свойство `icon`
+
+```jsx
+import CustomIconExample from './CustomIconExample.svg'
+```
+
+```jsx example
+return (
+  <Content>
+    <Icon
+      styleName='icon orange'
+      size={50}
+      icon={CustomIconExample}
+    />
+  </Content>
+)
+```
+
 ## Размеры
 
-Размер можно изменить с помощью свойства `size`. Значение по умолчанию `m`. Предопределенные значения размеров иконок - `xs`,` s`, `m`,` l`, `xl`, ` xxl`. Размер также может быть сколь угодно увеличен или уменьшен путем передачи числа в свойство `size`.
+Размер можно изменить с помощью свойства `size`. Значение по умолчанию `m`. Предопределенные значения размеров иконок - `xs`,` s`, `m`,` l`, `xl`, ` xxl`. Размер также может быть сколь угодно увеличен или уменьшен путем передачи числа в свойство `size`. Для собственных иконок можно задать разный размер высоты и ширины используя стили.
 
 ```jsx
 import {
@@ -45,6 +65,7 @@ import {
   faTable,
   faShareAlt
 } from '@fortawesome/free-solid-svg-icons'
+import CustomIconExample from './CustomIconExample.svg'
 ```
 
 ```jsx example
@@ -58,6 +79,7 @@ return (
       <Icon size='l' icon={faShareAlt} />
       <Icon size='xl' icon={faHouseUser} />
       <Icon size='xxl' icon={faTable} />
+      <Icon style={{ width: 40, height: 32 }} icon={CustomIconExample} />
     </Row>
     <Br />
     <TextInput
@@ -105,27 +127,6 @@ return (
   </Row>
 )
 ```
-
-## Кастомная иконка
-
-Чтобы использовать свою собственную иконку необходимо передать валидную `svg` иконку в свойство `icon`
-
-```jsx
-import CustomIconExample from './CustomIconExample.svg'
-```
-
-```jsx example
-return (
-  <Content>
-    <Icon
-      styleName='icon orange'
-      size={50}
-      icon={CustomIconExample}
-    />
-  </Content>
-)
-```
-
 
 ## Sandbox
 

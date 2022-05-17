@@ -1,3 +1,4 @@
+import { EMAIL_REGEXP } from '../../isomorphic/constants'
 /**
  * @description This hook is triggering before passwod reset secret creation
  */
@@ -6,7 +7,8 @@ export default function onBeforeCreatePasswordResetSecret (req, res, done) {
 
   const { email } = req.body
 
-  if (!email) return done('Missing email')
+  if (!email) return done('Please enter an email address')
+  if (!EMAIL_REGEXP.test(email)) return done('Please enter a valid email')
 
   done(null, email)
 }

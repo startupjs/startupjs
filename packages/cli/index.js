@@ -38,7 +38,7 @@ const DEPENDENCIES = [
   'nconf@^0.10.0',
   'react',
   'react-dom',
-  'axios' // For making AJAX requests
+  'axios@^0.26.0' // For making AJAX requests
 ]
 
 const DEV_DEPENDENCIES = [
@@ -576,7 +576,7 @@ commander
   .command('android-link')
   .description('Links android files')
   .action(async () => {
-    console.warn('"starupjs android-link" is deprecated. Use "startupjs link" instead.')
+    console.warn('"startupjs android-link" is deprecated. Use "startupjs link" instead.')
     // this is important because ./link contains files that are initialized on require. Thus, 'glob' in ./linc/path does not work correctly when required in a header
     const link = require('./link')
     link()

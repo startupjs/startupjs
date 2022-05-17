@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/patches",
-  "version": "0.44.0",
+  "version": "0.44.16",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",
   "scripts": {},

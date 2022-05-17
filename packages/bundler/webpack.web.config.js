@@ -121,7 +121,12 @@ module.exports = function getConfig (env, {
             name (module) {
               // get the name. E.g. node_modules/packageName/not/this/part.js
               // or node_modules/packageName
-              const packageName = module.context.match(/[\\/]node_modules[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              let packageName
+              try {
+                packageName = module.context.match(/[\\/]node_modules[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              } catch (err) {
+                packageName = 'not_found'
+              }
               // npm package names are URL-safe, but some servers don't like @ symbols
               return `npm.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
