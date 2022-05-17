@@ -1,3 +1,12 @@
+## [0.44.19](https://github.com/startupjs/startupjs/compare/v0.44.18...v0.44.19) (2022-05-17)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** add ability to change placeholder text color ([f8e26fa](https://github.com/startupjs/startupjs/commit/f8e26fa7482e3bd168615d549ff2beab788d26cf))
+
+
+
 ## [0.44.18](https://github.com/startupjs/startupjs/compare/v0.44.17...v0.44.18) (2022-05-16)
 
 
