@@ -1,3 +1,17 @@
+## [0.44.20](https://github.com/startupjs/startupjs/compare/v0.44.19...v0.44.20) (2022-05-18)
+
+
+### Bug Fixes
+
+* **auth-local:** set correct `confirmationExpiresAt` to auth ([#947](https://github.com/startupjs/startupjs/issues/947)) ([12dc2e4](https://github.com/startupjs/startupjs/commit/12dc2e47b7abe02f823f1fd450bed370fcd264ec))
+
+
+### Features
+
+* **auth-local:** implements email confirmation ([#942](https://github.com/startupjs/startupjs/issues/942)) ([949dfda](https://github.com/startupjs/startupjs/commit/949dfda9f7a24c1e367f8a48c366f1a833ac24ec))
+
+
+
 ## [0.44.19](https://github.com/startupjs/startupjs/compare/v0.44.18...v0.44.19) (2022-05-17)
 
 
