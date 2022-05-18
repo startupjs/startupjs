@@ -157,11 +157,12 @@ function LoginForm ({
       Alert(
         variant='error'
       )= errors.server.message
-      Br
-      Button(
-        size='s'
-        onPress=resendConfirmation
-      ) Resend confirmation
+      if errors.server.code === ERROR_USER_NOT_CONFIRMED
+        Br
+        Button(
+          size='s'
+          onPress=resendConfirmation
+        ) Resend confirmation
       Br
     ObjectInput(
       value=form
