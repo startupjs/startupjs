@@ -30,6 +30,32 @@ initAuth(ee, {
 })
 ```
 
+## Enabling confirmation a registration
+If you want to force users to confirm their email when they register, then specify next option `confirmRegistration` with `true` value
+
+```js
+initAuth(ee, {
+  // ...
+  confirmRegistration: true, // Default: false
+  // ...
+})
+```
+
+### There are additional registration confirmation settings:
+`confirmEmailTimeLimit` - a time limit for email confirmation (default: `86400000`ms) <br/>
+`registrationConfirmedUrl` - page url to inform a user about successful email confirmation (default: `'/auth/confirmed-email'`)<br/> 
+
+## Enabling confirmation a registration
+If you want to force users to confirm their email when they register, then specify next option `confirmRegistration` with `true` value
+
+```js
+initAuth(ee, {
+  // ...
+  confirmRegistration: true, // Default: false
+  // ...
+})
+```
+
 ## Init on server
 Importing strategy:
 ```js
