@@ -309,3 +309,88 @@ initAuth(ee, {
   // ...
 }
 ```
+
+### onBeforeConfirmRegistration
+Helper-middleware, called before confirmation registration process
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeConfirmRegistration: (req, res, next) => {
+        console.log('onBeforeConfirmRegistration')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeResendConfirmation
+Helper-middleware, called before resend email confirmation
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeResendConfirmation: (req, res, config, next) => {
+        console.log('onBeforeResendConfirmation')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### sendRegistrationConfirmationComplete
+Helper-middleware, called after confirmation a registration
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      sendRegistrationConfirmationComplete: (userId, next) => {
+        console.log('sendRegistrationConfirmationComplete')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### confirmEmail
+Helper-middleware, implements confirmation a registration
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      confirmEmail: (model, userId, config, next) => {
+        console.log('confirmEmail')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### sendRegistrationConfirmation
+Helper-middleware, called after registration and on resend confirmation email. You need override this middleware if confirmRegistration option is `true` to send an email with confirmation link
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      sendRegistrationConfirmation: (req, userId, next) => {
+        console.log('sendRegistrationConfirmation')
+      }
+    })
+  ]
+  // ...
+}
+```
