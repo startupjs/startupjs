@@ -41,6 +41,8 @@ export default class Provider extends BaseProvider {
     if (profile.photos?.length) {
       return profile.photos[0].value
     }
+
+    return null
   }
 
   getProviderData () {
