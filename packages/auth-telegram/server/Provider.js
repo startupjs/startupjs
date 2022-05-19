@@ -33,7 +33,14 @@ export default class Provider extends BaseProvider {
 
   getAvatarUrl () {
     const { profile } = this
-    return profile.photo_url || profile.photos[0].value
+
+    if (profile.photo_url) {
+      return profile.photo_url
+    }
+
+    if (profile.photos?.length) {
+      return profile.photos[0].value
+    }
   }
 
   getProviderData () {
