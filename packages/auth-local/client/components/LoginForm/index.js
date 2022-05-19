@@ -156,7 +156,7 @@ function LoginForm ({
     if (errors.server.code === ERROR_USER_NOT_CONFIRMED) {
       errMessage = pug`
         Span
-          Span= errors.server.message
+          Span= errors.server.message + '.'
           Span 
             Span.resendLink(onPress=resendConfirmation) Resend
             Span  confirmation
