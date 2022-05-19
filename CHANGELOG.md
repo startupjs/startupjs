@@ -1,3 +1,12 @@
+## [0.44.21](https://github.com/startupjs/startupjs/compare/v0.44.20...v0.44.21) (2022-05-19)
+
+
+### Features
+
+* **auth-local:** add request email confirmation slide ([#948](https://github.com/startupjs/startupjs/issues/948)) ([9297589](https://github.com/startupjs/startupjs/commit/9297589eadc4c2b919ce769f8273a0d5a4be3abb))
+
+
+
 ## [0.44.20](https://github.com/startupjs/startupjs/compare/v0.44.19...v0.44.20) (2022-05-18)
 
 
