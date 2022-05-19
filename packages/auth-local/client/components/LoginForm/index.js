@@ -4,11 +4,11 @@ import { observer, useValue, useSession, useError } from 'startupjs'
 import {
   Alert,
   Br,
-  Row,
-  Div,
-  Span,
   Button,
-  ObjectInput
+  Div,
+  ObjectInput,
+  Row,
+  Span
 } from '@startupjs/ui'
 import {
   SIGN_UP_SLIDE,
@@ -87,6 +87,7 @@ function LoginForm ({
   }
 
   const onSubmit = async () => {
+    setSuccessAlert()
     setErrors({})
 
     let fullSchema = commonSchema
@@ -149,6 +150,22 @@ function LoginForm ({
     setSuccessAlert('Confirmation email has been sent to your email')
   }
 
+  let errMessage
+
+  if (errors.server) {
+    if (errors.server.code === ERROR_USER_NOT_CONFIRMED) {
+      errMessage = pug`
+        Span
+          Span= errors.server.message
+          Span 
+            Span.resendLink(onPress=resendConfirmation) Resend
+            Span  confirmation
+      `
+    } else {
+      errMessage = errors.server.message
+    }
+  }
+
   return pug`
     if successAlert
       Alert(variant='success')= successAlert
@@ -156,13 +173,7 @@ function LoginForm ({
     if errors.server
       Alert(
         variant='error'
-      )= errors.server.message
-      if errors.server.code === ERROR_USER_NOT_CONFIRMED
-        Br
-        Button(
-          size='s'
-          onPress=resendConfirmation
-        ) Resend confirmation
+      )= errMessage
       Br
     ObjectInput(
       value=form
