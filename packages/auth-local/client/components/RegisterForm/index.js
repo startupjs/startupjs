@@ -3,7 +3,11 @@ import { Platform } from 'react-native'
 import { observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
-import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import {
+  REQUEST_CONFIRMATION_SLIDE,
+  SIGN_IN_SLIDE,
+  SIGN_UP_SLIDE
+} from '@startupjs/auth/isomorphic'
 import { Recaptcha } from '@startupjs/recaptcha'
 import moment from 'moment'
 import { BASE_URL } from '@env'
@@ -60,7 +64,6 @@ function RegisterForm ({
 }) {
   const authHelper = useAuthHelper(baseUrl)
   const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
-  const [showConfirmMessage, setShowConfirmMessage] = useState(false)
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
   const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
@@ -121,7 +124,7 @@ function RegisterForm ({
       await authHelper.register(formClone)
 
       if (confirmRegistration) {
-        return setShowConfirmMessage(true)
+        return onChangeSlide(REQUEST_CONFIRMATION_SLIDE)
       }
 
       const res = await authHelper.login({
@@ -149,15 +152,6 @@ function RegisterForm ({
     ),
     _identity
   )
-
-  if (showConfirmMessage) {
-    return pug`
-      Alert(
-        variant='warning'
-        onClose=() => setShowConfirmMessage(false)
-      ) We have sent you an email. Please follow the link in it to confirm your email and complete your registration.
-    `
-  }
 
   return pug`
     if errors.server

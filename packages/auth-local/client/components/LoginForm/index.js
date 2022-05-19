@@ -4,11 +4,11 @@ import { observer, useValue, useSession, useError } from 'startupjs'
 import {
   Alert,
   Br,
-  Row,
-  Div,
-  Span,
   Button,
-  ObjectInput
+  Div,
+  ObjectInput,
+  Row,
+  Span
 } from '@startupjs/ui'
 import {
   SIGN_UP_SLIDE,
@@ -87,6 +87,7 @@ function LoginForm ({
   }
 
   const onSubmit = async () => {
+    setSuccessAlert()
     setErrors({})
 
     let fullSchema = commonSchema
@@ -138,26 +139,31 @@ function LoginForm ({
     _identity
   )
 
-  const renderCustomCloseButton = () => {
-    if (errors.server.code !== ERROR_USER_NOT_CONFIRMED) return null
-
-    async function onPress () {
-      try {
-        await authHelper.resendEmailConfirmation(form.email)
-      } catch (error) {
-        const { message } = error.response.data
-        setErrors({ server: { message }})
-      }
-      setErrors({})
-      setSuccessAlert('Confirmation email has been sent to your email')
+  async function resendConfirmation () {
+    try {
+      await authHelper.resendEmailConfirmation(form.email)
+    } catch (error) {
+      const { message } = error.response.data
+      setErrors({ server: { message }})
     }
+    setErrors({})
+    setSuccessAlert('Confirmation email has been sent to your email')
+  }
 
-    return pug`
-      Button(
-        size='s'
-        onPress=onPress
-      ) Resend confirmation
-    `
+  let errMessage
+
+  if (errors.server) {
+    if (errors.server.code === ERROR_USER_NOT_CONFIRMED) {
+      errMessage = pug`
+        Span
+          Span= errors.server.message + '.'
+          Span 
+            Span.resendLink(onPress=resendConfirmation) Resend
+            Span  confirmation
+      `
+    } else {
+      errMessage = errors.server.message
+    }
   }
 
   return pug`
@@ -167,8 +173,7 @@ function LoginForm ({
     if errors.server
       Alert(
         variant='error'
-        renderActions=renderCustomCloseButton
-      )= errors.server.message
+      )= errMessage
       Br
     ObjectInput(
       value=form
