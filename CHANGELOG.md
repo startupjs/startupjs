@@ -1,3 +1,12 @@
+## [0.44.22](https://github.com/startupjs/startupjs/compare/v0.44.21...v0.44.22) (2022-05-20)
+
+
+### Bug Fixes
+
+* **auth-telegram:** fix getting an avatar when it's absent ([#950](https://github.com/startupjs/startupjs/issues/950)) ([ff75716](https://github.com/startupjs/startupjs/commit/ff75716b869d43104958b89d4893c52343f8f94c))
+
+
+
 ## [0.44.21](https://github.com/startupjs/startupjs/compare/v0.44.20...v0.44.21) (2022-05-19)
 
 
