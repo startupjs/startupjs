@@ -44,6 +44,7 @@
     "ObjectInput": "/components/forms/ObjectInput",
     "PasswordInput": "/components/forms/PasswordInput",
     "Radio": "/components/forms/Radio",
+    "RangeInput": "/components/forms/RangeInput",
     "Select": "/components/forms/Select",
     "TextInput": "/components/forms/TextInput",
     "Drawer": "/components/popups/Drawer",

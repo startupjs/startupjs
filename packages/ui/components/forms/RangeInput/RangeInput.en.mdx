@@ -1,0 +1,136 @@
+import { useState } from 'react'
+import Br from '../../Br'
+import Div from '../../Div'
+import Span from '../../typography/Span'
+import RangeInput from '../RangeInput'
+
+# RangeInput
+
+Slider component with one or two markers.
+
+```jsx
+import { RangeInput } from '@startupjs/ui'
+```
+
+## Simple example
+When the value is number and not an array the range input has one marker
+
+**Important**: In this case `onChange` callback receives first argument with type number
+
+```jsx example
+const [value, setValue] = useState(10)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)} // val is number
+  />
+)
+```
+
+## Two markers
+When the value is an array (array with two numbers) the range input has two markers
+
+**Important**: In this case `onChange` callback receives first argument with array type
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Enabling value(s) for label(s)
+
+Specify `showLabel` property
+
+```jsx example
+const [value, setValue] = useState(40)
+const [secondValue, secondSetValue] = useState([40, 60])
+
+return (
+  <Div>
+    <Br />
+    <Br />
+    <RangeInput
+      value={value}
+      min={0}
+      max={100}
+      showLabel
+      onChange={(val) => setValue(val)}
+    />
+  </Div>
+)
+```
+
+## You can change a step for a value(s)
+
+Use `step` property to specify a different from `1` value
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <Div>
+    <Br />
+    <Br />
+    <RangeInput
+      value={value}
+      min={0}
+      max={100}
+      showLabel
+      step={10}
+      onChange={(val) => setValue(val)}
+    />
+  </Div>
+)
+```
+
+## You can specify a list of available values for a range input
+
+Use `options` property to specify them.
+
+**Important:** `min` and `max` properties will be ignored if they have been specified
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <Div>
+    <Br />
+    <Br />
+    <RangeInput
+      value={value}
+      options={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+      showLabel
+      onChange={(val) => setValue(val)}
+    />
+  </Div>
+)
+```
+
+## Range with specific width
+
+Use `width` property to specify custom width
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    width={400}
+    onChange={(val) => setValue(val)}
+  />
+)
+```

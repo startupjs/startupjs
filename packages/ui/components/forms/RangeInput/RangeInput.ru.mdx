@@ -1,0 +1,137 @@
+import { useState } from 'react'
+import Br from '../../Br'
+import Div from '../../Div'
+import Span from '../../typography/Span'
+import RangeInput from '../RangeInput'
+
+# RangeInput
+
+Компонент диапазона с одним или двумя ползунками.
+
+```jsx
+import { RangeInput } from '@startupjs/ui'
+```
+
+## Простой пример
+Когда значение является числом, а не массивом, поле имеет один ползунок
+
+**Важно**: В этом случае обратный вызов `onChange` получает первый аргумент как число
+
+```jsx example
+const [value, setValue] = useState(10)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)} // val is number
+  />
+)
+```
+
+## Два ползунка
+Когда значение представляет собой массив (массив с двумя числами), поле имеет два ползунка.
+
+**Important**: In this case `onChange` callback receives first argument with array type
+**Важно**: В этом случае обратный вызов `onChange` получает первый аргумент в виде массива значений
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Включение показа значения(ий) для ползунка(ов)
+
+Укажите свойство `showLabel`
+
+```jsx example
+const [value, setValue] = useState(40)
+const [secondValue, secondSetValue] = useState([40, 60])
+
+return (
+  <Div>
+    <Br />
+    <Br />
+    <RangeInput
+      value={value}
+      min={0}
+      max={100}
+      showLabel
+      onChange={(val) => setValue(val)}
+    />
+  </Div>
+)
+```
+
+## Вы можете изменить шаг для ползунка(ов)
+
+Используйте свойство `step`, чтобы указать значение, отличное от `1`
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <Div>
+    <Br />
+    <Br />
+    <RangeInput
+      value={value}
+      min={0}
+      max={100}
+      showLabel
+      step={10}
+      onChange={(val) => setValue(val)}
+    />
+  </Div>
+)
+```
+
+## Вы можете указать список доступных значений для поля
+
+Используйте свойство `options`, чтобы указать их.
+
+**Важно:** свойства `min` и `max` будут игнорироваться, если они были указаны
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <Div>
+    <Br />
+    <Br />
+    <RangeInput
+      value={value}
+      options={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+      showLabel
+      onChange={(val) => setValue(val)}
+    />
+  </Div>
+)
+```
+
+## Поле с определенной шириной
+
+Используйте свойство `width`, чтобы указать пользовательскую ширину
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    width={400}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
