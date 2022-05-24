@@ -2,17 +2,18 @@ import React from 'react'
 import { useBind } from 'startupjs'
 import wrapInput from './wrapInput'
 import ArrayInput from '../ArrayInput'
+import Card from './../../Card'
 import Checkbox from '../Checkbox'
+import ColorPicker from '../ColorPicker'
 import DateTimePicker from '../DateTimePicker'
 import Multiselect from '../Multiselect'
 import NumberInput from '../NumberInput'
 import ObjectInput from '../ObjectInput'
 import PasswordInput from '../PasswordInput'
 import Radio from '../Radio'
+import RangeInput from '../RangeInput'
 import Select from '../Select'
 import TextInput from '../TextInput'
-import ColorPicker from '../ColorPicker'
-import Card from './../../Card'
 
 function cardWrapper (style, children) {
   return pug`
@@ -102,6 +103,7 @@ const WrappedTextInput = wrapInput(
     isLabelColoredWhenFocusing: true
   }
 )
+const WrappedRange = wrapInput(RangeInput)
 
 const inputs = {
   array: {
@@ -268,6 +270,18 @@ const inputs = {
   },
   radio: {
     Component: WrappedRadio,
+    useProps: ({ value, $value, onChange, ...props }) => {
+      ;({ value, onChange } = useBind({ value, $value, onChange }))
+
+      return {
+        value,
+        onChange,
+        ...props
+      }
+    }
+  },
+  range: {
+    Component: WrappedRange,
     useProps: ({ value, $value, onChange, ...props }) => {
       ;({ value, onChange } = useBind({ value, $value, onChange }))
 

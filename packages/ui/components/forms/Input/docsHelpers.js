@@ -54,6 +54,9 @@ export function getPropsForType () {
 
     case 'color':
       return commonProps
+
+    case 'range':
+      return { ...commonProps, onChange: onChangeValue }
   }
 }
 
