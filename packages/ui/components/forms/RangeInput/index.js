@@ -57,7 +57,7 @@ RangeInput.propTypes = {
   options: PropTypes.arrayOf(PropTypes.number),
   showLabel: PropTypes.bool,
   step: PropTypes.number,
-  value: PropTypes.oneOf([
+  value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.number)
   ]).isRequired,
