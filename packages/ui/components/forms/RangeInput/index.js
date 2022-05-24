@@ -48,7 +48,10 @@ function RangeInput (props) {
   `
 }
 
-const styleProp = PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+const styleProp = PropTypes.oneOfType([
+  PropTypes.object,
+  PropTypes.array
+])
 
 RangeInput.propTypes = {
   min: PropTypes.number,
