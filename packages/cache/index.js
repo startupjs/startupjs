@@ -22,6 +22,7 @@ setDebugVar('cacheEnabled', cacheEnabled)
 const BLOCK_CACHE = { value: false }
 
 const activeCaches = {}
+const FORCE_UPDATE_PREFIX = '__FORCE_'
 
 export function blockCache () {
   if (!BLOCK_CACHE.value) BLOCK_CACHE.value = true
@@ -85,9 +86,8 @@ export function singletonMemoize (
   {
     cacheName,
     active = true,
-    // NOTE: if firstArgWeakMap is enabled you would want to ignore the first argument completely
-    //       in the normalizer
     normalizer = defaultNormalizer,
+    forceUpdateWhenChanged,
     nestedThis = false
   } = {}
 ) {
@@ -96,7 +96,12 @@ export function singletonMemoize (
 
   function getFromCache (cache, args) {
     const id = normalizer(...args)
-    if (!cache.has(id)) cache.set(id, fn.call(this, ...args))
+    const forceUpdateValue = forceUpdateWhenChanged && forceUpdateWhenChanged(...args)
+    const forceUpdate = (forceUpdateWhenChanged && cache.get(FORCE_UPDATE_PREFIX + id) !== forceUpdateValue)
+    if (forceUpdate || !cache.has(id)) {
+      cache.set(id, fn.call(this, ...args))
+      if (forceUpdateWhenChanged) cache.set(FORCE_UPDATE_PREFIX + id, forceUpdateValue)
+    }
     return cache.get(id)
   }
 

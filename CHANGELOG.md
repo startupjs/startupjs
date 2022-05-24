@@ -1,3 +1,12 @@
+## [0.44.23](https://github.com/startupjs/startupjs/compare/v0.44.22...v0.44.23) (2022-05-22)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** Fix dynamic updates of CSS [@media](https://github.com/media) when cache is used ([#951](https://github.com/startupjs/startupjs/issues/951)) ([2f22c76](https://github.com/startupjs/startupjs/commit/2f22c76fd8721fd8e279cc693b178890ee61eeb1))
+
+
+
 ## [0.44.22](https://github.com/startupjs/startupjs/compare/v0.44.21...v0.44.22) (2022-05-20)
 
 
