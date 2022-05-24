@@ -14,7 +14,7 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, height, lineHeight, borderWidth, placeholderTextColor
+    caretColor, heights, lineHeights, borderWidth, placeholderTextColor
   }
 } = STYLES
 
@@ -104,8 +104,8 @@ function TextInputInput ({
   }, [resize, numberOfLines])
 
   const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeight[size]
-    const h = height[size]
+    const lH = lineHeights[size]
+    const h = heights[size]
     return [lH, (h - lH) / 2 - borderWidth]
   }, [size])
 
