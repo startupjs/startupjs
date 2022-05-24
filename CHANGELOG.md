@@ -1,3 +1,13 @@
+## [0.44.24](https://github.com/startupjs/startupjs/compare/v0.44.23...v0.44.24) (2022-05-24)
+
+
+### Bug Fixes
+
+* **ui/NumberInput:** remove color for arrows ([e85d62b](https://github.com/startupjs/startupjs/commit/e85d62b9bb311c2fbfadd4de2493c45a44385bfd))
+* **ui/TextInput:** move font size to config ([24ce740](https://github.com/startupjs/startupjs/commit/24ce740051a085eeb5a1ab25dc1069d3d4608fa4))
+
+
+
 ## [0.44.23](https://github.com/startupjs/startupjs/compare/v0.44.22...v0.44.23) (2022-05-22)
 
 
