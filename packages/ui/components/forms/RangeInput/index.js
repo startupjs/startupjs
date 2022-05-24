@@ -20,9 +20,8 @@ function RangeInput (props) {
     onChangeFinish,
     onChangeStart
   } = props
-
-  const _twoMarkers = Array.isArray(value) && value.length === 2
-  const _value = Array.isArray(value) ? value : [value]
+  const _twoMarkers = Array.isArray(value) && value.length > 1
+  const _value = Array.isArray(value) ? value : [value] // MultiSlider requires an array for value prop
 
   const _onChange = useCallback((val) => {
     onChange(_twoMarkers ? val : val[0])
@@ -60,7 +59,7 @@ RangeInput.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.number)
-  ]).isRequired,
+  ]),
   width: PropTypes.number,
   // Style props
   containerStyle: styleProp,
@@ -82,10 +81,11 @@ RangeInput.defaultProps = {
   min: 0,
   showLabel: false,
   step: 1,
+  value: [0],
   width: 280,
   onChange: () => {},
   onChangeFinish: () => {},
   onChangeStar: () => {}
 }
 
-export default observer(RangeInput)
+export default observer(RangeInput, { forwardRef: true })
