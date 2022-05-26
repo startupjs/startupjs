@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import styles from './index.styl'
 
 function RangeInput (props) {
   const {
@@ -13,6 +14,7 @@ function RangeInput (props) {
     value,
     width,
     containerStyle,
+    selectedStyle,
     stepStyle,
     trackStyle,
     markerStyle,
@@ -37,10 +39,11 @@ function RangeInput (props) {
       step=step
       showSteps
       values=_value
+      selectedStyle=[styles.selected, selectedStyle]
       containerStyle=containerStyle,
       stepStyle=stepStyle,
-      trackStyle=trackStyle,
-      markerStyle=markerStyle,
+      trackStyle=[styles.track, trackStyle],
+      markerStyle=[styles.marker, markerStyle],
       onValuesChange=_onChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart
@@ -66,25 +69,22 @@ RangeInput.propTypes = {
   width: PropTypes.number,
   // Style props
   containerStyle: styleProp,
+  selectedStyle: styleProp,
   stepStyle: styleProp,
   trackStyle: styleProp,
   markerStyle: styleProp,
   // End style props
   onChange: PropTypes.func,
   onChangeFinish: PropTypes.func,
-  onChangeStar: PropTypes.func
+  onChangeStart: PropTypes.func
 }
 
 RangeInput.defaultProps = {
-  markerStyle: {
-    width: 16,
-    height: 16
-  },
   max: 100,
   min: 0,
   showLabel: false,
   step: 1,
-  value: [0],
+  value: 0,
   width: 280,
   onChange: () => {},
   onChangeFinish: () => {},

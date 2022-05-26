@@ -1,0 +1,20 @@
+$this = merge({
+  trackColor: $UI.colors.darkLightest,
+  selectedColor: $UI.colors.primary,
+}, $UI.RangeInput, true)
+
+.marker
+  top 4px
+  width 10px
+  height @width
+  border-radius 10px
+  shadow(1)
+
+.track
+  height 1u
+  background-color $this.trackColor
+  border-radius 4px
+
+.selected
+  background-color $this.selectedColor
+
