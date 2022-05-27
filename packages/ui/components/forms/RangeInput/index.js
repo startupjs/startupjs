@@ -2,10 +2,12 @@ import React, { useCallback } from 'react'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import Label from './Label'
 import styles from './index.styl'
 
 function RangeInput (props) {
   const {
+    customLabel,
     max,
     min,
     options,
@@ -31,6 +33,7 @@ function RangeInput (props) {
 
   return pug`
     MultiSlider(
+      customLabel=customLabel
       enableLabel=showLabel
       min=min
       max=max
@@ -57,6 +60,7 @@ const styleProp = PropTypes.oneOfType([
 ])
 
 RangeInput.propTypes = {
+  customLabel: PropTypes.func,
   min: PropTypes.number,
   max: PropTypes.number,
   options: PropTypes.arrayOf(PropTypes.number),
@@ -80,6 +84,7 @@ RangeInput.propTypes = {
 }
 
 RangeInput.defaultProps = {
+  customLabel: Label,
   max: 100,
   min: 0,
   showLabel: false,
