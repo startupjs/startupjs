@@ -4,7 +4,7 @@ import Div from '../../../Div'
 import Span from '../../../typography/Span'
 import styles from './index.styl'
 
-const width = 16
+const width = 12
 
 function Label ({
   oneMarkerValue,
