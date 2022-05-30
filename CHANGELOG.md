@@ -1,3 +1,12 @@
+## [0.44.25](https://github.com/startupjs/startupjs/compare/v0.44.24...v0.44.25) (2022-05-30)
+
+
+### Bug Fixes
+
+* **Div:** fix incorrect hyphenate in the tooltip text when the text is small ([b6c803c](https://github.com/startupjs/startupjs/commit/b6c803c4e5e8bc11cf76361af6d9c4f9babe303f))
+
+
+
 ## [0.44.24](https://github.com/startupjs/startupjs/compare/v0.44.23...v0.44.24) (2022-05-24)
 
 
