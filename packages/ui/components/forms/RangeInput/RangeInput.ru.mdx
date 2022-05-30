@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import Br from '../../Br'
-import Div from '../../Div'
 import Span from '../../typography/Span'
 import RangeInput from '../RangeInput'
 
 # RangeInput
 
-Компонент диапазона с одним или двумя ползунками.
+Компонент позволяет делать выбор из диапазона значений
 
 ```jsx
 import { RangeInput } from '@startupjs/ui'
@@ -49,26 +47,22 @@ return (
 )
 ```
 
-## Включение показа значения(ий) для ползунка(ов)
+## Выключение показа значения(ий) для ползунка(ов)
 
-Укажите свойство `showLabel`
+Укажите свойство `hideLabel` чтобы скрыть значение(ия)
 
 ```jsx example
 const [value, setValue] = useState(40)
 const [secondValue, secondSetValue] = useState([40, 60])
 
 return (
-  <Div>
-    <Br />
-    <Br />
-    <RangeInput
-      value={value}
-      min={0}
-      max={100}
-      showLabel
-      onChange={(val) => setValue(val)}
-    />
-  </Div>
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    hideLabel
+    onChange={(val) => setValue(val)}
+  />
 )
 ```
 
@@ -80,18 +74,13 @@ return (
 const [value, setValue] = useState(30)
 
 return (
-  <Div>
-    <Br />
-    <Br />
-    <RangeInput
-      value={value}
-      min={0}
-      max={100}
-      showLabel
-      step={10}
-      onChange={(val) => setValue(val)}
-    />
-  </Div>
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    step={10}
+    onChange={(val) => setValue(val)}
+  />
 )
 ```
 
@@ -105,16 +94,11 @@ return (
 const [value, setValue] = useState(30)
 
 return (
-  <Div>
-    <Br />
-    <Br />
-    <RangeInput
-      value={value}
-      options={[0, 20, 40, 70, 90, 100]}
-      showLabel
-      onChange={(val) => setValue(val)}
-    />
-  </Div>
+  <RangeInput
+    value={value}
+    options={[0, 20, 40, 70, 90, 100]}
+    onChange={(val) => setValue(val)}
+  />
 )
 ```
 

@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import Br from '../../Br'
-import Div from '../../Div'
 import Span from '../../typography/Span'
 import RangeInput from '../RangeInput'
 
 # RangeInput
 
-Slider component with one or two markers.
+Sliders allow users to make selections from a range of values.
 
 ```jsx
 import { RangeInput } from '@startupjs/ui'
@@ -48,26 +46,22 @@ return (
 )
 ```
 
-## Enabling value(s) for label(s)
+## Disabling label(s)
 
-Specify `showLabel` property
+Specify `hideLabel` property to hide label(s)
 
 ```jsx example
 const [value, setValue] = useState(40)
 const [secondValue, secondSetValue] = useState([40, 60])
 
 return (
-  <Div>
-    <Br />
-    <Br />
-    <RangeInput
-      value={value}
-      min={0}
-      max={100}
-      showLabel
-      onChange={(val) => setValue(val)}
-    />
-  </Div>
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    hideLabel
+    onChange={(val) => setValue(val)}
+  />
 )
 ```
 
@@ -79,18 +73,13 @@ Use `step` property to specify a different from `1` value
 const [value, setValue] = useState(30)
 
 return (
-  <Div>
-    <Br />
-    <Br />
-    <RangeInput
-      value={value}
-      min={0}
-      max={100}
-      showLabel
-      step={10}
-      onChange={(val) => setValue(val)}
-    />
-  </Div>
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    step={10}
+    onChange={(val) => setValue(val)}
+  />
 )
 ```
 
@@ -104,16 +93,11 @@ Use `options` property to specify them.
 const [value, setValue] = useState(30)
 
 return (
-  <Div>
-    <Br />
-    <Br />
-    <RangeInput
-      value={value}
-      options={[0, 20, 40, 70, 90, 100]}
-      showLabel
-      onChange={(val) => setValue(val)}
-    />
-  </Div>
+  <RangeInput
+    value={value}
+    options={[0, 20, 40, 70, 90, 100]}
+    onChange={(val) => setValue(val)}
+  />
 )
 ```
 

@@ -11,7 +11,7 @@ function RangeInput (props) {
     max,
     min,
     options,
-    showLabel, // todo: fix a problem with absolute position
+    hideLabel,
     step,
     value,
     width,
@@ -28,13 +28,13 @@ function RangeInput (props) {
   const _value = Array.isArray(value) ? value : [value] // MultiSlider requires an array for value prop
 
   const _onChange = useCallback((val) => {
-    onChange(_twoMarkers ? val : val[0])
+    onChange && onChange(_twoMarkers ? val : val[0])
   }, [onChange])
 
   return pug`
     MultiSlider(
       customLabel=customLabel
-      enableLabel=showLabel
+      enableLabel=!hideLabel
       min=min
       max=max
       optionsArray=options
@@ -64,7 +64,7 @@ RangeInput.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   options: PropTypes.arrayOf(PropTypes.number),
-  showLabel: PropTypes.bool,
+  hideLabel: PropTypes.bool,
   step: PropTypes.number,
   value: PropTypes.oneOfType([
     PropTypes.number,
@@ -87,13 +87,10 @@ RangeInput.defaultProps = {
   customLabel: Label,
   max: 100,
   min: 0,
-  showLabel: false,
+  hideLabel: false,
   step: 1,
   value: 0,
-  width: 280,
-  onChange: () => {},
-  onChangeFinish: () => {},
-  onChangeStar: () => {}
+  width: 280
 }
 
 export default observer(RangeInput, { forwardRef: true })
