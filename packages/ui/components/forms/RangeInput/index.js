@@ -142,7 +142,6 @@ RangeInput.defaultProps = {
   min: 0,
   range: false,
   step: 1,
-  value: 0,
   width: 280
 }
 
