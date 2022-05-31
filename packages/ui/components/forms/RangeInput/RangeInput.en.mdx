@@ -4,37 +4,21 @@ import RangeInput from '../RangeInput'
 
 # RangeInput
 
-Sliders allow users to make selections from a range of values.
+The component allow users to make selections from a range of values as a single value or a range.
 
 ```jsx
 import { RangeInput } from '@startupjs/ui'
 ```
 
 ## Simple example
-When the value is number and not an array the range input has one marker
+By default range input has one slider. `value` prop must be a number in this case. Otherwise you will receive a waring if `value` prop is an array. But the component is smart enough and it will still work.
 
-**Important**: In this case `onChange` callback receives first argument with type number
+**Important**: `onChange` callback receives first argument with type number
 
-```jsx example
-const [value, setValue] = useState(10)
-
-return (
-  <RangeInput
-    value={value}
-    min={0}
-    max={100}
-    onChange={(val) => setValue(val)} // val is number
-  />
-)
-```
-
-## Two markers
-When the value is an array (array with two numbers) the range input has two markers
-
-**Important**: In this case `onChange` callback receives first argument with array type
+If value prop hasn't been provided then a value of `min` prop will be used as a value for `value` prop. **`onChange` callback prop will be called to initialize your model with that value**
 
 ```jsx example
-const [value, setValue] = useState([20, 60])
+const [value, setValue] = useState(40)
 
 return (
   <RangeInput
@@ -46,13 +30,36 @@ return (
 )
 ```
 
+## Two sliders
+To enable two sliders specify `range` prop with `true` value.
+`value` prop must be an array with two numbers.
+
+**Important**: In this case `onChange` callback receives first argument with array type
+
+If value hasn't been provided then a values of `min` and `max` props will be used as a value for `value` prop.
+**`onChange` callback prop will be called to initialize your model with that value**
+Even if you pass a value with one element the component will use a value of `max` prop to fill absent second element but you will receive a warning that value prop must has two elements in the array.
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
 ## Disabling label(s)
 
 Specify `hideLabel` property to hide label(s)
 
 ```jsx example
 const [value, setValue] = useState(40)
-const [secondValue, secondSetValue] = useState([40, 60])
 
 return (
   <RangeInput

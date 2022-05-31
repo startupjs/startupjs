@@ -19,12 +19,14 @@ function Label ({
 
   return pug`
     Div.root
+      // This condition has been taken from original vendor component. Be aware when you change this.
       if Number.isFinite(oneMarkerLeftPosition) && Number.isFinite(oneMarkerValue)
         Div.label(
           ref=oneRef
           style={ left: oneMarkerLeftPosition - oneWidth / 2 }
         )
           Span.labelText(styleName={ pressed: oneMarkerPressed })= oneMarkerValue
+      // This condition has been taken from original vendor component. Be aware when you change this.
       if Number.isFinite(twoMarkerLeftPosition) && Number.isFinite(twoMarkerValue)
         Div.label(
           ref=twoRef
