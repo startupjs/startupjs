@@ -17,11 +17,11 @@ function Label ({
       // This condition has been taken from original vendor component. Be aware when you change this.
       if Number.isFinite(oneMarkerLeftPosition) && Number.isFinite(oneMarkerValue)
         Div.label(style={ left: oneMarkerLeftPosition - styles.label.width / 2 })
-          Span.labelText(styleName={ pressed: oneMarkerPressed })= oneMarkerValue
+          Span.text(styleName={ pressed: oneMarkerPressed })= oneMarkerValue
       // This condition has been taken from original vendor component. Be aware when you change this.
       if Number.isFinite(twoMarkerLeftPosition) && Number.isFinite(twoMarkerValue)
         Div.label(style={ left: twoMarkerLeftPosition - styles.label.width / 2 })
-          Span.labelText(styleName={ pressed: twoMarkerPressed })= twoMarkerValue
+          Span.text(styleName={ pressed: twoMarkerPressed })= twoMarkerValue
   `
 }
 

@@ -8,7 +8,7 @@ import styles from './index.styl'
 function RangeInput (props) {
   const {
     customLabel,
-    hideLabel,
+    showLabel,
     min,
     max,
     options,
@@ -84,7 +84,7 @@ function RangeInput (props) {
   return pug`
     MultiSlider(
       customLabel=customLabel
-      enableLabel=!hideLabel
+      enableLabel=showLabel
       enabledTwo=range
       min=min
       max=max
@@ -112,7 +112,7 @@ const styleProp = PropTypes.oneOfType([
 
 RangeInput.propTypes = {
   customLabel: PropTypes.func,
-  hideLabel: PropTypes.bool,
+  showLabel: PropTypes.bool,
   min: PropTypes.number,
   max: PropTypes.number,
   options: PropTypes.arrayOf(PropTypes.number),
@@ -137,7 +137,7 @@ RangeInput.propTypes = {
 
 RangeInput.defaultProps = {
   customLabel: Label,
-  hideLabel: false,
+  showLabel: true,
   max: 100,
   min: 0,
   range: false,
