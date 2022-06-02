@@ -1,3 +1,17 @@
+## [0.44.26](https://github.com/startupjs/startupjs/compare/v0.44.25...v0.44.26) (2022-06-02)
+
+
+### Bug Fixes
+
+* **Dropdown:** add ability to hide responder for drawer ([1832cf9](https://github.com/startupjs/startupjs/commit/1832cf952e5e35b785c728007dbabe6ebcd0b3ba))
+
+
+### Features
+
+* **ui/Progress:** add ability to customize progress parts ([1079f78](https://github.com/startupjs/startupjs/commit/1079f789cbfa43256800ffcda23617eef4e710cb))
+
+
+
 ## [0.44.25](https://github.com/startupjs/startupjs/compare/v0.44.24...v0.44.25) (2022-05-30)
 
 
