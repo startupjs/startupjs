@@ -36,6 +36,7 @@ function Dropdown ({
   drawerListTitle,
   drawerCancelLabel,
   hasDrawer,
+  showDrawerResponder,
   onChange,
   onDismiss
 }, ref) {
@@ -183,6 +184,7 @@ function Dropdown ({
       styleName={ drawerReset: drawerVariant === 'buttons' }
       onDismiss=()=> $isShow.setDiff(false)
       onRequestOpen=onRequestOpen
+      showResponder=showDrawerResponder
     )
       View.dropdown(styleName=drawerVariant)
         if drawerVariant === 'list'
