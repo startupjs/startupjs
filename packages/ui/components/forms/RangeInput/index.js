@@ -31,36 +31,22 @@ function RangeInput (props) {
 
   let _value = useMemo(function () {
     // vendor component expects an array
-    if (range) {
-      if (value !== undefined && value !== null) {
-        if (!Array.isArray(value)) {
-          console.warn('RangeInput: component expects value as an array when range prop is true')
-          return [value < min ? min : value, max]
-        } else if (value.length === 0) {
-          console.warn('RangeInput: component expects value as an array with two items when range prop is true')
-          return [min, max]
-        } else if (value.length === 1) {
-          return [value[0] > min ? value[0] : min, max]
-        }
-        return [value[0] > min ? value[0] : min, value[1] < max ? value[1] : max]
-      }
-      return [min, max]
-    } else {
-      if (value === undefined || value === null) {
-        return [min]
-      } else if (Array.isArray(value)) {
-        console.warn('RangeInput: component expects value as an number when range prop is false')
-        return [value[0]] // two values will show second slider
-      }
-      return [value]
+    if (value === undefined || value === null) {
+      return range ? [min, max] : [min]
     }
+    return value
   }, [range, value, min, max])
 
   // to initialize a model with default values if they absent
   useMemo(function () {
     const __val = range ? _value : _value[0]
     if (JSON.stringify(value) !== JSON.stringify(__val)) {
-      onChange(__val)
+      throw new Promise((resolve) => {
+        (async () => {
+          await onChange(__val)
+          resolve()
+        })()
+      })
     }
   }, [_value])
 
