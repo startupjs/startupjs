@@ -20,9 +20,9 @@ function Progress ({
 
   return pug`
     View(style=style)
-      Div.progress(style=extraStyle shape=shape)
+      Div.progress(part='progress' style=extraStyle shape=shape)
         //- To normalize value pass value=Math.min(value, 100)
-        Filler(style=extraStyle value=value)
+        Filler(part='filler' style=extraStyle value=value)
       if typeof children === 'string'
         Span.label= children
       else
