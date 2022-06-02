@@ -31,7 +31,7 @@ function RangeInput (props) {
 
   const _value = useMemo(function () {
     let __value = value
-    // vendor component expects an array
+
     if (value === undefined || value === null) {
       __value = range ? [min, max] : min
 
@@ -44,6 +44,7 @@ function RangeInput (props) {
       })
     }
 
+    // vendor component expects an array
     return Array.isArray(__value) ? __value : [__value]
   }, [range, value, min, max])
 
