@@ -1,6 +1,7 @@
 $this = merge({
   trackColor: $UI.colors.darkLightest,
   selectedColor: $UI.colors.primary,
+  stepMarker: $UI.colors.whiteLight
 }, $UI.RangeInput, true)
 
 .marker
@@ -21,4 +22,9 @@ $this = merge({
 .stepLabel
   font-style normal
   font(caption)
+
+.stepMarker
+  border-radius 0
+  width 2px
+  background-color $this.stepMarker
 

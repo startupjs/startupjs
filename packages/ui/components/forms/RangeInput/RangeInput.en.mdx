@@ -90,19 +90,18 @@ return (
 )
 ```
 
-## You can specify a list of available values for a range input
-
-Use `options` property to specify them.
-
-**Important:** `min` and `max` properties will be ignored if they have been specified
+## Show labels for steps
+Use `showSteps` property with `true` value
 
 ```jsx example
-const [value, setValue] = useState(30)
+const [value, setValue] = useState(4)
 
 return (
   <RangeInput
     value={value}
-    options={[0, 20, 40, 70, 90, 100]}
+    min={0}
+    max={5}
+    showSteps
     onChange={(val) => setValue(val)}
   />
 )

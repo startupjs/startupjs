@@ -89,20 +89,18 @@ return (
   />
 )
 ```
-
-## Вы можете указать список доступных значений для поля
-
-Используйте свойство `options`, чтобы указать их.
-
-**Важно:** свойства `min` и `max` будут игнорироваться, если они были указаны
+## Показать метки для шагов
+Используйте свойство `showSteps` со значением `true`
 
 ```jsx example
-const [value, setValue] = useState(30)
+const [value, setValue] = useState(4)
 
 return (
   <RangeInput
     value={value}
-    options={[0, 20, 40, 70, 90, 100]}
+    min={0}
+    max={5}
+    showSteps
     onChange={(val) => setValue(val)}
   />
 )
