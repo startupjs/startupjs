@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
+import { StyleSheet } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -13,11 +14,15 @@ function RangeInput (props) {
     max,
     options,
     range,
+    showSteps,
+    showStepMarkers,
     step,
     value,
     width,
     containerStyle,
     selectedStyle,
+    stepLabelStyle,
+    stepMarkerStyle,
     stepStyle,
     trackStyle,
     markerStyle,
@@ -91,13 +96,16 @@ function RangeInput (props) {
       optionsArray=options
       sliderLength=width
       step=step
-      showSteps
+      showSteps=showSteps
+      showStepMarkers=showStepMarkers
       values=_value
-      selectedStyle=[styles.selected, selectedStyle]
+      selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
       containerStyle=containerStyle,
-      stepStyle=stepStyle,
-      trackStyle=[styles.track, trackStyle],
-      markerStyle=[styles.marker, markerStyle],
+      stepLabelStyle=StyleSheet.flatten([styles.stepLabel, stepLabelStyle]),
+      stepMarkerStyle=stepMarkerStyle
+      stepStyle=stepStyle
+      trackStyle=StyleSheet.flatten([styles.track, trackStyle]),
+      markerStyle=StyleSheet.flatten([styles.marker, markerStyle]),
       onValuesChange=_onChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart
@@ -117,6 +125,8 @@ RangeInput.propTypes = {
   max: PropTypes.number,
   options: PropTypes.arrayOf(PropTypes.number),
   range: PropTypes.bool,
+  showSteps: PropTypes.bool,
+  showStepMarkers: PropTypes.bool,
   step: PropTypes.number,
   value: PropTypes.oneOfType([
     PropTypes.number,
@@ -126,6 +136,8 @@ RangeInput.propTypes = {
   // Style props
   containerStyle: styleProp,
   selectedStyle: styleProp,
+  stepLabelStyle: styleProp,
+  stepMarkerStyle: styleProp,
   stepStyle: styleProp,
   trackStyle: styleProp,
   markerStyle: styleProp,
@@ -137,10 +149,12 @@ RangeInput.propTypes = {
 
 RangeInput.defaultProps = {
   customLabel: Label,
-  showLabel: true,
   max: 100,
   min: 0,
   range: false,
+  showSteps: true,
+  showStepMarkers: true,
+  showLabel: true,
   step: 1,
   width: 280
 }
