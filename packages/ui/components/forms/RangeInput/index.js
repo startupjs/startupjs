@@ -29,24 +29,23 @@ function RangeInput (props) {
     onChangeStart
   } = props
 
-  let _value = useMemo(function () {
-    let val = value
+  const _value = useMemo(function () {
+    let __value = value
     // vendor component expects an array
     if (value === undefined || value === null) {
-      val = range ? [min, max] : [min]
+      __value = range ? [min, max] : min
 
+      // to initialize a model with default values if they absent
       throw new Promise((resolve) => {
         (async () => {
-          await onChange(val)
+          await onChange(__value)
           resolve()
         })()
       })
     }
 
-    return val
+    return Array.isArray(__value) ? __value : [__value]
   }, [range, value, min, max])
-
-  // to initialize a model with default values if they absent
 
   const _onChange = useCallback((val) => {
     onChange && onChange(range ? val : val[0])
