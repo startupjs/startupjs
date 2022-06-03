@@ -90,8 +90,8 @@ return (
 )
 ```
 
-## Show labels for steps
-Use `showSteps` property with `true` value
+## Show labels and markers for steps
+Use `showSteps` property with `true` value. We recommend to disable marker label to get better appearance.
 
 ```jsx example
 const [value, setValue] = useState(4)
@@ -102,6 +102,41 @@ return (
     min={0}
     max={5}
     showSteps
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+You can disable markers and labels separately with `showStepMarkers` and `showStepLabel` props
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepMarkers={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepLabel={false}
     onChange={(val) => setValue(val)}
   />
 )

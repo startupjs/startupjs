@@ -89,8 +89,8 @@ return (
   />
 )
 ```
-## Показать метки для шагов
-Используйте свойство `showSteps` со значением `true`
+## Показать метки и маркеры для шагов
+Используйте свойство `showSteps` со значением `true`. Мы рекомендуем отключить метку маркера, чтобы улучшить внешний вид.
 
 ```jsx example
 const [value, setValue] = useState(4)
@@ -101,6 +101,41 @@ return (
     min={0}
     max={5}
     showSteps
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+Вы можете отключить маркеры и метки отдельно с помощью атрибутов `showStepMarkers` и `showStepLabel`
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepMarkers={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepLabel={false}
     onChange={(val) => setValue(val)}
   />
 )

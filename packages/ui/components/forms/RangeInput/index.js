@@ -14,6 +14,8 @@ function RangeInput (props) {
     max,
     range,
     showSteps,
+    showStepLabels,
+    showStepMarkers,
     step,
     value,
     width,
@@ -62,7 +64,8 @@ function RangeInput (props) {
       sliderLength=width
       step=step
       showSteps=showSteps
-      showStepMarkers=showSteps
+      showStepLabels=showStepLabels
+      showStepMarkers=showStepMarkers
       values=_value
       selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
       containerStyle=containerStyle,
@@ -91,6 +94,8 @@ RangeInput.propTypes = {
   max: PropTypes.number,
   range: PropTypes.bool,
   showSteps: PropTypes.bool,
+  showStepLabels: PropTypes.bool,
+  showStepMarkers: PropTypes.bool,
   step: PropTypes.number,
   value: PropTypes.oneOfType([
     PropTypes.number,
@@ -117,6 +122,8 @@ RangeInput.defaultProps = {
   min: 0,
   range: false,
   showSteps: false,
+  showStepLabels: true,
+  showStepMarkers: true,
   showLabel: true,
   step: 1,
   width: 280
