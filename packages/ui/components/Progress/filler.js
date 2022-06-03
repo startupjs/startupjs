@@ -22,23 +22,21 @@ function ProgressFiller ({ style, value }) {
       {
         toValue: value,
         duration,
-        easing: Easing.linear,
-        useNativeDriver: true
+        easing: Easing.linear
       }
     ).start()
   }, [value])
+
 
   return pug`
     AnimatedView.filler(
       style=[
         style,
         {
-          transform: [{
-            translateX: progress.interpolate({
-              inputRange: [0, 100],
-              outputRange: [-width, 0]
-            })
-          }]
+          width: progress.interpolate({
+            inputRange: [0, 100],
+            outputRange: ['0%', '100%']
+          })
         }
       ]
       onLayout=(event) => setWidth(event.nativeEvent.layout.width)
