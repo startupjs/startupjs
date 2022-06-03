@@ -70,7 +70,7 @@ function RangeInput (props) {
       step=step
       values=_value
       selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
-      containerStyle=containerStyle,
+      containerStyle=StyleSheet.flatten([styles.container, containerStyle]),
       stepLabelStyle=StyleSheet.flatten([styles.stepLabel, stepLabelStyle]),
       stepMarkerStyle=StyleSheet.flatten([styles.stepMarker, stepMarkerStyle])
       stepStyle=stepStyle

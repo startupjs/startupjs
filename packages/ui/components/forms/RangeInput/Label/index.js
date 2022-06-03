@@ -12,16 +12,27 @@ function Label ({
   oneMarkerPressed,
   twoMarkerPressed
 }) {
+  // Number.isFinite - This condition has been taken from original vendor component.
+  // Be aware when you change this.
+  const showOne = oneMarkerPressed && Number.isFinite(oneMarkerLeftPosition) &&
+    Number.isFinite(oneMarkerValue)
+  const shoTwo = twoMarkerPressed && Number.isFinite(twoMarkerLeftPosition) &&
+    Number.isFinite(twoMarkerValue)
+
   return pug`
     Div.root
-      // This condition has been taken from original vendor component. Be aware when you change this.
-      if Number.isFinite(oneMarkerLeftPosition) && Number.isFinite(oneMarkerValue)
-        Div.label(style={ left: oneMarkerLeftPosition - styles.label.width / 2 })
-          Span.text(styleName={ pressed: oneMarkerPressed })= oneMarkerValue
-      // This condition has been taken from original vendor component. Be aware when you change this.
-      if Number.isFinite(twoMarkerLeftPosition) && Number.isFinite(twoMarkerValue)
-        Div.label(style={ left: twoMarkerLeftPosition - styles.label.width / 2 })
-          Span.text(styleName={ pressed: twoMarkerPressed })= twoMarkerValue
+      if showOne
+        =renderLabel(oneMarkerLeftPosition, oneMarkerValue)
+      if shoTwo
+        =renderLabel(twoMarkerLeftPosition, twoMarkerValue)
+  `
+}
+
+function renderLabel (position, value) {
+  return pug`
+    Div.label(style={ left: position - styles.label.width / 2 })
+      Span.text= value
+      Span.triangle
   `
 }
 

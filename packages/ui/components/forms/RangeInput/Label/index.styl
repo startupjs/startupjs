@@ -3,13 +3,27 @@
 
 .label
   position absolute
-  bottom -10px
+  top 2px
   width 12u
   align-items center
 
 .text
+  background-color $UI.colors.dark
+  padding 4px
   font-style normal
   font(caption)
+  color $UI.colors.white
+  border-radius 3px
 
-  &.pressed
-    color $UI.colors.primary
+.triangle
+  width 0
+  height 0
+  background-color transparent
+  border-style solid
+  border-left-width 4
+  border-right-width 4
+  border-bottom-width 4
+  border-left-color transparent
+  border-right-color transparent
+  border-bottom-color $UI.colors.dark
+  transform rotate(180deg)

@@ -4,12 +4,8 @@ $this = merge({
   stepMarker: $UI.colors.whiteLight
 }, $UI.RangeInput, true)
 
-.marker
-  top 4px
-  width 16px
-  height @width
-  border-radius 10px
-  shadow(1)
+.container
+ height 10u
 
 .track
   height 1u
@@ -18,6 +14,13 @@ $this = merge({
 
 .selected
   background-color $this.selectedColor
+
+.marker
+  top 4px
+  width 16px
+  height @width
+  border-radius 10px
+  shadow(1)
 
 .stepLabel
   font-style normal
