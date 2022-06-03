@@ -11,7 +11,7 @@ import { RangeInput } from '@startupjs/ui'
 ```
 
 ## Simple example
-By default range input has one slider. `value` prop must be a number in this case. Otherwise you will receive a waring if `value` prop is an array. But the component is smart enough and it will still work.
+By default range input has one slider. `value` prop must be a number.
 
 **Important**: `onChange` callback receives first argument with type number
 
@@ -38,7 +38,6 @@ To enable two sliders specify `range` prop with `true` value.
 
 If value hasn't been provided then a values of `min` and `max` props will be used as a value for `value` prop.
 **`onChange` callback prop will be called to initialize your model with that value**
-Even if you pass a value with one element the component will use a value of `max` prop to fill absent second element but you will receive a warning that value prop must has two elements in the array.
 
 ```jsx example
 const [value, setValue] = useState([20, 60])

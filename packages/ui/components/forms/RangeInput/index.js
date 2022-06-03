@@ -41,7 +41,7 @@ function RangeInput (props) {
       throw new Promise((resolve) => {
         (async () => {
           const res = onChange(__value)
-          res.then && await res
+          res?.then && await res
           resolve()
         })()
       })
