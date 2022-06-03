@@ -108,7 +108,7 @@ return (
 )
 ```
 
-You can disable markers and labels separately with `showStepMarkers` and `showStepLabel` props
+You can disable markers and labels separately with `showStepMarkers` and `showStepLabels` props
 
 ```jsx example
 const [value, setValue] = useState(4)
@@ -134,9 +134,8 @@ return (
     value={value}
     min={0}
     max={5}
-    showLabel={false}
     showSteps
-    showStepLabel={false}
+    showStepLabels={false}
     onChange={(val) => setValue(val)}
   />
 )
