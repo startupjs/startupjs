@@ -61,11 +61,12 @@ function RangeInput (props) {
       enabledTwo=range
       min=min
       max=max
-      sliderLength=width
-      step=step
       showSteps=showSteps
       showStepLabels=showStepLabels
       showStepMarkers=showStepMarkers
+      sliderLength=width
+      snapped
+      step=step
       values=_value
       selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
       containerStyle=containerStyle,
@@ -77,7 +78,6 @@ function RangeInput (props) {
       onValuesChange=_onChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart
-      snapped
     )
   `
 }
@@ -121,10 +121,10 @@ RangeInput.defaultProps = {
   max: 100,
   min: 0,
   range: false,
+  showLabel: true,
   showSteps: false,
   showStepLabels: true,
   showStepMarkers: true,
-  showLabel: true,
   step: 1,
   width: 280
 }
