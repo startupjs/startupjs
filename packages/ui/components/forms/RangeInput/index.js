@@ -40,7 +40,8 @@ function RangeInput (props) {
       // to initialize a model with default values if they absent
       throw new Promise((resolve) => {
         (async () => {
-          await onChange(__value)
+          const res = onChange(__value)
+          res.then && await res
           resolve()
         })()
       })
