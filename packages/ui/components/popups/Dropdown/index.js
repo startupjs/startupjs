@@ -35,6 +35,7 @@ function Dropdown ({
   drawerVariant,
   drawerListTitle,
   drawerCancelLabel,
+  disabled,
   hasDrawer,
   showDrawerResponder,
   onChange,
@@ -167,7 +168,10 @@ function Dropdown ({
       )
         if caption
           Popover.Caption
-            TouchableOpacity(onPress=()=> $isShow.set(!isShow))
+            TouchableOpacity(
+              disabled=disabled
+              onPress=() => $isShow.set(!isShow)
+            )
               = caption
         = renderContent.current
     `
@@ -175,7 +179,10 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
+      TouchableOpacity.caption(
+        disabled=disabled
+        onPress=() => $isShow.set(!isShow)
+      )
         = caption
     Drawer(
       visible=isShow
