@@ -1,3 +1,12 @@
+## [0.44.27](https://github.com/startupjs/startupjs/compare/v0.44.26...v0.44.27) (2022-06-06)
+
+
+### Bug Fixes
+
+* **ui/Dropdown:** add disabled property to disable caption click ([d35ae4e](https://github.com/startupjs/startupjs/commit/d35ae4e1af20ee7084f177f85c54ea95feca3cc0))
+
+
+
 ## [0.44.26](https://github.com/startupjs/startupjs/compare/v0.44.25...v0.44.26) (2022-06-02)
 
 
