@@ -31,25 +31,22 @@ function RangeInput (props) {
     onChangeStart
   } = props
 
-  const _value = useMemo(function () {
-    let __value = value
-
+  const values = useMemo(function () {
     if (value === undefined || value === null) {
-      __value = range ? [min, max] : min
+      const _value = range ? [min, max] : min
 
-      // to initialize a model with default values if they absent
+      // to initialize a model with default value if it is absented
       throw new Promise((resolve) => {
         (async () => {
-          const res = onChange(__value)
-          res?.then && await res
+          await onChange(_value)
           resolve()
         })()
       })
     }
 
-    // vendor component expects an array
-    return Array.isArray(__value) ? __value : [__value]
-  }, [range, value, min, max])
+    // vendor component requires an array in any case
+    return Array.isArray(value) ? value : [value]
+  }, [value])
 
   const _onChange = useCallback((val) => {
     onChange && onChange(range ? val : val[0])
@@ -68,7 +65,7 @@ function RangeInput (props) {
       sliderLength=width
       snapped
       step=step
-      values=_value
+      values=values
       selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
       containerStyle=StyleSheet.flatten([styles.container, containerStyle]),
       stepLabelStyle=StyleSheet.flatten([styles.stepLabel, stepLabelStyle]),

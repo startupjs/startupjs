@@ -22,7 +22,7 @@ function Label ({
   return pug`
     Div.root
       if showOne
-        =renderLabel(oneMarkerLeftPosition, oneMarkerValue)
+        = renderLabel(oneMarkerLeftPosition, oneMarkerValue)
       if shoTwo
         =renderLabel(twoMarkerLeftPosition, twoMarkerValue)
   `
@@ -31,6 +31,7 @@ function Label ({
 function renderLabel (position, value) {
   return pug`
     Div.label(style={ left: position - styles.label.width / 2 })
+      // todo: implement common tooltip style
       Span.text= value
       Span.triangle
   `
