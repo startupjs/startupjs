@@ -2907,6 +2907,10 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
+"@ptomasroos/react-native-multi-slider@ptomasroos/react-native-multi-slider":
+  version "2.2.2"
+  resolved "https://codeload.github.com/ptomasroos/react-native-multi-slider/tar.gz/7919a26fbda0a7aed00f25409b6dac81e8cac457"
+
 "@react-native-clipboard/clipboard@^1.7.0":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.8.5.tgz#b11276e38ef288b0fd70c0a38506e2deecc5fa5a"

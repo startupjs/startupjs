@@ -1,0 +1,164 @@
+import { useState } from 'react'
+import Span from '../../typography/Span'
+import RangeInput from '../RangeInput'
+
+# RangeInput
+
+The component allow users to make selections from a range of values as a single value or a range.
+
+```jsx
+import { RangeInput } from '@startupjs/ui'
+```
+
+## Simple example
+By default range input has one slider. `value` prop must be a number.
+
+**Important**: `onChange` callback receives first argument with type number
+
+If value prop hasn't been provided then a value of `min` prop will be used as a value for `value` prop. **`onChange` callback prop will be called to initialize your model with that value**
+
+```jsx example
+const [value, setValue] = useState(40)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Two sliders
+To enable two sliders specify `range` prop with `true` value.
+`value` prop must be an array with two numbers.
+
+**Important**: In this case `onChange` callback receives first argument with array type
+
+If value hasn't been provided then a values of `min` and `max` props will be used as a value for `value` prop.
+**`onChange` callback prop will be called to initialize your model with that value**
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Disabling label(s)
+
+Specify `showLabel` property with `false` value to hide label(s)
+
+```jsx example
+const [value, setValue] = useState(40)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## You can change a step for a value(s)
+
+Use `step` property to specify a different from `1` value
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    step={10}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Show labels and markers for steps
+Use `showSteps` property with `true` value. We recommend to disable marker label to get better appearance.
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+You can disable markers and labels separately with `showStepMarkers` and `showStepLabels` props
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepMarkers={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showStepLabels={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Range with specific width
+
+Use `width` property to specify custom width
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    width={400}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Custom style
+
+You can change styles for container, step, track and marker.
+It is `containerStyle`, `selectedStyle`, `stepMarkerStyle`, `stepMarkerStyle`, `stepStyle`, `trackStyle` and `markerStyle` props respectively

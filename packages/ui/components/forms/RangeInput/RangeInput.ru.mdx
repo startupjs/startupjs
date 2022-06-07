@@ -1,0 +1,163 @@
+import { useState } from 'react'
+import Span from '../../typography/Span'
+import RangeInput from '../RangeInput'
+
+# RangeInput
+
+Компонент позволяет делать выбор из диапазона значений как одного значения так и диапозон
+
+```jsx
+import { RangeInput } from '@startupjs/ui'
+```
+
+## Простой пример
+По умолчанию компонент имеет один ползунок. В этом случае свойство `value` должно быть числом.
+
+**Важно**: обратный вызов `onChange` получает первый аргумент с типом число
+
+Если свойство value не было предоставлено, то значение свойства `min` будет использоваться в качестве значения свойства `value`. ** функция колбекс `onChange` будет вызвана для инициализации вашей модели с этим значением**
+
+```jsx example
+const [value, setValue] = useState(40)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Два ползунка
+Чтобы включить два ползунка, укажите свойство `range` со значением `true`.
+Свойство value должно быть массивом из двух чисел.
+
+**Важно**: В этом случае функция обратного вызова `onChange` получает первый аргумент с типом массив
+
+Если значение не указано, то в качестве значения свойства `value` будут использоваться значения свойст `min` и `max`.
+**функция обратного вызова `onChange` будет вызвана для инициализации вашей модели с этим значением**
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Выключение показа значения(ий) для ползунка(ов)
+
+Укажите свойство `showLabel` со значением `false` чтобы скрыть значение(ия)
+
+```jsx example
+const [value, setValue] = useState(40)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Вы можете изменить шаг для ползунка(ов)
+
+Используйте свойство `step`, чтобы указать значение, отличное от `1`
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    step={10}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+## Показать метки и маркеры для шагов
+Используйте свойство `showSteps` со значением `true`. Мы рекомендуем отключить метку маркера, чтобы улучшить внешний вид.
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+Вы можете отключить маркеры и метки отдельно с помощью атрибутов `showStepMarkers` и `showStepLabel`
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepMarkers={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showStepLabels={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Поле с определенной шириной
+
+Используйте свойство `width`, чтобы указать пользовательскую ширину
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    width={400}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Пользовательский стиль
+
+Вы можете изменить стили для контейнера, шага, дорожки и ползунка.
+Это свойства `containerStyle`, `selectedStyle`, `stepMarkerStyle`, `stepMarkerStyle`, `stepStyle`, `trackStyle` и `markerStyle` соответственно.
