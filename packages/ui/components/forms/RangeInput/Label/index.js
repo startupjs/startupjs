@@ -33,7 +33,7 @@ function renderLabel (position, value) {
     Div.label(style={ left: position - styles.label.width / 2 })
       // todo: implement common tooltip style
       Span.text= value
-      Span.triangle
+      Span.arrow
   `
 }
 
