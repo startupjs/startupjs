@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { observer } from 'startupjs'
@@ -31,26 +31,24 @@ function RangeInput (props) {
     onChangeStart
   } = props
 
-  const values = useMemo(function () {
-    if (value === undefined || value === null) {
-      const _value = range ? [min, max] : min
-
-      // to initialize a model with default value if it is absented
-      throw new Promise((resolve) => {
+  useMemo(function () {
+    if (typeof value === 'undefined' || value === null) {
+      // to initialize a model with default value if it is missing
+      throw new Promise(resolve => {
         (async () => {
-          await onChange(_value)
+          await onChange(range ? [min, max] : min)
           resolve()
         })()
       })
     }
+  }, [])
 
-    // vendor component requires an array in any case
-    return Array.isArray(value) ? value : [value]
-  }, [value])
+  // vendor component requires an array in any case
+  const values = Array.isArray(value) ? value : [value]
 
-  const _onChange = useCallback((val) => {
-    onChange && onChange(range ? val : val[0])
-  }, [onChange])
+  function onValuesChange (value) {
+    onChange && onChange(range ? value : value[0])
+  }
 
   return pug`
     MultiSlider(
@@ -73,7 +71,7 @@ function RangeInput (props) {
       stepStyle=stepStyle
       trackStyle=StyleSheet.flatten([styles.track, trackStyle]),
       markerStyle=StyleSheet.flatten([styles.marker, markerStyle]),
-      onValuesChange=_onChange
+      onValuesChange=onValuesChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart
     )
