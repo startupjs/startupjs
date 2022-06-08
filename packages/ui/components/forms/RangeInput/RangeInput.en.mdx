@@ -4,21 +4,16 @@ import RangeInput from '../RangeInput'
 
 # RangeInput
 
-The component allow users to make selections from a range of values as a single value or a range.
+RangeInput lets user make selections from a range of values.
 
 ```jsx
 import { RangeInput } from '@startupjs/ui'
 ```
 
 ## Simple example
-By default range input has one slider. `value` prop must be a number.
-
-**Important**: `onChange` callback receives first argument with type number
-
-If value prop hasn't been provided then a value of `min` prop will be used as a value for `value` prop. **`onChange` callback prop will be called to initialize your model with that value**
 
 ```jsx example
-const [value, setValue] = useState(40)
+const [value, setValue] = useState(50)
 
 return (
   <RangeInput
@@ -30,14 +25,9 @@ return (
 )
 ```
 
-## Two sliders
-To enable two sliders specify `range` prop with `true` value.
-`value` prop must be an array with two numbers.
+## Two markers
 
-**Important**: In this case `onChange` callback receives first argument with array type
-
-If value hasn't been provided then a values of `min` and `max` props will be used as a value for `value` prop.
-**`onChange` callback prop will be called to initialize your model with that value**
+By default component has one marker. To enable two makers pass `range=true`.
 
 ```jsx example
 const [value, setValue] = useState([20, 60])
@@ -53,9 +43,9 @@ return (
 )
 ```
 
-## Disabling label(s)
+## Hide marker label
 
-Specify `showLabel` property with `false` value to hide label(s)
+Pass `showLabel=false` to hide marker label.
 
 ```jsx example
 const [value, setValue] = useState(40)
@@ -71,9 +61,9 @@ return (
 )
 ```
 
-## You can change a step for a value(s)
+## Step
 
-Use `step` property to specify a different from `1` value
+Step with which the marker can step through values. It cannot be negative. We recommend `max - min` to be evenly divisible by the step.
 
 ```jsx example
 const [value, setValue] = useState(30)
@@ -89,8 +79,9 @@ return (
 )
 ```
 
-## Show labels and markers for steps
-Use `showSteps` property with `true` value. We recommend to disable marker label to get better appearance.
+## Show labels and markers for step
+
+Pass `showSteps=true` to display labels and markers for step.
 
 ```jsx example
 const [value, setValue] = useState(4)
@@ -101,13 +92,32 @@ return (
     min={0}
     max={5}
     showSteps
-    showLabel={false}
     onChange={(val) => setValue(val)}
   />
 )
 ```
 
-You can disable markers and labels separately with `showStepMarkers` and `showStepLabels` props
+When you pass `showSteps=true` to hide the labels or markers you need to pass `showStepLabels=false` or `showStepMarkers=false`.
+
+
+**Hide labels**
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showStepLabels={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+**Hide markers**
 
 ```jsx example
 const [value, setValue] = useState(4)
@@ -125,24 +135,9 @@ return (
 )
 ```
 
-```jsx example
-const [value, setValue] = useState(4)
+## Width
 
-return (
-  <RangeInput
-    value={value}
-    min={0}
-    max={5}
-    showSteps
-    showStepLabels={false}
-    onChange={(val) => setValue(val)}
-  />
-)
-```
-
-## Range with specific width
-
-Use `width` property to specify custom width
+Use `width` property to specify custom width of input.
 
 ```jsx example
 const [value, setValue] = useState(30)
@@ -157,8 +152,3 @@ return (
   />
 )
 ```
-
-## Custom style
-
-You can change styles for container, step, track and marker.
-It is `containerStyle`, `selectedStyle`, `stepMarkerStyle`, `stepMarkerStyle`, `stepStyle`, `trackStyle` and `markerStyle` props respectively
