@@ -10,6 +10,7 @@ import Multiselect from '../Multiselect'
 import NumberInput from '../NumberInput'
 import ObjectInput from '../ObjectInput'
 import PasswordInput from '../PasswordInput'
+import Rank from '../Rank'
 import Radio from '../Radio'
 import RangeInput from '../RangeInput'
 import Select from '../Select'
@@ -84,6 +85,7 @@ const WrappedPasswordInput = wrapInput(
     isLabelColoredWhenFocusing: true
   }
 )
+const WrappedRank = wrapInput(Rank)
 const WrappedRadio = wrapInput(Radio)
 const WrappedSelect = wrapInput(
   Select,
@@ -264,6 +266,18 @@ const inputs = {
         configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeText,
         _onLabelPress: () => ref.current && ref.current.focus(),
+        ...props
+      }
+    }
+  },
+  rank: {
+    Component: WrappedRank,
+    useProps: ({ value, $value, onChange, ...props }) => {
+      ;({ value, onChange } = useBind({ value, $value, onChange }))
+
+      return {
+        value,
+        onChange,
         ...props
       }
     }
