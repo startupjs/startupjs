@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import { observer, $root, useValue } from 'startupjs'
+import PropTypes from 'prop-types'
+import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
 import {
   DragDropProvider,
   Draggable,
@@ -10,9 +12,7 @@ import {
   Input,
   Div
 } from '../../..'
-import PropTypes from 'prop-types'
 import { getOptionValue, getOptionLabel, stringifyValue, move } from './helpers'
-import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
 import STYLES from './index.styl'
 
 function Rank (props) {
@@ -27,7 +27,7 @@ function Rank (props) {
 
   return pug`
     if readonly
-      RankReadonly(ortedOptions=sortedOptions)
+      RankReadonly(sortedOptions=sortedOptions)
     else
       RankInput(...props sortedOptions=sortedOptions)
   `
@@ -62,8 +62,8 @@ const RankInput = observer(function ({
 
     // HACK: Draggable component has some visual bugs if styles are not passed
     // through style object
-    const cursorStyle = disabled ? {} : STYLES.cursor
-    const style = { ...STYLES.draggable, width, ...cursorStyle }
+    const extraStyle = disabled ? STYLES.disabled : STYLES.cursor
+    const style = { ...STYLES.draggable, width, ...extraStyle }
 
     const Container = disabled
       ? Div
@@ -78,6 +78,7 @@ const RankInput = observer(function ({
       )
         Row
           Input(
+            size='s'
             disabled=disabled
             showEmptyValue=false
             type='select'
@@ -87,9 +88,8 @@ const RankInput = observer(function ({
           )
           Div.span
             Span= getOptionLabel(item)
-          unless disabled
-            Div.icon
-              Icon(icon=faGripVertical)
+          Div.icon
+            Icon(icon=faGripVertical styleName={ disabledIcon: disabled })
     `
   }
 
