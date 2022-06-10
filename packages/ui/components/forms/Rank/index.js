@@ -15,8 +15,6 @@ import { getOptionValue, getOptionLabel, stringifyValue, move } from './helpers'
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
 import STYLES from './index.styl'
 
-
-
 function Rank (props) {
   const { options, readonly, value } = props
 
