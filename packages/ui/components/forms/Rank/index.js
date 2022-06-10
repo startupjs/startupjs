@@ -11,38 +11,18 @@ import {
   Div
 } from '../../..'
 import PropTypes from 'prop-types'
+import { getOptionValue, getOptionLabel, stringifyValue, move } from './helpers'
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
 import STYLES from './index.styl'
 
-function stringifyValue (option) {
-  try {
-    const v = getOptionValue(option)
-    return JSON.stringify(v)
-  } catch (err) {
-    console.error(err)
-  }
-}
 
-function getOptionValue (option) {
-  return option?.value || option
-}
-
-function getOptionLabel (option) {
-  return option?.label || option
-}
-
-function _move (arr, oldIndex, newIndex) {
-  const arrCopy = arr.slice()
-  const element = arrCopy[oldIndex]
-  arrCopy.splice(oldIndex, 1)
-  arrCopy.splice(newIndex, 0, element)
-  return arrCopy
-}
 
 function Rank ({
   options,
   value,
   onChange,
+  disabled,
+  readonly,
   style
 }) {
   const [width, $width] = useValue()
@@ -59,7 +39,7 @@ function Rank ({
   }, [])
 
   function onMoveItem (oldIndex, newIndex) {
-    const newItems = _move(items, oldIndex, newIndex)
+    const newItems = move(items, oldIndex, newIndex)
     onChange(newItems.map(i => getOptionValue(i)))
   }
 
@@ -71,14 +51,20 @@ function Rank ({
 
   function renderDragItem (item, index) {
     const dragId = stringifyValue(item)
-    const style = index
-      ? { ...STYLES.draggable, ...STYLES.margin, width }
-      : { ...STYLES.draggable, width }
 
     // HACK: Draggable component has some visual bugs if styles are not passed
     // through style object
+    const cursorStyle = !readonly && !disabled ? STYLES.cursor : {}
+    const style = index
+    ? { ...STYLES.draggable, ...STYLES.margin, width, ...cursorStyle }
+    : { ...STYLES.draggable, width, ...cursorStyle }
+
+    const Container = readonly || disabled
+      ? Div
+      : Draggable
+
     return pug`
-      Draggable(
+      Container(
         style=style
         key=dragId
         dragId=dragId
@@ -86,6 +72,8 @@ function Rank ({
       )
         Row
           Input(
+            disabled=disabled
+            readonly=readonly
             showEmptyValue=false
             type='select'
             options=selectOptions
@@ -94,8 +82,9 @@ function Rank ({
           )
           Div.span
             Span= getOptionLabel(item)
-          Div.icon
-            Icon(icon=faGripVertical)
+          if !readonly && !disabled
+            Div.icon
+              Icon(icon=faGripVertical)
     `
   }
 
@@ -108,7 +97,6 @@ function Rank ({
         Droppable.droppable(dropId=dropId)
           each item, index in items
             = renderDragItem(item, index)
-
   `
 }
 
@@ -129,6 +117,8 @@ Rank.propTypes = {
     ])
   ),
   value: PropTypes.arrayOf(PropTypes.any),
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
   onChange: PropTypes.func
 }
 
