@@ -1,11 +1,17 @@
 .droppable
   margin-top 1u
 
-.readonly
 .droppable
 .span
   flex-shrink 1
   flex-grow 1
+
+.readonly
+  &-index
+    min-width 2.5u
+  &-text
+    flex-shrink 1
+    flex-grow 1
 
 .draggable
   background-color: $UI.colors.white
@@ -15,24 +21,25 @@
   radius()
   margin-top 1u
 
+.draggable-disabled
+  background-color: $UI.colors.darkLightest
+
 .cursor
   +web()
     cursor pointer
-
-.disabled
-  background-color: $UI.colors.darkLightest
-
-.disabledIcon
-  color: $UI.colors.darkLighter
 
 .span
   margin-left 2.5u
   justify-content center
 
-.icon
+.right
   flex-shrink 0
   justify-content center
   margin-left 4u
+
+.icon
+  &.disabled
+    color: $UI.colors.darkLighter
 
 .hint
   font(caption)

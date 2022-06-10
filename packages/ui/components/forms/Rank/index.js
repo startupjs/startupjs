@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { StyleSheet } from 'react-native'
 import { observer, $root, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
@@ -16,9 +17,9 @@ import { getOptionValue, getOptionLabel, stringifyValue, move } from './helpers'
 import STYLES from './index.styl'
 
 function Rank (props) {
-  const { options, readonly, value } = props
+  let { options, readonly, value, style } = props
 
-  const sortedOptions = useMemo(() => {
+  value = useMemo(() => {
     return options.slice().sort((a, b) => {
       return value.findIndex(i => stringifyValue(i) === stringifyValue(a)) -
         value.findIndex(i => stringifyValue(i) === stringifyValue(b))
@@ -27,14 +28,14 @@ function Rank (props) {
 
   return pug`
     if readonly
-      RankReadonly(sortedOptions=sortedOptions)
+      RankReadonly(value=value style=style)
     else
-      RankInput(...props sortedOptions=sortedOptions)
+      RankInput(...props value=value)
   `
 }
 
 const RankInput = observer(function ({
-  sortedOptions,
+  value,
   onChange,
   disabled,
   style
@@ -43,16 +44,16 @@ const RankInput = observer(function ({
   const dropId = useMemo(() => $root.id(), [])
 
   const selectOptions = useMemo(() => {
-    return sortedOptions.map((o, i) => ({ label: i + 1, value: i }))
+    return value.map((o, i) => ({ label: i + 1, value: i }))
   }, [])
 
   function onMoveItem (oldIndex, newIndex) {
-    const newItems = move(sortedOptions, oldIndex, newIndex)
+    const newItems = move(value, oldIndex, newIndex)
     onChange(newItems.map(i => getOptionValue(i)))
   }
 
   function onDragEnd ({ dragId, hoverIndex }) {
-    const oldIndex = sortedOptions.findIndex(item => stringifyValue(item) === dragId)
+    const oldIndex = value.findIndex(item => stringifyValue(item) === dragId)
     const newIndex = hoverIndex < oldIndex ? hoverIndex : hoverIndex - 1
     onMoveItem(oldIndex, newIndex)
   }
@@ -62,8 +63,8 @@ const RankInput = observer(function ({
 
     // HACK: Draggable component has some visual bugs if styles are not passed
     // through style object
-    const extraStyle = disabled ? STYLES.disabled : STYLES.cursor
-    const style = { ...STYLES.draggable, width, ...extraStyle }
+    const extraStyle = disabled ? STYLES['draggable-disabled'] : STYLES.cursor
+    const style = [STYLES.draggable, { width }, extraStyle]
 
     const Container = disabled
       ? Div
@@ -71,7 +72,7 @@ const RankInput = observer(function ({
 
     return pug`
       Container(
-        style=style
+        style=StyleSheet.flatten(style)
         key=dragId
         dragId=dragId
         onDragEnd=onDragEnd
@@ -88,8 +89,8 @@ const RankInput = observer(function ({
           )
           Div.span
             Span= getOptionLabel(item)
-          Div.icon
-            Icon(icon=faGripVertical styleName={ disabledIcon: disabled })
+          Div.right
+            Icon.icon(icon=faGripVertical styleName={ disabled })
     `
   }
 
@@ -101,17 +102,20 @@ const RankInput = observer(function ({
       Span.hint(italic) To rank the listed items drag and drop each item
       DragDropProvider
         Droppable.droppable(dropId=dropId)
-          each option, index in sortedOptions
+          each option, index in value
             = renderDragItem(option, index)
   `
 })
 
-const RankReadonly = observer(function ({ sortedOptions }) {
+const RankReadonly = observer(function ({ value, style }) {
   return pug`
-    each option, index in sortedOptions
-      Span.readonly
-        | #{index + 1}.&nbsp;
-        = getOptionLabel(option)
+    Div(style=style)
+      each option, index in value
+        Row.readonly
+          Div.readonly-index
+            Span #{index + 1}.&nbsp;
+          Div.readonly-text
+            Span= getOptionLabel(option)
   `
 })
 
