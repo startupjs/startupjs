@@ -1,10 +1,11 @@
 .droppable
   margin-top 1u
-  flex-grow 1
-  flex-shrink 1
 
-.margin
-  margin-top 1u
+.readonly
+.droppable
+.span
+  flex-shrink 1
+  flex-grow 1
 
 .draggable
   background-color: $UI.colors.white
@@ -12,14 +13,13 @@
   border-width 1px
   border-color: $UI.colors.darkLighter
   radius()
+  margin-top 1u
 
 .cursor
   +web()
     cursor pointer
 
 .span
-  flex-shrink 1
-  flex-grow 1
   margin-left 2.5u
   justify-content center
 
@@ -27,3 +27,7 @@
   flex-shrink 0
   justify-content center
   margin-left 4u
+
+.hint
+  font(caption)
+  margin-top 1u

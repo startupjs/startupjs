@@ -17,34 +17,44 @@ import STYLES from './index.styl'
 
 
 
-function Rank ({
-  options,
-  value,
-  onChange,
-  disabled,
-  readonly,
-  style
-}) {
-  const [width, $width] = useValue()
-  const dropId = useMemo(() => $root.id(), [])
-  const items = useMemo(() => {
+function Rank (props) {
+  const { options, readonly, value } = props
+
+  const sortedOptions = useMemo(() => {
     return options.slice().sort((a, b) => {
       return value.findIndex(i => stringifyValue(i) === stringifyValue(a)) -
         value.findIndex(i => stringifyValue(i) === stringifyValue(b))
     })
   }, [value.toString()])
 
+  return pug`
+    if readonly
+      RankReadonly(ortedOptions=sortedOptions)
+    else
+      RankInput(...props sortedOptions=sortedOptions)
+  `
+}
+
+const RankInput = observer(function ({
+  sortedOptions,
+  onChange,
+  disabled,
+  style
+}) {
+  const [width, $width] = useValue()
+  const dropId = useMemo(() => $root.id(), [])
+
   const selectOptions = useMemo(() => {
-    return options.map((o, i) => ({ label: i + 1, value: i }))
+    return sortedOptions.map((o, i) => ({ label: i + 1, value: i }))
   }, [])
 
   function onMoveItem (oldIndex, newIndex) {
-    const newItems = move(items, oldIndex, newIndex)
+    const newItems = move(sortedOptions, oldIndex, newIndex)
     onChange(newItems.map(i => getOptionValue(i)))
   }
 
   function onDragEnd ({ dragId, hoverIndex }) {
-    const oldIndex = items.findIndex(item => stringifyValue(item) === dragId)
+    const oldIndex = sortedOptions.findIndex(item => stringifyValue(item) === dragId)
     const newIndex = hoverIndex < oldIndex ? hoverIndex : hoverIndex - 1
     onMoveItem(oldIndex, newIndex)
   }
@@ -54,12 +64,10 @@ function Rank ({
 
     // HACK: Draggable component has some visual bugs if styles are not passed
     // through style object
-    const cursorStyle = !readonly && !disabled ? STYLES.cursor : {}
-    const style = index
-    ? { ...STYLES.draggable, ...STYLES.margin, width, ...cursorStyle }
-    : { ...STYLES.draggable, width, ...cursorStyle }
+    const cursorStyle = disabled ? {} : STYLES.cursor
+    const style = { ...STYLES.draggable, width, ...cursorStyle }
 
-    const Container = readonly || disabled
+    const Container = disabled
       ? Div
       : Draggable
 
@@ -73,7 +81,6 @@ function Rank ({
         Row
           Input(
             disabled=disabled
-            readonly=readonly
             showEmptyValue=false
             type='select'
             options=selectOptions
@@ -82,7 +89,7 @@ function Rank ({
           )
           Div.span
             Span= getOptionLabel(item)
-          if !readonly && !disabled
+          unless disabled
             Div.icon
               Icon(icon=faGripVertical)
     `
@@ -93,12 +100,22 @@ function Rank ({
       style=style
       onLayout=({ nativeEvent }) => $width.set(nativeEvent.layout.width)
     )
+      Span.hint(italic) To rank the listed items drag and drop each item
       DragDropProvider
         Droppable.droppable(dropId=dropId)
-          each item, index in items
-            = renderDragItem(item, index)
+          each option, index in sortedOptions
+            = renderDragItem(option, index)
   `
-}
+})
+
+const RankReadonly = observer(function ({ sortedOptions }) {
+  return pug`
+    each option, index in sortedOptions
+      Span.readonly
+        | #{index + 1}.&nbsp;
+        = getOptionLabel(option)
+  `
+})
 
 Rank.defaultProps = {
   options: [],
