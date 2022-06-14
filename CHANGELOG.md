@@ -1,3 +1,18 @@
+## [0.44.28](https://github.com/startupjs/startupjs/compare/v0.44.27...v0.44.28) (2022-06-14)
+
+
+### Bug Fixes
+
+* **ui/Layout:** disable scroll for web ([#957](https://github.com/startupjs/startupjs/issues/957)) ([8686c40](https://github.com/startupjs/startupjs/commit/8686c40bb2069780687e22e0c0aaf201e0d95f1a))
+
+
+### Features
+
+* **ui/RangeInput:** add range input ([#952](https://github.com/startupjs/startupjs/issues/952)) ([7c10b02](https://github.com/startupjs/startupjs/commit/7c10b02f15159b1bb9b2c168d3ac2b7706f63ffd))
+* **ui:** add rank input ([#958](https://github.com/startupjs/startupjs/issues/958)) ([388b205](https://github.com/startupjs/startupjs/commit/388b20562a2e8244e8842fd93cb3a1ea7974afa1))
+
+
+
 ## [0.44.27](https://github.com/startupjs/startupjs/compare/v0.44.26...v0.44.27) (2022-06-06)
 
 
