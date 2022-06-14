@@ -26,6 +26,8 @@ import SelectEn from '../components/forms/Select/Select.en.mdx'
 import SelectRu from '../components/forms/Select/Select.ru.mdx'
 import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
 import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
+import RankEn from '../components/forms/Rank/Rank.en.mdx'
+import RankRu from '../components/forms/Rank/Rank.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -105,6 +107,14 @@ export default {
       component: {
         en: PasswordInputEn,
         ru: PasswordInputRu
+      }
+    },
+    Rank: {
+      type: 'mdx',
+      title: 'Rank',
+      component: {
+        en: RankEn,
+        ru: RankRu
       }
     },
     Radio: {
