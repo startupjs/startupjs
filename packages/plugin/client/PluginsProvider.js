@@ -7,6 +7,12 @@ export function PluginsProvider ({
   plugins = {},
   children
 }) {
+  if (!moduleName) {
+    throw new Error(
+      '[@startupjs/plugin] PluginsProvider: property \'moduleName\' is required'
+    )
+  }
+
   const aModule = pluginsSingleton.modules[moduleName]
 
   if (!aModule) {
