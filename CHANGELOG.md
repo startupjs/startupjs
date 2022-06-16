@@ -1,5 +1,9 @@
 # [0.45.0](https://github.com/startupjs/startupjs/compare/v0.44.28...v0.45.0) (2022-06-16)
 
+### BREAKING CHANGES
+
+* [See 0.38 migration guide](/docs/migration-guides/0.45.md)
+
 
 
 ## [0.44.28](https://github.com/startupjs/startupjs/compare/v0.44.27...v0.44.28) (2022-06-14)
