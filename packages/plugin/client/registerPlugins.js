@@ -1,32 +1,46 @@
-import { $root, initLocalCollection } from 'startupjs'
-import _isArray from 'lodash/isArray'
-import _isObject from 'lodash/isObject'
-import _cloneDeep from 'lodash/cloneDeep'
-import _merge from 'lodash/merge'
+import isPlainObject from 'lodash/isPlainObject'
+import pluginsSingleton from './pluginsSingleton'
 
-initLocalCollection('_plugins')
+export default function registerPlugins (plugins = {}) {
+  if (pluginsSingleton._initialized) {
+    throw new Error(
+      '[@startupjs/plugin] registerPlugins: plugins already initialized.'
+    )
+  }
 
-// TODO: let call 1 time?
-export default function registerPlugins (initPlugins) {
-  const allPlugins = _cloneDeep(initPlugins)
+  const modules = {}
 
-  Object.keys(allPlugins).forEach(packageName => {
-    const packagePlugins = allPlugins[packageName]
+  for (const [moduleName, modulePlugins] of Object.entries(plugins)) {
+    const defaultEnabledNames = []
 
-    allPlugins[packageName] = packagePlugins.map(packagePlugin => {
-      try {
-        let pluginStructure = null
-        let manageOptions = {}
+    modules[moduleName] = { plugins: {} }
 
-        if (_isArray(packagePlugin)) [pluginStructure, manageOptions] = packagePlugin
-        else if (_isObject(packagePlugin)) pluginStructure = packagePlugin
+    for (const modulePlugin of modulePlugins) {
+      let plugin
+      let options = {}
 
-        return _merge({}, pluginStructure, manageOptions)
-      } catch (err) {
-        console.error(err)
+      if (isPlainObject(modulePlugin)) {
+        plugin = modulePlugin
+      } else if (Array.isArray(modulePlugin)) {
+        [plugin, options] = modulePlugin
       }
-    })
-  })
 
-  $root.scope('_plugins.defaults').set(allPlugins)
+      if (!plugin.name) {
+        console.error(
+          '[@startupjs/plugin] registerPlugins: some plugins were skipped, ' +
+          'because they don\'t have a \'name\' field.'
+        )
+        continue
+      }
+
+      if (options.defaultEnabled) defaultEnabledNames.push(plugin.name)
+      modules[moduleName].plugins[plugin.name] = { plugin, options }
+    }
+
+    modules[moduleName].defaultEnabledNames = defaultEnabledNames
+  }
+
+  pluginsSingleton._initialized = true
+  pluginsSingleton.modules = modules
+  pluginsSingleton._raw = plugins
 }

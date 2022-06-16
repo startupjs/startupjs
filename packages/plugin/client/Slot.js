@@ -1,29 +1,58 @@
-import React from 'react'
+import React, { useContext, useCallback } from 'react'
 import { observer } from 'startupjs'
-import { usePlugins, useOptions } from './PluginsProvider'
+import merge from 'lodash/merge'
+import PluginsContext from './context'
+import pluginsSingleton from './pluginsSingleton'
 
 export default observer(function Slot ({
   name,
+  type = 'siblings',
   children = null,
   ...props
 }) {
-  const plugins = usePlugins()
-  const options = useOptions()
+  if (!name) return null
 
-  return plugins.reduce((recursiveChildren, pluginStructure) => {
-    const Component = pluginStructure[name]
-    const pluginOptions = options[pluginStructure.name]
+  let { moduleName, plugins } = useContext(PluginsContext)
+  const modulePlugins = pluginsSingleton.modules[moduleName].plugins
 
-    // TODO: memo pluginOptions
-    if (Component) {
-      return pug`
-        Component(
-          options=pluginOptions
-          ...props
-        )= recursiveChildren
-      `
-    }
+  const getOptionsHook = (plugin) => {
+    return useCallback(() => {
+      const modulePlugin = modulePlugins[plugin.name]
+      return merge(
+        {},
+        modulePlugin.plugin.defaultOptions,
+        modulePlugin.options.defaultOptions,
+        plugin.options
+      )
+    }, [JSON.stringify(plugin.options)])
+  }
 
-    return recursiveChildren
-  }, children)
+  // skip unregistered plugins
+  plugins = plugins.filter(plugin => modulePlugins[plugin.name])
+
+  switch (type) {
+    case 'siblings':
+      return plugins.map(plugin => {
+        const SlotComponent = modulePlugins[plugin.name].plugin[name]
+        if (!SlotComponent) return null
+        return React.createElement(
+          SlotComponent,
+          {
+            key: `${moduleName}_${plugin.name}_${name}`,
+            ...props,
+            useOptions: getOptionsHook(plugin)
+          }
+        )
+      })
+    case 'nested':
+      return plugins.slice().reverse().reduce((children, plugin) => {
+        const SlotComponent = modulePlugins[plugin.name].plugin[name]
+        if (!SlotComponent) return children
+        return React.createElement(
+          SlotComponent,
+          { ...props, useOptions: getOptionsHook(plugin) },
+          children
+        )
+      }, [children])
+  }
 })

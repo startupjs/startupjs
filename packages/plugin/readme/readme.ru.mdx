@@ -1,180 +1,215 @@
-# StartupJS plugins web
+import { useState } from 'react'
+import { PluginsProvider } from './../client/PluginsProvider'
+import Slot from './../client/Slot'
+import { Div, Divider, Icon, Row, Span } from '@startupjs/ui'
+import { faSmile, faPaw } from '@fortawesome/free-solid-svg-icons'
 
-## Включение поддержки плагинов в пакет
+# Плагины
 
-В главном файле пакета необходимо поключить компонент `PluginsProvider` который будет предоставлять плагины ниже по дереву компонетов. Он принимает свойства:
+Плагины позволяют сделать ваши модули расширяемыми.
 
-- `name` - имя для обозначения скоупа (можно применить название пакета), будет использовано при глобальной инициализации;
-- `plugins` - объект с опциями для плагинов пакета.
+## Как добавить поддержку плагинов в ваш модуль?
 
-`RootComponent.js`
+Вы должны обернуть свой модуль в `PluginsProvider`, который будет управлять плагинами вашего модуля.
 
-```jsx
-import { PluginsProvider } from '@startupjs/plugin'
-import { ExampleComponent } from './ExampleComponent'
-import { name as packageName } from '../package.json'
+```js
+import { PluginsProvider } from 'startupjs/plugin'
 
-export default function RootComponent ({
-  plugins,
-  ...props
-}) {
+export default function MyModule ({ plugins, ...props }) {
   return pug`
     PluginsProvider(
-      name=packageName
+      moduleName='yourModuleName'
       plugins=plugins
     )
-      ExampleComponent(...props)
+      ModuleImplementation(...props)
   `
 }
 ```
 
-Ниже по дереву компонентов мы можем использовать компоненты `Slot`, в которых будут отрендерены компоненты из рендер-плагинов, свойство компонента `name` соответствует ключу объекта который вернет плагин при вызове.
-А также можно получить хук-плагины и вызвать их в нужном месте с дефолтными или кастомными опциями.
+Затем в реализации вашего модуля вы должны использовать компонент `Slot`, который будет отображать содержимое плагинов.
 
-`ExampleComponent.js`
+```js
+import { Slot } from 'startupjs/plugin'
+import { Div } from '@startupjs/ui'
 
-```jsx
-import { Slot, usePluginHook } from '@startupjs/plugin'
-
-export function ExampleComponent () {
-  const [user] = useSession('user')
-  const pluginHook = usePluginHook()
-
-  useEffect(() => {
-    // Первый аргумент имя хука, последующие - параметры которые он должен принять
-    pluginHook('getMessage', {
-      title,
-      message,
-      username: user.name
-    })
-  }, [])
-
-  /*
-    Обязательный проп в Slot - name, он определяет в какой компонент оборачиваться
-    Но так же можно передать любые другие пропсы, для динамического использования
-  */
-  return pug`
-    Div
-      Span SideLeft
-    Slot(name='WrapperPlugin' isAdmin=true)
-    Div
-      Span SideRight
-  `
-}
-
+return pug`
+  Div
+    Slot(name='slotName')
+`
 ```
 
----
+свойства `PluginsProvider`:
 
-## Создание плагина
+  - `moduleName (String)`: это уникальный ключ, который будет использоваться для регистрации плагинов для вашего модуля в проекте, например поле `name` из `package.json` вашего модуля
 
-Объект со свойствами:
+  - `plugins (Object|Array)`:
 
-- `name` - имя плагина, должно быть уникальным в пределах пакета;
-- `defaultOptions` - опции которые задаются внутри плагина.
+    - `Object`: ключ — это имя плагина, а значение — булево значение или объект опций плагина. **Что означает булево значение?** Поскольку плагин может быть зарегистрирован как включенный по умолчанию или нет, поэтому для включенного по умолчанию используется значение `false`, чтобы отключить его или объект с опциями, чтобы предоставить ему дополнительные опции, а для не включенного плагина по умолчанию используется значение `true` или объект с параметрами используется для его включения.
+    - `Array`: an array of objects that is another way of writing an object in the item above. The array object looks like:
 
-`renderPlugin.js`
+        ```
+          {
+            name (String): имя плагина,
+            enabled (Boolean): включить или отключить плагин
+            options (Object): опции плагина
+          }
+        ```
 
-```jsx
+  - `children (React element)`: дерево компонентов вашего модуля для рендеринга
+
+свойства `Slot`:
+
+  - `name (String)`: имя слота для отображения
+  - `type (String[siblings|nested])`: способ отображения слотов (по умолчанию: `siblings`)
+  - `children (React element)`: это имеет смысл только тогда, когда тип является `nested`, чтобы отобразить ваш `children` элемент в конце вложенного дерева слотов плагинов. **ВАЖНО** в этом случае слоты плагинов должны реализовывать рендеринг `children`
+  - любые другие свойства, которые могут потребоваться для реализации слота плагина
+
+## Пример. Давайте рассмотрим пример того, как создать, зарегистрировать и запустить плагин.
+
+** Давайте создадим плагин, который добавляет свои собственные смайлики к существующим в модуле**
+
+```js
+// emoticons.js
+import React, { useMemo } from 'react'
+import { observer } from 'startupjs'
+import { alert, Div, Row, Span } from '@startupjs/ui'
+
 export default {
-  name: 'smile',
+  name: 'emoticons',
   defaultOptions: {
-    icon: {
-      icon: 'laugh',
-      style: { color: 'orange' }
-    }
+    size: 16
   },
-  WrapperPlugin: observer(({
-    children,
-    options,
-    /*
-      Получает конечные options, которые формируются из defaultOptions плагина,
-      defaultOptions из функции registerPlugins и кастомных options пакета
-    */
-    isAdmin
-  }) => {
-    if (!isAdmin) return children
+  Faces: observer(({ love, angry, useOptions }) => {
+    const { size } = useOptions()
+
+    const emoticons = useMemo(() => {
+      let emoticons = ['😀', '😃', '😄', '😁', '😅', '😆', '😂', '🤣', '😉', '😊']
+      if (love) emoticons.push('😘', '😍', '🥰')
+      if (angry) emoticons.push('😡', '🤬', '😈', '👿')
+      return emoticons
+    }, [love, angry])
+
     return pug`
-      Card
-        = children
-        Icon(...options.icon)
+      = renderEmoticons({ emoticons, size })
     `
+  }),
+  Animals: observer(({ useOptions }) => {
+    const { size } = useOptions()
+    const emoticons = useMemo(() => {
+      return [
+        '🐰', '🐱', '🦊', '🐭', '🐶', '🐒', '🐿', '🐮', '🐻', '🐼',
+        '🦁', '🐺', '🐷', '🦧', '🦥', '🐅', '🦓', '🦘', '🐖', '🐩'
+      ]
+    }, [])
+
+    return renderEmoticons({ emoticons, size })
   })
 }
-```
 
-`hookPlugin.js`
+function renderEmoticons ({ emoticons, size }) {
+  const style = { fontSize: size, lineHeight: size }
 
-```jsx
-export default {
-  name: 'message',
-  defaultOptions: {
-    username: 'Ghost'
-  },
-  getMessage({ title, message, username }) {
-    console.log(`
-      ${title}
-      Hello, ${username || this.options.username}
-      /*
-        Получает конечные options в this, которые формируются из defaultOptions плагина,
-        defaultOptions из функции registerPlugins и кастомных options пакета
-      */
-      ${message}
-    `)
-  }
+  return pug`
+    Row(wrap)
+      each emoticon, index in emoticons
+        Div(
+          key=index
+          style={
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 8,
+            paddingRight: 8,
+            borderRadius: 8
+          }
+          variant='highlight'
+          onPress=() => alert({ message: 'Смайлик ' + emoticon + ' был нажат' })
+        )
+          Span(style=style)= emoticon
+    `
 }
 ```
 
----
+**Далее вам необходимо зарегистрировать плагин**
 
-### Инит плагинов
+Зарегистрируйте плагин на максимально высоком уровне в вашем проекте, например в `Root/index.js`
 
-В `Root/index.js` вызвать `registerPlugins`, после импортов и до компонента:
+```js
+import React from 'react'
+import { observer } from 'startupjs'
+import { registerPlugins } from 'startupjs/plugin'
+import emoticons from './emoticons'
 
-```jsx
-import { registerPlugins } from '@startupjs/plugin'
-import smilePlugin from 'smilePlugin.js'
-import hookPlugin from 'hookPlugin.js'
+// ...
 
 registerPlugins({
-  '@startupjs/packageName': [
-    smilePlugin,
-    [hookPlugin, {
-      defaultEnable: true,
-      defaultOptions: {
-        username = 'Jack Daniels'
-      }
-    }]
+  pluginsPackageModuleExample: [
+    [emoticons, { size: 20 }]
   ]
 })
 
-// your Root component
+// ...
+
+export default observer(() => {
+  return pug`
+    App(...)
+  `
+})
 ```
 
-В `registerPlugins` передается объект, ключи объекта - названия библиотек/компонентов в которых есть поддержка плагинов (используется с `PluginsProvider`), значения - массивы с плагинами для них.
+`registerPlugins` принимает объект в формате `{ [moduleName]: массив плагинов модуля }`. Элементы массива плагинов модуля должны содержать реализацию плагина или массив, где первый элемент является реализацией плагина, а второй - объектом опций `[plugin, options]`. объект `options` принимает:
 
-Можно передать просто плагин или массив с плагином и свойствами:
-- `defaultEnable` - если передать со значением `true` плагин будет автоматически применен со своей библиотекой по всему приложению;
-- `defaultOptions` - опции для плагина, которые будут переданы в плагин для применения по умолчанию,
+- `defaultEnabled (Boolean)`: включает плагин для всего приложения (по умолчанию: `false`), это означает, что каждый поставщик `PluginsProvider` в вашем приложении автоматически включит плагин, а чтобы отключить его для конкретного поставщика, вам нужно передать в свойство `plugins` поставщика `[имя_плагина]: false`.
+- `defaultOptions (Object)`: опции плагина по умолчанию, которые вы можете получить с помощью хука `useOptions` из свойств слота. Хук `useOptions` возвращает объединенные опции из: `defaultOptions` реализации плагина, `defaultOptions` из регистрации плагина и переданные опции в `PluginsProvider` для плагина.
 
-### Применение на экзампляре компонента из пакета
+```js
+registerPlugins({
+  module1: [
+    plugin1,
+    [plugin2, plugin2Options]
+  ],
+  module2: [
+    [plugin1, plugin1Options]
+    plugin3,
+    plugin4
+  ],
+})
+```
 
-На каждом экземпляре компонента можно модифицировать плагины отдельно.
-Если плагин при инициализации был определен с ключом `defaultEnable: true`, его можно отключить передав в ключ по имени плагина `false`.
-Если плагин не был при инициализации определен с ключом `defaultEnable: true`, его можнов включить передав в свойство объект с опциями для вызова плагина или просто `true` если надо использовать `defaultOptions`.
+**Пример модуля, использующего плагины**
 
-```jsx
-import Component from 'package'
-
-Component(
-  plugins={
-    [smilePlugin.name]: {
-      icon: {
-        icon: 'angry',
-        style: { color: 'red' }
-      }
-    },
-    [messagePlugin.name]: false
+```jsx example noscroll
+const tabs = [
+  {
+    value: 'faces',
+    icon: faSmile,
+    props: { love: true, angry: true  }
+  },
+  {
+    value: 'animals',
+    icon: faPaw,
+    props: {}
   }
-)
+]
+const [activeTab, setActiveTab] = useState(tabs[0])
+const slotName = activeTab.value[0].toUpperCase() + activeTab.value.slice(1)
+
+return pug`
+  PluginsProvider(
+    moduleName='pluginsPackageModuleExample'
+    plugins={ emoticons: { size: 24 } }
+  )
+    Row
+      each tab, index in tabs
+        Div(
+          key=index
+          pushed=index ? 's' : undefined
+          onPress=() => setActiveTab(tab)
+        )
+          Icon(
+            style=tab.value === activeTab.value ? { color: '#2962ff' } : undefined
+            icon=tab.icon
+          )
+    Divider
+    Slot(name=slotName ...activeTab.props)
+`
 ```
