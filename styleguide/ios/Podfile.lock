@@ -398,7 +398,7 @@ PODS:
     - React-jsi (= 0.63.4)
   - RNAppleAuthentication (2.1.5):
     - React-Core
-  - RNCClipboard (1.9.0):
+  - RNCClipboard (1.8.5):
     - React-Core
   - RNCPicker (1.16.8):
     - React-Core
@@ -645,7 +645,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
-  RNCClipboard: 99fc8ad669a376b756fbc8098ae2fd05c0ed0668
+  RNCClipboard: cc054ad1e8a33d2a74cd13e565588b4ca928d8fd
   RNCPicker: 0991c56da7815c0cf946d6f63cf920b25296e5f6
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
@@ -656,4 +656,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b89f517d20006dc000bd5c25057b647cc63747c0
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
