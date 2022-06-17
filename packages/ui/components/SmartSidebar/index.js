@@ -18,6 +18,7 @@ function SmartSidebar ({
   style,
   sidebarStyle,
   defaultOpen,
+  lazy,
   disabled,
   fixedLayoutBreakpoint,
   path,
@@ -85,6 +86,7 @@ function SmartSidebar ({
         width=width
         disabled=disabled
         renderContent=renderContent
+        ...props
       )= children
     else
       DrawerSidebar(
@@ -101,6 +103,7 @@ function SmartSidebar ({
 
 SmartSidebar.defaultProps = {
   defaultOpen: false,
+  lazy: false,
   disabled: false,
   fixedLayoutBreakpoint: FIXED_LAYOUT_BREAKPOINT,
   position: 'left',
@@ -112,6 +115,7 @@ SmartSidebar.propTypes = {
   children: PropTypes.node,
   $open: PropTypes.object,
   defaultOpen: PropTypes.bool,
+  lazy: PropTypes.bool,
   disabled: PropTypes.bool,
   fixedLayoutBreakpoint: PropTypes.number,
   position: PropTypes.oneOf(['left', 'right']),
