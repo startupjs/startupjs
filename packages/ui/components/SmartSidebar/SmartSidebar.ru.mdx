@@ -186,6 +186,28 @@ return (
 )
 ```
 
+## Ленивый рендеринг
+
+По умолчанию содержимое боковой панели не уничтожается при ее закрытии. Чтобы изменить это поведение, передайте `lazy=true`.
+
+```jsx example
+const [open, $open] = useSession('ExampleLazySmartSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>Lazy SmartSidebar</Span>
+      )}
+      lazy
+    >
+      <Button onPress={() => $open.set(!open)}>Toggle Sidebar</Button>
+    </SmartSidebar>
+  </Div>
+)
+```
+
 ## Сложный пример
 
 ```jsx example noscroll

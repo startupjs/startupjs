@@ -186,6 +186,28 @@ return (
 )
 ```
 
+## Lazy rendering
+
+By default the smart sidebar content are not destroyed when it is closed. To change this behavior pass `lazy=true`.
+
+```jsx example
+const [open, $open] = useSession('ExampleLazySmartSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>Lazy SmartSidebar</Span>
+      )}
+      lazy
+    >
+      <Button onPress={() => $open.set(!open)}>Toggle Sidebar</Button>
+    </SmartSidebar>
+  </Div>
+)
+```
+
 ## Complex example
 
 ```jsx example noscroll

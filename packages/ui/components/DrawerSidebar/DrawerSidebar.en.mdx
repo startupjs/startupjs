@@ -26,7 +26,11 @@ return (
   <Div style={{overflow: 'hidden'}}>
     <DrawerSidebar
       $open={$open}
-      renderContent={() => (<Span>DrawerSidebar</Span>)}
+      renderContent={() => (
+        <Span>
+          DrawerSidebar
+        </Span>)
+      }
     >
       <Button onPress={() => $open.set(true)}>Open</Button>
     </DrawerSidebar>
@@ -67,6 +71,29 @@ return (
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
         </Span>
       </Content>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Lazy rendering
+
+By default the drawer content are not destroyed when it is closed. To change this behavior pass `lazy=true`.
+
+```jsx example
+const [open, $open] = useSession('ExampleLazyDrawerSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>
+          Lazy DrawerSidebar
+        </Span>)
+      }
+      lazy
+    >
+      <Button onPress={() => $open.set(true)}>Open</Button>
     </DrawerSidebar>
   </Div>
 )
