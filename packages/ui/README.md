@@ -72,6 +72,7 @@ function getHead (appName) {
 ```
 
 ## App plugin
+
 Register ui plugin for app
 
 ```js
@@ -82,7 +83,7 @@ import { uiAppPlugin } from '@startupjs/ui'
 
 registerPlugins({
   '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true, style: overridesStyle }]
+    [uiAppPlugin, { defaultEnabled: true, style: overridesStyle }]
   ]
 })
 ```
