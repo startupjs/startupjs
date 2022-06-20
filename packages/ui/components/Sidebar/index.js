@@ -50,7 +50,6 @@ function Sidebar ({
 
   function renderSidebarContent () {
     const render = lazy ? open : true
-    console.log(lazy, open, render, 'render sidebar content render')
     if (!render) return null
     return renderContent && renderContent()
   }
