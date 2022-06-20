@@ -87,7 +87,6 @@ async function executeTaskWrapper (taskId) {
   }
 
   let action = actions[actionType]
-
   if (!action) {
     model.close()
     throw new Error(`No action to execute: ${action}, tId: ${taskId}`)
@@ -99,6 +98,6 @@ async function executeTaskWrapper (taskId) {
       return resolve()
     })
   })
-  await model.unfetchAsync($task)
+
   model.close()
 }
