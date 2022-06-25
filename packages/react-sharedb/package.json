@@ -45,7 +45,7 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "express": "^4.16.2",
     "js-yaml": "^3.10.0",
-    "jsdom": "^11.3.0",
+    "jsdom": "^16.5.0",
     "mocha": "^3.5.3",
     "racer-highway": "^10.0.1",
     "racer-rpc": "0.1.9",
