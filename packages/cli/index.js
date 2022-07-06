@@ -394,7 +394,7 @@ commander
 
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
-      await execa('rimraf', REMOVE_FILES, {
+      await execa('rm', ['-f'].concat(REMOVE_FILES), {
         cwd: projectPath,
         stdio: 'inherit'
       })
