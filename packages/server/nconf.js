@@ -21,6 +21,8 @@ function initNconf (dirname) {
     return false
   }
 
+  delete process.env.PUBLIC
+
   nconf.env()
   if (app && stage) addNconfFile(nconf, app + '_' + stage)
   else if (stage) addNconfFile(nconf, stage)
@@ -59,11 +61,6 @@ function initNconf (dirname) {
   if (isArray(nconf.get('PUBLIC'))) {
     global.env = global.env || {}
     each(nconf.get('PUBLIC'), (option) => {
-      global.env[option] = nconf.get(option)
-    })
-  } else if (isArray(nconf.get('COPY_TO_WEB'))) {
-    global.env = global.env || {}
-    each(nconf.get('COPY_TO_WEB'), (option) => {
       global.env[option] = nconf.get(option)
     })
   }
