@@ -201,6 +201,10 @@ const CONFIG_WEB_PURE_PRODUCTION = {
   ]
 }
 
+if (ASYNC) {
+  CONFIG_WEB_PURE_PRODUCTION.sourceType = 'unambiguous'
+}
+  
 // node.js server config
 
 const CONFIG_SERVER = {

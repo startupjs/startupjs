@@ -61,5 +61,10 @@ function initNconf (dirname) {
     each(nconf.get('PUBLIC'), (option) => {
       global.env[option] = nconf.get(option)
     })
+  } else if (isArray(nconf.get('COPY_TO_WEB'))) {
+    global.env = global.env || {}
+    each(nconf.get('COPY_TO_WEB'), (option) => {
+      global.env[option] = nconf.get(option)
+    })
   }
 }

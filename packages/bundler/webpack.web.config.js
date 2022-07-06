@@ -194,17 +194,6 @@ module.exports = function getConfig (env, {
           resolve: {
             fullySpecified: false
           },
-          exclude: /node_modules/,
-          use: [
-            { loader: 'babel-loader' }
-          ]
-        },
-        {
-          test: /\.[mc]?[jt]sx?$/,
-          resolve: {
-            fullySpecified: false
-          },
-          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
           use: [
             { loader: 'babel-loader' }
           ]
