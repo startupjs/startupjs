@@ -1,3 +1,18 @@
+## [0.45.1](https://github.com/startupjs/startupjs/compare/v0.45.0...v0.45.1) (2022-07-12)
+
+
+### Bug Fixes
+
+* **plugin:** fix crashes when plugins are not provided for a module ([#963](https://github.com/startupjs/startupjs/issues/963)) ([f48ddf7](https://github.com/startupjs/startupjs/commit/f48ddf79cb63a24d4d90c87f7354f476e57ccb96))
+* **worker:** fix memoryleaks ([83eb493](https://github.com/startupjs/startupjs/commit/83eb493b3ebf35455b030c479e7725fe55400759))
+
+
+### Features
+
+* **ui/Sidebar|SmartSidebar|DrawerSidebar:** add ability for lazy content rendering ([#959](https://github.com/startupjs/startupjs/issues/959)) ([47f28c9](https://github.com/startupjs/startupjs/commit/47f28c912e94ab8f558f3dfb51a3b01069783566))
+
+
+
 # [0.45.0](https://github.com/startupjs/startupjs/compare/v0.44.28...v0.45.0) (2022-06-16)
 
 ### BREAKING CHANGES
