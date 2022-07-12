@@ -12,8 +12,11 @@ export default observer(function Slot ({
 }) {
   if (!name) return null
 
-  let { moduleName, plugins } = useContext(PluginsContext)
-  const modulePlugins = pluginsSingleton.modules[moduleName].plugins
+  const { moduleName, plugins } = useContext(PluginsContext)
+  const modulePlugins = pluginsSingleton.modules[moduleName]?.plugins
+
+  // do nothing when no registered plugins for the module
+  if (!modulePlugins) return children
 
   const getOptionsHook = (plugin) => {
     return useCallback(() => {
@@ -28,11 +31,11 @@ export default observer(function Slot ({
   }
 
   // skip unregistered plugins
-  plugins = plugins.filter(plugin => modulePlugins[plugin.name])
+  const activePlugins = plugins.filter(plugin => modulePlugins[plugin.name])
 
   switch (type) {
     case 'siblings':
-      return plugins.map(plugin => {
+      return activePlugins.map(plugin => {
         const SlotComponent = modulePlugins[plugin.name].plugin[name]
         if (!SlotComponent) return null
         return React.createElement(
@@ -45,7 +48,7 @@ export default observer(function Slot ({
         )
       })
     case 'nested':
-      return plugins.slice().reverse().reduce((children, plugin) => {
+      return activePlugins.slice().reverse().reduce((children, plugin) => {
         const SlotComponent = modulePlugins[plugin.name].plugin[name]
         if (!SlotComponent) return children
         return React.createElement(

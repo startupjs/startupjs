@@ -17,7 +17,7 @@ export default function registerPlugins (plugins = {}) {
 
     for (const modulePlugin of modulePlugins) {
       let plugin
-      let options = {}
+      let options
 
       if (isPlainObject(modulePlugin)) {
         plugin = modulePlugin
@@ -33,7 +33,7 @@ export default function registerPlugins (plugins = {}) {
         continue
       }
 
-      if (options.defaultEnabled) defaultEnabledNames.push(plugin.name)
+      if (options?.defaultEnabled) defaultEnabledNames.push(plugin.name)
       modules[moduleName].plugins[plugin.name] = { plugin, options }
     }
 
