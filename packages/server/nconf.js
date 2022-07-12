@@ -21,6 +21,7 @@ function initNconf (dirname) {
     return false
   }
 
+  // This needs because Windows has default PUBLIC env variable, so nconf doesn't see our PUBLIC variable
   delete process.env.PUBLIC
 
   nconf.env()
