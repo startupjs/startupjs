@@ -13,15 +13,6 @@ export function PluginsProvider ({
     )
   }
 
-  const aModule = pluginsSingleton.modules[moduleName]
-
-  if (!aModule) {
-    throw new Error(
-      '[@startupjs/plugin] PluginsProvider: there is no plugins ' +
-      `registered for moduleName '${moduleName}'.`
-    )
-  }
-
   const value = useMemo(() => {
     let _plugins = {}
     // transform an array into an object
@@ -38,7 +29,8 @@ export function PluginsProvider ({
       _plugins = plugins
     }
 
-    const defaultEnabledNames = aModule.defaultEnabledNames
+    const aModule = pluginsSingleton.modules[moduleName]
+    const defaultEnabledNames = aModule?.defaultEnabledNames || []
     const displayedPlugins = []
 
     // display 'defaultEnabled' plugins first
