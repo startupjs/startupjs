@@ -59,6 +59,18 @@ module.exports = function getConfig (env, {
   forceCompileModules = forceCompileModules
     .concat(getPluginsForceCompileList())
 
+  /** 
+   * path.normalize needs because webpack for Windows doesn't accept paths in 
+   * *nix format (with slash delemeter) in the include section.
+   * replaceAll('\\', '\\\\') needs for masking backslash in Windows-style paths
+   * in the regular expression
+   */ 
+  const forceCompileModulesExpression = new RegExp(`${
+      path.normalize('node_modules/')
+    }(?:react-native-(?!web)|${
+      forceCompileModules.map(v => path.normalize(v)).join('|')
+    })`.replaceAll('\\', '\\\\'))
+
   return pickBy({
     mode: PROD ? 'production' : 'development',
     entry: {
@@ -204,7 +216,7 @@ module.exports = function getConfig (env, {
           resolve: {
             fullySpecified: false
           },
-          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
+          include: forceCompileModulesExpression,
           use: [
             { loader: 'babel-loader' }
           ]

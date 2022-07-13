@@ -86,13 +86,13 @@ SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
 }
 
 SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
-  ${reset ? 'rm -rf node_modules/.vite_opt_cache &&' : ''}
-  VITE_WEB=1
+  ${reset ? 'rimraf node_modules/.vite_opt_cache &&' : ''}
+  cross-env VITE_WEB=1
   vite
 `)
 
 SCRIPTS_ORIG.webWebpack = oneLine(`
-  WEBPACK_DEV=1
+  cross-env WEBPACK_DEV=1
   webpack-dev-server --config webpack.web.config.cjs
 `)
 
@@ -148,12 +148,12 @@ SCRIPTS_ORIG.testBuild = appName => oneLine(`
 `)
 
 SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
-  ${updateScreenshot ? `rm -rf \`find ${ROOT_PATH} -name "__image_snapshots__" -type d\` &&` : ''}
+  ${updateScreenshot ? `rimraf \`find ${ROOT_PATH} -name "__image_snapshots__" -type d\` &&` : ''}
   concurrently
     -s first -k -n "S,T"
     -c white,cyan.bgBlue
     "mongo ${appName}_test --eval 'db.dropDatabase();'
-    && ASYNC=1 startupjs build
+    && cross-env ASYNC=1 startupjs build
     && PORT=3001 MONGO_URL=mongodb://localhost:27017/${appName}_test startupjs start-production"
     "${SCRIPTS_ORIG.testJsBundle(appName)}
     && wait-on http://localhost:3001
@@ -164,7 +164,7 @@ SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
 
 SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
   mkdir -p ios/build/Build/Products/Release-iphonesimulator/${appName}.app/
-  && APP_ENV=detox react-native bundle
+  && cross-env APP_ENV=detox react-native bundle
   --entry-file="index.js"
   --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${appName}.app/main.jsbundle"
   --reset-cache --dev=false
@@ -181,7 +181,7 @@ SCRIPTS_ORIG.server = ({ inspect, vite, webpack, pure } = {}) => {
 }
 
 SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
-  ${vite ? 'VITE=1' : ''}
+  ${vite ? 'cross-env VITE=1' : ''}
   nodemon
     --experimental-specifier-resolution=node
     ${inspect ? '--inspect' : ''}
@@ -207,14 +207,14 @@ SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
 `)
 
 SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
-  WEBPACK_DEV=1
+  cross-env WEBPACK_DEV=1
   webpack --watch --config webpack.server.config.cjs
 `)
 
 SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
-  rm -f ./build/server.dev.cjs &&
+  rimraf ./build/server.dev.cjs &&
   just-wait -t 1000 --pattern ./build/server.dev.cjs &&
-  ${vite ? 'VITE=1' : ''}
+  ${vite ? 'cross-env VITE=1' : ''}
   nodemon
     --experimental-specifier-resolution=node
     ${inspect ? '--inspect' : ''}
@@ -236,7 +236,7 @@ SCRIPTS_ORIG.start = (options = {}) => {
 
 SCRIPTS_ORIG.startPure = (...args) => oneLine(`
   concurrently
-    -s first -k -n 'Server,compile Web'
+    -s first -k -n 'Server,Web'
     -c cyan.bgBlue,gray
     "${SCRIPTS_ORIG.server(...args)}"
     "${SCRIPTS_ORIG.web(...args)}"
@@ -245,7 +245,7 @@ SCRIPTS_ORIG.startPure = (...args) => oneLine(`
 SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
   concurrently
     -p "{name}:"
-    -s first -k -n 'Server,compile Server,compile Web'
+    -s first -k -n 'Server,ServerBuild,Web'
     -c cyan.bgBlue.bold,gray,gray
     "${SCRIPTS_ORIG.serverWebpackRun(options)}"
     "${SCRIPTS_ORIG.serverWebpackBuild}"
@@ -255,9 +255,9 @@ SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
 // Production build
 
 SCRIPTS_ORIG.build = ({ async, pure } = {}) => oneLine(`
-  rm -rf ./build &&
+  rimraf ./build &&
   ${pure ? '' : 'webpack --config webpack.server.config.cjs &&'}
-  ${async ? 'ASYNC=1' : ''}
+  ${async ? 'cross-env ASYNC=1' : ''}
   webpack --config webpack.web.config.cjs
 `)
 
@@ -270,14 +270,14 @@ SCRIPTS_ORIG.startProduction = ({ pure }) => {
 }
 
 SCRIPTS_ORIG.startProductionPure = oneLine(`
-  NODE_ENV=production
+  cross-env NODE_ENV=production
   node
     --experimental-specifier-resolution=node
     server.js
 `)
 
 SCRIPTS_ORIG.startProductionWebpack = oneLine(`
-  NODE_ENV=production
+  cross-env NODE_ENV=production
   node
     --experimental-specifier-resolution=node
     -r source-map-support/register
