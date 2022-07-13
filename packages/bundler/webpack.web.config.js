@@ -62,14 +62,14 @@ module.exports = function getConfig (env, {
   /**
    * path.normalize needs because webpack for Windows doesn't accept paths in
    * *nix format (with slash delemeter) in the include section.
-   * .replace(/\\\\/, '\\\\') needs for masking backslash in Windows-style paths
+   * .replace(/\\/g, '\\\\') needs for masking backslash in Windows-style paths
    * in the regular expression
    */
   const forceCompileModulesExpression = new RegExp(`${
       path.normalize('node_modules/')
     }(?:react-native-(?!web)|${
       forceCompileModules.map(v => path.normalize(v)).join('|')
-    })`.replace(/\\\\/, '\\\\')
+    })`.replace(/\\/g, '\\\\')
   )
 
   return pickBy({
