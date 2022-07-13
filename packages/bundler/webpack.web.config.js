@@ -62,7 +62,7 @@ module.exports = function getConfig (env, {
   /**
    * path.normalize needs because webpack for Windows doesn't accept paths in
    * *nix format (with slash delemeter) in the include section.
-   * replaceAll('\\', '\\\\') needs for masking backslash in Windows-style paths
+   * .replace(/\\\\/, '\\\\') needs for masking backslash in Windows-style paths
    * in the regular expression
    */
   const forceCompileModulesExpression = new RegExp(`${
