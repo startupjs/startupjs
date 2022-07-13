@@ -22,9 +22,7 @@
     "wait-on": "^5.2.1",
     "webpack": "^5.60.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.4.0"
-  },
-  "devDependencies": {
+    "webpack-dev-server": "^4.4.0",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   }
