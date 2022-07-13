@@ -1,3 +1,12 @@
+## [0.45.3](https://github.com/startupjs/startupjs/compare/v0.45.2...v0.45.3) (2022-07-13)
+
+
+### Bug Fixes
+
+* **bundler:** fix replacing backslash ([d138e0b](https://github.com/startupjs/startupjs/commit/d138e0bce4ddb11386b052e848b4a4ca562c97ff))
+
+
+
 ## [0.45.2](https://github.com/startupjs/startupjs/compare/v0.45.1...v0.45.2) (2022-07-13)
 
 
