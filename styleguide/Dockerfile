@@ -11,12 +11,12 @@ ADD . /app
 WORKDIR /app
 
 RUN \
-  apk add --no-cache make gcc g++ python git && \
+  apk add --no-cache make gcc g++ python3 git && \
   yarn bootstrap && \
   cd styleguide && \
   yarn build && \
   yarn cache clean && \
-  apk del make gcc g++ python git
+  apk del make gcc g++ python3 git
 
 WORKDIR /app/styleguide
 CMD yarn start-production
