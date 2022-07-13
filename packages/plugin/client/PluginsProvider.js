@@ -7,6 +7,9 @@ export function PluginsProvider ({
   plugins = {},
   children
 }) {
+  // do nothing when no registered plugins
+  if (!pluginsSingleton.modules) return children
+
   if (!moduleName) {
     throw new Error(
       '[@startupjs/plugin] PluginsProvider: property \'moduleName\' is required'
