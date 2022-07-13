@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/vite-plugin-startupjs",
-  "version": "0.45.3",
+  "version": "0.45.4",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -15,9 +15,9 @@
     "@startupjs/babel-plugin-dotenv": "^0.45.0",
     "@startupjs/babel-plugin-import-to-react-lazy": "^0.45.0",
     "@startupjs/babel-plugin-react-pug-classnames": "^0.45.0",
-    "@startupjs/babel-plugin-rn-stylename-inline": "^0.45.3",
+    "@startupjs/babel-plugin-rn-stylename-inline": "^0.45.4",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.45.0",
-    "@startupjs/bundler": "^0.45.3",
+    "@startupjs/bundler": "^0.45.4",
     "@vitejs/plugin-react": "^1.0.6",
     "babel-plugin-transform-react-pug": "^7.0.1"
   }

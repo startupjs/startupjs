@@ -1,3 +1,14 @@
+## [0.45.4](https://github.com/startupjs/startupjs/compare/v0.45.3...v0.45.4) (2022-07-13)
+
+
+### Bug Fixes
+
+* **bundler:** change dependency type for cross-env and rimraf ([#965](https://github.com/startupjs/startupjs/issues/965)) ([5db7782](https://github.com/startupjs/startupjs/commit/5db778271611ebf48c99b758acb43cc908d36c35))
+* **plugin/PluginsProvider:** do nothing when no registered plugins ([ec6d071](https://github.com/startupjs/startupjs/commit/ec6d071b68c52170a6f6aed4db43680f8950b88f))
+* **ui/NumberInput:** fix bug related to blocking input value cleanup when 'min' property exists ([2822fda](https://github.com/startupjs/startupjs/commit/2822fdab1d74dadaa9733557e7e8640506a85edb))
+
+
+
 ## [0.45.3](https://github.com/startupjs/startupjs/compare/v0.45.2...v0.45.3) (2022-07-13)
 
 
