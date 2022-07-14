@@ -1,3 +1,12 @@
+## [0.45.5](https://github.com/startupjs/startupjs/compare/v0.45.4...v0.45.5) (2022-07-14)
+
+
+### Bug Fixes
+
+* **bundler:** fix regexp that replace backslash for windows support ([#966](https://github.com/startupjs/startupjs/issues/966)) ([1c26478](https://github.com/startupjs/startupjs/commit/1c26478a007291a7aa132298a0897f62b4c7dc6c))
+
+
+
 ## [0.45.4](https://github.com/startupjs/startupjs/compare/v0.45.3...v0.45.4) (2022-07-13)
 
 
