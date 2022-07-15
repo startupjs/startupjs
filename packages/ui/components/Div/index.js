@@ -162,10 +162,11 @@ function Div ({
       style=[style, extraStyle]
       styleName=[
         {
-          clickable: isWeb && isClickable,
+          clickable: isClickable,
           bleed,
           full,
-          disabled
+          disabled,
+          feedback
         },
         shape,
         pushedModifier,

@@ -6,6 +6,8 @@ import Br from '../Br'
 import Button from '../Button'
 import { Sandbox } from '@startupjs/docs'
 import { faFire, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import Dropdown from './../Dropdown'
+import Span from './../typography/Span'
 
 # Alert
 
@@ -15,7 +17,18 @@ An alert displays a short, important message in a way that attracts the user's a
 import { Alert } from '@startupjs/ui'
 ```
 
+```jsx example
+return pug`
+  Dropdown(
+    options=['first', 'second', 'third']
+  )
+    Div
+      Span Test
+`
+```
+
 ## Simple example
+
 ```jsx example
 return (
   <Alert>

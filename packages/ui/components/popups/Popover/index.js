@@ -45,7 +45,7 @@ const Popover = observer(({
     useImperativeHandle(ref, () => ({
       open: () => $visible.setDiff(true),
       close: () => $visible.setDiff(false)
-    }))
+    }), [])
     ;[, $visible] = useValue(false)
   }
 
@@ -54,7 +54,7 @@ const Popover = observer(({
   function renderWrapper (children) {
     return pug`
       View.root
-        TouchableWithoutFeedback(onPress=()=> onChange(false))
+        TouchableWithoutFeedback(onPress=() => onChange(false))
           View.overlay
         = children
     `
@@ -64,7 +64,7 @@ const Popover = observer(({
     Div(
       style=style
       ref=anchorRef
-      onPress=()=> onChange(true)
+      onPress=() => onChange(true)
     )= children
     AbstractPopover.attachment(
       ...props

@@ -41,14 +41,18 @@ _shadowLevels = ('1' '2' '3' '4')
     flex 1
 
   &.clickable
-    cursor pointer
-    user-select none
+    +web()
+      user-select none
+
+      &.feedback
+        cursor pointer
 
     &.disabled
       opacity 0.5
 
       +web()
-        cursor default
+        &.feedback
+          cursor default
 
 // -----------------------------------------
 //   JS EXPORTS

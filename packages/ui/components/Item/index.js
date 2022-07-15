@@ -78,7 +78,7 @@ function Item ({
   return pug`
     Wrapper.root(
       style=style
-      variant="highlight"
+      variant='highlight'
       onPress=onPress
       ...extraProps
       ...props
