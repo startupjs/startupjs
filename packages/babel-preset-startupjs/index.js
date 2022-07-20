@@ -63,7 +63,7 @@ const webReactCssModulesPlugin = ({ production } = {}) =>
     },
     transform: (src, filepath) => {
       if (!/\.styl$/.test(filepath)) return src
-      return stylusToCssLoader(src, filepath)
+      return stylusToCssLoader.call({ resourcePath: filepath }, src)
     },
     generateScopedName
   }]
@@ -204,7 +204,7 @@ const CONFIG_WEB_PURE_PRODUCTION = {
 if (ASYNC) {
   CONFIG_WEB_PURE_PRODUCTION.sourceType = 'unambiguous'
 }
-  
+
 // node.js server config
 
 const CONFIG_SERVER = {
