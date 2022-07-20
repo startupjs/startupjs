@@ -243,6 +243,8 @@ module.exports = function getConfig (env, {
             }
           ]
         },
+        // TODO
+        // https://webpack.js.org/guides/asset-modules/
         {
           test: /\.(jpg|png)$/,
           use: {
@@ -262,6 +264,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
+                url: false, // NOTE can remove when change file loader to https://webpack.js.org/guides/asset-modules/
                 modules: {
                   getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME
