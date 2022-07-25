@@ -28,6 +28,19 @@ try {
   PATCHES_DIR = './patches'
 }
 
+let PATCHES_GESTURE_HANDLER_DIR
+try {
+  PATCHES_GESTURE_HANDLER_DIR = path.join(
+    path.dirname(require.resolve('@startupjs/patches')),
+    'patches_gestureHandler'
+  )
+  // patch-package requires the path to be relative
+  PATCHES_GESTURE_HANDLER_DIR = path.relative(process.cwd(), PATCHES_GESTURE_HANDLER_DIR)
+} catch (err) {
+  console.error(err)
+  console.error('ERROR!!! Gesture handler patches not found.')
+}
+
 const LINK = !!process.env.LINK
 const LOCAL_DIR = process.env.LOCAL_DIR || '.'
 
@@ -288,12 +301,18 @@ SCRIPTS_ORIG.patchPackage = () => oneLine(`
   npx patch-package --patch-dir ${PATCHES_DIR}
 `)
 
+SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
+  ? oneLine(`
+      (cat package.json | grep react-native-gesture-handler && npx patch-package --patch-dir ${PATCHES_GESTURE_HANDLER_DIR} || true)
+    `)
+  : 'true'
+
 SCRIPTS_ORIG.fonts = () => oneLine(`
   react-native-asset
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
+  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()} && ${SCRIPTS_ORIG.patchGestureHandler()}
 `)
 
 const SCRIPTS = {
@@ -343,13 +362,7 @@ const TEMPLATES = {
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
-    ],
-    devPackages: [
-      'patch-package'
-    ],
-    scripts: {
-      postinstall: 'startupjs postinstall && patch-package'
-    }
+    ]
   }
 }
 
@@ -433,12 +446,9 @@ commander
       console.log('> TODO: Link startupjs packages for local install')
     }
 
-    const templateDevDependencies = TEMPLATES[template].devPackages || []
-    const devDependencies = DEV_DEPENDENCIES.concat(templateDevDependencies)
-
-    if (devDependencies.length) {
-      // install startupjs devDependencies
-      await execa('yarn', ['add', '-D'].concat(devDependencies), {
+    if (DEV_DEPENDENCIES.length) {
+      // install startupjs DEV_DEPENDENCIES
+      await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -448,7 +458,7 @@ commander
     updateConfigJson(projectPath, { projectName })
 
     console.log('> Patch package.json with additional scripts')
-    patchScriptsInPackageJson(projectPath, { template })
+    patchScriptsInPackageJson(projectPath)
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -673,10 +683,9 @@ function renameFonts () {
   }
 }
 
-function patchScriptsInPackageJson (projectPath, { template }) {
+function patchScriptsInPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
-  const templateScripts = TEMPLATES[template].scripts || {}
 
   delete packageJSON.scripts.test
   delete packageJSON.devDependencies['babel-jest']
@@ -686,8 +695,7 @@ function patchScriptsInPackageJson (projectPath, { template }) {
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
-    ...SCRIPTS,
-    ...templateScripts
+    ...SCRIPTS
   }
 
   packageJSON['lint-staged'] = {
