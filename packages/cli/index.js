@@ -48,7 +48,7 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard-react',
   'eslint-plugin-import',
   'eslint-plugin-import-helpers',
-  'eslint-plugin-node',
+  'eslint-plugin-n',
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
@@ -339,11 +339,17 @@ const TEMPLATES = {
       '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@^1.6.0',
       'react-native-color-picker@^0.6.0',
-      'react-native-gesture-handler@^1.10.3',
+      'react-native-gesture-handler@1.10.3',
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
-    ]
+    ],
+    devPackages: [
+      'patch-package'
+    ],
+    scripts: {
+      postinstall: 'startupjs postinstall && patch-package'
+    }
   }
 }
 
@@ -427,9 +433,12 @@ commander
       console.log('> TODO: Link startupjs packages for local install')
     }
 
-    if (DEV_DEPENDENCIES.length) {
+    const templateDevDependencies = TEMPLATES[template].devPackages || []
+    const devDependencies = DEV_DEPENDENCIES.concat(templateDevDependencies)
+
+    if (devDependencies.length) {
       // install startupjs devDependencies
-      await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
+      await execa('yarn', ['add', '-D'].concat(devDependencies), {
         cwd: projectPath,
         stdio: 'inherit'
       })
@@ -439,7 +448,7 @@ commander
     updateConfigJson(projectPath, { projectName })
 
     console.log('> Patch package.json with additional scripts')
-    patchScriptsInPackageJson(projectPath)
+    patchScriptsInPackageJson(projectPath, { template })
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -664,9 +673,10 @@ function renameFonts () {
   }
 }
 
-function patchScriptsInPackageJson (projectPath) {
+function patchScriptsInPackageJson (projectPath, { template }) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
+  const templateScripts = TEMPLATES[template].scripts || {}
 
   delete packageJSON.scripts.test
   delete packageJSON.devDependencies['babel-jest']
@@ -676,7 +686,8 @@ function patchScriptsInPackageJson (projectPath) {
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
-    ...SCRIPTS
+    ...SCRIPTS,
+    ...templateScripts
   }
 
   packageJSON['lint-staged'] = {
