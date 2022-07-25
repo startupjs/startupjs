@@ -303,7 +303,7 @@ SCRIPTS_ORIG.patchPackage = () => oneLine(`
 
 SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
   ? oneLine(`
-      (cat package.json | grep react-native-gesture-handler && npx patch-package --patch-dir ${PATCHES_GESTURE_HANDLER_DIR} || true)
+      (cat package.json | grep -q react-native-gesture-handler && npx patch-package --patch-dir ${PATCHES_GESTURE_HANDLER_DIR} || true)
     `)
   : 'true'
 
@@ -447,7 +447,7 @@ commander
     }
 
     if (DEV_DEPENDENCIES.length) {
-      // install startupjs DEV_DEPENDENCIES
+      // install startupjs devDependencies
       await execa('yarn', ['add', '-D'].concat(DEV_DEPENDENCIES), {
         cwd: projectPath,
         stdio: 'inherit'
