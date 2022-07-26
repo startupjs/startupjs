@@ -10,6 +10,7 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.44.23",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.17",

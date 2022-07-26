@@ -46,6 +46,7 @@ export {
 export { default as Tooltip } from './components/Tooltip'
 export * from './components/typography'
 export { default as User } from './components/User'
+export { default as DynamicThemeProvider } from './components/DynamicThemeProvider'
 export { default as themed } from './theming/themed'
 export { default as ThemeProvider } from './theming/ThemeProvider'
 export { default as ThemeContext } from './theming/ThemeContext'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
-import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
+import { AutoSuggest, Button, Div, Layout, Menu, Row, Span, DynamicThemeProvider } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -96,12 +96,32 @@ const Topbar = observer(function Topbar () {
 export default observer(function StyleguideLayout ({ children }) {
   // Note: Topbar height is compensated in PDoc
   //       to achieve a semi-transparent effect
+  const themes = [
+    undefined,
+    {
+      '--colors-primary': '#f00',
+      '--colors-primary-lightest': '#faa'
+    },
+    {
+      '--colors-primary': '#0f0',
+      '--colors-primary-lightest': '#afa'
+    },
+    {
+      '--colors-primary': '#00f',
+      '--colors-primary-lightest': '#aaf'
+    }
+  ]
+  const [theme, setTheme] = useState(0)
   return pug`
+    if theme !== 0
+      DynamicThemeProvider(variables=themes[theme])
     MDXProvider
       Layout.layout(testID="Layout")
         Sidebar
           Topbar
           ScrollableProvider
+            Button(onPress=() => setTheme((theme + 1) % themes.length)) Toggle Theme
+            Span Theme: #{JSON.stringify(themes[theme])}
             = children
   `
 })

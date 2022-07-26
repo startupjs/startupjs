@@ -1,0 +1,60 @@
+diff --git a/node_modules/css-to-react-native/index.js b/node_modules/css-to-react-native/index.js
+index a2ad42f..048a0ff 100644
+--- a/node_modules/css-to-react-native/index.js
++++ b/node_modules/css-to-react-native/index.js
+@@ -40,6 +40,36 @@ var matchColor = function matchColor(node) {
+   return null;
+ };
+ 
++const matchVariable = node => {
++  if (
++    (node.type !== 'function' && node.value !== 'var') ||
++    node.nodes.length === 0
++  )
++    return null
++
++  const variableName = node.nodes[0].value
++
++  if (node.nodes.length === 1) {
++    return `var(${variableName})`
++  }
++
++  const defaultValues = node.nodes
++    .slice(1)
++    .filter(subnode => subnode.type !== 'div')
++    .map(subnode => {
++      if (subnode.type === 'string') {
++        return `'${matchString(subnode)}'`
++      }
++      return subnode.value
++    })
++
++  if (defaultValues.length !== (node.nodes.length - 1) / 2) {
++    return null
++  }
++
++  return `var(${variableName}, ${defaultValues.join`, `})`
++}
++
+ var noneRe = /^(none)$/i;
+ var autoRe = /^(auto)$/i;
+ var identRe = /(^-?[_a-z][_a-z0-9-]*$)/i;
+@@ -98,7 +128,8 @@ var tokens = {
+   IDENT: regExpToken(identRe),
+   STRING: matchString,
+   COLOR: matchColor,
+-  LINE: regExpToken(/^(none|underline|line-through)$/i)
++  LINE: regExpToken(/^(none|underline|line-through)$/i),
++  VARIABLE: matchVariable
+ };
+ 
+ var NONE = tokens.NONE,
+@@ -638,7 +669,7 @@ var background = function background(tokenStream) {
+   };
+ };
+ var borderColor = directionFactory({
+-  types: [COLOR$3],
++  types: [COLOR$3, tokens.VARIABLE],
+   prefix: 'border',
+   suffix: 'Color'
+ });
