@@ -28,6 +28,19 @@ try {
   PATCHES_DIR = './patches'
 }
 
+let PATCHES_GESTURE_HANDLER_DIR
+try {
+  PATCHES_GESTURE_HANDLER_DIR = path.join(
+    path.dirname(require.resolve('@startupjs/patches')),
+    'patches_gestureHandler'
+  )
+  // patch-package requires the path to be relative
+  PATCHES_GESTURE_HANDLER_DIR = path.relative(process.cwd(), PATCHES_GESTURE_HANDLER_DIR)
+} catch (err) {
+  console.error(err)
+  console.error('ERROR!!! Gesture handler patches not found.')
+}
+
 const LINK = !!process.env.LINK
 const LOCAL_DIR = process.env.LOCAL_DIR || '.'
 
@@ -48,7 +61,7 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard-react',
   'eslint-plugin-import',
   'eslint-plugin-import-helpers',
-  'eslint-plugin-node',
+  'eslint-plugin-n',
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
@@ -288,12 +301,18 @@ SCRIPTS_ORIG.patchPackage = () => oneLine(`
   npx patch-package --patch-dir ${PATCHES_DIR}
 `)
 
+SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
+  ? oneLine(`
+      (cat package.json | grep -q react-native-gesture-handler && npx patch-package --patch-dir ${PATCHES_GESTURE_HANDLER_DIR} || true)
+    `)
+  : 'true'
+
 SCRIPTS_ORIG.fonts = () => oneLine(`
   react-native-asset
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
+  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()} && ${SCRIPTS_ORIG.patchGestureHandler()}
 `)
 
 const SCRIPTS = {
@@ -339,7 +358,7 @@ const TEMPLATES = {
       '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@^1.6.0',
       'react-native-color-picker@^0.6.0',
-      'react-native-gesture-handler@^1.10.3',
+      'react-native-gesture-handler@1.10.3',
       'react-native-pager-view@^5.1.2',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
