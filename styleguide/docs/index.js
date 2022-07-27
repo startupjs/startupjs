@@ -19,6 +19,7 @@ import AuthLocalRu from '../../packages/auth-local/docs/readme.ru.md'
 import AuthLocalEn from '../../packages/auth-local/docs/readme.en.md'
 import i18nEn from '../../packages/i18n/readme/readme.en.mdx'
 import i18nRu from '../../packages/i18n/readme/readme.ru.mdx'
+import mailgunEn from '../../packages/mailgun/readme/readme.en.mdx'
 import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import PushNotificationsEn from '../../packages/push-notifications/docs/push-notifications.en.mdx'
@@ -201,6 +202,11 @@ export default docs({
           en: i18nEn,
           ru: i18nRu
         }
+      },
+      mailgun: {
+        type: 'mdx',
+        title: 'Mailgun',
+        component: mailgunEn
       },
       'push-notofications': {
         type: 'mdx',
