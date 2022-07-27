@@ -1,0 +1,130 @@
+# Mail service
+
+Library to send email messages in app via mailgun
+
+## Requirements
+
+nconf: *
+express: 4.x
+
+## Installation
+
+```sh
+yarn add @startupjs/mailgun
+```
+
+or
+
+```sh
+npm i @startupjs/mailgun
+```
+
+## Usage
+
+### As a function (on the backend side)
+
+```js
+import { sendEmail } from '@startupjs/mailgun'
+
+...
+sendEmail(options)
+...
+```
+
+### Only as an API
+
+Backend side
+
+```js
+import { mailAPI } from '@startupjs/mailgun'
+
+...
+ee.on('routes', () => {
+  expressApp.use('/api', mailAPI);
+});
+...
+```
+
+Frontend side
+
+```js
+...
+axios.post('/api/send-email', options)
+...
+```
+
+### Options
+
+- apiKey - registered key for mailgun-js (you can also place it in config.json using the key 'MAILGUN_KEY'),
+- domain: registered domain for mailgun-js (you can also place it in config.json using the key 'MAILGUN_DOMAIN'),
+- from - the sender's e-mail (you can also place it in config.json using the key 'MAILGUN_FROM_ID'),
+- email - the e-mail address of the recipient,
+- subject - email subject,
+- text - email content,
+  or
+- html - email content as an HTML temlate
+- inline - inline image for html content (path to image)
+
+```js
+const filepath = path.join(__dirname, 'test.jpg')
+const options = {
+  html: '<html>Inline image here:<img src="cid:test.jpg"></html>',
+  inline: filepath
+  //...other options
+}
+```
+
+- attachment - array of email attachments. File, Buffer or Stream. The maximum message size is 25 MB!
+
+#### Templates
+
+You can use the file tamplate, for this need to create folder in root directory with the name 'emails' and creating in it your templates with the extension 'html'. In options need set key 'templateName'. For example
+
+file: /yourRootDirectory/emails/example.html
+
+content:
+
+```html
+<span>Simple example</span>
+```
+
+options:
+
+```js
+options = {
+  templateName: 'example',
+  // ...other options
+}
+```
+
+If variables are used in template, need to place them as an object in the options using the 'templateOptions' key and write them in a template with double brackets. For example
+
+template content:
+
+```html
+<table style='border-spacing: 0; width: 100%'>
+  <tbody>
+    <tr>
+      <td style='font-weight: "bold"'>Hello, {{name}}!</td>
+    </tr>
+    <tr><td style='height: 16px'/></tr>
+    <tr>
+      <td>This is the base example of email template</td>
+    </tr>
+    <tr><td style="height: 16px" /></tr>
+    <tr>
+      <td>With best regards, {{sender}}!</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+options:
+
+```js
+options = {
+  templateName: 'example',
+  templateOptions: { name: 'Bob', sender: 'Rob' }
+  // ...other options
+}
+```
