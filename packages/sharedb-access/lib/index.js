@@ -161,7 +161,7 @@ class ShareDBAccess {
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
-    throw new ShareDBAccessError('ERR_ACCESS_DENY_CREATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
+    throw new ShareDBAccessError('ERR_ACCESS_DENY_UPDATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
   }
 
   applyHandler (shareRequest, done) {
