@@ -11,7 +11,7 @@ ADD . /app
 WORKDIR /app
 
 RUN \
-  npm config set unsafe-perm true
+  npm config set unsafe-perm true && \
   apk add --no-cache make gcc g++ python3 git && \
   yarn bootstrap && \
   cd styleguide && \
