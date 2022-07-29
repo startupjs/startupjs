@@ -1,26 +1,29 @@
 const assert = require('assert')
 const { getDbs } = require('./db.js')
 const ShareDbAccess = require('../lib/index.js')
-
-let { backend } = getDbs()
+const { backend } = getDbs()
 const model = backend.createModel()
+const shareDBAccess = new ShareDbAccess(backend)
 
 // for check request from server
 model.root.connection.agent.stream.checkServerAccess = true
 
-let shareDBAccess = new ShareDbAccess(backend)
-let id
-
-const $session = model.scope('_session')
-const errorTemplate = 'Permission denied (create)'
-
 describe('CREATE', function () {
-  afterEach(function () {
+  before(async () => {
+    // the read operation is triggered if create operation throw an error
+    // the read operation is not triggered if create opeartion does not throw an error
+    // this allowRead removes read error from error log when create operation throw an error
+    backend.allowRead('tasksCreate', async (docId, doc, session) => {
+      return true
+    })
+  })
+
+  beforeEach(function () {
     shareDBAccess.allow.Create.tasksCreate = []
     shareDBAccess.deny.Create.tasksCreate = []
   })
 
-  it('deny = false && allow = false => err{ code: 403 }', async () => {
+  it('deny = false && allow = false', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return false
     })
@@ -28,36 +31,30 @@ describe('CREATE', function () {
       return false
     })
     try {
-      id = model.id()
-      await model.add('tasksCreate', { id, type: 'testCreate' })
+      await model.add('tasksCreate', {})
+      assert(false)
+    } catch (e) {
+      assert.strictEqual(e.code, 'ERR_ACCESS_DENY_CREATE')
+    }
+  })
 
-      const accessError = $session.get('_accessError')
+  it('deny = false && allow = true', async () => {
+    backend.denyCreate('tasksCreate', async (docId, doc, session) => {
+      return false
+    })
+    backend.allowCreate('tasksCreate', async (docId, doc, session) => {
+      return true
+    })
 
-      assert.strictEqual(accessError.message.includes(errorTemplate), true)
-      assert.strictEqual(accessError.code, 403)
+    try {
+      await model.add('tasksCreate', {})
+      assert(true)
     } catch (e) {
       assert(false)
     }
   })
 
-  it('deny = false && allow = true => not err', async () => {
-    backend.denyCreate('tasksCreate', async (docId, doc, session) => {
-      return false
-    })
-    backend.allowCreate('tasksCreate', async (docId, doc, session) => {
-      return true
-    })
-
-    try {
-      id = model.id()
-      await model.add('tasksCreate', { id, type: 'testCreate' })
-    } catch (e) {
-      assert(false)
-    }
-    assert(true)
-  })
-
-  it('deny = true && allow = false => err{ code: 403 }', async () => {
+  it('deny = true && allow = false', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
@@ -66,19 +63,14 @@ describe('CREATE', function () {
     })
 
     try {
-      id = model.id()
-      await model.add('tasksCreate', { id, type: 'testCreate' })
-
-      const accessError = $session.get('_accessError')
-
-      assert.strictEqual(accessError.message.includes(errorTemplate), true)
-      assert.strictEqual(accessError.code, 403)
-    } catch (e) {
+      await model.add('tasksCreate', {})
       assert(false)
+    } catch (e) {
+      assert.strictEqual(e.code, 'ERR_ACCESS_DENY_CREATE')
     }
   })
 
-  it('deny = true && allow = true => err{ code: 403 }', async () => {
+  it('deny = true && allow = true', async () => {
     backend.denyCreate('tasksCreate', async (docId, doc, session) => {
       return true
     })
@@ -87,15 +79,10 @@ describe('CREATE', function () {
     })
 
     try {
-      id = model.id()
-      await model.add('tasksCreate', { id, type: 'testCreate' })
-
-      const accessError = $session.get('_accessError')
-
-      assert.strictEqual(accessError.message.includes(errorTemplate), true)
-      assert.strictEqual(accessError.code, 403)
-    } catch (e) {
+      await model.add('tasksCreate', {})
       assert(false)
+    } catch (e) {
+      assert.strictEqual(e.code, 'ERR_ACCESS_DENY_CREATE')
     }
   })
 })
