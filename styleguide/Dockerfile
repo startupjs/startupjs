@@ -1,4 +1,4 @@
-FROM node:14.20-alpine
+FROM node:16.16-alpine
 
 # REQUIRED ENV VARS:
 # - STAGE
@@ -11,7 +11,6 @@ ADD . /app
 WORKDIR /app
 
 RUN \
-  npm config set unsafe-perm true && \
   apk add --no-cache make gcc g++ python3 git && \
   yarn bootstrap && \
   cd styleguide && \
