@@ -100,7 +100,7 @@ const App = observer(function AppComponent ({
     else
       Suspense(fallback=null)
         PluginsProvider(
-          name=packageName
+          moduleName=packageName
           plugins=plugins
         )
           Router(

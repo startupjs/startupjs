@@ -108,7 +108,7 @@ const RenderApp = observer(function RenderAppComponent ({
   }
 
   return pug`
-    Slot(name='LayoutWrapper')
+    Slot(name='LayoutWrapper' type='nested')
       Layout
         Routes(...props)
   `

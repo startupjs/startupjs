@@ -1,0 +1,18 @@
+{
+  "name": "@startupjs/mailgun",
+  "description": "Library to send email messages in app via mailgun",
+  "version": "0.46.0",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "server/index.js",
+  "dependencies": {
+    "inline-css": "^2.6.3",
+    "mailgun-js": "^0.22.0"
+  },
+  "peerDependencies": {
+    "express": "4.x",
+    "nconf": "*"
+  }
+}

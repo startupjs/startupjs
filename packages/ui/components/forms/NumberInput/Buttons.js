@@ -25,7 +25,6 @@ function NumberInputButtons ({
         style=buttonStyle
         styleName=buttonStyleNames
         accessible=false
-        color='darkLight'
         disabled=disabled
         icon=mode === 'horizontal' ? faPlus : faAngleUp
         size=size
@@ -36,7 +35,6 @@ function NumberInputButtons ({
         style=buttonStyle
         styleName=buttonStyleNames
         accessible=false
-        color='darkLight'
         disabled=disabled
         icon=mode === 'horizontal' ? faMinus : faAngleDown
         size=size

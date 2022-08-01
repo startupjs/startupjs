@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { styl } from 'startupjs'
 import AbstractPopover from '../AbstractPopover'
 import Span from '../typography/Span'
@@ -40,7 +40,11 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
         if typeof tooltip === 'function'
           = tooltip()
         else
-          Span.tooltip-text= tooltip
+          //- HACK
+          //- Wrap to row, because for small texts it does not correctly hyphenate in the text
+          //- For example $500,000, Copy, etc...
+          View(style={ flexDirection: 'row' })
+            Span.tooltip-text= tooltip
     `
     const eventHandlers = {}
 

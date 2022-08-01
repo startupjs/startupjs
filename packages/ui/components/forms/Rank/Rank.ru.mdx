@@ -1,0 +1,74 @@
+import { useState, useEffect } from 'react'
+import Rank from '../Rank'
+import { Sandbox } from '@startupjs/docs'
+
+# Rank
+
+Rank позволяет пользователю расположить опции в определенном порядке.
+
+```jsx
+import { Rank } from from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const options = ['option1', 'option2', 'option3', 'option4', 'option5']
+const [value, setValue] = useState(options)
+
+return (
+  <>
+    <Rank
+      value={value}
+      options={options}
+      onChange={setValue}
+    />
+  </>
+)
+```
+
+## Disabled
+
+```jsx example
+const options = ['option1', 'option2', 'option3', 'option4', 'option5']
+const [value, setValue] = useState(options)
+
+return (
+  <>
+    <Rank
+      disabled
+      value={value}
+      options={options}
+      onChange={setValue}
+    />
+  </>
+)
+```
+
+## Readonly
+
+```jsx example
+const options = ['option1', 'option2', 'option3', 'option4', 'option5']
+const [value, setValue] = useState(options)
+
+return (
+  <>
+    <Rank
+      readonly
+      value={value}
+      options={options}
+      onChange={setValue}
+    />
+  </>
+)
+```
+
+## Sandbox
+
+<Sandbox
+  Component={Rank}
+  props={{
+    options: ['option1', 'option2', 'option3', 'option4', 'option5'],
+    onChange: value=> alert('New order: ' + JSON.stringify(value))
+  }}
+/>

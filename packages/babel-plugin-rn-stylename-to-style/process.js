@@ -3,9 +3,6 @@ import { singletonMemoize } from '@startupjs/cache'
 import dimensions from './dimensions.js'
 import matcher from './matcher.js'
 
-// IMPORTANT:
-//   The args of this function affect the cache setup in @startupjs/react-sharedb-util/cache/styles.js
-//   So if you change it then you also have to change the cache there.
 export const process = singletonMemoize(function _process (
   styleName,
   fileStyles,
@@ -22,16 +19,30 @@ export const process = singletonMemoize(function _process (
   )
 }, {
   cacheName: 'styles',
+  // IMPORTANT: This should be the same as the ones which go into the singletonMemoize function
   normalizer: (styleName, fileStyles, globalStyles, localStyles, inlineStyleProps) => simpleNumericHash(JSON.stringify([
     styleName,
     fileStyles?.__hash__ || fileStyles,
     globalStyles?.__hash__ || globalStyles,
     localStyles?.__hash__ || localStyles,
     inlineStyleProps
-  ]))
+  ])),
+  // IMPORTANT: This should be the same as the ones which go into the singletonMemoize function
+  forceUpdateWhenChanged: (styleName, fileStyles, globalStyles, localStyles, inlineStyleProps) => {
+    const args = {}
+    const watchWidthChange = hasMedia(fileStyles) || hasMedia(globalStyles) || hasMedia(localStyles)
+    if (watchWidthChange) {
+      // trigger rerender when cache is used
+      listenForDimensionsChange()
+      // Return the dimensionsWidth value itself to force
+      // the affected cache to recalculate
+      args.dimensionsWidth = dimensions.width
+    }
+    return simpleNumericHash(JSON.stringify(args))
+  }
 })
 
-function hasMedia (styles) {
+function hasMedia (styles = {}) {
   for (const selector in styles) {
     if (/^@media/.test(selector)) {
       return true
@@ -41,19 +52,25 @@ function hasMedia (styles) {
 
 function transformStyles (styles) {
   if (styles) {
-    // If @media is used, force trigger access to the observable value.
-    // Whenever that value changes the according components will
-    // automatically rerender.
-    // The change is triggered globally using the useMediaChange() hook
-    // in @startupjs/app, which sets up the Dimensions 'change' listener
-    // eslint-disable-next-line no-unused-expressions
-    if (hasMedia(styles)) dimensions.width
+    // trigger rerender when cache is NOT used
+    if (hasMedia(styles)) listenForDimensionsChange()
 
     // dynamically process @media queries and vh/vw units
     return dynamicProcess(styles)
   } else {
     return {}
   }
+}
+
+// If @media is used, force trigger access to the observable value.
+// `dimensions` is an observed Proxy so
+// whenever its value changes the according components will
+// automatically rerender.
+// The change is triggered globally using the useMediaUpdate() hook
+// in @startupjs/app, which sets up the Dimensions 'change' listener
+function listenForDimensionsChange () {
+  // eslint-disable-next-line no-unused-expressions
+  if (dimensions.width) true
 }
 
 // ref: https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0?permalink_comment_id=2694461#gistcomment-2694461

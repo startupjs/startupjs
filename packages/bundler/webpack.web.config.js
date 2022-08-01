@@ -59,6 +59,19 @@ module.exports = function getConfig (env, {
   forceCompileModules = forceCompileModules
     .concat(getPluginsForceCompileList())
 
+  /**
+   * path.normalize needs because webpack for Windows doesn't accept paths in
+   * *nix format (with slash delemeter) in the include section.
+   * .replace(/\\/g, '\\\\') needs for masking backslash in Windows-style paths
+   * in the regular expression
+   */
+  const forceCompileModulesExpression = new RegExp(`${
+      path.normalize('node_modules/')
+    }(?:react-native-(?!web)|${
+      forceCompileModules.map(v => path.normalize(v)).join('|')
+    })`.replace(/\\/g, '\\\\')
+  )
+
   return pickBy({
     mode: PROD ? 'production' : 'development',
     entry: {
@@ -121,7 +134,12 @@ module.exports = function getConfig (env, {
             name (module) {
               // get the name. E.g. node_modules/packageName/not/this/part.js
               // or node_modules/packageName
-              const packageName = module.context.match(/[\\/]node_modules[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              let packageName
+              try {
+                packageName = module.context.match(/[\\/]node_modules[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              } catch (err) {
+                packageName = 'not_found'
+              }
               // npm package names are URL-safe, but some servers don't like @ symbols
               return `npm.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
@@ -199,7 +217,7 @@ module.exports = function getConfig (env, {
           resolve: {
             fullySpecified: false
           },
-          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
+          include: forceCompileModulesExpression,
           use: [
             { loader: 'babel-loader' }
           ]
@@ -225,6 +243,8 @@ module.exports = function getConfig (env, {
             }
           ]
         },
+        // TODO
+        // https://webpack.js.org/guides/asset-modules/
         {
           test: /\.(jpg|png)$/,
           use: {
@@ -244,6 +264,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
+                url: false, // NOTE can remove when change file loader to https://webpack.js.org/guides/asset-modules/
                 modules: {
                   getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME

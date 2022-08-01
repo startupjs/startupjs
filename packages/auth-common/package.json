@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-common",
-  "version": "0.44.8",
+  "version": "0.46.0",
   "type": "module",
   "description": "Common auth plugin for oauth2",
   "main": "index.js",

@@ -43,7 +43,7 @@ function NumberInput ({
 
     // TODO
     // Display a tip instead of permanently change a value
-    if (!isNaN(value) && (Number(inputValue) !== value || inputValue === '')) {
+    if (!isNaN(value) && Number(inputValue) !== value) {
       if (min != null && value < min) {
         value = min
       } else if (max != null && value > max) {
@@ -58,34 +58,36 @@ function NumberInput ({
   }, [value, min, max, precision, onChangeNumber])
 
   function onChangeText (newValue) {
-    // replace comma with dot for some locales
-    if (typeof newValue === 'string' && precision > 0) {
-      newValue = newValue.replace(/,/g, '.')
-    }
+    let updateValue
 
-    if (!regexp.test(newValue)) return
+    // check for an empty string and undefined
+    // and check for strings '-' or '.'
+    // to convert newValue to number
+    // otherwise should value should be undefined
+    if (newValue && !isNaN(newValue)) {
+      if (!regexp.test(newValue)) return
 
-    if ((min != null && newValue < min) || (max != null && newValue > max)) {
-      // TODO: display tip?
-      return
+      if ((min != null && newValue < min) || (max != null && newValue > max)) {
+        // TODO: display tip?
+        return
+      }
+
+      // replace comma with dot for some locales
+      if (precision > 0) newValue = newValue.replace(/,/g, '.')
+
+      updateValue = Number(newValue)
     }
 
     setInputValue(newValue)
-
-    // first check for empty string and undefined
-    // second check for '-' or '.', this will be NaN and therefore return undefined
-    newValue = !newValue || isNaN(newValue)
-      ? undefined
-      : Number(newValue)
 
     // prevent update for the same values
     // for example
     // when add dot (values NUMBER and NUMBER. are the same)
     // when add -
     // when change value from -NUMBER to -
-    if (newValue === value) return
+    if (updateValue === value) return
 
-    onChangeNumber && onChangeNumber(newValue)
+    onChangeNumber && onChangeNumber(updateValue)
   }
 
   function onIncrement (byNumber) {

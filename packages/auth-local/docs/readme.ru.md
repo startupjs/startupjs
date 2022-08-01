@@ -30,6 +30,22 @@ initAuth(ee, {
 })
 ```
 
+## Включение подтверждения регистрации
+Если вы хотите, чтобы пользователи подтверждали свой адрес электронной почты при регистрации, укажите следующую опцию `confirmRegistration` со значением `true`.
+
+```js
+initAuth(ee, {
+  // ...
+  confirmRegistration: true, // Default: false
+  // ...
+})
+```
+### Есть дополнительные настройки подтверждения регистрации:
+| Свойство | Значение по умолчанию | Тип | Описание |
+|:---------:|:-------------:|:----:|:--------:|
+| confirmEmailTimeLimit | `86400000` | number | ограничение времени для подтверждения по электронной почте |
+| registrationConfirmedUrl | `/auth/confirmed-email` | string | URL-адрес страницы для информирования пользователя об успешном подтверждении электронной почты |
+
 ## Инициализация на сервере
 Импорт стратегии:
 ```js
@@ -302,6 +318,91 @@ initAuth(ee, {
     new LocalStrategy({
       onAfterPasswordChange: ({ userId }, req) => {
         console.log('onAfterPasswordChange')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeConfirmRegistration
+Хэлпер-мидлвара, вызывается перед процессом подтверждения регистрации
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeConfirmRegistration: (req, res, next) => {
+        console.log('onBeforeConfirmRegistration')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeResendConfirmation
+Хэлпер-мидлвара, вызывается перед повторной отправкой подтверждения по электронной почте
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeResendConfirmation: (req, res, config, next) => {
+        console.log('onBeforeResendConfirmation')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### sendRegistrationConfirmationComplete
+Хэлпер-мидлвара, вызывается после подтверждения регистрации
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      sendRegistrationConfirmationComplete: (userId, next) => {
+        console.log('sendRegistrationConfirmationComplete')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### confirmEmail
+Хэлпер-мидлвара, реализует подтверждение регистрации
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      confirmEmail: (model, userId, config, next) => {
+        console.log('confirmEmail')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### sendRegistrationConfirmation
+Хэлпер-мидлвара, вызывается после регистрации и при повторной отправке подтверждения по электронной почте. Вам необходимо переопределить эту функцию, если для параметра confirmRegistration установлено значение `true`, чтобы отправить электронное письмо со ссылкой для подтверждения регистрации.
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      sendRegistrationConfirmation: (req, userId, next) => {
+        console.log('sendRegistrationConfirmation')
       }
     })
   ]

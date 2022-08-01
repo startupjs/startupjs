@@ -7,7 +7,6 @@ import React, {
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
-import { colorToRGBA } from '../../../helpers'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
@@ -15,23 +14,12 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, height, lineHeight, borderWidth
-  },
-  colors
+    caretColor, heights, lineHeights, borderWidth, placeholderTextColor
+  }
 } = STYLES
 
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
-const IS_IOS = Platform.OS === 'ios'
-const DARK_LIGHTER_COLOR = colorToRGBA(colors.dark, 0.25)
-
-// TODO: Remove correction when issue will be fixed
-// https://github.com/facebook/react-native/issues/28012
-const IOS_LH_CORRECTION = {
-  l: 4,
-  m: 2,
-  s: 2
-}
 
 const ICON_SIZES = {
   s: 'm',
@@ -116,8 +104,8 @@ function TextInputInput ({
   }, [resize, numberOfLines])
 
   const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeight[size]
-    const h = height[size]
+    const lH = lineHeights[size]
+    const h = heights[size]
     return [lH, (h - lH) / 2 - borderWidth]
   }, [size])
 
@@ -137,10 +125,6 @@ function TextInputInput ({
     paddingBottom: verticalGutter,
     lineHeight: lH
   }, inputStyle])
-
-  // tested rn 0.61.5 - does not work
-  // https://github.com/facebook/react-native/issues/10712
-  if (IS_IOS) inputStyle.lineHeight -= IOS_LH_CORRECTION[size]
 
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
@@ -165,7 +149,7 @@ function TextInputInput ({
       styleName=[inputStyleName]
       selectionColor=caretColor
       placeholder=placeholder
-      placeholderTextColor=DARK_LIGHTER_COLOR
+      placeholderTextColor=placeholderTextColor
       value=value
       editable=!disabled
       multiline=multiline

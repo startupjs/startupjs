@@ -20,10 +20,14 @@ import PasswordInputEn from '../components/forms/PasswordInput/PasswordInput.en.
 import PasswordInputRu from '../components/forms/PasswordInput/PasswordInput.ru.mdx'
 import RadioEn from '../components/forms/Radio/Radio.en.mdx'
 import RadioRu from '../components/forms/Radio/Radio.ru.mdx'
+import RangeInputEn from '../components/forms/RangeInput/RangeInput.en.mdx'
+import RangeInputRu from '../components/forms/RangeInput/RangeInput.ru.mdx'
 import SelectEn from '../components/forms/Select/Select.en.mdx'
 import SelectRu from '../components/forms/Select/Select.ru.mdx'
 import TextInputEn from '../components/forms/TextInput/TextInput.en.mdx'
 import TextInputRu from '../components/forms/TextInput/TextInput.ru.mdx'
+import RankEn from '../components/forms/Rank/Rank.en.mdx'
+import RankRu from '../components/forms/Rank/Rank.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -105,6 +109,14 @@ export default {
         ru: PasswordInputRu
       }
     },
+    Rank: {
+      type: 'mdx',
+      title: 'Rank',
+      component: {
+        en: RankEn,
+        ru: RankRu
+      }
+    },
     Radio: {
       type: 'mdx',
       title: 'Radio',
@@ -127,6 +139,14 @@ export default {
       component: {
         en: TextInputEn,
         ru: TextInputRu
+      }
+    },
+    RangeInput: {
+      type: 'mdx',
+      title: 'RangeInput',
+      component: {
+        en: RangeInputEn,
+        ru: RangeInputRu
       }
     }
   }

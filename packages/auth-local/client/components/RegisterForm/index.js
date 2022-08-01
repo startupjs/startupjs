@@ -1,9 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
-import { SIGN_IN_SLIDE, SIGN_UP_SLIDE } from '@startupjs/auth/isomorphic'
+import {
+  REQUEST_CONFIRMATION_SLIDE,
+  SIGN_IN_SLIDE,
+  SIGN_UP_SLIDE
+} from '@startupjs/auth/isomorphic'
 import { Recaptcha } from '@startupjs/recaptcha'
 import moment from 'moment'
 import { BASE_URL } from '@env'
@@ -60,10 +64,10 @@ function RegisterForm ({
 }) {
   const authHelper = useAuthHelper(baseUrl)
   const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
-
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
   const [recaptchaEnabled] = useSession('auth.recaptchaEnabled')
+  const [confirmRegistration] = useSession('auth.local.confirmRegistration')
 
   const recaptchaRef = useRef()
 
@@ -118,6 +122,11 @@ function RegisterForm ({
       }
 
       await authHelper.register(formClone)
+
+      if (confirmRegistration) {
+        return onChangeSlide(REQUEST_CONFIRMATION_SLIDE)
+      }
+
       const res = await authHelper.login({
         email: form.email,
         password: form.password

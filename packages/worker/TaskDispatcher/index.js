@@ -54,6 +54,7 @@ export default class TaskDispatcher {
     await model.fetchAsync($task)
 
     if (!$task.get()) {
+      model.close()
       return console.log('ERROR: cant get task', taskId)
     }
 
@@ -103,7 +104,7 @@ export default class TaskDispatcher {
         console.log('Unknown status', taskId, status)
     }
 
-    await model.unfetchAsync($task)
+    model.close()
   }
 
   _startLoops () {

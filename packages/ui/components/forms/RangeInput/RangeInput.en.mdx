@@ -1,0 +1,154 @@
+import { useState } from 'react'
+import Span from '../../typography/Span'
+import RangeInput from '../RangeInput'
+
+# RangeInput
+
+RangeInput lets user make selections from a range of values.
+
+```jsx
+import { RangeInput } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const [value, setValue] = useState(50)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Two markers
+
+By default component has one marker. To enable two makers pass `range=true`.
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Hide marker label
+
+Pass `showLabel=false` to hide marker label.
+
+```jsx example
+const [value, setValue] = useState(40)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Step
+
+Step with which the marker can step through values. It cannot be negative. We recommend `max - min` to be evenly divisible by the step.
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    step={10}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Show labels and markers for step
+
+Pass `showSteps=true` to display labels and markers for step.
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+When you pass `showSteps=true` to hide the labels or markers you need to pass `showStepLabels=false` or `showStepMarkers=false`.
+
+
+**Hide labels**
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showStepLabels={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+**Hide markers**
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepMarkers={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Width
+
+Use `width` property to specify custom width of input.
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    width={400}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
