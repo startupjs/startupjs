@@ -4,10 +4,10 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.46.0",
+  "version": "0.46.1",
   "main": "index.js",
   "dependencies": {
-    "@startupjs/backend": "^0.46.0",
+    "@startupjs/backend": "^0.46.1",
     "@startupjs/routes-middleware": "^0.46.0",
     "body-parser": "~1.6.7",
     "compression": "^1.6.0",

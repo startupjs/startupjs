@@ -1,3 +1,14 @@
+## [0.46.1](https://github.com/startupjs/startupjs/compare/v0.46.0...v0.46.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* add missing import of 'RangeInput' ([e840a3f](https://github.com/startupjs/startupjs/commit/e840a3f07bd45e332aafb7741e560261ea009f3a))
+* **Divider:** always fill the entire space of parent block ([06087a4](https://github.com/startupjs/startupjs/commit/06087a4ed43fd09b86c6ecec29d7175a236f0c4a))
+* **sharedb-access:** fix tests ([#970](https://github.com/startupjs/startupjs/issues/970)) ([125c75e](https://github.com/startupjs/startupjs/commit/125c75e9093f5c638973ff77f734ceac856e26a4))
+
+
+
 ## [0.45.6](https://github.com/startupjs/startupjs/compare/v0.45.5...v0.45.6) (2022-07-20)
 
 
