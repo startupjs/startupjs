@@ -1,3 +1,14 @@
+## [0.46.2](https://github.com/startupjs/startupjs/compare/v0.46.1...v0.46.2) (2022-08-09)
+
+
+### Bug Fixes
+
+* **patches:** add patch for 'react-router-native-stack' that removes 'ViewPropTypes' that are removed in new versions of react-native ([#974](https://github.com/startupjs/startupjs/issues/974)) ([28d8943](https://github.com/startupjs/startupjs/commit/28d894382edaa92743cdb1640b0cc500f22ff2d2))
+* **react-sharedb-hooks:** batch queries example. ([#972](https://github.com/startupjs/startupjs/issues/972)) ([3c90272](https://github.com/startupjs/startupjs/commit/3c90272f126699db247539da590c88dda39e82fe))
+* **ui docs:** correct font() mixin sizes. ([#973](https://github.com/startupjs/startupjs/issues/973)) ([86635d9](https://github.com/startupjs/startupjs/commit/86635d9eac9bdd5db42a4394f323f56690e3d10f))
+
+
+
 ## [0.46.1](https://github.com/startupjs/startupjs/compare/v0.46.0...v0.46.1) (2022-08-02)
 
 
