@@ -6,7 +6,10 @@ import Provider from './Provider'
 
 import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
 
-function validateConfigs ({ clientId, clientSecret }) {
+function validateConfigs ({ getClient, clientId, clientSecret }) {
+  if (typeof getClient === 'function') {
+    return
+  }
   if (!clientId) {
     throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Id')
   }
@@ -28,7 +31,7 @@ export default function (config = {}) {
 
     console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n')
 
-    const { clientId, clientSecret } = this.config
+    const { clientId, clientSecret, getClient } = this.config
 
     initRoutes({ router, config: this.config })
 
@@ -40,6 +43,7 @@ export default function (config = {}) {
         {
           clientID: clientId,
           clientSecret,
+          getClient,
           // TODO: make multitentant
           callbackURL: nconf.get('BASE_URL') + CALLBACK_LINKEDIN_URL,
           profileFields: ['first-name', 'last-name', 'email-address', 'profile-picture'],
