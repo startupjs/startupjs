@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-linkedin",
-  "version": "0.46.0",
+  "version": "0.46.3",
   "type": "module",
   "description": "LinkedIn auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -10,9 +10,9 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
+    "@dmapper/passport-linkedin-oauth2": "^1.0.0",
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
     "bcrypt": "^5.0.1",
-    "@dmapper/passport-linkedin-oauth2": "^1.0.0",
     "qs": "^6.9.3"
   },
   "peerDependencies": {

@@ -1,3 +1,12 @@
+## [0.46.3](https://github.com/startupjs/startupjs/compare/v0.46.2...v0.46.3) (2022-08-15)
+
+
+### Features
+
+* **auth-linkedin:** add ability to get client dynamically ([#975](https://github.com/startupjs/startupjs/issues/975)) ([e5b6831](https://github.com/startupjs/startupjs/commit/e5b6831d115011e6cb650ec1b842d9ac697a6f97))
+
+
+
 ## [0.46.2](https://github.com/startupjs/startupjs/compare/v0.46.1...v0.46.2) (2022-08-09)
 
 
