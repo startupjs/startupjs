@@ -109,7 +109,7 @@ function ItemLeft ({ style, children }) {
 function ItemContent ({ style, children }) {
   return pug`
     if typeof children === 'string'
-      Span.content(style=style)= children
+      Span.content(style=style numberOfLines=1)= children
     else
       Div.content(style=style)= children
   `
