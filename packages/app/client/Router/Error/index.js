@@ -3,8 +3,9 @@ import { observer } from 'startupjs'
 import { defaultTemplates } from './templates'
 
 export default observer(function Error ({ error, pages = {}, supportEmail }) {
-  const errorCode = error.code
-  const Template = pages[errorCode] || defaultTemplates[errorCode] || defaultTemplates.default
+  const code = error.code || 'default'
+  const Template = pages[code] || defaultTemplates[code]
+
   return pug`
     Template(supportEmail=supportEmail error=error)
   `
