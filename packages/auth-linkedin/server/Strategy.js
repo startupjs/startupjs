@@ -1,4 +1,4 @@
-import { Strategy } from 'passport-linkedin-oauth2'
+import { Strategy } from '@dmapper/passport-linkedin-oauth2'
 import passport from 'passport'
 import nconf from 'nconf'
 import initRoutes from './initRoutes'
