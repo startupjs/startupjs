@@ -11,10 +11,10 @@ function validateConfigs ({ getClient, clientId, clientSecret }) {
     return
   }
   if (!clientId) {
-    throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Id')
+    throw new Error('[@startupjs/auth-linkedin] Error:', 'Provide Client Id')
   }
   if (!clientSecret) {
-    throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Secret')
+    throw new Error('[@startupjs/auth-linkedin] Error:', 'Provide Client Secret')
   }
 }
 
