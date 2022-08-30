@@ -1,3 +1,14 @@
+## [0.46.4](https://github.com/startupjs/startupjs/compare/v0.46.3...v0.46.4) (2022-08-30)
+
+
+### Bug Fixes
+
+* **auth-linkedin:** fix dependency @dmapper/passport-linkedin-oauth2 ([#979](https://github.com/startupjs/startupjs/issues/979)) ([60097ca](https://github.com/startupjs/startupjs/commit/60097ca63d97ffc531b178da9dd0251c7850ff07))
+* improve error displaying ([#978](https://github.com/startupjs/startupjs/issues/978)) ([f819678](https://github.com/startupjs/startupjs/commit/f819678a5bc91317e2f025e9b4011e5517dc5cbb))
+* **Item:** prevent multiline text ([4ec2b2b](https://github.com/startupjs/startupjs/commit/4ec2b2b546a91432fc6d891d7a9042e4b65aeeac))
+
+
+
 ## [0.46.3](https://github.com/startupjs/startupjs/compare/v0.46.2...v0.46.3) (2022-08-15)
 
 
