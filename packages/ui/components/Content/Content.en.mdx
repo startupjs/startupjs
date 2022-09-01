@@ -15,15 +15,6 @@ import { Content } from '@startupjs/ui'
 ```
 
 ## Simple Example
-```jsx example
-return (
-  <Content>
-    <Span>Content</Span>
-  </Content>
-)
-```
-
-## Example
 
 By default content has left and right paddings of `16px`.
 
@@ -47,6 +38,7 @@ return (
 ```
 
 ## Vertical paddings
+
 Top and bottom paddings can be added by passing the `padding` property to component.
 
 ```jsx example
@@ -101,7 +93,7 @@ return (
 
 ## Max width
 
-Content has limited max-width by default of `480px`, because we are making mobile first layout and can only go from smaller to larger screens by changing `width` property (possible values of property can be found in the `Sandbox` section at the bottom of the page). Also you can change the default width value for component by overriding `defaultWidth` property in your `$UI.Content.defaultWidth`. **We don't recommend to change the `defaultWidth` unnecessarily, because it is a more advanced setting that will change all your entire app.**
+Content has limited max-width by default of `768px`, because we are making mobile first layout and can only go from smaller to larger screens by changing `width` property (possible values of property can be found in the `Sandbox` section at the bottom of the page). Also you can change the default width value for component by overriding `defaultWidth` property in your `$UI.Content.defaultWidth`. **We don't recommend to change the `defaultWidth` unnecessarily, because it is a more advanced setting that will change all your entire app.**
 
 ```jsx example
 const contentStyle = {
@@ -116,28 +108,28 @@ const divStyle = {
 return (
   <Div>
     <Content
-      padding
       style={contentStyle}
+      width='mobile'
+      padding
     >
       <Div style={divStyle}>
-        <Span>Mobile (default)</Span>
+        <Span>Mobile</Span>
       </Div>
     </Content>
     <Br />
     <Content
-      padding
-      width='tablet'
       style={contentStyle}
+      padding
     >
       <Div style={divStyle}>
-        <Span>Tablet</Span>
+        <Span>Tablet (default)</Span>
       </Div>
     </Content>
     <Br />
     <Content
-      padding
+      style={contentStyle}
       width='desktop'
-      style={contentStyle}
+      padding
     >
       <Div style={divStyle}>
         <Span>Desktop</Span>
@@ -145,9 +137,9 @@ return (
     </Content>
     <Br />
     <Content
-      padding
-      width='wide'
       style={contentStyle}
+      width='wide'
+      padding
     >
       <Div style={divStyle}>
         <Span>Full Width</Span>

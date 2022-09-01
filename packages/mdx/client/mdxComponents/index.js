@@ -162,12 +162,12 @@ export default {
             Collapse.Header.code-collapse-header(icon=false onPress=null)
               Row.code-actions(align='right')
                 Div.code-action(
-                  renderTooltip=open ? 'Hide code' : 'Show code'
+                  tooltip=open ? 'Hide code' : 'Show code'
                   onPress=()=> setOpen(!open)
                 )
                   Icon.code-action-collapse(icon=faCode color='error')
                 Div.code-action(
-                  renderTooltip=copyText
+                  tooltip=copyText
                   onPress=copyHandler
                   onMouseEnter=onMouseEnter
                 )

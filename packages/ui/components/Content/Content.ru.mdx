@@ -14,16 +14,7 @@ import './index.mdx.styl'
 import { Content } from '@startupjs/ui'
 ```
 
-## Простой пример
-```jsx example
-return (
-  <Content>
-    <Span>Content</Span>
-  </Content>
-)
-```
-
-## Пример
+## Простой Пример
 
 По умолчанию контент имеет левый и правый отступ равный `16px'.
 
@@ -102,7 +93,7 @@ return (
 
 ## Максимальная ширина
 
-Контент имеет ограниченную максимальную ширину по умолчанию `480px`, потому что мы верстаем mobile first и можем только перейти от меньших экранов к большим, изменив свойство `width` (возможные значения свойства можно найти в разделе `Sandbox` в нижней части страницы). Кроме того, вы можете изменить стандартное значение ширины для компонента заоверрайдив свойство `defaultWidth` в вашем `$UI.Content.defaultWidth`. **Мы не рекомендуем изменять `defaultWidth` без необходимости, потому что это более продвинутая настройка, которая изменит все ваше приложение целиком.**
+Контент имеет ограниченную максимальную ширину по умолчанию `768px`, потому что мы верстаем mobile first и можем только перейти от меньших экранов к большим, изменив свойство `width` (возможные значения свойства можно найти в разделе `Sandbox` в нижней части страницы). Кроме того, вы можете изменить стандартное значение ширины для компонента заоверрайдив свойство `defaultWidth` в вашем `$UI.Content.defaultWidth`. **Мы не рекомендуем изменять `defaultWidth` без необходимости, потому что это более продвинутая настройка, которая изменит все ваше приложение целиком.**
 
 ```jsx example
 const contentStyle = {
@@ -117,28 +108,28 @@ const divStyle = {
 return (
   <Div>
     <Content
-      padding
       style={contentStyle}
+      width='mobile'
+      padding
     >
       <Div style={divStyle}>
-        <Span>Mobile (default)</Span>
+        <Span>Mobile</Span>
       </Div>
     </Content>
     <Br />
     <Content
-      padding
-      width='tablet'
       style={contentStyle}
+      padding
     >
       <Div style={divStyle}>
-        <Span>Tablet</Span>
+        <Span>Tablet (default)</Span>
       </Div>
     </Content>
     <Br />
     <Content
-      padding
+      style={contentStyle}
       width='desktop'
-      style={contentStyle}
+      padding
     >
       <Div style={divStyle}>
         <Span>Desktop</Span>
@@ -146,9 +137,9 @@ return (
     </Content>
     <Br />
     <Content
-      padding
-      width='wide'
       style={contentStyle}
+      width='wide'
+      padding
     >
       <Div style={divStyle}>
         <Span>Full Width</Span>
