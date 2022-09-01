@@ -45,7 +45,7 @@ function ObjectInput ({
   if (inputs.length === 0) return null
 
   if (!_renderWrapper) {
-    _renderWrapper = (style, children) => {
+    _renderWrapper = ({ style }, children) => {
       const Container = row ? Row : Div
       return pug`
         Container(style=style)= children
