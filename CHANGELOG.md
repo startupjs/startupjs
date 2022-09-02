@@ -1,3 +1,12 @@
+## [0.46.5](https://github.com/startupjs/startupjs/compare/v0.46.4...v0.46.5) (2022-09-02)
+
+
+### Bug Fixes
+
+* **ui/ObjectInput:** fix 'style' usage ([96e0d09](https://github.com/startupjs/startupjs/commit/96e0d094304702d9e37a443050a37f13f966a2a0))
+
+
+
 ## [0.46.4](https://github.com/startupjs/startupjs/compare/v0.46.3...v0.46.4) (2022-08-30)
 
 
