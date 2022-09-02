@@ -90,6 +90,10 @@
 
 ## [0.45.2](https://github.com/startupjs/startupjs/compare/v0.45.1...v0.45.2) (2022-07-13)
 
+### Features
+
+* **build:** bump node version in Dockerfile's ([b6a4e91](https://github.com/startupjs/startupjs/commit/b6a4e917cfa1d3239fdd5ab953100b8da7d3b1ec))
+
 
 
 ## [0.45.1](https://github.com/startupjs/startupjs/compare/v0.45.0...v0.45.1) (2022-07-12)
