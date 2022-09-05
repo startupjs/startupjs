@@ -1,3 +1,12 @@
+# [0.47.0](https://github.com/startupjs/startupjs/compare/v0.46.5...v0.47.0) (2022-09-05)
+
+
+### Bug Fixes
+
+* **auth-linkedin:** change `callbackUrl` from relative link to absolute link ([#981](https://github.com/startupjs/startupjs/issues/981)) ([b376203](https://github.com/startupjs/startupjs/commit/b376203ac814530eaf33d4c23c8088e0f3395cb7))
+
+
+
 ## [0.46.5](https://github.com/startupjs/startupjs/compare/v0.46.4...v0.46.5) (2022-09-02)
 
 
