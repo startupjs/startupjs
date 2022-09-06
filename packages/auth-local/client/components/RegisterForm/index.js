@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
@@ -58,6 +58,7 @@ function RegisterForm ({
   properties,
   validateSchema,
   renderActions,
+  onShouldConfirmRegistration,
   onSuccess,
   onError,
   onChangeSlide
@@ -121,10 +122,12 @@ function RegisterForm ({
         })
       }
 
-      await authHelper.register(formClone)
+      const userId = await authHelper.register(formClone)
 
       if (confirmRegistration) {
-        return onChangeSlide(REQUEST_CONFIRMATION_SLIDE)
+        return onShouldConfirmRegistration
+          ? onShouldConfirmRegistration(userId, REQUEST_CONFIRMATION_SLIDE)
+          : onChangeSlide(REQUEST_CONFIRMATION_SLIDE)
       }
 
       const res = await authHelper.login({
