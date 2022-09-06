@@ -1,3 +1,12 @@
+## [0.47.1](https://github.com/startupjs/startupjs/compare/v0.47.0...v0.47.1) (2022-09-06)
+
+
+### Features
+
+* **auth-local:** add ability to handle confirm registration step ([fae2216](https://github.com/startupjs/startupjs/commit/fae22164a27cf0c7dcb09ee4ae54482f08b212dd))
+
+
+
 # [0.47.0](https://github.com/startupjs/startupjs/compare/v0.46.5...v0.47.0) (2022-09-05)
 
 
