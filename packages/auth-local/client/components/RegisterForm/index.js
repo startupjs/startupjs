@@ -12,6 +12,7 @@ import { Recaptcha } from '@startupjs/recaptcha'
 import moment from 'moment'
 import { BASE_URL } from '@env'
 import _get from 'lodash/get'
+import _flow from 'lodash/flow'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
 import _identity from 'lodash/identity'
@@ -147,13 +148,19 @@ function RegisterForm ({
     }
   }
 
-  const _properties = _pickBy(
-    _mergeWith(
-      { ...REGISTER_DEFAULT_INPUTS },
-      properties,
-      (a, b) => (b === null) ? null : undefined
-    ),
-    _identity
+  const _properties = _flow([
+    Object.entries,
+    arr => arr.filter(([key, value]) => !value.hidden),
+    Object.fromEntries
+  ])(
+    _pickBy(
+      _mergeWith(
+        { ...REGISTER_DEFAULT_INPUTS },
+        properties,
+        (a, b) => (b === null) ? null : undefined
+      ),
+      _identity
+    )
   )
 
   return pug`
