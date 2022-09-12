@@ -13,7 +13,7 @@
     "bcrypt": "^5.0.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
-    "passport": "^0.4.1"
+    "passport": "^0.6.0"
   },
   "peerDependencies": {
     "@react-native-cookies/cookies": ">= 6.0.0",
