@@ -1,3 +1,12 @@
+## [0.47.2](https://github.com/startupjs/startupjs/compare/v0.47.1...v0.47.2) (2022-09-12)
+
+
+### Features
+
+* **auth-local/RegisterForm:** add ability to add hidden form fields ([d7a51de](https://github.com/startupjs/startupjs/commit/d7a51ded743a16b3ab30b7e740d226d2368d1851))
+
+
+
 ## [0.47.1](https://github.com/startupjs/startupjs/compare/v0.47.0...v0.47.1) (2022-09-06)
 
 
