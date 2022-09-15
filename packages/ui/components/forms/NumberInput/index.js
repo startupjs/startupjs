@@ -58,15 +58,14 @@ function NumberInput ({
   }, [value, min, max, precision, onChangeNumber])
 
   function onChangeText (newValue) {
-    let updateValue
+    if (!regexp.test(newValue)) return
 
+    let updateValue
     // check for an empty string and undefined
     // and check for strings '-' or '.'
     // to convert newValue to number
     // otherwise should value should be undefined
     if (newValue && !isNaN(newValue)) {
-      if (!regexp.test(newValue)) return
-
       if ((min != null && newValue < min) || (max != null && newValue > max)) {
         // TODO: display tip?
         return
