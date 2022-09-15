@@ -1,3 +1,12 @@
+## [0.47.3](https://github.com/startupjs/startupjs/compare/v0.47.2...v0.47.3) (2022-09-15)
+
+
+### Bug Fixes
+
+* **NumberInput:** prevent write words ([e2ee2c0](https://github.com/startupjs/startupjs/commit/e2ee2c046889f79922265ace2b31b3b36c17ae56))
+
+
+
 ## [0.47.2](https://github.com/startupjs/startupjs/compare/v0.47.1...v0.47.2) (2022-09-12)
 
 
