@@ -1,3 +1,12 @@
+## [0.47.4](https://github.com/startupjs/startupjs/compare/v0.47.3...v0.47.4) (2022-09-21)
+
+
+### Bug Fixes
+
+* **bundler:** add 'json' to metro extensions ([d212b01](https://github.com/startupjs/startupjs/commit/d212b018f5822efa68b014f521ff16ed86949c99))
+
+
+
 ## [0.47.3](https://github.com/startupjs/startupjs/compare/v0.47.2...v0.47.3) (2022-09-15)
 
 
