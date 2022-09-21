@@ -1,3 +1,12 @@
+## [0.47.5](https://github.com/startupjs/startupjs/compare/v0.47.4...v0.47.5) (2022-09-21)
+
+
+### Bug Fixes
+
+* **auth/AuthForm:** use ui layout instead of custom implementation ([2a2cfff](https://github.com/startupjs/startupjs/commit/2a2cfff25489ff5120ffbb7c4000cfdafb6f5f8d))
+
+
+
 ## [0.47.4](https://github.com/startupjs/startupjs/compare/v0.47.3...v0.47.4) (2022-09-21)
 
 
