@@ -1,9 +1,13 @@
 .root
-  flex 1
+  flex-grow 1
+  background-color $UI.colors.white
+
   &:part(contentContainer)
-    flex 1
+    flex-grow 1
+
   +desktop()
     background-color $UI.colors.darkLighter
+
     &:part(contentContainer)
       justify-content center
       align-items center
@@ -12,7 +16,11 @@
   padding 2u 0
   width 100%
   border-radius 0.5u
+  flex-grow 1
+  justify-content center
+
   +desktop()
+    flex-grow 0
     width 50u
     background-color $UI.colors.white
     box-shadow $UI.colors.darkLighter 0 1u 1.5u
