@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'startupjs'
 import merge from 'lodash/merge'
 import PluginsContext from './context'
@@ -19,7 +19,7 @@ export default observer(function Slot ({
   if (!modulePlugins) return children
 
   const getOptionsHook = (plugin) => {
-    return useCallback(() => {
+    return function useOptions () {
       const modulePlugin = modulePlugins[plugin.name]
       return merge(
         {},
@@ -27,7 +27,7 @@ export default observer(function Slot ({
         modulePlugin.options.defaultOptions,
         plugin.options
       )
-    }, [JSON.stringify(plugin.options)])
+    }
   }
 
   // skip unregistered plugins
