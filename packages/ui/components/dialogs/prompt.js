@@ -4,17 +4,22 @@ import Br from '../Br'
 import Span from '../typography/Span'
 import { $dialog, openDialog } from './helpers'
 
-export default async function prompt ({
-  title,
-  message,
-  defaultValue
-} = {}) {
+export default async function prompt (options, defaultValue) {
+  let title, message
+
+  if (typeof options === 'string') {
+    message = options
+  } else {
+    ({ title, message } = options || {})
+    defaultValue = defaultValue || options?.defaultValue
+  }
+
   if (title && typeof title !== 'string') {
-    throw new Error('[@startupjs/ui] alert: title should be a string')
+    throw new Error('[@startupjs/ui] prompt: title should be a string')
   }
 
   if (typeof message !== 'string') {
-    throw new Error('[@startupjs/app] alert: message should be a string')
+    throw new Error('[@startupjs/app] prompt: message should be a string')
   }
 
   const result = await new Promise(resolve => {

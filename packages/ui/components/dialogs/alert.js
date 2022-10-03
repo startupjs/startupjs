@@ -1,6 +1,14 @@
 import { openDialog } from './helpers'
 
-export default async function alert ({ title, message } = {}) {
+export default async function alert (options) {
+  let title, message
+
+  if (typeof options === 'string') {
+    message = options
+  } else {
+    ({ title, message } = options || {})
+  }
+
   if (title && typeof title !== 'string') {
     throw new Error('[@startupjs/ui] alert: title should be a string')
   }
