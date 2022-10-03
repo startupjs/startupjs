@@ -1,3 +1,17 @@
+## [0.47.6](https://github.com/startupjs/startupjs/compare/v0.47.5...v0.47.6) (2022-10-03)
+
+
+### Bug Fixes
+
+* **plugins:** fix crashes for dynamic plugins ([c89ff0b](https://github.com/startupjs/startupjs/commit/c89ff0b73b9770b0e46a67d867e3b93347296540))
+
+
+### Features
+
+* **ui/dialogs:** add support for standard DOM api for alert(), confirm(), prompt() ([2725e07](https://github.com/startupjs/startupjs/commit/2725e07d26ca5e46ce9ee9117ab4aa15f01d4eda))
+
+
+
 ## [0.47.5](https://github.com/startupjs/startupjs/compare/v0.47.4...v0.47.5) (2022-09-21)
 
 
