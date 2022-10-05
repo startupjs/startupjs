@@ -50,6 +50,9 @@ AZURE_CREDENTIALS=$( cat ./keys/cicd_apps_account.json )
 # 3. SHA of the git commit:
 COMMIT_SHA="git-commit-sha"
 
+# 4. custom images, ex: 'server:./front/Dockerfile,python:./Dockerfile' :
+DEPLOYMENTS=""
+
 # Run the build and deploy your startupjs app:
 #
 # you have to mount the source code of your app as `/project`
@@ -66,6 +69,7 @@ docker run -ti --rm \
   -e "APP=${APP}" \
   -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
   -e "COMMIT_SHA=${COMMIT_SHA}" \
+  -e "DEPLOYMENTS=${DEPLOYMENTS}" \
   startupjs/deploy-aks
 ```
 
