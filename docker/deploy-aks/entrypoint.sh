@@ -188,7 +188,7 @@ run_step_build () {
 validate_step_build () {
   if ! which executor; then echo "'executor' binary is not found. Your docker image was probably built incorrectly and doesn't have kaniko binaries." && exit 1; fi
   if [ ! -d "$PROJECT_PATH" ] || [ -z "$(ls -A "$PROJECT_PATH")" ]; then echo "app folder '$PROJECT_PATH' does not exist or is empty. You've probably forgot to mount it as /project or did not pass a custom PROJECT_PATH env var" && exit 1; fi
-  if [ ! -f "$PROJECT_PATH/Dockerfile" ]; then echo "app Dockerfile was not found at '$DOCKERFILE_PATH'" && exit 1; fi
+  if [ -z "$DEPLOYMENTS" ] && [ ! -f "$PROJECT_PATH/Dockerfile" ]; then echo "app Dockerfile was not found at '$DOCKERFILE_PATH' and DEPLOYMENTS env var is not set" && exit 1; fi
 }
 
 copy_source_code () {
@@ -199,11 +199,29 @@ build_image_kaniko () {
   mkdir -p /kaniko/.docker
   # authorize to registry
   echo "{\"auths\":{\"${REGISTRY_SERVER}\":{\"auth\":\"$(printf "%s:%s" "${CLIENT_ID}" "${CLIENT_SECRET}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-  executor \
-    --context /_project \
-    --dockerfile "$DOCKERFILE_PATH" \
-    --destination "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
-    --destination "${REGISTRY_SERVER}/${APP}:latest"
+  if [ ! -d "$DEPLOYMENTS" ]
+  then
+    for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
+    do
+        SERVICE=$(echo $dockerfile | cut -d ":" -f 1)
+        DOCKERFILE_PATH=$(echo $dockerfile | cut -d ":" -f 2)
+        echo "Building docker image for ${SERVICE} microservice from dockerfile: ${DOCKERFILE_PATH}"
+        executor \
+          --context /_project \
+          --dockerfile "$DOCKERFILE_PATH" \
+          --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+          --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:latest"
+    done
+  fi
+
+  if [ -f "$PROJECT_PATH/Dockerfile" ]
+  then
+    executor \
+      --context /_project \
+      --dockerfile "$DOCKERFILE_PATH" \
+      --destination "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
+      --destination "${REGISTRY_SERVER}/${APP}:latest"
+  fi
 }
 
 # -----------------------------------------------------------------------------
@@ -250,7 +268,12 @@ _get_keyvault_secrets_yaml () {
 
 update_deployments () {
   for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
-    kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" --record
+    SERVICE=$(echo $NAME | cut -d "-" -f 2)
+    if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
+      kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" --record
+    else
+      kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" --record
+    fi
   done
 }
 
