@@ -34,7 +34,7 @@ function AbstractPopover (props) {
   return pug`
     Tether(
       ...props
-      onCompleteClose=onCloseComplete
+      onCloseComplete=onCloseComplete
     )
   `
 }
@@ -56,8 +56,8 @@ const Tether = observer(function TetherComponent ({
   renderWrapper,
   onRequestOpen,
   onRequestClose,
-  onCompleteOpen,
-  onCompleteClose,
+  onOpenComplete,
+  onCloseComplete,
   children
 }) {
   style = StyleSheet.flatten([style])
@@ -110,7 +110,7 @@ const Tether = observer(function TetherComponent ({
         useNativeDriver: true
       })
     ]).start(({ finished }) => {
-      onCompleteOpen && onCompleteOpen(finished)
+      onOpenComplete && onOpenComplete(finished)
     })
   }
 
@@ -123,7 +123,7 @@ const Tether = observer(function TetherComponent ({
       easing: Easing.linear,
       useNativeDriver: true
     }).start(({ finished }) => {
-      onCompleteClose && onCompleteClose(finished)
+      onCloseComplete && onCloseComplete(finished)
     })
   }
 
@@ -188,8 +188,8 @@ AbstractPopover.propTypes = {
   children: PropTypes.node,
   onRequestOpen: PropTypes.func,
   onRequestClose: PropTypes.func,
-  onCompleteOpen: PropTypes.func,
-  onCompleteClose: PropTypes.func
+  onOpenComplete: PropTypes.func,
+  onCloseComplete: PropTypes.func
 }
 
 export default observer(themed('AbstractPopover', AbstractPopover))

@@ -1,8 +1,14 @@
-import React, { useState, useRef, useMemo } from 'react'
-import { TouchableOpacity, View, FlatList } from 'react-native'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  FlatList
+} from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
+import { stringifyValue, getLabelFromValue } from './../forms/Radio/helpers'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import AbstractPopover from '../AbstractPopover'
@@ -40,14 +46,14 @@ function AutoSuggest ({
 }) {
   const _data = useRef([])
   const inputRef = useRef()
-
+  const [_options, setOptions] = useState(options)
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [wrapperHeight, setWrapperHeight] = useState(null)
   const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
     isShow,
-    _data,
+    options: _options,
     value,
     onChange,
     onChangeShow: v => setIsShow(v)
@@ -59,17 +65,35 @@ function AutoSuggest ({
     ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
     : options
 
-  function onClose (e) {
+  const label = useMemo(() => {
+    return getLabelFromValue(value, options)
+  }, [value])
+
+  useEffect(() => {
+    setInputValue(label)
+  }, [label])
+
+  function onClose () {
     setIsShow(false)
     setSelectIndexValue(-1)
     inputRef.current.blur()
     onDismiss && onDismiss()
   }
 
-  function _onChangeText (t) {
-    setInputValue(t)
+  function _onChangeText (text) {
+    setInputValue(text)
+    if (!text) onChange()
     setSelectIndexValue(-1)
-    onChangeText && onChangeText(t)
+    onChangeText && onChangeText(text)
+
+    const escapedText = escapeRegExp(text)
+    const newOptions = options
+      .filter(option => {
+        return new RegExp(escapedText, 'gi')
+          .test(getLabelFromValue(option, options))
+      })
+
+    setOptions(newOptions)
   }
 
   function _renderItem ({ item, index }) {
@@ -93,8 +117,8 @@ function AutoSuggest ({
           onChange && onChange(item)
           onClose()
         }
-        active=item.value === value.value
-      )= item.label
+        active=stringifyValue(item) === stringifyValue(value)
+      )= getLabelFromValue(item, options)
     `
   }
 
@@ -112,6 +136,18 @@ function AutoSuggest ({
     setScrollHeightContent(height)
   }
 
+  function renderWrapper (children) {
+    return pug`
+      View.root
+        TouchableWithoutFeedback(onPress=() => {
+          if (value) setInputValue(getLabelFromValue(value, options))
+          onClose()
+        })
+          View.overlay
+        = children
+    `
+  }
+
   return pug`
     TextInput(
       ref=inputRef
@@ -119,11 +155,10 @@ function AutoSuggest ({
       inputStyle=inputStyle
       iconStyle=iconStyle
       icon=inputIcon
-      value=(!isShow && value.label) || inputValue
+      value=inputValue
       placeholder=placeholder
       onChangeText=_onChangeText
-      onFocus=()=> setIsShow(true)
-      onBlur=()=> setIsShow(false)
+      onFocus=() => setIsShow(true)
       onKeyPress=onKeyPress
       testID=testID
     )
@@ -135,6 +170,8 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
+      onCloseComplete=() => setOptions(options)
+      renderWrapper=renderWrapper
     )
       if isLoading
         View.loaderCase
@@ -143,10 +180,9 @@ function AutoSuggest ({
         View.contentCase
           FlatList.content(
             style=style
-            data=_data.current
-            extraData=_data.current
+            data=_options
             renderItem=_renderItem
-            keyExtractor=item=> item.value
+            keyExtractor=item => stringifyValue(item)
             scrollEventThrottle=500
             keyboardShouldPersistTaps="always"
             onScroll=onScroll
