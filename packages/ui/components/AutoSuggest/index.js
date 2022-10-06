@@ -188,7 +188,6 @@ AutoSuggest.defaultProps = {
   style: {},
   options: [],
   placeholder: 'Select value',
-  renderItem: null,
   isLoading: false
 }
 
