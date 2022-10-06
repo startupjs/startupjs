@@ -6,6 +6,7 @@ import {
   FlatList
 } from 'react-native'
 import { observer } from 'startupjs'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
 import { stringifyValue, getLabelFromValue } from './../forms/Radio/helpers'
@@ -153,13 +154,14 @@ function AutoSuggest ({
       ref=inputRef
       style=captionStyle
       inputStyle=inputStyle
-      iconStyle=iconStyle
-      icon=inputIcon
+      icon=value ? faTimes : undefined
+      iconPosition='right'
       value=inputValue
       placeholder=placeholder
       onChangeText=_onChangeText
       onFocus=() => setIsShow(true)
       onKeyPress=onKeyPress
+      onIconPress=() => onChange()
       testID=testID
     )
 
@@ -195,7 +197,6 @@ function AutoSuggest ({
 AutoSuggest.defaultProps = {
   style: {},
   options: [],
-  value: {},
   placeholder: 'Select value',
   renderItem: null,
   isLoading: false
@@ -204,11 +205,17 @@ AutoSuggest.defaultProps = {
 AutoSuggest.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   captionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  options: PropTypes.array.isRequired,
-  value: PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string
-  }).isRequired,
+  value: PropTypes.any,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.shape({
+        value: PropTypes.any,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ])
+  ),
   placeholder: PropTypes.string,
   renderItem: PropTypes.func,
   isLoading: PropTypes.bool,

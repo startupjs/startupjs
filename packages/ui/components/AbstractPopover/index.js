@@ -83,6 +83,8 @@ const Tether = observer(function TetherComponent ({
   const calculateGeometry = useCallback(({ nativeEvent }) => {
     // IDEA: we can pass measures to this component
     // instead of passing ref for the measurement
+    // Also, add property that will manage where popover should appear
+    // in portal or in at the place where component is called
     anchorRef.current.measure((x, y, width, height, pageX, pageY) => {
       // IDEA: rewrite getGeometry in future
       // we can make geometry behaviout like in tether.js
