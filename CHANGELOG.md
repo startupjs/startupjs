@@ -1,3 +1,24 @@
+## [0.47.7](https://github.com/startupjs/startupjs/compare/v0.47.6...v0.47.7) (2022-10-06)
+
+
+### Bug Fixes
+
+* **ui/AutoSuggest:** add ability to delete input value ([#985](https://github.com/startupjs/startupjs/issues/985)) ([72fa048](https://github.com/startupjs/startupjs/commit/72fa048e707d2d734fdbb0a86c9b84396d5ee9bf))
+
+
+### Features
+
+* support DEPLOYMENTS env var ([#984](https://github.com/startupjs/startupjs/issues/984)) ([6b7678c](https://github.com/startupjs/startupjs/commit/6b7678c167430951c0efd7fb36312adad2a74a10))
+
+
+### BREAKING CHANGES
+
+* **ui/AutoSuggest:** ### `@startupjs/ui/AutoSuggest`
+
+- `onChange` gets the `option.value || option` as a parameter instead of always option
+
+
+
 ## [0.47.6](https://github.com/startupjs/startupjs/compare/v0.47.5...v0.47.6) (2022-10-03)
 
 
