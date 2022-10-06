@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 export default function useKeyboard ({
   options,
-  value,
   onChange,
   onChangeShow
 }) {

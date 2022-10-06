@@ -9,7 +9,7 @@ import { observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
-import { stringifyValue, getLabelFromValue } from './../forms/Radio/helpers'
+import { parseValue, stringifyValue, getLabelFromValue } from './../forms/Radio/helpers'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import AbstractPopover from '../AbstractPopover'
@@ -27,7 +27,6 @@ const SUPPORT_PLACEMENTS = [
   'top-end'
 ]
 
-// TODO: KeyboardAvoidingView
 function AutoSuggest ({
   style,
   captionStyle,
@@ -45,7 +44,6 @@ function AutoSuggest ({
   onScrollEnd,
   testID
 }) {
-  const _data = useRef([])
   const inputRef = useRef()
   const [_options, setOptions] = useState(options)
   const [isShow, setIsShow] = useState(false)
@@ -53,18 +51,10 @@ function AutoSuggest ({
   const [wrapperHeight, setWrapperHeight] = useState(null)
   const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
-    isShow,
     options: _options,
-    value,
     onChange,
     onChangeShow: v => setIsShow(v)
   })
-
-  const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
-
-  _data.current = escapedInputValue
-    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
-    : options
 
   const label = useMemo(() => {
     return getLabelFromValue(value, options)
@@ -103,7 +93,7 @@ function AutoSuggest ({
         TouchableOpacity(
           key=index
           onPress=()=> {
-            onChange && onChange(item)
+            onChange && onChange(parseValue(stringifyValue(item)))
             onClose()
           }
         )= renderItem(item, index, selectIndexValue)
@@ -114,8 +104,8 @@ function AutoSuggest ({
       Menu.Item.item(
         key=index
         styleName={ selectMenu: selectIndexValue === index }
-        onPress=e=> {
-          onChange && onChange(item)
+        onPress=() => {
+          onChange && onChange(parseValue(stringifyValue(item)))
           onClose()
         }
         active=stringifyValue(item) === stringifyValue(value)
