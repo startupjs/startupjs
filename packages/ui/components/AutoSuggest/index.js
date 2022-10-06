@@ -1,8 +1,15 @@
-import React, { useState, useRef, useMemo } from 'react'
-import { TouchableOpacity, View, FlatList } from 'react-native'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  FlatList
+} from 'react-native'
 import { observer } from 'startupjs'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
+import { parseValue, stringifyValue, getLabelFromValue } from './../forms/Radio/helpers'
 import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import AbstractPopover from '../AbstractPopover'
@@ -20,7 +27,6 @@ const SUPPORT_PLACEMENTS = [
   'top-end'
 ]
 
-// TODO: KeyboardAvoidingView
 function AutoSuggest ({
   style,
   captionStyle,
@@ -38,38 +44,47 @@ function AutoSuggest ({
   onScrollEnd,
   testID
 }) {
-  const _data = useRef([])
   const inputRef = useRef()
-
+  const [_options, setOptions] = useState(options)
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [wrapperHeight, setWrapperHeight] = useState(null)
   const [scrollHeightContent, setScrollHeightContent] = useState(null)
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
-    isShow,
-    _data,
-    value,
+    options: _options,
     onChange,
     onChangeShow: v => setIsShow(v)
   })
 
-  const escapedInputValue = useMemo(() => escapeRegExp(inputValue), [inputValue])
+  const label = useMemo(() => {
+    return getLabelFromValue(value, options)
+  }, [value])
 
-  _data.current = escapedInputValue
-    ? options.filter(item => new RegExp(escapedInputValue, 'gi').test(item.label))
-    : options
+  useEffect(() => {
+    setInputValue(label)
+  }, [label])
 
-  function onClose (e) {
+  function onClose () {
     setIsShow(false)
     setSelectIndexValue(-1)
     inputRef.current.blur()
     onDismiss && onDismiss()
   }
 
-  function _onChangeText (t) {
-    setInputValue(t)
+  function _onChangeText (text) {
+    setInputValue(text)
+    if (!text) onChange()
     setSelectIndexValue(-1)
-    onChangeText && onChangeText(t)
+    onChangeText && onChangeText(text)
+
+    const escapedText = escapeRegExp(text)
+    const newOptions = options
+      .filter(option => {
+        return new RegExp(escapedText, 'gi')
+          .test(getLabelFromValue(option, options))
+      })
+
+    setOptions(newOptions)
   }
 
   function _renderItem ({ item, index }) {
@@ -78,7 +93,7 @@ function AutoSuggest ({
         TouchableOpacity(
           key=index
           onPress=()=> {
-            onChange && onChange(item)
+            onChange && onChange(parseValue(stringifyValue(item)))
             onClose()
           }
         )= renderItem(item, index, selectIndexValue)
@@ -89,12 +104,12 @@ function AutoSuggest ({
       Menu.Item.item(
         key=index
         styleName={ selectMenu: selectIndexValue === index }
-        onPress=e=> {
-          onChange && onChange(item)
+        onPress=() => {
+          onChange && onChange(parseValue(stringifyValue(item)))
           onClose()
         }
-        active=item.value === value.value
-      )= item.label
+        active=stringifyValue(item) === stringifyValue(value)
+      )= getLabelFromValue(item, options)
     `
   }
 
@@ -112,19 +127,31 @@ function AutoSuggest ({
     setScrollHeightContent(height)
   }
 
+  function renderWrapper (children) {
+    return pug`
+      View.root
+        TouchableWithoutFeedback(onPress=() => {
+          if (value) setInputValue(getLabelFromValue(value, options))
+          onClose()
+        })
+          View.overlay
+        = children
+    `
+  }
+
   return pug`
     TextInput(
       ref=inputRef
       style=captionStyle
       inputStyle=inputStyle
-      iconStyle=iconStyle
-      icon=inputIcon
-      value=(!isShow && value.label) || inputValue
+      icon=value ? faTimes : undefined
+      iconPosition='right'
+      value=inputValue
       placeholder=placeholder
       onChangeText=_onChangeText
-      onFocus=()=> setIsShow(true)
-      onBlur=()=> setIsShow(false)
+      onFocus=() => setIsShow(true)
       onKeyPress=onKeyPress
+      onIconPress=() => onChange()
       testID=testID
     )
 
@@ -135,6 +162,8 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
+      onCloseComplete=() => setOptions(options)
+      renderWrapper=renderWrapper
     )
       if isLoading
         View.loaderCase
@@ -143,10 +172,9 @@ function AutoSuggest ({
         View.contentCase
           FlatList.content(
             style=style
-            data=_data.current
-            extraData=_data.current
+            data=_options
             renderItem=_renderItem
-            keyExtractor=item=> item.value
+            keyExtractor=item => stringifyValue(item)
             scrollEventThrottle=500
             keyboardShouldPersistTaps="always"
             onScroll=onScroll
@@ -159,7 +187,6 @@ function AutoSuggest ({
 AutoSuggest.defaultProps = {
   style: {},
   options: [],
-  value: {},
   placeholder: 'Select value',
   renderItem: null,
   isLoading: false
@@ -168,11 +195,17 @@ AutoSuggest.defaultProps = {
 AutoSuggest.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   captionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  options: PropTypes.array.isRequired,
-  value: PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string
-  }).isRequired,
+  value: PropTypes.any,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.shape({
+        value: PropTypes.any,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ])
+  ),
   placeholder: PropTypes.string,
   renderItem: PropTypes.func,
   isLoading: PropTypes.bool,
