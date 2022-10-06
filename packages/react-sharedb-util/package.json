@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb-util",
   "type": "module",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "engines": {
     "node": ">= 14"
   },
@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.47.0",
+    "@startupjs/model": "^0.48.0",
     "lodash": "^4.17.20",
     "racer": "1.0.1"
   },
