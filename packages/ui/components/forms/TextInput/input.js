@@ -151,7 +151,8 @@ function TextInputInput ({
       placeholder=placeholder
       placeholderTextColor=placeholderTextColor
       value=value
-      editable=!disabled
+      disabled=IS_WEB ? disabled : undefined
+      editable=IS_WEB ? undefined : !disabled
       multiline=multiline
       selectTextOnFocus=false
       onFocus=handleFocus

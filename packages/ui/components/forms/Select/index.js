@@ -31,6 +31,10 @@ function Select ({
   }
 
   return pug`
+    //- WORKAROUND
+    //- multiline prop is added to prevent select text on input when hit the 'Tab' key on web
+    //- TODO
+    //- Add onKeyPress to 'keyDown' key that opens select dropdown
     TextInput(
       ref=ref
       value=getLabelFromValue(value, options, emptyValueLabel)
@@ -38,8 +42,8 @@ function Select ({
       icon=faAngleDown
       iconPosition='right'
       _renderWrapper=renderWrapper
-      selection={start: 0, end: 0} /* Prevent select text on input when hit the 'Tab' key on web */
       editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
+      multiline
       ...props
     )
   `
