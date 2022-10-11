@@ -10,8 +10,6 @@ import omit from 'lodash/omit'
 import qs from 'qs'
 import RoutesWrapper from './RoutesWrapper'
 
-let isLoadApp = false
-
 export default observer(function Routes ({
   routes,
   ...props
@@ -24,9 +22,14 @@ export default observer(function Routes ({
   }, [])
 
   useEffect(() => {
-    $root.del('_session.restoreUrl')
-    isLoadApp = true
+    if (restoreUrl) $root.del('_session.restoreUrl')
   }, [])
+
+  if (restoreUrl && currentUrl !== restoreUrl) {
+    return pug`
+      Redirect(to=restoreUrl)
+    `
+  }
 
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
@@ -56,12 +59,6 @@ export default observer(function Routes ({
       )
     `
   })
-
-  if (!isLoadApp && restoreUrl && currentUrl !== restoreUrl) {
-    return pug`
-      Redirect(to=restoreUrl)
-    `
-  }
 
   return pug`
     RoutesWrapper(...props)= routeComponents
