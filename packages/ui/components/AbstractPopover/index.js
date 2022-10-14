@@ -70,11 +70,12 @@ const Tether = observer(function TetherComponent ({
     height: Dimensions.get('window').height
   }), [])
 
+  // We want to see a block in the necessary place with animations.
+  // We don't need to animate outside the screen, and then show the finished block in the right place
+  // It makes no sense to show geometry until it is calculated
   useEffect(() => {
-    if (!geometry) return
-
     if (visible) {
-      animateIn()
+      if (geometry) animateIn()
     } else {
       animateOut()
     }
@@ -131,8 +132,8 @@ const Tether = observer(function TetherComponent ({
   }
 
   const rootStyle = {
-    top: geometry ? geometry.top : -999,
-    left: geometry ? geometry.left : -999,
+    top: geometry ? geometry.top : -99999,
+    left: geometry ? geometry.left : -99999,
     opacity: fadeAnim
   }
 

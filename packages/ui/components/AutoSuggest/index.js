@@ -55,6 +55,7 @@ function AutoSuggest ({
     onChange,
     onChangeShow: v => setIsShow(v)
   })
+  const [escapedText, setEscapedText] = useState('')
 
   const label = useMemo(() => {
     return getLabelFromValue(value, options)
@@ -63,6 +64,16 @@ function AutoSuggest ({
   useEffect(() => {
     setInputValue(label)
   }, [label])
+
+  useEffect(() => {
+    const newOptions = value ?
+      options.filter(option => {
+        return new RegExp(escapedText, 'gi')
+          .test(getLabelFromValue(option, options))
+      }) : options
+
+    setOptions(newOptions)
+  }, [options, value])
 
   function onClose () {
     setIsShow(false)
@@ -76,15 +87,7 @@ function AutoSuggest ({
     if (!text) onChange()
     setSelectIndexValue(-1)
     onChangeText && onChangeText(text)
-
-    const escapedText = escapeRegExp(text)
-    const newOptions = options
-      .filter(option => {
-        return new RegExp(escapedText, 'gi')
-          .test(getLabelFromValue(option, options))
-      })
-
-    setOptions(newOptions)
+    setEscapedText(escapeRegExp(text))
   }
 
   function _renderItem ({ item, index }) {
