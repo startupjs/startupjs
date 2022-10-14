@@ -7,13 +7,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "react-native-webview": "10.10.2"
-  },
   "peerDependencies": {
     "prop-types": "*",
     "react": ">=16.9.0",
-    "react-native": ">=0.60.0"
+    "react-native": ">=0.60.0",
+    "react-native-webview": ">=10.10.2"
   },
   "license": "MIT",
   "readmeFilename": "README.md"
