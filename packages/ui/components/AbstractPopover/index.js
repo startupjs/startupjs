@@ -26,7 +26,6 @@ function AbstractPopover (props) {
 
   function onCloseComplete (finished) {
     setVisible(false)
-    props.onCloseComplete && props.onCloseComplete(finished)
   }
 
   if (!visible) return null
@@ -70,12 +69,11 @@ const Tether = observer(function TetherComponent ({
     height: Dimensions.get('window').height
   }), [])
 
-  // We want to see a block in the necessary place with animations.
-  // We don't need to animate outside the screen, and then show the finished block in the right place
-  // It makes no sense to show geometry until it is calculated
   useEffect(() => {
+    if (!geometry) return
+
     if (visible) {
-      if (geometry) animateIn()
+      animateIn()
     } else {
       animateOut()
     }
@@ -134,7 +132,9 @@ const Tether = observer(function TetherComponent ({
   const rootStyle = {
     top: geometry ? geometry.top : -99999,
     left: geometry ? geometry.left : -99999,
-    opacity: fadeAnim
+    opacity: fadeAnim,
+    minWidth: 1,
+    minHeight: 1
   }
 
   if (geometry) {

@@ -73,7 +73,7 @@ function AutoSuggest ({
       }) : options
 
     setOptions(newOptions)
-  }, [options, value])
+  }, [options, inputValue, isShow])
 
   function onClose () {
     setIsShow(false)
@@ -165,7 +165,6 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
-      onCloseComplete=() => setOptions(options)
       renderWrapper=renderWrapper
     )
       if isLoading
