@@ -115,27 +115,40 @@ return (
 )
 ```
 
-## Многострочный режим (textarea)
+## Количество строк
 
-Свойство `multiline` активирует многострочный режим.
-
-Свойства которые работают только в многострочном режиме:
-- `numberOfLines` задает количество видимых линий
-- `resize` высота текстового поля будет расти вместе с содержимым
+Передайте `numberOfLines={number}`, чтобы задать количество строк.
 
 ```jsx example
 const [value, setValue] = useState()
+
 return (
   <TextInput
-    multiline
-    resize
-    numberOfLines={4}
-    placeholder='Multiline placeholder'
+    placeholder='write here'
     value={value}
+    numberOfLines={4}
     onChangeText={setValue}
   />
 )
 ```
+
+## Dynamic number of lines
+
+Передайте `resize=true`, чтобы количество строк изменялось динамически в соответствии с содержимым.
+
+```jsx example
+const [value, setValue] = useState()
+
+return (
+  <TextInput
+    placeholder='write here'
+    value={value}
+    resize
+    onChangeText={setValue}
+  />
+)
+```
+
 
 ## Sandbox
 
