@@ -26,6 +26,7 @@ function AbstractPopover (props) {
 
   function onCloseComplete (finished) {
     setVisible(false)
+    props.onCloseComplete && props.onCloseComplete(finished)
   }
 
   if (!visible) return null
@@ -129,11 +130,13 @@ const Tether = observer(function TetherComponent ({
     })
   }
 
+  // WORKAROUND
+  // the minimum height fixes an issue where the 'onLayout' does not trigger
+  // when children are undefined or have no size.
   const rootStyle = {
     top: geometry ? geometry.top : -99999,
     left: geometry ? geometry.left : -99999,
     opacity: fadeAnim,
-    minWidth: 1,
     minHeight: 1
   }
 
