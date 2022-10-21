@@ -64,6 +64,20 @@ function AutoSuggest ({
     setInputValue(label)
   }, [label])
 
+  useEffect(() => {
+    let newOptions
+    if (isShow) {
+      const escapedText = escapeRegExp(inputValue)
+      newOptions = options.filter(option => {
+        return new RegExp(escapedText, 'gi')
+          .test(getLabelFromValue(option, options))
+      })
+    } else {
+      newOptions = options
+    }
+    setOptions(newOptions)
+  }, [options, inputValue, isShow])
+
   function onClose () {
     setIsShow(false)
     setSelectIndexValue(-1)
@@ -76,15 +90,6 @@ function AutoSuggest ({
     if (!text) onChange()
     setSelectIndexValue(-1)
     onChangeText && onChangeText(text)
-
-    const escapedText = escapeRegExp(text)
-    const newOptions = options
-      .filter(option => {
-        return new RegExp(escapedText, 'gi')
-          .test(getLabelFromValue(option, options))
-      })
-
-    setOptions(newOptions)
   }
 
   function _renderItem ({ item, index }) {
@@ -162,7 +167,6 @@ function AutoSuggest ({
       placements=SUPPORT_PLACEMENTS
       durationOpen=200
       durationClose=200
-      onCloseComplete=() => setOptions(options)
       renderWrapper=renderWrapper
     )
       if isLoading

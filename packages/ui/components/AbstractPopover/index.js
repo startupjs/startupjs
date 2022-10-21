@@ -130,10 +130,14 @@ const Tether = observer(function TetherComponent ({
     })
   }
 
+  // WORKAROUND
+  // the minimum height fixes an issue where the 'onLayout' does not trigger
+  // when children are undefined or have no size.
   const rootStyle = {
-    top: geometry ? geometry.top : -999,
-    left: geometry ? geometry.left : -999,
-    opacity: fadeAnim
+    top: geometry ? geometry.top : -99999,
+    left: geometry ? geometry.left : -99999,
+    opacity: fadeAnim,
+    minHeight: 1
   }
 
   if (geometry) {
