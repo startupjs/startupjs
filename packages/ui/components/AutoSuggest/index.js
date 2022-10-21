@@ -38,6 +38,8 @@ function AutoSuggest ({
   placeholder,
   renderItem,
   isLoading,
+  disabled,
+  readonly,
   onChange,
   onDismiss,
   onChangeText,
@@ -153,6 +155,8 @@ function AutoSuggest ({
       iconPosition='right'
       value=inputValue
       placeholder=placeholder
+      disabled=disabled
+      readonly=readonly
       onChangeText=_onChangeText
       onFocus=() => setIsShow(true)
       onKeyPress=onKeyPress
