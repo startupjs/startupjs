@@ -1,3 +1,12 @@
+## [0.48.2](https://github.com/startupjs/startupjs/compare/v0.48.1...v0.48.2) (2022-10-21)
+
+
+### Features
+
+* **AutoSuggest:** add ability to make input disabled and readonly ([c5ead0b](https://github.com/startupjs/startupjs/commit/c5ead0b7f8e1c5952e8c699811758ef3b5d7f29b))
+
+
+
 ## [0.48.1](https://github.com/startupjs/startupjs/compare/v0.48.0...v0.48.1) (2022-10-21)
 
 
