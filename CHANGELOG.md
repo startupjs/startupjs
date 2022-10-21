@@ -1,3 +1,13 @@
+## [0.48.1](https://github.com/startupjs/startupjs/compare/v0.48.0...v0.48.1) (2022-10-21)
+
+
+### Bug Fixes
+
+* **ObjectInput:** add abilityi to make 'disabled' and 'readonly' ([b5b8dc5](https://github.com/startupjs/startupjs/commit/b5b8dc5cfeac247caee3ae3bcb94c368d4a0672a))
+* **recaptcha:** move 'react-native-webview' to peerDependencies ([#987](https://github.com/startupjs/startupjs/issues/987)) ([63f3d58](https://github.com/startupjs/startupjs/commit/63f3d58c91ed0b27fadde01b2fbe341cf34b0364))
+
+
+
 # [0.48.0](https://github.com/startupjs/startupjs/compare/v0.47.7...v0.48.0) (2022-10-06)
 
 
