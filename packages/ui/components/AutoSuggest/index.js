@@ -66,13 +66,13 @@ function AutoSuggest ({
     onChangeShow: v => setIsShow(v)
   })
 
-  const label = useMemo(() => {
+  const selectedLabel = useMemo(() => {
     return getLabelFromValue(value, options)
   }, [value])
 
   useEffect(() => {
-    setInputValue(label)
-  }, [label])
+    setInputValue(selectedLabel)
+  }, [selectedLabel])
 
   function onClose () {
     setIsShow(false)
@@ -89,15 +89,17 @@ function AutoSuggest ({
     onChangeText && onChangeText(text)
   }
 
+  async function _onPress (item) {
+    onChange && await onChange(parseValue(stringifyValue(item)))
+    onClose()
+  }
+
   function _renderItem ({ item, index }) {
     if (renderItem) {
       return pug`
         TouchableOpacity(
           key=index
-          onPress=()=> {
-            onChange && onChange(parseValue(stringifyValue(item)))
-            onClose()
-          }
+          onPress=() => _onPress(item)
         )= renderItem(item, index, selectIndexValue)
       `
     }
@@ -106,10 +108,7 @@ function AutoSuggest ({
       Menu.Item.item(
         key=index
         styleName={ selectMenu: selectIndexValue === index }
-        onPress=() => {
-          onChange && onChange(parseValue(stringifyValue(item)))
-          onClose()
-        }
+        onPress=() => _onPress(item)
         active=stringifyValue(item) === stringifyValue(value)
       )= getLabelFromValue(item, options)
     `
@@ -133,6 +132,7 @@ function AutoSuggest ({
     return pug`
       View.root
         TouchableWithoutFeedback(onPress=() => {
+          setInputValue(selectedLabel)
           onClose()
         })
           View.overlay
