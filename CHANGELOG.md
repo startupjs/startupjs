@@ -1,3 +1,12 @@
+## [0.48.4](https://github.com/startupjs/startupjs/compare/v0.48.3...v0.48.4) (2022-10-24)
+
+
+### Bug Fixes
+
+* **AutoSuggest:** recover input value when close without selection ([ad2059e](https://github.com/startupjs/startupjs/commit/ad2059e0885cd5152c543416bd663b7f85461673))
+
+
+
 ## [0.48.3](https://github.com/startupjs/startupjs/compare/v0.48.2...v0.48.3) (2022-10-24)
 
 
