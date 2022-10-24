@@ -1,3 +1,12 @@
+## [0.48.3](https://github.com/startupjs/startupjs/compare/v0.48.2...v0.48.3) (2022-10-24)
+
+
+### Bug Fixes
+
+* **AutoSuggest:** reset selected index when select item using keyboard ([551e429](https://github.com/startupjs/startupjs/commit/551e42921e45c90f7c225c0df5f7b27b10cd65e1))
+
+
+
 ## [0.48.2](https://github.com/startupjs/startupjs/compare/v0.48.1...v0.48.2) (2022-10-21)
 
 
