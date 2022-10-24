@@ -43,6 +43,7 @@ export default function useKeyboard ({
         const item = options.find((_, i) => i === selectIndexValue)
         onChangeShow(false)
         onChange && onChange(item)
+        setSelectIndexValue(-1)
         break
       }
     }

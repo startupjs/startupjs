@@ -47,11 +47,19 @@ function AutoSuggest ({
   testID
 }) {
   const inputRef = useRef()
-  const [_options, setOptions] = useState(options)
   const [isShow, setIsShow] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [wrapperHeight, setWrapperHeight] = useState(null)
   const [scrollHeightContent, setScrollHeightContent] = useState(null)
+  const [textToFilter, setTextToFilter] = useState()
+  const _options = useMemo(() => {
+    const escapedText = escapeRegExp(textToFilter)
+    return options.filter(option => {
+      return new RegExp(escapedText, 'gi')
+        .test(getLabelFromValue(option, options))
+    })
+  }, [options, textToFilter])
+
   const [selectIndexValue, setSelectIndexValue, onKeyPress] = useKeyboard({
     options: _options,
     onChange,
@@ -66,20 +74,6 @@ function AutoSuggest ({
     setInputValue(label)
   }, [label])
 
-  useEffect(() => {
-    let newOptions
-    if (isShow) {
-      const escapedText = escapeRegExp(inputValue)
-      newOptions = options.filter(option => {
-        return new RegExp(escapedText, 'gi')
-          .test(getLabelFromValue(option, options))
-      })
-    } else {
-      newOptions = options
-    }
-    setOptions(newOptions)
-  }, [options, inputValue, isShow])
-
   function onClose () {
     setIsShow(false)
     setSelectIndexValue(-1)
@@ -89,6 +83,7 @@ function AutoSuggest ({
 
   function _onChangeText (text) {
     setInputValue(text)
+    setTextToFilter(text)
     if (!text) onChange()
     setSelectIndexValue(-1)
     onChangeText && onChangeText(text)
@@ -138,7 +133,6 @@ function AutoSuggest ({
     return pug`
       View.root
         TouchableWithoutFeedback(onPress=() => {
-          if (value) setInputValue(getLabelFromValue(value, options))
           onClose()
         })
           View.overlay
@@ -151,7 +145,7 @@ function AutoSuggest ({
       ref=inputRef
       style=captionStyle
       inputStyle=inputStyle
-      icon=value ? faTimes : undefined
+      icon=value && !disabled ? faTimes : undefined
       iconPosition='right'
       value=inputValue
       placeholder=placeholder
@@ -172,6 +166,7 @@ function AutoSuggest ({
       durationOpen=200
       durationClose=200
       renderWrapper=renderWrapper
+      onCloseComplete=() => setTextToFilter()
     )
       if isLoading
         View.loaderCase
