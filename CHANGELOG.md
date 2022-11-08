@@ -1,3 +1,12 @@
+## [0.48.5](https://github.com/startupjs/startupjs/compare/v0.48.4...v0.48.5) (2022-11-08)
+
+
+### Bug Fixes
+
+* **app:** restore url when app starts only once ([bcd1778](https://github.com/startupjs/startupjs/commit/bcd1778ac6afd382f545be18a1a54aaf0409f5fc))
+
+
+
 ## [0.48.4](https://github.com/startupjs/startupjs/compare/v0.48.3...v0.48.4) (2022-10-24)
 
 
