@@ -7,6 +7,7 @@ import { $root, observer, useSyncEffect } from 'startupjs'
 import { Slot } from '@startupjs/plugin'
 import { BASE_URL } from '@env'
 import axios from 'axios'
+import RestoreUrl from './RestoreUrl'
 import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
@@ -16,7 +17,8 @@ const isWeb = Platform.OS === 'web'
 export default observer(function Router (props) {
   return pug`
     RouterComponent
-      AppsFactory(...props)
+      RestoreUrl
+        AppsFactory(...props)
   `
 })
 
