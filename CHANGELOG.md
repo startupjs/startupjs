@@ -1,3 +1,12 @@
+## [0.48.6](https://github.com/startupjs/startupjs/compare/v0.48.5...v0.48.6) (2022-11-10)
+
+
+### Bug Fixes
+
+* **Div:** remove flex-basis: 0 from 'full' variant ([2bf433a](https://github.com/startupjs/startupjs/commit/2bf433aba10595601f0a85676fe1055c64085be2))
+
+
+
 ## [0.48.5](https://github.com/startupjs/startupjs/compare/v0.48.4...v0.48.5) (2022-11-08)
 
 
