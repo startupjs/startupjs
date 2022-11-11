@@ -19,13 +19,16 @@ function RangeInput (props) {
     step,
     value,
     width,
+    disabled,
     containerStyle,
     selectedStyle,
+    disabledSelectedStyle,
     stepLabelStyle,
     stepMarkerStyle,
     stepStyle,
     trackStyle,
     markerStyle,
+    disabledMarkerStyle,
     onChange,
     onChangeFinish,
     onChangeStart
@@ -54,6 +57,7 @@ function RangeInput (props) {
     MultiSlider(
       customLabel=customLabel
       enableLabel=showLabel
+      enabledOne=!disabled
       enabledTwo=range
       min=min
       max=max
@@ -64,13 +68,23 @@ function RangeInput (props) {
       snapped
       step=step
       values=values
-      selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
+      selectedStyle=StyleSheet.flatten([
+        styles.selected, 
+        selectedStyle,
+        disabled && styles.disabledSelected,
+        disabled && disabledSelectedStyle,
+      ])
       containerStyle=StyleSheet.flatten([styles.container, containerStyle]),
       stepLabelStyle=StyleSheet.flatten([styles.stepLabel, stepLabelStyle]),
       stepMarkerStyle=StyleSheet.flatten([styles.stepMarker, stepMarkerStyle])
       stepStyle=stepStyle
       trackStyle=StyleSheet.flatten([styles.track, trackStyle]),
       markerStyle=StyleSheet.flatten([styles.marker, markerStyle]),
+      disabledMarkerStyle=StyleSheet.flatten([
+        styles.marker, 
+        styles.disabledMarker, 
+        disabledMarkerStyle
+      ]),
       onValuesChange=onValuesChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart
@@ -98,14 +112,17 @@ RangeInput.propTypes = {
     PropTypes.arrayOf(PropTypes.number)
   ]),
   width: PropTypes.number,
+  disabled: PropTypes.bool,
   // Style props
   containerStyle: styleProp,
   selectedStyle: styleProp,
+  disabledSelectedStyle: styleProp,
   stepLabelStyle: styleProp,
   stepMarkerStyle: styleProp,
   stepStyle: styleProp,
   trackStyle: styleProp,
   markerStyle: styleProp,
+  disabledMarkerStyle: styleProp,
   // End style props
   onChange: PropTypes.func,
   onChangeFinish: PropTypes.func,
@@ -122,7 +139,8 @@ RangeInput.defaultProps = {
   showStepLabels: true,
   showStepMarkers: true,
   step: 1,
-  width: 280
+  width: 280,
+  disabled: false
 }
 
-export default observer(RangeInput, { forwardRef: true })
+export default observer(RangeInput)
