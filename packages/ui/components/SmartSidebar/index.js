@@ -68,8 +68,10 @@ function SmartSidebar ({
   }, [fixedLayout])
 
   useLayoutEffect(() => {
-    Dimensions.addEventListener('change', handleWidthChange)
-    return () => Dimensions.removeEventListener('change', handleWidthChange)
+    const listener = Dimensions.addEventListener('change', handleWidthChange)
+    return () => {
+      listener.remove()
+    }
   }, [])
 
   function handleWidthChange () {
