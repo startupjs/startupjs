@@ -49,8 +49,8 @@ const Multiselect = ({
       styleSwipe=styles.swipeZone
     )
       ScrollView.suggestions-native
-        each opt in options
-          = renderListItem(opt)
+        each option, index in options
+          = renderListItem({ item: option, index })
 
   `
 }
