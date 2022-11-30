@@ -18,7 +18,7 @@ import _pickBy from 'lodash/pickBy'
 import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import commonSchema, { complexPasswordSchema } from './utils/joi'
+import { getValidationSchema } from './utils/getValidationSchema'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -94,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = complexPassword ? complexPasswordSchema : commonSchema
+    let fullSchema = getValidationSchema(complexPassword)
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
