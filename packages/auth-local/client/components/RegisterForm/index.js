@@ -18,7 +18,7 @@ import _pickBy from 'lodash/pickBy'
 import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import commonSchema from './utils/joi'
+import commonSchema, { complexPasswordSchema } from './utils/joi'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -62,7 +62,8 @@ function RegisterForm ({
   onShouldConfirmRegistration,
   onSuccess,
   onError,
-  onChangeSlide
+  onChangeSlide,
+  complexPassword
 }) {
   const authHelper = useAuthHelper(baseUrl)
   const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
@@ -93,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = commonSchema
+    let fullSchema = complexPassword ? complexPasswordSchema : commonSchema
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
@@ -223,7 +224,8 @@ RegisterForm.propTypes = {
   renderActions: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeSlide: PropTypes.func
+  onChangeSlide: PropTypes.func,
+  complexPassword: PropTypes.bool
 }
 
 export default observer(RegisterForm)
