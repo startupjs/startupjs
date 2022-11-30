@@ -2,7 +2,7 @@ import Joi from '@hapi/joi'
 
 export const getValidationSchema = ({ complexPassword }) => {
   const defaultPasswordRules = Joi.string().required()
-    .min(3)
+    .min(8)
     .max(32)
     .messages({
       'any.required': 'Fill in the field',
