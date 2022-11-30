@@ -6,6 +6,11 @@
 * **ui/Multiselect:** add property to limit the number of selected tags ([#990](https://github.com/startupjs/startupjs/issues/990)) ([3a54967](https://github.com/startupjs/startupjs/commit/3a54967293ca9cc3966aa80641a675f58a6ad891))
 
 
+### BREAKING CHANGES
+
+* [See 0.49 migration guide](/docs/migration-guides/0.49.md)
+
+
 
 ## [0.48.6](https://github.com/startupjs/startupjs/compare/v0.48.5...v0.48.6) (2022-11-10)
 
@@ -77,9 +82,7 @@
 
 ### BREAKING CHANGES
 
-* **ui/AutoSuggest:**
-
-  - `onChange` gets the `option.value || option` as a parameter instead of always option
+* [See 0.48 migration guide](/docs/migration-guides/0.48.md)
 
 
 
