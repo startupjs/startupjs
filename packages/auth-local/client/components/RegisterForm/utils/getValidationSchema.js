@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
 
-export const getValidationSchema = (complexPassword) => {
+export const getValidationSchema = ({ complexPassword }) => {
   const defaultPasswordRules = Joi.string().required()
     .min(3)
     .max(32)

@@ -94,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = getValidationSchema(complexPassword)
+    let fullSchema = getValidationSchema({ complexPassword })
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
