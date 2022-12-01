@@ -218,7 +218,7 @@ RegisterForm.defaultProps = {
 
 RegisterForm.propTypes = {
   baseUrl: PropTypes.string,
-  passwordCheckType: PropTypes.string,
+  passwordCheckType: PropTypes.oneOf(['complex', 'simple']),
   recaptchaBadgePosition: Recaptcha.propTypes.badge,
   redirectUrl: PropTypes.string,
   properties: PropTypes.object,
