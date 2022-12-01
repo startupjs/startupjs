@@ -54,6 +54,7 @@ const REGISTER_DEFAULT_INPUTS = {
 
 function RegisterForm ({
   baseUrl,
+  passwordCheckType,
   recaptchaBadgePosition,
   redirectUrl,
   properties,
@@ -62,8 +63,7 @@ function RegisterForm ({
   onShouldConfirmRegistration,
   onSuccess,
   onError,
-  onChangeSlide,
-  complexPassword
+  onChangeSlide
 }) {
   const authHelper = useAuthHelper(baseUrl)
   const [expiresRedirectUrl] = useSession('auth.expiresRedirectUrl')
@@ -94,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = getValidationSchema({ complexPassword })
+    let fullSchema = getValidationSchema({ passwordCheckType })
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
@@ -212,11 +212,13 @@ function initForm (properties) {
 }
 
 RegisterForm.defaultProps = {
-  baseUrl: BASE_URL
+  baseUrl: BASE_URL,
+  passwordCheckType: 'simple'
 }
 
 RegisterForm.propTypes = {
   baseUrl: PropTypes.string,
+  passwordCheckType: PropTypes.string,
   recaptchaBadgePosition: Recaptcha.propTypes.badge,
   redirectUrl: PropTypes.string,
   properties: PropTypes.object,
@@ -224,8 +226,7 @@ RegisterForm.propTypes = {
   renderActions: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  onChangeSlide: PropTypes.func,
-  complexPassword: PropTypes.bool
+  onChangeSlide: PropTypes.func
 }
 
 export default observer(RegisterForm)

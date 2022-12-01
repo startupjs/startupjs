@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
 
-export const getValidationSchema = ({ complexPassword }) => {
+export const getValidationSchema = ({ passwordCheckType }) => {
   const defaultPasswordRules = Joi.string().required()
     .min(8)
     .max(32)
@@ -18,6 +18,16 @@ export const getValidationSchema = ({ complexPassword }) => {
         'Passwords must be 8 characters or more and contain a lowercase letter, an uppercase letter, a number, and a special character.'
     })
 
+  const getPasswordRules = () => {
+    switch (passwordCheckType) {
+      case 'complex':
+        return complexPasswordRules
+      case 'simple':
+      default:
+        return defaultPasswordRules
+    }
+  }
+
   const commonSchema = Joi.object().keys({
     name: Joi.string().required()
       .regex(/^.+\s.+$/)
@@ -34,7 +44,7 @@ export const getValidationSchema = ({ complexPassword }) => {
         'string.empty': 'Fill in the field',
         'string.email': 'Invalid email'
       }),
-    password: complexPassword ? complexPasswordRules : defaultPasswordRules,
+    password: getPasswordRules(),
     confirm: Joi.string().required()
       .valid(Joi.ref('password'))
       .messages({
