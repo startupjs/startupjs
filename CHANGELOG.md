@@ -1,3 +1,12 @@
+## [0.49.1](https://github.com/startupjs/startupjs/compare/v0.49.0...v0.49.1) (2022-12-06)
+
+
+### Bug Fixes
+
+* **auth:** always set 'loggedIn' to session ([40cb5aa](https://github.com/startupjs/startupjs/commit/40cb5aa90edbf9e97f02fd9c0ae6a868f670c1e7))
+
+
+
 # [0.49.0](https://github.com/startupjs/startupjs/compare/v0.48.6...v0.49.0) (2022-11-24)
 
 
