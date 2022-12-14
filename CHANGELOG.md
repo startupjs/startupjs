@@ -1,3 +1,12 @@
+## [0.49.2](https://github.com/startupjs/startupjs/compare/v0.49.1...v0.49.2) (2022-12-14)
+
+
+### Bug Fixes
+
+* **Sidebar:** fix height shrink ([b57633c](https://github.com/startupjs/startupjs/commit/b57633ccc582322f48b0be9c533f6cb13191cc8c))
+
+
+
 ## [0.49.1](https://github.com/startupjs/startupjs/compare/v0.49.0...v0.49.1) (2022-12-06)
 
 
