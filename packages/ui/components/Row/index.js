@@ -9,7 +9,7 @@ import './index.styl'
 const isNative = Platform.OS !== 'web'
 
 function Row ({
-  style,
+  style = {},
   children,
   align,
   vAlign,
