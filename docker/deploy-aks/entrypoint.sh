@@ -212,14 +212,14 @@ build_image_kaniko () {
   mkdir -p /kaniko/.docker
   # authorize to registry
   echo "{\"auths\":{\"${REGISTRY_SERVER}\":{\"auth\":\"$(printf "%s:%s" "${CLIENT_ID}" "${CLIENT_SECRET}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-  if [ ! -z "$DEPLOYMENTS" ]
+  if [ -n "$DEPLOYMENTS" ]
   then
     for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
     do
         SERVICE=$(echo $dockerfile | cut -d ":" -f 1)
         DOCKERFILE_PATH=$(echo $dockerfile | cut -d ":" -f 2)
         echo "Building docker image for ${SERVICE} microservice from dockerfile: ${DOCKERFILE_PATH}"
-        if [ ! -z "$FEATURE" ]
+        if [ -n "$FEATURE" ]
         then
           executor \
             --context /_project \
@@ -238,7 +238,7 @@ build_image_kaniko () {
 
   if [ -f "$PROJECT_PATH/Dockerfile" ]
   then
-    if [ ! -z "$FEATURE" ]
+    if [ -n "$FEATURE" ]
     then
       executor \
         --context /_project \
@@ -299,10 +299,10 @@ _get_keyvault_secrets_yaml () {
 
 update_deployments () {
   echo "update_deployments"
-  if [ ! -z "$FEATURE" ]
+  if [ -n "$FEATURE" ]
   then
     echo "FEATURE"
-    if [ ! -z "$DEPLOYMENTS" ]
+    if [ -n "$DEPLOYMENTS" ]
     then
       echo "DEPLOYMENTS"
       kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
