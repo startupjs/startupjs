@@ -53,6 +53,12 @@ COMMIT_SHA="git-commit-sha"
 # 4. custom images, ex: 'server:./front/Dockerfile,python:./Dockerfile' :
 DEPLOYMENTS=""
 
+# 5. optional, name of the feature for feature-branches:
+FEATURE=""
+
+# 6. optional, base domain for feature-branches' :
+FEATURE_DOMAIN=""
+
 # Run the build and deploy your startupjs app:
 #
 # you have to mount the source code of your app as `/project`
@@ -70,6 +76,8 @@ docker run -ti --rm \
   -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
   -e "COMMIT_SHA=${COMMIT_SHA}" \
   -e "DEPLOYMENTS=${DEPLOYMENTS}" \
+  -e "FEATURE=${FEATURE}" \
+  -e "FEATURE_DOMAIN=${FEATURE_DOMAIN}" \
   startupjs/deploy-aks
 ```
 
