@@ -315,10 +315,10 @@ update_deployments () {
         | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
         | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-        | jq '.metadata.labels["managed-by"] = "features"' \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq ".spec.selector.matchLabels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-        | jq '.spec.template.metadata.labels["managed-by"] = "features"' \
+        | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
         | kubectl apply -f -
     else
@@ -332,10 +332,10 @@ update_deployments () {
         | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
         | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-        | jq '.metadata.labels["managed-by"] = "features"' \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq ".spec.selector.matchLabels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-        | jq '.spec.template.metadata.labels["managed-by"] = "features"' \
+        | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}\"" \
         | kubectl apply -f -
     fi
@@ -350,7 +350,7 @@ update_deployments () {
       | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
       | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
       | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq '.metadata.labels["managed-by"] = "features"' \
+      | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
       | jq ".spec.selector.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
       | kubectl apply -f -
 
@@ -362,7 +362,7 @@ update_deployments () {
       | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
       | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
       | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq '.metadata.labels["managed-by"] = "features"' \
+      | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
       | jq "del(.spec.rules[1,2,3,4,5])" \
       | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
       | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
