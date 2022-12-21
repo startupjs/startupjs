@@ -298,13 +298,10 @@ _get_keyvault_secrets_yaml () {
 }
 
 update_deployments () {
-  echo "update_deployments"
   if [ -n "$FEATURE" ]
   then
-    echo "FEATURE"
     if [ -n "$DEPLOYMENTS" ]
     then
-      echo "DEPLOYMENTS"
       kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
         | kubectl-neat \
         | jq '.items[]' \
@@ -371,7 +368,6 @@ update_deployments () {
       | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
       | kubectl apply -f -
   else
-    echo "not FEATURE"
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
       SERVICE=$(echo $NAME | cut -d "-" -f 2)
       if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
