@@ -5,7 +5,7 @@ import {
   RECOVER_PASS_URL,
   RESET_PASS_URL,
   SIGN_IN_URL,
-  SIGN_UP_URL,
+  SIGN_UP_URL
 } from './constants'
 
 export default (components = {}) => [
@@ -13,7 +13,7 @@ export default (components = {}) => [
     path: SIGN_IN_URL,
     exact: true,
     component: components.PSignIn,
-    filters: [filters.isNotLoggedIn()]
+    filters: [filters.isNotLoggedIn('/profile?customParam=dummy')]
   },
   {
     path: SIGN_UP_URL,
@@ -48,5 +48,5 @@ export default (components = {}) => [
     exact: true,
     component: components.PConfirmedEmail,
     filters: [filters.isNotLoggedIn()]
-  },
+  }
 ]

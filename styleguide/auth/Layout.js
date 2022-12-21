@@ -1,12 +1,22 @@
 import React from 'react'
 import { ScrollView, Image } from 'react-native'
+import { useHistory } from 'react-router-native'
 import { observer, u } from 'startupjs'
-import { Div } from '@startupjs/ui'
+import { Div, Button } from '@startupjs/ui'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 export default observer(function Layout ({ children }) {
+  const history = useHistory()
+
   return pug`
     ScrollView.root
+      Button.backButton(
+        icon=faArrowLeft
+        size='m'
+        variant='text'
+        onPress=() => history.goBack()
+      ) 
       Div.logo
         Image(
           resizeMode='contain'
