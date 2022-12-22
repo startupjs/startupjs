@@ -8,7 +8,7 @@ import {
   SIGN_UP_URL
 } from './constants'
 
-export default (components = {}, { loggedInRedirectUrl }) => [
+export default (components = {}, { loggedInRedirectUrl } = {}) => [
   {
     path: SIGN_IN_URL,
     exact: true,
