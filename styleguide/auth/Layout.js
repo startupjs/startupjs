@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, Image } from 'react-native'
 import { observer, u } from 'startupjs'
 import { Div } from '@startupjs/ui'
-import { BackButton } from 'main/components'
+import { BackButton } from 'components'
 import './index.styl'
 
 export default observer(function Layout ({ children }) {

@@ -2,7 +2,7 @@ import React from 'react'
 import { observer, useSession, useDoc } from 'startupjs'
 import { Span, Avatar, Layout, Content, Div } from '@startupjs/ui'
 import { LogoutButton } from '@startupjs/auth'
-import { BackButton } from 'main/components'
+import { BackButton } from 'components'
 import './index.styl'
 
 export default observer(function PProfile () {
