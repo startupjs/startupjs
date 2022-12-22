@@ -1,6 +1,6 @@
 import React from 'react'
-import { useHistory } from 'react-router-native'
 import { observer, useSession, useDoc } from 'startupjs'
+import { useHistory } from '@startupjs/app'
 import { Span, Avatar, Layout, Content, Div, Button } from '@startupjs/ui'
 import { LogoutButton } from '@startupjs/auth'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'

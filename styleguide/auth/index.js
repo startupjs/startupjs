@@ -46,6 +46,7 @@ const registerForm = pug`
 export default initAuthApp({
   Layout,
   redirectUrl: '/profile?customParam=dummy',
+  loggedInRedirectUrl: '/profile?customParam=dummy',
   localForms: {
     'sign-in': pug`
       LoginForm

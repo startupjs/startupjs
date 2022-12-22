@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-native'
 import { observer } from 'startupjs'
+import { useHistory } from '@startupjs/app'
 import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { ScrollableArea, Anchor } from '../components'

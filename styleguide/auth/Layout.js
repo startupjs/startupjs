@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollView, Image } from 'react-native'
-import { useHistory } from 'react-router-native'
 import { observer, u } from 'startupjs'
+import { useHistory } from '@startupjs/app'
 import { Div, Button } from '@startupjs/ui'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
