@@ -5,6 +5,7 @@
     "Alert": "/components/Alert",
     "AutoSuggest": "/components/AutoSuggest",
     "Avatar": "/components/Avatar",
+    "BackButton": "/components/BackButton",
     "Badge": "/components/Badge",
     "Br": "/components/Br",
     "Breadcrumbs": "/components/Breadcrumbs",

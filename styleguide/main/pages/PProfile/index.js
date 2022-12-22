@@ -1,26 +1,18 @@
 import React from 'react'
 import { observer, useSession, useDoc } from 'startupjs'
-import { useHistory } from '@startupjs/app'
-import { Span, Avatar, Layout, Content, Div, Button } from '@startupjs/ui'
+import { Span, Avatar, Layout, Content, Div, BackButton } from '@startupjs/ui'
 import { LogoutButton } from '@startupjs/auth'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
 
 export default observer(function PProfile () {
   const [userId] = useSession('userId')
   const [user] = useDoc('users', userId)
-  const history = useHistory()
 
   if (!user) return null
 
   return pug`
     Layout.main
-      Button.backButton(
-        icon=faArrowLeft
-        size='m'
-        variant='text'
-        onPress=() => history.goBack()
-      ) 
+      BackButton 
       Content
         Div.root
           Avatar(

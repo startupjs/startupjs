@@ -6,6 +6,7 @@
 export { default as Alert } from './components/Alert'
 export { default as AutoSuggest } from './components/AutoSuggest'
 export { default as Avatar } from './components/Avatar'
+export { default as BackButton } from './components/BackButton'
 export { default as Badge } from './components/Badge'
 export { default as Br } from './components/Br'
 export { default as Breadcrumbs } from './components/Breadcrumbs'
