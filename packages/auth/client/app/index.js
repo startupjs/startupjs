@@ -20,6 +20,7 @@ export default function initAuthApp ({
   localForms,
   socialButtons,
   renderForm,
+  loggedInRedirectUrl,
   onChangeSlide,
   onSuccess,
   onError,
@@ -48,7 +49,7 @@ export default function initAuthApp ({
     }
   }
 
-  const routes = getAuthRoutes(pages).map(item => {
+  const routes = getAuthRoutes(pages, { loggedInRedirectUrl }).map(item => {
     const Page = item.component
     item.component = () => {
       return pug`
