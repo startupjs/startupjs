@@ -19,9 +19,7 @@ function Row ({
 }) {
   // FIXME: for native apps row-reverse switches margins and paddings
   if (isNative && reverse) {
-    if (Array.isArray(style)) {
-      style = StyleSheet.flatten(style)
-    }
+    style = StyleSheet.flatten([style])
     const { paddingLeft, paddingRight, marginLeft, marginRight } = style
     style.marginLeft = marginRight
     style.marginRight = marginLeft
@@ -44,7 +42,6 @@ Row.defaultProps = {
   reverse: false,
   align: 'left',
   vAlign: 'stretch',
-  style: {},
   ...Div.defaultProps
 }
 
