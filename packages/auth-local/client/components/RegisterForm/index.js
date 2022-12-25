@@ -18,7 +18,7 @@ import _pickBy from 'lodash/pickBy'
 import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import commonSchema from './utils/joi'
+import { getValidationSchema } from './utils/getValidationSchema'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -54,6 +54,7 @@ const REGISTER_DEFAULT_INPUTS = {
 
 function RegisterForm ({
   baseUrl,
+  passwordCheckType,
   recaptchaBadgePosition,
   redirectUrl,
   properties,
@@ -93,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = commonSchema
+    let fullSchema = getValidationSchema({ passwordCheckType })
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
@@ -211,11 +212,13 @@ function initForm (properties) {
 }
 
 RegisterForm.defaultProps = {
-  baseUrl: BASE_URL
+  baseUrl: BASE_URL,
+  passwordCheckType: 'simple'
 }
 
 RegisterForm.propTypes = {
   baseUrl: PropTypes.string,
+  passwordCheckType: PropTypes.oneOf(['complex', 'simple']),
   recaptchaBadgePosition: Recaptcha.propTypes.badge,
   redirectUrl: PropTypes.string,
   properties: PropTypes.object,

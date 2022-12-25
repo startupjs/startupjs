@@ -1,3 +1,12 @@
+## [0.49.3](https://github.com/startupjs/startupjs/compare/v0.49.2...v0.49.3) (2022-12-22)
+
+
+### Features
+
+* **auth-local/RegisterForm:** add 'complexPassword' option ([#992](https://github.com/startupjs/startupjs/issues/992)) ([e9161d7](https://github.com/startupjs/startupjs/commit/e9161d733524ca40d33c6e2213a754a544ffbf65))
+
+
+
 ## [0.49.2](https://github.com/startupjs/startupjs/compare/v0.49.1...v0.49.2) (2022-12-14)
 
 
