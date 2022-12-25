@@ -1,3 +1,12 @@
+## [0.49.4](https://github.com/startupjs/startupjs/compare/v0.49.3...v0.49.4) (2022-12-25)
+
+
+### Bug Fixes
+
+* **ui/Div:** reset hover/active state when disabled ([4595f4b](https://github.com/startupjs/startupjs/commit/4595f4b9e3fcb672e8525c7a3ee89f5d5f4e6b6f))
+
+
+
 ## [0.49.3](https://github.com/startupjs/startupjs/compare/v0.49.2...v0.49.3) (2022-12-22)
 
 
