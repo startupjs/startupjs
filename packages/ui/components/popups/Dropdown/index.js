@@ -67,7 +67,12 @@ function Dropdown ({
     const listener = Dimensions.addEventListener('change', handleWidthChange)
     return () => {
       $isShow.del()
-      listener.remove()
+      // removeEventListener has been removed from rn 0.70.4
+      if (listener) {
+        listener.remove()
+      } else {
+        Dimensions.removeEventListener('change', handleWidthChange)
+      }
     }
   }, [])
 

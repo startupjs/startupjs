@@ -1,6 +1,6 @@
-import { observable } from '@nx-js/observer-util'
 import { Dimensions } from 'react-native'
 import { batch } from 'startupjs'
+import { observable } from '@nx-js/observer-util'
 import debounce from 'lodash/debounce'
 import STYLES from './index.styl'
 
@@ -36,5 +36,6 @@ function updateMediaFlags ({ window }) {
 
 function listenForMediaUpdates () {
   updateMediaFlags({ window: Dimensions.get('window') })
+  // todo: что на счет удаления слушателя?
   Dimensions.addEventListener('change', debouncedUpdateMedia)
 }

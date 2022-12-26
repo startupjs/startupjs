@@ -70,7 +70,12 @@ function SmartSidebar ({
   useLayoutEffect(() => {
     const listener = Dimensions.addEventListener('change', handleWidthChange)
     return () => {
-      listener.remove()
+      // removeEventListener has been removed from rn 0.70.4
+      if (listener) {
+        listener.remove()
+      } else {
+        Dimensions.removeEventListener('change', handleWidthChange)
+      }
     }
   }, [])
 

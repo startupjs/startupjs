@@ -16,7 +16,12 @@ export default function useMediaUpdate () {
   useEffect(() => {
     const listener = Dimensions.addEventListener('change', debouncedChangeDimensions)
     return () => {
-      listener.remove()
+      // removeEventListener has been removed from rn 0.70.4
+      if (listener) {
+        listener.remove()
+      } else {
+        Dimensions.removeEventListener('change', debouncedChangeDimensions)
+      }
     }
   }, [])
 }
