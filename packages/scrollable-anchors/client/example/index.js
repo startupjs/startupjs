@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
+import { useHistory } from '@startupjs/app'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { ScrollableArea, Anchor } from '../components'
 import { scrollTo } from '../helpers'
 import './index.styl'
@@ -16,12 +18,20 @@ const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do e
 
 function Example () {
   const [extraContentVisibility, setExtraContentVisibility] = useState(false)
+  const history = useHistory()
 
   function scrollToAnchor ({ anchorId, areaId, offset }) {
     scrollTo({ anchorId, areaId, offset })
   }
 
   return pug`
+    Div.wrapper
+      Button.backButton(
+        icon=faArrowLeft
+        size='m'
+        variant='text'
+        onPress=() => history.goBack()
+      ) 
     Div.anchors
       Button.extraButton(
         onPress=()=> setExtraContentVisibility(!extraContentVisibility)

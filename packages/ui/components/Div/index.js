@@ -65,7 +65,7 @@ function Div ({
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
   useDidUpdate(() => {
-    if (isClickable) return
+    if (!isClickable) return
     if (!disabled) return
     if (hover) setHover(false)
     if (active) setActive(false)

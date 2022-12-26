@@ -1,3 +1,53 @@
+## [0.49.4](https://github.com/startupjs/startupjs/compare/v0.49.3...v0.49.4) (2022-12-25)
+
+
+### Bug Fixes
+
+* **ui/Div:** reset hover/active state when disabled ([4595f4b](https://github.com/startupjs/startupjs/commit/4595f4b9e3fcb672e8525c7a3ee89f5d5f4e6b6f))
+
+
+
+## [0.49.3](https://github.com/startupjs/startupjs/compare/v0.49.2...v0.49.3) (2022-12-22)
+
+
+### Features
+
+* **auth-local/RegisterForm:** add 'complexPassword' option ([#992](https://github.com/startupjs/startupjs/issues/992)) ([e9161d7](https://github.com/startupjs/startupjs/commit/e9161d733524ca40d33c6e2213a754a544ffbf65))
+
+
+
+## [0.49.2](https://github.com/startupjs/startupjs/compare/v0.49.1...v0.49.2) (2022-12-14)
+
+
+### Bug Fixes
+
+* **Sidebar:** fix height shrink ([b57633c](https://github.com/startupjs/startupjs/commit/b57633ccc582322f48b0be9c533f6cb13191cc8c))
+
+
+
+## [0.49.1](https://github.com/startupjs/startupjs/compare/v0.49.0...v0.49.1) (2022-12-06)
+
+
+### Bug Fixes
+
+* **auth:** always set 'loggedIn' to session ([40cb5aa](https://github.com/startupjs/startupjs/commit/40cb5aa90edbf9e97f02fd9c0ae6a868f670c1e7))
+
+
+
+# [0.49.0](https://github.com/startupjs/startupjs/compare/v0.48.6...v0.49.0) (2022-11-24)
+
+
+### Features
+
+* **ui/Multiselect:** add property to limit the number of selected tags ([#990](https://github.com/startupjs/startupjs/issues/990)) ([3a54967](https://github.com/startupjs/startupjs/commit/3a54967293ca9cc3966aa80641a675f58a6ad891))
+
+
+### BREAKING CHANGES
+
+* [See 0.49 migration guide](/docs/migration-guides/0.49.md)
+
+
+
 ## [0.48.6](https://github.com/startupjs/startupjs/compare/v0.48.5...v0.48.6) (2022-11-10)
 
 
@@ -68,9 +118,7 @@
 
 ### BREAKING CHANGES
 
-* **ui/AutoSuggest:**
-
-  - `onChange` gets the `option.value || option` as a parameter instead of always option
+* [See 0.48 migration guide](/docs/migration-guides/0.48.md)
 
 
 

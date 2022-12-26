@@ -22,7 +22,8 @@ COPY --from=kaniko /kaniko/docker-credential-ecr-login /kaniko/docker-credential
 COPY --from=kaniko /kaniko/docker-credential-acr /kaniko/docker-credential-acr
 COPY --from=kaniko /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=kaniko /kaniko/.docker /kaniko/.docker
-ENV PATH $PATH:/kaniko
+ENV PATH $PATH:/kaniko:/root/.krew/bin
+
 ENV DOCKER_CONFIG /kaniko/.docker/
 # ref: https://github.com/GoogleContainerTools/kaniko/issues/1542#issuecomment-853929795
 ENV container docker

@@ -175,7 +175,7 @@ return (
 
 ## Tag limit
 
-You can limit the number of tags displayed
+You can limit the number of displayed tags by passing `tagLimit={number}`.
 
 ```jsx example
 const OPTIONS = [
@@ -189,6 +189,29 @@ const [cities, setCities] = useState([])
 return (
   <Multiselect
     tagLimit={2}
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Limit the number of selected tags
+
+You can limit the number of selected tags by passing `maxTagCount={number}`.
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    maxTagCount={2}
     value={cities}
     onChange={setCities}
     options={OPTIONS}

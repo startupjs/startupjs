@@ -175,7 +175,7 @@ return (
 
 ## Tag limit
 
-Вы можете ограничить количество отображаемых тегов
+Вы можете ограничить количество отображаемых тегов передав `tagLimit={число}`.
 
 ```jsx example
 const OPTIONS = [
@@ -189,6 +189,29 @@ const [cities, setCities] = useState([])
 return (
   <Multiselect
     tagLimit={2}
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
+## Ограничить количество выбранных тегов
+
+Вы можете ограничить количество выбранных тегов, передав `maxTagCount={число}`.
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    maxTagCount={2}
     value={cities}
     onChange={setCities}
     options={OPTIONS}
