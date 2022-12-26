@@ -1,3 +1,12 @@
+## [0.49.5](https://github.com/startupjs/startupjs/compare/v0.49.4...v0.49.5) (2022-12-26)
+
+
+### Bug Fixes
+
+* **Sidebar:** revert broken changes in [#997](https://github.com/startupjs/startupjs/issues/997) ([dfb1d27](https://github.com/startupjs/startupjs/commit/dfb1d27e37a1289b8407f09460d51525c3cd607f))
+
+
+
 ## [0.49.4](https://github.com/startupjs/startupjs/compare/v0.49.3...v0.49.4) (2022-12-25)
 
 
