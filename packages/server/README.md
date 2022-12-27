@@ -182,3 +182,4 @@ model.query('events', {
 ## MIT Licence
 
 Copyright (c) 2016 Pavel Zhukov
+
