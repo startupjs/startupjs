@@ -33,4 +33,3 @@ module.exports = (options = {}, cb) => {
   // Run app
   server(options)
 }
-
