@@ -17,7 +17,7 @@ export default function useMediaUpdate () {
     const listener = Dimensions.addEventListener('change', debouncedChangeDimensions)
     return () => {
       // removeEventListener has been removed from rn 0.70.4
-      if (listener) {
+      if (listener && !Dimensions.removeEventListener) {
         listener.remove()
       } else {
         Dimensions.removeEventListener('change', debouncedChangeDimensions)

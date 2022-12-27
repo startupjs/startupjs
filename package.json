@@ -56,10 +56,5 @@
       "git add"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn generate-module-map"
-    }
-  },
   "license": "MIT"
 }
