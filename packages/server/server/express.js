@@ -43,7 +43,8 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
     store: sessionStore,
     cookie: {
       maxAge: options.sessionMaxAge || DEFAULT_SESSION_MAX_AGE,
-      secure: options.cookiesSecure || false
+      secure: options.cookiesSecure || false,
+      sameSite: options.sameSite
     },
     saveUninitialized: true,
     resave: false,
@@ -55,7 +56,7 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
-  if (FORCE_HTTPS) expressApp.enable('trust proxy')
+  if (FORCE_HTTPS || options.trustProxy) expressApp.enable('trust proxy')
 
   // ----------------------------------------------------->    logs    <#
   options.ee.emit('logs', expressApp)
