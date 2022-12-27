@@ -71,7 +71,7 @@ function SmartSidebar ({
     const listener = Dimensions.addEventListener('change', handleWidthChange)
     return () => {
       // removeEventListener has been removed from rn 0.70.4
-      if (listener) {
+      if (listener && !Dimensions.removeEventListener) {
         listener.remove()
       } else {
         Dimensions.removeEventListener('change', handleWidthChange)
