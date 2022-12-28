@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.50.6",
+  "version": "0.50.7",
   "engines": {
     "node": ">= 14"
   },
@@ -21,7 +21,7 @@
     "@startupjs/orm": "^0.50.5",
     "@startupjs/patches": "^0.50.5",
     "@startupjs/react-sharedb": "^0.50.5",
-    "@startupjs/server": "^0.50.5",
+    "@startupjs/server": "^0.50.7",
     "babel-preset-startupjs": "^0.50.5",
     "react-native-web": "^0.14.3"
   }
