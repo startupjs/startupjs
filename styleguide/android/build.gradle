@@ -44,7 +44,7 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 
-     configurations.all {
+    configurations.all {
         resolutionStrategy {
             // Remove this override in 0.66, as a proper fix is included in react-native itself.
             force "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
