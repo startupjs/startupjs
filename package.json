@@ -21,7 +21,7 @@
     "ios-release": "cd styleguide && yarn ios-release",
     "build": "cd styleguide && yarn build",
     "start-production": "cd styleguide && yarn start-production",
-    "postinstall": "startupjs patch-package",
+    "postinstall": "startupjs patch-package && npx patch-package --patch-dir node_modules/@startupjs/patches/patches_gestureHandler",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -k ./lerna.json",
     "bootstrap": "npx lerna bootstrap",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
