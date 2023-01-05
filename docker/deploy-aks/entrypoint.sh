@@ -351,22 +351,42 @@ update_deployments () {
       | jq ".spec.selector.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
       | kubectl apply -f -
 
-    kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
-      | kubectl-neat \
-      | jq '.items[]' \
-      | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
-      | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
-      | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
-      | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
-      | jq "del(.spec.rules[1,2,3,4,5])" \
-      | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
-      | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq "del(.spec.tls[1,2,3,4,5])" \
-      | jq ".spec.tls[0].hosts = [\"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"]" \
-      | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
-      | kubectl apply -f -
+    if [ -n "$FEATURE_WILDCARD" ]
+    then
+      kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq "del(.spec.rules[1,2,3,4,5])" \
+        | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq "del(.spec.tls[1,2,3,4,5])" \
+        | jq ".spec.tls[0].hosts = [\"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].secretName = \"${APP}-features-cert\"" \
+        | kubectl apply -f -
+    else
+      kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq "del(.spec.rules[1,2,3,4,5])" \
+        | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq "del(.spec.tls[1,2,3,4,5])" \
+        | jq ".spec.tls[0].hosts = [\"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
+        | kubectl apply -f -
+    fi
   else
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
       SERVICE=$(echo $NAME | cut -d "-" -f 2)
