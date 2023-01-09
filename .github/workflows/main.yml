@@ -32,7 +32,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           PROJECT_PATH: ${{ github.workspace }}/styleguide
         run: |
-          VERSION=0.50.8
+          VERSION=$( sed -n 's/.*"startupjs"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$BITBUCKET_CLONE_DIR/styleguide/package.json" )
           docker run --rm \
             -v "${PROJECT_PATH}:/project" \
             -e "APP=${APP}" \
