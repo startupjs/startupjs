@@ -30,12 +30,13 @@ jobs:
           APP: ${{ secrets.APP }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
           COMMIT_SHA: ${{ github.sha }}
-          PROJECT_PATH: ${{ github.workspace }}/styleguide
+          PROJECT_PATH: ${{ github.workspace }}
         run: |
-          VERSION=$( sed -n 's/.*"startupjs"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$PROJECT_PATH/package.json" )
+          VERSION=$( sed -n 's/.*"startupjs"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$PROJECT_PATH/styleguide/package.json" )
           docker run --rm \
             -v "${PROJECT_PATH}:/project" \
             -e "APP=${APP}" \
             -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
             -e "COMMIT_SHA=${COMMIT_SHA}" \
+            -e "DEPLOYMENTS=server:./styleguide/Dockerfile" \
             startupjs/deploy-aks:${VERSION}
