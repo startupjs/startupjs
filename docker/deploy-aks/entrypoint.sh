@@ -363,10 +363,10 @@ update_deployments () {
         | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq "del(.spec.rules[1,2,3,4,5])" \
-        | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
         | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq "del(.spec.tls[1,2,3,4,5])" \
-        | jq ".spec.tls[0].hosts = [\"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
         | jq ".spec.tls[0].secretName = \"${APP}-features-cert\"" \
         | kubectl apply -f -
     else
@@ -380,10 +380,10 @@ update_deployments () {
         | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq "del(.spec.rules[1,2,3,4,5])" \
-        | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
         | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq "del(.spec.tls[1,2,3,4,5])" \
-        | jq ".spec.tls[0].hosts = [\"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
         | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
         | kubectl apply -f -
     fi
