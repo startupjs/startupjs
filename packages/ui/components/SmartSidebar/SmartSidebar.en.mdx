@@ -24,7 +24,7 @@ import { SmartSidebar } from '@startupjs/ui'
 const [open, $open] = useSession('SimpleExampleSmartSidebar')
 
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='simpleExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
@@ -44,7 +44,7 @@ The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
@@ -81,7 +81,7 @@ The `position` property specifies the side of the window from which the sidebar 
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleRightSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
@@ -121,7 +121,7 @@ To control default visibility use `defaultOpen` property.
 ```jsx example
 const [open, $open] = useSession('ExampleDefaultOpenSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='visibilityExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
@@ -157,7 +157,7 @@ Specifying `disabled` property will keep the sidebar closed and it won't respond
 ```jsx example
 const [open, $open] = useSession('ExampleLockerSmartSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='lockedExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
@@ -194,7 +194,7 @@ By default the smart sidebar content are not destroyed when it is closed. To cha
 const [open, $open] = useSession('ExampleLazySmartSidebar')
 
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='simpleExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
@@ -213,7 +213,7 @@ return (
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleSmartSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <SmartSidebar
       $open={$open}
       renderContent={() => (
