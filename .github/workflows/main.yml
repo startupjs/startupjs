@@ -1,71 +1,42 @@
-name: master-to-aks
+# Copy this file to .github/workflows/production.yml
+# It will perform the deploy whenever you push to 'production' branch.
+#
+# You have to provide the following as GitHub Secrets:
+# 1. APP - name of your application in kube cluster
+# 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
+
+name: deploy-master
 
 on:
   push:
-    branches:    
+    branches:
       - master
 
-# Environment variables available to all jobs and steps in this workflow
-env:
-  CLUSTER_NAME: dm-dev-3-k8s-aks
-  CLUSTER_RESOURCE_GROUP: dm-dev-3
-  APP_NAME: startupjs-ui
-  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Checkout'
-      uses: actions/checkout@v2
-    
-    # Connect to Azure Container Registry (ACR)
-    - name: 'ACR login'
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ secrets.REGISTRY }}
-        username: ${{ secrets.AZURE_APP_ID }}
-        password: ${{ secrets.AZURE_PASSWORD }}
-
-    # Container build and push to a Azure Container Registry (ACR)
-    - name: 'Docker build'
-      run: |
-        docker build -f styleguide/Dockerfile -t ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} .
-        docker push ${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}
-    
-    # Set the target Azure Kubernetes Service (AKS) cluster.
-    - name: 'Setup AKS access'
-      uses: azure/aks-set-context@v1
-      with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
-        cluster-name: ${{ env.CLUSTER_NAME }}
-        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
-
-    - name: 'Prepare artifacts'
-      shell: bash
-      run: |
-        cat ${{ env.KUBECONFIG }} > kubeconfig
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: artifacts
-        retention-days: 1
-        path: |
-          kubeconfig
-          helm/
-
   deploy:
     runs-on: ubuntu-latest
-    container: dtzar/helm-kubectl:3.5.4
-    needs: build
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: artifacts
 
-      - name: Helm release
-        shell: bash
+      # Check out project under github.workspace
+      - uses: actions/checkout@v2
+
+      # Deploy using the image version matching startupjs version.
+      # Get version of startupjs from package.json in source code
+      # (use minor version, same as ~)
+      - env:
+          APP: ${{ secrets.APP }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          COMMIT_SHA: ${{ github.sha }}
+          PROJECT_PATH: ${{ github.workspace }}
         run: |
-          export KUBECONFIG=kubeconfig
-          helm upgrade --install ${{ env.APP_NAME }} ./helm/chart --atomic=true --set app.image=${{ secrets.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }},ingress.host=${{ env.APP_NAME }}
+          VERSION=$( sed -n 's/.*"startupjs"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$PROJECT_PATH/styleguide/package.json" )
+          docker run --rm \
+            -v "${PROJECT_PATH}:/project" \
+            -e "APP=${APP}" \
+            -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
+            -e "COMMIT_SHA=${COMMIT_SHA}" \
+            -e "DEPLOYMENTS=server:./styleguide/Dockerfile" \
+            startupjs/deploy-aks:${VERSION}
