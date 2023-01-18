@@ -3,6 +3,7 @@ import * as React from 'react'
 import { observe, unobserve } from '@nx-js/observer-util'
 import { batching } from '@startupjs/react-sharedb-util'
 import { createCaches } from '@startupjs/cache'
+import _throttle from 'lodash/throttle.js'
 import { __increment, __decrement } from '@startupjs/debug'
 import destroyer from './destroyer.js'
 import promiseBatcher from './promiseBatcher.js'
@@ -197,9 +198,11 @@ function wrapBaseComponent (baseComponent, blockUpdate, cache) {
 
 function useForceUpdate () {
   const [, setTick] = React.useState()
-  return () => {
-    setTick(Math.random())
-  }
+  return React.useCallback(
+    _throttle(() => {
+      setTick(Math.random())
+    }, 100)
+  , [])
 }
 
 // TODO: Might change to just `useEffect` in future. Don't know which one fits here better yet.
