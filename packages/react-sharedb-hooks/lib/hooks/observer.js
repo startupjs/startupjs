@@ -17,6 +17,8 @@ const DEFAULT_OPTIONS = {
   }
 }
 
+const DEFAULT_THROTTLE_TIMEOUT = 100
+
 // TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
 function observer (Component, options) {
@@ -59,7 +61,7 @@ function makeObserver (baseComponent, options = {}) {
   // this is in observables, which would have been tracked anyway
   const WrappedComponent = (...args) => {
     // forceUpdate 2.0
-    const forceUpdate = useForceUpdate()
+    const forceUpdate = useForceUpdate(options.throttle)
     const cache = useCache(options.cache != null ? options.cache : true)
 
     // wrap the baseComponent into an observe decorator once.
@@ -196,13 +198,18 @@ function wrapBaseComponent (baseComponent, blockUpdate, cache) {
   }
 }
 
-function useForceUpdate () {
+function useForceUpdate (throttle) {
   const [, setTick] = React.useState()
-  return React.useCallback(
-    _throttle(() => {
-      setTick(Math.random())
-    }, 100)
-  , [])
+  if (throttle) {
+    const timeout = typeof(throttle) === 'number' ? +throttle : DEFAULT_THROTTLE_TIMEOUT
+    return React.useCallback(
+      _throttle(() => {
+        setTick(Math.random())
+      }, timeout)
+    , [])
+  } else {
+    return () => setTick(Math.random())
+  }
 }
 
 // TODO: Might change to just `useEffect` in future. Don't know which one fits here better yet.
