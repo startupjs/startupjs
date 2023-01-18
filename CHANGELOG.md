@@ -1,3 +1,12 @@
+## [0.50.10](https://github.com/startupjs/startupjs/compare/v0.50.9...v0.50.10) (2023-01-18)
+
+
+### Features
+
+* **observer:** add throttle for useForceUpdate ([#1010](https://github.com/startupjs/startupjs/issues/1010)) ([0a5fbc8](https://github.com/startupjs/startupjs/commit/0a5fbc813a38141b87e207e2bbcd6498c8055e4f))
+
+
+
 ## [0.50.9](https://github.com/startupjs/startupjs/compare/v0.50.8...v0.50.9) (2023-01-10)
 
 
