@@ -3,6 +3,7 @@ import * as React from 'react'
 import { observe, unobserve } from '@nx-js/observer-util'
 import { batching } from '@startupjs/react-sharedb-util'
 import { createCaches } from '@startupjs/cache'
+import _throttle from 'lodash/throttle.js'
 import { __increment, __decrement } from '@startupjs/debug'
 import destroyer from './destroyer.js'
 import promiseBatcher from './promiseBatcher.js'
@@ -15,6 +16,8 @@ const DEFAULT_OPTIONS = {
     fallback: React.createElement(NullComponent, null, null)
   }
 }
+
+const DEFAULT_THROTTLE_TIMEOUT = 100
 
 // TODO: Fix passing options argument in react-native Fast Refresh patch.
 //       It has to properly put the closing bracket.
@@ -58,7 +61,7 @@ function makeObserver (baseComponent, options = {}) {
   // this is in observables, which would have been tracked anyway
   const WrappedComponent = (...args) => {
     // forceUpdate 2.0
-    const forceUpdate = useForceUpdate()
+    const forceUpdate = useForceUpdate(options.throttle)
     const cache = useCache(options.cache != null ? options.cache : true)
 
     // wrap the baseComponent into an observe decorator once.
@@ -195,10 +198,17 @@ function wrapBaseComponent (baseComponent, blockUpdate, cache) {
   }
 }
 
-function useForceUpdate () {
+function useForceUpdate (throttle) {
   const [, setTick] = React.useState()
-  return () => {
-    setTick(Math.random())
+  if (throttle) {
+    const timeout = typeof(throttle) === 'number' ? +throttle : DEFAULT_THROTTLE_TIMEOUT
+    return React.useCallback(
+      _throttle(() => {
+        setTick(Math.random())
+      }, timeout)
+    , [])
+  } else {
+    return () => setTick(Math.random())
   }
 }
 
