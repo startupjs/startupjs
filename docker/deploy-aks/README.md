@@ -59,6 +59,9 @@ FEATURE=""
 # 6. optional, base domain for feature-branches' :
 FEATURE_DOMAIN=""
 
+# 6. optional, wildcard certificate for feature-branches, ex: 'true' :
+FEATURE_WILDCARD=""
+
 # Run the build and deploy your startupjs app:
 #
 # you have to mount the source code of your app as `/project`
@@ -78,6 +81,7 @@ docker run -ti --rm \
   -e "DEPLOYMENTS=${DEPLOYMENTS}" \
   -e "FEATURE=${FEATURE}" \
   -e "FEATURE_DOMAIN=${FEATURE_DOMAIN}" \
+  -e "FEATURE_WILDCARD=${FEATURE_WILDCARD}" \
   startupjs/deploy-aks
 ```
 

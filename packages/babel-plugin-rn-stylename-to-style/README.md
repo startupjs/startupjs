@@ -293,7 +293,7 @@ Following an example `<Card>` component above, we can call `<Card>` from the `<A
 import Card from './Card'
 import './index.styl'
 
-function App (users) {
+function App ({ users }) {
   return users.map(user => (
     <Card styleName='user' title={user.name} />
   ))
