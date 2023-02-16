@@ -192,6 +192,7 @@ styl`
   // common
   .label
     align-self flex-start
+    word-break break-word
     font(body2)
 
     &.focused
