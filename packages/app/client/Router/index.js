@@ -101,6 +101,9 @@ const RenderApp = observer(function RenderAppComponent ({
   app,
   ...props
 }) {
+  // TODO
+  // We should change the app in the route after run filters
+  // because we see a new rendered layout for a moment if filter blocks route
   const Layout = app ? apps[app] : null
 
   if (!Layout) {

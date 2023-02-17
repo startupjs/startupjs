@@ -42,6 +42,7 @@
   ],
   "rules": {
     "prefer-const": "off",
+    "eol-last": "error",
     "react/jsx-handler-names": "off",
     "react/prop-types": "off",
     "react-pug/empty-lines": "off",
