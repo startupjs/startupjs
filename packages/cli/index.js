@@ -65,6 +65,7 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
+  'eslint-plugin-react-hooks',
   'eslint-plugin-standard',
   'husky@^4.3.0',
   'lint-staged'
