@@ -193,7 +193,8 @@ styl`
   .label
     align-self flex-start
     font(body2)
-
+    +web()
+      word-break break-word
     &.focused
       color $focusedColor
 
