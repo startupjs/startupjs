@@ -41,9 +41,9 @@ To run the commands `@startupjs/e2e`, you need to globally install `detox-cli` -
 
 
 To run testing locally, you need to run the following commands:
-- `npx statrupjs test --init` - will create the necessary configuration files for Detox in the root of the project (folder e2e, .detoxrc.js, .env.detox)
-- `npx statrupjs test --build` - build the iOS application (required in the first times or after installing new packages)
-- `npx statrupjs test --ios` - will run the tests in the iOS simulator. (with the flag `--artifacts` during tests, screenshots of the application will appear during tests in the folder `/artifacts`)
+- `npx startupjs test --init` - will create the necessary configuration files for Detox in the root of the project (folder e2e, .detoxrc.js, .env.detox)
+- `npx startupjs test --build` - build the iOS application (required in the first times or after installing new packages)
+- `npx startupjs test --ios` - will run the tests in the iOS simulator. (with the flag `--artifacts` during tests, screenshots of the application will appear during tests in the folder `/artifacts`)
 
 ## Writing tests
 
