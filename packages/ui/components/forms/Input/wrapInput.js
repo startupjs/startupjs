@@ -158,7 +158,7 @@ export default function wrapInput (Component, configuration) {
   InputWrapper.defaultProps = merge(
     {},
     Component.defaultProps,
-    configuration
+    { configuration }
   )
 
   InputWrapper.propTypes = Object.assign({

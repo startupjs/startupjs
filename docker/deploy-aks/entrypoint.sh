@@ -356,6 +356,7 @@ update_deployments () {
       kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
         | kubectl-neat \
         | jq '.items[]' \
+        | jq 'del(.metadata.annotations["cert-manager.io/cluster-issuer"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
         | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
