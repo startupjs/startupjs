@@ -8,6 +8,6 @@ export default async function loginLock (userId, req, res) {
   $auth.unsubscribe()
 
   res.status(400).send({
-    message: 'Your account has temporarily been locked due to failed login attempts. Try in 1 minute.'
+    message: 'Your account has temporarily been locked due to failed login attempts. Try in 5 minute.'
   })
 }
