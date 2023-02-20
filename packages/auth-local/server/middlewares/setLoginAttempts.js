@@ -23,13 +23,17 @@ export default async function setLoginAttempts (req, res, next) {
   if (authDoc) {
     const $auth = model.scope(`auths.${authDoc.id}`)
     const failedLoginAttempts = $auth.get('providers.local.failedLoginAttempts') || 0
-    const failedLoginTimestamp = $auth.get('providers.local.failedLoginTimestamp') || 0
+    const failedLoginTimestamp = $auth.get('providers.local.failedLoginTimestamp')
 
+    // count the number of failed login attempts
+    // increase the number of failed login attempts
+    // if there was a failed attempt within 5 minutes after the last failed attempt
     if (
+      failedLoginTimestamp &&
       failedLoginTimestamp +
       LIFETIME_FAILED_LOGIN_ATTEMPTS >
       now &&
-      failedLoginAttempts % 5 === 0
+      failedLoginAttempts > 5
     ) {
       await $auth.del('providers.local.failedLoginAttempts')
       await $auth.del('providers.local.failedLoginTimestamp')
