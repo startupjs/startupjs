@@ -1,0 +1,42 @@
+name: deploy-eks
+
+on:
+  push:
+    branches:
+      - "!*"
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  deploy-eks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            startupjs/deploy-eks
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./docker/deploy-eks
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
