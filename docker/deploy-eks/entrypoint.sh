@@ -124,7 +124,7 @@ validate_batch () {
 run_step_init () {
   _log "install_generic" && install_generic
   _log "install_kubectl" && install_kubectl
-  # _log "install_neat" && install_neat
+  _log "install_neat" && install_neat
 }
 
 install_generic () {
