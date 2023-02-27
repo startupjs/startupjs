@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/sharedb-schema",
-  "version": "0.50.12",
+  "version": "0.50.13",
   "description": "Racer plugin for schema validation module for ShareDB",
   "main": "lib/index.js",
   "scripts": {

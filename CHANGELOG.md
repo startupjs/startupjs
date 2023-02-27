@@ -1,3 +1,15 @@
+## [0.50.13](https://github.com/startupjs/startupjs/compare/v0.50.11...v0.50.13) (2023-02-27)
+
+
+### Bug Fixes
+
+* **auth:** change counting of failed login attemps ([#1017](https://github.com/startupjs/startupjs/issues/1017)) ([0c02ef4](https://github.com/startupjs/startupjs/commit/0c02ef4cbfd21b4dd5b3051a87f7d51bcb66dfbc))
+* **cli:** added eslint-plugin-react-hooks to devDeps template ([#1011](https://github.com/startupjs/startupjs/issues/1011)) ([000ce3f](https://github.com/startupjs/startupjs/commit/000ce3f94523f79c35a5a5c08b680837ccfdd5d6))
+* **e2e, ui/docs:** typo. ([#1014](https://github.com/startupjs/startupjs/issues/1014)) ([e80ca99](https://github.com/startupjs/startupjs/commit/e80ca999364398a0f0f5f3145d6ccce1f249c836))
+* **Input:** fix default input configuration ([f1669e9](https://github.com/startupjs/startupjs/commit/f1669e9c01018fac16a17d2825b42325e791e156))
+
+
+
 ## [0.50.11](https://github.com/startupjs/startupjs/compare/v0.50.10...v0.50.11) (2023-02-06)
 
 

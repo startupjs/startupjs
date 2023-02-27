@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/recaptcha",
   "type": "module",
-  "version": "0.50.12",
+  "version": "0.50.13",
   "description": "reCAPTCHA plugin",
   "main": "index.js",
   "publishConfig": {

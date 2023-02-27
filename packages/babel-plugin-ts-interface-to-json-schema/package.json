@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-ts-interface-to-json-schema",
-  "version": "0.50.12",
+  "version": "0.50.13",
   "publishConfig": {
     "access": "public"
   },
