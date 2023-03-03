@@ -166,6 +166,7 @@ function DateTimePicker ({
     else
       TextInput(
         ...inputProps
+        showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
         onFocus=(...args) => {
