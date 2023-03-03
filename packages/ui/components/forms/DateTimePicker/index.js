@@ -45,6 +45,7 @@ function DateTimePicker ({
   minDate,
   visible,
   $visible,
+  showMobileKeyboard,
   onFocus,
   onBlur,
   onChangeDate,
@@ -156,7 +157,8 @@ function DateTimePicker ({
     size,
     placeholder,
     _hasError,
-    value: textInput
+    value: textInput,
+    showSoftInputOnFocus: showMobileKeyboard
   }
 
   const caption = pug`
