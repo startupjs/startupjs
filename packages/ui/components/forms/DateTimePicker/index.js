@@ -45,7 +45,6 @@ function DateTimePicker ({
   minDate,
   visible,
   $visible,
-  showMobileKeyboard,
   onFocus,
   onBlur,
   onChangeDate,
@@ -157,8 +156,7 @@ function DateTimePicker ({
     size,
     placeholder,
     _hasError,
-    value: textInput,
-    showSoftInputOnFocus: showMobileKeyboard
+    value: textInput
   }
 
   const caption = pug`
@@ -168,6 +166,7 @@ function DateTimePicker ({
     else
       TextInput(
         ...inputProps
+        showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
         onFocus=(...args) => {
