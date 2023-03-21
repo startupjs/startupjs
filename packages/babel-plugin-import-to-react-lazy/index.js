@@ -64,9 +64,7 @@ function addLazyImport ($program) {
 }
 
 function validateImport ($import) {
-  const { node } = $import
-
-  if (!(node.specifiers && node.specifiers.length === 1)) return
+  if ($import.get('specifiers').length !== 1) return
 
   const $specifier = $import.get('specifiers.0')
   if (!$specifier.isImportDefaultSpecifier()) return
@@ -75,9 +73,7 @@ function validateImport ($import) {
 }
 
 function validateExport ($export) {
-  const { node } = $export
-
-  if (!(node.specifiers && node.specifiers.length === 1)) return
+  if ($export.get('specifiers').length !== 1) return
 
   const $specifier = $export.get('specifiers.0')
   const $local = $specifier.get('local')
