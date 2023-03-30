@@ -299,7 +299,7 @@ SCRIPTS_ORIG.startProductionWebpack = oneLine(`
 `)
 
 SCRIPTS_ORIG.patchPackage = () => oneLine(`
-  npx patch-package --patch-dir ${PATCHES_DIR}
+  npx patch-package --patch-dir ${PATCHES_DIR} && ${SCRIPTS_ORIG.patchGestureHandler()}
 `)
 
 SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
@@ -313,7 +313,7 @@ SCRIPTS_ORIG.fonts = () => oneLine(`
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()} && ${SCRIPTS_ORIG.patchGestureHandler()}
+  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
 `)
 
 const SCRIPTS = {
