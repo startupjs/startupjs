@@ -1,3 +1,19 @@
+## [0.50.15](https://github.com/startupjs/startupjs/compare/v0.50.14...v0.50.15) (2023-03-31)
+
+
+### Bug Fixes
+
+* **cli:** fix patch-package command ([da16ae1](https://github.com/startupjs/startupjs/commit/da16ae1bf3cdcb6db60ff5084f4fb86601a97d7e))
+* **startupjs/templates:** fix typo ([#1024](https://github.com/startupjs/startupjs/issues/1024)) ([d88f5c3](https://github.com/startupjs/startupjs/commit/d88f5c3986b5a7a6eb57d0b6ed8c95d5fd993eb9))
+* **ui/Div:** pass missing 'accesible' property to touchable element ([0886e5b](https://github.com/startupjs/startupjs/commit/0886e5b977eb9828911d48ca979c5ce2c6850ab1))
+
+
+### Features
+
+* **app:** add 404 page ([#1028](https://github.com/startupjs/startupjs/issues/1028)) ([31483cb](https://github.com/startupjs/startupjs/commit/31483cb1efc7a30a9a1ccd86ab6a60c0d6a9ef36))
+
+
+
 ## [0.50.14](https://github.com/startupjs/startupjs/compare/v0.50.13...v0.50.14) (2023-03-22)
 
 

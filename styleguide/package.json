@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.50.14",
+  "version": "0.50.15",
   "sideEffects": [
     "*.css",
     "*.styl"
@@ -46,13 +46,13 @@
     "@startupjs/auth-idg": "^0.50.13",
     "@startupjs/auth-linkedin": "^0.50.13",
     "@startupjs/auth-local": "^0.50.13",
-    "@startupjs/docs": "^0.50.14",
+    "@startupjs/docs": "^0.50.15",
     "@startupjs/i18n": "^0.50.13",
-    "@startupjs/mdx": "^0.50.14",
+    "@startupjs/mdx": "^0.50.15",
     "@startupjs/push-notifications": "^0.50.13",
     "@startupjs/recaptcha": "^0.50.13",
-    "@startupjs/scrollable-anchors": "^0.50.14",
-    "@startupjs/ui": "^0.50.14",
+    "@startupjs/scrollable-anchors": "^0.50.15",
+    "@startupjs/ui": "^0.50.15",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
     "nconf": "^0.11.4",
@@ -69,7 +69,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^3.0.0",
     "react-native-webview": "10.10.2",
-    "startupjs": "^0.50.13",
+    "startupjs": "^0.50.15",
     "text-encoding-polyfill": "^0.6.7"
   }
 }
