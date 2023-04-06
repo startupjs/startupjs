@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useSession } from 'startupjs'
-import { Alert, Br, Span, Button, TextInput } from '@startupjs/ui'
+import { Alert, Br, Span, Button, Input } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import { Recaptcha } from '@startupjs/recaptcha'
 import _get from 'lodash/get'
@@ -15,8 +15,11 @@ const IS_WEB = Platform.OS === 'web'
 const DEFAULT_CONFIG = {
   emailInputLabel: 'Email',
   emailInputPlaceholder: 'Enter your email',
+  emailInputSize: 'm',
   resetButtonLabel: 'Get reset link',
-  backButtonLabel: 'Back'
+  backButtonLabel: 'Back',
+  buttonSize: 'm',
+  showBackToLoginButton: true
 }
 
 function RecoverForm ({
@@ -70,36 +73,42 @@ function RecoverForm ({
       if errors.server
         Alert(variant='error')= errors.server
         Br
-      TextInput(
+      Input(
+        type='text'
         name='email'
         label=_config.emailInputLabel
+        description=_config.emailInputDescription
         placeholder=_config.emailInputPlaceholder
+        size=_config.emailInputSize
         value=form.email
-        onChangeText=t => $form.set('email', t)
         testID='recover-email-input'
+        onChangeText=t => $form.set('email', t)
       )
       if recaptchaEnabled
-        Br
         Recaptcha(
           id='recover-form-captcha'
           ref=recaptchaRef
           onVerify=createRecoverySecret
         )
+      Br(half)
       Button.button(
         color='primary'
         variant='flat'
-        onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
+        size=_config.buttonSize,
         testID='recover-pass-button'
+        onPress=() => recaptchaEnabled ? recaptchaRef.current.open() : createRecoverySecret()
       )= _config.resetButtonLabel
     else
       Span.text= message
 
-    Button.back(
-      variant='text'
-      color='primary'
-      onPress=() => onChangeSlide(SIGN_IN_SLIDE)
-      testID='back-to-signin-button'
-    )= _config.backButtonLabel
+    if _config.showBackToLoginButton
+      Button.back(
+        variant='text'
+        color='primary'
+        size=_config.buttonSize
+        testID='back-to-signin-button'
+        onPress=() => onChangeSlide(SIGN_IN_SLIDE)
+      )= _config.backButtonLabel
   `
 }
 
