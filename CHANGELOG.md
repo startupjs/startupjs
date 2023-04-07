@@ -1,3 +1,13 @@
+## [0.50.16](https://github.com/startupjs/startupjs/compare/v0.50.15...v0.50.16) (2023-04-07)
+
+
+### Bug Fixes
+
+* **auth-local:** fix count of failed login attempts ([ab6e49d](https://github.com/startupjs/startupjs/commit/ab6e49d4bac81d9e2766b8e38ca92f3a11b0c1ba))
+* **auth-local:** improve RecoverForm config to customize form ([8b20ef2](https://github.com/startupjs/startupjs/commit/8b20ef2fe0ee6a356f99d95513926a03db53df02))
+
+
+
 ## [0.50.15](https://github.com/startupjs/startupjs/compare/v0.50.14...v0.50.15) (2023-03-31)
 
 
