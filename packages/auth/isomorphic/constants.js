@@ -6,7 +6,7 @@ export const RESET_PASS_URL = '/auth/reset-password'
 export const ERROR_URL = '/auth/error'
 export const CONFIRMED_EMAIL_URL = '/auth/confirmed-email'
 
-export const LOGIN_LOCK_TIME = 5 * 60 * 1000
+export const LOGIN_LOCK_MINUTES = 5
 
 export const REQUEST_CONFIRMATION_SLIDE = 'request-confirmation'
 export const CHANGE_PASSWORD_SLIDE = 'change-password'
