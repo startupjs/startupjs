@@ -109,8 +109,9 @@ function RegisterForm ({
     const formClone = { ...form }
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
-      formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').slice(1).join(' ')
+      const [firstName, ...rest] = formClone.name.trim().split(' ')
+      formClone.firstName = firstName
+      formClone.lastName = rest.filter(Boolean).join(' ')
       delete formClone.name
     }
 
