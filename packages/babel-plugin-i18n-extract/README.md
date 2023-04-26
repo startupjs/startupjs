@@ -8,14 +8,14 @@ This is a Babel plugin that automates i18n tasks by extracting translation keys 
 To use this plugin, first install it as a dependency:
 
 ```bash
-npm install --save-dev babel-plugin-i18n-automation
+npm install --save-dev @startupjs/babel-plugin-i18n-extract
 ```
 
 Then, add the plugin to your Babel configuration:
 
 ```json
 {
-  "plugins": ["babel-plugin-i18n-automation"]
+  "plugins": ["@startupjs/babel-plugin-i18n-extract"]
 }
 ```
 
@@ -48,7 +48,7 @@ The plugin accepts an optional `collectTranslations` configuration option:
 ```json
 {
   "plugins": [
-    ["babel-plugin-i18n-automation", { "collectTranslations": true }]
+    ["@startupjs/babel-plugin-i18n-extract", { "collectTranslations": true }]
   ]
 }
 ```

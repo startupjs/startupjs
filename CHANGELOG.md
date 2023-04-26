@@ -1,3 +1,12 @@
+## [0.50.18](https://github.com/startupjs/startupjs/compare/v0.50.17...v0.50.18) (2023-04-24)
+
+
+### Bug Fixes
+
+* **auth-local/RegisterForm:** better split name to first name and last name ([#1029](https://github.com/startupjs/startupjs/issues/1029)) ([c6fe72a](https://github.com/startupjs/startupjs/commit/c6fe72a811f2242f49efa8a4c1f74b6fd9b1e6fd))
+
+
+
 ## [0.50.16](https://github.com/startupjs/startupjs/compare/v0.50.15...v0.50.16) (2023-04-07)
 
 
