@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  run-tests:
+  main:
 
     runs-on: ubuntu-latest
 
