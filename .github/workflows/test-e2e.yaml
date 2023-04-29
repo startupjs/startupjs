@@ -30,10 +30,8 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
-    - name: Setup ChromeDriver
-      uses: webdriverio/chromedriver-action@v1
-      with:
-        chromedriver_version: 'latest'
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@latest
 
     - name: Start app
       run: yarn start &
