@@ -35,15 +35,9 @@ jobs:
 
     - name: Start app
       run: yarn start &
-      env:
-        MONGODB_URI: mongodb://localhost:27017
-        REDIS_URL: redis://localhost:6379
 
     - name: Wait for 30 seconds
       run: sleep 30s
 
     - name: Run tests
       run: yarn wdio
-      env:
-        MONGODB_URI: mongodb://localhost:27017
-        REDIS_URL: redis://localhost:6379
