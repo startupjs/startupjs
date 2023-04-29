@@ -48,16 +48,14 @@ jobs:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
         DISCORD_EMBEDS: |-
           [{
+            "title": "> Check failure logs",
+            "description": "[${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}) ${{ github.event.head_commit.message }}",
             "color": 16711680,
-            "title": "Check failure logs",
+            "timestamp": "${{ github.event.workflow_run.created_at }}",
             "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "footer": {
-              "text": "Failed commit is in the message below:"
+            "author": {
+                "name": "${{ github.actor }}",
+                "url": "${{ github.server_url }}/${{ github.actor }}",
+                "icon_url": "${{ github.server_url }}/${{ github.actor }}.png"
             }
           }]
-
-    - name: Discord Notification on Failure. Commit info
-      if: failure() && github.ref == 'refs/heads/master'
-      uses: Ilshidur/action-discord@0.3.2
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
