@@ -43,7 +43,8 @@ jobs:
 
     - name: Discord Notification on Failure
       if: failure() && github.ref == 'refs/heads/master'
-      uses: Ilshidur/action-discord@2.1.0
+      uses: Ilshidur/action-discord@0.3.2
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
       with:
         args: "CI/CD Pipeline failed for repository: ${GITHUB_REPOSITORY}, at commit: ${GITHUB_SHA}. Check it out at ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-        webhook: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
