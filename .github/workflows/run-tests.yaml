@@ -51,7 +51,6 @@ jobs:
             "title": "> Check failure logs",
             "description": "[${{ github.event.head_commit.message }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})",
             "color": 16711680,
-            "timestamp": "${{ github.event.workflow_run.created_at }}",
             "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "author": {
                 "name": "${{ github.actor }}",
