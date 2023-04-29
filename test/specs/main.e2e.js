@@ -2,7 +2,7 @@ describe('Main', () => {
   it('should redirect to Quickstart and show it', async () => {
     await browser.url('/')
 
-    await expect($('h2=StartupJS')).toBeExisting()
+    await expect($('h2=StartupJSX')).toBeExisting()
     await expect($('div*=Just imagine what you can')).toBeExisting()
   })
 })
