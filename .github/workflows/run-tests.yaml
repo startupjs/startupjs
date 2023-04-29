@@ -1,11 +1,10 @@
-name: test-e2e
+name: Run Tests
 
 on:
   push:
-  pull_request:
 
 jobs:
-  test-e2e:
+  run-tests:
 
     runs-on: ubuntu-latest
 
