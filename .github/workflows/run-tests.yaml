@@ -50,10 +50,10 @@ jobs:
           [{
             "color": 16711680,
             "title": "Check github action logs",
-            "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }, {
-            "color": 16711680,
-            "description": "Failed commit is below:"
+            "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "footer": {
+              "text": "Failed commit is in the message below:"
+            }
           }]
 
     - name: Discord Notification on Failure. Commit info
