@@ -1,4 +1,4 @@
-name: deploy-eks
+name: Publish deploy-eks image
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - 'v*.*.*'
 
 jobs:
-  deploy-eks:
+  main:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
