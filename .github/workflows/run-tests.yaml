@@ -49,10 +49,11 @@ jobs:
         DISCORD_EMBEDS: |-
           [{
             "color": 16711680,
-            "title": "Tests failed on master branch!",
-            "description": "[Check github action logs](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+            "title": "Check github action logs",
+            "url": "${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}/actions/runs/${{ GITHUB_RUN_ID }}"
           }, {
-            "title": "Failed commit is below:"
+            "color": 16711680,
+            "description": "Failed commit is below:"
           }]
 
     - name: Discord Notification on Failure. Commit info
