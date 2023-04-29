@@ -48,7 +48,7 @@ jobs:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
         DISCORD_EMBEDS: |-
           [{
-            "title": "> Check failure logs",
+            "title": "> Tests failed! Check logs",
             "description": "[${{ github.event.head_commit.message }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})",
             "color": 16711680,
             "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
