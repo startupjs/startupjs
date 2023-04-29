@@ -50,7 +50,7 @@ jobs:
           [{
             "color": 16711680,
             "title": "Check github action logs",
-            "url": "${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}/actions/runs/${{ GITHUB_RUN_ID }}"
+            "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }, {
             "color": 16711680,
             "description": "Failed commit is below:"
