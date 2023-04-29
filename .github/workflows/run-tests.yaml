@@ -49,7 +49,7 @@ jobs:
         DISCORD_EMBEDS: |-
           [{
             "color": 16711680,
-            "title": "Check github action logs",
+            "title": "Check failure logs",
             "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "footer": {
               "text": "Failed commit is in the message below:"
