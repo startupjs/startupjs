@@ -41,10 +41,22 @@ jobs:
     - name: Run tests
       run: yarn wdio
 
-    - name: Discord Notification on Failure
+    - name: Discord Notification on Failure. Message
       if: failure() && github.ref == 'refs/heads/master'
       uses: Ilshidur/action-discord@0.3.2
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
-      with:
-        args: "CI/CD Pipeline failed for repository: ${GITHUB_REPOSITORY}, at commit: ${GITHUB_SHA}. Check it out at ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+        DISCORD_EMBEDS: |-
+          [{
+            "color": 16711680,
+            "title": "Tests failed on master branch!",
+            "description": "[Check github action logs](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          }, {
+            "title": "Failed commit is below:"
+          }]
+
+    - name: Discord Notification on Failure. Commit info
+      if: failure() && github.ref == 'refs/heads/master'
+      uses: Ilshidur/action-discord@0.3.2
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}
