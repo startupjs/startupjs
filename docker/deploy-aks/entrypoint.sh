@@ -178,6 +178,10 @@ maybe_login_az () {
     -u "$CLIENT_ID" \
     -p "$CLIENT_SECRET" \
     --tenant "$TENANT_ID"
+  kubelogin convert-kubeconfig \
+    -l spn \
+    --client-id "$CLIENT_ID" \
+    --client-secret "$CLIENT_SECRET"
   DONE_maybe_login_az="1"
 }
 
