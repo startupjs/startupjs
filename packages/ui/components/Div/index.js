@@ -153,7 +153,7 @@ function Div ({
   }
 
   const viewProps = omit(props, PRESSABLE_PROPS)
-
+  const testID = viewProps.testID || viewProps['data-testid']
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
   const divElement = maybeWrapToClickable(pug`
@@ -171,6 +171,7 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
+      testID=testID
       ...viewProps
     )= children
   `)

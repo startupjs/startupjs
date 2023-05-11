@@ -14,12 +14,13 @@ function Calendar ({
   maxDate,
   minDate,
   range,
+  testID,
   onChangeDate
 }) {
   const [uiDate, $uiDate] = useValue(+moment(date).seconds(0).milliseconds(0))
 
   return pug`
-    Div
+    Div(testID=testID)
       Header(
         uiDate=uiDate
         exactLocale=exactLocale

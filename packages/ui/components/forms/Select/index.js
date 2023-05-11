@@ -13,6 +13,7 @@ function Select ({
   disabled,
   showEmptyValue,
   emptyValueLabel,
+  testID,
   onChange,
   ...props
 }, ref) {
@@ -26,6 +27,7 @@ function Select ({
         onChange=onChange
         showEmptyValue=showEmptyValue
         emptyValueLabel=emptyValueLabel
+        testID=testID
       )= children
     `
   }

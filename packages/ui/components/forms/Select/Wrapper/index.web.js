@@ -21,6 +21,7 @@ function SelectWrapper ({
   disabled,
   showEmptyValue,
   emptyValueLabel,
+  testID,
   onChange
 }) {
   function onSelectChange (event) {
@@ -29,7 +30,7 @@ function SelectWrapper ({
   }
 
   return pug`
-    Div.root(style=style)
+    Div.root(style=style testID=testID)
       = children
       if !disabled
         select.overlay(

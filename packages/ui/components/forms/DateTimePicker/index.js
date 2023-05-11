@@ -45,6 +45,8 @@ function DateTimePicker ({
   minDate,
   visible,
   $visible,
+  testID,
+  calendarTestID,
   onFocus,
   onBlur,
   onChangeDate,
@@ -156,7 +158,8 @@ function DateTimePicker ({
     size,
     placeholder,
     _hasError,
-    value: textInput
+    value: textInput,
+    testID
   }
 
   const caption = pug`
@@ -196,6 +199,7 @@ function DateTimePicker ({
             minDate=minDate
             range=range
             timezone=timezone
+            testID=calendarTestID
             onChangeDate=_onChangeDate
           )
 
