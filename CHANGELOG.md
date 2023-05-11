@@ -1,3 +1,17 @@
+## [0.50.21](https://github.com/startupjs/startupjs/compare/v0.50.20...v0.50.21) (2023-05-11)
+
+
+### Bug Fixes
+
+* **startupjs/templates:** fix internal functionality in the starter template example component ([3c1ae8c](https://github.com/startupjs/startupjs/commit/3c1ae8c06e146a14af8f418de3db56967b61e096))
+
+
+### Features
+
+* **ui:** add abilit to pass testID to some components ([cee7058](https://github.com/startupjs/startupjs/commit/cee705866f7bd183278a856b6560fa2574c3ca27))
+
+
+
 ## [0.50.20](https://github.com/startupjs/startupjs/compare/v0.50.19...v0.50.20) (2023-04-26)
 
 
