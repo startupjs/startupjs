@@ -5,7 +5,7 @@
 # 1. APP - name of your application in kube cluster
 # 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
 
-name: deploy-master
+name: Deploy styleguide
 
 on:
   push:
@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  main:
     runs-on: ubuntu-latest
     steps:
 
