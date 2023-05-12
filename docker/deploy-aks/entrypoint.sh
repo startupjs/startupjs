@@ -178,10 +178,6 @@ maybe_login_az () {
     -u "$CLIENT_ID" \
     -p "$CLIENT_SECRET" \
     --tenant "$TENANT_ID"
-  kubelogin convert-kubeconfig \
-    -l spn \
-    --client-id "$CLIENT_ID" \
-    --client-secret "$CLIENT_SECRET"
   DONE_maybe_login_az="1"
 }
 
@@ -279,6 +275,10 @@ validate_step_apply () {
 
 login_kubectl () {
   az aks get-credentials --resource-group "$RESOURCE_GROUP_NAME" --name "$CLUSTER_NAME"
+  kubelogin convert-kubeconfig \
+    -l spn \
+    --client-id "$CLIENT_ID" \
+    --client-secret "$CLIENT_SECRET"  
 }
 
 update_secret () {
@@ -297,7 +297,7 @@ _get_keyvault_secrets_yaml () {
     echo "${_name}=${_value}" >> ./secrets.env
   done
   # Next command will output the yaml to stdout and we'll catch it outside
-  kubectl create secret generic "$APP" --type=Opaque --from-env-file=./secrets.env --dry-run -o yaml
+  kubectl create secret generic "$APP" --type=Opaque --from-env-file=./secrets.env --dry-run=client -o yaml
   rm ./secrets.env
 }
 
