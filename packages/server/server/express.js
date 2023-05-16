@@ -61,8 +61,18 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
   // ----------------------------------------------------->    logs    <#
   options.ee.emit('logs', expressApp)
 
+  function shouldCompress (req, res) {
+    if (req.headers['x-no-compression']) {
+      // don't compress responses with this request header
+      return false
+    }
+  
+    // fallback to standard filter function
+    return compression.filter(req, res)
+  }  
+
   expressApp
-    .use(compression())
+    .use(compression({ filter: shouldCompress }))
     .use('/healthcheck', (req, res) => res.status(200).send('OK'))
 
   if (FORCE_HTTPS) {
