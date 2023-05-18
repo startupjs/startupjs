@@ -1,7 +1,7 @@
 import conf from 'nconf'
 import fs from 'fs'
 import inlineCss from 'inline-css'
-import MailService from './MailService.js'
+import MailService from './MailService'
 
 const STAGE = process.env.STAGE
 const EMAIL_WHITELIST = [...(conf.get('ADMINS') || []), ...(conf.get('EMAIL_WHITELIST') || [])]
