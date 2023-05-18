@@ -1,3 +1,7 @@
+## [0.50.23](https://github.com/startupjs/startupjs/compare/v0.50.22...v0.50.23) (2023-05-18)
+
+
+
 ## [0.50.21](https://github.com/startupjs/startupjs/compare/v0.50.20...v0.50.21) (2023-05-11)
 
 
