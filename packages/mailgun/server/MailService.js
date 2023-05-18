@@ -16,7 +16,6 @@ class MailService {
 
   send (data) {
     try {
-      console.log(this.domain, data)
       return this.mailgun.messages.create(this.domain, data)
     } catch (error) {
       console.log('send email ERR:', error)
