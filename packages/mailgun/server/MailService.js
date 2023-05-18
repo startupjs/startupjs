@@ -1,11 +1,14 @@
-import Mailgun from 'mailgun-js'
+import Mailgun from 'mailgun.js'
+import formData from 'form-data'
 
 let instance = null
 
 class MailService {
   constructor ({ apiKey, domain }) {
     if (!instance) {
-      this.mailgun = new Mailgun({ apiKey, domain })
+      const mailgunClient = new Mailgun(formData)
+      this.mailgun = mailgunClient.client({ username: 'api', key: apiKey })
+      this.domain = domain
       instance = this
     }
     return instance
@@ -13,18 +16,9 @@ class MailService {
 
   send (data) {
     try {
-      return this.mailgun.messages().send(data)
+      return this.mailgun.messages.create(this.domain, data)
     } catch (error) {
       console.log('send email ERR:', error)
-      return { error }
-    }
-  }
-
-  attachment (data) {
-    try {
-      return new this.mailgun.Attachment(data)
-    } catch (error) {
-      console.log('email attachment ERR:', error)
       return { error }
     }
   }

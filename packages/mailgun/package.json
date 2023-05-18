@@ -8,8 +8,9 @@
   },
   "main": "server/index.js",
   "dependencies": {
-    "inline-css": "^2.6.3",
-    "mailgun-js": "^0.22.0"
+    "form-data": "^4.0.0",
+    "inline-css": "^3.0.0",
+    "mailgun.js": "^8.2.1"
   },
   "peerDependencies": {
     "express": "4.x",

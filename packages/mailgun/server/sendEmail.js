@@ -48,12 +48,9 @@ async function sendEmail (params) {
     const from = params.from || process.env.MAILGUN_FROM_ID || conf.get('MAILGUN_FROM_ID')
 
     let options = {
+      ...params,
       from,
-      to: params.email,
-      subject: params.subject,
-      text: params.text,
-      html: params.html,
-      inline: params.inline
+      to: [params.email]
     }
 
     if (params.templateName) {
