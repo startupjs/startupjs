@@ -1,3 +1,12 @@
+## [0.50.25](https://github.com/startupjs/startupjs/compare/v0.50.24...v0.50.25) (2023-05-22)
+
+
+### Bug Fixes
+
+* **ui/Button:** add missing comma ([44b7ce6](https://github.com/startupjs/startupjs/commit/44b7ce669edaf7142ed1992688d36983c25bed73))
+
+
+
 ## [0.50.24](https://github.com/startupjs/startupjs/compare/v0.50.23...v0.50.24) (2023-05-22)
 
 
