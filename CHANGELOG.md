@@ -1,3 +1,12 @@
+## [0.50.24](https://github.com/startupjs/startupjs/compare/v0.50.23...v0.50.24) (2023-05-22)
+
+
+### Features
+
+* **ui/Button:** add ability to customize font size ([fa33c52](https://github.com/startupjs/startupjs/commit/fa33c52b319366aeff5a6f72c6997219af327954))
+
+
+
 ## [0.50.23](https://github.com/startupjs/startupjs/compare/v0.50.22...v0.50.23) (2023-05-18)
 
 
