@@ -9,6 +9,13 @@ $this = merge({
     xl: 6u,
     xxl: 7u
   },
+  fontSizes: {
+    s: 'caption',
+    m: 'body2',
+    l: 'body1',
+    xl: 'h5',
+    xxl: 'h4'
+  }
   outlinedBorderWidth: 1px,
   iconMargins: {
     xs: .5u,
@@ -38,20 +45,9 @@ _disabledOpacity = 0.25
     font-size 1.25u
     line-height 1.75u
 
-  &.s
-    font(caption)
-
-  &.m
-    font(body2)
-
-  &.l
-    font(body1)
-
-  &.xl
-    font(h5)
-
-  &.xxl
-    font(h4)
+  for size, fontSize in $this.fontSizes
+    &.{size}
+      font(fontSize)
 
 .icon
   color: $UI.colors.dark
