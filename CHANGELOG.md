@@ -1,3 +1,12 @@
+## [0.50.26](https://github.com/startupjs/startupjs/compare/v0.50.25...v0.50.26) (2023-05-23)
+
+
+### Bug Fixes
+
+* **ui/Button:** make font customization more flexible ([1431b14](https://github.com/startupjs/startupjs/commit/1431b14592595e73a9a7c33de24a8a5e9d06cc39))
+
+
+
 ## [0.50.25](https://github.com/startupjs/startupjs/compare/v0.50.24...v0.50.25) (2023-05-22)
 
 
