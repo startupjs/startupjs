@@ -9,7 +9,7 @@
   "main": "server/index.js",
   "dependencies": {
     "form-data": "^4.0.0",
-    "inline-css": "^3.0.0",
+    "inline-css": "4.0.1",
     "mailgun.js": "^8.2.1"
   },
   "peerDependencies": {

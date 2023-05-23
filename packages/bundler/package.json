@@ -28,7 +28,7 @@
     "babel-loader": "^8.2.3",
     "babel-preset-startupjs": "^0.50.23",
     "css-loader": "^6.5.0",
-    "css-minimizer-webpack-plugin": "^4.0.0",
+    "css-minimizer-webpack-plugin": "^5.0.0",
     "file-loader": "^6.2.0",
     "lodash": "^4.17.20",
     "metro-config": "*",

@@ -24,7 +24,7 @@ function NumberInputButtons ({
       Button.input-button.increase(
         style=buttonStyle
         styleName=buttonStyleNames
-        accessible=false
+        focusable=false
         disabled=disabled
         icon=mode === 'horizontal' ? faPlus : faAngleUp
         size=size
@@ -34,7 +34,7 @@ function NumberInputButtons ({
       Button.input-button.decrease(
         style=buttonStyle
         styleName=buttonStyleNames
-        accessible=false
+        focusable=false
         disabled=disabled
         icon=mode === 'horizontal' ? faMinus : faAngleDown
         size=size
