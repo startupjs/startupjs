@@ -6,7 +6,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepublish": "babel --optional runtime src --out-dir lib",
+    "prepublish": "babel src --out-dir lib --presets=@babel/preset-env --plugins=@babel/plugin-transform-runtime",
     "postpublish": "rm -rf lib"
   },
   "author": "Artur Zayats <zag2art@gmail.com>",
