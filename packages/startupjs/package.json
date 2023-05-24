@@ -23,6 +23,6 @@
     "@startupjs/react-sharedb": "^0.50.13",
     "@startupjs/server": "^0.50.23",
     "babel-preset-startupjs": "^0.50.23",
-    "react-native-web": "^0.14.3"
+    "react-native-web": "^0.18.0"
   }
 }

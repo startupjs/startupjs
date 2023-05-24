@@ -89,7 +89,7 @@ function TextInputInput ({
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
     useLayoutEffect(() => {
-      inputRef.current.setNativeProps({ size: '1' })
+      inputRef.current?.setNativeProps({ size: '1' })
     }, [])
   }
 
@@ -162,7 +162,7 @@ function TextInputInput ({
     )
     if icon
       Div.input-icon(
-        accessible=false
+        focusable=false
         onLayout=onLayoutIcon
         styleName=[size, iconPosition]
         onPress=onIconPress
@@ -175,7 +175,7 @@ function TextInputInput ({
         )
     if secondaryIcon
       Div.input-icon(
-        accessible=false
+        focusable=false
         onLayout=onLayoutIcon
         styleName=[size, getOppositePosition(iconPosition)]
         onPress=onSecondaryIconPress

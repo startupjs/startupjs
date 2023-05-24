@@ -144,7 +144,7 @@ function Div ({
     if (isClickable) {
       const touchableProps = pick(props, PRESSABLE_PROPS)
       return pug`
-        TouchableWithoutFeedback(accessible=accessible ...touchableProps)
+        TouchableWithoutFeedback(focusable=accessible ...touchableProps)
           = children
       `
     } else {
