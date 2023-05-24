@@ -28,6 +28,21 @@
 ## [0.50.23](https://github.com/startupjs/startupjs/compare/v0.50.22...v0.50.23) (2023-05-18)
 
 
+### Features
+
+* fix vulnerabilities
+* refactoring mailgun to official library
+
+
+
+## [0.50.22](https://github.com/startupjs/startupjs/compare/v0.50.21...v0.50.22) (2023-05-16)
+
+
+### Features
+
+* **server:** add filters for `compression()` middleware
+
+
 
 ## [0.50.21](https://github.com/startupjs/startupjs/compare/v0.50.20...v0.50.21) (2023-05-11)
 
