@@ -1,3 +1,12 @@
+# [0.52.0](https://github.com/startupjs/startupjs/compare/v0.52.0-alpha.0...v0.52.0) (2023-05-26)
+
+
+### Bug Fixes
+
+* mdx components ([76cd91f](https://github.com/startupjs/startupjs/commit/76cd91f97bdcdbb962e377abcc216dfedb9cb6b7))
+
+
+
 # [0.52.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.51.0...v0.52.0-alpha.0) (2023-05-26)
 
 

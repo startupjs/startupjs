@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/orm",
   "type": "module",
-  "version": "0.51.0",
+  "version": "0.52.0",
   "description": "ORM system for Racer.js and ShareDB",
   "main": "lib/index.js",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@startupjs/cache": "^0.51.0",
+    "@startupjs/cache": "^0.52.0",
     "pluralize": "^8.0.0",
     "racer": "1.0.1"
   },
