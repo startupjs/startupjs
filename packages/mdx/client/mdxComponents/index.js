@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Image, Platform, ScrollView } from 'react-native'
+import { Image, ScrollView } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { $root, observer, useValue } from 'startupjs'
 import {
@@ -141,6 +141,16 @@ export default {
   `,
   pre: ({ children }) => children,
   code: observer(({ children, className, example }) => {
+    // TODO for the inline code
+    // return pug`
+    //   Span.inlineCodeWrapper
+    //   Span.inlineCodeSpacer &#160;
+    //   Span.inlineCode(style={
+    //     fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+    //   })= children
+    //   Span.inlineCodeSpacer &#160;
+    // `
+
     const language = (className || 'language-txt').replace(/language-/, '')
     const [open, setOpen] = useState(false)
     const [copyText, $copyText] = useValue('Copy code')
@@ -178,14 +188,6 @@ export default {
           Code(language=language)= children
     `
   }),
-  inlineCode: ({ children }) => pug`
-    Span.inlineCodeWrapper
-      Span.inlineCodeSpacer &#160;
-      Span.inlineCode(style={
-        fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-      })= children
-      Span.inlineCodeSpacer &#160;
-  `,
   hr: ({ children }) => pug`
     Divider(size='l')
   `,
@@ -211,28 +213,22 @@ export default {
   ol: ({ children }) => {
     const currentLevel = useContext(ListLevelContext)
     const nextLevel = currentLevel == null ? 0 : currentLevel + 1
+    const items = React.Children
+      .toArray(children)
+      .filter(child => child !== '\n')
+      .map((child, index) => React.cloneElement(child, { index }))
     return pug`
       ListLevelContext.Provider(value=nextLevel)
-        = React.Children.map(children, (child, index) => React.cloneElement(child, { index }))
+        = items
     `
   },
   li: ({ children, index }) => {
     const level = useContext(ListLevelContext)
-    let hasTextChild = false
-    children = React.Children.map(children, child => {
-      if (typeof child === 'string') {
-        hasTextChild = true
-      }
-      return child
-    })
     return pug`
       Row
         Span.listIndex= index == null ? '•' : getOrderedListMark(index, level)
         Div.listContent
-          if hasTextChild
-            P(size='l')= children
-          else
-            = children
+          = children
     `
   },
   table: ({ children }) => {

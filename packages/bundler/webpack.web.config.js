@@ -18,6 +18,7 @@ const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const webpack = require('webpack')
+const remarkGfm = require('remark-gfm')
 const DEFAULT_MODE = 'react-native'
 const PLUGINS = getPluginConfigs()
 
@@ -228,7 +229,11 @@ module.exports = function getConfig (env, {
           use: [
             { loader: 'babel-loader' },
             {
-              loader: '@mdx-js/loader'
+              loader: '@mdx-js/loader',
+              options: {
+                providerImportSource: '@startupjs/mdx/client/MDXProvider/index.js',
+                remarkPlugins: [remarkGfm]
+              }
             },
             {
               loader: require.resolve('./lib/mdxExamplesLoader.js')

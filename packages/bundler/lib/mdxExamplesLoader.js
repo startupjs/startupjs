@@ -5,11 +5,16 @@ const EXAMPLE_FLAGS = [
   'noscroll'
 ]
 
+const DEFAULT_MDX_RENDERER = `
+import React from 'react'
+import { observer as __observer } from 'startupjs'
+`
+
 module.exports = function mdxExamplesLoader (source) {
-  const observer = "import { observer as __observer } from 'startupjs'"
   // NOTE: Two line breaks prevent crashing docs without imports
   // when the text starts from the first line
-  return observer + '\n\n' + source.replace(REGEX, replacer).replace(PURE_REGEX, pureReplacer)
+  return DEFAULT_MDX_RENDERER +
+    '\n' + source.replace(REGEX, replacer).replace(PURE_REGEX, pureReplacer)
 }
 
 function replacer (match, p1, p2, p3) {

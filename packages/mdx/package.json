@@ -7,7 +7,7 @@
   "version": "0.51.0",
   "main": "index.js",
   "dependencies": {
-    "@mdx-js/react": "~1.5.8",
+    "@mdx-js/react": "~2.3.0",
     "@startupjs/scrollable-anchors": "^0.51.0",
     "@startupjs/ui": "^0.51.0",
     "refractor": "^3.0.0"
