@@ -1,3 +1,12 @@
+# [0.52.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.51.0...v0.52.0-alpha.0) (2023-05-26)
+
+
+### Features
+
+* **mdx:** update @mdx-js/* packages from v1 to v3 ([6a25104](https://github.com/startupjs/startupjs/commit/6a251044f41c0ada320c4c6a044170f764c51158))
+
+
+
 # [0.51.0](https://github.com/startupjs/startupjs/compare/v0.50.26...v0.51.0) (2022-05-24)
 
 **No** breaking changes
