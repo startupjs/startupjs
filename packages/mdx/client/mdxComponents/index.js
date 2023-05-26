@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Image, ScrollView } from 'react-native'
+import { Image, ScrollView, Platform } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { $root, observer, useValue } from 'startupjs'
 import {
@@ -33,6 +33,7 @@ import Code from '../Code'
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
 const BlockquoteContext = React.createContext()
+const PreContext = React.createContext()
 
 function getOrderedListMark (index, level) {
   switch (level) {
@@ -43,9 +44,9 @@ function getOrderedListMark (index, level) {
   }
 }
 
-function P ({ style, children }) {
+function P (props) {
   return pug`
-    Span.p(style=style)= children
+    Span.p(style=props.style ...props)
   `
 }
 
@@ -86,24 +87,6 @@ function MDXAnchor ({
 }
 
 export default {
-  wrapper: ({ children }) => pug`
-    Div= children
-  `,
-  section: ({ children, ...props }) => {
-    const Wrapper = props.noscroll
-      ? ({ children }) => pug`
-        Div.example.padding= children
-      `
-      : ({ children }) => pug`
-        ScrollView.example(
-          contentContainerStyleName=['exampleContent', 'padding']
-          horizontal
-        )= children
-      `
-    return pug`
-      Wrapper= children
-    `
-  },
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
@@ -115,15 +98,15 @@ export default {
     Div.divider
   `,
   h3: ({ children }) => pug`
-    MDXAnchor.h6(anchor=getTextChildren(children) size='s')
-      H6(bold)= children
+    MDXAnchor.h3(anchor=getTextChildren(children) size='s')
+      H6.h3-text(bold)= children
   `,
+  h4: P,
+  h5: P,
+  h6: P,
   p: ({ children }) => {
     const inBlockquote = useContext(BlockquoteContext)
-    // TODO: HACK: Image does not work as need in Text on Android and IOS.
-    // Check after the release of react-native v0.64 with this commit
-    // https://github.com/facebook/react-native/commit/a0268a7bfc8000b5297d2b50f81e000d1f479c76
-    if (children?.props?.mdxType === 'img') return children
+
     if (inBlockquote) {
       return pug`
         Span.blockquoteP= children
@@ -134,68 +117,14 @@ export default {
     `
   },
   strong: ({ children }) => pug`
-    Span.p(bold)= children
+    P(bold)= children
   `,
   em: ({ children }) => pug`
-    Span.p(italic)= children
+    P(italic)= children
   `,
-  pre: ({ children }) => children,
-  code: observer(({ children, className, example }) => {
-    // TODO for the inline code
-    // return pug`
-    //   Span.inlineCodeWrapper
-    //   Span.inlineCodeSpacer &#160;
-    //   Span.inlineCode(style={
-    //     fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-    //   })= children
-    //   Span.inlineCodeSpacer &#160;
-    // `
-
-    const language = (className || 'language-txt').replace(/language-/, '')
-    const [open, setOpen] = useState(false)
-    const [copyText, $copyText] = useValue('Copy code')
-
-    function copyHandler () {
-      Clipboard.setString(children)
-      $copyText.set('Copied')
-    }
-
-    function onMouseEnter () {
-      // we need to reutrn default text if it was copied
-      $copyText.setDiff('Copy code')
-    }
-
-    return pug`
-      Div.code(styleName={ 'code-example': example })
-        if example
-          Collapse.code-collapse(open=open variant='pure')
-            Collapse.Header.code-collapse-header(icon=false onPress=null)
-              Row.code-actions(align='right')
-                Div.code-action(
-                  tooltip=open ? 'Hide code' : 'Show code'
-                  onPress=()=> setOpen(!open)
-                )
-                  Icon.code-action-collapse(icon=faCode color='error')
-                Div.code-action(
-                  tooltip=copyText
-                  onPress=copyHandler
-                  onMouseEnter=onMouseEnter
-                )
-                  Icon.code-action-copy(icon=faCopy)
-            Collapse.Content.code-collapse-content
-              Code(language=language)= children
-        else
-          Code(language=language)= children
-    `
-  }),
   hr: ({ children }) => pug`
     Divider(size='l')
   `,
-  // TODO: https://mdxjs.com/getting-started#table-of-components
-  //       Mock everything as P for now.
-  h4: P,
-  h5: P,
-  h6: P,
   center: ({ children }) => {
     return pug`
       P.center= children
@@ -203,34 +132,6 @@ export default {
   },
   br: Br,
   thematicBreak: P,
-  blockquote: ({ children }) => {
-    return pug`
-      BlockquoteContext.Provider(value=true)
-        Alert.alert= children
-    `
-  },
-  ul: ({ children }) => children,
-  ol: ({ children }) => {
-    const currentLevel = useContext(ListLevelContext)
-    const nextLevel = currentLevel == null ? 0 : currentLevel + 1
-    const items = React.Children
-      .toArray(children)
-      .filter(child => child !== '\n')
-      .map((child, index) => React.cloneElement(child, { index }))
-    return pug`
-      ListLevelContext.Provider(value=nextLevel)
-        = items
-    `
-  },
-  li: ({ children, index }) => {
-    const level = useContext(ListLevelContext)
-    return pug`
-      Row
-        Span.listIndex= index == null ? '•' : getOrderedListMark(index, level)
-        Div.listContent
-          = children
-    `
-  },
   table: ({ children }) => {
     return pug`
       Table(style={ marginTop: 16 })= children
@@ -261,15 +162,56 @@ export default {
       )= children
     `
   },
+  ul: ({ children }) => children,
+  ol: ({ children }) => {
+    const currentLevel = useContext(ListLevelContext)
+    const nextLevel = currentLevel == null ? 0 : currentLevel + 1
+    const filteredChildren = React.Children
+      .toArray(children)
+      .filter(child => child !== '\n')
+      .map((child, index) => React.cloneElement(child, { index }))
+    return pug`
+      ListLevelContext.Provider(value=nextLevel)
+        Div
+          = filteredChildren
+    `
+  },
+  li: ({ children, index }) => {
+    const level = useContext(ListLevelContext)
+    const listIndex = index == null ? '•' : getOrderedListMark(index, level)
+    let hasTextChild = false
+    children = React.Children
+      .toArray(children)
+      .filter(child => child !== '\n')
+      .map(child => {
+        if (typeof child === 'string') {
+          hasTextChild = true
+        }
+        return child
+      })
+    return pug`
+      Row
+        Span.listIndex= listIndex
+        Div.listContent
+          if hasTextChild
+            P(size='l')= children
+          else
+            = children
+    `
+  },
+  blockquote: ({ children }) => {
+    return pug`
+      BlockquoteContext.Provider(value=true)
+        Alert.alert= children
+    `
+  },
   img: ({ src }) => {
-    let _src = src
     const [style, setStyle] = useState({})
-
-    const isUrl = /^(http|https):\/\//.test(_src)
-    const isLocalUrl = /^\//.test(_src)
+    const isUrl = /^(http|https):\/\//.test(src)
+    const isLocalUrl = /^\//.test(src)
 
     if (isLocalUrl) {
-      _src = BASE_URL + _src
+      src = BASE_URL + src
     } else if (!isUrl) {
       console.warn('[@startupjs/mdx] Need to provide the url for the image')
       return null
@@ -277,7 +219,7 @@ export default {
 
     function onLayout (e) {
       const maxWidth = e.nativeEvent.layout.width
-      Image.getSize(_src, (width, height) => {
+      Image.getSize(src, (width, height) => {
         const coefficient = maxWidth / width
         setStyle({
           width: Math.min(width, maxWidth),
@@ -287,10 +229,89 @@ export default {
       error => console.warn(`[@startupjs/mdx], ${error}`)
       )
     }
+    return pug`
+      Div.img(onLayout=onLayout)
+        Image(style=style source={ uri: src })
+    `
+  },
+  section: ({ children, noscroll }) => {
+    const Wrapper = noscroll
+      ? ({ children }) => pug`
+        Div.example.padding= children
+      `
+      : ({ children }) => pug`
+        ScrollView.example(
+          contentContainerStyleName=['exampleContent', 'padding']
+          horizontal
+        )= children
+      `
 
     return pug`
-      Row.p(onLayout=onLayout)
-        Image(style=style source={ uri: _src })
+      Wrapper= children
     `
-  }
+  },
+  pre: ({ children }) => {
+    return pug`
+      PreContext.Provider(value=true)
+        = children
+    `
+  },
+  code: observer(({ children, className, ...props }) => {
+    const isBlockCode = useContext(PreContext)
+
+    if (!isBlockCode) {
+      return pug`
+        Span.inlineCodeWrapper
+          Span.inlineCodeSpacer &#160;
+          Span.inlineCode(style={
+            fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+          })= children
+          Span.inlineCodeSpacer &#160;
+      `
+    }
+
+    const language = (className || 'language-txt').replace(/language-/, '')
+    const [open, setOpen] = useState(false)
+    const [copyText, $copyText] = useValue('Copy code')
+
+    function copyHandler () {
+      Clipboard.setString(children)
+      $copyText.set('Copied')
+    }
+
+    function onMouseEnter () {
+      // we need to reutrn default text if it was copied
+      $copyText.setDiff('Copy code')
+    }
+
+    let example
+
+    if (typeof children === 'string' && children.includes('[HACK EXAMPLE CODE]')) {
+      children = children.replace('[HACK EXAMPLE CODE]', '')
+      example = true
+    }
+
+    return pug`
+      Div.code(styleName={ 'code-example': example })
+        if example
+          Collapse.code-collapse(open=open variant='pure')
+            Collapse.Header.code-collapse-header(icon=false onPress=null)
+              Row.code-actions(align='right')
+                Div.code-action(
+                  tooltip=open ? 'Hide code' : 'Show code'
+                  onPress=()=> setOpen(!open)
+                )
+                  Icon.code-action-collapse(icon=faCode color='error')
+                Div.code-action(
+                  tooltip=copyText
+                  onPress=copyHandler
+                  onMouseEnter=onMouseEnter
+                )
+                  Icon.code-action-copy(icon=faCopy)
+            Collapse.Content.code-collapse-content
+              Code(language=language)= children
+        else
+          Code(language=language)= children
+    `
+  })
 }
