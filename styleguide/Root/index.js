@@ -27,6 +27,7 @@ import docs from '../docs'
 // FIXME: i18n library conflicts with docs library '_session.lang'
 // import i18n, { useI18nGlobalInit } from '../i18n'
 import * as main from '../main'
+import emoticons from '../../packages/plugin/readme/emoticons'
 
 // Override default styles
 import UI_STYLE_OVERRIDES from './uiOverrides.styl'
@@ -41,10 +42,10 @@ init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
   '@startupjs/app': [
-    [
-      uiAppPlugin,
-      { defaultEnable: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }
-    ]
+    [uiAppPlugin, { defaultEnabled: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }]
+  ],
+  pluginsPackageModuleExample: [
+    [emoticons, { size: 20 }]
   ]
 })
 
@@ -69,4 +70,4 @@ export default observer(() => {
 })
 
 // HACK. Described above. Prevent tree shaking from removing the parsePropTypes import
-;(() => parsePropTypes)()
+if (parsePropTypes) (() => {})()

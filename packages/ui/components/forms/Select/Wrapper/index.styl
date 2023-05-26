@@ -1,7 +1,6 @@
-$bottomBg = #d0d4da
-$middleBg = #f8f8f8
-$border = #dedede
-$done = #007aff
+$grayBlue = #d0d4da
+$whiteGray = #f8f8f8
+$grayLight = #dedede
 
 .root
   position relative
@@ -19,6 +18,7 @@ $done = #007aff
   opacity 0
   padding 0
   margin 0
+
   +web()
     appearance none
     border-width 0
@@ -33,16 +33,15 @@ $done = #007aff
   align-items center
   padding-right 2u
   justify-content flex-end
-  background-color $middleBg
+  background-color $whiteGray
   border-top-width 1px
-  border-top-color $border
+  border-top-color $grayLight
 
 .modalBottom
   justify-content center
-  background-color $bottomBg
+  background-color $grayBlue
 
 .done
-  color $done
+  color $UI.colors.primary
   fontFamily('normal', 600)
-  font-size 16px
-  line-height 16px
+  font(body1)

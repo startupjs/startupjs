@@ -1,18 +1,15 @@
 const { getPluginConfigs } = require('@startupjs/plugin/manager.cjs')
+const { getLocalIdent } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const pickBy = require('lodash/pickBy')
-const pick = require('lodash/pick')
 const fs = require('fs')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const { LOCAL_IDENT_NAME } = require('babel-preset-startupjs/constants')
 const autoprefixer = require('autoprefixer')
-const VERBOSE = process.env.VERBOSE
 const DEV_PORT = ~~process.env.DEV_PORT || 3010
 const PROD = !process.env.WEBPACK_DEV
 const STYLES_PATH = path.join(process.cwd(), '/styles/index.styl')
@@ -21,7 +18,7 @@ const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const webpack = require('webpack')
-const { getJsxRule } = require('./helpers')
+const remarkGfm = require('remark-gfm')
 const DEFAULT_MODE = 'react-native'
 const PLUGINS = getPluginConfigs()
 
@@ -37,7 +34,8 @@ const DEFAULT_ALIAS = {
   // fix warning requiring './locale': https://github.com/moment/moment/issues/1435
   moment$: 'moment/moment.js',
   'react-native': 'react-native-web',
-  'react-router-native': 'react-router-dom'
+  'react-router-native': 'react-router-dom',
+  '@fortawesome/react-native-fontawesome': '@fortawesome/react-fontawesome'
 }
 
 let DEFAULT_ENTRIES = [
@@ -62,19 +60,48 @@ module.exports = function getConfig (env, {
   forceCompileModules = forceCompileModules
     .concat(getPluginsForceCompileList())
 
+  /**
+   * path.normalize needs because webpack for Windows doesn't accept paths in
+   * *nix format (with slash delemeter) in the include section.
+   * .replace(/\\/g, '\\\\') needs for masking backslash in Windows-style paths
+   * in the regular expression
+   */
+  const forceCompileModulesExpression = new RegExp(`${
+      path.normalize('node_modules/')
+    }(?:react-native-(?!web)|${
+      forceCompileModules.map(v => path.normalize(v)).join('|')
+    })`.replace(/\\/g, '\\\\')
+  )
+
   return pickBy({
     mode: PROD ? 'production' : 'development',
     entry: {
       [BUNDLE_NAME]: DEFAULT_ENTRIES.concat(['./index.web.js'])
     },
+    cache: !PROD && {
+      type: 'filesystem',
+      memoryCacheUnaffected: true,
+      compression: 'brotli'
+    },
+    snapshot: !PROD && {
+      // By default it's ['./node_modules'] which prevents us from updating
+      // node_modules directly. We do it pretty often though, so that's why
+      // we override managedPaths to an empty array here.
+      //
+      // TODO: Think whether it makes more sense to have node_modules
+      //       be ignored by default but provide an additional option
+      //       when you don't want to ignore them.
+      managedPaths: []
+    },
+    experiments: !PROD && {
+      cacheUnaffected: true
+    },
     optimization: (PROD || ASYNC) && pickBy({
       minimizer: PROD && [
         new TerserPlugin({
-          cache: false,
-          parallel: true,
-          sourceMap: false // set to true if you want JS source maps
+          parallel: true
         }),
-        new OptimizeCSSAssetsPlugin({})
+        new CssMinimizerPlugin()
       ],
       splitChunks: ASYNC && {
         maxInitialRequests: Infinity,
@@ -108,7 +135,12 @@ module.exports = function getConfig (env, {
             name (module) {
               // get the name. E.g. node_modules/packageName/not/this/part.js
               // or node_modules/packageName
-              const packageName = module.context.match(/[\\/]node_modules[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              let packageName
+              try {
+                packageName = module.context.match(/[\\/]node_modules[\\/](@[^\\/]+[\\/][^\\/]+|[^@\\/]+)([\\/]|$)/)[1]
+              } catch (err) {
+                packageName = 'not_found'
+              }
               // npm package names are URL-safe, but some servers don't like @ symbols
               return `npm.${packageName.replace('@', '').replace(/[\\/]/, '_')}`
             }
@@ -142,7 +174,9 @@ module.exports = function getConfig (env, {
       }
     }, Boolean),
     plugins: [
-      !VERBOSE && !PROD && new FriendlyErrorsWebpackPlugin(),
+      // TODO: Reenable progress plugin if the following issue gets fixed:
+      //       https://github.com/open-cli-tools/concurrently/issues/85
+      // new webpack.ProgressPlugin(),
       new MomentLocalesPlugin(), // strip all locales except 'en'
       !PROD && new ReactRefreshWebpackPlugin({ forceEnable: true, overlay: { sockPort: DEV_PORT } }),
       PROD && new MiniCssExtractPlugin({
@@ -154,11 +188,12 @@ module.exports = function getConfig (env, {
         fullPath: false,
         path: BUILD_PATH
       }),
-      new ProgressBarPlugin({
-        format: '\u001b[1m\u001b[32m:percent\u001b[0m (:elapsed seconds)'
-      }),
       new webpack.DefinePlugin({
-        __DEV__: !PROD
+        __DEV__: !PROD,
+        global: 'window'
+      }),
+      new webpack.ProvidePlugin({
+        process: 'process/browser.js'
       })
     ].filter(Boolean),
     output: {
@@ -169,35 +204,36 @@ module.exports = function getConfig (env, {
     module: {
       rules: [
         {
-          test: getJsxRule().test,
+          test: /\.[mc]?[jt]sx?$/,
+          resolve: {
+            fullySpecified: false
+          },
           exclude: /node_modules/,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
-            {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            }
+            { loader: 'babel-loader' }
           ]
         },
         {
-          test: getJsxRule().test,
-          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
+          test: /\.[mc]?[jt]sx?$/,
+          resolve: {
+            fullySpecified: false
+          },
+          include: forceCompileModulesExpression,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
-            {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            }
+            { loader: 'babel-loader' }
           ]
         },
         {
           test: /\.mdx?$/,
           exclude: /node_modules/,
           use: [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
-              loader: require.resolve('./lib/replaceObserverLoader.js')
-            },
-            {
-              loader: '@mdx-js/loader'
+              loader: '@mdx-js/loader',
+              options: {
+                providerImportSource: '@startupjs/mdx/client/MDXProvider/index.js',
+                remarkPlugins: [remarkGfm]
+              }
             },
             {
               loader: require.resolve('./lib/mdxExamplesLoader.js')
@@ -212,6 +248,8 @@ module.exports = function getConfig (env, {
             }
           ]
         },
+        // TODO
+        // https://webpack.js.org/guides/asset-modules/
         {
           test: /\.(jpg|png)$/,
           use: {
@@ -231,28 +269,35 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                localIdentName: LOCAL_IDENT_NAME
+                url: false, // NOTE can remove when change file loader to https://webpack.js.org/guides/asset-modules/
+                modules: {
+                  getLocalIdent,
+                  localIdentName: LOCAL_IDENT_NAME
+                }
               }
             },
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [autoprefixer]
+                postcssOptions: {
+                  plugins: [autoprefixer]
+                }
               }
             },
             {
               loader: 'stylus-loader',
               options: {
-                use: [],
-                import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
-                define: {
-                  __WEB__: true
+                stylusOptions: {
+                  use: [],
+                  import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
+                  define: {
+                    __WEB__: true
+                  }
                 }
               }
             }
           ] : [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             },
@@ -274,12 +319,14 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                localIdentName: LOCAL_IDENT_NAME
+                modules: {
+                  getLocalIdent,
+                  localIdentName: LOCAL_IDENT_NAME
+                }
               }
             }
           ] : [
-            pick(getJsxRule(), ['loader', 'options']),
+            { loader: 'babel-loader' },
             {
               loader: require.resolve('./lib/cssToReactNativeLoader.js')
             }
@@ -303,7 +350,8 @@ module.exports = function getConfig (env, {
     resolve: {
       alias: {
         ...DEFAULT_ALIAS,
-        ...alias
+        ...alias,
+        process: 'process/browser.js'
       },
       extensions: EXTENSIONS,
       mainFields: ['jsnext:main', 'browser', 'main']
@@ -315,7 +363,9 @@ module.exports = function getConfig (env, {
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-      publicPath: '/build/client/'
+      devMiddleware: {
+        publicPath: '/build/client/'
+      }
     }
   }, Boolean)
 }

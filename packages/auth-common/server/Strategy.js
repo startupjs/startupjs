@@ -29,7 +29,7 @@ function validateConfigs ({
 }
 
 export default function (config = {}) {
-  return ({ model, router, updateClientSession, authConfig }) => {
+  const func = ({ router, updateClientSession, authConfig }) => {
     Object.assign(config, {
       ...authConfig
       // Any defaults....
@@ -48,6 +48,9 @@ export default function (config = {}) {
 
     initRoutes({ router, config })
 
+    // Append required configs to client session
+    updateClientSession({ [providerName]: { clientId } })
+
     console.log('++++++++++ Initialization of Common auth strategy ' +
     `for ${providerName} ++++++++++\n`)
 
@@ -63,6 +66,7 @@ export default function (config = {}) {
       let userId, err
 
       try {
+        const model = req.model
         const provider = new Provider(model, profile, config)
         userId = await provider.findOrCreateUser({ req })
       } catch (e) {
@@ -90,4 +94,7 @@ export default function (config = {}) {
 
     passport.use(providerName, strategy)
   }
+
+  func.providerName = config.providerName
+  return func
 }

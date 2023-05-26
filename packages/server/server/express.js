@@ -4,14 +4,12 @@ const _defaults = require('lodash/defaults')
 const _cloneDeep = require('lodash/cloneDeep')
 const conf = require('nconf')
 const express = require('express')
-const fs = require('fs')
 const expressSession = require('express-session')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const MongoStore = require('connect-mongo')
-const racerHighway = require('racer-highway')
 const hsts = require('hsts')
 const cors = require('cors')
 const m = registry.getModule('startupjs')
@@ -29,34 +27,26 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, appRoutes, error, options, done) => {
-  const mongoUrl = conf.get('MONGO_URL')
+module.exports = (backend, mongoClient, appRoutes, error, options) => {
+  const connectMongoOptions = { client: mongoClient }
 
-  const connectMongoOptions = { mongoUrl }
   if (options.sessionMaxAge) {
     connectMongoOptions.touchAfter = options.sessionUpdateInterval ||
         getDefaultSessionUpdateInterval(options.sessionMaxAge)
   }
-  if (process.env.MONGO_SSL_CERT_PATH && process.env.MONGO_SSL_KEY_PATH) {
-    const sslCert = fs.readFileSync(process.env.MONGO_SSL_CERT_PATH)
-    const sslKey = fs.readFileSync(process.env.MONGO_SSL_KEY_PATH)
-    connectMongoOptions.mongoOptions = {
-      server: {
-        sslValidate: false,
-        sslKey: sslKey,
-        sslCert: sslCert
-      }
-    }
-  }
 
-  const sessionStore = MongoStore.create(connectMongoOptions)
+  let sessionStore
+  if (conf.get('MONGO_URL') && !conf.get('NO_MONGO')) {
+    sessionStore = MongoStore.create(connectMongoOptions)
+  }
 
   const session = expressSession({
     secret: conf.get('SESSION_SECRET'),
     store: sessionStore,
     cookie: {
       maxAge: options.sessionMaxAge || DEFAULT_SESSION_MAX_AGE,
-      secure: options.cookiesSecure || false
+      secure: options.cookiesSecure || false,
+      sameSite: options.sameSite
     },
     saveUninitialized: true,
     resave: false,
@@ -65,22 +55,26 @@ module.exports = (backend, appRoutes, error, options, done) => {
     rolling: !!options.sessionMaxAge
   })
 
-  const clientOptions = {
-    timeout: 5000,
-    timeoutIncrement: 8000
-  }
-  const hwHandlers = racerHighway(backend, { session }, clientOptions)
-
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
-  if (FORCE_HTTPS) expressApp.enable('trust proxy')
+  if (FORCE_HTTPS || options.trustProxy) expressApp.enable('trust proxy')
 
   // ----------------------------------------------------->    logs    <#
   options.ee.emit('logs', expressApp)
 
+  function shouldCompress (req, res) {
+    if (req.headers['x-no-compression']) {
+      // don't compress responses with this request header
+      return false
+    }
+
+    // fallback to standard filter function
+    return compression.filter(req, res)
+  }
+
   expressApp
-    .use(compression())
+    .use(compression({ filter: shouldCompress }))
     .use('/healthcheck', (req, res) => res.status(200).send('OK'))
 
   if (FORCE_HTTPS) {
@@ -154,8 +148,6 @@ module.exports = (backend, appRoutes, error, options, done) => {
     next()
   })
 
-  expressApp.use(hwHandlers.middleware)
-
   // ----------------------------------------------------->    middleware    <#
   options.ee.emit('middleware', expressApp)
   m.hook('middleware', expressApp)
@@ -177,11 +169,7 @@ module.exports = (backend, appRoutes, error, options, done) => {
     })
     .use(error)
 
-  done({
-    expressApp: expressApp,
-    upgrade: hwHandlers.upgrade,
-    wss: hwHandlers.wss
-  })
+  return { expressApp, session }
 }
 
 function getBodyParserOptionsByType (type, options = {}) {

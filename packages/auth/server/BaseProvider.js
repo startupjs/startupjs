@@ -1,3 +1,5 @@
+import { auth } from './'
+
 export default class BaseProvider {
   constructor ($root, profile, options) {
     this.$root = $root
@@ -5,38 +7,50 @@ export default class BaseProvider {
     this.options = options || {}
   }
 
-  getFindUserQuery () {
-    const email = this.getEmail()
-
-    return {
+  async getFindUserQuery () {
+    // Generally we don't need an provider id to perform auth
+    // auth proces depends on provider.email field only
+    // but earlier implementation of auth lib used provideer.id in local strategy
+    // Those lines is added only for backward compabilities reasons
+    const query = {
       $or: [
-        {
-          [`providers.${this.getProviderName()}.email`]: email
-        },
-        // Generally we don't need an provider id to perform auth
-        // auth proces depends on provider.email field only
-        // but earlier implementation of auth lib used provideer.id in local strategy
-        // Those lines is added only for backward compabilities reasons
-        {
-          [`providers.${this.getProviderName()}.id`]: this.getProviderId()
-        },
-        { email }
+        { [`providers.${this.getProviderName()}.id`]: this.getProviderId() }
       ]
     }
+
+    // We can't use $where because of it supports in mongodb < 4.4
+    // and can't use $function because of it supports in mongodb > 4.4
+    // use $function when all our libraries use mongodb > 4.4
+    const email = this.getEmail()
+
+    if (email) {
+      auth.config.strategies.forEach(func => {
+        query.$or.push({
+          [`providers.${func.providerName}.email`]: this.getEmail()
+        })
+      })
+    }
+
+    return query
   }
 
   async findOrCreateUser ({ req }) {
     const { $root } = this
 
-    const providerName = this.getProviderName()
-    const $auths = $root.query('auths', this.getFindUserQuery())
-    await $auths.fetchAsync()
+    let findUserQuery = await this.getFindUserQuery()
+    if (this.options.patchFindUserQuery) {
+      findUserQuery = this.options.patchFindUserQuery(findUserQuery, req)
+    }
+    const $auths = $root.query('auths', findUserQuery)
+    await $auths.fetch()
 
     let userId = $auths.getIds()[0]
 
     if (userId) {
       const $auth = $root.scope('auths.' + userId)
       const providers = $auth.get('providers') || {}
+      const providerName = this.getProviderName()
+
       if (!providers[providerName]) {
         await $auth.set(
           'providers.' + providerName,
@@ -75,7 +89,8 @@ export default class BaseProvider {
       id: userId,
       email: this.getEmail(),
       createdAt: Date.now(),
-      ...this.getAuthData()
+      ...this.getAuthData(),
+      ...(this.options.getCreationAuthData ? this.options.getCreationAuthData(req) : {})
     }
 
     await $root.addAsync('auths', authData)

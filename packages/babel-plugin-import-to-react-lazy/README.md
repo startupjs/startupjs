@@ -5,6 +5,7 @@ Transforms exported default import to React.lazy dynamic import.
 ## Example
 
 ```jsx
+/* @asyncImports */
 export { default as PHome } from './PHome'
 ```
 

@@ -50,7 +50,10 @@ initAuth(ee, {
 1 - В **Firebase** на главной странице проекта добавить Android приложение
 2 - Валидное название пакета в - `android/app/src/main/java/com/auth/MainActivity.java`, первой строчкой - package НАЗВАНИЕ_ПАКЕТА
 3 - Скачать **google-services.json**, закинуть в папку - `android/app`
-4 - Нужно сгенерировать ключи - `keytool -list -v -keystore ./android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android` (вызвать из главной папки)
+4 - Нужно сгенерировать ключи (вызвать из главной папки):
+
+keytool -list -v -keystore ./android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
 5 - Далее в настройки Firebase проекта, клик по шестеренке - **"Настройки проекта"**
 6 - Для приложения адроид есть кнопка добавить **"Добавить контрольную сумму"**, клик на нее, откроется поле для ввода сгенерированных ключей, вводим SHA1 и SHA256
 

@@ -9,8 +9,7 @@ import './index.styl'
 function ModalContent ({
   style,
   children,
-  ContentComponent = ScrollView,
-  variant // @private
+  ContentComponent
 }) {
   const content = React.Children.map(children, (child, index) => {
     if (typeof child === 'string') {
@@ -21,8 +20,15 @@ function ModalContent ({
     return child
   })
 
+  const extraProps = {}
+
+  if (!ContentComponent) ContentComponent = ScrollView
+
   return pug`
-    ContentComponent.root(styleName=[variant])= content
+    ContentComponent.root(
+      style=style
+      ...extraProps
+    )= content
   `
 }
 
@@ -34,4 +40,4 @@ ModalContent.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(ModalContent))
+export default observer(themed('ModalContent', ModalContent))

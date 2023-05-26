@@ -42,9 +42,9 @@ return (
 )
 ```
 
-## Размеры
+## Sizes
 
-The `size` property applies to the size of tag, icons, and text. There are two sizes - `m` and` l` (default is `m`).
+The `size` property applies to the size of tag, icons, and text. There are two sizes - `m` and` s` (default is `m`).
 
 ```jsx example
 return (
@@ -135,4 +135,15 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Tag} />
+<Sandbox
+  Component={Tag}
+  extraParams={{
+    icon: { showIconSelect: true },
+    secondaryIcon: { showIconSelect: true }
+  }}
+  props={{
+    children: 'Hello world!',
+    onPress: () => alert('"onPress" event on Tag component'),
+    onLongPress: () => alert('"onLongPress" event on Tag component'),
+  }}
+/>

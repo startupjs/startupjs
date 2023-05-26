@@ -13,22 +13,24 @@ const CodePushComponent = codePush(codePushOptions)(function CodePush ({
   const [appStateStore, setAppStateStore] = useState('')
   const [progress, setProgress] = useState()
 
-  useEffect(() => {
+  useEffect(function () {
     checkForUpdate()
+
+    function handleAppStateChange (nextAppState) {
+      if (
+        appStateStore.match(/inactive|background/) && nextAppState === 'active'
+      ) {
+        checkForUpdate()
+      }
+      setAppStateStore(nextAppState)
+    }
+
     AppState.addEventListener('change', handleAppStateChange)
+
     return () => {
       AppState.removeEventListener('change', handleAppStateChange)
     }
   }, [])
-
-  function handleAppStateChange (nextAppState) {
-    if (
-      appStateStore.match(/inactive|background/) && nextAppState === 'active'
-    ) {
-      checkForUpdate()
-    }
-    setAppStateStore(nextAppState)
-  }
 
   function codePushStatusDidChange (syncStatus) {
     switch (syncStatus) {

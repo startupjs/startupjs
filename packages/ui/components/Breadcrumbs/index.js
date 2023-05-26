@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { colorToRGBA } from '../../helpers'
+import colorToRGBA from '../../helpers/colorToRGBA'
 import Link from './../Link'
 import Row from '../Row'
 import Div from '../Div'
@@ -86,4 +86,4 @@ Breadcrumbs.propTypes = {
   replace: PropTypes.bool
 }
 
-export default observer(themed(Breadcrumbs))
+export default observer(themed('Breadcrumbs', Breadcrumbs))

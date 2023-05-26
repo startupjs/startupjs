@@ -1,14 +1,16 @@
-export default async function createPasswordResetSecret ({ model, email }) {
-  const $auths = model.query('auths', { 'providers.local.email': email })
-  await $auths.fetch()
+import Provider from '../Provider'
 
-  const auth = $auths.get()[0]
+export default async function createPasswordResetSecret ({ model, email, config }) {
+  const provider = new Provider(model, { email }, config)
+  const auth = await provider.loadAuthData()
 
+  // Check if user exists in auths collection
   if (!auth) {
-    throw new Error('User not found')
+    throw new Error('User is not found')
   }
 
   const $auth = model.scope('auths.' + auth.id)
+  await $auth.fetch()
   const $local = $auth.at('providers.local')
 
   // Generate secret as uuid
@@ -19,9 +21,7 @@ export default async function createPasswordResetSecret ({ model, email }) {
     timestamp: +new Date()
   }
 
-  await $local.setAsync('passwordResetMeta', passwordResetMeta)
-
-  model.unfetch($auth)
+  await $local.set('passwordResetMeta', passwordResetMeta)
 
   return secret
 }

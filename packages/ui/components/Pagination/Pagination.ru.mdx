@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useValue } from 'startupjs'
+import { $root, useValue } from 'startupjs'
 import Pagination from '../Pagination'
 import Row from '../Row'
 import { Sandbox } from '@startupjs/docs'
@@ -51,7 +51,7 @@ return (
       count={COUNT}
       limit={LIMIT}
       skip={skip}
-      onChangePagePage={(val) => setSkip(val * LIMIT)}
+      onChangePage={(val) => setSkip(val * LIMIT)}
     />
   </Row>
 )
@@ -155,4 +155,11 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Pagination} />
+<Sandbox
+  Component={Pagination}
+  props={{
+    page: $root.get('_session.Props.Pagination.page'),
+    onChangePage: page => $root.set('_session.Props.Pagination.page', page)
+  }}
+  $props={$root.scope('_session.Props.Pagination')}
+/>

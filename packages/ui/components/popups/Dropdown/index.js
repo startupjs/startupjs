@@ -15,9 +15,11 @@ import DropdownItem from './components/Item'
 import { useKeyboard } from './helpers'
 import Drawer from '../Drawer'
 import Popover from '../Popover'
-import { PLACEMENTS_ORDER } from '../Popover/constants'
+import CONSTANTS from '../Popover/constants.json'
+import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
+const { PLACEMENTS_ORDER } = CONSTANTS
 const { UIManager } = NativeModules
 
 // TODO: key event change scroll
@@ -33,7 +35,9 @@ function Dropdown ({
   drawerVariant,
   drawerListTitle,
   drawerCancelLabel,
+  disabled,
   hasDrawer,
+  showDrawerResponder,
   onChange,
   onDismiss
 }, ref) {
@@ -164,7 +168,10 @@ function Dropdown ({
       )
         if caption
           Popover.Caption
-            TouchableOpacity(onPress=()=> $isShow.set(!isShow))
+            TouchableOpacity(
+              disabled=disabled
+              onPress=() => $isShow.set(!isShow)
+            )
               = caption
         = renderContent.current
     `
@@ -172,7 +179,10 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
+      TouchableOpacity.caption(
+        disabled=disabled
+        onPress=() => $isShow.set(!isShow)
+      )
         = caption
     Drawer(
       visible=isShow
@@ -181,6 +191,7 @@ function Dropdown ({
       styleName={ drawerReset: drawerVariant === 'buttons' }
       onDismiss=()=> $isShow.setDiff(false)
       onRequestOpen=onRequestOpen
+      showResponder=showDrawerResponder
     )
       View.dropdown(styleName=drawerVariant)
         if drawerVariant === 'list'
@@ -199,9 +210,7 @@ function Dropdown ({
   `
 }
 
-const ObservedDropdown = observer(Dropdown, { forwardRef: true })
-
-ObservedDropdown.defaultProps = {
+Dropdown.defaultProps = {
   style: [],
   position: 'bottom',
   attachment: 'start',
@@ -212,7 +221,7 @@ ObservedDropdown.defaultProps = {
   hasDrawer: true
 }
 
-ObservedDropdown.propTypes = {
+Dropdown.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeItemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -227,6 +236,12 @@ ObservedDropdown.propTypes = {
   onDismiss: PropTypes.func
 }
 
+const ObservedDropdown = observer(
+  themed('Dropdown', Dropdown),
+  { forwardRef: true }
+)
+
 ObservedDropdown.Caption = DropdownCaption
 ObservedDropdown.Item = DropdownItem
+
 export default ObservedDropdown

@@ -19,7 +19,7 @@ Before use you need to configure [Portal](/docs/components/Portal)
 
 ## Simple example
 ```jsx example
-const [value, setValue] = useState({})
+const [value, setValue] = useState()
 
 const options = [
   { value: '1', label: 'Harry' },
@@ -44,7 +44,7 @@ return (
 - onChange: callback function, called after selecting a value, takes the selected value as the first parameter
 
 ```jsx example
-const [value, setValue] = useState({})
+const [value, setValue] = useState()
 
 const options = [
   { value: '1', label: 'Harry' },
@@ -71,7 +71,7 @@ return (
 - renderItem: a function that is called when rendering each element of the array. Gets 2 arguments - the current element (item) and its index.
 
 ```jsx example
-const [value, setValue] = useState({})
+const [value, setValue] = useState()
 
 const options = [
   { value: '1', label: 'Harry' },
@@ -96,7 +96,7 @@ const renderItem = (item, index, selectIndexValue)=> {
       vAlign='center'
       style={style}
     >
-      <Avatar size='xs'>{item.label}</Avatar>
+      <Avatar size='s'>{item.label}</Avatar>
       <Span style={{ marginLeft: 8 }}>{item.label}</Span>
     </Row>
   )

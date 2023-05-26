@@ -46,17 +46,29 @@ export default class LocalProvider extends BaseProvider {
   }
 
   getProviderData () {
-    const { hash, salt, unconfirmed } = this.profile
+    const { hash, salt, confirmationExpiresAt } = this.profile
     const data = {
       hash,
       salt,
       email: this.getEmail()
     }
-    if (unconfirmed) data.unconfirmed = true
+    if (confirmationExpiresAt) {
+      data.confirmationExpiresAt = confirmationExpiresAt
+    }
     return data
   }
 
   async loadAuthData () {
+    let data
+    if (this.options.loadAuthData) {
+      data = await this.options.loadAuthData.call(this)
+    } else {
+      data = await this._loadAuthData()
+    }
+    return data
+  }
+
+  async _loadAuthData () {
     const { $root } = this
     const authQuery = $root.query('auths', {
       $or: [

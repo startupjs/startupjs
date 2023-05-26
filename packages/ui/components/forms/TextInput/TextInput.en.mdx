@@ -27,20 +27,6 @@ return (
 )
 ```
 
-## Label
-
-```jsx example
-const [value, setValue] = useState()
-return (
-  <TextInput
-    label='Label'
-    placeholder='TextInput'
-    value={value}
-    onChangeText={setValue}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -57,8 +43,8 @@ return (
 ```jsx example
 return (
   <TextInput
-    readonly
     value='readonly'
+    readonly
   />
 )
 ```
@@ -75,21 +61,18 @@ return (
   <Div>
     <TextInput
       size='s'
-      label='Size s example'
       value={valueS}
       onChangeText={setValueS}
     />
     <Br />
     <TextInput
       size='m'
-      label='Size m (default) example'
       value={valueM}
       onChangeText={setValueM}
     />
     <Br />
     <TextInput
       size='l'
-      label='Size l example'
       value={valueL}
       onChangeText={setValueL}
     />
@@ -116,7 +99,6 @@ return (
       icon={faSearch}
       secondaryIcon={faTimesCircle}
       secondaryIconStyleName='icon'
-      label='Example icon left'
       value={valueLeft}
       onChangeText={setLeftValue}
       onSecondaryIconPress={() => setLeftValue()}
@@ -125,7 +107,6 @@ return (
     <TextInput
       icon={faTimesCircle}
       iconPosition='right'
-      label='Example icon right'
       value={valueRight}
       onChangeText={setRightValue}
       onIconPress={() => setRightValue()}
@@ -134,67 +115,50 @@ return (
 )
 ```
 
-## Multiline mode (textarea)
+## Number of lines
 
-The `multiline` property activates multiline mode.
-
-Properties that only work in multiline mode:
-- `numberOfLines` sets the number of visible lines
-- `resize` the textinput height will grow with content
+Pass `numberOfLines={number}` to set the number of lines.
 
 ```jsx example
 const [value, setValue] = useState()
+
 return (
   <TextInput
-    multiline
-    resize
-    numberOfLines={4}
-    label='Multiline example'
-    placeholder='Multiline placeholder'
+    placeholder='write here'
     value={value}
+    numberOfLines={4}
     onChangeText={setValue}
   />
 )
 ```
 
-## Layout
+## Dynamic number of lines
 
-There are two layouts. The default behavior is `rows` if `label` property provided and `pure` if not. To change the layout pass the property `layout`.
-
-- `pure` displays text input without `label`
-- `rows` displays text input with `label` and if `label` not set it using placeholder instead
+Pass `resize=true` to dynamically change number of lines according to content.
 
 ```jsx example
-const [pureValue, setPureValue] = useState()
-const [rowValueWithLabel, setRowValueWithLabelValue] = useState()
-const [rowValueWithoutLabel, setRowValueWithoutLabel] = useState()
+const [value, setValue] = useState()
+
 return (
-  <Div>
-    <TextInput
-      layout='pure'
-      label='Pure layout example'
-      placeholder='Pure layout placeholder'
-      value={pureValue}
-      onChangeText={setPureValue}
-    />
-    <Br />
-    <TextInput
-      label='Row layout bacause label provided'
-      placeholder='Row layout placeholder with label'
-      value={rowValueWithLabel}
-      onChangeText={setRowValueWithLabelValue}
-    />
-    <Br />
-    <TextInput
-      layout='rows'
-      placeholder='Row layout placeholder without label'
-      value={rowValueWithoutLabel}
-      onChangeText={setRowValueWithoutLabel}
-    />
-  </Div>
+  <TextInput
+    placeholder='write here'
+    value={value}
+    resize
+    onChangeText={setValue}
+  />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={TextInput} />
+<Sandbox
+  Component={TextInput}
+  extraParams={{
+    icon: { showIconSelect: true },
+    secondaryIcon: { showIconSelect: true }
+  }}
+  props={{
+    onIconPress: () => alert('"onIconPress" event on "TextInput" component'),
+  }}
+  block
+/>

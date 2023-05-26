@@ -12,11 +12,17 @@ import { useMedia } from 'startupjs/ui'
 
 ## Пример медиа-запроса
 
+Для теста нужно изменить ширину экрана, должна пропасть надпись "Home" из кнопки
+
 ```jsx example
 const media = useMedia()
 const props = {}
 if (media.tablet) props.children = 'Home'
 return (
-  <Button icon={faHome} {...props}/>
+  <Button
+    icon={faHome}
+    onPress={()=> alert('Для тестирования следуйте описанным инструкциям.')}
+    {...props}
+  />
 )
 ```

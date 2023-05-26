@@ -55,7 +55,7 @@ return (
   <Table styleName='table'>
     <Thead>
       <Tr>
-        <Th styleName='th'>Масштаб</Th>
+        <Th styleName='th'>Scale</Th>
         <Th styleName='th'>font-size</Th>
         <Th styleName='th'>line-height</Th>
       </Tr>
@@ -103,6 +103,11 @@ return (
         <Td styleName='td'>14px</Td>
         <Td styleName='td'>20px</Td>
       </Tr>
+      <Tr styleName='tr'>
+        <Td styleName='td'>caption</Td>
+        <Td styleName='td'>12px</Td>
+        <Td styleName='td'>16px</Td>
+      </Tr>
     </Tbody>
   </Table>
 )
@@ -115,9 +120,9 @@ The `$UI.fontWeights` variable defines the default font weight for font families
 ```stylus
 $UI.fontWeights = {
   normal: 400,
-  normalBold: 700,
+  normalBold: 600,
   heading: 400,
-  headingBold: 700
+  headingBold: 600
 }
 ```
 
@@ -137,13 +142,13 @@ To set the font family for an element you need to use `fontFamily(name, weight, 
   fontFamily('normal')
 
   &.bold
-    fontFamily('normal', 700)
+    fontFamily('normal', 600)
 
   &.italic
     fontFamily('normal', undefined, italic)
 
   &.bold.italic
-    fontFamily('normal', 700, italic)
+    fontFamily('normal', 600, italic)
 
 .textWithAdditionalFont
   fontFamily('myFont')

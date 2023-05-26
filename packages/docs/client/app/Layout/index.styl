@@ -1,24 +1,34 @@
 @require '../constants.styl'
 
+$separatorColor = #ddd
+$topbarBorderColor = #eee
+
 .layout
-  background-color #ffffff
+  background-color $UI.colors.white
 
 .topbar
   align-items center
   justify-content space-between
   border-bottom-width 1px
-  border-bottom-color rgba(black, 0.05)
+  border-bottom-color $topbarBorderColor
   height $TOPBAR_HEIGHT
   padding 0 1u
 
 .searchWrapper
   width 32u
+  border-left-width 1px
+  border-left-color $separatorColor
+  padding-left 2u
 
   +tablet()
     width 42u
 
 .search
   max-height 20u
+  &:part(input)
+    border none
+  &:part(icon)
+    color $UI.colors.darkLight
 
 .active
   color $UI.colors.primary

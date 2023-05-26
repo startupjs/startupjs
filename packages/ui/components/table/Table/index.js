@@ -16,4 +16,4 @@ Table.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(Table))
+export default observer(themed('Table', Table))

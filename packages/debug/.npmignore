@@ -1,0 +1,31 @@
+# Some packagers (like React Native) try to use .babelrc from node_modules.
+# So we need to ignore it to prevent unnecessary compilation and errors.
+.babelrc
+
+# ###########################################
+# Everything from .gitignore (except of compiled /lib/) below:
+# ###########################################
+
+.DS_Store
+*.swp
+*.log
+.idea
+.history
+.vscode
+npm-*
+coverage
+
+# Deps
+/node_modules/
+/bower_components/
+
+# App
+/build/
+/public/js/minified/
+/public/img/sprites/
+
+# Temp
+/tmp/
+
+# Tests
+test/shots/*

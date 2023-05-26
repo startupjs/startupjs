@@ -12,6 +12,7 @@ init({ orm })
 
 // Check '@startupjs/server' readme for the full API
 startupjsServer({
+  secure: false, // TODO: https://github.com/startupjs/startupjs#security
   getHead,
   appRoutes: [
     ...getMainRoutes(),

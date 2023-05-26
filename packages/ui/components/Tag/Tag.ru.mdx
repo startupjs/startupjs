@@ -44,7 +44,7 @@ return (
 
 ## Размеры
 
-Свойство `size` применяется к размеру тега, иконок и текста. Есть два размера - `m` и `l` (по умолчанию `m`).
+Свойство `size` применяется к размеру тега, иконок и текста. Есть два размера - `m` и `s` (по умолчанию `m`).
 
 ```jsx example
 return (
@@ -135,4 +135,15 @@ return (
 
 ## Песочница
 
-<Sandbox Component={Tag} />
+<Sandbox
+  Component={Tag}
+  extraParams={{
+    icon: { showIconSelect: true },
+    secondaryIcon: { showIconSelect: true }
+  }}
+  props={{
+    children: 'Hello world!',
+    onPress: () => alert('"onPress" event on Tag component'),
+    onLongPress: () => alert('"onLongPress" event on Tag component'),
+  }}
+/>

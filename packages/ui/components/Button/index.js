@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
-import { colorToRGBA } from '../../helpers'
+import colorToRGBA from '../../helpers/colorToRGBA'
 import Icon from '../Icon'
 import Row from '../Row'
 import Div from '../Div'
@@ -176,4 +176,4 @@ Button.propTypes = {
   iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
-export default observer(themed(Button))
+export default observer(themed('Button', Button))

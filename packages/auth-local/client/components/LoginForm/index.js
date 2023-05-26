@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useSession, useError } from 'startupjs'
 import {
-  Row,
-  Div,
-  Span,
+  Alert,
+  Br,
   Button,
+  Div,
   ObjectInput,
-  ErrorWrapper
+  Row,
+  Span
 } from '@startupjs/ui'
 import {
   SIGN_UP_SLIDE,
@@ -24,6 +25,7 @@ import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
 import commonSchema from './utils/joi'
+import { ERROR_USER_NOT_CONFIRMED } from '../../../isomorphic'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -34,14 +36,16 @@ const LOGIN_DEFAULT_INPUTS = {
     label: 'Email',
     placeholder: 'Enter your email',
     testID: 'auth-email-input',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'email'
   },
   password: {
     input: 'password',
     label: 'Password',
     placeholder: 'Enter your password',
     testID: 'auth-password-input',
-    autoCapitalize: 'none'
+    autoCapitalize: 'none',
+    autoComplete: 'password'
   }
 }
 
@@ -63,6 +67,7 @@ function LoginForm ({
 
   const [form, $form] = useValue(initForm(properties))
   const [errors, setErrors] = useError({})
+  const [successAlert, setSuccessAlert] = useState()
 
   useEffect(() => {
     if (IS_WEB) {
@@ -82,6 +87,7 @@ function LoginForm ({
   }
 
   const onSubmit = async () => {
+    setSuccessAlert()
     setErrors({})
 
     let fullSchema = commonSchema
@@ -117,7 +123,8 @@ function LoginForm ({
         if (error.response && error.response.status === 403) {
           setErrors({ server: 'The email or password you entered is incorrect' })
         } else {
-          setErrors({ server: _get(error, 'response.data.message', error.message) })
+          const { message, code } = _get(error, 'response.data', error.message, {})
+          setErrors({ server: { message, code } })
         }
       }
     }
@@ -132,15 +139,48 @@ function LoginForm ({
     _identity
   )
 
+  async function resendConfirmation () {
+    try {
+      await authHelper.resendEmailConfirmation(form.email)
+    } catch (error) {
+      const { message } = error.response.data
+      setErrors({ server: { message } })
+    }
+    setErrors({})
+    setSuccessAlert('Confirmation email has been sent to your email')
+  }
+
+  let errMessage
+
+  if (errors.server) {
+    if (errors.server.code === ERROR_USER_NOT_CONFIRMED) {
+      errMessage = pug`
+        Span
+          Span= errors.server.message + '.'
+          Span 
+            Span.resendLink(onPress=resendConfirmation) Resend
+            Span  confirmation
+      `
+    } else {
+      errMessage = errors.server.message
+    }
+  }
+
   return pug`
+    if successAlert
+      Alert(variant='success')= successAlert
+      Br
+    if errors.server
+      Alert(
+        variant='error'
+      )= errMessage
+      Br
     ObjectInput(
       value=form
       $value=$form
       errors=errors
       properties=_properties
     )
-
-    ErrorWrapper(err=errors.server)
 
     if renderActions
       = renderActions({ onSubmit, onChangeSlide })

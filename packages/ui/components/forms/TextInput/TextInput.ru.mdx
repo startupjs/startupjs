@@ -27,20 +27,6 @@ return (
 )
 ```
 
-## Label
-
-```jsx example
-const [value, setValue] = useState()
-return (
-  <TextInput
-    label='Label'
-    placeholder='TextInput'
-    value={value}
-    onChangeText={setValue}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -57,8 +43,8 @@ return (
 ```jsx example
 return (
   <TextInput
-    readonly
     value='readonly'
+    readonly
   />
 )
 ```
@@ -75,21 +61,18 @@ return (
   <Div>
     <TextInput
       size='s'
-      label='Size s example'
       value={valueS}
       onChangeText={setValueS}
     />
     <Br />
     <TextInput
       size='m'
-      label='Size m (default) example'
       value={valueM}
       onChangeText={setValueM}
     />
     <Br />
     <TextInput
       size='l'
-      label='Size l example'
       value={valueL}
       onChangeText={setValueL}
     />
@@ -116,7 +99,6 @@ return (
       icon={faSearch}
       secondaryIcon={faTimesCircle}
       secondaryIconStyleName='icon'
-      label='Example icon left'
       value={valueLeft}
       onChangeText={setLeftValue}
       onSecondaryIconPress={() => setLeftValue()}
@@ -125,7 +107,6 @@ return (
     <TextInput
       icon={faTimesCircle}
       iconPosition='right'
-      label='Example icon right'
       value={valueRight}
       onChangeText={setRightValue}
       onIconPress={() => setRightValue()}
@@ -134,67 +115,51 @@ return (
 )
 ```
 
-## Многострочный режим (textarea)
+## Количество строк
 
-Свойство `multiline` активирует многострочный режим.
-
-Свойства которые работают только в многострочном режиме:
-- `numberOfLines` задает количество видимых линий
-- `resize` высота текстового поля будет расти вместе с содержимым
+Передайте `numberOfLines={number}`, чтобы задать количество строк.
 
 ```jsx example
 const [value, setValue] = useState()
+
 return (
   <TextInput
-    multiline
-    resize
-    numberOfLines={4}
-    label='Multiline example'
-    placeholder='Multiline placeholder'
+    placeholder='write here'
     value={value}
+    numberOfLines={4}
     onChangeText={setValue}
   />
 )
 ```
 
-## Компоновка
+## Dynamic number of lines
 
-Сущесвтует две компоновки. Поведение по умолчанию - `rows` если `label` свойтсво задано и `pure` если нет. Чтобы изменить компоновку передайте свойство `layout`.
-
-- `pure` отображает текстовое поле без `label`
-- `rows` отображает текстовое поле с `label` и если `label` не задан, то вместо нее используется `placeholder`
+Передайте `resize=true`, чтобы количество строк изменялось динамически в соответствии с содержимым.
 
 ```jsx example
-const [pureValue, setPureValue] = useState()
-const [rowValueWithLabel, setRowValueWithLabelValue] = useState()
-const [rowValueWithoutLabel, setRowValueWithoutLabel] = useState()
+const [value, setValue] = useState()
+
 return (
-  <Div>
-    <TextInput
-      layout='pure'
-      label='Pure layout example'
-      placeholder='Pure layout placeholder'
-      value={pureValue}
-      onChangeText={setPureValue}
-    />
-    <Br />
-    <TextInput
-      label='Row layout bacause label provided'
-      placeholder='Row layout placeholder with label'
-      value={rowValueWithLabel}
-      onChangeText={setRowValueWithLabelValue}
-    />
-    <Br />
-    <TextInput
-      layout='rows'
-      placeholder='Row layout placeholder without label'
-      value={rowValueWithoutLabel}
-      onChangeText={setRowValueWithoutLabel}
-    />
-  </Div>
+  <TextInput
+    placeholder='write here'
+    value={value}
+    resize
+    onChangeText={setValue}
+  />
 )
 ```
 
+
 ## Sandbox
 
-<Sandbox Component={TextInput} />
+<Sandbox
+  Component={TextInput}
+  extraParams={{
+    icon: { showIconSelect: true },
+    secondaryIcon: { showIconSelect: true }
+  }}
+  props={{
+    onIconPress: () => alert('"onIconPress" event on "TextInput" component'),
+  }}
+  block
+/>

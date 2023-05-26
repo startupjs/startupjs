@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-startupjs-utils Get cache value from options: Get cache value from options 1`] = `
+
+import cacheEnabled from '@startupjs/cache/enabled'
+import { __increment, __decrement } from '@startupjs/debug'
+
+export const CACHE_ACTIVE = { value: cacheEnabled }
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { __increment, __decrement } from "@startupjs/debug";
+const cacheEnabled = true;
+export const CACHE_ACTIVE = {
+  value: cacheEnabled,
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-utils Use default cache value if nothing is set in options: Use default cache value if nothing is set in options 1`] = `
+
+import cacheEnabled from '@startupjs/cache/enabled'
+import { __increment, __decrement } from '@startupjs/debug'
+
+export const CACHE_ACTIVE = { value: cacheEnabled }
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { __increment, __decrement } from "@startupjs/debug";
+const cacheEnabled = false;
+export const CACHE_ACTIVE = {
+  value: cacheEnabled,
+};
+
+
+`;

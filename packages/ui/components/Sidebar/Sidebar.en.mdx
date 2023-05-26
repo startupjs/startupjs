@@ -6,8 +6,10 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { useSession } from 'startupjs'
+import { $root, useSession } from 'startupjs'
+import { useMedia } from '@startupjs/ui'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Sidebar
 
@@ -20,23 +22,23 @@ import { Sidebar } from '@startupjs/ui'
 ## Simple example
 
 ```jsx example
+const media = useMedia()
 const [open, $open] = useSession('SimpleExampleSidebar')
 
 return (
-  <Div style={{overflow: 'hidden'}}>
-    <Sidebar
-      $open={$open}
-      renderContent={() => (
-        <Span>
-          Sidebar
-        </Span>
-      )}
-    >
-      <Button onPress={() => $open.set(!open)}>
-        Toggle sidebar
-      </Button>
-    </Sidebar>
-  </Div>
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    renderContent={() => (
+      <Span>
+        Sidebar
+      </Span>
+    )}
+  >
+    <Button onPress={() => $open.set(!open)}>
+      Toggle sidebar
+    </Button>
+  </Sidebar>
 )
 ```
 
@@ -44,88 +46,141 @@ return (
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
-```jsx example
+```jsx example noscroll
+const media = useMedia()
 const [open, $open] = useSession('ExampleRightSidebar')
+
 return (
-    <Sidebar
-      $open={$open}
-      position='right'
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    position='right'
+    renderContent={() => (
+      <Menu>
+        <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='full'
+      style={{
+        backgroundColor: 'white'
+      }}
     >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button
-            variant='flat'
-            onPress={() => { $open.set(!open) }}
-          >
-            Toggle right sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
+      <Row>
+        <Button
+          variant='flat'
+          onPress={() => { $open.set(!open) }}
+        >
+          Toggle right sidebar
+        </Button>
+      </Row>
+      <Br />
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+      </Span>
+    </Content>
+  </Sidebar>
+)
+```
+
+## Lazy rendering
+
+By default the sidebar content are not destroyed when it is closed. To change this behavior pass `lazy=true`.
+
+```jsx example
+const media = useMedia()
+const [open, $open] = useSession('ExampleLazySidebar')
+
+return (
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    renderContent={() => (
+      <Span>
+        Lazy sidebar
+      </Span>
+    )}
+    lazy
+  >
+    <Button onPress={() => $open.set(!open)}>
+      Toggle sidebar
+    </Button>
+  </Sidebar>
 )
 ```
 
 ## Complex example
 
-```jsx example
+```jsx example noscroll
+const media = useMedia()
 const [open, $open] = useSession('ExampleSidebar')
+
 return (
-  <Div style={{overflow: 'hidden'}}>
-    <Sidebar
-      $open={$open}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    renderContent={() => (
+      <Menu>
+        <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='full'
+      style={{
+        backgroundColor: 'white'
+      }}
     >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button variant='flat' onPress={() => $open.set(!open)}>
-            Toggle sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
-  </Div>
+      <Row>
+        <Button variant='flat' onPress={() => $open.set(!open)}>
+          Toggle sidebar
+        </Button>
+      </Row>
+      <Br />
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+      </Span>
+    </Content>
+  </Sidebar>
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Sidebar} />
+<Sandbox Component={Sidebar}
+  props={{
+    $open: $root.scope('_session.Sandbox.Sidebar'),
+    renderContent: () => (
+      <Div styleName='sidebar'>
+        <Span styleName='sidebar-text'>Sidebar content</Span>
+      </Div>
+    ),
+    children: (
+      <Div styleName='content'>
+        <Button
+          styleName='button'
+          onPress={()=> {
+            const value = $root.get('_session.Sandbox.Sidebar')
+            $root.scope('_session.Sandbox.Sidebar').set(!value)
+          }}
+        >Toggle</Button>
+        <Br />
+        <Span>Children content</Span>
+      </Div>
+    )
+  }}
+  block
+/>

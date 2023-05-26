@@ -1,14 +1,26 @@
 $uncheckedColor = $UI.colors.dark
 $checkedColor = $UI.colors.primary
-$size = 2u
+$errorColor = $UI.colors.attention
+$radioSize = 2u
 
-_size = 2u
+.root
+  &.row
+    flex-direction row
 
 .input
-  padding 0.5u
+  &.row
+    margin-left 2u
+
+  &.first
+    margin-left 0
+
+.input-input
+  align-self flex-start
+  padding-top 1u
+  padding-bottom @padding-top
 
 .radio
-  width 16px
+  width 2u
   height @width
 
   border-color $uncheckedColor
@@ -20,11 +32,21 @@ _size = 2u
   &.checked
     border-color $checkedColor
 
+  &.error
+    border-color $errorColor
+
 .circle
   radius(circle)
-  width (_size / 2)
+  width ($radioSize / 2)
   height @width
   background-color $checkedColor
 
+  &.error
+    background-color $errorColor
+
 .container
   margin-left 1u
+  flex-shrink 1
+
+.description
+  font(caption)

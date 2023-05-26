@@ -7,7 +7,7 @@ import Div from '../Div'
 import Span from '../typography/Span'
 import './index.styl'
 
-function Tooltip ({
+function DeprecatedTooltip ({
   children,
   style,
   contentStyle,
@@ -17,6 +17,8 @@ function Tooltip ({
   durationClose,
   content
 }) {
+  console.warn('[@startupjs/ui] Tooltip: is DEPRECATED, Div with renderTooltip prop')
+
   const [isShow, $isShow] = useValue(false)
 
   useEffect(() => () => $isShow.del(), [])
@@ -46,14 +48,14 @@ function Tooltip ({
   `
 }
 
-Tooltip.defaultProps = {
+DeprecatedTooltip.defaultProps = {
   position: 'top',
   attachment: 'center',
   durationOpen: 300,
   durationClose: 100
 }
 
-Tooltip.propTypes = {
+DeprecatedTooltip.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   contentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   content: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -63,4 +65,4 @@ Tooltip.propTypes = {
   durationClose: PropTypes.number
 }
 
-export default observer(Tooltip)
+export default observer(DeprecatedTooltip)

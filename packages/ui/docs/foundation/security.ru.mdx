@@ -1,0 +1,211 @@
+# Безопасность
+
+Так как мы используем racer, все документы в базе данных изначально полностью открыты для чтения, записи и удаления. Это означает, что не учитывается авторизация пользователя, его права и наличие определенных полей в документе согласно архитектуре проекта. В связи с этим, с документом можно делать все, что угодно.
+
+Для предотвращения потенциальных проблем с открытым доступом к базе данных, необходимо задать ограничения.
+
+## @startupjs/sharedb-access
+
+Эта библиотека добавляет возможность разрешать или запрещать создание, чтение, обновление, удаление определенного документа(ов).
+
+Для подключения укажите `accessControl: true` в server/index.js -> startupjsServer.
+
+Пример использования racer модели с данной библиотекой:
+
+```js
+export default class NewsModel extends basePermissions(BaseModel) {
+  static access = {
+    create: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    read: async (model, collection, docId, doc, session) => {
+      return true
+    },
+    update: async (model, collection, docId, oldDoc, session, ops, newDoc) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    delete: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    }
+  }
+}
+```
+
+`hasPermission` - функция для проверки прав пользователя.
+
+## @startupjs/sharedb-schema
+
+Эта библиотека позволяет указывать, какие поля должна использовать модель, и определять правила для этих полей, чтобы предотвратить добавление лишних данных или некорректное изменение существующих полей.
+
+Для подключения укажите `validateSchema: true` в server/index.js -> startupjsServer.
+
+Например, коллекция `users` может иметь следующее описание:
+
+```js
+import { BaseModel } from 'startupjs/orm'
+
+export default class UserModel extends BaseModel {
+  static schema = {
+    type: 'object',
+    properties: {
+      // поле `username`, которое должно быть только строкой,
+      // с минимальной длинной и максимальной 10
+      username: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 10
+      },
+      // поле `email`, которое проверяется регулярным выражением через параметр format
+      email: {
+        type: 'string',
+        format: 'email'
+      },
+      // поле `age`, которое может быть только числом, с минимальным значением 1
+      age: {
+        description: 'Age in years',
+        type: 'integer',
+        minimum: 1
+      },
+      roleId: {
+        type: 'string'
+      },
+      // поле `hobbies`, которое может быть только массивом со строковыми значениями,
+      // минимальной длинной 3 и со всеми уникальными значениями
+      hobbies: {
+        type: 'array',
+        maxItems: 3,
+        items: { type: 'string' },
+        uniqueItems: true
+      }
+    }
+  }
+}
+```
+
+Подробнее про API - https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema
+
+## @startupjs/server-aggregate
+
+Агрегации изначально также не защищены.
+
+Для подключения укажите `serverAggregate: true` в server/index.js -> startupjsServer.
+
+Затем нужно описать агрегации в модели:
+
+```js
+static aggregations = {
+  example: async (model, params, session) => {
+    const { status } = params
+
+    // предположим, что функция вернет статусы, к которым у нашего пользователя есть доступ
+    const availableStatuses = getAvailableStatuses(model, session.userId)
+
+    if (!availableStatuses.includes(status)) {
+      throw Error("403: Can't query docs with status " + status)
+    }
+
+    return [
+      { $match: { status: status } }
+    ]
+  }
+}
+```
+
+И использовать в запросе следующим образом:
+
+```js
+model.query('events', {
+  $aggregationName: 'example',
+  $params: {
+    status: 'published'
+  }
+})
+```
+
+Такой подход запрещает формировать произвольные агрегации и получать данные, вынуждая работать только с агрегациями по заданным шаблонам.
+
+## Валидация клиентских роутов
+
+Иногда необходимо предотвратить рендеринг определенных страниц на клиенте. Для этого следует использовать специальные изоморфные функции-фильтры и применять их в `routes.js` вашего приложения. В результате функции-фильтры будут выполняться при клиентских и серверных переходах на страницу, определяя, разрешен ли пользователю просмотр этой страницы.
+
+Пример изоморфной валидации для показа страницы админки:
+
+```js
+return async function isAdmin (model, next, redirect) {
+  const userId = model.get('_session.userId')
+
+  const $user = model.scope(`users.${userId}`)
+  await $user.fetch()
+
+  // проверка является ли пользователь админом из метода в модели
+  const isAdmin = await $user.isSuperAdmin()
+  await $user.unfetch()
+
+  if (isAdmin) return next()
+  return redirect('/403')
+}
+
+export default (components = {}) => [
+  {
+    path: '/admin/users',
+    exact: true,
+    component: components.PUsers,
+    filters: [isAdmin] // передача функций для проверки разрешен ли доступ
+  },
+  {
+    path: '/admin/transactions',
+    exact: true,
+    component: components.PTransactions,
+    filters: [isAdmin] // передача функций для проверки разрешен ли доступ
+  }
+]
+```
+
+## Валидация REST API на сервере (POST и GET запросы)
+
+При разработке REST API на сервере, все POST и GET запросы необходимо обязательно проверять.
+
+Например какие-то запросы могут быть полностью публичными, тогда проверок не будет.
+
+Некоторые могут быть обработаны только от залогиненных юзеров, и тогда обязательно сделать эту проверку.
+
+Некоторые могут быть доступны лишь для определенных ролей пользователей, например для админов.
+
+К счастью, Express.js позволяет легко добавить серверные функции-фильтры для проверки доступа, которые являются по сути обычными мидлварами. Для этого вы пишете мидлвары типа `isLoggedIn`, `isAdmin` и затем при подключении конкретного REST API роута через `.post` или `.get` вместо прямого указания обработчика запроса, вам надо передать внутри массива. При этом первыми элементами массива будут функции-фильтры:
+
+```js
+import express from 'express'
+import addAdminTask from './addAdminTask'
+import getAdminTasks from './getAdminTasks'
+
+async function isLoggedIn {
+  const { model } = req
+  const loggedIn = model.get('_session.loggedIn')
+  if (!loggedIn) return res.sendStatus(403)
+  next()
+}
+
+async function isAdmin (req, res, next) {
+  const { model } = req
+  const userId = model.get('_session.userId')
+
+  const $user = model.scope(`users.${userId}`)
+  await $user.fetch()
+
+  // проверка является ли пользователь админом из метода в модели
+  const isAdmin = await $user.isSuperAdmin()
+  await $user.unfetch()
+
+  if (!isAdmin) return res.sendStatus(403)
+  next()
+}
+
+const adminRouter = express.Router()
+
+// вместо передачи обработчика постзапроса напрямую, мы передаем
+// массив с обработчиками, где первыми идут мидлвары с проверкой.
+adminRouter.post('/api/add-admin-task', [isLoggedIn, isAdmin, addAdminTask])
+adminRouter.get('/api/get-admin-tasks', [isLoggedIn, isAdmin, getAdminTasks])
+
+export default adminRouter
+```

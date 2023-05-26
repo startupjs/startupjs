@@ -40,6 +40,24 @@ initAuth(ee, {
 })
 ```
 
+Dynamic initialization of the strategy is also available, which occurs every time directly at the moment of user authorization.
+
+```js
+initAuth(ee, {
+  strategies: [
+    new LinkedinStrategy({
+      getClient: async function(req) {
+        // ...
+        return {
+          id: '######',
+          secret: '######'
+        }
+      },
+    })
+  ]
+})
+```
+
 ## Init in layout
 ```js
 import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'

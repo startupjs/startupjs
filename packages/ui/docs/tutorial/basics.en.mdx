@@ -1,15 +1,31 @@
-# UI-components library
+# To-Do app
 
-StartupJs already has a full-fledged UI component library built in **@starupjs/ui**. You have the opportunity either to use ready-made components or to create your own (based on ready-made components as well).
+StartupJs already has a full-fledged UI component library built in **@startupjs/ui**. You have the opportunity either to use ready-made components or to create your own (based on ready-made components as well).
 
 
 ## Your first complete application with StartupJS
 
 In this section of the tutorial, we will create a complete **TODO List** application step by step. Let us see how to add ready-made components to the page, style them, create a query in the database, fetch documents from the database and display them on the page. We will learn how to add the documents to the database and how to delete them from the database as well. And all of this will be reactive!
 
+## Create a new project
+
+Follow the instructions from [Quickstart](./Quickstart) to create a new project.
+
+Go to the file `main/pages/PHome/index.jsx` and replace the whole `return` block there with just an empty block:
+
+```js
+return (
+  <>
+    {/* Content goes here */}
+  </>
+)
+```
+
+Going forward you will be doing edits in this file.
+
 ## Key components of the wrapper
 
-In usual HTML we mostly use `div` tag to wrap the components into the unified group. In our components library we use the `Div` component for this purpose. 
+In usual HTML we mostly use `div` tag to wrap the components into the unified group. In our components library we use the `Div` component for this purpose.
 
 Since **StartupJS** is based on React Native, all the elements by default have some differences from the regular web. Among them:
 1.	All elements initially have a css property `display: flex`
@@ -23,22 +39,27 @@ Since **StartupJS** is based on React Native, all the elements by default have s
 
 Let us add the first component to the page.
 This will be the `Content` component from our UI library. `Content` component is used as the parent container for elements.
-First, you need to import it into our file. Enter the following code in the field on the right instead of line 111:
+
+First, you need to import it into our file:
 
 ```js
 import { Content } from '@startupjs/ui'
 ```
 
-And the following code instead of line 888:
+Then add the following JSX to be returned from your component:
 
 ```js
-<Content></Content>
+return (
+  <>
+    <Content></Content>
+  </>
+)
 ```
 
 > Please note that the UI-component are capitalized to distinguish them from ordinary HTML tags
 > span !== Span
 
-Then, add a title with the name of our future application to the page. For the first level heading, use the `H1` component. 
+Then, add a title with the name of our future application to the page. For the first level heading, use the `H1` component.
 
 First, add it to the import:
 ```js
@@ -53,14 +74,14 @@ Then add the header that was previously added to `Content`
 </Content>
 ```
 
-You will see the first level heading on the right side in the preview. 
+You will see the first level heading on the right side in the preview.
 
 
 ### Content Component Attributes
 
 As you can see, Content has centered our header with left and right paddings, but it is clear that the top and bottom paddings are missing.
 
-Let us look at the [documentation for the Content component](https://startupjs-ui.dmapper.co/docs/components/Content#Vertical%20paddings). We see that to add padding on all four sides, we need to add the `padding` prop to component.
+Let us look at the [documentation for the Content component](/docs/components/Content#vertical-paddings). We see that to add padding on all four sides, we need to add the `padding` prop to component.
 
 Let us do so:
 
@@ -85,14 +106,14 @@ Let us add some styling to the `<H1>` element:
 ```
 
 This method is totally acceptable, but far from preferable.
-Startupjs uses classes to style components, like [classnames](https://github.com/JedWatson/classnames). 
+Startupjs uses classes to style components, like [classnames](https://github.com/JedWatson/classnames).
 
 Remove the `style` prop from the `H1` component and add the `styleName` prop instead:
 
 ```js
 <H1 styleName={'title'}>TODO List</H1>
 ```
-Thus, you gave the title H1 a `title` class and now in the css file `index.css` you can refer to it by the `.title` selector, adding the necessary styles to it
+Thus, you gave the title H1 a `title` class and now in the css file `index.styl` (in the same folder as the `.jsx` file) you can refer to it by the `.title` selector, adding the necessary styles to it
 
 ```css
 .title {
@@ -100,7 +121,7 @@ Thus, you gave the title H1 a `title` class and now in the css file `index.css` 
 }
 ```
 
-> Among other things, `styleName` accepts not only a string, but also an array of values or object. For example: 
+> Among other things, `styleName` accepts not only a string, but also an array of values or object. For example:
 
 ```js
  const variant = 'primary'
@@ -119,7 +140,7 @@ Next, we need to draw a card component within which we will display one of our t
 
 Let us add `Card` to our import:
 
-```jsx    
+```jsx
 import { Content, H1, Card } from '@startupjs/ui'
 ```
 
@@ -154,11 +175,11 @@ Now that our database has a collection of `todos` with several ready-made tasks,
 
 First, let us fetch the data from the database. To do this, we can use a custom hook `useQuery`, which we will discuss in detail in the advanced course of this tutorial. In short, it accepts a string with the name of the collection as the first argument, and a [mongodb like request](https://derbyjs.com/docs/derby-0.10/models/queries#mongodb-query-format) as an object as the second argument. It returns an array of two elements, the first is getter, and the second is setter. Let us add the following code to the beginning:
 
-```jsx    
+```jsx
 const [todos, $todos] = useQuery('todos', {})
 ```
 
-> An empty object `{}` allows us to return all documents from the collection. 
+> An empty object `{}` allows us to return all documents from the collection.
 
 We now have a variable `todos`, which stores an array of `todo` in the format:
 
@@ -187,7 +208,7 @@ const [todos, $todos] = useQuery('todos', {})
 
 ## Task management
 
-Now we have a list of tasks displayed on the page. Next, you need to add the possibility to mark tasks as completed and the ability to delete them. For this, we need two new frequently used components: `Checkbox` and `Button`, let’s add them: 
+Now we have a list of tasks displayed on the page. Next, you need to add the possibility to mark tasks as completed and the ability to delete them. For this, we need two new frequently used components: `Checkbox` and `Button`, let’s add them:
 
 > I think you do not need to be reminded about importing
 
@@ -227,18 +248,18 @@ const [todos, $todos] = useQuery('todos', {})
 </Content>
 ```
 
-> `align='between' vAlign='center'` – props from [Row component documentation](https://startupjs-ui.dmapper.co/docs/components/Row), analogue `justify-content: space-between; align-items: center;`
+> `align='between' vAlign='center'` – props from [Row component documentation](/docs/components/Row), analogue `justify-content: space-between; align-items: center;`
 
 ## Component state management
 
-Just as in a regular JS and React application, you can manage the state of your components, yet in **StartupJS/UI** you will have more convenient tools for this (API). 
+Just as in a regular JS and React application, you can manage the state of your components, yet in **StartupJS/UI** you will have more convenient tools for this (API).
 
 Let us start with the previously added `Checkbox` component.
 
-According to the [documentation](https://startupjs-ui.dmapper.co/docs/forms/Checkbox), the checkbox has two main props: `value` and `onChange`.
+According to the [documentation](/docs/forms/Checkbox), the checkbox has two main props: `value` and `onChange`.
 
 `value` receives the current boolean value of the checkbox, which we can take right from the array received from the database.
-`onChange` takes a callback function that is called when the checkbox is clicked upon, and returns its new value. 
+`onChange` takes a callback function that is called when the checkbox is clicked upon, and returns its new value.
 
 Let us create a callback function and add these two props to our checkbox.
 > In the example below, `$todos` is the model for the (todos) collection, but it isn’t necessary for now to go into detail. We will study what a model is and how to work with it later in our course.
@@ -261,7 +282,7 @@ Now, clicking on the checkbox alters the `completed` value of the task in our da
 
 ## Deleting tasks
 
-We have finished our checkbox, and now we just have to make a button for deleting the task from the database. 
+We have finished our checkbox, and now we just have to make a button for deleting the task from the database.
 
 Add an icon to our button, paint it red and make it small.
 
@@ -277,7 +298,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 />
 ```
 
-> You can learn more about these and other props of the `Button` component in the [documentation](https://startupjs-ui.dmapper.co/docs/components/Button)
+> You can learn more about these and other props of the `Button` component in the [documentation](/docs/components/Button)
 
 `Button` also has an `onPress` prop. It takes a callback function that is called upon whenever the button is clicked. Here we need to write a function that will remove a certain task from the database.
 
@@ -285,7 +306,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 const removeTodo = todoId => $todos.at(todoId).del()
 ```
 
-> We are looking for a task with the required ID in the $todos model, and then we call its delete method. 
+> We are looking for a task with the required ID in the $todos model, and then we call its delete method.
 
 ```jsx
 <Button
@@ -340,7 +361,7 @@ const [todos, $todos] = useQuery('todos', {})
 
 ## Text input box
 
-According to the [documentation](https://startupjs-ui.dmapper.co/docs/forms/TextInput), we need two props from TextInput for our purposes: `value` and `onChangeText`.
+According to the [documentation](/docs/forms/TextInput), we need two props from TextInput for our purposes: `value` and `onChangeText`.
 
 To work with it, we need to create a state with an empty initial line:
 
@@ -349,7 +370,7 @@ const [inputValue, setInputValue] = useState('')
 ```
 
 `value` props will accept a state getter `inputValue`.
-The `onChangeText` prop accepts a callback function that is called when the content of the input is altered. In our case, it will simply accept a state setter (`setInputValue`). 
+The `onChangeText` prop accepts a callback function that is called when the content of the input is altered. In our case, it will simply accept a state setter (`setInputValue`).
 
 ```js
 const [inputValue, setInputValue] = useState('')

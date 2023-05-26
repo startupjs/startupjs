@@ -1,41 +1,14 @@
+.root
 .overlay
   position absolute
-  height 100%
-  width 100%
-  left 0
   top 0
+  left 0
+  right 0
+  bottom 0
 
-  +web()
-    cursor default
-    z-index 8999
-
-.wrapper
-  position absolute
-
-  +web()
-    z-index 9999
-
-.popoverStamp
-  position absolute
-  opacity 1
-  left -999
-  top -999
-  z-index -1
-
-.popover
-  border-radius 1u
-  position absolute
-  background-color #ffffff
-  z-index 999
+.attachment
+  padding 2u
+  background-color $UI.colors.white
+  radius()
   shadow(3)
-
-.content
-  border-radius 1u
-  width 100%
   overflow hidden
-
-.hasArrow
-  border-radius .5u
-
-:export
-  shadows: $UI.shadows

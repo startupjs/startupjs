@@ -1,6 +1,6 @@
-import Base from './Base'
+import Base from './Base.js'
 import { observable } from '@nx-js/observer-util'
-import promiseBatcher from '../hooks/promiseBatcher'
+import promiseBatcher from '../hooks/promiseBatcher.js'
 
 export default class Doc extends Base {
   constructor (...args) {

@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/patches",
-  "version": "0.36.0",
+  "version": "0.51.0",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",
   "scripts": {},
@@ -9,7 +9,6 @@
     "access": "public"
   },
   "dependencies": {
-    "patch-package": "^6.0.0",
-    "postinstall-postinstall": "^2.0.0"
+    "patch-package": "^7.0.0"
   }
 }

@@ -1,6 +1,7 @@
 import { EMAIL_REGEXP } from '../../isomorphic/constants'
+import Provider from '../Provider'
 
-export default async function changeEmail ({ email, userId, model }) {
+export default async function changeEmail ({ email, userId, model, config }) {
   if (!userId) {
     throw new Error('Provide user id')
   }
@@ -9,12 +10,13 @@ export default async function changeEmail ({ email, userId, model }) {
     throw new Error('Provide correct user email')
   }
 
-  const $existingUser = model.query('auths', { 'providers.local.email': email })
+  const provider = new Provider(model, { email }, config)
+  const existingUser = await provider.loadAuthData()
+
   const $auth = model.scope('auths.' + userId)
 
-  await model.fetch($existingUser, $auth)
+  await model.fetch($auth)
 
-  const existingUser = $existingUser.get()[0]
   const auth = $auth.get()
 
   if (existingUser) {
@@ -39,5 +41,5 @@ export default async function changeEmail ({ email, userId, model }) {
     await $auth.set('providers.local.id', email)
   }
 
-  model.unfetch($user, $auth, $existingUser)
+  model.unfetch($user, $auth)
 }

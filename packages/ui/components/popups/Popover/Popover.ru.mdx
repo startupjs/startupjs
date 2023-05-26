@@ -1,11 +1,9 @@
-import { useState } from 'react'
-import { View, TouchableOpacity, Text, ScrollView } from 'react-native'
+import { styl } from 'startupjs'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import Popover from './index.js'
+import Popover from './'
 import Icon from '../../Icon'
-import Row from '../../Row'
 import Button from '../../Button'
-import Br from '../../Br'
+import Span from '../../typography/Span'
 
 # Popover
 Всплывающее окно для показа дополнительного контента, связанного каким-то образом с определённым элементом на странице и появляющееся при нажатии на него.
@@ -15,293 +13,87 @@ import { Popover } from '@startupjs/ui'
 ```
 
 ## Инициализация
-
 Перед использованием нужно настроить [Portal](/docs/components/Portal)
 
 ## Простой пример
-- visible: boolean проп, указывающий отображать всплывающую часть или нет
-- onDismiss: проп колбек функция, вызывается при нажатии на "пустое место"
-- Popover.Caption - подкомпонент, содержимое которого - то к чему будет привязан Popover. Должен стоять всегда первым
-- То что должно отображаться в всплывающем окне пишется ниже Popover.Caption
+- children (ReactNode): видимая часть
+- renderContent (function: ReactNode): функция возвращает скрытую часть
+
 ```jsx example
-const [visible, setVisible] = useState(false)
+function renderContent () {
+  return pug`
+    Span Контент
+  `
+}
 
-const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
+return pug`
+  Popover.caption(renderContent=renderContent)
+    Icon(icon=faUserCircle size='xl')
+`
 
-return (
-  <Popover
-    visible={visible}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption>
-      <TouchableOpacity onPress={()=> setVisible(true)}>
-        <Icon icon={faUserCircle} size="xl" />
-      </TouchableOpacity>
-    </Popover.Caption>
-    <View style={contentStyle}>
-      <Text>Контент</Text>
-    </View>
-  </Popover>
-);
-```
-
-## Размеры
-- style={{ maxHeight: 100 }}: задать максимально возможную высоту Popover
-```jsx example
-const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1, 2])
-
-return (
-  <Popover
-    visible={visible}
-    style={{ maxHeight: 100 }}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption>
-      <Button onPress={()=> setVisible(true)}>Открыть</Button>
-    </Popover.Caption>
-    {content.map((item, index)=>(
-      <View style={{ padding: 20 }} key={index}>
-        <Text>Контент {item}</Text>
-      </View>
-    ))}
-    <TouchableOpacity
-      style={{ padding: 20 }}
-      onPress={()=> {
-        content.pop()
-        setContent([...content])
-      }}
-    >
-      <Text>Удалить элемент</Text>
-    </TouchableOpacity>
-  </Popover>
-)
-```
-
-- style={{ height: 100 }}: фиксированная, постоянная высота (по дефолту отсутствует)
-```jsx example
-const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1, 2])
-
-return (
-  <Popover
-    visible={visible}
-    style={{ height: 100 }}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption>
-      <Button onPress={()=> setVisible(true)}>Открыть</Button>
-    </Popover.Caption>
-    {content.map((item, index)=>(
-      <View style={{ padding: 20 }} key={index}>
-        <Text>Контент {item}</Text>
-      </View>
-    ))}
-    <TouchableOpacity
-      style={{ padding: 20 }}
-      onPress={()=> {
-        content.pop()
-        setContent([...content])
-      }}
-    >
-      <Text>Удалить элемент</Text>
-    </TouchableOpacity>
-  </Popover>
-)
-```
-
-- width: фиксированная, постоянная ширина
-```jsx example
-const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1,2])
-
-return (
-  <Popover
-    visible={visible}
-    style={{ width: 400 }}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption>
-      <Button onPress={()=> setVisible(true)}>Открыть</Button>
-    </Popover.Caption>
-    <View style={{ padding: 20 }}>
-      <Text>Контент</Text>
-    </View>
-  </Popover>
-)
-```
-
-- hasWidthCaption: задать ширину по Caption (boolean)
-```jsx example
-const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1, 2])
-
-return (
-  <Popover
-    visible={visible}
-    hasWidthCaption={true}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption style={{ width: 200 }}>
-      <Button onPress={()=> setVisible(true)}>Открыть</Button>
-    </Popover.Caption>
-    <View style={{ padding: 20 }}>
-      <Text>Контент</Text>
-    </View>
-  </Popover>
-)
-```
-
-Если не задано ни maxHeight ни height, высота подстраивается под контент
-```jsx example
-const [visible, setVisible] = useState(false)
-const [content, setContent] = useState([1, 2, 3])
-
-return (
-  <Popover
-    visible={visible}
-    style={{ width: 200 }}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption>
-      <Button onPress={()=> setVisible(true)}>Открыть</Button>
-    </Popover.Caption>
-    {content.map((item, index)=>(
-      <View style={{ padding: 20 }} key={index}>
-        <Text>Контент {item}</Text>
-      </View>
-    ))}
-    <TouchableOpacity
-      style={{ padding: 20 }}
-      onPress={()=> {
-        content.pop()
-        setContent([...content])
-      }}
-    >
-      <Text>Удалить элемент</Text>
-    </TouchableOpacity>
-  </Popover>
-)
+styl`
+  .caption
+    width 3u
+`
 ```
 
 ## Позиция
-- position: имеет 4 варианта положений (top, bottom, left, right)
-- attachment: дополнительный параметр для смещения (start, center, end)
+- position (string - 'top', 'bottom', 'left', 'right'): позиция относительно видимой части
+- attachment (string - 'start', 'center', 'end'): дополнительный параметр для смещения
+- placements (array): какие позиции можно использовать при автофиксе
+
 ```jsx example
-const blockStyle = { width: 56, marginRight: 8, marginRight: 8, marginTop: 4, marginBottom: 4 }
-const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
-
-const placements = [
-  ['', 'top-start', 'top-center', 'top-end', ''],
-  ['left-start', '', '', '', 'right-start'],
-  ['left-center', '', '', '', 'right-center'],
-  ['left-end', '', '', '', 'right-end'],
-  ['', 'bottom-start', 'bottom-center', 'bottom-end', '']
-]
-
-const [visible, setVisible] = useState('')
-
-function getPopover(placement, index) {
-  if (!placement) return <View key={index} style={blockStyle} />
-
-  const [position, attachment] = placement.split('-')
-  const initials = (position[0] + attachment[0]).toUpperCase()
-
-  return (
-    <Popover
-      key={index}
-      hasArrow={true}
-      animateType='scale'
-      visible={visible === placement}
-      position={position}
-      attachment={attachment}
-      onDismiss={()=> setVisible('')}
-    >
-      <Popover.Caption style={blockStyle}>
-        <Button onPress={()=> setVisible(placement)}>{initials}</Button>
-      </Popover.Caption>
-      <View style={contentStyle}>
-        <Text>Контент</Text>
-      </View>
-    </Popover>
-  )
+function renderContent () {
+  return pug`
+    Span Контент
+  `
 }
 
-return (
-  <View style={{ alignItems: 'center' }}>
-    {
-      placements.map((row, rowIndex)=> (
-        <Row key={rowIndex}>
-          {row.map((placement, index)=> getPopover(placement, index))}
-        </Row>
-      ))
-    }
-  </View>
-)
-```
-
-## Анимации
-animateType - проп отвечающий за тип анимации
-Есть три типа анимации при открытии: opacity, scale
-```jsx example
-const contentStyle = { paddingLeft: 24, paddingRight: 24, paddingTop: 16, paddingBottom: 16 }
-
-const [visible, setVisible] = useState('')
-
-const animations = ['Opacity', 'Scale']
-
-return (
-  <Row>
-    {
-      animations.map((animate, index) => (
-        <Popover
-          visible={visible === animate.toLowerCase()}
-          animateType={animate.toLowerCase()}
-          hasArrow={true}
-          key={index}
-          onDismiss={()=> setVisible('')}
-        >
-          <Popover.Caption style={{ marginRight: 16 }}>
-            <Button onPress={()=> setVisible(animate.toLowerCase())}>
-              {animate}
-            </Button>
-          </Popover.Caption>
-          <View style={contentStyle}>
-            <Text>Контент</Text>
-          </View>
-        </Popover>
-      ))
-    }
-  </Row>
-)
+return pug`
+  Popover(
+    position='top'
+    attachment='center'
+    renderContent=renderContent
+  )
+    Button Открыть
+`
 ```
 
 ## Стилизация
-- hasArrow: нужно ли использовать стрелку (по дефолту false)
-```jsx example
-const [visible, setVisible] = useState(false)
+- style (CSSProperties): стили для видимой части
+- attachmentStyle (CSSProperties): стили для скрытой части
+- arrowStyle (CSSProperties): стили для стрелки
+- arrow (boolean): показывать стрелку
+- matchAnchorWidth (boolean): ширина скрытой части равна ширине видимой
 
-return (
-  <Popover
-    visible={visible}
-    hasArrow={true}
-    onDismiss={()=> setVisible(false)}
-  >
-    <Popover.Caption>
-      <Button onPress={()=> setVisible(true)}>
-        Со стрелкой
-      </Button>
-    </Popover.Caption>
-    <View style={{ padding: 20, width: 160 }}>
-      <Text>Контент</Text>
-    </View>
-  </Popover>
-)
+```jsx example
+function renderContent () {
+  return pug`
+    Span.text Контент
+  `
+}
+
+return pug`
+  Popover.caption(
+    arrow
+    renderContent=renderContent
+    attachmentStyle={ backgroundColor: '#333' }
+    attachment='center'
+    matchAnchorWidth
+  )
+    Button Открыть
+`
+
+styl`
+  .caption
+    alignSelt flex-start
+  .text
+    color #fff
+    text-align center
+`
 ```
 
-## Так же
-- placements: какие позиции можно использовать при автофиксе
-- durationOpen: время анимации при открытии
-- durationClose: время анимации при закрытии
-
-<Br lines={10} />
+## Дополнительные параметры
+- durationOpen (number): время анимации при открытии
+- durationClose (number): время анимации при закрытии
+- renderWrapper (function: ReactNode): образует обертку для children

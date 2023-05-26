@@ -1,20 +1,20 @@
-$UI.media = merge({
-  mobile: 480px, // DEPRECATED
+$UI.media = {
+  mobile: 480px,
   tablet: 768px,
   desktop: 1024px,
   wide: 1280px
-}, $UI.media, true)
+}
 
-$UI.gutters = merge({
+$UI.gutters = {
   xs: 0.5u,
   s: 1u,
   m: 2u,
   l: 3u,
   xl: 4u,
   xxl: 5u
-}, $UI.gutters, true)
+}
 
-$UI.fontFamilies = merge({
+$UI.fontFamilies = {
   web: {
     normal: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif",
     heading: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif"
@@ -26,21 +26,17 @@ $UI.fontFamilies = merge({
   ios: {
     normal: 'System',
     heading: 'System'
-  },
-  default: {},
-  macos: {},
-  windows: {},
-  native: {}
-}, $UI.fontFamilies, true)
+  }
+}
 
 $UI.fontWeights = {
   normal: 400,
-  normalBold: 700,
+  normalBold: 600,
   heading: 400,
-  headingBold: 700
+  headingBold: 600
 }
 
-$UI.fontSizes = merge({
+$UI.fontSizes = {
   xs: 1.25u, // DEPRECATED
   s: 1.5u, // DEPRECATED
   m: 1.75u, // DEPRECATED
@@ -58,10 +54,11 @@ $UI.fontSizes = merge({
   h6: 2u,
   description: 1.75u, // DEPRECATED
   body1: 2u,
-  body2: 1.75u
-}, $UI.fontSizes, true)
+  body2: 1.75u,
+  caption: 1.5u
+}
 
-$UI.lineHeights = merge({
+$UI.lineHeights = {
   xs: 1.75u, // DEPRECATED
   s: 2u, // DEPRECATED
   m: 2.5u, // DEPRECATED
@@ -79,5 +76,6 @@ $UI.lineHeights = merge({
   h6: 3u,
   description: 2.5u, // DEPRECATED
   body1: 3u,
-  body2: 2.5u
-}, $UI.lineHeights, true)
+  body2: 2.5u,
+  caption: 2u
+}

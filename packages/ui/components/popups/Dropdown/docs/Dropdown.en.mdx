@@ -154,6 +154,43 @@ To apply styles correctly for each variation, need use mixin `+tablet`:
 3 - To make ** Dropdown.Item ** as a link to go to the desired page, you can use the `to` prop
 4 - If you need custom styles, to change the active value, you can use `onPress` callback, or `value` prop, which will be passed to` onChange`, the same as in the standard version
 
+```jsx example
+const [state, setState] = useState('')
+
+const customStyle = state === 'custom'
+  ? { backgroundColor: 'blue', padding: 8 }
+  : { backgroundColor: 'yellow', padding: 8 }
+
+const customStyle2 = state === 'custom2'
+  ? { backgroundColor: 'blue', padding: 8 }
+  : { backgroundColor: 'yellow', padding: 8 }
+
+return (
+  <Dropdown
+    value={state}
+    onChange={v=> setState(v)}
+  >
+    <Dropdown.Item label='Choose 1' value={1} />
+    <Dropdown.Item label='Show 2' onPress={()=> alert('2')} />
+    <Dropdown.Item
+      to='/'
+      label='To home'
+      onPress={()=> alert('To home')}
+    />
+    <Dropdown.Item value='custom'>
+      <View style={customStyle}>
+        <Text>Custom 1</Text>
+      </View>
+    </Dropdown.Item>
+    <Dropdown.Item onPress={()=> setState('custom2')}>
+      <View style={customStyle2}>
+        <Text>Custom 2</Text>
+      </View>
+    </Dropdown.Item>
+  </Dropdown>
+)
+```
+
 ## Position for Popover
 - position: has 4 position variations (top, bottom, left, right)
 - attachment: an additional parameter for the offset (start, center, end)

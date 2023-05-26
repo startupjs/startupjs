@@ -25,4 +25,4 @@ Thead.propTypes = {
   bordered: PropTypes.bool
 }
 
-export default observer(themed(Thead))
+export default observer(themed('Thead', Thead))

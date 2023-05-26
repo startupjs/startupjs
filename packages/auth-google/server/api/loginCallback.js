@@ -7,7 +7,8 @@ export default async function loginCallback (req, res, next, config) {
   const {
     clientId,
     clientSecret,
-    onBeforeLoginHook
+    onBeforeLoginHook,
+    onAfterLoginHook
   } = config
 
   let { token, code } = req.query
@@ -26,16 +27,28 @@ export default async function loginCallback (req, res, next, config) {
     })
   }
 
-  const profile = await getGoogleProfile(token, clientId, clientSecret)
+  try {
+    const profile = await getGoogleProfile(token, clientId, clientSecret)
 
-  const provider = new Provider(req.model, profile, config)
+    const provider = new Provider(req.model, profile, config)
 
-  // If request came along with authorized session -> link new account to existing auth.providers doc
-  if (req.session.loggedIn) {
-    const response = await linkAccount(req, provider)
-    return res.send(response)
-  } else {
-    const userId = await provider.findOrCreateUser({ req })
-    finishAuth(req, res, { userId, onBeforeLoginHook })
+    // If request came along with authorized session -> link new account to existing auth.providers doc
+    if (req.session.loggedIn) {
+      const response = await linkAccount(req, provider)
+      return res.send(response)
+    } else {
+      const userId = await provider.findOrCreateUser({ req })
+      const _onAfterLoginHook = async function (userId) {
+        onAfterLoginHook && await onAfterLoginHook({ userId }, req)
+      }
+      finishAuth(req, res, { userId, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })
+    }
+  } catch (err) {
+    // TODO: http://lalverma.blogspot.com/2016/02/token-used-too-early.html
+    const regExp = /^Token used too (early|late)/
+    const matches = regExp.exec(err.message)
+    if (matches) {
+      res.redirect('/auth/error?err=' + matches[0])
+    }
   }
 }

@@ -6,8 +6,9 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { useSession } from 'startupjs'
+import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # SmartSidebar
 
@@ -38,9 +39,9 @@ return (
 
 ## Fixed Layout Breakpoint
 
-The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/components/Sidebar) switches to a [drawer sidebar](/docs/components/Drawer). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
+The `fixedLayoutBreakpoint` property specifies the screen width breakpoint below which the [sidebar](/docs/components/Sidebar) switches to a [drawer sidebar](/docs/components/DrawerSidebar). `fixedLayoutBreakpoint` is a number type with a default value of `1024`.
 
-```jsx example
+```jsx example noscroll
 const [open, $open] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -77,7 +78,7 @@ return (
 
 The `position` property specifies the side of the window from which the sidebar will show. Possible values of `position` property are `left` (default) and `right`.
 
-```jsx example
+```jsx example noscroll
 const [open, $open] = useSession('ExampleRightSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -151,7 +152,7 @@ return (
 
 ## Locked SmartSidebar
 
-Specifying `forceClosed` property will keep the sidebar closed and it won't respond to `open` property.
+Specifying `disabled` property will keep the sidebar closed and it won't respond to `open` property.
 
 ```jsx example
 const [open, $open] = useSession('ExampleLockerSmartSidebar')
@@ -169,7 +170,7 @@ return (
           </Menu>
         </Div>
       )}
-      forceClosed
+      disabled
     >
       <Content
         padding
@@ -185,9 +186,31 @@ return (
 )
 ```
 
-## Complex example
+## Lazy rendering
+
+By default the smart sidebar content are not destroyed when it is closed. To change this behavior pass `lazy=true`.
 
 ```jsx example
+const [open, $open] = useSession('ExampleLazySmartSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>Lazy SmartSidebar</Span>
+      )}
+      lazy
+    >
+      <Button onPress={() => $open.set(!open)}>Toggle Sidebar</Button>
+    </SmartSidebar>
+  </Div>
+)
+```
+
+## Complex example
+
+```jsx example noscroll
 const [open, $open] = useSession('ExampleSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -221,4 +244,28 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={SmartSidebar} />
+<Sandbox Component={SmartSidebar}
+  props={{
+    $open: $root.scope('_session.Sandbox.SmartSidebar'),
+    renderContent: () => (
+      <Div styleName='sidebar'>
+        <Span styleName='sidebar-text'>Sidebar content</Span>
+      </Div>
+    ),
+    children: (
+      <Div styleName='content'>
+        <Button
+          styleName='button'
+          onPress={()=> {
+            const value = $root.get('_session.Sandbox.SmartSidebar')
+            $root.scope('_session.Sandbox.SmartSidebar').set(!value)
+          }}
+        >Toggle</Button>
+        <Br />
+        <Span>Children content</Span>
+      </Div>
+    )
+  }}
+  rendererStyleName='renderer'
+  block
+/>

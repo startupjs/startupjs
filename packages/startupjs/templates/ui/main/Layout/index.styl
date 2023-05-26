@@ -1,8 +1,10 @@
 $menuHeight = 6u
 
 .sidebar
-  background-color #eee
-
+  &:part(sidebar)
+    border-right-width 1px
+    border-right-color rgba(black, 0.05)
+    background-color #eee
   &-menu
     padding-top 2u
 
@@ -18,7 +20,7 @@ $menuHeight = 6u
 .logo
   margin-left 2u
   color $UI.colors.secondaryText
-  font(xl)
+  font(h5)
 
 .body
   flex 1

@@ -1,7 +1,7 @@
 const _ = require('lodash')
+const debug = require('debug')('access')
 const util = require('./util')
 const ShareDBAccessError = require('./error')
-const debug = require('debug')('access')
 
 const operations = [
   'Read',
@@ -43,23 +43,24 @@ function rigisterOrmRulesFromFactory (backend, pattern, factory) {
     // the user can write the first letter of the rules in any case
     const collection = pattern.replace(/\.\*$/u, '')
     backend['allow' + op](collection, async (...params) => {
-      const [docId, , session] = params
+      const [docId,, session] = params
       const userId = session.userId
       const model = global.__clients[userId].model
-
       const $doc = model._scope(`${collection}.${docId}`)
+
       await $doc.subscribe()
       const factoryModel = factory($doc, model)
-      const accsessFn = factoryModel.constructor.access[op.charAt(0).toLowerCase() + op.slice(1)]
-
       $doc.unsubscribe()
-      if (accsessFn) {
-        // if there are extra fields, an exception is thrown
-        validateKeys(accsessFn, pattern)
-        return accsessFn(model, collection, ...params)
-      } else {
-        return false
-      }
+
+      const access = factoryModel.constructor.access
+      if (!access) return false
+
+      validateKeys(access, pattern)
+
+      const opName = op.charAt(0).toLowerCase() + op.slice(1)
+      const fn = access[opName]
+
+      return fn ? fn(model, collection, ...params) : false
     })
   })
 }
@@ -160,7 +161,7 @@ class ShareDBAccess {
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
-    throw new ShareDBAccessError('ERR_ACCESS_DENY_CREATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
+    throw new ShareDBAccessError('ERR_ACCESS_DENY_UPDATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
   }
 
   applyHandler (shareRequest, done) {

@@ -1,7 +1,7 @@
+const { GLOBAL_NAME, LOCAL_NAME } = require('@startupjs/babel-plugin-rn-stylename-to-style/constants.cjs')
 const template = require('@babel/template').default
 const parser = require('@babel/parser')
 const t = require('@babel/types')
-const { GLOBAL_NAME, LOCAL_NAME } = require('@startupjs/babel-plugin-rn-stylename-to-style/constants.cjs')
 const compilers = require('./compilers')
 const MAGIC_LIBRARY = 'startupjs'
 
@@ -89,7 +89,12 @@ function insertAfterImports ($program, expressionStatement) {
     .get('body')
     .filter($i => $i.isImportDeclaration())
     .pop()
-  lastImport.insertAfter(expressionStatement)
+
+  if (lastImport) {
+    lastImport.insertAfter(expressionStatement)
+  } else {
+    $program.unshift(expressionStatement)
+  }
 }
 
 function validateTemplate ($template, usedCompilers = {}) {

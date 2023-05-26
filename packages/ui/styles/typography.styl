@@ -12,13 +12,17 @@ $fontWeightNamesMap = {
   bold: 'Bold'
 }
 
+DEPRECATED_SIZES = default xs 's' m l xl xxl xxxl xxxxl xxxxxl
+
 font(size = body2)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
   size = 's' if size is s
   size = body2 if size is default // DEPRECATED
+  if size in DEPRECATED_SIZES
+    p('font() mixin: size ' + size + ' is deprecated')
   font-size: $UI.fontSizes[size]
-  line-height $UI.lineHeights[size]
+  line-height: $UI.lineHeights[size]
 
 text(key = default) // DEPRECATED
   p('text() mixin is deprecated, use font() instead')

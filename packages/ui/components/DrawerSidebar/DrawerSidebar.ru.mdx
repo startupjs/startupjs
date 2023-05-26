@@ -1,13 +1,14 @@
-import DrawerSidebar from '../DrawerSidebar'
-import Row from '../Row'
-import Div from '../Div'
-import Menu from '../Menu'
+import Br from '../Br'
 import Button from '../Button'
 import Content from '../Content'
+import Div from '../Div'
+import DrawerSidebar from '../DrawerSidebar'
+import Menu from '../Menu'
+import Row from '../Row'
 import Span from '../typography/Span'
-import Br from '../Br'
-import { useSession } from 'startupjs'
+import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # DrawerSidebar (дровер)
 
@@ -37,7 +38,7 @@ return (
 
 Свойство `position` указывает сторону окна, с которой будет выдвигаться дровер. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
-```jsx example
+```jsx example noscroll
 const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -71,9 +72,32 @@ return (
 )
 ```
 
-## Сложный пример
+## Ленивый рендеринг
+
+По умолчанию содержимое дровера не уничтожается при его закрытии. Чтобы изменить это поведение, передайте `lazy=true`.
 
 ```jsx example
+const [open, $open] = useSession('ExampleLazyDrawerSidebar')
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <DrawerSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>
+          Lazy DrawerSidebar
+        </Span>)
+      }
+      lazy
+    >
+      <Button onPress={() => $open.set(true)}>Open</Button>
+    </DrawerSidebar>
+  </Div>
+)
+```
+
+## Сложный пример
+
+```jsx example noscroll
 const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -108,4 +132,28 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={DrawerSidebar} />
+<Sandbox
+  Component={DrawerSidebar}
+  props={{
+    $open: $root.scope('_session.Sandbox.DrawerSidebar'),
+    renderContent: () => (
+      <Div styleName='sidebar'>
+        <Span>Sidebar content</Span>
+      </Div>
+    ),
+    children: (
+      <Div styleName='content'>
+        <Button
+          onPress={()=> {
+            const value = $root.get('_session.Sandbox.DrawerSidebar')
+            $root.scope('_session.Sandbox.DrawerSidebar').set(!value)
+          }}
+        >Open</Button>
+        <Br />
+        <Span>Children content</Span>
+      </Div>
+    )
+  }}
+  rendererStyleName='renderer'
+  block
+/>

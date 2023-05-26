@@ -23,12 +23,14 @@ return (
     onChange={(value) => setChecked(value)}
     options={[
       {
-        value: 'item1',
-        label: 'Item-1'
+        value: 'js',
+        label: 'JavaScript',
+        description: 'Scripting language which helps you create interactive web pages'
       },
       {
-        value: 'item2',
-        label: 'Item-2'
+        value: 'php',
+        label: 'PHP',
+        description: 'Server side scripting language'
       },
     ]}
   />
@@ -43,55 +45,62 @@ const [checked, setChecked] = useState()
 return (
   <Radio
     value={checked}
-    onChange={setChecked}
-    disabled={checked === 'item2'}
+    onChange={(value) => setChecked(value)}
     options={[
       {
-        value: 'item1',
-        label: 'Item-1 label'
+        value: 'js',
+        label: 'JavaScript'
       },
       {
-        value: 'item2',
-        label: 'Disable items',
+        value: 'php',
+        label: 'PHP'
       },
-      {
-        value: 'item3',
-        label: 'Item-3 label',
-      },
-      {
-        value: 'item4',
-        label: 'Item 4 disabled item',
-        disabled: true
-      }
     ]}
+    disabled
   />
 )
 ```
 
-## Radio.Item
-
-A component used to add custom markup in `Radio` component.
+## Readonly
 
 ```jsx example
-const [selectedItem, setSelectedItem] = useState('')
+const [checked, setChecked] = useState('js')
+
 return (
   <Radio
-    value={selectedItem}
-    onChange={(value) => setSelectedItem(value)}
-  >
-    <Radio.Item value='item1'>
-      <Span>Item-1</Span>
-    </Radio.Item>
-    <Radio.Item value='item2'>
-      <Span>Item-2</Span>
-    </Radio.Item>
-    <Radio.Item value='item3'>
-      <Span>Item-3</Span>
-    </Radio.Item>
-  </Radio>
+    value={checked}
+    onChange={(value) => setChecked(value)}
+    options={[
+      {
+        value: 'js',
+        label: 'JavaScript'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
+      },
+    ]}
+    readonly
+  />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Radio} />
+<Sandbox
+  Component={Radio}
+  props={{
+    options:[
+      {
+        value: 'red',
+        label: 'Red'
+      },
+      {
+        value: 'blue',
+        label: 'Blue'
+      }
+    ],
+    value: 'red',
+    onChange: value=> alert('Enter "' + value + '" in the value input')
+  }}
+/>

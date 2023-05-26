@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
 import ObjectInput from '../ObjectInput'
-import { useValue } from 'startupjs'
+import { useValue, useValue$ } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # ObjectInput
 
 ObjectInput lets build dynamic forms using its declarative api.
+
+ObjectInput accepts an inputs metadata object with a required `input` key to specify what type of input to display in the `properties` property.
+
+Possible types are: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
 
 ```jsx
 import { ObjectInput } from from '@startupjs/ui'
@@ -16,28 +20,51 @@ import { ObjectInput } from from '@startupjs/ui'
 
 ## Simple example
 
-ObjectInput accepts an object in the `properties` property with a required `input` key to specify what type of input to display. Possible types are ([сheckbox](/docs/components/Checkbox), [text](/docs/components/TextInput) & [object](/docs/components/ObjectInput)). The `properties` object also inherit any of the props passed to the these components.
+It's important to have `properties` object defined as a constant either outside of your component or cached with `useMemo()`, otherwise component is going to re-render the whole form tree whenever you are editing one of the field.
 
 ```jsx example
-const [value, $value] = useValue()
+const $value = useValue$()
+
 return (
   <ObjectInput
-    value={value}
     $value={$value}
     properties={{
-      firstName: {
+      email: {
         input: 'text',
-        label: 'First name'
+        label: 'Email'
       },
-      lastName: {
+      password: {
         input: 'text',
-        label: 'Last name'
-      },
-      termsAndCondition: {
-        input: 'checkbox',
-        label: 'I agree to T&C'
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
+  />
+)
+```
+
+## Row
+
+You can show nested inputs in a row by passing the `row` flag.
+
+```jsx example
+const $value = useValue$()
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    row
   />
 )
 ```
@@ -47,111 +74,131 @@ return (
 ObjectInput accepts an array in the `order` property to specify in what order should the inputs be displayed.
 
 ```jsx example
-const [value, $value] = useValue()
+const $value = useValue$()
+
 return (
   <ObjectInput
-    value={value}
     $value={$value}
-    order={['lastName', 'termsAndCondition', 'firstName']}
+    order={['password', 'email']}
     properties={{
-      firstName: {
+      email: {
         input: 'text',
-        label: 'First name'
+        label: 'Email'
       },
-      lastName: {
+      password: {
         input: 'text',
-        label: 'Last name'
-      },
-      termsAndCondition: {
-        input: 'checkbox',
-        label: 'I agree to T&C'
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
   />
 )
 ```
 
+## Displaying errors
+
+The `errors` property accepts an object with error texts for inputs, where the key is the input key from the `properties` object and its value is the error text.
+
+```jsx example
+const [, $value] = useValue({})
+
+return (
+  <ObjectInput
+    $value={$value}
+    errors={{
+      email: 'Email input error',
+      password: 'Password input error'
+    }}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+const $value = useValue$()
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    disabled
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const $value = useValue$({ email: 'startupjs@gmail.com', password: '123456' })
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    readonly
+  />
+)
+```
+
 ## Advanced usage
 
-ObjectInput supports `dependsOn` and `dependsValue` properties for each object from `properties` array to dynamically display inputs.
+ObjectInput supports `dependsOn` and `dependsValue` properties for each input object in `properties` to dynamically display inputs.
 
 - `dependsOn` is used to specify the object key which the current input depends on
 - `dependsValue` is used to specify at what value of the input with key `dependsOn` should the current input be shown
 
-In the `example-1` below the dependent textbox will only be shown when the default textbox is non-empty. Similarly, `example-2` only shows dependent textbox when the checkbox is checked.
+In the example below the dependent `password` input will only be shown if the `email` input is not empty.
 
-Caution: When the dependsOn field changes and dependent field is no longer visible its previous value is preserved.
-
-```jsx example
-const [value, $value] = useValue({})
-const [value2, $value2] = useValue()
-return (
-  <Content>
-    <Span>Example-1</Span>
-    <Br lines={0.5} />
-    <ObjectInput
-      value={value}
-      $value={$value}
-      properties={{
-        textInput: {
-          input: 'text',
-          label: 'Text input',
-          placeholder: 'Type anything'
-        },
-        dependent: {
-          dependsOn: 'textInput',
-          dependsValue: value.textInput,
-          input: 'text',
-          label: 'Dependent on text input'
-        }
-      }}
-    />
-    <Br />
-    <Span>Example-2</Span>
-    <Br lines={0.5}/>
-    <ObjectInput
-      value={value2}
-      $value={$value2}
-      properties={{
-        checkbox: {
-          input: 'checkbox',
-          label: 'Click to display next input'
-        },
-        dependent: {
-          dependsOn: 'checkbox',
-          dependsValue: true,
-          input: 'text',
-          label: 'Dependent on checkbox'
-        }
-      }}
-    />
-  </Content>
-)
-```
-
-## Displaying errors
-
-The `errors` property provides error texts for inputs as an object, the keys correspond to the `properties` keys, properties - the error text.
+**Caution**: When the `dependsOn` field changes and dependent field is no longer visible its previous value is preserved.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue()
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
-    errors={{
-      firstName: value.firstName ? '' : 'First name value must be specified',
-      lastName: value.lastName ? '' : 'Last name value must be specified'
-    }}
     properties={{
-      firstName: {
+      email: {
         input: 'text',
-        label: 'First name'
+        label: 'Email'
       },
-      lastName: {
+      password: {
         input: 'text',
-        label: 'Last name'
+        label: 'Password',
+        dependsOn: 'email',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
   />

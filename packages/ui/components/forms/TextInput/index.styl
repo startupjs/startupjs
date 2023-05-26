@@ -1,46 +1,88 @@
 // ----- CONFIG: $UI.TextInput
 
 $this = merge({
-  caretColor: $UI.colors.primary,
+  caretColor: $UI.colors.mainText,
   borderWidth: 1,
-  height: {
-    l: 5u,
+  heights: {
+    s: 3u,
     m: 4u,
-    s: 3u
+    l: 5u
   },
-  lineHeight: {
-    l: 3u,
+  fontSizes: {
+    s: 1.75u,
+    m: 1.75u,
+    l: 2u
+  },
+  lineHeights: {
+    s: 2.5u,
     m: 2.5u,
-    s: 2.5u
-  }
+    l: 3u
+  },
+  placeholderTextColor: $UI.colors.darkLighter
 }, $UI.TextInput, true)
 
 // ----- COMPONENT
 
-_inputBg = $UI.colors.white
-_inputBorderColor = $UI.colors.darkLighter
-_inputBgDisabled = $UI.colors.darkLightest
-_inputBorderWidth = 1px//$UI.TextInput.borderWidth
-_inputCaretColor = $this.caretColor
-_inputTextColor = $UI.colors.mainText
-_focusedColor = $UI.colors.primary
-_inputFontSizeL = 2u
-_inputFontSizeM = 1.75u
-_inputFontSizeS = 1.75u
+$inputBg = $UI.colors.white
+$inputBorderColor = $UI.colors.darkLighter
+$inputBgDisabled = $UI.colors.darkLightest
+$inputBorderWidth = 1px
+$inputCaretColor = $this.caretColor
+$inputTextColor = $UI.colors.mainText
+$focusedColor = $UI.colors.primary
+$errorColor = $UI.colors.attention
 
-.label
-  margin-bottom 0.5u
-  font(s)
-  &.focused
-    color _focusedColor
+.input-input
+  margin 0 // important for safari
+  flex 1 // important for multiline
+  // padding-top, padding-bottom is important
+  // for android because it has invisible paddings
+  // on the web is important for textarea (override default paddings)
+  padding-left 1u
+  padding-right @padding-left
+  color $inputTextColor
+  background-color $inputBg
+  border-width $inputBorderWidth
+  border-style solid
+  border-color $inputBorderColor
+  min-width 8u
+  radius()
 
-.readonly
+  +web()
+    outline 0
+    caret-color $inputCaretColor
+
   &.s
-    font(s)
+    font-size $this.fontSizes.s
+
   &.m
-    font(m)
+    font-size $this.fontSizes.m
+
   &.l
-    font(l)
+    font-size $this.fontSizes.l
+
+  &.disabled
+    background-color $inputBgDisabled
+
+    +web()
+      cursor default
+
+  &.focused
+    border-color $focusedColor
+
+  &.error
+    border-color $errorColor
+
+  for side in (left right)
+    &.icon-{side}
+      &.l
+        padding-{side} 5u
+
+      &.m
+        padding-{side} 4u
+
+      &.s
+        padding-{side} 4u
 
 .input-icon
   position absolute
@@ -55,53 +97,7 @@ _inputFontSizeS = 1.75u
   &.right
     right 1u
 
-.input-input
-  margin 0 // important for safari
-  flex 1 // important for multiline
-  // padding-top, padding-bottom is important
-  // for android because it has invisible paddings
-  // on the web is important for textarea (override default paddings)
-  padding 0 1u
-  color _inputTextColor
-  background-color _inputBg
-  border-width _inputBorderWidth
-  border-style solid
-  border-color _inputBorderColor
-  min-width 8u
-  radius()
-
-  +web()
-    outline 0
-    caret-color _inputCaretColor
-
-  &.l
-    font-size _inputFontSizeL
-
-  &.m
-    font-size _inputFontSizeM
-
-  &.s
-    font-size _inputFontSizeS
-
-  &.disabled
-    background-color _inputBgDisabled
-
-  &.focused
-    border-color _focusedColor
-
-  for side in (left right)
-    &.icon-{side}
-      &.l
-        padding-{side} 5u
-
-      &.m
-        padding-{side} 4u
-
-      &.s
-        padding-{side} 4u
-
 // ----- JS EXPORTS
 
 :export
   config: $this
-  colors: $UI.colors

@@ -1,29 +1,49 @@
-
-import React from 'react'
+import React, { useEffect, useImperativeHandle } from 'react'
+import { observer } from 'startupjs'
 import Row from './../../Row'
 import Span from './../../typography/Span'
+import themed from '../../../theming/themed'
 import './index.styl'
 
-export default function DefaultInput ({
-  value,
+function DefaultInput ({
+  style,
+  value = [],
   placeholder,
   disabled,
   focused,
-  error,
   readonly,
   children,
-  onOpen
-}) {
+  onOpen,
+  onHide,
+  _hasError
+}, ref) {
+  useImperativeHandle(ref, () => ({
+    focus: onOpen,
+    blur: onHide
+  }), [])
+
+  useEffect(() => {
+    if (focused && disabled) onHide()
+  }, [disabled])
+
   return pug`
-    Row.input(
-      styleName={ disabled, focused, error, readonly }
-      onPress=disabled || readonly ? void 0 : onOpen
-      wrap
-    )
-      if !value || !value.length && !readonly
-        Span.placeholder= placeholder
-      if !value || !value.length && readonly
-        Span.placeholder='-'
-      = children
+    if readonly
+      Span= value.join(', ')
+    else
+      Row.input(
+        style=style
+        styleName={ disabled, focused, readonly, error: _hasError }
+        onPress=disabled || readonly ? void 0 : onOpen
+        wrap
+      )
+        if !value.length
+          Span.placeholder= placeholder || '-'
+
+        = children
   `
 }
+
+export default observer(
+  themed('Multiselect', DefaultInput),
+  { forwardRef: true }
+)

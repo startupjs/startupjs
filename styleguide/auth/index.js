@@ -1,5 +1,4 @@
 import React from 'react'
-import { initAuthApp } from '@startupjs/auth'
 import {
   LoginForm,
   RegisterForm,
@@ -15,6 +14,7 @@ import { AuthButton as CommonAuthButton } from '@startupjs/auth-common'
 import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg'
 import { BASE_URL } from '@env'
 import Joi from '@hapi/joi'
+import { initAuthApp } from '../../packages/auth'
 import Layout from './Layout'
 import './index.styl'
 
@@ -22,16 +22,6 @@ function getCaptionForm (slide) {
   if (slide === 'sign-in') return 'Авторизация'
   if (slide === 'sign-up') return 'Регистрация'
 }
-
-const loginForm = pug`
-  LoginForm(
-    properties={
-      email: {
-        initValue: 'test@gmail.com'
-      }
-    }
-  )
-`
 
 const registerForm = pug`
   RegisterForm(
@@ -56,10 +46,15 @@ const registerForm = pug`
 export default initAuthApp({
   Layout,
   redirectUrl: '/profile?customParam=dummy',
+  loggedInRedirectUrl: '/profile?customParam=dummy',
   localForms: {
-    'sign-in': loginForm,
+    'sign-in': pug`
+      LoginForm
+    `,
     'sign-up': registerForm,
-    recover: <RecoverForm />
+    recover: pug`
+      RecoverForm
+    `
   },
 
   socialButtons: [

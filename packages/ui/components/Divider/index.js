@@ -56,4 +56,4 @@ Divider.propTypes = {
   lines: PropTypes.number
 }
 
-export default observer(themed(Divider))
+export default observer(themed('Divider', Divider))

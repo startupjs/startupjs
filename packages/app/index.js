@@ -1,5 +1,3 @@
 export { default, pathFor } from './client'
-export { Dialog } from './client/components'
-export { alert, confirm, prompt } from './client/helpers'
 export { ErrorTemplate } from './client/Router/Error/templates'
 export { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-native'

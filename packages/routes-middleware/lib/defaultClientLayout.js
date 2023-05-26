@@ -15,10 +15,7 @@ function getClientLayoutFn () {
   }
 }
 
-// TODO: Remove modelBundle. We don't need it anymore since we get _session
-//       through a direct ajax call now in @startupjs/app
-// TODO: Remove env. It's passed as _session.env now.
-function getDefaultLayout ({ head, styles, env, modelBundle, jsBundle, mode, fontsStyles }) {
+function getDefaultLayout ({ head, styles, jsBundle, mode, fontsStyles }) {
   return /* html */`
     <html>
       <head>
@@ -26,12 +23,10 @@ function getDefaultLayout ({ head, styles, env, modelBundle, jsBundle, mode, fon
         ${head || ''}
         <style>${defaultStyles}${mode === 'react-native' ? rnwPolyfill : ''}</style>
         ${styles || ''}
-        <script>window.env = ${JSON.stringify(env)}</script>
         <style>${fontsStyles}</style>
       </head>
       <body>
         <div id='app'></div>
-        <script type='application/json' id='bundle'>${JSON.stringify(modelBundle)}</script>
         <script defer src='${jsBundle}'></script>
       </body>
     </html>

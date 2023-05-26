@@ -1,0 +1,120 @@
+import Button from '../Button'
+import Span from '../typography/Span'
+import toast from './toast'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
+
+# Toast (тост)
+
+Тост предоставляет краткие не блокирующие уведомления, информирующие пользователей о процессе, который приложение выполнило или будет выполнять.
+
+```js
+import { toast } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+function onPress () {
+  toast({ text: 'Note archived' })
+}
+
+return pug`
+  Button(onPress=onPress) Показать тост
+`
+```
+
+## API компонента
+
+```js
+toast({ title?, text, alert?, icon?, type?, actionLabel?, onAction?, onClose? })
+```
+
+**Параметры:**
+
+```jsx pure-example noscroll
+return (
+  <Table styleName='table'>
+    <Thead>
+      <Tr>
+        <Th>Имя</Th>
+        <Th>Ип</Th>
+        <Th>Описание</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr>
+        <Td>type</Td>
+        <Td>one of 'info', 'error', 'warning'</Td>
+        <Td>
+        <Span>
+          Задает внешний вид тоста.
+          <Span bold> Значение по умолчанию: </Span>
+          'info'.
+        </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>title</Td>
+        <Td>string</Td>
+        <Td>
+          <Span>
+            Заголовок тоста.
+            <Span bold> Значение по умолчанию: </Span>
+            значение свойства `type`.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>text</Td>
+        <Td>string</Td>
+        <Td>Текст, который отображается под заголовком тоста.</Td>
+      </Tr>
+      <Tr>
+        <Td>alert</Td>
+        <Td>bool</Td>
+        <Td>
+          По умолчанию тост автоматически закрывается через 5 секунд. Передайте значение `true`, чтобы отключить это поведение.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>icon</Td>
+        <Td>icon</Td>
+        <Td>
+          <Span>
+            Изменяет значок заголовка тоста.
+            <Span bold> Значение по умолчанию: </Span>
+            зависит от свойства `type`.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>actionLabel</Td>
+        <Td>string</Td>
+        <Td>
+          Текст кнопки действия. Кнопка отображается после текста тоста.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onAction</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана при нажатии на кнопку действия.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onClose</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана, когда тост будет закрыт.
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```

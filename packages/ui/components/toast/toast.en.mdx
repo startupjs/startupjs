@@ -1,0 +1,118 @@
+import Button from '../Button'
+import Span from '../typography/Span'
+import toast from './toast'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
+
+# Toast
+
+Toast provide brief non-blocking notifications that inform users of a process that an app has performed or will perform.
+
+```js
+import { toast } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+function onPress () {
+  toast({ text: 'Note archived' })
+}
+
+return pug`
+  Button(onPress=onPress) Show toast
+`
+```
+
+## Component API
+
+```js
+toast({ title?, text, alert?, icon?, type?, actionLabel?, onAction?, onClose? })
+```
+
+**Parameters:**
+
+```jsx pure-example noscroll
+return (
+  <Table styleName='table'>
+    <Thead>
+      <Tr>
+        <Th>Name</Th>
+        <Th>Type</Th>
+        <Th>Description</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr>
+        <Td>type</Td>
+        <Td>one of 'info', 'error', 'warning'</Td>
+        <Td>
+        <Span>
+          Sets the toast's appearance.
+          <Span bold> Default: </Span>
+          'info'.
+        </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>title</Td>
+        <Td>string</Td>
+        <Td>
+          <Span>
+            The toast's title.
+            <Span bold> Default: </Span>
+            value of the `type` property.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>text</Td>
+        <Td>string</Td>
+        <Td>The text that is displayed below the toast's title.</Td>
+      </Tr>
+      <Tr>
+        <Td>alert</Td>
+        <Td>bool</Td>
+        <Td>
+          The toast closes automatically after 5 seconds by default. Pass 'true` to disable this behavior.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>icon</Td>
+        <Td>icon</Td>
+        <Td>
+          <Span>
+            Changes icon in the toast's title.
+            <Span bold> Default: </Span>
+            depends on the `type` property.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>actionLabel</Td>
+        <Td>string</Td>
+        <Td>
+          Action button text. The button is displayed after the toast's text.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onAction</Td>
+        <Td>function</Td>
+        <Td>
+          A callback function that will be called when the action button is pressed.
+          </Td>
+      </Tr>
+      <Tr>
+        <Td>onClose</Td>
+        <Td>function</Td>
+        <Td>A callback function that will be called when the toast is closed.</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```

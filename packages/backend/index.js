@@ -3,14 +3,15 @@ const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
 const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
 const sharedbSchema = require('@startupjs/sharedb-schema')
 const serverAggregate = require('@startupjs/server-aggregate')
-const conf = require('nconf')
 const isArray = require('lodash/isArray')
 const isPlainObject = require('lodash/isPlainObject')
 const redisPubSub = require('sharedb-redis-pubsub')
 const racer = require('racer')
-const redis = require('redis-url')
+const redis = require('redis')
+const Redlock = require('redlock')
 const shareDbHooks = require('sharedb-hooks')
-const getShareMongo = require('./getShareMongo')
+const getShareDbMongo = require('./getShareDbMongo')
+const getRedis = require('./getRedis')
 
 global.__clients = {}
 const usersConnectionCounter = {}
@@ -23,17 +24,29 @@ try {
 } catch (e) { }
 
 module.exports = async options => {
-  // ------------------------------------------------------->     storeUse    <#
+  options = Object.assign({ secure: true }, options)
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
   // ShareDB Setup
-  const shareMongo = await getShareMongo()
+  let shareDbMongo
+  if (process.env.MONGO_URL && !process.env.NO_MONGO) {
+    shareDbMongo = await getShareDbMongo()
+  } else {
+    console.log('>>> WARNING! Using temporary Mingo storage for the DB. All data will be lost on server restart.\n')
+    shareDbMongo = getMingo()
+  }
+  if (options.pollDebounce) shareDbMongo.pollDebounce = options.pollDebounce
+
+  let redisClient
+  let redisPrefix
 
   let backend = (() => {
-    // For horizontal scaling, in production, redis is required.
-    if (conf.get('REDIS_URL') && !conf.get('NO_REDIS')) {
-      let redisClient = redis.connect()
-      let redisObserver = redis.connect()
+    if (!process.env.NO_REDIS) {
+      const redis = getRedis()
+      const redisObserver = redis.observer
+
+      redisClient = redis.client
+      redisPrefix = redis.prefix
 
       // Flush redis when starting the app.
       // When running in cluster this should only run on the first instance.
@@ -41,17 +54,49 @@ module.exports = async options => {
       // is supported.
       // TODO: Implement detection of the first instance on kubernetes and azure
       if (options.flushRedis !== false) {
-        redisClient.on('connect', () => {
-          let [, , , instance] = (process.env.HOSTNAME || '').split('.')
-          if (instance == null || instance === '1') {
+        const flushRedis = () => {
+          return new Promise(resolve => {
             redisClient.flushdb((err, didSucceed) => {
               if (err) {
-                console.log('Redis flushdb err:', err)
+                console.error('Redis flushdb err:', err)
               } else {
                 console.log('Redis flushdb success:', didSucceed)
               }
+              resolve()
             })
+          })
+        }
+        redisClient.on('connect', () => {
+          // Always flush redis db in development or if a force env flag is specified.
+          if (process.env.NODE_ENV !== 'production' || process.env.FORCE_REDIS_FLUSH) {
+            flushRedis()
+            return
           }
+          // In production we flush redis db once a day using locking in redis itself.
+          const redlock = new Redlock([redisClient], {
+            driftFactor: 0.01,
+            retryCount: 0
+          })
+          const ONE_DAY = 1000 * 60 * 60 * 24
+          const LOCK_FLUSH_DB_KEY = 'startupjs_service_flushdb'
+          redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
+            .then(() => {
+              console.log('>>> FLUSHING REDIS DB (this should happen only once a day)')
+              return flushRedis()
+            })
+            .then(() => {
+              // Re-lock right away.
+              console.log('>>> RE-LOCK REDIS DB FLUSH CHECK (for one day)')
+              redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
+                .catch(err => console.error('Error while re-locking flushdb redis lock!\n' + err))
+            })
+            .catch(err => {
+              if (err instanceof Redlock.LockError) {
+                console.log('>> No need to do Redis Flush DB yet (lock for one day is still present)')
+              } else {
+                console.error('Error while checking flushdb redis lock!\n' + err)
+              }
+            })
         })
       }
 
@@ -61,29 +106,28 @@ module.exports = async options => {
       })
 
       return racer.createBackend({
-        db: shareMongo,
+        db: shareDbMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
-
-      // redis alternative
-    } else if (conf.get('WSBUS_URL') && !conf.get('NO_WSBUS')) {
+    // redis alternative
+    } else if (process.env.WSBUS_URL && !process.env.NO_WSBUS) {
       if (!wsbusPubSub) {
         throw new Error(
           "Please install the 'sharedb-wsbus-pubsub' package to use it"
         )
       }
-      let pubsub = wsbusPubSub(conf.get('WSBUS_URL'))
+      let pubsub = wsbusPubSub(process.env.WSBUS_URL)
 
       return racer.createBackend({
-        db: shareMongo,
+        db: shareDbMongo,
         pubsub: pubsub,
         extraDbs: options.extraDbs
       })
       // For development
     } else {
       return racer.createBackend({
-        db: shareMongo,
+        db: shareDbMongo,
         extraDbs: options.extraDbs
       })
     }
@@ -97,78 +141,91 @@ module.exports = async options => {
     return oldCreateModel.call(backend, { fetchOnly: true, ...options }, req)
   }
 
+  // sharedb-hooks
   shareDbHooks(backend)
 
-  if (
-    options.accessControl &&
-    global.STARTUP_JS_ORM &&
-    Object.keys(global.STARTUP_JS_ORM).length > 0
-  ) {
+  if (options.hooks != null) {
+    options.hooks(backend)
+  }
+
+  const ORM = global.STARTUP_JS_ORM || {}
+
+  // sharedb-access
+  if (options.secure || options.accessControl) {
     // eslint-disable-next-line
     new ShareDbAccess(backend, { dontUseOldDocs: true })
-    for (const path in global.STARTUP_JS_ORM) {
-      const ormEntity = global.STARTUP_JS_ORM[path].OrmEntity
+
+    for (const path in ORM) {
+      const ormEntity = ORM[path].OrmEntity
 
       const { access } = ormEntity
       const isFactory = !!ormEntity.factory
 
+      // TODO
+      // move rigisterOrmRulesFromFactory and registerOrmRules to this library
       if (isFactory) {
         rigisterOrmRulesFromFactory(backend, path, ormEntity)
       } else if (access) {
         registerOrmRules(backend, path, access)
       }
     }
-    console.log('Sharedb-access is working')
+
+    console.log('sharedb-access is working')
   }
 
-  if (
-    options.serverAggregate &&
-    global.STARTUP_JS_ORM &&
-    Object.keys(global.STARTUP_JS_ORM).length > 0
-  ) {
-    serverAggregate(backend, options.serverAggregate.customCheck)
-    for (const path in global.STARTUP_JS_ORM) {
-      const { aggregations } = global.STARTUP_JS_ORM[path].OrmEntity
-      if (aggregations) {
-        for (let aggregationKey in aggregations) {
-          const collection = path.replace(/\.\*$/u, '')
-          backend.addAggregate(collection, aggregationKey, (queryParams, shareRequest) => {
+  // server aggregate
+  if (options.secure || options.serverAggregate) {
+    const { customCheck } = options.serverAggregate || {}
+    serverAggregate(backend, customCheck)
+
+    for (const path in ORM) {
+      const { aggregations } = ORM[path].OrmEntity
+      if (!aggregations) continue
+
+      for (let aggregationKey in aggregations) {
+        const collection = path.replace(/\.\*$/u, '')
+        backend.addAggregate(
+          collection,
+          aggregationKey,
+          (queryParams, shareRequest) => {
             const session = shareRequest.agent.connectSession
             const userId = session.userId
             const model = global.__clients[userId].model
             return aggregations[aggregationKey](model, queryParams, session)
-          })
-        }
+          }
+        )
       }
     }
-    console.log('serverAggregate is working')
+
+    console.log('server aggregate is working')
   }
 
+  // sharedb-schema
   if (
-    options.validateSchema &&
-    process.env.NODE_ENV !== 'production' &&
-    global.STARTUP_JS_ORM &&
-    Object.keys(global.STARTUP_JS_ORM).length > 0
+    (options.secure || options.validateSchema) &&
+    process.env.NODE_ENV !== 'production'
   ) {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
-    for (const path in global.STARTUP_JS_ORM) {
-      const { schema: properties } = global.STARTUP_JS_ORM[path].OrmEntity
+    for (const path in ORM) {
+      const { schema } = ORM[path].OrmEntity
 
-      const isFactory = !!global.STARTUP_JS_ORM[path].OrmEntity.factory
+      const isFactory = !!ORM[path].OrmEntity.factory
 
       if (isFactory) {
-        schemaPerCollection.schemas[path.replace('.*', '')] = global.STARTUP_JS_ORM[path].OrmEntity
-      } else if (properties) {
-        const schema = { type: 'object', properties }
+        schemaPerCollection.schemas[path.replace('.*', '')] = ORM[path].OrmEntity
+      } else if (schema) {
         schemaPerCollection.schemas[path.replace('.*', '')] = schema
       }
-    }
-    sharedbSchema(backend, schemaPerCollection)
-  }
 
-  if (options.hooks != null) {
-    options.hooks(backend)
+      // allow any 'service' collection structure
+      // since 'service' collection is used in our startupjs libraries
+      // and we don't have a tool to collect scheme from all packages right now
+      schemaPerCollection.schemas.service = { properties: {} }
+    }
+
+    sharedbSchema(backend, schemaPerCollection)
+    console.log('sharedb-schema is working')
   }
 
   backend.on('client', (client, reject) => {
@@ -201,12 +258,29 @@ module.exports = async options => {
 
   // ------------------------------------------------------->      backend       <#
   if (options.ee != null) {
+    // should to deprecate first parameter in future
     options.ee.emit('backend', backend, {
-      mongo: shareMongo.mongo
+      mongo: shareDbMongo.mongo,
+      backend,
+      shareDbMongo,
+      redisClient,
+      redisPrefix
     })
   }
 
-  return { backend, shareMongo, redis }
+  return {
+    backend,
+    shareMongo: shareDbMongo, // mock old name of shareDbMongo
+    shareDbMongo, // you can get mongo client from shareDbMongo.mongo
+    redisClient, // you can directly pass this redis client to redlock
+    redisPrefix, // use this for you redis prefixes (and redlock prefixes)
+    // mock old redis-url api. TODO: get rid of this after we refactor other libs to use redisClient directly
+    redis: {
+      connect () {
+        return redis.createClient({ url: process.env.REDIS_URL })
+      }
+    }
+  }
 }
 
 function pathQueryMongo (request, next) {
@@ -215,4 +289,9 @@ function pathQueryMongo (request, next) {
   if (!isArray(query)) query = [query]
   request.query = { _id: { $in: query } }
   next()
+}
+
+function getMingo () {
+  const ShareDBMingo = require('sharedb-mingo-memory')
+  return new ShareDBMingo()
 }

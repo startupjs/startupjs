@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect, useLayoutEffect } from 'react'
-import { Route, Redirect, useLocation } from 'react-router'
+import React, { useState, useEffect } from 'react'
+import { Route, Redirect } from 'react-router'
 import {
   $root,
   observer,
@@ -10,25 +10,10 @@ import omit from 'lodash/omit'
 import qs from 'qs'
 import RoutesWrapper from './RoutesWrapper'
 
-let isLoadApp = false
-
 export default observer(function Routes ({
   routes,
-  onRouteError,
   ...props
 }) {
-  const location = useLocation()
-  const currentUrl = location.pathname
-
-  const restoreUrl = useMemo(() => {
-    return $root.get('_session.restoreUrl')
-  }, [])
-
-  useEffect(() => {
-    $root.del('_session.restoreUrl')
-    isLoadApp = true
-  }, [])
-
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
 
@@ -38,9 +23,14 @@ export default observer(function Routes ({
           Redirect(to=route.redirect)
         `
         : pug`
+          //- DEPRECATED
           //- TODO: We can remove passing props because
           //- in pages we can use react-router hooks for this
-          RouteComponent(...props route=route onError=onRouteError)
+          RouteComponent(
+            key=props.match.url
+            route=route
+            ...props
+          )
         `
     }
 
@@ -53,12 +43,6 @@ export default observer(function Routes ({
     `
   })
 
-  if (!isLoadApp && restoreUrl && currentUrl !== restoreUrl) {
-    return pug`
-      Redirect(to=restoreUrl)
-    `
-  }
-
   return pug`
     RoutesWrapper(...props)= routeComponents
   `
@@ -68,43 +52,31 @@ const RouteComponent = observer(function RCComponent ({
   route,
   location,
   match,
-  onError,
   ...props
 }) {
-  const [render, setRender] = useState()
+  // don't render anything while useEffect ends
+  const [render, setRender] = useState(false)
 
-  function runFilters (filters) {
-    if (!filters) return setRender(true)
-    filters = filters.slice()
-    function runFilter (err) {
-      if (err) return emit('error', err)
-      const filter = filters.shift()
-      if (typeof filter === 'function') {
-        return filter($root, runFilter, (url) => {
-          emit('url', url, { replace: true })
-        })
-      }
+  useEffect(() => {
+    ;(async () => {
+      initRoute(location, match.params)
+      const filters = route.filters || []
+      if (filters.length) await runFilters(route.filters)
       setRender(true)
-    }
-    runFilter()
-  }
-
-  useLayoutEffect(() => {
-    initRoute(location, match.params)
-    runFilters(route.filters)
+    })()
   }, [location.pathname, location.search, location.hash])
 
   if (!render) return null
-
-  // Don't render anything if the route is just a redirect
-  if (route.redirect) return null
 
   const RC = route.component
   if (!RC) throw new Error('No route.component specified for route "' + route.path + '"')
 
   return pug`
+    //- DEPRECATED
+    //- TODO: We can remove passing match, location and props because
+    //- in pages we can use react-router hooks for this
+    //- Think about remove params=route.params
     RC(
-      key=match.url
       params=route.params
       match=match
       location=location
@@ -123,6 +95,7 @@ function initRoute (location, routeParams) {
   const hash = location.hash
   const query = qs.parse(location.search, { ignoreQueryPrefix: true })
   if (url === prevUrl && search === prevSearch && hash === prevHash) return
+  $root.setDiff('$render.prevUrl', prevUrl)
   $root.setDiff('$render.url', url)
   $root.setDiff('$render.hash', location.hash)
   $root.setDiff('$render.search', search)
@@ -134,4 +107,23 @@ function initRoute (location, routeParams) {
     $root.silent().destroy('_page')
     initLocalCollection('_page')
   }
+}
+
+function runFilters (filters = []) {
+  return new Promise(resolve => {
+    filters = filters.slice()
+
+    function runFilter (err) {
+      if (err) return emit('error', err)
+      const filter = filters.shift()
+      if (typeof filter === 'function') {
+        return filter($root, runFilter, (url) => {
+          emit('url', url, { replace: true })
+        })
+      }
+      resolve()
+    }
+
+    runFilter()
+  })
 }

@@ -25,4 +25,4 @@ Br.propTypes = {
 
 }
 
-export default observer(themed(Br))
+export default observer(themed('Br', Br))

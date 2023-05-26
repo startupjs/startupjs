@@ -1,105 +1,69 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import Input from '../Input'
 import Div from '../../Div'
 import Br from '../../Br'
 import Span from '../../typography/Span'
-import { useValue, u } from 'startupjs'
+import { $root, useValue, u } from 'startupjs'
+import { getPropsForType, getDefaultValueForType } from './docsHelpers'
 import { Sandbox } from '@startupjs/docs'
 
 # Input (инпут)
 
-Инпут предоставляет апи-обвертку над [Checkbox](/docs/forms/Checkbox), [TextInput](/docs/forms/TextInput), [Select](/docs/forms/Select) и [ObjectInput](/docs/forms/ObjectInput) компонентами, добавляя двустороннию привязку данных. Вы можете использовать любой из вышеперечисленных компонентов, указав свойство `type`.
+Инпут предоставляет апи-обвертку над инпут компонентами, добавляя двухстороннюю привязку данных, различные настраиваемые компоновки которые позволяют по-разному отображать инпуты с подписью и описанием, а также предоставляет возможность отображать ошибку.
 
 ```jsx
 import { Input } from from '@startupjs/ui'
 ```
 
+**Инпуты**
+
+Возможные типы: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [range](/docs/forms/RangeInput), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
+
+Вы можете использовать любой из вышеперечисленных компонентов, указав свойство type.
+
+**Компоновки**
+
+Возможные типы:
+- `pure` отображает инпут без подписи и описания
+- `rows` отображает инпут в одной строке с предоставленной подписью и описанием
+- `columns` отображает инпут в двух столбцах с предоставленной подписью и описанием
+
+There are several rules that determine which layout to use:
+- для разрешений экрана планшета и ниже всегда используется компоновка `rows`
+- для разрешений экрана больше планшета вы можете использовать любую из вышеперечисленных компоновок указав свойство `layout` компонента, но если компоновка не передается компоненту, то она автоматически определяется по логике: `rows` если указано свойство `label` или `description`, в противном случае `pure`
+
 ## Простой пример
 
 ```jsx example
-const [, $textValue] = useValue()
+const [, $value] = useValue()
 
 return (
   <Input
     type='text'
-    $value={$textValue}
+    $value={$value}
   />
 )
 ```
 
-## Сложный пример
-
-При использовании `object` инпута, важно объявить `schema` как константу либо вне вашего компонента, либо закэшировать ее через `useMemo()`.
-Если этого не сделать, то `Input` будет перерендеривать все дерево формы целиком при редактировании лишь одного поля.
+## Компоновка
 
 ```jsx example
-const schema = useMemo(() => ({
-  name: {
-    type: 'string',
-    label: 'Name'
-  },
-  number: {
-    type: 'number',
-    label: 'Level'
-  },
-  dangerous: {
-    type: 'boolean',
-    label: 'Is Dangerous'
-  },
-  type: {
-    type: 'select',
-    label: 'Type',
-    options: ['Fire', 'Water', 'Earth', 'Electric']
-  },
-  address: {
-    type: 'object',
-    label: 'Address',
-    properties: {
-      galaxy: {
-        type: 'string',
-        label: 'Galaxy'
-      },
-      planet: {
-        type: 'number',
-        label: 'Planet Number'
-      },
-      location: {
-        type: 'string',
-        label: 'Location'
-      }
-    }
-  },
-  abilities: {
-    type: 'array',
-    label: 'Abilities',
-    items: { type: 'string' }
-  },
-  url: {
-    type: 'string',
-    label: 'Image URL'
-  }
-}), [])
-
-const [value, $value] = useValue()
+const [, $value] = useValue()
 
 return (
-  <React.Fragment>
-    <Input
-      type='object'
-      $value={$value}
-      properties={schema}
-    />
-    <Br />
-    <Span style={{ fontFamily: 'monospace' }}>
-      VALUE: {JSON.stringify(value, null, 2)}
-    </Span>
-  </React.Fragment>
+  <Input
+    type='text'
+    label='Password'
+    description="Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+    layout='columns'
+    $value={$value}
+  />
 )
 ```
 
 ## Отображение ошибок
 
-Свойство `error` предоставляет текст ошибки для инпута.
+Для отображения ошибки, передайте текст ошибки в свойство `error`
 
 ```jsx example
 const [value, $value] = useValue()
@@ -107,11 +71,28 @@ const [value, $value] = useValue()
 return (
   <Input
     $value={$value}
-    error={value ? '' : 'Need to provide value'}
+    error={value ? '' : 'Нужно заполнить поле'}
   />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Input} />
+export function SandboxWrapper () {
+  const $input = $root.scope('_session.Sandbox.Input')
+  useEffect(()=> {
+    $input.at('type').on('change', type=> {
+      $input.set(getPropsForType())
+      $input.set('value', getDefaultValueForType())
+    })
+  }, [])
+  return (
+    <Sandbox
+      Component={Input}
+      $props={$input}
+      block
+    />
+  )
+}
+
+<SandboxWrapper />

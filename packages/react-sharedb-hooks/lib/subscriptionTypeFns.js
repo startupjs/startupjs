@@ -1,7 +1,7 @@
-import isString from 'lodash/isString'
-import isArray from 'lodash/isArray'
-import isBoolean from 'lodash/isBoolean'
-import isNumber from 'lodash/isNumber'
+import isString from 'lodash/isString.js'
+import isArray from 'lodash/isArray.js'
+import isBoolean from 'lodash/isBoolean.js'
+import isNumber from 'lodash/isNumber.js'
 import { _isExtraQuery as isExtraQuery } from '@startupjs/react-sharedb-util'
 
 export function subLocal (localPath, defaultValue) {

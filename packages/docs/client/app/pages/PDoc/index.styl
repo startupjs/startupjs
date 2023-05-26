@@ -1,5 +1,3 @@
-$page = $UI.media.tablet
-$gutter-s = 2u
 $gutter-l = 6u
 $gutter-xl = 10u
 
@@ -7,15 +5,15 @@ $gutter-xl = 10u
   flex 1
 
 .content
-  padding-left $gutter-s
-  padding-right $gutter-s
-  max-width $page + $gutter-s * 2
+  padding-left $UI.gutters.m
+  padding-right $UI.gutters.m
+  max-width $UI.media.tablet + $UI.gutters.m * 2
   +tablet()
-    max-width $page + $gutter-l * 2
+    max-width $UI.media.tablet + $gutter-l * 2
     padding-left $gutter-l
     padding-right $gutter-l
   +wide()
-    max-width $page + $gutter-xl * 2
+    max-width $UI.media.tablet + $gutter-xl * 2
     padding-left $gutter-xl
     padding-right $gutter-xl
 

@@ -1,16 +1,18 @@
 $checkboxBorderColor = $UI.colors.darkLight
 $checkedColor = $UI.colors.primary
 $checkedIconColor = $UI.colors.white
+$errorColor = $UI.colors.attention
 $switchBg = $UI.colors.dark
-$readonlyColor = $UI.colors.mainText
+$height = 2u
 
-.label
-  margin-left 1u
-  flex-shrink 1
+.readonly
+  fontFamily('normal', 900)
+  font-size 2u
+  line-height $height
 
 .checkbox
-  width 2u
-  height @width
+  height $height
+  width @height
   border 2px solid $checkboxBorderColor
   justify-content center
   align-items center
@@ -19,15 +21,18 @@ $readonlyColor = $UI.colors.mainText
   border-radius 2px
   overflow hidden
 
+  // NOTE:
+  // We do not change the background color for the error
+  // because this behavior is not possible
+  // but if it is necessary for some reason
+  // then we need to change it for the checkbox-animation class too
+  // IMPORTANT: checked modifier should overlaps error modifier
+  &.error
+    border-color $errorColor
+
   &.checked
     background-color $checkedColor
     border-color $checkedColor
-
-.checkbox-icon-wrap
-  justify-content center
-  border none
-  &.switch
-    background-color none
 
 .checkbox-icon
   display none
@@ -35,13 +40,6 @@ $readonlyColor = $UI.colors.mainText
 
   &.checked
     display flex
-
-  &.readonly
-    display flex
-    font(l)
-    line-height 2u
-    color $readonlyColor
-    fontFamily('normal', 900)
 
 // NOTE: opacity is workaround because display none and position absolute doesn't work right
 // https://github.com/facebook/react-native/issues/18415
@@ -59,11 +57,15 @@ $readonlyColor = $UI.colors.mainText
 
 .switch
   width 3u
-  height 2u
+  height $height
   radius(circle)
   justify-content center
   background-color $switchBg
   padding 0 3px
+
+  // IMPORTANT: checked modifier should overlaps error modifier
+  &.error
+    background-color $errorColor
 
   &.checked
     background-color $checkedColor

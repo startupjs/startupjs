@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import _set from 'lodash/set'
+import _set from 'lodash/set.js'
 
 function validate (formSchema, data, options = {}) {
   const valid = formSchema.validate(

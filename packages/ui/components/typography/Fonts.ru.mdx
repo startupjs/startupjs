@@ -115,9 +115,9 @@ return (
 ```stylus
 $UI.fontWeights = {
   normal: 400,
-  normalBold: 700,
+  normalBold: 600,
   heading: 400,
-  headingBold: 700
+  headingBold: 600
 }
 ```
 
@@ -137,13 +137,13 @@ $UI.fontWeights = {
   fontFamily('normal')
 
   &.bold
-    fontFamily('normal', 700)
+    fontFamily('normal', 600)
 
   &.italic
     fontFamily('normal', undefined, italic)
 
   &.bold.italic
-    fontFamily('normal', 700, italic)
+    fontFamily('normal', 600, italic)
 
 .textWithAdditionalFont
   fontFamily('myFont')

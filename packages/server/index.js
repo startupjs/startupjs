@@ -19,7 +19,6 @@ module.exports = (options = {}, cb) => {
     appRoutes: {},
     publicPath: './public',
     loginUrl: '/login',
-    websockets: true,
     bodyParserLimit: '10mb',
     error: errorApp
   })

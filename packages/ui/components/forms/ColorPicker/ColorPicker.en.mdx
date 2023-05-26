@@ -1,0 +1,30 @@
+import { useState } from 'react'
+import { ColorPicker } from '@startupjs/ui'
+import { Sandbox } from '@startupjs/docs'
+
+# ColorPicker
+
+ColorPicker allows user to select a color from the color palette (works with colors in hexadecimal format).
+
+## Import
+
+```jsx
+import { ColorPicker } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const [color, setColor] = useState()
+
+return (
+  <ColorPicker
+    value={color}
+    onChangeColor={setColor}
+  />
+)
+```
+
+## Sandbox
+
+<Sandbox Component={ColorPicker} block />

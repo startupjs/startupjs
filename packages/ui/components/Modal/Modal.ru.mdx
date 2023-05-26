@@ -1,15 +1,22 @@
 import { useState, useRef } from 'react'
-import { useValue } from 'startupjs'
-import Modal from '../Modal'
-import Button from '../Button'
-import Br from '../Br'
+import { $root, useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import Button from '../Button'
+import Span from '../typography/Span'
+import Modal from './'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
 
-# Modal (модалка)
+# Modal (модальное окно)
 
 Наследует [React Native Modal](https://reactnative.dev/docs/modal).
 
-Модалка может быть использована, когда пользователю необходимо сообщить о критической информации, требовать принятия решений или взаимодействовать со сложным подприложением без перехода на новую страницу или прерывания рабочего процесса.
+Модальное окно может быть использована, когда пользователю необходимо сообщить о критической информации, требовать принятия решений или взаимодействовать со сложным под приложением без перехода на новую страницу или прерывания рабочего процесса.
 
 ```jsx
 import { Modal } from '@startupjs/ui'
@@ -20,71 +27,39 @@ import { Modal } from '@startupjs/ui'
 ```jsx example
 const [visible, setVisible] = useState(false)
 
-return pug`
-  Modal(
-    visible=visible
-    title='Текст в модалке'
-    onChange=setVisible
-  )
-    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-  Button(onPress=() => setVisible(true)) Открыть модалку
-`
+return (
+  <>
+    <Modal
+      visible={visible}
+      title='Text in modal'
+      onRequestClose={setVisible}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+    <Button onPress={() => setVisible(true)}>
+      Open modal
+    </Button>
+  </>
+)
 ```
 
-## Свойства
+## Управление видимостью
 
-- `showCross` булевое значение, устанавливает отображение крестика в заголовке (по умолчанию `true`)
-- `onChange` функция, которая будет запущена, когда `Modal` необходимо изменить состояние видимости (необязательный при использовании двусторонней привязки данных `$visible`)
-- `onCrossPress` колбек, который выполняется при нажатии на крестик в заголовке (он имеет более высокий приоритет чем `onCancel`, по умолчанию закрывает модалку)
-- `onCancel` отображает кнопку отмены, которая использует этот обработчик (по умолчанию закрывает модалку)
-- `onConfirm` отображает кнопку подтверждения которая использует этот обработчик (по умолчанию закрывает модалку)
-- `enableBackdropPress` булевое значение, устанавливает будет ли область вокруг модалки кликабельной (по умолчанию `true`)
-- `onBackdropPress` колбек, который выполняется при нажатии на область вокруг модалки (по умолчанию закрывает модалку)
-- `onRequestClose` колбек, который выполняется при нажатии физической клавиши `Домой` на Android, клавиши `Esc` в браузере (по умолчанию закрывает модалку)
-- `onDismiss` колбек, который выполняется после закрытия модалки любым способом
-- `onOrientationChange` колбек, который выполняется при смене ориентации мобильного устройства.
+Для управления видимостью модального окна есть три варианта:
 
-### Закрытие по умолчанию
-
-Если вы хотите отменить закрытие модалки по умолчанию при `onCancel`, `onConfirm`, `onBackdropPress` и `onCrossPress`, то добавьте в свой колбек `event.preventDefault()`:
-
-```js
-  const myOnPress = event => {
-    event.preventDefault()
-    // your code
-  }
-```
-
-### Для управления состоянием модалки есть два варианта:
-  1. Передав скоуп модель в свойство `$visible` из состояния которой идет управление видимостью.
-	2. Передав `ref`, который получит методы `open()` и `close()` для управления видимостью.
+1. Передав скоуп модель в свойство `$visible` из состояния которой идет управление видимостью.
 
 ```jsx example
-const [visible, $visible] = useValue(false)
-const modalRef = useRef()
+const [, $visible] = useValue()
 
 return (
   <React.Fragment>
     <Button onPress={() => $visible.set(true)}>
-      Открыть модалку через useValue
-    </Button>
-    <Br/>
-    <Button onPress={() => modalRef.current.open()}>
-      Открыть модалку чере useRef
+      Open
     </Button>
     <Modal
-      title='Пример'
-      ref={modalRef}
+      title='Example'
       $visible={$visible}
-      cancelLabel='Закрыть'
-      confirmLabel='Принять'
-      onCrossPress={() => console.log('onCrossPress')}
-      onCancel={() => console.log('onCancel')}
-      onConfirm={() => console.log('onConfirm')}
-      onShow={() => console.log('onShow')}
-      onBackdropPress={() => console.log('onBackdropPress')}
-      onDismiss={() => console.log('onDismiss')}
-      onRequestClose={() => console.log('onRequestClose')}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
     </Modal>
@@ -92,9 +67,50 @@ return (
 )
 ```
 
-## Полноэкранная модалка
+2. Передав свойство `visible`, которое определяет, является ли модальное окно видимым.
 
-По умолчанию модалка отображается как окно в центре страницы. Чтобы сделать её полноэкранной, нужно передать строку `fullscreen` в свойство `variant`.
+```jsx example
+const [visible, setVisible] = useState(false)
+
+return (
+  <React.Fragment>
+    <Button onPress={() => setVisible(true)}>
+      Open
+    </Button>
+    <Modal
+      title='Example'
+      visible={visible}
+      onRequestClose={() => setVisible(false)}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+3. Передав `ref`, который получит методы `open()` и `close()` для управления видимостью.
+
+```jsx example
+const modalRef = useRef()
+
+return (
+  <React.Fragment>
+    <Button onPress={() => modalRef.current.open()}>
+      Open
+    </Button>
+    <Modal
+      title='Example'
+      ref={modalRef}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+    </Modal>
+  </React.Fragment>
+)
+```
+
+## Полноэкранное модальное окно
+
+По умолчанию модальное окно отображается как окно в центре страницы. Чтобы сделать её полноэкранной, нужно передать строку `fullscreen` в свойство `variant`.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
@@ -119,7 +135,7 @@ return (
 
 ## Продвинутое использование
 
-Модалка состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onCancel`, `onConfirm`. Их можно использовать по отдельности.
+Модальное окно состоит из трех частей - `Header`, `Content` и `Actions`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title`, `Content` используется вместо `children` и `Actions` используется вместо обработчиков `onCancel`, `onConfirm`. Их можно использовать по отдельности.
 
 ```jsx example
 const [visible, $visible] = useValue(false)
@@ -154,20 +170,134 @@ return (
 )
 ```
 
+## Свойства
+
+```jsx pure-example noscroll
+return (
+  <Table styleName='table'>
+    <Thead>
+      <Tr>
+        <Th>Имя</Th>
+        <Th>Тип</Th>
+        <Th>Описание</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr>
+        <Td>showCross</Td>
+        <Td>bool</Td>
+        <Td>
+          <Span>
+            Показать крестик в заголовке.
+            <Span bold> Значение по умолчанию: </Span>
+            `true`.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>enableBackdropPress</Td>
+        <Td>bool</Td>
+        <Td>
+          <Span>
+            Делает фон кликабельным.
+            <Span bold> Значение по умолчанию: </Span>
+            `true`.
+          </Span>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onBackdropPress</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана, когда
+          пользователь нажмет на фон (требуется, чтобы
+          параметр `enableBackdropPress` был установлен в значение `true`).
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onCrossPress</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана,
+          когда пользователь нажмет на крестик.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onDismiss</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана
+          после закрытия модального окна.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onOrientationChange</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана при изменении
+          ориентации во время отображения компонента.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onCancel</Td>
+        <Td>function</Td>
+        <Td>
+          Показать только одну кнопку `OK`, которая использует этот обработчик.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onConfirm</Td>
+        <Td>function</Td>
+        <Td>
+          Показать две кнопки: `ОК` которая используется этот
+          обработчик и `Cancel` которая используется обработчик `onCancel`.
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>onRequestClose</Td>
+        <Td>function</Td>
+        <Td>
+          Функция обратного вызова, которая будет вызвана,
+          когда пользователь запрашивает закрытие модального окна, например,
+          нажимает кнопку аппаратного возврата на Android,
+          кнопку меню на Apple TV или `Esc` в браузере.
+          Она также будет вызвана в конце обработчиков: `onCrossPress`,
+          `onBackdropPress`, `onCancel` и `onConfirm`. Если вы хотите
+          изменить это поведение по умолчанию для обработчиков,
+          передайте функцию для соответствующего обработчика,
+          в которой вызовите `event.preventDefault()` в начале функции.
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
+)
+```
+
 ## Sandbox
 
 ### Modal
 
-<Sandbox Component={Modal} />
+<Sandbox
+  Component={Modal}
+  props={{ $visible: $root.scope('_session.Props.Modal.visible') }}
+  $props={$root.scope('_session.Props.Modal')}
+  {...{ _comment: "HACK to make alive sandbox when user click on 'visible' checkbox" }}
+/>
 
 ### Modal.Header
 
-<Sandbox Component={Modal.Header} />
+<Sandbox
+  Component={Modal.Header}
+/>
 
 ### Modal.Content
 
-<Sandbox Component={Modal.Content} />
+<Sandbox
+  Component={Modal.Content}
+/>
 
 ### Modal.Actions
 
-<Sandbox Component={Modal.Actions} />
+<Sandbox
+  Component={Modal.Actions}
+/>

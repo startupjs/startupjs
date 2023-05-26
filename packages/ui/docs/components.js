@@ -16,6 +16,8 @@ import ButtonEn from '../components/Button/Button.en.mdx'
 import ButtonRu from '../components/Button/Button.ru.mdx'
 import CardEn from '../components/Card/Card.en.mdx'
 import CardRu from '../components/Card/Card.ru.mdx'
+import CarouselEn from '../components/Carousel/Carousel.en.mdx'
+import CarouselRu from '../components/Carousel/Carousel.ru.mdx'
 import CollapseEn from '../components/Collapse/Collapse.en.mdx'
 import CollapseRu from '../components/Collapse/Collapse.ru.mdx'
 import ContentEn from '../components/Content/Content.en.mdx'
@@ -24,10 +26,13 @@ import DivEn from '../components/Div/Div.en.mdx'
 import DivRu from '../components/Div/Div.ru.mdx'
 import DividerEn from '../components/Divider/Divider.en.mdx'
 import DividerRu from '../components/Divider/Divider.ru.mdx'
+import Draggable from '../components/draggable/Draggable.mdx'
 import DrawerSidebarEn from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import DrawerSidebarRu from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
 import IconEn from '../components/Icon/Icon.en.mdx'
 import IconRu from '../components/Icon/Icon.ru.mdx'
+import ItemEn from '../components/Item/Item.en.mdx'
+import ItemRu from '../components/Item/Item.ru.mdx'
 import LayoutEn from '../components/Layout/Layout.en.mdx'
 import LayoutRu from '../components/Layout/Layout.ru.mdx'
 import LinkEn from '../components/Link/Link.en.mdx'
@@ -58,6 +63,8 @@ import TabsEn from '../components/Tabs/Tabs.en.mdx'
 import TabsRu from '../components/Tabs/Tabs.ru.mdx'
 import TagEn from '../components/Tag/Tag.en.mdx'
 import TagRu from '../components/Tag/Tag.ru.mdx'
+import ToastEn from '../components/toast/toast.en.mdx'
+import ToastRu from '../components/toast/toast.ru.mdx'
 import TooltipRu from '../components/Tooltip/Tooltip.ru.mdx'
 import TooltipEn from '../components/Tooltip/Tooltip.en.mdx'
 import UserEn from '../components/User/User.en.mdx'
@@ -135,6 +142,14 @@ export default {
         ru: CardRu
       }
     },
+    Carousel: {
+      type: 'mdx',
+      title: 'Carousel',
+      component: {
+        en: CarouselEn,
+        ru: CarouselRu
+      }
+    },
     Collapse: {
       type: 'mdx',
       title: 'Collapse',
@@ -167,6 +182,11 @@ export default {
         ru: DividerRu
       }
     },
+    draggable: {
+      type: 'mdx',
+      title: 'draggable',
+      component: Draggable
+    },
     DrawerSidebar: {
       type: 'mdx',
       title: 'DrawerSidebar',
@@ -181,6 +201,14 @@ export default {
       component: {
         en: IconEn,
         ru: IconRu
+      }
+    },
+    Item: {
+      type: 'mdx',
+      title: 'Item',
+      component: {
+        en: ItemEn,
+        ru: ItemRu
       }
     },
     Layout: {
@@ -301,6 +329,14 @@ export default {
       component: {
         en: TagEn,
         ru: TagRu
+      }
+    },
+    Toast: {
+      type: 'mdx',
+      title: 'Toast',
+      component: {
+        en: ToastEn,
+        ru: ToastRu
       }
     },
     Tooltip: {

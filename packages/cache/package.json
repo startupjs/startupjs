@@ -1,0 +1,18 @@
+{
+  "name": "@startupjs/cache",
+  "type": "module",
+  "version": "0.51.0",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "Helpers for doing auto-caching and memoization",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "license": "MIT",
+  "dependencies": {
+    "@startupjs/debug": "^0.51.0"
+  }
+}

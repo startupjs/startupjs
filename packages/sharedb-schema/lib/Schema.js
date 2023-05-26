@@ -38,17 +38,18 @@ class Schema {
     }
 
     let rootSchema = this.schemas[collection]
-
-    if (rootSchema.factory) {
+    // we need to check the type of rootSchema because the non factory schema can have the 'factory' field
+    if (typeof rootSchema === 'function' && rootSchema.factory) {
+      // get model from factory like in @startupjs/orm: https://github.com/startupjs/startupjs/blob/master/packages/orm/lib/index.js#L77
       const $doc = this.model._scope(`${collection}.${docId}`)
       await $doc.subscribe()
-      // get model from factory like in @startupjs/orm: https://github.com/startupjs/startupjs/blob/master/packages/orm/lib/index.js#L77
       const factoryModel = rootSchema($doc, this.model)
-      rootSchema = { type: 'object', properties: factoryModel.constructor.schema }
+      rootSchema = factoryModel.constructor.schema
+      $doc.unsubscribe()
     }
 
-    if (!rootSchema) {
-      // throw error if current collenction have no schema
+    if (!rootSchema || !rootSchema.properties) {
+      // throw error if current collection have no schema
       // error can be skiped if you add skipNonExisting flag to your options
       if (this.options.skipNonExisting) return done()
 

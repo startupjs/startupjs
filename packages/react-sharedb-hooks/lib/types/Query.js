@@ -1,8 +1,8 @@
-import Base from './Base'
+import Base from './Base.js'
 import { observable } from '@nx-js/observer-util'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
 import $root from '@startupjs/model'
-import promiseBatcher from '../hooks/promiseBatcher'
+import promiseBatcher from '../hooks/promiseBatcher.js'
 
 const MAX_LISTENERS = 100
 

@@ -1,75 +1,86 @@
-_sizes = 'l' 'm' 's'
-_borderColor = $UI.colors.darkLighter
-_disabledColor = $UI.colors.darkLightest
-_focusedColor = $UI.colors.primary
-_padding = {
+$sizes = 'l' 'm' 's'
+// border color should be taken from text input config
+// border color should not have transparency
+// because the input border and the button border is overlap each other
+$inputBorderColor = $UI.colors.darkLighter
+$padding = {
   l: 6u,
   m: 5u,
   s: 4u
 }
-_height = {
-  l: 5u,
-  m: 4u,
-  s: 3u
-}
-_halfHeight = {
-  l: (_height.l / 2),
-  m: (_height.m / 2),
-  s: (_height.s / 2)
-}
+
+.input-wrapper
+  flex-grow 1
+
+  &.right
+    flex-direction row-reverse
+
+  &.readonly
+    align-self flex-start
+
+.input-units
+  align-self center
+
+  &.l
+    font(body1)
+
+  &.readonly
+    &.left
+      margin-right 0.5u
+
+    &.right
+      margin-left 0.5u
+
+.input-container
+  flex-grow 1
+
+  &.left
+    margin-left 1u
+
+  &.right
+    margin-right 1u
 
 .input-input
-  for size in _sizes
+  for size in $sizes
+    padding = $padding[size]
+
     &.vertical.{size}
-      padding-right: _padding[size]
+      padding-right padding
 
     &.horizontal.{size}
-      padding-left: _padding[size]
+      padding-left padding
       padding-right @padding-left
 
 .input-button
   position absolute
-  color _inputBorderColor
+  border-color $inputBorderColor
 
-  &.vertical.up
+  &.vertical
     right 0
-    border-top-left-radius 0
-    border-bottom-right-radius 0
-    border-bottom-left-radius 0
+    height 50%
 
-    for size in _sizes
-      &.{size}
-        bottom: _halfHeight[size]
+    &.increase
+      top 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+      border-bottom-right-radius 0
 
-  &.vertical.down
-    right 0
+    &.decrease
+      bottom 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+      border-top-right-radius 0
+
+  &.horizontal
+    top 0
     bottom 0
-    border-top-left-radius 0
-    border-top-right-radius 0
-    border-bottom-left-radius 0
 
-  for size in _sizes
-    &.vertical.{size}
-      height: _halfHeight[size]
+    &.increase
+      right 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
 
-  &.horizontal.up
-    bottom 0
-    right 0
-    border-top-left-radius 0
-    border-bottom-left-radius 0
-
-  &.horizontal.down
-    bottom 0
-    left 0
-    border-top-right-radius 0
-    border-bottom-right-radius 0
-
-  for size in _sizes
-    &.horizontal.{size}
-      height: _height[size]
-
-  &.disabled
-    color _disabledColor
-
-  &.focused
-    color _focusedColor
+    &.decrease
+      left 0
+      border-top-right-radius 0
+      border-bottom-right-radius 0

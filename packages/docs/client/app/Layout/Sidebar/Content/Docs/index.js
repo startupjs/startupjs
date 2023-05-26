@@ -1,70 +1,118 @@
-import React, { useEffect } from 'react'
-import { observer, useSession } from 'startupjs'
-import { pathFor, useLocation } from 'startupjs/app'
+import React, { useCallback, useEffect, useMemo } from 'react'
+import { observer, useModel, useLocal } from 'startupjs'
+import { pathFor } from 'startupjs/app'
 import { useMedia, Menu, Collapse } from '@startupjs/ui'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { getTitle, useLang } from '../../../../../clientHelpers'
+import { useDocsContext } from '../../../../../../docsContext'
 import './index.styl'
 
-const Docs = observer(function DocsComponent ({
-  docs,
-  subpath = '',
-  children,
-  level = 1
+const MenuItem = observer(function MenuItemComponent ({
+  active,
+  doc,
+  docName,
+  docPath,
+  nestingLevel,
+  superPath
 }) {
-  if (!docs) return null
   const [lang] = useLang()
-  const { pathname } = useLocation()
   const { desktop } = useMedia()
-  const [, $openedCollapses] = useSession('SidebarCollapses')
-  const [, $mainSidebar] = useSession('Sidebar.mainSidebar')
+  const $mainSidebar = useModel('_session.Sidebar.mainSidebar')
+  const $openedCollapses = useModel('_session.SidebarCollapses')
 
-  // HACK: open parent collapse on initial render
-  useEffect(() => {
-    if (subpath) {
-      const docPath = pathFor('docs:doc', { path: subpath })
-      if (pathname.startsWith(docPath)) $openedCollapses.setDiff(subpath, true)
-    }
-  }, [])
+  const menuItemStyle = useMemo(() => ({ paddingLeft: nestingLevel * 24 }), [nestingLevel])
+  const title = useMemo(() => getTitle(doc, lang), [doc, lang])
+  const rootPath = useMemo(() => pathFor('docs:doc', { lang, path: docPath }), [lang, docPath])
 
-  const menuItemStyle = { paddingLeft: level * 24 }
+  if (doc.type === 'collapse') {
+    return pug`
+      Collapse(
+        variant='pure'
+        $open=$openedCollapses.at(docPath)
+      )
+        Collapse.Header.header(
+          iconPosition='right'
+          icon=faAngleRight
+          iconStyleName='collapse-icon'
+        )
+          Menu.Item.item(
+            style=menuItemStyle
+            active=active
+            to=doc.component ? rootPath : null
+            bold
+            icon=doc.icon
+          )= title
+        Collapse.Content
+          Docs(
+            docs=doc.items
+            superPath=docPath
+            nestingLevel=nestingLevel + 1
+          )
+    `
+  }
 
   return pug`
-    Menu
-      each aDocName in Object.keys(docs)
-        React.Fragment(key=aDocName)
-          - const doc = docs[aDocName]
-          - const title = getTitle(doc, lang)
-          - const docPath = subpath ? subpath + '/' + aDocName : aDocName
-          - const rootPath = pathFor('docs:doc', { lang, path: docPath })
-          - const isActive = rootPath === pathname
-          if ['mdx', 'sandbox'].includes(doc.type)
-            Menu.Item.item(
-              style=menuItemStyle
-              active=isActive
-              to=rootPath
-              onPress=desktop ? undefined : () => $mainSidebar.set(false)
-            )= title
-          if doc.type === 'collapse'
-            Collapse(
-              variant='pure'
-              $open=$openedCollapses.at(docPath)
-            )
-              Collapse.Header.header(
-                iconPosition='right'
-                icon=faAngleRight
-                iconStyleName='collapse-icon'
-              )
-                Menu.Item.item(
-                  style=menuItemStyle
-                  active=isActive
-                  to=doc.component ? rootPath : null
-                  bold
-                  icon=doc.icon
-                )= title
-              Collapse.Content
-                Docs(docs=doc.items subpath=docPath level=level + 1)
+    Menu.Item.item(
+      style=menuItemStyle
+      active=active
+      to=rootPath
+      onPress=desktop ? undefined : () => $mainSidebar.set(false)
+    )= title
   `
 })
 
-export default Docs
+const Docs = observer(function DocsComponent ({ docs, superPath, nestingLevel = 1 }) {
+  const [path] = useLocal('$render.params.path')
+  const $openedCollapses = useModel('_session.SidebarCollapses')
+
+  // HACK: open parent collapse on initial render
+  useEffect(() => {
+    if (superPath && path.startsWith(superPath)) {
+      $openedCollapses.setDiff(superPath, true)
+    }
+  }, [])
+
+  const getDocPath = useCallback(
+    docName => {
+      return superPath ? superPath + '/' + docName : docName
+    },
+    [superPath]
+  )
+
+  const getActive = useCallback(
+    docName => {
+      return getDocPath(docName) === path
+    },
+    [path]
+  )
+
+  return pug`
+    Menu
+      each docName in Object.keys(docs)
+        MenuItem(
+          key=docName
+          active=getActive(docName)
+          doc=docs[docName]
+          docName=docName
+          docPath=getDocPath(docName)
+          nestingLevel=nestingLevel
+          superPath=superPath
+        )
+  `
+})
+
+export default observer(function DocsRoot () {
+  const docs = useDocsContext()
+  const [path] = useLocal('$render.params.path')
+
+  // NOTE
+  // since layout renders before page loads
+  // and $render is created when page loads
+  // we need to wait for the 'path' to appear
+  // in the params
+  if (!path) return null
+
+  return pug`
+    Docs(docs=docs)
+  `
+})

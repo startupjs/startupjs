@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../typography/Span'
-import Br from '../Br'
+import Icon from '../Icon'
 import Row from '../Row'
-import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Div
 
@@ -44,9 +47,26 @@ return (
 )
 ```
 
+## Full width (or height)
+
+To make `Div` take all remaining space in the parent container (according to its `flex-direction`), pass the `full` property.
+
+This property just sets `flex: 1` to it.
+
+```jsx example
+return (
+  <Row vAlign='center'>
+    <Div full>
+      <Span>Tesla Model S</Span>
+    </Div>
+    <Span description>1000 HP</Span>
+  </Row>
+)
+```
+
 ## Indentation between multiple Div
 
-When multiple Div(s) are used in a [Row](/docs/components/Row) spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of the page. The `true` value of prop is equivalent to `m` value.
+When displaying multiple Div(s) in a line spacing between them can be adjusted using `pushed` prop to specify indent from the previous Div. Possible values of `pushed` prop can be found in the `Sandbox` section at the bottom of the page. The `true` value of prop is equivalent to `m` value.
 
 ```jsx example
 const divStyle = {
@@ -127,6 +147,28 @@ return (
 )
 ```
 
+## Tooltip
+
+```jsx example
+return pug`
+  Div.root(tooltip='Tooltip content')
+    Icon(icon=faInfoCircle size='xl')
+`
+
+styl`
+  .root
+    align-self flex-start
+`
+```
+
 ## Sandbox
 
-<Sandbox Component={Div} />
+<Sandbox
+  Component={Div}
+  props={{
+    children: <Div styleName='child' />,
+    style: { width: 160, height: 160, backgroundColor: '#2962FF' },
+    onPress: () => alert('"onPress" event on "Div" component'),
+    onLongPress: () => alert('"onLongPress" event on "Div" component')
+  }}
+/>

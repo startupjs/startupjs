@@ -1,13 +1,14 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
-import { Div } from '@startupjs/ui'
+import { Div, Layout as UILayout } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(function Layout ({ children }) {
   return pug`
-    ScrollView.root
-      Div.wrapper
-        = children
+    UILayout
+      ScrollView.root
+        Div.wrapper
+          = children
   `
 })

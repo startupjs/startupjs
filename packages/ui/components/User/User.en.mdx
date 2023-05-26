@@ -167,4 +167,9 @@ styl`
 
 ## Sandbox
 
-<Sandbox Component={User} />
+<Sandbox
+  Component={User}
+  props={{
+    onPress: () => alert('"onPress" event on "User" component'),
+  }}
+/>

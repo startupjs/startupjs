@@ -1,7 +1,7 @@
 {
-  "name": "@dmapper/serve-static-promo",
+  "name": "@startupjs/serve-static-promo",
   "description": "Serve static html website from /promo folder",
-  "version": "0.36.0",
+  "version": "0.51.0",
   "type": "module",
   "main": "server/index.js",
   "dependencies": {

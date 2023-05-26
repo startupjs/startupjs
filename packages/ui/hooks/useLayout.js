@@ -1,5 +1,13 @@
-export default function useLayout (layout, label) {
-  if (layout) return layout
-  if (label) return 'rows'
-  return 'pure'
+import useMedia from './useMedia'
+
+export default function useLayout ({
+  layout,
+  label,
+  description
+} = {}) {
+  const { tablet } = useMedia()
+
+  layout = layout || (label || description ? 'rows' : 'pure')
+  if (layout !== 'pure' && !tablet) layout = 'rows'
+  return layout
 }

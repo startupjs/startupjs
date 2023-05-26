@@ -1,6 +1,6 @@
 import docs from '@startupjs/docs'
-import uiDocs from '@startupjs/ui/docs'
 import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import uiDocs from '../../packages/ui/docs'
 import AuthMainRu from '../../packages/auth/docs/readme.ru.md'
 import AuthMainEn from '../../packages/auth/docs/readme.en.md'
 import AuthAppleRu from '../../packages/auth-apple/docs/readme.ru.md'
@@ -19,6 +19,7 @@ import AuthLocalRu from '../../packages/auth-local/docs/readme.ru.md'
 import AuthLocalEn from '../../packages/auth-local/docs/readme.en.md'
 import i18nEn from '../../packages/i18n/readme/readme.en.mdx'
 import i18nRu from '../../packages/i18n/readme/readme.ru.mdx'
+import mailgunEn from '../../packages/mailgun/readme/readme.en.mdx'
 import PluginEn from '../../packages/plugin/readme/readme.en.mdx'
 import PluginRu from '../../packages/plugin/readme/readme.ru.mdx'
 import PushNotificationsEn from '../../packages/push-notifications/docs/push-notifications.en.mdx'
@@ -128,7 +129,10 @@ export default docs({
       },
       local: {
         type: 'mdx',
-        title: 'Локальная',
+        title: {
+          en: 'Local',
+          ru: 'Локальная'
+        },
         component: {
           en: AuthLocalEn,
           ru: AuthLocalRu
@@ -198,6 +202,11 @@ export default docs({
           en: i18nEn,
           ru: i18nRu
         }
+      },
+      mailgun: {
+        type: 'mdx',
+        title: 'Mailgun',
+        component: mailgunEn
       },
       'push-notofications': {
         type: 'mdx',

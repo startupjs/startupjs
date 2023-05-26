@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
 import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
+import { useHistory } from '@startupjs/app'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { ScrollableArea, Anchor } from '../components'
 import { scrollTo } from '../helpers'
 import './index.styl'
@@ -16,23 +18,33 @@ const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do e
 
 function Example () {
   const [extraContentVisibility, setExtraContentVisibility] = useState(false)
+  const history = useHistory()
 
   function scrollToAnchor ({ anchorId, areaId, offset }) {
     scrollTo({ anchorId, areaId, offset })
   }
 
   return pug`
+    Div.wrapper
+      Button.backButton(
+        icon=faArrowLeft
+        size='m'
+        variant='text'
+        onPress=() => history.goBack()
+      ) 
     Div.anchors
-      Button(
-        onPress=() => setExtraContentVisibility(!extraContentVisibility)
+      Button.extraButton(
+        onPress=()=> setExtraContentVisibility(!extraContentVisibility)
       )= extraContentVisibility ? 'Hide extra content' : 'Render extra content'
-      each anchorId in ANCHORS
-        Button.anchorBtn(
-          key=anchorId
-          variant='flat'
-          size='s'
-          onPress=() => scrollToAnchor({ anchorId })
-        )= anchorId
+      Row
+        each anchorId in ANCHORS
+          Button.anchorBtn(
+            key=anchorId
+            size='s'
+            variant='flat'
+            onPress=()=> scrollToAnchor({ anchorId })
+          )= anchorId
+
     Div.root
       Anchor(id=ANCHORS[0] Component=H1 bold)= ANCHORS[0]
       Span= LOREM

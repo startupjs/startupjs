@@ -6,8 +6,9 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { useSession } from 'startupjs'
+import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # SmartSidebar (умный сайдбар)
 
@@ -38,9 +39,9 @@ return (
 
 ## Фиксированная точка останова
 
-Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/components/Sidebar) переключается на [дровер](/docs/components/Drawer). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
+Свойство `fixedLayoutBreakpoint` указывает точку останова ширины экрана, ниже которой [сайдбар](/docs/components/Sidebar) переключается на [дровер](/docs/components/DrawerSidebar). Тип `fixedLayoutBreakpoint` - число, со значением по умолчанию `1024`.
 
-```jsx example
+```jsx example noscroll
 const [open, $open] = useSession('ExampleSmartSidebarFixedLayoutBreakpoint')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -77,7 +78,7 @@ return (
 
 Свойство `position` указывает сторону окна, c которой будет отображаться сайдбар. Возможные значения свойства `position` - `left` (по умолчанию) и `right`.
 
-```jsx example
+```jsx example noscroll
 const [open, $open] = useSession('ExampleRightSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -151,7 +152,7 @@ return (
 
 ## Заблокированный умный сайдбар
 
-Указание свойства `forceClosed` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
+Указание свойства `disabled` будет держать сайдбар закрытым и он не будет реагировать на свойство `open`.
 
 ```jsx example
 const [open, $open] = useSession('ExampleLockerSmartSidebar')
@@ -169,7 +170,7 @@ return (
           </Menu>
         </Div>
       )}
-      forceClosed
+      disabled
     >
       <Content
         padding
@@ -185,9 +186,31 @@ return (
 )
 ```
 
-## Сложный пример
+## Ленивый рендеринг
+
+По умолчанию содержимое боковой панели не уничтожается при ее закрытии. Чтобы изменить это поведение, передайте `lazy=true`.
 
 ```jsx example
+const [open, $open] = useSession('ExampleLazySmartSidebar')
+
+return (
+  <Div style={{overflow: 'hidden'}}>
+    <SmartSidebar
+      $open={$open}
+      renderContent={() => (
+        <Span>Lazy SmartSidebar</Span>
+      )}
+      lazy
+    >
+      <Button onPress={() => $open.set(!open)}>Toggle Sidebar</Button>
+    </SmartSidebar>
+  </Div>
+)
+```
+
+## Сложный пример
+
+```jsx example noscroll
 const [open, $open] = useSession('ExampleSmartSidebar')
 return (
   <Div style={{overflow: 'hidden'}}>
@@ -221,4 +244,28 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={SmartSidebar} />
+<Sandbox Component={SmartSidebar}
+  props={{
+    $open: $root.scope('_session.Sandbox.SmartSidebar'),
+    renderContent: () => (
+      <Div styleName='sidebar'>
+        <Span styleName='sidebar-text'>Sidebar content</Span>
+      </Div>
+    ),
+    children: (
+      <Div styleName='content'>
+        <Button
+          styleName='button'
+          onPress={()=> {
+            const value = $root.get('_session.Sandbox.SmartSidebar')
+            $root.scope('_session.Sandbox.SmartSidebar').set(!value)
+          }}
+        >Toggle</Button>
+        <Br />
+        <Span>Children content</Span>
+      </Div>
+    )
+  }}
+  rendererStyleName='renderer'
+  block
+/>

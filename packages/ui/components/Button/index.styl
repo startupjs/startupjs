@@ -9,6 +9,22 @@ $this = merge({
     xl: 6u,
     xxl: 7u
   },
+  fontSizes: {
+    xs: 1.25u,
+    s: $UI.fontSizes.caption,
+    m: $UI.fontSizes.body2,
+    l: $UI.fontSizes.body1,
+    xl: $UI.fontSizes.h5,
+    xxl: $UI.fontSizes.h4
+  },
+  lineHeights: {
+    xs: 1.75u,
+    s: $UI.lineHeights.caption,
+    m: $UI.lineHeights.body2,
+    l: $UI.lineHeights.body1,
+    xl: $UI.lineHeights.h5,
+    xxl: $UI.lineHeights.h4
+  },
   outlinedBorderWidth: 1px,
   iconMargins: {
     xs: .5u,
@@ -22,6 +38,7 @@ $this = merge({
 
 // ----- COMPONENT
 
+_sizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
 _disabledOpacity = 0.25
 
 .root
@@ -34,23 +51,10 @@ _disabledOpacity = 0.25
   &.invisible
     opacity 0
 
-  &.xs
-    font(xs)
-
-  &.s
-    font(s)
-
-  &.m
-    font(m)
-
-  &.l
-    font(l)
-
-  &.xl
-    font(xl)
-
-  &.xxl
-    font(xxl)
+  for size in _sizes
+    &.{size}
+      font-size $this.fontSizes[size]
+      line-height $this.lineHeights[size]
 
 .icon
   color: $UI.colors.dark

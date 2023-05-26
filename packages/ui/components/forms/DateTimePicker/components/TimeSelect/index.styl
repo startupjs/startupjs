@@ -1,0 +1,21 @@
+.cell
+  height 5u
+  width 20u
+  align-items center
+  justify-content center
+  align-self center
+
+  +from($UI.media.tablet)
+    width 12u
+
+.cellActive
+  background-color $UI.colors.primary
+
+.cellHover
+  background-color $UI.colors.primaryLighter
+
+.labelActive
+  color $UI.colors.white
+
+:export
+  media: $UI.media

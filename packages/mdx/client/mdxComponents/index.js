@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react'
-import { Image, Platform } from 'react-native'
+import { Image, ScrollView } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { observer, useValue } from 'startupjs'
+import { $root, observer, useValue } from 'startupjs'
 import {
+  Alert,
   Div,
   H2,
   H5,
@@ -19,10 +20,9 @@ import {
   Th,
   Thead,
   Tr,
-  Collapse,
-  Tooltip
+  Collapse
 } from '@startupjs/ui'
-import { Anchor } from '@startupjs/scrollable-anchors'
+import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
 import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
@@ -32,6 +32,7 @@ import Code from '../Code'
 
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
+const BlockquoteContext = React.createContext()
 
 function getOrderedListMark (index, level) {
   switch (level) {
@@ -88,9 +89,21 @@ export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
-  section: ({ children }) => pug`
-    Div.example= children
-  `,
+  section: ({ children, ...props }) => {
+    const Wrapper = props.noscroll
+      ? ({ children }) => pug`
+        Div.example.padding= children
+      `
+      : ({ children }) => pug`
+        ScrollView.example(
+          contentContainerStyleName=['exampleContent', 'padding']
+          horizontal
+        )= children
+      `
+    return pug`
+      Wrapper= children
+    `
+  },
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)
@@ -106,10 +119,16 @@ export default {
       H6(bold)= children
   `,
   p: ({ children }) => {
+    const inBlockquote = useContext(BlockquoteContext)
     // TODO: HACK: Image does not work as need in Text on Android and IOS.
     // Check after the release of react-native v0.64 with this commit
     // https://github.com/facebook/react-native/commit/a0268a7bfc8000b5297d2b50f81e000d1f479c76
     if (children?.props?.mdxType === 'img') return children
+    if (inBlockquote) {
+      return pug`
+        Span.blockquoteP= children
+      `
+    }
     return pug`
       P= children
     `
@@ -122,7 +141,17 @@ export default {
   `,
   pre: ({ children }) => children,
   code: observer(({ children, className, example }) => {
-    const language = (className || '').replace(/language-/, '')
+    // TODO for the inline code
+    // return pug`
+    //   Span.inlineCodeWrapper
+    //   Span.inlineCodeSpacer &#160;
+    //   Span.inlineCode(style={
+    //     fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
+    //   })= children
+    //   Span.inlineCodeSpacer &#160;
+    // `
+
+    const language = (className || 'language-txt').replace(/language-/, '')
     const [open, setOpen] = useState(false)
     const [copyText, $copyText] = useValue('Copy code')
 
@@ -142,29 +171,23 @@ export default {
           Collapse.code-collapse(open=open variant='pure')
             Collapse.Header.code-collapse-header(icon=false onPress=null)
               Row.code-actions(align='right')
-                Tooltip(content=open ? 'Hide code' : 'Show code')
-                  Div.code-action(onPress=() => setOpen(!open))
-                    Icon.code-action-collapse(icon=faCode color='error')
-                Tooltip(content=copyText)
-                  Div.code-action(
-                    onPress=copyHandler
-                    onMouseEnter=onMouseEnter
-                  )
-                    Icon.code-action-copy(icon=faCopy)
+                Div.code-action(
+                  tooltip=open ? 'Hide code' : 'Show code'
+                  onPress=()=> setOpen(!open)
+                )
+                  Icon.code-action-collapse(icon=faCode color='error')
+                Div.code-action(
+                  tooltip=copyText
+                  onPress=copyHandler
+                  onMouseEnter=onMouseEnter
+                )
+                  Icon.code-action-copy(icon=faCopy)
             Collapse.Content.code-collapse-content
               Code(language=language)= children
         else
           Code(language=language)= children
     `
   }),
-  inlineCode: ({ children }) => pug`
-    Span.inlineCodeWrapper
-      Span.inlineCodeSpacer= ' '
-      Span.inlineCode(style={
-        fontFamily: Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace'
-      })= children
-      Span.inlineCodeSpacer= ' '
-  `,
   hr: ({ children }) => pug`
     Divider(size='l')
   `,
@@ -180,33 +203,32 @@ export default {
   },
   br: Br,
   thematicBreak: P,
-  blockquote: P,
+  blockquote: ({ children }) => {
+    return pug`
+      BlockquoteContext.Provider(value=true)
+        Alert.alert= children
+    `
+  },
   ul: ({ children }) => children,
   ol: ({ children }) => {
     const currentLevel = useContext(ListLevelContext)
     const nextLevel = currentLevel == null ? 0 : currentLevel + 1
+    const items = React.Children
+      .toArray(children)
+      .filter(child => child !== '\n')
+      .map((child, index) => React.cloneElement(child, { index }))
     return pug`
       ListLevelContext.Provider(value=nextLevel)
-        = React.Children.map(children, (child, index) => React.cloneElement(child, { index }))
+        = items
     `
   },
   li: ({ children, index }) => {
     const level = useContext(ListLevelContext)
-    let hasTextChild = false
-    children = React.Children.map(children, child => {
-      if (typeof child === 'string') {
-        hasTextChild = true
-      }
-      return child
-    })
     return pug`
       Row
         Span.listIndex= index == null ? '•' : getOrderedListMark(index, level)
         Div.listContent
-          if hasTextChild
-            P(size='l')= children
-          else
-            = children
+          = children
     `
   },
   table: ({ children }) => {
@@ -216,22 +238,27 @@ export default {
   },
   thead: Thead,
   tbody: Tbody,
-  tr: ({ children }) => {
-    return pug`
-      Tr(
-        style={cursor: 'default'}
-        hoverStyle={backgroundColor: '#ebf8fd'}
-        activeStyle={backgroundColor: '#ebf8fd'}
-        onPress=() => null
-      )= children
-    `
-  },
+  tr: Tr,
   td: Td,
   th: Th,
   delete: P,
   a: ({ children, href }) => {
+    function onPress (event) {
+      const { url, hash } = $root.get('$render')
+      const [_url, _hash] = href.split('#')
+      if (url === _url && hash === `#${_hash}`) {
+        event.preventDefault()
+        scrollTo({ anchorId: _hash })
+      }
+    }
+
     return pug`
-      Link.link(to=href size='l' color='primary')= children
+      Link.link(
+        to=href
+        size='l'
+        color='primary'
+        onPress=onPress
+      )= children
     `
   },
   img: ({ src }) => {

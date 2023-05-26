@@ -12,11 +12,17 @@ import { useMedia } from 'startupjs/ui'
 
 ## Media query example
 
+For the test, you need to change the width of the screen, the inscription "Home" from the button should disappear
+
 ```jsx example
 const media = useMedia()
 const props = {}
 if (media.tablet) props.children = 'Home'
 return (
-  <Button icon={faHome} {...props}/>
+  <Button
+    icon={faHome}
+    onPress={()=> alert('For testing, follow the described instructions')}
+    {...props}
+  />
 )
 ```

@@ -1,4 +1,4 @@
-$UI.shadows = merge({
+$UI.shadows = {
   '0': {
     // HACK: 'box-shadow none' does not work correctly on ios
     // it darkens all View component with background in project
@@ -23,7 +23,7 @@ $UI.shadows = merge({
     box-shadow: 0 8px 12px rgba(black, 0.2)
     elevation: 18
   }
-}, $UI.shadows, true)
+}
 
 shadow(level = 1)
   _shadow = $UI.shadows['' + level]

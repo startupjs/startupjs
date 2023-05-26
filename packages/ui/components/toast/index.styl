@@ -1,0 +1,65 @@
+.root
+  position absolute
+  width 100%
+
+  +from($UI.media.mobile)
+    max-width 40u
+    min-width 30u
+    padding-right 2u
+    padding-top 2u
+
+.toast
+  padding 2u
+  justify-content center
+  border-radius .5u
+  background-color $UI.colors.white
+  border-top-width 4px
+  border-top-style solid
+  shadow(2)
+
+  &.info
+    border-top-color $UI.colors.primary
+
+  &.error
+    border-top-color $UI.colors.error
+
+  &.warning
+    border-top-color $UI.colors.warning
+
+  &.success
+    border-top-color $UI.colors.success
+
+.text
+  margin-top 1u
+
+.title
+  margin-left 1u
+
+  &.info
+    color $UI.colors.primary
+
+  &.error
+    color $UI.colors.error
+
+  &.warning
+    color $UI.colors.warning
+
+  &.success
+    color $UI.colors.success
+
+.icon
+  &.info
+    color $UI.colors.primary
+
+  &.error
+    color $UI.colors.error
+
+  &.warning
+    color $UI.colors.warning
+
+  &.success
+    color $UI.colors.success
+
+.actions
+  margin-top 1u
+  justify-content flex-end

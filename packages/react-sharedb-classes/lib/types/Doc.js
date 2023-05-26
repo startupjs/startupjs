@@ -1,4 +1,4 @@
-import Base from './Base'
+import Base from './Base.js'
 import { observable } from '@nx-js/observer-util'
 
 export default class Doc extends Base {

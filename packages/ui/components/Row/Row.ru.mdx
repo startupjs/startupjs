@@ -9,6 +9,7 @@ import Checkbox from '../forms/Checkbox'
 import Br from '../Br'
 import Divider from '../Divider'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Row (строка)
 
@@ -105,12 +106,12 @@ const itemStyle = {
   justifyContent: 'center'
 }
 const vAlignOptions = [
-  { value: null, label: 'stretch (default)' },
+  { value: 'stretch', label: 'stretch (default)' },
   { value: 'start', label: 'start' },
   { value: 'center', label: 'center' },
   { value: 'end', label: 'end' }
 ]
-const [vAlign, setVAlign] = useState(null)
+const [vAlign, setVAlign] = useState('stretch')
 return (
   <Div>
     <Span>Please select a value for `vAlign` prop</Span>
@@ -232,4 +233,23 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Row} />
+<Sandbox
+  Component={Row}
+  props={{
+    children: [
+      <Div key='first' styleName={['div', 'first']}>
+        <Span>1</Span>
+      </Div>,
+      <Div key='second' styleName={['div', 'second']}>
+        <Span>2</Span>
+      </Div>,
+      <Div key='third' styleName={['div', 'third']}>
+        <Span>3</Span>
+      </Div>
+    ],
+    style: { maxWidth: u(70), minHeight: u(15),  backgroundColor: '#cfe8fc' },
+    onPress: () => alert('"onPress" event on "Row" component'),
+    onLongPress: () => alert('"onLongPress" event on "Row" component')
+  }}
+  block
+/>

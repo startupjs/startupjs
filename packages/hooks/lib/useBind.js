@@ -1,11 +1,10 @@
-import { useMemo, useLayoutEffect } from 'react'
+import { useMemo } from 'react'
 import { $root } from '@startupjs/react-sharedb'
 
 export default function useBind (props) {
   let getterName, setterName, $value
 
   for (const key in props) {
-    if (key === 'default') continue
     if (/^\$/.test(key)) $value = props[key]
     else if (/^on[A-Z]/.test(key)) setterName = key
     else getterName = key
@@ -29,15 +28,10 @@ export default function useBind (props) {
 
     if (getterName) {
       if ($aValue != null) {
-        useLayoutEffect(() => {
-          if ($aValue) $aValue.setNull(props.default)
-        }, [])
         res[getterName] = $aValue.get()
       } else {
-        res[getterName] = props[getterName]
-        useMemo(() => {
-          if (res[getterName] == null) res[getterName] = props.default
-        }, [])
+        const aValue = props[getterName]
+        res[getterName] = aValue
       }
     }
 

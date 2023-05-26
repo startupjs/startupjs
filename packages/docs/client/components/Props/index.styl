@@ -6,28 +6,31 @@ $darkBottomBg = #333333
   margin-top 2u
 
 .top
-  flex-grow 1
-  flex-shrink 1
-  flex-basis auto
   background-color #fafafa
   border-top-left-radius 1u
   border-top-right-radius 1u
   padding-top 1u
 
 .bottom
-  flex-shrink 0
-  flex-basis auto
-  padding 4u 2u 0u 2u
+  padding-top 4u
   background-color #f5f5f5
   border-bottom-left-radius 1u
   border-bottom-right-radius 1u
 
+.scroll
+  padding-bottom 2u
+
+  &Content
+    flex-direction column
+    flex-grow 1
+    padding 0 2u
+
 .display
-  margin-top 0.5u
-  margin-bottom 0.5u
+  margin .5u 2u
 
 .dark
   &.top
     background-color $darkTopBg
+
   &.bottom
     background-color $darkBottomBg

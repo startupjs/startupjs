@@ -8,13 +8,11 @@ export default class MongoQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redis1
+    this.redis = dbs.redisClient
   }
 
   async lock (key, ttl) {
-    try {
-      return await this.redlock.lock(key, ttl)
-    } catch (e) {}
+    return await this.redlock.lock(key, ttl)
   }
 
   unlockQuery (lock) {
@@ -27,8 +25,8 @@ export default class MongoQueue {
     const collection = env.WORKER_TASK_COLLECTION
     const start = Date.now()
     const model = this.backend.createModel()
-
     const queryLock = await this.lock(queryLockKey, env.WORKER_MONGO_QUERY_TIMEOUT)
+
     if (queryLock) {
       try {
         const $query = model.query(collection, this.getMongoQuery(start))
@@ -40,13 +38,13 @@ export default class MongoQueue {
           return task
         })
         await this.handleTasks(tasks)
-        await model.unfetchAsync($query)
       } catch (err) {
         this.unlockQuery(queryLock)
         console.log('Mongo error:', err)
         // Could not lock the resource
       }
     }
+
     model.close()
   }
 

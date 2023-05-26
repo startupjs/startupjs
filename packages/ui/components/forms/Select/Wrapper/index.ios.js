@@ -1,6 +1,6 @@
 // ref: https://github.com/lawnstarter/react-native-picker-select/blob/master/src/index.js
 import React, { useState } from 'react'
-import { Modal, TouchableOpacity, View, Text } from 'react-native'
+import { Modal } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { observer } from 'startupjs'
 import {
@@ -9,18 +9,20 @@ import {
   parseValue,
   NULL_OPTION
 } from './helpers'
+import Span from '../../../typography/Span'
 import Div from '../../../Div'
 import themed from '../../../../theming/themed'
 import './index.styl'
 
 function SelectWrapper ({
+  style,
+  children,
   options = [],
   value,
-  onChange,
   disabled,
   showEmptyValue,
-  style,
-  children
+  emptyValueLabel,
+  onChange
 }) {
   const [showModal, setShowModal] = useState(false)
 
@@ -32,7 +34,7 @@ function SelectWrapper ({
     Div.root(style=style)
       = children
       if !disabled
-        TouchableOpacity.overlay(
+        Div.overlay(
           activeOpacity=1
           onPress=() => setShowModal(true)
         )
@@ -41,16 +43,14 @@ function SelectWrapper ({
           transparent
           animationType='slide'
         )
-          TouchableOpacity.modalTop(
-            onPress=() => setShowModal(false)
-          )
-          View.modalMiddle
-            TouchableOpacity(
-              onPress=() => setShowModal(false)
+          Div.modalTop(onPress=()=> setShowModal(false))
+          Div.modalMiddle
+            Div(
+              onPress=()=> setShowModal(false)
               hitSlop={ top: 4, right: 4, bottom: 4, left: 4 }
             )
-              Text.done Done
-          View.modalBottom
+              Span.done Done
+          Div.modalBottom
             Picker(
               selectedValue=stringifyValue(value)
               onValueChange=onValueChange
@@ -59,7 +59,7 @@ function SelectWrapper ({
                 Picker.Item(
                   key=-1
                   value=stringifyValue(NULL_OPTION)
-                  label=getLabel(NULL_OPTION)
+                  label=emptyValueLabel || getLabel(NULL_OPTION)
                 )
               each item, index in options
                 Picker.Item(
@@ -69,4 +69,5 @@ function SelectWrapper ({
                 )
   `
 }
+
 export default observer(themed('Select', SelectWrapper))

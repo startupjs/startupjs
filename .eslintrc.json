@@ -19,14 +19,19 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaFeatures": {
       "legacyDecorators": true,
       "jsx": true
     },
     "ecmaVersion": 10,
-    "sourceType": "module"
+    "sourceType": "module",
+    "babelOptions": {
+      "parserOpts": {
+        "plugins": ["jsx"]
+      }
+    }
   },
   "plugins": [
     "react",
@@ -37,6 +42,7 @@
   ],
   "rules": {
     "prefer-const": "off",
+    "eol-last": "error",
     "react/jsx-handler-names": "off",
     "react/prop-types": "off",
     "react-pug/empty-lines": "off",

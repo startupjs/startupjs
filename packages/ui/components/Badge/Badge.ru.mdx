@@ -1,10 +1,11 @@
 import Badge from '../Badge'
-import Row from '../Row'
 import Button from '../Button'
 import Div from '../Div'
 import Icon from '../Icon'
+import Row from '../Row'
 import { faThumbsUp, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Badge (Бейдж)
 
@@ -116,4 +117,13 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Badge} />
+<Sandbox
+  Component={Badge}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{ children: <Div styleName='child' /> }}
+  noScroll
+/>

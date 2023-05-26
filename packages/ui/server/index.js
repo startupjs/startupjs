@@ -1,9 +1,5 @@
-import { getReactDatepickerHead, initReactDatepicker } from '../components/forms/DateTimePicker/initReactDatepickerStyles'
-
 export function getUiHead () {
-  return `${getReactDatepickerHead()}`
+  return ''
 }
 
-export function initUi (ee, options) {
-  initReactDatepicker(ee, options)
-}
+export function initUi (ee, options) {}

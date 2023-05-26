@@ -124,6 +124,7 @@ return pug`
 ```
 
 ## Actions
+
 Passed handler to `onPress` property will be called when the user taps the component.
 
 ```jsx example
@@ -142,4 +143,9 @@ return pug`
 
 ## Sandbox
 
-<Sandbox Component={Avatar} />
+<Sandbox
+  Component={Avatar}
+  props={{
+    onPress: () => alert('"onPress" event on "Avatar" component'),
+  }}
+/>

@@ -18,4 +18,4 @@ Tr.propTypes = {
   children: PropTypes.node
 }
 
-export default observer(themed(Tr))
+export default observer(themed('Tr', Tr))

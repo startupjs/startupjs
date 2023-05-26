@@ -1,10 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'startupjs'
+import { Div } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(function Table ({ children, style }) {
   return pug`
-    View.root(style=style)= children
+    Div.root(style=style)= children
   `
 })

@@ -107,7 +107,7 @@ export default observer(function App () {
 
 import { observer, t } from "startupjs";
 export default observer(function App() {
-  return <span>{t("key", "defaultValue")}</span>;
+  return <span>{t("correct%2Ejs.key", "defaultValue")}</span>;
 });
 
 

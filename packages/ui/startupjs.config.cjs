@@ -2,7 +2,10 @@ module.exports = {
   type: 'plugin',
   bundler: {
     forceCompile: {
-      web: true,
+      web: [
+        '@ptomasroos/react-native-multi-slider',
+        '@startupjs/ui'
+      ],
       server: true
     }
   }

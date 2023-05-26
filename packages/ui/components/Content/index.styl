@@ -1,7 +1,7 @@
 // ----- CONFIG: $UI.Content
 
 $this = merge({
-  defaultWidth: 'mobile'
+  defaultWidth: 'tablet'
 }, $UI.Content, true)
 
 // ----- COMPONENT
@@ -17,10 +17,6 @@ _gutter = 2u
   &.padding
     padding-top _gutter
     padding-bottom @padding-top
-
-  &.full
-    flex-grow 1
-    flex-shrink 0
 
   &.width
     &-mobile

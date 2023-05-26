@@ -12,6 +12,7 @@ function Span ({
   italic,
   theme,
   description,
+  full,
   ...props
 }) {
   if (variant && variant !== 'default') {
@@ -25,7 +26,7 @@ function Span ({
   return pug`
     Text.root(
       style=style
-      styleName=[theme, variant, { bold, italic, description }]
+      styleName=[theme, variant, { bold, italic, description, full }]
       ...props
     )= children
   `
@@ -39,12 +40,13 @@ Span.defaultProps = {
 Span.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
+  full: PropTypes.bool,
   bold: PropTypes.bool,
   italic: PropTypes.bool,
   description: PropTypes.bool
 }
 
-export default observer(themed(Span))
+export default observer(themed('Span', Span))
 
 styl`
   // ----- CONFIG: $UI.Span
@@ -56,7 +58,7 @@ styl`
 
   // ----- COMPONENT
 
-  _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6 DEPRECATED
+  _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6, description is DEPRECATED
 
   .root
     font()
@@ -78,4 +80,7 @@ styl`
 
     &.description
       color: $this.descriptionColor
+
+    &.full
+      flex: 1
 `

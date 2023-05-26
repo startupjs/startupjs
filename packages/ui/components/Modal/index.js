@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react'
+import React, { useMemo, useImperativeHandle } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
 import { observer, useDidUpdate, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -8,39 +8,65 @@ import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
 import Portal from '../Portal'
 
+const SUPPORTED_ORIENTATIONS = [
+  'portrait',
+  'portrait-upside-down',
+  'landscape',
+  'landscape-left',
+  'landscape-right'
+]
+
 function ModalRoot ({
   style,
   modalStyle,
+  visible,
   $visible,
   transparent,
   supportedOrientations,
   statusBarTranslucent,
   animationType,
-  onChange,
+  onChange, // DEPRECATED
   onDismiss,
   onRequestClose,
   onShow,
   onOrientationChange,
   ...props
 }, ref) {
-  if (!Object.keys(props).includes('visible') && !$visible) {
-    [, $visible] = useValue(false)
+  if (onChange) {
+    console.warn('[@startupjs/ui] Modal: onChange is DEPRECATED, use onRequestClose instead.')
   }
 
-  let visible = props.visible
+  const isUsedViaRef = useMemo(() => {
+    const isUsedViaTwoWayDataBinding = typeof $visible !== 'undefined'
+    const isUsedViaState = typeof visible !== 'undefined'
+    return !(isUsedViaTwoWayDataBinding || isUsedViaState)
+  }, [])
 
-  ;({ visible, onChange } = useBind({ visible, $visible, onChange, default: false }))
-  const _visible = !!visible
+  if (isUsedViaRef) {
+    useImperativeHandle(ref, () => ({
+      open: () => $visible.setDiff(true),
+      close: () => $visible.setDiff(false)
+    }))
+    ;[, $visible] = useValue(false)
+  }
 
-  function closeFallback () {
-    onChange && onChange(false)
+  ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
+
+  // WORKAROUND
+  // convert 'visible' to boolean
+  // because modal window appears for undefined value on web
+  visible = !!visible
+
+  function _onRequestClose () {
+    onChange && onChange(false) // DEPRECATED
+    onRequestClose()
   }
 
   // TODO: This hack is used to make onDismiss work correctly.
   // Fix it when https://github.com/facebook/react-native/pull/29882 is released.
   // It fixed in 0.64
   useDidUpdate(() => {
-    if (!_visible) onDismiss && onDismiss()
+    if (!visible) onDismiss && onDismiss()
   }, [visible])
 
   useImperativeHandle(ref, () => ({
@@ -49,33 +75,28 @@ function ModalRoot ({
   }), [])
 
   return pug`
-    //- WORKAROUND
-    //- we pass boolean value to visible property
-    //- because modal window appears for undefined value
     RNModal(
-      visible=_visible
+      visible=visible
       transparent=transparent
       supportedOrientations=supportedOrientations
       animationType=animationType
       statusBarTranslucent=statusBarTranslucent
-      onRequestClose=onRequestClose
+      onRequestClose=_onRequestClose
       onOrientationChange=onOrientationChange
       onShow=onShow
     )
-      if _visible
-        Portal.Provider
+      Portal.Provider
+        if visible
           Layout(
             style=style
             modalStyle=modalStyle
-            closeFallback=closeFallback
+            onRequestClose=_onRequestClose
             ...props
           )
   `
 }
 
-const ObservedModal = observer(ModalRoot, { forwardRef: true })
-
-ObservedModal.defaultProps = {
+ModalRoot.defaultProps = {
   variant: 'window',
   cancelLabel: ModalActions.defaultProps.cancelLabel,
   confirmLabel: ModalActions.defaultProps.confirmLabel,
@@ -84,33 +105,30 @@ ObservedModal.defaultProps = {
   transparent: true,
   showCross: true,
   enableBackdropPress: true,
-  supportedOrientations: ['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right'],
-  onRequestClose: () => {} // required prop in some platforms
+  supportedOrientations: SUPPORTED_ORIENTATIONS,
+  // default value is needed to avoid crash pages
+  // because this property is required in some platforms
+  onRequestClose: () => {}
 }
 
-ObservedModal.propTypes = {
+ModalRoot.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['window', 'fullscreen']),
   visible: PropTypes.bool,
   $visible: PropTypes.any,
   title: PropTypes.string,
-  cancelLabel: ModalActions.propTypes.cancelLabel,
-  confirmLabel: ModalActions.propTypes.confirmLabel,
+  cancelLabel: ModalActions.propTypes.cancelLabel, // ??
+  confirmLabel: ModalActions.propTypes.confirmLabel, // ??
   showCross: PropTypes.bool,
   enableBackdropPress: PropTypes.bool,
   ModalElement: PropTypes.any,
   animationType: PropTypes.oneOf(['slide', 'fade', 'none']),
   transparent: PropTypes.bool,
   statusBarTranslucent: PropTypes.bool,
-  supportedOrientations: PropTypes.arrayOf(PropTypes.oneOf([
-    'portrait',
-    'portrait-upside-down',
-    'landscape',
-    'landscape-left',
-    'landscape-right'
-  ])),
-  onChange: PropTypes.func,
+  supportedOrientations: PropTypes.arrayOf(
+    PropTypes.oneOf(SUPPORTED_ORIENTATIONS)
+  ),
   onShow: PropTypes.func,
   onCrossPress: PropTypes.func,
   onCancel: PropTypes.func,
@@ -120,6 +138,8 @@ ObservedModal.propTypes = {
   onRequestClose: PropTypes.func,
   onDismiss: PropTypes.func
 }
+
+const ObservedModal = observer(ModalRoot, { forwardRef: true })
 
 ObservedModal.Header = ModalHeader
 ObservedModal.Content = ModalContent

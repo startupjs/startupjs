@@ -1,5 +1,185 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style "parseJson" option with default import: "parseJson" option with default import 1`] = `
+
+import STYLES from './index.styl'
+console.log(STYLES)
+function Test () {
+  return (
+    <div styleName='root active'>
+      <span styleName='title'>Title</span>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _jsonCss from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+const STYLES = JSON.parse(_jsonCss);
+console.log(STYLES);
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root active",
+        STYLES,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    >
+      <span
+        {..._processStyleName(
+          "title",
+          STYLES,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Title
+      </span>
+    </div>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style "parseJson" option. Used when we receive compiled css as a json string: "parseJson" option. Used when we receive compiled css as a json string 1`] = `
+
+import './index.styl'
+function Test () {
+  return (
+    <div styleName='root active'>
+      <span styleName='title'>Title</span>
+      <span styleName='description'>Description</span>
+      <button styleName='submit disabled'>Submit</button>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _jsonCss from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+const _css = JSON.parse(_jsonCss);
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root active",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    >
+      <span
+        {..._processStyleName(
+          "title",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Title
+      </span>
+      <span
+        {..._processStyleName(
+          "description",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Description
+      </span>
+      <button
+        {..._processStyleName(
+          "submit disabled",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Submit
+      </button>
+    </div>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style ::part() in pug loop: ::part() in pug loop 1`] = `
+
+import './index.styl'
+function Test ({ items, ...props }) {
+  return pug\`
+    Card(
+      part='root'
+      style={ color: 'blue' }
+    )
+      each item in items
+        Content(part='item')= item
+  \`
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Test({ itemStyle: _itemStyle, style: _style, items, ...props }) {
+  return (
+    <Card
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: [
+            {
+              color: "blue",
+            },
+            _style,
+          ],
+        }
+      )}
+    >
+      {items.map((item) => {
+        return (
+          <Content
+            {..._processStyleName(
+              "",
+              _css,
+              typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+              typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+              {
+                style: _itemStyle,
+              }
+            )}
+          >
+            {item}
+          </Content>
+        );
+      })}
+    </Card>
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style Arrays and objects: Arrays and objects 1`] = `
 
 import './index.styl'
@@ -17,9 +197,7 @@ function Test ({ style, active, submit, disabled }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({ style, active, submit, disabled }) {
   const titleStyle = {
@@ -96,6 +274,77 @@ function Test({ style, active, submit, disabled }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style DEPRECATED! Legacy CJS version when "useImport: false".: DEPRECATED! Legacy CJS version when "useImport: false". 1`] = `
+
+import './index.styl'
+function Test () {
+  return (
+    <div styleName='root active'>
+      <span styleName='title'>Title</span>
+      <span styleName='description'>Description</span>
+      <button styleName='submit disabled'>Submit</button>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+
+const _processStyleName =
+  require("@startupjs/babel-plugin-rn-stylename-to-style/process").process;
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root active",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    >
+      <span
+        {..._processStyleName(
+          "title",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Title
+      </span>
+      <span
+        {..._processStyleName(
+          "description",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Description
+      </span>
+      <button
+        {..._processStyleName(
+          "submit disabled",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {}
+        )}
+      >
+        Submit
+      </button>
+    </div>
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style DEPRECATED! With ::part() styles and deprecated *StyleName props: DEPRECATED! With ::part() styles and deprecated *StyleName props 1`] = `
 
 import './index.styl'
@@ -110,9 +359,7 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
@@ -178,6 +425,411 @@ function Test({ style, active, submit, disabled, titleStyle }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Failed test 1: Failed test 1 1`] = `
+
+import { observer, useBackPress } from 'startupjs'
+
+function Layout ({ style, children }) {
+  return (
+    <SafeAreaView styleName='root' style={style}>
+      <StatusBar
+        backgroundColor={bgColor}
+        barStyle='dark-content'
+      >
+        {children}
+      </StatusBar>
+    </SafeAreaView>
+  )
+}
+
+export default observer(Layout)
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, useBackPress } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Layout({ style, children }) {
+  return (
+    <SafeAreaView
+      {..._processStyleName(
+        "root",
+        {},
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: style,
+        }
+      )}
+    >
+      <StatusBar backgroundColor={bgColor} barStyle="dark-content">
+        {children}
+      </StatusBar>
+    </SafeAreaView>
+  );
+}
+
+export default observer(Layout);
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Failed test 2: Failed test 2 1`] = `
+
+import { observer, useBackPress } from 'startupjs'
+
+function Menu ({ style, children, value, variant, activeBorder, iconPosition, activeColor, ...props }) {
+  return (
+    <Context.Provider value={value}>
+      <Div style={style} />
+      <Div
+        style={style}
+        styleName={['root', [variant]]}
+        {...props}
+      >{children}</Div>
+    </Context.Provider>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer, useBackPress } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+function Menu({
+  style,
+  children,
+  value,
+  variant,
+  activeBorder,
+  iconPosition,
+  activeColor,
+  ...props
+}) {
+  return (
+    <Context.Provider value={value}>
+      <Div
+        {..._processStyleName(
+          "",
+          {},
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: style,
+          }
+        )}
+      />
+      <Div
+        {...props}
+        {..._processStyleName(
+          ["root", [variant]],
+          {},
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: style,
+          }
+        )}
+      >
+        {children}
+      </Div>
+    </Context.Provider>
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. First capital letter function must be returned: Find proper react component. First capital letter function must be returned 1`] = `
+
+import './index.styl'
+export default function ComponentFactory (title) {
+  return function Component () {
+    function renderItem () {
+      return <Span part='item'>{title}</Span>
+    }
+    const renderFooter = () => <Div part='footer' />
+    return <Div part='root'>{renderItem()}{renderFooter()}</Div>
+  }
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export default function ComponentFactory(title) {
+  return function Component(_props) {
+    function renderItem() {
+      return (
+        <Span
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: _props.itemStyle,
+            }
+          )}
+        >
+          {title}
+        </Span>
+      );
+    }
+
+    const renderFooter = () => (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.footerStyle,
+          }
+        )}
+      />
+    );
+
+    return (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.style,
+          }
+        )}
+      >
+        {renderItem()}
+        {renderFooter()}
+      </Div>
+    );
+  };
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. Simplest: Find proper react component. Simplest 1`] = `
+
+import './index.styl'
+export default function Test () {
+  return <Div part='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export default function Test(_props) {
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    />
+  );
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With arrow and wrapped into arrow function: Find proper react component. With arrow and wrapped into arrow function 1`] = `
+
+import './index.styl'
+export const Test = () => {
+  const renderItem = () => {
+    return <Div part='item' />
+  }
+  return <Div part='root'>{renderItem()}</Div>
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = (_props) => {
+  const renderItem = () => {
+    return (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.itemStyle,
+          }
+        )}
+      />
+    );
+  };
+
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    >
+      {renderItem()}
+    </Div>
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With arrow and wrapped into named function: Find proper react component. With arrow and wrapped into named function 1`] = `
+
+import './index.styl'
+export const Test = () => {
+  function renderItem () {
+    return <Div part='item' />
+  }
+  return <Div part='root'>{renderItem()}</Div>
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = (_props) => {
+  function renderItem() {
+    return (
+      <Div
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: _props.itemStyle,
+          }
+        )}
+      />
+    );
+  }
+
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    >
+      {renderItem()}
+    </Div>
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With const and anonymous: Find proper react component. With const and anonymous 1`] = `
+
+import './index.styl'
+export const Test = function () {
+  return <Div part='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = function (_props) {
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    />
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Find proper react component. With const and arrow: Find proper react component. With const and arrow 1`] = `
+
+import './index.styl'
+export const Test = () => {
+  return <Div part='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export const Test = (_props) => {
+  return (
+    <Div
+      {..._processStyleName(
+        "",
+        _css,
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: _props.style,
+        }
+      )}
+    />
+  );
+};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style No styles file: No styles file 1`] = `
+
+function Test () {
+  return <div styleName='root' />
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "root",
+        {},
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {}
+      )}
+    />
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style Puts compiled attribute to the end of attributes list: Puts compiled attribute to the end of attributes list 1`] = `
 
 import './index.styl'
@@ -192,9 +844,7 @@ function Test ({ style, active, submit, disabled }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({ style, active, submit, disabled }) {
   return (
@@ -254,9 +904,7 @@ function Test ({ style }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({ style }) {
   const titleStyle = {
@@ -342,9 +990,7 @@ function Test () {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test() {
   return (
@@ -397,6 +1043,128 @@ function Test() {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Style with observer. Should transform for caching: Style with observer. Should transform for caching 1`] = `
+
+import { observer } from 'startupjs'
+export default observer(function Test () {
+  return (
+    <div style={{ backgroundColor: 'red' }}>
+      <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+      <div>
+        <span headerStyle={{ color: 'yellow' }}>Hello</span>
+      </div>
+    </div>
+  )
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { observer } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+export default observer(function Test() {
+  return (
+    <div
+      {..._processStyleName(
+        "",
+        {},
+        typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+        typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+        {
+          style: {
+            backgroundColor: "red",
+          },
+        }
+      )}
+    >
+      <div
+        {..._processStyleName(
+          "",
+          {},
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: {
+              color: "green",
+            },
+            titleStyle: {
+              color: "blue",
+            },
+          }
+        )}
+      />
+      <div>
+        <span
+          {..._processStyleName(
+            "",
+            {},
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              headerStyle: {
+                color: "yellow",
+              },
+            }
+          )}
+        >
+          Hello
+        </span>
+      </div>
+    </div>
+  );
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style Style without observer. Shouldn't transform: Style without observer. Shouldn't transform 1`] = `
+
+import { useLocal } from 'startupjs'
+function Test () {
+  return (
+    <div style={{ backgroundColor: 'red' }}>
+      <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+      <div>
+        <span headerStyle={{ color: 'yellow' }}>Hello</span>
+      </div>
+    </div>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { useLocal } from "startupjs";
+
+function Test() {
+  return (
+    <div
+      style={{
+        backgroundColor: "red",
+      }}
+    >
+      <div
+        style={{
+          color: "green",
+        }}
+        titleStyle={{
+          color: "blue",
+        }}
+      />
+      <div>
+        <span
+          headerStyle={{
+            color: "yellow",
+          }}
+        >
+          Hello
+        </span>
+      </div>
+    </div>
+  );
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style With ::part() styles: With ::part() styles 1`] = `
 
 import './index.styl'
@@ -411,9 +1179,7 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
@@ -486,9 +1252,7 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 const Test = ({
   activeStyle: _activeStyle,
@@ -561,9 +1325,7 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 const Test = ({
   activeStyle: _activeStyle,
@@ -633,12 +1395,12 @@ SyntaxError: unknown:
         'part' attribute only supports literal or string keys in object.
         Dynamic keys or spreads are not supported.
       
-[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
-[0m [90m 3 | [39m  [36mreturn[39m ([0m
-[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{{[variant][33m:[39m [36mtrue[39m}} [33m/[39m[33m>[39m[0m
-[0m [90m   | [39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 5 | [39m  )[0m
-[0m [90m 6 | [39m}[0m
+[0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m     [33m<[39m[33mCard[39m part[33m=[39m{{[variant][33m:[39m [36mtrue[39m}} [33m/[39m[33m>[39m[0m
+[0m [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m   )[0m
+[0m [90m 6 |[39m }[0m
 
 `;
 
@@ -656,12 +1418,12 @@ function Test ({ variant }) {
 SyntaxError: unknown: 
       'part' attribute only supports static strings or objects inside an array.
     
-[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
-[0m [90m 3 | [39m  [36mreturn[39m ([0m
-[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{[[32m'card'[39m[33m,[39m variant]} [33m/[39m[33m>[39m[0m
-[0m [90m   | [39m                         [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 5 | [39m  )[0m
-[0m [90m 6 | [39m}[0m
+[0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m     [33m<[39m[33mCard[39m part[33m=[39m{[[32m'card'[39m[33m,[39m variant]} [33m/[39m[33m>[39m[0m
+[0m [90m   |[39m                          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m   )[0m
+[0m [90m 6 |[39m }[0m
 
 `;
 
@@ -684,12 +1446,12 @@ SyntaxError: unknown:
     Basically the rule is that the name of the part must be static so that
     it is possible to determine at compile time which parts are being used.
   
-[0m [90m 2 | [39m[36mfunction[39m [33mTest[39m ({ variant }) {[0m
-[0m [90m 3 | [39m  [36mreturn[39m ([0m
-[0m[31m[1m>[22m[39m[90m 4 | [39m    [33m<[39m[33mCard[39m part[33m=[39m{variant} [33m/[39m[33m>[39m[0m
-[0m [90m   | [39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 5 | [39m  )[0m
-[0m [90m 6 | [39m}[0m
+[0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
+[0m [90m 3 |[39m   [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m     [33m<[39m[33mCard[39m part[33m=[39m{variant} [33m/[39m[33m>[39m[0m
+[0m [90m   |[39m           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m   )[0m
+[0m [90m 6 |[39m }[0m
 
 `;
 
@@ -711,9 +1473,7 @@ function Test ({ title, style, ...props }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({
   activeStyle: _activeStyle,
@@ -778,9 +1538,7 @@ function Test ({ title, ...props }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({
   activeStyle: _activeStyle,
@@ -850,9 +1608,7 @@ function Test () {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test(_props) {
   return (
@@ -923,9 +1679,7 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 const Test = ({
   activeStyle: _activeStyle,
@@ -995,9 +1749,7 @@ function Test ({ style, cardStyle, title, ...props }) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test({
   activeStyle: _activeStyle,
@@ -1063,9 +1815,7 @@ function Test (props) {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
-const _processStyleName = require("@startupjs/babel-plugin-rn-stylename-to-style/process")
-  .process;
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 
 function Test(props) {
   return (

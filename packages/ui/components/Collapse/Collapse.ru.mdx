@@ -1,3 +1,4 @@
+import { $root } from 'startupjs'
 import { useState } from 'react'
 import Collapse from '../Collapse'
 import Div from '../Div'
@@ -5,6 +6,8 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Collapse (коллапс)
+
+Наследует [react-native-collapsible](https://github.com/oblador/react-native-collapsible).
 
 Collapse позволяет переключать видимость содержимого.
 
@@ -14,7 +17,7 @@ import { Collapse } from '@startupjs/ui'
 
 ## Простой пример
 
-```jsx example
+```jsx example noscroll
 const [open, setOpen] = useState(false)
 return (
   <Collapse title='Simple collapse' open={open} onChange={() => setOpen(!open)}>
@@ -25,9 +28,9 @@ return (
 
 ## Чистый коллапс
 
-Чистый коллапс не содержит никаких стилей (фон, тень, отступы и т.д.). Это полезно когда `Collapse` используется в качестве дочерних элементов других компонент, например `Card`. Чтобы сделать его чистым, передайте строку `pure` в свойство `variant`.
+Чистый коллапс не содержит никаких стилей (фон, отступы и т.д.). Это полезно когда `Collapse` используется в качестве дочерних элементов других компонент, например `Card`. Чтобы сделать его чистым, передайте строку `pure` в свойство `variant`.
 
-```jsx example
+```jsx example noscroll
 const [open, setOpen] = useState(false)
 return (
   <Collapse
@@ -45,7 +48,7 @@ return (
 
 Коллапс состоит из двух частей - `Header` и `Content`. Эти части можно использовать для добавления пользовательской разметки, `Header` используется вместо `title` и `Content` используется вместо `children`. Их можно использовать по отдельности. Каждая из частей принимает значение свойства `variant` от родителя `Collapse`, который может быть переопределен путем передачи `variant` в себя.
 
-```jsx example
+```jsx example noscroll
 const [open1, setOpen1] = useState(false)
 const [open2, setOpen2] = useState(false)
 return (
@@ -84,7 +87,7 @@ return (
 
 Используя `Collapse` компонент, можно создать поведение, подобное аккордеону.
 
-```jsx example
+```jsx example noscroll
 const [expand, setExpand] = useState()
 const handleChange = (panel) => (shouldExpand) => {
   setExpand(shouldExpand ? panel : null)
@@ -127,7 +130,12 @@ return (
 
 ### Collapse
 
-<Sandbox Component={Collapse} />
+<Sandbox
+  Component={Collapse}
+  props={{ $open: $root.scope('_session.Props.Collapse.open') }}
+  $props={$root.scope('_session.Props.Collapse')}
+  {...{ _comment: "HACK to make alive sandbox when user click on 'open' checkbox" }}
+/>
 
 ### Collapse.Header
 

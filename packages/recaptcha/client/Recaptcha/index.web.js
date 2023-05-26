@@ -11,6 +11,7 @@ import {
 
 function RecaptchaComponent ({
   theme,
+  badge,
   variant,
   lang,
   onVerify,
@@ -34,7 +35,11 @@ function RecaptchaComponent ({
       variant === 'invisible' && grecaptcha.execute(widget)
     },
     close: () => {
-      variant === 'invisible' && grecaptcha.reset(widget)
+      // https://github.com/sarneeh/reaptcha/issues/218#issuecomment-1072293872
+      variant === 'invisible' &&
+        setTimeout(() => {
+          grecaptcha.reset(widget)
+        }, 300)
     }
   }))
 
@@ -69,6 +74,7 @@ function RecaptchaComponent ({
       sitekey: getSiteKey(variant),
       size: variant,
       theme,
+      badge,
       hl: lang,
       callback: token => onVerify({ type: getRecaptchaType(), token, variant }),
       'expired-callback': onExpire,
@@ -127,6 +133,7 @@ Recaptcha.defaultProps = {
 
 Recaptcha.propTypes = {
   theme: PropTypes.oneOf(['light', 'dark']),
+  badge: PropTypes.oneOf(['bottomright', 'bottomleft', 'inline']),
   variant: PropTypes.oneOf(['invisible', 'normal', 'compact']),
   lang: PropTypes.string,
   onVerify: PropTypes.func,

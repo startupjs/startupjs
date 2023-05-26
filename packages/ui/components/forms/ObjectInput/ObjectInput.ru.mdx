@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
@@ -10,34 +10,67 @@ import { Sandbox } from '@startupjs/docs'
 
 ObjectInput позволяет создавать динамические формы, используя его декларативный апи.
 
+ObjectInput принимает в свойстве `properties` объект метаданных полей ввода с обязательным ключом `input` для указания типа отображаемого поля.
+
+Возможные типы: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
+
 ```jsx
 import { ObjectInput } from from '@startupjs/ui'
 ```
 
 ## Простой пример
 
-ObjectInput принимает объект в свойство `properties` с обязательным ключом `input` для указания типа отображаемого поля. Возможные типы ([сheckbox](/docs/components/Checkbox), [text](/docs/components/TextInput) и [object](/docs/components/ObjectInput)). Объект `properties` также наследует любые свойства передаваемые в этим компонентам.
+Важно, чтобы `properties` определялся как константа либо за пределами вашего компонента, либо кэшировался с помощью `useMemo()`, в противном случае компонент будет повторно визуализировать все дерево формы всякий раз, когда вы редактируете одно из полей.
 
 ```jsx example
-const [value, $value] = useValue()
+const [, $value] = useValue({})
+const properties = useMemo(() => {
+  return {
+    email: {
+      input: 'text',
+      label: 'Email'
+    },
+    password: {
+      input: 'text',
+      label: 'Password',
+      description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+    }
+  }
+}, [])
+
 return (
   <ObjectInput
-    value={value}
     $value={$value}
-    properties={{
-      firstName: {
-        input: 'text',
-        label: 'First name'
-      },
-      lastName: {
-        input: 'text',
-        label: 'Last name'
-      },
-      termsAndCondition: {
-        input: 'checkbox',
-        label: 'I agree to T&C'
-      }
-    }}
+    properties={properties}
+  />
+)
+```
+
+## Показать в ряд
+
+Вы можете показать вложенные поля в ряд передав флаг `row`.
+
+```jsx example
+const [, $value] = useValue({})
+const properties = useMemo(() => {
+  return {
+    email: {
+      input: 'text',
+      label: 'Email'
+    },
+    password: {
+      input: 'text',
+      label: 'Password',
+      description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+    }
+  }
+}, [])
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={properties}
+    row
   />
 )
 ```
@@ -47,112 +80,133 @@ return (
 ObjectInput принимает массив в свойстве `order`, чтобы указать, в каком порядке должны отображаться поля.
 
 ```jsx example
-const [value, $value] = useValue()
+const [, $value] = useValue({})
+
 return (
   <ObjectInput
-    value={value}
     $value={$value}
-    order={['lastName', 'termsAndCondition', 'firstName']}
+    order={['password', 'email']}
     properties={{
-      firstName: {
+      email: {
         input: 'text',
-        label: 'First name'
+        label: 'Email'
       },
-      lastName: {
+      password: {
         input: 'text',
-        label: 'Last name'
-      },
-      termsAndCondition: {
-        input: 'checkbox',
-        label: 'I agree to T&C'
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
   />
 )
 ```
 
+## Отображение ошибок
+
+Свойство `errors` принимает объект с текстами ошибок для полей ввода, где ключ является ключом поля вода из объекта `properties`, а его значением является текст ошибки.
+
+```jsx example
+const [, $value] = useValue({})
+
+return (
+  <ObjectInput
+    $value={$value}
+    errors={{
+      email: 'Email input error',
+      password: 'Password input error'
+    }}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+  />
+)
+```
+
+
+## Disabled
+
+```jsx example
+const $value = useValue$()
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    disabled
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const $value = useValue$({ email: 'startupjs@gmail.com', password: '123456' })
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    readonly
+  />
+)
+```
+
 ## Продвинутое использование
 
-ObjectInput поддерживает `dependsOn` и `dependsValue` свойства для каждого объекта из массива `properties` для динамического отображения полей.
+ObjectInput поддерживает `dependsOn` и `dependsValue` свойства для каждого объекта поля ввода в `properties` для динамического отображения полей.
 
 - `dependsOn` используется для указания ключа объекта, от которого зависит текущее поле
 
 - `dependsValue` используется для указания при каком значении поля с ключом `dependsOn` должно быть показано текущее поле
 
-В приведенном ниже `примере-1` зависимое текстовое поле будет отображаться только в том случае, если текстовое поле по умолчанию непусто. Аналогично, `пример-2` показывает зависимое текстовое поле только тогда, когда чекбокс включен.
+В приведенном ниже примере зависимое поле `password` будет отображаться только в том случае, если поле `email` непусто.
 
-Внимание: Когда поле `dependsOn` изменяется и зависимое поле больше не видно, его предыдущее значение сохраняется.
-
-```jsx example
-const [value, $value] = useValue({})
-const [value2, $value2] = useValue()
-return (
-  <Content>
-    <Span>Example-1</Span>
-    <Br lines={0.5} />
-    <ObjectInput
-      value={value}
-      $value={$value}
-      properties={{
-        textInput: {
-          input: 'text',
-          label: 'Text input',
-          placeholder: 'Type anything'
-        },
-        dependent: {
-          dependsOn: 'textInput',
-          dependsValue: value.textInput,
-          input: 'text',
-          label: 'Dependent on text input'
-        }
-      }}
-    />
-    <Br />
-    <Span>Example-2</Span>
-    <Br lines={0.5}/>
-    <ObjectInput
-      value={value2}
-      $value={$value2}
-      properties={{
-        checkbox: {
-          input: 'checkbox',
-          label: 'Click to display next input'
-        },
-        dependent: {
-          dependsOn: 'checkbox',
-          dependsValue: true,
-          input: 'text',
-          label: 'Dependent on checkbox'
-        }
-      }}
-    />
-  </Content>
-)
-```
-
-## Отображение ошибок
-
-Свойство `errors` предоставляет тексты ошибок для инпутов в виде объекта, ключи соответствуют ключам `properties`, свойства - текст ошибки.
+**Внимание**: Когда поле `dependsOn` изменяется и зависимое поле больше не видно, его предыдущее значение сохраняется.
 
 ```jsx example
-const [value, $value] = useValue({})
+const [, $value] = useValue({})
 
 return (
   <ObjectInput
-    value={value}
     $value={$value}
-    errors={{
-      firstName: value.firstName ? '' : 'First name value must be specified',
-      lastName: value.lastName ? '' : 'Last name value must be specified'
-    }}
     properties={{
-      firstName: {
+      email: {
         input: 'text',
-        label: 'First name'
+        label: 'Email'
       },
-      lastName: {
+      password: {
         input: 'text',
-        label: 'Last name'
+        label: 'Password',
+        dependsOn: 'email',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
   />

@@ -7,6 +7,9 @@ const STYLE_NAME_REGEX = /(?:^s|S)tyleName$/
 const STYLE_REGEX = /(?:^s|S)tyle$/
 const ROOT_STYLE_PROP_NAME = 'style'
 
+const GLOBAL_OBSERVER_LIBRARY = 'startupjs'
+const GLOBAL_OBSERVER_DEFAULT_NAME = 'observer'
+
 const { GLOBAL_NAME, LOCAL_NAME } = require('./constants.cjs')
 
 const buildSafeVar = template.expression(`
@@ -21,13 +24,19 @@ const buildRequire = template(`
   const %%name%% = require('${PROCESS_PATH}').process
 `)
 
+const buildJsonParse = template(`
+  const %%name%% = JSON.parse(%%jsonStyle%%)
+`)
+
 module.exports = function (babel) {
   let styleHash = {}
-  let specifier
+  let cssIdentifier
+  let hasObserver
+  let $program
 
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
-    const cssStyles = specifier.local.name
+    const cssStyles = cssIdentifier.name
     const processCall = t.callExpression(
       state.reqName,
       [expression, t.identifier(cssStyles)]
@@ -37,35 +46,17 @@ module.exports = function (babel) {
 
   function addPartStyleToProps ($jsxAttribute) {
     const parts = getParts($jsxAttribute.get('value'))
-    let closestFnPath = $jsxAttribute
-    // find react functional component declaration.
-    // While searching, skip named functions which start from lowercase
-    while (true) {
-      closestFnPath = closestFnPath.getFunctionParent()
-      if (!closestFnPath) break // if we reached Program
-      if (!(
-        (
-          t.isFunctionDeclaration(closestFnPath.node) ||
-          t.isFunctionExpression(closestFnPath.node)
-        ) && (
-          closestFnPath.node.id &&
-          closestFnPath.node.id.name &&
-          /^[a-z]/.test(closestFnPath.node.id.name)
-        )
-      )) {
-        break
-      }
-    }
-    if (!closestFnPath) {
+    const $fnComponent = findReactFnComponent($jsxAttribute)
+    if (!$fnComponent) {
       throw $jsxAttribute.buildCodeFrameError(`
         Closest react functional component not found for 'part' attribute.
         Or your component is named lowercase.'
       `)
     }
-    let props = closestFnPath.node.params[0]
+    let props = $fnComponent.node.params[0]
     if (!props) {
       props = $jsxAttribute.scope.generateUidIdentifier('props')
-      closestFnPath.node.params[0] = props
+      $fnComponent.node.params[0] = props
     }
     if (t.isAssignmentPattern(props)) {
       props = props.left
@@ -110,13 +101,15 @@ module.exports = function (babel) {
   }
 
   function handleStyleNames (jsxOpeningElementPath, state) {
-    if (!styleHash[ROOT_STYLE_PROP_NAME]) return
-    const styleName = styleHash[ROOT_STYLE_PROP_NAME].styleName
-    const partStyle = styleHash[ROOT_STYLE_PROP_NAME].partStyle
+    if (!Object.keys(styleHash).length) return
+    const styleName = styleHash[ROOT_STYLE_PROP_NAME]?.styleName
+    const partStyle = styleHash[ROOT_STYLE_PROP_NAME]?.partStyle
     const inlineStyles = []
 
-    // Don't process this element if neither styleName or part found.
-    if (!styleName && !partStyle) return
+    // Always process if 'observer' import is found in the file
+    // which is needed for styles caching.
+    // Otherwise, if no 'observer' found and no 'styleName' or 'part' found then skip
+    if (!(hasObserver || styleName || partStyle)) return
 
     // Check if styleName exists and if it can be processed
     if (styleName != null) {
@@ -165,8 +158,8 @@ module.exports = function (babel) {
             ? styleName.node.value
             : styleName.node.value.expression
         ) : t.stringLiteral(''),
-        specifier
-          ? t.identifier(specifier.local.name)
+        cssIdentifier
+          ? t.identifier(cssIdentifier.name)
           : t.objectExpression([]),
         buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }),
         buildSafeVar({ variable: t.identifier(LOCAL_NAME) }),
@@ -199,7 +192,7 @@ module.exports = function (babel) {
 
     if (
       styleName == null ||
-      specifier == null ||
+      cssIdentifier == null ||
       !(
         t.isStringLiteral(styleName.node.value) ||
         t.isJSXExpressionContainer(styleName.node.value)
@@ -243,7 +236,9 @@ module.exports = function (babel) {
   return {
     post () {
       styleHash = {}
-      specifier = undefined
+      cssIdentifier = undefined
+      hasObserver = undefined
+      $program = undefined
     },
     visitor: {
       Program: {
@@ -251,6 +246,7 @@ module.exports = function (babel) {
           state.reqName = $this.scope.generateUidIdentifier(
             'processStyleName'
           )
+          $program = $this
         },
         exit ($this, state) {
           if (!state.hasTransformedClassName) {
@@ -263,8 +259,9 @@ module.exports = function (babel) {
             .pop()
 
           if (lastImportOrRequire) {
+            const useImport = state.opts.useImport == null ? true : state.opts.useImport
             lastImportOrRequire.insertAfter(
-              state.opts.useImport
+              useImport
                 ? buildImport({ name: state.reqName })
                 : buildRequire({ name: state.reqName })
             )
@@ -272,6 +269,8 @@ module.exports = function (babel) {
         }
       },
       ImportDeclaration: ($this, state) => {
+        if (!hasObserver) hasObserver = checkObserverImport($this)
+
         const extensions =
           Array.isArray(state.opts.extensions) &&
           state.opts.extensions
@@ -302,13 +301,35 @@ module.exports = function (babel) {
           )
         }
 
-        specifier = node.specifiers[0]
+        let specifier = node.specifiers[0]
 
         if (!specifier) {
           specifier = t.ImportDefaultSpecifier(
             $this.scope.generateUidIdentifier('css')
           )
           node.specifiers = [specifier]
+        }
+
+        cssIdentifier = specifier.local
+
+        // Do JSON.parse() on the css file if we receive it as a json string:
+        // import css from './index.styl'
+        //   v v v
+        // import jsonCss from './index.styl'
+        // const css = JSON.parse(jsonCss)
+        if (state.opts.parseJson) {
+          const lastImportOrRequire = $program
+            .get('body')
+            .filter(p => p.isImportDeclaration() || isRequire(p.node))
+            .pop()
+          const tempCssIdentifier = $this.scope.generateUidIdentifier('jsonCss')
+          node.specifiers[0].local = tempCssIdentifier
+          lastImportOrRequire.insertAfter(
+            buildJsonParse({
+              name: cssIdentifier,
+              jsonStyle: tempCssIdentifier
+            })
+          )
         }
       },
       JSXOpeningElement: {
@@ -335,7 +356,9 @@ module.exports = function (babel) {
           const convertedName = convertStyleName(name)
           if (!styleHash[convertedName]) styleHash[convertedName] = {}
           styleHash[convertedName].styleName = $this
-        } else if (STYLE_REGEX.test(name)) {
+        // Some react-native built-in stuff might have props like 'barStyle' which
+        // is a string. We skip those.
+        } else if (STYLE_REGEX.test(name) && !$this.get('value').isStringLiteral()) {
           if (!styleHash[name]) styleHash[name] = {}
           styleHash[name].style = $this
         } else if (name === 'part') {
@@ -439,4 +462,38 @@ function buildDynamicPart (expr, part) {
   } else {
     return expr
   }
+}
+
+function checkObserverImport ($import, {
+  observerLibrary = GLOBAL_OBSERVER_LIBRARY,
+  observerDefaultName = GLOBAL_OBSERVER_DEFAULT_NAME
+} = {}) {
+  if ($import.node.source.value !== observerLibrary) return
+  for (const $specifier of $import.get('specifiers')) {
+    if (!$specifier.isImportSpecifier()) continue
+    const { imported } = $specifier.node
+    if (imported.name === observerDefaultName) return true
+  }
+}
+
+// find topmost function (which is not a lowercase named one).
+// .getFunctionParent() returns undefined when we reach Program
+function findReactFnComponent ($jsxAttribute) {
+  let $current = $jsxAttribute.getFunctionParent()
+  let $potentialComponentFn
+
+  while ($current) {
+    // if function is named and starts with a capital letter then it's definitely a component
+    // and we return it right away
+    if ($current.node.id?.name && /^[A-Z]/.test($current.node.id.name)) return $current
+    // set function as component candidate,
+    // BUT ignore it if it's named function which starts from a lowercase or underscore,
+    // because such function can never be a react component
+    if (!($current.node.id?.name && /^[a-z_]/.test($current.node.id.name))) {
+      $potentialComponentFn = $current
+    }
+    // and get the parent function definition
+    $current = $current.getFunctionParent()
+  }
+  return $potentialComponentFn
 }

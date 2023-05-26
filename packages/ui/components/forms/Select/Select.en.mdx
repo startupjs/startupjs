@@ -30,23 +30,6 @@ return (
 )
 ```
 
-## Label
-
-```jsx example
-const [color, setColor] = useState()
-return (
-  <Select
-    label="Label"
-    value={color}
-    onChange={setColor}
-    options={[
-      'red',
-      'yellow',
-    ]}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -85,7 +68,6 @@ By default the empty value is shown. If you want to prevent users from being abl
 const [color, setColor] = useState('red')
 return (
   <Select
-    label='Choose color'
     value={color}
     onChange={setColor}
     options={['red', 'yellow', 'blue']}
@@ -94,6 +76,30 @@ return (
 )
 ```
 
+## Change empty value label
+
+You can change label of an empty value by using `emptyValueLabel` property.
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    value={color}
+    onChange={setColor}
+    options={['red', 'yellow', 'blue']}
+    emptyValueLabel='none'
+  />
+)
+```
+
 ## Sandbox
 
-<Sandbox Component={Select} />
+<Sandbox
+  Component={Select}
+  props={{
+    value: 'Los Angeles',
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => alert('Value ' + value + ' is selected')
+  }}
+  block
+/>

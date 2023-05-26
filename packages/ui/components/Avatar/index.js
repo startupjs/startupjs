@@ -66,10 +66,11 @@ function Avatar ({
 
 function getStatusComponent (statusComponents, status) {
   if (status && !DEFAULT_STATUSES.includes(status) && !statusComponents?.[status]) {
-    throw Error(`
-      [@dmapper/ui -> Avatar] Custom component for status '${status}' is not specified.
-      Use 'statusComponents' to specify it.
-    `)
+    console.error(
+      "[@dmapper/ui -> Avatar] Custom component for status '" +
+        status +
+        "' is not specified. Use 'statusComponents' to specify it."
+    )
   }
   return statusComponents?.[status] || Div
 }
@@ -98,4 +99,4 @@ Avatar.propTypes = {
   onPress: Div.propTypes.onPress
 }
 
-export default observer(themed(Avatar))
+export default observer(themed('Avatar', Avatar))

@@ -19,7 +19,7 @@ function Row ({
 }) {
   // FIXME: for native apps row-reverse switches margins and paddings
   if (isNative && reverse) {
-    style = StyleSheet.flatten(style)
+    style = StyleSheet.flatten([style])
     const { paddingLeft, paddingRight, marginLeft, marginRight } = style
     style.marginLeft = marginRight
     style.marginRight = marginLeft
@@ -53,4 +53,4 @@ Row.propTypes = {
   vAlign: PropTypes.oneOf(['stretch', 'start', 'center', 'end'])
 }
 
-export default observer(themed(Row))
+export default observer(themed('Row', Row))

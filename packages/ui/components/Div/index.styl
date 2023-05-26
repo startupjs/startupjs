@@ -1,5 +1,3 @@
-$UI ?= {}
-
 // -----------------------------------------
 //   CONFIGURATION. $UI.Div
 // -----------------------------------------
@@ -20,6 +18,8 @@ _pushedSizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
 _shadowLevels = ('1' '2' '3' '4')
 
 .root
+  outline-color: $UI.colors.primary
+
   &.rounded
     radius()
 
@@ -37,13 +37,19 @@ _shadowLevels = ('1' '2' '3' '4')
   &.bleed
     bleed()
 
+  &.full
+    flex-grow 1
+    flex-shrink 1
+
   &.clickable
     cursor pointer
     user-select none
 
     &.disabled
-      cursor default
       opacity 0.5
+
+      +web()
+        cursor default
 
 // -----------------------------------------
 //   JS EXPORTS

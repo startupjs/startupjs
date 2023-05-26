@@ -21,6 +21,9 @@ function initNconf (dirname) {
     return false
   }
 
+  // This needs because Windows has default PUBLIC env variable, so nconf doesn't see our PUBLIC variable
+  delete process.env.PUBLIC
+
   nconf.env()
   if (app && stage) addNconfFile(nconf, app + '_' + stage)
   else if (stage) addNconfFile(nconf, stage)
@@ -28,6 +31,15 @@ function initNconf (dirname) {
 
   nconf.file('private', dirname + '/config.private.json')
   nconf.defaults(require(dirname + '/config.json'))
+
+  if (!process.env.NODE_ENV && nconf.get('NODE_ENV')) {
+    process.env.NODE_ENV = nconf.get('NODE_ENV')
+  }
+
+  // Copy BASE_URL into env if present
+  if (!process.env.BASE_URL && nconf.get('BASE_URL')) {
+    process.env.BASE_URL = nconf.get('BASE_URL')
+  }
 
   // Copy REDIS_URL into env if present (it'll be used by redis-url module)
   if (!process.env.REDIS_URL && nconf.get('REDIS_URL')) {

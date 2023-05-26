@@ -11,6 +11,8 @@ import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
 import TestingRu from './testing.ru.mdx'
 import TestingEn from './testing.en.mdx'
+import SecurityRu from './security.ru.mdx'
+import EditingRu from './editing.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -21,34 +23,25 @@ export default {
   icon: faLandmark,
   items: {
     Typography: {
-      type: 'collapse',
+      type: 'mdx',
       title: {
         en: 'Typography',
         ru: 'Типографика'
       },
-      items: {
-        components: {
-          type: 'mdx',
-          title: {
-            en: 'Components',
-            ru: 'Компоненты'
-          },
-          component: {
-            en: TypographyEn,
-            ru: TypographyRu
-          }
-        },
-        Fonts: {
-          type: 'mdx',
-          title: {
-            en: 'Fonts',
-            ru: 'Шрифты'
-          },
-          component: {
-            en: FontsEn,
-            ru: FontsRu
-          }
-        }
+      component: {
+        en: TypographyEn,
+        ru: TypographyRu
+      }
+    },
+    Fonts: {
+      type: 'mdx',
+      title: {
+        en: 'Custom Fonts',
+        ru: 'Свои Шрифты'
+      },
+      component: {
+        en: FontsEn,
+        ru: FontsRu
       }
     },
     Collections: {
@@ -85,6 +78,22 @@ export default {
         en: ExportCSStoJSEn,
         ru: ExportCSStoJSRu
       }
+    },
+    Editing: {
+      type: 'mdx',
+      title: {
+        en: 'Editing implementations',
+        ru: 'Способы редактирования'
+      },
+      component: EditingRu
+    },
+    Security: {
+      type: 'mdx',
+      title: {
+        en: 'Security',
+        ru: 'Безопасность'
+      },
+      component: SecurityRu
     },
     Testing: {
       type: 'mdx',

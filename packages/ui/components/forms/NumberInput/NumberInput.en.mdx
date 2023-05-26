@@ -24,19 +24,6 @@ return (
 )
 ```
 
-## Label
-
-```jsx example
-const [value, setValue] = useState()
-return (
-  <NumberInput
-    label='Label'
-    value={value}
-    onChangeNumber={setValue}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -68,7 +55,6 @@ const [value, setValue] = useState()
 return (
   <Div>
     <NumberInput
-      label='Step example'
       value={value}
       step={0.001}
       onChangeNumber={setValue}
@@ -86,7 +72,6 @@ const [value, setValue] = useState()
 return (
   <Div>
     <NumberInput
-      label='Min and max example'
       value={value}
       min={-30}
       max={20}
@@ -96,9 +81,9 @@ return (
 )
 ```
 
-## Buttons
+## Buttons mode
 
-Buttons allow user to change the number at the specified step. The position of the buttons can be changed by passing the `buttons` property with the value `'vertical'` or `'horizontal'` (`'vertical'` by default) to the component or hidden by passing the `buttons` property with the value `'none'` to the component.
+Buttons allow user to change the number at the specified step. The position of the buttons can be changed by passing the `buttonsMode` property with the value `vertical` or `horizontal` (`vertical` by default) to the component or hidden by passing the `buttonsMode` property with the value `none` to the component.
 
 ```jsx example
 const [valueVertical, setValueVertical] = useState()
@@ -107,22 +92,19 @@ const [valueNone, setValueNone] = useState()
 return (
   <Div>
     <NumberInput
-      label='Vertical buttons example'
-      buttons='vertical'
+      buttonsMode='vertical'
       value={valueVertical}
       onChangeNumber={setValueVertical}
     />
     <Br />
     <NumberInput
-      label='Horizontal buttons example'
-      buttons='horizontal'
+      buttonsMode='horizontal'
       value={valueHorizontal}
       onChangeNumber={setValueHorizontal}
     />
     <Br />
     <NumberInput
-      label='Without buttons example'
-      buttons='none'
+      buttonsMode='none'
       value={valueNone}
       onChangeNumber={setValueNone}
     />
@@ -142,21 +124,18 @@ return (
   <Div>
     <NumberInput
       size='s'
-      label='Size s example'
       value={valueS}
       onChangeNumber={setValueS}
     />
     <Br />
     <NumberInput
       size='m'
-      label='Size m (default) example'
       value={valueM}
       onChangeNumber={setValueM}
     />
     <Br />
     <NumberInput
       size='l'
-      label='Size l example'
       value={valueL}
       onChangeNumber={setValueL}
     />
@@ -164,41 +143,18 @@ return (
 )
 ```
 
-## Layout
+## Units
 
-There are two layouts. The default behavior is `'rows'` if `label` property provided and `'pure'` if not. To change the layout pass the property `layout`.
-
-- `'pure'` displays text input without `label`
-- `'rows'` displays text input with `label` and if `label` not set it using `placeholder` instead
+The `units` property displays the units of the input. By default, units are displayed to the left of the input. Use `unitsPosition='right'` to display the units on the right side of the input.
 
 ```jsx example
-const [pureValue, setPureValue] = useState()
-const [rowValueWithLabel, setRowValueWithLabelValue] = useState()
-const [rowValueWithoutLabel, setRowValueWithoutLabel] = useState()
+const [value, setValue] = useState()
 return (
-  <Div>
-    <NumberInput
-      layout='pure'
-      label='Pure layout example'
-      placeholder='Pure layout placeholder'
-      value={pureValue}
-      onChangeNumber={setPureValue}
-    />
-    <Br />
-    <NumberInput
-      label='Row layout because label provided'
-      placeholder='Row layout placeholder with label'
-      value={rowValueWithLabel}
-      onChangeNumber={setRowValueWithLabelValue}
-    />
-    <Br />
-    <NumberInput
-      layout='rows'
-      placeholder='Row layout placeholder without label'
-      value={rowValueWithoutLabel}
-      onChangeNumber={setRowValueWithoutLabel}
-    />
-  </Div>
+  <NumberInput
+    value={value}
+    units='$'
+    onChangeNumber={setValue}
+  />
 )
 ```
 
@@ -214,27 +170,37 @@ For stylization can apply the properties:
 const [value, setValue] = useState()
 
 return (
-    <NumberInput
-      label='Custom style example'
-      style={{
-        width: 250
-      }}
-      buttonStyle={{
-        borderWidth: 0
-      }}
-      inputStyle={{
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderRadius: 0
-      }}
-      placeholder='Enter number'
-      value={value}
-      onChangeNumber={setValue}
-    />
+  <NumberInput
+    style={{
+      width: 250
+    }}
+    buttonStyle={{
+      borderWidth: 0
+    }}
+    inputStyle={{
+      borderTopWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+      borderRadius: 0
+    }}
+    placeholder='Enter number'
+    value={value}
+    onChangeNumber={setValue}
+  />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={NumberInput} />
+<Sandbox
+  Component={NumberInput}
+  extraParams={{
+    step: {
+      step: 0.0001
+    },
+    value: {
+      step: 0.0001
+    }
+  }}
+  block
+/>

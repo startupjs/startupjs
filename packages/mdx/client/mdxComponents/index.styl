@@ -6,15 +6,19 @@ $exampleBg = #f5f5f5
 .inlineCode
 .inlineCodeWrapper
 .link
-  font(l)
+.blockquoteP
+  font(body1)
 
 .p
+  margin-top 2u
+
+.alert
   margin-top 2u
 
 .h2
   margin-top 8u
   &-text
-    fontFamily('heading', 700)
+    fontFamily('heading', 600)
 
 .h6
   margin-top 6u
@@ -32,18 +36,22 @@ $exampleBg = #f5f5f5
 
 .example
   margin-top 2u
-  padding 2u
   background-color $exampleBg
   border-top-left-radius 1u
   border-top-right-radius 1u
+
+  &Content
+    flex-direction column
+    flex-grow 1
+
+.padding
+  padding 2u
 
 .inlineCodeWrapper
   background-color $codeBg
   border-width 1px
   border-color rgba(black, 0.05)
-  border-radius 0.5u
-  +web()
-    white-space pre // TODO: check if it works and looks good on Native
+  border-radius .5u
 
 .li
   padding-left 2u
@@ -77,7 +85,13 @@ $exampleBg = #f5f5f5
     border-bottom-right-radius 1u
 
     &-header
-      padding 0 2u 2u
+      padding-top 1u
+      padding-bottom 2u
+      padding-left 2u
+      padding-right 2u
+
+      +tablet()
+        padding-top 2u
 
     &-content
       padding 2u

@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { observer } from 'startupjs'
-import omit from 'lodash/omit'
+import pick from 'lodash/pick'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'
-import themed from '../../../theming/themed'
 
-function PasswordInput ({ ...props }) {
+function PasswordInput ({ ...props }, ref) {
   const [textHidden, setTextHidden] = useState(true)
 
   return pug`
     TextInput(
       ...props
+      ref=ref
       autoCompleteType='password'
       secureTextEntry=textHidden
       icon=textHidden ? faEye : faEyeSlash
@@ -24,11 +24,32 @@ function PasswordInput ({ ...props }) {
 }
 
 PasswordInput.defaultProps = {
-  ...omit(TextInput.defaultProps, ['iconPosition', 'numberOfLines', 'resize', 'readonly'])
+  ...pick(
+    TextInput.defaultProps,
+    [
+      'size',
+      'value',
+      'disabled'
+    ]
+  )
 }
 
 PasswordInput.propTypes = {
-  ...omit(TextInput.propTypes, ['icon', 'iconPosition', 'numberOfLines', 'resize', 'readonly', 'onIconPress'])
+  ...pick(
+    TextInput.propTypes,
+    [
+      'style',
+      'inputStyle',
+      'placeholder',
+      'value',
+      'size',
+      'disabled',
+      'onFocus',
+      'onBlur',
+      'onChangeText',
+      '_hasError'
+    ]
+  )
 }
 
-export default observer(themed(PasswordInput))
+export default observer(PasswordInput, { forwardRef: true })

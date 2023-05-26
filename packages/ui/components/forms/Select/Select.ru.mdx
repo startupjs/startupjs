@@ -30,23 +30,6 @@ return (
 )
 ```
 
-## Label
-
-```jsx example
-const [color, setColor] = useState()
-return (
-  <Select
-    label="Label"
-    value={color}
-    onChange={setColor}
-    options={[
-      'red',
-      'yellow',
-    ]}
-  />
-)
-```
-
 ## Disabled
 
 ```jsx example
@@ -85,7 +68,6 @@ return (
 const [color, setColor] = useState('red')
 return (
   <Select
-    label='Choose color'
     value={color}
     onChange={setColor}
     options={['red', 'yellow', 'blue']}
@@ -94,6 +76,30 @@ return (
 )
 ```
 
+## Изменить метку пустого значения
+
+Вы можете изменить метку пустого значения, используя свойство `emptyValueLabel`.
+
+```jsx example
+const [color, setColor] = useState()
+return (
+  <Select
+    value={color}
+    onChange={setColor}
+    options={['red', 'yellow', 'blue']}
+    emptyValueLabel='none'
+  />
+)
+```
+
 ## Sandbox
 
-<Sandbox Component={Select} />
+<Sandbox
+  Component={Select}
+  props={{
+    value: 'Los Angeles',
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => alert('Value ' + value + ' is selected')
+  }}
+  block
+/>

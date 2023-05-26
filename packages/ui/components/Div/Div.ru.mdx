@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { Sandbox } from '@startupjs/docs'
+import { styl } from 'startupjs'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../typography/Span'
-import Br from '../Br'
+import Icon from '../Icon'
 import Row from '../Row'
-import { Sandbox } from '@startupjs/docs'
+import './index.mdx.styl'
 
 # Div (див)
 
@@ -44,9 +47,26 @@ return (
 )
 ```
 
+## Полная ширина (или высота)
+
+Вы можете сказать диву занять всё доступное место в родительстком контейнере (в зависимости от его `flex-direction`). Для этого передайте свойство `full`.
+
+Это свойство просто поставит элементу `flex: 1`.
+
+```jsx example
+return (
+  <Row vAlign='center'>
+    <Div full>
+      <Span>Tesla Model S</Span>
+    </Div>
+    <Span description>1000 HP</Span>
+  </Row>
+)
+```
+
 ## Отступы между несколькими Div
 
-При использовании нескольких дивов в [Row](/docs/components/Row) расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
+При отображении нескольких дивов в строчку ("flex-direction: row") расстояние между ними можно регулировать с помощью `pushed` свойства, чтобы указать отступ от предыдущего дива. Возможные значения `pushed` свойства можно найти в разделе `Sandbox` в нижней части страницы. `true` значение свойства эквивалентно `m` значению.
 
 ```jsx example
 const divStyle = {
@@ -126,3 +146,29 @@ return (
   </Row>
 )
 ```
+
+## Всплывающая подсказка
+
+```jsx example
+return pug`
+  Div.root(tooltip='Содержимое подсказки')
+    Icon(icon=faInfoCircle size='xl')
+`
+
+styl`
+  .root
+    align-self flex-start
+`
+```
+
+## Песочница
+
+<Sandbox
+  Component={Div}
+  props={{
+    children: <Div styleName='child' />,
+    style: { width: 160, height: 160, backgroundColor: '#2962FF' },
+    onPress: () => alert('"onPress" event on "Div" component'),
+    onLongPress: () => alert('"onLongPress" event on "Div" component')
+  }}
+/>

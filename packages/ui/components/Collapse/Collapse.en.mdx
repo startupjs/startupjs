@@ -1,3 +1,4 @@
+import { $root } from 'startupjs'
 import { useState } from 'react'
 import Collapse from '../Collapse'
 import Div from '../Div'
@@ -5,6 +6,8 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
 # Collapse
+
+Inherits [react-native-collapsible](https://github.com/oblador/react-native-collapsible).
 
 Collapse allows to toggle the visibility of content.
 
@@ -14,7 +17,7 @@ import { Collapse } from '@startupjs/ui'
 
 ## Simple example
 
-```jsx example
+```jsx example noscroll
 const [open, setOpen] = useState(false)
 return (
   <Collapse title='Simple collapse' open={open} onChange={() => setOpen(!open)}>
@@ -25,9 +28,9 @@ return (
 
 ## Pure collapse
 
-Pure collapse does not contain any styles (background, shadow, paddings, etc.). It is useful when `Collapse` is used as a children of other components like `Card`. To make it pure, pass the string `pure` to the `variant` property.
+Pure collapse does not contain any styles (background, paddings, etc.). It is useful when `Collapse` is used as a children of other components like `Card`. To make it pure, pass the string `pure` to the `variant` property.
 
-```jsx example
+```jsx example noscroll
 const [open, setOpen] = useState(false)
 return (
   <Collapse
@@ -45,7 +48,7 @@ return (
 
 Collapse consists of two parts - `Header` and `Content`. These parts can be used to add custom markup, the `Header` is used instead of title and the `Content` is used instad of children. They can be used separately. Each part take value of `variant` prop from parent `Collapse` which can be overridden by passing `variant` to itself.
 
-```jsx example
+```jsx example noscroll
 const [open, setOpen] = useState(false)
 return (
   <Collapse open={open} onChange={() => setOpen(!open)}>
@@ -83,7 +86,7 @@ You can remove an icon completely by specifying `icon={false}`
 
 Using the `Collapse` component, you can create behavior like an accordion.
 
-```jsx example
+```jsx example noscroll
 const [expand, setExpand] = useState()
 const handleChange = (panel) => (shouldExpand) => {
   setExpand(shouldExpand ? panel : null)
@@ -126,7 +129,12 @@ return (
 
 ### Collapse
 
-<Sandbox Component={Collapse} />
+<Sandbox
+  Component={Collapse}
+  props={{ $open: $root.scope('_session.Props.Collapse.open') }}
+  $props={$root.scope('_session.Props.Collapse')}
+  {...{ _comment: "HACK to make alive sandbox when user click on 'open' checkbox" }}
+/>
 
 ### Collapse.Header
 

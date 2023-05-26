@@ -1,15 +1,5 @@
 _borderSize = 2px
 
-.root
-  padding-left 2u
-  padding-right @padding-left
-  height 4u
-  flex-direction row
-  align-items center
-
-  &.reverse
-    flex-direction row-reverse
-
 .border
   position absolute
 
@@ -36,16 +26,6 @@ _borderSize = 2px
 
   &.right
     right 0
-
-.icon
-  &.left
-    margin-right 1u
-  &.right
-    margin-left 1u
-
-.container
-  flex-grow 1
-  flex-shrink 1
 
 :export
   colors: $UI.colors

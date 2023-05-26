@@ -9,7 +9,9 @@ import axios from 'axios'
 import { Blocked, UpdateApp } from './components'
 import { useMediaUpdate, useNeedUpdate } from './helpers'
 import Router from './Router'
-import { name as packageName } from '../package.json'
+import packageJson from '../package.json'
+
+const { name: packageName } = packageJson
 
 const routesGlobal = []
 
@@ -50,6 +52,7 @@ const App = observer(function AppComponent ({
   androidUpdateLink,
   iosUpdateLink,
   supportEmail,
+  renderBlocked,
   ...props
 }) {
   // Dynamically update @media queries in CSS whenever window width changes
@@ -90,11 +93,14 @@ const App = observer(function AppComponent ({
 
   return pug`
     if user && user.blocked
-      Blocked
+      if renderBlocked
+        = renderBlocked(Blocked)
+      else
+        Blocked
     else
       Suspense(fallback=null)
         PluginsProvider(
-          name=packageName
+          moduleName=packageName
           plugins=plugins
         )
           Router(

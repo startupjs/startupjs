@@ -1,38 +1,41 @@
-## @startupjs/server-aggregate
+# @startupjs/server-aggregate
 
 Racer server aggregate plugin. It allows only server-defined aggregate queries.
 
-### install
+## Install
 
 ```
 yarn add @startupjs/server-aggregate
 ```
 
-### usage
+## Setup
 
-In our client code:
+In the client code:
 
 ```js
 require('@startupjs/server-aggregate/client')
 ```
 
 On the server:
-```js
 
+```js
 const serverAggregate = require('@startupjs/server-aggregate')
 serverAggregate(backend, customCheck)
+```
 
-Here:
+where:
+* `backend`: your ShareDB backend instance
+* `customCheck (optional)`: your personal check function. It should return an error message if there is an error. **IMPORTANT** The message must be of type `string`.
 
-- `backend` - your backend
-- `customCheck` - your personal check function. It should return an error message if there is an error. **IMPORTANT** The message must be of type `string`.
+## How to add aggregation
 
-// function addAggregate accept
-// 'collection' - collection name
-// 'queryName'  - name of query
-// 'cb' - function that accepts 'params' and 'shareRequest'
-// and returns a query-object or error-string
+On the server side to add aggregation use `backend.addAggregate(collection, queryName, cb)`, where:
 
+* `collection`: collection name
+* `queryName`: query name (alias)
+* `cb(params, shareRequest)`: async function that returns a query object or throw an error
+
+```js
 backend.addAggregate('items', 'main', async (params, shareRequest) => {
   // ...
   // access control or whatever
@@ -42,43 +45,25 @@ backend.addAggregate('items', 'main', async (params, shareRequest) => {
     {$match: {type: 'wooden'}}
   ]
 })
-
-
 ```
 
-Using queries (on the client):
+## Usage
 
 ```js
-  // function aggregateQuery accepts 3 arguments:
-  // 'collection' - collection name (should match one from addServerQuery)
-  // 'queryName' - name of query (should match one from addServerQuery)
-  // 'params' - object with query-params
-
-  const query = model.aggregateQuery('items', 'main', {
+model.query('items', {
+  $aggregationName: 'main',
+  $params: {
     type: 'global'
-  })
-
-  model.subscribe(query, function(){
-    // ...
-  })
-
+  }
+})
 ```
 
-Alternative approach (using regular model.query)
+When you setup the client side as described in the `Setup` section you can use the `aggregateQuery(collection, queryName, params)` function which is syntactic sugar over the `model.query`, where:
 
 ```js
-  const query = model.query('items', {
-    $aggregationName: 'main',
-    $params: {
-      type: 'global'
-    }
-  })
-
-  model.subscribe(query, function(){
-    // ...
-  })
-
+model.aggregateQuery('items', 'main', { type: 'global' })
 ```
 
 ## MIT License
+
 Copyright (c) 2018 by Artur Zayats

@@ -3,6 +3,7 @@ import { observer, useSession } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
+import { BASE_URL } from '@env'
 import { onLogin } from '../../helpers'
 import './index.styl'
 
@@ -34,7 +35,8 @@ function AuthButton ({
 }
 
 AuthButton.defaultProps = {
-  label: 'Facebook'
+  label: 'Facebook',
+  baseUrl: BASE_URL
 }
 
 AuthButton.propTypes = {

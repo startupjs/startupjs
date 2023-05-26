@@ -1,5 +1,5 @@
 import racer from 'racer'
-import Socket from 'racer-highway/lib/browser/socket'
+import Socket from 'racer-highway/lib/browser/socket.js'
 
 var isServer = typeof window === 'undefined'
 var DEFAULT_CLIENT_OPTIONS = {
@@ -25,21 +25,7 @@ racer.Model.prototype._createSocket = function () {
 export default function getModel () {
   if (isServer) return
 
-  // Try to unbundle server-side model
-  var bundleElement =
-    typeof document !== 'undefined' &&
-    document.getElementById &&
-    document.getElementById('bundle')
-  var serializedModel = bundleElement && bundleElement.innerHTML
-
-  var model
-
-  if (serializedModel) {
-    model = racer.createModel(JSON.parse(serializedModel))
-  } else {
-    model = racer.createModel()
-    console.warn('No model bundle received from the server')
-  }
+  var model = racer.createModel()
 
   // Specify the time it takes before unsubscribe actually fires
   var unloadDelay =

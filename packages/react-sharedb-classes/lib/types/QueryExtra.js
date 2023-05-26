@@ -1,4 +1,4 @@
-import Query from './Query'
+import Query from './Query.js'
 
 export default class QueryExtra extends Query {
   refModel () {

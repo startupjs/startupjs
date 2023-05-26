@@ -3,6 +3,7 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons'
 import Div from '../../Div'
 import Br from '../../Br'
 import Checkbox from '../Checkbox'
+import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # Checkbox (чекбокс)
@@ -17,6 +18,7 @@ import { Checkbox } from from '@startupjs/ui'
 
 ```jsx example
 const [checked, setChecked] = useState(false)
+
 return (
   <Checkbox
     value={checked}
@@ -25,16 +27,26 @@ return (
 )
 ```
 
-## Label
+## Разновидности
+
+Существует два вида отображения компонента: `checkbox` и `switch`. **Значение по умолчанию**: `checkbox`.
 
 ```jsx example
 const [checked, setChecked] = useState(false)
+
 return (
-  <Checkbox
-    label='Label'
-    value={checked}
-    onChange={setChecked}
-  />
+  <Div>
+    <Checkbox
+      value={checked}
+      onChange={setChecked}
+    />
+    <Br />
+    <Checkbox
+      variant='switch'
+      value={checked}
+      onChange={setChecked}
+    />
+  </Div>
 )
 ```
 
@@ -42,7 +54,7 @@ return (
 
 ```jsx example
 return (
-  <Checkbox value={true} disabled />
+  <Checkbox disabled />
 )
 ```
 
@@ -50,7 +62,7 @@ return (
 
 ```jsx example
 return (
-  <Checkbox value={true} readonly/>
+  <Checkbox readonly />
 )
 ```
 
@@ -59,93 +71,27 @@ return (
 Свойство `icon` позволяет заменить стандартную иконку.
 
 ```jsx example
-const [checkedAll, setCheckedAll] = useState(false)
-const [selected, setSelected] = useState([])
-const [intermediate, setIntermediate] = useState(false)
-
-const checkboxes = ['One', 'Two', 'Three']
-
-useEffect(() => {
-  setIntermediate(selected.length > 0 && selected.length < checkboxes.length)
-  setCheckedAll(selected.length === checkboxes.length)
-}, [selected])
-
-function onChangeAll(value) {
-  setCheckedAll(value)
-  if (value) {
-    setSelected(checkboxes)
-  } else {
-    setSelected([])
-  }
-}
-
-function onChange (value, id) {
-  if (value){
-    setSelected(prevState => [...prevState, id])
-  } else {
-    setSelected(prevState => prevState.filter(item => item !== id))
-  }
-}
-
-const extraProps = {}
-if (intermediate) extraProps.icon = faMinus
-
-return (
-  <Div>
-    <Checkbox
-      label='Check all'
-      value={checkedAll || intermediate}
-      onChange={onChangeAll}
-      {...extraProps}
-    />
-    <Div pushed>
-      {checkboxes.map(item => (
-        <Div key={item}>
-          <Br />
-          <Checkbox
-            label={item}
-            value={selected.includes(item)}
-            onChange={value => onChange(value, item)}
-          />
-        </Div>
-      ))}
-    </Div>
-  </Div>
-)
-```
-
-## Переключатель
-
-Для отображения компонента в виде переключателя, передайте `variant='switch'` в него.
-
-```jsx example
 const [checked, setChecked] = useState(false)
+
 return (
-  <Div>
-    <Checkbox
-      variant='switch'
-      label='Switch example'
-      value={checked}
-      onChange={setChecked}
-    />
-    <Br />
-    <Checkbox
-      variant='switch'
-      label='Switch disbabled example'
-      value={true}
-      disabled
-    />
-    <Br />
-    <Checkbox
-      variant='switch'
-      label='Switch readonly example'
-      value={true}
-      readonly
-    />
-  </Div>
+  <Checkbox
+    value={checked}
+    icon={faMinus}
+    onChange={setChecked}
+  />
 )
 ```
 
 ## Sandbox
 
-<Sandbox Component={Checkbox} />
+<Sandbox
+  Component={Checkbox}
+  extraParams={{
+    icon: {
+      showIconSelect: true
+    }
+  }}
+  props={{
+    onChange: value => alert('New value is ' + value)
+  }}
+/>

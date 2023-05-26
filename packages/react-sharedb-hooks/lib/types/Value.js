@@ -1,4 +1,4 @@
-import Base from './Base'
+import Base from './Base.js'
 
 export default class Value extends Base {
   constructor (...args) {

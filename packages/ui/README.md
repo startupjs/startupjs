@@ -10,11 +10,12 @@ yarn add @startupjs/ui
 ### Requirements
 
 ```
-@react-native-community/datetimepicker: ^3.0.6
 @react-native-picker/picker: >=1.16.1
 react: 16.9 - 17
 react-native: >= 0.61.4 < 0.64.0
-react-native-collapsible: 1.5.2
+react-native-color-picker: ^0.6.0
+react-native-collapsible: >= 1.6.0
+react-native-gesture-handler: >= 1.10.3
 react-native-pager-view: >= 5.1.2
 react-native-svg: >= 12.1.0
 react-native-tab-view: >= 3.0.0
@@ -71,6 +72,7 @@ function getHead (appName) {
 ```
 
 ## App plugin
+
 Register ui plugin for app
 
 ```js
@@ -81,7 +83,7 @@ import { uiAppPlugin } from '@startupjs/ui'
 
 registerPlugins({
   '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true, style: overridesStyle }]
+    [uiAppPlugin, { defaultEnabled: true, style: overridesStyle }]
   ]
 })
 ```

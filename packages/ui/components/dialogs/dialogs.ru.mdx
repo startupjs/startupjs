@@ -1,0 +1,150 @@
+import { useState } from 'react'
+import alert from './alert'
+import confirm from './confirm'
+import prompt from './prompt'
+import Button from '../Button'
+import Br from '../Br'
+import Span from '../typography/Span'
+import Table from '../table/Table'
+import Thead from '../table/Thead'
+import Tbody from '../table/Tbody'
+import Tr from '../table/Tr'
+import Th from '../table/Th'
+import Td from '../table/Td'
+import './index.mdx.styl'
+
+# Dialogs (диалоги)
+
+Существует три вида диалоговых окон: alert, confirm и prompt.
+
+## Alert box (окно оповещения)
+
+```js
+import { alert } from '@startupjs/ui'
+```
+
+Окно оповещения используется, если вы хотите отобразить пользователю сообщение, требующее его внимания.
+
+Когда появится окно оповещения, пользователь должен будет нажать `ОК`, чтобы продолжить.
+
+```js
+async alert(message | { title?, message })
+```
+
+**Параметры:**
+
+```js
+await alert(message)
+await alert(options)
+```
+
+`options`:
+
+| Имя     | Тип    | Описание                                                |
+|---------|--------|---------------------------------------------------------|
+| title   | string | Необязательный заголовок диалога                        |
+| message | string | Сообщение, отображаемое под заголовком диалогового окна |
+
+```jsx example
+async function onPress () {
+  await alert('Я окно оповещения')
+}
+
+return pug`
+  Button(onPress=onPress) Показать окно оповещения
+`
+```
+
+## Confirm box (окно подтверждения)
+
+```js
+import { confirm } from '@startupjs/ui'
+```
+
+Окно подтверждения используется, если вы хотите получить разрешение пользователя на что-либо.
+
+Когда появится окно подтверждения, пользователь должен будет нажать либо `ОК`, либо `Cancel`, чтобы продолжить.
+
+Если пользователь нажимает `ОК`, функция возвращает `true`. Если пользователь нажимает `Cancel`, функция возвращает `false`.
+
+```js
+async confirm(message | { title?, message })
+```
+
+**Параметры:**
+
+```js
+await confirm(message)
+await confirm(options)
+```
+
+`options`:
+
+| Имя     | Тип    | Описание                                                |
+|---------|--------|---------------------------------------------------------|
+| title   | string | Необязательный заголовок диалога                        |
+| message | string | Сообщение, отображаемое под заголовком диалогового окна |
+
+```jsx example
+const [pressedButtonText, setPressedButtonText] = useState()
+
+async function onPress () {
+  const isConfirmed = await confirm('Нажмите кнопку')
+  setPressedButtonText(isConfirmed ? 'OK' : 'Cancel')
+}
+
+return pug`
+  Button(onPress=onPress) Показать окно подтверждения
+  if pressedButtonText
+    Br
+    Span= 'Вы нажали ' + pressedButtonText + '!'
+`
+```
+
+## Prompt box (окно запроса)
+
+```js
+import { prompt } from '@startupjs/ui'
+```
+
+Окно запроса используется, если вы хотите, чтобы пользователь ввел значения для выполнения дальнейших действий.
+
+Когда появится окно с приглашением, пользователь должен будет нажать либо `Cancel`, либо ввести входное значение и нажать `OK`, чтобы продолжить.
+
+Если пользователь нажимает `ОК`, функция возвращает введенное значение. Если пользователь нажимает кнопку `Cancel`, функция возвращает значение `null`.
+
+```js
+async prompt(message | { title?, message, defaultValue? }, defaultValue?)
+```
+
+**Параметры:**
+
+```js
+const response = await prompt(message)
+const response = await propmt(message, defaultValue)
+const response = await prompt(options)
+```
+
+`options`:
+
+| Имя          | Тип    | Описание                                                |
+|--------------|--------|---------------------------------------------------------|
+| title        | string | Необязательный заголовок диалога                        |
+| message      | string | Сообщение, отображаемое под заголовком диалогового окна |
+| defaultValue | string | Необязательное начальное значение для поля ввода        |
+
+```jsx example
+const [name, setName] = useState()
+
+async function onPress () {
+  const name = await prompt('Please enter your name', 'Paha')
+  setName(name)
+}
+
+return pug`
+  Button(onPress=onPress) Показать окно запроса
+  if name
+    Br
+    Span= 'Hello ' + name + '.'
+`
+```

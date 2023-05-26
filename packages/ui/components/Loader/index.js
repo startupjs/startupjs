@@ -29,4 +29,4 @@ Loader.propTypes = {
   color: PropTypes.oneOf(Object.keys(colors))
 }
 
-export default observer(themed(Loader))
+export default observer(themed('Loader', Loader))

@@ -11,7 +11,6 @@
   height 50u
 
 .anchors
-  flex-direction row
   justify-content flex-end
   align-items center
   top 0
@@ -22,6 +21,15 @@
   background-color $UI.colors.white
   border-bottom 1px solid $UI.colors.darkLight
   padding-top 3u
+
+  +tablet()
+    flex-direction row
+
+.extraButton
+  margin-bottom 1u
+
+  +tablet()
+    margin-bottom 0
 
 .myAnchors
   flex-direction row
@@ -36,3 +44,15 @@
 
 .flex
   flex 1
+
+.wrapper
+  background-color $UI.colors.white
+
+.backButton
+  max-width 2u
+  margin-top 4u
+  margin-left 2u
+
+  +tablet()
+    padding-left 3u
+    padding-right 1u

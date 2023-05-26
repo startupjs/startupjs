@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Sandbox } from '@startupjs/docs'
 import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
@@ -10,18 +9,9 @@ import { useValue } from 'startupjs'
 
 ArrayInput позволяет создавать динамические формы, используя его декларативный api.
 
-ArrayInput принимает объект в свойстве `items` с метаданными инпута и обязательным ключом `input`, чтобы указать, какой тип ввода отображать.
+ArrayInput принимает в свойстве `items` объект метаданных поля ввода с обязательным ключом `input` для указания типа отображаемого поля.
 
-Возможные типы:
-
-[сheckbox](/docs/forms/Checkbox)
-[text](/docs/forms/TextInput)
-[object](/docs/forms/ObjectInput)
-[select](/docs/forms/Select)
-[date](/docs/forms/DateTimePicker)
-[datetime](/docs/forms/DateTimePicker)
-[time](/docs/forms/DateTimePicker)
-
+Возможные типы: [array](/docs/forms/Array), [сheckbox](/docs/forms/Checkbox), [date](/docs/forms/DateTimePicker), [datetime](/docs/forms/DateTimePicker), [multiselect](/docs/forms/Multiselect), [number](/docs/forms/NumberInput), [object](/docs/forms/ObjectInput), [password](/docs/forms/PasswordInput), [radio](/docs/forms/Radio), [select](/docs/forms/Select), [time](/docs/forms/DateTimePicker), [text](/docs/forms/TextInput).
 
 ```jsx
 import { ArrayInput } from '@startupjs/ui'
@@ -34,14 +24,7 @@ const [, $value] = useValue(['Green', 'Blue'])
 return (
   <ArrayInput
     $value={$value}
-    label='Colors'
-    items={{
-      input: 'text'
-    }}
+    items={{ type: 'text' }}
   />
 )
 ```
-
-## Sandbox
-
-<Sandbox Component={ArrayInput} />

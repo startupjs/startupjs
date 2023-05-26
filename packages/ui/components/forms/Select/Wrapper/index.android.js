@@ -13,12 +13,13 @@ import themed from '../../../../theming/themed'
 import './index.styl'
 
 function SelectWrapper ({
-  children,
   style,
-  disabled,
-  options,
-  showEmptyValue,
+  children,
+  options = [],
   value,
+  disabled,
+  showEmptyValue,
+  emptyValueLabel,
   onChange
 }) {
   function onValueChange (value) {
@@ -37,7 +38,7 @@ function SelectWrapper ({
             Picker.Item(
               key=-1
               value=stringifyValue(NULL_OPTION)
-              label=getLabel(NULL_OPTION)
+              label=emptyValueLabel || getLabel(NULL_OPTION)
             )
           each item, index in options
             Picker.Item(

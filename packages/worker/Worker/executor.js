@@ -1,13 +1,16 @@
 import cluster from 'cluster'
-import { getDbs } from '../db.js'
 import { isPromise } from '../utils.js'
+import { getDbs } from './../db.js'
 
 const env = process.env
 const collection = env.WORKER_TASK_COLLECTION
-const dbs = getDbs()
+let dbs
+let actions
+let customInit
 
-let actions;
-(async () => {
+;(async () => {
+  dbs = await getDbs({ secure: false })
+
   try {
     await import(env.WORKER_ACTIONS_PATH)
     actions = global.DM_WORKER_ACTIONS || {}
@@ -15,11 +18,7 @@ let actions;
     console.warn('[worker] WARNING! No actions file found. Create a workerActions.js file in ' +
         'your project\'s worker directory with the actions which the worker can execute.')
   }
-})()
 
-let customInit;
-// Execute worker init file from the parent project's root/worker folder (if exists)
-(async () => {
   try {
     await import(env.WORKER_INIT_PATH) // This should populate the global DM_WORKER_ACTIONS var
     customInit = global.DM_WORKER_INIT
@@ -29,9 +28,28 @@ let customInit;
       console.warn('[worker] WARNING! workerInit.js doesn\'t export a function. Ignoring.')
     }
   } catch (e) {
+    console.log(e, 'error')
     console.warn('[worker] WARNING! No custom init file found. Create an workerInit.js file in ' +
         'your project\'s worker directory to do the custom initialization of backend (hooks, etc.).')
   }
+
+  process.on('message', (data) => {
+    let taskId = data && data.taskId
+
+    if (!taskId) {
+      console.log('[Child Worker] received unknown message format', data)
+      return
+    }
+
+    executeTaskWrapper(data.taskId).then(() => {
+      process.send({ taskId })
+    }).catch((err) => {
+      console.log('Done task - err', taskId, cluster.worker.id, err)
+      process.send({ taskId, err: err && err.message })
+    })
+  })
+
+  process.send({ ready: true })
 })()
 
 function executeTask (action, model, task, done) {
@@ -69,7 +87,6 @@ async function executeTaskWrapper (taskId) {
   }
 
   let action = actions[actionType]
-
   if (!action) {
     model.close()
     throw new Error(`No action to execute: ${action}, tId: ${taskId}`)
@@ -81,24 +98,6 @@ async function executeTaskWrapper (taskId) {
       return resolve()
     })
   })
-  await model.unfetchAsync($task)
+
   model.close()
 }
-
-process.on('message', (data) => {
-  let taskId = data && data.taskId
-
-  if (!taskId) {
-    console.log('[Child Worker] received unknown message format', data)
-    return
-  }
-
-  executeTaskWrapper(data.taskId).then(() => {
-    process.send({ taskId })
-  }).catch((err) => {
-    console.log('Done task - err', taskId, cluster.worker.id, err)
-    process.send({ taskId, err: err && err.message })
-  })
-})
-
-process.send({ ready: true })

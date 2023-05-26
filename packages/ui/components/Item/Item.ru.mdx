@@ -1,0 +1,84 @@
+import Item from './'
+import { Image } from 'react-native'
+import { u } from 'startupjs'
+import Span from '../typography/Span'
+import TextInput from '../forms/TextInput'
+import Icon from '../Icon'
+import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
+
+# Item (элемент)
+
+Элемент - это базовый компонент, который представляет собой оболочку над контентом с возможностью его позиционирования и возможностью отображения иконки или изображения.
+
+## Простой пример
+
+```jsx example
+return pug`
+  Item Example
+`
+```
+
+## Иконка
+
+Значок можно добавить с помощью свойства `icon`, который будет отображаться в левой части компонента.
+
+```jsx example
+return pug`
+  Item(icon=faTrashAlt) Иконка
+`
+```
+
+## Изображение
+
+Изображение можно добавить с помощью свойства `url`, которое будет отображаться в левой части компонента. Свойство `url` имеет приоритет над свойством `icon`, если они оба будут переданы.
+
+```jsx example
+return pug`
+  Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Изображение
+`
+```
+
+## To (link)
+
+Передав URL-адрес в свойство `to`, компонент будет вести себя как ссылка.
+
+```jsx example
+return pug`
+  Item(to='/docs/components/Icon') Иконка
+`
+```
+
+## Действия
+
+Переданный обработчик в `onPress` свойство будет вызван когда пользователь нажмет на компонент.
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click')) Нажми на меня
+`
+```
+
+## Продвинутое использование
+
+Элемент состоит из трех частей - `Left`, `Content` и `Right`. Эти части можно использовать для добавления пользовательской разметки, где:
+
+- `Left` часть используется вместо свойств `icon` и `url` и вставляет свое содержимое в левую часть компонента.
+
+- `Content` часть используется вместо `children` и вставляет свое содержимое между `Left` и `Right` частями.
+
+- `Правая` часть вставляет свое содержимое в правую часть компонента.
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click'))
+    Item.Left
+      Image(
+        style={ width: u(3), height: u(3) }
+        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
+      )
+    Item.Content
+      Span Content
+    Item.Right
+      Icon(icon=faShareAlt)
+`
+```

@@ -37,6 +37,7 @@ function Drawer ({
   position,
   isSwipe,
   hasOverlay,
+  showResponder,
   onDismiss,
   onRequestOpen
 }) {
@@ -116,8 +117,8 @@ function Drawer ({
   ])
 
   return pug`
-    Portal
-      if isShow
+    if isShow
+      Portal
         SafeAreaView.area
           View.case(style=_styleCase)
             if hasOverlay
@@ -126,25 +127,26 @@ function Drawer ({
 
             Animated.View.content(
               ref=refContent
-              style=_styleContent
               styleName={
                 contentDefault: isShow,
                 contentBottom: isShow && position === 'bottom',
                 fullHorizontal: isShow && isHorizontal,
                 fullVertical: isShow && !isHorizontal
               }
+              style=_styleContent
             )
-              Swipe(
-                position=position
-                contentSize=contentSize
-                swipeStyle=swipeStyle
-                isHorizontal=isHorizontal
-                isSwipe=isSwipe
-                isInvertPosition=isInvertPosition
-                animateStates=animateStates
-                runHide=runHide
-                runShow=runShow
-              )
+              if showResponder
+                Swipe(
+                  position=position
+                  contentSize=contentSize
+                  swipeStyle=swipeStyle
+                  isHorizontal=isHorizontal
+                  isSwipe=isSwipe
+                  isInvertPosition=isInvertPosition
+                  animateStates=animateStates
+                  runHide=runHide
+                  runShow=runShow
+                )
               = children
   `
 }
@@ -159,7 +161,8 @@ Drawer.defaultProps = {
   visible: false,
   position: 'left',
   isSwipe: true,
-  hasOverlay: true
+  hasOverlay: true,
+  showResponder: true
 }
 
 Drawer.propTypes = {
@@ -169,6 +172,7 @@ Drawer.propTypes = {
   position: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   isSwipe: PropTypes.bool,
   hasOverlay: PropTypes.bool,
+  showResponder: PropTypes.bool,
   onDismiss: PropTypes.func,
   onRequestOpen: PropTypes.func
 }

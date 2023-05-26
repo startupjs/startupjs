@@ -109,9 +109,7 @@ return (
 
 ```jsx example
 return (
-  <Link
-    to='/docs/foundation/Typography'
-  >
+  <Link to='/docs/foundation/Typography'>
     <Button color='primary' variant='flat'>Typography</Button>
   </Link>
 )
@@ -138,4 +136,10 @@ return (
 
 ## Sandbox
 
-<Sandbox Component={Link} />
+<Sandbox
+  Component={Link}
+  props={{
+    to: '#',
+    children: 'StartupJS'
+  }}
+/>

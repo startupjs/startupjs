@@ -15,6 +15,71 @@ pluginTester({
     plugins: ['@babel/plugin-syntax-jsx']
   },
   tests: {
+    'Failed test 2': /* js */`
+      import { observer, useBackPress } from 'startupjs'
+
+      function Menu ({ style, children, value, variant, activeBorder, iconPosition, activeColor, ...props }) {
+        return (
+          <Context.Provider value={value}>
+            <Div style={style} />
+            <Div
+              style={style}
+              styleName={['root', [variant]]}
+              {...props}
+            >{children}</Div>
+          </Context.Provider>
+        )
+      }
+    `,
+    'Failed test 1': /* js */`
+      import { observer, useBackPress } from 'startupjs'
+
+      function Layout ({ style, children }) {
+        return (
+          <SafeAreaView styleName='root' style={style}>
+            <StatusBar
+              backgroundColor={bgColor}
+              barStyle='dark-content'
+            >
+              {children}
+            </StatusBar>
+          </SafeAreaView>
+        )
+      }
+
+      export default observer(Layout)
+    `,
+    'No styles file': /* js */`
+      function Test () {
+        return <div styleName='root' />
+      }
+    `,
+    'Style without observer. Shouldn\'t transform': /* js */`
+      import { useLocal } from 'startupjs'
+      function Test () {
+        return (
+          <div style={{ backgroundColor: 'red' }}>
+            <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+            <div>
+              <span headerStyle={{ color: 'yellow' }}>Hello</span>
+            </div>
+          </div>
+        )
+      }
+    `,
+    'Style with observer. Should transform for caching': /* js */`
+      import { observer } from 'startupjs'
+      export default observer(function Test () {
+        return (
+          <div style={{ backgroundColor: 'red' }}>
+            <div style={{ color: 'green' }} titleStyle={{ color: 'blue' }} />
+            <div>
+              <span headerStyle={{ color: 'yellow' }}>Hello</span>
+            </div>
+          </div>
+        )
+      })
+    `,
     'Regular string': /* js */`
       import './index.styl'
       function Test () {
@@ -242,5 +307,166 @@ pluginTester({
       `,
       error: /'part' attribute only supports literal or string keys in object/
     }
+  }
+})
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    extensions: ['styl', 'css'],
+    useImport: false
+  },
+  babelOptions: {
+    plugins: ['@babel/plugin-syntax-jsx']
+  },
+  tests: {
+    'DEPRECATED! Legacy CJS version when "useImport: false".': /* js */`
+      import './index.styl'
+      function Test () {
+        return (
+          <div styleName='root active'>
+            <span styleName='title'>Title</span>
+            <span styleName='description'>Description</span>
+            <button styleName='submit disabled'>Submit</button>
+          </div>
+        )
+      }
+    `
+  }
+})
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    extensions: ['styl', 'css'],
+    parseJson: true
+  },
+  babelOptions: {
+    plugins: ['@babel/plugin-syntax-jsx']
+  },
+  tests: {
+    '"parseJson" option. Used when we receive compiled css as a json string': /* js */`
+      import './index.styl'
+      function Test () {
+        return (
+          <div styleName='root active'>
+            <span styleName='title'>Title</span>
+            <span styleName='description'>Description</span>
+            <button styleName='submit disabled'>Submit</button>
+          </div>
+        )
+      }
+    `,
+    '"parseJson" option with default import': /* js */`
+      import STYLES from './index.styl'
+      console.log(STYLES)
+      function Test () {
+        return (
+          <div styleName='root active'>
+            <span styleName='title'>Title</span>
+          </div>
+        )
+      }
+    `
+  }
+})
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    extensions: ['styl', 'css']
+  },
+  babelOptions: {
+    plugins: [
+      '@babel/plugin-syntax-jsx'
+    ]
+  },
+  tests: {
+    'Find proper react component. Simplest': /* js */`
+      import './index.styl'
+      export default function Test () {
+        return <Div part='root' />
+      }
+    `,
+    'Find proper react component. With const and anonymous': /* js */`
+      import './index.styl'
+      export const Test = function () {
+        return <Div part='root' />
+      }
+    `,
+    'Find proper react component. With const and arrow': /* js */`
+      import './index.styl'
+      export const Test = () => {
+        return <Div part='root' />
+      }
+    `,
+    'Find proper react component. With arrow and wrapped into named function': /* js */`
+      import './index.styl'
+      export const Test = () => {
+        function renderItem () {
+          return <Div part='item' />
+        }
+        return <Div part='root'>{renderItem()}</Div>
+      }
+    `,
+    'Find proper react component. With arrow and wrapped into arrow function': /* js */`
+      import './index.styl'
+      export const Test = () => {
+        const renderItem = () => {
+          return <Div part='item' />
+        }
+        return <Div part='root'>{renderItem()}</Div>
+      }
+    `,
+    'Find proper react component. First capital letter function must be returned': /* js */`
+      import './index.styl'
+      export default function ComponentFactory (title) {
+        return function Component () {
+          function renderItem () {
+            return <Span part='item'>{title}</Span>
+          }
+          const renderFooter = () => <Div part='footer' />
+          return <Div part='root'>{renderItem()}{renderFooter()}</Div>
+        }
+      }
+    `
+  }
+})
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    extensions: ['styl', 'css']
+  },
+  babelOptions: {
+    plugins: [
+      ['babel-plugin-transform-react-pug', {
+        classAttribute: 'styleName'
+      }],
+      '@babel/plugin-syntax-jsx'
+    ]
+  },
+  tests: {
+    '::part() in pug loop': /* js */`
+      import './index.styl'
+      function Test ({ items, ...props }) {
+        return pug\`
+          Card(
+            part='root'
+            style={ color: 'blue' }
+          )
+            each item in items
+              Content(part='item')= item
+        \`
+      }
+    `
   }
 })

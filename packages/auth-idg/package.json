@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-idg",
-  "version": "0.36.0",
+  "version": "0.51.0",
   "type": "module",
   "description": "iDecisionGames auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -14,6 +14,6 @@
   },
   "peerDependencies": {
     "@startupjs/auth": ">= 0.33.0",
-    "react-native-webview": "10.10.2"
+    "react-native-webview": ">=10.10.2"
   }
 }

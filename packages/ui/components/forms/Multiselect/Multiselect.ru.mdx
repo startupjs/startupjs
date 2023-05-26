@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import Multiselect from '../Multiselect'
-import Div from '../../Div'
-import Span from '../../typography/Span'
-import Br from '../../Br'
+import { $root } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
+import Br from '../../Br'
+import Div from '../../Div'
+import Multiselect from './'
+import Span from '../../typography/Span'
 
-# Select
+# Multiselect (множественный выбор)
 
 Multiselect позволяет пользователю выбирать несколько элементов из списка
 
@@ -30,27 +31,6 @@ const [cities, setCities] = useState([])
 
 return (
   <Multiselect
-    value={cities}
-    onChange={setCities}
-    options={OPTIONS}
-  />
-)
-```
-
-## Label
-
-```jsx example
-const OPTIONS = [
-  { label: 'New York', value: 'ny' },
-  { label: 'Los Angeles', value: 'la' },
-  { label: 'Tokyo', value: 'tk' },
-]
-
-const [cities, setCities] = useState([])
-
-return (
-  <Multiselect
-    label="Label"
     value={cities}
     onChange={setCities}
     options={OPTIONS}
@@ -134,7 +114,7 @@ return (
 
 ## Tag Component
 
-You can add custom tag
+Вы можете добавить собственный тег
 
 ```jsx example
 const OPTIONS = [
@@ -157,7 +137,7 @@ return (
 
 ## Input Component
 
-You can add custom input
+Вы можете добавить собственный input
 
 ```jsx example
 const OPTIONS = [
@@ -195,7 +175,7 @@ return (
 
 ## Tag limit
 
-You can add tag limit
+Вы можете ограничить количество отображаемых тегов передав `tagLimit={число}`.
 
 ```jsx example
 const OPTIONS = [
@@ -216,6 +196,39 @@ return (
 )
 ```
 
+## Ограничить количество выбранных тегов
+
+Вы можете ограничить количество выбранных тегов, передав `maxTagCount={число}`.
+
+```jsx example
+const OPTIONS = [
+  { label: 'New York', value: 'ny' },
+  { label: 'Los Angeles', value: 'la' },
+  { label: 'Tokyo', value: 'tk' },
+]
+
+const [cities, setCities] = useState([])
+
+return (
+  <Multiselect
+    maxTagCount={2}
+    value={cities}
+    onChange={setCities}
+    options={OPTIONS}
+  />
+)
+```
+
 ## Sandbox
 
-<Sandbox Component={Multiselect} />
+<Sandbox
+  Component={Multiselect}
+  props={{
+    value: ['New York'],
+    options: ['New York', 'Los Angeles','Tokyo'],
+    onChange: value => console.info('New value is ' + JSON.stringify(value)),
+    onSelect: value => console.info('Value "' + value + '" is selected'),
+    onRemove: value => console.info('Value "' + value + '" is removed'),
+  }}
+  block
+/>

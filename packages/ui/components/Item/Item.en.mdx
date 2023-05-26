@@ -1,0 +1,84 @@
+import Item from './'
+import { Image } from 'react-native'
+import { u } from 'startupjs'
+import Span from '../typography/Span'
+import TextInput from '../forms/TextInput'
+import Icon from '../Icon'
+import { faTrashAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
+
+# Item
+
+Item is a basic component that is a wrapper over the content with the ability to position it and the ability to display an icon or image.
+
+## Simple example
+
+```jsx example
+return pug`
+  Item Example
+`
+```
+
+## Icon
+
+The icon can be added using the `icon` property, which will be displayed on the left side of the component.
+
+```jsx example
+return pug`
+  Item(icon=faTrashAlt) Icon
+`
+```
+
+## Image
+
+The image can be added using the `url` property, which will be displayed on the left side of the component. The `url` property takes precedence over the `icon` property if both are passed.
+
+```jsx example
+return pug`
+  Item(url="https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg") Image
+`
+```
+
+## Item as link
+
+By passing the url to the `to` property, the component will behave like a link.
+
+```jsx example
+return pug`
+  Item(to='/docs/components/Icon') Icon component
+`
+```
+
+## Actions
+
+Passed handler to `onPress` property will be called when the user taps the component.
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click')) Click me
+`
+```
+
+## Advanced usage
+
+Item consists of three parts - `Left`, `Content` and `Right`. These parts can be used to add custom markup, where:
+
+- `Left` part is used instead of `icon` and `url` properties and inserts its content into the left side of the component.
+
+- `Content` part is used instead of `children` and inserts its content between `Left` and `Right` parts.
+
+- `Right` part inserts its content into the right side of the component.
+
+```jsx example
+return pug`
+  Item(onPress=()=> alert('click'))
+    Item.Left
+      Image(
+        style={ width: u(3), height: u(3) }
+        source={ uri: 'https://i.pinimg.com/736x/95/30/41/953041070f000d45c05c912005f63724.jpg' }
+      )
+    Item.Content
+      Span Content
+    Item.Right
+      Icon(icon=faShareAlt)
+`
+```
