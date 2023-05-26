@@ -396,9 +396,11 @@ update_deployments () {
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
       SERVICE=$(echo $NAME | cut -d "-" -f 2)
       if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" --annotation "Set image: $_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" 
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
       else
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" --annotation "Set image: $_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
       fi
     done
   fi
