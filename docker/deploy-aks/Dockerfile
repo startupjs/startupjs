@@ -13,7 +13,7 @@
 FROM gcr.io/kaniko-project/executor:v1.9.2 AS kaniko
 
 # Azure CLI is the main binary so it makes sense to just use as the base image
-FROM mcr.microsoft.com/azure-cli
+FROM mcr.microsoft.com/azure-cli:2.48.1
 
 # Add kaniko to this image by re-using binaries and steps from official image
 COPY --from=kaniko /kaniko/executor /kaniko/executor
