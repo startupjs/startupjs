@@ -1,3 +1,12 @@
+## [0.52.1](https://github.com/startupjs/startupjs/compare/v0.52.0...v0.52.1) (2023-05-31)
+
+
+### Bug Fixes
+
+* **docker:** downgrade Azure CLI version to 2.48.1 ([#1037](https://github.com/startupjs/startupjs/issues/1037)) ([ccb3849](https://github.com/startupjs/startupjs/commit/ccb38497405831d23546fcc18e97adf24d151db7))
+
+
+
 # [0.52.0](https://github.com/startupjs/startupjs/compare/v0.52.0-alpha.0...v0.52.0) (2023-05-26)
 
 
