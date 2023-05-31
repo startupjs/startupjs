@@ -27,9 +27,9 @@
 
 # [0.51.0](https://github.com/startupjs/startupjs/compare/v0.50.26...v0.51.0) (2022-05-24)
 
-**No** breaking changes
+### BREAKING CHANGES
 
-Upgraded dependencies to fix vulnerabilities issues ([#1034](https://github.com/startupjs/startupjs/pull/1034))
+* [See 0.51 migration guide](/docs/migration-guides/0.51.md)
 
 
 
