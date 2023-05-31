@@ -5,6 +5,7 @@
   },
   "workspaces": [
     "packages/*",
+    "docker",
     "styleguide"
   ],
   "scripts": {
