@@ -9,6 +9,10 @@
       ]
     }
   },
+  "packages": [
+    "packages/*",
+    "docker"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true
 }
