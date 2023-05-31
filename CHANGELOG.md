@@ -1,3 +1,12 @@
+## [0.52.2](https://github.com/startupjs/startupjs/compare/v0.52.1...v0.52.2) (2023-05-31)
+
+
+### Bug Fixes
+
+* **ui/Select:** fix broken web view because for react-native-web@18+ ([c448ab4](https://github.com/startupjs/startupjs/commit/c448ab4c43b4d6aeb9c44c30f0ec0ac96914a0a4))
+
+
+
 ## [0.52.1](https://github.com/startupjs/startupjs/compare/v0.52.0...v0.52.1) (2023-05-31)
 
 
