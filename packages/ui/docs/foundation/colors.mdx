@@ -1,4 +1,15 @@
-import colors from './colors.styl'
+import {
+  colorCard,
+  colorCardDemo,
+  colorCardDemoWhite,
+  colorCardDemoDark,
+  colorCardDemoPrimary,
+  colorCardDemoSuccess,
+  colorCardDemoWarning,
+  colorCardDemoError,
+  colorCardHex,
+  colorCardVariable
+} from './colors.styl'
 import { Div, Span } from '@startupjs/ui'
 
 # Colors
@@ -13,22 +24,22 @@ Content colors are semantically named for their hierarchical purpose and corresp
 
 Primary color for the branding. Mostly used for action buttons and hyperlinks.
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo white'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.white</Span>
-  <Span styleName='colorCardHex'>#ffffff</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoWhite]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.white</Span>
+  <Span style={colorCardHex}>#ffffff</Span>
 </Div>
 
 ### Black
 
 Color for the branding. Mostly used for action buttons.
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo dark'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.dark</Span>
-  <Span styleName='colorCardVariable'>$UI.colors.mainText</Span>
-  <Span styleName='colorCardVariable'>$UI.colors.secondary</Span>
-  <Span styleName='colorCardHex'>#3E4657</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoDark]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.dark</Span>
+  <Span style={colorCardVariable}>$UI.colors.mainText</Span>
+  <Span style={colorCardVariable}>$UI.colors.secondary</Span>
+  <Span style={colorCardHex}>#3E4657</Span>
 </Div>
 
 ## Brand Colors
@@ -39,20 +50,20 @@ Brand colors represent the project identity and are used for Call-to-action butt
 
 Primary color for the branding. Mostly used for action buttons and hyperlinks.
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo primary'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.primary</Span>
-  <Span styleName='colorCardHex'>#2962FF</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoPrimary]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.primary</Span>
+  <Span style={colorCardHex}>#2962FF</Span>
 </Div>
 
 ### Secondary
 
 Color for the branding. Mostly used for action buttons.
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo dark'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.secondary</Span>
-  <Span styleName='colorCardHex'>#3E4657</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoDark]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.secondary</Span>
+  <Span style={colorCardHex}>#3E4657</Span>
 </Div>
 
 ## Utility
@@ -61,24 +72,24 @@ Utility colors are used to emphasize and communicate feedback or meaning. Use ea
 
 ### Success
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo success'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.success</Span>
-  <Span styleName='colorCardHex'>#24B47E</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoSuccess]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.success</Span>
+  <Span style={colorCardHex}>#24B47E</Span>
 </Div>
 
 ### Warning
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo warning'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.warning</Span>
-  <Span styleName='colorCardHex'>#F5BE59</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoWarning]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.warning</Span>
+  <Span style={colorCardHex}>#F5BE59</Span>
 </Div>
 
 ### Error
 
-<Div styleName='colorCard'>
-  <Div styleName='colorCardDemo error'></Div>
-  <Span styleName='colorCardVariable'>$UI.colors.error</Span>
-  <Span styleName='colorCardHex'>#E25950</Span>
+<Div style={colorCard}>
+  <Div style={[colorCardDemo, colorCardDemoError]}></Div>
+  <Span style={colorCardVariable}>$UI.colors.error</Span>
+  <Span style={colorCardHex}>#E25950</Span>
 </Div>
