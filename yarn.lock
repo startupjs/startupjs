@@ -5889,7 +5889,12 @@ async-retry@^1.3.3:
   dependencies:
     retry "0.13.1"
 
-async@1.5.2, async@^1.4.0, async@^1.5.2:
+async@3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
+  integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
+
+async@^1.4.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
@@ -6749,14 +6754,14 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-cache-manager@2.10.2:
-  version "2.10.2"
-  resolved "https://registry.yarnpkg.com/cache-manager/-/cache-manager-2.10.2.tgz#7ecabfb82db9e80290dc6705f3a555ded1c9cc8c"
-  integrity sha512-VueuJaWPfugreadk88pZ23g0nGVd4qqG4Y8X8y9LQePEN+EhaDlXbJM5pbJB0CdpuTmqVPCmcWgtEDxLqbT1zw==
+cache-manager@^3.6.1:
+  version "3.6.3"
+  resolved "https://registry.yarnpkg.com/cache-manager/-/cache-manager-3.6.3.tgz#48052f3cf9ee4bac1cbb6adeedd69faf9da4ec04"
+  integrity sha512-dS4DnV6c6cQcVH5OxzIU1XZaACXwvVIiUPkFytnRmLOACuBGv3GQgRQ1RJGRRw4/9DF14ZK2RFlZu1TUgDniMg==
   dependencies:
-    async "1.5.2"
-    lodash.clonedeep "4.5.0"
-    lru-cache "4.0.0"
+    async "3.2.3"
+    lodash.clonedeep "^4.5.0"
+    lru-cache "6.0.0"
 
 cacheable-lookup@^7.0.0:
   version "7.0.0"
@@ -14751,7 +14756,7 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
 
-lodash.clonedeep@4.5.0, lodash.clonedeep@^4.5.0, lodash.clonedeep@~4.5.0:
+lodash.clonedeep@^4.5.0, lodash.clonedeep@~4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
@@ -15078,13 +15083,12 @@ lowercase-keys@^3.0.0:
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-3.0.0.tgz#c5e7d442e37ead247ae9db117a9d0a467c89d4f2"
   integrity sha512-ozCC6gdQ+glXOQsveKD0YsDy8DSQFjDTz4zyzEHNV5+JP5D62LmfDZ6o1cycFx9ouG940M5dE8C8CTewdj2YWQ==
 
-lru-cache@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.0.0.tgz#b5cbf01556c16966febe54ceec0fb4dc90df6c28"
-  integrity sha1-tcvwFVbBaWb+vlTO7A+03JDfbCg=
+lru-cache@6.0.0, lru-cache@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
+  integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
-    pseudomap "^1.0.1"
-    yallist "^2.0.0"
+    yallist "^4.0.0"
 
 lru-cache@^4.0.1:
   version "4.1.5"
@@ -15100,13 +15104,6 @@ lru-cache@^5.1.1:
   integrity sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==
   dependencies:
     yallist "^3.0.2"
-
-lru-cache@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
-  integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
-  dependencies:
-    yallist "^4.0.0"
 
 lru-cache@^9.0.0:
   version "9.1.1"
@@ -17094,7 +17091,7 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-jose@^2.0.0:
+node-jose@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/node-jose/-/node-jose-2.2.0.tgz#b64f3225ad6bec328509a420800de597ba2bf3ed"
   integrity sha512-XPCvJRr94SjLrSIm4pbYHKLEaOsDvJCpyFw/6V/KK/IXmyZ6SFBzAUDO9HQf4DB/nTEFcRGH87mNciOP23kFjw==
@@ -18259,22 +18256,21 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-passport-azure-ad@^4.2.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/passport-azure-ad/-/passport-azure-ad-4.3.1.tgz#2935d0d65ca6c5d1cc73b7ba0685ea69d249e1f0"
-  integrity sha512-QM/GFbwpbIRO5MVLB4kkhCaskUkgKzeujYzcnxicqXh4c2M9m1M5sCvVtiJUVXaG6fMthX2Dqvl36Psn/ia84w==
+passport-azure-ad@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/passport-azure-ad/-/passport-azure-ad-4.3.5.tgz#107d709409170478d1a66ec1efb4c094dd3d321b"
+  integrity sha512-LBpXEght7hCMuMNFK4oegdN0uPBa3lpDMy71zQoB0zPg1RrGwdzpjwTiN1WzN0hY77fLyjz9tBr3TGAxnSgtEg==
   dependencies:
-    async "^1.5.2"
+    async "^3.2.3"
     base64url "^3.0.0"
     bunyan "^1.8.14"
-    cache-manager "2.10.2"
+    cache-manager "^3.6.1"
     https-proxy-agent "^5.0.0"
     jws "^3.1.3"
     lodash "^4.11.2"
-    node-jose "^2.0.0"
+    node-jose "^2.2.0"
     oauth "0.9.15"
-    passport "^0.4.1"
-    request "^2.72.0"
+    passport "^0.6.0"
     valid-url "^1.0.6"
 
 passport-facebook@^3.0.0:
@@ -18322,13 +18318,14 @@ passport-telegram-official@^1.0.0:
     lodash "^4.17.11"
     passport-strategy "^1.0.0"
 
-passport@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/passport/-/passport-0.4.1.tgz#941446a21cb92fc688d97a0861c38ce9f738f270"
-  integrity sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==
+passport@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.6.0.tgz#e869579fab465b5c0b291e841e6cc95c005fac9d"
+  integrity sha512-0fe+p3ZnrWRW74fe8+SvCyf4a3Pb2/h7gFkQ8yTJpAO50gDzlfjZUZTO1k5Eg9kUct22OxHLqDZoKUWRHOh9ug==
   dependencies:
     passport-strategy "1.x.x"
     pause "0.0.1"
+    utils-merge "^1.0.1"
 
 patch-package@^7.0.0:
   version "7.0.0"
@@ -20360,7 +20357,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.1"
     tough-cookie "^2.3.3"
 
-request@^2.72.0, request@^2.81.0, request@^2.87.0, request@^2.88.0:
+request@^2.81.0, request@^2.87.0, request@^2.88.0:
   version "2.88.2"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
   integrity sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==
@@ -23004,7 +23001,7 @@ util-promisify@^2.1.0:
   dependencies:
     object.getownpropertydescriptors "^2.0.3"
 
-utils-merge@1.0.1, utils-merge@1.x.x:
+utils-merge@1.0.1, utils-merge@1.x.x, utils-merge@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
