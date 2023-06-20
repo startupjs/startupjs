@@ -30,7 +30,7 @@ module.exports = async options => {
   // ShareDB Setup
   let shareDbMongo
   if (process.env.MONGO_URL && !process.env.NO_MONGO) {
-    shareDbMongo = await getShareDbMongo()
+    shareDbMongo = await getShareDbMongo(options.mongoOptions)
   } else {
     console.log('>>> WARNING! Using temporary Mingo storage for the DB. All data will be lost on server restart.\n')
     shareDbMongo = getMingo()
