@@ -87,6 +87,9 @@ function MDXAnchor ({
 }
 
 export default {
+  wrapper: ({ children }) => pug`
+    Div= children
+  `,
   h1: ({ children }) => pug`
     MDXAnchor(anchor=getTextChildren(children) size='xl')
       H2(bold)

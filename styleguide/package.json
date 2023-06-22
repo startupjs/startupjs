@@ -58,7 +58,7 @@
     "nconf": "^0.11.4",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-native": "0.63.4",
+    "react-native": "0.63.5",
     "react-native-collapsible": "^1.6.0",
     "react-native-color-picker": "^0.6.0",
     "react-native-fbsdk": "^3.0.0",
