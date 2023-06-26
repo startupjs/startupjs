@@ -1,3 +1,18 @@
+## [0.52.3](https://github.com/startupjs/startupjs/compare/v0.52.2...v0.52.3) (2023-06-26)
+
+
+### Bug Fixes
+
+* **bundler:** make mdx compilation work ([73a3035](https://github.com/startupjs/startupjs/commit/73a303533bab8f598484f6d420094feb5910896c))
+* **TextInput:** fix blur when disabled ([249021d](https://github.com/startupjs/startupjs/commit/249021d3d72e0e926352b637ac126a22cfd9cafc))
+
+
+### Features
+
+* **server|backend:** add ability to provide options for mongodb ([ebd233b](https://github.com/startupjs/startupjs/commit/ebd233bec5a709856a1567e6c551d505b3d68e51))
+
+
+
 ## [0.52.2](https://github.com/startupjs/startupjs/compare/v0.52.1...v0.52.2) (2023-05-31)
 
 
