@@ -42,7 +42,7 @@ module.exports = async options => {
 
   let backend = (() => {
     if (!process.env.NO_REDIS) {
-      const redis = getRedis()
+      const redis = getRedis(options.redisOptions)
       const redisObserver = redis.observer
 
       redisClient = redis.client
