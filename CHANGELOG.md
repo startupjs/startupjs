@@ -1,3 +1,12 @@
+## [0.52.4](https://github.com/startupjs/startupjs/compare/v0.52.3...v0.52.4) (2023-06-28)
+
+
+### Features
+
+* **backend:** add ability to pass options for redis ([6971e74](https://github.com/startupjs/startupjs/commit/6971e74c2eec81bf36f84bc954ed7369437ee022))
+
+
+
 ## [0.52.3](https://github.com/startupjs/startupjs/compare/v0.52.2...v0.52.3) (2023-06-26)
 
 
