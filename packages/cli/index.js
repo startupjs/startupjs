@@ -74,7 +74,6 @@ const DEV_DEPENDENCIES = [
 const REMOVE_DEPENDENCIES = [
   '@babel/core',
   '@babel/runtime',
-  '@react-native-community/eslint-config',
   '@react-native/eslint-config',
   'metro-react-native-babel-preset'
 ]
@@ -423,20 +422,10 @@ commander
 
     // remove extra dependencies which are covered by startupjs core
     if (REMOVE_DEPENDENCIES.length) {
-      // await execa('yarn', ['remove'].concat(REMOVE_DEPENDENCIES), {
-      //   cwd: projectPath,
-      //   stdio: 'inherit'
-      // })
-      for (const dependency of REMOVE_DEPENDENCIES) {
-        await execa('yarn', ['remove', dependency], {
-          cwd: projectPath,
-          stdio: 'inherit'
-        }).catch(err => {
-          console.log('---------- remove extra dependencies error ----------')
-          console.log(err)
-          console.log('---------- end of remove extra dependencies error ----------')
-        })
-      }
+      await execa('yarn', ['remove'].concat(REMOVE_DEPENDENCIES), {
+        cwd: projectPath,
+        stdio: 'inherit'
+      })
     }
 
     // copy additional startupjs template files over react-native ones
