@@ -74,7 +74,7 @@ const DEV_DEPENDENCIES = [
 const REMOVE_DEPENDENCIES = [
   '@babel/core',
   '@babel/runtime',
-  '@react-native-community/eslint-config',
+  '@react-native/eslint-config',
   'metro-react-native-babel-preset'
 ]
 
