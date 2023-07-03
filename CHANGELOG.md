@@ -1,3 +1,12 @@
+## [0.52.5](https://github.com/startupjs/startupjs/compare/v0.52.4...v0.52.5) (2023-07-03)
+
+
+### Bug Fixes
+
+* **packages/cli:** change `react-native-community/esling-config` to `react-native/eslint-config` ([#1039](https://github.com/startupjs/startupjs/issues/1039)) ([00af21a](https://github.com/startupjs/startupjs/commit/00af21a4bb5ae499ca68f97e43c07b7392a133a9))
+
+
+
 ## [0.52.4](https://github.com/startupjs/startupjs/compare/v0.52.3...v0.52.4) (2023-06-28)
 
 
