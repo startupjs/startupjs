@@ -1,3 +1,12 @@
+## [0.52.6](https://github.com/startupjs/startupjs/compare/v0.52.5...v0.52.6) (2023-07-05)
+
+
+### Bug Fixes
+
+* **packages/cli:** update `react-native-pager-view` to ^6.2.0 to work for the last `react-native` version ([#1040](https://github.com/startupjs/startupjs/issues/1040)) ([fbbf1fc](https://github.com/startupjs/startupjs/commit/fbbf1fc925cd6020d3af9a103481ea1dd78cb51f))
+
+
+
 ## [0.52.5](https://github.com/startupjs/startupjs/compare/v0.52.4...v0.52.5) (2023-07-03)
 
 
