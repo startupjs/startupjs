@@ -71,6 +71,7 @@ export default function wrapInput (Component, configuration) {
     const _label = pug`
       if label
         Span.label(
+          part='label'
           styleName=[
             layout,
             layout + '-' + labelPosition,
