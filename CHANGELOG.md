@@ -1,3 +1,12 @@
+## [0.52.7](https://github.com/startupjs/startupjs/compare/v0.52.6...v0.52.7) (2023-07-10)
+
+
+### Features
+
+* **InputWrapper:** add ability to customize label styles ([d1b49ee](https://github.com/startupjs/startupjs/commit/d1b49ee98c77455441c32a6d55b62eca258f5906))
+
+
+
 ## [0.52.6](https://github.com/startupjs/startupjs/compare/v0.52.5...v0.52.6) (2023-07-05)
 
 
