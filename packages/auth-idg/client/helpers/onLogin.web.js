@@ -19,5 +19,5 @@ export default async function onLogin ({
     })
   }
 
-  Linking.openURL(LOGIN_URL)
+  window.location.href = LOGIN_URL
 }

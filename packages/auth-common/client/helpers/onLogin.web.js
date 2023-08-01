@@ -19,5 +19,5 @@ export default async function onLogin ({
     })
   }
 
-  Linking.openURL(`/auth/${providerName}`)
+  window.location.href = `/auth/${providerName}`
 }
