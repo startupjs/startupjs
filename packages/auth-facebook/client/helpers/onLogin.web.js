@@ -21,5 +21,5 @@ export default async function onLogin ({
     })
   }
 
-  Linking.openURL(WEB_LOGIN_URL)
+  Lwindow.location.href = WEB_LOGIN_URL
 }
