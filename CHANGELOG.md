@@ -1,3 +1,12 @@
+## [0.52.8](https://github.com/startupjs/startupjs/compare/v0.52.7...v0.52.8) (2023-08-02)
+
+
+### Bug Fixes
+
+* **auth-*:** fix web login to open login link in the same tab ([#1041](https://github.com/startupjs/startupjs/issues/1041)) ([133699c](https://github.com/startupjs/startupjs/commit/133699cbb50c603e170e59b27670680148cb6abc))
+
+
+
 ## [0.52.7](https://github.com/startupjs/startupjs/compare/v0.52.6...v0.52.7) (2023-07-10)
 
 
