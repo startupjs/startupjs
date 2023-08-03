@@ -70,6 +70,5 @@
       "pre-commit": "lint-staged && yarn generate-module-map"
     }
   },
-  "license": "MIT",
-  "version": "0.0.1"
+  "license": "MIT"
 }
