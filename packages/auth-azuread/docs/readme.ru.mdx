@@ -16,7 +16,7 @@ react-native-webview: 10.10.2
 4 - Перейти на вкладку [Регистрация приложений](https://portal.azure.com/?l=en.en-us#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps)
 5 - Далее **Новая регистрация**, нужно заполнить поля
 6 - Скопировать **Идентификатор приложения** как `AZUREAD_CLIENT_ID`, в config.json
-7 - Скопировать **Идентификатор каталога** как `AZUREAD_TENTANT_ID`, в config.json
+7 - Скопировать **Идентификатор каталога** как `AZUREAD_TENANT_ID`, в config.json
 8 - Перейти во вкладку **Конечные точки**, скопировать **Документ метаданных OpenID Connect** как `AZUREAD_IDENTITY_METADATA` в config.json. Вместо common/organizations должен стоять **Идентификатор каталога**.
 9 - Во вкладке **Сертификаты и секреты**, создать секрет клиента, скопировать как `AZUREAD_CLIENT_SECRET` в config.json.
 10 - Далее нужно настроить URI перенаправления, для этого нужно перейти во вкладку с настройкой URI перенаправления. Создать платформы с ссылками:
@@ -44,7 +44,7 @@ initAuth(ee, {
     new AzureADStrategy({
       clientId: conf.get('AZUREAD_CLIENT_ID'),
       clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
-      tentantId: conf.get('AZUREAD_TENTANT_ID'),
+      tenantId: conf.get('AZUREAD_TENANT_ID'),
       identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
       allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
     })

@@ -48,7 +48,7 @@ export default function (config = {}) {
         keyID: keyId,
         key: fs.readFileSync(privateKeyLocation),
         scope: ['name', 'email'],
-        // TODO: make multitentant
+        // TODO: make multitenant
         callbackURL: (testBaseUrl || nconf.get('BASE_URL')) + CALLBACK_URL,
         passReqToCallback: true
       },
