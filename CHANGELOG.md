@@ -1,3 +1,12 @@
+## [0.52.10](https://github.com/startupjs/startupjs/compare/v0.52.9...v0.52.10) (2023-08-03)
+
+
+### Bug Fixes
+
+* **auth-azuread:** fix typo ([11bed5d](https://github.com/startupjs/startupjs/commit/11bed5d7015619ec4e14145ac7a740fcf3075c5e))
+
+
+
 ## [0.52.9](https://github.com/startupjs/startupjs/compare/v0.52.8...v0.52.9) (2023-08-02)
 
 
