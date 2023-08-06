@@ -28,5 +28,10 @@ export default (components = {}) => [
     path: '/playground2',
     exact: true,
     component: components.PPlayground2
+  },
+  {
+    path: '/playgroundSignals',
+    exact: true,
+    component: components.PPlaygroundSignals
   }
 ]

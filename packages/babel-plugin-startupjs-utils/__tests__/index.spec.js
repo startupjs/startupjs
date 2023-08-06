@@ -39,3 +39,39 @@ pluginTester({
     `
   }
 })
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  babelOptions: {
+    plugins: ['@babel/plugin-syntax-jsx']
+  },
+  pluginOptions: {},
+  tests: {
+    'Use default signals value if nothing is set in options': /* js */`
+      import signalsEnabled from '@startupjs/signals/enabled.js'
+
+      export const SIGNALS_ACTIVE = { value: signalsEnabled }
+    `
+  }
+})
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  babelOptions: {
+    plugins: ['@babel/plugin-syntax-jsx']
+  },
+  pluginOptions: {
+    signals: true
+  },
+  tests: {
+    'Get signals value from options': /* js */`
+      import signalsEnabled from '@startupjs/signals/enabled.js'
+
+      export const SIGNALS_ACTIVE = { value: signalsEnabled }
+    `
+  }
+})

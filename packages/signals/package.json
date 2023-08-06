@@ -1,0 +1,17 @@
+{
+  "name": "@startupjs/signals",
+  "version": "0.52.1",
+  "description": "Signals with an ORM support",
+  "type": "module",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --expose-gc -r ./test/_init.cjs --test"
+  },
+  "dependencies": {
+    "@startupjs/model": "^0.52.0"
+  },
+  "license": "MIT"
+}

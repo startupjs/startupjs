@@ -15,9 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias, observerCache } = {}) => [
+const basePlugins = ({ alias, observerCache, signals } = {}) => [
   [require('@startupjs/babel-plugin-startupjs-utils'), {
-    observerCache
+    observerCache,
+    signals
   }],
   [require('babel-plugin-module-resolver'), {
     alias: {

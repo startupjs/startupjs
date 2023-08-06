@@ -1,51 +1,58 @@
 const template = require('@babel/template').default
 const t = require('@babel/types')
 
-const GLOBAL_CACHE_ENABLED_LIBRARY = '@startupjs/cache/enabled'
+const FLAGS = {
+  observerCache: {
+    path: '@startupjs/cache/enabled',
+    default: false
+  },
+  signals: {
+    path: '@startupjs/signals/enabled.js',
+    default: false
+  }
+}
 
 const buildConst = template(`
   const %%variable%% = %%value%%
 `)
 
 module.exports = function (babel, opts) {
-  opts.observerCache = (opts.observerCache != null ? opts.observerCache : false)
   let $program
-  let handledCache
+  let handledFlags
 
   return {
     pre () {
       $program = undefined
-      handledCache = undefined
+      handledFlags = {}
     },
     visitor: {
       Program ($this) {
         $program = $this
       },
       ImportDeclaration ($this) {
-        if (!handledCache) {
-          const local = maybeGetCacheEnabledIdentifier($this)
-          if (local) {
-            insertAfterImports($program, buildConst({
-              variable: local,
-              value: t.booleanLiteral(opts.observerCache)
-            }))
-            $this.remove()
-            handledCache = true
-          }
+        for (const flag in FLAGS) {
+          if (handledFlags[flag]) continue
+          const identifier = maybeGetFlagIdentifier($this, { magicPath: FLAGS[flag].path })
+          if (!identifier) continue
+          const enabled = (opts[flag] != null ? opts[flag] : FLAGS[flag].default)
+          insertAfterImports($program, buildConst({
+            variable: identifier,
+            value: t.booleanLiteral(enabled)
+          }))
+          $this.remove()
+          handledFlags[flag] = true
+          return // import doesn't exist anymore so we have to stop any processing of this node
         }
       }
     }
   }
 }
 
-function maybeGetCacheEnabledIdentifier ($import, {
-  cacheEnabledLibrary = GLOBAL_CACHE_ENABLED_LIBRARY
-} = {}) {
-  if ($import.node.source.value !== cacheEnabledLibrary) return
+function maybeGetFlagIdentifier ($import, { magicPath } = {}) {
+  if ($import.node.source.value !== magicPath) return
   for (const $specifier of $import.get('specifiers')) {
     if (!$specifier.isImportDefaultSpecifier()) continue
-    const { local } = $specifier.node
-    return local
+    return $specifier.node.local
   }
 }
 

@@ -12,6 +12,8 @@ import Value from '../types/Value.js'
 import Api from '../types/Api.js'
 import { batching } from '@startupjs/react-sharedb-util'
 import { blockCache, unblockCache } from '@startupjs/cache'
+// signals are only returned for the use$ hooks and only if they are globally enabled in babel-preset-startupjs
+import { signal, enabled as signalsEnabled } from '@startupjs/signals'
 
 import {
   subDoc,
@@ -41,8 +43,11 @@ export const useAsyncDoc$ = generateUseItemOfType(subDoc, { optional: true, mode
 // NOTE: useQuery$ doesn't make sense because the returned model simply targets collection,
 //       so instead just a simple useModel(collection) should be used.
 export const useQuery = generateUseItemOfType(subQuery)
+export const useQuery$ = generateUseItemOfType(subQuery, { modelOnly: true })
 export const useBatchQuery = generateUseItemOfType(subQuery, { batch: true })
+export const useBatchQuery$ = generateUseItemOfType(subQuery, { batch: true, modelOnly: true })
 export const useAsyncQuery = generateUseItemOfType(subQuery, { optional: true })
+export const useAsyncQuery$ = generateUseItemOfType(subQuery, { optional: true, modelOnly: true })
 
 export const useApi = generateUseItemOfType(subApi)
 export const useApi$ = generateUseItemOfType(subApi, { modelOnly: true })
@@ -188,13 +193,24 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     // For Query and QueryExtra return the scoped model targeting the actual collection path.
     // This is much more useful since you can use that use this returned model
     // to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
+
+    // TODO: for signals there is no need to tie ourselves to collectionName
     const collectionName = useMemo(
-      () => (isQuery ? getCollectionName(params) : undefined),
+      () => {
+        if (!isQuery) return
+        return getCollectionName(params)
+      },
       [hashedArgs]
     )
     const $queryCollection = useMemo(
-      () => (isQuery ? $root.scope(collectionName) : undefined),
-      [collectionName]
+      () => {
+        if (!isQuery) return
+        if (signalsEnabled && modelOnly) {
+          return signal(itemRef.current.subscription)
+        }
+        return $root.scope(collectionName)
+      },
+      [collectionName, (signalsEnabled && modelOnly ? itemRef.current.subscription : undefined)]
     )
 
     // For Doc, Local, Value return the model scoped to the hook path
@@ -206,10 +222,18 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
         // For Doc and Local return original path
         // TODO: Maybe add Api here too
         if (takeOriginalModel) {
-          return $root.scope(getPath(params))
+          if (signalsEnabled && modelOnly) {
+            return signal(getPath(params))
+          } else {
+            return $root.scope(getPath(params))
+          }
         // For Value, Api return hook's path since it's only stored there
         } else {
-          return $hooks.at(hookId)
+          if (signalsEnabled && modelOnly) {
+            return signal($hooks.path(hookId))
+          } else {
+            return $hooks.at(hookId)
+          }
         }
       },
       [initsCountRef.current]

@@ -2,7 +2,8 @@ module.exports = {
   presets: [
     ['startupjs/babel.cjs', {
       alias: {},
-      observerCache: true
+      observerCache: true,
+      signals: true
     }]
   ]
 }
