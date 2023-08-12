@@ -1,5 +1,6 @@
 export { observer } from './hooks/observer.js'
 export { default as destroyer } from './hooks/destroyer.js'
+export { useSubscribe, subscribe$ } from './hooks/useSubscribe.js'
 export {
   useDoc,
   useDoc$,

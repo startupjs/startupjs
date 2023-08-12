@@ -13,6 +13,7 @@ import Value from '../types/Value.js'
 import Api from '../types/Api.js'
 import { batching } from '@startupjs/react-sharedb-util'
 import { blockCache, unblockCache } from '@startupjs/cache'
+import { markAsync } from './asyncCatcher.js'
 // signals are only returned for the use$ hooks and only if they are globally enabled in babel-preset-startupjs
 import { signal, enabled as signalsEnabled } from '@startupjs/signals'
 
@@ -170,9 +171,11 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
           // Don't do any actual initialization in that case,
           // since we only care about gathering subscription promises
           if (initPromise && initPromise.type === 'batch') {
+            markAsync()
             return
           // Async variant
           } else if (initPromise) {
+            markAsync()
             initPromise.then(() => {
               // Handle situation when a new item already started initializing
               // and it cancelled this (old) item.

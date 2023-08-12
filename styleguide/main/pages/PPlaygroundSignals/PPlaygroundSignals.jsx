@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react'
 // TODO: Test useDoc$ and useQuery$
 import { ScrollView } from 'react-native'
-import { pug, styl, observer, useComponentId, $, useDoc$, useQuery$, useValue$ } from 'startupjs'
+import { pug, styl, observer, useComponentId, useSubscribe, $, useDoc$, useQuery$, useValue$ } from 'startupjs'
 import { Br, Div, Button, Link, Row, Span, Card, H5, Item, prompt } from '@startupjs/ui'
 
 export default observer(function PPlayground () {
@@ -165,31 +165,3 @@ const Player = observer(({ $player, index }) => {
   `
   /* eslint-disable-line */styl``
 })
-
-function useSubscribe (fn) {
-  /* eslint-disable-next-line */
-  const lastSyncedProps = useRef() // TODO: Have to trigger update for model-only hooks
-  const subscriptionProps = fn()
-  return subscriptionProps
-}
-
-/* eslint-disable-next-line */
-function subscribe (SubscriptionComponent) {
-  return function wrapIntoSubscription (Component) {
-    const ObservableComponent = observer(Component)
-
-    function FullSubscriptionComponent (componentProps) {
-      const subscriptionProps = SubscriptionComponent(componentProps)
-      // TODO: when the re-subscription waterfall starts, wait until it fully ends.
-      //       In order to achieve this there should be a sync flag set inside observer()
-      //       which shows whether any item has an active re-subscription.
-      return <ObservableComponent {...componentProps} {...subscriptionProps} />
-    }
-    const ObservableFullSubscriptionComponent = observer(FullSubscriptionComponent)
-
-    function WrappedComponent (componentProps) {
-      return <ObservableFullSubscriptionComponent {...componentProps} />
-    }
-    return React.memo(WrappedComponent)
-  }
-}
