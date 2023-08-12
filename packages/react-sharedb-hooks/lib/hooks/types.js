@@ -66,6 +66,8 @@ export const useValue$ = generateUseItemOfType(subValue, { modelOnly: true })
 function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
   const isQuery = typeFn === subQuery
   const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
+  // when signals are used, don't do any additional model referencing
+  const isSignalOriginalModel = signalsEnabled && modelOnly && (typeFn === subDoc || typeFn === subLocal || typeFn === subQuery)
   const isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
     // block caching of 'model.at' and 'model.scope' since the caching of model
@@ -119,7 +121,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       initsCountRef.current++
 
       // Reference the new item data
-      itemRef.current && itemRef.current.refModel()
+      if (!isSignalOriginalModel) itemRef.current && itemRef.current.refModel()
 
       // TODO: IMPORTANT! for model-only hooks we must trigger rerendering here if the model changed
       //       OR fix the refModel() to actually have a hook reference all the time and have it working correctly.
@@ -134,7 +136,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     function initItem (params) {
       const item = getItemFromParams(params, $hooks, hookId)
       destructorsRef.current.push(() => {
-        item.unrefModel()
+        if (!isSignalOriginalModel) item.unrefModel()
         item.destroy()
       })
 
