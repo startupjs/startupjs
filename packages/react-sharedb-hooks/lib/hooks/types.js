@@ -2,7 +2,8 @@ import {
   useMemo,
   useLayoutEffect,
   useRef,
-  useCallback
+  useCallback,
+  useState
 } from 'react'
 import Doc from '../types/Doc.js'
 import Query from '../types/Query.js'
@@ -70,6 +71,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     // is handled on its own by these hooks
     blockCache()
 
+    const [, forceUpdate] = useState()
     const hookId = useMemo(() => $root.id(), [])
     const hashedArgs = useMemo(() => {
       // do initialization once for 'subValue' typeFn
@@ -119,6 +121,13 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       itemRef.current && itemRef.current.refModel()
 
       // TODO: IMPORTANT! for model-only hooks we must trigger rerendering here if the model changed
+      //       OR fix the refModel() to actually have a hook reference all the time and have it working correctly.
+      //       The better solution is probably to return a new model for each different doc/query/api since it does
+      //       imply that the data has completely changed and the affected components should do a full rerender.
+      //       useDoc, useLocal -- definitely change
+      //       useQuery -- probably just do the reference, but then if ids change will it trigger update correctly?
+      //       Think of removing the refModel() completely for the model-only hooks
+      if (modelOnly) forceUpdate({})
     }
 
     function initItem (params) {
@@ -212,7 +221,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
         }
         return $root.scope(collectionName)
       },
-      [collectionName, (signalsEnabled && modelOnly ? itemRef.current.subscription : undefined)]
+      [collectionName, (signalsEnabled && modelOnly ? initsCountRef.current : undefined)]
     )
 
     // For Doc, Local, Value return the model scoped to the hook path
