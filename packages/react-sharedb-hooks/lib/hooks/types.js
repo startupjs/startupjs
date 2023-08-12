@@ -117,6 +117,8 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
 
       // Reference the new item data
       itemRef.current && itemRef.current.refModel()
+
+      // TODO: IMPORTANT! for model-only hooks we must trigger rerendering here if the model changed
     }
 
     function initItem (params) {
