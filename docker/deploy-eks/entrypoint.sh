@@ -91,6 +91,7 @@ main () {
     "build"   ) run_step_build;;
     "apply"   ) run_step_apply;;
     "batch"   ) run_batch;;
+    "nobuild" ) run_nobuild;; 
     *         ) echo "ERROR! Command '${_command}' not found.";;
   esac
 
@@ -108,6 +109,15 @@ run_batch () {
   # NOTE: run_step_init is executed as RUN when building an image from Dockerfile
   _step "prepare" && run_step_prepare
   _step "build" && run_step_build
+  _step "apply" && run_step_apply
+}
+
+run_nobuild () {
+  # in batch mode we don't need to pass config through a temp file
+  PASS_ENV=""
+  _log "validate_batch" && validate_batch
+  # NOTE: run_step_init is executed as RUN when building an image from Dockerfile
+  _step "prepare" && run_step_prepare
   _step "apply" && run_step_apply
 }
 
@@ -182,17 +192,126 @@ run_step_build () {
   maybe_import_env
   _log "validate_step_build" && validate_step_build
   _log "copy_source_code" && copy_source_code
-  _log "build_image_kaniko" && build_image_kaniko
+#  _log "build_image_kaniko" && build_image_kaniko
+  _log "build_image_buildah" && build_image_buildah
+#  _log "build_image_docker" && build_image_docker
 }
 
 validate_step_build () {
-  if ! which executor; then echo "'executor' binary is not found. Your docker image was probably built incorrectly and doesn't have kaniko binaries." && exit 1; fi
+#  if ! which executor; then echo "'executor' binary is not found. Your docker image was probably built incorrectly and doesn't have kaniko binaries." && exit 1; fi
   if [ ! -d "$PROJECT_PATH" ] || [ -z "$(ls -A "$PROJECT_PATH")" ]; then echo "app folder '$PROJECT_PATH' does not exist or is empty. You've probably forgot to mount it as /project or did not pass a custom PROJECT_PATH env var" && exit 1; fi
   if [ -z "$DEPLOYMENTS" ] && [ ! -f "$PROJECT_PATH/Dockerfile" ]; then echo "app Dockerfile was not found at '$DOCKERFILE_PATH' and DEPLOYMENTS env var is not set" && exit 1; fi
 }
 
 copy_source_code () {
   cp -r "$PROJECT_PATH" /_project
+}
+
+build_image_docker () {
+  mkdir -p /root/.docker
+  # authorize to registry
+  echo "{\"credHelpers\": {\"$ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com\": \"ecr-login\"}}" > /root/.docker/config.json
+  mkdir -p /root/.aws
+  echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY" > /root/.aws/credentials
+  if [ -n "$DEPLOYMENTS" ]
+  then
+    for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
+    do
+        SERVICE=$(echo $dockerfile | cut -d ":" -f 1)
+        DOCKERFILE_PATH=$(echo $dockerfile | cut -d ":" -f 2)
+        echo "Building docker image for ${SERVICE} microservice from dockerfile: ${DOCKERFILE_PATH}"
+        if [ -n "$FEATURE" ]
+        then
+          DOCKER_BUILDKIT=1 docker build \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:latest" \
+            -f "$DOCKERFILE_PATH" \
+             /_project
+        else
+          DOCKER_BUILDKIT=1 docker build \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}:latest" \
+            -f "$DOCKERFILE_PATH" \
+             /_project
+        fi
+    done
+  fi
+
+  if [ -f "$PROJECT_PATH/Dockerfile" ]
+  then
+    if [ -n "$FEATURE" ]
+    then
+      DOCKER_BUILDKIT=1 docker build \
+        -t "${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}" \
+        -t "${REGISTRY_SERVER}/${APP}-${FEATURE}:latest" \
+        -f "$DOCKERFILE_PATH" \
+         /_project
+    else
+      DOCKER_BUILDKIT=1 docker build \
+        -t "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
+        -t "${REGISTRY_SERVER}/${APP}:latest" \
+        -f "$DOCKERFILE_PATH" \
+         /_project
+    fi
+  fi
+}
+
+build_image_buildah () {
+  mkdir -p /root/.docker
+  # authorize to registry
+  echo "{\"credHelpers\": {\"$ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com\": \"ecr-login\"}}" > /root/.docker/config.json
+  mkdir -p /root/.aws
+  echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY" > /root/.aws/credentials
+  #buildah login --authfile /root/.docker/config.json 763217049473.dkr.ecr.us-east-1.amazonaws.com
+  if [ -n "$DEPLOYMENTS" ]
+  then
+    for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
+    do
+        SERVICE=$(echo $dockerfile | cut -d ":" -f 1)
+        DOCKERFILE_PATH=$(echo $dockerfile | cut -d ":" -f 2)
+        echo "Building docker image for ${SERVICE} microservice from dockerfile: ${DOCKERFILE_PATH}"
+        if [ -n "$FEATURE" ]
+        then
+          buildah build \
+            --isolation=chroot \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:latest" \
+            -f "$DOCKERFILE_PATH" \
+             /_project
+        else
+          buildah build \
+            --isolation=chroot \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+            -t "${REGISTRY_SERVER}/${APP}-${SERVICE}:latest" \
+            -f "$DOCKERFILE_PATH" \
+             /_project
+        fi
+    done
+  fi
+
+  if [ -f "$PROJECT_PATH/Dockerfile" ]
+  then
+    if [ -n "$FEATURE" ]
+    then
+      buildah build \
+        --isolation=chroot \
+        -t "${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}" \
+        -t "${REGISTRY_SERVER}/${APP}-${FEATURE}:latest" \
+        -f "$DOCKERFILE_PATH" \
+         /_project
+    else
+      buildah build \
+        --isolation=chroot \
+        --storage-opt 'mount_program=/usr/bin/fuse-overlayfs' \
+        --userns "private" \
+        -t "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
+        -t "${REGISTRY_SERVER}/${APP}:latest" \
+        -f "$DOCKERFILE_PATH" \
+         /_project
+      buildah push --authfile /root/.docker/config.json ${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}
+      buildah push --authfile /root/.docker/config.json ${REGISTRY_SERVER}/${APP}:latest
+    fi
+  fi
 }
 
 build_image_kaniko () {
