@@ -9,7 +9,7 @@ export default function generateHeader (tag) {
     function Header ({ children, style, bold, italic, full, ...props }) {
       const isWeb = Platform.OS === 'web'
       const role = isWeb
-        ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') }
+        ? { accessibilityRole: 'header', accessibilityLevel: tag.replace(/^h/, '') }
         : {}
 
       return pug`
