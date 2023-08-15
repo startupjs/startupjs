@@ -1,3 +1,12 @@
+## [0.52.11](https://github.com/startupjs/startupjs/compare/v0.52.10...v0.52.11) (2023-08-15)
+
+
+### Bug Fixes
+
+* **ui/headers:** render semantic h1-h6 tag for headers ([e90f922](https://github.com/startupjs/startupjs/commit/e90f92273e6adf37e45817f122607fbde3d792e9))
+
+
+
 ## [0.52.10](https://github.com/startupjs/startupjs/compare/v0.52.9...v0.52.10) (2023-08-03)
 
 
