@@ -3,6 +3,7 @@ import { BaseModel } from '@startupjs/orm'
 export default function (racer) {
   racer.orm('pgGames', PGGames)
   racer.orm('pgGameDatas.*', PGGameData)
+  racer.orm('pgPlayers', PGPlayers)
 }
 
 class PGGames extends BaseModel {
@@ -27,5 +28,11 @@ class PGGameData extends BaseModel {
       roundsData: []
     })
     return pgGameDataId
+  }
+}
+
+class PGPlayers extends BaseModel {
+  dummyLabel () {
+    return 'players orm'
   }
 }

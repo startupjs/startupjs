@@ -17,13 +17,20 @@ function get (target, key, receiver) {
   // special treatment of Query methods
   if (target[QUERY]) {
     if (isQueryMethod(key)) {
-      return Reflect.get(target[QUERY], key, target[QUERY])
+      if (target[IS_EXTRA_QUERY] && key === 'get') key = 'getExtra'
+      return (...args) => Reflect.apply(target[QUERY][key], target[QUERY], args)
     }
-    // support .map() on regular queries (for looping in JSX)
-    if (!target[IS_EXTRA_QUERY] && key === 'map') {
-      const ids = target[QUERY].getIds()
-      const segments = [...target[SEGMENTS]] // clone this array to help GC, since we return clojure fns
-      return (fn, thisArg) => ids.map(id => getSignal([...segments, id])).map(fn, thisArg)
+    // special support for .map() on queries (for looping in JSX)
+    if (key === 'map') {
+      if (target[IS_EXTRA_QUERY]) {
+        const items = target[QUERY].getExtra() || []
+        const segments = [...target[QUERY].extraSegments] // clone to help GC cleanup clojure fns
+        return (fn, thisArg) => items.map((item, index) => getSignal([...segments, index])).map(fn, thisArg)
+      } else {
+        const ids = target[QUERY].getIds()
+        const segments = [...target[SEGMENTS]] // clone to help GC cleanup clojure fns
+        return (fn, thisArg) => ids.map(id => getSignal([...segments, id])).map(fn, thisArg)
+      }
     }
   }
 
@@ -37,7 +44,7 @@ function get (target, key, receiver) {
   if (target[QUERY]) {
     // with an extra query we go directly into its extra content
     // (for regular queries we just treat it as a collection path, so the default logic below works)
-    if (target[IS_EXTRA_QUERY]) return getSignal([...target[QUERY].extraSegments, key])
+    if (target[IS_EXTRA_QUERY]) return getSignal([...target[QUERY].extraSegments, key], target)
     // special treatment for the magic 'ids' field of queries (returns signal to the actual ids path)
     if (key === 'ids') return getSignal([...target[QUERY].idsSegments])
   }
@@ -48,6 +55,12 @@ function apply (target, thisArg, argumentsList) {
   const methodName = getLeaf(target)
   const parent = getParentSignal(target)
   const model = getModel(parent)
+  // special support for .map() on any array data (for looping in JSX)
+  if (methodName === 'map') {
+    const items = model.get() || []
+    const segments = [...parent[SEGMENTS]] // clone to help GC cleanup clojure fns
+    return items.map((item, index) => getSignal([...segments, index])).map(...argumentsList)
+  }
   return Reflect.apply(model[methodName], model, argumentsList)
 }
 

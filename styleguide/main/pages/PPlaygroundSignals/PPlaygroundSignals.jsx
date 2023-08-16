@@ -132,14 +132,24 @@ const GameListItem = observer(({ $game, $selectedGameId }) => {
 })
 
 const Game = observer(({ $gameId }) => {
-  const { gameId, $game, $gameData, $players } = useSubscribe(() => {
+  const { gameId, $game, $gameData, $players, $playersCount } = useSubscribe(() => {
     const gameId = $gameId.get()
     const $game = useDoc$('pgGames', gameId)
     const $gameData = useDoc$('pgGameDatas', gameId)
     if (!$gameData.get()) throw $gameData.addSelf(gameId)
     const $players = useQuery$('pgPlayers', { gameId })
-    return { gameId, $game, $gameData, $players }
+    const $playersCount = useQuery$('pgPlayers', { $count: true, gameId })
+    return { gameId, $game, $gameData, $players, $playersCount }
   })
+
+  async function addRoundScore () {
+    const score = ~~(Math.random() * 10)
+    await $gameData.roundsData.push(score)
+  }
+
+  async function removeRoundScore () {
+    if ($gameData.roundsData.get().length > 0) await $gameData.roundsData.pop()
+  }
 
   async function newPlayer () {
     const name = await prompt('Enter player name')
@@ -151,12 +161,35 @@ const Game = observer(({ $gameId }) => {
   return pug`
     H5 Game #{$game.name.get()}
     Span Round: #{$gameData.round.get()}
-    Span Players:
+    Span Players (#{$playersCount.get()}) [#{$playersCount.dummyLabel()}]:
     each $player, index in $players
       Player(key=$player.id.get() $player=$player index=index)
     Button(onPress=newPlayer) + New player
+    Br
+    Row(vAlign='center')
+      Span Round scores: #{' '}
+      Row
+        Button(onPress=addRoundScore) +
+        Button(onPress=removeRoundScore) -
+    Row(wrap)
+      each $score, index in $gameData.roundsData
+        Score(key=index $score=$score index=index)
   `
   /* eslint-disable-line */styl``
+})
+
+const Score = observer(({ $score, index }) => {
+  return pug`
+    Item.root
+      Span= index + ': ' + $score.get()
+  `
+  /* eslint-disable-line */styl`
+    .root
+      background-color lime
+      margin-left 1u
+      margin-top 1u
+      border-radius 1u
+  `
 })
 
 const Player = observer(({ $player, index }) => {
