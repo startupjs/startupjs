@@ -130,7 +130,9 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       //       useDoc, useLocal -- definitely change
       //       useQuery -- probably just do the reference, but then if ids change will it trigger update correctly?
       //       Think of removing the refModel() completely for the model-only hooks
-      if (modelOnly) forceUpdate({})
+      if (modelOnly) {
+        if (takeOriginalModel || isSignalOriginalModel) forceUpdate({})
+      }
     }
 
     function initItem (params) {
