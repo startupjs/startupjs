@@ -1,13 +1,4 @@
 let isAsync
-
-export function resetCatcher () {
-  isAsync = false
-}
-
-export function getAsync () {
-  return isAsync
-}
-
-export function markAsync () {
-  isAsync = true
-}
+export const resetCatcher = () => (isAsync = false)
+export const getAsync = () => isAsync
+export const markAsync = () => (isAsync = true)
