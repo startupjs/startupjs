@@ -1,3 +1,12 @@
+# [0.53.0](https://github.com/startupjs/startupjs/compare/v0.52.12...v0.53.0) (2023-08-17)
+
+
+### Features
+
+* **signals:** Add Signals. Use them in all 'use$'-hooks. Add a new '$' root signal model. Sync subscription chains with `useSubscribe$` hook or `subscribe$` HOC ([#1044](https://github.com/startupjs/startupjs/issues/1044)) ([fbf56a4](https://github.com/startupjs/startupjs/commit/fbf56a43e402031ab74c7fdcaa41340deb6c084a))
+
+
+
 ## [0.52.12](https://github.com/startupjs/startupjs/compare/v0.52.11...v0.52.12) (2023-08-17)
 
 

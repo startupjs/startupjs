@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/server-aggregate",
-  "version": "0.52.1",
+  "version": "0.53.0",
   "description": "Module for describing aggregations on the server",
   "main": "server.js",
   "publishConfig": {

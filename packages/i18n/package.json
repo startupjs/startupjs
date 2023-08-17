@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/i18n",
-  "version": "0.52.1",
+  "version": "0.53.0",
   "description": "Internationalization framework for startupjs",
   "main": "client/index.js",
   "type": "module",

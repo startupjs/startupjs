@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/mailgun",
   "description": "Library to send email messages in app via mailgun",
-  "version": "0.52.1",
+  "version": "0.53.0",
   "type": "module",
   "publishConfig": {
     "access": "public"
