@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useRef } from 'react'
 // TODO: Test useDoc$ and useQuery$
 import { ScrollView } from 'react-native'
-import { pug, styl, observer, useComponentId, useSubscribe, $, useDoc$, useQuery$, useValue$ } from 'startupjs'
-import { Br, Div, Button, Link, Row, Span, Card, H5, Item, prompt } from '@startupjs/ui'
+import { pug, styl, observer, useComponentId, useSubscribe$, subscribe$, $, useDoc$, useQuery$, useValue$ } from 'startupjs'
+import { Br, Div, Input, Button, Link, Row, Span, Card, H5, Item, prompt } from '@startupjs/ui'
 
 export default observer(function PPlayground () {
   return pug`
@@ -105,6 +105,7 @@ const Sub2 = observer(({ $value }) => {
 const Queries = observer(() => {
   const $games = useQuery$('pgGames', { $limit: 10, $sort: { createdAt: -1 } })
   const $selectedGameId = useValue$()
+  const $useHOC = useValue$(false)
 
   async function newGame () {
     const name = await prompt('Enter game name')
@@ -112,14 +113,17 @@ const Queries = observer(() => {
     $selectedGameId.set(await $games.addNew({ name }))
   }
 
+  const GameComponent = $useHOC.get() ? GameHOC : Game
   return pug`
     H5 Games list
     each $game in $games
       GameListItem(key=$game.id.get() $game=$game $selectedGameId=$selectedGameId)
     Button(onPress=newGame) + New game
     Br
+    Input(type='checkbox' $value=$useHOC label='Use HOC for Game')
+    Br
     if $selectedGameId.get()
-      Game(key=$selectedGameId.get() $gameId=$selectedGameId)
+      GameComponent(key=$selectedGameId.get() $gameId=$selectedGameId)
   `
   /* eslint-disable-line */styl``
 })
@@ -132,7 +136,7 @@ const GameListItem = observer(({ $game, $selectedGameId }) => {
 })
 
 const Game = observer(({ $gameId }) => {
-  const { gameId, $game, $gameData, $players, $playersCount } = useSubscribe(() => {
+  const { gameId, $game, $gameData, $players, $playersCount } = useSubscribe$(() => {
     const gameId = $gameId.get()
     const $game = useDoc$('pgGames', gameId)
     const $gameData = useDoc$('pgGameDatas', gameId)
@@ -160,6 +164,55 @@ const Game = observer(({ $gameId }) => {
 
   return pug`
     H5 Game #{$game.name.get()}
+    Span Round: #{$gameData.round.get()}
+    Span Players (#{$playersCount.get()}) [#{$playersCount.dummyLabel()}]:
+    each $player, index in $players
+      Player(key=$player.id.get() $player=$player index=index)
+    Button(onPress=newPlayer) + New player
+    Br
+    Row(vAlign='center')
+      Span Round scores: #{' '}
+      Row
+        Button(onPress=addRoundScore) +
+        Button(onPress=removeRoundScore) -
+    Row(wrap)
+      each $score, index in $gameData.roundsData
+        Score(key=index $score=$score index=index)
+  `
+  /* eslint-disable-line */styl``
+})
+
+// Alternative way to sync subscriptions is to use `subscribe$` HOC
+// instead of `useSubscribe$` hook.
+// This way there are guaranteed to be no extra rerenders until
+// the whole chain of subscriptions is synced again.
+const GameHOC = subscribe$(({ $gameId }) => {
+  const gameId = $gameId.get()
+  const $game = useDoc$('pgGames', gameId)
+  const $gameData = useDoc$('pgGameDatas', gameId)
+  if (!$gameData.get()) throw $gameData.addSelf(gameId)
+  const $players = useQuery$('pgPlayers', { gameId })
+  const $playersCount = useQuery$('pgPlayers', { $count: true, gameId })
+  return { gameId, $game, $gameData, $players, $playersCount }
+})(({ gameId, $game, $gameData, $players, $playersCount }) => {
+  async function addRoundScore () {
+    const score = ~~(Math.random() * 10)
+    await $gameData.roundsData.push(score)
+  }
+
+  async function removeRoundScore () {
+    if ($gameData.roundsData.get().length > 0) await $gameData.roundsData.pop()
+  }
+
+  async function newPlayer () {
+    const name = await prompt('Enter player name')
+    if (!name) return
+    await $players.add({ name, gameId })
+    await $game.playersCount.increment()
+  }
+
+  return pug`
+    H5 Game (HOC) #{$game.name.get()}
     Span Round: #{$gameData.round.get()}
     Span Players (#{$playersCount.get()}) [#{$playersCount.dummyLabel()}]:
     each $player, index in $players

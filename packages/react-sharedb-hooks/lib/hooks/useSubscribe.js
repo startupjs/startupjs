@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { resetCatcher, getAsync } from './asyncCatcher.js'
 import { observer } from './observer.js'
 
-export function useSubscribe (fn) {
+export function useSubscribe$ (fn) {
   const lastSyncedProps = useRef({})
   resetCatcher()
   const subscriptionProps = fn()
