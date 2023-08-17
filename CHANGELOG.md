@@ -1,3 +1,12 @@
+## [0.52.12](https://github.com/startupjs/startupjs/compare/v0.52.11...v0.52.12) (2023-08-17)
+
+
+### Bug Fixes
+
+* **auth-azuread:** bump 'passport-azure-ad' to latest version to work it with passport 6.0.0 ([6839983](https://github.com/startupjs/startupjs/commit/68399835cd6c57bba0407d1887cfcb478dd851f7))
+
+
+
 ## [0.52.11](https://github.com/startupjs/startupjs/compare/v0.52.10...v0.52.11) (2023-08-15)
 
 

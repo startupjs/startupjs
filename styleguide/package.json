@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/styleguide",
-  "version": "0.52.11",
+  "version": "0.52.12",
   "sideEffects": [
     "*.css",
     "*.styl"
@@ -39,7 +39,7 @@
     "@startupjs/2fa-totp-authentication-provider": "^0.52.1",
     "@startupjs/auth": "^0.52.3",
     "@startupjs/auth-apple": "^0.52.10",
-    "@startupjs/auth-azuread": "^0.52.10",
+    "@startupjs/auth-azuread": "^0.52.12",
     "@startupjs/auth-common": "^0.52.8",
     "@startupjs/auth-facebook": "^0.52.8",
     "@startupjs/auth-google": "^0.52.8",
