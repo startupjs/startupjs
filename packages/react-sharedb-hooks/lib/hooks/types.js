@@ -2,7 +2,8 @@ import {
   useMemo,
   useLayoutEffect,
   useRef,
-  useCallback
+  useCallback,
+  useState
 } from 'react'
 import Doc from '../types/Doc.js'
 import Query from '../types/Query.js'
@@ -12,6 +13,9 @@ import Value from '../types/Value.js'
 import Api from '../types/Api.js'
 import { batching } from '@startupjs/react-sharedb-util'
 import { blockCache, unblockCache } from '@startupjs/cache'
+import { markAsync } from './asyncCatcher.js'
+// signals are only returned for the use$ hooks and only if they are globally enabled in babel-preset-startupjs
+import { signal, enabled as signalsEnabled } from '@startupjs/signals'
 
 import {
   subDoc,
@@ -41,8 +45,11 @@ export const useAsyncDoc$ = generateUseItemOfType(subDoc, { optional: true, mode
 // NOTE: useQuery$ doesn't make sense because the returned model simply targets collection,
 //       so instead just a simple useModel(collection) should be used.
 export const useQuery = generateUseItemOfType(subQuery)
+export const useQuery$ = generateUseItemOfType(subQuery, { modelOnly: true })
 export const useBatchQuery = generateUseItemOfType(subQuery, { batch: true })
+export const useBatchQuery$ = generateUseItemOfType(subQuery, { batch: true, modelOnly: true })
 export const useAsyncQuery = generateUseItemOfType(subQuery, { optional: true })
+export const useAsyncQuery$ = generateUseItemOfType(subQuery, { optional: true, modelOnly: true })
 
 export const useApi = generateUseItemOfType(subApi)
 export const useApi$ = generateUseItemOfType(subApi, { modelOnly: true })
@@ -59,12 +66,15 @@ export const useValue$ = generateUseItemOfType(subValue, { modelOnly: true })
 function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
   const isQuery = typeFn === subQuery
   const takeOriginalModel = typeFn === subDoc || typeFn === subLocal
+  // when signals are used, don't do any additional model referencing
+  const isSignalOriginalModel = signalsEnabled && modelOnly && (typeFn === subDoc || typeFn === subLocal || typeFn === subQuery)
   const isSync = typeFn === subLocal || typeFn === subValue
   return (...args) => {
     // block caching of 'model.at' and 'model.scope' since the caching of model
     // is handled on its own by these hooks
     blockCache()
 
+    const [, forceUpdate] = useState()
     const hookId = useMemo(() => $root.id(), [])
     const hashedArgs = useMemo(() => {
       // do initialization once for 'subValue' typeFn
@@ -111,13 +121,24 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       initsCountRef.current++
 
       // Reference the new item data
-      itemRef.current && itemRef.current.refModel()
+      if (!isSignalOriginalModel) itemRef.current && itemRef.current.refModel()
+
+      // TODO: IMPORTANT! for model-only hooks we must trigger rerendering here if the model changed
+      //       OR fix the refModel() to actually have a hook reference all the time and have it working correctly.
+      //       The better solution is probably to return a new model for each different doc/query/api since it does
+      //       imply that the data has completely changed and the affected components should do a full rerender.
+      //       useDoc, useLocal -- definitely change
+      //       useQuery -- probably just do the reference, but then if ids change will it trigger update correctly?
+      //       Think of removing the refModel() completely for the model-only hooks
+      if (modelOnly) {
+        if (takeOriginalModel || isSignalOriginalModel) forceUpdate({})
+      }
     }
 
     function initItem (params) {
       const item = getItemFromParams(params, $hooks, hookId)
       destructorsRef.current.push(() => {
-        item.unrefModel()
+        if (!isSignalOriginalModel) item.unrefModel()
         item.destroy()
       })
 
@@ -154,9 +175,11 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
           // Don't do any actual initialization in that case,
           // since we only care about gathering subscription promises
           if (initPromise && initPromise.type === 'batch') {
+            markAsync()
             return
           // Async variant
           } else if (initPromise) {
+            markAsync()
             initPromise.then(() => {
               // Handle situation when a new item already started initializing
               // and it cancelled this (old) item.
@@ -188,13 +211,24 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     // For Query and QueryExtra return the scoped model targeting the actual collection path.
     // This is much more useful since you can use that use this returned model
     // to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
+
+    // TODO: for signals there is no need to tie ourselves to collectionName
     const collectionName = useMemo(
-      () => (isQuery ? getCollectionName(params) : undefined),
+      () => {
+        if (!isQuery) return
+        return getCollectionName(params)
+      },
       [hashedArgs]
     )
     const $queryCollection = useMemo(
-      () => (isQuery ? $root.scope(collectionName) : undefined),
-      [collectionName]
+      () => {
+        if (!isQuery) return
+        if (signalsEnabled && modelOnly) {
+          return signal(itemRef.current.subscription)
+        }
+        return $root.scope(collectionName)
+      },
+      [collectionName, (signalsEnabled && modelOnly ? initsCountRef.current : undefined)]
     )
 
     // For Doc, Local, Value return the model scoped to the hook path
@@ -206,10 +240,18 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
         // For Doc and Local return original path
         // TODO: Maybe add Api here too
         if (takeOriginalModel) {
-          return $root.scope(getPath(params))
+          if (signalsEnabled && modelOnly) {
+            return signal(getPath(params))
+          } else {
+            return $root.scope(getPath(params))
+          }
         // For Value, Api return hook's path since it's only stored there
         } else {
-          return $hooks.at(hookId)
+          if (signalsEnabled && modelOnly) {
+            return signal($hooks.path(hookId))
+          } else {
+            return $hooks.at(hookId)
+          }
         }
       },
       [initsCountRef.current]
