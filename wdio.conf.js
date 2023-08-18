@@ -1,3 +1,9 @@
+const fs = require('fs')
+const fsPath = require('path')
+
+const SCREENSHOTS_PATH = fsPath.join(process.cwd(), 'test_failed_screenshots')
+
+/* global browser */
 exports.config = {
   //
   // ====================
@@ -146,7 +152,7 @@ exports.config = {
   mochaOpts: {
     ui: 'bdd',
     timeout: 60000
-  }
+  },
   //
   // =====
   // Hooks
@@ -160,8 +166,10 @@ exports.config = {
      * @param {object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: function (config, capabilities) {
+    // clean screenshots folder
+    if (fs.existsSync(SCREENSHOTS_PATH)) fs.rmdirSync(SCREENSHOTS_PATH, { recursive: true })
+  },
   /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -241,8 +249,17 @@ exports.config = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-  // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-  // },
+  afterTest: function (test, context, { error, result, duration, passed, retries }) {
+    if (passed) return
+    // create screenshots folder if it doesn't exist
+    fs.mkdirSync(SCREENSHOTS_PATH, { recursive: true })
+    // for now only support a single failed screenshot
+    // const fullTitle = ('' + test.parent + '__' + test.title) || 'default-title'
+    const fullTitle = 'screenshot'
+    const filename = encodeURIComponent(fullTitle.replace(/ /g, '_'))
+    console.log('> Saving failure screenshot to', `${SCREENSHOTS_PATH}/${filename}.png`)
+    browser.saveScreenshot(`${SCREENSHOTS_PATH}/${filename}.png`)
+  }
 
   /**
      * Hook that gets executed after the suite has ended
