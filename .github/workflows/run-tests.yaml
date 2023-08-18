@@ -29,11 +29,14 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
-    - name: Install latest chromedriver
-      run: yarn upgrade chromedriver
-
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@latest
+
+    - name: Get Chrome Version
+      run: echo "CHROME_VERSION=$(google-chrome-stable --version | cut -d ' ' -f 3 | cut -d '.' -f 1)" >> $GITHUB_ENV
+
+    - name: Install chromedriver which matches chrome version
+      run: yarn upgrade chromedriver@$CHROME_VERSION
 
     - name: Start app
       run: yarn start &
