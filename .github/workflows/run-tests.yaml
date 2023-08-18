@@ -38,8 +38,11 @@ jobs:
     - name: Install chromedriver which matches chrome version
       run: yarn upgrade chromedriver@$CHROME_VERSION
 
-    - name: Start app
-      run: yarn start &
+    - name: Build production app
+      run: yarn build
+
+    - name: Start production app
+      run: yarn start-production &
 
     - name: Wait for 30 seconds
       run: sleep 30s
