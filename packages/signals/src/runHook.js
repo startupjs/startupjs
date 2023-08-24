@@ -7,13 +7,13 @@
 import plugins from './plugins/index.js'
 
 // precompile hooks chains for all hooks
-const hooksChains = compileHooksChains()
+const hookChains = compileHookChains()
 
 export default function runHook (hookName, ...args) {
-  return hooksChains[hookName](...args)
+  return hookChains[hookName](...args)
 }
 
-function compileHooksChains () {
+function compileHookChains () {
   // find all unique hooks from all plugins
   const hookNames = new Set()
   for (const plugin of plugins) {
