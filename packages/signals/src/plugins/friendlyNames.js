@@ -1,11 +1,10 @@
-import { LOCAL_COLLECTIONS } from '../constants.js'
 import { SEGMENTS } from '../signal.js'
 
 const REGEX_$ = /^\$/
 const LOCAL_COLLECTIONS_MAPPING = {
-  [LOCAL_COLLECTIONS.session]: '_session',
-  [LOCAL_COLLECTIONS.page]: '_page',
-  [LOCAL_COLLECTIONS.render]: '$render'
+  session: '_session',
+  page: '_page',
+  render: '$render'
 }
 
 export function get (target, key, receiver) {

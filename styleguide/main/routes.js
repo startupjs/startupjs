@@ -33,5 +33,10 @@ export default (components = {}) => [
     path: '/playgroundSignals',
     exact: true,
     component: components.PPlaygroundSignals
+  },
+  {
+    path: '/playgroundSub',
+    exact: true,
+    component: components.PPlaygroundSub
   }
 ]

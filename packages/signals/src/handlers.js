@@ -1,5 +1,5 @@
 import {
-  getSignal, IS_SIGNAL, SEGMENTS, getModel, getParentSignal, getLeaf
+  IS_SIGNAL, getParentSignal, getLeaf
 } from './signal.js'
 import runHook from './runHook.js'
 
@@ -16,17 +16,8 @@ function get (target, key, receiver) {
 function apply (target, thisArg, argumentsList) {
   const methodName = getLeaf(target)
   const parent = getParentSignal(target)
-  const model = getModel(parent)
-  // special support for .map() on any array data (for looping in JSX)
-  if (methodName === 'map') {
-    const items = model.get() || []
-    const segments = [...parent[SEGMENTS]] // clone to help GC cleanup clojure fns
-    return items.map((item, index) => getSignal([...segments, index])).map(...argumentsList)
-  }
 
-  // return runHook('apply', target, thisArg, argumentsList)
-
-  return Reflect.apply(model[methodName], model, argumentsList)
+  return runHook('apply', target, parent, methodName, argumentsList)
 }
 
 function has (target, key) {

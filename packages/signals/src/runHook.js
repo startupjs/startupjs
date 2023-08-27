@@ -9,7 +9,9 @@ import plugins from './plugins/index.js'
 // precompile hooks chains for all hooks
 const hookChains = compileHookChains()
 
-export default function runHook (hookName, ...args) {
+// TODO: runHookPrecompiled has a race condition when the same hook is called (for 'create' chain)
+//       and the optimizations break stuff because of that. For now use a less optimized version.
+export function runHookPrecompiled (hookName, ...args) {
   return hookChains[hookName](...args)
 }
 
@@ -51,7 +53,7 @@ function compileHookChain (hookName) {
 
     lastFn = (...hookArgs) => {
       if (isOutermost) {
-        if (isExecuting) throw Error('Hook chain is already executing.')
+        if (isExecuting) throw Error('Hook chain is already executing')
         isExecuting = true
       }
 
@@ -77,4 +79,35 @@ function compileHookChain (hookName) {
   }
 
   return lastFn
+}
+
+export default function runHook (hookName, ...args) {
+  const hookFns = plugins
+    .map(plugin => plugin[hookName])
+    .filter(Boolean)
+
+  let result
+  let i = 0
+
+  while (i < hookFns.length) {
+    const currentFn = hookFns[i]
+
+    const context = {
+      invokeNext: false,
+      next: function (...nextArgs) {
+        this.invokeNext = true
+        // If arguments are passed to next, use them. Otherwise, fall back to the original arguments.
+        args = nextArgs.length ? nextArgs : args
+      }
+    }
+
+    result = currentFn.apply(context, args)
+    if (!context.invokeNext) {
+      return result
+    }
+
+    i++
+  }
+
+  return result
 }

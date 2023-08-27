@@ -1,6 +1,7 @@
 /* global FinalizationRegistry, WeakRef */
 import handlers from './handlers.js'
 import { getRootModel } from './model.js'
+import runHook from './runHook.js'
 
 export const SEGMENTS = Symbol('path segments')
 export const MODEL = Symbol('scoped model')
@@ -21,7 +22,10 @@ export const EXTRA_QUERY_SEGMENTS = Symbol('extra query segments')
 
 const signalsCache = new Map()
 export const __DEBUG_SIGNALS_CACHE__ = signalsCache
-const signalsFinalizationRegistry = new FinalizationRegistry(hash => signalsCache.delete(hash))
+const signalsFinalizationRegistry = new FinalizationRegistry(hash => {
+  signalsCache.delete(hash)
+  runHook('destroy', hash)
+})
 
 export function getSignal (segments = [], parentProxyTarget) {
   // when it's a proxyTarget or proxy itself
@@ -39,7 +43,7 @@ export function getSignal (segments = [], parentProxyTarget) {
   // when it's an array of segments
   if (!Array.isArray(segments)) throw new Error('signal() argument must be a string, segments array or a racer model')
 
-  const signalHash = getSignalHash(segments, query)
+  const signalHash = getHash(segments, query)
   const signalRef = signalsCache.get(signalHash)
 
   if (signalRef) {
@@ -50,9 +54,15 @@ export function getSignal (segments = [], parentProxyTarget) {
   return createAndCacheSignal(segments, signalHash, query, parentProxyTarget)
 }
 
-function getSignalHash (segments, query) {
+function getHash (segments, query) {
   const hashObject = query ? { p: segments, q: query.hash } : segments
   return JSON.stringify(hashObject)
+}
+
+export function getSegmentsFromHash (hash) {
+  const parsed = JSON.parse(hash)
+  if (Array.isArray(parsed)) return parsed
+  return parsed.p
 }
 
 function createAndCacheSignal (segments, signalHash, query, parentProxyTarget) {
@@ -69,7 +79,7 @@ function createAndCacheSignal (segments, signalHash, query, parentProxyTarget) {
   signalsFinalizationRegistry.register(signal, signalHash)
   signal[PROXY] = new WeakRef(signal)
   signalsCache.set(signalHash, signal[PROXY])
-  return signal
+  return runHook('create', signal, segments, parentProxyTarget)
 }
 
 export function getParentSignal (proxyTarget) {

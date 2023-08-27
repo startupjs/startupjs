@@ -3,6 +3,6 @@ import enabled from '@startupjs/signals/enabled.js'
 import { getSignal } from './src/signal.js'
 export { enabled }
 export { getSignal as signal }
+export { sub$ } from './src/sub.js'
 export const $ = getSignal()
-export const sub$ = function () { console.log('sub$ dummy fn. TODO: implement') } // TODO
 export default $
