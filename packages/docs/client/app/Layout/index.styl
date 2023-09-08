@@ -4,7 +4,7 @@ $separatorColor = #ddd
 $topbarBorderColor = #eee
 
 .layout
-  background-color $UI.colors.white
+  background-color: var(--colors-white, $UI.colors.white)
 
 .topbar
   align-items center
@@ -28,7 +28,7 @@ $topbarBorderColor = #eee
   &:part(input)
     border none
   &:part(icon)
-    color $UI.colors.darkLight
+    color: var(--colors-darkLight, $UI.colors.darkLight)
 
 .active
-  color $UI.colors.primary
+  color: var(--colors-primary, $UI.colors.primary)

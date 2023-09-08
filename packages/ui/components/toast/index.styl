@@ -12,22 +12,22 @@
   padding 2u
   justify-content center
   border-radius .5u
-  background-color $UI.colors.white
+  background-color var(--colors-white, $UI.colors.white)
   border-top-width 4px
   border-top-style solid
   shadow(2)
 
   &.info
-    border-top-color $UI.colors.primary
+    border-top-color var(--colors-primary, $UI.colors.primary)
 
   &.error
-    border-top-color $UI.colors.error
+    border-top-color var(--colors-error, $UI.colors.error)
 
   &.warning
-    border-top-color $UI.colors.warning
+    border-top-color var(--colors-warning, $UI.colors.warning)
 
   &.success
-    border-top-color $UI.colors.success
+    border-top-color var(--colors-success, $UI.colors.success)
 
 .text
   margin-top 1u
@@ -36,29 +36,29 @@
   margin-left 1u
 
   &.info
-    color $UI.colors.primary
+    color var(--colors-primary, $UI.colors.primary)
 
   &.error
-    color $UI.colors.error
+    color var(--colors-error, $UI.colors.error)
 
   &.warning
-    color $UI.colors.warning
+    color var(--colors-warning, $UI.colors.warning)
 
   &.success
-    color $UI.colors.success
+    color var(--colors-success, $UI.colors.success)
 
 .icon
   &.info
-    color $UI.colors.primary
+    color var(--colors-primary, $UI.colors.primary)
 
   &.error
-    color $UI.colors.error
+    color var(--colors-error, $UI.colors.error)
 
   &.warning
-    color $UI.colors.warning
+    color var(--colors-warning, $UI.colors.warning)
 
   &.success
-    color $UI.colors.success
+    color var(--colors-success, $UI.colors.success)
 
 .actions
   margin-top 1u

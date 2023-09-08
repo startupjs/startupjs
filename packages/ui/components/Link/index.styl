@@ -1,9 +1,9 @@
 .root
-  color: $UI.colors.mainText
+  color: var(--colors-mainText, $UI.colors.mainText)
   text-decoration underline
 
   &.primary
-    color: $UI.colors.primary
+    color: var(--colors-primary, $UI.colors.primary)
     text-decoration-color @color
 
   &.block

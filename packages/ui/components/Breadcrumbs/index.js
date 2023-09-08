@@ -8,10 +8,8 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
-const mainTextColor = colors.mainText
+import useColors from '../../hooks/useColors'
+import './index.styl'
 
 const DEPRECATED_SIZE_VALUES = ['xs', 'xl', 'xxl']
 
@@ -26,8 +24,9 @@ function Breadcrumbs ({
   if (DEPRECATED_SIZE_VALUES.includes(size)) {
     console.warn(`[@startupjs/ui] Breadcrumbs: size='${size}' is DEPRECATED, use one of 's', 'm', 'l' instead.`)
   }
+  const getColor = useColors()
 
-  function Item ({ icon, color, bold, children }) {
+  function renderItem ({ icon, color, bold, children }) {
     const extraStyle = { color }
     return pug`
       Row(vAlign='center' reverse=iconPosition === 'right')
@@ -49,14 +48,14 @@ function Breadcrumbs ({
         - const isLastRoute = index === routes.length - 1
         React.Fragment(key=index)
           if isLastRoute
-            Item(icon=icon color=mainTextColor bold)= name
+            = renderItem({ icon, color: getColor('mainText'), bold: true, children: name })
           else
             Row.item
               Link(
                 replace=replace
                 to=to
               )
-                Item(icon=icon color=colorToRGBA(mainTextColor, 0.8))= name
+                = renderItem({ icon, color: colorToRGBA(getColor('mainText'), 0.8), children: name })
               if typeof separator === 'string'
                 Span.separator(styleName=[size])
                   | &nbsp#{separator}&nbsp

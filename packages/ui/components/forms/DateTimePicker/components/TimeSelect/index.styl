@@ -9,13 +9,13 @@
     width 12u
 
 .cellActive
-  background-color $UI.colors.primary
+  background-color var(--colors-primary, $UI.colors.primary)
 
 .cellHover
-  background-color $UI.colors.primaryLighter
+  background-color var(--colors-primaryLighter, $UI.colors.primaryLighter)
 
 .labelActive
-  color $UI.colors.white
+  color var(--colors-white, $UI.colors.white)
 
 :export
   media: $UI.media

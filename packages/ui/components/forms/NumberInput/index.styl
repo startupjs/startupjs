@@ -2,7 +2,7 @@ $sizes = 'l' 'm' 's'
 // border color should be taken from text input config
 // border color should not have transparency
 // because the input border and the button border is overlap each other
-$inputBorderColor = $UI.colors.darkLighter
+$inputBorderColor = var(--colors-darkLighter, $UI.colors.darkLighter)
 $padding = {
   l: 6u,
   m: 5u,

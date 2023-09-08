@@ -5,11 +5,12 @@ import React, {
   useRef,
   useImperativeHandle
 } from 'react'
-import { StyleSheet, TextInput, Platform } from 'react-native'
+import { TextInput, Platform } from 'react-native'
 import { observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
+import useTransformCssVariables from '../../../hooks/useTransformCssVariables'
 import STYLES from './index.styl'
 
 const {
@@ -29,9 +30,6 @@ const ICON_SIZES = {
 
 function TextInputInput ({
   style,
-  inputStyle,
-  iconStyle,
-  secondaryIconStyle,
   placeholder,
   value,
   size,
@@ -54,6 +52,7 @@ function TextInputInput ({
   const inputRef = useRef()
 
   useImperativeHandle(ref, () => inputRef.current, [])
+  const transformCssVariables = useTransformCssVariables()
 
   function handleFocus (...args) {
     onFocus && onFocus(...args)
@@ -123,12 +122,6 @@ function TextInputInput ({
     }
   }
 
-  inputStyle = StyleSheet.flatten([{
-    paddingTop: verticalGutter,
-    paddingBottom: verticalGutter,
-    lineHeight: lH
-  }, inputStyle])
-
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
@@ -147,12 +140,17 @@ function TextInputInput ({
     style: [{ height: fullHeight }, style]
   }, pug`
     TextInput.input-input(
+      part='input'
       ref=inputRef
-      style=inputStyle
-      styleName=[inputStyleName]
+      style=[{
+        paddingTop: verticalGutter,
+        paddingBottom: verticalGutter,
+        lineHeight: lH
+      }]
+      styleName=inputStyleName
       selectionColor=caretColor
       placeholder=placeholder
-      placeholderTextColor=placeholderTextColor
+      placeholderTextColor=transformCssVariables(placeholderTextColor)
       value=value
       disabled=IS_WEB ? disabled : undefined
       editable=IS_WEB ? undefined : !disabled
@@ -172,8 +170,8 @@ function TextInputInput ({
         pointerEvents=onIconPress ? undefined : 'none'
       )
         Icon(
+          part='icon'
           icon=icon
-          style=iconStyle
           size=ICON_SIZES[size]
         )
     if secondaryIcon
@@ -185,8 +183,8 @@ function TextInputInput ({
         pointerEvents=onSecondaryIconPress ? undefined : 'none'
       )
         Icon(
+          part='secondaryIcon'
           icon=secondaryIcon
-          style=secondaryIconStyle
           size=ICON_SIZES[size]
         )
   `)

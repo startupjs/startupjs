@@ -1,7 +1,7 @@
 // ----- CONFIG: $UI.TextInput
 
 $this = merge({
-  caretColor: $UI.colors.mainText,
+  caretColor: var(--colors-mainText, $UI.colors.mainText),
   borderWidth: 1,
   heights: {
     s: 3u,
@@ -18,19 +18,19 @@ $this = merge({
     m: 2.5u,
     l: 3u
   },
-  placeholderTextColor: $UI.colors.darkLighter
+  placeholderTextColor: var(--colors-darkLighter, $UI.colors.darkLighter)
 }, $UI.TextInput, true)
 
 // ----- COMPONENT
 
-$inputBg = $UI.colors.white
-$inputBorderColor = $UI.colors.darkLighter
-$inputBgDisabled = $UI.colors.darkLightest
+$inputBg = var(--colors-white, $UI.colors.white)
+$inputBorderColor = var(--colors-darkLighter, $UI.colors.darkLighter)
+$inputBgDisabled = var(--colors-darkLightest, $UI.colors.darkLightest)
 $inputBorderWidth = 1px
 $inputCaretColor = $this.caretColor
-$inputTextColor = $UI.colors.mainText
-$focusedColor = $UI.colors.primary
-$errorColor = $UI.colors.attention
+$inputTextColor = var(--colors-mainText, $UI.colors.mainText)
+$focusedColor = var(--colors-primary, $UI.colors.primary)
+$errorColor = var(--colors-attention, $UI.colors.attention)
 
 .input-input
   margin 0 // important for safari
@@ -44,7 +44,7 @@ $errorColor = $UI.colors.attention
   background-color $inputBg
   border-width $inputBorderWidth
   border-style solid
-  border-color $inputBorderColor
+  border-color var(--colors-darkLighter, $UI.colors.darkLighter)
   min-width 8u
   radius()
 

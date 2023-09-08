@@ -1,5 +1,5 @@
-$overlayBg = $UI.colors.darkLighter
-$modalBg = $UI.colors.white
+$overlayBg = var(--colors-darkLighter, $UI.colors.darkLighter)
+$modalBg = var(--colors-white, $UI.colors.white)
 $gutter = $UI.gutters.m
 
 .root

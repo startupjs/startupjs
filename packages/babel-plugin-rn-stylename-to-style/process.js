@@ -106,6 +106,9 @@ function replaceVariables (styles = {}) {
       res = res.trim()
       // replace 'px' value with a pure number
       res = res.replace(/px$/, '')
+      // sometimes compiler returns wrapped brackets. Remove them
+      const bracketsCount = res.match(/^\(+/)?.[0]?.length || 0
+      res = res.substring(bracketsCount, res.length - bracketsCount)
     }
     if (!isNumeric(res)) {
       res = `"${res}"`

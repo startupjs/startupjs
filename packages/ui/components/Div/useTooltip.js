@@ -64,7 +64,7 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
 
 styl`
 .tooltip
-  background-color $UI.colors.dark
+  background-color var(--colors-dark, $UI.colors.dark)
   max-width 260px
   radius()
   shadow(3)
@@ -74,5 +74,5 @@ styl`
     max-width 320px
 
   &-text
-    color $UI.colors.white
+    color var(--colors-white, $UI.colors.white)
 `

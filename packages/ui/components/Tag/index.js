@@ -7,9 +7,10 @@ import Icon from '../Icon'
 import Div from '../Div'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
+import useColors from '../../hooks/useColors'
 import STYLES from './index.styl'
 
-const { colors } = STYLES
+const { staticColors } = STYLES
 
 const ICON_SIZES = {
   s: 's',
@@ -35,7 +36,8 @@ function Tag ({
   onSecondaryIconPress,
   ...props
 }) {
-  if (!colors[color]) {
+  const getColor = useColors()
+  if (!getColor(color)) {
     console.error(
       'Tag component: Color for color property is incorrect. ' +
       'Use colors from $UI.colors'
@@ -43,21 +45,21 @@ function Tag ({
   }
 
   const isFlat = variant === 'flat'
-  const _color = colors[color]
+  const _color = getColor(color)
   const rootStyle = {}
   let extraHoverStyle
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getColor('white') : _color },
     textStyle
   ])
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getColor('white') : _color },
     iconStyle
   ])
   secondaryIconStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getColor('white') : _color },
     secondaryIconStyle
   ])
 
@@ -142,7 +144,7 @@ Tag.propTypes = {
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
-  color: PropTypes.oneOf(Object.keys(colors)),
+  color: PropTypes.oneOf(Object.keys(staticColors)),
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['s', 'm']),
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

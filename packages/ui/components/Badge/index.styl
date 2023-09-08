@@ -1,5 +1,3 @@
-_white = $UI.colors.white
-
 _sizes = {
   s: 2u,
   m: 2.5u,
@@ -15,7 +13,8 @@ _sizes = {
   position absolute
   justify-content center
   align-items center
-  border 1px solid _white
+  border-width 1px
+  border-color var(--colors-white, $UI.colors.white)
   opacity 0
 
   &.visible
@@ -42,7 +41,7 @@ _sizes = {
       padding 0 1u
 
 .label
-  color _white
+  color var(--colors-white, $UI.colors.white)
 
   &.s
     font-size 1.25u
@@ -60,8 +59,8 @@ _sizes = {
     margin-left 0.25u
 
 .icon
-  color _white
+  color var(--colors-white, $UI.colors.white)
 
 // ----- JS EXPORTS
 :export
-  colors $UI.colors
+  staticColors $UI.colors

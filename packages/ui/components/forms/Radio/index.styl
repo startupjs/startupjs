@@ -1,6 +1,6 @@
-$uncheckedColor = $UI.colors.dark
-$checkedColor = $UI.colors.primary
-$errorColor = $UI.colors.attention
+$uncheckedColor = var(--colors-dark, $UI.colors.dark)
+$checkedColor = var(--colors-primary, $UI.colors.primary)
+$errorColor = var(--colors-attention, $UI.colors.attention)
 $radioSize = 2u
 
 .root

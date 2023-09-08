@@ -9,13 +9,14 @@ import Div from '../Div'
 import Loader from '../Loader'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
+import useColors from '../../hooks/useColors'
 import STYLES from './index.styl'
 
 const {
   config: {
     heights, outlinedBorderWidth, iconMargins
   },
-  colors
+  staticColors
 } = STYLES
 
 function Button ({
@@ -36,6 +37,7 @@ function Button ({
 }) {
   const isMountedRef = useIsMountedRef()
   const [asyncActive, setAsyncActive] = useState(false)
+  const getColor = useColors()
 
   async function _onPress (event) {
     let resolved = false
@@ -50,10 +52,10 @@ function Button ({
     setAsyncActive(false)
   }
 
-  if (!colors[color]) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
+  if (!getColor(color)) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
 
   const isFlat = variant === 'flat'
-  const _color = colors[color]
+  const _color = getColor(color)
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
@@ -63,11 +65,11 @@ function Button ({
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getColor('white') : _color },
     textStyle
   ])
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getColor('white') : _color },
     iconStyle
   ])
 
@@ -167,7 +169,7 @@ Button.defaultProps = {
 Button.propTypes = {
   ...Div.propTypes,
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  color: PropTypes.oneOf(Object.keys(colors)),
+  color: PropTypes.oneOf(Object.keys(staticColors)),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),

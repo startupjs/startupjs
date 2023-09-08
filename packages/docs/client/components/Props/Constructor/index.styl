@@ -1,9 +1,11 @@
-$input = lighten($UI.colors.dark, 75%)
-$thead = $UI.colors.darkLight
-$header = $UI.colors.secondaryText
-$darkHeader = $UI.colors.whiteLight
-$value = $UI.colors.success
-$type = $UI.colors.additional1
+$input = var(--colors-darkLight, $UI.colors.darkLight)
+$thead = var(--colors-darkLight, $UI.colors.darkLight)
+$header = var(--colors-secondaryText, $UI.colors.secondaryText)
+$darkHeader = var(--colors-whiteLight, $UI.colors.whiteLight)
+$value = var(--colors-success, $UI.colors.success)
+$type = var(--colors-additional1, $UI.colors.additional1)
+$valueDark = var(--colors-successLight, $UI.colors.successLight)
+$typeDark = var(--colors-additional1Light, $UI.colors.additional1Light)
 
 .input
   background-color white
@@ -34,19 +36,19 @@ $type = $UI.colors.additional1
   &.header
     color $darkHeader
   &.value
-    color lighten($value, 30%)
+    color $valueDark
   &.type
-    color lighten($type, 30%)
+    color $typeDark
 
 .checkbox
   align-self flex-end
 
 .unsupported
-  color $UI.colors.secondaryText
+  color var(--colors-secondaryText, $UI.colors.secondaryText)
   text-align right
 
 .separator
-  color $UI.colors.darkLighter
+  color var(--colors-darkLighter, $UI.colors.darkLighter)
 
 .vCenter
   justify-content center
@@ -56,4 +58,4 @@ $type = $UI.colors.additional1
   align-self flex-start
 
 .badJSON
-  color: $UI.colors.error
+  color: var(--colors-error, $UI.colors.error)

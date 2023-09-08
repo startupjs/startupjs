@@ -14,15 +14,15 @@
     flex-grow 1
 
 .draggable
-  background-color: $UI.colors.white
+  background-color: var(--colors-white, $UI.colors.white)
   padding 1u
   border-width 1px
-  border-color: $UI.colors.darkLighter
+  border-color: var(--colors-darkLighter, $UI.colors.darkLighter)
   radius()
   margin-top 1u
 
 .draggable-disabled
-  background-color: $UI.colors.darkLightest
+  background-color: var(--colors-darkLightest, $UI.colors.darkLightest)
 
 .cursor
   +web()
@@ -39,7 +39,7 @@
 
 .icon
   &.disabled
-    color: $UI.colors.darkLighter
+    color: var(--colors-darkLighter, $UI.colors.darkLighter)
 
 .hint
   font(caption)

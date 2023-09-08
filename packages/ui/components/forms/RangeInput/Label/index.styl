@@ -9,11 +9,11 @@
 
 // todo: implement common tooltip style
 .text
-  background-color $UI.colors.dark
+  background-color var(--colors-dark, $UI.colors.dark)
   padding 0.5u 1u
   font-style normal
   font(caption)
-  color $UI.colors.white
+  color var(--colors-white, $UI.colors.white)
   shadow(3)
   radius()
 
@@ -27,5 +27,5 @@
   border-bottom-width 4
   border-left-color transparent
   border-right-color transparent
-  border-bottom-color $UI.colors.dark
+  border-bottom-color var(--colors-dark, $UI.colors.dark)
   transform rotate(180deg)

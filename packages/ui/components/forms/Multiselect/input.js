@@ -8,7 +8,6 @@ import themed from '../../../theming/themed'
 import './index.styl'
 
 function MultiselectInput ({
-  style,
   value,
   placeholder,
   options,
@@ -32,7 +31,7 @@ function MultiselectInput ({
   return pug`
     Input(
       ref=ref
-      style=style
+      part='root'
       value=values
       placeholder=placeholder
       disabled=disabled

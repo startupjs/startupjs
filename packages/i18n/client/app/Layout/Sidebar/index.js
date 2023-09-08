@@ -29,7 +29,8 @@ export default observer(function i18nSidebar ({ children }) {
       background-color #F5F6F7
 
       &:part(sidebar)
-        border-right: 1px solid $UI.colors.darkLighter
+        border-right-width 1px
+        border-right-color var(--colors-darkLighter, $UI.colors.darkLighter)
 
     .sidebarContent
       padding 2u

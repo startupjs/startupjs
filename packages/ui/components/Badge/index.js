@@ -7,11 +7,10 @@ import Icon from '../Icon'
 import Row from '../Row'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
+import useColors from '../../hooks/useColors'
 import STYLES from './index.styl'
 
-const {
-  colors
-} = STYLES
+const { staticColors } = STYLES
 
 const ICON_SIZES = {
   s: 'xs',
@@ -32,9 +31,10 @@ function Badge ({
   max
 }) {
   const [right, setRight] = useState(0)
+  const getColor = useColors()
 
   badgeStyle = StyleSheet.flatten([
-    { right, backgroundColor: colors[color] },
+    { right, backgroundColor: getColor(color) },
     badgeStyle
   ])
 
@@ -90,7 +90,7 @@ Badge.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   badgeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  color: PropTypes.oneOf(Object.keys(colors)),
+  color: PropTypes.oneOf(Object.keys(staticColors)),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom']),

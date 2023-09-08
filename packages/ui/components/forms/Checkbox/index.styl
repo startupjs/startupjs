@@ -1,8 +1,8 @@
-$checkboxBorderColor = $UI.colors.darkLight
-$checkedColor = $UI.colors.primary
-$checkedIconColor = $UI.colors.white
-$errorColor = $UI.colors.attention
-$switchBg = $UI.colors.dark
+$checkboxBorderColor = var(--colors-darkLight, $UI.colors.darkLight)
+$checkedColor = var(--colors-primary, $UI.colors.primary)
+$checkedIconColor = var(--colors-white, $UI.colors.white)
+$errorColor = var(--colors-attention, $UI.colors.attention)
+$switchBg = var(--colors-dark, $UI.colors.dark)
 $height = 2u
 
 .readonly
@@ -13,7 +13,8 @@ $height = 2u
 .checkbox
   height $height
   width @height
-  border 2px solid $checkboxBorderColor
+  border-width 2px
+  border-color $checkboxBorderColor
   justify-content center
   align-items center
   // due to border-radius on emulator
@@ -75,6 +76,3 @@ $height = 2u
   height @width
   background-color white
   radius(circle)
-
-:export
-  colors: $UI.colors

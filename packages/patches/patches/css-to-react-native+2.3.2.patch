@@ -2,10 +2,10 @@ diff --git a/node_modules/css-to-react-native/index.js b/node_modules/css-to-rea
 index a2ad42f..048a0ff 100644
 --- a/node_modules/css-to-react-native/index.js
 +++ b/node_modules/css-to-react-native/index.js
-@@ -40,6 +40,36 @@ var matchColor = function matchColor(node) {
+@@ -40,6 +40,39 @@ var matchColor = function matchColor(node) {
    return null;
  };
- 
+
 +const matchVariable = node => {
 +  if (
 +    (node.type !== 'function' && node.value !== 'var') ||
@@ -25,6 +25,9 @@ index a2ad42f..048a0ff 100644
 +    .map(subnode => {
 +      if (subnode.type === 'string') {
 +        return `'${matchString(subnode)}'`
++      }
++      if (subnode.type === 'function' && ['rgb', 'rgba', 'hls', 'hlsa'].includes(subnode.value)) {
++        return subnode.value + '(' + subnode.nodes.map(n => n.value).join('') + ')'
 +      }
 +      return subnode.value
 +    })
@@ -47,7 +50,7 @@ index a2ad42f..048a0ff 100644
 +  LINE: regExpToken(/^(none|underline|line-through)$/i),
 +  VARIABLE: matchVariable
  };
- 
+
  var NONE = tokens.NONE,
 @@ -638,7 +669,7 @@ var background = function background(tokenStream) {
    };

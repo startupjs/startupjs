@@ -2,5 +2,5 @@
 
 export default {
   '--colors-primary': '#000', // TODO: change
-  '--colors-primary-lightest': '#fff' // TODO: change
+  '--colors-primaryLightest': '#fff' // TODO: change
 }

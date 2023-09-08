@@ -1,15 +1,15 @@
 .shortName
-  color $UI.colors.darkLight
+  color var(--colors-darkLight, $UI.colors.darkLight)
   font(caption)
 
 .label
   font(caption)
 
 .labelMute
-  color $UI.colors.darkLight
+  color var(--colors-darkLight, $UI.colors.darkLight)
 
 .labelActive
-  color $UI.colors.white
+  color var(--colors-white, $UI.colors.white)
 
 .cell
   justify-content center
@@ -20,24 +20,24 @@
   radius(circle)
 
 .cellActive
-  background-color $UI.colors.primary
+  background-color var(--colors-primary, $UI.colors.primary)
 
 .cellActiveRangeStart
   border-top-right-radius 0
   border-bottom-right-radius 0
-  background-color $UI.colors.primary
+  background-color var(--colors-primary, $UI.colors.primary)
 
 .cellActiveRangeEnd
   border-top-left-radius 0
   border-bottom-left-radius 0
-  background-color $UI.colors.primary
+  background-color var(--colors-primary, $UI.colors.primary)
 
 .cellActiveRange
   border-radius 0
-  background-color $UI.colors.primaryLight
+  background-color var(--colors-primaryLight, $UI.colors.primaryLight)
 
 .cellHover
-  background-color $UI.colors.primaryLighter
+  background-color var(--colors-primaryLighter, $UI.colors.primaryLighter)
 
 .row
   justify-content center

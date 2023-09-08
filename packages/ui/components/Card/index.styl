@@ -3,10 +3,11 @@
   radius()
 
   &.elevated
-    background-color $UI.colors.white
+    background-color: var(--colors-white, $UI.colors.white)
 
   &.outlined
-    border 1px solid $UI.colors.darkLighter
+    border-width 1px
+    border-color var(--colors-darkLighter, $UI.colors.darkLighter)
 
 :export
   shadows: $UI.shadows

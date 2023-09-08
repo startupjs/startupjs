@@ -6,8 +6,8 @@ $this = merge({
 
 // ----- COMPONENT
 
-_backgroundColor = $UI.colors.darkLighter
-_fillerColor = $UI.colors.success
+_backgroundColor = var(--colors-darkLighter, $UI.colors.darkLighter)
+_fillerColor = var(--colors-success, $UI.colors.success)
 _duration = $this.duration
 
 .progress

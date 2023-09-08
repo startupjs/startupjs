@@ -36,7 +36,7 @@ export default observer(function Translations () {
         padding-left 2u
         padding-right @padding-left
         &.even
-          background-color $UI.colors.darkLightest
+          background-color var(--colors-darkLightest, $UI.colors.darkLightest)
     `
   }, [])
 

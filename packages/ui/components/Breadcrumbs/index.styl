@@ -29,7 +29,7 @@ _iconMargin = 0.5u
 .separator
   margin-left 2px
   margin-right @margin-left
-  color: rgba($UI.colors.dark, 0.8)
+  color var(--colors-darkLight, $UI.colors.darkLight)
 
 .separator,
 .content
@@ -51,6 +51,3 @@ _iconMargin = 0.5u
 
   &.xxl
     font(h4)
-
-:export
-  colors: $UI.colors
