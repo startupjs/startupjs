@@ -1,180 +1,215 @@
-# StartupJS plugins web
+import { useState } from 'react'
+import { PluginsProvider } from './../client/PluginsProvider'
+import Slot from './../client/Slot'
+import { Div, Divider, Icon, Row, Span } from '@startupjs/ui'
+import { faSmile, faPaw } from '@fortawesome/free-solid-svg-icons'
 
-## Including plugin support in a package
+# Plugins
 
-In the main package file, you need to import the `PluginsProvider` component, which will provide plugins below the component tree. It accepts properties:
+Plugins allow you to make your modules extensible.
 
-- `name` - a name to designate a scope (you can use a package name), will be used for global initialization;
-- `plugins` - object with options for package plugins.
+## How to add plugins support to your module ?
 
-`RootComponent.js`
+You should wrap your module in `PluginsProvider`, that will manage the plugins of your module.
 
-```jsx
-import { PluginsProvider } from '@startupjs/plugin'
-import { ExampleComponent } from './ExampleComponent'
-import { name as packageName } from '../package.json'
+```js
+import { PluginsProvider } from 'startupjs/plugin'
 
-export default function RootComponent ({
-  plugins,
-  ...props
-}) {
+export default function MyModule ({ plugins, ...props }) {
   return pug`
     PluginsProvider(
-      name=packageName
+      moduleName='yourModuleName'
       plugins=plugins
     )
-      ExampleComponent(...props)
+      ModuleImplementation(...props)
   `
 }
 ```
 
-Below in the component tree, we can use the `Slot` components, in which the components from the render plugins will be rendered, the` name` component property corresponds to the key of the object that the plugin will return when called.
-You can also get hook plugins and call them in the right place with default or custom options.
+Then in your module implementation you should use `Slot` component that will render plugins content.
 
-`ExampleComponent.js`
+```js
+import { Slot } from 'startupjs/plugin'
+import { Div } from '@startupjs/ui'
 
-```jsx
-import { Slot, usePluginHook } from '@startupjs/plugin'
-
-export function ExampleComponent () {
-  const [user] = useSession('user')
-  const pluginHook = usePluginHook()
-
-  useEffect(() => {
-    // The first argument is the name of the hook, the next parameters it should take.
-    pluginHook('getMessage', {
-      title,
-      message,
-      username: user.name
-    })
-  }, [])
-
-  /*
-    Required prop in Slot - name, it defines in which component to wrap,
-    but you can also pass any other props for dynamic use
-  */
-  return pug`
-    Div
-      Span SideLeft
-    Slot(name='WrapperPlugin' isAdmin=true)
-    Div
-      Span SideRight
-  `
-}
-
+return pug`
+  Div
+    Slot(name='slotName')
+`
 ```
 
----
+`PluginsProvider` props:
 
-## Creating a plugin
+  - `moduleName (String)`: is a unique key that will be used to register plugins for your module in the project, for example the `name` field from `package.json` of your module
 
-Object with properties:
+  - `plugins (Object|Array)`:
 
-- `name` - plugin name, must be unique within the package;
-- `defaultOptions` - options that are set inside the plugin.
+    - `Object`: key is plugin name and value is boolean value or object of plugin options. **What means the `value` is boolean?** Since plugin can be registered as enabled by default or not so for enabled by default the `false` is used to disable it or object with options to provide more options to it and for not enabled plugin by default the `true` value or object with options is used to enable it.
+    - `Array`: массив объектов, который является другим способом записи объекта в пункте выше. Массив объектов выглядит следующим образом:
 
-`renderPlugin.js`
+        ```
+          {
+            name (String): plugin name,
+            enabled (Boolean): enable or disable plugin
+            options (Object): plugin options
+          }
+        ```
 
-```jsx
+  - `children (React element)`: component tree of your module to render
+
+`Slot` props:
+
+  - `name (String)`: a slot name to render
+  - `type (String[siblings|nested])`: a way to render slots of enabled plugins (default: `siblings`)
+  - `children (React element)`: it only makes sense when type is `nested`, to render your `children` element at the end of the nested tree of plugin's slots. **IMPORTANT** in this case plugin's slots must implement `children` rendering
+  - any other props which plugin slot implementation may need
+
+## Example. Let's take an example of how to create, register and run a plugin.
+
+**Let's create a plugin that adds its own emoticons to the existing ones in the module**
+
+```js
+// emoticons.js
+import React, { useMemo } from 'react'
+import { observer } from 'startupjs'
+import { alert, Div, Row, Span } from '@startupjs/ui'
+
 export default {
-  name: 'smile',
+  name: 'emoticons',
   defaultOptions: {
-    icon: {
-      icon: 'laugh',
-      style: { color: 'orange' }
-    }
+    size: 16
   },
-  WrapperPlugin: observer(({
-    children,
-    options,
-    /*
-      Gets final options that are formed from the plugin's defaultOptions,
-      defaultOptions from the registerPlugins function and custom package options
-    */
-    isAdmin
-  }) => {
-    if (!isAdmin) return children
+  Faces: observer(({ love, angry, useOptions }) => {
+    const { size } = useOptions()
+
+    const emoticons = useMemo(() => {
+      let emoticons = ['😀', '😃', '😄', '😁', '😅', '😆', '😂', '🤣', '😉', '😊']
+      if (love) emoticons.push('😘', '😍', '🥰')
+      if (angry) emoticons.push('😡', '🤬', '😈', '👿')
+      return emoticons
+    }, [love, angry])
+
     return pug`
-      Card
-        = children
-        Icon(...options.icon)
+      = renderEmoticons({ emoticons, size })
     `
+  }),
+  Animals: observer(({ useOptions }) => {
+    const { size } = useOptions()
+    const emoticons = useMemo(() => {
+      return [
+        '🐰', '🐱', '🦊', '🐭', '🐶', '🐒', '🐿', '🐮', '🐻', '🐼',
+        '🦁', '🐺', '🐷', '🦧', '🦥', '🐅', '🦓', '🦘', '🐖', '🐩'
+      ]
+    }, [])
+
+    return renderEmoticons({ emoticons, size })
   })
 }
-```
 
-`hookPlugin.js`
+function renderEmoticons ({ emoticons, size }) {
+  const style = { fontSize: size, lineHeight: size }
 
-```jsx
-export default {
-  name: 'message',
-  defaultOptions: {
-    username: 'Ghost'
-  },
-  getMessage({ title, message, username }) {
-    console.log(`
-      ${title}
-      Hello, ${username || this.options.username}
-      /*
-        Gets the final options in this, which are formed from the plugin's defaultOptions,
-        the defaultOptions from the registerPlugins function and the package's custom options
-      */
-      ${message}
-    `)
-  }
+  return pug`
+    Row(wrap)
+      each emoticon, index in emoticons
+        Div(
+          key=index
+          style={
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 8,
+            paddingRight: 8,
+            borderRadius: 8
+          }
+          variant='highlight'
+          onPress=() => alert({ message: 'Emoticon ' + emoticon + ' is pressed' })
+        )
+          Span(style=style)= emoticon
+    `
 }
 ```
 
----
+**Next you need to register the plugin**
 
-### Plugin init
+Register the plugin on the highest possible level in your project, for example in `Root/index.js`
 
-In `Root/index.js` call `registerPlugins`, after imports and before the component:
+```js
+import React from 'react'
+import { observer } from 'startupjs'
+import { registerPlugins } from 'startupjs/plugin'
+import emoticons from './emoticons'
 
-```jsx
-import { registerPlugins } from '@startupjs/plugin'
-import smilePlugin from 'smilePlugin.js'
-import hookPlugin from 'hookPlugin.js'
+// ...
 
 registerPlugins({
-  '@startupjs/packageName': [
-    smilePlugin,
-    [hookPlugin, {
-      defaultEnable: true,
-      defaultOptions: {
-        username = 'Jack Daniels'
-      }
-    }]
+  pluginsPackageModuleExample: [
+    [emoticons, { size: 20 }]
   ]
 })
 
-// your Root component
+// ...
+
+export default observer(() => {
+  return pug`
+    App(...)
+  `
+})
 ```
 
-An object is passed to `registerPlugins`, the object keys are the names of libraries/components in which there is support for plugins (used with `PluginsProvider`), the values are arrays with plugins for them.
+`registerPlugins` takes an an object in the format `{ [moduleName]: array of the module plugins }`. Module plugins array elements must contain a plugin implementation or an array where the first element is a plugin implementation and the second is an options object `[plugin, options]`. `options` object accepts:
 
-You can pass just a plugin or an array with a plugin and properties:
-- `defaultEnable` - if passed with the value `true`, the plugin will be automatically applied with its library throughout the application;
-- `defaultOptions` - options for the plugin that will be passed to the plugin to be used by default.
+- `defaultEnabled (Boolean)`: enables the plugin for the whole application (default: `false`), this means that each provider `PluginsProvider` in your application will automatically enable the plugin, and to disable it for a specific provider, you need to pass to the `plugins` property of the provider `[plugin_name]: false`.
+- `defaultOptions (Object)`: default plugin options, that you can get using `useOptions` hook from slot props. `useOptions` hook returns merged options from: `defaultOptions` of plugin implementation, `defaultOptions` from plugin registration and passed options to `PluginsProvider` for plugin.
 
-### Applying a component from a package to an instance
+```js
+registerPlugins({
+  module1: [
+    plugin1,
+    [plugin2, plugin2Options]
+  ],
+  module2: [
+    [plugin1, plugin1Options]
+    plugin3,
+    plugin4
+  ],
+})
+```
 
-For each instance of a component, you can modify plugins separately.
-If the plugin was defined during initialization with the key `defaultEnable: true`, it can be disabled by passing it to the key by the name of the plugin `false`.
-If the plugin was not defined during initialization with the key `defaultEnable: true`, it can be included by passing in the property an object with options to call the plugin, or simply `true` if you need to use `defaultOptions`.
+**Module example that uses plugins**
 
-```jsx
-import Component from 'package'
-
-Component(
-  plugins={
-    [smilePlugin.name]: {
-      icon: {
-        icon: 'angry',
-        style: { color: 'red' }
-      }
-    },
-    [messagePlugin.name]: false
+```jsx example noscroll
+const tabs = [
+  {
+    value: 'faces',
+    icon: faSmile,
+    props: { love: true, angry: true  }
+  },
+  {
+    value: 'animals',
+    icon: faPaw,
+    props: {}
   }
-)
+]
+const [activeTab, setActiveTab] = useState(tabs[0])
+const slotName = activeTab.value[0].toUpperCase() + activeTab.value.slice(1)
+
+return pug`
+  PluginsProvider(
+    moduleName='pluginsPackageModuleExample'
+    plugins={ emoticons: { size: 24 } }
+  )
+    Row
+      each tab, index in tabs
+        Div(
+          key=index
+          pushed=index ? 's' : undefined
+          onPress=() => setActiveTab(tab)
+        )
+          Icon(
+            style=tab.value === activeTab.value ? { color: '#2962ff' } : undefined
+            icon=tab.icon
+          )
+    Divider
+    Slot(name=slotName ...activeTab.props)
+`
 ```

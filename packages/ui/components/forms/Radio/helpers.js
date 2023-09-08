@@ -13,3 +13,11 @@ export function stringifyValue (option) {
 export function parseValue (value) {
   return JSON.parse(value)
 }
+
+export function getLabelFromValue (value, options) {
+  for (const option of options) {
+    if (stringifyValue(value) === stringifyValue(option)) {
+      return getOptionLabel(option)
+    }
+  }
+}

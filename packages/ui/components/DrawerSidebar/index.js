@@ -11,7 +11,7 @@ const { colors } = STYLES
 const DrawerLayout = DrawerLayoutModule.default || DrawerLayoutModule
 if (!DrawerLayout) throw Error('> Can\'t load DrawerLayout module. Issues with bundling.')
 
-let isEffectCall
+let isEffectRunning
 
 function DrawerSidebar ({
   style = [],
@@ -19,6 +19,7 @@ function DrawerSidebar ({
   path,
   $open,
   position,
+  lazy,
   disabled,
   width,
   renderContent,
@@ -50,7 +51,7 @@ function DrawerSidebar ({
     if (disabled) return
     let drawer = drawerRef.current
 
-    isEffectCall = true
+    isEffectRunning = true
 
     if (open) {
       drawer.openDrawer()
@@ -59,7 +60,9 @@ function DrawerSidebar ({
     }
   }, [!!open])
 
-  const _renderContent = () => {
+  const renderNavigationView = () => {
+    const render = lazy ? open : true
+    if (!render) return null
     return pug`
       ScrollView(contentContainerStyle={flex: 1})
         = renderContent && renderContent()
@@ -70,8 +73,8 @@ function DrawerSidebar ({
   // and when the open state changes several times in a short period of time
   // these scheduled callback's can create an infinite loop
   function onDrawerCallback (open) {
-    if (typeof isEffectCall === 'undefined') onChange(open)
-    isEffectCall = undefined
+    if (typeof isEffectRunning === 'undefined') onChange(open)
+    isEffectRunning = undefined
   }
 
   return pug`
@@ -81,7 +84,7 @@ function DrawerSidebar ({
       drawerWidth=width
       drawerBackgroundColor=backgroundColor
       ref=drawerRef
-      renderNavigationView=_renderContent
+      renderNavigationView=renderNavigationView
       onDrawerClose=() => onDrawerCallback(false)
       onDrawerOpen=() => onDrawerCallback(true)
       drawerLockMode=disabled ? 'locked-closed' : undefined
@@ -92,6 +95,7 @@ function DrawerSidebar ({
 
 DrawerSidebar.defaultProps = {
   position: 'left',
+  lazy: false,
   disabled: false,
   width: 264
 }
@@ -101,6 +105,7 @@ DrawerSidebar.propTypes = {
   children: PropTypes.node,
   $open: PropTypes.object,
   position: PropTypes.oneOf(['left', 'right']),
+  lazy: PropTypes.bool,
   disabled: PropTypes.bool,
   width: PropTypes.number,
   renderContent: PropTypes.func

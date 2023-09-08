@@ -25,5 +25,5 @@ export default async function onLogin ({
 
   const serializedOptions = qs.stringify(options, { addQueryPrefix: true })
 
-  Linking.openURL(serializedOptions ? WEB_LOGIN_URL + serializedOptions : WEB_LOGIN_URL)
+  window.location.href = serializedOptions ? WEB_LOGIN_URL + serializedOptions : WEB_LOGIN_URL
 }

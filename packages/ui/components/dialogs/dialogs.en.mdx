@@ -32,10 +32,17 @@ An alert box is used if you want to display a message to the user that requires 
 When an alert box pops up, the user will have to click `OK` to proceed.
 
 ```js
-async alert({ title?, message })
+async alert(message | { title?, message })
 ```
 
 **Parameters:**
+
+```js
+await alert(message)
+await alert(options)
+```
+
+`options`:
 
 | Name    | Type   | Description                                            |
 |---------|--------|--------------------------------------------------------|
@@ -44,9 +51,7 @@ async alert({ title?, message })
 
 ```jsx example
 async function onPress () {
-  await alert({
-    message: 'I am an alert box'
-  })
+  await alert('I am an alert box')
 }
 
 return pug`
@@ -67,10 +72,17 @@ When a confirm box pops up, the user will have to click either `OK` or `Cancel` 
 If the user clicks `OK`, the function returns `true`. If the user clicks `Cancel`, the function returns `false`.
 
 ```js
-async confirm({ title?, message })
+async confirm(message | { title?, message })
 ```
 
 **Parameters:**
+
+```js
+await confirm(message)
+await confirm(options)
+```
+
+`options`:
 
 | Name    | Type   | Description                                            |
 |---------|--------|--------------------------------------------------------|
@@ -81,9 +93,7 @@ async confirm({ title?, message })
 const [pressedButtonText, setPressedButtonText] = useState()
 
 async function onPress () {
-  const isConfirmed = await confirm({
-    message: 'Press a button'
-  })
+  const isConfirmed = await confirm('Press a button')
   setPressedButtonText(isConfirmed ? 'OK' : 'Cancel')
 }
 
@@ -108,10 +118,18 @@ When a prompt box pops up, the user will have to click either `Cancel` or enter 
 If the user clicks `OK` the function returns the input value. If the user clicks `Cancel` the function returns `null`.
 
 ```js
-async prompt({ title?, message, defaultValue? })
+async prompt(message | { title?, message, defaultValue? }, defaultValue?)
 ```
 
 **Parameters:**
+
+```js
+const response = await prompt(message)
+const response = await propmt(message, defaultValue)
+const response = await prompt(options)
+```
+
+`options`:
 
 | Name         | Type   | Description                                            |
 |--------------|--------|--------------------------------------------------------|
@@ -123,10 +141,7 @@ async prompt({ title?, message, defaultValue? })
 const [name, setName] = useState()
 
 async function onPress () {
-  const name = await prompt({
-    message: 'Please enter your name',
-    defaultValue: 'Paha'
-  })
+  const name = await prompt('Please enter your name', 'Paha')
   setName(name)
 }
 

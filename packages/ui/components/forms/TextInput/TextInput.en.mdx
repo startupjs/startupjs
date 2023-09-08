@@ -115,23 +115,35 @@ return (
 )
 ```
 
-## Multiline mode (textarea)
+## Number of lines
 
-The `multiline` property activates multiline mode.
-
-Properties that only work in multiline mode:
-- `numberOfLines` sets the number of visible lines
-- `resize` the textinput height will grow with content
+Pass `numberOfLines={number}` to set the number of lines.
 
 ```jsx example
 const [value, setValue] = useState()
+
 return (
   <TextInput
-    multiline
-    resize
-    numberOfLines={4}
-    placeholder='Multiline placeholder'
+    placeholder='write here'
     value={value}
+    numberOfLines={4}
+    onChangeText={setValue}
+  />
+)
+```
+
+## Dynamic number of lines
+
+Pass `resize=true` to dynamically change number of lines according to content.
+
+```jsx example
+const [value, setValue] = useState()
+
+return (
+  <TextInput
+    placeholder='write here'
+    value={value}
+    resize
     onChangeText={setValue}
   />
 )

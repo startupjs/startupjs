@@ -65,7 +65,7 @@ function Div ({
   // If component become not clickable, for example received 'disabled'
   // prop while hover or active, state wouldn't update without this effect
   useDidUpdate(() => {
-    if (isClickable) return
+    if (!isClickable) return
     if (!disabled) return
     if (hover) setHover(false)
     if (active) setActive(false)
@@ -144,7 +144,7 @@ function Div ({
     if (isClickable) {
       const touchableProps = pick(props, PRESSABLE_PROPS)
       return pug`
-        TouchableWithoutFeedback(accessible ...touchableProps)
+        TouchableWithoutFeedback(focusable=accessible ...touchableProps)
           = children
       `
     } else {
@@ -153,7 +153,7 @@ function Div ({
   }
 
   const viewProps = omit(props, PRESSABLE_PROPS)
-
+  const testID = viewProps.testID || viewProps['data-testid']
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
   const divElement = maybeWrapToClickable(pug`
@@ -171,6 +171,7 @@ function Div ({
         pushedModifier,
         levelModifier
       ]
+      testID=testID
       ...viewProps
     )= children
   `)

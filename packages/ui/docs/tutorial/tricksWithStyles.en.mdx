@@ -6,12 +6,11 @@ StartupJS/UI initially uses an 8-pixel grid for padding. This means that the uni
 
 For example:
 
-```css
 .card
+```css
   padding 2u 3u // 16px 24px
   margin 3u // 24px
 ```
-
 
 ## Mixins
 You are already familiar with the implementation of mixins in Stylus so you can now get acquainted with the preset mixins within the @StartupJS/UI package
@@ -32,11 +31,9 @@ The first mixin is `font()`, which takes one of the following parameters `[h1, h
 | h4       | 24px      | 32px        |
 | h5       | 20px      | 28px        |
 | h6       | 16px      | 24px        |
-| body2    | 16px      | 24px        |
-| body1    | 14px      | 20px        |
+| body1    | 16px      | 24px        |
+| body2    | 14px      | 20px        |
 | caption  | 12px      | 16px        |
-
-
 
 ## `shadow()` mixin
 
@@ -69,7 +66,6 @@ The `circle` value will make your element assume round shape.
 
 > You can also add your own values or alter the existing ones. This can be done in the `styles/helpers.styl` file. How to edit mixins you can read in the official Stylus documentation - [Mixins](https://stylus-lang.com/docs/mixins.html)
 
-
 ## Screen size and device mixins
 
 In pure ***CSS***, you have the ability to use @media-queries for adding styles only to certain user screen sizes. StartupJS has mixins that are already tailored to match the required user screen sizes and even their devices and systems.
@@ -88,7 +84,7 @@ Let's take a closer look:
 | +ios()       | OS iOS                       |
 | +native()    | !web                         |
 
-> Among the mixins there is also a mixin +mobile(), which is styled for the mobile screen size (<=480px), but since we adhere to the mobile-first principle in development, all styles are set by default for the mobile screen resolution.
+> Among the mixins there is also a mixin +mobile(), which is styled for the mobile screen size (\<=480px), but since we adhere to the mobile-first principle in development, all styles are set by default for the mobile screen resolution.
 
 > In order to override the value of some mixin yourself, you only need to change it in the `styles/` folder of your project. For example, screen sizes for `tablet, desktop, wide` mixins are located in the `variables.styl` file.
 

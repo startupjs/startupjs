@@ -35,7 +35,9 @@ function Dropdown ({
   drawerVariant,
   drawerListTitle,
   drawerCancelLabel,
+  disabled,
   hasDrawer,
+  showDrawerResponder,
   onChange,
   onDismiss
 }, ref) {
@@ -166,7 +168,10 @@ function Dropdown ({
       )
         if caption
           Popover.Caption
-            TouchableOpacity(onPress=()=> $isShow.set(!isShow))
+            TouchableOpacity(
+              disabled=disabled
+              onPress=() => $isShow.set(!isShow)
+            )
               = caption
         = renderContent.current
     `
@@ -174,7 +179,10 @@ function Dropdown ({
 
   return pug`
     if caption
-      TouchableOpacity.caption(onPress=()=> $isShow.set(!isShow))
+      TouchableOpacity.caption(
+        disabled=disabled
+        onPress=() => $isShow.set(!isShow)
+      )
         = caption
     Drawer(
       visible=isShow
@@ -183,6 +191,7 @@ function Dropdown ({
       styleName={ drawerReset: drawerVariant === 'buttons' }
       onDismiss=()=> $isShow.setDiff(false)
       onRequestOpen=onRequestOpen
+      showResponder=showDrawerResponder
     )
       View.dropdown(styleName=drawerVariant)
         if drawerVariant === 'list'

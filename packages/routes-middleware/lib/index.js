@@ -55,7 +55,13 @@ module.exports = function (appRoutes, options = {}) {
     }
 
     renderApp(matched, (err) => {
-      if (err) return next('500: ' + req.url + '. Error: ' + err)
+      if (err) {
+        return next(
+          isNaN(err)
+            ? '500: ' + req.url + '. Error: ' + err
+            : err
+        )
+      }
       const appName = matched.appName
       const html = (options.getClientLayout || defaultClientLayout)({
         head: getHead(appName, req),

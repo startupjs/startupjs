@@ -1,0 +1,74 @@
+name: Run tests
+
+on:
+  push:
+
+jobs:
+  run-tests:
+
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.x'
+
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@latest
+
+    - name: Get Chrome Version
+      run: echo "CHROME_VERSION=$(google-chrome-stable --version | cut -d ' ' -f 3 | cut -d '.' -f 1)" >> $GITHUB_ENV
+
+    - name: Install chromedriver which matches chrome version
+      run: yarn upgrade chromedriver@$CHROME_VERSION
+
+    - name: Install all dependencies and apply patches
+      run: yarn
+
+    - name: Build production app
+      run: yarn build
+
+    - name: Start production app
+      run: yarn start-production &
+
+    - name: Wait for 30 seconds
+      run: sleep 30s
+
+    - name: Run tests
+      run: yarn wdio
+
+    - name: Discord Notification on Failure. Message with Screenshot
+      if: failure() && github.ref == 'refs/heads/master'
+      run: |
+        FILE_PATH="test_failed_screenshots/screenshot.png"
+        PAYLOAD="{
+          \"embeds\": [{
+            \"title\": \"> Tests failed! Click here to check logs\",
+            \"description\": \"[${{ github.event.head_commit.message }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})\",
+            \"color\": 16711680,
+            \"url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
+            \"author\": {
+              \"name\": \"${{ github.actor }}\",
+              \"url\": \"${{ github.server_url }}/${{ github.actor }}\",
+              \"icon_url\": \"${{ github.server_url }}/${{ github.actor }}.png\"
+            }
+          }]
+        }"
+        ARGS=(-F "payload_json=$PAYLOAD")
+        if [ -f "$FILE_PATH" ]; then
+          ARGS+=(-F "file=@$FILE_PATH")
+        fi
+        curl -X POST "${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}" "${ARGS[@]}"

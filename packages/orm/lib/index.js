@@ -14,6 +14,9 @@ export default function (racer) {
     var name = alias || pattern
     if (global.STARTUP_JS_ORM[name]) throw alreadyDefinedError(pattern, alias)
 
+    // NOTE
+    // if same OrmEntity will be passed for different collections
+    // then they will all have the same collection name
     if (!OrmEntity.collection) {
       var match = pattern.match(/^[^.]+/)
       if (match) OrmEntity.collection = match[0]

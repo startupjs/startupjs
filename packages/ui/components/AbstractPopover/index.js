@@ -34,7 +34,7 @@ function AbstractPopover (props) {
   return pug`
     Tether(
       ...props
-      onCompleteClose=onCloseComplete
+      onCloseComplete=onCloseComplete
     )
   `
 }
@@ -56,8 +56,8 @@ const Tether = observer(function TetherComponent ({
   renderWrapper,
   onRequestOpen,
   onRequestClose,
-  onCompleteOpen,
-  onCompleteClose,
+  onOpenComplete,
+  onCloseComplete,
   children
 }) {
   style = StyleSheet.flatten([style])
@@ -83,6 +83,9 @@ const Tether = observer(function TetherComponent ({
   const calculateGeometry = useCallback(({ nativeEvent }) => {
     // IDEA: we can pass measures to this component
     // instead of passing ref for the measurement
+    // Also, add property that will manage where popover should appear
+    // in portal or in at the place where component is called
+    // maybe use PortalProvider to render it in the place where component is called
     anchorRef.current.measure((x, y, width, height, pageX, pageY) => {
       // IDEA: rewrite getGeometry in future
       // we can make geometry behaviout like in tether.js
@@ -110,7 +113,7 @@ const Tether = observer(function TetherComponent ({
         useNativeDriver: true
       })
     ]).start(({ finished }) => {
-      onCompleteOpen && onCompleteOpen(finished)
+      onOpenComplete && onOpenComplete(finished)
     })
   }
 
@@ -123,14 +126,18 @@ const Tether = observer(function TetherComponent ({
       easing: Easing.linear,
       useNativeDriver: true
     }).start(({ finished }) => {
-      onCompleteClose && onCompleteClose(finished)
+      onCloseComplete && onCloseComplete(finished)
     })
   }
 
+  // WORKAROUND
+  // the minimum height fixes an issue where the 'onLayout' does not trigger
+  // when children are undefined or have no size.
   const rootStyle = {
-    top: geometry ? geometry.top : -999,
-    left: geometry ? geometry.left : -999,
-    opacity: fadeAnim
+    top: geometry ? geometry.top : -99999,
+    left: geometry ? geometry.left : -99999,
+    opacity: fadeAnim,
+    minHeight: 1
   }
 
   if (geometry) {
@@ -188,8 +195,8 @@ AbstractPopover.propTypes = {
   children: PropTypes.node,
   onRequestOpen: PropTypes.func,
   onRequestClose: PropTypes.func,
-  onCompleteOpen: PropTypes.func,
-  onCompleteClose: PropTypes.func
+  onOpenComplete: PropTypes.func,
+  onCloseComplete: PropTypes.func
 }
 
 export default observer(themed('AbstractPopover', AbstractPopover))

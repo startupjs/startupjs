@@ -14,7 +14,7 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, height, lineHeight, borderWidth, placeholderTextColor
+    caretColor, heights, lineHeights, borderWidth, placeholderTextColor
   }
 } = STYLES
 
@@ -84,12 +84,15 @@ function TextInputInput ({
     // TODO
     // test mobile device behaviour
     useLayoutEffect(() => {
-      if (focused && disabled) inputRef.current.blur()
+      if (focused && disabled) {
+        inputRef.current.blur()
+        setFocused(false)
+      }
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
     useLayoutEffect(() => {
-      inputRef.current.setNativeProps({ size: '1' })
+      inputRef.current?.setNativeProps({ size: '1' })
     }, [])
   }
 
@@ -104,8 +107,8 @@ function TextInputInput ({
   }, [resize, numberOfLines])
 
   const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeight[size]
-    const h = height[size]
+    const lH = lineHeights[size]
+    const h = heights[size]
     return [lH, (h - lH) / 2 - borderWidth]
   }, [size])
 
@@ -151,7 +154,8 @@ function TextInputInput ({
       placeholder=placeholder
       placeholderTextColor=placeholderTextColor
       value=value
-      editable=!disabled
+      disabled=IS_WEB ? disabled : undefined
+      editable=IS_WEB ? undefined : !disabled
       multiline=multiline
       selectTextOnFocus=false
       onFocus=handleFocus
@@ -161,7 +165,7 @@ function TextInputInput ({
     )
     if icon
       Div.input-icon(
-        accessible=false
+        focusable=false
         onLayout=onLayoutIcon
         styleName=[size, iconPosition]
         onPress=onIconPress
@@ -174,7 +178,7 @@ function TextInputInput ({
         )
     if secondaryIcon
       Div.input-icon(
-        accessible=false
+        focusable=false
         onLayout=onLayoutIcon
         styleName=[size, getOppositePosition(iconPosition)]
         onPress=onSecondaryIconPress

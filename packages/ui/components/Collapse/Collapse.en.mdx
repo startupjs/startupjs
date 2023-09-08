@@ -131,8 +131,9 @@ return (
 
 <Sandbox
   Component={Collapse}
-  props={{ $open: $root.scope('_session.Props.Collapse.open') }} // HACK to make alive sandbox when user click on 'open' checkbox
+  props={{ $open: $root.scope('_session.Props.Collapse.open') }}
   $props={$root.scope('_session.Props.Collapse')}
+  {...{ _comment: "HACK to make alive sandbox when user click on 'open' checkbox" }}
 />
 
 ### Collapse.Header

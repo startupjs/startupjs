@@ -18,6 +18,7 @@ const BUILD_PATH = path.join(process.cwd(), BUILD_DIR)
 const BUNDLE_NAME = 'main'
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const webpack = require('webpack')
+const remarkGfm = require('remark-gfm')
 const DEFAULT_MODE = 'react-native'
 const PLUGINS = getPluginConfigs()
 
@@ -58,6 +59,19 @@ module.exports = function getConfig (env, {
   // array must be non-empty to prevent matching all node_modules via regex
   forceCompileModules = forceCompileModules
     .concat(getPluginsForceCompileList())
+
+  /**
+   * path.normalize needs because webpack for Windows doesn't accept paths in
+   * *nix format (with slash delemeter) in the include section.
+   * .replace(/\\/g, '\\\\') needs for masking backslash in Windows-style paths
+   * in the regular expression
+   */
+  const forceCompileModulesExpression = new RegExp(`${
+      path.normalize('node_modules/')
+    }(?:react-native-(?!web)|${
+      forceCompileModules.map(v => path.normalize(v)).join('|')
+    })`.replace(/\\/g, '\\\\')
+  )
 
   return pickBy({
     mode: PROD ? 'production' : 'development',
@@ -204,7 +218,7 @@ module.exports = function getConfig (env, {
           resolve: {
             fullySpecified: false
           },
-          include: new RegExp(`node_modules/(?:react-native-(?!web)|${forceCompileModules.join('|')})`),
+          include: forceCompileModulesExpression,
           use: [
             { loader: 'babel-loader' }
           ]
@@ -215,7 +229,11 @@ module.exports = function getConfig (env, {
           use: [
             { loader: 'babel-loader' },
             {
-              loader: '@mdx-js/loader'
+              loader: '@mdx-js/loader',
+              options: {
+                providerImportSource: '@startupjs/mdx/client/MDXProvider/index.js',
+                remarkPlugins: [remarkGfm]
+              }
             },
             {
               loader: require.resolve('./lib/mdxExamplesLoader.js')
@@ -230,6 +248,8 @@ module.exports = function getConfig (env, {
             }
           ]
         },
+        // TODO
+        // https://webpack.js.org/guides/asset-modules/
         {
           test: /\.(jpg|png)$/,
           use: {
@@ -249,6 +269,7 @@ module.exports = function getConfig (env, {
             {
               loader: 'css-loader',
               options: {
+                url: false, // NOTE can remove when change file loader to https://webpack.js.org/guides/asset-modules/
                 modules: {
                   getLocalIdent,
                   localIdentName: LOCAL_IDENT_NAME

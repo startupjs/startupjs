@@ -61,12 +61,12 @@ async function getApi () {
 // WARNING! This is for demo purposes only. Don't use this trick
 // in production since the useApi data is not getting cleaned up.
 function useForceTrigger (delay = 3000) {
-  let [forceTrigger, setForceTrigger] = useState(0)
+  const [random, setRandom] = useState(0)
   useEffect(() => {
-    let timer = setTimeout(() => {
-      setForceTrigger(forceTrigger + 1)
+    const timer = setTimeout(() => {
+      setRandom(Math.random())
     }, delay)
     return () => clearTimeout(timer)
-  }, [forceTrigger])
-  return forceTrigger
+  }, [random])
+  return random
 }

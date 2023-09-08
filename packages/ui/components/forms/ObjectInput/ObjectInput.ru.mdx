@@ -101,6 +101,84 @@ return (
 )
 ```
 
+## Отображение ошибок
+
+Свойство `errors` принимает объект с текстами ошибок для полей ввода, где ключ является ключом поля вода из объекта `properties`, а его значением является текст ошибки.
+
+```jsx example
+const [, $value] = useValue({})
+
+return (
+  <ObjectInput
+    $value={$value}
+    errors={{
+      email: 'Email input error',
+      password: 'Password input error'
+    }}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+  />
+)
+```
+
+
+## Disabled
+
+```jsx example
+const $value = useValue$()
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    disabled
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const $value = useValue$({ email: 'startupjs@gmail.com', password: '123456' })
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    readonly
+  />
+)
+```
+
 ## Продвинутое использование
 
 ObjectInput поддерживает `dependsOn` и `dependsValue` свойства для каждого объекта поля ввода в `properties` для динамического отображения полей.
@@ -128,35 +206,6 @@ return (
         input: 'text',
         label: 'Password',
         dependsOn: 'email',
-        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
-      }
-    }}
-  />
-)
-```
-
-## Отображение ошибок
-
-Свойство `errors` принимает объект с текстами ошибок для полей ввода, где ключ является ключом поля вода из объекта `properties`, а его значением является текст ошибки.
-
-```jsx example
-const [, $value] = useValue({})
-
-return (
-  <ObjectInput
-    $value={$value}
-    errors={{
-      email: 'Email input error',
-      password: 'Password input error'
-    }}
-    properties={{
-      email: {
-        input: 'text',
-        label: 'Email'
-      },
-      password: {
-        input: 'text',
-        label: 'Password',
         description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}

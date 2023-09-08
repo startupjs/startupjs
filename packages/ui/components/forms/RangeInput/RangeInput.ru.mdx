@@ -1,0 +1,153 @@
+import { useState } from 'react'
+import Span from '../../typography/Span'
+import RangeInput from '../RangeInput'
+
+# RangeInput
+
+RangeInput позволяет пользователю выбирать из диапазона значений.
+
+```jsx
+import { RangeInput } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const [value, setValue] = useState(50)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Два ползунка
+
+По умолчанию компонент имеет один ползунок. Чтобы включить два ползунка, передайте `range=true`.
+
+```jsx example
+const [value, setValue] = useState([20, 60])
+
+return (
+  <RangeInput
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Скрыть метку ползунка
+
+Передайте `showLabel=false`, чтобы скрыть метку маркера.
+
+```jsx example
+const [value, setValue] = useState(40)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    showLabel={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Шаг
+
+Шаг, с которым маркер может проходить через значения. Оно не может быть отрицательным. Мы рекомендуем, чтобы `max - min` был кратным шагу.
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    step={10}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Показать метки и маркеры для шагов
+
+Передайте `showSteps=true`, чтобы отобразить метки и маркеры для шага.
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+Когда вы передаете `showSteps=true`, чтобы скрыть метки или маркеры, вам нужно передать `showStepLabels=false` или `showStepMarkers=false`.
+
+**Скрыть метки**
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showSteps
+    showStepLabels={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+**Скрыть маркеры**
+
+```jsx example
+const [value, setValue] = useState(4)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={5}
+    showLabel={false}
+    showSteps
+    showStepMarkers={false}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
+## Ширина
+
+Используйте свойство `width`, чтобы указать пользовательскую ширину поля.
+
+```jsx example
+const [value, setValue] = useState(30)
+
+return (
+  <RangeInput
+    value={value}
+    min={0}
+    max={100}
+    width={400}
+    onChange={(val) => setValue(val)}
+  />
+)
+```

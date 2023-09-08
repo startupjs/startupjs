@@ -1,7 +1,7 @@
+import { $root } from 'startupjs'
 import { useState } from 'react'
 import Collapse from '../Collapse'
 import Div from '../Div'
-import Span from '../typography/Span'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 
@@ -132,8 +132,9 @@ return (
 
 <Sandbox
   Component={Collapse}
-  props={{ $open: $root.scope('_session.Props.Collapse.open') }} // HACK to make alive sandbox when user click on 'open' checkbox
+  props={{ $open: $root.scope('_session.Props.Collapse.open') }}
   $props={$root.scope('_session.Props.Collapse')}
+  {...{ _comment: "HACK to make alive sandbox when user click on 'open' checkbox" }}
 />
 
 ### Collapse.Header

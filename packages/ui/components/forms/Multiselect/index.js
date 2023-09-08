@@ -18,6 +18,7 @@ const Multiselect = ({
   disabled,
   readonly,
   tagLimit,
+  maxTagCount,
   TagComponent,
   InputComponent,
   hasWidthCaption,
@@ -32,6 +33,9 @@ const Multiselect = ({
   // Map array if user pass options pass an array of primitives
   // Convert it into { label, value } items for consistency
   const _options = options.map(opt => typeof opt === 'object' && opt !== null ? opt : { label: opt, value: opt })
+  const shouldDisableSelection = maxTagCount
+    ? maxTagCount === value.length
+    : false
 
   function _onRemove (_value) {
     onRemove && onRemove(_value)
@@ -61,24 +65,26 @@ const Multiselect = ({
     }
   }
 
-  function _renderListItem (item) {
-    const selected = value.includes(item.value)
-
-    if (renderListItem) {
-      return renderListItem(item, selected, onItemPress)
-    }
-
-    const onPress = onItemPress(item.value)
+  function _renderListItem ({ item, index }) {
+    const { label, value: itemValue } = item
+    const selected = value.includes(itemValue)
+    const onPress = onItemPress(itemValue)
 
     return pug`
-      Row.suggestionItem(
+      Div(
+        key=itemValue
         vAlign='center'
+        disabled=selected ? false : shouldDisableSelection
         onPress=() => onPress(!selected)
       )
-        Span.label= item.label
-        Div.check
-          if selected
-            Icon(icon=faCheck styleName='checkIcon')
+        if renderListItem
+          = renderListItem({ item, index, selected })
+        else
+          Row.suggestionItem
+            Span.label= label
+            Div.check
+              if selected
+                Icon(icon=faCheck styleName='checkIcon')
     `
   }
 
@@ -91,6 +97,7 @@ const Multiselect = ({
       focused=focused
       disabled=disabled
       tagLimit=tagLimit
+      maxTagCount=maxTagCount
       readonly=readonly
       InputComponent=InputComponent
       TagComponent=TagComponent
@@ -108,6 +115,7 @@ Multiselect.defaultProps = {
   placeholder: 'Select',
   disabled: false,
   readonly: false,
+  tagLimitVariant: 'hidden',
   hasWidthCaption: false,
   TagComponent: DefaultTag
 }
@@ -121,6 +129,7 @@ Multiselect.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   tagLimit: PropTypes.number,
+  tagLimitVariant: PropTypes.oneOf(['hidden', 'disabled']),
   TagComponent: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   hasWidthCaption: PropTypes.bool,
   renderListItem: PropTypes.func,

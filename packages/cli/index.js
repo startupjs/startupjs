@@ -28,6 +28,19 @@ try {
   PATCHES_DIR = './patches'
 }
 
+let PATCHES_GESTURE_HANDLER_DIR
+try {
+  PATCHES_GESTURE_HANDLER_DIR = path.join(
+    path.dirname(require.resolve('@startupjs/patches')),
+    'patches_gestureHandler'
+  )
+  // patch-package requires the path to be relative
+  PATCHES_GESTURE_HANDLER_DIR = path.relative(process.cwd(), PATCHES_GESTURE_HANDLER_DIR)
+} catch (err) {
+  console.error(err)
+  console.error('ERROR!!! Gesture handler patches not found.')
+}
+
 const LINK = !!process.env.LINK
 const LOCAL_DIR = process.env.LOCAL_DIR || '.'
 
@@ -48,10 +61,11 @@ const DEV_DEPENDENCIES = [
   'eslint-config-standard-react',
   'eslint-plugin-import',
   'eslint-plugin-import-helpers',
-  'eslint-plugin-node',
+  'eslint-plugin-n',
   'eslint-plugin-promise',
   'eslint-plugin-react',
   'eslint-plugin-react-pug',
+  'eslint-plugin-react-hooks',
   'eslint-plugin-standard',
   'husky@^4.3.0',
   'lint-staged'
@@ -60,7 +74,7 @@ const DEV_DEPENDENCIES = [
 const REMOVE_DEPENDENCIES = [
   '@babel/core',
   '@babel/runtime',
-  '@react-native-community/eslint-config',
+  '@react-native/eslint-config',
   'metro-react-native-babel-preset'
 ]
 
@@ -86,14 +100,14 @@ SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
 }
 
 SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
-  ${reset ? 'rm -rf node_modules/.vite_opt_cache &&' : ''}
-  VITE_WEB=1
-  vite
+  ${reset ? 'npx rimraf node_modules/.vite_opt_cache &&' : ''}
+  npx cross-env VITE_WEB=1
+  npx vite
 `)
 
 SCRIPTS_ORIG.webWebpack = oneLine(`
-  WEBPACK_DEV=1
-  webpack-dev-server --config webpack.web.config.cjs
+  npx cross-env WEBPACK_DEV=1
+  npx webpack-dev-server --config webpack.web.config.cjs
 `)
 
 // Detox test
@@ -144,27 +158,27 @@ SCRIPTS_ORIG.testInit = () => {
 
 SCRIPTS_ORIG.testBuild = appName => oneLine(`
   ${SCRIPTS_ORIG.testJsBundle(appName)}
-  && detox build -c ios
+  && npx detox build -c ios
 `)
 
 SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
-  ${updateScreenshot ? `rm -rf \`find ${ROOT_PATH} -name "__image_snapshots__" -type d\` &&` : ''}
-  concurrently
+  ${updateScreenshot ? `npx rimraf \`find ${ROOT_PATH} -name "__image_snapshots__" -type d\` &&` : ''}
+  npx concurrently
     -s first -k -n "S,T"
     -c white,cyan.bgBlue
     "mongo ${appName}_test --eval 'db.dropDatabase();'
-    && ASYNC=1 startupjs build
-    && PORT=3001 MONGO_URL=mongodb://localhost:27017/${appName}_test startupjs start-production"
+    && npx cross-env ASYNC=1 startupjs build
+    && PORT=3001 MONGO_URL=mongodb://localhost:27017/${appName}_test npx startupjs start-production"
     "${SCRIPTS_ORIG.testJsBundle(appName)}
-    && wait-on http://localhost:3001
-    && detox test -c ios
+    && npx wait-on http://localhost:3001
+    && npx detox test -c ios
     ${artifacts ? '--artifacts-location $PWD/artifacts --take-screenshots all' : ''}
     ${updateScreenshot ? '--testNamePattern Screenshots:' : ''}"
 `)
 
 SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
   mkdir -p ios/build/Build/Products/Release-iphonesimulator/${appName}.app/
-  && APP_ENV=detox react-native bundle
+  && npx cross-env APP_ENV=detox react-native bundle
   --entry-file="index.js"
   --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${appName}.app/main.jsbundle"
   --reset-cache --dev=false
@@ -181,8 +195,8 @@ SCRIPTS_ORIG.server = ({ inspect, vite, webpack, pure } = {}) => {
 }
 
 SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
-  ${vite ? 'VITE=1' : ''}
-  nodemon
+  ${vite ? 'npx cross-env VITE=1' : ''}
+  npx nodemon
     --experimental-specifier-resolution=node
     ${inspect ? '--inspect' : ''}
     -e js,mjs,cjs,json,yaml server.js
@@ -199,7 +213,7 @@ SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
 `)
 
 SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
-  concurrently
+  npx concurrently
     -r -s first -k -n 'S,B'
     -c black.bgWhite,black.bgWhite
     "${SCRIPTS_ORIG.serverWebpackRun(options)}"
@@ -207,15 +221,15 @@ SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
 `)
 
 SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
-  WEBPACK_DEV=1
-  webpack --watch --config webpack.server.config.cjs
+  npx cross-env WEBPACK_DEV=1
+  npx webpack --watch --config webpack.server.config.cjs
 `)
 
 SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
-  rm -f ./build/server.dev.cjs &&
-  just-wait -t 1000 --pattern ./build/server.dev.cjs &&
-  ${vite ? 'VITE=1' : ''}
-  nodemon
+  npx rimraf ./build/server.dev.cjs &&
+  npx just-wait -t 1000 --pattern ./build/server.dev.cjs &&
+  ${vite ? 'npx cross-env VITE=1' : ''}
+  npx nodemon
     --experimental-specifier-resolution=node
     ${inspect ? '--inspect' : ''}
     ./build/server.dev.cjs
@@ -235,17 +249,17 @@ SCRIPTS_ORIG.start = (options = {}) => {
 }
 
 SCRIPTS_ORIG.startPure = (...args) => oneLine(`
-  concurrently
-    -s first -k -n 'Server,compile Web'
+  npx concurrently
+    -s first -k -n 'Server,Web'
     -c cyan.bgBlue,gray
     "${SCRIPTS_ORIG.server(...args)}"
     "${SCRIPTS_ORIG.web(...args)}"
 `)
 
 SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
-  concurrently
+  npx concurrently
     -p "{name}:"
-    -s first -k -n 'Server,compile Server,compile Web'
+    -s first -k -n 'Server,ServerBuild,Web'
     -c cyan.bgBlue.bold,gray,gray
     "${SCRIPTS_ORIG.serverWebpackRun(options)}"
     "${SCRIPTS_ORIG.serverWebpackBuild}"
@@ -255,10 +269,10 @@ SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
 // Production build
 
 SCRIPTS_ORIG.build = ({ async, pure } = {}) => oneLine(`
-  rm -rf ./build &&
-  ${pure ? '' : 'webpack --config webpack.server.config.cjs &&'}
-  ${async ? 'ASYNC=1' : ''}
-  webpack --config webpack.web.config.cjs
+  npx rimraf ./build &&
+  ${pure ? '' : 'npx webpack --config webpack.server.config.cjs &&'}
+  ${async ? 'npx cross-env ASYNC=1' : ''}
+  npx webpack --config webpack.web.config.cjs
 `)
 
 SCRIPTS_ORIG.startProduction = ({ pure }) => {
@@ -270,14 +284,14 @@ SCRIPTS_ORIG.startProduction = ({ pure }) => {
 }
 
 SCRIPTS_ORIG.startProductionPure = oneLine(`
-  NODE_ENV=production
+  npx cross-env NODE_ENV=production
   node
     --experimental-specifier-resolution=node
     server.js
 `)
 
 SCRIPTS_ORIG.startProductionWebpack = oneLine(`
-  NODE_ENV=production
+  npx cross-env NODE_ENV=production
   node
     --experimental-specifier-resolution=node
     -r source-map-support/register
@@ -285,8 +299,14 @@ SCRIPTS_ORIG.startProductionWebpack = oneLine(`
 `)
 
 SCRIPTS_ORIG.patchPackage = () => oneLine(`
-  npx patch-package --patch-dir ${PATCHES_DIR}
+  npx patch-package --patch-dir ${PATCHES_DIR} && ${SCRIPTS_ORIG.patchGestureHandler()}
 `)
+
+SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
+  ? oneLine(`
+      (cat package.json | grep -q react-native-gesture-handler && npx patch-package --patch-dir ${PATCHES_GESTURE_HANDLER_DIR} || true)
+    `)
+  : 'true'
 
 SCRIPTS_ORIG.fonts = () => oneLine(`
   react-native-asset
@@ -339,8 +359,8 @@ const TEMPLATES = {
       '@react-native-picker/picker@^1.16.1',
       'react-native-collapsible@^1.6.0',
       'react-native-color-picker@^0.6.0',
-      'react-native-gesture-handler@^1.10.3',
-      'react-native-pager-view@^5.1.2',
+      'react-native-gesture-handler@1.10.3',
+      'react-native-pager-view@^6.2.0',
       'react-native-tab-view@^3.0.0'
       // === END UI PEER DEPS ===
     ]

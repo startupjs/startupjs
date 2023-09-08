@@ -20,7 +20,7 @@ import { AutoSuggest } from '@startupjs/ui'
 
 ## Простой пример
 ```jsx example
-const [value, setValue] = useState({})
+const [value, setValue] = useState()
 
 const options = [
   { value: '1', label: 'Harry' },
@@ -45,7 +45,7 @@ return (
 - onChange: калбэк функция, вызывается после выбора значения, принимает выбранное значение первым параметром
 
 ```jsx example
-const [value, setValue] = useState({})
+const [value, setValue] = useState()
 
 const options = [
   { value: '1', label: 'Harry' },
@@ -72,7 +72,7 @@ return (
 - renderItem: функция которая вызывается при рендеренге каждого элемента массива. Получает 2 аргумента - текущий элемент (item) и его индекс.
 
 ```jsx example
-const [value, setValue] = useState({})
+const [value, setValue] = useState()
 
 const options = [
   { value: '1', label: 'Harry' },
@@ -97,7 +97,7 @@ const renderItem = (item, index, selectIndexValue)=> {
       vAlign='center'
       style={style}
     >
-      <Avatar size='xs'>{item.label}</Avatar>
+      <Avatar size='s'>{item.label}</Avatar>
       <Span style={{ marginLeft: 8 }}>{item.label}</Span>
     </Row>
   )

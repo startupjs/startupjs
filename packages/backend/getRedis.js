@@ -16,7 +16,7 @@ const PREFIX = '_' + simpleNumericHash(MONGO_URL + BASE_URL)
     your redis keys and lock keys. This will prevent bugs when you have multiple staging
     apps using the same redis DB.
 */
-module.exports = function getRedis () {
+module.exports = function getRedis (options) {
   let client
   let observer
   let redisOpts = process.env.REDIS_OPTS
@@ -29,6 +29,7 @@ module.exports = function getRedis () {
 
   if (redisOpts) {
     let tls = {}
+
     if (redisOpts.key) {
       tls = {
         key: fs.readFileSync(redisOpts.key),
@@ -37,7 +38,7 @@ module.exports = function getRedis () {
       }
     }
 
-    client = new Redis({
+    options = {
       sentinels: redisOpts.sentinels,
       sslPort: redisOpts.ssl_port || '6380',
       tls: tls,
@@ -45,17 +46,12 @@ module.exports = function getRedis () {
       db: redisOpts.db || 0,
       password: redisOpts.password,
       keyPrefix: PREFIX
-    })
+    }
+  }
 
-    observer = new Redis({
-      sentinels: redisOpts.sentinels,
-      sslPort: redisOpts.ssl_port || '6380',
-      tls: tls,
-      name: 'mymaster',
-      db: redisOpts.db || 0,
-      password: redisOpts.password,
-      keyPrefix: PREFIX
-    })
+  if (options) {
+    client = new Redis(options)
+    observer = new Redis(options)
   } else {
     const REDIS_URL = process.env.REDIS_URL
     client = new Redis(REDIS_URL, { keyPrefix: PREFIX })

@@ -1,5 +1,4 @@
 import React from 'react'
-import { initAuthApp } from '@startupjs/auth'
 import {
   LoginForm,
   RegisterForm,
@@ -15,6 +14,7 @@ import { AuthButton as CommonAuthButton } from '@startupjs/auth-common'
 import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg'
 import { BASE_URL } from '@env'
 import Joi from '@hapi/joi'
+import { initAuthApp } from '../../packages/auth'
 import Layout from './Layout'
 import './index.styl'
 
@@ -46,6 +46,7 @@ const registerForm = pug`
 export default initAuthApp({
   Layout,
   redirectUrl: '/profile?customParam=dummy',
+  loggedInRedirectUrl: '/profile?customParam=dummy',
   localForms: {
     'sign-in': pug`
       LoginForm

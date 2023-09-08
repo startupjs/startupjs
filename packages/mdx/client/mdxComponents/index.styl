@@ -1,27 +1,25 @@
 $codeBg = #F3F4F4 // #fafafa
 $exampleBg = #f5f5f5
 
-.listIndex
 .p
-.inlineCode
-.inlineCodeWrapper
-.link
 .blockquoteP
+.link
+.listIndex
+.inlineCode
+.inlineCodeSpacer
   font(body1)
-
-.p
-  margin-top 2u
-
-.alert
-  margin-top 2u
 
 .h2
   margin-top 8u
+
   &-text
     fontFamily('heading', 600)
 
-.h6
+.h3
   margin-top 6u
+
+  &-text
+    fontFamily('heading', 600)
 
 .anchor
   align-self flex-start
@@ -33,6 +31,43 @@ $exampleBg = #f5f5f5
 
     &.hover
       opacity 1
+
+.divider
+  height 0.5u
+  background-color $UI.colors.mainText
+  margin-bottom 1.5u
+
+.p
+  margin-top 2u
+
+.center
+  text-align center
+
+.listIndex
+  width 3u
+  margin-top 2u
+  text-align center
+  padding-right 2px
+
+.listContent
+  flex 1
+
+.alert
+  margin-top 2u
+
+.img
+  margin-top 2u
+  width 100%
+
+.inlineCodeWrapper
+  background-color $codeBg
+  border-width 1px
+  border-color rgba(black, 0.05)
+  border-radius .5u
+
+
+
+
 
 .example
   margin-top 2u
@@ -47,31 +82,7 @@ $exampleBg = #f5f5f5
 .padding
   padding 2u
 
-.inlineCodeWrapper
-  background-color $codeBg
-  border-width 1px
-  border-color rgba(black, 0.05)
-  border-radius .5u
 
-.li
-  padding-left 2u
-
-.listIndex
-  width 3u
-  margin-top 2u
-  text-align center
-  padding-right 2px
-
-.listContent
-  flex 1
-
-.divider
-  height 0.5u
-  background-color $UI.colors.mainText
-  margin-bottom 1.5u
-
-.center
-  text-align center
 
 .code
   margin-top 2u

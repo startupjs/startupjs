@@ -26,21 +26,19 @@ const media = useMedia()
 const [open, $open] = useSession('SimpleExampleSidebar')
 
 return (
-  <Div style={{overflow: 'hidden'}}>
-    <Sidebar
-      $open={$open}
-      width={media.tablet ? 264 : 120}
-      renderContent={() => (
-        <Span>
-          Sidebar
-        </Span>
-      )}
-    >
-      <Button onPress={() => $open.set(!open)}>
-        Toggle sidebar
-      </Button>
-    </Sidebar>
-  </Div>
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    renderContent={() => (
+      <Span>
+        Sidebar
+      </Span>
+    )}
+  >
+    <Button onPress={() => $open.set(!open)}>
+      Toggle sidebar
+    </Button>
+  </Sidebar>
 )
 ```
 
@@ -53,42 +51,68 @@ const media = useMedia()
 const [open, $open] = useSession('ExampleRightSidebar')
 
 return (
-    <Sidebar
-      $open={$open}
-      width={media.tablet ? 264 : 120}
-      position='right'
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    position='right'
+    renderContent={() => (
+      <Menu>
+        <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='full'
+      style={{
+        backgroundColor: 'white'
+      }}
     >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button
-            variant='flat'
-            onPress={() => { $open.set(!open) }}
-          >
-            Toggle right sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
+      <Row>
+        <Button
+          variant='flat'
+          onPress={() => { $open.set(!open) }}
+        >
+          Toggle right sidebar
+        </Button>
+      </Row>
+      <Br />
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+      </Span>
+    </Content>
+  </Sidebar>
+)
+```
+
+## Ленивый рендеринг
+
+По умолчанию содержимое боковой панели не уничтожается при ее закрытии. Чтобы изменить это поведение, передайте `lazy=true`.
+
+```jsx example
+const media = useMedia()
+const [open, $open] = useSession('ExampleLazySidebar')
+
+return (
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    renderContent={() => (
+      <Span>
+        Lazy sidebar
+      </Span>
+    )}
+    lazy
+  >
+    <Button onPress={() => $open.set(!open)}>
+      Toggle sidebar
+    </Button>
+  </Sidebar>
 )
 ```
 
@@ -99,43 +123,40 @@ const media = useMedia()
 const [open, $open] = useSession('ExampleSidebar')
 
 return (
-  <Div style={{overflow: 'hidden'}}>
-    <Sidebar
-      $open={$open}
-      width={media.tablet ? 264 : 120}
-      renderContent={() => (
-        <Menu>
-          <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
-          <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
-        </Menu>
-      )}
+  <Sidebar
+    $open={$open}
+    width={media.tablet ? 264 : 120}
+    renderContent={() => (
+      <Menu>
+        <Menu.Item onPress={() => null}>Nav-1</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-2</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-3</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-4</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-5</Menu.Item>
+        <Menu.Item onPress={() => null}>Nav-6</Menu.Item>
+      </Menu>
+    )}
+  >
+    <Content
+      padding
+      width='full'
+      style={{
+        backgroundColor: 'white'
+      }}
     >
-      <Content
-        padding
-        width='full'
-        style={{
-          backgroundColor: 'white'
-        }}
-      >
-        <Row>
-          <Button variant='flat' onPress={() => $open.set(!open)}>
-            Toggle sidebar
-          </Button>
-        </Row>
-        <Br />
-        <Span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-        </Span>
-      </Content>
-    </Sidebar>
-  </Div>
+      <Row>
+        <Button variant='flat' onPress={() => $open.set(!open)}>
+          Toggle sidebar
+        </Button>
+      </Row>
+      <Br />
+      <Span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+      </Span>
+    </Content>
+  </Sidebar>
 )
 ```
-
 
 ## Sandbox
 

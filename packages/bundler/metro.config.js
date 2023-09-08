@@ -1,6 +1,6 @@
 const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
 
-const EXTENSIONS = ['js', 'jsx', 'mjs', 'cjs', 'ts', 'tsx', 'md', 'mdx', 'css', 'styl', 'svg']
+const EXTENSIONS = ['js', 'jsx', 'json', 'mjs', 'cjs', 'ts', 'tsx', 'md', 'mdx', 'css', 'styl', 'svg']
 
 module.exports = {
   transformer: {

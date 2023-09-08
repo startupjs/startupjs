@@ -3,16 +3,20 @@
 $this = merge({
   caretColor: $UI.colors.mainText,
   borderWidth: 1,
-  // should rename to heights and lineHeights
-  height: {
-    l: 5u,
+  heights: {
+    s: 3u,
     m: 4u,
-    s: 3u
+    l: 5u
   },
-  lineHeight: {
-    l: 3u,
+  fontSizes: {
+    s: 1.75u,
+    m: 1.75u,
+    l: 2u
+  },
+  lineHeights: {
+    s: 2.5u,
     m: 2.5u,
-    s: 2.5u
+    l: 3u
   },
   placeholderTextColor: $UI.colors.darkLighter
 }, $UI.TextInput, true)
@@ -27,9 +31,6 @@ $inputCaretColor = $this.caretColor
 $inputTextColor = $UI.colors.mainText
 $focusedColor = $UI.colors.primary
 $errorColor = $UI.colors.attention
-$inputFontSizeL = 2u
-$inputFontSizeM = 1.75u
-$inputFontSizeS = 1.75u
 
 .input-input
   margin 0 // important for safari
@@ -51,14 +52,14 @@ $inputFontSizeS = 1.75u
     outline 0
     caret-color $inputCaretColor
 
-  &.l
-    font-size $inputFontSizeL
+  &.s
+    font-size $this.fontSizes.s
 
   &.m
-    font-size $inputFontSizeM
+    font-size $this.fontSizes.m
 
-  &.s
-    font-size $inputFontSizeS
+  &.l
+    font-size $this.fontSizes.l
 
   &.disabled
     background-color $inputBgDisabled

@@ -1,0 +1,42 @@
+# Copy this file to .github/workflows/production.yml
+# It will perform the deploy whenever you push to 'production' branch.
+#
+# You have to provide the following as GitHub Secrets:
+# 1. APP - name of your application in kube cluster
+# 2. AZURE_CREDENTIALS - copy from keys/cicd_apps_account.json after running terraform
+
+name: Deploy styleguide
+
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy-styleguide:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Check out project under github.workspace
+      - uses: actions/checkout@v2
+
+      # Deploy using the image version matching startupjs version.
+      # Get version of startupjs from package.json in source code
+      # (use minor version, same as ~)
+      - env:
+          APP: ${{ secrets.APP }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          COMMIT_SHA: ${{ github.sha }}
+          PROJECT_PATH: ${{ github.workspace }}
+        run: |
+          VERSION=$( sed -n 's/.*"startupjs"[^0-9]*\([0-9]*\.[0-9]*\).*/\1/p' < "$PROJECT_PATH/styleguide/package.json" )
+          docker run --rm \
+            -v "${PROJECT_PATH}:/project" \
+            -e "APP=${APP}" \
+            -e "AZURE_CREDENTIALS=${AZURE_CREDENTIALS}" \
+            -e "COMMIT_SHA=${COMMIT_SHA}" \
+            -e "DEPLOYMENTS=server:./styleguide/Dockerfile" \
+            startupjs/deploy-aks:${VERSION}

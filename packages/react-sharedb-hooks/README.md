@@ -356,7 +356,7 @@ Player documents will now have the `gameId` they belong to which we can use to o
 ```js
 observer(function PlayersInGame (gameId) {
   const [game] = useBatchDoc('games', gameId) // remember query but don't execute it yet
-  const [players] = useBatchQueryIds('players', game.playerIds) // remember query but don't execute it yet
+  const [players] = useBatchQuery('players', { gameId }) // remember query but don't execute it yet
   useBatch() // execute all *Batch queries in parallel
   // waits until all batched queries fetch their data from DB (1 second)
   return game.name + ' players: ' + players.map(i => i.name).join(', ')

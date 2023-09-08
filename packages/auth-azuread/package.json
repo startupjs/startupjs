@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-azuread",
-  "version": "0.44.8",
+  "version": "0.53.0",
   "type": "module",
   "description": "AzueAd auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -11,11 +11,11 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
-    "passport-azure-ad": "^4.2.1",
+    "passport-azure-ad": "^4.3.5",
     "qs": "^6.9.3"
   },
   "peerDependencies": {
     "@startupjs/auth": ">= 0.33.0",
-    "react-native-webview": "10.10.2"
+    "react-native-webview": ">=10.10.2"
   }
 }

@@ -19,5 +19,5 @@ export default async function onLogin ({
     })
   }
 
-  Linking.openURL(AZUREAD_LOGIN_URL)
+  window.location.href = AZUREAD_LOGIN_URL
 }

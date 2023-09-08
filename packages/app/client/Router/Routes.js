@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect, useLayoutEffect } from 'react'
-import { Route, Redirect, useLocation } from 'react-router'
+import React, { useState, useEffect } from 'react'
+import { Route, Redirect } from 'react-router'
 import {
   $root,
   observer,
@@ -10,24 +10,10 @@ import omit from 'lodash/omit'
 import qs from 'qs'
 import RoutesWrapper from './RoutesWrapper'
 
-let isLoadApp = false
-
 export default observer(function Routes ({
   routes,
   ...props
 }) {
-  const location = useLocation()
-  const currentUrl = location.pathname
-
-  const restoreUrl = useMemo(() => {
-    return $root.get('_session.restoreUrl')
-  }, [])
-
-  useEffect(() => {
-    $root.del('_session.restoreUrl')
-    isLoadApp = true
-  }, [])
-
   const routeComponents = routes.map(route => {
     const props = omit(route, ['component'])
 
@@ -57,12 +43,6 @@ export default observer(function Routes ({
     `
   })
 
-  if (!isLoadApp && restoreUrl && currentUrl !== restoreUrl) {
-    return pug`
-      Redirect(to=restoreUrl)
-    `
-  }
-
   return pug`
     RoutesWrapper(...props)= routeComponents
   `
@@ -74,27 +54,16 @@ const RouteComponent = observer(function RCComponent ({
   match,
   ...props
 }) {
-  const [render, setRender] = useState()
+  // don't render anything while useEffect ends
+  const [render, setRender] = useState(false)
 
-  function runFilters (filters) {
-    if (!filters) return setRender(true)
-    filters = filters.slice()
-    function runFilter (err) {
-      if (err) return emit('error', err)
-      const filter = filters.shift()
-      if (typeof filter === 'function') {
-        return filter($root, runFilter, (url) => {
-          emit('url', url, { replace: true })
-        })
-      }
+  useEffect(() => {
+    ;(async () => {
+      initRoute(location, match.params)
+      const filters = route.filters || []
+      if (filters.length) await runFilters(route.filters)
       setRender(true)
-    }
-    runFilter()
-  }
-
-  useLayoutEffect(() => {
-    initRoute(location, match.params)
-    runFilters(route.filters)
+    })()
   }, [location.pathname, location.search, location.hash])
 
   if (!render) return null
@@ -138,4 +107,23 @@ function initRoute (location, routeParams) {
     $root.silent().destroy('_page')
     initLocalCollection('_page')
   }
+}
+
+function runFilters (filters = []) {
+  return new Promise(resolve => {
+    filters = filters.slice()
+
+    function runFilter (err) {
+      if (err) return emit('error', err)
+      const filter = filters.shift()
+      if (typeof filter === 'function') {
+        return filter($root, runFilter, (url) => {
+          emit('url', url, { replace: true })
+        })
+      }
+      resolve()
+    }
+
+    runFilter()
+  })
 }

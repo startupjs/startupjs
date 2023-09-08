@@ -137,7 +137,7 @@ function getAuthStrategies () {
       new AzureADStrategy({
         clientId: conf.get('AZUREAD_CLIENT_ID'),
         clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
-        tentantId: conf.get('AZUREAD_TENTANT_ID'),
+        tenantId: conf.get('AZUREAD_TENANT_ID'),
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
         allowHttpForRedirectUrl: true
       })

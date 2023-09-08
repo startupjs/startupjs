@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
 import { observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
@@ -12,12 +12,13 @@ import { Recaptcha } from '@startupjs/recaptcha'
 import moment from 'moment'
 import { BASE_URL } from '@env'
 import _get from 'lodash/get'
+import _flow from 'lodash/flow'
 import _mergeWith from 'lodash/mergeWith'
 import _pickBy from 'lodash/pickBy'
 import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import commonSchema from './utils/joi'
+import { getValidationSchema } from './utils/getValidationSchema'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -53,11 +54,13 @@ const REGISTER_DEFAULT_INPUTS = {
 
 function RegisterForm ({
   baseUrl,
+  passwordCheckType,
   recaptchaBadgePosition,
   redirectUrl,
   properties,
   validateSchema,
   renderActions,
+  onShouldConfirmRegistration,
   onSuccess,
   onError,
   onChangeSlide
@@ -91,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = commonSchema
+    let fullSchema = getValidationSchema({ passwordCheckType })
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
@@ -106,8 +109,9 @@ function RegisterForm ({
     const formClone = { ...form }
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
-      formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').slice(1).join(' ')
+      const [firstName, ...rest] = formClone.name.trim().split(' ')
+      formClone.firstName = firstName
+      formClone.lastName = rest.filter(Boolean).join(' ')
       delete formClone.name
     }
 
@@ -121,10 +125,12 @@ function RegisterForm ({
         })
       }
 
-      await authHelper.register(formClone)
+      const userId = await authHelper.register(formClone)
 
       if (confirmRegistration) {
-        return onChangeSlide(REQUEST_CONFIRMATION_SLIDE)
+        return onShouldConfirmRegistration
+          ? onShouldConfirmRegistration(userId, REQUEST_CONFIRMATION_SLIDE)
+          : onChangeSlide(REQUEST_CONFIRMATION_SLIDE)
       }
 
       const res = await authHelper.login({
@@ -144,13 +150,19 @@ function RegisterForm ({
     }
   }
 
-  const _properties = _pickBy(
-    _mergeWith(
-      { ...REGISTER_DEFAULT_INPUTS },
-      properties,
-      (a, b) => (b === null) ? null : undefined
-    ),
-    _identity
+  const _properties = _flow([
+    Object.entries,
+    arr => arr.filter(([key, value]) => !value.hidden),
+    Object.fromEntries
+  ])(
+    _pickBy(
+      _mergeWith(
+        { ...REGISTER_DEFAULT_INPUTS },
+        properties,
+        (a, b) => (b === null) ? null : undefined
+      ),
+      _identity
+    )
   )
 
   return pug`
@@ -201,11 +213,13 @@ function initForm (properties) {
 }
 
 RegisterForm.defaultProps = {
-  baseUrl: BASE_URL
+  baseUrl: BASE_URL,
+  passwordCheckType: 'simple'
 }
 
 RegisterForm.propTypes = {
   baseUrl: PropTypes.string,
+  passwordCheckType: PropTypes.oneOf(['complex', 'simple']),
   recaptchaBadgePosition: Recaptcha.propTypes.badge,
   redirectUrl: PropTypes.string,
   properties: PropTypes.object,

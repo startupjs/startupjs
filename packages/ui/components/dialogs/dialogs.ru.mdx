@@ -28,10 +28,17 @@ import { alert } from '@startupjs/ui'
 Когда появится окно оповещения, пользователь должен будет нажать `ОК`, чтобы продолжить.
 
 ```js
-async alert({ title?, message })
+async alert(message | { title?, message })
 ```
 
 **Параметры:**
+
+```js
+await alert(message)
+await alert(options)
+```
+
+`options`:
 
 | Имя     | Тип    | Описание                                                |
 |---------|--------|---------------------------------------------------------|
@@ -40,9 +47,7 @@ async alert({ title?, message })
 
 ```jsx example
 async function onPress () {
-  await alert({
-    message: 'Я окно оповещения'
-  })
+  await alert('Я окно оповещения')
 }
 
 return pug`
@@ -63,10 +68,17 @@ import { confirm } from '@startupjs/ui'
 Если пользователь нажимает `ОК`, функция возвращает `true`. Если пользователь нажимает `Cancel`, функция возвращает `false`.
 
 ```js
-async confirm({ title?, message })
+async confirm(message | { title?, message })
 ```
 
 **Параметры:**
+
+```js
+await confirm(message)
+await confirm(options)
+```
+
+`options`:
 
 | Имя     | Тип    | Описание                                                |
 |---------|--------|---------------------------------------------------------|
@@ -77,9 +89,7 @@ async confirm({ title?, message })
 const [pressedButtonText, setPressedButtonText] = useState()
 
 async function onPress () {
-  const isConfirmed = await confirm({
-    message: 'Нажмите кнопку'
-  })
+  const isConfirmed = await confirm('Нажмите кнопку')
   setPressedButtonText(isConfirmed ? 'OK' : 'Cancel')
 }
 
@@ -104,10 +114,18 @@ import { prompt } from '@startupjs/ui'
 Если пользователь нажимает `ОК`, функция возвращает введенное значение. Если пользователь нажимает кнопку `Cancel`, функция возвращает значение `null`.
 
 ```js
-async prompt({ title?, message, defaultValue? })
+async prompt(message | { title?, message, defaultValue? }, defaultValue?)
 ```
 
 **Параметры:**
+
+```js
+const response = await prompt(message)
+const response = await propmt(message, defaultValue)
+const response = await prompt(options)
+```
+
+`options`:
 
 | Имя          | Тип    | Описание                                                |
 |--------------|--------|---------------------------------------------------------|
@@ -119,10 +137,7 @@ async prompt({ title?, message, defaultValue? })
 const [name, setName] = useState()
 
 async function onPress () {
-  const name = await prompt({
-    message: 'Please enter your name',
-    defaultValue: 'Paha'
-  })
+  const name = await prompt('Please enter your name', 'Paha')
   setName(name)
 }
 

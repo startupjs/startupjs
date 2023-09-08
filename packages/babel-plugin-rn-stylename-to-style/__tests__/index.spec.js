@@ -274,6 +274,23 @@ pluginTester({
         return render()
       }
     `,
+    'dynamic part attribute. Array and Object. Multiple keys.': /* js */`
+      import './index.styl'
+      const Test = ({ style, layout, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+        function render () {
+          return (
+            <Card
+              part='card'
+              style={{ color: 'blue' }}
+              titleStyle={{ color: 'red' }}
+            >
+              <Content part={['content', { row: layout === 'row', column: layout === 'column' }]} />
+            </Card>
+          )
+        }
+        return render()
+      }
+    `,
     'dynamic part attribute. Should error on unsupported dynamic value': {
       code: /* js */`
         import './index.styl'

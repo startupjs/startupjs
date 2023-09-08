@@ -1,17 +1,19 @@
-import { Strategy } from 'passport-linkedin-oauth2'
+import { Strategy } from '@dmapper/passport-linkedin-oauth2'
 import passport from 'passport'
-import nconf from 'nconf'
 import initRoutes from './initRoutes'
 import Provider from './Provider'
 
 import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
 
-function validateConfigs ({ clientId, clientSecret }) {
+function validateConfigs ({ getClient, clientId, clientSecret }) {
+  if (typeof getClient === 'function') {
+    return
+  }
   if (!clientId) {
-    throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Id')
+    throw new Error('[@startupjs/auth-linkedin] Error:', 'Provide Client Id')
   }
   if (!clientSecret) {
-    throw new Error('[@dmapper/auth-linkedin] Error:', 'Provide Client Secret')
+    throw new Error('[@startupjs/auth-linkedin] Error:', 'Provide Client Secret')
   }
 }
 
@@ -28,7 +30,7 @@ export default function (config = {}) {
 
     console.log('++++++++++ Initialization of LinkedIn auth strategy ++++++++++\n')
 
-    const { clientId, clientSecret } = this.config
+    const { clientId, clientSecret, getClient } = this.config
 
     initRoutes({ router, config: this.config })
 
@@ -40,8 +42,9 @@ export default function (config = {}) {
         {
           clientID: clientId,
           clientSecret,
-          // TODO: make multitentant
-          callbackURL: nconf.get('BASE_URL') + CALLBACK_LINKEDIN_URL,
+          getClient,
+          // TODO: make multitenant
+          callbackURL: CALLBACK_LINKEDIN_URL,
           profileFields: ['first-name', 'last-name', 'email-address', 'profile-picture'],
           scope: ['r_emailaddress', 'r_liteprofile'],
           state: true,

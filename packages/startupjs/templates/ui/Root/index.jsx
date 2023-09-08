@@ -22,7 +22,7 @@ init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
   '@startupjs/app': [
-    [uiAppPlugin, { defaultEnable: true }]
+    [uiAppPlugin, { defaultEnabled: true }]
   ]
 })
 

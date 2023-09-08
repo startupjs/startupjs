@@ -1231,6 +1231,85 @@ function Test({ style, active, submit, disabled, titleStyle }) {
 
 `;
 
+exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Array and Object. Multiple keys.: dynamic part attribute. Array and Object. Multiple keys. 1`] = `
+
+import './index.styl'
+const Test = ({ style, layout, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+  function render () {
+    return (
+      <Card
+        part='card'
+        style={{ color: 'blue' }}
+        titleStyle={{ color: 'red' }}
+      >
+        <Content part={['content', { row: layout === 'row', column: layout === 'column' }]} />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+
+const Test = ({
+  columnStyle: _columnStyle,
+  rowStyle: _rowStyle,
+  style,
+  layout,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName(
+          "",
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: [
+              {
+                color: "blue",
+              },
+              myCardStyle,
+            ],
+            titleStyle: {
+              color: "red",
+            },
+          }
+        )}
+      >
+        <Content
+          {..._processStyleName(
+            "",
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {
+              style: [
+                contentStyle,
+                layout === "row" ? _rowStyle : undefined,
+                layout === "column" ? _columnStyle : undefined,
+              ],
+            }
+          )}
+        />
+      </Card>
+    );
+  }
+
+  return render();
+};
+
+
+`;
+
 exports[`@startupjs/babel-plugin-rn-stylename-to-style dynamic part attribute. Array and Object: dynamic part attribute. Array and Object 1`] = `
 
 import './index.styl'

@@ -15,6 +15,8 @@ function ObjectInput ({
   properties,
   order,
   row,
+  disabled,
+  readonly,
   _renderWrapper
 }) {
   if (!$value || !properties) {
@@ -45,7 +47,7 @@ function ObjectInput ({
   if (inputs.length === 0) return null
 
   if (!_renderWrapper) {
-    _renderWrapper = (style, children) => {
+    _renderWrapper = ({ style }, children) => {
       const Container = row ? Row : Div
       return pug`
         Container(style=style)= children
@@ -57,11 +59,12 @@ function ObjectInput ({
     style: [style, inputStyle]
   }, pug`
     each input, index in inputs
-      - const { ...inputProps } = input
       Input.input(
-        ...input
         styleName={ push: index !== 0, row, column: !row }
         error=errors[input.key]
+        disabled=disabled
+        readonly=readonly
+        ...input
       )
   `)
 }

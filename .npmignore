@@ -29,6 +29,9 @@ yarn.lock
 # NPM lock
 package-lock.json
 
+# Test screenshots
+/test_failed_screenshots
+
 # ----- additional
 
 /packages/

@@ -24,6 +24,7 @@ async function clearLoginAttempts (userId, model) {
   await $auth.subscribe()
 
   await $auth.del('providers.local.failedLoginAttempts')
+  await $auth.del('providers.local.faildeLoginTimestamp')
 
   $auth.unsubscribe()
 }

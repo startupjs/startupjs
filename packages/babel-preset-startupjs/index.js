@@ -15,9 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias, observerCache } = {}) => [
+const basePlugins = ({ alias, observerCache, signals } = {}) => [
   [require('@startupjs/babel-plugin-startupjs-utils'), {
-    observerCache
+    observerCache,
+    signals
   }],
   [require('babel-plugin-module-resolver'), {
     alias: {
@@ -63,7 +64,7 @@ const webReactCssModulesPlugin = ({ production } = {}) =>
     },
     transform: (src, filepath) => {
       if (!/\.styl$/.test(filepath)) return src
-      return stylusToCssLoader(src, filepath)
+      return stylusToCssLoader.call({ resourcePath: filepath }, src)
     },
     generateScopedName
   }]
@@ -199,6 +200,10 @@ const CONFIG_WEB_PURE_PRODUCTION = {
     webReactCssModulesPlugin({ production: true }),
     i18nPlugin({ collectTranslations: true })
   ]
+}
+
+if (ASYNC) {
+  CONFIG_WEB_PURE_PRODUCTION.sourceType = 'unambiguous'
 }
 
 // node.js server config

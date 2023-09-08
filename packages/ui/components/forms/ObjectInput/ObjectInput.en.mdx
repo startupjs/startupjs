@@ -3,7 +3,7 @@ import Content from '../../Content'
 import Br from '../../Br'
 import Span from '../../typography/Span'
 import ObjectInput from '../ObjectInput'
-import { useValue } from 'startupjs'
+import { useValue, useValue$ } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # ObjectInput
@@ -23,69 +23,11 @@ import { ObjectInput } from from '@startupjs/ui'
 It's important to have `properties` object defined as a constant either outside of your component or cached with `useMemo()`, otherwise component is going to re-render the whole form tree whenever you are editing one of the field.
 
 ```jsx example
-const [, $value] = useValue({})
-const properties = useMemo(() => {
-  return {
-    email: {
-      input: 'text',
-      label: 'Email'
-    },
-    password: {
-      input: 'text',
-      label: 'Password',
-      description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
-    }
-  }
-}, [])
+const $value = useValue$()
 
 return (
   <ObjectInput
     $value={$value}
-    properties={properties}
-  />
-)
-```
-
-## Row
-
-You can show nested inputs in a row by passing the `row` flag.
-
-```jsx example
-const [, $value] = useValue({})
-const properties = useMemo(() => {
-  return {
-    email: {
-      input: 'text',
-      label: 'Email'
-    },
-    password: {
-      input: 'text',
-      label: 'Password',
-      description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
-    }
-  }
-}, [])
-
-return (
-  <ObjectInput
-    $value={$value}
-    properties={properties}
-    row
-  />
-)
-```
-
-## Inputs order
-
-ObjectInput accepts an array in the `order` property to specify in what order should the inputs be displayed.
-
-```jsx example
-const [, $value] = useValue({})
-
-return (
-  <ObjectInput
-    $value={$value}
-    order={['password', 'email']}
     properties={{
       email: {
         input: 'text',
@@ -101,19 +43,12 @@ return (
 )
 ```
 
-## Advanced usage
+## Row
 
-ObjectInput supports `dependsOn` and `dependsValue` properties for each input object in `properties` to dynamically display inputs.
-
-- `dependsOn` is used to specify the object key which the current input depends on
-- `dependsValue` is used to specify at what value of the input with key `dependsOn` should the current input be shown
-
-In the example below the dependent `password` input will only be shown if the `email` input is not empty.
-
-**Caution**: When the `dependsOn` field changes and dependent field is no longer visible its previous value is preserved.
+You can show nested inputs in a row by passing the `row` flag.
 
 ```jsx example
-const [, $value] = useValue({})
+const $value = useValue$()
 
 return (
   <ObjectInput
@@ -126,7 +61,33 @@ return (
       password: {
         input: 'text',
         label: 'Password',
-        dependsOn: 'email',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    row
+  />
+)
+```
+
+## Inputs order
+
+ObjectInput accepts an array in the `order` property to specify in what order should the inputs be displayed.
+
+```jsx example
+const $value = useValue$()
+
+return (
+  <ObjectInput
+    $value={$value}
+    order={['password', 'email']}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
         description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}
@@ -156,6 +117,87 @@ return (
       password: {
         input: 'text',
         label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+  />
+)
+```
+
+## Disabled
+
+```jsx example
+const $value = useValue$()
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    disabled
+  />
+)
+```
+
+## Readonly
+
+```jsx example
+const $value = useValue$({ email: 'startupjs@gmail.com', password: '123456' })
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
+      }
+    }}
+    readonly
+  />
+)
+```
+
+## Advanced usage
+
+ObjectInput supports `dependsOn` and `dependsValue` properties for each input object in `properties` to dynamically display inputs.
+
+- `dependsOn` is used to specify the object key which the current input depends on
+- `dependsValue` is used to specify at what value of the input with key `dependsOn` should the current input be shown
+
+In the example below the dependent `password` input will only be shown if the `email` input is not empty.
+
+**Caution**: When the `dependsOn` field changes and dependent field is no longer visible its previous value is preserved.
+
+```jsx example
+const [, $value] = useValue()
+
+return (
+  <ObjectInput
+    $value={$value}
+    properties={{
+      email: {
+        input: 'text',
+        label: 'Email'
+      },
+      password: {
+        input: 'text',
+        label: 'Password',
+        dependsOn: 'email',
         description: "Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter"
       }
     }}

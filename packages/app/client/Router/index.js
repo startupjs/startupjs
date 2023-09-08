@@ -7,6 +7,7 @@ import { $root, observer, useSyncEffect } from 'startupjs'
 import { Slot } from '@startupjs/plugin'
 import { BASE_URL } from '@env'
 import axios from 'axios'
+import RestoreUrl from './RestoreUrl'
 import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
@@ -16,7 +17,8 @@ const isWeb = Platform.OS === 'web'
 export default observer(function Router (props) {
   return pug`
     RouterComponent
-      AppsFactory(...props)
+      RestoreUrl
+        AppsFactory(...props)
   `
 })
 
@@ -29,8 +31,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 }) {
   const location = useLocation()
   const history = useHistory()
-
-  const [err, setErr] = useState()
+  const [error, setError] = useState()
   const app = useMemo(() => {
     return getApp(location.pathname, routes)
   }, [location.pathname])
@@ -47,12 +48,12 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   }, [])
 
   useSyncEffect(() => {
-    if (err) setErr()
+    if (error) setError()
   }, [location.pathname])
 
   function handleError (err) {
     if (err?.code === 'ERR_DOC_ALREADY_CREATED') return
-    setErr(err)
+    setError(isNaN(err) ? err : { code: err })
   }
 
   function goTo (url, options) {
@@ -87,8 +88,8 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   }
 
   return pug`
-    if err
-      Error(error=err pages=errorPages supportEmail=supportEmail)
+    if error
+      Error(error=error pages=errorPages supportEmail=supportEmail)
     else
       RenderApp(app=app routes=routes ...props)
 
@@ -100,6 +101,9 @@ const RenderApp = observer(function RenderAppComponent ({
   app,
   ...props
 }) {
+  // TODO
+  // We should change the app in the route after run filters
+  // because we see a new rendered layout for a moment if filter blocks route
   const Layout = app ? apps[app] : null
 
   if (!Layout) {
@@ -108,7 +112,7 @@ const RenderApp = observer(function RenderAppComponent ({
   }
 
   return pug`
-    Slot(name='LayoutWrapper')
+    Slot(name='LayoutWrapper' type='nested')
       Layout
         Routes(...props)
   `

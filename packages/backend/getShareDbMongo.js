@@ -12,13 +12,12 @@ const {
 let initPromise
 let shareMongo
 
-module.exports = async function getShareDbMongo () {
+module.exports = async function getShareDbMongo (options = {}) {
   if (shareMongo) return shareMongo
   if (initPromise) return initPromise
 
   initPromise = new Promise((resolve, reject) => {
-    const mongoOptions = { useUnifiedTopology: true }
-
+    let mongoOptions = { useUnifiedTopology: true, ...options }
     let mongoOpts = process.env.MONGO_OPTS
 
     if (isString(mongoOpts)) {
@@ -33,12 +32,10 @@ module.exports = async function getShareDbMongo () {
         mongoOptions.sslCert = fs.readFileSync(mongoOpts.cert)
         mongoOptions.sslCA = fs.readFileSync(mongoOpts.ca)
       }
-    } else {
-      if (MONGO_SSL_KEY_PATH) {
-        mongoOptions.sslKey = fs.readFileSync(MONGO_SSL_KEY_PATH)
-        mongoOptions.sslCert = fs.readFileSync(MONGO_SSL_CERT_PATH)
-        mongoOptions.sslCA = fs.readFileSync(MONGO_SSL_CA_PATH)
-      }
+    } else if (MONGO_SSL_KEY_PATH) {
+      mongoOptions.sslKey = fs.readFileSync(MONGO_SSL_KEY_PATH)
+      mongoOptions.sslCert = fs.readFileSync(MONGO_SSL_CERT_PATH)
+      mongoOptions.sslCA = fs.readFileSync(MONGO_SSL_CA_PATH)
     }
 
     shareMongo = ShareDbMongo({
