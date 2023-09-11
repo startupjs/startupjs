@@ -1,7 +1,7 @@
 import { process as dynamicProcess } from 'react-native-dynamic-style-processor/src/index.js'
 import { singletonMemoize } from '@startupjs/cache'
 import dimensions from './dimensions.js'
-import singletonVariables from './variables.js'
+import singletonVariables, { defaultVariables } from './variables.js'
 import matcher from './matcher.js'
 
 // TODO: Improve css variables performance. Instead of rerunning finding variables each time
@@ -97,11 +97,7 @@ function replaceVariables (styles = {}) {
   let strStyles = JSON.stringify(styles)
   strStyles = strStyles.replace(VARS_REGEX, (match, varName, varDefault) => {
     let res
-    if (singletonVariables[varName] != null) {
-      res = singletonVariables[varName]
-    } else {
-      res = varDefault
-    }
+    res = singletonVariables[varName] ?? defaultVariables[varName] ?? varDefault
     if (typeof res === 'string') {
       res = res.trim()
       // replace 'px' value with a pure number
