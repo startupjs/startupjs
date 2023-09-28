@@ -1,3 +1,12 @@
+## [0.53.1](https://github.com/startupjs/startupjs/compare/v0.53.0...v0.53.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* **mailgun:** select only used fields when sending email ([e65464e](https://github.com/startupjs/startupjs/commit/e65464eeaa1a0f01cff5685411ab2698eff9db19))
+
+
+
 # [0.53.0](https://github.com/startupjs/startupjs/compare/v0.52.12...v0.53.0) (2023-08-17)
 
 
