@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  main:
+  deploy-styleguide:
     runs-on: ubuntu-latest
     steps:
 

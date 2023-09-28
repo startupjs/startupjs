@@ -1,4 +1,4 @@
-FROM node:16.16-alpine
+FROM node:20-alpine
 
 # REQUIRED ENV VARS:
 # - STAGE
@@ -12,7 +12,7 @@ WORKDIR /app
 
 RUN \
   apk add --no-cache make gcc g++ python3 git && \
-  yarn bootstrap && \
+  yarn && \
   cd styleguide && \
   yarn build && \
   yarn cache clean && \
