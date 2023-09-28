@@ -1,5 +1,6 @@
 import Mailgun from 'mailgun.js'
 import formData from 'form-data'
+import pick from 'lodash/pick'
 
 let instance = null
 
@@ -16,7 +17,25 @@ class MailService {
 
   send (data) {
     try {
-      return this.mailgun.messages.create(this.domain, data)
+      return this.mailgun.messages.create(
+        this.domain,
+        pick(
+          data,
+          [
+            'from',
+            'to',
+            'cc',
+            'bcc',
+            'subject',
+            'text',
+            'html',
+            'amp-html',
+            'attachment',
+            'inline',
+            'template'
+          ]
+        )
+      )
     } catch (error) {
       console.log('send email ERR:', error)
       return { error }
