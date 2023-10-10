@@ -84,12 +84,12 @@ export default class WorkerManager {
     this.stopping = false
   }
 
-  async executeTask (taskId) {
+  async executeTask (taskId, params) {
     let child = this.children[0]
     while (!child || !child.ready) {
       await delay(100)
       child = this.children[0]
     }
-    return await child.executeTask(taskId)
+    return await child.executeTask(taskId, params)
   }
 }

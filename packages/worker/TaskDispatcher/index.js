@@ -72,7 +72,9 @@ export default class TaskDispatcher {
         })
 
         try {
-          workerId = await this.workerManager.executeTask(taskId)
+          const params = {}
+          if ($task.get('options.timeout')) params.timeout = $task.get('options.timeout')
+          workerId = await this.workerManager.executeTask(taskId, params)
           await model.setEachAsync($task.path(), {
             status: 'done',
             doneTime: Date.now()
