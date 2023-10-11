@@ -66,17 +66,16 @@ export default class Worker extends EventEmitter {
     }
   }
 
-  executeTask (taskId) {
+executeTask (taskId, { timeout = env.WORKER_TASK_DEFAULT_TIMEOUT } = {}) {
     this.taskId = taskId
     return new Promise((resolve, reject) => {
       if (!this.ready) return reject(new Error('Worker is dead: taskId: ' + taskId))
       this.taskReject = reject
-      const TASK_TIMEOUT = Number(env.WORKER_TASK_DEFAULT_TIMEOUT)
       let timer = setTimeout(() => {
         reject(new Error('Task timeout reached: ' + taskId))
 
         if (this.ready) this.worker.kill()
-      }, TASK_TIMEOUT)
+      }, Number(timeout))
 
       this.worker.once('message', (data) => {
         let taskId = data && data.taskId
