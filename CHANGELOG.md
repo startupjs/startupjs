@@ -1,3 +1,12 @@
+## [0.53.2](https://github.com/startupjs/startupjs/compare/v0.53.1...v0.53.2) (2023-10-11)
+
+
+### Features
+
+* **worker:** add custom task timeout ([#1051](https://github.com/startupjs/startupjs/issues/1051)) ([ca3d79f](https://github.com/startupjs/startupjs/commit/ca3d79f58db2bbcf7ac1b3a8694f4bfbf5488061))
+
+
+
 ## [0.53.1](https://github.com/startupjs/startupjs/compare/v0.53.0...v0.53.1) (2023-09-28)
 
 
