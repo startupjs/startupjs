@@ -86,27 +86,27 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   // all other colors are generated from the base colors
 
   // main bg colors
-  C['bg'] ??= C['base']
-  C['bg-primary'] ??= C['base-primary']
+  C['bg']           ??= C['base']
+  C['bg-primary']   ??= C['base-primary']
   C['bg-secondary'] ??= C['base-secondary']
-  C['bg-error'] ??= C['base-error']
-  C['bg-success'] ??= C['base-success']
-  C['bg-warning'] ??= C['base-warning']
-  C['bg-info'] ??= C['base-info']
+  C['bg-error']     ??= C['base-error']
+  C['bg-success']   ??= C['base-success']
+  C['bg-warning']   ??= C['base-warning']
+  C['bg-info']      ??= C['base-info']
   C['bg-attention'] ??= C['base-attention']
-  C['bg-special'] ??= C['base-special']
+  C['bg-special']   ??= C['base-special']
 
   // extra bg colors
-  C['bg-dim']     ??= C['bg'].dimmer(1)
-  C['bg-strong']  ??= C['bg'].stronger(1)
-  C['bg-primary-inverse'] ??= C['bg-primary'].highContrast()
+  C['bg-dim']               ??= C['bg'].dimmer(1)
+  C['bg-strong']            ??= C['bg'].stronger(1)
+  C['bg-primary-inverse']   ??= C['bg-primary'].highContrast()
   C['bg-secondary-inverse'] ??= C['bg-secondary'].highContrast()
-  C['bg-error-inverse'] ??= C['bg-error'].highContrast()
-  C['bg-success-inverse'] ??= C['bg-success'].highContrast()
-  C['bg-warning-inverse'] ??= C['bg-warning'].highContrast()
-  C['bg-info-inverse'] ??= C['bg-info'].highContrast()
+  C['bg-error-inverse']     ??= C['bg-error'].highContrast()
+  C['bg-success-inverse']   ??= C['bg-success'].highContrast()
+  C['bg-warning-inverse']   ??= C['bg-warning'].highContrast()
+  C['bg-info-inverse']      ??= C['bg-info'].highContrast()
   C['bg-attention-inverse'] ??= C['bg-attention'].highContrast()
-  C['bg-special-inverse'] ??= C['bg-special'].highContrast()
+  C['bg-special-inverse']   ??= C['bg-special'].highContrast()
 
   // text
   C['text']             ??= C['bg-secondary']
