@@ -71,19 +71,32 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   const C = { ...existing }
 
   // base colors
-  C['bg']           ??= Color('coolGray', high)
-  C['bg-primary']   ??= Color('blue', middle - 1)
-  C['bg-secondary'] ??= Color('gray', low)
-  C['bg-error']     ??= Color('red', middle - 1)
-  C['bg-success']   ??= Color('green', middle - 1)
-  C['bg-warning']   ??= Color('yellow', middle - 1)
-  C['bg-info']      ??= Color('cyan', middle - 1)
-  C['bg-attention'] ??= Color('orange', middle - 1)
-  C['bg-special']   ??= Color('purple', middle - 1)
+  // TODO: Figure out if this is needed, right now tried to just use it for bg.
+  //       If it is needed, then use it also for text and border.
+  C['base']           ??= Color('coolGray', high)
+  C['base-primary']   ??= Color('blue', middle - 1)
+  C['base-secondary'] ??= Color('gray', low)
+  C['base-error']     ??= Color('red', middle - 1)
+  C['base-success']   ??= Color('green', middle - 1)
+  C['base-warning']   ??= Color('yellow', middle - 1)
+  C['base-info']      ??= Color('cyan', middle - 1)
+  C['base-attention'] ??= Color('orange', middle - 1)
+  C['base-special']   ??= Color('purple', middle - 1)
 
   // all other colors are generated from the base colors
 
-  // bg
+  // main bg colors
+  C['bg'] ??= C['base']
+  C['bg-primary'] ??= C['base-primary']
+  C['bg-secondary'] ??= C['base-secondary']
+  C['bg-error'] ??= C['base-error']
+  C['bg-success'] ??= C['base-success']
+  C['bg-warning'] ??= C['base-warning']
+  C['bg-info'] ??= C['base-info']
+  C['bg-attention'] ??= C['base-attention']
+  C['bg-special'] ??= C['base-special']
+
+  // extra bg colors
   C['bg-dim']     ??= C['bg'].dimmer(1)
   C['bg-strong']  ??= C['bg'].stronger(1)
   C['bg-primary-inverse'] ??= C['bg-primary'].highContrast()

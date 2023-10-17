@@ -5,8 +5,8 @@
   radius()
 
   &.info
-    border-color var(--color-border-error)
-    background-color var(--colors-primaryLightest)
+    border-color var(--color-border-primary) // <-- this is NEW colors
+    background-color var(--colors-primaryLightest) // <-- this is OLD colors (all of them need to be refactored from --colors- to --color-)
 
   &.error
     border-color var(--colors-error)
