@@ -1,8 +1,31 @@
 import React, { useState, useMemo, useRef } from 'react'
 // TODO: Test useDoc$ and useQuery$
-import { ScrollView } from 'react-native'
-import { pug, styl, observer, useComponentId, useSubscribe$, subscribe$, $, useDoc$, useQuery$, useValue$ } from 'startupjs'
-import { Br, Div, Input, Button, Link, Row, Span, Card, H5, Item, prompt } from '@startupjs/ui'
+import {
+  pug,
+  styl,
+  observer,
+  useComponentId,
+  useSubscribe$,
+  subscribe$,
+  $,
+  useDoc$,
+  useQuery$,
+  useValue$
+} from 'startupjs'
+import {
+  Br,
+  Button,
+  Card,
+  Div,
+  Input,
+  Link,
+  Row,
+  ScrollView,
+  Span,
+  H5,
+  Item,
+  prompt
+} from '@startupjs/ui'
 
 export default observer(function PPlayground () {
   return pug`

@@ -53,6 +53,8 @@ import RatingEn from '../components/Rating/Rating.en.mdx'
 import RatingRu from '../components/Rating/Rating.ru.mdx'
 import RowEn from '../components/Row/Row.en.mdx'
 import RowRu from '../components/Row/Row.ru.mdx'
+import ScrollViewEn from '../components/ScrollView/ScrollView.en.mdx'
+import ScrollViewRu from '../components/ScrollView/ScrollView.ru.mdx'
 import SidebarEn from '../components/Sidebar/Sidebar.en.mdx'
 import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
@@ -289,6 +291,14 @@ export default {
       component: {
         en: RowEn,
         ru: RowRu
+      }
+    },
+    ScrollView: {
+      type: 'mdx',
+      title: 'ScrollView',
+      component: {
+        en: ScrollViewEn,
+        ru: ScrollViewRu
       }
     },
     Sidebar: {

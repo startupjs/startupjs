@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
-import { ScrollView } from 'react-native'
 import { observer, $root, useComponentId } from 'startupjs'
-import { themed, Button, Row, Div } from '@startupjs/ui'
+import { themed, Button, Row, Div, ScrollView } from '@startupjs/ui'
 import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'
 import Renderer from './Renderer'

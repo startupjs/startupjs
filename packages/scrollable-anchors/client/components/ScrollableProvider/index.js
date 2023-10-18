@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import { ScrollView } from 'react-native'
 import { observer, useOn, usePage, useLocal, emit } from 'startupjs'
+import { ScrollView } from '@startupjs/ui'
 import _debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 
@@ -135,7 +135,7 @@ function ScrollableProvider ({ reactOnHash, style, children, ...rest }) {
       onContentSizeChange=onDimensionChange
       ...rest
     )
-      =children
+      = children
   `
 }
 
