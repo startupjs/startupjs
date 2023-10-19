@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useImperativeHandle } from 'react'
-import { FlatList } from 'react-native'
 import { observer } from 'startupjs'
-import { Div, Span } from '@startupjs/ui'
+import { Div, FlatList, Span } from '@startupjs/ui'
 import moment from 'moment'
 import STYLES from './index.styl'
 

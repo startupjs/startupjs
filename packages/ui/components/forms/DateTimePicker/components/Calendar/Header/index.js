@@ -1,8 +1,19 @@
 import React, { useCallback, useMemo } from 'react'
-import { FlatList } from 'react-native'
 import { observer, useValue } from 'startupjs'
-import { Row, Div, Span, Button, Popover, Icon } from '@startupjs/ui'
-import { faAngleLeft, faAngleRight, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import {
+  Button,
+  Div,
+  FlatList,
+  Icon,
+  Popover,
+  Row,
+  Span
+} from '@startupjs/ui'
+import {
+  faAngleLeft,
+  faAngleRight,
+  faCaretDown
+} from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 import STYLES from './index.styl'
 
