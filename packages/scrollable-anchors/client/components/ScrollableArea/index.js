@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
+import { ScrollView } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { registerArea, unregisterArea } from '../../helpers'
 

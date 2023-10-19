@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'startupjs'
 import {
+  Div,
   Menu,
-  Span,
-  Div
+  ScrollView,
+  Span
 } from '@startupjs/ui'
 import Accounts from '../../../components/Accounts'
 import Messages from '../../../components//Messages'
