@@ -1,3 +1,14 @@
+## [0.53.3](https://github.com/startupjs/startupjs/compare/v0.53.2...v0.53.3) (2023-10-19)
+
+
+### Features
+
+* add ability to have multiple websocket connections ([#1069](https://github.com/startupjs/startupjs/issues/1069)) ([b82bf96](https://github.com/startupjs/startupjs/commit/b82bf96e8f47542e127dd93f0ec85a710e05179f))
+* reexport FlatList from react-native ([#1067](https://github.com/startupjs/startupjs/issues/1067)) ([71c402c](https://github.com/startupjs/startupjs/commit/71c402c226a207dae7c141f04f402d2eb3110313))
+* reexport ScrollView from react-native ([#1066](https://github.com/startupjs/startupjs/issues/1066)) ([e77d9dd](https://github.com/startupjs/startupjs/commit/e77d9ddb40ca8284f7b97e3933ad1323a1e6f208))
+
+
+
 ## [0.53.2](https://github.com/startupjs/startupjs/compare/v0.53.1...v0.53.2) (2023-10-11)
 
 
