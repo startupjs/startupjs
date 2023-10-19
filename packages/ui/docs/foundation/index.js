@@ -1,18 +1,20 @@
 /* @asyncImports */
 import { faLandmark } from '@fortawesome/free-solid-svg-icons'
-import TypographyEn from '../../components/typography/Typography.en.mdx'
-import TypographyRu from '../../components/typography/Typography.ru.mdx'
-import FontsEn from '../../components/typography/Fonts.en.mdx'
-import FontsRu from '../../components/typography/Fonts.ru.mdx'
+import BorderRadius from './borderRadius.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
 import Colors from './colors.mdx'
-import BorderRadius from './borderRadius.mdx'
+import EditingRu from './editing.ru.mdx'
 import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
-import TestingRu from './testing.ru.mdx'
 import TestingEn from './testing.en.mdx'
+import TestingRu from './testing.ru.mdx'
 import SecurityRu from './security.ru.mdx'
-import EditingRu from './editing.ru.mdx'
+import WebsocketEn from './websocket.en.mdx'
+import WebsocketRu from './websocket.ru.mdx'
+import FontsEn from '../../components/typography/Fonts.en.mdx'
+import FontsRu from '../../components/typography/Fonts.ru.mdx'
+import TypographyEn from '../../components/typography/Typography.en.mdx'
+import TypographyRu from '../../components/typography/Typography.ru.mdx'
 
 export default {
   type: 'collapse',
@@ -22,29 +24,15 @@ export default {
   },
   icon: faLandmark,
   items: {
-    Typography: {
+    borderRadius: {
       type: 'mdx',
       title: {
-        en: 'Typography',
-        ru: 'Типографика'
+        en: 'Border Radius',
+        ru: 'Border Radius'
       },
-      component: {
-        en: TypographyEn,
-        ru: TypographyRu
-      }
+      component: BorderRadius
     },
-    Fonts: {
-      type: 'mdx',
-      title: {
-        en: 'Custom Fonts',
-        ru: 'Свои Шрифты'
-      },
-      component: {
-        en: FontsEn,
-        ru: FontsRu
-      }
-    },
-    Collections: {
+    collections: {
       type: 'mdx',
       title: {
         en: 'Collection types',
@@ -52,7 +40,7 @@ export default {
       },
       component: CollectionTypesRu
     },
-    Colors: {
+    colors: {
       type: 'mdx',
       title: {
         en: 'Colors',
@@ -60,13 +48,13 @@ export default {
       },
       component: Colors
     },
-    BorderRadius: {
+    editing: {
       type: 'mdx',
       title: {
-        en: 'Border Radius',
-        ru: 'Border Radius'
+        en: 'Editing implementations',
+        ru: 'Способы редактирования'
       },
-      component: BorderRadius
+      component: EditingRu
     },
     exportingCSStoJS: {
       type: 'mdx',
@@ -79,15 +67,18 @@ export default {
         ru: ExportCSStoJSRu
       }
     },
-    Editing: {
+    fonts: {
       type: 'mdx',
       title: {
-        en: 'Editing implementations',
-        ru: 'Способы редактирования'
+        en: 'Custom Fonts',
+        ru: 'Свои Шрифты'
       },
-      component: EditingRu
+      component: {
+        en: FontsEn,
+        ru: FontsRu
+      }
     },
-    Security: {
+    security: {
       type: 'mdx',
       title: {
         en: 'Security',
@@ -95,7 +86,7 @@ export default {
       },
       component: SecurityRu
     },
-    Testing: {
+    testing: {
       type: 'mdx',
       title: {
         en: 'Testing',
@@ -104,6 +95,28 @@ export default {
       component: {
         en: TestingEn,
         ru: TestingRu
+      }
+    },
+    typography: {
+      type: 'mdx',
+      title: {
+        en: 'Typography',
+        ru: 'Типографика'
+      },
+      component: {
+        en: TypographyEn,
+        ru: TypographyRu
+      }
+    },
+    websocket: {
+      type: 'mdx',
+      title: {
+        en: 'Websocket',
+        ru: 'Веб-сокет'
+      },
+      component: {
+        en: WebsocketEn,
+        ru: WebsocketRu
       }
     }
   }

@@ -1,0 +1,31 @@
+# Веб-сокет
+
+## Как обновить HTTP-соединение до WebSocket-соединения
+
+Чтобы обновить соединение для URL-адреса `/my-channel`, в функции обратного вызова инициализации сервера выполните следующее
+
+```js
+import WebSocket from 'ws'
+
+const PATH = '/my-channel'
+const wss = new WebSocket.Server({ noServer: true, path: PATH })
+
+startupjsServer({
+  // server arguments
+}, (ee, options) => {
+  ee.on('beforeStart', ({ server, session }) => {
+    server.on('upgrade', (req, socket, head) => {
+      if (req.url !== PATH) return
+      session(req, {}, () => {
+        wss.handleUpgrade(req, socket, head, ws => {
+          wss.emit('connection', ws, req)
+        })
+      })
+    })
+  })
+})
+
+wss.on('connection', (ws, req) => {
+  console.log(`The user with userId: ${req.session.userId} is connected`)
+})
+```
