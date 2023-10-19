@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
-  FlatList
+  View
 } from 'react-native'
 import { observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -14,6 +13,7 @@ import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import AbstractPopover from '../AbstractPopover'
 import Loader from '../Loader'
+import FlatList from '../FlatList'
 import useKeyboard from './useKeyboard'
 import themed from '../../theming/themed'
 import './index.styl'
