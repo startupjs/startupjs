@@ -11,6 +11,17 @@ pluginTester({
     plugins: ['@babel/plugin-syntax-jsx']
   },
   tests: {
+    'Should throw an error when no import found': {
+      error: true,
+      code: `
+        import React from 'react'
+
+        styl\`
+          .card
+            color red
+        \`
+      `
+    },
     'Should remove css and styl from startupjs import': /* js */`
       import React from 'react'
       import { css, observer, styl } from 'startupjs'
