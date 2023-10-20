@@ -11,7 +11,7 @@ pluginTester({
     plugins: ['@babel/plugin-syntax-jsx']
   },
   tests: {
-    'Should throw an error when no import found': {
+    'Should throw an error if import is not specified': {
       error: true,
       code: `
         import React from 'react'

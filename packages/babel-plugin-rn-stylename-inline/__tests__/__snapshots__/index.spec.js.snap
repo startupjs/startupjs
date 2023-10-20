@@ -408,7 +408,7 @@ import React from "react";
 
 `;
 
-exports[`@startupjs/babel-plugin-rn-stylename-inline Should throw an error when no import found: Should throw an error when no import found 1`] = `
+exports[`@startupjs/babel-plugin-rn-stylename-inline Should throw an error if import is not specified: Should throw an error if import is not specified 1`] = `
 
 import React from 'react'
 
