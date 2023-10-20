@@ -66,10 +66,10 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
       // don't compress responses with this request header
       return false
     }
-  
+
     // fallback to standard filter function
     return compression.filter(req, res)
-  }  
+  }
 
   expressApp
     .use(compression({ filter: shouldCompress }))

@@ -1,7 +1,8 @@
+const { GLOBAL_NAME, LOCAL_NAME } =
+  require('@startupjs/babel-plugin-rn-stylename-to-style/constants.cjs')
 const template = require('@babel/template').default
 const parser = require('@babel/parser')
 const t = require('@babel/types')
-const { GLOBAL_NAME, LOCAL_NAME } = require('@startupjs/babel-plugin-rn-stylename-to-style/constants.cjs')
 const compilers = require('./compilers')
 const MAGIC_LIBRARY = 'startupjs'
 
@@ -11,28 +12,21 @@ const buildConst = template(`
 
 module.exports = function (babel) {
   let usedCompilers
-  let skip
   let $program
 
   return {
     post () {
       usedCompilers = undefined
-      skip = undefined
       $program = undefined
     },
     visitor: {
       Program: {
         enter ($this, state) {
           usedCompilers = getUsedCompilers($this)
-          if (Object.keys(usedCompilers).length === 0) {
-            skip = true
-          }
           $program = $this
         }
       },
       TaggedTemplateExpression: ($this, state) => {
-        if (skip) return
-
         // I. validate template
         if (!validateTemplate($this, usedCompilers)) return
 
@@ -99,13 +93,21 @@ function insertAfterImports ($program, expressionStatement) {
 
 function validateTemplate ($template, usedCompilers = {}) {
   if (!$template.get('tag').isIdentifier()) return
+
   const { node: { tag, quasi } } = $template
-  if (!usedCompilers[tag.name]) return
+
+  if (!usedCompilers[tag.name]) {
+    throw $template.buildCodeFrameError(`
+      Import not found for tagged template \`styl\`
+    `)
+  }
+
   if (quasi.expressions.length > 0) {
     throw $template.buildCodeFrameError(`
       Expression interpolations are not supported in css\`\` and styl\`\`.
     `)
   }
+
   return true
 }
 

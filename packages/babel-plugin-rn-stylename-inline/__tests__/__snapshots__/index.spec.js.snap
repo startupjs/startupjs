@@ -22,23 +22,25 @@ myCss\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { observer } from 'startupjs'
+import React from "react";
+import { observer } from "startupjs";
 const __CSS_GLOBAL__ = {
   card: {
-    color: 'red',
-    backgroundColor: 'green'
-  }
-}
+    color: "red",
+    backgroundColor: "green",
+  },
+  __hash__: 1762191192,
+};
 const _localCssInstance = {
   card: {
-    color: '#00f'
-  }
-}
+    color: "#00f",
+  },
+  __hash__: -1529996446,
+};
 export default observer(function Card() {
-  const __CSS_LOCAL__ = _localCssInstance
-  return <View styleName="card" />
-})
+  const __CSS_LOCAL__ = _localCssInstance;
+  return <View styleName="card" />;
+});
 
 
 `;
@@ -76,39 +78,42 @@ styl\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { View } from 'react-native'
+import React from "react";
+import { View } from "react-native";
 const __CSS_GLOBAL__ = {
   active: {
-    backgroundColor: '#f00'
-  }
-}
+    backgroundColor: "#f00",
+  },
+  __hash__: -1767660834,
+};
 const _localCssInstance2 = {
   root: {
     marginTop: 16,
-    borderRadius: 8
-  }
-}
+    borderRadius: 8,
+  },
+  __hash__: -1053412432,
+};
 const _localCssInstance = {
   root: {
     paddingTop: 8,
     paddingRight: 16,
     paddingBottom: 8,
-    paddingLeft: 16
-  }
-}
+    paddingLeft: 16,
+  },
+  __hash__: -1823792365,
+};
 export default function Card() {
-  const __CSS_LOCAL__ = _localCssInstance
+  const __CSS_LOCAL__ = _localCssInstance;
   return (
     <View styleName="root active">
       <Line />
     </View>
-  )
+  );
 }
 
 function Line() {
-  const __CSS_LOCAL__ = _localCssInstance2
-  return <View styleName="root" />
+  const __CSS_LOCAL__ = _localCssInstance2;
+  return <View styleName="root" />;
 }
 
 
@@ -149,39 +154,42 @@ css\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { View } from 'react-native'
+import React from "react";
+import { View } from "react-native";
 const __CSS_GLOBAL__ = {
   active: {
-    backgroundColor: 'red'
-  }
-}
+    backgroundColor: "red",
+  },
+  __hash__: -1812576046,
+};
 const _localCssInstance2 = {
   root: {
     marginTop: 16,
-    borderRadius: 8
-  }
-}
+    borderRadius: 8,
+  },
+  __hash__: -1053412432,
+};
 const _localCssInstance = {
   root: {
     paddingTop: 8,
     paddingRight: 16,
     paddingBottom: 8,
-    paddingLeft: 16
-  }
-}
+    paddingLeft: 16,
+  },
+  __hash__: -1823792365,
+};
 export default function Card() {
-  const __CSS_LOCAL__ = _localCssInstance
+  const __CSS_LOCAL__ = _localCssInstance;
   return (
     <View styleName="root active">
       <Line />
     </View>
-  )
+  );
 }
 
 function Line() {
-  const __CSS_LOCAL__ = _localCssInstance2
-  return <View styleName="root" />
+  const __CSS_LOCAL__ = _localCssInstance2;
+  return <View styleName="root" />;
 }
 
 
@@ -216,33 +224,34 @@ css\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { View } from 'react-native'
+import React from "react";
+import { View } from "react-native";
 const __CSS_GLOBAL__ = {
   card: {
     paddingTop: 8,
     paddingRight: 16,
     paddingBottom: 8,
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   line: {
     marginTop: 16,
-    borderRadius: 8
+    borderRadius: 8,
   },
   active: {
-    backgroundColor: 'red'
-  }
-}
+    backgroundColor: "red",
+  },
+  __hash__: 1310335761,
+};
 export default function Card() {
   return (
     <View styleName="card active">
       <Line />
     </View>
-  )
+  );
 }
 
 function Line() {
-  return <View styleName="line" />
+  return <View styleName="line" />;
 }
 
 
@@ -266,17 +275,18 @@ css\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { observer } from 'startupjs'
+import React from "react";
+import { observer } from "startupjs";
 const __CSS_GLOBAL__ = {
   card: {
-    color: 'red',
-    backgroundColor: 'green'
-  }
-}
+    color: "red",
+    backgroundColor: "green",
+  },
+  __hash__: 1762191192,
+};
 export default observer(function Card() {
-  return <View styleName="card" />
-})
+  return <View styleName="card" />;
+});
 
 
 `;
@@ -307,33 +317,34 @@ styl\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { View } from 'react-native'
+import React from "react";
+import { View } from "react-native";
 const __CSS_GLOBAL__ = {
   card: {
     paddingTop: 8,
     paddingRight: 16,
     paddingBottom: 8,
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   line: {
     marginTop: 16,
-    borderRadius: 8
+    borderRadius: 8,
   },
   active: {
-    backgroundColor: '#f00'
-  }
-}
+    backgroundColor: "#f00",
+  },
+  __hash__: 553324671,
+};
 export default function Card() {
   return (
     <View styleName="card active">
       <Line />
     </View>
-  )
+  );
 }
 
 function Line() {
-  return <View styleName="line" />
+  return <View styleName="line" />;
 }
 
 
@@ -356,17 +367,18 @@ styl\`
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { observer } from 'startupjs'
+import React from "react";
+import { observer } from "startupjs";
 const __CSS_GLOBAL__ = {
   card: {
-    color: '#f00',
-    backgroundColor: '#008000'
-  }
-}
+    color: "#f00",
+    backgroundColor: "#008000",
+  },
+  __hash__: 772349652,
+};
 export default observer(function Card() {
-  return <View styleName="card" />
-})
+  return <View styleName="card" />;
+});
 
 
 `;
@@ -378,8 +390,8 @@ import { css, observer, styl } from 'startupjs'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import React from 'react'
-import { observer } from 'startupjs'
+import React from "react";
+import { observer } from "startupjs";
 
 
 `;
@@ -391,7 +403,31 @@ import { css, styl } from 'startupjs'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
+import React from "react";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-inline Should throw an error if import is not specified: Should throw an error if import is not specified 1`] = `
+
 import React from 'react'
 
+styl\`
+  .card
+    color red
+\`
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown: 
+      Import not found for tagged template \`styl\`
+    
+[0m [90m 1 |[39m [36mimport[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[0m
+[0m [90m 2 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 3 |[39m styl[32m\`[39m[0m
+[0m [90m   |[39m [31m[1m^[22m[39m[0m
+[0m [90m 4 |[39m [32m  .card[39m[0m
+[0m [90m 5 |[39m [32m    color red[39m[0m
+[0m [90m 6 |[39m [32m\`[39m[0m
 
 `;
