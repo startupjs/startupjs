@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'

@@ -1,7 +1,7 @@
 import React from 'react'
-import { observer } from 'startupjs'
-import Layout from './../Layout'
 import { Button, Text } from 'react-native'
+import { pug, observer } from 'startupjs'
+import Layout from './../Layout'
 
 export default observer(function UpdateApp () {
   const description = pug`

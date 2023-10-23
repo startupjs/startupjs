@@ -1,5 +1,5 @@
 import React, { useEffect, useImperativeHandle } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import Row from './../../Row'
 import Span from './../../typography/Span'
 import themed from '../../../theming/themed'

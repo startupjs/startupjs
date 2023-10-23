@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useSession } from 'startupjs'
+import { pug, observer, useSession } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'

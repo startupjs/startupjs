@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useModel, useLocal } from 'startupjs'
+import { pug, observer, useModel, useLocal } from 'startupjs'
 import { themed, Div, Span, Row } from '@startupjs/ui'
 import './index.styl'
 

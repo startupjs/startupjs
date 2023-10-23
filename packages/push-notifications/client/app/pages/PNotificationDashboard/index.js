@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import {
   Div,
   Menu,

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 
 export default observer(function TooltipCaption ({ children, onChange }) {
   const refTimeout = useRef()

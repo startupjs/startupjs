@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { batch, observer, useValue } from 'startupjs'
+import { pug, batch, observer, useValue } from 'startupjs'
 import { Br, Input, Span } from '@startupjs/ui'
 import debounce from 'lodash/debounce'
 import isPlainObject from 'lodash/isPlainObject'

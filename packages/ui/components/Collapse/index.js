@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useBind } from 'startupjs'
+import { pug, observer, useBind } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import CollapseHeader from './CollapseHeader'

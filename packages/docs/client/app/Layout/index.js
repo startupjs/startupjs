@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { emit, observer, useModel } from 'startupjs'
+import { pug, emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
 import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
@@ -57,7 +57,7 @@ const Search = observer(function Search () {
   }
 
   function onChangeText (value) {
-    const testComponentUrlRegExp = new RegExp(/^\/test\//)
+    const testComponentUrlRegExp = /^\/test\//
 
     if (testComponentUrlRegExp.test(value)) {
       return emit('url', value)

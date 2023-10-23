@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native'
-import { observer, useLocal } from 'startupjs'
+import { pug, observer, useLocal } from 'startupjs'
 import { Content } from '@startupjs/ui'
 import * as testComponents from './testComponents'
 

@@ -1,6 +1,6 @@
 import React, { useMemo, useImperativeHandle } from 'react'
 import { SafeAreaView, Modal as RNModal } from 'react-native'
-import { observer, useDidUpdate, useBind, useValue } from 'startupjs'
+import { pug, observer, useDidUpdate, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Layout from './layout'
 import ModalHeader from './ModalHeader'
@@ -43,10 +43,12 @@ function ModalRoot ({
   }, [])
 
   if (isUsedViaRef) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useImperativeHandle(ref, () => ({
       open: () => $visible.setDiff(true),
       close: () => $visible.setDiff(false)
     }))
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     ;[, $visible] = useValue(false)
   }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import './index.styl'

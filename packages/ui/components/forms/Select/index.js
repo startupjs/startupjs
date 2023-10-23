@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'

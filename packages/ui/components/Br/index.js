@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { observer, u } from 'startupjs'
+import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import './index.styl'

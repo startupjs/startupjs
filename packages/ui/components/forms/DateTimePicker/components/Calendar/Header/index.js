@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import {
   Button,
   Div,
@@ -91,18 +91,21 @@ const Years = observer(function YearsComponent ({
     `
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const onChangeYear = useCallback((year) => {
     const ts = +moment($uiDate.get()).year(year)
     $uiDate.set(ts)
     $visible.set(false)
   }, [])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const years = useMemo(() => {
     return new Array(yearsDiff + 1).fill(minYear).map((year, index) => {
       return year + index
     })
   }, [yearsDiff, minYear])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const getItemLayout = useCallback((data, index) => {
     return {
       offset: YEAR_ITEM_HEIGHT * index,

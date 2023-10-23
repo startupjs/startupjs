@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Item from '../../Item'
 import Div from '../../Div'

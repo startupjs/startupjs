@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
 import { useHistory } from '@startupjs/app'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
@@ -31,7 +31,7 @@ function Example () {
         size='m'
         variant='text'
         onPress=() => history.goBack()
-      ) 
+      )
     Div.anchors
       Button.extraButton(
         onPress=()=> setExtraContentVisibility(!extraContentVisibility)

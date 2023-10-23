@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Animated } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import {
   faExclamationCircle,

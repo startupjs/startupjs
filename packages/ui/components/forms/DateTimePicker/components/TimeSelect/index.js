@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useImperativeHandle } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Div, FlatList, Span } from '@startupjs/ui'
 import moment from 'moment'
 import STYLES from './index.styl'
@@ -22,7 +22,7 @@ export default observer(function TimeSelect ({
   const _is24Hour = useMemo(() => {
     if (is24Hour != null) return is24Hour
     const lt = moment().locale(exactLocale)._locale._longDateFormat.LT
-    return !(new RegExp(/a/i).test(lt))
+    return !/a/i.test(lt)
   }, [is24Hour, exactLocale])
 
   useImperativeHandle(ref, () => ({ scrollToIndex }), [])

@@ -6,7 +6,7 @@ import React, {
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
@@ -83,6 +83,8 @@ function TextInputInput ({
     // repeat mobile behaviour on the web
     // TODO
     // test mobile device behaviour
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
       if (focused && disabled) {
         inputRef.current.blur()
@@ -91,6 +93,7 @@ function TextInputInput ({
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
       inputRef.current?.setNativeProps({ size: '1' })
     }, [])

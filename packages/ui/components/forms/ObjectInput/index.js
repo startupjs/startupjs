@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Row from '../../Row'
@@ -28,18 +28,20 @@ function ObjectInput ({
   order = getOrder(order, properties)
 
   function getInputs () {
-    return order.map((key, index) => {
-      const { dependsOn, dependsValue, ...inputProps } = properties[key] || {}
-
-      if (resolvesDeps(value, dependsOn, dependsValue)) {
+    return order
+      .filter((key, index) => {
+        const { dependsOn, dependsValue } = properties[key]
+        return resolvesDeps(value, dependsOn, dependsValue)
+      })
+      .map((key, index) => {
+        const { dependsOn, dependsValue, ...inputProps } = properties[key]
         return {
           ...inputProps,
           key,
           $value: $value.at(key)
         }
-      }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
-    }).filter(Boolean)
+      }).filter(Boolean)
   }
 
   const inputs = getInputs()
