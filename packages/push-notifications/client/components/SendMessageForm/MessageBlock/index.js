@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useSession } from 'startupjs'
+import { pug, observer, useSession } from 'startupjs'
 import {
   Div,
   TextInput,

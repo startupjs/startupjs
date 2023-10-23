@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { observer, u } from 'startupjs'
+import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import Span from '../typography/Span'
 import Div from '../Div'

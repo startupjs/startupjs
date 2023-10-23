@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'

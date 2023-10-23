@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, Image } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Div, Row, Select } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import { useLang } from '../../../../clientHelpers'

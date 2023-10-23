@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabBar } from 'react-native-tab-view'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 
 function Bar ({

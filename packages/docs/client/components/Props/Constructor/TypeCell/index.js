@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import { Button, Span, themed } from '@startupjs/ui'
 import '../index.styl'
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Platform, View } from 'react-native'
-import { styl } from 'startupjs'
+import { pug, styl } from 'startupjs'
 import AbstractPopover from '../AbstractPopover'
 import Span from '../typography/Span'
 
@@ -60,19 +60,19 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
   }
 
   return result
+
+  /* eslint-disable-line */ styl`
+    .tooltip
+      background-color $UI.colors.dark
+      max-width 260px
+      radius()
+      shadow(3)
+      padding 1u 2u
+
+      +tablet()
+        max-width 320px
+
+      &-text
+        color $UI.colors.white
+  `
 }
-
-styl`
-.tooltip
-  background-color $UI.colors.dark
-  max-width 260px
-  radius()
-  shadow(3)
-  padding 1u 2u
-
-  +tablet()
-    max-width 320px
-
-  &-text
-    color $UI.colors.white
-`

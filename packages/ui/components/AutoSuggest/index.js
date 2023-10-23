@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'

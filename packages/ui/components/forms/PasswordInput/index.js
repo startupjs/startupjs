@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import pick from 'lodash/pick'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import TextInput from '../TextInput'

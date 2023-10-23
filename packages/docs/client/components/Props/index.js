@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { observer, $root, useComponentId } from 'startupjs'
+import { pug, observer, $root, useComponentId } from 'startupjs'
 import { themed, Button, Row, Div, ScrollView } from '@startupjs/ui'
 import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { emit, $root } from 'startupjs'
+import { pug, emit, $root } from 'startupjs'
 import { BASE_URL } from '@env'
 import * as pages from './pages'
 import {

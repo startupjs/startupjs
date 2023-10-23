@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, emit, useLocal } from 'startupjs'
+import { pug, observer, emit, useLocal } from 'startupjs'
 import { Span, Card, Button } from '@startupjs/ui'
 import './index.styl'
 

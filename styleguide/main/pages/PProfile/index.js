@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useSession, useDoc } from 'startupjs'
+import { pug, observer, useSession, useDoc } from 'startupjs'
 import { Span, Avatar, Layout, Content, Div } from '@startupjs/ui'
 import { LogoutButton } from '@startupjs/auth'
 import { BackButton } from 'components'
@@ -13,7 +13,7 @@ export default observer(function PProfile () {
 
   return pug`
     Layout.main
-      BackButton 
+      BackButton
       Content
         Div.root
           Avatar(

@@ -6,7 +6,7 @@ import React, {
   useRef
 } from 'react'
 import { Animated, PanResponder, StyleSheet, View } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Div, Row, Icon } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import {
@@ -67,9 +67,9 @@ function Carousel ({
   const [isRender, setIsRender] = useState(false)
   const [isAnimate, setIsAnimate] = useState(false)
 
-  useImperativeHandle (ref, () => {
+  useImperativeHandle(ref, () => {
     return new Proxy(refRoot.current, {
-      get(target, prop) {
+      get (target, prop) {
         const actualChildIndex = activeIndex % children.length
         const activeRef = childrenRefs[actualChildIndex].current
         if (prop === 'getChildByIndex') return getChildByIndex
@@ -99,7 +99,7 @@ function Carousel ({
     }
   }, [isRender, isLoop, isAnimate, activeIndex])
 
-  function getChildByIndex(index) {
+  function getChildByIndex (index) {
     return childrenRefs[index].current
   }
 
@@ -392,10 +392,11 @@ function Carousel ({
 
     if (isResponsive) {
       if ((!_style['min' + sideCapitalLetter] || !_style['max' + sideCapitalLetter]) && _style['min' + sideCapitalLetter] !== '100%') {
-        return console.error('isResponsive need minWidth and maxWidth in children')
+        console.error('isResponsive need minWidth and maxWidth in children')
+        return () => null
       }
 
-      if (!rootInfo[sideName]) return
+      if (!rootInfo[sideName]) return () => null
 
       let step = 1
       let _side

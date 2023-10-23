@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Label from './Label'
 import styles from './index.styl'

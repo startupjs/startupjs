@@ -1,4 +1,5 @@
 import React, { useMemo, memo } from 'react'
+import { pug } from 'startupjs'
 import { Div, Span, ScrollView } from '@startupjs/ui'
 import refractor from 'refractor/core.js'
 // Supported languages
