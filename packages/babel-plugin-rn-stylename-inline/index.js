@@ -27,12 +27,14 @@ module.exports = function (babel) {
         }
       },
       TaggedTemplateExpression: ($this, state) => {
+        const compiler = $this.node.tag.name
+
         // I. validate template
+        if (!compilers[$this.node.tag.name]) return
         if (!validateTemplate($this, usedCompilers)) return
 
         // II. compile template
         const source = $this.node.quasi.quasis[0]?.value?.raw || ''
-        const compiler = $this.node.tag.name
         const filename = state.file?.opts?.filename
         const platform = state.opts?.platform
         const compiledString = usedCompilers[compiler](source, filename, { platform })
