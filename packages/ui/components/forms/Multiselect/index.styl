@@ -1,11 +1,11 @@
-$inputBg = var(--colors-white, $UI.colors.white)
+$inputBg = var(--color-bg-white)
 $inputBorderWidth = 1px
-$inputBorderColor = var(--colors-darkLighter, $UI.colors.darkLighter)
-$inputBgDisabled = var(--colors-darkLightest, $UI.colors.darkLightest)
-$inputPlaceholderColor = var(--colors-darkLighter, $UI.colors.darkLighter)
-$focusedColor = var(--colors-primary, $UI.colors.primary)
-$errorColor = var(--colors-error, $UI.colors.error)
-$swipeZoneColor = var(--colors-whiteLight, #f5f5f5)
+$inputBorderColor = var(--color-border)
+$inputBgDisabled = var(--color-bg)
+$inputPlaceholderColor = var(--color-text-placeholder)
+$focusedColor = var(--color-border-primary)
+$errorColor = var(--color-border-error)
+$swipeZoneColor = var(--color-bg-secondary-inverse)
 $suggestionsPopoverMaxHeight = 25u
 
 .input
@@ -61,7 +61,7 @@ $suggestionsPopoverMaxHeight = 25u
     padding 1u
 
 .sugText
-  color var(--colors-mainText, $UI.colors.mainText)
+  color var(--color-text)
   font(h5)
 
   +desktop()
@@ -86,7 +86,7 @@ $suggestionsPopoverMaxHeight = 25u
   width 2u
 
 .checkIcon
-  color var(--colors-primary, $UI.colors.primary)
+  color var(--color-text-primary)
 
 .label
   margin-right 1u

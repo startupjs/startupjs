@@ -1,3 +1,5 @@
+import ColorsEnum from './ColorsEnum'
+
 // find color in palette by the color value itself
 // (note that hex/rgb/rgba matters -- it's considered to be different colors)
 export const findColorInPalette = (color, palette) => {
@@ -21,32 +23,49 @@ function getPaletteMeta (palette, { skipLowest = 2, skipHighest = 1 } = {}) {
 }
 
 export class TheColor {
-  constructor (name, level, palette, { skipLowest = 2, skipHighest = 1 } = {}) {
-    if (!palette?.[name]?.[level]) throw Error(`Color ${name} level ${level} not found in palette ${palette}`)
-    Object.assign(this, {
+  constructor (name, level, palette, { skipLowest = 2, skipHighest = 1, alpha } = {}) {
+    if (!palette?.[name]?.[level]) throw Error(`Color ${name} level ${level} not found in palette ${JSON.stringify(palette, null, 2)}`)
+
+    const meta = {
       name,
       level,
       palette,
       _skipLowest: skipLowest,
       _skipHighest: skipHighest,
       ...getPaletteMeta(palette, { skipLowest, skipHighest })
-    })
+    }
+    if (alpha != null) meta.alpha = alpha
+
+    Object.assign(this, meta)
   }
 
-  clone (name, level, palette, { skipLowest, skipHighest } = {}) {
+  clone (name, level, palette, { skipLowest, skipHighest, alpha } = {}) {
     return new TheColor(
       name ?? this.name,
       level ?? this.level,
       palette ?? this.palette,
       {
         skipLowest: skipLowest ?? this._skipLowest,
-        skipHighest: skipHighest ?? this._skipHighest
+        skipHighest: skipHighest ?? this._skipHighest,
+        alpha: alpha ?? this.alpha
       }
     )
   }
 
-  toString () { return this.palette[this.name][this.level] }
-  isEqual (other) { return this.name === other.name && this.level === other.level }
+  toString () {
+    const stringColor = this.palette[this.name][this.level]
+    return this.alpha != null ? rgba(stringColor, this.alpha) : stringColor
+  }
+
+  isEqual (other) {
+    return this.name === other.name && this.level === other.level && this.alpha === other.alpha
+  }
+
+  setAlpha (alpha) {
+    const { name, level, palette, ...rest } = this
+    return this.clone(name, level, palette, { ...rest, alpha })
+  }
+
   isDark () { return this.level < this.middle }
   isLight () { return !this.isDark() }
   highContrast () { return this.clone(this.name, this.isDark() ? this.high : this.low) }
@@ -63,7 +82,7 @@ export class TheColor {
 // generate meaningful colors from palette
 export default function generateColors ({ existing = {}, palette, skipLowest = 2, skipHighest = 1 } = {}) {
   if (!palette) throw Error('palette is required')
-  const Color = (name, level) => new TheColor(name, level, palette, { skipLowest, skipHighest })
+  const Color = (name, level, alpha) => new TheColor(name, level, palette, { skipLowest, skipHighest, alpha })
   const { low, middle, high } = getPaletteMeta(palette, { skipLowest, skipHighest })
 
   // TODO: go through each color in `existing` and if it's not instanceof TheColor,
@@ -71,76 +90,92 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   const C = { ...existing }
 
   // base colors
-  // TODO: Figure out if this is needed, right now tried to just use it for bg.
-  //       If it is needed, then use it also for text and border.
-  C['base']           ??= Color('coolGray', high)
-  C['base-primary']   ??= Color('blue', middle - 1)
-  C['base-secondary'] ??= Color('gray', low)
-  C['base-error']     ??= Color('red', middle - 1)
-  C['base-success']   ??= Color('green', middle - 1)
-  C['base-warning']   ??= Color('yellow', middle - 1)
-  C['base-info']      ??= Color('cyan', middle - 1)
-  C['base-attention'] ??= Color('orange', middle - 1)
-  C['base-special']   ??= Color('purple', middle - 1)
+  C[ColorsEnum.bg]                              ??= Color('coolGray', high)
+  C[ColorsEnum.text]                            ??= Color('coolGray', low + 1)
+  C[ColorsEnum.border]                          ??= Color('coolGray', high).dimmer(2)
+  C[ColorsEnum.primary]                         ??= Color('blue', middle - 1)
+  C[ColorsEnum.secondary]                       ??= Color('coolGray', low + 1)
+  C[ColorsEnum.error]                           ??= Color('red', middle - 1)
+  C[ColorsEnum.success]                         ??= Color('green', middle)
+  C[ColorsEnum.warning]                         ??= Color('yellow', middle + 2)
+  C[ColorsEnum.info]                            ??= Color('cyan', middle + 1)
+  C[ColorsEnum.attention]                       ??= Color('orange', middle)
+  C[ColorsEnum.special]                         ??= Color('purple', middle - 1)
 
   // all other colors are generated from the base colors
 
   // main bg colors
-  C['bg']           ??= C['base']
-  C['bg-primary']   ??= C['base-primary']
-  C['bg-secondary'] ??= C['base-secondary']
-  C['bg-error']     ??= C['base-error']
-  C['bg-success']   ??= C['base-success']
-  C['bg-warning']   ??= C['base-warning']
-  C['bg-info']      ??= C['base-info']
-  C['bg-attention'] ??= C['base-attention']
-  C['bg-special']   ??= C['base-special']
+  C[ColorsEnum['bg-primary']]                   ??= C[ColorsEnum.primary]
+  C[ColorsEnum['bg-secondary']]                 ??= C[ColorsEnum.secondary]
+  C[ColorsEnum['bg-error']]                     ??= C[ColorsEnum.error]
+  C[ColorsEnum['bg-success']]                   ??= C[ColorsEnum.success]
+  C[ColorsEnum['bg-warning']]                   ??= C[ColorsEnum.warning]
+  C[ColorsEnum['bg-info']]                      ??= C[ColorsEnum.info]
+  C[ColorsEnum['bg-attention']]                 ??= C[ColorsEnum.attention]
+  C[ColorsEnum['bg-special']]                   ??= C[ColorsEnum.special]
 
   // extra bg colors
-  C['bg-dim']               ??= C['bg'].dimmer(1)
-  C['bg-strong']            ??= C['bg'].stronger(1)
-  C['bg-primary-inverse']   ??= C['bg-primary'].highContrast()
-  C['bg-secondary-inverse'] ??= C['bg-secondary'].highContrast()
-  C['bg-error-inverse']     ??= C['bg-error'].highContrast()
-  C['bg-success-inverse']   ??= C['bg-success'].highContrast()
-  C['bg-warning-inverse']   ??= C['bg-warning'].highContrast()
-  C['bg-info-inverse']      ??= C['bg-info'].highContrast()
-  C['bg-attention-inverse'] ??= C['bg-attention'].highContrast()
-  C['bg-special-inverse']   ??= C['bg-special'].highContrast()
+  C[ColorsEnum['bg-dark']]                      ??= C[ColorsEnum.bg].dimmer(7)
+  C[ColorsEnum['bg-dark-transparent']]          ??= C[ColorsEnum['bg-dark']].setAlpha(0.05)
+  C[ColorsEnum['bg-dim']]                       ??= C[ColorsEnum.bg].dimmer(1)
+  C[ColorsEnum['bg-dim-alt']]                   ??= C[ColorsEnum.bg].dimmer(2)
+  C[ColorsEnum['bg-strong']]                    ??= C[ColorsEnum.bg].stronger(1)
+  C[ColorsEnum['bg-primary-inverse']]           ??= C[ColorsEnum.primary].highContrast()
+  C[ColorsEnum['bg-primary-dim']]               ??= C[ColorsEnum.primary].dimmer(3)
+  C[ColorsEnum['bg-primary-transparent']]       ??= C[ColorsEnum.primary].setAlpha(0.05)
+  C[ColorsEnum['bg-secondary-inverse']]         ??= C[ColorsEnum.secondary].highContrast()
+  C[ColorsEnum['bg-error-inverse']]             ??= C[ColorsEnum.error].highContrast()
+  C[ColorsEnum['bg-error-transparent']]         ??= C[ColorsEnum.error].setAlpha(0.05)
+  C[ColorsEnum['bg-success-inverse']]           ??= C[ColorsEnum.success].highContrast()
+  C[ColorsEnum['bg-success-transparent']]       ??= C[ColorsEnum.success].setAlpha(0.05)
+  C[ColorsEnum['bg-warning-inverse']]           ??= C[ColorsEnum.warning].highContrast()
+  C[ColorsEnum['bg-warning-transparent']]       ??= C[ColorsEnum.warning].setAlpha(0.05)
+  C[ColorsEnum['bg-info-inverse']]              ??= C[ColorsEnum.info].highContrast()
+  C[ColorsEnum['bg-attention-inverse']]         ??= C[ColorsEnum.attention].highContrast()
+  C[ColorsEnum['bg-special-inverse']]           ??= C[ColorsEnum.special].highContrast()
 
   // text
-  C['text']             ??= C['bg-secondary']
-  C['text-description'] ??= C['text'].dimmer(3)
-  C['text-placeholder'] ??= C['text'].dimmer(5)
-  C['text-primary']     ??= C['bg-primary']
-  C['text-secondary']   ??= C['bg-secondary']
-  C['text-error']       ??= C['bg-error']
-  C['text-success']     ??= C['bg-success']
-  C['text-warning']     ??= C['bg-warning']
-  C['text-info']        ??= C['bg-info']
-  C['text-attention']   ??= C['bg-attention']
-  C['text-special']     ??= C['bg-special']
+  C[ColorsEnum['text-white']]                   ??= C[ColorsEnum.text].dimmer(8)
+  C[ColorsEnum['text-description']]             ??= C[ColorsEnum.text].dimmer(2)
+  C[ColorsEnum['text-placeholder']]             ??= C[ColorsEnum.text].dimmer(4)
+  C[ColorsEnum['text-primary']]                 ??= C[ColorsEnum.primary]
+  C[ColorsEnum['text-secondary']]               ??= C[ColorsEnum.secondary]
+  C[ColorsEnum['text-error']]                   ??= C[ColorsEnum.error]
+  C[ColorsEnum['text-success']]                 ??= C[ColorsEnum.success]
+  C[ColorsEnum['text-warning']]                 ??= C[ColorsEnum.warning]
+  C[ColorsEnum['text-info']]                    ??= C[ColorsEnum.info]
+  C[ColorsEnum['text-attention']]               ??= C[ColorsEnum.attention]
+  C[ColorsEnum['text-special']]                 ??= C[ColorsEnum.special]
+
+  // extra text colors
+  C[ColorsEnum['text-success-strong']]          ??= C[ColorsEnum.success].stronger(2)
+  C[ColorsEnum['text-info-strong']]             ??= C[ColorsEnum.info].stronger(2)
 
   // text on different backgrounds
-  C['text-on-primary']    ??= C['bg-primary'].highContrast()
-  C['text-on-secondary']  ??= C['bg-secondary'].highContrast()
-  C['text-on-error']      ??= C['bg-error'].highContrast()
-  C['text-on-success']    ??= C['bg-success'].highContrast()
-  C['text-on-warning']    ??= C['bg-warning'].highContrast()
-  C['text-on-info']       ??= C['bg-info'].highContrast()
-  C['text-on-attention']  ??= C['bg-attention'].highContrast()
-  C['text-on-special']    ??= C['bg-special'].highContrast()
+  C[ColorsEnum['text-on-primary']]              ??= C[ColorsEnum.primary].highContrast()
+  C[ColorsEnum['text-on-secondary']]            ??= C[ColorsEnum.secondary].highContrast()
+  C[ColorsEnum['text-on-error']]                ??= C[ColorsEnum.error].highContrast()
+  C[ColorsEnum['text-on-success']]              ??= C[ColorsEnum.success].stronger(4)
+  C[ColorsEnum['text-on-warning']]              ??= C[ColorsEnum.warning].stronger(3)
+  C[ColorsEnum['text-on-info']]                 ??= C[ColorsEnum.info].highContrast()
+  C[ColorsEnum['text-on-attention']]            ??= C[ColorsEnum.attention].stronger(4)
+  C[ColorsEnum['text-on-special']]              ??= C[ColorsEnum.special].highContrast()
 
   // border
-  C['border']           ??= C['bg'].dimmer(2)
-  C['border-primary']   ??= C['bg-primary']
-  C['border-secondary'] ??= C['bg-secondary']
-  C['border-error']     ??= C['bg-error']
-  C['border-success']   ??= C['bg-success']
-  C['border-warning']   ??= C['bg-warning']
-  C['border-info']      ??= C['bg-info']
-  C['border-attention'] ??= C['bg-attention']
-  C['border-special']   ??= C['bg-special']
+  C[ColorsEnum['border-white']]                 ??= C[ColorsEnum.border].stronger(3)
+  C[ColorsEnum['border-primary']]               ??= C[ColorsEnum.primary]
+  C[ColorsEnum['border-secondary']]             ??= C[ColorsEnum.secondary]
+  C[ColorsEnum['border-error']]                 ??= C[ColorsEnum.error]
+  C[ColorsEnum['border-success']]               ??= C[ColorsEnum.success]
+  C[ColorsEnum['border-warning']]               ??= C[ColorsEnum.warning]
+  C[ColorsEnum['border-info']]                  ??= C[ColorsEnum.info]
+  C[ColorsEnum['border-attention']]             ??= C[ColorsEnum.attention]
+  C[ColorsEnum['border-special']]               ??= C[ColorsEnum.special]
+
+  // extra border colors
+  C[ColorsEnum['border-dark']]                  ??= C[ColorsEnum.border].dimmer(5)
+  C[ColorsEnum['border-dim']]                   ??= C[ColorsEnum.border].dimmer(1)
+  C[ColorsEnum['border-strong']]                ??= C[ColorsEnum.border].stronger(1)
 
   return C
 } /* eslint-enable dot-notation, no-multi-spaces */

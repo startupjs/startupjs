@@ -3,14 +3,13 @@ import { StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import Icon from '../Icon'
+import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
 import Div from '../Div'
+import Icon from '../Icon'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
-import STYLES from './index.styl'
-
-const { staticColors } = STYLES
+import './index.styl'
 
 const ICON_SIZES = {
   s: 's',
@@ -37,10 +36,11 @@ function Tag ({
   ...props
 }) {
   const getColor = useColors()
+
   if (!getColor(color)) {
     console.error(
       'Tag component: Color for color property is incorrect. ' +
-      'Use colors from $UI.colors'
+      'Use colors from ColorsEnum'
     )
   }
 
@@ -51,15 +51,15 @@ function Tag ({
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? getColor('white') : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     textStyle
   ])
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? getColor('white') : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     iconStyle
   ])
   secondaryIconStyle = StyleSheet.flatten([
-    { color: isFlat ? getColor('white') : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     secondaryIconStyle
   ])
 
@@ -78,6 +78,10 @@ function Tag ({
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
+  }
+
+  function getFlatTextColor () {
+    return getColor(`text-on-${color}`) || getColor('text-white')
   }
 
   return pug`
@@ -100,9 +104,8 @@ function Tag ({
           styleName=[size]
           onPress=onIconPress
         )
-          Icon.icon(
+          Icon(
             style=iconStyle
-            styleName=[variant]
             icon=icon
             size=ICON_SIZES[size]
           )
@@ -132,7 +135,7 @@ function Tag ({
 
 Tag.defaultProps = {
   ...Div.defaultProps,
-  color: 'primary',
+  color: ColorsEnum.primary,
   variant: 'flat',
   size: 'm',
   shape: 'circle'
@@ -144,7 +147,7 @@ Tag.propTypes = {
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
-  color: PropTypes.oneOf(Object.keys(staticColors)),
+  color: PropTypes.oneOf(ColorsEnumValues),
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['s', 'm']),
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

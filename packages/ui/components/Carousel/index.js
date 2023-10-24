@@ -67,9 +67,9 @@ function Carousel ({
   const [isRender, setIsRender] = useState(false)
   const [isAnimate, setIsAnimate] = useState(false)
 
-  useImperativeHandle (ref, () => {
+  useImperativeHandle(ref, () => {
     return new Proxy(refRoot.current, {
-      get(target, prop) {
+      get (target, prop) {
         const actualChildIndex = activeIndex % children.length
         const activeRef = childrenRefs[actualChildIndex].current
         if (prop === 'getChildByIndex') return getChildByIndex
@@ -99,7 +99,7 @@ function Carousel ({
     }
   }, [isRender, isLoop, isAnimate, activeIndex])
 
-  function getChildByIndex(index) {
+  function getChildByIndex (index) {
     return childrenRefs[index].current
   }
 

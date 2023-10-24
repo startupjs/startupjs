@@ -10,12 +10,12 @@ import { observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
-import useTransformCssVariables from '../../../hooks/useTransformCssVariables'
+import { useColors } from '../../../hooks'
 import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, heights, lineHeights, borderWidth, placeholderTextColor
+    caretColor, heights, lineHeights, borderWidth
   }
 } = STYLES
 
@@ -52,7 +52,8 @@ function TextInputInput ({
   const inputRef = useRef()
 
   useImperativeHandle(ref, () => inputRef.current, [])
-  const transformCssVariables = useTransformCssVariables()
+
+  const getColor = useColors()
 
   function handleFocus (...args) {
     onFocus && onFocus(...args)
@@ -148,9 +149,9 @@ function TextInputInput ({
         lineHeight: lH
       }]
       styleName=inputStyleName
-      selectionColor=caretColor
+      selectionColor=getColor(caretColor, { addPrefix: false })
       placeholder=placeholder
-      placeholderTextColor=transformCssVariables(placeholderTextColor)
+      placeholderTextColor=getColor('text-placeholder')
       value=value
       disabled=IS_WEB ? disabled : undefined
       editable=IS_WEB ? undefined : !disabled

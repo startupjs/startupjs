@@ -1,8 +1,8 @@
-$checkboxBorderColor = var(--colors-darkLight, $UI.colors.darkLight)
-$checkedColor = var(--colors-primary, $UI.colors.primary)
-$checkedIconColor = var(--colors-white, $UI.colors.white)
-$errorColor = var(--colors-attention, $UI.colors.attention)
-$switchBg = var(--colors-dark, $UI.colors.dark)
+$checkboxBorderColor = var(--color-border)
+$checkedColor = var(--color-primary)
+$checkedIconColor = var(--color-text-on-primary)
+$errorColor = var(--color-error)
+$switchBg = var(--color-bg-dark)
 $height = 2u
 
 .readonly
@@ -64,7 +64,7 @@ $height = 2u
   background-color $switchBg
   padding 0 3px
 
-  // IMPORTANT: checked modifier should overlaps error modifier
+  // IMPORTANT: checked modifier should overlap error modifier
   &.error
     background-color $errorColor
 
@@ -74,5 +74,5 @@ $height = 2u
 .switch-animation
   width 10px
   height @width
-  background-color white
+  background-color var(--color-bg-strong)
   radius(circle)

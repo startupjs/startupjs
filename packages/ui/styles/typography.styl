@@ -28,9 +28,9 @@ text(key = default) // DEPRECATED
   p('text() mixin is deprecated, use font() instead')
   // color
   if key is description
-    color: var(--colors-secondaryText, $UI.colors.secondaryText)
+    color: var(--color-text-description)
   else
-    color: var(--colors-mainText, $UI.colors.mainText)
+    color: var(--color-text)
 
   // font, line
   if key is default

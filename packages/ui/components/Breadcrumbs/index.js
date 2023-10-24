@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import colorToRGBA from '../../helpers/colorToRGBA'
 import Link from './../Link'
 import Row from '../Row'
 import Div from '../Div'
@@ -48,14 +47,14 @@ function Breadcrumbs ({
         - const isLastRoute = index === routes.length - 1
         React.Fragment(key=index)
           if isLastRoute
-            = renderItem({ icon, color: getColor('mainText'), bold: true, children: name })
+            = renderItem({ icon, color: getColor('text-secondary'), bold: true, children: name })
           else
             Row.item
               Link(
                 replace=replace
                 to=to
               )
-                = renderItem({ icon, color: colorToRGBA(getColor('mainText'), 0.8), children: name })
+                = renderItem({ icon, color: getColor('text-description'), children: name })
               if typeof separator === 'string'
                 Span.separator(styleName=[size])
                   | &nbsp#{separator}&nbsp

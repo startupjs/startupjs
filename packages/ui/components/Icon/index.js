@@ -4,14 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
-import useTransformCssVariables from '../../hooks/useTransformCssVariables'
-import STYLES from './index.styl'
-
-const {
-  config: {
-    color: staticColor
-  }
-} = STYLES
+import { useColors } from '../../hooks'
 
 const SIZES = {
   xs: u(1),
@@ -28,12 +21,12 @@ function Icon ({
   size,
   ...props
 }) {
-  const transformCssVariables = useTransformCssVariables()
+  const getColor = useColors()
   const _size = useMemo(() => SIZES[size] || size, [size])
 
   if (!icon) return null
 
-  style = StyleSheet.flatten([{ color: transformCssVariables(staticColor) }, style])
+  style = StyleSheet.flatten([{ color: getColor('text-secondary') }, style])
 
   if (typeof icon === 'function') {
     const CustomIcon = icon

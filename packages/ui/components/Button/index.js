@@ -3,10 +3,11 @@ import { StyleSheet } from 'react-native'
 import { observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import Icon from '../Icon'
-import Row from '../Row'
+import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
 import Div from '../Div'
+import Icon from '../Icon'
 import Loader from '../Loader'
+import Row from '../Row'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
@@ -15,8 +16,7 @@ import STYLES from './index.styl'
 const {
   config: {
     heights, outlinedBorderWidth, iconMargins
-  },
-  staticColors
+  }
 } = STYLES
 
 function Button ({
@@ -39,12 +39,16 @@ function Button ({
   const [asyncActive, setAsyncActive] = useState(false)
   const getColor = useColors()
 
+  function getFlatTextColor () {
+    return getColor(`text-on-${color}`) || getColor('text-white')
+  }
+
   async function _onPress (event) {
     let resolved = false
     const promise = onPress(event)
     if (!(promise && promise.then)) return
     promise.then(() => { resolved = true })
-    await new Promise((resolve, reject) => setTimeout(resolve, 0))
+    await new Promise((resolve) => setTimeout(resolve, 0))
     if (resolved) return
     setAsyncActive(true)
     await promise
@@ -52,7 +56,7 @@ function Button ({
     setAsyncActive(false)
   }
 
-  if (!getColor(color)) console.error('Button component: Color for color property is incorrect. Use colors from $UI.colors')
+  if (!getColor(color)) console.error('Button component: Color for color property is incorrect. Use colors from ColorsEnum')
 
   const isFlat = variant === 'flat'
   const _color = getColor(color)
@@ -65,11 +69,11 @@ function Button ({
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? getColor('white') : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     textStyle
   ])
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? getColor('white') : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     iconStyle
   ])
 
@@ -134,32 +138,32 @@ function Button ({
     )
       if asyncActive
         Div.loader
-          Loader(size='s' color=isFlat ? 'white' : color)
+          Loader(size='s' color=isFlat ? 'text-white' : color)
       if icon
         Div.iconWrapper(
           style=iconWrapperStyle
           styleName=[
-            {'with-label': hasChildren},
+            { 'with-label': hasChildren },
             iconPosition
           ]
         )
           Icon.icon(
             style=iconStyle
-            styleName=[variant, {'invisible': asyncActive}]
+            styleName=[variant, { invisible: asyncActive }]
             icon=icon
             size=size
           )
       if children != null
         Span.label(
           style=[textStyle]
-          styleName=[size, {'invisible': asyncActive}]
+          styleName=[size, { invisible: asyncActive }]
         )= children
   `
 }
 
 Button.defaultProps = {
   ...Div.defaultProps,
-  color: 'dark',
+  color: ColorsEnum.secondary,
   variant: 'outlined',
   size: 'm',
   shape: 'rounded',
@@ -169,7 +173,7 @@ Button.defaultProps = {
 Button.propTypes = {
   ...Div.propTypes,
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  color: PropTypes.oneOf(Object.keys(staticColors)),
+  color: PropTypes.oneOf(ColorsEnumValues),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),

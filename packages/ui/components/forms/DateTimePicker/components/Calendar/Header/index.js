@@ -45,14 +45,14 @@ export default observer(function Header ({
         )
       Row.actions
         Button.button(
-          color='darkLight'
+          color='text-description'
           variant='text'
           disabled=isPrevDisabled
           icon=faAngleLeft
           onPress=()=> onChangeMonth(-1)
         )
         Button.button(
-          color='darkLight'
+          color='text-description'
           variant='text'
           disabled=isNextDisabled
           icon=faAngleRight

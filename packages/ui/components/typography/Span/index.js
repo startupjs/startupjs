@@ -52,8 +52,8 @@ styl`
   // ----- CONFIG: $UI.Span
 
   $this = merge({
-    color: var(--colors-mainText, $UI.colors.mainText),
-    descriptionColor: var(--colors-secondaryText, $UI.colors.secondaryText)
+    color: var(--color-text),
+    descriptionColor: var(--color-text-description)
   }, $UI.Span, true)
 
   // ----- COMPONENT

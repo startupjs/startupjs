@@ -2,15 +2,14 @@ import React, { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import { ColorsEnumValues } from '../CssVariables/ColorsEnum'
 import Div from '../Div'
 import Icon from '../Icon'
 import Row from '../Row'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
-import STYLES from './index.styl'
-
-const { staticColors } = STYLES
+import './index.styl'
 
 const ICON_SIZES = {
   s: 'xs',
@@ -90,7 +89,7 @@ Badge.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   badgeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  color: PropTypes.oneOf(Object.keys(staticColors)),
+  color: PropTypes.oneOf(ColorsEnumValues),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom']),

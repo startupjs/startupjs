@@ -74,14 +74,3 @@ $this = merge({
     for size, margin in $this.iconMargins.outside
       &.{size}
         margin-right margin
-
-.icon
-  color: var(--colors-dark, $UI.colors.dark)
-
-  &.flat
-    color: var(--colors-white, $UI.colors.white)
-
-// ----- JS EXPORTS
-
-:export
-  staticColors: $UI.colors

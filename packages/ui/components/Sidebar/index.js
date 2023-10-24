@@ -36,7 +36,7 @@ function Sidebar ({
   }
 
   let backgroundColor
-  ;({ backgroundColor = getColor('white'), ...style } = StyleSheet.flatten(style))
+  ;({ backgroundColor = getColor('bg-strong'), ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange

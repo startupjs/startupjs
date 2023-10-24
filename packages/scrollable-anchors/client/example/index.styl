@@ -2,7 +2,8 @@
   padding 5u 3u
   border-width 1px
   border-style dashed
-  border-color var(--colors-darkLight, $UI.colors.darkLight)
+  border-color var(--color-border-dim)
+
   +desktop()
     margin 10u auto
     max-width 70u
@@ -10,7 +11,7 @@
 .myScrollableArea
   border-width 1px
   border-style dashed
-  border-color var(--colors-darkLight, $UI.colors.darkLight)
+  border-color var(--color-border-dim)
   padding 2u 1u
   height 50u
 
@@ -22,9 +23,9 @@
   right 0
   z-index 1
   padding 1u 2u
-  background-color var(--colors-white, $UI.colors.white)
+  background-color var(--color-bg-strong)
   border-bottom-width 1px
-  border-bottom-color var(--colors-darkLight, $UI.colors.darkLight)
+  border-bottom-color var(--color-border-dim)
   padding-top 3u
 
   +tablet()
@@ -51,7 +52,7 @@
   flex 1
 
 .wrapper
-  background-color var(--colors-white, $UI.colors.white)
+  background-color var(--color-bg-strong)
 
 .backButton
   max-width 2u

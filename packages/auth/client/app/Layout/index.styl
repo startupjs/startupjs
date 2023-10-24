@@ -1,12 +1,12 @@
 .root
   flex-grow 1
-  background-color: var(--colors-white, $UI.colors.white)
+  background-color var(--color-bg-strong)
 
   &:part(contentContainer)
     flex-grow 1
 
   +desktop()
-    background-color: var(--colors-darkLighter, $UI.colors.darkLighter)
+    background-color var(--color-bg-dim)
 
     &:part(contentContainer)
       justify-content center
@@ -22,5 +22,5 @@
   +desktop()
     flex-grow 0
     width 50u
-    background-color: var(--colors-white, $UI.colors.white)
+    background-color var(--color-bg-strong)
     box-shadow: $UI.colors.darkLighter 0 1u 1.5u // TODO: css vars

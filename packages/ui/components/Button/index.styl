@@ -57,13 +57,8 @@ _disabledOpacity = 0.25
       line-height $this.lineHeights[size]
 
 .icon
-  color: var(--colors-dark, $UI.colors.dark)
-
   &.invisible
     opacity 0
-
-  &.flat
-    color: var(--colors-white, $UI.colors.white)
 
 .loader
   position absolute
@@ -72,4 +67,3 @@ _disabledOpacity = 0.25
 
 :export
   config: $this
-  staticColors: $UI.colors

@@ -58,7 +58,7 @@ export default observer(function Layout ({ children }) {
     .header
       padding 1u 2u
       border-bottom-width 1px
-      border-bottom-color var(--colors-darkLighter, $UI.colors.darkLighter)
+      border-bottom-color var(--color-text-placeholder)
     // .menu
     //   margin-left 1u
   `

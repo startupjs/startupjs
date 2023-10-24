@@ -1,11 +1,10 @@
-$input = var(--colors-darkLight, $UI.colors.darkLight)
-$thead = var(--colors-darkLight, $UI.colors.darkLight)
-$header = var(--colors-secondaryText, $UI.colors.secondaryText)
-$darkHeader = var(--colors-whiteLight, $UI.colors.whiteLight)
-$value = var(--colors-success, $UI.colors.success)
-$type = var(--colors-additional1, $UI.colors.additional1)
-$valueDark = var(--colors-successLight, $UI.colors.successLight)
-$typeDark = var(--colors-additional1Light, $UI.colors.additional1Light)
+$input = var(--color-border)
+$header = var(--color-text-description)
+$darkHeader = var(--color-text-white)
+$value = var(--color-text-success)
+$type = var(--color-text-info)
+$valueDark = var(--color-text-success-strong)
+$typeDark = var(--color-text-info-strong)
 
 .input
   background-color white
@@ -44,11 +43,11 @@ $typeDark = var(--colors-additional1Light, $UI.colors.additional1Light)
   align-self flex-end
 
 .unsupported
-  color var(--colors-secondaryText, $UI.colors.secondaryText)
+  color var(--color-text-description)
   text-align right
 
 .separator
-  color var(--colors-darkLighter, $UI.colors.darkLighter)
+  color var(--color-text-placeholder)
 
 .vCenter
   justify-content center
@@ -58,4 +57,4 @@ $typeDark = var(--colors-additional1Light, $UI.colors.additional1Light)
   align-self flex-start
 
 .badJSON
-  color: var(--colors-error, $UI.colors.error)
+  color var(--color-text-error)

@@ -34,13 +34,13 @@ $this = merge(
   height 100%
 
 .fallback
-  color white
+  color var(--color-text-white)
 
 .status
   position absolute
   z-index 1
   border-width 2px
-  border-color var(--colors-white, $UI.colors.white)
+  border-color var(--color-border-white)
   radius(circle)
 
   &.circle
@@ -53,10 +53,10 @@ $this = merge(
     right @bottom
 
   &.online
-    background-color var(--colors-success, $UI.colors.success)
+    background-color var(--color-bg-success)
 
   &.away
-    background-color var(--colors-warning, $UI.colors.warning)
+    background-color var(--color-bg-warning)
 
 :export
   config: $this

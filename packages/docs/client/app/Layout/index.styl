@@ -1,23 +1,20 @@
 @require '../constants.styl'
 
-$separatorColor = #ddd
-$topbarBorderColor = #eee
-
 .layout
-  background-color: var(--colors-white, $UI.colors.white)
+  background-color var(--color-bg-strong)
 
 .topbar
   align-items center
   justify-content space-between
   border-bottom-width 1px
-  border-bottom-color $topbarBorderColor
+  border-bottom-color var(--color-border-strong)
   height $TOPBAR_HEIGHT
   padding 0 1u
 
 .searchWrapper
   width 32u
   border-left-width 1px
-  border-left-color $separatorColor
+  border-left-color var(--color-border)
   padding-left 2u
 
   +tablet()
@@ -28,7 +25,7 @@ $topbarBorderColor = #eee
   &:part(input)
     border none
   &:part(icon)
-    color: var(--colors-darkLight, $UI.colors.darkLight)
+    color var(--color-text-description)
 
 .active
-  color: var(--colors-primary, $UI.colors.primary)
+  color var(--color-text-primary)
