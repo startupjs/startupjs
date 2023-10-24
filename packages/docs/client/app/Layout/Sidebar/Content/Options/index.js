@@ -53,15 +53,15 @@ export default observer(function Options ({
 const THEMES = [
   undefined,
   {
-    '--colors-primary': '#f00',
-    '--colors-primary-lightest': '#faa'
+    '--color-text-primary': '#f00',
+    '--color-primary-inverse': '#faa'
   },
   {
-    '--colors-primary': '#0f0',
-    '--colors-primary-lightest': '#afa'
+    '--color-text-primary': '#0f0',
+    '--color-primary-inverse': '#afa'
   },
   {
-    '--colors-primary': '#00f',
-    '--colors-primary-lightest': '#aaf'
+    '--color-text-primary': '#00f',
+    '--color-primary-inverse': '#aaf'
   }
 ]

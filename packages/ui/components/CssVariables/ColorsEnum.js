@@ -11,8 +11,8 @@ const MainEnum = {
 
 const BgEnum = {
   bg: 'bg',
-  'bg-dark': 'bg-dark',
-  'bg-dark-transparent': 'bg-dark-transparent',
+  'bg-inverse': 'bg-inverse',
+  'bg-inverse-transparent': 'bg-inverse-transparent',
   'bg-primary': 'bg-primary',
   'bg-secondary': 'bg-secondary',
   'bg-error': 'bg-error',
@@ -41,7 +41,7 @@ const BgEnum = {
 
 const TextEnum = {
   text: 'text',
-  'text-white': 'text-white',
+  'text-inverse': 'text-inverse',
   'text-description': 'text-description',
   'text-placeholder': 'text-placeholder',
   'text-primary': 'text-primary',
@@ -66,7 +66,7 @@ const TextEnum = {
 
 const BorderEnum = {
   border: 'border',
-  'border-white': 'border-white',
+  'border-strong': 'border-strong',
   'border-primary': 'border-primary',
   'border-secondary': 'border-secondary',
   'border-error': 'border-error',
@@ -75,9 +75,9 @@ const BorderEnum = {
   'border-info': 'border-info',
   'border-attention': 'border-attention',
   'border-special': 'border-special',
-  'border-dark': 'border-dark',
+  'border-inverse': 'border-inverse',
   'border-dim': 'border-dim',
-  'border-strong': 'border-strong'
+  'border-strong-alt': 'border-strong-alt'
 }
 
 const ColorsEnum = {

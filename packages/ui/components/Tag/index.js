@@ -81,7 +81,7 @@ function Tag ({
   }
 
   function getFlatTextColor () {
-    return getColor(`text-on-${color}`) || getColor('text-white')
+    return getColor(`text-on-${color}`) || getColor('text-inverse')
   }
 
   return pug`
