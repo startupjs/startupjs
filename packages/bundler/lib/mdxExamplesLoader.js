@@ -1,3 +1,4 @@
+const path = require('path')
 const REGEX = /(```jsx +(?:example|pure-example)[\s\S]*?\n)([\s\S]*?)(```)/g
 
 const FLAGS = [
@@ -12,7 +13,9 @@ import { observer as __observer } from 'startupjs'
 `
 
 module.exports = function mdxExamplesLoader (source) {
-  return DEFAULT_MDX_RENDERER + '\n' + source.replace(REGEX, replacer)
+  return path.extname(this.resourcePath) === 'mdx'
+    ? DEFAULT_MDX_RENDERER + '\n' + source.replace(REGEX, replacer)
+    : source
 }
 
 function replacer (match, p1, p2, p3) {

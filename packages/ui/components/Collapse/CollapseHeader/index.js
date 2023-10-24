@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Animated } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import Div from './../../Div'

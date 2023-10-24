@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Row, Content, Div, Span } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'

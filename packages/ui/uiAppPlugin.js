@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { ToastProvider } from './components/toast'
 import { DialogsProvider } from './components/dialogs'
 import Portal from './components/Portal'

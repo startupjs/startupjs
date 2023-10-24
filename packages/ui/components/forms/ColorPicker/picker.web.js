@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useImperativeHandle } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import './index.styl'
 
 function Picker ({ onChangeColor }, ref) {

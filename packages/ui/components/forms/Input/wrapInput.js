@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styl, observer } from 'startupjs'
+import { pug, styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import merge from 'lodash/merge'

@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { observer, useValue, useBind } from 'startupjs'
+import { pug, observer, useValue, useBind } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
@@ -82,6 +82,7 @@ function DateTimePicker ({
 
   // if no bindProps then uncontrolled
   if (!bindProps) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     ;[, $visible] = useValue(false)
     bindProps = { $visible }
   }

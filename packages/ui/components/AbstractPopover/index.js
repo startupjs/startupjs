@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-prop-types */
+
 import React, {
   useState,
   useCallback,
@@ -6,7 +8,7 @@ import React, {
   useMemo
 } from 'react'
 import { Animated, Easing, Dimensions, StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
 import Portal from '../Portal'

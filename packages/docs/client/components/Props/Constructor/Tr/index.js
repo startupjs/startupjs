@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { themed, Div } from '@startupjs/ui'
 import './index.styl'
 

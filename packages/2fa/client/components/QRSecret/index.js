@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Image } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { getSecret } from '../../helpers'

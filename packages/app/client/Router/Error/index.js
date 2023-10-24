@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { defaultTemplates } from './templates'
 
 export default observer(function Error ({ error, pages = {}, supportEmail }) {

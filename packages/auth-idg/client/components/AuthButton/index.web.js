@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, u, useSession } from 'startupjs'
+import { pug, observer, u, useSession } from 'startupjs'
 import { Row, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { onLogin } from '../../helpers'

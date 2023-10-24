@@ -1,7 +1,14 @@
 import React, { useRef } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import DrawerLayoutModule from 'react-native-drawer-layout-polyfill'
-import { observer, useComponentId, useBind, useLocal, useDidUpdate } from 'startupjs'
+import {
+  pug,
+  observer,
+  useComponentId,
+  useBind,
+  useLocal,
+  useDidUpdate
+} from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
@@ -31,6 +38,7 @@ function DrawerSidebar ({
 
   const componentId = useComponentId()
   if (!$open) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     [, $open] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
   }
 

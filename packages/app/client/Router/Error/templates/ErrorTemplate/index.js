@@ -1,7 +1,7 @@
 import React from 'react'
 import { Linking, Text, TouchableOpacity, View } from 'react-native'
 import { useHistory } from 'react-router-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import './index.styl'
 
 export default observer(function ErrorTemplate ({ title, description, supportEmail }) {

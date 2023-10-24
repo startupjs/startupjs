@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import { observer, useOn, usePage, useLocal, emit } from 'startupjs'
+import { pug, observer, useOn, usePage, useLocal, emit } from 'startupjs'
 import { ScrollView } from '@startupjs/ui'
 import _debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'

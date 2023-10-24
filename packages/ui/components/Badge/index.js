@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'

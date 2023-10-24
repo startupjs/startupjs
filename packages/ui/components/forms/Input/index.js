@@ -1,5 +1,5 @@
 import React, { useRef, useImperativeHandle } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import inputs from './inputs'

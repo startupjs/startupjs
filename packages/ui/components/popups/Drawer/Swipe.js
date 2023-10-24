@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { PanResponder, View, StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import themed from '../../../theming/themed'
 import './index.styl'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Span, Tag, themed } from '@startupjs/ui'
 import Table from './Table'
 import Tbody from './Tbody'
