@@ -147,7 +147,7 @@ function getAuthStrategies () {
   return strategies
 }
 
-function getHead (appName, req) {
+function getHead (req) {
   return `
     ${getUiHead()}
     ${getRecaptchaHead(req)}
