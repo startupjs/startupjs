@@ -183,7 +183,6 @@ To gain further deep knowledge of StartupJS stack you'll need get familiar with 
 - [Offline](/packages/offline)
 - [ORM](/packages/orm)
 - [React sharedb](/packages/react-sharedb)
-- [Routes middleware](/packages/routes-middleware)
 - [Server](/packages/server)
 - [StartupJS meta package](/packages/startupjs)
 - [UI](/packages/ui)
