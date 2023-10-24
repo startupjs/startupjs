@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Row, Span, Div } from '@startupjs/ui'
 import moment from 'moment'
 import './index.styl'

@@ -1,6 +1,10 @@
 import React from 'react'
+<<<<<<< HEAD
 import { observer } from 'startupjs'
 import { setDefaultVariables } from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
+=======
+import { pug, observer } from 'startupjs'
+>>>>>>> master
 import { ToastProvider } from './components/toast'
 import { DialogsProvider } from './components/dialogs'
 import Portal from './components/Portal'

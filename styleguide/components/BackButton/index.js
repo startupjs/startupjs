@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { useHistory } from '@startupjs/app'
 import { Button } from '@startupjs/ui'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
@@ -15,6 +15,6 @@ export default observer(function BackButton ({ style }) {
       variant='text'
       style=style
       onPress=() => history.goBack()
-    ) 
+    )
   `
 })

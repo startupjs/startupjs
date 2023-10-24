@@ -1,7 +1,6 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
-import { observer } from 'startupjs'
-import { Div, Layout as UILayout } from '@startupjs/ui'
+import { pug, observer } from 'startupjs'
+import { Div, Layout as UILayout, ScrollView } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(function Layout ({ children }) {

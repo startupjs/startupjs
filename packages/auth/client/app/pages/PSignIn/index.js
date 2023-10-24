@@ -1,4 +1,5 @@
 import React from 'react'
+import { pug } from 'startupjs'
 import PropTypes from 'prop-types'
 import { AuthForm } from '../../../components'
 import { SIGN_IN_SLIDE } from '../../../../isomorphic'

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import {
   Div,
   Button

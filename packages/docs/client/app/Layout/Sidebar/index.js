@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useModel } from 'startupjs'
+import { pug, observer, useModel } from 'startupjs'
 import { SmartSidebar } from '@startupjs/ui'
 import Content from './Content'
 

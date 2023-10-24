@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Br from '../../Br'
 import Button from '../index'

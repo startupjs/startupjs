@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Image, ScrollView, Platform } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { $root, observer, useValue } from 'startupjs'
+import { pug, $root, observer, useValue } from 'startupjs'
 import {
   Alert,
   Div,
@@ -108,6 +108,7 @@ export default {
   h5: P,
   h6: P,
   p: ({ children }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const inBlockquote = useContext(BlockquoteContext)
 
     if (inBlockquote) {
@@ -167,6 +168,7 @@ export default {
   },
   ul: ({ children }) => children,
   ol: ({ children }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const currentLevel = useContext(ListLevelContext)
     const nextLevel = currentLevel == null ? 0 : currentLevel + 1
     const filteredChildren = React.Children
@@ -180,6 +182,7 @@ export default {
     `
   },
   li: ({ children, index }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const level = useContext(ListLevelContext)
     const listIndex = index == null ? '•' : getOrderedListMark(index, level)
     let hasTextChild = false
@@ -203,12 +206,17 @@ export default {
     `
   },
   blockquote: ({ children }) => {
+    const filteredChildren = React.Children
+      .toArray(children)
+      .filter(child => child !== '\n')
+
     return pug`
       BlockquoteContext.Provider(value=true)
-        Alert.alert= children
+        Alert.alert= filteredChildren
     `
   },
   img: ({ src }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [style, setStyle] = useState({})
     const isUrl = /^(http|https):\/\//.test(src)
     const isLocalUrl = /^\//.test(src)
@@ -260,6 +268,7 @@ export default {
     `
   },
   code: observer(({ children, className, ...props }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const isBlockCode = useContext(PreContext)
 
     if (!isBlockCode) {

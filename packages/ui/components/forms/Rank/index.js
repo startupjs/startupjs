@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
-import { observer, $root, useValue } from 'startupjs'
+import { pug, observer, $root, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
 import {

@@ -1,4 +1,5 @@
 import React, { useMemo, memo } from 'react'
+import { pug } from 'startupjs'
 import {
   MDXProvider as InternalMDXProvider,
   useMDXComponents

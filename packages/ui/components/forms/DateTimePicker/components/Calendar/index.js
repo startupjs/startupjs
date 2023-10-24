@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import moment from 'moment'
 import Header from './Header'

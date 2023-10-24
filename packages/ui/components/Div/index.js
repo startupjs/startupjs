@@ -5,7 +5,7 @@ import {
   Platform,
   StyleSheet
 } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import PropTypes from 'prop-types'

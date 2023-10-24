@@ -29,6 +29,8 @@ import DividerRu from '../components/Divider/Divider.ru.mdx'
 import Draggable from '../components/draggable/Draggable.mdx'
 import DrawerSidebarEn from '../components/DrawerSidebar/DrawerSidebar.en.mdx'
 import DrawerSidebarRu from '../components/DrawerSidebar/DrawerSidebar.ru.mdx'
+import FlatListEn from '../components/FlatList/FlatList.en.mdx'
+import FlatListRu from '../components/FlatList/FlatList.ru.mdx'
 import IconEn from '../components/Icon/Icon.en.mdx'
 import IconRu from '../components/Icon/Icon.ru.mdx'
 import ItemEn from '../components/Item/Item.en.mdx'
@@ -53,6 +55,8 @@ import RatingEn from '../components/Rating/Rating.en.mdx'
 import RatingRu from '../components/Rating/Rating.ru.mdx'
 import RowEn from '../components/Row/Row.en.mdx'
 import RowRu from '../components/Row/Row.ru.mdx'
+import ScrollViewEn from '../components/ScrollView/ScrollView.en.mdx'
+import ScrollViewRu from '../components/ScrollView/ScrollView.ru.mdx'
 import SidebarEn from '../components/Sidebar/Sidebar.en.mdx'
 import SidebarRu from '../components/Sidebar/Sidebar.ru.mdx'
 import SmartSidebarEn from '../components/SmartSidebar/SmartSidebar.en.mdx'
@@ -195,6 +199,14 @@ export default {
         ru: DrawerSidebarRu
       }
     },
+    FlatList: {
+      type: 'mdx',
+      title: 'FlatList',
+      component: {
+        en: FlatListEn,
+        ru: FlatListRu
+      }
+    },
     Icon: {
       type: 'mdx',
       title: 'Icon',
@@ -289,6 +301,14 @@ export default {
       component: {
         en: RowEn,
         ru: RowRu
+      }
+    },
+    ScrollView: {
+      type: 'mdx',
+      title: 'ScrollView',
+      component: {
+        en: ScrollViewEn,
+        ru: ScrollViewRu
       }
     },
     Sidebar: {

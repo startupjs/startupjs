@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
 import themed from '../../theming/themed'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { observer, useSession } from 'startupjs'
+import { pug, observer, useSession } from 'startupjs'
 import Layout from './../Layout'
 import mailTo from './mailTo'
 import './index.styl'

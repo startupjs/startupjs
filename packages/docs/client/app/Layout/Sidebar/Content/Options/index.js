@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import { Br, Input, Button, Modal, Span, CssVariables } from '@startupjs/ui'
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import {

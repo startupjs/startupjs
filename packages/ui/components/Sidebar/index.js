@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, View, StyleSheet } from 'react-native'
 import {
+  pug,
   observer,
   useComponentId,
   useLocal,
@@ -31,7 +32,9 @@ function Sidebar ({
   const getColor = useColors()
 
   const componentId = useComponentId()
+
   if (!$open) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     [, $open] = useLocal(path || `_session.Sidebar.${componentId}`)
   }
 

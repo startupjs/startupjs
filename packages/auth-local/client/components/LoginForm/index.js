@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useSession, useError } from 'startupjs'
+import { pug, observer, useValue, useSession, useError } from 'startupjs'
 import {
   Alert,
   Br,

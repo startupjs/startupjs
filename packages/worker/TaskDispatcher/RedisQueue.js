@@ -35,7 +35,8 @@ export default class RedisQueue {
       await delay(0)
       const taskLockKey = 'tasks:regular:' + taskId
       try {
-        const timeout = Number(env.WORKER_TASK_DEFAULT_TIMEOUT) + Number(env.WORKER_MONGO_QUERY_TIMEOUT)
+        const taskTimeout = options.timeout || env.WORKER_TASK_DEFAULT_TIMEOUT
+        const timeout = Number(taskTimeout) + Number(env.WORKER_MONGO_QUERY_TIMEOUT)
         locks.taskLock = await this.redlock.lock(taskLockKey, timeout)
       } catch (err) {
         throw new Error('task skip')
@@ -45,7 +46,8 @@ export default class RedisQueue {
     const singletonLockHandler = async () => {
       if (!options.singleton) return
       await delay(0)
-      const timeout = Number(env.WORKER_TASK_DEFAULT_TIMEOUT)
+      const taskTimeout = options.timeout || env.WORKER_TASK_DEFAULT_TIMEOUT
+      const timeout = Number(taskTimeout)
       const taskSingletonLockKey = 'tasks:singleton:' + task.uniqId
       try {
         locks.singletonLock = await this.redlock.lock(taskSingletonLockKey, timeout)

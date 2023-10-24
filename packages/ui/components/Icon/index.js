@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, Platform } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { observer, u } from 'startupjs'
+import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import { useColors } from '../../hooks'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useQueryDoc, useValue, useDoc, $root } from 'startupjs'
+import { pug, observer, useQueryDoc, useValue, useDoc, $root } from 'startupjs'
 import { useAuthHelper } from '@startupjs/auth-local'
 import { Alert, Br, Span, Div, Button, PasswordInput } from '@startupjs/ui'
 import { SIGN_IN_SLIDE, RECOVER_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'

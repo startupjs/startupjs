@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
