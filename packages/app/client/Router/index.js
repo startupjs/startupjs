@@ -35,8 +35,6 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   const route = getRouteMeta(location.pathname, routes)
   let app
 
-  console.log(route, 'route')
-
   route
     ? app = route.app
     : error = { code: 404 }
