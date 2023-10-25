@@ -13,7 +13,7 @@ import { observer as __observer } from 'startupjs'
 `
 
 module.exports = function mdxExamplesLoader (source) {
-  return path.extname(this.resourcePath) === 'mdx'
+  return path.extname(this.resourcePath) === '.mdx'
     ? DEFAULT_MDX_RENDERER + '\n' + source.replace(REGEX, replacer)
     : source
 }
