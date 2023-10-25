@@ -31,7 +31,7 @@ import './index.styl'
 ```js
   import { getRecaptchaHead } from '@startupjs/recaptcha/server'
 
-  function getHead (appName, req) {
+  function getHead (req) {
     return `
       // ...
       ${getRecaptchaHead(req)}

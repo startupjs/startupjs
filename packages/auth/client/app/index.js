@@ -2,8 +2,8 @@ import React from 'react'
 import { pug, emit, $root } from 'startupjs'
 import { BASE_URL } from '@env'
 import * as pages from './pages'
+import getAuthRoutes from './routes'
 import {
-  getAuthRoutes,
   SIGN_IN_SLIDE,
   SIGN_UP_SLIDE,
   RECOVER_PASSWORD_SLIDE,

@@ -15,8 +15,6 @@ import { Button } from '@startupjs/ui'
 startupjs: >= 0.33.0
 ```
 
-## Description
-
 ## Init on server
 ```js
 import { initAuth } from '@startupjs/auth/server'
@@ -77,16 +75,6 @@ const auth = initAuthApp({
 When the microfrontend is generated, you just need to pass it to the App
 ```pug
 App(apps={ auth, main })
-```
-
-And also add routes for the server
-```js
-import { getAuthRoutes } from '@startupjs/auth/isomorphic'
-//...
-appRoutes: [
-  ...getAuthRoutes()
-]
-//...
 ```
 
 ### Microfrontend customization

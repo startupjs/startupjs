@@ -5,13 +5,13 @@
 
 * **babel-plugin-rn-stylename-inline:** fix compilers validation ([#1074](https://github.com/startupjs/startupjs/issues/1074)) ([29722fe](https://github.com/startupjs/startupjs/commit/29722fec74598eb43bb3c3e91d45046de89ef2d9))
 * **mdxExamplesLoader:** fix renderer ([57b84f4](https://github.com/startupjs/startupjs/commit/57b84f420b1c9b7bab46603910c4d6ac71661968))
-* remove server side routing ([#1078](https://github.com/startupjs/startupjs/issues/1078)) ([71bc3f0](https://github.com/startupjs/startupjs/commit/71bc3f0628faddd10f35df7eb916e3fe38adb9c3))
+* **server** remove server side routing ([#1078](https://github.com/startupjs/startupjs/issues/1078)) ([71bc3f0](https://github.com/startupjs/startupjs/commit/71bc3f0628faddd10f35df7eb916e3fe38adb9c3))
 
 
 ### Features
 
 * **babel-plugin-rn-stylename-inline:** throw an error if import is not specified ([#1070](https://github.com/startupjs/startupjs/issues/1070)) ([29d6194](https://github.com/startupjs/startupjs/commit/29d6194f12e3f46c04ec294b10762ec685782501))
-* throw an error if import of 'pug' is not specified ([#1075](https://github.com/startupjs/startupjs/issues/1075)) ([f166938](https://github.com/startupjs/startupjs/commit/f166938eba998d5b4a184162c18a0a6d8897580c))
+* **babel-plugin-startupjs-utils** throw an error if import of 'pug' is not specified ([#1075](https://github.com/startupjs/startupjs/issues/1075)) ([f166938](https://github.com/startupjs/startupjs/commit/f166938eba998d5b4a184162c18a0a6d8897580c))
 
 
 

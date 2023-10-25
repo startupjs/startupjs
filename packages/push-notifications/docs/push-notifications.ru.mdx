@@ -84,19 +84,16 @@ yarn add @startupjs/push-notifications @react-native-community/push-notification
 
 ```js
 import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
-import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
 ...
+
 init({ orm })
 initFirebaseApp(serviceAccountPath)
 
 ...
+
 startupjsServer({
-...
-appRoutes: [
   ...
-  ...getPushNotificationsRoutes()
-]
 }, (ee, options) => {
   ...
   initPushNotifications(ee)

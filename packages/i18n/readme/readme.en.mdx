@@ -31,21 +31,6 @@ startupjs: >= 0.34.0
   })
   ```
 
-1. Add server-side routes
-
-  ```js
-  import { getI18nRoutes } from '@startupjs/i18n/server'
-
-  startupjsServer({
-    appRoutes: [
-      // provides page /i18n to manage translations
-      ...getI18nRoutes()
-    ]
-  }, (ee, options) => {
-    // ...
-  })
-  ```
-
 1. Init the isomorphic model
 
   ```js

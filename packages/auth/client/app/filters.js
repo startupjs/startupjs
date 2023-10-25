@@ -1,4 +1,4 @@
-import { SIGN_IN_URL } from './constants'
+import { SIGN_IN_URL } from './../../isomorphic/constants'
 
 function isLoggedIn (signInPageUrl) {
   return function (model, next, redirect) {

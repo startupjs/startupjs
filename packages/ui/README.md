@@ -63,7 +63,7 @@ startupjsServer({
   ...
 })
 
-function getHead (appName) {
+function getHead () {
   return `
     ${getUiHead()}
     other head text
