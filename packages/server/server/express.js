@@ -1,4 +1,3 @@
-const routesMiddleware = require('@startupjs/routes-middleware')
 const _defaults = require('lodash/defaults')
 const _cloneDeep = require('lodash/cloneDeep')
 const conf = require('nconf')
@@ -12,6 +11,7 @@ const MongoStore = require('connect-mongo')
 const hsts = require('hsts')
 const cors = require('cors')
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
+const app = require('./app')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
   urlencoded: {
@@ -25,7 +25,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, mongoClient, appRoutes, error, options) => {
+module.exports = (backend, mongoClient, error, options) => {
   const connectMongoOptions = { client: mongoClient }
 
   if (options.sessionMaxAge) {
@@ -153,10 +153,10 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
   // ----------------------------------------------------->      routes      <#
   options.ee.emit('routes', expressApp)
 
-  expressApp.use(routesMiddleware(appRoutes, options))
+  const appMiddleware = app(options)
 
   expressApp
-    .all('*', (req, res, next) => next('404: ' + req.url))
+    .use(appMiddleware)
     .use(function (err, req, res, next) {
       if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
         process.exit()

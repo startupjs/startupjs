@@ -1,4 +1,4 @@
-# startupjs routes-middleware
+# startupjs hooks
 > Helper hooks
 
 ## Installation
