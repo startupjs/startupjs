@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/app",
   "type": "module",
-  "version": "0.53.0",
+  "version": "0.54.0",
   "description": "Router component for multi apps",
   "main": "index.js",
   "publishConfig": {
@@ -10,8 +10,8 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.53.0",
-    "@startupjs/plugin": "^0.53.0",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.54.0",
+    "@startupjs/plugin": "^0.54.0",
     "decode-uri-component": "0.2.1",
     "lodash": "^4.17.20",
     "qs": "6.10.4",

@@ -6,7 +6,7 @@ import {
   RESET_PASS_URL,
   SIGN_IN_URL,
   SIGN_UP_URL
-} from './constants'
+} from './../../isomorphic/constants'
 
 export default (components = {}, { loggedInRedirectUrl } = {}) => [
   {

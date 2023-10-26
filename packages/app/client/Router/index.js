@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { Linking, Platform } from 'react-native'
 import RNRestart from 'react-native-restart'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
-import { pug, $root, observer, useSyncEffect } from 'startupjs'
+import { pug, emit, $root, observer, useSyncEffect } from 'startupjs'
 import { Slot } from '@startupjs/plugin'
 import { BASE_URL } from '@env'
 import axios from 'axios'
@@ -31,10 +31,13 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 }) {
   const location = useLocation()
   const history = useHistory()
-  const [error, setError] = useState()
-  const app = useMemo(() => {
-    return getApp(location.pathname, routes)
-  }, [location.pathname])
+  let [error, setError] = useState()
+  const route = getRouteMeta(location.pathname, routes)
+  let app
+
+  route
+    ? app = route.app
+    : error = { code: 404 }
 
   useSyncEffect(() => {
     $root.on('url', goTo)
@@ -63,7 +66,11 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   }
 
   function _goTo (url, options = {}) {
-    const app = getApp(url.replace(/[?#].*$/, ''), routes)
+    const route = getRouteMeta(url.replace(/[?#].*$/, ''), routes)
+
+    if (!route) return emit('error', 404)
+
+    const app = route.app
     const { replace } = options
 
     if (app) {
@@ -118,7 +125,6 @@ const RenderApp = observer(function RenderAppComponent ({
   `
 })
 
-function getApp (url, routes) {
-  const route = routes.find(route => matchPath(url, route))
-  return route ? route.app : null
+function getRouteMeta (url, routes) {
+  return routes.find(route => matchPath(url, route))
 }

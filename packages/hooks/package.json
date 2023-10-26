@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/hooks",
   "type": "module",
-  "version": "0.53.0",
+  "version": "0.54.0",
   "engines": {
     "node": ">= 14"
   },

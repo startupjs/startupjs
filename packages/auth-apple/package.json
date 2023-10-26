@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-apple",
-  "version": "0.53.0",
+  "version": "0.54.0",
   "type": "module",
   "description": "Auth plugin for StartupJS auth module",
   "main": "index.js",

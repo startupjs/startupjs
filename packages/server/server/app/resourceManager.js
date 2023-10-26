@@ -68,13 +68,13 @@ exports.getHash = memoize((appName, type, options = {}) => {
 // DEPRECATED
 exports.getProductionStyles = memoize((appName, options = {}) => {
   PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
-  var styleRelPath = exports.getResourcePath('style', appName, options)
-  var stylePath = path.join(PROJECT_PATH, styleRelPath)
+  const styleRelPath = exports.getResourcePath('style', appName, options)
+  const stylePath = path.join(PROJECT_PATH, styleRelPath)
   if (!fs.existsSync(stylePath)) {
     console.error('No stylesheets found for \'' + appName +
         '\' at path: ' + stylePath)
     return
   }
-  var style = fs.readFileSync(stylePath, { encoding: 'utf8' })
+  const style = fs.readFileSync(stylePath, { encoding: 'utf8' })
   return '<style>' + style + '</style>'
 })

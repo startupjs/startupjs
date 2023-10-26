@@ -15,11 +15,10 @@ module.exports = (options = {}, cb) => {
   options.dirname = ROOT_PATH
 
   defaults(options, {
-    appRoutes: {},
     publicPath: './public',
     loginUrl: '/login',
-    bodyParserLimit: '10mb',
-    error: errorApp
+    error: errorApp,
+    bodyParserLimit: '10mb'
   })
 
   // Transform public path to be absolute

@@ -232,35 +232,6 @@ export default observer(() => {
 })
 ```
 
-4. Подключите роуты на сервере. Выглядить это будет так:
-
-```js
-...
-
-import getAppRoutes from '../main/routes'
-import getAdminRoutes from '../admin/routes'
-
-...
-
-const BUNDLE_NAME = 'main'
-
-startupjsServer(
-  {
-    getHead,
-    appRoutes: {
-      [BUNDLE_NAME]: [
-        ...getAppRoutes(),
-        ...getAdminRoutes(),
-      ]
-    },
-  },
-
-  (ee, options) => {
-    ...
-```
-
-`BUNDLE_NAME` - указывает на имя бандла в который должны попасть данные роуты.
-
 ## Server
 
 startupjs предоставляет сервер основанный на Express. После выполнения `npx startupjs init myapp`, вы получаете вполне работоспособный сервер, к которому уже подключена orm и базовое приложение `main`. На этой основе уже можно строить бизнес логику вашего приложения. Сервер можно найти по пути `server/index.js`. Давайте рассмотрим стандартный вид сервера в startupjs:
@@ -270,7 +241,6 @@ import init from 'startupjs/init'
 import orm from '../model'
 import startupjsServer from 'startupjs/server'
 import api from './api'
-import getMainRoutes from '../main/routes'
 import initPermissions from '@dmapper/permissions/server'
 import { initApp } from 'startupjs/app/server'
 
@@ -279,10 +249,7 @@ init({ orm })
 
 // Check '@startupjs/server' readme for the full API
 startupjsServer({
-  getHead,
-  appRoutes: [
-    ...getMainRoutes()
-  ]
+  getHead
 }, (ee, options) => {
   initApp(ee)
 
@@ -291,7 +258,7 @@ startupjsServer({
   })
 })
 
-function getHead (appName) {
+function getHead () {
   return `
     <title>HelloWorld</title>
     <!-- Put vendor JS and CSS here -->

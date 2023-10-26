@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Package for e2e tests",
-  "version": "0.53.0",
+  "version": "0.54.0",
   "main": "index.js",
   "dependencies": {
     "babel-jest": "^25.1.0",

@@ -15,5 +15,3 @@ export function initI18n (ee, config) {
     })
   })
 }
-
-export { default as getI18nRoutes } from './../client/app/routes'

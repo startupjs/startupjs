@@ -8,8 +8,6 @@ let wsServer = null
 
 module.exports = async (options) => {
   options = Object.assign({ secure: true }, options)
-  // React apps routes
-  const appRoutes = options.appRoutes
 
   // Init backend and all apps
   const { backend, shareDbMongo } = await createBackend(options)
@@ -17,7 +15,7 @@ module.exports = async (options) => {
   // Init error handling route
   const error = options.error(options)
 
-  const { expressApp, session } = require('./express')(backend, shareDbMongo._mongoClient, appRoutes, error, options)
+  const { expressApp, session } = require('./express')(backend, shareDbMongo._mongoClient, error, options)
 
   const { wss, upgrade } = racerHighway(backend, { session }, { timeout: 5000, timeoutIncrement: 8000 })
   wsServer = wss

@@ -15,8 +15,6 @@ import { Button } from '@startupjs/ui'
 startupjs: >= 0.33.0
 ```
 
-## Описание
-
 ## Инициализация на сервере
 ```js
 import { initAuth } from '@startupjs/auth/server'
@@ -77,16 +75,6 @@ const auth = initAuthApp({
 Когда микрофронтенд сгенерирован, нужно просто передать его в App
 ```pug
 App(apps={ auth, main })
-```
-
-И так же добавить роуты для сервере
-```js
-import { getAuthRoutes } from '@startupjs/auth/isomorphic'
-//...
-appRoutes: [
-  ...getAuthRoutes()
-]
-//...
 ```
 
 ### Кастомизация микрофронтенда

@@ -25,7 +25,7 @@ startupjsServer({ getHead }, ee => {
   })
 })
 
-const getHead = appName => `
+const getHead = () => `
   <title>HelloWorld</title>
   <!-- Put vendor JS and CSS here -->
 `
@@ -40,9 +40,6 @@ Add `accessControl: true` in options of your `startupjsServer`. For example:
 startupjsServer(
 {
   getHead,
-  appRoutes: [
-    ...getMainRoutes()
-  ],
   accessControl: true
 }, ee => {
   ee.on('routes', expressApp => {
@@ -78,9 +75,6 @@ Add `validateSchema: true` in options of your `startupjsServer`. For example:
 startupjsServer(
 {
   getHead,
-  appRoutes: [
-    ...getMainRoutes()
-  ],
   validateSchema: true
 }, ee => {
   // your code
@@ -135,9 +129,6 @@ Add `serverAggregate: true` in options of your `startupjsServer`. For example:
 startupjsServer(
 {
   getHead,
-  appRoutes: [
-    ...getMainRoutes()
-  ],
   serverAggregate: true
 }, ee => {
   // your code
@@ -182,4 +173,3 @@ model.query('events', {
 ## MIT Licence
 
 Copyright (c) 2016 Pavel Zhukov
-

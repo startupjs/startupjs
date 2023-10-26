@@ -16,7 +16,7 @@ startupjsServer({
   })
 })
 
-function getHead (appName) {
+function getHead () {
   return `
     <title>App</title>
     <!-- Put vendor JS and CSS here -->

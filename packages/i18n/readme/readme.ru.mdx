@@ -31,21 +31,6 @@ startupjs: >= 0.34.0
   })
   ```
 
-1. Добавьте серверные роуты
-
-  ```js
-  import { getI18nRoutes } from '@startupjs/i18n/server'
-
-  startupjsServer({
-    appRoutes: [
-      // предоставляет страницу /i18n для управления переводами
-      ...getI18nRoutes()
-    ]
-  }, (ee, options) => {
-    // ...
-  })
-  ```
-
 1. Инициализируйте изоморфную модель
 
   ```js

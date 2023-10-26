@@ -6,11 +6,6 @@ $email = var(--color-text-primary)
   align-items center
   padding 4u
 
-.email
-  color $email
-  text-decoration-line underline
-  text-decoration-color $email
-
 .card
   justify-content center
   padding 2u
@@ -19,6 +14,13 @@ $email = var(--color-text-primary)
   border-color var(--color-border)
   border-radius .5u
   background-color var(--color-bg-error-transparent)
+  max-width 100u
+  width 100%
+
+.email
+  color $email
+  text-decoration-line underline
+  text-decoration-color $email
 
 .text
   color var(--color-text-on-bg)
