@@ -49,6 +49,7 @@ $suggestionsPopoverMaxHeight = 25u
 
 .nativeListContent
   padding-top 5u
+
   &:part(swipe)
     background-color $swipeZoneColor
 
@@ -57,11 +58,12 @@ $suggestionsPopoverMaxHeight = 25u
   padding 1u 2u
   flex-direction row
   align-items center
+
   +desktop()
     padding 1u
 
 .sugText
-  color var(--color-text)
+  color var(--color-text-on-bg)
   font(h5)
 
   +desktop()

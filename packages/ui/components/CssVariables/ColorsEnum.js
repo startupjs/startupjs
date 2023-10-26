@@ -12,6 +12,7 @@ const MainEnum = {
 const BgEnum = {
   bg: 'bg',
   'bg-inverse': 'bg-inverse',
+  'bg-inverse-alt': 'bg-inverse-alt',
   'bg-inverse-transparent': 'bg-inverse-transparent',
   'bg-primary': 'bg-primary',
   'bg-secondary': 'bg-secondary',
@@ -41,7 +42,6 @@ const BgEnum = {
 
 const TextEnum = {
   text: 'text',
-  'text-inverse': 'text-inverse',
   'text-description': 'text-description',
   'text-placeholder': 'text-placeholder',
   'text-primary': 'text-primary',
@@ -54,6 +54,9 @@ const TextEnum = {
   'text-special': 'text-special',
   'text-success-strong': 'text-success-strong',
   'text-info-strong': 'text-info-strong',
+  'text-on-color': 'text-on-color',
+  'text-on-bg': 'text-on-bg',
+  'text-on-bg-inverse': 'text-on-bg-inverse',
   'text-on-primary': 'text-on-primary',
   'text-on-secondary': 'text-on-secondary',
   'text-on-error': 'text-on-error',

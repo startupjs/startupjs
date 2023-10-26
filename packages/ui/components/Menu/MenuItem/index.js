@@ -31,7 +31,7 @@ function MenuItem ({
 
   // TODO: prevent click if already active (for link and for div)
   const activeItemColor = activeColor || getColor('primary')
-  color = active ? activeItemColor : color || getColor('text')
+  color = active ? activeItemColor : color || getColor('text-on-bg')
   const borderStyle = { backgroundColor: activeItemColor }
 
   return pug`

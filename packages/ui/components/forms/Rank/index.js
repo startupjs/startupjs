@@ -118,7 +118,7 @@ const RankReadonly = observer(function ({ value, style }) {
   return pug`
     Div(style=style)
       each option, index in value
-        Row.readonly
+        Row.readonly(key=index)
           Div.readonly-index
             Span #{index + 1}.&nbsp;
           Div.readonly-text

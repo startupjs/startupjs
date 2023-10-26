@@ -28,7 +28,7 @@ export default observer(function Options ({
     Button(
       style=style
       icon=faSlidersH
-      color='darkLight'
+      color='text-description'
       variant='text'
       onPress=() => $open.set(true)
     )

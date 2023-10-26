@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { ColorsEnumValues } from '../CssVariables/ColorsEnum'
+import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
 import Div from '../Div'
 import Icon from '../Icon'
 import Row from '../Row'
@@ -37,6 +37,8 @@ function Badge ({
     badgeStyle
   ])
 
+  const textAndIconColor = getColor(ColorsEnum[`text-on-${color}`]) || getColor(ColorsEnum['text-on-color'])
+
   const hasLabel = useMemo(() => {
     return variant === 'default'
       ? typeof label === 'string'
@@ -70,16 +72,17 @@ function Badge ({
         )
           if variant === 'default'
             if icon
-              Icon.icon(
+              Icon(
+                style={ color: textAndIconColor }
                 icon=icon
                 size=ICON_SIZES[size]
               )
-            Span.label(styleName=[size, { icon }])= getLabel(label, max)
+            Span.label(style={ color: textAndIconColor } styleName=[size, { icon }])= getLabel(label, max)
   `
 }
 
 Badge.defaultProps = {
-  color: 'primary',
+  color: ColorsEnum.primary,
   position: 'top',
   variant: 'default',
   size: 'm'

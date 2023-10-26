@@ -73,6 +73,6 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
         max-width 320px
 
       &-text
-        color var(--color-text-inverse)
+        color var(--color-text-on-bg-inverse)
   `
 }

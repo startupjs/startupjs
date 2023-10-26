@@ -6,6 +6,7 @@ export default function useColors () {
 }
 
 function getColor (color, { addPrefix = true } = {}) {
+  if (!color) return
   const cssVar = addPrefix ? `--color-${color}` : color
   // '?' operator is needed for cases in button and tag components to get 'text-on-' color
   // maybe get rid of it here and wrap function calls there in try/catch

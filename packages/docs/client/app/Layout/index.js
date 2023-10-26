@@ -51,6 +51,7 @@ const Search = observer(function Search () {
   }, [])
 
   function onChange (value) {
+    if (!value) return
     setValue({})
     // TODO: replaced from Menu.Item 'to' property
     emit('url', value.value)

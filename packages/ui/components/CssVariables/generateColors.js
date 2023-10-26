@@ -90,17 +90,23 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   const C = { ...existing }
 
   // base colors
+  C[ColorsEnum['text-on-color']]                ??= Color('coolGray', high)
   C[ColorsEnum.bg]                              ??= Color('coolGray', high)
-  C[ColorsEnum.text]                            ??= Color('coolGray', low + 1)
-  C[ColorsEnum.border]                          ??= Color('coolGray', high).dimmer(2)
-  C[ColorsEnum.primary]                         ??= Color('blue', middle - 1)
-  C[ColorsEnum.secondary]                       ??= Color('coolGray', low + 1)
-  C[ColorsEnum.error]                           ??= Color('red', middle - 1)
+  C[ColorsEnum.text]                            ??= Color('coolGray', low + 2)
+  C[ColorsEnum.border]                          ??= Color('coolGray', high - 2)
+  C[ColorsEnum.primary]                         ??= Color('blue', middle)
+  C[ColorsEnum.secondary]                       ??= Color('coolGray', low + 2)
+  C[ColorsEnum.error]                           ??= Color('red', middle)
   C[ColorsEnum.success]                         ??= Color('green', middle)
   C[ColorsEnum.warning]                         ??= Color('yellow', middle + 2)
   C[ColorsEnum.info]                            ??= Color('cyan', middle + 1)
   C[ColorsEnum.attention]                       ??= Color('orange', middle)
   C[ColorsEnum.special]                         ??= Color('purple', middle - 1)
+  // Dark theme colors
+  // C[ColorsEnum.bg]                              ??= Color('coolGray', low)
+  // C[ColorsEnum.text]                            ??= Color('coolGray', high)
+  // C[ColorsEnum.border]                          ??= Color('coolGray', low + 2)
+  // C[ColorsEnum.secondary]                       ??= Color('coolGray', high)
 
   // all other colors are generated from the base colors
 
@@ -116,6 +122,7 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
 
   // extra bg colors
   C[ColorsEnum['bg-inverse']]                   ??= C[ColorsEnum.bg].dimmer(7)
+  C[ColorsEnum['bg-inverse-alt']]               ??= C[ColorsEnum.bg].dimmer(6)
   C[ColorsEnum['bg-inverse-transparent']]       ??= C[ColorsEnum['bg-inverse']].setAlpha(0.05)
   C[ColorsEnum['bg-dim']]                       ??= C[ColorsEnum.bg].dimmer(1)
   C[ColorsEnum['bg-dim-alt']]                   ??= C[ColorsEnum.bg].dimmer(2)
@@ -135,7 +142,6 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   C[ColorsEnum['bg-special-inverse']]           ??= C[ColorsEnum.special].highContrast()
 
   // text
-  C[ColorsEnum['text-inverse']]                   ??= C[ColorsEnum.text].dimmer(8)
   C[ColorsEnum['text-description']]             ??= C[ColorsEnum.text].dimmer(2)
   C[ColorsEnum['text-placeholder']]             ??= C[ColorsEnum.text].dimmer(4)
   C[ColorsEnum['text-primary']]                 ??= C[ColorsEnum.primary]
@@ -152,9 +158,11 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   C[ColorsEnum['text-info-strong']]             ??= C[ColorsEnum.info].stronger(2)
 
   // text on different backgrounds
-  C[ColorsEnum['text-on-primary']]              ??= C[ColorsEnum.primary].highContrast()
+  C[ColorsEnum['text-on-bg']]                   ??= C[ColorsEnum.text]
+  C[ColorsEnum['text-on-bg-inverse']]           ??= C[ColorsEnum.text].dimmer(5)
+  C[ColorsEnum['text-on-primary']]              ??= C[ColorsEnum.primary].stronger(4)
   C[ColorsEnum['text-on-secondary']]            ??= C[ColorsEnum.secondary].highContrast()
-  C[ColorsEnum['text-on-error']]                ??= C[ColorsEnum.error].highContrast()
+  C[ColorsEnum['text-on-error']]                ??= C[ColorsEnum.error].stronger(4)
   C[ColorsEnum['text-on-success']]              ??= C[ColorsEnum.success].stronger(4)
   C[ColorsEnum['text-on-warning']]              ??= C[ColorsEnum.warning].stronger(3)
   C[ColorsEnum['text-on-info']]                 ??= C[ColorsEnum.info].highContrast()
@@ -173,7 +181,7 @@ export default function generateColors ({ existing = {}, palette, skipLowest = 2
   C[ColorsEnum['border-special']]               ??= C[ColorsEnum.special]
 
   // extra border colors
-  C[ColorsEnum['border-inverse']]                  ??= C[ColorsEnum.border].dimmer(5)
+  C[ColorsEnum['border-inverse']]               ??= C[ColorsEnum.border].dimmer(5)
   C[ColorsEnum['border-dim']]                   ??= C[ColorsEnum.border].dimmer(1)
   C[ColorsEnum['border-strong-alt']]            ??= C[ColorsEnum.border].stronger(1)
 
