@@ -17,6 +17,8 @@ function Row ({
   reverse,
   ...props
 }) {
+  console.warn('[@startupjs/ui] Row: The component is DEPRECATED, use `Div(row)` instead.')
+
   // FIXME: for native apps row-reverse switches margins and paddings
   if (isNative && reverse) {
     style = StyleSheet.flatten([style])

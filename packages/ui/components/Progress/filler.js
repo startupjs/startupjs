@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Animated, Easing } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 

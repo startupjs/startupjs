@@ -20,6 +20,56 @@ _shadowLevels = ('1' '2' '3' '4')
 .root
   outline-color: $UI.colors.primary
 
+  &.column
+    &.left
+      align-items stretch
+
+    &.center
+      align-items center
+
+    &.right
+      align-items flex-end
+
+    &.v_top
+      justify-content flex-start
+
+    &.v_center
+      justify-content center
+
+    &.v_bottom
+      justify-content flex-end
+
+  &.row
+    flex-direction row
+
+    &.left
+      justify-content flex-start
+
+    &.center
+      justify-content center
+
+    &.right
+      justify-content flex-end
+
+    &.v_top
+      align-items flex-start
+
+    &.v_center
+      align-items center
+
+    &.v_bottom
+      align-items flex-end
+
+  &.wrap
+    flex-wrap wrap
+
+  &.reverse
+    &.column
+      flex-direction column-reverse
+
+    &.row
+      flex-direction row-reverse
+
   &.rounded
     radius()
 

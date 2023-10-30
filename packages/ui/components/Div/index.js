@@ -5,7 +5,7 @@ import {
   Platform,
   StyleSheet
 } from 'react-native'
-import { pug, observer, useDidUpdate } from 'startupjs'
+import { pug, observer, u, useDidUpdate } from 'startupjs'
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
@@ -17,6 +17,7 @@ import STYLES from './index.styl'
 const DEPRECATED_PUSHED_VALUES = ['xs', 'xl', 'xxl']
 const PRESSABLE_PROPS = ['onPress', 'onLongPress', 'onPressIn', 'onPressOut']
 const isWeb = Platform.OS === 'web'
+const isNative = Platform.OS !== 'web'
 
 const {
   config: {
@@ -30,11 +31,17 @@ function Div ({
   style = [],
   children,
   variant,
+  row,
+  wrap,
+  reverse,
+  align,
+  vAlign,
+  gap,
   hoverStyle,
   activeStyle,
+  feedback,
   disabled,
   level,
-  feedback,
   shape,
   pushed, // By some reason prop 'push' was ignored
   bleed,
@@ -52,6 +59,21 @@ function Div ({
   if (renderTooltip) {
     console.warn('[@startupjs/ui] Div: renderTooltip is DEPRECATED, use \'tooltip\' property instead.')
   }
+
+  // TODO:
+  // Check NATIVE
+  // Maybe it is not actual for new RN versions
+  // FIXME: for native apps row-reverse switches margins and paddings
+  if (isNative && reverse) {
+    style = StyleSheet.flatten([style])
+    const { paddingLeft, paddingRight, marginLeft, marginRight } = style
+    style.marginLeft = marginRight
+    style.marginRight = marginLeft
+    style.paddingLeft = paddingRight
+    style.paddingRight = paddingLeft
+  }
+
+  if (gap === true) gap = 2
 
   const isClickable = hasPressHandler(props)
   const [hover, setHover] = useState(false)
@@ -159,8 +181,16 @@ function Div ({
   const divElement = maybeWrapToClickable(pug`
     View.root(
       ref=viewRef
-      style=[style, extraStyle]
+      style=[
+        gap ? { gap: u(gap) } : undefined,
+        style,
+        extraStyle
+      ]
       styleName=[
+        [row ? 'row' : 'column'],
+        { wrap, reverse },
+        align,
+        'v_' + vAlign,
         {
           clickable: isWeb && isClickable,
           bleed,
@@ -188,17 +218,30 @@ function hasPressHandler (props) {
 
 Div.defaultProps = {
   variant: 'opacity',
-  level: 0,
+  row: false,
+  wrap: false,
+  reverse: false,
   feedback: true,
   disabled: false,
+  level: 0,
+  pushed: false,
   bleed: false,
-  pushed: false
+  full: false
 }
 
 Div.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['opacity', 'highlight']),
+  row: PropTypes.bool,
+  wrap: PropTypes.bool,
+  reverse: PropTypes.bool,
+  align: PropTypes.oneOf(['left', 'center', 'right']),
+  vAlign: PropTypes.oneOf(['top', 'center', 'bottom']),
+  gap: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number
+  ]),
   feedback: PropTypes.bool,
   hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
