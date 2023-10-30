@@ -5,7 +5,7 @@ import {
   Platform,
   StyleSheet
 } from 'react-native'
-import { pug, observer, useDidUpdate } from 'startupjs'
+import { pug, observer, u, useDidUpdate } from 'startupjs'
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
@@ -36,11 +36,12 @@ function Div ({
   reverse,
   align,
   vAlign,
+  gap,
   hoverStyle,
   activeStyle,
+  feedback,
   disabled,
   level,
-  feedback,
   shape,
   pushed, // By some reason prop 'push' was ignored
   bleed,
@@ -71,6 +72,8 @@ function Div ({
     style.paddingLeft = paddingRight
     style.paddingRight = paddingLeft
   }
+
+  if (gap === true) gap = 2
 
   const isClickable = hasPressHandler(props)
   const [hover, setHover] = useState(false)
@@ -178,7 +181,11 @@ function Div ({
   const divElement = maybeWrapToClickable(pug`
     View.root(
       ref=viewRef
-      style=[style, extraStyle]
+      style=[
+        gap ? { gap: u(gap) } : undefined,
+        style,
+        extraStyle
+      ]
       styleName=[
         [row ? 'row' : 'column'],
         { wrap, reverse },
@@ -214,11 +221,12 @@ Div.defaultProps = {
   row: false,
   wrap: false,
   reverse: false,
-  level: 0,
   feedback: true,
   disabled: false,
+  level: 0,
+  pushed: false,
   bleed: false,
-  pushed: false
+  full: false
 }
 
 Div.propTypes = {
@@ -230,6 +238,10 @@ Div.propTypes = {
   reverse: PropTypes.bool,
   align: PropTypes.oneOf(['left', 'center', 'right']),
   vAlign: PropTypes.oneOf(['top', 'center', 'bottom']),
+  gap: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number
+  ]),
   feedback: PropTypes.bool,
   hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
