@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "peerDependencies": {
     "@startupjs/auth": ">= 0.33.0",

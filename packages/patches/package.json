@@ -3,7 +3,6 @@
   "version": "0.54.0",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",
-  "scripts": {},
   "license": "MIT",
   "publishConfig": {
     "access": "public"

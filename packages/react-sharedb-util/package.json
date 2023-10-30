@@ -10,7 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Linking, Platform, Text } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import Layout from './../Layout'
 import './index.styl'
 

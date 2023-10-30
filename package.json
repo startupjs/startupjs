@@ -1,7 +1,7 @@
 {
   "private": true,
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "workspaces": [
     "packages/*",
@@ -22,7 +22,7 @@
     "ios-release": "cd styleguide && yarn ios-release",
     "build": "cd styleguide && yarn build",
     "start-production": "cd styleguide && yarn start-production",
-    "postinstall": "startupjs patch-package && npx patch-package --patch-dir node_modules/@startupjs/patches/patches_gestureHandler",
+    "postinstall": "npx startupjs patch-package && npx patch-package --patch-dir node_modules/@startupjs/patches/patches_gestureHandler",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -k ./lerna.json",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
@@ -69,5 +69,6 @@
       "pre-commit": "lint-staged && yarn generate-module-map"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.0.1"
 }
