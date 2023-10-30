@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
+import Colors, { ColorValues } from '../CssVariables/Colors'
 import Div from '../Div'
 import Icon from '../Icon'
 import Row from '../Row'
@@ -37,7 +37,7 @@ function Badge ({
     badgeStyle
   ])
 
-  const textAndIconColor = getColor(ColorsEnum[`text-on-${color}`]) || getColor(ColorsEnum['text-on-color'])
+  const textAndIconColor = getColor(Colors[`text-on-${color}`]) || getColor(Colors['text-on-color'])
 
   const hasLabel = useMemo(() => {
     return variant === 'default'
@@ -82,7 +82,7 @@ function Badge ({
 }
 
 Badge.defaultProps = {
-  color: ColorsEnum.primary,
+  color: Colors.primary,
   position: 'top',
   variant: 'default',
   size: 'm'
@@ -92,7 +92,7 @@ Badge.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   badgeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  color: PropTypes.oneOf(ColorsEnumValues),
+  color: PropTypes.oneOf(ColorValues),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom']),

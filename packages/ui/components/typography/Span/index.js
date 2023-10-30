@@ -52,7 +52,7 @@ styl`
   // ----- CONFIG: $UI.Span
 
   $this = merge({
-    color: var(--color-text-on-bg),
+    color: var(--color-text),
     descriptionColor: var(--color-text-description)
   }, $UI.Span, true)
 

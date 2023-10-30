@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
+import Colors, { ColorValues } from '../CssVariables/Colors'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
@@ -40,7 +40,7 @@ function Tag ({
   if (!getColor(color)) {
     console.error(
       'Tag component: Color for color property is incorrect. ' +
-      'Use colors from ColorsEnum'
+      'Use colors from Colors'
     )
   }
 
@@ -135,7 +135,7 @@ function Tag ({
 
 Tag.defaultProps = {
   ...Div.defaultProps,
-  color: ColorsEnum.primary,
+  color: Colors.primary,
   variant: 'flat',
   size: 'm',
   shape: 'circle'
@@ -147,7 +147,7 @@ Tag.propTypes = {
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
-  color: PropTypes.oneOf(ColorsEnumValues),
+  color: PropTypes.oneOf(ColorValues),
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['s', 'm']),
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

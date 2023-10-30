@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import { pug, observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import ColorsEnum, { ColorsEnumValues } from '../CssVariables/ColorsEnum'
+import Colors, { ColorValues } from '../CssVariables/Colors'
 import Div from '../Div'
 import Icon from '../Icon'
 import Loader from '../Loader'
@@ -56,7 +56,7 @@ function Button ({
     setAsyncActive(false)
   }
 
-  if (!getColor(color)) console.error('Button component: Color for color property is incorrect. Use colors from ColorsEnum')
+  if (!getColor(color)) console.error('Button component: Color for color property is incorrect. Use colors from Colors')
 
   const isFlat = variant === 'flat'
   const _color = getColor(color)
@@ -163,7 +163,7 @@ function Button ({
 
 Button.defaultProps = {
   ...Div.defaultProps,
-  color: ColorsEnum.secondary,
+  color: Colors.secondary,
   variant: 'outlined',
   size: 'm',
   shape: 'rounded',
@@ -173,7 +173,7 @@ Button.defaultProps = {
 Button.propTypes = {
   ...Div.propTypes,
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  color: PropTypes.oneOf(ColorsEnumValues),
+  color: PropTypes.oneOf(ColorValues),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),

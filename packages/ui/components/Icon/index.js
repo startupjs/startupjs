@@ -5,7 +5,7 @@ import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import { useColors } from '../../hooks'
-import ColorsEnum from '../CssVariables/ColorsEnum'
+import Colors from '../CssVariables/Colors'
 
 const SIZES = {
   xs: u(1),
@@ -27,7 +27,7 @@ function Icon ({
 
   if (!icon) return null
 
-  style = StyleSheet.flatten([{ color: getColor(ColorsEnum['text-secondary']) }, style])
+  style = StyleSheet.flatten([{ color: getColor(Colors['text-secondary']) }, style])
 
   if (typeof icon === 'function') {
     const CustomIcon = icon

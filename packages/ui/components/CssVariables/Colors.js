@@ -9,7 +9,7 @@ const MainEnum = {
   special: 'special'
 }
 
-const BgEnum = {
+const Bg = {
   bg: 'bg',
   'bg-inverse': 'bg-inverse',
   'bg-inverse-alt': 'bg-inverse-alt',
@@ -40,7 +40,7 @@ const BgEnum = {
   'bg-special-inverse': 'bg-special-inverse'
 }
 
-const TextEnum = {
+const Text = {
   text: 'text',
   'text-description': 'text-description',
   'text-placeholder': 'text-placeholder',
@@ -55,7 +55,6 @@ const TextEnum = {
   'text-success-strong': 'text-success-strong',
   'text-info-strong': 'text-info-strong',
   'text-on-color': 'text-on-color',
-  'text-on-bg': 'text-on-bg',
   'text-on-bg-inverse': 'text-on-bg-inverse',
   'text-on-primary': 'text-on-primary',
   'text-on-secondary': 'text-on-secondary',
@@ -67,7 +66,7 @@ const TextEnum = {
   'text-on-special': 'text-on-special'
 }
 
-const BorderEnum = {
+const Border = {
   border: 'border',
   'border-strong': 'border-strong',
   'border-primary': 'border-primary',
@@ -83,13 +82,13 @@ const BorderEnum = {
   'border-strong-alt': 'border-strong-alt'
 }
 
-const ColorsEnum = {
+const Colors = {
   ...MainEnum,
-  ...BgEnum,
-  ...TextEnum,
-  ...BorderEnum
+  ...Bg,
+  ...Text,
+  ...Border
 }
 
-export default ColorsEnum
+export default Colors
 
-export const ColorsEnumValues = Object.values(ColorsEnum)
+export const ColorValues = Object.values(Colors)
