@@ -99,13 +99,13 @@ In `.styl` file
 ```stylus
 .icon
   &.primary
-    color var(--color-primary)
+    color var(--color-text-primary)
 
   &.success
-    color var(--color-success)
+    color var(--color-text-success)
 
   &.orange
-    color var(--color-attention)
+    color var(--color-text-attention)
 ```
 
 ```jsx
@@ -119,7 +119,7 @@ import {
 ```jsx example
 return (
   <Row align='around'>
-    <Icon icon={faShareAlt} styleName='orange'/>
+    <Icon icon={faShareAlt} styleName='icon orange'/>
     <Icon icon={faHouseUser} styleName='icon primary'/>
     <Icon icon={faTable} styleName='icon success'/>
   </Row>

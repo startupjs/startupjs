@@ -40,7 +40,7 @@ function Button ({
   const getColor = useColors()
 
   function getFlatTextColor () {
-    return getColor(`text-on-${color}`) || getColor('text-inverse')
+    return getColor(`text-on-${color}`) || getColor('text-on-color')
   }
 
   async function _onPress (event) {
@@ -138,7 +138,7 @@ function Button ({
     )
       if asyncActive
         Div.loader
-          Loader(size='s' color=isFlat ? 'text-inverse' : color)
+          Loader(size='s' color=isFlat ? getFlatTextColor() : color)
       if icon
         Div.iconWrapper(
           style=iconWrapperStyle
