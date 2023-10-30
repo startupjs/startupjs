@@ -6,7 +6,7 @@ import { TheColor } from './TheColor'
 
 export function getPaletteMeta (palette) {
   const res = {}
-  const high = Object.values(palette)[0].length - 1
+  const high = getPaletteLength(palette) - 1
   res.low = 0 // darkest colorful color
   res.high = high // lightest colorful color
   res.middle = Math.floor(high / 2) + 1 // first light color
@@ -75,7 +75,7 @@ export function findColorInPalette (color, palette) {
   }
 
   if (color === palette.black) return ['coolGray', -1, alpha]
-  if (color === palette.white) return ['coolGray', Object.values(palette)[0].length, alpha]
+  if (color === palette.white) return ['coolGray', getPaletteLength(palette), alpha]
 
   let foundName
   let foundLevel
@@ -89,6 +89,17 @@ export function findColorInPalette (color, palette) {
   }
 
   return [foundName, foundLevel, alpha]
+}
+
+export function getPaletteLength (palette) {
+  let res
+  for (const name of Object.keys(palette)) {
+    if (!['black', 'white'].includes(name)) {
+      res = palette[name].length
+      break
+    }
+  }
+  return res
 }
 
 /* eslint-disable dot-notation, no-multi-spaces */
@@ -204,7 +215,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
     if (colorName === 'black') {
       P[colorName] = Color('coolGray', -1)
     } else if (colorName === 'white') {
-      P[colorName] = Color('coolGray', Object.values(palette)[0].length)
+      P[colorName] = Color('coolGray', getPaletteLength(palette))
     } else {
       const colors = palette[colorName]
       for (let i = 0; i < colors.length; i++) {

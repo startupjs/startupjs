@@ -1,8 +1,8 @@
-import { getPaletteMeta, rgba } from './helpers'
+import { getPaletteMeta, rgba, getPaletteLength } from './helpers'
 
 export class TheColor {
   constructor (name, level, palette, { alpha } = {}) {
-    const isBlackOrWhite = level === -1 || level === Object.values(palette)[0].length
+    const isBlackOrWhite = level === -1 || level === getPaletteLength(palette)
 
     if (!isBlackOrWhite && !palette?.[name]?.[level]) {
       throw Error(`Color ${name} level ${level} not found in palette ${JSON.stringify(palette, null, 2)}`)
@@ -33,7 +33,7 @@ export class TheColor {
 
     if (this.level === -1) {
       stringColor = this.palette.black
-    } else if (this.level === Object.values(this.palette)[0].length) {
+    } else if (this.level === getPaletteLength(this.palette)) {
       stringColor = this.palette.white
     } else {
       stringColor = this.palette[this.name][this.level]
