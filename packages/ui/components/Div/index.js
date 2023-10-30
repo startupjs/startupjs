@@ -17,6 +17,7 @@ import STYLES from './index.styl'
 const DEPRECATED_PUSHED_VALUES = ['xs', 'xl', 'xxl']
 const PRESSABLE_PROPS = ['onPress', 'onLongPress', 'onPressIn', 'onPressOut']
 const isWeb = Platform.OS === 'web'
+const isNative = Platform.OS !== 'web'
 
 const {
   config: {
@@ -30,6 +31,11 @@ function Div ({
   style = [],
   children,
   variant,
+  row,
+  wrap,
+  reverse,
+  align,
+  vAlign,
   hoverStyle,
   activeStyle,
   disabled,
@@ -51,6 +57,19 @@ function Div ({
 
   if (renderTooltip) {
     console.warn('[@startupjs/ui] Div: renderTooltip is DEPRECATED, use \'tooltip\' property instead.')
+  }
+
+  // TODO:
+  // Check NATIVE
+  // Maybe it is not actual for new RN versions
+  // FIXME: for native apps row-reverse switches margins and paddings
+  if (isNative && reverse) {
+    style = StyleSheet.flatten([style])
+    const { paddingLeft, paddingRight, marginLeft, marginRight } = style
+    style.marginLeft = marginRight
+    style.marginRight = marginLeft
+    style.paddingLeft = paddingRight
+    style.paddingRight = paddingLeft
   }
 
   const isClickable = hasPressHandler(props)
@@ -161,6 +180,10 @@ function Div ({
       ref=viewRef
       style=[style, extraStyle]
       styleName=[
+        [row ? 'row' : 'column'],
+        { wrap, reverse },
+        align,
+        'v_' + vAlign,
         {
           clickable: isWeb && isClickable,
           bleed,
@@ -188,6 +211,9 @@ function hasPressHandler (props) {
 
 Div.defaultProps = {
   variant: 'opacity',
+  row: false,
+  wrap: false,
+  reverse: false,
   level: 0,
   feedback: true,
   disabled: false,
@@ -199,6 +225,11 @@ Div.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
   variant: PropTypes.oneOf(['opacity', 'highlight']),
+  row: PropTypes.bool,
+  wrap: PropTypes.bool,
+  reverse: PropTypes.bool,
+  align: PropTypes.oneOf(['left', 'center', 'right']),
+  vAlign: PropTypes.oneOf(['top', 'center', 'bottom']),
   feedback: PropTypes.bool,
   hoverStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   activeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),

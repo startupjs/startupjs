@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { pug } from 'startupjs'
+import { pug, u } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 import { styl } from 'startupjs'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
@@ -44,6 +44,30 @@ return (
     onPress={() => setCounter(counter + 1)}
   >
     <Span>Clicked {counter} times</Span>
+  </Div>
+)
+```
+
+## Layout
+
+You can specify properties to manage layout:
+
+- `row` - aligns children from left to right (default: `false`)
+- `reverse` - aligns the children in reverse order depending on the direction (default: `false`)
+- `wrap` - controls the wrapping of children into multiple rows (default: `false`)
+- `align` - controls horizontal alignment (possible values: `left`, `center`, `right`)
+- `vAlign` - controls vertical alignment (possible values: `top`, `center`, `bottom`)
+
+```jsx example
+return (
+  <Div
+    style={{ height: u(10), backgroundColor: 'yellow' }}
+    row
+    align='right'
+    vAlign='center'
+  >
+    <Div style={{ width: u(5), height: u(5), backgroundColor: 'red' }} />
+    <Div style={{ width: u(5), height: u(5), backgroundColor: 'blue' }} pushed />
   </Div>
 )
 ```
