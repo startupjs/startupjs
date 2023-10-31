@@ -335,7 +335,7 @@ const SCRIPTS = {
 }
 
 const DEFAULT_TEMPLATE = 'ui'
-const DEFAULT_YARN_VERSION = '4.x'
+const DEFAULT_YARN_VERSION = '4.0.1'
 const TEMPLATES = {
   simple: {
     subTemplates: ['simple']
