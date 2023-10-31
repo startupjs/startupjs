@@ -38,6 +38,7 @@ fn_local_init () {
 
   if [ "$STATUS" = "running" ]; then
     echo ">>> STEP 4: init app"
+    cd ..
     rm -rf "${TEMP_PATH}/testapp"
     npm_config_registry=http://localhost:4873/ LOCAL_DIR=${TEMP_PATH} npx startupjs@local init testapp || STATUS="failed-init"
   fi;
