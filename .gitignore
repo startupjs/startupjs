@@ -16,21 +16,13 @@ node_modules
 npm-debug.*
 
 # yarn
-yarn.lock
 yarn-error.log
-.yarn/install-state.gz
+.yarn/
+!.yarn/releases
+!.yarn/cache
 
 # lerna log
 lerna-debug.log
-
-# Keep local yarn lock
-!/yarn.lock
-
-# NPM lock
-package-lock.json
-
-# Prettier. NOTE: We use custom eslint rules instead
-.prettierrc
 
 /temp
 
