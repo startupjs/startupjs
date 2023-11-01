@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.54.3",
+  "version": "0.54.4",
   "engines": {
     "node": ">= 14"
   },
@@ -16,7 +16,7 @@
     "@startupjs/cli": "^0.54.3",
     "@startupjs/docker": "^0.54.0",
     "@startupjs/hooks": "^0.54.2",
-    "@startupjs/i18n": "^0.54.2",
+    "@startupjs/i18n": "^0.54.4",
     "@startupjs/init": "^0.54.2",
     "@startupjs/isomorphic-helpers": "^0.54.2",
     "@startupjs/orm": "^0.54.2",
