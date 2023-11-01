@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/2fa-manager",
-  "version": "0.54.0",
+  "version": "0.54.1",
   "type": "module",
   "description": "Two factor authentication meta package",
   "main": "index.js",

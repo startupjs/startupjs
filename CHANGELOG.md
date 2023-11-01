@@ -1,3 +1,13 @@
+## [0.54.1](https://github.com/startupjs/startupjs/compare/v0.54.0...v0.54.1) (2023-11-01)
+
+
+### Features
+
+* move `Row` component functionality to `Div`. DEPRECATE `Row` component. ([#1085](https://github.com/startupjs/startupjs/issues/1085)) ([56313c8](https://github.com/startupjs/startupjs/commit/56313c8b21607817ac33d607e6d80c6af4f42a8e))
+* upgrade yarn v4 ([#1086](https://github.com/startupjs/startupjs/issues/1086)) ([5c033e8](https://github.com/startupjs/startupjs/commit/5c033e8500224b08dd0d1100184b9b6db341fc46))
+
+
+
 # [0.54.0](https://github.com/startupjs/startupjs/compare/v0.53.3...v0.54.0) (2023-10-25)
 
 
