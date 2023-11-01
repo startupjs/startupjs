@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React from 'react'
-import { observer, styl } from 'startupjs'
+import { pug, observer, styl } from 'startupjs'
 import { Br, Div, SmartSidebar } from '@startupjs/ui'
 import Search from './Search'
 import Filters from './Filters'
