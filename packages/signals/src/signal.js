@@ -1,6 +1,7 @@
-/* global FinalizationRegistry, WeakRef */
+/* global WeakRef */
 import handlers from './handlers.js'
 import { getRootModel } from './model.js'
+import { UniversalFinalizationRegistry } from './utils/UniversalFinalizationRegistry'
 
 export const SEGMENTS = Symbol('path segments')
 export const MODEL = Symbol('scoped model')
@@ -19,7 +20,7 @@ export function isInternalSymbol (symbol) {
 
 const signalsCache = new Map()
 export const __DEBUG_SIGNALS_CACHE__ = signalsCache
-const signalsFinalizationRegistry = new FinalizationRegistry(hash => signalsCache.delete(hash))
+const signalsFinalizationRegistry = new UniversalFinalizationRegistry(hash => signalsCache.delete(hash))
 
 export function getSignal (segments = [], parentProxyTarget) {
   // when it's a proxyTarget or proxy itself
