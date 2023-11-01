@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0",
-    "react-native-webview": ">=10.10.2"
+    "@startupjs/auth": "*",
+    "react-native-webview": "*"
   }
 }

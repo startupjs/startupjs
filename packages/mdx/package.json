@@ -13,7 +13,7 @@
     "refractor": "^3.0.0"
   },
   "peerDependencies": {
-    "@react-native-clipboard/clipboard": "^1.7.0",
-    "react": "16.9 - 17"
+    "@react-native-clipboard/clipboard": "*",
+    "react": "*"
   }
 }

@@ -22,7 +22,12 @@
       "jsx": true
     },
     "ecmaVersion": 10,
-    "sourceType": "module"
+    "sourceType": "module",
+    "babelOptions": {
+      "parserOpts": {
+        "plugins": ["jsx"]
+      }
+    }
   },
   "plugins": [
     "react",

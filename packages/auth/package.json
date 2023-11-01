@@ -16,7 +16,7 @@
   },
   "peerDependencies": {
     "@react-native-cookies/cookies": ">= 6.0.0",
-    "@startupjs/ui": ">= 0.33.0",
-    "startupjs": ">= 0.33.0"
+    "@startupjs/ui": "*",
+    "startupjs": "*"
   }
 }

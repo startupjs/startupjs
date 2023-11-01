@@ -309,7 +309,7 @@ SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
   : 'true'
 
 SCRIPTS_ORIG.fonts = () => oneLine(`
-  react-native-asset
+  npx react-native-asset
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`

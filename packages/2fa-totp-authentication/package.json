@@ -13,7 +13,7 @@
     "speakeasy": "^2.0.0"
   },
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.33.0",
-    "startupjs": ">= 0.33.0"
+    "@startupjs/ui": "*",
+    "startupjs": "*"
   }
 }

@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@startupjs/2fa-manager": ">= 0.33.0",
-    "@startupjs/push-notifications": ">= 0.33.0"
+    "@startupjs/2fa-manager": "*",
+    "@startupjs/push-notifications": "*"
   }
 }
