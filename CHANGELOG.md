@@ -1,3 +1,12 @@
+## [0.54.2](https://github.com/startupjs/startupjs/compare/v0.54.1...v0.54.2) (2023-11-01)
+
+
+### Bug Fixes
+
+* fix create new project, remove redundant eslintrc.json, update peer dependencies ([70efea8](https://github.com/startupjs/startupjs/commit/70efea8a17f8a5b1a26774358e99f8d6ace58380))
+
+
+
 ## [0.54.1](https://github.com/startupjs/startupjs/compare/v0.54.0...v0.54.1) (2023-11-01)
 
 
