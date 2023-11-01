@@ -416,8 +416,8 @@ commander
 
     // specify yarn version
     await execa('yarn', ['set', 'version', yarn])
-    await execa('yarn', ['set', 'nodeLinker', 'node-modules'])
-    await execa('yarn', ['set', 'enableGlobalCache', false])
+    await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'])
+    await execa('yarn', ['config', 'set', 'enableGlobalCache', false])
 
     // remove extra dependencies which are covered by startupjs core
     if (REMOVE_DEPENDENCIES.length) {
