@@ -32,11 +32,8 @@ jobs:
     - name: Get Chrome Version
       run: echo "CHROME_VERSION=$(google-chrome-stable --version | cut -d ' ' -f 3 | cut -d '.' -f 1)" >> $GITHUB_ENV
 
-    - name: Install chromedriver which matches chrome version
-      run: yarn upgrade chromedriver@$CHROME_VERSION
-
-    - name: Install all dependencies and apply patches
-      run: yarn
+    - name: Install all dependencies and chromedriver which matches chrome version
+      run: yarn add chromedriver@$CHROME_VERSION
 
     - name: Build production app
       run: yarn build
