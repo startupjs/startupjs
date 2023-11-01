@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.54.0",

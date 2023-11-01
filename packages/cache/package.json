@@ -10,7 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@startupjs/debug": "^0.54.0"

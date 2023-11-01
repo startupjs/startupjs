@@ -11,7 +11,6 @@
     "lti",
     "auth"
   ],
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@dmapper/passport-lms-lti": "^3.1.1"

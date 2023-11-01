@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@dmapper/passport-idg-oauth2": "^2.0.0"

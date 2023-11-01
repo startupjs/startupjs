@@ -3,7 +3,6 @@
   "version": "0.54.0",
   "description": "start, watch and build startupjs project",
   "main": "index.js",
-  "scripts": {},
   "license": "MIT",
   "publishConfig": {
     "access": "public"

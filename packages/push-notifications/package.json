@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "firebase-admin": "^9.7.0"

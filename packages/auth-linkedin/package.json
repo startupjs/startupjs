@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@dmapper/passport-linkedin-oauth2": "^1.0.0",

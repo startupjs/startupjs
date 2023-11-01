@@ -10,7 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0",

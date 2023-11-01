@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",

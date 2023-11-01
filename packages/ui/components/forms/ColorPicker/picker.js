@@ -1,6 +1,6 @@
 import React, { useImperativeHandle } from 'react'
 import { ColorPicker } from 'react-native-color-picker'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import ScrollView from '../../ScrollView'
 import Modal from '../../Modal'
 import './index.styl'
