@@ -9,7 +9,7 @@
     "styleguide"
   ],
   "scripts": {
-    "init-local": ". ./scripts/tasks.sh && fn_local_init",
+    "init-local": "./scripts/tasks.sh && fn_local_init",
     "testapp": "cd testapp && yarn",
     "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
