@@ -128,11 +128,6 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors.info]                            ??= Color('cyan', middle + 1)
   C[Colors.attention]                       ??= Color('orange', middle)
   C[Colors.special]                         ??= Color('purple', middle - 1)
-  // Dark theme colors
-  // C[Colors.bg]                              ??= Color('coolGray', low)
-  // C[Colors.text]                            ??= Color('coolGray', high)
-  // C[Colors.border]                          ??= Color('coolGray', low + 2)
-  // C[Colors.secondary]                       ??= Color('coolGray', high)
 
   // all other colors are generated from the base colors
 

@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
-import { pug, observer, useValue } from 'startupjs'
-import { Br, Input, Button, Modal, Span, CssVariables } from '@startupjs/ui'
+import React from 'react'
+import { pug, observer, useValue, $ } from 'startupjs'
+import { Br, Input, Button, Modal, CssVariables, Palette, Colors } from '@startupjs/ui'
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import {
   useShowGrid,
-  useShowSizes,
-  // useValidateWidth,
-  useDarkTheme
+  useShowSizes
+  // useValidateWidth
 } from '../../../../../clientHelpers'
 import './index.styl'
+
+const palette = new Palette()
+const { Color, generateColors } = palette
+
+const THEMES = {
+  dark: generateColors({
+    [Colors.bg]: Color('coolGray', 0),
+    [Colors.text]: Color('coolGray', 9),
+    [Colors.border]: Color('coolGray', 2),
+    [Colors.secondary]: Color('coolGray', 9)
+  })
+}
 
 export default observer(function Options ({
   style
@@ -19,12 +30,20 @@ export default observer(function Options ({
   //       initially. While $showSizes.get() works fine for some reason.
   const [, $showSizes] = useShowSizes()
   // const [, $validateWidth] = useValidateWidth()
-  const [, $darkTheme] = useDarkTheme()
-  const [theme, setTheme] = useState(0)
+  const $theme = $.session.theme
+  const theme = $theme.get() || 'light'
+
+  function toggleTheme () {
+    if (theme === 'light') {
+      $theme.set('dark')
+    } else {
+      $theme.set('light')
+    }
+  }
 
   return pug`
-    if theme !== 0
-      CssVariables(variables=THEMES[theme])
+    if theme !== 'light'
+      CssVariables(meta=THEMES[theme])
     Button(
       style=style
       icon=faSlidersH
@@ -36,32 +55,12 @@ export default observer(function Options ({
       title='Settings'
       $visible=$open
     )
-      Input.input(type='checkbox' label='Dark theme' $value=$darkTheme)
+      Input.input(type='checkbox' label='Dark theme' value=theme === 'dark' onChange=toggleTheme)
       if $showSizes.get()
         //- TODO: Maybe bring width check back in future
         // Input.input(type='checkbox' label='Validate width' $value=$validateWidth)
         Input.input(type='checkbox' label='Show grid' $value=$showGrid)
       Input.input(type='checkbox' label='Show sizes' $value=$showSizes)
       Br
-      Button(onPress=() => setTheme((theme + 1) % THEMES.length)) Toggle Theme
-      Br(half)
-      Span Theme: #{JSON.stringify(THEMES[theme]) || '- no overrides -'}
-      Br(half)
   `
 })
-
-const THEMES = [
-  undefined,
-  {
-    '--color-text-primary': '#f00',
-    '--color-primary-inverse': '#faa'
-  },
-  {
-    '--color-text-primary': '#0f0',
-    '--color-primary-inverse': '#afa'
-  },
-  {
-    '--color-text-primary': '#00f',
-    '--color-primary-inverse': '#aaf'
-  }
-]

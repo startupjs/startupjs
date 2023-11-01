@@ -9,17 +9,17 @@ export class Palette {
     Object.assign(this, getPaletteMeta(palette))
   }
 
-  generateColors (overrides) {
+  generateColors = (overrides) => {
     const C = {}
     const P = {}
 
     const { low, high, middle } = this
-    fillColorsObject(C, P, this.colors, this.Color.bind(this), { overrides, low, middle, high })
+    fillColorsObject(C, P, this.colors, this.Color, { overrides, low, middle, high })
 
     return { colors: C, palette: P }
   }
 
-  Color (name, level, { alpha } = {}) {
+  Color = (name, level, { alpha } = {}) => {
     return new TheColor(name, level, this.colors, { alpha })
   }
 }
