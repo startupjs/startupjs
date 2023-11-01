@@ -415,9 +415,18 @@ commander
     }
 
     // specify yarn version
-    await execa('yarn', ['set', 'version', yarn])
-    await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'])
-    await execa('yarn', ['config', 'set', 'enableGlobalCache', false])
+    await execa('yarn', ['set', 'version', yarn], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('yarn', ['config', 'set', 'enableGlobalCache', false], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
 
     // remove extra dependencies which are covered by startupjs core
     if (REMOVE_DEPENDENCIES.length) {
