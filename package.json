@@ -28,8 +28,8 @@
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
     "publish-alpha": "yarn before-publish && npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
-    "before-publish": "./scripts/before_publish.sh",
-    "publish-update-changelog": "./scripts/publish_update_changelog.sh",
+    "before-publish": "sh ./scripts/before_publish.sh",
+    "publish-update-changelog": "sh ./scripts/publish_update_changelog.sh",
     "wdio": "wdio run ./wdio.conf.js"
   },
   "devDependencies": {
