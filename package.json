@@ -9,7 +9,7 @@
     "styleguide"
   ],
   "scripts": {
-    "init-local": ". ./scripts/tasks.sh local-init",
+    "init-local": "./scripts/tasks.sh local-init",
     "testapp": "cd testapp && yarn",
     "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
@@ -28,8 +28,8 @@
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
     "publish-alpha": "yarn before-publish && npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
-    "before-publish": ". ./scripts/tasks.sh before-publish",
-    "publish-update-changelog": ". ./scripts/publish_update_changelog.sh update-changelog",
+    "before-publish": "./scripts/tasks.sh before-publish",
+    "publish-update-changelog": "./scripts/publish_update_changelog.sh update-changelog",
     "wdio": "wdio run ./wdio.conf.js"
   },
   "devDependencies": {
