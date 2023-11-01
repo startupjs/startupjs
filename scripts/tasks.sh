@@ -1,6 +1,22 @@
 #!/bin/sh
 
+# Fail script on first failed command
+set -e
+
 BASEDIR="$(pwd)/scripts"
+
+main () {
+  _command=$1
+
+  case "$_command" in
+    "local-init"    ) fn_local_init;;
+    "before-publish" ) fn_before_publish;;
+    "update-changelog"   ) fn_update_changelog;;
+    *         ) echo "ERROR! Command '${_command}' not found.";;
+  esac
+
+  # integration_test
+}
 
 fn_local_init () {
   set -e
@@ -94,3 +110,5 @@ fn_update_changelog () {
   git push origin master
   git push origin --tags
 }
+
+main "$@"; exit
