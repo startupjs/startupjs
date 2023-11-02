@@ -6,6 +6,8 @@ import Colors from './colors.mdx'
 import EditingRu from './editing.ru.mdx'
 import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
+import NodeModulesCacheEn from './nodeModulesCache.en.mdx'
+import NodeModulesCacheRu from './nodeModulesCache.ru.mdx'
 import TestingEn from './testing.en.mdx'
 import TestingRu from './testing.ru.mdx'
 import SecurityRu from './security.ru.mdx'
@@ -65,6 +67,17 @@ export default {
       component: {
         en: ExportCSStoJSEn,
         ru: ExportCSStoJSRu
+      }
+    },
+    nodeModulesCache: {
+      type: 'mdx',
+      title: {
+        en: 'Caching node_modules',
+        ru: 'Кеширование node_modules'
+      },
+      component: {
+        en: NodeModulesCacheEn,
+        ru: NodeModulesCacheRu
       }
     },
     fonts: {

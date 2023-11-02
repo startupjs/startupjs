@@ -335,7 +335,7 @@ const SCRIPTS = {
 }
 
 const DEFAULT_TEMPLATE = 'ui'
-const DEFAULT_YARN_VERSION = '4.0.1'
+const DEFAULT_YARN_VERSION = '4'
 const TEMPLATES = {
   simple: {
     subTemplates: ['simple']
@@ -381,6 +381,13 @@ commander
   .action(async (projectName, { reactNative, template, yarn }) => {
     console.log('> run npx', projectName, { reactNative, template, yarn })
 
+    // setup corepack
+    try {
+      await execa.command(`./corepack.sh ${yarn}`, { shell: true })
+    } catch (e) {
+      console.error(e.stderr)
+    }
+
     const projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
 
     // check if template exists
@@ -420,10 +427,6 @@ commander
       stdio: 'inherit'
     })
     await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'], {
-      cwd: projectPath,
-      stdio: 'inherit'
-    })
-    await execa('yarn', ['config', 'set', 'enableGlobalCache', false], {
       cwd: projectPath,
       stdio: 'inherit'
     })
@@ -746,9 +749,7 @@ function appendGitignore (projectPath) {
     # Mongo data when running in a docker dev container
     /.mongo
     # yarn
-    .yarn/*
-    !.yarn/releases
-    !.yarn/cache
+    .yarn/
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
