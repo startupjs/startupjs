@@ -421,11 +421,6 @@ commander
       })
     }
 
-    // specify yarn version
-    await execa('yarn', ['set', 'version', yarn], {
-      cwd: projectPath,
-      stdio: 'inherit'
-    })
     await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'], {
       cwd: projectPath,
       stdio: 'inherit'
