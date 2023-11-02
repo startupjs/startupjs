@@ -1,3 +1,15 @@
+## [0.54.6](https://github.com/startupjs/startupjs/compare/v0.54.5...v0.54.6) (2023-11-02)
+
+
+### Bug Fixes
+
+* **Button:** fix inheritance of properties from 'Div' ([980e01a](https://github.com/startupjs/startupjs/commit/980e01ae11d76fa4014443bb3efaa109c7c47ec7))
+* **cli:** use corepack as package manager for new projects ([e37d626](https://github.com/startupjs/startupjs/commit/e37d6262d2c58aeaa081cee7b6a55d64a1ecb0af))
+* **Select:** add missing 'pug' import for native components ([525841d](https://github.com/startupjs/startupjs/commit/525841d01a1808ee344138d1445a99172e2b6c9c))
+* **signals:** fix compilation ([54a6a6f](https://github.com/startupjs/startupjs/commit/54a6a6fccde4113e626bb2e3eb0d10d225e73b8a))
+
+
+
 ## [0.54.2](https://github.com/startupjs/startupjs/compare/v0.54.1...v0.54.2) (2023-11-01)
 
 
