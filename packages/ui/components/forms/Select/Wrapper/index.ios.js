@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import {
   stringifyValue,
   getLabel,
