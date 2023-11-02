@@ -29,7 +29,7 @@
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
     "publish-alpha": "yarn before-publish && npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
     "before-publish": "./scripts/tasks.sh before-publish",
-    "publish-update-changelog": "./scripts/publish_update_changelog.sh update-changelog",
+    "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "wdio": "wdio run ./wdio.conf.js"
   },
   "devDependencies": {
