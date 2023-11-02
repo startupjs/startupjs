@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { pug, observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
+import pick from 'lodash/pick'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Icon from '../Icon'
 import Row from '../Row'
@@ -10,6 +11,8 @@ import Loader from '../Loader'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
+
+const EXTENDED_PROPS = ['variant', 'disabled', 'pushed']
 
 const {
   config: {
@@ -156,7 +159,10 @@ function Button ({
 }
 
 Button.defaultProps = {
-  ...Div.defaultProps,
+  ...pick(
+    Div.defaultProps,
+    EXTENDED_PROPS
+  ),
   color: 'dark',
   variant: 'outlined',
   size: 'm',
@@ -165,7 +171,10 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  ...Div.propTypes,
+  ...pick(
+    Div.propTypes,
+    EXTENDED_PROPS
+  ),
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   color: PropTypes.oneOf(Object.keys(colors)),
   children: PropTypes.node,
