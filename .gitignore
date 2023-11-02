@@ -17,7 +17,7 @@ npm-debug.*
 
 # yarn
 yarn-error.log
-.yarn/*
+.yarn/
 
 # lerna log
 lerna-debug.log
