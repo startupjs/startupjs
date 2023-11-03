@@ -1,3 +1,13 @@
+## [0.54.7](https://github.com/startupjs/startupjs/compare/v0.54.6...v0.54.7) (2023-11-03)
+
+
+### Bug Fixes
+
+* **cli:** resolve path to corepack script ([3211744](https://github.com/startupjs/startupjs/commit/32117441055f96f06b5cddc8726d95ee863f0371))
+* **cli:** use __dirname instead of require.resolve for corepack script ([64c1996](https://github.com/startupjs/startupjs/commit/64c199685020cd197710ed3e5c4348fa657e77a4))
+
+
+
 ## [0.54.6](https://github.com/startupjs/startupjs/compare/v0.54.5...v0.54.6) (2023-11-02)
 
 
