@@ -165,6 +165,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   // text
   C[Colors['text-description']]             ??= C[Colors.text].dimmer(2)
   C[Colors['text-placeholder']]             ??= C[Colors.text].dimmer(4)
+  C[Colors['text-inverse']]                 ??= C[Colors.text].dimmer(5)
   C[Colors['text-primary']]                 ??= C[Colors.primary]
   C[Colors['text-secondary']]               ??= C[Colors.secondary]
   C[Colors['text-error']]                   ??= C[Colors.error]
@@ -179,7 +180,6 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['text-info-strong']]             ??= C[Colors.info].stronger(2)
 
   // text on different backgrounds
-  C[Colors['text-on-bg-inverse']]           ??= C[Colors.text].dimmer(5)
   C[Colors['text-on-primary']]              ??= C[Colors.primary].stronger(4)
   C[Colors['text-on-secondary']]            ??= C[Colors.secondary].highContrast()
   C[Colors['text-on-error']]                ??= C[Colors.error].stronger(4)

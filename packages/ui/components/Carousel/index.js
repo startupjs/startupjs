@@ -393,10 +393,10 @@ function Carousel ({
     if (isResponsive) {
       if ((!_style['min' + sideCapitalLetter] || !_style['max' + sideCapitalLetter]) && _style['min' + sideCapitalLetter] !== '100%') {
         console.error('isResponsive need minWidth and maxWidth in children')
-        return () => null
+        return null
       }
 
-      if (!rootInfo[sideName]) return () => null
+      if (!rootInfo[sideName]) return null
 
       let step = 1
       let _side

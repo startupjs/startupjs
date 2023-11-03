@@ -55,7 +55,7 @@ const Text = {
   'text-success-strong': 'text-success-strong',
   'text-info-strong': 'text-info-strong',
   'text-on-color': 'text-on-color',
-  'text-on-bg-inverse': 'text-on-bg-inverse',
+  'text-inverse': 'text-inverse',
   'text-on-primary': 'text-on-primary',
   'text-on-secondary': 'text-on-secondary',
   'text-on-error': 'text-on-error',
