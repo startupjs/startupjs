@@ -105,6 +105,9 @@ fn_update_changelog () {
   git tag -d "$current_version"
   yarn changelog
   git add CHANGELOG.md
+  # updates versions of our packages in yarn.lock after lerna bumped them
+  yarn install
+  git add yarn.lock
   git commit --amend --no-edit
   git tag "$current_version" -m "$current_version"
   git push origin master
