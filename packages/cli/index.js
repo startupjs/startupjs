@@ -385,7 +385,7 @@ commander
     try {
       await execa.command(
         `${path.join(__dirname, 'corepack.sh')} ${yarn}`,
-        { shell: true }
+        { shell: true, stdio: 'inherit' }
       )
     } catch (e) {
       console.error(e.stderr)
