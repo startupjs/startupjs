@@ -384,7 +384,7 @@ commander
     // setup corepack
     try {
       await execa.command(
-        `${path.join(path.dirname(require.resolve('@startupjs/cli')), 'corepack.sh')} ${yarn}`,
+        `${path.join(__dirname, 'corepack.sh')} ${yarn}`,
         { shell: true }
       )
     } catch (e) {
