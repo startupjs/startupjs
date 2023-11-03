@@ -1,3 +1,12 @@
+## [0.54.8](https://github.com/startupjs/startupjs/compare/v0.54.7...v0.54.8) (2023-11-03)
+
+
+### Bug Fixes
+
+* **cli:** change corepack file permissions ([0b7a50b](https://github.com/startupjs/startupjs/commit/0b7a50b7514428c88087a0c4dc966b0c28e5f4e0))
+
+
+
 ## [0.54.7](https://github.com/startupjs/startupjs/compare/v0.54.6...v0.54.7) (2023-11-03)
 
 
