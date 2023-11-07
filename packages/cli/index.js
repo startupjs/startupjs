@@ -421,7 +421,7 @@ commander
       cwd: projectPath,
       stdio: 'inherit'
     })
-    await execa('rf', ['-f', 'yarn.lock'], {
+    await execa('rm', ['-f', 'yarn.lock'], {
       cwd: projectPath,
       stdio: 'inherit'
     })
