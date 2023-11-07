@@ -1,3 +1,12 @@
+## [0.54.10](https://github.com/startupjs/startupjs/compare/v0.54.9...v0.54.10) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** run the installation of corepack package manager version after generating project ([904cfce](https://github.com/startupjs/startupjs/commit/904cfce26a740953d6fb46dec38fa84fb5c6be17))
+
+
+
 ## [0.54.9](https://github.com/startupjs/startupjs/compare/v0.54.8...v0.54.9) (2023-11-07)
 
 
