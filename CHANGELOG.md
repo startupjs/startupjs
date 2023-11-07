@@ -1,3 +1,12 @@
+## [0.54.13](https://github.com/startupjs/startupjs/compare/v0.54.12...v0.54.13) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** fix removing yarn.lock ([a11a1b7](https://github.com/startupjs/startupjs/commit/a11a1b7aea07cc5b7431db6bd27dfa71ddae463b))
+
+
+
 ## [0.54.12](https://github.com/startupjs/startupjs/compare/v0.54.11...v0.54.12) (2023-11-07)
 
 
