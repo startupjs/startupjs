@@ -1,3 +1,12 @@
+## [0.54.11](https://github.com/startupjs/startupjs/compare/v0.54.10...v0.54.11) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** remove installation of yarn from sh script ([48b23ce](https://github.com/startupjs/startupjs/commit/48b23ce2a3b182cef64d4c40c2d83703be1b878e))
+
+
+
 ## [0.54.10](https://github.com/startupjs/startupjs/compare/v0.54.9...v0.54.10) (2023-11-07)
 
 
