@@ -6323,6 +6323,7 @@ __metadata:
     "@fortawesome/react-native-fontawesome": "npm:^0.2.6"
     "@nx-js/observer-util": "npm:^4.1.3"
     "@ptomasroos/react-native-multi-slider": ptomasroos/react-native-multi-slider
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.54.2"
     color: "npm:^3.1.2"
     date-fns: "npm:^2.0.1"
     moment-timezone: "npm:^0.5.31"
