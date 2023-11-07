@@ -1,3 +1,12 @@
+# [0.55.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.54.13...v0.55.0-alpha.0) (2023-11-07)
+
+
+### Features
+
+* implement dynamic CSS variables ([#1047](https://github.com/startupjs/startupjs/issues/1047)) ([dc3987b](https://github.com/startupjs/startupjs/commit/dc3987be2bf57b2b0af70e4e83336f3e5480deef))
+
+
+
 ## [0.54.13](https://github.com/startupjs/startupjs/compare/v0.54.12...v0.54.13) (2023-11-07)
 
 
