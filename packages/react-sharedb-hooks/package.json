@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb-hooks",
   "type": "module",
-  "version": "0.54.5",
+  "version": "0.54.6",
   "engines": {
     "node": ">= 14"
   },

@@ -1,3 +1,79 @@
+## [0.54.13](https://github.com/startupjs/startupjs/compare/v0.54.12...v0.54.13) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** fix removing yarn.lock ([a11a1b7](https://github.com/startupjs/startupjs/commit/a11a1b7aea07cc5b7431db6bd27dfa71ddae463b))
+
+
+
+## [0.54.12](https://github.com/startupjs/startupjs/compare/v0.54.11...v0.54.12) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** improve installation of corepack yarn version ([f5db40d](https://github.com/startupjs/startupjs/commit/f5db40d99d1ff9c39a5cc3d4ec6ed09a641f8c42))
+
+
+
+## [0.54.11](https://github.com/startupjs/startupjs/compare/v0.54.10...v0.54.11) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** remove installation of yarn from sh script ([48b23ce](https://github.com/startupjs/startupjs/commit/48b23ce2a3b182cef64d4c40c2d83703be1b878e))
+
+
+
+## [0.54.10](https://github.com/startupjs/startupjs/compare/v0.54.9...v0.54.10) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** run the installation of corepack package manager version after generating project ([904cfce](https://github.com/startupjs/startupjs/commit/904cfce26a740953d6fb46dec38fa84fb5c6be17))
+
+
+
+## [0.54.9](https://github.com/startupjs/startupjs/compare/v0.54.8...v0.54.9) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** pass stdio option when executing corepack script to handle user input ([ca14131](https://github.com/startupjs/startupjs/commit/ca141310377bd1762ab2416bb9ab8a257d786197))
+
+
+
+## [0.54.8](https://github.com/startupjs/startupjs/compare/v0.54.7...v0.54.8) (2023-11-03)
+
+
+### Bug Fixes
+
+* **cli:** change corepack file permissions ([0b7a50b](https://github.com/startupjs/startupjs/commit/0b7a50b7514428c88087a0c4dc966b0c28e5f4e0))
+
+
+
+## [0.54.7](https://github.com/startupjs/startupjs/compare/v0.54.6...v0.54.7) (2023-11-03)
+
+
+### Bug Fixes
+
+* **cli:** resolve path to corepack script ([3211744](https://github.com/startupjs/startupjs/commit/32117441055f96f06b5cddc8726d95ee863f0371))
+* **cli:** use __dirname instead of require.resolve for corepack script ([64c1996](https://github.com/startupjs/startupjs/commit/64c199685020cd197710ed3e5c4348fa657e77a4))
+
+
+
+## [0.54.6](https://github.com/startupjs/startupjs/compare/v0.54.5...v0.54.6) (2023-11-02)
+
+
+### Bug Fixes
+
+* **Button:** fix inheritance of properties from 'Div' ([980e01a](https://github.com/startupjs/startupjs/commit/980e01ae11d76fa4014443bb3efaa109c7c47ec7))
+* **cli:** use corepack as package manager for new projects ([e37d626](https://github.com/startupjs/startupjs/commit/e37d6262d2c58aeaa081cee7b6a55d64a1ecb0af))
+* **Select:** add missing 'pug' import for native components ([525841d](https://github.com/startupjs/startupjs/commit/525841d01a1808ee344138d1445a99172e2b6c9c))
+* **signals:** fix compilation ([54a6a6f](https://github.com/startupjs/startupjs/commit/54a6a6fccde4113e626bb2e3eb0d10d225e73b8a))
+
+
+
 ## [0.54.2](https://github.com/startupjs/startupjs/compare/v0.54.1...v0.54.2) (2023-11-01)
 
 

@@ -184,6 +184,7 @@ export default {
   li: ({ children, index }) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const level = useContext(ListLevelContext)
+    console.log(index, 'index')
     const listIndex = index == null ? '•' : getOrderedListMark(index, level)
     let hasTextChild = false
     children = React.Children

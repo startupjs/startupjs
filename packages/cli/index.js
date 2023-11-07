@@ -335,7 +335,7 @@ const SCRIPTS = {
 }
 
 const DEFAULT_TEMPLATE = 'ui'
-const DEFAULT_YARN_VERSION = '4.0.1'
+const DEFAULT_YARN_VERSION = '4'
 const TEMPLATES = {
   simple: {
     subTemplates: ['simple']
@@ -381,6 +381,16 @@ commander
   .action(async (projectName, { reactNative, template, yarn }) => {
     console.log('> run npx', projectName, { reactNative, template, yarn })
 
+    // setup corepack
+    try {
+      await execa.command(
+        `${path.join(__dirname, 'corepack.sh')} ${yarn}`,
+        { shell: true, stdio: 'inherit' }
+      )
+    } catch (e) {
+      throw Error('Setup corepack: ', e)
+    }
+
     const projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
 
     // check if template exists
@@ -406,6 +416,20 @@ commander
       stdio: 'inherit'
     })
 
+    // specify yarn version
+    await execa('rm', ['-rf', 'node_modules'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('rm', ['-f', 'yarn.lock'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('corepack', ['use', `yarn@${yarn}`], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+
     // remove extra files which are covered by startupjs core
     if (REMOVE_FILES.length) {
       await execa('rm', ['-f'].concat(REMOVE_FILES), {
@@ -414,16 +438,7 @@ commander
       })
     }
 
-    // specify yarn version
-    await execa('yarn', ['set', 'version', yarn], {
-      cwd: projectPath,
-      stdio: 'inherit'
-    })
     await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'], {
-      cwd: projectPath,
-      stdio: 'inherit'
-    })
-    await execa('yarn', ['config', 'set', 'enableGlobalCache', false], {
       cwd: projectPath,
       stdio: 'inherit'
     })
@@ -746,9 +761,7 @@ function appendGitignore (projectPath) {
     # Mongo data when running in a docker dev container
     /.mongo
     # yarn
-    .yarn/*
-    !.yarn/releases
-    !.yarn/cache
+    .yarn/
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
