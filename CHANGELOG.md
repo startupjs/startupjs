@@ -1,3 +1,12 @@
+## [0.54.9](https://github.com/startupjs/startupjs/compare/v0.54.8...v0.54.9) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** pass stdio option when executing corepack script to handle user input ([ca14131](https://github.com/startupjs/startupjs/commit/ca141310377bd1762ab2416bb9ab8a257d786197))
+
+
+
 ## [0.54.8](https://github.com/startupjs/startupjs/compare/v0.54.7...v0.54.8) (2023-11-03)
 
 
