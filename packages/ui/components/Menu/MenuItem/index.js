@@ -7,9 +7,8 @@ import Icon from '../../Icon'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
 import MenuContext from '../context'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
+import useColors from '../../../hooks/useColors'
+import './index.styl'
 
 function MenuItem ({
   children,
@@ -20,6 +19,7 @@ function MenuItem ({
   ...props
 }) {
   const context = useContext(MenuContext)
+  const getColor = useColors()
 
   // TODO
   // we should think about a better api
@@ -30,8 +30,8 @@ function MenuItem ({
   const iconPosition = props.iconPosition || context.iconPosition || 'left'
 
   // TODO: prevent click if already active (for link and for div)
-  const activeItemColor = activeColor || colors.primary
-  color = active ? activeItemColor : color || colors.mainText
+  const activeItemColor = activeColor || getColor('primary')
+  color = active ? activeItemColor : color || getColor('text')
   const borderStyle = { backgroundColor: activeItemColor }
 
   return pug`

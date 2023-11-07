@@ -1,19 +1,18 @@
-$border = $UI.colors.darkLight
-$darkTopBg = #212121
-$darkBottomBg = #333333
+$darkTopBg = var(--color-bg-inverse)
+$darkBottomBg = var(--color-bg-inverse-alt)
 
 .root
   margin-top 2u
 
 .top
-  background-color #fafafa
+  background-color var(--color-bg)
   border-top-left-radius 1u
   border-top-right-radius 1u
   padding-top 1u
 
 .bottom
   padding-top 4u
-  background-color #f5f5f5
+  background-color var(--color-bg-dim)
   border-bottom-left-radius 1u
   border-bottom-right-radius 1u
 

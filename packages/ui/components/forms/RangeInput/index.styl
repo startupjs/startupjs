@@ -1,33 +1,34 @@
 $this = merge({
-  trackColor: $UI.colors.darkLightest,
-  selectedColor: $UI.colors.primary,
-  stepMarker: $UI.colors.whiteLight
+  trackColor: var(--color-bg-dim),
+  selectedColor: var(--color-bg-primary),
+  stepMarker: var(--color-text-on-color)
 }, $UI.RangeInput, true)
 
-.container
- height 10u
+.root
+  &:part(container)
+    height 10u
 
-.track
-  height 1u
-  background-color $this.trackColor
-  border-radius 4px
+  &:part(track)
+    height 1u
+    background-color $this.trackColor
+    border-radius 4px
 
-.selected
-  background-color $this.selectedColor
+  &:part(selected)
+    background-color $this.selectedColor
 
-.marker
-  top 4px
-  width 16px
-  height @width
-  border-radius 10px
-  shadow(1)
+  &:part(marker)
+    top 4px
+    width 16px
+    height @width
+    border-radius 10px
+    shadow(1)
 
-.stepLabel
-  font-style normal
-  font(caption)
+  &:part(stepLabel)
+    font-style normal
+    font(caption)
+    color var(--color-text)
 
-.stepMarker
-  border-radius 0
-  width 2px
-  background-color $this.stepMarker
-
+  &:part(stepMarker)
+    border-radius 0
+    width 2px
+    background-color $this.stepMarker

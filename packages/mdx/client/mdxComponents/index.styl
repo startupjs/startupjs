@@ -1,5 +1,5 @@
-$codeBg = #F3F4F4 // #fafafa
-$exampleBg = #f5f5f5
+$codeBg = var(--color-bg)
+$exampleBg = var(--color-bg)
 
 .p
 .blockquoteP
@@ -34,7 +34,7 @@ $exampleBg = #f5f5f5
 
 .divider
   height 0.5u
-  background-color $UI.colors.mainText
+  background-color var(--color-bg-inverse)
   margin-bottom 1.5u
 
 .p
@@ -62,7 +62,7 @@ $exampleBg = #f5f5f5
 .inlineCodeWrapper
   background-color $codeBg
   border-width 1px
-  border-color rgba(black, 0.05)
+  border-color var(--color-border)
   border-radius .5u
 
 
@@ -112,4 +112,4 @@ $exampleBg = #f5f5f5
 
     &-collapse
     &-copy
-      color $UI.colors.secondaryText
+      color var(--color-text-description)

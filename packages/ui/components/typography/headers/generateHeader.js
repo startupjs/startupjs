@@ -44,7 +44,7 @@ styl`
 
   .root
     fontFamily('heading')
-    color: $UI.colors.mainText
+    color var(--color-text)
 
     for tag in _tags
       &.{tag}

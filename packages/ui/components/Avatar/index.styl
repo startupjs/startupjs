@@ -20,8 +20,6 @@ $this = merge(
   true
 )
 
-_white = $UI.colors.white
-
 .root
   +web()
     user-select none
@@ -36,12 +34,13 @@ _white = $UI.colors.white
   height 100%
 
 .fallback
-  color white
+  color var(--color-text-on-color)
 
 .status
   position absolute
   z-index 1
-  border 2px solid _white
+  border-width 2px
+  border-color var(--color-border-strong)
   radius(circle)
 
   &.circle
@@ -54,10 +53,10 @@ _white = $UI.colors.white
     right @bottom
 
   &.online
-    background-color $UI.colors.success
+    background-color var(--color-bg-success)
 
   &.away
-    background-color $UI.colors.warning
+    background-color var(--color-bg-warning)
 
 :export
   config: $this

@@ -6,6 +6,7 @@ import Row from '../Row'
 import ScrollView from '../ScrollView'
 import H5 from '../typography/headers/H5'
 import Span from '../typography/Span'
+import './index.mdx.styl'
 
 ```jsx example
 const [data, setData] = useState([
@@ -38,25 +39,6 @@ const [data, setData] = useState([
   }
 ])
 
-const dropStyle = {
-  marginRight: 16,
-  backgroundColor: '#ebecf0',
-  padding: 8
-}
-
-const dragStyle = {
-  width: 200,
-  backgroundColor: '#ffffff',
-  marginTop: 4,
-  marginBottom: 4,
-  paddingTop: 8,
-  paddingBottom: 8,
-  paddingLeft: 16,
-  paddingRight: 16,
-  border: '1px solid #dddddd',
-  borderRadius: 4
-}
-
 const arrInsertEl = (arr, index, item) => arr.splice(index, 0, item)
 const arrRemoveEl = (arr, index) => arr.splice(index, 1)
 
@@ -87,15 +69,13 @@ return pug`
     ScrollView(horizontal=true)
       Row
         each drop in data
-          Droppable(
+          Droppable.droppable(
             key=drop.id
-            style=dropStyle
             dropId=drop.id
           )
             each drag in drop.items
-              Draggable(
+              Draggable.draggable(
                 key=drag.id
-                style=dragStyle
                 dragId=drag.id
                 onDragEnd=onDragEnd
               )
