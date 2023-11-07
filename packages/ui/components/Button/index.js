@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { pug, observer, useIsMountedRef } from 'startupjs'
 import PropTypes from 'prop-types'
+import pick from 'lodash/pick'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Colors, { ColorValues } from '../CssVariables/Colors'
 import Div from '../Div'
@@ -12,6 +13,8 @@ import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
 import STYLES from './index.styl'
+
+const EXTENDED_PROPS = ['variant', 'disabled', 'pushed']
 
 const {
   config: {
@@ -162,7 +165,10 @@ function Button ({
 }
 
 Button.defaultProps = {
-  ...Div.defaultProps,
+  ...pick(
+    Div.defaultProps,
+    EXTENDED_PROPS
+  ),
   color: Colors.secondary,
   variant: 'outlined',
   size: 'm',
@@ -171,7 +177,10 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  ...Div.propTypes,
+  ...pick(
+    Div.propTypes,
+    EXTENDED_PROPS
+  ),
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   color: PropTypes.oneOf(ColorValues),
   children: PropTypes.node,

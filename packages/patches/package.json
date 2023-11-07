@@ -1,9 +1,8 @@
 {
   "name": "@startupjs/patches",
-  "version": "0.54.0",
+  "version": "0.54.1",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",
-  "scripts": {},
   "license": "MIT",
   "publishConfig": {
     "access": "public"

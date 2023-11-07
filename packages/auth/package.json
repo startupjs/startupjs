@@ -1,13 +1,12 @@
 {
   "name": "@startupjs/auth",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "type": "module",
   "description": "Auth module for StartupJS apps",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -17,7 +16,7 @@
   },
   "peerDependencies": {
     "@react-native-cookies/cookies": ">= 6.0.0",
-    "@startupjs/ui": ">= 0.33.0",
-    "startupjs": ">= 0.33.0"
+    "@startupjs/ui": "*",
+    "startupjs": "*"
   }
 }

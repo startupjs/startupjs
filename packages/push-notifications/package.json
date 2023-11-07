@@ -1,21 +1,20 @@
 {
   "name": "@startupjs/push-notifications",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "type": "module",
   "description": "Push notifications module",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "firebase-admin": "^9.7.0"
   },
   "peerDependencies": {
-    "@react-native-community/push-notification-ios": ">= 1.8.0",
-    "@startupjs/ui": ">= 0.33.0",
-    "react-native-push-notification": ">= 7.2.3",
-    "startupjs": ">= 0.33.0"
+    "@react-native-community/push-notification-ios": "*",
+    "@startupjs/ui": "*",
+    "react-native-push-notification": "*",
+    "startupjs": "*"
   }
 }

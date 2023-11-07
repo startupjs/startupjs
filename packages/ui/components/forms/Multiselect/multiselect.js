@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Drawer from './../../popups/Drawer'
 import ScrollView from './../../ScrollView'

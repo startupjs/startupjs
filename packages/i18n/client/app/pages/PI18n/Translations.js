@@ -1,7 +1,7 @@
 /* eslint-disable no-unreachable */
 import React, { useRef, useCallback } from 'react'
 import { Platform } from 'react-native'
-import { observer, styl, useDidUpdate } from 'startupjs'
+import { pug, observer, styl, useDidUpdate } from 'startupjs'
 import { FlatList } from '@startupjs/ui'
 import usePage from './../../../usePage'
 import DefaultLang from './DefaultLang'

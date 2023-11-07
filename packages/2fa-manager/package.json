@@ -1,16 +1,15 @@
 {
   "name": "@startupjs/2fa-manager",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "type": "module",
   "description": "Two factor authentication meta package",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.34.0",
-    "startupjs": ">= 0.34.0"
+    "@startupjs/ui": "*",
+    "startupjs": "*"
   }
 }

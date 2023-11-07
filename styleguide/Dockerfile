@@ -5,8 +5,6 @@ FROM node:20-alpine
 # - MONGO_URL
 # - REDIS_URL
 
-# TODO: Make a fully offline version which only hosts assets and bundles.
-
 ADD . /app
 WORKDIR /app
 
@@ -15,7 +13,6 @@ RUN \
   yarn && \
   cd styleguide && \
   yarn build && \
-  yarn cache clean && \
   apk del make gcc g++ python3 git
 
 WORKDIR /app/styleguide

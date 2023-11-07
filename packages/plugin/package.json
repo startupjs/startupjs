@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/plugin",
-  "version": "0.54.0",
+  "version": "0.54.1",
   "type": "module",
   "engines": {
     "node": ">= 14"
@@ -10,7 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "resolve": "^1.20.0"

@@ -1,19 +1,18 @@
 {
   "name": "@startupjs/auth-idg",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "type": "module",
   "description": "iDecisionGames auth plugin for StartupJS auth module",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@dmapper/passport-idg-oauth2": "^2.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0",
-    "react-native-webview": ">=10.10.2"
+    "@startupjs/auth": "*",
+    "react-native-webview": "*"
   }
 }

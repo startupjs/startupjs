@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React, { useCallback } from 'react'
-import { observer, styl } from 'startupjs'
+import { pug, observer, styl } from 'startupjs'
 import { Div, Row, Span, Icon } from '@startupjs/ui'
 import { FILTERS, FILTERS_META } from './../../constants'
 import usePage from './../../../usePage'

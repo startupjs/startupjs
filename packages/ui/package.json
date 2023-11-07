@@ -1,13 +1,12 @@
 {
   "name": "@startupjs/ui",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "description": "UI components for react-native",
   "main": "index.js",
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.53.0",
@@ -28,15 +27,15 @@
     "react-router-native": "^5.1.2"
   },
   "peerDependencies": {
-    "@react-native-picker/picker": ">=1.16.1",
-    "react": "16.9 - 17",
-    "react-native": ">= 0.61.4 < 0.64.0",
-    "react-native-collapsible": ">= 1.6.0",
-    "react-native-color-picker": "^0.6.0",
-    "react-native-gesture-handler": "^1.10.3",
-    "react-native-pager-view": ">= 5.1.2",
-    "react-native-svg": ">= 12.1.0",
-    "react-native-tab-view": ">= 3.0.0",
-    "startupjs": ">= 0.33.0"
+    "@react-native-picker/picker": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-collapsible": "*",
+    "react-native-color-picker": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-pager-view": "*",
+    "react-native-svg": "*",
+    "react-native-tab-view": "*",
+    "startupjs": "*"
   }
 }

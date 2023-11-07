@@ -1,7 +1,7 @@
 {
   "private": true,
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "workspaces": [
     "packages/*",
@@ -9,7 +9,7 @@
     "styleguide"
   ],
   "scripts": {
-    "init-local": ". ./scripts/tasks.sh && fn_local_init",
+    "init-local": "./scripts/tasks.sh local-init",
     "testapp": "cd testapp && yarn",
     "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
@@ -22,14 +22,14 @@
     "ios-release": "cd styleguide && yarn ios-release",
     "build": "cd styleguide && yarn build",
     "start-production": "cd styleguide && yarn start-production",
-    "postinstall": "startupjs patch-package && npx patch-package --patch-dir node_modules/@startupjs/patches/patches_gestureHandler",
+    "postinstall": "npx startupjs patch-package && npx patch-package --patch-dir node_modules/@startupjs/patches/patches_gestureHandler",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -k ./lerna.json",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
     "publish-alpha": "yarn before-publish && npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
-    "before-publish": ". ./scripts/tasks.sh && fn_before_publish",
-    "publish-update-changelog": ". ./scripts/tasks.sh && fn_update_changelog",
+    "before-publish": "./scripts/tasks.sh before-publish",
+    "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "wdio": "wdio run ./wdio.conf.js"
   },
   "devDependencies": {
@@ -69,5 +69,6 @@
       "pre-commit": "lint-staged && yarn generate-module-map"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.0.1"
 }

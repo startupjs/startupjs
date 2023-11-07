@@ -309,7 +309,7 @@ SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
   : 'true'
 
 SCRIPTS_ORIG.fonts = () => oneLine(`
-  react-native-asset
+  npx react-native-asset
 `)
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
@@ -335,6 +335,7 @@ const SCRIPTS = {
 }
 
 const DEFAULT_TEMPLATE = 'ui'
+const DEFAULT_YARN_VERSION = '4.0.1'
 const TEMPLATES = {
   simple: {
     subTemplates: ['simple']
@@ -376,8 +377,11 @@ commander
   .description('bootstrap a new startupjs application')
   .option('-rn, --react-native <semver>', 'Use a particular semver of React Native as a template', 'latest')
   .option('-t, --template <name>', 'Which startupjs template to use to bootstrap the project', DEFAULT_TEMPLATE)
-  .action(async (projectName, { reactNative, template }) => {
-    console.log('> run npx', projectName, { reactNative, template })
+  .option('-y, --yarn <semver>', 'Use a particular semver of yarn', DEFAULT_YARN_VERSION)
+  .action(async (projectName, { reactNative, template, yarn }) => {
+    console.log('> run npx', projectName, { reactNative, template, yarn })
+
+    const projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
 
     // check if template exists
     if (!TEMPLATES[template]) {
@@ -391,16 +395,6 @@ commander
         { stdio: 'inherit' }
       )
     }
-
-    let projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
-
-    if (fs.existsSync(projectPath)) {
-      const err = `Folder '${projectName}' already exists in the current directory. Delete it to create a new app`
-      console.log('!!! ERROR !!! ' + err + '\n\n')
-      throw Error(err)
-    }
-
-    // check if the folder already exists and throw an error
 
     // init react-native application
     await execa('npx', [
@@ -419,6 +413,20 @@ commander
         stdio: 'inherit'
       })
     }
+
+    // specify yarn version
+    await execa('yarn', ['set', 'version', yarn], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('yarn', ['config', 'set', 'nodeLinker', 'node-modules'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('yarn', ['config', 'set', 'enableGlobalCache', false], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
 
     // remove extra dependencies which are covered by startupjs core
     if (REMOVE_DEPENDENCIES.length) {
@@ -737,6 +745,10 @@ function appendGitignore (projectPath) {
     /e2e/__diff_output__
     # Mongo data when running in a docker dev container
     /.mongo
+    # yarn
+    .yarn/*
+    !.yarn/releases
+    !.yarn/cache
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
@@ -766,10 +778,10 @@ function updateConfigJson (projectPath, options) {
 
 function generateRandomString (length = 0) {
   let result = ''
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  var charactersLength = characters.length
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
 
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(
       Math.floor(
         Math.random() * charactersLength
@@ -782,6 +794,8 @@ function generateRandomString (length = 0) {
 function getSuccessInstructions (projectName) {
   return `
     StartupJS installation successful!
+
+    To use private packages, log in via yarn npm login.
 
     INSTRUCTIONS
 

@@ -1,17 +1,16 @@
 {
   "name": "@startupjs/backend",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "description": "Create new ShareDB backend instance",
   "main": "index.js",
-  "scripts": {},
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/server-aggregate": "^0.54.0",
-    "@startupjs/sharedb-access": "^0.54.0",
-    "@startupjs/sharedb-schema": "^0.54.0",
+    "@startupjs/server-aggregate": "^0.54.1",
+    "@startupjs/sharedb-access": "^0.54.2",
+    "@startupjs/sharedb-schema": "^0.54.1",
     "ioredis": "^4.28.2",
     "mongodb": "^4.0.0",
     "racer": "1.0.1",

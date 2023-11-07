@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React from 'react'
-import { $root, observer, styl } from 'startupjs'
+import { pug, $root, observer, styl } from 'startupjs'
 import { Layout as UILayout, Button, Row } from '@startupjs/ui'
 // import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import Sidebar from './Sidebar'

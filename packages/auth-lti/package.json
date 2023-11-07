@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-lti",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "type": "module",
   "description": "LTI auth plugin for StartupJS auth module",
   "publishConfig": {
@@ -11,15 +11,14 @@
     "lti",
     "auth"
   ],
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@dmapper/passport-lms-lti": "^3.1.1"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0",
-    "@startupjs/ui": ">= 0.44.0",
+    "@startupjs/auth": "*",
+    "@startupjs/ui": "*",
     "prop-types": "*",
-    "startupjs": ">= 0.44.0"
+    "startupjs": "*"
   }
 }

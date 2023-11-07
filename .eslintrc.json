@@ -13,7 +13,8 @@
     "standard",
     "standard-react",
     "plugin:react-pug/all",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:wdio/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -38,7 +39,8 @@
     "react-pug",
     "jest",
     "detox",
-    "eslint-plugin-import-helpers"
+    "eslint-plugin-import-helpers",
+    "wdio"
   ],
   "rules": {
     "prefer-const": "off",
@@ -55,17 +57,17 @@
       {
         "newlinesBetween": "ignore",
         "groups": [
-            "/^react$/",
-            "/react-native/",
-            "/^react.*/",
-            "/^startupjs/",
-            "/^@?startupjs.*/",
-            "/^@?dmapper.*/",
-            "module",
-            "/^components/",
-            ["/^helpers/", "/^hooks/"],
-            ["sibling", "parent"],
-            "/.\/index.styl/"
+          "/^react$/",
+          "/react-native/",
+          "/^react.*/",
+          "/^startupjs/",
+          "/^@?startupjs.*/",
+          "/^@?dmapper.*/",
+          "module",
+          "/^components/",
+          ["/^helpers/", "/^hooks/"],
+          ["sibling", "parent"],
+          "/.\/index.styl/"
         ]
       }
     ]

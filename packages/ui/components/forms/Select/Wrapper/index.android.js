@@ -1,7 +1,7 @@
 // ref: https://github.com/lawnstarter/react-native-picker-select/blob/master/src/index.js
 import React from 'react'
 import { Picker } from '@react-native-picker/picker'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import {
   stringifyValue,
   getLabel,

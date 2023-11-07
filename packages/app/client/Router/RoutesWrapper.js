@@ -1,5 +1,6 @@
 import React from 'react'
 import Stack from 'react-router-native-stack'
+import { pug } from 'startupjs'
 const DEFAULT_ANIMATE = false
 // Support for web https://github.com/Traviskn/react-router-native-stack/pull/47
 

@@ -1,18 +1,17 @@
 {
   "name": "@startupjs/auth-telegram",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "type": "module",
   "description": "Telegram auth plugin for StartupJS auth module",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "passport-telegram-official": "^1.0.0"
   },
   "peerDependencies": {
-    "@startupjs/auth": ">= 0.33.0"
+    "@startupjs/auth": "*"
   }
 }

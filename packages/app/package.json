@@ -1,17 +1,16 @@
 {
   "name": "@startupjs/app",
   "type": "module",
-  "version": "0.54.0",
+  "version": "0.54.2",
   "description": "Router component for multi apps",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.54.0",
-    "@startupjs/plugin": "^0.54.0",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.54.2",
+    "@startupjs/plugin": "^0.54.1",
     "decode-uri-component": "0.2.1",
     "lodash": "^4.17.20",
     "qs": "6.10.4",
@@ -21,9 +20,9 @@
     "react-router-native-stack": "0.0.16"
   },
   "peerDependencies": {
-    "react": "16.9 - 17",
-    "react-native": ">= 0.61.4 < 0.64.0",
-    "react-native-restart": ">= 0.0.22",
-    "startupjs": ">= 0.33.0"
+    "react": "*",
+    "react-native": "*",
+    "react-native-restart": "*",
+    "startupjs": "*"
   }
 }
