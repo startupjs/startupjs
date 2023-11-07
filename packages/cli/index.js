@@ -388,7 +388,9 @@ commander
         { shell: true, stdio: 'inherit' }
       )
     } catch (e) {
-      throw new Error('Setup corepack error: ', e)
+      const { message } = e
+      if (message) throw Error('Setup corepack: ', message)
+      return
     }
 
     const projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)

@@ -47,9 +47,6 @@ function main () {
 
   # do 'corepack enable'
   corepack enable
-
-  # do 'corepack use yarn@4'
-  corepack use yarn@"$1"
 }
 
 main "$@"; exit
