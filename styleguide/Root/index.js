@@ -8,7 +8,7 @@ import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { pug, observer, model } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
-import { Ui } from '@startupjs/ui'
+import { uiAppPlugin } from '@startupjs/ui'
 import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 import {
   BASE_URL,
@@ -41,6 +41,9 @@ if (Platform.OS === 'web') window.model = model
 init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
+  '@startupjs/app': [
+    [uiAppPlugin, { defaultEnabled: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }]
+  ],
   pluginsPackageModuleExample: [
     [emoticons, { size: 20 }]
   ]
@@ -48,22 +51,21 @@ registerPlugins({
 
 export default observer(() => {
   return pug`
-    Ui(style=UI_STYLE_OVERRIDES)
-      App(
-        apps={ auth, docs, main, notifications }
-        criticalVersion={
-          ios: CRITICAL_VERSION_IOS,
-          android: CRITICAL_VERSION_ANDROID,
-          web: CRITICAL_VERSION_WEB
-        }
-        supportEmail=SUPPORT_EMAIL
-        androidUpdateLink=UPDATE_LINK_ANDROID
-        iosUpdateLink=UPDATE_LINK_IOS
-        useGlobalInit=() => {
-          initPushNotifications()
-          return true
-        }
-      )
+    App(
+      apps={ auth, docs, main, notifications }
+      criticalVersion={
+        ios: CRITICAL_VERSION_IOS,
+        android: CRITICAL_VERSION_ANDROID,
+        web: CRITICAL_VERSION_WEB
+      }
+      supportEmail=SUPPORT_EMAIL
+      androidUpdateLink=UPDATE_LINK_ANDROID
+      iosUpdateLink=UPDATE_LINK_IOS
+      useGlobalInit=() => {
+        initPushNotifications()
+        return true
+      }
+    )
   `
 })
 
