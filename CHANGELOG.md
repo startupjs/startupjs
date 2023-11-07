@@ -1,3 +1,12 @@
+## [0.54.12](https://github.com/startupjs/startupjs/compare/v0.54.11...v0.54.12) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** improve installation of corepack yarn version ([f5db40d](https://github.com/startupjs/startupjs/commit/f5db40d99d1ff9c39a5cc3d4ec6ed09a641f8c42))
+
+
+
 ## [0.54.11](https://github.com/startupjs/startupjs/compare/v0.54.10...v0.54.11) (2023-11-07)
 
 
