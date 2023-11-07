@@ -388,7 +388,7 @@ commander
         { shell: true, stdio: 'inherit' }
       )
     } catch (e) {
-      console.error(e.stderr)
+      throw new Error('Setup corepack error: ', e)
     }
 
     const projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
@@ -413,6 +413,19 @@ commander
       projectName
     ].concat(['--version', reactNative]), {
       cwd: path.join(process.cwd(), LOCAL_DIR),
+      stdio: 'inherit'
+    })
+
+    // specify yarn version
+    // it would be more correct to reinstall the packages
+    // after specifying the yarn version
+    // but since the 'yarn add' command will be executed next - it will
+    // reinstall the packages
+    // also, it would be more correct don't use 'yarn remove' command
+    // because if there is no package (due to the difference in react native packages)
+    // then everything will break
+    await execa('corepack', ['use', `yarn@${yarn}`], {
+      cwd: projectPath,
       stdio: 'inherit'
     })
 
