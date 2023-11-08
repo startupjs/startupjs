@@ -1,6 +1,4 @@
-_email = #2962ff
-_error = #E25950
-_dark = #3E4657
+$email = var(--color-text-primary)
 
 .root
   flex-grow 1
@@ -11,21 +9,24 @@ _dark = #3E4657
 .card
   justify-content center
   padding 2u
-  border 1px solid rgba(_dark, .15)
+  border-width 1px
+  border-style solid
+  border-color var(--color-border)
   border-radius .5u
-  background-color rgba(_error, .05)
+  background-color var(--color-bg-error-transparent)
   max-width 100u
   width 100%
 
 .email
-  color _email
-  text-decoration underline _email
+  color $email
+  text-decoration-line underline
+  text-decoration-color $email
 
 .text
-  color _dark
+  color var(--color-text)
 
 .info
-  color _error
+  color var(--color-text-error)
   font-size 4.5u
   line-height 6u
 
@@ -43,7 +44,9 @@ _dark = #3E4657
   margin-top 3u
   width 14u
   height 4u
-  border 1px solid rgba(_dark, .25)
+  border-width 1px
+  border-style solid
+  border-color var(--color-border-dim)
   border-radius .5u
 
 .label

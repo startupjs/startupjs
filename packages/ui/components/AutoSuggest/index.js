@@ -147,6 +147,7 @@ function AutoSuggest ({
       inputStyle=inputStyle
       icon=value && !disabled ? faTimes : undefined
       iconPosition='right'
+      iconStyle=iconStyle
       value=inputValue
       placeholder=placeholder
       disabled=disabled
