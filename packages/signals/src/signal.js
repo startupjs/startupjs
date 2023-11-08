@@ -1,4 +1,4 @@
-/* global WeakRef */
+import { WeakRef } from '@ungap/weakrefs'
 import handlers from './handlers.js'
 import { getRootModel } from './model.js'
 import { UniversalFinalizationRegistry } from './utils/UniversalFinalizationRegistry'

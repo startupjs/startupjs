@@ -6257,6 +6257,7 @@ __metadata:
   resolution: "@startupjs/signals@workspace:packages/signals"
   dependencies:
     "@startupjs/model": "npm:^0.54.1"
+    "@ungap/weakrefs": "npm:^0.2.0"
   languageName: unknown
   linkType: soft
 
@@ -7395,6 +7396,13 @@ __metadata:
   version: 1.2.0
   resolution: "@ungap/structured-clone@npm:1.2.0"
   checksum: 8209c937cb39119f44eb63cf90c0b73e7c754209a6411c707be08e50e29ee81356dca1a848a405c8bdeebfe2f5e4f831ad310ae1689eeef65e7445c090c6657d
+  languageName: node
+  linkType: hard
+
+"@ungap/weakrefs@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@ungap/weakrefs@npm:0.2.0"
+  checksum: e014836e84a663e1a5a23828966680088c8a298a20f364c16e85e93799731323fdf7c9a27dabe2c7ba91183de9d0a7440525cb99daf7825dd4e2666fa25a9aeb
   languageName: node
   linkType: hard
 
