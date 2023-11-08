@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/cache",
   "type": "module",
-  "version": "0.54.2",
+  "version": "0.55.0-alpha.1",
   "engines": {
     "node": ">= 14"
   },
@@ -12,6 +12,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@startupjs/debug": "^0.54.2"
+    "@startupjs/debug": "^0.55.0-alpha.1"
   }
 }

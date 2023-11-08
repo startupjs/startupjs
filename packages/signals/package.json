@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/signals",
-  "version": "0.54.5",
+  "version": "0.55.0-alpha.1",
   "description": "Signals with an ORM support",
   "type": "module",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "test": "node --expose-gc -r ./test/_init.cjs --test"
   },
   "dependencies": {
-    "@startupjs/model": "^0.54.1",
+    "@startupjs/model": "^0.55.0-alpha.1",
     "@ungap/weakrefs": "^0.2.0"
   },
   "license": "MIT"

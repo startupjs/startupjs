@@ -1,3 +1,14 @@
+# [0.55.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.0...v0.55.0-alpha.1) (2023-11-08)
+
+
+### Bug Fixes
+
+* **publish commands:** add force publish option to 'publish-alpha' command, add new 'publish-alpha-patch' command ([3a1c611](https://github.com/startupjs/startupjs/commit/3a1c611f037fcd3389c94fdd86c708c719d07d41))
+* **signals:** add polyfill for WeakRef ([68c9bed](https://github.com/startupjs/startupjs/commit/68c9bed91777ac630275cf36dc1f83dec82b05d1))
+* **signals:** change polyfill for FinalizationRegistry ([a3bbb12](https://github.com/startupjs/startupjs/commit/a3bbb122452ddcf6ede1f9d4872d2d6ab37c4faf))
+
+
+
 # [0.55.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.54.13...v0.55.0-alpha.0) (2023-11-07)
 
 

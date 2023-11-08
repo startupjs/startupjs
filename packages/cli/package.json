@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "0.54.13",
+  "version": "0.55.0-alpha.1",
   "description": "start, watch and build startupjs project",
   "main": "index.js",
   "license": "MIT",

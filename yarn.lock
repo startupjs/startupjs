@@ -5397,7 +5397,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/2fa-manager@npm:^0.54.0, @startupjs/2fa-manager@workspace:packages/2fa-manager":
+"@startupjs/2fa-manager@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/2fa-manager@npm:0.54.2"
+  peerDependencies:
+    "@startupjs/ui": "*"
+    startupjs: "*"
+  checksum: 773c76379c4c0244495729565f6999d14e1aa94e41e0e170186eff1b2d7f700672365d4f54e3de6e469b4e401b162bfc14fdc44dbd8eec8aaadfb4313f7d2121
+  languageName: node
+  linkType: hard
+
+"@startupjs/2fa-manager@workspace:packages/2fa-manager":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-manager@workspace:packages/2fa-manager"
   peerDependencies:
@@ -5406,7 +5416,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa-push-notification-provider@npm:^0.54.0, @startupjs/2fa-push-notification-provider@workspace:packages/2fa-push-notification-provider":
+"@startupjs/2fa-push-notification-provider@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/2fa-push-notification-provider@npm:0.54.2"
+  peerDependencies:
+    "@startupjs/2fa-manager": "*"
+    "@startupjs/push-notifications": "*"
+  checksum: e43c64bfd954175dd1b3a608c93f3fa96499f9913cef07a7c647d0d01a93f763b572a9d022a8d7247bfae0951bd9144572ed007622e9edaa0efc238e27f470ba
+  languageName: node
+  linkType: hard
+
+"@startupjs/2fa-push-notification-provider@workspace:packages/2fa-push-notification-provider":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-push-notification-provider@workspace:packages/2fa-push-notification-provider"
   peerDependencies:
@@ -5415,7 +5435,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa-totp-authentication-provider@npm:^0.54.0, @startupjs/2fa-totp-authentication-provider@workspace:packages/2fa-totp-authentication-provider":
+"@startupjs/2fa-totp-authentication-provider@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/2fa-totp-authentication-provider@npm:0.54.2"
+  peerDependencies:
+    "@startupjs/2fa-manager": "*"
+    "@startupjs/2fa-totp-authentication": "*"
+    startupjs: "*"
+  checksum: a3cf1748068fb3c7b9ce99d07dedb69e79f9d3985e8a1ccce4442d12b71dce852e6e5f2bb0e27b0f3bd441ea94221f608a9e148b778e28065c80e0f92a0e4ff2
+  languageName: node
+  linkType: hard
+
+"@startupjs/2fa-totp-authentication-provider@workspace:packages/2fa-totp-authentication-provider":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-totp-authentication-provider@workspace:packages/2fa-totp-authentication-provider"
   peerDependencies:
@@ -5425,7 +5456,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa-totp-authentication@npm:^0.54.0, @startupjs/2fa-totp-authentication@workspace:packages/2fa-totp-authentication":
+"@startupjs/2fa-totp-authentication@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/2fa-totp-authentication@npm:0.54.2"
+  dependencies:
+    qrcode: "npm:^1.4.4"
+    speakeasy: "npm:^2.0.0"
+  peerDependencies:
+    "@startupjs/ui": "*"
+    startupjs: "*"
+  checksum: 164274bba7b5862c756cc8c08d86521fdfe5f0afab08a94fa474db403ef027b9170d1b25cde1ac7c8529a648c174528caf27f9e285658f1e40ef6c50a0e8eb07
+  languageName: node
+  linkType: hard
+
+"@startupjs/2fa-totp-authentication@workspace:packages/2fa-totp-authentication":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-totp-authentication@workspace:packages/2fa-totp-authentication"
   dependencies:
@@ -5437,7 +5481,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa@npm:^0.54.0, @startupjs/2fa@workspace:packages/2fa":
+"@startupjs/2fa@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/2fa@npm:0.54.2"
+  dependencies:
+    qrcode: "npm:^1.4.4"
+    speakeasy: "npm:^2.0.0"
+  peerDependencies:
+    "@startupjs/ui": "*"
+    startupjs: "*"
+  checksum: e95f6b7e85805a8a97783aaae26a3411d545e129812ebc34dc0faa172eac36f92affda01a27f452118a58341fab6b32b00876d7280d5a072ba783b26d8d451e6
+  languageName: node
+  linkType: hard
+
+"@startupjs/2fa@workspace:packages/2fa":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa@workspace:packages/2fa"
   dependencies:
@@ -5471,12 +5528,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/app@npm:^0.55.0-alpha.0, @startupjs/app@workspace:packages/app":
+"@startupjs/app@npm:^0.55.0-alpha.1, @startupjs/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@startupjs/app@workspace:packages/app"
   dependencies:
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.0"
-    "@startupjs/plugin": "npm:^0.54.1"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.1"
+    "@startupjs/plugin": "npm:^0.55.0-alpha.1"
     decode-uri-component: "npm:0.2.1"
     lodash: "npm:^4.17.20"
     qs: "npm:6.10.4"
@@ -5519,7 +5576,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-azuread@npm:^0.54.0, @startupjs/auth-azuread@workspace:packages/auth-azuread":
+"@startupjs/auth-azuread@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/auth-azuread@npm:0.54.2"
+  dependencies:
+    "@fortawesome/free-brands-svg-icons": "npm:^5.12.0"
+    passport-azure-ad: "npm:^4.3.5"
+    qs: "npm:^6.9.3"
+  peerDependencies:
+    "@startupjs/auth": "*"
+    react-native-webview: "*"
+  checksum: 31d93171f93b6d8e21b98276e722d1213c20ef2c12b758c3f3d78d28a5b1729854a160984408f40847354034d2fce68105d7f0dd1fac19497c22f011bb184bae
+  languageName: node
+  linkType: hard
+
+"@startupjs/auth-azuread@workspace:packages/auth-azuread":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-azuread@workspace:packages/auth-azuread"
   dependencies:
@@ -5551,7 +5622,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-facebook@npm:^0.54.0, @startupjs/auth-facebook@workspace:packages/auth-facebook":
+"@startupjs/auth-facebook@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/auth-facebook@npm:0.54.2"
+  dependencies:
+    "@fortawesome/free-brands-svg-icons": "npm:^5.12.0"
+    fb: "npm:2.0.0"
+    passport-facebook: "npm:^3.0.0"
+  peerDependencies:
+    "@startupjs/auth": "*"
+    react-native-fbsdk: ">= 1.0.0"
+  checksum: 19b8edf170f1fa8b4fe2df043265c046e43ec72c15a453f132219c07a2a7f118b9b1b177b9b94ce676397b06a3e20eba9e0c933a26c58e7ed6bc7382a9c1b1b9
+  languageName: node
+  linkType: hard
+
+"@startupjs/auth-facebook@workspace:packages/auth-facebook":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-facebook@workspace:packages/auth-facebook"
   dependencies:
@@ -5564,7 +5649,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-google@npm:^0.54.0, @startupjs/auth-google@workspace:packages/auth-google":
+"@startupjs/auth-google@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/auth-google@npm:0.54.2"
+  dependencies:
+    "@fortawesome/free-brands-svg-icons": "npm:^5.12.0"
+    google-auth-library: "npm:^6.0.0"
+    passport-google-oauth20: "npm:^2.0.0"
+  peerDependencies:
+    "@react-native-google-signin/google-signin": ">= 6.0.0"
+    "@startupjs/auth": "*"
+  checksum: 658c929facd5573a9008399d0404a2bca7ecd4047a0cdc5fa5bf87925c3cb498c01286b50a0d9357075a21fc899eafcc6254f2838d164a4823c0001b9b210678
+  languageName: node
+  linkType: hard
+
+"@startupjs/auth-google@workspace:packages/auth-google":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-google@workspace:packages/auth-google"
   dependencies:
@@ -5600,7 +5699,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-linkedin@npm:^0.54.0, @startupjs/auth-linkedin@workspace:packages/auth-linkedin":
+"@startupjs/auth-linkedin@npm:^0.54.0":
+  version: 0.54.2
+  resolution: "@startupjs/auth-linkedin@npm:0.54.2"
+  dependencies:
+    "@dmapper/passport-linkedin-oauth2": "npm:^1.0.0"
+    "@fortawesome/free-brands-svg-icons": "npm:^5.12.0"
+    bcrypt: "npm:^5.0.1"
+    qs: "npm:^6.9.3"
+  peerDependencies:
+    "@startupjs/auth": "*"
+    react-native-webview: "*"
+  checksum: 7800f843f73803ceb663f6f7b7a4dab7f0c2752a54804f2f100d9e5b5acccb4cfe1609bb4dbd9e0564a16a67ff43bf4b2403c9805c4352fa6be1da5b4ba7dfbb
+  languageName: node
+  linkType: hard
+
+"@startupjs/auth-linkedin@workspace:packages/auth-linkedin":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-linkedin@workspace:packages/auth-linkedin"
   dependencies:
@@ -5634,7 +5748,7 @@ __metadata:
   resolution: "@startupjs/auth-local@workspace:packages/auth-local"
   dependencies:
     "@hapi/joi": "npm:^17.1.1"
-    "@startupjs/recaptcha": "npm:^0.54.2"
+    "@startupjs/recaptcha": "npm:^0.55.0-alpha.1"
     bcrypt: "npm:^5.0.1"
     passport-local: "npm:^1.0.0"
   peerDependencies:
@@ -5697,7 +5811,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-dotenv@npm:^0.54.1, @startupjs/babel-plugin-dotenv@workspace:packages/babel-plugin-dotenv":
+"@startupjs/babel-plugin-dotenv@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/babel-plugin-dotenv@npm:0.54.1"
+  dependencies:
+    "@babel/template": "npm:^7.4.0"
+    dotenv: "npm:^8.2.0"
+  checksum: 1d974362698e439db5ca8bbefad92457c3d7928e0cf69b2420562c568f714fb2cf89ac21cb98bec489dbcc8d6489d406438b2ac3d5d5d71308e4710bfe470a89
+  languageName: node
+  linkType: hard
+
+"@startupjs/babel-plugin-dotenv@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-dotenv@workspace:packages/babel-plugin-dotenv":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-dotenv@workspace:packages/babel-plugin-dotenv"
   dependencies:
@@ -5708,7 +5832,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-i18n-extract@npm:^0.54.1, @startupjs/babel-plugin-i18n-extract@workspace:packages/babel-plugin-i18n-extract":
+"@startupjs/babel-plugin-i18n-extract@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/babel-plugin-i18n-extract@npm:0.54.1"
+  dependencies:
+    lodash: "npm:^4.17.20"
+  checksum: 496ff6f9129c6db8cc7f242f61df2ba44dd28fb296d4e3d8af77036560c5b8f53a086fb5a892a99787639e7f8c70af5507c023bab0c1766a65746041ea5082a0
+  languageName: node
+  linkType: hard
+
+"@startupjs/babel-plugin-i18n-extract@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-i18n-extract@workspace:packages/babel-plugin-i18n-extract":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-i18n-extract@workspace:packages/babel-plugin-i18n-extract"
   dependencies:
@@ -5719,7 +5852,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-import-to-react-lazy@npm:^0.54.1, @startupjs/babel-plugin-import-to-react-lazy@workspace:packages/babel-plugin-import-to-react-lazy":
+"@startupjs/babel-plugin-import-to-react-lazy@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/babel-plugin-import-to-react-lazy@npm:0.54.1"
+  dependencies:
+    "@babel/helper-module-imports": "npm:^7.0.0"
+    "@babel/template": "npm:^7.4.0"
+    "@babel/types": "npm:^7.0.0"
+  checksum: 68144a618f3911738457c9aa0134cf3f72a9cec1062e3bb97b37804f07eb6cade765dea90a33a1b05e51f5fc8eb440cf98794b59380baf6da78302a6ebae1cbb
+  languageName: node
+  linkType: hard
+
+"@startupjs/babel-plugin-import-to-react-lazy@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-import-to-react-lazy@workspace:packages/babel-plugin-import-to-react-lazy":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-import-to-react-lazy@workspace:packages/babel-plugin-import-to-react-lazy"
   dependencies:
@@ -5754,7 +5898,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/babel-plugin-react-pug-classnames@npm:^0.54.1, @startupjs/babel-plugin-react-pug-classnames@workspace:packages/babel-plugin-react-pug-classnames":
+"@startupjs/babel-plugin-react-pug-classnames@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/babel-plugin-react-pug-classnames@npm:0.54.1"
+  checksum: f4312e3ab33bde136025275587a49bdea8fbbead9761875597dc9364d3ec0b0f3c1d4cb1a1e16d736d63eff4e6c5d9ab7771d030f5876fd110a087ca5574447a
+  languageName: node
+  linkType: hard
+
+"@startupjs/babel-plugin-react-pug-classnames@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-react-pug-classnames@workspace:packages/babel-plugin-react-pug-classnames":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-react-pug-classnames@workspace:packages/babel-plugin-react-pug-classnames"
   dependencies:
@@ -5777,7 +5928,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.55.0-alpha.0, @startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline":
+"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline"
   dependencies:
@@ -5785,8 +5936,8 @@ __metadata:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.0"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.0"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.1"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.1"
     babel-plugin-tester: "npm:^9.1.0"
     jest: "npm:^26.0.1"
   languageName: unknown
@@ -5805,7 +5956,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/babel-plugin-rn-stylename-to-style@npm:^0.55.0-alpha.0, @startupjs/babel-plugin-rn-stylename-to-style@workspace:packages/babel-plugin-rn-stylename-to-style":
+"@startupjs/babel-plugin-rn-stylename-to-style@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-rn-stylename-to-style@workspace:packages/babel-plugin-rn-stylename-to-style":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-to-style@workspace:packages/babel-plugin-rn-stylename-to-style"
   dependencies:
@@ -5813,7 +5964,7 @@ __metadata:
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
     "@nx-js/observer-util": "npm:^4.1.3"
-    "@startupjs/cache": "npm:^0.54.2"
+    "@startupjs/cache": "npm:^0.55.0-alpha.1"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-1"
     babel-plugin-tester: "npm:^9.1.0"
     babel-plugin-transform-react-pug: "npm:^7.0.1"
@@ -5823,7 +5974,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-debug@npm:^0.54.1, @startupjs/babel-plugin-startupjs-debug@workspace:packages/babel-plugin-startupjs-debug":
+"@startupjs/babel-plugin-startupjs-debug@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/babel-plugin-startupjs-debug@npm:0.54.1"
+  checksum: 55e48a52bdc82e7e9c5b4aaeda26df7563b94bbd99c8ad9a3c002e3be97d0d8292af7561a7aeeaf1f243d4afde96bb5f2d21718195e753a43f5b3417aa3c207d
+  languageName: node
+  linkType: hard
+
+"@startupjs/babel-plugin-startupjs-debug@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-startupjs-debug@workspace:packages/babel-plugin-startupjs-debug":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-debug@workspace:packages/babel-plugin-startupjs-debug"
   dependencies:
@@ -5835,7 +5993,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-utils@npm:^0.54.1, @startupjs/babel-plugin-startupjs-utils@workspace:packages/babel-plugin-startupjs-utils":
+"@startupjs/babel-plugin-startupjs-utils@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/babel-plugin-startupjs-utils@npm:0.54.1"
+  checksum: 622f9e5bfe7527b3e905957de683c2a10a7ee5475332152e0f24cec5ab9fe7325e1242062e8adce7a7aae5cdeabf9b43449208f96fee5ffd29fbc73ece0e13e2
+  languageName: node
+  linkType: hard
+
+"@startupjs/babel-plugin-startupjs-utils@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-startupjs-utils@workspace:packages/babel-plugin-startupjs-utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-utils@workspace:packages/babel-plugin-startupjs-utils"
   dependencies:
@@ -5854,7 +6019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/babel-plugin-startupjs@npm:^0.55.0-alpha.0, @startupjs/babel-plugin-startupjs@workspace:packages/babel-plugin-startupjs":
+"@startupjs/babel-plugin-startupjs@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-startupjs@workspace:packages/babel-plugin-startupjs":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs@workspace:packages/babel-plugin-startupjs"
   dependencies:
@@ -5878,13 +6043,36 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/backend@npm:^0.54.2, @startupjs/backend@workspace:packages/backend":
-  version: 0.0.0-use.local
-  resolution: "@startupjs/backend@workspace:packages/backend"
+"@startupjs/backend@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/backend@npm:0.54.2"
   dependencies:
     "@startupjs/server-aggregate": "npm:^0.54.1"
     "@startupjs/sharedb-access": "npm:^0.54.2"
     "@startupjs/sharedb-schema": "npm:^0.54.1"
+    ioredis: "npm:^4.28.2"
+    mongodb: "npm:^4.0.0"
+    racer: "npm:1.0.1"
+    redlock: "npm:^3.0.0"
+    sharedb: "npm:^2.0.0"
+    sharedb-hooks: "npm:~4.0.0"
+    sharedb-mingo-memory: "npm:^1.2.0"
+    sharedb-mongo: "npm:1.0.0-beta.21"
+    sharedb-redis-pubsub: "npm:^2.0.1"
+  peerDependencies:
+    mongodb: ">=4.0.0"
+    nconf: "*"
+  checksum: ee167b68f11952d0edf1831458b1dedaa665950f8e180a28f9e4f148cf8101e4955fdc8172cec5df747578b7ce3af05e2d7433519f734fea2a28eb6f9cb403e8
+  languageName: node
+  linkType: hard
+
+"@startupjs/backend@npm:^0.55.0-alpha.1, @startupjs/backend@workspace:packages/backend":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/backend@workspace:packages/backend"
+  dependencies:
+    "@startupjs/server-aggregate": "npm:^0.55.0-alpha.1"
+    "@startupjs/sharedb-access": "npm:^0.55.0-alpha.1"
+    "@startupjs/sharedb-schema": "npm:^0.55.0-alpha.1"
     ioredis: "npm:^4.28.2"
     mongodb: "npm:^4.0.0"
     racer: "npm:1.0.1"
@@ -5941,7 +6129,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/bundler@npm:^0.55.0-alpha.0, @startupjs/bundler@workspace:packages/bundler":
+"@startupjs/bundler@npm:^0.55.0-alpha.1, @startupjs/bundler@workspace:packages/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:packages/bundler"
   dependencies:
@@ -5951,12 +6139,12 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-1"
-    "@startupjs/plugin": "npm:^0.54.1"
+    "@startupjs/plugin": "npm:^0.55.0-alpha.1"
     "@svgr/webpack": "npm:~7.0.0"
     assets-webpack-plugin: "npm:^7.1.1"
     autoprefixer: "npm:^10.4.0"
     babel-loader: "npm:^8.2.3"
-    babel-preset-startupjs: "npm:^0.55.0-alpha.0"
+    babel-preset-startupjs: "npm:^0.55.0-alpha.1"
     css-loader: "npm:^6.5.0"
     css-minimizer-webpack-plugin: "npm:^5.0.0"
     file-loader: "npm:^6.2.0"
@@ -5981,15 +6169,48 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cache@npm:^0.54.2, @startupjs/cache@workspace:packages/cache":
+"@startupjs/cache@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/cache@npm:0.54.2"
+  dependencies:
+    "@startupjs/debug": "npm:^0.54.2"
+  checksum: 93be95ef6cb5f2f8c58bb6532200c066806aba48d8cfb195c58822bdc61e78e26382d194d7d3440c34f459e4c9b51593d6a1085c6abf00c96909c6cfe7de9d90
+  languageName: node
+  linkType: hard
+
+"@startupjs/cache@npm:^0.55.0-alpha.1, @startupjs/cache@workspace:packages/cache":
   version: 0.0.0-use.local
   resolution: "@startupjs/cache@workspace:packages/cache"
   dependencies:
-    "@startupjs/debug": "npm:^0.54.2"
+    "@startupjs/debug": "npm:^0.55.0-alpha.1"
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.54.13, @startupjs/cli@workspace:packages/cli":
+"@startupjs/cli@npm:^0.54.13":
+  version: 0.54.13
+  resolution: "@startupjs/cli@npm:0.54.13"
+  dependencies:
+    commander: "npm:^3.0.1"
+    concurrently: "npm:^6.4.0"
+    cross-env: "npm:^7.0.3"
+    execa: "npm:^2.0.4"
+    fonteditor-core: "npm:2.1.11"
+    glob: "npm:^7.1.6"
+    just-wait: "npm:^1.0.11"
+    lodash: "npm:^4.17.20"
+    nodemon: "npm:2.0.22"
+    react-native-asset: "npm:2.0.1"
+    rimraf: "npm:^3.0.2"
+    source-map-support: "npm:^0.5.19"
+    wait-on: "npm:^5.2.1"
+    webpack: "npm:^5.60.0"
+    webpack-cli: "npm:^4.9.1"
+    webpack-dev-server: "npm:^4.4.0"
+  checksum: 19077124a9d89fc3bb7f13927396a298f1dcafb3af647ec771ec1d534f1780877d861b8c55195a2da08fd4a51e0f4edc80480149b5c50022eef30d2248af16e8
+  languageName: node
+  linkType: hard
+
+"@startupjs/cli@npm:^0.55.0-alpha.1, @startupjs/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:packages/cli"
   dependencies:
@@ -6032,7 +6253,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/debug@npm:^0.54.2, @startupjs/debug@workspace:packages/debug":
+"@startupjs/debug@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/debug@npm:0.54.2"
+  checksum: ef707320e3ecc2fdc26908d2d862301a8a66e6a4a4b2a57208ae94a449515c32facde2a3d23aa7adb3607a1d0834ed49668fac8f34c4ab8c6d1a46382ddb6c1b
+  languageName: node
+  linkType: hard
+
+"@startupjs/debug@npm:^0.55.0-alpha.1, @startupjs/debug@workspace:packages/debug":
   version: 0.0.0-use.local
   resolution: "@startupjs/debug@workspace:packages/debug"
   languageName: unknown
@@ -6066,9 +6294,9 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.55.0-alpha.0"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.0"
-    "@startupjs/ui": "npm:^0.55.0-alpha.0"
+    "@startupjs/mdx": "npm:^0.55.0-alpha.1"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.1"
+    "@startupjs/ui": "npm:^0.55.0-alpha.1"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
     react: "*"
@@ -6094,7 +6322,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/hooks@npm:^0.54.2, @startupjs/hooks@workspace:packages/hooks":
+"@startupjs/hooks@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/hooks@npm:0.54.2"
+  peerDependencies:
+    react: "*"
+  checksum: 28595ef16e469a80834224cffbc1c01ba70c67ff54b529d1a3c7bf6e9b3717faf32016b582b992a872b7bac323f1b299f6a57638b62cd51924b7a54dab97b307
+  languageName: node
+  linkType: hard
+
+"@startupjs/hooks@npm:^0.55.0-alpha.1, @startupjs/hooks@workspace:packages/hooks":
   version: 0.0.0-use.local
   resolution: "@startupjs/hooks@workspace:packages/hooks"
   dependencies:
@@ -6132,7 +6369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/i18n@npm:^0.55.0-alpha.0, @startupjs/i18n@workspace:packages/i18n":
+"@startupjs/i18n@npm:^0.55.0-alpha.1, @startupjs/i18n@workspace:packages/i18n":
   version: 0.0.0-use.local
   resolution: "@startupjs/i18n@workspace:packages/i18n"
   dependencies:
@@ -6149,7 +6386,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/init@npm:^0.54.6, @startupjs/init@workspace:packages/init":
+"@startupjs/init@npm:^0.54.6":
+  version: 0.54.6
+  resolution: "@startupjs/init@npm:0.54.6"
+  dependencies:
+    "@startupjs/react-sharedb": "npm:^0.54.6"
+    racer: "npm:1.0.1"
+    rich-text: "npm:^4.0.0"
+    sharedb: "npm:^2.0.0"
+  peerDependencies:
+    "@startupjs/orm": "*"
+    axios: "*"
+  checksum: 84448300d1f8d5c98756358543b9df600f5e43ba5e6d1c48ad4643d2571b6daea53ccda5de80782abc452316b1c69182204756dd1939b1229912beb5d53831d2
+  languageName: node
+  linkType: hard
+
+"@startupjs/init@npm:^0.55.0-alpha.1, @startupjs/init@workspace:packages/init":
   version: 0.0.0-use.local
   resolution: "@startupjs/init@workspace:packages/init"
   dependencies:
@@ -6162,7 +6414,7 @@ __metadata:
     "@babel/preset-stage-0": "npm:^7.0.0"
     "@babel/register": "npm:^7.0.0"
     "@babel/runtime": "npm:^7.0.0"
-    "@startupjs/react-sharedb": "npm:^0.54.6"
+    "@startupjs/react-sharedb": "npm:^0.55.0-alpha.1"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
     racer: "npm:1.0.1"
@@ -6174,7 +6426,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/isomorphic-helpers@npm:^0.54.2, @startupjs/isomorphic-helpers@workspace:packages/isomorphic-helpers":
+"@startupjs/isomorphic-helpers@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/isomorphic-helpers@npm:0.54.2"
+  checksum: 9e458fa597300fbd257aa307dc793f13bffbaeff2a22871af95d21a1321925cabce3876fc5d11382e2e9475675abe757453cd42d2f938bf0144d10af5b34482c
+  languageName: node
+  linkType: hard
+
+"@startupjs/isomorphic-helpers@npm:^0.55.0-alpha.1, @startupjs/isomorphic-helpers@workspace:packages/isomorphic-helpers":
   version: 0.0.0-use.local
   resolution: "@startupjs/isomorphic-helpers@workspace:packages/isomorphic-helpers"
   languageName: unknown
@@ -6209,13 +6468,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/mdx@npm:^0.55.0-alpha.0, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.0"
-    "@startupjs/ui": "npm:^0.55.0-alpha.0"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.1"
+    "@startupjs/ui": "npm:^0.55.0-alpha.1"
     refractor: "npm:^3.0.0"
   peerDependencies:
     "@react-native-clipboard/clipboard": "*"
@@ -6223,7 +6482,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/model@npm:^0.54.1, @startupjs/model@workspace:packages/model":
+"@startupjs/model@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/model@npm:0.54.1"
+  dependencies:
+    racer: "npm:1.0.1"
+    racer-highway: "npm:^10.0.1"
+  checksum: 0ee7f9fac3f2783dcb65ce532372ebe51a754458f22a83b03c83f4306ecb6c6df6bb20a739bcdd45ba8e4d4d832eabc158a4e5ddb0cd0cb8a8c22de260d0a916
+  languageName: node
+  linkType: hard
+
+"@startupjs/model@npm:^0.55.0-alpha.1, @startupjs/model@workspace:packages/model":
   version: 0.0.0-use.local
   resolution: "@startupjs/model@workspace:packages/model"
   dependencies:
@@ -6246,7 +6515,7 @@ __metadata:
     "@babel/register": "npm:^7.0.0"
     "@babel/runtime": "npm:^7.0.0"
     "@js-code/native-store": "npm:0.0.2"
-    "@startupjs/model": "npm:^0.54.1"
+    "@startupjs/model": "npm:^0.55.0-alpha.1"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
     racer: "npm:1.0.1"
@@ -6256,11 +6525,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/orm@npm:^0.54.2, @startupjs/orm@workspace:packages/orm":
+"@startupjs/orm@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/orm@npm:0.54.2"
+  dependencies:
+    "@startupjs/cache": "npm:^0.54.2"
+    pluralize: "npm:^8.0.0"
+    racer: "npm:1.0.1"
+  checksum: bea3daa579fd216bd2f9e5cbe34bc7e463c42421b90f63a5fb0255011031d6e36ce11e815cd1f1fab2d03069ce611bafd8a7bf07c2282b8f9f8a7247a1a87d4b
+  languageName: node
+  linkType: hard
+
+"@startupjs/orm@npm:^0.55.0-alpha.1, @startupjs/orm@workspace:packages/orm":
   version: 0.0.0-use.local
   resolution: "@startupjs/orm@workspace:packages/orm"
   dependencies:
-    "@startupjs/cache": "npm:^0.54.2"
+    "@startupjs/cache": "npm:^0.55.0-alpha.1"
     pluralize: "npm:^8.0.0"
     racer: "npm:1.0.1"
   languageName: unknown
@@ -6275,7 +6555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/patches@npm:^0.55.0-alpha.0, @startupjs/patches@workspace:packages/patches":
+"@startupjs/patches@npm:^0.55.0-alpha.1, @startupjs/patches@workspace:packages/patches":
   version: 0.0.0-use.local
   resolution: "@startupjs/patches@workspace:packages/patches"
   dependencies:
@@ -6283,7 +6563,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/plugin@npm:^0.54.1, @startupjs/plugin@workspace:packages/plugin":
+"@startupjs/plugin@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/plugin@npm:0.54.1"
+  dependencies:
+    resolve: "npm:^1.20.0"
+  checksum: d7bf3c29b51a7d0dfab1270c9ad9effec62e68aeb48ee9e264a3872af3ad1711992541e651289c8b173c2a5316faf0ad612d8820e81faf332259ed287714db4e
+  languageName: node
+  linkType: hard
+
+"@startupjs/plugin@npm:^0.55.0-alpha.1, @startupjs/plugin@workspace:packages/plugin":
   version: 0.0.0-use.local
   resolution: "@startupjs/plugin@workspace:packages/plugin"
   dependencies:
@@ -6318,9 +6607,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb-classes@npm:^0.54.2, @startupjs/react-sharedb-classes@workspace:packages/react-sharedb-classes":
-  version: 0.0.0-use.local
-  resolution: "@startupjs/react-sharedb-classes@workspace:packages/react-sharedb-classes"
+"@startupjs/react-sharedb-classes@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/react-sharedb-classes@npm:0.54.2"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/model": "npm:^0.54.1"
@@ -6330,12 +6619,28 @@ __metadata:
     lodash: "npm:^4.17.20"
   peerDependencies:
     react: "*"
+  checksum: 27759a9e5b76a1c972a2b0d4817964af0b2ecebe0689481ac57c1b4995d996e7b0d4078898becd88c10c6584d6ed777afad3e27ba23b3fd949690901c3b0688d
+  languageName: node
+  linkType: hard
+
+"@startupjs/react-sharedb-classes@npm:^0.55.0-alpha.1, @startupjs/react-sharedb-classes@workspace:packages/react-sharedb-classes":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/react-sharedb-classes@workspace:packages/react-sharedb-classes"
+  dependencies:
+    "@nx-js/observer-util": "npm:^4.1.3"
+    "@startupjs/model": "npm:^0.55.0-alpha.1"
+    "@startupjs/react-sharedb-util": "npm:^0.55.0-alpha.1"
+    co: "npm:~4.6.0"
+    hoist-non-react-statics: "npm:^1.2.0"
+    lodash: "npm:^4.17.20"
+  peerDependencies:
+    react: "*"
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb-hooks@npm:^0.54.6, @startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks":
-  version: 0.0.0-use.local
-  resolution: "@startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks"
+"@startupjs/react-sharedb-hooks@npm:^0.54.6":
+  version: 0.54.6
+  resolution: "@startupjs/react-sharedb-hooks@npm:0.54.6"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/cache": "npm:^0.54.2"
@@ -6347,12 +6652,30 @@ __metadata:
     lodash: "npm:^4.17.20"
   peerDependencies:
     react: "*"
+  checksum: ba33fade5d74c319780c981c95e48edb2b9c8028ccaf043d7ca671842d0bf4a27d88c47aaf57f8fc184f23c61794328d306b13c9379f2b730c12da35bdd59945
+  languageName: node
+  linkType: hard
+
+"@startupjs/react-sharedb-hooks@npm:^0.55.0-alpha.1, @startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks"
+  dependencies:
+    "@nx-js/observer-util": "npm:^4.1.3"
+    "@startupjs/cache": "npm:^0.55.0-alpha.1"
+    "@startupjs/debug": "npm:^0.55.0-alpha.1"
+    "@startupjs/model": "npm:^0.55.0-alpha.1"
+    "@startupjs/react-sharedb-util": "npm:^0.55.0-alpha.1"
+    "@startupjs/signals": "npm:^0.55.0-alpha.1"
+    co: "npm:~4.6.0"
+    lodash: "npm:^4.17.20"
+  peerDependencies:
+    react: "*"
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb-util@npm:^0.54.2, @startupjs/react-sharedb-util@workspace:packages/react-sharedb-util":
-  version: 0.0.0-use.local
-  resolution: "@startupjs/react-sharedb-util@workspace:packages/react-sharedb-util"
+"@startupjs/react-sharedb-util@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/react-sharedb-util@npm:0.54.2"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/model": "npm:^0.54.1"
@@ -6360,10 +6683,43 @@ __metadata:
     racer: "npm:1.0.1"
   peerDependencies:
     react: "*"
+  checksum: 73b05f5b291b651effa1bf4693279f4f0bf90304031283a2ffdf7d3c19c15dd0b4a6c64b98e5d445fb4d0d55e7dd40917ab2ab2161e878055b117acbf73977a1
+  languageName: node
+  linkType: hard
+
+"@startupjs/react-sharedb-util@npm:^0.55.0-alpha.1, @startupjs/react-sharedb-util@workspace:packages/react-sharedb-util":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/react-sharedb-util@workspace:packages/react-sharedb-util"
+  dependencies:
+    "@nx-js/observer-util": "npm:^4.1.3"
+    "@startupjs/model": "npm:^0.55.0-alpha.1"
+    lodash: "npm:^4.17.20"
+    racer: "npm:1.0.1"
+  peerDependencies:
+    react: "*"
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb@npm:^0.54.6, @startupjs/react-sharedb@workspace:packages/react-sharedb":
+"@startupjs/react-sharedb@npm:^0.54.6":
+  version: 0.54.6
+  resolution: "@startupjs/react-sharedb@npm:0.54.6"
+  dependencies:
+    "@nx-js/observer-util": "npm:^4.1.3"
+    "@startupjs/model": "npm:^0.54.1"
+    "@startupjs/react-sharedb-classes": "npm:^0.54.2"
+    "@startupjs/react-sharedb-hooks": "npm:^0.54.6"
+    "@startupjs/react-sharedb-util": "npm:^0.54.2"
+    hoist-non-react-statics: "npm:^1.2.0"
+    lodash: "npm:^4.17.20"
+    racer: "npm:1.0.1"
+    rich-text: "npm:^4.0.0"
+  peerDependencies:
+    react: "*"
+  checksum: bffb699a5e2f45e6473878517dfd167d1f96d4ff437d42cff25669df8a7621c134fa9669876cfca4e7311c1db84727e453ed82037463531137bcccc27b725ea3
+  languageName: node
+  linkType: hard
+
+"@startupjs/react-sharedb@npm:^0.55.0-alpha.1, @startupjs/react-sharedb@workspace:packages/react-sharedb":
   version: 0.0.0-use.local
   resolution: "@startupjs/react-sharedb@workspace:packages/react-sharedb"
   dependencies:
@@ -6378,10 +6734,10 @@ __metadata:
     "@babel/runtime": "npm:^7.0.0"
     "@nx-js/observer-util": "npm:^4.1.3"
     "@oskarer/enzyme-wait": "npm:^1.3.0"
-    "@startupjs/model": "npm:^0.54.1"
-    "@startupjs/react-sharedb-classes": "npm:^0.54.2"
-    "@startupjs/react-sharedb-hooks": "npm:^0.54.6"
-    "@startupjs/react-sharedb-util": "npm:^0.54.2"
+    "@startupjs/model": "npm:^0.55.0-alpha.1"
+    "@startupjs/react-sharedb-classes": "npm:^0.55.0-alpha.1"
+    "@startupjs/react-sharedb-hooks": "npm:^0.55.0-alpha.1"
+    "@startupjs/react-sharedb-util": "npm:^0.55.0-alpha.1"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
     bluebird: "npm:^3.5.1"
@@ -6410,7 +6766,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/recaptcha@npm:^0.54.0, @startupjs/recaptcha@npm:^0.54.2, @startupjs/recaptcha@workspace:packages/recaptcha":
+"@startupjs/recaptcha@npm:^0.54.0, @startupjs/recaptcha@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/recaptcha@npm:0.54.2"
+  peerDependencies:
+    prop-types: "*"
+    react: "*"
+    react-native: "*"
+    react-native-webview: "*"
+  checksum: d9c9b94c5c6450c47601c27f098eae9a7b93b3671d4bb4d74c66e8e87da607cb17603ca34b142b3eccbf4863a6748f8c0786eb0a6f8ade2eabc41a0ed06750a6
+  languageName: node
+  linkType: hard
+
+"@startupjs/recaptcha@npm:^0.55.0-alpha.1, @startupjs/recaptcha@workspace:packages/recaptcha":
   version: 0.0.0-use.local
   resolution: "@startupjs/recaptcha@workspace:packages/recaptcha"
   peerDependencies:
@@ -6431,16 +6799,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/scrollable-anchors@npm:^0.55.0-alpha.0, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.55.0-alpha.1, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
-    "@startupjs/ui": "npm:^0.55.0-alpha.0"
-    startupjs: "npm:^0.55.0-alpha.0"
+    "@startupjs/ui": "npm:^0.55.0-alpha.1"
+    startupjs: "npm:^0.55.0-alpha.1"
   languageName: unknown
   linkType: soft
 
-"@startupjs/server-aggregate@npm:^0.54.1, @startupjs/server-aggregate@workspace:packages/server-aggregate":
+"@startupjs/server-aggregate@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/server-aggregate@npm:0.54.1"
+  dependencies:
+    racer: "npm:1.0.1"
+  checksum: d865f4c935d57229d7a1146a4b4d51d00f4f515c475776e496bd30dd5f541927be0f3b390250342d5b2b23a7becb11f266224b1948f78b172d9828c35adfec78
+  languageName: node
+  linkType: hard
+
+"@startupjs/server-aggregate@npm:^0.55.0-alpha.1, @startupjs/server-aggregate@workspace:packages/server-aggregate":
   version: 0.0.0-use.local
   resolution: "@startupjs/server-aggregate@workspace:packages/server-aggregate"
   dependencies:
@@ -6448,11 +6825,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/server@npm:^0.54.2, @startupjs/server@workspace:packages/server":
+"@startupjs/server@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/server@npm:0.54.2"
+  dependencies:
+    "@startupjs/backend": "npm:^0.54.2"
+    body-parser: "npm:1.20.0"
+    compression: "npm:^1.6.0"
+    connect-mongo: "npm:^4.4.1"
+    cookie-parser: "npm:~1.3.2"
+    cors: "npm:^2.8.5"
+    express-session: "npm:^1.17.2"
+    hsts: "npm:^2.1.0"
+    lodash: "npm:^4.17.20"
+    method-override: "npm:~2.3.10"
+    racer-highway: "npm:^10.0.1"
+  peerDependencies:
+    express: 4.x
+    nconf: "*"
+  checksum: 22d36881341d04f19450fd70225e34f04cec8c598fd7ce0fba76156c8f181f465ad4c49d8e9466afaa6cf7eafe6fc46203c6ac0ced4d92e0e795bc08c6543e58
+  languageName: node
+  linkType: hard
+
+"@startupjs/server@npm:^0.55.0-alpha.1, @startupjs/server@workspace:packages/server":
   version: 0.0.0-use.local
   resolution: "@startupjs/server@workspace:packages/server"
   dependencies:
-    "@startupjs/backend": "npm:^0.54.2"
+    "@startupjs/backend": "npm:^0.55.0-alpha.1"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -6469,14 +6868,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/sharedb-access@npm:^0.54.2, @startupjs/sharedb-access@workspace:packages/sharedb-access":
+"@startupjs/sharedb-access@npm:^0.54.2":
+  version: 0.54.2
+  resolution: "@startupjs/sharedb-access@npm:0.54.2"
+  dependencies:
+    debug: "npm:*"
+    lodash: "npm:^4.17.20"
+  checksum: 24a251bad7dbac7c8733a28bcad28292fbf5577a065e44798b9b7651ae2267594c99dece95a4bdab48607e1baff8c954243e164bb86287db255795e1f67b9dc5
+  languageName: node
+  linkType: hard
+
+"@startupjs/sharedb-access@npm:^0.55.0-alpha.1, @startupjs/sharedb-access@workspace:packages/sharedb-access":
   version: 0.0.0-use.local
   resolution: "@startupjs/sharedb-access@workspace:packages/sharedb-access"
   dependencies:
     "@babel/cli": "npm:^7.11.6"
     "@babel/core": "npm:^7.11.6"
     "@babel/preset-env": "npm:^7.11.5"
-    "@startupjs/orm": "npm:^0.54.2"
+    "@startupjs/orm": "npm:^0.55.0-alpha.1"
     chai: "npm:^4.2.0"
     debug: "npm:*"
     lodash: "npm:^4.17.20"
@@ -6486,7 +6895,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/sharedb-schema@npm:^0.54.1, @startupjs/sharedb-schema@workspace:packages/sharedb-schema":
+"@startupjs/sharedb-schema@npm:^0.54.1":
+  version: 0.54.1
+  resolution: "@startupjs/sharedb-schema@npm:0.54.1"
+  dependencies:
+    z-schema: "npm:^4.2.3"
+  checksum: 832df2144101dd3837ea590658567e7eed04f37f78d5aeda2d3a8d27b04e2a8a555d862d57a23dfe624d74471a4a7a6eeae1ac1101308c9aac98002c8a99e4c9
+  languageName: node
+  linkType: hard
+
+"@startupjs/sharedb-schema@npm:^0.55.0-alpha.1, @startupjs/sharedb-schema@workspace:packages/sharedb-schema":
   version: 0.0.0-use.local
   resolution: "@startupjs/sharedb-schema@workspace:packages/sharedb-schema"
   dependencies:
@@ -6498,11 +6916,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/signals@npm:^0.54.5, @startupjs/signals@workspace:packages/signals":
+"@startupjs/signals@npm:^0.54.5":
+  version: 0.54.5
+  resolution: "@startupjs/signals@npm:0.54.5"
+  dependencies:
+    "@startupjs/model": "npm:^0.54.1"
+  checksum: ef437be16d3107c87a2a0222164b5d62f57a1c68ab5b01de2de1e49c956fd01384a187ba8f45e8a82f85b9e32b441a2a6573480bd16b2c50aa81919e596ff48e
+  languageName: node
+  linkType: hard
+
+"@startupjs/signals@npm:^0.55.0-alpha.1, @startupjs/signals@workspace:packages/signals":
   version: 0.0.0-use.local
   resolution: "@startupjs/signals@workspace:packages/signals"
   dependencies:
-    "@startupjs/model": "npm:^0.54.1"
+    "@startupjs/model": "npm:^0.55.0-alpha.1"
     "@ungap/weakrefs": "npm:^0.2.0"
   languageName: unknown
   linkType: soft
@@ -6594,7 +7021,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/ui@npm:^0.55.0-alpha.0, @startupjs/ui@workspace:packages/ui":
+"@startupjs/ui@npm:^0.55.0-alpha.1, @startupjs/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:packages/ui"
   dependencies:
@@ -6604,7 +7031,7 @@ __metadata:
     "@fortawesome/react-native-fontawesome": "npm:^0.2.6"
     "@nx-js/observer-util": "npm:^4.1.3"
     "@ptomasroos/react-native-multi-slider": ptomasroos/react-native-multi-slider
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.0"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.1"
     color: "npm:^3.1.2"
     date-fns: "npm:^2.0.1"
     moment-timezone: "npm:^0.5.31"
@@ -6632,12 +7059,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/vite-plugin-startupjs@workspace:packages/vite-plugin-startupjs"
   dependencies:
-    "@startupjs/babel-plugin-dotenv": "npm:^0.54.1"
-    "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.54.1"
-    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.54.1"
-    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.55.0-alpha.0"
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.0"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.0"
+    "@startupjs/babel-plugin-dotenv": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.1"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.1"
     "@vitejs/plugin-react": "npm:^1.0.6"
     babel-plugin-transform-react-pug: "npm:^7.0.1"
   languageName: unknown
@@ -9678,7 +10105,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.55.0-alpha.0, babel-preset-startupjs@workspace:packages/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.55.0-alpha.1, babel-preset-startupjs@workspace:packages/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:packages/babel-preset-startupjs"
   dependencies:
@@ -9696,17 +10123,17 @@ __metadata:
     "@babel/plugin-transform-runtime": "npm:^7.0.0"
     "@babel/plugin-transform-typescript": "npm:^7.5.0"
     "@babel/runtime": "npm:^7.9.0"
-    "@startupjs/babel-plugin-dotenv": "npm:^0.54.1"
-    "@startupjs/babel-plugin-i18n-extract": "npm:^0.54.1"
-    "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.54.1"
+    "@startupjs/babel-plugin-dotenv": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-i18n-extract": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.55.0-alpha.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
-    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.54.1"
-    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.55.0-alpha.0"
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.0"
-    "@startupjs/babel-plugin-startupjs": "npm:^0.55.0-alpha.0"
-    "@startupjs/babel-plugin-startupjs-debug": "npm:^0.54.1"
-    "@startupjs/babel-plugin-startupjs-utils": "npm:^0.54.1"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.0"
+    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-startupjs": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-startupjs-debug": "npm:^0.55.0-alpha.1"
+    "@startupjs/babel-plugin-startupjs-utils": "npm:^0.55.0-alpha.1"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.1"
     babel-plugin-module-resolver: "npm:^5.0.0"
     babel-plugin-react-native-platform-specific-extensions: "npm:^1.1.1"
     babel-plugin-react-native-web-pass-classname: "npm:^0.2.1"
@@ -29569,24 +29996,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.55.0-alpha.0, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.55.0-alpha.1, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
-    "@startupjs/app": "npm:^0.55.0-alpha.0"
-    "@startupjs/backend": "npm:^0.54.2"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.0"
-    "@startupjs/cli": "npm:^0.54.13"
+    "@startupjs/app": "npm:^0.55.0-alpha.1"
+    "@startupjs/backend": "npm:^0.55.0-alpha.1"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.1"
+    "@startupjs/cli": "npm:^0.55.0-alpha.1"
     "@startupjs/docker": "npm:^0.54.0"
-    "@startupjs/hooks": "npm:^0.54.2"
-    "@startupjs/i18n": "npm:^0.55.0-alpha.0"
-    "@startupjs/init": "npm:^0.54.6"
-    "@startupjs/isomorphic-helpers": "npm:^0.54.2"
-    "@startupjs/orm": "npm:^0.54.2"
-    "@startupjs/patches": "npm:^0.55.0-alpha.0"
-    "@startupjs/react-sharedb": "npm:^0.54.6"
-    "@startupjs/server": "npm:^0.54.2"
-    babel-preset-startupjs: "npm:^0.55.0-alpha.0"
+    "@startupjs/hooks": "npm:^0.55.0-alpha.1"
+    "@startupjs/i18n": "npm:^0.55.0-alpha.1"
+    "@startupjs/init": "npm:^0.55.0-alpha.1"
+    "@startupjs/isomorphic-helpers": "npm:^0.55.0-alpha.1"
+    "@startupjs/orm": "npm:^0.55.0-alpha.1"
+    "@startupjs/patches": "npm:^0.55.0-alpha.1"
+    "@startupjs/react-sharedb": "npm:^0.55.0-alpha.1"
+    "@startupjs/server": "npm:^0.55.0-alpha.1"
+    babel-preset-startupjs: "npm:^0.55.0-alpha.1"
     react-native-web: "npm:^0.18.0"
   bin:
     startupjs: ./cli.js
