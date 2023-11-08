@@ -30,6 +30,6 @@ export default observer(function Search () {
   styl`
     .root
       &:part(icon)
-        color: $UI.colors.darkLighter
+        color var(--color-text-placeholder)
   `
 })

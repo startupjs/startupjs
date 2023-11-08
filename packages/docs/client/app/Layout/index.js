@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { pug, emit, observer, useModel } from 'startupjs'
+import { pug, emit, observer, useModel, $ } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
 import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
@@ -51,6 +51,7 @@ const Search = observer(function Search () {
   }, [])
 
   function onChange (value) {
+    if (!value) return
     setValue({})
     // TODO: replaced from Menu.Item 'to' property
     emit('url', value.value)
@@ -87,7 +88,7 @@ const Topbar = observer(function Topbar () {
 
   return pug`
     Row.topbar
-      Button(testID='button' variant='text' icon=faBars onPress=toggleSidebar color='darkLight')
+      Button(testID='button' variant='text' icon=faBars onPress=toggleSidebar color='text-description')
       Div.searchWrapper
         Search
   `
@@ -97,7 +98,7 @@ export default observer(function StyleguideLayout ({ children }) {
   // Note: Topbar height is compensated in PDoc
   //       to achieve a semi-transparent effect
   return pug`
-    MDXProvider
+    MDXProvider(key=$.session.theme.get())
       Layout.layout(testID="Layout")
         Sidebar
           Topbar

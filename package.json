@@ -27,7 +27,8 @@
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
-    "publish-alpha": "yarn before-publish && npx lerna publish preminor --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-alpha": "yarn before-publish && npx lerna publish preminor --force-publish --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-alpha-patch": "yarn before-publish && npx lerna publish prerelease --dist-tag next --no-push && yarn publish-update-changelog",
     "before-publish": "./scripts/tasks.sh before-publish",
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "wdio": "wdio run ./wdio.conf.js"

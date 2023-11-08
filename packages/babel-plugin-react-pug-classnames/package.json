@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-react-pug-classnames",
-  "version": "0.54.1",
+  "version": "0.55.0-alpha.1",
   "publishConfig": {
     "access": "public"
   },

@@ -187,8 +187,8 @@ export default function wrapInput (Component, configuration) {
 }
 
 styl`
-  $errorColor = $UI.colors.attention
-  $focusedColor = $UI.colors.primary
+  $errorColor = var(--color-text-error)
+  $focusedColor = var(--color-text-primary)
 
   // common
   .label

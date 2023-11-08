@@ -1,36 +1,26 @@
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Label from './Label'
-import styles from './index.styl'
+import './index.styl'
 
-function RangeInput (props) {
-  const {
-    customLabel,
-    showLabel,
-    min,
-    max,
-    range,
-    showSteps,
-    showStepLabels,
-    showStepMarkers,
-    step,
-    value,
-    width,
-    containerStyle,
-    selectedStyle,
-    stepLabelStyle,
-    stepMarkerStyle,
-    stepStyle,
-    trackStyle,
-    markerStyle,
-    onChange,
-    onChangeFinish,
-    onChangeStart
-  } = props
-
+function RangeInput ({
+  customLabel,
+  showLabel,
+  min,
+  max,
+  range,
+  showSteps,
+  showStepLabels,
+  showStepMarkers,
+  step,
+  value,
+  width,
+  onChange,
+  onChangeFinish,
+  onChangeStart
+}) {
   useMemo(function () {
     if (typeof value === 'undefined' || value === null) {
       // to initialize a model with default value if it is missing
@@ -51,7 +41,7 @@ function RangeInput (props) {
   }
 
   return pug`
-    MultiSlider(
+    MultiSlider.root(
       customLabel=customLabel
       enableLabel=showLabel
       enabledTwo=range
@@ -64,13 +54,6 @@ function RangeInput (props) {
       snapped
       step=step
       values=values
-      selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
-      containerStyle=StyleSheet.flatten([styles.container, containerStyle]),
-      stepLabelStyle=StyleSheet.flatten([styles.stepLabel, stepLabelStyle]),
-      stepMarkerStyle=StyleSheet.flatten([styles.stepMarker, stepMarkerStyle])
-      stepStyle=stepStyle
-      trackStyle=StyleSheet.flatten([styles.track, trackStyle]),
-      markerStyle=StyleSheet.flatten([styles.marker, markerStyle]),
       onValuesChange=onValuesChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart

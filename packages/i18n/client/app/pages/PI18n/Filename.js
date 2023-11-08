@@ -17,7 +17,7 @@ export default observer(function Filename ({ style, meta }) {
     .file
       padding-bottom 0.5u
       border-bottom-width 1px
-      border-bottom color $UI.colors.dark
+      border-bottom color var(--color-border-secondary)
     .filename
       font(h6)
   `

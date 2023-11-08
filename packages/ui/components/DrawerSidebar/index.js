@@ -11,9 +11,7 @@ import {
 } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
+import useColors from '../../hooks/useColors'
 
 const DrawerLayout = DrawerLayoutModule.default || DrawerLayoutModule
 if (!DrawerLayout) throw Error('> Can\'t load DrawerLayout module. Issues with bundling.')
@@ -32,6 +30,7 @@ function DrawerSidebar ({
   renderContent,
   ...props
 }) {
+  const getColor = useColors()
   if (path) {
     console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
@@ -43,7 +42,7 @@ function DrawerSidebar ({
   }
 
   let backgroundColor
-  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten(style))
+  ;({ backgroundColor = getColor('bg-strong'), ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange

@@ -385,10 +385,10 @@ commander
     try {
       await execa.command(
         `${path.join(__dirname, 'corepack.sh')} ${yarn}`,
-        { shell: true }
+        { shell: true, stdio: 'inherit' }
       )
     } catch (e) {
-      console.error(e.stderr)
+      throw Error('Setup corepack: ', e)
     }
 
     const projectPath = path.join(process.cwd(), LOCAL_DIR, projectName)
@@ -413,6 +413,20 @@ commander
       projectName
     ].concat(['--version', reactNative]), {
       cwd: path.join(process.cwd(), LOCAL_DIR),
+      stdio: 'inherit'
+    })
+
+    // specify yarn version
+    await execa('rm', ['-rf', 'node_modules'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('rm', ['-f', 'yarn.lock'], {
+      cwd: projectPath,
+      stdio: 'inherit'
+    })
+    await execa('corepack', ['use', `yarn@${yarn}`], {
+      cwd: projectPath,
       stdio: 'inherit'
     })
 

@@ -1,3 +1,68 @@
+# [0.55.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.0...v0.55.0-alpha.1) (2023-11-08)
+
+
+### Bug Fixes
+
+* **publish commands:** add force publish option to 'publish-alpha' command, add new 'publish-alpha-patch' command ([3a1c611](https://github.com/startupjs/startupjs/commit/3a1c611f037fcd3389c94fdd86c708c719d07d41))
+* **signals:** add polyfill for WeakRef ([68c9bed](https://github.com/startupjs/startupjs/commit/68c9bed91777ac630275cf36dc1f83dec82b05d1))
+* **signals:** change polyfill for FinalizationRegistry ([a3bbb12](https://github.com/startupjs/startupjs/commit/a3bbb122452ddcf6ede1f9d4872d2d6ab37c4faf))
+
+
+
+# [0.55.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.54.13...v0.55.0-alpha.0) (2023-11-07)
+
+
+### Features
+
+* implement dynamic CSS variables ([#1047](https://github.com/startupjs/startupjs/issues/1047)) ([dc3987b](https://github.com/startupjs/startupjs/commit/dc3987be2bf57b2b0af70e4e83336f3e5480deef))
+
+
+
+## [0.54.13](https://github.com/startupjs/startupjs/compare/v0.54.12...v0.54.13) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** fix removing yarn.lock ([a11a1b7](https://github.com/startupjs/startupjs/commit/a11a1b7aea07cc5b7431db6bd27dfa71ddae463b))
+
+
+
+## [0.54.12](https://github.com/startupjs/startupjs/compare/v0.54.11...v0.54.12) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** improve installation of corepack yarn version ([f5db40d](https://github.com/startupjs/startupjs/commit/f5db40d99d1ff9c39a5cc3d4ec6ed09a641f8c42))
+
+
+
+## [0.54.11](https://github.com/startupjs/startupjs/compare/v0.54.10...v0.54.11) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** remove installation of yarn from sh script ([48b23ce](https://github.com/startupjs/startupjs/commit/48b23ce2a3b182cef64d4c40c2d83703be1b878e))
+
+
+
+## [0.54.10](https://github.com/startupjs/startupjs/compare/v0.54.9...v0.54.10) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** run the installation of corepack package manager version after generating project ([904cfce](https://github.com/startupjs/startupjs/commit/904cfce26a740953d6fb46dec38fa84fb5c6be17))
+
+
+
+## [0.54.9](https://github.com/startupjs/startupjs/compare/v0.54.8...v0.54.9) (2023-11-07)
+
+
+### Bug Fixes
+
+* **cli:** pass stdio option when executing corepack script to handle user input ([ca14131](https://github.com/startupjs/startupjs/commit/ca141310377bd1762ab2416bb9ab8a257d786197))
+
+
+
 ## [0.54.8](https://github.com/startupjs/startupjs/compare/v0.54.7...v0.54.8) (2023-11-03)
 
 
