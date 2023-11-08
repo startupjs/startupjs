@@ -6580,6 +6580,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/pm@workspace:packages/pm":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/pm@workspace:packages/pm"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/push-notifications@npm:^0.54.0":
   version: 0.54.2
   resolution: "@startupjs/push-notifications@npm:0.54.2"
