@@ -5830,6 +5830,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:packages/cli"
   dependencies:
+    "@startupjs/pm": "npm:0.55.0-alpha.1"
     commander: "npm:^3.0.1"
     concurrently: "npm:^6.4.0"
     cross-env: "npm:^7.0.3"
@@ -6066,6 +6067,12 @@ __metadata:
   resolution: "@startupjs/plugin@workspace:packages/plugin"
   dependencies:
     resolve: "npm:^1.20.0"
+  languageName: unknown
+  linkType: soft
+
+"@startupjs/pm@npm:0.55.0-alpha.1, @startupjs/pm@workspace:packages/pm":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/pm@workspace:packages/pm"
   languageName: unknown
   linkType: soft
 

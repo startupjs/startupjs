@@ -8,6 +8,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@startupjs/pm": "0.55.0-alpha.1",
     "commander": "^3.0.1",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
