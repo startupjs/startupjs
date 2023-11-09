@@ -17,6 +17,9 @@ STATUS_ON_REVIEW="ᴅᴇᴠ: 🔍 On review"
 PRIORITY_FIELD_NAME="Priority"
 HOURS_FIELD_NAME="Hours"
 
+PROJECT_TEMPLATE_ORG="startupjs"
+PROJECT_TEMPLATE_NUMBER="2"
+
 # path to config file from the current working directory (project root)
 CONFIG_FILE_PATH="$(pwd)/.github/github.config.json"
 
@@ -56,14 +59,29 @@ main () {
   shift # Remove the command from the argument list
 
   case "$_command" in
-    "pr"    ) pr "$@";;
-    "task"  ) task "$@";;
-    *       ) echo "ERROR! Command '${_command}' not found.";;
+    "pr"      ) pr "$@";;
+    "task"    ) task "$@";;
+    "init-pm" ) initPm "$@";;
+    *         ) echo "ERROR! Command '${_command}' not found.";;
   esac
 }
 
 # ----- commands -----
 
+# Create a new project on github from template
+initPm () {
+  # Check that gh cli is present and login if needed
+  _checkAndInitGh
+
+  echo "Copy template https://github.com/orgs/${PROJECT_TEMPLATE_ORG}/projects/${PROJECT_TEMPLATE_NUMBER} to a new project"
+  gh project copy \
+    $PROJECT_TEMPLATE_NUMBER \
+    --source-owner $PROJECT_TEMPLATE_ORG \
+    --target-owner "$(_getOwner)" \
+    --title "$(_getRepo)"
+}
+
+# Make new PR or request review for existing PR
 pr () {
   _issue=$1
 
@@ -103,6 +121,7 @@ pr () {
   echo "${CYAN}https://github.com/$(_getOwner)/$(_getRepo)/pull/$_issue${NO_COLOR}"
 }
 
+# Switch to the task branch or create a new one
 task () {
   _issue=$1
 
@@ -564,6 +583,18 @@ _makeNewPr () {
 }
 
 _checkAndInitGh () {
+  # Check if the remote origin exists
+  if ! git remote get-url origin >/dev/null 2>&1; then
+    echo "Error: Remote 'origin' does not exist. You need to add it first and push your repo to GitHub."
+    exit 1
+  fi
+
+  # Check if the repository name from 'origin' is from GitHub
+  if [ -z "$(_getRepo)" ]; then
+    echo "Error: The remote 'origin' is not a GitHub repository."
+    exit 1
+  fi
+
   if ! hash gh 2>/dev/null ; then
     echo "${ERROR_NO_GH}"
     exit 1
