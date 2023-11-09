@@ -665,6 +665,7 @@ commander
   .description('bootstrap a new startupjs application')
   .action(async () => {
     await execa.command(`${PM_SCRIPTS_PATH} init-pm`, { shell: true, stdio: 'inherit' })
+    addPmScriptsToPackageJson() // add `yarn pm` and `yarn task` to package.json/scripts
   })
 
 commander
@@ -773,6 +774,23 @@ function patchScriptsInPackageJson (projectPath) {
   // and does not provide ability to pass .cjs config.
   // packageJSON.type = 'module'
   packageJSON.sideEffects = ['*.css', '*.styl']
+
+  fs.writeFileSync(
+    packageJSONPath,
+    `${JSON.stringify(packageJSON, null, 2)}\n`
+  )
+}
+
+function addPmScriptsToPackageJson () {
+  const projectPath = process.cwd()
+  const packageJSONPath = path.join(projectPath, 'package.json')
+  const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
+
+  packageJSON.scripts = {
+    ...packageJSON.scripts,
+    task: 'npx startupjs task',
+    pr: 'npx startupjs pr'
+  }
 
   fs.writeFileSync(
     packageJSONPath,
