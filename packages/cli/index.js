@@ -28,6 +28,17 @@ try {
   PATCHES_DIR = './patches'
 }
 
+let PM_SCRIPTS_PATH
+try {
+  PM_SCRIPTS_PATH = path.join(
+    path.dirname(require.resolve('@startupjs/pm')),
+    'scripts.sh'
+  )
+} catch (err) {
+  console.error(err)
+  console.error('ERROR!!! @startupjs/pm package wasn\'t found.')
+}
+
 let PATCHES_GESTURE_HANDLER_DIR
 try {
   PATCHES_GESTURE_HANDLER_DIR = path.join(
@@ -645,6 +656,29 @@ commander
       SCRIPTS_ORIG.fonts(options),
       { stdio: 'inherit', shell: true }
     )
+  })
+
+// ----- project management commands
+
+commander
+  .command('init-pm')
+  .description('bootstrap a new startupjs application')
+  .action(async () => {
+    await execa.command(`${PM_SCRIPTS_PATH} init-pm`, { shell: true, stdio: 'inherit' })
+  })
+
+commander
+  .command('task <issueNumber>')
+  .description('bootstrap a new startupjs application')
+  .action(async (issueNumber) => {
+    await execa.command(`${PM_SCRIPTS_PATH} task ${issueNumber}`, { shell: true, stdio: 'inherit' })
+  })
+
+commander
+  .command('pr <issueNumber>')
+  .description('bootstrap a new startupjs application')
+  .action(async (issueNumber) => {
+    await execa.command(`${PM_SCRIPTS_PATH} pr ${issueNumber}`, { shell: true, stdio: 'inherit' })
   })
 
 // ----- helpers
