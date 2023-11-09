@@ -1,3 +1,12 @@
+# [0.55.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.2...v0.55.0-alpha.3) (2023-11-09)
+
+
+### Features
+
+* project management automation and guidelines ([#1090](https://github.com/startupjs/startupjs/issues/1090)) ([ce7f3dd](https://github.com/startupjs/startupjs/commit/ce7f3dd8891065a00455f1392f2602db817a33a1))
+
+
+
 # [0.55.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.1...v0.55.0-alpha.2) (2023-11-09)
 
 
