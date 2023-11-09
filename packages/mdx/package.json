@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "MDX provider with a set of custom components for react-native support and syntax highlighting",
-  "version": "0.55.0-alpha.1",
+  "version": "0.55.0-alpha.2",
   "main": "index.js",
   "dependencies": {
     "@mdx-js/react": "~2.3.0",

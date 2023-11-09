@@ -16,7 +16,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           # list of Docker images to use as base name for tags
           images: |
@@ -24,7 +24,7 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=match,pattern=v(\d+\.\d+),group=1
             type=semver,pattern={{major}}
 
       - name: Set up QEMU
