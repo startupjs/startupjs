@@ -5886,7 +5886,7 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.55.0-alpha.1"
+    "@startupjs/mdx": "npm:^0.55.0-alpha.2"
     "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.1"
     "@startupjs/ui": "npm:^0.55.0-alpha.1"
     parse-prop-types: "npm:^0.3.0"
@@ -5996,7 +5996,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@npm:^0.55.0-alpha.2, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
