@@ -91,7 +91,7 @@ pr () {
 
   if [ -z "$_issue" ] ; then
     _branch=$( git symbolic-ref --short HEAD )
-    # Check if branch is integer
+    # Check if branch is an integer
     # https://stackoverflow.com/questions/6245570/how-do-i-get-the-current-branch-name-in-git#comment59307718_12142066
     if [ "$_branch" -eq "$_branch" ] 2> /dev/null ; then
       _issue=$_branch
