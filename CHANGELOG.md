@@ -1,3 +1,12 @@
+# [0.55.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.8...v0.55.0-alpha.9) (2023-11-10)
+
+
+### Features
+
+* **pm:** support Difficulty field ([a5dcdc8](https://github.com/startupjs/startupjs/commit/a5dcdc8c76592ed01ac97cd3f7c50fd362631791))
+
+
+
 # [0.55.0-alpha.8](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.7...v0.55.0-alpha.8) (2023-11-10)
 
 
