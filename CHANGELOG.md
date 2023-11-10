@@ -1,3 +1,12 @@
+# [0.55.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.3...v0.55.0-alpha.4) (2023-11-10)
+
+
+### Bug Fixes
+
+* **cli/init:** don't install dependencies right away when initializing new project ([ccbcfd1](https://github.com/startupjs/startupjs/commit/ccbcfd13a2ee60a37fbbff28d6a5951a94e207e7))
+
+
+
 # [0.55.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.2...v0.55.0-alpha.3) (2023-11-09)
 
 
