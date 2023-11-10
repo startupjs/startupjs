@@ -10,7 +10,7 @@ const racer = require('racer')
 const redis = require('redis')
 const Redlock = require('redlock')
 const shareDbHooks = require('sharedb-hooks')
-const getShareDBMongo = require('./getShareDBMongo')
+const getShareDbMongo = require('./getShareDbMongo')
 const getRedis = require('./getRedis')
 
 global.__clients = {}
@@ -29,7 +29,7 @@ module.exports = async options => {
   } = getRedis(options.redisOptions)
 
   // ShareDB Setup
-  const shareDbMongo = await getShareDBMongo(options.mongoOptions)
+  const shareDbMongo = await getShareDbMongo(options.mongoOptions)
 
   // pollDebounce is the minimum time in ms between query polls
   if (options.pollDebounce) shareDbMongo.pollDebounce = options.pollDebounce
