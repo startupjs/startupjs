@@ -89,7 +89,7 @@ initPm () {
   echo "${RED}1.${NO_COLOR} Go to the Workflows here: ${CYAN}${_projectUrl}/workflows${NO_COLOR}"
   echo "${RED}2.${NO_COLOR} In the left sidebar select ${CYAN}Auto-add to project${NO_COLOR}"
   echo "${RED}3.${NO_COLOR} Click ${CYAN}Edit${NO_COLOR} in the top right corner"
-  echo "${RED}4.${NO_COLOR} In ${CYAN}Filters${NO_COLOR} select your repo"
+  echo "${RED}4.${NO_COLOR} In ${CYAN}Filters${NO_COLOR} select your repo ${CYAN}$(_getRepo)${NO_COLOR}"
   echo "${RED}5.${NO_COLOR} In the search field near it specify the following: ${CYAN}is:issue is:open${NO_COLOR}"
   echo "${RED}6.${NO_COLOR} Click ${CYAN}Save and turn on workflow${NO_COLOR} in the top right corner"
   printf "\n"
