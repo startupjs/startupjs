@@ -1,3 +1,12 @@
+# [0.55.0-alpha.8](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.7...v0.55.0-alpha.8) (2023-11-10)
+
+
+### Bug Fixes
+
+* **pm:** correctly retrieve project url after creation ([4b7c29c](https://github.com/startupjs/startupjs/commit/4b7c29c7def7fe07e923cc23840f24f8e0542d12))
+
+
+
 # [0.55.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.6...v0.55.0-alpha.7) (2023-11-10)
 
 
