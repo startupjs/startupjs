@@ -83,6 +83,14 @@ initPm () {
   _linkProjectToRepo "$(_getProjectFromUrl "$_projectUrl")"
 
   printf "\n\n${GREEN}SUCCESS! Created a new Project: ${CYAN}${_projectUrl}${NO_COLOR}\n\n"
+
+  echo "${RED}IMPORTANT!!! Please do the following manually:${NO_COLOR}"
+  echo "1. Go to the Workflows here: ${_projectUrl}/workflows"
+  echo "2. In the left sidebar select 'Auto-add to project'"
+  echo "3. Click 'Edit' in the top right corner"
+  echo "4. In 'Filters' select your repo"
+  echo "5. In the search field near it specify the following: 'is:issue is:open'"
+  echo "6. Click 'Save and turn on workflow' in the top right corner"
 }
 
 # Make new PR or request review for existing PR
