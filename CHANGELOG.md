@@ -1,3 +1,12 @@
+# [0.55.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.6...v0.55.0-alpha.7) (2023-11-10)
+
+
+### Features
+
+* **pm:** add extra instructions for the manual step to turn on auto-adding issues into project ([829d262](https://github.com/startupjs/startupjs/commit/829d26299212f238755236e68b21310d649217e9))
+
+
+
 # [0.55.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.5...v0.55.0-alpha.6) (2023-11-10)
 
 
