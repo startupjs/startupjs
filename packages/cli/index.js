@@ -419,6 +419,7 @@ commander
 
     // init react-native application
     await execa('npx', [
+      '--yes',
       `react-native${'@' + reactNative}`,
       'init',
       '--skip-install',
