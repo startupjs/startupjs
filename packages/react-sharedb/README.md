@@ -38,7 +38,7 @@ react: 16.9 - 17
 
 [Classes syntax documentation](/packages/react-sharedb-classes)
 
-## Licence
+## License
 
 MIT
 

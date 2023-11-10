@@ -89,6 +89,6 @@ MONGO_URL: 'mongodb://localhost:27017/tasks'
 REDIS_URL: 'redis://localhost:6379/0'
 ```
 
-## MIT Licence
+## MIT License
 
 Copyright (c) 2020 Decision Mapper

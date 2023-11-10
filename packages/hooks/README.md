@@ -19,7 +19,7 @@ react: 16.9 - 17
 import '@startupjs/hooks'
 ```
 
-## Licence
+## License
 
 MIT
 

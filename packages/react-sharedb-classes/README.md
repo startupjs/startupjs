@@ -351,7 +351,7 @@ export default class Room extends React.Component {
 }
 ```
 
-## Licence
+## License
 
 MIT
 

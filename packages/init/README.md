@@ -25,7 +25,7 @@ axios: *
 import '@startupjs/init'
 ```
 
-## Licence
+## License
 
 MIT
 

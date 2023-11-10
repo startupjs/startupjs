@@ -15,7 +15,7 @@ If you want to use this preset in a custom project, just plug it in `.babelrc`:
 }
 ```
 
-## Licence
+## License
 
 MIT
 

@@ -10,6 +10,6 @@ For internal usage only.
 
 1. Enables observer-level caching of styles and model if `observerCache` is passed in babel options
 
-## Licence
+## License
 
 MIT

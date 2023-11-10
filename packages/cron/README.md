@@ -29,7 +29,7 @@ cron.schedule('* * * * * *', async () => {
 })
 ```
 
-## Licence
+## License
 
 MIT
 

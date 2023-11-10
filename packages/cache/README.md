@@ -10,7 +10,7 @@ For internal use only.
 
 To enable cache in a startupjs project, pass `cache: true` option to the `startupjs` preset in babel config.
 
-## Licence
+## License
 
 MIT
 

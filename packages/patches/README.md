@@ -16,7 +16,7 @@ Add the following `postinstall` script to you `package.json`:
 }
 ```
 
-## Licence
+## License
 
 MIT
 
