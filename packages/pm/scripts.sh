@@ -78,7 +78,7 @@ initPm () {
     $PROJECT_TEMPLATE_NUMBER \
     --source-owner $PROJECT_TEMPLATE_ORG \
     --target-owner "$(_getOwner)" \
-    --title "$(_getRepo)")
+    --title "$(_getRepo)" --format json | sed -n 's/.*\(https[^"]*\)".*/\1/p')
 
   _linkProjectToRepo "$(_getProjectFromUrl "$_projectUrl")"
 
