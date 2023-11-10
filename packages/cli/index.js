@@ -762,6 +762,8 @@ function appendGitignore (projectPath) {
     /.mongo
     # yarn
     .yarn/
+    # sqlite
+    sqlite.db
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)

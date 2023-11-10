@@ -12,6 +12,7 @@
     "@startupjs/sharedb-access": "^0.55.0-alpha.1",
     "@startupjs/sharedb-schema": "^0.55.0-alpha.1",
     "ioredis": "^4.28.2",
+    "ioredis-mock": "^8.9.0",
     "mongodb": "^4.0.0",
     "racer": "1.0.1",
     "redlock": "^3.0.0",
@@ -19,10 +20,8 @@
     "sharedb-hooks": "~4.0.0",
     "sharedb-mingo-memory": "^1.2.0",
     "sharedb-mongo": "1.0.0-beta.21",
-    "sharedb-redis-pubsub": "^2.0.1"
-  },
-  "optionalPeerDependencies": {
-    "sharedb-wsbus-pubsub": "*"
+    "sharedb-redis-pubsub": "^2.0.1",
+    "sqlite3": "^5.1.6"
   },
   "peerDependencies": {
     "mongodb": ">=4.0.0",

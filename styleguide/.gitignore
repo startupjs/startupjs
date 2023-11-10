@@ -67,3 +67,6 @@ buck-out/
 
 # private files
 *.private.*
+
+# sqlite
+sqlite.db
