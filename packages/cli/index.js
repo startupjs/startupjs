@@ -421,6 +421,7 @@ commander
     await execa('npx', [
       `react-native${'@' + reactNative}`,
       'init',
+      '--skip-install',
       projectName
     ].concat(['--version', reactNative]), {
       cwd: path.join(process.cwd(), LOCAL_DIR),
