@@ -1,3 +1,12 @@
+# [0.55.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.5...v0.55.0-alpha.6) (2023-11-10)
+
+
+### Bug Fixes
+
+* **pm:** fix cli commands and link project to repo ([5c1d6cb](https://github.com/startupjs/startupjs/commit/5c1d6cbd33bfe8f5ea4ae27405adf0d86fb68389))
+
+
+
 # [0.55.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.4...v0.55.0-alpha.5) (2023-11-10)
 
 
