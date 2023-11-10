@@ -664,7 +664,7 @@ commander
 
 commander
   .command('init-pm')
-  .description('bootstrap a new startupjs application')
+  .description('Create a new project on github from template')
   .action(async () => {
     await execa.command(`${PM_SCRIPTS_PATH} init-pm`, { shell: true, stdio: 'inherit' })
     addPmScriptsToPackageJson() // add `yarn pm` and `yarn task` to package.json/scripts
@@ -672,15 +672,15 @@ commander
 
 commander
   .command('task <issueNumber>')
-  .description('bootstrap a new startupjs application')
+  .description('Create a task branch (or just switch to it if it already exists)')
   .action(async (issueNumber) => {
     await execa.command(`${PM_SCRIPTS_PATH} task ${issueNumber}`, { shell: true, stdio: 'inherit' })
   })
 
 commander
-  .command('pr <issueNumber>')
-  .description('bootstrap a new startupjs application')
-  .action(async (issueNumber) => {
+  .command('pr [issueNumber]')
+  .description('Make PR for this task (or re-request review if it already exists)')
+  .action(async (issueNumber = '') => {
     await execa.command(`${PM_SCRIPTS_PATH} pr ${issueNumber}`, { shell: true, stdio: 'inherit' })
   })
 

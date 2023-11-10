@@ -74,11 +74,15 @@ initPm () {
   _checkAndInitGh
 
   echo "Copy template https://github.com/orgs/${PROJECT_TEMPLATE_ORG}/projects/${PROJECT_TEMPLATE_NUMBER} to a new project"
-  gh project copy \
+  _projectUrl=$(gh project copy \
     $PROJECT_TEMPLATE_NUMBER \
     --source-owner $PROJECT_TEMPLATE_ORG \
     --target-owner "$(_getOwner)" \
-    --title "$(_getRepo)"
+    --title "$(_getRepo)")
+
+  _linkProjectToRepo "$(_getProjectFromUrl "$_projectUrl")"
+
+  printf "\n\n${GREEN}SUCCESS! Created a new Project: ${CYAN}${_projectUrl}${NO_COLOR}\n\n"
 }
 
 # Make new PR or request review for existing PR
@@ -116,6 +120,16 @@ pr () {
   fi
 
   _requestPrReviewIfNeeded "$_issue"
+
+  # Change status to 'On review' if pr is linked to the project
+  _projectId=$(_getPrProjectId $_issue)
+  if [ -n "$_projectId" ] ; then
+    echo "Change task status to '$STATUS_ON_REVIEW'"
+    _prNodeId=$(_getPrNodeId $_issue)
+    _statusId=$(_getFieldId "Status")
+    _onReviewOptionId=$(_getFieldOptionId "Status" "$STATUS_ON_REVIEW")
+    _setFieldValue $_prNodeId $_projectId $_statusId $_onReviewOptionId
+  fi
 
   echo "Link to PR:"
   echo "${CYAN}https://github.com/$(_getOwner)/$(_getRepo)/pull/$_issue${NO_COLOR}"
@@ -209,6 +223,12 @@ _getRepo () {
   git remote get-url origin | sed -n 's/.*github\.com:[^\/]*\/\([^\/]*\).git/\1/p'
 }
 
+# project url example: https://github.com/orgs/dmstartups/projects/4
+_getProjectFromUrl () {
+  _url=$1
+  echo "$_url" | sed -n 's#.*/projects/\([0-9]*\)#\1#p'
+}
+
 _removeEntry () {
   _entries=$1
   _entry=$2
@@ -218,6 +238,53 @@ _removeEntry () {
   | sed -e "s/^,//g" \
   | sed -e "s/,$//g" \
   | sed -e "s/,,/,/g"
+}
+
+_getRepoId () {
+  # shellcheck disable=SC2016
+  gh api graphql -q '.data.repository.id' \
+    -F owner="$(_getOwner)" \
+    -F repo="$(_getRepo)" \
+    -f query='
+    query ($owner: String!, $repo: String!) {
+      repository (owner: $owner, name: $repo) {
+        id
+      }
+    }
+  ' | cat
+}
+
+_getProjectIdByNumber () {
+  # shellcheck disable=SC2016
+  gh api graphql -q '.data.organization.projectV2.id' \
+    -F owner="$(_getOwner)" \
+    -F projectNumber="$1" \
+    -f query='
+    query ($owner: String!, $projectNumber: Int!) {
+      organization (login: $owner) {
+        projectV2(number: $projectNumber) {
+          id
+        }
+      }
+    }
+  ' | cat
+}
+
+_linkProjectToRepo () {
+  # shellcheck disable=SC2016
+  gh api graphql --silent \
+    -F repositoryId="$(_getRepoId)" \
+    -F projectId="$(_getProjectIdByNumber "$1")" \
+    -f query='
+    mutation ($repositoryId: ID!, $projectId: ID!) {
+      linkProjectV2ToRepository (input: {
+        projectId: $projectId,
+        repositoryId: $repositoryId
+      }) {
+        clientMutationId
+      }
+    }
+  '
 }
 
 # Delete issue https://docs.github.com/en/graphql/reference/mutations#deleteprojectv2item
@@ -624,16 +691,6 @@ _requestPrReview () {
   _body=$( echo "{ \"reviewers\": [ ${_usersArray} ] }" )
   echo "pr api reviewers:" "$_body"
   echo $_body | gh api "/repos/$(_getOwner)/$(_getRepo)/pulls/${_pullRequest}/requested_reviewers" --silent --input -
-
-  # Change status to 'On review' if pr is linked to the project
-  _projectId=$(_getPrProjectId $_pullRequest)
-  if [ -n "$_projectId" ] ; then
-    echo "Change task status to '$STATUS_ON_REVIEW'"
-    _prNodeId=$(_getPrNodeId $_pullRequest)
-    _statusId=$(_getFieldId "Status")
-    _onReviewOptionId=$(_getFieldOptionId "Status" "$STATUS_ON_REVIEW")
-    _setFieldValue $_prNodeId $_projectId $_statusId $_onReviewOptionId
-  fi
 }
 
 main "$@"; exit
