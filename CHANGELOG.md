@@ -1,3 +1,12 @@
+# [0.55.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.4...v0.55.0-alpha.5) (2023-11-10)
+
+
+### Bug Fixes
+
+* **cli/init:** skip npx asking for installing global react-native package on init ([3bd716e](https://github.com/startupjs/startupjs/commit/3bd716e56132720c7439426a4ab6401fd14962a4))
+
+
+
 # [0.55.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.3...v0.55.0-alpha.4) (2023-11-10)
 
 
