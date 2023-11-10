@@ -16,6 +16,7 @@ STATUS_ON_REVIEW="ᴅᴇᴠ: 🔍 On review"
 
 PRIORITY_FIELD_NAME="Priority"
 HOURS_FIELD_NAME="Hours"
+DIFFICULTY_FIELD_NAME="Difficulty"
 
 PROJECT_TEMPLATE_ORG="startupjs"
 PROJECT_TEMPLATE_NUMBER="2"
@@ -84,13 +85,17 @@ initPm () {
 
   printf "\n\n${GREEN}SUCCESS! Created a new Project: ${CYAN}${_projectUrl}${NO_COLOR}\n\n"
 
-  echo "${RED}IMPORTANT!!! Please do the following manually:${NO_COLOR}"
-  echo "1. Go to the Workflows here: ${_projectUrl}/workflows"
-  echo "2. In the left sidebar select 'Auto-add to project'"
-  echo "3. Click 'Edit' in the top right corner"
-  echo "4. In 'Filters' select your repo"
-  echo "5. In the search field near it specify the following: 'is:issue is:open'"
-  echo "6. Click 'Save and turn on workflow' in the top right corner"
+  echo "${RED}IMPORTANT 1!!! Please do the following manually:${NO_COLOR}"
+  echo "${RED}1.${NO_COLOR} Go to the Workflows here: ${CYAN}${_projectUrl}/workflows${NO_COLOR}"
+  echo "${RED}2.${NO_COLOR} In the left sidebar select ${CYAN}Auto-add to project${NO_COLOR}"
+  echo "${RED}3.${NO_COLOR} Click ${CYAN}Edit${NO_COLOR} in the top right corner"
+  echo "${RED}4.${NO_COLOR} In ${CYAN}Filters${NO_COLOR} select your repo"
+  echo "${RED}5.${NO_COLOR} In the search field near it specify the following: ${CYAN}is:issue is:open${NO_COLOR}"
+  echo "${RED}6.${NO_COLOR} Click ${CYAN}Save and turn on workflow${NO_COLOR} in the top right corner"
+  printf "\n"
+  echo "${RED}IMPORTANT 2!!!${NO_COLOR}"
+  echo "Your ${CYAN}package.json${NO_COLOR} was updated to add ${CYAN}yarn pr${NO_COLOR} and ${CYAN}yarn task${NO_COLOR} commands."
+  echo "Please commit it and push!"
 }
 
 # Make new PR or request review for existing PR
@@ -613,6 +618,13 @@ _makeNewPr () {
       echo "${PRIORITY_FIELD_NAME}: id - $_priorityId; optionId - $_priorityOptionId"
     fi
 
+    echo "get $DIFFICULTY_FIELD_NAME"
+    _difficultyId=$(_getIssueFieldId $_issue $DIFFICULTY_FIELD_NAME)
+    _difficultyOptionId=$(_getIssueFieldOptionId $_issue $DIFFICULTY_FIELD_NAME)
+    if [ -n "$_difficultyId" ] ; then
+      echo "${DIFFICULTY_FIELD_NAME}: id - $_difficultyId; optionId - $_difficultyOptionId"
+    fi
+
     # Remove issue from project
     _issueNodeId=$(_getIssueNodeId $_issue)
     echo "Issue nodeId: $_issueNodeId; projectId: $_projectId"
@@ -650,6 +662,10 @@ _makeNewPr () {
     if [ -n "$_priorityId" ] ; then
       echo "set $PRIORITY_FIELD_NAME"
       _setFieldValue $_prNodeId $_projectId $_priorityId $_priorityOptionId
+    fi
+    if [ -n "$_difficultyId" ] ; then
+      echo "set $DIFFICULTY_FIELD_NAME"
+      _setFieldValue $_prNodeId $_projectId $_difficultyId $_difficultyOptionId
     fi
 
   fi
