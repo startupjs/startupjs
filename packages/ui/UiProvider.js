@@ -13,7 +13,7 @@ import defaultVariables from './components/CssVariables/defaultUiVariables'
 // set default css variables as early as possible
 setDefaultVariables(defaultVariables)
 
-export const UiProvider = observer(({ children, style, palette, colors }) => {
+export default observer(function UiProvider ({ children, style, palette, colors }) {
   const staticOverrides = style?.[':root']
 
   const cssVariablesMeta = useMemo(() => {
