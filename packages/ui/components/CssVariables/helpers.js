@@ -1,6 +1,7 @@
 // refs:
 // https://accessiblepalette.com/?lightness=98,93.3,88.6,79.9,71.2,60.5,49.8,38.4,27,15.6&e94c49=1,0&F1903C=1,-10&f3e203=1,-15&89BF1D=0,0&64c273=0,15&007DCC=0,0&808080=0,0&EAE8DE=0,0&768092=0,0
 // https://www.ibm.com/design/language/color/
+import { getColor } from '../../hooks/useColors'
 import Colors from './Colors'
 import { TheColor } from './TheColor'
 
@@ -102,18 +103,36 @@ export function getPaletteLength (palette) {
   return res
 }
 
-/* eslint-disable dot-notation, no-multi-spaces */
-export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, low, middle }) {
+export function transformOverrides (overrides, palette, Color) {
+  if (!overrides) return
+
+  const res = {}
+
   for (const colorName in overrides) {
     const color = overrides[colorName]
+    // set color as it is if it's the instance
     if (color instanceof TheColor) {
-      C[colorName] = color
+      res[colorName] = color
+    // get color value from existing (needed for static overrides)
+    } else if (/^(--color|--palette)/.test(color)) {
+      const colorValue = getColor(color, { addPrefix: false, convertToString: false })
+      if (!colorValue) throw Error(`'${colorName}' does not exist.`)
+      res[colorName] = colorValue
+    // find color in a palette by hex or rgb(a) string
     } else {
       const [paletteColorName, level, alpha] = findColorInPalette(color, palette)
       if (!paletteColorName) throw Error(`'${colorName}' does not exist in palette. You can only pass a color from palette.`)
-      C[colorName] = Color(paletteColorName, level, { alpha })
+      res[colorName] = Color(paletteColorName, level, { alpha })
     }
   }
+
+  return res
+}
+
+/* eslint-disable dot-notation, no-multi-spaces */
+export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, low, middle }) {
+  const transformedOverrides = transformOverrides(overrides, palette, Color)
+  if (transformedOverrides) Object.assign(C, transformedOverrides)
 
   // base colors
   C[Colors['text-on-color']]                ??= Color('coolGray', high)

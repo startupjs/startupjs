@@ -1,6 +1,6 @@
 // TODO: Figure out if we would want to transition default UI colors to be dynamic
-import palette from './defaultPalette.js'
-import transformColors from './transformColors.js'
+import palette from './defaultPalette'
+import transformColors from './transformColors'
 
 export default { ...getColors() }
 
