@@ -6,9 +6,9 @@ import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
-import { pug, observer, model } from 'startupjs'
+import { pug, observer, model, $ } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
-import { UiProvider } from '@startupjs/ui'
+import { UiProvider, Palette, Colors } from '@startupjs/ui'
 import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 import {
   BASE_URL,
@@ -46,9 +46,24 @@ registerPlugins({
   ]
 })
 
+const palette = new Palette()
+const { Color, generateColors } = palette
+
+const THEMES = {
+  dark: generateColors({
+    [Colors.bg]: Color('coolGray', 0),
+    [Colors.text]: Color('coolGray', 9),
+    [Colors.border]: Color('coolGray', 2),
+    [Colors.secondary]: Color('coolGray', 9)
+  })
+}
+
 export default observer(() => {
+  const $theme = $.session.theme
+  const themeMeta = THEMES[$theme.get()] || {}
+
   return pug`
-    UiProvider(style=UI_STYLE_OVERRIDES)
+    UiProvider(style=UI_STYLE_OVERRIDES ...themeMeta)
       App(
         apps={ auth, docs, main, notifications }
         criticalVersion={

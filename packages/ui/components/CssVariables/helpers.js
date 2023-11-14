@@ -110,15 +110,25 @@ export function transformOverrides (overrides, palette, Color) {
 
   for (const colorName in overrides) {
     const color = overrides[colorName]
-    // set color as it is if it's the instance
+    // Set color as it is if it's the instance
     if (color instanceof TheColor) {
       res[colorName] = color
-    // get color value from existing (needed for static overrides)
-    } else if (/^(--color|--palette)/.test(color)) {
-      const colorValue = getColor(color, { addPrefix: false, convertToString: false })
+    // Get color value from existing (needed for static overrides).
+    // First check already overriden colors in local 'res' variable to allow reuse of overriden variables immediately
+    // e.g.,
+    // :root
+    //    --palette-blue-4: #000099
+    //    --color-primary: var(--palette-blue-4)
+    //    --color-secondary: var(--palette-red-4)
+    //    --color-bg: var(--color-primary)
+    } else if (/(--color|--palette)/.test(color)) {
+      const colorVar = color.replace(/var\(\s*(--[A-Za-z0-9_-]+)\s*\)/, (match, varName) => {
+        return varName
+      })
+      const colorValue = res[colorVar] || getColor(colorVar, { addPrefix: false, convertToString: false })
       if (!colorValue) throw Error(`'${colorName}' does not exist.`)
-      res[colorName] = colorValue
-    // find color in a palette by hex or rgb(a) string
+      res[colorName] = colorValue.clone()
+    // Find color in a palette by hex or rgb(a) string
     } else {
       const [paletteColorName, level, alpha] = findColorInPalette(color, palette)
       if (!paletteColorName) throw Error(`'${colorName}' does not exist in palette. You can only pass a color from palette.`)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer, useValue, $ } from 'startupjs'
-import { Br, Input, Button, Modal, CssVariables, Palette, Colors } from '@startupjs/ui'
+import { Br, Input, Button, Modal } from '@startupjs/ui'
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import {
   useShowGrid,
@@ -8,18 +8,6 @@ import {
   // useValidateWidth
 } from '../../../../../clientHelpers'
 import './index.styl'
-
-const palette = new Palette()
-const { Color, generateColors } = palette
-
-const THEMES = {
-  dark: generateColors({
-    [Colors.bg]: Color('coolGray', 0),
-    [Colors.text]: Color('coolGray', 9),
-    [Colors.border]: Color('coolGray', 2),
-    [Colors.secondary]: Color('coolGray', 9)
-  })
-}
 
 export default observer(function Options ({
   style
@@ -42,8 +30,6 @@ export default observer(function Options ({
   }
 
   return pug`
-    if theme !== 'light'
-      CssVariables(meta=THEMES[theme])
     Button(
       style=style
       icon=faSlidersH
