@@ -1,11 +1,11 @@
 diff --git a/node_modules/css-to-react-native/index.js b/node_modules/css-to-react-native/index.js
-index a2ad42f..048a0ff 100644
+index a2ad42f..40c32dd 100644
 --- a/node_modules/css-to-react-native/index.js
 +++ b/node_modules/css-to-react-native/index.js
 @@ -40,6 +40,39 @@ var matchColor = function matchColor(node) {
    return null;
  };
-
+ 
 +const matchVariable = node => {
 +  if (
 +    (node.type !== 'function' && node.value !== 'var') ||
@@ -42,7 +42,7 @@ index a2ad42f..048a0ff 100644
  var noneRe = /^(none)$/i;
  var autoRe = /^(auto)$/i;
  var identRe = /(^-?[_a-z][_a-z0-9-]*$)/i;
-@@ -98,7 +128,8 @@ var tokens = {
+@@ -98,7 +131,8 @@ var tokens = {
    IDENT: regExpToken(identRe),
    STRING: matchString,
    COLOR: matchColor,
@@ -50,9 +50,36 @@ index a2ad42f..048a0ff 100644
 +  LINE: regExpToken(/^(none|underline|line-through)$/i),
 +  VARIABLE: matchVariable
  };
-
+ 
  var NONE = tokens.NONE,
-@@ -638,7 +669,7 @@ var background = function background(tokenStream) {
+@@ -130,7 +164,7 @@ var border = function border(tokenStream) {
+ 
+     if (borderWidth === undefined && tokenStream.matches(LENGTH) || tokenStream.matches(UNSUPPORTED_LENGTH_UNIT)) {
+       borderWidth = tokenStream.lastValue;
+-    } else if (borderColor === undefined && tokenStream.matches(COLOR)) {
++    } else if (borderColor === undefined && (tokenStream.matches(COLOR) || tokenStream.matches(tokens.VARIABLE))) {
+       borderColor = tokenStream.lastValue;
+     } else if (borderStyle === undefined && tokenStream.matches(BORDER_STYLE)) {
+       borderStyle = tokenStream.lastValue;
+@@ -236,7 +270,7 @@ var parseShadow = function parseShadow(tokenStream) {
+       } else {
+         tokenStream.rewind();
+       }
+-    } else if (color === undefined && tokenStream.matches(COLOR$1)) {
++    } else if (color === undefined && (tokenStream.matches(COLOR$1) || tokenStream.matches(tokens.VARIABLE))) {
+       color = tokenStream.lastValue;
+     } else {
+       tokenStream.throw();
+@@ -489,7 +523,7 @@ var textDecoration = function textDecoration(tokenStream) {
+       line = lines.join(' ');
+     } else if (style === undefined && tokenStream.matches(STYLE$1)) {
+       style = tokenStream.lastValue;
+-    } else if (color === undefined && tokenStream.matches(COLOR$2)) {
++    } else if (color === undefined && (tokenStream.matches(COLOR$2) || tokenStream.matches(tokens.VARIABLE))) {
+       color = tokenStream.lastValue;
+     } else {
+       tokenStream.throw();
+@@ -638,7 +672,7 @@ var background = function background(tokenStream) {
    };
  };
  var borderColor = directionFactory({

@@ -9,9 +9,7 @@ $email = var(--color-text-primary)
 .card
   justify-content center
   padding 2u
-  border-width 1px
-  border-style solid
-  border-color var(--color-border)
+  border 1px solid var(--color-border)
   border-radius .5u
   background-color var(--color-bg-error-transparent)
   max-width 100u
@@ -19,8 +17,7 @@ $email = var(--color-text-primary)
 
 .email
   color $email
-  text-decoration-line underline
-  text-decoration-color $email
+  text-decoration underline $email
 
 .text
   color var(--color-text)
@@ -44,9 +41,7 @@ $email = var(--color-text-primary)
   margin-top 3u
   width 14u
   height 4u
-  border-width 1px
-  border-style solid
-  border-color var(--color-border-dim)
+  border 1px solid var(--color-border-dim)
   border-radius .5u
 
 .label
